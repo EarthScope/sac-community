@@ -72,7 +72,7 @@ spectrogram(double window,
             int nfiles,
             int filelength[],
             double delta,
-            int *specindex,
+            float **spec,
             int *specwidth,
             int *speclength,
             int sfft,
@@ -83,11 +83,11 @@ spectrogram(double window,
             char *scale)
 {
 	char windowfunc[11];
-	int buffersize, bufindex, done, err, err1, err2, idx, iorfft, 
+	int buffersize, done, err, idx, iorfft, 
 	 length, lfft, nptswndw, pfile, spectrogram_v, windowovrl;
 	float signals[MAXLFFT];
         float ridge_regress = .00001;
-
+        float *buffer, *spectmp;
 	int *const Filelength = &filelength[0] - 1;
 	float *const Signals = &signals[0] - 1;
   
@@ -136,13 +136,15 @@ spectrogram(double window,
 		for( idx = 1; idx <= nfiles; idx++ ){
 		    length = length + Filelength[idx];
 		}
-		length = (IMGFFT/2)*length*delta/sliceint;
-		allamb( &cmmem, (int)(1.5 * length), specindex, &err1 );
+		length = (IMGFFT/2)*length * delta/sliceint;
+		spectmp = (float *) malloc(sizeof(float) * (int)(1.5 * length));
+    *spec = spectmp;
+    //allamb( &cmmem, (int)(1.5 * length), specindex, &err1 );
 
 		/*           Get space for buffering data */
-		allamb( &cmmem, MAXBUFSIZE, &bufindex, &err2 );
-
-		if( !err1 && !err2 ) {
+		//allamb( &cmmem, MAXBUFSIZE, &bufindex, &err2 );
+    buffer = (float *) malloc(sizeof(float) * MAXBUFSIZE);
+		if( 1 ) {
 		    /* Loop until all data used */
 		    while ( 1 ) {
 			/* Zero out signals array */
@@ -152,12 +154,13 @@ spectrogram(double window,
 
 			/* Get windowed data */
 			done = getdata( nfiles, delta, nptswndw, windowovrl, 
-			 windowfunc, buffersize, filelength, bufindex, signals );
-
+			 windowfunc, buffersize, filelength, buffer, signals );
+      //printf("getdata done: %d\n", done);
 			if( done != 0 ){
 			    if( done == 1 ) {
 				fprintf( stdout, "Error getting data(spectrogram).\n" );
-				relamb(cmmem.sacmem,*specindex,&err);
+        FREE(spec);
+				//relamb(cmmem.sacmem,*specindex,&err);
 			    }
 			    break ;
 
@@ -196,8 +199,7 @@ spectrogram(double window,
 				    continue ;
 				} /* end if( Signals[idx] <= 0.0 ) */
 				else{
-				    *(cmmem.sacmem[*specindex]+idx-1+pfile) =
-				      Signals[idx];
+          spectmp[idx-1+pfile] = Signals[idx];
 				}
 			    } /* end for */
 			    pfile = pfile + IMGFFT/2;
@@ -219,7 +221,8 @@ spectrogram(double window,
 	    } /* end else associated with if( err != 0 ) */
 	} /* end else associated with if ( calcfftsize ... ) */
 
-	if(cmmem.sacmem[bufindex] != NULL) relamb( cmmem.sacmem, bufindex, &err );
+  FREE(buffer);
+
 
 L_8888:
 	return( spectrogram_v );

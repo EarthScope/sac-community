@@ -110,7 +110,7 @@ alnums ({word}|{space}|{back})
 [ \t]   {
       col += (int) strlen(yytext);
 }
-__debug_parser__            { return DEBUG;      }
+__debug_parser__            { return DEBUG_PARSER;      }
 
   /* Variables */
 "$"[0-9a-zA-Z_]+"$"? {  is_reduced(TRUE); return VARIABLE; }

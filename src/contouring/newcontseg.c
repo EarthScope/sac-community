@@ -9,14 +9,14 @@
 #include <math.h>
 
 #include "mach.h"
-#include "amf.h"
 #include "contouring.h"
+
+extern struct contour contour;
 
 void 
 newcontseg(level, start, stop, number)
 int level, start, stop, *number;
 {
-        int *Isacmem;
 
 
 	/*=====================================================================
@@ -48,15 +48,9 @@ int level, start, stop, *number;
 	if( cmcontouring.numsegments < cmcontouring.maxsegments ){
 		cmcontouring.numsegments = cmcontouring.numsegments + 1;
 		*number = cmcontouring.numsegments;
-
-                Isacmem = (int*)cmmem.sacmem[cmcontouring.indexlevels];
-		*(Isacmem + *number - 1) = level;
-
-                Isacmem = (int*)cmmem.sacmem[cmcontouring.indexstarts];
-		*(Isacmem + *number - 1) = start;
-
-                Isacmem = (int*)cmmem.sacmem[cmcontouring.indexstops];
-		*(Isacmem + *number - 1) = stop;
+    contour.segments[*number-1].level = level;
+    contour.segments[*number-1].start = start;
+    contour.segments[*number-1].stop  = stop;
 	}
 	else{
 		fprintf( stdout, "No more room for segment storage\n" );

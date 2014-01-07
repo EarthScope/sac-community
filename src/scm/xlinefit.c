@@ -17,9 +17,9 @@
 void /*FUNCTION*/ xlinefit(nerr)
 int *nerr;
 {
-	int jdfl, ndx1, ndx2, nlen;
+	int jdfl;
 	float corrcf, sddta, sdslp, sdyint, slp, yint;
-
+  sac *s;
         char seqnum[5], vnslope[10], vnyint[9], vnsdslope[12], vnsdyint[11],
              vnsddata[11], vncorrcoef[13];
 
@@ -68,25 +68,25 @@ int *nerr;
 
 	/* - Perform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 		/* -- Get the next file in DFL, moving header to CMHDR. */
-
-		getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+		//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
 		/* -- Two versions of linear fit: one for evenly spaced
 		 *    data and one for unevenly spaced data. */
 
-		if( *leven ){
+		if( s->h->leven ){
 
-			lifite( *b, *delta, cmmem.sacmem[ndx1], nlen, &slp, &yint, 
+			lifite( s->h->b, s->h->delta, s->y, s->h->npts, &slp, &yint, 
 			 &sdslp, &sdyint, &sddta, &corrcf );
 
 		      }
 		else{
-			lifitu( cmmem.sacmem[ndx2], cmmem.sacmem[ndx1], nlen, &slp, &yint, 
+			lifitu( s->x, s->y, s->h->npts, &slp, &yint, 
 			 &sdslp, &sdyint, &sddta, &corrcf );
 
 			}
@@ -107,7 +107,7 @@ int *nerr;
 		outmsg();
 
                 /* store results to blackboard */
-    if( cmdfm.ndfl > 1 ){
+    if( saclen() > 1 ){
       sprintf(seqnum,"%4d",jdfl);
       ljust(seqnum,5);
     }
@@ -153,11 +153,6 @@ int *nerr;
     setbb(vncorrcoef, VAR_VALUE, corrcf);
     if(*nerr != 0) goto L_8888;
     
-		/* -- Reverse the steps used in getting the next file in DFL. */
-    
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
 		}
 
 L_8888:

@@ -11,6 +11,7 @@
 #include <ctype.h>
 
 #include "config.h"
+#include "amf.h"
 #include "top.h"
 #include "dfm.h"
 #include "cnv.h"
@@ -26,6 +27,7 @@
 #include "bbs.h"
 #include "cpf.h"
 #include "co.h"
+#include "debug.h"
 
 #define SAC_BLACKBOARD_SACNFILES         "SACNFILES"
 
@@ -167,6 +169,7 @@ saccommands_cleanup(eval *e) {
 char *
 char_repeat(char *in, char c) {
   char *p, *t, *out;
+  UNUSED(c);
   t = out = (char *)malloc(sizeof(char) * ((2*strlen(in))+1));
   p = in;
   while(p && *p) {
@@ -225,7 +228,7 @@ process_line(char *in) {
  * Set the number of files to the blackboard variable SACNFILES
  *
  * Post the number of files to the black board before returning.
- * gets cmdfm.ndfl in ascii to post SACNFILES 
+ * gets saclen() in ascii to post SACNFILES 
  *
  * @param nerr 
  *    Error Return Code
@@ -240,7 +243,7 @@ process_line(char *in) {
 void
 sac_report_files_in_memory(int *nerr) {
   UNUSED(nerr);
-  setbb(SAC_BLACKBOARD_SACNFILES, VAR_INTEGER, cmdfm.ndfl);
+  setbb(SAC_BLACKBOARD_SACNFILES, VAR_INTEGER, saclen());
 }
 
 /** 

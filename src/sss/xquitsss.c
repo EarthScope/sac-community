@@ -6,6 +6,8 @@
 #include "cpf.h"
 #include "exm.h"
 
+extern float *sss_sum;
+
 void /*FUNCTION*/ xquitsss(nerr)
 int *nerr;
 {
@@ -45,7 +47,8 @@ int *nerr;
 	/* - Release data blocks used in this subprocess. */
 
 	if( cmsss.nlnsum > 0 ){
-		relamb( cmmem.sacmem, cmsss.ndxsum, nerr );
+    FREE(sss_sum);
+		//relamb( cmmem.sacmem, cmsss.ndxsum, nerr );
 		cmsss.nlnsum = 0;
 		cmsss.ndxsum = 0;
 		if( *nerr != 0 )

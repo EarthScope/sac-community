@@ -17,12 +17,12 @@
 void /*FUNCTION*/ xprewit(nerr)
 int *nerr;
 {
-	int iprew , jdfl , nlen , ndxy , ndxx ;
+	int iprew , jdfl;
 	float coefficients[MPREWH+1];
 	char errmsg[131] ;
     char *tmp;
 	char kname[ MCPFN + 10 ] ;
-
+  sac *s;
 	/*=====================================================================
 	 * PURPOSE: To parse and execute the action command WHITEN.
 	 *          This command adds white noise to the data. 
@@ -85,21 +85,20 @@ int *nerr;
 	/* EXECUTION PHASE: */
 	errmsg[ 0 ] = '\0' ;
 
-	for ( jdfl = 1 ; jdfl <= cmdfm.ndfl ; jdfl++ ) {
-
-	    /* Get next file from the memory manager. */
-	    getfil ( jdfl , TRUE , &nlen , &ndxy , &ndxx , nerr ) ;
-	    if ( *nerr != 0 )
-		goto L_8888 ;
+	for ( jdfl = 1 ; jdfl <= saclen() ; jdfl++ ) {
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+    //getfil ( jdfl , TRUE , &nlen , &ndxy , &ndxx , nerr ) ;
 
 	    /* if FD option used, get filename */
 	    if ( cmicm.lfd ) {
-            tmp = string_list_get(datafiles, jdfl-1);
+        tmp = s->m->filename;
             strncpy( kname , tmp, strlen(tmp));
             kname[strlen(tmp)+1] = '\0' ;
 	    }
 
-	    prewit( cmmem.sacmem[ndxy], *npts, &cmicm.iprew, coefficients,
+	    prewit( s->y, s->h->npts, s->h->delta, &cmicm.iprew, coefficients,
 		    kname, errmsg );
 	    if( errmsg[ 0 ] ){
 		*nerr = 5005;

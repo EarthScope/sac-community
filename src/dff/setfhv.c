@@ -15,9 +15,9 @@
 #include "bot.h"
 #include "lhf.h"
 #include "bool.h"
-
+#include "SacHeader.h"
 #include "errors.h"
-
+extern sac *CURRENT;
 /** 
  * Set a floating point header value in the current SAC file
  * 
@@ -43,8 +43,8 @@ setfhv(char  *kname,
 
 	char ktest[9];
 	int index, ntest;
+  float *fp;
 	char *kname_c;
-
 	kname_c = fstrdup(kname, kname_s);
 	kname_s = strlen(kname_c) + 1;
 
@@ -57,11 +57,11 @@ setfhv(char  *kname,
 
 	/* - Store value in appropriate header field. */
 	if( index > 0 ){
-	    Fhdr[index] = *fvalue;
+    fp = fhdr(CURRENT, index);
+    VALUE(fp) = VALUE(fvalue);
 	}
 	else{
 	    *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;
-	    Fhdr[index] = cmhdr.fundef;
 	}
 
 	/* - Create error message and write to terminal. */

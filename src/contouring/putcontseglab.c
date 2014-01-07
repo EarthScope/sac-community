@@ -9,15 +9,13 @@
 #include <math.h>
 
 #include "mach.h"
-#include "amf.h"
 #include "contouring.h"
+extern struct contour contour;
 
 void
 putcontseglabel(number, status, numlocs, firstloc)
 int number, status, numlocs, firstloc;
 {
-
-        int *Isacmem;
 
 	/*=====================================================================
 	 * PURPOSE:  To put (store) label information about an existing
@@ -50,15 +48,10 @@ int number, status, numlocs, firstloc;
 	 *===================================================================== */
 	/* PROCEDURE: */
 	if( number <= cmcontouring.numsegments ){
-                Isacmem = (int *)cmmem.sacmem[cmcontouring.indexseglabelst];
-		*(Isacmem + number - 1) = status;
-
-                Isacmem = (int *)cmmem.sacmem[cmcontouring.indexseglabelnu];
-		*(Isacmem + number - 1) = numlocs;
-
-                Isacmem = (int *)cmmem.sacmem[cmcontouring.indexseglabelfi];
-		*(Isacmem + number - 1) = firstloc;
-		}
+    contour.labelseg[number-1].status = status;
+    contour.labelseg[number-1].number = numlocs;
+    contour.labelseg[number-1].first  = firstloc;
+  }
 	else{
 		fprintf( stdout, "Illegal labeled segment number: %d \n", 
 		 number );

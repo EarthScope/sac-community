@@ -14,8 +14,9 @@
 #include "ucf.h"
 #include "cpf.h"
 #include "dff.h"
-
+#include "amf.h"
 #define	MSYNCH	MDFL
+#include "errors.h"
 
 /** 
  * Execute the command SORT to sort the data file list
@@ -34,14 +35,13 @@ void
 xsynch(int *nerr) {
 
         int jdfl, jdfl_, nb, ndttmi[MSYNCH][6], ndttmo[MSYNCH][6];
-	int ndx1, ndx2, nlen;
 	float begi[MSYNCH], bego[MSYNCH], dtnew;
 
 	float *const Begi = &begi[0] - 1;
 	float *const Bego = &bego[0] - 1;
 
 	static int lbegin = FALSE ; 
-
+  sac *s;
 	*nerr = 0;
 
 	/* PARSING PHASE */
@@ -79,72 +79,71 @@ xsynch(int *nerr) {
 
 	/* EXECUTION PHASE: */
 	/* - Save beginning offset and reference time for each file. */
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 	    jdfl_ = jdfl - 1;
-	    getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
-	    if( *nerr != 0 )
-		return ;
-	    Begi[jdfl] = *begin;
-	    copyi( nzdttm, &ndttmi[jdfl_][0], 6 );
+      if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+        *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+        return;
+      }
+	    //getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
+
+	    Begi[jdfl] = s->h->b;
+	    copyi( &s->h->nzyear, &ndttmi[jdfl_][0], 6 );
 	}
 
 	/* - Calculate new reference times and beginning offsets. */
-	synch( ndttmi, begi, cmdfm.ndfl, ndttmo, bego ,lbegin );
+	synch( ndttmi, begi, saclen(), ndttmo, bego ,lbegin );
 
 	/* - For each file in DFL: */
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 	    jdfl_ = jdfl - 1;
-
+      if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+        return;
+      }
 	    /* -- Get next file from the memory manager.
 	     *    (Header is moved into common blocks CMHDR and KMHDR.) */
-	    getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-	    if( *nerr != 0 )
-		return ;
+	    //getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
 	    /* -- Update time header fields.
 	     *    New beginning offsets are set to exact value or they
 	     *    may be rounded to the nearest multiple of DELTA. */
-	    dtnew = Bego[jdfl] - *begin;
+	    dtnew = Bego[jdfl] - s->h->b;
 	    if( cmdfm.lround ){
-		nb = (int)( Bego[jdfl]/ *delta + sign( 0.5, *begin ) );
-		*begin = *delta*(float)( nb );
+		nb = (int)( Bego[jdfl]/ s->h->delta + sign( 0.5, s->h->b ) );
+		s->h->b = s->h->delta*(float)( nb );
 	    }
 	    else{
-		*begin = *begin + dtnew;
+		s->h->b = s->h->b + dtnew;
 	    }
-	    *ennd = *begin + *delta*(float)( *npts - 1 );
-	    if( *a != cmhdr.fundef )
-		*a = *a + dtnew;
-	    if( *f != cmhdr.fundef )
-		*f = *f + dtnew;
-	    if( *o != cmhdr.fundef )
-		*o = *o + dtnew;
-	    if( *t0 != cmhdr.fundef )
-		*t0 = *t0 + dtnew;
-	    if( *t1 != cmhdr.fundef )
-		*t1 = *t1 + dtnew;
-	    if( *t2 != cmhdr.fundef )
-		*t2 = *t2 + dtnew;
-	    if( *t3 != cmhdr.fundef )
-		*t3 = *t3 + dtnew;
-	    if( *t4 != cmhdr.fundef )
-		*t4 = *t4 + dtnew;
-	    if( *t5 != cmhdr.fundef )
-		*t5 = *t5 + dtnew;
-	    if( *t6 != cmhdr.fundef )
-		*t6 = *t6 + dtnew;
-	    if( *t7 != cmhdr.fundef )
-		*t7 = *t7 + dtnew;
-	    if( *t8 != cmhdr.fundef )
-		*t8 = *t8 + dtnew;
-	    if( *t9 != cmhdr.fundef )
-		*t9 = *t9 + dtnew;
-	    copyi( &ndttmo[jdfl_][0], nzdttm, 6 );
+	    s->h->e = s->h->b + s->h->delta*(float)( s->h->npts - 1 );
+	    if( s->h->a != cmhdr.fundef )
+		s->h->a = s->h->a + dtnew;
+	    if( s->h->f != cmhdr.fundef )
+		s->h->f = s->h->f + dtnew;
+	    if( s->h->o != cmhdr.fundef )
+		s->h->o = s->h->o + dtnew;
+	    if( s->h->t0 != cmhdr.fundef )
+		s->h->t0 = s->h->t0 + dtnew;
+	    if( s->h->t1 != cmhdr.fundef )
+		s->h->t1 = s->h->t1 + dtnew;
+	    if( s->h->t2 != cmhdr.fundef )
+		s->h->t2 = s->h->t2 + dtnew;
+	    if( s->h->t3 != cmhdr.fundef )
+		s->h->t3 = s->h->t3 + dtnew;
+	    if( s->h->t4 != cmhdr.fundef )
+		s->h->t4 = s->h->t4 + dtnew;
+	    if( s->h->t5 != cmhdr.fundef )
+		s->h->t5 = s->h->t5 + dtnew;
+	    if( s->h->t6 != cmhdr.fundef )
+		s->h->t6 = s->h->t6 + dtnew;
+	    if( s->h->t7 != cmhdr.fundef )
+		s->h->t7 = s->h->t7 + dtnew;
+	    if( s->h->t8 != cmhdr.fundef )
+		s->h->t8 = s->h->t8 + dtnew;
+	    if( s->h->t9 != cmhdr.fundef )
+		s->h->t9 = s->h->t9 + dtnew;
+	    copyi( &ndttmo[jdfl_][0], &s->h->nzyear, 6 );
 
-	    /* -- Return file to memory manager. */
-	    putfil( jdfl, nerr );
-	    if( *nerr != 0 )
-		return ;
 
 	}
 

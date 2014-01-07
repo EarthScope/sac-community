@@ -16,7 +16,7 @@
 #include "dfm.h"
 #include "bool.h"
 
-
+extern sac *CURRENT;
 #include "clf.h"
 
 /** 
@@ -55,6 +55,9 @@ lgahdr(char *kfield,
 	int nc, nerr;
     char *cattemp;
     char *tmp;
+    sac *s;
+
+    s = CURRENT;
 	/* - Convert the name to upper case before doing any tests. */
 	nc = min( (kfield_s - 1), SAC_HEADER_STRING_LENGTH_FILE );
 	modcase( TRUE, kfield, nc, ktemp );
@@ -66,9 +69,9 @@ lgahdr(char *kfield,
 	/* -- KZDATE:  Zero date field: */
 
 	if( memcmp(ktemp,"KZDATE",6) == 0 ){
-		if( *nzyear != cmhdr.nundef && *nzjday != cmhdr.nundef ){
+		if( s->h->nzyear != cmhdr.nundef && s->h->nzjday != cmhdr.nundef ){
 			nc = (kvalue_s - 1);
-			kadate( *nzyear, *nzjday, nc, kvalue,kvalue_s, &nerr );
+			kadate( s->h->nzyear, s->h->nzjday, nc, kvalue,kvalue_s, &nerr );
 			if( nerr == 0 ){
 				lgahdr_v = TRUE;
 				}
@@ -86,10 +89,10 @@ lgahdr(char *kfield,
 
 		}
 	else if( memcmp(ktemp,"KZTIME",6) == 0 ){
-		if( ((*nzhour != cmhdr.nundef && *nzmin != cmhdr.nundef) && 
-		 *nzsec != cmhdr.nundef) && *nzmsec != cmhdr.nundef ){
+		if( ((s->h->nzhour != cmhdr.nundef && s->h->nzmin != cmhdr.nundef) && 
+		 s->h->nzsec != cmhdr.nundef) && s->h->nzmsec != cmhdr.nundef ){
 			nc = (kvalue_s - 1);
-			katime( *nzhour, *nzmin, *nzsec, *nzmsec, nc, kvalue,kvalue_s, 
+			katime( s->h->nzhour, s->h->nzmin, s->h->nzsec, s->h->nzmsec, nc, kvalue,kvalue_s, 
 			 &nerr );
 			if( nerr == 0 ){
 				lgahdr_v = TRUE;
@@ -108,32 +111,32 @@ lgahdr(char *kfield,
 
 		}
 	else if( memcmp(ktemp,"KSTCMP",6) == 0 ){
-		if( memcmp(kstnm,kmhdr.kundef,9) != 0 ){
+		if( memcmp(s->h->kstnm,kmhdr.kundef,9) != 0 ){
 			lgahdr_v = TRUE;
-			nc = indexb( kstnm,9 );
-			fstrncpy( kvalue, kvalue_s-1, kstnm , nc );
-			if( memcmp(kcmpnm,kmhdr.kundef,9) != 0 ){
-                                cattemp = malloc(2+strlen(kcmpnm)+1);
+			nc = indexb( s->h->kstnm,9 );
+			fstrncpy( kvalue, kvalue_s-1, s->h->kstnm , nc );
+			if( memcmp(s->h->kcmpnm,kmhdr.kundef,9) != 0 ){
+                                cattemp = malloc(2+strlen(s->h->kcmpnm)+1);
                                 strcpy(cattemp,"  ");
-                                strcat(cattemp,kcmpnm);
+                                strcat(cattemp,s->h->kcmpnm);
 				subscpy( kvalue, nc, -1, kvalue_s - 1, cattemp );
                                 free(cattemp);
 				}
-			else if( *cmpaz != cmhdr.fundef && *cmpinc != cmhdr.fundef ){
-				if( *cmpaz == 0. && *cmpinc == 0. ){
+			else if( s->h->cmpaz != cmhdr.fundef && s->h->cmpinc != cmhdr.fundef ){
+				if( s->h->cmpaz == 0. && s->h->cmpinc == 0. ){
 					subscpy( kvalue, nc, -1, kvalue_s - 1, "  VERT"
 					  );
 					}
-				else if( *cmpaz == 0 && *cmpinc == 90. ){
+				else if( s->h->cmpaz == 0 && s->h->cmpinc == 90. ){
 					subscpy( kvalue, nc, -1, kvalue_s - 1, "  NORTH"
 					  );
 					}
-				else if( *cmpaz == 90. && *cmpinc == 90. ){
+				else if( s->h->cmpaz == 90. && s->h->cmpinc == 90. ){
 					subscpy( kvalue, nc, -1, kvalue_s - 1, "  EAST"
 					  );
 					}
 				else{
-					cnvita( (int)( *cmpaz + 0.5 ), kcmpaz,9 );
+					cnvita( (int)( s->h->cmpaz + 0.5 ), kcmpaz,9 );
 					ljust( kcmpaz,9 );
                                         cattemp = malloc(2+3+1);
                                         strcpy(cattemp,"  ");
@@ -141,8 +144,8 @@ lgahdr(char *kfield,
 					subscpy( kvalue, nc, nc + 4, kvalue_s - 1, cattemp );
                                         free(cattemp);
 					nc = nc + 5;
-					if( *cmpinc != 90. ){
-						cnvita( (int)( *cmpinc + 0.5 ), kcmpin,9 );
+					if( s->h->cmpinc != 90. ){
+						cnvita( (int)( s->h->cmpinc + 0.5 ), kcmpin,9 );
 						ljust( kcmpin,9 );
                                                 cattemp = malloc(2+2+1);
                                                 strcpy(cattemp,"  ");
@@ -163,7 +166,8 @@ lgahdr(char *kfield,
 
 		}
 	else if( memcmp(ktemp,"FILENAME",8) == 0 || memcmp(ktemp,"NAME",4) == 0 ){
-        if((tmp = string_list_get(datafiles, cmdfm.idflc-1))) {
+        tmp = s->m->filename;
+        if(tmp) {
             fstrncpy(kvalue, kvalue_s-1, tmp, strlen(tmp)+1);
         }else{
             fstrncpy(kvalue,kvalue_s-1," ",1);
@@ -175,43 +179,43 @@ lgahdr(char *kfield,
 
 		}
 	else if( memcmp(ktemp,"AM",2) == 0 ){
-		formmarker( *a, ka,9, kvalue,kvalue_s, &lgahdr_v );
+		formmarker( s->h->a, s->h->ka,9, kvalue,kvalue_s, &lgahdr_v );
 		}
 	else if( memcmp(ktemp,"OM",2) == 0 ){
-		formmarker( *o, ko,9, kvalue,kvalue_s, &lgahdr_v );
+		formmarker( s->h->o, s->h->ko,9, kvalue,kvalue_s, &lgahdr_v );
 		}
 	else if( memcmp(ktemp,"FM",2) == 0 ){
-		formmarker( *f, kf,9, kvalue,kvalue_s, &lgahdr_v );
+		formmarker( s->h->f, s->h->kf,9, kvalue,kvalue_s, &lgahdr_v );
 		}
 	else if( memcmp(ktemp,"T0M",3) == 0 ){
-		formmarker( *t0, kt0,9, kvalue,kvalue_s, &lgahdr_v );
+		formmarker( s->h->t0, s->h->kt0,9, kvalue,kvalue_s, &lgahdr_v );
 		}
 	else if( memcmp(ktemp,"T1M",3) == 0 ){
-		formmarker( *t1, kt1,9, kvalue,kvalue_s, &lgahdr_v );
+		formmarker( s->h->t1, s->h->kt1,9, kvalue,kvalue_s, &lgahdr_v );
 		}
 	else if( memcmp(ktemp,"T2M",3) == 0 ){
-		formmarker( *t2, kt2,9, kvalue,kvalue_s, &lgahdr_v );
+		formmarker( s->h->t2, s->h->kt2,9, kvalue,kvalue_s, &lgahdr_v );
 		}
 	else if( memcmp(ktemp,"T3M",3) == 0 ){
-		formmarker( *t3, kt3,9, kvalue,kvalue_s, &lgahdr_v );
+		formmarker( s->h->t3, s->h->kt3,9, kvalue,kvalue_s, &lgahdr_v );
 		}
 	else if( memcmp(ktemp,"T4M",3) == 0 ){
-		formmarker( *t4, kt4,9, kvalue,kvalue_s, &lgahdr_v );
+		formmarker( s->h->t4, s->h->kt4,9, kvalue,kvalue_s, &lgahdr_v );
 		}
 	else if( memcmp(ktemp,"T5M",3) == 0 ){
-		formmarker( *t5, kt5,9, kvalue,kvalue_s, &lgahdr_v );
+		formmarker( s->h->t5, s->h->kt5,9, kvalue,kvalue_s, &lgahdr_v );
 		}
 	else if( memcmp(ktemp,"T6M",3) == 0 ){
-		formmarker( *t6, kt6,9, kvalue,kvalue_s, &lgahdr_v );
+		formmarker( s->h->t6, s->h->kt6,9, kvalue,kvalue_s, &lgahdr_v );
 		}
 	else if( memcmp(ktemp,"T7M",3) == 0 ){
-		formmarker( *t7, kt7,9, kvalue,kvalue_s, &lgahdr_v );
+		formmarker( s->h->t7, s->h->kt7,9, kvalue,kvalue_s, &lgahdr_v );
 		}
 	else if( memcmp(ktemp,"T8M",3) == 0 ){
-		formmarker( *t8, kt8,9, kvalue,kvalue_s, &lgahdr_v );
+		formmarker( s->h->t8, s->h->kt8,9, kvalue,kvalue_s, &lgahdr_v );
 		}
 	else if( memcmp(ktemp,"T9M",3) == 0 ){
-		formmarker( *t9, kt9,9, kvalue,kvalue_s, &lgahdr_v );
+		formmarker( s->h->t9, s->h->kt9,9, kvalue,kvalue_s, &lgahdr_v );
 
 		/* -- Invalid field: */
 

@@ -100,7 +100,7 @@ xra(int  lplot,
 	     *             with new one. */
 	    if( lckey( "&MORE$",7 ) ){
 		lmore = TRUE;
-		ndflsv = cmdfm.ndfl;
+		ndflsv = saclen();
 	    }
 
 	    /* -- "DIR CURRENT|name":  set name of the default subdirectory. */
@@ -214,7 +214,7 @@ xra(int  lplot,
         list = string_list_init();
     }
 
-	nsndfl = cmdfm.ndfl;
+	nsndfl = saclen();
 
 	/* - Set the current file count for using read or read-more. */
 
@@ -235,11 +235,11 @@ xra(int  lplot,
 	 *    If not, resore current file count of working storage. */
 
 	if( !lfilesok( files, NULL 0, lmore, FALSE, FALSE, nerr ) ){
-	    cmdfm.ndfl = nsndfl;
+	    saclen() = nsndfl;
 
 	    /* --- If destroying files in memory, */
 	    if( strcmp(kmdfm.kecmem,"DELETE  ") == 0 )
-		cleardfl( nerr );
+		sacclear();
 
 	    *nerr = ERROR_NO_DATA_FILES_READ_IN;
 	    goto L_8888;
@@ -252,7 +252,7 @@ xra(int  lplot,
 	/* -- Release all memory blocks. */
 
 	if( !lmore ){
-	    cleardfl( nerr );
+	    sacclear();
 	    if( *nerr != 0 )
 		goto L_8888;
 	}
@@ -497,7 +497,7 @@ L_5000:
 	    /* -- Copy pointers to and sizes of y blocks to appropriate
 	     *     data file list variables. */
 	    for( jch = 1; jch <= numych; jch++ ){
-		jdfl = cmdfm.ndfl + jch;
+		jdfl = saclen() + jch;
 		Ncomp[jdfl] = 1;
 		cmdfm.ndxdta[jdfl - 1][0] = ndxch[jch];
 		Nlndta[jdfl] = nptch[jch];
@@ -506,11 +506,11 @@ L_5000:
 	    /* -- Copy pointer to x block if there is one.
 	     *    Allocate extra x blocks and copy original if necessary. */
 	    if( numxch == 1 ){
-		jdfl = cmdfm.ndfl + 1;
+		jdfl = saclen() + 1;
 		cmdfm.ndxdta[jdfl - 1][1] = ndxch[0];
 		Ncomp[jdfl] = 2;
 		for( jch = 2; jch <= numych; jch++ ){
-		    jdfl = cmdfm.ndfl + jch;
+		    jdfl = saclen() + jch;
 		    allamb( &cmmem, Nlndta[jdfl], &cmdfm.ndxdta[jdfl - 1][1], 
 			    nerr );
 		    if( *nerr != 0 )
@@ -524,7 +524,7 @@ L_5000:
 
 	    /* -- Allocate space for header(s). */
 	    for( jch = 1; jch <= numych; jch++ ){
-		jdfl = cmdfm.ndfl + jch;
+		jdfl = saclen() + jch;
 		allamb( &cmmem, MHDR, &Ndxhdr[jdfl], nerr );
 		if( *nerr != 0 )
 		    goto L_8888;
@@ -533,27 +533,23 @@ L_5000:
 	    /* -- Build header for each new file and move it to SACMEM block */
 	    newhdr();
 	    for( jch = 1; jch <= numych; jch++ ){
-		jdfl = cmdfm.ndfl + jch;
-		*npts = Nlndta[jdfl];
+		jdfl = saclen() + jch;
+		s->h->npts = Nlndta[jdfl];
 		if( numxch == 0 ){
-		    *leven = TRUE;
-		    *delta = 1.;
-		    *begin = 0.;
-		    *ennd = *begin + (float)( *npts - 1 )**delta;
+		    s->h->leven = TRUE;
+		    s->h->delta = 1.;
+		    s->h->b = 0.;
+		    s->h->e = s->h->b + (float)( s->h->npts - 1 )*s->h->delta;
 		}
 		else{
-		    *leven = FALSE;
-		    *delta = cmhdr.fundef;
-		    extrma( cmmem.sacmem[cmdfm.ndxdta[jdfl - 1][1]], 1, *npts, 
+		    s->h->leven = FALSE;
+		    s->h->delta = cmhdr.fundef;
+		    extrma( cmmem.sacmem[cmdfm.ndxdta[jdfl - 1][1]], 1, s->h->npts, 
 			    begin, ennd, &unused );
 		}
-		extrma( cmmem.sacmem[cmdfm.ndxdta[jdfl - 1][0]], 1, *npts, 
+		extrma( cmmem.sacmem[cmdfm.ndxdta[jdfl - 1][0]], 1, s->h->npts, 
 			depmin, depmax, depmen );
 
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-		    goto L_8888;
-	    }
 
 	    /* -- Create new file names for these output files. */
 	    if( numych == 1 ){
@@ -571,11 +567,11 @@ L_5000:
 	    }
 
 	    /* -- Update current number of files in data file list. */
-	    cmdfm.ndfl = cmdfm.ndfl + numych;
+	    cmdfm.ndfl = saclen() + numych;
 	}
 
 	/* - Check again for a non-null DFL. */
-	if( cmdfm.ndfl <= 0 ){
+	if( saclen() <= 0 ){
 	    *nerr = ERROR_NO_DATA_FILES_READ_IN;
 	    setmsg( "ERROR", *nerr );
 	}
@@ -583,7 +579,7 @@ L_5000:
 	/* -- UPDATE DATA-SET STORAGE - BEGIN
 	 * -- Save number of files in this (the current) data-set. */
 	/* -- For each file get next available data-set storage slot index. */
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 	    Ndsndx[jdfl] = 1 ;
 
 	    /* --- Save file name */

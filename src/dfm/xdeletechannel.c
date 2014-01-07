@@ -24,6 +24,7 @@
 #include "cpf.h"
 #include "co.h"
 #include "dff.h"
+#include "errors.h"
 
 /** 
  * Execute the command DELETECHANNEL which deletes one or more channels from
@@ -43,14 +44,13 @@ xdeletechannel(int *nerr) {
 	int lincr;
 
 	int lall = FALSE ;	
-	int idel[MDFL], jdel, jdfl, jdfl2, jdfl2_;
-	int jdfl3, ncfile, ndel, ntused ;
+	int idel[MDFL], jdel, jdfl;
+	int ncfile, ndel;
 	int first , last ; 
-    char *tmp;
 	int *const Idel = &idel[0] - 1;
 
 	DBlist tree ;
-
+  sac *s;
 	tree = smGetDefaultTree () ;
 
 	*nerr = 0;
@@ -65,7 +65,7 @@ xdeletechannel(int *nerr) {
 
 	    /* -- "n":  the number of a file. */
 	    else if( lcint( &jdfl ) ){
-		if( jdfl < 1 || jdfl > cmdfm.ndfl ){
+		if( jdfl < 1 || jdfl > saclen() ){
 		    *nerr = 5107;
 		    setmsg( "ERROR", *nerr );
 		    apimsg( jdfl );
@@ -78,7 +78,7 @@ xdeletechannel(int *nerr) {
 	   /* -- "n-m": a range of filenumbers denoted by the first and last 
 			numbers in the range separated by a dash (-). */
 	    else if ( lcidi ( &first , &last ) ) {
-		if ( first < 1 || last > cmdfm.ndfl ) {
+		if ( first < 1 || last > saclen() ) {
 		    *nerr = 5107 ;
 		    setmsg ( "ERROR" , *nerr ) ;
 		    apimsg ( first < 1 ? first : last ) ;
@@ -92,7 +92,8 @@ xdeletechannel(int *nerr) {
 
 	    /* -- "filename":  the name of a file. */
 	    else if( lcchar( MCPFN, kfile,MCPFN+1, &ncfile ) ){
-            jdfl = 1 + string_list_find(datafiles, kfile, MCPFN+1);
+        char *kfile2 = fstrdup(kfile, MCPFN+1);
+        jdfl = 1 + sac_find_filename(kfile2);
             if( jdfl <= 0 ){
                 *nerr = 5106;
                 setmsg( "ERROR", *nerr );
@@ -125,51 +126,23 @@ xdeletechannel(int *nerr) {
 	        if( Idel[jdel] != jdfl ){
 		    jdfl = Idel[jdel];
 		    /* -- Release memory blocks. */
-		    if( Ndxhdr[jdfl] > 0 )
-		        relamb( cmmem.sacmem, Ndxhdr[jdfl], nerr );
-		    if( cmdfm.ndxdta[ jdfl - 1 ][ 0 ] > 0 )
-		        relamb( cmmem.sacmem, cmdfm.ndxdta[ jdfl - 1 ][ 0 ], nerr );
-		    if( cmdfm.ndxdta[ jdfl - 1 ][ 1 ] > 0 )
-		        relamb( cmmem.sacmem, cmdfm.ndxdta[ jdfl - 1 ][ 1 ], nerr );
-		    /* -- Remove entry from list of data file names. */
-            tmp = string_list_get(datafiles, jdfl-1);
-            fstrncpy( kfile, MCPFN, tmp, strlen(tmp)+1);
-            string_list_delete(datafiles, jdfl-1);
-		    /* -- Move DFM array variables down.           */
-		    for( jdfl2 = jdfl; jdfl2 <= (cmdfm.ndfl - 1); jdfl2++ ){
-		        jdfl2_ = jdfl2 - 1;
-		        jdfl3 = jdfl2 + 1;
-		        Ndxhdr[jdfl2] = Ndxhdr[jdfl3];
-		        Nlndta[jdfl2] = Nlndta[jdfl3];
-		        cmdfm.ndxdta[jdfl2_][0] = cmdfm.ndxdta[jdfl3 - 1][0];
-		        cmdfm.ndxdta[jdfl2_][1] = cmdfm.ndxdta[jdfl3 - 1][1];
-		        Ncomp[jdfl2] = Ncomp[jdfl3];
-
-		        /* Added.  maf  970203 */
-		        Nstart  [ jdfl2 ] = Nstart  [ jdfl3 ] ;
-		        Nstop   [ jdfl2 ] = Nstop   [ jdfl3 ] ;
-		        Nfillb  [ jdfl2 ] = Nfillb  [ jdfl3 ] ;
-		        Nfille  [ jdfl2 ] = Nfille  [ jdfl3 ] ;
-		        Ntotal  [ jdfl2 ] = Ntotal  [ jdfl3 ] ;
-		        Nxsdd   [ jdfl2 ] = Nxsdd   [ jdfl3 ] ;
-		        Ndsndx  [ jdfl2 ] = Ndsndx  [ jdfl3 ] ;
-		    }
-		    /* -- Decrement file count. */
-		    cmdfm.ndfl = cmdfm.ndfl - 1;
-	        } 
-	    } 
+        sacdel(jdfl-1);
+          }
+      }
 
 	    for ( jdel = 0 ; jdel < ndel ; jdel++ )
 	      idel[ jdel ] -- ;
 	    
 	    dblDeleteWfdiscs ( tree , (int *) idel , ndel ) ;
-	}
+  }
 
 	/* Now handle case of ALL option specified.  maf 970902 */
 	else {
 	    /* declare Workset name */
 	    char * worksetName ;
 
+      sacclear();
+      
 	    /* delete files from SAC memory */
 	    deleteAllSacFiles ( nerr , TRUE ) ;
 
@@ -189,15 +162,15 @@ xdeletechannel(int *nerr) {
 
 
 	/* If all files were deleted, let the user know. */
-	if ( cmdfm.ndfl < 1 )
+	if ( saclen() < 1 )
 	    printf ( "\nAll files deleted.\n" ) ;
 
-        /* Else make first file in the smaller list current.
-           This is done to make sure that cmdfm.idflc is 
-	   consistant with the working data. */
+  /* Else make first file in the smaller list current.*/
 	else 
-	    getfil( 1, FALSE, &ntused, &ntused, &ntused, nerr );
-
+    if(!(s = sacget(0, FALSE, nerr))) {
+      goto L_8888;
+    }
+  //getfil( 1, FALSE, &ntused, &ntused, &ntused, nerr );
 L_8888:
 	return;
 

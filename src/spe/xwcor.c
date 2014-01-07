@@ -7,6 +7,8 @@
 #include "cpf.h"
 #include "dff.h"
 
+extern float *specor;
+
 void /*FUNCTION*/ xwcor(nerr)
 int *nerr;
 {
@@ -76,7 +78,7 @@ int *nerr;
 	/* - Write the correlation function to disk. */
 
 	delcor = 1./cmspe.samfrq;
-	wsac1( kmspe.knmcor, cmmem.sacmem[cmspe.ndxcor], &cmspe.nlnfft,  (float *)&zero, &delcor, nerr, MCPFN+1 );
+	wsac1( kmspe.knmcor, specor, &cmspe.nlnfft,  (float *)&zero, &delcor, nerr, MCPFN+1 );
         if( *nerr != 0 ) setmsg( "ERROR", *nerr );
 
 L_8888:

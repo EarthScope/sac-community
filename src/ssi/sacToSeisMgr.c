@@ -46,11 +46,11 @@ void sacToSeisMgr ( int lnew , int lupdate , int ldata , int *nerr )
     char * worksetName , defaultWorksetName[] = "workset01" ;
     int jdfl ;
     int takeEvid = FALSE ;
-    int ndx1 , ndx2 , nunused , ndaerr ;
+    int  ndaerr ;
     float unused ;
     sacSACdata *data;
     int * nwfid_array;
-
+    sac *s;
     *nerr = 0 ;
     nwfid_array = NULL;
     data        = NULL;
@@ -104,7 +104,7 @@ void sacToSeisMgr ( int lnew , int lupdate , int ldata , int *nerr )
 
 
     /* Allocate memory for wfid array */
-    nwfid_array = (int *) malloc ( cmdfm.ndfl * sizeof (int) );
+    nwfid_array = (int *) malloc ( saclen() * sizeof (int) );
     if ( !nwfid_array ) {
       *nerr = 301 ;
       setmsg ( "ERROR" , *nerr ) ;
@@ -116,11 +116,16 @@ void sacToSeisMgr ( int lnew , int lupdate , int ldata , int *nerr )
 
     /* Loop through sac data file list, writing data to the tree. */
 
-    for ( jdfl = 0 ; jdfl < cmdfm.ndfl ; jdfl++ ) {
-	int localLdata = Nlndta[ jdfl+1 ] <= 0 ? FALSE : ldata ;
+    for ( jdfl = 0 ; jdfl < saclen() ; jdfl++ ) {
+      int localLdata;
+      if(!(s = sacget(jdfl, FALSE, nerr))) {
+        goto ERROR;
+      }
+
+      localLdata = (!s->y) ? FALSE : ldata ;
 
 	/* Get next waveform. */
-	getfil ( jdfl+1 , localLdata , &nunused , &ndx1 , &ndx2 , nerr ) ;
+	//getfil ( jdfl+1 , localLdata , &nunused , &ndx1 , &ndx2 , nerr ) ;
 	if ( *nerr ) {
 	    setmsg ( "ERROR" , *nerr ) ;
 	    outmsg () ;
@@ -131,48 +136,39 @@ void sacToSeisMgr ( int lnew , int lupdate , int ldata , int *nerr )
 
 	/* Check for nonunique wfid that are defined */
 	nwfid_array[jdfl]=0;
-	if( SAC_INT_DEFINED(*nwfid) && ! Unique(nwfid_array,jdfl,*nwfid) ) {
-        *nwfid = next_wfid(nwfid_array,jdfl);
-        nwfid_array[jdfl] = *nwfid;
-        {
-            char *tmp;
-            tmp = string_list_get(datafiles, jdfl);
-
-        }
-        /* Update the working memory SAC data */
-        putfil( jdfl+1, nerr);
+	if( SAC_INT_DEFINED(s->h->nwfid) && ! Unique(nwfid_array,jdfl,s->h->nwfid) ) {
+        s->h->nwfid = next_wfid(nwfid_array,jdfl);
+        nwfid_array[jdfl] = s->h->nwfid;
 	}
 	else {
-	  nwfid_array[jdfl] = *nwfid;
+	  nwfid_array[jdfl] = s->h->nwfid;
 	}
 
 
   
 	/* update pertinent information */
-	if ( *leven )
-	    *ennd = *begin + *delta*(float)( *npts - 1 );
+	if ( s->h->leven )
+    s->h->e = CALC_E(s);
 	else
-	    extrma( cmmem.sacmem[cmdfm.ndxdta[jdfl][1]], 1, *npts, begin,
-		    ennd, &unused );
-
-  update_distaz();
+    extrma( s->x, 1, s->h->npts, &s->h->b, &s->h->e, &unused );
+  
+  update_distaz(s);
 
 	if ( localLdata ) {
-	    extrma( cmmem.sacmem[ndx1], 1, *npts, depmin, depmax, depmen );
+	    extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 	} 
 
 	/* Disallow undefined kstnm and kcmpnm */
-	if ( uniqueStaAndChan () )
-	    putfil ( jdfl + 1 , nerr ) ;
+	//if ( uniqueStaAndChan () )
 
 	/* Put the header into the sacHeader struct. */
 	SacHeaderToDB ( &( globalSacHeader[ jdfl ] ) , lupdate ? eventHeader : allHeader , jdfl + 1 ) ;
 
 	/* Put the data into the sacData struct. */
 	if ( localLdata ) {
-	    data->dataType = *iftype ;
-	    data->yarray   = cmmem.sacmem[ndx1] ;
-	    data->xarray   = ( ndx2 == 1 ) ? NULL : cmmem.sacmem[ndx2] ;
+	    data->dataType = s->h->iftype ;
+	    data->yarray   = s->y;
+	    data->xarray   = s->x;
 	}
 
 	/* determine takeEvid to pass into sacLoadFromHeaderAndData */

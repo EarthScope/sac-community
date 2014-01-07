@@ -7,11 +7,12 @@
 
 #include <string.h>
 
+#include "amf.h"
 #include "dff.h"
 #include "hdr.h"
 #include "bool.h"
 #include "co.h"
-
+#include "errors.h"
 /** 
  * Mark a header value
  * 
@@ -37,79 +38,78 @@ markhdr(int    jdflrestore,
 	double vmk, 
 	char  *kimk) {
 
-	int jdfl, nerr, ntused;
-
+	int jdfl, nerr;
+  sac *s;
 	/* - If we are to mark all of the subplots, for each subplot: */
 	for( jdfl = jdfl1; jdfl <= jdfl2; jdfl++ ){
 
 		/* -- Get header. */
-		getfil( jdfl, FALSE, &ntused, &ntused, &ntused, &nerr );
-		if( nerr != 0 )
-			goto L_8888;
+    if(!(s = sacget(jdfl-1, TRUE, &nerr))) {
+      goto L_8888;
+    }
+		//getfil( jdfl, FALSE, &ntused, &ntused, &ntused, &nerr );
 
 		/* -- Set value of marker. */
 		if( kvmknm[0] == 'A' ){
-			*a = vmk;
-			fstrncpy( ka, 8, kimk, strlen(kimk));
+			s->h->a = vmk;
+			fstrncpy( s->h->ka, 8, kimk, strlen(kimk));
 			}
 		else if( kvmknm[0] == 'O' ){
-			*o = vmk;
-			fstrncpy( ko, 8, kimk, strlen(kimk));
+			s->h->o = vmk;
+			fstrncpy( s->h->ko, 8, kimk, strlen(kimk));
 			}
 		else if( kvmknm[0] == 'F' ){
-			*f = vmk;
-			fstrncpy( kf, 8, kimk, strlen(kimk));
+			s->h->f = vmk;
+			fstrncpy( s->h->kf, 8, kimk, strlen(kimk));
 			}
 		else if( memcmp(kvmknm,"T0",2) == 0 ){
-			*t0 = vmk;
-			fstrncpy( kt0, 8, kimk, strlen(kimk));
+			s->h->t0 = vmk;
+			fstrncpy( s->h->kt0, 8, kimk, strlen(kimk));
 			}
 		else if( memcmp(kvmknm,"T1",2) == 0 ){
-			*t1 = vmk;
-			fstrncpy( kt1, 8, kimk, strlen(kimk));
+			s->h->t1 = vmk;
+			fstrncpy( s->h->kt1, 8, kimk, strlen(kimk));
 			}
 		else if( memcmp(kvmknm,"T2",2) == 0 ){
-			*t2 = vmk;
-			fstrncpy( kt2, 8, kimk, strlen(kimk));
+			s->h->t2 = vmk;
+			fstrncpy( s->h->kt2, 8, kimk, strlen(kimk));
 			}
 		else if( memcmp(kvmknm,"T3",2) == 0 ){
-			*t3 = vmk;
-			fstrncpy( kt3, 8, kimk, strlen(kimk));
+			s->h->t3 = vmk;
+			fstrncpy( s->h->kt3, 8, kimk, strlen(kimk));
 			}
 		else if( memcmp(kvmknm,"T4",2) == 0 ){
-			*t4 = vmk;
-			fstrncpy( kt4, 8, kimk, strlen(kimk));
+			s->h->t4 = vmk;
+			fstrncpy( s->h->kt4, 8, kimk, strlen(kimk));
 			}
 		else if( memcmp(kvmknm,"T5",2) == 0 ){
-			*t5 = vmk;
-			fstrncpy( kt5, 8, kimk, strlen(kimk));
+			s->h->t5 = vmk;
+			fstrncpy( s->h->kt5, 8, kimk, strlen(kimk));
 			}
 		else if( memcmp(kvmknm,"T6",2) == 0 ){
-			*t6 = vmk;
-			fstrncpy( kt6, 8, kimk, strlen(kimk));
+			s->h->t6 = vmk;
+			fstrncpy( s->h->kt6, 8, kimk, strlen(kimk));
 			}
 		else if( memcmp(kvmknm,"T7",2) == 0 ){
-			*t7 = vmk;
-			fstrncpy( kt7, 8, kimk, strlen(kimk));
+			s->h->t7 = vmk;
+			fstrncpy( s->h->kt7, 8, kimk, strlen(kimk));
 			}
 		else if( memcmp(kvmknm,"T8",2) == 0 ){
-			*t8 = vmk;
-			fstrncpy( kt8, 8, kimk, strlen(kimk));
+			s->h->t8 = vmk;
+			fstrncpy( s->h->kt8, 8, kimk, strlen(kimk));
 			}
 		else if( memcmp(kvmknm,"T9",2) == 0 ){
-			*t9 = vmk;
-			fstrncpy( kt9, 8, kimk, strlen(kimk));
+			s->h->t9 = vmk;
+			fstrncpy( s->h->kt9, 8, kimk, strlen(kimk));
 			}
-
-		/* -- Give header back to memory manager. */
-		putfil( jdfl, &nerr );
-		if( nerr != 0 )
-			goto L_8888;
 
 		}
 
 L_8888:
-	if(jdflrestore > 0) getfil( jdflrestore, FALSE, &ntused, &ntused, &ntused, &nerr );
+	if(jdflrestore > 0) {
+    //getfil( jdflrestore, FALSE, &ntused, &ntused, &ntused, &nerr );
+    s = sacget(jdflrestore-1, FALSE, &nerr);
+  }
 	return;
 
 } /* end of function */

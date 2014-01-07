@@ -2,6 +2,8 @@
 #include "dfm.h"
 #include "bool.h"
 
+#include "amf.h"
+#include "dff.h"
 #include "msg.h"
 #include "clf.h"
 #include "cpf.h"
@@ -53,7 +55,7 @@ void xchangestack(int *nerr)
 	 *   (This is the name or number of the file whose properties are to be changed.) */
 
 	if( lcint( &jdfl ) ){
-		if( jdfl < 1 || jdfl > cmdfm.ndfl ){
+		if( jdfl < 1 || jdfl > saclen() ){
 			*nerr = 5107;
 			setmsg( "ERROR", *nerr );
 			apimsg( jdfl );
@@ -61,7 +63,8 @@ void xchangestack(int *nerr)
 			}
 		}
 	else if( lcchar( MCPFN, kfile,MCPFN+1, &ncfile ) ){
-        jdfl = 1 + string_list_find(datafiles, kfile, MCPFN+1);
+    char *kfile2 = fstrdup(kfile, MCPFN+1);
+    jdfl = 1 + sac_find_filename(kfile2);
 		if( jdfl <= 0 ){
 			*nerr = 5106;
 			setmsg( "ERROR", *nerr );

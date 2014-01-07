@@ -17,12 +17,11 @@
 void /*FUNCTION*/ xrtr(nerr)
 int *nerr;
 {
-	int jdfl, jy, ndx1, ndx2, nlen;
+	int jdfl, jy;
 	float corrcf, sddta, sdslp, sdyint, slp, yint;
 
-        float *Sacmem, *Sacmem1, *Sacmem2;
     static int verbose = FALSE;
-
+  sac *s;
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command RTREND.
 	 *=====================================================================
@@ -75,25 +74,25 @@ int *nerr;
 
 	/* - Perform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 		/* -- Get the next file in DFL, moving header to CMHDR. */
-
-		getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+		//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
 		/* -- Two versions of linear fit: one for evenly spaced
 		 *    data and one for unevenly spaced data. */
 
 		if( *leven ){ 
-			lifite( *b, *delta, cmmem.sacmem[ndx1], nlen, &slp, &yint, 
-              &sdslp, &sdyint, &sddta, &corrcf );
-      rtrend( cmmem.sacmem[ndx1], nlen, yint, slp, *b, *delta );
+			lifite( s->h->b, s->h->delta, s->y, s->h->npts, &slp, &yint, 
+			 &sdslp, &sdyint, &sddta, &corrcf );
+      rtrend( s->y, s->h->npts, yint, slp, s->h->b, s->h->delta );
 		}
 		else{
-			lifitu( cmmem.sacmem[ndx2], cmmem.sacmem[ndx1], nlen, &slp, &yint, 
+			lifitu( s->x, s->y, s->h->npts, &slp, &yint, 
 			 &sdslp, &sdyint, &sddta, &corrcf );
-      rtrend2(cmmem.sacmem[ndx1], nlen, yint, slp, cmmem.sacmem[ndx2]);
+      rtrend2(s->y, s->h->npts, yint, slp, s-x);
 		}
 
 		/* -- Write results oflinear fit. */
@@ -123,13 +122,8 @@ int *nerr;
 
 		/* -- Update any header fields that may have changed. */
 
-		extrma( cmmem.sacmem[ndx1], 1, nlen, depmin, depmax, depmen );
+		extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
-		/* -- Reverse the steps used in getting the next file in DFL. */
-
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
 
 	}
 

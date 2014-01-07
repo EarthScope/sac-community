@@ -27,7 +27,7 @@ int *nerr;
 	 kval[MCMSG+1];
   Token *t;
 	int ic1, ic2, itype, jline, nc, 
-	 ncargs, nkey, nline, nval, numsave;
+	 ncargs, nkey, nline, numsave;
         char *s1;
         char *p;
         memset(key, 0, sizeof(key));
@@ -105,7 +105,6 @@ L_2000:
 	  if( strcmp(ktoken,"$DEFAULT") == 0 ){
       poptok( kline, nline, &jline, &ic1, &ic2, &itype );
       fstrncpy( kdef, MCMSG, kline+ic1 - 1,ic2 - ic1 + 1);
-      nval = nline - jline + 1;
       fstrncpy( kval, MCMSG, kline+jline - 1,nline - jline + 1);
       rstrip(kdef);
       rstrip(kval);

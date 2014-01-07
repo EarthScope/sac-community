@@ -12,7 +12,7 @@
 #include "dbh.h"
 
 void getResponse ( float *array , int order , float gain ,
-			char *kprefix , int *nerr ) ;
+                   char *kprefix , int npts, float delta, int *nerr ) ;
 /*                                                           PREWIT
  *
  *  Prewhitens an input sequence in-place.  Uses a low-order prediction error
@@ -51,11 +51,12 @@ void getResponse ( float *array , int order , float gain ,
  * */
 #define	NCMAX	12
 
-void /*FUNCTION*/ prewit( data, nsamps, order, array, kprefix, errmsg )
+void /*FUNCTION*/ prewit( data, nsamps, delta, order, array, kprefix, errmsg )
 float data[];
 int nsamps, *order;
 float array[];
 char *kprefix, *errmsg;
+float delta;
 {
 	char temp[ 51 ] ;
 	int idx, jdx, j2, kdx, kb, torder;
@@ -166,7 +167,7 @@ char *kprefix, *errmsg;
 	    else {
 		/* Determine digital frequency response,
 		   (amplitude, frequency, and gd) */
-		getResponse( array , *order , (float) gain, kprefix , &nerr ) ; 
+        getResponse( array , *order , (float) gain, kprefix , nsamps, delta, &nerr ) ; 
 		if ( nerr ) {
 		    setmsg ( "ERROR" , nerr ) ;
 		    outmsg () ;

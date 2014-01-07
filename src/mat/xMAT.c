@@ -30,7 +30,7 @@ int *nerr;
 	char DEPMEC[] = "sacdepmec"; 
         
         int j;
-
+        sac *s;
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command MAT.
 	 *           This command passes the SAC workspace to MATLAB.
@@ -89,18 +89,17 @@ int *nerr;
 
 	/* - For each file in DFL copy the header and data into arrays to be passed to matlab engine. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 	   /* -- Get the file, moving header to CMHDR. */
-
-	   getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-              if( *nerr != 0 ){  /* Free allocated resources and return */
-                   matDestroySACdataArray();
-		   matDestroyBlackboardList();
-	  	   *nerr = 1;
-                   return;
-                }
-                
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+      *nerr = 1;
+      matDestroySACdataArray();
+      matDestroyBlackboardList();
+      return;
+    }
+    //getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
 	   /* Set data pointer for this channel to correct place in cmmem.sacmem */
 	   if ( !matAddSACdataElement(jdfl -1 ,cmmem.sacmem[ndx1], cmmem.sacmem[ndx2], nlen) ){
@@ -123,17 +122,16 @@ int *nerr;
 
 	/* - Now copy the changed header variables for each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 	   /* -- Get the file, moving header to CMHDR. */
-
-	   getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-           if( *nerr != 0 ){  /* Free allocated resources and return */
-               matDestroySACdataArray();
-	       matDestroyBlackboardList();
-	       *nerr = 1;
-               return;
-           }
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      //getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
+      matDestroySACdataArray();
+      matDestroyBlackboardList();
+      *nerr = 1;
+      return;
+    }
 	   if( !matUpdateSACfromSACdataArray(jdfl -1, cmmem.sacmem[ndx1], cmmem.sacmem[ndx2], nlen) ) {
 	        matDestroySACdataArray();
 		matDestroyBlackboardList();
@@ -141,20 +139,6 @@ int *nerr;
 		*nerr = 1;
 		return;
            }
-
-
- 
-
-           
-           /* -- Return file to memory manager. */
-           putfil( jdfl, nerr );
-           if( *nerr != 0 ){  /* Free allocated resources and return */
-               matDestroySACdataArray();
-	       matDestroyBlackboardList();
-	       *nerr = 1;
-               return;
-           }
-           
 
 	}
 	matSetBlackboardVars();

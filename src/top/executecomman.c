@@ -96,7 +96,7 @@ int module, index, *nerr;
 #ifdef __STDC__
 		case 19: goto L_1900;
 #endif
-		case 20: goto L_2000;
+      //case 20: goto L_2000;
 		}
 
 	
@@ -233,8 +233,8 @@ L_1900:
 	xmatc( index, nerr ); /* - Module "mat":  matlab analysis routines */
 	goto L_8888;
 	
-L_2000:
-	xcoda( index, nerr ); /* - Module "coda": Kevin Mayeda's coda magnitude */
+  //L_2000:
+	//xcoda( index, nerr ); /* - Module "coda": Kevin Mayeda's coda magnitude */
 	goto L_8888;
 
 L_8888:

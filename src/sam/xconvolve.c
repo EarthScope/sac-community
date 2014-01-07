@@ -23,16 +23,15 @@ int *nerr;
 {
 	char kermsg[131], ktemp1[MCPFN+1];
 
-	int iwinln, iwinmx, j, jdfl, jdfl_, 
-	 ndxcor, ndxmas, ndxsig, ndxx, ndxy, 
-	 nfft, notusd, nrerr, ntused, nzeros,
-	 nlen , 	/* npts of non-master signal */
+	int iwinln, iwinmx, j, jdfl,
+	 nfft, notusd, nzeros,
 	 nlenmx , 	/* max npts of all signals */
 	 nlenMaster , 	/* npts of master */
 	 nlenCombined ;	/* nlen + nlenMaster - 1 */
-
+  float *master, *correl, *signal;
+  sac *s;
         float *destination , *source ; /* reverse and copy master. maf 961204 */
-
+        
 	/*=====================================================================
 	 * PURPOSE: To parse and execute the action command CONVOLVE.
 	 *          This command computes convolutions.
@@ -86,11 +85,11 @@ int *nerr;
 
 		/* -- "MASTER name|n":  determine which file to copy from. */
 		if( lckey( "MASTER$",8 ) ){
-			if( lcirc( 1, cmdfm.ndfl, &cmsam.imast ) )
+			if( lcirc( 1, saclen(), &cmsam.imast ) )
 			{ /* do nothing */ }
 			else if( lcchar( MCPFN, ktemp1,MCPFN+1, &notusd ) ){
-        cmsam.imast = string_list_find(datafiles, ktemp1, MCPFN+1);
-        if(cmsam.imast < 0) {
+        char *ktemp2 = fstrdup(ktemp1, MCPFN+1);
+        if((cmsam.imast = sac_find_filename(ktemp2)) < 0) {
           arg_prev();
           cfmt( "BAD FILE NAME:",16 );
           cresp();
@@ -154,18 +153,22 @@ int *nerr;
 
 	nlenmx = 0;
         iwinmx = 0;
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-		getfil( jdfl, FALSE, &ntused, &ntused, &ntused, nerr );
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+*nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+goto L_8888;
+}
+		//getfil( jdfl, FALSE, &ntused, &ntused, &ntused, nerr );
 		if( *nerr != 0 )
 			goto L_8888;
 		if( cmsam.lwinln ){
-			iwinln = (int)( cmsam.winln/ *delta + 0.1 );
+			iwinln = (int)( cmsam.winln/ s->h->delta + 0.1 );
 			}
 		else{
-			iwinln = *npts/cmsam.nwin;
+			iwinln = s->h->npts/cmsam.nwin;
 			}
 
-		nlenmx = max( nlenmx, *npts );
+		nlenmx = max( nlenmx, s->h->npts );
                 iwinmx = max( iwinmx, iwinln);
 	} /* end for */
 
@@ -173,7 +176,8 @@ int *nerr;
 
 	/* - Allocate temporary blocks for the master signal and correlation function. */
 
-	allamb( &cmmem, nlenmx, &ndxmas, nerr );
+  master = (float *) malloc(sizeof(float) * nlenmx);
+	//allamb( &cmmem, nlenmx, &ndxmas, nerr );
 	if( *nerr != 0 )
 		goto L_8888;
 
@@ -181,10 +185,11 @@ int *nerr;
 
         while ( nfft < (2*iwinmx-1))
           nfft *= 2;
-
-	allamb( &cmmem, nfft, &ndxcor, nerr );
+  correl = (float *) malloc(sizeof(float) * nfft);
+	//allamb( &cmmem, nfft, &ndxcor, nerr );
 	if( *nerr != 0 ){
-		relamb( cmmem.sacmem, ndxmas, &nrerr );
+    FREE(master);
+		//relamb( cmmem.sacmem, ndxmas, &nrerr );
 		*nerr = 919;
 		setmsg( "ERROR", *nerr );
 		goto L_8888;
@@ -194,16 +199,19 @@ int *nerr;
 	 *   Pad with zeros if necessary. */
 
 				 /* nlen became nlenMaster.  maf 961204 */
-	getfil( cmsam.imast, TRUE, &nlenMaster, &ndxy, &ndxx, nerr );
-	if( *nerr != 0 )
-		goto L_7777;	/* L_8888 became L_7777.  maf 961204 */
+  if(!(s = sacget(cmsam.imast-1, TRUE, nerr))) {
+    *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+    goto L_7777;
+  }
+	//getfil( cmsam.imast, TRUE, &nlenMaster, &ndxy, &ndxx, nerr );
+  nlenMaster = s->h->npts;
 
 
         /* clone and reverse the master signal. overhauled, maf 961204 */
-	destination = cmmem.sacmem[ndxmas];
-        source = cmmem.sacmem[ndxy] + nlenMaster - 1 ;	
+	destination = master;//cmmem.sacmem[ndxmas];
+  source = s->y + s->h->npts -1; //cmmem.sacmem[ndxy] + nlenMaster - 1 ;	
 
-	while ( source >= cmmem.sacmem[ndxy] ) {
+	while ( source >= s->y) { //cmmem.sacmem[ndxy] ) {
 	    *destination = *source ;
 	    destination++ ;
 	    source-- ;
@@ -212,48 +220,50 @@ int *nerr;
 	/* pad with zeros if necessary. */
 	nzeros = nlenmx - nlenMaster ;	/* nlen became nlenMaster.  maf 961204 */
 	if( nzeros > 0 )
-		fill( cmmem.sacmem[ndxmas] + nlenMaster , nzeros , 0. );
+		fill( master + nlenMaster, nzeros , 0. );
 
 	/* - Perform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-		jdfl_ = jdfl - 1;
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 		/* -- Get next file from the memory manager.
 		 *    (Header is moved into common blocks CMHDR and KMHDR.) */
-		getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
-		if( *nerr != 0 )
-			goto L_7777;	/* L_8888 became L_7777.  maf 961204 */
-		nlenCombined = nlen + nlenMaster - 1 ;	/* added. maf 961204 */
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_7777;
+    }
+		//getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
+
+		nlenCombined = s->h->npts + nlenMaster - 1 ;	/* added. maf 961204 */
 
 		/* -- Allocate a new block, copy signal to it, and pad with zeros if necessary. */
-		allamb( &cmmem, 2 * nlenmx, &ndxsig, nerr ); /* nlenmx became 2*nlenmx. maf 961204 */
+    signal = (float *) malloc(sizeof(float) * 2 * nlenmx);
+		//allamb( &cmmem, 2 * nlenmx, &ndxsig, nerr ); /* nlenmx became 2*nlenmx. maf 961204 */
 		if( *nerr != 0 )
 			goto L_7777;	/* L_8888 became L_7777.  maf 961204 */
 		/* copy( (int*)cmmem.sacmem[ndxy], (int*)cmmem.sacmem[ndxsig], nlenmx ); */
-        copy_float( cmmem.sacmem[ndxy], cmmem.sacmem[ndxsig], nlen); 
-		nzeros = 2 * nlenmx - nlen;
+    copy_float( s->y, signal, s->h->npts); 
+		nzeros = 2 * nlenmx - s->h->npts;
 		if( nzeros > 0 )
-			fill( cmmem.sacmem[ndxsig]+nlen, nzeros, 0. );
+			fill( signal + s->h->npts, nzeros, 0. );
 
 		/* -- Update dfl indices to point to this new block and release old one. */
-		Nlndta[jdfl] = nlenCombined ; /* nlenmx became nlenCombined. maf 961204 */
-		cmdfm.ndxdta[jdfl_][0] = ndxsig;
-		relamb( cmmem.sacmem, ndxy, nerr );
+		//Nlndta[jdfl] = nlenCombined ; /* nlenmx became nlenCombined. maf 961204 */
+		//cmdfm.ndxdta[jdfl_][0] = ndxsig;
+		//relamb( cmmem.sacmem, ndxy, nerr );
 
 
 		/* -- Compute length of each window. */
 		if( cmsam.lwinln ){
-			iwinln = (int)( cmsam.winln/ *delta + 0.1 );
+			iwinln = (int)( cmsam.winln/ s->h->delta + 0.1 );
 			}
 		else{
 			iwinln = nlenmx/cmsam.nwin;
 			}
 
 		/* -- Compute the (unshifted) correlation. */
-		crscor( cmmem.sacmem[ndxmas], cmmem.sacmem[ndxsig], nlenmx, cmsam.nwin, 
-		 iwinln, (char*)kmsam.kwintp[cmsam.iwintp - 1], cmmem.sacmem[ndxcor], 
-		 &nfft, kermsg,131 );
+		crscor( master, signal, nlenmx, cmsam.nwin, 
+            iwinln, (char*)kmsam.kwintp[cmsam.iwintp - 1], correl,
+            &nfft, kermsg,131 );
 		if( memcmp(kermsg,"        ",8) != 0 ){
 			*nerr = 1;
 			setmsg( "ERROR", *nerr );
@@ -264,40 +274,34 @@ int *nerr;
 		/* -- Perform a circular shift to align the correlation in the output block. */
 		/*	overhauled to get full range of convolution.  maf 961204 */
 		for( j = 0; j <= nlenMaster - 2 ; j++ )
-                        *(cmmem.sacmem[ndxsig]+j) = *(cmmem.sacmem[ndxcor]+nfft-nlenMaster+j+1);
-		for ( j = 0 ; j <= nlen - 1 ; j++ )
-                        *(cmmem.sacmem[ndxsig]+nlenMaster+j-1) = *(cmmem.sacmem[ndxcor]+j);
+      signal[j] = correl[nfft-nlenMaster+j+1];
+		for ( j = 0 ; j <= s->h->npts - 1 ; j++ )
+      signal[nlenMaster+j-1] = correl[j];
 
 		/* Pad with zeros if necessary.  maf 961204 */
-                nzeros = 2 * nlenmx - 1 - nlenCombined ;
-                if( nzeros > 0 )
-                    fill( cmmem.sacmem[ndxsig]+nlenCombined, nzeros, 0. );
+    nzeros = 2 * nlenmx - 1 - nlenCombined ;
+    if( nzeros > 0 )
+      fill( signal + nlenCombined, nzeros, 0. );
 
 
 		/* -- Update any header fields that may have changed. */
 		/*	overhauled to preserve differences in begin times. maf 961204 */
-		*npts = nlenCombined;
+    s->h->npts = nlenCombined;
 /*		*begin = -(float)( nlenmx )**delta + *begin - masterBegin ; */
-		*ennd = *begin + *delta*(float)( nlenCombined - 1 );
-		extrma( cmmem.sacmem[ndxsig], 1, nlenCombined, depmin, depmax, depmen );
-/*		*nzyear = cmhdr.fundef ; */
+		s->h->e = s->h->b + s->h->delta*(float)( s->h->npts - 1 );
+		extrma( signal, 1, nlenCombined, &s->h->depmin, &s->h->depmax, &s->h->depmen );
+    FREE(s->y);
+    s->y = signal;
+    /*		*nzyear = cmhdr.fundef ; */
 /*		*nzhour = cmhdr.fundef ; */
 
-		/* -- Return file to memory manager. */
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-			goto L_7777;	/* L_8888 became L_7777.  maf 961204 */
-
+    
 	} /* end for(jdfl) */
 
 	/* - Release temporary blocks. */
-L_7777:	/* added. maf 961204 */
-	relamb( cmmem.sacmem, ndxmas, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
-	relamb( cmmem.sacmem, ndxcor, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+ L_7777:	
+  FREE(master);
+  FREE(correl);
 
 	/* - Calculate and set new range of dependent variable. */
 

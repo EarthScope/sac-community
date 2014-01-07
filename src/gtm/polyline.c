@@ -3,11 +3,13 @@
 #include <stdlib.h>
 #include <math.h>
 
+#include "amf.h"
 #include "gem.h"
 #include "gtm.h"
 #include "gdm.h"
 #include "hdr.h"
 #include "gam.h"
+#include "SacHeader.h"
 
 float data_to_view_x(float x);
 float data_to_view_y(float y);
@@ -211,15 +213,15 @@ polyfill(float *x, float *y, int n, int positive, int color) {
     int yon, xon;
     float ymin,ymax,xmin,xmax;
     float rect[4] = {0,100,0,10};
-
+    sac *s;
     getylm(&yon, &ymin, &ymax);
     getxlm(&xon, &xmin, &xmax);
-
+    s = sacget_current();
     if(positive) {
       ymin = fmax(ymin, 0);
-      ymax = fmin(ymax, *depmax);
+      ymax = fmin(ymax, s->h->depmax);
     } else {
-      ymin = fmax(ymin, *depmin);
+      ymin = fmax(ymin, s->h->depmin);
       ymax = fmin(ymax, 0);
     }
 

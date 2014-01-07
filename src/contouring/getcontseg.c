@@ -9,14 +9,12 @@
 #include <math.h>
 
 #include "mach.h"
-#include "amf.h"
 #include "contouring.h"
-
+extern struct contour contour;
 void 
 getcontseg(number, level, start, stop)
 int number, *level, *start, *stop;
 {
-        int *Isacmem;
 
 
 	/*=====================================================================
@@ -43,12 +41,9 @@ int number, *level, *start, *stop;
 	 *===================================================================== */
 	/* PROCEDURE: */
 	if( number <= cmcontouring.numsegments ){
-                Isacmem = (int*)cmmem.sacmem[cmcontouring.indexlevels];
-		*level = *(Isacmem + number - 1);
-                Isacmem = (int*)cmmem.sacmem[cmcontouring.indexstarts];
-		*start = *(Isacmem + number - 1);
-                Isacmem = (int*)cmmem.sacmem[cmcontouring.indexstops];
-		*stop = *(Isacmem + number - 1);
+    *level = contour.segments[number-1].level;
+    *start = contour.segments[number-1].start;
+    *stop  = contour.segments[number-1].stop;
 	}
 	else{
 		fprintf( stdout, "Illegal segment number: %d \n", number );

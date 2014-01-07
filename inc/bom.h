@@ -10,6 +10,7 @@
 
 #include "mach.h"
 #include "clf.h"
+#include "SacHeader.h"
 
 #define	MBFL	MDFL
 
@@ -62,33 +63,12 @@ void xsubf  ( int *nerr);
 int  vbeven ();
 int  isFatal(char *key);
 int  isWarning(char *key);
-int  delta_equal(float t1, 
-                 float t2, 
-                 string_list *list1,
-                 string_list *list2,
-                 int n1,
-                 int n2);
-int npts_equal(int npts1, 
-               int npts2,
-               string_list *list1,
-               string_list *list2,
-               int n1,
-               int n2);
-int time_equal(int time1[6], 
-               int time2[6],
-               float b1,
-               float b2,
-               string_list *list1,
-               string_list *list2,
-               int n1,
-               int n2);
-int station_equal(char *name1, 
-                  char *name2,
-                  string_list *list1,
-                  string_list *list2,
-                  int n1,
-                  int n2);
-
+int  delta_equal(sac *s1, sac *s2);
+int npts_equal(sac *s1, sac *s2);
+int time_equal(sac *s1, sac *s2);
+int station_equal(sac *s1, sac *s2);
+int files_similar(string_list *list);
+void sac_extrema(sac *s);
 
 
 

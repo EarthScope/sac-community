@@ -13,7 +13,7 @@
 
 #include "errors.h"
 
-
+#include "amf.h"
 #include "msg.h"
 #include "clf.h"
 #include "dff.h"
@@ -32,20 +32,22 @@
 void 
 vfspec(int *nerr) {
 
-	int jdfl, ndx1, ndx2, nlen;
+	int jdfl;
     char *tmp;
-	*nerr = 0;
+    sac *s;
+    *nerr = 0;
 
 	/* - For each file in DFL: */
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-        tmp = string_list_get(datafiles, jdfl-1);
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 		/* -- Get header from memory manager. */
-		getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+    if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+      goto L_8888;
+    }
+    tmp = s->m->filename;
+		//getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
 
 		/* -- Check file type. */
-		if( *iftype != *irlim && *iftype != *iamph ){
+		if( s->h->iftype != IRLIM && s->h->iftype != IAMPH ){
 			*nerr = ERROR_OPERATION_ON_TIME_SERIES_FILE;
 			setmsg( "ERROR", *nerr );
             apcmsg2(tmp, strlen(tmp)+1);

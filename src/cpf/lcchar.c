@@ -144,7 +144,7 @@ int
 lcchar_split(int mchar, char *kchar, int kchar_s, int *nchar) {
   int n;
   char *p;
-  Token *t, *new, *tmp;
+  Token *t, *new;
   UNUSED(kchar_s);
 
   if(!(t = arg())) {

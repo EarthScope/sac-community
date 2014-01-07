@@ -20,10 +20,11 @@ void
 xmarktimes(int *nerr) {
 
 	int ifpick, ikpick, ipick, j, j_, jdfl, 
-	 ndxx, ndxy, nlen, nodttm, nvelu;
+	 nodttm, nvelu;
 	float distu, originu;
   char *tmp;
-
+  float *fp;
+  sac *s;
 	/*=====================================================================
 	 * PURPOSE: To parse and execute the action command MARKTIMES.
 	 *          This command marks files with travel times from a velocity set.
@@ -161,47 +162,48 @@ L_1000:
 
 	/* - For each file in DFL: */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 		/* -- Get next file from the memory manager.
 		 *    (Header is moved into common blocks CMHDR and KMHDR.) */
-		getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+		//getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
 
 		/* -- Use requested distance or use the one in the header. */
 		if( cmsmm.ldistr ){
 			distu = cmsmm.distr;
 			}
-		else if( *dist != cmhdr.fundef ){
-			distu = *dist;
+		else if( s->h->dist != cmhdr.fundef ){
+			distu = s->h->dist;
 			}
 		else{
 			*nerr = 1;
 			setmsg( "ERROR", *nerr );
 			apcmsg( "DIST",5 );
 			apcmsg( "is not defined in header for file",34 );
-            tmp = string_list_get(datafiles, jdfl-1);
+      tmp = s->m->filename;
             apcmsg2(tmp, strlen(tmp)+1);
 			goto L_8888;
 			}
 
 		/* -- Compute origin time offset or use the one in the header. */
 		if( cmsmm.lgmt ){
-			ddttm( cmsmm.iodttm, nzdttm, &originu );
+			ddttm( cmsmm.iodttm, &s->h->nzyear, &originu );
 			}
 		else if( cmsmm.loriginr ){
 			originu = cmsmm.originr;
 			}
-		else if( *o != cmhdr.fundef ){
-			originu = *o;
+		else if( s->h->o != cmhdr.fundef ){
+			originu = s->h->o;
 			}
 		else{
 			*nerr = 2;
 			setmsg( "ERROR", *nerr );
 			apcmsg( "ORIGIN",7 );
 			apcmsg( "is not defined in header for file",34 );
-            tmp = string_list_get(datafiles, jdfl-1);
+      tmp = s->m->filename;
             apcmsg2(tmp, strlen(tmp)+1);
 			goto L_8888;
 			}
@@ -211,14 +213,10 @@ L_1000:
 
 		for( j = 1; j <= nvelu; j++ ){
 			j_ = j - 1;
-			Fhdr[ifpick + j - 1] = originu + distu/Vel[j];
+      fp = fhdr(s, ifpick + j - 1);
+      *fp = originu + distu/Vel[j];
       sprintf(kmhdr.khdr[ikpick + j_ - 1],"%3.1lf", Vel[j] );
 			}
-
-		/* -- Return file to memory manager. */
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
 
 		}
 

@@ -11,10 +11,9 @@
 void /*FUNCTION*/ xrmean(nerr)
 int *nerr;
 {
-	int j, jdfl, ndx1, ndx2, nlen;
+	int j, jdfl;
 
-        float *Sacmem;
-
+  sac *s;
 	/*=====================================================================
 	 * PURPOSE: To parse and execute the action command RMEAN.
 	 *          This command removes the mean from all data files.
@@ -58,25 +57,20 @@ int *nerr;
 
 	/* - Peform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 	    /* -- Get the next file in DFL, moving header to CMHDR. */
-	    getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-	    if( *nerr != 0 )
-        return;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      return;
+    }
+    //getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
-	    /* -- Remove mean from each data point. */
-      rmean( cmmem.sacmem[ndx1], *npts, *depmen);
+    rmean( s->y, s->h->npts, s->h->depmen);
 
 	    /* -- Update any header fields that may have changed. */
-	    *depmin = *depmin - *depmen;
-	    *depmax = *depmax - *depmen;
-	    *depmen = 0.;
+	    s->h->depmin = s->h->depmin - s->h->depmen;
+	    s->h->depmax = s->h->depmax - s->h->depmen;
+	    s->h->depmen = 0.;
 
-	    /* -- Reverse the steps used in getting the next file in DFL. */
-
-	    putfil( jdfl, nerr );
-	    if( *nerr != 0 )
-		return;
 	}
 
 	/* - Calculate and set new dependent variable range values. */

@@ -7,6 +7,7 @@
 
 #include <string.h>
 
+#include "amf.h"
 #include "bom.h"
 #include "exm.h"
 #include "cpf.h"
@@ -59,3 +60,46 @@ L_1000:
 	return;
 }
 
+static buffer* sac_binary_file_list = NULL;
+
+buffer *buffer_new();
+void buffer_set_format(buffer *b, char c);
+void buffer_append(buffer *b, void *p, int n);
+void *buffer_get(buffer *b, int i);
+void buffer_free(buffer *b);
+
+sac *sacread(char *file);
+
+sac *
+bflget(string_list *list, int i) {
+  sac *s;
+
+  if(!sac_binary_file_list) {
+    sac_binary_file_list = buffer_new();
+    buffer_set_format(sac_binary_file_list, 'p');
+  }
+
+  if(i >= sac_binary_file_list->len) {
+    /* Read in File */
+    if(i >= string_list_length(list)) {
+      return NULL;
+    }
+    if(!(s = sacread(string_list_get(list, i)))) {
+      return NULL;
+    }
+    buffer_append(sac_binary_file_list, &s, 1);
+  }
+  s = buffer_get(sac_binary_file_list, i);
+
+  return s;
+}
+
+
+void
+bflclear() {
+
+  if(sac_binary_file_list) {
+    buffer_free(sac_binary_file_list);
+  }
+  sac_binary_file_list = NULL;
+}

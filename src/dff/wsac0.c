@@ -9,16 +9,17 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "amf.h"
 #include "dff.h"
 #include "hdr.h"
 #include "msg.h"
 #include "co.h"
 #include "ucf.h"
-
+#include "SacHeader.h"
 #include "proto.h"
 #include "errors.h"
 #include "bool.h"
-
+extern sac *CURRENT;
 /** 
  * Determine the byte order of the machine
  * 
@@ -95,6 +96,7 @@ sac_header_write(int nun, float *hdr, char *khdr, int swap, int *nerr) {
   }
   /* Write the numerical values */
   n = write(-nun, hdr, SAC_HEADER_NUMBERS_SIZE_BYTES_FILE);
+
   if(n != SAC_HEADER_NUMBERS_SIZE_BYTES_FILE) {
     *nerr = ERROR_WRITING_FILE;
     return;
@@ -115,6 +117,9 @@ sac_header_write(int nun, float *hdr, char *khdr, int swap, int *nerr) {
 void
 sac_data_write(int nun, float *y, float *x, int npts, int swap, int *nerr) {
   int n;
+  sac *s;
+
+  s = CURRENT;
   if(swap) {
     sac_data_swap(y, npts);
   }
@@ -123,20 +128,10 @@ sac_data_write(int nun, float *y, float *x, int npts, int swap, int *nerr) {
     *nerr = ERROR_WRITING_FILE;
     return;
   }
-
-  /* - If the data consists of two components (unevenly spaced or complex), write both. */
-  if( *iftype == *itime || *iftype == *ixy || *iftype == *iunkn ) {
-    if(*leven) {
-      n = 1;
-    } else {
-      n = 2;
-    }
-  } else if(*iftype == *ixyz) {
-    n = 1;
-  } else {
-    n = 2;
-  }
-  if(n == 2) {
+  /* - If the data is not evenly spaced, write the array
+   *   containing the independent variable. */
+  n = sac_comps(s);
+  if(n >= 2) {
     if(swap) {
       sac_data_swap(x, npts);
     }
@@ -188,11 +183,12 @@ wsac0(char  *kname,
 
         int ncerr, nderr, nun;
         int swap;
-	/* These are here because zwabs only reads in floats, which is really dumb
+        sac *s;
+        /* These are here because zwabs only reads in floats, which is really dumb
 	   The reads should be done straight away using fread() */
 
 	char *kname_c;
-
+  s = CURRENT;
         nun = 0;
 
 	kname_c = fstrdup(kname, kname_s);
@@ -200,7 +196,7 @@ wsac0(char  *kname,
 
 	*nerr = 0;
 
-        if(*npts <= 0) {
+        if(s->h->npts <= 0) {
           *nerr = ERROR_WRITING_FILE;
           goto L_8888;
         }
@@ -213,7 +209,7 @@ wsac0(char  *kname,
 	    goto L_8888;
 
         /* Check overwrite-protect flag in header record */
-	if(! *lovrok ) {
+	if(! s->h->lovrok ) {
 	  *nerr = ERROR_OVERWRITE_FLAG_IS_OFF;
 	  setmsg("ERROR", *nerr);
 	  apcmsg2(kname_c, kname_s);
@@ -223,21 +219,21 @@ wsac0(char  *kname,
 	}
 	
 	/* Update the Variables describing the dependent variable array*/
-	extrma(yarray, 1, *npts, depmin, depmax, depmen);
+	extrma(yarray, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen);
 
 	/* Recompute the distance, azimuth, etc if proper header fields are present */
-	update_distaz();
+	update_distaz(s);
 
         swap = sac_byte_order(-1);
 
 	/* - Write the header to disk starting at word 0. */
-        sac_header_write(nun, cmhdr.fhdr, (char *) kmhdr.khdr, swap, nerr);
+        sac_header_write(nun, (float *)s->h, (char *) &(s->h->kstnm), swap, nerr);
         if(*nerr != SAC_OK) {
           goto L_8888;
         }
 	/* - Write the array containing the dependent variable to disk
 	 *   starting after the end of the header. */
-        sac_data_write(nun, yarray, xarray, *npts, swap, nerr);
+        sac_data_write(nun, yarray, xarray, s->h->npts, swap, nerr);
         if(*nerr != SAC_OK) {
           goto L_8888;
         }

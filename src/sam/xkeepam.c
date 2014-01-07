@@ -13,9 +13,9 @@
 void /*FUNCTION*/ xkeepam(nerr)
 int *nerr;
 {
-	int jdfl, ndx1, ndx2, nfreq, nlen;
+	int jdfl, nfreq;
 
-
+  sac *s;
 
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command KEEPAM.
@@ -88,20 +88,19 @@ int *nerr;
 
 	/* - Perform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 		/* -- Get the next file in DFL, moving header to CMHDR. */
-
-		getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+		//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
 		/* -- Convert spectral file type if needed. */
 
-		if( *iftype == *irlim ){
-			toamph( cmmem.sacmem[ndx1], cmmem.sacmem[ndx2], *npts, cmmem.sacmem[ndx1], 
-			 cmmem.sacmem[ndx2] );
-			*iftype = *iamph;
+		if( s->h->iftype == IRLIM ){
+			toamph( s->y, s->x, s->h->npts, s->y, s->x);
+			s->h->iftype = IAMPH;
 			}
 
 		/* -- Release phase component. */
@@ -110,25 +109,18 @@ int *nerr;
 /*		if( *nerr != 0 )
 			goto L_8888; */
 /*		cmdfm.ndxdta[jdfl_][1] = 0; */
-		Ncomp[jdfl] = 1;
 
 		/* -- Adjust header from spectral file to ixy file. */
 
-		nfreq = *npts/2 + 1;
-		Nlndta[jdfl] = nfreq;
-		*npts = nfreq;
-		*b = 0.;
-		*e = *delta*(float)( nfreq - 1 );
-		*iftype = *ixy;
+		nfreq = s->h->npts/2 + 1;
+    s->h->npts = nfreq;
+		s->h->b = 0.;
+		s->h->e = s->h->delta*(float)( nfreq - 1 );
+		s->h->iftype = IXY;
 
 		/* -- Adjust header for component specific values. */
-		extrma( cmmem.sacmem[ndx1], 1, nfreq, depmin, depmax, depmen );
+		extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
-		/* -- Give file back to memory manager. */
-
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
 
 		}
 

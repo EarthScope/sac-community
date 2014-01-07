@@ -13,15 +13,14 @@
 #define	IPULSE	100
 
 void /*FUNCTION*/ fdlp(memptr, mxmptr, userData, nerr)
-int memptr[], mxmptr, *nerr;
+int  mxmptr, *nerr;
+float *memptr[];
 float *userData ;
 {
 	int idx, jdx;
 	float dummy, highSamplingFreq, lowSamplingFreq;
   char s1[3];
   double tmp;
-
-	int *const Memptr = &memptr[0] - 1;
 
 
 	/*=====================================================================
@@ -134,10 +133,12 @@ float *userData ;
 
 	jdx = 1;
 	for( idx = 0; idx < 3; idx++ ){
-		allamb( &cmmem, NDATPTS, &Memptr[jdx], nerr );
+    memptr[jdx-1] = (float *) malloc(sizeof(float) * NDATPTS);
+		//allamb( &cmmem, NDATPTS, &Memptr[jdx], nerr );
 		if( *nerr != 0 )
 			goto L_8888;
-		allamb( &cmmem, NDATPTS, &Memptr[jdx + 1], nerr );
+    memptr[jdx+1-1] = (float *) malloc(sizeof(float) * NDATPTS);
+		//allamb( &cmmem, NDATPTS, &Memptr[jdx + 1], nerr );
 		if( *nerr != 0 )
 			goto L_8888;
 
@@ -149,7 +150,7 @@ float *userData ;
 		inspect( cmsam.npollp, "LP", s1, cmsam.atnlp, cmsam.tbwlp, 
 		 0.0, cmsam.cflp, cmsam.fddelta, (char*)kmsam.kprotyp[idx],
 		 NDATPTS, &lowSamplingFreq, &highSamplingFreq, "LINEAR",
-                 cmmem.sacmem[Memptr[jdx]], cmmem.sacmem[Memptr[jdx + 1]] );
+                 memptr[jdx-1], memptr[jdx + 1-1] );
 		jdx = jdx + 2;
 	}
 
@@ -157,7 +158,8 @@ float *userData ;
 	 *    This will be memptr(7 thru 9) */
 
 	for( idx = 3; idx < MPROTYP; idx++ ){
-		allamb( &cmmem, NDATPTS, &Memptr[idx + 4], nerr );
+    memptr[jdx+4-1] = (float *) malloc(sizeof(float) * NDATPTS);
+		//allamb( &cmmem, NDATPTS, &Memptr[idx + 4], nerr );
 		if( *nerr != 0 )
 			goto L_8888;
 
@@ -168,26 +170,28 @@ float *userData ;
 		inspect( cmsam.npollp, "LP", s1, cmsam.atnlp, cmsam.tbwlp, 
 		 0.0, cmsam.cflp, cmsam.fddelta, (char*)kmsam.kprotyp[idx],
 		 NDATPTS, &lowSamplingFreq, &highSamplingFreq,
-                 "LINEAR", cmmem.sacmem[Memptr[idx + 4]], (float*)&dummy );
+                 "LINEAR", memptr[idx + 4-1], (float*)&dummy );
 	}
 
 	/* - Correct for the last datum in the group delay analog and digital
 	 *   traces. We tried to use L'Hopitals rule in afr, called in inspect,
 	 *   but it didn't work. Set the last data value to equal the second. */
 
-	*(cmmem.sacmem[Memptr[5]] + NDATPTS - 1) = 
-                          *(cmmem.sacmem[Memptr[5]] + NDATPTS - 2);
-	*(cmmem.sacmem[Memptr[9]] + NDATPTS - 1) = 
-                          *(cmmem.sacmem[Memptr[9]] + NDATPTS - 2);
+  memptr[5-1][NDATPTS-1] = memptr[5-1][NDATPTS-2];
+  memptr[9-1][NDATPTS-1] = memptr[9-1][NDATPTS-2];
+	//*(cmmem.sacmem[Memptr[5]] + NDATPTS - 1) = 
+  //                        *(cmmem.sacmem[Memptr[5]] + NDATPTS - 2);
+	//*(cmmem.sacmem[Memptr[9]] + NDATPTS - 1) = 
+  //                        *(cmmem.sacmem[Memptr[9]] + NDATPTS - 2);
 
 	/* - Correct for the last data value of the digital phase response. */
-
-	*(cmmem.sacmem[Memptr[8]] + NDATPTS - 1) = 
-                          *(cmmem.sacmem[Memptr[8]] + NDATPTS - 2);
+  memptr[8-1][NDATPTS-1] = memptr[8-1][NDATPTS-2];
+	//*(cmmem.sacmem[Memptr[8]] + NDATPTS - 1) = 
+  //                        *(cmmem.sacmem[Memptr[8]] + NDATPTS - 2);
 
 	/* - Create the impulse response */
-
-	allamb( &cmmem, NIMPPTS, &Memptr[mxmptr], nerr );
+  memptr[mxmptr-1] = (float *) malloc(sizeof(float) * NIMPPTS);
+	//allamb( &cmmem, NIMPPTS, &Memptr[mxmptr], nerr );
 	if( *nerr != 0 )
 		goto L_8888;
 
@@ -196,9 +200,10 @@ float *userData ;
 	design( cmsam.npollp, "LP", s1, 
 	 cmsam.atnlp, cmsam.tbwlp, 0.0, cmsam.cflp, cmsam.fddelta, cmfir3.sn, 
 	 cmfir3.sd, &cmfir3.nsects );
-	zero( cmmem.sacmem[Memptr[mxmptr]], NIMPPTS );
-	*(cmmem.sacmem[Memptr[mxmptr]] + IPULSE - 1) = 1.;
-	apply( cmmem.sacmem[Memptr[mxmptr]], NIMPPTS, FALSE, cmfir3.sn, cmfir3.sd, 
+	zero( memptr[mxmptr-1], NIMPPTS );
+  memptr[mxmptr-1][IPULSE-1] = 1.0;
+	//*(cmmem.sacmem[Memptr[mxmptr]] + IPULSE - 1) = 1.;
+	apply( memptr[mxmptr-1], NIMPPTS, FALSE, cmfir3.sn, cmfir3.sd, 
 	 cmfir3.nsects );
 
 L_8888:

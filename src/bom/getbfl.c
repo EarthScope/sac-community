@@ -8,6 +8,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "amf.h"
 #include "bool.h"
 #include "bom.h"
 #include "dfm.h"
@@ -82,7 +83,7 @@ getbfl(string_list *list,
 		/* -- Read data file into memory.
 		 *    (Use DFM index NDFL+1 to temporarily store pointers during read.) */
         file = string_list_get(list, ibfl-1);
-		rdsac(cmdfm.ndfl + 1, file, strlen(file),
+		rdsac(saclen() + 1, file, strlen(file),
 		      FALSE, ldta, &cmbom.nlenbf,
 		      &cmbom.ndxhbf, &cmbom.ndx1bf, &cmbom.ndx2bf, 
 		      nerr );

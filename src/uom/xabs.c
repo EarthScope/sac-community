@@ -14,10 +14,9 @@
 void /*FUNCTION*/ xabs(nerr)
 int *nerr;
 {
-	int j, jdfl, ndx1, ndx2, nlen;
+	int j, jdfl;
 
-        float *Sacmem;
-
+  sac *s;
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command ABS.
 	 *           This command takes the absolute value of data in memory.
@@ -60,30 +59,23 @@ int *nerr;
 
 	/* - Peform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 		/* -- Get the next file in DFL, moving header to CMHDR. */
-
-		getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+		//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
 		/* -- Take absolute value of dependent array. */
-                Sacmem = cmmem.sacmem[ndx1];
-		for( j = ndx1; j <= (ndx1 + nlen - 1); j++ ){
-			*Sacmem = fabs( *Sacmem );
-                        Sacmem++;
-			}
+		for( j = 0; j < s->h->npts; j++ ){
+			s->y[j] = fabs( s->y[j]);
+    }
 
 		/* -- Update any header fields that may have changed. */
 
-		extrma( cmmem.sacmem[ndx1], 1, nlen, depmin, depmax, depmen );
+    extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
-		/* -- Reverse the steps used in getting the next file in DFL. */
-
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
 
 		}
 

@@ -13,7 +13,7 @@
 #include "amf.h"
 
 #include "sddhdr.h"
-
+#include "errors.h"
 /** 
  * Read data components from a SDD disk file to memory
  * 
@@ -40,12 +40,11 @@ rdsdta(int   idfl,
        int  *nun, 
        int  *nerr) {
 
-	int i, jcomp, jcomp_, nlcdsk, nlcmem, numrd, offset;
+	int i, jcomp, nlcdsk, numrd, offset;
 	float unused;
-
-        float *Sacmem;
-        int *Isacmem;
-
+  float *d;
+  int *sdd;
+  sac *s;
 	kschan[12] = '\0';
 	kschdr[80] = '\0';
 	ksclas[4]  = '\0';
@@ -54,68 +53,62 @@ rdsdta(int   idfl,
 	ksfrmt[8]  = '\0';
 	ksstnm[8]  = '\0';
 
+  if(!(s = sacget(idfl-1, TRUE, nerr))) {
+    goto L_8888;
+  }
+
 	*nerr = 0;
         offset = 0;
 
 	/* - Define number of points to read and initial disk location. */
-	numrd = Nstop[idfl] - Nstart[idfl] + 1 - Nfillb[idfl] - Nfille[idfl];
+	numrd = s->m->nstop - s->m->nstart + 1 - s->m->nfillb - s->m->nfille;
 	nlcdsk = MWSHDR;
 
 	/* - For each data component: */
-	for( jcomp = 1; jcomp <= Ncomp[idfl]; jcomp++ ){
-		jcomp_ = jcomp - 1;
-
-		/* -- Define initial memory location. */
-		nlcmem = cmdfm.ndxdta[idfl - 1][jcomp_];
-
+	for( jcomp = 1; jcomp <= sac_comps(s); jcomp++ ){
+    d = (jcomp == 1) ? s->y : s->x;
 		/* -- Fill beginning with zeros if requested.  
 		 *    Update memory location. */
-		if( Nfillb[idfl] > 0 ){
-			fill( cmmem.sacmem[nlcmem], Nfillb[idfl], 0. );
-                        offset +=  Nfillb[idfl];
+		if( s->m->nfillb > 0 ){
+			fill( d, s->m->nfillb, 0. );
+                        offset +=  s->m->nfillb;
 		}
 
 		/* -- Update disk location and read data. */
 		if( numrd > 0 ){
-			nlcdsk = nlcdsk + Nstart[idfl] - 1 + Nfillb[idfl];
-                        Sacmem = cmmem.sacmem[nlcmem]+offset;
-                        Isacmem = (int *)(cmmem.sacmem[nlcmem]+offset);
-
-			zrabs( (int *)nun, (char *)Isacmem, numrd, 
+			nlcdsk = nlcdsk + s->m->nstart - 1 + s->m->nfillb;
+      //Sacmem = cmmem.sacmem[nlcmem]+offset;
+      //Isacmem = (int *)(cmmem.sacmem[nlcmem]+offset);
+      sdd = (int *)malloc(sizeof(int) * numrd);
+      zrabs( (int *)nun, (char *)sdd, numrd, 
 			       (int *)&nlcdsk, (int *)nerr );
 			for( i = 0; i <= ( numrd - 1); i++ ){
-                                *(Sacmem++) = *(Isacmem++)/100.0;
+        d[offset + i] = (float) (sdd[i]) / 100.0;
+        //*(Sacmem++) = *(Isacmem++)/100.0;
 			}
-			if( *nerr != 0 )
-				goto L_8888;
-                        offset += numrd;
+      FREE(sdd);
+      offset += numrd;
 		}
 
 		/* -- Fill end with zeros if requested. */
-		if( Nfille[idfl] > 0 ){
-			fill( cmmem.sacmem[nlcmem]+offset, Nfille[idfl], 0. );
-			offset += Nfille[idfl];
+		if( s->m->nfille > 0 ){
+			fill( d+offset, s->m->nfille, 0. );
+			offset += s->m->nfille;
 		}
 
 		/* -- Update disk location to point to 
 		 *    start of next component. */
-		nlcdsk = nlcdsk + Ntotal[idfl] - Nstart[idfl] + 1;
-		}
+		nlcdsk = nlcdsk + s->m->ntotal - s->m->nstart + 1;
+  }
 
 	/* - Compute some header values. */
-	*npts = Nlndta[idfl];
-	extrma( cmmem.sacmem[cmdfm.ndxdta[idfl - 1][0]], 1, *npts, depmin, 
-	 depmax, depmen );
-	if( *leven ){
-		*ennd = *begin + (float)( *npts - 1 )**delta;
+	extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
+	if( s->h->leven ){
+		s->h->e = s->h->b + (float)( s->h->npts - 1 )* s->h->delta;
 	}
 	else{
-		extrma( cmmem.sacmem[cmdfm.ndxdta[idfl - 1][1]], 1, 
-			*npts, begin, ennd, &unused );
+		extrma( s->x, 1, s->h->npts, &s->h->b, &s->h->e, &unused );
 	}
-
-	/* - Move header back to working memory. */
-	putfil( idfl, nerr );
 
 L_8888:
 	return;

@@ -18,12 +18,11 @@ void /*FUNCTION*/ xrotate(nerr)
 int *nerr;
 {
 	int lhorz, lnpin, lnpout;
-	int jdfl, ndx1, ndx2, ndxx, 
-	 ndxy, nlen, nlen1, nlen2, notused;
+	int jdfl;
 	float cmpaz1, cmpaz2, cmpin1, cmpin2, delaz, delin, rotang, rotaz, 
 	 v270m, v270p, v90m, v90p;
   char *tmp1, *tmp2;
-
+  sac *s1, *s2;
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command ROTATE.
 	 *           This command rotates pairs of files through an angle.
@@ -114,7 +113,7 @@ L_1000:
 
 	/* - Make sure there is an even number of data files. */
 
-	if( (cmdfm.ndfl/2)*2 != cmdfm.ndfl ){
+	if( (saclen()/2)*2 != saclen() ){
 		*nerr = 2001;
 		setmsg( "ERROR", *nerr );
 		goto L_8888;
@@ -124,34 +123,37 @@ L_1000:
 
 	/* - Perform the requested function on each pair of files in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl += 2 ){
-		/* -- Retrieve the file name indices. */
-        tmp1 = string_list_get(datafiles, jdfl-1);
-        tmp2 = string_list_get(datafiles, jdfl-1+1);
+	for( jdfl = 1; jdfl <= saclen(); jdfl += 2 ){
 
 		/* -- Get the second file in each pair, moving header to CMHDR. */
-
-		getfil( jdfl + 1, TRUE, &nlen2, &ndx2, &notused, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+    if(!(s2 = sacget(jdfl+1-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+    //getfil( jdfl + 1, TRUE, &nlen2, &ndx2, &notused, nerr );
 
 		/* -- Save some variables from the header in local variables. */
 
-		cmpaz2 = *cmpaz;
-		cmpin2 = *cmpinc;
+		cmpaz2 = s2->h->cmpaz;
+		cmpin2 = s2->h->cmpinc;
 
 		/* -- Get the first file in each pair, moving header to CMHDR. */
+    if(!(s1 = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+    //getfil( jdfl, TRUE, &nlen1, &ndx1, &notused, nerr );
 
-		getfil( jdfl, TRUE, &nlen1, &ndx1, &notused, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
-		cmpaz1 = *cmpaz;
-		cmpin1 = *cmpinc;
+		cmpaz1 = s1->h->cmpaz;
+		cmpin1 = s1->h->cmpinc;
+
+
+    /* -- Retrieve the file name indices. */
+    tmp1 = s1->m->filename;
+    tmp2 = s2->m->filename;
 
 		/* -- Check to make sure both files have the same number of points. */
 
-		if( nlen1 == nlen2 ){
-			nlen = nlen1;
+		if( s1->h->npts == s2->h->npts ){
+			//nlen = s1->h->npts;
 			}
 		else{
 			*nerr = 2010;
@@ -164,8 +166,8 @@ L_1000:
 		/* -- Get azimuth or back azimuth from header variables if requested. */
 
 		if( strcmp(kmscm.krottp,"HDRGCP  ") == 0 ){
-      update_distaz();
-      rotaz = *baz + 180.;
+      update_distaz(s);
+      rotaz = s->h->baz + 180.;
     }
 			else{
 				*nerr = 2004;
@@ -242,88 +244,82 @@ L_1000:
 
 		/* -- Perform rotation of signal pair. */
 
-		rotate( cmmem.sacmem[ndx1], cmmem.sacmem[ndx2], nlen, rotang, lnpin, 
-		 lnpout, cmmem.sacmem[ndx1], cmmem.sacmem[ndx2] );
+		rotate( s1->y, s2->y, s1->h->npts, rotang, lnpin, 
+            lnpout, s1->y, s2->y);
 
 		/* -- Update any header fields that may have changed. */
 
 		/* --- First component of pair. */
-
-		getfil( jdfl, FALSE, &nlen, &ndxy, &ndxx, nerr );
+    
+		//getfil( jdfl, FALSE, &nlen, &ndxy, &ndxx, nerr );
 		if( *nerr != 0 )
 			goto L_8888;
 		if( lhorz ){
-			*cmpaz = *cmpaz + rotang;
+			s1->h->cmpaz = s1->h->cmpaz + rotang;
 L_4000:
-			if( *cmpaz >= 360. ){
-				*cmpaz = *cmpaz - 360.;
+			if( s1->h->cmpaz >= 360. ){
+				s1->h->cmpaz = s1->h->cmpaz - 360.;
 				goto L_4000;
 				}
-			else if( *cmpaz < 0. ){
-				*cmpaz = *cmpaz + 360.;
+			else if( s1->h->cmpaz < 0. ){
+				s1->h->cmpaz = s1->h->cmpaz + 360.;
 				goto L_4000;
 				}
 			}
 		else{
-			*cmpinc = *cmpinc + rotang;
+			s1->h->cmpinc = s1->h->cmpinc + rotang;
 L_4100:
-			if( *cmpinc > 180. ){
-				*cmpinc = *cmpinc - 360.;
+			if( s1->h->cmpinc > 180. ){
+				s1->h->cmpinc = s1->h->cmpinc - 360.;
 				goto L_4100;
 				}
-			else if( *cmpinc <= -180. ){
-				*cmpinc = *cmpinc + 360.;
+			else if( s1->h->cmpinc <= -180. ){
+				s1->h->cmpinc = s1->h->cmpinc + 360.;
 				goto L_4100;
 				}
 			}
-		strcpy( kcmpnm, kmhdr.kundef );
-		*lpspol = TRUE;
-		extrma( cmmem.sacmem[ndx1], 1, nlen, depmin, depmax, depmen );
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+		strcpy( s1->h->kcmpnm, kmhdr.kundef );
+		s1->h->lpspol = TRUE;
+		extrma( s1->y, 1, s1->h->npts, &s1->h->depmin, &s1->h->depmax, &s1->h->depmen );
 
 		/* --- Second file: */
 
-		getfil( jdfl + 1, FALSE, &nlen, &ndxy, &ndxx, nerr );
+		//getfil( jdfl + 1, FALSE, &nlen, &ndxy, &ndxx, nerr );
 		if( *nerr != 0 )
 			goto L_8888;
 		if( lhorz ){
 			if( (lnpin && !lnpout) || (!lnpin && lnpout) ){
-				*cmpaz = *cmpaz + rotang + 180.;
+				s2->h->cmpaz = s2->h->cmpaz + rotang + 180.;
 				}
 			else{
-				*cmpaz = *cmpaz + rotang;
+				s2->h->cmpaz = s2->h->cmpaz + rotang;
 				}
-			*lpspol = lnpout;
+			s2->h->lpspol = lnpout;
 L_4200:
-			if( *cmpaz >= 360. ){
-				*cmpaz = *cmpaz - 360.;
+			if( s2->h->cmpaz >= 360. ){
+				s2->h->cmpaz = s2->h->cmpaz - 360.;
 				goto L_4200;
 				}
-			else if( *cmpaz < 0. ){
-				*cmpaz = *cmpaz + 360.;
+			else if( s2->h->cmpaz < 0. ){
+				s2->h->cmpaz = s2->h->cmpaz + 360.;
 				goto L_4200;
 				}
 			}
 		else{
-			*cmpinc = *cmpinc + rotang;
+			s2->h->cmpinc = s2->h->cmpinc + rotang;
 L_4300:
-			if( *cmpinc > 180. ){
-				*cmpinc = *cmpaz - 360.;
+			if( s2->h->cmpinc > 180. ){
+				s2->h->cmpinc = s2->h->cmpaz - 360.;
 				goto L_4300;
 				}
-			else if( *cmpinc <= -180. ){
-				*cmpinc = *cmpaz + 360.;
+			else if( s2->h->cmpinc <= -180. ){
+				s2->h->cmpinc = s2->h->cmpaz + 360.;
 				goto L_4300;
 				}
-			*lpspol = TRUE;
+			s2->h->lpspol = TRUE;
 			}
-		strcpy( kcmpnm, kmhdr.kundef );
-		extrma( cmmem.sacmem[ndx2], 1, nlen, depmin, depmax, depmen );
-		putfil( jdfl + 1, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+		strcpy( s2->h->kcmpnm, kmhdr.kundef );
+		extrma( s2->y, 1, s2->h->npts, &s2->h->depmin, &s2->h->depmax, &s2->h->depmen );
 
 		}
 

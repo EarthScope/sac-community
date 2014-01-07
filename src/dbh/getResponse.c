@@ -15,6 +15,7 @@
 
 #include "ucf.h"
 #include "icm.h"
+#include "debug.h"
 
 /** 
  * Calcuate the frequency response of a Digital Filter: amplitude phase, and group
@@ -103,23 +104,23 @@ void
 getResponse(float     *array, 
 	    int        order, 
 	    float      gain ,
-	    char      *kprefix, 
+      char      *kprefix,
+      int        npts,
+      float      delta,
 	    int       *nerr)
 {
 	int idx, jdx , kdx ;
 	const float pi = 3.14159265;
 	float userData[ 10 ] ;
 	float *impulse = NULL , *h ;
-	float *Sacmem, *Sacmem1 , *Sacmem2 ;
 	double *Real = NULL , *Imagine = NULL , *re , *im;
 
-	int memptr[ 4 ] , nFreq = next2 ( *npts ) ;
+	int nFreq;
+  float *resp[4];
 
-    for(idx = 0; idx < 4; idx++) {
-        memptr[idx] = -1;
-    }
-	/* Allocate workspace for impulse response */
-	impulse = (float *) calloc ( *npts + order , sizeof( float ) ) ;
+  nFreq = next2(npts);
+  /* Allocate workspace for impulse response */
+	impulse = (float *) calloc ( npts + order , sizeof( float ) ) ;
 	if ( !impulse )
 	    goto L_ERROR ;
 	h = impulse + order ;  /* leave first set of elements at zero */
@@ -128,9 +129,12 @@ getResponse(float     *array,
 	   Phase Response, Group Delay
 	   and Impulse Response. */
 	for( idx = 0; idx < 4 ; idx++ ){
-	    allamb( &cmmem, nFreq, &memptr[ idx ], nerr );
-	    if( *nerr != 0 )
-		goto L_ERROR;
+    resp[idx] = (float *) malloc(sizeof(float) * nFreq);
+    //allamb( &cmmem, nFreq, &memptr[ idx ], nerr );
+    //if( *nerr != 0 )
+    if(!resp[idx]) {
+      goto L_ERROR;
+    }
 	}
 
 	/* Allocate workspace for real/imaginary responses. 
@@ -151,21 +155,26 @@ getResponse(float     *array,
 
 	/* Determine Impulse Response */
 	   /* store a copy of impulse response in Real for fourier transform. */
-	Sacmem = cmmem.sacmem[ memptr[ 0 ] ] ;
-	*re++ = *Sacmem++ = 0.0 ;
+	//Sacmem = cmmem.sacmem[ memptr[ 0 ] ] ;
+	//*re++ = *Sacmem++ = 0.0 ;
+	*re++ = 0.0 ;
+  resp[0][0] = 0.0;
 
-	*Sacmem = h[ 0 ] = gain ;
-	*re++ = (double)*Sacmem++ ;
+	//*Sacmem = h[ 0 ] = gain ;
+  resp[0][1] = gain;
+	//*re++ = (double)*Sacmem++ ;
+	*re++ = (double)resp[0][1];
 
 	/* loop over time */
-	for( jdx = 1 ; jdx < *npts - 1 ; jdx++ ) {
+	for( jdx = 1 ; jdx < npts - 1 ; jdx++ ) {
 	    /* loop over coefficients */
 	    for( kdx = 1 ; kdx <= order ; kdx++ ) {
 		h[ jdx ] -= array[ kdx ] * h[ jdx - kdx ] ;
 	    } /* end loop over coefficients */
 
 	    *re++ = (double) h[ jdx ] ;
-	    *Sacmem++ = h[ jdx ] ;
+	    //*Sacmem++ = h[ jdx ] ;
+      resp[0][1+jdx] = h[jdx];
 	} /* end loop over time */
 
 	/* Determine Real and Imaginary responses */
@@ -176,14 +185,16 @@ getResponse(float     *array,
 
 	re = Real ;
 	im = Imagine ;
-	Sacmem1 = cmmem.sacmem[ memptr[ 1 ] ] ;
-	Sacmem2 = cmmem.sacmem[ memptr[ 2 ] ] ;
+	//Sacmem1 = cmmem.sacmem[ memptr[ 1 ] ] ;
+	//Sacmem2 = cmmem.sacmem[ memptr[ 2 ] ] ;
 
 	for( jdx = 0; jdx < nFreq; jdx++ ){
-	    (*re) *= *delta ;
-	    (*im) *= *delta ;
-	    *Sacmem1++ = (float) *re++ ;
-	    *Sacmem2++ = (float) *im++ ;
+	    (*re) *= delta ;
+	    (*im) *= delta ;
+	    //*Sacmem1++ = (float) *re++ ;
+	    //*Sacmem2++ = (float) *im++ ;
+      resp[1][jdx] = (float) *re++;
+      resp[2][jdx] = (float) *im++;
 	}
 
 	/* Determine Group Delay */
@@ -192,11 +203,12 @@ getResponse(float     *array,
 
 	for( jdx = 1; jdx < nFreq; jdx++ ){
 	    /* Fill Group Delay Array */
-	    cmmem.sacmem[ memptr[ 3 ] ][ jdx ] =
+      //cmmem.sacmem[ memptr[ 3 ] ][ jdx ] =
+      resp[3][jdx] =
 	      ( ( re[ jdx ] * ( im[ jdx ] - im[ jdx - 1 ] ) -
 	        im[ jdx ] * ( re[ jdx ] - re[ jdx - 1 ] ) ) /
 	      ( ( re[ jdx ] * re[ jdx ] + im[ jdx ] * im[ jdx ] ) * 2 * pi ) ) 
-	      * nFreq * *delta ;
+	      * nFreq * delta ;
 
 		/* multiplying by nFreq and delta is equivalent to dividing by
 		   delta frequency which is part of the derivative process */
@@ -206,11 +218,13 @@ getResponse(float     *array,
 	   /* the derivative leaves us with one less point than we started with. */
 	   /* setting the first point to the second point is a way get back the
 	      original npts. */
-	cmmem.sacmem[ memptr[ 3 ] ][ 0 ] = cmmem.sacmem[ memptr[ 3 ] ][ 1 ] ;
+	//cmmem.sacmem[ memptr[ 3 ] ][ 0 ] = cmmem.sacmem[ memptr[ 3 ] ][ 1 ] ;
+  resp[3][0] = resp[3][1];
 
 	/* convert real/imaginary data to amplitude/phase */
-	toamph( cmmem.sacmem[ memptr[ 1 ] ] , cmmem.sacmem[ memptr[ 2 ] ] ,
-	 nFreq, cmmem.sacmem[ memptr[ 1 ] ] , cmmem.sacmem[ memptr[ 2 ] ] ) ;
+	//toamph( cmmem.sacmem[ memptr[ 1 ] ] , cmmem.sacmem[ memptr[ 2 ] ] ,
+  // nFreq, cmmem.sacmem[ memptr[ 1 ] ] , cmmem.sacmem[ memptr[ 2 ] ] ) ;
+	toamph( resp[1], resp[2], nFreq, resp[1], resp[2] ) ;
 
 	/* set userData */
 	userData[ 0 ] = 5 ;
@@ -219,13 +233,13 @@ getResponse(float     *array,
 	userData[ 3 ] = SAC_FLOAT_UNDEFINED ;
 	userData[ 4 ] = SAC_FLOAT_UNDEFINED ;
 	userData[ 5 ] = SAC_FLOAT_UNDEFINED ;
-	userData[ 6 ] = *delta ;
+	userData[ 6 ] = delta ;
 	userData[ 7 ] = SAC_FLOAT_UNDEFINED ;
 	userData[ 8 ] = SAC_FLOAT_UNDEFINED ;
 	userData[ 9 ] = SAC_FLOAT_UNDEFINED ;
 
 	/* Write sac files. */
-	fdWhitenWrite( memptr , kprefix , userData , *npts , nFreq , nerr ) ;
+	fdWhitenWrite( resp , kprefix , userData , npts , nFreq , nerr ) ;
 
 L_ERROR:
 	/* clean up temporary memory */
@@ -237,9 +251,7 @@ L_ERROR:
             free( impulse ) ;
 
         for( idx = 0; idx < 4 ; idx++ ){
-            if(memptr[idx] != -1) {
-                relamb( cmmem.sacmem, memptr[ idx ], nerr );
-            }
+            FREE(resp[idx]);
         }
 
 }

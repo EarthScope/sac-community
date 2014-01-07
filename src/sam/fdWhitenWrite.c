@@ -16,22 +16,19 @@
 #include "msg.h"
 #include "dff.h"
 
-void /* FUNCTION */ fdWhitenWrite( int * memptr , char * kprefix ,
+void /* FUNCTION */ fdWhitenWrite( float *resp[4] , char * kprefix ,
 				   float * userData , int newnpts ,
 				   int nFreq , int * nerr )
 {
 	/* index sacmem for Amplitude, Phase, 
 	   and the impulse response. */
 
-	int fileDescriptor = 0 , hdrindex , 
-		 idx, jdx, nlcmem, nlcdsk, nptwr, 
-		 unused1 , unused2 , unused3 ;
-
+	int fileDescriptor = 0,
+    idx, jdx, nlcmem, nlcdsk, nptwr;
 	char kname[ MCPFN ] , ksuffix[ 3 ][ 6 ] ;
-
+  sac *s;
 	float *bufout = NULL , **amph = NULL ;
     
-    hdrindex = -1;
 	*nerr = 0;
 
 	/* allocate room for spectral data */
@@ -56,84 +53,69 @@ void /* FUNCTION */ fdWhitenWrite( int * memptr , char * kprefix ,
 	strcpy ( ksuffix[ 1 ] , ".imp" ) ;
 	strcpy ( ksuffix[ 2 ] , ".gd" ) ;
 
-
+  s = sac_new();
 	/* fill the amplitude and phase array */
         for ( idx = 0 ; idx < nFreq ; idx++ ) {
-            amph[ 0 ][ idx ] = cmmem.sacmem[ memptr[ 1 ] ][ idx ] ;
-            amph[ 1 ][ idx ] = cmmem.sacmem[ memptr[ 2 ] ][ idx ] ;
+          amph[ 0 ][ idx ] = resp[1][idx];
+          amph[ 1 ][ idx ] = resp[2][idx];
         }
-
-	/* Allocate block for headers. */
-	allamb ( &cmmem, SAC_HEADER_WORDS, &hdrindex , nerr ) ;
-	if ( *nerr != 0 )
-	    goto L_ERROR ;
-
-	/* null the header */
-	for ( idx = 0 ; idx < SAC_HEADER_FLOATS ; idx++ )
-	    cmhdr.fhdr[ idx ] = SAC_FLOAT_UNDEFINED ;
-	for ( idx = 0 ; idx < SAC_HEADER_INTEGERS ; idx++ )
-	    cmhdr.nhdr[ idx ] = SAC_INT_UNDEFINED ;
-	for ( idx = 0 ; idx < SAC_HEADER_ENUMS ; idx++ )
-	    cmhdr.ihdr[ idx ] = SAC_ENUM_UNDEFINED ;
-	for ( idx = 0 ; idx < SAC_HEADER_STRINGS ; idx++ )
-	    strcpy ( kmhdr.khdr[ idx ] , SAC_CHAR_UNDEFINED ) ;
-
+        
 	/* fill some fields. */
 	for ( idx = 0 ; idx < 9 ; idx++ )		/* user fields */
-	    *( user0 + idx ) = userData[ idx ] ;
+    *( (&s->h->user0) + idx ) = userData[ idx ] ;
 
-	switch ( (int) (*user0 + 0.5) ) {
-	    case 1:  strcpy ( kuser0 , "lowpass " ) ;
+	switch ( (int) (s->h->user0 + 0.5) ) {
+	    case 1:  strcpy ( s->h->kuser0 , "lowpass " ) ;
 		     break ;
-	    case 2:  strcpy ( kuser0 , "highpass" ) ;
+	    case 2:  strcpy ( s->h->kuser0 , "highpass" ) ;
 		     break ;
-	    case 3:  strcpy ( kuser0 , "bandpass" ) ;
+	    case 3:  strcpy ( s->h->kuser0 , "bandpass" ) ;
 		     break ;
-	    case 4:  strcpy ( kuser0 , "bandrej " ) ;
+	    case 4:  strcpy ( s->h->kuser0 , "bandrej " ) ;
 		     break ;
-	    case 5:  strcpy ( kuser0 , "whiten  " ) ;
+	    case 5:  strcpy ( s->h->kuser0 , "whiten  " ) ;
 		     break ;
-	    default: strcpy ( kuser0 , "-12345  " ) ;
+	    default: strcpy ( s->h->kuser0 , "-12345  " ) ;
 		     break ;
 	}
 
-	switch ( (int) (*user1 + 0.5) ) {
-	    case 1:  strcpy ( kuser1 , "Butter  " ) ;
+	switch ( (int) (s->h->user1 + 0.5) ) {
+	    case 1:  strcpy ( s->h->kuser1 , "Butter  " ) ;
 		     break ;
-	    case 2:  strcpy ( kuser1 , "Bessel  " ) ;
+	    case 2:  strcpy ( s->h->kuser1 , "Bessel  " ) ;
 		     break ;
-	    case 3:  strcpy ( kuser1 , "C1      " ) ;
+	    case 3:  strcpy ( s->h->kuser1 , "C1      " ) ;
 		     break ;
-	    case 4:  strcpy ( kuser1 , "C2      " ) ;
+	    case 4:  strcpy ( s->h->kuser1 , "C2      " ) ;
 		     break ;
-	    case 5:  strcpy ( kuser0 , "whiten  " ) ;
+	    case 5:  strcpy ( s->h->kuser1 , "whiten  " ) ;
 		     break ;
-	    default: strcpy ( kuser1 , "-12345  " ) ;
+	    default: strcpy ( s->h->kuser1 , "-12345  " ) ;
 		     break ;
 	}
 
-	*begin  = 0.0 ;					/* other fields */
-	*sb     = 0.0 ;
-	*nvhdr  = 6 ;
-	*idep   = IUNKN ;
-	*iztype = IB ;
-	*leven  = TRUE ;
-	*lpspol = TRUE ;
-	*lovrok = TRUE ;
-	*lcalda = FALSE ;
+	s->h->b      = 0.0 ;					/* other fields */
+	s->h->sb     = 0.0 ;
+	s->h->nvhdr  = 6 ;
+	s->h->idep   = IUNKN ;
+	s->h->iztype = IB ;
+	s->h->leven  = TRUE ;
+	s->h->lpspol = TRUE ;
+	s->h->lovrok = TRUE ;
+	s->h->lcalda = FALSE ;
 
 	for ( jdx = 0 ; jdx < 3 ; jdx++ ) {	/* loop between output files. */
  
 	    /* fill other header fields specific to the data */
 	    switch ( jdx ) {
 		case 0:	aphdrw( newnpts , nFreq ) ;
-			nlcmem = memptr[ 1 ] ;
+			nlcmem = 1;
 			break ;
 		case 1:	irhdrw( newnpts , nFreq ) ;
-			nlcmem = memptr[ 0 ] ;
+			nlcmem = 0;
 			break ;
 		case 2: gdhdrw( newnpts , nFreq ) ;
-			nlcmem = memptr[ 3 ] ;
+			nlcmem = 3;
 			break ;
 		default: goto L_ERROR ;
 	    }
@@ -157,12 +139,12 @@ void /* FUNCTION */ fdWhitenWrite( int * memptr , char * kprefix ,
 
 	    /* move header into working memory */
 	    /* copy ( (int*) cmhdr.fhdr , (int*) cmmem.sacmem[ hdrindex ] , SAC_HEADER_NUMBERS ); */
-	    copy_float( cmhdr.fhdr, cmmem.sacmem[ hdrindex ] , SAC_HEADER_NUMBERS );
-	    zputc ( kmhdr.khdr[ 0 ] , 9 , (int *)(cmmem.sacmem[ hdrindex ] + SAC_HEADER_NUMBERS), 
-		    ( MCPW + 1 ) * SAC_HEADER_STRINGS ) ;
+	    //copy_float( cmhdr.fhdr, cmmem.sacmem[ hdrindex ] , SAC_HEADER_NUMBERS );
+	    //zputc ( kmhdr.khdr[ 0 ] , 9 , (int *)(cmmem.sacmem[ hdrindex ] + SAC_HEADER_NUMBERS), 
+      //( MCPW + 1 ) * SAC_HEADER_STRINGS ) ;
 
 	    /* move header into output buffer */
-	    map_hdr_out ( cmmem.sacmem[ hdrindex ] , bufout, FALSE ) ;
+	    map_hdr_out ( (float*)&(s->h->delta), bufout, FALSE ) ;
 
 	    /* write the headers */
 	    zwabs( (int *)&fileDescriptor, (char *)bufout, nptwr, (int *)&nlcdsk, (int *)nerr );
@@ -187,9 +169,9 @@ void /* FUNCTION */ fdWhitenWrite( int * memptr , char * kprefix ,
 	      amph = NULL ;
 	      break ;
 	      
-	    case 1: zwabs( (int *)&fileDescriptor, (char *)(cmmem.sacmem[nlcmem]), nptwr, (int *)&nlcdsk, (int *)nerr );
+	    case 1: zwabs( (int *)&fileDescriptor, (char *)resp[nlcmem], nptwr, (int *)&nlcdsk, (int *)nerr );
 	      break ;
-	    case 2: zwabs( (int *)&fileDescriptor, (char *)(cmmem.sacmem[nlcmem]), nptwr, (int *)&nlcdsk, (int *)nerr ) ;
+	    case 2: zwabs( (int *)&fileDescriptor, (char *)resp[nlcmem], nptwr, (int *)&nlcdsk, (int *)nerr ) ;
 	      break ;
 	    }
 
@@ -208,8 +190,11 @@ L_ERROR:
 	    clrmsg () ;
 	}
 
-	if ( cmdfm.ndfl > 0 )
-	    getfil ( 1 , TRUE , &unused1 , &unused2 , &unused3 , nerr ) ;
+	if ( saclen() > 0 )
+    if(!(s = sacget(0, TRUE, nerr))) {
+      return;
+    }
+    //getfil ( 1 , TRUE , &unused1 , &unused2 , &unused3 , nerr ) ;
 
 	if ( amph ) {
 	    if ( amph[ 0 ] )
@@ -222,43 +207,46 @@ L_ERROR:
 	    free ( bufout ) ;
 	if ( fileDescriptor ) 
 	    zclose ( &fileDescriptor , nerr ) ;
-    if(hdrindex > 0) {
-        relamb ( cmmem.sacmem , hdrindex , nerr );
-    }
 }
 
 
 void aphdrw ( int newnpts , int nFreq )
 {
-        *nsnpts = newnpts ;
-        *npts = nFreq ;
-        *sdelta = *user6 ;
-        *delta = 1. / ( *sdelta * (float) ( nFreq ) ) ;
-        *iftype = IAMPH ;
+  sac *s;
+  s = sacget_current();
+  s->h->nsnpts = newnpts ;
+        s->h->npts = nFreq ;
+        s->h->sdelta = s->h->user6 ;
+        s->h->delta = 1. / ( s->h->sdelta * (float) ( nFreq ) ) ;
+        s->h->iftype = IAMPH ;
 
-        strcpy ( kevnm , "FD: AMP/PH" ) ;
+        strcpy ( s->h->kevnm , "FD: AMP/PH" ) ;
 }
 
 
 void gdhdrw ( int newnpts , int nFreq )
 {
-        *nsnpts = newnpts ;
-        *npts = nFreq / 2 ;
-        *sdelta = *user6 ;
-        *delta = 1. / ( *sdelta * nFreq ) ;
-        *iftype = ITIME ;
+  sac *s;
+  s = sacget_current();
+        s->h->nsnpts = newnpts ;
+        s->h->npts = nFreq / 2 ;
+        s->h->sdelta = s->h->user6 ;
+        s->h->delta = 1. / ( s->h->sdelta * nFreq ) ;
+        s->h->iftype = ITIME ;
 
-        strcpy ( kevnm , "FD: GROUP DELAY" ) ;
+        strcpy ( s->h->kevnm , "FD: GROUP DELAY" ) ;
 }
 
 void irhdrw ( int newnpts , int nFreq )
 {
-        *nsnpts = nFreq ;
-        *npts = newnpts ;
-        *delta = *user6 ;
-        *sdelta = 1. / ( *delta * (float) ( *npts ) ) ;
-        *iftype = ITIME ;
+  sac *s;
+  s = sacget_current();
+        s->h->nsnpts = nFreq ;
+        s->h->npts = newnpts ;
+        s->h->delta = s->h->user6 ;
+        s->h->sdelta = 1. / ( s->h->delta * (float) ( s->h->npts ) ) ;
+        s->h->iftype = ITIME ;
 
-        strcpy ( kevnm , "FD: IMPULSE" ) ;
+        strcpy ( s->h->kevnm , "FD: IMPULSE" ) ;
 }
 

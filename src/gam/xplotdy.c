@@ -27,21 +27,16 @@ void xplotdy(int *nerr)
 	char kfile[ MCPFN + 1 ] ; 
 	int lany, lchange, lydlimj, lprint = FALSE , ltry = FALSE ;
 	int idx, idflnumber[MDFL], issym, jdfl, jdflnumber, 
-	 ncfile, ndflnumber, ndx2, nlcdy, nlcdy2, nlcx, nlcy, num, numdy,
+	 ncfile, ndflnumber, num, 
 	 notused ;
 	float vportratio, xarray[3], yarray[3], ydimnj, ydimxj, 
 	 ydvalue, ydyimx, yrange, yvalue;
 
-        float *Sacmem1, *Sacmem2, *Sacmem3, *Sacmem4;
-
 	int *const Idflnumber = &idflnumber[0] - 1;
 	float *const Xarray = &xarray[0] - 1;
 	float *const Yarray = &yarray[0] - 1;
+  sac *s, *dy, *dy2;
 
-    Sacmem1 = NULL;
-    Sacmem2 = NULL;
-    Sacmem3 = NULL;
-    Sacmem4 = NULL;
     memset(xarray, 0, sizeof(xarray));
     memset(yarray, 0, sizeof(xarray));
 
@@ -133,7 +128,7 @@ void xplotdy(int *nerr)
             }
 
 	    /* -- integer: the index number of file in data file list. */
-	    else if( lcirc( 1, cmdfm.ndfl, &jdfl ) ){
+	    else if( lcirc( 1, saclen(), &jdfl ) ){
 		jdflnumber = jdflnumber + 1;
 		Idflnumber[jdflnumber] = jdfl;
 		lchange = TRUE;
@@ -141,7 +136,8 @@ void xplotdy(int *nerr)
 
 	    /* -- "filename":  the name of a file in the data file list. */
 	    else if( lcchar( MCPFN, kfile,MCPFN+1, &ncfile ) ){
-            jdfl = 1 + string_list_find(datafiles, kfile, MCPFN+1);
+        char *kfile2 = fstrdup(kfile, MCPFN+1);
+        jdfl = 1 + sac_find_filename(kfile2);
 		if( jdfl > 0 ){
 			jdflnumber = jdflnumber + 1;
 			Idflnumber[jdflnumber] = jdfl;
@@ -206,40 +202,44 @@ void xplotdy(int *nerr)
 	plsave();
 
 	/* - Set dy limits */
+  if(!(dy = sacget(Idflnumber[2]-1, TRUE, nerr))) {
+    goto L_8888;
+  }
+	//getfil( Idflnumber[2], TRUE, &numdy, &nlcdy, &ndx2, nerr );
 
-	getfil( Idflnumber[2], TRUE, &numdy, &nlcdy, &ndx2, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
 	getylm( &lydlimj, &ydimnj, &ydimxj );
 	ydyimx = fmax( fabs( ydimnj ), fabs( ydimxj ) );
 
 	/* - Set dy2 limits */
 
 	if( ndflnumber != 2 ){
-	    getfil( Idflnumber[3], TRUE, &numdy, &nlcdy2, &ndx2, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
+    if(!(dy2 = sacget(Idflnumber[3]-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+    //getfil( Idflnumber[3], TRUE, &numdy, &nlcdy2, &ndx2, nerr );
+
 	    getylm( &lydlimj, &ydimnj, &ydimxj );
 	    ydyimx = fmax( fabs( ydimnj ), ydyimx);
 	    ydyimx = fmax( fabs( ydimxj ), ydyimx);
 	}
 
 	/* - Set x axis limits on data file unless limits are already set. */
+  if(!(s = sacget(Idflnumber[1]-1, TRUE, nerr))) {
+    goto L_8888;
+  }
+	//getfil( Idflnumber[1], TRUE, &num, &nlcy, &nlcx, nerr );
 
-	getfil( Idflnumber[1], TRUE, &num, &nlcy, &nlcx, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
 	getxlm( &cmgem.lxlim, &cmgem.ximn, &cmgem.ximx );
-	num = min( num, numdy );
+	num = min( s->h->npts, dy->h->npts );
 
 	/* - Set y axis limits based on data file plus dy 
 	     unless limits are already set. */
 
 	getylm( &cmgem.lylim, &cmgem.yimn, &cmgem.yimx );
 	if( !cmgem.lylim ){
-	    yrange = *depmax - *depmin;
-	    cmgem.yimn = *depmin - cmgem.yfudg*yrange - ydyimx;
-	    cmgem.yimx = *depmax + cmgem.yfudg*yrange + ydyimx;
+	    yrange = s->h->depmax - s->h->depmin;
+	    cmgem.yimn = s->h->depmin - cmgem.yfudg*yrange - ydyimx;
+	    cmgem.yimx = s->h->depmax + cmgem.yfudg*yrange + ydyimx;
 	}
 	cmgem.lylim = TRUE;
 	cmgem.lxlim = TRUE;
@@ -276,7 +276,7 @@ void xplotdy(int *nerr)
 	/* - Calculate mapping transformation for these fixed limits.
 	 *   (In this case, all passed variables but NERR are unused.) */
 
-	plmap( cmmem.sacmem[1], cmmem.sacmem[1], 1, 1, 1, nerr );
+	plmap( NULL, NULL, 1, 1, 1, nerr );
 	if( *nerr != 0 )
 	    goto L_8888;
 
@@ -291,34 +291,28 @@ void xplotdy(int *nerr)
 	cmgem.xgen.on = FALSE;
 	cmgem.ygen.on = FALSE;
 
-        if ( !*leven) Sacmem1 = cmmem.sacmem[nlcx];
-        Sacmem2 = cmmem.sacmem[nlcy];
-        Sacmem3 = cmmem.sacmem[nlcdy];
-        if ( ndflnumber != 2) Sacmem4 = cmmem.sacmem[nlcdy2];
 
 	for( idx = 1; idx <= num; idx++ ){
 
-	    if( *leven ){
-		Xarray[1] = (float)( idx - 1 )**delta + *begin;
+	    if( s->h->leven ){
+		Xarray[1] = (float)( idx - 1 )* s->h->delta+ s->h->b;
 	    }
 	    else{
-            if(Sacmem1) {
-                Xarray[1] = *(Sacmem1++);
-            }
+        Xarray[1] = s->x[idx-1];
 	    }
 	    Xarray[2] = Xarray[1];
 	    Xarray[3] = Xarray[1];
-	    yvalue = *(Sacmem2++);
+	    yvalue = s->y[idx-1];
 	    if( ndflnumber == 2 ){
-		ydvalue = *(Sacmem3++);
+        ydvalue = dy->y[idx-1];
 		Yarray[1] = yvalue - ydvalue;
 		Yarray[2] = yvalue;
 		Yarray[3] = yvalue + ydvalue;
 	    }
 	    else{
-		Yarray[1] = yvalue + *(Sacmem3++);
+        Yarray[1] = yvalue + dy->y[idx-1];
 		Yarray[2] = yvalue;
-		Yarray[3] = yvalue + *(Sacmem4++);
+		Yarray[3] = yvalue + dy2->y[idx-1];
 	    }
 	    pldta( xarray, yarray, 3, 1, 1, nerr );
 	    if( *nerr != 0 )

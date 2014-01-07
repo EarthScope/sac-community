@@ -9,12 +9,12 @@
 #include <math.h>
 
 #include "mach.h"
-#include "amf.h"
 #include "contouring.h"
+#include "debug.h"
+extern struct contour contour;
 
 void releasepoints()
 {
-	int nerr;
 
 	/*=====================================================================
 	 * PURPOSE:  To release storage for contour line points.
@@ -38,21 +38,11 @@ void releasepoints()
 	 * DOCUMENTED/REVIEWED:  900405
 	 *===================================================================== */
 	/* PROCEDURE: */
-	nerr = 0;
 
 	/* - Release space for points. */
-
-	relamb( cmmem.sacmem, cmcontouring.indexpoints, &nerr );
+  FREE(contour.points);
 	cmcontouring.indexpoints = 0;
-
-	/* - Release space for links. */
-
-	relamb( cmmem.sacmem, cmcontouring.indexlinks, &nerr );
 	cmcontouring.indexlinks = 0;
-
-	/* - Release space for action attributes. */
-
-	relamb( cmmem.sacmem, cmcontouring.indexaction, &nerr );
 	cmcontouring.indexaction = 0;
 
 	return;

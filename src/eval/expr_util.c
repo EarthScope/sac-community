@@ -9,6 +9,7 @@
 #include "expr_parse.h"
 #include "string_utils.h"
 
+#include "amf.h"
 #include "bbs.h"
 #include "vars.h"
 #include "bot.h"
@@ -153,8 +154,8 @@ int
 header_to_token(char *str, Token *t, int col) {
   int n, nerr;
   char key[9], val[41], name[1000];
-  int hdr, x, y;
   int id, icat,item,ok;
+  sac *s;
   ok = 0;
   memset(val, ' ', 41);
   val[40] = 0;
@@ -163,7 +164,7 @@ header_to_token(char *str, Token *t, int col) {
   }
   else if(sscanf(str, "%[^,],%s%n", name, key, &n) == 2 && n == (int)strlen(str)) {
     unescape(name);
-    if((id = string_list_find(datafiles,name,-1)) >= 0) {
+    if((id = sac_find_filename(name)) >= 0) {
       ok = TRUE;
       id ++;
     } else {
@@ -177,8 +178,9 @@ header_to_token(char *str, Token *t, int col) {
   if(!ok) {
     return FALSE;
   }
-  getfil(id, FALSE, &hdr, &x, &y, &nerr);
-  if(nerr) {
+  if(!(s = sacget(id-1, FALSE, &nerr))) {
+  //getfil(id, FALSE, &hdr, &x, &y, &nerr);
+    setmsg("ERROR", nerr);
     outmsg();
     clrmsg();
     return FALSE;
@@ -196,11 +198,11 @@ header_to_token(char *str, Token *t, int col) {
   }
 
   switch(icat) {
-  case SAC_HEADER_FLOAT_TYPE:    token_value(t, Fhdr[item], col);  break;
-  case SAC_HEADER_INT_TYPE:      token_value(t, (int)Nhdr[item], col); break;
-  case SAC_HEADER_ENUM_TYPE:     token_string_rstrip(t, kmlhf.kdiv[(int)Ihdr[item]-1], col); break;
-  case SAC_HEADER_LOGICAL_TYPE:  token_value(t, (int)Lhdr[item], col);break;
-  case SAC_HEADER_STRING_TYPE:   memmove(val,kmhdr.khdr[item-1],Nkhdr[item]*8); val[Nkhdr[item]*8] = 0; token_string_rstrip(t, val, col); break;
+  case SAC_HEADER_FLOAT_TYPE:    token_value(t, VALUE(fhdr(s,item)), col);  break;
+  case SAC_HEADER_INT_TYPE:      token_value(t, (int)VALUE(nhdr(s,item)), col); break;
+  case SAC_HEADER_ENUM_TYPE:     token_string_rstrip(t, kmlhf.kdiv[(int)VALUE(ihdr(s,item-1))-1], col); break;
+  case SAC_HEADER_LOGICAL_TYPE:  token_value(t, (int)VALUE(lhdr(s,item)), col);break;
+  case SAC_HEADER_STRING_TYPE:   memmove(val,khdr(s,item),Nkhdr[item]*8); val[Nkhdr[item]*8] = 0; token_string_rstrip(t, val, col); break;
   case SAC_HEADER_AUX_TYPE:      lgahdr(key,9,val,41); token_string_rstrip(t, val, col); break;
   default:
     return FALSE;

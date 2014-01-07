@@ -7,6 +7,7 @@
 
 #include "dfm.h"
 
+#include "amf.h"
 #include "errors.h"
 
 
@@ -28,7 +29,7 @@ vflist(int *nerr) {
 
   *nerr = 0;
   
-  if( cmdfm.ndfl <= 0 ){
+  if( saclen() <= 0 ){
     *nerr = ERROR_NO_DATA_FILES_READ_IN;
     setmsg( "ERROR", *nerr );
   }

@@ -24,9 +24,9 @@ void xp(int *nerr)
 {
 	char kret[9];
 	int lany, lframs, lwait, lxgens, lprint = FALSE ;
-	int jdfl, ncret, nlcx, nlcy, nlen, notused;
+	int jdfl, ncret, notused;
 	static char kwait[9] = "Waiting$";
-
+  sac *s;
 
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command PLOT.
@@ -144,16 +144,16 @@ void xp(int *nerr)
 
 	/* - For each file in DFL: */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 	    /* -- Get file from memory manager. */
-	    getfil( jdfl, TRUE, &nlen, &nlcy, &nlcx, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
 
 	    /* -- Set up x axis data generation parameters if evenly spaced. */
-	    if( *leven ){
-		cmgem.xgen.delta = *delta;
-		cmgem.xgen.first = *begin;
+	    if( s->h->leven ){
+		cmgem.xgen.delta = s->h->delta;
+		cmgem.xgen.first = s->h->b;
 		cmgem.xgen.on = TRUE;
 	    }
 	    else{
@@ -177,7 +177,7 @@ void xp(int *nerr)
 
 	    /* -- Plot the data.  Do not allow PL2D to perform framing. */
 	    cmgem.lframe = FALSE;
-	    pl2d( cmmem.sacmem[nlcx], cmmem.sacmem[nlcy], nlen, 1, 1, nerr );
+	    pl2d( s->x, s->y, s->h->npts, 1, 1, nerr );
 	    if( *nerr != 0 )
 		goto L_8888;
 
@@ -196,7 +196,7 @@ void xp(int *nerr)
             else 
               flushbuffer( nerr );
 	    /* -- Wait for user prompt before plotting next frame if appropriate. */
-	    if( jdfl == cmdfm.ndfl && !cmgam.lwaite )
+	    if( jdfl == saclen() && !cmgam.lwaite )
 		lwait = FALSE;
 	    if( lwait ){
 		zgpmsg( kwait,9, kret,9 );

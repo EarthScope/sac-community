@@ -12,6 +12,10 @@
 #include "cpf.h"
 #include "dbh.h"
 
+extern float *specor;
+extern float *spespe;
+extern float *speaux;
+
 void /*FUNCTION*/ xmem(nerr)
 int *nerr;
 {
@@ -84,9 +88,9 @@ int *nerr;
 
 	/* - Perform MEM function. */
 
-	spectr( cmmem.sacmem[cmspe.ndxcor], cmspe.nlnfft, cmspe.nlncor, "MEM"
+	spectr( specor, cmspe.nlnfft, cmspe.nlncor, "MEM"
 	 , &cmspe.nlgmem, cmspe.nlnspe, " ", cmspe.cprewh, cmspe.nprewh, 
-	 cmmem.sacmem[cmspe.ndxspe], kmspe.kermsg,131, cmmem.sacmem[cmspe.ndxaux] );
+	 spespe, kmspe.kermsg,131, speaux );
 
 	/* - Check for error. */
 

@@ -15,9 +15,9 @@
 #include "lhf.h"
 #include "msg.h"
 #include "bool.h"
-
+#include "SacHeader.h"
 #include "errors.h"
-
+extern sac *CURRENT;
 /** 
  * Set a logical header value in the current SAC file
  * 
@@ -43,7 +43,6 @@ setlhv(char *kname,
 
 	char ktest[9];
 	int index, ntest;
-
 	char *kname_c;
 
 	kname_c = fstrdup(kname, kname_s);
@@ -57,11 +56,10 @@ setlhv(char *kname,
 
 	/* - Store value in appropriate header field. */
 	if( index > 0 ){
-	    Lhdr[index] = *lvalue;
+    LHDR(CURRENT)[index-1] = *lvalue;
 	}
 	else{
 	    *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;
-	    Lhdr[index] = FALSE;
 	}
 
 	/* - Create error message and write to terminal. */

@@ -14,16 +14,14 @@
 #define	SAMPLING  0.025
 
 void /*FUNCTION*/ fdbr(memptr, mxmptr, userData, nerr)
-int memptr[], mxmptr, *nerr;
+int mxmptr, *nerr;
+float *memptr[];
 float *userData ;
 {
 	int idx, jdx;
 	float _f0, _f1, dummy ;
   char s1[3];
   double tmp;
-
-	int *const Memptr = &memptr[0] - 1;
-
 
 	/*=====================================================================
 	 * PURPOSE:  Creates filter response files in memory by evaluating
@@ -136,10 +134,12 @@ float *userData ;
 
 	jdx = 1;
 	for( idx = 0; idx < 3; idx++ ){
-		allamb( &cmmem, NDATPTS, &Memptr[jdx], nerr );
+    memptr[jdx-1] = (float *)malloc(sizeof(float) * NDATPTS);
+		//allamb( &cmmem, NDATPTS, &Memptr[jdx], nerr );
 		if( *nerr != 0 )
 			goto L_8888;
-		allamb( &cmmem, NDATPTS, &Memptr[jdx + 1], nerr );
+    memptr[jdx+1-1] = (float *)malloc(sizeof(float) * NDATPTS);
+		//allamb( &cmmem, NDATPTS, &Memptr[jdx + 1], nerr );
 		if( *nerr != 0 )
 			goto L_8888;
 
@@ -150,7 +150,7 @@ float *userData ;
 		inspect( cmsam.npolbr, "BR", s1, 
 		 cmsam.atnbr, cmsam.tbwbr, cmsam.cfbr1, cmsam.cfbr2, cmsam.fddelta, 
 		 (char*)kmsam.kprotyp[idx], NDATPTS, &_f0, &_f1,
-                 "LINEAR  ", cmmem.sacmem[Memptr[jdx]], cmmem.sacmem[Memptr[jdx + 1]] );
+                 "LINEAR  ", memptr[jdx-1], memptr[jdx + 1-1] );
 		jdx = jdx + 2;
 	}
 
@@ -158,7 +158,8 @@ float *userData ;
 	 *    This will be memptr(7 thru 9) */
 
 	for( idx = 3; idx < MPROTYP; idx++ ){
-		allamb( &cmmem, NDATPTS, &Memptr[idx + 4], nerr );
+    memptr[idx+4-1] = (float *)malloc(sizeof(float) * NDATPTS);
+		//allamb( &cmmem, NDATPTS, &Memptr[idx + 4], nerr );
 		if( *nerr != 0 )
 			goto L_8888;
 
@@ -169,13 +170,14 @@ float *userData ;
 		inspect( cmsam.npolbr, "BR", s1, 
 		 cmsam.atnbr, cmsam.tbwbr, cmsam.cfbr1, cmsam.cfbr2, cmsam.fddelta, 
 		 (char*)kmsam.kprotyp[idx], NDATPTS, &_f0, &_f1,
-                 "LINEAR  ", cmmem.sacmem[Memptr[idx + 4]], 
+                 "LINEAR  ", memptr[idx + 4-1], 
 		 (float*)&dummy );
 	}
 
 	/* - Create the impulse response */
 
-	allamb( &cmmem, NIMPPTS, &Memptr[mxmptr], nerr );
+  memptr[mxmptr-1] = (float *)malloc(sizeof(float) * NIMPPTS);
+	//allamb( &cmmem, NIMPPTS, &Memptr[mxmptr], nerr );
 	if( *nerr != 0 )
 		goto L_8888;
 
@@ -185,9 +187,10 @@ float *userData ;
 	design( cmsam.npolbr, "BR", s1, 
 	 cmsam.atnbr, cmsam.tbwbr, cmsam.cfbr1, cmsam.cfbr2, cmsam.fddelta, 
 	 cmfir3.sn, cmfir3.sd, &cmfir3.nsects );
-	zero( cmmem.sacmem[Memptr[mxmptr]], NIMPPTS );
-	*(cmmem.sacmem[Memptr[mxmptr]] + IPULSE - 1) = 1.;
-	apply( cmmem.sacmem[Memptr[mxmptr]], NIMPPTS, FALSE, cmfir3.sn, cmfir3.sd, 
+	zero( memptr[mxmptr-1], NIMPPTS );
+  memptr[mxmptr-1][IPULSE-1] = 1.0;
+	//*(cmmem.sacmem[Memptr[mxmptr]] + IPULSE - 1) = 1.;
+	apply( memptr[mxmptr-1], NIMPPTS, FALSE, cmfir3.sn, cmfir3.sd, 
 	 cmfir3.nsects );
 
 L_8888:

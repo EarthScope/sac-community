@@ -28,15 +28,14 @@ void xp2(int *nerr)
 	char ktemp[MCMSG+7];	/* increased array size for jdfl.  maf 970130 */
 	int lany, lfirst, lxlimj, lxlims, lylimj,
 	     lprint = FALSE , ltry = FALSE ;
-	int jdx, jdfl, jx, jy, ndx1, ndx2, 
-	 ndxx, ndxy, nlcx, nlcy, nlen, notused, nrdttm[6], num, num1, 
+	int jdx, jdfl,
+	 notused, nrdttm[6], num1, 
 	 num2, num2m1;
 	float atrwid, fjunk, toff[MDFL], ximnj, ximxj, xjunk, 
     yimnj, yimxj;
   char *tmp;
 
-  float *Sacmem1, *Sacmem2;
-
+  sac *s;
   textbox *tbox;
 
 	float *const Toff = &toff[0] - 1;
@@ -207,26 +206,28 @@ void xp2(int *nerr)
 	/* -- Absolute mode. */
 	if( cmgam.lp2abs ){
 	    lfirst = TRUE;
-	    for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-		getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
-		if( *nerr != 0 )
-		    goto L_8888;
+	    for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
+        if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+          goto L_8888;
+        }
+        //getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
+
 		/* --- LDTTM function returns .TRUE. if 
 			     date-time stamp is defined. */
-		if( ldttm( nzdttm ) ){
+		if( ldttm( &s->h->nzyear ) ){
 		    if( lfirst ){
 			lfirst = FALSE;
-			copyi( nzdttm, nrdttm, 6 );
+			copyi( &s->h->nzyear, nrdttm, 6 );
 			Toff[jdfl] = 0.;
 		    }
-		    else if ( *iftype == IRLIM || *iftype == IAMPH ) {
+		    else if ( s->h->iftype == IRLIM || s->h->iftype == IAMPH ) {
 			/* if it is frequency information, plot relative */
 			Toff[jdfl] = 0. ;
 		    }
 		    else{
 			/* --- DDTTM function computes difference in two
 				     date-time stamps. */
-			ddttm( nzdttm, nrdttm, &Toff[jdfl] );
+			ddttm( &s->h->nzyear, nrdttm, &Toff[jdfl] );
 			/* if difference is more than twodays, plot relative */
 			if ( fabs ( Toff[jdfl] ) > TWODAYS )
 			    Toff[jdfl] = 0. ;
@@ -237,27 +238,26 @@ void xp2(int *nerr)
 		}
 		/* --- X limits first. */
 		getxlm( &lxlimj, &ximnj, &ximxj );
-		if(!lxlims && ( *iftype == IRLIM || *iftype == IAMPH )) 
-		  ximnj = *delta;
+		if(!lxlims && ( s->h->iftype == IRLIM || s->h->iftype == IAMPH )) 
+		  ximnj = s->h->delta;
 		cmgem.ximn = fmin( cmgem.ximn, ximnj + Toff[jdfl] ); 
 		cmgem.ximx = fmax( cmgem.ximx, ximxj + Toff[jdfl] );
 		/* --- Y limits are more complicated if XLIM is already on. */
 		/* If spectral file, use first component range (AM or RL). */
 		getylm( &lylimj, &yimnj, &yimxj );
-		if(!lylimj && !lxlims && ( *iftype == IRLIM || *iftype == IAMPH )) 
-		  extrma(cmmem.sacmem[ndxy]+1,1,nlen-1,&yimnj,&yimxj,&fjunk); 
+		if(!lylimj && !lxlims && ( s->h->iftype == IRLIM || s->h->iftype == IAMPH )) 
+		  extrma(&s->y[1],1,s->h->npts-11,&yimnj,&yimxj,&fjunk); 
 		if( lxlims && !lylimj ){
-		    if( *leven ){
-			num1 = (int)( (ximnj - *begin)/ *delta ) + 1;
+		    if( s->h->leven ){
+			num1 = (int)( (ximnj - s->h->b)/ s->h->delta ) + 1;
 			if( num1 < 1 )
 			    num1 = 1;
-			num2 = (int)( (ximxj - *begin)/ *delta ) + 1;
-			if( num2 > nlen )
-			    num2 = nlen;
-			if( num1 <= nlen && num2 >= 1 ){
+			num2 = (int)( (ximxj - s->h->b)/ s->h->delta ) + 1;
+			if( num2 > s->h->npts )
+			    num2 = s->h->npts;
+			if( num1 <= s->h->npts && num2 >= 1 ){
 			    num2m1 = num2 - num1 + 1;
-			    ndx1 = ndxy + num1 - 1;
-			    extrma( cmmem.sacmem[ndxy]+num1-1, 1, num2m1,
+			    extrma( &s->y[num1-1], 1, num2m1,
 				    &yimnj, &yimxj, &fjunk );
 			}
 			else{
@@ -266,48 +266,42 @@ void xp2(int *nerr)
 			}
 		    }
 		    else{
-			jx = ndxx;
-			jy = ndxy;
 			yimnj = VLARGE;
 			yimxj = -VLARGE;
-                        Sacmem1 = cmmem.sacmem[ndxx];
-                        Sacmem2 = cmmem.sacmem[ndxy];
-			for( jdx = 1; jdx <= nlen; jdx++ ){
-			    if( *Sacmem1 >= ximnj && *Sacmem1 <= ximxj ){
-				if( *Sacmem2 < yimnj )
-				    yimnj = *Sacmem2;
-				if( *Sacmem2 > yimxj )
-				    yimxj = *Sacmem2;
+			for( jdx = 1; jdx <= s->h->npts; jdx++ ){
+			    if( s->x[jdx-1] >= ximnj && s->x[jdx-1] <= ximxj ){
+				if( s->y[jdx-1] < yimnj )
+				    yimnj = s->y[jdx-1];
+				if( s->y[jdx-1] > yimxj )
+          yimxj = s->y[jdx-1];
 			    } /* end if( *Sacmem1 >= ximnj && ... */
-			    jx = jx + 1;
-			    jy = jy + 1;
-                            Sacmem1++; 
-			    Sacmem2++;
 			} /* end for( jdx = 1; jdx <= nlen; jdx++ ) */
-		    } /* end else associated with if( *leven ) */
+		    } /* end else associated with if( s->h->leven ) */
 		} /* end if( lxlims && !lylimj ) */
 		cmgem.yimn = fmin( cmgem.yimn, yimnj );
 		cmgem.yimx = fmax( cmgem.yimx, yimxj );
-	    } /* end for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ) */
+	    } /* end for( jdfl = 1; jdfl <= saclen(); jdfl++ ) */
 	} /* end if( cmgam.lp2abs ) */
 
 	/* -- Relative mode. */
 	else{
 	    cmgem.ximn = 0.;
 	    cmgem.ximx = -VLARGE;
-	    for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-		getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
-		if( *nerr != 0 )
-		    goto L_8888;
+	    for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
+        if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+          goto L_8888;
+        }
+        //getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
+
 		getxlm( &lxlimj, &ximnj, &ximxj );
 		cmgem.ximx = fmax( cmgem.ximx, ximxj - ximnj );
 		Toff[jdfl] = -ximnj;
 		getylm( &lylimj, &yimnj, &yimxj );
-		if(!lylimj && ( *iftype == IRLIM || *iftype == IAMPH ))
-		  extrma(cmmem.sacmem[ndx1]+1,1,nlen-1,&yimnj,&yimxj,&fjunk);
+		if(!lylimj && ( s->h->iftype == IRLIM || s->h->iftype == IAMPH ))
+		  extrma(&s->y[1],1,s->h->npts-1,&yimnj,&yimxj,&fjunk);
 		cmgem.yimn = fmin( cmgem.yimn, yimnj );
 		cmgem.yimx = fmax( cmgem.yimx, yimxj );
-	    } /* end for ( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ) */
+	    } /* end for ( jdfl = 1; jdfl <= saclen(); jdfl++ ) */
 	} /* end else */
 
 	/* - Set background and skeleton attributes. */
@@ -331,14 +325,14 @@ void xp2(int *nerr)
 	/* - Calculate mapping transformation for these fixed limits.
 	 *   (In this case, all passed variables but NERR are unused.) */
 
-	plmap( cmmem.sacmem[1], cmmem.sacmem[1], 1, 1, 1, nerr );
+	plmap( NULL, NULL, 1, 1, 1, nerr );
 	if( *nerr != 0 )
 	    goto L_8888;
 
 	/* - Determine location for id. */
 
 	if( cmgam.lfidrq ){
-        tbox        = textbox_new( cmdfm.ndfl );
+        tbox        = textbox_new( saclen() );
         if(!tbox) {
             goto L_8888;
         }
@@ -346,11 +340,12 @@ void xp2(int *nerr)
 	    cmgem.chwid = cmgem.txrat*cmgem.chht;
 	    settextsize( cmgem.chwid, cmgem.chht );
 	    cmgam.fidbdr = cmgem.chht;
-	    for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	    for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
+      if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+        goto L_8888;
+      }
+      //getfil( jdfl, FALSE, &notused, &notused, &notused, nerr );
 		if( cmgam.ifidtp == 4 ){
-		    getfil( jdfl, FALSE, &notused, &notused, &notused, nerr );
-		    if( *nerr != 0 )
-			goto L_8888;
 		    formhv( (char*)kmgam.kfidnm[0],9, cmgam.ifidfm, ktemp
 			 ,MCMSG+7, nerr );
 		    if( *nerr != 0 )
@@ -358,7 +353,8 @@ void xp2(int *nerr)
                     tbox->text[jdfl-1] = fstrdup(ktemp, MCMSG+7);
 		} /* end if( cmgam.ifidtp == 4 ) */
 		else{
-            if((tmp = string_list_get(datafiles, jdfl-1))) {
+         tmp = s->m->filename;
+         if(tmp) {
                 if ( cmgam.lfinorq ){
                     sprintf ( ktemp , "%s - %d" , tmp , jdfl ) ;
                 } else {
@@ -367,7 +363,7 @@ void xp2(int *nerr)
                 tbox->text[jdfl-1] = fstrdup(ktemp, MCMSG + 7);
 		     }
 		} /* end else associated with if( cmgam.lp2abs ) */
-	    } /* end for ( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ) */
+	    } /* end for ( jdfl = 1; jdfl <= saclen(); jdfl++ ) */
 
 	    if( cmgem.liline )
 		atrwid = 2.5*cmgem.chwid;
@@ -419,14 +415,16 @@ void xp2(int *nerr)
 
 	/* - Loop to plot each trace in DFL on same plot window. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-	    getfil( jdfl, TRUE, &num, &nlcy, &nlcx, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
-	    if( *leven ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+    //getfil( jdfl, TRUE, &num, &nlcy, &nlcx, nerr );
+
+    if( s->h->leven ){
 		cmgem.xgen.on = TRUE;
-		cmgem.xgen.delta = *delta;
-		cmgem.xgen.first = *begin + Toff[jdfl];
+		cmgem.xgen.delta = s->h->delta;
+		cmgem.xgen.first = s->h->b + Toff[jdfl];
 	    }
 	    else{
 		cmgem.xgen.on = FALSE;
@@ -449,10 +447,10 @@ void xp2(int *nerr)
                 }
             }
 	    }
-	    pldta( cmmem.sacmem[nlcx], cmmem.sacmem[nlcy], num, 1, 1, nerr );
+	    pldta( s->x, s->y, s->h->npts, 1, 1, nerr );
 	    if( *nerr != 0 )
 		goto L_8888;
-	} /* end for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ) */
+	} /* end for( jdfl = 1; jdfl <= saclen(); jdfl++ ) */
         
 	if( cmgam.lfidrq && tbox ){
             textbox_show( tbox );

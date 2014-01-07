@@ -1,4 +1,6 @@
 
+#include "omp.h"
+
 #include "sam.h"
 #include "dfm.h"
 #include "amf.h"
@@ -11,15 +13,17 @@
 #include "dbh.h"
 #include "cpf.h"
 #include "dff.h"
+#include "errors.h"
+
 
 void /*FUNCTION*/ xbp(nerr)
 int *nerr;
 {
-	int jdfl, ndx1, ndx2, nlen;
+	int i;
 	double fnyq;
-
-
-
+  sac *s;
+  int err;
+  
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command BANDPASS.
 	 *           This command applies a IIR bandpass filter to data in memory.
@@ -110,55 +114,64 @@ int *nerr;
 		return ;
 
 	/* EXECUTION PHASE: */
+  for(i = 1; i <= saclen(); i++) {
+    if(!(s = sacget(i-1, TRUE, nerr))) {
+      return;
+    }
+    //getfil(i, TRUE, &nlen, &ndx1, &ndx2, nerr);
+    /* -- Check that corner frequencies are within proper range. */
+    fnyq = 0.5/ s->h->delta;
+    if( cmsam.cfbp1 > fnyq ){
+      *nerr = 1611;
+      error(*nerr, "%f %f", cmsam.cfbp1, fnyq);
+      return ;
+    }
+    else if( cmsam.cfbp2 > fnyq ){
+      *nerr = 1611;
+      error(*nerr, "%f %f", cmsam.cfbp2, fnyq);
+      return ;
+    }
+
+  }
 
 	/* - Perform the requested function on each file in DFL. */
+  err = 0;
+  //  #pragma omp parallel shared(err) private(i,s, tid)
+  {
+    #ifdef OMP_DEBUG
+    if(omp_get_thread_num() == 0) {
+      fprintf(stderr, "using: %d threads\n", omp_get_num_threads());
+    }
+    #endif
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-		/* -- Get the next file in DFL, moving header to CMHDR. */
+    //    #pragma omp for schedule(dynamic)
+    for( i = 1; i <= saclen(); i++ ){
+      //int ierr;
+      if(!(s = sacget(i-1, TRUE, nerr))) {
+        //        #pragma omp critical
+        {
+          clrmsg();
+          error(*nerr, "%s", s->m->filename);
+          outmsg();
+          clrmsg();
+        }
+        continue;
+      }
+      /* -- Perform bandpass filter operation. */
+      xapiir( s->y , s->h->npts,
+              (char*) kmsam.ktpiir[ cmsam.itpbp - 1 ] , cmsam.tbwbp ,
+              cmsam.atnbp , cmsam.npolbp , "BP" , cmsam.cfbp1 , 
+              cmsam.cfbp2, (double)s->h->delta, cmsam.npasbp );
 
-		getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-		if( *nerr != 0 )
-			return ;
+      /* -- Determine min,max,mean of file . */
+      sac_extrema(s);
 
-		/* -- Check that corner frequencies are within proper range. */
-
-		fnyq = 0.5/ *delta;
-		if( cmsam.cfbp1 > fnyq ){
-			*nerr = 1611;
-			setmsg( "ERROR", *nerr );
-			apfmsg( cmsam.cfbp1 );
-			apfmsg( fnyq );
-			return ;
-		}
-		else if( cmsam.cfbp2 > fnyq ){
-			*nerr = 1611;
-			setmsg( "ERROR", *nerr );
-			apfmsg( cmsam.cfbp2 );
-			apfmsg( fnyq );
-			return ;
-		}
-
-		/* -- Perform bandpass filter operation. */
-
-		xapiir( cmmem.sacmem[ ndx1 ] , nlen ,
-			(char*) kmsam.ktpiir[ cmsam.itpbp - 1 ] , cmsam.tbwbp ,
-			cmsam.atnbp , cmsam.npolbp , "BP" , cmsam.cfbp1 , 
-		 	cmsam.cfbp2, *delta, cmsam.npasbp );
-
-		/* -- Adjust header of file in DFL. */
-
-		extrma( cmmem.sacmem[ndx1], 1, *npts, depmin, depmax, depmen );
-
-		/* -- Reverse the steps used in getting the next file in DFL. */
-
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-			return ;
-
-	}
-
+    }
+  }
 	/* - Calculate and set new range of dependent variable. */
-
+  if(err) {
+    *nerr = err;
+  }
 	setrng();
 
 	/*=====================================================================

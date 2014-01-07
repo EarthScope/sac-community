@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "ncpf.h"
 #include "cnd.h"
 #include "msg.h"
 #include "cpf.h"

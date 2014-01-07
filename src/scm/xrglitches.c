@@ -113,9 +113,9 @@ void /*FUNCTION*/ xrglitches(nerr)
 int *nerr;
 {
 	int lthold;
-	int jdfl, ndxx, ndxy, nlen, nlnwin, nofwin;
+	int jdfl, nlnwin, nofwin;
 	double twinmn, twinmx;
-
+  sac *s;
 
 	/*=====================================================================
 	 * PURPOSE: To parse and execute the action command RGLITCHES.
@@ -137,7 +137,6 @@ int *nerr;
 	 *=====================================================================
 	 * SUBROUTINES CALLED:
 	 *    saclib:  lcmore, cfmt, cresp, lklist, lcchar, vflist, vftime,
-	 *             getfil, putfil
 	 *=====================================================================
 	 * LOCAL VARIABLES:
 	 *    lgood:   Flag to indicate whether a data point is in a
@@ -230,23 +229,24 @@ int *nerr;
 
 	/* - Perform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 	    /* -- Get next file from the memory manager.
 	     *    (Header is moved into common blocks CMHDR and KMHDR.) */
-	    getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+    //getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
 
             if(cmscm.irglmt == 3){
-		PntsInWin = sWinLen / (*delta);
+		PntsInWin = sWinLen / (s->h->delta);
 		if( PntsInWin < 10 )
 		    PntsInWin = 10;
                
 		if( Thresh2 < 4.0)
 		    Thresh2=4.0;
                
-		RglitchR4(cmmem.sacmem[ndxy], nlen);
+		RglitchR4(s->y, s->h->npts);
             }
             else{
 		/* -- Determine time window on which to apply glitch removal. */
@@ -258,27 +258,23 @@ int *nerr;
 		}
 		else{
 		    nofwin = 0;
-		    nlnwin = nlen;
+		    nlnwin = s->h->npts;
 		}
 
 		/* -- Search file for regions outside threshold.
 		 *    Perform requested smoothing on data in each region. */
 		if( cmscm.irglmt == 1 ){
-      xabsgl( cmmem.sacmem[ndxy] + nofwin, nlnwin, (float) cmscm.thold,
+      xabsgl( s->y + nofwin, nlnwin, (float) cmscm.thold,
 		     cmscm.irgltp, nerr );
 		}
 		else{
-		    xpowgl( cmmem.sacmem[ndxy] + nofwin, nlnwin, *delta,
+		    xpowgl( s->y + nofwin, nlnwin, s->h->delta,
 		     cmscm.thold, 0.0, cmscm.irgltp, nerr );
 		}
 	    }
 	    /* -- Update any header fields that may have changed. */
-	    extrma( cmmem.sacmem[ndxy], 1, nlen, depmin, depmax, depmen );
+	    extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
-	    /* -- Return file to memory manager. */
-	    putfil( jdfl, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
 
 	} /* end for */
 

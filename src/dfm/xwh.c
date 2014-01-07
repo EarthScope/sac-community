@@ -14,6 +14,7 @@
 
 
 
+#include "amf.h"
 #include "msg.h"
 #include "clf.h"
 #include "ssi.h"
@@ -38,8 +39,8 @@ void
 xwh(int *nerr) {
 
   char *tmp;
-	int jdfl, ndx1, ndx2, nlen;
-
+	int jdfl;
+  sac *s;
 	*nerr = 0;
 
 	if ( lcmore ( nerr ) ) {
@@ -75,14 +76,16 @@ xwh(int *nerr) {
 
 
 	/* - For each file in DFL: */
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 	  /* -- Get header from working memory or disk determine file name. */
-		getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
-        tmp = string_list_get(datafiles, jdfl-1);
+    if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+      goto L_8888;
+    }
+		//getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
+
+    tmp = s->m->filename;
 		/* -- Check to see if overwrite flag is enabled. */
-		if( !*lovrok ){
+		if( !s->h->lovrok ){
 			*nerr = 1303;
 			setmsg( "ERROR", *nerr );
             apcmsg2(tmp, strlen(tmp)+1);

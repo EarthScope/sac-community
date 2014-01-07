@@ -6,6 +6,7 @@
  */
 #include <string.h>
 
+#include "amf.h"
 #include "dfm.h"
 #include "bool.h"
 
@@ -51,7 +52,7 @@ xrh(int *nerr) {
 	   *             filelist rather than replacement of current list 
 	   *             with new one. 
 	   */
-	  if( lckey( "MORE#$",7 ) && cmdfm.ndfl > 0 ){
+	  if( lckey( "MORE#$",7 ) && saclen() > 0 ){
 	    lmore = TRUE;
 	  }
 
@@ -115,7 +116,7 @@ xrh(int *nerr) {
             alignFiles ( nerr ) ;
 	    if ( *nerr )
 		return ;
-	    cmdfm.nfilesFirst = cmdfm.ndfl ;
+	    cmdfm.nfilesFirst = saclen() ;
         } /* end if */
 	else
 	    cmdfm.nfilesFirst = 0 ;
@@ -129,7 +130,7 @@ xrh(int *nerr) {
 	    if( !cmdfm.ltrust )
             cmdfm.nreadflag = LOW ;
 	    cmdfm.lread = TRUE ;
-	    sacToSeisMgr ( !lmore , FALSE , lmore , nerr ) ;
+	    sacToSeisMgr ( !lmore , FALSE , 0 , nerr ) ;
 	    cmdfm.lread = FALSE ;
 	}
     string_list_clear(last_list);

@@ -12,10 +12,9 @@
 void /*FUNCTION*/ xhan(nerr)
 int *nerr;
 {
-	int j, jdfl, ndx1, ndx1l, ndx2, nlen;
+	int j, jdfl;
 
-        float *Sacmem;
-
+  sac *s;
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command HANNING.
 	 *           This command applies a Hanning window to data in memory.
@@ -58,36 +57,26 @@ int *nerr;
 
 	/* - Perform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 		/* -- Get the next file in DFL, moving header to CMHDR. */
-
-		getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+		//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
 		/* -- Apply Hanning window to dependent data array.
 		 *    The two endpoints are defined separately. */
 
-		ndx1l = ndx1 + nlen - 1;
-                Sacmem = cmmem.sacmem[ndx1] + 1;
-		for( j = ndx1 + 1; j <= (ndx1l - 1); j++ ){
-                        *Sacmem = 0.25*(*(Sacmem-1))+0.5**Sacmem+0.25*(*(Sacmem+1));
-                        Sacmem++;
-			}
-
-                *(cmmem.sacmem[ndx1]) = *(cmmem.sacmem[ndx1]+1);
-                *(cmmem.sacmem[ndx1]+nlen-1) = *(cmmem.sacmem[ndx1]+nlen-2);
+		for( j = 1; j <= s->h->npts - 1; j++ ){
+      s->y[j] = 0.25 * s->y[j-1] + 0.5 * s->y[j] + 0.25 * s->y[j+1];
+    }
+    s->y[0] = s->y[1];
+    s->y[s->h->npts-1] = s->y[s->h->npts-2];
 
 		/* -- Update any header fields that may have changed. */
 
-		extrma( cmmem.sacmem[ndx1], 1, nlen, depmin, depmax, depmen );
-
-		/* -- Reverse the steps used in getting the next file in DFL. */
-
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+    extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
 		}
 

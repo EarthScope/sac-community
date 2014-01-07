@@ -298,12 +298,6 @@ libsac_all_a_SOURCES = amf/allamb.c amf/iniam.c amf/reaamb.c amf/relamb.c \
 	co/zrunname.c co/zruntext.c co/zsleep.c co/zsysop.c co/zwabs.c \
 	co/stdu.h \
 	\
-	coda/binary_op.c coda/calc_codaGF.c coda/calc_coda_amplitudes.c \
-	coda/calc_energy.c coda/calc_envelopes.c coda/calc_moment_magnitude.c \
-	coda/fit_coda_amp.c coda/fit_coda_params.c coda/get_input.c \
-	coda/pickwindows.c coda/plotspec.c \
-	coda/send_output.c coda/unary_op.c coda/xcoda.c \
-	\
 	contouring/alloclabels.c contouring/allocpoints.c \
 	contouring/allocsegments.c contouring/calccontlab1.c \
 	contouring/calccontlab4.c contouring/calccontlabs.c \

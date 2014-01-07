@@ -12,6 +12,12 @@
 #include "dbh.h"
 #include "co.h"
 
+
+extern float *specor;
+extern float *spespe;
+extern float *spepe;
+extern float *speaux;
+
 void /*FUNCTION*/ xppe(nerr)
 int *nerr;
 {
@@ -106,13 +112,13 @@ int *nerr;
 
 	/* - Calculate prediciton error. */
 
-	crit( cmmem.sacmem[cmspe.ndxcor], cmspe.nlncor, cmmem.sacmem[cmspe.ndxpe] );
+	crit( specor, cmspe.nlncor, spepe );
 
 	/* - Plot prediction error vs lag number. */
 
 	if ( lframs )
 	    beginframe( FALSE , nerr );
-	pl2d( (float*)&xjunk, cmmem.sacmem[cmspe.ndxpe], MLNPE, 1, 1, nerr );
+	pl2d( (float*)&xjunk, spepe, MLNPE, 1, 1, nerr );
 	if( *nerr != 0 )
 	    goto L_7777;
 

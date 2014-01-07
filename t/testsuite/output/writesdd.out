@@ -27,7 +27,7 @@ test.writesdd.seismo.append
   FILE: test.writesdd.seismo.append - 1
  ---------------------------------
 
-     depmax = 1.510000e+00
+     depmax = 1.520000e+00
   
  ==>  
  message "Test Writesdd Prepend"
@@ -42,7 +42,7 @@ test.test.writesdd.seismo
   FILE: test.test.writesdd.seismo - 1
  -------------------------------
 
-     depmax = 1.510000e+00
+     depmax = 1.520000e+00
   
  ==>  
  message "Test Writesdd Change"
@@ -57,7 +57,7 @@ test.writesdd.seismogram
   FILE: test.writesdd.seismogram - 1
  ------------------------------
 
-     depmax = 1.510000e+00
+     depmax = 1.520000e+00
   
  ==>  
  message "Test Writesdd Delete"
@@ -72,7 +72,7 @@ test.writesdd.sei
   FILE: test.writesdd.sei - 1
  -----------------------
 
-     depmax = 1.510000e+00
+     depmax = 1.520000e+00
   
  ==>  
  message "Test Writesdd Directory"

@@ -19,12 +19,12 @@ int *nerr;
 {
 	int lusrec;
 	int isym, j, jb, jdfl, jf, ncfir4, ncpfn, 
-	 ndx1, ndx2, ndxscr, ndxsrl, nfft, nlen, 
-	 nlenfl, nlpow2, npow2, nptsmx, nrerr;
+    nfft,
+    nlenfl, nlpow2, npow2, nptsmx;
 	float fac, firim, firrl, rnpow2, sigim, sigrl;
-
-        float *Sacmem, *Sacmem1, *Sacmem2, *Sacmem3, *Sacmem4;
-
+  sac *s;
+        float *Sacmem1, *Sacmem2, *Sacmem3, *Sacmem4;
+  float *scr, *srl;
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command FIR.
 	 *           This command applies an FIR filter to data in memory.
@@ -152,10 +152,12 @@ L_1000:
 	else{
 		nfft = next2( nptsmx + ncfir4 );
 		if( nfft <= MFFT ){
-			allamb( &cmmem, 4*nfft, &ndxscr, nerr );
+      srl = (float *) malloc(sizeof(float) * 4 * nfft);
+			//allamb( &cmmem, 4*nfft, &ndxscr, nerr );
 			if( *nerr == 0 ){
 				lusrec = FALSE;
-				ndxsrl = ndxscr;
+				//ndxsrl = ndxscr;
+        //srl = scr;
 				/* ndxsim = ndxscr + nfft; */
 				/* ndxfrl = ndxscr + 2*nfft; */
 				/* ndxfim = ndxscr + 3*nfft; */
@@ -172,7 +174,8 @@ L_1000:
 	/* - Check to see if recursive method can be used (if requested). */
 
 	if( lusrec ){
-		allamb( &cmmem, nptsmx, &ndxscr, nerr );
+    scr = (float *) malloc(sizeof(float) * nptsmx);
+		//allamb( &cmmem, nptsmx, &ndxscr, nerr );
 		if( *nerr != 0 ){
 			*nerr = 1603;
 			setmsg( "ERROR", *nerr );
@@ -188,34 +191,28 @@ L_1000:
 
 	if( lusrec ){
 
-		for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+		for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 			/* -- Get next file in DFL, moving header to CMHDR. */
-
-			getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-			if( *nerr != 0 )
-				goto L_7777;
+      if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+        goto L_7777;
+      }
+			//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
 			/* -- Apply FIR filter recursively to this data file, storing the
 			 *    result into the scratch space. */
 
-			edecim( cmmem.sacmem[ndx1], nlen, 1, cmmem.sacmem[ndxscr], &nlenfl, 
+			edecim( s->y, s->h->npts, 1, scr, &nlenfl, 
 			 cmfir.cfir, cmfir.ncfir, isym );
 
 			/* -- Move the filtered data into location of the original data. */
 
 			/* copy( (int*)cmmem.sacmem[ndxscr], (int*)cmmem.sacmem[ndx1], nlen ); */
-            copy_float(cmmem.sacmem[ndxscr], cmmem.sacmem[ndx1], nlen);
+      copy_float(scr, s->y, s->h->npts);
 
 			/* -- Adjust header of file in DFL. */
 
-			extrma( cmmem.sacmem[ndx1], 1, nlen, depmin, depmax, depmen );
-
-			/* -- Give data file back to memory manager. */
-
-			putfil( jdfl, nerr );
-			if( *nerr != 0 )
-				goto L_7777;
+			extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
 			}
 
@@ -225,49 +222,53 @@ L_1000:
 		/* - Main loop using FFT method. */
 
 		nlpow2 = 0;
-		for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+		for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
+      if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+        goto L_7777;
+      }
+			//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
+      
 			/* -- Compute power of two greater than number of points. */
-
-			getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-			if( *nerr != 0 )
-				goto L_7777;
-			npow2 = next2( nlen + ncfir4 );
+			npow2 = next2( s->h->npts + ncfir4 );
 
 			/* -- Do FFT on FIR coefficients if length of transform has changed. */
 
 			if( npow2 != nlpow2 ){
-				fill( cmmem.sacmem[ndxscr]+2*nfft, npow2, 0. );
-				fill( cmmem.sacmem[ndxscr]+3*nfft, npow2, 0. );
+				fill( &scr[2*nfft], npow2, 0. );
+				fill( &scr[3*nfft], npow2, 0. );
 				fac = isym;
-                                Sacmem = cmmem.sacmem[ndxscr]+2*nfft;
-				*Sacmem = Cfir[1];
+        //Sacmem = cmmem.sacmem[ndxscr]+2*nfft;
+				//*Sacmem = Cfir[1];
+        scr[2*nfft] = Cfir[1];
 				jf = 1;
 				jb = npow2 - 1;
 				for( j = 2; j <= cmfir.ncfir; j++ ){
-					*(Sacmem+jf) = Cfir[j];
-                                        *(Sacmem+jb) = fac*Cfir[j];
+          scr[2*nfft + jf] = Cfir[j];
+					//*(Sacmem+jf) = Cfir[j];
+          //*(Sacmem+jb) = fac*Cfir[j];
+          scr[2*nfft + jb] = fac * Cfir[j];
 					jf = jf + 1;
 					jb = jb - 1;
 					}
-				cpft( cmmem.sacmem[ndxscr]+2*nfft, cmmem.sacmem[ndxscr]+3*nfft, npow2, 1, 
+				cpft( &scr[2*nfft], &scr[3*nfft], npow2, 1, 
 				 cmsam.ifwd );
 				}
 
 			/* -- Transform the signal. */
 
 			/* copy( (int*)cmmem.sacmem[ndx1], (int*)cmmem.sacmem[ndxsrl], nlen ); */
-            copy_float(cmmem.sacmem[ndx1], cmmem.sacmem[ndxsrl], nlen);
-			fill( cmmem.sacmem[ndxsrl]+nlen, npow2 - nlen, 0. );
-			fill( cmmem.sacmem[ndxscr]+nfft, npow2, 0. );
-			cpft( cmmem.sacmem[ndxsrl], cmmem.sacmem[ndxscr]+nfft, npow2, 1, cmsam.ifwd );
+      copy_float(s->y, srl, s->h->npts);
+			fill( &srl[s->h->npts], npow2 - s->h->npts, 0. );
+			fill( &scr[nfft], npow2, 0. );
+			cpft( srl, &scr[nfft], npow2, 1, cmsam.ifwd );
 
 			/* -- Multiply transform of signal and filter; store in signal arrays. */
 
-                        Sacmem1 = cmmem.sacmem[ndxsrl];
-                        Sacmem2 = cmmem.sacmem[ndxscr]+nfft;
-                        Sacmem3 = cmmem.sacmem[ndxscr]+2*nfft;
-                        Sacmem4 = cmmem.sacmem[ndxscr]+3*nfft;
+                        Sacmem1 = scr;
+                        Sacmem2 = scr+nfft;
+                        Sacmem3 = scr+2*nfft;
+                        Sacmem4 = scr+3*nfft;
 			for( j = 0; j <= (npow2 - 1); j++ ){
 				sigrl = *(Sacmem1 + j);
 				sigim = *(Sacmem2 + j);
@@ -284,31 +285,23 @@ L_1000:
 			/* -- Store normalized results back into data array. */
 
 			rnpow2 = 1./(float)( npow2 );
-                        Sacmem1 = cmmem.sacmem[ndx1];
-                        Sacmem2 = cmmem.sacmem[ndxsrl];
-			for( j = 0; j <= (nlen - 1); j++ ){
-                                *(Sacmem1++) = rnpow2*(*(Sacmem2++));
-				}
+      Sacmem1 = s->y;
+      Sacmem2 = srl;
+			for( j = 0; j <= (s->h->npts - 1); j++ ){
+        *(Sacmem1++) = rnpow2*(*(Sacmem2++));
+      }
 
 			/* -- Adjust header of file in DFL. */
 
-			extrma( cmmem.sacmem[ndx1], 1, nlen, depmin, depmax, depmen );
-
-			/* -- Give data file back to memory manager. */
-
-			putfil( jdfl, nerr );
-			if( *nerr != 0 )
-				goto L_7777;
+			extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
 			nlpow2 = npow2;
 			}
 
 		}
 
-	/* - Give scratch space back to array manager. */
-
 L_7777:
-	relamb( cmmem.sacmem, ndxscr, &nrerr );
+  FREE(scr);
 
 	/* - Calculate and set new range of dependent variable. */
 

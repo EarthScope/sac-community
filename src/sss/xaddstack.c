@@ -5,6 +5,7 @@
 #include "hdr.h"
 #include "bool.h"
 
+#include "amf.h"
 #include "msg.h"
 #include "ssi.h"
 #include "cpf.h"
@@ -24,7 +25,7 @@ void xaddstack(int *nerr)
 		lBeginDefined 	= FALSE ,
 		lEndDefined 	= FALSE ;
 
-
+  sac *s;
 	/*=====================================================================
 	 * PURPOSE: To parse the parameter-setting command ADDSTACK.
 	 *          This command adds one or more files to the signal stack.
@@ -75,22 +76,14 @@ void xaddstack(int *nerr)
 
 	if( lcchar( MCPFN, kfile,MCPFN+1, &ncfile ) ){
 
-		/* -- Check for room. */
-		cmdfm.ndfl = cmdfm.ndfl + 1;
-		if( cmdfm.ndfl > MDFL ){
-			*nerr = 5108;
-			setmsg( "ERROR", *nerr );
-			goto L_8888;
-		}
-
 		/* -- Start with global property values. */
-		Lincl[cmdfm.ndfl] = TRUE;
-		Dlyn[cmdfm.ndfl] = cmsss.dlyng;
-		Dlyt[cmdfm.ndfl] = cmsss.dlytg;
-		Dlyni[cmdfm.ndfl] = cmsss.dlynig;
-		Dlyti[cmdfm.ndfl] = cmsss.dlytig;
-		Wt[cmdfm.ndfl] = cmsss.wtg;
-		Lpol[cmdfm.ndfl] = cmsss.lpolg;
+		Lincl[saclen()] = TRUE;
+		Dlyn[saclen()] = cmsss.dlyng;
+		Dlyt[saclen()] = cmsss.dlytg;
+		Dlyni[saclen()] = cmsss.dlynig;
+		Dlyti[saclen()] = cmsss.dlytig;
+		Wt[saclen()] = cmsss.wtg;
+		Lpol[saclen()] = cmsss.lpolg;
 	}
 
 	/* - Loop on rest of tokens in command:
@@ -100,49 +93,49 @@ void xaddstack(int *nerr)
 
 		/* -- "WEIGHT v":  define global weight property. */
 		if( lkreal( "WEIGHT$",8, &tmp ) ) {
-      Wt[cmdfm.ndfl] = (float) tmp;
+      Wt[saclen()] = (float) tmp;
     }
 
 		/* -- "DELAY v":  define global static delay propertys. */
 		else if( lkreal( "DE#LAY$",8, &delay ) ){
 			if( lckey( "SECONDS$",9 ) ){
-				Dlyt[cmdfm.ndfl] = delay;
+				Dlyt[saclen()] = delay;
 			}
 			else if( lckey( "POINTS$",8 ) ){
-				Dlyn[cmdfm.ndfl] = delay;
+				Dlyn[saclen()] = delay;
 			}
 		}
 
 		/* -- "INCREMENT v":  define global static delay propertys. */
 		else if( lkreal( "INCREMENT$",11, &delay ) ){
 			if( lckey( "SECONDS$",9 ) ){
-				Dlyti[cmdfm.ndfl] = delay;
+				Dlyti[saclen()] = delay;
 			}
 			else if( lckey( "POINTS$",8 ) ){
-				Dlyni[cmdfm.ndfl] = delay;
+				Dlyni[saclen()] = delay;
 			}
 		}
 
 		/* -- "NORMAL/REVERSED":  define global polarity property. */
-		else if( lclog2( "NORMAL$",8, "REVERSED$",10, &Lpol[cmdfm.ndfl] ) )
+		else if( lclog2( "NORMAL$",8, "REVERSED$",10, &Lpol[saclen()] ) )
 		{ /* do nothing */ }
 
 		/* -- "DISTANCE v":  define global distance property. */
 		else if( lkreal( "DI#STANCE$",11, &tmp ) ){
       lDistanceDefined = TRUE ;
-      Dst[cmdfm.ndfl] = (float) tmp;
+      Dst[saclen()] = (float) tmp;
 		}
 
     /* -- "BEGINTIME v":  define global begin time property. */
     else if( lkreal( "BE#GINTIME$",12, &tmp ) ){
       lBeginDefined = TRUE ;
-      Tbegin[cmdfm.ndfl] = (float) tmp;
+      Tbegin[saclen()] = (float) tmp;
     }
 
     /* -- "ENDTIME v":  define global end time property. maf 960701 */
     else if( lkreal( "END#TIME$",10, &tmp ) ){
       lEndDefined = TRUE ;
-      Tend[cmdfm.ndfl] = (float) tmp;
+      Tend[saclen()] = (float) tmp;
     }
 
 		/* -- Bad syntax. */
@@ -160,34 +153,37 @@ void xaddstack(int *nerr)
 
 	/* - Read file. */
 
-	rdsac( cmdfm.ndfl, kfile,MCPFN+1, TRUE, TRUE, &nlen, &ndxh, &ndx1, &ndx2, 
+	rdsac( saclen(), kfile,MCPFN+1, TRUE, TRUE, &nlen, &ndxh, &ndx1, &ndx2, 
 	 nerr );
 	if( *nerr != 0 )
 		goto L_8888;
 
 	/* - Check certain header fields. */
-
-	if( !*leven ){
+  if(!(s = sacget(saclen()-1, TRUE, nerr))) {
+    goto L_8888;
+  }
+  
+	if( !s->h->leven ){
 		*nerr = 1306;
 		setmsg( "ERROR", *nerr );
 		apcmsg( kfile,MCPFN+1 );
 		goto L_8888;
 	}
-	else if( *iftype != *itime && *iftype != *ixy ){
+	else if( s->h->iftype != ITIME && s->h->iftype != IXY ){
 		*nerr = 1307;
 		setmsg( "ERROR", *nerr );
 		apcmsg( kfile,MCPFN+1 );
 		goto L_8888;
 	}
-	else if( cmdfm.ndfl > 1 ){
-		if( fabs( *delta - cmsss.del ) > cmsss.srcfac && cmsss.lsrc ){
+	else if( saclen() > 1 ){
+		if( fabs( s->h->delta - cmsss.del ) > cmsss.srcfac && cmsss.lsrc ){
 			*nerr = 5109;
 			setmsg( "ERROR", *nerr );
 			goto L_8888;
 		}
 	}
 	else{
-		cmsss.del = *delta;
+		cmsss.del = s->h->delta;
 	}
 
 	/* If distance was not specified by the user, maf 960701 */
@@ -195,24 +191,24 @@ void xaddstack(int *nerr)
 	{
 	    /* -- Use global distance or distance from header. */
 	    if( cmsss.dstg != cmhdr.fundef ){
-		Dst[cmdfm.ndfl] = cmsss.dstg;
+		Dst[saclen()] = cmsss.dstg;
 	    }
-	    else if( *dist != cmhdr.fundef ){
-		Dst[cmdfm.ndfl] = *dist;
+	    else if( s->h->dist != cmhdr.fundef ){
+		Dst[saclen()] = s->h->dist;
 	    }
 	    else{
-		Dst[cmdfm.ndfl] = cmhdr.fundef;
+		Dst[saclen()] = cmhdr.fundef;
 	    }
 	} /* end if ( !lDistanceDefined ) */
 
 	if ( !lBeginDefined ) /* if begin time not user specified, maf 960701 */
 	{
-	    Tbegin[cmdfm.ndfl] = *begin ;
+	    Tbegin[saclen()] = s->h->b ;
 	} /* end if ( !lBeginDefined ) */
 
         if ( !lEndDefined ) /* if end time not user specified, maf 960701 */
         {
-            Tend[cmdfm.ndfl] = *ennd ;
+            Tend[saclen()] = s->h->e ;
         } /* end if ( !lEndDefined ) */
 
 	if( !*nerr ) {
@@ -231,8 +227,6 @@ void xaddstack(int *nerr)
 	/* - Decrement the file list counter before returning if an error occurred. */
 
 L_8888:
-	if( *nerr != 0 )
-		cmdfm.ndfl = cmdfm.ndfl - 1;
 	return;
 
 } /* end of function */

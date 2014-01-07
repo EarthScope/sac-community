@@ -9,15 +9,13 @@
 #include <math.h>
 
 #include "mach.h"
-#include "amf.h"
 #include "contouring.h"
+extern struct contour contour;
 
 void 
 putcontseg(number, level, start, stop)
 int number, level, start, stop;
 {
-
-        int *Isacmem;
 
 	/*=====================================================================
 	 * PURPOSE:  To put (store) information about an existing contouring
@@ -44,15 +42,10 @@ int number, level, start, stop;
 	 *===================================================================== */
 	/* PROCEDURE: */
 	if( number <= cmcontouring.numsegments ){
-                Isacmem = (int*)cmmem.sacmem[cmcontouring.indexlevels];
-		*(Isacmem + number - 1) = level;
-
-                Isacmem = (int*)cmmem.sacmem[cmcontouring.indexstarts];
-		*(Isacmem + number - 1) = start;
-
-                Isacmem = (int*)cmmem.sacmem[cmcontouring.indexstops];
-		*(Isacmem + number - 1) = stop;
-		}
+    contour.segments[number-1].level = level;
+    contour.segments[number-1].start = start;
+    contour.segments[number-1].stop  = stop;
+  }
 	else{
 		fprintf( stdout, "Illegal segment number: %d \n", number );
 		}

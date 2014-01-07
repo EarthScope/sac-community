@@ -9,17 +9,16 @@
 #include <math.h>
 
 #include "mach.h"
-#include "amf.h"
 #include "contouring.h"
 #include "bool.h"
-
+extern struct contour contour;
 int
 nextcontseg(number, level, start, stop)
 int *number, *level, *start, *stop;
 {
 	int nextcontseg_v;
-        int *Isacmem1, *Isacmem2, *Isacmem3;
 
+  struct segments *segs;
 
 	/*=====================================================================
 	 * PURPOSE:  To get information about the "next" contouring segment.
@@ -53,16 +52,14 @@ int *number, *level, *start, *stop;
 	else{
 		*number = *number + 1;
 		}
-        Isacmem1 = (int *)cmmem.sacmem[cmcontouring.indexstarts];
-        Isacmem2 = (int *)cmmem.sacmem[cmcontouring.indexlevels];
-        Isacmem3 = (int *)cmmem.sacmem[cmcontouring.indexstops];
-
+  segs = contour.segments;
+ 
 L_1000:
 	if( *number <= cmcontouring.numsegments ){
-		*start = *(Isacmem1 + *number - 1);
+		*start = segs[*number-1].start;
 		if( *start > 0 ){
-			*level = *(Isacmem2 + *number - 1);
-			*stop = *(Isacmem3 + *number - 1);
+			*level = segs[*number-1].level;
+			*stop = segs[*number-1].stop;
 			}
 		else{
 			*number = *number + 1;

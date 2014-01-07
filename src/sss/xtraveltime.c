@@ -27,6 +27,9 @@
 #define	MBLKSZ	500
 #define	MENTRY	40
 
+extern float *tty[MXTT];
+extern float *ttx[MXTT];
+
 void
 truncate(char *s) {
     char *p;
@@ -44,10 +47,10 @@ xtraveltime(	int *nerr)
 {
 	char kalpha[21], kcard[MCMSG+1], kcont[9], kdflin[MCMSG+1], kform[9];
 	int lbcksp, lexpnd, lfree, lmore, ltoend;
-	int idx, ic, ic1, ic2, index, iopch[MXTT], 
-	 itype, jdx, jch, jdfl, jen, n1, nblksz, 
-	 nblksz2, nc, ncerr, nchar, ndcont, ndflin, ndform, ndxmem, 
-	 nentry, newndx, nhlines, nmodel, nPickStart = 0, nttmsv, numch, numxch, 
+	int idx, ic, ic1, ic2, iopch[MXTT], 
+	 itype, jdx, jch, jdfl, jen, nblksz, 
+	 nblksz2, nc, ncerr, nchar, ndcont, ndflin, ndform,
+	 nentry, nhlines, nmodel, nPickStart = 0, nttmsv, numch, numxch, 
 	 numych, numsave;
     FILE *nun = NULL;
 	float fentry[MENTRY];
@@ -55,8 +58,9 @@ xtraveltime(	int *nerr)
 
     string_list *list, *files;
     char *file;
-
+    float *tx;
     int i;
+    sac *s;
 	static int nphaseNames = 0 ;	/* for use with TAUP options only */
 
 	int lmodel = FALSE ,	/* was global, now it's local.  maf 960829 */
@@ -357,9 +361,12 @@ xtraveltime(	int *nerr)
 	if( iphase != 0 )
 	    cmtt.nphases = iphase;
 
-	if( cmtt.ttdep == 0.0 && cmdfm.ndfl > 0 ){
-	    getfil( 1, FALSE, &n1, &n1, &n1, nerr );
-        cmtt.ttdep = *evdp;
+	if( cmtt.ttdep == 0.0 && saclen() > 0 ){
+    if(!(s = sacget(0, FALSE, nerr))) {
+      goto L_9000;
+    }
+    //getfil( 1, FALSE, &n1, &n1, &n1, nerr );
+    cmtt.ttdep = s->h->evdp;
 	}
     for(i = 0; i < cmtt.nphases; i++) {
         truncate(kmtt.kphases[i]);
@@ -379,8 +386,8 @@ xtraveltime(	int *nerr)
 
 	if( cmtt.nttm != nttmsv ){
 	    for( idx = 1; idx <= cmtt.nttm; idx++ ){
-		relamb( cmmem.sacmem, Ndxttx[idx], nerr );
-		relamb( cmmem.sacmem, Ndxtty[idx], nerr );
+        FREE(ttx[idx]);
+        FREE(tty[idx]);
 	    } /* end for */
 	} /* end if */
 
@@ -540,9 +547,10 @@ xtraveltime(	int *nerr)
 
 	    /* --- Allocate memory block for X channel */
 	    nblksz = MBLKSZ;
-	    *npts = 0;
+	    s->h->npts = 0;
 	    if( numxch == 1 ){
-		allamb( &cmmem, nblksz, &ndxmem, nerr );
+        tx = (float *) malloc(sizeof(float) * nblksz);
+        //allamb( &cmmem, nblksz, &ndxmem, nerr );
 		if( *nerr != 0 )
 		    goto L_8888;
 	    }
@@ -557,7 +565,7 @@ xtraveltime(	int *nerr)
 		for( jdx = 1; jdx <= numych; jdx++ ){
 		    Nttpt[jdx + cmtt.nttm] = 0;
 		    if( numxch == 1 ){			/* case of one X channel.  maf 970808 */
-			Ndxttx[jdx + cmtt.nttm] = ndxmem;
+          ttx[jdx + cmtt.nttm] = tx;
 			Ltteven[jdx + cmtt.nttm] = FALSE ;
 		    }
 		    else {				/* case of no X channels.  maf 970808 */
@@ -565,7 +573,8 @@ xtraveltime(	int *nerr)
 			Xttfirst[jdx + cmtt.nttm] = 0.0;
 			Xttdel[jdx + cmtt.nttm] = 1.0*ttscale;
 		    }
-		    allamb( &cmmem, nblksz, &Ndxtty[jdx + cmtt.nttm], nerr );
+        tty[jdx + cmtt.nttm] = (float *) malloc(sizeof(float) * nblksz);
+		    //allamb( &cmmem, nblksz, &Ndxtty[jdx + cmtt.nttm], nerr );
 		    if( *nerr != 0 )
 			goto L_8888;
 
@@ -589,40 +598,47 @@ L_4000:
 
 	    /* This block had been changed in 96, but has now been largely restored to
 	       what it was in xtraveltime.c.orig.  maf 970808 */
-	    *npts = *npts + 1;
+	    s->h->npts = s->h->npts + 1;
 	    for( jen = 1; jen <= nentry; jen++ ){
 		jch = Iopch[jen];
 		if( jch >= 0 ){
-		    if( *npts > nblksz ){
+		    if( s->h->npts > nblksz ){
 			/* --- This block is filled to capacity, release all blocks associated 
 			 *     with the current model */
 			nblksz2 = 2*nblksz;
 			/* --- Reallocate for x values */
 			if( !Ltteven[cmtt.nttm + 1] ) {
-                            index = Ndxttx[cmtt.nttm + 1];
-                            reaamb( cmmem.sacmem, nblksz, nblksz2,
-                              index, &newndx, nerr );
-                            if( *nerr != 0 )
-                                goto L_8888;
-                            Ndxttx[cmtt.nttm + idx] = newndx;
-			} /* end if( !Ltteven[cmtt.nttm + 1] ) */
+        {
+          float *tmp;
+          tmp = (float *) realloc(ttx[cmtt.nttm+1], sizeof(float) * nblksz2 );
+          if(tmp) {
+            ttx[cmtt.nttm+1] = tmp;
+          } else {
+            fprintf(stderr, "error reallocating block for ttx\n");
+          }
+          if( *nerr != 0 )
+            goto L_8888;
+        }
+      } /* end if( !Ltteven[cmtt.nttm + 1] ) */
 			/* --- Reallocate for all y values */
 			for( idx = 1; idx <= numych; idx++ ){
-			    index = Ndxtty[cmtt.nttm + idx];
-			    reaamb( cmmem.sacmem, nblksz, nblksz2, 
-			    index, &newndx, nerr );
-			    if( *nerr != 0 )
-				goto L_8888;
-			    Ndxtty[cmtt.nttm + idx] = newndx;
+          {
+            float *tmp;
+            tmp = (float *) realloc(tty[cmtt.nttm+1], sizeof(float) * nblksz2 );
+            if(tmp) {
+              tty[cmtt.nttm+1] = tmp;
+            } else {
+              fprintf(stderr, "error reallocating block for tty\n");
+            }
+          }
 			} /* end for */
 			nblksz = nblksz2;
-		    } /* end if ( *npts > nblksz ) */
+		    } /* end if ( s->h->npts > nblksz ) */
 		    if ( jch == 0 ) 
-			*(cmmem.sacmem[Ndxttx[cmtt.nttm + 1]]+*npts-1) = 
-			  Fentry[ jen ] * ttscale;
+          ttx[cmtt.nttm+1][s->h->npts-1] = Fentry[ jen ] * ttscale;
 		    else {
-			*(cmmem.sacmem[Ndxtty[cmtt.nttm + jch]]+*npts-1) = Fentry[jen];
-			Nttpt[cmtt.nttm + jch] = *npts;
+          tty[cmtt.nttm+jch][s->h->npts-1] = Fentry[jen];
+			Nttpt[cmtt.nttm + jch] = s->h->npts;
 		    }
 		} /* end if ( jch >= 0 ) */
 	    } /* end for ( jen ) */
@@ -677,14 +693,20 @@ L_7777:
         float tt[MAX_PHASES],  dtdd[MAX_PHASES], dtdh[MAX_PHASES], dddp[MAX_PHASES];
         char names[MAX_PHASES][9];
         
-	    getfil ( fileNumber , FALSE, &n1, &n1, &n1, nerr );
+        if(!(s = sacget(fileNumber-1, FALSE, nerr))) {
+          goto L_9000;
+        }
+        //getfil ( fileNumber , FALSE, &n1, &n1, &n1, nerr );
 
-        trtm(*gcarc, MAX_PHASES, &n, tt, dtdd, dtdh, dddp, (char *) names, 9);
+        trtm(s->h->gcarc, MAX_PHASES, &n, tt, dtdd, dtdh, dddp, (char *) names, 9);
         sprintf ( kValue , "%f" , tt[0] ) ;
         setbbv ( bbName , kValue, nerr, strlen ( bbName ) , strlen ( kValue ) ) ;
 	} else {
-	    for ( jdfl = 1 ; jdfl <= cmdfm.ndfl ; jdfl++ ) {
-            getfil ( jdfl , FALSE , &n1, &n1, &n1, nerr ) ;
+	    for ( jdfl = 1 ; jdfl <= saclen() ; jdfl++ ) {
+        if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+          goto L_9000;
+        }
+        //getfil ( jdfl , FALSE , &n1, &n1, &n1, nerr ) ;
             {
                 int i, j, set, k;
                 int p;
@@ -693,7 +715,7 @@ L_7777:
                 float time;
                 char names[MAX_PHASES][9];
                 /* Find all phases at this distance range */
-                trtm(*gcarc, MAX_PHASES, &n, tt, dtdd, dtdh, dddp, (char *) names, 9);
+                trtm(s->h->gcarc, MAX_PHASES, &n, tt, dtdd, dtdh, dddp, (char *) names, 9);
                 k = nPickStart;
                 for(i = 0; i < n; i++) {
                     truncate(names[i]);
@@ -732,16 +754,16 @@ L_7777:
                             }
                         }
                     } else {
-                        if(*o != SAC_FLOAT_UNDEFINED) {
-                            time = *o + tt[p];
+                        if(s->h->o != SAC_FLOAT_UNDEFINED) {
+                            time = s->h->o + tt[p];
                         } else {
                             time = tt[p];
                         }
                         if(lpicks) {
-                            *(t0 + k) = time;
-                            sprintf(kmhdr.khdr[ 6 + k ], "%-8s", names[p]);
+                          TN(s)[k] = time;
+                          sprintf( khdr(s, 6+k), "%-8s", names[p]);
                             if(verbose && !quiet) {
-                                fprintf(stdout, "traveltime: setting phase %-8s at %f s [ t = %f s ] t%d \n", names[p], *(t0 + k), tt[p], k);
+                              fprintf(stdout, "traveltime: setting phase %-8s at %f s [ t = %f s ] t%d \n", names[p], TN(s)[k], tt[p], k);
                             }
                             k++;
                         } else {
@@ -752,7 +774,7 @@ L_7777:
                     }
                 }
             }
-            putfil ( jdfl , nerr ) ;
+
 	    } 
 	}
     
@@ -838,10 +860,12 @@ void readtaup ( FILE *taupfile , int *ncurves , int *nerr )
 	/* Now loop between phases to read the data. */
 	for ( jdx = 0 ; jdx < *ncurves ; jdx++ ) {
 	    /* allocate space for the X (distance) and Y (time) data */
-	    allamb ( &cmmem , cmtt.nttpt[ jdx ] , &cmtt.ndxtty[ jdx ], nerr );
+    tty[jdx] = (float *) malloc(sizeof(float) * cmtt.nttpt[jdx]);
+    //allamb ( &cmmem , cmtt.nttpt[ jdx ] , &cmtt.ndxtty[ jdx ], nerr );
 	    if ( *nerr )
-		goto L_ERROR ;
-	    allamb ( &cmmem , cmtt.nttpt[ jdx ] , &cmtt.ndxttx[ jdx ], nerr );
+        goto L_ERROR ;
+      ttx[jdx] = (float *) malloc(sizeof(float) * cmtt.nttpt[jdx]);
+	    //allamb ( &cmmem , cmtt.nttpt[ jdx ] , &cmtt.ndxttx[ jdx ], nerr );
 	    if ( *nerr )
 		goto L_ERROR ;
 
@@ -851,13 +875,13 @@ void readtaup ( FILE *taupfile , int *ncurves , int *nerr )
 		bPtr = fgetsp ( buffer , 120 , taupfile ) ;
 
 		/* read X, convert to km */
-		cmmem.sacmem[ cmtt.ndxttx[ jdx ] ][ idx ] =
+		ttx[ jdx ][ idx ] =
 		 atof ( bPtr ) * RKMPERDG ;
 
 		/* find and read Y */
 		while ( !isspace ( *bPtr ) )
 		    bPtr++ ;
-		cmmem.sacmem[ cmtt.ndxtty[ jdx ] ][ idx ] = atof ( bPtr ) ;
+		tty[ jdx ][ idx ] = atof ( bPtr ) ;
 	    }
 	}
 

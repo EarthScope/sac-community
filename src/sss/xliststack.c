@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <libgen.h>
+#include "amf.h"
 #include "sss.h"
 #include "dfm.h"
 #include "bool.h"
@@ -29,7 +30,7 @@ int *nerr;
 	static char knmo[9] = "= NMO   ";
 	static char krefr[9] = "= REFR  ";
   char *tmp;
-
+  sac *s;
 
 	/*=====================================================================
 	 * PURPOSE:  To execute the LISTSTACK command.
@@ -129,9 +130,12 @@ L_1000:
 
 	/* - Loop on stack list. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-    if((tmp = string_list_get(datafiles, jdfl-1))) {
-      tmp = basename(tmp);
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+    tmp = s->m->filename;
+    if(tmp) {
 		  strcpy( kpol, "  NORMAL" );
 		  if( !Lpol[jdfl] )
 			strcpy( kpol, "REVERSED" );

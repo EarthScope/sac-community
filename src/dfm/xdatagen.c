@@ -8,7 +8,7 @@
 #include "dfm.h"
 #include "bool.h"
 
-
+#include "amf.h"
 #include "co.h"
 #include "bot.h"
 #include "msg.h"
@@ -54,7 +54,7 @@ xdatagen(int *nerr) {
 	     *             read filelist rather than replacement of 
 	     *             current list with new one. 
 	     */
-	    if( (lcmore( nerr ) && lckey( "&MORE$",7 )) && cmdfm.ndfl > 0 ) {
+	    if( (lcmore( nerr ) && lckey( "&MORE$",7 )) && saclen() > 0 ) {
 		lmore = TRUE;
 		lFirstLoop = TRUE ;
 	    }
@@ -110,7 +110,7 @@ xdatagen(int *nerr) {
 	    alignFiles ( nerr ) ;
 	    if ( *nerr )
 		return ;
-	    cmdfm.nfilesFirst = cmdfm.ndfl ;
+	    cmdfm.nfilesFirst = saclen() ;
 	}
 	else{
 	    cmdfm.nfilesFirst = 0 ;

@@ -478,7 +478,7 @@ static const char *const yyTokenName[] = {
   "ESCAPE_STRING",  "EQUALS",        "GE",            "LE",          
   "EQ",            "LT",            "GT",            "NE",          
   "COMMA",         "WILD",          "EVALUATE",      "TO",          
-  "AS",            "FLOAT",         "INTEGER",       "DEBUG",       
+  "AS",            "FLOAT",         "INTEGER",       "DEBUG_PARSER",
   "TOK_PI",        "BLACKBOARD",    "HEADER",        "VARIABLE",    
   "SIN",           "COS",           "TAN",           "SINH",        
   "COSH",          "TANH",          "ASIN",          "ACOS",        
@@ -532,7 +532,7 @@ static const char *const yyRuleName[] = {
  /*  26 */ "evalo ::= TO STRING",
  /*  27 */ "evalo ::= AS FLOAT",
  /*  28 */ "evalo ::= AS INTEGER",
- /*  29 */ "pbits ::= DEBUG",
+ /*  29 */ "pbits ::= DEBUG_PARSER",
  /*  30 */ "expr ::= state",
  /*  31 */ "number ::= NUM",
  /*  32 */ "number ::= TOK_PI",
@@ -717,7 +717,7 @@ static void yy_destructor(
     case 24: /* AS */
     case 25: /* FLOAT */
     case 26: /* INTEGER */
-    case 27: /* DEBUG */
+    case 27: /* DEBUG_PARSER */
     case 28: /* TOK_PI */
     case 29: /* BLACKBOARD */
     case 30: /* HEADER */
@@ -1307,7 +1307,7 @@ static void yy_reduce(
 { eval_asfloat = 0;  yymsp[-1].minor.yy0.type = yymsp[0].minor.yy0.type = STRING; token_append(&yygotominor.yy0,&yymsp[-1].minor.yy0,&yymsp[0].minor.yy0); }
 #line 1309 "expr_parse.c"
         break;
-      case 29: /* pbits ::= DEBUG */
+      case 29: /* pbits ::= DEBUG_PARSER */
 #line 166 "expr_parse.y"
 {
   if(!tdebug) {

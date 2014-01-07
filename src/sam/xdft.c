@@ -17,16 +17,14 @@
 void /*FUNCTION*/ xdft(nerr)
 int *nerr;
 {
-	int jdx, jdfl, jdfl_, jj, 
-	 ndx1, ndx2, ndxold, nfreq, nlnnew, nlnold, ntused, ndxscr1,
-         ndxscr2;
+	int jdx, jdfl, jj, 
+    nfreq, nlnnew, npts_orig;
 
 	float scalef;
-
-        float *Sacmem, *Sacmem2;
+  sac *s;
 
         double *re, *im;
-
+        float *new, *new2;
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command DFT.
 	 *           This command takes the discrete Fourier transform of data.
@@ -134,148 +132,123 @@ int *nerr;
 
 	/* - For each file in (active working-storage) data file list: */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-	    jdfl_ = jdfl - 1;
-
-	    /* -- Get file from file manager. */
-	    getfil( jdfl, TRUE, &nlnold, &ndx1, &ntused, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
+      if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+        goto L_8888;
+      }
+	    //getfil( jdfl, TRUE, &nlnold, &ndx1, &ntused, nerr );
 
 	    /* -- Compute length of data after transform. */
-	    Ncomp[jdfl] = 2;
-	    nlnnew = next2( nlnold );
+	    nlnnew = next2( s->h->npts );
 
 	    /* -- If transformed length is greater than current length. */
-	    if( nlnnew > nlnold ){
+	    if( nlnnew > s->h->npts ){
 
 		/* --- Allocate memory block for first component. */
-		ndxold = ndx1;
-		allamb( &cmmem, nlnnew, &ndx1, nerr );
+   //ndxold = ndx1;
+    new = (float *)malloc(sizeof(float) * nlnnew);
+		//allamb( &cmmem, nlnnew, &ndx1, nerr );
 		if( *nerr != 0 ){
 		    /* ***** buffered mode ****** */
 		}
 		/* --- Update DFM entries. */
-		Nlndta[jdfl] = nlnnew;
-		cmdfm.ndxdta[jdfl_][0] = ndx1;
+    //Nlndta[jdfl] = nlnnew;
+		//cmdfm.ndxdta[jdfl_][0] = ndx1;
+    //s->y = new;
 		/* --- Copy time-series data into first block and zero fill. */
 		/* copy( (int*)cmmem.sacmem[ndxold], (int*)cmmem.sacmem[ndx1], nlnold ); */
-		copy_float( cmmem.sacmem[ndxold], cmmem.sacmem[ndx1], nlnold );
-		fill( cmmem.sacmem[ndx1]+nlnold, nlnnew - nlnold, 0. );
-		/* --- Release old data block containing time-series. */
-		relamb( cmmem.sacmem, ndxold, nerr );
-		if( *nerr != 0 )
-		    goto L_8888;
+
+		copy_float( s->y, new, s->h->npts );
+		fill( new + s->h->npts, nlnnew - s->h->npts, 0. );
+    npts_orig = s->h->npts;
+    s->h->npts = nlnnew;
+    FREE(s->y);
+    s->y = new;
 	    } /* end if( nlnnew > nlnold ) */
 
 	    /* -- Allocate memory block for second component and zero fill. */
-	    allamb( &cmmem, nlnnew, &ndx2, nerr );
+      new2 = (float *)malloc(sizeof(float) * nlnnew);
+	    //allamb( &cmmem, nlnnew, &ndx2, nerr );
 	    if( *nerr != 0 ){
 		return ;
 	    }
-	    cmdfm.ndxdta[jdfl_][1] = ndx2;
-	    fill( cmmem.sacmem[ndx2], nlnnew, 0. );
+      s->x = new2;
+	    //cmdfm.ndxdta[jdfl_][1] = ndx2;
+	    fill( s->x, nlnnew, 0. );
 
 	    /* -- Remove the mean before transform if requested. */
 	    if( !cmsam.lwmean ){
-                Sacmem = cmmem.sacmem[ndx1];
-		for( jdx = ndx1; jdx <= (ndx1 + nlnold - 1); jdx++ ){
-		    *(Sacmem++) -= *depmen;
+		for( jdx = 0; jdx <  npts_orig; jdx++ ){
+      s->y[jdx] -= s->h->depmen;
 		}
 	    } /* end if( !cmsam.lwmean ) */
 
 
             /* allocate memory to store data for call to double precision fft routine */
-
-            allamb( &cmmem, 2*nlnnew, &ndxscr1, nerr );
-            if( *nerr != 0 ) {
-                printf("error allocating memory-xdft\n");
-                goto L_8888;
+      
+      re = (double *) malloc(sizeof(double) * nlnnew);
+      im = (double *) malloc(sizeof(double) * nlnnew);
+      if(!re || !im) {
+        printf("error allocating memory-xdft\n");
+        goto L_8888;
 	    }
 
-            allamb( &cmmem, 2*nlnnew, &ndxscr2, nerr );
-            if( *nerr != 0 ) {
-                printf("error allocating memory-xdft\n");
-                goto L_8888;
+      DEBUG("re,im: %p %p\n", re, im);
+      for ( jdx=0; jdx<nlnnew; jdx++){
+              re[jdx] = (double)s->y[jdx];
+              im[jdx] = (double)s->x[jdx];
 	    }
-
-            re = (double *)cmmem.sacmem[ndxscr1];
-            im = (double *)cmmem.sacmem[ndxscr2];
-
-            Sacmem = cmmem.sacmem[ndx1];
-            Sacmem2 = cmmem.sacmem[ndx2];
-
-            for ( jdx=0; jdx<nlnnew; jdx++){
-                *re++ = (double)*Sacmem++;
-                *im++ = (double)*Sacmem2++;
-	    }
-
-            re = (double *)cmmem.sacmem[ndxscr1];
-            im = (double *)cmmem.sacmem[ndxscr2];
+      DEBUG("re,im: %p %p\n", re, im);
 
 	    /* -- Perform FFT. */
             dcpft(re, im, nlnnew, 1, cmsam.ifwd);
 
-
+      DEBUG("re,im: %p %p\n", re, im);
 /*	    cpft( cmmem.sacmem[ndx1], cmmem.sacmem[ndx2], nlnnew, 1, cmsam.ifwd ); */
-
-            re = (double *)cmmem.sacmem[ndxscr1];
-            im = (double *)cmmem.sacmem[ndxscr2];
-
-            Sacmem = cmmem.sacmem[ndx1];
-            Sacmem2 = cmmem.sacmem[ndx2];
-
+      DEBUG("re,im: %p %p\n", re, im);
             for ( jdx=0; jdx<nlnnew; jdx++){
-                *Sacmem++ = (float)*re++;
-                *Sacmem2++ = (float)*im++;
-	    }
-
-            relamb(cmmem.sacmem, ndxscr1, nerr);
-            if( *nerr != 0 ) {
-                printf("error releasing memory-xdft\n");
-                goto L_8888;
-	    }
-
-            relamb(cmmem.sacmem, ndxscr2, nerr);
-            if( *nerr != 0 ) {
-                printf("error releasing memory-xdft\n");
-                goto L_8888;
-	    }
+              s->y[jdx] = (float)re[jdx];
+              s->x[jdx] = (float)im[jdx];
+            }
+      DEBUG("re,im: %p %p\n", re, im);
+            FREE(re);
+            FREE(im);
 
 	    nfreq = nlnnew/2;
-	    scalef = *delta;
-	    *(cmmem.sacmem[ndx1]) *= scalef;
-	    *(cmmem.sacmem[ndx1] + nfreq) *= scalef;
+	    scalef = s->h->delta;
+      s->y[0] *= scalef;
+      s->y[nfreq] *= scalef;
 	    for( jdx = 1; jdx <= (nfreq - 1); jdx++ ){
-		*(cmmem.sacmem[ndx1] + jdx) *= scalef;
-		*(cmmem.sacmem[ndx2] + jdx) *= scalef;
-		jj = nlnnew - jdx;
-		*(cmmem.sacmem[ndx1] + jj) = *(cmmem.sacmem[ndx1] + jdx);
-		*(cmmem.sacmem[ndx2] + jj) = -(*(cmmem.sacmem[ndx2] + jdx));
+        s->y[jdx] *= scalef;
+        s->x[jdx] *= scalef;
+        jj = nlnnew - jdx;
+        s->y[jj] =  s->y[jdx];
+        s->x[jj] = -s->x[jdx];
 	    }
 	    setmsg( "OUTPUT", 1607 );
-	    apfmsg( *cmmem.sacmem[ndx1] );
+	    apfmsg( s->y[0] );
 	    outmsg();
 
 	    /* -- Adjust header to reflect new status. */
-	    *nsnpts = *npts;
-	    *npts = nlnnew;
-	    *iftype = *irlim;
-	    *sb = *b;
-	    *sdelta = *delta;
-	    *b = 0.;
-	    *delta = 1./(*delta*(float)( *npts ));
-	    *e = *b + (float)( nfreq )**delta;
+	    s->h->nsnpts = npts_orig;
+	    s->h->npts   = nlnnew;
+	    s->h->iftype = IRLIM;
+	    s->h->sb     = s->h->b;
+	    s->h->sdelta = s->h->delta;
+	    s->h->b      = 0.;
+	    s->h->delta  = 1./(s->h->delta * (float)( s->h->npts ));
+	    s->h->e      = s->h->b + (float)( nfreq )*s->h->delta;
 	    if( !cmsam.lrlim ){
-		toamph( cmmem.sacmem[ndx1], cmmem.sacmem[ndx2], *npts, cmmem.sacmem[ndx1], 
-			cmmem.sacmem[ndx2] );
-		*iftype = *iamph;
-	    }
+        int i;
+        DEBUG("Real/Imag => Amp/Phase %d\n", s->h->iftype);
+        toamph( s->y, s->x, s->h->npts, s->y, s->x);
+        for(i = 0; i < s->h->npts; i++) {
+          DEBUG("%d %f/%f\n", i, s->y[i], s->x[i]);
+        }
+        s->h->iftype = IAMPH;
+        DEBUG("Real/Imag => Amp/Phase %d\n", s->h->iftype);
+      }
 
-	    /* -- Give file back to memory manager. */
-	    putfil( jdfl, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
 
 	} /* end for ( jdfl ) */
 

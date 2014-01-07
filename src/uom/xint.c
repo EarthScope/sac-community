@@ -13,11 +13,10 @@
 void /*FUNCTION*/ xint(nerr)
 int *nerr;
 {
-	int jdfl, jy, nlcx, nlcy, nlen;
+	int jdfl, jy;
 	float deltat, hstep, prtint, totint;
 
-	float *Sacmem, *Sacmem1, *Sacmem2;
-
+  sac *s;
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command INTEGRATE.
 	 *           This command integrates each data file.
@@ -97,92 +96,79 @@ int *nerr;
 
 	/* - Perform requested operation on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 	    /* -- Get file */
-	    getfil( jdfl, TRUE, &nlen, &nlcy, &nlcx, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+    //getfil( jdfl, TRUE, &nlen, &nlcy, &nlcx, nerr );
 
 	    /* -- Logic for evenly spaced data. */
-	    if( *leven ){
+	    if( s->h->leven ){
 		if( cmuom.ltrap ){
 		    /* --- Midpoint (trapezoidal) method.  */
-		    hstep = 0.5**delta;
+		    hstep = 0.5*s->h->delta;
 		    totint = 0.;
-                    Sacmem = cmmem.sacmem[nlcy];
-		    for( jy = 0; jy < (nlen - 1); jy++ ){
-			prtint = hstep*(*Sacmem + *(Sacmem+ 1));
-			totint = totint + prtint;
-			*(Sacmem++) = totint;
+		    for( jy = 0; jy < s->h->npts; jy++ ){
+          prtint = hstep*(s->y[jy] + s->y[jy+1]);
+          totint = totint + prtint;
+          s->y[jy] = totint;
 		    }
 		}
 		else{
 		    /* --- Rectangular method.  */
-		    Sacmem = cmmem.sacmem[nlcy];
-		    *Sacmem = *delta * *Sacmem ;
-		    for( jy = 1, Sacmem++ ; jy < nlen; jy++, Sacmem++ ){
-                        *Sacmem = *delta * *Sacmem + *(Sacmem-1) ;
-		    }
+      s->y[0] = s->h->delta * s->y[0];
+      for( jy = 1; jy < s->h->npts; jy++ ){
+        s->y[jy] = s->h->delta * s->y[jy] + s->y[jy-1] ;
+      }
 		}
-	    } /* end if( *leven ) */
+	    } /* end if( s->h->leven ) */
 
 	    /* -- Logic for unevenly spaced data. */
 	    else{
 		if( cmuom.ltrap ){
 		    /* --- Midpoint (trapezoidal) method.  */
 		    totint = 0.;
-                    Sacmem1 = cmmem.sacmem[nlcy];
-                    Sacmem2 = cmmem.sacmem[nlcx];
-		    for( jy = 0; jy < (nlen - 1); jy++ ){
-			hstep = 0.5*(*(Sacmem2+ 1) - *(Sacmem2));
-			prtint = hstep*(*Sacmem1 + *(Sacmem1+ 1));
-			totint = totint + prtint;
-			*(Sacmem1++) = totint;
-			*(Sacmem2++) += hstep;
+		    for( jy = 0; jy < (s->h->npts - 1); jy++ ){
+          hstep = 0.5*(s->x[jy+1] - s->x[jy]);
+          prtint = hstep*(s->y[jy] + s->y[jy+1]);
+          totint = totint + prtint;
+          s->y[jy] = totint;
+          s->x[jy] += hstep;
 		    }
 		}
 		else{
 		    /* --- Rectangular method.  */
-                    Sacmem1 = cmmem.sacmem[nlcx]+1;
-                    Sacmem2 = cmmem.sacmem[nlcy]+1;
-		    for( jy = 0; jy < nlen; jy++ ){
-                        deltat = *Sacmem1 - *(Sacmem1-1);
-                        *Sacmem2 = deltat**Sacmem2 + *(Sacmem2-1);
-			Sacmem1++;
-                        Sacmem2++;
+		    for( jy = 1; jy <= s->h->npts; jy++ ){
+          deltat = s->x[jy] - s->x[jy-1];
+          s->y[jy] = deltat*s->y[jy] + s->y[jy-1];
 		    }
 		}
-	    } /* end else associated with if( *leven ) */
+	    } /* end else associated with if( s->h->leven ) */
 
 	    /* -- Change the type of the dependent variable. */
-	    if( *idep == *iacc )
-		*idep = *ivel;
-	    else if( *idep == *ivel )
-		*idep = *idisp;
+	    if( s->h->idep == IACC )
+		s->h->idep = IVEL;
+	    else if( s->h->idep == IVEL )
+		s->h->idep = IDISP;
 	    else
-		*idep = *iunkn;
+		s->h->idep = IUNKN;
 
 	    /* -- If using trapezoidal method, decrease NPTS by one, set B and E. */
 	    if( cmuom.ltrap ){
-		*npts = *npts - 1;
-		Nlndta[jdfl] = *npts;
-		if( *leven ){
-		    *begin = *begin + 0.5**delta;
-		    *ennd = *begin + (float)( *npts - 1 )**delta;
+		s->h->npts = s->h->npts - 1;
+		if( s->h->leven ){
+		    s->h->b = s->h->b + 0.5*s->h->delta;
+		    s->h->e = s->h->b + (float)( s->h->npts - 1 )*s->h->delta;
 		}
 		else{
-		    *begin = *(cmmem.sacmem[nlcx]);
-		    *ennd = *(cmmem.sacmem[nlcx]+*npts-1);
+      s->h->b = s->x[0];
+      s->h->e = s->x[s->h->npts-1];
 		}
 	    }
 
 	    /* -- Recalculate min, max and mean. */
-	    extrma( cmmem.sacmem[nlcy], 1, *npts, depmin, depmax, depmen );
-
-	    /* -- Give data file back to memory manager. */
-	    putfil( jdfl, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
+	    extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
 	} /* end for ( jdfl ) */
 

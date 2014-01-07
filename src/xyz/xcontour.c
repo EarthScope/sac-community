@@ -26,12 +26,12 @@ int *nerr;
 	char kret[9];
 	int lany, lframesave, lwait, lxlimits, lylimits;
 	int ixstart, ixstop, iystart, iystop, jfile, ncret, 
-	 ndxz, nfiles, nlen, notused, nxsize, nysize;
+	 nfiles, nxsize, nysize;
 	float vportratio, vspaceratio, xmaximum, xminimum, xstart, xstop, 
 	 ymaximum, yminimum, ystart, ystop;
 
 	static char kwait[9] = "Waiting$";
-
+  sac *s;
 
 
 	/*=====================================================================
@@ -152,31 +152,18 @@ L_1000:
 
 	getnfiles( &nfiles );
 	for( jfile = 1; jfile <= nfiles; jfile++ ){
-
+    if(!(s = sacget(jfile-1, TRUE, nerr))) {
+      goto L_8888;
+    }
 		/* -- Get file from memory manager. */
-		getfil( jfile, TRUE, &nlen, &ndxz, &notused, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+		//getfil( jfile, TRUE, &nlen, &ndxz, &notused, nerr );
 
-		/* -- Get needed header information. */
-		getnhv( "NXSIZE", &nxsize, nerr , 6 );
-		if( *nerr != 0 )
-			goto L_8888;
-		getnhv( "NYSIZE", &nysize, nerr , 6 );
-		if( *nerr != 0 )
-			goto L_8888;
-		getfhv( "XMINIMUM", &xminimum, nerr , 8);
-		if( *nerr != 0 )
-			goto L_8888;
-		getfhv( "XMAXIMUM", &xmaximum, nerr , 8);
-		if( *nerr != 0 )
-			goto L_8888;
-		getfhv( "YMINIMUM", &yminimum, nerr , 8);
-		if( *nerr != 0 )
-			goto L_8888;
-		getfhv( "YMAXIMUM", &ymaximum, nerr , 8);
-		if( *nerr != 0 )
-			goto L_8888;
+    nxsize   = s->h->nxsize;
+    nysize   = s->h->nysize;
+    xminimum = s->h->xminimum;
+    xmaximum = s->h->xmaximum;
+    yminimum = s->h->yminimum;
+    ymaximum = s->h->ymaximum;
 
 		/* -- Get requested x and y data limits and convert to data indices. */
 		getxlm( &lxlimits, &xstart, &xstop );
@@ -248,7 +235,7 @@ L_1000:
 		settextfont( cmgem.igtfnt );
 
 		/* -- Contour the data. */
-		plotcontdata( cmmem.sacmem[ndxz], nxsize, nysize, nerr );
+		plotcontdata( s->y, nxsize, nysize, nerr );
 		if( *nerr != 0 )
 			goto L_8888;
 

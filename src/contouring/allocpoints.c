@@ -8,15 +8,20 @@
 #include <stdlib.h>
 #include <math.h>
 
-#include "amf.h"
+#include "contouring.h"
+#include "debug.h"
+
+extern struct contour contour;
 
 void allocpoints(maxpoints, indexpoints, indexlinks, 
 	 indexrlinks, indexaction, nerr)
      int maxpoints, *indexpoints, *indexlinks, *indexrlinks, *indexaction, 
 	 *nerr;
 {
-	int nrerr;
-
+  UNUSED(indexpoints);
+  UNUSED(indexlinks);
+  UNUSED(indexrlinks);
+  UNUSED(indexaction);
 
 
 	/*=====================================================================
@@ -50,53 +55,5 @@ void allocpoints(maxpoints, indexpoints, indexlinks,
 	/* PROCEDURE: */
 	*nerr = 0;
 
-	/* - Allocate space for points. Two values are needed per point. */
-
-	allamb( &cmmem, 2*maxpoints, indexpoints, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
-
-	/* - Allocate space for links. */
-
-	allamb( &cmmem, maxpoints, indexlinks, nerr );
-	if( *nerr != 0 ){
-		relamb( cmmem.sacmem, *indexpoints, &nrerr );
-		*indexpoints = 0;
-		*indexlinks = 0;
-		*indexrlinks = 0;
-		*indexaction = 0;
-		goto L_8888;
-		}
-
-	/* - Allocate space for reverse links. */
-
-	allamb( &cmmem, maxpoints, indexrlinks, nerr );
-	if( *nerr != 0 ){
-		relamb( cmmem.sacmem, *indexpoints, &nrerr );
-		relamb( cmmem.sacmem, *indexlinks, &nrerr );
-		*indexpoints = 0;
-		*indexlinks = 0;
-		*indexrlinks = 0;
-		*indexaction = 0;
-		goto L_8888;
-		}
-
-	/* - Allocate space for action attribute storage. */
-
-	allamb( &cmmem, maxpoints, indexaction, nerr );
-	if( *nerr != 0 ){
-		relamb( cmmem.sacmem, *indexpoints, &nrerr );
-		relamb( cmmem.sacmem, *indexlinks, &nrerr );
-		relamb( cmmem.sacmem, *indexrlinks, &nrerr );
-		*indexpoints = 0;
-		*indexlinks = 0;
-		*indexrlinks = 0;
-		*indexaction = 0;
-		goto L_8888;
-		}
-
-L_8888:
-	return;
-
-} /* end of function */
-
+  contour.points = (struct points *) malloc(sizeof(struct points) * maxpoints);
+}

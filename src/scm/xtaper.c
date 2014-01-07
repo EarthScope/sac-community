@@ -17,9 +17,9 @@
 void /*FUNCTION*/ xtaper(nerr)
 int *nerr;
 {
-	int ipts, j, jdfl, ndx1, ndx2, nlen;
+	int ipts, j, jdfl;
 	float f0, f1, omega, tpts, value;
-
+  sac *s;
 
 
 	/*=====================================================================
@@ -107,26 +107,22 @@ L_1000:
 
 	/* - Perform taper on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
 		/* -- Get next file from memory manager. */
-		getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+		//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
 		/* -- Determine number of points for taper. */
     taper_width_to_points(cmsam.widtap, nlen, &ipts);
 
     /* -- Taper */
-    taper(cmmem.sacmem[ndx1], nlen, cmsam.itaptp, ipts);
+    taper(s->y, s->h->npts, cmsam.itaptp, ipts);
 
 		/* -- Compute new extrema. */
-		extrma( cmmem.sacmem[ndx1], 1, *npts, depmin, depmax, depmen );
+		extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
-		/* -- Give current file back to memory manager. */
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
 
 		}
 

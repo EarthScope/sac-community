@@ -165,8 +165,10 @@ void        gauss         (int       *seed,
 void        getResponse   (float     *array, 
 			   int        order, 
 			   float      gain ,
-			   char      *kprefix, 
-			   int       *nerr);
+         char      *kprefix,
+         int       npts,
+         float     delta,
+         int       *nerr);
 void        iirfilter     (float     *data, 
 			   int        nsamples, 
 			   float     *a, 

@@ -20,10 +20,10 @@ int *nerr;
 {
 	char kdescr[9];
 	int ifpick, ikpick, index, ipick, j, jdfl, 
-    ndxx, ndxy, nlen, nlnatw, nofatw;
+    nlnatw, nofatw;
 	double tmax, tmin;
   char *tmp;
-
+  sac *s;
 	/*=====================================================================
 	 * PURPOSE: To parse and execute the action command MARKVALUE.
 	 *          This command marks the first occurance of a data value.
@@ -130,13 +130,14 @@ L_1000:
 
 	/* - Perform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 		/* -- Get next file from the memory manager.
 		 *    (Header is moved into common blocks CMHDR and KMHDR.) */
-		getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+		//getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
 
 		/* -- Determine measurement window. */
 		if( cmsmm.lmtw ){
@@ -147,14 +148,14 @@ L_1000:
 			}
 		else{
 			nofatw = 0;
-			nlnatw = *npts;
+			nlnatw = s->h->npts;
 			}
 
 		/* -- Perform search of data file. */
 		index = -1;
 		if( cmsmm.lgedata ){
 			for( j = nofatw; j <= (nofatw + nlnatw - 1); j++ ){
-               if( *(cmmem.sacmem[ndxy] + j) >= cmsmm.value ){
+               if( s->y[j] >= cmsmm.value ){
 					index = j;
 					goto L_4000;
 					}
@@ -162,7 +163,7 @@ L_1000:
 			}
 		else{
 			for( j = nofatw; j <= (nofatw + nlnatw - 1); j++ ){
-				if( *(cmmem.sacmem[ndxy] + j) <= cmsmm.value ){
+				if( s->y[j] <= cmsmm.value ){
 					index = j;
 					goto L_4000;
 					}
@@ -172,25 +173,21 @@ L_1000:
 		/* -- Store in the requested header field. */
 L_4000:
 		if( index >= 0 ){
-			Fhdr[ifpick] = *b + (float)( index )**delta;
-			strcpy( kmhdr.khdr[ikpick - 1], kdescr );
+			VALUE(fhdr(s,ifpick)) = s->h->b + (float)( index )*s->h->delta;
+      strcpy( khdr(s,ikpick), kdescr );
 			}
 		else{
-			Fhdr[ifpick] = cmhdr.fundef;
-			strcpy( kmhdr.khdr[ikpick - 1], kmhdr.kundef );
+			VALUE(fhdr(s,ifpick)) = cmhdr.fundef;
+			strcpy( khdr(s,ikpick), kmhdr.kundef );
 			setmsg( "WARNING", 1 );
 			apcmsg( "Could not find value",21 );
 			apfmsg( cmsmm.value );
 			apcmsg( "in file",8 );
-            tmp = string_list_get(datafiles, jdfl-1);
+      tmp = s->m->filename;
             apcmsg2(tmp, strlen(tmp)+1);
 			wrtmsg( stdout );
 			}
 
-		/* -- Return file to memory manager. */
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
 
 		}
 

@@ -127,11 +127,11 @@ struct StationComp *matNewStationComp(int index, int nlen, float *data)
          free(new);
          return(NULLSET);
       }
-      new->name=malloc(strlen(kstnm)+1);
-      strcpy(new->name,kstnm);
-      new->name[strlen(kstnm)]='\0';
+      new->name=malloc(strlen(s->h->kstnm)+1);
+      strcpy(new->name,s->h->kstnm);
+      new->name[strlen(s->h->kstnm)]='\0';
       
-      new->delta=*delta;
+      new->delta=s->h->delta;
       new->next=NULLSET;
 
       return(new);
@@ -155,7 +155,7 @@ void matAddToChanSet(int index, int nlen, float *data)
       cur=head;
       while(cur != NULLSET){
          
-         if(!strcmp(kstnm , cur->name) && *delta == cur->delta){
+         if(!strcmp(s->h->kstnm , cur->name) && s->h->delta == cur->delta){
             if(*cmpinc == 0.0 && cur->Vfound == FALSE){
                matAddChanToStruc(&(cur->V), index,nlen,data);
                cur->Vfound=TRUE;

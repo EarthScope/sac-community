@@ -13,7 +13,8 @@
 #include "gtm.h"
 
 int /*FUNCTION*/ fdplot ( memptr , lprint , xbeg , nerr )
-int memptr[] , *xbeg , *nerr ;
+int *xbeg , *nerr ;
+float *memptr[];
 int lprint ;
 {
 	int lany;
@@ -21,8 +22,6 @@ int lprint ;
 	float dx, dy, xdattmp[NDATPTS], ximptmp[NIMPPTS], xos, 
 	 xvsmax, xvsmin, xwmax, xwmin, yos, yvsmax, yvsmin, ywmax, ywmax1, 
 	 ywmin, ywmin1;
-
-	int *const Memptr = &memptr[0] - 1;
 
 
 	/*=====================================================================
@@ -92,9 +91,9 @@ int lprint ;
 
 	/* - lower left, Group Delay Plot
 	 * -- Set world min & max values for this data set. */
-	getlims( cmmem.sacmem[Memptr[5]], NDATPTS, &ywmin, &ywmax );
-	getlims( cmmem.sacmem[Memptr[6]], NDATPTS, &xwmin, &xwmax );
-	getlims( cmmem.sacmem[Memptr[9]], NDATPTS, &ywmin1, &ywmax1 );
+	getlims( memptr[5-1], NDATPTS, &ywmin, &ywmax );
+	getlims( memptr[6-1], NDATPTS, &xwmin, &xwmax );
+	getlims( memptr[9-1], NDATPTS, &ywmin1, &ywmax1 );
 
 	if( ywmin1 < ywmin )
 		ywmin = ywmin1;
@@ -107,12 +106,12 @@ int lprint ;
 
 	setlinestyle( 4 );
 	setcolorname( "magenta",8 );
-	worldpolyline( cmmem.sacmem[Memptr[6]], cmmem.sacmem[Memptr[5]], NDATPTS );
+	worldpolyline( memptr[6-1], memptr[5-1], NDATPTS );
 
 	setlinestyle( 1 );
 	setcolorname( "blue",5 );
 	loadxtmp( xdattmp, xwmin, xwmax, NDATPTS );
-	worldpolyline( xdattmp, cmmem.sacmem[Memptr[9]], NDATPTS );
+	worldpolyline( xdattmp, memptr[9-1], NDATPTS );
 
 	settextfont( 1 );
 	setcolorname( "black",6 );
@@ -132,14 +131,14 @@ int lprint ;
 
 	/* -- Find the begin and end array locations for this computed signal duration. */
 	npulpts = NIMPPTS;
-	sduration( cmmem.sacmem[Memptr[10]], &npulpts, xbeg, &xend );
+	sduration( memptr[10-1], &npulpts, xbeg, &xend );
 	/* -- Load the temp x array with the first npulpts values to be displayed,
 	 *    using fddelta so that the plot time in seconds matches the duration. */
 	loadxtmp( ximptmp, 0.0, npulpts*cmsam.fddelta, npulpts );
 	xwmin = 0.0;
 	xwmax = npulpts*cmsam.fddelta;
 
-	getlims( cmmem.sacmem[Memptr[10]], NIMPPTS, &ywmin, &ywmax );
+	getlims( memptr[10-1], NIMPPTS, &ywmin, &ywmax );
 
 	setworld( xwmin, xwmax, ywmin, ywmax );
 	setvport( xvsmin + (xvsmax - xvsmin)/2.0 + xos, xvsmax - xos, 
@@ -147,7 +146,7 @@ int lprint ;
 
 	setcolorname( "blue",5 );
 
-	worldpolyline( ximptmp, cmmem.sacmem[Memptr[10]]+(*xbeg)-1, npulpts );
+	worldpolyline( ximptmp, &memptr[10-1][*xbeg-1], npulpts );
 
 	settextfont( 1 );
 	setcolorname( "black",6 );
@@ -165,10 +164,10 @@ int lprint ;
 	 * -- Set world min & max values for this data set.
 	 *    X axis is alway 0 to 20 for data sampled at 40 samples/sec (delta .025)
 	 *    so think about taking out the getlims call for x min and max values. */
-	getlims( cmmem.sacmem[Memptr[1]], NDATPTS, &ywmin, &ywmax );
-	getlims( cmmem.sacmem[Memptr[2]], NDATPTS, &xwmin, &xwmax );
+	getlims( memptr[1-1], NDATPTS, &ywmin, &ywmax );
+	getlims( memptr[2-1], NDATPTS, &xwmin, &xwmax );
 
-	getlims( cmmem.sacmem[Memptr[7]], NDATPTS, &ywmin1, &ywmax1 );
+	getlims( memptr[7-1], NDATPTS, &ywmin1, &ywmax1 );
 	if( ywmin1 < ywmin )
 		ywmin = ywmin1;
 	if( ywmax1 > ywmax )
@@ -193,21 +192,21 @@ int lprint ;
 
 	setlinestyle( 4 );
 	setcolorname( "magenta",8 );
-	worldpolyline( cmmem.sacmem[Memptr[2]], cmmem.sacmem[Memptr[1]], NDATPTS );
+	worldpolyline( memptr[2-1], memptr[1-1], NDATPTS );
 
 	setlinestyle( 1 );
 	setcolorname( "blue",5 );
 	loadxtmp( xdattmp, xwmin, xwmax, NDATPTS );
-	worldpolyline( xdattmp, cmmem.sacmem[Memptr[7]], NDATPTS );
+	worldpolyline( xdattmp, memptr[7-1], NDATPTS );
 
 	/* - upper right
 	 * -- Set world min & max values for this data set.
 	 *    X axis is alway 0 to 20 for data sampled at 40 samples/sec (delta .025)
 	 *    so think about taking out the getlims call for x min and max values. */
-	getlims( cmmem.sacmem[Memptr[3]], NDATPTS, &ywmin, &ywmax );
-	getlims( cmmem.sacmem[Memptr[4]], NDATPTS, &xwmin, &xwmax );
+	getlims( memptr[3-1], NDATPTS, &ywmin, &ywmax );
+	getlims( memptr[4-1], NDATPTS, &xwmin, &xwmax );
 
-	getlims( cmmem.sacmem[Memptr[8]], NDATPTS, &ywmin1, &ywmax1 );
+	getlims( memptr[8-1], NDATPTS, &ywmin1, &ywmax1 );
 	if( ywmin1 < ywmin )
 		ywmin = ywmin1;
 	if( ywmax1 > ywmax )
@@ -219,12 +218,12 @@ int lprint ;
 
 	setlinestyle( 4 );
 	setcolorname( "magenta",8 );
-	worldpolyline( cmmem.sacmem[Memptr[4]], cmmem.sacmem[Memptr[3]], NDATPTS );
+	worldpolyline( memptr[4-1], memptr[3-1], NDATPTS );
 
 	setlinestyle( 1 );
 	setcolorname( "blue",5 );
 	loadxtmp( xdattmp, xwmin, xwmax, NDATPTS );
-	worldpolyline( xdattmp, cmmem.sacmem[Memptr[8]], NDATPTS );
+	worldpolyline( xdattmp, memptr[8-1], NDATPTS );
 
 	settextfont( 1 );
 	setcolorname( "black",6 );

@@ -237,4 +237,34 @@ void setcontdatalim ( int ixstart,
                       int iystart, 
                       int iystop);
 
+
+struct label {
+  int point;
+  int type;
+  int angle;
+  int text;
+};
+struct labelseg {
+  int status;
+  int number;
+  int first;
+};
+struct points {
+  int pts[2];
+  int link;
+  int rlink;
+  int action;
+};
+struct segments {
+  int level;
+  int start;
+  int stop;
+};
+struct contour {
+  struct label *label;
+  struct labelseg *labelseg;
+  struct points *points;
+  struct segments *segments;
+};
+
 #endif /* _CONTOURING_H_ */

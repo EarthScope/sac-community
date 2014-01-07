@@ -8,15 +8,19 @@
 #include <stdlib.h>
 #include <math.h>
 
-#include "amf.h"
+#include "contouring.h"
+#include "debug.h"
+
+extern struct contour contour;
 
 void allocsegments(maxsegments, indexlevels, indexstarts, 
 	 indexstops, nerr)
 int maxsegments, *indexlevels, *indexstarts, *indexstops, *nerr;
 {
-	int nrerr;
-
-
+  UNUSED(indexlevels);
+  UNUSED(indexstarts);
+  UNUSED(indexstops);
+  UNUSED(nerr);
 
 	/*=====================================================================
 	 * PURPOSE:  To allocate storage for contour line segments.
@@ -44,39 +48,39 @@ int maxsegments, *indexlevels, *indexstarts, *indexstops, *nerr;
 	 * DOCUMENTED/REVIEWED:  900315
 	 *===================================================================== */
 	/* PROCEDURE: */
-	*nerr = 0;
+/* 	*nerr = 0; */
+  contour.segments = (struct segments *) malloc(sizeof(struct segments) * maxsegments);
+/* 	/\* - Allocate space for contour level values. *\/ */
 
-	/* - Allocate space for contour level values. */
+/* 	allamb( &cmmem, maxsegments, indexlevels, nerr ); */
+/* 	if( *nerr != 0 ) */
+/* 		goto L_8888; */
 
-	allamb( &cmmem, maxsegments, indexlevels, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+/* 	/\* - Allocate space for segment start point numbers. *\/ */
 
-	/* - Allocate space for segment start point numbers. */
+/* 	allamb( &cmmem, maxsegments, indexstarts, nerr ); */
+/* 	if( *nerr != 0 ){ */
+/* 		relamb( cmmem.sacmem, *indexlevels, &nrerr ); */
+/* 		*indexlevels = 0; */
+/* 		*indexstarts = 0; */
+/* 		*indexstops = 0; */
+/* 		goto L_8888; */
+/* 		} */
 
-	allamb( &cmmem, maxsegments, indexstarts, nerr );
-	if( *nerr != 0 ){
-		relamb( cmmem.sacmem, *indexlevels, &nrerr );
-		*indexlevels = 0;
-		*indexstarts = 0;
-		*indexstops = 0;
-		goto L_8888;
-		}
+/* 	/\* - Allocate space for segment stop point numbers. *\/ */
 
-	/* - Allocate space for segment stop point numbers. */
+/* 	allamb( &cmmem, maxsegments, indexstops, nerr ); */
+/* 	if( *nerr != 0 ){ */
+/* 		relamb( cmmem.sacmem, *indexlevels, &nrerr ); */
+/* 		relamb( cmmem.sacmem, *indexstarts, &nrerr ); */
+/* 		*indexlevels = 0; */
+/* 		*indexstarts = 0; */
+/* 		*indexstops = 0; */
+/* 		goto L_8888; */
+/* 		} */
 
-	allamb( &cmmem, maxsegments, indexstops, nerr );
-	if( *nerr != 0 ){
-		relamb( cmmem.sacmem, *indexlevels, &nrerr );
-		relamb( cmmem.sacmem, *indexstarts, &nrerr );
-		*indexlevels = 0;
-		*indexstarts = 0;
-		*indexstops = 0;
-		goto L_8888;
-		}
-
-L_8888:
-	return;
+/* L_8888: */
+/* 	return; */
 
 } /* end of function */
 

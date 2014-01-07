@@ -15,9 +15,9 @@
 void /*FUNCTION*/ xbr(nerr)
 int *nerr;
 {
-	int jdfl, ndx1, ndx2, nlen;
+	int jdfl;
 	double fnyq;
-
+  sac *s;
 
 
 	/*=====================================================================
@@ -113,16 +113,17 @@ int *nerr;
 
 	/* - Perform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 		/* -- Get the next file in DFL, moving header to CMHDR. */
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      return;
+    }
+		//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
-		getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-		if( *nerr != 0 )
-			return ;
 
 		/* -- Check that corner frequencies are within proper range. */
 
-		fnyq = 0.5/ *delta;
+		fnyq = 0.5/ s->h->delta;
 		if( cmsam.cfbr1 > fnyq ){
 			*nerr = 1611;
 			setmsg( "ERROR", *nerr );
@@ -140,20 +141,15 @@ int *nerr;
 
 		/* -- Perform bandreject filter operation. */
 
-		xapiir( cmmem.sacmem[ ndx1 ] , nlen , 
+		xapiir( s->y, s->h->npts , 
 			(char*) kmsam.ktpiir[ cmsam.itpbr - 1 ] , cmsam.tbwbr ,
 			cmsam.atnbr , cmsam.npolbr , "BR" , cmsam.cfbr1 ,
-			cmsam.cfbr2 , *delta , cmsam.npasbr ) ;
+			cmsam.cfbr2 , s->h->delta , cmsam.npasbr ) ;
 
 		/* -- Adjust header of file in DFL. */
 
-		extrma( cmmem.sacmem[ndx1], 1, *npts, depmin, depmax, depmen );
+		extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
-		/* -- Reverse the steps used in getting the next file in DFL. */
-
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-			return ;
 
 	}
 

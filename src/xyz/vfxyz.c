@@ -6,7 +6,8 @@
 #include "hdr.h"
 #include "bool.h"
 
-
+#include "SacHeader.h"
+#include "amf.h"
 #include "msg.h"
 #include "clf.h"
 #include "dff.h"
@@ -14,9 +15,10 @@
 void /*FUNCTION*/ vfxyz(nerr)
 int *nerr;
 {
-	int jdfl, ndx1, ndx2, nlen;
+	int jdfl;
   char *tmp;
-
+  sac *s;
+  
 	/*=====================================================================
 	 * PURPOSE:  To verify that only xyz data files are in data file list.
 	 *=====================================================================
@@ -44,15 +46,16 @@ int *nerr;
 
 	/* - For each file in DFL: */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-    tmp = string_list_get(datafiles, jdfl-1);
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 		/* -- Get header from memory manager. */
-		getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+    if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+      goto L_8888;
+    }
+    //getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
+    tmp = s->m->filename;
 
 		/* -- Check file type. */
-		if( *iftype != *ixyz ){
+		if( s->h->iftype != IXYZ ){
 			*nerr = 1366;
 			setmsg( "ERROR", *nerr );
             apcmsg(tmp, strlen(tmp)+1);

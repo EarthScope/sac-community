@@ -9,9 +9,9 @@
 #include "bool.h"
 #include "hdr.h"
 
-
+#include "amf.h"
 #include "dff.h"
-
+#include "errors.h"
 /** 
  * Maximum number of data point found is returned
  * 
@@ -28,21 +28,21 @@ void
 vfmax(int *maxf, 
       int *nerr) {
 
-  int jdfl, ndx1, ndx2, nlen;
-  
+int jdfl;
+  sac *s;
   *nerr = 0;
   *maxf = 0;
   
-  for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-    
-    /* -- Get header from memory manager. */
-    getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
-    if( *nerr != 0 )
+  for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
+    if(!(s = sacget(jdfl-1, FALSE, nerr))) {
       goto L_8888;
+    }
+    /* -- Get header from memory manager. */
+    //getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
     
     /* -- See if this files number exceeds maximum found so far. */
-    if( *npts > *maxf ) {
-      *maxf = *npts;
+    if( s->h->npts > *maxf ) {
+      *maxf = s->h->npts;
     }
   }
   

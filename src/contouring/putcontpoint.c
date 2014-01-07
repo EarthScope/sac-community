@@ -9,8 +9,8 @@
 #include <math.h>
 
 #include "mach.h"
-#include "amf.h"
 #include "contouring.h"
+extern struct contour contour;
 
 void 
 putcontpoint(number, point, link, action)
@@ -19,7 +19,6 @@ float point[];
 int link, action;
 {
 	float *const Point = &point[0] - 1;
-        int *Isacmem;
 
 	/*=====================================================================
 	 * PURPOSE:  To put information about an existing contouring line point.
@@ -46,14 +45,11 @@ int link, action;
 	 *===================================================================== */
 	/* PROCEDURE: */
 	if( number <= cmcontouring.numpoints ){
-		*(cmmem.sacmem[cmcontouring.indexpoints] + 2*(number - 1)) = Point[1];
-		*(cmmem.sacmem[cmcontouring.indexpoints] + 2*(number - 1) + 1) = Point[2];
-
-                Isacmem = (int*)cmmem.sacmem[cmcontouring.indexlinks];
-		*(Isacmem + number - 1) = link;
-
-                Isacmem = (int*)cmmem.sacmem[cmcontouring.indexaction];
-		*(Isacmem + number - 1) = action;
+    contour.points[number-1].pts[0] = Point[1];
+    contour.points[number-1].pts[1] = Point[2];
+    contour.points[number-1].link   = link;
+    contour.points[number-1].action = action;
+    
 	}
 	else{
 		fprintf( stdout, "Illegal point number: %d putcontpoint\n", number );

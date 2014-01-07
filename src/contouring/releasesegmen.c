@@ -9,13 +9,13 @@
 #include <math.h>
 
 #include "mach.h"
-#include "amf.h"
 #include "contouring.h"
+#include "debug.h"
+extern struct contour contour;
 
 void 
 releasesegments()
 {
-	int nerr;
 
 	/*=====================================================================
 	 * PURPOSE:  To release storage for contour line segments.
@@ -38,21 +38,12 @@ releasesegments()
 	 * DOCUMENTED/REVIEWED:  900315
 	 *===================================================================== */
 	/* PROCEDURE: */
-	nerr = 0;
 
 	/* - Release space for contour level values. */
 
-	relamb( cmmem.sacmem, cmcontouring.indexlevels, &nerr );
+  FREE(contour.segments);
 	cmcontouring.indexlevels = 0;
-
-	/* - Release space for segment start point numbers. */
-
-	relamb( cmmem.sacmem, cmcontouring.indexstarts, &nerr );
 	cmcontouring.indexstarts = 0;
-
-	/* - Release space for segment stop point numbers. */
-
-	relamb( cmmem.sacmem, cmcontouring.indexstops, &nerr );
 	cmcontouring.indexstops = 0;
 
 	return;

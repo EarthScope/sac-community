@@ -10,6 +10,8 @@
 #include <string.h>
 #include <math.h>
 
+#include "amf.h"
+
 #include "select.h"
 #include "fks.h"
 #include "co.h"
@@ -207,7 +209,7 @@ xgmtmap(int *nerr)
         float *stalat, *stalon, *evlat, *evlon;
 	char **staname; 
 
-        int nch, jdfl, jdfl_, nlen, ndxy, ndxx, i, idx, jdx;
+        int nch, jdfl, jdfl_, i, idx, jdx;
         int lrefset = TRUE;
         int irefsta;
  	int nstationlocs = 0;
@@ -267,7 +269,7 @@ xgmtmap(int *nerr)
  	char eventBuffer[MAXRECORDLENGTH + 1];  /* stores a line of info from event file. */
  	char * pEventBuffer ;	/* point to elements in eventBuffer */
  	int number_event_station ;
- 
+  sac *s;
 	int sc_len;
 
 	/* PROCEDURE: */
@@ -405,7 +407,7 @@ L_1000:
 	 * the waveform files plus the a additional entries from 
 	 * the event file. maf 960620 
 	 */
-	number_event_station = cmdfm.ndfl + eventFileLength;
+	number_event_station = saclen() + eventFileLength;
 
 	buf = (float *)malloc(7 * number_event_station * sizeof(float));
 	if(buf == NULL){
@@ -460,36 +462,38 @@ L_1000:
 
 	/* DATA INPUT PHASE: */
 	/* nch = number of entries from waveform file */
- 	nch = cmdfm.ndfl;	
+ 	nch = saclen();	
 
 	/* Load up station and event location arrays. */
 	for( jdfl = 1; jdfl <= nch; jdfl++ ){
           jdfl_ = jdfl-1;
-	  getfil( jdfl, FALSE, &nlen, &ndxy, &ndxx, nerr );
-	  if( *nerr != 0 )  {  goto L_9999; }
+          if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+            goto L_9999;
+          }
+          //getfil( jdfl, FALSE, &nlen, &ndxy, &ndxx, nerr );
 
 	  /* Check for a reference station specified in header. */
           if( jdfl == 1) {
-            if(strncmp(kuser1, "-12345", 6) == 0){
+            if(strncmp(s->h->kuser1, "-12345", 6) == 0){
               lrefset = FALSE;
 	    }
-            strcpy(refsta,kuser1);
+            strcpy(refsta,s->h->kuser1);
 	  }
-          if(strcmp(kuser1,refsta) != 0) 
+          if(strcmp(s->h->kuser1,refsta) != 0) 
 	    lrefset = FALSE;
 
 	  /* Store station location.  These must be set. */
 	  if(plotstations) {
-	    if( (*stla != cmhdr.fundef) &&  (*stlo != cmhdr.fundef)  ){
-	      stalat[jdfl_] = *stla;
-	      stalon[jdfl_] = *stlo;
-	      strcpy(staname[jdfl_], kstnm);
-	      maxlat        = fmax(maxlat,*stla);
-	      minlat        = fmin(minlat,*stla);
-	      maxlon        = fmax(maxlon, lon180(*stlo));
-	      minlon        = fmin(minlon, lon180(*stlo));
-	      maxlon2       = fmax(maxlon2,lon360(*stlo));
-	      minlon2       = fmin(minlon2,lon360(*stlo));
+	    if( (s->h->stla != cmhdr.fundef) &&  (s->h->stlo != cmhdr.fundef)  ){
+	      stalat[jdfl_] = s->h->stla;
+	      stalon[jdfl_] = s->h->stlo;
+	      strcpy(staname[jdfl_], s->h->kstnm);
+	      maxlat        = fmax(maxlat,s->h->stla);
+	      minlat        = fmin(minlat,s->h->stla);
+	      maxlon        = fmax(maxlon, lon180(s->h->stlo));
+	      minlon        = fmin(minlon, lon180(s->h->stlo));
+	      maxlon2       = fmax(maxlon2,lon360(s->h->stlo));
+	      minlon2       = fmin(minlon2,lon360(s->h->stlo));
 	      nstationlocs += 1;
 	    } else {
 	      *nerr = 5301;
@@ -498,15 +502,15 @@ L_1000:
 	  }
 	  /* Check for and store event locations.  These are not required. */
           if( plotevents ) {
-	    if( (*evla != cmhdr.fundef) && (*evlo != cmhdr.fundef) ){
-	      evlat[jdfl_]  = *evla;
-	      evlon[jdfl_]  = *evlo;
-	      maxlat        = fmax(maxlat,*evla);
-	      minlat        = fmin(minlat,*evla);
-	      maxlon        = fmax(maxlon, lon180(*evlo));
-	      minlon        = fmin(minlon, lon180(*evlo));
-	      maxlon2       = fmax(maxlon2,lon360(*evlo));
-	      minlon2       = fmin(minlon2,lon360(*evlo));
+	    if( (s->h->evla != cmhdr.fundef) && (s->h->evlo != cmhdr.fundef) ){
+	      evlat[jdfl_]  = s->h->evla;
+	      evlon[jdfl_]  = s->h->evlo;
+	      maxlat        = fmax(maxlat,s->h->evla);
+	      minlat        = fmin(minlat,s->h->evla);
+	      maxlon        = fmax(maxlon, lon180(s->h->evlo));
+	      minlon        = fmin(minlon, lon180(s->h->evlo));
+	      maxlon2       = fmax(maxlon2,lon360(s->h->evlo));
+	      minlon2       = fmin(minlon2,lon360(s->h->evlo));
 	      neventlocs   += 1;
 	    } else {
 	      evlat[jdfl_]  = latlon_undef;
@@ -517,11 +521,11 @@ L_1000:
 	   * These are not required. 
 	   */
 	  size[jdfl_] = size_undef;
-	  if (*user0 != cmhdr.fundef) { 
+	  if (s->h->user0 != cmhdr.fundef) { 
 	    /* only use the size data if it is in range, maf 960702 */
 	    if ( !lscale || 
-		 ( *user0 > minSizeInput && *user0 < maxSizeInput )) {
-	      size[jdfl_]  = *user0; 
+		 ( s->h->user0 > minSizeInput && s->h->user0 < maxSizeInput )) {
+	      size[jdfl_]  = s->h->user0; 
 	      nsize += 1;
 	      sumsize += size[jdfl_];
 	    } 
@@ -532,7 +536,7 @@ L_1000:
 	/* nch is increased by the number of entries from 
 	 * the event file. maf 960620 
 	 */
-        nch = cmdfm.ndfl + eventFileLength ;
+        nch = saclen() + eventFileLength ;
 
 	/* If an event file was specified, 
 	 * read the data from it. maf 960620 
@@ -1046,13 +1050,19 @@ L_1000:
         if( *nerr == 0 ){
           if( !lrefset ){
 	    /* Use first station in memory as the reference station. */
-            getfil(1, FALSE, &nlen, &ndxy, &ndxx, nerr );
+            if(!(s = sacget(0, FALSE, nerr))) {
+              goto L_9999;
+            }
+            //getfil(1, FALSE, &nlen, &ndxy, &ndxx, nerr );
             irefsta = 1;
 	  } else {
 	    /* Get station location of the specified reference station. */
             for( irefsta = 1; irefsta <= nch; irefsta++ ){
-              getfil( irefsta, FALSE, &nlen, &ndxy, &ndxx, nerr );
-              if( !strcmp(kuser1,kstnm) )
+              if(!(s = sacget(irefsta-1, FALSE, nerr))) {
+                goto L_9999;
+              }
+              //getfil( irefsta, FALSE, &nlen, &ndxy, &ndxx, nerr );
+              if( !strcmp(s->h->kuser1,s->h->kstnm) )
 		break;
 	    }
 	  }

@@ -1,6 +1,7 @@
 
 #include <stdio.h>
 
+#include "amf.h"
 #include "ssi.h"
 #include "dfm.h"
 #include "bool.h"
@@ -8,7 +9,7 @@
 #include "smDataIO.h"
 #include "cssListOps/cssListOps.h"
 #include "cssListOps/dblErrors.h"
-
+#include "SacHeader.h"
 #include "msg.h"
 #include "dff.h"
 
@@ -18,8 +19,7 @@ void rollback (int whichHeaders , int * nerr)
     DBlist tree ;
     struct wfdiscList *wfL = NULL ;
     int check ;
-    int notused1 , notused2 , notused3 ;
-
+    sac *s;
     *nerr = 0 ;
 
     /* Initialize SeisMgr error handler */
@@ -31,15 +31,18 @@ void rollback (int whichHeaders , int * nerr)
     if ( whichHeaders != allHeader ) {
         int jdfl ;
 
-        for ( jdfl = 0 ; jdfl < cmdfm.ndfl ; jdfl ++ ) {
-	    getfil ( jdfl + 1 , FALSE , &notused1 , &notused2 , &notused3 , nerr ) ;
-            SacHeaderToDB ( &( globalSacHeader[ jdfl ] ) , -whichHeaders , 0 ) ;
+        for ( jdfl = 0 ; jdfl < saclen() ; jdfl ++ ) {
+          if(!(s = sacget(jdfl, TRUE, nerr))) {
+            goto L_8888;
+          }
+          //getfil ( jdfl + 1 , FALSE , &notused1 , &notused2 , &notused3 , nerr ) ;
+          SacHeaderToDB ( &( globalSacHeader[ jdfl ] ) , -whichHeaders , 0 ) ;
 	}
     }
 
     check = deleteAllSacFiles ( nerr , FALSE ) ;
     if ( *nerr ) {
-	if ( check < cmdfm.ndfl )
+	if ( check < saclen() )
 	    *nerr = 1401 ;
 	else
 	    *nerr = 1402 ;
@@ -51,9 +54,10 @@ void rollback (int whichHeaders , int * nerr)
             break ;
 
 	cmdfm.ndfl ++;
-        CSStoSAC ( cmdfm.ndfl, &( globalSacHeader[ cmdfm.ndfl -1 ] ) ,
+        CSStoSAC ( saclen(), &( globalSacHeader[ saclen() -1 ] ) ,
                    wfL->seis , FALSE , FALSE , nerr ) ;
-	if ( *nerr ) {
+    L_8888:
+        if ( *nerr ) {
 	    setmsg ( "ERROR" , *nerr ) ;
 	    outmsg () ;
 	    clrmsg () ;

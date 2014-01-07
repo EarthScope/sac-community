@@ -30,9 +30,9 @@
 void 
 xwritenn(int *nerr) {
 
-	int jdfl, ndx1, ndx2, nlen, nlenheader, nlocdisk, 
+	int jdfl, nlenheader, nlocdisk, 
 	 notused, nun;
-
+  sac *s;
 	*nerr = 0;
 
 	while ( lcmore( nerr ) ){
@@ -53,7 +53,7 @@ xwritenn(int *nerr) {
 
 	/* CHECKING PHASE: */
 	/* - Check for null data file list. */
-	if( cmdfm.ndfl <= 0 ){
+	if( saclen() <= 0 ){
 		*nerr = 1301;
 		setmsg( "ERROR", *nerr );
 		goto L_8888;
@@ -64,7 +64,7 @@ xwritenn(int *nerr) {
 	/* - Start filling in header values. */
 
 	cmnnm.numpoints = 0;
-	cmnnm.numfiles = cmdfm.ndfl;
+	cmnnm.numfiles = saclen();
 	nlenheader = 2 + cmnnm.numfiles;
 
 	/* - Create data file and write dummy header into it. */
@@ -81,28 +81,27 @@ xwritenn(int *nerr) {
 
 	/* - Write each file in memory to disk. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-
-		/* -- Get file from memory manager. */
-		getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+		//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
 		/* -- Check number of data points. */
 		if( jdfl == 1 ){
-			cmnnm.numpoints = nlen;
+			cmnnm.numpoints = s->h->npts;
 		}
-		else if( nlen != cmnnm.numpoints ){
+		else if( s->h->npts != cmnnm.numpoints ){
 			*nerr = 2801;
 			setmsg( "ERROR", *nerr );
 			goto L_8888;
 		}
 
 		/* -- Save header variable user0 into local array. */
-		Headerarray[jdfl] = *user0;
+		Headerarray[jdfl] = s->h->user0;
 
 		/* -- Write the data. */
-		zwabs( (int *)&nun, (char *)(cmmem.sacmem[ndx1]), cmnnm.numpoints, (int *)&nlocdisk, (int *)nerr );
+		zwabs( (int *)&nun, (char *)s->y, cmnnm.numpoints, (int *)&nlocdisk, (int *)nerr );
 		if( *nerr != 0 )
 			goto L_8888;
 		nlocdisk = nlocdisk + cmnnm.numpoints;

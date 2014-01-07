@@ -7,6 +7,7 @@
 
 #include <string.h>
 
+#include "amf.h"
 #include "dfm.h"
 #include "bool.h"
 #include "hdr.h"
@@ -34,32 +35,33 @@
 void 
 vfeven(int *nerr) {
 
-	int jdfl, ndx1, ndx2, nlen;
+	int jdfl;
     char *tmp;
 	*nerr = 0;
-
+  sac *s;
 	/* - For each file in DFL: */
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-        tmp = string_list_get(datafiles, jdfl-1);
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 		/* -- Get header from memory manager. */
-		getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+        if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+          goto L_8888;
+        }
+        tmp = s->m->filename;
+        //getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
 
 		/* -- Check file type. */
-		if( !*leven ){
+		if( !s->h->leven ){
 			*nerr = ERROR_OPERATION_ON_UNEVEN_FILE;
 			setmsg( "ERROR", *nerr );
             apcmsg2(tmp, strlen(tmp)+1);
 			goto L_8888;
 		}
-		else if( *iftype == *irlim || *iftype == *iamph ){
+		else if( s->h->iftype == IRLIM || s->h->iftype == IAMPH ){
 			*nerr = ERROR_OPERATION_ON_SPECTRAL_FILE;
 			setmsg( "ERROR", *nerr );
             apcmsg2(tmp, strlen(tmp)+1);
 			goto L_8888;
 		}
-                else if( *iftype == *ixyz ){
+                else if( s->h->iftype == IXYZ ){
                         *nerr = ERROR_OPERATION_ON_XYZ_FILE;
 			setmsg( "ERROR", *nerr );
                         goto L_8888;

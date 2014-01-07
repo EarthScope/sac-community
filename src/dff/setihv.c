@@ -14,9 +14,9 @@
 #include "lhf.h"
 #include "co.h"
 #include "bool.h"
-
+#include "SacHeader.h"
 #include "errors.h"
-
+extern sac *CURRENT;
 /** 
  * Set an enumerated header value in the current SAC file
  * 
@@ -47,7 +47,6 @@ setihv(char *kname,
 
 	char ktest[9];
 	int index, ivalue, ntest;
-
 	char *kname_c;
 	char *kvalue_c;
 
@@ -76,7 +75,7 @@ setihv(char *kname,
   /* - If legal header name, store value in appropriate header field.
    *   Otherwise, set and report error condition. */
   if( index > 0 ){
-    Ihdr[index] = ivalue;
+    IHDR(CURRENT)[index-1] = ivalue;
   }
   else{
     *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;

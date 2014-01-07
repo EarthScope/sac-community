@@ -13,6 +13,10 @@
 #include "cpf.h"
 #include "dbh.h"
 
+extern float *specor;
+extern float *spespe;
+extern float *speaux;
+
 void /*FUNCTION*/ xpds(nerr)
 int *nerr;
 {
@@ -96,10 +100,10 @@ int *nerr;
 
 	/* - Perform PDS function. */
 
-	spectr( cmmem.sacmem[cmspe.ndxcor], cmspe.nlnfft, cmspe.nlncor, "PDS"
+	spectr( specor, cmspe.nlnfft, cmspe.nlncor, "PDS"
 	 , &cmspe.nlgpds, cmspe.nlnspe, (char*)kmspe.kwintp[cmspe.iwnpds - 1]
-	 , cmspe.cprewh, cmspe.nprewh, cmmem.sacmem[cmspe.ndxspe], kmspe.kermsg
-	 ,131, cmmem.sacmem[cmspe.ndxaux] );
+	 , cmspe.cprewh, cmspe.nprewh, spespe, kmspe.kermsg
+	 ,131, speaux );
 
 	/* - Check for error. */
 

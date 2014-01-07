@@ -17,6 +17,11 @@
 #include "bot.h"
 #include "cpf.h"
 
+extern float *specor;
+extern float *spespe;
+extern float *speaux;
+
+
 void /*FUNCTION*/ xpcor(nerr)
 int *nerr;
 {
@@ -178,7 +183,7 @@ int *nerr;
 
 	if ( lframs )
 	    beginframe( lprint , nerr );
-	pl2d( (float*)&xjunk, cmmem.sacmem[cmspe.ndxcor], nlnplt, 1, 1, nerr );
+	pl2d( (float*)&xjunk, specor, nlnplt, 1, 1, nerr );
 	if( *nerr != 0 )
 	    goto L_7777;
 

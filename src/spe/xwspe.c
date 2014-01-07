@@ -9,6 +9,8 @@
 #include "cpf.h"
 #include "dff.h"
 
+extern sac *spe;
+extern float *spespe;
 void /*FUNCTION*/ xwspe(nerr)
 int *nerr;
 {
@@ -87,21 +89,21 @@ int *nerr;
 
 	/* - Set up the header variables for the spectral estimate. */
 
-	*nsnpts = *npts;
-	*sb = *b;
-	*sdelta = *delta;
+	spe->h->nsnpts = spe->h->npts;
+	spe->h->sb = spe->h->b;
+	spe->h->sdelta = spe->h->delta;
 
-	*iftype = *itime;
-	*delta = cmspe.samfrq/(float)( cmspe.nlnspe - 1 );
-	*npts = cmspe.nlnspe/2 + 1;
-	*begin = 0.;
-	*ennd = *begin + *delta*(float)( *npts - 1 );
+	spe->h->iftype = ITIME;
+	spe->h->delta = cmspe.samfrq/(float)( cmspe.nlnspe - 1 );
+	spe->h->npts = cmspe.nlnspe/2 + 1;
+	spe->h->b = 0.;
+	spe->h->e = spe->h->b + spe->h->delta*(float)( spe->h->npts - 1 );
 
-	extrma( cmmem.sacmem[cmspe.ndxspe], 1, *npts, depmin, depmax, depmen );
+	extrma( spespe, 1, spe->h->npts, &spe->h->depmin, &spe->h->depmax, &spe->h->depmen );
 
 	/* - Write spectral estimate to disk. */
 
-	wsac0( kmspe.knmspe, &unused, cmmem.sacmem[cmspe.ndxspe], nerr, MCPFN+1 );
+	wsac0( kmspe.knmspe, &unused, spespe, nerr, MCPFN+1 );
         if( *nerr != 0 ) {
            setmsg( "ERROR", *nerr );
            apcmsg( kmspe.knmspe,MCPFN+1 );

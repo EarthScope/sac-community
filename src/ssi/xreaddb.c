@@ -1,6 +1,7 @@
 
 #include <string.h>
 
+#include "amf.h"
 #include "ssi.h"
 #include "dfm.h"
 #include "bool.h"
@@ -188,7 +189,7 @@ int * nerr ;
 	alignFiles ( nerr ) ;
 	if ( *nerr )
 	    return ;
-	cmdfm.nfilesFirst = cmdfm.ndfl ;
+	cmdfm.nfilesFirst = saclen() ;
     } /* end if */
     else{
 	cmdfm.nreadflag = RDB ;

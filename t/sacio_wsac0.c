@@ -96,7 +96,7 @@ test_wsac0() {
   wsac0(FILE_WRITE, &(x[0]), &(y[0]), &err, -1);
   ok(err == SAC_OK, "wsac0 writing sac file (real/imag) with 2 data points "
      "value %d expected %d", err, SAC_OK);
-  file_check(FILE_WRITE, SAC_HEADER_SIZE + max * 2 * sizeof(float),
+  file_check(FILE_WRITE, SAC_HEADER_SIZE + (max * 2 * sizeof(float)), 
 	     "real/imag");
   unlink(FILE_WRITE);  
 
@@ -105,12 +105,14 @@ test_wsac0() {
   wsac0(FILE_WRITE, &(x[0]), &(y[0]), &err, -1);
   ok(err == SAC_OK, "wsac0 writing sac file (amp/phase)with 2 data points "
      "value %d expected %d", err, SAC_OK);
-  file_check(FILE_WRITE, SAC_HEADER_SIZE + max * 2 * sizeof(float),
+  file_check(FILE_WRITE, SAC_HEADER_SIZE + (max * 2 * sizeof(float)),
 	     "amp/phase");
   unlink(FILE_WRITE);  
 
   /* IXY spaced file */
-  setihv("iftype", "ixy", &err, -1, -1);  
+  setihv("iftype", "ixy", &err, -1, -1);
+  leven = 1;
+  setlhv("leven", &leven, &err, -1);
   wsac0(FILE_WRITE, &(x[0]), &(y[0]), &err, -1);
   ok(err == SAC_OK, "wsac0 writing sac file (ixy) with 2 data points "
      "value %d expected %d", err, SAC_OK);
@@ -118,10 +120,10 @@ test_wsac0() {
 	     "ixy");
   unlink(FILE_WRITE);  
 
-
+    /* IXY spaced file */
+  setihv("iftype", "ixy", &err, -1, -1);
   leven = 0;
-  setlhv("leven",  &leven,  &err, -1);  
-  setihv("iftype", "ixy", &err, -1, -1);  
+  setlhv("leven", &leven, &err, -1);
   wsac0(FILE_WRITE, &(x[0]), &(y[0]), &err, -1);
   ok(err == SAC_OK, "wsac0 writing sac file (ixy) with 2 data points "
      "value %d expected %d", err, SAC_OK);

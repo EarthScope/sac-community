@@ -22,13 +22,13 @@
 void /*FUNCTION*/ xstretch(nerr)
 int *nerr;
 {
-	int jdfl, jdfl_, jold, jzero, 
-	 ncoef, ndatout, ndxnew, ndxold, nlnnew, 
-	 nlnold, ntused;
+	int jdfl, jold, jzero, 
+    ncoef, ndatout, nlnnew;
 	float c[NFILTHALF + 1];
 
-        float *Sacmem1, *Sacmem2;
-
+  float *Sacmem1, *Sacmem2;
+  sac *s;
+  float *new;
 	/*=====================================================================
 	 * PURPOSE: To parse and execute the action command STRETCH.
 	 *          This command stretches (upsamples) data.  An optional
@@ -138,34 +138,35 @@ L_1000:
 
 	/* - Perform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-		jdfl_ = jdfl - 1;
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 		/* -- Get next file from the memory manager.
 		 *    (Header is moved into common blocks CMHDR and KMHDR.) */
-		getfil( jdfl, TRUE, &nlnold, &ndxold, &ntused, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+		//getfil( jdfl, TRUE, &nlnold, &ndxold, &ntused, nerr );
 
 		/* -- Allocate block for output. */
-		nlnnew = (nlnold - 1)*cmscm.nstrfc + 1;
-		allamb( &cmmem, nlnnew, &ndxnew, nerr );
+		nlnnew = (s->h->npts - 1)*cmscm.nstrfc + 1;
+    new = (float *) malloc(sizeof(float) * nlnnew);
+		//allamb( &cmmem, nlnnew, &ndxnew, nerr );
 		if( *nerr != 0 )
 			goto L_8888;
 
 		if( !cmscm.lstrfi ){
 			/* -- Perform stretching on data file without filtering. */
-                        Sacmem1 = cmmem.sacmem[ndxnew];
-                        Sacmem2 = cmmem.sacmem[ndxold];
-			for( jold = ndxold; jold <= (ndxold + nlnold - 2); jold++ ){
-                                *Sacmem1 = *Sacmem2;
+      Sacmem1 = new;
+      Sacmem2 = s->y;
+			for( jold = 0; jold <= (s->h->npts - 2); jold++ ){
+        *Sacmem1 = *Sacmem2;
 				for( jzero = 1; jzero <= (cmscm.nstrfc - 1); jzero++ ){
-                                        *(++Sacmem1) = 0.0;
-					}
-                                Sacmem1++;
-                                Sacmem2++;
-			      }
-                        *Sacmem1 = *(cmmem.sacmem[ndxold]+nlnold-1);
+          *(++Sacmem1) = 0.0;
+        }
+        Sacmem1++;
+        Sacmem2++;
+      }
+      *Sacmem1 = *(s->y + s->h->npts - 1);
 			}
 		else{
 
@@ -174,34 +175,22 @@ L_1000:
 			 *    and applies filter coefficients to all data, including inserted
 			 *    zeros, to obtain filtered values for these prefiltered zeros. */
 
-			inter( cmmem.sacmem[ndxold], nlnold, cmscm.nstrfc, c, NFILTHALF, 
-			 cmmem.sacmem[ndxnew], &ndatout );
+			inter( s->y, s->h->npts, cmscm.nstrfc, c, NFILTHALF, 
+             new, &ndatout );
 			if( ndatout != nlnnew ){
 				fprintf( stdout, "wrong num of data ptd returned by filter routine\n" );
 				goto L_8888;
 				}
 
 			}
-
-		/* -- Release old memory block. */
-		relamb( cmmem.sacmem, ndxold, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+    FREE(s->y);
+    s->y = new;
 
 		/* -- Update any header fields that may have changed. */
-		*npts = nlnnew;
-		*delta = *delta/(float)( cmscm.nstrfc );
-		*e = *b + *delta*(float)( *npts - 1 );
-		extrma( cmmem.sacmem[ndxnew], 1, nlnnew, depmin, depmax, depmen );
-
-		/* -- Update file pointers. */
-		Nlndta[jdfl] = nlnnew;
-		cmdfm.ndxdta[jdfl_][0] = ndxnew;
-
-		/* -- Return file to memory manager. */
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+		s->h->npts = nlnnew;
+		s->h->delta = s->h->delta/(float)( cmscm.nstrfc );
+		s->h->e = s->h->b + s->h->delta*(float)( s->h->npts - 1 );
+		extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
 		}
 

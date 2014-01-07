@@ -1,6 +1,7 @@
 
 #include <string.h>
 
+#include "amf.h"
 #include "ssi.h"
 #include "hdr.h"
 #include "bool.h"
@@ -35,42 +36,42 @@ set_default_station_name(int getset) {
 int uniqueStaAndChan ( ) 
 {
     int returnValue = FALSE ;
-
+    sac *s;
+    s = sacget_current();
     if( set_default_station_name(OPTION_GET) == OPTION_OFF ) {
       return returnValue;
     }
-
-    if ( !strcmp ( kstnm , SAC_CHAR_UNDEFINED ) ) {
+    if ( !strcmp ( s->h->kstnm , SAC_CHAR_UNDEFINED ) ) {
 	int idx ;
 	DBlist tree ;
 
 	/* get tree for default wordset */
 	tree = smGetDefaultTree () ;
 
-	strcpy ( kstnm , MakeUniqueSiteName ( tree , "sta" ) ) ;
+	strcpy ( s->h->kstnm , MakeUniqueSiteName ( tree , "sta" ) ) ;
 
-	if ( strlen ( kstnm ) < 8 ) {
-	    for ( idx = strlen ( kstnm ) ; idx < 8 ; idx++ )
-		kstnm[ idx ] = ' ' ;
-	    kstnm[ 8 ] = '\0' ;
+	if ( strlen ( s->h->kstnm ) < 8 ) {
+	    for ( idx = strlen ( s->h->kstnm ) ; idx < 8 ; idx++ )
+		s->h->kstnm[ idx ] = ' ' ;
+	    s->h->kstnm[ 8 ] = '\0' ;
 	}
 
 	returnValue = TRUE ;
     }
 
-    if ( !strcmp ( kcmpnm , SAC_CHAR_UNDEFINED ) ) {
+    if ( !strcmp ( s->h->kcmpnm , SAC_CHAR_UNDEFINED ) ) {
 	int idx ;
 	DBlist tree ;
 
 	/* get tree for default wordset */
 	tree = smGetDefaultTree () ;
 
-	strcpy ( kcmpnm , MakeUniqueChanName ( tree , kstnm , "Q" ) ) ;
+	strcpy ( s->h->kcmpnm , MakeUniqueChanName ( tree , s->h->kstnm , "Q" ) ) ;
 
-        if ( strlen ( kcmpnm ) < 8 ) {
-            for ( idx = strlen ( kcmpnm ) ; idx < 8 ; idx++ )
-                kcmpnm[ idx ] = ' ' ;
-            kcmpnm[ 8 ] = '\0' ;
+        if ( strlen ( s->h->kcmpnm ) < 8 ) {
+            for ( idx = strlen ( s->h->kcmpnm ) ; idx < 8 ; idx++ )
+                s->h->kcmpnm[ idx ] = ' ' ;
+            s->h->kcmpnm[ 8 ] = '\0' ;
         }
 
 	returnValue = TRUE ;

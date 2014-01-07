@@ -19,7 +19,7 @@
   FILE: test.readsdd.0 - 1
  --------------------
 
-     depmin = -1.560000e+00
+     depmin = -1.570000e+00
      depmax = 1.520000e+00
       kstnm = CDV
   
@@ -32,7 +32,7 @@ test.readsdd.0
   FILE: test.readsdd.0 - 1
  --------------------
 
-     depmin = -1.560000e+00
+     depmin = -1.570000e+00
      depmax = 1.520000e+00
       kstnm = CDV
   
@@ -45,7 +45,7 @@ test.readsdd.0
   FILE: test.readsdd.0 - 1
  --------------------
 
-     depmin = -1.560000e+00
+     depmin = -1.570000e+00
      depmax = 1.520000e+00
       kstnm = CDV
  getbb
@@ -65,29 +65,29 @@ test.readsdd.0 test.readsdd.1 test.readsdd.2 test.readsdd.3
   FILE: test.readsdd.0 - 1
  --------------------
 
-     depmin = -1.560000e+00
+     depmin = -1.570000e+00
      depmax = 1.520000e+00
       kstnm = CDV
   
   FILE: test.readsdd.1 - 2
  --------------------
 
-     depmin = -1.550000e+00
-     depmax = 1.510000e+00
+     depmin = -1.570000e+00
+     depmax = 1.520000e+00
       kstnm = CDV
   
   FILE: test.readsdd.2 - 3
  --------------------
 
-     depmin = -2.147484e+07
-     depmax = 0.000000e+00
+     depmin = -1.570000e+00
+     depmax = 1.520000e+00
       kstnm = CDV
   
   FILE: test.readsdd.3 - 4
  --------------------
 
-     depmin = 0.000000e+00
-     depmax = 0.000000e+00
+     depmin = -1.570000e+00
+     depmax = 1.520000e+00
       kstnm = CDV
   
  ==>  
@@ -101,7 +101,7 @@ test.readsdd.0 test.readsdd.1 test.readsdd.2 test.readsdd.3
   FILE: test.readsdd.dir/test.readsdd.indir - 1
  -----------------------------------------
 
-     depmin = -1.560000e+00
+     depmin = -1.570000e+00
      depmax = 1.520000e+00
       kstnm = CDV
   
@@ -113,8 +113,8 @@ test.readsdd.0 test.readsdd.1 test.readsdd.2 test.readsdd.3
   FILE: test.readsdd.1 - 1
  --------------------
 
-     depmin = -1.550000e+00
-     depmax = 1.510000e+00
+     depmin = -1.570000e+00
+     depmax = 1.520000e+00
       kstnm = CDV
   
  ==>  
@@ -125,22 +125,22 @@ test.readsdd.0 test.readsdd.1 test.readsdd.2 test.readsdd.3
   FILE: test.readsdd.1 - 1
  --------------------
 
-     depmin = -1.550000e+00
-     depmax = 1.510000e+00
+     depmin = -1.570000e+00
+     depmax = 1.520000e+00
       kstnm = CDV
   
   FILE: test.readsdd.2 - 2
  --------------------
 
-     depmin = -2.147484e+07
-     depmax = 0.000000e+00
+     depmin = -1.570000e+00
+     depmax = 1.520000e+00
       kstnm = CDV
   
   FILE: test.readsdd.3 - 3
  --------------------
 
-     depmin = 0.000000e+00
-     depmax = 0.000000e+00
+     depmin = -1.570000e+00
+     depmax = 1.520000e+00
       kstnm = CDV
   
  ==>  

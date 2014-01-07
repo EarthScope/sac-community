@@ -52,13 +52,12 @@ wrsdd(int   idfl,
       int  *nerr) {
 
         int idx, idd, ideg, ifrac, ihh, ijday, imm, imsec;
-        int  iss, itm, jcomp, kundef_len, ncerr, nlcdsk, nlcmem, nptwr;
+        int  iss, itm, jcomp, kundef_len, ncerr, nlcdsk, nptwr;
         int nun;
 	float frac;
         char *strtemp;
-        int *Isacmem;
-        float *Sacmem;
-
+        sac *s;
+        int *sdd;
 	kschan[12]='\0';
 	kschdr[80]='\0';
 	ksclas[4]='\0';
@@ -81,12 +80,9 @@ wrsdd(int   idfl,
 		if( *nerr != 0 )
 			goto L_8888;
 	}
-
-	/* - Copy header from working memory into header common. */
-	nlcmem = Ndxhdr[idfl];
-	/* copy( (int*)cmmem.sacmem[nlcmem], (int*)&Fhdr[1], SAC_HEADER_NUMBERS ); */
-	copy_float( cmmem.sacmem[nlcmem], &(Fhdr[1]), SAC_HEADER_NUMBERS );
-	zgetc( (int *)cmmem.sacmem[nlcmem] + SAC_HEADER_NUMBERS, kmhdr.khdr[0], (MCPW+1)* SAC_HEADER_STRINGS );
+  if(!(s = sacget(idfl-1, TRUE, nerr))) {
+    goto L_8888;
+  }
 
 	/* - Initialize fields in SDD header */
 	fstrncpy( kschdr, 80, " ", 1);
@@ -98,38 +94,38 @@ wrsdd(int   idfl,
 	/* - Convert header from SAC format to SDD format */
         kundef_len = strlen(kmhdr.kundef);
 
-	if( memcmp(kevnm,kmhdr.kundef,kundef_len) != 0 )
-		strscpy( ksevnm, kevnm, 8 );
-	if( memcmp(kstnm,kmhdr.kundef,kundef_len) != 0 )
-		strcpy( ksstnm, kstnm );
-	if( memcmp(kcmpnm,kmhdr.kundef,kundef_len) != 0 ) {
+	if( memcmp(s->h->kevnm,kmhdr.kundef,kundef_len) != 0 )
+		strscpy( ksevnm, s->h->kevnm, 8 );
+	if( memcmp(s->h->kstnm,kmhdr.kundef,kundef_len) != 0 )
+		strcpy( ksstnm, s->h->kstnm );
+	if( memcmp(s->h->kcmpnm,kmhdr.kundef,kundef_len) != 0 ) {
                 strtemp = malloc(9);
-                strncpy(strtemp,kcmpnm,8);
+                strncpy(strtemp,s->h->kcmpnm,8);
                 strtemp[8] = '\0';
 		subscpy( kschan, 0, 7, 12, strtemp );
                 free(strtemp);
 	}
-	if( memcmp(kinst,kmhdr.kundef,kundef_len) != 0 ) {
+	if( memcmp(s->h->kinst,kmhdr.kundef,kundef_len) != 0 ) {
                 strtemp = malloc(5);
-                strncpy(strtemp,kinst,4);      
+                strncpy(strtemp,s->h->kinst,4);      
                 strtemp[4] = '\0';
 		subscpy( kschan, 8, 11, 12, strtemp );
                 free(strtemp);
 	}
-	if( *delta != cmhdr.fundef )
-		*isdelt = (int)( (1.0/ *delta)*100.0 + .5 );
-	*isnpts = *npts;
-	if( *stel != cmhdr.fundef )
-		*issel = (int)( *stel*100.0 + .5 );
-	if( *stdp != cmhdr.fundef )
-		*issdep = (int)( *stdp*100.0 + .5 );
+	if( s->h->delta != cmhdr.fundef )
+		*isdelt = (int)( (1.0/ s->h->delta)*100.0 + .5 );
+	*isnpts = s->h->npts;
+	if( s->h->stel != cmhdr.fundef )
+		*issel = (int)( s->h->stel*100.0 + .5 );
+	if( s->h->stdp != cmhdr.fundef )
+		*issdep = (int)( s->h->stdp*100.0 + .5 );
 
 	/* - Pack date and time into one word */
 
-	ijday = *nzjday;
-	itm = *nzmsec + (((*nzhour*60 + *nzmin)*60) + *nzsec)*1000;
-	if( *begin != cmhdr.fundef && *begin != 0.0 ){
-		itm = itm + (int)( *begin*1000.0 + .5 );
+	ijday = s->h->nzjday;
+	itm = s->h->nzmsec + (((s->h->nzhour*60 + s->h->nzmin)*60) + s->h->nzsec)*1000;
+	if( s->h->b != cmhdr.fundef && s->h->b != 0.0 ){
+		itm = itm + (int)( s->h->b*1000.0 + .5 );
 		if( itm < 0 ){
 			ijday = ijday - 1;
 			itm = itm + 8640000;
@@ -147,16 +143,16 @@ wrsdd(int   idfl,
 		*istime = imsec + ((ihh*100 + imm)*100 + iss)*1000;
 	}
 	else{
-		*istime = *nzmsec + ((*nzhour*100 + *nzmin)*100 + *nzsec)*
+		*istime = s->h->nzmsec + ((s->h->nzhour*100 + s->h->nzmin)*100 + s->h->nzsec)*
 		 1000;
 	}
-	kidate( *nzyear, ijday, &imm, &idd, nerr );
-	*isdate = idd + (*nzyear*100 + imm)*100;
+	kidate( s->h->nzyear, ijday, &imm, &idd, nerr );
+	*isdate = idd + (s->h->nzyear*100 + imm)*100;
 
 	/* - Convert lat/lon back from fraction to minutes/seconds */
-	if( *stla != cmhdr.fundef ){
-		ideg = *stla;
-		frac = *stla - (float)( ideg );
+	if( s->h->stla != cmhdr.fundef ){
+		ideg = s->h->stla;
+		frac = s->h->stla - (float)( ideg );
 		imm = frac*60.0;
 		frac = frac*60.0 - (float)( imm );
 		iss = frac*60.0;
@@ -165,9 +161,9 @@ wrsdd(int   idfl,
 		*issla = ifrac + ((ideg*100 + imm)*100 + iss)*100;
 	}
 
-	if( *stlo != cmhdr.fundef ){
-		ideg = *stlo;
-		frac = *stlo - (float)( ideg );
+	if( s->h->stlo != cmhdr.fundef ){
+		ideg = s->h->stlo;
+		frac = s->h->stlo - (float)( ideg );
 		imm = frac*60.0;
 		frac = frac*60.0 - (float)( imm );
 		iss = frac*60.0;
@@ -178,19 +174,17 @@ wrsdd(int   idfl,
 
 	/* - Copy extra SDD information, if exists, to header */
 
-	nlcmem = Nxsdd[idfl];
-	if( nlcmem != 0 ){
-                Isacmem = (int *)cmmem.sacmem[nlcmem];
-		*isclas = *(Isacmem++);
-		*isfrmt = *(Isacmem++);
-		*iscalg = *(Isacmem++);
+  if(s->sddhdr) {
+		*isclas = s->sddhdr[0];
+		*isfrmt = s->sddhdr[1];
+		*iscalg = s->sddhdr[2];
 
 		for( idx = 1; idx <= MSCOM; idx++ ){
-			Iscom[idx] = *(Isacmem++);
+			Iscom[idx] = s->sddhdr[3+idx-1];
 		}
 
 		for( idx = 1; idx <= MSREP; idx++ ){
-			Isrep[idx] = *(Isacmem++);
+			Isrep[idx] = s->sddhdr[3+MSCOM+idx-1];
 		}
 	}
 
@@ -199,25 +193,21 @@ wrsdd(int   idfl,
 
 	nlcdsk = 0;
 	nptwr = MWSHDR;
+
 	zwabs( (int *)&nun, (char *)(&Ishdr[1]), nptwr, (int *)&nlcdsk, (int *)nerr );
 
 	/* - Write each data component, if requested. */
-
+  
 	if( ldta ){
-		for( jcomp = 0; jcomp < Ncomp[idfl]; jcomp++ ){
+    sdd = (int *) malloc(sizeof(int) * s->h->npts);
+		for( jcomp = 0; jcomp < sac_comps(s); jcomp++ ){
 			nlcdsk = nlcdsk + nptwr;
-			nlcmem = cmdfm.ndxdta[idfl - 1][jcomp];
-			nptwr = Nlndta[idfl];
-                        Isacmem = (int *)cmmem.sacmem[nlcmem];
-                        Sacmem = cmmem.sacmem[nlcmem];
-
 			/*         Convert data to integers before writing */
-
-			for( idx = 0; idx <= (nptwr - 1); idx++ ){
-				*(Isacmem++) = *(Sacmem++)*100.0;
+			for( idx = 0; idx < s->h->npts; idx++ ){
+        sdd[idx] = ((jcomp==0) ? roundf(s->y[idx]*100.0) : roundf(s->x[idx]*100.0));
 			}
-
-			zwabs( (int *)&nun, (char *)(cmmem.sacmem[nlcmem]), nptwr, (int *)&nlcdsk, (int *)nerr );
+      
+			zwabs( (int *)&nun, (char *)sdd, s->h->npts, (int *)&nlcdsk, (int *)nerr );
 		}
 	}
 

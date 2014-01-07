@@ -26,13 +26,13 @@ void xplotpm(int *nerr)
 	char kret[9], kstart[25], kstop[25], ktemp[17],
 	     xlabel[MCMSG+1], ylabel[MCMSG+1];
 	int lany, lframesave, lrxlim, lwait, lprint = FALSE , ltry = FALSE ;
-	int ixplot, iyplot, jdfl, junk, nc, ncret, ndxx, 
-	 ndxy, nlen, notused , nplot;
+	int ixplot, iyplot, jdfl, nc, ncret,
+	 notused , nplot;
 	float ratio, start, stop, tmax, tmin, unused, 
 	 wmax, wmin, xloc, xmax, xmin, xvmax, xvmin, yloc, ymax, ymin, 
 	 yvmax, yvmin;
 	static char kwait[9] = "Waiting$";
-
+  sac *s, *s2;
 
 
 	/*=====================================================================
@@ -141,31 +141,32 @@ void xplotpm(int *nerr)
 
 	/* - For each pair of files in DFL: */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl += 2 ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl += 2 ){
 	    /* -- Get first of pair of files from the memory manager.
 	     *    This will be plotted along the Y axis.
 	     *    (Header is moved into common blocks CMHDR and KMHDR.) */
-	    getfil( jdfl, TRUE, &nlen, &ndxy, &junk, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+    //getfil( jdfl, TRUE, &nlen, &ndxy, &junk, nerr );
 
 	    /* -- Determine how much of first file to plot. */
 	    getxlm( &lrxlim, &tmin, &tmax );
 	    if( lrxlim ){
-		start = fmax( tmin, *b );
-		stop = fmin( tmax, *e );
-		iyplot = (int)( (start - *begin)/ *delta );
-		nplot = (int)( (stop - start)/ *delta );
-		extrma( cmmem.sacmem[ndxy]+iyplot,
+		start = fmax( tmin, s->h->b );
+		stop = fmin( tmax, s->h->e );
+		iyplot = (int)( (start - s->h->b)/ s->h->delta );
+		nplot = (int)( (stop - start)/ s->h->delta );
+		extrma( &s->y[iyplot],
                         1, nplot, &ymin, &ymax, &unused );
 	    }
 	    else{
 		/* start = *b; */
 		/* stop = *e; */
 		iyplot = 0;
-		nplot = nlen;
-		ymin = *depmin;
-		ymax = *depmax;
+		nplot = s->h->npts;
+		ymin = s->h->depmin;
+		ymax = s->h->depmax;
 	    }
 
 	    /* -- Set up Y axis label. */
@@ -180,24 +181,25 @@ void xplotpm(int *nerr)
 
 	    /* -- Get second of pair of files from the memory manager.
 	     *    This will be plotted along the X axis. */
-	    getfil( jdfl + 1, TRUE, &nlen, &ndxx, &junk, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
+      if(!(s2 = sacget(jdfl+1, TRUE, nerr))) {
+        goto L_8888;
+      }
+	    //getfil( jdfl + 1, TRUE, &nlen, &ndxx, &junk, nerr );
 
 	    /* -- Determine how much of second file to plot. */
 	    if( lrxlim ){
-		start = fmax( tmin, *begin );
-		stop = fmin( tmax, *ennd );
-		ixplot = (int)( (start - *begin)/ *delta );
-		extrma( cmmem.sacmem[ndxx]+ixplot,
+		start = fmax( tmin, s2->h->b );
+		stop = fmin( tmax, s2->h->b );
+		ixplot = (int)( (start - s2->h->b)/ s2->h->delta );
+		extrma( &s2->y[ixplot],
 			1, nplot, &xmin, &xmax, &unused );
 	    }
 	    else{
-		start = *b;
-		stop = *e;
+		start = s2->h->b;
+		stop = s2->h->e;
 		ixplot = 0;
-		xmin = *depmin;
-		xmax = *depmax;
+		xmin = s2->h->depmin;
+		xmax = s2->h->depmax;
 	    }
 
 	    /* -- Set up X axis label if none exists. */
@@ -243,8 +245,7 @@ void xplotpm(int *nerr)
 
 	    /* -- Plot this pair of files. */
 	    rectangle( &xvmin, &xvmax, &yvmin, &yvmax );
-	    worldpolyline( cmmem.sacmem[ndxx]+ixplot, 
-                           cmmem.sacmem[ndxy]+iyplot, nplot );
+	    worldpolyline( &s2->y[ixplot], &s->y[iyplot], nplot );
 	    settexttype( "SOFTWARE" );
 	    xaxis( "LINEAR", "BELOW", "BOTH", xlabel,MCMSG+1 );
 	    yaxis( "LINEAR", "LEFT", "BOTH", ylabel,MCMSG+1 );
@@ -277,7 +278,7 @@ void xplotpm(int *nerr)
 
 	    /* -- Turn wait mode off if this is last pair and not in
 		  "wait everytime" mode. */
-	    if( (jdfl + 1) == (2*(cmdfm.ndfl/2)) && !cmgam.lwaite )
+	    if( (jdfl + 1) == (2*(saclen()/2)) && !cmgam.lwaite )
 		lwait = FALSE;
 
 	    /* -- If "wait mode" is on, send prompt to terminal and

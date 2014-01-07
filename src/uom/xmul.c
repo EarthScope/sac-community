@@ -13,10 +13,9 @@ void /*FUNCTION*/ xmul(nerr)
 int *nerr;
 {
 	int lchn;
-	int j, jcon, jdfl, ndx1, ndx2, nlen;
+	int j, jcon, jdfl;
 	double con, temp;
-
-	float *Sacmem;
+  sac *s;
 
 	/* Ind
 	 *=====================================================================
@@ -106,37 +105,33 @@ L_1000:
 
 	/* EXECUTION PHASE: */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 		/* -- Get next file from memory manager. */
-		getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+		//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
 		/* -- Multiply appropriate constant by each data point. */
 		con = Conmul[jdfl];
 
-                Sacmem = cmmem.sacmem[ndx1];
-		for( j = ndx1; j <= (ndx1 + nlen - 1); j++ ){
-                        *(Sacmem++) *= con;
-			}
+		for( j = 0; j < s->h->npts; j++ ){
+      s->y[j] *= con;
+    }
 
 		/* -- Recompute extrema. */
-		*depmen = *depmen*con;
+		s->h->depmen = s->h->depmen*con;
 		if( con >= 0. ){
-			*depmin = *depmin*con;
-			*depmax = *depmax*con;
+			s->h->depmin = s->h->depmin*con;
+			s->h->depmax = s->h->depmax*con;
 			}
 		else{
-			temp = *depmin;
-			*depmin = *depmax*con;
-			*depmax = temp*con;
+			temp = s->h->depmin;
+			s->h->depmin = s->h->depmax*con;
+			s->h->depmax = temp*con;
 			}
 
-		/* -- Give file back to memory manager. */
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
 		}
 
 	/* - Calculate and set new range of dependent variable. */

@@ -5,14 +5,14 @@
 #include <ctype.h>
 
 #include "complex.h"
-
+#include "amf.h"
 #include "mach.h"
 #include "../evalresp/evresp.h"
 #include "hdr.h"
 #include "extfunc.h" 
 #include "EVRESPnames.h"
 #include "timefuncs.h"
-
+#include "SacHeader.h"
 
 #include "ncpf.h"
 
@@ -235,13 +235,16 @@ int /*FUNCTION*/ EvrespGateway(int nfreq, double delfrq, double xre[],
    int Interpolate;
    int FnameLen;
    struct stat status;
+   sac *s;
 
+
+   s = sacget_current();
    strcpy ( net_code , "   " ) ;
    check[8] = 0;
    memset(t_o_day, 0, 15);
    memset(datime, 0, 30);
-   setTimeString(nzhour,nzmin, nzsec, nzmsec ,t_o_day); 
-   setDateString(nzyear,nzjday,t_o_day,datime); 
+   setTimeString(&s->h->nzhour,&s->h->nzmin, &s->h->nzsec, &s->h->nzmsec, t_o_day); 
+   setDateString(&s->h->nzyear,&s->h->nzjday,&t_o_day,&datime); 
 
    if ( inFile ) {
       file = (char *) malloc ( strlen ( inFile ) ) ;
@@ -295,17 +298,17 @@ int /*FUNCTION*/ EvrespGateway(int nfreq, double delfrq, double xre[],
       strcpy(net_code,getNetworkName(getTransferDirection()));
    }
    else{
-      if(strncmp(knetwk, "-12345",6) == 0){
+      if(strncmp(s->h->knetwk, "-12345",6) == 0){
          strcpy(net_code,"*"); 
       }
       else
-         strcpy(net_code, knetwk);
+         strcpy(net_code, s->h->knetwk);
    }
    deblank(net_code);
 
 
    strcpy(units,"DIS");
-   *idep = IDISP ;
+   s->h->idep = IDISP ;
  
 
    /* Get station name. */
@@ -313,11 +316,11 @@ int /*FUNCTION*/ EvrespGateway(int nfreq, double delfrq, double xre[],
       strcpy(station,getStationName(getTransferDirection()));
    }
    else{
-      if(strncmp(kstnm, "-12345",6) == 0){
+      if(strncmp(s->h->kstnm, "-12345",6) == 0){
          strcpy(station,"*");
       }
       else
-         strcpy(station, kstnm);
+         strcpy(station, s->h->kstnm);
    }
    deblank(station);
 
@@ -327,11 +330,11 @@ int /*FUNCTION*/ EvrespGateway(int nfreq, double delfrq, double xre[],
       strcpy(component,getChannelName(getTransferDirection()));
    }
    else{
-      if(strncmp(kcmpnm, "-12345",6) == 0){
+      if(strncmp(s->h->kcmpnm, "-12345",6) == 0){
          strcpy(component,"*");
       }
       else
-         strcpy(component, kcmpnm);
+         strcpy(component, s->h->kcmpnm);
    }
    deblank(component);
 
@@ -342,7 +345,7 @@ int /*FUNCTION*/ EvrespGateway(int nfreq, double delfrq, double xre[],
    }
    else{
       /* get locid from khole if it's a two letter string */
-      strcpy( check , khole ) ;
+      strcpy( check , s->h->khole ) ;
       deblank( check ) ;
       if( strlen( check ) == 2 && isalnum( check[ 0 ] ) &&
                                   isalnum( check[ 1 ] ) )

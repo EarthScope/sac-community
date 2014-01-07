@@ -18,10 +18,9 @@
 void /*FUNCTION*/ xhilbert(nerr)
 int *nerr;
 {
-	int jdfl, ndxscratch, ndxsignal, nlenmn, nlnsignal, 
-	 notused, ntused;
-
-
+	int jdfl, nlenmn;
+  sac *s;
+  float *scr;
 
 	/*=====================================================================
 	 * PURPOSE: To parse and execute the action command HILBERT.
@@ -42,7 +41,7 @@ int *nerr;
 	 *=====================================================================
 	 * SUBROUTINES CALLED:
 	 *    saclib:  vflist, vfeven, getfil, setmsg, apimsg, allamb, firtrn,
-	 *             extrma, putfil, relamb
+	 *             extrma, relamb
 	 *=====================================================================
 	 * LOCAL VARIABLES:
 	 *    MLENSCRATCH:  Size of scratch space needed for transform. [ip]
@@ -75,11 +74,13 @@ int *nerr;
 	 *   Make sure minimum is not too small for fir filter subroutine. */
 
 	nlenmn = MLARGE;
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-		getfil( jdfl, FALSE, &ntused, &ntused, &ntused, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
-		nlenmn = min( nlenmn, *npts );
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
+    if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+      goto L_8888;
+    }
+		//getfil( jdfl, FALSE, &ntused, &ntused, &ntused, nerr );
+
+		nlenmn = min( nlenmn, s->h->npts );
 		}
 
 	if( nlenmn < MINDATALEN ){
@@ -92,39 +93,31 @@ int *nerr;
 	/* - EXECUTION PHASE: */
 
 	/* - Allocate temporary block for scratch space. */
-
-	allamb( &cmmem, MLENSCRATCH, &ndxscratch, nerr );
+  scr = (float *) malloc(sizeof(float) * MLENSCRATCH);
+	//allamb( &cmmem, MLENSCRATCH, &ndxscratch, nerr );
 	if( *nerr != 0 )
 		goto L_8888;
 
 	/* - Perform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
-		/* -- Get next file from the memory manager.
-		 *    (Header is moved into common blocks CMHDR and KMHDR.) */
-		getfil( jdfl, TRUE, &nlnsignal, &ndxsignal, &notused, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+		//getfil( jdfl, TRUE, &nlnsignal, &ndxsignal, &notused, nerr );
 
 		/* -- Compute the Hilbert transform in place. */
-		firtrn( "HILBERT", cmmem.sacmem[ndxsignal], nlnsignal, cmmem.sacmem[ndxscratch], 
-		 cmmem.sacmem[ndxsignal] );
+		firtrn( "HILBERT", s->y, s->h->npts, scr, s->y);
 
 		/* -- Update any header fields that may have changed. */
-		extrma( cmmem.sacmem[ndxsignal], 1, nlnsignal, depmin, depmax, 
-		 depmen );
-
-		/* -- Return file to memory manager. */
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+		extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
 		}
 
 	/* - Release scratch space. */
+  FREE(scr);
 
-	relamb( cmmem.sacmem, ndxscratch, nerr );
 	if( *nerr != 0 )
 		goto L_8888;
 

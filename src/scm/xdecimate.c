@@ -30,16 +30,16 @@ void
 xdecimate(int *nerr) {
 
 	char kdecnm[MCPFN+1];
-	int idx, jdx, jdfl, jdfl_, 
-	 ndx1, ndx2, ndxnew, ndxscr, nlen, nlndec, nlnnew, nlnscr;
+	int idx, jdx, jdfl,
+    nlndec, nlnnew, nlnscr;
 
 	static char kint[7-(2)+1]={'2','3','4','5','6','7'};
 	static int ndecmn = 2;
 	static int ndecmx = 7;
         char *cattemp;
 
-        float *Sacmem1, *Sacmem2;
-
+  sac *s;
+  float *new, *scr;
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command DECIMATE.
 	 *           This command decimates data in memory.
@@ -162,32 +162,33 @@ xdecimate(int *nerr) {
 		return ;
 
 	    nlnscr = 2*cmfir.ncfir + 100;
-	    allamb( &cmmem, nlnscr, &ndxscr, nerr );
+      scr = (float *) malloc(sizeof(float) * nlnscr);
+	    //allamb( &cmmem, nlnscr, &ndxscr, nerr );
 	    if( *nerr != 0 )
 		return ;
 	}
 
 	/* - Perform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-	    jdfl_ = jdfl - 1;
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 	    /* -- Get the next file in DFL, moving header to CMHDR. */
-
-	    getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-	    if( *nerr != 0 )
-		return ;
+      if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+        return;
+      }
+	    //getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
 	    /* -- Get new data block.  */
-	    nlnnew = (nlen - 1)/cmscm.ndecfc + 1;
-	    allamb( &cmmem, nlnnew, &ndxnew, nerr );
+	    nlnnew = (s->h->npts - 1)/cmscm.ndecfc + 1;
+      new = (float *) malloc(sizeof(float) * nlnnew);
+	    //allamb( &cmmem, nlnnew, &ndxnew, nerr );
 	    if( *nerr != 0 )
 		return ;
 
 	    /* -- Perform decimation (with filter) or desampling (without filter.) */
 	    if( cmscm.ldecfi ){
-		decim( cmmem.sacmem[ndx1], nlen, cmmem.sacmem[ndxscr], nlnscr, cmfir.cfir, 
-		 cmfir.ncfir, 1, cmscm.ndecfc, cmmem.sacmem[ndxnew], &nlndec );
+        decim( s->y, s->h->npts, scr, nlnscr, cmfir.cfir, 
+               cmfir.ncfir, 1, cmscm.ndecfc, new, &nlndec );
 		if( nlndec != nlnnew ){
 		    *nerr = 901;
 		    setmsg( "ERROR", *nerr );
@@ -198,40 +199,28 @@ xdecimate(int *nerr) {
 		}
 	    }
 	    else{
-	        Sacmem1 = cmmem.sacmem[ndx1];
-		Sacmem2 = cmmem.sacmem[ndxnew];
-		for( jdx = 1; jdx <= nlnnew; jdx++ ){
-		    *(Sacmem2++) = *Sacmem1;
-		    Sacmem1 += cmscm.ndecfc;
-		}
+        for( jdx = 1; jdx <= nlnnew; jdx++ ){
+          new[jdx] = s->y[cmscm.ndecfc * (jdx-1)];
+        }
 	    }
 
 	    /* -- Release old data block and store new index and data length. */
-	    relamb( cmmem.sacmem, cmdfm.ndxdta[jdfl_][0], nerr );
-	    if( *nerr != 0 )
-		return ;
-	    cmdfm.ndxdta[jdfl_][0] = ndxnew;
-	    Nlndta[jdfl] = nlnnew;
+      FREE(s->y);
+      s->y = new;
 
 	    /* -- Update any header fields that may have changed. */
 
-	    *npts = nlnnew;
-	    *delta = *delta*(float)( cmscm.ndecfc );
-	    *ennd = *begin + *delta*(float)( *npts - 1 );
-	    extrma( cmmem.sacmem[ndxnew], 1, *npts, depmin, depmax, depmen );
+	    s->h->npts  = nlnnew;
+	    s->h->delta = s->h->delta*(float)( cmscm.ndecfc );
+	    s->h->e     = s->h->b + s->h->delta*(float)( s->h->npts - 1 );
+	    extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
-	    /* -- Reverse the steps used in getting the next file in DFL,
-	     *    In other words, give the file back to file manager. */
-
-	    putfil( jdfl, nerr );
-	    if( *nerr != 0 )
-		return ;
 	}
 
 	/* - Release the scratch space. */
-
+  
 	if( cmscm.ldecfi )
-	    relamb( cmmem.sacmem, ndxscr, nerr );
+    FREE(scr);
 
 	/* - Calculate and set new range of dependent variable. */
 

@@ -11,6 +11,7 @@
 
 #include "dfm.h"
 #include "ucf.h"
+extern float *sss_sum;
 
 void /*FUNCTION*/ xzerostack(nerr)
 int *nerr;
@@ -68,8 +69,8 @@ int *nerr;
 
 	/* - Release summation data block if necessary. */
 
-	if( (cmsss.ndxsum > 0) && (cmmem.sacmem[cmsss.ndxsum] != NULL) ){
-		relamb( cmmem.sacmem, cmsss.ndxsum, nerr );
+	if( (cmsss.ndxsum > 0) && sss_sum != NULL) {
+    FREE(sss_sum);
 		cmsss.ndxsum = 0;
 		cmsss.nlnsum = 0;
 		if( *nerr != 0 )
@@ -78,7 +79,7 @@ int *nerr;
 
 	/* - Clear data file list storage. */
 
-	cleardfl( nerr );
+	sacclear();
 
 	/* delete files from SeisMgr */
 	worksetName = smGetDefaultWorksetName () ;

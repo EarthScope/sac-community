@@ -18,12 +18,12 @@
 void /*FUNCTION*/ xmarkptp(nerr)
 int *nerr;
 {
-	int ifpick, ikpick, ipick, jdfl, jpmax, jpmin, ndxx, 
-	 ndxy, nlen, nlnatw, nofatw, nwin;
+	int ifpick, ikpick, ipick, jdfl, jpmax, jpmin, 
+	 nlnatw, nofatw, nwin;
 	double tmax, tmin;
   float ptpamp;
 
-
+  sac *s;
 
 	/*=====================================================================
 	 * PURPOSE: To parse and execute the action command MARKPTP.
@@ -112,12 +112,13 @@ int *nerr;
 
 	/* - Perform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 	    /* -- Get next file from the memory manager.
 	     *    (Header is moved into common blocks CMHDR and KMHDR.) */
-	    getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
-	    if( *nerr != 0 )
-		return ;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      return;
+    }
+    //getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
 
 	    /* -- Determine measurement window. */
 	    if( cmsmm.lmtw ){
@@ -128,22 +129,22 @@ int *nerr;
 	    }
 	    else{
 		nofatw = 0;
-		nlnatw = *npts;
+		nlnatw = s->h->npts;
 	    }
 	    /* -- Measure maximum peak to peak amplitude and period in window */
-	    nwin = (int)( cmsmm.winlen/ *delta );
-	    ptp( cmmem.sacmem[ndxy]+nofatw, nlnatw, &nwin, &ptpamp, &jpmin, 
+	    nwin = (int)( cmsmm.winlen/ s->h->delta );
+	    ptp( s->y + nofatw, nlnatw, &nwin, &ptpamp, &jpmin, 
 		 &jpmax );
-	    tmin = *begin + (float)( nofatw + jpmin - 1 )**delta;
-	    tmax = *begin + (float)( nofatw + jpmax - 1 )**delta;
+	    tmin = s->h->b + (float)( nofatw + jpmin - 1 )*s->h->delta;
+	    tmax = s->h->b + (float)( nofatw + jpmax - 1 )*s->h->delta;
 
 	    /* -- Update any header fields that may have changed. */
-	    Fhdr[ifpick] = tmin;
+	    VALUE(fhdr(s,ifpick)) = tmin;
 	    strcpy( kmhdr.khdr[ikpick - 1], "PTPMIN  " );
-	    Fhdr[ifpick + 1] = tmax;
+	    VALUE(fhdr(s,ifpick + 1)) = tmax;
 	    strcpy( kmhdr.khdr[ikpick], "PTPMAX  " );
-	    *user0 = ptpamp;
-	    strcpy( kuser0, "PTPAMP  " );
+	    s->h->user0 = ptpamp;
+	    strcpy( s->h->kuser0, "PTPAMP  " );
 
 	    /* -- Write results to alphanumeric pick file if open.
 	     *    TMIN is the time of minimum (valley) of the waveform.
@@ -153,14 +154,14 @@ int *nerr;
 		strcpy( kmeam.kpkid, "PTP     " );
 		if( tmin <= tmax ){
 		    cmeam.pkseci = tmin;
-		    cmeam.pkampl = *(cmmem.sacmem[ndxy] + nofatw + jpmin - 1);
-		    Awf[4] = *(cmmem.sacmem[ndxy] + nofatw + jpmax - 1);
+		    cmeam.pkampl = s->y[nofatw + jpmin - 1];
+		    Awf[4] = s->y[nofatw + jpmax - 1];
 		    Dtwf[4] = tmax - tmin;
 		}
 		else{
 		    cmeam.pkseci = tmax;
-		    cmeam.pkampl = *(cmmem.sacmem[ndxy] + nofatw + jpmax - 1);
-		    Awf[4] = *(cmmem.sacmem[ndxy] + nofatw + jpmin - 1);
+		    cmeam.pkampl = s->y[ nofatw + jpmax - 1];
+		    Awf[4] = s->y[nofatw + jpmin - 1];
 		    Dtwf[4] = tmin - tmax;
 		}
 		strcpy( kmeam.kpksrc, "A       " );
@@ -168,10 +169,6 @@ int *nerr;
 		wapf();
 	    }
 
-	    /* -- Return file to memory manager. */
-	    putfil( jdfl, nerr );
-	    if( *nerr != 0 )
-		return ;
 	}
 
 } /* end of function */

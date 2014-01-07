@@ -81,20 +81,16 @@ rdxdrdta(int   idfl,
 
 	/* - Compute some header values. */
 
-	*npts = Nlndta[idfl];
-	extrma( cmmem.sacmem[cmdfm.ndxdta[idfl - 1][0]], 1, *npts, depmin, 
+	s->h->npts = Nlndta[idfl];
+	extrma( cmmem.sacmem[cmdfm.ndxdta[idfl - 1][0]], 1, s->h->npts, depmin, 
 	 depmax, depmen );
-	if( *leven ){
-	    *ennd = *begin + (float)( *npts - 1 )**delta;
+	if( s->h->leven ){
+	    s->h->e = s->h->b + (float)( s->h->npts - 1 )*s->h->delta;
 	}
 	else{
-	    extrma( cmmem.sacmem[cmdfm.ndxdta[idfl - 1][1]], 1, *npts,
+	    extrma( cmmem.sacmem[cmdfm.ndxdta[idfl - 1][1]], 1, s->h->npts,
 		    begin, ennd, &unused );
 	}
-
-	/* - Move header back to working memory. */
-
-	putfil( idfl, nerr );
 
 L_8888:
 	xdr_destroy( &xdrs );

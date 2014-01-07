@@ -20,11 +20,11 @@
 void /*FUNCTION*/ xwnr(nerr)
 int *nerr;
 {
-	int jdfl, ncerr, ndx1, ndx2, nlen, nlnatw, 
+	int jdfl, ncerr, nlnatw, 
 	 nofatw;
 	double xmax, xmin;
   char *tmp;
-
+  sac *s;
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command WIENER.
 	 *           This command applies a Wiener filter to data in memory.
@@ -108,13 +108,13 @@ int *nerr;
 
 	/* - Perform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 		/* -- Get the next file in DFL, moving header to CMHDR. */
-
-		getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+		//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
 		/* -- Call the specific subroutine to work on this file. */
 
@@ -124,19 +124,19 @@ int *nerr;
 			if( *nerr != 0 ){
 				*nerr = 1608;
 				setmsg( "ERROR", *nerr );
-                tmp = string_list_get(datafiles, jdfl-1);
+        tmp = s->m->filename;
                 apcmsg2(tmp, strlen(tmp)+1);
 				goto L_8888;
 			}
 		}
 		else{
 			nofatw = 0;
-			nlnatw = *npts;
+			nlnatw = s->h->npts;
 		}
 
 		/* -- Check limits of noise window.  maf 970401 */
 		  /* see if noise window is completely outside of data window. */
-		if ( cmsam.ortwwi[1] < *begin || cmsam.ortwwi[0] > *ennd ) {
+		if ( cmsam.ortwwi[1] < s->h->b || cmsam.ortwwi[0] > s->h->e ) {
 		    setmsg ( "ERROR" , 1615 ) ;
 		    apcmsg ( " in file number " , 17 ) ;
 		    apimsg ( jdfl ) ;
@@ -146,7 +146,7 @@ int *nerr;
 		}
 
 		  /* see if noise window over extends data window at both extremes. */
-		if ( cmsam.ortwwi[0] < *begin && cmsam.ortwwi[1] > *ennd ) {
+		if ( cmsam.ortwwi[0] < s->h->b && cmsam.ortwwi[1] > s->h->e ) {
                     setmsg ( "ERROR" , 1616 ) ;
                     apcmsg ( " in file number " , 17 ) ;
                     apimsg ( jdfl ) ;
@@ -156,7 +156,7 @@ int *nerr;
                 }
 
 		  /* see if noise window is partially outside of the data window. */
-                if ( cmsam.ortwwi[0] < *begin || cmsam.ortwwi[1] > *ennd ) {
+                if ( cmsam.ortwwi[0] < s->h->b || cmsam.ortwwi[1] > s->h->e ) {
                     setmsg ( "WARNING" , 1617 ) ;
                     apcmsg ( " in file number " , 17 ) ;
                     apimsg ( jdfl ) ;
@@ -166,26 +166,21 @@ int *nerr;
 		/* -- done checking limits of noise window. maf 970401 */
 		
 		    
-		wiener( cmmem.sacmem[ndx1], nlen, nofatw + 1, nlnatw, cmsam.ncwien, 
+		wiener( s->y, s->h->npts, nofatw + 1, nlnatw, cmsam.ncwien, 
             cmsam.lmu, (float)cmsam.wienmu, 
-            cmsam.lepsilon, (float)cmsam.epsilon, cmmem.sacmem[ndx1], &ncerr ); 
+            cmsam.lepsilon, (float)cmsam.epsilon, s->y, &ncerr ); 
 
 		if( ncerr > 0 ){
 			setmsg( "WARNING", 1609 );
-            tmp = string_list_get(datafiles, jdfl-1);
+      tmp = s->m->filename;
             apcmsg2(tmp, strlen(tmp)+1);
 			outmsg();
 		}
 
 		/* -- Update any header fields that may have changed. */
 
-		extrma( cmmem.sacmem[ndx1], 1, nlen, depmin, depmax, depmen );
+		extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
-		/* -- Reverse the steps used in getting the next file in DFL. */
-
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
 
 	} /* end for */
 

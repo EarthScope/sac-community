@@ -3,7 +3,7 @@
  * 
  * @brief  Calculate a random gaussian number distribution
  */
-
+#include <stdio.h>
 #include <math.h>
 
 #include "dbh.h"

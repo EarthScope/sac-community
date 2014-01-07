@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 
+#include "amf.h"
 #include "mach.h"
 #include "gam.h"
 #include "hdr.h"
@@ -17,7 +18,7 @@ float *xmin, *xmax;
 {
 	int nerr, nlnatw, nofmin;
   double tmin, tmax;
-
+  sac *s;
 
 	/*=====================================================================
 	 * PURPOSE:  To return x axis plot limit attributes for current file.
@@ -46,7 +47,7 @@ float *xmin, *xmax;
 	/* PROCEDURE: */
 	/* - Set x limit option flag. */
 	*lxlm = cmgam.lrtwxl;
-
+  s = sacget_current();
 	/* - If option is on, determine x limits. */
 
 	if( *lxlm ){
@@ -61,8 +62,8 @@ float *xmin, *xmax;
 	/* - Return begin and end times if option is off or an error occurred. */
 
 	if( !*lxlm ){
-		*xmin = *b;
-		*xmax = *e;
+		*xmin = s->h->b;
+		*xmax = s->h->e;
 		}
 
        

@@ -14,7 +14,7 @@
 #include "hdr.h"
 
 #include "sddhdr.h"
-
+#include "amf.h"
 #include "wild.h"
 #include "bot.h"
 #include "ssi.h"
@@ -24,6 +24,7 @@
 #include "co.h"
 #include "dff.h"
 #include "ncpf.h"
+#include "errors.h"
 
 /** 
  * Write a File to disk
@@ -62,12 +63,12 @@ xw(int  lsdd,
         char delimiter[2], kcdir[9], kchange[MCPFN+1], kdirpart[MCPFN+1];
 	char kfile[MCPFN+1], kpdir[9], kstring[MCPFN+1], ktemp[9];
 	int lexpnd;
-	int jdfl, nchange, nchar, nchg, ndx1, ndx2;
-	int nlen, nstr, nstring, nwrdir;
+	int jdfl, nchange, nchar, nchg;
+	int nstr, nstring, nwrdir;
 	static int lwrdir = FALSE;
     char *cattemp;
     char *strtemp1, *strtemp2, *strtemp3;
-    
+    sac *s;
     char *file;
     string_list *list, *files;
 
@@ -122,23 +123,31 @@ xw(int  lsdd,
 
 	    /* -- "OVER":  overwrite files from previous READ command. */
 	    else if( lckeyExact( "OVER#$",7 ) ){
-		cmdfm.lovrrq = TRUE;
-		lexpnd = FALSE;
-        string_list_extend(files, datafiles);
-	    }
+        cmdfm.lovrrq = TRUE;
+        lexpnd = FALSE;
+        for(i = 0; i < saclen(); i++) {
+          if(!(s = sacget(i, TRUE, nerr))) {
+            goto L_8888;
+          }
+          string_list_put(files, s->m->filename, -1);
+        }
+      }
 
 	    /* generate names from the KSTCMP header field */
 	    else if( lckeyExact( "KSTCMP#$",9 ) ){
 		lexpnd = FALSE;
-		gennames("KSTCMP ",7,files,string_list_length(datafiles),nerr);
+		gennames("KSTCMP ",7,files, saclen(),nerr);
 		if(*nerr != 0)
 		    goto L_8888;
 	    }
 
 	    /* -- "APPEND string": append string to filenames from READ command. */
 	    else if( lkcharExact( "APPEND#$",9, MCPFN, kstring,MCPFN+1, &nstring ) ){
-        for(i = 0; i < cmdfm.ndfl; i++) {
-            strtemp1 = string_list_get(datafiles, i);
+        for(i = 0; i < saclen(); i++) {
+          if(!(s = sacget(i, TRUE, nerr))) {
+            goto L_8888;
+          }
+          strtemp1 = s->m->filename;
 		    appendstring( kstring,MCPFN+1, strtemp1, strlen(strtemp1)+2, kfile,MCPFN+1 );
 
             string_list_put(files, kfile, MCPFN+1);
@@ -151,11 +160,14 @@ xw(int  lsdd,
 
 	    /* -- "PREPEND string": prepend string to filenames from READ command. */
 	    else if( lkcharExact( "PREPEND#$",10, MCPFN, kstring,MCPFN+1, &nstring ) ){
-        for(i = 0; i < cmdfm.ndfl; i++) {
-		    strtemp1 = malloc(nstring+1);
+        for(i = 0; i < saclen(); i++) {
+          if(!(s = sacget(i, TRUE, nerr))) {
+            goto L_8888;
+          }
+          strtemp1 = malloc(nstring+1);
 		    strncpy(strtemp1,kstring,nstring);
 		    strtemp1[nstring] = '\0';
-            strtemp2 = string_list_get(datafiles, i);
+        strtemp2 = s->m->filename;
 		    prependstring( strtemp1, nstring+1, strtemp2, strlen(strtemp2)+2, kfile,MCPFN+1);
 
 		    free(strtemp1);
@@ -169,11 +181,14 @@ xw(int  lsdd,
 
 	    /* -- "DELETE string": delete string from filenames from READ command. */
 	    else if( lkcharExact( "DELETE#$",9, MCPFN, kstring,MCPFN+1, &nstring ) ){
-        for(i = 0; i < cmdfm.ndfl; i++) {
-		    strtemp1 = malloc(nstring+1);
+        for(i = 0; i < saclen(); i++) {
+          if(!(s = sacget(i, TRUE, nerr))) {
+            goto L_8888;
+          }
+          strtemp1 = malloc(nstring+1);
 		    strncpy(strtemp1,kstring,nstring);
 		    strtemp1[nstring] = '\0';
-            strtemp2 = string_list_get(datafiles, i);
+        strtemp2 = s->m->filename;
 
 		    deletestring( strtemp1, nstring+1, strtemp2, strlen(strtemp2)+2, kfile,MCPFN+1);
 
@@ -189,8 +204,11 @@ xw(int  lsdd,
 	    /* -- "CHANGE string1 string2": change string1 to string2 in READ filenames. */
 	    else if( lkcharExact( "CHANGE#$",9, MCPFN, kstring,MCPFN+1, &nstring ) ){
 		lcchar( MCPFN, kchange,MCPFN+1, &nchange );
-        for(i = 0; i < cmdfm.ndfl; i++) {
-		    nstr = indexb( kstring,MCPFN+1 );
+        for(i = 0; i < saclen(); i++) {
+          if(!(s = sacget(i, TRUE, nerr))) {
+            goto L_8888;
+          }
+          nstr = indexb( kstring,MCPFN+1 );
 		    nchg = indexb( kchange,MCPFN+1 );
 
 		    strtemp1 = malloc(nstr+1);
@@ -199,7 +217,7 @@ xw(int  lsdd,
 		    strncpy(strtemp2,kchange,nchg);
 		    strtemp1[nstr] = '\0';
 		    strtemp2[nchg] = '\0';
-            strtemp3 = string_list_get(datafiles, i);
+        strtemp3 = s->m->filename;
 		    changestring( strtemp1, nstr+1, strtemp2, nchg+1,
                           strtemp3, strlen(strtemp3)+2, kfile,MCPFN+1 );
 
@@ -284,9 +302,9 @@ xw(int  lsdd,
 
 	/* - Make sure the write filelist has as many entries as read filelist. */
 
-	if( string_list_length(list) != cmdfm.ndfl ){
+	if( string_list_length(list) != saclen() ){
 	    *nerr = 1312;
-        error(1312, "%d %d", string_list_length(list), cmdfm.ndfl);
+        error(1312, "%d %d", string_list_length(list), saclen());
 	    goto L_8888;
 	}
 
@@ -334,18 +352,16 @@ xw(int  lsdd,
 	/* - Write each file in memory to disk. */
 
 	nwrdir = indexb( kmdfm.kwrdir,MCPFN+1 );
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 	    /* -- Get file from memory manager. */
-        file = string_list_get(list, jdfl-1);
-	    getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
-
-	    /* isolate file name */
+        if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+          goto L_8888;
+        }
+        //getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
         file = string_list_get(list, jdfl-1);
 
 	    /* -- Check overwrite-protect flag in header record. */
-	    if( cmdfm.lovrrq && !*lovrok ){
+	    if( cmdfm.lovrrq && !s->h->lovrok ){
 		*nerr = 1303;
 		setmsg( "ERROR", *nerr );
 		apcmsg2(file, strlen(file)+1);

@@ -28,7 +28,7 @@ int
 DoTime( short *year, short *day, short *hour, short *min, short *sec,
 	short *ms, short *ay,   short *ad,  short *ah,   short *am,
 	short *as,  short *ams, float *reference, float *alternate,
-	char* kfile ) ;
+        char* kfile, sac *s ) ;
 
 
 struct field_doc SegyHeaderDoc[] = {
@@ -317,9 +317,7 @@ rdsegy(int   idfl,
     int llon, llat , check ;
     float xs, xlat, xlon, elat, elon;
     double useScale;
-    float *ar ;
-    int swap;
-    
+    sac *s;
     FILE *fpin = NULL ;
     struct SegyHead trace ;
     struct SegyFileHeader fileheader;
@@ -334,7 +332,9 @@ rdsegy(int   idfl,
         outmsg() ;
         return ;
     }
-
+    if(!(s = sacget(idfl-1, TRUE, nerr))) {
+      return;
+    }
     /* start reading the data file   */
     /* first read the SEGY trace header    */
 
@@ -384,67 +384,53 @@ rdsegy(int   idfl,
         return ;
     }
 
-    string_list_put(datafiles, kfile, strlen(kfile));
-    //printf("segy: allocate memory\n");
-    allamb ( &cmmem , SAC_HEADER_WORDS , &Ndxhdr[ idfl ] , nerr ) ;
+    s->m->filename = fstrdup(kfile, strlen(kfile));
     if ( *nerr ) {
-        fclose( fpin ) ;
+        fclose(fpin);
+        *nerr = ERROR_NO_FILENAME_SPECIFIED ;
+        setmsg( "ERROR" , *nerr ) ;
+        outmsg() ;
         return ;
     }
 
-    Nlndta[ idfl ] = num_sam ;
-
-    /* Null the header */
-    for( idx = 0 ; idx < SAC_HEADER_FLOATS ; idx++ )
-        cmhdr.fhdr[ idx ] = cmhdr.fundef ;
-    for( idx = 0 ; idx < SAC_HEADER_INTEGERS ; idx++ )
-        cmhdr.nhdr[ idx ] = cmhdr.nundef ;
-    for( idx = 0 ; idx < SAC_HEADER_ENUMS ; idx++ )
-        cmhdr.ihdr[ idx ] = cmhdr.iundef ;
-    for( idx = 0 ; idx < SAC_HEADER_STRINGS ; idx ++ )
-	strcpy( kmhdr.khdr[ idx ] , kmhdr.kundef ) ;
-    strcpy( kevnm , "-12345           " ) ;
-
-    *iftype = ITIME ;
-    *nvhdr  = SAC_HEADER_MAJOR_VERSION ;
-    *npts   = num_sam ;
+    s->h->iftype = ITIME ;
+    s->h->nvhdr  = SAC_HEADER_MAJOR_VERSION ;
+    s->h->npts   = num_sam ;
     
 
-    allamb ( &cmmem , num_sam , &cmdfm.ndxdta[ idfl - 1 ][ 0 ] , nerr ) ;
-    if ( *nerr ) {
+    s->y = (float *) malloc(sizeof(float) * s->h->npts);
+    if ( !s->y ) {
         fclose( fpin ) ;
         return ;
     }
-    Ncomp[ idfl ] = 1 ;
-    ar = cmmem.sacmem[ cmdfm.ndxdta[ idfl - 1 ][ 0 ] ] ;
 
-    *dist = trace.sourceToRecDist == 0 ? -12345. : trace.sourceToRecDist ;
+    s->h->dist = trace.sourceToRecDist == 0 ? -12345. : trace.sourceToRecDist ;
 
     if ( trace.deltaSample == 1 || trace.deltaSample == 0 ) {
 	sam_rate = trace.samp_rate;
     } else {
 	sam_rate = trace.deltaSample;
     }
-    *delta = (float) sam_rate / 1000000.0 ;
+    s->h->delta = (float) sam_rate / 1000000.0 ;
 
     /* get scale factor for data  */
     if ( trace.scale_fac == 0 ) {
-	*scale = 1.0 ;
+      s->h->scale = 1.0 ;
     }
     else 
-	*scale = trace.scale_fac /
+      s->h->scale = trace.scale_fac /
 		(trace.gainConst == 0 ? 1.0 : trace.gainConst ) ;
 
     if( cmdfm.lscale ) {
-	useScale = *scale ;
-	*scale = 1.0 ;
+	useScale = s->h->scale ;
+	s->h->scale = 1.0 ;
     }
     else {
 	useScale = 1.0 ;
     }
 
-    *depmax = trace.max * useScale ;
-    *depmin = trace.min * useScale ;
+    s->h->depmax = trace.max * useScale ;
+    s->h->depmin = trace.min * useScale ;
 
     /* now go get the trace data */
     //printf("segy: scale: %e\n", useScale);
@@ -456,7 +442,7 @@ rdsegy(int   idfl,
           byteswap(&f, 4);
         }
         ibm2ieee((int *)&f,1);
-        ar[idx] = ((float) f) * useScale;
+        s->y[idx] = ((float) f) * useScale;
       }
     } else if (fileheader.format == SEGY_DATA_4BYTE_INT) {  /* 32 bit integer data */
       cptr = (unsigned char *) &int_hold;
@@ -465,7 +451,7 @@ rdsegy(int   idfl,
         if(swap) {
           byteswap(&int_hold,4);
         }
-        ar[idx] = ((float) int_hold) * useScale;
+        s->y[idx] = ((float) int_hold) * useScale;
       }
     } else if (fileheader.format == SEGY_DATA_2BYTE_INT) {        /* 16 bit integer data */
       cptr = (unsigned char *) &short_hold;
@@ -474,13 +460,13 @@ rdsegy(int   idfl,
         if(swap) {
           byteswap(&short_hold, 2);
         }
-        ar[idx] = ((float) short_hold) * useScale;
+        s->y[idx] = ((float) short_hold) * useScale;
       }
     } else if (fileheader.format == SEGY_DATA_4BYTE_IEEE_FLOAT) {
-      fread(ar, 4, num_sam, fpin);
-      swap_array_v((char *) ar, num_sam, 4);
+      fread(s->y, 4, num_sam, fpin);
+      swap_array_v((char *) s->y, num_sam, 4);
       for(idx = 0; idx < num_sam; idx++) {
-        ar[idx] = ar[idx] * useScale;
+        s->y[idx] = s->y[idx] * useScale;
       }
     } else {
       *nerr = ERROR_DATA_POINTS_OUTSIDE_OF_RANGE;
@@ -488,9 +474,8 @@ rdsegy(int   idfl,
       outmsg() ;
       return;
     }
-    
     fclose(fpin);
-    extrma(ar, 1, num_sam, depmin, depmax, depmen);
+    extrma(s->y, 1, num_sam, depmin, depmax, depmen);
     /* Fill SAC Header fields */
 
     /* time */
@@ -499,13 +484,13 @@ rdsegy(int   idfl,
                         &trace.trigminute, &trace.trigsecond, &trace.trigmills,
                         &trace.year,       &trace.day,        &trace.hour,
                         &trace.minute,     &trace.second,     &trace.m_secs,
-                        origin,            begin,             kfile ) ;
+                        &s->h->o,          &s->h->b,             kfile, s ) ;
         if( !check ) {
             check = DoTime( &trace.year,   &trace.day,        &trace.hour,
                         &trace.minute,     &trace.second,     &trace.m_secs,
                         &trace.trigyear,   &trace.trigday,    &trace.trighour,
                         &trace.trigminute, &trace.trigsecond, &trace.trigmills,
-                        begin,             origin,            kfile ) ;
+                            &s->h->b,           &s->h->o,            kfile, s ) ;
         }
     }
     else {
@@ -513,13 +498,13 @@ rdsegy(int   idfl,
                       &trace.minute,       &trace.second,     &trace.m_secs,
                       &trace.trigyear,     &trace.trigday,    &trace.trighour,
                       &trace.trigminute,   &trace.trigsecond, &trace.trigmills,
-                      begin,               origin,            kfile ) ;
+                      &s->h->b,            &s->h->o,            kfile, s ) ;
        if( !check ) {
           check = DoTime( &trace.trigyear, &trace.trigday,    &trace.trighour,
                       &trace.trigminute,   &trace.trigsecond, &trace.trigmills,
                       &trace.year,         &trace.day,        &trace.hour,
                       &trace.minute,       &trace.second,     &trace.m_secs,
-                      origin,              begin,             kfile ) ;
+                          &s->h->o,              &s->h->b,             kfile, s ) ;
 
        }
     }
@@ -534,23 +519,21 @@ rdsegy(int   idfl,
         clrmsg() ;
 
         fclose( fpin ) ;
-        relamb( cmmem.sacmem, Ndxhdr[idfl], nerr ) ;
-        relamb( cmmem.sacmem, cmdfm.ndxdta[ idfl - 1 ][0], nerr ) ;
-
+        FREE(s->y);
         return ;
     }
 
-    *ennd = ( ( num_sam -1 ) * *delta ) + *begin ;
+    s->h->e = ( ( num_sam -1 ) * s->h->delta ) + s->h->b ;
 
-    sprintf(kcmpnm, "      %d", trace.channel_number);
+    sprintf(s->h->kcmpnm, "      %d", trace.channel_number);
 
     /* strings */
-    strncpy( kstnm , trace.station_name, 6 );
+    strncpy( s->h->kstnm , trace.station_name, 6 );
     if( trace.channel_name[ 0 ] != '\0' &&
        strncmp( trace.channel_name , "    ", 4 ) )
-        sprintf( kcmpnm , "%-4.4s    " , trace.channel_name ) ;
+        sprintf( s->h->kcmpnm , "%-4.4s    " , trace.channel_name ) ;
     if( trace.event_number )
-        sprintf( kevnm , "%d" , trace.event_number ) ;
+        sprintf( s->h->kevnm , "%d" , trace.event_number ) ;
 
     /* now some coordinate information   */
     xs = (float) trace.coordScale;  /* scale factor  */
@@ -572,22 +555,22 @@ rdsegy(int   idfl,
         elat = elat / 3600;
         elon = elon / 3600;
     }
-    *stla = (float) xlat;
-    *stlo = (float) xlon;
-    *stel = (trace.recElevation == 0 ? -12345. : trace.recElevation ) ;
-    *evla = elat ;
-    *evlo = elon ;
-    *evel = trace.sourceSurfaceElevation == 0 ? -12345. :
+    s->h->stla = (float) xlat;
+    s->h->stlo = (float) xlon;
+    s->h->stel = (trace.recElevation == 0 ? -12345. : trace.recElevation ) ;
+    s->h->evla = elat ;
+    s->h->evlo = elon ;
+    s->h->evel = trace.sourceSurfaceElevation == 0 ? -12345. :
             trace.sourceSurfaceElevation ;
-    *evdp = trace.sourceDepth == 0 ? -12345. : trace.sourceDepth ;
+    s->h->evdp = trace.sourceDepth == 0 ? -12345. : trace.sourceDepth ;
 
-    *leven  = TRUE ;
-    *lpspol = TRUE ;
-    *lovrok = TRUE ;
-    *lcalda = ( *evla == -12345. || *evlo == -12345. ||
-                *stla == -12345. || *stlo == -12345. ) ? FALSE : TRUE ;
+    s->h->leven  = TRUE ;
+    s->h->lpspol = TRUE ;
+    s->h->lovrok = TRUE ;
+    s->h->lcalda = ( s->h->evla == -12345. || s->h->evlo == -12345. ||
+                s->h->stla == -12345. || s->h->stlo == -12345. ) ? FALSE : TRUE ;
 
-    putfil ( idfl , nerr ) ;
+
 }
 
 
@@ -595,32 +578,32 @@ rdsegy(int   idfl,
 int DoTime( short *year, short *day, short *hour, short * min, short *sec,
              short *ms, short *ay,   short *ad,  short *ah,   short * am,
              short *as,  short *ams, float *reference, float *alternate,
-             char* kfile )
+            char* kfile, sac *s )
 {
 
    if( year == 0 || day == 0 )
       return FALSE ;
 
-   *iztype = cmdfm.iztype ;
+   s->h->iztype = cmdfm.iztype ;
    *reference = 0.0;
 
    timecheck_short( year, day, hour, min, sec,  ms ) ;
-   *nzyear = (int) *year;  /* the year */
-   *nzjday = (int) *day;
-   *nzhour = (int) *hour;
-   *nzmin  = (int) *min;
-   *nzsec  = (int) *sec;
-   *nzmsec = (int) *ms;
+   s->h->nzyear = (int) *year;  /* the year */
+   s->h->nzjday = (int) *day;
+   s->h->nzhour = (int) *hour;
+   s->h->nzmin  = (int) *min;
+   s->h->nzsec  = (int) *sec;
+   s->h->nzmsec = (int) *ms;
 
 
    if( *ay != 0 && *ad != 0 ) {
-      *alternate = ( (float)( *ams - *nzmsec ) ) / 1000.0 +
-                   ( (float)( *as  - *nzsec  ) ) +
-                   ( (float)( *am  - *nzmin  ) ) *   60.0 +
-                   ( (float)( *ah  - *nzhour ) ) * 3600.0 +
-                   ( (float)( *ad  - *nzjday ) ) * 3600.0 * 24.0 +
-                   ( (float)( *ay  - *nzyear ) ) * 3600.0 * 24.0 *
-                   (  isleap( *as  < *nzyear ? *ay : *nzyear ) ? 366. : 365. ) ;
+      *alternate = ( (float)( *ams - s->h->nzmsec ) ) / 1000.0 +
+                   ( (float)( *as  - s->h->nzsec  ) ) +
+                   ( (float)( *am  - s->h->nzmin  ) ) *   60.0 +
+                   ( (float)( *ah  - s->h->nzhour ) ) * 3600.0 +
+                   ( (float)( *ad  - s->h->nzjday ) ) * 3600.0 * 24.0 +
+                   ( (float)( *ay  - s->h->nzyear ) ) * 3600.0 * 24.0 *
+                   (  isleap( *as  < s->h->nzyear ? *ay : s->h->nzyear ) ? 366. : 365. ) ;
 
 /*      if( *iztype == IO )
          *alternate = -(*alternate) ; */
@@ -628,7 +611,7 @@ int DoTime( short *year, short *day, short *hour, short * min, short *sec,
    else {
       setmsg( "WARNING" , 907 ) ;
 
-      if( *iztype == IB ) {
+      if( s->h->iztype == IB ) {
          apcmsg( " Cannot determine origin time for " , 35 ) ;
          apcmsg( kfile , strlen( kfile ) ) ;
          apcmsg( "\nSetting ORIGIN to BEGIN." , 26) ;

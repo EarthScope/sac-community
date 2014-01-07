@@ -13,6 +13,7 @@
 
 
 #include "dff.h"
+#include "amf.h"
 
 #define PI M_PI
 
@@ -31,7 +32,7 @@ calcBeamOffsets(int    ns,
                 float *yr, 
                 float *zr, 
                 int   *nerr) {
-        int ndx1, ndx2, idummy;
+  sac *s;
 
 	/* ====================================================================
 	 * PURPOSE: to compute x, y and (future) z offsets from reference
@@ -73,7 +74,6 @@ calcBeamOffsets(int    ns,
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  
 	 *=====================================================================  */
-
 	*nerr = 0 ;
 
 	switch ( cmfks.flagOffset ) 
@@ -103,14 +103,14 @@ calcBeamOffsets(int    ns,
 		if ( isInfoThere ( ns, elevc , nerr ) & ISTATION ) {
 		    float reference[3] ;
 /*		    int ndx1 , ndx2 , idummy ;		 */
+        if(!(s = sacget(0, FALSE, nerr))) {
+          return;
+        }
+		    //getfil( 1, FALSE, &ndx1, &ndx2, &idummy, nerr);
 
-		    getfil( 1, FALSE, &ndx1, &ndx2, &idummy, nerr);
-		    if ( *nerr != 0 )
-			return ;
-
-		    reference[0] = *stla ;
-		    reference[1] = *stlo ;
-		    reference[2] = *stel ;
+		    reference[0] = s->h->stla ;
+		    reference[1] = s->h->stlo ;
+		    reference[2] = s->h->stel ;
 
 		    refOffsets ( ns , reference , xr , yr , zr , nerr ) ;
 		}
@@ -148,7 +148,7 @@ cascade (int    ns,
          int   *nerr ) {
 
 	int availableInfo ;
-
+  sac *s;
          /* If Reference option is set, use reference lat and lon to calculate 
 	    x and y offsets */
 	if ( cmfks.lReference ) {
@@ -173,15 +173,14 @@ cascade (int    ns,
 	/* Calculate offsets with respect to the first station location. */
 	if ( availableInfo & ISTATION ) {
 	    float reference[3];
-	    int ndx1 , ndx2 , idummy ;
+      if(!(s = sacget(0, FALSE, nerr))) {
+          return;
+      }
+	    //getfil( 1, FALSE, &ndx1, &ndx2, &idummy, nerr);
 
-	    getfil( 1, FALSE, &ndx1, &ndx2, &idummy, nerr);
-	    if ( *nerr != 0 ) 
-		return ;
-
-	    reference[0] = *stla ;
-	    reference[1] = *stlo ;
-	    reference[2] = *stel ;
+	    reference[0] = s->h->stla ;
+	    reference[1] = s->h->stlo ;
+	    reference[2] = s->h->stel ;
 
 	    refOffsets ( ns , reference , xr , yr , zr , nerr ) ;
 
@@ -207,28 +206,29 @@ int
 isInfoThere ( int  nFiles, 
               int  elevc , 
               int *nerr ) {
-    int jdfl , ndx1 , ndx2 , idummy ,
+  int jdfl ,
 	returnValue = 0 ,
 	luser = TRUE ,
 	lstation = TRUE ,
 	levent = TRUE ;
-
+    sac *s;
     for(jdfl = 1; jdfl <= nFiles; jdfl++){
-	getfil(jdfl, FALSE, &ndx1, &ndx2, &idummy, nerr);
-	if(*nerr != 0)
-	    return 0 ;
+      if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+        return 0;
+      }
+      //getfil(jdfl, FALSE, &ndx1, &ndx2, &idummy, nerr);
 
-	if ( ( *user7 == cmhdr.fundef ) ||
-	     ( *user8 == cmhdr.fundef ) ||
-	     ( elevc && *user9 == cmhdr.fundef ) )
+	if ( ( s->h->user7 == cmhdr.fundef ) ||
+	     ( s->h->user8 == cmhdr.fundef ) ||
+	     ( elevc && s->h->user9 == cmhdr.fundef ) )
 	    luser = FALSE;
-	if ( ( *stla == cmhdr.fundef ) ||
-	     ( *stlo == cmhdr.fundef ) ||
-	     ( elevc && *stel == cmhdr.fundef ) )
+	if ( ( s->h->stla == cmhdr.fundef ) ||
+	     ( s->h->stlo == cmhdr.fundef ) ||
+	     ( elevc && s->h->stel == cmhdr.fundef ) )
 	    lstation = FALSE;
-	if ( ( *evla == cmhdr.fundef ) ||
-	     ( *evlo == cmhdr.fundef ) ||
-	     ( elevc && *evel == cmhdr.fundef ) )
+	if ( ( s->h->evla == cmhdr.fundef ) ||
+	     ( s->h->evlo == cmhdr.fundef ) ||
+	     ( elevc && s->h->evel == cmhdr.fundef ) )
 	    levent = FALSE;
     }
 
@@ -247,19 +247,21 @@ refOffsets ( int     nFiles ,
              float  *yr, 
              float  *zr, 
              int    *nerr ) {
-    int jdfl , ndx1 , ndx2 , idummy ;
+  int jdfl ;
     float dlat , dlon , avlat ;
-
+    sac *s;
     for ( jdfl = 1 ; jdfl <= nFiles ; jdfl++ ) {
-	getfil(jdfl, FALSE, &ndx1, &ndx2, &idummy, nerr);
-	if(*nerr != 0) return;
+      if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+        return;
+      }
+      //getfil(jdfl, FALSE, &ndx1, &ndx2, &idummy, nerr);
 
-	dlat = *stla - referencePosition[0];
-	dlon = *stlo - referencePosition[1];
-	avlat = (referencePosition[0] + *stla) / 2.0;
+	dlat = s->h->stla - referencePosition[0];
+	dlon = s->h->stlo - referencePosition[1];
+	avlat = (referencePosition[0] + s->h->stla) / 2.0;
 	xr[jdfl-1] = 111.19 * dlon * cos( PI * avlat / 180.0);
 	yr[jdfl-1] = 111.19 * dlat;
-	zr[jdfl-1] = referencePosition[2] - *stel;
+	zr[jdfl-1] = referencePosition[2] - s->h->stel;
 			/* seismological note:  elevation is subtracted
 			   in the opposite order of latitude and
 			   longitude; this signifies that in the Z
@@ -278,15 +280,17 @@ userOffsets ( int     nFiles,
               float  *zr, 
               int    *nerr )  {
 
-    int jdfl , ndx1 , ndx2 , idummy ;
-
+  int jdfl ;
+    sac *s;
     for(jdfl=1; jdfl <= nFiles; jdfl++){
-	getfil(jdfl, FALSE, &ndx1, &ndx2, &idummy, nerr);
-	if(*nerr != 0) return ;
+      if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+        return;
+      }
+      //getfil(jdfl, FALSE, &ndx1, &ndx2, &idummy, nerr);
 
-	xr[jdfl-1] = *user7;
-	yr[jdfl-1] = *user8;
-	zr[jdfl-1] = *user9; /* not used at present */
+	xr[jdfl-1] = s->h->user7;
+	yr[jdfl-1] = s->h->user8;
+	zr[jdfl-1] = s->h->user9; /* not used at present */
     }
 }
 
@@ -298,27 +302,29 @@ eventOffsets ( int     nFiles,
                float  *yr, 
                float  *zr, 
                int    *nerr ) {
-    int jdfl , ndx1 , ndx2 , idummy ;
+  int jdfl ;
     float dlat , dlon , avlat , reflat , reflon , refel ;
-
+    sac *s;
     for(jdfl=1; jdfl <= nFiles ; jdfl++){
-	getfil(jdfl, FALSE, &ndx1, &ndx2, &idummy, nerr);
-	if(*nerr != 0) return ;
+      if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+        return;
+      }
+      //getfil(jdfl, FALSE, &ndx1, &ndx2, &idummy, nerr);
 
 	if(jdfl == 1 ){
 	    xr[jdfl-1] = 0.0;
 	    yr[jdfl-1] = 0.0;
 	    zr[jdfl-1] = 0.0;
-	    reflat = *evla;
-	    reflon = *evlo;
-	    refel  = *evel;
+	    reflat = s->h->evla;
+	    reflon = s->h->evlo;
+	    refel  = s->h->evel;
 	}else{
-	    dlat = *evla - reflat;
-	    dlon = *evlo - reflon;
-	    avlat = (reflat + *evla) / 2.0;
+	    dlat = s->h->evla - reflat;
+	    dlon = s->h->evlo - reflon;
+	    avlat = (reflat + s->h->evla) / 2.0;
 	    xr[jdfl-1] = 111.19 * dlon * cos( PI * avlat / 180.0);
 	    yr[jdfl-1] = 111.19 * dlat;
-	    zr[jdfl-1] = refel - *evel;
+	    zr[jdfl-1] = refel - s->h->evel;
 			/* seismological note:  elevation is subtracted
 			   in the opposite order of latitude and
 			   longitude; this signifies that in the Z

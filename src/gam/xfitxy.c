@@ -27,13 +27,12 @@ int *nerr;
 	char kfile[MCPFN+1];
 	int lchange;
 	int idflnumber[MDFL], jdfl, 
-	 jdflnumber, ncfile, ndflnumber, nlcx, nlcy, notused, 
-	 num, numx, numy;
-	float cc, sig, siga, sigb;
-
+	 jdflnumber, ncfile, ndflnumber, 
+    num;
 	int *const Idflnumber = &idflnumber[0] - 1;
-    char *tmpx, *tmpy;
-
+  char *tmpx, *tmpy;
+  float cc, sig, siga, sigb;
+    sac *sx, *sy;
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command FITXY.
 	 *           This command fits a line through pairs of data files.
@@ -88,7 +87,7 @@ L_1000:
 	if( lcmore( nerr ) ){
 
 		/* -- integer:  the index number of data file in data file list. */
-		if( lcirc( 1, cmdfm.ndfl, &jdfl ) ){
+		if( lcirc( 1, saclen(), &jdfl ) ){
 			jdflnumber = jdflnumber + 1;
 			Idflnumber[jdflnumber] = jdfl;
 			lchange = TRUE;
@@ -96,7 +95,8 @@ L_1000:
 			/* -- "filename":  the name of a data file in the data file list. */
 			}
 		else if( lcchar( MCPFN, kfile,MCPFN+1, &ncfile ) ){
-			jdfl = 1 + string_list_find(datafiles, kfile, MCPFN+1);
+      char *kfile2 = fstrdup(kfile, MCPFN+1);
+			jdfl = 1 + sac_find_filename(kfile2);
 			if( jdfl > 0 ){
 				jdflnumber = jdflnumber + 1;
 				Idflnumber[jdflnumber] = jdfl;
@@ -152,27 +152,31 @@ L_1000:
 	/* - Loop on each pair of files to compute straight line fit. */
 
 	jdfl = Idflnumber[1];
-	getfil( jdfl, TRUE, &numx, &nlcx, &notused, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
-    tmpx = string_list_get(datafiles, jdfl);
+  if(!(sx = sacget(jdfl-1, TRUE, nerr))) {
+    goto L_8888;
+  }
+	//getfil( jdfl, TRUE, &numx, &nlcx, &notused, nerr );
+
+  tmpx = sx->m->filename;
 	for( jdflnumber = 2; jdflnumber <= ndflnumber; jdflnumber++ ){
 		jdfl = Idflnumber[jdflnumber];
-		getfil( jdfl, TRUE, &numy, &nlcy, &notused, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
-		num = min( numx, numy );
-		lifitu( cmmem.sacmem[nlcx], cmmem.sacmem[nlcy], num, a, b, &siga, &sigb, 
-		 &sig, &cc );
-        tmpy = string_list_get(datafiles, jdfl-1);
+    if(!(sy = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+		//getfil( jdfl, TRUE, &numy, &nlcy, &notused, nerr );
+
+		num = min( sx->h->npts, sy->h->npts );
+		lifitu( sx->x, sy->y, num, &sy->h->a, &sy->h->b, &siga, &sigb, 
+    &sig, &cc );
+    tmpy = sy->m->filename;
 		setmsg( "INFO", 1 );
 		apcmsg( "Slope and intercept for",24 );
         apcmsg2(tmpy, strlen(tmpy)+1);
 		apcmsg( "vs.",4 );
         apcmsg2(tmpx, strlen(tmpx)+1);
 		apcmsg( ":",2 );
-		apfmsg( *a );
-		apfmsg( *b );
+		apfmsg( sy->h->a );
+		apfmsg( sy->h->b );
 		outmsg();
 		}
 

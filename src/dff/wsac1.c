@@ -4,12 +4,13 @@
  * @brief  Write a SAC file
  * 
  */
-
+#include "amf.h"
 #include "dff.h"
 #include "hdr.h"
 #include "msg.h"
 #include "bool.h"
-
+#include "SacHeader.h"
+extern sac *CURRENT;
 /** 
  * Write an evenly spaced SAC file 
  * 
@@ -44,7 +45,7 @@ wsac1(char  *kname,
       int    kname_s) {
 
 	float xdummy;
-
+  sac *s;
 	*nerr = 0;
 
 	/* - Initialize some common blocks if not already done. */
@@ -59,14 +60,16 @@ wsac1(char  *kname,
 	    inihdr();
 
 	/* - Initialize all header fields to their default values. */
-	newhdr() ;
-
+  s = sac_new();
+  s->m->filename = fstrdup(kname, kname_s);
+  sacput(s);
+  CURRENT = s;
 	/* - Set up the header fields passed by the calling program. */
-	*npts = (*nlen) ;
-	*delta = *del;
-	*begin = *beg;
-	*ennd = *begin + *delta*(float)( *npts - 1 );
-	*leven = TRUE;
+	s->h->npts  = *nlen;
+	s->h->delta = *del;
+	s->h->b     = *beg;
+	s->h->e = CALC_E(s);
+	s->h->leven = TRUE;
 
 	/* - Write the file to disk. */
 	wsac0( kname, &xdummy, yarray, nerr, kname_s );

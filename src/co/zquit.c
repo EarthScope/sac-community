@@ -24,7 +24,7 @@
 
 void sac_vars_free();
 void saccommands_cleanup(eval *e);
-void sacmem_free(struct t_cmmem *mem);
+
 void vfilelist_free();
 void sac_history_filename_free();
 void dblErrorFree();
@@ -102,7 +102,7 @@ zquit() {
 #endif /* READLINE */
   arg_reset();
   saccommands_cleanup(NULL);
-  sacmem_free( &cmmem );
+
   vfilelist_free();
   sac_history_filename_free();
   dblErrorFree();

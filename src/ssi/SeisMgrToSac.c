@@ -35,7 +35,7 @@ void SeisMgrToSac ( DBlist tree , int lname , int * nerr,
     originalNDFL = deleteAllSacFiles ( nerr , lname ) ;
 
     if ( *nerr ) {
-	if ( originalNDFL < cmdfm.ndfl )
+	if ( originalNDFL < saclen() )
 	    *nerr = 1401 ;
 	else
 	    *nerr = 1402 ;
@@ -63,16 +63,15 @@ void SeisMgrToSac ( DBlist tree , int lname , int * nerr,
 
 
         /* Get the header to go with the waveform */
-        sacHeaderFromCSS( tree, &( globalSacHeader[ cmdfm.ndfl ] ),
+        sacHeaderFromCSS( tree, &( globalSacHeader[ saclen() ] ),
 			  wfL, refTimeType, &refTime, mType) ;
 
         /* Get picks according to the preferences file and
 	   pickauth and pickphase commands. */
-        cmdfm.ndfl++ ;
 
 	if( cmdfm.lpref ) {
-            prefPicksToHeader( &( globalSacHeader[ cmdfm.ndfl - 1 ] ),
-			       cmdfm.ndfl, wfL->element, tree, refTime, nerr ) ;
+            prefPicksToHeader( &( globalSacHeader[ saclen() - 1 ] ),
+			       saclen(), wfL->element, tree, refTime, nerr ) ;
 
             if ( *nerr ) {
                 *nerr = 1401 ;
@@ -80,16 +79,16 @@ void SeisMgrToSac ( DBlist tree , int lname , int * nerr,
 	    }
 	} /* end if( cmdfm.lpref ) */
 
-	if ( !lname && cmdfm.ndfl > originalNDFL )
+	if ( !lname && saclen() > originalNDFL )
 	    lname = TRUE ;
 
-	/*if ( cmdfm.ndfl <= originalNDFL )*/
+	/*if ( saclen() <= originalNDFL )*/
 	if ( !lname )
 	    lcuttemp = FALSE ;
 
-        /* Create a SAC file, fill the header and waveform. */
-        CSStoSAC( cmdfm.ndfl, &( globalSacHeader[ cmdfm.ndfl-1 ] ),
-		  wfL->seis, lname , lcuttemp , nerr ) ;
+  /* Create a SAC file, fill the header and waveform. */
+  CSStoSAC( saclen(), &( globalSacHeader[ saclen() ] ),
+            wfL->seis, lname , lcuttemp , nerr ) ;
 	if ( *nerr ) {
 	    *nerr = 1402 ;
 	    break ;
@@ -99,18 +98,22 @@ void SeisMgrToSac ( DBlist tree , int lname , int * nerr,
 	   send the cut version back to SeisMgr. */
 	if ( cmdfm.lcut && lcuttemp ) {
 	    sacSACdata newData ;
+      sac *s;
+      if(!(s = sacget(saclen()-1, TRUE, nerr))) {
+        return;
+      }
 
-	    newData.dataType = globalSacHeader[ cmdfm.ndfl-1 ].iftype ;
-	    newData.xarray   = cmmem.sacmem[ cmdfm.ndxdta[ cmdfm.ndfl-1 ][ 1 ] ] ;
-	    newData.yarray   = cmmem.sacmem[ cmdfm.ndxdta[ cmdfm.ndfl-1 ][ 0 ] ] ;
-	    globalSacHeader[ cmdfm.ndfl-1 ].b = *begin ;
-	    globalSacHeader[ cmdfm.ndfl-1 ].e = *ennd ;
-	    globalSacHeader[ cmdfm.ndfl-1 ].npts = *npts ;
+	    newData.dataType = globalSacHeader[ saclen()-1 ].iftype ;
+	    newData.xarray   = s->x;//cmmem.sacmem[ cmdfm.ndxdta[ saclen()-1 ][ 1 ] ] ;
+	    newData.yarray   = s->y;//cmmem.sacmem[ cmdfm.ndxdta[ saclen()-1 ][ 0 ] ] ;
+	    globalSacHeader[ saclen()-1 ].b = s->h->b ;
+	    globalSacHeader[ saclen()-1 ].e = s->h->e ;
+	    globalSacHeader[ saclen()-1 ].npts = s->h->npts ;
 
 
-	    sacLoadFromHeaderAndData ( &( globalSacHeader[ cmdfm.ndfl-1 ] ) ,
+	    sacLoadFromHeaderAndData ( &( globalSacHeader[ saclen()-1 ] ) ,
 				       &newData , smGetDefaultWorksetName() ,
-				       FALSE , cmdfm.ndfl-1 , TRUE, takeEvid ) ;
+				       FALSE , saclen()-1 , TRUE, takeEvid ) ;
 	}
     } while ( wfL ) ;
 

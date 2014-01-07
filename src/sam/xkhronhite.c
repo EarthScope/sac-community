@@ -13,9 +13,9 @@
 void /*FUNCTION*/ xkhronhite(nerr)
 int *nerr;
 {
-	int j, jdfl, ndxx, ndxy, nlen;
+	int j, jdfl;
 
-        float *Sacmem;
+  sac *s;
 
 	/*=====================================================================
 	 * PURPOSE: To parse and execute the action command KHRONHITE.
@@ -92,31 +92,22 @@ L_1000:
 
 	/* - Perform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-
-		/* -- Get next file from the memory manager.
-		 *    (Header is moved into common blocks CMHDR and KMHDR.) */
-		getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+		//getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
 
 		/* -- Initialize filter for this file. */
-		filtk( 0, cmsam.cutkhr, *delta );
+		filtk( 0, cmsam.cutkhr, s->h->delta );
 
 		/* -- Filter this data file. */
-                Sacmem = cmmem.sacmem[ndxy];
-		for( j = ndxy; j <= (ndxy + nlen - 1); j++ ){
-			*Sacmem = filtk( 1, cmsam.cutkhr, *Sacmem );
-                        Sacmem++;
-			}
+		for( j = 0; j <= s->h->npts; j++ ){
+			s->y[j] = filtk( 1, cmsam.cutkhr, s->y[j] );
+    }
 
 		/* -- Update any header fields that may have changed. */
-		extrma( cmmem.sacmem[ndxy], 1, nlen, depmin, depmax, depmen );
-
-		/* -- Return file to memory manager. */
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+		extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
 		}
 

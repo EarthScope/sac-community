@@ -26,12 +26,12 @@ int okdf(float x[], int nlen);
 void /*FUNCTION*/ xinterpolate(nerr)
 int *nerr;
 {
-	int j, jdfl, jdfl_, nok,
-	 ndxx, ndxy, newlen, newndx, nincr, nlen;
+	int j, jdfl, 
+	  newlen, nincr;
 	float xnew, xstart, xstop, eps;
 
-
-
+  sac *s;
+  float *new;
 	/*=====================================================================
 	 * PURPOSE: To parse and execute the action command INTERPOLATE.
 	 *          This command interpolates data to new sampling rate.
@@ -54,7 +54,7 @@ int *nerr;
 	 *=====================================================================
 	 * MODIFICATION HISTORY:
      *  20130808:  Exit if any x[j+1]-x[j] <=0 (jas)
-     *  20120127:  Prints warning if new delta greater than data delta and *leven
+     *  20120127:  Prints warning if new delta greater than data delta and s->h->leven
      *  20110612:  Added Error message for interpolate
      *  20100719:  Ignored epsilon as an option.  Hardewired it to 0.0001
                        times the average slope ratio of the dY to delta (even)
@@ -124,38 +124,36 @@ L_1000:
 
 	/* - Perform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-		jdfl_ = jdfl - 1;
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
 
-		/* -- Get next file from the memory manager.
-		      (Header is moved into common blocks CMHDR and KMHDR.) */
-		getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+		//getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
 
         /* In the older version, dtnew = 0.025 by default.
            Now no default, so it was set to 0.0.  If dtnew
            is not explicitly set, it reverts to DELTA.  */
         if(cmscm.dtnew <= 0.0) {
-            cmscm.dtnew = *delta;
+            cmscm.dtnew = s->h->delta;
         }
 		/* -- Force begin time if requested. */
 		if( cmscm.lbreq ){
 			xstart = cmscm.breq;
-			if( xstart < *b ){
-                nincr = (int)lround((*b-xstart)/cmscm.dtnew)+1;
+			if( xstart < s->h->b ){
+                nincr = (int)lround((s->h->b-xstart)/cmscm.dtnew)+1;
                 xstart = xstart + (float)( nincr )*cmscm.dtnew;
                 setmsg( "WARNING", 2008 );
                 wrtmsg( stdout );
                 clrmsg();
             }
-            if( xstart >= *e ) {
+            if( xstart >= s->h->e ) {
                 *nerr = ERROR_INTERPOLATE_BEGIN_TOO_LARGE;
-                error(*nerr, "begin: %f e: %f ", xstart, *e);
+                error(*nerr, "begin: %f e: %f ", xstart, s->h->e);
                 goto L_8888;
             }
         } else {
-            xstart = *b;
+            xstart = s->h->b;
         }
         
 		/* -- Determine length of interpolated array, allocate block. 
@@ -163,86 +161,75 @@ L_1000:
                    remains constant (jas/20100609) */
 		if( cmscm.lnreq ){
 			newlen = cmscm.nreq;
-            xstop = *e;
+            xstop = s->h->e;
             cmscm.dtnew = (xstop - xstart)/(float)( newlen - 1 );
         }
-		else if( *leven ){
-            newlen = (int)lround(*delta*((float)(*npts)/cmscm.dtnew));
+		else if( s->h->leven ){
+            newlen = (int)lround(s->h->delta*((float)(s->h->npts)/cmscm.dtnew));
             xstop = xstart + (float)( newlen - 1 )*cmscm.dtnew;
-            if( xstop > *e ){
+            if( xstop > s->h->e ){
 				newlen = newlen - 1;
 				/* xstop = xstop - cmscm.dtnew; */
             }
         }
 		else{
-            newlen = (int)lround( (*e - xstart)/cmscm.dtnew );
+            newlen = (int)lround( (s->h->e - xstart)/cmscm.dtnew );
             xstop = xstart + (float)( newlen - 1 )*cmscm.dtnew;
-            if( xstop > *e ){
+            if( xstop > s->h->e ){
                 newlen = newlen - 1;
                 /* xstop = xstop - cmscm.dtnew; */
             }
         }
 		
         /* Warn if dtnew greater than *delta */
-    if (*leven && (float)cmscm.dtnew > *delta) {
+    if (s->h->leven && (float)cmscm.dtnew > s->h->delta) {
             printf("WARNING potential for aliasing. "
-                   "new delta: %f data delta: %f\n", cmscm.dtnew, *delta);
+                   "new delta: %f data delta: %f\n", cmscm.dtnew, s->h->delta);
         }
-        allamb( &cmmem, newlen, &newndx, nerr );
+    new = (float *) malloc(sizeof(float) * newlen);
+    //allamb( &cmmem, newlen, &newndx, nerr );
 		if( *nerr != 0 )
 			goto L_8888;
 
         /*  Calculate epsilon */
-        if ( *leven ){
-            eps = geteps(cmmem.sacmem[ndxy], nlen, *delta);
+        if ( s->h->leven ){
+            eps = geteps(s->y, s->h->npts, s->h->delta);
         }
         else{
             /* make sure no dx is less than or equal to zero*/
-            *nerr = okdf(cmmem.sacmem[ndxx], nlen);
+            *nerr = okdf(s->x, s->h->npts);
             if(*nerr) {
               goto L_8888;
             }
-            eps = geteps_xy(cmmem.sacmem[ndxy], nlen, cmmem.sacmem[ndxx]);
+            eps = geteps_xy(s->y, s->h->npts, s->x);
         }
         
 		/* -- Perform the specific operation on this data file. */
         if(*leven) {
-          interp(cmmem.sacmem[ndxy], nlen, cmmem.sacmem[newndx], newlen,
-                      *b, *e, *delta, xstart, cmscm.dtnew, eps);
+          interp(s->y, s->h->npts, new, newlen,
+                 s->h->b, s->h->e, s->h->delta, xstart, cmscm.dtnew, eps);
         } else {
-          interp2(cmmem.sacmem[ndxy], nlen, cmmem.sacmem[newndx], newlen,
-                       *b, *e, cmmem.sacmem[ndxx], xstart, cmscm.dtnew, eps);
+          interp2(s->y, s->h->npts, new, newlen,
+                  s->h->b, s->h->e, s->x, xstart, cmscm.dtnew, eps);
         }
 
 		/* -- Update any header fields that may have changed. */
-		*npts = newlen;
-		*delta = cmscm.dtnew;
-		*b = xstart;
-		*e = *b + (float)( *npts - 1 )**delta;
-		extrma( cmmem.sacmem[newndx], 1, newlen, depmin, depmax, depmen );
+		s->h->npts = newlen;
+		s->h->delta = cmscm.dtnew;
+		s->h->b = xstart;
+		s->h->e = s->h->b + (float)( s->h->npts - 1 )*s->h->delta;
+    FREE(s->y);
+    s->y = new;
+		extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
-		/* -- Switch memory blocks so file now points to the new
-		 *    (interpolated) array and release the orginal block. */
-		cmdfm.ndxdta[jdfl_][0] = newndx;
-		Nlndta[jdfl] = newlen;
-		relamb( cmmem.sacmem, ndxy, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
 
 		/* -- If data was unevenly spaced, release x block 
                       and adjust header. */
-		if( !*leven ){
-			*leven = TRUE;
-			Ncomp[jdfl] = 1;
-			relamb( cmmem.sacmem, ndxx, nerr );
-			if( *nerr != 0 )
-				goto L_8888;
-			}
+		if( !s->h->leven ){
+			s->h->leven = TRUE;
+      FREE(s->x);
+    }
 
-		/* -- Return file to memory manager. */
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
 
 		}
 

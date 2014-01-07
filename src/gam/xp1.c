@@ -29,9 +29,9 @@ void xp1(int *nerr)
 	 ltoptcsave, lwait, lxgrdsave, lxlabsave, lxlims, lylabsave,
 	 lprint = FALSE , ltry = FALSE ;
 	int i, jdfl, jdfl1, jdfl2, jfr, jperfr, n1dttm[6], 
-	 ncret, nfr, nlcx, nlcy, nperfr, num, notused;
+	 ncret, nfr, nperfr, notused;
 	float tmax, tmaxj, tmin, tminj, toff[MDFL], ypdel, ypmxsave;
-
+  sac *s;
 	static int lrel = FALSE;
 	static int lperpl = FALSE;
 	static int nperpl = 3;
@@ -198,12 +198,12 @@ void xp1(int *nerr)
 	/* - Set up y window for each subplot. */
 
 	if( lperpl ){
-	    nfr = (cmdfm.ndfl - 1)/nperpl + 1;
+	    nfr = (saclen() - 1)/nperpl + 1;
 	    nperfr = nperpl;
 	}
 	else{
 	    nfr = 1;
-	    nperfr = cmdfm.ndfl;
+	    nperfr = saclen();
 	}
 	ypdel = (cmgem.plot.ymax - cmgem.plot.ymin)/(float)( nperfr );
 
@@ -232,14 +232,15 @@ void xp1(int *nerr)
 
 	    /* -- Loop on data files in each frame: */
 
-	    jdfl2 = min( cmdfm.ndfl, jdfl1 + nperfr - 1 );
+	    jdfl2 = min( saclen(), jdfl1 + nperfr - 1 );
 
 	    /* -- Determine time limits for x axis of this frame.
 	     *    (Correct for any differences in GMT reference time.) */
+      if(!(s = sacget(jdfl1-1, TRUE, nerr))) {
+        goto L_7777;
+      }
+	    //getfil( jdfl1, TRUE, &num, &nlcy, &nlcx, nerr );
 
-	    getfil( jdfl1, TRUE, &num, &nlcy, &nlcx, nerr );
-	    if( *nerr != 0 )
-		goto L_7777;
 	    jperfr = 1;
 	    getxlm( &lxlims, &tmin, &tmax );
 /*            if( !lxlims ){	commented out to allow relative mode when xlim is set. maf 970723 */
@@ -249,13 +250,16 @@ void xp1(int *nerr)
 		    tmin = 0.;
 	    	}
 	    	else{
-		    copyi( nzdttm, n1dttm, 6 );
+		    copyi( &s->h->nzyear, n1dttm, 6 );
 		    l1dttm = ldttm( n1dttm );
 		    Toff[jperfr] = 0.;
 	    	}
 		for( jdfl = jdfl1 + 1; jdfl <= jdfl2; jdfl++ ){
 		    jperfr = jperfr + 1;
-		    getfil( jdfl, TRUE, &num, &nlcy, &nlcx, nerr );
+        if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+          goto L_8888;
+        }
+		    //getfil( jdfl, TRUE, &num, &nlcy, &nlcx, nerr );
 		    if( *nerr != 0 )
 			goto L_7777;
 		    getxlm( &lxlims, &tminj, &tmaxj );
@@ -264,8 +268,8 @@ void xp1(int *nerr)
 			Toff[jperfr] = -tminj;
 		    }
 		    else{
-			if( l1dttm && ldttm( nzdttm ) ){
-			    ddttm( nzdttm, n1dttm, &Toff[jperfr] );
+			if( l1dttm && ldttm( &s->h->nzyear ) ){
+			    ddttm( &s->h->nzyear, n1dttm, &Toff[jperfr] );
 			    /* if it starts 2 days after the first file,
 				plot relative. maf 970908 */
 			    if ( fabs ( Toff[jperfr] ) > TWODAYS )
@@ -315,17 +319,17 @@ void xp1(int *nerr)
 		cmgem.plot.ymin = cmgem.plot.ymax - ypdel;
 
 		/* --- Get pointers to this file's location in memory. */
-
-		getfil( jdfl, TRUE, &num, &nlcy, &nlcx, nerr );
-		if( *nerr != 0 )
-		    goto L_7777;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_7777;
+    }
+		//getfil( jdfl, TRUE, &num, &nlcy, &nlcx, nerr );
 
 		/* --- Set up x axis data values. */
 
-		if( *leven ){
+		if( s->h->leven ){
 		    cmgem.xgen.on = TRUE;
-		    cmgem.xgen.delta = *delta;
-		    cmgem.xgen.first = *begin + Toff[jperfr];
+		    cmgem.xgen.delta = s->h->delta;
+		    cmgem.xgen.first = s->h->b + Toff[jperfr];
 		}
 		else{
 		    cmgem.xgen.on = FALSE;
@@ -337,7 +341,7 @@ void xp1(int *nerr)
 
 		/* --- Plot this file. */
 
-		pl2d( cmmem.sacmem[nlcx], cmmem.sacmem[nlcy], num, 1, 1, nerr );
+		pl2d( s->x, s->y, s->h->npts, 1, 1, nerr );
 		if( *nerr != 0 )
 		    goto L_7777;
 

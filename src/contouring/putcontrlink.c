@@ -9,14 +9,13 @@
 #include <math.h>
 
 #include "mach.h"
-#include "amf.h"
 #include "contouring.h"
+extern struct contour contour;
 
 void 
 putcontrlink(number, rlink)
 int number, rlink;
 {
-        int *Isacmem;
 
 
 	/*=====================================================================
@@ -42,8 +41,7 @@ int number, rlink;
 	 *===================================================================== */
 	/* PROCEDURE: */
 	if( number <= cmcontouring.numpoints ){
-                Isacmem = (int*)cmmem.sacmem[cmcontouring.indexrlinks];
-		*(Isacmem + number - 1) = rlink;
+    contour.points[number-1].rlink = rlink;
 	}
 	else{
 		fprintf( stdout, "Illegal point number:%d putcontrlink\n", number );

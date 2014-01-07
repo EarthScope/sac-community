@@ -3,6 +3,7 @@
 
 #include "sss.h"
 #include "dfm.h"
+#include "dff.h"
 #include "amf.h"
 #include "bool.h"
 
@@ -20,9 +21,8 @@ int *nerr;
 {
 	char kfile[MCPFN+1];
 	int lincr;
-	int idel[MDFL], jdel, jdfl, jdfl2, jdfl2_, 
+	int idel[MDFL], jdel, jdfl, jdfl2,
 	 jdfl3, ncfile, ndel ; 
-    char *tmp;
 	int *const Idel = &idel[0] - 1;
 
 	DBlist tree ;
@@ -88,7 +88,7 @@ int *nerr;
 
 	    /* -- "n":  the number of a file from the signal stack. */
 	    if( lcint( &jdfl ) ){
-		if( jdfl < 1 || jdfl > cmdfm.ndfl ){
+		if( jdfl < 1 || jdfl > saclen() ){
 		    *nerr = 5107;
 		    setmsg( "ERROR", *nerr );
 		    apimsg( jdfl );
@@ -100,8 +100,9 @@ int *nerr;
 
 	    /* -- "filename":  the name of a file from the signal stack. */
 	    else if( lcchar( MCPFN, kfile,MCPFN+1, &ncfile ) ){
-        jdfl = 1 + string_list_find(datafiles, kfile, MCPFN+1);
-		if( jdfl <= 0 ){
+        char *kfile2 = fstrdup(kfile, MCPFN+1);
+        jdfl = 1 + sac_find_filename(kfile2);
+        if( jdfl <= 0 ){
 		    *nerr = 5106;
 		    setmsg( "ERROR", *nerr );
 		    apcmsg( kfile,MCPFN+1 );
@@ -137,25 +138,10 @@ int *nerr;
 	    if( Idel[jdel] != jdfl ){
 		jdfl = Idel[jdel];
 		/* -- Release memory blocks. */
-		if( Ndxhdr[jdfl] > 0 )
-		    relamb( cmmem.sacmem, Ndxhdr[jdfl], nerr );
-		if( cmdfm.ndxdta[ jdfl - 1 ][ 0 ] > 0 )			/* array order swapped. */
-		    relamb( cmmem.sacmem, cmdfm.ndxdta[ jdfl - 1 ][ 0 ], nerr );	/* " */
-		if( cmdfm.ndxdta[ jdfl - 1 ][ 1 ] > 0 )					/* " */
-		    relamb( cmmem.sacmem, cmdfm.ndxdta[ jdfl - 1 ][ 1 ], nerr );  /* maf 970203 */
-		/* -- Remove entry from list of data file names. */
-        tmp = string_list_get(datafiles, jdfl-1);
-        fstrncpy( kfile, MCPFN, tmp, strlen(tmp) +1);
-        string_list_delete(datafiles, jdfl-1);
+    sacdel(jdfl-1);
 		/* -- Move DFM and SSS array variables down.           */
-		for( jdfl2 = jdfl; jdfl2 <= (cmdfm.ndfl - 1); jdfl2++ ){
-		    jdfl2_ = jdfl2 - 1;
+		for( jdfl2 = jdfl; jdfl2 <= (saclen() - 1); jdfl2++ ){
 		    jdfl3 = jdfl2 + 1;
-		    Ndxhdr[jdfl2] = Ndxhdr[jdfl3];
-		    Nlndta[jdfl2] = Nlndta[jdfl3];
-		    cmdfm.ndxdta[jdfl2_][0] = cmdfm.ndxdta[jdfl3 - 1][0]; /* array order swapped. */
-		    cmdfm.ndxdta[jdfl2_][1] = cmdfm.ndxdta[jdfl3 - 1][1]; /* maf 970203 */
-		    Ncomp[jdfl2] = Ncomp[jdfl3];
 		    Dlyt[jdfl2] = Dlyt[jdfl3];
 		    Dlyti[jdfl2] = Dlyti[jdfl3];
 		    Dlyn[jdfl2] = Dlyn[jdfl3];
@@ -166,18 +152,8 @@ int *nerr;
 		    Tend[jdfl2] = Tend[jdfl3] ; /* maf 960701 */
 		    Lpol[jdfl2] = Lpol[jdfl3];
 
-		    /* Added.  maf  970203 */
-		    Nstart  [ jdfl2 ] = Nstart  [ jdfl3 ] ;
-		    Nstop   [ jdfl2 ] = Nstop   [ jdfl3 ] ;
-		    Nfillb  [ jdfl2 ] = Nfillb  [ jdfl3 ] ;
-		    Nfille  [ jdfl2 ] = Nfille  [ jdfl3 ] ;
-		    Ntotal  [ jdfl2 ] = Ntotal  [ jdfl3 ] ;
-		    Nxsdd   [ jdfl2 ] = Nxsdd   [ jdfl3 ] ;
-		    Ndsndx  [ jdfl2 ] = Ndsndx  [ jdfl3 ] ;
-
 		}
-		/* -- Decrement file count. */
-		cmdfm.ndfl = cmdfm.ndfl - 1;
+
 	    } /* end if( Idel[jdel] != jdfl ) */
 	} /* end for( jdel = 1; jdel <= ndel; jdel++ ) */
 

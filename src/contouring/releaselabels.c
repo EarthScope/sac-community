@@ -9,63 +9,51 @@
 #include <math.h>
 
 #include "mach.h"
-#include "amf.h"
 #include "contouring.h"
+#include "debug.h"
+extern struct contour contour;
 
 void 
 releaselabels()
 {
-	int nerr, nrerr;
 
 	/*=====================================================================
-	 * PURPOSE:  To release storage for contour label information.
+	 * purpose:  to release storage for contour label information.
 	 *=====================================================================
-	 * MODULE/LEVEL:  contouring/5
+	 * module/level:  contouring/5
 	 *=====================================================================
-	 * GLOBAL INPUT:
+	 * global input:
 	 *     mach:
 	 *     mem:         sacmem
 	 *     contouring:  indexseglabelst, indexseglabelnu,
 	 *                  indexseglabelfi, indexlabelpoint,
 	 *                  indexlabeltype, indexlabelangle, indexlabeltext
 	 *=====================================================================
-	 * SUBROUTINES CALLED:
+	 * subroutines called:
 	 *     sac:  relamb
 	 *=====================================================================
-	 * MODIFICATION HISTORY:
-	 *    900821:  Shortened variable names to 15 characters max, to keep
-	 *             things working under SunOS 3.5:
+	 * modification history:
+	 *    900821:  shortened variable names to 15 characters max, to keep
+	 *             things working under sunos 3.5:
 	 *                indexseglabelstatus -> indexseglabelst
 	 *                indexseglabelnumber -> indexseglabelnu
 	 *                indexseglabelfirst  -> indexseglabelfi
-	 *    900425:  Original version.
+	 *    900425:  original version.
 	 *=====================================================================
-	 * DOCUMENTED/REVIEWED:  900425
+	 * documented/reviewed:  900425
 	 *===================================================================== */
-	/* PROCEDURE: */
-	nerr = 0;
+	/* procedure: */
 
-	/* - Release space for each of the label attributes. */
-
-	relamb( cmmem.sacmem, cmcontouring.indexseglabelst, &nrerr );
+	/* - release space for each of the label attributes. */
+  FREE(contour.labelseg);
 	cmcontouring.indexseglabelst = 0;
-
-	relamb( cmmem.sacmem, cmcontouring.indexseglabelnu, &nerr );
 	cmcontouring.indexseglabelnu = 0;
-
-	relamb( cmmem.sacmem, cmcontouring.indexseglabelfi, &nerr );
 	cmcontouring.indexseglabelfi = 0;
 
-	relamb( cmmem.sacmem, cmcontouring.indexlabelpoint, &nerr );
+  FREE(contour.label);
 	cmcontouring.indexlabelpoint = 0;
-
-	relamb( cmmem.sacmem, cmcontouring.indexlabeltype, &nerr );
 	cmcontouring.indexlabeltype = 0;
-
-	relamb( cmmem.sacmem, cmcontouring.indexlabelangle, &nerr );
 	cmcontouring.indexlabelangle = 0;
-
-	relamb( cmmem.sacmem, cmcontouring.indexlabeltext, &nerr );
 	cmcontouring.indexlabeltext = 0;
 
 	return;

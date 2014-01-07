@@ -53,48 +53,14 @@ getfil(int    idfl,
        int   *ndx2, 
        int   *nerr) {
 
-	int nlcmem;
 
-	*nerr = 0;
+  UNUSED(idfl);
+  UNUSED(ldta);
+  UNUSED(nlen);
 
-	/* - If legitimate data file index number: */
-	if( idfl > 0 && idfl <= cmdfm.ndfl ){
-
-	  /* -- If in memory mode, move header to HDR common 
-	   *    and get data indexes. */
-		nlcmem = Ndxhdr[idfl];
-		/* copy( (int*)cmmem.sacmem[nlcmem], (int*)&Fhdr[1], SAC_HEADER_NUMBERS ); */
-		copy_float( cmmem.sacmem[nlcmem], &(Fhdr[1]), SAC_HEADER_NUMBERS );
-		zgetc( (int *)cmmem.sacmem[nlcmem] + SAC_HEADER_NUMBERS, kmhdr.khdr[0], (MCPW+1)* SAC_HEADER_STRINGS );
-		if( ldta ){
-			*nlen = Nlndta[idfl];
-			if( *nlen <= 0 ){
-				*nerr = ERROR_ONLY_HEADERS_IN_MEMORY;
-				setmsg( "ERROR", *nerr );
-				*ndx1 = 0;
-				*ndx2 = 0;
-				goto L_8888;
-			}
-			*ndx1 = cmdfm.ndxdta[idfl - 1][0];
-			if( Ncomp[idfl] > 1 ){
-				*ndx2 = cmdfm.ndxdta[idfl - 1][1];
-			}
-			else{
-				*ndx2 = 1;
-			}
-		}
-		cmdfm.idflc = idfl;
-	}
-	else{
-		*nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
-		setmsg( "ERROR", *nerr );
-		apimsg( idfl );
-		*ndx1 = 0;
-		*ndx2 = 0;
-		*nlen = 0;
-	}
-L_8888:
-
+  UNUSED(ndx1);
+  UNUSED(ndx2);
+  UNUSED(nerr);
 	return;
 
 }

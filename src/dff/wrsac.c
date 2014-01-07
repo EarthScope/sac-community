@@ -20,25 +20,7 @@
 
 #include "errors.h"
 
-int
-get_sac_npts(int num) {
-  return Nlndta[num];
-}
 
-float * 
-get_sac_header(int num) {
-  return cmmem.sacmem[ Ndxhdr[num] ];
-}
-
-char * 
-get_sac_header_char(int num) {
-  return (char *) (get_sac_header(num) + SAC_HEADER_NUMBERS);
-}
-
-float * 
-get_sac_data(int num, int comp) {
-  return cmmem.sacmem[ cmdfm.ndxdta[num - 1][comp] ];
-}
 
 /** 
  * Write a SAC data file from memory to disk
@@ -75,11 +57,14 @@ wrsac(int   idfl,
 
 	int ncerr, nun;
 	int lswap;
-
+  sac *s;
 	/* For Determining the byte-order of a file or endianness */
 	char *header;
 	int begin = 0;
-	
+
+  if(!(s = sacget(idfl-1, ldta, nerr))) {
+    goto L_8888;
+  }
 	*nerr = 0;
 	nun = 0;
 	/* - If header and data is to be written, a new file is created.
@@ -116,18 +101,14 @@ wrsac(int   idfl,
 	}
 
 	/* - Write the header */
-        sac_header_write(nun, 
-                         get_sac_header(idfl),
-                         get_sac_header_char(idfl),
+        sac_header_write(nun, &s->h->delta,
+                         (char *)&s->h->kstnm,
                          lswap, 
                          nerr);
         
         /* Write the data */
         if( ldta ){
-          sac_data_write(nun, 
-                         get_sac_data(idfl, 0), 
-                         get_sac_data(idfl, 1), 
-                         get_sac_npts(idfl),
+          sac_data_write(nun, s->y, s->x, s->h->npts,
                          lswap, 
                          nerr);
 	}

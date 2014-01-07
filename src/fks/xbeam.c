@@ -31,21 +31,21 @@ xbeam(int *nerr) {
 
 	char kfile[NFILE_LENGTH];
 	int elevc;
-	int iadv, idummy, inptr, jdx, jdfl, jdfl_, joptr, jout, 
-	 nckofbeam, nec, nsamps, nsampsout, number, numbersav;
+	int iadv, jdx, jdfl, jdfl_, jout, 
+	 nckofbeam, nec, nsampsout, number, numbersav;
 	float advance, angle, anglev, beginout, delt_horiz, deltaout, 
-	 el_delay, endout, vmax, vmen, vmin,
+    el_delay, endout,
 	 xr[MXLENP], yr[MXLENP], zr[MXLENP]; 
   double ra[3];
 	int   lLocalRef ;	
 	int   nLocalRef ;	
 	double rLocalRef[ 3 ] ;
+  sac *s, *beam;
 
 	int   lfillz = 0 ;	/* set to 1 if npts or begins differ. maf 970211 */
   int n;
   double tmp;
 	double *const Ra = &ra[0] - 1;
-  float *Sacmem;
 
 	/*=====================================================================
 	 * PURPOSE: To compute beam for an array of stations
@@ -106,7 +106,7 @@ xbeam(int *nerr) {
 	 *          CALL KEYCHN( 'VELOCITY BEARING EC OUTNAME CENTER' )           
 	 * The non-keyworded parameter NUMBER is suppressed for SAC
 	 *          CALL FI( ' ', 1, 'OPTIONAL', NCH, NUMBER)                      */
-	number = cmdfm.ndfl;
+	number = saclen();
 
 	/*    PARSING PHASE    
 	 * */
@@ -218,19 +218,21 @@ xbeam(int *nerr) {
         
 	/* Preliminary loop through files to check delta and get extremes added.*/
 	for( jdfl = 1; jdfl <= number; jdfl++ ){
-	    getfil( jdfl, TRUE, &nsamps, &inptr, &idummy, nerr );
-	    if( *nerr != 0 )
-		goto L_9999;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+      goto L_9999;
+    }
+    //getfil( jdfl, TRUE, &nsamps, &inptr, &idummy, nerr );
 
 	    if( jdfl == 1 ){
-		nsampsout = nsamps;
-		beginout = *begin;
-		deltaout = *delta;
-		endout = *ennd;
+        nsampsout = s->h->npts;
+		beginout = s->h->b;
+		deltaout = s->h->delta;
+		endout = s->h->e;
 	    }
 
 	    else {
-		if ( *delta != deltaout ) {
+		if ( s->h->delta != deltaout ) {
 		    /* error handling */
 		    *nerr = 1801;
 		    setmsg ("ERROR" , *nerr) ;
@@ -238,15 +240,15 @@ xbeam(int *nerr) {
 		    apcmsg ( " - can be fixed using INTERPOLATE command", 42);
 		    outmsg () ;
 		    goto L_9999;
-		} /* end if ( *delta != deltaout ) */
+		} /* end if ( s->h->delta != deltaout ) */
 
 		/* if waveforms not properly aligned ... */
-		if ( nsamps != nsampsout || *begin != beginout ) {
+		if ( s->h->npts != nsampsout || s->h->b != beginout ) {
 		    lfillz = 1 ; /* set flag to fill with zeros */
 
 		    /* get the extreme values. */
-		    beginout  = beginout < *begin ? beginout : *begin ;
-		    endout    = endout   > *ennd  ? endout   : *ennd ;
+		    beginout  = beginout < s->h->b ? beginout : s->h->b ;
+		    endout    = endout   > s->h->e  ? endout   : s->h->e ;
 		} 
 	    } /* end else associated with if( jdfl == 1 ) */
 	} /* end Preliminary loop through files. */
@@ -262,14 +264,12 @@ xbeam(int *nerr) {
 	   the calculation of nsampsout is 1 for the math, and 1 for the
 	   FORTRAN indexing.  maf 970211 */
 	jout = number + 1 ;
-	Ncomp[jout] = 1 ;
-	Nlndta[jout] = nsampsout = ( ( endout - beginout ) / deltaout ) + 2 ;
+	nsampsout = ( ( endout - beginout ) / deltaout ) + 2 ;
 
 	/* Allocate space for the input waveforms. */
-	allamb( &cmmem, Nlndta[jout], &cmdfm.ndxdta[jout - 1][0], nerr );
-	if( *nerr != 0 )
-	    goto L_9999;
-	joptr = cmdfm.ndxdta[jout - 1][0];
+  beam = sac_new();
+  beam->h->npts = nsampsout;
+  sac_alloc(beam);
 
 	/* Loop between files to build the beam, overhauled.  maf 970211 */
 	for( jdfl = 1; jdfl <= number; jdfl++ ){
@@ -277,12 +277,12 @@ xbeam(int *nerr) {
 
 	    jdfl_ = jdfl - 1;
 
-	    getfil( jdfl, TRUE, &nsamps, &inptr, &idummy, nerr );
-	    if( *nerr != 0 )
-		goto L_9999;
-	    if( *iftype != *itime ){
-		numbersav = jdfl - 1;
-		break ;
+      if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+        goto L_9999;
+      }
+	    if( s->h->iftype != ITIME ){
+        numbersav = jdfl - 1;
+        break ;
 	    }
 
 	    /* if necessary, do a fillz.  maf 970211 */
@@ -300,13 +300,13 @@ xbeam(int *nerr) {
 		}
 
 		/* copy the waveform. */
-		n = ( ( *begin - beginout ) / *delta ) /* + 0.5 */ ;
-		memcpy ( waveform + n , cmmem.sacmem[inptr] ,
-			 nsamps * sizeof ( float ) ) ;
+		n = ( ( s->h->b - beginout ) / s->h->delta ) /* + 0.5 */ ;
+		memcpy ( waveform + n , s->y ,
+             s->h->npts * sizeof ( float ) ) ;
 
 	    } /* end if ( lfillz ) */
 	    else
-		waveform = cmmem.sacmem[inptr] ;
+        waveform = s->y;
 
 	    /* Use dot product to get signed horizontal distance from
                array center to station */
@@ -331,9 +331,9 @@ xbeam(int *nerr) {
 	       delay. */  
 
 	    /* rewrote rounding, maf 960709 */
-	    iadv = (int) ( advance >= 0 ? advance / *delta + 0.5 :
-					   advance / *delta - 0.5 ) ;
-	    beamadd( waveform, cmmem.sacmem[joptr], nsampsout, iadv );
+	    iadv = (int) ( advance >= 0 ? advance / s->h->delta + 0.5 :
+					   advance / s->h->delta - 0.5 ) ;
+	    beamadd( waveform, beam->y, nsampsout, iadv );
 
 	    /* if new space was created release it */
 	    if ( lfillz && waveform != NULL ) {
@@ -348,49 +348,26 @@ xbeam(int *nerr) {
 	 number );
 	if( number < 1 )
 	    goto L_9999;
-
-        Sacmem = cmmem.sacmem[joptr];
+  s = beam;
 	for( jdx = 0; jdx <= (nsampsout - 1); jdx++ ){
-	    *(Sacmem++) /= (float)number;
+	    s->y[jdx] = s->y[jdx] / (float)number;
 	}
 
-	/*  Set up header for output file */
-	allamb( &cmmem, SAC_HEADER_WORDS, &Ndxhdr[jout], nerr );
-	if( *nerr != 0 ){
-	    relamb( cmmem.sacmem, cmdfm.ndxdta[jout - 1][0], nerr );
-	    goto L_9999;
-	}
-
-	newhdr();
-	*iftype = *itime;
-	*npts = nsampsout;
-	*begin = beginout;
-	*delta = deltaout;
-	extrma( cmmem.sacmem[cmdfm.ndxdta[jout - 1][0]], 1, nsampsout, &vmin, 
-	 &vmax, &vmen );
-	Fhdr[2] = vmin;
-	Fhdr[3] = vmax;
-	Fhdr[57] = vmen;
-	*user7 = 0.;
-	*user8 = 0.;
-	*user9 = 0.;
-
-	putfil( jout, nerr );
-	if( *nerr != 0 ){
-	    relamb( cmmem.sacmem, Ndxhdr[jout], nerr );
-	    relamb( cmmem.sacmem, cmdfm.ndxdta[jout - 1][0], nerr );
-	    goto L_9999;
-	}
-
-	cmdfm.ndfl = jout;
+  
+	s->h->iftype = ITIME;
+	s->h->npts   = nsampsout;
+	s->h->b      = beginout;
+	s->h->delta  = deltaout;
+	extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
+	s->h->user7 = 0.;
+	s->h->user8 = 0.;
+	s->h->user9 = 0.;
 
 	/*  Write SAC file from SACMEM out to OS
 	 * */
+  sacput(s);
 	wrsac( jout, kfile,NFILE_LENGTH, TRUE, nerr );
-	relamb( cmmem.sacmem, Ndxhdr[jout], nerr );
-	relamb( cmmem.sacmem, cmdfm.ndxdta[jout - 1][0], nerr );
-	cmdfm.ndfl = cmdfm.ndfl - 1;
-
+  sacpop();
 L_9999:
 	return;
 } /* end of function */

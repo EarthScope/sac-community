@@ -2,6 +2,7 @@
 #include <string.h>
 #include <math.h>
 
+#include "amf.h"
 #include "sss.h"
 #include "dfm.h"
 #include "hdr.h"
@@ -17,8 +18,7 @@ int *nerr;
 	int lmissd;
 	int jdfl;
 	float dstsq, t0vmsq, vappsq;
-  char *tmp;
-
+  sac *s;
 	/*=====================================================================
 	 * PURPOSE:  To calculate delays for files in stack file list.
 	 *=====================================================================
@@ -59,15 +59,17 @@ int *nerr;
 	/* - Check for traces with missing distances. */
 
 	lmissd = FALSE;
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 		if( Dst[jdfl] == cmhdr.fundef ){
 			if( !lmissd ){
 				*nerr = 5104;
 				setmsg( "ERROR", *nerr );
 				lmissd = TRUE;
 				}
-            tmp = string_list_get(datafiles, jdfl-1);
-            apcmsg2(tmp, strlen(tmp)+1);
+      if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+        goto L_8888;
+      }
+      apcmsg2(s->m->filename, strlen(s->m->filename)+1);
 			}
 		}
 	if( lmissd )
@@ -79,7 +81,7 @@ int *nerr;
 	if( Ivm[1] == cmsss.inmo ){
 		vappsq = Vapp[1]*Vapp[1];
 		t0vmsq = T0vm[1]*T0vm[1];
-		for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+		for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 			dstsq = Dst[jdfl]*Dst[jdfl];
 			Dlyvm[jdfl] = cmsss.tvm[0][0] - sqrt( t0vmsq + dstsq/vappsq );
 			}
@@ -87,7 +89,7 @@ int *nerr;
 		/* -- Refracted wave delays. */
 		}
 	else if( Ivm[1] == cmsss.irefr ){
-		for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+		for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 			Dlyvm[jdfl] = cmsss.tvm[0][0] - T0vm[1] - fabs( Dst[jdfl] )/
 			 Vapp[1];
 			}

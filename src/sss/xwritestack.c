@@ -11,12 +11,14 @@
 #include "cpf.h"
 #include "dff.h"
 
+extern float *sss_sum;
+
 void /*FUNCTION*/ xwritestack(nerr)
 int *nerr;
 {
 	int notused;
 	float unused;
-
+  sac *s;
 
 
 	/*=====================================================================
@@ -103,20 +105,21 @@ int *nerr;
 
 
 	/* - Set up the header variables for the sum. */
+  s = sac_new();
+  sacput(s);
+	//newhdr();
 
-	newhdr();
+	s->h->iftype = ITIME;
+	s->h->delta  = cmsss.del;
+	s->h->npts   = cmsss.nlnsum;
+	s->h->b      = 0.;
+	s->h->e      = s->h->b + s->h->delta*(float)( s->h->npts - 1 );
 
-	*iftype = *itime;
-	*delta = cmsss.del;
-	*npts = cmsss.nlnsum;
-	*b = 0.;
-	*e = *b + *delta*(float)( *npts - 1 );
-
-	extrma( cmmem.sacmem[cmsss.ndxsum], 1, *npts, depmin, depmax, depmen );
+	extrma( sss_sum, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
 	/* - Write sum to disk. */
 
-	wsac0( kmsss.knmsum, &unused, cmmem.sacmem[cmsss.ndxsum], nerr, MCPFN+1 );
+	wsac0( kmsss.knmsum, &unused, sss_sum, nerr, MCPFN+1 );
 
 L_8888:
 	return;

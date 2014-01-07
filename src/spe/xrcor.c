@@ -17,7 +17,7 @@
 #include "dff.h"
 
 #define error_handling(error, line) if( *(error) != SAC_OK) { goto line; }
-
+extern float *specor;
 /** 
  * Read a Correlation function 
  * 
@@ -53,7 +53,7 @@ xrcor(int *nerr) {
   
   max = cmspe.firstPowerOf2 * 2;
   rsac1(kmspe.knmcor,                 /* Filename */
-	cmmem.sacmem[cmspe.ndxcor],   /* Y Array -- Correlation Function*/
+	specor,   /* Y Array -- Correlation Function*/
 	&cmspe.nlnfft,                /* Length of Array */
 	&zero,                        /* Beginning Value */
 	&delta,                       /* Delta Value */

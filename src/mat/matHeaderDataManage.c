@@ -42,7 +42,7 @@ void matSetHeaderTimes(struct hdrTimes *times)
 {
    int j;
 
-   times->delta = *delta;
+   times->delta = s->h->delta;
    times->b = *b;
    times->e = *e;
    times->o = *o;
@@ -63,9 +63,9 @@ void matUpdateTimes(struct hdrTimes times)
 {
    int j;
 
-   *delta = times.delta;
+   s->h->delta = times.delta;
    *b = times.b;
-   *e = times.e;
+   s->h->e = times.e;
    *o = times.o;
    *a = times.a;
    *f = times.f;
@@ -90,7 +90,7 @@ void matSetHeaderStation(struct hdrStation *station)
    station->stdp = *stdp;
    station->cmpaz = *cmpaz;
    station->cmpinc = *cmpinc;
-   strncpy(station->kstnm, kstnm,CHAR_FIELD_LEN);
+   strncpy(station->kstnm, s->h->kstnm,CHAR_FIELD_LEN);
    strncpy(station->kcmpnm,kcmpnm,CHAR_FIELD_LEN);
    strncpy(station->knetwk,knetwk,CHAR_FIELD_LEN);
 }
@@ -104,7 +104,7 @@ void matUpdateStation(struct hdrStation station)
    *stdp = station.stdp;
    *cmpaz = station.cmpaz;
    *cmpinc =  station.cmpinc;
-   strncpy(kstnm, station.kstnm,CHAR_FIELD_LEN);
+   strncpy(s->h->kstnm, station.kstnm,CHAR_FIELD_LEN);
    strncpy(kcmpnm, station.kcmpnm,CHAR_FIELD_LEN);
    strncpy(knetwk, station.knetwk,CHAR_FIELD_LEN);
 
@@ -116,10 +116,10 @@ void matUpdateStation(struct hdrStation station)
 
 void matSetHeaderEvent(struct hdrEvent *event)
 {
-   event->evla = *evla;
-   event->evlo = *evlo;
-   event->evel = *evel;
-   event->evdp = *evdp;
+   event->evla = s->h->evla;
+   event->evlo = s->h->evlo;
+   event->evel = s->h->evel;
+   event->evdp = s->h->evdp;
    event->nzyear = *nzyear;
    event->nzjday = *nzjday;
    event->nzhour = *nzhour;
@@ -136,10 +136,10 @@ void matSetHeaderEvent(struct hdrEvent *event)
 
 void matUpdateEvent(struct hdrEvent event)
 {
-   *evla = event.evla;
-   *evlo = event.evlo;
-   *evel = event.evel;
-   *evdp = event.evdp;
+   s->h->evla = event.evla;
+   s->h->evlo = event.evlo;
+   s->h->evel = event.evel;
+   s->h->evdp = event.evdp;
    *nzyear = event.nzyear;
    *nzjday = event.nzjday;
    *nzhour = event.nzhour;
@@ -187,7 +187,11 @@ void matUpdateEvent(struct hdrEvent event)
 {
    int ic1, ic2;
    char *tmp;
-   descrip->iftype = *iftype;
+   sac *s;
+   if(!(s = sacget(index-1, TRUE, nerr))) {
+     return;
+   }
+   descrip->iftype = s->h->iftype;
    descrip->idep = *idep;
    descrip->iztype = *iztype;
    descrip->iinst = *iinst;
@@ -197,7 +201,7 @@ void matUpdateEvent(struct hdrEvent event)
    descrip->iqual = *iqual;
    descrip->isynth = *isynth;
    descrip->filename = ""; 
-   tmp = string_list_get(datafiles, index);
+   tmp = s->m->filename;
    strncpy(descrip->filename, tmp, strlen(tmp));
    descrip->filename[strlen(tmp)+1]='\0';
 }
@@ -206,7 +210,7 @@ void matUpdateEvent(struct hdrEvent event)
 
  void matUpdateDataDescrip(struct hdrDataDescrip descrip)
 {
-   *iftype = descrip.iftype;
+   s->h->iftype = descrip.iftype;
    *idep = descrip.idep;
    *iztype = descrip.iztype;
    *iinst = descrip.iinst;
@@ -374,7 +378,7 @@ int matAddSACdataElement(int index, float *DatafloatPtrReal, float *DatafloatPtr
       SACdataArray[index].trcReal[j] = DatafloatPtrReal[j];
 
    /* Copy imaginary data if present */
-   if( *iftype == *irlim || *iftype == *iamph){
+   if( s->h->iftype == IRLIM || s->h->iftype == IAMPH){
       DataIsComplex = TRUE;
       SACdataArray[index].trcImag = (double *) calloc(nlen,sizeof(double));
       if(SACdataArray[index].trcImag == (double *) NULL){
@@ -414,7 +418,7 @@ int matUpdateSACfromSACdataArray(int index, float *DatafloatPtrReal, float *Data
 
 
    /* Copy imaginary data if present */
-   if( *iftype == *irlim || *iftype == *iamph){
+   if( s->h->iftype == IRLIM || s->h->iftype == IAMPH){
       printf("updating imaginary \n");
       for(j=0;j<nlen;j++)
          DatafloatPtrImag[j] = SACdataArray[index].trcImag[j]; 

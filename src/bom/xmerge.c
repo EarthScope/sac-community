@@ -145,10 +145,10 @@ ymdhms2s(int y, int m, int d, int h, int min, int s) {
 }
 
 long int
-secs_in_AD() {
+secs_in_AD(sac *s) {
   int m,d;
-  doy2ymd(*nzyear, *nzjday, &m, &d);
-  return ymdhms2s(*nzyear, m, d, *nzhour, *nzmin, *nzsec);
+  doy2ymd(s->h->nzyear, s->h->nzjday, &m, &d);
+  return ymdhms2s(s->h->nzyear, m, d, s->h->nzhour, s->h->nzmin, s->h->nzsec);
 }
 
 int
@@ -165,52 +165,47 @@ timing_cmp(const void *pa, const void *pb) {
   return 0;
 }
 
-char *
-get_filename(string_list *list, int i) {
-  if(i <= cmdfm.ndfl) {
-    return string_list_get(datafiles, i-1);
-  }
-  return string_list_get(list, i-string_list_length(datafiles)-1);
-}
 
-static int
+//static int
+sac *
 get_file(string_list *list, int i, int *y) {
-  int nerr, x,  n;
-  if(i <= cmdfm.ndfl) {
-    getfil(i, TRUE, &n, y, &x, &nerr);
+  int nerr;
+  UNUSED(y);
+  if(i <= saclen()) {
+    return sacget(i-1, TRUE, &nerr);
   } else {
-    getbfl(list, i-cmdfm.ndfl, TRUE, &n, y, &x, &nerr);
+    return bflget(list, i-saclen()-1);
   }
-  return nerr;
+  return NULL;//nerr;
 }
 
 int
 vkstnm(string_list *list) {
   int i, y, n;
   char stn[9], net[9], cmp[9];
-  int nerr;
-  n = cmdfm.ndfl + string_list_length(list);
+  sac *s;
+  n = saclen() + string_list_length(list);
 
-  if((nerr = get_file(list, 1, &y))) {
-    return nerr;
+  if(!(s = get_file(list, 1, &y))) {
+    return -1;
   }
-  strncpy(stn, kstnm, 8);  stn[8] = 0;
-  strncpy(net, knetwk, 8);  net[8] = 0;
-  strncpy(cmp, kcmpnm, 8);  cmp[8] = 0;
+  strncpy(stn, s->h->kstnm, 8);  stn[8] = 0;
+  strncpy(net, s->h->knetwk, 8);  net[8] = 0;
+  strncpy(cmp, s->h->kcmpnm, 8);  cmp[8] = 0;
   for(i = 2; i <= n; i++) {
-    if((nerr = get_file(list, i, &y))) {
-      return nerr;
+    if(!(s = get_file(list, i, &y))) {
+      return -1;
     }
-    if(strcmp(stn, kstnm) != 0) {
-      error(1801, "Station Name [KSTNM]: '%s' '%s'", stn, kstnm);
+    if(strcmp(stn, s->h->kstnm) != 0) {
+      error(1801, "Station Name [KSTNM]: '%s' '%s'", stn, s->h->kstnm);
       return 1801;
     }
-    if(strcmp(net, knetwk) != 0) {
-      error(1801, "Network Name [KNETWK]: '%s' '%s'", net, knetwk);
+    if(strcmp(net, s->h->knetwk) != 0) {
+      error(1801, "Network Name [KNETWK]: '%s' '%s'", net, s->h->knetwk);
       return 1801;
     }
-    if(strcmp(cmp, kcmpnm) != 0) {
-      error(1801, "Component Name [KCMPNM]: '%s' '%s'", cmp, kcmpnm);
+    if(strcmp(cmp, s->h->kcmpnm) != 0) {
+      error(1801, "Component Name [KCMPNM]: '%s' '%s'", cmp, s->h->kcmpnm);
       return 1801;
     }
   }
@@ -220,20 +215,22 @@ vkstnm(string_list *list) {
 
 struct timing *
 time_range(string_list *list) {
-  int i, y, n;
+  int i, n;
   double b;
+  sac *s;
+
   struct timing *t;
-  n = cmdfm.ndfl + string_list_length(list);
+  n = saclen() + string_list_length(list);
   DEBUG("create timing\n");
   t = (struct timing *) malloc(sizeof(struct timing) * n);
   for(i = 1; i <= n; i++) {
     DEBUG("%d/%d\n", i, n);
-    if((get_file(list, i, &y) != 0)) {
+    if(!(s = get_file(list, i, NULL))) {
       fprintf(stderr, "Error getting file number: %d\n", i);
       return NULL;
     }
-    t[i-1].bsec = secs_in_AD() + (long int) floor(*begin);
-    t[i-1].psec  = *begin - floor(*begin) + (*nzmsec/1000.0);
+    t[i-1].bsec = secs_in_AD(s) + (long int) floor(s->h->b);
+    t[i-1].psec  = s->h->b - floor(s->h->b) + (s->h->nzmsec/1000.0);
     if(t[i-1].psec >= 1.0) {
       t[i-1].bsec += (long int)floor(t[i-1].psec);
       t[i-1].psec -= floor(t[i-1].psec);
@@ -242,20 +239,20 @@ time_range(string_list *list) {
       t[i-1].bsec -= (long int)floor(t[i-1].psec);
       t[i-1].psec += floor(t[i-1].psec);
     }
-    DEBUG("%d %ld %ld %f %f %d %d %f\n", i-1, secs_in_AD(), t[i-1].bsec, t[i-1].psec, *begin, *nzmin, *nzsec, *t0);
-    DEBUG("%d %d %d %d %d %d\n", *nzyear, *nzjday, *nzhour, *nzmin, *nzsec, *nzmsec); 
+    DEBUG("%d %ld %ld %f %f %d %d %f\n", i-1, secs_in_AD(s), t[i-1].bsec, t[i-1].psec, s->h->b, s->h->nzmin, s->h->nzsec, s->h->t0);
+    DEBUG("%d %d %d %d %d %d\n", s->h->nzyear, s->h->nzjday, s->h->nzhour, s->h->nzmin, s->h->nzsec, s->h->nzmsec); 
     t[i-1].i    = i;
-    t[i-1].dt   = *delta;
-    t[i-1].npts = *npts;
+    t[i-1].dt   = s->h->delta;
+    t[i-1].npts = s->h->npts;
     t[i-1].bn   = 0;
     t[i-1].en   = 0;
     t[i-1].alloc = FALSE;
-    if(i <= cmdfm.ndfl) {
-      t[i-1].y    = cmmem.sacmem[y];
+    if(i <= saclen()) {
+      t[i-1].y    = s->y;
     } else {
       t[i-1].alloc = TRUE;
-      t[i-1].y    = malloc(sizeof(float) * *npts);
-      memcpy(t[i-1].y, cmmem.sacmem[y], sizeof(float) * *npts);
+      t[i-1].y    = malloc(sizeof(float) * s->h->npts);
+      memcpy(t[i-1].y, s->y, sizeof(float) * s->h->npts);
     }
   }
   DEBUG("sort timing\n");
@@ -295,16 +292,18 @@ int
 check_delta(string_list *list) {
   int i, y, n;
   float dt;
-  n = cmdfm.ndfl + string_list_length(list);
-  if(get_file(list, 1, &y)) { return FALSE; }
-  dt = *delta;
+  sac *s;
+  n = saclen() + string_list_length(list);
+  
+  if(!(s = get_file(list, 1, &y))) { return FALSE; }
+  dt = s->h->delta;
   for(i = 2; i <= n; i++) {
-    if(get_file(list, i, &y)) { return FALSE; }
-    if(fabs(dt - *delta) > 1e-7) {
-      error(1801, "Time Sampling [DELTA]: %f %f\n", dt, *delta);
+    if(!(s = get_file(list, i, &y))) { return FALSE; }
+    if(fabs(dt - s->h->delta) > 1e-7) {
+      error(1801, "Time Sampling [DELTA]: %f %f\n", dt, s->h->delta);
       return 1801;
     }
-    if(!*leven) {
+    if(!s->h->leven) {
       return 1306;
     }
   }
@@ -315,10 +314,10 @@ void
 fill_zero(float y[], int b, int e, float dt) {
   int i;
   int err = TRUE;
-  DEBUG("%d -> %d (%f %f)\n", b, e, *begin + (b * *delta), *begin+(e * *delta));
+  DEBUG("%d -> %d (%f %f)\n", b, e, b + (b * s->h->dt), b+(e * dt));
   for(i = b; i < e; i++) {
     if(verbose_merge) {
-      printf("merge: Gap zero fill: [n: %d t: %f]\n", i, *begin+ i*dt);
+      printf("merge: Gap zero fill: [n: %d t: %f]\n", i, b + i*dt);
     } else if(err) {
       printf("merge: Gap zero fill\n");
       err = FALSE;
@@ -333,7 +332,7 @@ fill_interp(float y[], int b, int e, float yb, float ye, float dt) {
   int err = TRUE;
   for(i = b; i < e; i++) {
     if(verbose_merge) {
-      printf("merge: Gap interp fill: [n: %d t: %f]\n", i, *begin+ i*dt);
+      printf("merge: Gap interp fill: [n: %d t: %f]\n", i, b+ i*dt);
     } else if(err) {
       printf("merge: Gap interp fill\n");
       err = FALSE;
@@ -431,12 +430,12 @@ overlap_average(float *y, int b, int e, struct timing *t, int n) {
 
 
 int
-overlap_compare(float *y, int b, int e, struct timing *t, int nt, string_list *list) {
+overlap_compare(float *y, int b, int e, struct timing *t, int nt, string_list *list, float bval) {
   int i, j, k, m, n;
   int *ij, *ip;
   float *p;
   int retval;
-
+  sac *s;
   retval = TRUE;
   //DEBUG("%d -> %d\n", b, e);
   ij = files_in_window(b,e,t,nt,&m);
@@ -467,12 +466,13 @@ overlap_compare(float *y, int b, int e, struct timing *t, int nt, string_list *l
       if(error) {
         retval = FALSE;
         if(verbose_merge) {
-          printf("merge: Amplitude mismatch: [n: %d t: %f]\n", i, i * t[0].dt + *begin);
+          printf("merge: Amplitude mismatch: [n: %d t: %f]\n", i, i * t[0].dt + bval);
           for(j = 0; j < n; j++) {
             k = ip[j];
+            s = get_file(list, t[k].i-1, NULL);
             printf("    %15.7e (%d/%d) %15s [File # %d] Interp: %s\n", 
                    p[j], i-t[k].bn, t[k].npts,
-                   get_filename(list, t[k].i), t[k].i,
+                   s->m->filename, t[k].i,
                    (t[k].offset == 0.0)?"No":"Yes");
           }
         }
@@ -503,11 +503,11 @@ xmerge_new(int *nerr) {
   struct timing *t;
   int i, n;
   float *y;
-  int b, e, mb, hid, id;
+  int b, e, mb;
   char gap_keys[2][9]     = {"ZERO    ","INTERP  "};
   char overlap_keys[2][9] = {"AVERAGE ","COMPARE "};
   string_list *list;
-
+  sac *s, *s2;
   static int gap_fill = GAP_FILL_ZERO;
   static int overlap  = OVERLAP_COMPARE;
 
@@ -566,14 +566,12 @@ xmerge_new(int *nerr) {
 
 	/* EXECUTION PHASE: */
   /* - Commit or rollback data according to cmdfm.icomORroll */
-  if(cmdfm.ndfl > 0) {
+  if(saclen() > 0) {
     alignFiles ( nerr ); 	if ( *nerr ) { goto ERROR; }
   }
 
-	/* - Release last binop file. */
-	relbfl( nerr ); 	if( *nerr != 0 ){ goto ERROR; }
   t = time_range(list);
-  n = cmdfm.ndfl + string_list_length(list);
+  n = saclen() + string_list_length(list);
   if(verbose_merge) {
     printf("merging %d files => %d data points\n", n, t[n-1].en+1);
   }
@@ -590,8 +588,12 @@ xmerge_new(int *nerr) {
     DEBUG("\n");
   }
   */
+
   /* Grab file with earliest time sample */
-  if((*nerr = get_file(list, t[0].i, &id)) != 0) { goto ERROR; }
+  if(!(s = get_file(list, t[0].i, NULL))) {
+    *nerr = 1301;
+    goto ERROR;
+  }
   /*
    * Fill new time series, working forward point by point
    * mb - begin point of next file
@@ -626,7 +628,7 @@ xmerge_new(int *nerr) {
       }
       else if(overlap == OVERLAP_COMPARE) {
         DEBUG("   compare %d %d\n", mb, e);
-        if(!overlap_compare(y, mb, e, t, n, list)) {
+        if(!overlap_compare(y, mb, e, t, n, list, s->h->b)) {
           *nerr = 9005;
           goto ERROR;
         }
@@ -636,61 +638,59 @@ xmerge_new(int *nerr) {
       e = t[i+1].en;
     }
   }
-  if((*nerr = get_file(list, t[0].i, &id)) != 0)  { goto ERROR; } /* Earliest File */
-  if(cmdfm.ndfl >= 1) { 
-    /* Clear all but the first data file in memory */
-    //DEBUG("Clear Data files in Memory\n");
-    for(i = cmdfm.ndfl; i > 1; i--) {
-      clear_file(i, nerr);
-    }
-    cmdfm.ndfl = 1;
-  }
-  if(cmdfm.ndfl < 1) { /* No Data Files in Memory, all Binary Op Files */
 
-    allamb(&cmmem, SAC_HEADER_WORDS, &hid, nerr); if(*nerr) { DEBUG("allamb error"); goto ERROR; }
-    memcpy(cmmem.sacmem[hid], cmmem.sacmem[cmbom.ndxhbf], SAC_HEADER_WORDS * sizeof(float));
-    /* Set/Save New Header Number */
-    Ndxhdr[1] = hid;
-    string_list_put(datafiles, string_list_get(list,0), -1);
-  }
+  s2 = get_file(list, t[0].i, NULL);
+  s = sac_new();
+  memcpy(s->h, s2->h, sizeof(struct SACheader));
+
+  /* Filename is the first file */
+  s2 = get_file(list, 1, NULL);
+  s->m->filename = strdup( s2->m->filename );
+
+  sacclear();
   if(string_list_length(list) > 0) {
-    relbfl(nerr); if(*nerr) { goto ERROR; }
+    bflclear();
   }
-  if(cmdfm.ndfl < 1) {
-    Ndxhdr[1] = hid;
-  }
-  /* Number of Files in Data File List */
-  cmdfm.ndfl = 1;
-  /* Number of Points in Output File */
-  Nlndta[1] = t[n-1].en+1;
-  *npts     = t[n-1].en+1;
-  *ennd     = *begin + *delta * (float)(*npts - 1);
 
-  /* Release current data */
-  relamb(cmmem.sacmem, id, nerr);
-  /* Allocate for new merged data */
-  allamb(&cmmem, *npts, &id, nerr);
-  /* Copy data to storage */
-  copy_float(y, cmmem.sacmem[id], *npts);
-  /* Set data id */
-  cmdfm.ndxdta[0][0] = id;
-  extrma(cmmem.sacmem[id], 1, *npts, depmin, depmax, depmen);
-  putfil(1, nerr); if(*nerr) {
-    goto ERROR;
-  }
+  sacput(s);
+  FREE(s->y);
+
+  s->h->npts = t[n-1].en+1;
+  s->h->e    = s->h->b + s->h->delta * (float)(s->h->npts - 1);
+  s->y       = y;
+  sac_extrema(s);
+
   /* Clean up */
-  for(i = 0; i < n; i++) {
-    if(t[i].alloc) {
-      FREE(t[i].y);
+  if(t){
+    for(i = 0; i < n; i++) {
+      if(t[i].alloc) {
+        FREE(t[i].y);
+      }
     }
+    FREE(t);
   }
 
 	setrng();
 	sacToSeisMgr ( FALSE , FALSE , TRUE , nerr ) ;
 
+  return;
+
  ERROR:
-  FREE(t);
+
+  /* Clean up */
+  if(t) {
+    for(i = 0; i < n; i++) {
+      if(t[i].alloc) {
+        FREE(t[i].y);
+      }
+    }
+    FREE(t);
+  }
   FREE(y);
+  if(string_list_length(list) > 0) {
+    bflclear();
+  }
+
   return;
 }
 

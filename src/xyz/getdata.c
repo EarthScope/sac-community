@@ -86,15 +86,14 @@ getdata(int nfiles,
 	char *windwfunc,
 	int buffersize,
 	int filelength[],
-	int bufindex,
+	float *buffer,
 	float signals[])
 {
-	int err, error, getdata_v, i, index, j, lread;
-	float dum1, dum2;
-
+	int error, getdata_v, i, j, lread;
+  int err;
 	int *const Filelength = &filelength[0] - 1;
 	float *const Signals = &signals[0] - 1;
-  
+  sac *s;
   UNUSED(windwfunc);
   UNUSED(delta);
 	/*    * Include files: */
@@ -112,7 +111,6 @@ getdata(int nfiles,
 	if( error != 0 ){
 		}
 	else{
-
 		/*          Check if all data used or last window of data not a full
 		 *                window's length */
 		if( (filesinfo.nodata) && (filesinfo.lbuff - filesinfo.ptrbuffer < 
@@ -125,90 +123,81 @@ getdata(int nfiles,
 			/*          Check if enough data left in buffer for a window's worth
 			 *          If not need to read in more data from files */
 			if( filesinfo.lbuff - filesinfo.ptrbuffer >= windwsize ){
-
-				}
-			else{
-
+        
+      }	else {
 				/*          Move data at end of buffer to front to provide continuous windowing if not first time through */
 				if( !filesinfo.first ){
 					for( i = 1; i <= windwovrl; i++ ){
-						*(cmmem.sacmem[bufindex]-1+i) =
-                                                      *(cmmem.sacmem[bufindex]-1+buffersize-windwovrl+i);
-						}
+						buffer[i-1] = buffer[buffersize-windwovrl+i-1];
+          }
 					filesinfo.lbuff = windwovrl;
-					}
-
+        }
+        
 				/*          Reset buffer pointer */
 				filesinfo.ptrbuffer = 0;
 				filesinfo.bufferfull = FALSE;
-
-L_1:
+        
+      L_1:
 				;
 				if( (!(filesinfo.bufferfull) && (!(filesinfo.nodata)
 				 )) && (error == 0) ){
-
+          
 					/*          If file completely read... */
 					if( filesinfo.filesread ){
 						/*          open a new file */
 						filesinfo.ifile = filesinfo.ifile + 1;
 						filesinfo.filesread = FALSE;
-						}
-
+          }
 					if( error == 0 ){
-
+            
 						/*          Calculate how much data to read from each station file */
 						if( (Filelength[filesinfo.ifile] - filesinfo.ptrfiles) > 
-						 (buffersize - filesinfo.lbuff) ){
+                (buffersize - filesinfo.lbuff) ){
 							lread = buffersize - filesinfo.lbuff;
 							filesinfo.bufferfull = TRUE;
-							}
+            }
 						else if( (Filelength[filesinfo.ifile] - filesinfo.ptrfiles) == 
-						 (buffersize - filesinfo.lbuff) ){
+                     (buffersize - filesinfo.lbuff) ){
 							lread = buffersize - filesinfo.lbuff;
 							filesinfo.bufferfull = TRUE;
 							filesinfo.filesread = TRUE;
-							}
+            }
 						else{
 							lread = Filelength[filesinfo.ifile] - 
-							 filesinfo.ptrfiles;
+                filesinfo.ptrfiles;
 							filesinfo.filesread = TRUE;
-							}
-
+            }
+            
 						/*          Get data from SAC file */
-						getfil( filesinfo.ifile, TRUE, (int*)&dum1, 
-						 &index, (int*)&dum2, &err );
-						if( err != 0 ){
-							error = 1;
-							}
+            if(!(s = sacget(filesinfo.ifile-1, TRUE, &err))) {
+              error = 1;
+            }
+						//getfil( filesinfo.ifile, TRUE, (int*)&dum1, 
+            //&index, (int*)&dum2, &err );
 						else{
 							for( i = 1; i <= lread; i++ ){
-								*(cmmem.sacmem[bufindex]+i-1+filesinfo.lbuff) =
-                                                                       *(cmmem.sacmem[index]+i-1+filesinfo.ptrfiles);
-								}
-							putfil( filesinfo.ifile, &err );
-							if( err != 0 )
-								error = 1;
-							}
-
+								buffer[i-1+filesinfo.lbuff] = s->y[i-1+filesinfo.ptrfiles];
+              }
+            }
+            
 						/*          Set lbuff - length of new data in buffer */
 						filesinfo.lbuff = filesinfo.lbuff + lread;
-
+            
 						filesinfo.ptrfiles = filesinfo.ptrfiles + 
-						 lread;
-
+              lread;
+            
 						if( filesinfo.filesread ){
 							/*          Reset files pointer */
 							filesinfo.ptrfiles = 0;
 							if( filesinfo.ifile == nfiles ){
 								filesinfo.nodata = TRUE;
-								}
-							}
-						}
+              }
+            }
+          }
 					goto L_1;
-					}
-
-				}
-
+        }
+        
+      }
 			if( error != 0 ){
 				fprintf( stdout, "Error getting data from file                (getdata).\n" );
 				}
@@ -217,7 +206,7 @@ L_1:
 
 				/*          Load data to return */
 				for( j = 1; j <= windwsize; j++ ){
-					Signals[j] = *(cmmem.sacmem[bufindex]+filesinfo.ptrbuffer+j-1);
+					Signals[j] = buffer[filesinfo.ptrbuffer+j-1];
 					}
 
 				/*          Set buffer pointer to last data passed */

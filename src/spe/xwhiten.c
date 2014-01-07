@@ -12,6 +12,8 @@
 #include "clf.h"
 #include "cpf.h"
 
+extern sac *spe;
+
 void /*FUNCTION*/ xwhiten(nerr)
 int *nerr;
 {
@@ -86,12 +88,12 @@ int *nerr;
 
 	/* if FD option used, get filename */
 	if ( cmicm.lfd ) {
-        tmp = string_list_get(datafiles, 0);
+        tmp = spe->m->filename;
         strncpy( kname, tmp, strlen(tmp) );
 	}
 
 	temp[ 0 ] = '\0' ;
-	prewit( cmmem.sacmem[cmspe.ndxdat], cmspe.nlndat, &cmspe.nprewh, 
+	prewit( spe->y, spe->h->npts, spe->h->delta, &cmspe.nprewh, 
 	  cmspe.cprewh, kname , temp );
 
 	if( temp[ 0 ] )

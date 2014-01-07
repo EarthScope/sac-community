@@ -7,12 +7,13 @@
 
 #include <string.h>
 
+#include "amf.h"
 #include "dfm.h"
 #include "hdr.h"
 
 #include "errors.h"
 
-
+#include "SacHeader.h"
 #include "msg.h"
 #include "clf.h"
 #include "bot.h"
@@ -63,11 +64,12 @@ getatw(char   *krtw,
 	int irtb, irte, nofmax, num;
 	float rtrb, rtre ;
 	double *const Ortw = &ortw[0] - 1;
-  char *tmp;
-
+  sac *s;
+  
 	*nerr = 0;
-
+  s = sacget_current();
 	/* - Get indexes of start and stop time picks. */
+
 	irtb = nequal( KRTW(0,0), (char*)kmdfm.kpick,9, MPICK );
 	if( (irtb <= 0 || irtb == cmdfm.ipckn) || irtb == cmdfm.ipckg ){
 		*nerr = ERROR_ILLEGAL_RELATIVE_TIME_PICK;
@@ -82,21 +84,19 @@ getatw(char   *krtw,
 	}
 
 	/* - Determine start absolute time window. */
-
 	if( irtb == cmdfm.ipckz ){
 		*tmin = Ortw[1];
 	}
 	else{
-		rtrb = Fhdr[Ipckhd[irtb]];
+		rtrb = VALUE(fhdr(s,cmdfm.ipckhd[irtb-1]));
 		if( rtrb != cmhdr.fundef ){
 			*tmin = rtrb + Ortw[1];
 		}
 		else{
-			*tmin = *begin;
+			*tmin = s->h->b;
 			*nerr = ERROR_UNDEFINED_START_CUT_TIME;
 			setmsg( "ERROR", *nerr );
-            tmp = string_list_get(datafiles, cmdfm.idflc-1);
-            apcmsg2(tmp, strlen(tmp)+1);
+            apcmsg2(s->m->filename, strlen(s->m->filename)+1);
 			goto L_8888;
 		}
 	}
@@ -108,27 +108,26 @@ getatw(char   *krtw,
 	}
 	else if( irte == cmdfm.ipckn ){
 		num = (int)( Ortw[2] );
-		*tmax = *tmin + *delta*(float)( num );
+		*tmax = *tmin + s->h->delta*(float)( num );
 	}
 	else{
-		rtre = Fhdr[Ipckhd[irte]];
+		rtre = VALUE(fhdr(s,cmdfm.ipckhd[irte-1]));
 		if( rtre != cmhdr.fundef ){
 			*tmax = rtre + Ortw[2];
 		}
 		else{
-			*tmax = *ennd;
+			*tmax = s->h->e;
 			*nerr = ERROR_UNDEFINED_STOP_CUT_TIME;
 			setmsg( "ERROR", *nerr );
-            tmp = string_list_get(datafiles, cmdfm.idflc-1);
-            apcmsg2(tmp, strlen(tmp)+1);
+            apcmsg2(s->m->filename, strlen(s->m->filename)+1);
 			goto L_8888;
 		}
 	}
 
 	/* - Determine offset and length of window in points. */
 
-	*nofmin = (int)( (*tmin - *begin)/ *delta );
-	nofmax = (int)( (*tmax - *begin)/ *delta );
+	*nofmin = (int)( (*tmin - s->h->b)/ s->h->delta );
+	nofmax = (int)( (*tmax - s->h->b)/ s->h->delta );
 	*nlnwin = nofmax - *nofmin + 1;
 
 L_8888:

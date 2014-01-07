@@ -11,6 +11,10 @@
 #include <string.h>
 #include <math.h>
 
+#include <unistd.h>
+#include <execinfo.h>
+#include <signal.h>
+
 #include "mach.h"
 #include "exm.h"
 #include "bool.h"
@@ -39,6 +43,20 @@ void execute_command_line(char *kmsg, int len);
 void set_constrain_plot_ratio_x11( int set );
 
 void set_constrain_plot_ratio_x11( int set );
+
+void
+segfault_backtrace(int sig) {
+ void *array[10];
+  size_t size;
+
+  // get void*'s for all entries on the stack
+  size = backtrace(array, 10);
+
+  // print out all the frames to stderr
+  fprintf(stdout, "Error: signal %d:\n", sig);
+  backtrace_symbols_fd(array, size, STDOUT_FILENO);
+  exit(-11);
+}
 
 /** 
  * Main command execution loop for SAC, called by the system on startup

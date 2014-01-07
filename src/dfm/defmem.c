@@ -7,10 +7,11 @@
 
 #include <string.h>
 
+#include "amf.h"
 #include "dfm.h"
 #include "bool.h"
 #include "hdr.h"
-
+#include "SacHeader.h"
 #include "errors.h"
 
 #include "msg.h"
@@ -40,10 +41,13 @@ defmem(int  idfl,
 
 	int lall;
     char *tmp;
-	*nerr = 0;
-
+    sac *s;
+    *nerr = 0;
+    if(!(s = sacget(idfl-1, FALSE, nerr))) {
+      goto L_8888;
+    }
 	/* - Get name of data file. */
-    tmp = string_list_get(datafiles, idfl-1);
+    tmp = s->m->filename;
 	/* - Entire file is read if:
 	 *   (1) cut option is off.
 	 *   (2) file is a spectral file
@@ -52,13 +56,13 @@ defmem(int  idfl,
 	if( !cmdfm.lcut || !lcutnow ){
 		lall = TRUE;
 	}
-	else if( *iftype == *irlim || *iftype == *iamph ){
+	else if( s->h->iftype == IRLIM || s->h->iftype == IAMPH ){
 		setmsg( "WARNING", ERROR_CANT_CUT_SPECTRAL_FILE );
         apcmsg2(tmp, strlen(tmp)+1);
 		outmsg();
 		lall = TRUE;
 	}
-	else if( !*leven ){
+	else if( !s->h->leven ){
 		setmsg( "WARNING", ERROR_CANT_CUT_UNEVENLY_SPACED_FILE );
         apcmsg2(tmp, strlen(tmp)+1);
 		outmsg();
@@ -70,11 +74,11 @@ defmem(int  idfl,
 
 	/* - Set parameters if entire file is to be read. */
 	if( lall ){
-		Nstart[idfl] = 1;
-		Nstop[idfl] = *npts;
-		Ntotal[idfl] = *npts;
-		Nfillb[idfl] = 0;
-		Nfille[idfl] = 0;
+    s->m->nstart = 1;
+    s->m->nstop  = s->h->npts;
+    s->m->ntotal = s->h->npts;
+    s->m->nfillb = 0;
+    s->m->nfille = 0;
 	}
 
 	/* - Set parameters for partial read. */
@@ -84,24 +88,7 @@ defmem(int  idfl,
 			goto L_8888;
 	}
 
-	/* - Define number of data components. */
-	if( (*iftype == *itime || *iftype == *ixy) || *iftype == *iunkn ){
-		if( *leven ){
-			Ncomp[idfl] = 1;
-		}
-		else{
-			Ncomp[idfl] = 2;
-		}
-	}
-	else if( *iftype == *ixyz ){
-		Ncomp[idfl] = 1;
-	}
-	else{
-		Ncomp[idfl] = 2;
-	}
-
-	/* - Define length of each data component, including zero fill. */
-	Nlndta[idfl] = Nstop[idfl] - Nstart[idfl] + 1;
+  s->h->npts = s->m->nstop - s->m->nstart + 1;
 
 L_8888:
 	return;

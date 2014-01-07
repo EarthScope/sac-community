@@ -23,7 +23,7 @@ xgrayscale(int *nerr) {
 	char arg1[151], runfile[13];
 	int  lvideo;
 	int  graylength, graywidth, imagelength, imagewidth, jfile, 
-	 ndxz, nfiles, nlen, notused, nxsize, nysize, nzsize, 
+	 nfiles, nxsize, nysize, nzsize, 
           xmax, xmin, ymax, ymin;
         FILE *un;
   double tmp;
@@ -37,7 +37,7 @@ xgrayscale(int *nerr) {
 	static int xcropmax = 0;
 	static int ycropmin = 0;
 	static int ycropmax = 0;
-
+  sac *s;
 
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command GRAYSCALE.
@@ -167,11 +167,11 @@ L_1000:
 
 	getnfiles( &nfiles );
 	for( jfile = 1; jfile <= nfiles; jfile++ ){
-
+    if(!(s = sacget(jfile-1, TRUE, nerr))) {
+      goto L_8888;
+    }
 		/* -- Get file from memory manager. */
-		getfil( jfile, TRUE, &nlen, &ndxz, &notused, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+		//getfil( jfile, TRUE, &nlen, &ndxz, &notused, nerr );
 
 		/* -- Create image dimensions to agree with the grayscale image produced by
 		 *    'float2image' called by script 'Utahgrayscale'. The image dimensions 
@@ -234,7 +234,7 @@ L_1000:
 		  );
 
 		/* -- Write image in memory to disk */
-		writezdata( "zdata.Utahtmp",14, cmmem.sacmem[ndxz], &nzsize, nerr );
+		writezdata( "zdata.Utahtmp",14, s->y, &nzsize, nerr );
 		if( *nerr != 0 )
 			goto L_8888;
 

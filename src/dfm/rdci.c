@@ -25,6 +25,7 @@
 #include "clf.h"
 #include "dff.h"
 
+#include "debug.h"
 /** 
  * Read a SAC Card Image data file into memory
  * 
@@ -63,17 +64,22 @@ rdci(int   idfl,
      int  *ndx2, 
      int  *nerr) {
 
-	int ilhdr[SAC_HEADER_LOGICALS], jdx, jj, jjj, ncards, nlcmem, nremdr;
+	int ilhdr[SAC_HEADER_LOGICALS], jdx, jj, jjj, ncards, nremdr;
         FILE *nun;
         char kiline[MCMSG+1];
         char *kiptr;
-
-        float *Sacmem;
-
+        int k;
+        sac *s;
+        float *fp;
+        int *ip;
 	int *const Ilhdr = &ilhdr[0] - 1;
-
+  UNUSED(ndx1);
+  UNUSED(ndx2);
+  UNUSED(nlen);
+  UNUSED(idfl);
 	*nerr = 0;
-
+  s = sac_new();
+  
 	/* - Open file. */
 	zopens( &nun, kname,kname_s, "ROTEXT",7, nerr );
 	if( *nerr != 0 )
@@ -90,7 +96,8 @@ rdci(int   idfl,
 		kiptr = strtok ( jjj == jdx ? kiline : NULL , " " ) ;
 		if ( !kiptr )
 		    break ;
-		Fhdr[jjj] = atof(kiptr);
+    fp = fhdr(s,jjj);
+		VALUE(fp) = atof(kiptr);
 	    }
 	    jdx = jdx + 5;
 	}
@@ -106,7 +113,8 @@ rdci(int   idfl,
 		kiptr = strtok ( jjj == jdx ? kiline : NULL , " " ) ;
 		if ( !kiptr )
 		    break ;
-		Nhdr[jjj] = atol(kiptr);
+    ip = nhdr(s,jjj);
+		VALUE(ip) = atol(kiptr);
 	    }
 	    jdx = jdx + 5;
 	}
@@ -121,7 +129,8 @@ rdci(int   idfl,
 		kiptr = strtok ( jjj == jdx ? kiline : NULL , " " ) ;
 		if ( !kiptr )
 		    break ;
-		Ihdr[jjj] = atol(kiptr);
+    ip = ihdr(s,jjj);
+		VALUE(ip) = atol(kiptr);
 	    }
 	    jdx = jdx + 5;
 	}
@@ -141,11 +150,12 @@ rdci(int   idfl,
 	    }
 
 	    for( jjj = 1; jjj <= 5; jjj++ ){
-		if( Ilhdr[jjj] == 1 ){
-		    Lhdr[jdx] = TRUE;
+        ip = lhdr(s,jjj);
+        if( Ilhdr[jjj] == 1 ){
+          VALUE(ip) = TRUE;
 		}
 		else{
-		    Lhdr[jdx] = FALSE;
+      VALUE(ip) = FALSE;
 		}
 		jdx = jdx + 1;
 	    }
@@ -157,25 +167,27 @@ rdci(int   idfl,
 	    goto L_8888;
         }
 
-        strncpy(kmhdr.khdr[0],kiline,8);
-        kmhdr.khdr[0][8] = '\0';
-        strncpy(kmhdr.khdr[1],kiline+8,16);
-        kmhdr.khdr[2][7] = '\0';
-
+        strncpy(khdr(s,1),kiline,8);
+        khdr(s,1)[8] = '\0';
+        strncpy(khdr(s,2),kiline+8,16);
+        khdr(s,2)[16] = '\0';
+        DEBUG("in: <%s>\n", kiline);
+        DEBUG("kstnm: <%s>\n", s->h->kstnm);
+        DEBUG("kevnm: <%s>\n", s->h->kevnm);
 	for( jj = 4; jj <= SAC_HEADER_STRINGS; jj += 3 ){
 	    if(fgetsp(kiline,MCMSG,nun)==NULL){
 		*nerr = ERROR_READING_CARD_IMAGE_HEADER;
 		goto L_8888;
 	    }
 	    for( jjj = jj; jjj <= (jj + 2); jjj++ ){
-		strncpy(kmhdr.khdr[jjj-1],kiline+((jjj-jj)*8),8);
-		kmhdr.khdr[jjj-1][8] = '\0';
+        strncpy(khdr(s,jjj),kiline+((jjj-jj)*8),8);
+        khdr(s,jjj)[8] = '\0';
 	    }
 	}
 
 	/* - Update the header if necessary. */
 
-	if( *nvhdr < cmhdr.nvhdrc ){
+	if( s->h->nvhdr < cmhdr.nvhdrc ){
 	    updhdr( nerr );
 	    if( *nerr != 0 )
 		goto L_8888;
@@ -183,7 +195,7 @@ rdci(int   idfl,
 
 	/* - Make sure the most important header values are defined. */
 
-	if( *npts == cmhdr.nundef || *begin == cmhdr.fundef ){
+	if( s->h->npts == cmhdr.nundef || s->h->b == cmhdr.fundef ){
 	    *nerr = ERROR_READING_CARD_IMAGE_HEADER;
 	    setmsg( "ERROR", *nerr );
 	    goto L_8888;
@@ -191,115 +203,74 @@ rdci(int   idfl,
 
 	/* - Move header to SACMEM array. */
 
-	allamb( &cmmem, SAC_HEADER_WORDS, &Ndxhdr[idfl], nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
-	putfil( idfl, nerr );
-
 	/* - Set up data space. */
+  s->m->filename = fstrdup(kname, kname_s);
 
-    string_list_put(datafiles, kname, kname_s);
 	if( *nerr != 0 )
 	    goto L_8888;
-	Nlndta[idfl] = *npts;
-	*nlen = *npts;
-	allamb( &cmmem, *npts, &cmdfm.ndxdta[idfl - 1][0], nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
-
-
-	if( (*iftype == *itime || *iftype == *ixy) || *iftype == *iunkn ){
-	    if( *leven ){
-		Ncomp[idfl] = 1;
-	    }
-	    else{
-		Ncomp[idfl] = 2;
-	    }
-	}
-	else if( *iftype == *ixyz ){
-	    Ncomp[idfl] = 1;
-	}
-	else{
-	    Ncomp[idfl] = 2;
-	}
-
-	if ( Ncomp[ idfl ] == 2 ) {
-	    allamb( &cmmem, *npts, &cmdfm.ndxdta[idfl - 1][1], nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
-	}
 
 	/* - Read first data component. */
-
-	ncards = *npts/5;
-	nremdr = *npts - 5*ncards;
-	nlcmem = cmdfm.ndxdta[idfl - 1][0];
-	*ndx1 = nlcmem;
+  sac_alloc(s);
+	ncards = s->h->npts/5;
+	nremdr = s->h->npts - 5*ncards;
+  k = 0;
 	for( jj = 1; jj <= ncards; jj++ ){
 	    if(fgetsp(kiline,MCMSG,nun)==NULL){
 		*nerr = ERROR_READING_CARD_IMAGE_HEADER;
 		goto L_8888;
 	    }
-	    Sacmem = cmmem.sacmem[*ndx1]+(nlcmem-*ndx1);
-	    for( jjj = nlcmem; jjj <= (nlcmem + 4); jjj++ ){
-		kiptr = strtok ( jjj == nlcmem ? kiline : NULL , " " ) ;
-		if ( !kiptr )
-		    break ;
-		*Sacmem++ = atof(kiptr);
+	    for( jjj = 0; jjj < 5; jjj++ ){
+        kiptr = strtok ( jjj == 0 ? kiline : NULL , " " ) ;
+        if ( !kiptr )
+          break ;
+        s->y[k++] = atof(kiptr);
 	    }
-	    nlcmem = nlcmem + 5;
 	}
 	if( nremdr > 0 ){
 	    if(fgetsp(kiline,MCMSG,nun)==NULL){
 		*nerr = ERROR_READING_CARD_IMAGE_HEADER;
 		goto L_8888;
 	    }
-	    Sacmem = cmmem.sacmem[*ndx1]+(nlcmem-*ndx1);
-	    for( jjj = nlcmem; jjj <= (nlcmem + nremdr - 1); jjj++ ){
-		kiptr = strtok ( jjj == nlcmem ? kiline : NULL , " " ) ;
-		if ( !kiptr )
-		    break ;
-		*Sacmem++ = atof(kiptr);
+	    for( jjj = 0; jjj < nremdr; jjj++ ){
+        kiptr = strtok ( jjj == 0 ? kiline : NULL , " " ) ;
+        if ( !kiptr )
+          break ;
+        s->y[k++] = atof(kiptr);
 	    }
 	}
 
 	/* - Read second data component if present. */
 
-	if( Ncomp[idfl] == 2 ){
-	    nlcmem = cmdfm.ndxdta[idfl - 1][1];
-	    *ndx2 = nlcmem;
-	    for( jj = 1; jj <= ncards; jj++ ){
+  k = 0;
+	if( sac_comps(s) == 2 ){
+    for( jj = 1; jj <= ncards; jj++ ){
 		if(fgetsp(kiline,MCMSG,nun)==NULL){
 		    *nerr = ERROR_READING_CARD_IMAGE_HEADER;
 		    goto L_8888;
 		}
-		Sacmem = cmmem.sacmem[*ndx2]+(nlcmem-*ndx2);
-		for( jjj = nlcmem; jjj <= (nlcmem + 4); jjj++ ){
-		    kiptr = strtok ( jjj == nlcmem ? kiline : NULL , " " ) ;
+		for( jjj = 0; jjj < 5; jjj++ ){
+		    kiptr = strtok ( jjj == 0 ? kiline : NULL , " " ) ;
 		    if ( !kiptr )
 			break ;
-		    *Sacmem++ = atof(kiptr);
+		    s->x[k++] = atof(kiptr);
 		}
-		nlcmem = nlcmem + 5;
 	    }
 	    if( nremdr > 0 ){
 		if(fgetsp(kiline,MCMSG,nun)==NULL){
 		    *nerr = ERROR_READING_CARD_IMAGE_HEADER;
 		    goto L_8888;
 		}
-		Sacmem = cmmem.sacmem[*ndx2]+(nlcmem-*ndx2);
-		for( jjj = nlcmem; jjj <= (nlcmem + nremdr - 1); jjj++ ){
-		    kiptr = strtok ( jjj == nlcmem ? kiline : NULL , " " ) ;
+		for( jjj = 0; jjj < nremdr; jjj++ ){
+		    kiptr = strtok ( jjj == 0 ? kiline : NULL , " " ) ;
 		    if ( !kiptr )
 			break ;
-		    *Sacmem++ = atof(kiptr);
+		    s->x[k++] = atof(kiptr);
 		}
 	    }
 	}
-	else{
-	    *ndx2 = 0;
-	}
 
+  sacput(s);
+  
 	/* - Close file and return. */
 	zcloses( &nun, nerr );
 

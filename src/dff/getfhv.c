@@ -16,7 +16,7 @@
 #include "co.h"
 #include "msg.h"
 #include "lhf.h"
-
+#include "SacHeader.h"
 #include "errors.h"
 
 static char *env_on[]  = {"on",  "true",  "yes", "1" };
@@ -68,6 +68,9 @@ sacio_char_to_keyword(char *in, char out[SAC_HEADER_STRING_LENGTH]) {
   }
 }
 
+extern sac *CURRENT;
+
+
 /** 
  * Get a floating point header value from the current sac file
  * 
@@ -95,7 +98,6 @@ getfhv(char  *kname,
 
 	char ktest[9];
 	int index, ntest;
-
 	char *kname_c;
 
 	kname_c = fstrdup(kname, kname_s);
@@ -111,9 +113,9 @@ getfhv(char  *kname,
 	/* - If legal name, return current value.
 	 *   Otherwise, set error condition. */
 	if( index > 0 ){
-	    *fvalue = Fhdr[index];
-	    if( *fvalue == cmhdr.fundef )
-		*nerr = ERROR_UNDEFINED_HEADER_FIELD_VALUE;
+    *fvalue = VALUE(fhdr(CURRENT,index));
+    if( *fvalue == cmhdr.fundef )
+      *nerr = ERROR_UNDEFINED_HEADER_FIELD_VALUE;
 	}
 	else{
 	    *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;

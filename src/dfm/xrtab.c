@@ -32,7 +32,7 @@
 #include "cpf.h"
 #include "co.h"
 #include "dff.h"
-
+#include "debug.h"
 #define	MALPHA	100
 #define	MAXCH	40
 #define	MBLKSZ	500
@@ -75,21 +75,22 @@ xrtab(int  lplot,
 	int lbcksp, lexpnd, lfree, lmore, ltoend, numchar,
 	     lprint = FALSE , ltry = FALSE ;
 	int idx, ic, ic1, ic2, iopch[MAXCH], 
-	 ipt, itype, jdx, jch, jdfl, jen, nc, 
-	 nchar, ndcont, ndflsv, ndform, ndxch[MAXCH-(0)+1],
-	 nentry, newlen, newndx, nlnch[MAXCH-(0)+1], notused,
+	 ipt, itype, jdx, jch, jen, nc,
+	 nchar, ndcont, ndflsv, ndform,
+	 nentry, nlnch[MAXCH-(0)+1], notused,
 	 nptch[MAXCH-(0)+1], nsndfl, numch, numxch, numych ;
   FILE *nun;
-	float fentry[MENTRY], unused;
-
+  float unused;
+	float fentry[MENTRY];
+  float *y[MAXCH];
+  sac *s;
   static string_list *last_list = NULL;
   int i;
   char *tmp, *file;
   string_list *list, *files;
 	static int _aini = 1;
   char *cattemp;
-        
-	float *const Fentry = &fentry[0] - 1;
+  
 	int *const Iopch = &iopch[0] - 1;
 
     if(!last_list) {
@@ -123,7 +124,7 @@ xrtab(int  lplot,
 	     *             with new one. */
 	    if( lckey( "&MORE$",7 ) ){
 		lmore = TRUE;
-		ndflsv = cmdfm.ndfl;
+		ndflsv = saclen();
 	    }
 
 	    /* -- "DIR CURRENT|name":  set name of the default subdirectory. */
@@ -232,7 +233,7 @@ xrtab(int  lplot,
 	    alignFiles ( nerr ) ;
 	    if ( *nerr )
 		return ;
-	    cmdfm.nfilesFirst = cmdfm.ndfl ;
+	    cmdfm.nfilesFirst = saclen() ;
 	} /* end if */
 	else
 	    cmdfm.nfilesFirst = 0 ;
@@ -242,7 +243,7 @@ xrtab(int  lplot,
 	/* - Save current file count of wroking storage, incase we can't read
 	 *   the requested file. */
 
-	nsndfl = cmdfm.ndfl;
+	nsndfl = saclen();
 
 	/* - Set the current file count for using read or read-more. */
 
@@ -267,7 +268,7 @@ xrtab(int  lplot,
 
 	    /* --- If destroying files in memory, */
 	    if( strcmp(kmdfm.kecmem,"DELETE  ") == 0 )
-		cleardfl( nerr );
+		sacclear();
 
 	    *nerr = 1301;
 	    goto L_8888;
@@ -280,7 +281,7 @@ xrtab(int  lplot,
 	/* -- Release all memory blocks. */
 
 	if( !lmore ){
-	    cleardfl( nerr );
+	    sacclear();
 	    if( *nerr != 0 )
 		goto L_8888;
 	}
@@ -292,7 +293,6 @@ xrtab(int  lplot,
 
 	    /* -- Open input alphanumeric data file. */
 	    zopens( &nun, file, strlen(file), "ROTEXT",7, nerr );
-
 	    if( *nerr != 0 )
             goto L_8888;
 
@@ -421,7 +421,7 @@ xrtab(int  lplot,
 
 	    /* --- Redetermine how many y channels there really are */
 	    for( idx = 1; idx <= nentry; idx++ ){
-		if( Iopch[idx] > 0 )
+        if( Iopch[idx] > 0 )
 		    numych = Iopch[idx];
 	    }
 
@@ -430,8 +430,8 @@ xrtab(int  lplot,
 	    if( numxch == 1 ){
 		nlnch[0] = MBLKSZ;
 		nptch[0] = 0;
-		allamb( &cmmem, nlnch[0], &ndxch[0], nerr );
-		if( *nerr != 0 )
+    y[0] = (float *) malloc(sizeof(float) * nlnch[0]);
+		if( !y[0] )
 		    goto L_8888;
 	    }
 	    else if( numxch > 1 ){
@@ -446,8 +446,8 @@ xrtab(int  lplot,
 		for( jdx = 1; jdx <= numych; jdx++ ){
 			nlnch[jdx] = MBLKSZ;
 			nptch[jdx] = 0;
-			allamb( &cmmem, nlnch[jdx], &ndxch[jdx], nerr );
-			if( *nerr != 0 )
+      y[jdx] = (float *) malloc(sizeof(float) * nlnch[jdx]);
+			if( !y[jdx] )
 			    goto L_8888;
 		}
 	    }
@@ -471,27 +471,20 @@ L_4000:
 		for( jen = 1; jen <= nentry; jen++ ){
 		    jch = Iopch[jen];
 		    if( jch >= 0 ){
-			if( nptch[jch] >= nlnch[jch] ){
-			    newlen = 2*nlnch[jch];
-			    allamb( &cmmem, newlen, &newndx, nerr );
-			    if( *nerr != 0 )
-				goto L_8888;
-			    /* copy( (int*)cmmem.sacmem[ndxch[jch]], (int*)cmmem.sacmem[newndx], nptch[jch] ); */
-			    copy_float( cmmem.sacmem[ndxch[jch]], cmmem.sacmem[newndx], nptch[jch] );
-			    relamb( cmmem.sacmem, ndxch[jch], nerr );
-			    if( *nerr != 0 )
-				goto L_8888;
-			    ndxch[jch] = newndx;
-			    nlnch[jch] = newlen;
-			}
-			nptch[jch] = nptch[jch] + 1;
-			ipt = nptch[jch] + 1;
-			*( cmmem.sacmem[ ndxch[ jch ] ] + nptch[ jch ] - 1 ) =
-			  Fentry[ jen ] ;
+          if( nptch[jch] >= nlnch[jch] ){
+            float *tmp;
+            nlnch[jch] *= 2;
+            tmp = (float *) malloc(sizeof(float) * nlnch[jch]);
+            copy_float(y[jch], tmp, nptch[jch]);
+            FREE(y[jch]);
+            y[jch] = tmp;
+          }
+          nptch[jch] = nptch[jch] + 1;
+          ipt = nptch[jch] + 1;
+          y[jch][ nptch[jch]-1 ] = fentry[jen-1];
 		    }
 		}
-	    }
-
+      }
 	    /* -- Read in next card. */
 	    if(fgetsp(kcard,MCMSG+1,nun) == NULL) {
 		if(feof(nun)) goto L_5000;
@@ -526,97 +519,40 @@ L_5000:
 	    if( *nerr != 0 )
 		goto L_8888;
 
-	    /* -- Copy pointers to and sizes of y blocks to appropriate
-	     *     data file list variables. */
-	    for( jch = 1; jch <= numych; jch++ ){
-		jdfl = cmdfm.ndfl + jch;
-		Ncomp[jdfl] = 1;
-		cmdfm.ndxdta[jdfl - 1][0] = ndxch[jch];
-		Nlndta[jdfl] = nptch[jch];
-	    }
+      for(jch = 1; jch <= numych; jch++) {
+        s = sac_new();
+        s->h->npts = nptch[jch];
+        s->h->iftype = ITIME;
+        s->h->leven = (numxch == 0);
+        sac_alloc(s);
+        copy_float(y[jch], s->y, s->h->npts);
+        if(numxch == 0) {
+          s->h->delta = 1.;
+          s->h->b     = 0.;
+          s->h->e     = s->h->b + (float)( s->h->npts - 1 )*s->h->delta;
+        } else {
+          copy_float(y[0], s->x, s->h->npts);
+          s->h->delta = cmhdr.fundef;
+          extrma( s->x, 1, s->h->npts, &s->h->b, &s->h->e, &unused );
+        }
+        extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
+        if(numych == 1) {
+          s->m->filename = fstrdup(file, strlen(file));
+        } else {
+          cattemp = malloc(strlen(file) + 2 + 1);
+          sprintf(cattemp, "%s%02d", file, jch);
+          s->m->filename = cattemp;
+        }
+        sacput(s);
+      }
 
-	    /* -- Copy pointer to x block if there is one.
-	     *    Allocate extra x blocks and copy original if necessary. */
-	    if( numxch == 1 ){
-		jdfl = cmdfm.ndfl + 1;
-		cmdfm.ndxdta[jdfl - 1][1] = ndxch[0];
-		Ncomp[jdfl] = 2;
-		for( jch = 2; jch <= numych; jch++ ){
-		    jdfl = cmdfm.ndfl + jch;
-		    allamb( &cmmem, Nlndta[jdfl], &cmdfm.ndxdta[jdfl - 1][1], 
-			    nerr );
-		    if( *nerr != 0 )
-			goto L_8888;
 
-		    Ncomp[jdfl] = 2;
-		    /* copy( (int*)cmmem.sacmem[ndxch[0]],  (int*)cmmem.sacmem[cmdfm.ndxdta[jdfl - 1][1]],  Nlndta[jdfl] ); */
-		    copy_float( cmmem.sacmem[ndxch[0]], cmmem.sacmem[cmdfm.ndxdta[jdfl - 1][1]], Nlndta[jdfl] );
-		}
-	    }
-
-	    /* -- Allocate space for header(s). */
-	    for( jch = 1; jch <= numych; jch++ ){
-		jdfl = cmdfm.ndfl + jch;
-		allamb( &cmmem, SAC_HEADER_WORDS, &Ndxhdr[jdfl], nerr );
-		if( *nerr != 0 )
-		    goto L_8888;
-	    }
-
-	    /* -- Build header for each new file and move it to SACMEM block */
-	    newhdr();
-	    for( jch = 1; jch <= numych; jch++ ){
-		jdfl = cmdfm.ndfl + jch;
-		*npts = Nlndta[jdfl];
-		if( numxch == 0 ){
-		    *leven = TRUE;
-		    *delta = 1.;
-		    *begin = 0.;
-		    *ennd = *begin + (float)( *npts - 1 )**delta;
-		}
-		else{
-		    *leven = FALSE;
-		    *delta = cmhdr.fundef;
-		    extrma( cmmem.sacmem[cmdfm.ndxdta[jdfl - 1][1]], 1, *npts, 
-			    begin, ennd, &unused );
-		}
-		extrma( cmmem.sacmem[cmdfm.ndxdta[jdfl - 1][0]], 1, *npts, 
-			depmin, depmax, depmen );
-
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-		    goto L_8888;
-	    }
-
-	    /* -- Create new file names for these output files. */
-	    if( numych == 1 ){
-            string_list_put(datafiles, file, strlen(file));
-	    }
-	    else{
-            for( jch = 0; jch < numych; jch++ ){
-                cattemp = malloc(strlen(file) + strlen(kmdfm.ksuffx[jch])+1);
-                sprintf(cattemp, "%s%s", file, kmdfm.ksuffx[jch]);
-                string_list_put(datafiles, cattemp, strlen(cattemp));
-                free(cattemp);
-                if( *nerr != 0 )
-                    goto L_8888;
-            }
-	    }
-
-	    /* -- Update current number of files in data file list. */
-	    cmdfm.ndfl = cmdfm.ndfl + numych;
-	}
+    }
 
 	/* - Check again for a non-null DFL. */
-	if( cmdfm.ndfl <= 0 ){
+	if( saclen() <= 0 ){
 	    *nerr = 1301;
 	    setmsg( "ERROR", *nerr );
-	}
-
-	/* -- UPDATE DATA-SET STORAGE - BEGIN
-	 * -- Save number of files in this (the current) data-set. */
-	/* -- For each file get next available data-set storage slot index. */
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-	    Ndsndx[jdfl] = 1 ;
 	}
 
 	/* -- UPDATE DATA-SET STORAGE - END */

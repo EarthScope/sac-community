@@ -23,11 +23,10 @@
 void /*FUNCTION*/ xscallop(nerr)
 int *nerr;
 {
-	int idum, indexdata, indexheader, itemp1, itemp2, itemp3, 
-	 jdfl, notused, nptslist[MDFL], numfiles, specindex, speclength, 
+	int jdfl, notused, nptslist[MDFL], numfiles, speclength, 
 	 specsize, specwidth, nchar;
 	int lprint = FALSE , ltry = FALSE ;
-	float begin, deltalist[MDFL], depmax, depmen, depmin, xmaximum, 
+	float begin, deltalist[MDFL],  xmaximum, 
 	 xminimum, ymaximum, yminimum;
         float *sdata, *scdata;
 	static double window = 2.0;
@@ -60,10 +59,9 @@ int *nerr;
 
 	float *const Deltalist = &deltalist[0] - 1;
 	int *const Nptslist = &nptslist[0] - 1;
-
-	double ftemp ;	/* added to allow setfhv to pass things by reference. maf 970917 */
+  sac *s;
   double tmp;
-
+  float *spec;
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command SCALLOP
 	 *           This command computes a spectrogram of data in memory.
@@ -84,8 +82,8 @@ int *nerr;
 	 *=====================================================================
 	 * SUBROUTINES CALLED:
 	 *    sac:  cfmt, cresp, vflist, vfeven, 
-	 *          getnfiles, getfil, putfil, gethfv, spectrogram, flipdata,
-	 *          cleardfl, setnfiles, crsac, setnfv, setihv, setfhv
+	 *          getnfiles, getfil, gethfv, spectrogram, flipdata,
+	 *          crsac, setnfv, setihv, setfhv
 	 *=====================================================================
 	 * LOCAL VARIABLES: see below
 	 *=====================================================================
@@ -277,27 +275,19 @@ int *nerr;
 			/* - Perform the requested function on each file in DFL. */
 			for( jdfl = 1; jdfl <= numfiles; jdfl++ ){
 
-			    /* -- Get the next file and their lengths in DFL, moving header to CMHDR. */
-			    getfil( jdfl, TRUE, &Nptslist[jdfl], &idum, &idum, nerr );
-			    if( *nerr != 0 )
-				goto L_8888;
+        if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+          goto L_8888;
+        }
+        /* -- Get the next file and their lengths in DFL, moving header to CMHDR. */
+        Nptslist[jdfl] = s->h->npts;
+        //getfil( jdfl, TRUE, &Nptslist[jdfl], &idum, &idum, nerr );
 
-			    /* -- Get sampling interval of data. */
-			    getfhv( "DELTA", &Deltalist[jdfl], nerr , 5 );
-			    if( *nerr != 0 )
-				goto L_8888;
-
+          Deltalist[jdfl] = s->h->delta;
 			    /* -- Get begin value if first file. */
 			    if( jdfl == 1 ){
-				getfhv( "B", &begin, nerr , 1 );
-				if( *nerr != 0 )
-				    goto L_8888;
+            begin = s->h->b;
 			    }
 
-			    /* -- Reverse the steps used in getting the next file in DFL. */
-			    putfil( jdfl, nerr );
-			    if( *nerr != 0 )
-				goto L_8888;
 
 			} /* end for */
 
@@ -321,7 +311,7 @@ int *nerr;
 			    }
 
 			    if( spectrogram( window, slice, type, &order, 
-				numfiles, nptslist, (double)Deltalist[1], &specindex, 
+				numfiles, nptslist, (double)Deltalist[1], &spec, 
 				&specwidth, &speclength, sfft, cwinlength, lcnumber, cnumber,
 				cwintype, scale ) != 0 ){
 				goto L_8888;
@@ -341,10 +331,8 @@ int *nerr;
 	    goto L_8888;
 	}
 
-        flipdata(cmmem.sacmem[specindex],specwidth,speclength,sdata);
-	relamb( cmmem.sacmem, specindex, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
+        flipdata(spec,specwidth,speclength,sdata);
+        FREE(spec);
 
         if((scdata = (float *)malloc(specwidth*speclength*sizeof(float))) == NULL) {
 	    printf("error allocating scdata-xspectrogram\n");
@@ -373,87 +361,45 @@ int *nerr;
 	/* - Replace data in memory with spectrogram. */
 
 	/* -- Clear current data file list. */
-	cleardfl( nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
+  sacclear();
 
 	/* -- Create space for a single data file. */
-	setnfiles( 1 );
+
 	specsize = specwidth*speclength;
-	crsac( 1, 1, specsize, &indexheader, &indexdata, &notused, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
+  
+	//crsac( 1, 1, specsize, &indexheader, &indexdata, &notused, nerr );
+	//if( *nerr != 0 )
+  //goto L_8888;
 
-	getfil( 1, TRUE, &itemp1, &itemp2, &itemp3, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
+  s = sac_new();
+  s->m->filename = strdup("scallop");
+  sacput(s);
+	//getfil( 1, TRUE, &itemp1, &itemp2, &itemp3, nerr );
 
-        /* Store the spectrogram data in sacmem */
-        memcpy((char *)cmmem.sacmem[indexdata],(char *)scdata,specsize*sizeof(float));
+  /* Store the spectrogram data in sacmem */
+  s->y = scdata;
+  //memcpy((char *)cmmem.sacmem[indexdata],(char *)scdata,specsize*sizeof(float));
 
 
-        free(sdata);
-        free(scdata);
+  free(sdata);
+  //free(scdata);
 
 	/* -- Store header values. */
-	setnhv( "NPTS", &specsize, nerr, 4 );
-	if( *nerr != 0 )
-	    goto L_8888;
-	ftemp = 1.0 ;
-	setfhv( "DELTA", (float *)&ftemp, nerr, 5 );
-	if( *nerr != 0 )
-	    goto L_8888;
-	ftemp = 0.0 ;
-	setfhv( "B", (float *)&ftemp, nerr, 1 );
-	if( *nerr != 0 )
-	    goto L_8888;
-	ftemp = (double)( specsize - 1 ) ;
-	setfhv( "E", (float *)&ftemp, nerr, 1 );
-	if( *nerr != 0 )
-	    goto L_8888;
+  s->h->npts = specsize;
+  s->h->delta = 1.0;
+  s->h->b = 0.0;
+  s->h->e = specsize-1.0;
 
-	setihv( "IFTYPE", "IXYZ", nerr, 6, 4 );
-	if( *nerr != 0 )
-	    goto L_8888;
-	setnhv( "NXSIZE", &speclength, nerr, 6 );
-	if( *nerr != 0 )
-	    goto L_8888;
-	setnhv( "NYSIZE", &specwidth, nerr, 6 );
-	if( *nerr != 0 )
-	    goto L_8888;
-	ftemp = xminimum ;
-	setfhv( "XMINIMUM", (float *)&ftemp, nerr, 8 );
-	if( *nerr != 0 )
-	    goto L_8888;
-	ftemp = xmaximum ;
-	setfhv( "XMAXIMUM", (float *)&ftemp, nerr, 8 );
-	if( *nerr != 0 )
-	    goto L_8888;
-	ftemp = yminimum ;
-	setfhv( "YMINIMUM", (float *)&ftemp, nerr, 8 );
-	if( *nerr != 0 )
-	    goto L_8888;
-	ftemp = ymaximum ;
-	setfhv( "YMAXIMUM", (float *)&ftemp, nerr, 8 );
-	if( *nerr != 0 )
-	    goto L_8888;
+  s->h->iftype = IXYZ;
+  s->h->nxsize = speclength;
+  s->h->nysize = specwidth;
+  s->h->xminimum = xminimum;
+  s->h->xmaximum = xmaximum;
+  s->h->yminimum = yminimum;
+  s->h->ymaximum = ymaximum;
 
-	extrma( cmmem.sacmem[indexdata], 1, specsize, &depmin, &depmax, &depmen );
-	ftemp = depmin ;
-	setfhv( "DEPMIN", (float *)&ftemp, nerr, 6 );
-	if( *nerr != 0 )
-	    goto L_8888;
-	ftemp = depmax ;
-	setfhv( "DEPMAX", (float *)&ftemp, nerr, 6 );
-	if( *nerr != 0 )
-	    goto L_8888;
-	ftemp = depmen ;
-	setfhv( "DEPMEN", (float *)&ftemp, nerr, 6 );
-	if( *nerr != 0 )
-	    goto L_8888;
+	extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
-	/* -- Return file to memory manager. */
-	putfil( 1, nerr );
 
 L_8888:
 

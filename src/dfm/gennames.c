@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "amf.h"
 #include "dfm.h"
 #include "bool.h"
 
@@ -46,23 +47,25 @@ gennames(char *headerfield,
          int   nfiles, 
          int  *nerr) {
 
-	int jdfl, ndx1, ndx2, nlen;
+	int jdfl;
   char nameout[41];
   char procname[41];
   char procnametmp[100];
   char *field;
   int flength;
   int id;
+  sac *s;
 	*nerr = 0;
 
 	/* - For each file in DFL: */
 	for( jdfl = 1; jdfl <= nfiles; jdfl++ ){
 
 		/* -- Get header from memory manager. */
-		getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
-        
+		if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+      goto L_8888;
+    }
+    //getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
+
         strcpy(nameout,"                                        ");
         flength = 0;
         

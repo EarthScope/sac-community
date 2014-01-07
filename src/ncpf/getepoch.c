@@ -8,7 +8,7 @@
 #include "bool.h"
 #include "hdr.h"
 
-
+#include "amf.h"
 #include "msg.h"
 #include "bot.h"
 #include "cpf.h"
@@ -25,13 +25,12 @@ int *nerr;
 	int  fileNumber = 1 ;
 	int zyear, zdoy, zhour, zmin ;
 	float zsec ;
-	int unused1, unused2, unused3 ;
 	float rvalue;
 	double value ;
 
 	char buff[18]; /* 17 is standard number of spaces for epochtime */
   char *pBuff;
-
+  sac *s;
   UNUSED(ic);
   UNUSED(nc);
   UNUSED(kfunction);
@@ -68,13 +67,16 @@ int *nerr;
 	/* PROCEDURE: */
 
 	/* Get the header of the appropriate file. */
-	getfil ( fileNumber , FALSE , &unused1 , &unused2 , &unused3 , nerr ) ;
+  if(!(s = sacget(fileNumber-1, TRUE, nerr))) {
+    return;
+  }
+	//getfil ( fileNumber , FALSE , &unused1 , &unused2 , &unused3 , nerr ) ;
 
-	zyear = *nzyear ;
-	zdoy  = *nzjday ;
-	zhour = *nzhour ;
-	zmin  = *nzmin ;
-	zsec  = (float) (*nzsec) + (float) (*nzmsec) / 1000.0 ;
+	zyear = s->h->nzyear ;
+	zdoy  = s->h->nzjday ;
+	zhour = s->h->nzhour ;
+	zmin  = s->h->nzmin ;
+	zsec  = (float) (s->h->nzsec) + (float) (s->h->nzmsec) / 1000.0 ;
 
 	/* Find epoch time of reference time and add rvalue */
 	value = hrToEpoch ( zyear, (int) 0, zdoy, zhour, zmin, zsec, nerr );

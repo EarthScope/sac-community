@@ -15,9 +15,9 @@
 #include "msg.h"
 #include "lhf.h"
 #include "bool.h"
-
+#include "SacHeader.h"
 #include "errors.h"
-
+extern sac *CURRENT;
 /** 
  * Set an integer header value for the current SAC file
  * 
@@ -43,9 +43,7 @@ setnhv(char *kname,
 
 	char ktest[9];
 	int index, ntest;
-
 	char *kname_c;
-
 	kname_c = fstrdup(kname, kname_s);
 	kname_s = strlen(kname_c) + 1;
 
@@ -57,11 +55,10 @@ setnhv(char *kname,
 
 	/* - Store value in appropriate header field. */
 	if( index > 0 ){
-	    Nhdr[index] = *nvalue;
+    NHDR(CURRENT)[index-1] = *nvalue;
 	}
 	else{
 	    *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;
-	    Nhdr[index] = cmhdr.nundef;
 	}
 
 	/* - Create error message and write to terminal. */

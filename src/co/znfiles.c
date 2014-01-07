@@ -70,7 +70,7 @@ znfiles(FILE **nfu,
 
 	/* - Open data file. */
 	if( memcmp(ktype,"TEXT",4) == 0 ){
-        tmp = rstrip(strdup(kname));
+    tmp = rstrip(strdup(kname));
 	    if( lexist ) {
 		if((*nfu = fopen(tmp,"r+")) == NULL)
 		    noerr = 1;

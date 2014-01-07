@@ -16,9 +16,9 @@
 #include "co.h"
 #include "lhf.h"
 #include "bool.h"
-
+#include "SacHeader.h"
 #include "errors.h"
-
+extern sac *CURRENT;
 /** 
  * Get an enumerated header value from the current SAC file
  * 
@@ -49,7 +49,6 @@ getihv(char *kname,
 
 	char ktest[9];
 	int index, ivalue, ntest;
-
 	char *kname_c;
 	int callFromC = 0;
 
@@ -71,15 +70,16 @@ getihv(char *kname,
 	 *   Otherwise, set error condition. */
 
 	if( index > 0 ){
-    ivalue = Ihdr[index];
-    if( ivalue == cmhdr.iundef ){
-      fstrncpy( kvalue, kvalue_s-1, "UNDEFINED", 9);
-      *nerr = ERROR_UNDEFINED_HEADER_FIELD_VALUE;
-    } else {
-      fstrncpy( kvalue, kvalue_s-1, kmlhf.kiv[ivalue - 1],
-                strlen(kmlhf.kiv[ivalue - 1]) );
-    }
-	} else {
+    ivalue = IHDR(CURRENT)[index-1];
+	    if( ivalue == cmhdr.iundef ){
+        fstrncpy( kvalue, kvalue_s-1, "UNDEFINED", 9);
+        *nerr = ERROR_UNDEFINED_HEADER_FIELD_VALUE;
+	    }
+	    else{
+        fstrncpy( kvalue, kvalue_s-1, kmlhf.kiv[ivalue - 1],
+                  strlen(kmlhf.kiv[ivalue - 1]) );
+	    }
+  } else {
     fstrncpy( kvalue, kvalue_s-1, "ILLEGAL", 7);
     *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;
 	}

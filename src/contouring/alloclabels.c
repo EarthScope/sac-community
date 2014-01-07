@@ -9,7 +9,10 @@
 #include <stdlib.h>
 #include <math.h>
 
-#include "amf.h"
+#include "contouring.h"
+
+struct contour contour;
+
 
 void alloclabels(maxsegments, maxlabels, indexseglabelst, 
 	 indexseglabelnu, indexseglabelfi, indexlabelpoint, indexlabeltype, 
@@ -18,9 +21,6 @@ int maxsegments, maxlabels, *indexseglabelst, *indexseglabelnu,
 	 *indexseglabelfi, *indexlabelpoint, *indexlabeltype, *indexlabelangle, 
 	 *indexlabeltext, *nerr;
 {
-	int nrerr;
-
-
 
 	/*=====================================================================
 	 * PURPOSE:  To allocate storage for contour label information.
@@ -72,77 +72,6 @@ int maxsegments, maxlabels, *indexseglabelst, *indexseglabelnu,
 	*indexlabelangle = 0;
 	*indexlabeltext = 0;
 
-	/* - Allocate space for segment label status information. */
-
-	allamb( &cmmem, maxsegments, indexseglabelst, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
-
-	/* - Allocate space for segment label number locs information. */
-
-	allamb( &cmmem, maxsegments, indexseglabelnu, nerr );
-	if( *nerr != 0 ){
-		relamb( cmmem.sacmem, *indexseglabelst, &nrerr );
-		goto L_8888;
-		}
-
-	/* - Allocate space for segment label number locs information. */
-
-	allamb( &cmmem, maxsegments, indexseglabelfi, nerr );
-	if( *nerr != 0 ){
-		relamb( cmmem.sacmem, *indexseglabelst, &nrerr );
-		relamb( cmmem.sacmem, *indexseglabelnu, &nrerr );
-		goto L_8888;
-		}
-
-	/* - Allocate space for label pointer. */
-
-	allamb( &cmmem, maxlabels, indexlabelpoint, nerr );
-	if( *nerr != 0 ){
-		relamb( cmmem.sacmem, *indexseglabelst, &nrerr );
-		relamb( cmmem.sacmem, *indexseglabelnu, &nrerr );
-		relamb( cmmem.sacmem, *indexseglabelfi, &nrerr );
-		goto L_8888;
-		}
-
-	/* - Allocate space for label type. */
-
-	allamb( &cmmem, maxlabels, indexlabeltype, nerr );
-	if( *nerr != 0 ){
-		relamb( cmmem.sacmem, *indexseglabelst, &nrerr );
-		relamb( cmmem.sacmem, *indexseglabelnu, &nrerr );
-		relamb( cmmem.sacmem, *indexseglabelfi, &nrerr );
-		relamb( cmmem.sacmem, *indexlabelpoint, &nrerr );
-		goto L_8888;
-		}
-
-	/* - Allocate space for label angle. */
-
-	allamb( &cmmem, maxlabels, indexlabelangle, nerr );
-	if( *nerr != 0 ){
-		relamb( cmmem.sacmem, *indexseglabelst, &nrerr );
-		relamb( cmmem.sacmem, *indexseglabelnu, &nrerr );
-		relamb( cmmem.sacmem, *indexseglabelfi, &nrerr );
-		relamb( cmmem.sacmem, *indexlabelpoint, &nrerr );
-		relamb( cmmem.sacmem, *indexlabeltype, &nrerr );
-		goto L_8888;
-		}
-
-	/* - Allocate space for label text pointer. */
-
-	allamb( &cmmem, maxlabels, indexlabeltext, nerr );
-	if( *nerr != 0 ){
-		relamb( cmmem.sacmem, *indexseglabelst, &nrerr );
-		relamb( cmmem.sacmem, *indexseglabelnu, &nrerr );
-		relamb( cmmem.sacmem, *indexseglabelfi, &nrerr );
-		relamb( cmmem.sacmem, *indexlabelpoint, &nrerr );
-		relamb( cmmem.sacmem, *indexlabeltype, &nrerr );
-		relamb( cmmem.sacmem, *indexlabelangle, &nrerr );
-		goto L_8888;
-		}
-
-L_8888:
-	return;
-
-} /* end of function */
-
+  contour.label = (struct label *) malloc(sizeof(struct label) * maxlabels);
+  contour.labelseg = (struct labelseg *) malloc(sizeof(struct labelseg) * maxsegments);
+}

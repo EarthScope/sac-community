@@ -26,16 +26,17 @@ void
 getyw(double xwloc, 
       float *ywloc) {
 
-	int index, ioffst;
-
+	int ioffst;
+  sac *s;
+  if(!(s = sacget_current())) {
+    return;
+  }
 	/* - Compute index offset into current array. */
-	ioffst = (xwloc - *b + 0.5**delta)/ *delta;
+	ioffst = (xwloc - s->h->b + 0.5*s->h->delta)/ s->h->delta;
 
-	/* - Compute starting location of current data file. */
-	index = cmdfm.ndxdta[cmdfm.idflc - 1][0];
 
 	/* - Return corresponding y world coordinate. */
-	*ywloc = *(cmmem.sacmem[index]+ioffst);
+	*ywloc = s->y[ioffst];
 
 	return;
 }

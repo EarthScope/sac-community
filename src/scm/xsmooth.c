@@ -15,16 +15,16 @@
 void /*FUNCTION*/ xsmooth(nerr)
 int *nerr;
 {
-	int index[2*MHALF + 1], j, jdfl, jdfl_, jnew, 
+	int index[2*MHALF + 1], j, jdfl, jnew, 
 	 jnew1, jnew2,
-	 ndxnew, ndxold, nfull, nlen, notused;
+    nfull;
 	float factor, sum;
 
         float *Sacmem, *Sacmem1, *Sacmem2;
 
 	int *const Index = &index[0] - 1;
-
-
+  sac *s;
+  float *new;
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command SMOOTH.
 	 *           This command applies several different smoothing algorithms.
@@ -107,86 +107,77 @@ L_1000:
 	nfull = 2*cmscm.nhalf + 1;
 	factor = 1./(float)( nfull );
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-		jdfl_ = jdfl - 1;
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 		/* -- Get next file from the memory manager.
 		 *    (Header is moved into common blocks CMHDR and KMHDR.) */
-		getfil( jdfl, TRUE, &nlen, &ndxold, &notused, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+		//getfil( jdfl, TRUE, &nlen, &ndxold, &notused, nerr );
 
 		/* -- Check full width versus number of data points. */
 
 		/* -- Allocate a new block for smoothed data. */
-		allamb( &cmmem, nlen, &ndxnew, nerr );
+    new = (float *) malloc(sizeof(float) * s->h->npts);
+      //allamb( &cmmem, nlen, &ndxnew, nerr );
 		if( *nerr != 0 )
 			goto L_8888;
 
 		/* -- Compute start and end points for smoothing. */
 		/* jold1 = ndxold + cmscm.nhalf; */
-		jnew1 = ndxnew + cmscm.nhalf;
-		jnew2 = ndxnew + nlen - 1 - cmscm.nhalf;
+		jnew1 = cmscm.nhalf;
+		jnew2 = s->h->npts - 1 - cmscm.nhalf;
 
 		/* -- Perform smoothing on interior points.
 		 * --- Mean smoothing. */
 		if( cmscm.lmean ){
 			sum = 0.;
-                        Sacmem = cmmem.sacmem[ndxold];
-			for( j = ndxold; j <= (ndxold + nfull - 1); j++ ){
-                                sum += *(Sacmem++);
-				}
-                        Sacmem1 = cmmem.sacmem[ndxnew]+cmscm.nhalf;
-                        *(Sacmem1++) = factor*sum;
+			for( j = 0; j < nfull; j++ ){
+        sum += s->y[j];
+      }
+      Sacmem1 = new + cmscm.nhalf;
+      *(Sacmem1++) = factor*sum;
 
-                        Sacmem2 = cmmem.sacmem[ndxold]+cmscm.nhalf+1;
-
+      Sacmem2 = s->y + cmscm.nhalf+1;
+      
 			for( jnew = jnew1 + 1; jnew <= jnew2; jnew++ ){
-                                sum = sum + *(Sacmem2+cmscm.nhalf)-*(Sacmem2-cmscm.nhalf-1);
-                                *(Sacmem1++) = factor*sum;
-                                Sacmem2++;
+        sum = sum + *(Sacmem2+cmscm.nhalf)-*(Sacmem2-cmscm.nhalf-1);
+        *(Sacmem1++) = factor*sum;
+        Sacmem2++;
 				}
 			/* --- Median smoothing. */
 			}
 		else{
-                        Sacmem1 = cmmem.sacmem[ndxnew]+cmscm.nhalf;
-                        Sacmem2 = cmmem.sacmem[ndxold]+cmscm.nhalf;
+      Sacmem1 = new  + cmscm.nhalf;
+      Sacmem2 = s->y + cmscm.nhalf;
 			for( jnew = jnew1; jnew <= jnew2; jnew++ ){
-                                srtndx(Sacmem2-cmscm.nhalf,nfull,index,nerr);
+        srtndx(Sacmem2-cmscm.nhalf,nfull,index,nerr);
 				if( *nerr != 0 )
 					goto L_8888;
 
-                                *(Sacmem1++) = *(Sacmem2-cmscm.nhalf+Index[cmscm.nhalf+1]-1);
-                                Sacmem2++;
+        *(Sacmem1++) = *(Sacmem2-cmscm.nhalf+Index[cmscm.nhalf+1]-1);
+        Sacmem2++;
 				}
 			}
 
 		/* -- Replicate end points. */
-                Sacmem = cmmem.sacmem[ndxnew]+cmscm.nhalf-1;
+    Sacmem = new + cmscm.nhalf-1;
 		for( jnew = jnew1 - 1; jnew >= (jnew1 - cmscm.nhalf); jnew-- ){
-                        *(Sacmem--) = *(cmmem.sacmem[ndxnew]+cmscm.nhalf);
+      *(Sacmem--) = *(new + cmscm.nhalf);
 			}
 
-                Sacmem = cmmem.sacmem[ndxnew]+nlen-cmscm.nhalf;
+    Sacmem = new + s->h->npts - cmscm.nhalf;
 		for( jnew = jnew2 + 1; jnew <= (jnew2 + cmscm.nhalf); jnew++ ){
-                        *(Sacmem++) = *(cmmem.sacmem[ndxnew]+nlen-1-cmscm.nhalf);
+      *(Sacmem++) = *(new + s->h->npts - 1-cmscm.nhalf);
 			}
 
 		/* -- Update dfl indices and delete old data block. */
-		cmdfm.ndxdta[jdfl_][0] = ndxnew;
-		relamb( cmmem.sacmem, ndxold, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
-
-
-                /* update header values */
-
-                extrma(cmmem.sacmem[ndxnew], 1, nlen, depmin, depmax, depmen);
-
-		/* -- Return file to memory manager. */
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+    FREE(s->y);
+    s->y = new;
+    /* update header values */
+    
+    extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen);
 
 		}
 

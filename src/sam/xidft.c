@@ -15,12 +15,10 @@
 void /*FUNCTION*/ xidft(nerr)
 int *nerr;
 {
-	int jdx, jdfl, ndx1, ndx2, nlen, ndxscr1, ndxscr2;
-
-        float *Sacmem, *Sacmem2;
+	int jdx, jdfl;
 
         double *re, *im;
-
+        sac *s;
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command IDFT.
 	 *           This command takes the inverse discrete fourier transform
@@ -67,84 +65,54 @@ int *nerr;
 
 	/* EXECUTION PHASE: */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-	    getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
-	    if( *iftype == *iamph ){
-		torlim( cmmem.sacmem[ndx1], cmmem.sacmem[ndx2], *npts,
-			cmmem.sacmem[ndx1], cmmem.sacmem[ndx2] );
-		*iftype = *irlim;
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+    //getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
+
+	    if( s->h->iftype == IAMPH ){
+        torlim( s->y, s->x, s->h->npts, s->y, s->x);
+		s->h->iftype = IRLIM;
 	    }
 
-	    allamb(&cmmem, 2*nlen, &ndxscr1, nerr);
-	    if( *nerr != 0){
-		printf("error allocating memory-xidft\n");
-		goto L_8888;
-	    }                
-
-	    allamb(&cmmem, 2*nlen, &ndxscr2, nerr);
-	    if( *nerr != 0){
-		printf("error allocating memory-xidft\n");
-		goto L_8888;
-	    }                
-
-	    re = (double *)cmmem.sacmem[ndxscr1];
-	    im = (double *)cmmem.sacmem[ndxscr2];
-
-	    Sacmem = cmmem.sacmem[ndx1];
-	    Sacmem2 = cmmem.sacmem[ndx2];
-
-	    for (jdx=0; jdx<*npts; jdx++){
-		*re++ = (double)*Sacmem++;
-		*im++ = (double)*Sacmem2++;
+      re = (double *) malloc(sizeof(double) * s->h->npts);
+      im = (double *) malloc(sizeof(double) * s->h->npts);
+      if(!re || !im) {
+        printf("error allocating memory-xidft\n");
+        goto L_8888;
 	    }
 
-	    re = (double *)cmmem.sacmem[ndxscr1];
-	    im = (double *)cmmem.sacmem[ndxscr2];
-
-/*	    cpft(cmmem.sacmem[ndx1], cmmem.sacmem[ndx2], *npts, 1, cmsam.ibwd);
+	    for (jdx=0; jdx<s->h->npts; jdx++){
+        re[jdx] = (double) s->y[jdx];
+        im[jdx] = (double) s->x[jdx];
+        DEBUG("%d %e %e %e %e\n",jdx, re[jdx],im[jdx],s->y[jdx],s->x[jdx]);
+	    }
+/*	    cpft(cmmem.sacmem[ndx1], cmmem.sacmem[ndx2], s->h->npts, 1, cmsam.ibwd);
 */
-	    dcpft(re, im, *npts, 1, cmsam.ibwd);
+	    dcpft(re, im, s->h->npts, 1, cmsam.ibwd);
 
-	    re = (double *)cmmem.sacmem[ndxscr1];
-	    im = (double *)cmmem.sacmem[ndxscr2];
-
-	    Sacmem = cmmem.sacmem[ndx1];
-	    Sacmem2 = cmmem.sacmem[ndx2];
-
-	    for (jdx=0; jdx<*npts; jdx++){
-		*Sacmem++ = (float)*re++;
-		*Sacmem2++ = (float)*im++;
+	    for (jdx=0; jdx<s->h->npts; jdx++){
+        s->y[jdx] = (float)re[jdx];
+        s->x[jdx] = (float)im[jdx];
 	    }
-
-	    relamb(cmmem.sacmem, ndxscr1, nerr);
-	    if(*nerr != 0){
-		printf("error releasing memory-xidft\n");
-		goto L_8888;
-	    }
-
-	    relamb(cmmem.sacmem, ndxscr2, nerr);
-	    if(*nerr != 0){
-		printf("error releasing memory-xidft\n");
-		goto L_8888;
-	    }
-
-	    *delta = *sdelta;
-	    *scale = 1./((float)( *npts )**delta);
-	    Sacmem = cmmem.sacmem[ndx1];
-	    for( jdx = 0; jdx <= (*npts - 1); jdx++ ){
-		*(Sacmem++) *= *scale;
-	    }
-	    *iftype = *itime;
-	    *begin = *sb;
-	    *npts = *nsnpts;
-	    Nlndta[jdfl] = *npts;
-	    *ennd = *begin + (float)( *npts - 1 )**delta;
-	    extrma( cmmem.sacmem[ndx1], 1, *npts, depmin, depmax, depmen );
-	    putfil( jdfl, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
+      //DEBUG("AFTER\n");
+      //DEBUG("%d %e %e %e %e\n",0, re[0],im[0],s->y[0],s->x[0]);
+      //DEBUG("%d %e %e %e %e\n",1, re[1],im[1],s->y[1],s->x[1]);
+      
+      FREE(re);
+      FREE(im);
+      
+	    s->h->delta = s->h->sdelta;
+	    s->h->scale = 1./((float)( s->h->npts )*s->h->delta);
+	    for( jdx = 0; jdx <= (s->h->npts - 1); jdx++ ){
+        s->y[jdx] *= s->h->scale;
+      }
+	    s->h->iftype = ITIME;
+	    s->h->b      = s->h->sb;
+	    s->h->npts   = s->h->nsnpts;
+	    s->h->e      = s->h->b + (float)( s->h->npts - 1 )*s->h->delta;
+	    extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 	} /* end for( jdfl ) */
 
 	/* - Calculate and set new range of dependent variable. */

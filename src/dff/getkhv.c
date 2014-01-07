@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "amf.h"
 #include "dff.h"
 #include "msg.h"
 #include "bot.h"
@@ -15,9 +16,9 @@
 #include "co.h"
 #include "lhf.h"
 #include "bool.h"
-
+#include "SacHeader.h"
 #include "errors.h"
-
+extern sac *CURRENT;
 /** 
  * Get a character header value from the current SAC file
  * 
@@ -47,10 +48,10 @@ getkhv(char *kname,
 
 	char ktest[9];
 	int index, ntest;
-	
+	char *p;
 	char *kname_c;
 	int callFromC = 0;
-
+  sac *s;
 	if(kname_s < 0) {
 	  callFromC = 1;
           kvalue_s = kvalue_s + 1; /* This +1 will be removed later on */
@@ -60,7 +61,7 @@ getkhv(char *kname,
           }
 	}
 
-
+  s = CURRENT;
 	kname_c = fstrdup(kname, kname_s);
 	kname_s = strlen(kname_c) + 1;
 
@@ -74,8 +75,9 @@ getkhv(char *kname,
 	/* - If legal name, return current value.
 	 *   Otherwise, set error condition. */
 	if( index > 0 ){
-          fstrncpy( kvalue, kvalue_s-1, kmhdr.khdr[index - 1],  strlen(kmhdr.khdr[index - 1]) );
-        if( memcmp(kvalue,kmhdr.kundef,min(strlen(kvalue), strlen(kmhdr.kundef))) == 0 ){
+    p = khdr(s, index);
+    fstrncpy( kvalue, kvalue_s-1, p,  strlen(p) );
+    if( memcmp(kvalue,kmhdr.kundef, strlen(kmhdr.kundef)) == 0 ){
           *nerr = ERROR_UNDEFINED_HEADER_FIELD_VALUE;
 	    }
 	}

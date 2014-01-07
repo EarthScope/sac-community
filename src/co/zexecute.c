@@ -22,6 +22,7 @@
 
 #include "errors.h"
 
+#include "SacHeader.h"
 
 #include "ssi.h"
 
@@ -43,7 +44,7 @@
 void 
 zexecute(int  index, 
 	 int *nerr) {
-        int i, jdfl, nlen, ndx1, ndx2, ireturn;
+        int i, jdfl, ireturn;
         sac_files call_data;
         sac_header **call_headers, *this_header;
 
@@ -52,11 +53,12 @@ zexecute(int  index,
         int  ext_argc;         
 
         float **ydata, **xdata;
-        float *Ptsacmem;
 
         int update = IGNORE;
         int dummy_init = FALSE;
 
+        sac *s;
+        
 	*nerr = 0;
 
     call_data.nfiles      = 0;
@@ -72,70 +74,63 @@ zexecute(int  index,
           if( dummy_init ) { ext_init(); }
 
           /* allocate space for the headers. */
-          if((call_headers = malloc(cmdfm.ndfl*sizeof(sac_header *))) == NULL){
+          if((call_headers = malloc(saclen()*sizeof(struct SACheader *))) == NULL){
             *nerr = ERROR_OUT_OF_MEMORY;
             return;
 	  }
 
          
           /* allocate pointer arrays for data */
-          if((ydata = malloc(cmdfm.ndfl*sizeof(float *))) == NULL){
+          if((ydata = malloc(saclen()*sizeof(float *))) == NULL){
             free(call_headers);
             *nerr = ERROR_OUT_OF_MEMORY;
             return;
 	  } 
 
-          if((xdata = malloc(cmdfm.ndfl*sizeof(float *))) == NULL){
+          if((xdata = malloc(saclen()*sizeof(float *))) == NULL){
             *nerr = ERROR_OUT_OF_MEMORY;
             free(call_headers);
             free(ydata);
             return;
 	  } 
 
-          for( i=0; i<cmdfm.ndfl; i++ ){
+          for( i=0; i<saclen(); i++ ){
             call_headers[i] = NULL;
             ydata[i]        = NULL;
             xdata[i]        = NULL;
 	  }
 
           
-          for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-            getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr);
-            if(*nerr != 0 ) goto L_8888;
+          for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
+            if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+              goto L_8888;
+            }
 
-            if((this_header = malloc(sizeof(sac_header))) == NULL){
+            if((this_header = malloc(sizeof(struct SACheader))) == NULL){
               *nerr = ERROR_OUT_OF_MEMORY;
               goto L_8888;
 	    }
 
             call_headers[jdfl-1] = this_header;
-
-            /* copy the header values into the call data struct. */
-            memcpy(this_header->ext_fhdr,cmhdr.fhdr,MFHDR*sizeof(float));
-            memcpy(this_header->ext_nhdr,cmhdr.nhdr,MNHDR*sizeof(int));
-            memcpy(this_header->ext_ihdr,cmhdr.ihdr,MIHDR*sizeof(int));
-            memcpy(this_header->ext_lhdr,cmhdr.lhdr,MLHDR*sizeof(int));
-            memcpy(this_header->ext_khdr,kmhdr.khdr,MKHDR*9);
+            memcpy(this_header, s->h, sizeof(struct SACheader));
 
             /* allocate memory for the ydata. */
-            if((ydata[jdfl-1] = malloc(nlen*sizeof(float))) == NULL){
+            if((ydata[jdfl-1] = malloc(s->h->npts*sizeof(float))) == NULL){
               *nerr = ERROR_OUT_OF_MEMORY;
               goto L_8888;
 	    }
 
             /* copy ydata to call data yarray. */
-            Ptsacmem = cmmem.sacmem[ndx1];
-            memcpy(ydata[jdfl-1],Ptsacmem,(nlen*sizeof(float)));
+            memcpy(ydata[jdfl-1],s->y,(s->h->npts*sizeof(float)));
           
             /* if there is another data component (xdata), allocate memory */
             /* for it and copy it in.                                      */
-            if( ndx2 != 1 ){ /* There is xdata */
-              if((xdata[jdfl-1] = malloc(nlen*sizeof(float))) == NULL){
+            if( s->x ){ /* There is xdata */
+              if((xdata[jdfl-1] = malloc(s->h->npts*sizeof(float))) == NULL){
                 *nerr = ERROR_OUT_OF_MEMORY;
                 goto L_8888;
-	      }
-              Ptsacmem = cmmem.sacmem[ndx2];
-              memcpy(xdata[jdfl-1],Ptsacmem,(nlen*sizeof(float)));
+              }
+              memcpy(xdata[jdfl-1],s->x,(s->h->npts*sizeof(float)));
 	    }else{
             /* if there is no other data component, set the pointer to NULL. */
               xdata[jdfl-1] = NULL;
@@ -143,7 +138,7 @@ zexecute(int  index,
             
 	  }
           
-          call_data.nfiles      = cmdfm.ndfl;
+          call_data.nfiles      = saclen();
           call_data.ext_yvalues = ydata;
           call_data.ext_xvalues = xdata;
           call_data.ext_hdrs    = call_headers;

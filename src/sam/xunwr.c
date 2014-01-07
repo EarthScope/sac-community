@@ -18,14 +18,13 @@ void /*FUNCTION*/ xunwr(nerr)
 int *nerr;
 {
 	int lok;
-	int int_, j, jdfl, jdfl_, jj, 
-	 ndx1, ndx2, ndxaux1, ndxaux2, ndxaux3, ndxold, 
-	 nfreq, nlnaux, nlnnew, nlnold, nok, nptsmx, ntused;
+	int int_, j, jdfl, jj, 
+	 nfreq, nlnaux, nlnnew, nok, nptsmx;
 	float scalef;
 
-        float *Sacmem1, *Sacmem2;
         char *tmp;
-
+  sac *s;
+  float *x, *y, *aux1, *aux2, *aux3;
 	/*=====================================================================
 	 * PURPOSE: To parse and execute the action command UNWRAP.
 	 *          This command does a phase unwrapping.
@@ -156,74 +155,70 @@ int *nerr;
 	else
 	    nlnaux = next2( nptsmx );
 
-	allamb( &cmmem, nlnaux, &ndxaux1, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
-	allamb( &cmmem, nlnaux, &ndxaux2, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
-	allamb( &cmmem, nlnaux, &ndxaux3, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
+  aux1 = (float *) malloc(sizeof(float) * nlnaux);
+  aux2 = (float *) malloc(sizeof(float) * nlnaux);
+  aux3 = (float *) malloc(sizeof(float) * nlnaux);
+  if(!aux1 || !aux2 || !aux3) {
+    goto L_8888;
+  }
 
 	/* - For each file in data file list: */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-	    jdfl_ = jdfl - 1;
-
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
+      if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+        goto L_8888;
+      }
 	    /* -- Get file from memory manager. */
-	    getfil( jdfl, TRUE, &nlnold, &ndxold, &ntused, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
+	    //getfil( jdfl, TRUE, &nlnold, &ndxold, &ntused, nerr );
 
 	    /* - Compute length of data after transform. */
-	    Ncomp[jdfl] = 2;
 	    if( cmsam.lunwfz ){
 		nlnnew = cmsam.nunwfz;
 	    }
 	    else{
-		nlnnew = next2( nlnold );
+        nlnnew = next2( s->h->npts );
 	    }
-	    Nlndta[jdfl] = nlnnew;
 
 	    /* - Allocate memory block for first component. */
-	    allamb( &cmmem, nlnnew, &ndx1, nerr );
+      y = (float *) malloc(sizeof(float) * nlnnew);
+	    //allamb( &cmmem, nlnnew, &ndx1, nerr );
 	    if( *nerr != 0 ){
 		/* ***** buffered mode ****** */
 	    }
-	    cmdfm.ndxdta[jdfl_][0] = ndx1;
+	    //cmdfm.ndxdta[jdfl_][0] = ndx1;
 
 	    /* -- Copy time-series data into first block and zero fill. */
 	    /* copy( (int*)cmmem.sacmem[ndxold], (int*)cmmem.sacmem[ndx1], nlnold ); */
-	    copy_float( cmmem.sacmem[ndxold], cmmem.sacmem[ndx1], nlnold );
-	    fill( cmmem.sacmem[ndx1]+nlnold, nlnnew - nlnold, 0. );
+	    copy_float( s->y, y, s->h->npts);
+	    fill( y + s->h->npts, nlnnew - s->h->npts, 0. );
 
 	    /* -- Release old data block containing time-series. */
-	    relamb( cmmem.sacmem, ndxold, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
+      FREE(s->y);
+      s->y = y;
 
 	    /* -- Allocate memory block for second component and zero fill. */
-	    allamb( &cmmem, nlnnew, &ndx2, nerr );
+      x = (float *) malloc(sizeof(float) * nlnnew);
+	    //allamb( &cmmem, nlnnew, &ndx2, nerr );
 	    if( *nerr != 0 ){
 		/* ***** buffered mode ****** */
 	    }
-	    cmdfm.ndxdta[jdfl_][1] = ndx2;
-	    fill( cmmem.sacmem[ndx2], nlnnew, 0. );
-
+	    //cmdfm.ndxdta[jdfl_][1] = ndx2;
+	    fill( x, nlnnew, 0. );
+      FREE(s->x);
+      s->x = x;
 	    /* -- Perform phase unwrapping. */
-	    unwrap( cmmem.sacmem[ndx1], nlnold, nlnnew, 
+	    unwrap( s->y, s->h->npts, nlnnew, 
               (float)cmsam.vunwct, (float)cmsam.vunwit, 
-	     cmmem.sacmem[ndxaux1], cmmem.sacmem[ndxaux2], 
-             cmmem.sacmem[ndxaux3], cmmem.sacmem[ndx1], 
-	     cmmem.sacmem[ndx2], &nok, &lok );
+              aux1, aux2, aux3,
+              s->y, s->x,
+              &nok, &lok );
 
 	    /* -- Check for errors. */
 	    if( !lok ){
 		*nerr = 1610;
 		setmsg( "ERROR", 1610 );
 		apimsg( nok );
-        tmp = string_list_get(datafiles, jdfl-1);
+    tmp = s->m->filename;
         apcmsg2(tmp, strlen(tmp)+1);
 		outmsg();
 		clrmsg();
@@ -232,52 +227,44 @@ int *nerr;
 
 	    /* -- Scale the transformed data. */
 	    nfreq = nlnnew/2;
-	    scalef = *delta;
+	    scalef = s->h->delta;
 
-            Sacmem1 = cmmem.sacmem[ndx1];
-            Sacmem2 = cmmem.sacmem[ndx2];
-	    *Sacmem1 *= scalef;
-	    *(Sacmem1+ nfreq) *= scalef;
+      s->y[0] *= scalef;
+      s->y[nfreq] *= scalef;
 	    for( j = 1; j <= (nfreq - 1); j++ ){
-		*(Sacmem1+j) *= scalef;
-		/*          sacmem(ndx2+j)=scalef*sacmem(ndx2+j) */
-		jj = nlnnew - j;
-		*(Sacmem1+jj) = *(Sacmem1+j);
-		*(Sacmem2+jj) = -*(Sacmem2+j);
+        s->y[j] *= scalef;
+        jj = nlnnew - j;
+        s->y[jj] =  s->y[j];
+        s->x[jj] = -s->x[j];
 	    }
 
 	    /* -- Write DC level to terminal. */
 	    setmsg( "OUTPUT", 1607 );
-	    if( *(cmmem.sacmem[ndx2]) != 0 ){
-		apfmsg( -*(cmmem.sacmem[ndx1]));
+	    if( s->x[0] != 0 ){
+        apfmsg( -s->y[0] );
 	    }
 	    else{
-		apfmsg( *(cmmem.sacmem[ndx1]) );
+        apfmsg( s->y[0] );
 	    }
 	    outmsg();
 	    clrmsg();
 
 	    /* -- Adjust header to reflect new status. */
-	    *nsnpts = *npts;
-	    *npts = nlnnew;
-	    *iftype = *iamph;
-	    *sb = *b;
-	    *sdelta = *delta;
-	    *b = 0.;
-	    *delta = 1./(*delta*(float)( *npts ));
-	    *e = *b + (float)( nfreq )**delta;
+	    s->h->nsnpts = s->h->npts;
+	    s->h->npts   = nlnnew;
+	    s->h->iftype = IAMPH;
+	    s->h->sb     = s->h->b;
+	    s->h->sdelta = s->h->delta;
+	    s->h->b      = 0.;
+	    s->h->delta  = 1./(s->h->delta*(float)( s->h->npts ));
+	    s->h->e      = s->h->b + (float)( nfreq )*s->h->delta;
 
-	    /* -- Give file back to memory manager. */
-	    putfil( jdfl, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
 	}
 
 	/* - Release scratch space. */
-
-	relamb( cmmem.sacmem, ndxaux1, nerr );
-	relamb( cmmem.sacmem, ndxaux2, nerr );
-	relamb( cmmem.sacmem, ndxaux3, nerr );
+  FREE(aux1);
+  FREE(aux2);
+  FREE(aux3);
 
 	/* - Calculate and set new range of dependent variable. */
 

@@ -1,6 +1,7 @@
 
 #include <string.h>
 
+
 #include "sam.h"
 #include "gem.h"
 #include "gam.h"
@@ -23,11 +24,11 @@ int *nerr;
 {
 	char kret[9];
 	int lany, lconv, lframs, lwait, ncret;
-	int index, jdfl, ndx1, ndx2, nlen, nptspl;
+	int index, jdfl, nptspl;
 	float xjunk;
-	void zgpmsg();
-	static char kwait[9] = "Waiting$";
 
+	static char kwait[9] = "Waiting$";
+  sac *s;
 
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command PSP.
@@ -224,27 +225,25 @@ int *nerr;
 
 	/* - For each file in data file list: */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 	    /* -- Get the next file in DFL, moving header to CMHDR. */
-
-	    getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-	    if( *nerr != 0 )
-		goto L_7777;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_7777;
+    }
+    //getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
 	    /* -- Convert spectral file type if needed. */
 
-	    if( cmsam.lpamph && *iftype == *irlim ){
-		toamph( cmmem.sacmem[ndx1], cmmem.sacmem[ndx2], *npts,
-		 cmmem.sacmem[ndx1], cmmem.sacmem[ndx2] );
+	    if( cmsam.lpamph && s->h->iftype == IRLIM ){
+        toamph( s->y, s->x, s->h->npts, s->y, s->x);
 		lconv = TRUE;
-		*iftype = *iamph;
+		s->h->iftype = IAMPH;
 	    }
-	    else if( cmsam.lprlim && *iftype == *iamph ){
-		torlim( cmmem.sacmem[ndx1], cmmem.sacmem[ndx2], *npts,
-		 cmmem.sacmem[ndx1], cmmem.sacmem[ndx2] );
+	    else if( cmsam.lprlim && s->h->iftype == IAMPH ){
+        torlim( s->y, s->x, s->h->npts, s->y, s->x);
 		lconv = TRUE;
-		*iftype = *irlim;
+		s->h->iftype = IRLIM;
 	    }
 	    else{
 		lconv = FALSE;
@@ -253,16 +252,16 @@ int *nerr;
 
 	    /* -- Set up specific plot options for this data file. */
 
-	    nptspl = *npts/2 - 1;
-	    cmgem.xgen.first = *delta;
-	    cmgem.xgen.delta = *delta;
+	    nptspl = s->h->npts/2 - 1;
+	    cmgem.xgen.first = s->h->delta;
+	    cmgem.xgen.delta = s->h->delta;
 	    getxlm( &cmgem.lxlim, &cmgem.ximn, &cmgem.ximx );
 	    getylm( &cmgem.lylim, &cmgem.yimn, &cmgem.yimx );
 
 	    /* -- Determine suffixes if KPSPTP is 'ASIS'. */
 
 	    if( strcmp(kmsam.kpsptp,"ASIS    ") == 0 ){
-		if( *iftype == *irlim ){
+		if( s->h->iftype == IRLIM ){
 		    strcpy( kmsam.kpspl1, "REAL COMPONENT  " );
 		    strcpy( kmsam.kpspl2, "IMAGINARY CMP.  " );
 		    cmsam.lprlim = TRUE;
@@ -275,7 +274,13 @@ int *nerr;
 		    cmsam.lpamph = TRUE;
 		}
 	    }
-
+      {
+        int i;
+        for(i = 0 ; i < s->h->npts; i++) {
+          DEBUG("%d %f /  %f\n", i, s->y[i], s->x[i]);
+        }
+        DEBUG("plot type: real/imag %d phase/amp %d [%d/%d]\n", cmsam.lprlim, cmsam.lpamph, cmsam.lpspc1, cmsam.lpspc2);
+      }
 	    /* -- Plot first spectral component if requested. */
 
 	    if( cmsam.lpspc1 ){
@@ -295,7 +300,7 @@ int *nerr;
                                &cmgem.view.ymin, &cmgem.view.ymax );
 		}
 
-		pl2d( (float*)&xjunk, cmmem.sacmem[ndx1]+1, nptspl, 1,1, nerr );
+		pl2d( (float*)&xjunk, &s->y[1], nptspl, 1,1, nerr );
 		if( *nerr != 0 )
 		    goto L_7777;
 
@@ -309,7 +314,7 @@ int *nerr;
 
 		/* --- Wait for user prompt before plotting
 			next frame if appropriate. */
-		if( ( jdfl == cmdfm.ndfl && !cmsam.lpspc2 ) && !cmgam.lwaite )
+		if( ( jdfl == saclen() && !cmsam.lpspc2 ) && !cmgam.lwaite )
 		    lwait = FALSE;
 		if( lwait ){
 		    zgpmsg( kwait,9, kret,9 );
@@ -346,7 +351,7 @@ int *nerr;
 		    getvspace( &cmgem.view.xmin, &cmgem.view.xmax, 
                                &cmgem.view.ymin, &cmgem.view.ymax );
 		}
-		pl2d( (float*)&xjunk, cmmem.sacmem[ndx2]+1, nptspl, 1,1, nerr );
+		pl2d( (float*)&xjunk, &s->x[1], nptspl, 1,1, nerr );
 		if( *nerr != 0 )
 		    goto L_8888;
 		dispid( cmgam.lfinorq, jdfl, 0, NULL ); 
@@ -359,7 +364,7 @@ int *nerr;
 
 		/* --- Wait for user prompt before plotting
 			next frame if appropriate. */
-		if( jdfl == cmdfm.ndfl && !cmgam.lwaite )
+		if( jdfl == saclen() && !cmgam.lwaite )
 		    lwait = FALSE;
 		if( lwait ){
 		    zgpmsg( kwait,9, kret,9 );
@@ -373,15 +378,13 @@ int *nerr;
 
 	    /* -- Convert file back to original type if necessary. */
 
-	    if( lconv && *iftype == *irlim ){
-		toamph( cmmem.sacmem[ndx1], cmmem.sacmem[ndx2], *npts,
-			cmmem.sacmem[ndx1], cmmem.sacmem[ndx2] );
-		*iftype = *iamph;
+	    if( lconv && s->h->iftype == IRLIM ){
+        toamph( s->y, s->x, s->h->npts, s->y, s->x);
+		s->h->iftype = IAMPH;
 	    }
-	    else if( lconv && *iftype == *iamph ){
-		torlim( cmmem.sacmem[ndx1], cmmem.sacmem[ndx2], *npts,
-			cmmem.sacmem[ndx1], cmmem.sacmem[ndx2] );
-		*iftype = *irlim;
+	    else if( lconv && s->h->iftype == IAMPH ){
+        torlim( s->y, s->x, s->h->npts, s->y, s->x);
+		s->h->iftype = IRLIM;
 	    }
 
 	} /* end for ( jdfl ) */

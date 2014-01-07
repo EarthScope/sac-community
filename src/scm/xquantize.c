@@ -20,12 +20,11 @@ void /*FUNCTION*/ xquantize(nerr)
 int *nerr;
 {
 	int irange, ivalue, j, jdfl, jqgain, 
-	 nclip, ndxx, ndxy, nlen, nqgain;
+	 nclip, nqgain;
 	float factor, half, temp;
 
-    float *Sacmem;
     char *tmp;
-
+  sac *s;
 
 	/*=====================================================================
 	 * PURPOSE: To parse and execute the action command QUANTIZE.
@@ -131,24 +130,23 @@ L_1000:
 
 	/* - For each file in DFL: */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 		/* -- Get next file from the memory manager.
 		 *   (Header is moved into common blocks CMHDR and KMHDR.) */
-
-		getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+		//getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
 
 		/* -- For each data point in file:
 		 *    (1) Determine proper gain.
 		 *    (2) Store quantized value (using truncation model.) */
 
 		nclip = 0;
-                Sacmem = cmmem.sacmem[ndxy];
-		for( j = ndxy; j <= (ndxy + nlen - 1); j++ ){
+		for( j = 0; j < s->h->npts; j++ ){
 			jqgain = 1;
-			temp = *Sacmem;
+			temp = s->y[j];
 			half = sign( 0.5, temp );
 L_3000:
 			ivalue = (int)( half + temp*(float)( Iqgain[jqgain] )/
@@ -160,8 +158,8 @@ L_3000:
 				nclip = nclip + 1;
 				ivalue = irange + 1;
 				}
-			*(Sacmem++) = (float)( ivalue )*factor/(float)( Iqgain[jqgain] );
-			}
+			s->y[j] = (float)( ivalue )*factor/(float)( Iqgain[jqgain] );
+    }
 
 		/* -- Write warning message if any data points clipped. */
 
@@ -169,20 +167,15 @@ L_3000:
 			setmsg( "WARNING", 1 );
 			apimsg( nclip );
 			apcmsg( "data point(s) clipped in file:",31 );
-            tmp = string_list_get(datafiles, jdfl-1);
+      tmp = s->m->filename;
             apcmsg2(tmp, strlen(tmp)+1);
 			wrtmsg( stdout );
 			}
 
 		/* -- Update any header fields that may have changed. */
 
-		extrma( cmmem.sacmem[ndxy], 1, nlen, depmin, depmax, depmen );
+		extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
-		/* -- Return file to memory manager. */
-
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
 
 		}
 

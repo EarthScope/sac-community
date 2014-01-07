@@ -1,4 +1,7 @@
 
+#ifndef __DEBUG_H__
+#define __DEBUG_H__
+
 #include "config.h"
 #include "string_utils.h"
 
@@ -17,4 +20,6 @@
     }                \
   } while(0);
 
+
+#endif /* __DEBUG_H__ */
 

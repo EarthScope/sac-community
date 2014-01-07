@@ -9,8 +9,9 @@
 #include <math.h>
 
 #include "mach.h"
-#include "amf.h"
 #include "contouring.h"
+
+extern struct contour contour;
 
 void 
 getcontlabel(number, jpoint, jtype, angle, jtext)
@@ -18,7 +19,6 @@ int number, *jpoint, *jtype;
 float *angle;
 int *jtext;
 {
-        int *Isacmem;
 
 
 	/*=====================================================================
@@ -47,14 +47,12 @@ int *jtext;
 	 *===================================================================== */
 	/* PROCEDURE: */
 	if( number <= cmcontouring.numlabels ){
-                Isacmem = (int*)cmmem.sacmem[cmcontouring.indexlabelpoint];
-		*jpoint = *(Isacmem + number - 1);
-                Isacmem = (int*)cmmem.sacmem[cmcontouring.indexlabeltype];
-		*jtype = *(Isacmem + number - 1);
-		*angle = *(cmmem.sacmem[cmcontouring.indexlabelangle] + number - 1);
-                Isacmem = (int*)cmmem.sacmem[cmcontouring.indexlabeltext];
-		*jtext = *(Isacmem + number - 1);
-	}
+    *jpoint = contour.label[number-1].point;
+    *jtype  = contour.label[number-1].type;
+    *angle  = contour.label[number-1].angle;
+    *jtext  = contour.label[number-1].text;
+
+  }
 	else{
 		fprintf( stdout, "Illegal label number: %d \n", number );
 		exit(0);

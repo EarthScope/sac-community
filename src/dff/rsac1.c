@@ -4,16 +4,16 @@
  * @brief  Read an evenly spaced SAC file
  * 
  */
-
+#include "amf.h"
 #include "dff.h"
 #include "bool.h"
 #include "hdr.h"
 #include "msg.h"
 #include "co.h"
 #include "ucf.h"
-
+#include "SacHeader.h"
 #include "errors.h"
-
+extern sac *CURRENT;
 void
 sac_data_swap(float *y, int n) {
   int i;
@@ -119,6 +119,7 @@ rsac1(char      *kname,
   int ncerr, nun;
   int lswap;
   int truncated;
+  sac *s;
   
   *nerr     = 0;
   truncated = FALSE;
@@ -131,22 +132,27 @@ rsac1(char      *kname,
   zopen_sac( &nun, kname,kname_s, "RODATA",7, nerr );
   if( *nerr != SAC_OK )
     goto ERROR;
-  
-  lswap = sac_header_read(nun, nerr);
+
+  s = sac_new();
+  s->m->filename = fstrdup(kname, kname_s);
+  sacput(s);
+
+  //lswap = sac_header_read(nun, nerr);
+  lswap = sac_header_read(nun, s, nerr);
   if( *nerr != SAC_OK )
     goto ERROR;
   
   /* - Make sure file is evenly spaced. */
-  if( *leven ){
-    if( *npts <= *max_ ){
-      *nlen = *npts;
+  if( s->h->leven ){
+    if( s->h->npts <= *max_ ){
+      *nlen = s->h->npts;
     }
     else{
       *nlen = *max_;
       truncated = TRUE;
     }
-    *beg = *begin;
-    *del = *delta;
+    *beg = s->h->b;
+    *del = s->h->delta;
   }
   else{
     *nerr = ERROR_SAC_FILE_NOT_EVENLY_SPACED;
@@ -161,10 +167,11 @@ rsac1(char      *kname,
   sac_data_read(nun, yarray, *nlen, SAC_FIRST_COMPONENT, lswap, (int *)nerr);
   if(nerr != SAC_OK) 
     goto ERROR;
-  
+
+  s->y = yarray;
   /* - Adjust several header fields. */
-  *npts = *nlen;
-  *ennd = *begin + (*npts - 1)**delta;
+  s->h->npts = *nlen;
+  s->h->e    = CALC_E(s);
   
  ERROR:
   *nerr = ( *nerr == SAC_OK && truncated == TRUE) ?

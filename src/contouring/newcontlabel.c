@@ -10,8 +10,8 @@
 #include <math.h>
 
 #include "mach.h"
-#include "amf.h"
 #include "contouring.h"
+extern struct contour contour;
 
 void 
 newcontlabel(jpoint, jtype, angle, jtext, number)
@@ -19,8 +19,6 @@ int jpoint, jtype;
 double angle;
 int jtext, *number;
 {
-        int *Isacmem;
-
 
 	/*=====================================================================
 	 * PURPOSE:  To put information about a new contouring line label.
@@ -53,16 +51,10 @@ int jtext, *number;
 	if( cmcontouring.numlabels < cmcontouring.maxlabels ){
 		cmcontouring.numlabels = cmcontouring.numlabels + 1;
 		*number = cmcontouring.numlabels;
-                Isacmem = (int*)cmmem.sacmem[cmcontouring.indexlabelpoint];
-		*(Isacmem + *number - 1) = jpoint;
-
-                Isacmem = (int*)cmmem.sacmem[cmcontouring.indexlabeltype];
-		*(Isacmem + *number - 1) = jtype;
-
-		*(cmmem.sacmem[cmcontouring.indexlabelangle] + *number - 1) = angle;
-
-                Isacmem = (int*)cmmem.sacmem[cmcontouring.indexlabeltext];
-		*(Isacmem + *number - 1) = jtext;
+    contour.label[*number-1].point = jpoint;
+    contour.label[*number-1].type  = jtype;
+    contour.label[*number-1].angle = angle;
+    contour.label[*number-1].text  = jtext;
 	}
 	else{
 		fprintf( stdout, "No more room for label storage.\n" );

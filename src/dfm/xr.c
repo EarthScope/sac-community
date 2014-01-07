@@ -10,6 +10,7 @@
 
 #include "config.h"
 
+#include "amf.h"
 #include "dff.h"
 #include "dfm.h"
 #include "bool.h"
@@ -82,7 +83,7 @@ xr(int *nerr) {
 	    /* -- "MORE":  signifies addition of more files to current read
 	     *             filelist rather than replacement of current list
 	     *             with new one. */
-	    if( lckey( "MORE#$",8 ) && cmdfm.ndfl > 0 ){
+	    if( lckey( "MORE#$",8 ) && saclen() > 0 ){
 		lmore = TRUE;
 	    }
 
@@ -182,9 +183,9 @@ xr(int *nerr) {
 	if( lmore ){
 	    /* ----- Current count of files in memory, plus these news ones,
 	     *       exceeds MDFL. */
-	    if( (cmdfm.ndfl + string_list_length(list)) > MDFL ){
+	    if( (saclen() + string_list_length(list)) > MDFL ){
             setmsg( "OUTPUT", 0 );
-            sprintf(kline,"There are already %3d files in sac memory.", cmdfm.ndfl);
+            sprintf(kline,"There are already %3d files in sac memory.", saclen());
             apcmsg( kline,MCMSG+1 );
             sprintf(kline,"Attempted to read %3d more files", string_list_length(list));
             aplmsg( kline,MCMSG+1 );
@@ -200,7 +201,7 @@ xr(int *nerr) {
 	    if ( *nerr )
             return ;
 
-	    cmdfm.nfilesFirst = cmdfm.ndfl ;
+	    cmdfm.nfilesFirst = saclen() ;
 	}  /* end if( lmore ) */
 	else {
 	    cmdfm.nreadflag = HIGH ;

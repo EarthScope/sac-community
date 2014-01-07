@@ -23,6 +23,8 @@
 #include "co.h"
 #include "datafilelist.h"
 #include "dff.h"
+#include "amf.h"
+#include "errors.h"
 
 /** 
  * Execute the command LISTHDR (LH) which lists header values
@@ -57,7 +59,7 @@ xlh(int *nerr) {
 	 kwait[9];
 	int lwait;
 	int j, j_, jdfl, jrpt, jrpt_, jrpttx, jrpttx_, 
-	 jsprpt, junk1, junk2, junk3, nc1, nc2, nc3, nc4, nctx[MRPT], 
+	 jsprpt, nc1, nc2, nc3, nc4, nctx[MRPT], 
 	 nctxm, nferr, nlscrn, nlw, nrpttx, ntused;
 
 	static int iform = 1;
@@ -67,7 +69,7 @@ xlh(int *nerr) {
 	int idx, ldef ;
     char *tmp;
 	int *const Nctx = &nctx[0] - 1;
-
+  sac *s;
 	*nerr = 0;
 	ldef = FALSE;
         for( idx = 0 ; idx < 8 ; idx++ )
@@ -119,7 +121,7 @@ xlh(int *nerr) {
 		  else if( lckey( "NONE$",6 ) ){
 		    ldef = TRUE;
 		  }
-		  else if( lcia( 1, cmdfm.ndfl, cmlhf.ilhlst, &cmlhf.nlhlst ) ){
+		  else if( lcia( 1, saclen(), cmlhf.ilhlst, &cmlhf.nlhlst ) ){
 		    cmlhf.lstall = FALSE;
 		  }
 		} 
@@ -211,14 +213,14 @@ xlh(int *nerr) {
 	jdfl = 0;
 L_4000:
 	if( nextinputfile( &jdfl ) ){
-		getfil( jdfl, FALSE, &junk1, &junk2, &junk3, nerr );
-		if( *nerr != 0 ) {
-		    autooutmsg( FALSE );
-		    /* no longer executing xlh(). */
-		    cmhdr.llh = FALSE ;	
-		    return ;
+		//getfil( jdfl, FALSE, &junk1, &junk2, &junk3, nerr );
+    if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+      autooutmsg( FALSE );
+      /* no longer executing xlh(). */
+      cmhdr.llh = FALSE ;	
+      return ;
 		}
-        if((tmp = string_list_get(datafiles, jdfl-1))) {
+    if((tmp = s->m->filename)) {
             aplmsg( " ",2 );
             cattemp = malloc(7+strlen(tmp)+7);
             sprintf(cattemp, " FILE: %s - %d", tmp, jdfl);

@@ -12,7 +12,7 @@
 
 #include "ucf.h"
 #include "dff.h"
-
+#include "debug.h"
 /** 
  * Create a new file in SAC memory
  * 
@@ -48,60 +48,45 @@ crsac(int  idfl,
       int *ndx2, 
       int *nerr) {
 
-	int jcomp, jcomp_, jrel, jrel_, nrerr;
-
+	int jcomp;
+  float *d;
+  sac *s;
 	*nerr = 0;
+  UNUSED(ndxh);
+  UNUSED(ndx1);
+  UNUSED(ndx2);
+  s = sacget(idfl, TRUE, nerr);
 
-	/* - Allocate memory for header. */
-	allamb( &cmmem, SAC_HEADER_WORDS, &Ndxhdr[idfl], nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+  s->h->npts = nlen;
 
 	/* - For each data component: */
-	Nlndta[idfl] = nlen;
-	Ncomp[idfl] = ncmp;
-	for( jcomp = 1; jcomp <= Ncomp[idfl]; jcomp++ ){
-		jcomp_ = jcomp - 1;
+	//Nlndta[idfl] = nlen;
+	//Ncomp[idfl] = ncmp;
+	for( jcomp = 1; jcomp <= sac_comps(s); jcomp++ ){
 
 		/* -- Allocate memory block. */
-		allamb( &cmmem, 
-			Nlndta[idfl], 
-			&cmdfm.ndxdta[idfl - 1][jcomp_], 
-			nerr );
+    d = (float *) malloc(sizeof(float) * s->h->npts);
+    if(!d) {
+      goto ERROR;
+    }
+    if(jcomp == 1) {
+      s->y = d;
+    } else {
+      s->x = d;
+    }
 
-		/* -- If error occurred, 
-		 * release other blocks before returning. 
-		 */
-		if( *nerr != 0 ){
-			relamb( cmmem.sacmem, Ndxhdr[idfl], &nrerr );
-			for( jrel = 1; jrel <= (jcomp - 1); jrel++ ){
-				jrel_ = jrel - 1;
-				relamb( cmmem.sacmem, 
-					cmdfm.ndxdta[idfl - 1][jrel_], 
-				 &nrerr );
-				cmdfm.ndxdta[idfl - 1][jrel_] = 0;
-			}
-			goto L_8888;
-		}
 	}
-
-	/* - Set return arguments if no error occurred. */
-	*ndxh = Ndxhdr[idfl];
-	*ndx1 = cmdfm.ndxdta[idfl - 1][0];
-	*ndx2 = cmdfm.ndxdta[idfl - 1][1];
 
 	/* - Initialize header and data components to default values. */
 	newhdr();
-	*npts = nlen;
-	fill( cmmem.sacmem[*ndx1], *npts, 0. );
-	*leven = ncmp == 1;
-	if( !*leven )
-		fill( cmmem.sacmem[*ndx2], *npts, 0. );
+	fill( s->y, s->h->npts, 0. );
+	s->h->leven = ncmp == 1;
+	if( ! s->h->leven ) {
+		fill( s->x, s->h->npts, 0. );
+  }
 
-	/* - Give file to data manager. */
-	putfil( idfl, nerr );
-
-L_8888:
 	return;
+ ERROR:
+  return;
 }
 

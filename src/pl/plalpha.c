@@ -8,7 +8,7 @@
 #include "amf.h"
 #include "gam.h"
 
-
+#include "co.h"
 #include "dfm.h"
 #include "bot.h"
 #include "dff.h"
@@ -20,10 +20,10 @@ int lprint ;
 {
 #define KALPHA(I_,J_)	(kalpha+(I_)*(kalpha_s)+(J_))
 	int lany, lframs, lxgens;
-	int idx, ildp, npoints, nc, nlcx, nlcy, nlen;
+	int idx, ildp, npoints, nc;
 	float xloc, xpw[2], yloc, ypw[2];
-	void zgetgd();
 
+  sac *s;
 	float *const Xpw = &xpw[0] - 1;
 	float *const Ypw = &ypw[0] - 1;
 
@@ -96,14 +96,15 @@ int lprint ;
 
 
 	/* -- Get file from memory manager. */
-	getfil( 1, TRUE, &nlen, &nlcy, &nlcx, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+  if(!(s = sacget(0, TRUE, nerr))) {
+    goto L_8888;
+  }
+	//getfil( 1, TRUE, &nlen, &nlcy, &nlcx, nerr );
 
 	/* -- Set up x axis data generation parameters if evenly spaced. */
-	if( *leven ){
-		cmgem.xgen.delta = *delta;
-		cmgem.xgen.first = *begin;
+	if( s->h->leven ){
+		cmgem.xgen.delta = s->h->delta;
+		cmgem.xgen.first = s->h->b;
 		cmgem.xgen.on = TRUE;
 	}
 	else{
@@ -127,7 +128,7 @@ int lprint ;
 
 	/* -- Plot the data.  Do not allow PL2D to perform framing. */
 	cmgem.lframe = FALSE;
-	pl2d( cmmem.sacmem[nlcx], cmmem.sacmem[nlcy], nlen, 1, 1, nerr );
+	pl2d( s->x, s->y, s->h->npts, 1, 1, nerr );
 	if( *nerr != 0 )
 		goto L_8888;
 
@@ -141,7 +142,7 @@ int lprint ;
 
 
 	/* -- Plot the alpha strings. */
-	npoints = nlen;
+	npoints = s->h->npts;
 	if( npoints > malpha )
 		npoints = malpha;
 	for( idx = 0; idx < npoints; idx++ ){
@@ -150,9 +151,9 @@ int lprint ;
 			 cmgem.xmpip2;
 		}
 		else{
-			xloc = cmgem.xmpip1*(*(cmmem.sacmem[nlcx] + idx)) + cmgem.xmpip2;
+			xloc = cmgem.xmpip1*(s->x[idx]) + cmgem.xmpip2;
 		}
-		yloc = cmgem.ympip1*(*(cmmem.sacmem[nlcy] + idx)) + cmgem.ympip2;
+		yloc = cmgem.ympip1*(s->y[idx]) + cmgem.ympip2;
 		move( xloc, yloc );
 		locdp( xloc, yloc, xpw, ypw, &ildp );
 

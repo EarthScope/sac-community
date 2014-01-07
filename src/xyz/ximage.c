@@ -30,7 +30,7 @@ int *nerr;
 	int lany, lframesave, lwait, lxlimits, lylimits,
 	     lprint = FALSE , ltry = FALSE ;
 	int ixstart, ixstop, iystart, iystop, jfile, ncret, 
-	 ndxz, nfiles, nlen, notused, nxsize, nysize;
+	 nfiles, notused, nxsize, nysize;
         int jxstart, jxstop, jystart, jystop;
 	float vportratio, vspaceratio, xmaximum, xminimum, xstart, xstop, 
 	 ymaximum, yminimum, ystart, ystop;
@@ -38,7 +38,7 @@ int *nerr;
         float *wdata;
         int wdata_alloc;
         int ndata, nxdata, nydata;
-
+  sac *s;
 	static char kwait[9] = "Waiting$";
         static char imagetype[6] = "color";
         static int lbinary = FALSE;
@@ -230,9 +230,10 @@ int *nerr;
 	getnfiles( &nfiles );
 	for( jfile = 1; jfile <= nfiles; jfile++ ){
 	    /* -- Get file from memory manager. */
-	    getfil( jfile, TRUE, &nlen, &ndxz, &notused, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
+    if(!(s = sacget(jfile-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+    //getfil( jfile, TRUE, &nlen, &ndxz, &notused, nerr );
 
 	    /* -- Get needed header information. */
 	    getnhv( "NXSIZE", &nxsize, nerr , 6 );
@@ -342,13 +343,13 @@ int *nerr;
                 goto L_8888;
               }
               wdata_alloc = TRUE;
-              window_data( cmmem.sacmem[ndxz], nxsize, nysize, 
+              window_data( s->y, nxsize, nysize, 
                            wdata, 
                            jxstart, jxstop, 
                            jystart, jystop );
             }
             else{
-              wdata = cmmem.sacmem[ndxz];
+              wdata = s->y;
               wdata_alloc = FALSE;
             }
 

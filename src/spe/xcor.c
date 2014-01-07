@@ -11,6 +11,9 @@
 #include "cpf.h"
 #include "dbh.h"
 
+extern sac *spe;
+extern float *specor;
+extern float *speaux;
 void /*FUNCTION*/ xcor(nerr)
 int *nerr;
 {
@@ -20,7 +23,7 @@ int *nerr;
 
   float ridge_fac = .00001;
   double tmp;
-      
+
 	/*=====================================================================
 	 * PURPOSE: To parse and execute the action command COR.
 	 *          This command computes the auto-correlation function.
@@ -118,7 +121,7 @@ int *nerr;
 	if( cmspe.lprewh ){
 	    cmspe.nprewh = min( cmspe.nprerq, MPREWH );
 	    temp[ 0 ] = '\0' ;
-	    prewit( cmmem.sacmem[cmspe.ndxdat], cmspe.nlndat, &cmspe.nprewh, 
+	    prewit( spe->y, spe->h->npts, spe->h->delta, &cmspe.nprewh, 
 	     cmspe.cprewh, NULL, temp );
 
 	    if( temp[ 0 ] )
@@ -152,10 +155,10 @@ int *nerr;
 	/* - Perform correlation function. */
 
 	samint = 1./cmspe.samfrq;
-	autcor( cmmem.sacmem[cmspe.ndxdat]+cmspe.nprewh, samint, nlnuse, 
+	autcor( spe->y+cmspe.nprewh, samint, nlnuse, 
 	 cmspe.numwin, cmspe.nwinln, (char*)kmspe.kwintp[cmspe.iwncor - 1]
-	 , kmspe.kscale, cmmem.sacmem[cmspe.ndxcor], &cmspe.nlnfft, &cmspe.nlncor, 
-	 kmspe.kermsg,131, cmmem.sacmem[cmspe.ndxaux] , ridge_fac);
+	 , kmspe.kscale, specor, &cmspe.nlnfft, &cmspe.nlncor, 
+	 kmspe.kermsg,131, speaux , ridge_fac);
 
 	/* - Check for error in autocorrelation. */
 

@@ -27,13 +27,13 @@ void xplotxy(int *nerr)
 	char kfile[MCPFN+1], ktemp[MCMSG+1];
 	int lany, lchange, lxlims, lylimj;
 	int idflnumber[MDFL], jdfl, jdflnumber,
-	 nc, ncfile, ndflnumber, nlcx, nlcy, notused, num, numx, numy;
+    nc, ncfile, ndflnumber, num;
 	float atrwid, slen, slenm, slenvs, vportratio, xlinl1, 
 	 xlinl2, xrange, xsymlc, yatrlc, yimnj, yimxj, yrange;
 
 	int *const Idflnumber = &idflnumber[0] - 1;
     char *tmp;
-
+    sac *sx, *sy, *s;
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command PLOTXY.
 	 *           This command makes a multi-trace, single window plot.
@@ -101,7 +101,7 @@ L_1000:
 
 			/* -- integer:  the index number of data file in data file list. */
 			}
-		else if( lcirc( 1, cmdfm.ndfl, &jdfl ) ){
+		else if( lcirc( 1, saclen(), &jdfl ) ){
 			jdflnumber = jdflnumber + 1;
 			Idflnumber[jdflnumber] = jdfl;
 			lchange = TRUE;
@@ -109,7 +109,8 @@ L_1000:
 			/* -- "filename":  the name of a data file in the data file list. */
 			}
 		else if( lcchar( MCPFN, kfile,MCPFN+1, &ncfile ) ){
-            jdfl = 1 + string_list_find(datafiles, kfile, MCPFN+1);
+      char *kfile2 = fstrdup(kfile, MCPFN+1);
+      jdfl = 1 + sac_find_filename(kfile2);
 			if( jdfl > 0 ){
 				jdflnumber = jdflnumber + 1;
 				Idflnumber[jdflnumber] = jdfl;
@@ -179,19 +180,22 @@ L_1000:
 
 	getxlm( &lxlims, &cmgem.ximn, &cmgem.ximx );
 	if( !lxlims ){
-		getfil( Idflnumber[1], FALSE, &notused, &notused, &notused, 
-		 nerr );
-		if( *nerr != 0 )
-			goto L_8888;
-		xrange = *depmax - *depmin;
+    if(!(s = sacget(Idflnumber[1]-1, TRUE, nerr))) {
+      *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+      goto L_8888;
+    }
+		//getfil( Idflnumber[1], FALSE, &notused, &notused, &notused, 
+    //nerr );
+
+		xrange = s->h->depmax - s->h->depmin;
 		cmgem.lxlim = TRUE;
             if(cmgem.ixint == AXIS_LINEAR ) {
-		cmgem.ximn = *depmin - cmgem.xfudg*xrange;
-		cmgem.ximx = *depmax + cmgem.xfudg*xrange;
+		cmgem.ximn = s->h->depmin - cmgem.xfudg*xrange;
+		cmgem.ximx = s->h->depmax + cmgem.xfudg*xrange;
             } else if(cmgem.ixint == AXIS_LOG ) {
                 xrange     = fmax(xrange, VSMALL);
-                cmgem.ximn = fmax(*depmin, VSMALL);
-                cmgem.ximx = fmax(*depmax, VSMALL);
+                cmgem.ximn = fmax(s->h->depmin, VSMALL);
+                cmgem.ximx = fmax(s->h->depmax, VSMALL);
                 xrange = log10(xrange);
                 cmgem.ximn = pow(10, log10(cmgem.ximn) - cmgem.xfudg*xrange);
                 cmgem.ximx = pow(10, log10(cmgem.ximx) + cmgem.xfudg*xrange);
@@ -208,9 +212,11 @@ L_1000:
 	cmgem.yimx = -VLARGE;
 	for( jdflnumber = 2; jdflnumber <= ndflnumber; jdflnumber++ ){
 		jdfl = Idflnumber[jdflnumber];
-		getfil( jdfl, FALSE, &notused, &notused, &notused, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+      goto L_8888;
+      //getfil( jdfl, FALSE, &notused, &notused, &notused, nerr );
+    }
 		getylm( &lylimj, &yimnj, &yimxj );
 		cmgem.yimn = fmin( cmgem.yimn, yimnj );
 		cmgem.yimx = fmax( cmgem.yimx, yimxj );
@@ -261,7 +267,7 @@ L_1000:
 	/* - Calculate mapping transformation for these fixed limits.
 	 *   (In this case, all passed variables but NERR are unused.) */
 
-	plmap( cmmem.sacmem[1], cmmem.sacmem[1], 1, 1, 1, nerr );
+	plmap( NULL, NULL, 1, 1, 1, nerr );
 	if( *nerr != 0 )
 		goto L_8888;
 
@@ -276,11 +282,13 @@ L_1000:
 		slenm = 0.;
 		for( jdflnumber = 1; jdflnumber <= ndflnumber; jdflnumber++ ){
 			jdfl = Idflnumber[jdflnumber];
+      if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+*nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+goto L_8888;
+}
 			if( cmgam.ifidtp == 4 ){
-				getfil( jdfl, FALSE, &notused, &notused, &notused, 
-				 nerr );
-				if( *nerr != 0 )
-					goto L_8888;
+				//getfil( jdfl, FALSE, &notused, &notused, &notused, 
+				// nerr );
 				formhv( (char*)kmgam.kfidnm[0],9, cmgam.ifidfm, ktemp
 				 ,MCMSG+1, nerr );
 				if( *nerr != 0 )
@@ -289,7 +297,7 @@ L_1000:
 				getstringsize( ktemp, nc, &slen );
 				}
 			else{
-        tmp = string_list_get(datafiles, jdfl-1);
+        tmp = s->m->filename;
         getstringsize( tmp, strlen(tmp), &slen );
 				}
 			slenm = fmax( slenm, slen );
@@ -334,17 +342,22 @@ L_1000:
 		xsymlc = cmgam.xfidlc - 0.5*cmgem.chwid - 0.5*atrwid;
 
 	/* - Loop to plot each requested file vs designated x file. */
+  if(!(sx = sacget(Idflnumber[1]-1, TRUE, nerr))) {
+    *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+    goto L_8888;
+  }
+	//getfil( Idflnumber[1], TRUE, &numx, &nlcx, &notused, nerr );
 
-	getfil( Idflnumber[1], TRUE, &numx, &nlcx, &notused, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
 	cmgem.xgen.on = FALSE;
 	for( jdflnumber = 2; jdflnumber <= ndflnumber; jdflnumber++ ){
 		jdfl = Idflnumber[jdflnumber];
-		getfil( jdfl, TRUE, &numy, &nlcy, &notused, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
-		num = min( numx, numy );
+    if(!(sy = sacget(jdfl-1, TRUE, nerr))) {
+      *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+      goto L_8888;
+    }
+		//getfil( jdfl, TRUE, &numy, &nlcy, &notused, nerr );
+
+		num = min( sx->h->npts, sy->h->npts );
 		if( cmgam.lfidrq ){
                   if( cmgem.lcol ) {
                     setcolor( cmgem.icol );
@@ -361,7 +374,7 @@ L_1000:
 				text( ktemp,MCMSG+1, nc );
 				}
 			else{
-        tmp = string_list_get(datafiles, jdfl-1);
+        tmp = sy->m->filename;
         text( tmp, strlen(tmp), nc );
       }
 			yatrlc = cmgam.yfidlc + 0.5*cmgem.chht;
@@ -384,7 +397,7 @@ L_1000:
 			cmgam.yfidlc = cmgam.yfidlc - cmgem.chht;
 			}
 
-		pldta( cmmem.sacmem[nlcx], cmmem.sacmem[nlcy], num, 1, 1, nerr );
+		pldta( sx->y, sy->y, num, 1, 1, nerr );
 		if( *nerr != 0 )
 			goto L_8888;
 		}
@@ -395,10 +408,11 @@ L_1000:
 	if( cmgam.lfidrq ){
 		move( cmgam.xfidlc, cmgam.yfidlc );
 		jdfl = Idflnumber[1];
+    if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+      goto L_8888;
+    }
+    //getfil( jdfl, FALSE, &notused, &notused, &notused, nerr );
 		if( cmgam.ifidtp == 4 ){
-			getfil( jdfl, FALSE, &notused, &notused, &notused, nerr );
-			if( *nerr != 0 )
-				goto L_8888;
 			formhv( (char*)kmgam.kfidnm[0],9, cmgam.ifidfm, ktemp,MCMSG+1, 
 			 nerr );
 			if( *nerr != 0 )
@@ -407,7 +421,7 @@ L_1000:
 			text( ktemp,MCMSG+1, nc );
 			}
 		else{
-      tmp = string_list_get(datafiles, jdfl-1);
+      tmp = s->m->filename;
       text( tmp, strlen(tmp) , nc );
     }
 		getstringsize( "vs. ", 4, &slenvs );

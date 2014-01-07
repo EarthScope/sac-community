@@ -34,11 +34,11 @@ void dbaseResponse(int nfreq, double delfrq, double* xre, double* xim,
       strcpy(station,getStationName(getTransferDirection()));
    }
    else{
-      if(strncmp(kstnm, "-12345",6) == 0){
+      if(strncmp(s->h->kstnm, "-12345",6) == 0){
 	 strcpy(station,"*");
       }
       else
-	 strcpy(station, kstnm);
+	 strcpy(station, s->h->kstnm);
    }
    deblank(station);
 
@@ -105,7 +105,7 @@ void dbaseResponse(int nfreq, double delfrq, double* xre, double* xim,
    if(! file) {
        char staComp[ 81 ] ;
 
-       sprintf ( staComp , "for %s, %s." , kstnm, kcmpnm ) ;
+       sprintf ( staComp , "for %s, %s." , s->h->kstnm, kcmpnm ) ;
        setmsg ( "WARNING" , 2115 ) ;
        apcmsg ( staComp , strlen ( staComp ) + 1 ) ;
        outmsg () ;

@@ -3,6 +3,7 @@
 #include <math.h>
 #include <float.h>
 
+#include "amf.h"
 #include "icm.h"
 #include "hdr.h"
 #include "co.h"
@@ -11,7 +12,7 @@
 #include "cssListOps/dblPublicDefs.h"
 #include "smDataIO.h"
 #include "cssListOps/cssStrucs.h"
-
+#include "SacHeader.h"
 #define EPS                 1e-6
 
 #define EQUAL(x,y) ( fabs(x - y) < EPS )
@@ -61,20 +62,20 @@ const double* xre, const double* xim )
       
    enum NormalizationStatus{ Normalized, UnNormalized, Unknown } NormStatus;
    enum ScalingStatus{ Scaled, UnScaled, ScaleUnknown } ScaleStatus;
-
+   sac *s;
 
    double DataMultiplier = 1.0;
    DBlist tree;          /* used in search for calib, calper */
    double calib, calper; /* Used to determine whether data are scaled and
 	                    whether response is normalized. */
    double EffectiveCalib;
-
+   s = sacget_current();
    /* If a wfdisc file is loaded, then get the Instrument Information from
       there.  If not, set to a default value
    */
    tree = smGetDefaultTree();	
 
-   if( !GetCalibCalperFromWfdisc(tree, *nwfid, &calib, &calper ) ){
+   if( !GetCalibCalperFromWfdisc(tree, s->h->nwfid, &calib, &calper ) ){
        calib  = CALIB_UNDEF;
        calper = CALPER_UNDEF;
    }
@@ -130,7 +131,7 @@ const double* xre, const double* xim )
    if( EQUAL(calib, CALIB_UNDEF) ) {
        ScaleStatus = ScaleUnknown;
    } else {
-       if( EQUAL(calib, *scale ) ){
+       if( EQUAL(calib, s->h->scale ) ){
            ScaleStatus = UnScaled;
        }
        else{
@@ -179,7 +180,7 @@ int nfreq, *nerr;
 	float a[21];
         float nmScale = 1 ;  /* for EVALRESP: scales meters to nanometers. */
 	double delfrq, denr, fac, freq;
-
+  sac *s;
 
 	double *const F = &f[0] - 1;
 	
@@ -206,7 +207,7 @@ int nfreq, *nerr;
 	 *==================================================================
 	 * DOCUMENTED/REVIEWED:  870317
 	 *================================================================ */
-
+  s = sacget_current();
 	/* PROCEDURE: */
 	delfrq = 1.0e0/((double)( nfft )*(double)( delta ));
 
@@ -214,7 +215,7 @@ int nfreq, *nerr;
 	/* - Prewhiten the data if requested. */
 	if( *iprew > 0 ){
 	    errmsg[ 0 ] = '\0' ;
-	    prewit( dat, npts, iprew, a, NULL , errmsg );
+	    prewit( dat, npts, (float)delta, iprew, a, NULL , errmsg );
 	    if( errmsg[ 0 ] )
 		fprintf( stdout, "%s \n", errmsg );
 	}
@@ -227,7 +228,7 @@ int nfreq, *nerr;
 	if( *nerr != 0 )
 	    goto L_8888;
 
-	printf( " Station (%s), Channel (%s)\n", kstnm, kcmpnm );
+	printf( " Station (%s), Channel (%s)\n", s->h->kstnm, s->h->kcmpnm );
     
     /* Attempt to determine whether data have been scaled or not and if
     transfer function is normalized or not. Based on that information, 

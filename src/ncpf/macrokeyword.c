@@ -33,7 +33,7 @@ int *nerr;
 	int lfirst;
 	int ic1, ic2, ick1, ick2,
 	 iktype, itype, jkeys, jline, nc, 
-	 nkey, nkeys, nline, nval, numsave;
+	 nkey, nkeys, nline, numsave;
   char *s1, *p;
         Token *t;
         Token *list, *last;
@@ -135,7 +135,6 @@ L_2000:
 	if( strcmp(ktoken,"$DEFAULT") == 0 ){
 		poptok( kline, nline, &jline, &ic1, &ic2, &itype );
 		fstrncpy( kdef, MCMSG, kline+ic1 - 1,min(ic2,MCMSG)-ic1+1);
-		nval = nline - jline + 1;
 		fstrncpy( kval, MCMSG, kline+jline - 1,min(nline,MCMSG)-jline+1);
 		jkeys = 0;
 L_3000:

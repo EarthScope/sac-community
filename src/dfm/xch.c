@@ -21,6 +21,8 @@
 #include "ucf.h"
 #include "dff.h"
 #include "co.h"
+#include "amf.h"
+#include "errors.h"
 
 /** 
  * @param MGDTTM 
@@ -58,8 +60,8 @@ xch(int *nerr) {
 	char khdrc[SAC_HEADER_STRINGS][SAC_HEADER_STRING_LENGTH], ktemp[19], ktok[9];
 	int lallt, lfound, lhdrc[SAC_HEADER_LOGICALS], lnumbr, log;
 	int icat[SAC_HEADER_WORDS], icatx, igdttm, ihdrc[SAC_HEADER_ENUMS], item[SAC_HEADER_WORDS];
-	int itemx, ival, j, j1, jdfl, junk1;
-	int junk2, junk3, nc, nckhdr, ndaerr, ngdttm[MGDTTM][6], nhdrc[SAC_HEADER_INTEGERS];
+	int itemx, ival, j, j1, jdfl;
+	int nc, nckhdr, ndaerr, ngdttm[MGDTTM][6], nhdrc[SAC_HEADER_INTEGERS];
 	int nia, nitem;
 	float diff, fhdrc[SAC_HEADER_FLOATS];
 	static int icatg = -1;
@@ -68,7 +70,9 @@ xch(int *nerr) {
   int	 doFile[DATA_FILE_LIST_MAXIMUM] ;	
 	int	 idx ;		
   double fnumbr;
-
+  sac *s;
+  float *fp;
+  int *ip;
 	float *const Fhdrc = &fhdrc[0] - 1;
 	int *const Icat = &icat[0] - 1;
 	int *const Ihdrc = &ihdrc[0] - 1;
@@ -96,7 +100,7 @@ xch(int *nerr) {
     
     /* set specified values of doFile to TRUE */
     while ( lcint ( &lnumbr ) ) {
-      if ( lnumbr <= cmdfm.ndfl && lnumbr >= 1 ) 
+      if ( lnumbr <= saclen() && lnumbr >= 1 ) 
         doFile[ lnumbr - 1 ] = TRUE ;
       else { 
         warning(1003, "%d", lnumbr);
@@ -268,86 +272,87 @@ xch(int *nerr) {
 
 	/* - For each file in data file list: */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 	    if ( doFile [ jdfl - 1 ] ) {	/* file specification. maf 960812 */
 
-		/* -- Get file from memory manager. */
-		getfil( jdfl, FALSE, &junk1, &junk2, &junk3, nerr );
-		if( *nerr != 0 )
-		    goto L_8888;
+        if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+          goto L_8888;
+        }
+        //getfil( jdfl, FALSE, &junk1, &junk2, &junk3, nerr );
 
 		/* -- Update appropriate header fields. */
 		for( j = 1; j <= nitem; j++ ){
-		    if( Icat[j] == cmlhf.icatf ){
-			Fhdr[Item[j]] = Fhdrc[Item[j]];
-			if ( Item[ j ] >= 6 && Item[ j ] <= 20 )
-			    iztypeMessage ( Item[ j ] , *iztype ) ;
-		    }
-		    else if( Icat[j] == icatg ){
-			igdttm = (int)( Fhdrc[Item[j]] );
-			ddttm( &ngdttm[igdttm - 1][0], nzdttm, &diff );
-			Fhdr[Item[j]] = diff;
-		    }
-		    else if( Icat[j] == cmlhf.icatn ){
-			Nhdr[Item[j]] = Nhdrc[Item[j]];
-		    }
-		    else if( Icat[j] == cmlhf.icati ){
-			Ihdr[Item[j]] = Ihdrc[Item[j]];
-		    }
-		    else if( Icat[j] == cmlhf.icatl ){
-			Lhdr[Item[j]] = Lhdrc[Item[j]];
-		    }
-		    else if( Icat[j] == cmlhf.icatk ){
-          j1 = Item[j];
-          strcpy( kmhdr.khdr[j1-1], khdrc[j1-1] );
-		    }
+      switch(Icat[j]) {
+      case CAT_FLOAT:
+        fp = fhdr(s, Item[j]);
+        VALUE(fp) = Fhdrc[Item[j]];
+        if ( Item[ j ] >= 6 && Item[ j ] <= 20 )
+			    iztypeMessage ( Item[ j ] , s->h->iztype ) ;
+        break;
+      case -1: // Set Time GMT
+        igdttm = (int)( Fhdrc[Item[j]] );
+        ddttm( &ngdttm[igdttm - 1][0], &s->h->nzyear, &diff );
+        fp = fhdr(s,Item[j]);
+        *fp = diff;
+        break;
+      case CAT_NUMBER:
+        ip = nhdr(s, Item[j]);
+        VALUE(ip) = Nhdrc[Item[j]];
+        break;
+      case CAT_ENUM:
+        ip = ihdr(s, Item[j]);
+        VALUE(ip) = Ihdrc[Item[j]];
+        break;
+      case CAT_LOGICAL:
+        ip = lhdr(s, Item[j]);
+        VALUE(ip) = Lhdrc[Item[j]];
+        break;
+      case CAT_STRING:
+        strcpy(khdr(s,Item[j]), khdrc[Item[j]-1]);
+        break;
+      }
 		}
 
 		/* -- Change all time fields if requested. */
 		if( lallt ){
-		    *begin = *begin + vallt;
-		    *ennd = *ennd + vallt;
-		    if( *nzyear != cmhdr.nundef )
-			idttm( nzdttm, -vallt, nzdttm );
-		    if( *arrivl != cmhdr.fundef )
-			*arrivl = *arrivl + vallt;
-		    if( *fini != cmhdr.fundef )
-			*fini = *fini + vallt;
-		    if( *origin != cmhdr.fundef )
-			*origin = *origin + vallt;
-		    if( *t0 != cmhdr.fundef )
-			*t0 = *t0 + vallt;
-		    if( *t1 != cmhdr.fundef )
-			*t1 = *t1 + vallt;
-		    if( *t2 != cmhdr.fundef )
-			*t2 = *t2 + vallt;
-		    if( *t3 != cmhdr.fundef )
-			*t3 = *t3 + vallt;
-		    if( *t4 != cmhdr.fundef )
-			*t4 = *t4 + vallt;
-		    if( *t5 != cmhdr.fundef )
-			*t5 = *t5 + vallt;
-		    if( *t6 != cmhdr.fundef )
-			*t6 = *t6 + vallt;
-		    if( *t7 != cmhdr.fundef )
-			*t7 = *t7 + vallt;
-		    if( *t8 != cmhdr.fundef )
-			*t8 = *t8 + vallt;
-		    if( *t9 != cmhdr.fundef )
-			*t9 = *t9 + vallt;
+		    s->h->b = s->h->b + vallt;
+		    s->h->e = s->h->e + vallt;
+		    if( s->h->nzyear != cmhdr.nundef )
+			idttm( &s->h->nzyear, -vallt, &s->h->nzyear );
+		    if( s->h->a != cmhdr.fundef )
+			s->h->a = s->h->a + vallt;
+		    if( s->h->f != cmhdr.fundef )
+			s->h->f = s->h->f + vallt;
+		    if( s->h->o != cmhdr.fundef )
+			s->h->o = s->h->o + vallt;
+		    if( s->h->t0 != cmhdr.fundef )
+			s->h->t0 = s->h->t0 + vallt;
+		    if( s->h->t1 != cmhdr.fundef )
+			s->h->t1 = s->h->t1 + vallt;
+		    if( s->h->t2 != cmhdr.fundef )
+			s->h->t2 = s->h->t2 + vallt;
+		    if( s->h->t3 != cmhdr.fundef )
+			s->h->t3 = s->h->t3 + vallt;
+		    if( s->h->t4 != cmhdr.fundef )
+			s->h->t4 = s->h->t4 + vallt;
+		    if( s->h->t5 != cmhdr.fundef )
+			s->h->t5 = s->h->t5 + vallt;
+		    if( s->h->t6 != cmhdr.fundef )
+			s->h->t6 = s->h->t6 + vallt;
+		    if( s->h->t7 != cmhdr.fundef )
+			s->h->t7 = s->h->t7 + vallt;
+		    if( s->h->t8 != cmhdr.fundef )
+			s->h->t8 = s->h->t8 + vallt;
+		    if( s->h->t9 != cmhdr.fundef )
+			s->h->t9 = s->h->t9 + vallt;
 		}
 
 		/* -- Recompute ending time if appropriate. */
-		if( *leven )
-		    *ennd = *begin + (float)( *npts - 1 )**delta;
+		if( s->h->leven )
+      s->h->e = CALC_E(s);
 
 		/* -- Recompute distance, azimuth, etc. if proper header fields are present. */
-    update_distaz();
-
-		/* -- Give file back to memory manager. */
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-		    goto L_8888;
+    update_distaz(s);
 
 	    } /* end if ( doFile [ jdfl - 1 ] ). maf 960812 */
 	} /* end for loop between files */

@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "amf.h"
 #include "dff.h"
 #include "msg.h"
 #include "bot.h"
@@ -54,14 +55,13 @@ gethv(char *kname,
       int  *nerr) {
 
 	int lsave;
-	int ic1, ic2, icurdf, int_, isave, jdfl;
-	int nc, ncerr, ntused;
-
+	int ic1, ic2, icurdf, int_, isave;
+	int nc, ncerr;
 	static int iolddf = 1;
   char *strtemp;
-  char *tmp;
 	*nerr = 0;
-
+  sac *s;
+  
 	/* - Determine the file number. */
 	nc = indexb( kname,kname_s );
 	ic1 = 1;
@@ -87,7 +87,7 @@ L_2000:
                         free(strtemp);
 
 			if( ncerr == 0 ){
-				if( int_ >= 1 && int_ <= cmdfm.ndfl ){
+				if( int_ >= 1 && int_ <= saclen() ){
 					icurdf = int_;
 				}
 				else{
@@ -99,23 +99,18 @@ L_2000:
 				}
 			}
 			else{
-				jdfl = 1;
-L_3000:
-        if((tmp = string_list_get(datafiles, jdfl-1))) {
-          if(memcmp(tmp, kname+ic1-1, min(ic2-ic1,strlen(tmp))) == 0) {
-            icurdf = jdfl;
-          } else {
-            jdfl = jdfl + 1;
-            goto L_3000;
+        {
+          char *file = fstrdup(kname+ic1+1, ic2-ic1+1);
+          icurdf = sac_find_filename(file);
+          FREE(file);
+          if(icurdf < 0) {
+            *nerr = 1363;
+            setmsg( "ERROR", *nerr );
+            apcmsg2(&kname[ic1 - 1],ic2-ic1);
+            fstrncpy( kvalue, kvalue_s-1, "ERROR", 5);
+            goto L_8888;
           }
         }
-				else{
-					*nerr = 1363;
-					setmsg( "ERROR", *nerr );
-          apcmsg2(&kname[ic1 - 1],ic2-ic1);
-					fstrncpy( kvalue, kvalue_s-1, "ERROR", 5);
-					goto L_8888;
-				}
 			}
 		}
 	}
@@ -132,24 +127,15 @@ L_3000:
 
 	/* - Get the header from the memory manager if necessary. */
 
-	if( icurdf != cmdfm.idflc ){
-		if( cmdfm.idflc > 0 ){
-			lsave = TRUE;
-			isave = cmdfm.idflc;
-			putfil( cmdfm.idflc, nerr );
-			if( *nerr != 0 )
-				goto L_8888;
-		}
-		else{
-			lsave = FALSE;
-		}
-		getfil( icurdf, FALSE, &ntused, &ntused, &ntused, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
-	}
-	else{
-		lsave = FALSE;
-	}
+  lsave = TRUE;
+  s = sacget_current();
+  isave = 1 + sac_find_filename(s->m->filename);
+
+  if(!(s = sacget(icurdf - 1, TRUE, nerr))) {
+    *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+    goto L_8888;
+  }
+		//getfil( icurdf, FALSE, &ntused, &ntused, &ntused, nerr );
 
 	/* - Format the requested header field. */
 
@@ -173,9 +159,10 @@ L_3000:
 	/* - Get the saved header from the memory manager if necessary. */
 
 	if( lsave ){
-		getfil( isave, FALSE, &ntused, &ntused, &ntused, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+    if(!(s = sacget(isave-1, FALSE, nerr))) {
+      goto L_8888;
+    }
+		//getfil( isave, FALSE, &ntused, &ntused, &ntused, nerr );
 	}
 
 L_8888:

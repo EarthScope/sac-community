@@ -17,15 +17,17 @@
 #include "co.h"
 #include "dff.h"
 
+extern float *spespe;
+extern float *speaux;
 void 
 xpspe(	int *nerr)
 {
         int i, n;
         char **last;
 	int lany, lsavpk , lframs ;
-	int ifidls, j1, ndxplt, nlnplt;
+	int ifidls, j1, nlnplt;
 	float frwid, x1, x2, xjunk, y1, yd;
-
+  float *ndxplt;
         float *Sacmem1, *Sacmem2;
 
 	/*=====================================================================
@@ -177,22 +179,22 @@ xpspe(	int *nerr)
 	    cmgem.iyint = AXIS_LINEAR;
 	    fstrncpy( kmgem.kylab, 144, "Power", 5 );
 	    cmgem.ylabel.len = 5;
-	    ndxplt = cmspe.ndxspe;
+	    ndxplt = spespe;
 	}
 	else if( cmspe.ipsptp == 2 ){
 	    cmgem.iyint = AXIS_LOG;
 	    fstrncpy( kmgem.kylab, 144, "Power (loglog scale)", 20 );
 	    cmgem.ylabel.len = 17;
-	    ndxplt = cmspe.ndxspe;
+	    ndxplt = spespe;
 	}
 	else if( cmspe.ipsptp == 3 ){
 	    cmgem.iyint = AXIS_LINEAR;
 	    fstrncpy( kmgem.kylab, 144, "Amplitude", 9 );
 	    cmgem.ylabel.len = 9;
-	    ndxplt = cmspe.ndxaux;
-            Sacmem1 = cmmem.sacmem[ndxplt];
-            Sacmem2 = cmmem.sacmem[cmspe.ndxspe];
-	    for( j1 = ndxplt; j1 <= (ndxplt + nlnplt - 1); j1++ )
+	    ndxplt = speaux;
+      Sacmem1 = speaux;
+      Sacmem2 = spespe;
+              for( j1 = 0; j1 <= (nlnplt - 1); j1++ )
                 *(Sacmem1++) = sqrt(*(Sacmem2++));
 	} else {
         fprintf(stderr, "Plot Spectral Estimate: Unknown plot type\n");
@@ -203,7 +205,7 @@ xpspe(	int *nerr)
 
 	if ( lframs )
 	    beginframe( FALSE , nerr );
-	pl2d( (float*)&xjunk, cmmem.sacmem[ndxplt], nlnplt, 1, 1, nerr );
+	pl2d( (float*)&xjunk, ndxplt, nlnplt, 1, 1, nerr );
 	if( *nerr != 0 )
 	    goto L_7777;
 
@@ -271,34 +273,34 @@ xpspe(	int *nerr)
 	    cmgem.icline = LINE_STYLE_DOTTED;
 
 	    /* -- Lower confidence band. */
-	    ndxplt = cmspe.ndxaux;
-            Sacmem1 = cmmem.sacmem[ndxplt];
-            Sacmem2 = cmmem.sacmem[cmspe.ndxspe];
+	    ndxplt = speaux;
+      Sacmem1 = speaux;
+      Sacmem2 = spespe;
 	    if( cmspe.ipsptp == 1 || cmspe.ipsptp == 2 ){
-		for( j1 = ndxplt; j1 <= (ndxplt + nlnplt - 1); j1++ )
+		for( j1 = 0; j1 <= (nlnplt - 1); j1++ )
                     *(Sacmem1++) = cmspe.cll**(Sacmem2++);
 	    }
 	    else if( cmspe.ipsptp == 3 ){
-		for( j1 = ndxplt; j1 <= (ndxplt + nlnplt - 1); j1++ )
+		for( j1 = 0; j1 <= (nlnplt - 1); j1++ )
                     *(Sacmem1++) = sqrt(cmspe.cll**(Sacmem2++));
 	    }
-	    pldta( (float*)&xjunk, cmmem.sacmem[ndxplt], nlnplt, 1, 1, nerr );
+	    pldta( (float*)&xjunk, ndxplt, nlnplt, 1, 1, nerr );
 	    if( *nerr != 0 )
 			goto L_7777;
 
 	    /* - Upper confidence band. */
-	    ndxplt = cmspe.ndxaux;
-            Sacmem1 = cmmem.sacmem[ndxplt];
-            Sacmem2 = cmmem.sacmem[cmspe.ndxspe];
+	    ndxplt = speaux;
+      Sacmem1 = speaux;
+      Sacmem2 = spespe;
 	    if( cmspe.ipsptp == 1 || cmspe.ipsptp == 2 ){
-		for( j1 = ndxplt; j1 <= (ndxplt + nlnplt - 1); j1++ )
+		for( j1 = 0; j1 <= (nlnplt - 1); j1++ )
                    *(Sacmem1++) = cmspe.clu**(Sacmem2++);
 	    }
 	    else if( cmspe.ipsptp == 3 ){
-		for( j1 = ndxplt; j1 <= (ndxplt + nlnplt - 1); j1++ )
+		for( j1 = 0; j1 <= (nlnplt - 1); j1++ )
 		    *(Sacmem1++) = sqrt(cmspe.clu**(Sacmem2++));
 	    }
-	    pldta( (float*)&xjunk, cmmem.sacmem[ndxplt], nlnplt, 1, 1, nerr );
+	    pldta( (float*)&xjunk, ndxplt, nlnplt, 1, 1, nerr );
 	    if( *nerr != 0 )
 			goto L_7777;
 	} /* end if( cmspe.lcl && cmspe.lrqcl ) */

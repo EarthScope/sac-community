@@ -13,7 +13,7 @@
 #include "msg.h"
 #include "co.h"
 #include "ucf.h"
-
+#include "SacHeader.h"
 #include "errors.h"
 
 /** 
@@ -78,28 +78,27 @@ wsac3__ (char  *kname,
 }
 
 void 
-update_distaz () {
+update_distaz (sac *s) {
 
   int ndaerr = 0;
-
-  if(*lcalda && 
-     *stla != cmhdr.fundef && *stlo != cmhdr.fundef && 
-     *evla != cmhdr.fundef && *evlo != cmhdr.fundef ) {
-    distaz( *evla, *evlo, (float*)stla, (float*)stlo, 1,
-	    (float*) dist, 
-	    (float*) az, 
-	    (float*) baz, 
-	    (float*) gcarc, 
+  if(s->h->lcalda && 
+     s->h->stla != cmhdr.fundef && s->h->stlo != cmhdr.fundef && 
+     s->h->evla != cmhdr.fundef && s->h->evlo != cmhdr.fundef ) {
+    distaz( s->h->evla, s->h->evlo, (float*)&s->h->stla, (float*)&s->h->stlo, 1,
+	    (float*) &s->h->dist, 
+	    (float*) &s->h->az, 
+	    (float*) &s->h->baz, 
+	    (float*) &s->h->gcarc, 
 	    &ndaerr);
-    if( *evla == *stla && *evlo == *stlo ){
-      *az = 0;
-      *baz = 0;
+    if( s->h->evla == s->h->stla && s->h->evlo == s->h->stlo ){
+      s->h->az = 0;
+      s->h->baz = 0;
     }
     if(ndaerr) {
-      *dist  = cmhdr.fundef;
-      *az    = cmhdr.fundef;
-      *baz   = cmhdr.fundef;
-      *gcarc = cmhdr.fundef;
+      s->h->dist  = cmhdr.fundef;
+      s->h->az    = cmhdr.fundef;
+      s->h->baz   = cmhdr.fundef;
+      s->h->gcarc = cmhdr.fundef;
     }
   }
   return;

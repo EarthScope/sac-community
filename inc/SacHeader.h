@@ -11,6 +11,8 @@
 
 #define REGCONV 100
 
+#pragma pack(push)
+#pragma pack(1)
 /* SAC header structure */
 struct SACheader
 {
@@ -148,7 +150,36 @@ struct SACheader
 	char	kdatrd[9];		/*    date data read         */
 	char	kinst[9];		/*    instrument name        */
 };
+#pragma pack(pop)
+#define CASSERT(predicate, file) _impl_CASSERT_LINE(predicate,__LINE__,file)
 
+#define _impl_PASTE(a,b) a##b
+#define _impl_CASSERT_LINE(predicate, line, file) \
+  typedef char _impl_PASTE(assertion_failed_##file##_,line)[2*!!(predicate)-1];
+
+CASSERT(sizeof(struct SACheader) == 656, SacHeader_h)
+
+typedef struct _sacmeta sacmeta;
+struct _sacmeta {
+  int    swap;
+  char  *filename;
+  int    data_read;
+  int    nstop;
+  int    nstart;
+  int    nfillb;
+  int    nfille;
+  int    ntotal;
+};
+
+typedef struct _sac sac;
+struct _sac {
+  struct SACheader *h;
+  int n;
+  float *y;
+  float *x;
+  sacmeta *m;
+  int     *sddhdr; /* SDD Header - Length MWESHD - 164 */
+};
 
 /* In order to NULL-terminate strings in the SAC header without wiping
    out the contents of the last character, the string arrays stored in 
@@ -290,6 +321,7 @@ static struct SACheader NullSacHeader = {
 #define IPOSTQ 42			/* event type: aftershock    */
 #define ICHEM  43			/* event type: chemical expl */
 #define IOTHER 44			/* event type: other source  */
+#define IXYZ   51
 #define IQB    72			/* Quarry Blast or mine expl. confirmed by quarry */
 #define IQB1   73  /* Quarry or mine blast with designed shot information-ripple fired */
 #define IQB2   74  /* Quarry or mine blast with observed shot information-ripple fired */
@@ -354,6 +386,41 @@ static struct SACheader NullSacHeader = {
 #define IUSER  70                      /* IUSER */
 #define IUNKNOWN 71                    /* IUNKNOWN */
 
+#define CALC_E(s) (s->h->b + s->h->delta * (float)(s->h->npts - 1))
 
+#define FHDR(s) ((float*) (&s->h->delta))
+#define NHDR(s) ((int*) (&s->h->nzyear))
+#define IHDR(s) ((int*) (&s->h->iftype))
+#define LHDR(s) ((int*) (&s->h->leven))
+#define TN(s)   ((float*) (&s->h->t0))
+#define KHDR(s) ((char *) (&s->h->kstnm))
+
+#define VALUE(x) (*(x))
+
+static inline float *fhdr(sac *s, int i) {
+  float *fp = (float *)(&(s->h->delta));
+  return &(fp[i-1]);
+}
+static inline int *ihdr(sac *s, int i) {
+  int *ip =(int *)(&s->h->iftype);
+  return &(ip[i-1]);
+}
+static inline int *nhdr(sac *s, int i) {
+  int *ip =(int *)(&s->h->nzyear);
+  return &(ip[i-1]);
+}
+static inline int *lhdr(sac *s, int i) {
+  int *ip =(int *)(&s->h->leven);
+  return &(ip[i-1]);
+}
+
+enum {
+  CAT_FLOAT = 1,
+  CAT_NUMBER,
+  CAT_ENUM,
+  CAT_LOGICAL,
+  CAT_STRING,
+  CAT_AUX,
+};
 
 #endif /* _SAC_HEADER_H_ */

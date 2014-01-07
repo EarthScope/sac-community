@@ -4,13 +4,14 @@
  * @brief  Write a SAC file
  * 
  */
-
+#include "amf.h"
 #include "dff.h"
 #include "hdr.h"
 #include "bool.h"
 #include "msg.h"
 #include "errors.h"
-
+#include "SacHeader.h"
+extern sac *CURRENT;
 /** 
  * Write an unevenly spaced or spectral SAC file
  * 
@@ -42,7 +43,7 @@ wsac2(char  *kname,
       int    kname_s) {
 
 	float *const Xarray = &xarray[0] - 1;
-
+  sac *s;
 	*nerr = 0;
 
 	/* - Initialize some common blocks if not already done. */
@@ -53,17 +54,20 @@ wsac2(char  *kname,
 	}
 
 	/* - Initialize all header fields to their default values. */
-	newhdr();
-
+	//newhdr();
+  s = sac_new();
+  s->m->filename = fstrdup(kname, kname_s);
+  sacput(s);
+  
     if(*nlen <= 0) {
         *nerr = ERROR_WRITING_FILE;
         return;
     }
 	/* - Set up the header fields passed by the calling program. */
-	*npts = *nlen;
-	*begin = Xarray[1];
-	*ennd = Xarray[*nlen];
-	*leven = FALSE;
+	s->h->npts  = *nlen;
+	s->h->b     = Xarray[1];
+	s->h->e     = Xarray[s->h->npts];
+	s->h->leven = FALSE;
 
 	/* - Write the file to disk. */
 	wsac0( kname, xarray, yarray, nerr, kname_s );

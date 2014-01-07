@@ -14,6 +14,8 @@
 #include "bot.h"
 #include "dff.h"
 
+extern sac *cut_file;
+
 void CSStoSAC ( idfl , header , seis , lname , lcutnow , nerr )
 int idfl , * nerr ;
 struct trace *seis ;
@@ -21,9 +23,8 @@ struct SACheader *header ;
 int lname , lcutnow ;
 {
     /* Declare Variables. */
-    int jcomp ;
     char kfile[ MCPFN+1 ] ;
-
+    sac *s;
     /*=====================================================================
      * PURPOSE:  Called by xreaddb() to get CSS formated data from SeisMgr
      *           into SAC.  
@@ -42,16 +43,10 @@ int lname , lcutnow ;
      *===================================================================== */
 
     *nerr = 0 ;
-
-    /* -- Allocate block for header. */
-    allamb( &cmmem, SAC_HEADER_WORDS , &Ndxhdr[idfl], nerr );
-    if( *nerr != 0 )
-	goto L_8888;
-
-    Ndsndx[idfl] = 1 ;
+    s = sac_new();
 
     /* -- Get header. */
-    DBheaderToSac ( header , TRUE ) ;
+    DBheaderToSac ( header , TRUE, s ) ;
 
     /* Give the file a name internally */
     if ( lname ) {
@@ -71,32 +66,31 @@ int lname , lcutnow ;
 	terminate ( tempChan ) ;
 
 	sprintf ( kfile , "%s.%s.%04d%03d%02d%02d%02d" , tempSta , tempChan ,
-		  *nzyear , *nzjday , *nzhour , *nzmin , *nzsec ) ;
+		  s->h->nzyear , s->h->nzjday , s->h->nzhour , s->h->nzmin , s->h->nzsec ) ;
 
-    string_list_put(datafiles, kfile, strlen(kfile) +1);
-	if ( *nerr )
-	    goto L_8888 ;
+  s->m->filename = fstrdup(kfile, strlen(kfile)+1);
+    } else {
+      if(cut_file && cut_file->m->filename) {
+        s->m->filename = strdup(cut_file->m->filename);
+      }
     }
+
+    sacput(s);
+    idfl = saclen();
 
     /* -- Prepare to get waveform */
     defmem( idfl, lcutnow, nerr );
     if ( *nerr )
 	goto L_8888 ;
 
-    /* Allocate space for waveform */
-    for ( jcomp = 0 ; jcomp < Ncomp[ idfl ] ; jcomp++ ) {
-	allamb( &cmmem, Nlndta[idfl], &cmdfm.ndxdta[idfl - 1][jcomp], nerr );
-	if( *nerr != 0 )
-	    goto L_8888 ;
-    } /* end for ( jcomp ) */
+
+    sac_alloc(s);
 
     /* Get waveform */
-    DBwfToSac ( idfl , seis , nerr ) ;
+    DBwfToSac ( s , seis , nerr ) ;
     if ( *nerr )
 	goto L_8888 ;
 
-    /* Put the new file away. */
-    putfil ( idfl , nerr ) ;
 
 L_8888:
     if ( *nerr ) {

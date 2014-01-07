@@ -8,6 +8,9 @@
 #include "bool.h"
 
 
+float *ttx[MXTT];
+float *tty[MXTT];
+
 #include "msg.h"
 
 #define	MAX_	MAX_PHASES
@@ -28,7 +31,6 @@ int nloops, *nerr;
 
 	int *const Lprnt = &lprnt[0] - 1;
 	float *const Tt = &tt[0] - 1;
-
 	if( _aini ){ /* Do 1 TIME INITIALIZATIONS! */
 	    strcpy( kphlst[0], "all     " );
 	    Lprnt[3] = TRUE;
@@ -99,20 +101,25 @@ int nloops, *nerr;
 		Xttfirst[jdx + cmtt.nttm] = *dstart;
 		Xttdel[jdx + cmtt.nttm] = dinc*ttscale;
 		Nttpt[cmtt.nttm + jdx] = nloops;
-		allamb( &cmmem, nblksz, &Ndxtty[jdx + cmtt.nttm], nerr );
+    tty[jdx+cmtt.nttm] = (float *) malloc(sizeof(float) * nblksz);
+    //		allamb( &cmmem, nblksz, &Ndxtty[jdx + cmtt.nttm], nerr );
 		if ( *nerr != 0 )
 		    goto L_8888;
 		/* next five lines added to set X values. maf 960829 */
-		allamb( &cmmem, nblksz, &Ndxttx[jdx + cmtt.nttm], nerr );
+    ttx[jdx+cmtt.nttm] = (float *) malloc(sizeof(float) * nblksz);
+		//allamb( &cmmem, nblksz, &Ndxttx[jdx + cmtt.nttm], nerr );
 		if( *nerr != 0 ) {
-		    relamb( cmmem.sacmem, Ndxtty[jdx+cmtt.nttm], nerr );
+      FREE(tty[jdx+cmtt.nttm]);
+      //relamb( cmmem.sacmem, Ndxtty[jdx+cmtt.nttm], nerr );
 		    goto L_8888;
 		}
 		for( ndx = 0; ndx <= nloops; ndx++ ){
-		    *( cmmem.sacmem[Ndxtty[jdx + cmtt.nttm]] + ndx ) = -1.0;
+      tty[jdx+cmtt.nttm][ndx] = -1.0;
+      //*( cmmem.sacmem[Ndxtty[jdx + cmtt.nttm]] + ndx ) = -1.0;
 		    /* next line added to set X values. maf 960829 */
 		    /* This line will have to be tested when dinc gets a value other than 1 */
-		    *( cmmem.sacmem[Ndxttx[jdx + cmtt.nttm]] + ndx ) = ndx * Xttdel[jdx + cmtt.nttm] ;
+      ttx[jdx+cmtt.nttm][ndx] = ndx * Xttdel[jdx+cmtt.nttm];
+      //*( cmmem.sacmem[Ndxttx[jdx + cmtt.nttm]] + ndx ) = ndx * Xttdel[jdx + cmtt.nttm] ;
 		}
 		strcpy( kmtt.kttnm[jdx_ + cmtt.nttm], kmtt.kphases[jdx_] );
 	    } /* end for( jdx = 1; jdx <= cmtt.nphases; jdx++ ) */
@@ -130,7 +137,8 @@ int nloops, *nerr;
                 for( jen = 1; jen <= ndx; jen++ ){
                     jen_ = jen - 1;
                     if(memcmp(kphcd[jen_],kmtt.kphases[jph_],MTTLEN) == 0 ) {
-                        *(cmmem.sacmem[Ndxtty[cmtt.nttm + jph]] + iloops - 1) = Tt[jen];
+                      tty[jph+cmtt.nttm][iloops-1] = Tt[jen];
+                      //*(cmmem.sacmem[Ndxtty[cmtt.nttm + jph]] + iloops - 1) = Tt[jen];
                     }
                 }
             }

@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "amf.h"
 #include "dfm.h"
 #include "bool.h"
 #include "sddhdr.h"
@@ -22,6 +23,7 @@
 
 #include "cssListOps/dblPublicDefs.h"
 #include "smDataIO.h"
+#include "errors.h"
 
 
 /** 
@@ -59,7 +61,7 @@ xwcss(int *nerr) {
 	static int lwrdir = FALSE, Verbose = FALSE ;
   char *cattemp;
   char *strtemp2;
-
+  sac *s;
     char *WorkSetName;
     
     lexpnd = FALSE;
@@ -77,7 +79,12 @@ xwcss(int *nerr) {
             cmdfm.lovrrq = TRUE;
             lexpnd = FALSE;
             list = string_list_init();
-            string_list_extend(list, datafiles);
+            for(i = 0; i < saclen(); i++) {
+              if(!(s = sacget(i, TRUE, nerr))) {
+                return;
+              }
+              string_list_put(list, s->m->filename, -1);
+            }
 	    }
 
             /* -- "VERBOSE ON|OFF":  turn Verbose mode on or off. */

@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "amf.h"
 #include "dff.h"
 #include "bool.h"
 #include "bot.h"
@@ -15,6 +16,9 @@
 #include "co.h"
 #include "lhf.h"
 #include "ucf.h"
+#include "SacHeader.h"
+
+extern sac *CURRENT;
 
 /** 
  * Format a header variable into a text string
@@ -54,11 +58,13 @@ formhv(char  *kname,
 
 	char kvalue[41];
 	int lok, lok2 = FALSE, linc ;  
-	int icat, item, nc;
-
+	int icat, item, nc, ip;
+  float fp;
+  char *p;
+  sac *s;
 	*nerr = 0;
-
-        memset(&(kvalue[0]), ' ', 40);
+  s = sacget_current();
+  memset(&(kvalue[0]), ' ', 40);
 	kvalue[ 40 ] = '\0' ;
 
 	/* if cmhdr.linc and .llh are both TRUE, so is linc. maf 961212 */
@@ -70,50 +76,56 @@ formhv(char  *kname,
 	if( lok ){
 	        /* lok was true coming out of hdrfld().  maf 961212 */
 		lok2 = TRUE ;	
-		if( icat == cmlhf.icatf ){
-			lok = Fhdr[item] != cmhdr.fundef ;
+    switch( icat ) {
+    case CAT_FLOAT:
+      fp = VALUE(fhdr(s,item));
+			lok = fp != cmhdr.fundef ;
 			if( lok ||  linc ) {
-                                sprintf(kvalue,"%#16.6e",Fhdr[item]); 
+                                sprintf(kvalue,"%#16.6e", fp); 
 				ljust( kvalue,41 );
 			}
-		}
-		else if( icat == cmlhf.icatn ){
-			lok = Nhdr[item] != cmhdr.nundef ;
+      break;
+    case CAT_NUMBER: 
+      ip = VALUE(nhdr(s,item));
+			lok = ip != cmhdr.nundef ;
 			if( lok ||  linc  ){	
-                                sprintf(kvalue,"%10d", Nhdr[item]);
+                                sprintf(kvalue,"%10d", ip);
 				ljust( kvalue,41 );
 			}
-		}
-		else if( icat == cmlhf.icati ){
-			lok = Ihdr[item] != cmhdr.iundef ;
+      break;
+    case CAT_ENUM:
+      ip = VALUE(ihdr(s,item));
+			lok = ip != cmhdr.iundef ;
 			if( lok )
-				fstrncpy(kvalue, 40, kmlhf.kdiv[Ihdr[item] - 1],
-					 strlen(kmlhf.kdiv[Ihdr[item] - 1]));
+				fstrncpy(kvalue, 40, kmlhf.kdiv[ip - 1],
+					 strlen(kmlhf.kdiv[ip - 1]));
 			else if ( linc )
 				strcpy( kvalue, "UNDEFINED                               " );
-		} 
-		else if( icat == cmlhf.icatl ){
+      break;
+    case CAT_LOGICAL:
+      ip = VALUE(lhdr(s,item));
 			lok = TRUE;
-			if( Lhdr[item] ){
+			if( ip ){
 				strcpy( kvalue, "TRUE                                    " );
 			}
 			else{
 				strcpy( kvalue, "FALSE                                   " );
 			}
-		}
-		else if( icat == cmlhf.icatk ){
-			lok = memcmp(kmhdr.khdr[item - 1],kmhdr.kundef,min(strlen(kmhdr.khdr[item - 1]),
-                                                         strlen(kmhdr.kundef))) != 0 ;
+      break;
+    case CAT_STRING:
+      p = khdr(s,item);
+			lok = memcmp(p,kmhdr.kundef,min(strlen(p),strlen(kmhdr.kundef))) != 0 ;
       if( lok ||  linc  ) {
         memset(kvalue, ' ', sizeof(kvalue));
-        strncpy(kvalue, kmhdr.khdr[item-1], strlen(kmhdr.khdr[item-1]));
-        kvalue[strlen(kmhdr.khdr[item-1])] = 0;
+        strncpy(kvalue, p, strlen(p));
+        kvalue[strlen(p)] = 0;
 			}
-		} /* end if( icat == cmlhf.icatk ) */
-		else if( icat == cmlhf.icata ){
+      break;
+    case CAT_AUX:
 			lok = lgahdr( kname,kname_s, kvalue,41 );
-		}
-	} 
+      break;
+    }
+	}
 
 	if( !lok2 || ( !lok && !linc ) ) {
 		strcpy( kvalue, "Undefined                               " );

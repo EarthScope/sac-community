@@ -23,8 +23,9 @@ void CSStoSAC ( int idfl,
                 int *nerr);
 
 void DBheaderToSac ( struct SACheader *header, 
-                     int lall);
-void DBwfToSac ( int idfl, 
+                     int lall,
+                     sac *s);
+void DBwfToSac ( sac *s,
                  struct trace *seis, 
                  int *nerr);
 int OnOrOff ( char *inString);

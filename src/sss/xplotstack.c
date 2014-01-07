@@ -21,20 +21,20 @@
 #include "co.h"
 #include "dff.h"
 
+extern float *sss_sum;
+
 void /*FUNCTION*/ xplotstack(nerr)
 int *nerr;
 {
 	char kptext[MCMSG+1], kret[9];
 	int lactive, lany, lwait , lframs ;
 	int ioffsetdta, ioffsettw, jdfl, jdfl1, jdfl2, 
-	 jfr, jloc, ncret, ndx1, ndx2, nfr, 
-	 nlen, nperfr, numplot;
+	 jfr, jloc, ncret, nfr, 
+	 nperfr, numplot;
 	float delay, factor, unused, unused_, xwloc, ypdel, ypmxsv, ywloc;
-	void zgpmsg();
 	static char kwait[9] = "Waiting$";
     char *tmp;
-        float *Sacmem;
-
+    sac *s;
 	/*=====================================================================
 	 * PURPOSE:  To execute the PLOTST command.  This command plots the
 	 *           files in the signal stack.
@@ -134,8 +134,8 @@ int *nerr;
 		float       hedgeSize ;       /* the amount by which to pad the data in the plot */
 
 		/* find the earliest begin time and the latest end time */
-		extrma( cmsss.beginTime, 1, cmdfm.ndfl, &Twlim[1], &unused, &unused_ );
-		extrma( cmsss.endTime, 1, cmdfm.ndfl, &unused, &Twlim[2], &unused_ );
+		extrma( cmsss.beginTime, 1, saclen(), &Twlim[1], &unused, &unused_ );
+		extrma( cmsss.endTime, 1, saclen(), &unused, &Twlim[2], &unused_ );
 
 		/* hedge the data by a small amount on either side */
 		hedgeSize = 0.15*(Twlim[2] - Twlim[1]);
@@ -182,12 +182,12 @@ int *nerr;
 	/* - Set up y window for each subplot. */
 
 	if( cmsss.lpsper ){
-		nfr = (cmdfm.ndfl - 1)/cmsss.npsper + 1;
+		nfr = (saclen() - 1)/cmsss.npsper + 1;
 		nperfr = cmsss.npsper;
 	}
 	else{
 		nfr = 1;
-		nperfr = cmdfm.ndfl;
+		nperfr = saclen();
 	}
 	if( cmsss.lpssum && (cmsss.nlnsum > 0) )
 		nperfr = nperfr + 1;
@@ -225,7 +225,7 @@ int *nerr;
 		/* -- Plot sum if requested. */
 		if( cmsss.lpssum && (cmsss.nlnsum > 0) ){
 			cmgem.plot.ymin = cmgem.plot.ymax - ypdel;
-			pl2d( (float*)&unused, cmmem.sacmem[cmsss.ndxsum], cmsss.nlnsum, 
+			pl2d( (float*)&unused, sss_sum, cmsss.nlnsum, 
 			 1, 1, nerr );
 			if( *nerr != 0 )
 				goto L_7777;
@@ -241,21 +241,23 @@ int *nerr;
 		}
 
 		/* -- Plot files in stack file list. */
-		jdfl2 = min( cmdfm.ndfl, jdfl1 + nperfr - 1 );
+		jdfl2 = min( saclen(), jdfl1 + nperfr - 1 );
 		for( jdfl = jdfl1; jdfl <= jdfl2; jdfl++ ){
 			/* --- Adjust some plot parameters if necessary. */
 			if( jdfl == jdfl2 )
 				cmgem.axis[BOTTOM].ticks = TRUE;
 			cmgem.plot.ymin = cmgem.plot.ymax - ypdel;
 			/* --- Get file from memory manager. */
-			getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-			if( *nerr != 0 )
-				goto L_7777;
+      if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+        goto L_7777;
+      }
+			//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
+
 			/* --- Set up delay and compute intersection of file's data and plot's 
 			 *     time windows.  This determines how many data points to plot. */
 			delay = Dlyt[jdfl] + Dlyn[jdfl]*cmsss.del + Dlyvm[jdfl];
-			definelimits( Twlim[1], Twlim[2], *b + delay, *e + delay, 
-			 *delta, &ioffsettw, &ioffsetdta, &numplot );
+			definelimits( Twlim[1], Twlim[2], s->h->b + delay, s->h->e + delay, 
+			 s->h->delta, &ioffsettw, &ioffsetdta, &numplot );
 			/* -- Set up plot parameters and plot. */
 			factor = 1.;
 			if( cmsss.lpswt )
@@ -263,22 +265,22 @@ int *nerr;
 			if( cmsss.lpspl && !Lpol[jdfl] )
 				factor = -factor;
 			if( factor != 1. ){
-                                Sacmem = cmmem.sacmem[ndx1];
-				for( jloc = ndx1; jloc <= (ndx1 - 1); jloc++ ){
-                                        *(Sacmem++) *= factor;
+
+				for( jloc = 0; jloc <= (- 1); jloc++ ){
+          s->y[jloc] *= factor;
 				}
 			}
 			getxlm( &cmgem.lxlim, &cmgem.ximn, &cmgem.ximx );
 			getylm( &cmgem.lylim, &cmgem.yimn, &cmgem.yimx );
-			cmgem.xgen.first = *b + delay + *delta*(float)( ioffsetdta );
-			pl2d( (float*)&unused, cmmem.sacmem[ndx1]+ioffsetdta, numplot, 
+			cmgem.xgen.first = s->h->b + delay + s->h->delta*(float)( ioffsetdta );
+			pl2d( (float*)&unused, s->y + ioffsetdta, numplot, 
 			 1, 1, nerr );
 			if( *nerr != 0 )
 				goto L_7777;
 			cmgem.chht = cmgem.tsdef;
 			cmgem.chwid = cmgem.txrat*cmgem.chht;
 			settextsize( cmgem.chwid, cmgem.chht );
-            tmp = string_list_get(datafiles, jdfl-1);
+      tmp = s->m->filename;
             fstrncpy(kptext, MCMSG, tmp, strlen(tmp)+1);
 			xwloc = cmgem.plot.xmin + 3.*cmgem.chwid;
 			ywloc = cmgem.plot.ymax*cmgem.view.ymax - cmgem.chht;

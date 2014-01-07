@@ -16,14 +16,16 @@
 #include "co.h"
 #include "dff.h"
 
+float *sss_sum;
+
 void /*FUNCTION*/ xsumstack(nerr)
 int *nerr;
 {
 	int lany;
-	int ioffsetdata, ioffsetsum, j, jdfl,  
-	 ndxy, nlen, nlnsumnew, notused, numintersect;
+	int ioffsetdata, ioffsetsum, j, jdfl,
+    nlnsumnew, numintersect;
 	float delay, factor, norm, swts, unused;
-
+  sac *s;
         float *Sacmem1, *Sacmem2;
 
 	/*=====================================================================
@@ -116,7 +118,7 @@ L_1000:
 
 	if( cmsss.lnorm ){
 		swts = 0.;
-		for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+		for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 			swts = swts + Wt[jdfl];
 			}
 		norm = 1./swts;
@@ -131,25 +133,28 @@ L_1000:
 	nlnsumnew = (int)( (Twlim[2] - Twlim[1])/cmsss.del ) + 1;
 	if( cmsss.nlnsum > 0 ){
 		if( nlnsumnew != cmsss.nlnsum ){
-			relamb( cmmem.sacmem, cmsss.ndxsum, nerr );
+      FREE(sss_sum);
+			//relamb( cmmem.sacmem, cmsss.ndxsum, nerr );
 			cmsss.nlnsum = nlnsumnew;
-			allamb( &cmmem, cmsss.nlnsum, &cmsss.ndxsum, 
-			 nerr );
+      sss_sum = (float *) malloc(sizeof(float) * cmsss.nlnsum);
+			//allamb( &cmmem, cmsss.nlnsum, &cmsss.ndxsum, 
+			// nerr );
 			if( *nerr != 0 )
 				goto L_8888;
 			}
 		}
 	else{
 		cmsss.nlnsum = nlnsumnew;
-		allamb( &cmmem, cmsss.nlnsum, &cmsss.ndxsum, 
-		 nerr );
+    sss_sum = (float *) malloc(sizeof(float) * cmsss.nlnsum);
+		//allamb( &cmmem, cmsss.nlnsum, &cmsss.ndxsum, 
+    //nerr );
 		if( *nerr != 0 )
 			goto L_8888;
 		}
 
 	/* - Initialize memory block. */
 
-	fill( cmmem.sacmem[cmsss.ndxsum], cmsss.nlnsum, 0.0 );
+	fill( sss_sum, cmsss.nlnsum, 0.0 );
 
 	/* - Calculate velocity model delays. */
 
@@ -164,7 +169,7 @@ L_1000:
 
 	/* - Loop on number of files in stack list. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 		/* -- Compute multiplying factor. */
 		factor = Wt[jdfl]*norm;
@@ -174,21 +179,22 @@ L_1000:
 			factor = -factor;
 
 		/* -- Get the next file. */
-		getfil( jdfl, TRUE, &nlen, &ndxy, &notused, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+		//getfil( jdfl, TRUE, &nlen, &ndxy, &notused, nerr );
 
 		/* -- Set up delay and compute intersection of file's data and the
 		 *    summation's time windows.  This determines how much data to sum. */
 		delay = Dlyt[jdfl] + Dlyn[jdfl]*cmsss.del + Dlyvm[jdfl];
-		definelimits( Twlim[1], Twlim[2], *b + delay, *e + delay, 
-		 *delta, &ioffsetsum, &ioffsetdata, &numintersect );
+		definelimits( Twlim[1], Twlim[2], s->h->b + delay, s->h->e + delay, 
+		 s->h->delta, &ioffsetsum, &ioffsetdata, &numintersect );
 
 		/* -- Loop on length of sumstack window. */
-                Sacmem1 = cmmem.sacmem[cmsss.ndxsum]+ioffsetsum;
-                Sacmem2 = cmmem.sacmem[ndxy]+ioffsetdata;
+    Sacmem1 = sss_sum + ioffsetsum;
+    Sacmem2 = s->y + ioffsetdata;
 		for( j = 1; j <= numintersect; j++ ){
-                        *(Sacmem1++) += factor**(Sacmem2++);
+      *(Sacmem1++) += factor**(Sacmem2++);
 			}
 		}
 
@@ -216,7 +222,7 @@ L_1000:
 	cmgem.xgen.on = TRUE;
 	cmgem.xgen.delta = cmsss.del;
 	cmgem.xgen.first = Twlim[1];
-	pl2d( (float*)&unused, cmmem.sacmem[cmsss.ndxsum], cmsss.nlnsum, 1, 
+	pl2d( (float*)&unused, sss_sum, cmsss.nlnsum, 1, 
 	 1, nerr );
 	if( *nerr != 0 )
 		goto L_8888;

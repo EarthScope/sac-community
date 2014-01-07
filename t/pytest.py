@@ -156,8 +156,14 @@ def commands_execute( commands , opts, test_path) :
     if err == None: err = ''
     out = [ o + '\n' for o in out.rstrip().split('\n') ]
     err = [ o + '\n' for o in err.rstrip().split('\n') ]
-    p.wait()
-
+    ecode = p.wait()
+    if ecode != 0:
+        print >>sys.stderr
+        print >>sys.stderr, ''.join(out)
+        print >>sys.stderr
+        print >>sys.stderr, '***** Program exiting badly, return value: ',ecode,'*****'
+        print >>sys.stderr
+        sys.exit(-1)
     for d in glob.glob("test.*.dir") :
         for f in os.listdir(d) :
             os.remove(os.path.join(d,f))

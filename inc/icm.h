@@ -324,6 +324,7 @@ void predfl ( float data[],
               char *errmsg);
 void prewit ( float data[], 
               int nsamps, 
+              float delta,
               int *order, 
               float array[], 
               char *kprefix, 

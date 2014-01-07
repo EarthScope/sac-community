@@ -13,7 +13,7 @@
 
 #include "errors.h"
 
-
+#include "amf.h"
 #include "msg.h"
 #include "clf.h"
 #include "dff.h"
@@ -33,22 +33,24 @@
 void 
 vftime(int *nerr) {
 
-	int jdfl, ndx1, ndx2, nlen;
+	int jdfl;
     char *tmp;
-	*nerr = 0;
+    sac *s;
+    *nerr = 0;
 
 	/* - For each file in DFL: */
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-        tmp = string_list_get(datafiles, jdfl-1);
-		/* -- Get header from memory manager. */
-		getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
+    if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+      goto L_8888;
+    }
+    tmp = s->m->filename;
+    /* -- Get header from memory manager. */
+		//getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
 
 		/* -- Check file type. */
-		if( *iftype != *itime && 
-		    *iftype != *ixy   && 
-		    *iftype != *ixyz ){
+		if( s->h->iftype != ITIME && 
+		    s->h->iftype != IXY   && 
+		    s->h->iftype != IXYZ ){
 			*nerr = ERROR_OPERATION_ON_SPECTRAL_FILE;
 			setmsg( "ERROR", *nerr );
             apcmsg2(tmp, strlen(tmp)+1);

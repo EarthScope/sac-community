@@ -15,9 +15,9 @@
 #include "hdr.h"
 #include "lhf.h"
 #include "bool.h"
-
+#include "SacHeader.h"
 #include "errors.h"
-
+extern sac *CURRENT;
 /** 
  * Get a logical header value from the current SAC file
  * 
@@ -43,7 +43,6 @@ getlhv(char *kname,
 
 	char ktest[9];
 	int index, ntest;
-
 	char *kname_c;
 
 	kname_c = fstrdup(kname, kname_s);
@@ -60,7 +59,7 @@ getlhv(char *kname,
 	 *   Otherwise, set error condition. */
 
 	if( index > 0 ){
-	    *lvalue = Lhdr[index];
+    *lvalue = LHDR(CURRENT)[index-1];
 	}
 	else{
 	    *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;

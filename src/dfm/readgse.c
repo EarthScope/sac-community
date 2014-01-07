@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "amf.h"
 #include "dfm.h"
 #include "clf.h"
 #include "wild.h"
@@ -85,9 +86,10 @@ readgse(int   lmore,
 
 	*nerr = 0;
 
-	if( !lmore ) 
+	if( !lmore ) {
     smClearDefaultTree( );
-           
+    sacclear();
+  }
   WorkSetName = smGetDefaultWorksetName();
 	
   /* Handle wildcards */

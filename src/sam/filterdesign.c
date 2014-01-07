@@ -24,11 +24,11 @@ int *nerr;
 {
 	char kcommand[9], kFilePrefix[MCPFN] ;
 	int lfound , lprint = FALSE ;
-	int idx, index, memptr[MXMPTR], module, nerrmem, nerrplt, notused;
+	int idx, index, module, nerrplt, notused;
 	int nchar = 0 , nerrwrt = 0 , newnpts , xbeg ;
 	float userData[ 9 ] ;
   Token *t;
-
+  float *memptr[MXMPTR];
 	/*=====================================================================
 	 * PURPOSE:  To control plot production of a filter's digital vs analog
 	 *           characteristics for: phase, amplitude and group delay.
@@ -185,7 +185,8 @@ int *nerr;
 	/* - Release data storage allocation. */
 
 	for( idx = 0; idx < MXMPTR; idx++ ){
-	    relamb( cmmem.sacmem, memptr[idx], &nerrmem );
+    FREE(memptr[idx]);
+    //relamb( cmmem.sacmem, memptr[idx], &nerrmem );
 	}
 
 	/* - Return: memory allocation error gets higher priority
@@ -194,8 +195,6 @@ int *nerr;
 	    *nerr = nerrplt;
 	if( nerrwrt != 0 )
 	    *nerr = nerrwrt;
-	if( nerrmem != 0 )
-	    *nerr = nerrmem;
 
 L_8888:
 	return;

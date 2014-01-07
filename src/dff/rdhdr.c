@@ -52,20 +52,19 @@
  *
  */
 int 
-rdhdr(int  idfl, 
+rdhdr(sac *s,
       int  *nun, 
       char *file, 
       int  *nerr) {
 
-	int ncerr, ndaerr, nlcdsk, nlcmem, numrd;
+	int ncerr, ndaerr, nlcdsk, numrd;
         float *buffer;
         int *hdrVer, lswap = 0 ;
         const int versionLocation = 76 ;
 
 	*nerr = 0;
 
-	/* - Read header into memory. */
-	nlcmem = Ndxhdr[idfl];
+  /* - Read header into memory. */
         numrd = SAC_HEADER_WORDS_FILE;
 
 	nlcdsk = 0;
@@ -97,29 +96,20 @@ rdhdr(int  idfl,
 
         /* move raw data into header location, byteswapping numeric headers
            if appropriate. */
-        map_hdr_in(cmmem.sacmem[nlcmem],buffer, lswap );
+        map_hdr_in((float *)s->h,buffer, lswap );
 
         free(buffer);
 
-	if( *nerr != 0 )
-	    goto L_8888;
-
-	/* - Copy header from working memory into header common. */
-
-	/* copy( (int*)cmmem.sacmem[nlcmem], (int*)&Fhdr[1], SAC_HEADER_NUMBERS ); */
-	copy_float( cmmem.sacmem[nlcmem], &(Fhdr[1]), SAC_HEADER_NUMBERS );
-	zgetc( (int *)cmmem.sacmem[nlcmem] + SAC_HEADER_NUMBERS, kmhdr.khdr[0], (MCPW+1)* SAC_HEADER_STRINGS );
-
-	/* - Update the header if it is in an old format:
+		/* - Update the header if it is in an old format:
 	 *   (1) Close file and open it for writing.
 	 *   (2) Write updated header.
 	 *   (3) Close file again and open it for reading only.
 	 *   (4) Send a warning message to inform user of all of this. */
 
-	if( *nvhdr > 0 && *nvhdr < cmhdr.nvhdrc ){
+	if( s->h->nvhdr > 0 && s->h->nvhdr < cmhdr.nvhdrc ){
 	    updhdr( nerr );
 	    if( *nerr == 0 )
-		putfil( idfl, nerr );
+
 	    if( *nerr != 0 ){
             *nerr = ERROR_HEADER_OUT_OF_DATE;
             error(*nerr, "%s File is Bad. Header could not be updated", file);
@@ -144,7 +134,7 @@ rdhdr(int  idfl,
             goto L_8888;
         }
         
-        map_hdr_out(cmmem.sacmem[nlcmem],buffer, lswap);
+        map_hdr_out((float *)s->h,buffer, lswap);
         
 	    zwabs((int *) nun, (char *)buffer, SAC_FIRST_DATA_POINT_WORD, 
               (int *)&nlcdsk, (int *)nerr );
@@ -167,30 +157,25 @@ L_4000:
         zopen_sac( nun, file, strlen(file)+1, "RODATA",7, &ncerr );
 
 	} /* end if( *nvhdr > 0 && *nvhdr < cmhdr.nvhdrc ) */
-	else if( *nvhdr <= 0 || *nvhdr > cmhdr.nvhdrc ){
+	else if( s->h->nvhdr <= 0 || s->h->nvhdr > cmhdr.nvhdrc ){
 	    *nerr = ERROR_HEADER_OUT_OF_DATE;
         error(*nerr, "%s Header version number is incorrect", file);
 	    goto L_8888;
 	} 
 
 	/* - Compute distance, azimuth, etc. if proper header fields are present. */
-  update_distaz();
+  update_distaz(s);
 
 	/* - Adjust reference year if necessary. */
 
-	if( *nzyear >= 0 && *nzyear <= 99 )
-	    *nzyear = *nzyear + 1900;
+	if( s->h->nzyear >= 0 && s->h->nzyear <= 99 )
+	    s->h->nzyear = s->h->nzyear + 1900;
 
 	/* - Compute end time if evenly-spaced file. */
 
-	if( *leven )
-	    *ennd = *begin + *delta*(float)( *npts - 1 );
+	if( s->h->leven )
+    s->h->e = CALC_E(s);
 
-	/* - Copy header back to its location in working memory. */
-
-	putfil( idfl, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
 
 L_8888:
 	return lswap ;

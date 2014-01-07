@@ -15,9 +15,9 @@
 #include "co.h"
 #include "lhf.h"
 #include "bool.h"
-
+#include "SacHeader.h"
 #include "errors.h"
-
+extern sac *CURRENT;
 /** 
  * Get an integer header value from the current SAC file
  * 
@@ -44,7 +44,7 @@ getnhv(char *kname,
 
 	char ktest[9];
 	int index, ntest;
-
+  int *np;
 	char *kname_c;
 
 	kname_c = fstrdup(kname, kname_s);
@@ -61,7 +61,8 @@ getnhv(char *kname,
 	 *   Otherwise, set error condition. */
 
 	if( index > 0 ){
-	    *nvalue = Nhdr[index];
+    np = (int *)(&CURRENT->h->nzyear) + (index-1);
+    *nvalue = *np;
 	    if( *nvalue == cmhdr.nundef )
 		*nerr = ERROR_UNDEFINED_HEADER_FIELD_VALUE;
 	}

@@ -4,15 +4,15 @@
  * @brief  Read an unevely spaced or spectral SAC file
  * 
  */
-
+#include "amf.h"
 #include "dff.h"
 #include "bool.h"
 #include "msg.h"
 #include "co.h"
 #include "hdr.h"
-
+#include "SacHeader.h"
 #include "errors.h"
-
+extern sac *CURRENT;
 /** 
  * Read and unevenly spaced or spectral SAC file
  * 
@@ -65,7 +65,7 @@ rsac2(char      *kname,
   int ncerr, nun;
   int lswap;
   int truncated;
-  
+  sac *s;
   float *const Xarray = &xarray[0] - 1;
   
   *nerr     = 0;
@@ -79,14 +79,19 @@ rsac2(char      *kname,
   zopen_sac( &nun, kname,kname_s, "RODATA",7, nerr );
   if( *nerr != SAC_OK )
     goto ERROR;
+
+  s = sac_new();
+  s->m->filename = fstrdup(kname, kname_s);
+  sacput(s);
+  CURRENT = s;
   
-  lswap = sac_header_read(nun, nerr);
+  lswap = sac_header_read(nun, s, nerr);
   
   /* - Make sure file is unevenly spaced. */
   
-  if( !*leven ){
-    if( *npts <= *max_ ){
-      *nlen = *npts;
+  if( !s->h->leven ){
+    if( s->h->npts <= *max_ ){
+      *nlen = s->h->npts;
     }
     else{
       *nlen = *max_;
@@ -109,10 +114,12 @@ rsac2(char      *kname,
   sac_data_read(nun, xarray, *nlen, SAC_SECOND_COMPONENT, lswap, (int *)nerr);
   if( *nerr != SAC_OK )
     goto ERROR;
-  
+
+  s->y = yarray;
+  s->x = xarray;
   /* - Adjust several header fields. */
-  *npts = *nlen;
-  *ennd = Xarray[*npts];
+  s->h->npts = *nlen;
+  s->h->e    = Xarray[s->h->npts];
   
  ERROR:
   *nerr = ( *nerr == SAC_OK && truncated == TRUE) ? -ERROR_SAC_DATA_TRUNCATED_ON_READ : *nerr;

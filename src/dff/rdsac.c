@@ -12,7 +12,7 @@
 #include "bool.h"
 #include "clf.h"
 #include "dfm.h"
-
+#include "errors.h"
 /** 
  * Read a SAC file into memory
  * 
@@ -62,9 +62,19 @@ rdsac(int    idfl,
       int   *ndx2, 
       int   *nerr) {
 
-	int jcomp, ncerr, nun, lswap = 0 ;
+	int ncerr, nun, lswap = 0 ;
 
 	*nerr = 0;
+  sac *s;
+
+  UNUSED(nlen);
+  UNUSED(ndxh);
+  UNUSED(ndx1);
+  UNUSED(ndx2);
+
+  if(!(s = sacget(idfl-1, ldta, nerr))) {
+    goto L_8888;
+  }
 
 	/* - Open file. */
 	zopen_sac( &nun, kname,kname_s, "RODATA",7, nerr );
@@ -72,21 +82,19 @@ rdsac(int    idfl,
 	    goto L_8888;
 
 	/* - Allocate a memory block for header. */
-	allamb( &cmmem, SAC_HEADER_WORDS, ndxh, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
+	//allamb( &cmmem, SAC_HEADER_WORDS, ndxh, nerr );
+	//if( *nerr != 0 )
+  //	    goto L_8888;
 
 	/* - Save some parameters about this data file. */
-	cmdfm.idflc = idfl;
-	Ndxhdr[cmdfm.idflc] = *ndxh;
 	if ( lname ) {
-        string_list_put(datafiles, kname, kname_s);
-    }
+    s->m->filename = fstrdup(kname, kname_s);
+  }
 	if( *nerr != 0 )
 	    goto L_8888;
 
 	/* - Read header record. */
-	lswap = rdhdr( idfl, &nun, string_list_get(datafiles, -1), nerr );
+	lswap = rdhdr( s, &nun, s->m->filename, nerr );
 	if( *nerr != 0 )
 	    goto L_8888;
 
@@ -98,31 +106,13 @@ rdsac(int    idfl,
 	    if( *nerr != 0 )
 		goto L_8888;
 
-	    /* -- Allocate memory block(s) for data. */
-	    for( jcomp = 0; jcomp < Ncomp[idfl]; jcomp++ ){
-		allamb( &cmmem, Nlndta[idfl], 
-			&cmdfm.ndxdta[idfl - 1][jcomp], nerr );
-		if( *nerr != 0 )
-		    goto L_8888;
-	    }
+      sac_alloc(s);
 
 	    /* -- Read data components. */
-	    rddta( idfl, &nun, lswap, nerr );
+	    rddta( s, &nun, lswap, nerr );
 	    if( *nerr != 0 )
 		goto L_8888;
 
-	    /* -- Return indicies to data components. */
-	    *nlen = Nlndta[idfl];
-	    *ndx1 = cmdfm.ndxdta[idfl - 1][0];
-	    if( Ncomp[idfl] > 1 )
-		*ndx2 = cmdfm.ndxdta[idfl - 1][1];
-	    else
-		*ndx2 = 0;
-	}
-	else{
-	    *nlen = 0;
-	    *ndx1 = 0;
-	    *ndx2 = 0;
 	}
 
 	/* - Close file and return. */
@@ -131,3 +121,45 @@ L_8888:
 	return;
 }
 
+
+sac *
+sacread(char *file) {
+  int nerr, nun, lswap;
+  sac *s;
+
+  s = NULL;
+  if(!file) {
+    return NULL;
+  }
+  zopen_sac(&nun, file, strlen(file), "RODATA", 7, &nerr);
+  if(nerr != 0) {
+    return NULL;
+  }
+  s = sac_new();
+  s->m->filename = strdup(file);
+  lswap = rdhdr(s, &nun, file, &nerr);
+  if(nerr != 0) {
+    printf("sacread error: %d header\n", nerr);
+    goto ERROR;
+  }
+  sac_alloc(s);
+
+  s->m->nstart = 1;
+  s->m->nstop  = s->h->npts;
+  s->m->ntotal = s->h->npts;
+  s->m->nfillb = 0;
+  s->m->nfille = 0;
+  rddta(s, &nun, lswap, &nerr);
+  if(nerr != 0) {
+    printf("sacread error: %d data\n", nerr);
+    goto ERROR;
+  }
+  zclose(&nun, &nerr);
+
+  return s;
+ ERROR:
+  printf("sacread error: %d\n", nerr);
+  zclose(&nun, &nerr);
+  sac_free(s);
+  return NULL;
+}

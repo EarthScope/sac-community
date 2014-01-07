@@ -17,13 +17,12 @@
 void /*FUNCTION*/ xrms(nerr)
 int *nerr;
 {
-	int ifpick, j, jdfl, ndxfile, nlenfile, 
-	 nlnnoise, nlnsignal, nofnoise, nofsignal, notused;
+	int ifpick, j, jdfl, 
+    nlnnoise, nlnsignal, nofnoise, nofsignal;
 	float rms, sumsq, sumsqnoise, sumsqsignal;
   double tmax, tmin;
-
-        float *Sacmem;
-
+  float *fp;
+  sac *s;
 	/*=====================================================================
 	 * PURPOSE: To parse and execute the action command RMS.
 	 *          This command measures the root mean square value
@@ -47,7 +46,7 @@ int *nerr;
 	 *=====================================================================
 	 * SUBROUTINES CALLED:
 	 *    saclib:  lcmore, cfmt, cresp, lkrtw, lklist, vflist, vfeven,
-	 *             getfil, getatw, putfil
+	 *             getfil, getatw
 	 *=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    920320:  Added square root per Hauk, Walter, et.al.
@@ -110,12 +109,13 @@ int *nerr;
 
 	/* - Perform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 	    /* -- Get next file from the memory manager.
 	     *    (Header is moved into common blocks CMHDR and KMHDR.) */
-	    getfil( jdfl, TRUE, &nlenfile, &ndxfile, &notused, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+    //getfil( jdfl, TRUE, &nlenfile, &ndxfile, &notused, nerr );
 
 	    /* -- Determine signal measurement window. */
 	    if( cmsmm.lmtw ){
@@ -126,14 +126,13 @@ int *nerr;
 	    }
 	    else{
 		nofsignal = 0;
-		nlnsignal = *npts;
+		nlnsignal = s->h->npts;
 	    }
 
 	    /* -- Sum square of data points within measurement window.  Normalize result. */
 	    sumsqsignal = 0.;
-            Sacmem = cmmem.sacmem[ndxfile];
 	    for( j = nofsignal; j <= (nofsignal + nlnsignal - 1); j++ ){
-                sumsqsignal += *(Sacmem+j)**(Sacmem+j);
+        sumsqsignal += s->y[j]*s->y[j];
 	    }
 	    sumsqsignal = sumsqsignal/(float)( nlnsignal );
 
@@ -145,9 +144,8 @@ int *nerr;
 		if( *nerr != 0 )
 		    goto L_8888;
 		sumsqnoise = 0.;
-                Sacmem = cmmem.sacmem[ndxfile];
 		for( j = nofnoise; j <= (nofnoise + nlnnoise - 1); j++ ){
-                    sumsqnoise += *(Sacmem+j)**(Sacmem+j);
+      sumsqnoise += s->y[j]*s->y[j];
 		}
 		sumsqnoise = sumsqnoise/(float)( nlnnoise );
 		sumsq = sumsqsignal - sumsqnoise;
@@ -164,12 +162,9 @@ int *nerr;
 
 	    /* -- Compute the resulting rms value and store in the requested header field. */
 	    rms = sqrt( sumsq );
-	    Fhdr[ifpick] = rms;
+      fp = fhdr(s,ifpick);
+      *fp = rms;
 
-	    /* -- Return file to memory manager. */
-	    putfil( jdfl, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
 
 	} /* end for ( jdfl ) */
 

@@ -9,15 +9,12 @@
 #include <math.h>
 
 #include "mach.h"
-#include "amf.h"
 #include "contouring.h"
-
+extern struct contour contour;
 void 
 getcontrlink(number, rlink)
 int number, *rlink;
 {
-        int *Isacmem;
-
 
 	/*=====================================================================
 	 * PURPOSE:  To get the reverse link for an existing 
@@ -41,8 +38,7 @@ int number, *rlink;
 	 *===================================================================== */
 	/* PROCEDURE: */
 	if( number <= cmcontouring.numpoints ){
-                Isacmem = (int*)cmmem.sacmem[cmcontouring.indexrlinks];
-		*rlink = *(Isacmem + number - 1);
+    *rlink = contour.points[number-1].rlink;
 	}
 	else{
 		fprintf( stdout, "Illegal point number: %d getcontrlink\n", number );

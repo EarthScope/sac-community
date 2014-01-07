@@ -3,7 +3,7 @@
 #define _DFF_H_
 
 #include "config.h"
-
+#include "SacHeader.h"
 #ifdef HAVE_LIBRPC
 #include <rpc/rpc.h>
 #endif /* HAVE_LIBRPC */
@@ -89,13 +89,11 @@ void        markhdr          (int    jdflrestore,
 			      double vmk, 
 			      char  *kimk);
 void        newhdr           ( );
-void        putfil           (int  idfl, 
-			      int *nerr);
-void        rddta            (int   idfl, 
+void        rddta            (sac  *s,
 			      int  *nun, 
 			      int   lswap, 
 			      int  *nerr);
-int         rdhdr            (int  idfl, 
+int         rdhdr            (sac *s,
                               int  *nun, 
                               char *file,
                               int  *nerr);
@@ -150,7 +148,7 @@ void  sacio_initialize_common( );
 int  sac_check_header_version(float *hdr, 
 			      int   *nerr);
 void        sac_header_swap  (float *hdr);
-int         sac_header_read  (int nun, int *nerr);
+int         sac_header_read  (int nun, sac *s, int *nerr);
 void        sac_header_write (int    nun, 
                               float *hdr, 
                               char  *khdr, 
@@ -187,7 +185,6 @@ void        setlhv           (char *kname,
 			      int  *lvalue, 
 			      int  *nerr, 
 			      int   kname_s);
-void        setnfiles        (int nfiles);
 void        setnhv           (char *kname, 
 			      int  *nvalue, 
 			      int  *nerr, 
@@ -235,7 +232,7 @@ void        wsac3            (char  *kname,
 			      float *yarray, 
 			      int   *nerr, 
 			      int    kname_s);
-void        update_distaz    ( );
+void        update_distaz    ( sac *s );
 
 int         CheckByteOrder   ( );
 void        sacio_message(int nerr, char *name);

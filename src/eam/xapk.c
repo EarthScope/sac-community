@@ -56,11 +56,10 @@ xapk(int *nerr)
 	char kmsg[MCMSG+1];
 	int lpkerr, lpkfnd[MDFL];
 	char kdir, kqual, ktype;
-	int i7, jdfl, ncerr, ndx1, ndx2, ndxpk, 
-	 nexday, nlen, nlncda, npkmsc, npksec, npmsec, npsec;
-    char *tmp;
+	int i7, jdfl, ncerr, ndxpk, 
+	 nexday, nlncda, npkmsc, npksec, npmsec, npsec;
 	int *const Lpkfnd = &lpkfnd[0] - 1;
-
+  sac *s;
 	*nerr = 0;
     memset(kmsg, 0, MCMSG+1);
     memset(lpkfnd, 0, MDFL);
@@ -162,15 +161,17 @@ L_1000:
 	/* EXECUTION PHASE: */
 	/* - For each file in DFL: */
 	lpkerr = FALSE;
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 		/* -- Get file from memory manager. */
-		getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
+		if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
 		if( *nerr != 0 )
 			goto L_8888;
 
 		/* -- Try to detect a valid pick. */
-		pkdet( cmmem.sacmem[ndx1], nlen, *delta, 1, &ndxpk );
+		pkdet( s->y, s->h->npts, s->h->delta, 1, &ndxpk );
 
 		/* -- If a valid pick was detected: */
 
@@ -179,7 +180,7 @@ L_1000:
 
 			/* --- Characterize the pick as to quality and direction of first motion. */
 			if( cmeam.lvalpk ){
-				pkchar( cmmem.sacmem[ndx1], nlen, *delta, ndxpk, &ktype, 
+				pkchar( s->y, s->h->npts, s->h->delta, ndxpk, &ktype, 
 				 &kdir, &kqual );
                                 fstrncpy(kmeam.kpwave, 8, (char *)&ktype, 1);
                                 fstrncpy(kmeam.kpwave+1, 7, "P", 1);
@@ -192,19 +193,19 @@ L_1000:
 
 			/* --- Evaluate the pick, determining duration, maximum amplitudes, etc. */
 			if( cmeam.lvalpk )
-				pkeval( cmmem.sacmem[ndx1], nlen, *delta, ndxpk, &nlncda );
+				pkeval( s->y, s->h->npts, s->h->delta, ndxpk, &nlncda );
 
 			/* --- Store results in SAC header fields. */
-			*a = *begin + (float)( ndxpk - 1 )**delta;
-			strcpy( ka, kmeam.kpwave );
+			s->h->a = s->h->b + (float)( ndxpk - 1 ) * s->h->delta;
+			strcpy( s->h->ka, kmeam.kpwave );
 			if( nlncda > 0 )
-				*f = *a + *delta*(float)( nlncda );
+				s->h->f = s->h->a + s->h->delta*(float)( nlncda );
 
 			/* --- Write results to output and to HYPO pick file if open. */
-			inctim( *nzhour, *nzmin, *nzsec, *nzmsec, *a, &cmeam.nphour, 
-			 &cmeam.npmin, &npsec, &npmsec, &nexday );
+			inctim( s->h->nzhour, s->h->nzmin, s->h->nzsec, s->h->nzmsec, s->h->a,
+              &cmeam.nphour, &cmeam.npmin, &npsec, &npmsec, &nexday );
 			cmeam.psecs = tosecs( npsec, npmsec );
-			incdat( *nzyear, *nzjday, nexday, &cmeam.npyear, &cmeam.npjday );
+			incdat( s->h->nzyear, s->h->nzjday, nexday, &cmeam.npyear, &cmeam.npjday );
 			kidate( cmeam.npyear, cmeam.npjday, &cmeam.npmon, &cmeam.npday, 
 			 &ncerr );
 			cmeam.lpphas = TRUE;
@@ -212,12 +213,12 @@ L_1000:
 			cmeam.lampx = FALSE;
 			if( nlncda > 0 ){
 				cmeam.lfini = TRUE;
-				cmeam.fmp = *f - *a;
+				cmeam.fmp = s->h->f - s->h->a;
 				}
 			else{
 				cmeam.lfini = FALSE;
 				}
-			strcpy( kmeam.kstid, kstnm );
+			strcpy( kmeam.kstid, s->h->kstnm );
 			whpf1( kmsg,MCMSG+1 );
 			setmsg( "OUTPUT", 99 );
 			apcmsg( kmsg,MCMSG+1 );
@@ -230,42 +231,37 @@ L_1000:
 
 			/* --- Write results to card image pick file if open. */
 			if( cmeam.lapfop ){
-				inctim( *nzhour, *nzmin, *nzsec, *nzmsec, *a, &cmeam.npkhr, 
+				inctim( s->h->nzhour, s->h->nzmin, s->h->nzsec, s->h->nzmsec, s->h->a, &cmeam.npkhr, 
 				 &cmeam.npkmn, &npksec, &npkmsc, &nexday );
 				cmeam.pksecs = tosecs( npksec, npkmsc );
-				incdat( *nzyear, *nzjday, nexday, &cmeam.npkyr, &cmeam.npkjdy );
+				incdat( s->h->nzyear, s->h->nzjday, nexday, &cmeam.npkyr, &cmeam.npkjdy );
 				strcpy( kmeam.kpkid, kmeam.kpwave );
-				cmeam.pkampl = *(cmmem.sacmem[ndx1] + ndxpk - 1);
+				cmeam.pkampl = s->y[ndxpk-1];
 				strcpy( kmeam.kpksrc, "A       " );
 				strcpy( kmeam.kpkrid, "        " );
-				strcpy( kmeam.kpkev, kevnm );
-				strcpy( kmeam.kpkst, kstnm );
-				cmeam.pkcmpa = *cmpaz;
-				cmeam.pkcmpi = *cmpinc;
+				strcpy( kmeam.kpkev, s->h->kevnm );
+				strcpy( kmeam.kpkst, s->h->kstnm );
+				cmeam.pkcmpa = s->h->cmpaz;
+				cmeam.pkcmpi = s->h->cmpinc;
 				wapf();
 				if( nlncda > 0 ){
-					inctim( *nzhour, *nzmin, *nzsec, *nzmsec, *f, 
+					inctim( s->h->nzhour, s->h->nzmin, s->h->nzsec, s->h->nzmsec, s->h->f, 
 					 &cmeam.npkhr, &cmeam.npkmn, &npksec, &npkmsc, 
 					 &nexday );
 					cmeam.pksecs = tosecs( npksec, npkmsc );
-					incdat( *nzyear, *nzjday, nexday, &cmeam.npkyr, 
+					incdat( s->h->nzyear, s->h->nzjday, nexday, &cmeam.npkyr, 
 					 &cmeam.npkjdy );
 					strcpy( kmeam.kpkid, "F       " );
-					cmeam.pkampl = *(cmmem.sacmem[ndx1] + ndxpk - 1);
+					cmeam.pkampl = s->y[ndxpk-1];
 					strcpy( kmeam.kpksrc, "A       " );
 					strcpy( kmeam.kpkrid, "        " );
-					strcpy( kmeam.kpkev, kevnm );
-					strcpy( kmeam.kpkst, kstnm );
-					cmeam.pkcmpa = *cmpaz;
-					cmeam.pkcmpi = *cmpinc;
+					strcpy( kmeam.kpkev, s->h->kevnm );
+					strcpy( kmeam.kpkst, s->h->kstnm );
+					cmeam.pkcmpa = s->h->cmpaz;
+					cmeam.pkcmpi = s->h->cmpinc;
 					wapf();
 					}
 				}
-
-			/* -- Return file to memory manager. */
-			putfil( jdfl, nerr );
-			if( *nerr != 0 )
-				goto L_8888;
 
 			/* -- Set flag if no valid pick found for this file. */
 			}
@@ -279,10 +275,12 @@ L_1000:
 	/* - Write out message if picks weren't found for all files. */
 	if( lpkerr ){
 		setmsg( "WARNING", 1910 );
-		for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+		for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
+      if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+        goto L_8888;
+      }
 			if( !Lpkfnd[jdfl] ){
-                tmp = string_list_get(datafiles, jdfl-1);
-                apcmsg2(tmp, strlen(tmp)+1);
+        apcmsg2(s->m->filename, strlen(s->m->filename)+1);
 				}
 			}
 		outmsg();

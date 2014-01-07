@@ -7,6 +7,7 @@
 
 #include <string.h>
 
+#include "amf.h"
 #include "dff.h"
 #include "hdr.h"
 #include "msg.h"
@@ -34,13 +35,14 @@ updhdr(int *nerr) {
 	char khdr18[9];
 	int icomp, jdx ;
 	float horzo;
+  sac *s;
 
 	*nerr = 0;
-
+  s = sacget_current();
 	/* - The header is updated one version at a time until
 	 *   the current version is reached. 
 	 */
-	while ( *nvhdr < cmhdr.nvhdrc ){
+	while ( s->h->nvhdr < cmhdr.nvhdrc ){
 
 		/* - Version 2 changed the values in each of the header field types
 		 *   used to represent an undefined state.  Previously they were all
@@ -52,8 +54,8 @@ updhdr(int *nerr) {
 		 *   - no value for undefined logical fields.
 		 * - Version 1 was never supported on the Prime. */
 
-		if( *nvhdr == 1 || *nvhdr == cmhdr.nundef ){
-			*nvhdr = 2;
+		if( s->h->nvhdr == 1 || s->h->nvhdr == cmhdr.nundef ){
+			s->h->nvhdr = 2;
 		}
 
 		/* - Version 3:
@@ -68,78 +70,78 @@ updhdr(int *nerr) {
 		 *     IRADEV=25, ITANEV=26, INORTH=27, IEAST=28,
 		 *     IHORZA=29, IDOWN=30, and IUP=31. */
 
-		else if( *nvhdr == 2 ){
-			icomp = Ihdr[4];
-			Ihdr[4] = cmhdr.iundef;
-			horzo = Fhdr[21];
-			Fhdr[21] = cmhdr.fundef;
+		else if( s->h->nvhdr == 2 ){
+			icomp = IHDR(s)[4];
+			IHDR(s)[4] = cmhdr.iundef;
+			horzo = VALUE(fhdr(s,21));
+      VALUE(fhdr(s,21)) = cmhdr.fundef;
 			if( icomp == 23 ){
-				if( memcmp(kstnm,"ELKO",4) == 0 ){
-					*cmpaz = 10.4699;
+				if( memcmp(s->h->kstnm,"ELKO",4) == 0 ){
+					s->h->cmpaz = 10.4699;
 				}
-				else if( memcmp(kstnm,"KANA",4) == 0 ){
-					*cmpaz = 93.01;
+				else if( memcmp(s->h->kstnm,"KANA",4) == 0 ){
+					s->h->cmpaz = 93.01;
 				}
-				else if( memcmp(kstnm,"LAND",4) == 0 ){
-					*cmpaz = 185.25;
+				else if( memcmp(s->h->kstnm,"LAND",4) == 0 ){
+					s->h->cmpaz = 185.25;
 				}
-				else if( memcmp(kstnm,"MINA",4) == 0 ){
-					*cmpaz = 307.71;
+				else if( memcmp(s->h->kstnm,"MINA",4) == 0 ){
+					s->h->cmpaz = 307.71;
 				}
 				else{
-					*cmpaz = cmhdr.fundef;
+					s->h->cmpaz = cmhdr.fundef;
 				}
-				*cmpinc = 90.;
+				s->h->cmpinc = 90.;
 			}
 			else if( icomp == 24 ){
-				if( memcmp(kstnm,"ELKO",4) == 0 ){
-					*cmpaz = 280.4699;
+				if( memcmp(s->h->kstnm,"ELKO",4) == 0 ){
+					s->h->cmpaz = 280.4699;
 				}
-				else if( memcmp(kstnm,"KANA",4) == 0 ){
-					*cmpaz = 3.01;
+				else if( memcmp(s->h->kstnm,"KANA",4) == 0 ){
+					s->h->cmpaz = 3.01;
 				}
-				else if( memcmp(kstnm,"LAND",4) == 0 ){
-					*cmpaz = 95.25;
+				else if( memcmp(s->h->kstnm,"LAND",4) == 0 ){
+					s->h->cmpaz = 95.25;
 				}
-				else if( memcmp(kstnm,"MINA",4) == 0 ){
-					*cmpaz = 217.71;
+				else if( memcmp(s->h->kstnm,"MINA",4) == 0 ){
+					s->h->cmpaz = 217.71;
 				}
 				else{
-					*cmpaz = cmhdr.fundef;
+					s->h->cmpaz = cmhdr.fundef;
 				}
-				*cmpinc = 90.;
+				s->h->cmpinc = 90.;
 			}
 			else if( (icomp == 25 || icomp == 26) || icomp == 29 ){
-				*cmpaz = horzo;
-				*cmpinc = 90.;
-				*lpspol = TRUE;
+				s->h->cmpaz = horzo;
+				s->h->cmpinc = 90.;
+				s->h->lpspol = TRUE;
 			}
 			else if( icomp == 27 ){
-				*cmpaz = 0.;
-				*cmpinc = 90.;
-				*lpspol = TRUE;
+				s->h->cmpaz = 0.;
+				s->h->cmpinc = 90.;
+				s->h->lpspol = TRUE;
 			}
 			else if( icomp == 28 ){
-				*cmpaz = 90.;
-				*cmpinc = 90.;
-				*lpspol = TRUE;
+				s->h->cmpaz = 90.;
+				s->h->cmpinc = 90.;
+				s->h->lpspol = TRUE;
 			}
 			else if( icomp == 30 ){
-				*cmpaz = 0.;
-				*cmpinc = 180.;
-				*lpspol = FALSE;
+				s->h->cmpaz = 0.;
+				s->h->cmpinc = 180.;
+				s->h->lpspol = FALSE;
 			}
 			else if( icomp == 31 ){
-				*cmpaz = 0.;
-				*cmpinc = 0.;
-				*lpspol = TRUE;
+				s->h->cmpaz = 0.;
+				s->h->cmpinc = 0.;
+				s->h->lpspol = TRUE;
 			}
 			else{
-				*cmpaz = cmhdr.fundef;
-				*cmpinc = cmhdr.fundef;
-				*lpspol = TRUE;
+				s->h->cmpaz = cmhdr.fundef;
+				s->h->cmpinc = cmhdr.fundef;
+				s->h->lpspol = TRUE;
 			}
-			*nvhdr = 3;
+			s->h->nvhdr = 3;
 
 			/* - Version 4:
 			 *   - added LOVROK in LHDR(3).
@@ -162,11 +164,11 @@ updhdr(int *nerr) {
 			 *         KUSER             NEW       13        3 */
 
 		}
-		else if( *nvhdr == 3 ){
-			Nhdr[4] = Nhdr[5];
-			Nhdr[5] = Nhdr[6];
-			Nhdr[6] = cmhdr.nundef;
-			Lhdr[3] = TRUE;
+		else if( s->h->nvhdr == 3 ){
+			NHDR(s)[4] = NHDR(s)[5];
+			NHDR(s)[5] = NHDR(s)[6];
+			NHDR(s)[6] = cmhdr.nundef;
+			LHDR(s)[3] = TRUE;
 			strcpy( kmhdr.khdr[1], kmhdr.khdr[3] );
 			strcpy( kmhdr.khdr[2], kmhdr.khdr[4] );
 			strcpy( kmhdr.khdr[3], kmhdr.khdr[6] );
@@ -182,7 +184,7 @@ updhdr(int *nerr) {
 			for( jdx = 13; jdx < SAC_HEADER_STRINGS; jdx++ ){
 				strcpy( kmhdr.khdr[jdx], "        " );
 			}
-			*nvhdr = 4;
+			s->h->nvhdr = 4;
 
 			/* - Version 5:
 			 *   - Changed alphanumeric undefined fields from 'UNDEF' to '-12345'.
@@ -222,7 +224,7 @@ updhdr(int *nerr) {
 			 *   - Moved FINI from FHDR(40) to FHDR(21). */
 
 		}
-		else if( *nvhdr == 4 ){
+		else if( s->h->nvhdr == 4 ){
 			if( strcmp(kmhdr.khdr[12],"UNDEF   ") != 0 ){
 				strcpy( khdr18, kmhdr.khdr[12] );
 			}
@@ -233,28 +235,28 @@ updhdr(int *nerr) {
 				strcpy( kmhdr.khdr[jdx], kmhdr.kundef );
 			}
 			strcpy( kmhdr.khdr[17], khdr18 );
-			Nhdr[11] = Nhdr[10];
-			Nhdr[10] = Nhdr[1];
-			Nhdr[1] = Nhdr[2];
-			Nhdr[2] = Nhdr[3];
-			Nhdr[3] = Nhdr[4];
-			Nhdr[4] = Nhdr[5];
-			Nhdr[5] = Fhdr[5];
-			Nhdr[6] = (int)( 1000.*(Fhdr[5] - (float)( Nhdr[5] )) + 
+			VALUE(nhdr(s,11)) = VALUE(nhdr(s,10));
+			VALUE(nhdr(s,10)) = VALUE(nhdr(s,1));
+			VALUE(nhdr(s,1)) = VALUE(nhdr(s,2));
+			VALUE(nhdr(s,2)) = VALUE(nhdr(s,3));
+			VALUE(nhdr(s,3)) = VALUE(nhdr(s,4));
+			VALUE(nhdr(s,4)) = VALUE(nhdr(s,5));
+			VALUE(nhdr(s,5)) = VALUE(fhdr(s,5));
+			VALUE(nhdr(s,6)) = (int)( 1000.*(VALUE(fhdr(s,5)) - (float)( VALUE(nhdr(s,5)) )) + 
 			 0.5 );
-			Fhdr[5] = cmhdr.fundef;
-			Fhdr[21] = Fhdr[40];
-			Fhdr[40] = cmhdr.fundef;
-			*nvhdr = 5;
+			VALUE(fhdr(s,5)) = cmhdr.fundef;
+			VALUE(fhdr(s,21)) = VALUE(fhdr(s,40));
+			VALUE(fhdr(s,40)) = cmhdr.fundef;
+			s->h->nvhdr = 5;
 
 			/* - Header version 6:
 			 *   (1) Added LCALDA.  If .TRUE. distance/azimuth are always
 			 *       recomputed each time file is read.
 			 * */
 		}
-		else if( *nvhdr == 5 ){
-			*lcalda = TRUE;
-			*nvhdr = 6;
+		else if( s->h->nvhdr == 5 ){
+			s->h->lcalda = TRUE;
+			s->h->nvhdr = 6;
 
 		}
 

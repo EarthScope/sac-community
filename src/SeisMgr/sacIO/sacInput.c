@@ -829,7 +829,7 @@ static struct sitechanList *MakeSiteChan(DBlist tree, char *kstnm, char *kcmpnm,
                                      float stdp, float cmpaz, int jdate)
 {
    struct sitechanList *sc;
-
+   UNUSED(jdate);
    sc = (struct sitechanList *) dblCreateTableInstance(tree, dbl_LIST_SITECHAN);
    sc->element->chanid  = dblNextAvailableChanid(tree);
    strcpy(sc->element->lddate, tmListEpochTime( tmGetEpochTime(), 18 ) );
@@ -1726,7 +1726,7 @@ static int SiteChansMatch(struct sitechanList *sc, struct SACheader *header)
 static struct siteList *sacAddSiteStruct(DBlist tree, char *name, struct SACheader *header, int jdate)
 {
    struct siteList *si;
-
+   UNUSED(jdate);
    si = (struct siteList *) dblCreateTableInstance(tree, dbl_LIST_SITE);
    CSSstrcpy(si->element->sta, name);
    if(fltDefined(header->stla)) si->element->lat = header->stla;

@@ -7,6 +7,7 @@
 
 #include <math.h>
 
+#include "amf.h"
 #include "dff.h"
 #include "gam.h"
 #include "bool.h"
@@ -26,26 +27,24 @@
 void 
 setrng() {
 
-	int jdfl, ndx1, ndx2, nerr, nlen;
-
+	int i, nerr;
+  sac *s;
 	/* - Initialize range variables. */
 	cmgam.rngmin = VLARGE;
 	cmgam.rngmax = -VLARGE;
 
 	/* - For each file in DFL: */
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-
-		/* -- Get header from memory manager. */
-		getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, &nerr );
-		if( nerr != 0 )
-			goto L_8888;
-
+	for( i = 0; i < saclen(); i++ ){
+    if(!(s = sacget(i, FALSE, &nerr))) {
+      return;
+    }
 		/* -- Adjust range variables. */
-		cmgam.rngmin = fmin( cmgam.rngmin, *depmin );
-		cmgam.rngmax = fmax( cmgam.rngmax, *depmax );
+		cmgam.rngmin = fmin( cmgam.rngmin, s->h->depmin );
+		cmgam.rngmax = fmax( cmgam.rngmax, s->h->depmax );
+    DEBUG("%d %f %f\n", i, cmgam.rngmin, cmgam.rngmax );
 	}
 
-L_8888:
+  //L_8888:
 	return;
 
 }

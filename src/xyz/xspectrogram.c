@@ -23,13 +23,14 @@
 void 
 xspectrogram(int *nerr)
 {
-	int idx, idum, indexdata, indexheader, itemp1, itemp2, itemp3, 
-	 jdfl, notused, nptslist[MDFL], numfiles, specindex, speclength, 
+	int idx,
+	 jdfl, notused, nptslist[MDFL], numfiles, speclength, 
 	 specsize, specwidth, nchar;
 	int lprint = FALSE , ltry = FALSE ;
-	float begin, deltalist[MDFL], depmax, depmen, depmin, xmaximum, 
+	float begin, deltalist[MDFL], xmaximum, 
 	 xminimum, ymaximum, yminimum;
-        float *sdata;
+  float *sdata;
+  float *spec;
         float ymax = -1.0;
         float ymin = VLARGE;
 	static double window = 2.0;
@@ -66,8 +67,7 @@ xspectrogram(int *nerr)
 	float *const Deltalist = &deltalist[0] - 1;
 	int *const Nptslist = &nptslist[0] - 1;
 
-	float ftemp ;	/* let setfhv pass things by reference. maf 970917 */
-
+  sac *s;
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command SPECTROGRAM
 	 *           This command computes a spectrogram of data in memory.
@@ -88,8 +88,8 @@ xspectrogram(int *nerr)
 	 *=====================================================================
 	 * SUBROUTINES CALLED:
 	 *    sac:  cfmt, cresp, vflist, vfeven, 
-	 *          getnfiles, getfil, putfil, gethfv, spectrogram, flipdata,
-	 *          cleardfl, setnfiles, crsac, setnfv, setihv, setfhv
+	 *          getnfiles, getfil, gethfv, spectrogram, flipdata,
+	 *          crsac, setnfv, setihv, setfhv
 	 *=====================================================================
 	 * LOCAL VARIABLES: see below
 	 *=====================================================================
@@ -281,26 +281,19 @@ xspectrogram(int *nerr)
 	/* - Perform the requested function on each file in DFL. */
 	for( jdfl = 1; jdfl <= numfiles; jdfl++ ){
 	    /* -- Get the next file and their lengths in DFL, moving header to CMHDR. */
-	    getfil( jdfl, TRUE, &Nptslist[jdfl], &idum, &idum, nerr );
-	    if( *nerr != 0 )
-		return ;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      return;
+    }
+    Nptslist[jdfl] = s->h->npts;
+    //getfil( jdfl, TRUE, &Nptslist[jdfl], &idum, &idum, nerr );
 
 	    /* -- Get sampling interval of data. */
-	    getfhv( "DELTA", &Deltalist[jdfl], nerr, 5 );
-	    if( *nerr != 0 )
-		return ;
+      Deltalist[jdfl] = s->h->delta;
 
 	    /* -- Get begin value if first file. */
 	    if( jdfl == 1 ){
-		getfhv( "B", &begin, nerr, 1 );
-		if( *nerr != 0 )
-		    return ;
-	    }
-
-	    /* -- Reverse the steps used in getting the next file in DFL. */
-	    putfil( jdfl, nerr );
-	    if( *nerr != 0 )
-		return ;
+        begin = s->h->b;
+      }
 
 	} /* end for ( jdfl ) */
 
@@ -317,7 +310,7 @@ xspectrogram(int *nerr)
 	    return ;
 
 	if( spectrogram( window, slice, type, &order, numfiles, 
-	  nptslist, (double)Deltalist[1], &specindex, &specwidth,
+	  nptslist, (double)Deltalist[1], &spec, &specwidth,
 	  &speclength, sfft, cwinlength, lcnumber, cnumber,
 	  cwintype, scale ) != 0 )
 	    return ;
@@ -332,10 +325,8 @@ xspectrogram(int *nerr)
             return ;
 	}
 
-        flipdata(cmmem.sacmem[specindex],specwidth,speclength,sdata);
-	relamb( cmmem.sacmem, specindex, nerr );
-	if( *nerr != 0 )
-	    return ;
+        flipdata(spec,specwidth,speclength,sdata);
+        FREE(spec);
 
         if( lsqrt ){
             for( idx = 0; idx < (specwidth*speclength); idx++)
@@ -371,86 +362,33 @@ xspectrogram(int *nerr)
 	/* - Replace data in memory with spectrogram. */
 
 	/* -- Clear current data file list. */
-	cleardfl( nerr );
-	if( *nerr != 0 )
-	    return ;
+  sacclear();
 
 	/* -- Create space for a single data file. */
-	setnfiles( 1 );
 	specsize = specwidth*speclength;
-	crsac( 1, 1, specsize, &indexheader, &indexdata, &notused, nerr );
-	if( *nerr != 0 )
-	    return ;
 
-	getfil( 1, TRUE, &itemp1, &itemp2, &itemp3, nerr );
-	if( *nerr != 0 )
-	    return ;
-
+  s = sac_new();
+  s->m->filename = strdup("spectrogram");
+  sacput(s);
+	//getfil( 1, TRUE, &itemp1, &itemp2, &itemp3, nerr );
         /* Store the spectrogram data in sacmem */
-        memcpy((char *)cmmem.sacmem[indexdata],(char *)sdata,specsize*sizeof(float));
+  s->y = sdata;
+  //memcpy((char *)cmmem.sacmem[indexdata],(char *)sdata,specsize*sizeof(float));
 
-        free(sdata);
+  s->h->npts = specsize;
+  s->h->delta = 1.0;
+  s->h->b = 0.0;
+  s->h->e = specsize-1.0;
 
-	/* -- Store header values. */
-	setnhv( "NPTS", &specsize, nerr, 4 );
-	if( *nerr != 0 )
-	    return ;
-	ftemp = 1.0 ;
-	setfhv( "DELTA", &ftemp, nerr, 5 );
-	if( *nerr != 0 )
-	    return ;
-	ftemp = 0.0 ;
-	setfhv( "B", &ftemp, nerr, 1 );
-	if( *nerr != 0 )
-	    return ;
-	ftemp = (double)( specsize - 1 ) ;
-	setfhv( "E", &ftemp, nerr, 1 );
-	if( *nerr != 0 )
-	    return ;
+  s->h->iftype = IXYZ;
+  s->h->nxsize = speclength;
+  s->h->nysize = specwidth;
+  s->h->xminimum = xminimum;
+  s->h->xmaximum = xmaximum;
+  s->h->yminimum = yminimum;
+  s->h->ymaximum = ymaximum;
 
-	setihv( "IFTYPE", "IXYZ", nerr, 6, 4 );
-	if( *nerr != 0 )
-	    return ;
-	setnhv( "NXSIZE", &speclength, nerr, 6 );
-	if( *nerr != 0 )
-	    return ;
-	setnhv( "NYSIZE", &specwidth, nerr, 6 );
-	if( *nerr != 0 )
-	    return ;
-	ftemp = xminimum ;
-	setfhv( "XMINIMUM", &ftemp, nerr, 8 );
-	if( *nerr != 0 )
-	    return ;
-	ftemp = xmaximum ;
-	setfhv( "XMAXIMUM", &ftemp, nerr, 8 );
-	if( *nerr != 0 )
-	    return ;
-
-	ftemp = yminimum ;
-	setfhv( "YMINIMUM", &ftemp, nerr, 8 );
-	if( *nerr != 0 )
-	    return ;
-	ftemp = ymaximum ;
-	setfhv( "YMAXIMUM", &ftemp, nerr, 8 );
-	if( *nerr != 0 )
-	    return ;
-
-	extrma( cmmem.sacmem[indexdata], 1, specsize, &depmin, &depmax, &depmen );
-	ftemp = depmin ;
-	setfhv( "DEPMIN", &ftemp, nerr, 6 );
-	if( *nerr != 0 )
-	    return ;
-	ftemp = depmax ;
-	setfhv( "DEPMAX", &ftemp, nerr, 6 );
-	if( *nerr != 0 )
-	    return ;
-	ftemp = depmen ;
-	setfhv( "DEPMEN", &ftemp, nerr, 6 );
-	if( *nerr != 0 )
-	    return ;
-
-	/* -- Return file to memory manager. */
-	putfil( 1, nerr );
+	extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
 } /* end of function */
 

@@ -6,6 +6,7 @@
  */
 #include <string.h>
 
+#include "amf.h"
 #include "dfm.h"
 #include "com.h"
 #include "bool.h"
@@ -62,7 +63,7 @@ xrsuds(int *nerr) {
 	   *             filelist rather than replacement of current list 
 	   *             with new one. 
 	   */
-	  if( lckey( "MORE#$",7 ) && cmdfm.ndfl > 0 ){
+	  if( lckey( "MORE#$",7 ) && saclen() > 0 ){
 	    lmore = TRUE;
 	    continue ;
 	  }
@@ -177,7 +178,7 @@ xrsuds(int *nerr) {
             alignFiles ( nerr ) ;
 	    if ( *nerr )
 		return ;
-	    cmdfm.nfilesFirst = cmdfm.ndfl ;
+	    cmdfm.nfilesFirst = saclen() ;
         }
 	else
 	    cmdfm.nfilesFirst = 0 ;

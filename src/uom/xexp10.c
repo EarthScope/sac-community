@@ -14,9 +14,8 @@
 void /*FUNCTION*/ xexp10(nerr)
 int *nerr;
 {
-	int j, jdfl, ndx1, ndx2, nlen;
-
-	float *Sacmem;
+	int j, jdfl;
+  sac *s;
 
 	/*=====================================================================
 	 * PURPOSE: To parse and execute the action command EXP10.
@@ -59,31 +58,23 @@ int *nerr;
 
 	/* - For each file in DFL: */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 		/* -- Get next file from the memory manager.
 		 *   (Header is moved into common blocks CMHDR and KMHDR.) */
-
-		getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+		//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
 		/* -- Perform operation. */
-		Sacmem = cmmem.sacmem[ndx1];
-		for( j = ndx1; j <= (ndx1 + nlen - 1); j++ ){
-                        *Sacmem = pow(10.,*Sacmem);
-                        Sacmem++;
-			}
+		for( j = 0; j < s->h->npts; j++ ){
+      s->y[j] = pow(10.,s->y[j]);
+    }
 
 		/* -- Update any header fields that may have changed. */
 
-		extrma( cmmem.sacmem[ndx1], 1, nlen, depmin, depmax, depmen );
-
-		/* -- Return file to memory manager. */
-
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+		extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
 		}
 

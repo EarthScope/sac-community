@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "amf.h"
 #include "ucf.h"
 #include "dfm.h"
 #include "hdr.h"
@@ -15,6 +16,7 @@
 #include "bot.h"
 
 #include "clf.h"
+#include "SacHeader.h"
 
 /** 
  * Write a pick to an alphanumeric pick file (APF)
@@ -32,7 +34,7 @@ wapf() {
 	char kapfln[133];
 	int j, nexday, npkmsc, npksec;
   char *tmp;
-
+  sac *s;
   memset(&kapfln[0], 0, 133);
 
 	/* - Each pick consists of a pick_id, event_id, station_id, component_id,
@@ -41,16 +43,18 @@ wapf() {
    *
    * - For certain picks, auxiliary information is also added to the card. 
    */
-    
+  if(!(s = sacget_current())) {
+    return;
+  }
   /* Get filename. */
-  tmp = string_list_get(datafiles, cmdfm.idflc-1);
+  tmp = s->m->filename;
 	/* - Each pick output line can contain 200 columns. */
 
 	if( cmeam.lpfgmt ){
-		inctim( *nzhour, *nzmin, *nzsec, *nzmsec, cmeam.pkseci, &cmeam.npkhr, 
+		inctim( s->h->nzhour, s->h->nzmin, s->h->nzsec, s->h->nzmsec, cmeam.pkseci, &cmeam.npkhr, 
             &cmeam.npkmn, &npksec, &npkmsc, &nexday );
 		cmeam.pksecs = tosecs( npksec, npkmsc );
-		incdat( *nzyear, *nzjday, nexday, &cmeam.npkyr, &cmeam.npkjdy );
+		incdat( s->h->nzyear, s->h->nzjday, nexday, &cmeam.npkyr, &cmeam.npkjdy );
   }
   
 	if( cmeam.lpfgmt && cmeam.lpfstd ){
@@ -58,7 +62,7 @@ wapf() {
          strcmp(kmeam.kpkid,"WF      ") == 0) || 
         strcmp(kmeam.kpkid,"WAWF    ") == 0 ){
       if (sprintf(kapfln,"%16s%8s%7.2f%7.2f%4s%5d%3d%3d%3d%6.2f %10.4g %1s %3s%c"
-                  ,kevnm, kstnm, *cmpaz, *cmpinc, kmeam.kpkid, cmeam.npkyr,
+                  ,s->h->kevnm, s->h->kstnm, s->h->cmpaz, s->h->cmpinc, kmeam.kpkid, cmeam.npkyr,
                   cmeam.npkjdy, cmeam.npkhr, cmeam.npkmn, cmeam.pksecs, 
                   cmeam.pkampl, kmeam.kpksrc, kmeam.kpkrid, 'B' ) < 0) goto L_8000;
       
@@ -71,7 +75,7 @@ wapf() {
     }
 		else if( strcmp(kmeam.kpkid,"PTP     ") == 0 ){
       if(sprintf(kapfln,"%16s%8s%7.2f%7.2f%4s%5d%3d%3d%3d%6.2f %10.4g %1s %3s%c%6.3f%10.4g\n",
-                 kevnm, kstnm, *cmpaz, *cmpinc, kmeam.kpkid, cmeam.npkyr, 
+                 s->h->kevnm, s->h->kstnm, s->h->cmpaz, s->h->cmpinc, kmeam.kpkid, cmeam.npkyr, 
                  cmeam.npkjdy, cmeam.npkhr, cmeam.npkmn, cmeam.pksecs, 
                  cmeam.pkampl, kmeam.kpksrc, kmeam.kpkrid, 'B', Dtwf[4], 
                  Awf[4] ) < 0) 
@@ -79,7 +83,7 @@ wapf() {
     }
 		else{
       if(sprintf(kapfln,"%16s%8s%7.2f%7.2f%4s%5d%3d%3d%3d%6.2f %10.4g %1s %3s %c\n",
-                 kevnm, kstnm, *cmpaz, *cmpinc, kmeam.kpkid, cmeam.npkyr, 
+                 s->h->kevnm, s->h->kstnm, s->h->cmpaz, s->h->cmpinc, kmeam.kpkid, cmeam.npkyr, 
                  cmeam.npkjdy, cmeam.npkhr, cmeam.npkmn, cmeam.pksecs, 
                  cmeam.pkampl, kmeam.kpksrc, kmeam.kpkrid, 'B' ) < 0) 
         goto L_8000;
@@ -123,7 +127,7 @@ wapf() {
          strcmp(kmeam.kpkid,"WF      ") == 0) || 
         strcmp(kmeam.kpkid,"WAWF    ") == 0) {
       if(sprintf(kapfln,"%16s%8s%7.2f%7.2f%4s          %10.4g %10.4g %1s %3s%c",
-                 kevnm, kstnm, *cmpaz, *cmpinc, kmeam.kpkid, cmeam.pkseci, 
+                 s->h->kevnm, s->h->kstnm, s->h->cmpaz, s->h->cmpinc, kmeam.kpkid, cmeam.pkseci, 
                  cmeam.pkampl, kmeam.kpksrc, kmeam.kpkrid, 'D' ) < 0) goto L_8000;
       
       for( j = 2; j <= 5; j++ ){
@@ -135,13 +139,13 @@ wapf() {
     }
 		else if( strcmp(kmeam.kpkid,"PTP     ") == 0 ){
       if(sprintf(kapfln,"%16s%8s%7.2f%7.2f%4s          %10.4g %10.4g %1s %3s%c%6.3f%10.4g\n",
-			 kevnm, kstnm, *cmpaz, *cmpinc, kmeam.kpkid, cmeam.pkseci, 
+			 s->h->kevnm, s->h->kstnm, s->h->cmpaz, s->h->cmpinc, kmeam.kpkid, cmeam.pkseci, 
 			 cmeam.pkampl, kmeam.kpksrc, kmeam.kpkrid, 'D', Dtwf[4], 
 			 Awf[4] ) < 0) goto L_8000;
 			}
 		else{
       if(sprintf(kapfln,"%16s%8s%7.2f%7.2f%4s          %10.4g %10.4g %1s %3s%c\n",
-			 kevnm, kstnm, *cmpaz, *cmpinc, kmeam.kpkid, cmeam.pkseci, 
+			 s->h->kevnm, s->h->kstnm, s->h->cmpaz, s->h->cmpinc, kmeam.kpkid, cmeam.pkseci, 
 			 cmeam.pkampl, kmeam.kpksrc, kmeam.kpkrid, 'D' ) < 0) goto L_8000;
 			}
 		}

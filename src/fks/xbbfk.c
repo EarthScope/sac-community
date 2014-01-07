@@ -38,23 +38,20 @@ void
 xbbfk(int *nerr) {
 	char cnumber[13], kfile[9], label[121];
 	int lformer, llocal, lssq_specified , lprint = FALSE , ltry = FALSE ;
-	int idx, iasiz[2], idummy, isacm, issq, ix, iy,
+	int idx, iasiz[2], isacm, issq, ix, iy,
 	 jdx, jdfl, nch, nckofbbfk, ncktitle, notused ,
-	 ns, nsamps[MXLENS], nsiz, nssav, ptr[MXLENS], wvaz;
+	 ns, nsiz, nssav, wvaz;
 	float buffer[MXLENB], curntval, offset, trace, 
 	 xr[MXLENS], yr[MXLENS], zr[MXLENS];
 	complexf scm[MXLENS*MXLENS], sinv[MXLENS*MXLENS];
   double tmp;
   int maxflag;
-
+  sac *s;
+  int iib, k;
   char *cattemp;
-
-  float *Sacmem;
 
 	float *const Buffer = &buffer[0] - 1;
 	int *const Iasiz = &iasiz[0] - 1;
-	int *const Nsamps = &nsamps[0] - 1;
-	int *const Ptr = &ptr[0] - 1;
 	complexf *const Scm = &scm[0] - 1;
 	complexf *const Sinv = &sinv[0] - 1;
 
@@ -124,7 +121,7 @@ xbbfk(int *nerr) {
 	if( *nerr != 0 ) 
 	    goto L_8888 ;
 
-	nch = cmdfm.ndfl;
+	nch = saclen();
 
 	/* Exit if to many files */
 	if( nch < 3 || nch > MXLENS ){
@@ -277,10 +274,12 @@ xbbfk(int *nerr) {
 	 * */
 	nssav = ns;
 	for( jdfl = 1; jdfl <= ns; jdfl++ ){
-	    getfil( jdfl, TRUE, &Nsamps[jdfl], &Ptr[jdfl], &idummy, nerr );
-	    if( *nerr != 0 )
-		goto L_8888 ;
-	    if( *iftype != *itime ){
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+    //getfil( jdfl, TRUE, &Nsamps[jdfl], &Ptr[jdfl], &idummy, nerr );
+
+    if( s->h->iftype != ITIME ){
 		nssav = jdfl - 1;
 		break ;
 	    }
@@ -301,7 +300,7 @@ xbbfk(int *nerr) {
   
 	/*  Calculate broadband spatial covariance matrix    
 	 * */
-	covmat( cmmem.sacmem, ptr, ns, Nsamps[1], cmfks.lkfilter, scm, nerr );
+        //	covmat( cmmem.sacmem, ptr, ns, Nsamps[1], cmfks.lkfilter, scm, nerr );
 
 	if( *nerr != 0 )
 	    goto L_8888 ;
@@ -315,10 +314,10 @@ xbbfk(int *nerr) {
 	}
 	if( cmfks.lknorm ){
 	    for( idx = 1; idx <= ns; idx++ ){
-		*scale = sqrt( trace/(cmplxtof( Scm[idx + (idx - 1)*ns] )*ns) );
+		s->h->scale = sqrt( trace/(cmplxtof( Scm[idx + (idx - 1)*ns] )*ns) );
 		for( jdx = 1; jdx <= ns; jdx++ ){
-		    Scm[idx + (jdx - 1)*ns] = cmplxmul(Scm[idx + (jdx - 1)*ns],flttocmplx(*scale,0.));
-		    Scm[jdx + (idx - 1)*ns] = cmplxmul(Scm[jdx + (idx - 1)*ns],flttocmplx(*scale,0.));
+		    Scm[idx + (jdx - 1)*ns] = cmplxmul(Scm[idx + (jdx - 1)*ns],flttocmplx(s->h->scale,0.));
+		    Scm[jdx + (idx - 1)*ns] = cmplxmul(Scm[jdx + (idx - 1)*ns],flttocmplx(s->h->scale,0.));
 		}
 	    }
 	}
@@ -457,80 +456,59 @@ xbbfk(int *nerr) {
 
 	    /*  Put the square-mode contour data in sacmem                            
 	     * */
-	    jdfl = cmdfm.ndfl + 1;
+	    jdfl = saclen() + 1;
 	    nckofbbfk = nstrlensp( cmfks.kofbbfk,MCPFN+1 );
 	    fstrncpy( kfile, 8, cmfks.kofbbfk, min(nckofbbfk,MCPFN));
 
-        string_list_put(datafiles, kfile, 9);
 	    if( *nerr != 0 )
 		goto L_8888 ;
 
-	    allamb( &cmmem, SAC_HEADER_WORDS, &Ndxhdr[jdfl], nerr );
-	    if( *nerr != 0 )
-		goto L_8888 ;
+	    //allamb( &cmmem, SAC_HEADER_WORDS, &Ndxhdr[jdfl], nerr );
+      s = sac_new();
+      s->m->filename = fstrdup(kfile, 9);
 
-	    newhdr();
-	    *iftype = *ixyz;
-	    *nxsize = cmfks.idimsq;
-	    *nysize = cmfks.idimsq;
-	    *npts = *nxsize**nysize;
-	    *xminimum = -cmfks.rkhor;
-	    *xmaximum = cmfks.rkhor;
-	    *yminimum = -cmfks.rkhor;
-	    *ymaximum = cmfks.rkhor;
+	    s->h->iftype = IXYZ;
+	    s->h->nxsize = cmfks.idimsq;
+	    s->h->nysize = cmfks.idimsq;
+	    s->h->npts   = s->h->nxsize * s->h->nysize;
+	    s->h->xminimum = -cmfks.rkhor;
+	    s->h->xmaximum = cmfks.rkhor;
+	    s->h->yminimum = -cmfks.rkhor;
+	    s->h->ymaximum = cmfks.rkhor;
 
-	    Ncomp[jdfl] = 1;
-	    Nlndta[jdfl] = *npts;
-	    allamb( &cmmem, Nlndta[jdfl], &cmdfm.ndxdta[jdfl - 1][0], nerr );
-	    if( *nerr != 0 ){
-		relamb( cmmem.sacmem, Ndxhdr[jdfl], nerr );
-		goto L_8888 ;
-	    }
+      sac_alloc(s);
 
 	    /* BUFFER as returned from FKEVALR is installed into SACMEM in
 	     * upside-down order.  This is because FKEVALR's result is the upside down
 	     * reflection of that produced with FKEVALP  -- JYio 2/4/91
 	     * */
-	    *depmin = Buffer[1];
-	    *depmax = *depmin;
-	    isacm = cmdfm.ndxdta[jdfl - 1][0];
-            Sacmem = cmmem.sacmem[isacm];
+	    s->h->depmin = Buffer[1];
+	    s->h->depmax = s->h->depmin;
+      k = 0;
 	    for( iy = 1; iy <= cmfks.idimsq; iy++ ){
-		*ib = (cmfks.idimsq - iy)*cmfks.idimsq + 1;
+		iib = (cmfks.idimsq - iy)*cmfks.idimsq + 1;
 		for( ix = 1; ix <= cmfks.idimsq; ix++ ){
-		    curntval = Buffer[*ib];
-		    *(Sacmem++) = curntval;
-		    if( curntval < *depmin )
-			*depmin = curntval;
-		    if( curntval > *depmax )
-			*depmax = curntval;
-		    *ib = *ib + 1;
+		    curntval = Buffer[iib];
+		    s->y[k++] = curntval;
+		    if( curntval < s->h->depmin )
+          s->h->depmin = curntval;
+		    if( curntval > s->h->depmax )
+          s->h->depmax = curntval;
+		    iib = iib + 1;
 		    isacm = isacm + 1;
 		}
 	    }
 
-	    putfil( jdfl, nerr );
-	    if( *nerr != 0 ){
-		relamb( cmmem.sacmem, Ndxhdr[jdfl], nerr );
-		relamb( cmmem.sacmem, cmdfm.ndxdta[jdfl - 1][0], nerr );
-		return ;
-	    }
-
-	    cmdfm.ndfl = jdfl;
+	    //saclen() = jdfl;
 
 	    /*  Write SAC file from SACMEM out to OS
 	     * */
+      sacput(s);
 	    wrsac( jdfl, kfile,9, TRUE, nerr );
 	    if( *nerr != 0 )
-		return ;
-	    relamb( cmmem.sacmem, Ndxhdr[jdfl], nerr );
-	    relamb( cmmem.sacmem, cmdfm.ndxdta[jdfl - 1][0], nerr );
-	    cmdfm.ndfl = cmdfm.ndfl - 1;
-
+        return ;
+      sacpop();
 	}
-
-	/*  Bye                                                                          
-	 * */
 
 L_8888:
 

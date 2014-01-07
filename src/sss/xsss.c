@@ -7,6 +7,7 @@
 #include "bool.h"
 
 
+#include "amf.h"
 #include "msg.h"
 #include "dff.h"
 #include "cpf.h"
@@ -16,8 +17,8 @@ void /*FUNCTION*/ xsss(nerr)
 int *nerr;
 {
 	char kfile[9];
-	int jdfl, notused;
-
+	int jdfl;
+  sac *s;
 
 
 	/*=====================================================================
@@ -64,21 +65,22 @@ int *nerr;
 
 	/* - Check certain header fields for files already in the data file list. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 		/* -- Get header from memory manager. */
-		getfil( jdfl, FALSE, &notused, &notused, &notused, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+    if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+      goto L_8888;
+    }
+		//getfil( jdfl, FALSE, &notused, &notused, &notused, nerr );
 
 		/* -- Check for evenly spaced time series files. */
-		if( !*leven ){
+		if( !s->h->leven ){
 			*nerr = 1306;
 			setmsg( "ERROR", *nerr );
 			apcmsg( kfile,9 );
 			goto L_8888;
 			}
-		else if( *iftype != *itime && *iftype != *ixy ){
+		else if( s->h->iftype != ITIME && s->h->iftype != IXY ){
 			*nerr = 1307;
 			setmsg( "ERROR", *nerr );
 			apcmsg( kfile,9 );
@@ -87,9 +89,9 @@ int *nerr;
 
 		/* -- Make sure the sampling rates match if requested. */
 		if( jdfl == 1 ){
-			cmsss.del = *delta;
+			cmsss.del = s->h->delta;
 			}
-		else if( fabs( *delta - cmsss.del ) > cmsss.srcfac && cmsss.lsrc ){
+		else if( fabs( s->h->delta - cmsss.del ) > cmsss.srcfac && cmsss.lsrc ){
 			*nerr = 5109;
 			setmsg( "ERROR", *nerr );
 			goto L_8888;
@@ -108,16 +110,16 @@ int *nerr;
 		if( cmsss.dstg != cmhdr.fundef ){
 			Dst[jdfl] = cmsss.dstg;
 			}
-		else if( *dist != cmhdr.fundef ){
-			Dst[jdfl] = *dist;
+		else if( s->h->dist != cmhdr.fundef ){
+			Dst[jdfl] = s->h->dist;
 			}
 		else{
 			Dst[jdfl] = cmhdr.fundef;
 			}
 
 		/* -- Set begin and end time from header. added 960701 maf */
-                Tbegin[jdfl] = *begin ;	/* if begin is undefined, Tbegin is too */
-		Tend[jdfl] = *ennd ;
+                Tbegin[jdfl] = s->h->b ;	/* if begin is undefined, Tbegin is too */
+		Tend[jdfl] = s->h->e ;
 
 		} /* end for */
 

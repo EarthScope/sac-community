@@ -52,14 +52,14 @@ xwtab(int *nerr) {
 	     kfile[ MCPFN+1 ], kcdir[ MCPFN+1 ], 
 	     kstring[ MCPFN+1 ], kdirpart[ MCPFN+1 ],
 	     *cattemp, *strtemp1, *strtemp2, *strtemp3, junk[ 7 ] ;
-	int nstr, nchg, nchange, nwrdir, nlen, ndx1, ndx2, nderr ;
+	int nstr, nchg, nchange, nwrdir, nderr ;
         int lexpnd, liftype, lheader, lwrdir ;
         int idx, ic1, ic2, jdfl, nchar, nstring;
         FILE *nun;
 
         char *file;
         string_list *list;
-
+        sac *s;
         nun = 0;
         
         lwrdir = FALSE;
@@ -112,7 +112,7 @@ xwtab(int *nerr) {
             /* generate names from the KSTCMP header field */
             else if( lckeyExact( "KSTCMP#$",9 ) ){
                 lexpnd = FALSE;
-                gennames("KSTCMP ",7, list,string_list_length(datafiles),nerr);
+                gennames("KSTCMP ",7, list,saclen(),nerr);
                 if(*nerr != 0)
                     goto L_8888;
             }
@@ -122,8 +122,11 @@ xwtab(int *nerr) {
                      &nstring ) ){
                 ic1 = 0;
                 ic2 = 0;
-                for(i = 1; i <= cmdfm.ndfl; i++) {
-                    tmp = string_list_get(datafiles, i-1);
+                for(i = 0; i < saclen(); i++) {
+                  if(!(s = sacget(i, TRUE, nerr))) {
+                    goto L_8888;
+                  }
+                  tmp = s->m->filename;
                     appendstring(kstring, MCPFN+1, tmp, strlen(tmp)+1, kfile, MCPFN+1);
                     string_list_put(list, kfile, MCPFN+1);
                     if( *nerr != 0 )
@@ -138,8 +141,11 @@ xwtab(int *nerr) {
                      MCPFN+1, &nstring ) ){
                 ic1 = 0;
                 ic2 = 0;
-                for(i = 1; i <= cmdfm.ndfl; i++) {
-                    tmp = string_list_get(datafiles, i-1);
+                for(i = 0; i < saclen(); i++) {
+                  if(!(s = sacget(i, TRUE, nerr))) {
+                    goto L_8888;
+                  }
+                  tmp = s->m->filename;
                     strtemp1 = malloc(nstring+1);
                     strncpy(strtemp1,kstring,nstring);
                     strtemp1[nstring] = '\0';
@@ -161,11 +167,14 @@ xwtab(int *nerr) {
                      &nstring ) ){
                 ic1 = 0;
                 ic2 = 0;
-                for(i = 1; i <= cmdfm.ndfl; i++) {
-                    strtemp1 = malloc(nstring+1);
+                for(i = 0; i < saclen(); i++) {
+                  if(!(s = sacget(i, TRUE, nerr))) {
+                    goto L_8888;
+                  }
+                  strtemp1 = malloc(nstring+1);
                     strncpy(strtemp1,kstring,nstring);
                     strtemp1[nstring] = '\0';
-                    strtemp2 = string_list_get(datafiles, i-1);
+                    strtemp2 = s->m->filename;
                     deletestring( strtemp1, nstring+1, strtemp2,
                                   ic2-ic1+2, kfile,MCPFN+1 );
 
@@ -184,8 +193,11 @@ xwtab(int *nerr) {
                 lcchar( MCPFN, kchange,MCPFN+1, &nchange );
                 ic1 = 0;
                 ic2 = 0;
-                for(i = 1; i <= cmdfm.ndfl; i++) {
-                    nstr = indexb( kstring,MCPFN+1 );
+                for(i = 0; i < saclen(); i++) {
+                  if(!(s = sacget(i, TRUE, nerr))) {
+                    goto L_8888;
+                  }
+                  nstr = indexb( kstring,MCPFN+1 );
                     nchg = indexb( kchange,MCPFN+1 );
 
                     strtemp1 = malloc(nstr+1);
@@ -194,7 +206,7 @@ xwtab(int *nerr) {
                     strncpy(strtemp2,kchange,nchg);
                     strtemp1[nstr] = '\0';
                     strtemp2[nchg] = '\0';
-                    strtemp3 = string_list_get(datafiles, i-1);
+                    strtemp3 = s->m->filename;
                     changestring( strtemp1, nstr+1, strtemp2, nchg+1,
                                   strtemp3, ic2-ic1+2, kfile,MCPFN+1 );
 
@@ -231,11 +243,11 @@ xwtab(int *nerr) {
         }
 
         /* - Make sure the write filelist has as many entries as read filelist*/
-        if( string_list_length(list) != cmdfm.ndfl ){
+        if( string_list_length(list) != saclen() ){
             *nerr = 1312;
             setmsg( "ERROR", *nerr );
             apimsg( string_list_length(list) );
-            apimsg( cmdfm.ndfl );
+            apimsg( saclen() );
             goto L_8888;
         }
 
@@ -279,16 +291,15 @@ xwtab(int *nerr) {
         /* - Write each file in memory to disk. */
 
         nwrdir = indexb( kmdfm.kwrdir,MCPFN+1 );
-        for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+        for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
             /* -- Get file from memory manager. */
-            getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-            if( *nerr != 0 )
-                goto L_8888;
-
+          if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+            goto L_8888;
+          }
             /* isolate file name */
             file = string_list_get(list, jdfl-1);
             /* -- Check overwrite-protect flag in header record. */
-            if( cmdfm.lovrrq && !*lovrok ){
+            if( cmdfm.lovrrq && !s->h->lovrok ){
                 *nerr = 1303;
                 setmsg( "ERROR", *nerr );
                 apcmsg2(file, strlen(file)+1);
@@ -329,15 +340,13 @@ xwtab(int *nerr) {
                 fstrncpy( kfile, MCPFN, file, strlen(file)+1);
 
             /* - Create file. */
-
-            zdest( kfile, strlen( kfile ) , &nderr );
+            zdest( kfile, strlen( kfile )+1 , &nderr );
             znfiles( &nun, kfile, strlen( kfile ) , "TEXT",5, nerr );
             if( *nerr != 0 )
                 goto L_8888;
-
             if( cmdfm.liftype ) {
                 /* Write the data type. */
-                switch( *iftype ) {
+                switch( s->h->iftype ) {
                   case ITIME:  fprintf( nun, "Time Series\n" ) ;
                                break ;
     
@@ -353,43 +362,41 @@ xwtab(int *nerr) {
                   case IXYZ:   fprintf( nun, "XYZ file\n" ) ;
                                break ;
     
-                  default:     if( ndx2 <= 1 )
+                  default:     if( s->n <= 1 )
                                    fprintf( nun, "No datatype specified:  treated as Time Series\n" ) ;
                                else
                                    fprintf( nun, "No datatype specified: treated as XY data\n" ) ;
                                break ;
                 } /* end switch */
             } /* end if( cmdfm.liftype ) */
-            
+
             if( cmdfm.lheader ) {
                 /* if leven, write begin and delta */
-                if( *leven ) {
+                if( s->h->leven ) {
                     fprintf( nun, "Begin time: %f ;  Delta time: %f\n" ,
-                             *begin , *delta ) ;
+                             s->h->b , s->h->delta ) ;
                 }
                 else
                     fprintf( nun, "Unevenly spaced data.\n" ) ;
 
-                if( *iftype == ITIME && *leven == TRUE ) {
-                    for( idx = 0 ; idx < *npts ; idx++ ) {
-                        fprintf( nun , "%0 13.6e\n" , cmmem.sacmem[ndx1][idx] );
+                if( s->h->iftype == ITIME && s->h->leven == TRUE ) {
+                    for( idx = 0 ; idx < s->h->npts ; idx++ ) {
+                      fprintf( nun , "%0 13.6e\n" , s->y[idx]);
                     }
 		    fflush( nun ) ;
                 }
                 else {
-                    for( idx = 0 ; idx < *npts ; idx++ ) {
-                        fprintf( nun , "%0 13.6e\t%0 13.6e\n" ,
-                                 cmmem.sacmem[ndx1][idx],
-                                 cmmem.sacmem[ndx2][idx] );
+                    for( idx = 0 ; idx < s->h->npts ; idx++ ) {
+                      fprintf( nun , "%0 13.6e\t%0 13.6e\n" , s->y[idx],s->x[idx]);
                     }
 		    fflush( nun ) ;
                 }
             } /* end if( cmdfm.lheader ) */
 
-            else if( *leven ){
-               switch( *iftype ) {
+            else if( s->h->leven ){
+               switch( s->h->iftype ) {
                  case ITIME : /* one calculated column, one read column */
-                   if( *begin == cmhdr.fundef || *delta == cmhdr.fundef ) {
+                   if( s->h->b == cmhdr.fundef || s->h->delta == cmhdr.fundef ) {
                        /* error */
                        *nerr = 1393 ;
                        setmsg( "WARNING" , *nerr ) ;
@@ -399,16 +406,16 @@ xwtab(int *nerr) {
                        clrmsg() ;
                        *nerr = 0 ;
                    } 
-                   for( idx = 0 ; idx < *npts ; idx++ ) {
-                       fprintf( nun , "%0 13.6e\t%0 13.6e\n" , 
-                                *begin + ( *delta * (float) idx ) ,
-                                cmmem.sacmem[ndx1][idx] ) ;
+                   for( idx = 0 ; idx < s->h->npts ; idx++ ) {
+                     fprintf( nun , "%0 13.6e\t%0 13.6e\n" , 
+                              s->h->b + ( s->h->delta * (float) idx ) ,
+                              s->y[idx] ) ;
                    }
                    fflush( nun ) ;
                    break ;
 
                  case IRLIM : case IAMPH : case IXYZ : /* one calc, two read */
-                   if( *begin == cmhdr.fundef || *delta == cmhdr.fundef ) {
+                   if( s->h->b == cmhdr.fundef || s->h->delta == cmhdr.fundef ) {
                        /* error */
                        *nerr = 1393 ;
                        setmsg( "WARNING" , *nerr ) ;
@@ -418,20 +425,18 @@ xwtab(int *nerr) {
                        clrmsg() ;
                        *nerr = 0 ;
                    }
-                   for( idx = 0 ; idx < *npts ; idx++ ) {
+                   for( idx = 0 ; idx < s->h->npts ; idx++ ) {
                        fprintf( nun , "%0 13.6e\t%0 13.6e\t%0 13.6e\n" , 
-                                *begin + ( *delta * (float) idx ) ,
-                                cmmem.sacmem[ndx1][idx] ,
-                                cmmem.sacmem[ndx2][idx] ) ;
+                                s->h->b + ( s->h->delta * (float) idx ) ,
+                                s->y[idx], s->x[idx]);
                    }
                    fflush( nun ) ;
                    break ;
 
                  case IXY :  /* two read columns */
-                   for( idx = 0 ; idx < *npts ; idx++ ) {
+                   for( idx = 0 ; idx < s->h->npts ; idx++ ) {
                        fprintf( nun , "%0 13.6e\t%0 13.6e\n" , 
-                                cmmem.sacmem[ndx1][idx] ,
-                                cmmem.sacmem[ndx2][idx] ) ;
+                                s->y[idx], s->x[idx]);
                    }
                    fflush( nun ) ;
                    break ;
@@ -446,21 +451,20 @@ xwtab(int *nerr) {
                            *nerr = 0 ;
                            break ;
                } /* end switch */
-            } /* end elseif( *leven ) */
+            } /* end elseif( s->h->leven ) */
 
-            else {  /* lheader if false, *leven is false */
-                switch( *iftype ) {
+            else {  /* lheader if false, s->h->leven is false */
+                switch( s->h->iftype ) {
                   case ITIME : case IXY :  /* write 2 read columns */
-                   for( idx = 0 ; idx < *npts ; idx++ ) {
+                   for( idx = 0 ; idx < s->h->npts ; idx++ ) {
                        fprintf( nun , "%0 13.6e\t%0 13.6e\n" ,
-                                cmmem.sacmem[ndx1][idx] ,
-                                cmmem.sacmem[ndx2][idx] ) ;
+                                s->y[idx],s->x[idx]);
                    }
                    fflush( nun ) ;
                    break ;
 
                   case IRLIM: case IAMPH: case IXYZ: /* pretend it's leven */
-                    if( *begin == cmhdr.fundef || *delta == cmhdr.fundef ) {
+                    if( s->h->b == cmhdr.fundef || s->h->delta == cmhdr.fundef ) {
                         /* error */
                        *nerr = 1393 ;
                        setmsg( "WARNING" , *nerr ) ;
@@ -470,11 +474,10 @@ xwtab(int *nerr) {
                        clrmsg() ;
                        *nerr = 0 ;
                     }
-                    for( idx = 0 ; idx < *npts ; idx++ ) {
+                    for( idx = 0 ; idx < s->h->npts ; idx++ ) {
                        fprintf( nun , "%0 13.6e\t%0 13.6e\t%0 13.6e\n" , 
-                                *begin + ( *delta * (float) idx ) ,
-                                cmmem.sacmem[ndx1][idx] ,
-                                cmmem.sacmem[ndx2][idx] ) ;
+                                s->h->b + ( s->h->delta * (float) idx ) ,
+                                s->y[idx], s->x[idx]);
                     }
                     fflush( nun ) ;
                     break ;
@@ -495,7 +498,7 @@ xwtab(int *nerr) {
 L_8888:
 
         if(nun != 0) {
-            zcloses( &nun, &nderr );
+          zcloses( &nun, &nderr );
         }
         return;
 

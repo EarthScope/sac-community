@@ -16,6 +16,8 @@
 #include "clf.h"
 #include "cpf.h"
 #include "dff.h"
+#include "amf.h"
+#include "errors.h"
 
 /** 
  * Execute the command COPYHDR which copies header varibles from one
@@ -33,13 +35,15 @@
 void 
 xcopyhdr(int *nerr) {
 
-	char ktemp1[MCPFN+1], ktemp2[9], ktemp3[2][9];
+	char ktemp1[MCPFN+1], ktemp2[9], ktemp3[24];
 	int lfirst, lfound, ltemp;
-	int icatcox, idflco, itemcox, itemp, j;
-	int j_, jdfl, jhdrco, nhdrco, notusd, ntemp;
+	int icatcox, idflco, itemcox, itemp;
+	int jdfl, jhdrco, nhdrco, notusd, ntemp;
 	float ftemp;
-
-
+  sac *s;
+  float *fp;
+  int *ip;
+  
 	*nerr = 0;
     memset(ktemp1, 0, sizeof(ktemp1));
     memset(ktemp2, 0, sizeof(ktemp2));
@@ -52,10 +56,11 @@ L_1000:
 
 		/* -- "FROM name|n":  determine which file to copy from. */
 		if( lckey( "FROM#$",7 ) ){
-			if( lcirc( 1, cmdfm.ndfl, &idflco ) ){
+			if( lcirc( 1, saclen(), &idflco ) ){
 				}
 			else if( lcchar( MCPFN, ktemp1,MCPFN+1, &notusd ) ){
-        idflco =string_list_find(datafiles, ktemp1, MCPFN+1);
+        char *ktemp2 = fstrdup(ktemp1, MCPFN+1);
+        idflco = sac_find_filename(ktemp2);
         if(idflco < 0) {
           arg_prev();
           cfmt( "BAD FILE NAME:",16 );
@@ -120,68 +125,61 @@ L_1000:
         itemp = SAC_INT_UNDEFINED;
         ntemp = SAC_ENUM_UNDEFINED;
         ltemp = SAC_LOGICAL_UNDEFINED;
-        strncpy(ktemp3[0], SAC_CHAR_UNDEFINED, 8);
-        strncpy(ktemp3[1], SAC_CHAR_UNDEFINED, 8);
+        strncpy(ktemp3, SAC_CHAR_UNDEFINED, 8);
+        strncpy(ktemp3, SAC_CHAR_UNDEFINED, 8);
 		/* -- Get master file's header from memory manager. */
-		getfil( idflco, FALSE, &notusd, &notusd, &notusd, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
-
+        if(!(s = sacget(idflco-1, TRUE, nerr))) {
+        //getfil( idflco, FALSE, &notusd, &notusd, &notusd, nerr );
+          *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+          goto L_8888;
+        }
 		/* -- Get header variable from master file. */
 		if( Icatco[jhdrco] == cmlhf.icatf ){
-			ftemp = Fhdr[Itemco[jhdrco]];
+			ftemp = VALUE(fhdr(s, Itemco[jhdrco]));
 			}
 		else if( Icatco[jhdrco] == cmlhf.icati ){
-			itemp = Ihdr[Itemco[jhdrco]];
+			itemp = VALUE(ihdr(s,Itemco[jhdrco]));
 			}
 		else if( Icatco[jhdrco] == cmlhf.icatn ){
-			ntemp = Nhdr[Itemco[jhdrco]];
+			ntemp = VALUE(nhdr(s,Itemco[jhdrco]));
 			}
 		else if( Icatco[jhdrco] == cmlhf.icatl ){
-			ltemp = Lhdr[Itemco[jhdrco]];
+			ltemp = VALUE(lhdr(s,Itemco[jhdrco]));
 			}
 		else if( Icatco[jhdrco] == cmlhf.icatk ){
-			for( j = 1; j <= Nkhdr[Itemco[jhdrco]]; j++ ){
-				j_ = j - 1;
-				strcpy( ktemp3[j_], kmhdr.khdr[Itemco[jhdrco] + j_ - 
-				 1] );
-				}
-			}
+      strcpy( ktemp3, khdr(s,Itemco[jhdrco]) );
+    }
 
 		/* -- Copy this variable to all (other) files in DFL. */
-		for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-			getfil( jdfl, FALSE, &notusd, &notusd, &notusd, nerr );
-			if( *nerr != 0 )
-				goto L_8888;
+		for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
+      if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+        goto L_8888;
+      }
+			//getfil( jdfl, FALSE, &notusd, &notusd, &notusd, nerr );
+
 			if( Icatco[jhdrco] == cmlhf.icatf ){
-				Fhdr[Itemco[jhdrco]] = ftemp;
+				fp = fhdr(s, Itemco[jhdrco]);
+        VALUE(fp) = ftemp;
 				}
 			else if( Icatco[jhdrco] == cmlhf.icati ){
-				Ihdr[Itemco[jhdrco]] = itemp;
+        ip = ihdr(s, Itemco[jhdrco]);
+        VALUE(ip) = itemp;
 				}
 			else if( Icatco[jhdrco] == cmlhf.icatn ){
-				Nhdr[Itemco[jhdrco]] = ntemp;
+        ip = nhdr(s, Itemco[jhdrco]);
+        VALUE(ip) = ntemp;
 				}
 			else if( Icatco[jhdrco] == cmlhf.icatl ){
-				Lhdr[Itemco[jhdrco]] = ltemp;
+        ip = lhdr(s, Itemco[jhdrco]);
+        VALUE(ip) = ltemp;
 				}
 			else if( Icatco[jhdrco] == cmlhf.icatk ){
-				for( j = 1; j <= Nkhdr[Itemco[jhdrco]]; j++ ){
-					j_ = j - 1;
-					strcpy( kmhdr.khdr[Itemco[jhdrco] + j_ - 1], ktemp3[j_]
-					  );
-					}
-				}
+        strcpy( khdr(s,Itemco[jhdrco]), ktemp3);
+      }
+    }
 
-			/* -- Return file to memory manager. */
-			putfil( jdfl, nerr );
-			if( *nerr != 0 )
-				goto L_8888;
-			}
-
-		}
-
-L_8888:
+  }
+ L_8888:
 	return;
 }
 

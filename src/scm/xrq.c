@@ -18,11 +18,10 @@
 void /*FUNCTION*/ xrq(nerr)
 int *nerr;
 {
-	int j, jdfl, jj, ndx1, ndx2, nfreq, num;
-	float dfreq, fac, freq, recqf;
+	int j, jdfl, jj, nfreq;
+	float fac, freq, recqf;
 
-        float *Sacmem;
-
+  sac *s;
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command RQ.
 	 *           This command removes the seismic Q factor from spectral files.
@@ -115,42 +114,36 @@ L_1000:
 
 	/* - For each file in DFL: */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
 		/* -- Get the next file in DFL from the memory manager. */
-		getfil( jdfl, TRUE, &num, &ndx1, &ndx2, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+		//getfil( jdfl, TRUE, &num, &ndx1, &ndx2, nerr );
 
 		/* -- Convert the file to amplitude-phase format if necessary. */
-		if( *iftype == *irlim ){
-			toamph( cmmem.sacmem[ndx1], cmmem.sacmem[ndx2], *npts, cmmem.sacmem[ndx1], 
-			 cmmem.sacmem[ndx2] );
-			*iftype = *iamph;
+		if( s->h->iftype == IRLIM ){
+			toamph( s->y, s->x, s->h->npts, s->y, s->x );
+			s->h->iftype = IAMPH;
 			}
 
 		/* -- Apply seismic Q correction to each amplitude data point. */
-		freq = *b;
-		dfreq = *delta;
-		nfreq = *npts/2;
+		freq = s->h->b;
+		//dfreq = s->h->delta;
+		nfreq = s->h->npts/2;
 		fac = PI*cmscm.rqrcon/(cmscm.rqqcon*cmscm.rqccon);
-                Sacmem = cmmem.sacmem[ndx1];
 		for( j = 1; j <= (nfreq - 1); j++ ){
-			freq = freq + dfreq;
+			freq = s->h->b + j * s->h->delta; //freq + dfreq;
 			recqf = exp( fac*freq );
-			*(Sacmem+j) *= recqf;
-			jj = *npts - j;
-			*(Sacmem+jj) = *(Sacmem+j);
+      s->y[j] *= recqf;
+			jj = s->h->npts - j;
+			s->y[jj] = s->y[j];
 			}
 
 		/* -- Recompute extrema. */
-		extrma( cmmem.sacmem[ndx1], 1, *npts, depmin, depmax, depmen );
-		*depmen = 0.;
+		extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
+		s->h->depmen = 0.;
 
-		/* -- Give file back to memory manager. */
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
 
 		}
 

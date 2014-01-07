@@ -20,16 +20,16 @@ void /*FUNCTION*/ xrsp(nerr)
 int *nerr;
 {
   char krspnm[MCPFN+1];
-	int irsptp, jdx, jdfl, jdfl_, 
-	 junk, ndx1, ndx2, nfreq, nlcdsk, nlcmem, nlen, nrspnm, 
+	int irsptp, jdx, jdfl, 
+	 junk, nfreq, nlcdsk, nrspnm, 
 	 nun, lswap[ MDFL ] ;
-
+  int n;
     char s1[4];
     char *tmp;
     float *Sacmem1, *Sacmem2;
     string_list *list;
     static string_list *last_list = NULL;
-    
+    sac *s;
     if(!last_list) {
         last_list = string_list_init();
     }
@@ -138,28 +138,24 @@ int *nerr;
 	if( cmsam.lramph ){
 	    strcpy( kmsam.krsps1, ".am     " );
 	    strcpy( kmsam.krsps2, ".ph     " );
-	    irsptp = *iamph;
+	    irsptp = IAMPH;
 	}
 	else{
 	    strcpy( kmsam.krsps1, ".rl     " );
 	    strcpy( kmsam.krsps2, ".im     " );
-	    irsptp = *irlim;
+	    irsptp = IRLIM;
 	}
 
 	/* -- Clear data sets */
-	cleardfl( nerr );
+  sacclear();
 
-	/* - Copy input data file list to real one. */
-    string_list_clear(datafiles);
-    string_list_extend(datafiles, list);
-    string_list_free(list);
-	cmdfm.ndfl = string_list_length(datafiles);
+  n = string_list_length(list);
 
 	/* - Read headers (from first file in each pair) into memory. */
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= n; jdfl++ ){
 
 	    /* -- Determine character length of input file name. */
-        tmp = string_list_get(datafiles, jdfl-1);
+        tmp = string_list_get(list, jdfl-1);
 	    fstrncpy( krspnm, MCPFN, tmp, strlen(tmp)+1);
 	    nrspnm = min( strlen(krspnm), MCPFN - 3 );
 
@@ -174,33 +170,30 @@ int *nerr;
 	    if( *nerr != 0 )
 		goto L_8888;
 
+      s = sac_new();
+      s->m->filename = fstrdup(krspnm, nrspnm);
+      sacput(s);
 	    /* -- Allocate block for the header in data-set storage. */
-	    allamb( &cmmem, SAC_HEADER_WORDS , &Ndxhdr[jdfl], nerr );
+	    //allamb( &cmmem, SAC_HEADER_WORDS , &Ndxhdr[jdfl], nerr );
 	    if( *nerr != 0 )
 		goto L_8888;
-
-	    Ndsndx[jdfl] = 1 ;
 
 	    /* -- Read header. */
-	    lswap[ jdfl ] = rdhdr( jdfl, &nun, krspnm, nerr );
+	    lswap[ jdfl ] = rdhdr( s, &nun, krspnm, nerr );
 	    if( *nerr != 0 )
 		goto L_8888;
-	    if( *nevid == -12345 || *norid == -12345 )
+	    if( s->h->nevid == -12345 || s->h->norid == -12345 )
 		cmdfm.nreadflag = LOW ;
 
 
 	    /* -- Adjust certain header fields. */
-	    nfreq = *npts;
-	    *npts = 2*(nfreq - 1);
-	    *b = 0.;
-	    *e = *delta*(float)( nfreq - 1 );
-	    *iftype = irsptp;
-
-	    /* -- Give header back to memory manager. */
-	    putfil( jdfl, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
-
+	    nfreq = s->h->npts;
+	    s->h->npts = 2*(nfreq - 1);
+	    s->h->b = 0.;
+	    s->h->e = s->h->delta*(float)( nfreq - 1 );
+	    s->h->iftype = irsptp;
+      sac_alloc(s);
+      
 	    /* -- Close file. */
 	    zclose( &nun, nerr );
 	    if( *nerr != 0 )
@@ -209,28 +202,24 @@ int *nerr;
 
 	/* - Read data sections from both files in pair. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-	    jdfl_ = jdfl - 1;
+	for( jdfl = 1; jdfl <= n; jdfl++ ){
 
+      if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+        goto L_8888;
+      }
 	    /* -- Get header from memory manager. */
-	    getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
-
-	    /* -- Set number and size of data components in working storage. */
-	    Ncomp[jdfl] = 2;
-	    Nlndta[jdfl] = *npts;
+	    //getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
 
 	    /* -- Allocate memory blocks in data-set storage. */
-	    allamb( &cmmem, Nlndta[jdfl], &cmdfm.ndxdta[jdfl - 1][0], nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
-	    allamb( &cmmem, Nlndta[jdfl], &cmdfm.ndxdta[jdfl - 1][1], nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
+	    //allamb( &cmmem, Nlndta[jdfl], &cmdfm.ndxdta[jdfl - 1][0], nerr );
+	    //if( *nerr != 0 )
+      //goto L_8888;
+	    //allamb( &cmmem, Nlndta[jdfl], &cmdfm.ndxdta[jdfl - 1][1], nerr );
+	    //if( *nerr != 0 )
+      //goto L_8888;
 
 	    /* -- Open first file. */
-        tmp = string_list_get(datafiles, jdfl-1);
+        tmp = string_list_get(list, jdfl-1);
 	    fstrncpy( krspnm, MCPFN, tmp, strlen(tmp)+1);
 	    nrspnm = min(strlen(krspnm), MCPFN - 3 );
 	    if( !cmsam.lrspe ){
@@ -243,17 +232,15 @@ int *nerr;
 
 	    /* -- Read data. */
 	    nlcdsk = SAC_HEADER_WORDS_FILE;
-	    nlcmem = cmdfm.ndxdta[jdfl_][0];
-	    nfreq = *npts/2 + 1;
-	    zrabs( (int *)&nun, (char *)(cmmem.sacmem[nlcmem]), nfreq, (int *)&nlcdsk, (int *)nerr );
+	    nfreq = s->h->npts/2 + 1;
+	    zrabs( (int *)&nun, (char *)s->y, nfreq, (int *)&nlcdsk, (int *)nerr );
             if( lswap[ jdfl ] ){     /* byteswap if necessary. */
-                int idx ;
-                float *ptr ;
 
-                for( idx = 0, ptr = cmmem.sacmem[nlcmem] ;
-                     idx < nfreq ; idx++, ptr++ )
-                {
-                    byteswap( (void *)ptr, 4 ) ;
+                for(jdx = 0; jdx < nfreq; jdx++) {
+                  //for( idx = 0, ptr = cmmem.sacmem[nlcmem] ;
+                  // idx < nfreq ; idx++, ptr++ )
+                  //{
+                    byteswap( (void *)&s->y[jdx], 4 ) ;
                 }
             } /* end if( lswap[ jdfl ] ) */
 	    if( *nerr != 0 )
@@ -267,8 +254,8 @@ int *nerr;
 	    /* -- Fill second half of first data component.
 	     *    This is either the real or the amplitude component
 	     *    and is therefore symmetric about its midpoint. */
-             Sacmem1 = cmmem.sacmem[nlcmem]+1;
-             Sacmem2 = cmmem.sacmem[nlcmem]+*npts-1;
+      Sacmem1 = &s->y[1];             //cmmem.sacmem[nlcmem]+1;
+      Sacmem2 = &s->y[s->h->npts-1];  //cmmem.sacmem[nlcmem]+*npts-1;
 	     for( jdx = 1; jdx <= (nfreq - 2); jdx++ ){
                 *(Sacmem2--) = *(Sacmem1++);
 	     }
@@ -281,17 +268,13 @@ int *nerr;
 	      *    (4) Loop to the next file in the list. */
 
 	     if( cmsam.lrspe ){
-                Sacmem1 = cmmem.sacmem[cmdfm.ndxdta[jdfl_][0]];
-		for( jdx = 0; jdx <= (*npts - 1); jdx++ ){
-                    *Sacmem1 = sqrt(*Sacmem1);
-                    Sacmem1++;
+		for( jdx = 0; jdx <= (s->h->npts - 1); jdx++ ){
+      s->y[jdx] = sqrt(s->y[jdx]);
 		}
-		extrma( cmmem.sacmem[cmdfm.ndxdta[jdfl_][0]], 1, *npts, depmin, 
-		 depmax, depmen );
+		extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
-                Sacmem1 = cmmem.sacmem[cmdfm.ndxdta[jdfl_][1]];
-		for( jdx = 0; jdx <= (*npts - 1); jdx++ ){
-                    *(Sacmem1++) = 0.;
+		for( jdx = 0; jdx <= (s->h->npts - 1); jdx++ ){
+      s->x[jdx] = 0.0;
 		}
 		goto L_4800;
 	     }
@@ -305,16 +288,13 @@ int *nerr;
 		goto L_7777;
 
 	    /* -- Read data (do not read header from second file.) */
-	    nlcmem = cmdfm.ndxdta[jdfl_][1];
-	    zrabs( (int *)&nun, (char *)(cmmem.sacmem[nlcmem]), nfreq, (int *)&nlcdsk, (int *)nerr );
+	    zrabs( (int *)&nun, (char *)s->x, nfreq, (int *)&nlcdsk, (int *)nerr );
             if( lswap[ jdfl ] ){     /* byteswap if necessary. */
-                int idx ;
-                float *ptr ;
-
-                for( idx = 0, ptr = cmmem.sacmem[nlcmem] ;
-                     idx < nfreq ; idx++, ptr++ )
-                {
-                    byteswap( (void *)ptr, 4 ) ;
+                for(jdx = 0; jdx < nfreq; jdx++) {
+                  //for( idx = 0, ptr = cmmem.sacmem[nlcmem] ;
+                  //     idx < nfreq ; idx++, ptr++ )
+                  //{
+                    byteswap( (void *)&s->x[jdx], 4 ) ;
                 }
             } /* end if( lswap[ jdfl ] ) */
 	    if( *nerr != 0 )
@@ -326,18 +306,14 @@ int *nerr;
 		goto L_8888;
 
 	    /* -- Fill second half of second component (assymetric this time.) */
-            Sacmem1 = cmmem.sacmem[nlcmem]+1;
-            Sacmem2 = cmmem.sacmem[nlcmem]+*npts-1;
+      Sacmem1 = &s->x[1];             //cmmem.sacmem[nlcmem]+1;
+      Sacmem2 = &s->x[s->h->npts-1];  //cmmem.sacmem[nlcmem]+*npts-1;
 	    for( jdx = 1; jdx <= (nfreq - 2); jdx++ ){
                 *(Sacmem2--) = -*(Sacmem1++);
 	    }
 
-	    /* -- Give file back to memory manager. */
 L_4800:
-	    putfil( jdfl, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
-
+      continue;
 	}
 
 L_7777:
@@ -345,7 +321,7 @@ L_7777:
 
 L_8888:
     string_list_clear(last_list);
-    string_list_extend(last_list, datafiles);
+    string_list_extend(last_list, list);
     list = NULL;
 
 	if( *nerr == 0 ) {
@@ -354,8 +330,6 @@ L_8888:
 	    sacToSeisMgr ( TRUE , FALSE , TRUE , nerr ) ;
 	    cmdfm.lread = FALSE ;
 	}
-	else
-	    cmdfm.ndfl = 0;
 
 	return;
 } /* end of function */

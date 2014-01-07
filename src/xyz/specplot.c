@@ -78,7 +78,7 @@ specplot(float *specdata,
 	char kptext[MCMSG+1];
 	int lany, lbotaxsave, lbottcsave, lframesave, ltitlsave, 
 	 ltoptcsave, lwait, lxgrdsave, lxlabsave, lxlims, lylabsave;
-	int n1dttm[6], nlcx, nlcy, num;
+	int n1dttm[6];
     int nystart, nypoints;
 	float tmax, tmin, toff[MDFL], ypdel, ypmxsave, ypmnsave, xpmxsave, xpmnsave;
         float vspaceratio;
@@ -86,9 +86,9 @@ specplot(float *specdata,
         float width, height;
         float *wdata;
         int wdata_alloc;
+  sac *s;
 
 	static int lrel = FALSE;
-
 	float *const Toff = &toff[0] - 1;
 
 
@@ -201,9 +201,10 @@ specplot(float *specdata,
 
 		/* -- Determine time limits for x axis of this frame.
 		 *    (Correct for any differences in GMT reference time.) */
-
-	getfil( 1, TRUE, &num, &nlcy, &nlcx, nerr );
-      	if( *nerr != 0 )goto L_7777;
+  if(!(s = sacget(0, TRUE, nerr))) {
+    goto L_7777;
+  }
+	//getfil( 1, TRUE, &num, &nlcy, &nlcx, nerr );
 
 	getxlm( &lxlims, &tmin, &tmax );
        	if( lrel ){
@@ -212,7 +213,7 @@ specplot(float *specdata,
 	       	tmin = 0.;
       	}
 	else{
-	       	copyi( nzdttm, n1dttm, 6 );
+	       	copyi( &s->h->nzyear, n1dttm, 6 );
 	       	/* l1dttm = ldttm( n1dttm ); */
 	       	Toff[1] = 0.;
        	}
@@ -249,16 +250,17 @@ specplot(float *specdata,
      	cmgem.plot.ymin = cmgem.plot.ymax - ypdel;
 
         /* --- Get pointers to this file's location in memory. */
-
-     	getfil( 1, TRUE, &num, &nlcy, &nlcx, nerr );
-	if( *nerr != 0 )goto L_7777;
+      if(!(s = sacget(0, TRUE, nerr))) {
+        goto L_7777;
+      }
+     	//getfil( 1, TRUE, &num, &nlcy, &nlcx, nerr );
 
         /* --- Set up x axis data values. */
 
-	if( *leven ){
+	if( s->h->leven ){
 		cmgem.xgen.on = TRUE;
-	      	cmgem.xgen.delta = *delta;
-	       	cmgem.xgen.first = *begin + Toff[1];
+	      	cmgem.xgen.delta = s->h->delta;
+	       	cmgem.xgen.first = s->h->b + Toff[1];
 	}else{
 	      	cmgem.xgen.on = FALSE;
        	}
@@ -269,7 +271,7 @@ specplot(float *specdata,
 
        	/* --- Plot this file. */
 
-       	pl2d( cmmem.sacmem[nlcx], cmmem.sacmem[nlcy], num, 1, 1, nerr );
+       	pl2d( s->x, s->y, s->h->npts, 1, 1, nerr );
        	if( *nerr != 0 )goto L_7777;
 
        	/* --- Plot picks and fileid. */
@@ -335,13 +337,13 @@ specplot(float *specdata,
         /* Determine the Size of the Image in Viewspace coordinates */
         width  = (cmgem.plot.xmax - cmgem.plot.xmin) *  /* Total Width [ px ] */
           (xmax - xmin) /  /* Spectrogram Width [ seconds ] */
-          (*ennd - cmgem.xgen.first); /* Total Time [ seconds ] */
+          (s->h->e - cmgem.xgen.first); /* Total Time [ seconds ] */
         height = (cmgem.plot.ymax - ypmnsave) * 0.70; /* Total Height */
 
         /* Determine the location in viewspace coordinates */
         cmgem.plot.xmin = (cmgem.plot.xmin + 
                            (((xmin-cmgem.xgen.first)/
-                             (*ennd-cmgem.xgen.first))*
+                             (s->h->e-cmgem.xgen.first))*
                             (cmgem.plot.xmax-cmgem.plot.xmin)));
         cmgem.plot.xmax = cmgem.plot.xmin + width;
 

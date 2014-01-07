@@ -15,6 +15,7 @@
 
 #include "co.h"
 #include "dff.h"
+#include "errors.h"
 
 /** 
  * Write a SAC card image data file
@@ -44,16 +45,17 @@ wrci(int   idfl,
      char *kfmt, 
      int  *nerr) {
 
-        int ilhdr[SAC_HEADER_LOGICALS], jdx, jj, jjj, ncards, nderr, ndx1; 
-	int ndx2, nlcmem, nlen, nremdr;
+  int ilhdr[SAC_HEADER_LOGICALS], jdx, jj, jjj, ncards, nderr;
+	int nlcmem, nremdr;
         FILE *nun;
-
-        float *Sacmem;
-
+        int k;
+        sac *s;
 	int *const Ilhdr = &ilhdr[0] - 1;
 
 	*nerr = 0;
-
+  if(!(s = sacget(idfl-1, TRUE, nerr))) {
+    goto L_8888;
+  }
 	/* - Create file. */
 	zdest( kname,kname_s, &nderr );
 	znfiles( &nun, kname,kname_s, "TEXT",5, nerr );
@@ -61,13 +63,13 @@ wrci(int   idfl,
 	    goto L_8888;
 
 	/* - Get file from memory manager. */
-	getfil( idfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
+	//getfil( idfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
 	/* - Write header. */
 	jdx = 1;
 	for( jj = 1; jj <= (SAC_HEADER_FLOATS/5); jj++ ){
 	    for( jjj = jdx; jjj <= (jdx + 4); jjj++ ){
-                        fprintf(nun,kfmt,Fhdr[jjj]);
+        fprintf(nun,kfmt,VALUE(fhdr(s,jjj)));
 	    }
 	    fprintf(nun,"\n");
 	    jdx = jdx + 5;
@@ -76,7 +78,7 @@ wrci(int   idfl,
 	jdx = 1;
 	for( jj = 1; jj <= (SAC_HEADER_INTEGERS/5); jj++ ){
 	    for( jjj = jdx; jjj <= (jdx + 4); jjj++ ){
-		fprintf(nun,"%10d",Nhdr[jjj]);
+        fprintf(nun,"%10d", VALUE(nhdr(s,jjj)));
 	    }
 	    fprintf(nun,"\n");
 	    jdx = jdx + 5;
@@ -85,7 +87,7 @@ wrci(int   idfl,
 	jdx = 1;
 	for( jj = 1; jj <= (SAC_HEADER_ENUMS/5); jj++ ){
 	    for( jjj = jdx; jjj <= (jdx + 4); jjj++ ){
-		fprintf(nun,"%10d",Ihdr[jjj]);
+        fprintf(nun,"%10d",VALUE(ihdr(s,jjj)));
 	    }
 	    fprintf(nun,"\n");
 	    jdx = jdx + 5;
@@ -94,7 +96,7 @@ wrci(int   idfl,
 	jdx = 1;
 	for( jj = 1; jj <= (SAC_HEADER_LOGICALS/5); jj++ ){
 	    for( jjj = 1; jjj <= 5; jjj++ ){
-		if( Lhdr[jdx] ){
+        if( VALUE(lhdr(s,jdx)) ){
 		    Ilhdr[jjj] = 1;
 		}
 		else{
@@ -109,53 +111,51 @@ wrci(int   idfl,
 	}
 
 	/* write out the character header values */
-        fprintf(nun,"%8s",kmhdr.khdr[0]);
-        fprintf(nun,"%-16s\n",kmhdr.khdr[1]);
+  fprintf(nun,"%8s",khdr(s,1));
+  fprintf(nun,"%-16s\n",khdr(s,2));
 
 	for( jj = 4; jj <= SAC_HEADER_STRINGS; jj += 3 ){
 	    for( jjj = jj; jjj <= (jj + 2); jjj++ ){
-		fprintf(nun,"%8s", kmhdr.khdr[jjj - 1] );
+        fprintf(nun,"%8s", khdr(s,jjj) );
 	    }
 	    fprintf( nun, "\n" );
 	}
 
 	/* - Write first data component. */
-	nlcmem = ndx1;
-	ncards = *npts/5;
-	nremdr = *npts - 5*ncards;
-        Sacmem = cmmem.sacmem[ndx1];
+	nlcmem = 0;
+	ncards = s->h->npts/5;
+	nremdr = s->h->npts - 5*ncards;
+  k = 0;
+  //Sacmem = cmmem.sacmem[ndx1];
 	for( jj = 1; jj <= ncards; jj++ ){
 	    for( jjj = nlcmem; jjj <= (nlcmem + 4); jjj++ ){
-		fprintf(nun,kfmt,*(Sacmem++));
+		fprintf(nun,kfmt,s->y[k++]);
 	    }
 	    fprintf( nun, "\n" );
 	    nlcmem = nlcmem + 5;
 	}
 	if( nremdr > 0 ){
-	    Sacmem = cmmem.sacmem[ndx1]+(nlcmem-ndx1);
 	    for( jjj = nlcmem; jjj <= (nlcmem + nremdr - 1); jjj++ ){
-		fprintf(nun,kfmt,*(Sacmem++));
+		fprintf(nun,kfmt,s->y[k++]);
 	    }
 	    fprintf( nun, "\n" );
 	    /* nlcmem = nlcmem + nremdr; */
 	}
 
 	/* - Write second data component if present. */
-
-	if( Ncomp[idfl] == 2 ){
-	    nlcmem = ndx2;
-	    Sacmem = cmmem.sacmem[ndx2];
+  k = 0;
+	if( sac_comps(s) == 2 ){
+	    nlcmem = 0;
 	    for( jj = 1; jj <= ncards; jj++ ){
 		for( jjj = nlcmem; jjj <= (nlcmem + 4); jjj++ ){
-		    fprintf(nun,kfmt,*(Sacmem++));
+      fprintf(nun,kfmt,s->x[k++]);
 		}
 		fprintf( nun, "\n" );
 		nlcmem = nlcmem + 5;
 	    }
 	    if( nremdr > 0 ){
-		Sacmem = cmmem.sacmem[ndx2]+(nlcmem-ndx2);
 		for( jjj = nlcmem; jjj <= (nlcmem + nremdr - 1); jjj++ ){
-		    fprintf(nun,kfmt,*(Sacmem++));
+		    fprintf(nun,kfmt,s->x[k++]);
 		}
 		fprintf( nun, "\n" );
 		/* nlcmem = nlcmem + nremdr; */

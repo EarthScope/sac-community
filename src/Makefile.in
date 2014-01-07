@@ -282,14 +282,6 @@ am_libsac_all_a_OBJECTS = amf/allamb.$(OBJEXT) amf/iniam.$(OBJEXT) \
 	co/zputc.$(OBJEXT) co/zquit.$(OBJEXT) co/zrabs.$(OBJEXT) \
 	co/zrun.$(OBJEXT) co/zrunname.$(OBJEXT) co/zruntext.$(OBJEXT) \
 	co/zsleep.$(OBJEXT) co/zsysop.$(OBJEXT) co/zwabs.$(OBJEXT) \
-	coda/binary_op.$(OBJEXT) coda/calc_codaGF.$(OBJEXT) \
-	coda/calc_coda_amplitudes.$(OBJEXT) coda/calc_energy.$(OBJEXT) \
-	coda/calc_envelopes.$(OBJEXT) \
-	coda/calc_moment_magnitude.$(OBJEXT) \
-	coda/fit_coda_amp.$(OBJEXT) coda/fit_coda_params.$(OBJEXT) \
-	coda/get_input.$(OBJEXT) coda/pickwindows.$(OBJEXT) \
-	coda/plotspec.$(OBJEXT) coda/send_output.$(OBJEXT) \
-	coda/unary_op.$(OBJEXT) coda/xcoda.$(OBJEXT) \
 	contouring/alloclabels.$(OBJEXT) \
 	contouring/allocpoints.$(OBJEXT) \
 	contouring/allocsegments.$(OBJEXT) \
@@ -1277,12 +1269,6 @@ libsac_all_a_SOURCES = amf/allamb.c amf/iniam.c amf/reaamb.c amf/relamb.c \
 	co/zrunname.c co/zruntext.c co/zsleep.c co/zsysop.c co/zwabs.c \
 	co/stdu.h \
 	\
-	coda/binary_op.c coda/calc_codaGF.c coda/calc_coda_amplitudes.c \
-	coda/calc_energy.c coda/calc_envelopes.c coda/calc_moment_magnitude.c \
-	coda/fit_coda_amp.c coda/fit_coda_params.c coda/get_input.c \
-	coda/pickwindows.c coda/plotspec.c \
-	coda/send_output.c coda/unary_op.c coda/xcoda.c \
-	\
 	contouring/alloclabels.c contouring/allocpoints.c \
 	contouring/allocsegments.c contouring/calccontlab1.c \
 	contouring/calccontlab4.c contouring/calccontlabs.c \
@@ -2010,23 +1996,6 @@ co/zruntext.$(OBJEXT): co/$(am__dirstamp)
 co/zsleep.$(OBJEXT): co/$(am__dirstamp)
 co/zsysop.$(OBJEXT): co/$(am__dirstamp)
 co/zwabs.$(OBJEXT): co/$(am__dirstamp)
-coda/$(am__dirstamp):
-	@$(MKDIR_P) coda
-	@: > coda/$(am__dirstamp)
-coda/binary_op.$(OBJEXT): coda/$(am__dirstamp)
-coda/calc_codaGF.$(OBJEXT): coda/$(am__dirstamp)
-coda/calc_coda_amplitudes.$(OBJEXT): coda/$(am__dirstamp)
-coda/calc_energy.$(OBJEXT): coda/$(am__dirstamp)
-coda/calc_envelopes.$(OBJEXT): coda/$(am__dirstamp)
-coda/calc_moment_magnitude.$(OBJEXT): coda/$(am__dirstamp)
-coda/fit_coda_amp.$(OBJEXT): coda/$(am__dirstamp)
-coda/fit_coda_params.$(OBJEXT): coda/$(am__dirstamp)
-coda/get_input.$(OBJEXT): coda/$(am__dirstamp)
-coda/pickwindows.$(OBJEXT): coda/$(am__dirstamp)
-coda/plotspec.$(OBJEXT): coda/$(am__dirstamp)
-coda/send_output.$(OBJEXT): coda/$(am__dirstamp)
-coda/unary_op.$(OBJEXT): coda/$(am__dirstamp)
-coda/xcoda.$(OBJEXT): coda/$(am__dirstamp)
 contouring/$(am__dirstamp):
 	@$(MKDIR_P) contouring
 	@: > contouring/$(am__dirstamp)
@@ -3244,7 +3213,6 @@ mostlyclean-compile:
 	-rm -f clf/*.$(OBJEXT)
 	-rm -f cnd/*.$(OBJEXT)
 	-rm -f co/*.$(OBJEXT)
-	-rm -f coda/*.$(OBJEXT)
 	-rm -f contouring/*.$(OBJEXT)
 	-rm -f cpf/*.$(OBJEXT)
 	-rm -f datafilelist/*.$(OBJEXT)
@@ -3446,7 +3414,6 @@ distclean-generic:
 	-rm -f clf/$(am__dirstamp)
 	-rm -f cnd/$(am__dirstamp)
 	-rm -f co/$(am__dirstamp)
-	-rm -f coda/$(am__dirstamp)
 	-rm -f contouring/$(am__dirstamp)
 	-rm -f cpf/$(am__dirstamp)
 	-rm -f datafilelist/$(am__dirstamp)

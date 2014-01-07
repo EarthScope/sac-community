@@ -10,6 +10,7 @@
 
 #include "config.h"
 
+#include "amf.h"
 #include "co.h"
 #include "clf.h"
 #include "dff.h"
@@ -80,8 +81,8 @@ lfilesok(string_list *files,
     int i;
 	char *file, *kopen;
 	int lfilesok_v ;
-	int ihdrndx, idx, nsdxhdr, nun;
-        
+	int nun;
+  sac *s;
 #ifdef HAVE_LIBRPC
     XDR xdrs;
 #else
@@ -99,18 +100,17 @@ lfilesok(string_list *files,
 	lfilesok_v = FALSE;
 
 	/* -- Save contents of ndxhdr(1) */
-	nsdxhdr = Ndxhdr[1];
+	//nsdxhdr = Ndxhdr[1];
 
 	/* -- Allocate block for header. Set ndxhdr for this file. */
-	allamb( &cmmem, SAC_HEADER_WORDS, &ihdrndx, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
-	Ndxhdr[1] = ihdrndx;
-    
-	for( idx = 0 ; idx < SAC_HEADER_WORDS ; idx++ ) {
-	    cmmem.sacmem[ihdrndx][idx] = 0 ;
-	}
+	//allamb( &cmmem, SAC_HEADER_WORDS, &ihdrndx, nerr );
+	//Ndxhdr[1] = ihdrndx;
+  s = sac_new();
 
+	//for( idx = 0 ; idx < SAC_HEADER_WORDS ; idx++ ) {
+  //  cmmem.sacmem[ihdrndx][idx] = 0 ;
+  //}
+  
 	/* - For each file in the list. */
     for(i = 0; i < string_list_length(files); i++) {
 	    /* -- Try to open and [optionally] read the header of each file in 
@@ -152,7 +152,7 @@ lfilesok(string_list *files,
 #endif /* HAVE_LIBRPC */
             }
             else{
-                rdhdr( 1, &nun, file, nerr );
+                rdhdr( s, &nun, file, nerr );
             }
 	    }
 	    else{
@@ -199,7 +199,7 @@ lfilesok(string_list *files,
     
     
 	/* - Restore ndxhdr */
-	Ndxhdr[1] = nsdxhdr;
+	//Ndxhdr[1] = nsdxhdr;
 
 	/* - A file was found to be a valid sac file, or we ran out of files */
 	if( lfilesok_v ){
@@ -208,12 +208,13 @@ lfilesok(string_list *files,
 	       * --- Clear working-storage pointers, data-set storage pointers
 	       *     and deallocate memory for the current data set. 
 	       */
-	      cleardfl( nerr );
+	      sacclear();
 	    }
 	}
 
-L_8888:
-	relamb( cmmem.sacmem, ihdrndx, nerr );
+
+  sac_free(s);
+  
     if(kopen) { 
         free(kopen);
     }

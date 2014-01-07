@@ -33,9 +33,6 @@ dfm_free() {
     }
     FREE(kmdfm.kauthors);
   }
-  if(datafiles) {
-    string_list_free(datafiles);
-  }
 }
 
 /** 
@@ -92,8 +89,6 @@ inidfm() {
 	strcpy( kmdfm.kpick[16], "T9      " );
 	strcpy( kmdfm.kpick[17], "F       " );
 
-        datafiles = string_list_init();
-
 	cmdfm.ipckn = 1;
 	cmdfm.ipckz = 2;
 	cmdfm.ipckg = 3;
@@ -113,15 +108,15 @@ inidfm() {
 	cmdfm.ipckt9 = 17;
 	cmdfm.ipckf = 18;
 
-	Ipckhd[1] = 0;
-	Ipckhd[2] = 0;
-	Ipckhd[3] = 0;
-	Ipckhd[4] = 6;
-	Ipckhd[5] = 7;
-	Ipckhd[6] = 8;
-	Ipckhd[7] = 9;
-	for( jdx = 8; jdx <= 18; jdx++ ){
-		Ipckhd[jdx] = jdx + 3;
+	cmdfm.ipckhd[0] = 0;
+	cmdfm.ipckhd[1] = 0;
+	cmdfm.ipckhd[2] = 0;
+	cmdfm.ipckhd[3] = 6;
+	cmdfm.ipckhd[4] = 7;
+	cmdfm.ipckhd[5] = 8;
+	cmdfm.ipckhd[6] = 9;
+	for( jdx = 7; jdx <= 17; jdx++ ){
+		cmdfm.ipckhd[jdx] = jdx + 3 + 1;
 	}
 
 	fstrncpy( kmdfm.krddir, MCPFN, " ", 1);
@@ -140,14 +135,7 @@ inidfm() {
 	strcpy( kmdfm.kbandw,   "*       " );
 	strcpy( kmdfm.korient,  "*       " );
 
-	cmdfm.ndfl = 0;
 	cmdfm.lovrrq = FALSE;
-
-	/* - Data Set Storage initialization */
-	cmdfm.ndsflcnt = 0;
-	for( jdx = 1; jdx <= MDFL; jdx++ ){
-		Ndsndx[jdx] = 0;
-	}
 
 
 	/* - File name suffix initialization */
@@ -260,8 +248,8 @@ inidfm() {
 	strcpy( kmdfm.krwfmt[0], "SAC     " );
 	strcpy( kmdfm.krwfmt[1], "ALPHA   " );
 	cmdfm.iwfmt = 1;
-	Icfmt[1] = 1;
-	Icfmt[2] = 1;
+	//Icfmt[1] = 1;
+	//Icfmt[2] = 1;
 	strcpy( kmdfm.kcfmt[0], "%#15.7g" );
 	strcpy( kmdfm.kcfmt[1], "%#15.7g" );
 	fstrncpy( kmdfm.kcfile[0], MCPFN, "in.saf", 6);

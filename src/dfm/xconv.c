@@ -7,6 +7,7 @@
 
 #include <string.h>
 
+#include "amf.h"
 #include "dfm.h"
 #include "bool.h"
 
@@ -58,11 +59,11 @@ xconv(int *nerr) {
 	    }
 
 	    /* -- "SAC/ALPHA":  select in/out file format. */
-	    else if(lclist((char*)kmdfm.krwfmt,9, cmdfm.nrwfmt, &Icfmt[iinout]))
+	    else if(lclist((char*)kmdfm.krwfmt,9, cmdfm.nrwfmt, &cmdfm.icfmt[iinout-1]))
 	    { /* do nothing */ }
 
 	    else if( lckey( "CI#$",5 ) )
-		Icfmt[iinout] = 2;
+        cmdfm.icfmt[iinout-1] = 2;
 
 	    /* -- "FMT string":  define a card-image format for in/out file. */
 	    else if( lkchar( "FMT$",5, 16, (char*)kmdfm.kcfmt[iinout - 1]
@@ -85,23 +86,22 @@ xconv(int *nerr) {
 	    goto L_8888;
 
 	/* EXECUTION PHASE: */
-	cleardfl( nerr );
+  sacclear();
 	if( *nerr != 0 )
 	    goto L_8888;
 
-	if( Icfmt[iin] == 1 ){
+	if( cmdfm.icfmt[iin-1] == 1 ){
 	    rdsac( 1, (char*)kmdfm.kcfile[iin - 1],MCPFN+1, TRUE, TRUE,
 		   &nlen, &ndxh, &ndx1, &ndx2, nerr );
 	    if( *nerr != 0 )
 		goto L_8888;
 	}
-	else if( Icfmt[iin] == 2 ){
+	else if( cmdfm.icfmt[iin-1] == 2 ){
 	    rdci( 1 , (char*)kmdfm.kcfile[iin - 1] , MCPFN+1 ,
 		  &nlen, &ndx1, &ndx2, nerr );
 	    if( *nerr != 0 )
 		goto L_8888;
 	}
-	cmdfm.ndfl = 1;
 
 	/* Added to run data through SeisMgr. */
 	cmdfm.nreadflag = HIGH ;
@@ -113,10 +113,10 @@ xconv(int *nerr) {
 	    goto L_8888 ;
 
 	/* Write file if applicable */
-	if( Icfmt[iout] == 1 )
+	if( cmdfm.icfmt[iout-1] == 1 )
 	    wrsac( 1, (char*)kmdfm.kcfile[iout - 1],MCPFN+1, TRUE, nerr );
 
-	else if( Icfmt[iout] == 2 )
+	else if( cmdfm.icfmt[iout-1] == 2 )
 	    wrci( 1, (char*)kmdfm.kcfile[iout - 1],MCPFN+1,
 	     (char*)kmdfm.kcfmt[iout - 1] , nerr );
 

@@ -23,8 +23,6 @@
 void 
 inihdr() {
 
-	int j;
-
 	cmhdr.nvhdrc = SAC_HEADER_MAJOR_VERSION;
 
 	cmhdr.fundef = SAC_FLOAT_UNDEFINED;
@@ -33,9 +31,9 @@ inihdr() {
 	strcpy( kmhdr.kundef, SAC_CHAR_UNDEFINED );
         strcpy( kmhdr.kundef_2, SAC_CHAR_UNDEFINED_2 );
 
-	for( j = 1; j <= SAC_ENUMS; j++ ){
-	  Niv[j] = j;
-	}
+        //	for( j = 1; j <= SAC_ENUMS; j++ ){
+        //	  Niv[j] = j;
+        //	}
 
 	/* lh starts without the INC option.  maf 961212 */
 	cmhdr.linc = FALSE ;

@@ -11,11 +11,14 @@
 #include "cpf.h"
 #include "dff.h"
 
+sac *spe;
+float *specor, *spepe, *spespe, *speaux;
+
 void /*FUNCTION*/ xspe(linit, nerr)
 int linit;
 int *nerr;
 {
-	int ndx1, ndx2, nlen, firstPowerOf2;
+	int  firstPowerOf2;
 
 
 
@@ -64,7 +67,7 @@ int *nerr;
 
 	/* - Make sure that there is only one file in DFL. */
 
-	if( cmdfm.ndfl > 1 ){
+	if( saclen() > 1 ){
 	    *nerr = 5002;
 	    setmsg( "ERROR", *nerr );
 	    cmspe.lfile = FALSE;
@@ -80,32 +83,36 @@ int *nerr;
 	}
 
 	/* - Get the file from memory or disk. */
-
-	getfil( 1, TRUE, &nlen, &ndx1, &ndx2, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
+  if(!(spe = sacget(0, TRUE, nerr))) {
+    goto L_8888;
+  }
+	//getfil( 1, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
 	/* - Get work space from memory manager. */
 
 	/* Find first power of two greater than or equal to nlen. maf 980527 */
 	firstPowerOf2 = MINPOW ;
-	while ( firstPowerOf2 < nlen )
+	while ( firstPowerOf2 < spe->h->npts )
 	    firstPowerOf2 *= 2 ;
 
 	cmspe.firstPowerOf2 = firstPowerOf2 ;
 
-	allamb( &cmmem, firstPowerOf2 * 2, &cmspe.ndxcor, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
-	allamb( &cmmem, MLNPE, &cmspe.ndxpe, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
-	allamb( &cmmem, firstPowerOf2, &cmspe.ndxspe, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
-	allamb( &cmmem, firstPowerOf2 * 5, &cmspe.ndxaux, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
+  specor = (float *) malloc(sizeof(float) * firstPowerOf2 * 2);
+  spepe = (float *) malloc(sizeof(float) * MLNPE);
+  spespe = (float *) malloc(sizeof(float) * firstPowerOf2);
+  speaux = (float *) malloc(sizeof(float) * firstPowerOf2 * 5);
+	/* allamb( &cmmem, firstPowerOf2 * 2, &cmspe.ndxcor, nerr ); */
+	/* if( *nerr != 0 ) */
+	/*     goto L_8888; */
+	/* allamb( &cmmem, MLNPE, &cmspe.ndxpe, nerr ); */
+	/* if( *nerr != 0 ) */
+	/*     goto L_8888; */
+	/* allamb( &cmmem, firstPowerOf2, &cmspe.ndxspe, nerr ); */
+	/* if( *nerr != 0 ) */
+	/*     goto L_8888; */
+	/* allamb( &cmmem, firstPowerOf2 * 5, &cmspe.ndxaux, nerr ); */
+	/* if( *nerr != 0 ) */
+	/*     goto L_8888; */
 
         /* - If this is an initialization call, send confirming message
          *   and change to the proper subprocess command list. */
@@ -119,12 +126,12 @@ int *nerr;
 
 	/* - Set some global values to their initial values. */
 
-        cmspe.ndxdat = ndx1;
-        cmspe.nlndat = nlen;
+        //cmspe.ndxdat = spe;//ndx1;
+        cmspe.nlndat = spe->h->npts;//nlen;
 	cmspe.lfile = TRUE;
 	cmspe.lcor = FALSE;
 	cmspe.lspe = FALSE;
-	cmspe.samfrq = 1./ *delta;
+	cmspe.samfrq = 1./ spe->h->delta;
 
 L_8888:
 	return;

@@ -2039,8 +2039,8 @@ char *modnam;   int modnam_s;
   /* short int _i0; */
   FILE *file;
 
-	int i, i_, idx, ind, ireterror, j, j_, k, l, len2, nasgr, 
-	 nerr, nl, nph, nph_;
+	int i, i_, idx, ind, j, j_, k, l, len2, nasgr, 
+	 nl, nph, nph_;
 	/* double tauc[JTSM], xc[JXSM]; */
 	static int _aini = 1;
 

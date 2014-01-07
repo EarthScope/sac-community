@@ -12,9 +12,8 @@
 void /*FUNCTION*/ xbenioff(nerr)
 int *nerr;
 {
-	int j, jdfl, ndxx, ndxy, nlen;
-
-        float *Sacmem;
+	int j, jdfl;
+  sac *s;
 
 	/*=====================================================================
 	 * PURPOSE: To parse and execute the action command BENIOFF.
@@ -62,31 +61,26 @@ int *nerr;
 
 	/* - Perform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 		/* -- Get next file from the memory manager.
 		 *    (Header is moved into common blocks CMHDR and KMHDR.) */
-		getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+		//getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
 
 		/* -- Initialize filter for this file. */
-		filtb( 0, *delta );
+		filtb( 0, s->h->delta );
 
 		/* -- Filter this data file. */
-                Sacmem = cmmem.sacmem[ndxy];
-		for( j = ndxy; j <= (ndxy + nlen - 1); j++ ){
-			*Sacmem = filtb( 1, *Sacmem );
-                        Sacmem++;
+
+		for( j = 0; j < s->h->npts ; j++ ){
+			s->y[j] = filtb( 1, s->y[j] );
 			}
 
 		/* -- Update any header fields that may have changed. */
-		extrma( cmmem.sacmem[ndxy], 1, nlen, depmin, depmax, depmen );
-
-		/* -- Return file to memory manager. */
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+		extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
 		}
 

@@ -26,7 +26,8 @@
 #include "dff.h"
 
 #define maxCropLevels 5
-
+extern float *tty[MXTT];
+extern float *ttx[MXTT];
 void xplotrecords(nerr)
 int *nerr;
 {
@@ -40,7 +41,7 @@ int *nerr;
 	float tmin, tmax , toff[MDFL] ;    /* " */  /* Toff are time offsets */
 	float *const Toff = &toff[0] - 1 ; /* " */
 	int kdx, kdx_, ioffsetdta, ioffsettw, jdx, 
-	 jdfl, jvr, ndx1, ndx2, ndy1, nferr, nlen, notused, 
+	 jdfl, jvr, nferr, notused, 
 	 numplot, nvr;
 	float angle, atime, delay, delsiz, dgscale, 
 	 dstchn, dstmn, dstmx, dvr, fudge, rdist, rosetp, unused, unused_,
@@ -54,9 +55,9 @@ int *nerr;
 		idx ;		/* index for loops */
 /*	const	int maxCropLevels = 5 ;*/
 	float	* storedLimits[maxCropLevels] ;	/* limits of all crop levels */
-  char *tmp;
   double dtmp;
-
+  sac *s;
+  float *y1;
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command PLOTRECORDSECTION.
 	 *           This command makes a record section plot.
@@ -140,9 +141,6 @@ int *nerr;
 	 *===================================================================== */
 	/* PROCEDURE: */
 	*nerr = 0;
-
-	/* initialize */
-	ndx1 = 0;
 
 	/* PARSING PHASE: */
 
@@ -310,7 +308,7 @@ int *nerr;
 	/* - Test for non-null stacklist.
 	 *   (First file in stacklist is reserved for sum). */
 
-	if( cmdfm.ndfl <= 0 && cmtt.lttm <= 0){
+	if( saclen() <= 0 && cmtt.lttm <= 0){
 	    *nerr = 5102;
 	    setmsg( "ERROR", *nerr );
 	    goto L_8888;
@@ -320,19 +318,20 @@ int *nerr;
 	/* - Check for traces with missing distances. */
 
 	lmissd = FALSE;
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 	    if( Dst[jdfl] == cmhdr.fundef ){
 		if( !lmissd ){
 		    *nerr = 5104;
 		    setmsg( "WARNING", *nerr );
 		    lmissd = TRUE;
 		}
-        tmp = string_list_get(datafiles, jdfl-1);
-        apcmsg2(tmp, strlen(tmp)+1);
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+      goto L_7777;
+    }
+    apcmsg2(s->m->filename, strlen(s->m->filename)+1);
 	    }
 	} /* end for ( jdfl ) */
-	if( *nerr != 0 )
-	    goto L_8888;
 
 	/* EXECUTION PHASE: */
 
@@ -390,7 +389,7 @@ int *nerr;
 	/* - Define distance window limits in km. */
 
 	if( cmsss.idwop == 1 || cmsss.idwop == 2 ){
-	    extrma( cmsss.dst, 1, cmdfm.ndfl, &dstmn, &dstmx, &unused );
+	    extrma( cmsss.dst, 1, saclen(), &dstmn, &dstmx, &unused );
 	    dstmn = dstmn*dgscale;
 	    dstmx = dstmx*dgscale;
 	    dstchn = 0.15*(dstmx - dstmn);
@@ -415,8 +414,8 @@ int *nerr;
             float	hedgeSize ;       /* the amount by which to pad the data in the plot */
 
             /* find the earliest begin time and the latest end time */
-	    extrma( cmsss.beginTime, 1, cmdfm.ndfl, &Twlim[1], &unused, &unused_ );
-	    extrma( cmsss.endTime, 1, cmdfm.ndfl, &unused, &Twlim[2], &unused_ );
+	    extrma( cmsss.beginTime, 1, saclen(), &Twlim[1], &unused, &unused_ );
+	    extrma( cmsss.endTime, 1, saclen(), &unused, &Twlim[2], &unused_ );
 
             /* hedge the data by a small amount on either side */
             hedgeSize = 0.15*(Twlim[2] - Twlim[1]);
@@ -586,26 +585,27 @@ int *nerr;
 
 	    /* - Get time delays for the various signals if pick option is turned on. maf 961219 */
 	    if ( cmgam.ldsppk ) {
-		getfil ( 1 , TRUE, &nlen, &ndx1, &ndx2, nerr );
-		if ( *nerr != 0 )
-		    goto L_7777;
+        if(!(s = sacget(0, TRUE, nerr))) {
+          *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+          goto L_7777;
+        }
+          //getfil ( 1 , TRUE, &nlen, &ndx1, &ndx2, nerr );
 		if ( cmsss.lorient )
 		    getxlm ( &llims , &tmin , &tmax );
 		else
 		    getylm ( &llims , &tmin , &tmax ) ;
 		if( !llims ){
-		    copyi( nzdttm, n1dttm, 6 );
+		    copyi( &s->h->nzyear, n1dttm, 6 );
 		    Toff[1] = 0.;
 		    if ( Lvm[1] )
 			Toff[1] = Dlyvm[1] ;
-		    for( jdfl = 2; jdfl <= cmdfm.ndfl; jdfl++ ){
-			getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-			if( *nerr != 0 )
-			    goto L_7777;
-/*			if( l1dttm && ldttm( nzdttm ) )
-took this out		    ddttm( nzdttm, n1dttm, &Toff[jdfl] );
-maf 970809		else
-*/			    Toff[jdfl] = 0.;
+		    for( jdfl = 2; jdfl <= saclen(); jdfl++ ){
+          if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+            *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+            goto L_7777;
+          }
+          //getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
+			    Toff[jdfl] = 0.;
 
 			if ( Lvm[1] )
 			    Toff[jdfl] += Dlyvm[jdfl] ;
@@ -616,7 +616,7 @@ maf 970809		else
 
 	    /* - Plot each file in its own subplot region with framing and axes off. */
 
-	    for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	    for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 		/* -- Only plot traces which are inside the current plot window. */
 		rdist = Dst[jdfl]*dgscale;
@@ -624,9 +624,10 @@ maf 970809		else
 		    continue ;
 
 		/* -- Get file from memory manager. */
-		getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-		if( *nerr != 0 )
-		    goto L_7777;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_7777;
+    }
+		//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
 		/* -- Adjust start time for reduced travel time plot */
 		timeadj( rdist, &atime, nerr );
@@ -634,17 +635,17 @@ maf 970809		else
 		/* -- Set up delay and compute intersection of file's data and plot's 
 		 *    time windows.  This determines how many data points to plot. */
 		delay = Dlyt[jdfl] + Dlyn[jdfl]*cmsss.del + ( Lvm[1] ? Dlyvm[jdfl] : 0 ) ;
-		definelimits( Twlim[1], Twlim[2], *begin + delay - atime, *ennd + delay - atime, 
-		 *delta, &ioffsettw, &ioffsetdta, &numplot );
+		definelimits( Twlim[1], Twlim[2], s->h->b + delay - atime, s->h->e + delay - atime, 
+		 s->h->delta, &ioffsettw, &ioffsetdta, &numplot );
 
 		/* Adjust picks for reduced time. maf 961219 */
 		if ( cmgam.ldsppk )
 		    Toff[jdfl] -= atime ; 
 
 		/* -- Set up scaling parameters. */
-		*scale = 1.0;
+		s->h->scale = 1.0;
 		if( cmsss.lrswt )
-		    *scale = Wt[jdfl]**scale;
+		    s->h->scale = Wt[jdfl]*s->h->scale;
 		lflip = TRUE;
 		if( cmsss.lrspol && !Lpol[jdfl] )
 		    lflip = !lflip;
@@ -678,28 +679,28 @@ maf 970809		else
 		    if ( cmsss.lorient ) {
 			cmgem.yimn = vmx;
 			cmgem.yimx = vmn;
-			cmgem.plot.ymin = ypmid - *scale*ypdel*cmsss.xpsize*vmx/vbigr;
-			cmgem.plot.ymax = ypmid - *scale*ypdel*cmsss.xpsize*vmn/vbigr;
+			cmgem.plot.ymin = ypmid - s->h->scale*ypdel*cmsss.xpsize*vmx/vbigr;
+			cmgem.plot.ymax = ypmid - s->h->scale*ypdel*cmsss.xpsize*vmn/vbigr;
 		    }
 		    else {
 			cmgem.ximn = vmx;
 			cmgem.ximx = vmn;
-			cmgem.plot.xmin = xpmid - *scale*xpdel*cmsss.xpsize*vmx/vbigr;
-			cmgem.plot.xmax = xpmid - *scale*xpdel*cmsss.xpsize*vmn/vbigr;
+			cmgem.plot.xmin = xpmid - s->h->scale*xpdel*cmsss.xpsize*vmx/vbigr;
+			cmgem.plot.xmax = xpmid - s->h->scale*xpdel*cmsss.xpsize*vmn/vbigr;
 		    }
 		}
 		else{
 		    if ( cmsss.lorient ) {
 			cmgem.yimn = vmx;
 			cmgem.yimx = vmn;
-			cmgem.plot.ymin = ypmid + *scale*ypdel*cmsss.xpsize*vmn/vbigr;
-			cmgem.plot.ymax = ypmid + *scale*ypdel*cmsss.xpsize*vmx/vbigr;
+			cmgem.plot.ymin = ypmid + s->h->scale*ypdel*cmsss.xpsize*vmn/vbigr;
+			cmgem.plot.ymax = ypmid + s->h->scale*ypdel*cmsss.xpsize*vmx/vbigr;
 		    }
 		    else {
 			cmgem.ximn = vmn;
 			cmgem.ximx = vmx;
-			cmgem.plot.xmin = xpmid + *scale*xpdel*cmsss.xpsize*vmn/vbigr;
-			cmgem.plot.xmax = xpmid + *scale*xpdel*cmsss.xpsize*vmx/vbigr;
+			cmgem.plot.xmin = xpmid + s->h->scale*xpdel*cmsss.xpsize*vmn/vbigr;
+			cmgem.plot.xmax = xpmid + s->h->scale*xpdel*cmsss.xpsize*vmx/vbigr;
 		    }
 		}
 
@@ -736,18 +737,18 @@ maf 970809		else
 		/* Compute delta and begin */ 
 
 		if ( cmsss.lorient ) {
-		    cmgem.xgen.delta = *delta;
-		    cmgem.xgen.first = *begin + delay + *delta*(float)( ioffsetdta ) - atime;
+		    cmgem.xgen.delta = s->h->delta;
+		    cmgem.xgen.first = s->h->b + delay + s->h->delta*(float)( ioffsetdta ) - atime;
 		}
 		else {
-		    cmgem.ygen.delta = *delta;
-		    cmgem.ygen.first = *begin + delay + *delta*(float)( ioffsetdta ) - atime;
+		    cmgem.ygen.delta = s->h->delta;
+		    cmgem.ygen.first = s->h->b + delay + s->h->delta*(float)( ioffsetdta ) - atime;
 		}
 
 		if ( cmsss.lorient )
-		    pl2d( (float*)&unused, cmmem.sacmem[ndx1]+ioffsetdta, numplot, 1, 1, nerr );
+		    pl2d( (float*)&unused, s->y + ioffsetdta, numplot, 1, 1, nerr );
 		else
-		    pl2d( cmmem.sacmem[ndx1]+ioffsetdta, (float*)&unused, numplot, 1, 1, nerr );
+		    pl2d( s->y + ioffsetdta, (float*)&unused, numplot, 1, 1, nerr );
 
 		if( *nerr != 0 )
 		    goto L_7777;
@@ -853,7 +854,7 @@ maf 970809		else
 		    cmgem.axis[RIGHT].annotate = lrigaxsave;
 		}
 		cmgem.lyrev = cmsss.lOriginDefault ;	/* llefor became lOriginDefault maf 961004 */
-		plmap( (float*)&unused, cmmem.sacmem[ndx1], 0, 1, 1, nerr );
+		plmap( (float*)&unused, s->y, 0, 1, 1, nerr );
 		ylinax();
 	    }
 	    else {
@@ -872,7 +873,7 @@ maf 970809		else
 		    cmgem.axis[TOP].annotate = ltopaxsave;
 		}
 		cmgem.lxrev = cmsss.lOriginDefault ;	/* llefor became lOriginDefault maf 961004 */
-		plmap( cmmem.sacmem[ndx1], (float*)&unused, 0, 1, 1, nerr );
+		plmap( s->y, (float*)&unused, 0, 1, 1, nerr );
 		xlinax();
 	    }
 
@@ -881,7 +882,7 @@ maf 970809		else
 	    if ( cmsss.lorient ) {
 		if( cmgem.lyrev ){
 		    cmgem.lyrev = FALSE;
-		    plmap( (float*)&unused, cmmem.sacmem[ndx1], 0, 1, 1, nerr );
+		    plmap( (float*)&unused, s->y, 0, 1, 1, nerr );
 		}
 		cmgem.lxlim = TRUE;
 		cmgem.axis[BOTTOM].ticks    = lbottcsave;
@@ -893,7 +894,7 @@ maf 970809		else
 	    else {
 		if( cmgem.lxrev ){
 		    cmgem.lxrev = FALSE;
-		    plmap( cmmem.sacmem[ndx1], (float*)&unused, 0, 1, 1, nerr );
+		    plmap( s->y, (float*)&unused, 0, 1, 1, nerr );
 		}
 		cmgem.lylim = TRUE;
 		cmgem.axis[LEFT].ticks     = lleftcsave;
@@ -1078,20 +1079,21 @@ maf 970809		else
 		    }
 
 		    if( cmtt.lrdtt && (cmtt.nttrd > 0) ){
-                        allamb( &cmmem, Nttpt[kdx], &ndy1, nerr );
+          y1 = (float *) malloc(sizeof(float) * Nttpt[kdx]);
+          //allamb( &cmmem, Nttpt[kdx], &ndy1, nerr );
                         if( *nerr != 0 )
                             goto L_7777;
                         for( jdx = 1; jdx <= Nttpt[kdx]; jdx++ ){
-                            if( *(cmmem.sacmem[Ndxtty[kdx]]+jdx-1) != cmgem.vnull ){
+                            if( tty[kdx][jdx-1] != cmgem.vnull ){
 				if( Ltteven[kdx] )
                                     rdist = Xttfirst[kdx] + (jdx - 1)*Xttdel[kdx];
 				else
-                                    rdist = *(cmmem.sacmem[Ndxttx[kdx]] + jdx - 1);
+                                    rdist = ttx[kdx][jdx-1];
 				timeadj( rdist, &atime, nerr );
-				*(cmmem.sacmem[ndy1]+jdx-1) = *(cmmem.sacmem[Ndxtty[kdx]]+jdx-1) - atime;
+        y1[jdx-1] = tty[kdx][jdx-1] - atime;
 			    }
 			    else
-				*(cmmem.sacmem[ndy1]+jdx-1) = cmgem.vnull;
+            y1[jdx-1] = cmgem.vnull;
 			}
 
 	/* The following section was overhauled to allow portrait mode in prs, maf 960829  *
@@ -1100,17 +1102,18 @@ maf 970809		else
                         cmsss.lPlottingTT = TRUE ;
 
 			if ( cmsss.lorient /*== cmtt.lpreviousModel*/ ) {
-			    pl2d( cmmem.sacmem[ndy1], cmmem.sacmem[Ndxttx[kdx]], Nttpt[kdx],
+        pl2d( y1, ttx[kdx], Nttpt[kdx],
                              1, 1, nerr );
 			} /* end if ( cmsss.lorient == cmtt.lpreviousModel ) */
 			else {
-			    pl2d( cmmem.sacmem[Ndxttx[kdx]], cmmem.sacmem[ndy1], Nttpt[kdx], 
+			    pl2d( ttx[kdx], y1, Nttpt[kdx], 
 			     1, 1, nerr );
 			} /* end else associated with if ( cmsss.lorient ) */
 			cmsss.lPlottingTT = FALSE ;
-			ttint( cmmem.sacmem[Ndxttx[kdx]], cmmem.sacmem[ndy1], Nttpt[kdx],
+			ttint( ttx[kdx], y1, Nttpt[kdx],
 			 &xttint, &yttint, nerr );
-			relamb( cmmem.sacmem, ndy1, nerr );
+      FREE(y1);
+			//relamb( cmmem.sacmem, ndy1, nerr );
 		    } /* end if ( cmtt.lrdtt && (cmtt.nttrd > 0) ) */
 
 
@@ -1118,15 +1121,15 @@ maf 970809		else
 			cmsss.lPlottingTT = TRUE ;
 
 			if ( cmsss.lorient /*== cmtt.lpreviousModel*/ ) {
-			    pl2d( cmmem.sacmem[Ndxtty[kdx]], cmmem.sacmem[Ndxttx[kdx]], Nttpt[kdx], 
+			    pl2d( tty[kdx], ttx[kdx], Nttpt[kdx], 
 			     1, 1, nerr );
 			} /* end if ( cmsss.lorient == cmtt.lpreviousModel ) */
 			else {
-                            pl2d( cmmem.sacmem[Ndxttx[kdx]], cmmem.sacmem[Ndxtty[kdx]], Nttpt[kdx],
+                            pl2d( ttx[kdx], tty[kdx], Nttpt[kdx],
                              1, 1, nerr );
                         } /* end else associated with if ( cmss.lorient ) */
 			cmsss.lPlottingTT = FALSE ;
-			ttint( cmmem.sacmem[Ndxttx[kdx]], cmmem.sacmem[Ndxtty[kdx]], Nttpt[kdx],
+			ttint( ttx[kdx], tty[kdx], Nttpt[kdx],
 			 &xttint, &yttint, nerr );
 		    } /* end else associated with if ( cmtt.lrdtt && (cmtt.nttrd > 0) ) */
 	/* end code overhauled 960829 , and 970808 */

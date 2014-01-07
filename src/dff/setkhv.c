@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "amf.h"
 #include "dff.h"
 #include "bot.h"
 #include "msg.h"
@@ -15,9 +16,10 @@
 #include "hdr.h"
 #include "lhf.h"
 #include "bool.h"
+#include "SacHeader.h"
 
 #include "errors.h"
-
+extern sac *CURRENT;
 /** 
  * Set an alphanumeric header value in the current SAC file
  * 
@@ -46,10 +48,11 @@ setkhv(char *kname,
 
 	char ktest[9];
 	int index, ntest;
-
+  char *p;
 	char *kname_c;
 	char *kvalue_c;
-
+  sac *s;
+  s = CURRENT;
 	kname_c  = fstrdup(kname, kname_s);
 	kvalue_c = fstrdup(kvalue, kvalue_s);
 
@@ -63,10 +66,12 @@ setkhv(char *kname,
 	index = nequal( ktest, (char*)kmlhf.kkhdr,9, SAC_HEADER_STRINGS );
 
 	/* - Store value in appropriate header field. */
+
 	if( index > 0 ){
-	    fstrncpy( kmhdr.khdr[index - 1], 8, kvalue_c, strlen(kvalue_c));
+    p = khdr(s, index);
+    fstrncpy( p, 8, kvalue_c, strlen(kvalue_c));
 	    if( index == 2 )
-		fstrncpy( kmhdr.khdr[2]-1, 8, kvalue_c+8, kvalue_s - 9);
+		fstrncpy( p+8, 8, kvalue_c+8, kvalue_s - 9);
 	}
 	else{
 	    *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;

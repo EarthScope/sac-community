@@ -8,6 +8,12 @@
 #include "cpf.h"
 #include "exm.h"
 
+
+extern float *specor;
+extern float *spepe;
+extern float *spespe;
+extern float *speaux;
+
 void /*FUNCTION*/ xquitspe(nerr)
 int *nerr;
 {
@@ -47,27 +53,12 @@ int *nerr;
 
 	/* - Release data blocks used in this subprocess. */
 
-	if( cmmem.sacmem[cmspe.ndxcor] != NULL )
-		relamb( cmmem.sacmem, cmspe.ndxcor, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+  FREE(specor);
+  FREE(spepe);
+  FREE(spespe);
+  FREE(speaux);
 
-	if( cmmem.sacmem[cmspe.ndxpe] != NULL )
-		relamb( cmmem.sacmem, cmspe.ndxpe, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
 
-	if( cmmem.sacmem[cmspe.ndxspe] != NULL )
-		relamb( cmmem.sacmem, cmspe.ndxspe, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
-
-	if( cmmem.sacmem[cmspe.ndxaux] != NULL )
-		relamb( cmmem.sacmem, cmspe.ndxaux, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
-
-L_8888:
 	return;
 
 } /* end of function */

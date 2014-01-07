@@ -8,6 +8,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
+
+#include "amf.h"
 #include "dfm.h"
 #include "hdr.h"
 
@@ -16,6 +18,8 @@
 #include "msg.h"
 #include "clf.h"
 #include "bot.h"
+
+#include "SacHeader.h"
 
 //#define __DEBUG__
 #include "debug.h"
@@ -65,13 +69,17 @@ defcut(char   kcut[2][9],
 	int jdx, nptrd;
 	double pick[2], start, stop;
 	double *const Pick = &pick[0] - 1;
-  char *tmp;
-	*nerr = 0;
-	/* - Get file name from character list. */
-    tmp = string_list_get(datafiles, idfl-1);
-	/* - Save total number of points in file. */
-	Ntotal[idfl] = *npts;
 
+  sac *s;
+	*nerr = 0;
+
+  if(!(s = sacget(idfl-1, FALSE, nerr))) {
+    return;
+  }
+
+    /* - Save total number of points in file. */
+    s->m->ntotal = s->h->npts;
+    DEBUG("kcut <%s> <%s>\n", kcut[0], kcut[1]);
 	/* - Compute start value. */
 	if( strcmp(kcut[0],"Z       ") == 0 ){
 		Pick[1] = 0.;
@@ -79,8 +87,9 @@ defcut(char   kcut[2][9],
 
 	else if ( strcmp(kcut[0],"N       ") != 0 ) {
 		jdx = nequal( (char*)kcut[0], (char*)kmdfm.kpick,9, MPICK );
+    DEBUG("START pick index: %d (string list) => %d\n", jdx, cmdfm.ipckhd[jdx-1]);
 		if( jdx > 0 )
-			Pick[1] = Fhdr[Ipckhd[jdx]];
+			Pick[1] = VALUE(fhdr(s, cmdfm.ipckhd[jdx-1]));
 
 		else{
 			*nerr = ERROR_SAC_LOGIC_ERROR;
@@ -102,34 +111,35 @@ defcut(char   kcut[2][9],
 		if( cmdfm.icuter == 1 ){
 			*nerr = ERROR_UNDEFINED_START_CUT_TIME;
 			setmsg( "ERROR", *nerr );
-            apcmsg2(tmp, strlen(tmp)+1);
+            apcmsg2(s->m->filename, strlen(s->m->filename)+1);
 			return ;
 		}
 		else{
 			setmsg( "WARNING", ERROR_UNDEFINED_START_CUT_TIME );
-            apcmsg2(tmp, strlen(tmp)+1);
+            apcmsg2(s->m->filename, strlen(s->m->filename)+1);
 			outmsg();
 			setmsg( "OUTPUT", ERROR_CORRECTED_BY_USING_BEGIN_TIME );
 			outmsg();
-			start = *begin;
-			Nstart[idfl] = 1;
+			start = s->h->b;
+			s->m->nstart = 1;
 		}
 	}
 	else{
 		/* start time of data to read */
     start = Pick[1] + ocut[0];
-    cut_define(*begin, *delta, start, &Nstart[idfl]);
+    cut_define(s->h->b, s->h->delta, start, &s->m->nstart);
 	}
 
 	/* -  Compute stop value. */
 	if( strcmp(kcut[1],"N       ") == 0 ){
-		nptrd = ocut[1] + RNDOFF**delta;
-		stop = start + (double)( nptrd - 1 )**delta;
-		Nstop[idfl] = Nstart[idfl] + nptrd - 1;
+		nptrd = ocut[1] + RNDOFF*s->h->delta;
+		stop = start + (double)( nptrd - 1 )*s->h->delta;
+		s->m->nstop = s->m->nstart + nptrd - 1;
 		Pick[2] = 0.;
 	}
 	else{
 		jdx = nequal( (char*)kcut[1], (char*)kmdfm.kpick,9, MPICK );
+    DEBUG("STOP pick index: %d (string list) => %d\n", jdx, cmdfm.ipckhd[jdx-1]);
 		if(jdx <= 0) {
             *nerr = ERROR_SAC_LOGIC_ERROR;
 			setmsg( "ERROR", *nerr );
@@ -137,13 +147,12 @@ defcut(char   kcut[2][9],
 			return ;
 		} else {
       if(strcmp(kcut[1],"Z       ") == 0 ) {
-        Pick[2] = 0.0;
+        Pick[2] = 0.0; 
       } else {
-        Pick[2] = Fhdr[Ipckhd[jdx]];
+        Pick[2] = VALUE(fhdr(s,cmdfm.ipckhd[jdx-1]));
       }
       stop = Pick[2] + ocut[1];
-      cut_define(*begin, *delta, stop, &Nstop[idfl]);
-    }
+      cut_define(s->h->b, s->h->delta, stop, &s->m->nstop);
 	}
 
 	/* - Make sure stop pick is defined. */
@@ -151,77 +160,77 @@ defcut(char   kcut[2][9],
 		if( cmdfm.icuter == 1 ){
 			*nerr = ERROR_UNDEFINED_STOP_CUT_TIME;
 			setmsg( "ERROR", *nerr );
-            apcmsg2(tmp, strlen(tmp)+1);
+            apcmsg2(s->m->filename, strlen(s->m->filename)+1);
 			return ;
 		}
 		else{
 			setmsg( "WARNING", ERROR_UNDEFINED_STOP_CUT_TIME );
-      apcmsg2(tmp, strlen(tmp)+1);
+      apcmsg2(s->m->filename, strlen(s->m->filename)+1);
 			outmsg();
 			setmsg( "OUTPUT", ERROR_CORRECTED_BY_USING_END_TIME );
 			outmsg();
-			stop = *ennd;
-			Nstop[idfl] = *npts;
+			stop = s->h->e;
+			s->m->nstop = s->h->npts;
 		}
     }
 
   /* Check the cut time and adjust Nstart, Nstop, Nfillb, Nfille */
-  cut_define_check(start, stop, *npts, cmdfm.icuter,
-                   &Nstart[idfl], &Nstop[idfl],
-                   &Nfillb[idfl], &Nfille[idfl], nerr);
+  cut_define_check(start, stop, s->h->npts, cmdfm.icuter,
+                   &s->m->nstart, &s->m->nstop,
+                   &s->m->nfillb, &s->m->nfille, nerr);
   /* Error checking */
   if(*nerr) {
     switch(*nerr) {
     case ERROR_START_TIME_GREATER_THAN_STOP:
-      error(*nerr, "%s\n\ttime:  %f >= %f\n\tindex: %d >= %d", tmp, start, stop, Nstart[idfl], Nstop[idfl]);
+      error(*nerr, "%s\n\ttime:  %f >= %f\n\tindex: %d >= %d", s->m->filename, start, stop, s->m->nstart, s->m->nstop);
       return ;
       break;
     case ERROR_START_TIME_GREATER_THAN_END:
-      error(*nerr, "%s\n\ttime:  %f > %f\n\tindex: %d > %d", tmp, start, *e, Nstart[idfl], *npts);
+      error(*nerr, "%s\n\ttime:  %f > %f\n\tindex: %d > %d", s->m->filename, start, s->h->e, s->m->nstart, s->h->npts);
       return ;
       break;
     case ERROR_STOP_TIME_LESS_THAN_BEGIN:
-      error(*nerr, "%s\n\ttime:  %f < %f\n\tindex: %d < %d", tmp, stop, *b, Nstop[idfl], 1);
+      error(*nerr, "%s\n\ttime:  %f < %f\n\tindex: %d < %d", s->m->filename, stop, s->h->b, s->m->nstop, 1);
       return ;
       break;
     case ERROR_START_TIME_LESS_THAN_BEGIN:
       if( cmdfm.icuter == 2 ){
         setmsg( "WARNING", *nerr);
-        apcmsg2(tmp, strlen(tmp)+1);
+        apcmsg2(s->m->filename, strlen(s->m->filename)+1);
         outmsg();
         setmsg( "OUTPUT", ERROR_CORRECTED_BY_USING_BEGIN_TIME );
         outmsg();
         *nerr = SAC_OK;
       } else {
         setmsg( "ERROR", *nerr );
-        apcmsg2(tmp, strlen(tmp)+1);
+        apcmsg2(s->m->filename, strlen(s->m->filename)+1);
         return ;
       }
       break;
     case ERROR_STOP_TIME_GREATER_THAN_END:
       if( cmdfm.icuter == 2 ){
         setmsg( "WARNING", *nerr );
-        apcmsg2(tmp, strlen(tmp)+1);
+        apcmsg2(s->m->filename, strlen(s->m->filename)+1);
         outmsg();
         setmsg( "OUTPUT", ERROR_CORRECTED_BY_USING_END_TIME );
         outmsg();
         *nerr = SAC_OK;
       } else {
         setmsg( "ERROR", *nerr );
-        apcmsg2(tmp, strlen(tmp)+1);
+        apcmsg2(s->m->filename, strlen(s->m->filename)+1);
         return ;
       }
       break;
     case ERROR_CUT_TIMES_BEYOND_DATA_LIMITS:
       /* Begin */
       setmsg("WARNING", ERROR_START_TIME_LESS_THAN_BEGIN);
-      apcmsg2(tmp, strlen(tmp)+1);
+      apcmsg2(s->m->filename, strlen(s->m->filename)+1);
       outmsg();
       setmsg("OUTPUT", ERROR_CORRECTED_BY_USING_BEGIN_TIME);
       outmsg();
       /* End */
       setmsg("WARNING", ERROR_STOP_TIME_GREATER_THAN_END);
-      apcmsg2(tmp, strlen(tmp)+1);
+      apcmsg2(s->m->filename, strlen(s->m->filename)+1);
       outmsg();
       setmsg("OUTPUT", ERROR_CORRECTED_BY_USING_END_TIME);
       outmsg();
@@ -230,9 +239,9 @@ defcut(char   kcut[2][9],
     }
   }
 	/* - Convert these start and stop points to new begin and end times. */
-	*begin = *begin + (double)( Nstart[idfl] - 1 )**delta;
-	*npts = Nstop[idfl] - Nstart[idfl] + 1;
-	*ennd = *begin + (double)( *npts - 1 )**delta;
+	s->h->b = s->h->b + (double)( s->m->nstart - 1 ) * s->h->delta;
+  s->h->npts = s->m->nstop - s->m->nstart + 1;
+	s->h->e = s->h->b + (double)( s->h->npts - 1 )*s->h->delta;
 
   DEBUG("nstart[%d]: %d\n", idfl, Nstart[idfl]);
   DEBUG( "nstop[%d]:  %d\n", idfl, Nstop[idfl]);

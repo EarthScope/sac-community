@@ -163,7 +163,7 @@ evalo(A)     ::= AS(B) INTEGER(C) .   { eval_asfloat = 0;  B.type = C.type = STR
 //commands    ::= expr(B) . { value_num(value, B.value); }
 
 /* Debug Toggle Switch */
-pbits        ::= DEBUG . {
+pbits        ::= DEBUG_PARSER . {
   if(!tdebug) {
     tdebug = 1;
 %ifdef MATH_NORMAL

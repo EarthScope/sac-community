@@ -125,12 +125,12 @@ readfl(int   ldata,
     int i;
 	char kcdir[MCPFN+1], kfile[MCPFN+1], kpdir[MCPFN+1];
 	int lexpnd, lrdrem, lheader;
-	int iflag, idx, j0, j1, j2, jcomp,
+	int iflag, idx,
 	 jdfl, jdflrq, jstart, ncerr, ndflrq, 
-	 ndflsv, ntused, nun, lswap[ MDFL ] ;
+	 ndflsv, nun, lswap[ MDFL ] ;
     char *cattemp;
     char *strtemp;
-    
+    sac *s;
     string_list *files;
 
 #ifdef HAVE_LIBRPC
@@ -160,7 +160,7 @@ readfl(int   ldata,
 	/* - Set up indices and flags depending upon lmore flag.
 	 * - Echo out what type of read this is, and to what data-set. */
 	if( lmore ){
-	    ndflsv = cmdfm.ndfl;
+	    ndflsv = saclen();
 	}
 	else{
 	  ndflsv = 0;
@@ -220,7 +220,7 @@ readfl(int   ldata,
         DEBUG("files not ok\n");
 	    /* --- If destroying files in memory, */
         if( strcmp(kmdfm.kecmem,"DELETE  ") == 0 ) {
-            cleardfl( nerr );
+          sacclear();
         }
 	    *nerr = ERROR_NO_DATA_FILES_READ_IN;
 	    goto L_8888;
@@ -241,7 +241,7 @@ readfl(int   ldata,
 	}
 
 	if( ! lmore) {
-	  cleardfl(nerr);
+    sacclear();
 	  if(*nerr != 0) {
 	    clrmsg();
 	    setmsg("OUTPUT", 0);
@@ -253,7 +253,6 @@ readfl(int   ldata,
 
 	jstart = 1;
 	lrdrem = FALSE;
-	cmdfm.ndfl = ndflsv + ndflrq;
 	
 
 L_1800:
@@ -287,11 +286,17 @@ L_1800:
                 int nlen, ndx1, ndx2 ;
                 jdfl = ndflsv + jdflrq ;
 
+                if(!(s = sac_new())) {
+                  *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+                  goto L_4000;
+                }
+                
                 /* -- Get name of requested file and store in data file list. */
                 strtemp = string_list_get(files, jdflrq-1);
                 fstrncpy( kfile, MCPFN, strtemp, strlen(strtemp)+1);
                 terminate ( kfile ) ;
-
+                s->m->filename = strdup(kfile);
+                sacput(s);
                 rdsegy ( jdfl , kfile , &nlen, &ndx1, &ndx2, nerr ) ;
 
                 if ( *nerr ) {
@@ -309,12 +314,18 @@ L_2000:
 	iflag = 1;
 	for( jdflrq = jstart; jdflrq <= ndflrq; jdflrq++ ){
 	    jdfl = ndflsv + jdflrq;
-        DEBUG("getfile: %d/%d\n", jdfl, ndflrq);
+      if(!(s = sac_new())) {
+        *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+        goto L_4000;
+      }
 	    /* -- Get name of requested file and store it in data file list. */
-        strtemp = string_list_get(files, jdflrq-1);
+      DEBUG("getfile: %d/%d\n", jdfl, ndflrq);
+      strtemp = string_list_get(files, jdflrq-1);
 	    fstrncpy( kfile, MCPFN, strtemp, strlen(strtemp)+1);
-        DEBUG("add file to list\n");
-        string_list_put(datafiles, kfile, MCPFN+1);
+      s->m->filename = fstrdup(kfile, MCPFN+1);
+      DEBUG("filename: <%s>", s->m->filename);
+      sacput(s);
+
 	    if( *nerr != 0 )
             goto L_4000;
 
@@ -336,22 +347,6 @@ L_2000:
                 goto L_4000;
 	    }
 
-        DEBUG("Allocate header block\n");
-	    /* -- Allocate block for header. */
-	    allamb( &cmmem, SAC_HEADER_WORDS, &Ndxhdr[jdfl], nerr );
-	    if( *nerr != 0 )
-            goto L_4000;
-        
-	    for( idx = 0 ; idx < SAC_HEADER_WORDS ; idx++ ) {
-            cmmem.sacmem[Ndxhdr[jdfl]][idx] = 0 ;
-        }
-
-	    /* -- Copy header data-set ptr to working storage. */
-	    Nlndta[jdfl] = 0 ;	/* no data yet */
-
-	    /* -- Set the file number (position) */
-	    Ndsndx[jdfl] = 1 ;
-
         DEBUG("Read header block\n");        
 	    /* -- Read header. */
 	    if( lsdd ){
@@ -363,13 +358,13 @@ L_2000:
 #endif /* HAVE_LIBRPC */
 	    }
 	    else{
-            lswap[ jdfl ] = rdhdr(jdfl, 
+             lswap[ jdfl ] = rdhdr(s,
                                   &nun, 
-                                  string_list_get(datafiles,-1), 
+                                  s->m->filename,
                                   nerr);
 	    }
-        
-	    if( *nevid == -12345 || *norid == -12345 )
+      s->m->data_read = ldata;
+	    if( s->h->nevid == -12345 || s->h->norid == -12345 )
             cmdfm.nreadflag = LOW ;
 
 	    if( *nerr != 0 )
@@ -403,17 +398,15 @@ L_2000:
 
 L_2200:
 	iflag = 2;
-    DEBUG("Define memory requirements\n");        
+  DEBUG("Define memory requirements :: %d -> %d\n", jstart, ndflrq);
 	for( jdflrq = jstart; jdflrq <= ndflrq; jdflrq++ ){
 	    jdfl = ndflsv + jdflrq;
-	    getfil( jdfl, FALSE, &ntused, &ntused, &ntused, nerr );
-	    if( *nerr != 0 )
-            goto L_4000;
+      if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+         goto L_4000;
+      }
+	    //getfil( jdfl, FALSE, &ntused, &ntused, &ntused, nerr );
+      
 	    defmem( jdfl, TRUE, nerr );
-	    if( *nerr != 0 )
-            goto L_4000;
-	    putfil( jdfl, nerr );
-        
 	    if( *nerr != 0 )
             goto L_4000;
 	}
@@ -431,36 +424,10 @@ L_2400:
 
 	for( jdflrq = jstart; jdflrq <= ndflrq; jdflrq++ ){
 	    jdfl = ndflsv + jdflrq;
-	    for( jcomp = 0; jcomp < Ncomp[jdfl]; jcomp++ ){
-            allamb ( &cmmem , Nlndta[ jdfl ] ,
-                     &cmdfm.ndxdta[ jdfl - 1 ][ jcomp ] , nerr ) ;
-            
-            if( *nerr != 0 ){
-                outmsg () ;
-                
-                for( j0 = ndflsv + jstart; j0 <= (ndflsv + ndflrq); j0++ )
-                    relamb( cmmem.sacmem, Ndxhdr[j0], nerr );
-                
-                if( *nerr != 0 )
-                    goto L_8888;
-                for( j1 = ndflsv + jstart; j1 < jdfl ; j1++ ){
-                    for( j2 = 0; j2 < Ncomp[j1]; j2++ ){
-                        relamb(cmmem.sacmem, cmdfm.ndxdta[j1-1][j2], nerr);
-                    }
-                }
-                if( *nerr != 0 )
-                    goto L_8888;
-                for( j2 = 0; j2 < jcomp ; j2++ ){
-                    relamb(cmmem.sacmem, cmdfm.ndxdta[jdfl - 1][j2], nerr);
-                }
-                if( *nerr != 0 )
-                    goto L_8888;
-                
-                cmdfm.ndfl = ndflsv;
-                
-                goto L_8888 ;
-            }
-	    } /* end for( jcomp = 1; jcomp <= Ncomp[jdfl]; jcomp++ ) */
+      if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+        goto L_8888;
+      }
+      sac_alloc(s);
 	} /* end for ( jdflrq = jstart; jdflrq <= ndflrq; jdflrq++ ) */
 
 	/* - Now we are finally ready to actually read in the data. */
@@ -471,12 +438,15 @@ L_3000:
 	iflag = 4;
 	for( jdflrq = jstart; jdflrq <= ndflrq; jdflrq++ ){
 	    jdfl = ndflsv + jdflrq;
-	    getfil( jdfl, FALSE, &ntused, &ntused, &ntused, nerr );
-	    if( *nerr != 0 )
-		goto L_4000;
+      if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+        goto L_4000;
+      }
+	    //getfil( jdfl, FALSE, &ntused, &ntused, &ntused, nerr );
+
 	    /* -- Open file. */
         strtemp = string_list_get(files, jdflrq-1);
-	    fstrncpy( kfile, MCPFN, strtemp, strlen(strtemp)+1);
+
+        fstrncpy( kfile, MCPFN, strtemp, strlen(strtemp)+1);
 	    if ( ftype != xdr ){
                 zopen_sac( &nun, kfile,MCPFN+1, "RODATA",7, nerr );
 		if( *nerr != 0 )
@@ -492,7 +462,7 @@ L_3000:
                 #endif /* HAVE_LIBRPC */
 	    }
 	    else{
-		rddta( jdfl, &nun, lswap[ jdfl ], nerr );
+		rddta( s, &nun, lswap[ jdfl ], nerr );
 	    }
 	    if( *nerr != 0 )
 		goto L_4000;
@@ -504,8 +474,10 @@ L_3000:
 	 *   or delete this file from DFL.  See READERR command. */
 
 L_4000:
+  DEBUG("nerr: %d\n", *nerr);
 	if( *nerr != 0 ){
 	    zclose( &nun, &ncerr );
+      sacpop();
 	    if( strcmp(kmdfm.kecbdf,"FATAL   ") == 0 ){
             goto L_8888;
 	    }
@@ -518,42 +490,14 @@ L_4000:
                 outmsg();
             }
             *nerr = 0;
-            lrdrem = TRUE;
-            string_list_delete(datafiles, 
-                               string_list_find(datafiles, kfile, MCPFN+1));
+            lrdrem = FALSE;
             /* -- Delete name from file lists and reset do loop variables */
             string_list_delete(files, jdflrq-1);
-		cmdfm.ndfl = cmdfm.ndfl - 1;
-		ndflrq = ndflrq - 1;
-		cmdfm.ndsflcnt = cmdfm.ndsflcnt - 1;
-		jstart = jdflrq;
-		/* -- Depending upon where we are in the reading process, we
-		 *    must also move some data length and index parameters. */
-		for( jdflrq = jstart; jdflrq <= ndflrq; jdflrq++ ){
-		    jdfl = ndflsv + jdflrq;
-
-		    /* --- Get the index position in data-set storage for
-			   the next file's info. */
-		    if( iflag >= 2 ){
-			Ndxhdr[jdfl] = Ndxhdr[jdfl + 1];
-		    }
-
-		    if( iflag >= 3 ){
-			Nstart[jdfl] = Nstart[jdfl + 1];
-			Nstop[jdfl] = Nstop[jdfl + 1];
-			Nfillb[jdfl] = Nfillb[jdfl + 1];
-			Nfille[jdfl] = Nfille[jdfl + 1];
-			Ncomp[jdfl] = Ncomp[jdfl + 1];
-			Nlndta[jdfl] = Nlndta[jdfl + 1];
-		    }
-
-		    if( iflag >= 4 ){
-			for( jcomp = 0; jcomp < Ncomp[jdfl]; jcomp++ ){
-			    cmdfm.ndxdta[ jdfl - 1 ][ jcomp ] =
-				cmdfm.ndxdta[ jdfl ][ jcomp ] ;
-			}
-		    } /* end if( iflag >= 4 ) */
-		} /* end for( jdflrq = jstart; jdflrq <= ndflrq; jdflrq++ ) */
+            ndflrq = ndflrq - 1;
+            if(string_list_length(files) > 0) {
+              lrdrem = TRUE;
+            }
+            
 		/* -- Jump to appropriate loop in the reading process. */
 		switch( iflag ){
 		    case 0: goto L_1800;
@@ -566,7 +510,7 @@ L_4000:
 	} /* end if ( *nerr != 0 ) */
 
 	/* - Check again for a non-null DFL. */
-	if( cmdfm.ndfl <= 0 ){
+	if( saclen() <= 0 ){
   	    *nerr = ERROR_NO_DATA_FILES_READ_IN;
 	    setmsg( "ERROR", *nerr );
 	}

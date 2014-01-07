@@ -129,15 +129,16 @@ L_1000:
 
 	/* - Perform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 	   /* -- Get the file, moving header to CMHDR. */
 
-	   getfil( jdfl, TRUE, &nlen, &ndx1, &notused, nerr );
-	   if( *nerr != 0 ){
-	       matFreeChanSetList();
-	       return;
-	   }
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      //getfil( jdfl, TRUE, &nlen, &ndx1, &notused, nerr );
+      *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+      matFreeChanSetList();
+      return;
+    }
 
            matAddToChanSet(jdfl,nlen,cmmem.sacmem[ndx1]);
 
@@ -158,21 +159,16 @@ L_1000:
 
 	/* - Now copy the changed header variables for each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 	   /* -- Get the file, moving header to CMHDR. */
 
-	   getfil( jdfl, FALSE, &nlen, &ndx1, &notused, nerr );
-              if( *nerr != 0 )
-		 break;
+    if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+      //getfil( jdfl, FALSE, &nlen, &ndx1, &notused, nerr );
+      break;
+    }
 
            matUpdateFromChanSet(jdfl);
-           
-                /* -- Return file to memory manager. */
-                putfil( jdfl, nerr );
-                if( *nerr != 0 )
-                   break;
-           
 
 	}
 	 

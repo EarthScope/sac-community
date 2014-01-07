@@ -34,9 +34,6 @@ initializevars()
 	/* - Initialize message handling subsystem. */
 	inimsg();
 
-	/* - Initialize sacmem array for vars list storage. */
-	iniam(&cmmem);
-
 	/* - Set initialization flag. */
 	cmvars.lvarsinit = TRUE;
 

@@ -42,15 +42,16 @@ xppk(int *nerr) {
 	char  kchar;
 	int iwf[5], jdx, jdfl, jdfl1, jdfl2,
 	 jdfls, jfr, jhdr1, jhdr2, jhour, jjday, jmark, jmark1, jmark2, 
-	 jmin, jmsec, jofset, jsec, jwin, jyear, ncerr, ndxpk, ndxx, ndxy, 
-	 nexday, nfr, nlcx, nlcy, nlen, nln, nlncda, nperfr, npmark, npmsec, 
-	 npsec, nrdttm[6], nsavelast, nst, num, unused ;
+	 jmin, jmsec, jofset, jsec, jwin, jyear, ncerr, ndxpk,
+	 nexday, nfr, nlncda, nperfr, npmark, npmsec, 
+	 npsec, nrdttm[6], nsavelast, nst, unused ;
 	float amplmn, amplmx, facc, fsecsi, prl, psecsi, seccur, 
 	 secinc, ssecsi, time, tmax, tmaxj, tmin, tminew, tminj, toff[MDFL], 
 	 tref1, twin[MWIN][2], xloc, xloc1, xloc2, xlocs1, xlocs2, 
 	 xtpos, yimnzs[MDFL], yimxzs[MDFL], yloc, ypdel, ypdelv, ypmns, 
 	 ypmnv, ypmxs, ypmxus, ypmxv, ytpos;
   double tmp;
+  sac *s;
 	static char kndate[25] = "                        ";
 	static char kntime[17] = "                ";
 	static int lint = FALSE;
@@ -244,19 +245,16 @@ xppk(int *nerr) {
     psecsi = 0;
     ssecsi = 0;
     fsecsi = 0;
-    nlcy = 0;
-    nlcx = 0;
-    nlen = 0;
 
 	/* - Set up y window for each subplot. */
 
 	if( cmgam.lppkpp ){
-	    nfr = (cmdfm.ndfl - 1)/cmgam.nppkpp + 1;
+	    nfr = (saclen() - 1)/cmgam.nppkpp + 1;
 	    nperfr = cmgam.nppkpp;
 	}
 	else{
 	    nfr = 1;
-	    nperfr = cmdfm.ndfl;
+	    nperfr = saclen();
 	}
 	ypdel = (cmgem.plot.ymax - cmgem.plot.ymin)/(float)( nperfr );
 
@@ -266,14 +264,16 @@ xppk(int *nerr) {
 	lrdttm = FALSE;
 	tmin = VLARGE;
 	tmax = -VLARGE;
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-	    getfil( jdfl, FALSE, &num, &ndxy, &ndxx, nerr );
-	    if( *nerr != 0 )
-			goto L_7777;
-	    Lzdttm[jdfl] = ldttm( nzdttm );
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
+    if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+      goto L_7777;
+    }
+    //getfil( jdfl, FALSE, &num, &ndxy, &ndxx, nerr );
+
+	    Lzdttm[jdfl] = ldttm( &s->h->nzyear );
 	    if( Lzdttm[jdfl] ){
 		if( lrdttm ){
-		    ddttm( nzdttm, nrdttm, &Toff[jdfl] );
+		    ddttm( &s->h->nzyear, nrdttm, &Toff[jdfl] );
 		    /* if difference is greater than two days, 
 		       plot relative.  maf 970908 */
 		    /* or if user specified RELATIVE. maf 970924 */
@@ -281,7 +281,7 @@ xppk(int *nerr) {
 		    Toff[jdfl] = 0. ;
 		}
 		else{
-		    copyi( nzdttm, nrdttm, 6 );
+		    copyi( &s->h->nzyear, nrdttm, 6 );
 		    Toff[jdfl] = 0.;
 		    lrdttm = TRUE;
 		}
@@ -324,7 +324,7 @@ L_1900:
 	    goto L_7777;
 
 	jdfl1 = 1 + (jfr - 1)*nperfr;
-	jdfl2 = min( cmdfm.ndfl, jdfl1 + nperfr - 1 );
+	jdfl2 = min( saclen(), jdfl1 + nperfr - 1 );
 
 	/* -- Begin new frame and set up some parameters. */
 L_2000:
@@ -364,22 +364,22 @@ L_2000:
 	    if( jdfl == jdfl2 )
 		cmgem.axis[BOTTOM].ticks = TRUE;
 	    cmgem.plot.ymin = cmgem.plot.ymax - ypdel;
-	    getfil( jdfl, TRUE, &nlen, &nlcy, &nlcx, nerr );
-	    if( *nerr != 0 )
-		goto L_7777;
-
+      if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+        goto L_7777;
+      }
+	    //getfil( jdfl, TRUE, &nlen, &nlcy, &nlcx, nerr );
 	    /* --- Plot this file. */
 
 	    getylm( &cmgem.lylim, &cmgem.yimn, &cmgem.yimx );
-	    if( *leven ){
+	    if( s->h->leven ){
 		cmgem.xgen.on = TRUE;
-		cmgem.xgen.first = *begin + Toff[jdfl];
-		cmgem.xgen.delta = *delta;
+		cmgem.xgen.first = s->h->b + Toff[jdfl];
+		cmgem.xgen.delta = s->h->delta;
 	    }
 	    else{
 		cmgem.xgen.on = FALSE;
 	    }
-	    pl2d( cmmem.sacmem[nlcx], cmmem.sacmem[nlcy], nlen, 1, 1, nerr );
+	    pl2d( s->x, s->y, s->h->npts, 1, 1, nerr );
 	    if( *nerr != 0 )
 		goto L_7777;
 	    dispid( cmgam.lfinorq , jdfl, 0, NULL );
@@ -387,25 +387,25 @@ L_2000:
 	    disppk( Toff[jdfl] );
 	    Yimnzs[jdfl] = cmgem.zdata.ymin;
 	    Yimxzs[jdfl] = cmgem.zdata.ymax;
-	    cmeam.lpphas = (cmeam.lhpfop && *arrivl != cmhdr.fundef) && ka[1] == 'P';
+	    cmeam.lpphas = (cmeam.lhpfop && s->h->a != cmhdr.fundef) && s->h->ka[0] == 'P';
 	    cmeam.lpphas = cmeam.lpphas && Lzdttm[jdfl];
-	    cmeam.lsphas = *t0 != cmhdr.fundef && kt0[1] == 'S';
-	    cmeam.lfini = *f != cmhdr.fundef;
+	    cmeam.lsphas = s->h->t0 != cmhdr.fundef && s->h->kt0[0] == 'S';
+	    cmeam.lfini = s->h->f != cmhdr.fundef;
 	    if( cmeam.lpphas ){
-		psecsi = *arrivl;
-		fstrncpy( kmeam.kpwave, 8, ka, 4);
+		psecsi = s->h->a;
+		fstrncpy( kmeam.kpwave, 8, s->h->ka, 4);
 		if( cmeam.lsphas ){
-		    ssecsi = *t0;
-		    fstrncpy( kmeam.kswave, 8, kt0, 4);
+		    ssecsi = s->h->t0;
+		    fstrncpy( kmeam.kswave, 8, s->h->kt0, 4);
 		}
 		if( cmeam.lfini )
-			fsecsi = *f;
-		inctim( *nzhour, *nzmin, *nzsec, *nzmsec, psecsi, &cmeam.nphour, 
+			fsecsi = s->h->f;
+		inctim( s->h->nzhour, s->h->nzmin, s->h->nzsec, s->h->nzmsec, psecsi, &cmeam.nphour, 
 		 &cmeam.npmin, &npsec, &npmsec, &nexday );
 		cmeam.psecs = tosecs( npsec, npmsec );
-		incdat( *nzyear, *nzjday, nexday, &cmeam.npyear, &cmeam.npjday );
+		incdat( s->h->nzyear, s->h->nzjday, nexday, &cmeam.npyear, &cmeam.npjday );
 		kidate( cmeam.npyear, cmeam.npjday, &cmeam.npmon, &cmeam.npday, &ncerr );
-		strcpy( kmeam.kstid, kstnm );
+		strcpy( kmeam.kstid, s->h->kstnm );
 		if( cmeam.lsphas )
 		    cmeam.ssecs = cmeam.psecs - psecsi + ssecsi;
 		if( cmeam.lfini )
@@ -501,10 +501,6 @@ L_4000:
 	    plhome();
 	    endframe( FALSE , nerr );
 	    /* npmark = 0; */
-	    if( jdfl > 0 )
-		putfil( jdfl, nerr );
-	    if( *nerr != 0 )
-		goto L_7777;
 	    goto L_2000;
 	}
 
@@ -512,9 +508,6 @@ L_4000:
 	else if( kchar == 'Q' || kchar == 'K' ){
 	    plhome();
 	    endframe( FALSE , nerr );
-	    if( jdfl > 0 )
-		putfil( jdfl, nerr );
-	    goto L_7777;
 	}
 
 	/* -- Go to next subplot. */
@@ -522,10 +515,6 @@ L_4000:
 	    plhome();
 	    endframe( FALSE , nerr );
 	    /* npmark = 0; */
-	    if( jdfl > 0 )
-		putfil( jdfl, nerr );
-	    if( *nerr != 0 )
-		goto L_7777;
 	    jfr = jfr + 1;
 	    goto L_1900;
 	}
@@ -535,10 +524,6 @@ L_4000:
 	    plhome();
 	    endframe( FALSE , nerr );
 	    /* npmark = 0; */
-	    if( jdfl > 0 )
-		putfil( jdfl, nerr );
-	    if( *nerr != 0 )
-		goto L_7777;
 	    jfr = max( 1, jfr - 1 );
 	    goto L_1900;
 	}
@@ -576,41 +561,39 @@ L_4000:
 
 	/* - If a different file from last time, exchange headers. */
 	if( jdfl != jdfls ){
-	    if( jdfls > 0 )
-		putfil( jdfls, nerr );
-	    if( *nerr != 0 )
-		goto L_7777;
 	    jdfls = jdfl;
-	    getfil( jdfl, TRUE, &nlen, &nlcy, &nlcx, nerr );
-	    if( *nerr != 0 )
-		goto L_7777;
-	    cmeam.lpphas = *arrivl != cmhdr.fundef && ka[1] == 'P';
+      if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+        goto L_7777;
+      }
+	    //getfil( jdfl, TRUE, &nlen, &nlcy, &nlcx, nerr );
+
+	    cmeam.lpphas = s->h->a != cmhdr.fundef && s->h->ka[0] == 'P';
 	    cmeam.lpphas = cmeam.lpphas && Lzdttm[jdfl];
-	    cmeam.lsphas = *t0 != cmhdr.fundef && kt0[1] == 'S';
-	    cmeam.lfini = *f != cmhdr.fundef;
+	    cmeam.lsphas = s->h->t0 != cmhdr.fundef && s->h->kt0[0] == 'S';
+	    cmeam.lfini = s->h->f != cmhdr.fundef;
 	    if( cmeam.lpphas ){
-		psecsi = *arrivl;
-		fstrncpy( kmeam.kpwave, 8, ka, 4);
+		psecsi = s->h->a;
+		fstrncpy( kmeam.kpwave, 8, s->h->ka, 4);
 		ktype = kmeam.kpwave[0];
 		kdir = kmeam.kpwave[2];
 		kqual = kmeam.kpwave[3];
 		lempty = FALSE;
 		if( cmeam.lsphas ){
-		    ssecsi = *t0;
-		    fstrncpy( kmeam.kswave, 8, kt0, 4);
+		    ssecsi = s->h->t0;
+		    fstrncpy( kmeam.kswave, 8, s->h->kt0, 4);
 		}
 		if( cmeam.lfini )
-		    fsecsi = *f;
+		    fsecsi = s->h->f;
 	    }
 	    else if( cmeam.lsphas ){
-		ssecsi = *t0;
-		fstrncpy( kmeam.kswave, 8, kt0, 4);
+		ssecsi = s->h->t0;
+		fstrncpy( kmeam.kswave, 8, s->h->kt0, 4);
 		ktype = kmeam.kswave[0];
 		kdir = kmeam.kswave[2];
 		kqual = kmeam.kswave[3];
 		lempty = FALSE;
 		if( cmeam.lfini )
-		    fsecsi = *f;
+		    fsecsi = s->h->f;
 	    }
 	}
 
@@ -647,10 +630,6 @@ L_4000:
 	    lnewxw = FALSE;
 	    plhome();
 	    endframe( FALSE , nerr );
-	    if( jdfl > 0 )
-		putfil( jdfl, nerr );
-	    if( *nerr != 0 )
-		goto L_7777;
 	    goto L_2000;
 	}
 	/* -- Define start of new x window. */
@@ -679,9 +658,9 @@ L_4000:
 		    goto L_7777;
 	    }
 	    if( Lzdttm[jdfl] && cmgam.lppkut ){
-		inctim( *nzhour, *nzmin, *nzsec, *nzmsec, secinc, &jhour, 
+		inctim( s->h->nzhour, s->h->nzmin, s->h->nzsec, s->h->nzmsec, secinc, &jhour, 
 		 &jmin, &jsec, &jmsec, &nexday );
-		incdat( *nzyear, *nzjday, nexday, &jyear, &jjday );
+		incdat( s->h->nzyear, s->h->nzjday, nexday, &jyear, &jjday );
 		kadate( jyear, jjday, 24, kndate,25, &ncerr );
 		katime( jhour, jmin, jsec, jmsec, 16, kntime,17, &ncerr );
 
@@ -800,8 +779,8 @@ L_4000:
 
 	/* -- Characterize first arrival. */
 	else if( kchar == 'C' ){
-	    ndxpk = 1 + (int)( (secinc - *b)/ *delta + 0.9 );
-	    pkchar( cmmem.sacmem[nlcy], nlen, *delta, ndxpk, &ktype, &kdir, &kqual );
+	    ndxpk = 1 + (int)( (secinc - s->h->b)/ s->h->delta + 0.9 );
+	    pkchar( s->y, s->h->npts, s->h->delta, ndxpk, &ktype, &kdir, &kqual );
 
             fstrncpy( kmeam.kpkid, 8, (char *)&ktype, 1);
             fstrncpy( kmeam.kpkid+1, 8-1, "P", 1);
@@ -820,9 +799,9 @@ L_4000:
 		Lhlwrt[jdfl] = FALSE;
 		lhltrm = TRUE;
 	    }
-	    pkeval( cmmem.sacmem[nlcy], nlen, *delta, ndxpk, &nlncda );
+	    pkeval( s->y, s->h->npts, s->h->delta, ndxpk, &nlncda );
 	    if( nlncda > 0 ){
-		time = *arrivl + *delta*(float)( nlncda );
+		time = s->h->a + s->h->delta*(float)( nlncda );
 		xloc = cmgem.plot.xmin + (time + Toff[jdfl] - tmin)*(cmgem.plot.xmax - 
 		 cmgem.plot.xmin)/(tmax - tmin);
 		markhdr( jdfl, jhdr1, jhdr2, "F", time, kmhdr.kundef );
@@ -830,7 +809,7 @@ L_4000:
 		    markvert( jmark1, jmark2, &xloc, ypmxv, ypdelv, "F" ,2, 0 );
 		}
 		if( cmeam.lhpfop && Lzdttm[jdfl] ){
-		    fsecsi = *fini;
+		    fsecsi = s->h->f;
 		    lempty = FALSE;
 		    cmeam.lfini = TRUE;
 		    lhltrm = TRUE;
@@ -903,33 +882,34 @@ L_4000:
 
 	/* -- Compute waveform. */
 	else if( (kchar == 'W' || kchar == 'M') || kchar == 'V' ){
-	    getfil( jdfl, TRUE, &nln, &nlcy, &nlcx, nerr );
-	    if( *nerr != 0 )
-		goto L_7777;
-	    nst = (int)( (secinc - *begin)/ *delta ) + 2;
-	    wavfrm( cmmem.sacmem[nlcy], nst, nln, cmeam.pkampl, 5, iwf, &lwfok );
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_7777;
+    }
+    //getfil( jdfl, TRUE, &nln, &nlcy, &nlcx, nerr );
+
+	    nst = (int)( (secinc - s->h->b)/ s->h->delta ) + 2;
+	    wavfrm( s->y, nst, s->h->npts, cmeam.pkampl, 5, iwf, &lwfok );
 	    if( lwfok ){
-		tref1 = *delta*(*(cmmem.sacmem[nlcy]+Iwf[1]-1) - cmeam.pkampl)/
-                               (*(cmmem.sacmem[nlcy]+Iwf[1]-1) - *(cmmem.sacmem[nlcy]+Iwf[1]));
+		tref1 = s->h->delta*(s->y[Iwf[1]-1] - cmeam.pkampl)/ (s->y[Iwf[1]-1] - s->y[Iwf[1]]);
 		Dtwf[1] = 0.;
 		Awf[1] = cmeam.pkampl;
-		Dtwf[2] = *delta*(float)( Iwf[2] - Iwf[1] ) - tref1;
-		Awf[2] = *(cmmem.sacmem[nlcy] + Iwf[2] - 1);
+		Dtwf[2] = s->h->delta*(float)( Iwf[2] - Iwf[1] ) - tref1;
+		Awf[2] = s->y[Iwf[2] - 1];
 
-		Dtwf[3] = *delta*(*(cmmem.sacmem[nlcy]+Iwf[3]-1) - cmeam.pkampl)/
-                                 (*(cmmem.sacmem[nlcy]+Iwf[3]-1) -  *(cmmem.sacmem[nlcy]+Iwf[3])) -
-                                 tref1 + *delta*(float)( Iwf[3] - Iwf[1] );
+		Dtwf[3] = s->h->delta*(s->y[Iwf[3]-1] - cmeam.pkampl)/
+      (s->y[Iwf[3]-1] -  s->y[Iwf[3]]) -
+                                 tref1 + s->h->delta*(float)( Iwf[3] - Iwf[1] );
 
 		Awf[3] = cmeam.pkampl;
-		Dtwf[4] = *delta*(Iwf[4] - Iwf[1]) - tref1;
-		Awf[4] = *(cmmem.sacmem[nlcy] + Iwf[4] - 1);
+		Dtwf[4] = s->h->delta*(Iwf[4] - Iwf[1]) - tref1;
+		Awf[4] = s->y[Iwf[4] - 1];
 
-		Dtwf[5] = *delta*(*(cmmem.sacmem[nlcy]+Iwf[5]-1) - cmeam.pkampl)/
-                                 (*(cmmem.sacmem[nlcy]+Iwf[5]-1) - *(cmmem.sacmem[nlcy]+Iwf[5])) - 
-                                 tref1 + *delta*(float)( Iwf[5] -  Iwf[1] );
+		Dtwf[5] = s->h->delta*(s->y[Iwf[5]-1] - cmeam.pkampl)/
+      (s->y[Iwf[5]-1] - s->y[Iwf[5]]) - 
+                                 tref1 + s->h->delta*(float)( Iwf[5] -  Iwf[1] );
 
 		Awf[5] = cmeam.pkampl;
-		secinc = *begin + *delta*(float)( Iwf[1] - 1 ) + tref1;
+		secinc = s->h->b + s->h->delta*(float)( Iwf[1] - 1 ) + tref1;
 		facc = (cmgem.plot.xmax - cmgem.plot.xmin)/(tmax - tmin);
 		xlocs1 = (secinc + Toff[jdfl] - tmin)*facc + cmgem.plot.xmin;
 		seccur = secinc + Dtwf[5];
@@ -1009,12 +989,12 @@ L_4000:
 	    cmeam.lsphas = FALSE;
 	    cmeam.lfini = FALSE;
 	    cmeam.lampx = FALSE;
-	    *a = cmhdr.fundef;
-	    strcpy( ka, kmhdr.kundef );
-	    *t0 = cmhdr.fundef;
-	    strcpy( kt0, kmhdr.kundef );
-	    *f = cmhdr.fundef;
-	    strcpy( kf, kmhdr.kundef );
+	    s->h->a = cmhdr.fundef;
+	    strcpy( s->h->ka, kmhdr.kundef );
+	    s->h->t0 = cmhdr.fundef;
+	    strcpy( s->h->kt0, kmhdr.kundef );
+	    s->h->f = cmhdr.fundef;
+	    strcpy( s->h->kf, kmhdr.kundef );
 	    strcpy( kmeam.kpkid, "DEL     " );
 	}
 
@@ -1046,12 +1026,12 @@ L_5000:
 	/* - Write to hypo line to file or terminal. */
 
 	if( lhltrm || lhlhyp ){
-	    inctim( *nzhour, *nzmin, *nzsec, *nzmsec, psecsi, &cmeam.nphour, 
+	    inctim( s->h->nzhour, s->h->nzmin, s->h->nzsec, s->h->nzmsec, psecsi, &cmeam.nphour, 
 	     &cmeam.npmin, &npsec, &npmsec, &nexday );
 	    cmeam.psecs = tosecs( npsec, npmsec );
-	    incdat( *nzyear, *nzjday, nexday, &cmeam.npyear, &cmeam.npjday );
+	    incdat( s->h->nzyear, s->h->nzjday, nexday, &cmeam.npyear, &cmeam.npjday );
 	    kidate( cmeam.npyear, cmeam.npjday, &cmeam.npmon, &cmeam.npday, &ncerr );
-	    strcpy( kmeam.kstid, kstnm );
+	    strcpy( kmeam.kstid, s->h->kstnm );
 	    if( cmeam.lsphas )
 		cmeam.ssecs = cmeam.psecs - psecsi + ssecsi;
 	    if( cmeam.lfini )

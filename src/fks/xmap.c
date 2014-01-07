@@ -15,6 +15,7 @@
 #include "gem.h"
 #include "dfm.h"
 #include "co.h"
+#include "amf.h"
 
 
 #include "gdm.h"
@@ -27,11 +28,10 @@ void
 xmap(int *nerr) {
 
 	int lany, lformer, lfullsav;
-	int i, j, jdfl, nch, nchsav, ndxx, ndxy, 
-	 nlen;
+	int i, j, jdfl, nch, nchsav; 
 	float ratiosav, square, x[MXLENP], xmax, xmin, xp, y[MXLENP], 
         ymax, ymin, yp;
-
+  sac *s;
 	float *const X = &x[0] - 1;
 	float *const Y = &y[0] - 1;
 
@@ -113,21 +113,23 @@ L_1000:
 	vflist( nerr );
 	if( *nerr != 0 )
 		goto L_9999;
-	nch = cmdfm.ndfl;
+	nch = saclen();
 
 	/* DATA INPUT PHASE: */
 
 	nchsav = nch;
 	for( jdfl = 1; jdfl <= nch; jdfl++ ){
-		getfil( jdfl, FALSE, &nlen, &ndxy, &ndxx, nerr );
-		if( *nerr != 0 )
-			goto L_9999;
-		if( *iftype != *itime ){
+    if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+      goto L_9999;
+    }
+		//getfil( jdfl, FALSE, &nlen, &ndxy, &ndxx, nerr );
+
+		if( s->h->iftype != ITIME ){
 			nchsav = jdfl - 1;
 			goto L_2001;
 			}
-		X[jdfl] = *user7;
-		Y[jdfl] = *user8;
+		X[jdfl] = s->h->user7;
+		Y[jdfl] = s->h->user8;
 		}
 L_2001:
 	nch = nchsav;
@@ -138,23 +140,23 @@ L_2001:
 	 * */
 	if( strcmp(cmfks.kmaptype,"ARRAY   ") == 0 ){
 
-		*dist = 0.;
+		s->h->dist = 0.;
 		for( i = 1; i <= nch; i++ ){
 			square = powi(X[i],2) + powi(Y[i],2);
-			if( powi(*dist,2) < square ){
-				*dist = sqrt( square );
+			if( powi(s->h->dist,2) < square ){
+				s->h->dist = sqrt( square );
 				}
 			}
 
 		}
 	else if( strcmp(cmfks.kmaptype,"COARRAY ") == 0 ){
 
-		*dist = 0.;
+		s->h->dist = 0.;
 		for( i = 1; i <= nch; i++ ){
 			for( j = 1; j <= nch; j++ ){
 				square = powi(X[i] - X[j],2) + powi(Y[i] - X[j],2);
-				if( powi(*dist,2) < square ){
-					*dist = sqrt( square );
+				if( powi(s->h->dist,2) < square ){
+					s->h->dist = sqrt( square );
 					}
 				}
 			}
@@ -216,17 +218,17 @@ L_2001:
 
 	/*  Add scale at bottom of plot                                                  
 	 * */
-	*scale = .001;
+	s->h->scale = .001;
 L_4:
 	;
-	if( 10.0**scale > *dist || *scale > 9.999 )
+	if( 10.0*s->h->scale > s->h->dist || s->h->scale > 9.999 )
 		goto L_5;
-	*scale = *scale*10.;
+	s->h->scale = s->h->scale*10.;
 	goto L_4;
 L_5:
 	;
 	yp = -0.90;
-	xp = (*scale/ *dist/2.)*0.80;
+	xp = (s->h->scale/ s->h->dist/2.)*0.80;
 	worldmove( -xp, yp );
 	worlddraw( xp, yp );
 	worldmove( xp, yp - 0.01 );
@@ -250,13 +252,13 @@ L_5:
 	/*  Label scale                                                                  
 	 * */
 	settextjust( "CENTER", "CENTER" );
-	if( *scale > .099 && *scale < .101 ){
+	if( s->h->scale > .099 && s->h->scale < .101 ){
 
 		worldmove( 0.0, -1.0 );
 		text( "100 METERS",11, 10 );
 
 		}
-	else if( *scale > .999 && *scale < 1.001 ){
+	else if( s->h->scale > .999 && s->h->scale < 1.001 ){
 
 		worldmove( 0.0, -1.0 );
 		text( "1 KILOMETER",12, 11 );
@@ -291,8 +293,8 @@ L_5:
 	if( strcmp(cmfks.kmaptype,"ARRAY   ") == 0 ){
 
 		for( i = 1; i <= nch; i++ ){
-			xp = (X[i]/ *dist)*0.80;
-			yp = (Y[i]/ *dist)*0.80 + 0.05;
+			xp = (X[i]/ s->h->dist)*0.80;
+			yp = (Y[i]/ s->h->dist)*0.80 + 0.05;
 			worldsector( xp, yp, .01, 0., 360., 5. );
 			}
 
@@ -301,8 +303,8 @@ L_5:
 
 		for( i = 1; i <= nch; i++ ){
 			for( j = 1; j <= nch; j++ ){
-				xp = ((X[i] - X[j])/ *dist)*0.80;
-				yp = ((Y[i] - Y[j])/ *dist)*0.80 + 0.05;
+				xp = ((X[i] - X[j])/ s->h->dist)*0.80;
+				yp = ((Y[i] - Y[j])/ s->h->dist)*0.80 + 0.05;
 				worldsector( xp, yp, .01, 0., 360., 5. );
 				}
 			}

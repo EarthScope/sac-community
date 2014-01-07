@@ -27,7 +27,7 @@ int *ncmacroline, *nerr;
 	char kiline[MCMSG+1], ktemp1[MCPFN+1], ktemp2[MCPFN+1],
 	     ktoken[9] = "        ", runfile[MCPFN+1];
 	int lrunmode, macroline_v;
-	int ic, ic1, ic2, idx, itype, nc, niline, ntemp1, 
+	int ic, ic1, ic2, itype, nc, niline, ntemp1, 
 	         ntemp2, nchars, numsave;
 	FILE *nrfun;
         FILE *nun;

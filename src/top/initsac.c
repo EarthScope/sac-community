@@ -106,6 +106,7 @@ void /*FUNCTION*/ initsac()
 	/* -- BLOCK DATA initialization of variables in common blocks. */
 	initblkdata();
 
+  sacclear();
 	/* - Initialization that can't be handled in lower level modules. */
 
 	/* -- SAC error message function. */

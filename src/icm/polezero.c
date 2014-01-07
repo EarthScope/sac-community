@@ -9,6 +9,7 @@
 #include <math.h>
 #include <ctype.h>
 
+#include "amf.h"
 #include "icm.h"
 #include "complex.h"
 #include "bool.h"
@@ -22,7 +23,7 @@
 #include "ucf.h"
 
 #include "EVRESPnames.h"
-
+#include "SacHeader.h"
 #include "datetime.h"
 
 #define	MPOLES	30
@@ -271,12 +272,6 @@ polezero_meta_copy(pzmeta_t *m) {
 }
 
 
-#define FREE( x ) do {                          \
-                if( x ) {                       \
-                        free( x );              \
-                        x = NULL;               \
-                }                               \
-        } while( 0 )
 
 void
 polezero_meta_free( pzmeta_t *meta ) {
@@ -339,7 +334,8 @@ polezero_comment_parse(char *line, pzmeta_t *meta) {
 datetime *
 datetime_get_file_time( datetime *t ) {
         int dir;
-
+        sac *s;
+        s = sacget_current();
         if(!t) {
                 t = datetime_new( );
         }
@@ -351,18 +347,18 @@ datetime_get_file_time( datetime *t ) {
             datetime_set_second(t, getTime( dir, EV_SEC ));
             datetime_set_nanosecond(t, getTime( dir, EV_MSEC ) * 1000000);
         } else {
-            datetime_set_hour(t, *nzhour);
-            datetime_set_minute(t, *nzmin);
-            datetime_set_second(t, *nzsec);
-            datetime_set_nanosecond(t, *nzmsec * 1000000);
+            datetime_set_hour(t, s->h->nzhour);
+            datetime_set_minute(t, s->h->nzmin);
+            datetime_set_second(t, s->h->nzsec);
+            datetime_set_nanosecond(t, s->h->nzmsec * 1000000);
         }
         if(isSet(DATE, dir)) {
             datetime_set_year(t, getYear( dir ) - 1900);
             datetime_set_doy(t, getJday( dir ) - 1);
             datetime_doy2ymd( t );
         } else {
-            datetime_set_year(t, *nzyear);
-            datetime_set_doy(t, *nzjday);
+            datetime_set_year(t, s->h->nzyear);
+            datetime_set_doy(t, s->h->nzjday);
             datetime_doy2ymd( t );
         }
         datetime_normalize( t );
@@ -477,11 +473,11 @@ polezero(int   nfreq,
 
     char *stat, *net, *loc, *chan;
     char *pstat, *pnet, *ploc, *pchan;
-
+    sac *s;
 
 	complexf *const Poles = &poles[0] - 1;
 	complexf *const Zeros = &zeros[0] - 1;
-
+  s = sacget_current();
     memset(kfile, 0, sizeof(kfile));
     memset(kiline, 0, sizeof(kiline));
 
@@ -494,10 +490,10 @@ polezero(int   nfreq,
 
         filetime = datetime_get_file_time( NULL );
         meta = polezero_meta_new( );
-        pstat = strdup(kstnm);
-        pnet  = strdup(knetwk);
-        ploc  = strdup(khole);
-        pchan = strdup(kcmpnm);
+        pstat = strdup(s->h->kstnm);
+        pnet  = strdup(s->h->knetwk);
+        ploc  = strdup(s->h->khole);
+        pchan = strdup(s->h->kcmpnm);
         stat = rstrip(lstrip(pstat));
         net  = rstrip(lstrip(pnet));
         loc  = rstrip(lstrip(ploc));

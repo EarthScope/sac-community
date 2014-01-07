@@ -24,14 +24,13 @@ int *nerr;
 	char kwspnm[MCPFN+1];
 	int lconv;
 	int _l1, index, ispectype, jdfl, nderr, 
-	 ndx1, ndx2, nfreq, nlen, nun, nwspnm;
-	float temp[SAC_HEADER_STRINGS_SIZE_MEMORY];
+	 nfreq, nun, nwspnm;
 
   float *buf1, *buf2;
   char *tmp;
 
   string_list *list;
-
+  sac *s;
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command WRITESP.
 	 *           This command writes spectral files in memory to disk
@@ -74,7 +73,7 @@ int *nerr;
     buf1 = NULL;
     buf2 = NULL;
 	/* PARSING PHASE: */
-
+    ispectype = -1;
 	/* - Loop on each token in command: */
 
 	while ( lcmore( nerr ) ){
@@ -198,16 +197,16 @@ int *nerr;
 	vfspec( nerr );
 	if( *nerr != 0 )
 		goto L_8888;
-	ispectype = *iftype;
+
 
 	/* - Check length of write file list vs data file list. */
 
 	if( !cmsam.lwspov ){
-		if( string_list_length(list) != cmdfm.ndfl ){
+		if( string_list_length(list) != saclen() ){
 			*nerr = 1312;
 			setmsg( "ERROR", *nerr );
 			apimsg( cmsam.nwspfl );
-			apimsg( cmdfm.ndfl );
+			apimsg( saclen() );
 			goto L_8888;
 		}
 	}
@@ -222,27 +221,25 @@ int *nerr;
 
 	/* - Perform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 		/* -- Get the next file in DFL, moving header to CMHDR. */
-        
-		getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      return;
+    }
+		//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
 		/* -- Convert spectral file type if needed. */
 
-		if( cmsam.lwamph && ispectype == *irlim ){
-			toamph( cmmem.sacmem[ndx1], cmmem.sacmem[ndx2], *npts, cmmem.sacmem[ndx1], 
-			 cmmem.sacmem[ndx2] );
+		if( cmsam.lwamph && s->h->iftype == IRLIM ){
+			toamph( s->y, s->x, s->h->npts, s->y, s->x );
 			lconv = TRUE;
-			ispectype = *iamph;
+			ispectype = IAMPH;
 		}
-		else if( cmsam.lwrlim && ispectype == *iamph ){
-			torlim( cmmem.sacmem[ndx1], cmmem.sacmem[ndx2], *npts, cmmem.sacmem[ndx1], 
-			 cmmem.sacmem[ndx2] );
+		else if( cmsam.lwrlim && s->h->iftype == IAMPH ){
+			torlim( s->y, s->x, s->h->npts, s->y, s->x );
 			lconv = TRUE;
-			ispectype = *irlim;
+			ispectype = IRLIM;
 		}
 		else{
 			lconv = FALSE;
@@ -251,7 +248,7 @@ int *nerr;
 		/* -- Determine character length of output file name. */
 
 		if( cmsam.lwspov ){
-            tmp = string_list_get(datafiles, jdfl-1);
+      tmp = s->m->filename;
 			fstrncpy( kwspnm, MCPFN, tmp, strlen(tmp)+1);
 		}
 		else{
@@ -261,9 +258,11 @@ int *nerr;
 		nwspnm = min( strlen(kwspnm), MCPFN - 3 );
 
 		/* -- Determine suffixes if KWSPTP is 'ASIS'. */
-
 		if( strcmp(kmsam.kwsptp,"ASIS    ") == 0 ){
-			if( ispectype == *irlim ){
+      if(ispectype == -1){
+        ispectype = s->h->iftype;
+      }
+			if( ispectype == IRLIM ){
 				strcpy( kmsam.kwsps1, ".rl     " );
 				strcpy( kmsam.kwsps2, ".im     " );
 			}
@@ -275,11 +274,11 @@ int *nerr;
 
 		/* -- Adjust header for writes. */
 
-		nfreq = *npts/2 + 1;
-		*npts = nfreq;
-		*b = 0.;
-		*e = *delta*(float)( nfreq - 1 );
-		*iftype = *ixy;
+		nfreq = s->h->npts/2 + 1;
+		s->h->npts = nfreq;
+		s->h->b = 0.;
+		s->h->e = s->h->delta*(float)( nfreq - 1 );
+		s->h->iftype = IXY;
 
 		/* -- Write first spectral component if requested. */
 
@@ -297,11 +296,9 @@ int *nerr;
 				goto L_8888;
 
 			/* --- Adjust header for component specific values. */
-			extrma( cmmem.sacmem[ndx1], 1, nfreq, depmin, depmax, depmen );
+			extrma( s->y, 1, nfreq, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
 			/* --- Write header. */
-
-			zputc( (char *)kmhdr.khdr,9, (int *)temp, (SAC_HEADER_STRING_LENGTH) * SAC_HEADER_STRINGS );
 
       if((buf1=(float *)malloc( SAC_HEADER_SIZEOF )) == NULL){
         printf("error allocating file buffer-xwsp\n");
@@ -315,8 +312,8 @@ int *nerr;
         goto L_8888;
       }
       
-      memcpy((char *)buf1,(char *)&Fhdr[1], SAC_HEADER_NUMBERS * SAC_HEADER_SIZEOF_NUMBER);
-      memcpy((char *)(buf1 + (SAC_HEADER_NUMBERS)),(char *)temp,  SAC_HEADER_STRINGS * SAC_HEADER_STRING_LENGTH);
+      memcpy((char *)buf1,(char *)&s->h->delta, SAC_HEADER_NUMBERS * SAC_HEADER_SIZEOF_NUMBER);
+      memcpy((char *)(buf1 + (SAC_HEADER_NUMBERS)),(char *)khdr(s,1),  SAC_HEADER_STRINGS * SAC_HEADER_STRING_LENGTH);
       
       map_hdr_out(buf1,buf2, FALSE);
       
@@ -329,7 +326,7 @@ int *nerr;
       
 			/* --- Write data. */
             _l1 = SAC_HEADER_WORDS_FILE;
-			zwabs( (int *)&nun, (char *)(cmmem.sacmem[ndx1]), nfreq, (int *)&_l1, (int *)nerr );
+			zwabs( (int *)&nun, (char *)(s->y), nfreq, (int *)&_l1, (int *)nerr );
 			if( *nerr != 0 )
 				goto L_8888;
             
@@ -356,7 +353,7 @@ int *nerr;
 				goto L_8888;
             
 			/* --- Adjust header for component specific values. */
-			extrma( cmmem.sacmem[ndx2], 1, nfreq, depmin, depmax, depmen );
+			extrma( s->x, 1, nfreq, &s->h->depmin, &s->h->depmax, &s->h->depmen );
             
 			/* --- Write header. */
       if((buf1=(float *)malloc(SAC_HEADER_SIZEOF)) == NULL){
@@ -371,8 +368,8 @@ int *nerr;
         goto L_8888;
       }
       
-      memcpy((char *)buf1,(char *)&Fhdr[1], SAC_HEADER_NUMBERS * SAC_HEADER_SIZEOF_NUMBER);
-      memcpy((char *)(buf1 + (SAC_HEADER_NUMBERS)),kmhdr.khdr[0], SAC_HEADER_STRINGS * SAC_HEADER_STRING_LENGTH);
+      memcpy((char *)buf1,(char *)&s->h->delta, SAC_HEADER_NUMBERS * SAC_HEADER_SIZEOF_NUMBER);
+      memcpy((char *)(buf1 + (SAC_HEADER_NUMBERS)),khdr(s,1), SAC_HEADER_STRINGS * SAC_HEADER_STRING_LENGTH);
       
       map_hdr_out(buf1,buf2, FALSE);
       
@@ -385,7 +382,7 @@ int *nerr;
       
 			/* --- Write data. */
             _l1 = SAC_HEADER_WORDS_FILE;
-			zwabs( (int *)&nun, (char *)(cmmem.sacmem[ndx2]), nfreq, (int *)&_l1, (int *)nerr );
+			zwabs( (int *)&nun, (char *)(s->x), nfreq, (int *)&_l1, (int *)nerr );
 			if( *nerr != 0 )
 				goto L_8888;
             
@@ -398,15 +395,13 @@ int *nerr;
 
 		/* -- Convert file back to original type if necessary. */
 
-		if( lconv && ispectype == *irlim ){
-			toamph( cmmem.sacmem[ndx1], cmmem.sacmem[ndx2], *npts, cmmem.sacmem[ndx1], 
-			 cmmem.sacmem[ndx2] );
-			ispectype = *iamph;
+		if( lconv && ispectype == IRLIM ){
+			toamph( s->y, s->x, s->h->npts, s->y, s->x );
+			ispectype = IAMPH;
 		}
-		else if( lconv && ispectype == *iamph ){
-			torlim( cmmem.sacmem[ndx1], cmmem.sacmem[ndx2], *npts, cmmem.sacmem[ndx1], 
-			 cmmem.sacmem[ndx2] );
-			ispectype = *irlim;
+		else if( lconv && ispectype == IAMPH ){
+			torlim( s->y, s->x, s->h->npts, s->y, s->x );
+			ispectype = IRLIM;
 		}
 
 	}

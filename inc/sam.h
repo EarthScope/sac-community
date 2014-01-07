@@ -159,7 +159,7 @@ double estpha ( float x[],
                 double ppv, 
                 double pdvt, 
                 int *iscons);
-void fdWhitenWrite ( int *memptr, 
+void fdWhitenWrite ( float *resp[4],
                      char *kprefix, 
                      float *userData, 
                      int newnpts, 
@@ -171,7 +171,7 @@ void gdhdrw ( int newnpts,
               int nFreq);
 void irhdrw ( int newnpts, 
               int nFreq);
-void fdWriteFiles ( int *memptr, 
+void fdWriteFiles ( float *memptr[10], 
                     char *kprefix, 
                     float *userData, 
                     int newnpts, 
@@ -180,23 +180,23 @@ void aphdr ( int newnpts);
 void gdhdr ( int newnpts);
 void irhdr ( int newnpts);
 void fillNZ (void);
-void fdbp ( int memptr[], 
+void fdbp ( float *memptr[], 
             int mxmptr, 
             float *userData, 
             int *nerr);
-void fdbr ( int memptr[], 
+void fdbr ( float *memptr[], 
             int mxmptr, 
             float *userData, 
             int *nerr);
-void fdhp ( int memptr[], 
+void fdhp ( float *memptr[], 
             int mxmptr, 
             float *userData, 
             int *nerr);
-void fdlp ( int memptr[], 
+void fdlp ( float *memptr[], 
             int mxmptr, 
             float *userData, 
             int *nerr);
-int fdplot ( int memptr[], 
+int fdplot ( float *memptr[], 
              int lprint, 
              int *xbeg, 
              int *nerr);

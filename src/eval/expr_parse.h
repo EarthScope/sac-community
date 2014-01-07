@@ -24,7 +24,7 @@
 #define AS                             24
 #define FLOAT                          25
 #define INTEGER                        26
-#define DEBUG                          27
+#define DEBUG_PARSER                   27
 #define TOK_PI                         28
 #define BLACKBOARD                     29
 #define HEADER                         30

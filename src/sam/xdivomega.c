@@ -15,9 +15,10 @@
 void /*FUNCTION*/ xdivomega(nerr)
 int *nerr;
 {
-	int j, jdfl, jj, ndx1, ndx2, nfreq, nlen;
-	float const_, oldimag, oldreal, slope, value;
-
+	int j, jdfl, jj, nfreq;
+	float const_, oldimag, oldreal, value;
+  float slope;
+  sac *s;
 
 
 	/*=====================================================================
@@ -70,67 +71,60 @@ int *nerr;
 
 	/* - Perform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-
-		/* -- Get next file from the memory manager.
-		 *    (Header is moved into common blocks CMHDR and KMHDR.) */
-		getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+		//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
 		/* -- Need to divide spectra by "eye omega". */
 		/* -- If real-imaginary this means: (REAL, IMAG) = (+IMAG/omega, -REAL/omega) */
-		if( *iftype == *irlim ){
+		if( s->h->iftype == IRLIM ){
 
-			nfreq = *npts/2;
-			value = 2.*PI**delta;
-			slope = 2.*PI**delta;
-			*(cmmem.sacmem[ndx1]) = 0.;
-			*(cmmem.sacmem[ndx2]) = 0.;
+			nfreq = s->h->npts/2;
+			value = 2.*PI*s->h->delta;
+			s->y[0] = 0.0;
+      s->x[0] = 0.0;
 			for( j = 1; j <= (nfreq - 1); j++ ){
-				oldreal = *(cmmem.sacmem[ndx1] + j);
-				oldimag = *(cmmem.sacmem[ndx2] + j);
-				*(cmmem.sacmem[ndx1] + j) = oldimag/value;
-				*(cmmem.sacmem[ndx2] + j) = -oldreal/value;
-				jj = *npts - j;
-				*(cmmem.sacmem[ndx1] + jj) = *(cmmem.sacmem[ndx1] + j);
-				*(cmmem.sacmem[ndx2] + jj) = -(*(cmmem.sacmem[ndx2] + j));
-				value = value + slope;
-				}
-			oldreal = *(cmmem.sacmem[ndx1] + nfreq);
-			oldimag = *(cmmem.sacmem[ndx2] + nfreq);
-			*(cmmem.sacmem[ndx1] + nfreq) = oldimag/value;
-			*(cmmem.sacmem[ndx2] + nfreq) = -oldreal/value;
+				oldreal = s->y[j];
+				oldimag = s->x[j];
+        s->y[j] = oldimag / value;
+        s->x[j] = -oldreal / value;
+				jj = s->h->npts - j;
+        s->y[jj] =  s->y[j];
+        s->x[jj] = -s->x[j];
+				value = (2.*PI*s->h->delta) * (j+1);
+      }
+			oldreal = s->y[nfreq];
+			oldimag = s->x[nfreq];
+      s->y[nfreq] =  oldimag / value;
+      s->x[nfreq] = -oldreal/ value;
 
 			/* -- If amplitude-phase this means: (AMP, PHASE) = (AMP/omega, PHASE-pi/2) */
 			}
 		else{
-
-			nfreq = *npts/2;
-			value = 2.*PI**delta;
-			slope = 2.*PI**delta;
-			*(cmmem.sacmem[ndx1]) = 0.;
+			nfreq = s->h->npts/2;
+			value = 2.*PI*s->h->delta;
+      slope = 2.*PI*s->h->delta;
+      s->y[0] = 0;
 			const_ = 0.5*PI;
-			*(cmmem.sacmem[ndx2]) += const_;
+      s->x[0] += const_;
+
 			for( j = 1; j <= (nfreq - 1); j++ ){
-				*(cmmem.sacmem[ndx1] + j) /= value;
-				*(cmmem.sacmem[ndx2] + j) -= const_;
-				jj = *npts - j;
-				*(cmmem.sacmem[ndx1] + jj) = *(cmmem.sacmem[ndx1] + j);
-				*(cmmem.sacmem[ndx2] + jj) = -(*(cmmem.sacmem[ndx2] + j));
-				value = value + slope;
-				}
-			*(cmmem.sacmem[ndx1] + nfreq) /= value;
-			*(cmmem.sacmem[ndx2] + nfreq) -= const_;
+        s->y[j] /= value;
+        s->x[j] -= const_;
+				jj = s->h->npts - j;
+        s->y[jj] =  s->y[j];
+        s->x[jj] = -s->x[j];
+				value += slope;//(2.*PI*s->h->delta);// * (j+1);
+      }
+      s->y[nfreq] /= value;
+      s->x[nfreq] -= const_;
 			}
 
 		/* -- Update any header fields that may have changed. */
-		extrma( cmmem.sacmem[ndx1], 1, nlen, depmin, depmax, depmen );
+		extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
-		/* -- Return file to memory manager. */
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
 
 		}
 

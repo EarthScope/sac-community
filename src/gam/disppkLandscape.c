@@ -3,6 +3,7 @@
 #include <math.h>
 #include <string.h>
 
+#include "amf.h"
 #include "hdr.h"
 #include "lhf.h"
 #include "gem.h"
@@ -14,6 +15,7 @@
 #include "bot.h"
 #include "ucf.h"
 #include "gtm.h"
+#include "SacHeader.h"
 
 void disppkLandscape(tdelay)
 double tdelay;
@@ -22,7 +24,7 @@ double tdelay;
 	int j, j_;
 	float xploc, xploc1, xploc2, xtloc, xwloc, xpdel, yploc, 
 	 yploc1, yploc2, ytloc, ywloc;
-
+  sac *s;
 
 	/* ind
 	 *=====================================================================
@@ -54,7 +56,7 @@ double tdelay;
 	/* - Return if this option has been turned off */
 	if( !cmgam.ldsppk )
 		goto L_8888;
-
+  s = sacget_current();
 	/* - Change to the smallest text size. */
 
 	cmgem.chht = cmgam.tspk;
@@ -73,10 +75,10 @@ double tdelay;
 		j_ = j - 1;
 
 		/* -- If time pick is defined and pick display is not off: */
-		if( Fhdr[Itmfnm[j]] != cmhdr.fundef && Ipktyp[j] > 0 ){
+		if( VALUE(fhdr(s,Itmfnm[j])) != cmhdr.fundef && Ipktyp[j] > 0 ){
 
 			/* --- Map the input y location in WC to PC. */
-			ywloc = Fhdr[Itmfnm[j]] + tdelay;
+			ywloc = VALUE(fhdr(s,Itmfnm[j])) + tdelay;
 			yploc = cmgem.ympip1*ywloc + cmgem.ympip2;
 
 			/* --- If time pick is within y plot window: */
@@ -101,7 +103,7 @@ double tdelay;
 					}
 				else{
 					yploc = cmgem.ympip1*ywloc + cmgem.ympip2;
-					getxw( Fhdr[Itmfnm[j]], &xwloc );
+					getxw( VALUE(fhdr(s,Itmfnm[j])), &xwloc );
 					xploc = cmgem.xmpip1*xwloc + cmgem.xmpip2;
 					yploc1 = fmax( cmgem.uplot.ymin, yploc - 0.5*cmgam.pkwdth );
 					yploc2 = fmin( cmgem.uplot.ymax, yploc + 0.5*cmgam.pkwdth );

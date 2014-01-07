@@ -13,10 +13,9 @@
 void /*FUNCTION*/ xsqr(nerr)
 int *nerr;
 {
-	int j, jdfl, ndx1, ndx2, nlen;
-
-	float *Sacmem;
-
+	int j, jdfl;
+  sac *s;
+  
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command SQR.
 	 *           This command squares data in memory.
@@ -56,30 +55,24 @@ int *nerr;
 
 	/* - Perform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 		/* -- Get the next file in DFL, moving header to CMHDR. */
-
-		getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+    //getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 		if( *nerr != 0 )
 			goto L_8888;
 
 		/* -- Square each value in the dependent array. */
-                Sacmem = cmmem.sacmem[ndx1];
-		for( j = ndx1; j <= (ndx1 + nlen - 1); j++ ){
-                        *Sacmem = powi(*Sacmem,2);
-                        Sacmem++;
+		for( j = 0; j < s->h->npts; j++ ){
+      s->y[j] = powi(s->y[j],2);
 			}
 
 		/* -- Update any header fields that may have changed. */
+		extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
-		extrma( cmmem.sacmem[ndx1], 1, nlen, depmin, depmax, depmen );
-
-		/* -- Reverse the steps used in getting the next file in DFL. */
-
-		putfil( jdfl, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
 
 		}
 

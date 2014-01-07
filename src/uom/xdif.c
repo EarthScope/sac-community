@@ -13,8 +13,8 @@
 void /*FUNCTION*/ xdif(nerr)
 int *nerr;
 {
-	int jdfl, ndx1, ndx2, nlen;
-
+	int jdfl;
+  sac *s;
 
 
 	/*=====================================================================
@@ -85,53 +85,46 @@ int *nerr;
 
 	/* - Perform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 	    /* -- Get the next file in DFL, moving header to CMHDR. */
-
-	    getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+    //getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
 	    /* -- Call the specific subroutine to work on this file. */
 
 	    if( cmuom.idiftp == 1 ){
-		dif2( cmmem.sacmem[ndx1], nlen, *delta, cmmem.sacmem[ndx1] );
-		*npts = *npts - 1;
-		*begin = *begin + 0.5**delta;
+        dif2( s->y, s->h->npts, s->h->delta, s->y);
+		s->h->npts = s->h->npts - 1;
+		s->h->b = s->h->b + 0.5*s->h->delta;
 	    }
 	    else if( cmuom.idiftp == 2 ){
-		dif3( cmmem.sacmem[ndx1], nlen, *delta, cmmem.sacmem[ndx1] );
-		*npts = *npts - 2;
-		*begin = *begin + *delta;
+        dif3( s->y, s->h->npts, s->h->delta, s->y);
+		s->h->npts = s->h->npts - 2;
+		s->h->b = s->h->b + s->h->delta;
 	    }
 	    else{
-		dif5( cmmem.sacmem[ndx1], nlen, *delta, cmmem.sacmem[ndx1] );
-		*npts = *npts - 2;
-		*begin = *begin + *delta;
+        dif5( s->y, s->h->npts, s->h->delta, s->y);
+		s->h->npts = s->h->npts - 2;
+		s->h->b = s->h->b + s->h->delta;
 	    }
 
-	    Nlndta[ jdfl ] = *npts ;	/* maf 970822 */
-
-	    *ennd = *begin + (float)( *npts - 1 )**delta;
+	    s->h->e = s->h->b + (float)( s->h->npts - 1 )*s->h->delta;
 
 	    /* -- Update any header fields that may have changed. */
 
-	    if( *idep == *idisp ){
-		*idep = *ivel;
+	    if( s->h->idep == IDISP ){
+        s->h->idep = IVEL;
 	    }
-	    else if( *idep == *ivel ){
-		*idep = *iacc;
+	    else if( s->h->idep == IVEL ){
+        s->h->idep = IACC;
 	    }
 	    else{
-		*idep = *iunkn;
+        s->h->idep = IUNKN;
 	    }
-	    extrma( cmmem.sacmem[ndx1], 1, *npts, depmin, depmax, depmen );
+	    extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
-	    /* -- Reverse the steps used in getting the next file in DFL. */
-
-	    putfil( jdfl, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
 
 	}
 

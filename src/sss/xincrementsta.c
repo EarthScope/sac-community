@@ -1,4 +1,5 @@
 
+#include "amf.h"
 #include "sss.h"
 #include "dfm.h"
 
@@ -39,7 +40,7 @@ int *nerr;
 
 	/* - Increment static delays. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 		Dlyt[jdfl] = Dlyt[jdfl] + Dlyti[jdfl];
 		Dlyn[jdfl] = Dlyn[jdfl] + Dlyni[jdfl];
 		}

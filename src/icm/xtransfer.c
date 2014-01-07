@@ -24,10 +24,11 @@ void /*FUNCTION*/ xtransfer(nerr)
 int *nerr;
 {
 	int ldone;
-	int iprewu, jdfl, maxn, ndxsim, ndxsre, ndxx, ndxxim, 
-	 ndxxre, ndxy, nfft, nfreq, nlen, nra, ntused;
+	int iprewu, jdfl, maxn,
+	 nfft, nfreq, nra, ntused;
 
-
+  double *sre, *sim, *xre, *xim;
+  sac *s;
 	/*=======================================================================
 	 * PURPOSE: To parse and execute the action command transfer.
 	 *          This command deconvolves a seismogram into ground displace-
@@ -194,83 +195,64 @@ int *nerr;
 
 	nfft = next2( maxn );
 	nfreq = nfft/2 + 1;
-	allamb( &cmmem, 2*nfft, &ndxsre, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
-	allamb( &cmmem, 2*nfft, &ndxsim, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
-	allamb( &cmmem, 2*nfreq, &ndxxre, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
-	allamb( &cmmem, 2*nfreq, &ndxxim, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
+  sre = (double *) malloc(sizeof(double) * nfft);
+  sim = (double *) malloc(sizeof(double) * nfft);
+  xre = (double *) malloc(sizeof(double) * nfft);
+  xim = (double *) malloc(sizeof(double) * nfft);
+  if(!sre || !sim || !xre || !xim) {
+    goto L_8888;
+  }
 
 	/* - Perform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= cmdfm.ndfl; jdfl++ ){
-
-	    /* -- Get next file from the memory manager.
-	     *    (Header is moved into common blocks CMHDR and KMHDR.) */
-	    getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
+	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
+    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+      goto L_8888;
+    }
+    //getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
 
 	    /* -- Call the specific subroutine to work on this file.
 	     *    (This is usually a call to a subroutine.) */
 
 		 
-	    transfer( cmmem.sacmem[ndxy], *npts, *delta, cmicm.fpfrom, cmicm.ipfrom, 
-	     kmicm.kpfrom,MCPFN+1, cmicm.fpto, cmicm.ipto, kmicm.kpto
-	     ,MCPFN+1, cmicm.freq, &iprewu, (double*)cmmem.sacmem[ndxsre],
-	     (double*)cmmem.sacmem[ndxsim], nfft, (double*)cmmem.sacmem[ndxxre],
-	     (double*)cmmem.sacmem[ndxxim], nfreq, nerr );
+	    transfer( s->y, s->h->npts, s->h->delta, cmicm.fpfrom, cmicm.ipfrom, 
+                kmicm.kpfrom,MCPFN+1, cmicm.fpto, cmicm.ipto, kmicm.kpto
+                ,MCPFN+1, cmicm.freq, &iprewu, sre, sim,
+                nfft, xre, xim, nfreq, nerr );
 
 	    if( *nerr != 0 )
 		goto L_8888;
 
 	    /* -- Update any header fields that may have changed. */
-	    extrma( cmmem.sacmem[ndxy], 1, *npts, depmin, depmax, depmen );
+	    extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
 	    if ( kmicm.kpto[ 0 ][ 0 ] ) {
 	        modcase ( TRUE , kmicm.kpto[0] , strlen(kmicm.kpto[0]) , kmicm.kpto[0] ) ;
 	        if ( !strncmp ( kmicm.kpto[ 0 ] , "DIS" , 3 ) ||
 		     !strncmp ( kmicm.kpto[ 0 ] , "NONE", 4 ) ) 
-		    *idep = IDISP ;
+            s->h->idep = IDISP ;
 	        else if ( !strncmp ( kmicm.kpto[ 0 ] , "VEL" , 3 ) )
-		    *idep = IVEL ;
+            s->h->idep = IVEL ;
 	        else if ( !strncmp ( kmicm.kpto[ 0 ] , "ACC" , 3 ) )
-		    *idep = IACC ;
+            s->h->idep = IACC ;
 	    }
 
-	    /* -- Return file to memory manager. */
-	    putfil( jdfl, nerr );
 	    if( *nerr != 0 )
 		goto L_8888;
 
 	}
-
-	/* - Release scratch space. */
-
-	relamb( cmmem.sacmem, ndxsre, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
-	relamb( cmmem.sacmem, ndxsim, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
-	relamb( cmmem.sacmem, ndxxre, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
-	relamb( cmmem.sacmem, ndxxim, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
 
 	/* - Calculate and set new range of dependent variable. */
 
 	setrng();
 
 L_8888:
+	/* - Release scratch space. */
+  FREE(sre);
+  FREE(sim);
+  FREE(xre);
+  FREE(xim);
+
         DisconnectFromOracleTransfer();
 	return;
 

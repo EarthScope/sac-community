@@ -3,6 +3,9 @@
 #include "tt.h"
 #include "amf.h"
 
+extern float *ttx;
+extern float *tty;
+
 void /*FUNCTION*/ timeadj(rdist, atime, nerr)
 double rdist;
 float *atime;
@@ -49,8 +52,8 @@ int *nerr;
 			velocityadj( cmtt.rdvel, cmtt.ttdist, rdist, atime, nerr );
 			}
 		else if( cmtt.nttrd == 2 ){
-			phaseadj( Ltteven[cmtt.nrdph], Nttpt[cmtt.nrdph], cmmem.sacmem[Ndxttx[cmtt.nrdph]], 
-			 cmmem.sacmem[Ndxtty[cmtt.nrdph]], Xttfirst[cmtt.nrdph], Xttdel[cmtt.nrdph], 
+			phaseadj( Ltteven[cmtt.nrdph], Nttpt[cmtt.nrdph], &ttx[cmtt.nrdph], 
+                &tty[cmtt.nrdph], Xttfirst[cmtt.nrdph], Xttdel[cmtt.nrdph], 
 			 cmtt.ttdist, rdist, atime, nerr );
 			}
 		}

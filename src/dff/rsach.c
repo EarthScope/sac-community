@@ -5,14 +5,17 @@
  * 
  */
 
+#include "amf.h"
 #include "dff.h"
 #include "hdr.h"
 #include "bool.h"
 #include "co.h"
 #include "msg.h"
 #include "ucf.h"
-
+#include "SacHeader.h"
 #include "errors.h"
+
+extern sac *CURRENT;
 
 /** 
  * Initialize the Common block for sacio
@@ -129,7 +132,7 @@ sac_header_swap(float *hdr) {
  * @date July 01, 2007 Initial Version -- B. Savage
  */
 int
-sac_header_read(int nun, int *nerr) {
+sac_header_read(int nun, sac *s, int *nerr) {
   int lswap;
   float temp2[2 * SAC_HEADER_STRINGS];
   float temp[(2 * SAC_HEADER_STRINGS) + 6];
@@ -137,14 +140,14 @@ sac_header_read(int nun, int *nerr) {
                                            
   lswap = FALSE;
   word = 0;
-  zrabs( &nun, (char *)cmhdr.fhdr, SAC_HEADER_NUMBERS, &word, nerr );
+  zrabs( &nun, (char *)s->h, SAC_HEADER_NUMBERS, &word, nerr );
   if( *nerr != SAC_OK )
     return lswap;
 
-  lswap = sac_check_header_version(cmhdr.fhdr, nerr);
+  lswap = sac_check_header_version((float*)s->h, nerr);
   
   if( lswap ){     /* byteswap all the non-character header elements. */
-    sac_header_swap(cmhdr.fhdr);
+    sac_header_swap((float*)s->h);
   }
   
   word = word + SAC_HEADER_NUMBERS;
@@ -155,8 +158,8 @@ sac_header_read(int nun, int *nerr) {
   map_chdr_in(temp,temp2);
   
   zgetc( (int *) temp, 
-	 (char *) kmhdr.khdr, 
-	 SAC_HEADER_STRING_LENGTH * SAC_HEADER_STRINGS );
+         (char *) s->h->kstnm,
+         SAC_HEADER_STRING_LENGTH * SAC_HEADER_STRINGS );
   
   return lswap;
  
@@ -182,7 +185,7 @@ rsach(char *kname,
       int   kname_s) {
   int ncerr;
   int nun;
-
+  sac *s;
   nun = 0;
 
   *nerr = SAC_OK;
@@ -193,8 +196,12 @@ rsach(char *kname,
   zopen_sac( (int *)&nun, kname,kname_s, "RODATA",7, (int *)nerr );
   if( *nerr != SAC_OK )
     goto ERROR;
-  
-  sac_header_read(nun, nerr);
+
+  s = sac_new();
+  s->m->filename = fstrdup(kname, kname_s);
+  sacput(s);
+
+  sac_header_read(nun, s, nerr);
   if( *nerr != SAC_OK )
     goto ERROR;
 

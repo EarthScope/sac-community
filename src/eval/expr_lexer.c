@@ -1477,7 +1477,7 @@ YY_RULE_SETUP
 case 4:
 YY_RULE_SETUP
 #line 113 "expr_lexer.l"
-{ return DEBUG;      }
+{ return DEBUG_PARSER;      }
 	YY_BREAK
 /* Variables */
 case 5:

@@ -20,10 +20,10 @@
 int
 gettime(int lmax, int lvalue, double tvalue, double *value) {
 
-	int j, ndx1, ndx2, nlen, npt;
+	int j;
   int nerr;
-  float *Sacmem1, *Sacmem2;
 
+  sac *s;
 	/*=====================================================================
 	 * PURPOSE: Returns the time offset in the file for the first occurence
 	 *          of a given value, or the offset coresponding the the first
@@ -59,7 +59,6 @@ gettime(int lmax, int lvalue, double tvalue, double *value) {
 	 * DOCUMENTED/REVIEWED:  
 	 *===================================================================== */
   nerr = 0;
-	npt = 0;
 
 	/* CHECKING PHASE: */
 
@@ -71,41 +70,36 @@ gettime(int lmax, int lvalue, double tvalue, double *value) {
   }
 
 	/* - Get the first file from the memory manager */
-
-	getfil( 1, TRUE, &nlen, &ndx1, &ndx2, &nerr );
-	if( nerr != 0 ) {
+  if(!(s = sacget(0, TRUE, &nerr))) {
     return nerr;
   }
+  //getfil( 1, TRUE, &nlen, &ndx1, &ndx2, &nerr );
 
-  Sacmem1 = cmmem.sacmem[ndx1];
-  if (!*leven) {
-    Sacmem2 = cmmem.sacmem[ndx2];
-  }
+
   
 	if( ! lvalue ){
     if( lmax ) {
-      tvalue = *depmax;
+      tvalue = s->h->depmax;
     } else {
-      tvalue = *depmin;
+      tvalue = s->h->depmin;
     }
   }
 
-  for( j = ndx1; j <= (ndx1 + nlen - 1); j++ ){
-    npt = npt + 1;
-    if( (  lmax && *(Sacmem1++) >= tvalue ) ||
-        ( !lmax && *(Sacmem1++) <= tvalue ) ) {
-      if( *leven ){
-        *value = *b + (*delta * (npt - 1));
+  for( j = 0; j < s->h->npts; j++ ){
+    if( (  lmax && s->y[j] >= tvalue ) ||
+        ( !lmax && s->y[j] <= tvalue ) ) {
+      if( s->h->leven ){
+        *value = s->h->b + s->h->delta * (j-1);
 			} else {
-        *value = *(Sacmem2 + npt - 1);
+        *value = s->x[j];
 			}
       return FALSE;
     }
   } 
   if(lmax) {
-    error(8201, ": %g > %g (depmax)", tvalue, *depmax);
+    error(8201, ": %g > %g (depmax)", tvalue, s->h->depmax);
   } else {
-    error(8201, ": %g < %g (depmin)", tvalue, *depmin);
+    error(8201, ": %g < %g (depmin)", tvalue, s->h->depmin);
   }
 	return 8201;
 }
