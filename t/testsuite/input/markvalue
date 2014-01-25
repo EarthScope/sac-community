@@ -1,0 +1,10 @@
+markvalue
+
+fg seismogram
+lh t0
+markvalue ge 1.2 to t0
+lh t0
+
+lh t0
+markvalue le -1.5 to t0
+lh t0

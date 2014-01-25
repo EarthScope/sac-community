@@ -1,0 +1,15 @@
+fg seismo
+p1 ; pause period 0.25
+
+grid off
+p1 ; pause period 0.25
+
+grid on solid
+p1 ; pause period 0.25
+
+grid on dotted
+p1 ; pause period 0.25
+
+grid off 
+p1 ; pause period 0.25
+

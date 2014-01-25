@@ -1,0 +1,49 @@
+fg seismogram
+lh depmin depmax
+taper
+lh depmin depmax
+
+fg seismogram
+lh depmin depmax
+taper type hanning
+lh depmin depmax
+
+fg seismogram
+lh depmin depmax
+taper type hamming
+lh depmin depmax
+
+fg seismogram
+lh depmin depmax
+taper type cosine
+lh depmin depmax
+
+fg seismogram
+lh depmin depmax
+taper type hanning width 0.5
+lh depmin depmax
+
+fg seismogram
+lh depmin depmax
+taper type hamming width 0.5
+lh depmin depmax
+
+fg seismogram
+lh depmin depmax
+taper type cosine width 0.5
+lh depmin depmax
+
+fg seismogram
+lh depmin depmax
+taper type hanning width 0.25
+lh depmin depmax
+
+fg seismogram
+lh depmin depmax
+taper type hamming width 0.25
+lh depmin depmax
+
+fg seismogram
+lh depmin depmax
+taper type cosine width 0.25
+lh depmin depmax

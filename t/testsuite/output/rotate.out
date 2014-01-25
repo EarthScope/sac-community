@@ -1,0 +1,291 @@
+ wait text off
+  
+ ==>  
+ rotate
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ fg seismo
+ ch kcmpnm BHE cmpinc 90 cmpaz 90
+ write test_rotate.0
+  
+ ==>  
+ fg seismo
+ ch kcmpnm BHN cmpinc 90 cmpaz 0
+ write test_rotate.1
+  
+ ==>  
+ fg seismo
+ ch kcmpnm BHN cmpinc 90 cmpaz 40
+ write test_rotate.3
+  
+ ==>  
+ fg seismo
+ ch kcmpnm BHZ cmpinc 0 cmpaz 0
+ write test_rotate.4
+  
+ ==>  
+ fg impulse npts 20
+ write test_rotate.2
+  
+ ==>  
+ read test_rotate.0 test_rotate.1
+ lh columns 2 inclusive b e depmin depmax depmen kcmpnm cmpaz cmpinc baz az
+  
+  
+  FILE: test_rotate.0 - 1
+ -------------------
+
+         b = 9.459999e+00                        e = 1.945000e+01
+    depmin = -1.569280e+00                  depmax = 1.520640e+00
+    depmen = -9.854718e-02                  kcmpnm = BHE
+     cmpaz = 9.000000e+01                   cmpinc = 9.000000e+01
+       baz = 2.718528e+02                       az = 8.814721e+01
+  
+  FILE: test_rotate.1 - 2
+ -------------------
+
+         b = 9.459999e+00                        e = 1.945000e+01
+    depmin = -1.569280e+00                  depmax = 1.520640e+00
+    depmen = -9.854718e-02                  kcmpnm = BHN
+     cmpaz = 0.000000e+00                   cmpinc = 9.000000e+01
+       baz = 2.718528e+02                       az = 8.814721e+01
+ rotate
+ lh
+  
+  
+  FILE: test_rotate.0 - 1
+ -------------------
+
+         b = 9.459999e+00                        e = 1.945000e+01
+    depmin = -1.517722e+00                  depmax = 1.470680e+00
+    depmen = -9.530954e-02                  kcmpnm = -12345
+     cmpaz = 9.185278e+01                   cmpinc = 9.000000e+01
+       baz = 2.718528e+02                       az = 8.814721e+01
+  
+  FILE: test_rotate.1 - 2
+ -------------------
+
+         b = 9.459999e+00                        e = 1.945000e+01
+    depmin = -1.569010e+00                  depmax = 1.619197e+00
+    depmen = 1.016819e-01                   kcmpnm = -12345
+     cmpaz = 1.818528e+02                   cmpinc = 9.000000e+01
+       baz = 2.718528e+02                       az = 8.814721e+01
+ evaluate abs (&1,cmpaz - &1,baz)
+ ==>  evaluate 180
+ 180
+ evaluate abs(&2,cmpaz - &2,baz)
+ ==>  evaluate 90
+ 90
+  
+ ==>  
+ read test_rotate.0 test_rotate.1
+ rotate to 0.0
+ lh
+  
+  
+  FILE: test_rotate.0 - 1
+ -------------------
+
+         b = 9.459999e+00                        e = 1.945000e+01
+    depmin = -1.569280e+00                  depmax = 1.520640e+00
+    depmen = -9.854718e-02                  kcmpnm = -12345
+     cmpaz = 0.000000e+00                   cmpinc = 9.000000e+01
+       baz = 2.718528e+02                       az = 8.814721e+01
+  
+  FILE: test_rotate.1 - 2
+ -------------------
+
+         b = 9.459999e+00                        e = 1.945000e+01
+    depmin = -1.569280e+00                  depmax = 1.520640e+00
+    depmen = -9.854718e-02                  kcmpnm = -12345
+     cmpaz = 9.000000e+01                   cmpinc = 9.000000e+01
+       baz = 2.718528e+02                       az = 8.814721e+01
+ evaluate abs (&1,cmpaz - 0.0)
+ ==>  evaluate 0
+ 0
+ evaluate abs(&2,cmpaz - 90)
+ ==>  evaluate 0
+ 0
+  
+ ==>  
+ read test_rotate.0 test_rotate.1
+ rotate to 90.0
+ lh
+  
+  
+  FILE: test_rotate.0 - 1
+ -------------------
+
+         b = 9.459999e+00                        e = 1.945000e+01
+    depmin = -1.569280e+00                  depmax = 1.520640e+00
+    depmen = -9.854718e-02                  kcmpnm = -12345
+     cmpaz = 9.000000e+01                   cmpinc = 9.000000e+01
+       baz = 2.718528e+02                       az = 8.814721e+01
+  
+  FILE: test_rotate.1 - 2
+ -------------------
+
+         b = 9.459999e+00                        e = 1.945000e+01
+    depmin = -1.520640e+00                  depmax = 1.569280e+00
+    depmen = 9.854718e-02                   kcmpnm = -12345
+     cmpaz = 1.800000e+02                   cmpinc = 9.000000e+01
+       baz = 2.718528e+02                       az = 8.814721e+01
+ evaluate abs (&1,cmpaz - 90)
+ ==>  evaluate 0
+ 0
+ evaluate abs(&2,cmpaz - 180)
+ ==>  evaluate 0
+ 0
+  
+ ==>  
+  
+ ==>  
+ read test_rotate.0 test_rotate.1
+ rotate to gcp
+ lh
+  
+  
+  FILE: test_rotate.0 - 1
+ -------------------
+
+         b = 9.459999e+00                        e = 1.945000e+01
+    depmin = -1.517722e+00                  depmax = 1.470680e+00
+    depmen = -9.530954e-02                  kcmpnm = -12345
+     cmpaz = 9.185278e+01                   cmpinc = 9.000000e+01
+       baz = 2.718528e+02                       az = 8.814721e+01
+  
+  FILE: test_rotate.1 - 2
+ -------------------
+
+         b = 9.459999e+00                        e = 1.945000e+01
+    depmin = -1.569010e+00                  depmax = 1.619197e+00
+    depmen = 1.016819e-01                   kcmpnm = -12345
+     cmpaz = 1.818528e+02                   cmpinc = 9.000000e+01
+       baz = 2.718528e+02                       az = 8.814721e+01
+ evaluate abs (&1,cmpaz - &1,baz)
+ ==>  evaluate 180
+ 180
+ evaluate abs(&2,cmpaz - &2,baz)
+ ==>  evaluate 90
+ 90
+  
+ ==>  
+ read test_rotate.0 test_rotate.1
+ rotate to theleft
+ ERROR interpreting command:  rotate to theleft 
+ NEED "gcp" OR AN ANGLE:                ^
+  
+ ==>  
+ read test_rotate.0 test_rotate.1
+ rotate to gcp normal
+ lh
+  
+  
+  FILE: test_rotate.0 - 1
+ -------------------
+
+         b = 9.459999e+00                        e = 1.945000e+01
+    depmin = -1.517722e+00                  depmax = 1.470680e+00
+    depmen = -9.530954e-02                  kcmpnm = -12345
+     cmpaz = 9.185278e+01                   cmpinc = 9.000000e+01
+       baz = 2.718528e+02                       az = 8.814721e+01
+  
+  FILE: test_rotate.1 - 2
+ -------------------
+
+         b = 9.459999e+00                        e = 1.945000e+01
+    depmin = -1.569010e+00                  depmax = 1.619197e+00
+    depmen = 1.016819e-01                   kcmpnm = -12345
+     cmpaz = 1.818528e+02                   cmpinc = 9.000000e+01
+       baz = 2.718528e+02                       az = 8.814721e+01
+  
+ ==>  
+ read test_rotate.0 test_rotate.1
+ rotate to gcp reversed
+ lh
+  
+  
+  FILE: test_rotate.0 - 1
+ -------------------
+
+         b = 9.459999e+00                        e = 1.945000e+01
+    depmin = -1.517722e+00                  depmax = 1.470680e+00
+    depmen = -9.530954e-02                  kcmpnm = -12345
+     cmpaz = 9.185278e+01                   cmpinc = 9.000000e+01
+       baz = 2.718528e+02                       az = 8.814721e+01
+  
+  FILE: test_rotate.1 - 2
+ -------------------
+
+         b = 9.459999e+00                        e = 1.945000e+01
+    depmin = -1.619197e+00                  depmax = 1.569010e+00
+    depmen = -1.016819e-01                  kcmpnm = -12345
+     cmpaz = 1.852783e+00                   cmpinc = 9.000000e+01
+       baz = 2.718528e+02                       az = 8.814721e+01
+  
+ ==>  
+ read test_rotate.0 test_rotate.1
+ rotate through 20
+ lh
+  
+  
+  FILE: test_rotate.0 - 1
+ -------------------
+
+         b = 9.459999e+00                        e = 1.945000e+01
+    depmin = -9.379154e-01                  depmax = 9.088447e-01
+    depmen = -5.889894e-02                  kcmpnm = -12345
+     cmpaz = 1.100000e+02                   cmpinc = 9.000000e+01
+       baz = 2.718528e+02                       az = 8.814721e+01
+  
+  FILE: test_rotate.1 - 2
+ -------------------
+
+         b = 9.459999e+00                        e = 1.945000e+01
+    depmin = -2.011366e+00                  depmax = 1.949024e+00
+    depmen = -1.263093e-01                  kcmpnm = -12345
+     cmpaz = 2.000000e+01                   cmpinc = 9.000000e+01
+       baz = 2.718528e+02                       az = 8.814721e+01
+ evaluate abs (&1,cmpaz - 110)
+ ==>  evaluate 0
+ 0
+ evaluate abs(&2,cmpaz - 20)
+ ==>  evaluate 0
+ 0
+  
+ ==>  
+ read test_rotate.0
+ rotate to gcp
+ ERROR 2001: Command requires an even number of data files.
+  
+ ==>  
+ read test_rotate.0 test_rotate.2
+ rotate to gcp
+ ERROR 2010: Number of points in pair of files are not equal: test_rotate.0 test_rotate.2
+  
+ ==>  
+ read test_rotate.0 test_rotate.3
+ rotate
+ ERROR 2002: Following files are not an orthogonal pair: test_rotate.0 test_rotate.3
+  
+ ==>  
+ read test_rotate.1 test_rotate.3
+ rotate
+ ERROR 2002: Following files are not an orthogonal pair: test_rotate.1 test_rotate.3
+  
+ ==>  
+ read test_rotate.0 test_rotate.3
+ rotate to 45
+ ERROR 2002: Following files are not an orthogonal pair: test_rotate.0 test_rotate.3
+  
+ ==>  
+ read test_rotate.1 test_rotate.3
+ rotate to 45
+ ERROR 2002: Following files are not an orthogonal pair: test_rotate.1 test_rotate.3
+  
+ ==>  
+ read test_rotate.0 test_rotate.4
+ rotate to gcp
+ ERROR 2003: Following files are not both horizontals: test_rotate.0 test_rotate.4
+ quit

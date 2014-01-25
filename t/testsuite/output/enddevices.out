@@ -1,0 +1,56 @@
+ wait text off
+  
+ ==>  
+ begindevices xwindows sgf
+ enddevices xwindows sgf
+  
+ ==>  
+ begindevices xwindows sgf
+ enddevices xwindows
+  
+ ==>  
+ begindevices xwindows sgf
+ enddevices sgf
+  
+ ==>  
+  
+ ==>  
+ begindevices xwindows sgf
+ ed xwindows sgf
+  
+ ==>  
+ begindevices xwindows sgf
+ ed xwindows
+  
+ ==>  
+ begindevices xwindows sgf
+ ed sgf
+  
+ ==>  
+  
+ ==>  
+ begindevices xwindows sgf
+ eg xwindows sgf
+  
+ ==>  
+ begindevices xwindows sgf
+ eg xwindows
+  
+ ==>  
+ begindevices xwindows sgf
+ eg sgf
+  
+ ==>  
+  
+ ==>  
+ begindevices xwindows sgf
+ endg xwindows sgf
+  
+ ==>  
+ begindevices xwindows sgf
+ endg xwindows
+  
+ ==>  
+ begindevices xwindows sgf
+ endg sgf
+ quit

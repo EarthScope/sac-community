@@ -1,0 +1,465 @@
+ wait text off
+  
+ ==>  
+ spe
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ fg seismo
+ spe
+ Spectral Estimation Subprocess.
+ cor
+ pcor ; pause period 0.25
+Pausing
+ lh depmin depmax depmen b e  itype
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+ quitsub
+  
+ ==>  
+ fg seismo
+ spe
+ Spectral Estimation Subprocess.
+ cor number 10
+ pcor ; pause period 0.25
+Pausing
+ lh
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+ quitsub
+  
+ ==>  
+ fg seismo
+ spe
+ Spectral Estimation Subprocess.
+ cor number off
+ pcor ; pause period 0.25
+Pausing
+ lh
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+ quitsub
+  
+ ==>  
+ fg seismo
+ spe
+ Spectral Estimation Subprocess.
+ cor number on
+ pcor ; pause period 0.25
+Pausing
+ lh
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+ quitsub
+  
+ ==>  
+ fg seismo
+ spe
+ Spectral Estimation Subprocess.
+ cor number off length 4
+ pcor ; pause period 0.25
+Pausing
+ lh
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+ quitsub
+  
+ ==>  
+ fg seismo
+ spe
+ Spectral Estimation Subprocess.
+ cor number off length 4
+ pcor ; pause period 0.25
+Pausing
+ lh
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+ quitsub
+  
+ ==>  
+ fg seismo
+ spe
+ Spectral Estimation Subprocess.
+ cor number off type hamming
+ pcor ; pause period 0.25
+Pausing
+ lh
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+ quitsub
+  
+ ==>  
+ fg seismo
+ spe
+ Spectral Estimation Subprocess.
+ cor number off type hanning
+ pcor ; pause period 0.25
+Pausing
+ lh
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+ quitsub
+  
+ ==>  
+ fg seismo
+ spe
+ Spectral Estimation Subprocess.
+ cor number off type cosine
+ pcor ; pause period 0.25
+Pausing
+ lh
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+ quitsub
+  
+ ==>  
+ fg seismo
+ spe
+ Spectral Estimation Subprocess.
+ cor number off type rectangle
+ pcor ; pause period 0.25
+Pausing
+ lh
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+ quitsub
+  
+ ==>  
+ fg seismo
+ spe
+ Spectral Estimation Subprocess.
+ cor number off type triangle
+ pcor ; pause period 0.25
+Pausing
+ lh
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+ quitsub
+  
+ ==>  
+ fg seismo
+ spe
+ Spectral Estimation Subprocess.
+ cor number off type hamming prewhiten off
+ pcor ; pause period 0.25
+Pausing
+ lh
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+ quitsub
+  
+ ==>  
+ fg seismo
+ spe
+ Spectral Estimation Subprocess.
+ cor number off type hamming prewhiten on
+ pcor ; pause period 0.25
+Pausing
+ lh
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+ quitsub
+  
+ ==>  
+ fg seismo
+ spe
+ Spectral Estimation Subprocess.
+ cor number off type hamming prewhiten off
+ pcor ; pause period 0.25
+Pausing
+ lh
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+ quitsub
+  
+ ==>  
+ fg seismo
+ spe
+ Spectral Estimation Subprocess.
+ cor number off type hamming prewhiten off stochastic
+ pcor ; pause period 0.25
+Pausing
+ lh
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+ quitsub
+  
+ ==>  
+ fg seismo
+ spe
+ Spectral Estimation Subprocess.
+ cor number off type hamming prewhiten off transient
+ pcor ; pause period 0.25
+Pausing
+ lh
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+ quitsub
+  
+ ==>  
+ fg seismo
+ spe
+ Spectral Estimation Subprocess.
+ cor
+ mem
+ lh
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+ pspe ; pause period 0.25
+Pausing
+ ppe ; pause period 0.25
+Pausing
+ quitsub
+  
+ ==>  
+ fg seismo
+ spe
+ Spectral Estimation Subprocess.
+ cor
+ mlm
+ lh
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+ pspe ; pause period 0.25
+Pausing
+ ppe ; pause period 0.25
+Pausing
+ quitsub
+  
+ ==>  
+ fg seismo
+ spe
+ Spectral Estimation Subprocess.
+ cor
+ pds
+ lh
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+ pspe ; pause period 0.25
+Pausing
+ ppe ; pause period 0.25
+Pausing
+ quitsub
+  
+ ==>  
+ fg seismo
+ spe
+ Spectral Estimation Subprocess.
+ cor
+ writecor test_spe.0
+ lh
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+ quitsub
+  
+ ==>  
+ fg seismo
+ spe
+ Spectral Estimation Subprocess.
+ readcor test_spe.0
+ lh
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+ quitsub
+  
+ ==>  
+ message "Test Write SPE"
+ Test Write SPE
+  
+ ==>  
+ fg seismo
+ spe
+ Spectral Estimation Subprocess.
+ cor
+ mem
+ writespe test_spe.1
+ quitsub
+  
+ ==>  
+ fg seismo
+ spe
+ Spectral Estimation Subprocess.
+ cor
+ mlm
+ writespe test_spe.2
+ quitsub
+  
+ ==>  
+ fg seismo
+ spe
+ Spectral Estimation Subprocess.
+ cor
+ pds
+ writespe test_spe.3
+ quitsub
+  
+ ==>  
+ quit

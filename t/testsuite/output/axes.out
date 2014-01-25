@@ -1,0 +1,53 @@
+ wait text off
+ fg seismo
+  
+ ==>  
+ axes off all
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ axes on top
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ axes on bottom
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ axes on left
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ axes on right
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ axes only top
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ axes only bottom
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ axes only left
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ axes only right
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ axes on all
+ p1 ; pause period 0.25
+Pausing
+ quit

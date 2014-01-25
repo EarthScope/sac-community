@@ -1,0 +1,144 @@
+ wait text off
+ smooth
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ fg seismogram
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ smooth
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.477120e+00
+     depmax = 1.441280e+00
+  
+ ==>  
+ fg seismogram
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ smooth mean
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.477120e+00
+     depmax = 1.441280e+00
+  
+ ==>  
+ fg seismogram
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ smooth median
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.511680e+00
+     depmax = 1.492480e+00
+  
+ ==>  
+ fg seismogram
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ smooth mean halfwidth 5
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -9.683782e-01
+     depmax = 7.157529e-01
+  
+ ==>  
+ fg seismogram
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ smooth median halfwidth 5
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -9.420800e-01
+     depmax = 6.835200e-01
+  
+ ==>  
+ fg seismogram
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ smooth mean halfwidth 10
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.701258e-01
+     depmax = 2.444800e-01
+  
+ ==>  
+ fg seismogram
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ smooth median halfwidth 10
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -5.260800e-01
+     depmax = 2.931200e-01
+ quit

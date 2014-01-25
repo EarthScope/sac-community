@@ -1,0 +1,26 @@
+khronhite
+
+fg seismogram
+lh depmin depmax
+khronhite
+lh depmin depmax
+
+fg seismogram
+lh depmin depmax
+khronhite 0.1
+lh depmin depmax
+
+fg seismogram
+lh depmin depmax
+khronhite 1.0
+lh depmin depmax
+
+fg seismogram
+lh depmin depmax
+khronhite 5.0
+lh depmin depmax
+
+fg seismogram
+lh depmin depmax
+khronhite 10.0
+lh depmin depmax

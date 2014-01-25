@@ -1,0 +1,36 @@
+
+fg seismo
+p1 ; pause period 0.25
+
+ticks off all
+p1 ; pause period 0.25
+
+ticks off all
+p1 ; pause period 0.25
+
+ticks on top
+p1 ; pause period 0.25
+
+ticks on bottom
+p1 ; pause period 0.25
+
+ticks on left
+p1 ; pause period 0.25
+
+ticks on right
+p1 ; pause period 0.25
+
+ticks only top
+p1 ; pause period 0.25
+
+ticks only bottom
+p1 ; pause period 0.25
+
+ticks only left
+p1 ; pause period 0.25
+
+ticks only right
+p1 ; pause period 0.25
+
+ticks on all
+p1 ; pause period 0.25

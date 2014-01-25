@@ -1,0 +1,239 @@
+ wait text off
+  
+ ==>  
+ fg impulse
+ mul 1
+ write test.sort.1
+  
+ ==>  
+ read test.sort.1
+ mul 2
+ write test.sort.2
+  
+ ==>  
+ read test.sort.1
+ mul 3
+ write test.sort.3
+  
+ ==>  
+ read test.sort.1
+ mul 4
+ write test.sort.4
+  
+ ==>  
+ read test.sort.
+ ERROR 1301: No data files read in.
+ lh depmax
+  
+  
+  FILE: test.sort.1 - 1
+ -----------------
+
+     depmax = 4.000000e+00
+ sort depmax
+ lh depmax
+  
+  
+  FILE: test.sort.1 - 1
+ -----------------
+
+     depmax = 4.000000e+00
+  
+ ==>  
+ read test.sort.*
+test.sort.1 test.sort.2 test.sort.3 test.sort.4
+ lh depmax
+  
+  
+  FILE: test.sort.1 - 1
+ -----------------
+
+     depmax = 1.000000e+00
+  
+  FILE: test.sort.2 - 2
+ -----------------
+
+     depmax = 2.000000e+00
+  
+  FILE: test.sort.3 - 3
+ -----------------
+
+     depmax = 3.000000e+00
+  
+  FILE: test.sort.4 - 4
+ -----------------
+
+     depmax = 4.000000e+00
+ sort depmax ascend
+ lh depmax
+  
+  
+  FILE: test.sort.1 - 1
+ -----------------
+
+     depmax = 1.000000e+00
+  
+  FILE: test.sort.2 - 2
+ -----------------
+
+     depmax = 2.000000e+00
+  
+  FILE: test.sort.3 - 3
+ -----------------
+
+     depmax = 3.000000e+00
+  
+  FILE: test.sort.4 - 4
+ -----------------
+
+     depmax = 4.000000e+00
+  
+ ==>  
+ read test.sort.*
+test.sort.1 test.sort.2 test.sort.3 test.sort.4
+ lh depmax
+  
+  
+  FILE: test.sort.1 - 1
+ -----------------
+
+     depmax = 1.000000e+00
+  
+  FILE: test.sort.2 - 2
+ -----------------
+
+     depmax = 2.000000e+00
+  
+  FILE: test.sort.3 - 3
+ -----------------
+
+     depmax = 3.000000e+00
+  
+  FILE: test.sort.4 - 4
+ -----------------
+
+     depmax = 4.000000e+00
+ sort depmax descend
+ lh depmax
+  
+  
+  FILE: test.sort.4 - 1
+ -----------------
+
+     depmax = 4.000000e+00
+  
+  FILE: test.sort.3 - 2
+ -----------------
+
+     depmax = 3.000000e+00
+  
+  FILE: test.sort.2 - 3
+ -----------------
+
+     depmax = 2.000000e+00
+  
+  FILE: test.sort.1 - 4
+ -----------------
+
+     depmax = 1.000000e+00
+  
+ ==>  
+ read test.sort.3 test.sort.1 test.sort.2 test.sort.4
+ lh depmax
+  
+  
+  FILE: test.sort.3 - 1
+ -----------------
+
+     depmax = 3.000000e+00
+  
+  FILE: test.sort.1 - 2
+ -----------------
+
+     depmax = 1.000000e+00
+  
+  FILE: test.sort.2 - 3
+ -----------------
+
+     depmax = 2.000000e+00
+  
+  FILE: test.sort.4 - 4
+ -----------------
+
+     depmax = 4.000000e+00
+ sort depmax ascend
+ lh depmax
+  
+  
+  FILE: test.sort.1 - 1
+ -----------------
+
+     depmax = 1.000000e+00
+  
+  FILE: test.sort.2 - 2
+ -----------------
+
+     depmax = 2.000000e+00
+  
+  FILE: test.sort.3 - 3
+ -----------------
+
+     depmax = 3.000000e+00
+  
+  FILE: test.sort.4 - 4
+ -----------------
+
+     depmax = 4.000000e+00
+  
+ ==>  
+ read test.sort.3 test.sort.1 test.sort.2 test.sort.4
+ lh depmax
+  
+  
+  FILE: test.sort.3 - 1
+ -----------------
+
+     depmax = 3.000000e+00
+  
+  FILE: test.sort.1 - 2
+ -----------------
+
+     depmax = 1.000000e+00
+  
+  FILE: test.sort.2 - 3
+ -----------------
+
+     depmax = 2.000000e+00
+  
+  FILE: test.sort.4 - 4
+ -----------------
+
+     depmax = 4.000000e+00
+ sort depmax descend
+ lh depmax
+  
+  
+  FILE: test.sort.4 - 1
+ -----------------
+
+     depmax = 4.000000e+00
+  
+  FILE: test.sort.3 - 2
+ -----------------
+
+     depmax = 3.000000e+00
+  
+  FILE: test.sort.2 - 3
+ -----------------
+
+     depmax = 2.000000e+00
+  
+  FILE: test.sort.1 - 4
+ -----------------
+
+     depmax = 1.000000e+00
+  
+ ==>  
+  
+ ==>  
+ quit

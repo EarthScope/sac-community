@@ -1,0 +1,18 @@
+
+fir
+
+fir illegaloption
+
+fir test_fir.m
+
+fg seismo
+fft
+fir test_fir.m
+
+fg seismo
+fir  test_fir.m
+lh depmin depmax depmen
+
+
+
+

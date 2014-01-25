@@ -1,0 +1,14 @@
+ wait text off
+ fg sine npts 100000
+ xlog
+ p1 ; pause period 0.25
+Pausing
+ loglab off
+ p1 ; pause period 0.25
+Pausing
+ loglab on
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ quit

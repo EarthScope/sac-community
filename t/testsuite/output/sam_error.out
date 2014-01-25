@@ -1,0 +1,123 @@
+ wait text off
+  
+ ==>  
+ bp illegaloption
+ ERROR interpreting command:  bp illegaloption 
+ ILLEGAL OPTION:                 ^
+ br illegaloption
+ ERROR interpreting command:  br illegaloption 
+ ILLEGAL OPTION:                 ^
+ lp illegaloption
+ ERROR interpreting command:  lp illegaloption 
+ ILLEGAL OPTION:                 ^
+ hp illegaloption
+ ERROR interpreting command:  hp illegaloption 
+ ILLEGAL OPTION:                 ^
+ fft illegaloption
+ ERROR interpreting command:  fft illegaloption 
+ ILLEGAL OPTION:                  ^
+ convolve illegaloption
+ ERROR interpreting command:  convolve illegaloption 
+ ILLEGAL OPTION:                       ^
+ correlate illegaloption
+ ERROR interpreting command:  correlate illegaloption 
+ ILLEGAL OPTION:                        ^
+ envelope illegaloption
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ bp
+ ERROR 1301: No data files read in.
+ lp
+ ERROR 1301: No data files read in.
+ hp
+ ERROR 1301: No data files read in.
+ br
+ ERROR 1301: No data files read in.
+ envelope
+ ERROR 1301: No data files read in.
+ benioff
+ ERROR 1301: No data files read in.
+ hanning
+ ERROR 1301: No data files read in.
+ convolve
+ ERROR 1301: No data files read in.
+ correlate
+ ERROR 1301: No data files read in.
+ divomega
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ fg seismo
+ fft
+ DC level after DFT is -0.98547
+  
+ ==>  
+ bp
+ ERROR 1307: Illegal operation on spectral file SEISMOGR
+ lp
+ ERROR 1307: Illegal operation on spectral file SEISMOGR
+ hp
+ ERROR 1307: Illegal operation on spectral file SEISMOGR
+ br
+ ERROR 1307: Illegal operation on spectral file SEISMOGR
+ hanning
+ ERROR 1307: Illegal operation on spectral file SEISMOGR
+ envelope
+ ERROR 1307: Illegal operation on spectral file SEISMOGR
+ hilbert
+ ERROR 1307: Illegal operation on spectral file SEISMOGR
+ benioff
+ ERROR 1307: Illegal operation on spectral file SEISMOGR
+ convolve
+ ERROR 1307: Illegal operation on spectral file SEISMOGR
+ correlate
+ ERROR 1307: Illegal operation on spectral file SEISMOGR
+ khronhite
+ ERROR 1307: Illegal operation on spectral file SEISMOGR
+  
+ ==>  
+ fg seismo
+ ifft
+ ERROR 1305: Illegal operation on time series file SEISMOGR
+  
+ ==>  
+ fg seismo
+ bp co 10 201
+ ERROR 1611: Corner frequency greater than Nyquist for file 201 50
+ bp co 200 400
+ ERROR 1611: Corner frequency greater than Nyquist for file 200 50
+  
+ ==>  
+ fg seismo
+ lp co 200
+ ERROR 1611: Corner frequency greater than Nyquist for file 200 50
+  
+ ==>  
+ fg seismo
+ hp co 200
+ ERROR 1611: Corner frequency greater than Nyquist for file 200 50
+  
+ ==>  
+ fg seismo
+ br co 10 201
+ ERROR 1611: Corner frequency greater than Nyquist for file 201 50
+ br co 200 400
+ ERROR 1611: Corner frequency greater than Nyquist for file 200 50
+  
+ ==>  
+ fg seismo
+ fft rlim
+ DC level after DFT is -0.98547
+ keepam
+ lh depmin depmax depmin iftype
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = 3.626911e-05
+     depmax = 9.854721e-01
+     depmin = 3.626911e-05
+     iftype = GENERAL X VS Y FILE
+ quit

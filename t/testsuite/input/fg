@@ -1,0 +1,30 @@
+fg
+lh
+fg impulse
+lh
+fg box
+lh
+fg tri
+lh
+fg sin
+lh
+fg lin
+lh
+fg qua
+lh
+fg cub
+lh
+fg sei
+lh
+fg random 1 2
+lh
+fg impstrin 1 2 3 4 5
+lh
+fg delta 1.0
+lh
+fg npts 1000
+lh
+fg begin 10
+lh
+fg begin -10
+lh

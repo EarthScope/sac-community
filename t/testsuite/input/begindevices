@@ -1,0 +1,17 @@
+
+begindevices xwindows
+begindevices sgf
+
+begg xwindows
+begg sgf
+
+bd x
+bd sgf
+
+bg x
+bg sgf
+
+bd sgf x
+
+
+

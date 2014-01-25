@@ -1,0 +1,110 @@
+message "Error"
+lp
+
+message "Default"
+fg seismo
+lp
+lh depmin depmax depmen
+
+message "Filter Types"
+fg seismo
+lp butter
+lh depmin depmax depmen
+fg seismo
+lp bessel
+lh depmin depmax depmen
+fg seismo
+lp c1
+lh depmin depmax depmen
+fg seismo
+lp c2
+lh depmin depmax depmen
+
+message "Fitler with Corners"
+fg seismo
+lp butter co 0.01
+lh depmin depmax depmen
+fg seismo
+lp bessel co 0.01
+lh depmin depmax depmen
+fg seismo
+lp c1 co 0.01 
+lh depmin depmax depmen
+fg seismo
+lp c2 co 0.01
+
+fg seismo
+lp butter
+lh depmin depmax depmen
+
+message "Filter with Poles"
+fg seismo
+lp n 0
+lh depmin depmax depmen
+fg seismo
+lp n 2
+lh depmin depmax depmen
+fg seismo
+lp n 3
+lh depmin depmax depmen
+fg seismo
+lp n 4
+lh depmin depmax depmen
+fg seismo
+lp n 5
+lh depmin depmax depmen
+
+message "Filter with Passses"
+fg seismo
+lp p 0
+lh depmin depmax depmen
+fg seismo
+lp p 1
+lh depmin depmax depmen
+fg seismo
+lp p 2
+lh depmin depmax depmen
+fg seismo
+lp p 3
+lh depmin depmax depmen
+
+message "Filter with ChebyshevI Parameters"
+fg seismo
+lp c1 tranbw 0.3
+lh depmin depmax depmen
+fg seismo
+lp c1 atten 30
+lh depmin depmax depmen
+
+message "Filter with ChebyshevII Parameters"
+fg seismo
+lp c2 tranbw 0.3
+lh depmin depmax depmen
+fg seismo
+lp c2 atten 30
+lh depmin depmax depmen
+
+fg seismo
+lp be co 5 n 1
+lh depmin depmax depmen
+fg seismo
+lp be co 5 n 2
+lh depmin depmax depmen
+fg seismo
+lp be co 5 n 3
+lh depmin depmax depmen
+fg seismo
+lp be co 5 n 4
+lh depmin depmax depmen
+fg seismo
+lp be co 5 n 5
+lh depmin depmax depmen
+fg seismo
+lp be co 5 n 6
+lh depmin depmax depmen
+fg seismo
+lp be co 5 n 7
+lh depmin depmax depmen
+fg seismo
+lp be co 5 n 8
+lh depmin depmax depmen

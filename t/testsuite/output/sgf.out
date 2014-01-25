@@ -1,0 +1,56 @@
+ wait text off
+  
+ ==>  
+ sgf overwrite on
+  
+ ==>  
+ message "SGF Prefix"
+ SGF Prefix
+ sgf prefix test.sgf.
+  
+ ==>  
+ fg
+ bd sgf
+ p1
+test.sgf.001.sgf
+ ls -1 test.sgf.*
+  
+ ==>  
+ message "SGF Number"
+ SGF Number
+ sgf number 10
+ p1
+test.sgf.001.sgf
+test.sgf.010.sgf
+ ls -1 test.sgf.*
+  
+ ==>  
+ message "SGF Directory - Directory Current is a bug"
+ SGF Directory - Directory Current is a bug
+ sgf directory .
+ p1
+test.sgf.001.sgf
+test.sgf.010.sgf
+ ls -1 test.sgf.*
+  
+ ==>  
+ message "SGF Size Normal"
+ SGF Size Normal
+ sgf size normal
+ p1
+test.sgf.001.sgf
+test.sgf.010.sgf
+ ls -1 test.sgf.*
+  
+ ==>  
+ message "SGF Overwrite Off"
+ SGF Overwrite Off
+ sgf overwrite off
+ sgf number 10
+ p1
+test.sgf.001.sgf
+test.sgf.010.sgf
+ ls -1 test.sgf.*
+  
+ ==>  
+ quit

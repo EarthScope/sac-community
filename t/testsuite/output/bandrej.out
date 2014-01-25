@@ -1,0 +1,353 @@
+ wait text off
+  
+ ==>  
+ message "Error
+ Error
+ *br seismo
+  
+ ==>  
+ message "Default"
+ Default
+ fg seismo
+ br
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.526856e+00
+     depmax = 1.501166e+00
+     depmen = -8.236318e-02
+  
+ ==>  
+ message "Filter Type"
+ Filter Type
+ fg seismo
+ br butter
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.526856e+00
+     depmax = 1.501166e+00
+     depmen = -8.236318e-02
+ fg seismo
+ br bessel
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.532037e+00
+     depmax = 1.494684e+00
+     depmen = -8.257709e-02
+ fg seismo
+ br c1
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.229066e-01
+     depmax = 1.250206e-01
+     depmen = -8.648644e-03
+ fg seismo
+ br c2
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.565675e+00
+     depmax = 1.456636e+00
+     depmen = -4.606737e-02
+  
+ ==>  
+ message "Filter Types with Corners"
+ Filter Types with Corners
+ fg seismo
+ br butter co 0.01 1.0
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.568256e+00
+     depmax = 1.452529e+00
+     depmen = -6.085710e-03
+ fg seismo
+ br bessel co 0.01 1.0
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.538284e+00
+     depmax = 1.442217e+00
+     depmen = -8.550567e-03
+ fg seismo
+ br c1 co 0.01 1.0
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.280616e-01
+     depmax = 1.511090e-01
+     depmen = -3.508959e-04
+ fg seismo
+ br c2 co 0.01 1.0
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.602938e+00
+     depmax = 1.390213e+00
+     depmen = -7.972933e-04
+  
+ ==>  
+ fg seismo
+ br butter
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.568256e+00
+     depmax = 1.452529e+00
+     depmen = -6.085710e-03
+  
+ ==>  
+ message "Filter Type Number of Poles"
+ Filter Type Number of Poles
+ fg seismo
+ * br n 0
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+ br n 2
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.568256e+00
+     depmax = 1.452529e+00
+     depmen = -6.085710e-03
+ br n 3
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.709059e+00
+     depmax = 1.417475e+00
+     depmen = 1.883968e-04
+ br n 4
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.666810e+00
+     depmax = 1.391213e+00
+     depmen = -9.417434e-05
+ br n 5
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.484807e+00
+     depmax = 1.639472e+00
+     depmen = -5.087698e-05
+ br n 5
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.864969e+00
+     depmax = 1.467177e+00
+     depmen = -1.305862e-04
+ br n 6
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.523739e+00
+     depmax = 1.501445e+00
+     depmen = 3.480399e-05
+ br n 7
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.235441e+00
+     depmax = 1.995902e+00
+     depmen = -1.190441e-04
+ br n 8
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.454743e+00
+     depmax = 1.649267e+00
+     depmen = 4.583179e-05
+ br n 9
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.869059e+00
+     depmax = 1.560247e+00
+     depmen = 2.658835e-04
+ br n 10
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.594299e+00
+     depmax = 1.629054e+00
+     depmen = 3.619549e-05
+ *br n 11
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.594299e+00
+     depmax = 1.629054e+00
+     depmen = 3.619549e-05
+  
+ ==>  
+ message "Filter with Number of Passes
+ Filter with Number of Passes
+ fg seismo
+ * br p 0
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+ br p 1
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.657385e+00
+     depmax = 1.427358e+00
+     depmen = -9.312790e-05
+ br p 2
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.655916e+00
+     depmax = 1.427702e+00
+     depmen = -1.611853e-05
+ * br p 3
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.655916e+00
+     depmax = 1.427702e+00
+     depmen = -1.611853e-05
+  
+ ==>  
+ message "Filter with Chebyshev1 parameters"
+ Filter with Chebyshev1 parameters
+ fg seismo
+ br c1 tranbw 0.3
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.478464e+00
+     depmax = 1.608965e+00
+     depmen = -5.540244e-04
+ br c1 atten 30
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.476643e+00
+     depmax = 1.607864e+00
+     depmen = -2.820879e-04
+  
+ ==>  
+ message "Filter with Chebyshev2 parameters"
+ Filter with Chebyshev2 parameters
+ fg seismo
+ br c2 tranbw 0.3
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -3.133005e+00
+     depmax = 2.279522e+00
+     depmen = -3.610171e-02
+ br c2 atten 30
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.967778e+02
+     depmax = 5.100688e+02
+     depmen = -3.164473e+00
+  
+ ==>  
+ quit

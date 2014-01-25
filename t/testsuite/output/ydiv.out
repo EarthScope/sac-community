@@ -1,0 +1,49 @@
+ wait text off
+  
+ ==>  
+ fg seismo
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ ydiv nice
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ ydiv inc 0.2
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ ydiv nice
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ ydiv num 7
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ mul 1e5
+  
+ ==>  
+ ydiv power off
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ ydiv power on
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ ydiv bad option
+ ERROR interpreting command:  ydiv bad option 
+ ILLEGAL OPTION:                   ^
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ quit

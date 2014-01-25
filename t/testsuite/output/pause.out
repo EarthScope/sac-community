@@ -1,0 +1,23 @@
+ wait text off
+  
+ ==>  
+ pause
+  
+ ==>  
+ pause period 5
+Pausing
+  
+ ==>  
+ pause message "Pause Message" period 1
+Pause Message
+ pause message "Pause Message" period off
+  
+ ==>  
+ pause period string
+ ERROR interpreting command:  pause period string 
+ NEED AN "ON", AN "OFF", OR A REAL:               ^
+  
+ ==>  
+  
+ ==>  
+ quit

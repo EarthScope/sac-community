@@ -1,0 +1,9 @@
+
+fg seismo
+ohpf test.hpf
+apk
+whpf
+chpf
+
+cat test.hpf
+

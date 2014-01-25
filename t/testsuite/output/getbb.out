@@ -1,0 +1,31 @@
+ wait text off
+ getbb
+ NUMERROR = 0
+ SACERROR = 'FALSE'
+ SACNFILES = 0
+ getbb sacnfiles
+ sacnfiles = 0
+ getbb sacerror
+ sacerror = 'FALSE'
+ getbb sacerror numerror
+ sacerror = 'FALSE'
+ numerror = 0
+ getbb all
+ NUMERROR = 0
+ SACERROR = 'FALSE'
+ SACNFILES = 0
+ getbb names off newline off
+ 0 'FALSE' 0
+ getbb names off newline on
+ 0
+ 'FALSE'
+ 0
+ getbb names on  newline on
+ NUMERROR = 0
+ SACERROR = 'FALSE'
+ SACNFILES = 0
+ getbb names on  newline off
+ NUMERROR = 0 SACERROR = 'FALSE' SACNFILES = 0
+  
+ ==>  
+ quit

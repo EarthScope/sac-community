@@ -1,0 +1,50 @@
+
+fg seismo
+p1 ; pause period 0.25
+
+line off
+p1 ; pause period 0.25
+
+line solid
+p1 ; pause period 0.25
+
+line dotted
+p1 ; pause period 0.25
+
+
+line 1
+p1 ; pause period 0.25
+line 2
+p1 ; pause period 0.25
+line 3
+p1 ; pause period 0.25
+line 4
+p1 ; pause period 0.25
+line 5
+p1 ; pause period 0.25
+line 6
+p1 ; pause period 0.25
+line 7
+p1 ; pause period 0.25
+line 8
+p1 ; pause period 0.25
+
+line fill on
+p1 ; pause period 0.25
+
+line fill red/blue
+p1 ; pause period 0.25
+
+rmean
+p1 ; pause period 0.25
+
+line fill blue/red
+p1 ; pause period 0.25
+
+color red skeleton white background black 
+line fill red/none
+p1 ; pause period 0.25
+
+line fill red/white
+p1 ; pause period 0.25
+

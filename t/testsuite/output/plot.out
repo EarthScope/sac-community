@@ -1,0 +1,159 @@
+ wait text off
+  
+ ==>  
+ p2
+ ERROR 1301: No data files read in.
+ fg seismo
+ w test_plot.0
+ mul 2
+ w test_plot.1
+ color on inc
+  
+ ==>  
+ read test_plot.?
+test_plot.0 test_plot.1
+ p2 ; pause period 0.25
+Pausing
+  
+ ==>  
+ filenumber on
+ p1 ; pause period 0.25
+Pausing
+ filenumber off
+ p1 ; pause period 0.25
+Pausing
+ filenumber illegaloption
+ ERROR interpreting command:  filenumber illegaloption 
+ ILLEGAL OPTION:                         ^
+  
+ ==>  
+ read test_plot.?
+test_plot.0 test_plot.1
+ ppm ; pause period 0.25
+Pausing
+ ppm illegaloption
+ ERROR interpreting command:  ppm illegaloption 
+ ILLEGAL OPTION:                  ^
+  
+ ==>  
+ dc all
+
+All files deleted.
+ ppm
+ ERROR 1301: No data files read in.
+ fg seismo
+ read test_plot.?
+test_plot.0 test_plot.1
+ fft
+ DC level after DFT is -0.98547
+ DC level after DFT is -0.98547 -1.9709
+ ppm
+ ERROR 1307: Illegal operation on spectral file test_plot.0
+  
+ ==>  
+ read test_plot.?
+test_plot.0 test_plot.1
+ p1 ; pause period 0.25
+Pausing
+ picks on
+ p1 ; pause period 0.25
+Pausing
+ picks off
+ p1 ; pause period 0.25
+Pausing
+ picks illegaloption
+ ERROR interpreting command:  picks illegaloption 
+ ILLEGAL OPTION:                    ^
+ picks on height 0.5
+ picks on width 0.5
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ read test_plot.?
+test_plot.0 test_plot.1
+ plot ; pause period 0.25
+Pausing
+ dc all
+
+All files deleted.
+ plot
+ ERROR 1301: No data files read in.
+ fg seismo
+ fft
+ DC level after DFT is -0.98547
+ plot
+ ERROR 1307: Illegal operation on spectral file SEISMOGR
+ Use PLOTSP command to plot spectral data.
+ color off
+  
+ ==>  
+ fg seismo
+ plot ; pause period 0.25
+Pausing
+ fileid location ul
+ plot ; pause period 0.25
+Pausing
+ fileid location ll
+ plot ; pause period 0.25
+Pausing
+ fileid location ur
+ plot ; pause period 0.25
+Pausing
+ fileid location lr
+ plot ; pause period 0.25
+Pausing
+  
+ ==>  
+ fileid location ur
+ fileid format equals
+ plot ; pause period 0.25
+Pausing
+  
+ ==>  
+ fileid format colons
+ plot ; pause period 0.25
+Pausing
+  
+ ==>  
+ fileid format nonames
+ plot ; pause period 0.25
+Pausing
+  
+ ==>  
+ fileid illegaloption
+ ERROR interpreting command:  fileid illegaloption 
+ ILLEGAL OPTION:                     ^
+ fileid type default
+ plot ; pause period 0.25
+Pausing
+ fileid type std
+ plot ; pause period 0.25
+Pausing
+  
+ ==>  
+ fileid type name
+ plot ; pause period 0.25
+Pausing
+  
+ ==>  
+ fileid type list kstnm kevnm kcmpnm kzdate kztime
+ plot ; pause period 0.25
+Pausing
+  
+ ==>  
+ read test_plot.?
+test_plot.0 test_plot.1
+ ylim all
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ xlim 10 12
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+  
+ ==>  
+ quit

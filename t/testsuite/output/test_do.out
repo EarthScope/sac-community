@@ -1,0 +1,364 @@
+ wait text off
+  
+ ==>  
+ m test_do.m
+ do i = 1 , 10
+    message $i
+ ==>  message 1
+ 1
+ enddo
+    message $i
+ ==>  message 2
+ 2
+ enddo
+    message $i
+ ==>  message 3
+ 3
+ enddo
+    message $i
+ ==>  message 4
+ 4
+ enddo
+    message $i
+ ==>  message 5
+ 5
+ enddo
+    message $i
+ ==>  message 6
+ 6
+ enddo
+    message $i
+ ==>  message 7
+ 7
+ enddo
+    message $i
+ ==>  message 8
+ 8
+ enddo
+    message $i
+ ==>  message 9
+ 9
+ enddo
+    message $i
+ ==>  message 10
+ 10
+ enddo
+  
+ do i from 1 to 10
+    message $i
+ ==>  message 1
+ 1
+ enddo
+    message $i
+ ==>  message 2
+ 2
+ enddo
+    message $i
+ ==>  message 3
+ 3
+ enddo
+    message $i
+ ==>  message 4
+ 4
+ enddo
+    message $i
+ ==>  message 5
+ 5
+ enddo
+    message $i
+ ==>  message 6
+ 6
+ enddo
+    message $i
+ ==>  message 7
+ 7
+ enddo
+    message $i
+ ==>  message 8
+ 8
+ enddo
+    message $i
+ ==>  message 9
+ 9
+ enddo
+    message $i
+ ==>  message 10
+ 10
+ enddo
+  
+ do i = 1 , 10 , 2
+    message $i
+ ==>  message 1
+ 1
+ enddo
+    message $i
+ ==>  message 3
+ 3
+ enddo
+    message $i
+ ==>  message 5
+ 5
+ enddo
+    message $i
+ ==>  message 7
+ 7
+ enddo
+    message $i
+ ==>  message 9
+ 9
+ enddo
+  
+ do i from 1 to 10 by 2
+    message $i
+ ==>  message 1
+ 1
+ enddo
+    message $i
+ ==>  message 3
+ 3
+ enddo
+    message $i
+ ==>  message 5
+ 5
+ enddo
+    message $i
+ ==>  message 7
+ 7
+ enddo
+    message $i
+ ==>  message 9
+ 9
+ enddo
+  
+ do i = 1 , 10 , 3
+    message $i
+ ==>  message 1
+ 1
+ enddo
+    message $i
+ ==>  message 4
+ 4
+ enddo
+    message $i
+ ==>  message 7
+ 7
+ enddo
+    message $i
+ ==>  message 10
+ 10
+ enddo
+  
+ do i from 1 to 10 by 3
+    message $i
+ ==>  message 1
+ 1
+ enddo
+    message $i
+ ==>  message 4
+ 4
+ enddo
+    message $i
+ ==>  message 7
+ 7
+ enddo
+    message $i
+ ==>  message 10
+ 10
+ enddo
+  
+ do i list 1 2 3 5 6 8 2 3 10
+    message $i
+ ==>  message 1
+ 1
+ enddo
+    message $i
+ ==>  message 2
+ 2
+ enddo
+    message $i
+ ==>  message 3
+ 3
+ enddo
+    message $i
+ ==>  message 5
+ 5
+ enddo
+    message $i
+ ==>  message 6
+ 6
+ enddo
+    message $i
+ ==>  message 8
+ 8
+ enddo
+    message $i
+ ==>  message 2
+ 2
+ enddo
+    message $i
+ ==>  message 3
+ 3
+ enddo
+    message $i
+ ==>  message 10
+ 10
+ enddo
+  
+ do i = 3 , 1
+  
+ do i from 3 to 1
+  
+ do i = 5 , 1 , -1
+    message $i
+ ==>  message 5
+ 5
+ enddo
+    message $i
+ ==>  message 4
+ 4
+ enddo
+    message $i
+ ==>  message 3
+ 3
+ enddo
+    message $i
+ ==>  message 2
+ 2
+ enddo
+    message $i
+ ==>  message 1
+ 1
+ enddo
+  
+ do i from 5 to 1 by -1
+    message $i
+ ==>  message 5
+ 5
+ enddo
+    message $i
+ ==>  message 4
+ 4
+ enddo
+    message $i
+ ==>  message 3
+ 3
+ enddo
+    message $i
+ ==>  message 2
+ 2
+ enddo
+    message $i
+ ==>  message 1
+ 1
+ enddo
+  
+ setbb i 1
+ while %i LE 5
+ ==>  while 1 LE 5
+    message %i
+ ==>  message 1
+ 1
+    setbb i ( %i + 1 )
+ ==>  setbb i 2
+ enddo
+ while %i LE 5
+ ==>  while 2 LE 5
+    message %i
+ ==>  message 2
+ 2
+    setbb i ( %i + 1 )
+ ==>  setbb i 3
+ enddo
+ while %i LE 5
+ ==>  while 3 LE 5
+    message %i
+ ==>  message 3
+ 3
+    setbb i ( %i + 1 )
+ ==>  setbb i 4
+ enddo
+ while %i LE 5
+ ==>  while 4 LE 5
+    message %i
+ ==>  message 4
+ 4
+    setbb i ( %i + 1 )
+ ==>  setbb i 5
+ enddo
+ while %i LE 5
+ ==>  while 5 LE 5
+    message %i
+ ==>  message 5
+ 5
+    setbb i ( %i + 1 )
+ ==>  setbb i 6
+ enddo
+ while %i LE 5
+ ==>  while 6 LE 5
+  
+  
+  
+ ==>  
+ m test_do_01.m
+ do
+ ERROR 2705: Searching macro file for "enddo" in macro file test_do_01.m
+ m test_do_02.m
+ do enddo
+ ERROR 2705: Searching macro file for "enddo" in macro file test_do_02.m
+ m test_do_03.m
+ do
+ ERROR interpreting command:  do 
+ SYNTAX ERROR IN DO            ^
+ ERROR 1016: Terminating execution of macro test_do_03.m
+ Command line is: do
+ m test_do_04.m
+ do  i
+ ERROR interpreting command:  do  i 
+ SYNTAX ERROR IN DO               ^
+ ERROR 1016: Terminating execution of macro test_do_04.m
+ Command line is: do  i
+ m test_do_05.m
+ do  i = 1
+ ERROR interpreting command:  do  i = 1 
+ SYNTAX ERROR IN DO                   ^
+ ERROR 1016: Terminating execution of macro test_do_05.m
+ Command line is: do  i = 1
+ m test_do_06.m
+ do  i = 1 ,
+ ERROR interpreting command:  do  i = 1 , 
+ SYNTAX ERROR IN DO                     ^
+ ERROR 1016: Terminating execution of macro test_do_06.m
+ Command line is: do  i = 1 ,
+ m test_do_07.m
+ do  i = 1 , b
+ ERROR interpreting command:  do  i = 1 , b 
+ SYNTAX ERROR IN DO                       ^
+ ERROR 1016: Terminating execution of macro test_do_07.m
+ Command line is: do  i = 1 , b
+ m test_do_08.m
+ message "With Bad Pathname"
+ With Bad Pathname
+ do file wild /dev/file_does_not_exist*
+  
+ message "With Bad Folder"
+ With Bad Folder
+ do file wild dir fakedir *
+  
+ mkdir test.wild.dir
+  
+ message "With Folder, but empty"
+ With Folder, but empty
+ do file wild dir test.wild.dir *
+  
+ message "With Folder, but nothing"
+ With Folder, but nothing
+ do file wild dir test.wild.dir
+  
+ message "With Nothing"
+ With Nothing
+ do file wild
+  
+  
+  
+ ==>  
+ quit

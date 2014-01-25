@@ -1,0 +1,72 @@
+ wait text off
+  
+ ==>  
+ macro test_macro_comments1.m
+ message "Not a comment"
+ Not a comment
+ * message "Comment Here"
+ * message "Hi there, comment"
+ * message "Comment"
+ message "Not a comment"
+ Not a comment
+  
+ * Comment
+  
+  
+ macro test_macro_comments2.m
+ message $1
+ ==>  message a
+ a
+ message $2
+ ==>  message b
+ b
+ message $3
+ ==>  message efff
+ efff
+ macro test_macro_comments3.m
+ message $keya
+ ==>  message "key a value"
+ key a value
+ message $keyb
+ ==>  message "key b value"
+ key b value
+ message $keyc
+ ==>  message "key c value"
+ key c value
+ macro test_macro_comments3.m keya isA keyb isB keyc isC
+ message $keya
+ ==>  message isA
+ isA
+ message $keyb
+ ==>  message isB
+ isB
+ message $keyc
+ ==>  message isC
+ isC
+ macro test_macro_comments4.m one two three
+ message $1
+ ==>  message one
+ one
+ message $2
+ ==>  message two
+ two
+ message $3
+ ==>  message three
+ three
+ macro test_macro_comments5.m
+ message $a
+ ==>  message AAA
+ AAA
+ message $b
+ ==>  message BBB
+ BBB
+ message $c
+ ==>  message CCC
+ CCC
+  
+ message "hey $d hello"
+ ==>  message "hey DDD hello"
+ hey DDD hello
+  
+ ==>  
+ quit

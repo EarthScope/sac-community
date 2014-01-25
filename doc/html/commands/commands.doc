@@ -1,0 +1,9 @@
+
+LINKS="../links/commands_links.txt"
+FILES="../aux/help/*"
+DIR="html/commands"
+TEMPLATE="../tmpl/template_commands.txt "
+CSS="../css/html2css1.css"
+
+PDFTEMPLATE="../tmpl/body.tex "
+PDFLINKS="../links/manual_links_pdf.txt"

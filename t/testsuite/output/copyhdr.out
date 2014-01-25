@@ -1,0 +1,39 @@
+ wait text off
+ fg sine
+ write test.sine
+ fg impulse
+ write test.impulse
+ read test.impulse test.sine
+ lh kevnm
+  
+  
+  FILE: test.impulse - 1
+ ------------------
+
+     kevnm = FUNCGEN: IMPULSE
+  
+  FILE: test.sine - 2
+ ---------------
+
+     kevnm = FUNCGEN: SINE
+  
+ ==>  
+ copyhdr from 1 kevnm
+ lh kevnm
+  
+  
+  FILE: test.impulse - 1
+ ------------------
+
+     kevnm = FUNCGEN: IMPULSE
+  
+  FILE: test.sine - 2
+ ---------------
+
+     kevnm = FUNCGEN: IMPULSE
+ dc all
+
+All files deleted.
+  
+ ==>  
+ quit

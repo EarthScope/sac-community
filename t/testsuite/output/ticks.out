@@ -1,0 +1,62 @@
+ wait text off
+  
+ ==>  
+ fg seismo
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ ticks off all
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ ticks off all
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ ticks on top
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ ticks on bottom
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ ticks on left
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ ticks on right
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ ticks only top
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ ticks only bottom
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ ticks only left
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ ticks only right
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ ticks on all
+ p1 ; pause period 0.25
+Pausing
+ quit

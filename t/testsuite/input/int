@@ -1,0 +1,19 @@
+
+fg seismogram
+
+lh depmin depmax depmen npts
+int
+lh depmin depmax depmen npts
+
+fg seismogram
+lh depmin depmax depmen npts
+int trapezoidal
+lh depmin depmax depmen npts
+
+fg seismogram
+lh depmin depmax depmen npts
+int rectangular
+lh depmin depmax depmen npts
+
+
+

@@ -1,0 +1,32 @@
+
+fg seismo
+writetable test.readtable.1
+readtable FREE CONTENT XY test.readtable.1
+lh npts depmin depmax 
+
+readtable FREE CONTENT P test.readtable.1
+lh npts depmin depmax 
+
+readtable FREE CONTENT Y. test.readtable.1
+lh npts depmin depmax 
+
+readtable FREE CONTENT Y test.readtable.1
+lh npts depmin depmax 
+
+readtable FREE CONTENT Y HEADER 100 test.readtable.1
+lh npts depmin depmax
+
+systemcommand mkdir test.readtable.dir
+systemcommand cp test.readtable.1 test.readtable.dir/test.readtable.2
+
+readtable free dir test.readtable.dir content P test.readtable.2
+lh npts depmin depmax
+readtable free content P test.readtable.2
+lh npts depmin depmax
+readtable free dir current content P test.readtable.1
+lh npts depmin depmax
+readtable free content P test.readtable.1
+lh npts depmin depmax
+
+readtable free CONTENT X test.readtable.1
+

@@ -1,0 +1,3297 @@
+ wait text off
+  
+ ==>  
+ fg seismo
+ lh depmin depmax depmen b e npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+       npts = 1000
+ transfer from polezero subtype test_transfer_simple.m to none
+ Using polezero response for CDV, , , ...
+ Station (CDV     ), Channel (-12345  )
+ lh depmin depmax depmen b e npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -3.649640e-12
+     depmax = 4.004705e-12
+     depmen = -4.591158e-15
+          b = 9.459999e+00
+          e = 1.945000e+01
+       npts = 1000
+  
+ ==>  
+ fg seismo
+ lh depmin depmax depmen b e npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+       npts = 1000
+ transfer from polezero subtype test_transfer_comments.m to none
+polezero-comment: Error converting float: ' LATITUDE  (DEG)   : A'
+polezero-comment: Error converting float: ' ELEVATION (M)     : @E4'
+polezero-comment: Error converting float: ' DEPTH     (M)     : (3.4)'
+polezero-comment: Error converting float: ' DIP       (DEG)   : ERROR'
+polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
+ Using polezero response for CDV, , , ...
+ Station (CDV     ), Channel (-12345  )
+ lh depmin depmax depmen b e npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -3.649640e-12
+     depmax = 4.004705e-12
+     depmen = -4.591158e-15
+          b = 9.459999e+00
+          e = 1.945000e+01
+       npts = 1000
+  
+ ==>  
+ fg seismo
+ lh depmin depmax depmen b e npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+       npts = 1000
+ transfer from polezero subtype test_transfer_annotated.m to none
+ Time of data not found in file
+ Date Time: 1981/03/29 (088) 10:38:14.000
+
+ ERROR 2114: No response information for this channel in response file. 
+ Station: .CDV..
+ lh depmin depmax depmen b e npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+       npts = 1000
+  
+ ==>  
+ fg seismo
+ lh depmin depmax depmen b e npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+       npts = 1000
+ transfer from polezero subtype test_transfer_annotated2.m to none
+ Time of data not found in file
+ Date Time: 1981/03/29 (088) 10:38:14.000
+
+ ERROR 2114: No response information for this channel in response file. 
+ Station: .CDV..
+ lh depmin depmax depmen b e npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+       npts = 1000
+  
+ ==>  
+ m transfer_types.m
+ do type list acc bbdisp bbvel benbog dss dwwssn ekalp6 ekasp2  gbalp gbasp gsref hfslpwb iw llsn lrsmlp lrsmsp oldbb oldkir ptbllp redkir s750 wa wabn wiech wwlpbn wwsp wwspbn ykalp ykasp
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from acc to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -8.062361e-03
+     depmax = 5.612393e-03
+     depmen = 1.957825e-04
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from bbdisp to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.427704e+02
+     depmax = 2.440685e+02
+     depmen = -2.584305e-01
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from bbvel to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.285378e+01
+     depmax = 1.393353e+01
+     depmen = 1.137512e-03
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from benbog to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.080097e+01
+     depmax = 1.283021e+01
+     depmen = -5.166499e-02
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from dss to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -3.555160e-01
+     depmax = 3.195147e-01
+     depmen = -5.627117e-04
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from dwwssn to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.114334e+11
+     depmax = 5.500663e+11
+     depmen = 5.270015e+08
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from ekalp6 to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -7.526619e+06
+     depmax = 7.627230e+06
+     depmen = 6.260875e+01
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from ekasp2 to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.371055e+00
+     depmax = 4.762581e+00
+     depmen = -7.506658e-02
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from gbalp to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.952243e+14
+     depmax = 6.625598e+14
+     depmen = 6.349481e+11
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from gbasp to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.063295e+00
+     depmax = 6.961554e+00
+     depmen = -6.931046e-02
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from gsref to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.454305e+00
+     depmax = 6.457499e+00
+     depmen = -1.491912e-01
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from hfslpwb to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.491383e+04
+     depmax = 4.322245e+04
+     depmen = 1.368005e+01
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from iw to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.473487e+00
+     depmax = 1.616424e+00
+     depmen = -2.311660e-03
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from llsn to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.317534e-01
+     depmax = 4.619207e-01
+     depmen = -1.940816e-03
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from lrsmlp to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.242096e+07
+     depmax = 1.256570e+07
+     depmen = 2.282988e+01
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from lrsmsp to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -3.376136e+00
+     depmax = 3.638327e+00
+     depmen = -3.303326e-02
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from oldbb to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.710537e+00
+     depmax = 1.883213e+00
+     depmen = -2.282314e-03
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from oldkir to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.711851e+00
+     depmax = 1.883136e+00
+     depmen = -2.289920e-03
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from ptbllp to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -3.181612e+05
+     depmax = 3.234665e+05
+     depmen = 6.625621e+00
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from redkir to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.683717e+00
+     depmax = 1.856764e+00
+     depmen = -2.297077e-03
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from s750 to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -7.862001e+03
+     depmax = 1.058528e+04
+     depmen = -1.401698e+02
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from wa to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -5.886985e-04
+     depmax = 5.838564e-04
+     depmen = 3.188049e-06
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from wabn to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -7.933964e-01
+     depmax = 7.868707e-01
+     depmen = 4.296572e-03
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from wiech to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -7.834756e-03
+     depmax = 8.595896e-03
+     depmen = -1.164490e-05
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from wwlpbn to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.526437e+02
+     depmax = 1.562077e+02
+     depmen = -7.240524e-04
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from wwsp to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.031138e+01
+     depmax = 2.112739e+01
+     depmen = -1.880682e-02
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from wwspbn to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.876191e+01
+     depmax = 1.978468e+01
+     depmen = -1.582745e-02
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from ykalp to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.751717e+04
+     depmax = 2.648977e+04
+     depmen = 8.376437e+00
+ enddo
+   fg seismo
+   transfer from $type to none
+ ==>  transfer from ykasp to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -5.751641e+00
+     depmax = 6.088857e+00
+     depmen = -1.146588e-01
+ enddo
+  
+ fg seismo
+ transfer from elmag freeperiod 15 magnification 375 to none
+ Station (CDV     ), Channel (-12345  )
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -3.061911e-01
+     depmax = 3.136668e-01
+     depmen = -3.507445e-06
+  
+ do type list LV LR LT MV MR MT EV ER ET KV KR KT
+   fg seismo
+   transfer from LLL subtype $type to none
+ ==>  transfer from LLL subtype LV to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -5.066228e-02
+     depmax = 5.580590e-02
+     depmen = -8.820185e-05
+ enddo
+   fg seismo
+   transfer from LLL subtype $type to none
+ ==>  transfer from LLL subtype LR to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -5.045800e-02
+     depmax = 5.681918e-02
+     depmen = -1.665103e-04
+ enddo
+  
+ do type list BB HF
+   fg seismo
+   transfer from LNN subtype $type to none
+ ==>  transfer from LNN subtype BB to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -5.654949e+00
+     depmax = 6.163613e+00
+     depmen = -4.827833e-03
+ enddo
+   fg seismo
+   transfer from LNN subtype $type to none
+ ==>  transfer from LNN subtype HF to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.127409e-01
+     depmax = 7.081311e-01
+     depmen = -6.923648e-03
+ enddo
+  
+ do type list LP IP SP
+   fg seismo
+   transfer from NORESS subtype $type to none
+ ==>  transfer from NORESS subtype LP to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.473487e+00
+     depmax = 1.616424e+00
+     depmen = -2.311660e-03
+ enddo
+   fg seismo
+   transfer from NORESS subtype $type to none
+ ==>  transfer from NORESS subtype IP to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.473487e+00
+     depmax = 1.616424e+00
+     depmen = -2.311660e-03
+ enddo
+   fg seismo
+   transfer from NORESS subtype $type to none
+ ==>  transfer from NORESS subtype SP to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.473487e+00
+     depmax = 1.616424e+00
+     depmen = -2.311660e-03
+ enddo
+  
+ do type list LP IP SP
+   fg seismo
+   transfer from NORESSHF subtype $type to none
+ ==>  transfer from NORESSHF subtype LP to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.473487e+00
+     depmax = 1.616424e+00
+     depmen = -2.311660e-03
+ enddo
+   fg seismo
+   transfer from NORESSHF subtype $type to none
+ ==>  transfer from NORESSHF subtype IP to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.473487e+00
+     depmax = 1.616424e+00
+     depmen = -2.311660e-03
+ enddo
+   fg seismo
+   transfer from NORESSHF subtype $type to none
+ ==>  transfer from NORESSHF subtype SP to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.473487e+00
+     depmax = 1.616424e+00
+     depmen = -2.311660e-03
+ enddo
+  
+ do type list BB SP LPDE
+   fg seismo
+   transfer from SRO subtype $type to none
+ ==>  transfer from SRO subtype BB to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -3.940510e-03
+     depmax = 2.980747e-03
+     depmen = -3.960353e-05
+ enddo
+   fg seismo
+   transfer from SRO subtype $type to none
+ ==>  transfer from SRO subtype SP to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -3.259659e-06
+     depmax = 3.166528e-06
+     depmen = -1.804312e-08
+ enddo
+   fg seismo
+   transfer from SRO subtype $type to none
+ ==>  transfer from SRO subtype LPDE to none
+ Station (CDV     ), Channel (-12345  )
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -5.442192e+15
+     depmax = 5.086470e+15
+     depmen = -3.061836e+12
+ enddo
+  
+ do a list N O
+ do b list T L B D N E
+ do c list V R T
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NT" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "NTV" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.741004e-02
+     depmax = 4.802494e-02
+     depmen = 7.916252e-05
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NT" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "NTR" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.702903e-02
+     depmax = 4.767327e-02
+     depmen = 7.796041e-05
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NT" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "NTT" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.550622e-02
+     depmax = 4.626338e-02
+     depmen = 7.321467e-05
+ enddo
+ enddo
+ do c list V R T
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NL" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "NLV" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.550622e-02
+     depmax = 4.626338e-02
+     depmen = 7.321467e-05
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NL" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "NLR" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.664813e-02
+     depmax = 4.732128e-02
+     depmen = 7.676418e-05
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NL" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "NLT" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.702903e-02
+     depmax = 4.767327e-02
+     depmen = 7.796041e-05
+ enddo
+ enddo
+ do c list V R T
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NB" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "NBV" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.588673e-02
+     depmax = 4.661633e-02
+     depmen = 7.439312e-05
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NB" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "NBR" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.588673e-02
+     depmax = 4.661633e-02
+     depmen = 7.439312e-05
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NB" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "NBT" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.741004e-02
+     depmax = 4.802494e-02
+     depmen = 7.916252e-05
+ enddo
+ enddo
+ do c list V R T
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "ND" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "NDV" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.741004e-02
+     depmax = 4.802494e-02
+     depmen = 7.916252e-05
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "ND" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "NDR" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.702903e-02
+     depmax = 4.767327e-02
+     depmen = 7.796041e-05
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "ND" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "NDT" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.664813e-02
+     depmax = 4.732128e-02
+     depmen = 7.676418e-05
+ enddo
+ enddo
+ do c list V R T
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NN" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "NNV" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.817245e-02
+     depmax = 4.872733e-02
+     depmen = 8.158655e-05
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NN" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "NNR" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.664813e-02
+     depmax = 4.732128e-02
+     depmen = 7.676418e-05
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NN" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "NNT" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.588673e-02
+     depmax = 4.661633e-02
+     depmen = 7.439312e-05
+ enddo
+ enddo
+ do c list V R T
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NE" != "NE" then
+   else
+      message "Not supported $a$$b$$c$"
+ ==>  message "Not supported NEV"
+ Not supported NEV
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NE" != "NE" then
+   else
+      message "Not supported $a$$b$$c$"
+ ==>  message "Not supported NER"
+ Not supported NER
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NE" != "NE" then
+   else
+      message "Not supported $a$$b$$c$"
+ ==>  message "Not supported NET"
+ Not supported NET
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+ enddo
+ enddo
+ enddo
+ do b list T L B D N E
+ do c list V R T
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OT" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "OTV" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.741004e-02
+     depmax = 4.802494e-02
+     depmen = 7.916252e-05
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OT" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "OTR" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.741004e-02
+     depmax = 4.802494e-02
+     depmen = 7.916252e-05
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OT" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "OTT" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.741004e-02
+     depmax = 4.802494e-02
+     depmen = 7.916252e-05
+ enddo
+ enddo
+ do c list V R T
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OL" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "OLV" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.550622e-02
+     depmax = 4.626338e-02
+     depmen = 7.321467e-05
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OL" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "OLR" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.550622e-02
+     depmax = 4.626338e-02
+     depmen = 7.321467e-05
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OL" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "OLT" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.550622e-02
+     depmax = 4.626338e-02
+     depmen = 7.321467e-05
+ enddo
+ enddo
+ do c list V R T
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OB" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "OBV" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.702903e-02
+     depmax = 4.767327e-02
+     depmen = 7.796041e-05
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OB" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "OBR" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.702903e-02
+     depmax = 4.767327e-02
+     depmen = 7.796041e-05
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OB" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "OBT" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.702903e-02
+     depmax = 4.767327e-02
+     depmen = 7.796041e-05
+ enddo
+ enddo
+ do c list V R T
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OD" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "ODV" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.741004e-02
+     depmax = 4.802494e-02
+     depmen = 7.916252e-05
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OD" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "ODR" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.741004e-02
+     depmax = 4.802494e-02
+     depmen = 7.916252e-05
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OD" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "ODT" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.741004e-02
+     depmax = 4.802494e-02
+     depmen = 7.916252e-05
+ enddo
+ enddo
+ do c list V R T
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "ON" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "ONV" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.588673e-02
+     depmax = 4.661633e-02
+     depmen = 7.439312e-05
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "ON" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "ONR" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.588673e-02
+     depmax = 4.661633e-02
+     depmen = 7.439312e-05
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "ON" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "ONT" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.588673e-02
+     depmax = 4.661633e-02
+     depmen = 7.439312e-05
+ enddo
+ enddo
+ do c list V R T
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OE" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "OEV" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.588673e-02
+     depmax = 4.661633e-02
+     depmen = 7.439312e-05
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OE" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "OER" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.588673e-02
+     depmax = 4.661633e-02
+     depmen = 7.439312e-05
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OE" != "NE" then
+      transfer from SANDIA subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA subtype "OET" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.588673e-02
+     depmax = 4.661633e-02
+     depmen = 7.439312e-05
+ enddo
+ enddo
+ enddo
+  
+ do a list N O
+ do b list T L B D N E
+ do c list V R T
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NT" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "NTV" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NT" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "NTR" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NT" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "NTT" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+ enddo
+ do c list V R T
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NL" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "NLV" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NL" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "NLR" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NL" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "NLT" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+ enddo
+ do c list V R T
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NB" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "NBV" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NB" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "NBR" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NB" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "NBT" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+ enddo
+ do c list V R T
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "ND" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "NDV" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "ND" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "NDR" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "ND" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "NDT" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+ enddo
+ do c list V R T
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NN" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "NNV" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NN" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "NNR" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NN" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "NNT" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+ enddo
+ do c list V R T
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NE" != "NE" then
+   else
+      message "Not supported $a$$b$$c$"
+ ==>  message "Not supported NEV"
+ Not supported NEV
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NE" != "NE" then
+   else
+      message "Not supported $a$$b$$c$"
+ ==>  message "Not supported NER"
+ Not supported NER
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "NE" != "NE" then
+   else
+      message "Not supported $a$$b$$c$"
+ ==>  message "Not supported NET"
+ Not supported NET
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+ enddo
+ enddo
+ enddo
+ do b list T L B D N E
+ do c list V R T
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OT" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "OTV" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OT" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "OTR" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OT" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "OTT" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+ enddo
+ do c list V R T
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OL" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "OLV" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OL" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "OLR" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OL" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "OLT" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+ enddo
+ do c list V R T
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OB" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "OBV" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OB" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "OBR" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OB" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "OBT" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+ enddo
+ do c list V R T
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OD" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "ODV" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OD" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "ODR" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OD" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "ODT" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+ enddo
+ do c list V R T
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "ON" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "ONV" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "ON" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "ONR" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "ON" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "ONT" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+ enddo
+ do c list V R T
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OE" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "OEV" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OE" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "OER" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+   fg seismo
+   if "$a$$b$" != "NE" then
+ ==>  if "OE" != "NE" then
+     transfer from SANDIA3 subtype "$a$$b$$c$" to none
+ ==>  transfer from SANDIA3 subtype "OET" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.070065e+00
+     depmax = 6.877761e+00
+     depmen = 6.382148e-03
+ enddo
+ enddo
+ enddo
+  
+ do a list CP ON NT NY SD
+ do b list KL KM KS 7S
+ do c list .Z .N .E
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "CPKL" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "CPKL.Z" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.476854e+18
+     depmax = 2.477755e+18
+     depmen = -4.832655e+14
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "CPKL" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "CPKL.N" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.397214e+18
+     depmax = 2.386105e+18
+     depmen = -2.733085e+14
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "CPKL" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "CPKL.E" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.397214e+18
+     depmax = 2.386105e+18
+     depmen = -2.733085e+14
+ enddo
+ enddo
+ do c list .Z .N .E
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "CPKM" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "CPKM.Z" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.098403e+16
+     depmax = 1.788920e+16
+     depmen = 9.882236e+12
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "CPKM" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "CPKM.N" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.542179e+16
+     depmax = 2.080286e+16
+     depmen = 1.191582e+13
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "CPKM" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "CPKM.E" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.542179e+16
+     depmax = 2.080286e+16
+     depmen = 1.191582e+13
+ enddo
+ enddo
+ do c list .Z .N .E
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "CPKS" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "CPKS.Z" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.687749e+09
+     depmax = 6.773772e+09
+     depmen = -6.749554e+06
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "CPKS" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "CPKS.N" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -3.388304e+10
+     depmax = 3.422735e+10
+     depmen = -3.224065e+07
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "CPKS" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "CPKS.E" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -3.388304e+10
+     depmax = 3.422735e+10
+     depmen = -3.224065e+07
+ enddo
+ enddo
+ do c list .Z .N .E
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "CP7S" != "CP7S" then
+   else
+      message "Not supported $a$$b$$c$"
+ ==>  message "Not supported CP7S.Z"
+ Not supported CP7S.Z
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "CP7S" != "CP7S" then
+   else
+      message "Not supported $a$$b$$c$"
+ ==>  message "Not supported CP7S.N"
+ Not supported CP7S.N
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "CP7S" != "CP7S" then
+   else
+      message "Not supported $a$$b$$c$"
+ ==>  message "Not supported CP7S.E"
+ Not supported CP7S.E
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+ enddo
+ enddo
+ enddo
+ do b list KL KM KS 7S
+ do c list .Z .N .E
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "ONKL" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "ONKL.Z" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.102247e+18
+     depmax = 2.082878e+18
+     depmen = -2.726903e+13
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "ONKL" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "ONKL.N" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.102247e+18
+     depmax = 2.082878e+18
+     depmen = -2.726903e+13
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "ONKL" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "ONKL.E" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.102247e+18
+     depmax = 2.082878e+18
+     depmen = -2.726903e+13
+ enddo
+ enddo
+ do c list .Z .N .E
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "ONKM" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "ONKM.Z" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.168999e+16
+     depmax = 2.654357e+16
+     depmen = -1.283288e+12
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "ONKM" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "ONKM.N" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.168999e+16
+     depmax = 2.654357e+16
+     depmen = -1.283288e+12
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "ONKM" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "ONKM.E" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.168999e+16
+     depmax = 2.654357e+16
+     depmen = -1.283288e+12
+ enddo
+ enddo
+ do c list .Z .N .E
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "ONKS" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "ONKS.Z" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.500786e+04
+     depmax = 1.020235e+04
+     depmen = -1.270825e+02
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "ONKS" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "ONKS.N" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.500786e+04
+     depmax = 1.020235e+04
+     depmen = -1.270825e+02
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "ONKS" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "ONKS.E" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.500786e+04
+     depmax = 1.020235e+04
+     depmen = -1.270825e+02
+ enddo
+ enddo
+ do c list .Z .N .E
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "ON7S" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "ON7S.Z" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.134649e+05
+     depmax = 2.065318e+05
+     depmen = -4.889743e+03
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "ON7S" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "ON7S.N" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.134649e+05
+     depmax = 2.065318e+05
+     depmen = -4.889743e+03
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "ON7S" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "ON7S.E" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.134649e+05
+     depmax = 2.065318e+05
+     depmen = -4.889743e+03
+ enddo
+ enddo
+ enddo
+ do b list KL KM KS 7S
+ do c list .Z .N .E
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "NTKL" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "NTKL.Z" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.102247e+18
+     depmax = 2.082878e+18
+     depmen = -2.726903e+13
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "NTKL" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "NTKL.N" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.102247e+18
+     depmax = 2.082878e+18
+     depmen = -2.726903e+13
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "NTKL" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "NTKL.E" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.102247e+18
+     depmax = 2.082878e+18
+     depmen = -2.726903e+13
+ enddo
+ enddo
+ do c list .Z .N .E
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "NTKM" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "NTKM.Z" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.168999e+16
+     depmax = 2.654357e+16
+     depmen = -1.283288e+12
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "NTKM" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "NTKM.N" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.168999e+16
+     depmax = 2.654357e+16
+     depmen = -1.283288e+12
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "NTKM" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "NTKM.E" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.168999e+16
+     depmax = 2.654357e+16
+     depmen = -1.283288e+12
+ enddo
+ enddo
+ do c list .Z .N .E
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "NTKS" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "NTKS.Z" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.500786e+04
+     depmax = 1.020235e+04
+     depmen = -1.270825e+02
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "NTKS" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "NTKS.N" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.500786e+04
+     depmax = 1.020235e+04
+     depmen = -1.270825e+02
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "NTKS" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "NTKS.E" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.500786e+04
+     depmax = 1.020235e+04
+     depmen = -1.270825e+02
+ enddo
+ enddo
+ do c list .Z .N .E
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "NT7S" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "NT7S.Z" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.134649e+05
+     depmax = 2.065318e+05
+     depmen = -4.889743e+03
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "NT7S" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "NT7S.N" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.134649e+05
+     depmax = 2.065318e+05
+     depmen = -4.889743e+03
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "NT7S" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "NT7S.E" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.134649e+05
+     depmax = 2.065318e+05
+     depmen = -4.889743e+03
+ enddo
+ enddo
+ enddo
+ do b list KL KM KS 7S
+ do c list .Z .N .E
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "NYKL" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "NYKL.Z" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.102247e+18
+     depmax = 2.082878e+18
+     depmen = -2.726903e+13
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "NYKL" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "NYKL.N" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.102247e+18
+     depmax = 2.082878e+18
+     depmen = -2.726903e+13
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "NYKL" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "NYKL.E" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.102247e+18
+     depmax = 2.082878e+18
+     depmen = -2.726903e+13
+ enddo
+ enddo
+ do c list .Z .N .E
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "NYKM" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "NYKM.Z" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.168999e+16
+     depmax = 2.654357e+16
+     depmen = -1.283288e+12
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "NYKM" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "NYKM.N" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.168999e+16
+     depmax = 2.654357e+16
+     depmen = -1.283288e+12
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "NYKM" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "NYKM.E" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.168999e+16
+     depmax = 2.654357e+16
+     depmen = -1.283288e+12
+ enddo
+ enddo
+ do c list .Z .N .E
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "NYKS" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "NYKS.Z" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.500786e+04
+     depmax = 1.020235e+04
+     depmen = -1.270825e+02
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "NYKS" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "NYKS.N" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.500786e+04
+     depmax = 1.020235e+04
+     depmen = -1.270825e+02
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "NYKS" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "NYKS.E" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.500786e+04
+     depmax = 1.020235e+04
+     depmen = -1.270825e+02
+ enddo
+ enddo
+ do c list .Z .N .E
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "NY7S" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "NY7S.Z" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.134649e+05
+     depmax = 2.065318e+05
+     depmen = -4.889743e+03
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "NY7S" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "NY7S.N" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.134649e+05
+     depmax = 2.065318e+05
+     depmen = -4.889743e+03
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "NY7S" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "NY7S.E" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.134649e+05
+     depmax = 2.065318e+05
+     depmen = -4.889743e+03
+ enddo
+ enddo
+ enddo
+ do b list KL KM KS 7S
+ do c list .Z .N .E
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "SDKL" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "SDKL.Z" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.102247e+18
+     depmax = 2.082878e+18
+     depmen = -2.726903e+13
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "SDKL" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "SDKL.N" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.102247e+18
+     depmax = 2.082878e+18
+     depmen = -2.726903e+13
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "SDKL" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "SDKL.E" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.102247e+18
+     depmax = 2.082878e+18
+     depmen = -2.726903e+13
+ enddo
+ enddo
+ do c list .Z .N .E
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "SDKM" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "SDKM.Z" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.168999e+16
+     depmax = 2.654357e+16
+     depmen = -1.283288e+12
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "SDKM" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "SDKM.N" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.168999e+16
+     depmax = 2.654357e+16
+     depmen = -1.283288e+12
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "SDKM" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "SDKM.E" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.168999e+16
+     depmax = 2.654357e+16
+     depmen = -1.283288e+12
+ enddo
+ enddo
+ do c list .Z .N .E
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "SDKS" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "SDKS.Z" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.500786e+04
+     depmax = 1.020235e+04
+     depmen = -1.270825e+02
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "SDKS" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "SDKS.N" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.500786e+04
+     depmax = 1.020235e+04
+     depmen = -1.270825e+02
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "SDKS" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "SDKS.E" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.500786e+04
+     depmax = 1.020235e+04
+     depmen = -1.270825e+02
+ enddo
+ enddo
+ do c list .Z .N .E
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "SD7S" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "SD7S.Z" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.134649e+05
+     depmax = 2.065318e+05
+     depmen = -4.889743e+03
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "SD7S" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "SD7S.N" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.134649e+05
+     depmax = 2.065318e+05
+     depmen = -4.889743e+03
+ enddo
+   fg seismo
+   if "$a$$b$" != "CP7S" then
+ ==>  if "SD7S" != "CP7S" then
+      transfer from RSTN subtype "$a$$b$$c$" to none
+ ==>  transfer from RSTN subtype "SD7S.E" to none
+ Station (CDV     ), Channel (-12345  )
+   else
+   endif
+   lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.134649e+05
+     depmax = 2.065318e+05
+     depmen = -4.889743e+03
+ enddo
+ enddo
+ enddo
+  
+ fg seismo
+ transfer from portable freeperiod 1.0 dampingfactor 1.0 cornerfrequency 1.0 to none
+ Station (CDV     ), Channel (-12345  )
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -8.871782e-01
+     depmax = 8.813424e-01
+     depmen = -1.530282e-03
+  
+ fg seismo
+ transfer from general nzeros 2 freeperiod 1 magnification 1 dampingfactor 1 to none
+ Station (CDV     ), Channel (-12345  )
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.619805e+00
+     depmax = 1.718507e+00
+     depmen = 4.538778e-03
+  
+ fg seismo
+ transfer from reftek freeperiod 1 damping 1 corner 1 magnification 1 highpass 1  to none
+ Station (CDV     ), Channel (-12345  )
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.150295e+05
+     depmax = 2.295895e+05
+     depmen = -6.894855e+01
+  
+ fg seismo
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ transfer from none to acc
+ Station (CDV     ), Channel (-12345  )
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -7.878897e+03
+     depmax = 7.562209e+03
+  
+ ==>  
+ quit

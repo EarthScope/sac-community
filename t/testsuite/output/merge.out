@@ -1,0 +1,486 @@
+ wait text off
+  
+ ==>  
+ macro test_merge.m
+ fg seismo
+ setbb STARTT &1,b
+ ==>  setbb STARTT 9.46
+ setbb ENDT &1,e
+ ==>  setbb ENDT 19.45
+ write test.merge.true
+  
+ # Same Signal
+ fg seismo
+ write test.merge.1
+ write test.merge.2
+  
+ read test.merge.1
+ merge test.merge.2
+ if &1,b ne %STARTT
+ ==>  if 9.46 ne 9.46
+ endif
+ if &1,e ne %ENDT
+ ==>  if 19.45 ne 19.45
+ endif
+ if %SACNFILES ne 1
+ ==>  if 1 ne 1
+ endif
+ subf test.merge.true
+ if &1,depmax gt 0
+ ==>  if 0 gt 0
+ endif
+ if &1,depmin lt 0
+ ==>  if 0 lt 0
+ endif
+  
+  
+ # Incorrect Overlapped sequence
+ fg seismo
+ write test.merge.1
+ mul 2
+ write test.merge.2
+  
+ read test.merge.1
+ #merge test.merge.2
+  
+ # Second File Past end of First File
+ #  kztime and b time account for difference
+ fg seismo
+ write test.merge.1
+ ch allt 15
+ write test.merge.2
+  
+ read test.merge.1
+ merge test.merge.2
+ if &1,b ne %STARTT
+ ==>  if 9.46 ne 9.46
+ endif
+ if &1,e ne %ENDT
+ ==>  if 19.45 ne 19.45
+ endif
+ if %SACNFILES ne 1
+ ==>  if 1 ne 1
+ endif
+ subf test.merge.true
+ if &1,depmax gt 0
+ ==>  if 0 gt 0
+ endif
+ if &1,depmin lt 0
+ ==>  if 0 lt 0
+ endif
+  
+ # Second File Past end of First File
+ #  kztime and b time account for difference
+ fg seismo
+ write test.merge.1
+ ch allt 5
+ write test.merge.2
+  
+ read test.merge.1
+ merge test.merge.2
+ if &1,b ne %STARTT
+ ==>  if 9.46 ne 9.46
+ endif
+ if &1,e ne %ENDT
+ ==>  if 19.45 ne 19.45
+ endif
+ if %SACNFILES ne 1
+ ==>  if 1 ne 1
+ endif
+ subf test.merge.true
+ if &1,depmax gt 0
+ ==>  if 0 gt 0
+ endif
+ if &1,depmin lt 0
+ ==>  if 0 lt 0
+ endif
+  
+ # Second File before First File
+ # This should work, not be an error
+ fg seismo
+ write test.merge.1
+ ch allt -15
+ write test.merge.2
+  
+ read test.merge.1
+ merge test.merge.2
+ if &1,b ne %STARTT
+ ==>  if 9.46 ne 9.46
+ endif
+ if &1,e ne %ENDT
+ ==>  if 19.45 ne 19.45
+ endif
+ if %SACNFILES ne 1
+ ==>  if 1 ne 1
+ endif
+ subf test.merge.true
+ if &1,depmax gt 0
+ ==>  if 0 gt 0
+ endif
+ if &1,depmin lt 0
+ ==>  if 0 lt 0
+ endif
+  
+ read test.merge.1 test.merge.2
+ merge
+ if &1,b ne %STARTT
+ ==>  if 9.46 ne 9.46
+ endif
+ if &1,e ne %ENDT
+ ==>  if 19.45 ne 19.45
+ endif
+ if %SACNFILES ne 1
+ ==>  if 1 ne 1
+ endif
+ subf test.merge.true
+ if &1,depmax gt 0
+ ==>  if 0 gt 0
+ endif
+ if &1,depmin lt 0
+ ==>  if 0 lt 0
+ endif
+  
+ dc 1
+
+All files deleted.
+ merge test.merge.1 test.merge.2
+ if &1,b ne %STARTT
+ ==>  if 9.46 ne 9.46
+ endif
+ if &1,e ne %ENDT
+ ==>  if 19.45 ne 19.45
+ endif
+ if %SACNFILES ne 1
+ ==>  if 1 ne 1
+ endif
+ subf test.merge.true
+ if &1,depmax gt 0
+ ==>  if 0 gt 0
+ endif
+ if &1,depmin lt 0
+ ==>  if 0 lt 0
+ endif
+  
+  
+ dc 1
+
+All files deleted.
+ read test.merge.1 test.merge.2
+ merge
+ if &1,b ne %STARTT
+ ==>  if 9.46 ne 9.46
+ endif
+ if &1,e ne %ENDT
+ ==>  if 19.45 ne 19.45
+ endif
+ if %SACNFILES ne 1
+ ==>  if 1 ne 1
+ endif
+ subf test.merge.true
+ if &1,depmax gt 0
+ ==>  if 0 gt 0
+ endif
+ if &1,depmin lt 0
+ ==>  if 0 lt 0
+ endif
+  
+  
+  
+ cut &1,b 15
+ ==>  cut 9.46 15
+ read test.merge.1
+ write over
+ cut off
+  
+ read test.merge.2
+ cut -2 &1,e
+ ==>  cut -2 4.45
+ read test.merge.2
+ write over
+ cut off
+  
+ message "READ file1 file2 MERGE"
+ READ file1 file2 MERGE
+ read test.merge.1 test.merge.2
+ merge
+ write test.merge.9
+ if &1,b ne %STARTT
+ ==>  if 9.46 ne 9.46
+ endif
+ if &1,e ne %ENDT
+ ==>  if 19.45 ne 19.45
+ endif
+ if %SACNFILES ne 1
+ ==>  if 1 ne 1
+ endif
+ subf test.merge.true
+ if &1,depmax gt 0
+ ==>  if 0 gt 0
+ endif
+ if &1,depmin lt 0
+ ==>  if 0 lt 0
+ endif
+  
+ message "READ file2 file1 MERGE"
+ READ file2 file1 MERGE
+ read test.merge.2 test.merge.1
+ merge
+ if &1,b ne %STARTT
+ ==>  if 9.46 ne 9.46
+ endif
+ if &1,e ne %ENDT
+ ==>  if 19.45 ne 19.45
+ endif
+ if %SACNFILES ne 1
+ ==>  if 1 ne 1
+ endif
+ subf test.merge.true
+ if &1,depmax gt 0
+ ==>  if 0 gt 0
+ endif
+ if &1,depmin lt 0
+ ==>  if 0 lt 0
+ endif
+  
+ dc 1
+
+All files deleted.
+ message "MERGE file1 file2"
+ MERGE file1 file2
+ merge test.merge.1 test.merge.2
+ write test.merge.8
+ if &1,b ne %STARTT
+ ==>  if 9.46 ne 9.46
+ endif
+ if &1,e ne %ENDT
+ ==>  if 19.45 ne 19.45
+ endif
+ if %SACNFILES ne 1
+ ==>  if 1 ne 1
+ endif
+ subf test.merge.true
+ if &1,depmax gt 0
+ ==>  if 0 gt 0
+ endif
+ if &1,depmin lt 0
+ ==>  if 0 lt 0
+ endif
+  
+ dc 1
+
+All files deleted.
+ message "MERGE file2 file1"
+ MERGE file2 file1
+ merge test.merge.2 test.merge.1
+ if &1,b ne %STARTT
+ ==>  if 9.46 ne 9.46
+ endif
+ if &1,e ne %ENDT
+ ==>  if 19.45 ne 19.45
+ endif
+ if %SACNFILES ne 1
+ ==>  if 1 ne 1
+ endif
+ subf test.merge.true
+ if &1,depmax gt 0
+ ==>  if 0 gt 0
+ endif
+ if &1,depmin lt 0
+ ==>  if 0 lt 0
+ endif
+  
+ message "READ file1 MERGE file2"
+ READ file1 MERGE file2
+ read test.merge.1
+ merge test.merge.2
+ if &1,b ne %STARTT
+ ==>  if 9.46 ne 9.46
+ endif
+ if &1,e ne %ENDT
+ ==>  if 19.45 ne 19.45
+ endif
+ if %SACNFILES ne 1
+ ==>  if 1 ne 1
+ endif
+ subf test.merge.true
+ if &1,depmax gt 0
+ ==>  if 0 gt 0
+ endif
+ if &1,depmin lt 0
+ ==>  if 0 lt 0
+ endif
+  
+ message "READ file2 MERGE file1"
+ READ file2 MERGE file1
+ read test.merge.2
+ merge test.merge.1
+ if &1,b ne %STARTT
+ ==>  if 9.46 ne 9.46
+ endif
+ if &1,e ne %ENDT
+ ==>  if 19.45 ne 19.45
+ endif
+ if %SACNFILES ne 1
+ ==>  if 1 ne 1
+ endif
+ subf test.merge.true
+ if &1,depmax gt 0
+ ==>  if 0 gt 0
+ endif
+ if &1,depmin lt 0
+ ==>  if 0 lt 0
+ endif
+  
+  
+  
+  
+ ==>  
+ dc all
+
+All files deleted.
+ macro test_merge2.m
+ merge test_merge6.sac test_merge4.sac test_merge1.sac test_merge3.sac test_merge2.sac test_merge5.sac test_merge6.sac
+ lh b e npts kzdate kztime
+  
+  
+  FILE: test_merge6.sac - 1
+ ---------------------
+
+          b = 9.459999e+00
+          e = 1.945000e+01
+       npts = 1000
+     kzdate = MAR 29 (088), 1981
+     kztime = 10:38:14.000
+  
+  
+ dc all
+
+All files deleted.
+ macro test_merge3.m
+ merge test_merge2s.sac test_merge1.sac
+ ERROR 9005: Amplitude mismatch
+ ERROR 1016: Terminating execution of macro test_merge3.m
+ Command line is: merge test_merge2s.sac test_merge1.sac
+ dc all
+
+All files deleted.
+ macro test_merge4.m
+ merge test_merge6.sac test_merge4.sac test_merge1.sac test_merge3.sac test_merge5.sac test_merge6.sac test_merge2s.sac
+ ERROR 9005: Amplitude mismatch
+ ERROR 1016: Terminating execution of macro test_merge4.m
+ Command line is: merge test_merge6.sac test_merge4.sac test_merge1.sac test_merge3.sac test_merge5.sac test_merge6.sac test_merge2s.sac
+ dc all
+
+All files deleted.
+ macro test_merge5.m
+ merge  test_merge6.sac test_merge5.sac test_merge6.sac
+ lh b e kztime kzdate
+  
+  
+  FILE: test_merge6.sac - 1
+ ---------------------
+
+          b = 1.200000e+01
+          e = 1.650000e+01
+     kztime = 10:38:14.000
+     kzdate = MAR 29 (088), 1981
+ dc all
+
+All files deleted.
+ macro test_merge6.m
+ read test_merge2s.sac
+ merge test_merge6.sac test_merge4.sac test_merge1.sac test_merge3.sac test_merge5.sac test_merge6.sac
+ ERROR 9005: Amplitude mismatch
+ ERROR 1016: Terminating execution of macro test_merge6.m
+ Command line is: merge test_merge6.sac test_merge4.sac test_merge1.sac test_merge3.sac test_merge5.sac test_merge6.sac
+ dc all
+
+All files deleted.
+ macro test_merge7.m
+ read 2007.333.*TPNV*SAC
+2007.333.00.00.00.0080.US.TPNV..BHZ.M.SAC 2007.333.17.08.30.6310.US.TPNV..BHZ.M.SAC 2007.333.18.54.23.4310.US.TPNV..BHZ.M.SAC 2007.333.19.18.47.3310.US.TPNV..BHZ.M.SAC 2007.333.19.24.05.7310.US.TPNV..BHZ.M.SAC 2007.333.19.41.59.7310.US.TPNV..BHZ.M.SAC 2007.333.23.27.13.4320.US.TPNV..BHZ.M.SAC
+ merge
+merge: Gap zero fill
+merge: Gap zero fill
+merge: Gap zero fill
+merge: Gap zero fill
+merge: Gap zero fill
+merge: Gap zero fill
+ lh b e npts kzdate kztime depmin depmax
+  
+  
+  FILE: 2007.333.00.00.00.0080.US.TPNV..BHZ.M.SAC - 1
+ -----------------------------------------------
+
+          b = 6.000000e+04
+          e = 8.642998e+04
+       npts = 1057200
+     kzdate = NOV 29 (333), 2007
+     kztime = 00:00:00.008
+     depmin = -2.572090e+04
+     depmax = 2.377174e+04
+  
+  
+ ==>  
+ # Incorrect station name
+ fg seismo
+ write test.merge.1
+ ch kstnm CDVx
+ write test.merge.2
+  
+ ==>  
+ read test.merge.1
+ merge test.merge.2
+ ERROR 1801: Header field mismatch: Station Name [KSTNM]: 'CDV     ' 'CDVx    '
+  
+ ==>  
+ # Incorrect delta
+ fg seismo
+ write test.merge.1
+ interpolate delta 0.02
+WARNING potential for aliasing. new delta: 0.020000 data delta: 0.010000
+ write test.merge.2
+  
+ ==>  
+ read test.merge.1
+ merge test.merge.2
+ ERROR 1801: Header field mismatch: Time Sampling [DELTA]: 0.010000 0.020000
+
+  
+ ==>  
+ # Second File after First File
+ fg seismo
+ ch t0 0
+ write test.merge.4
+ ch allt 15
+ ch b ( &1,b - 1 )
+ ==>  ch b 23.46
+ WARNING: Reference time not equal to zero:  KZDATE and KZTIME may be adjusted by subsequent commands so that the reference time is zero.  Reference time is B
+ ch t0 1
+ write test.merge.5
+  
+ ==>  
+  
+ ==>  
+ read test.merge.5
+ merge test.merge.4
+ ERROR 9005: Amplitude mismatch
+ write test.merge.45
+ getbb sacnfiles
+ sacnfiles = 1
+  
+ ==>  
+ read data.merge.long1.sac data.merge.long2.sac
+ merge overlap average
+merge: Gap zero fill
+ lh npts delta b e
+  
+  
+  FILE: data.merge.long1.sac - 1
+ --------------------------
+
+      npts = 129683466
+     delta = 2.500000e-02
+         b = 0.000000e+00
+         e = 3.242087e+06
+ quit

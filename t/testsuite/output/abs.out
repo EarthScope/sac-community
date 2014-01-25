@@ -1,0 +1,33 @@
+ wait text off
+ abs
+ ERROR 1301: No data files read in.
+ fg
+ lh depmin depmax
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = 0.000000e+00
+     depmax = 1.000000e+00
+ abs
+ lh depmin depmax
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = 0.000000e+00
+     depmax = 1.000000e+00
+ fg sin
+ lh depmin depmax
+  
+  
+  FILE: SINE - 1
+ ----------
+
+     depmin = -1.000000e+00
+     depmax = 1.000000e+00
+  
+ ==>  
+ quit

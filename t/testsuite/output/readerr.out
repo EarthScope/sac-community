@@ -1,0 +1,39 @@
+ wait text off
+ readerr badfile fatal
+ read nofile
+ ERROR 1301: No data files read in.
+ readerr badfile warning
+ read nofile
+ ERROR 1301: No data files read in.
+ readerr badfile ignore
+ read nofile
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ readerr nofiles fatal
+ read nofile
+ ERROR 1301: No data files read in.
+ readerr nofiles warning
+ read nofile
+ ERROR 1301: No data files read in.
+ readerr nofiles ignore
+ read nofile
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ readerr memory save
+ read nofile
+ ERROR 1301: No data files read in.
+ readerr memory delete
+ read nofile
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ readerr nofiles fatal
+ readerr badfile warning
+ readerr memory delete
+ read nofile
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ quit

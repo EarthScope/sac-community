@@ -1,0 +1,134 @@
+# sac resource control file 
+a = 3
+lh.columns         = 2
+color.color        = off
+color.increment    = true
+window.width       = 600
+window.height      = 400
+ppk.large_crosshairs = true
+database           = false
+copyright          = true
+
+# Testing Comments 
+; comment
+#
+# 
+#    a = 4
+# a = 4
+a = 4 # Comment Following
+a= 4
+# Testing Boolean Operations
+bool = yes
+bool = no
+bool = on
+bool = off
+bool = of
+
+a..jdjksfld = 8\5a
+
+# Testing numbers
+n = 1
+n = 1.1
+n = .1
+n = 0.1
+n = -1
+n = -1.1
+n = -.1
+n = -0.1
+# This is not PI
+n = 3.14158549035843905843905843905483590345
+n = 3.14e1
+n = 3.14e0
+n = 3.14e+1
+n = 3.14e-1
+n = 3.14e-0
+n = 3e1
+n = 3e+1
+n = 3e-1
+n = 3e-0
+n = 3.14E1
+n = 3.14E0
+n = 3.14E+1
+n = 3.14E-1
+n = 3.14E-0
+n = 3E1
+n = 3E+1
+n = 3E-1
+n = 3E-0
+n = .3E1
+n = .3E+1
+n = .3E-1
+n = .3E-0
+n = .3e1
+n = .3e+1
+n = .3e-1
+n = .3e-0
+n = 1e56
+n = 1e256
+n = 1e1256
+n = -3.14158549035843905843905843905483590345
+n = -3.14e1
+n = -3.14e0
+n = -3.14e+1
+n = -3.14e-1
+n = -3.14e-0
+n = -3e1
+n = -3e+1
+n = -3e-1
+n = -3e-0
+n = -3.14E1
+n = -3.14E0
+n = -3.14E+1
+n = -3.14E-1
+n = -3.14E-0
+n = -3E1
+n = -3E+1
+n = -3E-1
+n = -3E-0
+n = -.3E1
+n = -.3E+1
+n = -.3E-1
+n = -.3E-0
+n = -.3e1
+n = -.3e+1
+n = -.3e-1
+n = -.3e-0
+n = -1e56
+n = -1e256
+n = +1e1256
+n = +3.14158549035843905843905843905483590345
+n = +3.14e1
+n = +3.14e0
+n = +3.14e+1
+n = +3.14e-1
+n = +3.14e-0
+n = +3e1
+n = +3e+1
+n = +3e-1
+n = +3e-0
+n = +3.14E1
+n = +3.14E0
+n = +3.14E+1
+n = +3.14E-1
+n = +3.14E-0
+n = +3E1
+n = +3E+1
+n = +3E-1
+n = +3E-0
+n = +.3E1
+n = +.3E+1
+n = +.3E-1
+n = +.3E-0
+n = +.3e1
+n = +.3e+1
+n = +.3e-1
+n = +.3e-0
+n = +1e56
+n = +1e256
+n = +1e1256
+n = 123456789123456789123456789
+n = -123456789123456789123456789
+
+# Fail Here
+something-here = "non failing test with quotes"
+something-here = "failing test with quotes"

@@ -1,0 +1,153 @@
+ wait text off
+  
+ ==>  
+ fg seismo
+ lh depmin depmax kstnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+      kstnm = CDV
+ writesdd test.readsdd.0
+ readsdd test.readsdd.0
+ lh depmin depmax kstnm
+  
+  
+  FILE: test.readsdd.0 - 1
+ --------------------
+
+     depmin = -1.560000e+00
+     depmax = 1.520000e+00
+      kstnm = CDV
+  
+ ==>  
+ readsdd test.readsd?.0
+test.readsdd.0
+ lh depmin depmax kstnm
+  
+  
+  FILE: test.readsdd.0 - 1
+ --------------------
+
+     depmin = -1.560000e+00
+     depmax = 1.520000e+00
+      kstnm = CDV
+  
+ ==>  
+ readsdd test.readsd*.0
+test.readsdd.0
+ lh depmin depmax kstnm
+  
+  
+  FILE: test.readsdd.0 - 1
+ --------------------
+
+     depmin = -1.560000e+00
+     depmax = 1.520000e+00
+      kstnm = CDV
+ getbb
+ NUMERROR = 0
+ SACERROR = 'FALSE'
+ SACNFILES = 1
+ writesdd test.readsdd.1
+ writesdd test.readsdd.2
+ writesdd test.readsdd.3
+  
+ ==>  
+ readsdd test.readsdd.*
+test.readsdd.0 test.readsdd.1 test.readsdd.2 test.readsdd.3
+ lh depmin depmax kstnm
+  
+  
+  FILE: test.readsdd.0 - 1
+ --------------------
+
+     depmin = -1.560000e+00
+     depmax = 1.520000e+00
+      kstnm = CDV
+  
+  FILE: test.readsdd.1 - 2
+ --------------------
+
+     depmin = -1.550000e+00
+     depmax = 1.510000e+00
+      kstnm = CDV
+  
+  FILE: test.readsdd.2 - 3
+ --------------------
+
+     depmin = -2.147484e+07
+     depmax = 0.000000e+00
+      kstnm = CDV
+  
+  FILE: test.readsdd.3 - 4
+ --------------------
+
+     depmin = 0.000000e+00
+     depmax = 0.000000e+00
+      kstnm = CDV
+  
+ ==>  
+ systemcommand mkdir test.readsdd.dir
+ fg seismo
+ writesdd test.readsdd.dir/test.readsdd.indir
+ readsdd dir test.readsdd.dir test.readsdd.indir
+ lh depmin depmax kstnm
+  
+  
+  FILE: test.readsdd.dir/test.readsdd.indir - 1
+ -----------------------------------------
+
+     depmin = -1.560000e+00
+     depmax = 1.520000e+00
+      kstnm = CDV
+  
+ ==>  
+ readsdd dir current test.readsdd.1
+ lh depmin depmax kstnm
+  
+  
+  FILE: test.readsdd.1 - 1
+ --------------------
+
+     depmin = -1.550000e+00
+     depmax = 1.510000e+00
+      kstnm = CDV
+  
+ ==>  
+ readsdd test.readsdd.1 test.readsdd.2 test.readsdd.3
+ lh depmin depmax kstnm
+  
+  
+  FILE: test.readsdd.1 - 1
+ --------------------
+
+     depmin = -1.550000e+00
+     depmax = 1.510000e+00
+      kstnm = CDV
+  
+  FILE: test.readsdd.2 - 2
+ --------------------
+
+     depmin = -2.147484e+07
+     depmax = 0.000000e+00
+      kstnm = CDV
+  
+  FILE: test.readsdd.3 - 3
+ --------------------
+
+     depmin = 0.000000e+00
+     depmax = 0.000000e+00
+      kstnm = CDV
+  
+ ==>  
+  
+ ==>  
+  
+ ==>  
+  
+ ==>  
+ quit

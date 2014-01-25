@@ -1,0 +1,90 @@
+ wait text off
+  
+ ==>  
+ fg seismogram
+ lh user0
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+ rms
+ lh user0
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     user0 = 3.350410e-01
+  
+ ==>  
+ fg seismo
+ lh user0
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+ rms noise off
+ lh user0
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     user0 = 3.350410e-01
+  
+ ==>  
+ fg seismo
+ lh user0
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+ rms noise 11 17
+ ERROR 1234: RMS Noise greater than RMS Signal, setting to 0.0
+ lh user0
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     user0 = 0.000000e+00
+  
+ ==>  
+ fg seismo
+ lh user1
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+ rms noise off to user1
+ lh user1
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     user1 = 3.350410e-01
+  
+ ==>  
+ fg seismo
+ lh user0
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+ rms noise on
+ ERROR 1234: RMS Noise greater than RMS Signal, setting to 0.0
+ lh user0
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+  
+ ==>  
+ quit

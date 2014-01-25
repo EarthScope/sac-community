@@ -1,0 +1,59 @@
+ wait text off
+  
+ ==>  
+ rq
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ fg seismo
+ fft
+ DC level after DFT is -0.98547
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+ rq
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = 3.626911e-05
+     depmax = 9.854721e-01
+     depmen = 0.000000e+00
+  
+ ==>  
+ fg seismo
+ fft rlim
+ DC level after DFT is -0.98547
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+ rq
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = 3.626911e-05
+     depmax = 9.854721e-01
+     depmen = 0.000000e+00
+  
+ ==>  
+ fg seismo
+ rq
+ ERROR 1305: Illegal operation on time series file SEISMOGR
+ quit

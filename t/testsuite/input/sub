@@ -1,0 +1,9 @@
+sub
+fg
+lh depmin depmax depmen
+sub 10
+lh depmin depmax depmen
+fg
+lh depmin depmax depmen
+sub -24.3
+lh depmin depmax depmen

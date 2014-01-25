@@ -1,0 +1,10 @@
+
+quantize
+
+fg seismo
+quantize
+lh b e depmin depmax depmen 
+
+fg seismo
+fft
+quantize

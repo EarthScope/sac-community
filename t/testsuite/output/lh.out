@@ -1,0 +1,353 @@
+ wait text off
+ fg
+ lh
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+       NPTS = 100
+          B = 0.000000e+00
+          E = 9.900000e+01
+     IFTYPE = TIME SERIES FILE
+      LEVEN = TRUE
+      DELTA = 1.000000e+00
+     DEPMIN = 0.000000e+00
+     DEPMAX = 1.000000e+00
+     DEPMEN = 1.000000e-02
+      KEVNM = FUNCGEN: IMPULSE
+     LOVROK = TRUE
+      NVHDR = 6
+     LPSPOL = FALSE
+     LCALDA = TRUE
+ fg seismogram
+ lh
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+        NPTS = 1000
+           B = 9.459999e+00
+           E = 1.945000e+01
+      IFTYPE = TIME SERIES FILE
+       LEVEN = TRUE
+       DELTA = 1.000000e-02
+        IDEP = VELOCITY (VOLTS)
+      DEPMIN = -1.569280e+00
+      DEPMAX = 1.520640e+00
+      DEPMEN = -9.854718e-02
+     OMARKER = -41.43
+     AMARKER = 10.464
+      KZDATE = MAR 29 (088), 1981
+      KZTIME = 10:38:14.000
+      IZTYPE = BEGIN TIME
+       KSTNM = CDV
+       CMPAZ = 0.000000e+00
+      CMPINC = 0.000000e+00
+        STLA = 4.800000e+01
+        STLO = -1.200000e+02
+       KEVNM = K8108838
+        EVLA = 4.800000e+01
+        EVLO = -1.250000e+02
+        EVDP = 1.500000e+01
+      IEVTYP = AFTERSHOCK
+        DIST = 3.730627e+02
+          AZ = 8.814721e+01
+         BAZ = 2.718528e+02
+       GCARC = 3.357465e+00
+      LOVROK = TRUE
+       NVHDR = 6
+       NORID = 0
+       NEVID = 0
+      LPSPOL = TRUE
+      LCALDA = TRUE
+ lh columns 2
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+       NPTS = 1000                                B = 9.459999e+00
+          E = 1.945000e+01                   IFTYPE = TIME SERIES FILE
+      LEVEN = TRUE                            DELTA = 1.000000e-02
+       IDEP = VELOCITY (VOLTS)               DEPMIN = -1.569280e+00
+     DEPMAX = 1.520640e+00                   DEPMEN = -9.854718e-02
+    OMARKER = -41.43                        AMARKER = 10.464
+     KZDATE = MAR 29 (088), 1981             KZTIME = 10:38:14.000
+     IZTYPE = BEGIN TIME                      KSTNM = CDV
+      CMPAZ = 0.000000e+00                   CMPINC = 0.000000e+00
+       STLA = 4.800000e+01                     STLO = -1.200000e+02
+      KEVNM = K8108838                         EVLA = 4.800000e+01
+       EVLO = -1.250000e+02                    EVDP = 1.500000e+01
+     IEVTYP = AFTERSHOCK                       DIST = 3.730627e+02
+         AZ = 8.814721e+01                      BAZ = 2.718528e+02
+      GCARC = 3.357465e+00                   LOVROK = TRUE
+      NVHDR = 6                               NORID = 0
+      NEVID = 0                              LPSPOL = TRUE
+     LCALDA = TRUE
+ lh columns 1
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+        NPTS = 1000
+           B = 9.459999e+00
+           E = 1.945000e+01
+      IFTYPE = TIME SERIES FILE
+       LEVEN = TRUE
+       DELTA = 1.000000e-02
+        IDEP = VELOCITY (VOLTS)
+      DEPMIN = -1.569280e+00
+      DEPMAX = 1.520640e+00
+      DEPMEN = -9.854718e-02
+     OMARKER = -41.43
+     AMARKER = 10.464
+      KZDATE = MAR 29 (088), 1981
+      KZTIME = 10:38:14.000
+      IZTYPE = BEGIN TIME
+       KSTNM = CDV
+       CMPAZ = 0.000000e+00
+      CMPINC = 0.000000e+00
+        STLA = 4.800000e+01
+        STLO = -1.200000e+02
+       KEVNM = K8108838
+        EVLA = 4.800000e+01
+        EVLO = -1.250000e+02
+        EVDP = 1.500000e+01
+      IEVTYP = AFTERSHOCK
+        DIST = 3.730627e+02
+          AZ = 8.814721e+01
+         BAZ = 2.718528e+02
+       GCARC = 3.357465e+00
+      LOVROK = TRUE
+       NVHDR = 6
+       NORID = 0
+       NEVID = 0
+      LPSPOL = TRUE
+      LCALDA = TRUE
+ lh inclusive on
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+         NPTS = 1000
+            B = 9.459999e+00
+            E = 1.945000e+01
+       IFTYPE = TIME SERIES FILE
+        LEVEN = TRUE
+        DELTA = 1.000000e-02
+       ODELTA = -1.234500e+04
+         IDEP = VELOCITY (VOLTS)
+       DEPMIN = -1.569280e+00
+       DEPMAX = 1.520640e+00
+       DEPMEN = -9.854718e-02
+      OMARKER = -41.43
+      AMARKER = 10.464
+     T0MARKER = UNDEFINED
+     T1MARKER = UNDEFINED
+     T2MARKER = UNDEFINED
+     T3MARKER = UNDEFINED
+     T4MARKER = UNDEFINED
+     T5MARKER = UNDEFINED
+     T6MARKER = UNDEFINED
+     T7MARKER = UNDEFINED
+     T8MARKER = UNDEFINED
+     T9MARKER = UNDEFINED
+      FMARKER = UNDEFINED
+       KZDATE = MAR 29 (088), 1981
+       KZTIME = 10:38:14.000
+       IZTYPE = BEGIN TIME
+        KINST = -12345
+        RESP0 = -1.234500e+04
+        RESP1 = -1.234500e+04
+        RESP2 = -1.234500e+04
+        RESP3 = -1.234500e+04
+        RESP4 = -1.234500e+04
+        RESP5 = -1.234500e+04
+        RESP6 = -1.234500e+04
+        RESP7 = -1.234500e+04
+        RESP8 = -1.234500e+04
+        RESP9 = -1.234500e+04
+       KDATRD = -12345
+        KSTNM = CDV
+        CMPAZ = 0.000000e+00
+       CMPINC = 0.000000e+00
+       ISTREG = UNDEFINED
+         STLA = 4.800000e+01
+         STLO = -1.200000e+02
+         STEL = -1.234500e+04
+         STDP = -1.234500e+04
+        KEVNM = K8108838
+       IEVREG = UNDEFINED
+         EVLA = 4.800000e+01
+         EVLO = -1.250000e+02
+         EVEL = -1.234500e+04
+         EVDP = 1.500000e+01
+       IEVTYP = AFTERSHOCK
+        KHOLE = -12345
+         DIST = 3.730627e+02
+           AZ = 8.814721e+01
+          BAZ = 2.718528e+02
+        GCARC = 3.357465e+00
+       LOVROK = TRUE
+        IQUAL = UNDEFINED
+       ISYNTH = UNDEFINED
+        USER0 = -1.234500e+04
+        USER1 = -1.234500e+04
+        USER2 = -1.234500e+04
+        USER3 = -1.234500e+04
+        USER4 = -1.234500e+04
+        USER5 = -1.234500e+04
+        USER6 = -1.234500e+04
+        USER7 = -1.234500e+04
+        USER8 = -1.234500e+04
+        USER9 = -1.234500e+04
+       KUSER0 = -12345
+       KUSER1 = -12345
+       KUSER2 = -12345
+       NXSIZE = -12345
+     XMINIMUM = -1.234500e+04
+     XMAXIMUM = -1.234500e+04
+       NYSIZE = -12345
+     YMINIMUM = -1.234500e+04
+     YMAXIMUM = -1.234500e+04
+        NVHDR = 6
+        SCALE = -1.234500e+04
+        NORID = 0
+        NEVID = 0
+        NWFID = -12345
+        IINST = UNDEFINED
+       LPSPOL = TRUE
+       LCALDA = TRUE
+       KCMPNM = -12345
+       KNETWK = -12345
+          MAG = -1.234500e+04
+      IMAGTYP = UNDEFINED
+      IMAGSRC = UNDEFINED
+ lh inclusive off
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+        NPTS = 1000
+           B = 9.459999e+00
+           E = 1.945000e+01
+      IFTYPE = TIME SERIES FILE
+       LEVEN = TRUE
+       DELTA = 1.000000e-02
+        IDEP = VELOCITY (VOLTS)
+      DEPMIN = -1.569280e+00
+      DEPMAX = 1.520640e+00
+      DEPMEN = -9.854718e-02
+     OMARKER = -41.43
+     AMARKER = 10.464
+      KZDATE = MAR 29 (088), 1981
+      KZTIME = 10:38:14.000
+      IZTYPE = BEGIN TIME
+       KSTNM = CDV
+       CMPAZ = 0.000000e+00
+      CMPINC = 0.000000e+00
+        STLA = 4.800000e+01
+        STLO = -1.200000e+02
+       KEVNM = K8108838
+        EVLA = 4.800000e+01
+        EVLO = -1.250000e+02
+        EVDP = 1.500000e+01
+      IEVTYP = AFTERSHOCK
+        DIST = 3.730627e+02
+          AZ = 8.814721e+01
+         BAZ = 2.718528e+02
+       GCARC = 3.357465e+00
+      LOVROK = TRUE
+       NVHDR = 6
+       NORID = 0
+       NEVID = 0
+      LPSPOL = TRUE
+      LCALDA = TRUE
+ lh picks
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+        NPTS = 1000
+           B = 9.459999e+00
+           E = 1.945000e+01
+     OMARKER = -41.43
+     AMARKER = 10.464
+      KZDATE = MAR 29 (088), 1981
+      KZTIME = 10:38:14.000
+ lh default
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+        NPTS = 1000
+           B = 9.459999e+00
+           E = 1.945000e+01
+      IFTYPE = TIME SERIES FILE
+       LEVEN = TRUE
+       DELTA = 1.000000e-02
+        IDEP = VELOCITY (VOLTS)
+      DEPMIN = -1.569280e+00
+      DEPMAX = 1.520640e+00
+      DEPMEN = -9.854718e-02
+     OMARKER = -41.43
+     AMARKER = 10.464
+      KZDATE = MAR 29 (088), 1981
+      KZTIME = 10:38:14.000
+      IZTYPE = BEGIN TIME
+       KSTNM = CDV
+       CMPAZ = 0.000000e+00
+      CMPINC = 0.000000e+00
+        STLA = 4.800000e+01
+        STLO = -1.200000e+02
+       KEVNM = K8108838
+        EVLA = 4.800000e+01
+        EVLO = -1.250000e+02
+        EVDP = 1.500000e+01
+      IEVTYP = AFTERSHOCK
+        DIST = 3.730627e+02
+          AZ = 8.814721e+01
+         BAZ = 2.718528e+02
+       GCARC = 3.357465e+00
+      LOVROK = TRUE
+       NVHDR = 6
+       NORID = 0
+       NEVID = 0
+      LPSPOL = TRUE
+      LCALDA = TRUE
+ lh 1
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+ lh kevnm npts b e khole
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm = K8108838
+      npts = 1000
+         b = 9.459999e+00
+         e = 1.945000e+01
+  
+ ==>  
+ listhdr
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm = K8108838
+      npts = 1000
+         b = 9.459999e+00
+         e = 1.945000e+01
+ quit

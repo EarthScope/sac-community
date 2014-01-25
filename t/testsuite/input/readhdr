@@ -1,0 +1,39 @@
+
+message "Test ReadHeader Generate Data"
+fg impulse
+lh depmin depmax kevnm
+write test.readhdr
+
+message "Test ReadHeader"
+readhdr test.readhdr
+lh depmin depmax kevnm
+
+message "Test ReadHeader, Directory"
+systemcommand mkdir test.readhdr.dir
+fg impulse
+write test.readhdr.indir
+systemcommand mv test.readhdr.indir test.readhdr.dir/
+write test.readhdr.nodir
+
+message "Test ReadHeader, Directory set"
+readhdr dir test.readhdr.dir test.readhdr.indir
+lh depmin depmax kevnm
+
+message "Test ReadHeader, Directory Off"
+readhdr dir off test.readhdr.nodir
+lh depmin depmax kevnm
+
+message "Test ReadHdr, Directory On"
+readhdr dir on test.readhdr.dir.bug
+
+message "Test ReadHdr, Directory ./"
+readhdr dir on test.readhdr.dir.bug
+
+message "Test ReadHdr, Directory ./"
+readhdr dir ./ test.readhdr.dir.bug
+
+message "Test ReadHdr, Directory Current"
+readhdr dir current test.readhdr.dir.bug
+
+
+

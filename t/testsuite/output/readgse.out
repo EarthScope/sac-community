@@ -1,0 +1,88 @@
+ wait text off
+  
+ ==>  
+ readgse 20100401181147.GSE
+  
+ ==>  
+ lh kstnm kcmpnm npts b e stlo stla stel kztime kzdate
+  
+  
+  FILE: EDI.HHZ.2009071010203 - 1
+ ---------------------------
+
+      kstnm = EDI
+     kcmpnm = HHZ
+       npts = 360000
+          b = 0.000000e+00
+          e = 3.599990e+03
+       stlo = -3.187500e+00
+       stla = 5.592333e+01
+       stel = 1.250000e+02
+     kztime = 01:02:03.456
+     kzdate = MAR 12 (071), 2009
+  
+  FILE: EDI.HHN.2009001000000 - 2
+ ---------------------------
+
+      kstnm = EDI
+     kcmpnm = HHN
+       npts = 360000
+          b = 0.000000e+00
+          e = 3.599990e+03
+       stlo = -3.187500e+00
+       stla = 5.592333e+01
+       stel = 1.250000e+02
+     kztime = 00:00:00.000
+     kzdate = JAN 01 (001), 2009
+  
+ ==>  
+ getbb sacnfiles
+ sacnfiles = 2
+  
+ ==>  
+ writegse test.write.gse
+Converting waveforms ..
+Writing station data ..
+2 waveforms written in test.write.gse
+  
+ ==>  
+ readgse test.write.gse
+WARNING: Station ondate not available.  Set to Jan. 1, 1970
+WARNING: Station ondate not available.  Set to Jan. 1, 1970
+  
+ ==>  
+ lh kstnm kcmpnm npts b e stlo stla stel kztime kzdate
+  
+  
+  FILE: EDI.HHZ.2009071010203 - 1
+ ---------------------------
+
+      kstnm = EDI
+     kcmpnm = HHZ
+       npts = 360000
+          b = 0.000000e+00
+          e = 3.599990e+03
+       stlo = -3.187500e+00
+       stla = 5.592333e+01
+       stel = 1.250000e+02
+     kztime = 01:02:03.456
+     kzdate = MAR 12 (071), 2009
+  
+  FILE: EDI.HHN.2009001000000 - 2
+ ---------------------------
+
+      kstnm = EDI
+     kcmpnm = HHN
+       npts = 360000
+          b = 0.000000e+00
+          e = 3.599990e+03
+       stlo = -3.187500e+00
+       stla = 5.592333e+01
+       stel = 1.250000e+02
+     kztime = 00:00:00.000
+     kzdate = JAN 01 (001), 2009
+  
+ ==>  
+  
+ ==>  
+ quit

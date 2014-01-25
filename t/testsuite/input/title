@@ -1,0 +1,31 @@
+fg seismo
+
+title "My Title"
+p1 ; pause period 0.25
+
+title location top
+p1 ; pause period 0.25
+
+title location bottom
+p1 ; pause period 0.25
+
+title location left
+p1 ; pause period 0.25
+
+title location right
+p1 ; pause period 0.25
+
+title location top
+
+title size tiny
+p1 ; pause period 0.25
+
+title size small
+p1 ; pause period 0.25
+
+title size medium
+p1 ; pause period 0.25
+
+title size large
+p1 ; pause period 0.25
+

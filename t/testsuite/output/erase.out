@@ -1,0 +1,13 @@
+ wait text off
+  
+ ==>  
+ fg
+ p1
+ pause period 0.25
+Pausing
+ erase
+ pause period 0.25
+Pausing
+  
+ ==>  
+ quit

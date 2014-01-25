@@ -1,0 +1,11 @@
+fg sine
+write test.sine
+fg impulse
+write test.impulse
+read test.impulse test.sine
+lh kevnm
+
+copyhdr from 1 kevnm
+lh kevnm
+dc all
+

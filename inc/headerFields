@@ -1,0 +1,172 @@
+extern float *const a;        /* First arrival time (seconds relative to reference time.) */
+extern float *const arrivl;   /* Equivalenced to a (First arrival time ...) */
+extern float *const az;       /* Event to station azimuth (degrees). */
+extern float *const b;        /* Beginning value of the independent variable [required] */
+extern float *const baz;      /* Station to event azimuth (degrees). */
+extern float *const begin;    /* Equivalenced to b (Beginning value of the independent variable ...) */
+extern float *const cmpaz;    /* Component azimuth (degrees clockwise from north). */
+extern float *const cmpinc;   /* Component incident angle (degrees from vertical). */
+extern float *const delta;    /* Increment between evenly spaced samples (nominal value). [required] */
+extern float *const depmax;   /* Maximum value of dependent variable. */
+extern float *const depmen;   /* Mean value of dependent variable. */
+extern float *const depmin;   /* Minimum value of dependent variable. */
+extern float *const depmn;    /* Equivalenced to depmin (Minimum value of dependent var ...) */
+extern float *const depmx;    /* Equivalenced to depmax (Maximum value of dependent var ...) */
+extern float *const dist;     /* Station to event distance */
+extern float *const e;        /* Ending value of the independent variable. [required] */
+extern float *const ennd;     /* Equivalenced to e (Ending value of the independent variable.) */
+extern float *const evdp;     /* Event depth below surface (meters) [NCU] */
+extern float *const evel;     /* Event elevation (meters) [NCU] */
+extern float *const evla;     /* Event latitude (degrees, north positive). */
+extern float *const evlo;     /* Event longitude (degrees, east positive). */
+extern float *const f;        /* Fini or end of event time (seconds relative to reference time.) */
+extern float *const fhdr40;   /* Apparently a place for the user to store an arbitrary floating point value */
+extern float *const fhdr64;   /* Never referenced in the SAC source */
+extern float *const fhdr65;   /* A place for the user to store an arbitrary floating point value */
+extern float *const fhdr66;   /* A place for the user to store an arbitrary floating point value */
+extern float *const fhdr67;   /* A place for the user to store an arbitrary floating point value */
+extern float *const fhdr68;   /* A place for the user to store an arbitrary floating point value */
+extern float *const fhdr69;   /* A place for the user to store an arbitrary floating point value */
+extern float *const fhdr70;   /* A place for the user to store an arbitrary floating point value */
+extern float *const fini;     /* Equivalenced to f (Fini or end of event time...) */
+extern float *const fmean;    /* Equivalenced to depmen (Mean value of dependent variable.) */
+extern float *const fmt;         ???????????????????????
+extern float *const gcarc;    /* Station to event great circle arc length (degrees). */
+
+extern long int *const idep;  /* Type of dependent variable (IUNKN, IDISP, IVEL, IVOLTS, IACC) */
+extern long int *const ievreg;/* Event geographic region. [NCU] */
+extern long int *const ievtyp;/* Type of event */
+extern long int *const iftype;/* Type of file [required] */
+extern long int *const ihdr11;/* Supposed to be a place for the user to store an int value but not working */
+extern long int *const ihdr12;/* Supposed to be a place for the user to store an int value but not working */
+extern long int *const ihdr13;/* Supposed to be a place for the user to store an int value but not working */
+extern long int *const ihdr14;/* Supposed to be a place for the user to store an int value but not working */
+extern long int *const ihdr15;/* Supposed to be a place for the user to store an int value but not working */
+extern long int *const ihdr16;/* Supposed to be a place for the user to store an int value but not working */
+extern long int *const ihdr17;/* Supposed to be a place for the user to store an int value but not working */
+extern long int *const ihdr18;/* Supposed to be a place for the user to store an int value but not working */
+extern long int *const ihdr19;/* Supposed to be a place for the user to store an int value but not working */
+extern long int *const ihdr20;/* Supposed to be a place for the user to store an int value but not working */
+extern long int *const ihdr4; /* Supposed to be a place for the user to store an int value but not working */
+extern long int *const iinst; /* Type of recording instrument [NCU] */
+extern long int *const iqual; /* Quality of data */
+extern long int *const istreg;/* Station geographic region. [NCU] */
+extern long int *const isynth;/* Synthetic data flag [NCU] */
+extern long int *const it2;
+extern long int *const it3;
+extern long int *const it4;
+extern long int *const it5;
+extern long int *const it6;
+extern long int *const it7;
+extern long int *const it8;
+extern long int *const iztype;/* Reference time equivalence */
+extern char *const kstnm;     /* Station name */
+extern char *const kevnm;     /* Event name */
+extern char *const khole;     /* Hole identification if nuclear event */
+extern char *const ko;        /* Event origin time identification */
+extern char *const ka;        /* First arrival time identification */
+extern char *const kt0;       /* Time pick id's. */
+extern char *const kt1;       /* Time pick id's. */
+extern char *const kt2;       /* Time pick id's. */
+extern char *const kt3;       /* Time pick id's. */
+extern char *const kt4;       /* Time pick id's. */
+extern char *const kt5;       /* Time pick id's. */
+extern char *const kt6;       /* Time pick id's. */
+extern char *const kt7;       /* Time pick id's. */
+extern char *const kt8;       /* Time pick id's. */
+extern char *const kt9;       /* Time pick id's. */
+extern char *const kf;        /* Fini identification */
+extern char *const kuser0;    /* Field to store user ascii info */
+extern char *const kuser1;
+extern char *const kuser2;
+extern char *const kcmpnm;    /* Component name. */
+extern char *const knetwk;    /* Name of seismic network. */
+extern char *const kdatrd;    /* Date data was read onto computer. */
+extern char *const kinst;     /* Generic name of recording instrument. */
+extern long *const lcalda;    /* If TRUE dist,az,baz and gcarc are to be */
+                              /* calculated from station and event coords. */
+extern long *const leven;     /* TRUE if data is evenly spaced. */
+extern long *const lhdr5;     /* ? settable via chnhdr, set to TRUE in rdchdr (Read SAC hdr fields from CSS record) */
+extern long *const lovrok;    /* TRUE if it is ok to overwrite this file on disk */
+extern long *const lpspol;    /* TRUE if station components have a positive polarity (left-hand rule). */
+extern long int *const nhdr15;/* User settable via chnhdr, not used in SAC */
+extern long int *const nhst;  /* Settable via chnhdr, used in file length calculation in wsac0, value set to */
+                              /* zero in newhdr, rdchdr and xfg.  ???? */
+extern long int *const ninf;  /* Settable via chnhdr, used in file length calculation in wsac0, value set to */
+                              /* zero in newhdr, rdchdr and xfg.  ???? */
+extern long int *const npts;  /* Number of points per data component [required] */
+extern long int *const nsn;   /* Settable via chnhdr, not used in SAC. */
+extern long int *const nsnpts;/* Used to save the number of points in the input trace in xdft, xunwr and xwspe. */
+                              /* Used to restore number of points in xidft */
+extern long int *const nvhdr; /* Current header version number */
+extern long int *const nxsize;/* Number of elements in the x (horizontal) direction-xyz file */
+extern long int *const nysize;/* Number of elements in the y (vertical) direction-xyz file */
+extern long int *const nzdttm;/* GMT date-time array.  Six element array equivalenced to */
+                              /* nzyear, nzjday, nzhour, nzmin, nzsec and nzmsec. */
+extern long int *const nzhour;/* GMT hour */
+extern long int *const nzjday;/* GMT julian day */
+extern long int *const nzmin; /* GMT minute */
+extern long int *const nzmsec;/* GMT millisecond */
+extern long int *const nzsec; /* GMT second */
+extern long int *const nzyear;/* GMT year corresponding to reference (zero) time in file */
+extern float *const o;        /* Event origin time (seconds relative to reference time). */
+extern float *const odelta;   /* Observed increment if different from nominal value. */
+extern float *const origin;   /* Equivalenced to o */
+extern float *const resp0;    /* Settable via chnhdr, not used in SAC */ ????
+extern float *const resp1;    /* Settable via chnhdr, not used in SAC */ ????
+extern float *const resp2;    /* Settable via chnhdr, not used in SAC */ ????
+extern float *const resp3;    /* Settable via chnhdr, not used in SAC */ ????
+extern float *const resp4;    /* Settable via chnhdr, not used in SAC */ ????
+extern float *const resp5;    /* Settable via chnhdr, not used in SAC */ ????
+extern float *const resp6;    /* Settable via chnhdr, not used in SAC */ ????
+extern float *const resp7;    /* Settable via chnhdr, not used in SAC */ ????
+extern float *const resp8;    /* Settable via chnhdr, not used in SAC */ ????
+extern float *const resp9;    /* Settable via chnhdr, not used in SAC */ ????
+extern float *const sb;       /* Looks like saved begin time for some operations, like xunwr xidft xwspe */ 
+extern float *const scale;    /* Multiplying scale factor for dependent variable [NCU] */
+extern float *const sdelta;   /* Looks like saved delta for some operations, like xunwr, xwspe, xdft, xidft */
+extern float *const stdp;     /* Station depth below surface (meters). [NCU] */
+extern float *const stel;     /* Station elevation (meters). [NCU] */
+extern float *const stla;     /* Station latitude (degrees, north positive). */
+extern float *const stlo;     /* Station longitude (degrees, east positive). */
+extern float *const t0;       /* Store floating pt value of time markers */
+extern float *const t1;       /* Store floating pt value of time markers */
+extern float *const t2;       /* Store floating pt value of time markers */
+extern float *const t3;       /* Store floating pt value of time markers */
+extern float *const t4;       /* Store floating pt value of time markers */
+extern float *const t5;       /* Store floating pt value of time markers */
+extern float *const t6;       /* Store floating pt value of time markers */
+extern float *const t7;       /* Store floating pt value of time markers */
+extern float *const t8;       /* Store floating pt value of time markers */
+extern float *const t9;       /* Store floating pt value of time markers */
+extern float *const time0;    /* Equivalenced to t0 */
+extern float *const time1;
+extern float *const time2;
+extern float *const time3;
+extern float *const time4;
+extern float *const time5;
+extern float *const time6;
+extern float *const time7;
+extern float *const time8;
+extern float *const time9;    /* Equivalenced to t9 */
+extern float *const user0;    /* User defined floating pt. variable storage area */
+extern float *const user1;    /* User defined floating pt. variable storage area */
+extern float *const user2;    /* User defined floating pt. variable storage area */
+extern float *const user3;    /* User defined floating pt. variable storage area */
+extern float *const user4;    /* User defined floating pt. variable storage area */
+extern float *const user5;    /* User defined floating pt. variable storage area */
+extern float *const user6;    /* User defined floating pt. variable storage area */
+extern float *const user7;    /* User defined floating pt. variable storage area */
+extern float *const user8;    /* User defined floating pt. variable storage area */
+extern float *const user9;    /* User defined floating pt. variable storage area */
+extern float *const xmaximum;/* Maximum x value-xyz file */
+extern float *const xminimum;/* Minimum x value-xyz file */
+extern float *const ymaximum;/* Maximum y value-xyz file */
+extern float *const yminimum;/* Minimum y value-xyz file */
+extern float *const Exthdr;
+extern float *const Fhdr;
+extern long *const Ihdr;
+extern long *const Lhdr;
+extern long *const Nhdr;
+extern long *const Niv;
+extern long *const Nzdttm;

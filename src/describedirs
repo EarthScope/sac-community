@@ -1,0 +1,87 @@
+amf/  memory allocation functions
+
+bbs/  blackboard subroutines
+
+bom/  binary data operations
+
+bot/  character string functions (text) why bot?
+clf/  character list functions
+
+cnd/  command execution:  especially macros
+co/   high level executive command and file operations
+contouring/
+cpf/  Command parsing functions
+
+css/  css data format stuff
+
+dbh/  Versions of Dave Harris's contributions
+
+dff/  sac data file functions including read, write and header control
+dfm/  data file management routines 
+
+datafilelist/  ?? Dataset capabilities.  
+dsm/  Data set management (see datafilelist) 
+
+eam/  Event analysis module
+
+exm/  Execution module (see also co? ...) 
+
+extfuncs/  External function routines
+
+fks/  FK capabilities and gmt
+
+gam/  Graphics attributes, some measurement, and some action commands
+
+gcm/  Graphics control module
+
+gd1/  Graphics display control for ? terminal
+gd2/  Graphics display for sgf
+gd3.x11/ Graphics display for x11
+gd4.null/  No graphics display???
+gd5.gui/ Graphics display for gui
+gdm/  Graphics display
+
+gem/  Graphics environment module
+gpm/  Graphics initialization routine
+gtm/  Graphics transformation module
+
+gui/  Graphical interface module
+gui.null/ Graphical interface module (no callbacks?)
+
+icm/  Instrument correction module
+
+incrementsac*  quick updates for changes to individual src files
+
+main/ Main sac routine
+
+msg/  Message functions
+
+ncpf/ Macro commands processing and string manipulation 
+
+nnm/  Neural network module
+
+pl/   plotting commands
+
+sam/  spectral analysis module
+scm/  Signal correction, measurement and processing module
+
+site/ ??? Site commands??? unimplemented or used???
+
+smm/  Signal measurement module (See scm etc...)
+spe/  Spectral estimation subprocess
+sss/  Signal stacking subprocess
+
+test/ Routines for testing io and system interface
+
+top/  top level sac command execution routines
+
+ucf/  Utilitiy command functions including simple data conversion, distaz, kadate, etc 
+
+uom/  Unary operations module
+
+vars/ ?vars data format stuff started by Joe Tull?
+
+wild/ wildcard handling routines
+
+xyz/  3d datafile manipulations
+

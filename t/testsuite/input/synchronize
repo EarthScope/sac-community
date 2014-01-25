@@ -1,0 +1,40 @@
+fg seismo
+ch allt -10
+write test.synch.1
+
+fg seismo
+ch allt 10
+write test.synch.2
+
+fg seismo
+write test.synch.3
+
+fg seismo
+ch o gmt 1981 088 10 40 10 000
+ch allt ( 0 - &1,o )
+ch b ( &1,b + 10 )
+write test.synch.4
+
+
+read test.synch.*
+message "Initial Values"
+lh columns 2 b kztim
+
+read test.synch.*
+message "Synchronize -- GMT Times Equal"
+synch 
+lh columns 2 b kztime
+
+
+read test.synch.*
+message "Synchronize -- GMT Times Equal"
+*lh columns 2 b kztime
+synch begin off
+lh columns 2 b kztime
+
+
+read test.synch.*
+message "Synchronize -- B Times Zero"
+*lh columns 2 b kztime
+synch begin on
+lh columns 2 b kztime

@@ -1,0 +1,40 @@
+ wait text off
+  
+ ==>  
+ fg
+ p1
+ pause period 0.25
+Pausing
+  
+ ==>  
+ vspace 0.5
+ p1
+ pause period 0.25
+Pausing
+  
+ ==>  
+ vspace 1.0
+ p1
+ pause period 0.25
+Pausing
+  
+ ==>  
+ vspace full
+ p1
+ pause period 0.25
+Pausing
+  
+ ==>  
+ vspace 0.42
+ p1
+ pause period 0.25
+Pausing
+  
+ ==>  
+  
+ ==>  
+  
+ ==>  
+  
+ ==>  
+ quit

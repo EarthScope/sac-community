@@ -1,0 +1,1937 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdarg.h>
+#include "../time/timefuncs.h"
+#include "../stringfun.h"
+#include "dbPtsInside.h"
+#include "dbselect.h" 
+#include "dbDefaults.h"
+#include "dbBuildSQLstring.h"
+#include "dbBuildSearchlink.h"
+#include "dbErrorHandler.h"
+#include "../cssListOps/dblUserData.h"
+#include "../cssListOps/cssStrucs.h"
+#include "../cssListOps/dblPublicDefs.h"
+#include "../cssListOps/cssListOps.h"
+#include "../cssListOps/dblErrors.h"
+#include "../sacIO/dbConversions.h"
+
+static char TheDataBase[50]="";
+static char TheSID[20]="";
+
+
+static void InitializeSidString(void)
+{
+   if(!strlen(TheSID))
+   {
+    strcpy(TheSID,Sid());
+    strcpy(TheDataBase,dbName());
+   }
+}
+
+
+void dbPrintToDevice(char *string);
+
+#define BUF_LEN 30
+#define TAB_DNE -942
+#define INDX_DNE -1418
+#define NO_DATA  1403
+#define MAX_ROWS_IN_PRIMARY_QUERY 2000
+/* Include the SQL Communications Area.
+   You can use #include orig EXEC SQL INCLUDE. */
+#include <sqlca.h>
+
+
+
+#ifndef FALSE
+#       define FALSE 0
+#       define TRUE !FALSE
+#endif 
+
+/* ------------------------------------------------------------------ */
+#include "../smDataIO.h"
+
+
+
+char * GetPhaseListSL(void)
+{
+   char * list; /* list points to static string */
+   char *tmp;
+   char *tmp2;
+   char *string;
+   char tk[] = " ,\t\n";
+   int ntoks = 0;
+   int n;
+
+   list = dbGetQueryPhaselist();
+   if(strlen(list) < 1)return 0;
+
+   tmp = (char *) malloc(strlen(list) + 1);
+   strcpy(tmp,list);
+
+   tmp2 = strtok(tmp,tk);
+   while(tmp2){
+      ntoks++;
+      tmp2 = strtok(0,tk);
+   }
+
+   string = (char *) malloc(strlen(list) + 3 * ntoks +4);
+   strcpy(tmp,list);
+   strcpy(string,"('");
+   tmp2 = strtok(tmp,tk);
+   while(tmp2){
+      strcat(string,tmp2);
+      strcat(string,"','");
+      tmp2 = strtok(0,tk);
+   }
+   n = strlen(string);
+   string[n-2] = ')';
+   string[n-1] = 0; 
+
+
+   free(tmp);
+   return string; 
+}
+/* ---------------------------------------------------------- */
+
+
+
+
+
+char *GetAuthListSL()
+{
+   char * list; /* list points to static string */
+   char *tmp;
+   char *tmp2;
+   char *string;
+   char tk[] = " ,\t\n";
+   int ntoks = 0;
+   int n;
+
+   list = dbGetQueryAuthlist();
+   if(strlen(list) < 1)return 0;
+
+   tmp = (char *) malloc(strlen(list) + 1);
+   strcpy(tmp,list);
+
+   tmp2 = strtok(tmp,tk);
+   while(tmp2){
+      ntoks++;
+      tmp2 = strtok(0,tk);
+   }
+
+
+   string = (char *) malloc(strlen(list) + 3 * ntoks +4);
+   strcpy(tmp,list);
+   strcpy(string,"('");
+   tmp2 = strtok(tmp,tk);
+   while(tmp2){
+      strcat(string,tmp2);
+      strcat(string,"','");
+      tmp2 = strtok(0,tk);
+   }
+   n = strlen(string);
+   string[n-2] = ')';
+   string[n-1] = 0; 
+
+
+   free(tmp);
+   return string; 
+}
+/* ---------------------------------------------------------- */
+
+
+
+
+
+/* Module global variables */
+static struct wfdisc w;
+
+struct point *SourcePolySL = (struct point *)NULL; 
+long NumSrcPolyPnts; 
+struct point *StationPolySL = (struct point *)NULL; 
+long NumStaPolyPnts; 
+struct point testPnt; 
+static long  maxLineLength; 
+
+
+
+int DoSrcCircleTrimSL()
+{
+   long *wfidList;
+   long MaxRows;
+   long Nout = 0;
+   long j;
+   float latC = GetSrcCircleLatCSL();
+   float lonC =  GetSrcCircleLonCSL();
+   float radius = GetSrcCircleRadiusSL();
+   float elat,elon;
+   float delt, dist, azim, bazim;
+
+   EXEC SQL BEGIN DECLARE SECTION;
+      long  wfid;
+      double lat; 
+      double lon;
+      varchar SQLstatement[100]; 
+   EXEC SQL END DECLARE SECTION;
+
+   InitializeSidString(); /* Make sure TheSid and TheDataBase are set. */
+
+   MaxRows = MAX_ROWS_IN_PRIMARY_QUERY;
+   wfidList = (long *) malloc(MaxRows * sizeof(long));
+
+   EXEC SQL AT :TheDataBase DECLARE SL4_CURSOR CURSOR FOR
+   SELECT WFID, OLAT, OLON FROM SAC_TMP_SEARCHLINK;
+   if(dbGetShowSQL()) 
+      dbPrintToDevice("\nSELECT WFID, OLAT, OLON FROM SAC_TMP_SEARCHLINK;\n");
+   EXEC SQL OPEN SL4_CURSOR;
+   while(1){
+      EXEC SQL FETCH SL4_CURSOR INTO :wfid, :lat, :lon; 
+
+      if( sqlca.sqlcode != 0 ) break;
+      elat = lat;
+      elon = lon;
+
+      dbDelaz(&latC, &lonC, &elat,&elon, &delt, &dist, &azim, &bazim);
+
+      if( dist > radius ){
+         wfidList[Nout++] = wfid;
+      }
+   }
+   if( sqlca.sqlcode < 0 ){
+      dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+      dbPrintToDevice("\nRoutine is: DoSrcCircleTrimSL\n ");
+      dbPrintToDevice("Statement is: SELECT WFID, OLAT, OLON FROM SAC_TMP_SEARCHLINK\n ");
+
+/*      EXEC SQL AT :TheDataBase ROLLBACK WORK; */
+      free(wfidList);
+      return 0;
+   }
+   EXEC SQL CLOSE SL4_CURSOR;
+   
+
+   if(!Nout){
+      free(wfidList);
+      return 1;
+   }
+
+/* Got to here so there are some rows to delete from sac_tmp_searchlink */
+   strcpy( (char *) SQLstatement.arr,
+                    "DELETE FROM SAC_TMP_SEARCHLINK WHERE WFID = :v1");
+   SQLstatement.len = strlen( (char *) SQLstatement.arr);
+   if(dbGetShowSQL()){
+      dbPrintToDevice((char *) SQLstatement.arr);
+      dbPrintToDevice("\n");
+   }
+    
+
+   EXEC SQL AT :TheDataBase DECLARE S1 STATEMENT;
+   EXEC SQL PREPARE S1 FROM :SQLstatement;
+
+   for(j=0;j<Nout;j++){
+      wfid = wfidList[j];
+      EXEC SQL EXECUTE S1 USING :wfid;
+      if( sqlca.sqlcode < 0 ){
+         dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+         dbPrintToDevice("\nRoutine is: DoSrcCircleTrimSL\n ");
+         dbPrintToDevice("Statement is: \n ");
+         dbPrintToDevice((char *) SQLstatement.arr);
+         dbPrintToDevice("\n ");
+         EXEC SQL AT :TheDataBase ROLLBACK WORK;
+         free(wfidList);
+         return 0;
+      }
+   }
+   EXEC SQL AT :TheDataBase COMMIT WORK;
+
+
+   free(wfidList);
+   return 1;
+}
+/* ------------------------------------------------------------------ */
+
+
+
+
+
+
+int RemoveOutsideSourcesSL()
+{
+   long *wfidList;
+   long MaxRows;
+   long Nout = 0;
+   long j;
+   EXEC SQL BEGIN DECLARE SECTION;
+      long  wfid;
+      double lat; 
+      double lon;
+      varchar SQLstatement[100]; 
+   EXEC SQL END DECLARE SECTION;
+
+   InitializeSidString(); /* Make sure TheSid and TheDataBase are set. */
+
+   MaxRows = MAX_ROWS_IN_PRIMARY_QUERY;
+   wfidList = (long *) malloc(MaxRows * sizeof(long));
+
+   EXEC SQL AT :TheDataBase DECLARE SL1_CURSOR CURSOR FOR
+   SELECT WFID, OLAT, OLON FROM SAC_TMP_SEARCHLINK;
+   if(dbGetShowSQL()) 
+      dbPrintToDevice("\nSELECT WFID, OLAT, OLON FROM SAC_TMP_SEARCHLINK;\n");
+   EXEC SQL OPEN SL1_CURSOR;
+   while(1){
+      EXEC SQL FETCH SL1_CURSOR INTO :wfid, :lat, :lon; 
+
+      if( sqlca.sqlcode != 0 ) break;
+      testPnt.x = lat;
+      testPnt.y = lon;
+      if( !inside( testPnt, SourcePolySL, NumSrcPolyPnts) ){
+         wfidList[Nout++] = wfid;
+      }
+   }
+   if( sqlca.sqlcode < 0 ){
+      dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+      dbPrintToDevice("\nRoutine is: RemoveOutsideSourcesSL\n ");
+      dbPrintToDevice("Statement is: SELECT WFID, OLAT, OLON FROM SAC_TMP_SEARCHLINK\n ");
+
+/*      EXEC SQL AT :TheDataBase ROLLBACK WORK; */
+      free(wfidList);
+      free(SourcePolySL);
+      SourcePolySL = 0;
+      return 0;
+   }
+   EXEC SQL CLOSE SL1_CURSOR;
+   free(SourcePolySL);
+   SourcePolySL = 0;
+   if(!Nout){
+      free(wfidList);
+      return 1;
+   }
+
+/* Got to here so there are some rows to delete from sac_tmp_searchlink */
+   strcpy( (char *) SQLstatement.arr,
+                    "DELETE FROM SAC_TMP_SEARCHLINK WHERE WFID = :v1");
+   SQLstatement.len = strlen( (char *) SQLstatement.arr);
+   if(dbGetShowSQL()){
+      dbPrintToDevice((char *) SQLstatement.arr);
+      dbPrintToDevice("\n");
+   }
+    
+
+   EXEC SQL AT :TheDataBase DECLARE S2 STATEMENT;
+   EXEC SQL PREPARE S2 FROM :SQLstatement;
+
+   for(j=0;j<Nout;j++){
+      wfid = wfidList[j];
+      EXEC SQL EXECUTE S2 USING :wfid;
+      if( sqlca.sqlcode < 0 ){
+         dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+         dbPrintToDevice("\nRoutine is: RemoveOutsideSourcesSL\n ");
+         dbPrintToDevice("Statement is: \n ");
+         dbPrintToDevice((char *) SQLstatement.arr);
+         dbPrintToDevice("\n ");
+         EXEC SQL AT :TheDataBase ROLLBACK WORK;
+         free(wfidList);
+         return 0;
+      }
+   }
+   EXEC SQL AT :TheDataBase COMMIT WORK;
+
+
+   free(wfidList);
+   return 1;
+}
+/* ------------------------------------------------------------------ */
+
+
+
+
+
+int RemoveOutsideStationsSL()
+{
+   long *wfidList;
+   long MaxRows;
+   long Nout = 0;
+   long j;
+   EXEC SQL BEGIN DECLARE SECTION;
+      long  wfid;
+      double slat; 
+      double slon;
+      varchar SQLstatement[100]; 
+   EXEC SQL END DECLARE SECTION;
+
+   InitializeSidString(); /* Make sure TheSid and TheDataBase are set. */
+
+   MaxRows = MAX_ROWS_IN_PRIMARY_QUERY;
+   wfidList = (long *) malloc(MaxRows * sizeof(long));
+
+   EXEC SQL AT :TheDataBase DECLARE SL3_CURSOR CURSOR FOR
+   SELECT WFID, SLAT, SLON FROM SAC_TMP_SEARCHLINK;
+   if(dbGetShowSQL()) 
+      dbPrintToDevice("\nSELECT WFID, SLAT, SLON FROM SAC_TMP_SEARCHLINK;\n");
+   EXEC SQL OPEN SL3_CURSOR;
+   while(1){
+      EXEC SQL FETCH SL3_CURSOR INTO :wfid, :slat, :slon; 
+
+      if( sqlca.sqlcode != 0 ) break;
+      testPnt.x = slat;
+      testPnt.y = slon;
+      if( !inside( testPnt, StationPolySL, NumStaPolyPnts) ){
+         wfidList[Nout++] = wfid;
+      }
+   }
+   if( sqlca.sqlcode < 0 ){
+      dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+      dbPrintToDevice("\nRoutine is: RemoveOutsideStationsSL\n ");
+      dbPrintToDevice("Statement is: SELECT WFID, SLAT, SLON FROM SAC_TMP_SEARCHLINK\n ");
+
+/*      EXEC SQL AT :TheDataBase ROLLBACK WORK; */
+      free(wfidList);
+      free(StationPolySL);
+      StationPolySL = 0;
+      return 0;
+   }
+   EXEC SQL CLOSE SL3_CURSOR;
+   
+   free(StationPolySL);
+   StationPolySL = 0;
+   if(!Nout){
+      free(wfidList);
+      return 1;
+   }
+
+/* Got to here so there are some rows to delete from sac_tmp_wfdisc */
+   strcpy( (char *) SQLstatement.arr,
+                    "DELETE FROM SAC_TMP_SEARCHLINK WHERE WFID = :v1");
+   SQLstatement.len = strlen( (char *) SQLstatement.arr);
+   if(dbGetShowSQL()){
+      dbPrintToDevice((char *) SQLstatement.arr);
+      dbPrintToDevice("\n");
+   }
+    
+
+   EXEC SQL AT :TheDataBase DECLARE S3 STATEMENT;
+   EXEC SQL PREPARE S3 FROM :SQLstatement;
+
+   for(j=0;j<Nout;j++){
+      wfid = wfidList[j];
+      EXEC SQL EXECUTE S3 USING :wfid;
+      if( sqlca.sqlcode < 0 ){
+         dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+         dbPrintToDevice("\nRoutine is: RemoveOutsideStationsSL\n ");
+         dbPrintToDevice("Statement is: \n ");
+         dbPrintToDevice((char *) SQLstatement.arr);
+         dbPrintToDevice("\n ");
+         EXEC SQL AT :TheDataBase ROLLBACK WORK;
+         free(wfidList);
+         return 0;
+      }
+   }
+   EXEC SQL AT :TheDataBase COMMIT WORK;
+
+
+   free(wfidList);
+   return 1;
+}
+/* ------------------------------------------------------------------ */
+
+
+
+
+
+
+
+void DropTmpTablesSL()
+{
+
+InitializeSidString(); /* Make sure TheSid and TheDataBase are set. */
+
+   EXEC SQL AT :TheDataBase DROP TABLE SAC_TMP_SEARCHLINK ; 
+   if( sqlca.sqlcode < 0 && sqlca.sqlcode != TAB_DNE)goto ERROR;
+
+   return;
+ERROR:
+   dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+   dbPrintToDevice("\nRoutine is: DropTmpTablesSL\n ");
+/*   EXEC SQL AT :TheDataBase ROLLBACK RELEASE; */
+   return;
+
+ }
+/* ---------------------------------------------------------- */
+
+
+
+
+void  MakeStaXYpolySL(void)
+{
+   int optionNum;
+   int j;
+   
+
+   optionNum = stabox;           
+
+   NumStaPolyPnts = numParams[optionNum] / 2;
+   StationPolySL = (struct point *) malloc( NumStaPolyPnts * sizeof(struct point) );
+   for(j=0;j< NumStaPolyPnts;j++){
+      StationPolySL[j].x = floatParams[optionNum][2*j];
+      StationPolySL[j].y = floatParams[optionNum][2*j +1];
+   }
+
+}
+/* --------------------------------------------------------------------------- */
+
+
+
+
+
+
+void  MakeSourceXYpolySL(void)
+{
+   int optionNum;
+   int j;
+   
+
+   optionNum = srcbox;         
+
+   NumSrcPolyPnts = numParams[optionNum] / 2;
+   SourcePolySL = (struct point *) malloc(NumSrcPolyPnts * sizeof(struct point) );
+   for(j=0;j< NumSrcPolyPnts;j++){
+      SourcePolySL[j].x = floatParams[optionNum][2*j];
+      SourcePolySL[j].y = floatParams[optionNum][2*j +1];
+   }
+
+}
+/* --------------------------------------------------------------------------- */
+
+
+
+
+
+
+int CreateTmpSearchlink(char *SQLstring)
+{
+   char prefix[] = "CREATE TABLE SAC_TMP_SEARCHLINK AS\n";
+   int prefixLen = strlen(prefix);
+   int StatementLen;
+
+   char *SQLstatement;
+
+InitializeSidString(); /* Make sure TheSid and TheDataBase are set. */
+
+   StatementLen = strlen(SQLstring);
+   SQLstatement = (char *) malloc((StatementLen + prefixLen + 2)
+                              * sizeof(char) );
+
+/*  Drop any pre-existing  SAC_TMP_SEARCHLINK table */
+    EXEC SQL AT :TheDataBase DROP TABLE SAC_TMP_SEARCHLINK;
+    if( sqlca.sqlcode < 0 && sqlca.sqlcode != TAB_DNE){
+       goto ERROR;
+    }
+
+   strcpy( (char *) SQLstatement, prefix);
+   strcat( (char *) SQLstatement, SQLstring);
+   if(dbGetShowSQL()){
+      dbPrintToDevice(SQLstatement);
+      dbPrintToDevice("\n");
+   }
+
+   EXEC SQL AT :TheDataBase EXECUTE IMMEDIATE :SQLstatement;
+    if( sqlca.sqlcode < 0){
+       goto ERROR;
+    }
+
+
+/* comment out the index stuff, if we should later decide that
+   we need indecies, we'll put them here. 
+   EXEC SQL AT :TheDataBase DROP INDEX IDX_WFID;
+    if( sqlca.sqlcode < 0 && sqlca.sqlcode != INDX_DNE){
+       goto ERROR;
+    }
+   EXEC SQL AT :TheDataBase CREATE INDEX IDX_WFID ON SAC_TMP_SEARCHLINK(WFID);
+    if( sqlca.sqlcode < 0){
+       goto ERROR;
+    }
+*/
+
+    free(SQLstatement);
+    EXEC SQL AT :TheDataBase COMMIT WORK;
+
+    return 1;
+
+
+ERROR:
+    dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+    dbPrintToDevice("\nRoutine is: CreateTmpSearchlink\n ");
+    dbPrintToDevice("SQL was:\n");
+    dbPrintToDevice(SQLstatement);
+    dbPrintToDevice("\n");
+    EXEC SQL AT :TheDataBase ROLLBACK WORK;
+    free(SQLstatement);
+    return 0;
+
+}
+/* ---------------------------------------------------------- */
+
+
+
+
+
+
+
+char *GetSiteSelectStringSL()
+{
+    char Body1[] = 
+      "SELECT /*+ RULE */ DISTINCT S.STA, S.ONDATE, S.OFFDATE, S.LAT, S.LON, S.ELEV,\n"
+      "S.STANAME, S.STATYPE, S.REFSTA, S.DNORTH, S.DEAST, S.LDDATE\n";
+    char Body2[] = 
+       "WHERE S.STA = SL.STA\n"
+       "AND SL.WFID = WF.WFID\n"
+       "AND WF.JDATE >=  S.ONDATE \n"
+       "AND (WF.JDATE <= S.OFFDATE OR S.OFFDATE < 0) ";
+
+    char *CompleteSelect;
+    char Body3[160];
+
+    sprintf( Body3 , "FROM %s S, SAC_TMP_SEARCHLINK SL, %s WF\n" ,
+             dbGetSiteTableName(), dbGetWfdiscTableName() ) ;
+       
+    CompleteSelect = (char *) malloc( strlen(Body1) + strlen(Body2) +
+                                      strlen(Body3) + 1);
+    strcpy(CompleteSelect,Body1);
+    strcat(CompleteSelect,Body3);                                      
+    strcat(CompleteSelect,Body2);
+       
+    return CompleteSelect;
+}    
+/* ---------------------------------------------------------- */
+
+
+
+
+
+
+
+
+static int ReadSiteSL(DBlist tree)
+{
+   char *CompleteSelect;
+   long StatementLen;
+   DBtable Site;
+   struct site *si;
+
+   EXEC SQL BEGIN DECLARE SECTION;
+      varchar sta[7]; 
+      long ondate; 
+      long offdate;
+      double lat;
+      double lon;
+      double elev; 
+      varchar staname[51];
+      varchar statype[5];
+      varchar refsta[7]; 
+      double dnorth; 
+      double deast; 
+      varchar lddate[18]; 
+      varchar *SQLstatement;
+   EXEC SQL END DECLARE SECTION;
+
+InitializeSidString(); /* Make sure TheSid and TheDataBase are set. */
+
+   if( !ObjectExists( dbGetSiteTableName() ) ) {
+      printf( "Site Table not found:  %s\n" , dbGetSiteTableName() ) ;
+      return 0;
+   }
+
+   CompleteSelect = GetSiteSelectStringSL();
+   StatementLen = strlen(CompleteSelect);
+   SQLstatement = (varchar *) malloc( StatementLen * sizeof(varchar) + 1);    
+   
+   strcpy( (char *) SQLstatement->arr, CompleteSelect);
+   SQLstatement->len = StatementLen;
+   if(dbGetShowSQL()){
+      dbPrintToDevice(CompleteSelect);
+      dbPrintToDevice("\n");
+   }
+   
+   EXEC SQL AT :TheDataBase DECLARE S4 STATEMENT;
+   EXEC SQL PREPARE S4 FROM :SQLstatement;
+   EXEC SQL DECLARE S_CURSOR CURSOR FOR S4;
+   EXEC SQL OPEN S_CURSOR;
+
+   while(1){
+      EXEC SQL FETCH S_CURSOR INTO :sta, :ondate, :offdate, :lat, :lon, :elev,
+                                    :staname, :statype, :refsta, :dnorth, 
+                                    :deast, :lddate; 
+
+      if( sqlca.sqlcode != 0 ) break;
+
+      sta.arr[sta.len]         = '\0';
+      staname.arr[staname.len] = '\0';
+      statype.arr[statype.len] = '\0';
+      refsta.arr[refsta.len]   = '\0';
+      lddate.arr[lddate.len]   = '\0';
+
+      Site = dblCreateTableInstance(tree,dbl_LIST_SITE);
+      si = ((struct siteList *) Site)->element;
+      strcpy(si->sta, (char *) sta.arr); si->ondate = ondate; si->offdate = offdate;
+      si->lat = lat; si->lon = lon; si->elev = elev;
+      strcpy(si->staname, (char *) staname.arr);
+      strcpy(si->statype, (char *) statype.arr);
+      strcpy(si->refsta, (char *) refsta.arr);
+      si->dnorth = dnorth; si->deast = deast;
+      strcpy(si->lddate, (char *) lddate.arr);
+            
+   }
+   if( sqlca.sqlcode < 0 ){
+      dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+      dbPrintToDevice("\nRoutine is: ReadSiteSL\n ");
+      dbPrintToDevice("SQL is:\n ");
+      dbPrintToDevice(CompleteSelect);
+      dbPrintToDevice("\n ");
+      EXEC SQL CLOSE S_CURSOR;
+      free(CompleteSelect);
+      free(SQLstatement);
+      return 0; 
+   }
+   
+   EXEC SQL CLOSE S_CURSOR;
+
+
+   free(CompleteSelect);
+   free(SQLstatement); 
+   return 1;
+ }
+/* ---------------------------------------------------------- */
+
+
+
+
+
+
+
+char *GetSitechanSelectStringSL()
+{
+    char Body1[] = 
+      "SELECT /*+ RULE */ DISTINCT SC.STA, SC.CHAN, SC.ONDATE, SC.CHANID, SC.OFFDATE,\n"
+      "SC.CTYPE, SC.EDEPTH, SC.HANG, SC.VANG, SC.DESCRIP, SC.LDDATE\n";
+
+    char Body2[] = 
+       "WHERE SC.STA = SL.STA\n"
+       "AND SC.CHAN = SL.CHAN\n"
+       "AND SL.WFID = WF.WFID\n"
+       "AND WF.JDATE >=  SC.ONDATE \n"
+       "AND (WF.JDATE <= SC.OFFDATE OR SC.OFFDATE < 0) ";
+
+    char *CompleteSelect;
+    char Body3[100];
+
+    sprintf(Body3, "FROM %s SC, SAC_TMP_SEARCHLINK SL, %s WF\n",
+            dbGetSitechanTableName() , dbGetWfdiscTableName() );
+       
+    CompleteSelect = (char *) malloc( strlen(Body1) + strlen(Body2) +
+                                      strlen(Body3) + 1 );
+    strcpy(CompleteSelect,Body1);
+    strcat(CompleteSelect,Body3);                                      
+    strcat(CompleteSelect,Body2);
+       
+    return CompleteSelect;
+}    
+/* ---------------------------------------------------------- */
+
+
+
+
+
+
+
+static int ReadSitechanSL(DBlist tree)
+{
+   DBtable SiteChan;
+   struct sitechan *sc;
+
+   char *CompleteSelect;
+   long StatementLen;
+
+   EXEC SQL BEGIN DECLARE SECTION;
+      varchar sta[7]; 
+      varchar chan[9]; 
+      long ondate; 
+      long chanid; 
+      long offdate; 
+      varchar ctype[5]; 
+      double edepth; 
+      double hang; 
+      double vang; 
+      varchar descrip[51]; 
+      varchar lddate[18]; 
+      varchar *SQLstatement;
+   EXEC SQL END DECLARE SECTION;
+
+InitializeSidString(); /* Make sure TheSid and TheDataBase are set. */
+
+   if( !ObjectExists( dbGetSitechanTableName() ) ) {
+      printf( "Sitechan Table not found:  %s\n" , dbGetSitechanTableName() ) ;
+      return 0;
+   }
+
+   CompleteSelect = GetSitechanSelectStringSL();
+   StatementLen = strlen(CompleteSelect);
+   SQLstatement = (varchar *) malloc( StatementLen * sizeof(varchar) + 1);    
+   
+   strcpy( (char *) SQLstatement->arr, CompleteSelect);
+   SQLstatement->len = StatementLen;
+   if(dbGetShowSQL()){
+      dbPrintToDevice(CompleteSelect);
+      dbPrintToDevice("\n");
+   }
+   
+   EXEC SQL AT :TheDataBase DECLARE S5 STATEMENT;
+   EXEC SQL PREPARE S5 FROM :SQLstatement;
+   EXEC SQL DECLARE SC_CURSOR CURSOR FOR S5;
+   EXEC SQL OPEN SC_CURSOR;
+
+   while(1){
+      EXEC SQL FETCH SC_CURSOR INTO :sta, :chan, :ondate, :chanid, :offdate, :ctype, 
+                                    :edepth, :hang, :vang, :descrip, :lddate; 
+ 
+      if( sqlca.sqlcode != 0 ) break;
+      sta.arr[sta.len] = '\0';
+      chan.arr[chan.len] = '\0';
+      ctype.arr[ctype.len] = '\0';
+      descrip.arr[descrip.len] = '\0';
+      lddate.arr[lddate.len] = '\0';
+      SiteChan = dblCreateTableInstance(tree,dbl_LIST_SITECHAN);
+      sc = ((struct sitechanList *) SiteChan)->element;
+      strcpy(sc->sta, (char *) sta.arr); strcpy(sc->chan, (char *) chan.arr);
+      sc->ondate = ondate; sc->chanid = chanid; sc->offdate = offdate;
+      strcpy(sc->ctype, (char *) ctype.arr); sc->edepth = edepth;
+      sc->hang = hang; sc->vang = vang; strcpy(sc->descrip, (char *) descrip.arr);
+      strcpy(sc->lddate, (char *) lddate.arr);
+   }
+   if( sqlca.sqlcode < 0 ){
+      dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+      dbPrintToDevice("\nRoutine is: ReadSitechanSL\n ");
+      dbPrintToDevice("SQL is:\n ");
+      dbPrintToDevice(CompleteSelect);
+      dbPrintToDevice("\n ");
+      EXEC SQL CLOSE SC_CURSOR;
+      free(CompleteSelect);
+      free(SQLstatement);
+      return 0;
+   }
+   
+   EXEC SQL CLOSE SC_CURSOR;
+
+
+   free(CompleteSelect);
+   free(SQLstatement);
+   return 1;
+ }
+/* ---------------------------------------------------------- */
+
+
+
+
+
+
+
+
+
+
+char *GetArrivalSelectStringSL()
+{
+    char Body1[] = 
+      "SELECT /*+ RULE */ DISTINCT \n"
+      "a.sta, a.time, a.arid, a.jdate, a.stassid, a.chanid, a.chan, a.iphase,\n"
+      "a.stype, a.deltim, a.azimuth, a.delaz, a.slow, a.delslo, a.ema, a.rect,\n"
+      "a.amp, a.per, a.logat, a.clip, a.fm, a.snr, a.qual, a.auth, a.commid, a.lddate, "
+      "sl.wfid\n";
+    char Body2[] = 
+      "WHERE A.ARID = WT.TAGID AND WT.TAGNAME = 'arid' AND WT.WFID = SL.WFID \n"; 
+    char * PhaseList;
+    char * AuthList;
+    char *CompleteSelect;
+    int inc1 , inc2;
+    char Body3[160];
+    inc1 = inc2 = 0;
+
+    PhaseList = GetPhaseListSL();
+    if(PhaseList) inc1 = strlen(PhaseList) + 16 ;
+
+    AuthList  = GetAuthListSL();
+    if(AuthList) inc2 = strlen(AuthList) + 23 ;
+    
+    sprintf( Body3 , "FROM %s A, %s WT, SAC_TMP_SEARCHLINK SL \n",
+             dbGetArrivalTableName() , dbGetWftagTableName() ) ;
+
+
+    CompleteSelect = (char *) malloc( strlen(Body1) + strlen(Body2) +
+                                      strlen(Body3) + inc1 + inc2 + 1 );
+    strcpy(CompleteSelect,Body1);
+    strcat(CompleteSelect,Body3);                                      
+    strcat(CompleteSelect,Body2);
+       
+    if(PhaseList){
+      strcat( CompleteSelect,"AND A.IPHASE IN\n");
+      strcat( CompleteSelect, PhaseList);
+    }
+   
+    if(AuthList){
+      strcat(CompleteSelect," AND UPPER( A.AUTH ) IN");
+      strcat(CompleteSelect,AuthList);
+    }
+      
+    if(PhaseList)free(PhaseList);
+    if(AuthList)free(AuthList);
+    return CompleteSelect;
+}    
+/* ---------------------------------------------------------- */
+
+
+
+
+
+
+static int  ReadArrivalsSL(DBlist tree)
+{
+   DBtable Arrival;
+   struct arrival *ar;
+
+   char *CompleteSelect;
+   long StatementLen;
+   struct wftagList   *wt;
+
+   EXEC SQL BEGIN DECLARE SECTION;
+      varchar sta[7];
+      double  time;
+      long    arid;
+      long    jdate;
+      long    stassid;
+      long    chanid;
+      varchar chan[9];
+      varchar iphase[9];
+      varchar stype[2];
+      double  deltim;
+      double  azimuth;
+      double  delaz;
+      double  slow;
+      double  delslo;
+      double  ema;
+      double  rect;
+      double  amp;
+      double  per;
+      double  logat;
+      varchar clip[2];
+      varchar fm[3];
+      double  snr;
+      varchar qual[2];
+      varchar auth[16];
+      long    commid;
+      varchar lddate[18];
+      long    wfid;
+      varchar *SQLstatement;
+   EXEC SQL END DECLARE SECTION;
+
+InitializeSidString(); /* Make sure TheSid and TheDataBase are set. */
+
+   if( !ObjectExists( dbGetArrivalTableName() ) ) {
+      printf( "Arrival Table not found:  %s\n" , dbGetArrivalTableName() ) ;
+      return 0;
+   }
+
+   
+   CompleteSelect = GetArrivalSelectStringSL();
+
+   StatementLen = strlen(CompleteSelect);
+   SQLstatement = (varchar *) malloc( StatementLen * sizeof(varchar) + 1);    
+   
+   strcpy( (char *) SQLstatement->arr, CompleteSelect);
+   SQLstatement->len = StatementLen;
+   if(dbGetShowSQL()){
+      dbPrintToDevice(CompleteSelect);
+      dbPrintToDevice("\n");
+   }
+   
+   EXEC SQL AT :TheDataBase DECLARE S6 STATEMENT;
+   EXEC SQL PREPARE S6 FROM :SQLstatement;
+   EXEC SQL DECLARE ARR_CURSOR CURSOR FOR S6;
+   EXEC SQL OPEN ARR_CURSOR;
+   
+   while(1){
+      EXEC SQL FETCH ARR_CURSOR INTO :sta, :time, :arid, :jdate, :stassid, :chanid,
+                                     :chan, :iphase, :stype, :deltim, :azimuth, :delaz, 
+                                     :slow, :delslo, :ema, :rect, :amp, :per, :logat, 
+                                     :clip, :fm, :snr, :qual, :auth, :commid, :lddate, :wfid; 
+      if( sqlca.sqlcode != 0 ) break;
+      sta.arr[sta.len] = '\0';
+      chan.arr[chan.len] = '\0';
+      iphase.arr[iphase.len] = '\0';
+      stype.arr[stype.len] = '\0';
+      clip.arr[clip.len] = '\0';
+      fm.arr[fm.len] = '\0';
+      qual.arr[qual.len] = '\0';
+      auth.arr[auth.len] = '\0';
+      lddate.arr[lddate.len] = '\0';
+
+      Arrival = dblCreateTableInstance(tree,dbl_LIST_ARRIVAL);
+      ar = ((struct arrivalList *) Arrival)->element;
+      strcpy(ar->sta, (char *) sta.arr); ar->time = time; ar->arid = arid;
+      ar->jdate = jdate; ar->stassid = stassid; ar->chanid = chanid;
+      strcpy(ar->chan, (char *) chan.arr); strcpy(ar->iphase, (char *) iphase.arr);
+      strcpy(ar->stype, (char *) stype.arr); ar->deltim = deltim;
+      ar->azimuth = azimuth; ar->delaz = delaz; ar->slow = slow;
+      ar->delslo = delslo; ar->ema = ema; ar->rect = rect; ar->amp = amp;
+      ar->per = per; ar->logat = logat; strcpy(ar->clip, (char *) clip.arr);
+      strcpy(ar->fm, (char *) fm.arr); ar->snr = snr; 
+      strcpy(ar->qual, (char *) qual.arr); strcpy(ar->auth, (char *) auth.arr);
+      ar->commid = commid; strcpy(ar->lddate, (char *) lddate.arr);
+
+   }
+   if( sqlca.sqlcode < 0 ){
+      dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+      dbPrintToDevice("\nRoutine is: ReadArrivalsSL\n ");
+      dbPrintToDevice("SQL is:\n ");
+      dbPrintToDevice(CompleteSelect);
+      dbPrintToDevice("\n ");
+      EXEC SQL CLOSE ARR_CURSOR;
+      free(CompleteSelect);
+      free(SQLstatement);
+      return 0;
+   }
+   
+   EXEC SQL CLOSE ARR_CURSOR;
+   free(CompleteSelect);
+   free(SQLstatement);
+   return 1;
+ }
+/* ---------------------------------------------------------- */
+
+
+
+
+
+
+
+static int ReadAssocSL(DBlist tree)
+{
+   DBtable Assoc;
+   struct assoc *as = 0 ;
+   struct arrivalList *ar = 0 ;
+   EXEC SQL BEGIN DECLARE SECTION;
+      long    arid;
+      long    orid;
+      varchar sta[7];
+      varchar phase[9];
+      double  belief;
+      double  delta;
+      double  seaz;
+      double  esaz;
+      double  timeres;
+      varchar timedef[2];
+      double  azres;
+      varchar azdef[2];
+      double  slores;
+      varchar slodef[2];
+      double  emares;
+      double  wgt;
+      varchar vmodel[16];
+      long    commid;
+      varchar lddate[18];
+      long    a ;
+      varchar SQLstatement[ 300 ];
+   EXEC SQL END DECLARE SECTION;
+   char fmt[] =
+   "SELECT /*+ RULE */ DISTINCT ARID, ORID, STA, PHASE, BELIEF, DELTA, SEAZ, ESAZ,\n"
+   "       TIMERES, TIMEDEF, AZRES, AZDEF, SLORES, SLODEF,\n"
+   "       EMARES, WGT, VMODEL, COMMID, LDDATE\n"
+   "       FROM %s\n"
+   "       WHERE ARID = :a               " ;
+
+InitializeSidString(); /* Make sure TheSid and TheDataBase are set. */
+
+   sprintf( (char *) SQLstatement.arr , fmt , dbGetAssocTableName() ) ; 
+
+   SQLstatement.len = strlen( (char *) SQLstatement.arr ) ;
+
+   EXEC SQL AT :TheDataBase DECLARE AS STATEMENT;
+   EXEC SQL PREPARE AS FROM :SQLstatement;
+   EXEC SQL DECLARE AS_CURSOR CURSOR FOR AS;
+
+   if(dbGetShowSQL()){
+      dbPrintToDevice( (char *) SQLstatement.arr );
+      dbPrintToDevice("\n");
+   }
+
+   while( 1 ) {
+      if( !( ar = (struct arrivalList *)
+             dblNextTableInstance( ar , tree , dbl_LIST_ARRIVAL ) ) )
+         break;
+
+      a = ar->element->arid ;
+      EXEC SQL OPEN AS_CURSOR USING :a ;
+
+      while(1) {
+         EXEC SQL FETCH AS_CURSOR INTO :arid, :orid, :sta, :phase, :belief,
+                                       :delta, :seaz, :esaz, :timeres,
+                                       :timedef, :azres, :azdef, :slores,
+                                       :slodef, :emares, :wgt, :vmodel,
+                                       :commid, :lddate;
+
+         if( sqlca.sqlcode != 0 ) break;
+         sta.arr[sta.len] = '\0';
+         phase.arr[phase.len] = '\0';
+         timedef.arr[timedef.len] = '\0';
+         azdef.arr[azdef.len] = '\0';
+         slodef.arr[slodef.len] = '\0';
+         vmodel.arr[vmodel.len] = '\0';
+         lddate.arr[lddate.len] = '\0';
+         Assoc = dblCreateTableInstance(tree,dbl_LIST_ASSOC);
+         as = ((struct assocList *) Assoc)->element;
+         as->arid = arid; as->orid = orid; strcpy(as->sta, (char *) sta.arr);
+         strcpy(as->phase, (char *) phase.arr); as->belief = belief;
+         as->delta = delta; as->seaz = seaz; as->esaz = esaz;
+         as->timeres = timeres; strcpy(as->timedef, (char *) timedef.arr);
+         as->azres = azres; strcpy(as->azdef, (char *) azdef.arr);
+         as->slores = slores; strcpy(as->slodef, (char *) slodef.arr);
+         as->emares = emares; as->wgt = wgt;
+         strcpy(as->vmodel, (char *) vmodel.arr);
+         as->commid = commid; strcpy(as->lddate, (char *) lddate.arr);
+      } /* end inner while */
+
+
+      if( sqlca.sqlcode < 0 ){
+         dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+         dbPrintToDevice("\nRoutine is: ReadAssocSL\n ");
+         dbPrintToDevice("SQL is:\n ");
+         dbPrintToDevice( (char *) SQLstatement.arr );
+         dbPrintToDevice("\n ");
+         EXEC SQL CLOSE AS_CURSOR;
+         return 0;
+      }
+
+      EXEC SQL CLOSE AS_CURSOR;
+   } /* end outer while */
+
+   return 1;
+
+ }
+/* ---------------------------------------------------------- */
+
+
+
+
+
+
+
+
+
+
+static int  ReadOriginSL(DBlist tree)
+{
+   DBtable origin;
+   struct origin *orig;
+
+   EXEC SQL BEGIN DECLARE SECTION;
+     double   lat;
+     double   lon;
+     double   depth;
+     double   time;
+     long     orid;
+     long     evid;
+     long     jdate;
+     long     nass;
+     long     ndef;
+     long     ndp;
+     long     grn;
+     long     srn;
+     varchar  etype[8];
+     double   depdp;
+     varchar  dtype[2];
+     double   mb;
+     long     mbid;
+     double   ms;
+     long     msid;
+     double   ml;
+     long     mlid;
+     varchar  algorithm[16];
+     varchar  auth[16];
+     long     commid;
+     varchar  lddate[18];
+     varchar  SQLstatement[ 500 ] ;
+
+   EXEC SQL END DECLARE SECTION;
+
+   char fmt[ 500 ] =
+   "SELECT /*+ RULE */ DISTINCT ORIG.LAT, ORIG.LON, ORIG.DEPTH, ORIG.TIME, ORIG.ORID, ORIG.EVID,\n"
+   "       ORIG.JDATE, ORIG.NASS, ORIG.NDEF, ORIG.NDP, ORIG.GRN, ORIG.SRN, \n"
+   "       ORIG.ETYPE, ORIG.DEPDP, ORIG.DTYPE, ORIG.MB, ORIG.MBID, ORIG.MS,\n"
+   "       ORIG.MSID, ORIG.ML, ORIG.MLID, ORIG.ALGORITHM, ORIG.AUTH, \n"
+   "       ORIG.COMMID, ORIG.LDDATE\n"
+   "FROM %s ORIG, SAC_TMP_SEARCHLINK SL\n"
+   "WHERE ORIG.ORID = SL.ORID" ;
+
+   sprintf( (char *)SQLstatement.arr , fmt , dbGetOriginTableName() ) ;
+   SQLstatement.len = strlen( (char *) SQLstatement.arr ) ;
+
+InitializeSidString(); /* Make sure TheSid and TheDataBase are set. */
+
+   EXEC SQL AT :TheDataBase DECLARE ORIG STATEMENT;
+   EXEC SQL PREPARE ORIG FROM :SQLstatement;
+   EXEC SQL DECLARE OR_CURSOR CURSOR FOR ORIG ;
+
+   if(dbGetShowSQL()){
+      dbPrintToDevice( (char *) SQLstatement.arr );
+      dbPrintToDevice("\n");
+   }
+
+   EXEC SQL OPEN OR_CURSOR;
+
+
+
+   while(1){
+      EXEC SQL FETCH OR_CURSOR INTO :lat, :lon, :depth, :time, :orid, :evid,
+                                    :jdate, :nass, :ndef, :ndp, :grn, :srn,
+                                    :etype, :depdp, :dtype, :mb, :mbid, :ms,
+                                    :msid, :ml, :mlid, :algorithm, :auth,
+                                    :commid, :lddate;
+
+      if( sqlca.sqlcode != 0 ) break;
+      etype.arr[etype.len] = '\0';
+      dtype.arr[dtype.len] = '\0';
+      algorithm.arr[algorithm.len] = '\0';
+      auth.arr[auth.len] = '\0';
+      lddate.arr[lddate.len] = '\0';
+
+      origin = dblCreateTableInstance(tree,dbl_LIST_ORIGIN);
+      orig = ((struct originList *) origin)->element;
+      orig->lat = lat; orig->lon = lon; orig->depth = depth; orig->time = time;
+      orig->orid = orid; orig->evid = evid; orig->jdate = jdate;
+      orig->nass = nass;
+      orig->ndef = ndef; orig->ndp = ndp; orig->grn = grn; orig->srn = srn;
+      strcpy(orig->etype, (char *) etype.arr); orig->depdp = depdp;
+      strcpy(orig->dtype, (char *) dtype.arr); orig->mb = mb; orig->mbid = mbid;
+      orig->ms = ms; orig->msid = msid; orig->ml = ml; orig->mlid = mlid;
+      strcpy(orig->algorithm, (char *) algorithm.arr);
+      strcpy(orig->auth, (char *) auth.arr); orig->commid = commid;
+      strcpy(orig->lddate, (char *) lddate.arr);
+
+
+   } /* end while */
+
+   if( sqlca.sqlcode < 0 ){
+      dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+      dbPrintToDevice("\nRoutine is: ReadOriginSL\n ");
+      dbPrintToDevice("SQL is:\n ");
+      dbPrintToDevice( (char *) SQLstatement.arr );
+      dbPrintToDevice("\n ");
+      EXEC SQL CLOSE OR_CURSOR;
+      return 0;
+   }
+
+   EXEC SQL CLOSE OR_CURSOR;
+   return 1;
+}
+/* --------------------------------------------------------------------------- */
+
+
+
+
+
+static int  ReadEventSL(DBlist tree)
+{
+   DBtable event;
+   struct event *ev;
+
+   EXEC SQL BEGIN DECLARE SECTION;
+     long     evid;
+     varchar  evname[16];
+     long     prefor ;
+     varchar  auth[16];
+     long     commid;
+     varchar  lddate[18];
+     varchar  SQLstatement[ 500 ] ;
+
+   EXEC SQL END DECLARE SECTION;
+
+   char fmt[ 470 ] =
+   "SELECT /*+ RULE */ DISTINCT EV.EVID, EV.EVNAME, EV.PREFOR, EV.AUTH, EV.COMMID, EV.LDDATE\n"
+   "FROM %s EV, SAC_TMP_SEARCHLINK SL\n"
+   "                                                            \n"
+   "WHERE EV.EVID = SL.EVID" ;
+
+InitializeSidString(); /* Make sure TheSid and TheDataBase are set. */
+
+   sprintf( (char *)SQLstatement.arr , fmt , dbGetEventTableName() ) ;
+   SQLstatement.len = strlen( (char *) SQLstatement.arr ) ;
+
+   EXEC SQL AT :TheDataBase DECLARE EV STATEMENT;
+   EXEC SQL PREPARE EV FROM :SQLstatement;
+   EXEC SQL DECLARE EV_CURSOR CURSOR FOR EV ;
+
+   if(dbGetShowSQL()){
+      dbPrintToDevice( (char *) SQLstatement.arr );
+      dbPrintToDevice("\n");
+   }
+
+   EXEC SQL OPEN EV_CURSOR;
+
+
+   while(1){
+      EXEC SQL FETCH EV_CURSOR INTO :evid, :evname, :prefor, 
+                                    :auth, :commid, :lddate;
+
+      if( sqlca.sqlcode != 0 ) break;
+      evname.arr[evname.len] = '\0';
+      auth.arr[auth.len] = '\0';
+      lddate.arr[lddate.len] = '\0';
+
+      event = dblCreateTableInstance(tree,dbl_LIST_EVENT);
+      ev = ((struct eventList *) event)->element;
+      ev->evid = evid;
+      strcpy(ev->evname, (char *) evname.arr);
+      ev->prefor = prefor ;
+      strcpy(ev->auth, (char *) auth.arr); ev->commid = commid;
+      ev->commid = commid ;
+      strcpy(ev->lddate, (char *) lddate.arr);
+
+   } /* end while */
+
+   if( sqlca.sqlcode < 0 ){
+      dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+      dbPrintToDevice("\nRoutine is: ReadEventSL\n ");
+      dbPrintToDevice("SQL is:\n ");
+      dbPrintToDevice( (char *) SQLstatement.arr );
+      dbPrintToDevice("\n ");
+      EXEC SQL CLOSE OR_CURSOR;
+      return 0;
+   }
+
+   EXEC SQL CLOSE EV_CURSOR;
+   return 1;
+}
+/* --------------------------------------------------------------------------- */
+
+
+
+
+
+
+
+long ReadWfdiscSL(DBlist tree, int SkipData)
+{
+   DBtable newWfdiscStruc;
+   long MaxRowsToRead;
+   long RowsRead = 0, lastWfid = -1 ;
+   char NrowString[20];
+   EXEC SQL BEGIN DECLARE SECTION;
+      varchar sta[8];
+      varchar chan[9];
+      double time;
+      long wfid;
+      long chanid;
+      long jdate;
+      double endtime;
+      long nsamp;
+      float samprate;
+      float calib;
+      float calper;
+      varchar instype[7];
+      varchar segtype[2];
+      varchar datatype[3];
+      varchar clip[2];
+      varchar dir[65];
+      varchar dfile[33];
+      long foff;
+      long commid;
+      varchar lddate[18];
+
+      varchar SQLstatement[ 410 ] ;
+   EXEC SQL END DECLARE SECTION;
+   long nlines = 0;
+   char fmt[] =
+   "SELECT /*+ RULE */ DISTINCT W.STA, W.CHAN, W.TIME, W.WFID, W.CHANID, W.JDATE, W.ENDTIME,\n"
+   "       W.NSAMP, W.SAMPRATE, W.CALIB, W.CALPER,  W.INSTYPE, W.SEGTYPE,\n"
+   "       W.DATATYPE, W.CLIP, W.DIR, W.DFILE, W.FOFF, W.COMMID, W.LDDATE\n"
+   "FROM %s W, SAC_TMP_SEARCHLINK SL\n"
+   "WHERE W.WFID = SL.WFID\n" 
+   "ORDER BY W.WFID" ;
+
+InitializeSidString(); /* Make sure TheSid and TheDataBase are set. */
+
+   sprintf( (char *) SQLstatement.arr , fmt , dbGetWfdiscTableName() ) ;
+   SQLstatement.len = strlen( (char *) SQLstatement.arr ) ;
+
+   EXEC SQL AT :TheDataBase DECLARE WF STATEMENT;
+   EXEC SQL PREPARE WF FROM :SQLstatement ;
+   EXEC SQL DECLARE WF_CURSOR CURSOR FOR WF ;
+   if(dbGetShowSQL()){
+      dbPrintToDevice( (char *) SQLstatement.arr );
+      dbPrintToDevice("\n");
+   }
+
+   EXEC SQL OPEN WF_CURSOR;
+   MaxRowsToRead = dbGetQueryMaxRows();
+   while(1){
+      EXEC SQL FETCH WF_CURSOR INTO :sta, :chan, :time, :wfid, :chanid,
+                                    :jdate, :endtime, :nsamp, :samprate,
+                                    :calib, :calper, :instype, :segtype,
+                                    :datatype, :clip, :dir, :dfile, :foff,
+                                    :commid, :lddate;
+
+      if( sqlca.sqlcode != 0 ) break;
+      if(++RowsRead > MaxRowsToRead)continue;
+      if( RowsRead == MaxRowsToRead ) lastWfid = wfid ;
+      sta.arr[sta.len] = '\0';
+      chan.arr[chan.len] = '\0';
+      instype.arr[instype.len] = '\0';
+      segtype.arr[segtype.len] = '\0';
+      datatype.arr[datatype.len] = '\0';
+      clip.arr[clip.len] = '\0';
+      dir.arr[dir.len] = '\0';
+      dfile.arr[dfile.len] = '\0';
+      lddate.arr[lddate.len] = '\0';
+      nlines++;
+      strcpy(w.sta,(char *) sta.arr);
+      strcpy(w.chan, (char *) chan.arr);
+      w.time = time; w.wfid = wfid; w.chanid = chanid; w.jdate = jdate;
+      w.endtime = endtime; w.nsamp = nsamp; w.samprate = samprate;
+      w.calib = calib; w.calper = calper;
+      strcpy(w.instype, (char *) instype.arr);
+      strcpy(w.segtype, (char *) segtype.arr);
+      strcpy(w.dattype, (char *) datatype.arr);
+      strcpy(w.clip, (char *) clip.arr);
+      strcpy(w.dir, (char *) dir.arr);
+      strcpy(w.dfile, (char *) dfile.arr);
+      w.foff = foff; w.commid = commid;
+      strcpy(w.lddate, (char *) lddate.arr);
+
+      newWfdiscStruc = dblCreateTableInstance(tree,dbl_LIST_WFDISC);
+      dblCopyTableElement(dbl_LIST_WFDISC,&w,newWfdiscStruc);
+      if(!SkipData){
+         if(! dblGetSeismograms( (struct wfdiscList*) newWfdiscStruc, 0, 0)){
+            dbPrintToDevice("Freeing wfdisc structure for unavailable data.\n");
+            dblDeleteTableInstance(dbl_LIST_WFDISC, tree, newWfdiscStruc);
+         }
+      }
+
+   }
+   if( sqlca.sqlcode < 0 ){
+      dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+      dbPrintToDevice("\nRoutine is: ReadWfdiscSL\n ");
+      dbPrintToDevice("SQL is:\n ");
+      dbPrintToDevice( (char *) SQLstatement.arr );
+      dbPrintToDevice("\n ");
+      sprintf(dbErrorString, "%s", sqlca.sqlerrm.sqlerrmc);
+      dblSetError(1, dbErrorString);
+      return 0;
+   }
+   if(RowsRead > nlines){
+      dbPrintToDevice("\nMAXROWS reached before query was completed.\n");
+      dbPrintToDevice("Without restriction ");
+      sprintf(NrowString,"%d",RowsRead);
+      dbPrintToDevice(NrowString);
+      dbPrintToDevice(" rows would have been returned.\n\n");
+   }
+
+   EXEC SQL CLOSE WF_CURSOR;
+
+   /* If SAC_TMP_SEARCHLINK has rows beyond MaxRowsToRead, delete them. */
+   if( lastWfid >= 0 ) {
+      char cmd[ 53 ] ;
+      sprintf( cmd , "DELETE FROM SAC_TMP_SEARCHLINK WHERE WFID > %d" ,
+               lastWfid ) ;
+
+      EXEC SQL AT :TheDataBase EXECUTE IMMEDIATE :cmd ;
+   }
+
+   return nlines;
+
+ }
+/* ---------------------------------------------------------- */
+
+
+
+
+
+/* prototype of function defined further down. */
+static char *GetDepthRestrictSQLstring(void) ;
+
+
+
+static int DropTmpTableRowsSL(void)
+{
+
+   EXEC SQL BEGIN DECLARE SECTION;
+      varchar *SQLstatement;
+   EXEC SQL END DECLARE SECTION;
+
+   char *string;
+   char statement2[] =
+   "DELETE FROM SAC_TMP_SEARCHLINK WHERE\n" 
+   "    WFID IN (SELECT WFID FROM TMP_DEPTH_DELETE_WFID);\n";
+
+InitializeSidString(); /* Make sure TheSid and TheDataBase are set. */
+
+   string = GetDepthRestrictSQLstring();
+   SQLstatement = (varchar *) malloc( (strlen(string) + 2) * sizeof(varchar) );
+   strcpy( (char *) SQLstatement->arr, string);
+   SQLstatement->len = strlen(string);
+
+   if(dbGetShowSQL()){
+      dbPrintToDevice(string);
+      dbPrintToDevice("\n");
+   }
+
+   EXEC SQL AT :TheDataBase DECLARE S7 STATEMENT;
+   EXEC SQL PREPARE S7 FROM :SQLstatement;
+   EXEC SQL EXECUTE S7;
+
+   if( sqlca.sqlcode < 0){
+     dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+     dbPrintToDevice("\nRoutine is: DropTmpTableRowsSL\n ");
+     dbPrintToDevice("SQL is:\n ");
+     dbPrintToDevice((char *) SQLstatement->arr);
+     dbPrintToDevice("\n ");
+     EXEC SQL AT :TheDataBase ROLLBACK WORK;
+     free(SQLstatement);
+     free(string);
+     return 0;
+   }
+   EXEC SQL AT :TheDataBase COMMIT WORK;
+   free(string);
+   free(SQLstatement);
+   
+   /* Now use the just-created table of wfids to remove rows from sac_tmp_wfdisc */
+   EXEC SQL AT :TheDataBase DELETE FROM SAC_TMP_SEARCHLINK WHERE WFID IN (SELECT WFID FROM TMP_DEPTH_DELETE_WFID);
+   if( sqlca.sqlcode < 0){
+     dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+     dbPrintToDevice("\nRoutine is: DropTmpTableRowsSL\n ");
+     dbPrintToDevice("SQL is:\n ");
+     dbPrintToDevice(statement2);
+     EXEC SQL AT :TheDataBase ROLLBACK WORK;
+     return 0;
+   }
+   EXEC SQL AT :TheDataBase COMMIT WORK;
+
+
+   EXEC SQL AT :TheDataBase DROP TABLE TMP_DELETE_WFID;
+   if( sqlca.sqlcode < 0){
+     dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+     dbPrintToDevice("\nRoutine is: DropTmpTableRowsSL\n ");
+     dbPrintToDevice("SQL is:\n ");
+     dbPrintToDevice("DROP TABLE TMP_DEPTH_DELETE_WFID\n");
+     EXEC SQL AT :TheDataBase ROLLBACK WORK;
+     return 0;
+   }
+   EXEC SQL AT :TheDataBase COMMIT WORK;
+   return 1;
+
+}
+/* ---------------------------------------------------------- */
+
+
+
+
+static char *GetQuadRestrictSQLstringSL(void)
+{
+   char *string;
+   int StrLen;
+   float MinBaz,MaxBaz;
+
+   char Body1[] = 
+   "CREATE TABLE TMP_QUAD_DELETE_WFID AS\n"
+   "   (SELECT WFID FROM\n"
+   "      (SELECT WFID, azimuth(slat, slon, olat, olon) DEGREES FROM\n";
+
+   char Body2[] =  
+   "         (SELECT DISTINCT wfid, slat, slon, olat, olon\n"  
+   "             from sac_tmp_searchlink ";
+
+   char Body3[] =
+   "    WHERE DEGREES < ";  
+   char Body4[] =
+   "    OR DEGREES > ";   
+   char Dmin[20];
+   char Dmax[20];
+
+   MinBaz = dbGetMinBazSL();
+   MaxBaz = dbGetMaxBazSL();
+
+   sprintf(Dmin,"%f",MinBaz);
+   sprintf(Dmax,"%f",MaxBaz);
+
+   StrLen = strlen(Body1) + strlen(Body2) + 
+            strlen(Body3) + strlen(Body4) + 60;
+   string = (char *) malloc(StrLen);
+   strcpy(string,Body1);
+   strcat(string,Body2);
+   strcat(string,Body3);
+   strcat(string,Dmin); 
+   strcat(string,"\n"); strcat(string, Body4);
+   strcat(string,Dmax); strcat(string," )");
+   return string;
+
+}
+/* ---------------------------------------------------------- */
+
+
+
+
+
+
+static char *GetDepthRestrictSQLstring(void)
+{
+   char *string;
+   int StrLen;
+   float MinDep,MaxDep;
+
+   char Body1[] =
+   "CREATE TABLE TMP_DEPTH_DELETE_WFID AS\n"
+   "   ( SELECT /*+ RULE */  WFID FROM\n"
+   "      (SELECT  /*+ RULE */ SL.WFID, SC.EDEPTH FROM SAC_TMP_SEARCHLINK SL, \n";
+
+   char Body2[] =
+   "    WHERE SC.EDEPTH < ";
+   char Body3[] =
+   "    OR SC.EDEPTH > ";
+   char Dmin[20];
+   char Dmax[20];
+
+   MinDep = dbGetMinDepSL();
+   MaxDep = dbGetMaxDepSL();
+
+   sprintf(Dmin,"%f",MinDep);
+   sprintf(Dmax,"%f",MaxDep);
+
+   StrLen = strlen(Body1) + strlen(Body2) + strlen(Body3) +
+            strlen(Dmin)  + strlen(Dmax ) + 70;
+   string = (char *) malloc(StrLen);
+
+   sprintf( string , "%s%s SC %s%s %s%s ) ) " , Body1, dbGetSitechanTableName() ,
+            Body2, Dmin, Body3, Dmax ) ;
+
+   return string;
+
+}
+/* ---------------------------------------------------------- */
+
+
+
+
+static int QuadrantDropTmpTableRowsSL(void)
+{
+
+   EXEC SQL BEGIN DECLARE SECTION;
+      varchar *SQLstatement;
+   EXEC SQL END DECLARE SECTION;
+
+   char *string;
+   char statement2[] =
+   "DELETE FROM SAC_TMP_SEARCHLINK WHERE\n" 
+   "    WFID IN (SELECT WFID FROM TMP_QUAD_DELETE_WFID);\n";
+
+InitializeSidString(); /* Make sure TheSid and TheDataBase are set. */
+
+   string = GetQuadRestrictSQLstringSL();
+   SQLstatement = (varchar *) malloc( (strlen(string) + 2) * sizeof(varchar) );
+   strcpy( (char *) SQLstatement->arr, string);
+   SQLstatement->len = strlen(string);
+
+   if(dbGetShowSQL()){
+      dbPrintToDevice(string);
+      dbPrintToDevice("\n");
+   }
+
+   EXEC SQL AT :TheDataBase DECLARE S8 STATEMENT;
+   EXEC SQL PREPARE S8 FROM :SQLstatement;
+   EXEC SQL EXECUTE S8;
+
+   if( sqlca.sqlcode < 0){
+     dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+     dbPrintToDevice("\nRoutine is: QuadrantDropTmpTableRowsSL\n ");
+     dbPrintToDevice("SQL is:\n ");
+     dbPrintToDevice((char *) SQLstatement->arr);
+     dbPrintToDevice("\n ");
+     EXEC SQL AT :TheDataBase ROLLBACK WORK;
+     free(SQLstatement);
+     free(string);
+     return 0;
+   }
+   EXEC SQL AT :TheDataBase COMMIT WORK;
+   free(string);
+   free(SQLstatement);
+   
+   /* Now use the just-created table of wfids to remove rows from sac_tmp_searchlink */
+   EXEC SQL AT :TheDataBase DELETE FROM SAC_TMP_SEARCHLINK WHERE WFID IN (SELECT WFID FROM TMP_QUAD_DELETE_WFID);
+   if( sqlca.sqlcode < 0){
+     dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+     dbPrintToDevice("\nRoutine is: QuadrantDropTmpTableRowsSL\n ");
+     dbPrintToDevice("SQL is:\n ");
+     dbPrintToDevice(statement2);
+     EXEC SQL AT :TheDataBase ROLLBACK WORK;
+     return 0;
+   }
+   EXEC SQL AT :TheDataBase COMMIT WORK;
+
+
+   EXEC SQL AT :TheDataBase DROP TABLE TMP_QUAD_DELETE_WFID;
+   if( sqlca.sqlcode < 0){
+     dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+     dbPrintToDevice("\nRoutine is: QuadrantDropTmpTableRowsSL\n ");
+     dbPrintToDevice("SQL is:\n ");
+     dbPrintToDevice("DROP TABLE TMP_QUAD_DELETE_WFID\n");
+     EXEC SQL AT :TheDataBase ROLLBACK WORK;
+     return 0;
+   }
+   EXEC SQL AT :TheDataBase COMMIT WORK;
+   return 1;
+
+}
+/* ---------------------------------------------------------- */
+
+
+static void ReadWftagSL( DBlist tree )
+{
+   char fmt[] = "SELECT /*+ RULE */ DISTINCT WT.TAGID, WT.TAGNAME, WT.WFID, WT.LDDATE\n"
+                "FROM %s WT, SAC_TMP_SEARCHLINK SL WHERE WT.WFID = SL.WFID " ;
+
+   DBtable wft ;
+   struct wftag *wt ;
+
+   EXEC SQL BEGIN DECLARE SECTION;
+      varchar tagname[ 9 ] ;
+      varchar lddate[ 18 ] ;
+      varchar SQLstatement[ 200 ] ;
+      long wfid ;
+      long tagid ;
+   EXEC SQL END DECLARE SECTION;
+
+InitializeSidString(); /* Make sure TheSid and TheDataBase are set. */
+
+   sprintf( (char *) SQLstatement.arr , fmt , dbGetWftagTableName() ) ;
+   SQLstatement.len = strlen( (char *) SQLstatement.arr ) ;
+
+   if(dbGetShowSQL()) {
+      dbPrintToDevice( (char *) SQLstatement.arr ) ;
+      dbPrintToDevice( ";\n" ) ;
+   }
+
+   EXEC SQL AT :TheDataBase DECLARE WT STATEMENT;
+   EXEC SQL PREPARE WT FROM :SQLstatement;
+   EXEC SQL DECLARE WT_CURSOR CURSOR FOR WT;
+   EXEC SQL OPEN WT_CURSOR;
+
+   while(1) {
+      EXEC SQL FETCH WT_CURSOR INTO :tagid, :tagname, :wfid, :lddate;
+      if( sqlca.sqlcode != 0 ) break;
+      
+      tagname.arr[ tagname.len ] = '\0' ;
+      lddate.arr [ lddate.len  ] = '\0' ;
+
+      wft = dblCreateTableInstance(tree, dbl_LIST_WFTAG);
+      wt = ( ( struct wftagList * ) wft)->element ;
+      strcpy(wt->tagname, (char *) tagname.arr );
+      wt->tagid = tagid ;
+      wt->wfid  = wfid ;
+      strcpy(wt->lddate, (char *) lddate.arr ) ;
+   }
+
+   if( sqlca.sqlcode < 0 ){
+      dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+      dbPrintToDevice("\nRoutine is: ReadWftagSL\n " );
+      dbPrintToDevice("Statement is: ");
+      dbPrintToDevice( (char *) SQLstatement.arr ) ;
+      dbPrintToDevice( "\n " ) ;
+
+/*      EXEC SQL AT :TheDataBase ROLLBACK WORK; */
+   }
+
+   EXEC SQL CLOSE WT_CURSOR;
+}
+/* ---------------------------------------------------------- */
+
+
+
+
+
+
+/* retrieve data from Oracle db  */
+int dbExecuteSearchlinkQuery(char *SQLstring,int SkipData, DBlist tree)
+{
+   long linesReturned = 0;
+   int WftagAvailable    = TRUE ,
+       OriginAvailable   = TRUE ,
+       EventAvailable    = TRUE ,
+       AssocAvailable    = TRUE ,
+       ArrivalAvailable  = TRUE ,
+       SiteAvailable     = TRUE ,
+       SitechanAvailable = TRUE ;
+   
+   /*ConnectToOracle(); */
+
+
+   if( !ObjectExists( dbGetWfdiscTableName() ) ) {
+      printf("Error: Query not supported because of missing WFDISC table!\n");
+      return 0;
+   }
+   if( !ObjectExists( dbGetWftagTableName() ) ) {
+      WftagAvailable = FALSE ;
+      printf("Warning: No wftag table found, event/arrival information may be lost.\n");
+   }
+   if( !ObjectExists( dbGetOriginTableName() ) ) {
+      OriginAvailable = FALSE ;
+      printf("Warning: No origin table found, origin information will not be read.\n" ) ;
+   }
+   if( !ObjectExists( dbGetEventTableName() ) ) {
+      EventAvailable = FALSE ;
+      printf("Warning: No event table found, event information will not be read.\n" ) ;
+   }
+   if( !ObjectExists( dbGetArrivalTableName() ) ) {
+      ArrivalAvailable = FALSE ;
+      printf("Warning: No arrival table found, arrival information will not be read.\n" ) ;
+   }
+   if( !ObjectExists( dbGetAssocTableName() ) ) {
+      AssocAvailable = FALSE ;
+      printf("Warning: No assoc table found, assoc information will be lost.\n" ) ;
+   }
+   if( !ObjectExists( dbGetSiteTableName() ) ) {
+      SiteAvailable = FALSE ;
+      printf("Warning: No site table found, site information will not be read.\n" ) ;
+   }
+   if( !ObjectExists( dbGetSitechanTableName() ) ) {
+      SitechanAvailable = FALSE ;
+      printf("Warning: No sitechan table found, channel information will not be read.\n" ) ;
+   }
+
+
+   if(!CreateTmpSearchlink(SQLstring) )goto EXIT;
+
+   if( dbRestrictionAppliedSL( SrcPolySL ) ){
+      MakeSourceXYpolySL();
+      if( !RemoveOutsideSourcesSL() ) goto EXIT;
+      free(SourcePolySL);
+   }
+
+   if( dbRestrictionAppliedSL( StaPolySL ) ){
+      MakeStaXYpolySL();
+      if( !RemoveOutsideStationsSL() ) goto EXIT; 
+      free(StationPolySL);
+   }
+
+   if( dbRestrictionAppliedSL( SrcCircleSL ) ){
+      if( !DoSrcCircleTrimSL() ) goto EXIT;
+   }
+
+   /* if( dbRestrictionAppliedSL( Edepth )){ */
+   if( useSiteChanRestrict ) {
+      if(!DropTmpTableRowsSL())goto EXIT;
+   }
+
+   linesReturned = ReadWfdiscSL( tree , SkipData ) ;
+
+   if( WftagAvailable )
+      ReadWftagSL( tree );
+   if( OriginAvailable )
+      ReadOriginSL( tree ) ;
+   if( EventAvailable ) 
+      ReadEventSL( tree ) ;
+   if( AssocAvailable )
+      ReadAssocSL( tree ) ;
+   if( ArrivalAvailable && WftagAvailable )
+      ReadArrivalsSL(tree) ; 
+   else
+      printf("Arrival information unavailable!\n");
+   if( SiteAvailable )
+      ReadSiteSL( tree ) ;
+   if( SitechanAvailable ) 
+      ReadSitechanSL( tree ) ;
+/*   linesReturned = ReadWfdiscSL( tree , SkipData ) ; */
+
+   dblTableOfContents(tree, stdout);
+
+EXIT:
+   DropTmpTablesSL();
+   /* DisconnectFromOracle(); */
+   return linesReturned;
+}
+/* --------------------------------------------------------------------------- */
+
+
+
+
+char *GetStationCoordSelectStringSL(const char *sta)
+{
+    char Body1[] = 
+      "SELECT LAT, LON FROM ";
+
+    char *CompleteSelect;
+    int inc;
+    char Body2[100];
+    inc = 0;
+
+    sprintf( Body2 , "%s WHERE STA = '%s'" , dbGetSiteTableName() , sta ) ;
+       
+    CompleteSelect = (char *) malloc( strlen(Body1) + strlen(Body2) + 1);
+    strcpy(CompleteSelect,Body1);
+    strcat(CompleteSelect,Body2);
+       
+    return CompleteSelect;
+}    
+/* ---------------------------------------------------------- */
+
+
+
+
+
+
+
+
+int ReadStationCoordsSL(const char *sta, float *lat, float *lon)
+{
+   char *CompleteSelect;
+   long StatementLen;
+
+   EXEC SQL BEGIN DECLARE SECTION;
+      double dlat;
+      double dlon;
+      varchar *SQLstatement;
+   EXEC SQL END DECLARE SECTION;
+
+InitializeSidString(); /* Make sure TheSid and TheDataBase are set. */
+
+   CompleteSelect = GetStationCoordSelectStringSL(sta);
+   StatementLen = strlen(CompleteSelect);
+   SQLstatement = (varchar *) malloc( (StatementLen + 1) * sizeof(varchar));    
+   
+   strcpy( (char *) SQLstatement->arr, CompleteSelect);
+   SQLstatement->len = StatementLen;
+   
+   EXEC SQL AT :TheDataBase DECLARE S9 STATEMENT;
+   EXEC SQL PREPARE S9 FROM :SQLstatement;
+   EXEC SQL DECLARE STA_CURSOR CURSOR FOR S9;
+   EXEC SQL OPEN STA_CURSOR;
+   EXEC SQL FETCH STA_CURSOR INTO  :dlat, :dlon;
+   *lat = dlat;
+   *lon = dlon; 
+   if( sqlca.sqlcode < 0 ){
+      dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+      dbPrintToDevice("\nRoutine is: ReadStationCoordsSL\n ");
+      dbPrintToDevice("SQL is:\n ");
+      dbPrintToDevice(CompleteSelect);
+      dbPrintToDevice("\n ");
+      return 0;
+   }
+   
+   EXEC SQL CLOSE STA_CURSOR;
+
+
+   free(CompleteSelect);
+   free(SQLstatement);
+   return 1; 
+
+ }
+/* ---------------------------------------------------------- */
+
+
+
+

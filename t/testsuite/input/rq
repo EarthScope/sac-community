@@ -1,0 +1,17 @@
+
+rq
+
+fg seismo
+fft
+lh depmin depmax depmen
+rq
+lh depmin depmax depmen
+
+fg seismo
+fft rlim
+lh depmin depmax depmen
+rq
+lh depmin depmax depmen
+
+fg seismo
+rq

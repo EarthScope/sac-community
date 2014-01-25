@@ -1,0 +1,11 @@
+fg seismogram
+lh depmin depmax depmen
+rmean
+lh depmin depmax depmen
+add 1000
+lh depmin depmax depmen
+add 1
+mul -1
+lh depmin depmax depmen
+rmean
+lh depmin depmax depmen

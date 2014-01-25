@@ -1,0 +1,59 @@
+m test_macro1.m First Second Third
+m test_macro1.m 1 2 3
+m test_macro1.m "One 1" "Two 2" "Three 3"
+
+m test_macro2.m files one two three values 1 2 3
+
+m test_macro3.m files one two three values 1 2 3
+m test_macro3.m files one two three 
+m test_macro3.m files 1 2 3
+m test_macro3.m
+m test_macro3.m values 1 2 3
+m test_macro3.m values one two three
+
+m x12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+fg seismo
+w test.macro0.sac
+mul 2
+w test.macro1.sac
+m test_macro4.m FILES test.macro1.sac test.macro0.sac VALUES 0.5 1.0
+m test_macro4.m FILES test.macro1.sac test.macro0.sac
+0.5 0.9
+
+fg seismo
+write test_macro.e
+write test_macro.n
+write test_macro.z
+m test_macro5.m COMPS e n z FILE test_macro
+fg seismo
+write hello.e
+write hello.n
+write hello.z
+m test_macro5.m COMPS e n z
+hello
+m test_macro5.m
+hello
+z e n
+
+
+m test_macro6.m
+
+m test_macro7.m
+2002.054.09.47.lhor2
+m test_macro7.m file 2002.054.09.47.lhor2
+m test_macro7.m FILE 2002.054.09.47.lhor2
+m test_macro7.m FILE 2002.054.09.47.lhor2 comps z n e
+m test_macro7.m FILE 2002.054.09.47.lhor2 COMPS z n e
+m test_macro7.m file 2002.054.09.47.lhor2 comps z n e
+m test_macro7.m file 2002.054.09.47.lhor2 COMPS z n e
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,54 @@
+wait text off
+fg impulse
+write test.impulse
+
+cuterr fatal
+cut -10 20
+read test.impulse
+lh b e
+
+cut 10 20
+read test.impulse
+lh b e
+
+cut 10 180
+read test.impulse
+lh b e
+
+cut -10 180
+read test.impulse
+lh b e
+
+cuterr usebe
+cut 10 20
+read test.impulse
+lh b e
+
+cut -10 20
+read test.impulse
+lh b e
+
+cut -10 180
+read test.impulse
+lh b e
+
+cut 50 180
+read test.impulse
+lh b e
+
+cuterr fillz
+cut 10 20
+read test.impulse
+lh b e
+
+cut -10 20
+read test.impulse
+lh b e
+
+cut -10 180
+read test.impulse
+lh b e
+
+cut 50 180
+read test.impulse
+lh b e

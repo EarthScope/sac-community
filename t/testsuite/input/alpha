@@ -1,0 +1,12 @@
+
+message "Test Read Alpha"
+fg impulse
+write alpha test.read.alpha
+read alpha test.read.alpha
+lh depmin depmax
+
+fg seismo
+write alpha test.read.alpha
+read alpha test.read.alpha
+lh depmin depmax
+

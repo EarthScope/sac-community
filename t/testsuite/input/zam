@@ -1,0 +1,8 @@
+am
+fg seismo
+am
+fft
+lh depmin depmax iftype npts
+am
+lh depmin depmax iftype npts
+

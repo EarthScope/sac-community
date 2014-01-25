@@ -1,0 +1,13 @@
+
+wiener
+
+fg seismo
+fft
+wiener
+
+fg seismo
+wiener window
+
+fg seismo
+wiener window 12 14
+

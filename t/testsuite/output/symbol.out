@@ -1,0 +1,69 @@
+ wait text off
+ fg seismo
+ symbol on
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ symbol 1
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ symbol 2
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ symbol 3
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ symbol 4
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ symbol 5
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ symbol 6
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ symbol 7
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ symbol 1 size 0.1
+ p1 ; pause period 0.25
+Pausing
+ symbol 1 size 0.01
+ p1 ; pause period 0.25
+Pausing
+ symbol 1 size 0.5
+ p1 ; pause period 0.25
+Pausing
+ symbol 1 size 0.02
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ symbol 1 spacing 0.1
+ p1 ; pause period 0.25
+Pausing
+ symbol 1 spacing 0.01
+ p1 ; pause period 0.25
+Pausing
+ symbol 1 spacing 0.5
+ p1 ; pause period 0.25
+Pausing
+ symbol 1 spacing 0.02
+ p1 ; pause period 0.25
+Pausing
+ quit

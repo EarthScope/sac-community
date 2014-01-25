@@ -1,0 +1,4126 @@
+ wait text off
+  
+ ==>  
+ m test_wild.m
+ mkdir test.wild.dir
+ cd test.wild.dir
+  
+ touch newfile
+  
+ do i = 0 , 400
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.0"
+ touching file test.wild.0
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.0
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.1"
+ touching file test.wild.1
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.1
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.2"
+ touching file test.wild.2
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.2
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.3"
+ touching file test.wild.3
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.3
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.4"
+ touching file test.wild.4
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.4
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.5"
+ touching file test.wild.5
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.5
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.6"
+ touching file test.wild.6
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.6
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.7"
+ touching file test.wild.7
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.7
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.8"
+ touching file test.wild.8
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.8
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.9"
+ touching file test.wild.9
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.9
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.10"
+ touching file test.wild.10
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.10
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.11"
+ touching file test.wild.11
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.11
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.12"
+ touching file test.wild.12
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.12
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.13"
+ touching file test.wild.13
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.13
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.14"
+ touching file test.wild.14
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.14
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.15"
+ touching file test.wild.15
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.15
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.16"
+ touching file test.wild.16
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.16
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.17"
+ touching file test.wild.17
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.17
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.18"
+ touching file test.wild.18
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.18
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.19"
+ touching file test.wild.19
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.19
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.20"
+ touching file test.wild.20
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.20
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.21"
+ touching file test.wild.21
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.21
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.22"
+ touching file test.wild.22
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.22
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.23"
+ touching file test.wild.23
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.23
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.24"
+ touching file test.wild.24
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.24
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.25"
+ touching file test.wild.25
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.25
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.26"
+ touching file test.wild.26
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.26
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.27"
+ touching file test.wild.27
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.27
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.28"
+ touching file test.wild.28
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.28
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.29"
+ touching file test.wild.29
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.29
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.30"
+ touching file test.wild.30
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.30
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.31"
+ touching file test.wild.31
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.31
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.32"
+ touching file test.wild.32
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.32
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.33"
+ touching file test.wild.33
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.33
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.34"
+ touching file test.wild.34
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.34
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.35"
+ touching file test.wild.35
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.35
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.36"
+ touching file test.wild.36
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.36
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.37"
+ touching file test.wild.37
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.37
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.38"
+ touching file test.wild.38
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.38
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.39"
+ touching file test.wild.39
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.39
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.40"
+ touching file test.wild.40
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.40
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.41"
+ touching file test.wild.41
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.41
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.42"
+ touching file test.wild.42
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.42
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.43"
+ touching file test.wild.43
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.43
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.44"
+ touching file test.wild.44
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.44
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.45"
+ touching file test.wild.45
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.45
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.46"
+ touching file test.wild.46
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.46
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.47"
+ touching file test.wild.47
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.47
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.48"
+ touching file test.wild.48
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.48
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.49"
+ touching file test.wild.49
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.49
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.50"
+ touching file test.wild.50
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.50
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.51"
+ touching file test.wild.51
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.51
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.52"
+ touching file test.wild.52
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.52
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.53"
+ touching file test.wild.53
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.53
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.54"
+ touching file test.wild.54
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.54
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.55"
+ touching file test.wild.55
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.55
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.56"
+ touching file test.wild.56
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.56
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.57"
+ touching file test.wild.57
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.57
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.58"
+ touching file test.wild.58
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.58
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.59"
+ touching file test.wild.59
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.59
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.60"
+ touching file test.wild.60
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.60
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.61"
+ touching file test.wild.61
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.61
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.62"
+ touching file test.wild.62
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.62
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.63"
+ touching file test.wild.63
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.63
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.64"
+ touching file test.wild.64
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.64
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.65"
+ touching file test.wild.65
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.65
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.66"
+ touching file test.wild.66
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.66
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.67"
+ touching file test.wild.67
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.67
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.68"
+ touching file test.wild.68
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.68
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.69"
+ touching file test.wild.69
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.69
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.70"
+ touching file test.wild.70
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.70
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.71"
+ touching file test.wild.71
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.71
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.72"
+ touching file test.wild.72
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.72
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.73"
+ touching file test.wild.73
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.73
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.74"
+ touching file test.wild.74
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.74
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.75"
+ touching file test.wild.75
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.75
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.76"
+ touching file test.wild.76
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.76
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.77"
+ touching file test.wild.77
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.77
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.78"
+ touching file test.wild.78
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.78
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.79"
+ touching file test.wild.79
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.79
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.80"
+ touching file test.wild.80
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.80
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.81"
+ touching file test.wild.81
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.81
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.82"
+ touching file test.wild.82
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.82
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.83"
+ touching file test.wild.83
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.83
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.84"
+ touching file test.wild.84
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.84
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.85"
+ touching file test.wild.85
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.85
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.86"
+ touching file test.wild.86
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.86
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.87"
+ touching file test.wild.87
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.87
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.88"
+ touching file test.wild.88
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.88
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.89"
+ touching file test.wild.89
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.89
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.90"
+ touching file test.wild.90
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.90
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.91"
+ touching file test.wild.91
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.91
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.92"
+ touching file test.wild.92
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.92
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.93"
+ touching file test.wild.93
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.93
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.94"
+ touching file test.wild.94
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.94
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.95"
+ touching file test.wild.95
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.95
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.96"
+ touching file test.wild.96
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.96
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.97"
+ touching file test.wild.97
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.97
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.98"
+ touching file test.wild.98
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.98
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.99"
+ touching file test.wild.99
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.99
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.100"
+ touching file test.wild.100
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.100
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.101"
+ touching file test.wild.101
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.101
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.102"
+ touching file test.wild.102
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.102
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.103"
+ touching file test.wild.103
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.103
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.104"
+ touching file test.wild.104
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.104
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.105"
+ touching file test.wild.105
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.105
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.106"
+ touching file test.wild.106
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.106
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.107"
+ touching file test.wild.107
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.107
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.108"
+ touching file test.wild.108
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.108
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.109"
+ touching file test.wild.109
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.109
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.110"
+ touching file test.wild.110
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.110
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.111"
+ touching file test.wild.111
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.111
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.112"
+ touching file test.wild.112
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.112
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.113"
+ touching file test.wild.113
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.113
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.114"
+ touching file test.wild.114
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.114
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.115"
+ touching file test.wild.115
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.115
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.116"
+ touching file test.wild.116
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.116
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.117"
+ touching file test.wild.117
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.117
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.118"
+ touching file test.wild.118
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.118
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.119"
+ touching file test.wild.119
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.119
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.120"
+ touching file test.wild.120
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.120
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.121"
+ touching file test.wild.121
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.121
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.122"
+ touching file test.wild.122
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.122
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.123"
+ touching file test.wild.123
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.123
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.124"
+ touching file test.wild.124
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.124
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.125"
+ touching file test.wild.125
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.125
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.126"
+ touching file test.wild.126
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.126
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.127"
+ touching file test.wild.127
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.127
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.128"
+ touching file test.wild.128
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.128
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.129"
+ touching file test.wild.129
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.129
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.130"
+ touching file test.wild.130
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.130
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.131"
+ touching file test.wild.131
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.131
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.132"
+ touching file test.wild.132
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.132
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.133"
+ touching file test.wild.133
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.133
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.134"
+ touching file test.wild.134
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.134
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.135"
+ touching file test.wild.135
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.135
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.136"
+ touching file test.wild.136
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.136
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.137"
+ touching file test.wild.137
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.137
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.138"
+ touching file test.wild.138
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.138
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.139"
+ touching file test.wild.139
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.139
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.140"
+ touching file test.wild.140
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.140
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.141"
+ touching file test.wild.141
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.141
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.142"
+ touching file test.wild.142
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.142
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.143"
+ touching file test.wild.143
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.143
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.144"
+ touching file test.wild.144
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.144
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.145"
+ touching file test.wild.145
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.145
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.146"
+ touching file test.wild.146
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.146
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.147"
+ touching file test.wild.147
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.147
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.148"
+ touching file test.wild.148
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.148
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.149"
+ touching file test.wild.149
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.149
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.150"
+ touching file test.wild.150
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.150
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.151"
+ touching file test.wild.151
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.151
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.152"
+ touching file test.wild.152
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.152
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.153"
+ touching file test.wild.153
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.153
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.154"
+ touching file test.wild.154
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.154
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.155"
+ touching file test.wild.155
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.155
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.156"
+ touching file test.wild.156
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.156
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.157"
+ touching file test.wild.157
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.157
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.158"
+ touching file test.wild.158
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.158
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.159"
+ touching file test.wild.159
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.159
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.160"
+ touching file test.wild.160
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.160
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.161"
+ touching file test.wild.161
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.161
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.162"
+ touching file test.wild.162
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.162
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.163"
+ touching file test.wild.163
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.163
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.164"
+ touching file test.wild.164
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.164
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.165"
+ touching file test.wild.165
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.165
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.166"
+ touching file test.wild.166
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.166
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.167"
+ touching file test.wild.167
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.167
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.168"
+ touching file test.wild.168
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.168
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.169"
+ touching file test.wild.169
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.169
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.170"
+ touching file test.wild.170
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.170
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.171"
+ touching file test.wild.171
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.171
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.172"
+ touching file test.wild.172
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.172
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.173"
+ touching file test.wild.173
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.173
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.174"
+ touching file test.wild.174
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.174
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.175"
+ touching file test.wild.175
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.175
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.176"
+ touching file test.wild.176
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.176
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.177"
+ touching file test.wild.177
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.177
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.178"
+ touching file test.wild.178
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.178
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.179"
+ touching file test.wild.179
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.179
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.180"
+ touching file test.wild.180
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.180
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.181"
+ touching file test.wild.181
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.181
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.182"
+ touching file test.wild.182
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.182
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.183"
+ touching file test.wild.183
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.183
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.184"
+ touching file test.wild.184
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.184
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.185"
+ touching file test.wild.185
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.185
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.186"
+ touching file test.wild.186
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.186
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.187"
+ touching file test.wild.187
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.187
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.188"
+ touching file test.wild.188
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.188
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.189"
+ touching file test.wild.189
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.189
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.190"
+ touching file test.wild.190
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.190
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.191"
+ touching file test.wild.191
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.191
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.192"
+ touching file test.wild.192
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.192
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.193"
+ touching file test.wild.193
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.193
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.194"
+ touching file test.wild.194
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.194
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.195"
+ touching file test.wild.195
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.195
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.196"
+ touching file test.wild.196
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.196
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.197"
+ touching file test.wild.197
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.197
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.198"
+ touching file test.wild.198
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.198
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.199"
+ touching file test.wild.199
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.199
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.200"
+ touching file test.wild.200
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.200
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.201"
+ touching file test.wild.201
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.201
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.202"
+ touching file test.wild.202
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.202
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.203"
+ touching file test.wild.203
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.203
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.204"
+ touching file test.wild.204
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.204
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.205"
+ touching file test.wild.205
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.205
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.206"
+ touching file test.wild.206
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.206
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.207"
+ touching file test.wild.207
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.207
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.208"
+ touching file test.wild.208
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.208
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.209"
+ touching file test.wild.209
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.209
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.210"
+ touching file test.wild.210
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.210
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.211"
+ touching file test.wild.211
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.211
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.212"
+ touching file test.wild.212
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.212
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.213"
+ touching file test.wild.213
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.213
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.214"
+ touching file test.wild.214
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.214
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.215"
+ touching file test.wild.215
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.215
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.216"
+ touching file test.wild.216
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.216
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.217"
+ touching file test.wild.217
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.217
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.218"
+ touching file test.wild.218
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.218
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.219"
+ touching file test.wild.219
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.219
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.220"
+ touching file test.wild.220
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.220
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.221"
+ touching file test.wild.221
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.221
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.222"
+ touching file test.wild.222
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.222
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.223"
+ touching file test.wild.223
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.223
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.224"
+ touching file test.wild.224
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.224
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.225"
+ touching file test.wild.225
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.225
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.226"
+ touching file test.wild.226
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.226
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.227"
+ touching file test.wild.227
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.227
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.228"
+ touching file test.wild.228
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.228
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.229"
+ touching file test.wild.229
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.229
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.230"
+ touching file test.wild.230
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.230
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.231"
+ touching file test.wild.231
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.231
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.232"
+ touching file test.wild.232
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.232
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.233"
+ touching file test.wild.233
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.233
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.234"
+ touching file test.wild.234
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.234
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.235"
+ touching file test.wild.235
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.235
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.236"
+ touching file test.wild.236
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.236
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.237"
+ touching file test.wild.237
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.237
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.238"
+ touching file test.wild.238
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.238
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.239"
+ touching file test.wild.239
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.239
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.240"
+ touching file test.wild.240
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.240
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.241"
+ touching file test.wild.241
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.241
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.242"
+ touching file test.wild.242
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.242
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.243"
+ touching file test.wild.243
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.243
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.244"
+ touching file test.wild.244
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.244
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.245"
+ touching file test.wild.245
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.245
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.246"
+ touching file test.wild.246
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.246
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.247"
+ touching file test.wild.247
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.247
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.248"
+ touching file test.wild.248
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.248
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.249"
+ touching file test.wild.249
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.249
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.250"
+ touching file test.wild.250
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.250
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.251"
+ touching file test.wild.251
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.251
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.252"
+ touching file test.wild.252
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.252
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.253"
+ touching file test.wild.253
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.253
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.254"
+ touching file test.wild.254
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.254
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.255"
+ touching file test.wild.255
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.255
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.256"
+ touching file test.wild.256
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.256
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.257"
+ touching file test.wild.257
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.257
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.258"
+ touching file test.wild.258
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.258
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.259"
+ touching file test.wild.259
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.259
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.260"
+ touching file test.wild.260
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.260
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.261"
+ touching file test.wild.261
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.261
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.262"
+ touching file test.wild.262
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.262
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.263"
+ touching file test.wild.263
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.263
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.264"
+ touching file test.wild.264
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.264
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.265"
+ touching file test.wild.265
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.265
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.266"
+ touching file test.wild.266
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.266
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.267"
+ touching file test.wild.267
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.267
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.268"
+ touching file test.wild.268
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.268
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.269"
+ touching file test.wild.269
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.269
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.270"
+ touching file test.wild.270
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.270
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.271"
+ touching file test.wild.271
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.271
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.272"
+ touching file test.wild.272
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.272
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.273"
+ touching file test.wild.273
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.273
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.274"
+ touching file test.wild.274
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.274
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.275"
+ touching file test.wild.275
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.275
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.276"
+ touching file test.wild.276
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.276
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.277"
+ touching file test.wild.277
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.277
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.278"
+ touching file test.wild.278
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.278
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.279"
+ touching file test.wild.279
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.279
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.280"
+ touching file test.wild.280
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.280
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.281"
+ touching file test.wild.281
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.281
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.282"
+ touching file test.wild.282
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.282
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.283"
+ touching file test.wild.283
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.283
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.284"
+ touching file test.wild.284
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.284
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.285"
+ touching file test.wild.285
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.285
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.286"
+ touching file test.wild.286
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.286
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.287"
+ touching file test.wild.287
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.287
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.288"
+ touching file test.wild.288
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.288
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.289"
+ touching file test.wild.289
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.289
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.290"
+ touching file test.wild.290
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.290
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.291"
+ touching file test.wild.291
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.291
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.292"
+ touching file test.wild.292
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.292
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.293"
+ touching file test.wild.293
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.293
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.294"
+ touching file test.wild.294
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.294
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.295"
+ touching file test.wild.295
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.295
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.296"
+ touching file test.wild.296
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.296
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.297"
+ touching file test.wild.297
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.297
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.298"
+ touching file test.wild.298
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.298
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.299"
+ touching file test.wild.299
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.299
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.300"
+ touching file test.wild.300
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.300
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.301"
+ touching file test.wild.301
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.301
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.302"
+ touching file test.wild.302
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.302
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.303"
+ touching file test.wild.303
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.303
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.304"
+ touching file test.wild.304
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.304
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.305"
+ touching file test.wild.305
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.305
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.306"
+ touching file test.wild.306
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.306
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.307"
+ touching file test.wild.307
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.307
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.308"
+ touching file test.wild.308
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.308
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.309"
+ touching file test.wild.309
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.309
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.310"
+ touching file test.wild.310
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.310
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.311"
+ touching file test.wild.311
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.311
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.312"
+ touching file test.wild.312
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.312
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.313"
+ touching file test.wild.313
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.313
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.314"
+ touching file test.wild.314
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.314
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.315"
+ touching file test.wild.315
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.315
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.316"
+ touching file test.wild.316
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.316
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.317"
+ touching file test.wild.317
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.317
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.318"
+ touching file test.wild.318
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.318
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.319"
+ touching file test.wild.319
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.319
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.320"
+ touching file test.wild.320
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.320
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.321"
+ touching file test.wild.321
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.321
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.322"
+ touching file test.wild.322
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.322
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.323"
+ touching file test.wild.323
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.323
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.324"
+ touching file test.wild.324
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.324
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.325"
+ touching file test.wild.325
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.325
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.326"
+ touching file test.wild.326
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.326
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.327"
+ touching file test.wild.327
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.327
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.328"
+ touching file test.wild.328
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.328
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.329"
+ touching file test.wild.329
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.329
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.330"
+ touching file test.wild.330
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.330
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.331"
+ touching file test.wild.331
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.331
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.332"
+ touching file test.wild.332
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.332
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.333"
+ touching file test.wild.333
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.333
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.334"
+ touching file test.wild.334
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.334
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.335"
+ touching file test.wild.335
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.335
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.336"
+ touching file test.wild.336
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.336
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.337"
+ touching file test.wild.337
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.337
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.338"
+ touching file test.wild.338
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.338
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.339"
+ touching file test.wild.339
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.339
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.340"
+ touching file test.wild.340
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.340
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.341"
+ touching file test.wild.341
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.341
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.342"
+ touching file test.wild.342
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.342
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.343"
+ touching file test.wild.343
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.343
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.344"
+ touching file test.wild.344
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.344
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.345"
+ touching file test.wild.345
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.345
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.346"
+ touching file test.wild.346
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.346
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.347"
+ touching file test.wild.347
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.347
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.348"
+ touching file test.wild.348
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.348
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.349"
+ touching file test.wild.349
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.349
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.350"
+ touching file test.wild.350
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.350
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.351"
+ touching file test.wild.351
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.351
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.352"
+ touching file test.wild.352
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.352
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.353"
+ touching file test.wild.353
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.353
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.354"
+ touching file test.wild.354
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.354
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.355"
+ touching file test.wild.355
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.355
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.356"
+ touching file test.wild.356
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.356
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.357"
+ touching file test.wild.357
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.357
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.358"
+ touching file test.wild.358
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.358
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.359"
+ touching file test.wild.359
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.359
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.360"
+ touching file test.wild.360
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.360
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.361"
+ touching file test.wild.361
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.361
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.362"
+ touching file test.wild.362
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.362
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.363"
+ touching file test.wild.363
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.363
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.364"
+ touching file test.wild.364
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.364
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.365"
+ touching file test.wild.365
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.365
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.366"
+ touching file test.wild.366
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.366
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.367"
+ touching file test.wild.367
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.367
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.368"
+ touching file test.wild.368
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.368
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.369"
+ touching file test.wild.369
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.369
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.370"
+ touching file test.wild.370
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.370
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.371"
+ touching file test.wild.371
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.371
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.372"
+ touching file test.wild.372
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.372
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.373"
+ touching file test.wild.373
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.373
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.374"
+ touching file test.wild.374
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.374
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.375"
+ touching file test.wild.375
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.375
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.376"
+ touching file test.wild.376
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.376
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.377"
+ touching file test.wild.377
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.377
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.378"
+ touching file test.wild.378
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.378
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.379"
+ touching file test.wild.379
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.379
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.380"
+ touching file test.wild.380
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.380
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.381"
+ touching file test.wild.381
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.381
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.382"
+ touching file test.wild.382
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.382
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.383"
+ touching file test.wild.383
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.383
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.384"
+ touching file test.wild.384
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.384
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.385"
+ touching file test.wild.385
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.385
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.386"
+ touching file test.wild.386
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.386
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.387"
+ touching file test.wild.387
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.387
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.388"
+ touching file test.wild.388
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.388
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.389"
+ touching file test.wild.389
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.389
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.390"
+ touching file test.wild.390
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.390
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.391"
+ touching file test.wild.391
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.391
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.392"
+ touching file test.wild.392
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.392
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.393"
+ touching file test.wild.393
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.393
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.394"
+ touching file test.wild.394
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.394
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.395"
+ touching file test.wild.395
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.395
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.396"
+ touching file test.wild.396
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.396
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.397"
+ touching file test.wild.397
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.397
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.398"
+ touching file test.wild.398
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.398
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.399"
+ touching file test.wild.399
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.399
+ enddo
+   message "touching file test.wild.$i$"
+ ==>  message "touching file test.wild.400"
+ touching file test.wild.400
+   systemcommand touch test.wild.$i
+ ==>  systemcommand touch test.wild.400
+ enddo
+  
+ ==>  
+ message "finding test.wild.*"
+ finding test.wild.*
+  
+ do file wild test.wild.*
+   message "found file: $file$"
+ ==>  message "found file: test.wild.0"
+ found file: test.wild.0
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.1"
+ found file: test.wild.1
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.10"
+ found file: test.wild.10
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.100"
+ found file: test.wild.100
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.101"
+ found file: test.wild.101
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.102"
+ found file: test.wild.102
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.103"
+ found file: test.wild.103
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.104"
+ found file: test.wild.104
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.105"
+ found file: test.wild.105
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.106"
+ found file: test.wild.106
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.107"
+ found file: test.wild.107
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.108"
+ found file: test.wild.108
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.109"
+ found file: test.wild.109
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.11"
+ found file: test.wild.11
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.110"
+ found file: test.wild.110
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.111"
+ found file: test.wild.111
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.112"
+ found file: test.wild.112
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.113"
+ found file: test.wild.113
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.114"
+ found file: test.wild.114
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.115"
+ found file: test.wild.115
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.116"
+ found file: test.wild.116
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.117"
+ found file: test.wild.117
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.118"
+ found file: test.wild.118
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.119"
+ found file: test.wild.119
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.12"
+ found file: test.wild.12
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.120"
+ found file: test.wild.120
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.121"
+ found file: test.wild.121
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.122"
+ found file: test.wild.122
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.123"
+ found file: test.wild.123
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.124"
+ found file: test.wild.124
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.125"
+ found file: test.wild.125
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.126"
+ found file: test.wild.126
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.127"
+ found file: test.wild.127
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.128"
+ found file: test.wild.128
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.129"
+ found file: test.wild.129
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.13"
+ found file: test.wild.13
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.130"
+ found file: test.wild.130
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.131"
+ found file: test.wild.131
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.132"
+ found file: test.wild.132
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.133"
+ found file: test.wild.133
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.134"
+ found file: test.wild.134
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.135"
+ found file: test.wild.135
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.136"
+ found file: test.wild.136
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.137"
+ found file: test.wild.137
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.138"
+ found file: test.wild.138
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.139"
+ found file: test.wild.139
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.14"
+ found file: test.wild.14
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.140"
+ found file: test.wild.140
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.141"
+ found file: test.wild.141
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.142"
+ found file: test.wild.142
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.143"
+ found file: test.wild.143
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.144"
+ found file: test.wild.144
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.145"
+ found file: test.wild.145
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.146"
+ found file: test.wild.146
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.147"
+ found file: test.wild.147
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.148"
+ found file: test.wild.148
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.149"
+ found file: test.wild.149
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.15"
+ found file: test.wild.15
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.150"
+ found file: test.wild.150
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.151"
+ found file: test.wild.151
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.152"
+ found file: test.wild.152
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.153"
+ found file: test.wild.153
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.154"
+ found file: test.wild.154
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.155"
+ found file: test.wild.155
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.156"
+ found file: test.wild.156
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.157"
+ found file: test.wild.157
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.158"
+ found file: test.wild.158
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.159"
+ found file: test.wild.159
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.16"
+ found file: test.wild.16
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.160"
+ found file: test.wild.160
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.161"
+ found file: test.wild.161
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.162"
+ found file: test.wild.162
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.163"
+ found file: test.wild.163
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.164"
+ found file: test.wild.164
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.165"
+ found file: test.wild.165
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.166"
+ found file: test.wild.166
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.167"
+ found file: test.wild.167
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.168"
+ found file: test.wild.168
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.169"
+ found file: test.wild.169
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.17"
+ found file: test.wild.17
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.170"
+ found file: test.wild.170
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.171"
+ found file: test.wild.171
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.172"
+ found file: test.wild.172
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.173"
+ found file: test.wild.173
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.174"
+ found file: test.wild.174
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.175"
+ found file: test.wild.175
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.176"
+ found file: test.wild.176
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.177"
+ found file: test.wild.177
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.178"
+ found file: test.wild.178
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.179"
+ found file: test.wild.179
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.18"
+ found file: test.wild.18
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.180"
+ found file: test.wild.180
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.181"
+ found file: test.wild.181
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.182"
+ found file: test.wild.182
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.183"
+ found file: test.wild.183
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.184"
+ found file: test.wild.184
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.185"
+ found file: test.wild.185
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.186"
+ found file: test.wild.186
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.187"
+ found file: test.wild.187
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.188"
+ found file: test.wild.188
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.189"
+ found file: test.wild.189
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.19"
+ found file: test.wild.19
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.190"
+ found file: test.wild.190
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.191"
+ found file: test.wild.191
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.192"
+ found file: test.wild.192
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.193"
+ found file: test.wild.193
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.194"
+ found file: test.wild.194
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.195"
+ found file: test.wild.195
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.196"
+ found file: test.wild.196
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.197"
+ found file: test.wild.197
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.198"
+ found file: test.wild.198
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.199"
+ found file: test.wild.199
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.2"
+ found file: test.wild.2
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.20"
+ found file: test.wild.20
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.200"
+ found file: test.wild.200
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.201"
+ found file: test.wild.201
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.202"
+ found file: test.wild.202
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.203"
+ found file: test.wild.203
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.204"
+ found file: test.wild.204
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.205"
+ found file: test.wild.205
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.206"
+ found file: test.wild.206
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.207"
+ found file: test.wild.207
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.208"
+ found file: test.wild.208
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.209"
+ found file: test.wild.209
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.21"
+ found file: test.wild.21
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.210"
+ found file: test.wild.210
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.211"
+ found file: test.wild.211
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.212"
+ found file: test.wild.212
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.213"
+ found file: test.wild.213
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.214"
+ found file: test.wild.214
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.215"
+ found file: test.wild.215
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.216"
+ found file: test.wild.216
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.217"
+ found file: test.wild.217
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.218"
+ found file: test.wild.218
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.219"
+ found file: test.wild.219
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.22"
+ found file: test.wild.22
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.220"
+ found file: test.wild.220
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.221"
+ found file: test.wild.221
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.222"
+ found file: test.wild.222
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.223"
+ found file: test.wild.223
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.224"
+ found file: test.wild.224
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.225"
+ found file: test.wild.225
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.226"
+ found file: test.wild.226
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.227"
+ found file: test.wild.227
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.228"
+ found file: test.wild.228
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.229"
+ found file: test.wild.229
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.23"
+ found file: test.wild.23
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.230"
+ found file: test.wild.230
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.231"
+ found file: test.wild.231
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.232"
+ found file: test.wild.232
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.233"
+ found file: test.wild.233
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.234"
+ found file: test.wild.234
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.235"
+ found file: test.wild.235
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.236"
+ found file: test.wild.236
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.237"
+ found file: test.wild.237
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.238"
+ found file: test.wild.238
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.239"
+ found file: test.wild.239
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.24"
+ found file: test.wild.24
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.240"
+ found file: test.wild.240
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.241"
+ found file: test.wild.241
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.242"
+ found file: test.wild.242
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.243"
+ found file: test.wild.243
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.244"
+ found file: test.wild.244
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.245"
+ found file: test.wild.245
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.246"
+ found file: test.wild.246
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.247"
+ found file: test.wild.247
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.248"
+ found file: test.wild.248
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.249"
+ found file: test.wild.249
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.25"
+ found file: test.wild.25
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.250"
+ found file: test.wild.250
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.251"
+ found file: test.wild.251
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.252"
+ found file: test.wild.252
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.253"
+ found file: test.wild.253
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.254"
+ found file: test.wild.254
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.255"
+ found file: test.wild.255
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.256"
+ found file: test.wild.256
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.257"
+ found file: test.wild.257
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.258"
+ found file: test.wild.258
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.259"
+ found file: test.wild.259
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.26"
+ found file: test.wild.26
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.260"
+ found file: test.wild.260
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.261"
+ found file: test.wild.261
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.262"
+ found file: test.wild.262
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.263"
+ found file: test.wild.263
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.264"
+ found file: test.wild.264
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.265"
+ found file: test.wild.265
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.266"
+ found file: test.wild.266
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.267"
+ found file: test.wild.267
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.268"
+ found file: test.wild.268
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.269"
+ found file: test.wild.269
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.27"
+ found file: test.wild.27
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.270"
+ found file: test.wild.270
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.271"
+ found file: test.wild.271
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.272"
+ found file: test.wild.272
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.273"
+ found file: test.wild.273
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.274"
+ found file: test.wild.274
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.275"
+ found file: test.wild.275
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.276"
+ found file: test.wild.276
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.277"
+ found file: test.wild.277
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.278"
+ found file: test.wild.278
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.279"
+ found file: test.wild.279
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.28"
+ found file: test.wild.28
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.280"
+ found file: test.wild.280
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.281"
+ found file: test.wild.281
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.282"
+ found file: test.wild.282
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.283"
+ found file: test.wild.283
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.284"
+ found file: test.wild.284
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.285"
+ found file: test.wild.285
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.286"
+ found file: test.wild.286
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.287"
+ found file: test.wild.287
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.288"
+ found file: test.wild.288
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.289"
+ found file: test.wild.289
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.29"
+ found file: test.wild.29
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.290"
+ found file: test.wild.290
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.291"
+ found file: test.wild.291
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.292"
+ found file: test.wild.292
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.293"
+ found file: test.wild.293
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.294"
+ found file: test.wild.294
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.295"
+ found file: test.wild.295
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.296"
+ found file: test.wild.296
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.297"
+ found file: test.wild.297
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.298"
+ found file: test.wild.298
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.299"
+ found file: test.wild.299
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.3"
+ found file: test.wild.3
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.30"
+ found file: test.wild.30
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.300"
+ found file: test.wild.300
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.301"
+ found file: test.wild.301
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.302"
+ found file: test.wild.302
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.303"
+ found file: test.wild.303
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.304"
+ found file: test.wild.304
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.305"
+ found file: test.wild.305
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.306"
+ found file: test.wild.306
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.307"
+ found file: test.wild.307
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.308"
+ found file: test.wild.308
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.309"
+ found file: test.wild.309
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.31"
+ found file: test.wild.31
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.310"
+ found file: test.wild.310
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.311"
+ found file: test.wild.311
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.312"
+ found file: test.wild.312
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.313"
+ found file: test.wild.313
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.314"
+ found file: test.wild.314
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.315"
+ found file: test.wild.315
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.316"
+ found file: test.wild.316
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.317"
+ found file: test.wild.317
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.318"
+ found file: test.wild.318
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.319"
+ found file: test.wild.319
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.32"
+ found file: test.wild.32
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.320"
+ found file: test.wild.320
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.321"
+ found file: test.wild.321
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.322"
+ found file: test.wild.322
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.323"
+ found file: test.wild.323
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.324"
+ found file: test.wild.324
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.325"
+ found file: test.wild.325
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.326"
+ found file: test.wild.326
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.327"
+ found file: test.wild.327
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.328"
+ found file: test.wild.328
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.329"
+ found file: test.wild.329
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.33"
+ found file: test.wild.33
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.330"
+ found file: test.wild.330
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.331"
+ found file: test.wild.331
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.332"
+ found file: test.wild.332
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.333"
+ found file: test.wild.333
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.334"
+ found file: test.wild.334
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.335"
+ found file: test.wild.335
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.336"
+ found file: test.wild.336
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.337"
+ found file: test.wild.337
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.338"
+ found file: test.wild.338
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.339"
+ found file: test.wild.339
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.34"
+ found file: test.wild.34
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.340"
+ found file: test.wild.340
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.341"
+ found file: test.wild.341
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.342"
+ found file: test.wild.342
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.343"
+ found file: test.wild.343
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.344"
+ found file: test.wild.344
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.345"
+ found file: test.wild.345
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.346"
+ found file: test.wild.346
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.347"
+ found file: test.wild.347
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.348"
+ found file: test.wild.348
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.349"
+ found file: test.wild.349
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.35"
+ found file: test.wild.35
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.350"
+ found file: test.wild.350
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.351"
+ found file: test.wild.351
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.352"
+ found file: test.wild.352
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.353"
+ found file: test.wild.353
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.354"
+ found file: test.wild.354
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.355"
+ found file: test.wild.355
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.356"
+ found file: test.wild.356
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.357"
+ found file: test.wild.357
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.358"
+ found file: test.wild.358
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.359"
+ found file: test.wild.359
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.36"
+ found file: test.wild.36
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.360"
+ found file: test.wild.360
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.361"
+ found file: test.wild.361
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.362"
+ found file: test.wild.362
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.363"
+ found file: test.wild.363
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.364"
+ found file: test.wild.364
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.365"
+ found file: test.wild.365
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.366"
+ found file: test.wild.366
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.367"
+ found file: test.wild.367
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.368"
+ found file: test.wild.368
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.369"
+ found file: test.wild.369
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.37"
+ found file: test.wild.37
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.370"
+ found file: test.wild.370
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.371"
+ found file: test.wild.371
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.372"
+ found file: test.wild.372
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.373"
+ found file: test.wild.373
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.374"
+ found file: test.wild.374
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.375"
+ found file: test.wild.375
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.376"
+ found file: test.wild.376
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.377"
+ found file: test.wild.377
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.378"
+ found file: test.wild.378
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.379"
+ found file: test.wild.379
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.38"
+ found file: test.wild.38
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.380"
+ found file: test.wild.380
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.381"
+ found file: test.wild.381
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.382"
+ found file: test.wild.382
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.383"
+ found file: test.wild.383
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.384"
+ found file: test.wild.384
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.385"
+ found file: test.wild.385
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.386"
+ found file: test.wild.386
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.387"
+ found file: test.wild.387
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.388"
+ found file: test.wild.388
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.389"
+ found file: test.wild.389
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.39"
+ found file: test.wild.39
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.390"
+ found file: test.wild.390
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.391"
+ found file: test.wild.391
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.392"
+ found file: test.wild.392
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.393"
+ found file: test.wild.393
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.394"
+ found file: test.wild.394
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.395"
+ found file: test.wild.395
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.396"
+ found file: test.wild.396
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.397"
+ found file: test.wild.397
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.398"
+ found file: test.wild.398
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.399"
+ found file: test.wild.399
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.4"
+ found file: test.wild.4
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.40"
+ found file: test.wild.40
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.400"
+ found file: test.wild.400
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.41"
+ found file: test.wild.41
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.42"
+ found file: test.wild.42
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.43"
+ found file: test.wild.43
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.44"
+ found file: test.wild.44
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.45"
+ found file: test.wild.45
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.46"
+ found file: test.wild.46
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.47"
+ found file: test.wild.47
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.48"
+ found file: test.wild.48
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.49"
+ found file: test.wild.49
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.5"
+ found file: test.wild.5
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.50"
+ found file: test.wild.50
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.51"
+ found file: test.wild.51
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.52"
+ found file: test.wild.52
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.53"
+ found file: test.wild.53
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.54"
+ found file: test.wild.54
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.55"
+ found file: test.wild.55
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.56"
+ found file: test.wild.56
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.57"
+ found file: test.wild.57
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.58"
+ found file: test.wild.58
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.59"
+ found file: test.wild.59
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.6"
+ found file: test.wild.6
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.60"
+ found file: test.wild.60
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.61"
+ found file: test.wild.61
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.62"
+ found file: test.wild.62
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.63"
+ found file: test.wild.63
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.64"
+ found file: test.wild.64
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.65"
+ found file: test.wild.65
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.66"
+ found file: test.wild.66
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.67"
+ found file: test.wild.67
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.68"
+ found file: test.wild.68
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.69"
+ found file: test.wild.69
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.7"
+ found file: test.wild.7
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.70"
+ found file: test.wild.70
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.71"
+ found file: test.wild.71
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.72"
+ found file: test.wild.72
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.73"
+ found file: test.wild.73
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.74"
+ found file: test.wild.74
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.75"
+ found file: test.wild.75
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.76"
+ found file: test.wild.76
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.77"
+ found file: test.wild.77
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.78"
+ found file: test.wild.78
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.79"
+ found file: test.wild.79
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.8"
+ found file: test.wild.8
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.80"
+ found file: test.wild.80
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.81"
+ found file: test.wild.81
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.82"
+ found file: test.wild.82
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.83"
+ found file: test.wild.83
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.84"
+ found file: test.wild.84
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.85"
+ found file: test.wild.85
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.86"
+ found file: test.wild.86
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.87"
+ found file: test.wild.87
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.88"
+ found file: test.wild.88
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.89"
+ found file: test.wild.89
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.9"
+ found file: test.wild.9
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.90"
+ found file: test.wild.90
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.91"
+ found file: test.wild.91
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.92"
+ found file: test.wild.92
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.93"
+ found file: test.wild.93
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.94"
+ found file: test.wild.94
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.95"
+ found file: test.wild.95
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.96"
+ found file: test.wild.96
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.97"
+ found file: test.wild.97
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.98"
+ found file: test.wild.98
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.99"
+ found file: test.wild.99
+ enddo
+  
+ cd ..
+  
+ do file wild test.wild.dir/test.wild.1
+   message "found file: $file$"
+ ==>  message "found file: test.wild.dir/test.wild.1"
+ found file: test.wild.dir/test.wild.1
+ enddo
+  
+ do file wild test.wild.dir/test.wild.?
+   message "found file: $file$"
+ ==>  message "found file: test.wild.dir/test.wild.0"
+ found file: test.wild.dir/test.wild.0
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.dir/test.wild.1"
+ found file: test.wild.dir/test.wild.1
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.dir/test.wild.2"
+ found file: test.wild.dir/test.wild.2
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.dir/test.wild.3"
+ found file: test.wild.dir/test.wild.3
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.dir/test.wild.4"
+ found file: test.wild.dir/test.wild.4
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.dir/test.wild.5"
+ found file: test.wild.dir/test.wild.5
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.dir/test.wild.6"
+ found file: test.wild.dir/test.wild.6
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.dir/test.wild.7"
+ found file: test.wild.dir/test.wild.7
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.dir/test.wild.8"
+ found file: test.wild.dir/test.wild.8
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.dir/test.wild.9"
+ found file: test.wild.dir/test.wild.9
+ enddo
+  
+ do file wild dir test.wild.dir test.wild.1
+   message "found file: $file$"
+ ==>  message "found file: test.wild.dir/test.wild.1"
+ found file: test.wild.dir/test.wild.1
+ enddo
+  
+ do file wild dir test.wild.dir test.wild.?
+   message "found file: $file$"
+ ==>  message "found file: test.wild.dir/test.wild.0"
+ found file: test.wild.dir/test.wild.0
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.dir/test.wild.1"
+ found file: test.wild.dir/test.wild.1
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.dir/test.wild.2"
+ found file: test.wild.dir/test.wild.2
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.dir/test.wild.3"
+ found file: test.wild.dir/test.wild.3
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.dir/test.wild.4"
+ found file: test.wild.dir/test.wild.4
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.dir/test.wild.5"
+ found file: test.wild.dir/test.wild.5
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.dir/test.wild.6"
+ found file: test.wild.dir/test.wild.6
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.dir/test.wild.7"
+ found file: test.wild.dir/test.wild.7
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.dir/test.wild.8"
+ found file: test.wild.dir/test.wild.8
+ enddo
+   message "found file: $file$"
+ ==>  message "found file: test.wild.dir/test.wild.9"
+ found file: test.wild.dir/test.wild.9
+ enddo
+  
+ quit

@@ -1,0 +1,33 @@
+fg seismo
+
+p1 ; pause period 0.25
+
+border on
+p1 ; pause period 0.25
+
+border off
+p1 ; pause period 0.25
+
+border on
+p1 ; pause period 0.25
+
+ticks off all
+border on
+p1 ; pause period 0.25
+
+border off
+p1 ; pause period 0.25
+
+border on
+p1 ; pause period 0.25
+
+axes off all
+axes on top
+border on
+p1 ; pause period 0.25
+
+border off
+p1 ; pause period 0.25
+
+border on
+p1 ; pause period 0.25

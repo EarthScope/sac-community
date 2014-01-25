@@ -1,0 +1,9 @@
+
+fg seismo
+p1 ; pause period 0.25
+ylim -2 0
+p1 ; pause period 0.25
+ylim 0 2
+p1 ; pause period 0.25
+ylim 2 3
+p1 ; pause period 0.25

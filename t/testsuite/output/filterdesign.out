@@ -1,0 +1,212 @@
+ wait text off
+  
+ ==>  
+ fd file test_fd hp c 2 n 6 p 2 delta 0.025
+ pause period 0.25
+Pausing
+ read test_fd.spec
+ lh depmin depmax depmen iftype b e delta
+  
+  
+  FILE: test_fd.spec - 1
+ ------------------
+
+     depmin = 0.000000e+00
+     depmax = 1.000000e+00
+     depmen = 9.089078e-01
+     iftype = SPECTRAL FILE-AMPL/PHASE
+          b = 0.000000e+00
+          e = 3.996000e+01
+      delta = 4.000000e-02
+ psp am ; period pause 0.25
+ psp ph ; period pause 0.25
+ read test_fd.imp
+ lh
+  
+  
+  FILE: test_fd.imp - 1
+ -----------------
+
+     depmin = -6.589465e-01
+     depmax = 5.432976e-01
+     depmen = -4.204802e-09
+     iftype = TIME SERIES FILE
+          b = 0.000000e+00
+          e = 4.525000e+00
+      delta = 2.500000e-02
+ read test_fd.gd
+ lh
+  
+  
+  FILE: test_fd.gd - 1
+ ----------------
+
+     depmin = 7.649384e-03
+     depmax = 5.235059e-01
+     depmen = 7.516216e-02
+     iftype = TIME SERIES FILE
+          b = 0.000000e+00
+          e = 3.992016e+01
+      delta = 7.984032e-02
+  
+ ==>  
+ fd file test_fd lp c 10 n 6 p 2 delta 0.025
+ pause period 0.25
+Pausing
+ read test_fd.spec
+ lh depmin depmax depmen iftype b e delta
+  
+  
+  FILE: test_fd.spec - 1
+ ------------------
+
+     depmin = 0.000000e+00
+     depmax = 1.000000e+00
+     depmen = 5.355649e-01
+     iftype = SPECTRAL FILE-AMPL/PHASE
+          b = 0.000000e+00
+          e = 3.996000e+01
+      delta = 4.000000e-02
+ psp am ; period pause 0.25
+ psp ph ; period pause 0.25
+ read test_fd.imp
+ lh
+  
+  
+  FILE: test_fd.imp - 1
+ -----------------
+
+     depmin = -1.955854e-01
+     depmax = 4.537006e-01
+     depmen = 1.010101e-02
+     iftype = TIME SERIES FILE
+          b = 0.000000e+00
+          e = 2.450000e+00
+      delta = 2.500000e-02
+ read test_fd.gd
+ lh
+  
+  
+  FILE: test_fd.gd - 1
+ ----------------
+
+     depmin = 4.826996e-02
+     depmax = 1.578298e-01
+     depmen = 7.494696e-02
+     iftype = TIME SERIES FILE
+          b = 0.000000e+00
+          e = 3.992016e+01
+      delta = 7.984032e-02
+  
+ ==>  
+ fd file test_fd br c 2 10 n 6 p 2 delta 0.025
+ pause period 0.25
+Pausing
+ read test_fd.spec
+ lh depmin depmax depmen iftype b e delta
+  
+  
+  FILE: test_fd.spec - 1
+ ------------------
+
+     depmin = 2.883851e-15
+     depmax = 1.000000e+00
+     depmen = 6.315100e-01
+     iftype = SPECTRAL FILE-AMPL/PHASE
+          b = 0.000000e+00
+          e = 3.996000e+01
+      delta = 4.000000e-02
+ psp am ; period pause 0.25
+ psp ph ; period pause 0.25
+ read test_fd.imp
+ lh
+  
+  
+  FILE: test_fd.imp - 1
+ -----------------
+
+     depmin = -3.640383e-01
+     depmax = 4.546449e-01
+     depmen = 3.366998e-03
+     iftype = TIME SERIES FILE
+          b = 0.000000e+00
+          e = 7.400000e+00
+      delta = 2.500000e-02
+ read test_fd.gd
+ lh
+  
+  
+  FILE: test_fd.gd - 1
+ ----------------
+
+     depmin = 4.064691e-02
+     depmax = 7.029846e-01
+     depmen = 1.499983e-01
+     iftype = TIME SERIES FILE
+          b = 0.000000e+00
+          e = 3.992016e+01
+      delta = 7.984032e-02
+  
+ ==>  
+ fd file test_fd bp c 2 10 n 6 p 2 delta 0.025
+ pause period 0.25
+Pausing
+ read test_fd.spec
+ lh depmin depmax depmen iftype b e delta
+  
+  
+  FILE: test_fd.spec - 1
+ ------------------
+
+     depmin = 0.000000e+00
+     depmax = 1.000000e+00
+     depmen = 4.365077e-01
+     iftype = SPECTRAL FILE-AMPL/PHASE
+          b = 0.000000e+00
+          e = 3.996000e+01
+      delta = 4.000000e-02
+ psp am ; period pause 0.25
+ psp ph ; period pause 0.25
+ read test_fd.imp
+ lh
+  
+  
+  FILE: test_fd.imp - 1
+ -----------------
+
+     depmin = -2.835320e-01
+     depmax = 3.455756e-01
+     depmen = 7.906288e-11
+     iftype = TIME SERIES FILE
+          b = 0.000000e+00
+          e = 6.775000e+00
+      delta = 2.500000e-02
+ read test_fd.gd
+ lh
+  
+  
+  FILE: test_fd.gd - 1
+ ----------------
+
+     depmin = 4.056462e-02
+     depmax = 7.029846e-01
+     depmen = 1.502966e-01
+     iftype = TIME SERIES FILE
+          b = 0.000000e+00
+          e = 3.992016e+01
+      delta = 7.984032e-02
+  
+ ==>  
+ fd bp illegal
+ ERROR interpreting command:  fd bp illegal 
+ ILLEGAL OPTION:                    ^
+ fd hp illegal
+ ERROR interpreting command:  fd hp illegal 
+ ILLEGAL OPTION:                    ^
+ fd lp illegal
+ ERROR interpreting command:  fd lp illegal 
+ ILLEGAL OPTION:                    ^
+ fd br illegal
+ ERROR interpreting command:  fd br illegal 
+ ILLEGAL OPTION:                    ^
+ quit

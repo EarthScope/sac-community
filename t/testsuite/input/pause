@@ -1,0 +1,14 @@
+
+pause
+pause period off
+
+pause period 5
+
+pause message "Pause Message" period 1
+pause message "Pause Message" period off
+pause message "Pause Message" period on
+
+pause period string
+
+
+

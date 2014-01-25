@@ -1,0 +1,1035 @@
+ wait text off
+  
+ ==>  
+ fg seismo
+ write alpha test.alpha.1
+ read alpha test.alpha.1
+  
+ ==>  
+ read alpha test.alpha.2
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ read alpha
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 17 "12345678901234567890" )
+ ==>  ch kevnm 12345678901234567
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm = 1234567890123456
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 1234567890123456
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 16 "12345678901234567890" )
+ ==>  ch kevnm 1234567890123456
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm = 1234567890123456
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 1234567890123456
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 15 "12345678901234567890" )
+ ==>  ch kevnm 123456789012345
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm = 123456789012345
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 123456789012345
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 14 "12345678901234567890" )
+ ==>  ch kevnm 12345678901234
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm = 12345678901234
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 12345678901234
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 13 "12345678901234567890" )
+ ==>  ch kevnm 1234567890123
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm = 1234567890123
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 1234567890123
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 12 "12345678901234567890" )
+ ==>  ch kevnm 123456789012
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm = 123456789012
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 123456789012
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 11 "12345678901234567890" )
+ ==>  ch kevnm 12345678901
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm = 12345678901
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 12345678901
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 10 "12345678901234567890" )
+ ==>  ch kevnm 1234567890
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm = 1234567890
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 1234567890
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 9 "12345678901234567890" )
+ ==>  ch kevnm 123456789
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm = 123456789
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 123456789
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 8 "12345678901234567890" )
+ ==>  ch kevnm 12345678
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm = 12345678
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 12345678
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 7 "12345678901234567890" )
+ ==>  ch kevnm 1234567
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm = 1234567
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 1234567
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 6 "12345678901234567890" )
+ ==>  ch kevnm 123456
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm = 123456
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 123456
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 5 "12345678901234567890" )
+ ==>  ch kevnm 12345
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm = 12345
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 12345
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 4 "12345678901234567890" )
+ ==>  ch kevnm 1234
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm = 1234
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 1234
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 3 "12345678901234567890" )
+ ==>  ch kevnm 123
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm = 123
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 123
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 2 "12345678901234567890" )
+ ==>  ch kevnm 12
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm = 12
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 12
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 1 "12345678901234567890" )
+ ==>  ch kevnm 1
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm = 1
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 1
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 16 "12345678901234567890" )
+ ==>  ch kevnm 1234567890123456
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm = 1234567890123456
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 1234567890123456
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 16 " 2345678901234567890" )
+ ==>  ch kevnm  234567890123456
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm =  234567890123456
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm =  234567890123456
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 16 "  345678901234567890" )
+ ==>  ch kevnm   34567890123456
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm =   34567890123456
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm =   34567890123456
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 16 "   45678901234567890" )
+ ==>  ch kevnm    4567890123456
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm =    4567890123456
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm =    4567890123456
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 16 "    5678901234567890" )
+ ==>  ch kevnm     567890123456
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm =     567890123456
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm =     567890123456
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 16 "     678901234567890" )
+ ==>  ch kevnm      67890123456
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm =      67890123456
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm =      67890123456
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 16 "      78901234567890" )
+ ==>  ch kevnm       7890123456
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm =       7890123456
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm =       7890123456
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 16 "       8901234567890" )
+ ==>  ch kevnm        890123456
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm =        890123456
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm =        890123456
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 16 "        901234567890" )
+ ==>  ch kevnm         90123456
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm =         90123456
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm =         90123456
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 16 "         01234567890" )
+ ==>  ch kevnm          0123456
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm =          0123456
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm =          0123456
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 16 "          1234567890" )
+ ==>  ch kevnm           123456
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm =           123456
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm =           123456
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 16 "           234567890" )
+ ==>  ch kevnm            23456
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm =            23456
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm =            23456
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 16 "            34567890" )
+ ==>  ch kevnm             3456
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm =             3456
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm =             3456
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 16 "             4567890" )
+ ==>  ch kevnm              456
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm =              456
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm =              456
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 16 "              567890" )
+ ==>  ch kevnm               56
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm =               56
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm =               56
+  
+ ==>  
+ fg seismo
+ ch kevnm ( substring 1 16 "               67890" )
+ ==>  ch kevnm                6
+ lh kevnm
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     kevnm =                6
+ write alpha test.alpha.3
+ read alpha test.alpha.3
+ lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm =                6
+  
+ ==>  
+ m test_readalpha.m
+ do i = 1 , 17
+    fg seismo
+    ch kevnm (substring 1 $i "12345678901234567890")
+ ==>  ch kevnm 1
+    message "$i &1,kevnm"
+ ==>  message "1 1"
+ 1 1
+    write alpha test.alpha.3
+    read alpha test.alpha.3
+    message "$i &1,kevnm"
+ ==>  message "1 1"
+ 1 1
+    lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 1
+ enddo
+    fg seismo
+    ch kevnm (substring 1 $i "12345678901234567890")
+ ==>  ch kevnm 12
+    message "$i &1,kevnm"
+ ==>  message "2 12"
+ 2 12
+    write alpha test.alpha.3
+    read alpha test.alpha.3
+    message "$i &1,kevnm"
+ ==>  message "2 12"
+ 2 12
+    lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 12
+ enddo
+    fg seismo
+    ch kevnm (substring 1 $i "12345678901234567890")
+ ==>  ch kevnm 123
+    message "$i &1,kevnm"
+ ==>  message "3 123"
+ 3 123
+    write alpha test.alpha.3
+    read alpha test.alpha.3
+    message "$i &1,kevnm"
+ ==>  message "3 123"
+ 3 123
+    lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 123
+ enddo
+    fg seismo
+    ch kevnm (substring 1 $i "12345678901234567890")
+ ==>  ch kevnm 1234
+    message "$i &1,kevnm"
+ ==>  message "4 1234"
+ 4 1234
+    write alpha test.alpha.3
+    read alpha test.alpha.3
+    message "$i &1,kevnm"
+ ==>  message "4 1234"
+ 4 1234
+    lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 1234
+ enddo
+    fg seismo
+    ch kevnm (substring 1 $i "12345678901234567890")
+ ==>  ch kevnm 12345
+    message "$i &1,kevnm"
+ ==>  message "5 12345"
+ 5 12345
+    write alpha test.alpha.3
+    read alpha test.alpha.3
+    message "$i &1,kevnm"
+ ==>  message "5 12345"
+ 5 12345
+    lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 12345
+ enddo
+    fg seismo
+    ch kevnm (substring 1 $i "12345678901234567890")
+ ==>  ch kevnm 123456
+    message "$i &1,kevnm"
+ ==>  message "6 123456"
+ 6 123456
+    write alpha test.alpha.3
+    read alpha test.alpha.3
+    message "$i &1,kevnm"
+ ==>  message "6 123456"
+ 6 123456
+    lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 123456
+ enddo
+    fg seismo
+    ch kevnm (substring 1 $i "12345678901234567890")
+ ==>  ch kevnm 1234567
+    message "$i &1,kevnm"
+ ==>  message "7 1234567"
+ 7 1234567
+    write alpha test.alpha.3
+    read alpha test.alpha.3
+    message "$i &1,kevnm"
+ ==>  message "7 1234567"
+ 7 1234567
+    lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 1234567
+ enddo
+    fg seismo
+    ch kevnm (substring 1 $i "12345678901234567890")
+ ==>  ch kevnm 12345678
+    message "$i &1,kevnm"
+ ==>  message "8 12345678"
+ 8 12345678
+    write alpha test.alpha.3
+    read alpha test.alpha.3
+    message "$i &1,kevnm"
+ ==>  message "8 12345678"
+ 8 12345678
+    lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 12345678
+ enddo
+    fg seismo
+    ch kevnm (substring 1 $i "12345678901234567890")
+ ==>  ch kevnm 123456789
+    message "$i &1,kevnm"
+ ==>  message "9 123456789"
+ 9 123456789
+    write alpha test.alpha.3
+    read alpha test.alpha.3
+    message "$i &1,kevnm"
+ ==>  message "9 123456789"
+ 9 123456789
+    lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 123456789
+ enddo
+    fg seismo
+    ch kevnm (substring 1 $i "12345678901234567890")
+ ==>  ch kevnm 1234567890
+    message "$i &1,kevnm"
+ ==>  message "10 1234567890"
+ 10 1234567890
+    write alpha test.alpha.3
+    read alpha test.alpha.3
+    message "$i &1,kevnm"
+ ==>  message "10 1234567890"
+ 10 1234567890
+    lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 1234567890
+ enddo
+    fg seismo
+    ch kevnm (substring 1 $i "12345678901234567890")
+ ==>  ch kevnm 12345678901
+    message "$i &1,kevnm"
+ ==>  message "11 12345678901"
+ 11 12345678901
+    write alpha test.alpha.3
+    read alpha test.alpha.3
+    message "$i &1,kevnm"
+ ==>  message "11 12345678901"
+ 11 12345678901
+    lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 12345678901
+ enddo
+    fg seismo
+    ch kevnm (substring 1 $i "12345678901234567890")
+ ==>  ch kevnm 123456789012
+    message "$i &1,kevnm"
+ ==>  message "12 123456789012"
+ 12 123456789012
+    write alpha test.alpha.3
+    read alpha test.alpha.3
+    message "$i &1,kevnm"
+ ==>  message "12 123456789012"
+ 12 123456789012
+    lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 123456789012
+ enddo
+    fg seismo
+    ch kevnm (substring 1 $i "12345678901234567890")
+ ==>  ch kevnm 1234567890123
+    message "$i &1,kevnm"
+ ==>  message "13 1234567890123"
+ 13 1234567890123
+    write alpha test.alpha.3
+    read alpha test.alpha.3
+    message "$i &1,kevnm"
+ ==>  message "13 1234567890123"
+ 13 1234567890123
+    lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 1234567890123
+ enddo
+    fg seismo
+    ch kevnm (substring 1 $i "12345678901234567890")
+ ==>  ch kevnm 12345678901234
+    message "$i &1,kevnm"
+ ==>  message "14 12345678901234"
+ 14 12345678901234
+    write alpha test.alpha.3
+    read alpha test.alpha.3
+    message "$i &1,kevnm"
+ ==>  message "14 12345678901234"
+ 14 12345678901234
+    lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 12345678901234
+ enddo
+    fg seismo
+    ch kevnm (substring 1 $i "12345678901234567890")
+ ==>  ch kevnm 123456789012345
+    message "$i &1,kevnm"
+ ==>  message "15 123456789012345"
+ 15 123456789012345
+    write alpha test.alpha.3
+    read alpha test.alpha.3
+    message "$i &1,kevnm"
+ ==>  message "15 123456789012345"
+ 15 123456789012345
+    lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 123456789012345
+ enddo
+    fg seismo
+    ch kevnm (substring 1 $i "12345678901234567890")
+ ==>  ch kevnm 1234567890123456
+    message "$i &1,kevnm"
+ ==>  message "16 1234567890123456"
+ 16 1234567890123456
+    write alpha test.alpha.3
+    read alpha test.alpha.3
+    message "$i &1,kevnm"
+ ==>  message "16 1234567890123456"
+ 16 1234567890123456
+    lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 1234567890123456
+ enddo
+    fg seismo
+    ch kevnm (substring 1 $i "12345678901234567890")
+ ==>  ch kevnm 12345678901234567
+    message "$i &1,kevnm"
+ ==>  message "17 1234567890123456"
+ 17 1234567890123456
+    write alpha test.alpha.3
+    read alpha test.alpha.3
+    message "$i &1,kevnm"
+ ==>  message "17 1234567890123456"
+ 17 1234567890123456
+    lh kevnm
+  
+  
+  FILE: test.alpha.3 - 1
+ ------------------
+
+     kevnm = 1234567890123456
+ enddo
+ quit

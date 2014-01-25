@@ -1,0 +1,75 @@
+ wait text off
+  
+ ==>  
+ fg seismo
+ divomega
+ ERROR 1305: Illegal operation on time series file SEISMOGR
+  
+ ==>  
+ fft
+ DC level after DFT is -0.98547
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+ divomega
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = 0.000000e+00
+     depmax = 3.897842e-02
+     depmen = 1.614853e-03
+ divomega
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = 0.000000e+00
+     depmax = 6.352495e-02
+     depmen = 2.714359e-04
+ divomega
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = 0.000000e+00
+     depmax = 1.035296e-01
+     depmen = 2.606944e-04
+ divomega
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = 0.000000e+00
+     depmax = 1.687270e-01
+     depmen = 3.665636e-04
+  
+ ==>  
+ fg seismo
+ fft rlim
+ DC level after DFT is -0.98547
+ divomega
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.286981e-02
+     depmax = 1.924934e-02
+     depmen = 1.347505e-04
+ quit

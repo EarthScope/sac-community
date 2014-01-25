@@ -1,0 +1,57 @@
+
+bp illegaloption
+br illegaloption
+lp illegaloption
+hp illegaloption
+fft illegaloption
+convolve illegaloption
+correlate illegaloption
+envelope illegaloption
+
+bp
+lp
+hp
+br
+envelope
+benioff
+hanning
+convolve
+correlate
+divomega
+
+fg seismo
+fft
+
+bp
+lp
+hp
+br
+hanning
+envelope
+hilbert
+benioff
+convolve
+correlate
+khronhite
+
+fg seismo
+ifft
+
+fg seismo
+bp co 10 201
+bp co 200 400
+
+fg seismo
+lp co 200
+
+fg seismo
+hp co 200
+
+fg seismo
+br co 10 201
+br co 200 400
+
+fg seismo
+fft rlim
+keepam
+lh depmin depmax depmin iftype

@@ -1,0 +1,487 @@
+ wait text off
+  
+ ==>  
+ fg seismo
+ ch kuser2 One
+ write test.subf.1
+  
+ ==>  
+ fg seismo
+ mul 2
+ ch kuser2 Two
+ write test.subf.2
+  
+ ==>  
+ read test.subf.1 test.subf.2
+ lh depmin depmax kuser2
+  
+  
+  FILE: test.subf.1 - 1
+ -----------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     kuser2 = One
+  
+  FILE: test.subf.2 - 2
+ -----------------
+
+     depmin = -3.138560e+00
+     depmax = 3.041280e+00
+     kuser2 = Two
+  
+ ==>  
+ message "Default"
+ Default
+  
+ ==>  
+ message "One"
+ One
+ read test.subf.1
+ subf test.subf.2
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.subf.1 - 1
+ -----------------
+
+     depmin = -1.520640e+00
+     depmax = 1.569280e+00
+     depmin = -1.520640e+00
+     kuser2 = One
+  
+ ==>  
+ message "Two"
+ Two
+ read test.subf.2
+ subf test.subf.1
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.subf.2 - 1
+ -----------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmin = -1.569280e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.subf.1 test.subf.2
+ subf test.subf.2 test.subf.1
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.subf.1 - 1
+ -----------------
+
+     depmin = -1.520640e+00
+     depmax = 1.569280e+00
+     depmin = -1.520640e+00
+     kuser2 = One
+  
+  FILE: test.subf.2 - 2
+ -----------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmin = -1.569280e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.subf.1 test.subf.2
+ subf test.subf.1 test.subf.2
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.subf.1 - 1
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 0.000000e+00
+     depmin = 0.000000e+00
+     kuser2 = One
+  
+  FILE: test.subf.2 - 2
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 0.000000e+00
+     depmin = 0.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.subf.1 test.subf.2
+ subf test.subf.1
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.subf.1 - 1
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 0.000000e+00
+     depmin = 0.000000e+00
+     kuser2 = One
+  
+  FILE: test.subf.2 - 2
+ -----------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmin = -1.569280e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.subf.1 test.subf.2
+ subf test.subf.2
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.subf.1 - 1
+ -----------------
+
+     depmin = -1.520640e+00
+     depmax = 1.569280e+00
+     depmin = -1.520640e+00
+     kuser2 = One
+  
+  FILE: test.subf.2 - 2
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 0.000000e+00
+     depmin = 0.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "New Header Off"
+ New Header Off
+  
+ ==>  
+ message "One"
+ One
+ read test.subf.1
+ subf newhdr off test.subf.2
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.subf.1 - 1
+ -----------------
+
+     depmin = -1.520640e+00
+     depmax = 1.569280e+00
+     depmin = -1.520640e+00
+     kuser2 = One
+  
+ ==>  
+ message "Two"
+ Two
+ read test.subf.2
+ subf newhdr off test.subf.1
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.subf.2 - 1
+ -----------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmin = -1.569280e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.subf.1 test.subf.2
+ subf newhdr off test.subf.2 test.subf.1
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.subf.1 - 1
+ -----------------
+
+     depmin = -1.520640e+00
+     depmax = 1.569280e+00
+     depmin = -1.520640e+00
+     kuser2 = One
+  
+  FILE: test.subf.2 - 2
+ -----------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmin = -1.569280e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.subf.1 test.subf.2
+ subf newhdr off test.subf.1 test.subf.2
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.subf.1 - 1
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 0.000000e+00
+     depmin = 0.000000e+00
+     kuser2 = One
+  
+  FILE: test.subf.2 - 2
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 0.000000e+00
+     depmin = 0.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.subf.1 test.subf.2
+ subf newhdr off test.subf.1
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.subf.1 - 1
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 0.000000e+00
+     depmin = 0.000000e+00
+     kuser2 = One
+  
+  FILE: test.subf.2 - 2
+ -----------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmin = -1.569280e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.subf.1 test.subf.2
+ subf newhdr off test.subf.2
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.subf.1 - 1
+ -----------------
+
+     depmin = -1.520640e+00
+     depmax = 1.569280e+00
+     depmin = -1.520640e+00
+     kuser2 = One
+  
+  FILE: test.subf.2 - 2
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 0.000000e+00
+     depmin = 0.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "New Header On"
+ New Header On
+  
+ ==>  
+ message "Two"
+ Two
+ read test.subf.1
+ subf newhdr on test.subf.2
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.subf.1 - 1
+ -----------------
+
+     depmin = -1.520640e+00
+     depmax = 1.569280e+00
+     depmin = -1.520640e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One"
+ One
+ read test.subf.2
+ subf newhdr on test.subf.1
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.subf.2 - 1
+ -----------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmin = -1.569280e+00
+     kuser2 = One
+  
+ ==>  
+ message "Two One"
+ Two One
+ read test.subf.1 test.subf.2
+ subf newhdr on test.subf.2 test.subf.1
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.subf.1 - 1
+ -----------------
+
+     depmin = -1.520640e+00
+     depmax = 1.569280e+00
+     depmin = -1.520640e+00
+     kuser2 = Two
+  
+  FILE: test.subf.2 - 2
+ -----------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmin = -1.569280e+00
+     kuser2 = One
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.subf.1 test.subf.2
+ subf newhdr on test.subf.1 test.subf.2
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.subf.1 - 1
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 0.000000e+00
+     depmin = 0.000000e+00
+     kuser2 = One
+  
+  FILE: test.subf.2 - 2
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 0.000000e+00
+     depmin = 0.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One One"
+ One One
+ read test.subf.1 test.subf.2
+ subf newhdr on test.subf.1
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.subf.1 - 1
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 0.000000e+00
+     depmin = 0.000000e+00
+     kuser2 = One
+  
+  FILE: test.subf.2 - 2
+ -----------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmin = -1.569280e+00
+     kuser2 = One
+  
+ ==>  
+ message "Two Two"
+ Two Two
+ read test.subf.1 test.subf.2
+ subf newhdr on test.subf.2
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.subf.1 - 1
+ -----------------
+
+     depmin = -1.520640e+00
+     depmax = 1.569280e+00
+     depmin = -1.520640e+00
+     kuser2 = Two
+  
+  FILE: test.subf.2 - 2
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 0.000000e+00
+     depmin = 0.000000e+00
+     kuser2 = Two
+ message "Nothing"
+ Nothing
+ read test.subf.1
+ subf
+ ERROR 1803: No binary data files read in.
+  
+ ==>  
+ message "Spectral"
+ Spectral
+ read test.subf.1
+ fft
+ DC level after DFT is -0.98547
+ write test.subf.spectral.1
+ read test.subf.1
+ subf test.subf.spectral.1
+ ERROR 1307: Illegal operation on spectral file test.subf.spectral.1
+  
+ ==>  
+ message "Uneven"
+ Uneven
+ read test.subf.1
+ subf test_binop_uneven.m
+ ERROR 1306: Illegal operation on unevenly spaced file test_binop_uneven.m
+  
+ ==>  
+ message "Different Delta"
+ Different Delta
+ read test.subf.1
+ interpolate delta 0.005
+ write test.subf.dt
+ read test.subf.1
+ subf test.subf.dt
+ ERROR 1801: Header field mismatch: DELTA test.subf.1 test.subf.dt
+  
+ ==>  
+ message "Different Npts"
+ Different Npts
+ read test.subf.1
+ cut &1,b (&1,e - 1.0)
+ ==>  cut 9.46 18.45
+ read test.subf.1
+ cut off
+ write test.subf.npts
+ read test.subf.1
+ subf test.subf.npts
+ ERROR 1801: Header field mismatch: NPTS test.subf.1 test.subf.npts
+  
+ ==>  
+ message "Different Times"
+ Different Times
+ read test.subf.1
+ ch b -10
+ WARNING: Reference time not equal to zero:  KZDATE and KZTIME may be adjusted by subsequent commands so that the reference time is zero.  Reference time is B
+ write test.subf.time
+ read test.subf.1
+ subf test.subf.time
+ WARNING: Time overlap: 
+   BEG1: MAR 29 (088), 1981 10:38:23.460  test.subf.1
+   BEG2: MAR 29 (088), 1981 10:38:04.000  test.subf.time
+ quit

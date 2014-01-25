@@ -1,0 +1,212 @@
+ wait text off
+ wait text off
+ fg impulse
+ mul 1
+ write test.impulse.1
+ mul 2
+ write test.impulse.2
+ mul 3
+ write test.impulse.3
+ mul 4
+ write test.impulse.4
+ mul 5
+ write test.impulse.5
+ read test.impulse.1 test.impulse.2 test.impulse.3 test.impulse.4 test.impulse.5
+ lh depmax
+  
+  
+  FILE: test.impulse.1 - 1
+ --------------------
+
+     depmax = 1.000000e+00
+  
+  FILE: test.impulse.2 - 2
+ --------------------
+
+     depmax = 2.000000e+00
+  
+  FILE: test.impulse.3 - 3
+ --------------------
+
+     depmax = 6.000000e+00
+  
+  FILE: test.impulse.4 - 4
+ --------------------
+
+     depmax = 2.400000e+01
+  
+  FILE: test.impulse.5 - 5
+ --------------------
+
+     depmax = 1.200000e+02
+ getbb sacnfiles
+ sacnfiles = 5
+  
+ ==>  
+ dc 1
+ lh depmax
+  
+  
+  FILE: test.impulse.2 - 1
+ --------------------
+
+     depmax = 2.000000e+00
+  
+  FILE: test.impulse.3 - 2
+ --------------------
+
+     depmax = 6.000000e+00
+  
+  FILE: test.impulse.4 - 3
+ --------------------
+
+     depmax = 2.400000e+01
+  
+  FILE: test.impulse.5 - 4
+ --------------------
+
+     depmax = 1.200000e+02
+ getbb sacnfiles
+ sacnfiles = 4
+  
+ ==>  
+ dc test.impulse.4
+ lh depmax
+  
+  
+  FILE: test.impulse.2 - 1
+ --------------------
+
+     depmax = 2.000000e+00
+  
+  FILE: test.impulse.3 - 2
+ --------------------
+
+     depmax = 6.000000e+00
+  
+  FILE: test.impulse.5 - 3
+ --------------------
+
+     depmax = 1.200000e+02
+ getbb sacnfiles
+ sacnfiles = 3
+  
+ ==>  
+ dc test.impulse.2
+ lh depmax
+  
+  
+  FILE: test.impulse.3 - 1
+ --------------------
+
+     depmax = 6.000000e+00
+  
+  FILE: test.impulse.5 - 2
+ --------------------
+
+     depmax = 1.200000e+02
+ getbb sacnfiles
+ sacnfiles = 2
+  
+ ==>  
+ read test.impulse.1 test.impulse.2 test.impulse.3 test.impulse.4 test.impulse.5
+ lh depmax
+  
+  
+  FILE: test.impulse.1 - 1
+ --------------------
+
+     depmax = 1.000000e+00
+  
+  FILE: test.impulse.2 - 2
+ --------------------
+
+     depmax = 2.000000e+00
+  
+  FILE: test.impulse.3 - 3
+ --------------------
+
+     depmax = 6.000000e+00
+  
+  FILE: test.impulse.4 - 4
+ --------------------
+
+     depmax = 2.400000e+01
+  
+  FILE: test.impulse.5 - 5
+ --------------------
+
+     depmax = 1.200000e+02
+ getbb sacnfiles
+ sacnfiles = 5
+  
+ ==>  
+ dc 2-4
+ lh depmax
+  
+  
+  FILE: test.impulse.1 - 1
+ --------------------
+
+     depmax = 1.000000e+00
+  
+  FILE: test.impulse.5 - 2
+ --------------------
+
+     depmax = 1.200000e+02
+ getbb sacnfiles
+ sacnfiles = 2
+  
+ ==>  
+ read test.impulse.1 test.impulse.2 test.impulse.3 test.impulse.4 test.impulse.5
+ lh depmax
+  
+  
+  FILE: test.impulse.1 - 1
+ --------------------
+
+     depmax = 1.000000e+00
+  
+  FILE: test.impulse.2 - 2
+ --------------------
+
+     depmax = 2.000000e+00
+  
+  FILE: test.impulse.3 - 3
+ --------------------
+
+     depmax = 6.000000e+00
+  
+  FILE: test.impulse.4 - 4
+ --------------------
+
+     depmax = 2.400000e+01
+  
+  FILE: test.impulse.5 - 5
+ --------------------
+
+     depmax = 1.200000e+02
+ getbb sacnfiles
+ sacnfiles = 5
+  
+ ==>  
+ dc all
+
+All files deleted.
+ getbb sacnfiles
+ sacnfiles = 0
+  
+ ==>  
+ fg seismo
+ dc 2
+ ERROR 5107: File number not in file list: 2
+ dc filename
+ ERROR 5106: File name not in file list: filename
+ dc SEISMOGR
+
+All files deleted.
+  
+ ==>  
+  
+ ==>  
+ quit

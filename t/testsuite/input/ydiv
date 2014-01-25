@@ -1,0 +1,27 @@
+
+fg seismo
+p1 ; pause period 0.25
+
+ydiv nice
+p1 ; pause period 0.25
+
+ydiv inc 0.2
+p1 ; pause period 0.25
+
+ydiv nice
+p1 ; pause period 0.25
+
+ydiv num 7
+p1 ; pause period 0.25
+
+mul 1e5
+
+ydiv power off
+p1 ; pause period 0.25
+
+ydiv power on
+p1 ; pause period 0.25
+
+ydiv bad option
+p1 ; pause period 0.25
+

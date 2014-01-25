@@ -1,0 +1,145 @@
+
+fg seismo
+ch kuser2 One
+write test.subf.1
+
+fg seismo
+mul 2
+ch kuser2 Two
+write test.subf.2
+
+read test.subf.1 test.subf.2
+lh depmin depmax kuser2
+
+message "Default"
+
+message "One"
+read test.subf.1
+subf test.subf.2
+lh depmin depmax depmin kuser2
+
+message "Two"
+read test.subf.2
+subf test.subf.1
+lh depmin depmax depmin kuser2
+
+message "One Two"
+read test.subf.1 test.subf.2
+subf test.subf.2 test.subf.1
+lh depmin depmax depmin kuser2
+
+message "One Two"
+read test.subf.1 test.subf.2
+subf test.subf.1 test.subf.2
+lh depmin depmax depmin kuser2
+
+message "One Two"
+read test.subf.1 test.subf.2
+subf test.subf.1 
+lh depmin depmax depmin kuser2
+
+message "One Two"
+read test.subf.1 test.subf.2
+subf test.subf.2
+lh depmin depmax depmin kuser2
+
+message "New Header Off"
+
+message "One"
+read test.subf.1
+subf newhdr off test.subf.2
+lh depmin depmax depmin kuser2
+
+message "Two"
+read test.subf.2
+subf newhdr off test.subf.1
+lh depmin depmax depmin kuser2
+
+message "One Two"
+read test.subf.1 test.subf.2
+subf newhdr off test.subf.2 test.subf.1
+lh depmin depmax depmin kuser2
+
+message "One Two"
+read test.subf.1 test.subf.2
+subf newhdr off test.subf.1 test.subf.2
+lh depmin depmax depmin kuser2
+
+message "One Two"
+read test.subf.1 test.subf.2
+subf newhdr off test.subf.1 
+lh depmin depmax depmin kuser2
+
+message "One Two"
+read test.subf.1 test.subf.2
+subf newhdr off test.subf.2
+lh depmin depmax depmin kuser2
+
+message "New Header On"
+
+message "Two"
+read test.subf.1
+subf newhdr on test.subf.2
+lh depmin depmax depmin kuser2
+
+message "One"
+read test.subf.2
+subf newhdr on test.subf.1
+lh depmin depmax depmin kuser2
+
+message "Two One"
+read test.subf.1 test.subf.2
+subf newhdr on test.subf.2 test.subf.1
+lh depmin depmax depmin kuser2
+
+message "One Two"
+read test.subf.1 test.subf.2
+subf newhdr on test.subf.1 test.subf.2
+lh depmin depmax depmin kuser2
+
+message "One One"
+read test.subf.1 test.subf.2
+subf newhdr on test.subf.1 
+lh depmin depmax depmin kuser2
+
+message "Two Two"
+read test.subf.1 test.subf.2
+subf newhdr on test.subf.2
+lh depmin depmax depmin kuser2 
+message "Nothing"
+read test.subf.1
+subf
+
+message "Spectral"
+read test.subf.1
+fft
+write test.subf.spectral.1
+read test.subf.1
+subf test.subf.spectral.1
+
+message "Uneven"
+read test.subf.1
+subf test_binop_uneven.m
+
+message "Different Delta"
+read test.subf.1
+interpolate delta 0.005
+write test.subf.dt
+read test.subf.1
+subf test.subf.dt
+
+message "Different Npts"
+read test.subf.1
+cut &1,b (&1,e - 1.0)
+read test.subf.1
+cut off
+write test.subf.npts
+read test.subf.1
+subf test.subf.npts
+
+message "Different Times"
+read test.subf.1
+ch b -10
+write test.subf.time
+read test.subf.1
+subf test.subf.time

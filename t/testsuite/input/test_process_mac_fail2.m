@@ -1,0 +1,3 @@
+
+message "$empty"
+message hi

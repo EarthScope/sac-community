@@ -1,0 +1,173 @@
+
+CUTIM
++++++
+
+SUMMARY
+-------
+Cuts files in memory.  Can cut multiple segments from each file.
+
+SYNTAX
+------
+
+  ``CUTIM pdw [pwd ... ]``
+
+INPUT
+-----
+   :pdw:  Partial Data Window.  It consists of a starting and a stopping
+       value of the independent variable (usually time), which defines which
+       segment of a file (or files) one wishes to read.  The most general form
+       of a pde is :ref offset ref offset:, where
+    
+   :ref:  A reference value that is one of the following:
+       B|E|O|A|F|Tn, where n=0,1...9. These reference values are defined in
+       `SAC data file format`_  and reviewed below.
+    
+   :offset:  A positive or negative number which is added to the
+       reference value (optional).
+    
+    
+DEFAULT VALUES
+--------------
+
+Start and stop reference values are required.  See examples below for an exception.
+If the start or stop offset is omitted, it is assumed to be zero.
+
+DESCRIPTION
+-----------
+  While the CUT_ command simply sets cut points and does not change the file in memory
+  CUTIM carries out the cut(s) when the command is given.  The user can READ_ a file
+  aand type CUTIM with the desired cutpoints, and SAC will cut the file to those 
+  specified cutpoints.  CUTIM allows multiple pairs of cutpoints, with an output file
+  for each pair.  If there are more than one file in memory, CUTIM produces the cuts
+  on all the files  For example, the user can READ three files into SAC, and use CUTIM 
+  with four sets of cutpoints; the result will be 12 files in memory.
+
+  The start and stop values are given in terms of the independent variable 
+  in the data file, normally time.  (See the `SAC data file format`_ 
+  for a discussion of dependent and independent variables.) Unlike CUT, the N option
+  (point number in file) is not available for CUTIM.  The following header variables 
+  are used to represent certain values of the independent variable:
+
+   :B: Disk file beginning value;
+   :E: Disk file ending value;
+   :O: Event origin time;
+   :A: First arrival time;
+   :F: Signal end time;
+   :Tn: User defined time picks, n = 0,1...9
+
+  B and E are required for each data file in memory. O, A, F, and Tn can be defined
+  for a data file in memory using the CHNHDR_ command.  If one want to select the same 
+  time window from a group of data files that have different reference times, one must 
+  use the SYNCHRONIZE_ command before executing the CUTIM command.  SYNCHRONIZE 
+  modifies the headers so that each file has the same reference time.  It also adjusts 
+  all of the relative times, including B and E.  Then when the files are cut, they will
+  have the same time reference values.
+
+EXAMPLES
+--------
+  The macro_ below demonstrates several possible uses of CUTIM on a single file.
+  In these examples, time is the independent variable and seconds are the units.::
+
+   fg seismo
+   echo on
+   * no cutting
+   lh b e a kztime
+   * begin to end---same as not cutting. 
+   cutim B E
+   lh b e a kztime
+   fg seismo
+   * First 3 secs of the file.
+   cutim B 0 3 
+   lh b e a kztime
+   fg seismo
+   * From 0.5 secs before to 3 secs after first arrival
+   cutim A -0.5 3
+   lh b e a kztime
+   fg seismo
+   * From 0.5 to 5 secs relative to disk file start.
+   cutim 0.5 5 
+   lh b e a kztime
+   fg seismo
+   * First 3 secs of the file and next 3 sec
+   cutim b 0 3 b 3 6 
+   lh b e a kztime
+   p1
+
+  Because CUTIM changes the file(s) in memory, the fg seismo is rquired betweem
+  cals to CUTIM.  The lh (LISTHDR_) command for seismo with no calls to CUTIM is::
+  
+    b = 9.459999e+00                        e = 1.945000e+01
+    a = 1.046400e+01                   kztime = 10:38:14.000
+
+  Note that B is nonzero.  The output for CUTI 0.5 5 does not have a reference value.
+  The numbers are relative to b on input, but relative to zero on output.  (If there
+  is no stop reference value, it is assumed to be the same as the start reverence
+  value, in this case B.)::
+  
+   b = 5.000000e-01                        e = 5.000000e+00
+   a = 1.004001e+00                   kztime = 10:38:23.460
+  
+  The final lh produces values for the two files::
+  
+   FILE: SEISMOGR - 1
+   b = 0.000000e+00                        e = 3.000000e+00
+   a = 1.004001e+00                   kztime = 10:38:23.460
+
+   FILE: CDV.CHAN.1981088103823 - 2
+   b = 3.000000e+00                        e = 6.000000e+00
+   a = 1.004001e+00                   kztime = 10:38:23.460
+  
+  Note that B for cutim b 0 3 is now zero, all other times have ben altered so that 
+  arrivals (such as A) will have the same clock time.  The call to p1 (PLOT1_) will
+  plot both segmnets in emory.  Alternatively, a call p (PLOT_) will plt the two
+  segments individually, separated by a waiting prompt.
+  
+ERROR MESSAGES
+--------------
+- 1322: Undefined starting cut for file
+
+  - undefined reference value in the header record.  
+  - this error can be controlled by use of CUTERR_ command.  
+  - when this error is off, the disk begin value is used.
+
+- 1323: Undefined stop cut for file
+
+  - undefined reference value in the header record.  
+  - this error can be controlled by use of CUTERR_ command.  
+  - when this error is off, the disk end value is used.
+
+- 1324: Start cut less than file begin for file
+
+  - bad CUT_ parameters.  
+  - this error can be controlled by use of CUTERR_ command.
+  - when this error is off, the disk begin value is used or zeros are inserted
+    at the beginning of the data.
+
+- 1325: Stop cut greater than file end for file
+  
+  - bad CUT_ parameters.  
+  - this error can be controlled by use of CUTERR_ command.
+  - when this error is off, the disk end value is used or zeros are inserted at
+    the end of the data.
+
+- 1326: Start cut greater than file end for file
+
+  - bad CUT_ parameters.  
+  - this error cannot be turned off.
+
+**SPECIAL NOTE**  Also, some of the above errors can be converted to warnings
+by the use of the CUTERR_ command.
+
+LIMITATIONS
+-----------
+  There is currently no provision for cutting unevenly-spaced files or spectral
+  files.
+
+SEE COMMANDS
+------------
+   CUT_, READ_, APK_, PLOTPK_, SYNCHRONIZE_, CUTERR_
+
+LATEST REVISION
+---------------
+   October 2013 (Version 101.6a)
+

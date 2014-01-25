@@ -1,0 +1,36 @@
+ wait text off
+  
+ ==>  
+  
+ ==>  
+ fg random 1 1
+ lh depmin depmax depmin npts b e
+  
+  
+  FILE: RANDOM01 - 1
+ --------------
+
+     depmin = -2.182652e+00
+     depmax = 3.525730e+00
+     depmin = -2.182652e+00
+       npts = 100
+          b = 0.000000e+00
+          e = 9.900000e+01
+  
+ ==>  
+ fg random 1 5
+ lh depmin depmax depmin npts b e
+  
+  
+  FILE: RANDOM01 - 1
+ --------------
+
+     depmin = -2.381572e+00
+     depmax = 2.852668e+00
+     depmin = -2.381572e+00
+       npts = 100
+          b = 0.000000e+00
+          e = 9.900000e+01
+  
+ ==>  
+ quit

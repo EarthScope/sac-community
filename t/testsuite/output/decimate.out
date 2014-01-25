@@ -1,0 +1,142 @@
+ wait text off
+  
+ ==>  
+ dec illegaloption
+ ERROR interpreting command:  dec illegaloption 
+ ILLEGAL OPTION:                  ^
+  
+ ==>  
+ dec
+ ERROR 1301: No data files read in.
+ fg seismogram
+ dec 1 filter on
+ ERROR interpreting command:  dec 1 filter on 
+ OUTSIDE ALLOWED RANGE:           ^
+ Allowed range is:          2         7
+ fg seismogram
+ dec 2 filter on
+ lh npts b e delta depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+       npts = 500
+          b = 9.459999e+00
+          e = 1.944000e+01
+      delta = 2.000000e-02
+     depmax = 1.487922e+00
+ fg seismogram
+ dec 4 filter on
+ lh npts b e delta depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+       npts = 250
+          b = 9.459999e+00
+          e = 1.942000e+01
+      delta = 4.000000e-02
+     depmax = 1.426932e+00
+ fg seismogram
+ dec 7 filter on
+ lh npts b e delta depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+       npts = 143
+          b = 9.459999e+00
+          e = 1.940000e+01
+      delta = 7.000000e-02
+     depmax = 1.259477e+00
+ fg seismogram
+ dec 8 filter on
+ ERROR interpreting command:  dec 8 filter on 
+ OUTSIDE ALLOWED RANGE:           ^
+ Allowed range is:          2         7
+ lh npts b e delta depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+       npts = 1000
+          b = 9.459999e+00
+          e = 1.945000e+01
+      delta = 1.000000e-02
+     depmax = 1.520640e+00
+  
+ ==>  
+ fg seismogram
+ dec 1 filter off
+ ERROR interpreting command:  dec 1 filter off 
+ OUTSIDE ALLOWED RANGE:           ^
+ Allowed range is:          2         7
+ fg seismogram
+ dec 2 filter off
+ lh npts b e delta depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+       npts = 500
+          b = 9.459999e+00
+          e = 1.944000e+01
+      delta = 2.000000e-02
+     depmax = 1.492480e+00
+ fg seismogram
+ dec 4 filter off
+ lh npts b e delta depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+       npts = 250
+          b = 9.459999e+00
+          e = 1.942000e+01
+      delta = 4.000000e-02
+     depmax = 1.310720e+00
+ fg seismogram
+ dec 7 filter off
+ lh npts b e delta depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+       npts = 143
+          b = 9.459999e+00
+          e = 1.940000e+01
+      delta = 7.000000e-02
+     depmax = 1.310720e+00
+ fg seismogram
+ dec 8 filter off
+ ERROR interpreting command:  dec 8 filter off 
+ OUTSIDE ALLOWED RANGE:           ^
+ Allowed range is:          2         7
+ lh npts b e delta depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+       npts = 1000
+          b = 9.459999e+00
+          e = 1.945000e+01
+      delta = 1.000000e-02
+     depmax = 1.520640e+00
+  
+ ==>  
+ fg seismo
+ fft
+ DC level after DFT is -0.98547
+ dec
+ ERROR 1307: Illegal operation on spectral file SEISMOGR
+  
+ ==>  
+ quit

@@ -1,0 +1,49 @@
+ wait text off
+  
+ ==>  
+ fg seismo
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ xdiv nice
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ xdiv inc 3
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ xdiv nice
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ xdiv num 10
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ fg impulse delta 10 npts 10000
+  
+ ==>  
+ xdiv power off
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ xdiv power on
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ xdiv bad option
+ ERROR interpreting command:  xdiv bad option 
+ ILLEGAL OPTION:                   ^
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ quit

@@ -1,0 +1,23 @@
+
+fg seismo
+lh depmin depmax depmen b e npts
+transfer from polezero subtype test_transfer_simple.m to none
+lh depmin depmax depmen b e npts
+
+fg seismo
+lh depmin depmax depmen b e npts
+transfer from polezero subtype test_transfer_comments.m to none
+lh depmin depmax depmen b e npts
+
+fg seismo
+lh depmin depmax depmen b e npts
+transfer from polezero subtype test_transfer_annotated.m to none
+lh depmin depmax depmen b e npts
+
+fg seismo
+lh depmin depmax depmen b e npts
+transfer from polezero subtype test_transfer_annotated2.m to none
+lh depmin depmax depmen b e npts
+
+m transfer_types.m
+

@@ -1,0 +1,93 @@
+
+message "Error
+*br seismo
+
+message "Default"
+fg seismo
+br
+lh depmin depmax depmen 
+
+message "Filter Type"
+fg seismo
+br butter
+lh depmin depmax depmen 
+fg seismo
+br bessel
+lh depmin depmax depmen 
+fg seismo
+br c1
+lh depmin depmax depmen 
+fg seismo
+br c2
+lh depmin depmax depmen 
+
+message "Filter Types with Corners"
+fg seismo
+br butter co 0.01 1.0 
+lh depmin depmax depmen 
+fg seismo
+br bessel co 0.01 1.0 
+lh depmin depmax depmen 
+fg seismo
+br c1 co 0.01 1.0 
+lh depmin depmax depmen 
+fg seismo
+br c2 co 0.01 1.0 
+lh depmin depmax depmen 
+
+fg seismo
+br butter
+lh depmin depmax depmen 
+
+message "Filter Type Number of Poles"
+fg seismo
+* br n 0
+lh depmin depmax depmen 
+br n 2
+lh depmin depmax depmen 
+br n 3
+lh depmin depmax depmen 
+br n 4
+lh depmin depmax depmen 
+br n 5
+lh depmin depmax depmen 
+br n 5
+lh depmin depmax depmen 
+br n 6
+lh depmin depmax depmen 
+br n 7
+lh depmin depmax depmen 
+br n 8
+lh depmin depmax depmen 
+br n 9
+lh depmin depmax depmen 
+br n 10
+lh depmin depmax depmen 
+*br n 11
+lh depmin depmax depmen 
+
+message "Filter with Number of Passes
+fg seismo
+* br p 0
+lh depmin depmax depmen 
+br p 1
+lh depmin depmax depmen 
+br p 2
+lh depmin depmax depmen 
+* br p 3
+lh depmin depmax depmen 
+
+message "Filter with Chebyshev1 parameters"
+fg seismo
+br c1 tranbw 0.3
+lh depmin depmax depmen 
+br c1 atten 30
+lh depmin depmax depmen 
+
+message "Filter with Chebyshev2 parameters"
+fg seismo
+br c2 tranbw 0.3
+lh depmin depmax depmen 
+br c2 atten 30
+lh depmin depmax depmen 
+

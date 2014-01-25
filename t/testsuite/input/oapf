@@ -1,0 +1,8 @@
+
+fg seismo
+oapf test.apf
+apk
+capf
+
+cat test.apf
+

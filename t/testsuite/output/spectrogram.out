@@ -1,0 +1,35 @@
+ wait text off
+  
+ ==>  
+ fg seismo
+ spectrogram
+Window size: 200  Overlap: 100  FFT size: 512 
+Spectrogram dimensions are 512  by 9 .
+  
+ ==>  
+ image
+  
+ ==>  
+ fg seismo
+ spectrogram method pds
+Window size: 200  Overlap: 100  FFT size: 512 
+Spectrogram dimensions are 512  by 9 .
+  
+ ==>  
+ fg seismo
+ spectrogram method mem
+Window size: 200  Overlap: 100  FFT size: 512 
+Spectrogram dimensions are 512  by 9 .
+  
+ ==>  
+ fg seismo
+ spectrogram method mlm
+Window size: 200  Overlap: 100  FFT size: 512 
+Spectrogram dimensions are 512  by 9 .
+  
+ ==>  
+  
+ ==>  
+  
+ ==>  
+ quit

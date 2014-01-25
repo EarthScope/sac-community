@@ -1,0 +1,811 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdarg.h>
+#include "../time/timefuncs.h"
+#include "../stringfun.h"
+#include "dbPtsInside.h"
+#include "dbselect.h" 
+#include "dbDefaults.h"
+#include "dbBuildSQLstring.h"
+#include "dbErrorHandler.h"
+#include "../cssListOps/dblUserData.h"
+#include "../cssListOps/cssStrucs.h"
+#include "../cssListOps/dblPublicDefs.h"
+#include "../cssListOps/cssListOps.h"
+#include "../cssListOps/dblErrors.h"
+#include "../sacIO/dbConversions.h"
+
+
+#define BUF_LEN 30
+#define TAB_DNE -942
+#define INDX_DNE -1418
+#define NO_DATA  1403
+
+/* Include the SQL Communications Area.
+   You can use #include orig EXEC SQL INCLUDE. */
+#include <sqlca.h>
+
+static char TheDataBase[50];
+static char TheSID[20];
+
+
+void dbPrintToDevice(char *string);
+
+static char *SrcID(const char *etype)
+{
+   static char type[100];
+   if(!strcmp(etype, "qb")){
+      strcpy(type,"Quarry Blast or mine expl. confirmed by quarry");
+      return type;
+   }
+   if(!strcmp(etype, "qb+")){
+      strcpy(type,"Quarry or mine blast with designed shot information-ripple fired"); 
+      return type;
+   }
+   if(!strcmp(etype, "qb++")){
+      strcpy(type,"Quarry or mine blast with observed shot information-ripple fired");
+      return type;
+   }
+   if(!strcmp(etype, "qbx")){
+      strcpy(type,"Quarry or mine blast - single shot");return type;}
+   if(!strcmp(etype, "qmt")){
+      strcpy(type,"Quarry or mining-induced events: tremors and rockbursts");
+      return type;
+   }
+   if(!strcmp(etype, "eq")){strcpy(type,"Earthquake");return type;}
+   if(!strcmp(etype, "eq+")){
+      strcpy(type,"Earthquakes in a swarm or aftershock sequence");
+      return type;
+   }
+   if(!strcmp(etype, "eq++")){strcpy(type,"Felt earthquake");return type;}
+   if(!strcmp(etype, "me")){strcpy(type,"Marine explosion");return type;}
+   if(!strcmp(etype, "ex")){strcpy(type,"Other explosion");return type;}
+   if(!strcmp(etype, "nu")){strcpy(type,"Nuclear explosion");return type;}
+   if(!strcmp(etype, "nc")){strcpy(type,"Nuclear cavity collapse");return type;}
+   if(!strcmp(etype, "o")){strcpy(type,"Other source of known origin");return type;}
+   if(!strcmp(etype, "l")){strcpy(type,"Local event of unknown origin");return type;}
+   if(!strcmp(etype, "r")){strcpy(type,"Regional event of unknown origin");return type;}
+   if(!strcmp(etype, "t")){
+      strcpy(type,"Teleseismic event of unknown origin");
+      return type;
+   }
+   if(!strcmp(etype, "u")){strcpy(type,"Unknown source type");return type;}
+   if(!strcmp(etype, "-")){strcpy(type,"Source type not set");return type;}
+
+   strcpy(type,"Symbol not recognized");
+   return type;
+}
+/* ------------------------------------------------------------------------------------*/
+
+
+
+
+int ConnectToOracleForHelp()
+{
+    int j;
+    varchar     username[BUF_LEN]; 
+    varchar     password[BUF_LEN]; 
+
+
+    for(j=0;j<NUMOPTIONS;j++){
+
+     /* Need to extract connect and sid from command line if present 
+	before connecting to database */
+     if(optionSelected[j] && !strcmp(options[j],"SCHEMA") ){
+        dbSetSchema(charParams[j][0]);
+     }
+
+     if(optionSelected[j] && !strcmp(options[j],"CONNECT") ){
+        dbSetQueryLoginString(charParams[j][0]);
+     }
+
+     if(optionSelected[j] && !strcmp(options[j],"SID") ){
+        SetSid(charParams[j][0]);
+     }
+    }
+     
+    strcpy( (char *) username.arr, dbGetQueryLogin());
+    username.len = strlen( (char *) username.arr);
+
+    strcpy( (char *) password.arr, dbGetQueryPasswd() );
+    password.len = strlen( (char *) password.arr);
+
+    if(!strlen(Sid()))
+     {
+      printf("Cannot process database request because \n"
+             "database service identifier (SID) is not set. \n"
+             "Check your TWO_TASK environmental variable. \n");
+      return 0;
+     }
+
+    strcpy(TheDataBase, dbName());
+    strcpy(TheSID, Sid());
+    EXEC SQL CONNECT :username IDENTIFIED BY :password AT :TheDataBase USING :TheSID; 
+    if(sqlca.sqlcode < 0){
+        dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+        dbPrintToDevice("\nCould not connect to Oracle for option information.\n");
+        dbPrintToDevice("Connection was attempted using Username: ");
+        dbPrintToDevice( (char *) username.arr );
+        dbPrintToDevice("\n");
+	return 0;
+    }
+    else
+    {
+	return 1;
+    }
+ } 
+/* ---------------------------------------------------------- */
+
+
+
+
+
+
+
+
+char *GetSrcTypeSelectString()
+{
+    char Body1[] = 
+      "SELECT DISTINCT ETYPE FROM ";
+    char Body2[30];
+    char *CompleteSelect;
+
+    
+    strcpy(Body2, dbGetOriginTableName() );
+       
+    CompleteSelect = (char *) malloc( strlen(Body1) + strlen(Body2) + 1);
+    strcpy(CompleteSelect,Body1);
+    strcat(CompleteSelect,Body2);                                      
+    return CompleteSelect;
+}    
+/* ---------------------------------------------------------- */
+
+
+
+
+
+
+void ReadSrcTypes(void)
+{
+
+   char *CompleteSelect;
+   long StatementLen;
+
+   EXEC SQL BEGIN DECLARE SECTION;
+      varchar etype[7];
+      varchar *SQLstatement;
+   EXEC SQL END DECLARE SECTION;
+   
+   CompleteSelect = GetSrcTypeSelectString();
+   StatementLen = strlen(CompleteSelect);
+   SQLstatement = (varchar *) malloc( StatementLen * sizeof(varchar) + 1);    
+   
+   strcpy( (char *) SQLstatement->arr, CompleteSelect);
+   SQLstatement->len = StatementLen;
+   
+   EXEC SQL AT :TheDataBase DECLARE S1 STATEMENT;
+   EXEC SQL PREPARE S1 FROM :SQLstatement;
+   EXEC SQL DECLARE SRC_CURSOR CURSOR FOR S1;
+   EXEC SQL OPEN SRC_CURSOR;
+   
+   while(1){
+      EXEC SQL FETCH SRC_CURSOR INTO :etype; 
+      if( sqlca.sqlcode != 0 ) break;
+      etype.arr[etype.len] = '\0';
+      dbPrintToDevice((char *)etype.arr);
+      dbPrintToDevice("\t");
+      dbPrintToDevice(SrcID( (char *) etype.arr) );
+      dbPrintToDevice("\n");
+      
+   }
+   if( sqlca.sqlcode < 0 ){
+      dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+      dbPrintToDevice("\nRoutine is: ReadSrcTypes\n ");
+      dbPrintToDevice("SQL is:\n ");
+      dbPrintToDevice(CompleteSelect);
+      dbPrintToDevice("\n ");
+   }
+   
+   EXEC SQL CLOSE SRC_CURSOR;
+   free(CompleteSelect);
+   free(SQLstatement);
+ }
+/* ---------------------------------------------------------- */
+
+
+
+
+
+char *GetStaCompSelectString()
+{
+    char Body1[] = 
+      "SELECT STA, CHAN, COUNT(*) FROM ";
+    char Body2[30];
+    char Body3[] =
+       "GROUP BY STA, CHAN ORDER BY STA, CHAN";
+    char *CompleteSelect;
+
+    sprintf( Body2 , "%s\n" , dbGetWfdiscTableName() ) ;
+       
+    CompleteSelect = (char *) malloc( strlen(Body1) + strlen(Body2) + strlen(Body3) + 1);
+    strcpy(CompleteSelect,Body1);
+    strcat(CompleteSelect,Body2);
+    strcat(CompleteSelect,Body3);                                      
+    return CompleteSelect;
+}    
+/* ---------------------------------------------------------- */
+
+
+
+
+
+static void AddToLine(char *chan, long count, char *line)
+{
+   char tmp[20];
+   strcat(line,"\t");
+   sprintf(tmp,"%6s",chan);
+   strcat(line,tmp);
+   sprintf(tmp,"(%5d)",count);
+   strcat(line,tmp);
+}    
+/* ---------------------------------------------------------- */
+
+
+
+
+
+
+
+
+void ReadStationCompData(void)
+{
+
+   char *CompleteSelect;
+   long StatementLen;
+   char curSta[7] = "";
+   char line[200] = "";
+   const int MaxLineLength = 85;
+   int linesOut = 0;
+   const int MaxLinesPerPage = 30;
+   char header[] =
+                   "STATION   COMP  Nobs      COMP  Nobs      COMP  Nobs"
+                   "      COMP  Nobs      COMP  Nobs      COMP  Nobs\n" 
+                   "____________________________________________________"
+                   "____________________________________________________\n";
+
+   EXEC SQL BEGIN DECLARE SECTION;
+      varchar sta[7];
+      varchar chan[9];
+      long count;
+      varchar *SQLstatement;
+   EXEC SQL END DECLARE SECTION;
+   
+   CompleteSelect = GetStaCompSelectString();
+   StatementLen = strlen(CompleteSelect);
+   SQLstatement = (varchar *) malloc( StatementLen * sizeof(varchar) + 1);    
+   
+   strcpy( (char *) SQLstatement->arr, CompleteSelect);
+   SQLstatement->len = StatementLen;
+   
+   EXEC SQL AT :TheDataBase DECLARE S2 STATEMENT;
+   EXEC SQL PREPARE S2 FROM :SQLstatement;
+   EXEC SQL DECLARE SC_CURSOR CURSOR FOR S2;
+   EXEC SQL OPEN SC_CURSOR;
+   
+   dbPrintToDevice(header);
+   while(1){
+      EXEC SQL FETCH SC_CURSOR INTO :sta, :chan, :count; 
+      if( sqlca.sqlcode != 0 ) {
+	  if ( line[ 0 ] ) {
+	     dbPrintToDevice(line);
+	     dbPrintToDevice("\n");
+	  }
+	  break;
+      }
+      sta.arr[sta.len] = '\0';
+      chan.arr[chan.len] = '\0';
+
+      if( strcmp( (char *) sta.arr, curSta)){
+         if(strlen(line)){
+            dbPrintToDevice(line);
+            dbPrintToDevice("\n");
+            linesOut++;
+         }
+         strcpy(curSta, (char *) sta.arr);
+         strcpy(line,curSta);
+         AddToLine((char *) chan.arr, count, line);
+      }
+      else{
+         if(strlen(line) < MaxLineLength)
+            AddToLine((char *) chan.arr, count, line);
+         else{ 
+            dbPrintToDevice(line);
+            dbPrintToDevice("\n");
+            linesOut++;
+            strcpy(line,curSta);
+         }
+      }
+      if(linesOut >= MaxLinesPerPage){
+         dbPrintToDevice("Press Return for more stations\n");
+         getchar();
+         dbPrintToDevice(header);
+         linesOut = 0;
+      } 
+   }
+   if( sqlca.sqlcode < 0 ){
+      dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+      dbPrintToDevice("\nRoutine is: ReadStationCompData\n ");
+      dbPrintToDevice("SQL is:\n ");
+      dbPrintToDevice(CompleteSelect);
+      dbPrintToDevice("\n ");
+   }
+   
+   EXEC SQL CLOSE SC_CURSOR;
+   free(CompleteSelect);
+   free(SQLstatement);
+ }
+/* ---------------------------------------------------------- */
+
+
+
+
+
+
+
+char *GetAuthorSelectString()
+{
+    char Body1[] = 
+      "SELECT DISTINCT AUTH FROM ";
+    char Body2[30];
+    char *CompleteSelect;
+
+    
+    strcpy(Body2, dbGetArrivalTableName() );
+       
+    CompleteSelect = (char *) malloc( strlen(Body1) + strlen(Body2) + 1);
+    strcpy(CompleteSelect,Body1);
+    strcat(CompleteSelect,Body2);                                      
+    return CompleteSelect;
+}    
+/* ---------------------------------------------------------- */
+
+
+
+
+
+
+void ReadAuthorData(void)
+{
+
+   char *CompleteSelect;
+   long StatementLen;
+
+   EXEC SQL BEGIN DECLARE SECTION;
+      varchar auth[7];
+      varchar *SQLstatement;
+   EXEC SQL END DECLARE SECTION;
+   
+   CompleteSelect = GetAuthorSelectString();
+   StatementLen = strlen(CompleteSelect);
+   SQLstatement = (varchar *) malloc( StatementLen * sizeof(varchar) + 1);    
+   
+   strcpy( (char *) SQLstatement->arr, CompleteSelect);
+   SQLstatement->len = StatementLen;
+   
+   EXEC SQL AT :TheDataBase DECLARE S3 STATEMENT;
+   EXEC SQL PREPARE S3 FROM :SQLstatement;
+   EXEC SQL DECLARE AUT_CURSOR CURSOR FOR S3;
+   EXEC SQL OPEN AUT_CURSOR;
+   
+   while(1){
+      EXEC SQL FETCH AUT_CURSOR INTO :auth; 
+      if( sqlca.sqlcode != 0 ) break;
+      auth.arr[auth.len] = '\0';
+      dbPrintToDevice((char *)auth.arr);
+      dbPrintToDevice("\n");
+      
+   }
+   if( sqlca.sqlcode < 0 ){
+      dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+      dbPrintToDevice("\nRoutine is: ReadAuthors\n ");
+      dbPrintToDevice("SQL is:\n ");
+      dbPrintToDevice(CompleteSelect);
+      dbPrintToDevice("\n ");
+   }
+   
+   EXEC SQL CLOSE AUT_CURSOR;
+   free(CompleteSelect);
+   free(SQLstatement);
+ }
+/* ---------------------------------------------------------- */
+
+
+
+
+
+char *GetPhaseSelectString()
+{
+    char Body1[] = 
+      "SELECT IPHASE, COUNT(*) FROM ";
+    char Body2[30];
+    char Body3[] =
+       "GROUP BY IPHASE";
+    char *CompleteSelect;
+
+    sprintf( Body2 , "%s\n" , dbGetArrivalTableName() ) ;
+       
+    CompleteSelect = (char *) malloc( strlen(Body1) + strlen(Body2) + strlen(Body3) + 1);
+    strcpy(CompleteSelect,Body1);
+    strcat(CompleteSelect,Body2);
+    strcat(CompleteSelect,Body3);                                      
+    return CompleteSelect;
+}    
+/* ---------------------------------------------------------- */
+
+
+
+void ReadPhaseData(void)
+{
+
+   char *CompleteSelect;
+   long StatementLen;
+   char curSta[9] = "";
+   char line[50] = "";
+   char header[] = "PHASE   Nobs\n____________\n";
+
+   EXEC SQL BEGIN DECLARE SECTION;
+      varchar phase[7];
+      long count;
+      varchar *SQLstatement;
+   EXEC SQL END DECLARE SECTION;
+   
+   CompleteSelect = GetPhaseSelectString();
+   StatementLen = strlen(CompleteSelect);
+   SQLstatement = (varchar *) malloc( StatementLen * sizeof(varchar) + 1);    
+   
+   strcpy( (char *) SQLstatement->arr, CompleteSelect);
+   SQLstatement->len = StatementLen;
+   
+   EXEC SQL AT :TheDataBase DECLARE S4 STATEMENT;
+   EXEC SQL PREPARE S4 FROM :SQLstatement;
+   EXEC SQL DECLARE PHA_CURSOR CURSOR FOR S4;
+   EXEC SQL OPEN PHA_CURSOR;
+   
+   dbPrintToDevice(header);
+   while(1){
+      EXEC SQL FETCH PHA_CURSOR INTO :phase, :count; 
+      if( sqlca.sqlcode != 0 ) break;
+      phase.arr[phase.len] = '\0';
+      sprintf(line,"%s\t%d\n",(char *)phase.arr,count);
+      dbPrintToDevice(line);
+   }
+   if( sqlca.sqlcode < 0 ){
+      dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+      dbPrintToDevice("\nRoutine is: ReadPhaseData\n ");
+      dbPrintToDevice("SQL is:\n ");
+      dbPrintToDevice(CompleteSelect);
+      dbPrintToDevice("\n ");
+   }
+   
+   EXEC SQL CLOSE PHA_CURSOR;
+   free(CompleteSelect);
+   free(SQLstatement);
+ }
+/* ---------------------------------------------------------- */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+char *GetStaSelectString(char *sta)
+{
+    char Body1[] = 
+      "SELECT DISTINCT STA, LAT, LON, ELEV, ONDATE, OFFDATE, "
+      "STANAME, STATYPE, REFSTA, DNORTH, DEAST  FROM ";
+    char Body2[30];
+    char Body3[] = " WHERE STA = '";
+    char *CompleteSelect;
+
+    sprintf( Body2 , "%s\n" , dbGetSiteTableName() ) ;
+       
+    CompleteSelect = (char *) malloc( strlen(Body1) + strlen(Body2) + strlen(Body3) + strlen(sta) + 3);
+    strcpy(CompleteSelect,Body1);
+    strcat(CompleteSelect,Body2);
+    strcat(CompleteSelect,Body3);
+    strcat(CompleteSelect,sta);
+    strcat(CompleteSelect,"'");
+    return CompleteSelect;
+}    
+/* ---------------------------------------------------------- */
+
+
+
+
+
+int ReadStationData(char *Sta)
+{
+
+   char *CompleteSelect;
+   long StatementLen;
+   char line[200] = "";
+   int nlines = 0;
+   EXEC SQL BEGIN DECLARE SECTION;
+      varchar sta[7];
+      float lat;
+      float lon;
+      float elev;
+      long ondate;
+      long offdate;
+      varchar staname[51];
+      varchar statype[5];
+      varchar refsta[7];
+      float dnorth;
+      float deast;
+      varchar *SQLstatement;
+   EXEC SQL END DECLARE SECTION;
+   
+   CompleteSelect = GetStaSelectString(Sta);
+   StatementLen = strlen(CompleteSelect);
+   SQLstatement = (varchar *) malloc( StatementLen * sizeof(varchar) + 1);    
+   
+   strcpy( (char *) SQLstatement->arr, CompleteSelect);
+   SQLstatement->len = StatementLen;
+   
+   EXEC SQL AT :TheDataBase DECLARE S5 STATEMENT;
+   EXEC SQL PREPARE S5 FROM :SQLstatement;
+   EXEC SQL DECLARE STA_CURSOR CURSOR FOR S5;
+   EXEC SQL OPEN STA_CURSOR;
+   
+   while(1){
+      EXEC SQL FETCH STA_CURSOR INTO :sta, :lat, :lon, :elev, :ondate, :offdate,
+				     :staname, :statype, :refsta, :dnorth, :deast; 
+      if( sqlca.sqlcode != 0 ) break;
+      sta.arr[sta.len] = '\0';
+      staname.arr[staname.len] = '\0';
+      statype.arr[statype.len] = '\0';
+      refsta.arr[refsta.len] = '\0';
+      if(!nlines++){
+	 sprintf(line,"\n\n%s    (%s)\n",sta.arr,staname.arr); 
+         dbPrintToDevice(line);
+	 dbPrintToDevice
+	 ("_____________________________________________________________________________\n");
+      }
+      sprintf(line,"Latitude  = \t\t%f\n",lat); dbPrintToDevice(line);
+      sprintf(line,"Longitude = \t\t%f\n",lon); dbPrintToDevice(line);
+      sprintf(line,"Elevation = \t\t%f\n",elev); dbPrintToDevice(line);
+      sprintf(line,"Ondate    = \t\t%d\n",ondate); dbPrintToDevice(line);
+      if(offdate < 0)
+         dbPrintToDevice("Offdate   = \t\tStill operating\n");
+      else
+         {sprintf(line,"Offdate   = \t\t%d\n",offdate);  dbPrintToDevice(line);}
+
+      if(!strcmp((char *) statype.arr,"3C"))
+         dbPrintToDevice("StaType   = \t\t3-component station\n");
+      else if(!strcmp( (char *) statype.arr,"ar"))
+         dbPrintToDevice("StaType   = \t\tArray element\n");
+      else if(!strcmp( (char *)statype.arr,"ss"))
+         dbPrintToDevice("StaType   = \t\tSingle station\n");
+      else
+         {sprintf(line,"StaType   = \t\t%s\n",statype.arr);  dbPrintToDevice(line);}
+
+      if( (dnorth != 0.0 || deast != 0.0) && refsta.arr){
+	 sprintf(line,"%s is %f km north of and %f km east of reference station %s.\n",
+	         sta.arr, dnorth, deast, refsta.arr); dbPrintToDevice(line);
+      }
+      if(nlines)
+         dbPrintToDevice
+	("-----------------------------------------------------------------------------\n");
+      else{
+         dbPrintToDevice("No data found for station (");
+	 dbPrintToDevice(Sta);
+         dbPrintToDevice(").\n");
+      }
+   }
+
+   if(!nlines){
+      dbPrintToDevice("No data found for station (");
+      dbPrintToDevice(Sta);
+      dbPrintToDevice(").\n");
+   }
+
+   if( sqlca.sqlcode < 0 ){
+      dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+      dbPrintToDevice("\nRoutine is: ReadStationData\n ");
+      dbPrintToDevice("SQL is:\n ");
+      dbPrintToDevice(CompleteSelect);
+      dbPrintToDevice("\n ");
+   }
+   
+   EXEC SQL CLOSE STA_CURSOR;
+   free(CompleteSelect);
+   free(SQLstatement);
+   return(nlines);
+ }
+/* ---------------------------------------------------------- */
+
+
+
+
+
+
+char *GetComponentSelectString(char *sta)
+{
+    char Body1[] = 
+      "SELECT DISTINCT CHAN, ONDATE, OFFDATE, "
+      "EDEPTH, HANG, VANG, DESCRIP FROM ";
+    char Body2[30];
+    char Body3[] = " WHERE STA = '";
+    char *CompleteSelect;
+
+    
+    sprintf( Body2 , "%s \n" , dbGetSitechanTableName() ) ;
+       
+    CompleteSelect = (char *) malloc( strlen(Body1) + strlen(Body2) + strlen(Body3) + strlen(sta) + 3);
+    strcpy(CompleteSelect,Body1);
+    strcat(CompleteSelect,Body2);
+    strcat(CompleteSelect,Body3);
+    strcat(CompleteSelect,sta);
+    strcat(CompleteSelect,"'");
+    return CompleteSelect;
+}    
+/* ---------------------------------------------------------- */
+
+
+
+
+
+void ReadComponentData(char *Sta)
+{
+
+   char *CompleteSelect;
+   long StatementLen;
+   char line[200] = "";
+   char off[8];
+   EXEC SQL BEGIN DECLARE SECTION;
+      varchar chan[9];
+      long ondate;
+      long offdate;
+      float edepth;
+      float hang;
+      float vang;
+      varchar descrip[51];
+      varchar *SQLstatement;
+   EXEC SQL END DECLARE SECTION;
+   
+   CompleteSelect = GetComponentSelectString(Sta);
+   StatementLen = strlen(CompleteSelect);
+   SQLstatement = (varchar *) malloc( StatementLen * sizeof(varchar) + 1);    
+   
+   strcpy( (char *) SQLstatement->arr, CompleteSelect);
+   SQLstatement->len = StatementLen;
+   
+   EXEC SQL AT :TheDataBase DECLARE S6 STATEMENT;
+   EXEC SQL PREPARE S6 FROM :SQLstatement;
+   EXEC SQL DECLARE STAC_CURSOR CURSOR FOR S6;
+   EXEC SQL OPEN STAC_CURSOR;
+
+   dbPrintToDevice("    COMP ONDATE  OFFDATE  EDEPTH  HANG   VANG  DESCIPTION\n");
+   dbPrintToDevice
+   ("-----------------------------------------------------------------------------\n");
+
+   while(1){
+      EXEC SQL FETCH STAC_CURSOR INTO :chan, :ondate, :offdate, :edepth,
+				      :hang, :vang, :descrip; 
+      if( sqlca.sqlcode != 0 ) break;
+      chan.arr[chan.len] = '\0';
+      descrip.arr[descrip.len] = '\0';
+
+      if(offdate < 0)
+	 strcpy(off,"PRESENT");
+      else
+	 sprintf(off,"%7d",offdate);
+      sprintf(line,"%8s %7d %7s %7.4f %6.2f %6.2f %s\n",
+      (char *)chan.arr,ondate,off,edepth,hang,vang, (char *)descrip.arr);
+      dbPrintToDevice(line); 
+   }
+   dbPrintToDevice
+   ("_____________________________________________________________________________\n\n");
+
+   if( sqlca.sqlcode < 0 ){
+      dbPrintToDevice(sqlca.sqlerrm.sqlerrmc);
+      dbPrintToDevice("\nRoutine is: ReadStationData\n ");
+      dbPrintToDevice("SQL is:\n ");
+      dbPrintToDevice(CompleteSelect);
+      dbPrintToDevice("\n ");
+   }
+   
+   EXEC SQL CLOSE STAC_CURSOR;
+   free(CompleteSelect);
+   free(SQLstatement);
+ }
+/* ---------------------------------------------------------- */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void dbOracleHelpOnSrctype(void)
+{
+    if(!strlen(dbGetQueryLoginString()) )dbSetQueryDefaults();
+    if(!ConnectToOracleForHelp()) return;
+    ReadSrcTypes();
+    EXEC SQL AT :TheDataBase COMMIT WORK RELEASE;
+}
+/* --------------------------------------------------------------------------- */
+
+
+
+
+
+
+void dbOracleHelpOnStations()
+{
+    if(!strlen(dbGetQueryLoginString()) )dbSetQueryDefaults();
+    if(!ConnectToOracleForHelp()) return;
+    ReadStationCompData();
+    EXEC SQL AT :TheDataBase COMMIT WORK RELEASE;
+}
+/* --------------------------------------------------------------------------- */
+
+
+
+
+
+void dbOracleHelpOnAuthors()
+{
+    if(!strlen(dbGetQueryLoginString()) )dbSetQueryDefaults();
+    if(!ConnectToOracleForHelp()) return;
+    ReadAuthorData();
+    EXEC SQL AT :TheDataBase COMMIT WORK RELEASE;
+}
+/* --------------------------------------------------------------------------- */
+
+
+
+
+
+void dbOracleHelpOnPhases()
+{
+    if(!strlen(dbGetQueryLoginString()) )dbSetQueryDefaults();
+    if(!ConnectToOracleForHelp()) return;
+    ReadPhaseData();
+    EXEC SQL AT :TheDataBase COMMIT WORK RELEASE;
+}
+/* --------------------------------------------------------------------------- */
+
+
+
+void dbOracleHelpOnOneStation(char *sta)
+{
+    if(!strlen(dbGetQueryLoginString()) )dbSetQueryDefaults();
+    if(!ConnectToOracleForHelp()) return;
+    if(ReadStationData(sta) )ReadComponentData(sta); 
+    EXEC SQL AT :TheDataBase COMMIT WORK RELEASE;
+}
+/* --------------------------------------------------------------------------- */
+
+
+
+
+
+

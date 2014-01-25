@@ -1,0 +1,551 @@
+ wait text off
+  
+ ==>  
+ fg seismo
+ ch kuser2 One
+ write test.divf.1
+  
+ ==>  
+ fg seismo
+ mul 2
+ ch kuser2 Two
+ write test.divf.2
+  
+ ==>  
+ read test.divf.1 test.divf.2
+ lh depmin depmax kuser2
+  
+  
+  FILE: test.divf.1 - 1
+ -----------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     kuser2 = One
+  
+  FILE: test.divf.2 - 2
+ -----------------
+
+     depmin = -3.138560e+00
+     depmax = 3.041280e+00
+     kuser2 = Two
+  
+ ==>  
+ message "Default"
+ Default
+  
+ ==>  
+ message "One"
+ One
+ read test.divf.1
+ divf test.divf.2
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 0.5
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.divf.1 - 1
+ -----------------
+
+     depmin = 5.000000e-01
+     depmax = 3.402820e+38
+     depmin = 5.000000e-01
+     kuser2 = One
+  
+ ==>  
+ message "Two"
+ Two
+ read test.divf.2
+ divf test.divf.1
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 2
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.divf.2 - 1
+ -----------------
+
+     depmin = 2.000000e+00
+     depmax = 3.402820e+38
+     depmin = 2.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.divf.1 test.divf.2
+ divf test.divf.2 test.divf.1
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 0.5
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 2
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.divf.1 - 1
+ -----------------
+
+     depmin = 5.000000e-01
+     depmax = 3.402820e+38
+     depmin = 5.000000e-01
+     kuser2 = One
+  
+  FILE: test.divf.2 - 2
+ -----------------
+
+     depmin = 2.000000e+00
+     depmax = 3.402820e+38
+     depmin = 2.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.divf.1 test.divf.2
+ divf test.divf.1 test.divf.2
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 1
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 1
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.divf.1 - 1
+ -----------------
+
+     depmin = 1.000000e+00
+     depmax = 3.402820e+38
+     depmin = 1.000000e+00
+     kuser2 = One
+  
+  FILE: test.divf.2 - 2
+ -----------------
+
+     depmin = 1.000000e+00
+     depmax = 3.402820e+38
+     depmin = 1.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.divf.1 test.divf.2
+ divf test.divf.1
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 1
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 2
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.divf.1 - 1
+ -----------------
+
+     depmin = 1.000000e+00
+     depmax = 3.402820e+38
+     depmin = 1.000000e+00
+     kuser2 = One
+  
+  FILE: test.divf.2 - 2
+ -----------------
+
+     depmin = 2.000000e+00
+     depmax = 3.402820e+38
+     depmin = 2.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.divf.1 test.divf.2
+ divf test.divf.2
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 0.5
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 1
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.divf.1 - 1
+ -----------------
+
+     depmin = 5.000000e-01
+     depmax = 3.402820e+38
+     depmin = 5.000000e-01
+     kuser2 = One
+  
+  FILE: test.divf.2 - 2
+ -----------------
+
+     depmin = 1.000000e+00
+     depmax = 3.402820e+38
+     depmin = 1.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "New Header Off"
+ New Header Off
+  
+ ==>  
+ message "One"
+ One
+ read test.divf.1
+ divf newhdr off test.divf.2
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 0.5
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.divf.1 - 1
+ -----------------
+
+     depmin = 5.000000e-01
+     depmax = 3.402820e+38
+     depmin = 5.000000e-01
+     kuser2 = One
+  
+ ==>  
+ message "Two"
+ Two
+ read test.divf.2
+ divf newhdr off test.divf.1
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 2
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.divf.2 - 1
+ -----------------
+
+     depmin = 2.000000e+00
+     depmax = 3.402820e+38
+     depmin = 2.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.divf.1 test.divf.2
+ divf newhdr off test.divf.2 test.divf.1
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 0.5
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 2
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.divf.1 - 1
+ -----------------
+
+     depmin = 5.000000e-01
+     depmax = 3.402820e+38
+     depmin = 5.000000e-01
+     kuser2 = One
+  
+  FILE: test.divf.2 - 2
+ -----------------
+
+     depmin = 2.000000e+00
+     depmax = 3.402820e+38
+     depmin = 2.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.divf.1 test.divf.2
+ divf newhdr off test.divf.1 test.divf.2
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 1
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 1
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.divf.1 - 1
+ -----------------
+
+     depmin = 1.000000e+00
+     depmax = 3.402820e+38
+     depmin = 1.000000e+00
+     kuser2 = One
+  
+  FILE: test.divf.2 - 2
+ -----------------
+
+     depmin = 1.000000e+00
+     depmax = 3.402820e+38
+     depmin = 1.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.divf.1 test.divf.2
+ divf newhdr off test.divf.1
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 1
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 2
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.divf.1 - 1
+ -----------------
+
+     depmin = 1.000000e+00
+     depmax = 3.402820e+38
+     depmin = 1.000000e+00
+     kuser2 = One
+  
+  FILE: test.divf.2 - 2
+ -----------------
+
+     depmin = 2.000000e+00
+     depmax = 3.402820e+38
+     depmin = 2.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.divf.1 test.divf.2
+ divf newhdr off test.divf.2
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 0.5
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 1
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.divf.1 - 1
+ -----------------
+
+     depmin = 5.000000e-01
+     depmax = 3.402820e+38
+     depmin = 5.000000e-01
+     kuser2 = One
+  
+  FILE: test.divf.2 - 2
+ -----------------
+
+     depmin = 1.000000e+00
+     depmax = 3.402820e+38
+     depmin = 1.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "New Header On"
+ New Header On
+  
+ ==>  
+ message "Two"
+ Two
+ read test.divf.1
+ divf newhdr on test.divf.2
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 0.5
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.divf.1 - 1
+ -----------------
+
+     depmin = 5.000000e-01
+     depmax = 3.402820e+38
+     depmin = 5.000000e-01
+     kuser2 = Two
+  
+ ==>  
+ message "One"
+ One
+ read test.divf.2
+ divf newhdr on test.divf.1
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 2
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.divf.2 - 1
+ -----------------
+
+     depmin = 2.000000e+00
+     depmax = 3.402820e+38
+     depmin = 2.000000e+00
+     kuser2 = One
+  
+ ==>  
+ message "Two One"
+ Two One
+ read test.divf.1 test.divf.2
+ divf newhdr on test.divf.2 test.divf.1
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 0.5
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 2
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.divf.1 - 1
+ -----------------
+
+     depmin = 5.000000e-01
+     depmax = 3.402820e+38
+     depmin = 5.000000e-01
+     kuser2 = Two
+  
+  FILE: test.divf.2 - 2
+ -----------------
+
+     depmin = 2.000000e+00
+     depmax = 3.402820e+38
+     depmin = 2.000000e+00
+     kuser2 = One
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.divf.1 test.divf.2
+ divf newhdr on test.divf.1 test.divf.2
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 1
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 1
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.divf.1 - 1
+ -----------------
+
+     depmin = 1.000000e+00
+     depmax = 3.402820e+38
+     depmin = 1.000000e+00
+     kuser2 = One
+  
+  FILE: test.divf.2 - 2
+ -----------------
+
+     depmin = 1.000000e+00
+     depmax = 3.402820e+38
+     depmin = 1.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One One"
+ One One
+ read test.divf.1 test.divf.2
+ divf newhdr on test.divf.1
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 1
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 2
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.divf.1 - 1
+ -----------------
+
+     depmin = 1.000000e+00
+     depmax = 3.402820e+38
+     depmin = 1.000000e+00
+     kuser2 = One
+  
+  FILE: test.divf.2 - 2
+ -----------------
+
+     depmin = 2.000000e+00
+     depmax = 3.402820e+38
+     depmin = 2.000000e+00
+     kuser2 = One
+  
+ ==>  
+ message "Two Two"
+ Two Two
+ read test.divf.1 test.divf.2
+ divf newhdr on test.divf.2
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 0.5
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 1
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.divf.1 - 1
+ -----------------
+
+     depmin = 5.000000e-01
+     depmax = 3.402820e+38
+     depmin = 5.000000e-01
+     kuser2 = Two
+  
+  FILE: test.divf.2 - 2
+ -----------------
+
+     depmin = 1.000000e+00
+     depmax = 3.402820e+38
+     depmin = 1.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "Nothing"
+ Nothing
+ read test.divf.1
+ divf
+ ERROR 1803: No binary data files read in.
+  
+ ==>  
+ message "Spectral"
+ Spectral
+ read test.divf.1
+ fft
+ DC level after DFT is -0.98547
+ write test.divf.spectral.1
+ read test.divf.1
+ divf test.divf.spectral.1
+ ERROR 1307: Illegal operation on spectral file test.divf.spectral.1
+  
+ ==>  
+ message "Uneven"
+ Uneven
+ read test.divf.1
+ divf test_binop_uneven.m
+ ERROR 1306: Illegal operation on unevenly spaced file test_binop_uneven.m
+  
+ ==>  
+ message "Different Delta"
+ Different Delta
+ read test.divf.1
+ interpolate delta 0.005
+ write test.divf.dt
+ read test.divf.1
+ divf test.divf.dt
+ ERROR 1801: Header field mismatch: DELTA test.divf.1 test.divf.dt
+  
+ ==>  
+ message "Different Npts"
+ Different Npts
+ read test.divf.1
+ cut &1,b (&1,e - 1.0)
+ ==>  cut 9.46 18.45
+ read test.divf.1
+ cut off
+ write test.divf.npts
+ read test.divf.1
+ divf test.divf.npts
+ ERROR 1801: Header field mismatch: NPTS test.divf.1 test.divf.npts
+  
+ ==>  
+ message "Different Times"
+ Different Times
+ read test.divf.1
+ ch b -10
+ WARNING: Reference time not equal to zero:  KZDATE and KZTIME may be adjusted by subsequent commands so that the reference time is zero.  Reference time is B
+ write test.divf.time
+ read test.divf.1
+ divf test.divf.time
+ WARNING: Time overlap: 
+   BEG1: MAR 29 (088), 1981 10:38:23.460  test.divf.1
+   BEG2: MAR 29 (088), 1981 10:38:04.000  test.divf.time
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 1
+ quit

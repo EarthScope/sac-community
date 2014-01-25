@@ -1,0 +1,20 @@
+
+fg seismo
+spectrogram
+contour
+
+zlabels on
+contour
+
+zlevels scale
+contour
+
+zlines off
+contour
+
+zticks on
+contour
+
+zcolors on
+contour
+

@@ -1,0 +1,15 @@
+
+fg seismo
+p1 ; pause period 0.25
+linlin
+p1 ; pause period 0.25
+linlog
+p1 ; pause period 0.25
+loglin
+p1 ; pause period 0.25
+loglog
+p1 ; pause period 0.25
+linlin
+p1 ; pause period 0.25
+
+

@@ -1,0 +1,29 @@
+ wait text off
+ markptp
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ fg impulse
+ mtw 40 60
+ markptp length 3 to F
+ lh F
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     F = 4.700000e+01
+  
+ ==>  
+ mul -1
+ markptp length 3 to F
+ lh F
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     F = 4.900000e+01
+  
+ ==>  
+ quit

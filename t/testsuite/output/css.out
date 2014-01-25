@@ -1,0 +1,63 @@
+ wait text off
+  
+ ==>  
+ fg seismo
+ lh delta b e npts kstnm kcmpnm depmin depmax kzdate kztime
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+      delta = 1.000000e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+       npts = 1000
+      kstnm = CDV
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     kzdate = MAR 29 (088), 1981
+     kztime = 10:38:14.000
+  
+ ==>  
+ writecss test.css
+css-warning: Skipping affiliation record because of null keys...
+css-warning: -99999.00 truncated to (-99999.) to fit format requirements
+  
+ ==>  
+ clearmemory
+./test.cssCDV00000001.w
+  
+  
+  FILE: CDV.CHAN.1981088103732 - 1
+ ----------------------------
+
+      delta = 1.000000e-02
+          b = 5.089000e+01
+          e = 6.088000e+01
+       npts = 1000
+      kstnm = CDV
+     kcmpnm = CHAN
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     kzdate = MAR 29 (088), 1981
+     kztime = 10:37:32.570
+ No wfdisc
+ ERROR  120: No wfdisc file specified
+ No Period
+ ERROR  120: No wfdisc file specified
+ No Period
+ WARNING: .wfdisc filenames require an explicit '.' on the command line: 
+          The token test.c*wfdisc is not treaded as a .wfdisc file
+ No Period
+ WARNING: .wfdisc filenames require an explicit '.' on the command line: 
+          The token test.css?wfdisc is not treaded as a .wfdisc file
+ WARNING: .wfdisc filenames require an explicit '.' on the command line: 
+          The token test.css?wfdisc is not treaded as a .wfdisc file
+ No Period
+ ERROR  114: reading file : No traces returned from SeisMgr
+ ERROR  114: reading file : No traces returned from SeisMgr
+ No Files
+No wfdisc file(s) found in the specified directory
+ ERROR 1301: No data files read in.
+No wfdisc file(s) found in the specified directory
+ ERROR 1301: No data files read in.

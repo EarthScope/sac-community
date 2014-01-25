@@ -1,0 +1,29 @@
+ wait text off
+  
+ ==>  
+ quantize
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ fg seismo
+ quantize
+WARNING: 754 data point(s) clipped in file: SEISMOGR
+ lh b e depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+          b = 9.459999e+00
+          e = 1.945000e+01
+     depmin = -8.064000e-02
+     depmax = 3.276800e-01
+     depmen = 2.389018e-01
+  
+ ==>  
+ fg seismo
+ fft
+ DC level after DFT is -0.98547
+ quantize
+ ERROR 1307: Illegal operation on spectral file SEISMOGR
+ quit

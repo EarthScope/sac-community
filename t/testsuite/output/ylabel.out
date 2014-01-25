@@ -1,0 +1,55 @@
+ wait text off
+ fg seismo
+  
+ ==>  
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ ylabel "Y Label"
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ ylabel off
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ ylabel on
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ ylabel location top
+ p1 ; pause period 0.25
+Pausing
+ ylabel location bottom
+ p1 ; pause period 0.25
+Pausing
+ ylabel location left
+ p1 ; pause period 0.25
+Pausing
+ ylabel location right
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ ylabel size tiny
+ p1 ; pause period 0.25
+Pausing
+ ylabel size small
+ p1 ; pause period 0.25
+Pausing
+ ylabel size medium
+ p1 ; pause period 0.25
+Pausing
+ ylabel size large
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ ylabel Bad option
+ ERROR interpreting command:  ylabel Bad option 
+ ILLEGAL OPTION:                     ^
+ quit

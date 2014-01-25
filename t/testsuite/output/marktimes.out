@@ -1,0 +1,25 @@
+ wait text off
+ marktimes
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ fg seismogram
+ lh t0 t1 t2 t3 t4
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+ marktimes
+ lh t0 t1 t2 t3 t4
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     t0 = 1.451014e+02
+     t1 = 8.292425e+01
+     t2 = 5.183569e+01
+     t3 = 3.318255e+01
+     t4 = 2.074712e+01
+ quit

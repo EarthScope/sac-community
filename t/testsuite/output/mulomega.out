@@ -1,0 +1,79 @@
+ wait text off
+  
+ ==>  
+ mulomega
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ fg seismo
+ mulomega
+ ERROR 1305: Illegal operation on time series file SEISMOGR
+  
+ ==>  
+ fft
+ DC level after DFT is -0.98547
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+ mulomega
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = 0.000000e+00
+     depmax = 2.164291e+01
+     depmen = 3.067232e+00
+ mulomega
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = 0.000000e+00
+     depmax = 1.912312e+03
+     depmen = 2.448542e+02
+ mulomega
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = 0.000000e+00
+     depmax = 1.693157e+05
+     depmen = 2.518365e+04
+ mulomega
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = 0.000000e+00
+     depmax = 1.797314e+07
+     depmen = 3.284133e+06
+  
+ ==>  
+ fg seismo
+ fft rlim
+ DC level after DFT is -0.98547
+ mulomega
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.645800e+01
+     depmax = 2.164125e+01
+     depmen = -6.547060e-02
+ quit

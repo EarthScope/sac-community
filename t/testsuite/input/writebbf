@@ -1,0 +1,8 @@
+setbb a 10
+getbb
+writebbf test.bbf
+inicm
+echo on
+getbb
+readbbf
+getbb

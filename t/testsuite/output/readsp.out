@@ -1,0 +1,69 @@
+ wait text off
+  
+ ==>  
+ readsp illegaloption
+ ERROR  108: File does not exist: illegaloption.am
+  
+ ==>  
+ fg seismo
+ fft
+ DC level after DFT is -0.98547
+ writesp test.readsp.0
+ readsp test.readsp.0
+ lh iftype depmin depmax
+  
+  
+  FILE: test.readsp.0 - 1
+ -------------------
+
+     iftype = SPECTRAL FILE-AMPL/PHASE
+     depmin = 3.626911e-05
+     depmax = 9.854721e-01
+  
+ ==>  
+ writesp rlim test.readsp.1
+ readsp rlim test.readsp.1
+ lh iftype depmin depmax
+  
+  
+  FILE: test.readsp.1 - 1
+ -------------------
+
+     iftype = SPECTRAL FILE-REAL/IMAG
+     depmin = -9.854721e-01
+     depmax = 4.165988e-01
+  
+ ==>  
+ writesp amph test.readsp.2
+ readsp amph test.readsp.2
+ lh iftype depmin depmax
+  
+  
+  FILE: test.readsp.2 - 1
+ -------------------
+
+     iftype = SPECTRAL FILE-AMPL/PHASE
+     depmin = 3.626911e-05
+     depmax = 9.854721e-01
+  
+ ==>  
+ dc all
+
+All files deleted.
+ readsp
+ lh iftype depmin depmax
+  
+  
+  FILE: test.readsp.2 - 1
+ -------------------
+
+     iftype = SPECTRAL FILE-AMPL/PHASE
+     depmin = 3.626911e-05
+     depmax = 9.854721e-01
+  
+ ==>  
+ readsp nofile
+ ERROR  108: File does not exist: nofile.am
+ readsp test_rsp
+ ERROR 1317: reading file The following file is not a SAC data file: test_rsp.am                                                                                                                      not in sac format, nor byteswapped sac format
+ quit

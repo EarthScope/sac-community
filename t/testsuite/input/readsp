@@ -1,0 +1,23 @@
+
+readsp illegaloption
+
+fg seismo
+fft
+writesp test.readsp.0
+readsp test.readsp.0
+lh iftype depmin depmax
+
+writesp rlim test.readsp.1
+readsp rlim test.readsp.1
+lh iftype depmin depmax
+
+writesp amph test.readsp.2
+readsp amph test.readsp.2
+lh iftype depmin depmax
+
+dc all
+readsp
+lh iftype depmin depmax
+
+readsp nofile
+readsp test_rsp

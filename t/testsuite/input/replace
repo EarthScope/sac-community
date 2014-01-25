@@ -1,0 +1,10 @@
+
+fg seismo
+
+message Hello &1,user1
+message "Hello &1,user1"
+
+message Hello &1,kuser1
+message "Hello &1,kuser1"
+
+

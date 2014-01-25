@@ -1,0 +1,11 @@
+ wait text off
+ message line one two three
+ line
+ one
+ two
+ three
+ message "line one two three"
+ line one two three
+  
+ ==>  
+ quit

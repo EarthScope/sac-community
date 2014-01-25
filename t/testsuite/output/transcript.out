@@ -1,0 +1,10 @@
+ wait text off
+  
+ ==>  
+ transcript contents all file test.transcript.m
+ message hi
+ hi
+ transcript close
+test.transcript.m
+ ls test.transcript.m
+ quit

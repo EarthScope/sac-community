@@ -1,0 +1,31 @@
+ wait text off
+  
+ ==>  
+Hello
+ sc echo "Hello"
+  
+ ==>  
+Hello
+ systemcommand echo "Hello"
+  
+ ==>  
+ setbb wd test
+ setbb path1 %wd%.hey
+ ==>  setbb path1 test.hey
+ touch %path1
+ ==>  touch test.hey
+  
+ ==>  
+test.hey
+ ls %path1
+ ==>  ls test.hey
+  
+ ==>  
+test.hey
+ sc ls %path1
+ ==>  sc ls test.hey
+  
+ ==>  
+  
+ ==>  
+ quit

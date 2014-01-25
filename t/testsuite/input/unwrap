@@ -1,0 +1,40 @@
+
+unwrap
+unwrap illegaloption
+
+fg seismo
+fft
+unwrap
+
+fg seismo
+lh iftype b e delta 
+unwrap
+lh iftype b e delta 
+
+fg impulse
+lh iftype b e delta 
+unwrap
+lh iftype b e delta 
+
+fg seismo
+lh iftype b e delta 
+unwrap fill off
+lh iftype b e delta 
+
+fg seismo
+lh iftype b e delta 
+unwrap fill off
+lh iftype b e delta 
+
+
+fg seismo
+lh iftype b e delta 
+unwrap intthr 1.0
+lh iftype b e delta 
+
+fg seismo
+lh iftype b e delta 
+unwrap pvthr 1.0
+lh iftype b e delta 
+
+

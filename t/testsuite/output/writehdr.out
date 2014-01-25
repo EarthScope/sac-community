@@ -1,0 +1,38 @@
+ wait text off
+  
+ ==>  
+  
+ ==>  
+ fg impulse
+ lh kevnm iftype
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+      kevnm = FUNCGEN: IMPULSE
+     iftype = TIME SERIES FILE
+ write test.writehdr
+  
+ ==>  
+ ch kevnm OtherValue
+ writehdr
+ ERROR  108: File does not exist: IMPULSE
+  
+ ==>  
+ readhdr test.writehdr
+ lh kevnm iftype
+  
+  
+  FILE: test.writehdr - 1
+ -------------------
+
+      kevnm = FUNCGEN: IMPULSE
+     iftype = TIME SERIES FILE
+  
+ ==>  
+  
+ ==>  
+  
+ ==>  
+ quit

@@ -1,0 +1,82 @@
+ wait text off
+  
+ ==>  
+ fg seismogram
+  
+ ==>  
+ lh depmin depmax depmen npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+       npts = 1000
+ int
+ lh depmin depmax depmen npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -9.846017e-01
+     depmax = -9.728001e-04
+     depmen = -4.946648e-01
+       npts = 999
+  
+ ==>  
+ fg seismogram
+ lh depmin depmax depmen npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+       npts = 1000
+ int trapezoidal
+ lh depmin depmax depmen npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -9.846017e-01
+     depmax = -9.728001e-04
+     depmen = -4.946648e-01
+       npts = 999
+  
+ ==>  
+ fg seismogram
+ lh depmin depmax depmen npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+       npts = 1000
+ int rectangular
+ lh depmin depmax depmen npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -9.854725e-01
+     depmax = -9.728001e-04
+     depmen = -4.951492e-01
+       npts = 1000
+  
+ ==>  
+  
+ ==>  
+  
+ ==>  
+ quit

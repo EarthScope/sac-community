@@ -1,0 +1,32 @@
+ wait text off
+ am
+ ERROR 1301: No data files read in.
+ fg seismo
+ am
+ ERROR 1305: Illegal operation on time series file SEISMOGR
+ fft
+ DC level after DFT is -0.98547
+ lh depmin depmax iftype npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     iftype = SPECTRAL FILE-AMPL/PHASE
+       npts = 1024
+ am
+ lh depmin depmax iftype npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = 3.626911e-05
+     depmax = 9.854721e-01
+     iftype = GENERAL X VS Y FILE
+       npts = 513
+  
+ ==>  
+ quit

@@ -1,0 +1,16 @@
+hilbert
+
+fg impulse
+lh depmin depmax
+hilbert
+lh depmin depmax
+
+fg seismogram
+lh depmin depmax
+hilbert
+lh depmin depmax
+
+fg sin
+lh depmin depmax
+hilbert
+lh depmin depmax

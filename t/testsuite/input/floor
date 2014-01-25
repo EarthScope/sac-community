@@ -1,0 +1,16 @@
+
+fg seismo
+abs
+add 1e-2
+ylog
+
+p1 ; pause period 0.25
+
+floor 1e-1
+p1 ; pause period 0.25
+
+floor on
+p1 ; pause period 0.25
+
+floor off
+p1 ; pause period 0.25

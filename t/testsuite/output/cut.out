@@ -1,0 +1,113 @@
+ wait text off
+ cut off
+ fg impulse
+ ch t1 56
+ write test.impulse
+  
+ ==>  
+ cut 20 80
+ read test.impulse
+ lh b e
+  
+  
+  FILE: test.impulse - 1
+ ------------------
+
+     b = 2.000000e+01
+     e = 8.000000e+01
+  
+ ==>  
+ cut off
+ read test.impulse
+ lh b e
+  
+  
+  FILE: test.impulse - 1
+ ------------------
+
+     b = 0.000000e+00
+     e = 9.900000e+01
+  
+ ==>  
+ cut -10 80
+ read test.impulse
+ WARNING: Start cut less than file begin for file test.impulse
+ Corrected by using file begin.
+ lh b e
+  
+  
+  FILE: test.impulse - 1
+ ------------------
+
+     b = 0.000000e+00
+     e = 8.000000e+01
+  
+ ==>  
+ cut 10 180
+ read test.impulse
+ WARNING: Stop cut greater than file end for file test.impulse
+ Corrected by using file end.
+ lh b e
+  
+  
+  FILE: test.impulse - 1
+ ------------------
+
+     b = 1.000000e+01
+     e = 9.900000e+01
+  
+ ==>  
+ cut t1 80
+ read test.impulse
+ WARNING: Start cut greater than stop cut for file test.impulse
+	time:  136.000000 >= 56.000000
+	index: 137 >= 57
+ ERROR 1301: No data files read in.
+ lh b e
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ cut t1 e
+ read test.impulse
+ lh b e
+  
+  
+  FILE: test.impulse - 1
+ ------------------
+
+     b = 5.600000e+01
+     e = 9.900000e+01
+  
+ ==>  
+  
+ ==>  
+ ** Precision of time in Cutting
+  
+ ==>  
+ fg impulse delta 5e-3 npts 17279840
+ lh b e npts delta
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+         b = 0.000000e+00
+         e = 8.639920e+04
+      npts = 17279840
+     delta = 5.000000e-03
+ write test.impulse
+ cut e -1200 0
+ read test.impulse
+ lh b e npts delta
+  
+  
+  FILE: test.impulse - 1
+ ------------------
+
+         b = 8.519920e+04
+         e = 8.639920e+04
+      npts = 240001
+     delta = 5.000000e-03
+  
+ ==>  
+ quit

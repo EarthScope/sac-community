@@ -1,0 +1,10 @@
+getbb
+getbb sacnfiles
+getbb sacerror
+getbb sacerror numerror
+getbb all
+getbb names off newline off
+getbb names off newline on
+getbb names on  newline on
+getbb names on  newline off
+

@@ -1,0 +1,379 @@
+ wait text off
+ message "Error"
+ Error
+ lp
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ message "Default"
+ Default
+ fg seismo
+ lp
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.145435e-01
+     depmax = -1.509284e-05
+     depmen = -9.347629e-02
+  
+ ==>  
+ message "Filter Types"
+ Filter Types
+ fg seismo
+ lp butter
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.145435e-01
+     depmax = -1.509284e-05
+     depmen = -9.347629e-02
+ fg seismo
+ lp bessel
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.205238e-01
+     depmax = -2.418285e-05
+     depmen = -9.362070e-02
+ fg seismo
+ lp c1
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.564369e-02
+     depmax = -6.092782e-07
+     depmen = -8.043047e-03
+ fg seismo
+ lp c2
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.025365e-01
+     depmax = -1.720826e-06
+     depmen = -8.269677e-02
+  
+ ==>  
+ message "Fitler with Corners"
+ Fitler with Corners
+ fg seismo
+ lp butter co 0.01
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.433508e-02
+     depmax = -9.596887e-09
+     depmen = -5.188841e-03
+ fg seismo
+ lp bessel co 0.01
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.990158e-02
+     depmax = -1.552424e-08
+     depmen = -7.486131e-03
+ fg seismo
+ lp c1 co 0.01
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -7.539308e-04
+     depmax = -3.810506e-10
+     depmen = -2.541314e-04
+ fg seismo
+ lp c2 co 0.01
+  
+ ==>  
+ fg seismo
+ lp butter
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.433508e-02
+     depmax = -9.596887e-09
+     depmen = -5.188841e-03
+  
+ ==>  
+ message "Filter with Poles"
+ Filter with Poles
+ fg seismo
+ lp n 0
+ ERROR interpreting command:  lp n 0 
+ OUTSIDE ALLOWED RANGE:            ^
+ Allowed range is:          1        10
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+ fg seismo
+ lp n 2
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.433508e-02
+     depmax = -9.596887e-09
+     depmen = -5.188841e-03
+ fg seismo
+ lp n 3
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.961720e-03
+     depmax = -3.014396e-12
+     depmen = -7.945694e-04
+ fg seismo
+ lp n 4
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.591212e-04
+     depmax = -9.468181e-16
+     depmen = -9.777084e-05
+ fg seismo
+ lp n 5
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -5.730520e-05
+     depmax = -2.973934e-19
+     depmen = -1.009753e-05
+  
+ ==>  
+ message "Filter with Passses"
+ Filter with Passses
+ fg seismo
+ lp p 0
+ ERROR interpreting command:  lp p 0 
+ OUTSIDE ALLOWED RANGE:            ^
+ Allowed range is:          1         2
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+ fg seismo
+ lp p 1
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -5.730520e-05
+     depmax = -2.973934e-19
+     depmen = -1.009753e-05
+ fg seismo
+ lp p 2
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.658156e-08
+     depmax = -1.751870e-22
+     depmen = -3.207276e-09
+ fg seismo
+ lp p 3
+ ERROR interpreting command:  lp p 3 
+ OUTSIDE ALLOWED RANGE:            ^
+ Allowed range is:          1         2
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+  
+ ==>  
+ message "Filter with ChebyshevI Parameters"
+ Filter with ChebyshevI Parameters
+ fg seismo
+ lp c1 tranbw 0.3
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.188013e-11
+     depmax = -4.906584e-25
+     depmen = -1.140119e-11
+ fg seismo
+ lp c1 atten 30
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.188013e-11
+     depmax = -4.906584e-25
+     depmen = -1.140119e-11
+  
+ ==>  
+ message "Filter with ChebyshevII Parameters"
+ Filter with ChebyshevII Parameters
+ fg seismo
+ lp c2 tranbw 0.3
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.156043e-08
+     depmax = -6.686994e-22
+     depmen = -1.197086e-08
+ fg seismo
+ lp c2 atten 30
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.156043e-08
+     depmax = -6.686994e-22
+     depmen = -1.197086e-08
+  
+ ==>  
+ fg seismo
+ lp be co 5 n 1
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -8.594147e-01
+     depmax = 7.047966e-01
+     depmen = -9.816615e-02
+ fg seismo
+ lp be co 5 n 2
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -8.735686e-01
+     depmax = 6.978213e-01
+     depmen = -9.810831e-02
+ fg seismo
+ lp be co 5 n 3
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -8.743824e-01
+     depmax = 6.911217e-01
+     depmen = -9.802832e-02
+ fg seismo
+ lp be co 5 n 4
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -8.728995e-01
+     depmax = 6.878585e-01
+     depmen = -9.795302e-02
+ fg seismo
+ lp be co 5 n 5
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -8.726367e-01
+     depmax = 6.846207e-01
+     depmen = -9.788369e-02
+ fg seismo
+ lp be co 5 n 6
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -8.730735e-01
+     depmax = 6.821748e-01
+     depmen = -9.781893e-02
+ fg seismo
+ lp be co 5 n 7
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -8.733807e-01
+     depmax = 6.806769e-01
+     depmen = -9.775594e-02
+ fg seismo
+ lp be co 5 n 8
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -8.733657e-01
+     depmax = 6.799832e-01
+     depmen = -9.769381e-02
+ quit

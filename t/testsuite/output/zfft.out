@@ -1,0 +1,119 @@
+ wait text off
+ fft
+ ERROR 1301: No data files read in.
+ fg seismogram
+  
+ ==>  
+ lh columns 2 iftype npts delta depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+    iftype = TIME SERIES FILE                 npts = 1000
+     delta = 1.000000e-02                   depmin = -1.569280e+00
+    depmax = 1.520640e+00
+ fft
+ DC level after DFT is -0.98547
+ lh columns 2 iftype npts delta depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+    iftype = SPECTRAL FILE-AMPL/PHASE         npts = 1024
+     delta = 9.765625e-02                   depmin = -1.569280e+00
+    depmax = 1.520640e+00
+  
+ ==>  
+ lh columns 2 iftype npts delta depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+    iftype = SPECTRAL FILE-AMPL/PHASE         npts = 1024
+     delta = 9.765625e-02                   depmin = -1.569280e+00
+    depmax = 1.520640e+00
+ fft womean
+ ERROR 1307: Illegal operation on spectral file SEISMOGR
+ lh columns 2 iftype npts delta depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+    iftype = SPECTRAL FILE-AMPL/PHASE         npts = 1024
+     delta = 9.765625e-02                   depmin = -1.569280e+00
+    depmax = 1.520640e+00
+  
+ ==>  
+ lh columns 2 iftype npts delta depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+    iftype = SPECTRAL FILE-AMPL/PHASE         npts = 1024
+     delta = 9.765625e-02                   depmin = -1.569280e+00
+    depmax = 1.520640e+00
+ fft wmean
+ ERROR 1307: Illegal operation on spectral file SEISMOGR
+ lh columns 2 iftype npts delta depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+    iftype = SPECTRAL FILE-AMPL/PHASE         npts = 1024
+     delta = 9.765625e-02                   depmin = -1.569280e+00
+    depmax = 1.520640e+00
+  
+ ==>  
+ lh columns 2 iftype npts delta depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+    iftype = SPECTRAL FILE-AMPL/PHASE         npts = 1024
+     delta = 9.765625e-02                   depmin = -1.569280e+00
+    depmax = 1.520640e+00
+ fft rlim
+ ERROR 1307: Illegal operation on spectral file SEISMOGR
+ lh columns 2 iftype npts delta depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+    iftype = SPECTRAL FILE-AMPL/PHASE         npts = 1024
+     delta = 9.765625e-02                   depmin = -1.569280e+00
+    depmax = 1.520640e+00
+  
+ ==>  
+ lh columns 2 iftype npts delta depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+    iftype = SPECTRAL FILE-AMPL/PHASE         npts = 1024
+     delta = 9.765625e-02                   depmin = -1.569280e+00
+    depmax = 1.520640e+00
+ fft amph
+ ERROR 1307: Illegal operation on spectral file SEISMOGR
+ lh columns 2 iftype npts delta depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+    iftype = SPECTRAL FILE-AMPL/PHASE         npts = 1024
+     delta = 9.765625e-02                   depmin = -1.569280e+00
+    depmax = 1.520640e+00
+  
+ ==>  
+  
+ ==>  
+ quit

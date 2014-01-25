@@ -1,0 +1,51 @@
+ wait text off
+ * this is a SAC macro to generate a sawtooth, approximating a stick-slip source.
+  
+ ==>  
+ funcgen line -2 1. npts 50 delta 0.01
+  
+ ==>  
+ funcgen impstrin 100 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800 1900 2000 2100 2200 2300 2400 2500 2600 2700 2800 2900 3000 3100 3200 3300 3400 3500 3600 npts 10000 delta 0.01
+  
+ ==>  
+ convolve master 1
+  
+ ==>  
+ lh depmin depmax depmen b e npts
+  
+  
+  FILE: IMPSTRIN - 1
+ --------------
+
+     depmin = -1.300677e-05
+     depmax = 3.599977e+01
+     depmen = 6.480280e-02
+          b = 0.000000e+00
+          e = 1.999800e+02
+       npts = 19999
+  
+ ==>  
+ fg sine
+ w test.sine.1
+ ch b 20
+ w test.sine.2
+ read test.sine.1 test.sine.2
+ convolve master 1
+ read test.sine.1 test.sine.2
+ convolve master 2
+ read test.sine.1 test.sine.2
+ convolve master 3
+ ERROR interpreting command:  convolve master 3 
+ OUTSIDE ALLOWED RANGE:                       ^
+ Allowed range is:          1         2
+ read test.sine.1 test.sine.2
+ convolve master test.sine.1
+ read test.sine.1 test.sine.2
+ convolve master test.sine.2
+ read test.sine.1 test.sine.2
+ convolve master test.sine.3
+ ERROR interpreting command:  convolve master test.sine.3 
+ BAD FILE NAME:                               ^
+  
+ ==>  
+ quit

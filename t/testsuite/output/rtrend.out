@@ -1,0 +1,74 @@
+ wait text off
+ fg seismogram
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+ rtrend verbose
+ Slope and standard deviation are: 0.00023034 0.0035114
+ Intercept and standard deviation are: -0.10188 0.051759
+ Data standard deviation is: 0.32054
+ Data correlation coefficient is: 0.0020765
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.470322e+00
+     depmax = 1.619626e+00
+     depmen = -2.258103e-07
+  
+ ==>  
+ fg impulse
+ lh depmin depmax depmen
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = 0.000000e+00
+     depmax = 1.000000e+00
+     depmen = 1.000000e-02
+ rtrend
+ Slope and standard deviation are: -6.0006e-06 0.00034819
+ Intercept and standard deviation are: 0.010297 0.019952
+ Data standard deviation is: 0.10051
+ Data correlation coefficient is: 0.0017409
+ lh depmin depmax depmen
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = -1.029703e-02
+     depmax = 9.899970e-01
+     depmen = 7.357449e-10
+  
+ ==>  
+ fg sine
+ lh depmin depmax depmen
+  
+  
+  FILE: SINE - 1
+ ----------
+
+     depmin = -1.000000e+00
+     depmax = 1.000000e+00
+     depmen = 3.576279e-09
+ rtrend quiet
+ lh depmin depmax depmen
+  
+  
+  FILE: SINE - 1
+ ----------
+
+     depmin = -1.130708e+00
+     depmax = 1.134496e+00
+     depmen = -9.536743e-09
+ quit

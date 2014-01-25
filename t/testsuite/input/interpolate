@@ -1,0 +1,28 @@
+
+fg 
+lh npts delta depmin depmax
+interpolate
+lh npts delta depmin depmax
+
+fg seismogram
+lh npts delta depmin depmax
+interpolate delta 0.5
+lh npts delta depmin depmax
+
+fg seismogram
+lh npts delta depmin depmax b e
+interpolate  begin 25
+lh npts delta depmin depmax b e
+
+fg seismogram
+lh npts delta depmin depmax b e
+interpolate begin 10 npts 17
+lh npts delta depmin depmax b e
+
+fg seismo
+interpolate npts test
+
+inicm
+echo on
+readtable free content xy test_interpolate.sac
+interpolate delta 1.0

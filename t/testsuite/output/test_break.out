@@ -1,0 +1,325 @@
+ wait text off
+  
+ ==>  
+ m test_break.m
+ setbb i 1
+ while %i LE 10
+ ==>  while 1 LE 10
+   message %i
+ ==>  message 1
+ 1
+   if %i EQ 5
+ ==>  if 1 EQ 5
+   endif
+   setbb i ( %i + 1 )
+ ==>  setbb i 2
+ enddo
+ while %i LE 10
+ ==>  while 2 LE 10
+   message %i
+ ==>  message 2
+ 2
+   if %i EQ 5
+ ==>  if 2 EQ 5
+   endif
+   setbb i ( %i + 1 )
+ ==>  setbb i 3
+ enddo
+ while %i LE 10
+ ==>  while 3 LE 10
+   message %i
+ ==>  message 3
+ 3
+   if %i EQ 5
+ ==>  if 3 EQ 5
+   endif
+   setbb i ( %i + 1 )
+ ==>  setbb i 4
+ enddo
+ while %i LE 10
+ ==>  while 4 LE 10
+   message %i
+ ==>  message 4
+ 4
+   if %i EQ 5
+ ==>  if 4 EQ 5
+   endif
+   setbb i ( %i + 1 )
+ ==>  setbb i 5
+ enddo
+ while %i LE 10
+ ==>  while 5 LE 10
+   message %i
+ ==>  message 5
+ 5
+   if %i EQ 5
+ ==>  if 5 EQ 5
+      break
+  
+ message " "
+  
+  
+ do i = 1 , 3
+    do j = 1 , 3
+       message " $i , $j "
+ ==>  message " 1 , 1 "
+  1 , 1
+    enddo
+       message " $i , $j "
+ ==>  message " 1 , 2 "
+  1 , 2
+    enddo
+       message " $i , $j "
+ ==>  message " 1 , 3 "
+  1 , 3
+    enddo
+ enddo
+    do j = 1 , 3
+       message " $i , $j "
+ ==>  message " 2 , 1 "
+  2 , 1
+    enddo
+       message " $i , $j "
+ ==>  message " 2 , 2 "
+  2 , 2
+    enddo
+       message " $i , $j "
+ ==>  message " 2 , 3 "
+  2 , 3
+    enddo
+ enddo
+    do j = 1 , 3
+       message " $i , $j "
+ ==>  message " 3 , 1 "
+  3 , 1
+    enddo
+       message " $i , $j "
+ ==>  message " 3 , 2 "
+  3 , 2
+    enddo
+       message " $i , $j "
+ ==>  message " 3 , 3 "
+  3 , 3
+    enddo
+ enddo
+  
+ message " "
+  
+  
+ do i = 1 , 3
+    message " $i "
+ ==>  message " 1 "
+  1
+    if $i EQ 2
+ ==>  if 1 EQ 2
+    endif
+ enddo
+    message " $i "
+ ==>  message " 2 "
+  2
+    if $i EQ 2
+ ==>  if 2 EQ 2
+       break
+  
+ ==>  
+ message " "
+  
+  
+ do i = 1 , 3
+    do j = 1 , 3
+       message " $i , $j "
+ ==>  message " 1 , 1 "
+  1 , 1
+       if $j EQ 2
+ ==>  if 1 EQ 2
+       endif
+    enddo
+       message " $i , $j "
+ ==>  message " 1 , 2 "
+  1 , 2
+       if $j EQ 2
+ ==>  if 2 EQ 2
+          break
+ enddo
+    do j = 1 , 3
+       message " $i , $j "
+ ==>  message " 2 , 1 "
+  2 , 1
+       if $j EQ 2
+ ==>  if 1 EQ 2
+       endif
+    enddo
+       message " $i , $j "
+ ==>  message " 2 , 2 "
+  2 , 2
+       if $j EQ 2
+ ==>  if 2 EQ 2
+          break
+ enddo
+    do j = 1 , 3
+       message " $i , $j "
+ ==>  message " 3 , 1 "
+  3 , 1
+       if $j EQ 2
+ ==>  if 1 EQ 2
+       endif
+    enddo
+       message " $i , $j "
+ ==>  message " 3 , 2 "
+  3 , 2
+       if $j EQ 2
+ ==>  if 2 EQ 2
+          break
+ enddo
+  
+ message " "
+  
+  
+ do i = 1 , 3
+    do j = 1 , 3
+       do k = 1 , 3
+          message " $i , $j , $k "
+ ==>  message " 1 , 1 , 1 "
+  1 , 1 , 1
+          if $k EQ 2
+ ==>  if 1 EQ 2
+          endif
+       enddo
+          message " $i , $j , $k "
+ ==>  message " 1 , 1 , 2 "
+  1 , 1 , 2
+          if $k EQ 2
+ ==>  if 2 EQ 2
+             break
+    enddo
+       do k = 1 , 3
+          message " $i , $j , $k "
+ ==>  message " 1 , 2 , 1 "
+  1 , 2 , 1
+          if $k EQ 2
+ ==>  if 1 EQ 2
+          endif
+       enddo
+          message " $i , $j , $k "
+ ==>  message " 1 , 2 , 2 "
+  1 , 2 , 2
+          if $k EQ 2
+ ==>  if 2 EQ 2
+             break
+    enddo
+       do k = 1 , 3
+          message " $i , $j , $k "
+ ==>  message " 1 , 3 , 1 "
+  1 , 3 , 1
+          if $k EQ 2
+ ==>  if 1 EQ 2
+          endif
+       enddo
+          message " $i , $j , $k "
+ ==>  message " 1 , 3 , 2 "
+  1 , 3 , 2
+          if $k EQ 2
+ ==>  if 2 EQ 2
+             break
+    enddo
+ enddo
+    do j = 1 , 3
+       do k = 1 , 3
+          message " $i , $j , $k "
+ ==>  message " 2 , 1 , 1 "
+  2 , 1 , 1
+          if $k EQ 2
+ ==>  if 1 EQ 2
+          endif
+       enddo
+          message " $i , $j , $k "
+ ==>  message " 2 , 1 , 2 "
+  2 , 1 , 2
+          if $k EQ 2
+ ==>  if 2 EQ 2
+             break
+    enddo
+       do k = 1 , 3
+          message " $i , $j , $k "
+ ==>  message " 2 , 2 , 1 "
+  2 , 2 , 1
+          if $k EQ 2
+ ==>  if 1 EQ 2
+          endif
+       enddo
+          message " $i , $j , $k "
+ ==>  message " 2 , 2 , 2 "
+  2 , 2 , 2
+          if $k EQ 2
+ ==>  if 2 EQ 2
+             break
+    enddo
+       do k = 1 , 3
+          message " $i , $j , $k "
+ ==>  message " 2 , 3 , 1 "
+  2 , 3 , 1
+          if $k EQ 2
+ ==>  if 1 EQ 2
+          endif
+       enddo
+          message " $i , $j , $k "
+ ==>  message " 2 , 3 , 2 "
+  2 , 3 , 2
+          if $k EQ 2
+ ==>  if 2 EQ 2
+             break
+    enddo
+ enddo
+    do j = 1 , 3
+       do k = 1 , 3
+          message " $i , $j , $k "
+ ==>  message " 3 , 1 , 1 "
+  3 , 1 , 1
+          if $k EQ 2
+ ==>  if 1 EQ 2
+          endif
+       enddo
+          message " $i , $j , $k "
+ ==>  message " 3 , 1 , 2 "
+  3 , 1 , 2
+          if $k EQ 2
+ ==>  if 2 EQ 2
+             break
+    enddo
+       do k = 1 , 3
+          message " $i , $j , $k "
+ ==>  message " 3 , 2 , 1 "
+  3 , 2 , 1
+          if $k EQ 2
+ ==>  if 1 EQ 2
+          endif
+       enddo
+          message " $i , $j , $k "
+ ==>  message " 3 , 2 , 2 "
+  3 , 2 , 2
+          if $k EQ 2
+ ==>  if 2 EQ 2
+             break
+    enddo
+       do k = 1 , 3
+          message " $i , $j , $k "
+ ==>  message " 3 , 3 , 1 "
+  3 , 3 , 1
+          if $k EQ 2
+ ==>  if 1 EQ 2
+          endif
+       enddo
+          message " $i , $j , $k "
+ ==>  message " 3 , 3 , 2 "
+  3 , 3 , 2
+          if $k EQ 2
+ ==>  if 2 EQ 2
+             break
+    enddo
+ enddo
+  
+ message " "
+  
+  
+ ==>  
+ quit

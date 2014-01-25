@@ -1,0 +1,38 @@
+ wait text off
+ markvalue
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ fg seismogram
+ lh t0
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+ markvalue ge 1.2 to t0
+ lh t0
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     t0 = 1.056000e+01
+  
+ ==>  
+ lh t0
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     t0 = 1.056000e+01
+ markvalue le -1.5 to t0
+ lh t0
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     t0 = 1.266000e+01
+ quit

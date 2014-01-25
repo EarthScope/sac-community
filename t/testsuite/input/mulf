@@ -1,0 +1,146 @@
+
+fg seismo
+ch kuser2 One
+write test.mulf.1
+
+fg seismo
+mul 2
+ch kuser2 Two
+write test.mulf.2
+
+read test.mulf.1 test.mulf.2
+lh depmin depmax kuser2
+
+message "Default"
+
+message "One"
+read test.mulf.1
+mulf test.mulf.2
+lh depmin depmax depmin kuser2
+
+message "Two"
+read test.mulf.2
+mulf test.mulf.1
+lh depmin depmax depmin kuser2
+
+message "One Two"
+read test.mulf.1 test.mulf.2
+mulf test.mulf.2 test.mulf.1
+lh depmin depmax depmin kuser2
+
+message "One Two"
+read test.mulf.1 test.mulf.2
+mulf test.mulf.1 test.mulf.2
+lh depmin depmax depmin kuser2
+
+message "One Two"
+read test.mulf.1 test.mulf.2
+mulf test.mulf.1 
+lh depmin depmax depmin kuser2
+
+message "One Two"
+read test.mulf.1 test.mulf.2
+mulf test.mulf.2
+lh depmin depmax depmin kuser2
+
+message "New Header Off"
+
+message "One"
+read test.mulf.1
+mulf newhdr off test.mulf.2
+lh depmin depmax depmin kuser2
+
+message "Two"
+read test.mulf.2
+mulf newhdr off test.mulf.1
+lh depmin depmax depmin kuser2
+
+message "One Two"
+read test.mulf.1 test.mulf.2
+mulf newhdr off test.mulf.2 test.mulf.1
+lh depmin depmax depmin kuser2
+
+message "One Two"
+read test.mulf.1 test.mulf.2
+mulf newhdr off test.mulf.1 test.mulf.2
+lh depmin depmax depmin kuser2
+
+message "One Two"
+read test.mulf.1 test.mulf.2
+mulf newhdr off test.mulf.1 
+lh depmin depmax depmin kuser2
+
+message "One Two"
+read test.mulf.1 test.mulf.2
+mulf newhdr off test.mulf.2
+lh depmin depmax depmin kuser2
+
+message "New Header On"
+
+message "Two"
+read test.mulf.1
+mulf newhdr on test.mulf.2
+lh depmin depmax depmin kuser2
+
+message "One"
+read test.mulf.2
+mulf newhdr on test.mulf.1
+lh depmin depmax depmin kuser2
+
+message "Two One"
+read test.mulf.1 test.mulf.2
+mulf newhdr on test.mulf.2 test.mulf.1
+lh depmin depmax depmin kuser2
+
+message "One Two"
+read test.mulf.1 test.mulf.2
+mulf newhdr on test.mulf.1 test.mulf.2
+lh depmin depmax depmin kuser2
+
+message "One One"
+read test.mulf.1 test.mulf.2
+mulf newhdr on test.mulf.1 
+lh depmin depmax depmin kuser2
+
+message "Two Two"
+read test.mulf.1 test.mulf.2
+mulf newhdr on test.mulf.2
+lh depmin depmax depmin kuser2
+
+message "Nothing"
+read test.mulf.1
+mulf
+
+message "Spectral"
+read test.mulf.1
+fft
+write test.mulf.spectral.1
+read test.mulf.1
+mulf test.mulf.spectral.1
+
+message "Uneven"
+read test.mulf.1
+mulf test_binop_uneven.m
+
+message "Different Delta"
+read test.mulf.1
+interpolate delta 0.005
+write test.mulf.dt
+read test.mulf.1
+mulf test.mulf.dt
+
+message "Different Npts"
+read test.mulf.1
+cut &1,b (&1,e - 1.0)
+read test.mulf.1
+cut off
+write test.mulf.npts
+read test.mulf.1
+mulf test.mulf.npts
+
+message "Different Times"
+read test.mulf.1
+ch b -10
+write test.mulf.time
+read test.mulf.1
+mulf test.mulf.time

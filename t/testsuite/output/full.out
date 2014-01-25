@@ -1,0 +1,67 @@
+ wait text off
+  
+ ==>  
+ fg sine 0.1 0 npts 10000
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ xfull on
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ xfull off
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ xlog
+ xfull off
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ xlog
+ xfull on
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+  
+ ==>  
+ mul 1000
+ xlin
+  
+ ==>  
+ yfull on
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ yfull off
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ ylog
+ yfull off
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ ylog
+ yfull on
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+  
+ ==>  
+  
+ ==>  
+  
+ ==>  
+  
+ ==>  
+ quit

@@ -1,0 +1,42 @@
+ wait text off
+  
+ ==>  
+ fg seismo
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ xvport 0.1 0.9
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ xvport 0.1 0.4
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ xvport 0.4 0.9
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ xvport 0.4 1.9
+ ERROR interpreting command:  xvport 0.4 1.9 
+ OUTSIDE ALLOWED RANGE:                  ^
+ Allowed range is:              0.4               1
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ xvport -0.4 0.9
+ ERROR interpreting command:  xvport -0.4 0.9 
+ OUTSIDE ALLOWED RANGE:              ^
+ Allowed range is:                0               1
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+  
+ ==>  
+ quit

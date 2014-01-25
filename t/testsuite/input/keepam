@@ -1,0 +1,16 @@
+
+fg seismo
+lh iftype depmin depmax depmin npts delta
+
+fft
+lh iftype depmin depmax depmin npts delta
+
+keepam 
+lh iftype depmin depmax depmin npts delta
+
+fg seismo
+fft rlim
+lh iftype depmin depmax depmin npts delta
+
+keepam
+lh iftype depmin depmax depmin npts delta

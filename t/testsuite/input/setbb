@@ -1,0 +1,16 @@
+setbb a 10
+getbb
+setbb b 20
+getbb
+setbb a 12.3 b 3.4 c hello
+getbb
+
+setbb str "Hello"
+setbb str append " Again"
+getbb str
+
+setbb b 10
+setbb b append " String"
+getbb b
+
+

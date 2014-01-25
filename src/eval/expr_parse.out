@@ -1,0 +1,3850 @@
+State 0:
+          main ::= * pin
+      (1) pin ::= *
+          pin ::= * pbits_list
+          pin ::= * pbits_list NEWLINE
+          pbits_list ::= * pbits
+          pbits_list ::= * pbits_list pbits
+          pbits ::= * number
+          pbits ::= * STRING
+          pbits ::= * QUOTED_STRING
+          pbits ::= * ESCAPE_STRING
+          pbits ::= * LPAREN expr RPAREN
+          pbits ::= * EQUALS
+          pbits ::= * GE
+          pbits ::= * LE
+          pbits ::= * EQ
+          pbits ::= * LT
+          pbits ::= * GT
+          pbits ::= * NE
+          pbits ::= * COMMA
+          pbits ::= * WILD
+          pin ::= * evaluate
+          evaluate ::= * EVALUATE evaloptsp expr
+          pbits ::= * DEBUG
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+
+                        LPAREN shift  2
+                         MINUS shift  62
+                           NUM shift  173
+                        STRING shift  177
+                 QUOTED_STRING shift  176
+                 ESCAPE_STRING shift  175
+                        EQUALS shift  115
+                            GE shift  114
+                            LE shift  113
+                            EQ shift  112
+                            LT shift  111
+                            GT shift  110
+                            NE shift  109
+                         COMMA shift  108
+                          WILD shift  107
+                      EVALUATE shift  63
+                         DEBUG shift  106
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                          main accept
+                           pin shift  97
+                    pbits_list shift  25
+                         pbits shift  105
+                        number shift  178
+                      evaluate shift  104
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                     {default} reduce 1
+
+State 1:
+          evaluate ::= EVALUATE evaloptsp * expr
+          expr ::= * state
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          state ::= * number
+          state ::= * func
+          state ::= * MINUS func
+          state ::= * state PLUS state
+          state ::= * state MINUS state
+          state ::= * state TIMES state
+          state ::= * LPAREN state RPAREN
+          func ::= * SIN num_or_pstate
+          func ::= * COS num_or_pstate
+          func ::= * TAN num_or_pstate
+          func ::= * SINH num_or_pstate
+          func ::= * COSH num_or_pstate
+          func ::= * TANH num_or_pstate
+          func ::= * ASIN num_or_pstate
+          func ::= * ACOS num_or_pstate
+          func ::= * ATAN num_or_pstate
+          func ::= * ABS num_or_pstate
+          func ::= * FLOOR num_or_pstate
+          func ::= * CEIL num_or_pstate
+          func ::= * EXPON num_or_pstate
+          func ::= * ROUND num_or_pstate
+          state ::= * state EXP state
+          func ::= * ATAN2 LPAREN state COMMA state RPAREN
+          func ::= * LENGTH LPAREN state COMMA state RPAREN
+          func ::= * LOGN num_or_pstate
+          func ::= * LOG10 num_or_pstate
+          state ::= * state DIVIDE state
+          func ::= * SQRT num_or_pstate
+          sac_math ::= * MINIMUM xlist
+          sac_math ::= * MAXIMUM xlist
+          state ::= * LPAREN sac_math RPAREN
+          expr ::= * sac_math
+          sac_math ::= * ADD xlist
+          sac_math ::= * SUB xlist
+          sac_math ::= * MUL xlist
+          sac_math ::= * DIV xlist
+          sac_math ::= * GETTIME MINIMUM
+          sac_math ::= * GETTIME
+          sac_math ::= * GETTIME MAXIMUM
+          sac_math ::= * GETTIME MINIMUM state
+          sac_math ::= * GETTIME MAXIMUM state
+          func ::= * INTEGER num_or_pstate
+          func ::= * POWER num_or_pstate
+          func ::= * ALOG num_or_pstate
+          func ::= * ALOG10 num_or_pstate
+          expr ::= * fstring
+          fstring ::= * CHANGE string string string
+          fstring ::= * SUBSTRING number number string
+          fstring ::= * DELETE string string
+          fstring ::= * CONCAT string_list
+          fstring ::= * BEFORE string string
+          fstring ::= * AFTER string string
+          fstring ::= * REPLY string
+          fstring ::= * FTOA state
+
+                        LPAREN shift  3
+                         MINUS shift  24
+                           NUM shift  173
+                       INTEGER shift  42
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                           SIN shift  59
+                           COS shift  58
+                           TAN shift  57
+                          SINH shift  56
+                          COSH shift  55
+                          TANH shift  54
+                          ASIN shift  53
+                          ACOS shift  52
+                          ATAN shift  51
+                           ABS shift  50
+                         FLOOR shift  49
+                          CEIL shift  48
+                         EXPON shift  47
+                         ROUND shift  46
+                         ATAN2 shift  92
+                        LENGTH shift  91
+                          LOGN shift  45
+                         LOG10 shift  44
+                          SQRT shift  43
+                       MINIMUM shift  23
+                       MAXIMUM shift  22
+                           ADD shift  21
+                           SUB shift  20
+                           MUL shift  19
+                           DIV shift  18
+                       GETTIME shift  87
+                         POWER shift  41
+                          ALOG shift  40
+                        ALOG10 shift  39
+                        CHANGE shift  37
+                     SUBSTRING shift  61
+                        DELETE shift  35
+                        CONCAT shift  72
+                        BEFORE shift  32
+                         AFTER shift  30
+                         REPLY shift  28
+                          FTOA shift  4
+                        number shift  162
+                          expr shift  103
+                         state shift  83
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                          func shift  161
+                      sac_math shift  129
+                       fstring shift  128
+
+State 2:
+          pbits ::= LPAREN * expr RPAREN
+          expr ::= * state
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          state ::= * number
+          state ::= * func
+          state ::= * MINUS func
+          state ::= * state PLUS state
+          state ::= * state MINUS state
+          state ::= * state TIMES state
+          state ::= * LPAREN state RPAREN
+          func ::= * SIN num_or_pstate
+          func ::= * COS num_or_pstate
+          func ::= * TAN num_or_pstate
+          func ::= * SINH num_or_pstate
+          func ::= * COSH num_or_pstate
+          func ::= * TANH num_or_pstate
+          func ::= * ASIN num_or_pstate
+          func ::= * ACOS num_or_pstate
+          func ::= * ATAN num_or_pstate
+          func ::= * ABS num_or_pstate
+          func ::= * FLOOR num_or_pstate
+          func ::= * CEIL num_or_pstate
+          func ::= * EXPON num_or_pstate
+          func ::= * ROUND num_or_pstate
+          state ::= * state EXP state
+          func ::= * ATAN2 LPAREN state COMMA state RPAREN
+          func ::= * LENGTH LPAREN state COMMA state RPAREN
+          func ::= * LOGN num_or_pstate
+          func ::= * LOG10 num_or_pstate
+          state ::= * state DIVIDE state
+          func ::= * SQRT num_or_pstate
+          sac_math ::= * MINIMUM xlist
+          sac_math ::= * MAXIMUM xlist
+          state ::= * LPAREN sac_math RPAREN
+          expr ::= * sac_math
+          sac_math ::= * ADD xlist
+          sac_math ::= * SUB xlist
+          sac_math ::= * MUL xlist
+          sac_math ::= * DIV xlist
+          sac_math ::= * GETTIME MINIMUM
+          sac_math ::= * GETTIME
+          sac_math ::= * GETTIME MAXIMUM
+          sac_math ::= * GETTIME MINIMUM state
+          sac_math ::= * GETTIME MAXIMUM state
+          func ::= * INTEGER num_or_pstate
+          func ::= * POWER num_or_pstate
+          func ::= * ALOG num_or_pstate
+          func ::= * ALOG10 num_or_pstate
+          expr ::= * fstring
+          fstring ::= * CHANGE string string string
+          fstring ::= * SUBSTRING number number string
+          fstring ::= * DELETE string string
+          fstring ::= * CONCAT string_list
+          fstring ::= * BEFORE string string
+          fstring ::= * AFTER string string
+          fstring ::= * REPLY string
+          fstring ::= * FTOA state
+
+                        LPAREN shift  3
+                         MINUS shift  24
+                           NUM shift  173
+                       INTEGER shift  42
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                           SIN shift  59
+                           COS shift  58
+                           TAN shift  57
+                          SINH shift  56
+                          COSH shift  55
+                          TANH shift  54
+                          ASIN shift  53
+                          ACOS shift  52
+                          ATAN shift  51
+                           ABS shift  50
+                         FLOOR shift  49
+                          CEIL shift  48
+                         EXPON shift  47
+                         ROUND shift  46
+                         ATAN2 shift  92
+                        LENGTH shift  91
+                          LOGN shift  45
+                         LOG10 shift  44
+                          SQRT shift  43
+                       MINIMUM shift  23
+                       MAXIMUM shift  22
+                           ADD shift  21
+                           SUB shift  20
+                           MUL shift  19
+                           DIV shift  18
+                       GETTIME shift  87
+                         POWER shift  41
+                          ALOG shift  40
+                        ALOG10 shift  39
+                        CHANGE shift  37
+                     SUBSTRING shift  61
+                        DELETE shift  35
+                        CONCAT shift  72
+                        BEFORE shift  32
+                         AFTER shift  30
+                         REPLY shift  28
+                          FTOA shift  4
+                        number shift  162
+                          expr shift  96
+                         state shift  83
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                          func shift  161
+                      sac_math shift  129
+                       fstring shift  128
+
+State 3:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          state ::= * number
+          state ::= * func
+          state ::= * MINUS func
+          state ::= * state PLUS state
+          state ::= * state MINUS state
+          state ::= * state TIMES state
+          state ::= * LPAREN state RPAREN
+          state ::= LPAREN * state RPAREN
+          func ::= * SIN num_or_pstate
+          func ::= * COS num_or_pstate
+          func ::= * TAN num_or_pstate
+          func ::= * SINH num_or_pstate
+          func ::= * COSH num_or_pstate
+          func ::= * TANH num_or_pstate
+          func ::= * ASIN num_or_pstate
+          func ::= * ACOS num_or_pstate
+          func ::= * ATAN num_or_pstate
+          func ::= * ABS num_or_pstate
+          func ::= * FLOOR num_or_pstate
+          func ::= * CEIL num_or_pstate
+          func ::= * EXPON num_or_pstate
+          func ::= * ROUND num_or_pstate
+          state ::= * state EXP state
+          func ::= * ATAN2 LPAREN state COMMA state RPAREN
+          func ::= * LENGTH LPAREN state COMMA state RPAREN
+          func ::= * LOGN num_or_pstate
+          func ::= * LOG10 num_or_pstate
+          state ::= * state DIVIDE state
+          func ::= * SQRT num_or_pstate
+          sac_math ::= * MINIMUM xlist
+          sac_math ::= * MAXIMUM xlist
+          state ::= * LPAREN sac_math RPAREN
+          state ::= LPAREN * sac_math RPAREN
+          sac_math ::= * ADD xlist
+          sac_math ::= * SUB xlist
+          sac_math ::= * MUL xlist
+          sac_math ::= * DIV xlist
+          sac_math ::= * GETTIME MINIMUM
+          sac_math ::= * GETTIME
+          sac_math ::= * GETTIME MAXIMUM
+          sac_math ::= * GETTIME MINIMUM state
+          sac_math ::= * GETTIME MAXIMUM state
+          func ::= * INTEGER num_or_pstate
+          func ::= * POWER num_or_pstate
+          func ::= * ALOG num_or_pstate
+          func ::= * ALOG10 num_or_pstate
+
+                        LPAREN shift  3
+                         MINUS shift  24
+                           NUM shift  173
+                       INTEGER shift  42
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                           SIN shift  59
+                           COS shift  58
+                           TAN shift  57
+                          SINH shift  56
+                          COSH shift  55
+                          TANH shift  54
+                          ASIN shift  53
+                          ACOS shift  52
+                          ATAN shift  51
+                           ABS shift  50
+                         FLOOR shift  49
+                          CEIL shift  48
+                         EXPON shift  47
+                         ROUND shift  46
+                         ATAN2 shift  92
+                        LENGTH shift  91
+                          LOGN shift  45
+                         LOG10 shift  44
+                          SQRT shift  43
+                       MINIMUM shift  23
+                       MAXIMUM shift  22
+                           ADD shift  21
+                           SUB shift  20
+                           MUL shift  19
+                           DIV shift  18
+                       GETTIME shift  87
+                         POWER shift  41
+                          ALOG shift  40
+                        ALOG10 shift  39
+                        number shift  162
+                         state shift  78
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                          func shift  161
+                      sac_math shift  90
+
+State 4:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          state ::= * number
+          state ::= * func
+          state ::= * MINUS func
+          state ::= * state PLUS state
+          state ::= * state MINUS state
+          state ::= * state TIMES state
+          state ::= * LPAREN state RPAREN
+          func ::= * SIN num_or_pstate
+          func ::= * COS num_or_pstate
+          func ::= * TAN num_or_pstate
+          func ::= * SINH num_or_pstate
+          func ::= * COSH num_or_pstate
+          func ::= * TANH num_or_pstate
+          func ::= * ASIN num_or_pstate
+          func ::= * ACOS num_or_pstate
+          func ::= * ATAN num_or_pstate
+          func ::= * ABS num_or_pstate
+          func ::= * FLOOR num_or_pstate
+          func ::= * CEIL num_or_pstate
+          func ::= * EXPON num_or_pstate
+          func ::= * ROUND num_or_pstate
+          state ::= * state EXP state
+          func ::= * ATAN2 LPAREN state COMMA state RPAREN
+          func ::= * LENGTH LPAREN state COMMA state RPAREN
+          func ::= * LOGN num_or_pstate
+          func ::= * LOG10 num_or_pstate
+          state ::= * state DIVIDE state
+          func ::= * SQRT num_or_pstate
+          state ::= * LPAREN sac_math RPAREN
+          func ::= * INTEGER num_or_pstate
+          func ::= * POWER num_or_pstate
+          func ::= * ALOG num_or_pstate
+          func ::= * ALOG10 num_or_pstate
+          fstring ::= FTOA * state
+
+                        LPAREN shift  3
+                         MINUS shift  24
+                           NUM shift  173
+                       INTEGER shift  42
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                           SIN shift  59
+                           COS shift  58
+                           TAN shift  57
+                          SINH shift  56
+                          COSH shift  55
+                          TANH shift  54
+                          ASIN shift  53
+                          ACOS shift  52
+                          ATAN shift  51
+                           ABS shift  50
+                         FLOOR shift  49
+                          CEIL shift  48
+                         EXPON shift  47
+                         ROUND shift  46
+                         ATAN2 shift  92
+                        LENGTH shift  91
+                          LOGN shift  45
+                         LOG10 shift  44
+                          SQRT shift  43
+                         POWER shift  41
+                          ALOG shift  40
+                        ALOG10 shift  39
+                        number shift  162
+                         state shift  80
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                          func shift  161
+
+State 5:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          state ::= * number
+          state ::= * func
+          state ::= * MINUS func
+          state ::= * state PLUS state
+          state ::= * state MINUS state
+          state ::= * state TIMES state
+          state ::= * LPAREN state RPAREN
+          func ::= * SIN num_or_pstate
+          func ::= * COS num_or_pstate
+          func ::= * TAN num_or_pstate
+          func ::= * SINH num_or_pstate
+          func ::= * COSH num_or_pstate
+          func ::= * TANH num_or_pstate
+          func ::= * ASIN num_or_pstate
+          func ::= * ACOS num_or_pstate
+          func ::= * ATAN num_or_pstate
+          func ::= * ABS num_or_pstate
+          func ::= * FLOOR num_or_pstate
+          func ::= * CEIL num_or_pstate
+          func ::= * EXPON num_or_pstate
+          func ::= * ROUND num_or_pstate
+          state ::= * state EXP state
+          func ::= * ATAN2 LPAREN state COMMA state RPAREN
+          func ::= * LENGTH LPAREN state COMMA state RPAREN
+          func ::= * LOGN num_or_pstate
+          func ::= * LOG10 num_or_pstate
+          state ::= * state DIVIDE state
+          func ::= * SQRT num_or_pstate
+          state ::= * LPAREN sac_math RPAREN
+     (86) sac_math ::= GETTIME MAXIMUM *
+          sac_math ::= GETTIME MAXIMUM * state
+          func ::= * INTEGER num_or_pstate
+          func ::= * POWER num_or_pstate
+          func ::= * ALOG num_or_pstate
+          func ::= * ALOG10 num_or_pstate
+
+                        LPAREN shift  3
+                         MINUS shift  24
+                           NUM shift  173
+                       INTEGER shift  42
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                           SIN shift  59
+                           COS shift  58
+                           TAN shift  57
+                          SINH shift  56
+                          COSH shift  55
+                          TANH shift  54
+                          ASIN shift  53
+                          ACOS shift  52
+                          ATAN shift  51
+                           ABS shift  50
+                         FLOOR shift  49
+                          CEIL shift  48
+                         EXPON shift  47
+                         ROUND shift  46
+                         ATAN2 shift  92
+                        LENGTH shift  91
+                          LOGN shift  45
+                         LOG10 shift  44
+                          SQRT shift  43
+                         POWER shift  41
+                          ALOG shift  40
+                        ALOG10 shift  39
+                        number shift  162
+                         state shift  81
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                          func shift  161
+                     {default} reduce 86
+
+State 6:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          state ::= * number
+          state ::= * func
+          state ::= * MINUS func
+          state ::= * state PLUS state
+          state ::= * state MINUS state
+          state ::= * state TIMES state
+          state ::= * LPAREN state RPAREN
+          func ::= * SIN num_or_pstate
+          func ::= * COS num_or_pstate
+          func ::= * TAN num_or_pstate
+          func ::= * SINH num_or_pstate
+          func ::= * COSH num_or_pstate
+          func ::= * TANH num_or_pstate
+          func ::= * ASIN num_or_pstate
+          func ::= * ACOS num_or_pstate
+          func ::= * ATAN num_or_pstate
+          func ::= * ABS num_or_pstate
+          func ::= * FLOOR num_or_pstate
+          func ::= * CEIL num_or_pstate
+          func ::= * EXPON num_or_pstate
+          func ::= * ROUND num_or_pstate
+          state ::= * state EXP state
+          func ::= * ATAN2 LPAREN state COMMA state RPAREN
+          func ::= * LENGTH LPAREN state COMMA state RPAREN
+          func ::= * LOGN num_or_pstate
+          func ::= * LOG10 num_or_pstate
+          state ::= * state DIVIDE state
+          func ::= * SQRT num_or_pstate
+          state ::= * LPAREN sac_math RPAREN
+     (84) sac_math ::= GETTIME MINIMUM *
+          sac_math ::= GETTIME MINIMUM * state
+          func ::= * INTEGER num_or_pstate
+          func ::= * POWER num_or_pstate
+          func ::= * ALOG num_or_pstate
+          func ::= * ALOG10 num_or_pstate
+
+                        LPAREN shift  3
+                         MINUS shift  24
+                           NUM shift  173
+                       INTEGER shift  42
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                           SIN shift  59
+                           COS shift  58
+                           TAN shift  57
+                          SINH shift  56
+                          COSH shift  55
+                          TANH shift  54
+                          ASIN shift  53
+                          ACOS shift  52
+                          ATAN shift  51
+                           ABS shift  50
+                         FLOOR shift  49
+                          CEIL shift  48
+                         EXPON shift  47
+                         ROUND shift  46
+                         ATAN2 shift  92
+                        LENGTH shift  91
+                          LOGN shift  45
+                         LOG10 shift  44
+                          SQRT shift  43
+                         POWER shift  41
+                          ALOG shift  40
+                        ALOG10 shift  39
+                        number shift  162
+                         state shift  82
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                          func shift  161
+                     {default} reduce 84
+
+State 7:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          state ::= * number
+          state ::= * func
+          state ::= * MINUS func
+          state ::= * state PLUS state
+          state ::= * state MINUS state
+          state ::= * state TIMES state
+          state ::= * LPAREN state RPAREN
+          func ::= * SIN num_or_pstate
+          func ::= * COS num_or_pstate
+          func ::= * TAN num_or_pstate
+          func ::= * SINH num_or_pstate
+          func ::= * COSH num_or_pstate
+          func ::= * TANH num_or_pstate
+          func ::= * ASIN num_or_pstate
+          func ::= * ACOS num_or_pstate
+          func ::= * ATAN num_or_pstate
+          func ::= * ABS num_or_pstate
+          func ::= * FLOOR num_or_pstate
+          func ::= * CEIL num_or_pstate
+          func ::= * EXPON num_or_pstate
+          func ::= * ROUND num_or_pstate
+          state ::= * state EXP state
+          func ::= * ATAN2 LPAREN state COMMA state RPAREN
+          func ::= * LENGTH LPAREN state COMMA state RPAREN
+          func ::= * LOGN num_or_pstate
+          func ::= * LOG10 num_or_pstate
+          state ::= * state DIVIDE state
+          func ::= * SQRT num_or_pstate
+          state ::= * LPAREN sac_math RPAREN
+          list_item ::= LPAREN * state RPAREN
+          func ::= * INTEGER num_or_pstate
+          func ::= * POWER num_or_pstate
+          func ::= * ALOG num_or_pstate
+          func ::= * ALOG10 num_or_pstate
+
+                        LPAREN shift  3
+                         MINUS shift  24
+                           NUM shift  173
+                       INTEGER shift  42
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                           SIN shift  59
+                           COS shift  58
+                           TAN shift  57
+                          SINH shift  56
+                          COSH shift  55
+                          TANH shift  54
+                          ASIN shift  53
+                          ACOS shift  52
+                          ATAN shift  51
+                           ABS shift  50
+                         FLOOR shift  49
+                          CEIL shift  48
+                         EXPON shift  47
+                         ROUND shift  46
+                         ATAN2 shift  92
+                        LENGTH shift  91
+                          LOGN shift  45
+                         LOG10 shift  44
+                          SQRT shift  43
+                         POWER shift  41
+                          ALOG shift  40
+                        ALOG10 shift  39
+                        number shift  162
+                         state shift  73
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                          func shift  161
+
+State 8:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          state ::= * number
+          state ::= * func
+          state ::= * MINUS func
+          state ::= * state PLUS state
+          state ::= * state MINUS state
+          state ::= * state TIMES state
+          state ::= * LPAREN state RPAREN
+          func ::= * SIN num_or_pstate
+          func ::= * COS num_or_pstate
+          func ::= * TAN num_or_pstate
+          func ::= * SINH num_or_pstate
+          func ::= * COSH num_or_pstate
+          func ::= * TANH num_or_pstate
+          func ::= * ASIN num_or_pstate
+          func ::= * ACOS num_or_pstate
+          func ::= * ATAN num_or_pstate
+          func ::= * ABS num_or_pstate
+          func ::= * FLOOR num_or_pstate
+          func ::= * CEIL num_or_pstate
+          func ::= * EXPON num_or_pstate
+          func ::= * ROUND num_or_pstate
+          state ::= * state EXP state
+          func ::= * ATAN2 LPAREN state COMMA state RPAREN
+          func ::= * LENGTH LPAREN state COMMA state RPAREN
+          func ::= LENGTH LPAREN state COMMA * state RPAREN
+          func ::= * LOGN num_or_pstate
+          func ::= * LOG10 num_or_pstate
+          state ::= * state DIVIDE state
+          func ::= * SQRT num_or_pstate
+          state ::= * LPAREN sac_math RPAREN
+          func ::= * INTEGER num_or_pstate
+          func ::= * POWER num_or_pstate
+          func ::= * ALOG num_or_pstate
+          func ::= * ALOG10 num_or_pstate
+
+                        LPAREN shift  3
+                         MINUS shift  24
+                           NUM shift  173
+                       INTEGER shift  42
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                           SIN shift  59
+                           COS shift  58
+                           TAN shift  57
+                          SINH shift  56
+                          COSH shift  55
+                          TANH shift  54
+                          ASIN shift  53
+                          ACOS shift  52
+                          ATAN shift  51
+                           ABS shift  50
+                         FLOOR shift  49
+                          CEIL shift  48
+                         EXPON shift  47
+                         ROUND shift  46
+                         ATAN2 shift  92
+                        LENGTH shift  91
+                          LOGN shift  45
+                         LOG10 shift  44
+                          SQRT shift  43
+                         POWER shift  41
+                          ALOG shift  40
+                        ALOG10 shift  39
+                        number shift  162
+                         state shift  74
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                          func shift  161
+
+State 9:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          state ::= * number
+          state ::= * func
+          state ::= * MINUS func
+          state ::= * state PLUS state
+          state ::= * state MINUS state
+          state ::= * state TIMES state
+          state ::= * LPAREN state RPAREN
+          func ::= * SIN num_or_pstate
+          func ::= * COS num_or_pstate
+          func ::= * TAN num_or_pstate
+          func ::= * SINH num_or_pstate
+          func ::= * COSH num_or_pstate
+          func ::= * TANH num_or_pstate
+          func ::= * ASIN num_or_pstate
+          func ::= * ACOS num_or_pstate
+          func ::= * ATAN num_or_pstate
+          func ::= * ABS num_or_pstate
+          func ::= * FLOOR num_or_pstate
+          func ::= * CEIL num_or_pstate
+          func ::= * EXPON num_or_pstate
+          func ::= * ROUND num_or_pstate
+          state ::= * state EXP state
+          func ::= * ATAN2 LPAREN state COMMA state RPAREN
+          func ::= * LENGTH LPAREN state COMMA state RPAREN
+          func ::= LENGTH LPAREN * state COMMA state RPAREN
+          func ::= * LOGN num_or_pstate
+          func ::= * LOG10 num_or_pstate
+          state ::= * state DIVIDE state
+          func ::= * SQRT num_or_pstate
+          state ::= * LPAREN sac_math RPAREN
+          func ::= * INTEGER num_or_pstate
+          func ::= * POWER num_or_pstate
+          func ::= * ALOG num_or_pstate
+          func ::= * ALOG10 num_or_pstate
+
+                        LPAREN shift  3
+                         MINUS shift  24
+                           NUM shift  173
+                       INTEGER shift  42
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                           SIN shift  59
+                           COS shift  58
+                           TAN shift  57
+                          SINH shift  56
+                          COSH shift  55
+                          TANH shift  54
+                          ASIN shift  53
+                          ACOS shift  52
+                          ATAN shift  51
+                           ABS shift  50
+                         FLOOR shift  49
+                          CEIL shift  48
+                         EXPON shift  47
+                         ROUND shift  46
+                         ATAN2 shift  92
+                        LENGTH shift  91
+                          LOGN shift  45
+                         LOG10 shift  44
+                          SQRT shift  43
+                         POWER shift  41
+                          ALOG shift  40
+                        ALOG10 shift  39
+                        number shift  162
+                         state shift  75
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                          func shift  161
+
+State 10:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          state ::= * number
+          state ::= * func
+          state ::= * MINUS func
+          state ::= * state PLUS state
+          state ::= * state MINUS state
+          state ::= * state TIMES state
+          state ::= * LPAREN state RPAREN
+          func ::= * SIN num_or_pstate
+          func ::= * COS num_or_pstate
+          func ::= * TAN num_or_pstate
+          func ::= * SINH num_or_pstate
+          func ::= * COSH num_or_pstate
+          func ::= * TANH num_or_pstate
+          func ::= * ASIN num_or_pstate
+          func ::= * ACOS num_or_pstate
+          func ::= * ATAN num_or_pstate
+          func ::= * ABS num_or_pstate
+          func ::= * FLOOR num_or_pstate
+          func ::= * CEIL num_or_pstate
+          func ::= * EXPON num_or_pstate
+          func ::= * ROUND num_or_pstate
+          state ::= * state EXP state
+          func ::= * ATAN2 LPAREN state COMMA state RPAREN
+          func ::= ATAN2 LPAREN state COMMA * state RPAREN
+          func ::= * LENGTH LPAREN state COMMA state RPAREN
+          func ::= * LOGN num_or_pstate
+          func ::= * LOG10 num_or_pstate
+          state ::= * state DIVIDE state
+          func ::= * SQRT num_or_pstate
+          state ::= * LPAREN sac_math RPAREN
+          func ::= * INTEGER num_or_pstate
+          func ::= * POWER num_or_pstate
+          func ::= * ALOG num_or_pstate
+          func ::= * ALOG10 num_or_pstate
+
+                        LPAREN shift  3
+                         MINUS shift  24
+                           NUM shift  173
+                       INTEGER shift  42
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                           SIN shift  59
+                           COS shift  58
+                           TAN shift  57
+                          SINH shift  56
+                          COSH shift  55
+                          TANH shift  54
+                          ASIN shift  53
+                          ACOS shift  52
+                          ATAN shift  51
+                           ABS shift  50
+                         FLOOR shift  49
+                          CEIL shift  48
+                         EXPON shift  47
+                         ROUND shift  46
+                         ATAN2 shift  92
+                        LENGTH shift  91
+                          LOGN shift  45
+                         LOG10 shift  44
+                          SQRT shift  43
+                         POWER shift  41
+                          ALOG shift  40
+                        ALOG10 shift  39
+                        number shift  162
+                         state shift  76
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                          func shift  161
+
+State 11:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          state ::= * number
+          state ::= * func
+          state ::= * MINUS func
+          state ::= * state PLUS state
+          state ::= * state MINUS state
+          state ::= * state TIMES state
+          state ::= * LPAREN state RPAREN
+          func ::= * SIN num_or_pstate
+          func ::= * COS num_or_pstate
+          func ::= * TAN num_or_pstate
+          func ::= * SINH num_or_pstate
+          func ::= * COSH num_or_pstate
+          func ::= * TANH num_or_pstate
+          func ::= * ASIN num_or_pstate
+          func ::= * ACOS num_or_pstate
+          func ::= * ATAN num_or_pstate
+          func ::= * ABS num_or_pstate
+          func ::= * FLOOR num_or_pstate
+          func ::= * CEIL num_or_pstate
+          func ::= * EXPON num_or_pstate
+          func ::= * ROUND num_or_pstate
+          state ::= * state EXP state
+          func ::= * ATAN2 LPAREN state COMMA state RPAREN
+          func ::= ATAN2 LPAREN * state COMMA state RPAREN
+          func ::= * LENGTH LPAREN state COMMA state RPAREN
+          func ::= * LOGN num_or_pstate
+          func ::= * LOG10 num_or_pstate
+          state ::= * state DIVIDE state
+          func ::= * SQRT num_or_pstate
+          state ::= * LPAREN sac_math RPAREN
+          func ::= * INTEGER num_or_pstate
+          func ::= * POWER num_or_pstate
+          func ::= * ALOG num_or_pstate
+          func ::= * ALOG10 num_or_pstate
+
+                        LPAREN shift  3
+                         MINUS shift  24
+                           NUM shift  173
+                       INTEGER shift  42
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                           SIN shift  59
+                           COS shift  58
+                           TAN shift  57
+                          SINH shift  56
+                          COSH shift  55
+                          TANH shift  54
+                          ASIN shift  53
+                          ACOS shift  52
+                          ATAN shift  51
+                           ABS shift  50
+                         FLOOR shift  49
+                          CEIL shift  48
+                         EXPON shift  47
+                         ROUND shift  46
+                         ATAN2 shift  92
+                        LENGTH shift  91
+                          LOGN shift  45
+                         LOG10 shift  44
+                          SQRT shift  43
+                         POWER shift  41
+                          ALOG shift  40
+                        ALOG10 shift  39
+                        number shift  162
+                         state shift  77
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                          func shift  161
+
+State 12:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          state ::= * number
+          state ::= * func
+          state ::= * MINUS func
+          state ::= * state PLUS state
+          state ::= * state MINUS state
+          state ::= * state TIMES state
+          state ::= * LPAREN state RPAREN
+          func ::= * SIN num_or_pstate
+          func ::= * COS num_or_pstate
+          func ::= * TAN num_or_pstate
+          func ::= * SINH num_or_pstate
+          func ::= * COSH num_or_pstate
+          func ::= * TANH num_or_pstate
+          func ::= * ASIN num_or_pstate
+          func ::= * ACOS num_or_pstate
+          func ::= * ATAN num_or_pstate
+          func ::= * ABS num_or_pstate
+          func ::= * FLOOR num_or_pstate
+          func ::= * CEIL num_or_pstate
+          func ::= * EXPON num_or_pstate
+          func ::= * ROUND num_or_pstate
+          state ::= * state EXP state
+          func ::= * ATAN2 LPAREN state COMMA state RPAREN
+          func ::= * LENGTH LPAREN state COMMA state RPAREN
+          func ::= * LOGN num_or_pstate
+          func ::= * LOG10 num_or_pstate
+          state ::= * state DIVIDE state
+          state ::= state DIVIDE * state
+          func ::= * SQRT num_or_pstate
+          state ::= * LPAREN sac_math RPAREN
+          func ::= * INTEGER num_or_pstate
+          func ::= * POWER num_or_pstate
+          func ::= * ALOG num_or_pstate
+          func ::= * ALOG10 num_or_pstate
+
+                        LPAREN shift  3
+                         MINUS shift  24
+                           NUM shift  173
+                       INTEGER shift  42
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                           SIN shift  59
+                           COS shift  58
+                           TAN shift  57
+                          SINH shift  56
+                          COSH shift  55
+                          TANH shift  54
+                          ASIN shift  53
+                          ACOS shift  52
+                          ATAN shift  51
+                           ABS shift  50
+                         FLOOR shift  49
+                          CEIL shift  48
+                         EXPON shift  47
+                         ROUND shift  46
+                         ATAN2 shift  92
+                        LENGTH shift  91
+                          LOGN shift  45
+                         LOG10 shift  44
+                          SQRT shift  43
+                         POWER shift  41
+                          ALOG shift  40
+                        ALOG10 shift  39
+                        number shift  162
+                         state shift  93
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                          func shift  161
+
+State 13:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          state ::= * number
+          state ::= * func
+          state ::= * MINUS func
+          state ::= * state PLUS state
+          state ::= * state MINUS state
+          state ::= * state TIMES state
+          state ::= * LPAREN state RPAREN
+          func ::= * SIN num_or_pstate
+          func ::= * COS num_or_pstate
+          func ::= * TAN num_or_pstate
+          func ::= * SINH num_or_pstate
+          func ::= * COSH num_or_pstate
+          func ::= * TANH num_or_pstate
+          func ::= * ASIN num_or_pstate
+          func ::= * ACOS num_or_pstate
+          func ::= * ATAN num_or_pstate
+          func ::= * ABS num_or_pstate
+          func ::= * FLOOR num_or_pstate
+          func ::= * CEIL num_or_pstate
+          func ::= * EXPON num_or_pstate
+          func ::= * ROUND num_or_pstate
+          state ::= * state EXP state
+          state ::= state EXP * state
+          func ::= * ATAN2 LPAREN state COMMA state RPAREN
+          func ::= * LENGTH LPAREN state COMMA state RPAREN
+          func ::= * LOGN num_or_pstate
+          func ::= * LOG10 num_or_pstate
+          state ::= * state DIVIDE state
+          func ::= * SQRT num_or_pstate
+          state ::= * LPAREN sac_math RPAREN
+          func ::= * INTEGER num_or_pstate
+          func ::= * POWER num_or_pstate
+          func ::= * ALOG num_or_pstate
+          func ::= * ALOG10 num_or_pstate
+
+                        LPAREN shift  3
+                         MINUS shift  24
+                           NUM shift  173
+                       INTEGER shift  42
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                           SIN shift  59
+                           COS shift  58
+                           TAN shift  57
+                          SINH shift  56
+                          COSH shift  55
+                          TANH shift  54
+                          ASIN shift  53
+                          ACOS shift  52
+                          ATAN shift  51
+                           ABS shift  50
+                         FLOOR shift  49
+                          CEIL shift  48
+                         EXPON shift  47
+                         ROUND shift  46
+                         ATAN2 shift  92
+                        LENGTH shift  91
+                          LOGN shift  45
+                         LOG10 shift  44
+                          SQRT shift  43
+                         POWER shift  41
+                          ALOG shift  40
+                        ALOG10 shift  39
+                        number shift  162
+                         state shift  94
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                          func shift  161
+
+State 14:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          state ::= * number
+          state ::= * func
+          state ::= * MINUS func
+          state ::= * state PLUS state
+          state ::= * state MINUS state
+          state ::= * state TIMES state
+          state ::= state TIMES * state
+          state ::= * LPAREN state RPAREN
+          func ::= * SIN num_or_pstate
+          func ::= * COS num_or_pstate
+          func ::= * TAN num_or_pstate
+          func ::= * SINH num_or_pstate
+          func ::= * COSH num_or_pstate
+          func ::= * TANH num_or_pstate
+          func ::= * ASIN num_or_pstate
+          func ::= * ACOS num_or_pstate
+          func ::= * ATAN num_or_pstate
+          func ::= * ABS num_or_pstate
+          func ::= * FLOOR num_or_pstate
+          func ::= * CEIL num_or_pstate
+          func ::= * EXPON num_or_pstate
+          func ::= * ROUND num_or_pstate
+          state ::= * state EXP state
+          func ::= * ATAN2 LPAREN state COMMA state RPAREN
+          func ::= * LENGTH LPAREN state COMMA state RPAREN
+          func ::= * LOGN num_or_pstate
+          func ::= * LOG10 num_or_pstate
+          state ::= * state DIVIDE state
+          func ::= * SQRT num_or_pstate
+          state ::= * LPAREN sac_math RPAREN
+          func ::= * INTEGER num_or_pstate
+          func ::= * POWER num_or_pstate
+          func ::= * ALOG num_or_pstate
+          func ::= * ALOG10 num_or_pstate
+
+                        LPAREN shift  3
+                         MINUS shift  24
+                           NUM shift  173
+                       INTEGER shift  42
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                           SIN shift  59
+                           COS shift  58
+                           TAN shift  57
+                          SINH shift  56
+                          COSH shift  55
+                          TANH shift  54
+                          ASIN shift  53
+                          ACOS shift  52
+                          ATAN shift  51
+                           ABS shift  50
+                         FLOOR shift  49
+                          CEIL shift  48
+                         EXPON shift  47
+                         ROUND shift  46
+                         ATAN2 shift  92
+                        LENGTH shift  91
+                          LOGN shift  45
+                         LOG10 shift  44
+                          SQRT shift  43
+                         POWER shift  41
+                          ALOG shift  40
+                        ALOG10 shift  39
+                        number shift  162
+                         state shift  95
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                          func shift  161
+
+State 15:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          state ::= * number
+          state ::= * func
+          state ::= * MINUS func
+          state ::= * state PLUS state
+          state ::= * state MINUS state
+          state ::= state MINUS * state
+          state ::= * state TIMES state
+          state ::= * LPAREN state RPAREN
+          func ::= * SIN num_or_pstate
+          func ::= * COS num_or_pstate
+          func ::= * TAN num_or_pstate
+          func ::= * SINH num_or_pstate
+          func ::= * COSH num_or_pstate
+          func ::= * TANH num_or_pstate
+          func ::= * ASIN num_or_pstate
+          func ::= * ACOS num_or_pstate
+          func ::= * ATAN num_or_pstate
+          func ::= * ABS num_or_pstate
+          func ::= * FLOOR num_or_pstate
+          func ::= * CEIL num_or_pstate
+          func ::= * EXPON num_or_pstate
+          func ::= * ROUND num_or_pstate
+          state ::= * state EXP state
+          func ::= * ATAN2 LPAREN state COMMA state RPAREN
+          func ::= * LENGTH LPAREN state COMMA state RPAREN
+          func ::= * LOGN num_or_pstate
+          func ::= * LOG10 num_or_pstate
+          state ::= * state DIVIDE state
+          func ::= * SQRT num_or_pstate
+          state ::= * LPAREN sac_math RPAREN
+          func ::= * INTEGER num_or_pstate
+          func ::= * POWER num_or_pstate
+          func ::= * ALOG num_or_pstate
+          func ::= * ALOG10 num_or_pstate
+
+                        LPAREN shift  3
+                         MINUS shift  24
+                           NUM shift  173
+                       INTEGER shift  42
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                           SIN shift  59
+                           COS shift  58
+                           TAN shift  57
+                          SINH shift  56
+                          COSH shift  55
+                          TANH shift  54
+                          ASIN shift  53
+                          ACOS shift  52
+                          ATAN shift  51
+                           ABS shift  50
+                         FLOOR shift  49
+                          CEIL shift  48
+                         EXPON shift  47
+                         ROUND shift  46
+                         ATAN2 shift  92
+                        LENGTH shift  91
+                          LOGN shift  45
+                         LOG10 shift  44
+                          SQRT shift  43
+                         POWER shift  41
+                          ALOG shift  40
+                        ALOG10 shift  39
+                        number shift  162
+                         state shift  85
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                          func shift  161
+
+State 16:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          state ::= * number
+          state ::= * func
+          state ::= * MINUS func
+          state ::= * state PLUS state
+          state ::= * state MINUS state
+          state ::= * state TIMES state
+          state ::= * LPAREN state RPAREN
+          num_or_pstate ::= LPAREN * state RPAREN
+          func ::= * SIN num_or_pstate
+          func ::= * COS num_or_pstate
+          func ::= * TAN num_or_pstate
+          func ::= * SINH num_or_pstate
+          func ::= * COSH num_or_pstate
+          func ::= * TANH num_or_pstate
+          func ::= * ASIN num_or_pstate
+          func ::= * ACOS num_or_pstate
+          func ::= * ATAN num_or_pstate
+          func ::= * ABS num_or_pstate
+          func ::= * FLOOR num_or_pstate
+          func ::= * CEIL num_or_pstate
+          func ::= * EXPON num_or_pstate
+          func ::= * ROUND num_or_pstate
+          state ::= * state EXP state
+          func ::= * ATAN2 LPAREN state COMMA state RPAREN
+          func ::= * LENGTH LPAREN state COMMA state RPAREN
+          func ::= * LOGN num_or_pstate
+          func ::= * LOG10 num_or_pstate
+          state ::= * state DIVIDE state
+          func ::= * SQRT num_or_pstate
+          state ::= * LPAREN sac_math RPAREN
+          func ::= * INTEGER num_or_pstate
+          func ::= * POWER num_or_pstate
+          func ::= * ALOG num_or_pstate
+          func ::= * ALOG10 num_or_pstate
+
+                        LPAREN shift  3
+                         MINUS shift  24
+                           NUM shift  173
+                       INTEGER shift  42
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                           SIN shift  59
+                           COS shift  58
+                           TAN shift  57
+                          SINH shift  56
+                          COSH shift  55
+                          TANH shift  54
+                          ASIN shift  53
+                          ACOS shift  52
+                          ATAN shift  51
+                           ABS shift  50
+                         FLOOR shift  49
+                          CEIL shift  48
+                         EXPON shift  47
+                         ROUND shift  46
+                         ATAN2 shift  92
+                        LENGTH shift  91
+                          LOGN shift  45
+                         LOG10 shift  44
+                          SQRT shift  43
+                         POWER shift  41
+                          ALOG shift  40
+                        ALOG10 shift  39
+                        number shift  162
+                         state shift  79
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                          func shift  161
+
+State 17:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          state ::= * number
+          state ::= * func
+          state ::= * MINUS func
+          state ::= * state PLUS state
+          state ::= state PLUS * state
+          state ::= * state MINUS state
+          state ::= * state TIMES state
+          state ::= * LPAREN state RPAREN
+          func ::= * SIN num_or_pstate
+          func ::= * COS num_or_pstate
+          func ::= * TAN num_or_pstate
+          func ::= * SINH num_or_pstate
+          func ::= * COSH num_or_pstate
+          func ::= * TANH num_or_pstate
+          func ::= * ASIN num_or_pstate
+          func ::= * ACOS num_or_pstate
+          func ::= * ATAN num_or_pstate
+          func ::= * ABS num_or_pstate
+          func ::= * FLOOR num_or_pstate
+          func ::= * CEIL num_or_pstate
+          func ::= * EXPON num_or_pstate
+          func ::= * ROUND num_or_pstate
+          state ::= * state EXP state
+          func ::= * ATAN2 LPAREN state COMMA state RPAREN
+          func ::= * LENGTH LPAREN state COMMA state RPAREN
+          func ::= * LOGN num_or_pstate
+          func ::= * LOG10 num_or_pstate
+          state ::= * state DIVIDE state
+          func ::= * SQRT num_or_pstate
+          state ::= * LPAREN sac_math RPAREN
+          func ::= * INTEGER num_or_pstate
+          func ::= * POWER num_or_pstate
+          func ::= * ALOG num_or_pstate
+          func ::= * ALOG10 num_or_pstate
+
+                        LPAREN shift  3
+                         MINUS shift  24
+                           NUM shift  173
+                       INTEGER shift  42
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                           SIN shift  59
+                           COS shift  58
+                           TAN shift  57
+                          SINH shift  56
+                          COSH shift  55
+                          TANH shift  54
+                          ASIN shift  53
+                          ACOS shift  52
+                          ATAN shift  51
+                           ABS shift  50
+                         FLOOR shift  49
+                          CEIL shift  48
+                         EXPON shift  47
+                         ROUND shift  46
+                         ATAN2 shift  92
+                        LENGTH shift  91
+                          LOGN shift  45
+                         LOG10 shift  44
+                          SQRT shift  43
+                         POWER shift  41
+                          ALOG shift  40
+                        ALOG10 shift  39
+                        number shift  162
+                         state shift  84
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                          func shift  161
+
+State 18:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          list_item ::= * number
+          list_item ::= * LPAREN state RPAREN
+          xlist ::= * list_item
+          xlist ::= * xlist commas list_item
+          sac_math ::= DIV * xlist
+
+                        LPAREN shift  7
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  136
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                         xlist shift  65
+                     list_item shift  133
+
+State 19:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          list_item ::= * number
+          list_item ::= * LPAREN state RPAREN
+          xlist ::= * list_item
+          xlist ::= * xlist commas list_item
+          sac_math ::= MUL * xlist
+
+                        LPAREN shift  7
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  136
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                         xlist shift  66
+                     list_item shift  133
+
+State 20:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          list_item ::= * number
+          list_item ::= * LPAREN state RPAREN
+          xlist ::= * list_item
+          xlist ::= * xlist commas list_item
+          sac_math ::= SUB * xlist
+
+                        LPAREN shift  7
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  136
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                         xlist shift  67
+                     list_item shift  133
+
+State 21:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          list_item ::= * number
+          list_item ::= * LPAREN state RPAREN
+          xlist ::= * list_item
+          xlist ::= * xlist commas list_item
+          sac_math ::= ADD * xlist
+
+                        LPAREN shift  7
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  136
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                         xlist shift  68
+                     list_item shift  133
+
+State 22:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          sac_math ::= MAXIMUM * xlist
+          list_item ::= * number
+          list_item ::= * LPAREN state RPAREN
+          xlist ::= * list_item
+          xlist ::= * xlist commas list_item
+
+                        LPAREN shift  7
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  136
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                         xlist shift  69
+                     list_item shift  133
+
+State 23:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          sac_math ::= MINIMUM * xlist
+          list_item ::= * number
+          list_item ::= * LPAREN state RPAREN
+          xlist ::= * list_item
+          xlist ::= * xlist commas list_item
+
+                        LPAREN shift  7
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  136
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                         xlist shift  70
+                     list_item shift  133
+
+State 24:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= MINUS * number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          state ::= MINUS * func
+          func ::= * SIN num_or_pstate
+          func ::= * COS num_or_pstate
+          func ::= * TAN num_or_pstate
+          func ::= * SINH num_or_pstate
+          func ::= * COSH num_or_pstate
+          func ::= * TANH num_or_pstate
+          func ::= * ASIN num_or_pstate
+          func ::= * ACOS num_or_pstate
+          func ::= * ATAN num_or_pstate
+          func ::= * ABS num_or_pstate
+          func ::= * FLOOR num_or_pstate
+          func ::= * CEIL num_or_pstate
+          func ::= * EXPON num_or_pstate
+          func ::= * ROUND num_or_pstate
+          func ::= * ATAN2 LPAREN state COMMA state RPAREN
+          func ::= * LENGTH LPAREN state COMMA state RPAREN
+          func ::= * LOGN num_or_pstate
+          func ::= * LOG10 num_or_pstate
+          func ::= * SQRT num_or_pstate
+          func ::= * INTEGER num_or_pstate
+          func ::= * POWER num_or_pstate
+          func ::= * ALOG num_or_pstate
+          func ::= * ALOG10 num_or_pstate
+
+                         MINUS shift  62
+                           NUM shift  173
+                       INTEGER shift  42
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                           SIN shift  59
+                           COS shift  58
+                           TAN shift  57
+                          SINH shift  56
+                          COSH shift  55
+                          TANH shift  54
+                          ASIN shift  53
+                          ACOS shift  52
+                          ATAN shift  51
+                           ABS shift  50
+                         FLOOR shift  49
+                          CEIL shift  48
+                         EXPON shift  47
+                         ROUND shift  46
+                         ATAN2 shift  92
+                        LENGTH shift  91
+                          LOGN shift  45
+                         LOG10 shift  44
+                          SQRT shift  43
+                         POWER shift  41
+                          ALOG shift  40
+                        ALOG10 shift  39
+                        number shift  171
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                          func shift  164
+
+State 25:
+      (2) pin ::= pbits_list *
+          pin ::= pbits_list * NEWLINE
+          pbits_list ::= pbits_list * pbits
+          pbits ::= * number
+          pbits ::= * STRING
+          pbits ::= * QUOTED_STRING
+          pbits ::= * ESCAPE_STRING
+          pbits ::= * LPAREN expr RPAREN
+          pbits ::= * EQUALS
+          pbits ::= * GE
+          pbits ::= * LE
+          pbits ::= * EQ
+          pbits ::= * LT
+          pbits ::= * GT
+          pbits ::= * NE
+          pbits ::= * COMMA
+          pbits ::= * WILD
+          pbits ::= * DEBUG
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+
+                        LPAREN shift  2
+                         MINUS shift  62
+                           NUM shift  173
+                       NEWLINE shift  180
+                        STRING shift  177
+                 QUOTED_STRING shift  176
+                 ESCAPE_STRING shift  175
+                        EQUALS shift  115
+                            GE shift  114
+                            LE shift  113
+                            EQ shift  112
+                            LT shift  111
+                            GT shift  110
+                            NE shift  109
+                         COMMA shift  108
+                          WILD shift  107
+                         DEBUG shift  106
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                         pbits shift  179
+                        number shift  178
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                     {default} reduce 2
+
+State 26:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          string ::= * STRING
+          string ::= * QUOTED_STRING
+          string ::= * ESCAPE_STRING
+          string ::= * number
+          string ::= * LPAREN fstring RPAREN
+          fstring ::= CHANGE string string * string
+
+                        LPAREN shift  64
+                         MINUS shift  62
+                           NUM shift  173
+                        STRING shift  127
+                 QUOTED_STRING shift  126
+                 ESCAPE_STRING shift  125
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  124
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                        string shift  116
+
+State 27:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          string ::= * STRING
+          string ::= * QUOTED_STRING
+          string ::= * ESCAPE_STRING
+          string ::= * number
+          string ::= * LPAREN fstring RPAREN
+          fstring ::= CHANGE string * string string
+
+                        LPAREN shift  64
+                         MINUS shift  62
+                           NUM shift  173
+                        STRING shift  127
+                 QUOTED_STRING shift  126
+                 ESCAPE_STRING shift  125
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  124
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                        string shift  26
+
+State 28:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          string ::= * STRING
+          string ::= * QUOTED_STRING
+          string ::= * ESCAPE_STRING
+          string ::= * number
+          string ::= * LPAREN fstring RPAREN
+          fstring ::= REPLY * string
+
+                        LPAREN shift  64
+                         MINUS shift  62
+                           NUM shift  173
+                        STRING shift  127
+                 QUOTED_STRING shift  126
+                 ESCAPE_STRING shift  125
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  124
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                        string shift  117
+
+State 29:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          string ::= * STRING
+          string ::= * QUOTED_STRING
+          string ::= * ESCAPE_STRING
+          string ::= * number
+          string ::= * LPAREN fstring RPAREN
+          fstring ::= AFTER string * string
+
+                        LPAREN shift  64
+                         MINUS shift  62
+                           NUM shift  173
+                        STRING shift  127
+                 QUOTED_STRING shift  126
+                 ESCAPE_STRING shift  125
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  124
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                        string shift  118
+
+State 30:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          string ::= * STRING
+          string ::= * QUOTED_STRING
+          string ::= * ESCAPE_STRING
+          string ::= * number
+          string ::= * LPAREN fstring RPAREN
+          fstring ::= AFTER * string string
+
+                        LPAREN shift  64
+                         MINUS shift  62
+                           NUM shift  173
+                        STRING shift  127
+                 QUOTED_STRING shift  126
+                 ESCAPE_STRING shift  125
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  124
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                        string shift  29
+
+State 31:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          string ::= * STRING
+          string ::= * QUOTED_STRING
+          string ::= * ESCAPE_STRING
+          string ::= * number
+          string ::= * LPAREN fstring RPAREN
+          fstring ::= BEFORE string * string
+
+                        LPAREN shift  64
+                         MINUS shift  62
+                           NUM shift  173
+                        STRING shift  127
+                 QUOTED_STRING shift  126
+                 ESCAPE_STRING shift  125
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  124
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                        string shift  119
+
+State 32:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          string ::= * STRING
+          string ::= * QUOTED_STRING
+          string ::= * ESCAPE_STRING
+          string ::= * number
+          string ::= * LPAREN fstring RPAREN
+          fstring ::= BEFORE * string string
+
+                        LPAREN shift  64
+                         MINUS shift  62
+                           NUM shift  173
+                        STRING shift  127
+                 QUOTED_STRING shift  126
+                 ESCAPE_STRING shift  125
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  124
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                        string shift  31
+
+State 33:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          string ::= * STRING
+          string ::= * QUOTED_STRING
+          string ::= * ESCAPE_STRING
+          string ::= * number
+          string_list ::= string_list * string
+          string ::= * LPAREN fstring RPAREN
+    (104) fstring ::= CONCAT string_list *
+
+                        LPAREN shift  64
+                         MINUS shift  62
+                           NUM shift  173
+                        STRING shift  127
+                 QUOTED_STRING shift  126
+                 ESCAPE_STRING shift  125
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  124
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                        string shift  120
+                     {default} reduce 104
+
+State 34:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          string ::= * STRING
+          string ::= * QUOTED_STRING
+          string ::= * ESCAPE_STRING
+          string ::= * number
+          string ::= * LPAREN fstring RPAREN
+          fstring ::= DELETE string * string
+
+                        LPAREN shift  64
+                         MINUS shift  62
+                           NUM shift  173
+                        STRING shift  127
+                 QUOTED_STRING shift  126
+                 ESCAPE_STRING shift  125
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  124
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                        string shift  121
+
+State 35:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          string ::= * STRING
+          string ::= * QUOTED_STRING
+          string ::= * ESCAPE_STRING
+          string ::= * number
+          string ::= * LPAREN fstring RPAREN
+          fstring ::= DELETE * string string
+
+                        LPAREN shift  64
+                         MINUS shift  62
+                           NUM shift  173
+                        STRING shift  127
+                 QUOTED_STRING shift  126
+                 ESCAPE_STRING shift  125
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  124
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                        string shift  34
+
+State 36:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          string ::= * STRING
+          string ::= * QUOTED_STRING
+          string ::= * ESCAPE_STRING
+          string ::= * number
+          string ::= * LPAREN fstring RPAREN
+          fstring ::= SUBSTRING number number * string
+
+                        LPAREN shift  64
+                         MINUS shift  62
+                           NUM shift  173
+                        STRING shift  127
+                 QUOTED_STRING shift  126
+                 ESCAPE_STRING shift  125
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  124
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                        string shift  122
+
+State 37:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          string ::= * STRING
+          string ::= * QUOTED_STRING
+          string ::= * ESCAPE_STRING
+          string ::= * number
+          string ::= * LPAREN fstring RPAREN
+          fstring ::= CHANGE * string string string
+
+                        LPAREN shift  64
+                         MINUS shift  62
+                           NUM shift  173
+                        STRING shift  127
+                 QUOTED_STRING shift  126
+                 ESCAPE_STRING shift  125
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  124
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                        string shift  27
+
+State 38:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          list_item ::= * number
+          list_item ::= * LPAREN state RPAREN
+          xlist ::= xlist commas * list_item
+
+                        LPAREN shift  7
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  136
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                     list_item shift  134
+
+State 39:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          num_or_pstate ::= * number
+          num_or_pstate ::= * LPAREN state RPAREN
+          func ::= ALOG10 * num_or_pstate
+
+                        LPAREN shift  16
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  163
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                 num_or_pstate shift  138
+
+State 40:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          num_or_pstate ::= * number
+          num_or_pstate ::= * LPAREN state RPAREN
+          func ::= ALOG * num_or_pstate
+
+                        LPAREN shift  16
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  163
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                 num_or_pstate shift  139
+
+State 41:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          num_or_pstate ::= * number
+          num_or_pstate ::= * LPAREN state RPAREN
+          func ::= POWER * num_or_pstate
+
+                        LPAREN shift  16
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  163
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                 num_or_pstate shift  140
+
+State 42:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          num_or_pstate ::= * number
+          num_or_pstate ::= * LPAREN state RPAREN
+          func ::= INTEGER * num_or_pstate
+
+                        LPAREN shift  16
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  163
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                 num_or_pstate shift  141
+
+State 43:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          num_or_pstate ::= * number
+          num_or_pstate ::= * LPAREN state RPAREN
+          func ::= SQRT * num_or_pstate
+
+                        LPAREN shift  16
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  163
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                 num_or_pstate shift  142
+
+State 44:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          num_or_pstate ::= * number
+          num_or_pstate ::= * LPAREN state RPAREN
+          func ::= LOG10 * num_or_pstate
+
+                        LPAREN shift  16
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  163
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                 num_or_pstate shift  143
+
+State 45:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          num_or_pstate ::= * number
+          num_or_pstate ::= * LPAREN state RPAREN
+          func ::= LOGN * num_or_pstate
+
+                        LPAREN shift  16
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  163
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                 num_or_pstate shift  144
+
+State 46:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          num_or_pstate ::= * number
+          num_or_pstate ::= * LPAREN state RPAREN
+          func ::= ROUND * num_or_pstate
+
+                        LPAREN shift  16
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  163
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                 num_or_pstate shift  147
+
+State 47:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          num_or_pstate ::= * number
+          num_or_pstate ::= * LPAREN state RPAREN
+          func ::= EXPON * num_or_pstate
+
+                        LPAREN shift  16
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  163
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                 num_or_pstate shift  148
+
+State 48:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          num_or_pstate ::= * number
+          num_or_pstate ::= * LPAREN state RPAREN
+          func ::= CEIL * num_or_pstate
+
+                        LPAREN shift  16
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  163
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                 num_or_pstate shift  149
+
+State 49:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          num_or_pstate ::= * number
+          num_or_pstate ::= * LPAREN state RPAREN
+          func ::= FLOOR * num_or_pstate
+
+                        LPAREN shift  16
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  163
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                 num_or_pstate shift  150
+
+State 50:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          num_or_pstate ::= * number
+          num_or_pstate ::= * LPAREN state RPAREN
+          func ::= ABS * num_or_pstate
+
+                        LPAREN shift  16
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  163
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                 num_or_pstate shift  151
+
+State 51:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          num_or_pstate ::= * number
+          num_or_pstate ::= * LPAREN state RPAREN
+          func ::= ATAN * num_or_pstate
+
+                        LPAREN shift  16
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  163
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                 num_or_pstate shift  152
+
+State 52:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          num_or_pstate ::= * number
+          num_or_pstate ::= * LPAREN state RPAREN
+          func ::= ACOS * num_or_pstate
+
+                        LPAREN shift  16
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  163
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                 num_or_pstate shift  153
+
+State 53:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          num_or_pstate ::= * number
+          num_or_pstate ::= * LPAREN state RPAREN
+          func ::= ASIN * num_or_pstate
+
+                        LPAREN shift  16
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  163
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                 num_or_pstate shift  154
+
+State 54:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          num_or_pstate ::= * number
+          num_or_pstate ::= * LPAREN state RPAREN
+          func ::= TANH * num_or_pstate
+
+                        LPAREN shift  16
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  163
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                 num_or_pstate shift  155
+
+State 55:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          num_or_pstate ::= * number
+          num_or_pstate ::= * LPAREN state RPAREN
+          func ::= COSH * num_or_pstate
+
+                        LPAREN shift  16
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  163
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                 num_or_pstate shift  156
+
+State 56:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          num_or_pstate ::= * number
+          num_or_pstate ::= * LPAREN state RPAREN
+          func ::= SINH * num_or_pstate
+
+                        LPAREN shift  16
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  163
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                 num_or_pstate shift  157
+
+State 57:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          num_or_pstate ::= * number
+          num_or_pstate ::= * LPAREN state RPAREN
+          func ::= TAN * num_or_pstate
+
+                        LPAREN shift  16
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  163
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                 num_or_pstate shift  158
+
+State 58:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          num_or_pstate ::= * number
+          num_or_pstate ::= * LPAREN state RPAREN
+          func ::= COS * num_or_pstate
+
+                        LPAREN shift  16
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  163
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                 num_or_pstate shift  159
+
+State 59:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          num_or_pstate ::= * number
+          num_or_pstate ::= * LPAREN state RPAREN
+          func ::= SIN * num_or_pstate
+
+                        LPAREN shift  16
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  163
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+                 num_or_pstate shift  130
+
+State 60:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          fstring ::= SUBSTRING number * number string
+
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  36
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+
+State 61:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+          fstring ::= SUBSTRING * number number string
+
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  60
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+
+State 62:
+          number ::= * NUM
+          number ::= * TOK_PI
+          number ::= * MINUS number
+          number ::= MINUS * number
+          number ::= * blackboard
+          number ::= * header
+          number ::= * key
+          blackboard ::= * BLACKBOARD
+          header ::= * HEADER
+          key ::= * VARIABLE
+
+                         MINUS shift  62
+                           NUM shift  173
+                        TOK_PI shift  172
+                    BLACKBOARD shift  167
+                        HEADER shift  166
+                      VARIABLE shift  165
+                        number shift  171
+                    blackboard shift  170
+                        header shift  169
+                           key shift  168
+
+State 63:
+          evaluate ::= EVALUATE * evaloptsp expr
+     (22) evaloptsp ::= *
+          evaloptsp ::= * evalopts
+          evalopts ::= * evalo
+          evalopts ::= * evalopts evalo
+          evalo ::= * TO STRING
+          evalo ::= * AS FLOAT
+          evalo ::= * AS INTEGER
+
+                            TO shift  88
+                            AS shift  86
+                     evaloptsp shift  1
+                      evalopts shift  71
+                         evalo shift  98
+                     {default} reduce 22
+
+State 64:
+          string ::= LPAREN * fstring RPAREN
+          fstring ::= * CHANGE string string string
+          fstring ::= * SUBSTRING number number string
+          fstring ::= * DELETE string string
+          fstring ::= * CONCAT string_list
+          fstring ::= * BEFORE string string
+          fstring ::= * AFTER string string
+          fstring ::= * REPLY string
+          fstring ::= * FTOA state
+
+                        CHANGE shift  37
+                     SUBSTRING shift  61
+                        DELETE shift  35
+                        CONCAT shift  72
+                        BEFORE shift  32
+                         AFTER shift  30
+                         REPLY shift  28
+                          FTOA shift  4
+                       fstring shift  89
+
+State 65:
+          commas ::= * COMMA
+     (71) commas ::= *
+          xlist ::= xlist * commas list_item
+     (83) sac_math ::= DIV xlist *
+
+                             $ reduce 83
+                        RPAREN reduce 83
+                         COMMA shift  137
+                        commas shift  38
+                     {default} reduce 71
+
+State 66:
+          commas ::= * COMMA
+     (71) commas ::= *
+          xlist ::= xlist * commas list_item
+     (82) sac_math ::= MUL xlist *
+
+                             $ reduce 82
+                        RPAREN reduce 82
+                         COMMA shift  137
+                        commas shift  38
+                     {default} reduce 71
+
+State 67:
+          commas ::= * COMMA
+     (71) commas ::= *
+          xlist ::= xlist * commas list_item
+     (81) sac_math ::= SUB xlist *
+
+                             $ reduce 81
+                        RPAREN reduce 81
+                         COMMA shift  137
+                        commas shift  38
+                     {default} reduce 71
+
+State 68:
+          commas ::= * COMMA
+     (71) commas ::= *
+          xlist ::= xlist * commas list_item
+     (80) sac_math ::= ADD xlist *
+
+                             $ reduce 80
+                        RPAREN reduce 80
+                         COMMA shift  137
+                        commas shift  38
+                     {default} reduce 71
+
+State 69:
+          commas ::= * COMMA
+     (71) commas ::= *
+     (73) sac_math ::= MAXIMUM xlist *
+          xlist ::= xlist * commas list_item
+
+                             $ reduce 73
+                        RPAREN reduce 73
+                         COMMA shift  137
+                        commas shift  38
+                     {default} reduce 71
+
+State 70:
+          commas ::= * COMMA
+     (71) commas ::= *
+     (72) sac_math ::= MINIMUM xlist *
+          xlist ::= xlist * commas list_item
+
+                             $ reduce 72
+                        RPAREN reduce 72
+                         COMMA shift  137
+                        commas shift  38
+                     {default} reduce 71
+
+State 71:
+     (23) evaloptsp ::= evalopts *
+          evalopts ::= evalopts * evalo
+          evalo ::= * TO STRING
+          evalo ::= * AS FLOAT
+          evalo ::= * AS INTEGER
+
+                            TO shift  88
+                            AS shift  86
+                         evalo shift  102
+                     {default} reduce 23
+
+State 72:
+     (98) string_list ::= *
+          string_list ::= * string_list string
+          fstring ::= CONCAT * string_list
+
+                   string_list shift  33
+                     {default} reduce 98
+
+State 73:
+          state ::= state * PLUS state
+          state ::= state * MINUS state
+          state ::= state * TIMES state
+          state ::= state * EXP state
+          state ::= state * DIVIDE state
+          list_item ::= LPAREN state * RPAREN
+
+                        RPAREN shift  135
+                          PLUS shift  17
+                         MINUS shift  15
+                        DIVIDE shift  12
+                         TIMES shift  14
+                           EXP shift  13
+
+State 74:
+          state ::= state * PLUS state
+          state ::= state * MINUS state
+          state ::= state * TIMES state
+          state ::= state * EXP state
+          func ::= LENGTH LPAREN state COMMA state * RPAREN
+          state ::= state * DIVIDE state
+
+                        RPAREN shift  145
+                          PLUS shift  17
+                         MINUS shift  15
+                        DIVIDE shift  12
+                         TIMES shift  14
+                           EXP shift  13
+
+State 75:
+          state ::= state * PLUS state
+          state ::= state * MINUS state
+          state ::= state * TIMES state
+          state ::= state * EXP state
+          func ::= LENGTH LPAREN state * COMMA state RPAREN
+          state ::= state * DIVIDE state
+
+                          PLUS shift  17
+                         MINUS shift  15
+                        DIVIDE shift  12
+                         TIMES shift  14
+                           EXP shift  13
+                         COMMA shift  8
+
+State 76:
+          state ::= state * PLUS state
+          state ::= state * MINUS state
+          state ::= state * TIMES state
+          state ::= state * EXP state
+          func ::= ATAN2 LPAREN state COMMA state * RPAREN
+          state ::= state * DIVIDE state
+
+                        RPAREN shift  146
+                          PLUS shift  17
+                         MINUS shift  15
+                        DIVIDE shift  12
+                         TIMES shift  14
+                           EXP shift  13
+
+State 77:
+          state ::= state * PLUS state
+          state ::= state * MINUS state
+          state ::= state * TIMES state
+          state ::= state * EXP state
+          func ::= ATAN2 LPAREN state * COMMA state RPAREN
+          state ::= state * DIVIDE state
+
+                          PLUS shift  17
+                         MINUS shift  15
+                        DIVIDE shift  12
+                         TIMES shift  14
+                           EXP shift  13
+                         COMMA shift  10
+
+State 78:
+          state ::= state * PLUS state
+          state ::= state * MINUS state
+          state ::= state * TIMES state
+          state ::= LPAREN state * RPAREN
+          state ::= state * EXP state
+          state ::= state * DIVIDE state
+
+                        RPAREN shift  160
+                          PLUS shift  17
+                         MINUS shift  15
+                        DIVIDE shift  12
+                         TIMES shift  14
+                           EXP shift  13
+
+State 79:
+          state ::= state * PLUS state
+          state ::= state * MINUS state
+          state ::= state * TIMES state
+          num_or_pstate ::= LPAREN state * RPAREN
+          state ::= state * EXP state
+          state ::= state * DIVIDE state
+
+                        RPAREN shift  131
+                          PLUS shift  17
+                         MINUS shift  15
+                        DIVIDE shift  12
+                         TIMES shift  14
+                           EXP shift  13
+
+State 80:
+          state ::= state * PLUS state
+          state ::= state * MINUS state
+          state ::= state * TIMES state
+          state ::= state * EXP state
+          state ::= state * DIVIDE state
+    (108) fstring ::= FTOA state *
+
+                          PLUS shift  17
+                         MINUS shift  15
+                        DIVIDE shift  12
+                         TIMES shift  14
+                           EXP shift  13
+                     {default} reduce 108
+
+State 81:
+          state ::= state * PLUS state
+          state ::= state * MINUS state
+          state ::= state * TIMES state
+          state ::= state * EXP state
+          state ::= state * DIVIDE state
+     (88) sac_math ::= GETTIME MAXIMUM state *
+
+                          PLUS shift  17
+                         MINUS shift  15
+                        DIVIDE shift  12
+                         TIMES shift  14
+                           EXP shift  13
+                     {default} reduce 88
+
+State 82:
+          state ::= state * PLUS state
+          state ::= state * MINUS state
+          state ::= state * TIMES state
+          state ::= state * EXP state
+          state ::= state * DIVIDE state
+     (87) sac_math ::= GETTIME MINIMUM state *
+
+                          PLUS shift  17
+                         MINUS shift  15
+                        DIVIDE shift  12
+                         TIMES shift  14
+                           EXP shift  13
+                     {default} reduce 87
+
+State 83:
+     (30) expr ::= state *
+          state ::= state * PLUS state
+          state ::= state * MINUS state
+          state ::= state * TIMES state
+          state ::= state * EXP state
+          state ::= state * DIVIDE state
+
+                          PLUS shift  17
+                         MINUS shift  15
+                        DIVIDE shift  12
+                         TIMES shift  14
+                           EXP shift  13
+                     {default} reduce 30
+
+State 84:
+          state ::= state * PLUS state
+     (43) state ::= state PLUS state *
+          state ::= state * MINUS state
+          state ::= state * TIMES state
+          state ::= state * EXP state
+          state ::= state * DIVIDE state
+
+                        DIVIDE shift  12
+                         TIMES shift  14
+                           EXP shift  13
+                     {default} reduce 43
+
+State 85:
+          state ::= state * PLUS state
+          state ::= state * MINUS state
+     (44) state ::= state MINUS state *
+          state ::= state * TIMES state
+          state ::= state * EXP state
+          state ::= state * DIVIDE state
+
+                        DIVIDE shift  12
+                         TIMES shift  14
+                           EXP shift  13
+                     {default} reduce 44
+
+State 86:
+          evalo ::= AS * FLOAT
+          evalo ::= AS * INTEGER
+
+                         FLOAT shift  100
+                       INTEGER shift  99
+
+State 87:
+          sac_math ::= GETTIME * MINIMUM
+     (85) sac_math ::= GETTIME *
+          sac_math ::= GETTIME * MAXIMUM
+          sac_math ::= GETTIME * MINIMUM state
+          sac_math ::= GETTIME * MAXIMUM state
+
+                       MINIMUM shift  6
+                       MAXIMUM shift  5
+                     {default} reduce 85
+
+State 88:
+          evalo ::= TO * STRING
+
+                        STRING shift  101
+
+State 89:
+          string ::= LPAREN fstring * RPAREN
+
+                        RPAREN shift  123
+
+State 90:
+          state ::= LPAREN sac_math * RPAREN
+
+                        RPAREN shift  132
+
+State 91:
+          func ::= LENGTH * LPAREN state COMMA state RPAREN
+
+                        LPAREN shift  9
+
+State 92:
+          func ::= ATAN2 * LPAREN state COMMA state RPAREN
+
+                        LPAREN shift  11
+
+State 93:
+          state ::= state * PLUS state
+          state ::= state * MINUS state
+          state ::= state * TIMES state
+          state ::= state * EXP state
+          state ::= state * DIVIDE state
+     (68) state ::= state DIVIDE state *
+
+                           EXP shift  13
+                     {default} reduce 68
+
+State 94:
+          state ::= state * PLUS state
+          state ::= state * MINUS state
+          state ::= state * TIMES state
+          state ::= state * EXP state
+     (63) state ::= state EXP state *
+          state ::= state * DIVIDE state
+
+                           EXP shift  13
+                     {default} reduce 63
+
+State 95:
+          state ::= state * PLUS state
+          state ::= state * MINUS state
+          state ::= state * TIMES state
+     (45) state ::= state TIMES state *
+          state ::= state * EXP state
+          state ::= state * DIVIDE state
+
+                           EXP shift  13
+                     {default} reduce 45
+
+State 96:
+          pbits ::= LPAREN expr * RPAREN
+
+                        RPAREN shift  174
+
+State 97:
+      (0) main ::= pin *
+
+                             $ reduce 0
+
+State 98:
+     (24) evalopts ::= evalo *
+
+                     {default} reduce 24
+
+State 99:
+     (28) evalo ::= AS INTEGER *
+
+                     {default} reduce 28
+
+State 100:
+     (27) evalo ::= AS FLOAT *
+
+                     {default} reduce 27
+
+State 101:
+     (26) evalo ::= TO STRING *
+
+                     {default} reduce 26
+
+State 102:
+     (25) evalopts ::= evalopts evalo *
+
+                     {default} reduce 25
+
+State 103:
+     (21) evaluate ::= EVALUATE evaloptsp expr *
+
+                     {default} reduce 21
+
+State 104:
+     (20) pin ::= evaluate *
+
+                     {default} reduce 20
+
+State 105:
+      (4) pbits_list ::= pbits *
+
+                     {default} reduce 4
+
+State 106:
+     (29) pbits ::= DEBUG *
+
+                     {default} reduce 29
+
+State 107:
+     (19) pbits ::= WILD *
+
+                     {default} reduce 19
+
+State 108:
+     (18) pbits ::= COMMA *
+
+                     {default} reduce 18
+
+State 109:
+     (17) pbits ::= NE *
+
+                     {default} reduce 17
+
+State 110:
+     (16) pbits ::= GT *
+
+                     {default} reduce 16
+
+State 111:
+     (15) pbits ::= LT *
+
+                     {default} reduce 15
+
+State 112:
+     (14) pbits ::= EQ *
+
+                     {default} reduce 14
+
+State 113:
+     (13) pbits ::= LE *
+
+                     {default} reduce 13
+
+State 114:
+     (12) pbits ::= GE *
+
+                     {default} reduce 12
+
+State 115:
+     (11) pbits ::= EQUALS *
+
+                     {default} reduce 11
+
+State 116:
+    (101) fstring ::= CHANGE string string string *
+
+                     {default} reduce 101
+
+State 117:
+    (107) fstring ::= REPLY string *
+
+                     {default} reduce 107
+
+State 118:
+    (106) fstring ::= AFTER string string *
+
+                     {default} reduce 106
+
+State 119:
+    (105) fstring ::= BEFORE string string *
+
+                     {default} reduce 105
+
+State 120:
+     (99) string_list ::= string_list string *
+
+                     {default} reduce 99
+
+State 121:
+    (103) fstring ::= DELETE string string *
+
+                     {default} reduce 103
+
+State 122:
+    (102) fstring ::= SUBSTRING number number string *
+
+                     {default} reduce 102
+
+State 123:
+    (100) string ::= LPAREN fstring RPAREN *
+
+                     {default} reduce 100
+
+State 124:
+     (97) string ::= number *
+
+                     {default} reduce 97
+
+State 125:
+     (96) string ::= ESCAPE_STRING *
+
+                     {default} reduce 96
+
+State 126:
+     (95) string ::= QUOTED_STRING *
+
+                     {default} reduce 95
+
+State 127:
+     (94) string ::= STRING *
+
+                     {default} reduce 94
+
+State 128:
+     (93) expr ::= fstring *
+
+                     {default} reduce 93
+
+State 129:
+     (75) expr ::= sac_math *
+
+                     {default} reduce 75
+
+State 130:
+     (49) func ::= SIN num_or_pstate *
+
+                     {default} reduce 49
+
+State 131:
+     (48) num_or_pstate ::= LPAREN state RPAREN *
+
+                     {default} reduce 48
+
+State 132:
+     (74) state ::= LPAREN sac_math RPAREN *
+
+                     {default} reduce 74
+
+State 133:
+     (78) xlist ::= list_item *
+
+                     {default} reduce 78
+
+State 134:
+     (79) xlist ::= xlist commas list_item *
+
+                     {default} reduce 79
+
+State 135:
+     (77) list_item ::= LPAREN state RPAREN *
+
+                     {default} reduce 77
+
+State 136:
+     (76) list_item ::= number *
+
+                     {default} reduce 76
+
+State 137:
+     (70) commas ::= COMMA *
+
+                     {default} reduce 70
+
+State 138:
+     (92) func ::= ALOG10 num_or_pstate *
+
+                     {default} reduce 92
+
+State 139:
+     (91) func ::= ALOG num_or_pstate *
+
+                     {default} reduce 91
+
+State 140:
+     (90) func ::= POWER num_or_pstate *
+
+                     {default} reduce 90
+
+State 141:
+     (89) func ::= INTEGER num_or_pstate *
+
+                     {default} reduce 89
+
+State 142:
+     (69) func ::= SQRT num_or_pstate *
+
+                     {default} reduce 69
+
+State 143:
+     (67) func ::= LOG10 num_or_pstate *
+
+                     {default} reduce 67
+
+State 144:
+     (66) func ::= LOGN num_or_pstate *
+
+                     {default} reduce 66
+
+State 145:
+     (65) func ::= LENGTH LPAREN state COMMA state RPAREN *
+
+                     {default} reduce 65
+
+State 146:
+     (64) func ::= ATAN2 LPAREN state COMMA state RPAREN *
+
+                     {default} reduce 64
+
+State 147:
+     (62) func ::= ROUND num_or_pstate *
+
+                     {default} reduce 62
+
+State 148:
+     (61) func ::= EXPON num_or_pstate *
+
+                     {default} reduce 61
+
+State 149:
+     (60) func ::= CEIL num_or_pstate *
+
+                     {default} reduce 60
+
+State 150:
+     (59) func ::= FLOOR num_or_pstate *
+
+                     {default} reduce 59
+
+State 151:
+     (58) func ::= ABS num_or_pstate *
+
+                     {default} reduce 58
+
+State 152:
+     (57) func ::= ATAN num_or_pstate *
+
+                     {default} reduce 57
+
+State 153:
+     (56) func ::= ACOS num_or_pstate *
+
+                     {default} reduce 56
+
+State 154:
+     (55) func ::= ASIN num_or_pstate *
+
+                     {default} reduce 55
+
+State 155:
+     (54) func ::= TANH num_or_pstate *
+
+                     {default} reduce 54
+
+State 156:
+     (53) func ::= COSH num_or_pstate *
+
+                     {default} reduce 53
+
+State 157:
+     (52) func ::= SINH num_or_pstate *
+
+                     {default} reduce 52
+
+State 158:
+     (51) func ::= TAN num_or_pstate *
+
+                     {default} reduce 51
+
+State 159:
+     (50) func ::= COS num_or_pstate *
+
+                     {default} reduce 50
+
+State 160:
+     (46) state ::= LPAREN state RPAREN *
+
+                     {default} reduce 46
+
+State 161:
+     (41) state ::= func *
+
+                     {default} reduce 41
+
+State 162:
+     (40) state ::= number *
+
+                     {default} reduce 40
+
+State 163:
+     (47) num_or_pstate ::= number *
+
+                     {default} reduce 47
+
+State 164:
+     (42) state ::= MINUS func *
+
+                     {default} reduce 42
+
+State 165:
+     (39) key ::= VARIABLE *
+
+                     {default} reduce 39
+
+State 166:
+     (38) header ::= HEADER *
+
+                     {default} reduce 38
+
+State 167:
+     (37) blackboard ::= BLACKBOARD *
+
+                     {default} reduce 37
+
+State 168:
+     (36) number ::= key *
+
+                     {default} reduce 36
+
+State 169:
+     (35) number ::= header *
+
+                     {default} reduce 35
+
+State 170:
+     (34) number ::= blackboard *
+
+                     {default} reduce 34
+
+State 171:
+     (33) number ::= MINUS number *
+
+                     {default} reduce 33
+
+State 172:
+     (32) number ::= TOK_PI *
+
+                     {default} reduce 32
+
+State 173:
+     (31) number ::= NUM *
+
+                     {default} reduce 31
+
+State 174:
+     (10) pbits ::= LPAREN expr RPAREN *
+
+                     {default} reduce 10
+
+State 175:
+      (9) pbits ::= ESCAPE_STRING *
+
+                     {default} reduce 9
+
+State 176:
+      (8) pbits ::= QUOTED_STRING *
+
+                     {default} reduce 8
+
+State 177:
+      (7) pbits ::= STRING *
+
+                     {default} reduce 7
+
+State 178:
+      (6) pbits ::= number *
+
+                     {default} reduce 6
+
+State 179:
+      (5) pbits_list ::= pbits_list pbits *
+
+                     {default} reduce 5
+
+State 180:
+      (3) pin ::= pbits_list NEWLINE *
+
+                     {default} reduce 3
+
+----------------------------------------------------
+Symbols:
+    0: $:
+    1: RPAREN
+    2: LPAREN
+    3: PLUS
+    4: MINUS
+    5: DIVIDE
+    6: TIMES
+    7: EXP
+    8: NUM
+    9: NEWLINE
+   10: STRING
+   11: QUOTED_STRING
+   12: ESCAPE_STRING
+   13: EQUALS
+   14: GE
+   15: LE
+   16: EQ
+   17: LT
+   18: GT
+   19: NE
+   20: COMMA
+   21: WILD
+   22: EVALUATE
+   23: TO
+   24: AS
+   25: FLOAT
+   26: INTEGER
+   27: DEBUG
+   28: TOK_PI
+   29: BLACKBOARD
+   30: HEADER
+   31: VARIABLE
+   32: SIN
+   33: COS
+   34: TAN
+   35: SINH
+   36: COSH
+   37: TANH
+   38: ASIN
+   39: ACOS
+   40: ATAN
+   41: ABS
+   42: FLOOR
+   43: CEIL
+   44: EXPON
+   45: ROUND
+   46: ATAN2
+   47: LENGTH
+   48: LOGN
+   49: LOG10
+   50: SQRT
+   51: MINIMUM
+   52: MAXIMUM
+   53: ADD
+   54: SUB
+   55: MUL
+   56: DIV
+   57: GETTIME
+   58: POWER
+   59: ALOG
+   60: ALOG10
+   61: CHANGE
+   62: SUBSTRING
+   63: DELETE
+   64: CONCAT
+   65: BEFORE
+   66: AFTER
+   67: REPLY
+   68: FTOA
+   69: error:
+   70: main: <lambda> LPAREN MINUS NUM STRING QUOTED_STRING ESCAPE_STRING EQUALS GE LE EQ LT GT NE COMMA WILD EVALUATE DEBUG TOK_PI BLACKBOARD HEADER VARIABLE
+   71: pin: <lambda> LPAREN MINUS NUM STRING QUOTED_STRING ESCAPE_STRING EQUALS GE LE EQ LT GT NE COMMA WILD EVALUATE DEBUG TOK_PI BLACKBOARD HEADER VARIABLE
+   72: pbits_list: LPAREN MINUS NUM STRING QUOTED_STRING ESCAPE_STRING EQUALS GE LE EQ LT GT NE COMMA WILD DEBUG TOK_PI BLACKBOARD HEADER VARIABLE
+   73: pbits: LPAREN MINUS NUM STRING QUOTED_STRING ESCAPE_STRING EQUALS GE LE EQ LT GT NE COMMA WILD DEBUG TOK_PI BLACKBOARD HEADER VARIABLE
+   74: number: MINUS NUM TOK_PI BLACKBOARD HEADER VARIABLE
+   75: expr: LPAREN MINUS NUM INTEGER TOK_PI BLACKBOARD HEADER VARIABLE SIN COS TAN SINH COSH TANH ASIN ACOS ATAN ABS FLOOR CEIL EXPON ROUND ATAN2 LENGTH LOGN LOG10 SQRT MINIMUM MAXIMUM ADD SUB MUL DIV GETTIME POWER ALOG ALOG10 CHANGE SUBSTRING DELETE CONCAT BEFORE AFTER REPLY FTOA
+   76: evaluate: EVALUATE
+   77: evaloptsp: <lambda> TO AS
+   78: evalopts: TO AS
+   79: evalo: TO AS
+   80: state: LPAREN MINUS NUM INTEGER TOK_PI BLACKBOARD HEADER VARIABLE SIN COS TAN SINH COSH TANH ASIN ACOS ATAN ABS FLOOR CEIL EXPON ROUND ATAN2 LENGTH LOGN LOG10 SQRT POWER ALOG ALOG10
+   81: blackboard: BLACKBOARD
+   82: header: HEADER
+   83: key: VARIABLE
+   84: func: INTEGER SIN COS TAN SINH COSH TANH ASIN ACOS ATAN ABS FLOOR CEIL EXPON ROUND ATAN2 LENGTH LOGN LOG10 SQRT POWER ALOG ALOG10
+   85: num_or_pstate: LPAREN MINUS NUM TOK_PI BLACKBOARD HEADER VARIABLE
+   86: commas: <lambda> COMMA
+   87: sac_math: MINIMUM MAXIMUM ADD SUB MUL DIV GETTIME
+   88: xlist: LPAREN MINUS NUM TOK_PI BLACKBOARD HEADER VARIABLE
+   89: list_item: LPAREN MINUS NUM TOK_PI BLACKBOARD HEADER VARIABLE
+   90: fstring: CHANGE SUBSTRING DELETE CONCAT BEFORE AFTER REPLY FTOA
+   91: string: LPAREN MINUS NUM STRING QUOTED_STRING ESCAPE_STRING TOK_PI BLACKBOARD HEADER VARIABLE
+   92: string_list: <lambda> LPAREN MINUS NUM STRING QUOTED_STRING ESCAPE_STRING TOK_PI BLACKBOARD HEADER VARIABLE

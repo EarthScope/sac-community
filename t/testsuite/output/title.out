@@ -1,0 +1,53 @@
+ wait text off
+ fg seismo
+  
+ ==>  
+ title "My Title"
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ title location top
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ title location bottom
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ title location left
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ title location right
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ title location top
+  
+ ==>  
+ title size tiny
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ title size small
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ title size medium
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ title size large
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ quit

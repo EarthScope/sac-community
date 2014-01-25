@@ -1,0 +1,16 @@
+*********************** Changes to SAC to use a history list *******************
+
+
+changes to sac.c:
+#include "../../inc/history.h"
+strcpy(kmsg,AddToHistory(kmsg);
+
+Created the file history.h and added it to $SACDIR/inc
+
+
+Created the directory history under $SACDIR/src. This contains the source
+file history.c which implements the history command. The remaining 
+documentation for history is in history.c
+
+Created a makefile for history.
+

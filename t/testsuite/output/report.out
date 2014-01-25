@@ -1,0 +1,104 @@
+ wait text off
+  
+ ==>  
+ report
+  
+  
+ ==>  
+ rep
+  
+  
+ ==>  
+ report apf
+  
+    HYPO pick file is APF
+ report color
+  
+    COLOR option is OFF
+    DATA color is BLACK
+    INCREMENT data color is OFF
+    SKELETON color is BLACK
+    BACKGROUND color is UNKNOWN
+ report cut
+  
+    CUT option is OFF
+ report devices
+  
+    Available graphics devices are:
+ SGF
+ XWINDOWS
+ PS
+ PDF
+ PIXMAP
+ PNG
+ report fileid
+  
+    FILEID display is ON
+    Fileid display TYPE is DEFAULT
+    Fileid display LOCATION is UR
+ report gtext
+  
+    SOFTWARE text being used.
+    Text FONT is     1
+    Text SIZE is         0.02
+ report hpf
+  
+    HYPO pick file is HPF
+ report line
+  
+    LINE option is ON
+    Current linestyle is     1
+    Line INCREMENT option is OFF
+ report memory
+  
+ report mtw
+  
+    MTW option is OFF
+ report picks
+  
+    PICK display is ON
+    Type of each pick display is
+      O  is VERTICAL
+      A  is VERTICAL
+      T0 is VERTICAL
+      T1 is VERTICAL
+      T2 is VERTICAL
+      T3 is VERTICAL
+      T4 is VERTICAL
+      T5 is VERTICAL
+      T6 is VERTICAL
+      T7 is VERTICAL
+      T8 is VERTICAL
+      T9 is VERTICAL
+      F  is VERTICAL
+    WIDTH of pick lines is          0.1
+    HEIGHT of pick lines is          0.1
+ report symbol
+  
+    SYMBOL option is OFF
+ report title
+  
+    TITLE option is OFF
+    Text of title is ''
+    SIZE of title is         0.02
+    LOCATION of title is TOP
+ report xlabel
+  
+    XLABEL option is OFF
+    Text of xlabel is ''
+    SIZE of xlabel is         0.02
+    LOCATION of xlabel is BOTTOM
+ report xlim
+  
+    XLIM option is OFF
+ report ylabel
+  
+    YLABEL option is OFF
+    Text of ylabel is ''
+    SIZE of ylabel is         0.02
+    LOCATION of ylabel is LEFT
+ report ylim
+  
+    YLIM option(s) are:
+      OFF
+ quit

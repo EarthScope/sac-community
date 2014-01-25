@@ -1,0 +1,32 @@
+fg seismo
+
+p1 ; pause period 0.25
+
+ylabel "Y Label"
+p1 ; pause period 0.25
+
+ylabel off
+p1 ; pause period 0.25
+
+ylabel on
+p1 ; pause period 0.25
+
+ylabel location top
+p1 ; pause period 0.25
+ylabel location bottom
+p1 ; pause period 0.25
+ylabel location left
+p1 ; pause period 0.25
+ylabel location right
+p1 ; pause period 0.25
+
+ylabel size tiny
+p1 ; pause period 0.25
+ylabel size small
+p1 ; pause period 0.25
+ylabel size medium
+p1 ; pause period 0.25
+ylabel size large
+p1 ; pause period 0.25
+
+ylabel Bad option

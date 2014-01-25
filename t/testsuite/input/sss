@@ -1,0 +1,80 @@
+wild echo off
+datagen sub local *.z
+qdp off
+wild echo on
+sss
+
+liststack
+liststack narrow
+liststack wide
+
+plotrecordsection ; pause period 0.25
+
+prs labels off ; pause period 0.25
+prs labels on ; pause period 0.25
+prs labels kstnm ; pause period 0.25
+
+prs origin reversed ; pause period 0.25
+prs origin default ; pause period 0.25
+
+prs referenceline off ; pause period 0.25
+prs referenceline on ; pause period 0.25
+
+prs orient landscape ; pause period 0.25
+prs orient portrait ; pause period 0.25
+
+prs xlabel off ; pause period 0.25
+prs xlabel on ; pause period 0.25
+prs xlabel "X text here"; pause period 0.25
+prs xlabel default ; pause period 0.25
+
+prs ylabel off ; pause period 0.25
+prs ylabel on ; pause period 0.25
+prs ylabel "y text here"; pause period 0.25
+prs ylabel default ; pause period 0.25
+
+prs reduced velocity 6 ; pause period 0.25
+prs reduced velocity 8 ; pause period 0.25
+prs reduced off ; pause period 0.25
+prs reduced on ; pause period 0.25
+
+distancewindow usedata ; prs ; pause period 0.25
+distancewindow width 10 ; prs ; pause period 0.25
+distancewindow units degrees ; prs ; pause period 0.25
+distancewindow units kilometers ; prs ; pause period 0.25
+distancewindow units fixed 15 30 ; prs ; pause period 0.25
+
+distanceaxis fixed 50 ; prs ; pause period 0.25
+distanceaxis scaled 2.0 ; prs ; pause period 0.25
+distanceaxis fixed 35 ; prs ; pause period 0.25
+
+deltacheck off
+deltacheck on
+deltacheck roundoff
+
+timewindow 10 40 ; prs ; pause period 0.25
+
+timeaxis fixed 50 ; prs ; pause period 0.25
+timeaxis scaled 0.5 ; prs ; pause period 0.25
+timeaxis fixed 23 ; prs ; pause period 0.25
+
+traveltime phase Pg Sg
+traveltime model ak135
+traveltime model iasp91
+traveltime phase Pg Sg
+traveltime picks 1
+traveltime picks 0
+traveltime phase Pg Sg
+traveltime phase Sg
+traveltime phase Pg Sg
+traveltime verbose
+traveltime quiet
+
+prs reduced Pg ; pause period 0.25
+prs ttime on ; pause period 0.25
+prs ttime off ; pause period 0.25
+prs ttime default ; pause period 0.25
+
+sumstack
+plotstack ; pause period 0.25
+

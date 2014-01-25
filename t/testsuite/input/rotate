@@ -1,0 +1,85 @@
+
+rotate
+
+fg seismo
+ch kcmpnm BHE cmpinc 90 cmpaz 90
+write test_rotate.0
+
+fg seismo
+ch kcmpnm BHN cmpinc 90 cmpaz 0
+write test_rotate.1
+
+fg seismo
+ch kcmpnm BHN cmpinc 90 cmpaz 40
+write test_rotate.3
+
+fg seismo
+ch kcmpnm BHZ cmpinc 0 cmpaz 0
+write test_rotate.4
+
+fg impulse npts 20
+write test_rotate.2
+
+read test_rotate.0 test_rotate.1
+lh columns 2 inclusive b e depmin depmax depmen kcmpnm cmpaz cmpinc baz az
+rotate
+lh
+evaluate abs (&1,cmpaz - &1,baz)
+evaluate abs(&2,cmpaz - &2,baz)
+
+read test_rotate.0 test_rotate.1
+rotate to 0.0
+lh
+evaluate abs (&1,cmpaz - 0.0)
+evaluate abs(&2,cmpaz - 90)
+
+read test_rotate.0 test_rotate.1
+rotate to 90.0
+lh
+evaluate abs (&1,cmpaz - 90)
+evaluate abs(&2,cmpaz - 180)
+
+
+read test_rotate.0 test_rotate.1
+rotate to gcp
+lh
+evaluate abs (&1,cmpaz - &1,baz)
+evaluate abs(&2,cmpaz - &2,baz)
+
+read test_rotate.0 test_rotate.1
+rotate to theleft
+
+read test_rotate.0 test_rotate.1
+rotate to gcp normal
+lh
+
+read test_rotate.0 test_rotate.1
+rotate to gcp reversed
+lh
+
+read test_rotate.0 test_rotate.1
+rotate through 20
+lh
+evaluate abs (&1,cmpaz - 110)
+evaluate abs(&2,cmpaz - 20)
+
+read test_rotate.0
+rotate to gcp
+
+read test_rotate.0 test_rotate.2
+rotate to gcp
+
+read test_rotate.0 test_rotate.3
+rotate
+
+read test_rotate.1 test_rotate.3
+rotate
+
+read test_rotate.0 test_rotate.3
+rotate to 45
+
+read test_rotate.1 test_rotate.3
+rotate to 45
+
+read test_rotate.0 test_rotate.4
+rotate to gcp

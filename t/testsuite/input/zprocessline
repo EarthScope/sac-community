@@ -1,0 +1,89 @@
+setbb a 1
+setbb b 2
+getbb a b
+evaluate %a
+evaluate %b
+evaluate %a + %b
+
+fg
+ch user1 1
+ch user2 2
+evaluate &1,user1
+evaluate &1,user2
+evaluate &1,user1 + &1,user2
+
+evaluate %a + &1,user2
+evaluate %a + &1,user1
+evaluate &1,user2 + %a
+evaluate &1,user2 + %b
+
+message %a
+message %a %b
+message %a 1 %b
+message %a 1 %b 2
+
+message %a%
+message %a% %b%
+message %a% 1 %b%
+message %a% 1 %b% 2
+
+fg
+message &1,delta
+message &1,delta&
+
+message "%a"
+message "%a%"
+message "%a "
+message "%a% "
+message " %a"
+message " %a%"
+message " %a "
+message " %a% "
+message "&1,delta"
+message "&1,delta&"
+message "&1,delta "
+message "&1,delta& "
+message " &1,delta"
+message " &1,delta&"
+message " &1,delta "
+message " &1,delta& "
+message %c
+message "%c"
+message &1,delt
+message "&1,delt"
+
+macro test_process_bb_fail.m
+macro test_process_mac_fail.m
+Answer
+macro test_process_hdr_fail.m
+
+macro test_process_bb_fail2.m
+macro test_process_mac_fail2.m
+Answer
+macro test_process_hdr_fail2.m
+
+fg seismo
+(substring 1 3 &1,kevnm)
+setbb a "1234567"
+(substring 1 3 %a)
+
+getbb all
+setbb ans (reply "Prompt: ")
+Hi
+message %ans
+getbb
+
+setbb ans (reply "Prompt: ")
+123
+message %ans
+getbb
+
+setbb ans (reply "Prompt: ")
+3.5
+message %ans
+getbb
+
+setbb ans (reply "Prompt: ")
+
+message %ans
+getbb

@@ -1,0 +1,36 @@
+smooth
+
+fg seismogram
+lh depmin depmax
+smooth 
+lh depmin depmax
+
+fg seismogram
+lh depmin depmax
+smooth mean
+lh depmin depmax
+
+fg seismogram
+lh depmin depmax
+smooth median
+lh depmin depmax
+
+fg seismogram
+lh depmin depmax
+smooth mean halfwidth 5
+lh depmin depmax
+
+fg seismogram
+lh depmin depmax
+smooth median halfwidth 5
+lh depmin depmax
+
+fg seismogram
+lh depmin depmax
+smooth mean halfwidth 10
+lh depmin depmax
+
+fg seismogram
+lh depmin depmax
+smooth median halfwidth 10
+lh depmin depmax

@@ -1,0 +1,39 @@
+echo on
+read IU.AFI.00.BHZ.iris.sac
+cutim T0 -75 -15
+lh b e npts
+
+read IU.AFI.00.BHZ.iris.sac
+cutim T0 -5 15
+lh b e npts
+
+read IU.AFI.00.BHZ.iris.sac
+cutim T9 -1 59
+lh b e npts
+
+read IU.AFI.00.BHZ.iris.sac
+cutim T0 -75 -15 T0 -5 15 T9 -1 59
+lh b e npts
+
+read IU.AFI.00.BHZ.iris.sac
+cutim T0 -75 -15 T9 -1 59 T0 -5 15
+lh b e npts
+
+read IU.AFI.00.BHZ.iris.sac
+cutim T0 -5 15 T0 -75 -15 T9 -1 59
+lh b e npts
+
+read IU.AFI.00.BHZ.iris.sac
+cutim T0 -5 15 T9 -1 59 T0 -75 -15
+lh b e npts
+
+read IU.AFI.00.BHZ.iris.sac
+cutim T9 -1 59 T0 -75 -15 T0 -5 15
+lh b e npts
+
+read IU.AFI.00.BHZ.iris.sac
+cutim T9 -1 59 T0 -5 15 T0 -75 -15
+lh b e npts
+
+
+

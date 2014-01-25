@@ -1,0 +1,104 @@
+ wait text off
+ khronhite
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ fg seismogram
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ khronhite
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.530071e-01
+     depmax = -3.180342e-09
+  
+ ==>  
+ fg seismogram
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ khronhite 0.1
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -7.545214e-02
+     depmax = -2.288102e-19
+  
+ ==>  
+ fg seismogram
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ khronhite 1.0
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.176014e-01
+     depmax = -1.712599e-11
+  
+ ==>  
+ fg seismogram
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ khronhite 5.0
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.168265e-01
+     depmax = 4.493366e-01
+  
+ ==>  
+ fg seismogram
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ khronhite 10.0
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.050074e+00
+     depmax = 8.440390e-01
+ quit

@@ -1,0 +1,26 @@
+ wait text off
+  
+ ==>  
+ fg
+ p1
+ pause period 0.25
+Pausing
+ xlin
+ p1
+ pause period 0.25
+Pausing
+ xlog
+ p1
+ pause period 0.25
+Pausing
+ xlin
+ p1
+ pause period 0.25
+Pausing
+ xlog
+ p1
+ pause period 0.25
+Pausing
+  
+ ==>  
+ quit

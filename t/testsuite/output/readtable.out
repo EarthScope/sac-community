@@ -1,0 +1,124 @@
+ wait text off
+  
+ ==>  
+ fg seismo
+ writetable test.readtable.1
+test.readtable.1
+ readtable FREE CONTENT XY test.readtable.1
+ lh npts depmin depmax
+  
+  
+  FILE: test.readtable.1 - 1
+ ----------------------
+
+       npts = 1000
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+  
+ ==>  
+ readtable FREE CONTENT P test.readtable.1
+ lh npts depmin depmax
+  
+  
+  FILE: test.readtable.1 - 1
+ ----------------------
+
+       npts = 1000
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+  
+ ==>  
+ readtable FREE CONTENT Y. test.readtable.1
+ lh npts depmin depmax
+  
+  
+  FILE: test.readtable.101 - 1
+ ------------------------
+
+       npts = 1000
+     depmin = 9.459999e+00
+     depmax = 1.945000e+01
+  
+  FILE: test.readtable.102 - 2
+ ------------------------
+
+       npts = 1000
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+  
+ ==>  
+ readtable FREE CONTENT Y test.readtable.1
+ lh npts depmin depmax
+  
+  
+  FILE: test.readtable.1 - 1
+ ----------------------
+
+       npts = 1000
+     depmin = 9.459999e+00
+     depmax = 1.945000e+01
+  
+ ==>  
+ readtable FREE CONTENT Y HEADER 100 test.readtable.1
+ lh npts depmin depmax
+  
+  
+  FILE: test.readtable.1 - 1
+ ----------------------
+
+       npts = 900
+     depmin = 1.046000e+01
+     depmax = 1.945000e+01
+  
+ ==>  
+ systemcommand mkdir test.readtable.dir
+ systemcommand cp test.readtable.1 test.readtable.dir/test.readtable.2
+  
+ ==>  
+ readtable free dir test.readtable.dir content P test.readtable.2
+ lh npts depmin depmax
+  
+  
+  FILE: test.readtable.dir/test.readtable.2 - 1
+ -----------------------------------------
+
+       npts = 900
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ readtable free content P test.readtable.2
+ lh npts depmin depmax
+  
+  
+  FILE: test.readtable.dir/test.readtable.2 - 1
+ -----------------------------------------
+
+       npts = 900
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ readtable free dir current content P test.readtable.1
+ lh npts depmin depmax
+  
+  
+  FILE: test.readtable.1 - 1
+ ----------------------
+
+       npts = 900
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ readtable free content P test.readtable.1
+ lh npts depmin depmax
+  
+  
+  FILE: test.readtable.1 - 1
+ ----------------------
+
+       npts = 900
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+  
+ ==>  
+ readtable free CONTENT X test.readtable.1
+ ERROR 1362: Must have at least one Y channel per file.
+  
+ ==>  
+ quit

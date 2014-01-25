@@ -1,0 +1,14 @@
+
+readgse 20100401181147.GSE
+
+lh kstnm kcmpnm npts b e stlo stla stel kztime kzdate
+
+getbb sacnfiles
+
+writegse test.write.gse
+
+readgse test.write.gse
+
+lh kstnm kcmpnm npts b e stlo stla stel kztime kzdate
+
+

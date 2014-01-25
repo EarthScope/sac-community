@@ -1,0 +1,134 @@
+ wait text off
+  
+ ==>  
+ writesp
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ fg seismo
+ writesp file.out
+ ERROR 1305: Illegal operation on time series file SEISMOGR
+  
+ ==>  
+ fg seismo
+ fft
+ DC level after DFT is -0.98547
+ writesp test.writesp.0
+ readsp test.writesp.0
+ lh depmin depmax
+  
+  
+  FILE: test.writesp.0 - 1
+ --------------------
+
+     depmin = 3.626911e-05
+     depmax = 9.854721e-01
+  
+ ==>  
+ writesp asis test.writesp.1
+ readsp test.writesp.1
+ lh iftype depmin depmax
+  
+  
+  FILE: test.writesp.1 - 1
+ --------------------
+
+     iftype = SPECTRAL FILE-AMPL/PHASE
+     depmin = 3.626911e-05
+     depmax = 9.854721e-01
+  
+ ==>  
+ writesp rlim test.writesp.1
+ readsp rlim test.writesp.1
+ lh iftype depmin depmax
+  
+  
+  FILE: test.writesp.1 - 1
+ --------------------
+
+     iftype = SPECTRAL FILE-REAL/IMAG
+     depmin = -9.854721e-01
+     depmax = 4.165988e-01
+  
+ ==>  
+ writesp amph test.writesp.3
+ readsp amph test.writesp.3
+ lh iftype depmin depmax
+  
+  
+  FILE: test.writesp.3 - 1
+ --------------------
+
+     iftype = SPECTRAL FILE-AMPL/PHASE
+     depmin = 3.626911e-05
+     depmax = 9.854721e-01
+  
+ ==>  
+ readsp test.writesp.0
+ writesp rl test.writesp.2
+ read test.writesp.2.rl
+ lh iftype depmin depmax
+  
+  
+  FILE: test.writesp.2.rl - 1
+ -----------------------
+
+     iftype = GENERAL X VS Y FILE
+     depmin = -9.854721e-01
+     depmax = 4.165988e-01
+  
+ ==>  
+ readsp test.writesp.0
+ writesp im test.writesp.2
+ read test.writesp.2.im
+ lh iftype depmin depmax
+  
+  
+  FILE: test.writesp.2.im - 1
+ -----------------------
+
+     iftype = GENERAL X VS Y FILE
+     depmin = -3.487258e-01
+     depmax = 3.894709e-01
+  
+ ==>  
+ readsp test.writesp.0
+ writesp am test.writesp.2
+ read test.writesp.2.am
+ lh iftype depmin depmax
+  
+  
+  FILE: test.writesp.2.am - 1
+ -----------------------
+
+     iftype = GENERAL X VS Y FILE
+     depmin = 3.626911e-05
+     depmax = 9.854721e-01
+  
+ ==>  
+ readsp test.writesp.0
+ writesp ph test.writesp.2
+ read test.writesp.2.ph
+ lh iftype depmin depmax
+  
+  
+  FILE: test.writesp.2.ph - 1
+ -----------------------
+
+     iftype = GENERAL X VS Y FILE
+     depmin = -3.141459e+00
+     depmax = 3.141593e+00
+  
+ ==>  
+ fg seismo
+ fft
+ DC level after DFT is -0.98547
+ writesp file1 file2
+ ERROR 1312: Bad number of files in write file list: 0 1
+  
+ ==>  
+ fg seismo
+ fft rlim
+ DC level after DFT is -0.98547
+ writesp asis test.writesp.0
+ quit

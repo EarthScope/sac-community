@@ -1,0 +1,14 @@
+
+sc echo "Hello"
+
+systemcommand echo "Hello"
+
+setbb wd test
+setbb path1 %wd%.hey
+touch %path1
+
+ls %path1
+
+sc ls %path1
+
+

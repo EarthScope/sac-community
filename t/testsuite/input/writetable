@@ -1,0 +1,11 @@
+
+fg seismo
+writetable test.writetable.1
+readtable CONTENT XY test.writetable.1
+lh npts depmin depmax 
+
+readtable CONTENT P test.writetable.1
+lh npts depmin depmax 
+
+readtable CONTENT Y. test.writetable.1
+lh npts depmin depmax 

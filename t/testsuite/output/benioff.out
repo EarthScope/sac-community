@@ -1,0 +1,41 @@
+ wait text off
+ fg seismogram
+ benioff
+ lh depmin
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.816096e-01
+ lh depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmax = 1.747428e-01
+ lh npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     npts = 1000
+ lh b
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     b = 9.459999e+00
+ lh e
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     e = 1.945000e+01
+  
+ ==>  
+ quit

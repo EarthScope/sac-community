@@ -1,0 +1,38 @@
+
+dec illegaloption
+
+dec
+fg seismogram
+dec 1 filter on
+fg seismogram
+dec 2 filter on
+lh npts b e delta depmax
+fg seismogram
+dec 4 filter on
+lh npts b e delta depmax
+fg seismogram
+dec 7 filter on
+lh npts b e delta depmax
+fg seismogram
+dec 8 filter on
+lh npts b e delta depmax
+
+fg seismogram
+dec 1 filter off
+fg seismogram
+dec 2 filter off
+lh npts b e delta depmax
+fg seismogram
+dec 4 filter off
+lh npts b e delta depmax
+fg seismogram
+dec 7 filter off
+lh npts b e delta depmax
+fg seismogram
+dec 8 filter off
+lh npts b e delta depmax
+
+fg seismo
+fft
+dec
+

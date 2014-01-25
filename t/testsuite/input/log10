@@ -1,0 +1,19 @@
+log10
+
+fg seismogram
+add 1000
+lh depmin depmax
+log10
+lh depmin depmax
+
+fg impulse
+add 100000
+lh depmin depmax
+log10
+lh depmin depmax
+
+fg impulse
+mul -1
+lh depmin depmax
+log10
+lh depmin depmax

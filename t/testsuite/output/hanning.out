@@ -1,0 +1,64 @@
+ wait text off
+ hanning
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ fg impulse
+ lh depmin depmax
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = 0.000000e+00
+     depmax = 1.000000e+00
+ hanning
+ lh depmin depmax
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = 0.000000e+00
+     depmax = 5.625000e-01
+  
+ ==>  
+ fg seismogram
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ hanning
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.488457e+00
+     depmax = 1.451259e+00
+  
+ ==>  
+ fg sin
+ lh depmin depmax
+  
+  
+  FILE: SINE - 1
+ ----------
+
+     depmin = -1.000000e+00
+     depmax = 1.000000e+00
+ hanning
+ lh depmin depmax
+  
+  
+  FILE: SINE - 1
+ ----------
+
+     depmin = -9.682212e-01
+     depmax = 9.682212e-01
+ quit

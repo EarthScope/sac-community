@@ -1,0 +1,32 @@
+
+sgf overwrite on
+
+message "SGF Prefix"
+sgf prefix test.sgf.
+
+fg 
+bd sgf 
+p1
+ls -1 test.sgf.*
+
+message "SGF Number"
+sgf number 10
+p1
+ls -1 test.sgf.*
+
+message "SGF Directory - Directory Current is a bug"
+sgf directory .
+p1
+ls -1 test.sgf.*
+
+message "SGF Size Normal"
+sgf size normal
+p1
+ls -1 test.sgf.*
+
+message "SGF Overwrite Off"
+sgf overwrite off
+sgf number 10
+p1
+ls -1 test.sgf.*
+

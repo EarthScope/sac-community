@@ -1,0 +1,154 @@
+ wait text off
+ fg seismo
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ color red
+ p1 ; pause period 0.25
+Pausing
+ color green
+ p1 ; pause period 0.25
+Pausing
+ color blue
+ p1 ; pause period 0.25
+Pausing
+ color yellow
+ p1 ; pause period 0.25
+Pausing
+ color cyan
+ p1 ; pause period 0.25
+Pausing
+ color magenta
+ p1 ; pause period 0.25
+Pausing
+ color white
+ p1 ; pause period 0.25
+Pausing
+ color black
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ color black skeleton red
+ p1 ; pause period 0.25
+Pausing
+ color black skeleton green
+ p1 ; pause period 0.25
+Pausing
+ color black skeleton blue
+ p1 ; pause period 0.25
+Pausing
+ color black skeleton yellow
+ p1 ; pause period 0.25
+Pausing
+ color black skeleton cyan
+ p1 ; pause period 0.25
+Pausing
+ color black skeleton magenta
+ p1 ; pause period 0.25
+Pausing
+ color black skeleton white
+ p1 ; pause period 0.25
+Pausing
+ color black skeleton black
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ color black background red
+ p1 ; pause period 0.25
+Pausing
+ color black background green
+ p1 ; pause period 0.25
+Pausing
+ color black background blue
+ p1 ; pause period 0.25
+Pausing
+ color black background yellow
+ p1 ; pause period 0.25
+Pausing
+ color black background cyan
+ p1 ; pause period 0.25
+Pausing
+ color black background magenta
+ p1 ; pause period 0.25
+Pausing
+ color black background white
+ p1 ; pause period 0.25
+Pausing
+ color black background black
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ color -2
+ ERROR interpreting command:  color -2 
+ NEED NAME OF A COLOR:               ^
+ color puke
+ ERROR interpreting command:  color puke 
+ NEED NAME OF A COLOR:                 ^
+ color on skeleton -2
+ ERROR interpreting command:  color on skeleton -2 
+ NEED NAME OF A COLOR:                           ^
+ color on background -2
+ ERROR interpreting command:  color on background -2 
+ NEED NAME OF A COLOR:                             ^
+ color on skeleton
+ ERROR interpreting command:  color on skeleton 
+ NEED NAME OF A COLOR:                        ^
+ color on background
+ ERROR interpreting command:  color on background 
+ NEED NAME OF A COLOR:                          ^
+  
+ ==>  
+ color on background white
+ color on inc
+  
+ ==>  
+ fg seismo
+ write test.color
+ read test.color test.color test.color test.color test.color test.color test.color
+  
+ ==>  
+ color on list red green blue yellow black
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ color on list 1 2 3 4 5 6
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ color on list 1 2 -3
+ ERROR interpreting command:  color on list 1 2 -3 
+ NEED NAME OF A COLOR:                           ^
+  
+ ==>  
+ color on list red green bad_color
+ ERROR interpreting command:  color on list red green bad_color 
+ NEED NAME OF A COLOR:                                        ^
+  
+ ==>  
+ color on bad
+ ERROR interpreting command:  color on bad 
+ NEED NAME OF A COLOR:                   ^
+ color on list standard
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ color on background bad_color
+ ERROR interpreting command:  color on background bad_color 
+ NEED NAME OF A COLOR:                                    ^
+ color on skeleton bad_color
+ ERROR interpreting command:  color on skeleton bad_color 
+ NEED NAME OF A COLOR:                                  ^
+ color on list
+ color on black
+ ERROR interpreting command:  color on black 
+ ILLEGAL OPTION:                       ^
+  
+ ==>  
+ quit

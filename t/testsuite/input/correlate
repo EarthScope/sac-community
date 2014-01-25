@@ -1,0 +1,41 @@
+fg impulse
+w test.impulse.1
+ch b 20
+w test.impulse.2
+read test.impulse.1 test.impulse.2
+correlate
+lh b e depmin depmax depmen
+
+fg seismogram
+w test.seismo.1
+ch allt 2
+w test.seismo.2
+read test.seismo.1 test.seismo.2
+correlate
+lh b e depmin depmax depmen
+
+fg sine
+w test.sine.1
+ch b 20
+w test.sine.2
+read test.sine.1 test.sine.2
+correlate
+lh b e depmin depmax depmen
+
+fg sine
+w test.sine.1
+ch b 20
+w test.sine.2
+read test.sine.1 test.sine.2
+correlate master 1
+read test.sine.1 test.sine.2
+correlate master 2
+read test.sine.1 test.sine.2
+correlate master 3
+read test.sine.1 test.sine.2
+correlate master test.sine.1
+read test.sine.1 test.sine.2
+correlate master test.sine.2
+read test.sine.1 test.sine.2
+correlate master test.sine.3
+

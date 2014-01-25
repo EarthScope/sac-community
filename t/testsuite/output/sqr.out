@@ -1,0 +1,70 @@
+ wait text off
+ sqr
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ fg seismogram
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ sqr
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = 0.000000e+00
+     depmax = 2.462640e+00
+  
+ ==>  
+ fg impulse
+ lh depmin depmax
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = 0.000000e+00
+     depmax = 1.000000e+00
+ sqr
+ lh depmin depmax
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = 0.000000e+00
+     depmax = 1.000000e+00
+  
+ ==>  
+ fg sine
+ lh depmin depmax
+  
+  
+  FILE: SINE - 1
+ ----------
+
+     depmin = -1.000000e+00
+     depmax = 1.000000e+00
+ sqr
+ lh depmin depmax
+  
+  
+  FILE: SINE - 1
+ ----------
+
+     depmin = 0.000000e+00
+     depmax = 1.000000e+00
+  
+ ==>  
+  
+ ==>  
+  
+ ==>  
+ quit

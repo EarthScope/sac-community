@@ -1,0 +1,310 @@
+ wait text off
+  
+ ==>  
+  
+ ==>  
+ fg seismo
+  
+ ==>  
+ plabel 2 "Not Second Label" ; p1 ; pause period 0.25
+ ERROR interpreting command:  plabel 2 "Not Second Label"  
+ OUTSIDE ALLOWED RANGE:              ^
+ Allowed range is:          1         1
+ ERROR 3501: Plot Label number exceeds total number of current labels: 1
+Pausing
+  
+ ==>  
+ plabel 1 "First Label "; p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ plabel "Second Label" ; p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ plabel "Third Label" ; p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ title "One"
+ plabel 1 "First Label Again" ; p1 ; pause period 0.25
+Pausing
+ title "Two"
+ plabel 2 "Second Label Again" ; p1 ; pause period 0.25
+Pausing
+ title "Three"
+ plabel 3 "Third Label Again" ; p1 ; pause period 0.25
+Pausing
+ title "Four"
+ plabel 4 "4th Label Again" ; p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ plabel 1 position 0.8 0.5 ; p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ title off
+  
+ ==>  
+ m test_plabel.m
+ setbb max 40
+  
+ do i = 1 , %max
+ ==>  do i = 1 , 40
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  1 " position 0.5 0.875 0 size small
+   message $i
+ ==>  message 1
+ 1
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  2 " position 0.5 0.85 0 size small
+   message $i
+ ==>  message 2
+ 2
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  3 " position 0.5 0.825 0 size small
+   message $i
+ ==>  message 3
+ 3
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  4 " position 0.5 0.8 0 size small
+   message $i
+ ==>  message 4
+ 4
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  5 " position 0.5 0.775 0 size small
+   message $i
+ ==>  message 5
+ 5
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  6 " position 0.5 0.75 0 size small
+   message $i
+ ==>  message 6
+ 6
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  7 " position 0.5 0.725 0 size small
+   message $i
+ ==>  message 7
+ 7
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  8 " position 0.5 0.7 0 size small
+   message $i
+ ==>  message 8
+ 8
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  9 " position 0.5 0.675 0 size small
+   message $i
+ ==>  message 9
+ 9
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  10 " position 0.5 0.65 0 size small
+   message $i
+ ==>  message 10
+ 10
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  11 " position 0.5 0.625 0 size small
+   message $i
+ ==>  message 11
+ 11
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  12 " position 0.5 0.6 0 size small
+   message $i
+ ==>  message 12
+ 12
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  13 " position 0.5 0.575 0 size small
+   message $i
+ ==>  message 13
+ 13
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  14 " position 0.5 0.55 0 size small
+   message $i
+ ==>  message 14
+ 14
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  15 " position 0.5 0.525 0 size small
+   message $i
+ ==>  message 15
+ 15
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  16 " position 0.5 0.5 0 size small
+   message $i
+ ==>  message 16
+ 16
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  17 " position 0.5 0.475 0 size small
+   message $i
+ ==>  message 17
+ 17
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  18 " position 0.5 0.45 0 size small
+   message $i
+ ==>  message 18
+ 18
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  19 " position 0.5 0.425 0 size small
+   message $i
+ ==>  message 19
+ 19
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  20 " position 0.5 0.4 0 size small
+   message $i
+ ==>  message 20
+ 20
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  21 " position 0.5 0.375 0 size small
+   message $i
+ ==>  message 21
+ 21
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  22 " position 0.5 0.35 0 size small
+   message $i
+ ==>  message 22
+ 22
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  23 " position 0.5 0.325 0 size small
+   message $i
+ ==>  message 23
+ 23
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  24 " position 0.5 0.3 0 size small
+   message $i
+ ==>  message 24
+ 24
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  25 " position 0.5 0.275 0 size small
+   message $i
+ ==>  message 25
+ 25
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  26 " position 0.5 0.25 0 size small
+   message $i
+ ==>  message 26
+ 26
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  27 " position 0.5 0.225 0 size small
+   message $i
+ ==>  message 27
+ 27
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  28 " position 0.5 0.2 0 size small
+   message $i
+ ==>  message 28
+ 28
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  29 " position 0.5 0.175 0 size small
+   message $i
+ ==>  message 29
+ 29
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  30 " position 0.5 0.15 0 size small
+   message $i
+ ==>  message 30
+ 30
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  31 " position 0.5 0.125 0 size small
+   message $i
+ ==>  message 31
+ 31
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  32 " position 0.5 0.1 0 size small
+   message $i
+ ==>  message 32
+ 32
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  33 " position 0.5 0.075 0 size small
+   message $i
+ ==>  message 33
+ 33
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  34 " position 0.5 0.05 0 size small
+   message $i
+ ==>  message 34
+ 34
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  35 " position 0.5 0.025 0 size small
+   message $i
+ ==>  message 35
+ 35
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  36 " position 0.5 0 0 size small
+   message $i
+ ==>  message 36
+ 36
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  37 " position 0.5 -0.025 0 size small
+   message $i
+ ==>  message 37
+ 37
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  38 " position 0.5 -0.05 0 size small
+   message $i
+ ==>  message 38
+ 38
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  39 " position 0.5 -0.075 0 size small
+   message $i
+ ==>  message 39
+ 39
+ enddo
+   plabel " Label  $i " position 0.5 ( 0.9 - ( $i / %max ) ) 0.0 size small
+ ==>  plabel " Label  40 " position 0.5 -0.1 0 size small
+   message $i
+ ==>  message 40
+ 40
+ enddo
+  
+  
+ ==>  
+ fg seismo
+  
+ ==>  
+ p1
+  
+ ==>  
+ pause period 0.5
+Pausing
+  
+ ==>  
+  
+ ==>  
+ quit

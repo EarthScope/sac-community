@@ -1,0 +1,10 @@
+add
+fg
+lh depmin depmax
+add 10
+lh depmin depmax
+fg
+lh depmin depmax
+add -24.3
+lh depmin depmax
+

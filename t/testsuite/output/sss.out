@@ -1,0 +1,304 @@
+ wait text off
+ wild echo off
+ datagen sub local *.z
+ qdp off
+ wild echo on
+ sss
+ Signal Stacking Subprocess.
+  
+ ==>  
+ liststack
+  
+  filename  weight      delayt      delayn     delayvm   polarity   distance
+                            delayti     delayni      begin       end
+  cal.z         1.000       0.000       0.000       0.000   NORMAL       12.488
+                              0.000       0.000       9.994      50.009
+  cao.z         1.000       0.000       0.000       0.000   NORMAL       23.007
+                              0.000       0.000       9.994      50.009
+  cda.z         1.000       0.000       0.000       0.000   NORMAL       23.912
+                              0.000       0.000       9.994      50.009
+  cdv.z         1.000       0.000       0.000       0.000   NORMAL        5.456
+                              0.000       0.000       9.994      50.009
+  cmn.z         1.000       0.000       0.000       0.000   NORMAL       12.400
+                              0.000       0.000       9.994      50.009
+  cps.z         1.000       0.000       0.000       0.000   NORMAL       19.210
+                              0.000       0.000       9.994      50.009
+  cva.z         1.000       0.000       0.000       0.000   NORMAL       12.996
+                              0.000       0.000       9.994      50.009
+  cvl.z         1.000       0.000       0.000       0.000   NORMAL       17.990
+                              0.000       0.000       9.994      50.009
+  cvy.z         1.000       0.000       0.000       0.000   NORMAL       18.898
+                              0.000       0.000       9.994      50.009
+  Time Window:       0.000       0.000
+  Stack Velocity Model 1 OFF
+  Stack Velocity Model 2 OFF
+ liststack narrow
+  
+  filename  weight      delayt      delayn     delayvm   polarity   distance
+                            delayti     delayni      begin       end
+  cal.z         1.000       0.000       0.000       0.000   NORMAL       12.488
+                              0.000       0.000       9.994      50.009
+  cao.z         1.000       0.000       0.000       0.000   NORMAL       23.007
+                              0.000       0.000       9.994      50.009
+  cda.z         1.000       0.000       0.000       0.000   NORMAL       23.912
+                              0.000       0.000       9.994      50.009
+  cdv.z         1.000       0.000       0.000       0.000   NORMAL        5.456
+                              0.000       0.000       9.994      50.009
+  cmn.z         1.000       0.000       0.000       0.000   NORMAL       12.400
+                              0.000       0.000       9.994      50.009
+  cps.z         1.000       0.000       0.000       0.000   NORMAL       19.210
+                              0.000       0.000       9.994      50.009
+  cva.z         1.000       0.000       0.000       0.000   NORMAL       12.996
+                              0.000       0.000       9.994      50.009
+  cvl.z         1.000       0.000       0.000       0.000   NORMAL       17.990
+                              0.000       0.000       9.994      50.009
+  cvy.z         1.000       0.000       0.000       0.000   NORMAL       18.898
+                              0.000       0.000       9.994      50.009
+  Time Window:       0.000       0.000
+  Stack Velocity Model 1 OFF
+  Stack Velocity Model 2 OFF
+ liststack wide
+  
+  filename                  weight      delayt      delayn     delayvm    polarity    distance     delayti     delayni      begin       end
+                 cal.z       1.000       0.000       0.000       0.000      NORMAL       0.000       0.000      12.488       9.994      50.009
+                 cao.z       1.000       0.000       0.000       0.000      NORMAL       0.000       0.000      23.007       9.994      50.009
+                 cda.z       1.000       0.000       0.000       0.000      NORMAL       0.000       0.000      23.912       9.994      50.009
+                 cdv.z       1.000       0.000       0.000       0.000      NORMAL       0.000       0.000       5.456       9.994      50.009
+                 cmn.z       1.000       0.000       0.000       0.000      NORMAL       0.000       0.000      12.400       9.994      50.009
+                 cps.z       1.000       0.000       0.000       0.000      NORMAL       0.000       0.000      19.210       9.994      50.009
+                 cva.z       1.000       0.000       0.000       0.000      NORMAL       0.000       0.000      12.996       9.994      50.009
+                 cvl.z       1.000       0.000       0.000       0.000      NORMAL       0.000       0.000      17.990       9.994      50.009
+                 cvy.z       1.000       0.000       0.000       0.000      NORMAL       0.000       0.000      18.898       9.994      50.009
+  Time Window:       0.000       0.000
+  Stack Velocity Model 1 OFF
+  Stack Velocity Model 2 OFF
+  
+ ==>  
+ plotrecordsection ; pause period 0.25
+Pausing
+  
+ ==>  
+ prs labels off ; pause period 0.25
+Pausing
+ prs labels on ; pause period 0.25
+Pausing
+ prs labels kstnm ; pause period 0.25
+Pausing
+  
+ ==>  
+ prs origin reversed ; pause period 0.25
+Pausing
+ prs origin default ; pause period 0.25
+Pausing
+  
+ ==>  
+ prs referenceline off ; pause period 0.25
+Pausing
+ prs referenceline on ; pause period 0.25
+Pausing
+  
+ ==>  
+ prs orient landscape ; pause period 0.25
+Pausing
+ prs orient portrait ; pause period 0.25
+Pausing
+  
+ ==>  
+ prs xlabel off ; pause period 0.25
+Pausing
+ prs xlabel on ; pause period 0.25
+Pausing
+ prs xlabel "X text here"; pause period 0.25
+Pausing
+ prs xlabel default ; pause period 0.25
+Pausing
+  
+ ==>  
+ prs ylabel off ; pause period 0.25
+Pausing
+ prs ylabel on ; pause period 0.25
+Pausing
+ prs ylabel "y text here"; pause period 0.25
+Pausing
+ prs ylabel default ; pause period 0.25
+Pausing
+  
+ ==>  
+ prs reduced velocity 6 ; pause period 0.25
+Pausing
+ prs reduced velocity 8 ; pause period 0.25
+Pausing
+ prs reduced off ; pause period 0.25
+Pausing
+ prs reduced on ; pause period 0.25
+Pausing
+  
+ ==>  
+ distancewindow usedata ; prs ; pause period 0.25
+Pausing
+ distancewindow width 10 ; prs ; pause period 0.25
+Pausing
+ distancewindow units degrees ; prs ; pause period 0.25
+Pausing
+ distancewindow units kilometers ; prs ; pause period 0.25
+Pausing
+ distancewindow units fixed 15 30 ; prs ; pause period 0.25
+Pausing
+  
+ ==>  
+ distanceaxis fixed 50 ; prs ; pause period 0.25
+Pausing
+ distanceaxis scaled 2.0 ; prs ; pause period 0.25
+Pausing
+ distanceaxis fixed 35 ; prs ; pause period 0.25
+Pausing
+  
+ ==>  
+ deltacheck off
+ deltacheck on
+ deltacheck roundoff
+  
+ ==>  
+ timewindow 10 40 ; prs ; pause period 0.25
+Pausing
+  
+ ==>  
+ timeaxis fixed 50 ; prs ; pause period 0.25
+Pausing
+ timeaxis scaled 0.5 ; prs ; pause period 0.25
+Pausing
+ timeaxis fixed 23 ; prs ; pause period 0.25
+Pausing
+  
+ ==>  
+ traveltime phase Pg Sg
+traveltime: depth: 5.950000 km
+traveltime: Pg       at 20.071922 s [ t = 2.387642 s ]
+traveltime: Sg       at 21.800419 s [ t = 4.116138 s ]
+traveltime: Pg       at 21.779484 s [ t = 4.095204 s ]
+traveltime: Sg       at 24.753441 s [ t = 7.069161 s ]
+traveltime: Pg       at 21.930811 s [ t = 4.246531 s ]
+traveltime: Sg       at 25.014093 s [ t = 7.329813 s ]
+traveltime: Pg       at 19.080975 s [ t = 1.396694 s ]
+traveltime: Sg       at 20.120102 s [ t = 2.435821 s ]
+traveltime: Pg       at 20.058197 s [ t = 2.373918 s ]
+traveltime: Sg       at 21.776711 s [ t = 4.092430 s ]
+traveltime: Pg       at 21.151161 s [ t = 3.466880 s ]
+traveltime: Sg       at 23.668348 s [ t = 5.984067 s ]
+traveltime: Pg       at 20.151480 s [ t = 2.467199 s ]
+traveltime: Sg       at 21.937967 s [ t = 4.253687 s ]
+traveltime: Pg       at 20.951557 s [ t = 3.267277 s ]
+traveltime: Sg       at 23.323139 s [ t = 5.638860 s ]
+traveltime: Pg       at 21.099947 s [ t = 3.415667 s ]
+traveltime: Sg       at 23.579796 s [ t = 5.895516 s ]
+ traveltime model ak135
+traveltime: depth: 5.950000 km
+traveltime: Pg       at 20.071804 s [ t = 2.387523 s ]
+traveltime: Sg       at 21.681356 s [ t = 3.997075 s ]
+traveltime: Pg       at 21.779480 s [ t = 4.095201 s ]
+traveltime: Sg       at 24.552135 s [ t = 6.867856 s ]
+traveltime: Pg       at 21.930935 s [ t = 4.246655 s ]
+traveltime: Sg       at 24.807125 s [ t = 7.122844 s ]
+traveltime: Pg       at 19.081190 s [ t = 1.396910 s ]
+traveltime: Sg       at 20.081789 s [ t = 2.397509 s ]
+traveltime: Pg       at 20.058079 s [ t = 2.373799 s ]
+traveltime: Sg       at 21.658848 s [ t = 3.974568 s ]
+traveltime: Pg       at 21.151045 s [ t = 3.466765 s ]
+traveltime: Sg       at 23.488682 s [ t = 5.804401 s ]
+traveltime: Pg       at 20.151356 s [ t = 2.467076 s ]
+traveltime: Sg       at 21.812233 s [ t = 4.127953 s ]
+traveltime: Pg       at 20.951435 s [ t = 3.267155 s ]
+traveltime: Sg       at 23.151402 s [ t = 5.467120 s ]
+traveltime: Pg       at 21.099829 s [ t = 3.415549 s ]
+traveltime: Sg       at 23.402081 s [ t = 5.717799 s ]
+ traveltime model iasp91
+traveltime: depth: 5.950000 km
+traveltime: Pg       at 20.071922 s [ t = 2.387642 s ]
+traveltime: Sg       at 21.800419 s [ t = 4.116138 s ]
+traveltime: Pg       at 21.779484 s [ t = 4.095204 s ]
+traveltime: Sg       at 24.753441 s [ t = 7.069161 s ]
+traveltime: Pg       at 21.930811 s [ t = 4.246531 s ]
+traveltime: Sg       at 25.014093 s [ t = 7.329813 s ]
+traveltime: Pg       at 19.080975 s [ t = 1.396694 s ]
+traveltime: Sg       at 20.120102 s [ t = 2.435821 s ]
+traveltime: Pg       at 20.058197 s [ t = 2.373918 s ]
+traveltime: Sg       at 21.776711 s [ t = 4.092430 s ]
+traveltime: Pg       at 21.151161 s [ t = 3.466880 s ]
+traveltime: Sg       at 23.668348 s [ t = 5.984067 s ]
+traveltime: Pg       at 20.151480 s [ t = 2.467199 s ]
+traveltime: Sg       at 21.937967 s [ t = 4.253687 s ]
+traveltime: Pg       at 20.951557 s [ t = 3.267277 s ]
+traveltime: Sg       at 23.323139 s [ t = 5.638860 s ]
+traveltime: Pg       at 21.099947 s [ t = 3.415667 s ]
+traveltime: Sg       at 23.579796 s [ t = 5.895516 s ]
+ traveltime phase Pg Sg
+traveltime: depth: 5.950000 km
+traveltime: Pg       at 20.071922 s [ t = 2.387642 s ]
+traveltime: Sg       at 21.800419 s [ t = 4.116138 s ]
+traveltime: Pg       at 21.779484 s [ t = 4.095204 s ]
+traveltime: Sg       at 24.753441 s [ t = 7.069161 s ]
+traveltime: Pg       at 21.930811 s [ t = 4.246531 s ]
+traveltime: Sg       at 25.014093 s [ t = 7.329813 s ]
+traveltime: Pg       at 19.080975 s [ t = 1.396694 s ]
+traveltime: Sg       at 20.120102 s [ t = 2.435821 s ]
+traveltime: Pg       at 20.058197 s [ t = 2.373918 s ]
+traveltime: Sg       at 21.776711 s [ t = 4.092430 s ]
+traveltime: Pg       at 21.151161 s [ t = 3.466880 s ]
+traveltime: Sg       at 23.668348 s [ t = 5.984067 s ]
+traveltime: Pg       at 20.151480 s [ t = 2.467199 s ]
+traveltime: Sg       at 21.937967 s [ t = 4.253687 s ]
+traveltime: Pg       at 20.951557 s [ t = 3.267277 s ]
+traveltime: Sg       at 23.323139 s [ t = 5.638860 s ]
+traveltime: Pg       at 21.099947 s [ t = 3.415667 s ]
+traveltime: Sg       at 23.579796 s [ t = 5.895516 s ]
+ traveltime picks 1
+traveltime: depth: 5.950000 km
+ traveltime picks 0
+traveltime: depth: 5.950000 km
+ traveltime phase Pg Sg
+traveltime: depth: 5.950000 km
+ traveltime phase Sg
+traveltime: depth: 5.950000 km
+ traveltime phase Pg Sg
+traveltime: depth: 5.950000 km
+ traveltime verbose
+traveltime: depth: 5.950000 km
+traveltime: setting phase Pg       at 20.071922 s [ t = 2.387642 s ] t0 
+traveltime: setting phase Sg       at 21.800419 s [ t = 4.116138 s ] t1 
+traveltime: setting phase Pg       at 21.779484 s [ t = 4.095204 s ] t0 
+traveltime: setting phase Sg       at 24.753441 s [ t = 7.069161 s ] t1 
+traveltime: setting phase Pg       at 21.930811 s [ t = 4.246531 s ] t0 
+traveltime: setting phase Sg       at 25.014093 s [ t = 7.329813 s ] t1 
+traveltime: setting phase Pg       at 19.080975 s [ t = 1.396694 s ] t0 
+traveltime: setting phase Sg       at 20.120102 s [ t = 2.435821 s ] t1 
+traveltime: setting phase Pg       at 20.058197 s [ t = 2.373918 s ] t0 
+traveltime: setting phase Sg       at 21.776711 s [ t = 4.092430 s ] t1 
+traveltime: setting phase Pg       at 21.151161 s [ t = 3.466880 s ] t0 
+traveltime: setting phase Sg       at 23.668348 s [ t = 5.984067 s ] t1 
+traveltime: setting phase Pg       at 20.151480 s [ t = 2.467199 s ] t0 
+traveltime: setting phase Sg       at 21.937967 s [ t = 4.253687 s ] t1 
+traveltime: setting phase Pg       at 20.951557 s [ t = 3.267277 s ] t0 
+traveltime: setting phase Sg       at 23.323139 s [ t = 5.638860 s ] t1 
+traveltime: setting phase Pg       at 21.099947 s [ t = 3.415667 s ] t0 
+traveltime: setting phase Sg       at 23.579796 s [ t = 5.895516 s ] t1 
+ traveltime quiet
+  
+ ==>  
+ prs reduced Pg ; pause period 0.25
+ ERROR interpreting command:  prs reduced Pg  
+ BAD SYNTAX: see help plotrecordsection              ^
+Pausing
+ prs ttime on ; pause period 0.25
+Pausing
+ prs ttime off ; pause period 0.25
+Pausing
+ prs ttime default ; pause period 0.25
+Pausing
+  
+ ==>  
+ sumstack
+ plotstack ; pause period 0.25
+Pausing
+  
+ ==>  
+ quit

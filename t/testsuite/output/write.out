@@ -1,0 +1,147 @@
+ wait text off
+  
+ ==>  
+ fg seismogram
+ write test.write.seismo
+ read test.write.seismo
+ lh depmax
+  
+  
+  FILE: test.write.seismo - 1
+ -----------------------
+
+     depmax = 1.520640e+00
+  
+ ==>  
+ message "Test Write Append"
+ Test Write Append
+ read test.write.seismo
+ write append .append
+test.write.seismo.append
+ read test.write.seismo.append
+ lh depmax
+  
+  
+  FILE: test.write.seismo.append - 1
+ ------------------------------
+
+     depmax = 1.520640e+00
+  
+ ==>  
+ message "Test Write Prepend"
+ Test Write Prepend
+ read test.write.seismo
+ write prepend test.
+test.test.write.seismo
+ read test.test.write.seismo
+ lh depmax
+  
+  
+  FILE: test.test.write.seismo - 1
+ ----------------------------
+
+     depmax = 1.520640e+00
+  
+ ==>  
+ message "Test Write Change"
+ Test Write Change
+ read test.write.seismo
+ write change seismo seismogram
+test.write.seismogram
+ read test.write.seismogram
+ lh depmax
+  
+  
+  FILE: test.write.seismogram - 1
+ ---------------------------
+
+     depmax = 1.520640e+00
+  
+ ==>  
+ message "Test Write Delete"
+ Test Write Delete
+ read test.write.seismo
+ write delete smo
+test.write.sei
+ read test.write.sei
+ lh depmax
+  
+  
+  FILE: test.write.sei - 1
+ --------------------
+
+     depmax = 1.520640e+00
+  
+ ==>  
+ message "Test Write SAC"
+ Test Write SAC
+ fg seismo
+ write sac test.write.sac
+ read test.write.sac
+ lh depmax
+  
+  
+  FILE: test.write.sac - 1
+ --------------------
+
+     depmax = 1.520640e+00
+  
+ ==>  
+ message "Test Write KSTCMP"
+ Test Write KSTCMP
+ fg seismo
+ ch kstnm test.CDV
+ lh cmpinc cmpaz
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     cmpinc = 0.000000e+00
+      cmpaz = 0.000000e+00
+ write kstcmp
+ read test.CDV.VERT
+  
+ ==>  
+ message "Test Write Directory"
+ Test Write Directory
+ systemcommand mkdir test.write.dir
+ # systemcommand mkdir off on current
+  
+ ==>  
+ fg seismo
+ write dir test.write.dir test.write.indir.1
+ read test.write.dir/test.write.indir.1
+  
+ ==>  
+ message "Test Write Directory Off BUG"
+ Test Write Directory Off BUG
+ # fg seismo
+ # write dir OFF test.write.nodir.1
+ # read test.write.nodir
+  
+ ==>  
+ message "Test Write Directory On BUG"
+ Test Write Directory On BUG
+ # fg seismo
+ # write dir on test.write.indir.2
+ # read test.write.dir/test.write.indir.2
+  
+ ==>  
+ message "Test Write Directory Current BUG"
+ Test Write Directory Current BUG
+ # fg seismo
+ # write dir current test.write.nodir.2
+ # read test.write.indir.2
+  
+ ==>  
+ message "Test Write Directory ./ BUG"
+ Test Write Directory ./ BUG
+ # fg seismo
+ # write dir ./ test.write.dir.bug
+ # read test.write.dir.bug
+  
+ ==>  
+  
+ ==>  
+ quit

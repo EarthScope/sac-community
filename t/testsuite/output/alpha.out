@@ -1,0 +1,32 @@
+ wait text off
+  
+ ==>  
+ message "Test Read Alpha"
+ Test Read Alpha
+ fg impulse
+ write alpha test.read.alpha
+ read alpha test.read.alpha
+ lh depmin depmax
+  
+  
+  FILE: test.read.alpha - 1
+ ---------------------
+
+     depmin = 0.000000e+00
+     depmax = 1.000000e+00
+  
+ ==>  
+ fg seismo
+ write alpha test.read.alpha
+ read alpha test.read.alpha
+ lh depmin depmax
+  
+  
+  FILE: test.read.alpha - 1
+ ---------------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+  
+ ==>  
+ quit

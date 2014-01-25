@@ -1,0 +1,12 @@
+ wait text off
+  
+ ==>  
+ fg seismo
+ p1
+ save test_out.pdf
+  
+ ==>  
+ save test_out.ps
+  
+ ==>  
+ quit

@@ -1,0 +1,40 @@
+ wait text off
+ setbb a 10
+ getbb
+ A = 10
+ NUMERROR = 0
+ SACERROR = 'FALSE'
+ SACNFILES = 0
+ setbb b 20
+ getbb
+ A = 10
+ B = 20
+ NUMERROR = 0
+ SACERROR = 'FALSE'
+ SACNFILES = 0
+ setbb a 12.3 b 3.4 c hello
+ getbb
+ A = 12.3
+ B = 3.4
+ C = 'hello'
+ NUMERROR = 0
+ SACERROR = 'FALSE'
+ SACNFILES = 0
+  
+ ==>  
+ setbb str "Hello"
+ setbb str append " Again"
+ getbb str
+ str = 'Hello Again'
+  
+ ==>  
+ setbb b 10
+ setbb b append " String"
+ ERROR 1204: Incorrect data type for VARS variable
+ getbb b
+ b = 10
+  
+ ==>  
+  
+ ==>  
+ quit

@@ -1,0 +1,24 @@
+readerr badfile fatal
+read nofile
+readerr badfile warning
+read nofile
+readerr badfile ignore
+read nofile
+
+readerr nofiles fatal
+read nofile
+readerr nofiles warning
+read nofile
+readerr nofiles ignore
+read nofile
+
+readerr memory save
+read nofile
+readerr memory delete
+read nofile
+
+readerr nofiles fatal 
+readerr badfile warning
+readerr memory delete
+read nofile
+

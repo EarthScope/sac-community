@@ -1,0 +1,26 @@
+ wait text off
+  
+ ==>  
+ fg seismo
+ p1 ; pause period 0.25
+Pausing
+ linlin
+ p1 ; pause period 0.25
+Pausing
+ linlog
+ p1 ; pause period 0.25
+Pausing
+ loglin
+ p1 ; pause period 0.25
+Pausing
+ loglog
+ p1 ; pause period 0.25
+Pausing
+ linlin
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+  
+ ==>  
+ quit

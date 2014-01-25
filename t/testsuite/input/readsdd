@@ -1,0 +1,35 @@
+
+fg seismo
+lh depmin depmax kstnm
+writesdd test.readsdd.0
+readsdd test.readsdd.0
+lh depmin depmax kstnm
+
+readsdd test.readsd?.0
+lh depmin depmax kstnm
+
+readsdd test.readsd*.0
+lh depmin depmax kstnm
+getbb
+writesdd test.readsdd.1
+writesdd test.readsdd.2
+writesdd test.readsdd.3
+
+readsdd test.readsdd.*
+lh depmin depmax kstnm
+
+systemcommand mkdir test.readsdd.dir
+fg seismo
+writesdd test.readsdd.dir/test.readsdd.indir
+readsdd dir test.readsdd.dir test.readsdd.indir
+lh depmin depmax kstnm
+
+readsdd dir current test.readsdd.1
+lh depmin depmax kstnm
+
+readsdd test.readsdd.1 test.readsdd.2 test.readsdd.3
+lh depmin depmax kstnm
+
+
+
+

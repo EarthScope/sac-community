@@ -1,0 +1,31 @@
+ wait text off
+  
+ ==>  
+ fg seismo
+ spectrogram
+Window size: 200  Overlap: 100  FFT size: 512 
+Spectrogram dimensions are 512  by 9 .
+ contour
+  
+ ==>  
+ zlabels on
+ contour
+  
+ ==>  
+ zlevels scale
+ contour
+  
+ ==>  
+ zlines off
+ contour
+  
+ ==>  
+ zticks on
+ contour
+  
+ ==>  
+ zcolors on
+ contour
+  
+ ==>  
+ quit

@@ -1,0 +1,72 @@
+ wait text off
+  
+ ==>  
+ message "Testing Read SEGY"
+ Testing Read SEGY
+ fg impulse
+ write segy test.read.segy
+ read segy test.read.segy
+ WARNING: Bad time field entry detected:  Cannot determine origin time for test.read.seg 
+Setting ORIGIN to BEGIN.
+ lh depmin depmax
+  
+  
+  FILE: test.read.segy - 1
+ --------------------
+
+     depmin = 0.000000e+00
+     depmax = 2.147484e+09
+ read segy scale off test.read.segy
+ WARNING: Bad time field entry detected:  Cannot determine origin time for test.read.seg 
+Setting ORIGIN to BEGIN.
+ lh depmin depmax
+  
+  
+  FILE: test.read.segy - 1
+ --------------------
+
+     depmin = 0.000000e+00
+     depmax = 2.147484e+09
+ read segy scale on test.read.segy
+ WARNING: Bad time field entry detected:  Cannot determine origin time for test.read.seg 
+Setting ORIGIN to BEGIN.
+ lh depmin depmax
+  
+  
+  FILE: test.read.segy - 1
+ --------------------
+
+     depmin = 0.000000e+00
+     depmax = 1.000000e+00
+  
+ ==>  
+ fg seismo
+ write segy test.read.segy
+ read segy test.read.segy
+ lh depmin depmax
+  
+  
+  FILE: test.read.segy - 1
+ --------------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ read segy scale off test.read.segy
+ lh depmin depmax
+  
+  
+  FILE: test.read.segy - 1
+ --------------------
+
+     depmin = -2.147484e+09
+     depmax = 2.080922e+09
+ read segy scale on test.read.segy
+ lh depmin depmax
+  
+  
+  FILE: test.read.segy - 1
+ --------------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ quit

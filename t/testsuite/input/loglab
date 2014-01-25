@@ -1,0 +1,8 @@
+fg sine npts 100000
+xlog
+p1 ; pause period 0.25
+loglab off
+p1 ; pause period 0.25
+loglab on
+p1 ; pause period 0.25
+

@@ -1,0 +1,11 @@
+markptp
+
+fg impulse
+mtw 40 60
+markptp length 3 to F
+lh F
+
+mul -1
+markptp length 3 to F
+lh F
+

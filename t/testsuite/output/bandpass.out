@@ -1,0 +1,492 @@
+ wait text off
+  
+ ==>  
+ message "Error
+ Error
+ *bp seismo
+  
+ ==>  
+ message "Default"
+ Default
+ fg seismo
+ bp
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -5.497377e-02
+     depmax = 4.220829e-02
+     depmen = 3.978492e-05
+  
+ ==>  
+ message "Filter Type"
+ Filter Type
+ fg seismo
+ bp butter
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -5.497377e-02
+     depmax = 4.220829e-02
+     depmen = 3.978492e-05
+ fg seismo
+ bp bessel
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.110774e-02
+     depmax = 4.172375e-02
+     depmen = 2.405159e-04
+ fg seismo
+ bp c1
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -5.607561e-03
+     depmax = 6.706403e-03
+     depmen = -2.954517e-04
+ fg seismo
+ bp c2
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.238109e-02
+     depmax = 2.532697e-02
+     depmen = 8.126236e-04
+  
+ ==>  
+ message "Filter Types with Corners"
+ Filter Types with Corners
+ fg seismo
+ bp butter co 0.01 1.0
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.537167e-01
+     depmax = 1.907771e-02
+     depmen = -6.027781e-02
+ fg seismo
+ bp bessel co 0.01 1.0
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.842603e-01
+     depmax = 5.674742e-02
+     depmen = -6.250882e-02
+ fg seismo
+ bp c1 co 0.01 1.0
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.376476e-02
+     depmax = 8.195383e-04
+     depmen = -6.315324e-03
+ fg seismo
+ bp c2 co 0.01 1.0
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -8.784478e-02
+     depmax = 2.133853e-02
+     depmen = -2.197263e-02
+  
+ ==>  
+ fg seismo
+ bp butter
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.537167e-01
+     depmax = 1.907771e-02
+     depmen = -6.027781e-02
+  
+ ==>  
+ message "Filter Type Number of Poles"
+ Filter Type Number of Poles
+ fg seismo
+ * bp n 0
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+ bp n 2
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.537167e-01
+     depmax = 1.907771e-02
+     depmen = -6.027781e-02
+ bp n 3
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -9.762649e-02
+     depmax = 3.504995e-02
+     depmen = -2.650825e-02
+ bp n 4
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -9.310859e-02
+     depmax = 4.396410e-02
+     depmen = -2.975242e-03
+ bp n 5
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -8.517474e-02
+     depmax = 4.771239e-02
+     depmen = 8.047245e-03
+ bp n 5
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -7.649725e-02
+     depmax = 4.469939e-02
+     depmen = 1.010028e-02
+ bp n 6
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.642161e-02
+     depmax = 5.115340e-02
+     depmen = 8.492554e-03
+ bp n 7
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -5.566805e-02
+     depmax = 4.857570e-02
+     depmen = 5.754313e-03
+ bp n 8
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.496469e-02
+     depmax = 4.667542e-02
+     depmen = 3.949840e-03
+ bp n 9
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -3.499078e-02
+     depmax = 5.501357e-02
+     depmen = 2.913587e-03
+ bp n 10
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.689628e-02
+     depmax = 5.817310e-02
+     depmen = 3.435268e-03
+ *bp n 11
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -2.689628e-02
+     depmax = 5.817310e-02
+     depmen = 3.435268e-03
+  
+ ==>  
+ message "Filter with Number of Passes
+ Filter with Number of Passes
+ fg seismo
+ * bp p 0
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+ bp p 1
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -9.682717e-02
+     depmax = 4.700873e-02
+     depmen = -1.136046e-03
+ bp p 2
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -8.902606e-02
+     depmax = 3.059501e-02
+     depmen = -7.965888e-03
+ * bp p 3
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -8.902606e-02
+     depmax = 3.059501e-02
+     depmen = -7.965888e-03
+  
+ ==>  
+ message "Filter with Chebyshev1 parameters"
+ Filter with Chebyshev1 parameters
+ fg seismo
+ bp c1 tranbw 0.3
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -6.506805e-02
+     depmax = 3.806502e-02
+     depmen = -1.354301e-02
+ bp c1 atten 30
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.991693e-02
+     depmax = 2.809980e-02
+     depmen = -8.550817e-03
+  
+ ==>  
+ message "Filter with Chebyshev2 parameters"
+ Filter with Chebyshev2 parameters
+ fg seismo
+ bp c2 tranbw 0.3
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.008714e+01
+     depmax = 1.016000e+01
+     depmen = -1.991572e-02
+ bp c2 atten 30
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.715408e+03
+     depmax = 4.701075e+03
+     depmen = 1.546410e+01
+  
+ ==>  
+ m test_bandpass.m
+ do c list 0.001 0.002 0.003 0.004 0.005 0.006 0.007 0.008 0.009 0.010
+    r test_2010334033600.00.ABSI.HHZ.m
+    rmean
+    rtrend
+    taper w 0.1
+    interpolate delta $c$
+ ==>  interpolate delta 0.001
+    bp co 0.01 0.5 n 2 p 2
+    message "delta $c$"
+ ==>  message "delta 0.001000"
+ delta 0.001000
+    write test.bp.$c$.sac
+ ==>  write test.bp.0.001000.sac
+ enddo
+    r test_2010334033600.00.ABSI.HHZ.m
+    rmean
+    rtrend
+    taper w 0.1
+    interpolate delta $c$
+ ==>  interpolate delta 0.002
+    bp co 0.01 0.5 n 2 p 2
+    message "delta $c$"
+ ==>  message "delta 0.002000"
+ delta 0.002000
+    write test.bp.$c$.sac
+ ==>  write test.bp.0.002000.sac
+ enddo
+    r test_2010334033600.00.ABSI.HHZ.m
+    rmean
+    rtrend
+    taper w 0.1
+    interpolate delta $c$
+ ==>  interpolate delta 0.003
+    bp co 0.01 0.5 n 2 p 2
+    message "delta $c$"
+ ==>  message "delta 0.003000"
+ delta 0.003000
+    write test.bp.$c$.sac
+ ==>  write test.bp.0.003000.sac
+ enddo
+    r test_2010334033600.00.ABSI.HHZ.m
+    rmean
+    rtrend
+    taper w 0.1
+    interpolate delta $c$
+ ==>  interpolate delta 0.004
+    bp co 0.01 0.5 n 2 p 2
+    message "delta $c$"
+ ==>  message "delta 0.004000"
+ delta 0.004000
+    write test.bp.$c$.sac
+ ==>  write test.bp.0.004000.sac
+ enddo
+    r test_2010334033600.00.ABSI.HHZ.m
+    rmean
+    rtrend
+    taper w 0.1
+    interpolate delta $c$
+ ==>  interpolate delta 0.005
+    bp co 0.01 0.5 n 2 p 2
+    message "delta $c$"
+ ==>  message "delta 0.005000"
+ delta 0.005000
+    write test.bp.$c$.sac
+ ==>  write test.bp.0.005000.sac
+ enddo
+    r test_2010334033600.00.ABSI.HHZ.m
+    rmean
+    rtrend
+    taper w 0.1
+    interpolate delta $c$
+ ==>  interpolate delta 0.006
+    bp co 0.01 0.5 n 2 p 2
+    message "delta $c$"
+ ==>  message "delta 0.006000"
+ delta 0.006000
+    write test.bp.$c$.sac
+ ==>  write test.bp.0.006000.sac
+ enddo
+    r test_2010334033600.00.ABSI.HHZ.m
+    rmean
+    rtrend
+    taper w 0.1
+    interpolate delta $c$
+ ==>  interpolate delta 0.007
+    bp co 0.01 0.5 n 2 p 2
+    message "delta $c$"
+ ==>  message "delta 0.007000"
+ delta 0.007000
+    write test.bp.$c$.sac
+ ==>  write test.bp.0.007000.sac
+ enddo
+    r test_2010334033600.00.ABSI.HHZ.m
+    rmean
+    rtrend
+    taper w 0.1
+    interpolate delta $c$
+ ==>  interpolate delta 0.008
+    bp co 0.01 0.5 n 2 p 2
+    message "delta $c$"
+ ==>  message "delta 0.008000"
+ delta 0.008000
+    write test.bp.$c$.sac
+ ==>  write test.bp.0.008000.sac
+ enddo
+    r test_2010334033600.00.ABSI.HHZ.m
+    rmean
+    rtrend
+    taper w 0.1
+    interpolate delta $c$
+ ==>  interpolate delta 0.009
+    bp co 0.01 0.5 n 2 p 2
+    message "delta $c$"
+ ==>  message "delta 0.009000"
+ delta 0.009000
+    write test.bp.$c$.sac
+ ==>  write test.bp.0.009000.sac
+ enddo
+    r test_2010334033600.00.ABSI.HHZ.m
+    rmean
+    rtrend
+    taper w 0.1
+    interpolate delta $c$
+ ==>  interpolate delta 0.01
+    bp co 0.01 0.5 n 2 p 2
+    message "delta $c$"
+ ==>  message "delta 0.010000"
+ delta 0.010000
+    write test.bp.$c$.sac
+ ==>  write test.bp.0.010000.sac
+ enddo
+  
+ read test.bp.*
+test.bp.0.001000.sac test.bp.0.002000.sac test.bp.0.003000.sac test.bp.0.004000.sac test.bp.0.005000.sac test.bp.0.006000.sac test.bp.0.007000.sac test.bp.0.008000.sac test.bp.0.009000.sac test.bp.0.010000.sac
+ p1
+ pause period 0.25
+Pausing
+  
+ quit

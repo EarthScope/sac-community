@@ -1,0 +1,8 @@
+fg sine
+lh
+write test.sine
+fg seismogram
+lh
+addf test.sine
+lh
+

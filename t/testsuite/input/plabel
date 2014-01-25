@@ -1,0 +1,34 @@
+
+
+fg seismo
+
+plabel 2 "Not Second Label" ; p1 ; pause period 0.25
+
+plabel 1 "First Label "; p1 ; pause period 0.25
+
+plabel "Second Label" ; p1 ; pause period 0.25
+
+plabel "Third Label" ; p1 ; pause period 0.25
+
+title "One"
+plabel 1 "First Label Again" ; p1 ; pause period 0.25
+title "Two"
+plabel 2 "Second Label Again" ; p1 ; pause period 0.25
+title "Three"
+plabel 3 "Third Label Again" ; p1 ; pause period 0.25
+title "Four"
+plabel 4 "4th Label Again" ; p1 ; pause period 0.25
+
+plabel 1 position 0.8 0.5 ; p1 ; pause period 0.25
+
+title off
+
+m test_plabel.m
+
+fg seismo
+
+p1
+
+pause period 0.5
+
+

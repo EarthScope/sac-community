@@ -1,0 +1,12 @@
+
+macro test_macro_comments1.m
+macro test_macro_comments2.m
+macro test_macro_comments3.m
+macro test_macro_comments3.m keya isA keyb isB keyc isC
+macro test_macro_comments4.m one two three
+macro test_macro_comments5.m
+AAA
+BBB
+CCC
+DDD
+

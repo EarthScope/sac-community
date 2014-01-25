@@ -1,0 +1,27 @@
+ wait text off
+  
+ ==>  
+ fg seismo
+  
+ ==>  
+ message Hello &1,user1
+ ==>  message Hello -12345
+ Hello
+ UNDEFINED
+ message "Hello &1,user1"
+ ==>  message "Hello UNDEFINED"
+ Hello UNDEFINED
+  
+ ==>  
+ message Hello &1,kuser1
+ ==>  message Hello UNDEFINED
+ Hello
+ UNDEFINED
+ message "Hello &1,kuser1"
+ ==>  message "Hello UNDEFINED"
+ Hello UNDEFINED
+  
+ ==>  
+  
+ ==>  
+ quit

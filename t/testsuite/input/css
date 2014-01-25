@@ -1,0 +1,29 @@
+
+fg seismo
+lh delta b e npts kstnm kcmpnm depmin depmax kzdate kztime
+
+writecss test.css
+
+clearmemory
+
+readcss test.css.wfdisc
+
+lh delta b e npts kstnm kcmpnm depmin depmax kzdate kztime
+
+message "No wfdisc"
+readcss test.css
+message "No Period"
+readcss test.csswfdisc
+message "No Period"
+readcss test.c*wfdisc
+message "No Period"
+readcss test.css?wfdisc
+readcss 
+message "No Period"
+readcss wfdisc.wfdisc
+readcss
+
+message "No Files"
+readcss nofilename*.wfdisc
+
+readcss station 123 nofilename*.wfdisc

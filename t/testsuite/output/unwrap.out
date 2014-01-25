@@ -1,0 +1,172 @@
+ wait text off
+  
+ ==>  
+ unwrap
+ ERROR 1301: No data files read in.
+ unwrap illegaloption
+ ERROR interpreting command:  unwrap illegaloption 
+ ILLEGAL OPTION:                     ^
+  
+ ==>  
+ fg seismo
+ fft
+ DC level after DFT is -0.98547
+ unwrap
+ ERROR 1307: Illegal operation on spectral file SEISMOGR
+  
+ ==>  
+ fg seismo
+ lh iftype b e delta
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     iftype = TIME SERIES FILE
+          b = 9.459999e+00
+          e = 1.945000e+01
+      delta = 1.000000e-02
+ unwrap
+ DC level after DFT is -0.98547
+ lh iftype b e delta
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     iftype = SPECTRAL FILE-AMPL/PHASE
+          b = 0.000000e+00
+          e = 5.000000e+01
+      delta = 9.765625e-02
+  
+ ==>  
+ fg impulse
+ lh iftype b e delta
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     iftype = TIME SERIES FILE
+          b = 0.000000e+00
+          e = 9.900000e+01
+      delta = 1.000000e+00
+ unwrap
+ DC level after DFT is 1
+ lh iftype b e delta
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     iftype = SPECTRAL FILE-AMPL/PHASE
+          b = 0.000000e+00
+          e = 5.000000e-01
+      delta = 7.812500e-03
+  
+ ==>  
+ fg seismo
+ lh iftype b e delta
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     iftype = TIME SERIES FILE
+          b = 9.459999e+00
+          e = 1.945000e+01
+      delta = 1.000000e-02
+ unwrap fill off
+ DC level after DFT is -0.98547
+ lh iftype b e delta
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     iftype = SPECTRAL FILE-AMPL/PHASE
+          b = 0.000000e+00
+          e = 5.000000e+01
+      delta = 9.765625e-02
+  
+ ==>  
+ fg seismo
+ lh iftype b e delta
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     iftype = TIME SERIES FILE
+          b = 9.459999e+00
+          e = 1.945000e+01
+      delta = 1.000000e-02
+ unwrap fill off
+ DC level after DFT is -0.98547
+ lh iftype b e delta
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     iftype = SPECTRAL FILE-AMPL/PHASE
+          b = 0.000000e+00
+          e = 5.000000e+01
+      delta = 9.765625e-02
+  
+ ==>  
+  
+ ==>  
+ fg seismo
+ lh iftype b e delta
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     iftype = TIME SERIES FILE
+          b = 9.459999e+00
+          e = 1.945000e+01
+      delta = 1.000000e-02
+ unwrap intthr 1.0
+ DC level after DFT is -0.98547
+ lh iftype b e delta
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     iftype = SPECTRAL FILE-AMPL/PHASE
+          b = 0.000000e+00
+          e = 5.000000e+01
+      delta = 9.765625e-02
+  
+ ==>  
+ fg seismo
+ lh iftype b e delta
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     iftype = TIME SERIES FILE
+          b = 9.459999e+00
+          e = 1.945000e+01
+      delta = 1.000000e-02
+ unwrap pvthr 1.0
+ DC level after DFT is -0.98547
+ lh iftype b e delta
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     iftype = SPECTRAL FILE-AMPL/PHASE
+          b = 0.000000e+00
+          e = 5.000000e+01
+      delta = 9.765625e-02
+  
+ ==>  
+  
+ ==>  
+ quit

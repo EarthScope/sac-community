@@ -1,0 +1,29 @@
+ wait text off
+  
+ ==>  
+ message "Test Read XDR"
+ Test Read XDR
+ fg impulse
+ write xdr test.read.xdr
+ read xdr test.read.xdr
+ lh depmax
+  
+  
+  FILE: test.read.xdr - 1
+ -------------------
+
+     depmax = 1.000000e+00
+  
+ ==>  
+ fg seismo
+ write xdr test.read.xdr
+ read xdr test.read.xdr
+ lh depmin depmax
+  
+  
+  FILE: test.read.xdr - 1
+ -------------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ quit

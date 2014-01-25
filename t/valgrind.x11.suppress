@@ -1,0 +1,8 @@
+{
+  XLoadQueryFont
+  Memcheck:Addr8
+  fun:*
+  fun:_XRead
+  fun:_XQueryFont
+  fun:X*QueryFont
+}

@@ -1,0 +1,489 @@
+ wait text off
+  
+ ==>  
+ fg seismo
+ ch kuser2 One
+ write test.mulf.1
+  
+ ==>  
+ fg seismo
+ mul 2
+ ch kuser2 Two
+ write test.mulf.2
+  
+ ==>  
+ read test.mulf.1 test.mulf.2
+ lh depmin depmax kuser2
+  
+  
+  FILE: test.mulf.1 - 1
+ -----------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     kuser2 = One
+  
+  FILE: test.mulf.2 - 2
+ -----------------
+
+     depmin = -3.138560e+00
+     depmax = 3.041280e+00
+     kuser2 = Two
+  
+ ==>  
+ message "Default"
+ Default
+  
+ ==>  
+ message "One"
+ One
+ read test.mulf.1
+ mulf test.mulf.2
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.mulf.1 - 1
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 4.925280e+00
+     depmin = 0.000000e+00
+     kuser2 = One
+  
+ ==>  
+ message "Two"
+ Two
+ read test.mulf.2
+ mulf test.mulf.1
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.mulf.2 - 1
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 4.925280e+00
+     depmin = 0.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.mulf.1 test.mulf.2
+ mulf test.mulf.2 test.mulf.1
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.mulf.1 - 1
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 4.925280e+00
+     depmin = 0.000000e+00
+     kuser2 = One
+  
+  FILE: test.mulf.2 - 2
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 4.925280e+00
+     depmin = 0.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.mulf.1 test.mulf.2
+ mulf test.mulf.1 test.mulf.2
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.mulf.1 - 1
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 2.462640e+00
+     depmin = 0.000000e+00
+     kuser2 = One
+  
+  FILE: test.mulf.2 - 2
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 9.850559e+00
+     depmin = 0.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.mulf.1 test.mulf.2
+ mulf test.mulf.1
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.mulf.1 - 1
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 2.462640e+00
+     depmin = 0.000000e+00
+     kuser2 = One
+  
+  FILE: test.mulf.2 - 2
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 4.925280e+00
+     depmin = 0.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.mulf.1 test.mulf.2
+ mulf test.mulf.2
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.mulf.1 - 1
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 4.925280e+00
+     depmin = 0.000000e+00
+     kuser2 = One
+  
+  FILE: test.mulf.2 - 2
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 9.850559e+00
+     depmin = 0.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "New Header Off"
+ New Header Off
+  
+ ==>  
+ message "One"
+ One
+ read test.mulf.1
+ mulf newhdr off test.mulf.2
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.mulf.1 - 1
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 4.925280e+00
+     depmin = 0.000000e+00
+     kuser2 = One
+  
+ ==>  
+ message "Two"
+ Two
+ read test.mulf.2
+ mulf newhdr off test.mulf.1
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.mulf.2 - 1
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 4.925280e+00
+     depmin = 0.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.mulf.1 test.mulf.2
+ mulf newhdr off test.mulf.2 test.mulf.1
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.mulf.1 - 1
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 4.925280e+00
+     depmin = 0.000000e+00
+     kuser2 = One
+  
+  FILE: test.mulf.2 - 2
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 4.925280e+00
+     depmin = 0.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.mulf.1 test.mulf.2
+ mulf newhdr off test.mulf.1 test.mulf.2
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.mulf.1 - 1
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 2.462640e+00
+     depmin = 0.000000e+00
+     kuser2 = One
+  
+  FILE: test.mulf.2 - 2
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 9.850559e+00
+     depmin = 0.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.mulf.1 test.mulf.2
+ mulf newhdr off test.mulf.1
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.mulf.1 - 1
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 2.462640e+00
+     depmin = 0.000000e+00
+     kuser2 = One
+  
+  FILE: test.mulf.2 - 2
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 4.925280e+00
+     depmin = 0.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.mulf.1 test.mulf.2
+ mulf newhdr off test.mulf.2
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.mulf.1 - 1
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 4.925280e+00
+     depmin = 0.000000e+00
+     kuser2 = One
+  
+  FILE: test.mulf.2 - 2
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 9.850559e+00
+     depmin = 0.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "New Header On"
+ New Header On
+  
+ ==>  
+ message "Two"
+ Two
+ read test.mulf.1
+ mulf newhdr on test.mulf.2
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.mulf.1 - 1
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 4.925280e+00
+     depmin = 0.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One"
+ One
+ read test.mulf.2
+ mulf newhdr on test.mulf.1
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.mulf.2 - 1
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 4.925280e+00
+     depmin = 0.000000e+00
+     kuser2 = One
+  
+ ==>  
+ message "Two One"
+ Two One
+ read test.mulf.1 test.mulf.2
+ mulf newhdr on test.mulf.2 test.mulf.1
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.mulf.1 - 1
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 4.925280e+00
+     depmin = 0.000000e+00
+     kuser2 = Two
+  
+  FILE: test.mulf.2 - 2
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 4.925280e+00
+     depmin = 0.000000e+00
+     kuser2 = One
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.mulf.1 test.mulf.2
+ mulf newhdr on test.mulf.1 test.mulf.2
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.mulf.1 - 1
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 2.462640e+00
+     depmin = 0.000000e+00
+     kuser2 = One
+  
+  FILE: test.mulf.2 - 2
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 9.850559e+00
+     depmin = 0.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "One One"
+ One One
+ read test.mulf.1 test.mulf.2
+ mulf newhdr on test.mulf.1
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.mulf.1 - 1
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 2.462640e+00
+     depmin = 0.000000e+00
+     kuser2 = One
+  
+  FILE: test.mulf.2 - 2
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 4.925280e+00
+     depmin = 0.000000e+00
+     kuser2 = One
+  
+ ==>  
+ message "Two Two"
+ Two Two
+ read test.mulf.1 test.mulf.2
+ mulf newhdr on test.mulf.2
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.mulf.1 - 1
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 4.925280e+00
+     depmin = 0.000000e+00
+     kuser2 = Two
+  
+  FILE: test.mulf.2 - 2
+ -----------------
+
+     depmin = 0.000000e+00
+     depmax = 9.850559e+00
+     depmin = 0.000000e+00
+     kuser2 = Two
+  
+ ==>  
+ message "Nothing"
+ Nothing
+ read test.mulf.1
+ mulf
+ ERROR 1803: No binary data files read in.
+  
+ ==>  
+ message "Spectral"
+ Spectral
+ read test.mulf.1
+ fft
+ DC level after DFT is -0.98547
+ write test.mulf.spectral.1
+ read test.mulf.1
+ mulf test.mulf.spectral.1
+ ERROR 1307: Illegal operation on spectral file test.mulf.spectral.1
+  
+ ==>  
+ message "Uneven"
+ Uneven
+ read test.mulf.1
+ mulf test_binop_uneven.m
+ ERROR 1306: Illegal operation on unevenly spaced file test_binop_uneven.m
+  
+ ==>  
+ message "Different Delta"
+ Different Delta
+ read test.mulf.1
+ interpolate delta 0.005
+ write test.mulf.dt
+ read test.mulf.1
+ mulf test.mulf.dt
+ ERROR 1801: Header field mismatch: DELTA test.mulf.1 test.mulf.dt
+  
+ ==>  
+ message "Different Npts"
+ Different Npts
+ read test.mulf.1
+ cut &1,b (&1,e - 1.0)
+ ==>  cut 9.46 18.45
+ read test.mulf.1
+ cut off
+ write test.mulf.npts
+ read test.mulf.1
+ mulf test.mulf.npts
+ ERROR 1801: Header field mismatch: NPTS test.mulf.1 test.mulf.npts
+  
+ ==>  
+ message "Different Times"
+ Different Times
+ read test.mulf.1
+ ch b -10
+ WARNING: Reference time not equal to zero:  KZDATE and KZTIME may be adjusted by subsequent commands so that the reference time is zero.  Reference time is B
+ write test.mulf.time
+ read test.mulf.1
+ mulf test.mulf.time
+ WARNING: Time overlap: 
+   BEG1: MAR 29 (088), 1981 10:38:23.460  test.mulf.1
+   BEG2: MAR 29 (088), 1981 10:38:04.000  test.mulf.time
+ quit

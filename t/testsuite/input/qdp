@@ -1,0 +1,9 @@
+qdp off
+qdp on
+qdp 50
+qdp 5
+qdp term on
+qdp term off
+qdp sgf on
+qdp sgf off
+qdp bad

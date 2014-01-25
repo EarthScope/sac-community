@@ -1,0 +1,19 @@
+
+message "Testing Read SEGY"
+fg impulse
+write segy test.read.segy
+read segy test.read.segy
+lh depmin depmax
+read segy scale off test.read.segy
+lh depmin depmax
+read segy scale on test.read.segy
+lh depmin depmax
+
+fg seismo
+write segy test.read.segy
+read segy test.read.segy
+lh depmin depmax
+read segy scale off test.read.segy
+lh depmin depmax
+read segy scale on test.read.segy
+lh depmin depmax

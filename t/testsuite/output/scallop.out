@@ -1,0 +1,14 @@
+ wait text off
+  
+ ==>  
+ fg seismo
+ scallop
+Window size: 200  Overlap: 100  FFT size: 512 
+Spectrogram dimensions are 512  by 9 .
+  
+ ==>  
+ fg seismo
+ scallop binary
+Window size: 200  Overlap: 100  FFT size: 512 
+Spectrogram dimensions are 512  by 9 .
+ quit

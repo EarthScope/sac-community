@@ -1,0 +1,66 @@
+ wait text off
+ hilbert
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ fg impulse
+ lh depmin depmax
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = 0.000000e+00
+     depmax = 1.000000e+00
+ hilbert
+ ERROR 1613: Minimum size of data file for Hilbert transform is 201
+ lh depmin depmax
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = 0.000000e+00
+     depmax = 1.000000e+00
+  
+ ==>  
+ fg seismogram
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ hilbert
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.368929e+00
+     depmax = 1.702248e+00
+  
+ ==>  
+ fg sin
+ lh depmin depmax
+  
+  
+  FILE: SINE - 1
+ ----------
+
+     depmin = -1.000000e+00
+     depmax = 1.000000e+00
+ hilbert
+ ERROR 1613: Minimum size of data file for Hilbert transform is 201
+ lh depmin depmax
+  
+  
+  FILE: SINE - 1
+ ----------
+
+     depmin = -1.000000e+00
+     depmax = 1.000000e+00
+ quit

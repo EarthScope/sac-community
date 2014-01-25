@@ -1,0 +1,53 @@
+ wait text off
+ fg seismogram
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+ rmean
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.470733e+00
+     depmax = 1.619187e+00
+     depmen = 0.000000e+00
+ add 1000
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = 9.985293e+02
+     depmax = 1.001619e+03
+     depmen = 1.000000e+03
+ add 1
+ mul -1
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.002619e+03
+     depmax = -9.995293e+02
+     depmen = -1.001000e+03
+ rmean
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.619202e+00
+     depmax = 1.470703e+00
+     depmen = 0.000000e+00
+ quit

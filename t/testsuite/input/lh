@@ -1,0 +1,14 @@
+fg
+lh
+fg seismogram
+lh
+lh columns 2
+lh columns 1
+lh inclusive on
+lh inclusive off
+lh picks
+lh default
+lh 1
+lh kevnm npts b e khole
+
+listhdr

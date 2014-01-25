@@ -1,0 +1,74 @@
+
+readerr nofiles fatal
+read nofile
+
+message "Test Read Generate Files"
+fg impulse
+write test.read.1
+mul 2
+write test.read.2
+lh depmax
+mul 2
+write test.read.3
+lh depmax
+
+message "Test Multiple File Read"
+read test.read.1 test.read.2 test.read.3
+lh deqpmax
+
+message "Test Multiple File Read More"
+read more test.read.1 test.read.2 test.read.3
+lh depmax
+
+message "Test Read Wildcard"
+read test.read.*
+lh depmax
+read test.read.?
+lh depmax
+
+message "Testing Directory Reads"
+systemcommand mkdir test.read.dir
+read test.read.?
+write test.read.dir/test.read.dir.1 test.read.dir/test.read.dir.2 test.read.dir/test.read.dir.3
+
+message "Testing Wildcards"
+read dir test.read.dir test.read.dir.1
+lh depmax
+read dir test.read.dir test.read.dir.*
+lh depmax
+read dir test.read.dir test.read.dir.?
+lh depmax
+
+read dir current test.read.1
+
+message "File with Two Points"
+read test_twopoint_sac.m
+lh npts delta depmin depmax
+
+message "Filename with Spaces"
+fg seismo
+write test.read.1
+mv test.read.1 test.read\ space.1
+read "test.read space.1"
+message "&1,filename&"
+lh kstnm
+ch kstnm SPACES
+lh kstnm
+write over
+read "test.read space.1"
+lh kstnm
+ch kstnm SPACES2
+lh kstnm
+write "test.read space.2"
+read "test.read space.2"
+lh kstnm
+read test.read*space*
+lh kstnm
+read "test.read space.1"
+lh kstnm
+
+read "test.read space.3"
+message "&1,filename&"
+
+read base 1 10
+read base 5

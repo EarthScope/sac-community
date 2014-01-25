@@ -1,0 +1,21 @@
+
+mulomega
+
+fg seismo
+mulomega
+
+fft
+lh depmin depmax depmen
+mulomega
+lh depmin depmax depmen
+mulomega
+lh depmin depmax depmen
+mulomega
+lh depmin depmax depmen
+mulomega
+lh depmin depmax depmen
+
+fg seismo
+fft rlim
+mulomega
+lh depmin depmax depmen

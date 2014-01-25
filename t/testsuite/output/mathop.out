@@ -1,0 +1,332 @@
+ wait text off
+  
+ ==>  
+ macro mathop.m
+ mathop normal
+ message ((1+2)+3)  (1+(2+3))  (1+2+3)
+ ==>  message 6 6 6
+ 6
+ 6
+ 6
+ mathop old
+ message ((1+2)+3)  (1+(2+3))  (1+2+3)
+ ==>  message 6 6 6
+ 6
+ 6
+ 6
+  
+ mathop normal
+ message ((1+2)-3)  (1+(2-3))  (1+2-3)
+ ==>  message 0 0 0
+ 0
+ 0
+ 0
+ mathop old
+ message ((1+2)-3)  (1+(2-3))  (1+2-3)
+ ==>  message 0 0 0
+ 0
+ 0
+ 0
+  
+  
+ mathop normal
+ message ((1+2)*3)  (1+(2*3))  (1+2*3)
+ ==>  message 9 7 7
+ 9
+ 7
+ 7
+ mathop old
+ message ((1+2)*3)  (1+(2*3))  (1+2*3)
+ ==>  message 9 7 9
+ 9
+ 7
+ 9
+  
+ mathop normal
+ message ((1+2)/3)  (1+(2/3))  (1+2/3)
+ ==>  message 1 1.66667 1.66667
+ 1
+ 1.66667
+ 1.66667
+ mathop old
+ message ((1+2)/3)  (1+(2/3))  (1+2/3)
+ ==>  message 1 1.66667 1
+ 1
+ 1.66667
+ 1
+  
+ mathop normal
+ message ((1+2)**3) (1+(2**3)) (1+2**3)
+ ==>  message 27 9 9
+ 27
+ 9
+ 9
+ mathop old
+ message ((1+2)**3) (1+(2**3)) (1+2**3)
+ ==>  message 27 9 27
+ 27
+ 9
+ 27
+  
+ mathop normal
+ message ((1-2)+3)  (1-(2+3))  (1-2+3)
+ ==>  message 2 -4 2
+ 2
+ -4
+ 2
+ mathop old
+ message ((1-2)+3)  (1-(2+3))  (1-2+3)
+ ==>  message 2 -4 2
+ 2
+ -4
+ 2
+  
+ mathop normal
+ message ((1-2)-3)  (1-(2-3))  (1-2-3)
+ ==>  message -4 2 -4
+ -4
+ 2
+ -4
+ mathop old
+ message ((1-2)-3)  (1-(2-3))  (1-2-3)
+ ==>  message -4 2 -4
+ -4
+ 2
+ -4
+  
+ mathop normal
+ message ((1-2)*3)  (1-(2*3))  (1-2*3)
+ ==>  message -3 -5 -5
+ -3
+ -5
+ -5
+ mathop old
+ message ((1-2)*3)  (1-(2*3))  (1-2*3)
+ ==>  message -3 -5 -3
+ -3
+ -5
+ -3
+  
+ mathop normal
+ message ((1-2)/3)  (1-(2/3))  (1-2/3)
+ ==>  message -0.333333 0.333333 0.333333
+ -0.333333
+ 0.333333
+ 0.333333
+ mathop old
+ message ((1-2)/3)  (1-(2/3))  (1-2/3)
+ ==>  message -0.333333 0.333333 -0.333333
+ -0.333333
+ 0.333333
+ -0.333333
+  
+ mathop normal
+ message ((1-2)**3) (1-(2**3)) (1-2**3)
+ ==>  message -1 -7 -7
+ -1
+ -7
+ -7
+ mathop old
+ message ((1-2)**3) (1-(2**3)) (1-2**3)
+ ==>  message -1 -7 -1
+ -1
+ -7
+ -1
+  
+ mathop normal
+ message ((2*2)+3)  (2*(2+3))  (2*2+3)
+ ==>  message 7 10 7
+ 7
+ 10
+ 7
+ mathop old
+ message ((2*2)+3)  (2*(2+3))  (2*2+3)
+ ==>  message 7 10 7
+ 7
+ 10
+ 7
+  
+ mathop normal
+ message ((2*2)-3)  (2*(2-3))  (2*2-3)
+ ==>  message 1 -2 1
+ 1
+ -2
+ 1
+ mathop old
+ message ((2*2)-3)  (2*(2-3))  (2*2-3)
+ ==>  message 1 -2 1
+ 1
+ -2
+ 1
+  
+ mathop normal
+ message ((1*2)*3)  (1*(2*3))  (1*2*3)
+ ==>  message 6 6 6
+ 6
+ 6
+ 6
+ mathop old
+ message ((1*2)*3)  (1*(2*3))  (1*2*3)
+ ==>  message 6 6 6
+ 6
+ 6
+ 6
+  
+ mathop normal
+ message ((1*2)/3)  (1*(2/3))   (1*2/3)
+ ==>  message 0.666667 0.666667 0.666667
+ 0.666667
+ 0.666667
+ 0.666667
+ mathop old
+ message ((1*2)/3)  (1*(2/3))   (1*2/3)
+ ==>  message 0.666667 0.666667 0.666667
+ 0.666667
+ 0.666667
+ 0.666667
+  
+ mathop normal
+ message ((2*2)**3) (2*(2**3)) (2*2**3)
+ ==>  message 64 16 16
+ 64
+ 16
+ 16
+ mathop old
+ message ((2*2)**3) (2*(2**3)) (2*2**3)
+ ==>  message 64 16 64
+ 64
+ 16
+ 64
+  
+ mathop normal
+ message ((1/2)+3) (1/(2+3)) (1/2+3)
+ ==>  message 3.5 0.2 3.5
+ 3.5
+ 0.2
+ 3.5
+ mathop old
+ message ((1/2)+3) (1/(2+3)) (1/2+3)
+ ==>  message 3.5 0.2 3.5
+ 3.5
+ 0.2
+ 3.5
+  
+ mathop normal
+ message ((1/2)-3) (1/(2-3)) (1/2-3)
+ ==>  message -2.5 -1 -2.5
+ -2.5
+ -1
+ -2.5
+ mathop old
+ message ((1/2)-3) (1/(2-3)) (1/2-3)
+ ==>  message -2.5 -1 -2.5
+ -2.5
+ -1
+ -2.5
+  
+ mathop normal
+ message ((1/2)*3) (1/(2*3)) (1/2*3)
+ ==>  message 1.5 0.166667 1.5
+ 1.5
+ 0.166667
+ 1.5
+ mathop old
+ message ((1/2)*3) (1/(2*3)) (1/2*3)
+ ==>  message 1.5 0.166667 1.5
+ 1.5
+ 0.166667
+ 1.5
+  
+ mathop normal
+ message ((1/2)/3) (1/(2/3)) (1/2/3)
+ ==>  message 0.166667 1.5 0.166667
+ 0.166667
+ 1.5
+ 0.166667
+ mathop old
+ message ((1/2)/3) (1/(2/3)) (1/2/3)
+ ==>  message 0.166667 1.5 0.166667
+ 0.166667
+ 1.5
+ 0.166667
+  
+ mathop normal
+ message ((3/2)**3) (3/(2**3)) (3/2**3)
+ ==>  message 3.375 0.375 0.375
+ 3.375
+ 0.375
+ 0.375
+ mathop old
+ message ((3/2)**3) (3/(2**3)) (3/2**3)
+ ==>  message 3.375 0.375 3.375
+ 3.375
+ 0.375
+ 3.375
+  
+  
+ mathop normal
+ message ((2**2)+3) (2**(2+3)) (2**2+3)
+ ==>  message 7 32 7
+ 7
+ 32
+ 7
+ mathop old
+ message ((2**2)+3) (2**(2+3)) (2**2+3)
+ ==>  message 7 32 7
+ 7
+ 32
+ 7
+  
+ mathop normal
+ message ((2**2)-3) (2**(2-3)) (2**2-3)
+ ==>  message 1 0.5 1
+ 1
+ 0.5
+ 1
+ mathop old
+ message ((2**2)-3) (2**(2-3)) (2**2-3)
+ ==>  message 1 0.5 1
+ 1
+ 0.5
+ 1
+  
+ mathop normal
+ message ((2**2)*3) (2**(2*3)) (2**2*3)
+ ==>  message 12 64 12
+ 12
+ 64
+ 12
+ mathop old
+ message ((2**2)*3) (2**(2*3)) (2**2*3)
+ ==>  message 12 64 12
+ 12
+ 64
+ 12
+  
+ mathop normal
+ message ((2**2)/3) (2**(2/3)) (2**2/3)
+ ==>  message 1.33333 1.5874 1.33333
+ 1.33333
+ 1.5874
+ 1.33333
+ mathop old
+ message ((2**2)/3) (2**(2/3)) (2**2/3)
+ ==>  message 1.33333 1.5874 1.33333
+ 1.33333
+ 1.5874
+ 1.33333
+  
+ mathop normal
+ message ((2**2)**3) (2**(2**3)) (2**2**3)
+ ==>  message 64 256 256
+ 64
+ 256
+ 256
+ mathop old
+ message ((2**2)**3) (2**(2**3)) (2**2**3)
+ ==>  message 64 256 64
+ 64
+ 256
+ 64
+  
+ quit

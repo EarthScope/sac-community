@@ -1,0 +1,123 @@
+ wait text off
+ prewhiten
+  
+ ==>  
+ fg impulse
+ lh depmin depmin
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = 0.000000e+00
+     depmin = 0.000000e+00
+ prewhiten
+ lh depmin depmin
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = 0.000000e+00
+     depmin = 0.000000e+00
+  
+ ==>  
+ fg seismogram
+ lh depmin depmin
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmin = -1.569280e+00
+ prewhiten
+ lh depmin depmin
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmin = -1.569280e+00
+  
+ ==>  
+ fg sine
+ lh depmin depmin
+  
+  
+  FILE: SINE - 1
+ ----------
+
+     depmin = -1.000000e+00
+     depmin = -1.000000e+00
+ prewhiten 1
+ lh depmin depmin
+  
+  
+  FILE: SINE - 1
+ ----------
+
+     depmin = -1.000000e+00
+     depmin = -1.000000e+00
+  
+ ==>  
+ fg sine
+ lh depmin depmin
+  
+  
+  FILE: SINE - 1
+ ----------
+
+     depmin = -1.000000e+00
+     depmin = -1.000000e+00
+ prewhiten 2
+ lh depmin depmin
+  
+  
+  FILE: SINE - 1
+ ----------
+
+     depmin = -1.000000e+00
+     depmin = -1.000000e+00
+  
+ ==>  
+ fg sine
+ lh depmin depmin
+  
+  
+  FILE: SINE - 1
+ ----------
+
+     depmin = -1.000000e+00
+     depmin = -1.000000e+00
+ prewhiten 3
+ lh depmin depmin
+  
+  
+  FILE: SINE - 1
+ ----------
+
+     depmin = -1.000000e+00
+     depmin = -1.000000e+00
+  
+ ==>  
+ fg sine
+ lh depmin depmin
+  
+  
+  FILE: SINE - 1
+ ----------
+
+     depmin = -1.000000e+00
+     depmin = -1.000000e+00
+ prewhiten 9
+ lh depmin depmin
+  
+  
+  FILE: SINE - 1
+ ----------
+
+     depmin = -1.000000e+00
+     depmin = -1.000000e+00
+ quit

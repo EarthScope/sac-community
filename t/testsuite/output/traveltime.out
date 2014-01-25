@@ -1,0 +1,901 @@
+ wait text off
+  
+ ==>  
+ m test_traveltime.m
+ fg seismo
+ ch evla 0.0 evlo 0.0
+ ch stla 0.0 stlo 30.0
+ lh dist gcarc lcalda
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+       dist = 3.339597e+03
+      gcarc = 3.000000e+01
+     lcalda = TRUE
+ do dist = 1 , 91 , 10
+    ch stlo $dist
+ ==>  ch stlo 1
+    lh gcarc
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     gcarc = 1.000000e+00
+    do depth = 15 , 615 , 100
+       ch evdp $depth
+ ==>  ch evdp 15
+       traveltime
+traveltime: depth: 15.000000 km
+traveltime: error finding phase P       
+traveltime: error finding phase S       
+traveltime: Pn       at -21.956469 s [ t = 19.473532 s ]
+traveltime: Pg       at -22.090147 s [ t = 19.339853 s ]
+traveltime: Sn       at -7.394180 s [ t = 34.035820 s ]
+traveltime: Sg       at -8.053410 s [ t = 33.376591 s ]
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 115
+       traveltime
+traveltime: depth: 115.000000 km
+traveltime: error finding phase P       
+traveltime: error finding phase S       
+traveltime: Pn       at -19.847752 s [ t = 21.582249 s ]
+traveltime: error finding phase Pg      
+traveltime: Sn       at -3.161564 s [ t = 38.268436 s ]
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 215
+       traveltime
+traveltime: depth: 215.000000 km
+traveltime: error finding phase P       
+traveltime: S        at 14.559284 s [ t = 55.989285 s ]
+traveltime: Pn       at -10.145048 s [ t = 31.284952 s ]
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 315
+       traveltime
+traveltime: depth: 315.000000 km
+traveltime: error finding phase P       
+traveltime: S        at 34.285011 s [ t = 75.715012 s ]
+traveltime: Pn       at 0.525673 s [ t = 41.955673 s ]
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 415
+       traveltime
+traveltime: depth: 415.000000 km
+traveltime: P        at 11.196335 s [ t = 52.626335 s ]
+traveltime: S        at 54.060829 s [ t = 95.490829 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 515
+       traveltime
+traveltime: depth: 515.000000 km
+traveltime: P        at 21.299660 s [ t = 62.729660 s ]
+traveltime: S        at 72.666092 s [ t = 114.096092 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 615
+       traveltime
+traveltime: depth: 615.000000 km
+traveltime: P        at 31.172165 s [ t = 72.602165 s ]
+traveltime: S        at 90.736626 s [ t = 132.166626 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+ enddo
+    ch stlo $dist
+ ==>  ch stlo 11
+    lh gcarc
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     gcarc = 1.100000e+01
+    do depth = 15 , 615 , 100
+       ch evdp $depth
+ ==>  ch evdp 15
+       traveltime
+traveltime: depth: 15.000000 km
+traveltime: error finding phase P       
+traveltime: error finding phase S       
+traveltime: Pn       at 115.351646 s [ t = 156.781647 s ]
+traveltime: error finding phase Pg      
+traveltime: Sn       at 239.219208 s [ t = 280.649200 s ]
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 115
+       traveltime
+traveltime: depth: 115.000000 km
+traveltime: error finding phase P       
+traveltime: error finding phase S       
+traveltime: Pn       at 112.487587 s [ t = 153.917587 s ]
+traveltime: error finding phase Pg      
+traveltime: Sn       at 234.152527 s [ t = 275.582520 s ]
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 215
+       traveltime
+traveltime: depth: 215.000000 km
+traveltime: error finding phase P       
+traveltime: S        at 233.822296 s [ t = 275.252289 s ]
+traveltime: Pn       at 110.303383 s [ t = 151.733383 s ]
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 315
+       traveltime
+traveltime: depth: 315.000000 km
+traveltime: P        at 110.594582 s [ t = 152.024582 s ]
+traveltime: S        at 236.808289 s [ t = 278.238281 s ]
+traveltime: Pn       at 108.696297 s [ t = 150.126297 s ]
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 415
+       traveltime
+traveltime: depth: 415.000000 km
+traveltime: P        at 106.774773 s [ t = 148.204773 s ]
+traveltime: S        at 229.603149 s [ t = 271.033142 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 515
+       traveltime
+traveltime: depth: 515.000000 km
+traveltime: P        at 106.485039 s [ t = 147.915039 s ]
+traveltime: S        at 228.862366 s [ t = 270.292358 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 615
+       traveltime
+traveltime: depth: 615.000000 km
+traveltime: P        at 109.166161 s [ t = 150.596161 s ]
+traveltime: S        at 233.101990 s [ t = 274.531982 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+ enddo
+    ch stlo $dist
+ ==>  ch stlo 21
+    lh gcarc
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     gcarc = 2.100000e+01
+    do depth = 15 , 615 , 100
+       ch evdp $depth
+ ==>  ch evdp 15
+       traveltime
+traveltime: depth: 15.000000 km
+traveltime: P        at 245.071045 s [ t = 286.501038 s ]
+traveltime: S        at 480.874268 s [ t = 522.304260 s ]
+traveltime: Pn       at 244.011749 s [ t = 285.441742 s ]
+traveltime: error finding phase Pg      
+traveltime: Sn       at 481.890198 s [ t = 523.320190 s ]
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 115
+       traveltime
+traveltime: depth: 115.000000 km
+traveltime: P        at 235.026703 s [ t = 276.456696 s ]
+traveltime: S        at 468.100555 s [ t = 509.530548 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: Sn       at 474.631470 s [ t = 516.061462 s ]
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 215
+       traveltime
+traveltime: depth: 215.000000 km
+traveltime: P        at 226.213715 s [ t = 267.643707 s ]
+traveltime: S        at 447.757050 s [ t = 489.187042 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 315
+       traveltime
+traveltime: depth: 315.000000 km
+traveltime: P        at 218.895050 s [ t = 260.325043 s ]
+traveltime: S        at 435.364227 s [ t = 476.794220 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 415
+       traveltime
+traveltime: depth: 415.000000 km
+traveltime: P        at 213.296997 s [ t = 254.726990 s ]
+traveltime: S        at 424.316223 s [ t = 465.746216 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 515
+       traveltime
+traveltime: depth: 515.000000 km
+traveltime: P        at 209.299774 s [ t = 250.729782 s ]
+traveltime: S        at 406.110382 s [ t = 447.540375 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 615
+       traveltime
+traveltime: depth: 615.000000 km
+traveltime: P        at 200.508392 s [ t = 241.938400 s ]
+traveltime: S        at 396.086304 s [ t = 437.516296 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+ enddo
+    ch stlo $dist
+ ==>  ch stlo 31
+    lh gcarc
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     gcarc = 3.100000e+01
+    do depth = 15 , 615 , 100
+       ch evdp $depth
+ ==>  ch evdp 15
+       traveltime
+traveltime: depth: 15.000000 km
+traveltime: P        at 335.375519 s [ t = 376.805511 s ]
+traveltime: S        at 640.560791 s [ t = 681.990784 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 115
+       traveltime
+traveltime: depth: 115.000000 km
+traveltime: P        at 325.024506 s [ t = 366.454498 s ]
+traveltime: S        at 622.093201 s [ t = 663.523193 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 215
+       traveltime
+traveltime: depth: 215.000000 km
+traveltime: P        at 315.849213 s [ t = 357.279205 s ]
+traveltime: S        at 605.195740 s [ t = 646.625732 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 315
+       traveltime
+traveltime: depth: 315.000000 km
+traveltime: P        at 307.397430 s [ t = 348.827423 s ]
+traveltime: S        at 589.156494 s [ t = 630.586487 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 415
+       traveltime
+traveltime: depth: 415.000000 km
+traveltime: P        at 299.759766 s [ t = 341.189758 s ]
+traveltime: S        at 574.441956 s [ t = 615.871948 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 515
+       traveltime
+traveltime: depth: 515.000000 km
+traveltime: P        at 293.437012 s [ t = 334.867004 s ]
+traveltime: S        at 562.228027 s [ t = 603.658020 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 615
+       traveltime
+traveltime: depth: 615.000000 km
+traveltime: P        at 287.826599 s [ t = 329.256592 s ]
+traveltime: S        at 551.478333 s [ t = 592.908325 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+ enddo
+    ch stlo $dist
+ ==>  ch stlo 41
+    lh gcarc
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     gcarc = 4.100000e+01
+    do depth = 15 , 615 , 100
+       ch evdp $depth
+ ==>  ch evdp 15
+       traveltime
+traveltime: depth: 15.000000 km
+traveltime: P        at 420.809418 s [ t = 462.239410 s ]
+traveltime: S        at 793.288330 s [ t = 834.718323 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 115
+       traveltime
+traveltime: depth: 115.000000 km
+traveltime: P        at 410.062378 s [ t = 451.492371 s ]
+traveltime: S        at 774.297668 s [ t = 815.727661 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 215
+       traveltime
+traveltime: depth: 215.000000 km
+traveltime: P        at 400.429474 s [ t = 441.859467 s ]
+traveltime: S        at 756.807068 s [ t = 798.237061 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 315
+       traveltime
+traveltime: depth: 315.000000 km
+traveltime: P        at 391.461182 s [ t = 432.891174 s ]
+traveltime: S        at 740.108093 s [ t = 781.538086 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 415
+       traveltime
+traveltime: depth: 415.000000 km
+traveltime: P        at 383.233490 s [ t = 424.663483 s ]
+traveltime: S        at 724.638367 s [ t = 766.068359 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 515
+       traveltime
+traveltime: depth: 515.000000 km
+traveltime: P        at 376.186798 s [ t = 417.616791 s ]
+traveltime: S        at 711.482239 s [ t = 752.912231 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 615
+       traveltime
+traveltime: depth: 615.000000 km
+traveltime: P        at 369.752594 s [ t = 411.182587 s ]
+traveltime: S        at 699.627930 s [ t = 741.057922 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+ enddo
+    ch stlo $dist
+ ==>  ch stlo 51
+    lh gcarc
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     gcarc = 5.100000e+01
+    do depth = 15 , 615 , 100
+       ch evdp $depth
+ ==>  ch evdp 15
+       traveltime
+traveltime: depth: 15.000000 km
+traveltime: P        at 499.647034 s [ t = 541.077026 s ]
+traveltime: S        at 936.967529 s [ t = 978.397522 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 115
+       traveltime
+traveltime: depth: 115.000000 km
+traveltime: P        at 488.474060 s [ t = 529.904053 s ]
+traveltime: S        at 917.348083 s [ t = 958.778076 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 215
+       traveltime
+traveltime: depth: 215.000000 km
+traveltime: P        at 478.366699 s [ t = 519.796692 s ]
+traveltime: S        at 899.166260 s [ t = 940.596252 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 315
+       traveltime
+traveltime: depth: 315.000000 km
+traveltime: P        at 468.880554 s [ t = 510.310547 s ]
+traveltime: S        at 881.723206 s [ t = 923.153198 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 415
+       traveltime
+traveltime: depth: 415.000000 km
+traveltime: P        at 460.081390 s [ t = 501.511383 s ]
+traveltime: S        at 865.431458 s [ t = 906.861450 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 515
+       traveltime
+traveltime: depth: 515.000000 km
+traveltime: P        at 452.366913 s [ t = 493.796906 s ]
+traveltime: S        at 851.296631 s [ t = 892.726624 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 615
+       traveltime
+traveltime: depth: 615.000000 km
+traveltime: P        at 445.201080 s [ t = 486.631073 s ]
+traveltime: S        at 838.343933 s [ t = 879.773926 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+ enddo
+    ch stlo $dist
+ ==>  ch stlo 61
+    lh gcarc
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     gcarc = 6.100000e+01
+    do depth = 15 , 615 , 100
+       ch evdp $depth
+ ==>  ch evdp 15
+       traveltime
+traveltime: depth: 15.000000 km
+traveltime: P        at 571.288025 s [ t = 612.718018 s ]
+traveltime: S        at 1070.014526 s [ t = 1111.444580 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 115
+       traveltime
+traveltime: depth: 115.000000 km
+traveltime: P        at 559.734253 s [ t = 601.164246 s ]
+traveltime: S        at 1049.782593 s [ t = 1091.212646 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 215
+       traveltime
+traveltime: depth: 215.000000 km
+traveltime: P        at 549.206299 s [ t = 590.636292 s ]
+traveltime: S        at 1030.935913 s [ t = 1072.365967 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 315
+       traveltime
+traveltime: depth: 315.000000 km
+traveltime: P        at 539.265198 s [ t = 580.695190 s ]
+traveltime: S        at 1012.785950 s [ t = 1054.215942 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 415
+       traveltime
+traveltime: depth: 415.000000 km
+traveltime: P        at 529.969055 s [ t = 571.399048 s ]
+traveltime: S        at 995.722473 s [ t = 1037.152466 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 515
+       traveltime
+traveltime: depth: 515.000000 km
+traveltime: P        at 521.684692 s [ t = 563.114685 s ]
+traveltime: S        at 980.686646 s [ t = 1022.116638 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 615
+       traveltime
+traveltime: depth: 615.000000 km
+traveltime: P        at 513.902039 s [ t = 555.332031 s ]
+traveltime: S        at 966.739197 s [ t = 1008.169189 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+ enddo
+    ch stlo $dist
+ ==>  ch stlo 71
+    lh gcarc
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     gcarc = 7.100000e+01
+    do depth = 15 , 615 , 100
+       ch evdp $depth
+ ==>  ch evdp 15
+       traveltime
+traveltime: depth: 15.000000 km
+traveltime: P        at 635.667419 s [ t = 677.097412 s ]
+traveltime: S        at 1191.818726 s [ t = 1233.248779 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 115
+       traveltime
+traveltime: depth: 115.000000 km
+traveltime: P        at 623.780090 s [ t = 665.210083 s ]
+traveltime: S        at 1171.020386 s [ t = 1212.450439 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 215
+       traveltime
+traveltime: depth: 215.000000 km
+traveltime: P        at 612.885254 s [ t = 654.315247 s ]
+traveltime: S        at 1151.560181 s [ t = 1192.990234 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 315
+       traveltime
+traveltime: depth: 315.000000 km
+traveltime: P        at 602.548889 s [ t = 643.978882 s ]
+traveltime: S        at 1132.758667 s [ t = 1174.188721 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 415
+       traveltime
+traveltime: depth: 415.000000 km
+traveltime: P        at 592.823364 s [ t = 634.253357 s ]
+traveltime: S        at 1114.988159 s [ t = 1156.418213 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 515
+       traveltime
+traveltime: depth: 515.000000 km
+traveltime: P        at 584.052185 s [ t = 625.482178 s ]
+traveltime: S        at 1099.138306 s [ t = 1140.568359 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 615
+       traveltime
+traveltime: depth: 615.000000 km
+traveltime: P        at 575.745667 s [ t = 617.175659 s ]
+traveltime: S        at 1084.300781 s [ t = 1125.730835 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+ enddo
+    ch stlo $dist
+ ==>  ch stlo 81
+    lh gcarc
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     gcarc = 8.100000e+01
+    do depth = 15 , 615 , 100
+       ch evdp $depth
+ ==>  ch evdp 15
+       traveltime
+traveltime: depth: 15.000000 km
+traveltime: P        at 692.682190 s [ t = 734.112183 s ]
+traveltime: S        at 1301.848267 s [ t = 1343.278320 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 115
+       traveltime
+traveltime: depth: 115.000000 km
+traveltime: P        at 680.499512 s [ t = 721.929504 s ]
+traveltime: S        at 1280.523315 s [ t = 1321.953369 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 215
+       traveltime
+traveltime: depth: 215.000000 km
+traveltime: P        at 669.280640 s [ t = 710.710632 s ]
+traveltime: S        at 1260.494263 s [ t = 1301.924316 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 315
+       traveltime
+traveltime: depth: 315.000000 km
+traveltime: P        at 658.596069 s [ t = 700.026062 s ]
+traveltime: S        at 1241.090698 s [ t = 1282.520752 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 415
+       traveltime
+traveltime: depth: 415.000000 km
+traveltime: P        at 648.493652 s [ t = 689.923645 s ]
+traveltime: S        at 1222.669312 s [ t = 1264.099365 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 515
+       traveltime
+traveltime: depth: 515.000000 km
+traveltime: P        at 639.298218 s [ t = 680.728210 s ]
+traveltime: S        at 1206.076538 s [ t = 1247.506592 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 615
+       traveltime
+traveltime: depth: 615.000000 km
+traveltime: P        at 630.536316 s [ t = 671.966309 s ]
+traveltime: S        at 1190.430664 s [ t = 1231.860718 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+ enddo
+    ch stlo $dist
+ ==>  ch stlo 91
+    lh gcarc
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     gcarc = 9.100000e+01
+    do depth = 15 , 615 , 100
+       ch evdp $depth
+ ==>  ch evdp 15
+       traveltime
+traveltime: depth: 15.000000 km
+traveltime: P        at 742.058289 s [ t = 783.488281 s ]
+traveltime: S        at 1399.188477 s [ t = 1440.618530 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 115
+       traveltime
+traveltime: depth: 115.000000 km
+traveltime: P        at 729.646240 s [ t = 771.076233 s ]
+traveltime: S        at 1377.363037 s [ t = 1418.793091 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 215
+       traveltime
+traveltime: depth: 215.000000 km
+traveltime: P        at 718.182983 s [ t = 759.612976 s ]
+traveltime: S        at 1356.794312 s [ t = 1398.224365 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 315
+       traveltime
+traveltime: depth: 315.000000 km
+traveltime: P        at 707.244202 s [ t = 748.674194 s ]
+traveltime: S        at 1336.820190 s [ t = 1378.250244 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 415
+       traveltime
+traveltime: depth: 415.000000 km
+traveltime: P        at 696.876831 s [ t = 738.306824 s ]
+traveltime: S        at 1317.782715 s [ t = 1359.212769 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 515
+       traveltime
+traveltime: depth: 515.000000 km
+traveltime: P        at 687.397400 s [ t = 728.827393 s ]
+traveltime: S        at 1300.491577 s [ t = 1341.921631 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+       ch evdp $depth
+ ==>  ch evdp 615
+       traveltime
+traveltime: depth: 615.000000 km
+traveltime: P        at 678.346802 s [ t = 719.776794 s ]
+traveltime: S        at 1284.101318 s [ t = 1325.531372 s ]
+traveltime: error finding phase Pn      
+traveltime: error finding phase Pg      
+traveltime: error finding phase Sn      
+traveltime: error finding phase Sg      
+    enddo
+ enddo
+  
+  
+ ==>  
+ quit

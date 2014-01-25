@@ -1,0 +1,14 @@
+fg seismogram
+lh depmin depmax depmen
+rtrend verbose
+lh depmin depmax depmen
+
+fg impulse
+lh depmin depmax depmen
+rtrend
+lh depmin depmax depmen
+
+fg sine
+lh depmin depmax depmen
+rtrend quiet
+lh depmin depmax depmen

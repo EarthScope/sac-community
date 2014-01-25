@@ -1,0 +1,26 @@
+
+fg seismogram
+lh user0
+rms
+lh user0
+
+fg seismo
+lh user0
+rms noise off 
+lh user0
+
+fg seismo
+lh user0
+rms noise 11 17
+lh user0
+
+fg seismo
+lh user1
+rms noise off to user1
+lh user1
+
+fg seismo
+lh user0
+rms noise on 
+lh user0
+

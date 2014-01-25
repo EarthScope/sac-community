@@ -1,0 +1,392 @@
+ wait text off
+ echo on
+  
+ ==>  
+ eval ( sine ( 3.1415 /  2 ) )
+ ==>  eval 1
+ 1
+  
+ ==>  
+ evaluate
+Syntax error: evaluate
+                     ^
+ evaluate 1
+ 1
+ evaluate 2
+ 2
+ evaluate 2.3
+ 2.3
+ evaluate 2.3e+1
+ 23
+ evaluate 2.3e-1
+ 0.23
+ evaluate 2.3e+01
+ 23
+ evaluate 2.3e-01
+ 0.23
+  
+ ==>  
+ evaluate 1 + 2
+ 3
+ evaluate 1.0 + 2
+ 3
+ evaluate 1.0 + 2.0
+ 3
+ evaluate 1 + 2.0
+ 3
+ evaluate 1.0e1 + 2.0e1
+ 30
+  
+ ==>  
+ evaluate (1)
+ ==>  evaluate 1
+ 1
+ evaluate (1 + 2)
+ ==>  evaluate 3
+ 3
+ evaluate (1+2)
+ ==>  evaluate 3
+ 3
+ evaluate (1 +2)
+ ==>  evaluate 3
+ 3
+ evaluate (1+ 2)
+ ==>  evaluate 3
+ 3
+  
+ ==>  
+ evaluate 1 - 2
+ -1
+ evaluate 1.0 - 2
+ -1
+ evaluate 1.0 - 2.0
+ -1
+ evaluate 1 - 2.0
+ -1
+ evaluate 1.0e1 - 2.0e1
+ -10
+  
+ ==>  
+ evaluate 3 * 2
+ 6
+ evaluate 3.0 * 2
+ 6
+ evaluate 3.0 * 2.0
+ 6
+ evaluate 3 * 2.0
+ 6
+ evaluate 3.0e1 * 2.0e1
+ 600
+  
+ ==>  
+ evaluate 3 / 2
+ 1.5
+ evaluate 3.0 / 2
+ 1.5
+ evaluate 3.0 / 2.0
+ 1.5
+ evaluate 3 / 2.0
+ 1.5
+ evaluate 3.0e1 / 2.0e1
+ 1.5
+  
+ ==>  
+ evaluate 2 ** 0
+ 1
+ evaluate 2 ** 1
+ 2
+ evaluate 2 ** 2
+ 4
+ evaluate 2**0
+ 1
+ evaluate 2 **0
+ 1
+ evaluate 2** 0
+ 1
+  
+ ==>  
+ fg seismo
+ evaluate to value &1,npts
+ ==>  evaluate to value 1000
+ evaluate to value &1, npts
+Unexpected character: evaluate to value &1, npts
+                                        ^
+  
+ ==>  
+ evaluate to term 1
+ 1
+ eval ( add 1, 2, 3, 4 )
+ ==>  eval 10
+ 10
+ eval ( add 1 2 3 4 )
+ ==>  eval 10
+ 10
+ eval ( subtract 10, 1, 2, 3 )
+ ==>  eval 4
+ 4
+ eval ( subtract 10 1 2 3 )
+ ==>  eval 4
+ 4
+ eval ( multiply 1, 2, 3, 4, 5 )
+ ==>  eval 120
+ 120
+ eval ( multiply 1 2 3 4 5 )
+ ==>  eval 120
+ 120
+ eval ( divide 100, 10, 2, 5 )
+ ==>  eval 1
+ 1
+ eval ( divide 100 10 2 5 )
+ ==>  eval 1
+ 1
+ eval ( sqrt (25) )
+ ==>  eval 5
+ 5
+ eval ( exp (1.0) )
+ ==>  eval 2.71828
+ 2.71828
+ eval ( alog 2.71 )
+ ==>  eval 0.996949
+ 0.996949
+ eval ( power 2 )
+ ==>  eval 100
+ 100
+ eval ( alog10 100 )
+ ==>  eval 2
+ 2
+ eval ( sine ( 3.1415 /  1 ) )
+ ==>  eval 9.26536e-05
+ 9.26536e-05
+ eval ( sine ( 3.1415 /  1 ) )
+ ==>  eval 9.26536e-05
+ 9.26536e-05
+ eval ( arcsine ( -1 ) )
+ ==>  eval -1.5708
+ -1.5708
+ eval ( arcsine ( 1 ) )
+ ==>  eval 1.5708
+ 1.5708
+ eval ( arcsine ( 0 ) )
+ ==>  eval 0
+ 0
+ eval ( arcsine ( 0.5 ) )
+ ==>  eval 0.523599
+ 0.523599
+ eval ( cosine ( 3.1415 ) )
+ ==>  eval -1
+ -1
+ eval ( cosine ( 0 ) )
+ ==>  eval 1
+ 1
+ eval ( cosine ( 3.1415 / 2 ) )
+ ==>  eval 4.63268e-05
+ 4.63268e-05
+ eval ( arccosine ( 1 ) )
+ ==>  eval 0
+ 0
+ eval ( arccosine ( 0 ) )
+ ==>  eval 1.5708
+ 1.5708
+ eval ( arccosine ( -1 ) )
+ ==>  eval 3.14159
+ 3.14159
+ eval ( arccosine ( 0.5 ) )
+ ==>  eval 1.0472
+ 1.0472
+ eval ( tangent ( 3.1415 / 4 ) )
+ ==>  eval 0.999954
+ 0.999954
+ eval ( tangent ( 3.1415 / 1 ) )
+ ==>  eval -9.26536e-05
+ -9.26536e-05
+ eval ( tangent ( 0 ) )
+ ==>  eval 0
+ 0
+ eval ( arctangent ( 1 ) )
+ ==>  eval 0.785398
+ 0.785398
+ eval ( arctangent ( 0 ) )
+ ==>  eval 0
+ 0
+ eval ( arctangent ( -1 ) )
+ ==>  eval -0.785398
+ -0.785398
+ eval ( arctangent ( 0.5 ) )
+ ==>  eval 0.463648
+ 0.463648
+ eval ( integer 3.1415 )
+ ==>  eval 3
+ 3
+ eval ( pi )
+ ==>  eval 3.14159
+ 3.14159
+ eval pi
+ 3.14159
+ eval ( minimum 1 2 3 4 5 )
+ ==>  eval 1
+ 1
+ eval ( minimum 1 2 3 -4 5 )
+ ==>  eval -4
+ -4
+ eval ( maximum 1 2 3 -4 5 )
+ ==>  eval 5
+ 5
+ eval ( maximum 1 2 3 4 5 )
+ ==>  eval 5
+ 5
+ eval ( absolute 4 )
+ ==>  eval 4
+ 4
+ eval ( absolute -4 )
+ ==>  eval 4
+ 4
+ eval ( absolute 0 )
+ ==>  eval 0
+ 0
+  
+ ==>  
+ message ( change 23 xx 123456 )
+ ==>  message 1xx456
+ 1xx456
+ message ( delete 23 123456 )
+ ==>  message 1456
+ 1456
+ message ( before 23 123456 )
+ ==>  message 1
+ 1
+ message ( after 23 123456 )
+ ==>  message 456
+ 456
+ message ( substring 2 4 123456 )
+ ==>  message 234
+ 234
+ message ( concatenate 23 123456 45 )
+ ==>  message 2312345645
+ 2312345645
+  
+ ==>  
+ message ( 1 + 2 )
+ ==>  message 3
+ 3
+ message ( 1 - 2 )
+ ==>  message -1
+ -1
+ message ( 1 * 2 )
+ ==>  message 2
+ 2
+ message ( 1 / 2 )
+ ==>  message 0.5
+ 0.5
+ message ( 2 ** 2 )
+ ==>  message 4
+ 4
+ message ( 1 + 2 * 3 )
+ ==>  message 7
+ 7
+ message ( 1 + ( 2 * 3 ) )
+ ==>  message 7
+ 7
+  
+ ==>  
+ message (1+2)
+ ==>  message 3
+ 3
+ message (1-2)
+ ==>  message -1
+ -1
+ message (1*2)
+ ==>  message 2
+ 2
+ message (1/2)
+ ==>  message 0.5
+ 0.5
+ message (2**2)
+ ==>  message 4
+ 4
+ message (1+2*3)
+ ==>  message 7
+ 7
+ message (1+(2*3))
+ ==>  message 7
+ 7
+  
+ ==>  
+  
+ ==>  
+  
+ ==>  
+ fg seismo
+ write test.evaluate.1
+ ch allt 10
+ write test.evaluate.2
+ read test.evaluate.1 test.evaluate.2
+  
+ ==>  
+ message &SEISMO,npts
+ ERROR 1363: Illegal data file list name: SEISMO
+  
+ ==>  
+ evaluate to value &test.evaluate.1,npts
+ ==>  evaluate to value 1000
+ evaluate to value &test.evaluate.1, npts
+Unexpected character: evaluate to value &test.evaluate.1, npts
+                                        ^
+ message &test.evaluate.1,delta
+ ==>  message 0.01
+ 0.01
+ message &test.evaluate.2,delta
+ ==>  message 0.01
+ 0.01
+ message "&test.evaluate.1,kztime&"
+ ==>  message "10:38:14.000"
+ 10:38:14.000
+ message "&test.evaluate.1,kzdate&"
+ ==>  message "MAR 29 (088), 1981"
+ MAR 29 (088), 1981
+ message "&test.evaluate.2,kztime&"
+ ==>  message "10:38:04.000"
+ 10:38:04.000
+ message "&test.evaluate.2,kzdate&"
+ ==>  message "MAR 29 (088), 1981"
+ MAR 29 (088), 1981
+  
+ ==>  
+ message "&1,KSTCMP&"
+ ==>  message "CDV  VERT"
+ CDV  VERT
+ message "&1,FILENAME&"
+ ==>  message "test.evaluate.1"
+ test.evaluate.1
+ message "&1,NAME&"
+ ERROR 1337: Illegal header field name. NAME
+ message &1,AMARKER&
+ ==>  message 10.464
+ 10.464
+ message &1,T1MARKER&
+ ==>  message UNDEFINED
+ UNDEFINED
+ message &1,NOTHING&
+ ERROR 1337: Illegal header field name. NOTHING
+  
+ ==>  
+ evaluate ( maximum ( 1 + 2 ) (3 + 4) ( -10) )
+ ==>  evaluate 7
+ 7
+ evaluate ( minimum ( 1 + 2 ) (3 + 4) ( -10) )
+ ==>  evaluate -10
+ -10
+  
+ ==>  
+ fg seismo
+  
+ ==>  
+ evaluate ( maximum (&1,depmax) (&1,depmin))
+ ==>  evaluate 1.52064
+ 1.52064
+ evaluate ( maximum (abs &1,depmax) (abs &1,depmin))
+ ==>  evaluate 1.56928
+ 1.56928
+ evaluate ( minimum (&1,depmax) (&1,depmin))
+ ==>  evaluate -1.56928
+ -1.56928
+ quit

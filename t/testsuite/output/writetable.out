@@ -1,0 +1,48 @@
+ wait text off
+  
+ ==>  
+ fg seismo
+ writetable test.writetable.1
+test.writetable.1
+ readtable CONTENT XY test.writetable.1
+ lh npts depmin depmax
+  
+  
+  FILE: test.writetable.1 - 1
+ -----------------------
+
+       npts = 1000
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+  
+ ==>  
+ readtable CONTENT P test.writetable.1
+ lh npts depmin depmax
+  
+  
+  FILE: test.writetable.1 - 1
+ -----------------------
+
+       npts = 1000
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+  
+ ==>  
+ readtable CONTENT Y. test.writetable.1
+ lh npts depmin depmax
+  
+  
+  FILE: test.writetable.101 - 1
+ -------------------------
+
+       npts = 1000
+     depmin = 9.459999e+00
+     depmax = 1.945000e+01
+  
+  FILE: test.writetable.102 - 2
+ -------------------------
+
+       npts = 1000
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ quit

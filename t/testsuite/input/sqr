@@ -1,0 +1,19 @@
+sqr
+
+fg seismogram
+lh depmin depmax
+sqr 
+lh depmin depmax
+
+fg impulse
+lh depmin depmax
+sqr 
+lh depmin depmax
+
+fg sine
+lh depmin depmax
+sqr 
+lh depmin depmax
+
+
+

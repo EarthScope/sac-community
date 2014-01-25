@@ -1,0 +1,20 @@
+
+funcgen impulse
+fft
+lh iftype
+** write ascii format
+write alpha ascii.sac
+
+** able to read ascii file as expected
+read alpha ascii.sac
+lh iftype
+
+** write binary format
+write sac binary.sac
+
+** should be error? in reading binary file
+read binary.sac
+
+lh iftype
+
+

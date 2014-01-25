@@ -1,0 +1,39 @@
+cut off
+fg impulse
+ch t1 56
+write test.impulse
+
+cut 20 80
+read test.impulse
+lh b e
+
+cut off
+read test.impulse
+lh b e
+
+cut -10 80
+read test.impulse
+lh b e
+
+cut 10 180
+read test.impulse
+lh b e
+
+cut t1 80
+read test.impulse
+lh b e
+
+cut t1 e
+read test.impulse
+lh b e
+
+
+** Precision of time in Cutting
+
+fg impulse delta 5e-3 npts 17279840
+lh b e npts delta
+write test.impulse
+cut e -1200 0
+read test.impulse
+lh b e npts delta
+

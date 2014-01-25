@@ -1,0 +1,59 @@
+
+
+fg seismogram
+writesdd test.writesdd.seismo
+readsdd test.writesdd.seismo
+lh depmax
+
+message "Test Writesdd Append"
+readsdd test.writesdd.seismo
+writesdd append .append
+readsdd test.writesdd.seismo.append
+lh depmax
+
+message "Test Writesdd Prepend"
+readsdd test.writesdd.seismo
+writesdd prepend test.
+readsdd test.test.writesdd.seismo
+lh depmax
+
+message "Test Writesdd Change"
+readsdd test.writesdd.seismo
+writesdd change seismo seismogram
+readsdd test.writesdd.seismogram
+lh depmax
+
+message "Test Writesdd Delete"
+readsdd test.writesdd.seismo
+writesdd delete smo
+readsdd test.writesdd.sei
+lh depmax
+
+message "Test Writesdd Directory"
+systemcommand mkdir test.writesdd.dir
+# systemcommand mkdir off on current
+
+fg seismo
+writesdd dir test.writesdd.dir test.writesdd.indir.1
+readsdd test.writesdd.dir/test.writesdd.indir.1
+
+message "Test Writesdd Directory Off BUG"
+# fg seismo
+# writesdd dir OFF test.writesdd.nodir.1
+# readsdd test.writesdd.nodir
+
+message "Test Writesdd Directory On BUG"
+# fg seismo
+# writesdd dir on test.writesdd.indir.2
+# readsdd test.writesdd.dir/test.writesdd.indir.2
+
+message "Test Writesdd Directory Current BUG"
+# fg seismo
+# writesdd dir current test.writesdd.nodir.2
+# readsdd test.writesdd.indir.2
+
+message "Test Writesdd Directory ./ BUG"
+# fg seismo
+# writesdd dir ./ test.writesdd.dir.bug
+# readsdd test.writesdd.dir.bug
+

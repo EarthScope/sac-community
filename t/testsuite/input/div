@@ -1,0 +1,32 @@
+div
+
+fg seismogram
+lh depmin depmax
+div 1
+lh depmin depmax
+
+lh depmin depmax
+div 2
+lh depmin depmax
+
+lh depmin depmax
+div 0.2
+lh depmin depmax
+
+fg seismogram
+write test.seismo.1
+div 2
+write test.seismo.2
+read test.seismo.1 test.seismo.2
+lh depmin depmax
+div 2
+lh depmin depmax
+
+lh depmin depmax
+div 1 0.5
+lh depmin depmax
+
+lh depmin depmax
+div 10 20
+lh depmin depmax
+

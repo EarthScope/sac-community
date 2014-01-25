@@ -1,0 +1,27 @@
+
+fg seismo
+p1 ; pause period 0.25
+
+xdiv nice
+p1 ; pause period 0.25
+
+xdiv inc 3
+p1 ; pause period 0.25
+
+xdiv nice
+p1 ; pause period 0.25
+
+xdiv num 10
+p1 ; pause period 0.25
+
+fg impulse delta 10 npts 10000
+
+xdiv power off
+p1 ; pause period 0.25
+
+xdiv power on
+p1 ; pause period 0.25
+
+xdiv bad option
+p1 ; pause period 0.25
+

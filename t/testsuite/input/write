@@ -1,0 +1,72 @@
+
+fg seismogram
+write test.write.seismo
+read test.write.seismo
+lh depmax
+
+message "Test Write Append"
+read test.write.seismo
+write append .append
+read test.write.seismo.append
+lh depmax
+
+message "Test Write Prepend"
+read test.write.seismo
+write prepend test.
+read test.test.write.seismo
+lh depmax
+
+message "Test Write Change"
+read test.write.seismo
+write change seismo seismogram
+read test.write.seismogram
+lh depmax
+
+message "Test Write Delete"
+read test.write.seismo
+write delete smo
+read test.write.sei
+lh depmax
+
+message "Test Write SAC"
+fg seismo
+write sac test.write.sac
+read test.write.sac
+lh depmax
+
+message "Test Write KSTCMP"
+fg seismo
+ch kstnm test.CDV
+lh cmpinc cmpaz
+write kstcmp
+read test.CDV.VERT
+
+message "Test Write Directory"
+systemcommand mkdir test.write.dir
+# systemcommand mkdir off on current
+
+fg seismo
+write dir test.write.dir test.write.indir.1
+read test.write.dir/test.write.indir.1
+
+message "Test Write Directory Off BUG"
+# fg seismo
+# write dir OFF test.write.nodir.1
+# read test.write.nodir
+
+message "Test Write Directory On BUG"
+# fg seismo
+# write dir on test.write.indir.2
+# read test.write.dir/test.write.indir.2
+
+message "Test Write Directory Current BUG"
+# fg seismo
+# write dir current test.write.nodir.2
+# read test.write.indir.2
+
+message "Test Write Directory ./ BUG"
+# fg seismo
+# write dir ./ test.write.dir.bug
+# read test.write.dir.bug
+
+

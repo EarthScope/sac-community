@@ -1,0 +1,250 @@
+/* inc/config.h.in.  Generated from configure.in by autoheader.  */
+
+/* Macro which defines the Date of the Current Build */
+#undef BUILD_DATE
+
+/* Cygwin32 System */
+#undef CYGWIN
+
+/* Compile without SeisMgr Database Capabilities */
+#undef DATABASE_DISABLED
+
+/* Compile with SeisMgr Database Capabilities */
+#undef DATABASE_ENABLED
+
+/* Compile without editline comand line capabilities */
+#undef EDITLINE_DISABLED
+
+/* Define to 1 if `TIOCGWINSZ' requires <sys/ioctl.h>. */
+#undef GWINSZ_IN_SYS_IOCTL
+
+/* Define if you have the Cocoa framework */
+#undef HAVE_FRAMEWORK_COCOA
+
+/* Define if you have the Foundation framework */
+#undef HAVE_FRAMEWORK_FOUNDATION
+
+/* System Libraries define bzero */
+#undef HAVE_FUNC_BZERO
+
+/* System Libraries define fmax */
+#undef HAVE_FUNC_FMAX
+
+/* System Libraries define fmin */
+#undef HAVE_FUNC_FMIN
+
+/* System Libraries define index */
+#undef HAVE_FUNC_INDEX
+
+/* System Libraries define lround */
+#undef HAVE_FUNC_LROUND
+
+/* System Libraries define mkstemps */
+#undef HAVE_FUNC_MKSTEMPS
+
+/* System Libraries define putenv */
+#undef HAVE_FUNC_PUTENV
+
+/* System Libraries define rindex */
+#undef HAVE_FUNC_RINDEX
+
+/* System Libraries define setenv */
+#undef HAVE_FUNC_SETENV
+
+/* System Libraries define sleep */
+#undef HAVE_FUNC_SLEEP
+
+/* System Libraries define strsep */
+#undef HAVE_FUNC_STRSEP
+
+/* System Libraries define strtof */
+#undef HAVE_FUNC_STRTOF
+
+/* System Libraries define tolower */
+#undef HAVE_FUNC_TOLOWER
+
+/* System Libraries define toupper */
+#undef HAVE_FUNC_TOUPPER
+
+/* System Libraries define vasprintf */
+#undef HAVE_FUNC_VASPRINTF
+
+/* Define to 1 if you have the <inttypes.h> header file. */
+#undef HAVE_INTTYPES_H
+
+/* Define to 1 if you have the `dl' library (-ldl). */
+#undef HAVE_LIBDL
+
+/* Define to 1 if you have the `m' library (-lm). */
+#undef HAVE_LIBM
+
+/* Compile with XDR file format */
+#undef HAVE_LIBRPC
+
+/* Compile without XDR file format */
+#undef HAVE_LIBRPC_DISABLED
+
+/* Define to 1 if you have the <limits.h> header file. */
+#undef HAVE_LIMITS_H
+
+/* Matlab Interface Routines */
+#undef HAVE_MATLAB
+
+/* Define to 1 if you have the <memory.h> header file. */
+#undef HAVE_MEMORY_H
+
+/* Compile with PNG File Support */
+#undef HAVE_PNG
+
+/* Define to 1 if you have the <readline/readline.h> header file. */
+#undef HAVE_READLINE_READLINE_H
+
+/* Define to 1 if you have the <rpc/rpc.h> header file. */
+#undef HAVE_RPC_RPC_H
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#undef HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#undef HAVE_STDLIB_H
+
+/* Define to 1 if you have the <strings.h> header file. */
+#undef HAVE_STRINGS_H
+
+/* Define to 1 if you have the <string.h> header file. */
+#undef HAVE_STRING_H
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#undef HAVE_SYS_STAT_H
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#undef HAVE_SYS_TYPES_H
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#undef HAVE_UNISTD_H
+
+/* Compile with XFT File Support */
+#undef HAVE_XFT
+
+/* Compile with XPM File Support */
+#undef HAVE_XPM
+
+/* Compile with zlib compression */
+#undef HAVE_ZLIB
+
+/* Unix Emulation */
+#undef LINUX
+
+/* Location of Matlab Libraries */
+#undef MATLAB_BIN
+
+/* Location of Matlab Libraries */
+#undef MATLAB_LIB
+
+/* Minimalist GNU for Windows */
+#undef MINGW
+
+/* System Libraries missing bzero */
+#undef MISSING_FUNC_BZERO
+
+/* System Libraries missing fmax */
+#undef MISSING_FUNC_FMAX
+
+/* System Libraries missing fmin */
+#undef MISSING_FUNC_FMIN
+
+/* System Libraries missing index */
+#undef MISSING_FUNC_INDEX
+
+/* System Libraries missing lround */
+#undef MISSING_FUNC_LROUND
+
+/* System Libraries missing mkstemps */
+#undef MISSING_FUNC_MKSTEMPS
+
+/* System Libraries missing rindex */
+#undef MISSING_FUNC_RINDEX
+
+/* System Libraries missing sleep */
+#undef MISSING_FUNC_SLEEP
+
+/* System Libraries missing strsep */
+#undef MISSING_FUNC_STRSEP
+
+/* System Libraries missing tolower */
+#undef MISSING_FUNC_TOLOWER
+
+/* System Libraries missing toupper */
+#undef MISSING_FUNC_TOUPPER
+
+/* System Libraries missing vasprintf */
+#undef MISSING_FUNC_VASPRINTF
+
+/* Define to 1 if your C compiler doesn't accept -c and -o together. */
+#undef NO_MINUS_C_MINUS_O
+
+/* Apple/OSX/Darwin Operating System */
+#undef OSX
+
+/* Create OSX Application */
+#undef OSX_APP
+
+/* Name of package */
+#undef PACKAGE
+
+/* Define to the address where bug reports for this package should be sent. */
+#undef PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#undef PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#undef PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#undef PACKAGE_TARNAME
+
+/* Define to the home page for this package. */
+#undef PACKAGE_URL
+
+/* Define to the version of this package. */
+#undef PACKAGE_VERSION
+
+/* Compile with command line capabilities */
+#undef READLINE
+
+/* SUN/Solaris Operating System */
+#undef SOLARIS
+
+/* Define to 1 if you have the ANSI C header files. */
+#undef STDC_HEADERS
+
+/* Program needs the Terminal (TTY) to Function */
+#undef USE_TERMIOS
+
+/* Use X11 as a Graphics Device */
+#undef USE_X11
+
+/* Compile with X11 double buffers */
+#undef USE_X11_DOUBLE_BUFFER
+
+/* Compile without X11 double buffers */
+#undef USE_X11_DOUBLE_BUFFER_DISABLED
+
+/* Compile with X11 multiple color depths */
+#undef USE_X11_MULTIPLE_DEPTHS
+
+/* Compile without X11 multiple color depth */
+#undef USE_X11_MULTIPLE_DEPTHS_DISABLED
+
+/* Version number of package */
+#undef VERSION
+
+/* Create Windows Application */
+#undef WIN_APP
+
+/* Create X11 Application */
+#undef X11_APP
+
+/* Define to 1 if the X Window System is missing or not being used. */
+#undef X_DISPLAY_MISSING

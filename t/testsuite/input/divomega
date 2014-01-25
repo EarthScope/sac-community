@@ -1,0 +1,19 @@
+
+fg seismo
+divomega
+
+fft
+lh depmin depmax depmen
+divomega
+lh depmin depmax depmen
+divomega
+lh depmin depmax depmen
+divomega
+lh depmin depmax depmen
+divomega
+lh depmin depmax depmen
+
+fg seismo
+fft rlim
+divomega
+lh depmin depmax depmen

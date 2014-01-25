@@ -1,0 +1,130 @@
+ wait text off
+ dif
+ ERROR 1301: No data files read in.
+ fg seismogram
+  
+ ==>  
+ lh depmin depmax depmen npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+       npts = 1000
+ dif
+ lh depmin depmax depmen npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -8.563200e+01
+     depmax = 8.767999e+01
+     depmen = 2.050075e-03
+       npts = 999
+  
+ ==>  
+ fg seismogram
+ lh depmin depmax depmen npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+       npts = 1000
+ dif two
+ lh depmin depmax depmen npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -8.563200e+01
+     depmax = 8.767999e+01
+     depmen = 2.050075e-03
+       npts = 999
+  
+ ==>  
+ fg seismogram
+ lh depmin depmax depmen npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+       npts = 1000
+ dif three
+ lh depmin depmax depmen npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -8.409602e+01
+     depmax = 8.294400e+01
+     depmen = 2.052122e-03
+       npts = 998
+  
+ ==>  
+ fg seismogram
+ lh depmin depmax depmen npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+       npts = 1000
+ dif five
+ lh depmin depmax depmen npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -9.032536e+01
+     depmax = 9.175468e+01
+     depmen = 2.009402e-03
+       npts = 998
+  
+ ==>  
+ fg seismogram
+ lh depmin depmax depmen npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+       npts = 1000
+ dif seven
+ ERROR interpreting command:  dif seven 
+ ILLEGAL OPTION:                  ^
+ lh depmin depmax depmen npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854718e-02
+       npts = 1000
+  
+ ==>  
+  
+ ==>  
+ quit

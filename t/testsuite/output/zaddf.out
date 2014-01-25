@@ -1,0 +1,111 @@
+ wait text off
+ fg sine
+ lh
+  
+  
+  FILE: SINE - 1
+ ----------
+
+       NPTS = 100
+          B = 0.000000e+00
+          E = 9.900000e+01
+     IFTYPE = TIME SERIES FILE
+      LEVEN = TRUE
+      DELTA = 1.000000e+00
+     DEPMIN = -1.000000e+00
+     DEPMAX = 1.000000e+00
+     DEPMEN = 3.576279e-09
+      KEVNM = FUNCGEN: SINE
+     LOVROK = TRUE
+      NVHDR = 6
+     LPSPOL = FALSE
+     LCALDA = TRUE
+ write test.sine
+ fg seismogram
+ lh
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+        NPTS = 1000
+           B = 9.459999e+00
+           E = 1.945000e+01
+      IFTYPE = TIME SERIES FILE
+       LEVEN = TRUE
+       DELTA = 1.000000e-02
+        IDEP = VELOCITY (VOLTS)
+      DEPMIN = -1.569280e+00
+      DEPMAX = 1.520640e+00
+      DEPMEN = -9.854718e-02
+     OMARKER = -41.43
+     AMARKER = 10.464
+      KZDATE = MAR 29 (088), 1981
+      KZTIME = 10:38:14.000
+      IZTYPE = BEGIN TIME
+       KSTNM = CDV
+       CMPAZ = 0.000000e+00
+      CMPINC = 0.000000e+00
+        STLA = 4.800000e+01
+        STLO = -1.200000e+02
+       KEVNM = K8108838
+        EVLA = 4.800000e+01
+        EVLO = -1.250000e+02
+        EVDP = 1.500000e+01
+      IEVTYP = AFTERSHOCK
+        DIST = 3.730627e+02
+          AZ = 8.814721e+01
+         BAZ = 2.718528e+02
+       GCARC = 3.357465e+00
+      LOVROK = TRUE
+       NVHDR = 6
+       NORID = 0
+       NEVID = 0
+      LPSPOL = TRUE
+      LCALDA = TRUE
+ addf test.sine
+ ERROR 1801: Header field mismatch: DELTA SEISMOGR test.sine
+ lh
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+        NPTS = 1000
+           B = 9.459999e+00
+           E = 1.945000e+01
+      IFTYPE = TIME SERIES FILE
+       LEVEN = TRUE
+       DELTA = 1.000000e-02
+        IDEP = VELOCITY (VOLTS)
+      DEPMIN = -1.569280e+00
+      DEPMAX = 1.520640e+00
+      DEPMEN = -9.854718e-02
+     OMARKER = -41.43
+     AMARKER = 10.464
+      KZDATE = MAR 29 (088), 1981
+      KZTIME = 10:38:14.000
+      IZTYPE = BEGIN TIME
+       KSTNM = CDV
+       CMPAZ = 0.000000e+00
+      CMPINC = 0.000000e+00
+        STLA = 4.800000e+01
+        STLO = -1.200000e+02
+       KEVNM = K8108838
+        EVLA = 4.800000e+01
+        EVLO = -1.250000e+02
+        EVDP = 1.500000e+01
+      IEVTYP = AFTERSHOCK
+        DIST = 3.730627e+02
+          AZ = 8.814721e+01
+         BAZ = 2.718528e+02
+       GCARC = 3.357465e+00
+      LOVROK = TRUE
+       NVHDR = 6
+       NORID = 0
+       NEVID = 0
+      LPSPOL = TRUE
+      LCALDA = TRUE
+  
+ ==>  
+ quit

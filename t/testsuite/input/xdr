@@ -1,0 +1,11 @@
+
+message "Test Read XDR"
+fg impulse
+write xdr test.read.xdr
+read xdr test.read.xdr
+lh depmax
+
+fg seismo
+write xdr test.read.xdr
+read xdr test.read.xdr
+lh depmin depmax

@@ -1,0 +1,27 @@
+ wait text off
+ fg seismo
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ grid off
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ grid on solid
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ grid on dotted
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ grid off
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ quit

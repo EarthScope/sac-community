@@ -1,0 +1,220 @@
+ch
+fg
+lh b e
+ch b 10
+lh b e
+ch npts 1000
+ch nvhdr 5
+ch nwfid 123
+ch norid 111
+ch nevid 456
+
+lh b e
+ch e 200
+lh e e
+
+lh iftype
+ch iftype itime
+lh iftype
+
+lh leven
+ch leven false
+lh leven
+
+message "BUG? - ch Delta"
+lh delta
+ch delta 100
+lh delta
+
+message "BUG - ch Dep  Min,Max,Men"
+lh depmax
+ch depmax 100
+lh depmax
+
+lh depmin
+ch depmin 100
+lh depmin
+
+lh depmen
+ch depmen 100
+lh depmen
+
+lh kevnm 
+ch kevnm 123456789012345677
+lh kevnm
+
+lh kevnm 
+ch kevnm " spaces               "
+lh kevnm
+
+lh lovrok
+ch lovrok false
+lh lovrok
+lh lovrok
+ch lovrok true
+lh lovrok
+
+lh lpspol 
+ch lpspol false
+lh lpspol
+
+lh lpspol 
+ch lpspol true
+lh lpspol
+
+lh lcalda
+ch lcalda false
+lh lcalda
+
+lh lcalda
+ch lcalda false
+lh lcalda
+
+ch kstnm Station
+lh kstnm
+ch kstnm StationLongName
+lh kstnm
+
+ch kcmpnm Component
+lh kcmpnm
+ch kcmpnm BHZ
+lh kcmpnm
+
+ch knetwk IU
+lh knetwk
+ch knetwk SomthingLong
+lh knetwk
+
+ch kuser0 Nothing0
+lh kuser0
+ch kuser1 Nothing0
+lh kuser1 
+ch kuser2 Nothing0
+
+ch user0 3.1415
+lh user0
+ch user1 3.1415
+lh user1
+ch user2 3.1415
+lh user2
+ch user3 3.1415
+lh user3
+ch user4 3.1415
+lh user4
+ch user5 3.1415
+lh user5
+ch user6 3.1415
+lh user6
+ch user7 3.1415
+lh user7
+ch user8 3.1415
+lh user8
+ch user9 3.1415
+lh user9
+
+ch iqual
+lh iqual
+
+ch isynth
+lh isynth
+
+ch gcarc 3.1415
+lh gcarc 
+
+ch az 3.1415
+lh az
+
+ch baz 3.1415
+lh az
+
+ch dist 3.1415
+lh dist
+
+ch khole 00
+lh khole
+ch khole SomethingLOn
+lh khole
+
+ch evdp 3.1415
+lh evdp
+ch evlo 3.1415
+lh evlo
+ch evla 3.1415
+lh evla
+ch evel 3.1415
+lh evel
+
+ch stdp 3.1415
+lh stdp
+ch stlo 3.1415
+lh stlo
+ch stla 3.1415
+lh stla
+ch stel 3.1415
+lh stel
+
+ch cmpinc 0.0
+lh cmpinc
+ch cmpinc 90
+lh cmpinc
+
+ch cmpaz 0.0
+lh cmpaz
+ch cmpaz
+lh cmpaz
+
+ch resp0 3.1415
+lh resp0
+ch resp1 3.1415
+lh resp1
+ch resp2 3.1415
+lh resp2
+ch resp3 3.1415
+lh resp3
+ch resp4 3.1415
+lh resp4
+ch resp5 3.1415
+lh resp5
+ch resp6 3.1415
+lh resp6
+ch resp7 3.1415
+lh resp7
+ch resp8 3.1415
+lh resp8
+ch resp9 3.1415
+lh resp9
+
+ch t0 3.1415
+lh t0
+ch t1 3.1415
+lh t1
+ch t2 3.1415
+lh t2
+ch t3 3.1415
+lh t3
+ch t4 3.1415
+lh t4
+ch t5 3.1415
+lh t5
+ch t6 3.1415
+lh t6
+ch t7 3.1415
+lh t7
+ch t8 3.1415
+lh t8
+ch t9 3.1415
+lh t9
+
+ch f 3.1415
+lh f
+
+ch o 3.1415
+lh f
+
+ch a 3.1415
+lh a
+
+ch allt 10
+lh default
+
+

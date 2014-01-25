@@ -1,0 +1,43 @@
+
+fg impulse
+mul 1
+write test.sort.1
+
+read test.sort.1
+mul 2
+write test.sort.2
+
+read test.sort.1
+mul 3
+write test.sort.3
+
+read test.sort.1
+mul 4
+write test.sort.4
+
+read test.sort.
+lh depmax
+sort depmax
+lh depmax
+
+read test.sort.*
+lh depmax
+sort depmax ascend
+lh depmax
+
+read test.sort.*
+lh depmax
+sort depmax descend
+lh depmax
+
+read test.sort.3 test.sort.1 test.sort.2 test.sort.4
+lh depmax
+sort depmax ascend
+lh depmax
+
+read test.sort.3 test.sort.1 test.sort.2 test.sort.4
+lh depmax
+sort depmax descend
+lh depmax
+
+

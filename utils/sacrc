@@ -1,0 +1,113 @@
+########################################################################
+# Seismic Analysis Code (sac) Options File
+#   Must be named .sacrc and reside in the user's home directory
+#   Comments begin with either a '#' or a ';'
+#
+#   Default values are indicated by brackets.  
+#   Uncomment a line to change from the default
+#   
+
+########################################################################
+# List Header
+#  Set the number of columns to two ([1] or 2)
+#  lh.columns = 2
+
+# Show all entries no matter if they are not defined [false]
+# lh.inclusive = true
+
+########################################################################
+# Color Plot Options
+#   Available colors are: 
+#      black, white, red, green, blue, yellow, cyan, magenta
+#
+# color.color      = off     ;; Use color in Plots         [ off ] or on
+# color.increment  = off     ;; Color traces incrementally [ off ] or on 
+# color.background = white   ;; Background Color           [ white ]
+# color.skeleton   = black   ;; Time and Amplitude Axis    [ black ]
+# color.data       = black   ;; Data Color                 [ black ]
+# color.foreground = black   ;; Shortcut for color.skeleton and color.data
+
+########################################################################
+# Copyright 
+#  Show the Copyright Statement on Startup [on]
+#  copyright = off
+
+########################################################################
+# Database
+#  Use the SeisMgr Database [off]
+#  database = on
+
+########################################################################
+# Use Large Crosshairs during plotpk (ppk)  [off]
+# ppk.large_crosshairs = on
+
+########################################################################
+# Echo 
+#  Turn on echo of command, macros, and processed [off]
+#  echo = on
+
+########################################################################
+# History
+#  History Size to Save [1000]
+#  history.max = 2000
+
+########################################################################
+# Quick and Dirty Plot [on]
+#   - on  - Not all points are plotted
+#   - off - All points are plotted
+# qdp = off
+
+#  Approximate number of points to plot [5000] ( Turns on QDP )
+# qdp.points = 10000
+
+########################################################################
+# X Divisions
+#  xdiv.nice       [true] uses the best divisions for nice plots
+#     The following options will presists along all plots, so use with care
+#  xdiv.power      [true] show numbers as a power 
+#  xdiv.number     divisions along the x-axis  [ 10 ] (Turns off nice plotting)
+#  xdiv.increment  division spacing            [  1 ] (Turns off nice plotting)
+
+# xdiv.nice      = false
+# xdiv.power     = false
+# xdiv.number    = 10
+# xdiv.increment = 50.0
+
+########################################################################
+# Y Divisions
+#  ydiv.power      [true] show numbers as powers 
+#  ydiv.nice       [true] uses the best divisions for nice plots
+#     The following options will apply to all plots, so use with care
+#  ydiv.number     divisions along y-axis     [ 10 ] (Turns off nice plotting)
+#  ydiv.increment  division spacing           [  1 ] (Turns off nice plotting)
+
+# ydiv.nice      = false
+# ydiv.power     = false
+# ydiv.number    = 10
+# ydiv.increment = 1.0
+
+########################################################################
+# X Label
+#  xlabel            Default is no X label [ off ]
+#     The following options will apply to all plots, so use with care
+#  xlabel.label      Text of the x-label     [ empty ]  (Turns on xlabel)
+#  xlabel.position   Position of the x-label (top, [ bottom ])
+#  xlabel.size       X-label size            (tiny, small, [ medium ], or large)
+
+# xlabel          = on
+# xlabel.label    = Seconds
+# xlabel.location = top
+# xlabel.size     = small
+
+########################################################################
+# Y Label
+#  ylabel            Default is no Y label [ off ]
+#  ylabel.label      Text of the y-label (turns on ylabel)
+#  ylabel.position   Position of the y-label ([ left ] or right)
+#  ylabel.size       Y-label size (tiny, small, [ medium ], or large)
+
+# ylabel          = on
+# ylabel.label    = amplitude
+# ylabel.location = right
+# ylabel.size     = large
+

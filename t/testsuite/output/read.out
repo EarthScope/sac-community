@@ -1,0 +1,292 @@
+ wait text off
+  
+ ==>  
+ readerr nofiles fatal
+ read nofile
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ message "Test Read Generate Files"
+ Test Read Generate Files
+ fg impulse
+ write test.read.1
+ mul 2
+ write test.read.2
+ lh depmax
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmax = 2.000000e+00
+ mul 2
+ write test.read.3
+ lh depmax
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmax = 4.000000e+00
+  
+ ==>  
+ message "Test Multiple File Read"
+ Test Multiple File Read
+ read test.read.1 test.read.2 test.read.3
+ lh deqpmax
+  
+  
+  FILE: test.read.1 - 1
+ -----------------
+
+  
+  FILE: test.read.2 - 2
+ -----------------
+
+  
+  FILE: test.read.3 - 3
+ -----------------
+
+  
+ ==>  
+ message "Test Multiple File Read More"
+ Test Multiple File Read More
+ read more test.read.1 test.read.2 test.read.3
+ lh depmax
+  
+  
+  FILE: test.read.1 - 1
+ -----------------
+
+     depmax = 1.000000e+00
+  
+  FILE: test.read.2 - 2
+ -----------------
+
+     depmax = 2.000000e+00
+  
+  FILE: test.read.3 - 3
+ -----------------
+
+     depmax = 4.000000e+00
+  
+  FILE: test.read.1 - 4
+ -----------------
+
+     depmax = 1.000000e+00
+  
+  FILE: test.read.2 - 5
+ -----------------
+
+     depmax = 2.000000e+00
+  
+  FILE: test.read.3 - 6
+ -----------------
+
+     depmax = 4.000000e+00
+  
+ ==>  
+ message "Test Read Wildcard"
+ Test Read Wildcard
+ read test.read.*
+test.read.1 test.read.2 test.read.3
+ lh depmax
+  
+  
+  FILE: test.read.1 - 1
+ -----------------
+
+     depmax = 1.000000e+00
+  
+  FILE: test.read.2 - 2
+ -----------------
+
+     depmax = 2.000000e+00
+  
+  FILE: test.read.3 - 3
+ -----------------
+
+     depmax = 4.000000e+00
+ read test.read.?
+test.read.1 test.read.2 test.read.3
+ lh depmax
+  
+  
+  FILE: test.read.1 - 1
+ -----------------
+
+     depmax = 1.000000e+00
+  
+  FILE: test.read.2 - 2
+ -----------------
+
+     depmax = 2.000000e+00
+  
+  FILE: test.read.3 - 3
+ -----------------
+
+     depmax = 4.000000e+00
+  
+ ==>  
+ message "Testing Directory Reads"
+ Testing Directory Reads
+ systemcommand mkdir test.read.dir
+ read test.read.?
+test.read.1 test.read.2 test.read.3
+ write test.read.dir/test.read.dir.1 test.read.dir/test.read.dir.2 test.read.dir/test.read.dir.3
+  
+ ==>  
+ message "Testing Wildcards"
+ Testing Wildcards
+ read dir test.read.dir test.read.dir.1
+ lh depmax
+  
+  
+  FILE: test.read.dir/test.read.dir.1 - 1
+ -----------------------------------
+
+     depmax = 1.000000e+00
+ read dir test.read.dir test.read.dir.*
+test.read.dir/test.read.dir.1 ...test.read.dir.2 ...test.read.dir.3
+ lh depmax
+  
+  
+  FILE: test.read.dir/test.read.dir.1 - 1
+ -----------------------------------
+
+     depmax = 1.000000e+00
+  
+  FILE: test.read.dir/test.read.dir.2 - 2
+ -----------------------------------
+
+     depmax = 2.000000e+00
+  
+  FILE: test.read.dir/test.read.dir.3 - 3
+ -----------------------------------
+
+     depmax = 4.000000e+00
+ read dir test.read.dir test.read.dir.?
+test.read.dir/test.read.dir.1 ...test.read.dir.2 ...test.read.dir.3
+ lh depmax
+  
+  
+  FILE: test.read.dir/test.read.dir.1 - 1
+ -----------------------------------
+
+     depmax = 1.000000e+00
+  
+  FILE: test.read.dir/test.read.dir.2 - 2
+ -----------------------------------
+
+     depmax = 2.000000e+00
+  
+  FILE: test.read.dir/test.read.dir.3 - 3
+ -----------------------------------
+
+     depmax = 4.000000e+00
+  
+ ==>  
+ read dir current test.read.1
+  
+ ==>  
+ message "File with Two Points"
+ File with Two Points
+ read test_twopoint_sac.m
+ lh npts delta depmin depmax
+  
+  
+  FILE: test_twopoint_sac.m - 1
+ -------------------------
+
+       npts = 2
+      delta = 1.000000e+00
+     depmin = 0.000000e+00
+     depmax = 1.000000e+00
+  
+ ==>  
+ message "Filename with Spaces"
+ Filename with Spaces
+ fg seismo
+ write test.read.1
+ mv test.read.1 test.read\ space.1
+ read "test.read space.1"
+ message "&1,filename&"
+ ==>  message "test.read space.1"
+ test.read space.1
+ lh kstnm
+  
+  
+  FILE: test.read space.1 - 1
+ -----------------------
+
+     kstnm = CDV
+ ch kstnm SPACES
+ lh kstnm
+  
+  
+  FILE: test.read space.1 - 1
+ -----------------------
+
+     kstnm = SPACES
+ write over
+ read "test.read space.1"
+ lh kstnm
+  
+  
+  FILE: test.read space.1 - 1
+ -----------------------
+
+     kstnm = SPACES
+ ch kstnm SPACES2
+ lh kstnm
+  
+  
+  FILE: test.read space.1 - 1
+ -----------------------
+
+     kstnm = SPACES2
+ write "test.read space.2"
+ read "test.read space.2"
+ lh kstnm
+  
+  
+  FILE: test.read space.2 - 1
+ -----------------------
+
+     kstnm = SPACES2
+ read test.read*space*
+test.read space.1 test.read space.2
+ lh kstnm
+  
+  
+  FILE: test.read space.1 - 1
+ -----------------------
+
+     kstnm = SPACES
+  
+  FILE: test.read space.2 - 2
+ -----------------------
+
+     kstnm = SPACES2
+ read "test.read space.1"
+ lh kstnm
+  
+  
+  FILE: test.read space.1 - 1
+ -----------------------
+
+     kstnm = SPACES
+  
+ ==>  
+ read "test.read space.3"
+ ERROR 1301: No data files read in.
+ message "&1,filename&"
+ ==>  message "test.read space.1"
+ test.read space.1
+  
+ ==>  
+ read base 1 10
+ ERROR 1301: No data files read in.
+ read base 5
+ ERROR 1301: No data files read in.
+ quit

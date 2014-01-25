@@ -1,0 +1,62 @@
+ wait text off
+ linefit
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ fg impulse
+ linefit
+ Slope and standard deviation are: -6.0006e-06 0.00034819
+ Intercept and standard deviation are: 0.010297 0.019952
+ Data standard deviation is: 0.10051
+ Data correlation coefficient is: 0.0017409
+ getbb
+ CORRCOEF     = 0.00174086
+ NUMERROR = 0
+ SACERROR = 'FALSE'
+ SACNFILES = 1
+ SDDATA     = 0.100509
+ SDSLOPE     = 0.00034819
+ SDYINT     = 0.0199519
+ SLOPE     = -6.0006e-06
+ YINT     = 0.010297
+  
+ ==>  
+  
+ ==>  
+ fg seismogram
+ linefit
+ Slope and standard deviation are: 0.00023034 0.0035114
+ Intercept and standard deviation are: -0.10188 0.051759
+ Data standard deviation is: 0.32054
+ Data correlation coefficient is: 0.0020765
+ getbb
+ CORRCOEF     = 0.0020765
+ NUMERROR = 0
+ SACERROR = 'FALSE'
+ SACNFILES = 1
+ SDDATA     = 0.32054
+ SDSLOPE     = 0.00351135
+ SDYINT     = 0.0517588
+ SLOPE     = 0.000230341
+ YINT     = -0.101877
+  
+ ==>  
+ fg sine
+ linefit
+ Slope and standard deviation are: -0.0037886 0.0024447
+ Intercept and standard deviation are: 0.18754 0.14009
+ Data standard deviation is: 0.70569
+ Data correlation coefficient is: 0.15466
+ getbb
+ CORRCOEF     = 0.154662
+ NUMERROR = 0
+ SACERROR = 'FALSE'
+ SACNFILES = 1
+ SDDATA     = 0.705691
+ SDSLOPE     = 0.00244471
+ SDYINT     = 0.140086
+ SLOPE     = -0.00378863
+ YINT     = 0.187537
+  
+ ==>  
+ quit

@@ -1,0 +1,25 @@
+ wait text off
+  
+ ==>  
+ wiener
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ fg seismo
+ fft
+ DC level after DFT is -0.98547
+ wiener
+ ERROR 1307: Illegal operation on spectral file SEISMOGR
+  
+ ==>  
+ fg seismo
+ wiener window
+ ERROR interpreting command:  wiener window 
+ ILLEGAL OPTION:                          ^
+  
+ ==>  
+ fg seismo
+ wiener window 12 14
+  
+ ==>  
+ quit

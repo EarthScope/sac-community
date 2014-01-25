@@ -1,0 +1,83 @@
+ wait text off
+  
+ ==>  
+ fg seismo
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ line off
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ line solid
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ line dotted
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+  
+ ==>  
+ line 1
+ p1 ; pause period 0.25
+Pausing
+ line 2
+ p1 ; pause period 0.25
+Pausing
+ line 3
+ p1 ; pause period 0.25
+Pausing
+ line 4
+ p1 ; pause period 0.25
+Pausing
+ line 5
+ p1 ; pause period 0.25
+Pausing
+ line 6
+ p1 ; pause period 0.25
+Pausing
+ line 7
+ p1 ; pause period 0.25
+Pausing
+ line 8
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ line fill on
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ line fill red/blue
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ rmean
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ line fill blue/red
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ color red skeleton white background black
+ line fill red/none
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ line fill red/white
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ quit

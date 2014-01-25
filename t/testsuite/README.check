@@ -1,0 +1,106 @@
+Documentation for make check and the SAC testsuite
+--------------------------------------------------
+
+Running Tests
+-------------
+
+To run the testsuite and check the output and performance of SAC run
+
+  make check
+
+from the primary SAC build directory.  Tests will check the behavior of 
+libsacio.a and SAC itself.  Any error will be reported.
+
+
+Writing Tests
+----------------
+
+All editing should be done in t/testsuite/input and writing a test is simple 
+as writing a sac macro file.  Place all of the commands you would like to 
+test into a single file and execute to make sure all of the commands work properly and as you would expect.  If you are testing the new command 'mukluk' place your commands into the file 'mukluk' in t/testsuite/input/ and execute the command 
+
+SAC> macro mukluk
+
+- test.* and test.*.dir
+Files that are names test.* will be removed at the end of each test and directories named test.*.dir will also be removed recursivly.  
+
+- test_*.m
+Files named test_*.m are not executed as tests but are considered test data or test_scripts that may be run as a macro with conditionals or loops.
+
+Conditionals and Loops 
+------------------------
+If your test file includes conditionals, if then else constructs, loops, 
+do file wild, or other complex behavior than simple sac commands place your
+commands in a file named test_mukluk.m and in the original mukluk file 
+should contain
+
+% cat t/testsuite/input/mukluk
+
+macro test_mukluk.m
+
+Generating Tests
+----------------
+
+To generate the output (t/testsuite/output) from input and input 
+data (t/testsuite/input) you need to run the pytest.py script.  Run pytest.py
+without any arguments to see the options that you can use.
+
+If the test is simple as has no extra data, for the mukluk command execute
+
+  % cd t/testsuite/
+  % ../pytest.py -r input/mukluk
+     # Check the output
+  % ../pytest.py -g input/mukluk
+     # This will generate the output files t/testsuite/output/mukluk.* files
+  % ../pytest.py -t input/mukluk
+     # Test the output
+
+If the test requires a new or alternative version of sac located at 
+../path/to/new/version/src/sac
+
+  % cd t/testsuite/
+  % ../pytest.py -r -s ../path/to/new/version/src/sac input/mukluk
+     # Check the output
+  % ../pytest.py -g -s ../path/to/new/version/src/sac input/mukluk
+     # This will generate the output files t/testsuite/output/mukluk.* files
+  % ../pytest.py -t -s ../path/to/new/version/src/sac input/mukluk
+     # Test the output
+
+If the test contains extra data or is a executes a macro command
+
+  % cd t/testsuite/intput
+  % ../../pytest.py -r -o ../output mukluk
+     # Check the output
+  % ../../pytest.py -g -o ../output mukluk
+     # This will generate the output files t/testsuite/output/mukluk.* files
+  % ../../pytest.py -t -o ../output mukluk
+     # Test the output
+
+If the command is new and requires knowledge of a different SACAUX
+
+  % setenv SACAUX "/new/path/to/sac/aux"
+  % cd t/testsuite
+  % ../pytest.py -r input/mukluk
+     # Check the output
+  % ../pytest.py -g input/mukluk
+     # This will generate the output files t/testsuite/output/mukluk.* files
+  % ../pytest.py -t input/mukluk
+     # Test the output
+
+Files
+-----
+ - t/testsuite/input
+   Input files for tests
+   - test.*     - Temporary file, removed after each test
+   - test.*.dir - Temporary directories, removed after each test
+   - test_*.m   - Data and real macro files, not run as tests, saved between tests
+   - everything - Tests scripts, any file run existing will be run as a test
+                  Must have a output/filename.out and output/filename.err
+ - t/testsuite/output
+   Contains output that is checked during testing
+   - filename.out
+      Standard output from SAC, Created using pytest.py -g
+   - filename.err 
+      Standard error from SACm, Created using pytest.py -g 
+
+

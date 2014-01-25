@@ -1,0 +1,44 @@
+ wait text off
+ sub
+ ERROR 1301: No data files read in.
+ fg
+ lh depmin depmax depmen
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = 0.000000e+00
+     depmax = 1.000000e+00
+     depmen = 1.000000e-02
+ sub 10
+ lh depmin depmax depmen
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = -1.000000e+01
+     depmax = -9.000000e+00
+     depmen = -9.990000e+00
+ fg
+ lh depmin depmax depmen
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = 0.000000e+00
+     depmax = 1.000000e+00
+     depmen = 1.000000e-02
+ sub -24.3
+ lh depmin depmax depmen
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = 2.430000e+01
+     depmax = 2.530000e+01
+     depmen = 2.431000e+01
+ quit

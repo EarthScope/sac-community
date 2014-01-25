@@ -1,0 +1,22 @@
+ wait text off
+ fg seismo
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ xfudge off
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ xfudge on
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ xfudge 10
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ quit

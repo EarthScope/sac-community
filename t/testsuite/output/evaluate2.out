@@ -1,0 +1,652 @@
+ wait text off
+  
+ ==>  
+ ** Eval Functions with Parens
+  
+ ==>  
+ eval 1 + 2 + 3
+ 6
+ eval 1 + sqrt(2 )
+ ==>  eval 2.41421
+ 2.41421
+ eval  sqrt(2) + 1
+ ==>  eval 2.41421
+ 2.41421
+ eval 1+sqrt(2)
+ ==>  eval 2.41421
+ 2.41421
+ eval sqrt(2)+1
+ ==>  eval 2.41421
+ 2.41421
+ eval sqrt 2+1
+ 2.41421
+ eval sqrt 2 + 1
+ 2.41421
+ eval sqrt 2 + 1 - 2.41421
+ 3.56237e-06
+ eval 1 + sqrt(2) + 1
+ ==>  eval 3.41421
+ 3.41421
+ eval 1 + sqrt 2 + 1
+ 3.41421
+  
+ ==>  
+ ** Short Trig Function Names
+  
+ ==>  
+ eval sin pi
+ 1.22465e-16
+ eval sin (pi)
+ ==>  eval 1.22465e-16
+ 1.22465e-16
+  
+ ==>  
+ eval cos pi
+ -1
+ eval cos (pi)
+ ==>  eval -1
+ -1
+  
+ ==>  
+ eval sin pi/2
+ 6.12323e-17
+ eval sin (pi)/2
+ ==>  eval 6.12323e-17
+ 6.12323e-17
+ eval sin pi/(2)
+ ==>  eval 6.12323e-17
+ 6.12323e-17
+ eval sin (pi/2)
+ ==>  eval 1
+ 1
+  
+ ==>  
+ eval cos pi/2
+ -0.5
+ eval cos (pi)/2
+ ==>  eval -0.5
+ -0.5
+ eval cos pi/(2)
+ ==>  eval -0.5
+ -0.5
+ eval cos (pi/2)
+ ==>  eval 6.12323e-17
+ 6.12323e-17
+  
+ ==>  
+ eval sin pi/4
+ 3.06162e-17
+ eval sin (pi)/4
+ ==>  eval 3.06162e-17
+ 3.06162e-17
+ eval sin pi/(4)
+ ==>  eval 3.06162e-17
+ 3.06162e-17
+ eval sin (pi/4)
+ ==>  eval 0.707107
+ 0.707107
+  
+ ==>  
+ eval cos pi/4
+ -0.25
+ eval cos (pi)/4
+ ==>  eval -0.25
+ -0.25
+ eval cos pi/(4)
+ ==>  eval -0.25
+ -0.25
+ eval cos (pi/4)
+ ==>  eval 0.707107
+ 0.707107
+  
+ ==>  
+ eval tan pi
+ -1.22465e-16
+ eval tan (pi)
+ ==>  eval -1.22465e-16
+ -1.22465e-16
+  
+ ==>  
+ eval tan pi/2
+ -6.12323e-17
+ eval tan (pi)/2
+ ==>  eval -6.12323e-17
+ -6.12323e-17
+ eval tan pi/(2)
+ ==>  eval -6.12323e-17
+ -6.12323e-17
+ eval tan (pi/2)
+ ==>  eval -2147483648
+ -2147483648
+  
+ ==>  
+ eval tan pi/4
+ -3.06162e-17
+ eval tan (pi)/4
+ ==>  eval -3.06162e-17
+ -3.06162e-17
+ eval tan pi/(4)
+ ==>  eval -3.06162e-17
+ -3.06162e-17
+ eval tan (pi/4)
+ ==>  eval 1
+ 1
+  
+ ==>  
+ eval asin 0
+ 0
+ eval asin 1
+ 1.5708
+ eval asin (1)
+ ==>  eval 1.5708
+ 1.5708
+ eval asin (1)/2
+ ==>  eval 0.785398
+ 0.785398
+ eval asin (1/2)
+ ==>  eval 0.523599
+ 0.523599
+  
+ ==>  
+ eval acos 0
+ 1.5708
+ eval acos 1
+ 0
+ eval acos (1)
+ ==>  eval 0
+ 0
+ eval acos (1)/2
+ ==>  eval 0
+ 0
+ eval acos (1/2)
+ ==>  eval 1.0472
+ 1.0472
+  
+ ==>  
+ eval atan 0 * 180/pi
+ 0
+ eval atan 1 * 180/pi
+ 45
+ eval atan (1) * 180/pi
+ ==>  eval 45
+ 45
+ eval atan (1)/2 * 180/pi
+ ==>  eval 22.5
+ 22.5
+ eval atan (1/2) * 180/pi
+ ==>  eval 26.5651
+ 26.5651
+  
+ ==>  
+ ** Long Trig Function Names
+  
+ ==>  
+ eval sine pi
+ 1.22465e-16
+ eval sine (pi)
+ ==>  eval 1.22465e-16
+ 1.22465e-16
+  
+ ==>  
+ eval cosine pi
+ -1
+ eval cosine (pi)
+ ==>  eval -1
+ -1
+  
+ ==>  
+ eval sine pi/2
+ 6.12323e-17
+ eval sine (pi)/2
+ ==>  eval 6.12323e-17
+ 6.12323e-17
+ eval sine pi/(2)
+ ==>  eval 6.12323e-17
+ 6.12323e-17
+ eval sine (pi/2)
+ ==>  eval 1
+ 1
+  
+ ==>  
+ eval cosine pi/2
+ -0.5
+ eval cosine (pi)/2
+ ==>  eval -0.5
+ -0.5
+ eval cosine pi/(2)
+ ==>  eval -0.5
+ -0.5
+ eval cosine (pi/2)
+ ==>  eval 6.12323e-17
+ 6.12323e-17
+  
+ ==>  
+ eval sine pi/4
+ 3.06162e-17
+ eval sine (pi)/4
+ ==>  eval 3.06162e-17
+ 3.06162e-17
+ eval sine pi/(4)
+ ==>  eval 3.06162e-17
+ 3.06162e-17
+ eval sine (pi/4)
+ ==>  eval 0.707107
+ 0.707107
+  
+ ==>  
+ eval cosine pi/4
+ -0.25
+ eval cosine (pi)/4
+ ==>  eval -0.25
+ -0.25
+ eval cosine pi/(4)
+ ==>  eval -0.25
+ -0.25
+ eval cosine (pi/4)
+ ==>  eval 0.707107
+ 0.707107
+  
+ ==>  
+ eval tangent pi
+ -1.22465e-16
+ eval tangent (pi)
+ ==>  eval -1.22465e-16
+ -1.22465e-16
+  
+ ==>  
+ eval tangent pi/2
+ -6.12323e-17
+ eval tangent (pi)/2
+ ==>  eval -6.12323e-17
+ -6.12323e-17
+ eval tangent pi/(2)
+ ==>  eval -6.12323e-17
+ -6.12323e-17
+ eval tangent (pi/2)
+ ==>  eval -2147483648
+ -2147483648
+  
+ ==>  
+ eval tangent pi/4
+ -3.06162e-17
+ eval tangent (pi)/4
+ ==>  eval -3.06162e-17
+ -3.06162e-17
+ eval tangent pi/(4)
+ ==>  eval -3.06162e-17
+ -3.06162e-17
+ eval tangent (pi/4)
+ ==>  eval 1
+ 1
+  
+ ==>  
+ eval asine 0
+ 0
+ eval asine 1
+ 1.5708
+ eval asine (1)
+ ==>  eval 1.5708
+ 1.5708
+ eval asine (1)/2
+ ==>  eval 0.785398
+ 0.785398
+ eval asine (1/2)
+ ==>  eval 0.523599
+ 0.523599
+  
+ ==>  
+ eval acosine 0
+ 1.5708
+ eval acosine 1
+ 0
+ eval acosine (1)
+ ==>  eval 0
+ 0
+ eval acosine (1)/2
+ ==>  eval 0
+ 0
+ eval acosine (1/2)
+ ==>  eval 1.0472
+ 1.0472
+  
+ ==>  
+ eval atangent 0 * 180/pi
+ 0
+ eval atangent 1 * 180/pi
+ 45
+ eval atangent (1) * 180/pi
+ ==>  eval 45
+ 45
+ eval atangent (1)/2 * 180/pi
+ ==>  eval 22.5
+ 22.5
+ eval atangent (1/2) * 180/pi
+ ==>  eval 26.5651
+ 26.5651
+  
+ ==>  
+ eval arcsine 0
+ 0
+ eval arcsine 1
+ 1.5708
+ eval arcsine (1)
+ ==>  eval 1.5708
+ 1.5708
+ eval arcsine (1)/2
+ ==>  eval 0.785398
+ 0.785398
+ eval arcsine (1/2)
+ ==>  eval 0.523599
+ 0.523599
+  
+ ==>  
+ eval arccosine 0
+ 1.5708
+ eval arccosine 1
+ 0
+ eval arccosine (1)
+ ==>  eval 0
+ 0
+ eval arccosine (1)/2
+ ==>  eval 0
+ 0
+ eval arccosine (1/2)
+ ==>  eval 1.0472
+ 1.0472
+  
+ ==>  
+ eval arctangent 0 * 180/pi
+ 0
+ eval arctangent 1 * 180/pi
+ 45
+ eval arctangent (1) * 180/pi
+ ==>  eval 45
+ 45
+ eval arctangent (1)/2 * 180/pi
+ ==>  eval 22.5
+ 22.5
+ eval arctangent (1/2) * 180/pi
+ ==>  eval 26.5651
+ 26.5651
+  
+ ==>  
+ ** Integer
+  
+ ==>  
+ eval integer 3.1415
+ 3
+ eval integer -pi + pi
+ 0.141593
+ eval integer pi - pi
+ -0.141593
+ eval integer (pi - pi)
+ ==>  eval 0
+ 0
+ eval integer (pi) - pi
+ ==>  eval -0.141593
+ -0.141593
+ eval integer pi - ( pi)
+ ==>  eval -0.141593
+ -0.141593
+ eval 3 + integer pi - ( pi)
+ ==>  eval 2.85841
+ 2.85841
+  
+ ==>  
+  
+ ==>  
+ ** Square Root
+ eval  sqrt(2)
+ ==>  eval 1.41421
+ 1.41421
+ eval  sqrt 2
+ 1.41421
+ eval  1 + sqrt(2) + 1 - pi
+ ==>  eval 0.272621
+ 0.272621
+ eval  2 * sqrt 2 / 2
+ 1.41421
+  
+ ==>  
+ ** Power Function
+ eval power 2
+ 100
+ eval power (2)
+ ==>  eval 100
+ 100
+ eval power -2
+ 0.01
+ eval power (-2)
+ ==>  eval 0.01
+ 0.01
+  
+ ==>  
+ ** Logarithms
+ eval alog 9
+ 2.19722
+ eval alog(9)
+ ==>  eval 2.19722
+ 2.19722
+  
+ ==>  
+ eval alog10 9
+ 0.954243
+ eval alog10(9)
+ ==>  eval 0.954243
+ 0.954243
+  
+ ==>  
+ eval log 9
+ 2.19722
+ eval log(9)
+ ==>  eval 2.19722
+ 2.19722
+  
+ ==>  
+ eval log10 9
+ 0.954243
+ eval log10(9)
+ ==>  eval 0.954243
+ 0.954243
+  
+ ==>  
+ eval log 9 + 1
+ 3.19722
+ eval log(9) + 1
+ ==>  eval 3.19722
+ 3.19722
+  
+ ==>  
+ eval log10 9 + 1
+ 1.95424
+ eval log10(9) + 1
+ ==>  eval 1.95424
+ 1.95424
+  
+ ==>  
+ ** Hyperbolics
+ eval sinh(2) + 5
+ ==>  eval 8.62686
+ 8.62686
+ eval sinh 2 + 5
+ 8.62686
+ eval sinh(2 + 5)
+ ==>  eval 548.316
+ 548.316
+  
+ ==>  
+ eval cosh(2) + 5
+ ==>  eval 8.7622
+ 8.7622
+ eval cosh 2 + 5
+ 8.7622
+ eval cosh(2 + 5)
+ ==>  eval 548.317
+ 548.317
+  
+ ==>  
+ eval tanh(2) + 5
+ ==>  eval 5.96403
+ 5.96403
+ eval tanh 2 + 5
+ 5.96403
+ eval tanh(2 + 5)
+ ==>  eval 0.999998
+ 0.999998
+  
+ ==>  
+ * Absolute Value
+ eval abs(2) + 2
+ ==>  eval 4
+ 4
+ eval abs 2 + 2
+ 4
+ eval abs -2 + 2
+ 4
+ eval abs(-2) + 2
+ ==>  eval 4
+ 4
+ eval abs(-2 + 2 )
+ ==>  eval 0
+ 0
+ eval abs(-2 - 2 )
+ ==>  eval 4
+ 4
+  
+ ==>  
+ * Rounding
+ eval floor pi
+ 3
+ eval floor pi + 1
+ 4
+ eval floor (pi)
+ ==>  eval 3
+ 3
+ eval floor (pi) + 1
+ ==>  eval 4
+ 4
+ eval floor -pi
+ -4
+ eval floor -pi + 1
+ -3
+ eval floor (-pi)
+ ==>  eval -4
+ -4
+ eval floor (-pi)  + 1
+ ==>  eval -3
+ -3
+  
+ ==>  
+ eval ceil pi
+ 4
+ eval ceil pi + 1
+ 5
+ eval ceil (pi)
+ ==>  eval 4
+ 4
+ eval ceil (pi) + 1
+ ==>  eval 5
+ 5
+ eval ceil -pi
+ -3
+ eval ceil -pi + 1
+ -2
+ eval ceil (-pi)
+ ==>  eval -3
+ -3
+ eval ceil (-pi) + 1
+ ==>  eval -2
+ -2
+  
+ ==>  
+ eval round(pi)
+ ==>  eval 3
+ 3
+ eval round(pi) + 1
+ ==>  eval 4
+ 4
+ eval round pi
+ 3
+ eval round pi + 1
+ 4
+ eval round(-pi)
+ ==>  eval -3
+ -3
+ eval round(-pi) + 1
+ ==>  eval -2
+ -2
+ eval round -pi
+ -3
+ eval round -pi + 1
+ -2
+  
+ ==>  
+ ** Exponential
+ eval exp 1
+ 2.71828
+ eval exp 1 + 1
+ 3.71828
+ eval exp (1)
+ ==>  eval 2.71828
+ 2.71828
+ eval exp (1) + 1
+ ==>  eval 3.71828
+ 3.71828
+ eval exp (-1)
+ ==>  eval 0.367879
+ 0.367879
+ eval exp (-1) + 1
+ ==>  eval 1.36788
+ 1.36788
+  
+ ==>  
+ ** atan2
+ eval atan2(1,1) * (180/pi)
+ ==>  eval 45
+ 45
+ eval atan2( 1,1) * (180/pi)
+ ==>  eval 45
+ 45
+ eval atan2( 1, 1) * (180/pi)
+ ==>  eval 45
+ 45
+ eval atan2( 0, 1 ) * (180/pi)
+ ==>  eval 0
+ 0
+ eval atan2( 1, 0 ) * (180/pi)
+ ==>  eval 90
+ 90
+  
+ ==>  
+ ** length
+ eval len(3,4)
+ ==>  eval 5
+ 5
+ eval len(3,4)
+ ==>  eval 5
+ 5
+ eval norm(3,4)
+ ==>  eval 5
+ 5
+ eval norm(3,4)
+ ==>  eval 5
+ 5
+ eval len(5,12)
+ ==>  eval 13
+ 13
+ eval norm(5,12)
+ ==>  eval 13
+ 13
+ eval len(2,2)
+ ==>  eval 2.82843
+ 2.82843
+ eval norm(2,2)
+ ==>  eval 2.82843
+ 2.82843
+  
+ ==>  
+  
+ ==>  
+  
+ ==>  
+ quit

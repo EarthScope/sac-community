@@ -1,0 +1,178 @@
+
+spe
+
+fg seismo
+spe
+cor
+pcor ; pause period 0.25
+lh depmin depmax depmen b e  itype
+quitsub
+
+fg seismo
+spe
+cor number 10
+pcor ; pause period 0.25
+lh
+quitsub
+
+fg seismo
+spe
+cor number off
+pcor ; pause period 0.25
+lh
+quitsub
+
+fg seismo
+spe
+cor number on
+pcor ; pause period 0.25
+lh
+quitsub
+
+fg seismo
+spe
+cor number off length 4
+pcor ; pause period 0.25
+lh
+quitsub
+
+fg seismo
+spe
+cor number off length 4
+pcor ; pause period 0.25
+lh
+quitsub
+
+fg seismo
+spe
+cor number off type hamming
+pcor ; pause period 0.25
+lh
+quitsub
+
+fg seismo
+spe
+cor number off type hanning
+pcor ; pause period 0.25
+lh
+quitsub
+
+fg seismo
+spe
+cor number off type cosine
+pcor ; pause period 0.25
+lh
+quitsub
+
+fg seismo
+spe
+cor number off type rectangle
+pcor ; pause period 0.25
+lh
+quitsub
+
+fg seismo
+spe
+cor number off type triangle
+pcor ; pause period 0.25
+lh
+quitsub
+
+fg seismo
+spe
+cor number off type hamming prewhiten off
+pcor ; pause period 0.25
+lh
+quitsub
+
+fg seismo
+spe
+cor number off type hamming prewhiten on
+pcor ; pause period 0.25
+lh
+quitsub
+
+fg seismo
+spe
+cor number off type hamming prewhiten off
+pcor ; pause period 0.25
+lh
+quitsub
+
+fg seismo
+spe
+cor number off type hamming prewhiten off stochastic
+pcor ; pause period 0.25
+lh
+quitsub
+
+fg seismo
+spe
+cor number off type hamming prewhiten off transient
+pcor ; pause period 0.25
+lh
+quitsub
+
+fg seismo
+spe
+cor
+mem
+lh
+pspe ; pause period 0.25
+ppe ; pause period 0.25
+quitsub
+
+fg seismo
+spe
+cor
+mlm
+lh
+pspe ; pause period 0.25
+ppe ; pause period 0.25
+quitsub
+
+fg seismo
+spe
+cor
+pds
+lh
+pspe ; pause period 0.25
+ppe ; pause period 0.25
+quitsub
+
+fg seismo
+spe
+cor
+writecor test_spe.0
+lh
+quitsub
+
+fg seismo
+spe
+readcor test_spe.0
+lh
+quitsub
+
+message "Test Write SPE"
+
+fg seismo
+spe
+cor
+mem
+writespe test_spe.1
+quitsub
+
+fg seismo
+spe
+cor
+mlm
+writespe test_spe.2
+quitsub
+
+fg seismo
+spe
+cor
+pds
+writespe test_spe.3
+quitsub
+

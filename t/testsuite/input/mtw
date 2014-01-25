@@ -1,0 +1,29 @@
+
+fg seismo
+
+message "MTW Off"
+mtw off
+markvalue ge -1.0 to t0
+lh t0
+
+message "MTW 12-13"
+mtw 12 13
+markvalue ge -1.0 to t0
+lh t0
+
+message "MTW 0 <= B <= 5"
+mtw b 0 5
+markvalue ge -1.0 to t0
+lh t0
+
+message "-3 <= F <= 3"
+mtw f -3 3
+markvalue ge -1.0 to t0
+lh t0
+
+message "MTW B: 100 pts"
+mtw b n 100
+markvalue ge -1 to t0
+lh t0
+
+

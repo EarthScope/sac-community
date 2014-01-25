@@ -1,0 +1,194 @@
+
+CUT
++++
+
+SUMMARY
+-------
+Defines how much of a data file is to be read.
+
+SYNTAX
+------
+
+  ``CUT {ON|OFF|pdw|SIGNAL}``
+
+INPUT
+-----
+   :ON:  Turn cut option on but don't change pdw.
+    
+   :OFF:  Turn cut option off.
+    
+   :pdw:  Turn cut option on and enter/change pdw.  A pdw is a partial data
+       window.  It consists of a starting and a stopping value of the
+       independent variable, usually time, which defines which segment of a
+       file one wishes to read.  The most general form of a pdw is
+       :ref offset ref offset:, where
+    
+   :ref:  A number or a reference value that is one of the following:
+       B|E|O|A|F|Tn, where n=0,1...9, and N, the number of points.
+       The reference values are defined in`SAC data file format`_  
+       and reviewed below.
+    
+   :offset:  A positive or negative number which is added to the
+       reference value.
+    
+   :SIGNAL:  Equivalent to typing:  A -1 F +1.
+    
+DEFAULT VALUES
+--------------
+
+  ``CUT OFF`` (equivalent to CUT b e)
+
+DESCRIPTION
+-----------
+  The CUT command simply sets cut points and does not change the file in memory.  For
+  the command to take effect, CUT must be followed by a READ_.  This is in contrast
+  with command CUTIM_, which carries out cut (or cuts) when the command is given. 
+   
+  If the start or stop offset is omitted it is assumed to be zero.  If the start 
+  reference value is omitted it is assumed to be zero (in contrast with CUTIM, for 
+  which the reference is B).  If the stop reference value is omitted it is assumed 
+  to be the same as the start reference value.
+
+  With CUT off, the entire file is read.  With CUT is on, only that
+  portion of the file between the starting and stopping cut values is read.
+  These are values in terms of the independent variable in the data file,
+  normally time.  (See the `SAC data file format`_ for a discussion of dependent 
+  and independent variables.)   The following header variables are used to represent 
+  certain values of the independent variable:
+
+   :B: Disk file beginning value;
+   :E: Disk file ending value;
+   :O: Event origin time;
+   :A: First arrival time;
+   :F: Signal end time;
+   :Tn: User defined time picks, n = 0,1...9
+
+  B and E are required for each data file in memory. O, A, F, and Tn can be defined
+  for a data file in memory using the CHNHDR_ command.  If one want to select the same 
+  time window from a group of data files that have different reference times, one must 
+  use the SYNCHRONIZE_ command before executing the CUT command.  SYNCHRONIZE 
+  modifies the headers so that each file has the same reference time.  It also adjusts 
+  all of the relative times, including B and E.  Then when the files are cut, they will
+  have the same time reference values.  Since CUT_ is applied to the headers on disk, you
+  must use the WRITEHDR_ command after the SYNCHRONIZE_ command and before the
+  READ_ command to get the correct set of files before applying CUT. 
+  
+  For CUT (but not for CUTIM) an option for the stop value is to enter N, which is the offset
+  in the number of points from the start reverence value.
+  
+EXAMPLES
+--------
+ The macro_ below demonstrates several possible uses of CUT.  It is suggested that on
+ run this macro and compare the results with those fro the macro in the help file
+ for CUTIM_::
+
+  fg seismo
+  wrie seismo.sac
+  echo on
+  * no cutting
+  lh b e a kztime
+  read seismo.sac
+  * begin to end---same as not cutting. 
+  cut B E
+  read
+  lh b e a kztime
+  read seismo.sac
+  * First 3 secs of the file
+  cut B 0 3
+  read 
+  lh b e a kztime
+  read seismo.sac
+  * First 100 points of the file.
+  cut B N 100
+  read 
+  lh b e a delta kztime
+  read seismo.sac
+  * From 0.5 secs before to 3 secs after first arrival
+  cut A -0.5 3
+  read
+  lh b e a kztime
+  read seismo.sac
+  * From 19 to 15 secs relative to zero (DIFFERENT FROM CUTIM).
+  cut 10 15
+  read 
+  lh b e a kztime
+  read seismo.sac
+  * First 3 secs of the file and next 3 sec
+  cut b 0 3 
+  read 
+  write tmp.1
+  read seismo.sac
+  cut b 3 6
+  read
+  write tmp.2
+  cut off
+  read tmp.? 
+  lh b e a kztime
+  p1
+
+ one can also pad the beginning or end of a file with zeros by turning
+ on the FILLZ option in the CUTERR_ command, defining a cut that extends  
+ beyond the current limits of the file, and then reading the file into memory 
+ using the READ command::
+   
+     SAC> r N11A.lhz
+     SAC> lh npts
+     FILE: N11A.lhz - 1
+     npts = 3101
+     SAC> cuterr fillz; cut b n 4096
+     SAC> r
+     SAC> lh npts
+     FILE: N11A.lhz - 1
+     npts = 4096
+     SAC> 
+
+ERROR MESSAGES
+--------------
+- 1322: Undefined starting cut for file
+
+  - undefined reference value in the header record.
+  - this error can be controlled by use of CUTERR_ command.
+  - when this error is off, the disk begin value is used.
+
+- 1323: Undefined stop cut for file
+
+  - undefined reference value in the header record.
+  - this error can be controlled by use of CUTERR_ command.
+  - when this error is off, the disk end value is used.
+
+- 1324: Start cut less than file begin for file
+
+  - bad CUT_ parameters.
+  - this error can be controlled by use of CUTERR_ command.
+  - when this error is off, the disk begin value is used or zeros are 
+    insertedat the beginning of the data.
+
+- 1325: Stop cut greater than file end for file
+
+  - bad CUT_ parameters.
+  - this error can be controlled by use of CUTERR_ command.
+  - when this error is off, the disk end value is used or zeros are inserted 
+    at the end of the data.
+
+- 1326: Start cut greater than file end for file
+
+  - bad CUT_ parameters.
+  - this error cannot be turned off.
+
+
+   SPECIAL NOTE: Since this is a parameter-setting command, the above errors
+   will not appear until the READ_ command is executed.  Also, some of the above
+   errors can be converted to warnings by the use of the CUTERR_ command.
+
+LIMITATIONS
+-----------
+There is currently no provision for cutting unevenly-spaced files or spectral
+files.
+
+SEE COMMANDS
+------------
+   READ_, APK_, PLOTPK_, SYNCHRONIZE_, CUTERR_
+
+LATEST REVISION
+---------------
+   April 21, 2010 (Version 101.4)

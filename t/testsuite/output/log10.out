@@ -1,0 +1,68 @@
+ wait text off
+ log10
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ fg seismogram
+ add 1000
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = 9.984307e+02
+     depmax = 1.001521e+03
+ log10
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = 2.999318e+00
+     depmax = 3.000660e+00
+  
+ ==>  
+ fg impulse
+ add 100000
+ lh depmin depmax
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = 1.000000e+05
+     depmax = 1.000010e+05
+ log10
+ lh depmin depmax
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = 5.000000e+00
+     depmax = 5.000004e+00
+  
+ ==>  
+ fg impulse
+ mul -1
+ lh depmin depmax
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = -1.000000e+00
+     depmax = -0.000000e+00
+ log10
+ ERROR 1340: data points outside allowed range contained in file 0 3.4028e+38 IMPULSE
+ lh depmin depmax
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = -1.000000e+00
+     depmax = -0.000000e+00
+ quit

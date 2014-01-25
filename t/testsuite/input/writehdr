@@ -1,0 +1,14 @@
+
+
+fg impulse
+lh kevnm iftype
+write test.writehdr
+
+ch kevnm OtherValue
+writehdr
+
+readhdr test.writehdr
+lh kevnm iftype
+
+
+

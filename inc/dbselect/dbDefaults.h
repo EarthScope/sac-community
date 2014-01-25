@@ -1,0 +1,51 @@
+#ifndef DB_DEFAULTS_H
+#define DB_DEFAULTS_H
+   void   dbSetSchema( const char* sc );
+   char  *dbGetQueryLoginString(void);
+   int   dbGetQueryMaxRows(void);
+   void   dbSetQueryDefaults(void);
+   void   dbSetQueryLoginString(const char *string);
+   void   dbSetQueryMaxRows(int N);
+   void   dbUpdateDefaultsFromFile(char * ConFigFileName);
+   char  *dbGetQueryLogin(void);
+   char  *dbGetQueryPasswd(void);
+   const char *dbName(void);
+   const char *Sid(void);
+   void   SetSid(const char *s);
+   void   dbSetQueryPhaselist(char *string);
+   char  *dbGetQueryPhaselist(void);
+   void   dbSetQueryAuthlist(char *string);
+   char  *dbGetQueryAuthlist(void);
+   int    dbGetShowSQL(void);
+   void   dbSetShowSQL(const char *state);
+   void   dbSetCropFromPath(char *string);
+   char * dbGetCropFromPath(void);
+   void   dbSetPrependToPath(char *string);
+   char * dbGetPrependToPath(void);
+   void   dbSetCaseSensitivity(char *string);
+   char * dbGetCaseSensitivity(void);
+   void   dbSetWfdiscTableName(char *string) ;
+   const char * dbGetWfdiscTableName() ;
+   void   dbSetWftagTableName(char *string) ;
+   const char * dbGetWftagTableName() ;
+   void   dbSetOriginTableName(char *string) ;
+   const char * dbGetOriginTableName() ;
+   void   dbSetEventTableName(char *string) ;
+   const char * dbGetEventTableName() ;
+   void   dbSetArrivalTableName(char *string) ;
+   const char * dbGetArrivalTableName() ;
+   void   dbSetAssocTableName(char *string) ;
+   const char * dbGetAssocTableName() ;
+   void   dbSetSiteTableName(char *string) ;
+   const char * dbGetSiteTableName() ;
+   void   dbSetSitechanTableName(char *string) ;
+   const char * dbGetSitechanTableName() ;
+   void   dbSetSearchlinkTableName(char *string) ;
+   const char * dbGetSearchlinkTableName() ;
+   void   dbSetInstrumentTableName(char *string) ;
+   const char * dbGetInstrumentTableName() ;
+   void   dbSetSensorTableName(char *string) ;
+   const char * dbGetSensorTableName() ;
+   void   dbListTableNames() ;
+
+#endif

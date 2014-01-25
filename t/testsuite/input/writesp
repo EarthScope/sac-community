@@ -1,0 +1,51 @@
+
+writesp
+
+fg seismo
+writesp file.out
+
+fg seismo
+fft
+writesp test.writesp.0
+readsp test.writesp.0
+lh depmin depmax
+
+writesp asis test.writesp.1
+readsp test.writesp.1
+lh iftype depmin depmax
+
+writesp rlim test.writesp.1
+readsp rlim test.writesp.1
+lh iftype depmin depmax
+
+writesp amph test.writesp.3
+readsp amph test.writesp.3
+lh iftype depmin depmax
+
+readsp test.writesp.0
+writesp rl test.writesp.2
+read test.writesp.2.rl
+lh iftype depmin depmax
+
+readsp test.writesp.0
+writesp im test.writesp.2
+read test.writesp.2.im
+lh iftype depmin depmax
+
+readsp test.writesp.0
+writesp am test.writesp.2
+read test.writesp.2.am
+lh iftype depmin depmax
+
+readsp test.writesp.0
+writesp ph test.writesp.2
+read test.writesp.2.ph
+lh iftype depmin depmax
+
+fg seismo
+fft
+writesp file1 file2
+
+fg seismo
+fft rlim
+writesp asis test.writesp.0

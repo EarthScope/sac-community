@@ -1,0 +1,147 @@
+ wait text off
+ fg seismo
+ ch allt -10
+ write test.synch.1
+  
+ ==>  
+ fg seismo
+ ch allt 10
+ write test.synch.2
+  
+ ==>  
+ fg seismo
+ write test.synch.3
+  
+ ==>  
+ fg seismo
+ ch o gmt 1981 088 10 40 10 000
+ ch allt ( 0 - &1,o )
+ ==>  ch allt -116
+ ch b ( &1,b + 10 )
+ ==>  ch b -96.54
+ WARNING: Reference time not equal to zero:  KZDATE and KZTIME may be adjusted by subsequent commands so that the reference time is zero.  Reference time is B
+ write test.synch.4
+  
+ ==>  
+  
+ ==>  
+ read test.synch.*
+test.synch.1 test.synch.2 test.synch.3 test.synch.4
+ message "Initial Values"
+ Initial Values
+ lh columns 2 b kztim
+  
+  
+  FILE: test.synch.1 - 1
+ ------------------
+
+    b = -5.400009e-01
+  
+  FILE: test.synch.2 - 2
+ ------------------
+
+    b = 1.946000e+01
+  
+  FILE: test.synch.3 - 3
+ ------------------
+
+    b = 9.459999e+00
+  
+  FILE: test.synch.4 - 4
+ ------------------
+
+    b = -9.654000e+01
+  
+ ==>  
+ read test.synch.*
+test.synch.1 test.synch.2 test.synch.3 test.synch.4
+ message "Synchronize -- GMT Times Equal"
+ Synchronize -- GMT Times Equal
+ synch
+ lh columns 2 b kztime
+  
+  
+  FILE: test.synch.1 - 1
+ ------------------
+
+         b = -1.000000e+01                  kztime = 10:38:33.460
+  
+  FILE: test.synch.2 - 2
+ ------------------
+
+         b = -1.000000e+01                  kztime = 10:38:33.460
+  
+  FILE: test.synch.3 - 3
+ ------------------
+
+         b = -1.000000e+01                  kztime = 10:38:33.460
+  
+  FILE: test.synch.4 - 4
+ ------------------
+
+         b = 0.000000e+00                   kztime = 10:38:33.460
+  
+ ==>  
+  
+ ==>  
+ read test.synch.*
+test.synch.1 test.synch.2 test.synch.3 test.synch.4
+ message "Synchronize -- GMT Times Equal"
+ Synchronize -- GMT Times Equal
+ *lh columns 2 b kztime
+ synch begin off
+ lh columns 2 b kztime
+  
+  
+  FILE: test.synch.1 - 1
+ ------------------
+
+         b = -1.000000e+01                  kztime = 10:38:33.460
+  
+  FILE: test.synch.2 - 2
+ ------------------
+
+         b = -1.000000e+01                  kztime = 10:38:33.460
+  
+  FILE: test.synch.3 - 3
+ ------------------
+
+         b = -1.000000e+01                  kztime = 10:38:33.460
+  
+  FILE: test.synch.4 - 4
+ ------------------
+
+         b = 0.000000e+00                   kztime = 10:38:33.460
+  
+ ==>  
+  
+ ==>  
+ read test.synch.*
+test.synch.1 test.synch.2 test.synch.3 test.synch.4
+ message "Synchronize -- B Times Zero"
+ Synchronize -- B Times Zero
+ *lh columns 2 b kztime
+ synch begin on
+ lh columns 2 b kztime
+  
+  
+  FILE: test.synch.1 - 1
+ ------------------
+
+         b = 0.000000e+00                   kztime = 10:38:23.460
+  
+  FILE: test.synch.2 - 2
+ ------------------
+
+         b = 0.000000e+00                   kztime = 10:38:23.460
+  
+  FILE: test.synch.3 - 3
+ ------------------
+
+         b = 0.000000e+00                   kztime = 10:38:23.460
+  
+  FILE: test.synch.4 - 4
+ ------------------
+
+         b = 0.000000e+00                   kztime = 10:38:23.460
+ quit

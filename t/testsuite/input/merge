@@ -1,0 +1,52 @@
+
+macro test_merge.m
+
+dc all
+macro test_merge2.m
+dc all
+macro test_merge3.m
+dc all
+macro test_merge4.m
+dc all
+macro test_merge5.m
+dc all
+macro test_merge6.m
+dc all
+macro test_merge7.m
+
+# Incorrect station name
+fg seismo
+write test.merge.1
+ch kstnm CDVx
+write test.merge.2
+
+read test.merge.1
+merge test.merge.2
+
+# Incorrect delta
+fg seismo
+write test.merge.1
+interpolate delta 0.02
+write test.merge.2
+
+read test.merge.1
+merge test.merge.2
+
+# Second File after First File
+fg seismo
+ch t0 0
+write test.merge.4
+ch allt 15
+ch b ( &1,b - 1 )
+ch t0 1
+write test.merge.5
+
+
+read test.merge.5
+merge test.merge.4
+write test.merge.45
+getbb sacnfiles
+
+read data.merge.long1.sac data.merge.long2.sac
+merge overlap average
+lh npts delta b e

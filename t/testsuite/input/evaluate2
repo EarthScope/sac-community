@@ -1,0 +1,268 @@
+
+** Eval Functions with Parens
+
+eval 1 + 2 + 3
+eval 1 + sqrt(2 ) 
+eval  sqrt(2) + 1
+eval 1+sqrt(2)
+eval sqrt(2)+1
+eval sqrt 2+1
+eval sqrt 2 + 1
+eval sqrt 2 + 1 - 2.41421
+eval 1 + sqrt(2) + 1
+eval 1 + sqrt 2 + 1
+
+** Short Trig Function Names
+
+eval sin pi
+eval sin (pi)
+
+eval cos pi
+eval cos (pi)
+
+eval sin pi/2
+eval sin (pi)/2
+eval sin pi/(2)
+eval sin (pi/2)
+
+eval cos pi/2
+eval cos (pi)/2
+eval cos pi/(2)
+eval cos (pi/2)
+
+eval sin pi/4
+eval sin (pi)/4
+eval sin pi/(4)
+eval sin (pi/4)
+
+eval cos pi/4
+eval cos (pi)/4
+eval cos pi/(4)
+eval cos (pi/4)
+
+eval tan pi
+eval tan (pi)
+
+eval tan pi/2
+eval tan (pi)/2
+eval tan pi/(2)
+eval tan (pi/2)
+
+eval tan pi/4
+eval tan (pi)/4
+eval tan pi/(4)
+eval tan (pi/4)
+
+eval asin 0
+eval asin 1
+eval asin (1)
+eval asin (1)/2
+eval asin (1/2)
+
+eval acos 0
+eval acos 1
+eval acos (1)
+eval acos (1)/2
+eval acos (1/2)
+
+eval atan 0 * 180/pi
+eval atan 1 * 180/pi
+eval atan (1) * 180/pi
+eval atan (1)/2 * 180/pi
+eval atan (1/2) * 180/pi
+
+** Long Trig Function Names
+
+eval sine pi
+eval sine (pi)
+
+eval cosine pi
+eval cosine (pi)
+
+eval sine pi/2
+eval sine (pi)/2
+eval sine pi/(2)
+eval sine (pi/2)
+
+eval cosine pi/2
+eval cosine (pi)/2
+eval cosine pi/(2)
+eval cosine (pi/2)
+
+eval sine pi/4
+eval sine (pi)/4
+eval sine pi/(4)
+eval sine (pi/4)
+
+eval cosine pi/4
+eval cosine (pi)/4
+eval cosine pi/(4)
+eval cosine (pi/4)
+
+eval tangent pi
+eval tangent (pi)
+
+eval tangent pi/2
+eval tangent (pi)/2
+eval tangent pi/(2)
+eval tangent (pi/2)
+
+eval tangent pi/4
+eval tangent (pi)/4
+eval tangent pi/(4)
+eval tangent (pi/4)
+
+eval asine 0
+eval asine 1
+eval asine (1)
+eval asine (1)/2
+eval asine (1/2)
+
+eval acosine 0
+eval acosine 1
+eval acosine (1)
+eval acosine (1)/2
+eval acosine (1/2)
+
+eval atangent 0 * 180/pi
+eval atangent 1 * 180/pi
+eval atangent (1) * 180/pi
+eval atangent (1)/2 * 180/pi
+eval atangent (1/2) * 180/pi
+
+eval arcsine 0
+eval arcsine 1
+eval arcsine (1)
+eval arcsine (1)/2
+eval arcsine (1/2)
+
+eval arccosine 0
+eval arccosine 1
+eval arccosine (1)
+eval arccosine (1)/2
+eval arccosine (1/2)
+
+eval arctangent 0 * 180/pi
+eval arctangent 1 * 180/pi
+eval arctangent (1) * 180/pi
+eval arctangent (1)/2 * 180/pi
+eval arctangent (1/2) * 180/pi
+
+** Integer
+
+eval integer 3.1415
+eval integer -pi + pi
+eval integer pi - pi
+eval integer (pi - pi)
+eval integer (pi) - pi
+eval integer pi - ( pi)
+eval 3 + integer pi - ( pi)
+
+
+** Square Root
+eval  sqrt(2)
+eval  sqrt 2 
+eval  1 + sqrt(2) + 1 - pi
+eval  2 * sqrt 2 / 2
+
+** Power Function
+eval power 2
+eval power (2)
+eval power -2
+eval power (-2)
+
+** Logarithms
+eval alog 9
+eval alog(9)
+
+eval alog10 9
+eval alog10(9)
+
+eval log 9
+eval log(9)
+
+eval log10 9
+eval log10(9)
+
+eval log 9 + 1
+eval log(9) + 1
+
+eval log10 9 + 1
+eval log10(9) + 1
+
+** Hyperbolics
+eval sinh(2) + 5
+eval sinh 2 + 5
+eval sinh(2 + 5)
+
+eval cosh(2) + 5
+eval cosh 2 + 5
+eval cosh(2 + 5)
+
+eval tanh(2) + 5
+eval tanh 2 + 5
+eval tanh(2 + 5)
+
+* Absolute Value
+eval abs(2) + 2
+eval abs 2 + 2
+eval abs -2 + 2
+eval abs(-2) + 2
+eval abs(-2 + 2 )
+eval abs(-2 - 2 )
+
+* Rounding
+eval floor pi
+eval floor pi + 1
+eval floor (pi)
+eval floor (pi) + 1
+eval floor -pi
+eval floor -pi + 1
+eval floor (-pi)
+eval floor (-pi)  + 1
+
+eval ceil pi
+eval ceil pi + 1
+eval ceil (pi)
+eval ceil (pi) + 1
+eval ceil -pi
+eval ceil -pi + 1
+eval ceil (-pi)
+eval ceil (-pi) + 1
+
+eval round(pi)
+eval round(pi) + 1
+eval round pi
+eval round pi + 1
+eval round(-pi)
+eval round(-pi) + 1
+eval round -pi
+eval round -pi + 1
+
+** Exponential
+eval exp 1
+eval exp 1 + 1
+eval exp (1)
+eval exp (1) + 1
+eval exp (-1)
+eval exp (-1) + 1
+
+** atan2
+eval atan2(1,1) * (180/pi)
+eval atan2( 1,1) * (180/pi)
+eval atan2( 1, 1) * (180/pi)
+eval atan2( 0, 1 ) * (180/pi)
+eval atan2( 1, 0 ) * (180/pi)
+
+** length
+eval len(3,4)
+eval len(3,4)
+eval norm(3,4)
+eval norm(3,4)
+eval len(5,12)
+eval norm(5,12)
+eval len(2,2)
+eval norm(2,2)
+
+
+

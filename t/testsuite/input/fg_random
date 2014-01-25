@@ -1,0 +1,8 @@
+
+
+fg random 1 1
+lh depmin depmax depmin npts b e
+
+fg random 1 5
+lh depmin depmax depmin npts b e
+

@@ -1,0 +1,31 @@
+prewhiten
+
+fg impulse
+lh depmin depmin
+prewhiten
+lh depmin depmin
+
+fg seismogram
+lh depmin depmin
+prewhiten
+lh depmin depmin
+
+fg sine
+lh depmin depmin
+prewhiten 1
+lh depmin depmin
+
+fg sine
+lh depmin depmin
+prewhiten 2
+lh depmin depmin
+
+fg sine
+lh depmin depmin
+prewhiten 3
+lh depmin depmin
+
+fg sine
+lh depmin depmin
+prewhiten 9
+lh depmin depmin

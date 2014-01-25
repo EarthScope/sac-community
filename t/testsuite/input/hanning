@@ -1,0 +1,16 @@
+hanning
+
+fg impulse
+lh depmin depmax
+hanning
+lh depmin depmax
+
+fg seismogram
+lh depmin depmax
+hanning
+lh depmin depmax
+
+fg sin
+lh depmin depmax
+hanning
+lh depmin depmax

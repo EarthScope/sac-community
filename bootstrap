@@ -1,0 +1,16 @@
+#! /bin/sh
+# Required Tools and versions (as of Sept. 2008)
+# automake - 1.9.6 (aclocal and automake)
+# autoconf - 2.60  (autoconf and autoheader)
+
+# inc/config.h.in needs to be "younger" than configure.in
+#   Otherwise autoheader will attempted to be run, which we do not want
+#   autotools considers config.h.in to be a derivative of configure.in
+aclocal && \
+automake --add-missing --foreign --copy && \
+# autoheader && \
+touch inc/config.h.in && \
+autoconf
+
+rm -rf autom4te.cache/
+

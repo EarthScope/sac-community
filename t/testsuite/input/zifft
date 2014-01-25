@@ -1,0 +1,29 @@
+ifft
+fg seismogram
+
+lh columns 2 iftype npts delta depmin depmax
+fft
+ifft
+lh columns 2 iftype npts delta depmin depmax
+
+lh columns 2 iftype npts delta depmin depmax
+fft womean
+ifft
+lh columns 2 iftype npts delta depmin depmax
+
+lh columns 2 iftype npts delta depmin depmax
+fft wmean
+ifft
+lh columns 2 iftype npts delta depmin depmax
+
+lh columns 2 iftype npts delta depmin depmax
+fft rlim
+ifft
+lh columns 2 iftype npts delta depmin depmax
+
+lh columns 2 iftype npts delta depmin depmax
+fft amph
+ifft
+lh columns 2 iftype npts delta depmin depmax
+
+

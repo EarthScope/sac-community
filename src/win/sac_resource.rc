@@ -1,0 +1,18 @@
+
+#include "sac_resource.h"
+
+SAC_MENU MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "E&xit", ID_FILE_EXIT
+    END
+    
+    POPUP "&Stuff"
+    BEGIN
+        MENUITEM "&Go", ID_STUFF_GO
+        MENUITEM "G&o somewhere else", 0, GRAYED
+    END
+END
+
+

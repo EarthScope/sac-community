@@ -1,0 +1,17 @@
+ wait text off
+  
+ ==>  
+ fg seismo
+ ohpf test.hpf
+ apk
+ CDV IPD0 81 329103824.49
+ whpf
+ chpf
+  
+ ==>  
+CDV IPD0 81 329103824.49                                                   
+                 10
+ cat test.hpf
+  
+ ==>  
+ quit

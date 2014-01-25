@@ -1,0 +1,162 @@
+ wait text off
+ div
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ fg seismogram
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ div 1
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+  
+ ==>  
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ div 2
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -7.846400e-01
+     depmax = 7.603200e-01
+  
+ ==>  
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -7.846400e-01
+     depmax = 7.603200e-01
+ div 0.2
+ lh depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -3.923200e+00
+     depmax = 3.801600e+00
+  
+ ==>  
+ fg seismogram
+ write test.seismo.1
+ div 2
+ write test.seismo.2
+ read test.seismo.1 test.seismo.2
+ lh depmin depmax
+  
+  
+  FILE: test.seismo.1 - 1
+ -------------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+  
+  FILE: test.seismo.2 - 2
+ -------------------
+
+     depmin = -7.846400e-01
+     depmax = 7.603200e-01
+ div 2
+ lh depmin depmax
+  
+  
+  FILE: test.seismo.1 - 1
+ -------------------
+
+     depmin = -7.846400e-01
+     depmax = 7.603200e-01
+  
+  FILE: test.seismo.2 - 2
+ -------------------
+
+     depmin = -3.923200e-01
+     depmax = 3.801600e-01
+  
+ ==>  
+ lh depmin depmax
+  
+  
+  FILE: test.seismo.1 - 1
+ -------------------
+
+     depmin = -7.846400e-01
+     depmax = 7.603200e-01
+  
+  FILE: test.seismo.2 - 2
+ -------------------
+
+     depmin = -3.923200e-01
+     depmax = 3.801600e-01
+ div 1 0.5
+ lh depmin depmax
+  
+  
+  FILE: test.seismo.1 - 1
+ -------------------
+
+     depmin = -7.846400e-01
+     depmax = 7.603200e-01
+  
+  FILE: test.seismo.2 - 2
+ -------------------
+
+     depmin = -7.846400e-01
+     depmax = 7.603200e-01
+  
+ ==>  
+ lh depmin depmax
+  
+  
+  FILE: test.seismo.1 - 1
+ -------------------
+
+     depmin = -7.846400e-01
+     depmax = 7.603200e-01
+  
+  FILE: test.seismo.2 - 2
+ -------------------
+
+     depmin = -7.846400e-01
+     depmax = 7.603200e-01
+ div 10 20
+ lh depmin depmax
+  
+  
+  FILE: test.seismo.1 - 1
+ -------------------
+
+     depmin = -7.846400e-02
+     depmax = 7.603200e-02
+  
+  FILE: test.seismo.2 - 2
+ -------------------
+
+     depmin = -3.923200e-02
+     depmax = 3.801600e-02
+  
+ ==>  
+ quit

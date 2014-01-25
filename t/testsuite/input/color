@@ -1,0 +1,87 @@
+fg seismo
+p1 ; pause period 0.25
+
+color red
+p1 ; pause period 0.25
+color green
+p1 ; pause period 0.25
+color blue
+p1 ; pause period 0.25
+color yellow
+p1 ; pause period 0.25
+color cyan
+p1 ; pause period 0.25
+color magenta
+p1 ; pause period 0.25
+color white
+p1 ; pause period 0.25
+color black
+p1 ; pause period 0.25
+
+color black skeleton red
+p1 ; pause period 0.25
+color black skeleton green
+p1 ; pause period 0.25
+color black skeleton blue
+p1 ; pause period 0.25
+color black skeleton yellow
+p1 ; pause period 0.25
+color black skeleton cyan
+p1 ; pause period 0.25
+color black skeleton magenta
+p1 ; pause period 0.25
+color black skeleton white
+p1 ; pause period 0.25
+color black skeleton black
+p1 ; pause period 0.25
+
+color black background red
+p1 ; pause period 0.25
+color black background green
+p1 ; pause period 0.25
+color black background blue
+p1 ; pause period 0.25
+color black background yellow
+p1 ; pause period 0.25
+color black background cyan
+p1 ; pause period 0.25
+color black background magenta
+p1 ; pause period 0.25
+color black background white
+p1 ; pause period 0.25
+color black background black
+p1 ; pause period 0.25
+
+color -2
+color puke
+color on skeleton -2
+color on background -2
+color on skeleton
+color on background
+
+color on background white
+color on inc
+
+fg seismo
+write test.color
+read test.color test.color test.color test.color test.color test.color test.color
+
+color on list red green blue yellow black
+p1 ; pause period 0.25
+
+color on list 1 2 3 4 5 6 
+p1 ; pause period 0.25
+
+color on list 1 2 -3
+
+color on list red green bad_color
+
+color on bad
+color on list standard
+p1 ; pause period 0.25
+
+color on background bad_color
+color on skeleton bad_color
+color on list
+color on black
+

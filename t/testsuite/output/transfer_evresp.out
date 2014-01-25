@@ -1,0 +1,96 @@
+ wait text off
+  
+ ==>  
+ m test_transfer_evresp.m
+ setbb maxerror 1e-14
+  
+ read test_transfer_evresp_data_in.m
+ rtr
+ lh depmin depmax depmen b e
+  
+  
+  FILE: test_transfer_evresp_data_in.m - 1
+ ------------------------------------
+
+     depmin = -1.927772e+03
+     depmax = 1.540637e+03
+     depmen = 3.246541e-07
+          b = -9.980005e+01
+          e = 3.000200e+03
+ transfer from evalresp fname test_transfer_evresp_resp.m to none freq 0.002 0.005 0.1 0.2
+Using response from user-specified file: (test_transfer_evresp_resp.m).
+ Extracting evresp response for N11A, LHZ...
+ Station (N11A    ), Channel (LHZ     )
+ lh depmin depmax depmen
+  
+  
+  FILE: test_transfer_evresp_data_in.m - 1
+ ------------------------------------
+
+     depmin = -7.104320e+03
+     depmax = 7.442646e+03
+     depmen = 1.129871e+00
+  
+ subf test_transfer_evresp_data_out.m
+ sqr
+ sqrt
+ int
+  
+ if &1,depmax gt %maxerror%
+ ==>  if 0 gt 1e-14
+ else
+    message "transfer error: &1,depmax&"
+ ==>  message "transfer error: 0"
+ transfer error: 0
+ endif
+  
+  
+  
+  
+  
+ ==>  
+  
+ ==>  
+ r  test_evalresp_test_data.m
+ transfer from evalresp to none freqlimits 0.001 0.005 4 5
+ Extracting evresp response for NS04, HHZ...
+ Station (NS04    ), Channel (HHZ     )
+  
+ ==>  
+ fg seismo
+ ch kstnm NS04 knetwk PD kcmpnm HHZ
+ transfer from evalresp  DATE 2007/327 TIME 19:24:49 to none freqlimits 0.001 0.005 4 5
+ Extracting evresp response for NS04, HHZ...
+ Station (NS04    ), Channel (HHZ     )
+  
+ ==>  
+ fg impulse
+ ch kstnm NS04 knetwk PD kcmpnm HHZ
+ transfer from evalresp DATE 2007/327 TIME 19:24:49 to none freqlimits 0.001 0.005 4 5
+ Extracting evresp response for NS04, HHZ...
+ Station (NS04    ), Channel (HHZ     )
+  
+ ==>  
+ fg impulse
+ ch kstnm NS04 knetwk PD kcmpnm HHZ
+ transfer from evalresp DATE 2007/327 TIME 19:24:49.123 to none freqlimits 0.001 0.005 4 5
+ Extracting evresp response for NS04, HHZ...
+ Station (NS04    ), Channel (HHZ     )
+  
+ ==>  
+ fg impulse
+ ch kstnm NS04 knetwk PD kcmpnm HHZ
+ transfer from evalresp DATE 2007/327 TIME 19:24:49.003 to none freqlimits 0.001 0.005 4 5
+ Extracting evresp response for NS04, HHZ...
+ Station (NS04    ), Channel (HHZ     )
+  
+ ==>  
+ fg impulse
+ ch kstnm NS04 knetwk PD kcmpnm HHZ
+ transfer from evalresp DATE 2007/027 TIME 19:24:49.003 to none freqlimits 0.001 0.005 4 5
+ Extracting evresp response for NS04, HHZ...
+ No transfer function applied! 
+ ERROR 2118: No transfer function applied.
+  
+ ==>  
+ quit

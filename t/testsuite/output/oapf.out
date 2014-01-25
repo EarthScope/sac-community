@@ -1,0 +1,16 @@
+ wait text off
+  
+ ==>  
+ fg seismo
+ oapf test.apf
+ apk
+ CDV IPD0 81 329103824.49
+ capf
+  
+ ==>  
+K8108838        CDV        0.00   0.00IPD0     1981 88 10 38 14.00    -0.2816 A                 B
+
+ cat test.apf
+  
+ ==>  
+ quit

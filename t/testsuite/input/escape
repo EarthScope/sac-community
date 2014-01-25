@@ -1,0 +1,56 @@
+
+echo on
+fg seismo
+write tmp@ name.sac
+read tmp@ name.sac
+message &1,depmen
+message &tmp@ name.sac,depmen
+
+message @(hi there @)
+
+message "hi there"
+
+message hi@ there
+
+message @(hi@)
+
+message %sacnfiles
+message @%sacnfiles
+message @ %sacnfiles
+message &1,depmen&
+message @&1,depmen
+message "hello there @&@$@%@(@)@@@ "
+message "hello there @"stringy@" hi "
+message "hello\ there"
+message @ hi
+message @xhi
+message @x hi
+message @x" "hi
+message @x@ hi
+message "title (units)"
+message "title [units]"
+message "title @(units@)"
+message "title@ @(units@)"
+message title@ @(units@)
+message title@ @((1+2)@)
+setbb a (pi)
+message "@%a = %a"
+message "@%a=%a"
+message "%a%=@%a"
+message "%a = @%a"
+
+message @%a = %a
+message @%a=%a
+message %a%=@%a
+message %a = @%a
+
+message @%numerror=%numerror
+fg
+message &1,delta&=@&1,delta
+message @&1,delta=&1,delta
+message "&1,delta = @&1,delta
+message "@&1,delta = &1,delta
+message "&1,delta = @&1,delta"
+message "@&1,delta = &1,delta"
+
+

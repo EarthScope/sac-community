@@ -1,0 +1,257 @@
+ wait text off
+ setbb a 1
+ setbb b 2
+ getbb a b
+ a = 1
+ b = 2
+ evaluate %a
+ ==>  evaluate 1
+ 1
+ evaluate %b
+ ==>  evaluate 2
+ 2
+ evaluate %a + %b
+ ==>  evaluate 3
+ 3
+  
+ ==>  
+ fg
+ ch user1 1
+ ch user2 2
+ evaluate &1,user1
+ ==>  evaluate 1
+ 1
+ evaluate &1,user2
+ ==>  evaluate 2
+ 2
+ evaluate &1,user1 + &1,user2
+ ==>  evaluate 3
+ 3
+  
+ ==>  
+ evaluate %a + &1,user2
+ ==>  evaluate 3
+ 3
+ evaluate %a + &1,user1
+ ==>  evaluate 2
+ 2
+ evaluate &1,user2 + %a
+ ==>  evaluate 3
+ 3
+ evaluate &1,user2 + %b
+ ==>  evaluate 4
+ 4
+  
+ ==>  
+ message %a
+ ==>  message 1
+ 1
+ message %a %b
+ ==>  message 1 2
+ 1
+ 2
+ message %a 1 %b
+ ==>  message 1 1 2
+ 1
+ 1
+ 2
+ message %a 1 %b 2
+ ==>  message 1 1 2 2
+ 1
+ 1
+ 2
+ 2
+  
+ ==>  
+ message %a%
+ ==>  message 1
+ 1
+ message %a% %b%
+ ==>  message 1 2
+ 1
+ 2
+ message %a% 1 %b%
+ ==>  message 1 1 2
+ 1
+ 1
+ 2
+ message %a% 1 %b% 2
+ ==>  message 1 1 2 2
+ 1
+ 1
+ 2
+ 2
+  
+ ==>  
+ fg
+ message &1,delta
+ ==>  message 1
+ 1
+ message &1,delta&
+ ==>  message 1
+ 1
+  
+ ==>  
+ message "%a"
+ ==>  message "1"
+ 1
+ message "%a%"
+ ==>  message "1"
+ 1
+ message "%a "
+ ==>  message "1 "
+ 1
+ message "%a% "
+ ==>  message "1 "
+ 1
+ message " %a"
+ ==>  message " 1"
+  1
+ message " %a%"
+ ==>  message " 1"
+  1
+ message " %a "
+ ==>  message " 1 "
+  1
+ message " %a% "
+ ==>  message " 1 "
+  1
+ message "&1,delta"
+ ==>  message "1"
+ 1
+ message "&1,delta&"
+ ==>  message "1"
+ 1
+ message "&1,delta "
+ ==>  message "1 "
+ 1
+ message "&1,delta& "
+ ==>  message "1 "
+ 1
+ message " &1,delta"
+ ==>  message " 1"
+  1
+ message " &1,delta&"
+ ==>  message " 1"
+  1
+ message " &1,delta "
+ ==>  message " 1 "
+  1
+ message " &1,delta& "
+ ==>  message " 1 "
+  1
+ message %c
+ ERROR 1201: Could not find VARS variable c
+ message "%c"
+ ERROR 1201: Could not find VARS variable c
+ message &1,delt
+ ERROR 1337: Illegal header field name. delt
+ message "&1,delt"
+ ERROR 1337: Illegal header field name. delt
+  
+ ==>  
+ macro test_process_bb_fail.m
+ message %empty
+ ERROR 1201: Could not find VARS variable empty
+ ERROR 1016: Terminating execution of macro test_process_bb_fail.m
+ Command line is: message %empty
+ macro test_process_mac_fail.m
+ message $empty
+ ==>  message Answer
+ Answer
+ message hi
+ hi
+ macro test_process_hdr_fail.m
+ message &1,empty
+ ERROR 1337: Illegal header field name. empty
+ ERROR 1016: Terminating execution of macro test_process_hdr_fail.m
+ Command line is: message &1,empty
+  
+ ==>  
+ macro test_process_bb_fail2.m
+ message "%empty"
+ ERROR 1201: Could not find VARS variable empty
+ ERROR 1016: Terminating execution of macro test_process_bb_fail2.m
+ Command line is: message "%empty"
+ macro test_process_mac_fail2.m
+ message "$empty"
+ ==>  message "Answer"
+ Answer
+ message hi
+ hi
+ macro test_process_hdr_fail2.m
+ message "&1,empty"
+ ERROR 1337: Illegal header field name. empty
+ ERROR 1016: Terminating execution of macro test_process_hdr_fail2.m
+ Command line is: message "&1,empty"
+  
+ ==>  
+ fg seismo
+ (substring 1 3 &1,kevnm)
+ ==>  K81
+ setbb a "1234567"
+ (substring 1 3 %a)
+ ==>  123
+  
+ ==>  
+ getbb all
+ A = '1234567'
+ B = 2
+ NUMERROR = 0
+ SACERROR = 'FALSE'
+ SACNFILES = 1
+ setbb ans (reply "Prompt: ")
+Prompt:  ==>  setbb ans Hi
+ message %ans
+ ==>  message Hi
+ Hi
+ getbb
+ A = '1234567'
+ ANS = 'Hi'
+ B = 2
+ NUMERROR = 0
+ SACERROR = 'FALSE'
+ SACNFILES = 1
+  
+ ==>  
+ setbb ans (reply "Prompt: ")
+Prompt:  ==>  setbb ans 123
+ message %ans
+ ==>  message 123
+ 123
+ getbb
+ A = '1234567'
+ ANS = 123
+ B = 2
+ NUMERROR = 0
+ SACERROR = 'FALSE'
+ SACNFILES = 1
+  
+ ==>  
+ setbb ans (reply "Prompt: ")
+Prompt:  ==>  setbb ans 3.5
+ message %ans
+ ==>  message 3.5
+ 3.5
+ getbb
+ A = '1234567'
+ ANS = 3.5
+ B = 2
+ NUMERROR = 0
+ SACERROR = 'FALSE'
+ SACNFILES = 1
+  
+ ==>  
+ setbb ans (reply "Prompt: ")
+Prompt:  ==>  setbb ans
+ message %ans
+ ==>  message
+  
+ getbb
+ A = '1234567'
+ ANS = ''
+ B = 2
+ NUMERROR = 0
+ SACERROR = 'FALSE'
+ SACNFILES = 1
+ quit

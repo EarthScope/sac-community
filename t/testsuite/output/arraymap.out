@@ -1,0 +1,6 @@
+ wait text off
+ arraymap
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ quit

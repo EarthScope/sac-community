@@ -1,0 +1,41 @@
+ wait text off
+  
+ ==>  
+ fir
+ ERROR  108: File does not exist: FIR
+  
+ ==>  
+ fir illegaloption
+ ERROR  108: File does not exist: illegaloption
+  
+ ==>  
+ fir test_fir.m
+  
+ ==>  
+ fg seismo
+ fft
+ DC level after DFT is -0.98547
+ fir test_fir.m
+ ERROR 1307: Illegal operation on spectral file SEISMOGR
+  
+ ==>  
+ fg seismo
+ fir  test_fir.m
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.400321e+00
+     depmax = 1.259476e+00
+     depmen = -9.775303e-02
+  
+ ==>  
+  
+ ==>  
+  
+ ==>  
+  
+ ==>  
+ quit

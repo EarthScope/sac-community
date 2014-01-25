@@ -1,0 +1,122 @@
+ wait text off
+  
+ ==>  
+ fg
+ lh npts delta depmin depmax
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+       npts = 100
+      delta = 1.000000e+00
+     depmin = 0.000000e+00
+     depmax = 1.000000e+00
+ interpolate
+ lh npts delta depmin depmax
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+       npts = 100
+      delta = 1.000000e+00
+     depmin = 0.000000e+00
+     depmax = 1.000000e+00
+  
+ ==>  
+ fg seismogram
+ lh npts delta depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+       npts = 1000
+      delta = 1.000000e-02
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ interpolate delta 0.5
+WARNING potential for aliasing. new delta: 0.500000 data delta: 0.010000
+ lh npts delta depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+       npts = 20
+      delta = 5.000000e-01
+     depmin = -1.245440e+00
+     depmax = 9.113598e-01
+  
+ ==>  
+ fg seismogram
+ lh npts delta depmin depmax b e
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+       npts = 1000
+      delta = 1.000000e-02
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+          b = 9.459999e+00
+          e = 1.945000e+01
+ interpolate  begin 25
+ ERROR 2125: Interpolate begin value too large: begin: 25.000000 e: 19.449999
+ lh npts delta depmin depmax b e
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+       npts = 1000
+      delta = 1.000000e-02
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+          b = 9.459999e+00
+          e = 1.945000e+01
+  
+ ==>  
+ fg seismogram
+ lh npts delta depmin depmax b e
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+       npts = 1000
+      delta = 1.000000e-02
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+          b = 9.459999e+00
+          e = 1.945000e+01
+ interpolate begin 10 npts 17
+WARNING potential for aliasing. new delta: 0.590625 data delta: 0.010000
+ lh npts delta depmin depmax b e
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+       npts = 17
+      delta = 5.906249e-01
+     depmin = -7.451532e-01
+     depmax = -2.290585e-02
+          b = 1.000000e+01
+          e = 1.945000e+01
+  
+ ==>  
+ fg seismo
+ interpolate npts test
+ ERROR interpreting command:  interpolate npts test 
+ NEED ON, OFF, OR INTEGER:                     ^
+  
+ ==>  
+ inicm
+ readtable free content xy test_interpolate.sac
+ interpolate delta 1.0
+ ERROR 2012: Interpolate data dx not positive: j: 4 x[j]: 5 x[j+1] 5
+
+ quit

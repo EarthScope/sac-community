@@ -1,0 +1,15 @@
+linefit
+
+fg impulse
+linefit
+getbb
+
+
+fg seismogram
+linefit
+getbb
+
+fg sine
+linefit
+getbb
+

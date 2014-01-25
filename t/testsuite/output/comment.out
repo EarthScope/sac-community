@@ -1,0 +1,21 @@
+ wait text off
+  
+ ==>  
+ fg
+ * Comment Here
+ lh depmax
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmax = 1.000000e+00
+ * mul 2
+ lh depmax
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmax = 1.000000e+00
+ quit

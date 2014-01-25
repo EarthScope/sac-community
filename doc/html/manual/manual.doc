@@ -1,0 +1,9 @@
+
+FILES="../aux/help/user_man/*"
+LINKS="../links/manual_links.txt"
+DIR="html/manual"
+TEMPLATE="../tmpl/template_manual.txt "
+CSS="../css/html2css1.css"
+
+PDFTEMPLATE="../tmpl/body.tex --no-section-numbering "
+PDFLINKS="../links/manual_links_pdf.txt"

@@ -1,0 +1,263 @@
+README file for  building and installing SAC.  (Last modified Novemober 2013)
+
+Contents
+-------------------------------------------------------------------------
+* Introduction
+* VPATH: building SAC from other directories
+* Quick instructions for building and installing SAC
+* Detailed instructions for building and installing SAC
+* Testing Infrastructure
+* IMPORTANT MESSAGE
+-------------------------------------------------------------------------
+
+* Introduction
+-------------------------------------------------------------------------
+This file includes instructions for building SAC and its accompanying
+libraries and utilities from sources.  After installing the system,
+see file README for details on setting environmental variables, etc.
+
+The fact that you are reading this file means you have expanded the 
+compressed source tarball sac-101.6a.tar.gz.  The top directory in the SAC 
+tree is sac-101.6a.  File sac-101.6a/src/describedirs has a brief overview 
+of the contents of the sac-101.6a/src/ subdirectories.
+
+The build procedure has been successful on Mac (OSX/PPC and OSX/x86), 
+Linux (32 and 64 bit), Oracle Solaris (2.8 and 2.9 big endian, and 
+2.11 x86), and Windows (Cygwin) --   provided one has the appropriate 
+software development tools.  As written, the build goes best with
+GNU development tools, specifically the GNU gcc and the GNU make.  To get
+the GNU development tools go to URL <http://www.gnu.org/software/>.
+
+As discussed in CHANGES, a feature new with v101.5 is the capability to 
+save plots in alternative file formats to SGF.  One of these is PNG, but 
+starting with v101.6, the default is not to include PNG support because 
+(1) the resolution is far worse than options PDF and PS, and (2) the 
+default PNG libraries are dynamic libraries so that a binary SAC 
+distribution built on one computer may not be portable.  Hence, PNG 
+support is not included in the binary builds, but it can be included with
+the configure option --enable-png.
+
+Here are some comments specific to platforms and operating systems: 
+
+Cygwin:  Further prerequisites for Cygwin include the GNU Readline
+library, and the Sun RPC library. READLINE is required to handle keyboard
+input, and SUNRPC (SUN Remote procedure call) is used to move files to and
+from operating systems of different binary formats. Both libraries are 
+available via the Cygwin setup program.  Note that as of Cygwin 1.7, SAC 
+can be built on Windows Cygwin using the normal SAC source distribution 
+(versions 1.7 and later recognizes aux as a directory).  Hence, a separate
+CYGWIN source distribution is no longer provided.
+
+Readline is the default for building only on Cygwin systems.  For licensing
+reasons, readline cannot be bundled with the SAC code or binaries.  Systems
+other than Cygwin use the editline library by default.  If readline is on
+your system, you can switch on the use of readline with configure option 
+"--enable-readline".
+
+Mac OSX: Tests have been done with OS 10.4 through OS 10.9.  A build on
+10.5 will NOT work on 10.4, but a build on 10.4 will work on 10.5 (and probably
+on 10.3).  A build on 10.4/PPC can run on a 10.4 or 10.5 ix86 machine 
+through Rosetta, but the libraries will not work. 
+
+Mac OS 10.6.8 is strictly little endian (i386) and the default is for gcc to 
+be 64 bits.  A binary built on ix86 10.4 or 10.5 may run on 10.6, but the 
+libraries cannot be used for other programs.  We have had problems 
+building SAC on OS 10.6 if Macports is installed on that machine.  The way 
+we dealt with that was to take /opt/local out of the path and other 
+environmental variables during the SAC build.  SAC builds successfully on 
+OS 10.6 using the Apple Clang compiler (CC=Clang or setenv CC 'CLANG' 
+depending on your shell).  As of v101.6 only the OS 10.6.8 binary is 
+provided, and it works on OS 10.7, 10.8 and 10.9 (if one has downloaded 
+and installed X or XQuartz, which no longer come on the installation discs).
+
+Oracle/Sun Solaris: A version built on Sun Solaris 2.8 or 2.9 can be run on 
+2.10, but a version built on 2.10 cannot be run on earlier versions.  Some
+Solaris systems do not have the ncurses library, so if the version is to be
+ported to other Solaris systems, it is best to build SAC without the
+ncurses library. (See below for details.)   The code has been modified so
+that a build on Solaris 2.11 x86 will work.
+
+Linux: SAC should build and run the same on 32-bit and 64-bit systems.  A build
+on Centos 5.x will work on Centos 6.x, Scientific Linux 6.s and Ubuntu, but 
+a build on Ubuntu will not work on Centos.
+
+If you are building a 64-bit version on a dual 32/64 bit systems you need to
+make sure the X11 libraries being used during the build are the 64-bit 
+libraries, otherwise the running of SAC will fail.  If the build procedure does
+not correctly identify the X11 libraries, you can specify them by using a
+configure flag.   For example, if the 64-bit libraries are in /usr/X11R6/lib,
+use
+
+   % ./configure --x-libraries=/usr/X11R6/lib
+
+* VPATH: building SAC from other directories (new with version 101.3)
+-------------------------------------------------------------------------
+The Introduction of VPATH into the SAC build process allows building from a
+separate directory than the original source directory.  The advantage of this
+process is that it allows the easy reconfiguration and rebuilding of  the
+program through a simple removal of the build directory -- one does not need 
+to do a "make clean" or "make distclean'  If one uses a build directory as in 
+the sample run in the next section, the source directory tree is unchanged by 
+the build.
+
+See http://www.gnu.org/software/autoconf/manual/make/Selective-Search.html
+for more information about the vpath directive.
+
+* Quick Instructions for Building and Installing SAC:
+-------------------------------------------------------------------------
+Here is the process we used to build SAC starting from the directory 
+containing the sac-101.6a directory tree:
+
+% mkdir build
+% cd build
+% ../sac-101.6a/configure --prefix=/usr/local/sac > ../130612.build
+% make >> ../130612.build
+% make install >> ../130612.build
+
+This prefix directory is the default, but is included here for 
+completeness. The directory tree starting with sac-101.6a is unchanged.  
+Directing the screen output to ../130411.build is not necessary, but there 
+are many screens full of output from configure and make that serve little 
+purpose.  However, with these commands, any warnings and errors are still 
+directed to the screen.
+
+One can still use the "old" method of running ./configure and make from
+the top directory (here sac-101.6a).
+
+* Detailed Instructions for Building and Installing sac:
+-------------------------------------------------------------------------
+Options for ./configure
+
+% ./configure --help
+  Provides Options for the build process
+
+  Specific Options of Possible Interest
+    An explanation of each can be found later in this file
+    --prefix=PREFIX   where to install sac [ default: /usr/local/sac ]
+                      Allows you to install in another location such as 
+                      /opt/sac or /usr/sac if desired.
+    --enable-optim=level    enable optimization level
+                      Compiles the code with increased optimization
+                      --enable-optim=2 to get a -O2 optimization level
+                      Default is no optimization. -O2 on a PPC may cause
+                      problems with Fortran programs using the sacio
+                      library (see discussion in CHANGES on 2008-02-06).
+    --enable-debug          enable debugging options
+                      Available for testing and SAC development.  
+                      It is mainly used by developers, so normal users 
+                      may ignore this option.
+   --enable-readline       enable readline command line capabilities
+                      This is the default for building only on Cygwin 
+                      systems.  All other systems use the editline library 
+                      by default.  Enabling this option should have little 
+                      to no affect from the default configuration.
+   --enable-matlab=/path/to/matlab     Where to find Matlab and its 
+                      libraries.  As of version 101.2, Matlab is only
+                      available if requested.  See CHANGES (2008-04-01)
+                      for further details.
+   --disable-ncurses  Some Sun Solaris systems have the ncurses library
+                      in addition to the curses library.  SAC built on a
+		      Solaris system with the ncurses library will not
+		      run on a Solaris system that does not have that
+		      library.  Because the Solaris binary provided through
+		      IRIS is intended to be able to run on all Solaris
+		      systems, it is built with ncurses disabled.
+  --enable-xdr        Enable XDR File Format for Data files
+  --enable-zlib       enable compressed pdf files
+  --enable-xpm        enable saving plot files to XPM files [default]
+  --enable-png        enable saving plot to PNG files [no longer the default]
+
+
+An output of ./configure is Makefile. Run make to create the executable
+and associated libraries and make install to install the resulting files
+to the directory specified by $PREFIX ( default: /usr/local/sac ).  Note:
+the value of $SACHOME after building is the same as $PREFIX used in building.
+
+make options (on Solaris, use gmake instead of the default make)
+
+% make                        - Create SAC executable and sacio library
+                                sac and libsacio.a are in subdirectory src
+                                along with all the other lib*.a files
+% make install                - Install SAC executable into ${PREFIX}/bin
+                                Puts subdirectories & files into ${PREFIX}
+% make clean > /dev/null      - Removes all object and executable files, 
+                                but does not remove configuration files
+% make distclean > /dev/null  - Similar to `make clean', but also removes
+                                configuration files.
+
+For clean or distclean, every deletion is chronicled, so porting the
+output to /dev/null will keep your terminal screen from filling up with
+completely useless information.
+
+  
+* Testing Infrastructure
+---------------------------------------------------------------------------
+A suite for testing the SAC software is available with this package.   It is
+located in the sac/t directory. It is not necessary to run the test suite to
+compile, install, or use SAC.  For those interested in using and trying the
+suite, you need python to test the SAC program itself.  To run the test suite, 
+enter "make check" after the configure and make steps.  The testing system 
+requires python >= 2.4 to run properly 
+
+The use of "make check" on 32-bit Linux and Cygwin systems may give 
+numerically inconsistent results due to extra precision used by these systems 
+during floating-point calculations.  A simple workaround to "pass" the tests 
+provided is to specify -ffloat-store during the configure stage. 
+% env CFLAGS="-ffloat-store" configure .  Adding this flag does not affect the 
+functionality of sac, but may add a minor performance penalty.
+
+Currently tests are run on
+   - the SAC program
+   - the sacio Library (libsac)
+   - Select functions and commands within SAC itself
+
+If you do run the test suite and have any errors or warnings, please 
+copy/paste the messages into an e-mail posting to the sac-dev mailing list 
+<sac-dev@iris.washington.edu>.  Do not send the output to the sac-help 
+mailing list.
+
+Currently, tests are numerically consistent across the following compilation 
+environments:
+  - gcc 
+  - gcc -O2
+  - clang 
+  - clang -O2
+
+* Memory Checkers
+---------------------------------------------------------------------------
+- valgrind Memory Checker
+  Valgrind will replace the malloc function at runtime.  Extra compilation
+  is not required at build time.  Memory errors will be displayed at runtime
+  but execution will continue.  Memory leaks can also be displayed by using
+  options to valgrind See http://valgrind.org
+
+  % ./configure
+  % make 
+  % valgrind ./src/sac
+  % make check SACVALGRIND=1 
+  % make check SACVALGRIND=1 SACTESTS=bandpass
+
+- clang's Static Analysis [LLVM]
+  The static analysis will output warnings and errors based on an analysis
+  of the source only.  The resulting binaries are not different than those 
+  produced by clang.  See http://clang-analyzer.llvm.org/scan-build.html
+  % scan-build --use-c++=g++ ./configure
+  % scan-build --use-c++=g++ make 
+
+- clang's Address Sanitizer [>= LLVM 3.1]
+  Address Sanitizer will replace the malloc function during compilation, so 
+  it requires knowledge of this at build time.  Memory errors will cause the 
+  halt of the program and display where the memory error occurred.
+
+  % ./configure \
+    CC=clang \
+    CFLAGS="-faddress-sanitizer -O1 -g -fno-omit-frame-pointer" \
+    --enable-debug
+  % env CC=clang make 
+
+
+* READ THIS!!   
+---------------------------------------------------------------------------
+DO NOT DISTRIBUTE the SAC Software.  (That is what you agreed to at the time 
+the IRIS software request form was submitted.)
+

@@ -1,0 +1,191 @@
+ wait text off
+  
+ ==>  
+ m test_transfer_fap.m
+ setbb maxerror 1e-14
+  
+ fg seismo
+ fg impulse npts 1000 delta 0.01
+ lh depmin depmax depmen b e
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = 0.000000e+00
+     depmax = 1.000000e+00
+     depmen = 1.000000e-03
+          b = 0.000000e+00
+          e = 9.990000e+00
+ transfer from fap s test_transfer_fap_input.m to none
+ Station (-12345  ), Channel (-12345  )
+ lh depmin depmax depmen
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = -2.928125e-03
+     depmax = 9.970734e-01
+     depmen = -2.332583e-05
+  
+ message "Transfer using FAP file from Polezero"
+ Transfer using FAP file from Polezero
+ fg impulse npts 1000 delta 0.01
+ transfer from fap s test_transfer_fap_from_pz.m to none
+ Extrapolating above highest FAPFILE frequency
+ Station (-12345  ), Channel (-12345  )
+ lh depmin depmax depmen
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = -2.162591e-11
+     depmax = 1.842730e-11
+     depmen = -3.977561e-14
+ write test.transfer.fappz
+  
+ message "Transfer using FAP file from Evalresp"
+ Transfer using FAP file from Evalresp
+ fg impulse npts 1000 delta 0.01
+ transfer from fap s test_transfer_fap_from_evresp.m to none
+ Extrapolating above highest FAPFILE frequency
+ Station (-12345  ), Channel (-12345  )
+ lh depmin depmax depmen
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = -2.162641e-11
+     depmax = 1.842685e-11
+     depmen = -3.977888e-14
+ write test.transfer.fapev
+  
+ message "Transfer using Polezero"
+ Transfer using Polezero
+ fg impulse npts 1000 delta 0.01
+ transfer from polezero s test_transfer_pz.m to none
+ Using polezero response for , , , ...
+ Station (-12345  ), Channel (-12345  )
+ lh depmin depmax depmen
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = -2.162591e-11
+     depmax = 1.842730e-11
+     depmen = -3.977533e-14
+ write test.transfer.pz
+  
+ read test.transfer.fappz
+ subf test.transfer.pz
+ sqr
+ sqrt
+ int
+ if &1,depmax gt %maxerror%
+ ==>  if 1.34543e-17 gt 1e-14
+ else
+    message "transfer error: &1,depmax&"
+ ==>  message "transfer error: 1.34543e-17"
+ transfer error: 1.34543e-17
+ endif
+  
+ read test.transfer.fapev
+ subf test.transfer.pz
+ sqr
+ sqrt
+ int
+ if &1,depmax gt %maxerror%
+ ==>  if 1.39557e-15 gt 1e-14
+ else
+    message "transfer error: &1,depmax&"
+ ==>  message "transfer error: 1.39557e-15"
+ transfer error: 1.39557e-15
+ endif
+  
+ message "Transfer using FAP file from Polezero"
+ Transfer using FAP file from Polezero
+ fg seismo npts 1000 delta 0.01
+ transfer from fap s test_transfer_fap_from_pz.m to none
+ Extrapolating above highest FAPFILE frequency
+ Station (CDV     ), Channel (-12345  )
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.821360e-11
+     depmax = 5.404948e-11
+     depmen = -2.007614e-13
+ write test.transfer.fappz
+  
+ message "Transfer using FAP file from Evalresp"
+ Transfer using FAP file from Evalresp
+ fg seismo npts 1000 delta 0.01
+ transfer from fap s test_transfer_fap_from_evresp.m to none
+ Extrapolating above highest FAPFILE frequency
+ Station (CDV     ), Channel (-12345  )
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.821357e-11
+     depmax = 5.404940e-11
+     depmen = -2.007370e-13
+ write test.transfer.fapev
+  
+ message "Transfer using Polezero"
+ Transfer using Polezero
+ fg seismo npts 1000 delta 0.01
+ transfer from polezero s test_transfer_pz.m to none
+ Using polezero response for CDV, , , ...
+ Station (CDV     ), Channel (-12345  )
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -4.821359e-11
+     depmax = 5.404948e-11
+     depmen = -2.007629e-13
+ write test.transfer.pz
+  
+ read test.transfer.fappz
+ subf test.transfer.pz
+ sqr
+ sqrt
+ int
+ if &1,depmax gt %maxerror%
+ ==>  if 6.18776e-17 gt 1e-14
+ else
+    message "polezero -> fap transfer error: &1,depmax&"
+ ==>  message "polezero -> fap transfer error: 6.18776e-17"
+ polezero -> fap transfer error: 6.18776e-17
+ endif
+  
+ read test.transfer.fapev
+ subf test.transfer.pz
+ sqr
+ sqrt
+ int
+ if &1,depmax gt %maxerror%
+ ==>  if 3.22991e-15 gt 1e-14
+ else
+    message "evalresp -> fap transfer error: &1,depmax&"
+ ==>  message "evalresp -> fap transfer error: 3.22991e-15"
+ evalresp -> fap transfer error: 3.22991e-15
+ endif
+  
+  
+  
+  
+  
+ ==>  
+ quit

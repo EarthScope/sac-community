@@ -1,0 +1,61 @@
+ wait text off
+  
+ ==>  
+ fg seismo
+ write test.binoperr.1
+ cut 12 17
+ read test.binoperr.1
+ write test.binoperr.2
+ cut off
+ read test.binoperr.1
+ interp delta 1e-3
+ write test.binoperr.3
+  
+ ==>  
+  
+ ==>  
+ binoperr npts fatal
+ read test.binoperr.1
+ addf test.binoperr.2
+ ERROR 1801: Header field mismatch: NPTS test.binoperr.1 test.binoperr.2
+  
+ ==>  
+ binoperr npts warning
+ read test.binoperr.1
+ addf test.binoperr.2
+ WARNING: Header field mismatch: NPTS test.binoperr.1 test.binoperr.2
+ WARNING: Time overlap: 
+   BEG1: MAR 29 (088), 1981 10:38:23.460  test.binoperr.1
+   BEG2: MAR 29 (088), 1981 10:38:26.000  test.binoperr.2
+  
+ ==>  
+ binoperr npts ignore
+ read test.binoperr.1
+ addf test.binoperr.2
+ WARNING: Time overlap: 
+   BEG1: MAR 29 (088), 1981 10:38:23.460  test.binoperr.1
+   BEG2: MAR 29 (088), 1981 10:38:26.000  test.binoperr.2
+  
+ ==>  
+  
+ ==>  
+ binoperr delta fatal
+ read test.binoperr.1
+ addf test.binoperr.3
+ ERROR 1801: Header field mismatch: DELTA test.binoperr.1 test.binoperr.3
+  
+ ==>  
+ binoperr delta warning
+ read test.binoperr.1
+ addf test.binoperr.3
+ WARNING: Header field mismatch: DELTA test.binoperr.1 test.binoperr.3
+  
+ ==>  
+ binoperr delta ignore
+ read test.binoperr.1
+ addf test.binoperr.3
+  
+ ==>  
+  
+ ==>  
+ quit

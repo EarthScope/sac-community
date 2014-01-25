@@ -1,0 +1,14 @@
+getbb
+unsetbb all
+setbb a 10
+getbb
+unsetbb a
+getbb
+setbb a 10 b 20
+getbb
+unsetbb b
+getbb
+unsetbb all
+getbb
+setbb a 10
+getbb

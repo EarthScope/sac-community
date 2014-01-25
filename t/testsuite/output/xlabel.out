@@ -1,0 +1,55 @@
+ wait text off
+ fg seismo
+  
+ ==>  
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ xlabel "X Label"
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ xlabel off
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ xlabel on
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ xlabel location top
+ p1 ; pause period 0.25
+Pausing
+ xlabel location bottom
+ p1 ; pause period 0.25
+Pausing
+ xlabel location left
+ p1 ; pause period 0.25
+Pausing
+ xlabel location right
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ xlabel size tiny
+ p1 ; pause period 0.25
+Pausing
+ xlabel size small
+ p1 ; pause period 0.25
+Pausing
+ xlabel size medium
+ p1 ; pause period 0.25
+Pausing
+ xlabel size large
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ xlabel Bad label
+ ERROR interpreting command:  xlabel Bad label 
+ ILLEGAL OPTION:                     ^
+ quit

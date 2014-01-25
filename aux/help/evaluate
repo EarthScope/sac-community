@@ -1,0 +1,93 @@
+
+EVALUATE
+++++++++
+
+SUMMARY
+-------
+Evaluates simple arithmetic expressions.
+
+SYNTAX
+------
+
+  ``EVALUATE {TO TERM|name} {v} op v {op v ...}``
+   where op is one of the following:
+
+  ``ADD|SUBTRACT|MULTIPLY|DIVIDE|POWER|``
+
+  ``SQRT|EXP|ALOG|ALOG10|SIN|ASIN|``
+
+  ``COS|ACOS|TAN|ATAN|``
+
+  ``EQ|NE|LE|GE|LT|GT``
+
+INPUT
+-----
+   :TO TERM:  Result is written to the user's terminal.
+    
+   :TO name:  Result is written to the blackboard variable name.
+    
+   :v:  An floating point or integer number.  (Since all arithmetic is done
+       in floating point, integers are converted to floating point numbers.)
+    
+    
+   :op:  One of the arithmetic or logical operators listed above.
+    
+ALTERNATE FORMS
+---------------
+::
+
+ + may be substituted for ADD_
+ - for SUBTRACT
+ * for MULTIPLY
+ / for DIVIDE
+ ** for POWER
+
+Be sure and place spaces around each operator.
+
+DEFAULT VALUES
+--------------
+
+  ``EVALUATE TO TERM 1. * 1.``
+
+DESCRIPTION
+-----------
+  This command lets you evaluate arithmetic and logical expressions.  The
+  arithmetic expression can be a compound containing more than one
+  operator.  In this case the expression is evaluated left to right.  There is
+  no nesting capability.  A logical expression can contain only one operand.
+  The result of evaluating this expression can be written to the user's
+  terminal or to a specified blackboard variable.  This blackboard variable can
+  later be used directly in other commands.  This is especially useful when
+  writing macros.  You can also get the value of a blackboard variable using the
+  GETBB_ command. Previously, there was a maximum number of operators (10) in a 
+  single command.  As of v101.6, there is no maximum number.
+
+EXAMPLES
+--------
+  Two simple examples::
+
+      SAC>  EVALUATE 2 * 3
+      ==>  6
+      SAC> evaluate tan 45
+      ==>  1.61978
+
+  Here is a sightly more complicated example::
+
+      SAC>  EVALUATE 4 * atan 1 / PI
+      ==>  1
+
+  Finally let's repeat the previous example but this time use a blackboard variable::
+
+      SAC> evaluate to temp1 4 * atan 1
+      SAC> evaluate %temp1 / PI
+      ==> 1
+      SAC>
+
+SEE COMMANDS
+------------
+  GETBB_ SAC_MACROS_
+
+LATEST REVISION
+---------------
+  2013 (v101.6a)
+

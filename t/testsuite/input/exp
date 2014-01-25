@@ -1,0 +1,17 @@
+exp
+
+fg seismogram
+lh depmin depmax
+exp
+lh depmin depmax
+
+fg impulse
+lh depmin depmax
+exp
+lh depmin depmax
+
+fg impulse
+mul -1
+lh depmin depmax
+exp
+lh depmin depmax

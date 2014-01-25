@@ -1,0 +1,148 @@
+ wait text off
+ wait text off
+ fg impulse
+ write test.impulse
+  
+ ==>  
+ cuterr fatal
+ cut -10 20
+ read test.impulse
+ WARNING: Start cut less than file begin for file test.impulse
+ ERROR 1301: No data files read in.
+ lh b e
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ cut 10 20
+ read test.impulse
+ lh b e
+  
+  
+  FILE: test.impulse - 1
+ ------------------
+
+     b = 1.000000e+01
+     e = 2.000000e+01
+  
+ ==>  
+ cut 10 180
+ read test.impulse
+ WARNING: Stop cut greater than file end for file
+ ERROR 1301: No data files read in.
+ lh b e
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ cut -10 180
+ read test.impulse
+ WARNING: Start cut less than file begin for file test.impulse
+ ERROR 1301: No data files read in.
+ lh b e
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ cuterr usebe
+ cut 10 20
+ read test.impulse
+ lh b e
+  
+  
+  FILE: test.impulse - 1
+ ------------------
+
+     b = 1.000000e+01
+     e = 2.000000e+01
+  
+ ==>  
+ cut -10 20
+ read test.impulse
+ WARNING: Start cut less than file begin for file test.impulse
+ Corrected by using file begin.
+ lh b e
+  
+  
+  FILE: test.impulse - 1
+ ------------------
+
+     b = 0.000000e+00
+     e = 2.000000e+01
+  
+ ==>  
+ cut -10 180
+ read test.impulse
+ WARNING: Start cut less than file begin for file test.impulse
+ Corrected by using file begin.
+ WARNING: Stop cut greater than file end for file test.impulse
+ Corrected by using file end.
+ lh b e
+  
+  
+  FILE: test.impulse - 1
+ ------------------
+
+     b = 0.000000e+00
+     e = 9.900000e+01
+  
+ ==>  
+ cut 50 180
+ read test.impulse
+ WARNING: Stop cut greater than file end for file test.impulse
+ Corrected by using file end.
+ lh b e
+  
+  
+  FILE: test.impulse - 1
+ ------------------
+
+     b = 5.000000e+01
+     e = 9.900000e+01
+  
+ ==>  
+ cuterr fillz
+ cut 10 20
+ read test.impulse
+ lh b e
+  
+  
+  FILE: test.impulse - 1
+ ------------------
+
+     b = 1.000000e+01
+     e = 2.000000e+01
+  
+ ==>  
+ cut -10 20
+ read test.impulse
+ lh b e
+  
+  
+  FILE: test.impulse - 1
+ ------------------
+
+     b = -1.000000e+01
+     e = 2.000000e+01
+  
+ ==>  
+ cut -10 180
+ read test.impulse
+ lh b e
+  
+  
+  FILE: test.impulse - 1
+ ------------------
+
+     b = -1.000000e+01
+     e = 1.800000e+02
+  
+ ==>  
+ cut 50 180
+ read test.impulse
+ lh b e
+  
+  
+  FILE: test.impulse - 1
+ ------------------
+
+     b = 5.000000e+01
+     e = 1.800000e+02
+ quit

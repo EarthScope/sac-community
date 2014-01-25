@@ -1,0 +1,339 @@
+ wait text off
+ fg
+ lh
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+       NPTS = 100
+          B = 0.000000e+00
+          E = 9.900000e+01
+     IFTYPE = TIME SERIES FILE
+      LEVEN = TRUE
+      DELTA = 1.000000e+00
+     DEPMIN = 0.000000e+00
+     DEPMAX = 1.000000e+00
+     DEPMEN = 1.000000e-02
+      KEVNM = FUNCGEN: IMPULSE
+     LOVROK = TRUE
+      NVHDR = 6
+     LPSPOL = FALSE
+     LCALDA = TRUE
+ fg impulse
+ lh
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+       NPTS = 100
+          B = 0.000000e+00
+          E = 9.900000e+01
+     IFTYPE = TIME SERIES FILE
+      LEVEN = TRUE
+      DELTA = 1.000000e+00
+     DEPMIN = 0.000000e+00
+     DEPMAX = 1.000000e+00
+     DEPMEN = 1.000000e-02
+      KEVNM = FUNCGEN: IMPULSE
+     LOVROK = TRUE
+      NVHDR = 6
+     LPSPOL = FALSE
+     LCALDA = TRUE
+ fg box
+ lh
+  
+  
+  FILE: BOXCAR - 1
+ ------------
+
+       NPTS = 100
+          B = 0.000000e+00
+          E = 9.900000e+01
+     IFTYPE = TIME SERIES FILE
+      LEVEN = TRUE
+      DELTA = 1.000000e+00
+     DEPMIN = 0.000000e+00
+     DEPMAX = 1.000000e+00
+     DEPMEN = 3.300000e-01
+      KEVNM = FUNCGEN: BOXCAR
+     LOVROK = TRUE
+      NVHDR = 6
+     LPSPOL = FALSE
+     LCALDA = TRUE
+ fg tri
+ lh
+  
+  
+  FILE: TRIANGLE - 1
+ --------------
+
+       NPTS = 100
+          B = 0.000000e+00
+          E = 9.900000e+01
+     IFTYPE = TIME SERIES FILE
+      LEVEN = TRUE
+      DELTA = 1.000000e+00
+     DEPMIN = 0.000000e+00
+     DEPMAX = 1.000000e+00
+     DEPMEN = 2.500000e-01
+      KEVNM = FUNCGEN: TRIANGL
+     LOVROK = TRUE
+      NVHDR = 6
+     LPSPOL = FALSE
+     LCALDA = TRUE
+ fg sin
+ lh
+  
+  
+  FILE: SINE - 1
+ ----------
+
+       NPTS = 100
+          B = 0.000000e+00
+          E = 9.900000e+01
+     IFTYPE = TIME SERIES FILE
+      LEVEN = TRUE
+      DELTA = 1.000000e+00
+     DEPMIN = -1.000000e+00
+     DEPMAX = 1.000000e+00
+     DEPMEN = 3.576279e-09
+      KEVNM = FUNCGEN: SINE
+     LOVROK = TRUE
+      NVHDR = 6
+     LPSPOL = FALSE
+     LCALDA = TRUE
+ fg lin
+ lh
+  
+  
+  FILE: LINE - 1
+ ----------
+
+       NPTS = 100
+          B = 0.000000e+00
+          E = 9.900000e+01
+     IFTYPE = TIME SERIES FILE
+      LEVEN = TRUE
+      DELTA = 1.000000e+00
+     DEPMIN = 1.000000e+00
+     DEPMAX = 1.000000e+02
+     DEPMEN = 5.050000e+01
+      KEVNM = FUNCGEN: LINE
+     LOVROK = TRUE
+      NVHDR = 6
+     LPSPOL = FALSE
+     LCALDA = TRUE
+ fg qua
+ lh
+  
+  
+  FILE: QUADRATI - 1
+ --------------
+
+       NPTS = 100
+          B = 0.000000e+00
+          E = 9.900000e+01
+     IFTYPE = TIME SERIES FILE
+      LEVEN = TRUE
+      DELTA = 1.000000e+00
+     DEPMIN = 1.000000e+00
+     DEPMAX = 9.901000e+03
+     DEPMEN = 3.334000e+03
+      KEVNM = FUNCGEN: QUADRAT
+     LOVROK = TRUE
+      NVHDR = 6
+     LPSPOL = FALSE
+     LCALDA = TRUE
+ fg cub
+ lh
+  
+  
+  FILE: CUBIC - 1
+ -----------
+
+       NPTS = 100
+          B = 0.000000e+00
+          E = 9.900000e+01
+     IFTYPE = TIME SERIES FILE
+      LEVEN = TRUE
+      DELTA = 1.000000e+00
+     DEPMIN = 1.000000e+00
+     DEPMAX = 9.802000e+05
+     DEPMEN = 2.483590e+05
+      KEVNM = FUNCGEN: CUBIC
+     LOVROK = TRUE
+      NVHDR = 6
+     LPSPOL = FALSE
+     LCALDA = TRUE
+ fg sei
+ lh
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+        NPTS = 1000
+           B = 9.459999e+00
+           E = 1.945000e+01
+      IFTYPE = TIME SERIES FILE
+       LEVEN = TRUE
+       DELTA = 1.000000e-02
+        IDEP = VELOCITY (VOLTS)
+      DEPMIN = -1.569280e+00
+      DEPMAX = 1.520640e+00
+      DEPMEN = -9.854718e-02
+     OMARKER = -41.43
+     AMARKER = 10.464
+      KZDATE = MAR 29 (088), 1981
+      KZTIME = 10:38:14.000
+      IZTYPE = BEGIN TIME
+       KSTNM = CDV
+       CMPAZ = 0.000000e+00
+      CMPINC = 0.000000e+00
+        STLA = 4.800000e+01
+        STLO = -1.200000e+02
+       KEVNM = K8108838
+        EVLA = 4.800000e+01
+        EVLO = -1.250000e+02
+        EVDP = 1.500000e+01
+      IEVTYP = AFTERSHOCK
+        DIST = 3.730627e+02
+          AZ = 8.814721e+01
+         BAZ = 2.718528e+02
+       GCARC = 3.357465e+00
+      LOVROK = TRUE
+       NVHDR = 6
+       NORID = 0
+       NEVID = 0
+      LPSPOL = TRUE
+      LCALDA = TRUE
+ fg random 1 2
+ lh
+  
+  
+  FILE: RANDOM01 - 1
+ --------------
+
+       NPTS = 100
+          B = 0.000000e+00
+          E = 9.900000e+01
+     IFTYPE = TIME SERIES FILE
+      LEVEN = TRUE
+      DELTA = 1.000000e+00
+     DEPMIN = -2.079215e+00
+     DEPMAX = 3.300256e+00
+     DEPMEN = 8.965553e-02
+      KEVNM = FUNCGEN: RANDOM
+     LOVROK = TRUE
+      USER0 = 2.000000e+00
+      NVHDR = 6
+     LPSPOL = FALSE
+     LCALDA = TRUE
+ fg impstrin 1 2 3 4 5
+ lh
+  
+  
+  FILE: IMPSTRIN - 1
+ --------------
+
+       NPTS = 100
+          B = 0.000000e+00
+          E = 9.900000e+01
+     IFTYPE = TIME SERIES FILE
+      LEVEN = TRUE
+      DELTA = 1.000000e+00
+     DEPMIN = 0.000000e+00
+     DEPMAX = 1.000000e+00
+     DEPMEN = 5.000000e-02
+      KEVNM = FUNCGEN: IMPSTRI
+     LOVROK = TRUE
+      NVHDR = 6
+     LPSPOL = FALSE
+     LCALDA = TRUE
+ fg delta 1.0
+ lh
+  
+  
+  FILE: IMPSTRIN - 1
+ --------------
+
+       NPTS = 100
+          B = 0.000000e+00
+          E = 9.900000e+01
+     IFTYPE = TIME SERIES FILE
+      LEVEN = TRUE
+      DELTA = 1.000000e+00
+     DEPMIN = 0.000000e+00
+     DEPMAX = 1.000000e+00
+     DEPMEN = 5.000000e-02
+      KEVNM = FUNCGEN: IMPSTRI
+     LOVROK = TRUE
+      NVHDR = 6
+     LPSPOL = FALSE
+     LCALDA = TRUE
+ fg npts 1000
+ lh
+  
+  
+  FILE: IMPSTRIN - 1
+ --------------
+
+       NPTS = 1000
+          B = 0.000000e+00
+          E = 9.990000e+02
+     IFTYPE = TIME SERIES FILE
+      LEVEN = TRUE
+      DELTA = 1.000000e+00
+     DEPMIN = 0.000000e+00
+     DEPMAX = 1.000000e+00
+     DEPMEN = 5.000000e-03
+      KEVNM = FUNCGEN: IMPSTRI
+     LOVROK = TRUE
+      NVHDR = 6
+     LPSPOL = FALSE
+     LCALDA = TRUE
+ fg begin 10
+ lh
+  
+  
+  FILE: IMPSTRIN - 1
+ --------------
+
+       NPTS = 1000
+          B = 1.000000e+01
+          E = 1.009000e+03
+     IFTYPE = TIME SERIES FILE
+      LEVEN = TRUE
+      DELTA = 1.000000e+00
+     DEPMIN = 0.000000e+00
+     DEPMAX = 1.000000e+00
+     DEPMEN = 5.000000e-03
+      KEVNM = FUNCGEN: IMPSTRI
+     LOVROK = TRUE
+      NVHDR = 6
+     LPSPOL = FALSE
+     LCALDA = TRUE
+ fg begin -10
+ lh
+  
+  
+  FILE: IMPSTRIN - 1
+ --------------
+
+       NPTS = 1000
+          B = -1.000000e+01
+          E = 9.890000e+02
+     IFTYPE = TIME SERIES FILE
+      LEVEN = TRUE
+      DELTA = 1.000000e+00
+     DEPMIN = 0.000000e+00
+     DEPMAX = 1.000000e+00
+     DEPMEN = 5.000000e-03
+      KEVNM = FUNCGEN: IMPSTRI
+     LOVROK = TRUE
+      NVHDR = 6
+     LPSPOL = FALSE
+     LCALDA = TRUE
+ quit

@@ -1,0 +1,99 @@
+ wait text off
+  
+ ==>  
+ message "Test ReadHeader Generate Data"
+ Test ReadHeader Generate Data
+ fg impulse
+ lh depmin depmax kevnm
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = 0.000000e+00
+     depmax = 1.000000e+00
+      kevnm = FUNCGEN: IMPULSE
+ write test.readhdr
+  
+ ==>  
+ message "Test ReadHeader"
+ Test ReadHeader
+ readhdr test.readhdr
+ lh depmin depmax kevnm
+  
+  
+  FILE: test.readhdr - 1
+ ------------------
+
+     depmin = 0.000000e+00
+     depmax = 1.000000e+00
+      kevnm = FUNCGEN: IMPULSE
+  
+ ==>  
+ message "Test ReadHeader, Directory"
+ Test ReadHeader, Directory
+ systemcommand mkdir test.readhdr.dir
+ fg impulse
+ write test.readhdr.indir
+ systemcommand mv test.readhdr.indir test.readhdr.dir/
+ write test.readhdr.nodir
+  
+ ==>  
+ message "Test ReadHeader, Directory set"
+ Test ReadHeader, Directory set
+ readhdr dir test.readhdr.dir test.readhdr.indir
+ lh depmin depmax kevnm
+  
+  
+  FILE: test.readhdr.dir/test.readhdr.indir - 1
+ -----------------------------------------
+
+     depmin = 0.000000e+00
+     depmax = 1.000000e+00
+      kevnm = FUNCGEN: IMPULSE
+  
+ ==>  
+ message "Test ReadHeader, Directory Off"
+ Test ReadHeader, Directory Off
+ readhdr dir off test.readhdr.nodir
+ ERROR 1301: No data files read in.
+ lh depmin depmax kevnm
+  
+  
+  FILE: test.readhdr.dir/test.readhdr.indir - 1
+ -----------------------------------------
+
+     depmin = 0.000000e+00
+     depmax = 1.000000e+00
+      kevnm = FUNCGEN: IMPULSE
+  
+ ==>  
+ message "Test ReadHdr, Directory On"
+ Test ReadHdr, Directory On
+ readhdr dir on test.readhdr.dir.bug
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ message "Test ReadHdr, Directory ./"
+ Test ReadHdr, Directory ./
+ readhdr dir on test.readhdr.dir.bug
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ message "Test ReadHdr, Directory ./"
+ Test ReadHdr, Directory ./
+ readhdr dir ./ test.readhdr.dir.bug
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ message "Test ReadHdr, Directory Current"
+ Test ReadHdr, Directory Current
+ readhdr dir current test.readhdr.dir.bug
+ ERROR 1301: No data files read in.
+  
+ ==>  
+  
+ ==>  
+  
+ ==>  
+ quit

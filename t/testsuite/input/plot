@@ -1,0 +1,90 @@
+
+p2
+fg seismo
+w test_plot.0
+mul 2
+w test_plot.1
+color on inc
+
+read test_plot.?
+p2 ; pause period 0.25
+
+filenumber on
+p1 ; pause period 0.25
+filenumber off
+p1 ; pause period 0.25
+filenumber illegaloption
+
+read test_plot.?
+ppm ; pause period 0.25
+ppm illegaloption
+
+dc all
+ppm
+fg seismo
+read test_plot.?
+fft
+ppm
+
+read test_plot.?
+p1 ; pause period 0.25
+picks on
+p1 ; pause period 0.25
+picks off
+p1 ; pause period 0.25
+picks illegaloption
+picks on height 0.5
+picks on width 0.5
+p1 ; pause period 0.25
+
+read test_plot.?
+plot ; pause period 0.25
+plot illegaloption
+dc all
+plot
+fg seismo
+fft
+plot
+color off
+
+fg seismo
+plot ; pause period 0.25
+fileid location ul
+plot ; pause period 0.25
+fileid location ll
+plot ; pause period 0.25
+fileid location ur
+plot ; pause period 0.25
+fileid location lr
+plot ; pause period 0.25
+
+fileid location ur
+fileid format equals
+plot ; pause period 0.25
+
+fileid format colons
+plot ; pause period 0.25
+
+fileid format nonames
+plot ; pause period 0.25
+
+fileid illegaloption
+fileid type default
+plot ; pause period 0.25
+fileid type std
+plot ; pause period 0.25
+
+fileid type name
+plot ; pause period 0.25
+
+fileid type list kstnm kevnm kcmpnm kzdate kztime
+plot ; pause period 0.25
+
+read test_plot.?
+ylim all
+p1 ; pause period 0.25
+
+xlim 10 12
+p1 ; pause period 0.25
+
+

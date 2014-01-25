@@ -1,0 +1,124 @@
+ wait text off
+ ifft
+ ERROR 1301: No data files read in.
+ fg seismogram
+  
+ ==>  
+ lh columns 2 iftype npts delta depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+    iftype = TIME SERIES FILE                 npts = 1000
+     delta = 1.000000e-02                   depmin = -1.569280e+00
+    depmax = 1.520640e+00
+ fft
+ DC level after DFT is -0.98547
+ ifft
+ lh columns 2 iftype npts delta depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+    iftype = TIME SERIES FILE                 npts = 1000
+     delta = 1.000000e-02                   depmin = -1.569280e+00
+    depmax = 1.520640e+00
+  
+ ==>  
+ lh columns 2 iftype npts delta depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+    iftype = TIME SERIES FILE                 npts = 1000
+     delta = 1.000000e-02                   depmin = -1.569280e+00
+    depmax = 1.520640e+00
+ fft womean
+ DC level after DFT is -2.5105e-07
+ ifft
+ lh columns 2 iftype npts delta depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+    iftype = TIME SERIES FILE                 npts = 1000
+     delta = 1.000000e-02                   depmin = -1.470733e+00
+    depmax = 1.619187e+00
+  
+ ==>  
+ lh columns 2 iftype npts delta depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+    iftype = TIME SERIES FILE                 npts = 1000
+     delta = 1.000000e-02                   depmin = -1.470733e+00
+    depmax = 1.619187e+00
+ fft wmean
+ DC level after DFT is -2.4801e-07
+ ifft
+ lh columns 2 iftype npts delta depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+    iftype = TIME SERIES FILE                 npts = 1000
+     delta = 1.000000e-02                   depmin = -1.470733e+00
+    depmax = 1.619187e+00
+  
+ ==>  
+ lh columns 2 iftype npts delta depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+    iftype = TIME SERIES FILE                 npts = 1000
+     delta = 1.000000e-02                   depmin = -1.470733e+00
+    depmax = 1.619187e+00
+ fft rlim
+ DC level after DFT is -2.4642e-07
+ ifft
+ lh columns 2 iftype npts delta depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+    iftype = TIME SERIES FILE                 npts = 1000
+     delta = 1.000000e-02                   depmin = -1.470733e+00
+    depmax = 1.619187e+00
+  
+ ==>  
+ lh columns 2 iftype npts delta depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+    iftype = TIME SERIES FILE                 npts = 1000
+     delta = 1.000000e-02                   depmin = -1.470733e+00
+    depmax = 1.619187e+00
+ fft amph
+ DC level after DFT is -2.4537e-07
+ ifft
+ lh columns 2 iftype npts delta depmin depmax
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+    iftype = TIME SERIES FILE                 npts = 1000
+     delta = 1.000000e-02                   depmin = -1.470733e+00
+    depmax = 1.619187e+00
+  
+ ==>  
+  
+ ==>  
+ quit

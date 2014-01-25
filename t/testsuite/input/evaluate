@@ -1,0 +1,156 @@
+echo on
+
+eval ( sine ( 3.1415 /  2 ) )
+
+evaluate
+evaluate 1
+evaluate 2
+evaluate 2.3
+evaluate 2.3e+1
+evaluate 2.3e-1
+evaluate 2.3e+01
+evaluate 2.3e-01
+
+evaluate 1 + 2
+evaluate 1.0 + 2
+evaluate 1.0 + 2.0
+evaluate 1 + 2.0
+evaluate 1.0e1 + 2.0e1
+
+evaluate (1)
+evaluate (1 + 2)
+evaluate (1+2)
+evaluate (1 +2)
+evaluate (1+ 2)
+
+evaluate 1 - 2
+evaluate 1.0 - 2
+evaluate 1.0 - 2.0
+evaluate 1 - 2.0
+evaluate 1.0e1 - 2.0e1
+
+evaluate 3 * 2
+evaluate 3.0 * 2
+evaluate 3.0 * 2.0
+evaluate 3 * 2.0
+evaluate 3.0e1 * 2.0e1
+
+evaluate 3 / 2
+evaluate 3.0 / 2
+evaluate 3.0 / 2.0
+evaluate 3 / 2.0
+evaluate 3.0e1 / 2.0e1
+
+evaluate 2 ** 0
+evaluate 2 ** 1
+evaluate 2 ** 2
+evaluate 2**0
+evaluate 2 **0
+evaluate 2** 0
+
+fg seismo
+evaluate to value &1,npts 
+evaluate to value &1, npts 
+
+evaluate to term 1
+eval ( add 1, 2, 3, 4 )
+eval ( add 1 2 3 4 )
+eval ( subtract 10, 1, 2, 3 )
+eval ( subtract 10 1 2 3 )
+eval ( multiply 1, 2, 3, 4, 5 )
+eval ( multiply 1 2 3 4 5 )
+eval ( divide 100, 10, 2, 5 )
+eval ( divide 100 10 2 5 )
+eval ( sqrt (25) )
+eval ( exp (1.0) )
+eval ( alog 2.71 )
+eval ( power 2 )
+eval ( alog10 100 )
+eval ( sine ( 3.1415 /  1 ) )
+eval ( sine ( 3.1415 /  1 ) )
+eval ( arcsine ( -1 ) )
+eval ( arcsine ( 1 ) )
+eval ( arcsine ( 0 ) )
+eval ( arcsine ( 0.5 ) )
+eval ( cosine ( 3.1415 ) )
+eval ( cosine ( 0 ) )
+eval ( cosine ( 3.1415 / 2 ) )
+eval ( arccosine ( 1 ) )
+eval ( arccosine ( 0 ) )
+eval ( arccosine ( -1 ) )
+eval ( arccosine ( 0.5 ) )
+eval ( tangent ( 3.1415 / 4 ) )
+eval ( tangent ( 3.1415 / 1 ) )
+eval ( tangent ( 0 ) )
+eval ( arctangent ( 1 ) )
+eval ( arctangent ( 0 ) )
+eval ( arctangent ( -1 ) )
+eval ( arctangent ( 0.5 ) )
+eval ( integer 3.1415 )
+eval ( pi )
+eval pi
+eval ( minimum 1 2 3 4 5 )
+eval ( minimum 1 2 3 -4 5 )
+eval ( maximum 1 2 3 -4 5 )
+eval ( maximum 1 2 3 4 5 )
+eval ( absolute 4 )
+eval ( absolute -4 )
+eval ( absolute 0 )
+
+message ( change 23 xx 123456 )
+message ( delete 23 123456 )
+message ( before 23 123456 )
+message ( after 23 123456 )
+message ( substring 2 4 123456 )
+message ( concatenate 23 123456 45 )
+
+message ( 1 + 2 )
+message ( 1 - 2 )
+message ( 1 * 2 )
+message ( 1 / 2 )
+message ( 2 ** 2 )
+message ( 1 + 2 * 3 )
+message ( 1 + ( 2 * 3 ) )
+
+message (1+2)
+message (1-2)
+message (1*2)
+message (1/2)
+message (2**2)
+message (1+2*3)
+message (1+(2*3))
+
+
+
+fg seismo
+write test.evaluate.1
+ch allt 10
+write test.evaluate.2
+read test.evaluate.1 test.evaluate.2
+
+message &SEISMO,npts
+
+evaluate to value &test.evaluate.1,npts
+evaluate to value &test.evaluate.1, npts
+message &test.evaluate.1,delta
+message &test.evaluate.2,delta
+message "&test.evaluate.1,kztime&"
+message "&test.evaluate.1,kzdate&"
+message "&test.evaluate.2,kztime&"
+message "&test.evaluate.2,kzdate&"
+
+message "&1,KSTCMP&"
+message "&1,FILENAME&"
+message "&1,NAME&"
+message &1,AMARKER&
+message &1,T1MARKER&
+message &1,NOTHING&
+
+evaluate ( maximum ( 1 + 2 ) (3 + 4) ( -10) )
+evaluate ( minimum ( 1 + 2 ) (3 + 4) ( -10) )
+
+fg seismo
+
+evaluate ( maximum (&1,depmax) (&1,depmin))
+evaluate ( maximum (abs &1,depmax) (abs &1,depmin))
+evaluate ( minimum (&1,depmax) (&1,depmin))

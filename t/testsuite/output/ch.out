@@ -1,0 +1,898 @@
+ wait text off
+ ch
+ fg
+ lh b e
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     b = 0.000000e+00
+     e = 9.900000e+01
+ ch b 10
+ lh b e
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     b = 1.000000e+01
+     e = 1.090000e+02
+ ch npts 1000
+ WARNING: NVHDR, NPTS, NWFID, NORID, and NEVID cannot be changed with CHNHDR
+ ch nvhdr 5
+ WARNING: NVHDR, NPTS, NWFID, NORID, and NEVID cannot be changed with CHNHDR
+ ch nwfid 123
+ WARNING: NVHDR, NPTS, NWFID, NORID, and NEVID cannot be changed with CHNHDR
+ ch norid 111
+ WARNING: NVHDR, NPTS, NWFID, NORID, and NEVID cannot be changed with CHNHDR
+ ch nevid 456
+ WARNING: NVHDR, NPTS, NWFID, NORID, and NEVID cannot be changed with CHNHDR
+  
+ ==>  
+ lh b e
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     b = 1.000000e+01
+     e = 1.090000e+02
+ ch e 200
+ lh e e
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     e = 1.090000e+02
+     e = 1.090000e+02
+  
+ ==>  
+ lh iftype
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     iftype = TIME SERIES FILE
+ ch iftype itime
+ lh iftype
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     iftype = TIME SERIES FILE
+  
+ ==>  
+ lh leven
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     leven = TRUE
+ ch leven false
+ lh leven
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     leven = FALSE
+  
+ ==>  
+ message "BUG? - ch Delta"
+ BUG? - ch Delta
+ lh delta
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     delta = 1.000000e+00
+ ch delta 100
+ lh delta
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     delta = 1.000000e+02
+  
+ ==>  
+ message "BUG - ch Dep  Min,Max,Men"
+ BUG - ch Dep  Min,Max,Men
+ lh depmax
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmax = 1.000000e+00
+ ch depmax 100
+ lh depmax
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmax = 1.000000e+02
+  
+ ==>  
+ lh depmin
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = 0.000000e+00
+ ch depmin 100
+ lh depmin
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmin = 1.000000e+02
+  
+ ==>  
+ lh depmen
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmen = 1.000000e-02
+ ch depmen 100
+ lh depmen
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     depmen = 1.000000e+02
+  
+ ==>  
+ lh kevnm
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     kevnm = FUNCGEN: IMPULSE
+ ch kevnm 123456789012345677
+ lh kevnm
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     kevnm = 1234567890123456
+  
+ ==>  
+ lh kevnm
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     kevnm = 1234567890123456
+ ch kevnm " spaces               "
+ lh kevnm
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     kevnm =  spaces
+  
+ ==>  
+ lh lovrok
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     lovrok = TRUE
+ ch lovrok false
+ lh lovrok
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     lovrok = FALSE
+ lh lovrok
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     lovrok = FALSE
+ ch lovrok true
+ lh lovrok
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     lovrok = TRUE
+  
+ ==>  
+ lh lpspol
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     lpspol = FALSE
+ ch lpspol false
+ lh lpspol
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     lpspol = FALSE
+  
+ ==>  
+ lh lpspol
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     lpspol = FALSE
+ ch lpspol true
+ lh lpspol
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     lpspol = TRUE
+  
+ ==>  
+ lh lcalda
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     lcalda = TRUE
+ ch lcalda false
+ lh lcalda
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     lcalda = FALSE
+  
+ ==>  
+ lh lcalda
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     lcalda = FALSE
+ ch lcalda false
+ lh lcalda
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     lcalda = FALSE
+  
+ ==>  
+ ch kstnm Station
+ lh kstnm
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     kstnm = Station
+ ch kstnm StationLongName
+ lh kstnm
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     kstnm = StationL
+  
+ ==>  
+ ch kcmpnm Component
+ lh kcmpnm
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     kcmpnm = Componen
+ ch kcmpnm BHZ
+ lh kcmpnm
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     kcmpnm = BHZ
+  
+ ==>  
+ ch knetwk IU
+ lh knetwk
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     knetwk = IU
+ ch knetwk SomthingLong
+ lh knetwk
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     knetwk = Somthing
+  
+ ==>  
+ ch kuser0 Nothing0
+ lh kuser0
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     kuser0 = Nothing0
+ ch kuser1 Nothing0
+ lh kuser1
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     kuser1 = Nothing0
+ ch kuser2 Nothing0
+  
+ ==>  
+ ch user0 3.1415
+ lh user0
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     user0 = 3.141500e+00
+ ch user1 3.1415
+ lh user1
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     user1 = 3.141500e+00
+ ch user2 3.1415
+ lh user2
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     user2 = 3.141500e+00
+ ch user3 3.1415
+ lh user3
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     user3 = 3.141500e+00
+ ch user4 3.1415
+ lh user4
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     user4 = 3.141500e+00
+ ch user5 3.1415
+ lh user5
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     user5 = 3.141500e+00
+ ch user6 3.1415
+ lh user6
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     user6 = 3.141500e+00
+ ch user7 3.1415
+ lh user7
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     user7 = 3.141500e+00
+ ch user8 3.1415
+ lh user8
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     user8 = 3.141500e+00
+ ch user9 3.1415
+ lh user9
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     user9 = 3.141500e+00
+  
+ ==>  
+ ch iqual
+ lh iqual
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+  
+ ==>  
+ ch isynth
+ lh isynth
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+  
+ ==>  
+ ch gcarc 3.1415
+ lh gcarc
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     gcarc = 3.141500e+00
+  
+ ==>  
+ ch az 3.1415
+ lh az
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     az = 3.141500e+00
+  
+ ==>  
+ ch baz 3.1415
+ lh az
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     az = 3.141500e+00
+  
+ ==>  
+ ch dist 3.1415
+ lh dist
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     dist = 3.141500e+00
+  
+ ==>  
+ ch khole 00
+ lh khole
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     khole = 00
+ ch khole SomethingLOn
+ lh khole
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     khole = Somethin
+  
+ ==>  
+ ch evdp 3.1415
+ lh evdp
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     evdp = 3.141500e+00
+ ch evlo 3.1415
+ lh evlo
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     evlo = 3.141500e+00
+ ch evla 3.1415
+ lh evla
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     evla = 3.141500e+00
+ ch evel 3.1415
+ lh evel
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     evel = 3.141500e+00
+  
+ ==>  
+ ch stdp 3.1415
+ lh stdp
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     stdp = 3.141500e+00
+ ch stlo 3.1415
+ lh stlo
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     stlo = 3.141500e+00
+ ch stla 3.1415
+ lh stla
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     stla = 3.141500e+00
+ ch stel 3.1415
+ lh stel
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     stel = 3.141500e+00
+  
+ ==>  
+ ch cmpinc 0.0
+ lh cmpinc
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     cmpinc = 0.000000e+00
+ ch cmpinc 90
+ lh cmpinc
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     cmpinc = 9.000000e+01
+  
+ ==>  
+ ch cmpaz 0.0
+ lh cmpaz
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     cmpaz = 0.000000e+00
+ ch cmpaz
+ lh cmpaz
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+  
+ ==>  
+ ch resp0 3.1415
+ lh resp0
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     resp0 = 3.141500e+00
+ ch resp1 3.1415
+ lh resp1
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     resp1 = 3.141500e+00
+ ch resp2 3.1415
+ lh resp2
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     resp2 = 3.141500e+00
+ ch resp3 3.1415
+ lh resp3
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     resp3 = 3.141500e+00
+ ch resp4 3.1415
+ lh resp4
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     resp4 = 3.141500e+00
+ ch resp5 3.1415
+ lh resp5
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     resp5 = 3.141500e+00
+ ch resp6 3.1415
+ lh resp6
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     resp6 = 3.141500e+00
+ ch resp7 3.1415
+ lh resp7
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     resp7 = 3.141500e+00
+ ch resp8 3.1415
+ lh resp8
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     resp8 = 3.141500e+00
+ ch resp9 3.1415
+ lh resp9
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     resp9 = 3.141500e+00
+  
+ ==>  
+ ch t0 3.1415
+ lh t0
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     t0 = 3.141500e+00
+ ch t1 3.1415
+ lh t1
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     t1 = 3.141500e+00
+ ch t2 3.1415
+ lh t2
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     t2 = 3.141500e+00
+ ch t3 3.1415
+ lh t3
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     t3 = 3.141500e+00
+ ch t4 3.1415
+ lh t4
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     t4 = 3.141500e+00
+ ch t5 3.1415
+ lh t5
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     t5 = 3.141500e+00
+ ch t6 3.1415
+ lh t6
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     t6 = 3.141500e+00
+ ch t7 3.1415
+ lh t7
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     t7 = 3.141500e+00
+ ch t8 3.1415
+ lh t8
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     t8 = 3.141500e+00
+ ch t9 3.1415
+ lh t9
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     t9 = 3.141500e+00
+  
+ ==>  
+ ch f 3.1415
+ lh f
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     f = 3.141500e+00
+  
+ ==>  
+ ch o 3.1415
+ lh f
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     f = 3.141500e+00
+  
+ ==>  
+ ch a 3.1415
+ lh a
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     a = 3.141500e+00
+  
+ ==>  
+ ch allt 10
+ lh default
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+         NPTS = 100
+            B = 2.000000e+01
+            E = 1.190000e+02
+       IFTYPE = TIME SERIES FILE
+        LEVEN = FALSE
+        DELTA = 1.000000e+02
+       DEPMIN = 1.000000e+02
+       DEPMAX = 1.000000e+02
+       DEPMEN = 1.000000e+02
+      OMARKER = 13.142
+      AMARKER = 13.142
+     T0MARKER = 13.142
+     T1MARKER = 13.142
+     T2MARKER = 13.142
+     T3MARKER = 13.142
+     T4MARKER = 13.142
+     T5MARKER = 13.142
+     T6MARKER = 13.142
+     T7MARKER = 13.142
+     T8MARKER = 13.142
+     T9MARKER = 13.142
+      FMARKER = 13.142
+        RESP0 = 3.141500e+00
+        RESP1 = 3.141500e+00
+        RESP2 = 3.141500e+00
+        RESP3 = 3.141500e+00
+        RESP4 = 3.141500e+00
+        RESP5 = 3.141500e+00
+        RESP6 = 3.141500e+00
+        RESP7 = 3.141500e+00
+        RESP8 = 3.141500e+00
+        RESP9 = 3.141500e+00
+        KSTNM = StationL
+       CMPINC = 9.000000e+01
+         STLA = 3.141500e+00
+         STLO = 3.141500e+00
+         STEL = 3.141500e+00
+         STDP = 3.141500e+00
+        KEVNM =  spaces
+         EVLA = 3.141500e+00
+         EVLO = 3.141500e+00
+         EVEL = 3.141500e+00
+         EVDP = 3.141500e+00
+        KHOLE = Somethin
+         DIST = 3.141500e+00
+           AZ = 3.141500e+00
+          BAZ = 3.141500e+00
+        GCARC = 3.141500e+00
+       LOVROK = TRUE
+        USER0 = 3.141500e+00
+        USER1 = 3.141500e+00
+        USER2 = 3.141500e+00
+        USER3 = 3.141500e+00
+        USER4 = 3.141500e+00
+        USER5 = 3.141500e+00
+        USER6 = 3.141500e+00
+        USER7 = 3.141500e+00
+        USER8 = 3.141500e+00
+        USER9 = 3.141500e+00
+       KUSER0 = Nothing0
+       KUSER1 = Nothing0
+       KUSER2 = Nothing0
+        NVHDR = 6
+       LPSPOL = TRUE
+       LCALDA = FALSE
+       KCMPNM = BHZ
+       KNETWK = Somthing
+  
+ ==>  
+  
+ ==>  
+ quit

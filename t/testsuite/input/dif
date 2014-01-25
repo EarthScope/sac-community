@@ -1,0 +1,28 @@
+dif
+fg seismogram
+
+lh depmin depmax depmen npts
+dif
+lh depmin depmax depmen npts
+
+fg seismogram
+lh depmin depmax depmen npts
+dif two
+lh depmin depmax depmen npts
+
+fg seismogram
+lh depmin depmax depmen npts
+dif three
+lh depmin depmax depmen npts
+
+fg seismogram
+lh depmin depmax depmen npts
+dif five
+lh depmin depmax depmen npts
+
+fg seismogram
+lh depmin depmax depmen npts
+dif seven
+lh depmin depmax depmen npts
+
+

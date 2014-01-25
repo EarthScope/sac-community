@@ -1,0 +1,20 @@
+ wait text off
+  
+ ==>  
+  
+ ==>  
+ loglin
+ grid on
+ color blue
+ title "Titre" location TOP size medium
+ xlabel "Frequencies - Hz"
+ ylabel "Phase"
+ fileid off
+ plotalpha free content XN test_plotalpha.m
+ pause period 0.5
+Pausing
+  
+ ==>  
+  
+ ==>  
+ quit

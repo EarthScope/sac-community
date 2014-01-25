@@ -1,0 +1,80 @@
+ wait text off
+  
+ ==>  
+ fg seismo
+ lh iftype depmin depmax depmin npts delta
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     iftype = TIME SERIES FILE
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmin = -1.569280e+00
+       npts = 1000
+      delta = 1.000000e-02
+  
+ ==>  
+ fft
+ DC level after DFT is -0.98547
+ lh iftype depmin depmax depmin npts delta
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     iftype = SPECTRAL FILE-AMPL/PHASE
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmin = -1.569280e+00
+       npts = 1024
+      delta = 9.765625e-02
+  
+ ==>  
+ keepam
+ lh iftype depmin depmax depmin npts delta
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     iftype = GENERAL X VS Y FILE
+     depmin = 3.626911e-05
+     depmax = 9.854721e-01
+     depmin = 3.626911e-05
+       npts = 513
+      delta = 9.765625e-02
+  
+ ==>  
+ fg seismo
+ fft rlim
+ DC level after DFT is -0.98547
+ lh iftype depmin depmax depmin npts delta
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     iftype = SPECTRAL FILE-REAL/IMAG
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmin = -1.569280e+00
+       npts = 1024
+      delta = 9.765625e-02
+  
+ ==>  
+ keepam
+ lh iftype depmin depmax depmin npts delta
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     iftype = GENERAL X VS Y FILE
+     depmin = 3.626911e-05
+     depmax = 9.854721e-01
+     depmin = 3.626911e-05
+       npts = 513
+      delta = 9.765625e-02
+ quit

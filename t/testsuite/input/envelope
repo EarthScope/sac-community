@@ -1,0 +1,16 @@
+envelope
+fg seismogram
+lh depmin depmax
+envelope
+lh depmin depmax
+
+fg impulse
+lh depmin depmax
+envelope
+lh depmin depmax
+
+fg sine
+lh depmin depmax
+envelope
+lh depmin depmax
+

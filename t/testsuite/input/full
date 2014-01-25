@@ -1,0 +1,40 @@
+
+fg sine 0.1 0 npts 10000
+p1 ; pause period 0.25
+
+xfull on
+p1 ; pause period 0.25
+
+xfull off
+p1 ; pause period 0.25
+
+xlog 
+xfull off
+p1 ; pause period 0.25
+
+xlog 
+xfull on
+p1 ; pause period 0.25
+
+
+mul 1000
+xlin
+
+yfull on
+p1 ; pause period 0.25
+
+yfull off
+p1 ; pause period 0.25
+
+ylog 
+yfull off
+p1 ; pause period 0.25
+
+ylog 
+yfull on
+p1 ; pause period 0.25
+
+
+
+
+

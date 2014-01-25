@@ -1,0 +1,32 @@
+fg seismo
+
+p1 ; pause period 0.25
+
+xlabel "X Label"
+p1 ; pause period 0.25
+
+xlabel off
+p1 ; pause period 0.25
+
+xlabel on
+p1 ; pause period 0.25
+
+xlabel location top
+p1 ; pause period 0.25
+xlabel location bottom
+p1 ; pause period 0.25
+xlabel location left
+p1 ; pause period 0.25
+xlabel location right
+p1 ; pause period 0.25
+
+xlabel size tiny
+p1 ; pause period 0.25
+xlabel size small
+p1 ; pause period 0.25
+xlabel size medium
+p1 ; pause period 0.25
+xlabel size large
+p1 ; pause period 0.25
+
+xlabel Bad label

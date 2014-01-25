@@ -1,0 +1,12 @@
+fg seismo
+p1 ; pause period 0.25
+
+xfudge off
+p1 ; pause period 0.25
+
+xfudge on
+p1 ; pause period 0.25
+
+xfudge 10
+p1 ; pause period 0.25
+

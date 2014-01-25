@@ -1,0 +1,155 @@
+ wait text off
+  
+ ==>  
+ echo on
+ fg seismo
+ write tmp@ name.sac
+ ==>  write tmp name.sac
+ read tmp@ name.sac
+ ==>  read tmp name.sac
+ message &1,depmen
+ ==>  message -0.0985472
+ -0.0985472
+ message &tmp@ name.sac,depmen
+ ==>  message -0.0985472
+ -0.0985472
+  
+ ==>  
+ message @(hi there @)
+ ==>  message (hi there )
+ (hi
+ there
+ )
+  
+ ==>  
+ message "hi there"
+ hi there
+  
+ ==>  
+ message hi@ there
+ ==>  message hi there
+ hi there
+  
+ ==>  
+ message @(hi@)
+ ==>  message (hi)
+ (hi)
+  
+ ==>  
+ message %sacnfiles
+ ==>  message 1
+ 1
+ message @%sacnfiles
+ ==>  message %sacnfiles
+ %sacnfiles
+ message @ %sacnfiles
+ ==>  message  1
+  1
+ message &1,depmen&
+ ==>  message -0.0985472
+ -0.0985472
+ message @&1,depmen
+ ==>  message &1,depmen
+ &1,depmen
+ message "hello there @&@$@%@(@)@@@ "
+ ==>  message "hello there &$%()@ "
+ hello there &$%()@
+ message "hello there @"stringy@" hi "
+ ==>  message "hello there "stringy" hi "
+ hello there "stringy" hi
+ message "hello\ there"
+ hello\ there
+ message @ hi
+ ==>  message  hi
+  hi
+ message @xhi
+ @xhi
+ message @x hi
+ @x
+ hi
+ message @x" "hi
+ @x
+  
+ hi
+ message @x@ hi
+ ==>  message @x hi
+ @x hi
+ message "title (units)"
+ title (units)
+ message "title [units]"
+ title [units]
+ message "title @(units@)"
+ ==>  message "title (units)"
+ title (units)
+ message "title@ @(units@)"
+ ==>  message "title (units)"
+ title (units)
+ message title@ @(units@)
+ ==>  message title (units)
+ title (units)
+ message title@ @((1+2)@)
+ ==>  message title ( 3 )
+ title (
+ 3
+ )
+ setbb a (pi)
+ ==>  setbb a 3.14159
+ message "@%a = %a"
+ ==>  message "%a = 3.14159"
+ %a = 3.14159
+ message "@%a=%a"
+ ==>  message "%a=3.14159"
+ %a=3.14159
+ message "%a%=@%a"
+ ==>  message "3.14159=%a"
+ 3.14159=%a
+ message "%a = @%a"
+ ==>  message "3.14159 = %a"
+ 3.14159 = %a
+  
+ ==>  
+ message @%a = %a
+ ==>  message %a = 3.14159
+ %a
+ =
+ 3.14159
+ message @%a=%a
+ ==>  message %a=3.14159
+ %a=3.14159
+ message %a%=@%a
+ ==>  message 3.14159=%a
+ 3.14159=%a
+ message %a = @%a
+ ==>  message 3.14159 = %a
+ 3.14159
+ =
+ %a
+  
+ ==>  
+ message @%numerror=%numerror
+ ==>  message %numerror=0
+ %numerror=0
+ fg
+ message &1,delta&=@&1,delta
+ ==>  message 0.01=&1,delta
+ 0.01=&1,delta
+ message @&1,delta=&1,delta
+ ==>  message &1,delta=0.01
+ &1,delta=0.01
+ message "&1,delta = @&1,delta
+ ==>  message "0.01 = &1,delta"
+ 0.01 = &1,delta
+ message "@&1,delta = &1,delta
+ ==>  message "&1,delta = 0.01"
+ &1,delta = 0.01
+ message "&1,delta = @&1,delta"
+ ==>  message "0.01 = &1,delta"
+ 0.01 = &1,delta
+ message "@&1,delta = &1,delta"
+ ==>  message "&1,delta = 0.01"
+ &1,delta = 0.01
+  
+ ==>  
+  
+ ==>  
+ quit

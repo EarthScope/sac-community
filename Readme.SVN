@@ -1,0 +1,97 @@
+Instructions on building SAC from SVN ( Source Code Repository )
+------------------------------------------------------------------------
+
+* Introduction
+* Checking out the Source
+* Creating the Configure Script
+* Building a Source Distribution
+* Building a Binary Distribution
+* Finding Source Code Differences 
+
+* Introcution
+------------------------------------------------------------------------
+Building a binary of SAC or creating a distribution of SAC directly
+from the repository (hereafter referred to as SVN) is possible 
+through a series of scripts and utilities.  These utilities are 
+provided to ease the maintanence and provide a seamless way to 
+add additional operating system support.
+
+* Checking out the Source
+------------------------------------------------------------------------
+To check out the source, you need SVN, which is available on most 
+current operating systems. To check out the source issue the commands
+
+% svn checkout http://seiscode.iris.washington.edu/svn/sac-dev/
+
+This should create a directory named sac-dev with the entire distribution
+and auxillary files included.  At this point to progress further, you
+need to create the configure script which facilitates Makefile creation.
+
+* Building a Source Distribution
+------------------------------------------------------------------------
+To create a source distribution is rather simple.  It will include only
+the files required to create the distribution from source.  Run
+
+% ./configure 
+% make dist 
+
+This will create a compressed tar file named SAC-${VERSION}.tar.gz 
+The internal directory for the tar file will be named sac-${VERSION}
+
+* Building a Binary Distribution
+------------------------------------------------------------------------
+Building a binary distribution is just as easy as for the source.
+
+% ./configure
+% make dist-binary
+
+This will create a compress tar file named SAC-${VERSION}-${OSTYPE}.tar.gz
+The internal directory for the tar file will be named sac.  To create the
+binary distribution, the source code is required to be compiled and may 
+take some time.  This will be done automatically if not already done.
+
+* Finding Source Code Differences 
+------------------------------------------------------------------------
+If you would like to see the difference between your version of the 
+source code and what is currently in SVN, try the command from the SAC 
+directory.
+
+% svn diff
+
+or 
+
+% svn diff Readme
+
+To find out the differences between your Readme and the version in SVN
+
+* Updating the Configure Script [Not normally Necessary]
+------------------------------------------------------------------------
+After making chanes to the build system, the configure script needs updating.
+To update the configure script, execute the following command in the SAC
+directory/
+
+# Only do this if you know what you are doing
+% ./bootstrap
+
+The bootstrap script will run a number of utilities including aclocal,
+automake and autoconf.  Simply, it takes the configure.in file and the 
+Makefile.am files create ./configure and Makefile.in.  Extra, unnecesary
+directoires are removed ( autom4te.cache ).
+
+aclocal: Creates aclocal.m4 ( Useful Macros for Configuration )
+automake: Makefile.am -> Makefile.in (all directories)
+	  Also creates required files files in the config directory
+	  - compile
+	  - config.guess
+	  - config.sub
+	  - install-sh
+	  - missing
+autoconf: configure.in -> configure ( SAC directory )
+
+A utility script to clean up the mess created by bootstrap is also 
+provided.  It should return the distribution to as close to the original 
+state as possible.  After running this utility script, the bootstrap script
+is required to be run to issue any commands like "make clean". 
+It can be run simply as:
+
+% ./bootstrap-clean

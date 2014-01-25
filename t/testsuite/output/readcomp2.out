@@ -1,0 +1,48 @@
+ wait text off
+  
+ ==>  
+ funcgen impulse
+ fft
+ DC level after DFT is 1
+ lh iftype
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     iftype = SPECTRAL FILE-AMPL/PHASE
+ ** write ascii format
+ write alpha ascii.sac
+  
+ ==>  
+ ** able to read ascii file as expected
+ read alpha ascii.sac
+ lh iftype
+  
+  
+  FILE: ascii.sac - 1
+ ---------------
+
+     iftype = SPECTRAL FILE-AMPL/PHASE
+  
+ ==>  
+ ** write binary format
+ write sac binary.sac
+  
+ ==>  
+ ** should be error? in reading binary file
+ read binary.sac
+  
+ ==>  
+ lh iftype
+  
+  
+  FILE: binary.sac - 1
+ ----------------
+
+     iftype = SPECTRAL FILE-AMPL/PHASE
+  
+ ==>  
+  
+ ==>  
+ quit
