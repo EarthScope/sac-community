@@ -21,7 +21,6 @@
 #define MAXPAIRS 10
 
 buffer *buffer_new();
-void buffer_set_format(buffer *b, char p);
 void buffer_append(buffer *b, void *p, int n);
 void sacpop_no_free();
 void *buffer_get(buffer *b, int i);
@@ -157,7 +156,6 @@ xcutim ( int *nerr )
       return ;
 
     cut_data = buffer_new();
-    buffer_set_format(cut_data, 'p');
     for(i = 0; i < saclen(); i++) {
       if(!(s = sacget(i, TRUE, nerr))) {
         *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;

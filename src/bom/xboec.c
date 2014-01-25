@@ -63,7 +63,6 @@ L_1000:
 static buffer* sac_binary_file_list = NULL;
 
 buffer *buffer_new();
-void buffer_set_format(buffer *b, char c);
 void buffer_append(buffer *b, void *p, int n);
 void *buffer_get(buffer *b, int i);
 void buffer_free(buffer *b);
@@ -76,7 +75,6 @@ bflget(string_list *list, int i) {
 
   if(!sac_binary_file_list) {
     sac_binary_file_list = buffer_new();
-    buffer_set_format(sac_binary_file_list, 'p');
   }
 
   if(i >= sac_binary_file_list->len) {

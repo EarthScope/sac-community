@@ -17,7 +17,6 @@
 static buffer* sac_buffer = NULL;
 
 buffer *buffer_new();
-void buffer_set_format(buffer *b, char f);
 void sac_buffer_new();
 
 /** \def MEMINIT
@@ -89,6 +88,23 @@ sacmem_free(struct t_cmmem *mem) {
   FREE(mem->sacmem);
 }
 
+/*
+  + new()
+  + init()
+  + grow()
+  + put() => append()
+  + extend() => append()
+  + delete()
+  + get()
+  + clear() => free_data()
+  + pop()
+  + free()
+  + length()
+
+  - find()
+  - print()
+
+ */
 
 int
 buffer_check(buffer *b) {
@@ -99,6 +115,14 @@ buffer_check(buffer *b) {
   return 1;
 }
 
+int
+buffer_length(buffer *b) {
+  if(!buffer_check(b)){
+    return -1;
+  }
+  return b->len;
+}
+
 void
 buffer_init(buffer *b) {
   if(!buffer_check(b)) {
@@ -107,7 +131,6 @@ buffer_init(buffer *b) {
   b->buf        = NULL;
   b->len        = 0;
   b->alloc      = 0;
-  b->format     = 0;
 }
 
 buffer *
@@ -119,6 +142,7 @@ buffer_new() {
     return NULL;
   }
   buffer_init(b);
+  buffer_grow(b,4);
   return b;
 }
 
@@ -147,12 +171,9 @@ buffer_del(buffer *b, int i) {
     printf("buffer: attempt to delete non-existant value");
     return NULL;
   }
-  switch(b->format)
-  case 'p': {
-    p = b->buf[i];
-    for(j = i; j < b->len-1; j++) {
-      b->buf[j] = b->buf[j+1];
-    }
+  p = b->buf[i];
+  for(j = i; j < b->len-1; j++) {
+    b->buf[j] = b->buf[j+1];
   }
   b->len -= 1;
   return p;
@@ -173,7 +194,7 @@ buffer_grow(buffer *b, int len) {
     while((b->len + len) >= b->alloc) {
       b->alloc = b->alloc * 2;
     }
-    tmp = (void *) realloc(b->buf, b->alloc * b->itemsize);
+    tmp = (void *) realloc(b->buf, b->alloc * sizeof(void *));
     if(!tmp) {
       fprintf(stderr, "buffer: reallocating error\n");
       return 0;
@@ -183,81 +204,26 @@ buffer_grow(buffer *b, int len) {
   return 1;
 }
 
-/** 
- * Set the format of a buffer
- *
- * @param b
- *   Buffer Object
- * @param f
- *   - "i" Integer
- *   - "u" Unsigned Integer
- *   - "f" Floating point
- *   - "d" Double percision 
- *   - "s" string
- *   - "p" Pointer
- *
- * If the format of a buffer already exists, the data is freed
- *
- */
-void
-buffer_set_format(buffer *b, char f) {
-  if(!buffer_check(b)) {
-    return;
-  }
-  if(b->format) {
-    buffer_free_data(b);
-  }
-  b->format = f;
-  switch(b->format) {
-  case 'i':
-    b->itemsize = sizeof(int);
-    break;
-  case 'u':
-    b->itemsize = sizeof(unsigned int);
-    break;
-  case 'f':
-    b->itemsize = sizeof(float);
-    break;
-  case 'd':
-    b->itemsize = sizeof(double);
-    break;
-  case 's':
-    b->itemsize = sizeof(char *);
-    break;
-  case 'p':
-    b->itemsize = sizeof(void *);
-    break;
-  default:
-    break;
-  }
-  buffer_grow(b, 4);
-}
-
 void
 buffer_sort(buffer *b, int (* compare)(const void *a, const void *b)) {
-  qsort(b->buf, b->len, b->itemsize, compare);
+  qsort(b->buf, b->len, sizeof(void *), compare);
 }
 
 void
 buffer_append(buffer *b, void *p, int n) {
+  int i;
+  void **pin, **pa;
   if(!buffer_check(b)) {
     return;
   }
   if(!buffer_grow(b, n)) {
     return;
   }
-  switch(b->format) {
-  case 'p':{
-    void ** pin = (void **) p;
-    void ** pa  = &(b->buf[b->len]);
-    int i;
-    for(i = 0; i < n; i++) {
-      pa[i] = pin[i];
-    }
+  pin = (void **) p;
+  pa  = &(b->buf[b->len]);
+  for(i = 0; i < n; i++) {
+    pa[i] = pin[i];
   }
-    break;
-  }
-  //memcpy(b->buf + (b->len * b->itemsize), p, n * b->itemsize);
   b->len = b->len + n;
 }
 
@@ -500,7 +466,6 @@ void
 sac_buffer_new() {
   if(! sac_buffer) {
     sac_buffer = buffer_new();
-    buffer_set_format(sac_buffer, 'p');
   }
 }
 

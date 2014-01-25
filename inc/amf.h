@@ -46,8 +46,6 @@ struct _buffer {
   void  **buf;
   int     len;
   int     alloc;
-  char    format;
-  size_t  itemsize;
 };
 
 sac *sacget(int i, int data, int *nerr);
