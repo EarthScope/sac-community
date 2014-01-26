@@ -38,10 +38,7 @@ void execute_command_line(char *kmsg, int len);
 #ifdef X11_APPLICATION
 void set_constrain_plot_ratio_x11( int set );
 
-void
-set_prompt_good() {
-  
-}
+void set_constrain_plot_ratio_x11( int set );
 
 /** 
  * Main command execution loop for SAC, called by the system on startup
@@ -228,8 +225,18 @@ sac_command_line_options(int argc, char **argv) {
   int macro_start = 0;
     /* check for "gui" execute line arg. */
     for( i=1; i<argc; i++ ){
+
 #ifdef X11_APPLICATION
       if(strcmp(argv[i], "--letter") == 0) {
+      if(strcmp(argv[i], "--bell-off") == 0) {
+        bell_off();
+        macro_start ++;
+      }
+      else if(strcmp(argv[i], "--bell-on") == 0) {
+        bell_on();
+        macro_start ++;
+      }
+      else if(strcmp(argv[i], "--letter") == 0) {
         set_constrain_plot_ratio_x11( TRUE );
         macro_start ++;
       }
@@ -277,4 +284,5 @@ sac_command_line_options(int argc, char **argv) {
         show_prompt_without_tty(OPTION_ON);
       }
     }
+
 }

@@ -216,7 +216,6 @@ xr(int *nerr) {
     DEBUG("readfl: done\n");
 	if ( *nerr ) {
 	    setmsg( "ERROR" , *nerr ) ;
-	    outmsg() ;
       goto L_8887;
 	}
 
