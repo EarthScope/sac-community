@@ -155,23 +155,7 @@ void sacToSeisMgr ( int lnew , int lupdate , int ldata , int *nerr )
 	    extrma( cmmem.sacmem[cmdfm.ndxdta[jdfl][1]], 1, *npts, begin,
 		    ennd, &unused );
 
-	if( (((*stla != cmhdr.fundef && *stlo != cmhdr.fundef) && *evla !=
-	  cmhdr.fundef) && *evlo != cmhdr.fundef) && *lcalda ){
-	    *az = 0.;
-	    *baz = 0.;
-	    *gcarc = 0.;
-	    *dist = 0.;
-	    if ((fabs(*stla - *evla) > RNDOFF ) || (fabs(*stlo - *evlo) > RNDOFF)) {
-		distaz( *evla, *evlo, (float*)stla, (float*)stlo, 1, (float*)dist,
-		  (float*)az, (float*)baz, (float*)gcarc, &ndaerr );
-		if( ndaerr != 0 ){
-		    *dist = cmhdr.fundef;
-		    *az = cmhdr.fundef;
-		    *baz = cmhdr.fundef;
-		    *gcarc = cmhdr.fundef;
-		}
-	    }
-	} /* end if( (((*stla != cmhdr.fundef ... ) */
+  update_distaz();
 
 	if ( localLdata ) {
 	    extrma( cmmem.sacmem[ndx1], 1, *npts, depmin, depmax, depmen );

@@ -173,34 +173,7 @@ int lall ;
     *nwfid   = header->nwfid ;
 
     /* calculate dist, az, baz, and gcarc if appropriate */
-    if ( *stla != cmhdr.fundef && *stlo != cmhdr.fundef &&
-	 *evla != cmhdr.fundef && *evlo != cmhdr.fundef && *lcalda ) {
-
-	*dist = 0.;
-	*az = 0.;
-	*baz = 0.;
-	*gcarc = 0.;
-
-	distaz( *evla, *evlo, (float*)stla, (float*)stlo, 1, (float*)dist,
-		(float*)az, (float*)baz, (float*)gcarc, &err );
-
-	/* handle error */
-	if ( err ) {
-	    *dist = cmhdr.fundef;
-	    *az = cmhdr.fundef;
-	    *baz = cmhdr.fundef;
-	    *gcarc = cmhdr.fundef;
-	    err = 0 ;
-	}
-
-	/* deal with the case:  station == event */
-	if( (*evla == *stla) && (*evlo == *stlo) ){
-	    *az = 0.;
-	    *baz = 0.;
-	    *dist = 0.;
-	    *gcarc = 0.;
-	}
-    } /* end if ( *stla ... ) */
+    update_distaz();
 
     /* Check the ranges of the enumerated header variables */
     for ( idx = 0 ; idx < SAC_HEADER_ENUMS ; idx++ ) {

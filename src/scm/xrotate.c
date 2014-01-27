@@ -164,15 +164,9 @@ L_1000:
 		/* -- Get azimuth or back azimuth from header variables if requested. */
 
 		if( strcmp(kmscm.krottp,"HDRGCP  ") == 0 ){
-			if( ((*stlo != cmhdr.fundef && *stla != cmhdr.fundef) && 
-			 *evlo != cmhdr.fundef) && *evla != cmhdr.fundef ){
-				distaz( *evla, *evlo, (float*)stla, (float*)stlo, 
-				 1, (float*)dist, (float*)az, (float*)baz, (float*)gcarc, 
-				 nerr );
-				if( *nerr != 0 )
-					goto L_8888;
-				rotaz = *baz + 180.;
-				}
+      update_distaz();
+      rotaz = *baz + 180.;
+    }
 			else{
 				*nerr = 2004;
 				setmsg( "ERROR", *nerr );

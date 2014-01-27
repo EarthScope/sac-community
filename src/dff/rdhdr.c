@@ -174,29 +174,7 @@ L_4000:
 	} 
 
 	/* - Compute distance, azimuth, etc. if proper header fields are present. */
-
-	if( (((*stla != cmhdr.fundef && *stlo != cmhdr.fundef) && *evla != 
-	 cmhdr.fundef) && *evlo != cmhdr.fundef) && *lcalda ){
-            if ((fabs(*stla - *evla) < RNDOFF ) && (fabs(*stlo - *evlo) < RNDOFF)) {
-		*dist = cmhdr.fundef;
-		*az = cmhdr.fundef;
-		*baz = cmhdr.fundef;
-		*gcarc = cmhdr.fundef;
-	    }else {
-		*az = 0.;
-		*baz = 0.;
-		*gcarc = 0.;
-		*dist = 0.;
-		distaz( *evla, *evlo, (float*)stla, (float*)stlo, 1, (float*)dist, 
-		 (float*)az, (float*)baz, (float*)gcarc, &ndaerr );
-		if( ndaerr != 0 ){
-		    *dist = cmhdr.fundef;
-		    *az = cmhdr.fundef;
-		    *baz = cmhdr.fundef;
-		    *gcarc = cmhdr.fundef;
-		}
-	    }
-	} /* end if( (((*stla != cmhdr.fundef ... ) */
+  update_distaz();
 
 	/* - Adjust reference year if necessary. */
 

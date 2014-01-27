@@ -342,30 +342,7 @@ xch(int *nerr) {
 		    *ennd = *begin + (float)( *npts - 1 )**delta;
 
 		/* -- Recompute distance, azimuth, etc. if proper header fields are present. */
-		if( (((*stla != cmhdr.fundef && *stlo != cmhdr.fundef) && 
-		 *evla != cmhdr.fundef) && *evlo != cmhdr.fundef) && *lcalda ){
-		    *dist = 0.;
-		    *az = 0.;
-		    *baz = 0.;
-		    *gcarc = 0.;
-
-		    distaz( *evla, *evlo, (float*)stla, (float*)stlo, 1, (float*)dist, 
-		     (float*)az, (float*)baz, (float*)gcarc, &ndaerr );
-
-		    /* -- When station=event location, az and baz are randomly set to some value. */
-
-		    if( (*evla == *stla) && (*evlo == *stlo) ){
-			*az = 0.;
-			*baz = 0.;
-		    }
-
-		    if( ndaerr != 0 ){
-			*dist = cmhdr.fundef;
-			*az = cmhdr.fundef;
-			*baz = cmhdr.fundef;
-			*gcarc = cmhdr.fundef;
-		    }
-		}
+    update_distaz();
 
 		/* -- Give file back to memory manager. */
 		putfil( jdfl, nerr );
