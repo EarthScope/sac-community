@@ -55,14 +55,6 @@ enum _vtype {
     va_float,
     va_double,
 };
-typedef struct _varray_t varray_t;
-struct _varray_t {
-    char  *data;
-    int    n;
-    int    alloc;
-    size_t esize;
-    vtype  type;
-};
 
 int       array_grow(array_t *a, int len);
 array_t * array_new();
@@ -86,14 +78,5 @@ int       array_find_value(array_t *a, void *value);
 int       array_count_value(array_t *a, void *value);
 int       array_reverse(array_t *a);
 array_t * array_slice(array_t *a, int start, int stop, int step, int len);
-
-varray_t *    varray_new(vtype t);
-int           varray_length(varray_t *v);
-int           varray_grow(varray_t *v, int len);
-int           varray_append(varray_t *v, ...);
-int           varray_get_int(varray_t *v, int i);
-unsigned int  varray_get_uint(varray_t *v, int i);
-char          varray_get_char(varray_t *v, int i);
-unsigned char varray_get_uchar(varray_t *v, int i);
 
 #endif /* __ARRAY_H__ */

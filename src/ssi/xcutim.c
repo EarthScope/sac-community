@@ -18,17 +18,15 @@
 #include "cpf.h"
 #include "dff.h"
 
+#include "array.h"
+
 #define MAXPAIRS 10
 
-buffer *buffer_new();
-void buffer_append(buffer *b, void *p, int n);
-void sacpop_no_free();
-void *buffer_get(buffer *b, int i);
-
-buffer *cut_data;
+sac **cut_data;
 sac *cut_file;
+void sacpop_no_free();
 
-void 
+void
 xcutim ( int *nerr )
 {
     /* declare variables */
@@ -155,13 +153,13 @@ xcutim ( int *nerr )
     if ( *nerr )
       return ;
 
-    cut_data = buffer_new();
+    cut_data = xarray_new('p');
     for(i = 0; i < saclen(); i++) {
       if(!(s = sacget(i, TRUE, nerr))) {
         *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
         goto L_ERROR;
       }
-      buffer_append(cut_data, &s, 1);
+      cut_data = xarray_append(cut_data, s);
     }
     while(saclen() > 0) {
       sacpop_no_free();
@@ -187,7 +185,7 @@ xcutim ( int *nerr )
 	    /* Get next waveform. */
 	    if ( ! ( wfL = dblNextTableInstance ( wfL , tree , dbl_LIST_WFDISC ) ) )
 		break ;
-      cut_file = buffer_get(cut_data, k);
+      cut_file = cut_data[k];
       k++;
 	    /* Get the header to go with the waveform */
 	    sacHeaderFromCSS( tree, &( globalSacHeader[ nSacFiles ] ),

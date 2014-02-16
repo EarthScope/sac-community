@@ -15,21 +15,23 @@
 #include "gd3.x11.h"
 #include "string/array.h"
 
+#include "array.h"
+
 void
 line_style_x11(char *line, void *data) {
     float f;
     int n;
-    varray_t *v;
+    char *v;
     char *buf;
     array_t *x11 = (array_t *) data;
     
-    v = varray_new(va_char);
-    array_append(x11, v);
+    v = xarray_new('c');
     buf = line;
     while(buf && sscanf(buf, "%f%n", &f, &n) == 1) {
-        varray_append(v, (int)(f+0.5));
+        v = xarray_append(v, (int)(f+0.5));
         buf += n;
     }
+    array_append(x11, v);
 }
 
 
@@ -40,7 +42,7 @@ setlinestyle3(int *linestyle)
   XWindow *xw;
   int dash_offset = 0;
   static array_t *dashes = NULL;
-  varray_t *dash;
+  char *dash;
 
   xw = plot_window( CURRENT );
 
@@ -55,7 +57,7 @@ setlinestyle3(int *linestyle)
         dashes = array_new();
         sac_line_style_read(line_style_x11, dashes);
     }
-    dash = (varray_t *) array_element(dashes, *linestyle-2);
+    dash = (char *) array_element(dashes, *linestyle-2);
     if(!dash) {
         return;
     }
@@ -64,8 +66,8 @@ setlinestyle3(int *linestyle)
     XSetDashes(DISPLAY(xw), 
                xw->gc,
                dash_offset, 
-               (char *)(dash->data),
-               varray_length(dash));
+               dash,
+               xarray_length(dash));
   }
 }
 

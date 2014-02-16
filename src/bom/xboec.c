@@ -60,12 +60,9 @@ L_1000:
 	return;
 }
 
-static buffer* sac_binary_file_list = NULL;
+#include "array.h"
 
-buffer *buffer_new();
-void buffer_append(buffer *b, void *p, int n);
-void *buffer_get(buffer *b, int i);
-void buffer_free(buffer *b);
+static sac ** sac_binary_file_list = NULL;
 
 sac *sacread(char *file);
 
@@ -74,10 +71,10 @@ bflget(string_list *list, int i) {
   sac *s;
 
   if(!sac_binary_file_list) {
-    sac_binary_file_list = buffer_new();
+    sac_binary_file_list = xarray_new('p');
   }
 
-  if(i >= sac_binary_file_list->len) {
+  if( i >= (int)xarray_length(sac_binary_file_list)) {
     /* Read in File */
     if(i >= string_list_length(list)) {
       return NULL;
@@ -85,9 +82,9 @@ bflget(string_list *list, int i) {
     if(!(s = sacread(string_list_get(list, i)))) {
       return NULL;
     }
-    buffer_append(sac_binary_file_list, &s, 1);
+    sac_binary_file_list = xarray_append(sac_binary_file_list, s);
   }
-  s = buffer_get(sac_binary_file_list, i);
+  s = sac_binary_file_list[i];
 
   return s;
 }
@@ -97,7 +94,7 @@ void
 bflclear() {
 
   if(sac_binary_file_list) {
-    buffer_free(sac_binary_file_list);
+    xarray_free(sac_binary_file_list);
   }
   sac_binary_file_list = NULL;
 }

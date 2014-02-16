@@ -9,13 +9,16 @@
 #include "cpf.h"
 #include "dff.h"
 
+#include "array.h"
+
 void /*FUNCTION*/ xadd(nerr)
 int *nerr;
 {
-	int lchn;
-	int j, jcon, jdfl;
+  int new_list, n;
+	int j, jdfl;
 	double con;
 
+  static double *v = NULL;
   sac *s;
 	/* Ind
 	 *=====================================================================
@@ -49,20 +52,21 @@ int *nerr;
 
 	/* PARSING PHASE: */
 
-	jcon = 0;
-	lchn = FALSE;
-
+  new_list = TRUE;
 	/* - Loop on each token in command: */
-
+  if(!v) {
+    v = xarray_new('d');
+  }
 L_1000:
 	if( lcmore( nerr ) ){
 
 		/* -- "v":  constant to add. */
 		if( lcreal( &con ) ){
-			jcon = jcon + 1;
-			Conadd[jcon] = con;
-			lchn = TRUE;
-
+      if(new_list) {
+        xarray_clear(v);
+        new_list = FALSE;
+      }
+      v = xarray_append(v, con);
 			/* -- Bad syntax. */
 			}
 		else{
@@ -81,14 +85,6 @@ L_1000:
 	if( *nerr != 0 )
 		goto L_8888;
 
-	/* - Fill remainder of array with last input constant. */
-
-	if( lchn ){
-		for( j = jcon + 1; j <= MDFL; j++ ){
-				Conadd[j] = con;
-			}
-		}
-
 	/* CHECKING PHASE: */
 
 	/* - Check for null data file list. */
@@ -104,7 +100,8 @@ L_1000:
 		goto L_8888;
 
 	/* EXECUTION PHASE: */
-
+  con = 0.0;
+  n = xarray_length(v);
 	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 		/* -- Get next file from memory manager. */
@@ -114,7 +111,9 @@ L_1000:
 		//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
 		/* -- Add appropriate constant to each data point. */
-		con = Conadd[jdfl];
+    if(jdfl-1 < n) {
+      con = v[jdfl-1];
+    }
     for( j = 0; j < s->h->npts; j++ ){
       s->y[j] += con;
     }

@@ -14,9 +14,11 @@
 #include "SacHeader.h"
 #include "hdr.h"
 #include "ucf.h"
-static buffer* sac_buffer = NULL;
 
-buffer *buffer_new();
+#include "array.h"
+
+static sac ** sac_buffer = NULL;
+
 void sac_buffer_new();
 
 /** \def MEMINIT
@@ -105,140 +107,6 @@ sacmem_free(struct t_cmmem *mem) {
   - print()
 
  */
-
-int
-buffer_check(buffer *b) {
-  if(!b) {
-    fprintf(stderr, "buffer: check failed\n");
-    return 0;
-  }
-  return 1;
-}
-
-int
-buffer_length(buffer *b) {
-  if(!buffer_check(b)){
-    return -1;
-  }
-  return b->len;
-}
-
-void
-buffer_init(buffer *b) {
-  if(!buffer_check(b)) {
-    return;
-  }
-  b->buf        = NULL;
-  b->len        = 0;
-  b->alloc      = 0;
-}
-
-buffer *
-buffer_new() {
-  buffer *b;
-
-  b = (buffer *) malloc(sizeof(buffer));
-  if(!b) {
-    return NULL;
-  }
-  buffer_init(b);
-  buffer_grow(b,4);
-  return b;
-}
-
-void
-buffer_free_data(buffer *b) {
-  if(!buffer_check(b)) {
-    return;
-  }
-  if(b->buf) {
-    free(b->buf);
-    b->buf = NULL;
-  }
-  b->len = 0;
-  b->alloc = 0;
-}
-void *
-buffer_get(buffer *b, int i) {
-  return b->buf[i];
-}
-
-void *
-buffer_del(buffer *b, int i) {
-  int j;
-  void **p;
-  if(i < 0 || i >= b->len) {
-    printf("buffer: attempt to delete non-existant value");
-    return NULL;
-  }
-  p = b->buf[i];
-  for(j = i; j < b->len-1; j++) {
-    b->buf[j] = b->buf[j+1];
-  }
-  b->len -= 1;
-  return p;
-}
-
-void *
-buffer_pop(buffer *b) {
-  return buffer_del(b, b->len-1);
-}
-
-int
-buffer_grow(buffer *b, int len) {
-  void *tmp;
-  if(b->len + len >= b->alloc) {
-    if(b->alloc <= 0) {
-      b->alloc = 1;
-    }
-    while((b->len + len) >= b->alloc) {
-      b->alloc = b->alloc * 2;
-    }
-    tmp = (void *) realloc(b->buf, b->alloc * sizeof(void *));
-    if(!tmp) {
-      fprintf(stderr, "buffer: reallocating error\n");
-      return 0;
-    }
-    b->buf = tmp;
-  }
-  return 1;
-}
-
-void
-buffer_sort(buffer *b, int (* compare)(const void *a, const void *b)) {
-  qsort(b->buf, b->len, sizeof(void *), compare);
-}
-
-void
-buffer_append(buffer *b, void *p, int n) {
-  int i;
-  void **pin, **pa;
-  if(!buffer_check(b)) {
-    return;
-  }
-  if(!buffer_grow(b, n)) {
-    return;
-  }
-  pin = (void **) p;
-  pa  = &(b->buf[b->len]);
-  for(i = 0; i < n; i++) {
-    pa[i] = pin[i];
-  }
-  b->len = b->len + n;
-}
-
-
-void
-buffer_free(buffer *b) {
-  if(!buffer_check(b)) {
-    return;
-  }
-  buffer_free_data(b);
-  if(b) {
-    free(b);
-    b = NULL;
-  }
-}
 
 void
 sac_hdr_init(struct SACheader *sh) {
@@ -336,11 +204,11 @@ sacget(int i, int data, int *nerr) {
   if(!sac_buffer) {
     sac_buffer_new();
   }
-  if(i < 0 || i >= sac_buffer->len) {
+  if(i < 0 || (size_t) i >= xarray_length(sac_buffer)) {
     *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
     return NULL;
   }
-  s = buffer_get(sac_buffer, i);
+  s = sac_buffer[i];
   if(!s) {
     *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
     return NULL;
@@ -373,7 +241,7 @@ sacput(sac *s) {
   if(!s->m->filename) {
     printf("Storing data without a filename\n");
   }
-  buffer_append(sac_buffer, &s, 1);
+  sac_buffer = xarray_append(sac_buffer, s);
   CURRENT_ID = saclen() - 1;
   CURRENT = s;
 }
@@ -404,7 +272,7 @@ sac_comps(sac *s) {
 
 void
 sacsort(int (* compare)(const void *a, const void *b)) {
-  buffer_sort(sac_buffer, compare);
+  xarray_sort(sac_buffer, compare);
 }
 
 void
@@ -424,18 +292,18 @@ sac_alloc(sac *s) {
 
 int
 saclen() {
-  return sac_buffer->len;
+  return xarray_length(sac_buffer);
 }
 
 void
 sacpop_no_free() {
-  buffer_pop(sac_buffer);
+  xarray_pop(sac_buffer);
 }
 
 void
 sacdel(int i) {
   sac *s;
-  s = buffer_del(sac_buffer, i);
+  s = sac_buffer[i];
   if(s) {
     if(s == CURRENT) {
       CURRENT = NULL;
@@ -444,11 +312,12 @@ sacdel(int i) {
     sac_free(s);
     s = NULL;
   }
+  xarray_delete(sac_buffer, i);
 }
 
 void
 sacpop() {
-  sacdel(sac_buffer->len - 1);
+  xarray_pop(sac_buffer);
 }
 
 void
@@ -465,7 +334,7 @@ sacclear() {
 void
 sac_buffer_new() {
   if(! sac_buffer) {
-    sac_buffer = buffer_new();
+    sac_buffer = xarray_new('p');
   }
 }
 

@@ -13,12 +13,12 @@
 #include "gem.h"
 #include "bool.h"
 
-#include "string/array.h"
+#include "array.h"
 
 #include "msg.h"
 #include "cpf.h"
 
-static array_t *store = NULL;
+static label **store = NULL;
 
 label * 
 label_new() {
@@ -58,46 +58,11 @@ label_text(label *p, char *text) {
 }
 
 void
-label_free(label *p) {
-  if(!p) {
-    return;
-  }
-  label_free_text(p);
-  free(p);
-  p = NULL;
-}
-void
-label_obj_free(void *obj) {
-  label *p = (label *) obj;
-  label_free(p);
-  p = NULL;
-}
-
-void
-label_obj_print(void *obj) {
-  label *p = (label *) obj;
-  fprintf(stderr, 
-          "label: '%s' on: %d relative: %d "
-          "position: (%f,%f) size: %f angle: %f\n", 
-          p->text, p->plot, p->relative, p->x, p->y, p->size, p->angle);
-}
-
-int
-label_obj_compare(void *pa, void *pb) {
-  label *a = (label *) pa;
-  label *b = (label *) pb;
-  return strcmp(a->text, b->text);
-}
-
-void
 label_store_init() {
   if(store) {
     return;
   }
-  store = array_new();
-  store->print   = label_obj_print;
-  store->compare = label_obj_compare;
-  store->free    = label_obj_free;
+  store = xarray_new('p');
 }
 
 int
@@ -105,26 +70,25 @@ label_store_length() {
   if(!store) { 
     label_store_init();
   }
-  return array_length(store);
+  return xarray_length(store);
 }
 
-
-label * 
+label *
 label_store_get(int n) {
   label *p;
   n--;
   if(!store) {
     label_store_init();
   }
-  if(n > array_length(store)) {
-    fprintf(stderr, "LABEL: attempted access outside of array bounds: %d bounds: [0,%d]\n", n, array_length(store));
+  if(n > (int)xarray_length(store)) {
+    fprintf(stderr, "LABEL: attempted access outside of array bounds: %d bounds: [0,%d]\n", n, (int)xarray_length(store));
     return NULL;
   }
-  if(n < 0 || n == array_length(store)) {
+  if(n < 0 || n == (int)xarray_length(store)) {
     p = label_new();
-    array_push(store, p);
+    store = xarray_append(store, p);
   } else {
-    p = (label *) array_element(store, n);
+    p = store[n];
   }
   return p;
 }
