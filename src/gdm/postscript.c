@@ -13,7 +13,7 @@
 
 #include "docs/ps.h"
 #include "docs/font.h"
-#include "string/array.h"
+#include "array.h"
 
 #include "debug.h"
 
@@ -355,28 +355,28 @@ setcolor_ps(int index) {
 void
 line_style_ps(char *line, void *data) {
     char *c;
-    array_t *ps = (array_t *) data;
+    char ***v = (char ***) data;
     //asprintf(&c, "/ls%d {[ %s ]} def\n", array_length(ps)+1, line);
     asprintf(&c, "[ %s ] 0 setdash\n", line);
-    array_append(ps, strdup(c));
+    *v = xarray_append(*v, strdup(c));
     FREE(c);
 }
 
 void
 setlinestyle_ps(int *iline) {
   int k;
-  static array_t *dash = NULL;
+  static char **dash = NULL;
   k = *iline ;
   if(k <= 0) {
     k = 1;
   }
   if(!dash) {
-      dash = array_new();
-      array_append(dash, strdup("[] 0 setdash"));
-      sac_line_style_read(line_style_ps, dash);
+      dash = xarray_new('p');
+      dash = xarray_append(dash, strdup("[] 0 setdash"));
+      sac_line_style_read(line_style_ps, &dash);
   }
   /*ps_raw(PSC, "xls%d\n", k);*/
-  ps_raw(PSC, "%s\n", array_element(dash, k-1));
+  ps_raw(PSC, "%s\n", dash[k-1]);
 }
 
 void

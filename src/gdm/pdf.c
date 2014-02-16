@@ -15,7 +15,7 @@
 
 #include "docs/pdf.h"
 #include "docs/font.h"
-#include "string/array.h"
+#include "array.h"
 
 #include "debug.h"
 
@@ -417,26 +417,26 @@ setcolor_pdf(int index) {
 void
 line_style_pdf(char *line, void *data) {
     char *c;
-    array_t *pdf = (array_t *) data;
+    char ***v = (char ***) data;
     asprintf(&c, "[ %s ] 0 d", line);
-    array_append(pdf, strdup(c));
+    *v = xarray_append(*v, strdup(c));
     FREE(c);
 }
 
 void
 setlinestyle_pdf(int *iline) {
   int k;
-  static array_t *dash = NULL;
+  static char **dash = NULL;
   k = *iline;
   if(k <= 0) {
     k = 1;
   }
   if(!dash) {
-      dash = array_new();
-      array_append(dash, strdup("[] 0 d"));
-      sac_line_style_read(line_style_pdf, dash);
+      dash = xarray_new('p');
+      dash = xarray_append(dash, strdup("[] 0 d"));
+      sac_line_style_read(line_style_pdf, &dash);
   }
-  pdf_stream_add(xPDF->stream, "%s\n", (char *)array_element(dash, k-1));
+  pdf_stream_add(xPDF->stream, "%s\n", dash[k-1]);
 }
 
 void

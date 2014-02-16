@@ -23,15 +23,15 @@ line_style_x11(char *line, void *data) {
     int n;
     char *v;
     char *buf;
-    array_t *x11 = (array_t *) data;
+    char ***x11 = (char ***) data;
     
     v = xarray_new('c');
     buf = line;
     while(buf && sscanf(buf, "%f%n", &f, &n) == 1) {
-        v = xarray_append(v, (int)(f+0.5));
-        buf += n;
+      v = xarray_append(v, (char) ((int)(f+0.5)));
+      buf += n;
     }
-    array_append(x11, v);
+    *x11 = xarray_append(*x11, v);
 }
 
 
@@ -41,7 +41,7 @@ setlinestyle3(int *linestyle)
   XGCValues gcv;
   XWindow *xw;
   int dash_offset = 0;
-  static array_t *dashes = NULL;
+  static char **dashes = NULL;
   char *dash;
 
   xw = plot_window( CURRENT );
@@ -54,10 +54,10 @@ setlinestyle3(int *linestyle)
     XChangeGC(DISPLAY(xw), xw->gc, GCLineStyle, &gcv);
   } else {
     if(!dashes) {
-        dashes = array_new();
-        sac_line_style_read(line_style_x11, dashes);
+        dashes = xarray_new('p');
+        sac_line_style_read(line_style_x11, &dashes);
     }
-    dash = (char *) array_element(dashes, *linestyle-2);
+    dash = dashes[*linestyle-2];
     if(!dash) {
         return;
     }
