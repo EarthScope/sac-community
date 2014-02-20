@@ -45,26 +45,12 @@ enum readFlag {
   LOW 
 };
 
-struct t_cmdfr {
-  int nstart[MDFL];
-  int nfillb[MDFL];
-  int nstop[MDFL];
-  int nfille[MDFL];
-  int ntotal[MDFL];
-  int nxsdd[MDFL];
-} cmdfr;
-
 struct t_cmdfm {
   int ndfl;          /** Number of files in the Data File List */
   /*  int idflc; */         /** Number of files in the Data File Write List */
-  int ndsndx[MDFL];  /** Data Set Storage, not sure if this is really used */
   int ndsflcnt ;     /** Number of files in the Data Set Storage */
   int ncdir;         /** Only used in wildfl () */
   int lechof;        /** Echo filenames for wildcards */
-  int ndxhdr[MDFL];  /** */
-  int ndxdta[MDFL][MCOMP]; /** */
-  int nlndta[MDFL];  /** */
-  int ncomp[MDFL];   /** */
   int lovrrq;       /** Ok to overwrite requested files */
   int lcut;         /** If the cut parameter is on */
   double ocut[2];
@@ -148,7 +134,6 @@ struct t_kmdfm {
   int  lorient;            /** CSS read orientation filter */
   char korient[9];         /** CSS orientation filter valye */
   char kdirnm[MCPFN+1];    /** Never Used */
-  char ksuffx[MDFL][3];    /** Files name suffix, waste of space */
   char kcut[2][9];         /** Picks to use during cut*/
   char kcuter[MCUTER][9];  /** Defined Cut Errors */
   char kecbdf[9];          /** Warning or Error while reading file @bug */

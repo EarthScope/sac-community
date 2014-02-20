@@ -127,7 +127,7 @@ readfl(int   ldata,
 	int lexpnd, lrdrem, lheader;
 	int iflag, idx,
 	 jdfl, jdflrq, jstart, ncerr, ndflrq, 
-	 ndflsv, nun, lswap[ MDFL ] ;
+    ndflsv, nun;
     char *cattemp;
     char *strtemp;
     sac *s;
@@ -141,9 +141,6 @@ readfl(int   ldata,
           return;
         }
         #endif /* HAVE_LIBRPC */
-
-	for( idx = 0 ; idx < MDFL ; idx++ )
-		lswap[ idx ] = 0 ;
 
 	/* PROCEDURE: */
 	*nerr = 0;
@@ -226,19 +223,6 @@ readfl(int   ldata,
 	    goto L_8888;
 	}
     DEBUG("\n");
-	/* - Test number of files requested, limit read to max files SAC can
-	 *   handle.  Spit out a message about not being able to read all files
-	 */
-	if( string_list_length(files) > MDFL ){
-	    ndflrq = MDFL;
-	    clrmsg();
-	    setmsg( "OUTPUT", 0 );
-	    apcmsg( "Max files: reading first ",26 );
-	    apimsg( MDFL );
-	    apcmsg( " files.",8 );
-	    wrtmsg( MUNOUT );
-	    clrmsg();
-	}
 
 	if( ! lmore) {
     sacclear();
@@ -358,10 +342,10 @@ L_2000:
 #endif /* HAVE_LIBRPC */
 	    }
 	    else{
-             lswap[ jdfl ] = rdhdr(s,
-                                  &nun, 
-                                  s->m->filename,
-                                  nerr);
+             s->m->swap = rdhdr(s,
+                                &nun, 
+                                s->m->filename,
+                                nerr);
 	    }
       s->m->data_read = ldata;
 	    if( s->h->nevid == -12345 || s->h->norid == -12345 )
@@ -462,7 +446,7 @@ L_3000:
                 #endif /* HAVE_LIBRPC */
 	    }
 	    else{
-		rddta( s, &nun, lswap[ jdfl ], nerr );
+		rddta( s, &nun, s->m->swap, nerr );
 	    }
 	    if( *nerr != 0 )
 		goto L_4000;

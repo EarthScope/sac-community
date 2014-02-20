@@ -41,7 +41,6 @@ int *nerr;
 	 *=====================================================================
 	 * GLOBAL INPUT:
 	 *    MACH:
-	 *    DFM:     MDFL
 	 *    SAM:     KPSPTP, LPAMPH, LPRLIM, LPSPC1, LPSPC2, KPSPL1, KPSPL2,
 	 *             IXSPIN, IYSPIN, NSPTPL, KSPTPL
 	 *    GAM:     KGDDEF, LWAITR, LWAITE

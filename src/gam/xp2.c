@@ -31,15 +31,14 @@ void xp2(int *nerr)
 	int jdx, jdfl,
 	 notused, nrdttm[6], num1, 
 	 num2, num2m1;
-	float atrwid, fjunk, toff[MDFL], ximnj, ximxj, xjunk, 
+	float atrwid, fjunk, ximnj, ximxj, xjunk, 
     yimnj, yimxj;
   char *tmp;
 
+  float *toff = NULL;
+  
   sac *s;
   textbox *tbox;
-
-	float *const Toff = &toff[0] - 1;
-  memset(toff, 0, sizeof(toff));
 
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command PLOT2.
@@ -122,6 +121,8 @@ void xp2(int *nerr)
 
 	/* - Loop on each token in command: */
 
+    toff = xarray_new_with_length('f', saclen()+1);
+    memset(toff, 0.0, sizeof(float) * saclen());
 	while ( lcmore( nerr ) ){
 
 	    /* -- "RELATIVE/ABSOLUTE":  change method of displaying time
@@ -218,30 +219,30 @@ void xp2(int *nerr)
 		    if( lfirst ){
 			lfirst = FALSE;
 			copyi( &s->h->nzyear, nrdttm, 6 );
-			Toff[jdfl] = 0.;
+			toff[jdfl-1] = 0.;
 		    }
 		    else if ( s->h->iftype == IRLIM || s->h->iftype == IAMPH ) {
 			/* if it is frequency information, plot relative */
-			Toff[jdfl] = 0. ;
+          toff[jdfl-1] = 0. ;
 		    }
 		    else{
 			/* --- DDTTM function computes difference in two
 				     date-time stamps. */
-			ddttm( &s->h->nzyear, nrdttm, &Toff[jdfl] );
+			ddttm( &s->h->nzyear, nrdttm, &toff[jdfl-1] );
 			/* if difference is more than twodays, plot relative */
-			if ( fabs ( Toff[jdfl] ) > TWODAYS )
-			    Toff[jdfl] = 0. ;
+			if ( fabs ( toff[jdfl-1] ) > TWODAYS )
+			    toff[jdfl-1] = 0. ;
 		    }
 		} /* end if( ldttm( nzdttm ) ) */
 		else{
-		    Toff[jdfl] = 0.;
+		    toff[jdfl-1] = 0.;
 		}
 		/* --- X limits first. */
 		getxlm( &lxlimj, &ximnj, &ximxj );
 		if(!lxlims && ( s->h->iftype == IRLIM || s->h->iftype == IAMPH )) 
 		  ximnj = s->h->delta;
-		cmgem.ximn = fmin( cmgem.ximn, ximnj + Toff[jdfl] ); 
-		cmgem.ximx = fmax( cmgem.ximx, ximxj + Toff[jdfl] );
+		cmgem.ximn = fmin( cmgem.ximn, ximnj + toff[jdfl-1] ); 
+		cmgem.ximx = fmax( cmgem.ximx, ximxj + toff[jdfl-1] );
 		/* --- Y limits are more complicated if XLIM is already on. */
 		/* If spectral file, use first component range (AM or RL). */
 		getylm( &lylimj, &yimnj, &yimxj );
@@ -295,7 +296,7 @@ void xp2(int *nerr)
 
 		getxlm( &lxlimj, &ximnj, &ximxj );
 		cmgem.ximx = fmax( cmgem.ximx, ximxj - ximnj );
-		Toff[jdfl] = -ximnj;
+		toff[jdfl-1] = -ximnj;
 		getylm( &lylimj, &yimnj, &yimxj );
 		if(!lylimj && ( s->h->iftype == IRLIM || s->h->iftype == IAMPH ))
 		  extrma(&s->y[1],1,s->h->npts-1,&yimnj,&yimxj,&fjunk);
@@ -424,7 +425,7 @@ void xp2(int *nerr)
     if( s->h->leven ){
 		cmgem.xgen.on = TRUE;
 		cmgem.xgen.delta = s->h->delta;
-		cmgem.xgen.first = s->h->b + Toff[jdfl];
+		cmgem.xgen.first = s->h->b + toff[jdfl-1];
 	    }
 	    else{
 		cmgem.xgen.on = FALSE;
@@ -481,7 +482,7 @@ void xp2(int *nerr)
 L_8888:
 	plrest();
 	settextjust( "LEFT", "BOTTOM" );
-
+  xarray_free(toff);
 	return;
 
 } /* end of function */

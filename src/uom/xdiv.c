@@ -17,8 +17,8 @@ int *nerr;
 	int j, jcon, jdfl;
 	double con, temp;
 
+  static double *v = NULL;
   sac *s;
-
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command DIV.
 	 *           This command divides a constant into data in memory.
@@ -54,23 +54,20 @@ int *nerr;
 	lchn = FALSE;
 
 	/* - Loop on each token in command: */
-
+  new_list = TRUE;
+  if(!v) {
+    v = xarray_new('d');
+  }
 L_1000:
 	if( lcmore( nerr ) ){
 
 		/* -- "v":  constant to multiply. */
 		if( lcreal( &con ) ){
-			jcon = jcon + 1;
-			if( con != 0. ){
-				Condiv[jcon] = con;
-				}
-			else{
-				*nerr = 1701;
-				setmsg( "ERROR", *nerr );
-				goto L_8888;
-				}
-			lchn = TRUE;
-
+      if(new_list) {
+        xarray_clear(v);
+        new_list = FALSE;
+      }
+      v = xarray_append(v, con);
 			/* -- Bad syntax. */
 			}
 		else{
@@ -89,13 +86,6 @@ L_1000:
 	if( *nerr != 0 )
 		goto L_8888;
 
-	/* - Fill remainder of array with last input constant. */
-
-	if( lchn ){
-		for( j = jcon + 1; j <= MDFL; j++ ){
-			Condiv[j] = con;
-			}
-		}
 
 	/* CHECKING PHASE: */
 
@@ -112,7 +102,8 @@ L_1000:
 		goto L_8888;
 
 	/* EXECUTION PHASE: */
-
+  con = 1.0;
+  n = xarray_length(v);
 	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 
 		/* -- Get next file from memory manager. */
@@ -123,7 +114,9 @@ L_1000:
 
 		/* -- Divide appropriate constant into each data point.
 		 *    (Multiply by reciprocal since this is faster.) */
-		con = 1./Condiv[jdfl];
+    if(jdfl-1 < n) {
+      con = 1.0 / v[jdfl-1];
+    }
 
 		for( j = 0; j < s->h->npts; j++ ){
       s->y[j] *= con;

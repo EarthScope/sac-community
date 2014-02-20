@@ -56,18 +56,6 @@ updatedfl(sac_files  call_data,
           sacclear();
         }
 
-        /* check to make sure that there is room for the files. */ 
-        if((saclen() + call_data.nfiles) > MDFL ){
-	    setmsg("OUTPUT", 0);
-	    sprintf(kline,"%s%3d%s","Adding ", call_data.nfiles ,
-              " files would exceed the maximum number of files SAC can handle.");
-	    aplmsg(kline,MCMSG+1);
-	    aplmsg("No update being done.",22);
-	    wrtmsg( MUNOUT );
-	    clrmsg();
-	    *nerr = ERROR_EXT_INTERFACE_NO_SPACE_LEFT;
-	    return;
-	}
 
         cmdfm.ndfl += call_data.nfiles;
 

@@ -181,20 +181,6 @@ xr(int *nerr) {
 	 *       read will exceed the max number of files that SAC can store. */
 
 	if( lmore ){
-	    /* ----- Current count of files in memory, plus these news ones,
-	     *       exceeds MDFL. */
-	    if( (saclen() + string_list_length(list)) > MDFL ){
-            setmsg( "OUTPUT", 0 );
-            sprintf(kline,"There are already %3d files in sac memory.", saclen());
-            apcmsg( kline,MCMSG+1 );
-            sprintf(kline,"Attempted to read %3d more files", string_list_length(list));
-            aplmsg( kline,MCMSG+1 );
-            aplmsg( "No files read in.",18 );
-            wrtmsg( MUNOUT );
-            clrmsg();
-            *nerr = ERROR_EXT_INTERFACE_NO_SPACE_LEFT;
-            goto L_8888;
-	    }
 
 	    /* Commit or rollback existing data as per user specs. */
 	    alignFiles ( nerr ) ;

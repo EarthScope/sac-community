@@ -557,9 +557,8 @@ L_5000:
 	    }
 	    else{
 		for( jch = 0; jch < numych; jch++ ){
-		    cattemp = malloc(strlen(file) + strlen(kmdfm.ksuffx[jch])+1);
-            sprintf(cattemp, "%s%s", file, kmdfm.ksuffx[jch]);
-            string_list_put(datafiles, cattemp, idflc2-idclc1+1+2+1);
+        asprintf(&cattemp, "%s%02d", file, jch+1);
+        string_list_put(datafiles, cattemp, -1);
 		    free(cattemp);
 		    if( *nerr != 0 )
 			goto L_8888;

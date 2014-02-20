@@ -22,7 +22,7 @@ int *nerr;
   char krspnm[MCPFN+1];
 	int irsptp, jdx, jdfl, 
 	 junk, nfreq, nlcdsk, nrspnm, 
-	 nun, lswap[ MDFL ] ;
+    nun;
   int n;
     char s1[4];
     char *tmp;
@@ -35,8 +35,6 @@ int *nerr;
     }
 
     list = NULL;
-    for( jdx = 0 ; jdx < MDFL ; jdx++ )
-      lswap[ jdx ] = 0 ;
 
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command READSP.
@@ -179,7 +177,7 @@ int *nerr;
 		goto L_8888;
 
 	    /* -- Read header. */
-	    lswap[ jdfl ] = rdhdr( s, &nun, krspnm, nerr );
+	    s->m->swap = rdhdr( s, &nun, krspnm, nerr );
 	    if( *nerr != 0 )
 		goto L_8888;
 	    if( s->h->nevid == -12345 || s->h->norid == -12345 )
@@ -234,7 +232,7 @@ int *nerr;
 	    nlcdsk = SAC_HEADER_WORDS_FILE;
 	    nfreq = s->h->npts/2 + 1;
 	    zrabs( (int *)&nun, (char *)s->y, nfreq, (int *)&nlcdsk, (int *)nerr );
-            if( lswap[ jdfl ] ){     /* byteswap if necessary. */
+            if( s->m->swap ){     /* byteswap if necessary. */
 
                 for(jdx = 0; jdx < nfreq; jdx++) {
                   //for( idx = 0, ptr = cmmem.sacmem[nlcmem] ;
@@ -242,7 +240,7 @@ int *nerr;
                   //{
                     byteswap( (void *)&s->y[jdx], 4 ) ;
                 }
-            } /* end if( lswap[ jdfl ] ) */
+            } 
 	    if( *nerr != 0 )
 		goto L_7777;
 
@@ -289,14 +287,14 @@ int *nerr;
 
 	    /* -- Read data (do not read header from second file.) */
 	    zrabs( (int *)&nun, (char *)s->x, nfreq, (int *)&nlcdsk, (int *)nerr );
-            if( lswap[ jdfl ] ){     /* byteswap if necessary. */
+            if( s->m->swap ){     /* byteswap if necessary. */
                 for(jdx = 0; jdx < nfreq; jdx++) {
                   //for( idx = 0, ptr = cmmem.sacmem[nlcmem] ;
                   //     idx < nfreq ; idx++, ptr++ )
                   //{
                     byteswap( (void *)&s->x[jdx], 4 ) ;
                 }
-            } /* end if( lswap[ jdfl ] ) */
+            } 
 	    if( *nerr != 0 )
 		goto L_7777;
 
