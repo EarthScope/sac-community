@@ -143,7 +143,7 @@ xfg(int *nerr) {
 	 *    (Force number of data points to be even in this case.) */
 	if( cmexm.ifgtp == 9 ){
 		cmexm.nfgpts = 2*((cmexm.nfgpts - 1)/2 + 1);
-		n = min( MDFL, (int)( Fgraco[1] + 0.1 ) );
+		n = (int)( Fgraco[1] + 0.1 );
 		for( jdfl = 1; jdfl <= n; jdfl++ ){
 
 			/* --- save some related information */

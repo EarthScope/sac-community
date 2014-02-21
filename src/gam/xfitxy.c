@@ -26,10 +26,9 @@ int *nerr;
 {
 	char kfile[MCPFN+1];
 	int lchange;
-	int idflnumber[MDFL], jdfl, 
+	int *idflnumber, jdfl, 
 	 jdflnumber, ncfile, ndflnumber, 
     num;
-	int *const Idflnumber = &idflnumber[0] - 1;
   char *tmpx, *tmpy;
   float cc, sig, siga, sigb;
     sac *sx, *sy;
@@ -80,7 +79,7 @@ int *nerr;
 	/* PARSING PHASE: */
 
 	/* - Loop on each token in command: */
-
+  idflnumber = xarray_new_with_length('i', saclen()+1);
 	jdflnumber = 0;
 	lchange = FALSE;
 L_1000:
@@ -89,7 +88,7 @@ L_1000:
 		/* -- integer:  the index number of data file in data file list. */
 		if( lcirc( 1, saclen(), &jdfl ) ){
 			jdflnumber = jdflnumber + 1;
-			Idflnumber[jdflnumber] = jdfl;
+			idflnumber[jdflnumber] = jdfl;
 			lchange = TRUE;
 
 			/* -- "filename":  the name of a data file in the data file list. */
@@ -99,7 +98,7 @@ L_1000:
 			jdfl = 1 + sac_find_filename(kfile2);
 			if( jdfl > 0 ){
 				jdflnumber = jdflnumber + 1;
-				Idflnumber[jdflnumber] = jdfl;
+				idflnumber[jdflnumber] = jdfl;
 				lchange = TRUE;
 				}
 			else{
@@ -151,7 +150,7 @@ L_1000:
 
 	/* - Loop on each pair of files to compute straight line fit. */
 
-	jdfl = Idflnumber[1];
+	jdfl = idflnumber[1];
   if(!(sx = sacget(jdfl-1, TRUE, nerr))) {
     goto L_8888;
   }
@@ -159,7 +158,7 @@ L_1000:
 
   tmpx = sx->m->filename;
 	for( jdflnumber = 2; jdflnumber <= ndflnumber; jdflnumber++ ){
-		jdfl = Idflnumber[jdflnumber];
+		jdfl = idflnumber[jdflnumber];
     if(!(sy = sacget(jdfl-1, TRUE, nerr))) {
       goto L_8888;
     }
@@ -181,6 +180,7 @@ L_1000:
 		}
 
 L_8888:
+  xarray_free(idflnumber);
 	return;
 
 } /* end of function */

@@ -24,10 +24,10 @@ void
 xspectrogram(int *nerr)
 {
 	int idx,
-	 jdfl, notused, nptslist[MDFL], numfiles, speclength, 
+	 jdfl, notused, *nptslist, numfiles, speclength, 
 	 specsize, specwidth, nchar;
 	int lprint = FALSE , ltry = FALSE ;
-	float begin, deltalist[MDFL], xmaximum, 
+	float begin, *deltalist, xmaximum, 
 	 xminimum, ymaximum, yminimum;
   float *sdata;
   float *spec;
@@ -64,9 +64,6 @@ xspectrogram(int *nerr)
         static int llog10 = FALSE;
 
 
-	float *const Deltalist = &deltalist[0] - 1;
-	int *const Nptslist = &nptslist[0] - 1;
-
   sac *s;
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command SPECTROGRAM
@@ -77,9 +74,6 @@ xspectrogram(int *nerr)
 	 *      NERR:  0 - no error, .ne. 0 - error
 	 *=====================================================================
 	 * MODULE/LEVEL:  IMAGING/2
-	 *=====================================================================
-	 * GLOBAL INPUT: 
-	 *  inc/mach:     MDFL
 	 *=====================================================================
 	 * GLOBAL INPUT: 
 	 *  inc/mem:      sacmem
@@ -112,8 +106,10 @@ xspectrogram(int *nerr)
 	/* EXTERNALS:  */
 	/* PROCEDURE: */
 	*nerr = 0;
-    begin = 0.0;
-    memset(deltalist, 0, sizeof(deltalist));
+  begin = 0.0;
+  nptslist = xarray_new_with_length('i', saclen());
+  deltalist = xarray_new_with_length('f', saclen());
+  memset(deltalist, 0, saclen() * sizeof(float));
 	/* - Loop on each token in command: */
 	while ( lcmore( nerr ) ){
 
@@ -284,11 +280,11 @@ xspectrogram(int *nerr)
     if(!(s = sacget(jdfl-1, TRUE, nerr))) {
       return;
     }
-    Nptslist[jdfl] = s->h->npts;
+    nptslist[jdfl-1] = s->h->npts;
     //getfil( jdfl, TRUE, &Nptslist[jdfl], &idum, &idum, nerr );
 
 	    /* -- Get sampling interval of data. */
-      Deltalist[jdfl] = s->h->delta;
+    deltalist[jdfl-1] = s->h->delta;
 
 	    /* -- Get begin value if first file. */
 	    if( jdfl == 1 ){
@@ -299,7 +295,7 @@ xspectrogram(int *nerr)
 
 	/* -- Check if all files have same delta. */
 	for( jdfl = 1; jdfl <= numfiles; jdfl++ ){
-	    if( Deltalist[1] != Deltalist[jdfl] )
+	    if( deltalist[0] != deltalist[jdfl-1] )
 		*nerr = 1;
 	}
 
@@ -310,7 +306,7 @@ xspectrogram(int *nerr)
 	    return ;
 
 	if( spectrogram( window, slice, type, &order, numfiles, 
-	  nptslist, (double)Deltalist[1], &spec, &specwidth,
+	  nptslist, (double)deltalist[0], &spec, &specwidth,
 	  &speclength, sfft, cwinlength, lcnumber, cnumber,
 	  cwintype, scale ) != 0 )
 	    return ;
@@ -350,7 +346,7 @@ xspectrogram(int *nerr)
 	xminimum = begin + 0.5*window;
 	xmaximum = xminimum + (float)( speclength - 1 )*slice;
         yminimum = 0.0;
-        ymaximum =  0.5/Deltalist[1];
+        ymaximum =  0.5/deltalist[0];
 
         /* nxsize = speclength, nysize = specwidth */
         if(ymax <= 0.0) ymax = ymaximum;

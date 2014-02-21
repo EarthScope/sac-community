@@ -26,20 +26,19 @@ void xplotdy(int *nerr)
 {
 	char kfile[ MCPFN + 1 ] ; 
 	int lany, lchange, lydlimj, lprint = FALSE , ltry = FALSE ;
-	int idx, idflnumber[MDFL], issym, jdfl, jdflnumber, 
+	int idx, *idflnumber, issym, jdfl, jdflnumber, 
 	 ncfile, ndflnumber, num, 
 	 notused ;
 	float vportratio, xarray[3], yarray[3], ydimnj, ydimxj, 
 	 ydvalue, ydyimx, yrange, yvalue;
 
-	int *const Idflnumber = &idflnumber[0] - 1;
 	float *const Xarray = &xarray[0] - 1;
 	float *const Yarray = &yarray[0] - 1;
   sac *s, *dy, *dy2;
 
     memset(xarray, 0, sizeof(xarray));
     memset(yarray, 0, sizeof(xarray));
-
+    
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command PLOTDY.
 	 *           The user specifies which data file contains the "y" data &
@@ -93,7 +92,7 @@ void xplotdy(int *nerr)
 	/* PARSING PHASE: */
 
 	/* - Loop on each token in command: */
-
+  Idflnumber = xarray_new_with_length('i',saclen()+1);
 	jdflnumber = 0;
 	lchange = FALSE;
 
@@ -130,7 +129,7 @@ void xplotdy(int *nerr)
 	    /* -- integer: the index number of file in data file list. */
 	    else if( lcirc( 1, saclen(), &jdfl ) ){
 		jdflnumber = jdflnumber + 1;
-		Idflnumber[jdflnumber] = jdfl;
+		idflnumber[jdflnumber] = jdfl;
 		lchange = TRUE;
 	    }
 
@@ -140,7 +139,7 @@ void xplotdy(int *nerr)
         jdfl = 1 + sac_find_filename(kfile2);
 		if( jdfl > 0 ){
 			jdflnumber = jdflnumber + 1;
-			Idflnumber[jdflnumber] = jdfl;
+			idflnumber[jdflnumber] = jdfl;
 			lchange = TRUE;
 		}
 		else{
@@ -202,10 +201,10 @@ void xplotdy(int *nerr)
 	plsave();
 
 	/* - Set dy limits */
-  if(!(dy = sacget(Idflnumber[2]-1, TRUE, nerr))) {
+  if(!(dy = sacget(idflnumber[2]-1, TRUE, nerr))) {
     goto L_8888;
   }
-	//getfil( Idflnumber[2], TRUE, &numdy, &nlcdy, &ndx2, nerr );
+	//getfil( idflnumber[2], TRUE, &numdy, &nlcdy, &ndx2, nerr );
 
 	getylm( &lydlimj, &ydimnj, &ydimxj );
 	ydyimx = fmax( fabs( ydimnj ), fabs( ydimxj ) );
@@ -213,10 +212,10 @@ void xplotdy(int *nerr)
 	/* - Set dy2 limits */
 
 	if( ndflnumber != 2 ){
-    if(!(dy2 = sacget(Idflnumber[3]-1, TRUE, nerr))) {
+    if(!(dy2 = sacget(idflnumber[3]-1, TRUE, nerr))) {
       goto L_8888;
     }
-    //getfil( Idflnumber[3], TRUE, &numdy, &nlcdy2, &ndx2, nerr );
+    //getfil( idflnumber[3], TRUE, &numdy, &nlcdy2, &ndx2, nerr );
 
 	    getylm( &lydlimj, &ydimnj, &ydimxj );
 	    ydyimx = fmax( fabs( ydimnj ), ydyimx);
@@ -224,10 +223,10 @@ void xplotdy(int *nerr)
 	}
 
 	/* - Set x axis limits on data file unless limits are already set. */
-  if(!(s = sacget(Idflnumber[1]-1, TRUE, nerr))) {
+  if(!(s = sacget(idflnumber[1]-1, TRUE, nerr))) {
     goto L_8888;
   }
-	//getfil( Idflnumber[1], TRUE, &num, &nlcy, &nlcx, nerr );
+	//getfil( idflnumber[1], TRUE, &num, &nlcy, &nlcx, nerr );
 
 	getxlm( &cmgem.lxlim, &cmgem.ximn, &cmgem.ximx );
 	num = min( s->h->npts, dy->h->npts );
@@ -337,7 +336,7 @@ void xplotdy(int *nerr)
 L_8888:
 	plrest();
 	settextjust( "LEFT", "BOTTOM" );
-
+  xarray_free(Idflnumber);
 	return;
 
 } /* end of function */

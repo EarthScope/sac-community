@@ -26,12 +26,11 @@ void xplotxy(int *nerr)
 {
 	char kfile[MCPFN+1], ktemp[MCMSG+1];
 	int lany, lchange, lxlims, lylimj;
-	int idflnumber[MDFL], jdfl, jdflnumber,
+	int *idflnumber, jdfl, jdflnumber,
     nc, ncfile, ndflnumber, num;
 	float atrwid, slen, slenm, slenvs, vportratio, xlinl1, 
 	 xlinl2, xrange, xsymlc, yatrlc, yimnj, yimxj, yrange;
 
-	int *const Idflnumber = &idflnumber[0] - 1;
     char *tmp;
     sac *sx, *sy, *s;
 	/*=====================================================================
@@ -88,7 +87,7 @@ void xplotxy(int *nerr)
     ndflnumber = 0;
     atrwid = 0;
 	/* PARSING PHASE: */
-
+    idflnumber = xarray_new_with_length('i', saclen()+1);
 	/* - Loop on each token in command: */
 
 	jdflnumber = 0;
@@ -103,7 +102,7 @@ L_1000:
 			}
 		else if( lcirc( 1, saclen(), &jdfl ) ){
 			jdflnumber = jdflnumber + 1;
-			Idflnumber[jdflnumber] = jdfl;
+			idflnumber[jdflnumber] = jdfl;
 			lchange = TRUE;
 
 			/* -- "filename":  the name of a data file in the data file list. */
@@ -113,7 +112,7 @@ L_1000:
       jdfl = 1 + sac_find_filename(kfile2);
 			if( jdfl > 0 ){
 				jdflnumber = jdflnumber + 1;
-				Idflnumber[jdflnumber] = jdfl;
+				idflnumber[jdflnumber] = jdfl;
 				lchange = TRUE;
 				}
 			else{
@@ -180,11 +179,11 @@ L_1000:
 
 	getxlm( &lxlims, &cmgem.ximn, &cmgem.ximx );
 	if( !lxlims ){
-    if(!(s = sacget(Idflnumber[1]-1, TRUE, nerr))) {
+    if(!(s = sacget(idflnumber[1]-1, TRUE, nerr))) {
       *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
       goto L_8888;
     }
-		//getfil( Idflnumber[1], FALSE, &notused, &notused, &notused, 
+		//getfil( idflnumber[1], FALSE, &notused, &notused, &notused, 
     //nerr );
 
 		xrange = s->h->depmax - s->h->depmin;
@@ -211,7 +210,7 @@ L_1000:
 	cmgem.yimn = VLARGE;
 	cmgem.yimx = -VLARGE;
 	for( jdflnumber = 2; jdflnumber <= ndflnumber; jdflnumber++ ){
-		jdfl = Idflnumber[jdflnumber];
+		jdfl = idflnumber[jdflnumber];
     if(!(s = sacget(jdfl-1, TRUE, nerr))) {
       *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
       goto L_8888;
@@ -281,7 +280,7 @@ L_1000:
 		cmgam.fidbdr = cmgem.chht;
 		slenm = 0.;
 		for( jdflnumber = 1; jdflnumber <= ndflnumber; jdflnumber++ ){
-			jdfl = Idflnumber[jdflnumber];
+			jdfl = idflnumber[jdflnumber];
       if(!(s = sacget(jdfl-1, TRUE, nerr))) {
 *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
 goto L_8888;
@@ -342,15 +341,15 @@ goto L_8888;
 		xsymlc = cmgam.xfidlc - 0.5*cmgem.chwid - 0.5*atrwid;
 
 	/* - Loop to plot each requested file vs designated x file. */
-  if(!(sx = sacget(Idflnumber[1]-1, TRUE, nerr))) {
+  if(!(sx = sacget(idflnumber[1]-1, TRUE, nerr))) {
     *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
     goto L_8888;
   }
-	//getfil( Idflnumber[1], TRUE, &numx, &nlcx, &notused, nerr );
+	//getfil( idflnumber[1], TRUE, &numx, &nlcx, &notused, nerr );
 
 	cmgem.xgen.on = FALSE;
 	for( jdflnumber = 2; jdflnumber <= ndflnumber; jdflnumber++ ){
-		jdfl = Idflnumber[jdflnumber];
+		jdfl = idflnumber[jdflnumber];
     if(!(sy = sacget(jdfl-1, TRUE, nerr))) {
       *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
       goto L_8888;
@@ -407,7 +406,7 @@ goto L_8888;
 
 	if( cmgam.lfidrq ){
 		move( cmgam.xfidlc, cmgam.yfidlc );
-		jdfl = Idflnumber[1];
+		jdfl = idflnumber[1];
     if(!(s = sacget(jdfl-1, FALSE, nerr))) {
       goto L_8888;
     }
@@ -448,7 +447,7 @@ goto L_8888;
 L_8888:
 	plrest();
 	settextjust( "LEFT", "BOTTOM" );
-
+  xarray_free(idflnumber);
 	return;
 
 } /* end of function */

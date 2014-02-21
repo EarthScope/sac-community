@@ -30,15 +30,12 @@ void xp1(int *nerr)
 	 lprint = FALSE , ltry = FALSE ;
 	int i, jdfl, jdfl1, jdfl2, jfr, jperfr, n1dttm[6], 
 	 ncret, nfr, nperfr, notused;
-	float tmax, tmaxj, tmin, tminj, toff[MDFL], ypdel, ypmxsave;
+	float tmax, tmaxj, tmin, tminj, *toff, ypdel, ypmxsave;
   sac *s;
 	static int lrel = FALSE;
 	static int lperpl = FALSE;
 	static int nperpl = 3;
 	static char kwait[9] = "Waiting$";
-
-	float *const Toff = &toff[0] - 1;
-
 
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command P1.
@@ -176,7 +173,8 @@ void xp1(int *nerr)
 	plsave();
 
         /* initialize plot offsets */
-        for ( i=0; i<MDFL; i++) toff[i] = 0.0;
+  toff = xarray_new_with_length('f', saclen()+1);
+  memset(toff, 0.0, sizeof(float) * saclen()+1);
 
 	/* - Set up specific options that apply only to this plot. */
 
@@ -246,13 +244,13 @@ void xp1(int *nerr)
 /*            if( !lxlims ){	commented out to allow relative mode when xlim is set. maf 970723 */
 		if( lrel ){
 		    tmax = tmax - tmin;
-		    Toff[jperfr] = -tmin;
+		    toff[jperfr] = -tmin;
 		    tmin = 0.;
 	    	}
 	    	else{
 		    copyi( &s->h->nzyear, n1dttm, 6 );
 		    l1dttm = ldttm( n1dttm );
-		    Toff[jperfr] = 0.;
+		    toff[jperfr] = 0.;
 	    	}
 		for( jdfl = jdfl1 + 1; jdfl <= jdfl2; jdfl++ ){
 		    jperfr = jperfr + 1;
@@ -265,21 +263,21 @@ void xp1(int *nerr)
 		    getxlm( &lxlims, &tminj, &tmaxj );
 		    if( lrel ){
 			tmax = fmax( tmax, tmaxj - tminj );
-			Toff[jperfr] = -tminj;
+			toff[jperfr] = -tminj;
 		    }
 		    else{
 			if( l1dttm && ldttm( &s->h->nzyear ) ){
-			    ddttm( &s->h->nzyear, n1dttm, &Toff[jperfr] );
+			    ddttm( &s->h->nzyear, n1dttm, &toff[jperfr] );
 			    /* if it starts 2 days after the first file,
 				plot relative. maf 970908 */
-			    if ( fabs ( Toff[jperfr] ) > TWODAYS )
-				Toff[jperfr] = 0 ;
+			    if ( fabs ( toff[jperfr] ) > TWODAYS )
+				toff[jperfr] = 0 ;
 			}
 			else{
-			    Toff[jperfr] = 0.;
+			    toff[jperfr] = 0.;
 			}
-			tmin = fmin( tmin, tminj + Toff[jperfr] );
-			tmax = fmax( tmax, tmaxj + Toff[jperfr] );
+			tmin = fmin( tmin, tminj + toff[jperfr] );
+			tmax = fmax( tmax, tmaxj + toff[jperfr] );
 		    } /* end else associated with if ( lrel ) */
 		} /* end for( jdfl = jdfl1 + 1; jdfl <= jdfl2; jdfl++ ) */
 /*	    }  end if ( !lxlims ) commented out to allow relative mode when xlim is set. maf 970723 */
@@ -329,7 +327,7 @@ void xp1(int *nerr)
 		if( s->h->leven ){
 		    cmgem.xgen.on = TRUE;
 		    cmgem.xgen.delta = s->h->delta;
-		    cmgem.xgen.first = s->h->b + Toff[jperfr];
+		    cmgem.xgen.first = s->h->b + toff[jperfr];
 		}
 		else{
 		    cmgem.xgen.on = FALSE;
@@ -347,13 +345,13 @@ void xp1(int *nerr)
 
 		/* --- Plot picks and fileid. */
 
-		disppk( Toff[jperfr] );
+		disppk( toff[jperfr] );
                 
 		/* --- Add a label with offset time if this is a REL plot. */
                 kptext = NULL;
                 n = 0;
 		if( lrel && cmgam.lfidrq ){
-                  asprintf(&kptext, "OFFSET: %10.3e", -Toff[jperfr] );
+                  asprintf(&kptext, "OFFSET: %10.3e", -toff[jperfr] );
                   n = 1;
                 }
 		dispid( cmgam.lfinorq , jdfl, n, &kptext );
@@ -424,7 +422,7 @@ L_7777:
 	cmgem.axis[BOTTOM].annotate = lbotaxsave;
 	cmgem.axis[BOTTOM].ticks    = lbottcsave;
 	cmgem.lframe = lframesave;
-
+  xarray_free(toff);
 L_8888:
 	return;
 } /* end of function */

@@ -80,7 +80,7 @@ specplot(float *specdata,
 	 ltoptcsave, lwait, lxgrdsave, lxlabsave, lxlims, lylabsave;
 	int n1dttm[6];
     int nystart, nypoints;
-	float tmax, tmin, toff[MDFL], ypdel, ypmxsave, ypmnsave, xpmxsave, xpmnsave;
+	float tmax, tmin, *toff, ypdel, ypmxsave, ypmnsave, xpmxsave, xpmnsave;
         float vspaceratio;
 
         float width, height;
@@ -89,7 +89,6 @@ specplot(float *specdata,
   sac *s;
 
 	static int lrel = FALSE;
-	float *const Toff = &toff[0] - 1;
 
 
 	/*=====================================================================
@@ -124,7 +123,7 @@ specplot(float *specdata,
 	/* PROCEDURE: */
 	/* Errors before plsave have to avoid going to execute plrest. */
 	*nerr = 0;
-
+  toff = xarray_new_with_length('f', saclen()+1);
 	/* - If no graphics device is open, try to open the default device. */
 
 	getstatus( "ANY", &lany );
@@ -209,13 +208,13 @@ specplot(float *specdata,
 	getxlm( &lxlims, &tmin, &tmax );
        	if( lrel ){
          	tmax = tmax - tmin;
-	       	Toff[1] = -tmin;
+	       	toff[1] = -tmin;
 	       	tmin = 0.;
       	}
 	else{
 	       	copyi( &s->h->nzyear, n1dttm, 6 );
 	       	/* l1dttm = ldttm( n1dttm ); */
-	       	Toff[1] = 0.;
+	       	toff[1] = 0.;
        	}
 
 	/* - Check range of time limits to avoid errors that could occur
@@ -260,7 +259,7 @@ specplot(float *specdata,
 	if( s->h->leven ){
 		cmgem.xgen.on = TRUE;
 	      	cmgem.xgen.delta = s->h->delta;
-	       	cmgem.xgen.first = s->h->b + Toff[1];
+	       	cmgem.xgen.first = s->h->b + toff[1];
 	}else{
 	      	cmgem.xgen.on = FALSE;
        	}
@@ -276,14 +275,14 @@ specplot(float *specdata,
 
        	/* --- Plot picks and fileid. */
 
-       	disppk( Toff[1] );
+       	disppk( toff[1] );
        	dispid( 0 , 0, 0, NULL );
 
        	/* --- Add a label with offset time if this is a REL plot. */
 
        	if( lrel && cmgam.lfidrq ){
           /* I do not think this is ever called as lrel is never TRUE */
-               sprintf(kptext,"OFFSET: %10.3e", -Toff[1] );
+               sprintf(kptext,"OFFSET: %10.3e", -toff[1] );
 	       cmgem.chht = cmgem.tsdef;
 	       cmgem.chwid = cmgem.txrat*cmgem.chht;
 	       settextsize( cmgem.chwid, cmgem.chht );
@@ -429,6 +428,7 @@ L_7777:
 	cmgem.lframe = lframesave;
 
 L_8888:
+  xarray_free(toff);
 	return;
 } /* end of function */
 

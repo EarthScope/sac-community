@@ -23,10 +23,10 @@
 void /*FUNCTION*/ xscallop(nerr)
 int *nerr;
 {
-	int jdfl, notused, nptslist[MDFL], numfiles, speclength, 
+	int jdfl, notused, *nptslist, numfiles, speclength, 
 	 specsize, specwidth, nchar;
 	int lprint = FALSE , ltry = FALSE ;
-	float begin, deltalist[MDFL],  xmaximum, 
+	float begin, *deltalist,  xmaximum, 
 	 xminimum, ymaximum, yminimum;
         float *sdata, *scdata;
 	static double window = 2.0;
@@ -57,8 +57,7 @@ int *nerr;
 
         static char scale[11] = "STOCHASTIC";  /* type of scaling */
 
-	float *const Deltalist = &deltalist[0] - 1;
-	int *const Nptslist = &nptslist[0] - 1;
+
   sac *s;
   double tmp;
   float *spec;
@@ -71,9 +70,6 @@ int *nerr;
 	 *      NERR:  0 - no error, .ne. 0 - error
 	 *=====================================================================
 	 * MODULE/LEVEL:  IMAGING/2
-	 *=====================================================================
-	 * GLOBAL INPUT: 
-	 *  inc/mach:     MDFL
 	 *=====================================================================
 	 * GLOBAL INPUT: 
 	 *  inc/mem:      sacmem
@@ -107,8 +103,10 @@ int *nerr;
 	/* PROCEDURE: */
 	*nerr = 0;
     begin = 0.0;
-    memset(deltalist, 0, sizeof(deltalist));
-	/* - Loop on each token in command: */
+    nptslist = xarray_new_with_length('i', saclen());
+    deltalist = xarray_new_with_length('f', saclen());
+    memset(deltalist, 0, saclen() * sizeof(float));
+    /* - Loop on each token in command: */
 	while( lcmore( nerr ) ){
 
 		/* -- WINDOW v: define window size of image. */
@@ -279,10 +277,10 @@ int *nerr;
           goto L_8888;
         }
         /* -- Get the next file and their lengths in DFL, moving header to CMHDR. */
-        Nptslist[jdfl] = s->h->npts;
+        nptslist[jdfl-1] = s->h->npts;
         //getfil( jdfl, TRUE, &Nptslist[jdfl], &idum, &idum, nerr );
 
-          Deltalist[jdfl] = s->h->delta;
+        deltalist[jdfl-1] = s->h->delta;
 			    /* -- Get begin value if first file. */
 			    if( jdfl == 1 ){
             begin = s->h->b;
@@ -293,7 +291,7 @@ int *nerr;
 
 			/* -- Check if all files have same delta. */
 			for( jdfl = 1; jdfl <= numfiles; jdfl++ ){
-			    if( Deltalist[1] != Deltalist[jdfl] )
+			    if( deltalist[0] != deltalist[jdfl-1] )
 				*nerr = 1;
 			}
 
@@ -303,7 +301,7 @@ int *nerr;
 			    goto L_8888;
 			}
 			else{
-			    if ( fmax > (1.0/(2.0 * Deltalist[1]))){
+			    if ( fmax > (1.0/(2.0 * deltalist[0]))){
 				/* fmax should be <= nyquist */
 				*nerr = 1;
 				printf("Error:  Fmax > Nyquist\n");
@@ -311,7 +309,7 @@ int *nerr;
 			    }
 
 			    if( spectrogram( window, slice, type, &order, 
-				numfiles, nptslist, (double)Deltalist[1], &spec, 
+				numfiles, nptslist, (double)deltalist[0], &spec, 
 				&specwidth, &speclength, sfft, cwinlength, lcnumber, cnumber,
 				cwintype, scale ) != 0 ){
 				goto L_8888;
@@ -344,7 +342,7 @@ int *nerr;
 	xminimum = begin + 0.5*window;
 	xmaximum = xminimum + (float)( speclength - 1 )*slice;
         yminimum = 0.0;
-        ymaximum =  0.5/Deltalist[1];
+        ymaximum =  0.5/deltalist[0];
 
         scallop(sdata,specwidth,speclength,ymaximum,fmin,fmax,lmean,scdata,nerr);
         if(*nerr != 0) goto L_8888;

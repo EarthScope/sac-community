@@ -17,7 +17,6 @@ struct t_kmdatafilelist {
 
 struct t_cmdatafilelist {
   int nentries;       /** Total Entries in the data file list */
-  int iselect[MDFL];  /** Current entries which are selected  */
   int nselect;        /** Number of entries selected          */
   int jselect;        /** Current index within iselect        */
 } cmdatafilelist;
@@ -27,16 +26,6 @@ void      selectinputfiles   (int   *list,
 			      int    nlist);
 void      setinputmode       (char  *mode);
 
-
-#ifdef DOINITS
-
-   int *const Iselect = &cmdatafilelist.iselect[0] - 1;
-
-#else
-
-   extern int *const Iselect;
-
-#endif
 
 #endif /* _DFL_H_ */
 

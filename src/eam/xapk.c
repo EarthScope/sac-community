@@ -36,7 +36,7 @@
  *
  * @note Local Variables
  *   - LPKERR  .TRUE. if a pick couldn't be found for all files.
- *   - LPKFND  Array of length MDFL.  LPKFND(J) is .TRUE. if a pick
+ *   - LPKFND  LPKFND(J) is .TRUE. if a pick
  *             was found for file J in DFL.
  *   - NDXPK   Relative index in SACMEM array of pick.
  *   - NLNCDA  Length in samples of event.
@@ -54,15 +54,17 @@ void
 xapk(int *nerr)
 {
 	char kmsg[MCMSG+1];
-	int lpkerr, lpkfnd[MDFL];
+	int lpkerr, *lpkfnd;
 	char kdir, kqual, ktype;
 	int i7, jdfl, ncerr, ndxpk, 
 	 nexday, nlncda, npkmsc, npksec, npmsec, npsec;
-	int *const Lpkfnd = &lpkfnd[0] - 1;
+
   sac *s;
 	*nerr = 0;
-    memset(kmsg, 0, MCMSG+1);
-    memset(lpkfnd, 0, MDFL);
+
+  lpkfnd = xarray_new_with_length('i',saclen()+1);
+  memset(kmsg, 0, MCMSG+1);
+  memset(lpkfnd, 0, (saclen()+1) * sizeof(int));
     nlncda = 0;
 	/* PARSING PHASE: */
 	/* - Loop on each token in command: */
@@ -176,7 +178,7 @@ L_1000:
 		/* -- If a valid pick was detected: */
 
 		if( ndxpk > 0 ){
-			Lpkfnd[jdfl] = TRUE;
+			lpkfnd[jdfl] = TRUE;
 
 			/* --- Characterize the pick as to quality and direction of first motion. */
 			if( cmeam.lvalpk ){
@@ -266,7 +268,7 @@ L_1000:
 			/* -- Set flag if no valid pick found for this file. */
 			}
 		else{
-			Lpkfnd[jdfl] = FALSE;
+			lpkfnd[jdfl] = FALSE;
 			lpkerr = TRUE;
 			}
 
@@ -279,7 +281,7 @@ L_1000:
       if(!(s = sacget(jdfl-1, TRUE, nerr))) {
         goto L_8888;
       }
-			if( !Lpkfnd[jdfl] ){
+			if( !lpkfnd[jdfl] ){
         apcmsg2(s->m->filename, strlen(s->m->filename)+1);
 				}
 			}

@@ -9,9 +9,55 @@
 
 #include "datafilelist.h"
 #include "bool.h"
-
+#include "co.h"
 
 #include "dff.h"
+
+static int *iselect = NULL;/** Current entries which are selected  */
+
+/** 
+ * @file   selectinputfi.c
+ * 
+ * @brief  Select the active entries in the input data file list
+ * 
+ */
+
+/** 
+ * Select the active entres in the input data file list for use in
+ *    subsequent action commands
+ * 
+ * @param list 
+ *    List of active entries in the input data file list
+ *    Numbers in \p list refer to the order of the entries in
+ *    the data file list.  An entry in \p list becomes active 
+ *    for subsequent commands
+ * @param nlist 
+ *    Length of \p list
+ *
+ * @date   900409:  Original version.
+ *
+ */
+void 
+selectinputfiles(int  *list, 
+		 int   nlist) {
+	int j;
+
+	int *const List = &list[0] - 1;
+
+  if(iselect) {
+    xarray_free(iselect);
+  }
+  iselect = xarray_new_with_length('i', nlist+1);
+	/* - Save list in common block. */
+	cmdatafilelist.nselect = nlist;
+
+	for( j = 1; j <= nlist; j++ ){
+		iselect[j] = List[j];
+	}
+
+	return;
+}
+
 
 /** 
  * Get the next entry in the input data file list
@@ -64,7 +110,7 @@ nextinputfile(int *ientry) {
 		 *    Set entry number to selected entry. */
 		if( cmdatafilelist.jselect < cmdatafilelist.nselect ){
 			cmdatafilelist.jselect = cmdatafilelist.jselect + 1;
-			*ientry = Iselect[cmdatafilelist.jselect];
+			*ientry = iselect[cmdatafilelist.jselect];
 			nextinputfile_v = TRUE;
 		}
 		else{

@@ -38,8 +38,7 @@ int *nerr;
 	 ltoptcsave, lvlim, lvspacetype,
 	 lprint = FALSE , ltry = FALSE ;
 	int llims , n1dttm[6] ;  /* added to display picks. maf 961219 */
-	float tmin, tmax , toff[MDFL] ;    /* " */  /* Toff are time offsets */
-	float *const Toff = &toff[0] - 1 ; /* " */
+	float tmin, tmax , *toff ;    /* " */  /* Toff are time offsets */
 	int kdx, kdx_, ioffsetdta, ioffsettw, jdx, 
 	 jdfl, jvr, nferr, notused, 
 	 numplot, nvr;
@@ -141,7 +140,7 @@ int *nerr;
 	 *===================================================================== */
 	/* PROCEDURE: */
 	*nerr = 0;
-
+  toff = xarray_new_with_length('f', saclen()+1);
 	/* PARSING PHASE: */
 
 	/* - Loop on each token in command: */
@@ -596,19 +595,19 @@ int *nerr;
 		    getylm ( &llims , &tmin , &tmax ) ;
 		if( !llims ){
 		    copyi( &s->h->nzyear, n1dttm, 6 );
-		    Toff[1] = 0.;
+		    toff[1] = 0.;
 		    if ( Lvm[1] )
-			Toff[1] = Dlyvm[1] ;
+			toff[1] = Dlyvm[1] ;
 		    for( jdfl = 2; jdfl <= saclen(); jdfl++ ){
           if(!(s = sacget(jdfl-1, TRUE, nerr))) {
             *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
             goto L_7777;
           }
           //getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-			    Toff[jdfl] = 0.;
+			    toff[jdfl] = 0.;
 
 			if ( Lvm[1] )
-			    Toff[jdfl] += Dlyvm[jdfl] ;
+			    toff[jdfl] += Dlyvm[jdfl] ;
 		    } /* end for */
 		} /* end if (!llims) */
 	    } /* end if ( cmgam.ldsppk ), maf 961219 */
@@ -640,7 +639,7 @@ int *nerr;
 
 		/* Adjust picks for reduced time. maf 961219 */
 		if ( cmgam.ldsppk )
-		    Toff[jdfl] -= atime ; 
+		    toff[jdfl] -= atime ; 
 
 		/* -- Set up scaling parameters. */
 		s->h->scale = 1.0;
@@ -755,9 +754,9 @@ int *nerr;
 
 		/* display picks.  maf 961219 */
 		if ( cmsss.lorient )		/* portrait mode */
-		    disppk( Toff[jdfl] );
+		    disppk( toff[jdfl] );
 		else				/* landscape mode */
-		    disppkLandscape( Toff[jdfl] );
+		    disppkLandscape( toff[jdfl] );
 
 		/* -- Label each subplot with header field if requested.
 		 *    Label is put at end of trace. */
@@ -1253,6 +1252,7 @@ L_7777:
 	/*      call setsgfsize('NORMAL',notused) */
 
 L_8888:
+  xarray_free(toff);
 	return;
 
 } /* end of function */
