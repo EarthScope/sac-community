@@ -25,7 +25,7 @@ void SeisMgrToSac ( DBlist tree , int lname , int * nerr,
 
     MagType mType = cmdfm.nMagSpec ;
     struct wfdiscList *wfL = NULL ;
-
+    struct SACheader header;
     *nerr = 0 ;
  
     /* Initialize SeisMgr error handler */
@@ -61,16 +61,16 @@ void SeisMgrToSac ( DBlist tree , int lname , int * nerr,
           fflush(stdout);
        }
 
-
+       memset(&header, 0, sizeof(struct SACheader));
         /* Get the header to go with the waveform */
-        sacHeaderFromCSS( tree, &( globalSacHeader[ saclen() ] ),
+        sacHeaderFromCSS( tree, &header,
 			  wfL, refTimeType, &refTime, mType) ;
 
         /* Get picks according to the preferences file and
 	   pickauth and pickphase commands. */
 
 	if( cmdfm.lpref ) {
-            prefPicksToHeader( &( globalSacHeader[ saclen() - 1 ] ),
+            prefPicksToHeader( &header,
 			       saclen(), wfL->element, tree, refTime, nerr ) ;
 
             if ( *nerr ) {
@@ -87,7 +87,7 @@ void SeisMgrToSac ( DBlist tree , int lname , int * nerr,
 	    lcuttemp = FALSE ;
 
   /* Create a SAC file, fill the header and waveform. */
-  CSStoSAC( saclen(), &( globalSacHeader[ saclen() ] ),
+  CSStoSAC( saclen(), &header,
             wfL->seis, lname , lcuttemp , nerr ) ;
 	if ( *nerr ) {
 	    *nerr = 1402 ;
@@ -103,15 +103,15 @@ void SeisMgrToSac ( DBlist tree , int lname , int * nerr,
         return;
       }
 
-	    newData.dataType = globalSacHeader[ saclen()-1 ].iftype ;
+	    newData.dataType = header.iftype ;
 	    newData.xarray   = s->x;//cmmem.sacmem[ cmdfm.ndxdta[ saclen()-1 ][ 1 ] ] ;
 	    newData.yarray   = s->y;//cmmem.sacmem[ cmdfm.ndxdta[ saclen()-1 ][ 0 ] ] ;
-	    globalSacHeader[ saclen()-1 ].b = s->h->b ;
-	    globalSacHeader[ saclen()-1 ].e = s->h->e ;
-	    globalSacHeader[ saclen()-1 ].npts = s->h->npts ;
+	    header.b = s->h->b ;
+	    header.e = s->h->e ;
+	    header.npts = s->h->npts ;
 
 
-	    sacLoadFromHeaderAndData ( &( globalSacHeader[ saclen()-1 ] ) ,
+	    sacLoadFromHeaderAndData  &header,
 				       &newData , smGetDefaultWorksetName() ,
 				       FALSE , saclen()-1 , TRUE, takeEvid ) ;
 	}

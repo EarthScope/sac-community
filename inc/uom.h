@@ -11,17 +11,12 @@
 #include "mach.h"
 
 #define	MDIFTP	5
-#define	MUOCON	MDFL
 
 /** 
  * @struct kmuom
  *   Unary Variables
  */
 struct t_cmuom {
-  double conadd[MUOCON];  /** */
-  double consub[MUOCON];  /** */
-  double conmul[MUOCON];  /** */
-  double condiv[MUOCON];  /** */
   int   ndiftp;          /** */
   int   idiftp;          /** */
   int   ltrap;           /** */
@@ -35,22 +30,6 @@ struct t_kmuom {
   char kdiftp[MDIFTP][9]; /** */
 } kmuom;
 
-
-#ifdef DOINITS
-
-   double *const Conadd = &cmuom.conadd[0] - 1;
-   double *const Condiv = &cmuom.condiv[0] - 1;
-   double *const Conmul = &cmuom.conmul[0] - 1;
-   double *const Consub = &cmuom.consub[0] - 1;
-
-#else
-
-   extern double *const Conadd;
-   extern double *const Condiv;
-   extern double *const Conmul;
-   extern double *const Consub;
-
-#endif
 
 void dif2 ( float array[], 
             int number, 

@@ -116,7 +116,6 @@ struct t_kmsam {
   char krsps1[9];
   char krsps2[9];
   char kwsptp[9];
-  char kwspfl[MAXCHARS];
   char kwsps1[9];
   char kwsps2[9];
   char kpsptp[9];

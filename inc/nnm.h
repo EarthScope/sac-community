@@ -27,19 +27,8 @@ struct t_kmnnm {
 struct t_cmnnm {
   int   numpoints;
   int   numfiles;
-  float headerarray[MDFL];
 } cmnnm;
 
-
-#ifdef DOINITS
-
-   float *const Headerarray = &cmnnm.headerarray[0] - 1;
-
-#else
-
-   extern float *const Headerarray;
-
-#endif
 
 void xnnmc ( int index, 
              int *nerr);

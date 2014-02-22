@@ -13,7 +13,7 @@
 #include "mach.h"
 
 #define	MDWUN	  5
-#define	MSFL	  MDFL
+#define	MSFL	  1000
 #define	MVM	  2
 #define	MVMTP	  5
 #define	RKMPERDG  111.11

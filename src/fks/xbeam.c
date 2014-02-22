@@ -35,7 +35,7 @@ xbeam(int *nerr) {
 	 nckofbeam, nec, nsampsout, number, numbersav;
 	float advance, angle, anglev, beginout, delt_horiz, deltaout, 
     el_delay, endout,
-	 xr[MXLENP], yr[MXLENP], zr[MXLENP]; 
+	 *xr, *yr, *zr;
   double ra[3];
 	int   lLocalRef ;	
 	int   nLocalRef ;	
@@ -107,7 +107,9 @@ xbeam(int *nerr) {
 	 * The non-keyworded parameter NUMBER is suppressed for SAC
 	 *          CALL FI( ' ', 1, 'OPTIONAL', NCH, NUMBER)                      */
 	number = saclen();
-
+  xr = xarray_new_with_length('f', saclen());
+  yr = xarray_new_with_length('f', saclen());
+  zr = xarray_new_with_length('f', saclen());
 	/*    PARSING PHASE    
 	 * */
 	elevc = FALSE;
@@ -368,7 +370,10 @@ xbeam(int *nerr) {
   sacput(s);
 	wrsac( jout, kfile,NFILE_LENGTH, TRUE, nerr );
   sacpop();
-L_9999:
+ L_9999:
+  xarray_free(xr);
+  xarray_free(yr);
+  xarray_free(zr);
 	return;
 } /* end of function */
 

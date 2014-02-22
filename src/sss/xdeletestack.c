@@ -21,7 +21,7 @@ int *nerr;
 {
 	char kfile[MCPFN+1];
 	int lincr;
-	int idel[MDFL], jdel, jdfl, jdfl2,
+	int *idel, jdel, jdfl, jdfl2,
 	 jdfl3, ncfile, ndel ; 
 	int *const Idel = &idel[0] - 1;
 
@@ -75,6 +75,7 @@ int *nerr;
 	*nerr = 0;
 	ndel = 0;
 
+  idel = xarray_new_with_length('i', saclen());
 	/* PARSING PHASE: */
 
 	/* - Loop on each token in command: */
@@ -94,8 +95,8 @@ int *nerr;
 		    apimsg( jdfl );
 		    goto L_8888;
 		}
-		ndel = ndel + 1;
-		Idel[ndel] = jdfl;
+		idel[ndel] = jdfl;
+    ndel++;
 	    }
 
 	    /* -- "filename":  the name of a file from the signal stack. */
@@ -108,8 +109,8 @@ int *nerr;
 		    apcmsg( kfile,MCPFN+1 );
 		    goto L_8888;
 		}
-		ndel = ndel + 1;
-		Idel[ndel] = jdfl;
+		idel[ndel] = jdfl;
+		ndel++;
 	    }
 
 	    /* -- Bad syntax. */
@@ -135,10 +136,10 @@ int *nerr;
 
 	jdfl = 0;
 	for( jdel = 1; jdel <= ndel; jdel++ ){
-	    if( Idel[jdel] != jdfl ){
-		jdfl = Idel[jdel];
+    if( idel[jdel-1] != jdfl ){
+      jdfl = idel[jdel-1];
 		/* -- Release memory blocks. */
-    sacdel(jdfl-1);
+      sacdel(jdfl-1);
 		/* -- Move DFM and SSS array variables down.           */
 		for( jdfl2 = jdfl; jdfl2 <= (saclen() - 1); jdfl2++ ){
 		    jdfl3 = jdfl2 + 1;
@@ -166,7 +167,8 @@ int *nerr;
 	    dblDeleteWfdiscs ( tree , (int *) idel , ndel ) ;
 /*	} * end if ( cmdfm.lcommit ) */
 
-L_8888:
+ L_8888:
+      xarray_free(idel);
 	return;
 
 } /* end of function */

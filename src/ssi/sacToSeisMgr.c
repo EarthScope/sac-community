@@ -51,6 +51,7 @@ void sacToSeisMgr ( int lnew , int lupdate , int ldata , int *nerr )
     sacSACdata *data;
     int * nwfid_array;
     sac *s;
+    struct SACheader header;
     *nerr = 0 ;
     nwfid_array = NULL;
     data        = NULL;
@@ -113,7 +114,6 @@ void sacToSeisMgr ( int lnew , int lupdate , int ldata , int *nerr )
       goto ERROR;
     }
 
-
     /* Loop through sac data file list, writing data to the tree. */
 
     for ( jdfl = 0 ; jdfl < saclen() ; jdfl++ ) {
@@ -162,7 +162,8 @@ void sacToSeisMgr ( int lnew , int lupdate , int ldata , int *nerr )
 	//if ( uniqueStaAndChan () )
 
 	/* Put the header into the sacHeader struct. */
-	SacHeaderToDB ( &( globalSacHeader[ jdfl ] ) , lupdate ? eventHeader : allHeader , jdfl + 1 ) ;
+  memset(&header, 0, sizeof(struct SACheader));
+	SacHeaderToDB ( &header , lupdate ? eventHeader : allHeader , jdfl + 1 ) ;
 
 	/* Put the data into the sacData struct. */
 	if ( localLdata ) {
@@ -192,7 +193,7 @@ void sacToSeisMgr ( int lnew , int lupdate , int ldata , int *nerr )
 	}
 
 	/* Put the data into the tree */
-	sacLoadFromHeaderAndData( &( globalSacHeader[ jdfl ] ) , data, 
+	sacLoadFromHeaderAndData( &header , data, 
 				  worksetName, 0, lnew ? -1 : jdfl, localLdata,
 				  takeEvid );
 

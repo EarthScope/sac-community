@@ -67,8 +67,8 @@ xch(int *nerr) {
 	static int icatg = -1;
   double vallt;
 	/* 1 if the corresponding file is to be modified */
-  int	 doFile[DATA_FILE_LIST_MAXIMUM] ;	
-	int	 idx ;		
+  int	 *doFile;
+	int	 idx ;
   double fnumbr;
   sac *s;
   float *fp;
@@ -82,6 +82,8 @@ xch(int *nerr) {
 
 	*nerr = 0;
 
+  doFile = xarray_new_with_length('i', saclen());
+  
 	/* PARSING PHASE: */
 	/* - Initialize several state variables. */
 	nitem = 0;
@@ -89,13 +91,13 @@ xch(int *nerr) {
 	igdttm = 1;
 
 	/* modify all files by default */
-	for ( idx = 0 ; idx < DATA_FILE_LIST_MAXIMUM ; idx++ )
+	for ( idx = 0 ; idx < saclen() ; idx++ )
 		doFile[idx] = TRUE ;
 	
 	/* - Parse position dependant tokens, ie FILE; maf 960812 */
 	if ( lckeyExact ( "FILE", 5 )) {
     /* initialize doFile to FALSE */
-    for ( idx = 0 ; idx < DATA_FILE_LIST_MAXIMUM ; idx++ )
+    for ( idx = 0 ; idx < saclen() ; idx++ )
       doFile[idx] = FALSE ;
     
     /* set specified values of doFile to TRUE */
@@ -357,7 +359,8 @@ xch(int *nerr) {
 	    } /* end if ( doFile [ jdfl - 1 ] ). maf 960812 */
 	} /* end for loop between files */
 
-L_8888:
+ L_8888:
+  xarray_free(doFile);
 	return;
 }
 

@@ -22,12 +22,16 @@ void rollback (int whichHeaders , int * nerr)
     sac *s;
     *nerr = 0 ;
 
+    struct SACheader **header;
+    
     /* Initialize SeisMgr error handler */
     dblClearErrorList () ;
 
     /* get tree for default wordset */
     tree = smGetDefaultTree () ;
 
+    header = xarray_new_with_length('p', saclen());
+    
     if ( whichHeaders != allHeader ) {
         int jdfl ;
 
@@ -36,7 +40,8 @@ void rollback (int whichHeaders , int * nerr)
             goto L_8888;
           }
           //getfil ( jdfl + 1 , FALSE , &notused1 , &notused2 , &notused3 , nerr ) ;
-          SacHeaderToDB ( &( globalSacHeader[ jdfl ] ) , -whichHeaders , 0 ) ;
+          header[jdfl] = (struct SACheader *) malloc(sizeof(struct SACheader));
+          SacHeaderToDB ( header[ jdfl ] , -whichHeaders , 0 ) ;
 	}
     }
 
@@ -46,7 +51,7 @@ void rollback (int whichHeaders , int * nerr)
 	    *nerr = 1401 ;
 	else
 	    *nerr = 1402 ;
-	return ;
+  goto L_9999;
     }
     do {
         /* Get next waveform. */
@@ -54,7 +59,7 @@ void rollback (int whichHeaders , int * nerr)
             break ;
 
 	cmdfm.ndfl ++;
-        CSStoSAC ( saclen(), &( globalSacHeader[ saclen() -1 ] ) ,
+        CSStoSAC ( saclen(), header[ saclen() -1 ],
                    wfL->seis , FALSE , FALSE , nerr ) ;
     L_8888:
         if ( *nerr ) {
@@ -65,4 +70,11 @@ void rollback (int whichHeaders , int * nerr)
 	    break ;
 	}
     } while ( wfL ) ;
+
+ L_9999:
+    for(i = 0; i < xarray_length(header); i++) {
+      free(header[i]);
+      header = NULL;
+    }
+    xarray_free(header);
 } /* end rollback */

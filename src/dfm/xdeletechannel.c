@@ -44,10 +44,9 @@ xdeletechannel(int *nerr) {
 	int lincr;
 
 	int lall = FALSE ;	
-	int idel[MDFL], jdel, jdfl;
+	int *idel, jdel, jdfl;
 	int ncfile, ndel;
 	int first , last ; 
-	int *const Idel = &idel[0] - 1;
 
 	DBlist tree ;
   sac *s;
@@ -56,6 +55,8 @@ xdeletechannel(int *nerr) {
 	*nerr = 0;
 	ndel = 0;
 
+  idel = xarray_new('i', saclen());
+  
     memset(kfile, 0, sizeof(kfile));
 	/* - Loop on each token in command: */
 	while ( lcmore( nerr ) ){
@@ -71,8 +72,8 @@ xdeletechannel(int *nerr) {
 		    apimsg( jdfl );
 		    goto L_8888;
 		}
-		ndel = ndel + 1;
-		Idel[ndel] = jdfl;
+		idel[ndel] = jdfl;
+		ndel++;
 	    }
 
 	   /* -- "n-m": a range of filenumbers denoted by the first and last 
@@ -85,8 +86,8 @@ xdeletechannel(int *nerr) {
 		    goto L_8888 ;
 		}
 		for ( jdfl = first ; jdfl <= last ; jdfl++ ) {
+		    idel[ ndel ] = jdfl ;
 		    ndel++ ;
-		    Idel[ ndel ] = jdfl ;
 		}
 	    }
 
@@ -100,8 +101,8 @@ xdeletechannel(int *nerr) {
                 apcmsg( kfile,MCPFN+1 );
                 goto L_8888;
             }
-            ndel = ndel + 1;
-            Idel[ndel] = jdfl;
+            idel[ndel-1] = jdfl;
+            ndel++;
 	    }
 
 	    /* -- Bad syntax. */
@@ -122,11 +123,11 @@ xdeletechannel(int *nerr) {
 	    /* - For each file to be deleted: */
 
 	    jdfl = 0;
-	    for( jdel = 1; jdel <= ndel; jdel++ ){
-	        if( Idel[jdel] != jdfl ){
-		    jdfl = Idel[jdel];
-		    /* -- Release memory blocks. */
-        sacdel(jdfl-1);
+	    for( jdel = 0; jdel < ndel; jdel++ ){
+	        if( idel[jdel] != jdfl ){
+            jdfl = idel[jdel];
+            /* -- Release memory blocks. */
+            sacdel(jdfl-1);
           }
       }
 
@@ -172,6 +173,7 @@ xdeletechannel(int *nerr) {
     }
   //getfil( 1, FALSE, &ntused, &ntused, &ntused, nerr );
 L_8888:
+  xarray_free(idel);
 	return;
 
 }

@@ -12,8 +12,6 @@
 #include "clf.h"
 #include "SacHeader.h"
 
-#define	MBFL	MDFL
-
 /** 
  * @struct kmbom
  *    Binary Operations Lengths and Indicies
@@ -36,7 +34,6 @@ struct t_cmbom {
  *    Binary Operations Characters
  */ 
 struct t_kmbom {
-  char kbfl[MAXCHARS];
   char kecnpt[9];
   char kecdel[9];
 } kmbom;

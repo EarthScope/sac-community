@@ -29,12 +29,9 @@ xmap(int *nerr) {
 
 	int lany, lformer, lfullsav;
 	int i, j, jdfl, nch, nchsav; 
-	float ratiosav, square, x[MXLENP], xmax, xmin, xp, y[MXLENP], 
+	float ratiosav, square, *x, xmax, xmin, xp, *y,
         ymax, ymin, yp;
   sac *s;
-	float *const X = &x[0] - 1;
-	float *const Y = &y[0] - 1;
-
 
 	/*=====================================================================
 	 * PURPOSE:  To draw a map of the array, or its coarray.
@@ -67,9 +64,10 @@ xmap(int *nerr) {
 	 *===================================================================== */
 	/* PROCEDURE: */
 	*nerr = 0;
-
+  x = xarray_new_with_length('f', saclen());
+  y = xarray_new_with_length('f', saclen());
 	/* PARSING PHASE: */
-
+  
 	/* - Loop on each token in command: */
 
 L_1000:
@@ -128,8 +126,8 @@ L_1000:
 			nchsav = jdfl - 1;
 			goto L_2001;
 			}
-		X[jdfl] = s->h->user7;
-		Y[jdfl] = s->h->user8;
+		x[jdfl-1] = s->h->user7;
+		y[jdfl-1] = s->h->user8;
 		}
 L_2001:
 	nch = nchsav;
@@ -142,7 +140,7 @@ L_2001:
 
 		s->h->dist = 0.;
 		for( i = 1; i <= nch; i++ ){
-			square = powi(X[i],2) + powi(Y[i],2);
+			square = powi(x[i-1],2) + powi(y[i-1],2);
 			if( powi(s->h->dist,2) < square ){
 				s->h->dist = sqrt( square );
 				}
@@ -154,7 +152,7 @@ L_2001:
 		s->h->dist = 0.;
 		for( i = 1; i <= nch; i++ ){
 			for( j = 1; j <= nch; j++ ){
-				square = powi(X[i] - X[j],2) + powi(Y[i] - X[j],2);
+				square = powi(x[i-1] - x[j-1],2) + powi(y[i-1] - x[j-1],2);
 				if( powi(s->h->dist,2) < square ){
 					s->h->dist = sqrt( square );
 					}
@@ -293,8 +291,8 @@ L_5:
 	if( strcmp(cmfks.kmaptype,"ARRAY   ") == 0 ){
 
 		for( i = 1; i <= nch; i++ ){
-			xp = (X[i]/ s->h->dist)*0.80;
-			yp = (Y[i]/ s->h->dist)*0.80 + 0.05;
+			xp = (x[i-1]/ s->h->dist)*0.80;
+			yp = (y[i-1]/ s->h->dist)*0.80 + 0.05;
 			worldsector( xp, yp, .01, 0., 360., 5. );
 			}
 
@@ -303,8 +301,8 @@ L_5:
 
 		for( i = 1; i <= nch; i++ ){
 			for( j = 1; j <= nch; j++ ){
-				xp = ((X[i] - X[j])/ s->h->dist)*0.80;
-				yp = ((Y[i] - Y[j])/ s->h->dist)*0.80 + 0.05;
+				xp = ((x[i-1] - x[j-1])/ s->h->dist)*0.80;
+				yp = ((y[i-1] - y[j-1])/ s->h->dist)*0.80 + 0.05;
 				worldsector( xp, yp, .01, 0., 360., 5. );
 				}
 			}
@@ -326,6 +324,8 @@ L_8888:
 	setvspacetype( lfullsav, ratiosav );
 
 L_9999:
+  xarray_free(x);
+  xarray_free(y);
 	return;
 
 } /* end of function */

@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-
+#include <limits.h>
 #include "dfm.h"
 
 #include "cssb.h"
@@ -100,7 +100,7 @@ readcfl(int    lmore,
    int Nphases        = 0;
    int Replace        = 0;
    char *WorkSetName;
-   int MaxTraces      = MDFL;
+   int MaxTraces      = INT_MAX;
    int i, j;
 
 	*nerr = 0;

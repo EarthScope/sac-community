@@ -13,8 +13,6 @@
 #include "cssListOps/cssStrucs.h"
 #include "SacHeader.h"
 
-struct SACheader globalSacHeader[ MDFL ] ;
-
 void CSStoSAC ( int idfl, 
                 struct SACheader *header, 
                 struct trace *seis, 

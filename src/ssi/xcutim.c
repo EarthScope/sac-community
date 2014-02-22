@@ -41,6 +41,7 @@ xcutim ( int *nerr )
 	refTimeType = IB ;
     sac *s;
     int i,k;
+    struct SACheader **header;
     const int charsInBase = 9 ;
 
     int lname = FALSE , lnotused , lcutSave ;
@@ -57,6 +58,7 @@ xcutim ( int *nerr )
 	float offset[ 2 ] ;
     } bounds[ MAXPAIRS ] ;
 
+    header = xarray_new_with_length('p', saclen());
     /* save current global values */
     lcutSave = cmdfm.lcut ;
     ocutSave[ 0 ] = cmdfm.ocut[ 0 ] ;
@@ -188,13 +190,14 @@ xcutim ( int *nerr )
       cut_file = cut_data[k];
       k++;
 	    /* Get the header to go with the waveform */
-	    sacHeaderFromCSS( tree, &( globalSacHeader[ nSacFiles ] ),
+      header[nSacFiles] = (struct SACheader *) malloc(sizeof(struct SACheader));
+	    sacHeaderFromCSS( tree, header[ nSacFiles ],
 			      wfL, refTimeType, &refTime, cmdfm.nMagSpec) ;
 
 	    /* Get picks according to the preferences file and
 	       pickauth and pickphase commands. */
         nSacFiles++;
-	    prefPicksToHeader( &( globalSacHeader[ nSacFiles ] ), nSacFiles,
+	    prefPicksToHeader( header[ nSacFiles ], nSacFiles,
 				wfL->element, tree, refTime, nerr ) ;
 
 	    if ( *nerr ) {
@@ -208,7 +211,7 @@ xcutim ( int *nerr )
 		lname = TRUE ;
 
 	    /* Create a SAC file, fill the header and waveform. */
-	    CSStoSAC( nSacFiles, &( globalSacHeader[ nSacFiles-1 ] ),
+	    CSStoSAC( nSacFiles, header[ nSacFiles-1 ] ),
 		      wfL->seis, lname , lcuttrue , nerr ) ;
 	    if ( *nerr ) {
 		setmsg ( "WARNING" , 1402 ) ;
@@ -243,15 +246,15 @@ xcutim ( int *nerr )
 	    goto L_ERROR ;
 	}
 
-	newData.dataType = globalSacHeader[ jdfl - 1 ].iftype ;
+	newData.dataType = header[ jdfl - 1 ]->iftype ;
 	newData.xarray   = s->x;
 	newData.yarray   = s->y;
-	globalSacHeader[ jdfl-1 ].b = s->h->b ;
-	globalSacHeader[ jdfl-1 ].e = s->h->e ;
-	globalSacHeader[ jdfl-1 ].npts = s->h->npts ;
+	header[ jdfl-1 ]->b = s->h->b ;
+	header[ jdfl-1 ]->e = s->h->e ;
+	header[ jdfl-1 ]->npts = s->h->npts ;
 
-	sacLoadFromHeaderAndData( &( globalSacHeader[ jdfl-1 ] ) , &newData ,
-	                         worksetName , FALSE , jdfl-1 , TRUE , TRUE ) ;
+	sacLoadFromHeaderAndData( header[ jdfl-1 ] , &newData ,
+                            worksetName , FALSE , jdfl-1 , TRUE , TRUE ) ;
     } /* end for ( jdfl ) */
 
     /* clean up garbage in SeisMgr */
@@ -265,5 +268,10 @@ L_ERROR:
     cmdfm.ocut[ 1 ] = ocutSave[ 1 ] ;
     strcpy ( kmdfm.kcut[ 0 ] , kcutSave[ 0 ] ) ;
     strcpy ( kmdfm.kcut[ 1 ] , kcutSave[ 1 ] ) ;
+    for(i = 0; i < xarray_length(header); i++) {
+      free(header[i]);
+      header[i] = NULL;
+    }
+    xarray_free(header);
 
 } /* end xcutim() */

@@ -15,7 +15,7 @@
 #include "cpf.h"
 #include "dff.h"
 #include "amf.h"
-#define	MSYNCH	MDFL
+
 #include "errors.h"
 
 /** 
@@ -34,15 +34,16 @@
 void 
 xsynch(int *nerr) {
 
-        int jdfl, jdfl_, nb, ndttmi[MSYNCH][6], ndttmo[MSYNCH][6];
-	float begi[MSYNCH], bego[MSYNCH], dtnew;
-
-	float *const Begi = &begi[0] - 1;
-	float *const Bego = &bego[0] - 1;
+        int i, nb, *ndttmi, *ndttmo;
+        float *begi, *bego, dtnew;
 
 	static int lbegin = FALSE ; 
   sac *s;
 	*nerr = 0;
+  begi   = xarray_new_with_length('f', saclen());
+  bego   = xarray_new_with_length('f', saclen());
+  ndttmi = xarray_new_with_length('i', saclen() * 6);
+  ndttmo = xarray_new_with_length('i', saclen() * 6);
 
 	/* PARSING PHASE */
 	/* - Parse each token in command (if any): */
@@ -79,25 +80,23 @@ xsynch(int *nerr) {
 
 	/* EXECUTION PHASE: */
 	/* - Save beginning offset and reference time for each file. */
-	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
-	    jdfl_ = jdfl - 1;
-      if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+	for( i = 0; i < saclen(); i++ ){
+      if(!(s = sacget(i, TRUE, nerr))) {
         *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
         return;
       }
 	    //getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
 
-	    Begi[jdfl] = s->h->b;
-	    copyi( &s->h->nzyear, &ndttmi[jdfl_][0], 6 );
+	    begi[i] = s->h->b;
+	    copyi( &s->h->nzyear, &ndttmi[i * 6], 6 );
 	}
 
 	/* - Calculate new reference times and beginning offsets. */
 	synch( ndttmi, begi, saclen(), ndttmo, bego ,lbegin );
 
 	/* - For each file in DFL: */
-	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
-	    jdfl_ = jdfl - 1;
-      if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+	for( i = 0; i < saclen(); i++ ){
+      if(!(s = sacget(i, TRUE, nerr))) {
         return;
       }
 	    /* -- Get next file from the memory manager.
@@ -107,9 +106,9 @@ xsynch(int *nerr) {
 	    /* -- Update time header fields.
 	     *    New beginning offsets are set to exact value or they
 	     *    may be rounded to the nearest multiple of DELTA. */
-	    dtnew = Bego[jdfl] - s->h->b;
+	    dtnew = bego[i] - s->h->b;
 	    if( cmdfm.lround ){
-		nb = (int)( Bego[jdfl]/ s->h->delta + sign( 0.5, s->h->b ) );
+		nb = (int)( bego[i]/ s->h->delta + sign( 0.5, s->h->b ) );
 		s->h->b = s->h->delta*(float)( nb );
 	    }
 	    else{
@@ -142,11 +141,14 @@ xsynch(int *nerr) {
 		s->h->t8 = s->h->t8 + dtnew;
 	    if( s->h->t9 != cmhdr.fundef )
 		s->h->t9 = s->h->t9 + dtnew;
-	    copyi( &ndttmo[jdfl_][0], &s->h->nzyear, 6 );
+	    copyi( &ndttmo[i * 6], &s->h->nzyear, 6 );
 
 
 	}
-
+  xarray_free(begi);
+  xarray_free(bego);
+  xarray_free(ndttmi);
+  xarray_free(ndttmo);
 	return;
 }
 

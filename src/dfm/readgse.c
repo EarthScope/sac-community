@@ -7,7 +7,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-
+#include <limits.h>
 #include "amf.h"
 #include "dfm.h"
 #include "clf.h"
@@ -80,7 +80,7 @@ readgse(int   lmore,
    int filesReturned  = 0;
    int Nfiles         = 0;
    char **GSEFileList = 0;
-   int MaxTraces      = MDFL;
+   int MaxTraces      = INT_MAX;
 
    UNUSED(isASCII);
 

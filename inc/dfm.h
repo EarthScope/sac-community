@@ -121,7 +121,6 @@ struct t_cmdfm {
 
 
 struct t_kmdfm {
-    //  char kdfl[MAXCHARS];     /** Data File List Filenames */
   char krddir[MCPFN+1];    /** Current directory to read from */
   char kwrdir[MCPFN+1];    /** Current directory to write to */
   char krdcssdir[MCPFN+1]; /** Current directory to read CSS files from */

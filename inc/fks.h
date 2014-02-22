@@ -14,8 +14,6 @@
 #include "mach.h"
 #include "complex.h"
 
-#define	MXLENP	MDFL
-
 #define MOFFSETOPTS	5
 #define OCASCADE	0
 #define OREFERENCE	1

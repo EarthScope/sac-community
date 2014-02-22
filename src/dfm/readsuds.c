@@ -7,7 +7,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-
+#include <limits.h>
 #include "dfm.h"
 #include "clf.h"
 #include "cssb.h"
@@ -71,7 +71,7 @@ readsuds(int lmore,
 
    int filesReturned = 0;
    int Replace       = 0;
-   int MaxTraces     = MDFL;
+   int MaxTraces     = INT_MAX;
 
    UNUSED(isASCII);
 

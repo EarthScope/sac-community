@@ -97,9 +97,6 @@ xwritenn(int *nerr) {
 			goto L_8888;
 		}
 
-		/* -- Save header variable user0 into local array. */
-		Headerarray[jdfl] = s->h->user0;
-
 		/* -- Write the data. */
 		zwabs( (int *)&nun, (char *)s->y, cmnnm.numpoints, (int *)&nlocdisk, (int *)nerr );
 		if( *nerr != 0 )

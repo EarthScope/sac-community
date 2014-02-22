@@ -14,7 +14,6 @@ void /*FUNCTION*/ iniuom()
 	 * MODULE/LEVEL:  UOM/4
 	 *=====================================================================
 	 * PARAMETERS:
-	 *    MUOCON:  Length of unary constant arrays. [i]
 	 *    MDIFTP:  Number of differentiator types in DIF command. [i]
 	 *=====================================================================
 	 * VARIABLE DEFINITIONS:
@@ -29,13 +28,6 @@ void /*FUNCTION*/ iniuom()
 	 *    LTRAP:   Integration technique flag used in INT command. [l]
 	 *===================================================================== */
 	/* PROCEDURE: */
-	/* - ADD, SUB, MUL, and DIV commands. */
-	for( j = 1; j <= MUOCON; j++ ){
-        Conadd[j] = 0.;
-		Consub[j] = 0.;
-		Conmul[j] = 1.;
-		Condiv[j] = 1.;
-		}
 
 	/* - DIF command. */
 
