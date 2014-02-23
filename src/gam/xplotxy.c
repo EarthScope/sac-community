@@ -21,6 +21,7 @@
 #include "clf.h"
 #include "cpf.h"
 #include "dff.h"
+#include "array.h"
 
 void xplotxy(int *nerr)
 {
@@ -87,7 +88,7 @@ void xplotxy(int *nerr)
     ndflnumber = 0;
     atrwid = 0;
 	/* PARSING PHASE: */
-    idflnumber = xarray_new_with_length('i', saclen()+1);
+    idflnumber = xarray_new_with_len('i', saclen()+1);
 	/* - Loop on each token in command: */
 
 	jdflnumber = 0;

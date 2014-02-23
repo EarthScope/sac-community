@@ -21,6 +21,7 @@
 #include "cpf.h"
 #include "co.h"
 #include "dff.h"
+#include "array.h"
 
 void xplotdy(int *nerr)
 {
@@ -92,7 +93,7 @@ void xplotdy(int *nerr)
 	/* PARSING PHASE: */
 
 	/* - Loop on each token in command: */
-  Idflnumber = xarray_new_with_length('i',saclen()+1);
+  idflnumber = xarray_new_with_len('i',saclen()+1);
 	jdflnumber = 0;
 	lchange = FALSE;
 
@@ -336,7 +337,7 @@ void xplotdy(int *nerr)
 L_8888:
 	plrest();
 	settextjust( "LEFT", "BOTTOM" );
-  xarray_free(Idflnumber);
+  xarray_free(idflnumber);
 	return;
 
 } /* end of function */

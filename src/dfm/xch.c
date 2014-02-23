@@ -22,6 +22,7 @@
 #include "dff.h"
 #include "co.h"
 #include "amf.h"
+#include "array.h"
 #include "errors.h"
 
 /** 
@@ -82,7 +83,7 @@ xch(int *nerr) {
 
 	*nerr = 0;
 
-  doFile = xarray_new_with_length('i', saclen());
+  doFile = xarray_new_with_len('i', saclen());
   
 	/* PARSING PHASE: */
 	/* - Initialize several state variables. */

@@ -56,7 +56,7 @@ enum filetype {
 void 
 xr(int *nerr) {
 
-	char dirDelimiter[2], kline[MCMSG+1];
+	char dirDelimiter[2];
 	int ldata;
 	int lmore;
 	int lscale;

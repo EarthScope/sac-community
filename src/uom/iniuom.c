@@ -6,7 +6,6 @@
 
 void /*FUNCTION*/ iniuom()
 {
-	int j;
 
 	/*=====================================================================
 	 * PURPOSE: Variable initialization of common block CMUOM.

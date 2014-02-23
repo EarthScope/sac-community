@@ -23,6 +23,7 @@
 #include "co.h"
 #include "ncpf.h"
 #include "dff.h"
+#include "array.h"
 
 #define NFILE_LENGTH 128 /* max length of output file name */
 
@@ -107,9 +108,9 @@ xbeam(int *nerr) {
 	 * The non-keyworded parameter NUMBER is suppressed for SAC
 	 *          CALL FI( ' ', 1, 'OPTIONAL', NCH, NUMBER)                      */
 	number = saclen();
-  xr = xarray_new_with_length('f', saclen());
-  yr = xarray_new_with_length('f', saclen());
-  zr = xarray_new_with_length('f', saclen());
+  xr = xarray_new_with_len('f', saclen());
+  yr = xarray_new_with_len('f', saclen());
+  zr = xarray_new_with_len('f', saclen());
 	/*    PARSING PHASE    
 	 * */
 	elevc = FALSE;

@@ -15,7 +15,7 @@
 #include "cpf.h"
 #include "dff.h"
 #include "amf.h"
-
+#include "array.h"
 #include "errors.h"
 
 /** 
@@ -40,10 +40,10 @@ xsynch(int *nerr) {
 	static int lbegin = FALSE ; 
   sac *s;
 	*nerr = 0;
-  begi   = xarray_new_with_length('f', saclen());
-  bego   = xarray_new_with_length('f', saclen());
-  ndttmi = xarray_new_with_length('i', saclen() * 6);
-  ndttmo = xarray_new_with_length('i', saclen() * 6);
+  begi   = xarray_new_with_len('f', saclen());
+  bego   = xarray_new_with_len('f', saclen());
+  ndttmi = xarray_new_with_len('i', saclen() * 6);
+  ndttmo = xarray_new_with_len('i', saclen() * 6);
 
 	/* PARSING PHASE */
 	/* - Parse each token in command (if any): */
@@ -92,7 +92,7 @@ xsynch(int *nerr) {
 	}
 
 	/* - Calculate new reference times and beginning offsets. */
-	synch( ndttmi, begi, saclen(), ndttmo, bego ,lbegin );
+	synch( (int(*)[6]) ndttmi, begi, saclen(), (int(*)[6])ndttmo, bego ,lbegin );
 
 	/* - For each file in DFL: */
 	for( i = 0; i < saclen(); i++ ){

@@ -23,6 +23,7 @@
 #include "gtm.h"
 #include "cpf.h"
 #include "dff.h"
+#include "array.h"
 
 void 
 xmap(int *nerr) {
@@ -64,8 +65,8 @@ xmap(int *nerr) {
 	 *===================================================================== */
 	/* PROCEDURE: */
 	*nerr = 0;
-  x = xarray_new_with_length('f', saclen());
-  y = xarray_new_with_length('f', saclen());
+  x = xarray_new_with_len('f', saclen());
+  y = xarray_new_with_len('f', saclen());
 	/* PARSING PHASE: */
   
 	/* - Loop on each token in command: */

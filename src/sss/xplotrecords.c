@@ -24,6 +24,7 @@
 #include "clf.h"
 #include "cpf.h"
 #include "dff.h"
+#include "array.h"
 
 #define maxCropLevels 5
 extern float *tty[MXTT];
@@ -140,7 +141,7 @@ int *nerr;
 	 *===================================================================== */
 	/* PROCEDURE: */
 	*nerr = 0;
-  toff = xarray_new_with_length('f', saclen()+1);
+  toff = xarray_new_with_len('f', saclen()+1);
 	/* PARSING PHASE: */
 
 	/* - Loop on each token in command: */

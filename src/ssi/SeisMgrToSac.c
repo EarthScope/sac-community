@@ -111,7 +111,7 @@ void SeisMgrToSac ( DBlist tree , int lname , int * nerr,
 	    header.npts = s->h->npts ;
 
 
-	    sacLoadFromHeaderAndData  &header,
+	    sacLoadFromHeaderAndData( &header,
 				       &newData , smGetDefaultWorksetName() ,
 				       FALSE , saclen()-1 , TRUE, takeEvid ) ;
 	}

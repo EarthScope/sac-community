@@ -12,6 +12,7 @@
 #include "co.h"
 
 #include "dff.h"
+#include "array.h"
 
 static int *iselect = NULL;/** Current entries which are selected  */
 
@@ -47,7 +48,7 @@ selectinputfiles(int  *list,
   if(iselect) {
     xarray_free(iselect);
   }
-  iselect = xarray_new_with_length('i', nlist+1);
+  iselect = xarray_new_with_len('i', nlist+1);
 	/* - Save list in common block. */
 	cmdatafilelist.nselect = nlist;
 

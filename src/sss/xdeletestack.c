@@ -15,6 +15,7 @@
 #include "clf.h"
 #include "ucf.h"
 #include "cpf.h"
+#include "array.h"
 
 void /*FUNCTION*/ xdeletestack(nerr)
 int *nerr;
@@ -23,7 +24,6 @@ int *nerr;
 	int lincr;
 	int *idel, jdel, jdfl, jdfl2,
 	 jdfl3, ncfile, ndel ; 
-	int *const Idel = &idel[0] - 1;
 
 	DBlist tree ;
 
@@ -75,7 +75,7 @@ int *nerr;
 	*nerr = 0;
 	ndel = 0;
 
-  idel = xarray_new_with_length('i', saclen());
+  idel = xarray_new_with_len('i', saclen());
 	/* PARSING PHASE: */
 
 	/* - Loop on each token in command: */

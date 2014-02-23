@@ -45,7 +45,7 @@ updatedfl(sac_files  call_data,
 	  int        update, 
 	  int       *nerr) {
 
-        char kline[MCMSG+1], kfile[MCPFN+1];
+        char kfile[MCPFN+1];
         int i;
         sac_header *this_header;
         float *ydata, *xdata;

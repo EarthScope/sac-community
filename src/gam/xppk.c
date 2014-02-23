@@ -27,6 +27,7 @@
 #include "cpf.h"
 #include "co.h"
 #include "dff.h"
+#include "array.h"
 
 #define	MWIN	5
 
@@ -135,11 +136,11 @@ xppk(int *nerr) {
 	lempty = TRUE;
 	*nerr = 0;
 
-  lhlwrt = xarray_new_with_length('i', saclen()+1);
-  lzdttm = xarray_new_with_length('i', saclen()+1);
-  toff   = xarray_new_with_length('f', saclen()+1);
-  yimnzs = xarray_new_with_length('f', saclen()+1);
-  yimxzs = xarray_new_with_length('f', saclen()+1);
+  lhlwrt = xarray_new_with_len('i', saclen()+1);
+  lzdttm = xarray_new_with_len('i', saclen()+1);
+  toff   = xarray_new_with_len('f', saclen()+1);
+  yimnzs = xarray_new_with_len('f', saclen()+1);
+  yimxzs = xarray_new_with_len('f', saclen()+1);
 
 	/* PARSING PHASE: */
 

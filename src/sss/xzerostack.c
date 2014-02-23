@@ -65,7 +65,7 @@ int *nerr;
 	cmsss.dstg = cmhdr.fundef;
 	cmsss.lpolg = TRUE;
 	strcpy( kvm, "     DLY" );
-	fill( cmsss.dlyvm, MDFL, 0.0 );
+	fill( cmsss.dlyvm, MSFL, 0.0 );
 
 	/* - Release summation data block if necessary. */
 

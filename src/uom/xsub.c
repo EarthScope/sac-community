@@ -8,12 +8,12 @@
 
 #include "cpf.h"
 #include "dff.h"
+#include "array.h"
 
 void /*FUNCTION*/ xsub(nerr)
 int *nerr;
 {
-	int lchn;
-	int j, jcon, jdfl;
+	int j, jdfl, n, new_list;
 	double con;
 
 

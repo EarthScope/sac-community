@@ -20,6 +20,7 @@
 #include "cpf.h"
 #include "dff.h"
 #include "co.h"
+#include "array.h"
 
 void /*FUNCTION*/ xfitxy(nerr)
 int *nerr;
@@ -79,7 +80,7 @@ int *nerr;
 	/* PARSING PHASE: */
 
 	/* - Loop on each token in command: */
-  idflnumber = xarray_new_with_length('i', saclen()+1);
+  idflnumber = xarray_new_with_len('i', saclen()+1);
 	jdflnumber = 0;
 	lchange = FALSE;
 L_1000:

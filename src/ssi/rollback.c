@@ -12,6 +12,7 @@
 #include "SacHeader.h"
 #include "msg.h"
 #include "dff.h"
+#include "array.h"
 
 void rollback (int whichHeaders , int * nerr)
 {
@@ -20,6 +21,7 @@ void rollback (int whichHeaders , int * nerr)
     struct wfdiscList *wfL = NULL ;
     int check ;
     sac *s;
+    int i;
     *nerr = 0 ;
 
     struct SACheader **header;
@@ -30,7 +32,7 @@ void rollback (int whichHeaders , int * nerr)
     /* get tree for default wordset */
     tree = smGetDefaultTree () ;
 
-    header = xarray_new_with_length('p', saclen());
+    header = xarray_new_with_len('p', saclen());
     
     if ( whichHeaders != allHeader ) {
         int jdfl ;
@@ -72,7 +74,7 @@ void rollback (int whichHeaders , int * nerr)
     } while ( wfL ) ;
 
  L_9999:
-    for(i = 0; i < xarray_length(header); i++) {
+    for(i = 0; i < (int)xarray_length(header); i++) {
       free(header[i]);
       header = NULL;
     }

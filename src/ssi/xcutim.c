@@ -58,7 +58,7 @@ xcutim ( int *nerr )
 	float offset[ 2 ] ;
     } bounds[ MAXPAIRS ] ;
 
-    header = xarray_new_with_length('p', saclen());
+    header = xarray_new_with_len('p', saclen());
     /* save current global values */
     lcutSave = cmdfm.lcut ;
     ocutSave[ 0 ] = cmdfm.ocut[ 0 ] ;
@@ -211,7 +211,7 @@ xcutim ( int *nerr )
 		lname = TRUE ;
 
 	    /* Create a SAC file, fill the header and waveform. */
-	    CSStoSAC( nSacFiles, header[ nSacFiles-1 ] ),
+	    CSStoSAC( nSacFiles, header[ nSacFiles-1 ] ,
 		      wfL->seis, lname , lcuttrue , nerr ) ;
 	    if ( *nerr ) {
 		setmsg ( "WARNING" , 1402 ) ;
@@ -268,7 +268,7 @@ L_ERROR:
     cmdfm.ocut[ 1 ] = ocutSave[ 1 ] ;
     strcpy ( kmdfm.kcut[ 0 ] , kcutSave[ 0 ] ) ;
     strcpy ( kmdfm.kcut[ 1 ] , kcutSave[ 1 ] ) ;
-    for(i = 0; i < xarray_length(header); i++) {
+    for(i = 0; i < (int)xarray_length(header); i++) {
       free(header[i]);
       header[i] = NULL;
     }

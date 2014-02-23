@@ -8,12 +8,11 @@
 
 #include "cpf.h"
 #include "dff.h"
-
+#include "array.h"
 void /*FUNCTION*/ xmul(nerr)
 int *nerr;
 {
-	int lchn;
-	int j, jcon, jdfl;
+	int j, jdfl, n, new_list;
 	double con, temp;
 
   static double *v = NULL;
@@ -66,7 +65,7 @@ L_1000:
         xarray_clear(v);
         new_list = FALSE;
       }
-      v = xarray_new(v, con);
+      v = xarray_append(v, con);
 			/* -- Bad syntax. */
 			}
 		else{

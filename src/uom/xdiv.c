@@ -9,12 +9,11 @@
 #include "msg.h"
 #include "cpf.h"
 #include "dff.h"
-
+#include "array.h"
 void /*FUNCTION*/ xdiv(nerr)
 int *nerr;
 {
-	int lchn;
-	int j, jcon, jdfl;
+	int j, jdfl, n, new_list;
 	double con, temp;
 
   static double *v = NULL;
@@ -49,9 +48,6 @@ int *nerr;
 	*nerr = 0;
 
 	/* PARSING PHASE: */
-
-	jcon = 0;
-	lchn = FALSE;
 
 	/* - Loop on each token in command: */
   new_list = TRUE;

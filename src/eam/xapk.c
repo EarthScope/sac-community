@@ -24,6 +24,7 @@
 #include "co.h"
 #include "gam.h"
 #include "dff.h"
+#include "array.h"
 
 /** 
  * Execute the action command APK to apply an automatic first arrival
@@ -62,7 +63,7 @@ xapk(int *nerr)
   sac *s;
 	*nerr = 0;
 
-  lpkfnd = xarray_new_with_length('i',saclen()+1);
+  lpkfnd = xarray_new_with_len('i',saclen()+1);
   memset(kmsg, 0, MCMSG+1);
   memset(lpkfnd, 0, (saclen()+1) * sizeof(int));
     nlncda = 0;

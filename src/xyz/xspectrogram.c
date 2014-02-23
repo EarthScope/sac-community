@@ -19,6 +19,7 @@
 #include "msg.h"
 #include "cpf.h"
 #include "dff.h"
+#include "array.h"
 
 void 
 xspectrogram(int *nerr)
@@ -107,8 +108,8 @@ xspectrogram(int *nerr)
 	/* PROCEDURE: */
 	*nerr = 0;
   begin = 0.0;
-  nptslist = xarray_new_with_length('i', saclen());
-  deltalist = xarray_new_with_length('f', saclen());
+  nptslist = xarray_new_with_len('i', saclen());
+  deltalist = xarray_new_with_len('f', saclen());
   memset(deltalist, 0, saclen() * sizeof(float));
 	/* - Loop on each token in command: */
 	while ( lcmore( nerr ) ){

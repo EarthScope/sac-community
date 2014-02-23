@@ -17,7 +17,7 @@
 #include "pl.h"
 #include "ucf.h"
 #include "dff.h"
-
+#include "array.h"
 void
 show_colorbar(float  x,
               float  y,
@@ -123,7 +123,7 @@ specplot(float *specdata,
 	/* PROCEDURE: */
 	/* Errors before plsave have to avoid going to execute plrest. */
 	*nerr = 0;
-  toff = xarray_new_with_length('f', saclen()+1);
+  toff = xarray_new_with_len('f', saclen()+1);
 	/* - If no graphics device is open, try to open the default device. */
 
 	getstatus( "ANY", &lany );

@@ -22,6 +22,7 @@
 #include "cpf.h"
 #include "co.h"
 #include "dff.h"
+#include "array.h"
 
 void xp2(int *nerr)
 {
@@ -121,7 +122,7 @@ void xp2(int *nerr)
 
 	/* - Loop on each token in command: */
 
-    toff = xarray_new_with_length('f', saclen()+1);
+    toff = xarray_new_with_len('f', saclen()+1);
     memset(toff, 0.0, sizeof(float) * saclen());
 	while ( lcmore( nerr ) ){
 

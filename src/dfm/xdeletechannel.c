@@ -24,6 +24,7 @@
 #include "cpf.h"
 #include "co.h"
 #include "dff.h"
+#include "array.h"
 #include "errors.h"
 
 /** 
@@ -55,7 +56,7 @@ xdeletechannel(int *nerr) {
 	*nerr = 0;
 	ndel = 0;
 
-  idel = xarray_new('i', saclen());
+  idel = xarray_new_with_len('i', saclen());
   
     memset(kfile, 0, sizeof(kfile));
 	/* - Loop on each token in command: */

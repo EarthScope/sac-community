@@ -20,6 +20,7 @@
 #include "cpf.h"
 #include "co.h"
 #include "dff.h"
+#include "array.h"
 
 void xp1(int *nerr)
 {
@@ -28,7 +29,7 @@ void xp1(int *nerr)
 	int l1dttm, lany, lbotaxsave, lbottcsave, lframesave, ltitlsave, 
 	 ltoptcsave, lwait, lxgrdsave, lxlabsave, lxlims, lylabsave,
 	 lprint = FALSE , ltry = FALSE ;
-	int i, jdfl, jdfl1, jdfl2, jfr, jperfr, n1dttm[6], 
+	int jdfl, jdfl1, jdfl2, jfr, jperfr, n1dttm[6], 
 	 ncret, nfr, nperfr, notused;
 	float tmax, tmaxj, tmin, tminj, *toff, ypdel, ypmxsave;
   sac *s;
@@ -173,7 +174,7 @@ void xp1(int *nerr)
 	plsave();
 
         /* initialize plot offsets */
-  toff = xarray_new_with_length('f', saclen()+1);
+  toff = xarray_new_with_len('f', saclen()+1);
   memset(toff, 0.0, sizeof(float) * saclen()+1);
 
 	/* - Set up specific options that apply only to this plot. */
