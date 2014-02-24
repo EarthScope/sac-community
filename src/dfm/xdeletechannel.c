@@ -102,7 +102,7 @@ xdeletechannel(int *nerr) {
                 apcmsg( kfile,MCPFN+1 );
                 goto L_8888;
             }
-            idel[ndel-1] = jdfl;
+            idel[ndel] = jdfl;
             ndel++;
 	    }
 

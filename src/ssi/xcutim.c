@@ -194,18 +194,7 @@ xcutim ( int *nerr )
 	    sacHeaderFromCSS( tree, header[ nSacFiles ],
 			      wfL, refTimeType, &refTime, cmdfm.nMagSpec) ;
 
-	    /* Get picks according to the preferences file and
-	       pickauth and pickphase commands. */
-        nSacFiles++;
-	    prefPicksToHeader( header[ nSacFiles ], nSacFiles,
-				wfL->element, tree, refTime, nerr ) ;
-
-	    if ( *nerr ) {
-		setmsg ( "WARNING" , 1401 ) ;
-		outmsg () ;
-		clrmsg () ;
-		*nerr = 0 ;
-	    }
+      nSacFiles++;
 
 	    if ( !lname && nSacFiles > nOriginalFiles )
 		lname = TRUE ;
