@@ -155,4 +155,15 @@ void inter ( float x[],
              int *ny);
 void xtaper ( int *nerr);
 
+void taper_width_to_points(float width, float npts, int *ipts);
+void taper(float *data, int n, int taper_type, int ipts);
+
+void rmean(float *data, int n, float mean);
+void rtrend(float *data, int n, float yint, float slope, float b, float delta);
+void rtrend2(float *data, int n, float yint, float slope, float *t);
+
+void interp(float *in, int nlen, float *out, int newlen, float bval, float eval, float dt, float tstart, float dtnew, float eps);
+void interp2(float *in, int nlen, float *out, int newlen, float bval, float eval, float *t, float tstart, float dtnew, float eps);
+
+
 #endif /* _SCM_H_ */

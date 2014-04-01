@@ -62,13 +62,10 @@ int *nerr;
 	    /* -- Get the next file in DFL, moving header to CMHDR. */
 	    getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 	    if( *nerr != 0 )
-		return;
+        return;
 
 	    /* -- Remove mean from each data point. */
-            Sacmem = cmmem.sacmem[ndx1];
-	    for( j = ndx1; j <= (ndx1 + *npts - 1); j++ ){
-                *(Sacmem++) -= *depmen;
-	    }
+      rmean( cmmem.sacmem[ndx1], *npts, *depmen);
 
 	    /* -- Update any header fields that may have changed. */
 	    *depmin = *depmin - *depmen;

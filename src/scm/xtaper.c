@@ -115,38 +115,10 @@ L_1000:
 			goto L_8888;
 
 		/* -- Determine number of points for taper. */
-		tpts = cmsam.widtap*(float)( *npts + 1 );
-		ipts = max( 2, (int)( tpts ) );
+    taper_width_to_points(cmsam.widtap, nlen, &ipts);
 
-		/* -- Taper each end.
-		 * --- Cosine taper.  (Yes, I know I'm computing a sine.) */
-		if( cmsam.itaptp == 1 ){
-			omega = PI/(2.*(float)( ipts ));
-			/* ndxl = ndx1 + *npts - 1; */
-			for( j = 0; j <= (ipts - 1); j++ ){
-				value = sin( omega*(float)( j ) );
-                                *(cmmem.sacmem[ndx1]+j) *= value;
-                                *(cmmem.sacmem[ndx1]+*npts-1-j) *= value;
-				}
-			/* --- Hanning and Hamming tapers differ only in coefficients. */
-			}
-		else{
-			if( cmsam.itaptp == 2 ){
-				f0 = 0.50;
-				f1 = 0.50;
-				}
-			else{
-				f0 = 0.54;
-				f1 = 0.46;
-				}
-			omega = PI/(float)( ipts );
-			/* ndxl = ndx1 + *npts - 1; */
-			for( j = 0; j <= (ipts - 1); j++ ){
-				value = f0 - f1*cos( omega*(float)( j ) );
-                                *(cmmem.sacmem[ndx1]+j) *= value;
-                                *(cmmem.sacmem[ndx1]+*npts-1-j) *= value;
-				}
-			}
+    /* -- Taper */
+    taper(cmmem.sacmem[ndx1], nlen, cmsam.itaptp, ipts);
 
 		/* -- Compute new extrema. */
 		extrma( cmmem.sacmem[ndx1], 1, *npts, depmin, depmax, depmen );

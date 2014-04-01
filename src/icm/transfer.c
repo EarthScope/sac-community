@@ -282,7 +282,7 @@ int nfreq, *nerr;
        This is the FREQLIMITS option */
 	for( i = 1; i < nfreq; i++ ){
 	    freq = (double)( i )*delfrq;
-	    fac = delfrq*taper( freq, F[2], F[1] ) * taper( freq, F[3], F[4] );
+	    fac = delfrq*taper_spectra( freq, F[2], F[1] ) * taper_spectra( freq, F[3], F[4] );
 	    xre[i] *= fac;
 	    xim[i] *= fac;
 	}

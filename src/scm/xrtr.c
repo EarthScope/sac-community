@@ -85,30 +85,15 @@ int *nerr;
 		/* -- Two versions of linear fit: one for evenly spaced
 		 *    data and one for unevenly spaced data. */
 
-		if( *leven ){
-            float sum, t;
+		if( *leven ){ 
 			lifite( *b, *delta, cmmem.sacmem[ndx1], nlen, &slp, &yint, 
-			 &sdslp, &sdyint, &sddta, &corrcf );
-            Sacmem = cmmem.sacmem[ndx1];
-            sum = 0.0;            
-			for( jy = ndx1; jy <= (ndx1 + nlen - 1); jy++ ){
-                t = *b + *delta * (jy-ndx1);
-                *Sacmem = *Sacmem - yint - slp*t ;
-                sum = sum + *Sacmem;
-                
-                Sacmem++;
-			}
+              &sdslp, &sdyint, &sddta, &corrcf );
+      rtrend( cmmem.sacmem[ndx1], nlen, yint, slp, *b, *delta );
 		}
 		else{
 			lifitu( cmmem.sacmem[ndx2], cmmem.sacmem[ndx1], nlen, &slp, &yint, 
 			 &sdslp, &sdyint, &sddta, &corrcf );
-                        Sacmem1 = cmmem.sacmem[ndx1];
-                        Sacmem2 = cmmem.sacmem[ndx2];
-			for( jy = ndx1; jy <= (ndx1 + nlen - 1); jy++ ){
-                                *Sacmem1 = *Sacmem1 - yint - slp**Sacmem2;
-                                Sacmem1++;
-                                Sacmem2++;
-			}
+      rtrend2(cmmem.sacmem[ndx1], yint, slp, cmmem.sacmem[ndx2]);
 		}
 
 		/* -- Write results oflinear fit. */

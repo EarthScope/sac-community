@@ -235,7 +235,9 @@ am_libsac_a_OBJECTS = co/complex.$(OBJEXT) dbh/xapiir.$(OBJEXT) \
 	dbh/firtrn.$(OBJEXT) dbh/overlp.$(OBJEXT) dbh/zero.$(OBJEXT) \
 	dbh/zshft.$(OBJEXT) dbh/fft.$(OBJEXT) dbh/crscor.$(OBJEXT) \
 	dbh/window.$(OBJEXT) dbh/rms.$(OBJEXT) ucf/next2.$(OBJEXT) \
-	ucf/copydouble.$(OBJEXT) sam/envelope.$(OBJEXT)
+	ucf/copydouble.$(OBJEXT) sam/envelope.$(OBJEXT) \
+	scm/rmean.$(OBJEXT) scm/rtrend.$(OBJEXT) scm/taper.$(OBJEXT) \
+	scm/interpolate.$(OBJEXT) scm/wigint.$(OBJEXT)
 libsac_a_OBJECTS = $(am_libsac_a_OBJECTS)
 libsac_all_a_AR = $(AR) $(ARFLAGS)
 libsac_all_a_LIBADD =
@@ -607,9 +609,10 @@ am_libsac_all_a_OBJECTS = amf/allamb.$(OBJEXT) amf/iniam.$(OBJEXT) \
 	scm/xrmean.$(OBJEXT) scm/xrotate.$(OBJEXT) scm/xrq.$(OBJEXT) \
 	scm/xrtr.$(OBJEXT) scm/xscmc.$(OBJEXT) scm/xsmooth.$(OBJEXT) \
 	scm/xstretch.$(OBJEXT) scm/xtaper.$(OBJEXT) \
-	site/initsite.$(OBJEXT) site/xsitecom.$(OBJEXT) \
-	site/xtestsite.$(OBJEXT) smm/inismm.$(OBJEXT) \
-	smm/ptp.$(OBJEXT) smm/xmarkptp.$(OBJEXT) \
+	scm/rmean.$(OBJEXT) scm/rtrend.$(OBJEXT) scm/taper.$(OBJEXT) \
+	scm/interpolate.$(OBJEXT) site/initsite.$(OBJEXT) \
+	site/xsitecom.$(OBJEXT) site/xtestsite.$(OBJEXT) \
+	smm/inismm.$(OBJEXT) smm/ptp.$(OBJEXT) smm/xmarkptp.$(OBJEXT) \
 	smm/xmarktimes.$(OBJEXT) smm/xmarkvalue.$(OBJEXT) \
 	smm/xrms.$(OBJEXT) smm/xsmmc.$(OBJEXT) spe/inispe.$(OBJEXT) \
 	spe/xcor.$(OBJEXT) spe/xmem.$(OBJEXT) spe/xmlm.$(OBJEXT) \
@@ -1232,7 +1235,9 @@ libsac_a_SOURCES = co/complex.c  \
 	\
   ucf/next2.c ucf/copydouble.c \
 	\
-	sam/envelope.c
+	sam/envelope.c \
+	\
+	scm/rmean.c scm/rtrend.c scm/taper.c scm/interpolate.c scm/wigint.c 
 
 libsac_all_a_SOURCES = amf/allamb.c amf/iniam.c amf/reaamb.c amf/relamb.c \
 	\
@@ -1498,6 +1503,7 @@ libsac_all_a_SOURCES = amf/allamb.c amf/iniam.c amf/reaamb.c amf/relamb.c \
 	scm/xquantize.c scm/xreverse.c scm/xrglitches.c scm/xrmean.c \
 	scm/xrotate.c scm/xrq.c scm/xrtr.c scm/xscmc.c scm/xsmooth.c \
 	scm/xstretch.c scm/xtaper.c \
+	scm/rmean.c scm/rtrend.c scm/taper.c scm/interpolate.c \
 	\
 	site/initsite.c site/xsitecom.c site/xtestsite.c \
 	\
@@ -1855,6 +1861,14 @@ sam/$(am__dirstamp):
 	@$(MKDIR_P) sam
 	@: > sam/$(am__dirstamp)
 sam/envelope.$(OBJEXT): sam/$(am__dirstamp)
+scm/$(am__dirstamp):
+	@$(MKDIR_P) scm
+	@: > scm/$(am__dirstamp)
+scm/rmean.$(OBJEXT): scm/$(am__dirstamp)
+scm/rtrend.$(OBJEXT): scm/$(am__dirstamp)
+scm/taper.$(OBJEXT): scm/$(am__dirstamp)
+scm/interpolate.$(OBJEXT): scm/$(am__dirstamp)
+scm/wigint.$(OBJEXT): scm/$(am__dirstamp)
 
 libsac.a: $(libsac_a_OBJECTS) $(libsac_a_DEPENDENCIES) $(EXTRA_libsac_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libsac.a
@@ -2741,15 +2755,11 @@ sam/xsamc.$(OBJEXT): sam/$(am__dirstamp)
 sam/xunwr.$(OBJEXT): sam/$(am__dirstamp)
 sam/xwnr.$(OBJEXT): sam/$(am__dirstamp)
 sam/xwsp.$(OBJEXT): sam/$(am__dirstamp)
-scm/$(am__dirstamp):
-	@$(MKDIR_P) scm
-	@: > scm/$(am__dirstamp)
 scm/iniscm.$(OBJEXT): scm/$(am__dirstamp)
 scm/lifite.$(OBJEXT): scm/$(am__dirstamp)
 scm/lifitu.$(OBJEXT): scm/$(am__dirstamp)
 scm/linear.$(OBJEXT): scm/$(am__dirstamp)
 scm/rotate.$(OBJEXT): scm/$(am__dirstamp)
-scm/wigint.$(OBJEXT): scm/$(am__dirstamp)
 scm/xabsgl.$(OBJEXT): scm/$(am__dirstamp)
 scm/xdecimate.$(OBJEXT): scm/$(am__dirstamp)
 scm/xinterpolate.$(OBJEXT): scm/$(am__dirstamp)

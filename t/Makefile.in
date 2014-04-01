@@ -83,10 +83,10 @@ target_triplet = @target@
 @EDITLINE_TRUE@am__append_2 = -I../libedit/include
 check_PROGRAMS = use_sac$(EXEEXT) ucf$(EXEEXT) vars$(EXEEXT) \
 	sacio$(EXEEXT) $(am__EXEEXT_1)
-@HAVE_F77_TRUE@am__append_3 = saciof
+@HAVE_F77_TRUE@am__append_3 = saciof saclibf
 TESTS = use_sac$(EXEEXT) ucf$(EXEEXT) vars$(EXEEXT) sacio$(EXEEXT) \
 	$(am__EXEEXT_2) pytest.sh
-@HAVE_F77_TRUE@am__append_4 = sacio_fortran.sh saciof
+@HAVE_F77_TRUE@am__append_4 = sacio_fortran.sh saciof saclibf
 subdir = t
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/config/test-driver
@@ -115,7 +115,7 @@ libunit_a_AR = $(AR) $(ARFLAGS)
 libunit_a_LIBADD =
 am_libunit_a_OBJECTS = unit.$(OBJEXT)
 libunit_a_OBJECTS = $(am_libunit_a_OBJECTS)
-@HAVE_F77_TRUE@am__EXEEXT_1 = saciof$(EXEEXT)
+@HAVE_F77_TRUE@am__EXEEXT_1 = saciof$(EXEEXT) saclibf$(EXEEXT)
 am_sacio_OBJECTS = sacio-sacio.$(OBJEXT) sacio-sacio_rsac1.$(OBJEXT) \
 	sacio-sacio_rsac2.$(OBJEXT) sacio-sacio_wsac0.$(OBJEXT) \
 	sacio-sacio_wsac1.$(OBJEXT) sacio-sacio_wsac2.$(OBJEXT) \
@@ -133,6 +133,9 @@ am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 saciof_DEPENDENCIES = $(am__append_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2)
+am_saclibf_OBJECTS = saclib_f.$(OBJEXT)
+saclibf_OBJECTS = $(am_saclibf_OBJECTS)
+saclibf_DEPENDENCIES =
 am_ucf_OBJECTS = ucf.$(OBJEXT) ucf_inctim.$(OBJEXT) \
 	ucf_cnvati.$(OBJEXT) ucf_cnvita.$(OBJEXT) ucf_cnvatf.$(OBJEXT) \
 	ucf_cnvfta.$(OBJEXT)
@@ -197,9 +200,9 @@ am__v_F77LD_ = $(am__v_F77LD_@AM_DEFAULT_V@)
 am__v_F77LD_0 = @echo "  F77LD   " $@;
 am__v_F77LD_1 = 
 SOURCES = $(libunit_a_SOURCES) $(sacio_SOURCES) $(saciof_SOURCES) \
-	$(ucf_SOURCES) use_sac.c $(vars_SOURCES)
+	$(saclibf_SOURCES) $(ucf_SOURCES) use_sac.c $(vars_SOURCES)
 DIST_SOURCES = $(libunit_a_SOURCES) $(sacio_SOURCES) $(saciof_SOURCES) \
-	$(ucf_SOURCES) use_sac.c $(vars_SOURCES)
+	$(saclibf_SOURCES) $(ucf_SOURCES) use_sac.c $(vars_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -408,7 +411,8 @@ am__set_TESTS_bases = \
   bases=`echo $$bases`
 RECHECK_LOGS = $(TEST_LOGS)
 AM_RECURSIVE_TARGETS = check recheck
-@HAVE_F77_TRUE@am__EXEEXT_2 = sacio_fortran.sh saciof$(EXEEXT)
+@HAVE_F77_TRUE@am__EXEEXT_2 = sacio_fortran.sh saciof$(EXEEXT) \
+@HAVE_F77_TRUE@	saclibf$(EXEEXT)
 TEST_SUITE_LOG = test-suite.log
 TEST_EXTENSIONS = @EXEEXT@ .test
 LOG_DRIVER = $(SHELL) $(top_srcdir)/config/test-driver
@@ -624,11 +628,17 @@ sacio_SOURCES = sacio.c \
                    sacio_getset.c \
                    sacio_test.h
 
-#saciof: sacio_f.o
+#saciof${EXEEXT}: sacio_f.o
 #	$(F77) $(COVERAGE) -o $@ sacio_f.o -L../src -lsacio
 saciof_SOURCES = sacio_f.f
 sacio_CFLAGS = -I$(top_srcdir)/include
 sacio_LDADD = -L../src/ -lsacio -L. -lunit
+
+#saclibf${EXEEXT}: saclib_f.o
+#	$(F77) $(COVERAGE) -o $@ saclib_f.o -L../src -lsac
+saclibf_SOURCES = saclib_f.f
+saclibf_LDADD = -L../src/ -lsacio -lsac -L. -lunit
+saclibf_CFLAGS = 
 #
 # Options for dejagnu for testing the sac binary input and output
 #
@@ -691,6 +701,10 @@ sacio$(EXEEXT): $(sacio_OBJECTS) $(sacio_DEPENDENCIES) $(EXTRA_sacio_DEPENDENCIE
 saciof$(EXEEXT): $(saciof_OBJECTS) $(saciof_DEPENDENCIES) $(EXTRA_saciof_DEPENDENCIES) 
 	@rm -f saciof$(EXEEXT)
 	$(AM_V_F77LD)$(F77LINK) $(saciof_OBJECTS) $(saciof_LDADD) $(LIBS)
+
+saclibf$(EXEEXT): $(saclibf_OBJECTS) $(saclibf_DEPENDENCIES) $(EXTRA_saclibf_DEPENDENCIES) 
+	@rm -f saclibf$(EXEEXT)
+	$(AM_V_F77LD)$(F77LINK) $(saclibf_OBJECTS) $(saclibf_LDADD) $(LIBS)
 
 ucf$(EXEEXT): $(ucf_OBJECTS) $(ucf_DEPENDENCIES) $(EXTRA_ucf_DEPENDENCIES) 
 	@rm -f ucf$(EXEEXT)
@@ -1001,6 +1015,13 @@ sacio_fortran.sh.log: sacio_fortran.sh
 saciof.log: saciof$(EXEEXT)
 	@p='saciof$(EXEEXT)'; \
 	b='saciof'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+saclibf.log: saclibf$(EXEEXT)
+	@p='saclibf$(EXEEXT)'; \
+	b='saclibf'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \

@@ -386,7 +386,7 @@ void sro ( int nfreq,
            double xim[], 
            char *subtyp, 
            int subtyp_s);
-double taper ( double freq, 
+double taper_spectra ( double freq, 
                double fqh, 
                double fql);
 void dcpft ( double re[], 

@@ -206,22 +206,14 @@ L_1000:
         }
         
 		/* -- Perform the specific operation on this data file. */
-		for( j = 0; j <= (newlen - 1); j++ ){
-			xnew = xstart + (j  * cmscm.dtnew);
-			if( xnew >= *b && xnew <= *e ){
-				if( *leven ){
-					wigint( (float*)b, cmmem.sacmem[ndxy],
-                            nlen, *delta,  eps, xnew, 
-                            cmmem.sacmem[newndx] + j );
-					}
-				else{
-					wigint( cmmem.sacmem[ndxx], 
-                            cmmem.sacmem[ndxy], nlen, 0.0, 
-                            eps, xnew, cmmem.sacmem[newndx] + j );
-                }
-            }
+        if(*leven) {
+          interp(cmmem.sacmem[ndxy], nlen, cmmem.sacmem[newndx], newlen,
+                      *b, *e, *delta, xstart, cmscm.dtnew, eps);
+        } else {
+          interp2(cmmem.sacmem[ndxy], nlen, cmmem.sacmem[newndx], newlen,
+                       *b, *e, cmmem.sacmem[ndxx], xstart, cmscm.dtnew, eps);
         }
-        
+
 		/* -- Update any header fields that may have changed. */
 		*npts = newlen;
 		*delta = cmscm.dtnew;

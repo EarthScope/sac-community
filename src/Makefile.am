@@ -258,7 +258,10 @@ libsac_a_SOURCES = co/complex.c  \
 	\
   ucf/next2.c ucf/copydouble.c \
 	\
-	sam/envelope.c
+	sam/envelope.c \
+	\
+	scm/rmean.c scm/rtrend.c scm/taper.c scm/interpolate.c scm/wigint.c 
+
 
 libsac_all_a_SOURCES = amf/allamb.c amf/iniam.c amf/reaamb.c amf/relamb.c \
 	\
@@ -524,6 +527,7 @@ libsac_all_a_SOURCES = amf/allamb.c amf/iniam.c amf/reaamb.c amf/relamb.c \
 	scm/xquantize.c scm/xreverse.c scm/xrglitches.c scm/xrmean.c \
 	scm/xrotate.c scm/xrq.c scm/xrtr.c scm/xscmc.c scm/xsmooth.c \
 	scm/xstretch.c scm/xtaper.c \
+	scm/rmean.c scm/rtrend.c scm/taper.c scm/interpolate.c \
 	\
 	site/initsite.c site/xsitecom.c site/xtestsite.c \
 	\

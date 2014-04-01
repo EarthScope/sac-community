@@ -60,7 +60,7 @@ sacio_SOURCES    = sacio.c \
                    sacio_wsac3.c  \
                    sacio_getset.c \
                    sacio_test.h
-#saciof: sacio_f.o
+#saciof${EXEEXT}: sacio_f.o
 #	$(F77) $(COVERAGE) -o $@ sacio_f.o -L../src -lsacio
 
 saciof_SOURCES = sacio_f.f
@@ -68,17 +68,24 @@ saciof_SOURCES = sacio_f.f
 sacio_CFLAGS = -I$(top_srcdir)/include
 sacio_LDADD = -L../src/ -lsacio -L. -lunit
 
+#saclibf${EXEEXT}: saclib_f.o
+#	$(F77) $(COVERAGE) -o $@ saclib_f.o -L../src -lsac
+
+saclibf_SOURCES = saclib_f.f
+saclibf_LDADD = -L../src/ -lsacio -lsac -L. -lunit
+saclibf_CFLAGS =
+
 # Compiled programs as tests
 check_PROGRAMS   = use_sac ucf vars sacio 
 if HAVE_F77
-check_PROGRAMS += saciof
+check_PROGRAMS += saciof saclibf
 endif
 
 
 # Compiled programs to test
 TESTS            =  use_sac ucf vars sacio 
 if HAVE_F77
-TESTS += sacio_fortran.sh saciof
+TESTS += sacio_fortran.sh saciof saclibf
 endif
 TESTS += pytest.sh
 #

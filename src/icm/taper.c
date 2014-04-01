@@ -15,7 +15,7 @@
  *     NOTE:  IF FQL>FQH THEN LO-PASS
  *            IF FQH>FQL THEN HI-PASS
  * */
-double taper(double freq, double fqh, double fql)
+double taper_spectra(double freq, double fqh, double fql)
 {
 	/* LO-PASS CASE */
 	if (fql > fqh) {
