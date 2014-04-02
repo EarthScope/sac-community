@@ -93,7 +93,7 @@ int *nerr;
 		else{
 			lifitu( cmmem.sacmem[ndx2], cmmem.sacmem[ndx1], nlen, &slp, &yint, 
 			 &sdslp, &sdyint, &sddta, &corrcf );
-      rtrend2(cmmem.sacmem[ndx1], yint, slp, cmmem.sacmem[ndx2]);
+      rtrend2(cmmem.sacmem[ndx1], nlen, yint, slp, cmmem.sacmem[ndx2]);
 		}
 
 		/* -- Write results oflinear fit. */
