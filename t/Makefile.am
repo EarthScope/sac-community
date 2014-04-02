@@ -67,6 +67,10 @@ saciof_SOURCES = sacio_f.f
 
 sacio_CFLAGS = -I$(top_srcdir)/include
 sacio_LDADD = -L../src/ -lsacio -L. -lunit
+sacio_LDFLAGS =
+saciof_LDADD = -L../src/ -lsacio -L. -lunit
+saciof_CFLAGS =
+saciof_LDFLAGS =
 
 #saclibf${EXEEXT}: saclib_f.o
 #	$(F77) $(COVERAGE) -o $@ saclib_f.o -L../src -lsac
