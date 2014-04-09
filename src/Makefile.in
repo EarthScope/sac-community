@@ -234,9 +234,11 @@ am_libsac_a_OBJECTS = co/complex.$(OBJEXT) dbh/xapiir.$(OBJEXT) \
 	dbh/c2roots.$(OBJEXT) dbh/bilin2.$(OBJEXT) \
 	dbh/firtrn.$(OBJEXT) dbh/overlp.$(OBJEXT) dbh/zero.$(OBJEXT) \
 	dbh/zshft.$(OBJEXT) dbh/fft.$(OBJEXT) dbh/crscor.$(OBJEXT) \
-	dbh/window.$(OBJEXT) dbh/rms.$(OBJEXT) ucf/next2.$(OBJEXT) \
-	ucf/copydouble.$(OBJEXT) sam/envelope.$(OBJEXT) \
-	scm/rmean.$(OBJEXT) scm/rtrend.$(OBJEXT) scm/taper.$(OBJEXT) \
+	dbh/window.$(OBJEXT) dbh/rms.$(OBJEXT) icm/trans.$(OBJEXT) \
+	icm/dcpft.$(OBJEXT) icm/taper.$(OBJEXT) icm/getran.$(OBJEXT) \
+	ucf/next2.$(OBJEXT) ucf/copydouble.$(OBJEXT) \
+	sam/envelope.$(OBJEXT) scm/rmean.$(OBJEXT) \
+	scm/rtrend.$(OBJEXT) scm/taper.$(OBJEXT) \
 	scm/interpolate.$(OBJEXT) scm/wigint.$(OBJEXT)
 libsac_a_OBJECTS = $(am_libsac_a_OBJECTS)
 libsac_all_a_AR = $(AR) $(ARFLAGS)
@@ -548,10 +550,10 @@ am_libsac_all_a_OBJECTS = amf/allamb.$(OBJEXT) amf/iniam.$(OBJEXT) \
 	icm/wwlpbn.$(OBJEXT) icm/wwsp.$(OBJEXT) icm/wwspbn.$(OBJEXT) \
 	icm/xicmc.$(OBJEXT) icm/xprewit.$(OBJEXT) \
 	icm/xtransfer.$(OBJEXT) icm/ykalp.$(OBJEXT) \
-	icm/ykasp.$(OBJEXT) icm/fap.$(OBJEXT) mat/engineCall.$(OBJEXT) \
-	mat/engineCall2.$(OBJEXT) mat/matBlackBoardVars.$(OBJEXT) \
-	mat/matConnect.$(OBJEXT) mat/matDisconnect.$(OBJEXT) \
-	mat/matHeaderDataManage.$(OBJEXT) \
+	icm/ykasp.$(OBJEXT) icm/fap.$(OBJEXT) icm/trans.$(OBJEXT) \
+	mat/engineCall.$(OBJEXT) mat/engineCall2.$(OBJEXT) \
+	mat/matBlackBoardVars.$(OBJEXT) mat/matConnect.$(OBJEXT) \
+	mat/matDisconnect.$(OBJEXT) mat/matHeaderDataManage.$(OBJEXT) \
 	mat/matStructArrayOps.$(OBJEXT) mat/stationSets.$(OBJEXT) \
 	mat/xCLOSEMAT.$(OBJEXT) mat/xMAT.$(OBJEXT) \
 	mat/xMAT3C.$(OBJEXT) mat/xmatc.$(OBJEXT) mat/xsetmat.$(OBJEXT) \
@@ -1233,6 +1235,8 @@ libsac_a_SOURCES = co/complex.c  \
 	dbh/zero.c dbh/zshft.c dbh/fft.c dbh/crscor.c \
 	dbh/window.c dbh/rms.c \
 	\
+	icm/trans.c icm/dcpft.c icm/taper.c icm/getran.c \
+	\
   ucf/next2.c ucf/copydouble.c \
 	\
 	sam/envelope.c \
@@ -1454,6 +1458,7 @@ libsac_all_a_SOURCES = amf/allamb.c amf/iniam.c amf/reaamb.c amf/relamb.c \
 	icm/wwspbn.c icm/xicmc.c icm/xprewit.c icm/xtransfer.c icm/ykalp.c \
 	icm/ykasp.c icm/fap.c \
 	icm/dbFuncs.h \
+	icm/trans.c \
 	\
 	mat/engineCall.c mat/engineCall2.c mat/matBlackBoardVars.c \
 	mat/matConnect.c mat/matDisconnect.c mat/matHeaderDataManage.c \
@@ -1852,6 +1857,13 @@ dbh/fft.$(OBJEXT): dbh/$(am__dirstamp)
 dbh/crscor.$(OBJEXT): dbh/$(am__dirstamp)
 dbh/window.$(OBJEXT): dbh/$(am__dirstamp)
 dbh/rms.$(OBJEXT): dbh/$(am__dirstamp)
+icm/$(am__dirstamp):
+	@$(MKDIR_P) icm
+	@: > icm/$(am__dirstamp)
+icm/trans.$(OBJEXT): icm/$(am__dirstamp)
+icm/dcpft.$(OBJEXT): icm/$(am__dirstamp)
+icm/taper.$(OBJEXT): icm/$(am__dirstamp)
+icm/getran.$(OBJEXT): icm/$(am__dirstamp)
 ucf/$(am__dirstamp):
 	@$(MKDIR_P) ucf
 	@: > ucf/$(am__dirstamp)
@@ -2545,9 +2557,6 @@ history/$(am__dirstamp):
 	@$(MKDIR_P) history
 	@: > history/$(am__dirstamp)
 history/history.$(OBJEXT): history/$(am__dirstamp)
-icm/$(am__dirstamp):
-	@$(MKDIR_P) icm
-	@: > icm/$(am__dirstamp)
 icm/EVRESPnames.$(OBJEXT): icm/$(am__dirstamp)
 icm/EvrespGateway.$(OBJEXT): icm/$(am__dirstamp)
 icm/acc.$(OBJEXT): icm/$(am__dirstamp)
@@ -2562,7 +2571,6 @@ icm/cmh.$(OBJEXT): icm/$(am__dirstamp)
 icm/cmz.$(OBJEXT): icm/$(am__dirstamp)
 icm/csh.$(OBJEXT): icm/$(am__dirstamp)
 icm/csz.$(OBJEXT): icm/$(am__dirstamp)
-icm/dcpft.$(OBJEXT): icm/$(am__dirstamp)
 icm/dewit.$(OBJEXT): icm/$(am__dirstamp)
 icm/dseis.$(OBJEXT): icm/$(am__dirstamp)
 icm/dss.$(OBJEXT): icm/$(am__dirstamp)
@@ -2575,7 +2583,6 @@ icm/gbalp.$(OBJEXT): icm/$(am__dirstamp)
 icm/gbasp.$(OBJEXT): icm/$(am__dirstamp)
 icm/general.$(OBJEXT): icm/$(am__dirstamp)
 icm/getins.$(OBJEXT): icm/$(am__dirstamp)
-icm/getran.$(OBJEXT): icm/$(am__dirstamp)
 icm/getroots.$(OBJEXT): icm/$(am__dirstamp)
 icm/gsref.$(OBJEXT): icm/$(am__dirstamp)
 icm/hfslpwb.$(OBJEXT): icm/$(am__dirstamp)
@@ -2605,7 +2612,6 @@ icm/rstn.$(OBJEXT): icm/$(am__dirstamp)
 icm/sandia.$(OBJEXT): icm/$(am__dirstamp)
 icm/snla3.$(OBJEXT): icm/$(am__dirstamp)
 icm/sro.$(OBJEXT): icm/$(am__dirstamp)
-icm/taper.$(OBJEXT): icm/$(am__dirstamp)
 icm/transfer.$(OBJEXT): icm/$(am__dirstamp)
 icm/vel.$(OBJEXT): icm/$(am__dirstamp)
 icm/wa.$(OBJEXT): icm/$(am__dirstamp)

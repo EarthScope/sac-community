@@ -222,7 +222,7 @@ int nfreq, *nerr;
 	/* - Deconvolve seismometer 'FROM' diretion (xre, xim) */
     
     setTransferDirection(FROM);
-	dseis( nfreq, delfrq, xre, xim, fpfrom, ipfrom, kpfrom,kpfrom_s, 
+	dseis( nfreq, delfrq, sre, sim, fpfrom, ipfrom, kpfrom,kpfrom_s, 
 	&nmScale, nerr );
 	if( *nerr != 0 )
 	    goto L_8888;
@@ -235,7 +235,7 @@ int nfreq, *nerr;
     after getting the deconvolution transfer function before the real and 
     imaginary arrays have been modified. */
     
-    DataMultiplier = GetNormalizationFactor( nfreq, delfrq, xre, xim );
+    DataMultiplier = GetNormalizationFactor( nfreq, delfrq, sre, sim );
 	
 
     /* compute transfer function 
@@ -244,15 +244,15 @@ int nfreq, *nerr;
        Set to zero if less than FLT_MIN */
        
 	for( i = 1; i < nfreq; i++ ){
-	    denr=(powi(xre[i],2) + powi(xim[i],2));
+      denr=(powi(sre[i],2) + powi(sim[i],2));
 	    if(denr <= FLT_MIN){
 	      sre[i]=0.0e0;
 	      sim[i]=0.0e0;
 	    }
 	    else{
 	      denr = 1.0e0/denr;
-	      sre[i] = xre[i]*denr;
-	      sim[i] = -xim[i]*denr;
+	      sre[i] = sre[i]*denr;
+	      sim[i] = -sim[i]*denr;
 	    }
 	}
 
@@ -267,85 +267,16 @@ int nfreq, *nerr;
 	    goto L_8888;
 
 
-    /* Multiply the two transfer functions together to get a composite 
-    transfer function (xre, xim)
-       Input  (xre,xim): TO transfer fuction
-       Input  (sre,sim): FROM transfer function
-       Output (xre,xim): Composite transfer function */
-	for( i = 1; i < nfreq; i++ ){
-	    double temp = xre[i]*sre[i] - xim[i]*sim[i];
-	    xim[i] = xre[i]*sim[i] + xim[i]*sre[i];
-	    xre[i] = temp;
-	}
+  /* 
+     Apply TO and FROM Instrument responses
+                   F(DATA) * TO
+     DATA = F^-1(----------------)
+                      FROM
+     DATA is overwritten
+   */
 
-    /* Apply the taper to the composite transfer function to (xre, xim) 
-       This is the FREQLIMITS option */
-	for( i = 1; i < nfreq; i++ ){
-	    freq = (double)( i )*delfrq;
-	    fac = delfrq*taper_spectra( freq, F[2], F[1] ) * taper_spectra( freq, F[3], F[4] );
-	    xre[i] *= fac;
-	    xim[i] *= fac;
-	}
-
-
-	/* - Fill a complex vector (sre +i*sim) [Note reuse of these arrays] and then transform the data.
-       Input  (dat):      Time Series Data
-       Output (sre, sim): Time series data in Real Part, 0.0 in Imaginary Part
-     */
-	for( i = 0; i < npts; i++ ){
-	    sre[i] = (double)( dat[i] )*(double)( delta );
-	    sim[i] = 0.0e0;
-	}
-    /* Pad with zero from npts to nfft, nfft is a power of 2 */
-	if (npts < nfft) {
-	    for( i = npts; i < nfft; i++ ){
-	        sre[i] = 0.0e0;
-	        sim[i] = 0.0e0;
-	    }
-	}
-	
-    /* Transform Data using FFT to get the complex frequency response 
-       Input  (sre,sim): Time series data in Real Part, 0.0 in Imaginary Part
-       Output (sre,sim): Complex Freuqnecy Response */
-       
-	dcpft( sre, sim, nfft, 1, -1 ); 
-
-
-	/* - Multiply transformed data (sre, sim) by composite transfer 
-	operator (xre, xim) . 
-     Input  (sre, sim): FFT of data (single-precision => double precision)
-     Input  (xre, xim): Composite Transfer funtion
-     Output (sre, sim): Transfered Data in Complex Frequency Space 
-     Frequency Response at zero-frequency is set to 0.0e0 */
-     
-	for( i = 1; i < nfreq; i++ ){
-	    double tempR = xre[i]*sre[i] - xim[i]*sim[i];
-	    double tempI = xre[i]*sim[i] + xim[i]*sre[i];
-	    sre[i] = tempR;
-	    sim[i] = tempI;
-	    /* Input data are real so F(N-j) = (F(j))*   */
-	    if (i < nfreq-1){
-          j = nfft - i;
-          sre[j] = tempR;
-          sim[j] = -tempI;
-	    }
-	}
-    /* Set the Frequency Response at zero-frequency to 0.0 */
-	sre[0] = 0.0;
-    sim[0] = 0.0;
-    
-    /* Set the real part of the Frequecy Response at the Nyquist Frequency to 
-    the Amplitude of the Nyquist Freuquency */
-    
-    sre[nfft-1] = sqrt(sre[nfft-1]*sre[nfft-1] + sim[nfft-1]*sim[nfft-1]);
-	sim[nfft-1] = 0.0;
-
-	/* - Perform the inverse transform. 
-       Input  (sre,sim): Transfered Data in Complex Frequency Space 
-       Output (sre,sim): Time series data equivalent of input */
-       
-	dcpft( sre, sim, nfft, 1, 1 );
-
+  ztransfer(dat, npts, delta, sre, sim, xre, xim, nfreq, nfft, delfrq, f);
+  
 	/* - Copy the transformed data back into the original data array. 
 	double precieions => single precision */
 	

@@ -256,6 +256,8 @@ libsac_a_SOURCES = co/complex.c  \
 	dbh/zero.c dbh/zshft.c dbh/fft.c dbh/crscor.c \
 	dbh/window.c dbh/rms.c \
 	\
+	icm/trans.c icm/dcpft.c icm/taper.c icm/getran.c \
+	\
   ucf/next2.c ucf/copydouble.c \
 	\
 	sam/envelope.c \
@@ -478,6 +480,7 @@ libsac_all_a_SOURCES = amf/allamb.c amf/iniam.c amf/reaamb.c amf/relamb.c \
 	icm/wwspbn.c icm/xicmc.c icm/xprewit.c icm/xtransfer.c icm/ykalp.c \
 	icm/ykasp.c icm/fap.c \
 	icm/dbFuncs.h \
+	icm/trans.c \
 	\
 	mat/engineCall.c mat/engineCall2.c mat/matBlackBoardVars.c \
 	mat/matConnect.c mat/matDisconnect.c mat/matHeaderDataManage.c \

@@ -1,8 +1,6 @@
 
 #include <math.h>
 
-#include "icm.h"
-#include "co.h"
 #include "complex.h"
 
 void /*FUNCTION*/ getran(nfreq, delfrq, const_, nzero, zero, npole, 
@@ -38,8 +36,8 @@ double xre[], xim[];
 
 		if( nzero != 0 ){
 			for( idx = 1; idx <= nzero; idx++ ){
-				tr = -cmplxtof( Zero[idx] );
-				ti = omega - aimag( Zero[idx] );
+				tr = - (double)Zero[idx].re;
+				ti = omega - Zero[idx].im ;
 				tr0 = trn*tr - tin*ti;
 				ti0 = trn*ti + tin*tr;
 				trn = tr0;
@@ -52,8 +50,8 @@ double xre[], xim[];
 
 		if( npole != 0 ){
 			for( idx = 1; idx <= npole; idx++ ){
-				tr = -cmplxtof( Pole[idx] );
-				ti = omega - aimag( Pole[idx] );
+				tr = - (double)Pole[idx].re;
+				ti = omega - Pole[idx].im ;
 				tr0 = trd*tr - tid*ti;
 				ti0 = trd*ti + tid*tr;
 				trd = tr0;
@@ -61,7 +59,7 @@ double xre[], xim[];
 			}
 		}
 
-		fac = (double)( const_ )/(powi(trd,2) + powi(tid,2));
+		fac = (double)( const_ )/(trd*trd + tid*tid);
 		Xre[jdx] = fac*(trn*trd + tin*tid);
 		Xim[jdx] = fac*(trd*tin - trn*tid);
 
