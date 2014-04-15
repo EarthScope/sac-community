@@ -248,6 +248,8 @@ libevalresp_a_SOURCES = evalresp/alloc_fctns.c evalresp/calc_fctns.c \
 
 libsac_a_SOURCES = co/complex.c  \
 	\
+	dfm/cut.c \
+	\
 	dbh/xapiir.c dbh/apply.c dbh/design.c \
 	dbh/lp.c dbh/lptbp.c dbh/lptbr.c dbh/lpthp.c dbh/warp.c \
 	dbh/cutoffs.c dbh/chebparm.c dbh/buroots.c dbh/beroots.c \
@@ -262,7 +264,7 @@ libsac_a_SOURCES = co/complex.c  \
 	\
 	sam/envelope.c \
 	\
-	scm/rmean.c scm/rtrend.c scm/taper.c scm/interpolate.c scm/wigint.c 
+	scm/rmean.c scm/rtrend.c scm/taper.c scm/interpolate.c scm/wigint.c scm/rotate.c
 
 
 libsac_all_a_SOURCES = amf/allamb.c amf/iniam.c amf/reaamb.c amf/relamb.c \
@@ -377,7 +379,7 @@ libsac_all_a_SOURCES = amf/allamb.c amf/iniam.c amf/reaamb.c amf/relamb.c \
 	dfm/xpickprefs.c dfm/xr.c dfm/xrcss.c dfm/xrerr.c \
 	dfm/xrgse.c dfm/xrh.c dfm/xrsdd.c dfm/xrsuds.c dfm/xrtab.c \
 	dfm/xsort.c dfm/xsynch.c dfm/xw.c dfm/xwcss.c dfm/xwgse.c dfm/xwh.c \
-	dfm/xwild.c dfm/xwtab.c \
+	dfm/xwild.c dfm/xwtab.c dfm/cut.c \
 	\
 	eam/inieam.c eam/whpf1.c eam/xapk.c \
 	eam/xeamc.c eam/xoapf.c eam/xohpf.c eam/xwhpf.c  \

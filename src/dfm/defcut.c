@@ -20,6 +20,9 @@
 //#define __DEBUG__
 #include "debug.h"
 
+void cut_define(float b, float delta, double dt, int *n);
+void cut_define_check(float start, float stop, int npts, int cuterr, int *nstart, int *nstop, int *nfillb, int *nfille, int *nerr);
+
 /** 
  * Define cut parameters for a given data file
  * 
@@ -112,16 +115,10 @@ defcut(char   kcut[2][9],
 			Nstart[idfl] = 1;
 		}
 	}
-	else{	
-		int iBegin , iStart ;
-
+	else{
 		/* start time of data to read */
-		start = Pick[1] + ocut[0] ;
-		iStart = lround(  start / *delta ) ;
-		iBegin = lround( *begin / *delta ) ;
-
-		Nstart[idfl] = iStart - iBegin + 1 ;
-    DEBUG("START/B: %f (%d) %d [%f/%f] %f %d\n", start, iStart, Nstart[idfl],Pick[1],ocut[0], start/ *delta, *npts);
+    start = Pick[1] + ocut[0];
+    cut_define(*begin, *delta, start, &Nstart[idfl]);
 	}
 
 	/* -  Compute stop value. */
@@ -139,19 +136,14 @@ defcut(char   kcut[2][9],
 			apcmsg( "DEFCUT #3",10 );
 			return ;
 		} else {
-            if(strcmp(kcut[1],"Z       ") == 0 ) {
-                Pick[2] = 0.0; 
-            } else {
-                Pick[2] = Fhdr[Ipckhd[jdx]];
-            }
-            int iBegin , iStop ;
-            stop = Pick[2] + ocut[1] ;
-            iStop = lround(  stop / *delta ) ;
-            iBegin = lround( *begin / *delta ) ;
-            
-            Nstop[idfl] = iStop - iBegin + 1 ;
-            DEBUG("STOP/E: %f (%d) %d [%f/%f] %f %d\n", stop, iStop, Nstop[idfl], Pick[2],ocut[1], stop / *delta, *npts);
-        }
+      if(strcmp(kcut[1],"Z       ") == 0 ) {
+        Pick[2] = 0.0;
+      } else {
+        Pick[2] = Fhdr[Ipckhd[jdx]];
+      }
+      stop = Pick[2] + ocut[1];
+      cut_define(*begin, *delta, stop, &Nstop[idfl]);
+    }
 	}
 
 	/* - Make sure stop pick is defined. */
@@ -173,102 +165,71 @@ defcut(char   kcut[2][9],
 		}
     }
 
-	/* - Check that start value less than stop value. */
-	if( start >= stop ){
-		*nerr = ERROR_START_TIME_GREATER_THAN_STOP;
-    error(*nerr, "%s\n\ttime:  %f >= %f\n\tindex: %d >= %d",
-          tmp, start, stop,
-          Nstart[idfl], Nstop[idfl]);
-		return ;
-	}
-
-	/* - Handle cases where the requested data window is not entirely
-	 *   within the range of the data file. */
-
-	/* -- Entire data window after file end. */
-	if( Nstart[idfl] > *npts ){
-		if( cmdfm.icuter == 3 ){
-			Nfillb[idfl] = 0;
-			Nfille[idfl] = Nstop[idfl] - Nstart[idfl] + 1;
-		}
-		else{
-			*nerr = ERROR_START_TIME_GREATER_THAN_END;
-      error(*nerr, "%s\n\ttime:  %f > %f\n\tindex: %d > %d", 
-            tmp, start, *e,
-            Nstart[idfl], *npts);
-		}
-		return ;
-	}
-
-	/* -- Entire data window before file begin. */
-	if( Nstop[idfl] < 1 ){
-		if( cmdfm.icuter == 3 ){
-			Nfillb[idfl] = Nstop[idfl] - Nstart[idfl] + 1;
-			Nfille[idfl] = 0;
-		}
-		else{
-			*nerr = ERROR_STOP_TIME_LESS_THAN_BEGIN;
-      error(*nerr, "%s\n\ttime:  %f < %f\n\tindex: %d < %d",
-            tmp, stop, *b, 
-            Nstop[idfl], 1);
-      free(tmp);
-		}
-		return ;
-	}
-
-	/* - Start of data window before file begin. */
-	if( Nstart[idfl] < 1 ){
-		if( cmdfm.icuter == 3 )
-			Nfillb[idfl] = 1 - Nstart[idfl];
-
-		else if( cmdfm.icuter == 2 ){
-			setmsg( "WARNING", ERROR_START_TIME_LESS_THAN_BEGIN );
-            apcmsg2(tmp, strlen(tmp)+1);
-			outmsg();
-			setmsg( "OUTPUT", ERROR_CORRECTED_BY_USING_BEGIN_TIME );
-			outmsg();
-			/* start = *begin; */
-			Nstart[idfl] = 1;
-			Nfillb[idfl] = 0;
-		}
-		else{
-			*nerr = ERROR_START_TIME_LESS_THAN_BEGIN;
-			setmsg( "ERROR", *nerr );
-            apcmsg2(tmp, strlen(tmp)+1);
-			return ;
-		}
-	}
-	else
-		Nfillb[idfl] = 0;
-
-
-	/* -- Stop of data window is after file end. */
-	if( Nstop[idfl] > *npts ){
-		if( cmdfm.icuter == 3 )
-			Nfille[idfl] = Nstop[idfl] - *npts;
-
-		else if( cmdfm.icuter == 2 ){
-			setmsg( "WARNING", 1325 );
-            apcmsg2(tmp, strlen(tmp)+1);
-			outmsg();
-			setmsg( "OUTPUT", 1331 );
-			outmsg();
-			/* stop = *ennd; */
-			Nstop[idfl] = *npts;
-			Nfille[idfl] = 0;
-		}
-		else{
-			*nerr = ERROR_STOP_TIME_LESS_THAN_END;
-			setmsg( "ERROR", *nerr );
-			return ;
-		}
-	}
-	else
-		Nfille[idfl] = 0;
-
-
+  /* Check the cut time and adjust Nstart, Nstop, Nfillb, Nfille */
+  cut_define_check(start, stop, *npts, cmdfm.icuter,
+                   &Nstart[idfl], &Nstop[idfl],
+                   &Nfillb[idfl], &Nfille[idfl], nerr);
+  /* Error checking */
+  if(*nerr) {
+    switch(*nerr) {
+    case ERROR_START_TIME_GREATER_THAN_STOP:
+      error(*nerr, "%s\n\ttime:  %f >= %f\n\tindex: %d >= %d", tmp, start, stop, Nstart[idfl], Nstop[idfl]);
+      return ;
+      break;
+    case ERROR_START_TIME_GREATER_THAN_END:
+      error(*nerr, "%s\n\ttime:  %f > %f\n\tindex: %d > %d", tmp, start, *e, Nstart[idfl], *npts);
+      return ;
+      break;
+    case ERROR_STOP_TIME_LESS_THAN_BEGIN:
+      error(*nerr, "%s\n\ttime:  %f < %f\n\tindex: %d < %d", tmp, stop, *b, Nstop[idfl], 1);
+      return ;
+      break;
+    case ERROR_START_TIME_LESS_THAN_BEGIN:
+      if( cmdfm.icuter == 2 ){
+        setmsg( "WARNING", *nerr);
+        apcmsg2(tmp, strlen(tmp)+1);
+        outmsg();
+        setmsg( "OUTPUT", ERROR_CORRECTED_BY_USING_BEGIN_TIME );
+        outmsg();
+        *nerr = SAC_OK;
+      } else {
+        setmsg( "ERROR", *nerr );
+        apcmsg2(tmp, strlen(tmp)+1);
+        return ;
+      }
+      break;
+    case ERROR_STOP_TIME_GREATER_THAN_END:
+      if( cmdfm.icuter == 2 ){
+        setmsg( "WARNING", *nerr );
+        apcmsg2(tmp, strlen(tmp)+1);
+        outmsg();
+        setmsg( "OUTPUT", ERROR_CORRECTED_BY_USING_END_TIME );
+        outmsg();
+        *nerr = SAC_OK;
+      } else {
+        setmsg( "ERROR", *nerr );
+        apcmsg2(tmp, strlen(tmp)+1);
+        return ;
+      }
+      break;
+    case ERROR_CUT_TIMES_BEYOND_DATA_LIMITS:
+      /* Begin */
+      setmsg("WARNING", ERROR_START_TIME_LESS_THAN_BEGIN);
+      apcmsg2(tmp, strlen(tmp)+1);
+      outmsg();
+      setmsg("OUTPUT", ERROR_CORRECTED_BY_USING_BEGIN_TIME);
+      outmsg();
+      /* End */
+      setmsg("WARNING", ERROR_STOP_TIME_GREATER_THAN_END);
+      apcmsg2(tmp, strlen(tmp)+1);
+      outmsg();
+      setmsg("OUTPUT", ERROR_CORRECTED_BY_USING_END_TIME);
+      outmsg();
+      *nerr = SAC_OK;
+      break;
+    }
+  }
 	/* - Convert these start and stop points to new begin and end times. */
-
 	*begin = *begin + (double)( Nstart[idfl] - 1 )**delta;
 	*npts = Nstop[idfl] - Nstart[idfl] + 1;
 	*ennd = *begin + (double)( *npts - 1 )**delta;

@@ -1,88 +1,133 @@
 
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
 
+#include "errors.h"
+enum {
+  CUT_FILLZ = 3,
+  CUT_USEBE = 2,
+  CUR_FATAL = 1,
+};
 
 void
-cut(float *indata, int inlen, int ib, int ie, float *outdata, int *outlen) {
-  int n;
+cut(float *in, int nstart, int nstop, int nfillb, int nfille, float *out) {
+  int out_offset, in_offset, n;
 
-  if(ib < 1) {
-    printf("cut: Starting point before first point: %d, set to 0\n", ib)
-    ib = 1;
-  }
-  if(ie >= inlen) {
-    printf("cut: Ending point greater than last point: %d, set to %d\n", ie, inlen-1);
-    ie = inlen-1;
-  }
-  n = ib - ie + 1;
-  if(*outlen < n) {
-    printf("cut: Output array too short for cut data, %d needs to be %d\n", *outlen, n);
-    return;
-  }
-  memset(outdata, 0, sizeof(float) * outlen);
-  memmove(outdata, indata + ib, sizeof(float) * n);
+  /* Number of data points to cut */
+  n = nstop - nstart + 1 - nfillb - nfille;
 
-  *outlen = n;
+  /* Fill full array with zeros */
+  memset(out, 0, sizeof(float) * nfillb + nfille + (nstop - nstart + 1));
+
+  out_offset = nfillb;
+  if(n > 0) {
+    in_offset = nstart - 1 + nfillb;
+    memmove(out + out_offset, in + in_offset, n * sizeof(float));
+  }
+}
+
+
+/* From defcut - only acts on times, not picks */
+void
+cut_define(float b, float delta, double dt, int *n) {
+  int iTime, iBegin;
+
+  iBegin = lround( b / delta );
+
+  /* Compute time and index */
+  iTime = lround( dt / delta );
+  *n = iTime - iBegin + 1;
+
 }
 
 void
-cuttime(float *indata, int inlen, float delta, float b, float t0, float t1, float *outdata, int *outlen) {
-  int it0, it1;
+cut_define_check(float start, float stop, int npts, int cuterr, int *nstart, int *nstop, int *nfillb, int *nfille, int *nerr) {
+	/* - Check that start value less than stop value. */
+	if( start >= stop ){
+		*nerr = ERROR_START_TIME_GREATER_THAN_STOP;
+		return ;
+	}
 
-  if(t0 > t1) {
-    printf("cuttime: Starting time is greater than ending time: %f vs %f\n", t0, t1);
-    return;
+  /* - Handle cases where the requested data window is not entirely
+	 *   within the range of the data file. */
+
+	/* -- Entire data window after file end. */
+	if( *nstart > npts ) {
+		if( cuterr == CUT_FILLZ ){
+			*nfillb =  0;
+			*nfille = *nstop - *nstart + 1;
+		} else {
+			*nerr = ERROR_START_TIME_GREATER_THAN_END;
+		}
+		return;
+	}
+
+  /* -- Entire data window before file begin. */
+	if( *nstop < 1 ){
+		if( cuterr == CUT_FILLZ ){
+			*nfillb = *nstop - *nstart + 1;
+			*nfille = 0;
+		} else {
+			*nerr = ERROR_STOP_TIME_LESS_THAN_BEGIN;
+		}
+		return ;
+	}
+
+  	/* - Start of data window before file begin. */
+	if( *nstart < 1 ){
+		if( cuterr == CUT_FILLZ ){
+			*nfillb = 1 - *nstart;
+    }	else if( cuterr == CUT_USEBE ) {
+			*nerr = ERROR_START_TIME_LESS_THAN_BEGIN;
+			*nstart = 1;
+			*nfillb = 0;
+		}	else {
+			*nerr = ERROR_START_TIME_LESS_THAN_BEGIN;
+			return ;
+		}
+	}	else {
+		*nfillb = 0;
   }
 
-  it0 = (t0 - b) / delta;
-  it1 = (t1 - b) / delta;
-
-  cut(indata, inlen, it0, it1, outdata, outlen);
-}
-
-void
-cuttrim(float *x1, int n1, float dt1, float b1,
-        float *x2, int n2, float dt2, float b2,
-        float *y1, int *no1,
-        float *y2, int *no2) {
-  int e1, e2;
-  float t0, t1;
-
-  if(abs(dt1 - dt2) >= 1e-7) {
-    printf("Delta time are different: %f vs %f\n", dt1, dt2);
+  	/* -- Stop of data window is after file end. */
+	if( *nstop > npts ){
+		if( cuterr == CUT_FILLZ ) {
+			*nfille = *nstop - npts;
+    }	else if( cuterr == CUT_USEBE ){
+      if(*nerr == ERROR_START_TIME_LESS_THAN_BEGIN) {
+        *nerr = ERROR_CUT_TIMES_BEYOND_DATA_LIMITS;
+      } else {
+        *nerr = ERROR_STOP_TIME_GREATER_THAN_END;
+      }
+			*nstop = npts;
+			*nfille = 0;
+		}	else {
+			*nerr = ERROR_STOP_TIME_GREATER_THAN_END;
+			return ;
+		}
+	}	else {
+		*nfille = 0;
   }
-  /* Calculate end Time */
-  e1 = b1 + (n1 - 1 ) * dt1;
-  e2 = b2 + (n2 - 1 ) * dt2;
-
-  /* Calculate max(b1,b2) and min(e1,e2) */
-  t0 = (b1 > b2) ? b1 : b2;
-  t1 = (e1 > e2) ? e1 : e2;
-
-  cuttime(x1, n1, dt1, b1, t0, t1, y1, no1);
-  cuttime(x2, n2, dt2, b2, t0, t1, y2, no2);
 }
 
-void
-cutip(float *indata, int *n, int ib, int ie) {
-  int m;
-  m = *n;
-  cut(indata, n, ib, ie, indata, n);
+void cut_(float *in, int *nstart, int *nstop, int *nfillb, int *nfille, float *out) {
+  cut(in, *nstart, *nstop, *nfillb, *nfille, out);
+}
+void cut__(float *in, int *nstart, int *nstop, int *nfillb, int *nfille, float *out) {
+  cut(in, *nstart, *nstop, *nfillb, *nfille, out);
 }
 
-void
-cuttimeip(float *indata, int *n, float delta, float b, float t0, float t1) {
-  int m = *n;
-  cuttime(indata, m, delta, b, t0, t1, indata, n);
+void cut_define_(float *b, float *delta, float *dt, int *n) {
+  cut_define(*b, *delta, *dt, n);
+}
+void cut_define__(float *b, float *delta, float *dt, int *n) {
+  cut_define(*b, *delta, *dt, n);
 }
 
-void
-cuttrimip(flaot *x1, int *n1, float dt1, float b1,
-          float *x2, int *n2, float dt2, float b2) {
-  int m1, m2;
-  m1 = *n1;
-  m2 = *n2;
-  cuttrim(x1, m1, dt1, b1,
-          x2, m2, dt2, b2,
-          x1, n2,
-          x2, n1)
+void cut_define_check_(float *start, float *stop, int *npts, int *cuterr, int *nstart, int *nstop, int *nfillb, int *nfille, int *nerr) {
+  cut_define_check(*start, *stop, *npts, *cuterr, nstart, nstop, nfillb, nfille, nerr);
+}
+void cut_define_check__(float *start, float *stop, int *npts, int *cuterr, int *nstart, int *nstop, int *nfillb, int *nfille, int *nerr) {
+  cut_define_check(*start, *stop, *npts, *cuterr, nstart, nstop, nfillb, nfille, nerr);
 }

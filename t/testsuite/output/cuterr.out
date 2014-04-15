@@ -27,7 +27,7 @@
  ==>  
  cut 10 180
  read test.impulse
- WARNING: Stop cut greater than file end for file
+ WARNING: Stop cut greater than file end for file test.impulse
  ERROR 1301: No data files read in.
  lh b e
  ERROR 1301: No data files read in.

@@ -4,12 +4,7 @@
 #include "mach.h"
 #include "scm.h"
 
-void /*FUNCTION*/ rotate(si1, si2, ns, angle, lnpi, lnpo, so1, so2)
-float si1[], si2[];
-int ns;
-double angle;
-int lnpi, lnpo;
-float so1[], so2[];
+void rotate(float si1[], float si2[], int ns, double angle, int lnpi, int lnpo, float so1[], float so2[])
 {
 	int js;
 	float con11, con12, con21, con22, cosa, sina, tsi1, tsi2;
@@ -77,5 +72,10 @@ float so1[], so2[];
 	 *===================================================================== */
 
 } /* end of function */
-/* GLOBAL COUPLING:
- *===================================================================== */
+
+void rotate_(float si1[], float si2[], int *ns, double *angle, int *lnpi, int *lnpo, float so1[], float so2[]) {
+  rotate(si1, si2, *ns, *angle, *lnpi, *lnpo, so1, so2);
+}
+void rotate__(float si1[], float si2[], int *ns, double *angle, int *lnpi, int *lnpo, float so1[], float so2[]) {
+  rotate(si1, si2, *ns, *angle, *lnpi, *lnpo, so1, so2);
+}

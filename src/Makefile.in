@@ -225,10 +225,10 @@ am_libevalresp_a_OBJECTS = evalresp/alloc_fctns.$(OBJEXT) \
 libevalresp_a_OBJECTS = $(am_libevalresp_a_OBJECTS)
 libsac_a_AR = $(AR) $(ARFLAGS)
 libsac_a_LIBADD =
-am_libsac_a_OBJECTS = co/complex.$(OBJEXT) dbh/xapiir.$(OBJEXT) \
-	dbh/apply.$(OBJEXT) dbh/design.$(OBJEXT) dbh/lp.$(OBJEXT) \
-	dbh/lptbp.$(OBJEXT) dbh/lptbr.$(OBJEXT) dbh/lpthp.$(OBJEXT) \
-	dbh/warp.$(OBJEXT) dbh/cutoffs.$(OBJEXT) \
+am_libsac_a_OBJECTS = co/complex.$(OBJEXT) dfm/cut.$(OBJEXT) \
+	dbh/xapiir.$(OBJEXT) dbh/apply.$(OBJEXT) dbh/design.$(OBJEXT) \
+	dbh/lp.$(OBJEXT) dbh/lptbp.$(OBJEXT) dbh/lptbr.$(OBJEXT) \
+	dbh/lpthp.$(OBJEXT) dbh/warp.$(OBJEXT) dbh/cutoffs.$(OBJEXT) \
 	dbh/chebparm.$(OBJEXT) dbh/buroots.$(OBJEXT) \
 	dbh/beroots.$(OBJEXT) dbh/c1roots.$(OBJEXT) \
 	dbh/c2roots.$(OBJEXT) dbh/bilin2.$(OBJEXT) \
@@ -239,7 +239,8 @@ am_libsac_a_OBJECTS = co/complex.$(OBJEXT) dbh/xapiir.$(OBJEXT) \
 	ucf/next2.$(OBJEXT) ucf/copydouble.$(OBJEXT) \
 	sam/envelope.$(OBJEXT) scm/rmean.$(OBJEXT) \
 	scm/rtrend.$(OBJEXT) scm/taper.$(OBJEXT) \
-	scm/interpolate.$(OBJEXT) scm/wigint.$(OBJEXT)
+	scm/interpolate.$(OBJEXT) scm/wigint.$(OBJEXT) \
+	scm/rotate.$(OBJEXT)
 libsac_a_OBJECTS = $(am_libsac_a_OBJECTS)
 libsac_all_a_AR = $(AR) $(ARFLAGS)
 libsac_all_a_LIBADD =
@@ -411,9 +412,9 @@ am_libsac_all_a_OBJECTS = amf/allamb.$(OBJEXT) amf/iniam.$(OBJEXT) \
 	dfm/xrsuds.$(OBJEXT) dfm/xrtab.$(OBJEXT) dfm/xsort.$(OBJEXT) \
 	dfm/xsynch.$(OBJEXT) dfm/xw.$(OBJEXT) dfm/xwcss.$(OBJEXT) \
 	dfm/xwgse.$(OBJEXT) dfm/xwh.$(OBJEXT) dfm/xwild.$(OBJEXT) \
-	dfm/xwtab.$(OBJEXT) eam/inieam.$(OBJEXT) eam/whpf1.$(OBJEXT) \
-	eam/xapk.$(OBJEXT) eam/xeamc.$(OBJEXT) eam/xoapf.$(OBJEXT) \
-	eam/xohpf.$(OBJEXT) eam/xwhpf.$(OBJEXT) \
+	dfm/xwtab.$(OBJEXT) dfm/cut.$(OBJEXT) eam/inieam.$(OBJEXT) \
+	eam/whpf1.$(OBJEXT) eam/xapk.$(OBJEXT) eam/xeamc.$(OBJEXT) \
+	eam/xoapf.$(OBJEXT) eam/xohpf.$(OBJEXT) eam/xwhpf.$(OBJEXT) \
 	exm/gettextwait.$(OBJEXT) exm/iniexm.$(OBJEXT) \
 	exm/proerr.$(OBJEXT) exm/qam.$(OBJEXT) exm/qapf.$(OBJEXT) \
 	exm/qcolor.$(OBJEXT) exm/qcut.$(OBJEXT) exm/qdevices.$(OBJEXT) \
@@ -1227,6 +1228,8 @@ libevalresp_a_SOURCES = evalresp/alloc_fctns.c evalresp/calc_fctns.c \
 
 libsac_a_SOURCES = co/complex.c  \
 	\
+	dfm/cut.c \
+	\
 	dbh/xapiir.c dbh/apply.c dbh/design.c \
 	dbh/lp.c dbh/lptbp.c dbh/lptbr.c dbh/lpthp.c dbh/warp.c \
 	dbh/cutoffs.c dbh/chebparm.c dbh/buroots.c dbh/beroots.c \
@@ -1241,7 +1244,7 @@ libsac_a_SOURCES = co/complex.c  \
 	\
 	sam/envelope.c \
 	\
-	scm/rmean.c scm/rtrend.c scm/taper.c scm/interpolate.c scm/wigint.c 
+	scm/rmean.c scm/rtrend.c scm/taper.c scm/interpolate.c scm/wigint.c scm/rotate.c
 
 libsac_all_a_SOURCES = amf/allamb.c amf/iniam.c amf/reaamb.c amf/relamb.c \
 	\
@@ -1355,7 +1358,7 @@ libsac_all_a_SOURCES = amf/allamb.c amf/iniam.c amf/reaamb.c amf/relamb.c \
 	dfm/xpickprefs.c dfm/xr.c dfm/xrcss.c dfm/xrerr.c \
 	dfm/xrgse.c dfm/xrh.c dfm/xrsdd.c dfm/xrsuds.c dfm/xrtab.c \
 	dfm/xsort.c dfm/xsynch.c dfm/xw.c dfm/xwcss.c dfm/xwgse.c dfm/xwh.c \
-	dfm/xwild.c dfm/xwtab.c \
+	dfm/xwild.c dfm/xwtab.c dfm/cut.c \
 	\
 	eam/inieam.c eam/whpf1.c eam/xapk.c \
 	eam/xeamc.c eam/xoapf.c eam/xohpf.c eam/xwhpf.c  \
@@ -1831,6 +1834,10 @@ co/$(am__dirstamp):
 	@$(MKDIR_P) co
 	@: > co/$(am__dirstamp)
 co/complex.$(OBJEXT): co/$(am__dirstamp)
+dfm/$(am__dirstamp):
+	@$(MKDIR_P) dfm
+	@: > dfm/$(am__dirstamp)
+dfm/cut.$(OBJEXT): dfm/$(am__dirstamp)
 dbh/$(am__dirstamp):
 	@$(MKDIR_P) dbh
 	@: > dbh/$(am__dirstamp)
@@ -1881,6 +1888,7 @@ scm/rtrend.$(OBJEXT): scm/$(am__dirstamp)
 scm/taper.$(OBJEXT): scm/$(am__dirstamp)
 scm/interpolate.$(OBJEXT): scm/$(am__dirstamp)
 scm/wigint.$(OBJEXT): scm/$(am__dirstamp)
+scm/rotate.$(OBJEXT): scm/$(am__dirstamp)
 
 libsac.a: $(libsac_a_OBJECTS) $(libsac_a_DEPENDENCIES) $(EXTRA_libsac_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libsac.a
@@ -2203,9 +2211,6 @@ dff/xdrhdr.$(OBJEXT): dff/$(am__dirstamp)
 dff/f2c.$(OBJEXT): dff/$(am__dirstamp)
 dff/wsac3.$(OBJEXT): dff/$(am__dirstamp)
 dff/rsach.$(OBJEXT): dff/$(am__dirstamp)
-dfm/$(am__dirstamp):
-	@$(MKDIR_P) dfm
-	@: > dfm/$(am__dirstamp)
 dfm/cleardfl.$(OBJEXT): dfm/$(am__dirstamp)
 dfm/cnvfmt.$(OBJEXT): dfm/$(am__dirstamp)
 dfm/cnvfre.$(OBJEXT): dfm/$(am__dirstamp)
@@ -2765,7 +2770,6 @@ scm/iniscm.$(OBJEXT): scm/$(am__dirstamp)
 scm/lifite.$(OBJEXT): scm/$(am__dirstamp)
 scm/lifitu.$(OBJEXT): scm/$(am__dirstamp)
 scm/linear.$(OBJEXT): scm/$(am__dirstamp)
-scm/rotate.$(OBJEXT): scm/$(am__dirstamp)
 scm/xabsgl.$(OBJEXT): scm/$(am__dirstamp)
 scm/xdecimate.$(OBJEXT): scm/$(am__dirstamp)
 scm/xinterpolate.$(OBJEXT): scm/$(am__dirstamp)
