@@ -175,10 +175,6 @@ void fdWriteFiles ( float *memptr[10],
                     float *userData, 
                     int newnpts, 
                     int *nerr);
-void aphdr ( int newnpts);
-void gdhdr ( int newnpts);
-void irhdr ( int newnpts);
-void fillNZ (void);
 void fdbp ( float *memptr[], 
             int mxmptr, 
             float *userData, 

@@ -67,6 +67,8 @@ void xplotpm(int *nerr)
 	/* PROCEDURE: */
 	*nerr = 0;
 
+	lframesave = cmgem.lframe;
+
 	/* PARSING PHASE: */
 	/* - Loop on each token in command: */
 	while ( lcmore( nerr ) ){
@@ -137,8 +139,6 @@ void xplotpm(int *nerr)
 	    lwait = FALSE;
 	}
 
-	lframesave = cmgem.lframe;
-
 	/* - For each pair of files in DFL: */
 
 	for( jdfl = 1; jdfl <= saclen(); jdfl += 2 ){
@@ -181,7 +181,7 @@ void xplotpm(int *nerr)
 
 	    /* -- Get second of pair of files from the memory manager.
 	     *    This will be plotted along the X axis. */
-      if(!(s2 = sacget(jdfl+1, TRUE, nerr))) {
+      if(!(s2 = sacget(jdfl, TRUE, nerr))) {
         goto L_8888;
       }
 	    //getfil( jdfl + 1, TRUE, &nlen, &ndxx, &junk, nerr );

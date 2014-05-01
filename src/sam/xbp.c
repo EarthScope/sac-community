@@ -123,12 +123,12 @@ int *nerr;
     fnyq = 0.5/ s->h->delta;
     if( cmsam.cfbp1 > fnyq ){
       *nerr = 1611;
-      error(*nerr, "%f %f", cmsam.cfbp1, fnyq);
+      error(*nerr, "%g %g", cmsam.cfbp1, fnyq);
       return ;
     }
     else if( cmsam.cfbp2 > fnyq ){
       *nerr = 1611;
-      error(*nerr, "%f %f", cmsam.cfbp2, fnyq);
+      error(*nerr, "%g %g", cmsam.cfbp2, fnyq);
       return ;
     }
 

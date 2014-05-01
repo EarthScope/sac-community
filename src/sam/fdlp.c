@@ -158,7 +158,7 @@ float *userData ;
 	 *    This will be memptr(7 thru 9) */
 
 	for( idx = 3; idx < MPROTYP; idx++ ){
-    memptr[jdx+4-1] = (float *) malloc(sizeof(float) * NDATPTS);
+    memptr[idx+4-1] = (float *) malloc(sizeof(float) * NDATPTS);
 		//allamb( &cmmem, NDATPTS, &Memptr[idx + 4], nerr );
 		if( *nerr != 0 )
 			goto L_8888;

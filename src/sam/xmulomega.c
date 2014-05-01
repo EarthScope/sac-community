@@ -77,11 +77,12 @@ int *nerr;
 
 		/* -- Need to multiply spectra by "eye omega". */
 
+    nfreq = s->h->npts/2;
+    value = 2.0 * PI * s->h->delta;
+    slope = 2.0 * PI * s->h->delta;
+
 		/* -- If real-imaginary this means: (REAL, IMAG) = (-IMAG*omega, +REAL*omega) */
 		if( s->h->iftype == IRLIM ){
-			nfreq = s->h->npts/2;
-			value = 2.*PI*s->h->delta;
-
       s->y[0] = 0;
       s->x[0] = 0;
 			for( j = 1; j <= (nfreq - 1); j++ ){
@@ -92,7 +93,7 @@ int *nerr;
 				jj = s->h->npts - j;
         s->y[jj] =  s->y[j];
         s->x[jj] = -s->x[j];
-				value = (2.*PI*s->h->delta) * (j+1);
+				value = slope * (j+1);
       }
 			oldreal = s->y[nfreq];
 			oldimag = s->x[nfreq];
@@ -102,9 +103,6 @@ int *nerr;
 			/* -- If amplitude-phase this means: (AMP, PHASE) = (AMP*omega, PHASE+pi/2) */
 			}
 		else{
-			nfreq = s->h->npts/2;
-			value = 2.*PI*s->h->delta;
-      slope = 2.*PI*s->h->delta;
       s->y[0] = 0.0;
 			const_ = 0.5*PI;
       s->x[0] -= const_;
@@ -114,7 +112,7 @@ int *nerr;
 				jj = s->h->npts - j;
 				s->y[jj] = s->y[j];
 				s->x[jj] = -s->x[j];
-				value += slope;//(2.*PI*s->h->delta) * (j+1);
+				value = slope * (j+1);
 				}
 			s->y[nfreq] *= value;
 			s->x[nfreq] += const_;

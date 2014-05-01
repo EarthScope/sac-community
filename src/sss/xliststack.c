@@ -134,7 +134,7 @@ L_1000:
     if(!(s = sacget(jdfl-1, TRUE, nerr))) {
       goto L_8888;
     }
-    tmp = s->m->filename;
+    tmp = basename(s->m->filename);
     if(tmp) {
 		  strcpy( kpol, "  NORMAL" );
 		  if( !Lpol[jdfl] )

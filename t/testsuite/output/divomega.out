@@ -26,7 +26,7 @@
 
      depmin = 0.000000e+00
      depmax = 3.897842e-02
-     depmen = 1.614853e-03
+     depmen = 1.614854e-03
  divomega
  lh depmin depmax depmen
   
@@ -71,5 +71,5 @@
 
      depmin = -1.286981e-02
      depmax = 1.924934e-02
-     depmen = 1.347505e-04
+     depmen = 1.347506e-04
  quit

@@ -60,7 +60,8 @@ int *nerr;
 	 *===================================================================== */
 	/* PROCEDURE: */
 	*nerr = 0;
-
+  scr = NULL;
+  srl = NULL;
 	/* PARSING PHASE: */
 
 	/* - Loop on each token in command: */
@@ -152,12 +153,12 @@ L_1000:
 	else{
 		nfft = next2( nptsmx + ncfir4 );
 		if( nfft <= MFFT ){
-      srl = (float *) malloc(sizeof(float) * 4 * nfft);
+      scr = (float *) malloc(sizeof(float) * 4 * nfft);
 			//allamb( &cmmem, 4*nfft, &ndxscr, nerr );
 			if( *nerr == 0 ){
 				lusrec = FALSE;
 				//ndxsrl = ndxscr;
-        //srl = scr;
+        srl = scr;
 				/* ndxsim = ndxscr + nfft; */
 				/* ndxfrl = ndxscr + 2*nfft; */
 				/* ndxfim = ndxscr + 3*nfft; */
