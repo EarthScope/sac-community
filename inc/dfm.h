@@ -226,13 +226,6 @@ void        cnvfre      (char  *kcard,
 			 int    kalpha_s, 
 			 int    lstrict, 
 			 int   *nerr);
-void        crsac       (int  idfl, 
-			 int  ncmp, 
-			 int  nlen, 
-			 int *ndxh, 
-			 int *ndx1, 
-			 int *ndx2, 
-			 int *nerr);
 void        decont      (char *kcont, 
 			 int   kcont_s, 
 			 int   maxch, 

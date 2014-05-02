@@ -80,7 +80,7 @@ int *nerr;
 	 * SUBROUTINES CALLED:
 	 *    sac:  cfmt, cresp, vflist, vfeven, 
 	 *          getnfiles, getfil, gethfv, spectrogram, flipdata,
-	 *          crsac, setnfv, setihv, setfhv
+	 *          setnfv, setihv, setfhv
 	 *=====================================================================
 	 * LOCAL VARIABLES: see below
 	 *=====================================================================
@@ -365,10 +365,6 @@ int *nerr;
 	/* -- Create space for a single data file. */
 
 	specsize = specwidth*speclength;
-  
-	//crsac( 1, 1, specsize, &indexheader, &indexdata, &notused, nerr );
-	//if( *nerr != 0 )
-  //goto L_8888;
 
   s = sac_new();
   s->m->filename = strdup("scallop");

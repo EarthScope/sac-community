@@ -200,7 +200,7 @@ rsach(char *kname,
   s = sac_new();
   s->m->filename = fstrdup(kname, kname_s);
   sacput(s);
-
+  CURRENT = s;
   sac_header_read(nun, s, nerr);
   if( *nerr != SAC_OK )
     goto ERROR;

@@ -55,69 +55,24 @@ wrsac(int   idfl,
       int   ldta, 
       int  *nerr) {
 
-	int ncerr, nun;
 	int lswap;
   sac *s;
-	/* For Determining the byte-order of a file or endianness */
-	char *header;
-	int begin = 0;
+  char *filename;
 
-  if(!(s = sacget(idfl-1, ldta, nerr))) {
-    goto L_8888;
-  }
 	*nerr = 0;
-	nun = 0;
-	/* - If header and data is to be written, a new file is created.
-	 *   If header only is to be written, the old file is opened. */
-	if( ldta ){
-	    znfile( &nun, kname,kname_s, "DATA",5, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
-            lswap = sac_byte_order(-1);
-	}
-	else{
-	    zopen_sac( &nun, kname,kname_s, "DATA",5, nerr );
-	    if( *nerr != 0 ) {
-		goto L_8888;
-	    }
-	    /* Handle writeheader with different byte-order or endianness */
-	    
-	    if((header = (char *) malloc(SAC_HEADER_SIZEOF_FILE)) == NULL) {
-	      *nerr = ERROR_OUT_OF_MEMORY;
-	      setmsg("ERROR", *nerr);
-	      goto L_8888;
-	    }
-	    zrabs((int *)&nun, header, SAC_HEADER_WORDS_FILE, &begin, (int *)nerr);
-	    if(*nerr != SAC_OK) {
-              goto L_8888;
-            }
-            
-            lswap = sac_check_header_version((float *)header, nerr);
-            free(header);
-            if(*nerr != SAC_OK) {
-              goto L_8888;
-            }
-          lseek(-nun, SEEK_SET, 0); 
-	}
+  if(!(s = sacget(idfl-1, ldta, nerr))) {
+    return;
+  }
+  filename = fstrdup(kname, kname_s);
 
-	/* - Write the header */
-        sac_header_write(nun, &s->h->delta,
-                         (char *)&s->h->kstnm,
-                         lswap, 
-                         nerr);
-        
-        /* Write the data */
-        if( ldta ){
-          sac_data_write(nun, s->y, s->x, s->h->npts,
-                         lswap, 
-                         nerr);
-	}
+  /* Determine if swapping is necessary */
+  lswap = sac_byte_order(-1);
 
-L_8888:
-	/* Close the file. */
-        if(nun != 0) {
-            zclose( &nun, &ncerr );
-        }
+  /* Write the file */
+  sac_write(s, filename, ldta, lswap, nerr);
+
+  FREE(filename);
+
 	return;
 }
 

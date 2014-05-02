@@ -31,7 +31,7 @@ int *nerr;
 	memset ( kcard , ' ' , MCMSG ) ;
 	kcard[ MCMSG ] = '\0' ;
 
-
+  nun = 0;
 	/*=====================================================================
 	 * PURPOSE: To read FIR filter coefficient file into memory.
 	 *=====================================================================

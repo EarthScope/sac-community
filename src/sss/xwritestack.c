@@ -17,9 +17,8 @@ void /*FUNCTION*/ xwritestack(nerr)
 int *nerr;
 {
 	int notused;
-	float unused;
   sac *s;
-
+  char *filename;
 
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command WRITESTACK.
@@ -41,7 +40,7 @@ int *nerr;
 	 *    sss:     knmsum
 	 *=====================================================================
 	 * SUBROUTINES CALLED:
-	 *    saclib:  lcmore, cfmt, cresp, lcchar, setmsg, newhdr, wsac0
+	 *    saclib:  lcmore, cfmt, cresp, lcchar, setmsg, wsac0
 	 *=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    881122:  Original version.
@@ -106,22 +105,23 @@ int *nerr;
 
 	/* - Set up the header variables for the sum. */
   s = sac_new();
-  sacput(s);
-	//newhdr();
 
 	s->h->iftype = ITIME;
 	s->h->delta  = cmsss.del;
 	s->h->npts   = cmsss.nlnsum;
 	s->h->b      = 0.;
 	s->h->e      = s->h->b + s->h->delta*(float)( s->h->npts - 1 );
-
-	extrma( sss_sum, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
+  s->y         = sss_sum;
+	extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
 
 	/* - Write sum to disk. */
+  filename = fstrdup(kmsss.knmsum, MCPFN+1);
+  sac_write(s, filename, TRUE, FALSE, nerr);
+  s->y = NULL;
+  sac_free(s);
+  FREE(filename);
 
-	wsac0( kmsss.knmsum, &unused, sss_sum, nerr, MCPFN+1 );
-
-L_8888:
+ L_8888:
 	return;
 
 } /* end of function */

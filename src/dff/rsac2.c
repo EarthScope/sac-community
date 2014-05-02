@@ -101,19 +101,21 @@ rsac2(char      *kname,
     *nerr = ERROR_SAC_FILE_NOT_UNEVENLY_SPACED;
     setmsg( "ERROR", *nerr );
     apcmsg( kname,kname_s );
-    outmsg();
-    clrmsg();
     goto ERROR;
   }
   
   /* - Read in the data. */
   sac_data_read(nun, yarray, *nlen, SAC_FIRST_COMPONENT, lswap, (int *)nerr);
-  if( *nerr != SAC_OK )
+  if( *nerr != SAC_OK ) {
+    error(*nerr, "%s", s->m->filename);
     goto ERROR;
-  
+  }
+
   sac_data_read(nun, xarray, *nlen, SAC_SECOND_COMPONENT, lswap, (int *)nerr);
-  if( *nerr != SAC_OK )
+  if( *nerr != SAC_OK ) {
+    error(*nerr, "%s", s->m->filename);
     goto ERROR;
+  }
 
   s->y = yarray;
   s->x = xarray;
@@ -123,7 +125,11 @@ rsac2(char      *kname,
   
  ERROR:
   *nerr = ( *nerr == SAC_OK && truncated == TRUE) ? -ERROR_SAC_DATA_TRUNCATED_ON_READ : *nerr;
-  
+
+  if(*nerr) {
+    outmsg();
+    clrmsg();
+  }
   zclose( &nun, &ncerr );
   return;
 }

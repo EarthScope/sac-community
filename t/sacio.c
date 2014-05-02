@@ -89,14 +89,23 @@ main(int argc, char *argv[])
   sac_warning_stdout();
   
   if (argc == 1) {
+    printf("********* rsach *********\n");
     test_rsach();
+    printf("********* rsac1 *********\n");
     test_rsac1();
+    printf("********* rsac2 *********\n");
     test_rsac2();
+    printf("********* gethv *********\n");
     test_gethv();
+    printf("********* sethv *********\n");
     test_sethv();
+    printf("********* wsac0 *********\n");
     test_wsac0();
+    printf("********* wsac1 *********\n");
     test_wsac1();
+    printf("********* wsac2 *********\n");
     test_wsac2();
+    printf("********* wsac3 *********\n");
     test_wsac3();
   } else {
     int i;

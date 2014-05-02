@@ -46,23 +46,10 @@ wsac2(char  *kname,
   sac *s;
 	*nerr = 0;
 
-	/* - Initialize some common blocks if not already done. */
-	if( cmhdr.fundef != -12345. ){
-	    inihdr();
-	    inilhf();
-	    inimsg();
-	}
-
-	/* - Initialize all header fields to their default values. */
-	//newhdr();
   s = sac_new();
   s->m->filename = fstrdup(kname, kname_s);
   sacput(s);
-  
-    if(*nlen <= 0) {
-        *nerr = ERROR_WRITING_FILE;
-        return;
-    }
+  CURRENT = s;
 	/* - Set up the header fields passed by the calling program. */
 	s->h->npts  = *nlen;
 	s->h->b     = Xarray[1];
@@ -72,10 +59,7 @@ wsac2(char  *kname,
 	/* - Write the file to disk. */
 	wsac0( kname, xarray, yarray, nerr, kname_s );
 
-	if( *nerr != 0 )
-	    outmsg();
 	return;
-
 }
 
 

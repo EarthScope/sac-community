@@ -52,19 +52,21 @@ sac_data_read(int    nun,
 	      int    comp, 
 	      int    lswap, 
 	      int   *nerr) {
-  int word;
+  size_t n;
 
   *nerr = SAC_OK;
 
-  word = SAC_HEADER_WORDS_FILE + ((comp - 1) * npts);
-  zrabs(&nun, (char *)yarray, npts, &word, nerr);
-  if(*nerr != SAC_OK) 
+  if(read(-nun, yarray, npts * SAC_DATA_SIZE) != n * SAC_DATA_SIZE) {
+    *nerr = ERROR_READING_FILE;
     return;
-  
+  }
   if(lswap) {
     sac_data_swap(yarray, npts);
   }
 }
+
+
+void
 
 
 /** 
@@ -120,14 +122,14 @@ rsac1(char      *kname,
   int lswap;
   int truncated;
   sac *s;
-  
+
   *nerr     = 0;
   truncated = FALSE;
   nun       = 0;
 
   /* - Initialize some common blocks if not already done. */
   sacio_initialize_common();
-  
+
   /* - Open the file. */
   zopen_sac( &nun, kname,kname_s, "RODATA",7, nerr );
   if( *nerr != SAC_OK )
@@ -136,7 +138,7 @@ rsac1(char      *kname,
   s = sac_new();
   s->m->filename = fstrdup(kname, kname_s);
   sacput(s);
-
+  CURRENT = s;
   //lswap = sac_header_read(nun, nerr);
   lswap = sac_header_read(nun, s, nerr);
   if( *nerr != SAC_OK )
@@ -156,18 +158,16 @@ rsac1(char      *kname,
   }
   else{
     *nerr = ERROR_SAC_FILE_NOT_EVENLY_SPACED;
-    setmsg( "ERROR", *nerr );
-    apcmsg( kname,kname_s );
-    outmsg();
-    clrmsg();
+    error(*nerr, "%s", s->m->filename);
     goto ERROR;
   }
   
   /* - Read in the data. */
   sac_data_read(nun, yarray, *nlen, SAC_FIRST_COMPONENT, lswap, (int *)nerr);
-  if(nerr != SAC_OK) 
+  if(nerr != SAC_OK) {
+    error(*nerr, "%s", s->m->filename);
     goto ERROR;
-
+  }
   s->y = yarray;
   /* - Adjust several header fields. */
   s->h->npts = *nlen;
@@ -176,7 +176,10 @@ rsac1(char      *kname,
  ERROR:
   *nerr = ( *nerr == SAC_OK && truncated == TRUE) ?
     -ERROR_SAC_DATA_TRUNCATED_ON_READ : *nerr;
-
+  if(*nerr) {
+    outmsg();
+    clrmsg();
+  }
   zclose( &nun, &ncerr );
   return;
 }

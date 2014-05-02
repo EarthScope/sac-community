@@ -39,6 +39,22 @@ CheckByteOrder() {
 }
 
 int
+sac_check_npts(int npts) {
+  if(npts <= 0) {
+    return ERROR_WRITING_FILE;
+  }
+  return SAC_OK;
+}
+
+int
+sac_check_lovrok(int lovrok) {
+  if(!lovrok) {
+    return ERROR_OVERWRITE_FLAG_IS_OFF;
+  }
+  return SAC_OK;
+}
+
+int
 sac_byte_order(int getset) {
   int i, n;
   int byte_order;
@@ -115,34 +131,96 @@ sac_header_write(int nun, float *hdr, char *khdr, int swap, int *nerr) {
 }
 
 void
-sac_data_write(int nun, float *y, float *x, int npts, int swap, int *nerr) {
+sac_data_write1(int nun, float *data, int npts, int swap, int *nerr) {
   int n;
-  sac *s;
-
-  s = CURRENT;
   if(swap) {
-    sac_data_swap(y, npts);
+    sac_data_swap(data, npts);
   }
-  n = write(-nun, y, npts * SAC_DATA_SIZE);
-  if(n != npts * SAC_DATA_SIZE) {
+  n = write(-nun, data, npts * SAC_DATA_SIZE);
+  if(n != npts * SAC_DATA_SIZE){
     *nerr = ERROR_WRITING_FILE;
     return;
   }
-  /* - If the data is not evenly spaced, write the array
-   *   containing the independent variable. */
-  n = sac_comps(s);
-  if(n >= 2) {
-    if(swap) {
-      sac_data_swap(x, npts);
-    }
-    n = write(-nun, x, npts * sizeof(float));
-    if((size_t) n != npts * sizeof(float)) {
-      *nerr = ERROR_WRITING_FILE;
-      return;
-    }
+}
+
+void
+sac_data_write2(int nun, float *y, float *x, int npts, int swap, int *nerr) {
+  sac_data_write1(nun, y, npts, swap, nerr);
+  if(*nerr) {
+    return;
+  }
+  sac_data_write1(nun, x, npts, swap, nerr);
+}
+
+void
+sac_data_write(int nun, float *y, float *x, int comps, int npts, int swap, int *nerr) {
+  if(comps == 1) {
+    sac_data_write1(nun, y, npts, swap, nerr);
+  } else if(comps == 2) {
+    sac_data_write2(nun, y, x, npts, swap, nerr);
+  } else {
+    *nerr = ERROR_WRITING_FILE;
   }
   return;
 }
+
+void
+sac_write(sac *s, char *filename, int write_data, int lswap, int *nerr) {
+  int nun, ncerr;
+  nun = 0;
+  if(write_data) {
+    /* Make sure the number of points is bigger than zero */
+    if((*nerr = sac_check_npts(s->h->npts)) != SAC_OK) {
+      error(*nerr, "%s", filename);
+      goto L_8888;
+    }
+  }
+
+  /* Check overwrite-protect flag in header record */
+  if((*nerr = sac_check_lovrok(s->h->lovrok)) != SAC_OK) {
+    error(*nerr, "%s", filename);
+    goto L_8888;
+  }
+
+	/* Update the Variables describing the dependent variable array*/
+	extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen);
+
+	/* Recompute the distance, azimuth, etc if proper header fields are present */
+	update_distaz(s);
+
+  if(write_data) {
+    znfile(&nun, filename, strlen(filename)+1, "DATA", 5, nerr);
+    if(*nerr) {
+      return;
+    }
+  } else {
+    zopen_sac( &nun, filename,strlen(filename)+1, "DATA",5, nerr );
+    if( *nerr != 0 ) {
+      goto L_8888;
+    }
+    lswap = s->m->swap;
+  }
+	/* - Write the header */
+  sac_header_write(nun, (float *)s->h, (char *) &(s->h->kstnm), lswap, nerr);
+  if(*nerr != SAC_OK) {
+    error(*nerr, "%s", filename);
+    goto L_8888;
+  }
+
+	/* - Write the data */
+  if(write_data) {
+    sac_data_write(nun, s->y, s->x, sac_comps(s), s->h->npts, lswap, nerr);
+    if(*nerr != SAC_OK) {
+      error(*nerr, "%s", filename);
+      goto L_8888;
+    }
+  }
+
+ L_8888:
+
+	zclose( &nun, &ncerr );
+}
+
 
 /** 
  * Write a SAC file to disk using the current header values
@@ -181,68 +259,41 @@ wsac0(char  *kname,
       int   *nerr, 
       int    kname_s) {
 
-        int ncerr, nderr, nun;
-        int swap;
-        sac *s;
-        /* These are here because zwabs only reads in floats, which is really dumb
-	   The reads should be done straight away using fread() */
-
+  int nderr;
+  int swap;
+  sac *s;
 	char *kname_c;
+  float *x,*y;
+
   s = CURRENT;
-        nun = 0;
+
+  sacio_initialize_common();
 
 	kname_c = fstrdup(kname, kname_s);
 	kname_s = strlen(kname_c) + 1;
 
 	*nerr = 0;
 
-        if(s->h->npts <= 0) {
-          *nerr = ERROR_WRITING_FILE;
-          goto L_8888;
-        }
+  /* Determine if swapping is necessary */
+  swap = sac_byte_order(-1);
 
-	/* - Create the requested file and open it. */
+	/* If file exists, remove */
 	zdest( kname_c,kname_s, &nderr );
-	znfile( &nun, kname_c,kname_s, "DATA",5, nerr );
+  clrmsg();
 
-	if( *nerr != 0 )
-	    goto L_8888;
+  x = s->x;
+  y = s->y;
+  s->x = xarray;
+  s->y = yarray;
+  /* Write the file */
+  sac_write(s, kname_c, TRUE, swap, nerr);
+  s->x = x;
+  s->y = y;
 
-        /* Check overwrite-protect flag in header record */
-	if(! s->h->lovrok ) {
-	  *nerr = ERROR_OVERWRITE_FLAG_IS_OFF;
-	  setmsg("ERROR", *nerr);
-	  apcmsg2(kname_c, kname_s);
-	  outmsg();
-	  clrmsg();
-	  goto L_8888;
-	}
-	
-	/* Update the Variables describing the dependent variable array*/
-	extrma(yarray, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen);
-
-	/* Recompute the distance, azimuth, etc if proper header fields are present */
-	update_distaz(s);
-
-        swap = sac_byte_order(-1);
-
-	/* - Write the header to disk starting at word 0. */
-        sac_header_write(nun, (float *)s->h, (char *) &(s->h->kstnm), swap, nerr);
-        if(*nerr != SAC_OK) {
-          goto L_8888;
-        }
-	/* - Write the array containing the dependent variable to disk
-	 *   starting after the end of the header. */
-        sac_data_write(nun, yarray, xarray, s->h->npts, swap, nerr);
-        if(*nerr != SAC_OK) {
-          goto L_8888;
-        }
-
-	/* - Write any error message to terminal, close the disk file, and return. */
-L_8888:
-	if( *nerr != 0 )
-	    outmsg();
-	zclose( &nun, &ncerr );
+	if( *nerr != 0 ) {
+    outmsg();
+    clrmsg();
+  }
 	free(kname_c);
 	kname_c = NULL;
 

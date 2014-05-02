@@ -16,6 +16,8 @@
 #include "cpf.h"
 #include "dff.h"
 
+sac * sacread(char *file);
+
 #define error_handling(error, line) if( *(error) != SAC_OK) { goto line; }
 extern float *specor;
 /** 
@@ -27,8 +29,8 @@ void
 xrcor(int *nerr) {
   
   int max;
-  float zero, delta;
-
+  sac *s;
+  char *filename;
   *nerr = 0;
   
   cmspe.samfrq = 0.0;
@@ -41,7 +43,7 @@ xrcor(int *nerr) {
     /* -- "filename":  define name of file to write. */
     if( lcchar( MCPFN, kmspe.knmcor,MCPFN+1, &cmspe.junk ) )
       { /* do nothing */ }
-    
+
     /* -- Bad syntax. */
     else{
       cfmt( "ILLEGAL OPTION:",17 );
@@ -50,25 +52,26 @@ xrcor(int *nerr) {
   }
 
   error_handling(nerr, ERROR);
-  
-  max = cmspe.firstPowerOf2 * 2;
-  rsac1(kmspe.knmcor,                 /* Filename */
-	specor,   /* Y Array -- Correlation Function*/
-	&cmspe.nlnfft,                /* Length of Array */
-	&zero,                        /* Beginning Value */
-	&delta,                       /* Delta Value */
-	&max,                         /* Maximum Length of Array */
-	nerr,                         /* Error Value */
-	MCPFN+1                       /* Length of Filename */
-	);
-  
-  error_handling(nerr, ERROR);
 
-  cmspe.samfrq = 1.0 / delta;
+  filename = fstrdup(kmspe.knmcor, MCPFN+1);
+  if(!(s = sacread(filename))) {
+    *nerr = ERROR_READING_FILE;
+    error_handling(nerr, ERROR);
+  }
+
+  max = cmspe.firstPowerOf2 * 2;
+  if(s->h->npts > max) {
+    s->h->npts = max;
+  }
+  memcpy(specor, s->y, sizeof(float) * s->h->npts);
+  cmspe.samfrq = 1.0 / s->h->delta;
+  cmspe.nlnfft = s->h->npts;
   cmspe.lcor   = TRUE;
   cmspe.lspe   = FALSE;
-  
+
  ERROR:
+  sac_free(s);
+  FREE(filename);
   return;
 }
 

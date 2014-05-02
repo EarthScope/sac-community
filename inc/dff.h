@@ -157,6 +157,18 @@ void        sac_header_write (int    nun,
 void        sac_data_write   (int    nun, 
                               float *y, 
                               float *x, 
+                              int    comps,
+                              int    npts, 
+                              int    swap, 
+                              int   *nerr);
+void        sac_data_write1   (int    nun, 
+                              float *y, 
+                              int    npts, 
+                              int    swap, 
+                              int   *nerr);
+void        sac_data_write2   (int    nun, 
+                              float *y, 
+                              float *x, 
                               int    npts, 
                               int    swap, 
                               int   *nerr);
@@ -237,6 +249,9 @@ void        update_distaz    ( sac *s );
 int         CheckByteOrder   ( );
 void        sacio_message(int nerr, char *name);
 void        sacio_char_to_keyword(char *in, char out[9]);
+
+void sac_write(sac *s, char *filename, int write_data, int lswap, int *nerr);
+
 #ifdef HAVE_LIBRPC
 void        xdrhdr           (XDR    xdrs, 
 			      float *headerbuf, 

@@ -111,7 +111,7 @@ EXTRA_DIST       = describedirs gd3.x11/sac.bitmap \
 		   SeisMgr/dbselect/dbHelpQuery.pc \
 		   SeisMgr/dbselect/dbQuery.pc \
 		   SeisMgr/dbselect/dbQuerySL.pc \
-		   dfm/xra.c evalresp/evalresp.c gam/test.c \
+		   evalresp/evalresp.c gam/test.c \
 		   icm/oracle/dbFuncs.pc \
 	       icm/oracle/dbaseCommand.c icm/thisfft.c mat/stationList.c \
 		   ncpf/hrtoe.c ncpf/readableToEpoch.c \
@@ -360,7 +360,7 @@ libsac_all_a_SOURCES = amf/allamb.c amf/iniam.c amf/array.c amf/reaamb.c amf/rel
 	dff/wrsegy.c dff/wrxdr.c dff/wsac0.c dff/wsac1.c dff/wsac2.c \
 	dff/xdrhdr.c dff/f2c.c dff/wsac3.c dff/rsach.c \
 	\
-	dfm/cleardfl.c dfm/cnvfmt.c dfm/cnvfre.c dfm/crsac.c \
+	dfm/cleardfl.c dfm/cnvfmt.c dfm/cnvfre.c \
 	dfm/decont.c dfm/defcut.c dfm/defmem.c dfm/detnum.c dfm/gennames.c \
 	dfm/getatw.c dfm/getprefs.c dfm/getwfdiscs.c dfm/inidfm.c \
 	dfm/iztypeMessage.c dfm/lfilesok.c dfm/makeuniq.c \

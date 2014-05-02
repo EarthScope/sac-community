@@ -48,16 +48,7 @@ wsac1(char  *kname,
   sac *s;
 	*nerr = 0;
 
-	/* - Initialize some common blocks if not already done. */
-	if( cmhdr.fundef != -12345. ){
-	    inihdr();
-	    inilhf();
-	    inimsg();
-	}
-
-	/* - Data load HDR common blocks if not already done. */
-	if( cmhdr.fundef != -12345. )
-	    inihdr();
+  xdummy = 0;
 
 	/* - Initialize all header fields to their default values. */
   s = sac_new();
@@ -68,14 +59,11 @@ wsac1(char  *kname,
 	s->h->npts  = *nlen;
 	s->h->delta = *del;
 	s->h->b     = *beg;
-	s->h->e = CALC_E(s);
+	s->h->e     = CALC_E(s);
 	s->h->leven = TRUE;
 
 	/* - Write the file to disk. */
 	wsac0( kname, &xdummy, yarray, nerr, kname_s );
-
-	if( *nerr != 0 )
-	    outmsg();
 	return;
 }
 

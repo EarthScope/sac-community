@@ -13,9 +13,8 @@ void /*FUNCTION*/ xwcor(nerr)
 int *nerr;
 {
 	float delcor;
-	double zero = 0.0 ; /* so it can be passed by reference.  maf 970917 */
-
-
+  sac *s;
+  char *filename;
 
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command WCOR.
@@ -78,9 +77,21 @@ int *nerr;
 	/* - Write the correlation function to disk. */
 
 	delcor = 1./cmspe.samfrq;
-	wsac1( kmspe.knmcor, specor, &cmspe.nlnfft,  (float *)&zero, &delcor, nerr, MCPFN+1 );
-        if( *nerr != 0 ) setmsg( "ERROR", *nerr );
 
+  s = sac_new();
+  s->h->npts  = cmspe.nlnfft;
+  s->h->delta = delcor;
+  s->h->b     = 0.0;
+  s->h->e     = CALC_E(s);
+  s->h->leven = TRUE;
+  s->y        = specor;
+
+  filename = fstrdup(kmspe.knmcor, MCPFN+1);
+  sac_write(s, filename, TRUE, FALSE, nerr);
+  s->y = NULL;
+  sac_free(s);
+  FREE(filename);
+  
 L_8888:
 	return;
 

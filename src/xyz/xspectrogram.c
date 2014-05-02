@@ -84,7 +84,7 @@ xspectrogram(int *nerr)
 	 * SUBROUTINES CALLED:
 	 *    sac:  cfmt, cresp, vflist, vfeven, 
 	 *          getnfiles, getfil, gethfv, spectrogram, flipdata,
-	 *          crsac, setnfv, setihv, setfhv
+	 *          setnfv, setihv, setfhv
 	 *=====================================================================
 	 * LOCAL VARIABLES: see below
 	 *=====================================================================

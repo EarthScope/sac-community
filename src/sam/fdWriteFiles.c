@@ -16,6 +16,12 @@
 #include "msg.h"
 #include "dff.h"
 
+static void aphdr ( int newnpts, sac *s);
+static void gdhdr ( int newnpts, sac *s);
+static void irhdr ( int newnpts, sac *s);
+static void fillNZ ( sac *s );
+
+
 void /* FUNCTION */ fdWriteFiles ( float *memptr[10] , char * kprefix ,
 				   float * userData , int newnpts ,
 				   int * nerr )
@@ -29,8 +35,7 @@ void /* FUNCTION */ fdWriteFiles ( float *memptr[10] , char * kprefix ,
 
 	char kname[ MCPFN ] , ksuffix[ 3 ][ 6 ] ;
   sac *s;
-	float *bufout = NULL , *ptr , amph[ 2 ][ 2 * NDATPTS - 2 ] ;	
-
+	float *ptr , amph[ 2 ][ 2 * NDATPTS - 2 ] ;	
 
 	*nerr = 0;
 
@@ -46,16 +51,17 @@ void /* FUNCTION */ fdWriteFiles ( float *memptr[10] , char * kprefix ,
 	    xbegin++ ;
 
 	/* fill the amplitude and phase array */
-        for ( idx = 0 ; idx < NDATPTS ; idx++ ) {
-            amph[ 0 ][ idx ] = memptr[ 6 ][ idx ] ;
-            amph[ 1 ][ idx ] = memptr[ 7 ][ idx ] ;
-        }
+  for ( idx = 0 ; idx < NDATPTS ; idx++ ) {
+    amph[ 0 ][ idx ] = memptr[ 6 ][ idx ] ;
+    amph[ 1 ][ idx ] = memptr[ 7 ][ idx ] ;
+  }
 
-        for (  ; idx < 2 * NDATPTS - 2 ; idx++ ) {
-            amph[ 0 ][ idx ] =  memptr[ 6 ][ 2*NDATPTS-idx-2 ] ;
-            amph[ 1 ][ idx ] = -memptr[ 7 ][ 2*NDATPTS-idx-2 ] ;
-        }
-        s = sac_new();
+  for (  ; idx < 2 * NDATPTS - 2 ; idx++ ) {
+    amph[ 0 ][ idx ] =  memptr[ 6 ][ 2*NDATPTS-idx-2 ] ;
+    amph[ 1 ][ idx ] = -memptr[ 7 ][ 2*NDATPTS-idx-2 ] ;
+  }
+  
+  s = sac_new();
 
 	/* fill some fields. */
 	for ( idx = 0 ; idx < 9 ; idx++ )		/* user fields */
@@ -87,7 +93,7 @@ void /* FUNCTION */ fdWriteFiles ( float *memptr[10] , char * kprefix ,
 		     break ;
 	}
 
-	fillNZ () ;					/* time fields */
+	fillNZ ( s ) ;					/* time fields */
 
 	s->h->b      = 0.0 ;					/* other fields */
 	s->h->sb     = 0.0 ;
@@ -103,13 +109,13 @@ void /* FUNCTION */ fdWriteFiles ( float *memptr[10] , char * kprefix ,
  
 	    /* fill other header fields specific to the data */
 	    switch ( jdx ) {
-		case 0:	aphdr( newnpts ) ;
+      case 0:	aphdr( newnpts, s ) ;
 			nlcmem =  6  ;
 			break ;
-		case 1:	gdhdr( newnpts ) ;
+      case 1:	gdhdr( newnpts, s ) ;
 			nlcmem =  8  ;
 			break ;
-		case 2:	irhdr( newnpts ) ;
+      case 2:	irhdr( newnpts, s ) ;
 			nlcmem =  9  ;
 			break ;
 		default: goto L_ERROR ;
@@ -127,43 +133,23 @@ void /* FUNCTION */ fdWriteFiles ( float *memptr[10] , char * kprefix ,
 	    nlcdsk = 0;
 	    nptwr = SAC_HEADER_WORDS_FILE;
 
-	    if ( ( bufout = (float *) malloc ( SAC_HEADER_SIZEOF_FILE) ) == NULL ) {
-		*nerr = 301;
-		goto L_ERROR ;
-	    }
-
-	    /* move header into working memory */
-	    /* copy ( (int*) cmhdr.fhdr , (int*) cmmem.sacmem[ hdrindex ] , SAC_HEADER_NUMBERS ); */
-	    //copy_float( cmhdr.fhdr, cmmem.sacmem[ hdrindex ], SAC_HEADER_NUMBERS );
-	    //zputc ( kmhdr.khdr[ 0 ] , 9 , (int *)(cmmem.sacmem[ hdrindex ] + SAC_HEADER_NUMBERS), 
-      //		    ( MCPW + 1 ) * SAC_HEADER_STRINGS) ;
-
-	    /* move header into output buffer */
-	    //map_hdr_out ( cmmem.sacmem[ hdrindex ] , bufout , FALSE) ;
-
 	    /* write the headers */
-	    //zwabs( (int *)&fileDescriptor, (char *)(bufout), nptwr, (int *)&nlcdsk, (int *)nerr );
+      sac_header_write(fileDescriptor, &s->h->delta, (char *)&s->h->kstnm, FALSE, nerr);
 
-	    free(bufout);
-	    bufout = NULL ;
-
-	    nlcdsk += nptwr;
+	    nlcdsk += SAC_HEADER_WORDS_FILE;
 	    nptwr = NDATPTS ;
 
 	    /* Write data to disk */
-
 	    switch ( jdx ) {
-		case 0:	nptwr = 2 * NDATPTS - 2 ;
-		  zwabs ( (int *)&fileDescriptor, (char *)(amph[ 0 ]) , nptwr, (int *)&nlcdsk, (int *)nerr ) ;
-		  /* nlcmem = memptr[ 7 ] ; */
-		  nlcdsk += nptwr;
-		  zwabs ( (int *)&fileDescriptor, (char *)(amph[ 1 ]) , nptwr, (int *)&nlcdsk, (int *)nerr ) ;
-		  break ;
-		  
-	    case 1: zwabs( (int *)&fileDescriptor, (char *)(memptr[nlcmem]), nptwr, (int *)&nlcdsk, (int *)nerr );
-	      break ;
-	      
-	    case 2: zwabs( (int *)&fileDescriptor, (char *)(memptr[nlcmem] + xbegin), nptwr, (int *)&nlcdsk, (int *)nerr );
+      case 0:
+        nptwr = 2 * NDATPTS - 2 ;
+        sac_data_write2(fileDescriptor, amph[0], amph[1], s->h->npts, FALSE, nerr);
+        break ;
+	    case 1:
+        sac_data_write1(fileDescriptor, memptr[nlcmem], s->h->npts, FALSE, nerr);
+        break;
+      case 2:
+        sac_data_write1(fileDescriptor, memptr[nlcmem]+xbegin, s->h->npts, FALSE, nerr);
 	      break ;
 	    }
 
@@ -182,22 +168,23 @@ L_ERROR:
 	    clrmsg () ;
 	}
 
-	if ( saclen() > 0 )
+  sac_free(s);
+
+	if ( saclen() > 0 ) {
     if(!(s = sacget(0, TRUE, nerr))) {
+
     }
+  }
   //getfil ( 1 , TRUE , &unused1 , &unused2 , &unused3 , nerr ) ;
 
-	if ( bufout ) 
-	    free ( bufout ) ;
 	if ( fileDescriptor ) 
 	    zclose ( &fileDescriptor , nerr ) ;
 
 }
 
 
-void aphdr ( int newnpts )
+static void aphdr ( int newnpts, sac *s )
 {
-  sac *s = sacget_current();
 	s->h->nsnpts = newnpts ;
 	s->h->npts = 2*NDATPTS - 2 ;
 	s->h->sdelta = s->h->user6 ;
@@ -208,9 +195,8 @@ void aphdr ( int newnpts )
 }
 
 
-void gdhdr ( int newnpts )
+static void gdhdr ( int newnpts, sac *s )
 {
-  sac *s = sacget_current();
         s->h->nsnpts = newnpts ;
         s->h->npts = NDATPTS ;
         s->h->sdelta = s->h->user6 ;
@@ -220,9 +206,8 @@ void gdhdr ( int newnpts )
         strcpy ( s->h->kevnm , "FD: GROUP DELAY" ) ;
 }
 
-void irhdr ( int newnpts )
+static void irhdr ( int newnpts , sac *s)
 {
-  sac *s = sacget_current();
         s->h->nsnpts = NDATPTS ;
         s->h->npts = newnpts ;
         s->h->delta = s->h->user6 ;
@@ -238,13 +223,12 @@ int MDtoDoy () ;
 int isLeapYear () ;
 
 
-void fillNZ ()
+static void fillNZ ( sac *s )
 {
 	double time = tmGetEpochTime () ;
 	int year , month , day , hour , minute ;
 	float second ;
-  sac *s;
-  s = sacget_current();
+
 	tmDecodeEpochTime ( time , &year , &month , &day ,
 			    &hour , &minute , &second ) ;
   

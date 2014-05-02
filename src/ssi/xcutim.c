@@ -42,6 +42,7 @@ xcutim ( int *nerr )
     sac *s;
     int i,k;
     struct SACheader **header;
+    struct SACheader *h;
     const int charsInBase = 9 ;
 
     int lname = FALSE , lnotused , lcutSave ;
@@ -58,7 +59,7 @@ xcutim ( int *nerr )
 	float offset[ 2 ] ;
     } bounds[ MAXPAIRS ] ;
 
-    header = xarray_new_with_len('p', saclen());
+    header = xarray_new('p');
     /* save current global values */
     lcutSave = cmdfm.lcut ;
     ocutSave[ 0 ] = cmdfm.ocut[ 0 ] ;
@@ -190,7 +191,8 @@ xcutim ( int *nerr )
       cut_file = cut_data[k];
       k++;
 	    /* Get the header to go with the waveform */
-      header[nSacFiles] = (struct SACheader *) malloc(sizeof(struct SACheader));
+      h = (struct SACheader *) malloc(sizeof(struct SACheader));
+      header = xarray_append(header, h);
 	    sacHeaderFromCSS( tree, header[ nSacFiles ],
 			      wfL, refTimeType, &refTime, cmdfm.nMagSpec) ;
 

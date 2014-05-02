@@ -59,9 +59,6 @@ rdshdr(int  idfl,
 	if( *nerr != 0 )
 		goto L_8888;
 
-	/* - Initialize SAC header */
-	//newhdr();
-
 	/* - Convert header from SDD format to SAC format */
 	fstrncpy(s->h->kevnm, 17, ksevnm, strlen(ksevnm));
     ksstnm[8] = 0;
