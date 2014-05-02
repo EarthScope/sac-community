@@ -278,7 +278,7 @@ L_4100:
 				goto L_4100;
 				}
 			}
-		strcpy( s1->h->kcmpnm, kmhdr.kundef );
+		strcpy( s1->h->kcmpnm, SAC_CHAR_UNDEFINED );
 		s1->h->lpspol = TRUE;
 		extrma( s1->y, 1, s1->h->npts, &s1->h->depmin, &s1->h->depmax, &s1->h->depmen );
 
@@ -318,7 +318,7 @@ L_4300:
 				}
 			s2->h->lpspol = TRUE;
 			}
-		strcpy( s2->h->kcmpnm, kmhdr.kundef );
+		strcpy( s2->h->kcmpnm, SAC_CHAR_UNDEFINED );
 		extrma( s2->y, 1, s2->h->npts, &s2->h->depmin, &s2->h->depmax, &s2->h->depmen );
 
 		}

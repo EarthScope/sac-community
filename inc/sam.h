@@ -164,12 +164,6 @@ void fdWhitenWrite ( float *resp[4],
                      int newnpts, 
                      int nFreq, 
                      int *nerr);
-void aphdrw ( int newnpts, 
-              int nFreq);
-void gdhdrw ( int newnpts, 
-              int nFreq);
-void irhdrw ( int newnpts, 
-              int nFreq);
 void fdWriteFiles ( float *memptr[10], 
                     char *kprefix, 
                     float *userData, 

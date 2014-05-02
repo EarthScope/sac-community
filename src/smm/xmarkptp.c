@@ -140,9 +140,9 @@ int *nerr;
 
 	    /* -- Update any header fields that may have changed. */
 	    VALUE(fhdr(s,ifpick)) = tmin;
-	    strcpy( kmhdr.khdr[ikpick - 1], "PTPMIN  " );
+	    strcpy( khdr(s, ikpick), "PTPMIN  " );
 	    VALUE(fhdr(s,ifpick + 1)) = tmax;
-	    strcpy( kmhdr.khdr[ikpick], "PTPMAX  " );
+	    strcpy( khdr(s, ikpick + 1), "PTPMAX  " );
 	    s->h->user0 = ptpamp;
 	    strcpy( s->h->kuser0, "PTPAMP  " );
 

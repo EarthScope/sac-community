@@ -191,7 +191,7 @@ L_1000:
                                 fstrncpy(kmeam.kpwave+3, 5, (char *)&kqual, 1);
 				}
 			else{
-				strcpy( kmeam.kpwave, kmhdr.kundef );
+				strcpy( kmeam.kpwave, SAC_CHAR_UNDEFINED);
 				}
 
 			/* --- Evaluate the pick, determining duration, maximum amplitudes, etc. */

@@ -52,7 +52,7 @@ wrsdd(int   idfl,
       int  *nerr) {
 
         int idx, idd, ideg, ifrac, ihh, ijday, imm, imsec;
-        int  iss, itm, jcomp, kundef_len, ncerr, nlcdsk, nptwr;
+        int  iss, itm, jcomp, ncerr, nlcdsk, nptwr;
         int nun;
 	float frac;
         char *strtemp;
@@ -92,20 +92,21 @@ wrsdd(int   idfl,
 	}
 
 	/* - Convert header from SAC format to SDD format */
-        kundef_len = strlen(kmhdr.kundef);
 
-	if( memcmp(s->h->kevnm,kmhdr.kundef,kundef_len) != 0 )
+  if( ! is_kundef(s->h->kevnm) ) {
 		strscpy( ksevnm, s->h->kevnm, 8 );
-	if( memcmp(s->h->kstnm,kmhdr.kundef,kundef_len) != 0 )
+  }
+	if( ! is_kundef(s->h->kstnm) ) {
 		strcpy( ksstnm, s->h->kstnm );
-	if( memcmp(s->h->kcmpnm,kmhdr.kundef,kundef_len) != 0 ) {
+  }
+	if( ! is_kundef(s->h->kcmpnm) ) {
                 strtemp = malloc(9);
                 strncpy(strtemp,s->h->kcmpnm,8);
                 strtemp[8] = '\0';
 		subscpy( kschan, 0, 7, 12, strtemp );
                 free(strtemp);
 	}
-	if( memcmp(s->h->kinst,kmhdr.kundef,kundef_len) != 0 ) {
+	if( ! is_kundef(s->h->kinst) ) {
                 strtemp = malloc(5);
                 strncpy(strtemp,s->h->kinst,4);      
                 strtemp[4] = '\0';

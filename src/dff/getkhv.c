@@ -19,6 +19,12 @@
 #include "SacHeader.h"
 #include "errors.h"
 extern sac *CURRENT;
+
+int
+is_kundef(char *kvalue) {
+  return (memcmp(kvalue, SAC_CHAR_UNDEFINED, strlen(SAC_CHAR_UNDEFINED)) == 0);
+}
+
 /** 
  * Get a character header value from the current SAC file
  * 
@@ -77,13 +83,13 @@ getkhv(char *kname,
 	if( index > 0 ){
     p = khdr(s, index);
     fstrncpy( kvalue, kvalue_s-1, p,  strlen(p) );
-    if( memcmp(kvalue,kmhdr.kundef, strlen(kmhdr.kundef)) == 0 ){
+    if( is_kundef(kvalue) ){
           *nerr = ERROR_UNDEFINED_HEADER_FIELD_VALUE;
 	    }
 	}
 	else{
 	    *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;
-	    fstrncpy( kvalue, kvalue_s-1, kmhdr.kundef, strlen(kmhdr.kundef) );
+	    fstrncpy( kvalue, kvalue_s-1, SAC_CHAR_UNDEFINED, strlen(SAC_CHAR_UNDEFINED) );
 	    index = 1;
 	}
 

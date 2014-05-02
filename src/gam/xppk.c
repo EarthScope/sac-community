@@ -485,7 +485,7 @@ L_4000:
 	    else{
                 fstrncpy( kmeam.kpkid, 8, "T", 1);
                 fstrncpy( kmeam.kpkid+1, 8-1, (char *)&kchar, 1);
-		markhdr( jdfl, jhdr1, jhdr2, kmeam.kpkid, secinc, kmhdr.kundef);
+		markhdr( jdfl, jhdr1, jhdr2, kmeam.kpkid, secinc, SAC_CHAR_UNDEFINED);
 		markvert( jmark1, jmark2, &xloc, ypmxv, ypdelv, kmeam.kpkid ,9, 0 );
 		lint = FALSE;
 	    }
@@ -806,7 +806,7 @@ L_4000:
 		time = s->h->a + s->h->delta*(float)( nlncda );
 		xloc = cmgem.plot.xmin + (time + toff[jdfl] - tmin)*(cmgem.plot.xmax - 
 		 cmgem.plot.xmin)/(tmax - tmin);
-		markhdr( jdfl, jhdr1, jhdr2, "F", time, kmhdr.kundef );
+		markhdr( jdfl, jhdr1, jhdr2, "F", time, SAC_CHAR_UNDEFINED );
 		if( xloc <= cmgem.plot.xmax ){
 		    markvert( jmark1, jmark2, &xloc, ypmxv, ypdelv, "F" ,2, 0 );
 		}
@@ -843,7 +843,7 @@ L_4000:
 	/* -- Define coda length (fini). */
 	else if( kchar == 'F' ){
 	    strcpy( kmeam.kpkid, "FINI    " );
-	    markhdr( jdfl, jhdr1, jhdr2, kmeam.kpkid, secinc, kmhdr.kundef );
+	    markhdr( jdfl, jhdr1, jhdr2, kmeam.kpkid, secinc, SAC_CHAR_UNDEFINED );
 	    markvert( jmark1, jmark2, &xloc, ypmxv, ypdelv, kmeam.kpkid ,9, 0 );
 	    if( cmeam.lhpfop && lzdttm[jdfl] ){
 		fsecsi = secinc;
@@ -992,11 +992,11 @@ L_4000:
 	    cmeam.lfini = FALSE;
 	    cmeam.lampx = FALSE;
 	    s->h->a = cmhdr.fundef;
-	    strcpy( s->h->ka, kmhdr.kundef );
+	    strcpy( s->h->ka, SAC_CHAR_UNDEFINED );
 	    s->h->t0 = cmhdr.fundef;
-	    strcpy( s->h->kt0, kmhdr.kundef );
+	    strcpy( s->h->kt0, SAC_CHAR_UNDEFINED );
 	    s->h->f = cmhdr.fundef;
-	    strcpy( s->h->kf, kmhdr.kundef );
+	    strcpy( s->h->kf, SAC_CHAR_UNDEFINED );
 	    strcpy( kmeam.kpkid, "DEL     " );
 	}
 

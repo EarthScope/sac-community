@@ -178,7 +178,7 @@ L_4000:
 			}
 		else{
 			VALUE(fhdr(s,ifpick)) = cmhdr.fundef;
-			strcpy( khdr(s,ikpick), kmhdr.kundef );
+			strcpy( khdr(s,ikpick), SAC_CHAR_UNDEFINED );
 			setmsg( "WARNING", 1 );
 			apcmsg( "Could not find value",21 );
 			apfmsg( cmsmm.value );

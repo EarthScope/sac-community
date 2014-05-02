@@ -114,7 +114,8 @@ formhv(char  *kname,
       break;
     case CAT_STRING:
       p = khdr(s,item);
-			lok = memcmp(p,kmhdr.kundef,min(strlen(p),strlen(kmhdr.kundef))) != 0 ;
+			lok = memcmp(p, SAC_CHAR_UNDEFINED,
+                   min(strlen(p),strlen(SAC_CHAR_UNDEFINED))) != 0 ;
       if( lok ||  linc  ) {
         memset(kvalue, ' ', sizeof(kvalue));
         strncpy(kvalue, p, strlen(p));

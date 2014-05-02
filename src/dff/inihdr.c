@@ -28,12 +28,6 @@ inihdr() {
 	cmhdr.fundef = SAC_FLOAT_UNDEFINED;
 	cmhdr.iundef = SAC_ENUM_UNDEFINED;
 	cmhdr.nundef = SAC_INT_UNDEFINED;
-	strcpy( kmhdr.kundef, SAC_CHAR_UNDEFINED );
-        strcpy( kmhdr.kundef_2, SAC_CHAR_UNDEFINED_2 );
-
-        //	for( j = 1; j <= SAC_ENUMS; j++ ){
-        //	  Niv[j] = j;
-        //	}
 
 	/* lh starts without the INC option.  maf 961212 */
 	cmhdr.linc = FALSE ;

@@ -23,7 +23,7 @@ main(void) {
   ok(cmhdr.fundef == -12345.0, "cmhdr.fundef -12345.0");
   ok(cmhdr.iundef == -12345,   "cmhdr.iundef -12345");
   ok(cmhdr.nundef == -12345,   "cmhdr.nundef -12345");
-  ok(strcmp(kmhdr.kundef, "-12345  ") == 0, "kmhdr.kundef -12345");
+  ok(strcmp(SAC_CHAR_UNDEFINED, "-12345  ") == 0, "SAC_CHAR_UNDEFINED -12345");
   ok(cmhdr.linc == FALSE, "cmhdr.linc");
   ok(cmhdr.llh == FALSE, "cmhdr.llh");
 

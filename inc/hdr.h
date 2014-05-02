@@ -269,14 +269,6 @@ struct t_cmhdr {
   int   llh;	                    /* TRUE during the execution of xlh() */
 } cmhdr;
 
-struct t_kmhdr {
-  /** Character Strings */
-  char khdr[SAC_HEADER_STRINGS][SAC_HEADER_STRING_LENGTH];
-  /** Character string undefined */
-  char kundef[SAC_HEADER_STRING_LENGTH];
-  char kundef_2[SAC_HEADER_STRING_LENGTH*2]; 
-} kmhdr;
-
 
 /* 	Note:  in the following list, ninf, nhst, and nsn were 
 	changed to norid, nevid, and nwfid respectively.  maf 961031 

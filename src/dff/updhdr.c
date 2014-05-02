@@ -169,20 +169,20 @@ updhdr(int *nerr) {
 			NHDR(s)[5] = NHDR(s)[6];
 			NHDR(s)[6] = cmhdr.nundef;
 			LHDR(s)[3] = TRUE;
-			strcpy( kmhdr.khdr[1], kmhdr.khdr[3] );
-			strcpy( kmhdr.khdr[2], kmhdr.khdr[4] );
-			strcpy( kmhdr.khdr[3], kmhdr.khdr[6] );
-			strcpy( kmhdr.khdr[4], kmhdr.khdr[7] );
-			strcpy( kmhdr.khdr[5], kmhdr.khdr[8] );
-			strcpy( kmhdr.khdr[6], kmhdr.khdr[9] );
-			strcpy( kmhdr.khdr[7], kmhdr.khdr[10] );
-			strcpy( kmhdr.khdr[8], kmhdr.khdr[12] );
-			strcpy( kmhdr.khdr[9], kmhdr.khdr[13] );
-			strcpy( kmhdr.khdr[10], kmhdr.khdr[14] );
-			strcpy( kmhdr.khdr[11], kmhdr.khdr[15] );
-			strcpy( kmhdr.khdr[12], "UNDEF   " );
+			strcpy( khdr(s,1), khdr(s,3) );
+			strcpy( khdr(s,2), khdr(s,4) );
+			strcpy( khdr(s,3), khdr(s,6) );
+			strcpy( khdr(s,4), khdr(s,7) );
+			strcpy( khdr(s,5), khdr(s,8) );
+			strcpy( khdr(s,6), khdr(s,9) );
+			strcpy( khdr(s,7), khdr(s,10) );
+			strcpy( khdr(s,8), khdr(s,12) );
+			strcpy( khdr(s,9), khdr(s,13) );
+			strcpy( khdr(s,10), khdr(s,14) );
+			strcpy( khdr(s,11), khdr(s,15) );
+			strcpy( khdr(s,12), "UNDEF   " );
 			for( jdx = 13; jdx < SAC_HEADER_STRINGS; jdx++ ){
-				strcpy( kmhdr.khdr[jdx], "        " );
+				strcpy( khdr(s,jdx), "        " );
 			}
 			s->h->nvhdr = 4;
 
@@ -225,16 +225,16 @@ updhdr(int *nerr) {
 
 		}
 		else if( s->h->nvhdr == 4 ){
-			if( strcmp(kmhdr.khdr[12],"UNDEF   ") != 0 ){
-				strcpy( khdr18, kmhdr.khdr[12] );
+			if( strcmp(khdr(s,12),"UNDEF   ") != 0 ){
+				strcpy( khdr18, khdr(s,12) );
 			}
 			else{
-				strcpy( khdr18, kmhdr.kundef );
+				strcpy( khdr18, SAC_CHAR_UNDEFINED );
 			}
 			for( jdx = 4; jdx < 24; jdx++ ){
-				strcpy( kmhdr.khdr[jdx], kmhdr.kundef );
+				strcpy( khdr(s,jdx), SAC_CHAR_UNDEFINED );
 			}
-			strcpy( kmhdr.khdr[17], khdr18 );
+			strcpy( khdr(s,17), khdr18 );
 			VALUE(nhdr(s,11)) = VALUE(nhdr(s,10));
 			VALUE(nhdr(s,10)) = VALUE(nhdr(s,1));
 			VALUE(nhdr(s,1)) = VALUE(nhdr(s,2));

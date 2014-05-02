@@ -212,10 +212,9 @@ L_1000:
 		 *    Put alphanumeric values of even velocities in time pick ids. */
 
 		for( j = 1; j <= nvelu; j++ ){
-			j_ = j - 1;
       fp = fhdr(s, ifpick + j - 1);
       *fp = originu + distu/Vel[j];
-      sprintf(kmhdr.khdr[ikpick + j_ - 1],"%3.1lf", Vel[j] );
+      sprintf(khdr(s,ikpick + j - 1),"%3.1lf", Vel[j] );
 			}
 
 		}

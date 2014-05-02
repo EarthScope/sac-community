@@ -93,11 +93,12 @@ double tdelay;
 		/* --- If time pick is within x plot window: */
 		if( xploc >= cmgem.uplot.xmin && xploc <= cmgem.uplot.xmax ){
 		    /* ---- Determine time pick text: either pick id (KTn) or pick name. */
-		    if( memcmp(kmhdr.khdr[cmlhf.itmkrf + j_ - 1],kmhdr.kundef,
-		     strlen(kmhdr.khdr[cmlhf.itmkrf + j_ - 1])) != 0 )
-			strcpy( kpktxt, kmhdr.khdr[cmlhf.itmkrf + j_ - 1]);
-		    else
-			strcpy( kpktxt, kmlhf.kfhdr[Itmfnm[j] - 1] );
+      if( memcmp(khdr(s,cmlhf.itmkrf + j_), SAC_CHAR_UNDEFINED,
+                 strlen(khdr(s,cmlhf.itmkrf + j_ ))) != 0 ) {
+        strcpy( kpktxt, khdr(s, cmlhf.itmkrf + j_ ));
+      } else {
+        strcpy( kpktxt, kmlhf.kfhdr[Itmfnm[j] - 1] );
+      }
 		    /* ---- Display a horizontal line, a vertical line or a cross at pick.
 		     *      Also display time pick text at appropriate location. */
 		    setlinewidth( LINE_WIDTH_THIN );

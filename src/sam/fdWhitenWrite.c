@@ -16,6 +16,10 @@
 #include "msg.h"
 #include "dff.h"
 
+void aphdrw ( int newnpts, int nFreq, sac *s);
+void gdhdrw ( int newnpts, int nFreq, sac *s);
+void irhdrw ( int newnpts, int nFreq, sac *s);
+
 void /* FUNCTION */ fdWhitenWrite( float *resp[4] , char * kprefix ,
 				   float * userData , int newnpts ,
 				   int nFreq , int * nerr )
@@ -108,13 +112,13 @@ void /* FUNCTION */ fdWhitenWrite( float *resp[4] , char * kprefix ,
  
 	    /* fill other header fields specific to the data */
 	    switch ( jdx ) {
-		case 0:	aphdrw( newnpts , nFreq ) ;
+      case 0:	aphdrw( newnpts , nFreq, s ) ;
 			nlcmem = 1;
 			break ;
-		case 1:	irhdrw( newnpts , nFreq ) ;
+      case 1:	irhdrw( newnpts , nFreq, s ) ;
 			nlcmem = 0;
 			break ;
-		case 2: gdhdrw( newnpts , nFreq ) ;
+      case 2: gdhdrw( newnpts , nFreq, s ) ;
 			nlcmem = 3;
 			break ;
 		default: goto L_ERROR ;
@@ -132,25 +136,8 @@ void /* FUNCTION */ fdWhitenWrite( float *resp[4] , char * kprefix ,
 	    nlcdsk = 0;
 	    nptwr = SAC_HEADER_WORDS_FILE;
 
-	    if ( ( bufout = (float *) malloc ( SAC_HEADER_SIZEOF_FILE) ) == NULL ) {
-		*nerr = 301;
-		goto L_ERROR ;
-	    }
-
-	    /* move header into working memory */
-	    /* copy ( (int*) cmhdr.fhdr , (int*) cmmem.sacmem[ hdrindex ] , SAC_HEADER_NUMBERS ); */
-	    //copy_float( cmhdr.fhdr, cmmem.sacmem[ hdrindex ] , SAC_HEADER_NUMBERS );
-	    //zputc ( kmhdr.khdr[ 0 ] , 9 , (int *)(cmmem.sacmem[ hdrindex ] + SAC_HEADER_NUMBERS), 
-      //( MCPW + 1 ) * SAC_HEADER_STRINGS ) ;
-
-	    /* move header into output buffer */
-	    map_hdr_out ( (float*)&(s->h->delta), bufout, FALSE ) ;
-
-	    /* write the headers */
-	    zwabs( (int *)&fileDescriptor, (char *)bufout, nptwr, (int *)&nlcdsk, (int *)nerr );
-
-	    free(bufout);
-	    bufout = NULL ;
+      /* write the header */
+      sac_header_write(fileDescriptor, &s->h->delta, (char *)&s->h->kstnm, FALSE, nerr);
 
 	    nlcdsk += nptwr;
 	    nptwr = nFreq ;
@@ -158,24 +145,14 @@ void /* FUNCTION */ fdWhitenWrite( float *resp[4] , char * kprefix ,
 	    /* Write data to disk */
 
 	    switch ( jdx ) {
-	    case 0:	
-	      zwabs ( (int *)&fileDescriptor, (char *)(amph[ 0 ]) , nptwr, (int *)&nlcdsk, (int *)nerr ) ;
-	      /* nlcmem = memptr[ 2 ] ; */
-	      nlcdsk += nptwr;
-	      zwabs ( (int *)&fileDescriptor, (char *)(amph[ 1 ]) , nptwr, (int *)&nlcdsk, (int *)nerr ) ;
-	      free ( amph[ 0 ] ) ;
-	      free ( amph[ 1 ] ) ;
-	      free ( amph ) ;
-	      amph = NULL ;
+	    case 0:
+        sac_data_write2(fileDescriptor, amph[0], amph[1], s->h->npts, FALSE, nerr);
 	      break ;
-	      
-	    case 1: zwabs( (int *)&fileDescriptor, (char *)resp[nlcmem], nptwr, (int *)&nlcdsk, (int *)nerr );
-	      break ;
-	    case 2: zwabs( (int *)&fileDescriptor, (char *)resp[nlcmem], nptwr, (int *)&nlcdsk, (int *)nerr ) ;
+	    case 1:
+      case 2:
+        sac_data_write1(fileDescriptor, resp[nlcmem], s->h->npts, FALSE, nerr);
 	      break ;
 	    }
-
-
 
 	    /* Close file */
 	    zclose ( &fileDescriptor , nerr ) ;
@@ -190,30 +167,25 @@ L_ERROR:
 	    clrmsg () ;
 	}
 
-	if ( saclen() > 0 )
+	if ( saclen() > 0 ) {
     if(!(s = sacget(0, TRUE, nerr))) {
-      return;
     }
+  }
     //getfil ( 1 , TRUE , &unused1 , &unused2 , &unused3 , nerr ) ;
 
 	if ( amph ) {
-	    if ( amph[ 0 ] )
-		free ( amph[ 0 ] ) ;
-	    if ( amph[ 1 ] )
-		free ( amph[ 1 ] ) ;
-	    free ( amph ) ;
+    FREE(amph[0]);
+    FREE(amph[1]);
+    FREE(amph);
 	}
-	if ( bufout ) 
-	    free ( bufout ) ;
+  FREE(bufout);
 	if ( fileDescriptor ) 
 	    zclose ( &fileDescriptor , nerr ) ;
 }
 
 
-void aphdrw ( int newnpts , int nFreq )
+void aphdrw ( int newnpts , int nFreq, sac *s)
 {
-  sac *s;
-  s = sacget_current();
   s->h->nsnpts = newnpts ;
         s->h->npts = nFreq ;
         s->h->sdelta = s->h->user6 ;
@@ -224,10 +196,8 @@ void aphdrw ( int newnpts , int nFreq )
 }
 
 
-void gdhdrw ( int newnpts , int nFreq )
+void gdhdrw ( int newnpts , int nFreq, sac *s )
 {
-  sac *s;
-  s = sacget_current();
         s->h->nsnpts = newnpts ;
         s->h->npts = nFreq / 2 ;
         s->h->sdelta = s->h->user6 ;
@@ -237,10 +207,8 @@ void gdhdrw ( int newnpts , int nFreq )
         strcpy ( s->h->kevnm , "FD: GROUP DELAY" ) ;
 }
 
-void irhdrw ( int newnpts , int nFreq )
+void irhdrw ( int newnpts , int nFreq, sac *s )
 {
-  sac *s;
-  s = sacget_current();
         s->h->nsnpts = nFreq ;
         s->h->npts = newnpts ;
         s->h->delta = s->h->user6 ;

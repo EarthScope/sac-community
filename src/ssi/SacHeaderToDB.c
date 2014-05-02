@@ -199,13 +199,13 @@ int idfl ;
 
     } /* end if ( whichHeaders == wfHeader || whichHeaders == allHeader ) */
     else {
-	if ( !strcmp ( header->kstnm , kmhdr.kundef ) && strcmp ( s->h->kstnm , kmhdr.kundef ) )
+	if ( !strcmp ( header->kstnm , SAC_CHAR_UNDEFINED ) && strcmp ( s->h->kstnm , SAC_CHAR_UNDEFINED ) )
 	    strcpy ( header->kstnm , s->h->kstnm );
-	if ( !strcmp ( header->kcmpnm , kmhdr.kundef ) && strcmp ( s->h->kcmpnm , kmhdr.kundef ) )
+	if ( !strcmp ( header->kcmpnm , SAC_CHAR_UNDEFINED ) && strcmp ( s->h->kcmpnm , SAC_CHAR_UNDEFINED ) )
 	    strcpy ( header->kcmpnm , s->h->kcmpnm );
-	if ( !strcmp ( header->khole , kmhdr.kundef ) && strcmp ( s->h->khole , kmhdr.kundef ) )
+	if ( !strcmp ( header->khole , SAC_CHAR_UNDEFINED ) && strcmp ( s->h->khole , SAC_CHAR_UNDEFINED ) )
 	     strcpy ( header->khole , s->h->khole );
-	if ( !strcmp ( header->knetwk , kmhdr.kundef ) && strcmp ( s->h->knetwk , kmhdr.kundef ) )
+	if ( !strcmp ( header->knetwk , SAC_CHAR_UNDEFINED ) && strcmp ( s->h->knetwk , SAC_CHAR_UNDEFINED ) )
 	    strcpy ( header->knetwk , s->h->knetwk );
 
 	if ( header->nvhdr == cmhdr.nundef && s->h->nvhdr != cmhdr.nundef )

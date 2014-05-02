@@ -111,11 +111,11 @@ lgahdr(char *kfield,
 
 		}
 	else if( memcmp(ktemp,"KSTCMP",6) == 0 ){
-		if( memcmp(s->h->kstnm,kmhdr.kundef,9) != 0 ){
+		if( ! is_kundef(s->h->kstnm) ){
 			lgahdr_v = TRUE;
 			nc = indexb( s->h->kstnm,9 );
 			fstrncpy( kvalue, kvalue_s-1, s->h->kstnm , nc );
-			if( memcmp(s->h->kcmpnm,kmhdr.kundef,9) != 0 ){
+			if( ! is_kundef(s->h->kcmpnm) ) {
                                 cattemp = malloc(2+strlen(s->h->kcmpnm)+1);
                                 strcpy(cattemp,"  ");
                                 strcat(cattemp,s->h->kcmpnm);

@@ -4,6 +4,11 @@
  * @brief  Read an evenly spaced SAC file
  * 
  */
+
+#include <sys/types.h>
+#include <sys/uio.h>
+#include <unistd.h>
+
 #include "amf.h"
 #include "dff.h"
 #include "bool.h"
@@ -52,11 +57,10 @@ sac_data_read(int    nun,
 	      int    comp, 
 	      int    lswap, 
 	      int   *nerr) {
-  size_t n;
-
+  UNUSED(comp);
   *nerr = SAC_OK;
 
-  if(read(-nun, yarray, npts * SAC_DATA_SIZE) != n * SAC_DATA_SIZE) {
+  if(read(-nun, yarray, npts * SAC_DATA_SIZE) != (npts * SAC_DATA_SIZE)) {
     *nerr = ERROR_READING_FILE;
     return;
   }
@@ -66,7 +70,6 @@ sac_data_read(int    nun,
 }
 
 
-void
 
 
 /** 

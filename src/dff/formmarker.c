@@ -52,8 +52,8 @@ formmarker(double  time,
 		ljust( output,output_s );
 		*lok = TRUE;
 		nc1 = indexb( output,output_s );
-		if( memcmp(type,kmhdr.kundef,
-			   min(strlen(type),strlen(kmhdr.kundef))) != 0 ){
+		if( memcmp(type, SAC_CHAR_UNDEFINED,
+			   min(strlen(type),strlen(SAC_CHAR_UNDEFINED))) != 0 ){
 			nc2 = indexb( type,type_s );
                         cattemp = malloc(2+nc2+2);
                         strcpy(cattemp," (");

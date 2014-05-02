@@ -251,6 +251,7 @@ void        sacio_message(int nerr, char *name);
 void        sacio_char_to_keyword(char *in, char out[9]);
 
 void sac_write(sac *s, char *filename, int write_data, int lswap, int *nerr);
+int is_kundef(char *kvalue);
 
 #ifdef HAVE_LIBRPC
 void        xdrhdr           (XDR    xdrs, 

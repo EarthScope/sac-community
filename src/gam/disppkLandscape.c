@@ -84,9 +84,9 @@ double tdelay;
 			/* --- If time pick is within y plot window: */
 			if( yploc >= cmgem.uplot.ymin && yploc <= cmgem.uplot.ymax ){
 				/* ---- Determine time pick text: either pick id (KTn) or pick name. */
-				if( memcmp(kmhdr.khdr[cmlhf.itmkrf + j_ - 1],kmhdr.kundef,
-				 strlen(kmhdr.kundef)) != 0 ){
-					strcpy( kpktxt, kmhdr.khdr[cmlhf.itmkrf + j_ - 1]
+				if( memcmp(khdr(s,cmlhf.itmkrf + j_), SAC_CHAR_UNDEFINED,
+				 strlen(SAC_CHAR_UNDEFINED)) != 0 ){
+					strcpy( kpktxt, khdr(s, cmlhf.itmkrf + j_ )
 					  );
 					}
 				else{
