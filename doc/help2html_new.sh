@@ -66,11 +66,11 @@ function txt2html {
     # echo "txt2html: $TXT -> $HTML [ $DIR ]"
     WD=$( pwd )
     cd $DIR
-    if [ ! -e ${CSS} ]; then
-        msg "Error finding CSS Stylesheet: ${CSS}"
-        cd $WD
-        return
-    fi
+    #if [ ! -e ${CSS} ]; then
+    #    msg "Error finding CSS Stylesheet: ${CSS}"
+    #    cd $WD
+    #    return
+    #fi
     if [ ! -e ${TEMPLATE} ]; then
         msg "Error finding HTML Template: ${TEMPLATE}"
         cd $WD
@@ -81,8 +81,7 @@ function txt2html {
         cd $WD
         return
     fi
-
-    $RST2HTML $CC --template=${TEMPLATE} --stylesheet=${CSS} ${LINK_SS} $TXT $HTML
+    $RST2HTML $CC --template=${TEMPLATE} --stylesheet-path=${CSS} ${LINK_SS} $TXT $HTML
     cd $WD
 }
 

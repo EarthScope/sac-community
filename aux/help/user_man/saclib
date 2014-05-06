@@ -8,10 +8,23 @@ FORTRAN programs (see `SAC Reading and Writing Routines`_ ),   one can use many 
 SAC's data-processing routines in stand-alone codes if one uses specific flags
 in the compiling stage and the SAC library in the linking stage.  This library 
 (along with the SAC I/O library) can be found in ${SACHOME}/lib.  The complete 
-listing of sample programs in both C and Fortran for filtering, envelope function, 
-correlation, and convolution are give below in the online version of this file at 
-<http://www.iris.edu/files/sac-manual/manual/saclib.html>.
+listing of sample programs in both C and Fortran are given below in the online
+version of this file at <http://www.iris.edu/files/sac-manual/manual/saclib.html>.
 
+- Filtering_
+- `Cut Data`_
+- `Interpolate Data`_
+- `Remove Mean`_
+- `Remove Trend`_
+- `Taper Data`_
+- `Rotate Data`_
+- `Instrument Removal`_
+- `Envelope Function`_
+- Correlation_
+- Convolution_
+
+Compiling
+.........
 To ease the requirements for compilation and linking, a helper script is provided, 
 ${SACHOME}/bin/sac-config, which should output the necessary flags and libraries.  
 Try the following::
@@ -20,42 +33,122 @@ Try the following::
 
   f77 -o program source.f `sac-config --cflags --libs sac`
 
-Filtering - Fortran
--------------------
-.. include:: ../../../doc/examples/filterf.f
-   :literal:
+
+Filtering
+---------
+
+Example use of filtering with xapiir() to Apply an Infinite Impulse Recursive filter
+
+Fortran
+.......
+.. include:: ../../../doc/examples/filter/filterf.f
+   :code: fortran
+
+C
+.
+.. include:: ../../../doc/examples/filter/filterc.c
+   :code: c
+
+
+Cut Data
+--------
+
+Fortran
+.......
+.. include:: ../../../doc/examples/cut/cut_example.f90
+   :code: fortran
+
+Interpolate Data
+----------------
+
+Fortran
+.......
+.. include:: ../../../doc/examples/interpolate/interpolate_example.f90
+   :code: fortran
+
+Remove Mean
+-----------
+
+Fortran
+.......
+.. include:: ../../../doc/examples/rmean/rmean_example.f90
+   :code: fortran
+
+Remove Trend
+------------
+
+Fortran
+.......
+.. include:: ../../../doc/examples/rtrend/rtrend_example.f90
+   :code: fortran
+
+Taper Data
+----------
+
+Fortran
+.......
+.. include:: ../../../doc/examples/taper/taper_example.f90
+   :code: fortran
+
+Rotate Data
+-----------
+
+Fortran
+.......
+.. include:: ../../../doc/examples/rotate/rotate_example.f90
+   :code: fortran
+
+Instrument Removal
+------------------
    
-Filtering - C
--------------
-.. include:: ../../../doc/examples/filterc.c
-   :literal:
-   
-Envelope Function - Fortran
----------------------------
-.. include:: ../../../doc/examples/envelopef.f
-   :literal:
-   
-Envelope Function - C
----------------------
-.. include:: ../../../doc/examples/envelopec.c
-   :literal:
+Fortran
+.......
+.. include:: ../../../doc/examples/transfer/transfer_example.f90
+   :code: fortran
 
-Correlation - Fortran
----------------------
-.. include:: ../../../doc/examples/correlatef.f
-   :literal:
+Envelope Function
+-----------------
 
-Correlation - C
----------------
-.. include:: ../../../doc/examples/correlatec.c
-   :literal:
+Example of taking the envelope of a data series
 
-Convolution - Fortran
----------------------
-.. include:: ../../../doc/examples/convolvef.f
-   :literal:
+Fortran
+.......
+.. include:: ../../../doc/examples/envelope/envelopef.f
+   :code: fortran
 
-Convolution - C
----------------
-.. include:: ../../../doc/examples/convolvec.c
-   :literal:
+C
+.
+.. include:: ../../../doc/examples/envelope/envelopec.c
+   :code: c
+
+Correlation
+-----------
+
+Correlation of two time series
+
+Fortran
+.......
+.. include:: ../../../doc/examples/correlate/correlatef.f
+   :code: fortran
+
+C
+.
+.. include:: ../../../doc/examples/correlate/correlatec.c
+   :code: c
+
+Convolution
+-----------
+
+Convolution of two time series
+
+Fortran
+.......
+.. include:: ../../../doc/examples/convolve/convolvef.f
+   :code: fortran
+
+C
+.
+.. include:: ../../../doc/examples/convolve/convolvec.c
+   :code: c
+
+
