@@ -60,35 +60,36 @@ sacio_SOURCES    = sacio.c \
                    sacio_wsac3.c  \
                    sacio_getset.c \
                    sacio_test.h
-#saciof${EXEEXT}: sacio_f.o
-#	$(F77) $(COVERAGE) -o $@ sacio_f.o -L../src -lsacio
 
+if HAVE_FC
 saciof_SOURCES = sacio_f.f
-
-sacio_CFLAGS = -I$(top_srcdir)/include
-sacio_LDADD = -L../src/ -lsacio -L. -lunit
-sacio_LDFLAGS =
-saciof_LDADD = -L../src/ -lsacio -L. -lunit
-saciof_CFLAGS =
-saciof_LDFLAGS =
-
-#saclibf${EXEEXT}: saclib_f.o
-#	$(F77) $(COVERAGE) -o $@ saclib_f.o -L../src -lsac
+saciof_CFLAGS = $(COVERAGE)
+saciof_LDADD = -L../src/ -lsacio -lsac
 
 saclibf_SOURCES = saclib_f.f
 saclibf_LDADD = -L../src/ -lsacio -lsac -L. -lunit
 saclibf_CFLAGS =
+endif
+
+sacio_CFLAGS = $(COVERAGE) -I$(top_srcdir)/include
+sacio_LDADD = -L../src/ -lsacio -L. -lunit
+sacio_LDFLAGS =
+
+#saclibf${EXEEXT}: saclib_f.o
+#	$(F77) $(COVERAGE) -o $@ saclib_f.o -L../src -lsac
 
 # Compiled programs as tests
 check_PROGRAMS   = use_sac ucf vars sacio 
-if HAVE_F77
+
+if HAVE_FC
 check_PROGRAMS += saciof saclibf
 endif
 
 
 # Compiled programs to test
 TESTS            =  use_sac ucf vars sacio 
-if HAVE_F77
+
+if HAVE_FC
 TESTS += sacio_fortran.sh saciof saclibf
 endif
 TESTS += pytest.sh

@@ -83,10 +83,10 @@ target_triplet = @target@
 @EDITLINE_TRUE@am__append_2 = -I../libedit/include
 check_PROGRAMS = use_sac$(EXEEXT) ucf$(EXEEXT) vars$(EXEEXT) \
 	sacio$(EXEEXT) $(am__EXEEXT_1)
-@HAVE_F77_TRUE@am__append_3 = saciof saclibf
+@HAVE_FC_TRUE@am__append_3 = saciof saclibf
 TESTS = use_sac$(EXEEXT) ucf$(EXEEXT) vars$(EXEEXT) sacio$(EXEEXT) \
 	$(am__EXEEXT_2) pytest.sh
-@HAVE_F77_TRUE@am__append_4 = sacio_fortran.sh saciof saclibf
+@HAVE_FC_TRUE@am__append_4 = sacio_fortran.sh saciof saclibf
 subdir = t
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/config/test-driver
@@ -115,7 +115,7 @@ libunit_a_AR = $(AR) $(ARFLAGS)
 libunit_a_LIBADD =
 am_libunit_a_OBJECTS = unit.$(OBJEXT)
 libunit_a_OBJECTS = $(am_libunit_a_OBJECTS)
-@HAVE_F77_TRUE@am__EXEEXT_1 = saciof$(EXEEXT) saclibf$(EXEEXT)
+@HAVE_FC_TRUE@am__EXEEXT_1 = saciof$(EXEEXT) saclibf$(EXEEXT)
 am_sacio_OBJECTS = sacio-sacio.$(OBJEXT) sacio-sacio_rsac1.$(OBJEXT) \
 	sacio-sacio_rsac2.$(OBJEXT) sacio-sacio_wsac0.$(OBJEXT) \
 	sacio-sacio_wsac1.$(OBJEXT) sacio-sacio_wsac2.$(OBJEXT) \
@@ -124,12 +124,12 @@ sacio_OBJECTS = $(am_sacio_OBJECTS)
 sacio_DEPENDENCIES =
 sacio_LINK = $(CCLD) $(sacio_CFLAGS) $(CFLAGS) $(sacio_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am_saciof_OBJECTS = sacio_f.$(OBJEXT)
+am__saciof_SOURCES_DIST = sacio_f.f
+@HAVE_FC_TRUE@am_saciof_OBJECTS = sacio_f.$(OBJEXT)
 saciof_OBJECTS = $(am_saciof_OBJECTS)
 saciof_DEPENDENCIES =
-saciof_LINK = $(F77LD) $(AM_FFLAGS) $(FFLAGS) $(saciof_LDFLAGS) \
-	$(LDFLAGS) -o $@
-am_saclibf_OBJECTS = saclib_f.$(OBJEXT)
+am__saclibf_SOURCES_DIST = saclib_f.f
+@HAVE_FC_TRUE@am_saclibf_OBJECTS = saclib_f.$(OBJEXT)
 saclibf_OBJECTS = $(am_saclibf_OBJECTS)
 saclibf_DEPENDENCIES =
 am_ucf_OBJECTS = ucf.$(OBJEXT) ucf_inctim.$(OBJEXT) \
@@ -200,8 +200,9 @@ am__v_F77LD_0 = @echo "  F77LD   " $@;
 am__v_F77LD_1 = 
 SOURCES = $(libunit_a_SOURCES) $(sacio_SOURCES) $(saciof_SOURCES) \
 	$(saclibf_SOURCES) $(ucf_SOURCES) use_sac.c $(vars_SOURCES)
-DIST_SOURCES = $(libunit_a_SOURCES) $(sacio_SOURCES) $(saciof_SOURCES) \
-	$(saclibf_SOURCES) $(ucf_SOURCES) use_sac.c $(vars_SOURCES)
+DIST_SOURCES = $(libunit_a_SOURCES) $(sacio_SOURCES) \
+	$(am__saciof_SOURCES_DIST) $(am__saclibf_SOURCES_DIST) \
+	$(ucf_SOURCES) use_sac.c $(vars_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -410,8 +411,8 @@ am__set_TESTS_bases = \
   bases=`echo $$bases`
 RECHECK_LOGS = $(TEST_LOGS)
 AM_RECURSIVE_TARGETS = check recheck
-@HAVE_F77_TRUE@am__EXEEXT_2 = sacio_fortran.sh saciof$(EXEEXT) \
-@HAVE_F77_TRUE@	saclibf$(EXEEXT)
+@HAVE_FC_TRUE@am__EXEEXT_2 = sacio_fortran.sh saciof$(EXEEXT) \
+@HAVE_FC_TRUE@	saclibf$(EXEEXT)
 TEST_SUITE_LOG = test-suite.log
 TEST_EXTENSIONS = @EXEEXT@ .test
 LOG_DRIVER = $(SHELL) $(top_srcdir)/config/test-driver
@@ -627,21 +628,15 @@ sacio_SOURCES = sacio.c \
                    sacio_getset.c \
                    sacio_test.h
 
-#saciof${EXEEXT}: sacio_f.o
-#	$(F77) $(COVERAGE) -o $@ sacio_f.o -L../src -lsacio
-saciof_SOURCES = sacio_f.f
-sacio_CFLAGS = -I$(top_srcdir)/include
+@HAVE_FC_TRUE@saciof_SOURCES = sacio_f.f
+@HAVE_FC_TRUE@saciof_CFLAGS = $(COVERAGE)
+@HAVE_FC_TRUE@saciof_LDADD = -L../src/ -lsacio -lsac
+@HAVE_FC_TRUE@saclibf_SOURCES = saclib_f.f
+@HAVE_FC_TRUE@saclibf_LDADD = -L../src/ -lsacio -lsac -L. -lunit
+@HAVE_FC_TRUE@saclibf_CFLAGS = 
+sacio_CFLAGS = $(COVERAGE) -I$(top_srcdir)/include
 sacio_LDADD = -L../src/ -lsacio -L. -lunit
 sacio_LDFLAGS = 
-saciof_LDADD = -L../src/ -lsacio -L. -lunit
-saciof_CFLAGS = 
-saciof_LDFLAGS = 
-
-#saclibf${EXEEXT}: saclib_f.o
-#	$(F77) $(COVERAGE) -o $@ saclib_f.o -L../src -lsac
-saclibf_SOURCES = saclib_f.f
-saclibf_LDADD = -L../src/ -lsacio -lsac -L. -lunit
-saclibf_CFLAGS = 
 #
 # Options for dejagnu for testing the sac binary input and output
 #
@@ -703,7 +698,7 @@ sacio$(EXEEXT): $(sacio_OBJECTS) $(sacio_DEPENDENCIES) $(EXTRA_sacio_DEPENDENCIE
 
 saciof$(EXEEXT): $(saciof_OBJECTS) $(saciof_DEPENDENCIES) $(EXTRA_saciof_DEPENDENCIES) 
 	@rm -f saciof$(EXEEXT)
-	$(AM_V_F77LD)$(saciof_LINK) $(saciof_OBJECTS) $(saciof_LDADD) $(LIBS)
+	$(AM_V_F77LD)$(F77LINK) $(saciof_OBJECTS) $(saciof_LDADD) $(LIBS)
 
 saclibf$(EXEEXT): $(saclibf_OBJECTS) $(saclibf_DEPENDENCIES) $(EXTRA_saclibf_DEPENDENCIES) 
 	@rm -f saclibf$(EXEEXT)

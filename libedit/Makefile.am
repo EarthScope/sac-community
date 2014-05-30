@@ -11,8 +11,9 @@ CFLAGS          += -O -Wall -pipe -g3
 noinst_LIBRARIES  = lib/libedit.a
 
 #LIBEDIT_DIR = libedit-2.6.9
-LIBEDIT_DIR = libedit-20090923-3.0-sac
 #LIBEDIT_DIR = libedit-20120601-3.0
+#LIBEDIT_DIR = libedit-20090923-3.0-sac
+LIBEDIT_DIR = libedit-20140213-3.1
 LIBEDIT_TAR = $(srcdir)/$(LIBEDIT_DIR).tar.gz
 LIBEDIT_OPT = --prefix=$(abs_top_builddir)/libedit 
 LIBEDIT_ENV = env CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" INSTALL="$(abs_top_srcdir)/config/install-sh"

@@ -167,8 +167,8 @@ CHECK_EDITING
 # XDR Format Option
 CHECK_XDR
 
-AC_PROG_F77([f77 g77 gfortran xlf xlf90])
-AM_CONDITIONAL([HAVE_F77], [ test x"$ac_cv_prog_f77_g" != x"" ] )
+AC_PROG_F77([f77 gfortran f90 xlf90 ifort])
+AM_CONDITIONAL([HAVE_FC], [ test x"$F77" != x"" ] )
 
 # Check for Matlab Options
 CHECK_MATLAB
