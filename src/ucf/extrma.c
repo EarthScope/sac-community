@@ -80,38 +80,31 @@ extrma(float *array,
        float *amean)
 {
 	int j, j1, j2;
-	float aj;
-
+  double vmin, vmax;
+  double sum;
 	float *const Array = &array[0] - 1;
-
-	/* - Initialize output values. */
-	j = 1;
-	*aminm = Array[j];
-	*amaxm = Array[j];
-	*amean = Array[j];
 
 	/* - Loop through array looking for extrema. */
 	j1 = incrmt + 1;
-	j2 = incrmt*(number - 1) + 1;
+	j2 = incrmt * (number - 1) + 1;
+  sum  = Array[j1];
+  vmin = Array[j1];
+  vmax = Array[j1];
 	for( j = j1; j <= j2; j += incrmt ){
-		aj = Array[j];
-		*amean = *amean + aj;
-
-                if((aj - *aminm) < 0.0 ) goto L_600;
-                if((aj - *amaxm) <= 0.0) goto L_1000;
-                else  goto L_800;
-
-L_600:
-		*aminm = aj;
-		goto L_1000;
-L_800:
-		*amaxm = aj;
-L_1000:
-		;
-		}
+    if(Array[j] <= vmin) {
+      vmin = Array[j];
+    }
+    if(Array[j] >= vmax) {
+      vmax = Array[j];
+    }
+		sum = sum + Array[j];
+  }
 	/* - Compute mean value. */
-	*amean = *amean/(max( number, 1 ));
+	sum = sum/(max( number, 1 ));
 
+  *amean = sum;
+  *amaxm = vmax;
+  *aminm = vmin;
 
 	/* - Test to see if anything strange happened , like RQ command
 	 *   would do with inappropriate Q or C values.
