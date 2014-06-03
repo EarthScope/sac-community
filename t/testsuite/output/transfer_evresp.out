@@ -14,7 +14,7 @@
 
      depmin = -1.927772e+03
      depmax = 1.540637e+03
-     depmen = 3.246541e-07
+     depmen = -1.026619e-06
           b = -9.980005e+01
           e = 3.000200e+03
  transfer from evalresp fname test_transfer_evresp_resp.m to none freq 0.002 0.005 0.1 0.2
@@ -29,7 +29,7 @@ Using response from user-specified file: (test_transfer_evresp_resp.m).
 
      depmin = -7.104320e+03
      depmax = 7.442646e+03
-     depmen = 1.129871e+00
+     depmen = 1.129872e+00
   
  subf test_transfer_evresp_data_out.m
  sqr

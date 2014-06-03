@@ -8,7 +8,7 @@
 
      depmin = -1.569280e+00
      depmax = 1.520640e+00
-     depmen = -9.854718e-02
+     depmen = -9.854721e-02
  rtrend verbose
  Slope and standard deviation are: 0.00023034 0.0035114
  Intercept and standard deviation are: -0.10188 0.051759
@@ -22,7 +22,7 @@
 
      depmin = -1.470322e+00
      depmax = 1.619626e+00
-     depmen = -2.258103e-07
+     depmen = -2.264476e-07
   
  ==>  
  fg impulse
@@ -48,7 +48,7 @@
 
      depmin = -1.029703e-02
      depmax = 9.899970e-01
-     depmen = 7.357449e-10
+     depmen = 6.984919e-10
   
  ==>  
  fg sine
@@ -60,7 +60,7 @@
 
      depmin = -1.000000e+00
      depmax = 1.000000e+00
-     depmen = 3.576279e-09
+     depmen = 8.881784e-18
  rtrend quiet
  lh depmin depmax depmen
   
@@ -70,5 +70,5 @@
 
      depmin = -1.130708e+00
      depmax = 1.134496e+00
-     depmen = -9.536743e-09
+     depmen = -1.072884e-08
  quit

@@ -37,7 +37,7 @@
      delta = 1.000000e-02                   depmin = -1.569280e+00
     depmax = 1.520640e+00
  fft womean
- DC level after DFT is -2.5105e-07
+ DC level after DFT is -2.0899e-08
  ifft
  lh columns 2 iftype npts delta depmin depmax
   
@@ -60,7 +60,7 @@
      delta = 1.000000e-02                   depmin = -1.470733e+00
     depmax = 1.619187e+00
  fft wmean
- DC level after DFT is -2.4801e-07
+ DC level after DFT is -2.2785e-08
  ifft
  lh columns 2 iftype npts delta depmin depmax
   
@@ -83,7 +83,7 @@
      delta = 1.000000e-02                   depmin = -1.470733e+00
     depmax = 1.619187e+00
  fft rlim
- DC level after DFT is -2.4642e-07
+ DC level after DFT is -2.0156e-08
  ifft
  lh columns 2 iftype npts delta depmin depmax
   
@@ -106,7 +106,7 @@
      delta = 1.000000e-02                   depmin = -1.470733e+00
     depmax = 1.619187e+00
  fft amph
- DC level after DFT is -2.4537e-07
+ DC level after DFT is -2.1019e-08
  ifft
  lh columns 2 iftype npts delta depmin depmax
   

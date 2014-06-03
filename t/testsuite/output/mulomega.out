@@ -20,7 +20,7 @@
 
      depmin = -1.569280e+00
      depmax = 1.520640e+00
-     depmen = -9.854718e-02
+     depmen = -9.854721e-02
  mulomega
  lh depmin depmax depmen
   
@@ -30,7 +30,7 @@
 
      depmin = 0.000000e+00
      depmax = 2.164291e+01
-     depmen = 3.067232e+00
+     depmen = 3.067233e+00
  mulomega
  lh depmin depmax depmen
   
@@ -40,7 +40,7 @@
 
      depmin = 0.000000e+00
      depmax = 1.912312e+03
-     depmen = 2.448542e+02
+     depmen = 2.448543e+02
  mulomega
  lh depmin depmax depmen
   
@@ -75,5 +75,5 @@
 
      depmin = -1.645800e+01
      depmax = 2.164125e+01
-     depmen = -6.547060e-02
+     depmen = -6.547062e-02
  quit

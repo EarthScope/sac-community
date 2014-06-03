@@ -43,7 +43,7 @@
           e = 9.990000e+00
      depmin = -3.605383e+01
      depmax = 1.122525e+02
-     depmen = 4.858200e+00
+     depmen = 4.858206e+00
   
   FILE: test.seismo.2 - 2
  -------------------
@@ -52,7 +52,7 @@
           e = 1.199000e+01
      depmin = -3.605383e+01
      depmax = 1.122525e+02
-     depmen = 4.858200e+00
+     depmen = 4.858206e+00
   
  ==>  
  fg sine
@@ -71,7 +71,7 @@
           e = 9.900000e+01
      depmin = -4.500001e+01
      depmax = 5.000000e+01
-     depmen = 6.469650e-08
+     depmen = 1.287940e-07
   
   FILE: test.sine.2 - 2
  -----------------
@@ -80,7 +80,7 @@
           e = 1.190000e+02
      depmin = -4.500001e+01
      depmax = 5.000000e+01
-     depmen = 6.469650e-08
+     depmen = 1.287940e-07
   
  ==>  
  fg sine

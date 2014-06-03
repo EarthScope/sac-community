@@ -38,7 +38,7 @@
 
          b = 9.459999e+00                        e = 1.945000e+01
     depmin = -1.569280e+00                  depmax = 1.520640e+00
-    depmen = -9.854718e-02                  kcmpnm = BHE
+    depmen = -9.854721e-02                  kcmpnm = BHE
      cmpaz = 9.000000e+01                   cmpinc = 9.000000e+01
        baz = 2.718528e+02                       az = 8.814721e+01
   
@@ -47,7 +47,7 @@
 
          b = 9.459999e+00                        e = 1.945000e+01
     depmin = -1.569280e+00                  depmax = 1.520640e+00
-    depmen = -9.854718e-02                  kcmpnm = BHN
+    depmen = -9.854721e-02                  kcmpnm = BHN
      cmpaz = 0.000000e+00                   cmpinc = 9.000000e+01
        baz = 2.718528e+02                       az = 8.814721e+01
  rotate
@@ -59,7 +59,7 @@
 
          b = 9.459999e+00                        e = 1.945000e+01
     depmin = -1.517722e+00                  depmax = 1.470680e+00
-    depmen = -9.530954e-02                  kcmpnm = -12345
+    depmen = -9.530951e-02                  kcmpnm = -12345
      cmpaz = 9.185278e+01                   cmpinc = 9.000000e+01
        baz = 2.718528e+02                       az = 8.814721e+01
   
@@ -89,7 +89,7 @@
 
          b = 9.459999e+00                        e = 1.945000e+01
     depmin = -1.569280e+00                  depmax = 1.520640e+00
-    depmen = -9.854718e-02                  kcmpnm = -12345
+    depmen = -9.854721e-02                  kcmpnm = -12345
      cmpaz = 0.000000e+00                   cmpinc = 9.000000e+01
        baz = 2.718528e+02                       az = 8.814721e+01
   
@@ -98,7 +98,7 @@
 
          b = 9.459999e+00                        e = 1.945000e+01
     depmin = -1.569280e+00                  depmax = 1.520640e+00
-    depmen = -9.854718e-02                  kcmpnm = -12345
+    depmen = -9.854721e-02                  kcmpnm = -12345
      cmpaz = 9.000000e+01                   cmpinc = 9.000000e+01
        baz = 2.718528e+02                       az = 8.814721e+01
  evaluate abs (&1,cmpaz - 0.0)
@@ -119,7 +119,7 @@
 
          b = 9.459999e+00                        e = 1.945000e+01
     depmin = -1.569280e+00                  depmax = 1.520640e+00
-    depmen = -9.854718e-02                  kcmpnm = -12345
+    depmen = -9.854721e-02                  kcmpnm = -12345
      cmpaz = 9.000000e+01                   cmpinc = 9.000000e+01
        baz = 2.718528e+02                       az = 8.814721e+01
   
@@ -128,7 +128,7 @@
 
          b = 9.459999e+00                        e = 1.945000e+01
     depmin = -1.520640e+00                  depmax = 1.569280e+00
-    depmen = 9.854718e-02                   kcmpnm = -12345
+    depmen = 9.854721e-02                   kcmpnm = -12345
      cmpaz = 1.800000e+02                   cmpinc = 9.000000e+01
        baz = 2.718528e+02                       az = 8.814721e+01
  evaluate abs (&1,cmpaz - 90)
@@ -151,7 +151,7 @@
 
          b = 9.459999e+00                        e = 1.945000e+01
     depmin = -1.517722e+00                  depmax = 1.470680e+00
-    depmen = -9.530954e-02                  kcmpnm = -12345
+    depmen = -9.530951e-02                  kcmpnm = -12345
      cmpaz = 9.185278e+01                   cmpinc = 9.000000e+01
        baz = 2.718528e+02                       az = 8.814721e+01
   
@@ -187,7 +187,7 @@
 
          b = 9.459999e+00                        e = 1.945000e+01
     depmin = -1.517722e+00                  depmax = 1.470680e+00
-    depmen = -9.530954e-02                  kcmpnm = -12345
+    depmen = -9.530951e-02                  kcmpnm = -12345
      cmpaz = 9.185278e+01                   cmpinc = 9.000000e+01
        baz = 2.718528e+02                       az = 8.814721e+01
   
@@ -211,7 +211,7 @@
 
          b = 9.459999e+00                        e = 1.945000e+01
     depmin = -1.517722e+00                  depmax = 1.470680e+00
-    depmen = -9.530954e-02                  kcmpnm = -12345
+    depmen = -9.530951e-02                  kcmpnm = -12345
      cmpaz = 9.185278e+01                   cmpinc = 9.000000e+01
        baz = 2.718528e+02                       az = 8.814721e+01
   
@@ -235,7 +235,7 @@
 
          b = 9.459999e+00                        e = 1.945000e+01
     depmin = -9.379154e-01                  depmax = 9.088447e-01
-    depmen = -5.889894e-02                  kcmpnm = -12345
+    depmen = -5.889896e-02                  kcmpnm = -12345
      cmpaz = 1.100000e+02                   cmpinc = 9.000000e+01
        baz = 2.718528e+02                       az = 8.814721e+01
   
@@ -244,7 +244,7 @@
 
          b = 9.459999e+00                        e = 1.945000e+01
     depmin = -2.011366e+00                  depmax = 1.949024e+00
-    depmen = -1.263093e-01                  kcmpnm = -12345
+    depmen = -1.263092e-01                  kcmpnm = -12345
      cmpaz = 2.000000e+01                   cmpinc = 9.000000e+01
        baz = 2.718528e+02                       az = 8.814721e+01
  evaluate abs (&1,cmpaz - 110)

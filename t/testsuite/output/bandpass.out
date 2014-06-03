@@ -18,7 +18,7 @@
 
      depmin = -5.497377e-02
      depmax = 4.220829e-02
-     depmen = 3.978492e-05
+     depmen = 3.978419e-05
   
  ==>  
  message "Filter Type"
@@ -33,7 +33,7 @@
 
      depmin = -5.497377e-02
      depmax = 4.220829e-02
-     depmen = 3.978492e-05
+     depmen = 3.978419e-05
  fg seismo
  bp bessel
  lh depmin depmax depmen
@@ -55,7 +55,7 @@
 
      depmin = -5.607561e-03
      depmax = 6.706403e-03
-     depmen = -2.954517e-04
+     depmen = -2.954515e-04
  fg seismo
  bp c2
  lh depmin depmax depmen
@@ -66,7 +66,7 @@
 
      depmin = -2.238109e-02
      depmax = 2.532697e-02
-     depmen = 8.126236e-04
+     depmen = 8.126238e-04
   
  ==>  
  message "Filter Types with Corners"
@@ -81,7 +81,7 @@
 
      depmin = -1.537167e-01
      depmax = 1.907771e-02
-     depmen = -6.027781e-02
+     depmen = -6.027774e-02
  fg seismo
  bp bessel co 0.01 1.0
  lh depmin depmax depmen
@@ -92,7 +92,7 @@
 
      depmin = -1.842603e-01
      depmax = 5.674742e-02
-     depmen = -6.250882e-02
+     depmen = -6.250881e-02
  fg seismo
  bp c1 co 0.01 1.0
  lh depmin depmax depmen
@@ -103,7 +103,7 @@
 
      depmin = -1.376476e-02
      depmax = 8.195383e-04
-     depmen = -6.315324e-03
+     depmen = -6.315326e-03
  fg seismo
  bp c2 co 0.01 1.0
  lh depmin depmax depmen
@@ -114,7 +114,7 @@
 
      depmin = -8.784478e-02
      depmax = 2.133853e-02
-     depmen = -2.197263e-02
+     depmen = -2.197265e-02
   
  ==>  
  fg seismo
@@ -127,7 +127,7 @@
 
      depmin = -1.537167e-01
      depmax = 1.907771e-02
-     depmen = -6.027781e-02
+     depmen = -6.027774e-02
   
  ==>  
  message "Filter Type Number of Poles"
@@ -142,7 +142,7 @@
 
      depmin = -1.569280e+00
      depmax = 1.520640e+00
-     depmen = -9.854718e-02
+     depmen = -9.854721e-02
  bp n 2
  lh depmin depmax depmen
   
@@ -152,7 +152,7 @@
 
      depmin = -1.537167e-01
      depmax = 1.907771e-02
-     depmen = -6.027781e-02
+     depmen = -6.027774e-02
  bp n 3
  lh depmin depmax depmen
   
@@ -162,7 +162,7 @@
 
      depmin = -9.762649e-02
      depmax = 3.504995e-02
-     depmen = -2.650825e-02
+     depmen = -2.650826e-02
  bp n 4
  lh depmin depmax depmen
   
@@ -172,7 +172,7 @@
 
      depmin = -9.310859e-02
      depmax = 4.396410e-02
-     depmen = -2.975242e-03
+     depmen = -2.975236e-03
  bp n 5
  lh depmin depmax depmen
   
@@ -182,7 +182,7 @@
 
      depmin = -8.517474e-02
      depmax = 4.771239e-02
-     depmen = 8.047245e-03
+     depmen = 8.047242e-03
  bp n 5
  lh depmin depmax depmen
   
@@ -192,7 +192,7 @@
 
      depmin = -7.649725e-02
      depmax = 4.469939e-02
-     depmen = 1.010028e-02
+     depmen = 1.010029e-02
  bp n 6
  lh depmin depmax depmen
   
@@ -202,7 +202,7 @@
 
      depmin = -6.642161e-02
      depmax = 5.115340e-02
-     depmen = 8.492554e-03
+     depmen = 8.492553e-03
  bp n 7
  lh depmin depmax depmen
   
@@ -242,7 +242,7 @@
 
      depmin = -2.689628e-02
      depmax = 5.817310e-02
-     depmen = 3.435268e-03
+     depmen = 3.435269e-03
  *bp n 11
  lh depmin depmax depmen
   
@@ -252,7 +252,7 @@
 
      depmin = -2.689628e-02
      depmax = 5.817310e-02
-     depmen = 3.435268e-03
+     depmen = 3.435269e-03
   
  ==>  
  message "Filter with Number of Passes
@@ -267,7 +267,7 @@
 
      depmin = -1.569280e+00
      depmax = 1.520640e+00
-     depmen = -9.854718e-02
+     depmen = -9.854721e-02
  bp p 1
  lh depmin depmax depmen
   
@@ -312,7 +312,7 @@
 
      depmin = -6.506805e-02
      depmax = 3.806502e-02
-     depmen = -1.354301e-02
+     depmen = -1.354302e-02
  bp c1 atten 30
  lh depmin depmax depmen
   
@@ -322,7 +322,7 @@
 
      depmin = -4.991693e-02
      depmax = 2.809980e-02
-     depmen = -8.550817e-03
+     depmen = -8.550812e-03
   
  ==>  
  message "Filter with Chebyshev2 parameters"
@@ -337,7 +337,7 @@
 
      depmin = -1.008714e+01
      depmax = 1.016000e+01
-     depmen = -1.991572e-02
+     depmen = -1.991568e-02
  bp c2 atten 30
  lh depmin depmax depmen
   
@@ -347,7 +347,7 @@
 
      depmin = -4.715408e+03
      depmax = 4.701075e+03
-     depmen = 1.546410e+01
+     depmen = 1.546413e+01
   
  ==>  
  m test_bandpass.m

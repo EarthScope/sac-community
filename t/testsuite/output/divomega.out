@@ -16,7 +16,7 @@
 
      depmin = -1.569280e+00
      depmax = 1.520640e+00
-     depmen = -9.854718e-02
+     depmen = -9.854721e-02
  divomega
  lh depmin depmax depmen
   
@@ -36,7 +36,7 @@
 
      depmin = 0.000000e+00
      depmax = 6.352495e-02
-     depmen = 2.714359e-04
+     depmen = 2.714357e-04
  divomega
  lh depmin depmax depmen
   
@@ -46,7 +46,7 @@
 
      depmin = 0.000000e+00
      depmax = 1.035296e-01
-     depmen = 2.606944e-04
+     depmen = 2.606942e-04
  divomega
  lh depmin depmax depmen
   
@@ -56,7 +56,7 @@
 
      depmin = 0.000000e+00
      depmax = 1.687270e-01
-     depmen = 3.665636e-04
+     depmen = 3.665639e-04
   
  ==>  
  fg seismo

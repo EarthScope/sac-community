@@ -14,7 +14,7 @@
       DELTA = 1.000000e+00
      DEPMIN = -1.000000e+00
      DEPMAX = 1.000000e+00
-     DEPMEN = 3.576279e-09
+     DEPMEN = 8.881784e-18
       KEVNM = FUNCGEN: SINE
      LOVROK = TRUE
       NVHDR = 6
@@ -37,7 +37,7 @@
         IDEP = VELOCITY (VOLTS)
       DEPMIN = -1.569280e+00
       DEPMAX = 1.520640e+00
-      DEPMEN = -9.854718e-02
+      DEPMEN = -9.854721e-02
      OMARKER = -41.43
      AMARKER = 10.464
       KZDATE = MAR 29 (088), 1981
@@ -80,7 +80,7 @@
         IDEP = VELOCITY (VOLTS)
       DEPMIN = -1.569280e+00
       DEPMAX = 1.520640e+00
-      DEPMEN = -9.854718e-02
+      DEPMEN = -9.854721e-02
      OMARKER = -41.43
      AMARKER = 10.464
       KZDATE = MAR 29 (088), 1981

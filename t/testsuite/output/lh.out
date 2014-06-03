@@ -36,7 +36,7 @@
         IDEP = VELOCITY (VOLTS)
       DEPMIN = -1.569280e+00
       DEPMAX = 1.520640e+00
-      DEPMEN = -9.854718e-02
+      DEPMEN = -9.854721e-02
      OMARKER = -41.43
      AMARKER = 10.464
       KZDATE = MAR 29 (088), 1981
@@ -72,7 +72,7 @@
           E = 1.945000e+01                   IFTYPE = TIME SERIES FILE
       LEVEN = TRUE                            DELTA = 1.000000e-02
        IDEP = VELOCITY (VOLTS)               DEPMIN = -1.569280e+00
-     DEPMAX = 1.520640e+00                   DEPMEN = -9.854718e-02
+     DEPMAX = 1.520640e+00                   DEPMEN = -9.854721e-02
     OMARKER = -41.43                        AMARKER = 10.464
      KZDATE = MAR 29 (088), 1981             KZTIME = 10:38:14.000
      IZTYPE = BEGIN TIME                      KSTNM = CDV
@@ -101,7 +101,7 @@
         IDEP = VELOCITY (VOLTS)
       DEPMIN = -1.569280e+00
       DEPMAX = 1.520640e+00
-      DEPMEN = -9.854718e-02
+      DEPMEN = -9.854721e-02
      OMARKER = -41.43
      AMARKER = 10.464
       KZDATE = MAR 29 (088), 1981
@@ -143,7 +143,7 @@
          IDEP = VELOCITY (VOLTS)
        DEPMIN = -1.569280e+00
        DEPMAX = 1.520640e+00
-       DEPMEN = -9.854718e-02
+       DEPMEN = -9.854721e-02
       OMARKER = -41.43
       AMARKER = 10.464
      T0MARKER = UNDEFINED
@@ -242,7 +242,7 @@
         IDEP = VELOCITY (VOLTS)
       DEPMIN = -1.569280e+00
       DEPMAX = 1.520640e+00
-      DEPMEN = -9.854718e-02
+      DEPMEN = -9.854721e-02
      OMARKER = -41.43
      AMARKER = 10.464
       KZDATE = MAR 29 (088), 1981
@@ -296,7 +296,7 @@
         IDEP = VELOCITY (VOLTS)
       DEPMIN = -1.569280e+00
       DEPMAX = 1.520640e+00
-      DEPMEN = -9.854718e-02
+      DEPMEN = -9.854721e-02
      OMARKER = -41.43
      AMARKER = 10.464
       KZDATE = MAR 29 (088), 1981

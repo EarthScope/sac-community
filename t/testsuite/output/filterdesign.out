@@ -13,7 +13,7 @@ Pausing
 
      depmin = 0.000000e+00
      depmax = 1.000000e+00
-     depmen = 9.089078e-01
+     depmen = 9.089077e-01
      iftype = SPECTRAL FILE-AMPL/PHASE
           b = 0.000000e+00
           e = 3.996000e+01
@@ -29,7 +29,7 @@ Pausing
 
      depmin = -6.589465e-01
      depmax = 5.432976e-01
-     depmen = -4.204802e-09
+     depmen = -4.172642e-09
      iftype = TIME SERIES FILE
           b = 0.000000e+00
           e = 4.525000e+00
@@ -43,7 +43,7 @@ Pausing
 
      depmin = 7.649384e-03
      depmax = 5.235059e-01
-     depmen = 7.516216e-02
+     depmen = 7.516215e-02
      iftype = TIME SERIES FILE
           b = 0.000000e+00
           e = 3.992016e+01
@@ -62,7 +62,7 @@ Pausing
 
      depmin = 0.000000e+00
      depmax = 1.000000e+00
-     depmen = 5.355649e-01
+     depmen = 5.355648e-01
      iftype = SPECTRAL FILE-AMPL/PHASE
           b = 0.000000e+00
           e = 3.996000e+01
@@ -92,7 +92,7 @@ Pausing
 
      depmin = 4.826996e-02
      depmax = 1.578298e-01
-     depmen = 7.494696e-02
+     depmen = 7.494695e-02
      iftype = TIME SERIES FILE
           b = 0.000000e+00
           e = 3.992016e+01
@@ -111,7 +111,7 @@ Pausing
 
      depmin = 2.883851e-15
      depmax = 1.000000e+00
-     depmen = 6.315100e-01
+     depmen = 6.315096e-01
      iftype = SPECTRAL FILE-AMPL/PHASE
           b = 0.000000e+00
           e = 3.996000e+01
@@ -127,7 +127,7 @@ Pausing
 
      depmin = -3.640383e-01
      depmax = 4.546449e-01
-     depmen = 3.366998e-03
+     depmen = 3.366997e-03
      iftype = TIME SERIES FILE
           b = 0.000000e+00
           e = 7.400000e+00
@@ -176,7 +176,7 @@ Pausing
 
      depmin = -2.835320e-01
      depmax = 3.455756e-01
-     depmen = 7.906288e-11
+     depmen = 6.389100e-11
      iftype = TIME SERIES FILE
           b = 0.000000e+00
           e = 6.775000e+00
@@ -190,7 +190,7 @@ Pausing
 
      depmin = 4.056462e-02
      depmax = 7.029846e-01
-     depmen = 1.502966e-01
+     depmen = 1.502967e-01
      iftype = TIME SERIES FILE
           b = 0.000000e+00
           e = 3.992016e+01

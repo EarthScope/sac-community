@@ -27,7 +27,7 @@
 
      depmin = -2.928125e-03
      depmax = 9.970734e-01
-     depmen = -2.332583e-05
+     depmen = -2.332628e-05
   
  message "Transfer using FAP file from Polezero"
  Transfer using FAP file from Polezero
@@ -43,7 +43,7 @@
 
      depmin = -2.162591e-11
      depmax = 1.842730e-11
-     depmen = -3.977561e-14
+     depmen = -3.977568e-14
  write test.transfer.fappz
   
  message "Transfer using FAP file from Evalresp"
@@ -60,7 +60,7 @@
 
      depmin = -2.162641e-11
      depmax = 1.842685e-11
-     depmen = -3.977888e-14
+     depmen = -3.977914e-14
  write test.transfer.fapev
   
  message "Transfer using Polezero"
@@ -77,7 +77,7 @@
 
      depmin = -2.162591e-11
      depmax = 1.842730e-11
-     depmen = -3.977533e-14
+     depmen = -3.977566e-14
  write test.transfer.pz
   
  read test.transfer.fappz
@@ -120,7 +120,7 @@
 
      depmin = -4.821360e-11
      depmax = 5.404948e-11
-     depmen = -2.007614e-13
+     depmen = -2.007645e-13
  write test.transfer.fappz
   
  message "Transfer using FAP file from Evalresp"
@@ -137,7 +137,7 @@
 
      depmin = -4.821357e-11
      depmax = 5.404940e-11
-     depmen = -2.007370e-13
+     depmen = -2.007365e-13
  write test.transfer.fapev
   
  message "Transfer using Polezero"
@@ -154,7 +154,7 @@
 
      depmin = -4.821359e-11
      depmax = 5.404948e-11
-     depmen = -2.007629e-13
+     depmen = -2.007644e-13
  write test.transfer.pz
   
  read test.transfer.fappz

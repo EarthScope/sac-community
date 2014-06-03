@@ -79,25 +79,23 @@ extrma(float *array,
        float *amaxm, 
        float *amean)
 {
-	int j, j1, j2;
+	int j, k;
   double vmin, vmax;
   double sum;
-	float *const Array = &array[0] - 1;
 
 	/* - Loop through array looking for extrema. */
-	j1 = incrmt + 1;
-	j2 = incrmt * (number - 1) + 1;
-  sum  = Array[j1];
-  vmin = Array[j1];
-  vmax = Array[j1];
-	for( j = j1; j <= j2; j += incrmt ){
-    if(Array[j] <= vmin) {
-      vmin = Array[j];
+  sum  = 0.0;
+  vmin = array[0];
+  vmax = array[0];
+	for( j = 0; j < number; j++ ){
+    k = j * incrmt;
+    if(array[k] <= vmin) {
+      vmin = array[k];
     }
-    if(Array[j] >= vmax) {
-      vmax = Array[j];
+    if(array[k] >= vmax) {
+      vmax = array[k];
     }
-		sum = sum + Array[j];
+		sum = sum + array[k];
   }
 	/* - Compute mean value. */
 	sum = sum/(max( number, 1 ));
