@@ -318,6 +318,7 @@ rdsegy(int   idfl,
     float xs, xlat, xlon, elat, elon;
     double useScale;
     sac *s;
+    int swap;
     FILE *fpin = NULL ;
     struct SegyHead trace ;
     struct SegyFileHeader fileheader;
@@ -475,7 +476,8 @@ rdsegy(int   idfl,
       return;
     }
     fclose(fpin);
-    extrma(s->y, 1, num_sam, depmin, depmax, depmen);
+    sac_extrema(s);
+
     /* Fill SAC Header fields */
 
     /* time */

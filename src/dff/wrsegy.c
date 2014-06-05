@@ -14,6 +14,7 @@
 
 #include <limits.h>
 
+#include "proto.h"
 #include "amf.h"
 #include "dff.h"
 #include "segy.h"
@@ -56,7 +57,7 @@ wrsegy(int   idfl,
    double data_roof , data_max ;
 
    double scale , value ;
-
+   int swap;
    int *idata , idx , bytesOdata , segyFile = -1 , check ;
    sac *s;
    /* initialize segy header to zeros */
@@ -70,6 +71,8 @@ wrsegy(int   idfl,
                        0, "\0\0\0\0\0\0", "\0\0\0\0\0\0\0\0", "\0\0\0\0",
                        0,   0,   0,   0,   0,   0,  
                        0,   0,   0,   0, 0.0,   0,   0,   0,   0,   0 } ;
+
+   swap = !(CheckByteOrder() == ENDIAN_BIG);
 
    if(!(s = sacget(idfl-1, TRUE, nerr))) {
      return;
@@ -259,7 +262,7 @@ wrsegy(int   idfl,
    }
 
    if (swap) {
-     swap_array_v((char *)idata, *npts, sizeof(int));
+     swap_array_v((char *)idata, s->h->npts, sizeof(int));
    }
    
    /* Write the segy data to the file. */
