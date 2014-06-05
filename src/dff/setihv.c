@@ -60,38 +60,28 @@ setihv(char *kname,
 	*nerr = 0;
 
 	/* - Convert input value to uppercase and check versus list of allowed values. */
-	ntest = min( indexb( kvalue_c,kvalue_s ), SAC_HEADER_STRING_LENGTH_FILE );
-	strcpy( ktest, "        " );
-	modcase( TRUE, kvalue_c, ntest, ktest );
+  sacio_char_to_keyword(kvalue_c, ktest);
 	ivalue = nequal( ktest, (char*)kmlhf.kiv,9, SAC_ENUMS );
 
 	/* - If not a match, set and report error condition. */
 	if( ivalue <= 0 ){
 	    *nerr = ERROR_ILLEGAL_ENUMERATED_VALUE;
-	    setmsg( "ERROR", *nerr );
-	    apcmsg( kvalue_c,kvalue_s );
-	    outmsg();
-      clrmsg();
-	    ivalue = cmhdr.iundef;
-	}
+      sacio_message(*nerr, kvalue_c);
+      ivalue = cmhdr.iundef;
+  }
+  /* - Convert input name to uppercase and check versus list of legal names. */
+  sacio_char_to_keyword(kname_c, ktest);
+  index = nequal( ktest, (char*)kmlhf.kihdr,9, SAC_HEADER_ENUMS );
 
-	/* - Convert input name to uppercase and check versus list of legal names. */
-	ntest = min( indexb( kname_c,kname_s ), MCPW );
-	strcpy( ktest, "        " );
-	modcase( TRUE, kname_c, ntest, ktest );
-	index = nequal( ktest, (char*)kmlhf.kihdr,9, SAC_HEADER_ENUMS );
-
-	/* - If legal header name, store value in appropriate header field.
-	 *   Otherwise, set and report error condition. */
-	if( index > 0 ){
-	    Ihdr[index] = ivalue;
-	}
-	else{
-	    *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;
-	    setmsg( "ERROR", *nerr );
-	    apcmsg( kname,kname_s );
-	    outmsg();
-	}
+  /* - If legal header name, store value in appropriate header field.
+   *   Otherwise, set and report error condition. */
+  if( index > 0 ){
+    Ihdr[index] = ivalue;
+  }
+  else{
+    *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;
+    sacio_message(*nerr, kname);
+  }
 
 	free(kname_c);
 	free(kvalue_c);

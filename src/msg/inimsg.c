@@ -14,7 +14,7 @@
 #include "msg.h"
 #include "bool.h"
 #include "dff.h"
-
+#include "debug.h"
 /** 
  * Initialize the Message Subsystem
  *
@@ -253,6 +253,7 @@ msg(int error, int type, char *message, va_list args) {
   string_printf_append_internal(str, message, args);
   apcmsg(string_string(str), string_length(str) + 1);
   string_free(&str);
+  FREE(msg);
   return TRUE;
 }
 

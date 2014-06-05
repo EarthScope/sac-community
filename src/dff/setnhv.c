@@ -52,9 +52,7 @@ setnhv(char *kname,
 	*nerr = 0;
 
 	/* - Convert input name to uppercase and check versus list of legal names. */
-	ntest = min( indexb( kname_c,kname_s ), MCPW );
-	strcpy( ktest, "        " );
-	modcase( TRUE, kname_c, ntest, ktest );
+  sacio_char_to_keyword(kname_c, ktest);
 	index = nequal( ktest, (char*)kmlhf.knhdr,9, SAC_HEADER_INTEGERS );
 
 	/* - Store value in appropriate header field. */
@@ -69,10 +67,7 @@ setnhv(char *kname,
 	/* - Create error message and write to terminal. */
 
 	if( *nerr != 0 ){
-	    setmsg( "ERROR", *nerr );
-	    apcmsg( kname_c,kname_s );
-	    outmsg();
-      clrmsg();
+    sacio_message(*nerr, kname_c);
 	}
 	
 	free(kname_c);

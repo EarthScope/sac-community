@@ -7,6 +7,7 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 #include "dff.h"
 #include "bot.h"
@@ -17,6 +18,55 @@
 #include "lhf.h"
 
 #include "errors.h"
+
+static char *env_on[]  = {"on",  "true",  "yes", "1" };
+static char *env_off[] = {"off", "false", "no",  "0" };
+
+int
+sacio_message_control() {
+  int i, n;
+  char *env_string;
+  static int flag = -1;
+  if(flag == -1) {
+    if((env_string = getenv("SACIO_MESSAGES"))) {
+      n = strlen(env_string);
+      flag = FALSE;
+      for(i = 0; i < (int)(sizeof(env_on)/sizeof(char *)); i++) {
+        if(strncasecmp(env_string, env_on[i], min(n, strlen(env_on[i]))) == 0) {
+          flag = TRUE;
+        }
+      }
+      for(i = 0; i < (int)(sizeof(env_off)/sizeof(char *)); i++) {
+        if(strncasecmp(env_string, env_off[i], min(n, strlen(env_off[i]))) == 0) {
+          flag = FALSE;
+        }
+      }
+    } else {
+      flag = FALSE;
+    }
+  }
+  return flag;
+}
+
+void
+sacio_message(int nerr, char *name) {
+  if(sacio_message_control()) {
+    error(nerr, "%s", name);
+    outmsg();
+    clrmsg();
+  }
+}
+
+void
+sacio_char_to_keyword(char *in, char out[SAC_HEADER_STRING_LENGTH]) {
+  int k = 0;
+  memset(out, ' ', sizeof(out));
+  out[SAC_HEADER_STRING_LENGTH-1] = 0;
+  while(k <= SAC_HEADER_STRING_LENGTH && in[k] && ! isspace(in[k]) ) {
+    out[k] = toupper(in[k]);
+    k++;
+  }
+}
 
 /** 
  * Get a floating point header value from the current sac file
@@ -55,9 +105,7 @@ getfhv(char  *kname,
 
 	/* - Convert input name to uppercase and check versus 
 	 *   list of legal names. */
-	ntest = min( indexb( kname_c,kname_s ), SAC_HEADER_STRING_LENGTH_FILE );
-	strcpy( ktest, "        " );
-	modcase( TRUE, kname_c, ntest, ktest );
+  sacio_char_to_keyword(kname_c, ktest);
 	index = nequal( ktest, (char*)kmlhf.kfhdr,9, SAC_HEADER_FLOATS );
 
 	/* - If legal name, return current value.
@@ -74,12 +122,9 @@ getfhv(char  *kname,
 
 	/* - Create error message and write to terminal. */
 	if( *nerr != 0 ){
-	    setmsg( "WARNING", *nerr );
-	    apcmsg( kname_c,kname_s );
-	    outmsg( );
-      clrmsg();
+    sacio_message(*nerr, kname_c);
 	}
-	
+
 	free(kname_c);
 
 	return;

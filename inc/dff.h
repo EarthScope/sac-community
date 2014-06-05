@@ -238,7 +238,8 @@ void        wsac3            (char  *kname,
 void        update_distaz    ( );
 
 int         CheckByteOrder   ( );
-
+void        sacio_message(int nerr, char *name);
+void        sacio_char_to_keyword(char *in, char out[9]);
 #ifdef HAVE_LIBRPC
 void        xdrhdr           (XDR    xdrs, 
 			      float *headerbuf, 
