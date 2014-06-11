@@ -116,7 +116,7 @@ int *nerr;
 
 	/* - Write sum to disk. */
   filename = fstrdup(kmsss.knmsum, MCPFN+1);
-  sac_write(s, filename, TRUE, FALSE, nerr);
+  sac_write_r(s, filename, SAC_WRITE_HEADER_AND_DATA, SAC_NO_BYTESWAP_FILE, nerr);
   s->y = NULL;
   sac_free(s);
   FREE(filename);

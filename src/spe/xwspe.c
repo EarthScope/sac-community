@@ -16,7 +16,8 @@ int *nerr;
 {
 	int notused;
 	float unused;
-
+  char *filename;
+  sac *s;
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command WRITESPE.
 	 *           This command writes the spectral estimate to disk.
@@ -89,25 +90,31 @@ int *nerr;
 
 	/* - Set up the header variables for the spectral estimate. */
 
-	spe->h->nsnpts = spe->h->npts;
-	spe->h->sb = spe->h->b;
-	spe->h->sdelta = spe->h->delta;
+  s = sac_new();
+  sac_header_copy(s, spe);
+	s->h->nsnpts = spe->h->npts;
+	s->h->sb = spe->h->b;
+	s->h->sdelta = spe->h->delta;
 
-	spe->h->iftype = ITIME;
-	spe->h->delta = cmspe.samfrq/(float)( cmspe.nlnspe - 1 );
-	spe->h->npts = cmspe.nlnspe/2 + 1;
-	spe->h->b = 0.;
-	spe->h->e = spe->h->b + spe->h->delta*(float)( spe->h->npts - 1 );
+	s->h->iftype = ITIME;
+	s->h->delta = cmspe.samfrq/(float)( cmspe.nlnspe - 1 );
+	s->h->npts = cmspe.nlnspe/2 + 1;
+	s->h->b = 0.;
+	s->h->e = spe->h->b + spe->h->delta*(float)( spe->h->npts - 1 );
 
-	extrma( spespe, 1, spe->h->npts, &spe->h->depmin, &spe->h->depmax, &spe->h->depmen );
+  s->y = spespe;
+  sac_extrema(s);
 
 	/* - Write spectral estimate to disk. */
+  filename = fstrdup(kmspe.knmspe, MCPFN+1);
+  sac_write_r(s, filename, SAC_WRITE_HEADER_AND_DATA, SAC_NO_BYTESWAP_FILE, nerr);
 
-	wsac0( kmspe.knmspe, &unused, spespe, nerr, MCPFN+1 );
-        if( *nerr != 0 ) {
-           setmsg( "ERROR", *nerr );
-           apcmsg( kmspe.knmspe,MCPFN+1 );
-           }
+  if( *nerr != 0 ) {
+    error(*nerr, "%s", filename);
+  }
+  s->y = NULL;
+  sac_free(s);
+  FREE(filename);
 
 L_8888:
 	return;

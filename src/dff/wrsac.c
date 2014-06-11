@@ -69,7 +69,7 @@ wrsac(int   idfl,
   lswap = sac_byte_order(-1);
 
   /* Write the file */
-  sac_write(s, filename, ldta, lswap, nerr);
+  sac_write_r(s, filename, ldta, lswap, nerr);
 
   FREE(filename);
 

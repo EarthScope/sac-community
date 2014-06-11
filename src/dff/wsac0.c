@@ -165,20 +165,18 @@ sac_data_write(int nun, float *y, float *x, int comps, int npts, int swap, int *
 }
 
 void
-sac_write(sac *s, char *filename, int write_data, int lswap, int *nerr) {
+sac_write_internal(sac *s, char *filename, int write_data, int lswap, int *nerr, int report) {
   int nun, ncerr;
   nun = 0;
   if(write_data) {
     /* Make sure the number of points is bigger than zero */
     if((*nerr = sac_check_npts(s->h->npts)) != SAC_OK) {
-      error(*nerr, "%s", filename);
       goto L_8888;
     }
   }
 
   /* Check overwrite-protect flag in header record */
   if((*nerr = sac_check_lovrok(s->h->lovrok)) != SAC_OK) {
-    error(*nerr, "%s", filename);
     goto L_8888;
   }
 
@@ -191,19 +189,18 @@ sac_write(sac *s, char *filename, int write_data, int lswap, int *nerr) {
   if(write_data) {
     znfile(&nun, filename, strlen(filename)+1, "DATA", 5, nerr);
     if(*nerr) {
-      return;
+      goto L_9999;
     }
   } else {
     zopen_sac( &nun, filename,strlen(filename)+1, "DATA",5, nerr );
-    if( *nerr != 0 ) {
-      goto L_8888;
+    if( *nerr != SAC_OK ) {
+      goto L_9999;
     }
     lswap = s->m->swap;
   }
 	/* - Write the header */
   sac_header_write(nun, (float *)s->h, (char *) &(s->h->kstnm), lswap, nerr);
   if(*nerr != SAC_OK) {
-    error(*nerr, "%s", filename);
     goto L_8888;
   }
 
@@ -211,15 +208,29 @@ sac_write(sac *s, char *filename, int write_data, int lswap, int *nerr) {
   if(write_data) {
     sac_data_write(nun, s->y, s->x, sac_comps(s), s->h->npts, lswap, nerr);
     if(*nerr != SAC_OK) {
-      error(*nerr, "%s", filename);
       goto L_8888;
     }
   }
 
  L_8888:
-
+  if(*nerr != SAC_OK) {
+    if(report) {
+      error(*nerr, "%s", filename);
+    }
+  }
+ L_9999:
 	zclose( &nun, &ncerr );
 }
+
+void
+sac_write(sac *s, char *filename, int write_data, int lswap, int *nerr) {
+  sac_write_internal(s, filename, write_data, lswap, nerr, FALSE);
+}
+void
+sac_write_r(sac *s, char *filename, int write_data, int lswap, int *nerr) {
+  sac_write_internal(s, filename, write_data, lswap, nerr, TRUE);
+}
+
 
 
 /** 

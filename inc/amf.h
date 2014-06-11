@@ -57,6 +57,7 @@ void sacclear();
 void sacsort(int (*compare)(const void *a, const void *b));
 sac *sacget_current();
 int sacget_current_id();
+void sac_header_copy(sac *to, sac *from);
 
 int sac_find_filename(char *file);
 

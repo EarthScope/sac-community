@@ -338,6 +338,11 @@ sac_buffer_new() {
   }
 }
 
+void
+sac_header_copy(sac *to, sac *from) {
+  memmove(to->h, to->h, sizeof(struct SACheader));
+}
+
 char *
 khdr(sac *s, int k) {
   char *p;

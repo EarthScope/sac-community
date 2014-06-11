@@ -93,7 +93,7 @@ xwh(int *nerr) {
 		}
 
 		/* -- Write header. */
-    sac_write(s, tmp, FALSE, FALSE, nerr);
+    sac_write_r(s, tmp, SAC_WRITE_HEADER, s->m->swap, nerr);
 
 		if( *nerr != 0 )
 			goto L_8888;

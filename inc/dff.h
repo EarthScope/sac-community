@@ -250,7 +250,14 @@ int         CheckByteOrder   ( );
 void        sacio_message(int nerr, char *name);
 void        sacio_char_to_keyword(char *in, char out[9]);
 
-void sac_write(sac *s, char *filename, int write_data, int lswap, int *nerr);
+#define SAC_WRITE_HEADER          FALSE
+#define SAC_WRITE_HEADER_AND_DATA TRUE
+#define SAC_BYTESWAP_FILE         TRUE
+#define SAC_NO_BYTESWAP_FILE      FALSE
+
+void sac_write  (sac *s, char *filename, int write_data, int lswap, int *nerr);
+void sac_write_r(sac *s, char *filename, int write_data, int lswap, int *nerr);
+
 int is_kundef(char *kvalue);
 
 #ifdef HAVE_LIBRPC
