@@ -8997,6 +8997,18 @@ cat >>confdefs.h <<_ACEOF
 _ACEOF
 
 
+# Define the Install Directory
+if  test "x$prefix" = xNONE ; then
+   aux="${ac_default_prefix}/aux"
+else
+   aux="${prefix}/aux"
+fi
+
+cat >>confdefs.h <<_ACEOF
+#define SACAUX "${aux}"
+_ACEOF
+
+
 # Output the Makefiles
 ac_config_files="$ac_config_files src/Makefile utils/Makefile libedit/Makefile t/Makefile Makefile"
 

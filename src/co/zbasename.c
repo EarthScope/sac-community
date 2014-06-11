@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "config.h"
 #include "co.h"
 
 #ifdef __MINGW32__
@@ -23,6 +24,8 @@ sacaux() {
   if((aux = getenv("SACAUX"))) {
     return aux;
   }
+  aux = strdup( SACAUX );
+  return aux;
   fprintf(stderr, "ERROR: Environmental variable SACAUX not defined.\n");
   exit(1);
   return NULL;

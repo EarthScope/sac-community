@@ -213,6 +213,9 @@
 /* Compile with command line capabilities */
 #undef READLINE
 
+/* Define the SACAUX directory */
+#undef SACAUX
+
 /* SUN/Solaris Operating System */
 #undef SOLARIS
 

@@ -250,6 +250,14 @@ fi
 # Define the Build Date 
 AC_DEFINE_UNQUOTED([BUILD_DATE], ["`date +%m/%d/%Y`"], [Macro which defines the Date of the Current Build])
 
+# Define the Install Directory
+if [ test "x$prefix" = xNONE ]; then
+   aux="${ac_default_prefix}/aux"
+else
+   aux="${prefix}/aux"
+fi
+AC_DEFINE_UNQUOTED([SACAUX], ["${aux}"], [Define the SACAUX directory])
+
 # Output the Makefiles
 AC_OUTPUT(src/Makefile utils/Makefile libedit/Makefile t/Makefile Makefile)
 
