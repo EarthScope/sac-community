@@ -84,7 +84,7 @@ int *nerr;
 		/* -- Two versions of linear fit: one for evenly spaced
 		 *    data and one for unevenly spaced data. */
 
-		if( *leven ){ 
+		if( s->h->leven ){ 
 			lifite( s->h->b, s->h->delta, s->y, s->h->npts, &slp, &yint, 
 			 &sdslp, &sdyint, &sddta, &corrcf );
       rtrend( s->y, s->h->npts, yint, slp, s->h->b, s->h->delta );
@@ -92,7 +92,7 @@ int *nerr;
 		else{
 			lifitu( s->x, s->y, s->h->npts, &slp, &yint, 
 			 &sdslp, &sdyint, &sddta, &corrcf );
-      rtrend2(s->y, s->h->npts, yint, slp, s-x);
+      rtrend2(s->y, s->h->npts, yint, slp, s->x);
 		}
 
 		/* -- Write results oflinear fit. */

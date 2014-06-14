@@ -166,21 +166,13 @@ L_1000:
 		/* -- Get azimuth or back azimuth from header variables if requested. */
 
 		if( strcmp(kmscm.krottp,"HDRGCP  ") == 0 ){
-      update_distaz(s);
-      rotaz = s->h->baz + 180.;
-    }
-			else{
-				*nerr = 2004;
-				setmsg( "ERROR", *nerr );
-                apcmsg2(tmp1, strlen(tmp1)+1);
-				goto L_8888;
-				}
-			}
-		else if( strcmp(kmscm.krottp,"USRAZ   ") == 0 ){
+      update_distaz(s1);
+      rotaz = s1->h->baz + 180.;
+    }	else if( strcmp(kmscm.krottp,"USRAZ   ") == 0 ){
 			rotaz = cmscm.usraz;
-        } else { /* USRANG */
-            rotaz = 0.0; 
-        }
+    } else { /* USRANG */
+      rotaz = 0.0; 
+    }
 
 		/* -- Determine the angular relationship between the pair of
 		 *    files and compute the rotation angle. */
@@ -277,7 +269,7 @@ L_4100:
 				s1->h->cmpinc = s1->h->cmpinc + 360.;
 				goto L_4100;
 				}
-			}
+    }
 		strcpy( s1->h->kcmpnm, SAC_CHAR_UNDEFINED );
 		s1->h->lpspol = TRUE;
 		extrma( s1->y, 1, s1->h->npts, &s1->h->depmin, &s1->h->depmax, &s1->h->depmen );
@@ -317,12 +309,10 @@ L_4300:
 				goto L_4300;
 				}
 			s2->h->lpspol = TRUE;
-			}
+    }
 		strcpy( s2->h->kcmpnm, SAC_CHAR_UNDEFINED );
 		extrma( s2->y, 1, s2->h->npts, &s2->h->depmin, &s2->h->depmax, &s2->h->depmen );
-
-		}
-
+  }
 	/* - Calculate and set new range of dependent variable. */
 
 	setrng();

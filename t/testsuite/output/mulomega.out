@@ -29,9 +29,8 @@
  --------------
 
      depmin = 0.000000e+00
-     depmax = 2.164291e+01
-     depmen = 3.067233e+00
-
+     depmax = 2.164288e+01
+     depmen = 3.067230e+00
  mulomega
  lh depmin depmax depmen
   
@@ -40,9 +39,8 @@
  --------------
 
      depmin = 0.000000e+00
-     depmax = 1.912312e+03
-     depmen = 2.448543e+02
-
+     depmax = 1.912306e+03
+     depmen = 2.448538e+02
  mulomega
  lh depmin depmax depmen
   
@@ -52,7 +50,7 @@
 
      depmin = 0.000000e+00
      depmax = 1.693147e+05
-     depmen = 2.518359e+04
+     depmen = 2.518361e+04
  mulomega
  lh depmin depmax depmen
   
@@ -62,7 +60,7 @@
 
      depmin = 0.000000e+00
      depmax = 1.797301e+07
-     depmen = 3.284140e+06
+     depmen = 3.284138e+06
   
  ==>  
  fg seismo
@@ -75,8 +73,7 @@
   FILE: SEISMOGR - 1
  --------------
 
-     depmin = -1.645800e+01
-     depmax = 2.164125e+01
-     depmen = -6.547062e-02
-
+     depmin = -1.645798e+01
+     depmax = 2.164121e+01
+     depmen = -6.547061e-02
  quit

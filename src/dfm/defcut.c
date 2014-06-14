@@ -153,7 +153,8 @@ defcut(char   kcut[2][9],
       }
       stop = Pick[2] + ocut[1];
       cut_define(s->h->b, s->h->delta, stop, &s->m->nstop);
-	}
+    }
+  }
 
 	/* - Make sure stop pick is defined. */
 	if( Pick[2] == cmhdr.fundef ){
@@ -172,7 +173,7 @@ defcut(char   kcut[2][9],
 			stop = s->h->e;
 			s->m->nstop = s->h->npts;
 		}
-    }
+  }
 
   /* Check the cut time and adjust Nstart, Nstop, Nfillb, Nfille */
   cut_define_check(start, stop, s->h->npts, cmdfm.icuter,

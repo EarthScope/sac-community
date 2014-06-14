@@ -205,7 +205,7 @@ L_1000:
         }
         
 		/* -- Perform the specific operation on this data file. */
-        if(*leven) {
+        if(s->h->leven) {
           interp(s->y, s->h->npts, new, newlen,
                  s->h->b, s->h->e, s->h->delta, xstart, cmscm.dtnew, eps);
         } else {

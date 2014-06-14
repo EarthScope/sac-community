@@ -115,7 +115,7 @@ L_1000:
 		//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
 		/* -- Determine number of points for taper. */
-    taper_width_to_points(cmsam.widtap, nlen, &ipts);
+    taper_width_to_points(cmsam.widtap, s->h->npts, &ipts);
 
     /* -- Taper */
     taper(s->y, s->h->npts, cmsam.itaptp, ipts);
