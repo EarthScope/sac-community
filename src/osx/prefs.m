@@ -30,7 +30,7 @@
 @implementation PrefsGeneralController 
 
 - (void) awakeFromNib {
-  NSLog(@"AWAKE PREFS GENERAL VIEW CONTROLLER");
+  //NSLog(@"AWAKE PREFS GENERAL VIEW CONTROLLER");
 }
 
 - (void) setModel: (SAC *) value {
@@ -117,7 +117,7 @@
   if(tag == currentView) {
     return;
   }
-  NSLog(@"%d - %d\n", tag, currentView);
+  //NSLog(@"%d - %d\n", tag, currentView);
   currentView = tag;
   NSRect newFrame = [self newFrameForNewContentView: view];
 #ifdef USE_ANIMATION  

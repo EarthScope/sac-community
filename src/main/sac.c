@@ -30,7 +30,8 @@
 #include "co.h"
 #include "ncpf.h"
 #include "ssi.h"
-
+#include "sac_history.h"
+#define __DEBUG__
 #include "debug.h"
 
 void sac_command_line_options(int argc, char **argv);
@@ -131,7 +132,7 @@ main(int    argc,
 	/* the main loop of the program */
 	while( TRUE ){
 	    zgpmsg( kmexm.kprmt,13, kmsg,MCMSG+1 );
-        main_command(kmsg, MCMSG);
+	    main_command(kmsg, MCMSG);
 	} 
 }
 
@@ -165,8 +166,7 @@ execute_command_line(char *kmsg, int len) {
 
 void
 main_command(char *kmsg, int n) {
-    char kline[MCMSG];
-    int ncline, nerr, dumb, ncmsg;
+    int nerr, ncmsg;
     char *msgout;
     
     msgout = AddToHistory(kmsg);
@@ -188,32 +188,15 @@ main_command(char *kmsg, int n) {
     outmsg();
     clrmsg();
     
-    processline( "terminal", 9, msgout, n+1, ncmsg, kline, MCMSG+1, &ncline, &nerr );
+    /* Remove prompt at beginning of a line */
+    if(strncasecmp(msgout, "SAC> ", 5) == 0) {
+      memmove(&msgout[0], &msgout[5], MCMSG-5);
+    }
     
-    if( nerr != 0 ){
-        reperr( nerr );
-        if( nerr != 0 ) {
-            proerr( &nerr );
-        }
-        return;
-    }
-    dumb = ( strlen( kline ) < strlen( msgout ) ?
-             strlen( kline ) : strlen( msgout ) ) ;
+    saccommands( msgout,MCMSG+1, &nerr );
     
-    /* if processline() had an effect */
-    if( !dumb || memcmp(kline,msgout,dumb) != 0 ){
-        setmsg( "PROCESSED", 99 );	     /* let it be noted. */
-        apcmsg( kline,MCMSG+1 );
-        outmsg();
-        clrmsg();
-    }
-    if( ncline > 0 ) {
-        /* saccommands:  executes the commands in kline. */
-        saccommands( kline,MCMSG+1, &nerr );
-    }
     if(msgout) {
-      free(msgout);
-      msgout = NULL;
+      FREE(msgout);
     }
 }
 
@@ -303,4 +286,13 @@ sac_command_line_options(int argc, char **argv) {
       }
     }
 
+}
+
+void
+sac_main_loop() {
+  char kmsg[MCMSG+1];
+  while(TRUE) {
+    zgpmsg( kmexm.kprmt,13, kmsg,MCMSG+1 );
+    main_command(kmsg, MCMSG);
+  }
 }

@@ -80,8 +80,10 @@ enum {
     IBOutlet SacPlotLimitsController *limitsController;
     //IBOutlet id delegate;
     SacPlotType           plot_type;
+#ifdef OSX_APP_EXTENDED
     IBOutlet CommandView *commandView;
     IBOutlet NSTableView *headerTable;
+#endif
     NSMutableArray       *initFiles;
     BOOL                  initialized;
 

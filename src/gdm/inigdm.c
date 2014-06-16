@@ -381,9 +381,9 @@ inigdm(int *nerr)
         initdevice_win();
 #endif
         
-#ifdef OSX_APPLICATION
-    initdevice_osx();
-#endif /* OSX_APPLICATION */
+#ifdef OSX_APP
+        initdevice_osx();
+#endif /* OSX_APP */
 
         initdevice_postscript();
         initdevice_pdf();

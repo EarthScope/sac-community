@@ -10,7 +10,7 @@
     char            keyPressed;
     NSCondition    *condition;
     NSPoint         mouseLocation;
-    NSLock         *drawing;
+    NSCondition    *drawing;
 }
 
 - (void) erase : (NSRect) rect;

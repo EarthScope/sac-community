@@ -34,6 +34,7 @@ float osx_sac_view_to_osx_y(float y);
 void osx_sac_create_window(int n);
 int osx_sac_find_window(int n);
 void osx_sac_focus_window(int n);
+void osx_sac_wait_for_keypress(float *x, float *y, char c[]);
 
 typedef struct _osx_color_t osx_color_t;
 struct _osx_color_t {

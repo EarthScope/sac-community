@@ -21,7 +21,9 @@ void NSSacView_show_image(void *id,
                           int nsacolors,
                           int ndefcolors,
                           int lbinary);
-
+void NSSacView_wait_for_key_press(void *id, float *x, float *y, char *c);
 void sac_create_window (void *id, int n);
 int  sac_find_window   (void *id, int n);
 void sac_focus_window  (void *id, int n);
+void sac_table_update (void *id);
+void sac_table_refresh (void *id);

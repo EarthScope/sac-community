@@ -5,6 +5,8 @@
 
 #include "../inc/select.h"
 
+
+
 const char *history_navigate(int direction);
 
 void osx_sac(void *id);
@@ -15,6 +17,10 @@ void osx_begindevice();
 
 NSArray *command_list;
 
+void
+osx_message(char *msg) {
+  //NSLog(@"%s", msg);
+}
 @implementation SAC
 
 void
@@ -46,7 +52,7 @@ void sac_create_window(void *id, int n) {
 
 - (void) prefsViewUpdate {
   if([prefsView respondsToSelector: @selector(update:)]) {
-    NSLog(@"UPDATE PREFS VIEW");
+    //NSLog(@"UPDATE PREFS VIEW");
     [prefsView performSelector: @selector(update:) withObject: self];
   }
 }
@@ -55,11 +61,11 @@ void sac_create_window(void *id, int n) {
   startupFile = [file copy];
   [[self userDefaults] setObject: file forKey: @"startupfile"];
   [[self userDefaults] synchronize];
-  NSLog(@"STARTUP: %@", file);
+  //NSLog(@"STARTUP: %@", file);
   [self prefsViewUpdate];
 }
 - (void) setStartup: (BOOL) value {
-  NSLog(@"STARTUP: %d", startup);
+  //NSLog(@"STARTUP: %d", startup);
   startup = value;
   [[self userDefaults] setBool: value forKey: @"startup"];
   [[self userDefaults] synchronize];
@@ -143,18 +149,23 @@ void sac_create_window(void *id, int n) {
 
 - (void) applicationWillFinishLaunching: (NSNotification *) note {
 }
+- (void) sac_main_loop_thread: (NSArray *) data2 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    sac_main_loop();
+    [pool drain];
+}
 
 - (void) applicationDidFinishLaunching: (NSNotification *) note {
   {
     if([prefs respondsToSelector: @selector(general)]) {
       id g = [prefs performSelector: @selector(general)];
-      NSLog(@"GENERAL: %@", g);
+      //NSLog(@"GENERAL: %@", g);
       if([g respondsToSelector: @selector(setModel:)]) {
-        NSLog(@"SET MODEL");
+        //NSLog(@"SET MODEL");
         [g performSelector:@selector(setModel:) withObject: self];
       }
       prefsView = [g view];
-      NSLog(@"PREFS VIEW: %@",  prefsView);
+      //NSLog(@"PREFS VIEW: %@",  prefsView);
     }
 
     if(![self startupFile]) {
@@ -166,9 +177,11 @@ void sac_create_window(void *id, int n) {
     if(![self font]) {
       [self setFont: [NSFont fontWithName: @"Menlo-Regular" size: 11.5]];
     }
+#ifdef OSX_APP_EXTENDED
     [commandView changeFont: font];
+#endif
     [self prefsViewUpdate];
-    NSLog(@"STARTUP: %@ %d", startupFile, startup);
+    //NSLog(@"STARTUP: %@ %d", startupFile, startup);
  }
     if(NO) {
         [NSThread detachNewThreadSelector: @selector(stdin_loop:)
@@ -184,16 +197,24 @@ void sac_create_window(void *id, int n) {
         /* Read in the Sac Copyright and display the Prompt */
         if(startup && startupFile) {
           char *sfile = strdup([[NSString stringWithFormat: @"%@ ", startupFile] UTF8String]);
-          NSLog(@"EXECUTE COMMAND LINE: %s", sfile);
+          //NSLog(@"EXECUTE COMMAND LINE: %s", sfile);
           osx_execute_macro( sfile,  strlen(sfile));
         }
         if(! initFiles ) {
+#ifdef OSX_APP_EXTENDED
           [ commandView sendCommand: @" " plot: NO echo: NO];
+#endif
         } else {
           [self readFiles: initFiles clearFiles: YES];
         }
         sacUpdateOSX();
         initialized = YES;
+	printf("call main loop thread\n");
+	[NSThread detachNewThreadSelector: @selector(sac_main_loop_thread:)
+		  toTarget: self
+		  withObject: nil
+	 ];
+	//sac_main_loop();
     }
 }
 
@@ -207,7 +228,9 @@ void sac_create_window(void *id, int n) {
 }
 
 - (void) sendCommand: (NSString *) command plot: (BOOL) plot {
+#ifdef OSX_APP_EXTENDED
     [commandView sendCommand: command plot: plot echo: YES ];
+#endif
 }
 
 
@@ -349,7 +372,7 @@ void sac_create_window(void *id, int n) {
 }
 
 - (void) tableRefresh {
-
+#ifdef OSX_APP_EXTENDED
     int i, n;
     NSArray *cols;
 
@@ -377,6 +400,7 @@ void sac_create_window(void *id, int n) {
     }
 
     [ headerTable reloadData ];
+#endif
 }
 
 - (void) focusWindow: (int) windowNumber {
@@ -391,18 +415,23 @@ void sac_create_window(void *id, int n) {
 }
 
 - (void) changeFontSize: (id) sender {
+#ifdef OSX_APP_EXTENDED
   [commandView changeFontSize: sender];
+#endif
 }
 
 - (void) changeFont: (id) sender {
-  NSLog(@"SAC CHANGE FONT");
+#ifdef OSX_APP_EXTENDED
+  //NSLog(@"SAC CHANGE FONT");
   NSFont *newFont = [sender convertFont: font];
   [self setFont: newFont];
   [commandView changeFont: font];
+#endif
 }
 
 @end
 
+#ifdef OSX_APP_EXTENDED
 @implementation CommandView
 
 - (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString {
@@ -453,6 +482,7 @@ void sac_create_window(void *id, int n) {
 }
 
 - (void) flush {
+  return;
     [self readFromOutput];
     [self prompt];
 }
@@ -466,8 +496,8 @@ void sac_create_window(void *id, int n) {
 }
 
 - (void) awakeFromNib {
+    return;
     [ self setDelegate: self];
-    
     pipe = [NSPipe pipe] ;
     [pipe retain];
     pipeReadHandle = [pipe fileHandleForReading] ;
@@ -490,6 +520,7 @@ void sac_create_window(void *id, int n) {
 - (NSRange) currentPoint {
     return [self selectedRange];
 }
+
 
 - (void) osx_command_thread: (NSArray *) data {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -785,6 +816,7 @@ http://stackoverflow.com/questions/2406204/what-is-the-best-way-to-redirect-stdo
 }
 
 @end
+#endif
 /*
 
 read /Users/savage13/Bits/sac/sac.build/osx/tmp.sac

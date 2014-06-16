@@ -2,6 +2,8 @@
 #import "SacControllers.h"
 #import "sac.h"
 
+void osx_sac_table(void *id);
+
 void
 filter_response(char   *type, 
                 char   *proto,
@@ -30,7 +32,7 @@ int   max_npts ();
 - (IBAction) applyXLimits : (id) sender {
     NSString *com;
     if([xauto state] == NSOnState) {
-        com = [NSString stringWithString: @"xlim off"];
+        com = @"xlim off";
     } else {
         com = [NSString stringWithFormat: @"xlim %g %g", 
                         [xmin floatValue], [xmax floatValue]];
@@ -40,7 +42,7 @@ int   max_npts ();
 - (IBAction) applyYLimits : (id) sender {
     NSString *com;
     if([yauto state] == NSOnState) {
-        com = [NSString stringWithString: @"ylim off"];
+        com = @"ylim off";
     } else {
         com = [NSString stringWithFormat: @"ylim %g %g", 
                         [ymin floatValue], [ymax floatValue]];
@@ -235,7 +237,7 @@ int   max_npts ();
         [str appendFormat: @" Delta %g", [delta floatValue]];
     }
     if([useNpts state] == NSOnState) {
-        [str appendFormat: @" Npts %g", [npts intValue]];
+        [str appendFormat: @" Npts %d", [npts intValue]];
     }
     if([useBegin state] == NSOnState) {
         [str appendFormat: @" Begin %g", [begin floatValue]];
@@ -275,8 +277,8 @@ int   max_npts ();
         [t2 setHidden: NO];
         [t3 setHidden: YES];
         [t4 setHidden: YES];
-        [t1 setStringValue: [NSString stringWithString: @"Frequency"]];
-        [t2 setStringValue: [NSString stringWithString: @"Phase"]];
+        [t1 setStringValue: @"Frequency"];
+        [t2 setStringValue: @"Phase"];
         NSRect frame = [window frame];
         frame.size.height = height - 2 * size;
         [window setFrame:frame display:YES animate:YES];        
@@ -289,8 +291,8 @@ int   max_npts ();
         [t2 setHidden: NO];
         [t3 setHidden: YES];
         [t4 setHidden: YES];
-        [t1 setStringValue: [NSString stringWithString: @"Slope"]];
-        [t2 setStringValue: [NSString stringWithString: @"Intercept"]];
+        [t1 setStringValue: @"Slope"];
+        [t2 setStringValue: @"Intercept"];
         NSRect frame = [window frame];
         frame.size.height = height - 2 * size;
         [window setFrame:frame display:YES animate:YES];        
@@ -303,9 +305,9 @@ int   max_npts ();
         [t2 setHidden: NO];
         [t3 setHidden: NO];
         [t4 setHidden: YES];
-        [t1 setStringValue: [NSString stringWithString: @"Squared"]];
-        [t2 setStringValue: [NSString stringWithString: @"Linear"]];
-        [t3 setStringValue: [NSString stringWithString: @"Constant"]];
+        [t1 setStringValue:  @"Squared"];
+        [t2 setStringValue:  @"Linear"];
+        [t3 setStringValue:  @"Constant"];
         NSRect frame = [window frame];
         frame.size.height = height - 1 * size;
         [window setFrame:frame display:YES animate:YES];        
@@ -318,10 +320,10 @@ int   max_npts ();
         [t2 setHidden: NO];
         [t3 setHidden: NO];
         [t4 setHidden: NO];
-        [t1 setStringValue: [NSString stringWithString: @"Cubed"]];
-        [t2 setStringValue: [NSString stringWithString: @"Squared"]];
-        [t3 setStringValue: [NSString stringWithString: @"Linear"]];
-        [t4 setStringValue: [NSString stringWithString: @"Constant"]];
+        [t1 setStringValue: @"Cubed"];
+        [t2 setStringValue: @"Squared"];
+        [t3 setStringValue: @"Linear"];
+        [t4 setStringValue: @"Constant"];
         NSRect frame = [window frame];
         frame.size.height = height;
         [window setFrame:frame display:YES animate:YES];        
@@ -334,10 +336,10 @@ int   max_npts ();
         [t2 setHidden: NO];
         [t3 setHidden: NO];
         [t4 setHidden: NO];
-        [t1 setStringValue: [NSString stringWithString: @"Point 1"]];
-        [t2 setStringValue: [NSString stringWithString: @"Point 2"]];
-        [t3 setStringValue: [NSString stringWithString: @"Point 3"]];
-        [t4 setStringValue: [NSString stringWithString: @"Point 4"]];
+        [t1 setStringValue: @"Point 1"];
+        [t2 setStringValue: @"Point 2"];
+        [t3 setStringValue: @"Point 3"];
+        [t4 setStringValue: @"Point 4"];
         NSRect frame = [window frame];
         frame.size.height = height;
         [window setFrame:frame display:YES animate:YES];        
@@ -409,7 +411,7 @@ sac_table_update(void *id) {
     int col = [[column identifier] intValue];
     row = [[fv objectAtIndex: row] intValue];
     if(col > [filenames count]) {
-        return [NSString stringWithString: @"N/A"];
+        return  @"N/A";
     }
     if(row == 0) {
         return [filenames objectAtIndex: col];
@@ -428,7 +430,7 @@ sac_table_update(void *id) {
     i = 0;
     //p = files;
     [filenames removeAllObjects];
-    [filenames addObject: [NSString stringWithString: @"Header"]];
+    [filenames addObject: @"Header"];
     while(i < n) { //}&& sscanf(p, "%s%n", &file[0], &len) != 0) {
         NSString *str = [[NSString alloc] initWithUTF8String: strdup("fixmefilename.sac")];
         if(str && filenames) {

@@ -148,7 +148,7 @@ tty_force(int getset) {
   return use;
 }
 
-#ifndef USE_TERMIOS
+#ifdef USE_TERMIOS
 /**  
  * Determine if the tty (terminal) is in use.  The terminal is 
  *   normally disabled during scripts/
@@ -571,7 +571,10 @@ select_loop(char *prmt, int prmtlen,
 
   int retval;
   fd_set fd;
-  int max_fd, stdin_fd, x11_fd;
+  int max_fd, stdin_fd;
+#ifdef X11_APP
+  int x11_fd;
+#endif
   int nerr;
   char kprmt[128];
   char *getline_msg;
@@ -594,6 +597,7 @@ select_loop(char *prmt, int prmtlen,
     rl_completion_append_character = '\0';
     rl_attempted_completion_function = sac_attempt_complete;
   }
+
   fflush(stdout);
   /* Take care of printing the prompt when there is no tty
    *    This normally happends during script processing 
@@ -628,6 +632,7 @@ select_loop(char *prmt, int prmtlen,
         max_fd = stdin_fd;
       }
     }
+#ifdef X11_APP
     /* Add X11 to the File Descriptor Set (FD_SET) */
     if((x11_fd = get_file_descriptor()) > 0) {
       DEBUG("Adding x11 for select\n");
@@ -636,6 +641,8 @@ select_loop(char *prmt, int prmtlen,
         max_fd = x11_fd;
       }
     }
+#endif 
+
     /* Wait until we get life from one the File Descriptors, then act */
     DEBUG("select wait\n");
     retval = select(max_fd+1, &fd, NULL, NULL, timeout);
@@ -675,9 +682,11 @@ select_loop(char *prmt, int prmtlen,
 	  select_loop_message("quit", -1);
 	}
       }
+#ifdef X11_APP      
       if(input(x11_fd, &fd)) {
         handle_event( &nerr );
       }
+#endif
     }
 
     if(timeout) {

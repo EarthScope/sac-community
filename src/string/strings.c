@@ -32,6 +32,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <string.h>
 #include <stdarg.h>
 #include <math.h>
+#include <ctype.h>
 
 /* For tilde expansion - OS/X */
 #include <sys/types.h>
@@ -698,12 +699,28 @@ fgetsp(char *s,
   return s;
 }
 
+#ifdef OSX_APP
+void osx_message(char *s);
+#endif
+
 void
 debug(char *fmt, ...) {
   va_list args;
+#ifndef OSX_APP
   va_start(args, fmt);
   vfprintf(stdout, fmt, args);
   va_end(args);
+#else
+  char *str;
+  va_start(args, fmt);
+  vasprintf(&str, fmt, args);
+  va_end(args);
+  osx_message(str);
+  if(str) {
+    free(str);
+    str = NULL;
+  }
+#endif
 }
 
 #ifdef MISSING_FUNC_STRSEP
