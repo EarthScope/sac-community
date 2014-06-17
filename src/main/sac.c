@@ -43,8 +43,6 @@ void execute_command_line(char *kmsg, int len);
 #ifdef X11_APPLICATION
 void set_constrain_plot_ratio_x11( int set );
 
-void set_constrain_plot_ratio_x11( int set );
-
 void
 segfault_backtrace(int sig) {
  void *array[10];
