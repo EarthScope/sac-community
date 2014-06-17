@@ -129,7 +129,7 @@ gettime_expr(Token *A, Token *B, int lmax, int lvalue) {
   double val;
   if((lvalue && B->type != NUM) || 
      (err = gettime(lmax, lvalue, (lvalue) ? B->value : 0.0, &val))) {
-    show_error(err); 
+    show_error(); 
     return FALSE;
   }
   token_value(A, val, 0);

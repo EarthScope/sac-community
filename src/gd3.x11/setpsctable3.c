@@ -110,8 +110,8 @@ setpsctable3(int *win_num,
     }
     for ( i = 0; i <= (int)nalloc; i++) {
       if(XAllocColor(xs->display, colormap, &(pixdef3[i])) == 0) {
-        //fprintf(stderr, "XAllocColor: allocation of (%d %d %d) color failed %d\n",
-        //      pixdef3[i].red, pixdef3[i].green, pixdef3[i].blue, i);
+        fprintf(stderr, "XAllocColor: allocation of (%d %d %d) color failed %d\n",
+                pixdef3[i].red, pixdef3[i].green, pixdef3[i].blue, i);
       }
     }
   }

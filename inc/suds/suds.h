@@ -356,7 +356,7 @@ typedef struct EV{
  /* SUDS_EVENTSETTING:  Settings for earthquake trigger system */
 
 typedef struct {
-   char  netwname[4];       /* network name */
+   char  netwname[5];       /* network name */
    double beginttime;       /* time these values in effect */
    short  const1;           /* trigger constant 1 */
    short  const2;           /* trigger constant 2 */

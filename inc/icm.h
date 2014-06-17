@@ -390,11 +390,6 @@ void sro ( int nfreq,
 double taper_spectra ( double freq, 
                double fqh, 
                double fql);
-void dcpft ( double re[], 
-             double im[], 
-             int nfreq, 
-             int incp, 
-             int isignp);
 int NearestInt ( double D);
 int IsNormalized ( double calper, 
                    int nfreq, 
@@ -484,5 +479,16 @@ void frequency_amplitude_phase(int     nf,
                                char   *file,
                                int     file_s,
                                int    *nerr) ;
+void ztransfer(float *dat,
+               int npts,
+               double delta,
+               double *sre,
+               double *sim,
+               double *xre,
+               double *xim,
+               int nfreq,
+               int nfft,
+               double delfrq,
+               double *F);
 
 #endif /* _ICM_H_ */

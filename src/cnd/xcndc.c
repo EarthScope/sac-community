@@ -12,6 +12,7 @@
 #include "cnd.h"
 #include "msg.h"
 #include "cpf.h"
+#include "ncpf.h"
 #include "errors.h"
 
 /** 

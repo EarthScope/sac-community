@@ -12,7 +12,7 @@ int   lenfield;
 int   lenvalue;
 {
 
-  char infield[8];
+  char infield[9];
   char *fieldout;
   sac_header *hdr_in;
 

@@ -60,7 +60,7 @@ sacio_message(int nerr, char *name) {
 void
 sacio_char_to_keyword(char *in, char out[SAC_HEADER_STRING_LENGTH]) {
   int k = 0;
-  memset(out, ' ', sizeof(out));
+  memset(out, ' ', SAC_HEADER_STRING_LENGTH);
   out[SAC_HEADER_STRING_LENGTH-1] = 0;
   while(k <= SAC_HEADER_STRING_LENGTH && in[k] && ! isspace(in[k]) ) {
     out[k] = toupper(in[k]);

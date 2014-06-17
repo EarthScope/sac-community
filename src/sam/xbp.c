@@ -1,5 +1,9 @@
 
-#include "omp.h"
+#include "config.h"
+
+#ifdef HAVE_OPENMP
+#include <omp.h>
+#endif
 
 #include "sam.h"
 #include "dfm.h"
@@ -136,19 +140,13 @@ int *nerr;
 
 	/* - Perform the requested function on each file in DFL. */
   err = 0;
-  //  #pragma omp parallel shared(err) private(i,s, tid)
+  #pragma omp parallel shared(err) private(i,s, tid)
   {
-    #ifdef OMP_DEBUG
-    if(omp_get_thread_num() == 0) {
-      fprintf(stderr, "using: %d threads\n", omp_get_num_threads());
-    }
-    #endif
-
-    //    #pragma omp for schedule(dynamic)
+    #pragma omp for schedule(dynamic)
     for( i = 1; i <= saclen(); i++ ){
       //int ierr;
       if(!(s = sacget(i-1, TRUE, nerr))) {
-        //        #pragma omp critical
+        #pragma omp critical
         {
           clrmsg();
           error(*nerr, "%s", s->m->filename);

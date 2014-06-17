@@ -15,18 +15,15 @@
  ERROR 1301: No data files read in.
  readerr nofiles warning
  read nofile
- ERROR 1301: No data files read in.
+ WARNING: No data files read in.
  readerr nofiles ignore
  read nofile
- ERROR 1301: No data files read in.
   
  ==>  
  readerr memory save
  read nofile
- ERROR 1301: No data files read in.
  readerr memory delete
  read nofile
- ERROR 1301: No data files read in.
   
  ==>  
  readerr nofiles fatal

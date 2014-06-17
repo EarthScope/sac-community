@@ -97,7 +97,8 @@ am__aclocal_m4_deps = $(top_srcdir)/config/matlab.m4 \
 	$(top_srcdir)/config/x11.m4 $(top_srcdir)/config/osx.m4 \
 	$(top_srcdir)/config/xdr.m4 $(top_srcdir)/config/db.m4 \
 	$(top_srcdir)/config/code.m4 $(top_srcdir)/config/edit.m4 \
-	$(top_srcdir)/config/win.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/config/win.m4 $(top_srcdir)/config/ax_openmp.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -1198,6 +1199,7 @@ uninstall-am:
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic pdf pdf-am ps ps-am recheck tags tags-am \
 	uninstall uninstall-am
+
 
 @HAVE_FC_TRUE@saciof${EXEEXT}: sacio_f.o
 @HAVE_FC_TRUE@	$(F77) $(COVERAGE) -o $@ sacio_f.o -L../src -lsacio

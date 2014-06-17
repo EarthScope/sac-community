@@ -332,7 +332,7 @@ libsac_all_a_SOURCES = amf/allamb.c amf/iniam.c amf/array.c amf/reaamb.c amf/rel
   cpf/setcomlist.c \
 	cpf/xclog.c cpf/xclogr.c cpf/xcrrcp.c cpf/xcrtw.c \
 	\
-	datafilelist/nextinputfile.c datafilelist/selectinputfi.c \
+	datafilelist/nextinputfile.c \
 	datafilelist/setinputmode.c \
 	\
 	dbh/afr.c dbh/alias.c dbh/append.c \

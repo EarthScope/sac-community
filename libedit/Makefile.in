@@ -88,7 +88,8 @@ am__aclocal_m4_deps = $(top_srcdir)/config/matlab.m4 \
 	$(top_srcdir)/config/x11.m4 $(top_srcdir)/config/osx.m4 \
 	$(top_srcdir)/config/xdr.m4 $(top_srcdir)/config/db.m4 \
 	$(top_srcdir)/config/code.m4 $(top_srcdir)/config/edit.m4 \
-	$(top_srcdir)/config/win.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/config/win.m4 $(top_srcdir)/config/ax_openmp.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -315,8 +316,8 @@ AUTOMAKE_OPTIONS = no-dependencies
 noinst_LIBRARIES = lib/libedit.a
 
 #LIBEDIT_DIR = libedit-2.6.9
-#LIBEDIT_DIR = libedit-20090923-3.0-sac
 #LIBEDIT_DIR = libedit-20120601-3.0
+#LIBEDIT_DIR = libedit-20090923-3.0-sac
 LIBEDIT_DIR = libedit-20140213-3.1
 LIBEDIT_TAR = $(srcdir)/$(LIBEDIT_DIR).tar.gz
 LIBEDIT_OPT = --prefix=$(abs_top_builddir)/libedit 

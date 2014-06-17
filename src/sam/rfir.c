@@ -70,13 +70,12 @@ int *nerr;
 	 *===================================================================== */
 	/* PROCEDURE: */
 	*nerr = 0;
-
+	nun = NULL;
 	zopens( &nun, knmfir,knmfir_s, "ROTEXT",7, nerr );
 	if( *nerr != 0 )
 	    goto L_8888;
 
 	/* - Read in header. */
-
 	if(fgetsp( kidfir,kidfir_s,nun)==NULL) goto L_9000;
 	if(kidfir[(numsave=strlen(kidfir)-1)] == '\n') kidfir[numsave] = ' ';
 

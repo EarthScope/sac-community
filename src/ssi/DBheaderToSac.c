@@ -8,6 +8,7 @@
 #include "amf.h"
 #include "msg.h"
 #include "ucf.h"
+#include "dff.h"
 
 void DBheaderToSac ( header , lall, s )
 struct SACheader *header ;

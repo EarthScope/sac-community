@@ -10,8 +10,8 @@ int     *error;
 int   lenfield;
 int   lenvalue;
 {
-  char infield[8];
-  char invalue[17];
+  char infield[9];
+  char invalue[18];
   sac_header *hdr_in;
 
   hdr_in = indata->ext_hdrs[*hdr_index-1];

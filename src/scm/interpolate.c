@@ -1,4 +1,6 @@
 
+#include "scm.h"
+
 void
 interp(float *in, int nlen, float *out, int newlen, float bval, float eval, float dt, float tstart, float dtnew, float eps) {
   int j;

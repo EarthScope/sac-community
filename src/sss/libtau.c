@@ -350,7 +350,6 @@ int nph;
 	static float ztol;
 	static double du, fac, sgn, tauus1[2], tauus2[2], ttau, tx, u0, 
 	 u1, umin, xus1[2], xus2[2], z0, z1;
-/*	void abort();  */
 	static float tol = .01;
 	static double dtol = 1e-6;
 	static int lpower = 7;
@@ -413,7 +412,7 @@ L_2:
 	if( brkc.pu[nph - 1][n1 - 1] == umin )
 		goto L_50;
     fprintf(stderr, "libtau: error, exiting\n");
-	abort;
+    exit(-1);
 L_4:
 	k2 = i;
 
@@ -2794,7 +2793,6 @@ int _entry_;
 	static char msg[32];
 	static int i, i_, j, m1;
 	static float dep;
-/*	void abort();  */
 	static double dtol = 1e-6;
 
 	int *const Isrc = &isrc[0] - 1;
@@ -2825,7 +2823,7 @@ int _entry_;
         sprintf(msg,"Source depth (%6.1f) too deep.",dep);
         fprintf(stdout,"Source depth (%6.1f) too deep.",dep);
 
-	abort;
+	exit(-1);
 L_2:
 	if( fabs( zs - umdc.zm[nph - 1][i - 1] ) <= dtol && fabs( umdc.zm[nph - 1][i - 1] - 
 	 umdc.zm[nph - 1][i] ) <= dtol )

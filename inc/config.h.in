@@ -1,4 +1,4 @@
-/* inc/config.h.in.  Generated from configure.in by autoheader.  */
+/* inc/config.h.in.  Generated from configure.ac by autoheader.  */
 
 /* Macro which defines the Date of the Current Build */
 #undef BUILD_DATE
@@ -93,6 +93,9 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
+/* Compiler supports OpenMP */
+#undef HAVE_OPENMP
+
 /* Compile with PNG File Support */
 #undef HAVE_PNG
 
@@ -179,9 +182,6 @@
 
 /* System Libraries missing vasprintf */
 #undef MISSING_FUNC_VASPRINTF
-
-/* Define to 1 if your C compiler doesn't accept -c and -o together. */
-#undef NO_MINUS_C_MINUS_O
 
 /* Apple/OSX/Darwin Operating System */
 #undef OSX

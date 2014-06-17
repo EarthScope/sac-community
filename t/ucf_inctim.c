@@ -7,7 +7,6 @@
 void
 test_inctim() {
   int i, j, k, l, q, qq;
-  float pre;
   int hour, min, sec, msec;
   int seconds;
   int nhour, nmin, nsec, nmsec, nextday;

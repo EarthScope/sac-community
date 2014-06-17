@@ -122,7 +122,7 @@ L_8888:
 
 string_list *
 lcdfl_wild() {
-  char readdir[MCPFN];
+  char readdir[MCPFN+1];
   string_list *list, *new_list;
   int lexpnd;
 

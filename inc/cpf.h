@@ -83,6 +83,10 @@ int       lcchar_base  (int     mchar,
                         char   *kchar, 
                         int     kchar_s, 
                         int    *nchar);
+int       lcchar_split (int     mchar, 
+			char   *kchar, 
+			int     kchar_s, 
+			int    *nchar);
 int       lccl         (char   *kcl, 
 			int     kcl_s, 
 			int    *ncl);

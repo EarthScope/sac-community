@@ -34,6 +34,7 @@ m4_include([config/db.m4])
 m4_include([config/code.m4])
 m4_include([config/edit.m4])
 m4_include([config/win.m4])
+m4_include([config/ax_openmp.m4])
 
 # Check for CFLAGS Variable and set default to ""
 AS_IF( [ test x"${CFLAGS}" = x ],  [ CFLAGS="" ] )
@@ -192,6 +193,8 @@ CHECK_PNG
 if test x${display} = xx11 ; then
    AC_DEFINE([USE_TERMIOS], [1], [ Program needs the Terminal (TTY) to Function ] )
 fi
+
+CHECK_OPENMP
 
 # Checks for programs.
 AC_PROG_RANLIB

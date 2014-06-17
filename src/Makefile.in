@@ -120,7 +120,8 @@ am__aclocal_m4_deps = $(top_srcdir)/config/matlab.m4 \
 	$(top_srcdir)/config/x11.m4 $(top_srcdir)/config/osx.m4 \
 	$(top_srcdir)/config/xdr.m4 $(top_srcdir)/config/db.m4 \
 	$(top_srcdir)/config/code.m4 $(top_srcdir)/config/edit.m4 \
-	$(top_srcdir)/config/win.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/config/win.m4 $(top_srcdir)/config/ax_openmp.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -340,7 +341,6 @@ am_libsac_all_a_OBJECTS = amf/allamb.$(OBJEXT) amf/iniam.$(OBJEXT) \
 	cpf/non_num_com.$(OBJEXT) cpf/setcomlist.$(OBJEXT) \
 	cpf/xclog.$(OBJEXT) cpf/xclogr.$(OBJEXT) cpf/xcrrcp.$(OBJEXT) \
 	cpf/xcrtw.$(OBJEXT) datafilelist/nextinputfile.$(OBJEXT) \
-	datafilelist/selectinputfi.$(OBJEXT) \
 	datafilelist/setinputmode.$(OBJEXT) dbh/afr.$(OBJEXT) \
 	dbh/alias.$(OBJEXT) dbh/append.$(OBJEXT) dbh/apply.$(OBJEXT) \
 	dbh/autcor.$(OBJEXT) dbh/beroots.$(OBJEXT) \
@@ -1302,7 +1302,7 @@ libsac_all_a_SOURCES = amf/allamb.c amf/iniam.c amf/array.c amf/reaamb.c amf/rel
   cpf/setcomlist.c \
 	cpf/xclog.c cpf/xclogr.c cpf/xcrrcp.c cpf/xcrtw.c \
 	\
-	datafilelist/nextinputfile.c datafilelist/selectinputfi.c \
+	datafilelist/nextinputfile.c \
 	datafilelist/setinputmode.c \
 	\
 	dbh/afr.c dbh/alias.c dbh/append.c \
@@ -2096,7 +2096,6 @@ datafilelist/$(am__dirstamp):
 	@$(MKDIR_P) datafilelist
 	@: > datafilelist/$(am__dirstamp)
 datafilelist/nextinputfile.$(OBJEXT): datafilelist/$(am__dirstamp)
-datafilelist/selectinputfi.$(OBJEXT): datafilelist/$(am__dirstamp)
 datafilelist/setinputmode.$(OBJEXT): datafilelist/$(am__dirstamp)
 dbh/afr.$(OBJEXT): dbh/$(am__dirstamp)
 dbh/alias.$(OBJEXT): dbh/$(am__dirstamp)

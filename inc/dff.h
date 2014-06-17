@@ -260,6 +260,8 @@ void sac_write_r(sac *s, char *filename, int write_data, int lswap, int *nerr);
 
 int is_kundef(char *kvalue);
 
+void cut(float *in, int nstart, int nstop, int nfillb, int nfille, float *out);
+
 #ifdef HAVE_LIBRPC
 void        xdrhdr           (XDR    xdrs, 
 			      float *headerbuf, 

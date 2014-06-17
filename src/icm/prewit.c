@@ -51,13 +51,14 @@ void getResponse ( float *array , int order , float gain ,
  * */
 #define	NCMAX	12
 
-void /*FUNCTION*/ prewit( data, nsamps, delta, order, array, kprefix, errmsg )
-float data[];
-int nsamps, *order;
-float array[];
-char *kprefix, *errmsg;
-float delta;
-{
+void
+prewit( float data[],
+        int nsamps,
+        float delta,
+        int *order,
+        float array[],
+        char *kprefix,
+        char *errmsg ) {
 	char temp[ 51 ] ;
 	int idx, jdx, j2, kdx, kb, torder;
 	float at, atemp[NCMAX], q, reflct[NCMAX + 1], sa[NCMAX + 1] ;

@@ -1,6 +1,7 @@
 
 #include <math.h>
 #include <float.h>
+#include "icm.h"
 
 double taper_spectra ( double freq, 
                double fqh, 
