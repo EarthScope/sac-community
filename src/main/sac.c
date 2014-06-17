@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include <execinfo.h>
 #include <signal.h>
+#include <getopt.h>
 
 #include "mach.h"
 #include "exm.h"
@@ -55,6 +56,28 @@ segfault_backtrace(int sig) {
   fprintf(stdout, "Error: signal %d:\n", sig);
   backtrace_symbols_fd(array, size, STDOUT_FILENO);
   exit(-11);
+}
+
+void
+usage() {
+  printf("Usage sac [options] [sac-macro-file]\n"
+         "   -b --bell-off      Turn off bell \n"
+         "   -B --bell-on       Turn on bell\n"
+         "   -c --copyright-off Turn copyright off\n"
+         "   -C --copyright-on  Turn copyright on\n"
+         "   -d --database-off  Turn off SeisMgr database \n"
+         "   -D --database-on   Turn on SeisMgr database\n"
+         "   -j --history-off   Turn off History\n"
+         "   -J --history-on    Turn on History\n"
+         "   -p --prompt-off    Turn off prompt without a tty, i.e. script\n"
+         "   -P --prompt-on     Turn on prompt \n"
+         "   -L --letter        Make plots letter page size (X11)\n"
+         "   -t --no-tty        Force the tty off (no line editing)\n"
+         //         "   -g --gdb-debug     \n"
+         "   -s --stdout        All output as stdout\n"
+         "   -n --set-default-station-name\n"
+         );
+  exit(1);
 }
 
 /** 
@@ -221,69 +244,68 @@ sac_command_line_copyright(int argc, char **argv) {
 void
 sac_command_line_options(int argc, char **argv) {
   int i;
-  int macro_start = 0;
-    /* check for "gui" execute line arg. */
-    for( i=1; i<argc; i++ ){
+	char kline[MCMSG+1], kmsg[MCMSG+1];
+	int ic, ic1, ic2, itype, nc, ncmsg, nerr, i;
 
-#ifdef X11_APPLICATION
-      if(strcmp(argv[i], "--letter") == 0) {
-      if(strcmp(argv[i], "--bell-off") == 0) {
-        bell_off();
-        macro_start ++;
-      }
-      else if(strcmp(argv[i], "--bell-on") == 0) {
-        bell_on();
-        macro_start ++;
-      }
-      else if(strcmp(argv[i], "--letter") == 0) {
-        set_constrain_plot_ratio_x11( TRUE );
-        macro_start ++;
-      }
-#endif /* X11_APPLICATION */
-      if(strcmp(argv[i], "--no-tty") == 0) {
+  static struct option longopts[] = {
+    {"help",                     no_argument, NULL, 'h'},
+    {"copyright-off",            no_argument, NULL, 'c'},
+    {"copyright-on",             no_argument, NULL, 'C'},
+    {"bell-off",                 no_argument, NULL, 'b'},
+    {"bell-on",                  no_argument, NULL, 'b'},
+    {"no-show-prompt",           no_argument, NULL, 'p'},
+    {"show-prompt",              no_argument, NULL, 'P'},
+    {"database-off",             no_argument, NULL, 'd'},
+    {"database-on",              no_argument, NULL, 'D'},
+    {"history-off",              no_argument, NULL, 'j'},
+    {"history-on",               no_argument, NULL, 'J'},
+
+    {"letter",                   no_argument, NULL, 'L'},
+    {"no-tty",                   no_argument, NULL, 't'},
+    {"gdb-debug",                no_argument, NULL, 'g'},
+    {"set-default-station-name", no_argument, NULL, 'n'},
+    {"stdout",                   no_argument, NULL, 's'},
+    {NULL, 0, NULL, 0}
+  };
+  /* initialize kmsg.  maf 970630 */
+        memset(&(kmsg[0]), ' ', MCMSG);
+	memset(&(kline[0]), ' ', MCMSG);
+	kmsg[0] = '\0' ;
+	kmsg[MCMSG] = '\0' ;
+	kline[MCMSG] = '\0' ;
+
+  /* - Initialize common. */
+
+	initsac();
+  {
+    char ch;
+    while((ch = getopt_long(argc, argv, "cCbBpPdDjJLtgnsh", longopts, NULL)) != -1) {
+      switch(ch) {
+      case 'h': usage(); break;
+      case 'c': display_copyright(OPTION_OFF); break;
+      case 'C': display_copyright(OPTION_ON); break;
+      case 'b': bell_off(); break;
+      case 'B': bell_on();  break;
+      case 'p': show_prompt_without_tty(OPTION_OFF);break;
+      case 'P': show_prompt_without_tty(OPTION_ON);break;
+      case 'd': use_database(OPTION_OFF); break;
+      case 'D': use_database(OPTION_ON); break;
+      case 'j': use_history(OPTION_OFF); break;
+      case 'J': use_history(OPTION_ON); break;
+      case 'L': set_constrain_plot_ratio_x11(TRUE); break;
+      case 't': tty_force(OPTION_OFF); break;
+      case 'g':
         tty_force(OPTION_OFF);
-        macro_start ++;
-      }
-      if(strcmp(argv[i], "--stdout") == 0) {
+        show_prompt_without_tty(OPTION_ON);
+        /* Fall Through */
+      case 's':
         sac_output_stdout();
         sac_warning_stdout();
         sac_error_stdout();
-        macro_start ++;
-      }
-      if(strcmp(argv[i], "--show-prompt") == 0) {
-        show_prompt_without_tty(OPTION_ON);
-        macro_start ++;
-      }
-      if(strcmp(argv[i], "--database-on") == 0) {
-        use_database(OPTION_ON);
-        macro_start ++;
-      }
-      if(strcmp(argv[i], "--database-off") == 0) {
-        use_database(OPTION_OFF);
-        macro_start ++;
-      }
-      if(strcmp(argv[i], "--history-off") == 0) {
-        use_history(OPTION_OFF);
-        macro_start ++;
-      }
-      if(strcmp(argv[i], "--history-on") == 0) {
-        use_history(OPTION_ON);
-        macro_start ++;
-      }
-      if(strcmp(argv[i], "--set-default-station-name") == 0) {
-        set_default_station_name(OPTION_ON);
-        macro_start ++;
-      }
-      if(strcmp(argv[i], "--gdb-debug") == 0) {
-        tty_force(OPTION_OFF);
-        sac_output_stdout();
-        sac_warning_stdout();
-        sac_error_stdout();
-        macro_start ++;
-        show_prompt_without_tty(OPTION_ON);
+        break;
+      case 'n': set_default_station_name(OPTION_ON); break;
       }
     }
-
 }
 
 void
