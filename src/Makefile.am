@@ -28,7 +28,7 @@ if WIN_APP
 endif
 if OSX_APP
   sac_SOURCES       = osx/sac.m osx/main.m main/sac.c
-  AM_OBJCFLAGS      = -all_load -ObjC
+  AM_OBJCFLAGS      = -ObjC
   sac_LINK          = $(OBJCLINK)
 endif
 if X11_APP

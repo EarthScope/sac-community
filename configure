@@ -5468,8 +5468,11 @@ $as_echo "#define OSX_APP 1" >>confdefs.h
                       editline=on
                       readline=on
                       case "${host}" in
-                           *darwin10* ) ;;
-                           *darwin11* ) ;;
+                           *darwin10* ) ;; # 10.6
+                           *darwin11* ) ;; # 10.7
+                           *darwin12* ) ;; # 10.8
+                           *darwin13* ) ;; # 10.9
+                           *darwin14* ) ;; # 10.10
                            * ) as_fn_error $? "\"Building OSX App requires OSX version 10.6 or higher\"" "$LINENO" 5
                       esac
                       { $as_echo "$as_me:${as_lineno-$LINENO}: checking if -framework Foundation works" >&5

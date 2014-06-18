@@ -561,6 +561,20 @@ sac_attempt_complete(const char *text, int start, int end) {
  * 
  * @return 
  */
+
+#ifdef OSX_APP
+static int osx_fd[2];
+static char value = 'a';
+void
+osx_gui_command(char *cmd) {
+  size_t n;
+  n = strlen(cmd);
+  write(osx_fd[1], &n, sizeof(size_t));
+  write(osx_fd[1], cmd, n * sizeof(char) );
+}
+
+#endif
+
 int
 select_loop(char *prmt, int prmtlen, 
 	    char *msg, int msglen, 
@@ -643,6 +657,14 @@ select_loop(char *prmt, int prmtlen,
     }
 #endif 
 
+#ifdef OSX_APP
+    pipe(osx_fd);
+    FD_SET(osx_fd[0], &fd);
+    if(osx_fd[0] > max_fd) {
+      max_fd = osx_fd[0];
+    }
+#endif
+
     /* Wait until we get life from one the File Descriptors, then act */
     DEBUG("select wait\n");
     retval = select(max_fd+1, &fd, NULL, NULL, timeout);
@@ -685,6 +707,17 @@ select_loop(char *prmt, int prmtlen,
 #ifdef X11_APP      
       if(input(x11_fd, &fd)) {
         handle_event( &nerr );
+      }
+#endif
+#ifdef OSX_APP
+      if(input(osx_fd[0], &fd)) {
+        size_t n;
+        char pmsg[1024];
+        memset(pmsg,0,sizeof(pmsg));
+        read(osx_fd[0], &n, sizeof(size_t) ); /* Length */
+        read(osx_fd[0], &pmsg[0], n );        /* Message */
+        select_loop_continue(SELECT_OFF);
+        select_loop_message(pmsg, -1);
       }
 #endif
     }

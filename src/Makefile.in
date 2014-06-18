@@ -1081,7 +1081,7 @@ AM_CXXFLAGS = $(am__append_1)
 @OSX_APP_TRUE@sac_LINK = $(OBJCLINK)
 @WIN_APP_TRUE@sac_LINK = $(CXXLINK)
 @X11_APP_TRUE@sac_LINK = $(LINK)
-@OSX_APP_TRUE@AM_OBJCFLAGS = -all_load -ObjC
+@OSX_APP_TRUE@AM_OBJCFLAGS = -ObjC
 
 # Libraries to be installed
 lib_LIBRARIES = libsacio.a libsac.a

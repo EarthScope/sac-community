@@ -12,7 +12,7 @@ function get_bundle_path() {
 }
 export APP_BUNDLE=`get_bundle_path`
 export APP_RESOURCE="${APP_BUNDLE}/Resources"
-export APP_GUI="${APP_BUNDLE}/MacOS/sac-osx.gui"
+export APP_GUI="${APP_BUNDLE}/MacOS/sac-osx-gui"
 
 export SACAUX="${APP_RESOURCE}/aux"
 export SACGRAPHICSDEVICE="MacOSX"

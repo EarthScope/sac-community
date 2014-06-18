@@ -15,6 +15,12 @@ void osx_main();
 void osx_init();
 void osx_begindevice();
 
+void sac_main_loop();
+void settextwait(char *mode);
+void osx_execute_macro(char *file);
+void sacUpdateOSX();
+void osx_gui_command(char *cmd);
+
 NSArray *command_list;
 
 void
@@ -198,7 +204,7 @@ void sac_create_window(void *id, int n) {
         if(startup && startupFile) {
           char *sfile = strdup([[NSString stringWithFormat: @"%@ ", startupFile] UTF8String]);
           //NSLog(@"EXECUTE COMMAND LINE: %s", sfile);
-          osx_execute_macro( sfile,  strlen(sfile));
+          osx_execute_macro( sfile);
         }
         if(! initFiles ) {
 #ifdef OSX_APP_EXTENDED
@@ -209,12 +215,11 @@ void sac_create_window(void *id, int n) {
         }
         sacUpdateOSX();
         initialized = YES;
-	printf("call main loop thread\n");
-	[NSThread detachNewThreadSelector: @selector(sac_main_loop_thread:)
-		  toTarget: self
-		  withObject: nil
-	 ];
-	//sac_main_loop();
+
+        [NSThread detachNewThreadSelector: @selector(sac_main_loop_thread:)
+                                 toTarget: self
+                               withObject: nil
+         ];
     }
 }
 
@@ -228,6 +233,8 @@ void sac_create_window(void *id, int n) {
 }
 
 - (void) sendCommand: (NSString *) command plot: (BOOL) plot {
+  osx_gui_command((char *)[command UTF8String]);
+  return;
 #ifdef OSX_APP_EXTENDED
     [commandView sendCommand: command plot: plot echo: YES ];
 #endif

@@ -7,7 +7,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>SAC</string>
 	<key>CFBundleExecutable</key>
-	<string>sac-osx-gui</string>
+	<string>sac-osx-gui.sh</string>
 	<key>CFBundleIconFile</key>
 	<string>sac2.icns</string>
 	<key>CFBundleIdentifier</key>
