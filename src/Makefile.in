@@ -701,10 +701,11 @@ am_libsac_check_a_OBJECTS = ucf/cnvatf.$(OBJEXT) ucf/cnvati.$(OBJEXT) \
 libsac_check_a_OBJECTS = $(am_libsac_check_a_OBJECTS)
 libsac_osx_a_AR = $(AR) $(ARFLAGS)
 libsac_osx_a_LIBADD =
-am_libsac_osx_a_OBJECTS = osx/NSSacView.$(OBJEXT) \
-	osx/osx_sac.$(OBJEXT) osx/stubs.$(OBJEXT) \
-	osx/NSGraphView.$(OBJEXT) osx/SacControllers.$(OBJEXT) \
-	osx/sos.$(OBJEXT) osx/prefs.$(OBJEXT)
+am__libsac_osx_a_SOURCES_DIST = osx/NSSacView.m osx/osx_sac.c \
+	osx/stubs.c osx/osx_color.h osx/NSSacView.h osx/NSSacView_C.h \
+	Sac.app sac.h
+@OSX_APP_TRUE@am_libsac_osx_a_OBJECTS = osx/NSSacView.$(OBJEXT) \
+@OSX_APP_TRUE@	osx/osx_sac.$(OBJEXT) osx/stubs.$(OBJEXT)
 libsac_osx_a_OBJECTS = $(am_libsac_osx_a_OBJECTS)
 libsac_win_a_AR = $(AR) $(ARFLAGS)
 libsac_win_a_LIBADD =
@@ -894,7 +895,7 @@ DIST_SOURCES = $(libSMOracleFuncs_a_SOURCES) \
 	$(libSMnonOracleFuncs_a_SOURCES) \
 	$(libSacOracleStubFuncs_a_SOURCES) $(libevalresp_a_SOURCES) \
 	$(libsac_a_SOURCES) $(libsac_all_a_SOURCES) \
-	$(libsac_check_a_SOURCES) $(libsac_osx_a_SOURCES) \
+	$(libsac_check_a_SOURCES) $(am__libsac_osx_a_SOURCES_DIST) \
 	$(libsac_win_a_SOURCES) $(libsac_x11_a_SOURCES) \
 	$(libsacio_a_SOURCES) $(libsgf_a_SOURCES) \
 	$(libturtle_a_SOURCES) $(am__sac_SOURCES_DIST)
@@ -1616,8 +1617,8 @@ libturtle_a_SOURCES = docs/pdf.c docs/ps.c docs/font.c string/strings.c \
 	eval/expr_lexer.c eval/expr_parse.c eval/expr_util.c eval/expr_parse_noop.c \
 	eval/eval.h eval/expr_parse.h
 
-libsac_osx_a_SOURCES = osx/NSSacView.m osx/osx_sac.c osx/stubs.c \
-	osx/NSGraphView.m osx/SacControllers.m osx/sos.c osx/prefs.h osx/prefs.m
+@OSX_APP_TRUE@libsac_osx_a_SOURCES = osx/NSSacView.m osx/osx_sac.c osx/stubs.c \
+@OSX_APP_TRUE@	osx/osx_color.h osx/NSSacView.h osx/NSSacView_C.h Sac.app sac.h
 
 all: all-am
 
@@ -2998,10 +2999,6 @@ osx/$(am__dirstamp):
 osx/NSSacView.$(OBJEXT): osx/$(am__dirstamp)
 osx/osx_sac.$(OBJEXT): osx/$(am__dirstamp)
 osx/stubs.$(OBJEXT): osx/$(am__dirstamp)
-osx/NSGraphView.$(OBJEXT): osx/$(am__dirstamp)
-osx/SacControllers.$(OBJEXT): osx/$(am__dirstamp)
-osx/sos.$(OBJEXT): osx/$(am__dirstamp)
-osx/prefs.$(OBJEXT): osx/$(am__dirstamp)
 
 libsac_osx.a: $(libsac_osx_a_OBJECTS) $(libsac_osx_a_DEPENDENCIES) $(EXTRA_libsac_osx_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libsac_osx.a
@@ -3567,11 +3564,6 @@ evalresp/parse_fctns.o: $(srcdir)/evalresp/parse_fctns.c
 	$(COMPILE) -DLIB_MODE -c $(srcdir)/evalresp/parse_fctns.c -o $@
 evalresp/string_fctns.o: $(srcdir)/evalresp/string_fctns.c
 	$(COMPILE) -DLIB_MODE -c $(srcdir)/evalresp/string_fctns.c -o $@
-
-# sacrc related files
-# Status: Unknown as of 101.2
-#	\
-#	rc/rc_use.c rc/rc_options.c rc/rc.lex.c rc/rc.tab.c
 
 @OSX_APP_TRUE@sacapp: $(bin_PROGRAMS)
 @OSX_APP_TRUE@	for z in $(bin_PROGRAMS); do \

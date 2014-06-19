@@ -263,6 +263,7 @@ sac_command_line_options(int argc, char **argv) {
   int i;
 	char kline[MCMSG+1], kmsg[MCMSG+1];
 	int ic, ic1, ic2, itype, nc, ncmsg, nerr, i;
+  char ch;
 
   static struct option longopts[] = {
     {"help",                     no_argument, NULL, 'h'},
@@ -277,51 +278,43 @@ sac_command_line_options(int argc, char **argv) {
     {"history-off",              no_argument, NULL, 'j'},
     {"history-on",               no_argument, NULL, 'J'},
 
+#ifdef X11_APP
     {"letter",                   no_argument, NULL, 'L'},
+#endif
     {"no-tty",                   no_argument, NULL, 't'},
     {"gdb-debug",                no_argument, NULL, 'g'},
     {"set-default-station-name", no_argument, NULL, 'n'},
     {"stdout",                   no_argument, NULL, 's'},
     {NULL, 0, NULL, 0}
   };
-  /* initialize kmsg.  maf 970630 */
-        memset(&(kmsg[0]), ' ', MCMSG);
-	memset(&(kline[0]), ' ', MCMSG);
-	kmsg[0] = '\0' ;
-	kmsg[MCMSG] = '\0' ;
-	kline[MCMSG] = '\0' ;
 
-  /* - Initialize common. */
-
-	initsac();
-  {
-    char ch;
-    while((ch = getopt_long(argc, argv, "cCbBpPdDjJLtgnsh", longopts, NULL)) != -1) {
-      switch(ch) {
-      case 'h': usage(); break;
-      case 'c': display_copyright(OPTION_OFF); break;
-      case 'C': display_copyright(OPTION_ON); break;
-      case 'b': bell_off(); break;
-      case 'B': bell_on();  break;
-      case 'p': show_prompt_without_tty(OPTION_OFF);break;
-      case 'P': show_prompt_without_tty(OPTION_ON);break;
-      case 'd': use_database(OPTION_OFF); break;
-      case 'D': use_database(OPTION_ON); break;
-      case 'j': use_history(OPTION_OFF); break;
-      case 'J': use_history(OPTION_ON); break;
-      case 'L': set_constrain_plot_ratio_x11(TRUE); break;
-      case 't': tty_force(OPTION_OFF); break;
-      case 'g':
-        tty_force(OPTION_OFF);
-        show_prompt_without_tty(OPTION_ON);
-        /* Fall Through */
-      case 's':
-        sac_output_stdout();
-        sac_warning_stdout();
-        sac_error_stdout();
-        break;
-      case 'n': set_default_station_name(OPTION_ON); break;
-      }
+  while((ch = getopt_long(argc, argv, "cCbBpPdDjJLtgnsh", longopts, NULL)) != -1) {
+    switch(ch) {
+    case 'h': usage(); break;
+    case 'c': display_copyright(OPTION_OFF); break;
+    case 'C': display_copyright(OPTION_ON); break;
+    case 'b': bell_off(); break;
+    case 'B': bell_on();  break;
+    case 'p': show_prompt_without_tty(OPTION_OFF);break;
+    case 'P': show_prompt_without_tty(OPTION_ON);break;
+    case 'd': use_database(OPTION_OFF); break;
+    case 'D': use_database(OPTION_ON); break;
+    case 'j': use_history(OPTION_OFF); break;
+    case 'J': use_history(OPTION_ON); break;
+    case 't': tty_force(OPTION_OFF); break;
+    case 'g':
+      tty_force(OPTION_OFF);
+      show_prompt_without_tty(OPTION_ON);
+      /* Fall Through */
+    case 's':
+      sac_output_stdout();
+      sac_warning_stdout();
+      sac_error_stdout();
+      break;
+    case 'n': set_default_station_name(OPTION_ON); break;
+#ifdef X11_APP
+    case 'L': set_constrain_plot_ratio_x11(TRUE); break;
+#endif
     }
 }
 

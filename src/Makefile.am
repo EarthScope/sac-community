@@ -649,16 +649,11 @@ libturtle_a_SOURCES    = docs/pdf.c docs/ps.c docs/font.c string/strings.c \
 	eval/expr_lexer.c eval/expr_parse.c eval/expr_util.c eval/expr_parse_noop.c \
 	eval/eval.h eval/expr_parse.h
 
-libsac_osx_a_SOURCES = osx/NSSacView.m osx/osx_sac.c osx/stubs.c \
-	osx/NSGraphView.m osx/SacControllers.m osx/sos.c osx/prefs.h osx/prefs.m
-
-
-# sacrc related files
-# Status: Unknown as of 101.2
-#	\
-#	rc/rc_use.c rc/rc_options.c rc/rc.lex.c rc/rc.tab.c
 
 if OSX_APP
+
+libsac_osx_a_SOURCES = osx/NSSacView.m osx/osx_sac.c osx/stubs.c \
+	osx/osx_color.h osx/NSSacView.h osx/NSSacView_C.h Sac.app sac.h
 
 sacapp: $(bin_PROGRAMS)
 	for z in $(bin_PROGRAMS); do \

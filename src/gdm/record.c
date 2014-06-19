@@ -692,7 +692,7 @@ static char *text_ext  = "txt";
 static char *png_name = "PNG";
 static char *png_ext  = "png";
 
-
+#ifdef HAVE_XPM
 void
 initdevice_xpm() {
   initdevice_null( &xpm );
@@ -702,6 +702,11 @@ initdevice_xpm() {
   xpm.save      = xpm_write;
   gdm_register_device( &xpm );
 }
+#else
+void initdevice_xpm() {}
+#endif
+
+#ifdef HAVE_PNG
 void
 initdevice_png() {
   initdevice_null( &png );
@@ -711,6 +716,9 @@ initdevice_png() {
   png.save      = png_write;
   gdm_register_device( &png );
 }
+#else
+void initdevice_png() {}
+#endif
 
 void
 initdevice_text() {
