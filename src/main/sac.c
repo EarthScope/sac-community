@@ -139,22 +139,7 @@ main(int    argc,
 	zgimsg(argc,argv,kmsg,MCMSG+1 );
   execute_command_line( kmsg, MCMSG+1 );
 
-	/* - THIS IS THE MAIN LOOP OF THE PROGRAM.
-	 *   (1) "zgpmsg" sends a prompt to the user and gets a message back.
-	 *   (2) The message is first passed through "processline" which evaluates any
-	 *       blackboard or header variables and substitutes them into the message.
-	 *   (3) The message is then passed to "saccommands" which parses and executes
-	 *       the command(s) that are contained within the message.
-	 *   (4) When all the commands have been executed or an error has
-	 *       occured, "saccommands" returns and the process is repeated.
-	 *   (5) Program termination is handled by the QUIT command found
-	 *       in the Executive Module (subroutine "xexmc"). */
-
-	/* the main loop of the program */
-	while( TRUE ){
-	    zgpmsg( kmexm.kprmt,13, kmsg,MCMSG+1 );
-	    main_command(kmsg, MCMSG);
-	} 
+  sac_main_loop();
 }
 
 #endif /* X11_APPLICATION */
@@ -185,6 +170,38 @@ execute_command_line(char *kmsg, int len) {
 	}
 }
 
+/*
+ *   (1a) X11 - see sac_main_loop()
+ *              zgpmsg() waits for input from stdin (user) or X11 events (windows)
+ *                - X11 events are processed by handle_event()
+ *                - stdin key pressed are consumed until a newline is reached
+ *                  and then zpgmsg returns
+ *   (1b) OSX - see sac.m (SAC implementation)
+ *              - SAC.init saves itself to be referenced later
+ *                - NSSacView also save a copy for later
+ *                    - SAC_id (SAC program object)
+ *                    - NSSac_id (SAC plot window(s) objects)
+ *              - SAC.applicationDidFinishLaunching:(NSNotification *) note
+ *                Inititilization is mostly done here
+ *                sac_main_loop() is called in a secondary thread
+ *                Graphics are handled on the main thread
+ *                Drawing commands follow
+ *                    - SAC display device for osx in src/osx/stubs.c
+ *                    - to osx_sac_* functions that use NSSac_id in src/osx/osx_sac.c
+ *                    - NSSacView_* functions that call NSSacView.* 
+ *                       - Drawing commands are added to the stack
+ *                Drawing is done in NSSacView.drawrect
+ *                     - window updates required (refresh/resize)
+ *                     - update called through endframe or flush_buffer
+ *   (2) The message is first passed through "processline" which evaluates any
+ *       blackboard or header variables and substitutes them into the message.
+ *   (3) The message is then passed to "saccommands" which parses and executes
+ *       the command(s) that are contained within the message.
+ *   (4) When all the commands have been executed or an error has
+ *       occured, "saccommands" returns and the process is repeated.
+ *   (5) Program termination is handled by the QUIT command found
+ *       in the Executive Module (subroutine "xexmc"). 
+ */
 void
 main_command(char *kmsg, int n) {
     int nerr, ncmsg;
@@ -308,6 +325,9 @@ sac_command_line_options(int argc, char **argv) {
     }
 }
 
+	/* - THIS IS THE MAIN LOOP OF THE PROGRAM.
+	 *   (1) "zgpmsg" sends a prompt to the user and gets a message back.
+   */
 void
 sac_main_loop() {
   char kmsg[MCMSG+1];

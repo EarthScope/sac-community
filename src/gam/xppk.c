@@ -510,6 +510,7 @@ L_4000:
 	else if( kchar == 'Q' || kchar == 'K' ){
 	    plhome();
 	    endframe( FALSE , nerr );
+      goto L_7777;
 	}
 
 	/* -- Go to next subplot. */
