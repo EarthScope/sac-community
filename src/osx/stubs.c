@@ -121,7 +121,6 @@ void
 osx_init() {
     DEBUG("\n");
     initsac();
-    osx_begindevice();
 }
 
 void

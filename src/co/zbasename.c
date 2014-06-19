@@ -26,9 +26,6 @@ sacaux() {
   }
   aux = strdup( SACAUX );
   return aux;
-  fprintf(stderr, "ERROR: Environmental variable SACAUX not defined.\n");
-  exit(1);
-  return NULL;
 }
 
 /** 
@@ -47,20 +44,19 @@ sacaux() {
  */
 void
 zbasename(char *name,
-	  int   name_len) {
+          int   name_len) {
 
-  char *aux;
-  aux = sacaux();
+#ifndef WIN_APP
+  char *aux = sacaux();
   if((int)strlen(aux) > name_len-1) {
     fprintf(stderr, "ERROR: Enviornment variable SACAUX too long: max: %d SACAUX: %d\n",
             name_len-1, (int)strlen(aux));
     exit(1);
   }
   memset(name, ' ', name_len);
-  name[name_len-1] = '\0';
-    char *temp;
-    int i;
-#ifdef __MINGW32__
+  name[name_len-1] = 0;
+  memcpy(name, aux, strlen(aux));
+#else
     TCHAR wintemp[MAX_PATH];
     char *p;
 
@@ -85,16 +81,9 @@ zbasename(char *name,
 
     strcpy(name, wintemp);
     //name[strlen(wintemp)] = 0;
-#else
-    if ((temp = getenv("SACAUX")) != NULL)
-      strcpy(name,temp);
-    else {
-      fprintf(stderr, "ERROR: Environmental variable SACAUX not defined.\n");
-      exit(1);
-    }
 #endif
 
   return;
 }
 
-            
+

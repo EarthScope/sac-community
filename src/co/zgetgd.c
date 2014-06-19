@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "config.h"
 #include "co.h"
 
 /** 
@@ -31,7 +32,12 @@ zgetgd(char *name,
     if ((temp = getenv("SACGRAPHICSDEVICE")) != NULL)
       strcpy(name,temp);
     else {
+#ifdef X11_APP
       strcpy(name,"xwindows");
+#endif
+#ifdef OSX_APP
+      strcpy(name,"MAC");
+#endif
     }
 
     for(i=strlen(name);i<name_len;i++)

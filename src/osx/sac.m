@@ -189,44 +189,30 @@ void sac_create_window(void *id, int n) {
     [self prefsViewUpdate];
     //NSLog(@"STARTUP: %@ %d", startupFile, startup);
  }
-    if(NO) {
-        [NSThread detachNewThreadSelector: @selector(stdin_loop:)
-                                 toTarget: self
-                               withObject: nil];    
-    } else {
-        NSString *aux = [[NSBundle mainBundle] pathForResource: @"aux" ofType: nil];
-        setenv("SACAUX", [aux UTF8String], 1);
-        osx_init();
-        settextwait("OF");
-        sac_history_file_set(NULL);
-        sac_history_load(sac_history_file());
-        /* Read in the Sac Copyright and display the Prompt */
-        if(startup && startupFile) {
-          char *sfile = strdup([[NSString stringWithFormat: @"%@ ", startupFile] UTF8String]);
-          //NSLog(@"EXECUTE COMMAND LINE: %s", sfile);
-          osx_execute_macro( sfile);
-        }
-        if(! initFiles ) {
-#ifdef OSX_APP_EXTENDED
-          [ commandView sendCommand: @" " plot: NO echo: NO];
-#endif
-        } else {
-          [self readFiles: initFiles clearFiles: YES];
-        }
-        sacUpdateOSX();
-        initialized = YES;
+  /* Create SACAUX from variable name*/
+  NSString *aux = [[NSBundle mainBundle] pathForResource: @"aux" ofType: nil];
+  setenv("SACAUX", [aux UTF8String], 1);
+  osx_init();
+  settextwait("OF");
+  sac_history_file_set(NULL);
+  sac_history_load(sac_history_file());
+  if(startup && startupFile) {
+    char *sfile = strdup([[NSString stringWithFormat: @"%@ ", startupFile] UTF8String]);
+    //NSLog(@"EXECUTE COMMAND LINE: %s", sfile);
+    osx_execute_macro( sfile);
+  }
+  if(initFiles ) {
+    /*    [ commandView sendCommand: @" " plot: NO echo: NO]; */
+    [self readFiles: initFiles clearFiles: YES];
+  }
+  sacUpdateOSX();
+  initialized = YES;
 
-        [NSThread detachNewThreadSelector: @selector(sac_main_loop_thread:)
-                                 toTarget: self
-                               withObject: nil
-         ];
-    }
-}
-
-- (void) stdin_loop: (id) sender {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    osx_main();
-    [pool drain];
+  /* Thread - command line / keyboard loop */
+  [NSThread detachNewThreadSelector: @selector(sac_main_loop_thread:)
+                           toTarget: self
+                         withObject: nil
+   ];
 }
 
 - (void) awakeFromNib {
