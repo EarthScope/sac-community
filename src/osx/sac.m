@@ -1,8 +1,7 @@
 
 #import "sac.h"
+#import "crt_externs.h"
 #import "NSSacView.h"
-#import <Carbon/Carbon.h>
-
 
 void sac_history_file_set(char *file);
 void sac_history_load(char *file);
@@ -13,11 +12,9 @@ void osx_init();
 void sac_main_loop();
 void settextwait(char *mode);
 void osx_gui_command(char *cmd);
+void sac_initialize(int *argc, char ***argv);
 
-void
-osx_message(char *msg) {
-  //NSLog(@"%s", msg);
-}
+
 @implementation SAC
 
 void
@@ -61,6 +58,9 @@ void sac_create_window(void *id, int n) {
   /* Create SACAUX from variable name*/
   NSString *aux = [[NSBundle mainBundle] pathForResource: @"aux" ofType: nil];
   setenv("SACAUX", [aux UTF8String], 1);
+
+  sac_initialize(_NSGetArgc(), _NSGetArgv());
+
   osx_init();
   settextwait("OF");
   sac_history_file_set(NULL);

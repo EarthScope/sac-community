@@ -81,12 +81,13 @@ host_triplet = @host@
 target_triplet = @target@
 @EDITLINE_TRUE@am__append_1 = ../libedit/lib/libedit.a
 @EDITLINE_TRUE@am__append_2 = -I../libedit/include
+@X11_APP_TRUE@am__append_3 = -lsac_x11
 check_PROGRAMS = use_sac$(EXEEXT) ucf$(EXEEXT) vars$(EXEEXT) \
 	sacio$(EXEEXT) $(am__EXEEXT_1)
-@HAVE_FC_TRUE@am__append_3 = saciof saclibf
+@HAVE_FC_TRUE@am__append_4 = saciof saclibf
 TESTS = use_sac$(EXEEXT) ucf$(EXEEXT) vars$(EXEEXT) sacio$(EXEEXT) \
 	$(am__EXEEXT_2) pytest.sh
-@HAVE_FC_TRUE@am__append_4 = sacio_fortran.sh saciof saclibf
+@HAVE_FC_TRUE@am__append_5 = sacio_fortran.sh saciof saclibf
 subdir = t
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/config/test-driver
@@ -139,23 +140,24 @@ am_ucf_OBJECTS = ucf.$(OBJEXT) ucf_inctim.$(OBJEXT) \
 ucf_OBJECTS = $(am_ucf_OBJECTS)
 ucf_LDADD = $(LDADD)
 am__DEPENDENCIES_1 =
-am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1)
+am__DEPENDENCIES_3 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 ucf_DEPENDENCIES = $(am__append_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2)
+	$(am__DEPENDENCIES_2) $(am__DEPENDENCIES_3)
 use_sac_SOURCES = use_sac.c
 use_sac_OBJECTS = use_sac.$(OBJEXT)
 use_sac_LDADD = $(LDADD)
 use_sac_DEPENDENCIES = $(am__append_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2)
+	$(am__DEPENDENCIES_2) $(am__DEPENDENCIES_3)
 am_vars_OBJECTS = vars.$(OBJEXT)
 vars_OBJECTS = $(am_vars_OBJECTS)
 vars_LDADD = $(LDADD)
 vars_DEPENDENCIES = $(am__append_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2)
+	$(am__DEPENDENCIES_2) $(am__DEPENDENCIES_3)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -586,17 +588,23 @@ zlib_LIBS = @zlib_LIBS@
 
 # Do not create dependencides while compiling
 AUTOMAKE_OPTIONS = no-dependencies #dejagnu
-TESTS_ENVIRONMENT = SACAUX=$(abs_top_srcdir)/aux \
-	SACBIN=../src/sac \
-	ABS_TOP_SRCDIR=$(abs_top_srcdir) \
-	ABS_BUILDDIR=$(abs_builddir)
+@OSX_APP_TRUE@TESTS_ENVIRONMENT = SACAUX=$(abs_top_srcdir)/aux \
+@OSX_APP_TRUE@	SACBIN=../Sac.app/Contents/MacOS/sac-osx-gui \
+@OSX_APP_TRUE@	ABS_TOP_SRCDIR=$(abs_top_srcdir) \
+@OSX_APP_TRUE@	ABS_BUILDDIR=$(abs_builddir)
+
+@X11_APP_TRUE@TESTS_ENVIRONMENT = SACAUX=$(abs_top_srcdir)/aux \
+@X11_APP_TRUE@	SACBIN=../src/sac \
+@X11_APP_TRUE@	ABS_TOP_SRCDIR=$(abs_top_srcdir) \
+@X11_APP_TRUE@	ABS_BUILDDIR=$(abs_builddir)
 
 LDADD = -L../src/ -lsac_all -levalresp -lSMnonOracleFuncs \
 	-lSacOracleStubFuncs $(am__append_1) $(X_PRE_LIBS) \
 	$(X_EXTRA_LIBS) $(X_LIBS) $(SAC_GRAPHICS) $(FORMAT_LIBS) -lX11 \
 	-L. -lunit
 FORMAT_LIBS = $(xpm_LIBS) $(png_LIBS) $(zlib_LIBS) $(xft_LIBS)
-SAC_GRAPHICS = -L.. -lsac_x11 -lsgf -lturtle -lsac_all
+#SAC_GRAPHICS     += -lsac_osx
+SAC_GRAPHICS = -L.. $(am__append_3) -lsgf -lturtle -lsac_all
 EXTRA_DIST = testsuite \
              testsuite/input testsuite/output \
              test_io_big.sac test_io_small.sac \

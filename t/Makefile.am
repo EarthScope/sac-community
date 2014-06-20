@@ -3,10 +3,18 @@
 # Do not create dependencides while compiling
 AUTOMAKE_OPTIONS = no-dependencies #dejagnu
 
+if X11_APP
 TESTS_ENVIRONMENT = SACAUX=$(abs_top_srcdir)/aux \
 	SACBIN=../src/sac \
 	ABS_TOP_SRCDIR=$(abs_top_srcdir) \
 	ABS_BUILDDIR=$(abs_builddir)
+endif
+if OSX_APP
+TESTS_ENVIRONMENT = SACAUX=$(abs_top_srcdir)/aux \
+	SACBIN=../Sac.app/Contents/MacOS/sac-osx-gui \
+	ABS_TOP_SRCDIR=$(abs_top_srcdir) \
+	ABS_BUILDDIR=$(abs_builddir)
+endif
 
 #
 # Options for testing the compiled code directly 
@@ -24,7 +32,14 @@ LDADD            += ../libedit/lib/libedit.a
 CFLAGS           += -I../libedit/include
 endif
 FORMAT_LIBS      = $(xpm_LIBS) $(png_LIBS) $(zlib_LIBS) $(xft_LIBS)
-SAC_GRAPHICS     = -L.. -lsac_x11 -lsgf -lturtle -lsac_all
+SAC_GRAPHICS     = -L.. 
+if X11_APP
+SAC_GRAPHICS     += -lsac_x11
+endif
+if OSX_APP
+#SAC_GRAPHICS     += -lsac_osx
+endif
+SAC_GRAPHICS     +=  -lsgf -lturtle -lsac_all
 LDADD            +=  $(X_PRE_LIBS) $(X_EXTRA_LIBS) $(X_LIBS) \
 	             $(SAC_GRAPHICS) $(FORMAT_LIBS) -lX11 -L. -lunit
 

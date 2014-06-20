@@ -516,6 +516,8 @@ void NSSacView_width(void *id, int width) {
         parent = nil;
         [w setTitle: [NSString stringWithFormat: @"Plot Window %d", number]];
         [w makeKeyAndOrderFront: self];
+        /* Bring Application to the front */
+        [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
     }
     return self;
 }

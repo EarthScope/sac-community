@@ -1,8 +1,13 @@
 
 #include <string.h>
 
+#include "config.h"
 #include "unit.h"
 #include "dff.h"
+
+#ifdef OSX_APP
+void initdevice_osx() {}
+#endif
 
 void test_cnvati ();
 void test_inctim ();

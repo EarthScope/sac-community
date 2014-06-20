@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "config.h"
 #include "unit.h"
 #include "bool.h"
 #include "vars.h"
@@ -11,6 +12,10 @@ void test_getventry ();
 
 #define LIST_NAME    "listname "
 #define LIST_LENGTH  1000
+
+#ifdef OSX_APP
+void initdevice_osx() {}
+#endif
 
 
 void

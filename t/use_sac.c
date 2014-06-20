@@ -1,6 +1,7 @@
 
 #include <string.h>
 
+#include "config.h"
 #include "unit.h"
 
 #include "hdr.h"
@@ -9,6 +10,10 @@
 #include "lhf.h"
 #include "bool.h"
 #include "dff.h"
+
+#ifdef OSX_APP
+void initdevice_osx() {}
+#endif
 
 int
 main(void) {
