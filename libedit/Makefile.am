@@ -31,7 +31,7 @@ $(LIBEDIT_DIR):
 #	cp -f $(srcdir)/$(CONFIG_H_IN) $(LIBEDIT_DIR)
 
 lib/libedit.a: $(LIBEDIT_DIR) 
-	(cd $(LIBEDIT_DIR) && $(LIBEDIT_ENV) ./configure $(LIBEDIT_OPT) --disable-dependency-tracking )
+	(cd $(LIBEDIT_DIR) && $(LIBEDIT_ENV) ./configure $(LIBEDIT_OPT) --disable-dependency-tracking CC=$(CC) CXX=$(CXX)   )
 #	(cd $(LIBEDIT_DIR) && $(MAKE) MAKEFLAGS="-j 1"  )
 #	(cd $(LIBEDIT_DIR) && $(MAKE) MAKEFLAGS="-j 1" install )
 	(cd $(LIBEDIT_DIR)/src && $(MAKE) )
