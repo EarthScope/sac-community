@@ -37,7 +37,7 @@ double /*FUNCTION*/ filtb(int iopt, float xt)
 	double *const X3 = &x3[0] - 1;
 
 
-
+  filtb_v = 0.0;
 	/* . . .    Benioff recursive filter
 	 *
 	 * . . .    Linkage - X = FILTB (IOPT, XT)

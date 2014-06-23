@@ -173,7 +173,7 @@ void
 xbom_op(char op, int *nerr) {
 	int j, jdfl;
 	int lnewhdr ; /* let header data come from new file */
-
+  int n;
   string_list *list;
   sac *s1, *s2;
   int nbfl;
@@ -244,25 +244,25 @@ xbom_op(char op, int *nerr) {
     if(!(s2 = bflget( list, min(jdfl-1, string_list_length(list)-1)))) {
       goto L_8888;
     }
-
+    n = min(s1->h->npts, s2->h->npts);
     switch(op) {
     case '+':
-      for( j = 0; j < s1->h->npts; j++ ){
+      for( j = 0; j < n; j++ ){
         s1->y[j] += s2->y[j];
       }
       break;
     case '-':
-      for( j = 0; j < s1->h->npts; j++ ){
+      for( j = 0; j < n; j++ ){
         s1->y[j] -= s2->y[j];
       }
       break;
     case '*':
-      for( j = 0; j < s1->h->npts; j++ ){
+      for( j = 0; j < n; j++ ){
         s1->y[j] *= s2->y[j];
       }
       break;
     case '/':
-      for( j = 0; j < s1->h->npts; j++ ){
+      for( j = 0; j < n; j++ ){
         if( fabs( s2->y[j] ) <= VSMALL ){
           s1->y[j] = sign( VLARGE, s1->y[j] * s2->y[j] );
         }

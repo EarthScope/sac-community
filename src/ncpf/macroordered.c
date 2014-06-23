@@ -16,6 +16,8 @@
 #include "ucf.h"
 #include "vars.h"
 
+#include "debug.h"
+
 void /*FUNCTION*/ macroordered(kmacroargs, kmacroargs_s, nun, kline, 
 	 kline_s, nerr)
 char *kmacroargs;   int kmacroargs_s;
@@ -34,7 +36,7 @@ int *nerr;
         memset(kdef, 0, sizeof(kdef));
         memset(kmacroname, 0, sizeof(kmacroname));
         memset(ktoken, 0, sizeof(ktoken));
-        
+        p = NULL;
 	/*=====================================================================
 	 * PURPOSE: To process an "ordered" SAC macro file preamble.
 	 *=====================================================================
@@ -110,13 +112,13 @@ L_2000:
       rstrip(kval);
       {
         Token *t;
-        char *p;
+        char *p = NULL;
         t = string_to_token_list(kval);
         if(t) {
           p = upcase_dup(kdef);
           sac_vars_put_var(kmcpf.kvarsname, p, VAR_LIST, t);
         }
-        if(p) { free(p); p= NULL;}
+        FREE(p);
       }
     L_3000:
       if(fgetsp( kline,kline_s,nun)==NULL){

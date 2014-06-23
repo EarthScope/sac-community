@@ -42,6 +42,7 @@ settextfont(int ifont)
 	    kfile[ i ] = ' ' ;
 	kfile[ MCPFN ] = '\0' ;
 
+  igtfn = (ifont + 1) / 2;
 	/* - This version assumes the existence of 4 files
 	 *   containing the even numbered (block) Hershey fonts.
      *

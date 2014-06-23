@@ -94,21 +94,25 @@ int GetCompleteLine(char *line, int Maxlen, FILE *ptr)
    char Tmp[MAX_LINE];
    *line = '\0';
    UNUSED(Maxlen);
+   memset(Tmp, 0, sizeof(Tmp));
    while( strlen(line) < MAX_LINE){
       if(!fgetsp(Tmp, MAX_LINE, ptr) )return 0;
       N = strlen(Tmp);
-      Tmp[N - 1] = '\0';
-      N = strlen(Tmp);
-      if(Tmp[N - 1] == '\\'){
-         Tmp[N - 1] = '\0';
-         strcat(line, Tmp);
-      }
-      else{
-         strcat(line, Tmp);
-         return 1;
+      if(N > 0) {
+        Tmp[N - 1] = '\0';
+        N = strlen(Tmp);
+        if(N <= 0) {
+          continue;
+        } else if(Tmp[N - 1] == '\\'){
+          Tmp[N - 1] = '\0';
+          strcat(line, Tmp);
+        }
+        else{
+          strcat(line, Tmp);
+          return 1;
+        }
       }
    }
-   
    return 1;
 
 
@@ -228,17 +232,21 @@ static float *GetSamples(FILE *ptr, int Nsamp, char *datatype, struct wfdisc *w,
    /* Added the following block to read the nonstandard 
       STA2 line in some GSE2.0 files  1/18/01 */
    if(!strncmp(line, "STA2", 4) ){
+     char buf[36];
      char hdr[15], net[15], coord[15];
      float depth;
      hdr[0] = 0;
      net[0] = 0;
      coord[0] = 0;
      /* Assign lat and lon from the STA2 line */
-     if(sscanff(line, "%4s %9s %9.5lf %10.5lf %12s %5.3lf %5.3lf",
-                &hdr[0], &net[0], &s.lat, &s.lon, &coord[0], &s.elev, &depth) != 7) {
-       fprintf(stderr, "gseRead2.x: Error reading STA2 line\n");
-       return 0;
-     }
+     strlcpy(hdr, line, 5);
+     strlcpy(net, line+5, 10);
+     strlcpy(buf, line+15, 10);     s.lat = atof(buf);
+     strlcpy(buf, line+25, 11);     s.lon = atof(buf);
+     strlcpy(coord, line+36, 13);
+     strlcpy(buf, line+49, 6);      s.elev = atof(buf);
+     strlcpy(buf, line+55, 6);      depth = atof(buf);
+
      strncpy(s.sta, w->sta, strlen(w->sta));
      if( !( si = (struct siteList *) dblCreateTableInstance(tree, dbl_LIST_SITE)) ) {
        return 0;

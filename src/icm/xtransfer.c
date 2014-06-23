@@ -64,7 +64,10 @@ int *nerr;
 	 *======================================================================= */
 	/* PROCEDURE: */
 	*nerr = 0;
-
+  xim = NULL;
+  xre = NULL;
+  sim = NULL;
+  sre = NULL;
 	/* PARSING PHASE: */
 
 	/* - Loop on each token in command: */

@@ -110,6 +110,7 @@ void smFree(void *ptr)
   if(ptr) {
     DropFromMemList(ptr);
     free(ptr);
+    ptr = NULL;
   }
 }
 /* --------------------------------------------------- */

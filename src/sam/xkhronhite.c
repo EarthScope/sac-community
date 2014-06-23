@@ -102,7 +102,7 @@ L_1000:
 		filtk( 0, cmsam.cutkhr, s->h->delta );
 
 		/* -- Filter this data file. */
-		for( j = 0; j <= s->h->npts; j++ ){
+		for( j = 0; j < s->h->npts; j++ ){
 			s->y[j] = filtk( 1, cmsam.cutkhr, s->y[j] );
     }
 

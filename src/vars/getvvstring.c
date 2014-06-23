@@ -61,6 +61,7 @@ getvvstring(char *vars,
   *nerr = 0;
   UNUSED(vars_s);
   UNUSED(name_s);
+  s2 = NULL;
   s1 = upcase_dup(name);
   if(!(v = sac_vars_get_var(vars, s1))) {
     *nerr = ERROR_FINDING_VARIABLE;

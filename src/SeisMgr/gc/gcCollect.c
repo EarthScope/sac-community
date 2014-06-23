@@ -94,20 +94,24 @@ struct sitechanList * gcCollectSitechan ( struct sitechanList *scL , DBlist dblL
 
 struct siteList * gcCollectSite ( struct siteList *siL , DBlist dblList )
 {
-        struct affiliationList     *afPntr;
+  struct affiliationList     *afPntr, *tmp;
         struct CSStree *tree;
 	struct siteList * returnValue = siL->next ;
 
         tree = (struct CSStree *) dblList;
         if(!tree) 
-	    return returnValue ;
+          return returnValue ;
 
         if ( !gcCheckSite ( siL->element , tree->wfHead ) ) {
             /* remove associated affiliation records */
-	    for ( afPntr = tree->afHead ; afPntr ; afPntr = afPntr->next ) {
-                if ( !strcmp ( afPntr->element->sta , siL->element->sta ) )
-                    dblDeleteTableInstance ( dbl_LIST_AFFILIATION , dblList ,
-                                             afPntr ) ;
+	    for ( afPntr = tree->afHead ; afPntr ;  ) {
+        tmp = afPntr->next;
+        if ( !strcmp ( afPntr->element->sta , siL->element->sta ) ) {
+          dblDeleteTableInstance ( dbl_LIST_AFFILIATION , dblList ,
+                                   afPntr ) ;
+        }
+        afPntr = tmp;
+
 	    } /* end for ( afPntr ... ) */
 
             /* remove the site record */
@@ -140,7 +144,7 @@ struct instrumentList * gcCollectInstrument ( struct instrumentList *inL , DBlis
 
 struct originList * gcCollectOrigin ( struct originList *orL , DBlist dblList )
 {
-        struct assocList     *asPntr;
+  struct assocList     *asPntr, *tmp;
         struct CSStree *tree;
 	struct originList * returnValue = orL->next ;
 
@@ -150,11 +154,14 @@ struct originList * gcCollectOrigin ( struct originList *orL , DBlist dblList )
 
         if ( !gcCheckOrigin ( orL->element , tree->evHead ) ) {
             /* remove associated assoc records */
-            for ( asPntr = tree->asHead ; asPntr ; asPntr = asPntr->next ) {
-                if ( asPntr->element->orid == orL->element->orid )
+            for ( asPntr = tree->asHead ; asPntr ;  ) {
+              tmp = asPntr->next;
+              if ( asPntr->element->orid == orL->element->orid ) {
                     dblDeleteTableInstance ( dbl_LIST_ASSOC , dblList ,
                                              asPntr ) ;
-            } /* end for ( asPntr ... ) */
+              }
+              asPntr = tmp;
+            } 
 
             /* remove the origin record */
             dblDeleteTableInstance ( dbl_LIST_ORIGIN , dblList , orL ) ;

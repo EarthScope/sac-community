@@ -84,6 +84,7 @@ int *nerr;
 
 	/* - For each token in command: */
 
+  int_ = 0;
 	while ( lcmore( nerr ) ){
 
 	    /* -- "FILL n/OFF/ON":  fill with zeros option. */

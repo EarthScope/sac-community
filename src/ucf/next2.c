@@ -4,7 +4,7 @@
  * @brief  Get the next power of 2
  * 
  */
-
+#include <stdlib.h>
 #include "ucf.h"
 
 #define  STARTING_POWER_OF_TWO   8
@@ -29,6 +29,10 @@ next2(int num) {
     
   while(next2_v < num) {
     next2_v *= 2;
+    if(next2_v < STARTING_POWER_OF_TWO) {
+      printf("next2: %d %d\n", next2_v, num);
+      exit(-1);
+    }
   }
   
   return( next2_v );

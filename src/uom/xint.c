@@ -109,7 +109,7 @@ int *nerr;
 		    /* --- Midpoint (trapezoidal) method.  */
 		    hstep = 0.5*s->h->delta;
 		    totint = 0.;
-		    for( jy = 0; jy < s->h->npts; jy++ ){
+		    for( jy = 0; jy < s->h->npts-1; jy++ ){
           prtint = hstep*(s->y[jy] + s->y[jy+1]);
           totint = totint + prtint;
           s->y[jy] = totint;

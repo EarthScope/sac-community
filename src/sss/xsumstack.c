@@ -26,7 +26,6 @@ int *nerr;
     nlnsumnew, numintersect;
 	float delay, factor, norm, swts, unused;
   sac *s;
-        float *Sacmem1, *Sacmem2;
 
 	/*=====================================================================
 	 * PURPOSE:  To execute the SUMSTACK command.  This command sums the
@@ -191,12 +190,13 @@ L_1000:
 		 s->h->delta, &ioffsetsum, &ioffsetdata, &numintersect );
 
 		/* -- Loop on length of sumstack window. */
-    Sacmem1 = sss_sum + ioffsetsum;
-    Sacmem2 = s->y + ioffsetdata;
-		for( j = 1; j <= numintersect; j++ ){
-      *(Sacmem1++) += factor**(Sacmem2++);
+		for( j = 0; j < numintersect; j++ ){
+      if(j+ioffsetsum < cmsss.nlnsum &&
+         j+ioffsetdata < s->h->npts) {
+        sss_sum[j + ioffsetsum] += factor * s->y[j+ioffsetdata];
 			}
-		}
+    }
+  }
 
 	/* - Plot resulting stacked signal. */
 

@@ -74,7 +74,7 @@ int *nerr;
 		//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
 		/* -- Take log of each data point. */
-		for( j = 0; j <= s->h->npts; j++ ){
+		for( j = 0; j < s->h->npts; j++ ){
       s->y[j] = log10(s->y[j]);
     }
 

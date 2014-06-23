@@ -283,10 +283,10 @@ sac_alloc(sac *s) {
   FREE(s->y);
   FREE(s->x);
   s->y = (float *) malloc(sizeof(float) * s->h->npts);
-  memset(s->y, 0, sizeof(s->h->npts) * sizeof(float));
+  memset(s->y, 0, s->h->npts * sizeof(float));
   if( sac_comps(s) == 2 ) {
     s->x = (float *) malloc(sizeof(float) * s->h->npts);
-    memset(s->x, 0, sizeof(s->h->npts) * sizeof(float));
+    memset(s->x, 0, s->h->npts * sizeof(float));
   }
 }
 
@@ -340,7 +340,7 @@ sac_buffer_new() {
 
 void
 sac_header_copy(sac *to, sac *from) {
-  memmove(to->h, to->h, sizeof(struct SACheader));
+  memmove(to->h, from->h, sizeof(struct SACheader));
 }
 
 char *

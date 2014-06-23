@@ -42,9 +42,12 @@ wsac2(char  *kname,
       int   *nerr, 
       int    kname_s) {
 
-	float *const Xarray = &xarray[0] - 1;
   sac *s;
 	*nerr = 0;
+  if(*nlen <= 0) {
+    *nerr = ERROR_WRITING_FILE;
+    return;
+  }
 
   s = sac_new();
   s->m->filename = fstrdup(kname, kname_s);
@@ -52,11 +55,11 @@ wsac2(char  *kname,
   CURRENT = s;
 	/* - Set up the header fields passed by the calling program. */
 	s->h->npts  = *nlen;
-	s->h->b     = Xarray[1];
-	s->h->e     = Xarray[s->h->npts];
+	s->h->b     = xarray[0];
+	s->h->e     = xarray[s->h->npts-1];
 	s->h->leven = FALSE;
 
-	/* - Write the file to disk. */
+ 	/* - Write the file to disk. */
 	wsac0( kname, xarray, yarray, nerr, kname_s );
 
 	return;

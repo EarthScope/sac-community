@@ -91,7 +91,7 @@ spectrogram(double window,
 	int *const Filelength = &filelength[0] - 1;
 	float *const Signals = &signals[0] - 1;
   
-
+  buffer = NULL;
 	/*     * Include Files: */
 	/*     * Arguments: */
 	/*     * Local Variables: */

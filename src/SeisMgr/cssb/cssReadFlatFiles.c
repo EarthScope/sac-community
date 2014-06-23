@@ -1284,7 +1284,7 @@ static void AddMatchingSiteChanStruct(char *buffer, DBlist tree)
 
    ondate  = atol(buffer+Off[2]);
    offdate = atol(buffer + Off[4]);
-   strncpy(sta, buffer, 6);           Deblank(sta, 7);
+   strncpy(sta, buffer, 6);           Deblank(sta, 6);
    strncpy(chan, buffer + Off[1], 8); Deblank(chan, 9);
    if(SiteChanExists(sta, chan, ondate, offdate, tree) ) return;
    if(!MatchesWfdiscEntry(sta, chan, ondate, offdate, tree) ) return;
@@ -1349,7 +1349,7 @@ static void AddMatchingSiteStruct(char *buffer, DBlist tree)
 
    ondate  = atol(buffer+Off[1]);
    offdate = atol(buffer + Off[2]);
-   strncpy(sta, buffer, 6);           Deblank(sta, 7);
+   strncpy(sta, buffer, 6);          Deblank(sta, 6);
    if(SiteExists(sta, ondate, offdate, tree) ) return;
    if(!StaTimeMatchWfdiscEntry(sta, ondate, offdate, tree) ) return;
 

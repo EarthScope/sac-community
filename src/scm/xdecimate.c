@@ -199,8 +199,8 @@ xdecimate(int *nerr) {
 		}
 	    }
 	    else{
-        for( jdx = 1; jdx <= nlnnew; jdx++ ){
-          new[jdx] = s->y[cmscm.ndecfc * (jdx-1)];
+        for( jdx = 0; jdx < nlnnew; jdx++ ){
+          new[jdx] = s->y[jdx * cmscm.ndecfc];
         }
 	    }
 

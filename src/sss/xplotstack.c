@@ -76,7 +76,7 @@ int *nerr;
 	 *===================================================================== */
 	/* PROCEDURE: */
 	*nerr = 0;
-
+	lframs = cmgem.lframe ;
 	/* PARSING PHASE: */
 
 	/* - Loop on each token in command: */

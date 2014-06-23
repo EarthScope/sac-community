@@ -68,7 +68,7 @@ int *nerr;
 		/* -- Apply Hanning window to dependent data array.
 		 *    The two endpoints are defined separately. */
 
-		for( j = 1; j <= s->h->npts - 1; j++ ){
+		for( j = 1; j <= s->h->npts - 2; j++ ){
       s->y[j] = 0.25 * s->y[j-1] + 0.5 * s->y[j] + 0.25 * s->y[j+1];
     }
     s->y[0] = s->y[1];
