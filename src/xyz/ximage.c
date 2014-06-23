@@ -30,7 +30,7 @@ int *nerr;
 	int lany, lframesave, lwait, lxlimits, lylimits,
 	     lprint = FALSE , ltry = FALSE ;
 	int ixstart, ixstop, iystart, iystop, jfile, ncret, 
-	 nfiles, notused, nxsize, nysize;
+	 nfiles, nxsize, nysize;
         int jxstart, jxstop, jystart, jystop;
 	float vportratio, vspaceratio, xmaximum, xminimum, xstart, xstop, 
 	 ymaximum, yminimum, ystart, ystop;
@@ -87,7 +87,7 @@ int *nerr;
 	 *===================================================================== */
 	/* PROCEDURE: */
 	*nerr = 0;
-
+	lframesave = cmgem.lframe;
 	/* PARSING PHASE: */
 
 	/* - Loop on each token in command: */
@@ -120,9 +120,7 @@ int *nerr;
 
             /* if PRINT option is tried, get printer name */
             else if ( ltry ) {
-                lcchar ( MAXPRNTRNAMELEN   , kmgem.kptrName ,
-                  MAXPRNTRNAMELEN+1 , &notused ) ;
-                terminate ( kmgem.kptrName ) ;
+              lcchar(kmgem.kptrName , sizeof(kmgem.kptrName));
                 if ( !lprint )
                     kmgem.kptrName[0] = '\0' ;
 

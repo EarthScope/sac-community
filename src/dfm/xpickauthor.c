@@ -33,7 +33,7 @@ void
 xpickauthor(int *nerr) {
 
     char prefsFileName [ MCPFN + 1 ] ;
-    int nchar , idx , length , nAuthors = 0 ;
+    int idx , nAuthors = 0 ;
 
     *nerr = 0;
 
@@ -42,8 +42,7 @@ xpickauthor(int *nerr) {
      */
     if ( !lcmore ( nerr ) || lckey ( "FILE$" , 6 ) ) {
 	/* see if a filename was given. */
-	if ( lcchar ( MCPFN , prefsFileName , MCPFN , &nchar ) ) {
-	    prefsFileName [ nchar ] = '\0' ;
+      if ( lcchar( prefsFileName , sizeof(prefsFileName)) ) {
 	    strcpy ( kmdfm.kprefsFileName , prefsFileName ) ;
 	}
 
@@ -54,8 +53,7 @@ xpickauthor(int *nerr) {
 
     if ( lckey ( "PHASE$" , 7 ) ) {
 	/* see if a filename was given. */
-        if ( lcchar ( MCPFN , prefsFileName , MCPFN , &nchar ) ) {
-	    prefsFileName [ nchar ] = '\0' ;
+      if ( lcchar(prefsFileName , sizeof(prefsFileName)) ) {
 	    strcpy ( kmdfm.kprefsFileName , prefsFileName ) ;
 	}
 
@@ -94,12 +92,11 @@ xpickauthor(int *nerr) {
 	} 
 
 	/* copy the author name. */
-	lcchar ( 15 , kmdfm.kauthors[nAuthors] , 15 , &length ) ;
-	kmdfm.kauthors[nAuthors][length] = '\0' ;
+	lcchar ( kmdfm.kauthors[nAuthors] , sizeof(kmdfm.kauthors[nAuthors]));
 
 	/* convert to lower case for case insensitive comparisons. */
 	modcase ( FALSE , kmdfm.kauthors[nAuthors] ,
-		  length, kmdfm.kauthors[nAuthors] ) ;
+            strlen(kmdfm.kauthors[nAuthors]), kmdfm.kauthors[nAuthors] ) ;
 
 	nAuthors++ ; 
 

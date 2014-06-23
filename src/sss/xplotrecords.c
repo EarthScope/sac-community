@@ -236,11 +236,11 @@ int *nerr;
 		    }
 		    else if( cmtt.nttrd == 2 ){
 			/*  PHASE - Save the phase  */
-			lcchar( MTTLEN, kmtt.krdph,9, &notused );
+          lcchar(kmtt.krdph, sizeof(kmtt.krdph) );
 			/*  Search through the phase list to find the relative one */
 			cmtt.nrdph = 0;
 			for( kdx = 0; kdx < cmtt.nttm; kdx++ ){
-			    if( memcmp(kmtt.krdph,kmtt.kttnm[kdx],notused) == 0 )
+			    if( strcmp(kmtt.krdph,kmtt.kttnm[kdx]) == 0 )
 				cmtt.nrdph = kdx + 1 ;
 			} /* end for */
 			if( cmtt.nrdph == 0 )
@@ -251,9 +251,7 @@ int *nerr;
 
             /* if PRINT option is tried, get printer name */
             else if ( ltry ) {
-                lcchar ( MAXPRNTRNAMELEN   , kmgem.kptrName ,
-                         MAXPRNTRNAMELEN+1 , &notused ) ;
-                terminate ( kmgem.kptrName ) ;
+              lcchar(kmgem.kptrName , sizeof(kmgem.kptrName));
                 if ( !lprint )
                     kmgem.kptrName[0] = '\0' ;
 
@@ -399,7 +397,7 @@ int *nerr;
 	    else
 		dstmx = dstmn + cmsss.dwwid;
 	}
-	else if( cmsss.idwop == 3 ){
+	else { /* if( cmsss.idwop == 3 ){ */
 	    dstmn = Dwlim[1];
 	    dstmx = Dwlim[2];
 	}

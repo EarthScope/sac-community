@@ -28,7 +28,7 @@ int *nerr;
         int i, n;
         char **last;
 	int lany , lpcsec , lframs , lprint = FALSE , ltry = FALSE ;
-	int ifidls , nlnplt , notused ;
+	int ifidls , nlnplt ;
 	float  xjunk ;
   double pcsec;
 
@@ -79,9 +79,7 @@ int *nerr;
 
             /* if PRINT option is tried, get printer name */
             else if ( ltry ) {
-                lcchar ( MAXPRNTRNAMELEN   , kmgem.kptrName ,
-                         MAXPRNTRNAMELEN+1 , &notused ) ;
-                terminate ( kmgem.kptrName ) ;
+              lcchar ( kmgem.kptrName, sizeof(kmgem.kptrName));
                 if ( !lprint )
                     kmgem.kptrName[0] = '\0' ;
 

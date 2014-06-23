@@ -151,7 +151,7 @@ xcolor(int *nerr)
     if(!color_data_set(lnum)) {
       BAD_COLOR;
     }
-  } else if(lcchar(9,ktok,9,&lnum)) {
+  } else if(lcchar(ktok, sizeof(ktok))) {
     if(!color_data_set_by_name(ktok)) {
       BAD_COLOR;
     }
@@ -168,7 +168,7 @@ xcolor(int *nerr)
         if(!color_skeleton_set(lnum)) {
           BAD_COLOR;
         }
-      } else if(lcchar(9,ktok,9,&lnum)) {
+      } else if(lcchar(ktok, sizeof(ktok))) {
         if(!color_skeleton_set_by_name(ktok)) {
           BAD_COLOR;
         }
@@ -182,7 +182,7 @@ xcolor(int *nerr)
         if(!color_background_set(lnum)) {
           BAD_COLOR;
         }
-      } else if(lcchar(9,ktok,9,&lnum)){
+      } else if(lcchar(ktok,sizeof(ktok))){
         if(!color_background_set_by_name(ktok)) {
           BAD_COLOR;
         }
@@ -206,7 +206,7 @@ xcolor(int *nerr)
             } else {
               BAD_COLOR;
             }
-          } else if(lcchar(9,ktok,9,&lnum)){
+          } else if(lcchar(ktok, sizeof(ktok))){
             convcolorname( ktok, &inum );
             if( inum >= 0 ){
               if( cmgem.nicol < MICOL )

@@ -35,7 +35,7 @@ xmacro(int *nerr) {
 	char ktempargs[MCMSG+1], ktempmacro[MCPFN+1], ktempreqmacro[MCPFN+1],
 	     kvarsname[9] = "        " ;
 	int lexist;
-	int j, idx,  nc, nmacrolevel;
+	int j, idx, nmacrolevel;
 
 	*nerr = 0;
 	for( idx = 0 ; idx < MCMSG ; idx++ )
@@ -59,7 +59,7 @@ xmacro(int *nerr) {
 	 *   Remainder of command becomes the arguments to the macro.
 	 * - Restore previous values if no command arguements were entered. */
 
-	if( lcchar( MCPFN, ktempreqmacro,MCPFN+1, &nc ) ){
+	if( lcchar(ktempreqmacro, sizeof(ktempreqmacro))) {
     //lcrest( MCMSG, ktempargs,MCMSG+1, &nc );
 	}
 	else{

@@ -30,7 +30,7 @@ void xp1(int *nerr)
 	 ltoptcsave, lwait, lxgrdsave, lxlabsave, lxlims, lylabsave,
 	 lprint = FALSE , ltry = FALSE ;
 	int jdfl, jdfl1, jdfl2, jfr, jperfr, n1dttm[6], 
-	 ncret, nfr, nperfr, notused;
+	 ncret, nfr, nperfr;
 	float tmax, tmaxj, tmin, tminj, *toff, ypdel, ypmxsave;
   sac *s;
 	static int lrel = FALSE;
@@ -104,9 +104,7 @@ void xp1(int *nerr)
 
             /* if PRINT option is tried, get printer name */
             else if ( ltry ) {
-                lcchar ( MAXPRNTRNAMELEN   , kmgem.kptrName ,
-                         MAXPRNTRNAMELEN+1 , &notused ) ;
-                terminate ( kmgem.kptrName ) ;
+              lcchar(kmgem.kptrName , sizeof(kmgem.kptrName));
                 if ( !lprint )
                     kmgem.kptrName[0] = '\0' ;
 

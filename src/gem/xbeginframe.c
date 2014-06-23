@@ -11,8 +11,6 @@ void /*FUNCTION*/ xbeginframe(nerr)
 int *nerr;
 {
 	int lprint = FALSE ;
-	int notused ;
-
 
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command BEGINFRAME.
@@ -47,9 +45,7 @@ int *nerr;
 	    /* -- "PRINT":  print the final product. */
 	    if( lckey( "PRINT#$", 8 ) ) {
 		lprint = TRUE ;
-		lcchar ( MAXPRNTRNAMELEN   , kmgem.kptrName ,
-			 MAXPRNTRNAMELEN+1 , &notused ) ;
-		terminate ( kmgem.kptrName ) ;
+		lcchar (  kmgem.kptrName , sizeof(kmgem.kptrName)); 
 	    }
 
 	    /* -- Bad syntax. */

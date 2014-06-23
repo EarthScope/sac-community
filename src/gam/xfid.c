@@ -13,7 +13,6 @@ void /*FUNCTION*/ xfid(nerr)
 int *nerr;
 {
 	char ktok[9];
-	int lnumbr;
 	int j, j_;
 
 	/*=====================================================================
@@ -64,7 +63,7 @@ int *nerr;
 			else if( cmgam.ifidtp == 4 ){
 				cmgam.nfidnm = 0;
 
-				while ( lcchar( 9,ktok,9, &lnumbr ) ){
+				while ( lcchar(ktok, sizeof(ktok)) ){
 					if( cmgam.nfidnm < MFIDNM ){
 						cmgam.nfidnm = cmgam.nfidnm + 1;
 						strcpy( kmgam.kfidnm[cmgam.nfidnm - 1], ktok);

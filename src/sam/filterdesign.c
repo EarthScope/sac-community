@@ -24,7 +24,7 @@ int *nerr;
 {
 	char kcommand[9], kFilePrefix[MCPFN] ;
 	int lfound , lprint = FALSE ;
-	int idx, index, module, nerrplt, notused;
+	int idx, index, module, nerrplt;
 	int nchar = 0 , nerrwrt = 0 , newnpts , xbeg ;
 	float userData[ 9 ] ;
   Token *t;
@@ -103,9 +103,7 @@ int *nerr;
              strcmp ( ptr , "Bp      " ) &&
              strcmp ( ptr , "Br      " ) ) {
           
-          lcchar ( MAXPRNTRNAMELEN   , kmgem.kptrName ,
-                   MAXPRNTRNAMELEN+1 , &notused ) ;
-          terminate ( kmgem.kptrName ) ;
+          lcchar ( kmgem.kptrName , sizeof(kmgem.kptrName));
           if ( !lprint )
             kmgem.kptrName[0] = '\0' ;
 		    }
@@ -121,8 +119,8 @@ int *nerr;
 	/* - Check for possible filter commands. */
 
 	if ( lcmore( nerr ) ){
-	    lcchar( MCPW, kcommand,9, &notused );
-	    modcase( TRUE, kcommand, MCPW, kcommand );
+      lcchar( kcommand, sizeof(kcommand) );
+	    modcase( TRUE, kcommand, strlen(kcommand), kcommand );
 
 	    /* -- Validate command and find module and index number. */
 	    findcommand( kcommand, &lfound, &module, &index );

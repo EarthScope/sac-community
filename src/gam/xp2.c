@@ -30,7 +30,7 @@ void xp2(int *nerr)
 	int lany, lfirst, lxlimj, lxlims, lylimj,
 	     lprint = FALSE , ltry = FALSE ;
 	int jdx, jdfl,
-	 notused, nrdttm[6], num1, 
+	 nrdttm[6], num1, 
 	 num2, num2m1;
 	float atrwid, fjunk, ximnj, ximxj, xjunk, 
     yimnj, yimxj;
@@ -133,9 +133,7 @@ void xp2(int *nerr)
 
             /* if PRINT option is tried, get printer name */
             else if ( ltry ) {
-                lcchar ( MAXPRNTRNAMELEN   , kmgem.kptrName ,
-                         MAXPRNTRNAMELEN+1 , &notused ) ;
-                terminate ( kmgem.kptrName ) ;
+              lcchar(kmgem.kptrName , sizeof(kmgem.kptrName));
                 if ( !lprint )
                     kmgem.kptrName[0] = '\0' ;
 

@@ -52,7 +52,7 @@ xwtab(int *nerr) {
 	     kfile[ MCPFN+1 ], kcdir[ MCPFN+1 ], 
 	     kstring[ MCPFN+1 ], kdirpart[ MCPFN+1 ],
 	     *cattemp, *strtemp1, *strtemp2, *strtemp3, junk[ 7 ] ;
-	int nstr, nchg, nchange, nwrdir, nderr ;
+	int nstr, nchg, nwrdir, nderr ;
         int lexpnd, liftype, lheader, lwrdir ;
         int idx, ic1, ic2, jdfl, nchar, nstring;
         FILE *nun;
@@ -190,7 +190,7 @@ xwtab(int *nerr) {
             /* -- "CHANGE string1 string2": change string1 to string2 in filenames */
             else if( lkcharExact( "CHANGE#$",9, MCPFN, kstring,MCPFN+1,
                      &nstring ) ){
-                lcchar( MCPFN, kchange,MCPFN+1, &nchange );
+              lcchar( kchange, sizeof(kchange));
                 ic1 = 0;
                 ic2 = 0;
                 for(i = 0; i < saclen(); i++) {

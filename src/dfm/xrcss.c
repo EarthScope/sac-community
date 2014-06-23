@@ -38,7 +38,6 @@ xrcss(int *nerr) {
 
     char _c0[2];
     char file[MCMSG+1];
-    int len;
 	int lmore, lshift, lscale, larray ;
 	int nchar;
     static int Verbose = 0;
@@ -209,8 +208,8 @@ xrcss(int *nerr) {
 	    /* -- Else assume it to be beginning/continuing dfl, if not 
 	     *    recognized as above 
 	     *    Use kdflin as dummy buffer to skip a string  */
-	    else if(lcchar(MCMSG, file, MCMSG+1, &len)) {
-            string_list_put(list, file, len);
+    else if(lcchar(file, sizeof(file))) {
+      string_list_put(list, file, -1);
 	    } 
 	} 
 

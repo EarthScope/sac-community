@@ -84,7 +84,7 @@ xtraveltime(	int *nerr)
     static int lphase        = FALSE;
     static int lpicks        = FALSE;
     static int iphase        = 0;
-
+    file = NULL;
     cmtt.ttdep = 0.0;
 	/*=====================================================================
 	 * PURPOSE:  To read in travel time curves from a file.
@@ -130,7 +130,7 @@ xtraveltime(	int *nerr)
 	/* initialize */
 	ndflin = 0 ;		/* added.  maf 960829 */
 	/* initialize bbName. maf 970514 */
-	strcpy ( bbName , "                                " ) ;
+  memset(bbName, 0, sizeof(bbName));
 
         for( idx = 0 ; idx < 8 ; idx++ )
             kform[ idx ] = ' ' ;
@@ -221,9 +221,8 @@ xtraveltime(	int *nerr)
 			specified waveform into the specified blackboard 
 			variable.  maf 970514 */
 	    else if ( lkint ( "BB$" , 4 , &fileNumber ) ) {
-		if ( lcchar ( 32 , bbName , 31 , &nchar ) ) {
+        if ( lcchar (bbName,  sizeof(bbName)) ){
 		    lbb = TRUE ;
-		    bbName [ nchar ] = '\0' ;
 		}
 		else {
 		    setmsg ( "WARNING" , 5123 ) ;
@@ -256,9 +255,8 @@ xtraveltime(	int *nerr)
 
 	    /* -- "phaselist": add a phase to the list */
 	    else if( lphase ){
-            if( lcchar( MTTLEN, (char*)kmtt.kphases[iphase],9, &nchar ) ) {
+        if( lcchar((char*)kmtt.kphases[iphase], sizeof(kmtt.kphases[iphase])) ) {
                 phase_repeat = FALSE;
-                truncate(kmtt.kphases[iphase]);
                 for(i = 0; i < iphase; i++) {
                     if(strcmp(kmtt.kphases[iphase], kmtt.kphases[i]) == 0) {
                         phase_repeat = TRUE;
@@ -789,7 +787,7 @@ L_7777:
 
 L_9000:
 	*nerr = 114;
-    error(*nerr, "%s", file);
+  error(*nerr, "%s", (file) ? file : "No file");
 	goto L_8888;
 
 } /* end of function */

@@ -29,7 +29,6 @@ void
 xmsg(int *nerr) {
 
 	char kmsg[MCMSG+1];
-	int ncmsg;
 
 	*nerr = 0;
 
@@ -42,7 +41,7 @@ L_1000:
 	if( lcmore( nerr ) ){
 
 		/* -- "message":  message to write to the user's terminal. */
-		if( lcchar_split( MCMSG, kmsg,MCMSG+1, &ncmsg ) ){
+		if( lcchar_split( kmsg, sizeof(kmsg)) ) {
 			setmsg( "OUTPUT", 99 );
 			apcmsg( kmsg,MCMSG+1 );
 			outmsg();

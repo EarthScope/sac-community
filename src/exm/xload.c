@@ -60,7 +60,7 @@ L_1000:
 
 			/* -- name: name of external command to load. May include directory path. */
 			}
-		else if( lcchar( MCPFN, kname,MCPFN+1, &nc ) ){
+		else if( lcchar(kname, sizeof(kname)) ){
 			zload( kname, &index, nerr );
 			if( *nerr != 0 )
 				goto L_8888;

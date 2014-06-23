@@ -18,7 +18,7 @@ void /*FUNCTION*/ xfir(nerr)
 int *nerr;
 {
 	int lusrec;
-	int isym, j, jb, jdfl, jf, ncfir4, ncpfn, 
+	int isym, j, jb, jdfl, jf, ncfir4,
     nfft,
     nlenfl, nlpow2, npow2, nptsmx;
 	float fac, firim, firrl, rnpow2, sigim, sigrl;
@@ -74,7 +74,7 @@ L_1000:
 
 			/* -- "filename":  set name of FIR filter coefficient file. */
 			}
-		else if( lcchar( MCPFN, cmsam.knmfir,MCPFN+1, &ncpfn ) ){
+		else if( lcchar(cmsam.knmfir, sizeof(cmsam.knmfir))) {
 
 			/* -- Bad syntax. */
 			}

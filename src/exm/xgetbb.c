@@ -73,7 +73,7 @@ void
 xgetbb(int *nerr) {
 
 	char kbbvalue[MCMSG+1];
-	int ic1, ic2, nc, ncbb ;
+	int ic1, ic2, ncbb ;
   var *v;
   char *name;
 
@@ -94,7 +94,7 @@ xgetbb(int *nerr) {
       if( lckey( "TERM#INAL$",11 ) ){
 		    cmexm.nunbbwrite = MUNOUT;
       }
-      else if( lcchar( MCPFN, kmexm.knmbbwrite,MCPFN+1, &nc ) ){
+      else if( lcchar(kmexm.knmbbwrite, sizeof(kmexm.knmbbwrite))) {
 		    cmexm.nunbbwrite = (FILE *)NULL;
 		    if( *nerr != 0 )
           goto L_8888;

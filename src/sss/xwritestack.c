@@ -16,7 +16,6 @@ extern float *sss_sum;
 void /*FUNCTION*/ xwritestack(nerr)
 int *nerr;
 {
-	int notused;
   sac *s;
   char *filename;
 
@@ -68,7 +67,7 @@ int *nerr;
                         cmdfm.icomORroll = ROLLBACK ;
 
 		/* -- "filename":  define new filename for write. */
-		else if( lcchar( MCPFN, kmsss.knmsum,MCPFN+1, &notused ) )
+    else if( lcchar(kmsss.knmsum, sizeof(kmsss.knmsum)) )
 		{ /* do nothing */ }
 
 		/* -- Bad syntax. */

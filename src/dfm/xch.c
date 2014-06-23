@@ -62,7 +62,7 @@ xch(int *nerr) {
 	int lallt, lfound, lhdrc[SAC_HEADER_LOGICALS], lnumbr, log;
 	int icat[SAC_HEADER_WORDS], icatx, igdttm, ihdrc[SAC_HEADER_ENUMS], item[SAC_HEADER_WORDS];
 	int itemx, ival, j, j1, jdfl;
-	int nc, nckhdr, ndaerr, ngdttm[MGDTTM][6], nhdrc[SAC_HEADER_INTEGERS];
+	int nckhdr, ngdttm[MGDTTM][6], nhdrc[SAC_HEADER_INTEGERS];
 	int nia, nitem;
 	float diff, fhdrc[SAC_HEADER_FLOATS];
 	static int icatg = -1;
@@ -123,7 +123,7 @@ xch(int *nerr) {
         cerr( 1001 );
         goto L_8888;
       }
-    } else if( lcchar( 9,ktok,9, &nc) ) {
+    } else if( lcchar( ktok,sizeof(ktok)) ) {
       hdrfld( ktok,9, &icatx, &itemx, &lfound );
       /* --- If it is the name of a SAC header field. */
       if(!lfound) {
@@ -243,7 +243,7 @@ xch(int *nerr) {
           else{
             strcpy( ktemp, "                  " );
             nckhdr = SAC_HEADER_STRING_LENGTH_FILE * Nkhdr[itemx];
-            if( lcchar_base( nckhdr, ktemp,19, &nc ) ){
+            if( lcchar_base( ktemp, sizeof(ktemp)) ){
               strncpy(khdrc[j1-1], ktemp, strlen(ktemp));
             }
           }

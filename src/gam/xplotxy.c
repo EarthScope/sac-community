@@ -28,7 +28,7 @@ void xplotxy(int *nerr)
 	char kfile[MCPFN+1], ktemp[MCMSG+1];
 	int lany, lchange, lxlims, lylimj;
 	int *idflnumber, jdfl, jdflnumber,
-    nc, ncfile, ndflnumber, num;
+    nc, ndflnumber, num;
 	float atrwid, slen, slenm, slenvs, vportratio, xlinl1, 
 	 xlinl2, xrange, xsymlc, yatrlc, yimnj, yimxj, yrange;
 
@@ -108,8 +108,8 @@ L_1000:
 
 			/* -- "filename":  the name of a data file in the data file list. */
 			}
-		else if( lcchar( MCPFN, kfile,MCPFN+1, &ncfile ) ){
-      char *kfile2 = fstrdup(kfile, MCPFN+1);
+		else if( lcchar(kfile, sizeof(kfile)) ){
+      char *kfile2 = fstrdup(kfile, -1);
       jdfl = 1 + sac_find_filename(kfile2);
 			if( jdfl > 0 ){
 				jdflnumber = jdflnumber + 1;

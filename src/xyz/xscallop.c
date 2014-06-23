@@ -24,7 +24,7 @@
 void /*FUNCTION*/ xscallop(nerr)
 int *nerr;
 {
-	int jdfl, notused, *nptslist, numfiles, speclength, 
+	int jdfl, *nptslist, numfiles, speclength, 
 	 specsize, specwidth, nchar;
 	int lprint = FALSE , ltry = FALSE ;
 	float begin, *deltalist,  xmaximum, 
@@ -114,7 +114,7 @@ int *nerr;
 		if( lkreal( "WINDOW$",8, &window ) ){
 		}
 
-		else if( lklog( "CBAR$",8, &lcbar ) )
+		else if( lklog( "CBAR$",6, &lcbar ) )
 		{ /* do nothing */ }
 
 		/* -- SLICE v:  define slice size for image. */
@@ -200,9 +200,7 @@ int *nerr;
 
                 /* if PRINT option is tried, get printer name */
                 else if ( ltry ) {
-                    lcchar ( MAXPRNTRNAMELEN   , kmgem.kptrName ,
-                      MAXPRNTRNAMELEN+1 , &notused ) ;
-                    terminate ( kmgem.kptrName ) ;
+                  lcchar (kmgem.kptrName , sizeof(kmgem.kptrName));
                     if ( !lprint )
                         kmgem.kptrName[0] = '\0' ;
 

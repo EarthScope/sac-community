@@ -169,7 +169,6 @@ void
 xprint ( int *nerr ) 
 {
 	char printerName[ 80 ];
-	int unused ;
 
         memset(printerName, 0, 80);
 
@@ -179,7 +178,7 @@ xprint ( int *nerr )
 
         /* - There will be one or fewer tokens:  printer name */
 
-    if ( lcchar ( 79 , printerName , 80 , &unused ) ) { }
+        if ( lcchar ( printerName , sizeof(printerName)) ) { }
 	    
 	/* EXECUTION PHASE */
 

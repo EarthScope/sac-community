@@ -27,7 +27,6 @@ void
 xunsetbb(int *nerr) {
 
 	char kname[MCMSG+1];
-	int nchar;
 
 	*nerr = 0;
     memset(kname, 0, sizeof(kname));
@@ -48,7 +47,7 @@ L_1000:
 
 			/* -- "name":  the name of a specific blackboard variable to unset. */
 			}
-		else if( lcchar( MCMSG, kname,MCMSG+1, &nchar ) ){
+		else if( lcchar(kname, sizeof(kname) ) ){
 			unsetbbv( kname, nerr, MCMSG );
 			if( *nerr != 0 ) {
         if(*nerr == ERROR_DELETING_VARIABLE) {

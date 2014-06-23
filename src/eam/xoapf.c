@@ -34,7 +34,6 @@
 void 
 xoapf(int *nerr)
 {
-	int junk;
 
 	*nerr = 0;
 
@@ -46,7 +45,7 @@ xoapf(int *nerr)
 		{ /* do nothing */ }
 
 		/* -- "filename":  the name of the APF to open. */
-		else if( lcchar( MCPFN, kmeam.kapfnm,MCPFN+1, &junk ) )
+		else if( lcchar( kmeam.kapfnm, sizeof(kmeam.kapfnm)))
 		{ /* do nothing */ }
 
 		/* -- Bad syntax. */

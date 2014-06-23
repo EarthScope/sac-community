@@ -28,8 +28,7 @@ void xplotdy(int *nerr)
 	char kfile[ MCPFN + 1 ] ; 
 	int lany, lchange, lydlimj, lprint = FALSE , ltry = FALSE ;
 	int idx, *idflnumber, issym, jdfl, jdflnumber, 
-	 ncfile, ndflnumber, num, 
-	 notused ;
+    ndflnumber, num;
 	float vportratio, xarray[3], yarray[3], ydimnj, ydimxj, 
 	 ydvalue, ydyimx, yrange, yvalue;
 
@@ -105,9 +104,7 @@ void xplotdy(int *nerr)
 
             /* if PRINT option is tried, get printer name */
             else if ( ltry ) {
-                lcchar ( MAXPRNTRNAMELEN   , kmgem.kptrName ,
-                         MAXPRNTRNAMELEN+1 , &notused ) ;
-                terminate ( kmgem.kptrName ) ;
+              lcchar(kmgem.kptrName , sizeof(kmgem.kptrName));
                 if ( !lprint )
                     kmgem.kptrName[0] = '\0' ;
 
@@ -135,8 +132,8 @@ void xplotdy(int *nerr)
 	    }
 
 	    /* -- "filename":  the name of a file in the data file list. */
-	    else if( lcchar( MCPFN, kfile,MCPFN+1, &ncfile ) ){
-        char *kfile2 = fstrdup(kfile, MCPFN+1);
+	    else if( lcchar( kfile, sizeof(kfile)) ){
+        char *kfile2 = fstrdup(kfile, -1);
         jdfl = 1 + sac_find_filename(kfile2);
 		if( jdfl > 0 ){
 			jdflnumber = jdflnumber + 1;

@@ -56,7 +56,6 @@ xsave() {
 
         int nerr;
         char file[1024];
-        int len;
         char *p;
 
         int i, n;
@@ -64,7 +63,7 @@ xsave() {
 
         memset(file, 0, 1024);
         if(lcmore(&nerr)) {
-          lcchar(1023, &file[0], 1024, &len);
+          lcchar(&file[0], sizeof(file));
         }
         if(strlen(file) == 0 || file[0] == 0) {
           fprintf(stdout, "save requires an output filename\n");

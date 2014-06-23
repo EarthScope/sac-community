@@ -68,7 +68,7 @@ void
 xcorrelate(int *nerr) {
 	char kermsg[131], ktemp1[MCPFN+1];
 	int iwinln, iwinmx, j, jdfl, 
-	 nfft, notusd, nzeros,
+	 nfft, nzeros,
 	 nlenmx,	/* max npts of all signals */
 	 nlenMaster,	/* npts of master */
 	 nlenCombined;	/* nlen + nlenMaster - 1 */
@@ -84,8 +84,8 @@ xcorrelate(int *nerr) {
 		if( lckey( "MASTER$",8 ) ){
 			if( lcirc( 1, saclen(), &cmsam.imast ) )
 			{ /* do nothing */ }
-			else if( lcchar( MCPFN, ktemp1,MCPFN+1, &notusd ) ){
-        char *ktemp2 = fstrdup(ktemp1, MCPFN+1);
+			else if( lcchar(ktemp1,sizeof(ktemp1)) ){
+        char *ktemp2 = fstrdup(ktemp1, -1);
         cmsam.imast = sac_find_filename(ktemp2);
         if(cmsam.imast < 0) {
           arg_prev();

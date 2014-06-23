@@ -70,7 +70,8 @@ void xpc(int *nerr)
 
 		/* -- "FILE/MACRO filename":  set type of file and filename. */
 		else if( lclog2( "FILE$",6, "MACRO$",7, &cmgam.lpcfil ) ){
-		    if( lcchar( MCPFN, kmgam.kpcfil,MCPFN+1, &nc ) ){
+      if( lcchar( kmgam.kpcfil, sizeof(kmgam.kpcfil) )){
+          nc = strlen(kmgam.kpcfil);
 			if( cmgam.lpcfil ){
 			    fstrncpy( kmgam.kpcfil, MCPFN, kmgam.kpcfil,
 				      min(nc,MCPFN));

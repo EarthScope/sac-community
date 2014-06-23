@@ -11,7 +11,7 @@
 void xchangestack(int *nerr)
 {
 	char kfile[MCPFN+1];
-	int jdfl, ncfile;
+	int jdfl;
 	double delay, tmp;
 
 	/*=====================================================================
@@ -38,7 +38,6 @@ void xchangestack(int *nerr)
 	 *=====================================================================
 	 * LOCAL VARIABLES:
 	 *    kfile:   Name of file whose properties are to be changed. [c]
-	 *    ncfile:  Number of characters in kfile. [i] {NOT USED}
 	 *    jdfl:    Index of file whose properties are to be changed. [i]
 	 *=====================================================================
 	 * MODIFICATION HISTORY:
@@ -62,8 +61,8 @@ void xchangestack(int *nerr)
 			goto L_8888;
 			}
 		}
-	else if( lcchar( MCPFN, kfile,MCPFN+1, &ncfile ) ){
-    char *kfile2 = fstrdup(kfile, MCPFN+1);
+	else if( lcchar(kfile, sizeof(kfile)) ){
+    char *kfile2 = fstrdup(kfile, -1);
     jdfl = 1 + sac_find_filename(kfile2);
 		if( jdfl <= 0 ){
 			*nerr = 5106;

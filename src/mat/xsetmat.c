@@ -18,7 +18,6 @@ void /*FUNCTION*/ xsetmat(nerr)
 int *nerr;
 {
 	char ktemp[MCPFN+1];
-	int nchar; 
 
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command SETMAT.
@@ -50,18 +49,18 @@ int *nerr;
 
 
 	/* -- "text":  the name of a directory to search for matlab scripts. */
-	if( lcchar( MCPFN, ktemp,MCPFN+1, &nchar ) ){
+	if( lcchar(ktemp, sizeof(ktemp)) ){
 		if( MODEFILECASE < 0 ){
-		    modcase( FALSE, ktemp, nchar, (char*)matdir );
+      modcase( FALSE, ktemp, strlen(ktemp), (char*)matdir );
 		}
 		else if( MODEFILECASE > 0 ){
-		    modcase( TRUE, ktemp, nchar, (char*)matdir );
+      modcase( TRUE, ktemp, strlen(ktemp), (char*)matdir );
 		}
 		else{
 		    strcpy( matdir, ktemp );
 		    matdir[MCPFN]='\0';
 		}
-	} /* end if( lcchar( MCPFN, ktemp,MCPFN+1, &nchar ) ) */
+	} 
 
 	/* -- Bad syntax. */
 	else{

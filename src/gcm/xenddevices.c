@@ -15,7 +15,6 @@ void /*FUNCTION*/ xenddevices(nerr)
 int *nerr;
 {
 	char kdev[9];
-	int nchar;
     memset(kdev, 0, sizeof(kdev));
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command ENDDEVICES.
@@ -56,7 +55,7 @@ L_1000:
 
 			/* -- Call graphics device handler with each token. */
 			}
-		else if( lcchar( MCPW, kdev,9, &nchar ) ){
+		else if( lcchar(kdev, sizeof(kdev)) ){
 			enddevice( kdev,9, nerr );
 			if( *nerr != 0 )
 				goto L_8888;

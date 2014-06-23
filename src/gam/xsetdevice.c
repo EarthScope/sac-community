@@ -30,7 +30,6 @@ void
 xsetdevice(int *nerr) {
 
         char token[TOKEN_LENGTH];
-        int is_number;
         display_t *dev;
         char *p;
 
@@ -41,7 +40,7 @@ xsetdevice(int *nerr) {
 	while ( lcmore( nerr ) ){
 
 		/* -- "text":  the name of the default graphics device. */
-    if(lcchar(TOKEN_LENGTH, &token[0], TOKEN_LENGTH, &is_number)) {
+    if(lcchar(&token[0], sizeof(token)) ) {
       p = strchr(&token[0], ' ');
       *p = 0;
       if((dev = gdm_get_device_by_name( &token[0]))) {

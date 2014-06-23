@@ -60,7 +60,7 @@ xlh(int *nerr) {
 	int lwait;
 	int j, j_, jdfl, jrpt, jrpt_, jrpttx, jrpttx_, 
 	 jsprpt, nc1, nc2, nc3, nc4, nctx[MRPT], 
-	 nctxm, nferr, nlscrn, nlw, nrpttx, ntused;
+	 nctxm, nferr, nlscrn, nlw, nrpttx;
 
 	static int iform = 1;
 	static char kblank[41] = "                                        ";
@@ -141,7 +141,7 @@ xlh(int *nerr) {
 			Ilhlst[1] = 1;
 		}
 
-		else if( lcchar( MCPW, ktok,9, &ntused ) ){
+		else if( lcchar( ktok, sizeof(ktok)) ){
 			if( jsprpt < MSPRPT ){
 				jsprpt = jsprpt + 1;
 				strcpy( kmlhf.ksprpt[jsprpt - 1], ktok );

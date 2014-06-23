@@ -121,8 +121,6 @@ void
 xsort(int *nerr) {
 
     char ktemp[ 9 ];
-    int notUsed;
-
 
     ktemp[ 0 ] = '\0' ;
     nSortOrder = 0;
@@ -166,7 +164,7 @@ xsort(int *nerr) {
 	}
 
 	/* -- header names */
-	else if( lcchar( MCPW, ktemp,9, &notUsed ) ){
+	else if( lcchar( ktemp, sizeof(ktemp))) {
 	    if ( nSortOrder < MAXSORTFIELDS ) {
 		strcpy ( kmdfm.ksort[ nSortOrder ] , ktemp ) ;
 		cmdfm.idirection[ nSortOrder ] = Ascending ;

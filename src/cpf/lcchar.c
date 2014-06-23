@@ -42,15 +42,10 @@
  * @date  810208:  Original version.
  */
 int 
-lcchar(int   mchar, 
-       char *kchar, 
-       int   kchar_s, 
-       int  *nchar) {
+lcchar(char *kchar, 
+       int   mchar) {
 
-  int n;
   Token *t;
-
-  UNUSED(kchar_s);
 
   if(!(t = arg())) {
     return FALSE;
@@ -58,36 +53,28 @@ lcchar(int   mchar,
   memset(kchar, 0, mchar);
   if(token_is_string(t) || token_is_quoted_string(t) || token_is_escape_string(t)) {
     if(strcmp(t->str, "-12345  ") == 0) {
-      snprintf(kchar, mchar, "UNDEFINED");
+      strlcpy(kchar, "UNDEFINED", mchar);
     } else {
-      n = min(mchar,strlen(t->str));
-      strncpy(kchar, t->str, n);
-      kchar[n] = 0;
+      strlcpy(kchar, t->str, mchar);
     }
   } else if(token_is_number(t)) {
     if(t->value == -12345.0) {
-      snprintf(kchar, mchar, "UNDEFINED");
+      strlcpy(kchar, "UNDEFINED", mchar);
     } else if(token_is_int_precision(t, TOKEN_INT_PRECISION_NON_ARGUMENT)) {
       snprintf(kchar, mchar, "%d", (int)t->value);
     } else {
       snprintf(kchar, mchar, "%g", t->value);
     }
   }
-  *nchar = indexb(kchar, mchar);
-  arg_next(); 
+  arg_next();
   return TRUE;
 
 }
 
 int 
-lcchar_base(int   mchar, 
-            char *kchar, 
-            int   kchar_s, 
-            int  *nchar) {
-  int n;
+lcchar_base(char *kchar, 
+            int   mchar) {
   Token *t;
-
-  UNUSED(kchar_s);
 
   if(!(t = arg())) {
     return FALSE;
@@ -95,26 +82,21 @@ lcchar_base(int   mchar,
   memset(kchar, 0, mchar);
   if(token_is_string(t) || token_is_quoted_string(t) || token_is_escape_string(t)) {
     if(strcmp(t->str, "-12345  ") == 0) {
-      snprintf(kchar, mchar, "UNDEFINED");
+      strlcpy(kchar, "UNDEFINED", mchar);
     } else {
-      n = min(mchar,strlen(t->str));
-      strncpy(kchar, t->str, n);
-      kchar[n] = 0;
+      strlcpy(kchar, t->str, mchar);
     }
   } else if(token_is_number(t)) {
     if(t->str) {
-      n = min(mchar,strlen(t->str));
-      strncpy(kchar, t->str, n);
-      kchar[n] = 0;
+      strlcpy(kchar, t->str, mchar);
     } else if(t->value == -12345.0) {
-      snprintf(kchar, mchar, "UNDEFINED");
+      strlcpy(kchar, "UNDEFINED", mchar);
     } else if(token_is_int_precision(t, TOKEN_INT_PRECISION_NON_ARGUMENT)) {
       snprintf(kchar, mchar, "%d", (int)t->value);
     } else {
       snprintf(kchar, mchar, "%lf", t->value);
     }
   }
-  *nchar = indexb(kchar, mchar);
   arg_next(); 
   return TRUE;
 
@@ -141,11 +123,9 @@ token_string_join(Token *t, char *c) {
 }
 
 int
-lcchar_split(int mchar, char *kchar, int kchar_s, int *nchar) {
-  int n;
+lcchar_split(char *kchar, int mchar) {
   char *p;
   Token *t, *new;
-  UNUSED(kchar_s);
 
   if(!(t = arg())) {
     return FALSE;
@@ -153,7 +133,7 @@ lcchar_split(int mchar, char *kchar, int kchar_s, int *nchar) {
 
   /* Quoted and number are not subject to this function */
   if(token_is_quoted_string(t) || token_is_number(t) || token_is_escape_string(t)) {
-    return lcchar(mchar, kchar, kchar_s, nchar);
+    return lcchar(kchar, mchar);
   }
   /* Make sure the token is a string */
   if(!token_is_string(t)){
@@ -161,16 +141,15 @@ lcchar_split(int mchar, char *kchar, int kchar_s, int *nchar) {
   }
   /* If string does not contain spaces */
   if(!index(t->str, ' ')) {
-    return lcchar(mchar, kchar, kchar_s, nchar);
+    return lcchar(kchar, mchar);
   }
   /* Split string and reconstruct with '\n ' */
   new = token_to_token_list(t);
   p = token_string_join(new, "\n ");
   token_free(new);
   /* Copy output */
-  n = min(strlen(p), mchar);
-  strncpy(kchar, p, n);
-  kchar[n] = 0;
+  
+  strlcpy(kchar, p, mchar);
   FREE(p);
   arg_next();
   return TRUE;

@@ -31,8 +31,7 @@ void
 xsetmacro(int *nerr) {
 
 	char ktemp[MCPFN+1];
-	int nchar;
-        int oldnmcdir = -1 ; /* clean up old values  */
+  int oldnmcdir = -1 ; /* clean up old values  */
 	int lmore = FALSE ;  /* supports MORE option */
 
 	*nerr = 0;
@@ -53,14 +52,14 @@ xsetmacro(int *nerr) {
 	while( lcmore( nerr ) ){
 
 		/* -- "text":  the name of a directory to search for macros. */
-		if( lcchar( MCPFN, ktemp,MCPFN+1, &nchar ) ){
+		if( lcchar( ktemp, sizeof(ktemp)) ) {
 			if( cmexm.nmcdir < MMCDIR ){
 				cmexm.nmcdir = cmexm.nmcdir + 1;
 				if( MODEFILECASE < 0 ){
-				    modcase( FALSE, ktemp, nchar, (char*)kmexm.kmcdir[cmexm.nmcdir - 1] );
+          modcase( FALSE, ktemp, strlen(ktemp), (char*)kmexm.kmcdir[cmexm.nmcdir - 1] );
 				}
 				else if( MODEFILECASE > 0 ){
-				    modcase( TRUE, ktemp, nchar, (char*)kmexm.kmcdir[cmexm.nmcdir - 1] );
+          modcase( TRUE, ktemp, strlen(ktemp), (char*)kmexm.kmcdir[cmexm.nmcdir - 1] );
 				}
 				else{
 				    strcpy( kmexm.kmcdir[cmexm.nmcdir - 1], ktemp );
@@ -70,7 +69,7 @@ xsetmacro(int *nerr) {
 				cfmt( "TOO MANY DIRECTORIES:",23 );
 				cresp();
 			}
-		} /* end if( lcchar( MCPFN, ktemp,MCPFN+1, &nchar ) ) */
+		} 
 
 		/* -- Bad syntax. */
 		else{

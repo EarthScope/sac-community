@@ -26,7 +26,6 @@ void
 xsyntx(int *nerr) {
 
 	char ktoken[9];
-	int lnumbr;
 
 	*nerr = 0;
 
@@ -36,7 +35,7 @@ L_1000:
 	if( lcmore( nerr ) ){
 
 		/* -- "token":  the name of a help package. */
-		if( lcchar( 9,ktoken,9, &lnumbr) ){
+		if( lcchar(ktoken, sizeof(ktoken)) ){
 			wrhelp( ktoken,9, 2, FALSE, nerr );
     }
 		else{

@@ -124,7 +124,7 @@ xdo(int *nerr) {
 
 	/* - Get loop variable name */
 
-	if( !lcchar(MCPFN+1, (char*)kcnd.kdoname[cnd.ndolevel - 1],MCPFN+1, &nc) ) {
+	if( !lcchar((char*)kcnd.kdoname[cnd.ndolevel - 1],MCPFN+1) ) {
     xdo_error(nerr);
     goto L_8888;
 	}

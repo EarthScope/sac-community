@@ -23,7 +23,7 @@ int *nerr;
 	char kfile[MCPFN+1];
 	int lincr;
 	int *idel, jdel, jdfl, jdfl2,
-	 jdfl3, ncfile, ndel ; 
+	 jdfl3, ndel ; 
 
 	DBlist tree ;
 
@@ -100,8 +100,8 @@ int *nerr;
 	    }
 
 	    /* -- "filename":  the name of a file from the signal stack. */
-	    else if( lcchar( MCPFN, kfile,MCPFN+1, &ncfile ) ){
-        char *kfile2 = fstrdup(kfile, MCPFN+1);
+	    else if( lcchar( kfile, sizeof(kfile) ) ){
+        char *kfile2 = fstrdup(kfile, -1);
         jdfl = 1 + sac_find_filename(kfile2);
         if( jdfl <= 0 ){
 		    *nerr = 5106;

@@ -1,4 +1,6 @@
 
+#include <string.h>
+
 #include "gem.h"
 #include "bool.h"
 
@@ -57,7 +59,8 @@ L_1000:
 		else if( lklist( "L$",3, (char*)kmgem.ksides,9, 4, &cmgem.title.pos ) ){
         }
 			/* -- Save text as title */
-		else if( lcchar( MCPTXT, kmgem.ktitl,145, &cmgem.title.len ) ){
+		else if( lcchar(kmgem.ktitl, sizeof(kmgem.ktitl)) ){
+      cmgem.title.len = strlen(kmgem.ktitl);
 			cmgem.title.on = TRUE;
 
 			/* -- Bad syntax. */

@@ -14,7 +14,7 @@
 void xaddstack(int *nerr)
 {
 	char kfile[MCPFN+1];
-	int ncfile, ndx1, ndx2, ndxh, nlen;
+	int ndx1, ndx2, ndxh, nlen;
 	double delay;
   double tmp;
 	/* The following add 960701 to correct a bug with Dst and to 
@@ -53,7 +53,6 @@ void xaddstack(int *nerr)
 	 *=====================================================================
 	 * LOCAL VARIABLES:
 	 *    kfile:   Name of file to add to stack. [c]
-	 *    ncfile:  Number of characters in kfile. [i] {NOT USED}
 	 *    nlen:    Number of points in file. [i] {NOT USED}
 	 *    ndxh:    Index in sacmem of header. [i] {NOT USED}
 	 *    ndx1:    Index in sacmem of first data component. [i] {NOT USED}
@@ -74,7 +73,7 @@ void xaddstack(int *nerr)
 	/* - Parse position dependent tokens.
 	 *   (This is the name of the file to be added to the stack.) */
 
-	if( lcchar( MCPFN, kfile,MCPFN+1, &ncfile ) ){
+	if( lcchar(kfile, sizeof(kfile)) ){
 
 		/* -- Start with global property values. */
 		Lincl[saclen()] = TRUE;

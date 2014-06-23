@@ -39,7 +39,7 @@ xbbfk(int *nerr) {
 	char cnumber[13], kfile[9], label[121];
 	int lformer, llocal, lssq_specified , lprint = FALSE , ltry = FALSE ;
 	int idx, iasiz[2], isacm, issq, ix, iy,
-	 jdx, jdfl, nch, nckofbbfk, ncktitle, notused ,
+	 jdx, jdfl, nch, nckofbbfk, ncktitle,
 	 ns, nsiz, nssav, wvaz;
 	float buffer[MXLENB], curntval, offset, trace, 
 	 xr[MXLENS], yr[MXLENS], zr[MXLENS];
@@ -229,9 +229,7 @@ xbbfk(int *nerr) {
 
             /* if PRINT option is tried, get printer name */
             else if ( ltry ) {
-                lcchar ( MAXPRNTRNAMELEN   , kmgem.kptrName ,
-                         MAXPRNTRNAMELEN+1 , &notused ) ;
-                terminate ( kmgem.kptrName ) ;
+              lcchar (kmgem.kptrName , sizeof(kmgem.kptrName));
                 if ( !lprint )
                     kmgem.kptrName[0] = '\0' ;
 

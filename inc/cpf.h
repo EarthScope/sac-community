@@ -75,18 +75,13 @@ void      inicsf       ( ) ;
 void      initcomlists (int    *nerr);
 void      initpf       ( );
 
-int       lcchar       (int     mchar, 
-			char   *kchar, 
-			int     kchar_s, 
-			int    *nchar);
-int       lcchar_base  (int     mchar, 
-                        char   *kchar, 
-                        int     kchar_s, 
-                        int    *nchar);
-int       lcchar_split (int     mchar, 
-			char   *kchar, 
-			int     kchar_s, 
-			int    *nchar);
+int       lcchar       (char   *kchar, 
+                        int     mchar);
+
+int       lcchar_base  (char   *kchar, 
+                        int     mchar); 
+int       lcchar_split (char   *kchar, 
+                        int     mchar);
 int       lccl         (char   *kcl, 
 			int     kcl_s, 
 			int    *ncl);

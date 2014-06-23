@@ -28,7 +28,7 @@ int *nerr;
 	char kfile[MCPFN+1];
 	int lchange;
 	int *idflnumber, jdfl, 
-	 jdflnumber, ncfile, ndflnumber, 
+	 jdflnumber, ndflnumber, 
     num;
   char *tmpx, *tmpy;
   float cc, sig, siga, sigb;
@@ -94,7 +94,7 @@ L_1000:
 
 			/* -- "filename":  the name of a data file in the data file list. */
 			}
-		else if( lcchar( MCPFN, kfile,MCPFN+1, &ncfile ) ){
+		else if( lcchar(kfile, sizeof(kfile)) ){
       char *kfile2 = fstrdup(kfile, MCPFN+1);
 			jdfl = 1 + sac_find_filename(kfile2);
 			if( jdfl > 0 ){

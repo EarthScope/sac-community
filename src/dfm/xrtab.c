@@ -77,7 +77,7 @@ xrtab(int  lplot,
 	int idx, ic, ic1, ic2, iopch[MAXCH], 
 	 ipt, itype, jdx, jch, jen, nc,
 	 nchar, ndcont, ndflsv, ndform,
-	 nentry, nlnch[MAXCH-(0)+1], notused,
+	 nentry, nlnch[MAXCH-(0)+1],
 	 nptch[MAXCH-(0)+1], nsndfl, numch, numxch, numych ;
   FILE *nun;
   float unused;
@@ -174,9 +174,7 @@ xrtab(int  lplot,
 	    /* if PRINT option is tried, get printer name */
 	    else if ( lplot && ltry ) {
 		char command[ 81 ] ;
-		lcchar ( MAXPRNTRNAMELEN   , kmgem.kptrName ,
-			 MAXPRNTRNAMELEN+1 , &notused ) ;
-		terminate ( kmgem.kptrName ) ;
+		lcchar ( kmgem.kptrName ,sizeof(kmgem.kptrName));
 
 		sprintf ( command , "lpstat -v | grep %s" , kmgem.kptrName ) ;
 		if ( system ( command ) ) {

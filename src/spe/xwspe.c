@@ -14,8 +14,6 @@ extern float *spespe;
 void /*FUNCTION*/ xwspe(nerr)
 int *nerr;
 {
-	int notused;
-	float unused;
   char *filename;
   sac *s;
 	/*=====================================================================
@@ -59,7 +57,7 @@ int *nerr;
 	while ( lcmore( nerr ) ){
 
 		/* -- "filename":  define new filename for write. */
-		if( lcchar( MCPFN, kmspe.knmspe,MCPFN+1, &notused ) )
+		if( lcchar(kmspe.knmspe, sizeof(kmspe.knmspe)) )
 		{ /* do nothing */ }
 
 		/* -- Bad syntax. */

@@ -36,7 +36,6 @@
 void 
 xohpf(int *nerr)
 {
-	int njunk;
 
 	*nerr = 0;
 
@@ -44,7 +43,7 @@ xohpf(int *nerr)
 	/* - Loop on each token in command: */
 	while ( lcmore( nerr ) ){
 		/* -- "name":  name of HPF to open. */
-		if( lcchar( MCPFN, kmeam.khpfnm,MCPFN+1, &njunk ) )
+		if( lcchar(kmeam.khpfnm, sizeof(kmeam.khpfnm)))
 		{ /* do nothing */ }
 
 		/* -- Bad syntax. */

@@ -71,8 +71,8 @@ xconv(int *nerr) {
 	    { /* do nothing */ }
 
 	    /* -- "filename":  define in/out filename. */
-	    else if( lcchar( MCPFN, (char*)kmdfm.kcfile[iinout - 1],MCPFN+1, 
-	     &junk ) )
+	    else if( lcchar( (char*)kmdfm.kcfile[iinout - 1],
+                       sizeof(kmdfm.kcfile[iinout-1])) )
 	    { /* do nothing */ }
 
 	    /* -- Bad syntax. */

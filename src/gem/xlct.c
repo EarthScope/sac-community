@@ -19,7 +19,7 @@ int *nerr;
         char krddir[MCPFN+1];
 
         int nchar;
-        int lnum, inum; 
+        int inum; 
         char infile[21];
 
         static char *ctables[17] = {
@@ -83,8 +83,7 @@ int *nerr;
                     goto L_8888;                      
                 }
                 strcpy(infile,ctables[inum-1]);
-            } else if( lcchar(20, infile, 21, &lnum) ) {
-                infile[20] = '\0';
+            } else if( lcchar(infile, sizeof(infile)) ) {
                 rstrip(infile);
             }
 	    }

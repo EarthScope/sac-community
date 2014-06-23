@@ -27,7 +27,6 @@ void
 xpickphase(int *nerr) {
 
     char prefsFileName [ MCPFN + 1 ] ;
-    int nchar;
 
     *nerr = 0;
 
@@ -36,8 +35,7 @@ xpickphase(int *nerr) {
      */
     if ( !lcmore( nerr ) || lckey ( "FILE$" , 6 ) ) {
 	/* get file name if present. */
-	if ( lcchar ( MCPFN , prefsFileName , MCPFN , &nchar ) ) {
-	    prefsFileName [ nchar ] = '\0' ;
+      if ( lcchar(prefsFileName , sizeof(prefsFileName)) ) {
 	    strcpy ( kmdfm.kprefsFileName , prefsFileName ) ;
 	}
 	/* get list of phases from user-defined file. */
@@ -48,8 +46,7 @@ xpickphase(int *nerr) {
     /* - Look for order dependance key, AUTHOR */
     if ( lckey ( "AUTH#OR$" , 9 ) ) {
 	/* get file name if present. */
-        if ( lcchar ( MCPFN , prefsFileName , MCPFN , &nchar ) ) {
-	    prefsFileName [ nchar ] = '\0' ;
+      if ( lcchar(prefsFileName , sizeof(prefsFileName)) ) {
 	    strcpy ( kmdfm.kprefsFileName , prefsFileName ) ;
 	}
 	/* get authors and phases from the user-defined file. */

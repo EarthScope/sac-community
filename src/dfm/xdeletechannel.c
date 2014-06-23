@@ -46,7 +46,7 @@ xdeletechannel(int *nerr) {
 
 	int lall = FALSE ;	
 	int *idel, jdel, jdfl;
-	int ncfile, ndel;
+	int ndel;
 	int first , last ; 
 
 	DBlist tree ;
@@ -93,7 +93,7 @@ xdeletechannel(int *nerr) {
 	    }
 
 	    /* -- "filename":  the name of a file. */
-	    else if( lcchar( MCPFN, kfile,MCPFN+1, &ncfile ) ){
+	    else if( lcchar( kfile, sizeof(kfile)) ){
         char *kfile2 = fstrdup(kfile, MCPFN+1);
         jdfl = 1 + sac_find_filename(kfile2);
             if( jdfl <= 0 ){

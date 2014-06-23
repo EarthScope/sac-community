@@ -63,7 +63,7 @@ xw(int  lsdd,
         char delimiter[2], kcdir[9], kchange[MCPFN+1], kdirpart[MCPFN+1];
 	char kfile[MCPFN+1], kpdir[9], kstring[MCPFN+1], ktemp[9];
 	int lexpnd;
-	int jdfl, nchange, nchar, nchg;
+	int jdfl, nchar, nchg;
 	int nstr, nstring, nwrdir;
 	static int lwrdir = FALSE;
     char *cattemp;
@@ -203,7 +203,7 @@ xw(int  lsdd,
 
 	    /* -- "CHANGE string1 string2": change string1 to string2 in READ filenames. */
 	    else if( lkcharExact( "CHANGE#$",9, MCPFN, kstring,MCPFN+1, &nstring ) ){
-		lcchar( MCPFN, kchange,MCPFN+1, &nchange );
+        lcchar( kchange, sizeof(kchange)) ;
         for(i = 0; i < saclen(); i++) {
           if(!(s = sacget(i, TRUE, nerr))) {
             goto L_8888;

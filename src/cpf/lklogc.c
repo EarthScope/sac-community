@@ -38,7 +38,7 @@ lklogc(char *kkey,
        int   kchar_s) {
 
 	int lklogc_v;
-	int nchar, nerr, nret;
+	int nchar, nerr;
 
 	/* - Determine length of character variable. */
 	nchar = (kchar_s - 1);
@@ -53,7 +53,7 @@ lklogc(char *kkey,
 L_2000:
 		if( lclog( logv ) ){
 		}
-		else if( lcchar( nchar, kchar,kchar_s, &nret ) ){
+		else if( lcchar(kchar, kchar_s) ){
 			*logv = TRUE;
 		}
 		else{

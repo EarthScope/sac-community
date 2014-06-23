@@ -28,9 +28,7 @@
  */
 void 
 xreadbbf(int *nerr) {
-
-	int notused;
-
+  int notused;
 	*nerr = 0;
 
 	deletevlist( kmbbs.knmbbs,MCPFN+1, "MEMORY", nerr );
@@ -41,7 +39,7 @@ L_1000:
 	if( lcmore( nerr ) ){
 
 		/* -- "name":  the name of the global variable file. */
-		if( lcchar( MCPFN, kmbbs.knmbbs,MCPFN+1, &notused ) ){
+		if( lcchar( kmbbs.knmbbs, sizeof(kmbbs.knmbbs)) ) {
 
 			/* -- Bad syntax. */
 			}

@@ -287,7 +287,7 @@ saccommands(char *kinmsg,
 {
 	char kcommand[30] = "        " ;
 	int lfound;
-	int index, module, notused, nchar;
+	int index, module, nchar;
   char *temp;
   int n;
   char *p, *p1, *in;
@@ -333,9 +333,8 @@ saccommands(char *kinmsg,
     cmicnv.icnver = 0;
 
 	  /* -- Get command name and convert to uppercase. */
-	  lcchar( 30, kcommand, 30, &notused );
-    kcommand[notused] = 0;
-	  modcase( TRUE, kcommand, notused, kcommand );
+	  lcchar(kcommand, sizeof(kcommand) );
+	  modcase( TRUE, kcommand, strlen(kcommand), kcommand );
 
 	  /* -- Echo command if requested. */
 	  if( cmexm.lecho && strcmp(kcommand,"ECHO") != 0 )
@@ -357,8 +356,7 @@ saccommands(char *kinmsg,
 	      tracereport( nerr );
 	  }
 	  else{
-	    nchar = indexb(kinmsg,kinmsg_s);
-	    if(nchar > 0){
+	    if(strlen(kinmsg) > 0){
 	      temp = kinmsg;
 	      while ( (*temp == ' ') || (*temp == '\t') ) temp++;
 	      /* make sure that the first char is not something like *, and */

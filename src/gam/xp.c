@@ -24,7 +24,7 @@ void xp(int *nerr)
 {
 	char kret[9];
 	int lany, lframs, lwait, lxgens, lprint = FALSE ;
-	int jdfl, ncret, notused;
+	int jdfl, ncret;
 	static char kwait[9] = "Waiting$";
   sac *s;
 
@@ -90,9 +90,7 @@ void xp(int *nerr)
 		}
 		else {
 		    lprint = TRUE ;
-		    lcchar ( MAXPRNTRNAMELEN   , kmgem.kptrName ,
-			     MAXPRNTRNAMELEN+1 , &notused ) ;
-		    terminate ( kmgem.kptrName ) ;
+		    lcchar (kmgem.kptrName , sizeof(kmgem.kptrName));
 		}
 	    }
 

@@ -11,7 +11,6 @@
 void /*FUNCTION*/ xendframe(nerr)
 int *nerr;
 {
-	int notused ;
 
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command ENDFRAME.
@@ -47,9 +46,7 @@ int *nerr;
 	    if( lckey( "PRINT#$", 8 ) ) {
 		if ( Lgdon[2] ) {
 		    cmgem.lprint = TRUE ;
-		    lcchar ( MAXPRNTRNAMELEN   , kmgem.kptrName ,
-			     MAXPRNTRNAMELEN+1 , &notused ) ;
-		    terminate ( kmgem.kptrName ) ;
+		    lcchar (kmgem.kptrName , sizeof(kmgem.kptrName));
 		}
 		else {
 		    setmsg ( "WARNING" , 2402 ) ;

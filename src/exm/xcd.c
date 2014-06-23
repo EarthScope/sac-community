@@ -25,7 +25,6 @@
 void 
 xcd(int *nerr) {
     char kname[MCPFN+1];
-	int nc;
 
 	*nerr = 0;
     memset(kname, 0, MCPFN+1);
@@ -34,8 +33,7 @@ L_1000:
 	if( lcmore( nerr ) ){
 
          /* Get the name of a directory to change to. */
-		if( lcchar( MCPFN, kname,MCPFN+1, &nc ) ){
-                  kname[nc] = '\0';
+		if( lcchar( kname, sizeof(kname)) ){
                   if( chdir(kname) != 0 ){
                     *nerr = 124;
                     goto L_8888;

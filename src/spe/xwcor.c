@@ -45,7 +45,7 @@ int *nerr;
 
 	while ( lcmore( nerr ) ){
 	    /* -- "filename":  define name of file to write. */
-	    if( lcchar( MCPFN, kmspe.knmcor,MCPFN+1, &cmspe.junk ) )
+    if( lcchar(kmspe.knmcor, sizeof(kmspe.knmcor)) )
 	    { /* do nothing */ }
 
 	    /* -- Bad syntax. */

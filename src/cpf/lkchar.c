@@ -59,7 +59,8 @@ lkchar(char *kkey,
 		return FALSE;
   }
 
-  lcchar(mchar, kchar, kchar_s, nchar);
+  lcchar(kchar, mchar);
+  *nchar = strlen(kchar);
   return TRUE;
 
 }

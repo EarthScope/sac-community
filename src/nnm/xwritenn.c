@@ -30,15 +30,14 @@
 void 
 xwritenn(int *nerr) {
 
-	int jdfl, nlenheader, nlocdisk, 
-	 notused, nun;
+	int jdfl, nlenheader, nlocdisk, nun;
   sac *s;
 	*nerr = 0;
 
 	while ( lcmore( nerr ) ){
 
 		/* -- "filename":  name of neural net file to write. */
-		if( lcchar( MCPFN, kmnnm.kwritenn,MCPFN+1, &notused ) )
+		if( lcchar(kmnnm.kwritenn, sizeof(kmnnm.kwritenn)))
 		{ /* do nothing */ }
 
 		/* -- Bad syntax. */

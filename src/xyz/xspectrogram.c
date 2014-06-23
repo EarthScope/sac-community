@@ -25,7 +25,7 @@ void
 xspectrogram(int *nerr)
 {
 	int idx,
-	 jdfl, notused, *nptslist, numfiles, speclength, 
+	 jdfl, *nptslist, numfiles, speclength, 
 	 specsize, specwidth, nchar;
 	int lprint = FALSE , ltry = FALSE ;
 	float begin, *deltalist, xmaximum, 
@@ -202,9 +202,7 @@ xspectrogram(int *nerr)
 
             /* if PRINT option is tried, get printer name */
             else if ( ltry ) {
-                lcchar ( MAXPRNTRNAMELEN   , kmgem.kptrName ,
-                  MAXPRNTRNAMELEN+1 , &notused ) ;
-                terminate ( kmgem.kptrName ) ;
+              lcchar (kmgem.kptrName , sizeof(kmgem.kptrName));
                 if ( !lprint )
                     kmgem.kptrName[0] = '\0' ;
 

@@ -26,7 +26,7 @@ xtrace(int *nerr) {
 
 	char kname[17];
 	int  ltracebb;
-	int  indexcomma, ncname;
+	int  indexcomma;
 	static int ltracevar = TRUE;
 
 	*nerr = 0;
@@ -40,7 +40,7 @@ L_1000:
 
 			/* -- "name":  The name of a header or blackboard variable. */
 			}
-		else if( lcchar( MCNAME, kname,17, &ncname ) ){
+		else if( lcchar(kname, sizeof(kname)) ){
 			indexcomma = indexa( kname,17, ',', TRUE, TRUE );
 			ltracebb = indexcomma == 0;
 			tracevariable( ltracevar, ltracebb, kname, nerr );

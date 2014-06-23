@@ -40,7 +40,7 @@ lccl(char *kcl,
 
 	char ktoken[MCPFN+1];
 	int lccl_v;
-	int ncname, nerr;
+	int nerr;
 
 	nerr = 0;
   memset(ktoken, 0, MCPFN+1);
@@ -58,7 +58,7 @@ L_2000:
 
     memset(ktoken, ' ', sizeof(ktoken));
 		/* -- Get next token and store it in the character list. */
-		if( lcchar( MCPFN, ktoken,MCPFN+1, &ncname ) ){
+		if( lcchar(ktoken, sizeof(ktoken)) ){
 			putcl( kcl,kcl_s, ktoken,MCPFN+1, &nerr );
 			if( nerr != 0 )
 				goto L_8888;

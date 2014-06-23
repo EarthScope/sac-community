@@ -36,7 +36,6 @@ xrgse(int *nerr) {
   static int Verbose = 0;
   static string_list *last_list = NULL;
   char file[MCMSG+1];
-  int len;
   
 	char kmag[4] ;	/* magnitude type: mb, ms, or ml. maf 970206 */
   string_list *list;
@@ -145,8 +144,8 @@ xrgse(int *nerr) {
 		 *       not recognized as above Use kdflin as dummy 
 		 *       buffer to skip a string  
 		 */
-        else if(lcchar(MCMSG, file, MCMSG+1, &len)) {
-            string_list_put(list, file, len);
+        else if(lcchar(file, sizeof(file)) ) {
+            string_list_put(list, file, -1);
         }
 	}
 

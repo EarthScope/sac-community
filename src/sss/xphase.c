@@ -8,7 +8,7 @@
 void /*FUNCTION*/ xphase(nerr)
 int *nerr;
 {
-	int iphase, nchar;
+	int iphase;
 
 	/* Ind
 	 *=====================================================================
@@ -46,7 +46,7 @@ L_1000:
 		/* -- "more": */
 
 		/* -- "phase":  save phase */
-		if( lcchar( MTTLEN, (char*)kmtt.kphases[iphase],9, &nchar ) ){
+		if( lcchar((char*)kmtt.kphases[iphase], sizeof(kmtt.kphases[iphase])) ){
 			iphase = iphase + 1;
 
 			/* -- Bad syntax. */

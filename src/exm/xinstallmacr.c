@@ -5,6 +5,8 @@
  * 
  */
 
+#include <string.h>
+
 #include "exm.h"
 #include "cpf.h"
 #include "msg.h"
@@ -35,7 +37,6 @@ xinstallmacro(int *nerr) {
 
 	char kname[MCPFN+1];
 	int lexist;
-	int nchar;
 
 	*nerr = 0;
 
@@ -43,8 +44,8 @@ xinstallmacro(int *nerr) {
 	while( lcmore( nerr ) ){
 
 		/* -- "text":  the name of a macro to install. */
-		if( lcchar( MCPFN, kname,MCPFN+1, &nchar ) ){
-			modcase( FALSE, kname, nchar, kname );
+		if( lcchar(kname, sizeof(kname)) ){
+			modcase( FALSE, kname, strlen(kname), kname );
 
 			/* -- Bad syntax. */
 			}

@@ -112,7 +112,6 @@ L_1000:
     }
     /* -- FILL ON|OFF|n/n|LIST n/nChange Fill style */
     else if( lckey("FILL$", 6) ) {
-      int nkey;
       char key[101];
       if(lclog(&cmgem.lfill)) {
       } else if(lckey("LIST$", 6)) { /* LIST n/n n/n */
@@ -125,8 +124,7 @@ L_1000:
           int i;
           i = 0;
           cmgem.nifill = 0;
-          while(lcchar(100, key, 100, &nkey)) {
-            key[100] = 0;
+          while(lcchar(key, sizeof(key))) {
             rstrip(key);
             if(cmgem.nifill >= MICOL) {
             } else if(color_parse2(key, &cmgem.iifillp[i], &cmgem.iifilln[i])) {
@@ -137,10 +135,9 @@ L_1000:
             }
           }
         }
-      } else if(lcchar(100,key,100,&nkey)) {
+      } else if(lcchar(key,sizeof(key))) {
         cmgem.lfill  = TRUE;
         cmgem.lifill = FALSE;
-        key[100] = 0;
         rstrip(key);
         if(!color_parse2(key, &cmgem.ifill[0], &cmgem.ifill[1])) {
           cfmt("UNKNOWN FILL FORMAT: ", 21);

@@ -20,7 +20,7 @@ void /*FUNCTION*/ xbegindevices(nerr)
 int *nerr;
 {
 	char kchar[9], kdev[MDEV][9];
-	int nchar, ndev, i;
+	int ndev, i;
 
     memset(kchar,0,sizeof(kchar));
 	/*=====================================================================
@@ -68,7 +68,7 @@ int *nerr;
 
 	    /* -- "device":  save name of new device in scratch array after
 	     *               converting name to upper case. */
-	    if( lcchar( MCPW, kchar,9, &nchar ) ){
+    if( lcchar( kchar, sizeof(kchar)) ){
 		ndev = min( MDEV, ndev + 1 );
 		modcase( TRUE, kchar, MCPW, (char*)kdev[ndev - 1] );
 	    }

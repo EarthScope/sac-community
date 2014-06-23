@@ -27,7 +27,7 @@ void xplotpm(int *nerr)
 	     xlabel[MCMSG+1], ylabel[MCMSG+1];
 	int lany, lframesave, lrxlim, lwait, lprint = FALSE , ltry = FALSE ;
 	int ixplot, iyplot, jdfl, nc, ncret,
-	 notused , nplot;
+    nplot;
 	float ratio, start, stop, tmax, tmin, unused, 
 	 wmax, wmin, xloc, xmax, xmin, xvmax, xvmin, yloc, ymax, ymin, 
 	 yvmax, yvmin;
@@ -74,9 +74,7 @@ void xplotpm(int *nerr)
 	while ( lcmore( nerr ) ){
 	    /* if PRINT option is tried, get printer name */
 	    if ( ltry ) {
-		lcchar ( MAXPRNTRNAMELEN   , kmgem.kptrName ,
-			 MAXPRNTRNAMELEN+1 , &notused ) ;
-		terminate ( kmgem.kptrName ) ;
+        lcchar (kmgem.kptrName , sizeof(kmgem.kptrName));
 		if ( !lprint )
 		    kmgem.kptrName[0] = '\0' ;
 		ltry = FALSE ;

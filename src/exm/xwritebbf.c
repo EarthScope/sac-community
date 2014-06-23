@@ -29,7 +29,6 @@ void
 xwritebbf(int *nerr) {
 
 	char kname[MCPFN+1];
-	int notused;
 
 	*nerr = 0;
 
@@ -39,7 +38,7 @@ L_1000:
 	if( lcmore( nerr ) ){
 
 		/* -- "name":  the name of the global variable file. */
-		if( lcchar( MCPFN, kname,MCPFN+1, &notused ) ){
+		if( lcchar(kname, sizeof(kname)) ){
 
 			/* -- Bad syntax. */
 			}

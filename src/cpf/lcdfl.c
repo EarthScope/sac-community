@@ -46,7 +46,7 @@ string_list *
 lcdfl() {
 
 	char kname[MCPFN+1];
-	int n1, n2, ncname, nerr;
+	int n1, n2, nerr;
   Token *t;
 
 	nerr = 0;
@@ -74,7 +74,7 @@ lcdfl() {
 
     memset(kname, ' ', sizeof(kname));
     /* -- Use LCCHAR to get next filename. */
-    if( lcchar( MCPFN, kname,MCPFN+1, &ncname ) ){
+    if( lcchar( kname, sizeof(kname)) ){
 		/*  --- Generate file names from base name if 
 		 *      next symbol a number. 
 		 */

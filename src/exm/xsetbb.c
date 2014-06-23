@@ -41,7 +41,6 @@ void
 xsetbb(int *nerr) {
 	char kname[MCMSG+1], ktemp[1001], kvalue[MCMSG+1];
 	int  lappend;
-	int nchar;
   Token *t;
 
 	*nerr = 0;
@@ -53,7 +52,7 @@ xsetbb(int *nerr) {
 	while ( lcmore( nerr ) ){
     /* -- "name [APPEND] value":  the name and value of the blackboard variable.
      *    Store the name and value in the blackboard store. */
-    if( lcchar( MCMSG, kname,MCMSG+1, &nchar ) ){
+    if( lcchar(kname, sizeof(kname))) {
       lappend = lckey( "APPEND#$",9);
 
 L_1200:

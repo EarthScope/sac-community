@@ -38,7 +38,7 @@ xcopyhdr(int *nerr) {
 	char ktemp1[MCPFN+1], ktemp2[9], ktemp3[24];
 	int lfirst, lfound, ltemp;
 	int icatcox, idflco, itemcox, itemp;
-	int jdfl, jhdrco, nhdrco, notusd, ntemp;
+	int jdfl, jhdrco, nhdrco, ntemp;
 	float ftemp;
   sac *s;
   float *fp;
@@ -58,7 +58,7 @@ L_1000:
 		if( lckey( "FROM#$",7 ) ){
 			if( lcirc( 1, saclen(), &idflco ) ){
 				}
-			else if( lcchar( MCPFN, ktemp1,MCPFN+1, &notusd ) ){
+			else if( lcchar( ktemp1, sizeof(ktemp1)) ){
         char *ktemp2 = fstrdup(ktemp1, MCPFN+1);
         idflco = sac_find_filename(ktemp2);
         if(idflco < 0) {
@@ -74,7 +74,7 @@ L_1000:
       }
     }
     /* -- "hdrvar":  name of a header variable to copy. */
-    else if( lcchar( MCPW, ktemp2,9, &notusd ) ){
+    else if( lcchar( ktemp2, sizeof(ktemp2)) ) {
 			hdrfld( ktemp2,9, &icatcox, &itemcox, &lfound );
 			if( lfound ){
 				if( lfirst ){

@@ -36,12 +36,13 @@ xrcor(int *nerr) {
   cmspe.samfrq = 0.0;
   cmspe.lcor   = FALSE;
   cmspe.lspe   = FALSE;
-
+  filename     = NULL;
+  s = NULL;
   /* - Loop on each token in command: */
   
   while ( lcmore( nerr ) ){
     /* -- "filename":  define name of file to write. */
-    if( lcchar( MCPFN, kmspe.knmcor,MCPFN+1, &cmspe.junk ) )
+    if( lcchar(kmspe.knmcor,sizeof(kmspe.knmcor)) )
       { /* do nothing */ }
 
     /* -- Bad syntax. */
