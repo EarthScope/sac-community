@@ -103,20 +103,184 @@ if HAVE_FC
 check_PROGRAMS += saciof saclibf
 endif
 
-
+TEST_EXTENSIONS = .sm
 # Compiled programs to test
 TESTS            =  use_sac ucf vars sacio 
 
 if HAVE_FC
 TESTS += sacio_fortran.sh saciof saclibf
 endif
-TESTS += pytest.sh
-#
-# Options for dejagnu for testing the sac binary input and output
-#
-RUNTESTDEFAULTFLAGS = --tool sac \
-		     SAC=../src/sac \
-		     SACAUX=$(top_srcdir)/aux \
-		     --srcdir $(top_srcdir)/t/testsuite \
-		     --objdir ../src
+TESTS += copy_files.sh
+TESTS += testsuite/input/abs.sm \
+testsuite/input/add.sm \
+testsuite/input/addf.sm \
+testsuite/input/alpha.sm \
+testsuite/input/apk.sm \
+testsuite/input/arraymap.sm \
+testsuite/input/axes.sm \
+testsuite/input/bandpass.sm \
+testsuite/input/bandrej.sm \
+testsuite/input/begindevices.sm \
+testsuite/input/beginwindow.sm \
+testsuite/input/benioff.sm \
+testsuite/input/binoperr.sm \
+testsuite/input/border.sm \
+testsuite/input/ch.sm \
+testsuite/input/color.sm \
+testsuite/input/comcor.sm \
+testsuite/input/comment.sm \
+testsuite/input/contour.sm \
+testsuite/input/convolve.sm \
+testsuite/input/copyhdr.sm \
+testsuite/input/correlate.sm \
+testsuite/input/css.sm \
+testsuite/input/cut.sm \
+testsuite/input/cuterr.sm \
+testsuite/input/cutim.sm \
+testsuite/input/decimate.sm \
+testsuite/input/deletechannel.sm \
+testsuite/input/dif.sm \
+testsuite/input/div.sm \
+testsuite/input/divf.sm \
+testsuite/input/divomega.sm \
+testsuite/input/echo.sm \
+testsuite/input/empty.sm \
+testsuite/input/enddevices.sm \
+testsuite/input/envelope.sm \
+testsuite/input/erase.sm \
+testsuite/input/escape.sm \
+testsuite/input/evaluate.sm \
+testsuite/input/evaluate2.sm \
+testsuite/input/exp.sm \
+testsuite/input/exp10.sm \
+testsuite/input/fg.sm \
+testsuite/input/fg_random.sm \
+testsuite/input/filterdesign.sm \
+testsuite/input/floor.sm \
+testsuite/input/full.sm \
+testsuite/input/getbb.sm \
+testsuite/input/grid.sm \
+testsuite/input/hanning.sm \
+testsuite/input/help.sm \
+testsuite/input/highpass.sm \
+testsuite/input/hilbert.sm \
+testsuite/input/inicm.sm \
+testsuite/input/int.sm \
+testsuite/input/interpolate.sm \
+testsuite/input/keepam.sm \
+testsuite/input/khronhite.sm \
+testsuite/input/lh.sm \
+testsuite/input/line.sm \
+testsuite/input/linefit.sm \
+testsuite/input/linlog.sm \
+testsuite/input/log.sm \
+testsuite/input/log10.sm \
+testsuite/input/loglab.sm \
+testsuite/input/lowpass.sm \
+testsuite/input/makrptp.sm \
+testsuite/input/marktimes.sm \
+testsuite/input/markvalue.sm \
+testsuite/input/mathop.sm \
+testsuite/input/merge.sm \
+testsuite/input/message.sm \
+testsuite/input/mtw.sm \
+testsuite/input/mul.sm \
+testsuite/input/mulf.sm \
+testsuite/input/mulomega.sm \
+testsuite/input/oapf.sm \
+testsuite/input/ohpf.sm \
+testsuite/input/output.sm \
+testsuite/input/pause.sm \
+testsuite/input/plabel.sm \
+testsuite/input/plot.sm \
+testsuite/input/plotalpha.sm \
+testsuite/input/prewhiten.sm \
+testsuite/input/qdp.sm \
+testsuite/input/quantize.sm \
+testsuite/input/read.sm \
+testsuite/input/readalpha.sm \
+testsuite/input/readbbf.sm \
+testsuite/input/readcomp2.sm \
+testsuite/input/readerr.sm \
+testsuite/input/readgse.sm \
+testsuite/input/readhdr.sm \
+testsuite/input/readsdd.sm \
+testsuite/input/readsp.sm \
+testsuite/input/readtable.sm \
+testsuite/input/replace.sm \
+testsuite/input/report.sm \
+testsuite/input/reverse.sm \
+testsuite/input/rmean.sm \
+testsuite/input/rms.sm \
+testsuite/input/rotate.sm \
+testsuite/input/rq.sm \
+testsuite/input/rtrend.sm \
+testsuite/input/sam_error.sm \
+testsuite/input/scallop.sm \
+testsuite/input/segy.sm \
+testsuite/input/setbb.sm \
+testsuite/input/sgf.sm \
+testsuite/input/smooth.sm \
+testsuite/input/sort.sm \
+testsuite/input/spe.sm \
+testsuite/input/spectrogram.sm \
+testsuite/input/sqr.sm \
+testsuite/input/sqrt.sm \
+testsuite/input/sss.sm \
+testsuite/input/stretch.sm \
+testsuite/input/sub.sm \
+testsuite/input/subf.sm \
+testsuite/input/symbol.sm \
+testsuite/input/synchronize.sm \
+testsuite/input/systemcommand.sm \
+testsuite/input/taper.sm \
+testsuite/input/test_break.sm \
+testsuite/input/test_do.sm \
+testsuite/input/test_if.sm \
+testsuite/input/test_macro.sm \
+testsuite/input/test_macro_comments.sm \
+testsuite/input/test_run.sm \
+testsuite/input/ticks.sm \
+testsuite/input/title.sm \
+testsuite/input/transcript.sm \
+testsuite/input/transfer.sm \
+testsuite/input/transfer_evresp.sm \
+testsuite/input/transfer_fap.sm \
+testsuite/input/traveltime.sm \
+testsuite/input/unsetbb.sm \
+testsuite/input/unwrap.sm \
+testsuite/input/vspace.sm \
+testsuite/input/weiner.sm \
+testsuite/input/wild.sm \
+testsuite/input/write.sm \
+testsuite/input/writebbf.sm \
+testsuite/input/writehdr.sm \
+testsuite/input/writesdd.sm \
+testsuite/input/writesp.sm \
+testsuite/input/writetable.sm \
+testsuite/input/xdiv.sm \
+testsuite/input/xfir.sm \
+testsuite/input/xfudge.sm \
+testsuite/input/xgrid.sm \
+testsuite/input/xlabel.sm \
+testsuite/input/xlim.sm \
+testsuite/input/xlin.sm \
+testsuite/input/xvport.sm \
+testsuite/input/ydiv.sm \
+testsuite/input/yfudge.sm \
+testsuite/input/ygrid.sm \
+testsuite/input/ylabel.sm \
+testsuite/input/ylin.sm \
+testsuite/input/yvport.sm \
+testsuite/input/zaddf.sm \
+testsuite/input/zam.sm \
+testsuite/input/zfft.sm \
+testsuite/input/zifft.sm \
+testsuite/input/zprocessline.sm \
+testsuite/input/zzzzcd.sm
+
+
+SM_LOG_COMPILER = $(top_srcdir)/t/pytest.py
+AM_SM_LOG_FLAGS = -s "$(abs_builddir)/../src/sac" -o "${abs_top_srcdir}/t/testsuite/output"
+
 

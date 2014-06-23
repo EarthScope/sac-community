@@ -84,7 +84,9 @@ def main() :
             break
     print >>sys.stderr, ""
     print >>sys.stderr, "Errors: ",error
-    sys.exit(error)
+    if error > 0:
+        sys.exit(1)
+    sys.exit(0)
 
 def read_lines(file) :
     lines = list()
@@ -104,6 +106,9 @@ def save_lines(file, lines) :
 
 def commands_read(file) :
     commands = [ 'inicm', 'echo on', 'wait text off' ]
+    if not os.path.exists(file) :
+        os.system('pwd')
+        sys.exit('File does not exist: ' + file)
     commands.extend( read_lines(file) )
     commands.append( 'quit' )
     L = list()
@@ -163,7 +168,7 @@ def commands_execute( commands , opts, test_path) :
         print >>sys.stderr
         print >>sys.stderr, '***** Program exiting badly, return value: ',ecode,'*****'
         print >>sys.stderr
-        sys.exit(-1)
+        sys.exit(99)
     for d in glob.glob("test.*.dir") :
         for f in os.listdir(d) :
             os.remove(os.path.join(d,f))
@@ -192,8 +197,9 @@ def print_output(file, Out, Err, opts) :
         print line,
 
 def output_path(file, opts) :
-    return os.path.join(opts.output, 
-                        os.path.basename(file))
+    f = os.path.splitext(os.path.basename(file))[0]
+    return os.path.join(opts.output, f)
+
 def out_file(file, opts) :
     return output_path(file,opts) + '.out'
 
