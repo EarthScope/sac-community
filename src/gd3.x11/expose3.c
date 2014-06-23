@@ -8,7 +8,6 @@ void
 expose3() {
   
 #ifdef USE_X11_DOUBLE_BUFFER
-  int out;
   XExposeEvent event;
   XWindowAttributes attributes;
   XWindow *xw;

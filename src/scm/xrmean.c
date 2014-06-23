@@ -11,7 +11,7 @@
 void /*FUNCTION*/ xrmean(nerr)
 int *nerr;
 {
-	int j, jdfl;
+	int jdfl;
 
   sac *s;
 	/*=====================================================================

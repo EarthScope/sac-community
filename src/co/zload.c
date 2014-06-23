@@ -21,6 +21,8 @@
 
 #include "errors.h"
 
+#include "debug.h"
+
 /** 
  * Dynamically load an external command
  * 
@@ -98,6 +100,9 @@ zload(char *kfile,
 
 	return;
 #else 
+  UNUSED(kfile);
+  UNUSED(index);
+  UNUSED(nerr);
 	fprintf(stderr, "opening of shared libraries is not supported\n");
 #endif
 } 

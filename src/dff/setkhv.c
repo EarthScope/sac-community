@@ -47,7 +47,7 @@ setkhv(char *kname,
        int   kvalue_s) {
 
 	char ktest[9];
-	int index, ntest;
+	int index;
   char *p;
 	char *kname_c;
 	char *kvalue_c;

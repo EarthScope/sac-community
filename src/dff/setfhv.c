@@ -42,7 +42,7 @@ setfhv(char  *kname,
        int    kname_s) {
 
 	char ktest[9];
-	int index, ntest;
+	int index;
   float *fp;
 	char *kname_c;
 	kname_c = fstrdup(kname, kname_s);

@@ -19,7 +19,7 @@
 void 
 xmarktimes(int *nerr) {
 
-	int ifpick, ikpick, ipick, j, j_, jdfl, 
+	int ifpick, ikpick, ipick, j, jdfl, 
 	 nodttm, nvelu;
 	float distu, originu;
   char *tmp;

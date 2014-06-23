@@ -176,14 +176,12 @@ double xre[], xim[];
 int nfreq, *nerr;
 {
 	char errmsg[131];
-	int i, j;
+	int i;
 	float a[21];
         float nmScale = 1 ;  /* for EVALRESP: scales meters to nanometers. */
-	double delfrq, denr, fac, freq;
+	double delfrq, denr;
   sac *s;
 
-	double *const F = &f[0] - 1;
-	
 	double DataMultiplier = 1.0;
 	
 	/*=================================================================

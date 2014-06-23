@@ -10,6 +10,8 @@
 
 #include "dbselect/dbDefaults.h"
 
+#include "debug.h"
+
 void xtablname( kinput , nerr )
 char * kinput ;
 int * nerr ;
@@ -143,7 +145,9 @@ int * nerr ;
 	/* Prepare for the next pass through the loop. */
 	ptrKoption = strtok ( NULL , " \t" ) ;
     } /* end while ( ptrKoption ) */
-#endif /* DATABASE_ENABLED */
-
+#else /* DATABASE_ENABLED */
+  UNUSED(kinput);
+  UNUSED(nerr);
+#endif
 } /* end xtablname () */
 

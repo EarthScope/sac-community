@@ -48,7 +48,7 @@ getihv(char *kname,
        int   kvalue_s) {
 
 	char ktest[9];
-	int index, ivalue, ntest;
+	int index, ivalue;
 	char *kname_c;
 	int callFromC = 0;
 

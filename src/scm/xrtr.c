@@ -17,7 +17,7 @@
 void /*FUNCTION*/ xrtr(nerr)
 int *nerr;
 {
-	int jdfl, jy;
+	int jdfl;
 	float corrcf, sddta, sdslp, sdyint, slp, yint;
 
     static int verbose = FALSE;

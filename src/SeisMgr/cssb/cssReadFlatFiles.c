@@ -294,10 +294,14 @@ static int  GetWfdiscVersion(char *FileName)
 
 int InList(char* str, char** List, int Nitems)
 {
-   int j;
    #ifdef POSIX
+   int j;
    for(j=0;j<Nitems;j++)
       if( !fnmatch(List[j], str, 0) ) return 1;
+   #else 
+   UNUSED(str);
+   UNUSED(List);
+   UNUSED(Nitems);
    #endif
    return 0;
 }

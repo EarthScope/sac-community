@@ -41,7 +41,6 @@ struct t_cmspe {
   int   lprewh;
   int   nprerq;
   int   nprewh;
-  int   junk;
   float cprewh[MPREWH + 1];
   int   nlncor;
   int   nlnfft;

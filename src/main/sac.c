@@ -116,17 +116,12 @@ usage() {
  */
 
 int
-main(int    argc, 
-     char **argv ) {
+main(int    argc, char **argv ) {
 
-	char kmsg[MCMSG+1];
-	int ic, ic1, ic2, itype, nc, ncline, ncmsg, nerr, i;
-    char *s1, *s2;
-    int dumb ;
-    
-    float *a;
-    
-    memset(&(kmsg[0]), ' ', MCMSG);
+  char kmsg[MCMSG+1];
+
+  memset(&(kmsg[0]), ' ', MCMSG);
+
 	kmsg[0] = '\0' ;
 	kmsg[MCMSG] = '\0' ;
 

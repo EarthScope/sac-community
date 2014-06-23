@@ -47,7 +47,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 
 char NAME[] = "Times";
-static const int NAME_A = 1;
+/* static const int NAME_A = 1; */
 int NAME_D = 1;
 int NAME_W = 1;
 FontMetricsWidths NAME_WID[] = { {0,0,"X"} };

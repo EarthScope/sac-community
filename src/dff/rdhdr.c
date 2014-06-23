@@ -57,7 +57,7 @@ rdhdr(sac *s,
       char *file, 
       int  *nerr) {
 
-	int ncerr, ndaerr, nlcdsk, numrd;
+	int ncerr, nlcdsk, numrd;
         float *buffer;
         int *hdrVer, lswap = 0 ;
         const int versionLocation = 76 ;

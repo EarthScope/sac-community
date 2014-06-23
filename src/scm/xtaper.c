@@ -17,8 +17,7 @@
 void /*FUNCTION*/ xtaper(nerr)
 int *nerr;
 {
-	int ipts, j, jdfl;
-	float f0, f1, omega, tpts, value;
+	int ipts, jdfl;
   sac *s;
 
 

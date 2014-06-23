@@ -46,7 +46,6 @@ void sacToSeisMgr ( int lnew , int lupdate , int ldata , int *nerr )
     char * worksetName , defaultWorksetName[] = "workset01" ;
     int jdfl ;
     int takeEvid = FALSE ;
-    int  ndaerr ;
     float unused ;
     sacSACdata *data;
     int * nwfid_array;

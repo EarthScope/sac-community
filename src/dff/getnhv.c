@@ -43,7 +43,7 @@ getnhv(char *kname,
        int   kname_s) {
 
 	char ktest[9];
-	int index, ntest;
+	int index;
   int *np;
 	char *kname_c;
 

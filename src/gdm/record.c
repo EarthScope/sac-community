@@ -685,14 +685,12 @@ initdevice_null(display_t *d) {
   d->handle_event           = NULL;
 }
 
-static char *xpm_name = "PIXMAP";
-static char *xpm_ext  = "xpm";
 static char *text_name = "TEXT";
 static char *text_ext  = "txt";
-static char *png_name = "PNG";
-static char *png_ext  = "png";
 
 #ifdef HAVE_XPM
+static char *xpm_name = "PIXMAP";
+static char *xpm_ext  = "xpm";
 void
 initdevice_xpm() {
   initdevice_null( &xpm );
@@ -707,6 +705,8 @@ void initdevice_xpm() {}
 #endif
 
 #ifdef HAVE_PNG
+static char *png_name = "PNG";
+static char *png_ext  = "png";
 void
 initdevice_png() {
   initdevice_null( &png );

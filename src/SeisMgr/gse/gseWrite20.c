@@ -14,10 +14,10 @@
 
 
 static const int wfError = -2 ;
-static const int staError = -3 ;
-static const int chanError = -4 ;
-static const int arrError = -5 ;
-static const int orError = -6 ;
+/* static const int staError = -3 ; */
+/* static const int chanError = -4 ; */
+/* static const int arrError = -5 ; */
+/* static const int orError = -6 ; */
 
 
 static void dbDelaz(float *slat, float *slon, float *elat, float *elon,

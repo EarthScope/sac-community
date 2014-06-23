@@ -42,7 +42,7 @@ setnhv(char *kname,
        int   kname_s) {
 
 	char ktest[9];
-	int index, ntest;
+	int index;
 	char *kname_c;
 	kname_c = fstrdup(kname, kname_s);
 	kname_s = strlen(kname_c) + 1;

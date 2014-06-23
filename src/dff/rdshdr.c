@@ -35,7 +35,7 @@ rdshdr(int  idfl,
        int *nun, 
        int *nerr) {
 
-	int i, idd, imm, is, iss, ndaerr, nlcdsk, numrd;
+	int i, idd, imm, is, iss, nlcdsk, numrd;
         char *strtemp;
 
         //int *Isacmem;

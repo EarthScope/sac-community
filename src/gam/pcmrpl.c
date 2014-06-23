@@ -222,13 +222,13 @@ L_5500:
 			pcxop2( iop1, iop2 );
 			}
 		else{
-                        strtemp1 = malloc(nctext+1);
-                        strncpy(strtemp1,ktext,nctext);
-                        strtemp1[nctext] = '\0';
+      //strtemp1 = malloc(nctext+1);
+      //strncpy(strtemp1,ktext,nctext);
+      //strtemp1[nctext] = '\0';
 
-                        fprintf(MUNOUT," %s%s\n", kbdlin, strtemp1);
+      //fprintf(MUNOUT," %s%s\n", kbdlin, strtemp1);
 
-                        free(strtemp1);
+      //free(strtemp1);
 			goto L_5000;
 			}
 		goto L_5000;
@@ -284,13 +284,9 @@ L_7000:
 
 	/* - If none of the above, then user has typed an illegal character. */
 
-        strtemp1 = malloc(nctext+1);
-        strncpy(strtemp1,ktext,nctext);
-        strtemp1[nctext] = '\0';
 
-        fprintf(MUNOUT," %s%s\n", kbdlin, strtemp1);
+  fprintf(MUNOUT," %s%s\n", kbdlin, ktext);
 
-        free(strtemp1);
 
 	/* - Loop until end-of-file is reached. */
 

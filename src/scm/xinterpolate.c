@@ -26,9 +26,9 @@ int okdf(float x[], int nlen);
 void /*FUNCTION*/ xinterpolate(nerr)
 int *nerr;
 {
-	int j, jdfl, 
+	int jdfl, 
 	  newlen, nincr;
-	float xnew, xstart, xstop, eps;
+	float xstart, xstop, eps;
 
   sac *s;
   float *new;

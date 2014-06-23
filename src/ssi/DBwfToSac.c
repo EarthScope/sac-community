@@ -14,7 +14,7 @@ sac *s;
 struct trace *seis ;
 {
     /* Declare Variables. */
-    int idx, jcomp, nlcdsk = 0, numrd, offset;
+  int idx, jcomp, numrd;
     float unused, *pArray;
     int ncomp;
     /*=====================================================================
