@@ -79,9 +79,6 @@ sacio_SOURCES    = sacio.c \
                    sacio_test.h
 
 if HAVE_FC
-saciof${EXEEXT}: sacio_f.o
-	$(F77) $(COVERAGE) -o $@ sacio_f.o -L../src -lsacio
-
 saciof_SOURCES = sacio_f.f
 saciof_CFLAGS = $(COVERAGE)
 saciof_LDADD = -L../src/ -lsacio -lsac
