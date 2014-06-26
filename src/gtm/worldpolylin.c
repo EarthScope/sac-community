@@ -1,15 +1,10 @@
 
 #include "gtm.h"
-
-void /*FUNCTION*/ worldpolyline(xwloc, ywloc, number)
-float xwloc[], ywloc[];
-int number;
+#include "debug.h"
+void 
+worldpolyline(float *xwloc, float *ywloc, int number)
 {
 	int j;
-
-	float *const Xwloc = &xwloc[0] - 1;
-	float *const Ywloc = &ywloc[0] - 1;
-
 
 	/*=====================================================================
 	 * PURPOSE:  To draw a line through a set of world locations.
@@ -25,22 +20,28 @@ int number;
 	 *=====================================================================
 	 * MODULE/LEVEL:  gtm/4
 	 *=====================================================================
-	 * SUBROUTINES CALLED:
-	 *   saclib:   worldmove, worlddraw
-	 *=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    831026:  Original version.
+   *    140624:  Changed to use polyline
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  861017
 	 *===================================================================== */
 	/* PROCEDURE: */
-	worldmove( Xwloc[1], Ywloc[1] );
 
-	for( j = 2; j <= number; j++ ){
-		worlddraw( Xwloc[j], Ywloc[j] );
-		}
+  float *x = (float *) malloc(sizeof(float) * number);
+  float *y = (float *) malloc(sizeof(float) * number);
+  
+  /* Coordinate change from world to view */
+  for(j = 0; j < number; j++) {
+    x[j] = cmgtm.xmpwv1 * xwloc[j] + cmgtm.xmpwv2;
+    y[j] = cmgtm.ympwv1 * ywloc[j] + cmgtm.ympwv2;
+  }
 
-       
+  polyline(x, y, &number);
+
+  FREE(x);
+  FREE(y);
+
 	return;
 
 } /* end of function */
