@@ -563,7 +563,7 @@ sac_attempt_complete(const char *text, int start, int end) {
  */
 
 #ifdef OSX_APP
-static int osx_fd[2];
+static int osx_fd[2] = {0,0};
 static char value = 'a';
 void
 osx_gui_command(char *cmd) {
@@ -658,7 +658,9 @@ select_loop(char *prmt, int prmtlen,
 #endif 
 
 #ifdef OSX_APP
-    pipe(osx_fd);
+    if(osx_fd[0] == 0 && osx_fd[1] == 0) {
+      pipe(osx_fd);
+    }
     FD_SET(osx_fd[0], &fd);
     if(osx_fd[0] > max_fd) {
       max_fd = osx_fd[0];
