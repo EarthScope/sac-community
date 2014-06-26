@@ -1,11 +1,13 @@
 
 #include "gtm.h"
 #include "debug.h"
+
+#define MBLOCK 100
 void 
 worldpolyline(float *xwloc, float *ywloc, int number)
 {
 	int j;
-
+  int n;
 	/*=====================================================================
 	 * PURPOSE:  To draw a line through a set of world locations.
 	 *=====================================================================
@@ -36,8 +38,19 @@ worldpolyline(float *xwloc, float *ywloc, int number)
     x[j] = cmgtm.xmpwv1 * xwloc[j] + cmgtm.xmpwv2;
     y[j] = cmgtm.ympwv1 * ywloc[j] + cmgtm.ympwv2;
   }
-
-  polyline(x, y, &number);
+  j = 0;
+  while(j < number ) {
+    n = MBLOCK;
+    if(j + n >= number) {
+      n = number - j ;
+    } else {
+      if(number - (j + n) < 2) {
+        n -= 1;
+      }
+    }
+    polyline(&x[j], &y[j], &n);
+    j += n;
+  }
 
   FREE(x);
   FREE(y);
