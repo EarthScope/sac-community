@@ -680,6 +680,8 @@ AUTOMAKE_OPTIONS = no-dependencies #dejagnu
 @X11_APP_TRUE@	ABS_TOP_SRCDIR=$(abs_top_srcdir) \
 @X11_APP_TRUE@	ABS_BUILDDIR=$(abs_builddir)
 
+@OSX_APP_TRUE@SACBIN = ../Sac.app/Contents/MacOS/sac-osx-gui
+@X11_APP_TRUE@SACBIN = ../src/sac
 LDADD = -L../src/ -lsac_all -levalresp -lSMnonOracleFuncs \
 	-lSacOracleStubFuncs $(am__append_1) $(X_PRE_LIBS) \
 	$(X_EXTRA_LIBS) $(X_LIBS) $(SAC_GRAPHICS) $(FORMAT_LIBS) -lX11 \
@@ -692,7 +694,7 @@ EXTRA_DIST = testsuite \
              test_io_big.sac test_io_small.sac \
              test_spec_big.sac test_spec_small.sac \
              test_uneven_big.sac test_uneven_small.sac  \
-             pytest.sh pytest.py sacio_fortran.sh
+             pytest.py sacio_fortran.sh
 
 
 # Unit Testing Suite: Hardly a suite
@@ -730,17 +732,7 @@ sacio_LDADD = -L../src/ -lsacio -L. -lunit
 sacio_LDFLAGS = 
 TEST_EXTENSIONS = .sm
 SM_LOG_COMPILER = $(top_srcdir)/t/pytest.py
-AM_SM_LOG_FLAGS = -s "$(abs_builddir)/../src/sac" -o "${abs_top_srcdir}/t/testsuite/output"
-
-#
-# Options for dejagnu for testing the sac binary input and output
-#
-RUNTESTDEFAULTFLAGS = --tool sac \
-		     SAC=../src/sac \
-		     SACAUX=$(top_srcdir)/aux \
-		     --srcdir $(top_srcdir)/t/testsuite \
-		     --objdir ../src
-
+AM_SM_LOG_FLAGS = -s "$(abs_builddir)/$(SACBIN)" -o "${abs_top_srcdir}/t/testsuite/output"
 all: all-am
 
 .SUFFIXES:

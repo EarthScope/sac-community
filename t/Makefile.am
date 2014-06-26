@@ -8,12 +8,14 @@ TESTS_ENVIRONMENT = SACAUX=$(abs_top_srcdir)/aux \
 	SACBIN=../src/sac \
 	ABS_TOP_SRCDIR=$(abs_top_srcdir) \
 	ABS_BUILDDIR=$(abs_builddir)
+SACBIN=../src/sac
 endif
 if OSX_APP
 TESTS_ENVIRONMENT = SACAUX=$(abs_top_srcdir)/aux \
 	SACBIN=../Sac.app/Contents/MacOS/sac-osx-gui \
 	ABS_TOP_SRCDIR=$(abs_top_srcdir) \
 	ABS_BUILDDIR=$(abs_builddir)
+SACBIN=../Sac.app/Contents/MacOS/sac-osx-gui
 endif
 
 #
@@ -48,7 +50,7 @@ EXTRA_DIST = testsuite \
              test_io_big.sac test_io_small.sac \
              test_spec_big.sac test_spec_small.sac \
              test_uneven_big.sac test_uneven_small.sac  \
-             pytest.sh pytest.py sacio_fortran.sh
+             pytest.py sacio_fortran.sh
 
 # Unit Testing Suite: Hardly a suite
 noinst_LIBRARIES    = libunit.a
@@ -281,6 +283,6 @@ testsuite/input/zzzzcd.sm
 
 
 SM_LOG_COMPILER = $(top_srcdir)/t/pytest.py
-AM_SM_LOG_FLAGS = -s "$(abs_builddir)/../src/sac" -o "${abs_top_srcdir}/t/testsuite/output"
+AM_SM_LOG_FLAGS = -s "$(abs_builddir)/$(SACBIN)" -o "${abs_top_srcdir}/t/testsuite/output"
 
 
