@@ -77,8 +77,6 @@ rdsdta(int   idfl,
 		/* -- Update disk location and read data. */
 		if( numrd > 0 ){
 			nlcdsk = nlcdsk + s->m->nstart - 1 + s->m->nfillb;
-      //Sacmem = cmmem.sacmem[nlcmem]+offset;
-      //Isacmem = (int *)(cmmem.sacmem[nlcmem]+offset);
       sdd = (int *)malloc(sizeof(int) * numrd);
       zrabs( (int *)nun, (char *)sdd, numrd, 
 			       (int *)&nlcdsk, (int *)nerr );

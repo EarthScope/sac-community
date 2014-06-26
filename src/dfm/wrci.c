@@ -126,7 +126,6 @@ wrci(int   idfl,
 	ncards = s->h->npts/5;
 	nremdr = s->h->npts - 5*ncards;
   k = 0;
-  //Sacmem = cmmem.sacmem[ndx1];
 	for( jj = 1; jj <= ncards; jj++ ){
 	    for( jjj = nlcmem; jjj <= (nlcmem + 4); jjj++ ){
 		fprintf(nun,kfmt,s->y[k++]);

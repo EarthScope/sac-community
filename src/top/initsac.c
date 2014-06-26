@@ -38,7 +38,7 @@
 #include "hdr.h"
 #include "icm.h"
 #include "lhf.h"
-#include "amf.h" /* Includes cmmem */
+#include "amf.h"
 #include "msg.h"
 #include "nnm.h"
 #include "nvars.h"

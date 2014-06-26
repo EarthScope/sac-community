@@ -194,7 +194,6 @@ goto L_8888;
   nlenMaster = s->h->npts;
 	//getfil( cmsam.imast, TRUE, &nlenMaster, &ndxy, &ndxx, nerr );
 
-	/* copy( (int*)cmmem.sacmem[ndxy], (int*)cmmem.sacmem[ndxmas], nlenmx ); */
 	copy_float( s->y, master, nlenMaster );
 	nzeros = nlenmx - nlenMaster;	/* nlen became nlenMaster.  maf 961204 */
 	if( nzeros > 0 )

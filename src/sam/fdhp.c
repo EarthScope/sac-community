@@ -174,7 +174,6 @@ float *userData ;
 
 	zero( memptr[mxmptr-1], NIMPPTS );
   memptr[mxmptr-1][IPULSE-1] = 1.0;
-	//*(cmmem.sacmem[Memptr[mxmptr]] + IPULSE - 1) = 1.;
 
 	apply( memptr[mxmptr-1], NIMPPTS, FALSE,
 		cmfir3.sn, cmfir3.sd, cmfir3.nsects );

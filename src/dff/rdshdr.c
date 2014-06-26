@@ -118,7 +118,6 @@ rdshdr(int  idfl,
   s->sddhdr = (int *) malloc(sizeof(int) * MWESHD);
 	//nlcmem = Nxsdd[idfl];
 
-  //Isacmem = (int *)cmmem.sacmem[nlcmem];
   s->sddhdr[0] = *isclas;
   s->sddhdr[1] = *isfrmt;
   s->sddhdr[2] = *iscalg;

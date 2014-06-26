@@ -295,10 +295,10 @@ xbbfk(int *nerr) {
         if( *nerr != 0 )
 	    goto L_8888 ;
 
-  
+        s = sacget(0, TRUE, nerr);
 	/*  Calculate broadband spatial covariance matrix    
 	 * */
-        //	covmat( cmmem.sacmem, ptr, ns, Nsamps[1], cmfks.lkfilter, scm, nerr );
+  covmat( ns, s->h->npts,  cmfks.lkfilter, scm, nerr );
 
 	if( *nerr != 0 )
 	    goto L_8888 ;
@@ -532,9 +532,7 @@ L_8888:
 
 
 void 
-covmat(float   **data, 
-       int      *ptrs, 
-       int       nch, 
+covmat(int       nch, 
        int       nsamples, 
        int       ltofilter, 
        complexf *scm, 
@@ -546,8 +544,9 @@ covmat(float   **data,
 	 qstates[MXLENS][MXLENS - 1], sdd[2*MXNSECTS], snn[2*MXNSECTS], 
 	 states[MXLENS][2*MXNSECTS], xiyi, xiyr, xryi, xryr;
 
+  sac *s;
+  
 	float *const A = &a[0] - 1;
-	int *const Ptrs = &ptrs[0] - 1;
 	complexf *const Scm = &scm[0] - 1;
 	float *const Sdd = &sdd[0] - 1;
 	float *const Snn = &snn[0] - 1;
@@ -629,10 +628,13 @@ L_4:
 	 * */
 	for( jdx = 0; jdx < nch; jdx++ ){
 
+    if(!(s = sacget(jdx, TRUE, nerr))) {
+      return;
+    }
 		if( ltofilter ){
-
+      
 			/*    bandpas    */
-			iirfilter( data[Ptrs[jdx+1]]+iptr-1, ncurrent, a, snn, 
+			iirfilter( s->y + iptr-1, ncurrent, a, snn, 
 			 sdd, cmfir3.nsects, &states[jdx][0], buffer );
 
 			/*    complex analytic signal representation                             
@@ -646,7 +648,7 @@ L_4:
 
 			/*    complex analytic signal representation                             
 			 * */
-			phaseshift( data[Ptrs[jdx+1]]+iptr-1, ncurrent, &output1[jdx][0], 
+			phaseshift( s->y + iptr-1, ncurrent, &output1[jdx][0], 
 			 &output2[jdx][0], &qstates[jdx][0] );
 
 			}

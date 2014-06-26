@@ -223,9 +223,6 @@ int *nerr;
             if( s->m->swap ){     /* byteswap if necessary. */
 
                 for(jdx = 0; jdx < nfreq; jdx++) {
-                  //for( idx = 0, ptr = cmmem.sacmem[nlcmem] ;
-                  // idx < nfreq ; idx++, ptr++ )
-                  //{
                     byteswap( (void *)&s->y[jdx], 4 ) ;
                 }
             } 
@@ -240,8 +237,8 @@ int *nerr;
 	    /* -- Fill second half of first data component.
 	     *    This is either the real or the amplitude component
 	     *    and is therefore symmetric about its midpoint. */
-      Sacmem1 = &s->y[1];             //cmmem.sacmem[nlcmem]+1;
-      Sacmem2 = &s->y[s->h->npts-1];  //cmmem.sacmem[nlcmem]+*npts-1;
+      Sacmem1 = &s->y[1];
+      Sacmem2 = &s->y[s->h->npts-1];
 	     for( jdx = 1; jdx <= (nfreq - 2); jdx++ ){
                 *(Sacmem2--) = *(Sacmem1++);
 	     }
@@ -277,9 +274,6 @@ int *nerr;
 	    zrabs( (int *)&nun, (char *)s->x, nfreq, (int *)&nlcdsk, (int *)nerr );
             if( s->m->swap ){     /* byteswap if necessary. */
                 for(jdx = 0; jdx < nfreq; jdx++) {
-                  //for( idx = 0, ptr = cmmem.sacmem[nlcmem] ;
-                  //     idx < nfreq ; idx++, ptr++ )
-                  //{
                     byteswap( (void *)&s->x[jdx], 4 ) ;
                 }
             } 
@@ -292,8 +286,8 @@ int *nerr;
 		goto L_8888;
 
 	    /* -- Fill second half of second component (assymetric this time.) */
-      Sacmem1 = &s->x[1];             //cmmem.sacmem[nlcmem]+1;
-      Sacmem2 = &s->x[s->h->npts-1];  //cmmem.sacmem[nlcmem]+*npts-1;
+      Sacmem1 = &s->x[1];
+      Sacmem2 = &s->x[s->h->npts-1];
 	    for( jdx = 1; jdx <= (nfreq - 2); jdx++ ){
                 *(Sacmem2--) = -*(Sacmem1++);
 	    }

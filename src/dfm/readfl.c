@@ -338,7 +338,7 @@ L_2000:
 	    }
 	    else if( ftype == xdr ){
 #ifdef HAVE_LIBRPC
-            xdrhdr( xdrs, cmmem.sacmem[Ndxhdr[jdfl]], nerr);
+        xdrhdr( xdrs, (float*) s->h, nerr);
 #endif /* HAVE_LIBRPC */
 	    }
 	    else{

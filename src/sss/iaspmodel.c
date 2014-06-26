@@ -107,11 +107,9 @@ int nloops, *nerr;
 
 		for( ndx = 0; ndx <= nloops; ndx++ ){
       tty[jdx+cmtt.nttm][ndx] = -1.0;
-      //*( cmmem.sacmem[Ndxtty[jdx + cmtt.nttm]] + ndx ) = -1.0;
 		    /* next line added to set X values. maf 960829 */
 		    /* This line will have to be tested when dinc gets a value other than 1 */
       ttx[jdx+cmtt.nttm][ndx] = ndx * Xttdel[jdx+cmtt.nttm];
-      //*( cmmem.sacmem[Ndxttx[jdx + cmtt.nttm]] + ndx ) = ndx * Xttdel[jdx + cmtt.nttm] ;
 		}
 		strcpy( kmtt.kttnm[jdx_ + cmtt.nttm], kmtt.kphases[jdx_] );
 	    } /* end for( jdx = 1; jdx <= cmtt.nphases; jdx++ ) */
@@ -130,7 +128,6 @@ int nloops, *nerr;
                     jen_ = jen - 1;
                     if(memcmp(kphcd[jen_],kmtt.kphases[jph_],MTTLEN) == 0 ) {
                       tty[jph+cmtt.nttm][iloops-1] = Tt[jen];
-                      //*(cmmem.sacmem[Ndxtty[cmtt.nttm + jph]] + iloops - 1) = Tt[jen];
                     }
                 }
             }

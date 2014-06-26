@@ -153,8 +153,6 @@ getResponse(float     *array,
 
 	/* Determine Impulse Response */
 	   /* store a copy of impulse response in Real for fourier transform. */
-	//Sacmem = cmmem.sacmem[ memptr[ 0 ] ] ;
-	//*re++ = *Sacmem++ = 0.0 ;
 	*re++ = 0.0 ;
   resp[0][0] = 0.0;
 
@@ -183,8 +181,6 @@ getResponse(float     *array,
 
 	re = Real ;
 	im = Imagine ;
-	//Sacmem1 = cmmem.sacmem[ memptr[ 1 ] ] ;
-	//Sacmem2 = cmmem.sacmem[ memptr[ 2 ] ] ;
 
 	for( jdx = 0; jdx < nFreq; jdx++ ){
 	    (*re) *= delta ;
@@ -201,7 +197,6 @@ getResponse(float     *array,
 
 	for( jdx = 1; jdx < nFreq; jdx++ ){
 	    /* Fill Group Delay Array */
-      //cmmem.sacmem[ memptr[ 3 ] ][ jdx ] =
       resp[3][jdx] =
 	      ( ( re[ jdx ] * ( im[ jdx ] - im[ jdx - 1 ] ) -
 	        im[ jdx ] * ( re[ jdx ] - re[ jdx - 1 ] ) ) /
@@ -216,12 +211,9 @@ getResponse(float     *array,
 	   /* the derivative leaves us with one less point than we started with. */
 	   /* setting the first point to the second point is a way get back the
 	      original npts. */
-	//cmmem.sacmem[ memptr[ 3 ] ][ 0 ] = cmmem.sacmem[ memptr[ 3 ] ][ 1 ] ;
   resp[3][0] = resp[3][1];
 
 	/* convert real/imaginary data to amplitude/phase */
-	//toamph( cmmem.sacmem[ memptr[ 1 ] ] , cmmem.sacmem[ memptr[ 2 ] ] ,
-  // nFreq, cmmem.sacmem[ memptr[ 1 ] ] , cmmem.sacmem[ memptr[ 2 ] ] ) ;
 	toamph( resp[1], resp[2], nFreq, resp[1], resp[2] ) ;
 
 	/* set userData */

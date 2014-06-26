@@ -3,12 +3,6 @@
 #define _AMF_H_
 
 
-/** 
- * @struct t_cmmem
- *    Memory Storage for Header and Data Blocks
- *
- */
-
 #include "debug.h"
 #include "SacHeader.h"
 #include "clf.h"

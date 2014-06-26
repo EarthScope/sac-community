@@ -140,7 +140,7 @@ L_1000:
       return;
     }
 
-           matAddToChanSet(jdfl,nlen,cmmem.sacmem[ndx1]);
+    matAddToChanSet(jdfl,nlen,s->y);
 
 	}
 	matTrimSets();

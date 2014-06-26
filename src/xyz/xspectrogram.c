@@ -368,7 +368,6 @@ xspectrogram(int *nerr)
 	//getfil( 1, TRUE, &itemp1, &itemp2, &itemp3, nerr );
         /* Store the spectrogram data in sacmem */
   s->y = sdata;
-  //memcpy((char *)cmmem.sacmem[indexdata],(char *)sdata,specsize*sizeof(float));
 
   s->h->npts = specsize;
   s->h->delta = 1.0;

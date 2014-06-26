@@ -109,9 +109,7 @@ void calcoffsets ( int ns,
                    int *nerr);
 void inifks (void);
 void xbbfk ( int *nerr);
-void covmat ( float **data, 
-              int *ptrs, 
-              int nch, 
+void covmat ( int nch, 
               int nsamples, 
               int ltofilter, 
               complexf *scm, 

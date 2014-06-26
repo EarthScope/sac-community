@@ -104,8 +104,8 @@ void SeisMgrToSac ( DBlist tree , int lname , int * nerr,
       }
 
 	    newData.dataType = header.iftype ;
-	    newData.xarray   = s->x;//cmmem.sacmem[ cmdfm.ndxdta[ saclen()-1 ][ 1 ] ] ;
-	    newData.yarray   = s->y;//cmmem.sacmem[ cmdfm.ndxdta[ saclen()-1 ][ 0 ] ] ;
+	    newData.xarray   = s->x;
+	    newData.yarray   = s->y;
 	    header.b = s->h->b ;
 	    header.e = s->h->e ;
 	    header.npts = s->h->npts ;

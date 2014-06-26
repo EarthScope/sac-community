@@ -37,7 +37,7 @@
  */
 void 
 rdxdrdta(int   idfl, 
-	 char *kname, 
+         char *kname, 
 	 int   kname_s, 
 	 int  *nerr) {
 
@@ -47,9 +47,13 @@ rdxdrdta(int   idfl,
         FILE *nun;
         XDR xdrs;
 
-
+  sac *s;
 	*nerr = 0;
 
+  if(!(s = sacget(idfl-1, TRUE, nerr))) {
+    goto L_8888;
+  }
+  
 	/* Open the input file */
 	znfiles(&nun, kname, kname_s, "TEXT", 5, nerr);
 	if( *nerr != 0 ) return;
@@ -60,7 +64,7 @@ rdxdrdta(int   idfl,
 	/* Read the header from disk */
 	/* For portability, read and throw away the header first
 	   to correctly position file for read of data.   */
-	xdrhdr(xdrs, cmmem.sacmem[Ndxhdr[idfl]], nerr);
+	xdrhdr(xdrs, s->h, nerr);
 	if( *nerr != 0 ) goto L_8888;
 
 	/* - Define number of points to read. */
@@ -72,7 +76,7 @@ rdxdrdta(int   idfl,
 	    /* -- Define initial memory location. */
 	    nlcmem = cmdfm.ndxdta[idfl - 1][jcomp];
 
-	    if( !xdr_array(&xdrs, (caddr_t *) &cmmem.sacmem[nlcmem],
+	    if( !xdr_array(&xdrs, (caddr_t *) s->y,
 		(u_int *)&lendata, (u_int)lendata, sizeof(float), xdr_float)){
                   *nerr = 123;
                   goto L_8888;
@@ -82,14 +86,12 @@ rdxdrdta(int   idfl,
 	/* - Compute some header values. */
 
 	s->h->npts = Nlndta[idfl];
-	extrma( cmmem.sacmem[cmdfm.ndxdta[idfl - 1][0]], 1, s->h->npts, depmin, 
-	 depmax, depmen );
+  sac_extrema(s);
 	if( s->h->leven ){
 	    s->h->e = s->h->b + (float)( s->h->npts - 1 )*s->h->delta;
 	}
 	else{
-	    extrma( cmmem.sacmem[cmdfm.ndxdta[idfl - 1][1]], 1, s->h->npts,
-		    begin, ennd, &unused );
+	    extrma( s->y, 1, s->h->npts, &s->h->b, &s->h->e, &unused );
 	}
 
 L_8888:

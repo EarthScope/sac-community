@@ -152,7 +152,6 @@ int *nerr;
 		//cmdfm.ndxdta[jdfl_][0] = ndx1;
     //s->y = new;
 		/* --- Copy time-series data into first block and zero fill. */
-		/* copy( (int*)cmmem.sacmem[ndxold], (int*)cmmem.sacmem[ndx1], nlnold ); */
 
 		copy_float( s->y, new, s->h->npts );
 		fill( new + s->h->npts, nlnnew - s->h->npts, 0. );
@@ -196,7 +195,6 @@ int *nerr;
             dcpft(re, im, nlnnew, 1, cmsam.ifwd);
 
       DEBUG("re,im: %p %p\n", re, im);
-/*	    cpft( cmmem.sacmem[ndx1], cmmem.sacmem[ndx2], nlnnew, 1, cmsam.ifwd ); */
       DEBUG("re,im: %p %p\n", re, im);
             for ( jdx=0; jdx<nlnnew; jdx++){
               s->y[jdx] = (float)re[jdx];

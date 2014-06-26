@@ -88,8 +88,6 @@ int *nerr;
         im[jdx] = (double) s->x[jdx];
         DEBUG("%d %e %e %e %e\n",jdx, re[jdx],im[jdx],s->y[jdx],s->x[jdx]);
 	    }
-/*	    cpft(cmmem.sacmem[ndx1], cmmem.sacmem[ndx2], s->h->npts, 1, cmsam.ibwd);
-*/
 	    dcpft(re, im, s->h->npts, 1, cmsam.ibwd);
 
 	    for (jdx=0; jdx<s->h->npts; jdx++){

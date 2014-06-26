@@ -101,8 +101,8 @@ int *nerr;
     }
     //getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
-	   /* Set data pointer for this channel to correct place in cmmem.sacmem */
-	   if ( !matAddSACdataElement(jdfl -1 ,cmmem.sacmem[ndx1], cmmem.sacmem[ndx2], nlen) ){
+	   /* Set data pointer for this channel to correct place */
+	   if ( !matAddSACdataElement(jdfl -1 , s->y, s->x, nlen) ){
 	        /* Free allocated resources and return */
 	        matDestroySACdataArray();
 	        fprintf(stderr,"ERROR: Could not add element to SAC data array in xMAT.");
@@ -132,7 +132,7 @@ int *nerr;
       *nerr = 1;
       return;
     }
-	   if( !matUpdateSACfromSACdataArray(jdfl -1, cmmem.sacmem[ndx1], cmmem.sacmem[ndx2], nlen) ) {
+    if( !matUpdateSACfromSACdataArray(jdfl -1, s->y, s->x, nlen) ) {
 	        matDestroySACdataArray();
 		matDestroyBlackboardList();
 	        fprintf(stderr,"ERROR: Could not update SAC data from array in xMAT.");

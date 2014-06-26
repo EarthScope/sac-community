@@ -196,10 +196,10 @@ goto L_8888;
 
 
         /* clone and reverse the master signal. overhauled, maf 961204 */
-	destination = master;//cmmem.sacmem[ndxmas];
-  source = s->y + s->h->npts -1; //cmmem.sacmem[ndxy] + nlenMaster - 1 ;	
+	destination = master;
+  source = s->y + s->h->npts -1;
 
-	while ( source >= s->y) { //cmmem.sacmem[ndxy] ) {
+	while ( source >= s->y) { 
 	    *destination = *source ;
 	    destination++ ;
 	    source-- ;

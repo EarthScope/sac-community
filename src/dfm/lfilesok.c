@@ -105,10 +105,6 @@ lfilesok(string_list *files,
 	/* -- Allocate block for header. Set ndxhdr for this file. */
   s = sac_new();
 
-	//for( idx = 0 ; idx < SAC_HEADER_WORDS ; idx++ ) {
-  //  cmmem.sacmem[ihdrndx][idx] = 0 ;
-  //}
-  
 	/* - For each file in the list. */
     for(i = 0; i < string_list_length(files); i++) {
 	    /* -- Try to open and [optionally] read the header of each file in 
@@ -146,7 +142,7 @@ lfilesok(string_list *files,
 	    if( lheader ){
             if( lxdr ){
 #ifdef HAVE_LIBRPC
-                xdrhdr( xdrs, cmmem.sacmem[ihdrndx], nerr );
+                xdrhdr( xdrs, s->h, nerr );
 #endif /* HAVE_LIBRPC */
             }
             else{

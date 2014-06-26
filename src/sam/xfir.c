@@ -197,7 +197,6 @@ L_1000:
 
 			/* -- Move the filtered data into location of the original data. */
 
-			/* copy( (int*)cmmem.sacmem[ndxscr], (int*)cmmem.sacmem[ndx1], nlen ); */
       copy_float(scr, s->y, s->h->npts);
 
 			/* -- Adjust header of file in DFL. */
@@ -228,8 +227,6 @@ L_1000:
 				fill( &scr[2*nfft], npow2, 0. );
 				fill( &scr[3*nfft], npow2, 0. );
 				fac = isym;
-        //Sacmem = cmmem.sacmem[ndxscr]+2*nfft;
-				//*Sacmem = Cfir[1];
         scr[2*nfft] = Cfir[1];
 				jf = 1;
 				jb = npow2 - 1;
@@ -247,7 +244,6 @@ L_1000:
 
 			/* -- Transform the signal. */
 
-			/* copy( (int*)cmmem.sacmem[ndx1], (int*)cmmem.sacmem[ndxsrl], nlen ); */
       copy_float(s->y, srl, s->h->npts);
 			fill( &srl[s->h->npts], npow2 - s->h->npts, 0. );
 			fill( &scr[nfft], npow2, 0. );

@@ -167,15 +167,9 @@ float *userData ;
 
   memptr[5-1][NDATPTS-1] = memptr[5-1][NDATPTS-2];
   memptr[9-1][NDATPTS-1] = memptr[9-1][NDATPTS-2];
-	//*(cmmem.sacmem[Memptr[5]] + NDATPTS - 1) = 
-  //                        *(cmmem.sacmem[Memptr[5]] + NDATPTS - 2);
-	//*(cmmem.sacmem[Memptr[9]] + NDATPTS - 1) = 
-  //                        *(cmmem.sacmem[Memptr[9]] + NDATPTS - 2);
 
 	/* - Correct for the last data value of the digital phase response. */
   memptr[8-1][NDATPTS-1] = memptr[8-1][NDATPTS-2];
-	//*(cmmem.sacmem[Memptr[8]] + NDATPTS - 1) = 
-  //                        *(cmmem.sacmem[Memptr[8]] + NDATPTS - 2);
 
 	/* - Create the impulse response */
   memptr[mxmptr-1] = (float *) malloc(sizeof(float) * NIMPPTS);
@@ -186,7 +180,6 @@ float *userData ;
 	 cmfir3.sd, &cmfir3.nsects );
 	zero( memptr[mxmptr-1], NIMPPTS );
   memptr[mxmptr-1][IPULSE-1] = 1.0;
-	//*(cmmem.sacmem[Memptr[mxmptr]] + IPULSE - 1) = 1.;
 	apply( memptr[mxmptr-1], NIMPPTS, FALSE, cmfir3.sn, cmfir3.sd, 
 	 cmfir3.nsects );
 

@@ -51,13 +51,18 @@ wrxdr(int   idfl,
 	int jcomp, ncerr, nlcmem, nptwr; 
         FILE *nun;
         XDR xdrs;
-
+  float *z;
+  sac *s;
 	*nerr = 0;
 
         if( !ldta ){
           *nerr = ERROR_WRITING_XDR_FILE;
           return;
 	}
+
+  if(!(s = sacget(idfl-1, TRUE, nerr))){
+    goto L_8888;
+  }
 
 	/* create a file */
 	znfiles(&nun, kname, kname_s, "TEXT", 5, nerr);
@@ -70,18 +75,17 @@ wrxdr(int   idfl,
 	/* - Write the header to disk. */
 	nlcmem = Ndxhdr[idfl];
 
-	xdrhdr(xdrs, cmmem.sacmem[nlcmem],nerr);
+	xdrhdr(xdrs, s->h, nerr);
 	if( *nerr != 0 )
 	    goto L_8888;
 
 	/* - Write each data component, if requested. */
 	if( ldta ){
-	    for( jcomp = 0; jcomp < Ncomp[idfl]; jcomp++ ){
-		nlcmem = cmdfm.ndxdta[idfl - 1][jcomp];
-		nptwr = Nlndta[idfl];
+    for( jcomp = 0; jcomp < sac_comps(s); jcomp++ ){
+      z = (jcomp == 0) ? s->y : s->x;
 
-		if( !xdr_array(&xdrs, (caddr_t *)&cmmem.sacmem[nlcmem],
-		    (u_int *)&nptwr, (u_int)nptwr, sizeof(float), xdr_float)){
+      if( !xdr_array(&xdrs, (caddr_t *)z, 
+		    (u_int *)&s->h->npts, (u_int)s->h->npts, sizeof(float), xdr_float)){
 		    *nerr = ERROR_ENCODING_XDR_FILE;
 		    goto L_8888;
 		}

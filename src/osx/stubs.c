@@ -337,9 +337,10 @@ sac_files_length() {
 
 float 
 sac_files_float(int fid, int hid) {
-    float *f;
-    f = cmmem.sacmem[Ndxhdr[fid]];
-    return f[hid];
+  //sac *s;
+  /* Return the float value from the header of a file */
+  return 0;
+  //return f[hid];
 }
 
 char *

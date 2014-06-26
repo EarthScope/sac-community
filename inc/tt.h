@@ -52,7 +52,7 @@ struct t_cmtt {
   int   nrdph;                /**  */
   int   nphases;              /** number of phases, eg P, S, Pn etc. */
   int   nttm;                 /**  */
-  int   ndxtty[MXTT];         /** indicates the beginning of a tt data curve in cmmem.sacmem */
+  int   ndxtty[MXTT];         /** indicates the beginning of a tt data curve */
   int   ndxttx[MXTT];         /** same for x axis */
   int   nttpt[MXTT];          /**  */
 } cmtt;

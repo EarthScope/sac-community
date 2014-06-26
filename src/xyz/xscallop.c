@@ -371,11 +371,8 @@ int *nerr;
 
   /* Store the spectrogram data in sacmem */
   s->y = scdata;
-  //memcpy((char *)cmmem.sacmem[indexdata],(char *)scdata,specsize*sizeof(float));
-
 
   free(sdata);
-  //free(scdata);
 
 	/* -- Store header values. */
   s->h->npts = specsize;
