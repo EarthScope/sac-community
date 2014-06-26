@@ -112,7 +112,7 @@ void /*FUNCTION*/ initcommon()
 
 	/* - SACMEM array manager. */
 
-	iniam( NULL );
+	iniam();
 
 	/* - Blackboard store. */
 

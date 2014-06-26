@@ -154,14 +154,9 @@ L_1000:
 		nfft = next2( nptsmx + ncfir4 );
 		if( nfft <= MFFT ){
       scr = (float *) malloc(sizeof(float) * 4 * nfft);
-			//allamb( &cmmem, 4*nfft, &ndxscr, nerr );
 			if( *nerr == 0 ){
 				lusrec = FALSE;
-				//ndxsrl = ndxscr;
         srl = scr;
-				/* ndxsim = ndxscr + nfft; */
-				/* ndxfrl = ndxscr + 2*nfft; */
-				/* ndxfim = ndxscr + 3*nfft; */
 				}
 			else{
 				lusrec = TRUE;
@@ -176,13 +171,7 @@ L_1000:
 
 	if( lusrec ){
     scr = (float *) malloc(sizeof(float) * nptsmx);
-		//allamb( &cmmem, nptsmx, &ndxscr, nerr );
-		if( *nerr != 0 ){
-			*nerr = 1603;
-			setmsg( "ERROR", *nerr );
-			goto L_8888;
-			}
-		else if( !cmsam.lrqrec ){
+		if( !cmsam.lrqrec ){
 			setmsg( "WARNING", 1602 );
 			outmsg();
 			}

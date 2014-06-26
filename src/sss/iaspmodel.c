@@ -102,16 +102,9 @@ int nloops, *nerr;
 		Xttdel[jdx + cmtt.nttm] = dinc*ttscale;
 		Nttpt[cmtt.nttm + jdx] = nloops;
     tty[jdx+cmtt.nttm] = (float *) malloc(sizeof(float) * nblksz);
-    //		allamb( &cmmem, nblksz, &Ndxtty[jdx + cmtt.nttm], nerr );
-		if ( *nerr != 0 )
-		    goto L_8888;
 		/* next five lines added to set X values. maf 960829 */
     ttx[jdx+cmtt.nttm] = (float *) malloc(sizeof(float) * nblksz);
-		//allamb( &cmmem, nblksz, &Ndxttx[jdx + cmtt.nttm], nerr );
-		if( *nerr != 0 ) {
-      FREE(tty[jdx+cmtt.nttm]);
-		    goto L_8888;
-		}
+
 		for( ndx = 0; ndx <= nloops; ndx++ ){
       tty[jdx+cmtt.nttm][ndx] = -1.0;
       //*( cmmem.sacmem[Ndxtty[jdx + cmtt.nttm]] + ndx ) = -1.0;

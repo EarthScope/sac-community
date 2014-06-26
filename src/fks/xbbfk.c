@@ -461,7 +461,6 @@ xbbfk(int *nerr) {
 	    if( *nerr != 0 )
 		goto L_8888 ;
 
-	    //allamb( &cmmem, SAC_HEADER_WORDS, &Ndxhdr[jdfl], nerr );
       s = sac_new();
       s->m->filename = fstrdup(kfile, 9);
 

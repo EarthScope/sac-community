@@ -150,9 +150,6 @@ L_1000:
 		/* -- Allocate block for output. */
 		nlnnew = (s->h->npts - 1)*cmscm.nstrfc + 1;
     new = (float *) malloc(sizeof(float) * nlnnew);
-		//allamb( &cmmem, nlnnew, &ndxnew, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
 
 		if( !cmscm.lstrfi ){
 			/* -- Perform stretching on data file without filtering. */

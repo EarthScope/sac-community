@@ -548,9 +548,6 @@ xtraveltime(	int *nerr)
 	    s->h->npts = 0;
 	    if( numxch == 1 ){
         tx = (float *) malloc(sizeof(float) * nblksz);
-        //allamb( &cmmem, nblksz, &ndxmem, nerr );
-		if( *nerr != 0 )
-		    goto L_8888;
 	    }
 	    else if( numxch > 1 ){
 		*nerr = 1361;
@@ -572,9 +569,6 @@ xtraveltime(	int *nerr)
 			Xttdel[jdx + cmtt.nttm] = 1.0*ttscale;
 		    }
         tty[jdx + cmtt.nttm] = (float *) malloc(sizeof(float) * nblksz);
-		    //allamb( &cmmem, nblksz, &Ndxtty[jdx + cmtt.nttm], nerr );
-		    if( *nerr != 0 )
-			goto L_8888;
 
 		} /* end for */
 	    } /* end if ( numych >= 1 ) */
@@ -859,13 +853,7 @@ void readtaup ( FILE *taupfile , int *ncurves , int *nerr )
 	for ( jdx = 0 ; jdx < *ncurves ; jdx++ ) {
 	    /* allocate space for the X (distance) and Y (time) data */
     tty[jdx] = (float *) malloc(sizeof(float) * cmtt.nttpt[jdx]);
-    //allamb ( &cmmem , cmtt.nttpt[ jdx ] , &cmtt.ndxtty[ jdx ], nerr );
-	    if ( *nerr )
-        goto L_ERROR ;
       ttx[jdx] = (float *) malloc(sizeof(float) * cmtt.nttpt[jdx]);
-	    //allamb ( &cmmem , cmtt.nttpt[ jdx ] , &cmtt.ndxttx[ jdx ], nerr );
-	    if ( *nerr )
-		goto L_ERROR ;
 
 	    /* Loop between datapoints, read data, convert km to degrees */
 	    for ( idx = 0 ; idx < cmtt.nttpt[ jdx ] ; idx++ ) {

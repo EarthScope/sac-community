@@ -101,18 +101,6 @@ int *nerr;
   spepe = (float *) malloc(sizeof(float) * MLNPE);
   spespe = (float *) malloc(sizeof(float) * firstPowerOf2);
   speaux = (float *) malloc(sizeof(float) * firstPowerOf2 * 5);
-	/* allamb( &cmmem, firstPowerOf2 * 2, &cmspe.ndxcor, nerr ); */
-	/* if( *nerr != 0 ) */
-	/*     goto L_8888; */
-	/* allamb( &cmmem, MLNPE, &cmspe.ndxpe, nerr ); */
-	/* if( *nerr != 0 ) */
-	/*     goto L_8888; */
-	/* allamb( &cmmem, firstPowerOf2, &cmspe.ndxspe, nerr ); */
-	/* if( *nerr != 0 ) */
-	/*     goto L_8888; */
-	/* allamb( &cmmem, firstPowerOf2 * 5, &cmspe.ndxaux, nerr ); */
-	/* if( *nerr != 0 ) */
-	/*     goto L_8888; */
 
         /* - If this is an initialization call, send confirming message
          *   and change to the proper subprocess command list. */

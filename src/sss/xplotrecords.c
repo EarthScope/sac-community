@@ -1078,9 +1078,6 @@ int *nerr;
 
 		    if( cmtt.lrdtt && (cmtt.nttrd > 0) ){
           y1 = (float *) malloc(sizeof(float) * Nttpt[kdx]);
-          //allamb( &cmmem, Nttpt[kdx], &ndy1, nerr );
-                        if( *nerr != 0 )
-                            goto L_7777;
                         for( jdx = 1; jdx <= Nttpt[kdx]; jdx++ ){
                             if( tty[kdx][jdx-1] != cmgem.vnull ){
 				if( Ltteven[kdx] )

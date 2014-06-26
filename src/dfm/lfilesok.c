@@ -103,8 +103,6 @@ lfilesok(string_list *files,
 	//nsdxhdr = Ndxhdr[1];
 
 	/* -- Allocate block for header. Set ndxhdr for this file. */
-	//allamb( &cmmem, SAC_HEADER_WORDS, &ihdrndx, nerr );
-	//Ndxhdr[1] = ihdrndx;
   s = sac_new();
 
 	//for( idx = 0 ; idx < SAC_HEADER_WORDS ; idx++ ) {

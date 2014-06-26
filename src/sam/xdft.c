@@ -147,10 +147,6 @@ int *nerr;
 		/* --- Allocate memory block for first component. */
    //ndxold = ndx1;
     new = (float *)malloc(sizeof(float) * nlnnew);
-		//allamb( &cmmem, nlnnew, &ndx1, nerr );
-		if( *nerr != 0 ){
-		    /* ***** buffered mode ****** */
-		}
 		/* --- Update DFM entries. */
     //Nlndta[jdfl] = nlnnew;
 		//cmdfm.ndxdta[jdfl_][0] = ndx1;
@@ -168,10 +164,6 @@ int *nerr;
 
 	    /* -- Allocate memory block for second component and zero fill. */
       new2 = (float *)malloc(sizeof(float) * nlnnew);
-	    //allamb( &cmmem, nlnnew, &ndx2, nerr );
-	    if( *nerr != 0 ){
-		return ;
-	    }
       s->x = new2;
 	    //cmdfm.ndxdta[jdfl_][1] = ndx2;
 	    fill( s->x, nlnnew, 0. );

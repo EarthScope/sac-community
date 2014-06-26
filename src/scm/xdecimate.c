@@ -163,9 +163,6 @@ xdecimate(int *nerr) {
 
 	    nlnscr = 2*cmfir.ncfir + 100;
       scr = (float *) malloc(sizeof(float) * nlnscr);
-	    //allamb( &cmmem, nlnscr, &ndxscr, nerr );
-	    if( *nerr != 0 )
-		return ;
 	}
 
 	/* - Perform the requested function on each file in DFL. */
@@ -181,9 +178,6 @@ xdecimate(int *nerr) {
 	    /* -- Get new data block.  */
 	    nlnnew = (s->h->npts - 1)/cmscm.ndecfc + 1;
       new = (float *) malloc(sizeof(float) * nlnnew);
-	    //allamb( &cmmem, nlnnew, &ndxnew, nerr );
-	    if( *nerr != 0 )
-		return ;
 
 	    /* -- Perform decimation (with filter) or desampling (without filter.) */
 	    if( cmscm.ldecfi ){

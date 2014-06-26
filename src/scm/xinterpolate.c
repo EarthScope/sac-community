@@ -187,10 +187,6 @@ L_1000:
                    "new delta: %f data delta: %f\n", cmscm.dtnew, s->h->delta);
         }
     new = (float *) malloc(sizeof(float) * newlen);
-    //allamb( &cmmem, newlen, &newndx, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
-
         /*  Calculate epsilon */
         if ( s->h->leven ){
             eps = geteps(s->y, s->h->npts, s->h->delta);

@@ -135,13 +135,7 @@ float *userData ;
 	jdx = 1;
 	for( idx = 0; idx < 3; idx++ ){
     memptr[jdx-1] = (float *) malloc(sizeof(float) * NDATPTS);
-		//allamb( &cmmem, NDATPTS, &Memptr[jdx], nerr );
-		if( *nerr != 0 )
-			goto L_8888;
     memptr[jdx-1+1] = (float *) malloc(sizeof(float) * NDATPTS);
-		//allamb( &cmmem, NDATPTS, &Memptr[jdx + 1], nerr );
-		if( *nerr != 0 )
-			goto L_8888;
 
                 strncpy(s1,kmsam.ktpiir[cmsam.itpbp - 1],2);
 
@@ -161,10 +155,6 @@ float *userData ;
 
 	for( idx = 3; idx < MPROTYP; idx++ ){
     memptr[idx+4-1] = (float *) malloc(sizeof(float) * NDATPTS);
-		//allamb( &cmmem, NDATPTS, &Memptr[idx + 4], nerr );
-		if( *nerr != 0 )
-			goto L_8888;
-
                 strncpy(s1,kmsam.ktpiir[cmsam.itpbp - 1],2);
 
                 _f0 = 0.0;
@@ -178,10 +168,6 @@ float *userData ;
 
 	/* - Create the impulse response */
     memptr[mxmptr-1] = (float *) malloc(sizeof(float) * NIMPPTS);
-    //allamb( &cmmem, NIMPPTS, &Memptr[mxmptr], nerr );
-	if( *nerr != 0 )
-		goto L_8888;
-
         strncpy(s1,kmsam.ktpiir[cmsam.itpbp - 1],2);
 
 	design( cmsam.npolbp, "BP", s1, 

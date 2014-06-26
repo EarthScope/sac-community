@@ -46,9 +46,6 @@ int maxsegments, maxlabels, *indexseglabelst, *indexseglabelnu,
 	 * GLOBAL INPUT:
 	 *     mem:  sacmem, isacmem
 	 *=====================================================================
-	 * SUBROUTINES CALLED:
-	 *     sac:  allamb
-	 *=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    900821:  Shortened variable names to 15 characters max, to keep
 	 *             things working under SunOS 3.5:

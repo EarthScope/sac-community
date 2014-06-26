@@ -81,11 +81,6 @@ rdsac(int    idfl,
 	if( *nerr != 0 )
 	    goto L_8888;
 
-	/* - Allocate a memory block for header. */
-	//allamb( &cmmem, SAC_HEADER_WORDS, ndxh, nerr );
-	//if( *nerr != 0 )
-  //	    goto L_8888;
-
 	/* - Save some parameters about this data file. */
 	if ( lname ) {
     s->m->filename = fstrdup(kname, kname_s);

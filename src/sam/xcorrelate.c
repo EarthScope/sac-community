@@ -176,23 +176,12 @@ goto L_8888;
 	/* - Allocate temporary blocks for the master signal and correlation function. */
 
   master = (float *) malloc(sizeof(float) * nlenmx);
-	//allamb( &cmmem, nlenmx, &ndxmas, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
-
         nfft = 8;
 
 	while ( nfft < ( 2 * iwinmx - 1 ) )	/* cleaned up.  maf 961204 */
 	    nfft *= 2 ;
 
   corr = (float *) malloc(sizeof(float) * nfft);
-	//allamb( &cmmem, nfft, &ndxcor, nerr );
-	if( *nerr != 0 ){
-    FREE(master);
-		*nerr = 919;
-		setmsg( "ERROR", *nerr );
-		goto L_8888;
-		}
 
 	/* - Get the master signal and copy to first temporary block.
 	 *   Pad with zeros if necessary. */
@@ -228,10 +217,6 @@ goto L_8888;
 
 		/* -- Allocate a new block, copy signal to it, and pad with zeros if necessary. */
     signal = (float *) malloc(sizeof(float) * 2 * nlenmx);
-		//allamb( &cmmem, 2 * nlenmx, &ndxsig, nerr ); /* nlenmx became 2*nlenmx. maf 961204 */
-		if( *nerr != 0 )
-			goto L_7777;	/* L_8888 became L_7777.  maf 961204 */
-		/* copy( (int*)cmmem.sacmem[ndxy], (int*)cmmem.sacmem[ndxsig], nlenmx ); */
 		copy_float( s->y, signal, s->h->npts );
 		nzeros = 2 * nlenmx - s->h->npts;	/* nlenmx became 2*nlenmx. maf 961204 */
 		if( nzeros > 0 )

@@ -91,9 +91,6 @@ goto L_8888;
 	/* - Allocate temporary blocks for output Hilbert transform. */
 
   hilbert = (float *) malloc(sizeof(float) * nlenmx);
-	//allamb( &cmmem, nlenmx, &ndxhilbert, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
 
 	/* - Perform the requested function on each file in DFL. */
 

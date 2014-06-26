@@ -48,7 +48,7 @@ int *nerr;
 	 *=====================================================================
 	 * SUBROUTINES CALLED:
 	 *    saclib:  lcmore, lklog, cfmt, cresp, setmsg, getstatus, 
-	 *             begindevices, allamb, plsave, pl2d, plrest
+	 *             begindevices, plsave, pl2d, plrest
 	 *=====================================================================
 	 * LOCAL VARIABLES:
 	 *    norm:    Normalization factor. [f]
@@ -135,19 +135,11 @@ L_1000:
       FREE(sss_sum);
 			cmsss.nlnsum = nlnsumnew;
       sss_sum = (float *) malloc(sizeof(float) * cmsss.nlnsum);
-			//allamb( &cmmem, cmsss.nlnsum, &cmsss.ndxsum, 
-			// nerr );
-			if( *nerr != 0 )
-				goto L_8888;
 			}
 		}
 	else{
 		cmsss.nlnsum = nlnsumnew;
     sss_sum = (float *) malloc(sizeof(float) * cmsss.nlnsum);
-		//allamb( &cmmem, cmsss.nlnsum, &cmsss.ndxsum, 
-    //nerr );
-		if( *nerr != 0 )
-			goto L_8888;
 		}
 
 	/* - Initialize memory block. */

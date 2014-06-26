@@ -130,8 +130,6 @@ getResponse(float     *array,
 	   and Impulse Response. */
 	for( idx = 0; idx < 4 ; idx++ ){
     resp[idx] = (float *) malloc(sizeof(float) * nFreq);
-    //allamb( &cmmem, nFreq, &memptr[ idx ], nerr );
-    //if( *nerr != 0 )
     if(!resp[idx]) {
       goto L_ERROR;
     }

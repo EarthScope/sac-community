@@ -42,9 +42,6 @@ void allocpoints(maxpoints, indexpoints, indexlinks,
 	 * GLOBAL INPUT:
 	 *     mem:  sacmem, isacmem
 	 *=====================================================================
-	 * SUBROUTINES CALLED:
-	 *     sac:  allamb
-	 *=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    900412:  Added storage for reverse links.
 	 *    900405:  Added storage for action attribute.

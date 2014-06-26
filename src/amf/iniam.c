@@ -39,56 +39,18 @@ void sac_buffer_new();
  *    Memory structure begin initialized or free'd
  *
  * \return  Nothing
- * \see     iniam allamb oreaamb
+ * \see     iniam 
  *
  * \date   940127:  Original version.
  * \date   070606: Documented/Reviewed
  */
 void 
-iniam(struct t_cmmem *memstruct)
+iniam()
 {
-        int i;
-
         sac_buffer_new();
         return ;
-        if ( memstruct->nallocated != 0 ){
-	  /* not the first time in.  
-	     release previously allocated memory and reinitialize 
-	  */
-
-          for (i=0; i<memstruct->nallocated; i++){
-                  free(memstruct->sacmem[i]);
-                  memstruct->sacmem[i] = NULL;
-		}
-	}
-        else {
-	  /* first time in. 
-	     initialize the sacmem storage area.  
-	     allocate block of pointers 
-	  */
-          if((memstruct->sacmem =(float **)malloc(MEMINIT*sizeof(float *))) == NULL){
-            printf("Error allocating initial memory-iniam\n  quitting\n");
-            exit(1);
-	  }
-          memstruct->nallocated = MEMINIT;
-          for (i=0; i<MEMINIT; i++){
-            memstruct->sacmem[i] = NULL;
-	  }
-	}
-
-	return;
 }
 
-void
-sacmem_free(struct t_cmmem *mem) {
-  int i;
-  if(mem->nallocated > 0) {
-    for(i = 0; i < mem->nallocated; i++) {
-      FREE(mem->sacmem[i]);
-    }
-  }
-  FREE(mem->sacmem);
-}
 
 /*
   + new()

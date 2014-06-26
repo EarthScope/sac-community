@@ -116,9 +116,6 @@ rdshdr(int  idfl,
 	numrd = MWESHD;
 
   s->sddhdr = (int *) malloc(sizeof(int) * MWESHD);
-  //allamb( &cmmem, numrd, &Nxsdd[idfl], nerr );
-	//if( *nerr != 0 )
-  //goto L_8888;
 	//nlcmem = Nxsdd[idfl];
 
   //Isacmem = (int *)cmmem.sacmem[nlcmem];

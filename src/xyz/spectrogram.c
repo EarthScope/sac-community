@@ -139,10 +139,8 @@ spectrogram(double window,
 		length = (IMGFFT/2)*length * delta/sliceint;
 		spectmp = (float *) malloc(sizeof(float) * (int)(1.5 * length));
     *spec = spectmp;
-    //allamb( &cmmem, (int)(1.5 * length), specindex, &err1 );
 
 		/*           Get space for buffering data */
-		//allamb( &cmmem, MAXBUFSIZE, &bufindex, &err2 );
     buffer = (float *) malloc(sizeof(float) * MAXBUFSIZE);
 		if( 1 ) {
 		    /* Loop until all data used */

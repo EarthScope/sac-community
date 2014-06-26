@@ -182,14 +182,8 @@ int *nerr;
 
 	    /* - Allocate memory block for first component. */
       y = (float *) malloc(sizeof(float) * nlnnew);
-	    //allamb( &cmmem, nlnnew, &ndx1, nerr );
-	    if( *nerr != 0 ){
-		/* ***** buffered mode ****** */
-	    }
-	    //cmdfm.ndxdta[jdfl_][0] = ndx1;
 
 	    /* -- Copy time-series data into first block and zero fill. */
-	    /* copy( (int*)cmmem.sacmem[ndxold], (int*)cmmem.sacmem[ndx1], nlnold ); */
 	    copy_float( s->y, y, s->h->npts);
 	    fill( y + s->h->npts, nlnnew - s->h->npts, 0. );
 
@@ -199,11 +193,6 @@ int *nerr;
 
 	    /* -- Allocate memory block for second component and zero fill. */
       x = (float *) malloc(sizeof(float) * nlnnew);
-	    //allamb( &cmmem, nlnnew, &ndx2, nerr );
-	    if( *nerr != 0 ){
-		/* ***** buffered mode ****** */
-	    }
-	    //cmdfm.ndxdta[jdfl_][1] = ndx2;
 	    fill( x, nlnnew, 0. );
       FREE(s->x);
       s->x = x;

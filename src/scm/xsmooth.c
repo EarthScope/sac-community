@@ -120,9 +120,6 @@ L_1000:
 
 		/* -- Allocate a new block for smoothed data. */
     new = (float *) malloc(sizeof(float) * s->h->npts);
-      //allamb( &cmmem, nlen, &ndxnew, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
 
 		/* -- Compute start and end points for smoothing. */
 		/* jold1 = ndxold + cmscm.nhalf; */

@@ -40,7 +40,7 @@ int *nerr;
 	 *    mem:     sacmem
 	 *=====================================================================
 	 * SUBROUTINES CALLED:
-	 *    saclib:  vflist, vfeven, getfil, setmsg, apimsg, allamb, firtrn,
+	 *    saclib:  vflist, vfeven, getfil, setmsg, apimsg, firtrn,
 	 *             extrma
 	 *=====================================================================
 	 * LOCAL VARIABLES:
@@ -94,10 +94,6 @@ int *nerr;
 
 	/* - Allocate temporary block for scratch space. */
   scr = (float *) malloc(sizeof(float) * MLENSCRATCH);
-	//allamb( &cmmem, MLENSCRATCH, &ndxscratch, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
-
 	/* - Perform the requested function on each file in DFL. */
 
 	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){

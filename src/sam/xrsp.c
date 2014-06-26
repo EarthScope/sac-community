@@ -171,10 +171,6 @@ int *nerr;
       s = sac_new();
       s->m->filename = fstrdup(krspnm, nrspnm);
       sacput(s);
-	    /* -- Allocate block for the header in data-set storage. */
-	    //allamb( &cmmem, SAC_HEADER_WORDS , &Ndxhdr[jdfl], nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
 
 	    /* -- Read header. */
 	    s->m->swap = rdhdr( s, &nun, krspnm, nerr );
@@ -207,14 +203,6 @@ int *nerr;
       }
 	    /* -- Get header from memory manager. */
 	    //getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
-
-	    /* -- Allocate memory blocks in data-set storage. */
-	    //allamb( &cmmem, Nlndta[jdfl], &cmdfm.ndxdta[jdfl - 1][0], nerr );
-	    //if( *nerr != 0 )
-      //goto L_8888;
-	    //allamb( &cmmem, Nlndta[jdfl], &cmdfm.ndxdta[jdfl - 1][1], nerr );
-	    //if( *nerr != 0 )
-      //goto L_8888;
 
 	    /* -- Open first file. */
         tmp = string_list_get(list, jdfl-1);
