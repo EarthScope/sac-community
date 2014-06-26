@@ -140,7 +140,7 @@ int *nerr;
 
 	/* - Perform the requested function on each file in DFL. */
   err = 0;
-  #pragma omp parallel shared(err) private(i,s, tid)
+  #pragma omp parallel shared(err) private(i,s)
   {
     #pragma omp for schedule(dynamic)
     for( i = 1; i <= saclen(); i++ ){
