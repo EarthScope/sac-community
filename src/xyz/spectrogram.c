@@ -160,7 +160,6 @@ spectrogram(double window,
 			    if( done == 1 ) {
 				fprintf( stdout, "Error getting data(spectrogram).\n" );
         FREE(spec);
-				//relamb(cmmem.sacmem,*specindex,&err);
 			    }
 			    break ;
 

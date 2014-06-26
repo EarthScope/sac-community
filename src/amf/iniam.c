@@ -39,7 +39,7 @@ void sac_buffer_new();
  *    Memory structure begin initialized or free'd
  *
  * \return  Nothing
- * \see     iniam allamb relamb reaamb
+ * \see     iniam allamb oreaamb
  *
  * \date   940127:  Original version.
  * \date   070606: Documented/Reviewed

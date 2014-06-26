@@ -143,7 +143,7 @@ CLEANFILES        = bbs/readbbf_io.o dff/hdrfld_io.o msg/outmsg_io.o
 
 libsacio_a_LIBADD = bbs/readbbf_io.o dff/hdrfld_io.o msg/outmsg_io.o
 
-libsacio_a_SOURCES = amf/allamb.c amf/iniam.c amf/array.c amf/relamb.c \
+libsacio_a_SOURCES = amf/allamb.c amf/iniam.c amf/array.c \
 	bbs/getbbv.c bbs/inibbs.c bbs/setbbv.c bbs/unsetbbv.c \
 	bbs/writebbf.c \
 	\
@@ -267,7 +267,7 @@ libsac_a_SOURCES = co/complex.c  \
 	scm/rmean.c scm/rtrend.c scm/taper.c scm/interpolate.c scm/wigint.c scm/rotate.c
 
 
-libsac_all_a_SOURCES = amf/allamb.c amf/iniam.c amf/array.c amf/reaamb.c amf/relamb.c \
+libsac_all_a_SOURCES = amf/allamb.c amf/iniam.c amf/array.c amf/reaamb.c \
 	\
 	bbs/createbbs.c bbs/deletebbs.c bbs/getbbv.c \
 	bbs/inibbs.c bbs/readbbf.c bbs/setbbv.c bbs/unsetbbv.c bbs/writebbf.c \

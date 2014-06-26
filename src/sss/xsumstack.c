@@ -133,7 +133,6 @@ L_1000:
 	if( cmsss.nlnsum > 0 ){
 		if( nlnsumnew != cmsss.nlnsum ){
       FREE(sss_sum);
-			//relamb( cmmem.sacmem, cmsss.ndxsum, nerr );
 			cmsss.nlnsum = nlnsumnew;
       sss_sum = (float *) malloc(sizeof(float) * cmsss.nlnsum);
 			//allamb( &cmmem, cmsss.nlnsum, &cmsss.ndxsum, 

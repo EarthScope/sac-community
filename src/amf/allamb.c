@@ -46,7 +46,7 @@
  *     \li 0   on success
  *     \li 301 on error 
  *
- * \see iniam relamb allamb reaamb
+ * \see iniam allamb reaamb
  *
  * \date 070606:  Documented/Reviewed
  * \date 960709:  Changed malloc to calloc to initialize to zero, maf

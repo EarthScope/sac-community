@@ -37,9 +37,6 @@ void reaamb ( float **array,
               int index, 
               int *newndx, 
               int *nerr);
-void relamb ( float **array, 
-              int index, 
-              int *nerr);
 
 typedef struct _buffer buffer;
 struct _buffer {

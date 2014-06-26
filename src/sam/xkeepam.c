@@ -105,7 +105,6 @@ int *nerr;
 
 		/* -- Release phase component. */
 
-/*		relamb( cmmem.sacmem, ndx2, nerr ); */
 /*		if( *nerr != 0 )
 			goto L_8888; */
 /*		cmdfm.ndxdta[jdfl_][1] = 0; */

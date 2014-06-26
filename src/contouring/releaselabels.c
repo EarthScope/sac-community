@@ -29,9 +29,6 @@ releaselabels()
 	 *                  indexseglabelfi, indexlabelpoint,
 	 *                  indexlabeltype, indexlabelangle, indexlabeltext
 	 *=====================================================================
-	 * subroutines called:
-	 *     sac:  relamb
-	 *=====================================================================
 	 * modification history:
 	 *    900821:  shortened variable names to 15 characters max, to keep
 	 *             things working under sunos 3.5:

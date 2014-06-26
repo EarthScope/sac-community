@@ -35,17 +35,14 @@ int lname ;	/* TRUE deletes file name list, FALSE preserves it */
     //for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 	/* -- Release memory blocks. */
     //  if( Ndxhdr[jdfl] > 0 ) {
-    //	    relamb( cmmem.sacmem, Ndxhdr[jdfl], nerr );
     //	    if ( *nerr ) 
     //		goto L_8888 ;
     //	}
     //	if( cmdfm.ndxdta[ jdfl - 1 ][ 0 ] > 0 ) {
-    //	    relamb( cmmem.sacmem, cmdfm.ndxdta[ jdfl - 1 ][ 0 ], nerr );
     //	    if ( *nerr ) 
     //		goto L_8888 ;
     //	}
     //	if( cmdfm.ndxdta[ jdfl - 1 ][ 1 ] > 0 ) {
-    //	    relamb( cmmem.sacmem, cmdfm.ndxdta[ jdfl - 1 ][ 1 ], nerr );
     //	    if ( *nerr ) 
     //		goto L_8888 ;
     //	}

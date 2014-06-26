@@ -43,7 +43,7 @@ void allocpoints(maxpoints, indexpoints, indexlinks,
 	 *     mem:  sacmem, isacmem
 	 *=====================================================================
 	 * SUBROUTINES CALLED:
-	 *     sac:  allamb, relamb
+	 *     sac:  allamb
 	 *=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    900412:  Added storage for reverse links.

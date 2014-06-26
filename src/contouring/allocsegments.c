@@ -40,7 +40,7 @@ int maxsegments, *indexlevels, *indexstarts, *indexstops, *nerr;
 	 *     mem:  sacmem, isacmem
 	 *=====================================================================
 	 * SUBROUTINES CALLED:
-	 *     sac:  allamb, relamb
+	 *     sac:  allamb
 	 *=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    900315:  Original version.
@@ -60,7 +60,6 @@ int maxsegments, *indexlevels, *indexstarts, *indexstops, *nerr;
 
 /* 	allamb( &cmmem, maxsegments, indexstarts, nerr ); */
 /* 	if( *nerr != 0 ){ */
-/* 		relamb( cmmem.sacmem, *indexlevels, &nrerr ); */
 /* 		*indexlevels = 0; */
 /* 		*indexstarts = 0; */
 /* 		*indexstops = 0; */
@@ -71,8 +70,6 @@ int maxsegments, *indexlevels, *indexstarts, *indexstops, *nerr;
 
 /* 	allamb( &cmmem, maxsegments, indexstops, nerr ); */
 /* 	if( *nerr != 0 ){ */
-/* 		relamb( cmmem.sacmem, *indexlevels, &nrerr ); */
-/* 		relamb( cmmem.sacmem, *indexstarts, &nrerr ); */
 /* 		*indexlevels = 0; */
 /* 		*indexstarts = 0; */
 /* 		*indexstops = 0; */

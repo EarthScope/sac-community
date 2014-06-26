@@ -184,7 +184,6 @@ int *nerr;
 
 	for( idx = 0; idx < MXMPTR; idx++ ){
     FREE(memptr[idx]);
-    //relamb( cmmem.sacmem, memptr[idx], &nerrmem );
 	}
 
 	/* - Return: memory allocation error gets higher priority

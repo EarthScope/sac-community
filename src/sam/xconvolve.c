@@ -189,7 +189,6 @@ goto L_8888;
 	//allamb( &cmmem, nfft, &ndxcor, nerr );
 	if( *nerr != 0 ){
     FREE(master);
-		//relamb( cmmem.sacmem, ndxmas, &nrerr );
 		*nerr = 919;
 		setmsg( "ERROR", *nerr );
 		goto L_8888;
@@ -249,7 +248,6 @@ goto L_8888;
 		/* -- Update dfl indices to point to this new block and release old one. */
 		//Nlndta[jdfl] = nlenCombined ; /* nlenmx became nlenCombined. maf 961204 */
 		//cmdfm.ndxdta[jdfl_][0] = ndxsig;
-		//relamb( cmmem.sacmem, ndxy, nerr );
 
 
 		/* -- Compute length of each window. */

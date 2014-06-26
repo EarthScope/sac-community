@@ -47,7 +47,7 @@ int maxsegments, maxlabels, *indexseglabelst, *indexseglabelnu,
 	 *     mem:  sacmem, isacmem
 	 *=====================================================================
 	 * SUBROUTINES CALLED:
-	 *     sac:  allamb, relamb
+	 *     sac:  allamb
 	 *=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    900821:  Shortened variable names to 15 characters max, to keep

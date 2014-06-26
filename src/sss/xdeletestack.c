@@ -52,7 +52,7 @@ int *nerr;
 	 *=====================================================================
 	 * SUBROUTINES CALLED:
 	 *    saclib:  lcmore, cfmt, cresp, lcdfl, lcint,
-	 *             setmsg, apcmsg, apimsg, sorti, relamb
+	 *             setmsg, apcmsg, apimsg, sorti
 	 *=====================================================================
 	 * LOCAL VARIABLES:
 	 *    idel:    Array of signal stack file numbers to delete. [i]

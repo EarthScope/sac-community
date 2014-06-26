@@ -31,19 +31,16 @@ relbfl(int *nerr) {
 	/* - Release blocks if they are in memory: */
 	/* -- Header block. */
 	/* if( cmbom.ndxhbf > 0 ) */
-	/* 	relamb( cmmem.sacmem, cmbom.ndxhbf, nerr ); */
 	/* if( *nerr != 0 ) */
 	/* 	goto L_8888; */
 
 	/* /\* -- First data component. *\/ */
 	/* if( cmbom.ndx1bf > 0 ) */
-	/* 	relamb( cmmem.sacmem, cmbom.ndx1bf, nerr ); */
 	/* if( *nerr != 0 ) */
 	/* 	goto L_8888; */
 
 	/* /\* -- Second data component if any. *\/ */
 	/* if( cmbom.ndx2bf > 0 ) */
-	/* 	relamb( cmmem.sacmem, cmbom.ndx2bf, nerr ); */
 	/* if( *nerr != 0 ) */
 	/* 	goto L_8888; */
 

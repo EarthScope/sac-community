@@ -41,7 +41,7 @@ int *nerr;
 	 *=====================================================================
 	 * SUBROUTINES CALLED:
 	 *    saclib:  vflist, vfeven, getfil, setmsg, apimsg, allamb, firtrn,
-	 *             extrma, relamb
+	 *             extrma
 	 *=====================================================================
 	 * LOCAL VARIABLES:
 	 *    MLENSCRATCH:  Size of scratch space needed for transform. [ip]

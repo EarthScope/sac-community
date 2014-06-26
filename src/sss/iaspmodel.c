@@ -110,7 +110,6 @@ int nloops, *nerr;
 		//allamb( &cmmem, nblksz, &Ndxttx[jdx + cmtt.nttm], nerr );
 		if( *nerr != 0 ) {
       FREE(tty[jdx+cmtt.nttm]);
-      //relamb( cmmem.sacmem, Ndxtty[jdx+cmtt.nttm], nerr );
 		    goto L_8888;
 		}
 		for( ndx = 0; ndx <= nloops; ndx++ ){

@@ -246,7 +246,7 @@ libsac_a_OBJECTS = $(am_libsac_a_OBJECTS)
 libsac_all_a_AR = $(AR) $(ARFLAGS)
 libsac_all_a_LIBADD =
 am_libsac_all_a_OBJECTS = amf/allamb.$(OBJEXT) amf/iniam.$(OBJEXT) \
-	amf/array.$(OBJEXT) amf/reaamb.$(OBJEXT) amf/relamb.$(OBJEXT) \
+	amf/array.$(OBJEXT) amf/reaamb.$(OBJEXT) \
 	bbs/createbbs.$(OBJEXT) bbs/deletebbs.$(OBJEXT) \
 	bbs/getbbv.$(OBJEXT) bbs/inibbs.$(OBJEXT) \
 	bbs/readbbf.$(OBJEXT) bbs/setbbv.$(OBJEXT) \
@@ -738,10 +738,10 @@ libsacio_a_AR = $(AR) $(ARFLAGS)
 libsacio_a_DEPENDENCIES = bbs/readbbf_io.o dff/hdrfld_io.o \
 	msg/outmsg_io.o
 am_libsacio_a_OBJECTS = amf/allamb.$(OBJEXT) amf/iniam.$(OBJEXT) \
-	amf/array.$(OBJEXT) amf/relamb.$(OBJEXT) bbs/getbbv.$(OBJEXT) \
-	bbs/inibbs.$(OBJEXT) bbs/setbbv.$(OBJEXT) \
-	bbs/unsetbbv.$(OBJEXT) bbs/writebbf.$(OBJEXT) \
-	bot/crname.$(OBJEXT) bot/indexa.$(OBJEXT) bot/indexb.$(OBJEXT) \
+	amf/array.$(OBJEXT) bbs/getbbv.$(OBJEXT) bbs/inibbs.$(OBJEXT) \
+	bbs/setbbv.$(OBJEXT) bbs/unsetbbv.$(OBJEXT) \
+	bbs/writebbf.$(OBJEXT) bot/crname.$(OBJEXT) \
+	bot/indexa.$(OBJEXT) bot/indexb.$(OBJEXT) \
 	bot/modcase.$(OBJEXT) bot/nequal.$(OBJEXT) \
 	co/fstrncpy.$(OBJEXT) co/math.$(OBJEXT) co/subscpy.$(OBJEXT) \
 	co/zbasename.$(OBJEXT) co/zclose.$(OBJEXT) \
@@ -1116,7 +1116,7 @@ EXTRA_DIST = describedirs gd3.x11/sac.bitmap \
 
 CLEANFILES = bbs/readbbf_io.o dff/hdrfld_io.o msg/outmsg_io.o
 libsacio_a_LIBADD = bbs/readbbf_io.o dff/hdrfld_io.o msg/outmsg_io.o
-libsacio_a_SOURCES = amf/allamb.c amf/iniam.c amf/array.c amf/relamb.c \
+libsacio_a_SOURCES = amf/allamb.c amf/iniam.c amf/array.c \
 	bbs/getbbv.c bbs/inibbs.c bbs/setbbv.c bbs/unsetbbv.c \
 	bbs/writebbf.c \
 	\
@@ -1238,7 +1238,7 @@ libsac_a_SOURCES = co/complex.c  \
 	\
 	scm/rmean.c scm/rtrend.c scm/taper.c scm/interpolate.c scm/wigint.c scm/rotate.c
 
-libsac_all_a_SOURCES = amf/allamb.c amf/iniam.c amf/array.c amf/reaamb.c amf/relamb.c \
+libsac_all_a_SOURCES = amf/allamb.c amf/iniam.c amf/array.c amf/reaamb.c \
 	\
 	bbs/createbbs.c bbs/deletebbs.c bbs/getbbv.c \
 	bbs/inibbs.c bbs/readbbf.c bbs/setbbv.c bbs/unsetbbv.c bbs/writebbf.c \
@@ -1887,7 +1887,6 @@ amf/allamb.$(OBJEXT): amf/$(am__dirstamp)
 amf/iniam.$(OBJEXT): amf/$(am__dirstamp)
 amf/array.$(OBJEXT): amf/$(am__dirstamp)
 amf/reaamb.$(OBJEXT): amf/$(am__dirstamp)
-amf/relamb.$(OBJEXT): amf/$(am__dirstamp)
 bbs/$(am__dirstamp):
 	@$(MKDIR_P) bbs
 	@: > bbs/$(am__dirstamp)

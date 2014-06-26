@@ -1111,7 +1111,6 @@ int *nerr;
 			ttint( ttx[kdx], y1, Nttpt[kdx],
 			 &xttint, &yttint, nerr );
       FREE(y1);
-			//relamb( cmmem.sacmem, ndy1, nerr );
 		    } /* end if ( cmtt.lrdtt && (cmtt.nttrd > 0) ) */
 
 

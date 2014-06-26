@@ -37,7 +37,7 @@
  *     \li  0  on success
  *     \li  301 on error
  *
- * \see iniam relamb allamb reaamb
+ * \see iniam allamb reaamb
  *
  * \date 920723:  Original version. (Amanda Goldner)
  * \date 070606:  Documented/Reviewed

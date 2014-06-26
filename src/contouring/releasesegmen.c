@@ -29,9 +29,6 @@ releasesegments()
 	 * GLOBAL OUTPUT:
 	 *     contouring:  indexlevels, indexstarts, indexstops
 	 *=====================================================================
-	 * SUBROUTINES CALLED:
-	 *     sac:  relamb
-	 *=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    900315:  Original version.
 	 *=====================================================================

@@ -40,7 +40,7 @@ int *nerr;
 	 *    mem:     isacmem
 	 *=====================================================================
 	 * SUBROUTINES CALLED:
-	 *    saclib:  fill, relamb, cleardfl
+	 *    saclib:  fill, cleardfl
 	 *=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    881130:  Added call to release summation data block if necessary.

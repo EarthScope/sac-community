@@ -28,9 +28,6 @@ void releasepoints()
 	 * GLOBAL OUTPUT:
 	 *     contouring:  indexpoints, indexlinks, indexaction
 	 *=====================================================================
-	 * SUBROUTINES CALLED:
-	 *     sac:  relamb
-	 *=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    900405:  Added release of action attribute storage block.
 	 *    900315:  Original version.

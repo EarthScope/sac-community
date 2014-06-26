@@ -48,7 +48,6 @@ int *nerr;
 
 	if( cmsss.nlnsum > 0 ){
     FREE(sss_sum);
-		//relamb( cmmem.sacmem, cmsss.ndxsum, nerr );
 		cmsss.nlnsum = 0;
 		cmsss.ndxsum = 0;
 		if( *nerr != 0 )
