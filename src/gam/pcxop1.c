@@ -127,9 +127,9 @@ L_5420:
 
 	/* -- R:  Draw a rectangle with opposing corners at origin and cdp. */
 L_5500:
-	worldmove( Xrect[4], Yrect[4] );
-	for( j = 1; j <= 4; j++ ){
-		worlddraw( Xrect[j], Yrect[j] );
+	worldmove( cmgam.xrect[3], cmgam.yrect[3] );
+	for( j = 0; j < 4; j++ ){
+		worlddraw( cmgam.xrect[j], cmgam.yrect[j] );
 		}
 	goto L_8888;
 

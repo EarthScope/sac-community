@@ -62,7 +62,7 @@ xch(int *nerr) {
 	int lallt, lfound, lhdrc[SAC_HEADER_LOGICALS], lnumbr, log;
 	int icat[SAC_HEADER_WORDS], icatx, igdttm, ihdrc[SAC_HEADER_ENUMS], item[SAC_HEADER_WORDS];
 	int itemx, ival, j, j1, jdfl;
-	int nckhdr, ngdttm[MGDTTM][6], nhdrc[SAC_HEADER_INTEGERS];
+	int ngdttm[MGDTTM][6], nhdrc[SAC_HEADER_INTEGERS];
 	int nia, nitem;
 	float diff, fhdrc[SAC_HEADER_FLOATS];
 	static int icatg = -1;
@@ -132,7 +132,7 @@ xch(int *nerr) {
       } else {
 		    /* Block changes to certain header fields */
         /* nvhdr, norid, nevid, npts, nsnpts, nwfid */
-		    if ( icatx == cmlhf.icatn && itemx >= 7 && itemx <= 12 ) {
+		    if ( icatx == INT_TYPE && itemx >= 7 && itemx <= 12 ) {
           /* Increment token counter. */
           arg_next( );
           setmsg ( "WARNING" , 1389 ) ;
@@ -147,12 +147,12 @@ xch(int *nerr) {
 		    Item[nitem] = itemx;
 		    /* ---- Depending upon what kind of header item (floating, integer,
 		     *      alphanumeric, etc.), verify and save next token. */
-		    if( icatx == cmlhf.icatf ){
+		    if( icatx == FLOAT_TYPE ){
           if( lcreal( &fnumbr ) ) { 
             Fhdrc[itemx] = (float)fnumbr ;
           }
           else if( lckey( "UNDEF$",7 ) || !arg() ){
-            Fhdrc[itemx] = cmhdr.fundef;
+            Fhdrc[itemx] = SAC_FLOAT_UNDEFINED;
           }
           else if( lkia( "GMT$",5, 1, 6, &ngdttm[igdttm - 1][0], &nia ) ){
             Icat[nitem] = icatg;
@@ -183,31 +183,31 @@ xch(int *nerr) {
             goto L_8888;
           }
 		    }
-		    else if( icatx == cmlhf.icatn ){
+		    else if( icatx == INT_TYPE ){
           if( lcint( &Nhdrc[itemx] ) )
             { /* do nothing */ }
           else if( lckey( "UNDEF$",7 ) ){
-            Nhdrc[itemx] = cmhdr.fundef;
+            Nhdrc[itemx] = SAC_FLOAT_UNDEFINED;
           }
           else{
             cerr( 1001 );
             goto L_8888;
           }
 		    }
-		    else if( icatx == cmlhf.icati ){
+		    else if( icatx == ENUM_TYPE ){
           ival = 0;
           if( lclist( (char*)kmlhf.kiv,9, SAC_ENUMS-1, &ival ) ){
             Ihdrc[itemx] = ival;
           }
           else if( lckey( "UNDEF$",7 ) ){
-            Ihdrc[itemx] = cmhdr.iundef;
+            Ihdrc[itemx] = SAC_ENUM_UNDEFINED;
           }
           else{
             cerr( 1001 );
             goto L_8888;
           }
 		    }
-		    else if( icatx == cmlhf.icatl ){
+		    else if( icatx == LOGICAL_TYPE ){
           if( lclog2( "TRUE$",6, "FALSE$",7, &log ) ){
             Lhdrc[itemx] = log;
           }
@@ -225,8 +225,8 @@ xch(int *nerr) {
             goto L_8888;
           }
 		    }
-		    else if( icatx == cmlhf.icatk ){
-          int n = Nkhdr[itemx];
+		    else if( icatx == AUX_TYPE ){
+          int n = (itemx == 2) ? 2 : 1; 
           j1 = itemx;
           memset(khdrc[j1-1], ' ', n*8);
           if( lckey( "UNDEF$",7 ) ){
@@ -242,7 +242,6 @@ xch(int *nerr) {
           }
           else{
             strcpy( ktemp, "                  " );
-            nckhdr = SAC_HEADER_STRING_LENGTH_FILE * Nkhdr[itemx];
             if( lcchar_base( ktemp, sizeof(ktemp)) ){
               strncpy(khdrc[j1-1], ktemp, strlen(ktemp));
             }
@@ -286,7 +285,7 @@ xch(int *nerr) {
 		/* -- Update appropriate header fields. */
 		for( j = 1; j <= nitem; j++ ){
       switch(Icat[j]) {
-      case CAT_FLOAT:
+      case FLOAT_TYPE:
         fp = fhdr(s, Item[j]);
         VALUE(fp) = Fhdrc[Item[j]];
         if ( Item[ j ] >= 6 && Item[ j ] <= 20 )
@@ -298,19 +297,19 @@ xch(int *nerr) {
         fp = fhdr(s,Item[j]);
         *fp = diff;
         break;
-      case CAT_NUMBER:
+      case INT_TYPE:
         ip = nhdr(s, Item[j]);
         VALUE(ip) = Nhdrc[Item[j]];
         break;
-      case CAT_ENUM:
+      case ENUM_TYPE:
         ip = ihdr(s, Item[j]);
         VALUE(ip) = Ihdrc[Item[j]];
         break;
-      case CAT_LOGICAL:
+      case LOGICAL_TYPE:
         ip = lhdr(s, Item[j]);
         VALUE(ip) = Lhdrc[Item[j]];
         break;
-      case CAT_STRING:
+      case STRING_TYPE:
         strcpy(khdr(s,Item[j]), khdrc[Item[j]-1]);
         break;
       }
@@ -320,33 +319,33 @@ xch(int *nerr) {
 		if( lallt ){
 		    s->h->b = s->h->b + vallt;
 		    s->h->e = s->h->e + vallt;
-		    if( s->h->nzyear != cmhdr.nundef )
+		    if( s->h->nzyear != SAC_INT_UNDEFINED )
 			idttm( &s->h->nzyear, -vallt, &s->h->nzyear );
-		    if( s->h->a != cmhdr.fundef )
+		    if( s->h->a != SAC_FLOAT_UNDEFINED )
 			s->h->a = s->h->a + vallt;
-		    if( s->h->f != cmhdr.fundef )
+		    if( s->h->f != SAC_FLOAT_UNDEFINED )
 			s->h->f = s->h->f + vallt;
-		    if( s->h->o != cmhdr.fundef )
+		    if( s->h->o != SAC_FLOAT_UNDEFINED )
 			s->h->o = s->h->o + vallt;
-		    if( s->h->t0 != cmhdr.fundef )
+		    if( s->h->t0 != SAC_FLOAT_UNDEFINED )
 			s->h->t0 = s->h->t0 + vallt;
-		    if( s->h->t1 != cmhdr.fundef )
+		    if( s->h->t1 != SAC_FLOAT_UNDEFINED )
 			s->h->t1 = s->h->t1 + vallt;
-		    if( s->h->t2 != cmhdr.fundef )
+		    if( s->h->t2 != SAC_FLOAT_UNDEFINED )
 			s->h->t2 = s->h->t2 + vallt;
-		    if( s->h->t3 != cmhdr.fundef )
+		    if( s->h->t3 != SAC_FLOAT_UNDEFINED )
 			s->h->t3 = s->h->t3 + vallt;
-		    if( s->h->t4 != cmhdr.fundef )
+		    if( s->h->t4 != SAC_FLOAT_UNDEFINED )
 			s->h->t4 = s->h->t4 + vallt;
-		    if( s->h->t5 != cmhdr.fundef )
+		    if( s->h->t5 != SAC_FLOAT_UNDEFINED )
 			s->h->t5 = s->h->t5 + vallt;
-		    if( s->h->t6 != cmhdr.fundef )
+		    if( s->h->t6 != SAC_FLOAT_UNDEFINED )
 			s->h->t6 = s->h->t6 + vallt;
-		    if( s->h->t7 != cmhdr.fundef )
+		    if( s->h->t7 != SAC_FLOAT_UNDEFINED )
 			s->h->t7 = s->h->t7 + vallt;
-		    if( s->h->t8 != cmhdr.fundef )
+		    if( s->h->t8 != SAC_FLOAT_UNDEFINED )
 			s->h->t8 = s->h->t8 + vallt;
-		    if( s->h->t9 != cmhdr.fundef )
+		    if( s->h->t9 != SAC_FLOAT_UNDEFINED )
 			s->h->t9 = s->h->t9 + vallt;
 		}
 

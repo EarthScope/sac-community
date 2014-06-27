@@ -61,7 +61,7 @@ L_1000:
     /* -- "pick type":  define new display type for a given time pick. */
 		else if( lclist( (char*)kmgam.kpknam,9, MPKNAM, &ipknam ) ){
 			if( lclist( (char*)kmgam.kpktyp,9, MPKTYP, &index ) ){
-				Ipktyp[ipknam] = index;
+				cmgam.ipktyp[ipknam-1] = index;
 				}
 			else{
 				cfmt( "ILLEGAL PICK TYPE:",20 );

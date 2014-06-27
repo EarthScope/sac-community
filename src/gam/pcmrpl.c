@@ -132,26 +132,26 @@ L_5000:
 		 cmgam.ycen)*cosang)/scale;
 
 		/* -- Define four corners of rectangle. */
-		Xrect[1] = xtemp;
-		Yrect[1] = cmgam.ycdp;
-		Xrect[2] = xtemp;
-		Yrect[2] = ytemp;
-		Xrect[3] = cmgam.xcdp;
-		Yrect[3] = ytemp;
-		Xrect[4] = cmgam.xcdp;
-		Yrect[4] = cmgam.ycdp;
+		cmgam.xrect[0] = xtemp;
+		cmgam.yrect[0] = cmgam.ycdp;
+		cmgam.xrect[1] = xtemp;
+		cmgam.yrect[1] = ytemp;
+		cmgam.xrect[2] = cmgam.xcdp;
+		cmgam.yrect[2] = ytemp;
+		cmgam.xrect[3] = cmgam.xcdp;
+		cmgam.yrect[3] = cmgam.ycdp;
 
 		/* -- Scale, rotate, and translate each corner of rectangle. */
-		for( j = 1; j <= 4; j++ ){
-			Xrect[j] = scale*Xrect[j];
-			Yrect[j] = scale*Yrect[j];
-			xtemp = Xrect[j]*cosang + Yrect[j]*sinang;
-			ytemp = -Xrect[j]*sinang + Yrect[j]*cosang;
-			Xrect[j] = cmgam.xcen + xtemp;
-			Yrect[j] = cmgam.ycen + ytemp;
+		for( j = 0; j < 4; j++ ){
+			cmgam.xrect[j] = scale*cmgam.xrect[j];
+			cmgam.yrect[j] = scale*cmgam.yrect[j];
+			xtemp = cmgam.xrect[j]*cosang + cmgam.yrect[j]*sinang;
+			ytemp = -cmgam.xrect[j]*sinang + cmgam.yrect[j]*cosang;
+			cmgam.xrect[j] = cmgam.xcen + xtemp;
+			cmgam.yrect[j] = cmgam.ycen + ytemp;
 			}
-		cmgam.xcdp = Xrect[4];
-		cmgam.ycdp = Yrect[4];
+		cmgam.xcdp = cmgam.xrect[3];
+		cmgam.ycdp = cmgam.yrect[3];
 		}
 
 	/* - See if it is a "change environment op". */
@@ -238,10 +238,10 @@ L_5500:
 
 	iop1 = nccomp( &kchar, kmgam.kopn, 1, cmgam.nopn, 1 );
 	if( iop1 == 1 ){
-		Xopnli[1] = cmgam.xori;
-		Xopnli[2] = cmgam.xcdp;
-		Yopnli[1] = cmgam.yori;
-		Yopnli[2] = cmgam.ycdp;
+		cmgam.xopnli[0] = cmgam.xori;
+		cmgam.xopnli[1] = cmgam.xcdp;
+		cmgam.yopnli[0] = cmgam.yori;
+		cmgam.yopnli[1] = cmgam.ycdp;
 		pcrrpl( nunmac, &kchar2, (char*)kjunk, &lend, &lquit );
 		if( lend )
 			goto L_8888;
@@ -251,8 +251,8 @@ L_5500:
 		ytemp = -cmgam.xcdp*sinang + cmgam.ycdp*cosang;
 		cmgam.xcdp = xtemp + cmgam.xcen;
 		cmgam.ycdp = ytemp + cmgam.ycen;
-		Xopnli[3] = cmgam.xcdp;
-		Yopnli[3] = cmgam.ycdp;
+		cmgam.xopnli[2] = cmgam.xcdp;
+		cmgam.yopnli[2] = cmgam.ycdp;
 		iop2 = 1;
 		if( kchar2 == 'C' )
 			iop2 = 2;

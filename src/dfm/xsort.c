@@ -40,13 +40,13 @@ compare(const void *pa, const void *pb) {
   for(i = 0; i < nSortOrder; i++) {
     dir = cmdfm.idirection[i];
     hdrfld(kmdfm.ksort[i], 9, &icat, &item, &lok);
-    if(!lok || icat > cmlhf.icatk) {
+    if(!lok || icat > STRING_TYPE) {
       error(1381, " %s", kmdfm.ksort[i]);
       outmsg();
       continue;
     }
     switch(icat) {
-    case CAT_FLOAT:
+    case FLOAT_TYPE:
       fa = VALUE(fhdr(a,item));
       fb = VALUE(fhdr(b,item));
       if(fa == fb) {  continue;   }
@@ -55,19 +55,19 @@ compare(const void *pa, const void *pb) {
       case Descending: return ((fa > fb) ? -1 :  1);  break;
       }
       break;
-    case CAT_NUMBER:
-    case CAT_LOGICAL:
-      na = (item == CAT_NUMBER) ? NHDR(a)[item] : LHDR(a)[item];
-      nb = (item == CAT_NUMBER) ? NHDR(b)[item] : LHDR(b)[item];
+    case INT_TYPE:
+    case LOGICAL_TYPE:
+      na = (icat == INT_TYPE) ? NHDR(a)[item] : LHDR(a)[item];
+      nb = (icat == INT_TYPE) ? NHDR(b)[item] : LHDR(b)[item];
       if(na == nb) {  continue;   }
       switch(dir) {
       case Ascending:  return (na > nb) ?  1 : -1;  break;
       case Descending: return (na < nb) ? -1 :  1;  break;
       }
       break;
-    case CAT_ENUM:
-    case CAT_STRING:
-      if(icat == cmlhf.icati) {
+    case ENUM_TYPE:
+    case STRING_TYPE:
+      if(icat == ENUM_TYPE) {
         strcpy(kmlhf.kiv[IHDR(a)[item]-1],ca);
         strcpy(kmlhf.kiv[IHDR(b)[item]-1],cb);
       } else {

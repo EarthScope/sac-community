@@ -75,10 +75,10 @@ double tdelay;
 		j_ = j - 1;
 
 		/* -- If time pick is defined and pick display is not off: */
-		if( VALUE(fhdr(s,Itmfnm[j])) != cmhdr.fundef && Ipktyp[j] > 0 ){
+		if( VALUE(fhdr(s,cmlhf.itmfnm[j-1])) != SAC_FLOAT_UNDEFINED && cmgam.ipktyp[j-1] > 0 ){
 
 			/* --- Map the input y location in WC to PC. */
-			ywloc = VALUE(fhdr(s,Itmfnm[j])) + tdelay;
+			ywloc = VALUE(fhdr(s,cmlhf.itmfnm[j-1])) + tdelay;
 			yploc = cmgem.ympip1*ywloc + cmgem.ympip2;
 
 			/* --- If time pick is within y plot window: */
@@ -90,12 +90,12 @@ double tdelay;
 					  );
 					}
 				else{
-					strcpy( kpktxt, kmlhf.kfhdr[Itmfnm[j] - 1] );
+					strcpy( kpktxt, kmlhf.kfhdr[cmlhf.itmfnm[j-1] - 1] );
 					}
 				/* ---- Display a horizontal line, a vertical line or a cross at pick.
 				 *      Also display time pick text at appropriate location. */
 				setlinewidth( LINE_WIDTH_THIN );
-				if( Ipktyp[j] == 1 ){
+				if( cmgam.ipktyp[j-1] == 1 ){
 					setlinewidth( cmgem.iwidth );
 					line( xploc1, yploc, xploc2, yploc );
 					setlinewidth( LINE_WIDTH_THIN );
@@ -103,13 +103,13 @@ double tdelay;
 					}
 				else{
 					yploc = cmgem.ympip1*ywloc + cmgem.ympip2;
-					getxw( VALUE(fhdr(s,Itmfnm[j])), &xwloc );
+					getxw( VALUE(fhdr(s,cmlhf.itmfnm[j-1])), &xwloc );
 					xploc = cmgem.xmpip1*xwloc + cmgem.xmpip2;
 					yploc1 = fmax( cmgem.uplot.ymin, yploc - 0.5*cmgam.pkwdth );
 					yploc2 = fmin( cmgem.uplot.ymax, yploc + 0.5*cmgam.pkwdth );
 					setlinewidth( cmgem.iwidth );
 					line( xploc, yploc1, xploc, yploc2 );
-					if( Ipktyp[j] == 3 ){
+					if( cmgam.ipktyp[j-1] == 3 ){
 						xploc1 = fmax( cmgem.uplot.xmin, xploc - 0.5*cmgam.pkhgth );
 						xploc2 = fmin( cmgem.uplot.xmax, xploc + 0.5*cmgam.pkhgth );
 						line( xploc1, yploc, xploc2, yploc );

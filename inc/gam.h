@@ -149,36 +149,6 @@ struct t_kmgam {
 } kmgam;
 
 
-#ifdef DOINITS
-
-   float *const Extgam = &cmgam.extgam[0] - 1;
-   int   *const Ipktyp = &cmgam.ipktyp[0] - 1;
-   char  *const Kop1   = &kmgam.kop1[0] - 1;
-   char  *const Kop2   = &kmgam.kop2[0] - 1;
-   char  *const Kopn   = &kmgam.kopn[0] - 1;
-   char  *const Kopt   = &kmgam.kopt[0] - 1;
-   double *const Ortwxl = &cmgam.ortwxl[0] - 1;
-   float *const Xopnli = &cmgam.xopnli[0] - 1;
-   float *const Xrect  = &cmgam.xrect[0] - 1;
-   float *const Yopnli = &cmgam.yopnli[0] - 1;
-   float *const Yrect  = &cmgam.yrect[0] - 1;
-
-#else
-
-   extern float *const Extgam;
-   extern int   *const Ipktyp;
-   extern char  *const Kop1;
-   extern char  *const Kop2;
-   extern char  *const Kopn;
-   extern char  *const Kopt;
-   extern double *const Ortwxl;
-   extern float *const Xopnli;
-   extern float *const Xrect;
-   extern float *const Yopnli;
-   extern float *const Yrect;
-
-#endif
-
 char *tmpfile_create(char *template, int xs);
 int sgf_to_ps(char *sgf, char *ps);
 int ps_print(char *ps, char *printer);

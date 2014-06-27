@@ -89,7 +89,7 @@ L_3000:
                                 if(ktext[(numchar=strlen(ktext)-1)] == '\n')ktext[numchar] = '\0';
 
 				backspace( nunmac,1L );
-				if( ktext[0] != Kopt[2] )
+				if( ktext[0] != kmgam.kopt[1] )
 					goto L_3000;
 				}
 			else{
@@ -216,14 +216,14 @@ L_5500:
 
 		/* -- Set up data points if this is a "rectangle" opcode. */
 		if( kchar == 'R' ){
-			Xrect[1] = cmgam.xori;
-			Yrect[1] = cmgam.ycdp;
-			Xrect[2] = cmgam.xori;
-			Yrect[2] = cmgam.yori;
-			Xrect[3] = cmgam.xcdp;
-			Yrect[3] = cmgam.yori;
-			Xrect[4] = cmgam.xcdp;
-			Yrect[4] = cmgam.ycdp;
+			cmgam.xrect[0] = cmgam.xori;
+			cmgam.yrect[0] = cmgam.ycdp;
+			cmgam.xrect[1] = cmgam.xori;
+			cmgam.yrect[1] = cmgam.yori;
+			cmgam.xrect[2] = cmgam.xcdp;
+			cmgam.yrect[2] = cmgam.yori;
+			cmgam.xrect[3] = cmgam.xcdp;
+			cmgam.yrect[3] = cmgam.ycdp;
 			}
 		pcxop1( iop1 );
 		lopt = FALSE;
@@ -258,10 +258,10 @@ L_6000:
 
 	iop1 = nccomp( &kchar, kmgam.kopn, 1, cmgam.nopn, 1 );
 	if( iop1 == 1 ){
-		Xopnli[1] = cmgam.xori;
-		Xopnli[2] = cmgam.xcdp;
-		Yopnli[1] = cmgam.yori;
-		Yopnli[2] = cmgam.ycdp;
+		cmgam.xopnli[0] = cmgam.xori;
+		cmgam.xopnli[1] = cmgam.xcdp;
+		cmgam.yopnli[0] = cmgam.yori;
+		cmgam.yopnli[1] = cmgam.ycdp;
 
                 sprintf(kmsg,"%c%10.5f%10.5f", kchar, xtemp, ytemp );
 
@@ -277,8 +277,8 @@ L_6000:
 
                 fprintf(nunmac,"%s\n",kmsg);
 
-		Xopnli[3] = cmgam.xcdp;
-		Yopnli[3] = cmgam.ycdp;
+		cmgam.xopnli[2] = cmgam.xcdp;
+		cmgam.yopnli[2] = cmgam.ycdp;
 		iop2 = 1;
 		if( kchar2 == 'C' )
 			iop2 = 2;

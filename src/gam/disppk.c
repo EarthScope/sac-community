@@ -84,10 +84,10 @@ double tdelay;
 	    j_ = j - 1;
 
 	    /* -- If time pick is defined and pick display is not off: */
-	    if( VALUE(fhdr(s,Itmfnm[j])) != cmhdr.fundef && Ipktyp[j] > 0 ){
+	    if( VALUE(fhdr(s,cmlhf.itmfnm[j-1])) != SAC_FLOAT_UNDEFINED && cmgam.ipktyp[j-1] > 0 ){
 
 		/* --- Map the input x location in WC to PC. */
-        xwloc = VALUE(fhdr(s,Itmfnm[j])) + tdelay;
+        xwloc = VALUE(fhdr(s,cmlhf.itmfnm[j-1])) + tdelay;
 		xploc = cmgem.xmpip1*xwloc + cmgem.xmpip2;
 
 		/* --- If time pick is within x plot window: */
@@ -97,12 +97,12 @@ double tdelay;
                  strlen(khdr(s,cmlhf.itmkrf + j_ ))) != 0 ) {
         strcpy( kpktxt, khdr(s, cmlhf.itmkrf + j_ ));
       } else {
-        strcpy( kpktxt, kmlhf.kfhdr[Itmfnm[j] - 1] );
+        strcpy( kpktxt, kmlhf.kfhdr[cmlhf.itmfnm[j-1] - 1] );
       }
 		    /* ---- Display a horizontal line, a vertical line or a cross at pick.
 		     *      Also display time pick text at appropriate location. */
 		    setlinewidth( LINE_WIDTH_THIN );
-		    if( Ipktyp[j] == 1 ){
+		    if( cmgam.ipktyp[j-1] == 1 ){
 			setlinewidth( cmgem.iwidth );
 			line( xploc, yploc1, xploc, yploc2 );
 			setlinewidth( LINE_WIDTH_THIN );
@@ -110,13 +110,13 @@ double tdelay;
 		    }
 		    else{
 			xploc = cmgem.xmpip1*xwloc + cmgem.xmpip2;
-			getyw( VALUE(fhdr(s,Itmfnm[j])), &ywloc );
+			getyw( VALUE(fhdr(s,cmlhf.itmfnm[j-1])), &ywloc );
 			yploc = cmgem.ympip1*ywloc + cmgem.ympip2;
 			xploc1 = fmax( cmgem.uplot.xmin, xploc - 0.5*cmgam.pkwdth );
 			xploc2 = fmin( cmgem.uplot.xmax, xploc + 0.5*cmgam.pkwdth );
 			setlinewidth( cmgem.iwidth );
 			line( xploc1, yploc, xploc2, yploc );
-			if( Ipktyp[j] == 3 ){
+			if( cmgam.ipktyp[j-1] == 3 ){
 			    yploc1 = fmax( cmgem.uplot.ymin, yploc - 0.5*cmgam.pkhgth );
 			    yploc2 = fmin( cmgem.uplot.ymax, yploc + 0.5*cmgam.pkhgth );
 			    line( xploc, yploc1, xploc, yploc2 );
@@ -128,7 +128,7 @@ double tdelay;
 			else
 			    ytloc = yploc - cmgem.chht - 0.005;
 			pltext( kpktxt,9, xtloc, ytloc );
-		    } /* end else associated with if ( Ipktyp[j] == 1 ) */
+		    }
 		} /* end if ( xploc ... ) */
 	    } /* end if ( Fhdr ... ) */
 	} /* end for ( j ) */

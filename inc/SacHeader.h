@@ -414,13 +414,5 @@ static inline int *lhdr(sac *s, int i) {
   return &(ip[i-1]);
 }
 
-enum {
-  CAT_FLOAT = 1,
-  CAT_NUMBER,
-  CAT_ENUM,
-  CAT_LOGICAL,
-  CAT_STRING,
-  CAT_AUX,
-};
 
 #endif /* _SAC_HEADER_H_ */

@@ -34,7 +34,7 @@ qpicks() {
                 strcpy(cattemp,"  ");
                 strncat(cattemp,kmgam.kpknam[j_],2);
                 strcat(cattemp,"$");
-		repav( cattemp, 2+2+1+1, (char*)kmgam.kpktyp[Ipktyp[j] - 1],9 );
+		repav( cattemp, 2+2+1+1, (char*)kmgam.kpktyp[cmgam.ipktyp[j-1] - 1],9 );
                 free(cattemp);
 		}
 	reprv( "WIDTH of pick lines$",21, cmgam.pkwdth );

@@ -77,32 +77,32 @@ formhv(char  *kname,
 	        /* lok was true coming out of hdrfld().  maf 961212 */
 		lok2 = TRUE ;	
     switch( icat ) {
-    case CAT_FLOAT:
+    case FLOAT_TYPE:
       fp = VALUE(fhdr(s,item));
-			lok = fp != cmhdr.fundef ;
+			lok = fp != SAC_FLOAT_UNDEFINED ;
 			if( lok ||  linc ) {
                                 sprintf(kvalue,"%#16.6e", fp); 
 				ljust( kvalue,41 );
 			}
       break;
-    case CAT_NUMBER: 
+    case INT_TYPE: 
       ip = VALUE(nhdr(s,item));
-			lok = ip != cmhdr.nundef ;
+			lok = ip != SAC_INT_UNDEFINED ;
 			if( lok ||  linc  ){	
                                 sprintf(kvalue,"%10d", ip);
 				ljust( kvalue,41 );
 			}
       break;
-    case CAT_ENUM:
+    case ENUM_TYPE:
       ip = VALUE(ihdr(s,item));
-			lok = ip != cmhdr.iundef ;
+			lok = ip != SAC_ENUM_UNDEFINED ;
 			if( lok )
 				fstrncpy(kvalue, 40, kmlhf.kdiv[ip - 1],
 					 strlen(kmlhf.kdiv[ip - 1]));
 			else if ( linc )
 				strcpy( kvalue, "UNDEFINED                               " );
       break;
-    case CAT_LOGICAL:
+    case LOGICAL_TYPE:
       ip = VALUE(lhdr(s,item));
 			lok = TRUE;
 			if( ip ){
@@ -112,7 +112,7 @@ formhv(char  *kname,
 				strcpy( kvalue, "FALSE                                   " );
 			}
       break;
-    case CAT_STRING:
+    case STRING_TYPE:
       p = khdr(s,item);
 			lok = memcmp(p, SAC_CHAR_UNDEFINED,
                    min(strlen(p),strlen(SAC_CHAR_UNDEFINED))) != 0 ;
@@ -122,7 +122,7 @@ formhv(char  *kname,
         kvalue[strlen(p)] = 0;
 			}
       break;
-    case CAT_AUX:
+    case AUX_TYPE:
 			lok = lgahdr( kname,kname_s, kvalue,41 );
       break;
     }

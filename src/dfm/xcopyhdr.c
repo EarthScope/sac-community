@@ -134,19 +134,19 @@ L_1000:
           goto L_8888;
         }
 		/* -- Get header variable from master file. */
-		if( Icatco[jhdrco] == cmlhf.icatf ){
+		if( Icatco[jhdrco] == FLOAT_TYPE ){
 			ftemp = VALUE(fhdr(s, Itemco[jhdrco]));
 			}
-		else if( Icatco[jhdrco] == cmlhf.icati ){
+		else if( Icatco[jhdrco] == INT_TYPE ){
 			itemp = VALUE(ihdr(s,Itemco[jhdrco]));
 			}
-		else if( Icatco[jhdrco] == cmlhf.icatn ){
+		else if( Icatco[jhdrco] == ENUM_TYPE ){
 			ntemp = VALUE(nhdr(s,Itemco[jhdrco]));
 			}
-		else if( Icatco[jhdrco] == cmlhf.icatl ){
+		else if( Icatco[jhdrco] == LOGICAL_TYPE ){
 			ltemp = VALUE(lhdr(s,Itemco[jhdrco]));
 			}
-		else if( Icatco[jhdrco] == cmlhf.icatk ){
+		else if( Icatco[jhdrco] == STRING_TYPE ){
       strcpy( ktemp3, khdr(s,Itemco[jhdrco]) );
     }
 
@@ -157,23 +157,23 @@ L_1000:
       }
 			//getfil( jdfl, FALSE, &notusd, &notusd, &notusd, nerr );
 
-			if( Icatco[jhdrco] == cmlhf.icatf ){
+			if( Icatco[jhdrco] == FLOAT_TYPE ){
 				fp = fhdr(s, Itemco[jhdrco]);
         VALUE(fp) = ftemp;
 				}
-			else if( Icatco[jhdrco] == cmlhf.icati ){
+			else if( Icatco[jhdrco] == INT_TYPE ){
         ip = ihdr(s, Itemco[jhdrco]);
         VALUE(ip) = itemp;
 				}
-			else if( Icatco[jhdrco] == cmlhf.icatn ){
+			else if( Icatco[jhdrco] == ENUM_TYPE ){
         ip = nhdr(s, Itemco[jhdrco]);
         VALUE(ip) = ntemp;
 				}
-			else if( Icatco[jhdrco] == cmlhf.icatl ){
+			else if( Icatco[jhdrco] == LOGICAL_TYPE ){
         ip = lhdr(s, Itemco[jhdrco]);
         VALUE(ip) = ltemp;
 				}
-			else if( Icatco[jhdrco] == cmlhf.icatk ){
+			else if( Icatco[jhdrco] == STRING_TYPE ){
         strcpy( khdr(s,Itemco[jhdrco]), ktemp3);
       }
     }

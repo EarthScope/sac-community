@@ -138,7 +138,7 @@ xlh(int *nerr) {
 		else if( lckey( "FIRST#$",8 ) ){
 			cmlhf.lstall = FALSE;
 			cmlhf.nlhlst = 1;
-			Ilhlst[1] = 1;
+			cmlhf.ilhlst[0] = 1;
 		}
 
 		else if( lcchar( ktok, sizeof(ktok)) ){

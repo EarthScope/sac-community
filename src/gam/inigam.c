@@ -54,14 +54,14 @@ void /*FUNCTION*/ inigam()
 	kmgam.kopee = ']';
     memset(kmgam.kopetx, 0, 81);
 	cmgam.nop1 = 8;
-	Kop1[1] = 'G';
-	Kop1[2] = 'O';
-	Kop1[3] = 'L';
-	Kop1[4] = 'A';
-	Kop1[5] = 'R';
-	Kop1[6] = 'C';
-	Kop1[7] = 'N';
-	Kop1[8] = 'B';
+	kmgam.kop1[0] = 'G';
+	kmgam.kop1[1] = 'O';
+	kmgam.kop1[2] = 'L';
+	kmgam.kop1[3] = 'A';
+	kmgam.kop1[4] = 'R';
+	kmgam.kop1[5] = 'C';
+	kmgam.kop1[6] = 'N';
+	kmgam.kop1[7] = 'B';
 	cmgam.nop2 = 0;
 	cmgam.nope = 62;
 	cmgam.nopei = 61;
@@ -128,10 +128,10 @@ void /*FUNCTION*/ inigam()
 	strcpy( kmgam.kope[60], "BH" );
 	strcpy( kmgam.kope[61], "BV" );
 	cmgam.nopt = 2;
-	Kopt[1] = 'T';
-	Kopt[2] = 'U';
+	kmgam.kopt[0] = 'T';
+	kmgam.kopt[1] = 'U';
 	cmgam.nopn = 1;
-	Kopn[1] = 'S';
+	kmgam.kopn[0] = 'S';
 
 	cmgam.icsize = 1;
 	cmgam.nhtick = 9;
@@ -224,19 +224,19 @@ void /*FUNCTION*/ inigam()
 	strcpy( kmgam.kpktyp[0], "VERTICAL" );
 	strcpy( kmgam.kpktyp[1], "HORIZONT" );
 	strcpy( kmgam.kpktyp[2], "CROSS   " );
-	Ipktyp[1] = 1;
-	Ipktyp[2] = 1;
-	Ipktyp[3] = 1;
-	Ipktyp[4] = 1;
-	Ipktyp[5] = 1;
-	Ipktyp[6] = 1;
-	Ipktyp[7] = 1;
-	Ipktyp[8] = 1;
-	Ipktyp[9] = 1;
-	Ipktyp[10] = 1;
-	Ipktyp[11] = 1;
-	Ipktyp[12] = 1;
-	Ipktyp[13] = 1;
+	cmgam.ipktyp[0] = 1;
+	cmgam.ipktyp[1] = 1;
+	cmgam.ipktyp[2] = 1;
+	cmgam.ipktyp[3] = 1;
+	cmgam.ipktyp[4] = 1;
+	cmgam.ipktyp[5] = 1;
+	cmgam.ipktyp[6] = 1;
+	cmgam.ipktyp[7] = 1;
+	cmgam.ipktyp[8] = 1;
+	cmgam.ipktyp[9] = 1;
+	cmgam.ipktyp[10] = 1;
+	cmgam.ipktyp[11] = 1;
+	cmgam.ipktyp[12] = 1;
 	cmgam.pkwdth = 0.1;
 	cmgam.pkhgth = 0.1;
 	cmgam.tspk = cmgem.tsdef;
@@ -246,8 +246,8 @@ void /*FUNCTION*/ inigam()
 	cmgam.lrtwxl = FALSE;
 	strcpy( kmgam.krtwxl[0], "B       " );
 	strcpy( kmgam.krtwxl[1], "E       " );
-	Ortwxl[1] = 0.;
-	Ortwxl[2] = 0.;
+	cmgam.ortwxl[0] = 0.;
+	cmgam.ortwxl[1] = 0.;
 
 	/* - Initialization for YLIM command. */
 

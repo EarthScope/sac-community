@@ -54,12 +54,6 @@ struct t_cmlhf {
   int nlhcol;         /** Number of columns                      */
   int itmkrf;         /** First Index in header (characters) for Time Picks */
   int itmfnm[MTM];    /** Indicies in header (floats) for Time Picks */
-  int icatf;          /** Floating point category */
-  int icatn;          /** Integer category        */
-  int icati;          /** Enum category           */
-  int icatl;          /** Logical category        */
-  int icatk;          /** Character category      */
-  int icata;          /** Auxillary category      */
   int nlhdr;          /** Unused */
   int nkhdr[SAC_HEADER_STRINGS];  /** Length of Character strings*/
 } cmlhf;
@@ -80,19 +74,14 @@ struct t_kmlhf {
   char kdiv[SAC_ENUMS][33]; /** Description for enumerated values */
 } kmlhf;
 
+enum {
+  FLOAT_TYPE   = 1,
+  INT_TYPE     = 2,
+  ENUM_TYPE    = 3,
+  LOGICAL_TYPE = 4,
+  STRING_TYPE  = 5,
+  AUX_TYPE     = 6
+};
 
-#ifdef DOINITS
-
-int *const Ilhlst = &cmlhf.ilhlst[0] - 1;
-int *const Itmfnm = &cmlhf.itmfnm[0] - 1;
-int *const Nkhdr = &cmlhf.nkhdr[0] - 1;
-
-#else
-
-extern int *const Ilhlst;
-extern int *const Itmfnm;
-extern int *const Nkhdr;
-
-#endif
 
 #endif /* _LHF_H_ */

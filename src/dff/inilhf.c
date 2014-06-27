@@ -173,19 +173,19 @@ inilhf() {
 
 	/* Index in header for character and floats for time picks */
 	cmlhf.itmkrf = 5;
-	Itmfnm[1] = 8;
-	Itmfnm[2] = 9;
-	Itmfnm[3] = 11;
-	Itmfnm[4] = 12;
-	Itmfnm[5] = 13;
-	Itmfnm[6] = 14;
-	Itmfnm[7] = 15;
-	Itmfnm[8] = 16;
-	Itmfnm[9] = 17;
-	Itmfnm[10] = 18;
-	Itmfnm[11] = 19;
-	Itmfnm[12] = 20;
-	Itmfnm[13] = 21;
+	cmlhf.itmfnm[0] = 8;
+	cmlhf.itmfnm[1] = 9;
+	cmlhf.itmfnm[2] = 11;
+	cmlhf.itmfnm[3] = 12;
+	cmlhf.itmfnm[4] = 13;
+	cmlhf.itmfnm[5] = 14;
+	cmlhf.itmfnm[6] = 15;
+	cmlhf.itmfnm[7] = 16;
+	cmlhf.itmfnm[8] = 17;
+	cmlhf.itmfnm[9] = 18;
+	cmlhf.itmfnm[10] = 19;
+	cmlhf.itmfnm[11] = 20;
+	cmlhf.itmfnm[12] = 21;
 
 	/** Ids in order for floating point values in the header */
 	strcpy( kmlhf.kfhdr[0], "DELTA   " );
@@ -2023,39 +2023,6 @@ inilhf() {
 
 
 	cmlhf.nlhdr = 3;
-
-	Nkhdr[1] = 1;
-	Nkhdr[2] = 2;
-	Nkhdr[3] = 1;
-	Nkhdr[4] = 1;
-	Nkhdr[5] = 1;
-	Nkhdr[6] = 1;
-	Nkhdr[7] = 1;
-	Nkhdr[8] = 1;
-	Nkhdr[9] = 1;
-	Nkhdr[10] = 1;
-	Nkhdr[11] = 1;
-	Nkhdr[12] = 1;
-	Nkhdr[13] = 1;
-	Nkhdr[14] = 1;
-	Nkhdr[15] = 1;
-	Nkhdr[16] = 1;
-	Nkhdr[17] = 1;
-	Nkhdr[18] = 1;
-	Nkhdr[19] = 1;
-	Nkhdr[20] = 1;
-	Nkhdr[21] = 1;
-	Nkhdr[22] = 1;
-	Nkhdr[23] = 1;
-	Nkhdr[24] = 1;
-
-	/* Header value categories */
-	cmlhf.icatf = 1;
-	cmlhf.icatn = 2;
-	cmlhf.icati = 3;
-	cmlhf.icatl = 4;
-	cmlhf.icatk = 5;
-	cmlhf.icata = 6;
 
 	return;
 }

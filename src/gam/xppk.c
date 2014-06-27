@@ -389,10 +389,10 @@ L_2000:
 	    disppk( toff[jdfl] );
 	    yimnzs[jdfl] = cmgem.zdata.ymin;
 	    yimxzs[jdfl] = cmgem.zdata.ymax;
-	    cmeam.lpphas = (cmeam.lhpfop && s->h->a != cmhdr.fundef) && s->h->ka[0] == 'P';
+	    cmeam.lpphas = (cmeam.lhpfop && s->h->a != SAC_FLOAT_UNDEFINED) && s->h->ka[0] == 'P';
 	    cmeam.lpphas = cmeam.lpphas && lzdttm[jdfl];
-	    cmeam.lsphas = s->h->t0 != cmhdr.fundef && s->h->kt0[0] == 'S';
-	    cmeam.lfini = s->h->f != cmhdr.fundef;
+	    cmeam.lsphas = s->h->t0 != SAC_FLOAT_UNDEFINED && s->h->kt0[0] == 'S';
+	    cmeam.lfini = s->h->f != SAC_FLOAT_UNDEFINED;
 	    if( cmeam.lpphas ){
 		psecsi = s->h->a;
 		fstrncpy( kmeam.kpwave, 8, s->h->ka, 4);
@@ -570,10 +570,10 @@ L_4000:
       }
 	    //getfil( jdfl, TRUE, &nlen, &nlcy, &nlcx, nerr );
 
-	    cmeam.lpphas = s->h->a != cmhdr.fundef && s->h->ka[0] == 'P';
+	    cmeam.lpphas = s->h->a != SAC_FLOAT_UNDEFINED && s->h->ka[0] == 'P';
 	    cmeam.lpphas = cmeam.lpphas && lzdttm[jdfl];
-	    cmeam.lsphas = s->h->t0 != cmhdr.fundef && s->h->kt0[0] == 'S';
-	    cmeam.lfini = s->h->f != cmhdr.fundef;
+	    cmeam.lsphas = s->h->t0 != SAC_FLOAT_UNDEFINED && s->h->kt0[0] == 'S';
+	    cmeam.lfini = s->h->f != SAC_FLOAT_UNDEFINED;
 	    if( cmeam.lpphas ){
 		psecsi = s->h->a;
 		fstrncpy( kmeam.kpwave, 8, s->h->ka, 4);
@@ -627,8 +627,8 @@ L_4000:
 		cmgam.lrtwxl = TRUE;
 		strcpy( kmgam.krtwxl[0], "Z       " );
 		strcpy( kmgam.krtwxl[1], "Z       " );
-		Ortwxl[1] = tmin;
-		Ortwxl[2] = tmax;
+		cmgam.ortwxl[0] = tmin;
+		cmgam.ortwxl[1] = tmax;
 	    }
 	    lnewxw = FALSE;
 	    plhome();
@@ -992,11 +992,11 @@ L_4000:
 	    cmeam.lsphas = FALSE;
 	    cmeam.lfini = FALSE;
 	    cmeam.lampx = FALSE;
-	    s->h->a = cmhdr.fundef;
+	    s->h->a = SAC_FLOAT_UNDEFINED;
 	    strcpy( s->h->ka, SAC_CHAR_UNDEFINED );
-	    s->h->t0 = cmhdr.fundef;
+	    s->h->t0 = SAC_FLOAT_UNDEFINED;
 	    strcpy( s->h->kt0, SAC_CHAR_UNDEFINED );
-	    s->h->f = cmhdr.fundef;
+	    s->h->f = SAC_FLOAT_UNDEFINED;
 	    strcpy( s->h->kf, SAC_CHAR_UNDEFINED );
 	    strcpy( kmeam.kpkid, "DEL     " );
 	}

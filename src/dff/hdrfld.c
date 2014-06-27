@@ -67,7 +67,7 @@ hdrfld(char *kname,
 	*item = nequal( ktemp, (char*)kmlhf.kfhdr,9, SAC_HEADER_FLOATS );
 	if( *item > 0 ){
 		*lfound = TRUE;
-		*icat = cmlhf.icatf;
+		*icat = FLOAT_TYPE;
 		goto L_8888;
 	}
 
@@ -75,7 +75,7 @@ hdrfld(char *kname,
 	*item = nequal( ktemp, (char*)kmlhf.knhdr,9, SAC_HEADER_INTEGERS );
 	if( *item > 0 ){
 		*lfound = TRUE;
-		*icat = cmlhf.icatn;
+		*icat = INT_TYPE;
 		goto L_8888;
 		}
 
@@ -83,7 +83,7 @@ hdrfld(char *kname,
 	*item = nequal( ktemp, (char*)kmlhf.kihdr,9, SAC_HEADER_ENUMS );
 	if( *item > 0 ){
 		*lfound = TRUE;
-		*icat = cmlhf.icati;
+		*icat = ENUM_TYPE;
 		goto L_8888;
 		}
 
@@ -91,7 +91,7 @@ hdrfld(char *kname,
 	*item = nequal( ktemp, (char*)kmlhf.klhdr,9, SAC_HEADER_LOGICALS );
 	if( *item > 0 ){
 		*lfound = TRUE;
-		*icat = cmlhf.icatl;
+		*icat = LOGICAL_TYPE;
 		goto L_8888;
 		}
 
@@ -99,7 +99,7 @@ hdrfld(char *kname,
 	*item = nequal( ktemp, (char*)kmlhf.kkhdr,9, SAC_HEADER_STRINGS );
 	if( *item > 0 ){
 		*lfound = TRUE;
-		*icat = cmlhf.icatk;
+		*icat = STRING_TYPE;
 		goto L_8888;
 		}
 
@@ -107,7 +107,7 @@ hdrfld(char *kname,
 	*item = nequal( ktemp, (char*)kmlhf.kahdr,9, MAHDR );
 	if( *item > 0 ){
 		*lfound = TRUE;
-		*icat = cmlhf.icata;
+		*icat = AUX_TYPE;
 		goto L_8888;
 		}
 
