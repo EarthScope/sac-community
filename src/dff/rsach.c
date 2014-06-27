@@ -23,7 +23,9 @@ extern sac *CURRENT;
  */
 void
 sacio_initialize_common() {
-  if( SAC_FLOAT_UNDEFINED != SAC_FLOAT_UNDEFINED ) {
+  static int init = FALSE;
+  if( init == FALSE ) {
+    init = TRUE;
     inihdr();
     inilhf();
     inimsg();
