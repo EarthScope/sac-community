@@ -83,48 +83,6 @@ lckeyExact(char *kkey,
             fstrncpy(kcheck,136,kkey,strlen(kkey));
 	}
 
-	/* - Determine length of current command symbol and 
-	 *   increment in command counter. Copy current command 
-	 *   symbol to local storage. */
-
-	/* -- Long command symbol case: */
-	/* if( kmcom.kcom[cmcom.jcom - 1][0] == '\'' ){ */
-	/*     jsym = cmcom.jcom + 2; */
-	/*     ncsym = (int)( Flnum[cmcom.jcom + 1] + 0.1 ); */
-
-	/*     /\* -- Check ktoken size, truncate and issue  */
-	/*      *    warning if token is too long. *\/ */
-	/*     if( ncsym > MCHECK ){ */
-	/* 	ncsym = MCHECK; */
-	/* 	setmsg( "WARNING", 921 ); */
-	/* 	wrtmsg( stdout ); */
-	/* 	clrmsg(); */
-	/*     } */
-
-	/*     /\* -- Not sure where else this logic is required...  */
-	/*      *    so leave it here *\/ */
-	/*     jcopy = (ncsym - 1)/MCPW + 1; */
-	/*     jc = 1; */
-
-	/*     for( j = 1; j <= jcopy; j++ ){ */
-	/* 	strtemp = malloc(MCPW+1); */
-	/* 	strncpy(strtemp,kmcom.kcom[jsym + j - 2],MCPW); */
-	/* 	strtemp[MCPW] = '\0'; */
-	/* 	subscpy( ktoken, jc - 1, jc + MCPW - 2, 136, strtemp); */
-	/* 	free(strtemp); */
-	/* 	jc = jc + MCPW; */
-	/*     } */
-	/*     jicom = jcopy + 2; */
-	/* } */
-
-	/* -- Normal command symbol case: */
-	/* else{ */
-	/*     jsym = cmcom.jcom; */
-	/*     ncsym = indexb( (char*)kmcom.kcom[cmcom.jcom - 1],9 ); */
-  /*           fstrncpy(ktoken,136,kmcom.kcom[jsym - 1],strlen(kmcom.kcom[jsym - 1])); */
-	/*     jicom = 1; */
-	/* } */
-
   if(!(t = arg()) || !token_is_string(t)) {
     return FALSE;
   }

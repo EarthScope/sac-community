@@ -18,14 +18,6 @@
 void 
 inicom() {
 
-	/* cmcom.inumbr = 1; /\* number flag - never changes *\/ */
-	/* cmcom.ialpha = 2; /\* alpha flag - never changes *\/ */
-	/* cmcom.icont  = 3; /\* Never used *\/ */
-	/* cmcom.ncom   = 0; /\* Number of token in command *\/ */
-	/* cmcom.jcom   = 0; /\* Current token *\/ */
-  /*       kmcom.nkargs = 0; /\* Number of Arguments *\/ */
-  /*       kmcom.nkargs_allocated = 0; /\* Number of Arguemnts allocated *\/ */
-
 	cmcom.ncerr  = 0; /* command error */
 
 	return;

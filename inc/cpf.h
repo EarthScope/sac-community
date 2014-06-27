@@ -20,30 +20,10 @@
 struct t_kmcpf {
   /* designates that a particular macro keyword has no current value */
   char	knoval[9];
-
-
-  char	kbb;		/* blackboard variable key */
-  char  khdr;		/* header variable key */
-  char  karg;		/* argument key */
-  char  kescape;	/* escape character */
-  char  kfunctionbegin;	/* beginning of inline function */
-  char  kfunctionend;	/* end of inline function */
-
-  char	kstringfuncs[MSTRINGFUNCS][9];
-  char  knumericfuncs[MNUMERICFUNCS][9];
-  char  knumericabbrevs[MNUMERICABBREVS][9];
   char  kvarsname[9];
-
-  char	kinputline[MCMSG+1];	/* processed input line */
 } kmcpf;
 
 struct t_cmcpf {
-  int nstringfuncs;
-  int nstringargs[MSTRINGFUNCS];
-  int nnumericfuncs;
-  int nnumericargs[MNUMERICFUNCS];
-  int nnumericabbrevs;
-  int inumericabbrevs[MNUMERICABBREVS];
   int nmacrolevel;
   int lmacrostatus;
 } cmcpf;
@@ -285,20 +265,6 @@ void       xcrtw       (int    *lrtw,
 int lcequals();
 int lccomma();
 
-
-#ifdef DOINITS
-
-   int *const Inumericabbrevs = &cmcpf.inumericabbrevs[0] - 1;
-   int *const Nnumericargs = &cmcpf.nnumericargs[0] - 1;
-   int *const Nstringargs = &cmcpf.nstringargs[0] - 1;
-
-#else
-
-   extern int *const Inumericabbrevs;
-   extern int *const Nnumericargs;
-   extern int *const Nstringargs;
-
-#endif
 
 #include "token.h"
 

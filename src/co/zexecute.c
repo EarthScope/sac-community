@@ -143,7 +143,7 @@ zexecute(int  index,
           call_data.ext_xvalues = xdata;
           call_data.ext_hdrs    = call_headers;
 
-          strcpy(buf, kmcpf.kinputline);
+          //strcpy(buf, kmcpf.kinputline);
           tokenize(&ext_argv, &ext_argc, buf, nerr);
 
           /* Call external routine. */
