@@ -43,10 +43,10 @@ void /*FUNCTION*/ iniicm()
 	cmicm.lfd = FALSE ;	/* TRUE if WHITEN move coefficients into FILTERDESIGN */
 
 	cmicm.lfreql = TRUE;
-	Freq[1] = -2.0;
-	Freq[2] = -1.0;
-	Freq[3] = 1.0e5;
-	Freq[4] = 1.0e6;
+	cmicm.freq[0] = -2.0;
+	cmicm.freq[1] = -1.0;
+	cmicm.freq[2] = 1.0e5;
+	cmicm.freq[3] = 1.0e6;
 
 	cmicm.ninstr = 49;
 	strcpy( kmicm.kinstr[0], "ACC" );

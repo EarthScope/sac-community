@@ -45,7 +45,7 @@ getsmsg(int   number,
 	/* - Loop through list of message numbers, looking for a match. */
 	for( j = 1; j <= cmmsg.nfmsg; j++ ){
 		j_ = j - 1;
-		if( number == Ifmsg[j] ){
+		if( number == cmmsg.ifmsg[j-1] ){
 			fstrncpy( kmsg, kmsg_s-1, kmmsg.kfmsg[j_], strlen(kmmsg.kfmsg[j_]));
 			goto L_8888;
 			}

@@ -132,13 +132,13 @@ int *nerr;
 	/* - Test for completeness of input parameters */
 
 	/* -- Assume 'NONE' as instrument type if one was omitted. */
-	if( !Lkpfrom[1] ){
+	if( !cmicm.lkpfrom[0] ){
 	    fstrncpy( kmicm.kpfrom[0], MCPFN, "NONE", 4 );
-	    Lkpfrom[1] = TRUE;
+	    cmicm.lkpfrom[0] = TRUE;
 	}
-	if( !Lkpto[1] ){
+	if( !cmicm.lkpto[0] ){
 	    fstrncpy( kmicm.kpto[0], MCPFN, "NONE", 4 );
-	    Lkpto[1] = TRUE;
+	    cmicm.lkpto[0] = TRUE;
 	}
 
 	/* -- Check the "from" and "to" instrument parameters. */
@@ -154,15 +154,16 @@ int *nerr;
  		
 
 	/* -- Check the frequency limits. */
-	if( ((Freq[1] >= Freq[2]) || (Freq[2] >= Freq[3])) || (Freq[3] >= 
-	 Freq[4]) ){
+	if( (cmicm.freq[0] >= cmicm.freq[1]) ||
+      (cmicm.freq[1] >= cmicm.freq[2]) ||
+      (cmicm.freq[2] >= cmicm.freq[3]) ){
 	    setmsg( "WARNING", 2111 );
 	    outmsg();
 	    clrmsg();
-	    Freq[1] = -2.;
-	    Freq[2] = -1.;
-	    Freq[3] = 1.e5;
-	    Freq[4] = 1.e6;
+	    cmicm.freq[0] = -2.;
+	    cmicm.freq[1] = -1.;
+	    cmicm.freq[2] = 1.e5;
+	    cmicm.freq[3] = 1.e6;
 	}
 
 	/* - Test for a non-null data file list. */

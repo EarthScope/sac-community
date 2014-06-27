@@ -56,36 +56,6 @@ struct t_kmicm {
 } kmicm;
 
 
-#ifdef DOINITS
-
-   float *const Fpfrom  = &cmicm.fpfrom[0] - 1;
-   float *const Fpto    = &cmicm.fpto[0] - 1;
-   double *const Freq    = &cmicm.freq[0] - 1;
-   int   *const Ipfrom  = &cmicm.ipfrom[0] - 1;
-   int   *const Ipto    = &cmicm.ipto[0] - 1;
-   int   *const Lfpfrom = &cmicm.lfpfrom[0] - 1;
-   int   *const Lfpto   = &cmicm.lfpto[0] - 1;
-   int   *const Lipfrom = &cmicm.lipfrom[0] - 1;
-   int   *const Lipto   = &cmicm.lipto[0] - 1;
-   int   *const Lkpfrom = &cmicm.lkpfrom[0] - 1;
-   int   *const Lkpto   = &cmicm.lkpto[0] - 1;
-
-#else
-
-   extern float *const Fpfrom;
-   extern float *const Fpto;
-   extern double *const Freq;
-   extern int   *const Ipfrom;
-   extern int   *const Ipto;
-   extern int   *const Lfpfrom;
-   extern int   *const Lfpto;
-   extern int   *const Lipfrom;
-   extern int   *const Lipto;
-   extern int   *const Lkpfrom;
-   extern int   *const Lkpto;
-
-#endif
-
 void InterpolateArrays ( double *freqs, 
                          int nfreqs, 
                          double *tmpRe, 

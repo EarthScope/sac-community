@@ -71,7 +71,7 @@ L_2000:
 		}
                 if(kiline[(numsave=strlen(kiline)-1)] == '\n') kiline[numsave] = ' ';
 
-                if(sscanf(kiline,"%4d",  &Ifmsg[cmmsg.nfmsg]) != 1){
+                if(sscanf(kiline,"%4d",  &cmmsg.ifmsg[cmmsg.nfmsg-1]) != 1){
                   printf("error reading SAC message file-sacmsg\n");
                   goto L_2010;
 	        }

@@ -52,18 +52,6 @@ struct t_cmmsg {
   int   ifmsg[MFMSG];
 } cmmsg;
 
-
-#ifdef DOINITS
-
-   int *const Ifmsg = &cmmsg.ifmsg[0] - 1;
-
-#else
-
-   extern int *const Ifmsg;
-   extern int *const Iunits;
-
-#endif
-
 void apcmsg ( char *kalpha, 
 	      int kalpha_s);
 void apcmsg2 ( char *kalpha, 
