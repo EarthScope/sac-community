@@ -25,14 +25,10 @@ inihdr() {
 
 	cmhdr.nvhdrc = SAC_HEADER_MAJOR_VERSION;
 
-	cmhdr.fundef = SAC_FLOAT_UNDEFINED;
-	cmhdr.iundef = SAC_ENUM_UNDEFINED;
-	cmhdr.nundef = SAC_INT_UNDEFINED;
-
-	/* lh starts without the INC option.  maf 961212 */
+	/* lh starts without the INC option. */
 	cmhdr.linc = FALSE ;
-	/* not currently executing xlh().  maf 961212 */
-	cmhdr.llh  = FALSE ;	
+	/* not currently executing xlh(). */
+	cmhdr.llh  = FALSE ;
 
 	return;
 }

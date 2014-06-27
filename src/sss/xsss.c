@@ -107,14 +107,14 @@ int *nerr;
 		Lpol[jdfl] = cmsss.lpolg;
 
 		/* -- Use global distance or distance from header. */
-		if( cmsss.dstg != cmhdr.fundef ){
+		if( cmsss.dstg != SAC_FLOAT_UNDEFINED ){
 			Dst[jdfl] = cmsss.dstg;
 			}
-		else if( s->h->dist != cmhdr.fundef ){
+		else if( s->h->dist != SAC_FLOAT_UNDEFINED ){
 			Dst[jdfl] = s->h->dist;
 			}
 		else{
-			Dst[jdfl] = cmhdr.fundef;
+			Dst[jdfl] = SAC_FLOAT_UNDEFINED;
 			}
 
 		/* -- Set begin and end time from header. added 960701 maf */

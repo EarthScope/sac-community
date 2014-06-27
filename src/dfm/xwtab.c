@@ -396,7 +396,7 @@ xwtab(int *nerr) {
             else if( s->h->leven ){
                switch( s->h->iftype ) {
                  case ITIME : /* one calculated column, one read column */
-                   if( s->h->b == cmhdr.fundef || s->h->delta == cmhdr.fundef ) {
+                   if( s->h->b == SAC_FLOAT_UNDEFINED || s->h->delta == SAC_FLOAT_UNDEFINED ) {
                        /* error */
                        *nerr = 1393 ;
                        setmsg( "WARNING" , *nerr ) ;
@@ -415,7 +415,7 @@ xwtab(int *nerr) {
                    break ;
 
                  case IRLIM : case IAMPH : case IXYZ : /* one calc, two read */
-                   if( s->h->b == cmhdr.fundef || s->h->delta == cmhdr.fundef ) {
+                   if( s->h->b == SAC_FLOAT_UNDEFINED || s->h->delta == SAC_FLOAT_UNDEFINED ) {
                        /* error */
                        *nerr = 1393 ;
                        setmsg( "WARNING" , *nerr ) ;
@@ -464,7 +464,7 @@ xwtab(int *nerr) {
                    break ;
 
                   case IRLIM: case IAMPH: case IXYZ: /* pretend it's leven */
-                    if( s->h->b == cmhdr.fundef || s->h->delta == cmhdr.fundef ) {
+                    if( s->h->b == SAC_FLOAT_UNDEFINED || s->h->delta == SAC_FLOAT_UNDEFINED ) {
                         /* error */
                        *nerr = 1393 ;
                        setmsg( "WARNING" , *nerr ) ;

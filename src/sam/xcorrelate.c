@@ -269,8 +269,8 @@ goto L_8888;
 		s->h->b = -(float)( nlenMaster - 1 )*s->h->delta + s->h->b - masterBegin ;
 		s->h->e = s->h->b + s->h->delta*(float)( nlenCombined - 1 );
 		extrma( signal, 1, nlenCombined, &s->h->depmin, &s->h->depmax, &s->h->depmen );
-		s->h->nzyear = cmhdr.nundef ;
-		s->h->nzhour = cmhdr.nundef ;
+		s->h->nzyear = SAC_INT_UNDEFINED ;
+		s->h->nzhour = SAC_INT_UNDEFINED ;
     FREE(s->y);
     s->y = signal;
                 { 

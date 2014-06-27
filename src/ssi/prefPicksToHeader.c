@@ -145,7 +145,7 @@ double correction;		/* to correct epoch time to either B or O */
 	int lA ;   /* TRUE if author list is used */
 
 	/* initialize pick */
-	* ( picks[ idx ] ) = cmhdr.fundef ;
+	* ( picks[ idx ] ) = SAC_FLOAT_UNDEFINED ;
 	* ( phase[ idx ] ) = '\0' ;
 
 	/* Is author hardwired, or will it cascade through author list? */

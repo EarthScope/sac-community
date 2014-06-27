@@ -66,7 +66,7 @@ setihv(char *kname,
 	if( ivalue <= 0 ){
 	    *nerr = ERROR_ILLEGAL_ENUMERATED_VALUE;
       sacio_message(*nerr, kvalue_c);
-      ivalue = cmhdr.iundef;
+      ivalue = SAC_ENUM_UNDEFINED;
   }
   /* - Convert input name to uppercase and check versus list of legal names. */
   sacio_char_to_keyword(kname_c, ktest);

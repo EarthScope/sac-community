@@ -82,8 +82,8 @@ update_distaz (sac *s) {
 
   int ndaerr = 0;
   if(s->h->lcalda && 
-     s->h->stla != cmhdr.fundef && s->h->stlo != cmhdr.fundef && 
-     s->h->evla != cmhdr.fundef && s->h->evlo != cmhdr.fundef ) {
+     s->h->stla != SAC_FLOAT_UNDEFINED && s->h->stlo != SAC_FLOAT_UNDEFINED && 
+     s->h->evla != SAC_FLOAT_UNDEFINED && s->h->evlo != SAC_FLOAT_UNDEFINED ) {
     distaz( s->h->evla, s->h->evlo, (float*)&s->h->stla, (float*)&s->h->stlo, 1,
 	    (float*) &s->h->dist, 
 	    (float*) &s->h->az, 
@@ -95,10 +95,10 @@ update_distaz (sac *s) {
       s->h->baz = 0;
     }
     if(ndaerr) {
-      s->h->dist  = cmhdr.fundef;
-      s->h->az    = cmhdr.fundef;
-      s->h->baz   = cmhdr.fundef;
-      s->h->gcarc = cmhdr.fundef;
+      s->h->dist  = SAC_FLOAT_UNDEFINED;
+      s->h->az    = SAC_FLOAT_UNDEFINED;
+      s->h->baz   = SAC_FLOAT_UNDEFINED;
+      s->h->gcarc = SAC_FLOAT_UNDEFINED;
     }
   }
   return;

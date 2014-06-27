@@ -69,7 +69,7 @@ lgahdr(char *kfield,
 	/* -- KZDATE:  Zero date field: */
 
 	if( memcmp(ktemp,"KZDATE",6) == 0 ){
-		if( s->h->nzyear != cmhdr.nundef && s->h->nzjday != cmhdr.nundef ){
+		if( s->h->nzyear != SAC_INT_UNDEFINED && s->h->nzjday != SAC_INT_UNDEFINED ){
 			nc = (kvalue_s - 1);
 			kadate( s->h->nzyear, s->h->nzjday, nc, kvalue,kvalue_s, &nerr );
 			if( nerr == 0 ){
@@ -89,8 +89,8 @@ lgahdr(char *kfield,
 
 		}
 	else if( memcmp(ktemp,"KZTIME",6) == 0 ){
-		if( ((s->h->nzhour != cmhdr.nundef && s->h->nzmin != cmhdr.nundef) && 
-		 s->h->nzsec != cmhdr.nundef) && s->h->nzmsec != cmhdr.nundef ){
+		if( ((s->h->nzhour != SAC_INT_UNDEFINED && s->h->nzmin != SAC_INT_UNDEFINED) && 
+		 s->h->nzsec != SAC_INT_UNDEFINED) && s->h->nzmsec != SAC_INT_UNDEFINED ){
 			nc = (kvalue_s - 1);
 			katime( s->h->nzhour, s->h->nzmin, s->h->nzsec, s->h->nzmsec, nc, kvalue,kvalue_s, 
 			 &nerr );
@@ -122,7 +122,7 @@ lgahdr(char *kfield,
 				subscpy( kvalue, nc, -1, kvalue_s - 1, cattemp );
                                 free(cattemp);
 				}
-			else if( s->h->cmpaz != cmhdr.fundef && s->h->cmpinc != cmhdr.fundef ){
+			else if( s->h->cmpaz != SAC_FLOAT_UNDEFINED && s->h->cmpinc != SAC_FLOAT_UNDEFINED ){
 				if( s->h->cmpaz == 0. && s->h->cmpinc == 0. ){
 					subscpy( kvalue, nc, -1, kvalue_s - 1, "  VERT"
 					  );

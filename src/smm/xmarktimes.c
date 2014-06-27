@@ -175,7 +175,7 @@ L_1000:
 		if( cmsmm.ldistr ){
 			distu = cmsmm.distr;
 			}
-		else if( s->h->dist != cmhdr.fundef ){
+		else if( s->h->dist != SAC_FLOAT_UNDEFINED ){
 			distu = s->h->dist;
 			}
 		else{
@@ -195,7 +195,7 @@ L_1000:
 		else if( cmsmm.loriginr ){
 			originu = cmsmm.originr;
 			}
-		else if( s->h->o != cmhdr.fundef ){
+		else if( s->h->o != SAC_FLOAT_UNDEFINED ){
 			originu = s->h->o;
 			}
 		else{

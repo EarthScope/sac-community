@@ -115,31 +115,31 @@ xsynch(int *nerr) {
 		s->h->b = s->h->b + dtnew;
 	    }
 	    s->h->e = s->h->b + s->h->delta*(float)( s->h->npts - 1 );
-	    if( s->h->a != cmhdr.fundef )
+	    if( s->h->a != SAC_FLOAT_UNDEFINED )
 		s->h->a = s->h->a + dtnew;
-	    if( s->h->f != cmhdr.fundef )
+	    if( s->h->f != SAC_FLOAT_UNDEFINED )
 		s->h->f = s->h->f + dtnew;
-	    if( s->h->o != cmhdr.fundef )
+	    if( s->h->o != SAC_FLOAT_UNDEFINED )
 		s->h->o = s->h->o + dtnew;
-	    if( s->h->t0 != cmhdr.fundef )
+	    if( s->h->t0 != SAC_FLOAT_UNDEFINED )
 		s->h->t0 = s->h->t0 + dtnew;
-	    if( s->h->t1 != cmhdr.fundef )
+	    if( s->h->t1 != SAC_FLOAT_UNDEFINED )
 		s->h->t1 = s->h->t1 + dtnew;
-	    if( s->h->t2 != cmhdr.fundef )
+	    if( s->h->t2 != SAC_FLOAT_UNDEFINED )
 		s->h->t2 = s->h->t2 + dtnew;
-	    if( s->h->t3 != cmhdr.fundef )
+	    if( s->h->t3 != SAC_FLOAT_UNDEFINED )
 		s->h->t3 = s->h->t3 + dtnew;
-	    if( s->h->t4 != cmhdr.fundef )
+	    if( s->h->t4 != SAC_FLOAT_UNDEFINED )
 		s->h->t4 = s->h->t4 + dtnew;
-	    if( s->h->t5 != cmhdr.fundef )
+	    if( s->h->t5 != SAC_FLOAT_UNDEFINED )
 		s->h->t5 = s->h->t5 + dtnew;
-	    if( s->h->t6 != cmhdr.fundef )
+	    if( s->h->t6 != SAC_FLOAT_UNDEFINED )
 		s->h->t6 = s->h->t6 + dtnew;
-	    if( s->h->t7 != cmhdr.fundef )
+	    if( s->h->t7 != SAC_FLOAT_UNDEFINED )
 		s->h->t7 = s->h->t7 + dtnew;
-	    if( s->h->t8 != cmhdr.fundef )
+	    if( s->h->t8 != SAC_FLOAT_UNDEFINED )
 		s->h->t8 = s->h->t8 + dtnew;
-	    if( s->h->t9 != cmhdr.fundef )
+	    if( s->h->t9 != SAC_FLOAT_UNDEFINED )
 		s->h->t9 = s->h->t9 + dtnew;
 	    copyi( &ndttmo[i * 6], &s->h->nzyear, 6 );
 

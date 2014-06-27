@@ -195,7 +195,7 @@ rdci(int   idfl,
 
 	/* - Make sure the most important header values are defined. */
 
-	if( s->h->npts == cmhdr.nundef || s->h->b == cmhdr.fundef ){
+	if( s->h->npts == SAC_INT_UNDEFINED || s->h->b == SAC_FLOAT_UNDEFINED ){
 	    *nerr = ERROR_READING_CARD_IMAGE_HEADER;
 	    setmsg( "ERROR", *nerr );
 	    goto L_8888;

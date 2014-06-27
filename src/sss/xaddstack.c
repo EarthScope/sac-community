@@ -189,14 +189,14 @@ void xaddstack(int *nerr)
 	if ( !lDistanceDefined )
 	{
 	    /* -- Use global distance or distance from header. */
-	    if( cmsss.dstg != cmhdr.fundef ){
+	    if( cmsss.dstg != SAC_FLOAT_UNDEFINED ){
 		Dst[saclen()] = cmsss.dstg;
 	    }
-	    else if( s->h->dist != cmhdr.fundef ){
+	    else if( s->h->dist != SAC_FLOAT_UNDEFINED ){
 		Dst[saclen()] = s->h->dist;
 	    }
 	    else{
-		Dst[saclen()] = cmhdr.fundef;
+		Dst[saclen()] = SAC_FLOAT_UNDEFINED;
 	    }
 	} /* end if ( !lDistanceDefined ) */
 

@@ -63,12 +63,12 @@ getnhv(char *kname,
 	if( index > 0 ){
     np = (int *)(&CURRENT->h->nzyear) + (index-1);
     *nvalue = *np;
-	    if( *nvalue == cmhdr.nundef )
+	    if( *nvalue == SAC_INT_UNDEFINED )
 		*nerr = ERROR_UNDEFINED_HEADER_FIELD_VALUE;
 	}
 	else{
 	    *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;
-	    *nvalue = cmhdr.nundef;
+	    *nvalue = SAC_INT_UNDEFINED;
 	}
 
 	/* - Create error message and write to terminal. */

@@ -33,7 +33,7 @@ void /*FUNCTION*/ inisss()
 	cmsss.dlyng = 0.;
 	cmsss.wtg = 1.;
 	cmsss.lpolg = TRUE;
-	cmsss.dstg = cmhdr.fundef;
+	cmsss.dstg = SAC_FLOAT_UNDEFINED;
 	cmsss.dlytig = 0.;
 	cmsss.dlynig = 0.;
 	Wt[1] = 1.;

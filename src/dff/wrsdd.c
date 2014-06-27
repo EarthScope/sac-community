@@ -113,19 +113,19 @@ wrsdd(int   idfl,
 		subscpy( kschan, 8, 11, 12, strtemp );
                 free(strtemp);
 	}
-	if( s->h->delta != cmhdr.fundef )
+	if( s->h->delta != SAC_FLOAT_UNDEFINED )
 		*isdelt = (int)( (1.0/ s->h->delta)*100.0 + .5 );
 	*isnpts = s->h->npts;
-	if( s->h->stel != cmhdr.fundef )
+	if( s->h->stel != SAC_FLOAT_UNDEFINED )
 		*issel = (int)( s->h->stel*100.0 + .5 );
-	if( s->h->stdp != cmhdr.fundef )
+	if( s->h->stdp != SAC_FLOAT_UNDEFINED )
 		*issdep = (int)( s->h->stdp*100.0 + .5 );
 
 	/* - Pack date and time into one word */
 
 	ijday = s->h->nzjday;
 	itm = s->h->nzmsec + (((s->h->nzhour*60 + s->h->nzmin)*60) + s->h->nzsec)*1000;
-	if( s->h->b != cmhdr.fundef && s->h->b != 0.0 ){
+	if( s->h->b != SAC_FLOAT_UNDEFINED && s->h->b != 0.0 ){
 		itm = itm + (int)( s->h->b*1000.0 + .5 );
 		if( itm < 0 ){
 			ijday = ijday - 1;
@@ -151,7 +151,7 @@ wrsdd(int   idfl,
 	*isdate = idd + (s->h->nzyear*100 + imm)*100;
 
 	/* - Convert lat/lon back from fraction to minutes/seconds */
-	if( s->h->stla != cmhdr.fundef ){
+	if( s->h->stla != SAC_FLOAT_UNDEFINED ){
 		ideg = s->h->stla;
 		frac = s->h->stla - (float)( ideg );
 		imm = frac*60.0;
@@ -162,7 +162,7 @@ wrsdd(int   idfl,
 		*issla = ifrac + ((ideg*100 + imm)*100 + iss)*100;
 	}
 
-	if( s->h->stlo != cmhdr.fundef ){
+	if( s->h->stlo != SAC_FLOAT_UNDEFINED ){
 		ideg = s->h->stlo;
 		frac = s->h->stlo - (float)( ideg );
 		imm = frac*60.0;

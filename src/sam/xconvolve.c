@@ -275,8 +275,8 @@ goto L_8888;
 		extrma( signal, 1, nlenCombined, &s->h->depmin, &s->h->depmax, &s->h->depmen );
     FREE(s->y);
     s->y = signal;
-    /*		*nzyear = cmhdr.fundef ; */
-/*		*nzhour = cmhdr.fundef ; */
+    /*		*nzyear = SAC_FLOAT_UNDEFINED ; */
+/*		*nzhour = SAC_FLOAT_UNDEFINED ; */
 
     
 	} /* end for(jdfl) */

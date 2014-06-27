@@ -54,7 +54,7 @@ updhdr(int *nerr) {
 		 *   - no value for undefined logical fields.
 		 * - Version 1 was never supported on the Prime. */
 
-		if( s->h->nvhdr == 1 || s->h->nvhdr == cmhdr.nundef ){
+		if( s->h->nvhdr == 1 || s->h->nvhdr == SAC_INT_UNDEFINED ){
 			s->h->nvhdr = 2;
 		}
 
@@ -72,9 +72,9 @@ updhdr(int *nerr) {
 
 		else if( s->h->nvhdr == 2 ){
 			icomp = IHDR(s)[4];
-			IHDR(s)[4] = cmhdr.iundef;
+			IHDR(s)[4] = SAC_ENUM_UNDEFINED;
 			horzo = VALUE(fhdr(s,21));
-      VALUE(fhdr(s,21)) = cmhdr.fundef;
+      VALUE(fhdr(s,21)) = SAC_FLOAT_UNDEFINED;
 			if( icomp == 23 ){
 				if( memcmp(s->h->kstnm,"ELKO",4) == 0 ){
 					s->h->cmpaz = 10.4699;
@@ -89,7 +89,7 @@ updhdr(int *nerr) {
 					s->h->cmpaz = 307.71;
 				}
 				else{
-					s->h->cmpaz = cmhdr.fundef;
+					s->h->cmpaz = SAC_FLOAT_UNDEFINED;
 				}
 				s->h->cmpinc = 90.;
 			}
@@ -107,7 +107,7 @@ updhdr(int *nerr) {
 					s->h->cmpaz = 217.71;
 				}
 				else{
-					s->h->cmpaz = cmhdr.fundef;
+					s->h->cmpaz = SAC_FLOAT_UNDEFINED;
 				}
 				s->h->cmpinc = 90.;
 			}
@@ -137,8 +137,8 @@ updhdr(int *nerr) {
 				s->h->lpspol = TRUE;
 			}
 			else{
-				s->h->cmpaz = cmhdr.fundef;
-				s->h->cmpinc = cmhdr.fundef;
+				s->h->cmpaz = SAC_FLOAT_UNDEFINED;
+				s->h->cmpinc = SAC_FLOAT_UNDEFINED;
 				s->h->lpspol = TRUE;
 			}
 			s->h->nvhdr = 3;
@@ -167,7 +167,7 @@ updhdr(int *nerr) {
 		else if( s->h->nvhdr == 3 ){
 			NHDR(s)[4] = NHDR(s)[5];
 			NHDR(s)[5] = NHDR(s)[6];
-			NHDR(s)[6] = cmhdr.nundef;
+			NHDR(s)[6] = SAC_INT_UNDEFINED;
 			LHDR(s)[3] = TRUE;
 			strcpy( khdr(s,1), khdr(s,3) );
 			strcpy( khdr(s,2), khdr(s,4) );
@@ -244,9 +244,9 @@ updhdr(int *nerr) {
 			VALUE(nhdr(s,5)) = VALUE(fhdr(s,5));
 			VALUE(nhdr(s,6)) = (int)( 1000.*(VALUE(fhdr(s,5)) - (float)( VALUE(nhdr(s,5)) )) + 
 			 0.5 );
-			VALUE(fhdr(s,5)) = cmhdr.fundef;
+			VALUE(fhdr(s,5)) = SAC_FLOAT_UNDEFINED;
 			VALUE(fhdr(s,21)) = VALUE(fhdr(s,40));
-			VALUE(fhdr(s,40)) = cmhdr.fundef;
+			VALUE(fhdr(s,40)) = SAC_FLOAT_UNDEFINED;
 			s->h->nvhdr = 5;
 
 			/* - Header version 6:

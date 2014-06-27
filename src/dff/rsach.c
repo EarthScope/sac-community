@@ -23,7 +23,7 @@ extern sac *CURRENT;
  */
 void
 sacio_initialize_common() {
-  if( cmhdr.fundef != SAC_FLOAT_UNDEFINED ) {
+  if( SAC_FLOAT_UNDEFINED != SAC_FLOAT_UNDEFINED ) {
     inihdr();
     inilhf();
     inimsg();

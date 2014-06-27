@@ -47,7 +47,7 @@ formmarker(double  time,
 	int nc1, nc2;
         char *cattemp;
 
-	if( time != cmhdr.fundef ){
+	if( time != SAC_FLOAT_UNDEFINED ){
                 sprintf(output,"%16.5g",time);
 		ljust( output,output_s );
 		*lok = TRUE;

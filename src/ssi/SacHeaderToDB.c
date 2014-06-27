@@ -31,10 +31,10 @@ int idfl ;
     s = sacget_current();
     /* Check the ranges of the enumerated header variables */
     for ( idx = 0 ; idx < SAC_HEADER_ENUMS ; idx++ ) {
-        if ( cmhdr.ihdr[idx] > SAC_ENUMS ||
-           ( cmhdr.ihdr[idx] < 0 && cmhdr.ihdr[idx] != SAC_INT_UNDEFINED ) ) {
-            cmhdr.ihdr[idx] = SAC_INT_UNDEFINED ;
-            err = 1365 ;
+      int k = VALUE(ihdr(s, idx));
+        if ( k > SAC_ENUMS || ( k < 0 && k != SAC_ENUM_UNDEFINED ) ) {
+          VALUE(ihdr(s,idx)) = SAC_ENUM_UNDEFINED ;
+          err = 1365 ;
         }
     }
 
@@ -208,13 +208,13 @@ int idfl ;
 	if ( !strcmp ( header->knetwk , SAC_CHAR_UNDEFINED ) && strcmp ( s->h->knetwk , SAC_CHAR_UNDEFINED ) )
 	    strcpy ( header->knetwk , s->h->knetwk );
 
-	if ( header->nvhdr == cmhdr.nundef && s->h->nvhdr != cmhdr.nundef )
+	if ( header->nvhdr == SAC_INT_UNDEFINED && s->h->nvhdr != SAC_INT_UNDEFINED )
 	    header->nvhdr = s->h->nvhdr ;
-	if ( header->norid == cmhdr.nundef && s->h->norid != cmhdr.nundef )
+	if ( header->norid == SAC_INT_UNDEFINED && s->h->norid != SAC_INT_UNDEFINED )
 	    header->norid = s->h->norid ;
-	if ( header->nevid == cmhdr.nundef && s->h->nevid != cmhdr.nundef )
+	if ( header->nevid == SAC_INT_UNDEFINED && s->h->nevid != SAC_INT_UNDEFINED )
 	    header->nevid = s->h->nevid ;
-	if ( header->nwfid == cmhdr.nundef && s->h->nwfid != cmhdr.nundef )
+	if ( header->nwfid == SAC_INT_UNDEFINED && s->h->nwfid != SAC_INT_UNDEFINED )
 	    header->nwfid = s->h->nwfid ;
     }
 

@@ -60,7 +60,7 @@ int *nerr;
 
 	lmissd = FALSE;
 	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
-		if( Dst[jdfl] == cmhdr.fundef ){
+		if( Dst[jdfl] == SAC_FLOAT_UNDEFINED ){
 			if( !lmissd ){
 				*nerr = 5104;
 				setmsg( "ERROR", *nerr );

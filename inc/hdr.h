@@ -255,16 +255,7 @@
 #define SAC_CHAR_DEFINED(x) ( strcasecmp(x, "-12345") != 0 && strcasecmp(x, SAC_CHAR_UNDEFINED) != 0 )
 
 struct t_cmhdr {
-  float fhdr[SAC_HEADER_FLOATS];    /*  70  Floating point values */
-  int   nhdr[SAC_HEADER_INTEGERS];  /*  15  Numerical values      */
-  int   ihdr[SAC_HEADER_ENUMS];     /*  20  Integer values        */
-  int   lhdr[SAC_HEADER_LOGICALS];  /*   5  Logical values        */
-  int   niv[SAC_ENUMS];             /* 830  Possible enumeration values */
-  float fundef;                     /** Floating point undefined */
-  int   iundef;                     /** Integer undefined */
-  int   nundef;                     /** Number undefined */
   int   nvhdrc;                     /** Header Number */
-  float exthdr[20];                 /** Not Used  */
   int   linc;                       /* TRUE if INC option is set on lh. */
   int   llh;	                    /* TRUE during the execution of xlh() */
 } cmhdr;

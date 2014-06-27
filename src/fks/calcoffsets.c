@@ -89,9 +89,9 @@ calcoffsets(int    ns,
             strcpy(refsta,s->h->kuser1);
 	  }
           if(strcmp(s->h->kuser1,refsta) != 0)                           lrefset = FALSE;
-          if((s->h->stla == cmhdr.fundef) || (s->h->stlo == cmhdr.fundef))   lstaset = FALSE;
-          if((s->h->user7 == cmhdr.fundef) || (s->h->user8 == cmhdr.fundef)) luserset = FALSE;
-          if((s->h->evla == cmhdr.fundef) || (s->h->evlo == cmhdr.fundef))   levset = FALSE;
+          if((s->h->stla == SAC_FLOAT_UNDEFINED) || (s->h->stlo == SAC_FLOAT_UNDEFINED))   lstaset = FALSE;
+          if((s->h->user7 == SAC_FLOAT_UNDEFINED) || (s->h->user8 == SAC_FLOAT_UNDEFINED)) luserset = FALSE;
+          if((s->h->evla == SAC_FLOAT_UNDEFINED) || (s->h->evlo == SAC_FLOAT_UNDEFINED))   levset = FALSE;
 
 	}
 

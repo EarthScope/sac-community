@@ -202,7 +202,13 @@ header_to_token(char *str, Token *t, int col) {
   case SAC_HEADER_INT_TYPE:      token_value(t, (int)VALUE(nhdr(s,item)), col); break;
   case SAC_HEADER_ENUM_TYPE:     token_string_rstrip(t, kmlhf.kdiv[(int)VALUE(ihdr(s,item-1))-1], col); break;
   case SAC_HEADER_LOGICAL_TYPE:  token_value(t, (int)VALUE(lhdr(s,item)), col);break;
-  case SAC_HEADER_STRING_TYPE:   memmove(val,khdr(s,item),Nkhdr[item]*8); val[Nkhdr[item]*8] = 0; token_string_rstrip(t, val, col); break;
+  case SAC_HEADER_STRING_TYPE:   {
+    n = (item == 2) ? 2 : 1;
+    memmove(val,khdr(s,item),n*8);
+    val[n*8] = 0;
+    token_string_rstrip(t, val, col);
+  }
+    break;
   case SAC_HEADER_AUX_TYPE:      lgahdr(key,9,val,41); token_string_rstrip(t, val, col); break;
   default:
     return FALSE;

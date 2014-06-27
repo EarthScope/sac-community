@@ -177,7 +177,7 @@ L_4000:
       strcpy( khdr(s,ikpick), kdescr );
 			}
 		else{
-			VALUE(fhdr(s,ifpick)) = cmhdr.fundef;
+			VALUE(fhdr(s,ifpick)) = SAC_FLOAT_UNDEFINED;
 			strcpy( khdr(s,ikpick), SAC_CHAR_UNDEFINED );
 			setmsg( "WARNING", 1 );
 			apcmsg( "Could not find value",21 );

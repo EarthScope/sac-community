@@ -41,22 +41,22 @@ ldttm(int *ndttm) {
 	int *const Ndttm = &ndttm[0] - 1;
 
 	/* - Check to make sure each element of the date-time array is defined. */
-	if( Ndttm[1] == cmhdr.nundef ){
+	if( Ndttm[1] == SAC_INT_UNDEFINED ){
           ldttm_v = FALSE;
         }
-	else if( Ndttm[2] == cmhdr.nundef ){
+	else if( Ndttm[2] == SAC_INT_UNDEFINED ){
           ldttm_v = FALSE;
         }
-	else if( Ndttm[3] == cmhdr.nundef ){
+	else if( Ndttm[3] == SAC_INT_UNDEFINED ){
           ldttm_v = FALSE;
         }
-	else if( Ndttm[4] == cmhdr.nundef ){
+	else if( Ndttm[4] == SAC_INT_UNDEFINED ){
           ldttm_v = FALSE;
         }
-	else if( Ndttm[5] == cmhdr.nundef ){
+	else if( Ndttm[5] == SAC_INT_UNDEFINED ){
           ldttm_v = FALSE;
         }
-	else if( Ndttm[6] == cmhdr.nundef ){
+	else if( Ndttm[6] == SAC_INT_UNDEFINED ){
           ldttm_v = FALSE;
         }
 	else{

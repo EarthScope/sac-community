@@ -62,7 +62,7 @@ int *nerr;
 	cmsss.dlyng = 0.0;
 	cmsss.dlynig = 0.0;
 	cmsss.wtg = 1.0;
-	cmsss.dstg = cmhdr.fundef;
+	cmsss.dstg = SAC_FLOAT_UNDEFINED;
 	cmsss.lpolg = TRUE;
 	strcpy( kvm, "     DLY" );
 	fill( cmsss.dlyvm, MSFL, 0.0 );

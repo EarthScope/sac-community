@@ -180,11 +180,11 @@ sac *s;
 
     /* Check the ranges of the enumerated header variables */
     for ( idx = 0 ; idx < SAC_HEADER_ENUMS ; idx++ ) {
-	if ( cmhdr.ihdr[idx] > SAC_ENUMS ||
-	   ( cmhdr.ihdr[idx] < 0 && cmhdr.ihdr[idx] != SAC_INT_UNDEFINED ) ) {
-	    cmhdr.ihdr[idx] = SAC_INT_UNDEFINED ;
-	    err = 1365 ;
-	}
+      int k = VALUE(ihdr(s,idx));
+      if ( k > SAC_ENUMS || ( k < 0 && k != SAC_INT_UNDEFINED ) ) {
+        VALUE(ihdr(s,idx)) = SAC_INT_UNDEFINED ;
+        err = 1365 ;
+      }
     }
 
     if ( err ) {

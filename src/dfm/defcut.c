@@ -107,7 +107,7 @@ defcut(char   kcut[2][9],
 	/* - Check to make sure the requested pick field 
 	 *   in the header is defined. 
 	 */
-	if( Pick[1] == cmhdr.fundef ){
+	if( Pick[1] == SAC_FLOAT_UNDEFINED ){
 		if( cmdfm.icuter == 1 ){
 			*nerr = ERROR_UNDEFINED_START_CUT_TIME;
 			setmsg( "ERROR", *nerr );
@@ -157,7 +157,7 @@ defcut(char   kcut[2][9],
   }
 
 	/* - Make sure stop pick is defined. */
-	if( Pick[2] == cmhdr.fundef ){
+	if( Pick[2] == SAC_FLOAT_UNDEFINED ){
 		if( cmdfm.icuter == 1 ){
 			*nerr = ERROR_UNDEFINED_STOP_CUT_TIME;
 			setmsg( "ERROR", *nerr );

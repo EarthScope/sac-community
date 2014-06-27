@@ -71,7 +71,7 @@ getihv(char *kname,
 
 	if( index > 0 ){
     ivalue = IHDR(CURRENT)[index-1];
-	    if( ivalue == cmhdr.iundef ){
+	    if( ivalue == SAC_ENUM_UNDEFINED ){
         fstrncpy( kvalue, kvalue_s-1, "UNDEFINED", 9);
         *nerr = ERROR_UNDEFINED_HEADER_FIELD_VALUE;
 	    }

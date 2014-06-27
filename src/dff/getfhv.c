@@ -114,12 +114,12 @@ getfhv(char  *kname,
 	 *   Otherwise, set error condition. */
 	if( index > 0 ){
     *fvalue = VALUE(fhdr(CURRENT,index));
-    if( *fvalue == cmhdr.fundef )
+    if( *fvalue == SAC_FLOAT_UNDEFINED )
       *nerr = ERROR_UNDEFINED_HEADER_FIELD_VALUE;
 	}
 	else{
 	    *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;
-	    *fvalue = cmhdr.fundef;
+	    *fvalue = SAC_FLOAT_UNDEFINED;
 	}
 
 	/* - Create error message and write to terminal. */

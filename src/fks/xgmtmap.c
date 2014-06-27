@@ -484,7 +484,7 @@ L_1000:
 
 	  /* Store station location.  These must be set. */
 	  if(plotstations) {
-	    if( (s->h->stla != cmhdr.fundef) &&  (s->h->stlo != cmhdr.fundef)  ){
+	    if( (s->h->stla != SAC_FLOAT_UNDEFINED) &&  (s->h->stlo != SAC_FLOAT_UNDEFINED)  ){
 	      stalat[jdfl_] = s->h->stla;
 	      stalon[jdfl_] = s->h->stlo;
 	      strcpy(staname[jdfl_], s->h->kstnm);
@@ -502,7 +502,7 @@ L_1000:
 	  }
 	  /* Check for and store event locations.  These are not required. */
           if( plotevents ) {
-	    if( (s->h->evla != cmhdr.fundef) && (s->h->evlo != cmhdr.fundef) ){
+	    if( (s->h->evla != SAC_FLOAT_UNDEFINED) && (s->h->evlo != SAC_FLOAT_UNDEFINED) ){
 	      evlat[jdfl_]  = s->h->evla;
 	      evlon[jdfl_]  = s->h->evlo;
 	      maxlat        = fmax(maxlat,s->h->evla);
@@ -521,7 +521,7 @@ L_1000:
 	   * These are not required. 
 	   */
 	  size[jdfl_] = size_undef;
-	  if (s->h->user0 != cmhdr.fundef) { 
+	  if (s->h->user0 != SAC_FLOAT_UNDEFINED) { 
 	    /* only use the size data if it is in range, maf 960702 */
 	    if ( !lscale || 
 		 ( s->h->user0 > minSizeInput && s->h->user0 < maxSizeInput )) {

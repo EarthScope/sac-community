@@ -89,7 +89,7 @@ getatw(char   *krtw,
 	}
 	else{
 		rtrb = VALUE(fhdr(s,cmdfm.ipckhd[irtb-1]));
-		if( rtrb != cmhdr.fundef ){
+		if( rtrb != SAC_FLOAT_UNDEFINED ){
 			*tmin = rtrb + Ortw[1];
 		}
 		else{
@@ -112,7 +112,7 @@ getatw(char   *krtw,
 	}
 	else{
 		rtre = VALUE(fhdr(s,cmdfm.ipckhd[irte-1]));
-		if( rtre != cmhdr.fundef ){
+		if( rtre != SAC_FLOAT_UNDEFINED ){
 			*tmax = rtre + Ortw[2];
 		}
 		else{

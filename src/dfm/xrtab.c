@@ -530,7 +530,7 @@ L_5000:
           s->h->e     = s->h->b + (float)( s->h->npts - 1 )*s->h->delta;
         } else {
           copy_float(y[0], s->x, s->h->npts);
-          s->h->delta = cmhdr.fundef;
+          s->h->delta = SAC_FLOAT_UNDEFINED;
           extrma( s->x, 1, s->h->npts, &s->h->b, &s->h->e, &unused );
         }
         extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );

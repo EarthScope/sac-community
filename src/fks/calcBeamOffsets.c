@@ -218,17 +218,17 @@ isInfoThere ( int  nFiles,
       }
       //getfil(jdfl, FALSE, &ndx1, &ndx2, &idummy, nerr);
 
-	if ( ( s->h->user7 == cmhdr.fundef ) ||
-	     ( s->h->user8 == cmhdr.fundef ) ||
-	     ( elevc && s->h->user9 == cmhdr.fundef ) )
+	if ( ( s->h->user7 == SAC_FLOAT_UNDEFINED ) ||
+	     ( s->h->user8 == SAC_FLOAT_UNDEFINED ) ||
+	     ( elevc && s->h->user9 == SAC_FLOAT_UNDEFINED ) )
 	    luser = FALSE;
-	if ( ( s->h->stla == cmhdr.fundef ) ||
-	     ( s->h->stlo == cmhdr.fundef ) ||
-	     ( elevc && s->h->stel == cmhdr.fundef ) )
+	if ( ( s->h->stla == SAC_FLOAT_UNDEFINED ) ||
+	     ( s->h->stlo == SAC_FLOAT_UNDEFINED ) ||
+	     ( elevc && s->h->stel == SAC_FLOAT_UNDEFINED ) )
 	    lstation = FALSE;
-	if ( ( s->h->evla == cmhdr.fundef ) ||
-	     ( s->h->evlo == cmhdr.fundef ) ||
-	     ( elevc && s->h->evel == cmhdr.fundef ) )
+	if ( ( s->h->evla == SAC_FLOAT_UNDEFINED ) ||
+	     ( s->h->evlo == SAC_FLOAT_UNDEFINED ) ||
+	     ( elevc && s->h->evel == SAC_FLOAT_UNDEFINED ) )
 	    levent = FALSE;
     }
 
