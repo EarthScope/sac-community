@@ -26,21 +26,6 @@ inivars()
 	int node, node_;
   int i;
 
-	kmvars.vabsflag = '#';
-	kmvars.vlistdelim = '.';
-
-	for( node = 1; node <= MAXVARS; node++ ){
-		node_ = node - 1;
-		Varsindex[node] = -1;
-		fstrncpy( kmvars.varsname[node_], MAXCVNAME, " ", 1 );
-		Ncvarsname[node] = 0;
-		Varsmodified[node] = FALSE;
-		Varsindirect[node] = FALSE;
-		Varsnilindex[node] = 0;
-		}
-
-	cmvars.numvars = 0;
-	cmvars.currentnode = 0;
 
         if((vfilelist.filelist = 
 	    (struct varsfile *)malloc(NVFILELIST*sizeof(struct varsfile)))

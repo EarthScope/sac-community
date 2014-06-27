@@ -251,8 +251,6 @@ test_rsac1() {
   err = SAC_OK;
   
   ok(err == SAC_OK, "error_code");
-  ok(cmhdr.fundef == SAC_FLOAT_UNDEFINED, " Header Float is undefined");
-  
 
   max = 1024;
 
@@ -311,7 +309,6 @@ test_rsach() {
 
   err = SAC_OK;
   ok(err == SAC_OK, "error code");
-  ok(cmhdr.fundef == SAC_FLOAT_UNDEFINED, "Header Float is undefined");
 
   /* Unknown file */
   rsach(FILE_UNKNOWN, &err, strlen(FILE_UNKNOWN) );

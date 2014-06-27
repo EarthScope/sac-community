@@ -45,7 +45,6 @@ readbbf(char *kname,
 		initializevars();
 		inibbs();
 		inivars () ;
-		strcpy ( kmvars.varsidcode , "VARS" ) ;
 	}
 
 	/* - Read file from disk using the blackboard reserved name. */

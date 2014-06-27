@@ -25,9 +25,9 @@ main(void) {
 
   /* inihdr */
   ok(cmhdr.nvhdrc == SAC_HEADER_MAJOR_VERSION,   "cmdhr.nvhdrc");
-  ok(cmhdr.fundef == -12345.0, "cmhdr.fundef -12345.0");
-  ok(cmhdr.iundef == -12345,   "cmhdr.iundef -12345");
-  ok(cmhdr.nundef == -12345,   "cmhdr.nundef -12345");
+  ok(SAC_FLOAT_UNDEFINED == -12345.0, "float undef -12345.0");
+  ok(SAC_ENUM_UNDEFINED == -12345,   "enum undef -12345");
+  ok(SAC_INT_UNDEFINED == -12345,   "int undef -12345");
   ok(strcmp(SAC_CHAR_UNDEFINED, "-12345  ") == 0, "SAC_CHAR_UNDEFINED -12345");
   ok(cmhdr.linc == FALSE, "cmhdr.linc");
   ok(cmhdr.llh == FALSE, "cmhdr.llh");

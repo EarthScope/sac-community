@@ -56,66 +56,9 @@
 #define NVFILEINC       5
 
 
-
-struct t_kmvars {
-  char vabsflag;
-  char vlistdelim;
-  char cfill1;
-  char cfill2;
-  char varsname[MAXVARS][MAXCVNAME+1];
-  char varsidcode[5];
-  char valuename[MAXCVNAME+1];
-} kmvars;
-
 struct t_cmvars {
-  int varslength[MAXVARS];
-  int numvars;
-  int varsindex[MAXVARS];
-  int varsnilindex[MAXVARS];
-  int varsmodified[MAXVARS];
-  int varsindirect[MAXVARS];
   int lvarsinit;
-  int ncvarsname[MAXVARS];
-  int currentnode;
-  int varsnode;
-  int varsnode1; 
-  int descindex;
-  int desclength;
-  int valuelength;
-  int valuetype; 
-  int namelength;
-  int deleteflag;
-  int readonlyflag;
-  int indirectflag;
-  int sharedflag;
-  int reservedflag;
-  int applflag1; 
-  int applflag2;
 } cmvars;
-
-struct t_kmgetvlist {
-  char sublistnames[MAXLEVELS][MAXCENAME+1];
-} kmgetvlist;
-
-struct t_cmgetvlist {
-  int indexsave[MAXLEVELS];
-  int nlevelsgt;
-} cmgetvlist;
-
-struct t_cmcopyvlist {
-  int node1savecp[MAXLEVELS];
-  int node2savecp[MAXLEVELS];
-  int indexsavecp[MAXLEVELS];
-  int nlevelscp;
-} cmcopyvlist;
-
-struct t_kmprintvlist {
-  char varssavepr[MLEVELS][MAXCVNAME+1];
-} kmprintvlist;
-
-struct t_cmprintvlist {
-  int indexsavepr[MLEVELS], nlevelspr;
-} cmprintvlist;
 
 struct varsfile {
   char *varsname;
@@ -128,7 +71,7 @@ struct t_varsfile {
   int nentries;
   struct varsfile *filelist;
 } vfilelist;
-          
+
 enum {
   VAR_UNKNOWN = 0,
   VAR_VALUE   = VALUEDOUBLE,
@@ -236,31 +179,5 @@ int     sac_vars_exists     (char *group);
 int     token_to_var (Token *tok, char *group, char *name);
 int     setvar       (char *group, char *name, int type, ...);
 int     setvar_ap    (char *group, char *name, int type, va_list ap);
-
-#ifdef DOINITS
-   int *const Indexsave = &cmgetvlist.indexsave[0] - 1;
-   int *const Indexsavecp = &cmcopyvlist.indexsavecp[0] - 1;
-   int *const Indexsavepr = &cmprintvlist.indexsavepr[0] - 1;
-   int *const Ncvarsname = &cmvars.ncvarsname[0] - 1;
-   int *const Node1savecp = &cmcopyvlist.node1savecp[0] - 1;
-   int *const Node2savecp = &cmcopyvlist.node2savecp[0] - 1;
-   int *const Varsindex = &cmvars.varsindex[0] - 1;
-   int *const Varsindirect = &cmvars.varsindirect[0] - 1;
-   int *const Varslength = &cmvars.varslength[0] - 1;
-   int *const Varsmodified = &cmvars.varsmodified[0] - 1;
-   int *const Varsnilindex = &cmvars.varsnilindex[0] - 1;
-#else
-   extern int *const Indexsave;
-   extern int *const Indexsavecp;
-   extern int *const Indexsavepr;
-   extern int *const Ncvarsname;
-   extern int *const Node1savecp;
-   extern int *const Node2savecp;
-   extern int *const Varsindex;
-   extern int *const Varsindirect;
-   extern int *const Varslength;
-   extern int *const Varsmodified;
-   extern int *const Varsnilindex;
-#endif
 
 #endif /* _VARS_H_ */

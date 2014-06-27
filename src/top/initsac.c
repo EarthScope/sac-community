@@ -157,10 +157,6 @@ void /*FUNCTION*/ initblkdata()
 		cmdfm.ndsflcnt = 0;
                 cmicnv.icnver = 0;
                 cmvars.lvarsinit = FALSE;
-                cmgetvlist.nlevelsgt = 0;
-                cmcopyvlist.nlevelscp = 0;
-                cmprintvlist.nlevelspr = 0;
-                strcpy( kmvars.varsidcode, "VARS" );
                 _aini = 0;
         }
 

@@ -261,8 +261,6 @@ test_rsac2() {
   err = SAC_OK;
   
   ok(err == SAC_OK, "error_code");
-  ok(cmhdr.fundef == SAC_FLOAT_UNDEFINED, " Header Float is undefined");
-  
 
   max = 1024;
 

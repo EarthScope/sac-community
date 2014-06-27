@@ -32,20 +32,9 @@ test_init_vars() {
   ok(cmvars.lvarsinit == TRUE, "cmvars.lvarsinit = %d",cmvars.lvarsinit);
 
   /* Only used in convlistname() */
-  ok(cmvars.currentnode == 0, "cmvars.currentnode = %d", cmvars.currentnode);
   ok(vfilelist.nallocated == NVFILELIST, "vfilelist.nallocated = %d", vfilelist.nallocated);
   ok(vfilelist.nentries == 0, "vfilelist.nentries = %d", vfilelist.nentries);
-  ok(kmvars.vabsflag == '#', "kmvars.vabsflag = %c", kmvars.vabsflag);
-  ok(kmvars.vlistdelim == '.', "kmvars.vlistdelim = %c", kmvars.vlistdelim);
-  
-  for(i = 0; i < MAXVARS;i++) {
-    ok(cmvars.varsindex[i] == -1,       "cmvars.varsindex[%d] = %d",i,cmvars.varsindex[i]);
-    ok(cmvars.ncvarsname[i] == 0,       "cmvars.ncvarsname[%d] = %d",i,cmvars.ncvarsname[i]);
-    ok(cmvars.varsmodified[i] == FALSE, "cmvars.varsmodified[%d] = %d",i,cmvars.varsmodified[i]);
-    ok(cmvars.varsindirect[i] == FALSE, "cmvars.indirect[%d] = %d",i,cmvars.varsindirect[i]);
-    ok(cmvars.varsnilindex[i] == 0,     "cmvars.nilindex[%d] = %d",i,cmvars.varsnilindex[i]);
-  }
-  
+
 }
 
 void
