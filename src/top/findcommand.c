@@ -81,7 +81,7 @@ int *module, *index;
 		if( memcmp(kcommand,kmsite.ksitecomnames[j_],strlen(kcommand)) == 0 ){
 			*lfind = TRUE;
 			*module = MODULESITECOM;
-			*index = Isitecomindex[j];
+			*index = cmsite.isitecomindex[j-1];
 			goto L_8888;
 			}
 		}

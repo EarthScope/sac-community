@@ -31,16 +31,6 @@ struct t_kmsite {
 } kmsite;
 
 
-#ifdef DOINITS
-
-   int *const Isitecomindex = &cmsite.isitecomindex[0] - 1;
-
-#else
-
-   extern int *const Isitecomindex;
-
-#endif
-
 void initsite (void);
 void xsitecom ( int index, 
                 int *nerr);

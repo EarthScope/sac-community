@@ -41,9 +41,9 @@ initsite() {
 	 *   command called "testsite" and its abbreviation "tsite".) */
 	cmsite.nsitecomnames = 2;
 	strcpy( kmsite.ksitecomnames[0], "TESTSITE" );
-	Isitecomindex[1] = 1;
+	cmsite.isitecomindex[0] = 1;
 	strcpy( kmsite.ksitecomnames[1], "TSITE   " );
-	Isitecomindex[2] = 1;
+	cmsite.isitecomindex[1] = 1;
 
 	/* - Initialize other global variables added to site common block here: */
 	return;

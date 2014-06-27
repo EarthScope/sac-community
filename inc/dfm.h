@@ -164,20 +164,7 @@ struct t_kmdfm {
 
 #ifdef DOINITS
 int   *const Icatco      = &cmdfm.icatco[0] - 1;
-//int   *const Icfmt       = &cmdfm.icfmt[0] - 1;
-//int   *const Ipckhd      = &cmdfm.ipckhd[0] - 1;
 int   *const Itemco      = &cmdfm.itemco[0] - 1;
-//int   *const Ncomp       = &cmdfm.ncomp[0] - 1;
-//int   *const Ndsndx      = &cmdfm.ndsndx[0] - 1;
-//int   *const Ndxhdr      = &cmdfm.ndxhdr[0] - 1;
-//int   *const Nfillb      = &cmdfr.nfillb[0] - 1;
-//int   *const Nfille      = &cmdfr.nfille[0] - 1;
-//int   *const Nlndta      = &cmdfm.nlndta[0] - 1;
-//int   *const Nstart      = &cmdfr.nstart[0] - 1;
-//int   *const Nstop       = &cmdfr.nstop[0] - 1;
-//int   *const Ntotal      = &cmdfr.ntotal[0] - 1;
-//int   *const Nxsdd       = &cmdfr.nxsdd[0] - 1;
-//double *const Ocut        = &cmdfm.ocut[0] - 1;
 int    const wfHeader    = -1 ;
 int    const allHeader   = 0 ;
 int    const eventHeader = 1 ;
@@ -185,23 +172,10 @@ float  MaxMem      = 0.3 ;
 
 #else
  extern int   *const Icatco; 
-/* extern int   *const Icfmt; */
-/* extern int   *const Ipckhd; */
  extern int   *const Itemco; 
-/* extern int   *const Ncomp; */
-/* extern int   *const Ndsndx; */
-/* extern int   *const Ndxhdr; */
-/* extern int   *const Nfillb; */
-/* extern int   *const Nfille; */
-/* extern int   *const Nlndta; */
-/* extern int   *const Nstart; */
-/* extern int   *const Nstop; */
-/* extern int   *const Ntotal; */
-/* extern int   *const Nxsdd; */
-/* extern double *const Ocut; */
-extern int    const wfHeader ;
-extern int    const allHeader ;
-extern int    const eventHeader ;
+ extern int    const wfHeader ;
+ extern int    const allHeader ;
+ extern int    const eventHeader ;
  extern float        MaxMem ; 
 
 #endif
