@@ -380,6 +380,7 @@ void get_window_size_x11         (float *xmin,
                                   float *xmax,
                                   float *ymin,
                                   float *ymax);
+char * handle_event_x11(int *nerr);
 
 /* XWindow Functions */
 

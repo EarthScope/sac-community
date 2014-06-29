@@ -80,7 +80,8 @@ int select_loop_message(char *p, int len);
 */
 #ifdef READLINE
 int select_loop(char *prmt, int prmtlen, char *msg, int msglen,
-		struct timeval *timeout, VCPFunction *func);
+                struct timeval *timeout, VCPFunction *func,
+                int stdin_on, int gui_on);
 #endif
 /** 
  * Return the current history file in sac

@@ -32,6 +32,6 @@ expose3() {
   DEBUG("size: [%d %d] id: %d\n", attributes.width, attributes.height, xw->win);
   DEBUG("queue: %d\n", XPending( DISPLAY(xw) ));
   XSendEvent(DISPLAY(xw), xw->win, False, ExposureMask, (XEvent *) &event);
-
+  XFlush(DISPLAY(xw));
 }
 

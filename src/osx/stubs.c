@@ -1,6 +1,8 @@
 
+
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "co.h"
 #include "lhf.h"
@@ -292,7 +294,39 @@ osx_cursor(float *x, float *y, char c[], int length) {
     *y = osx_to_view_y(*y);
 }
 
-void initdevice_osx() {
+static int osx_fd[2] = {0,0};
+#define OSX_FD_READ  0
+#define OSX_FD_WRITE 1
+int
+osx_get_file_descriptor(void) {
+  static int init = FALSE;
+  if(!init) {
+    init = TRUE;
+    pipe(osx_fd);
+  }
+  return osx_fd[ OSX_FD_READ ];
+}
+
+void
+osx_gui_command(char *cmd) {
+  size_t n;
+  n = strlen(cmd);
+  write(osx_fd[ OSX_FD_WRITE ], &n, sizeof(size_t));
+  write(osx_fd[ OSX_FD_WRITE ], cmd, n * sizeof(char) );
+}
+
+char *
+osx_handle_event( int *nerr ) {
+  size_t n;
+  char pmsg[1024];
+  memset(pmsg,0,sizeof(pmsg));
+  read(osx_fd[ OSX_FD_READ ], &n, sizeof(size_t) ); /* Length */
+  read(osx_fd[ OSX_FD_READ ], &pmsg[0], n );        /* Message */
+  return strdup(pmsg);
+}
+
+void 
+initdevice_osx() {
 
   initdevice_null( &osx );
 
@@ -325,7 +359,8 @@ void initdevice_osx() {
   osx.textbox                = osx_text_box; 
   osx.show_image             = osx_show_image;
   osx.get_window_size        = osx_window_size;
-
+  osx.get_file_descriptor    = osx_get_file_descriptor;
+  osx.handle_event           = osx_handle_event;
   gdm_register_device( &osx );
     
 }

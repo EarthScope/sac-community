@@ -9,7 +9,7 @@
 #include "co.h"
 
 #include "config.h"
- 
+#include "bool.h" 
 
 #ifndef READLINE
 void
@@ -68,7 +68,7 @@ zgtmsg(char *prmt,
        int   prmtlen,
        char *msg, 
        int   msglen) {
-  select_loop(prmt, prmtlen, msg, msglen, NULL, process_line);
+  select_loop(prmt, prmtlen, msg, msglen, NULL, process_line, TRUE, TRUE);
 }
 
 

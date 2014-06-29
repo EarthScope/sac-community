@@ -8,6 +8,7 @@
 #include "config.h"
 
 #include "co.h"
+#include "bool.h"
  
 #ifndef READLINE
 
@@ -81,8 +82,8 @@ zsleep(int timeout) {
     time.tv_sec = 0;
     time.tv_usec = left;
     select_loop(prmt, ZSLEEP_PRMTLEN, 
-		msg, ZSLEEP_MSGLEN, 
-		&time, process_line);
+                msg, ZSLEEP_MSGLEN, 
+                &time, process_line, FALSE, TRUE);
   }
   
   fprintf(stdout,"\n");

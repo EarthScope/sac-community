@@ -230,7 +230,7 @@ typedef void (*set_window_size_t)       ( int size );
 typedef void (*save_t)                  ( display_t *out, 
                                           char *file );
 typedef int  (*get_file_descriptor_t)   ( void );
-typedef void (*handle_event_t)          ( int *nerr );
+typedef char * (*handle_event_t)          ( int *nerr );
 typedef void (*get_window_size_t)       ( float *xmin, 
                                           float *xmax,
                                           float *ymin,
@@ -547,7 +547,7 @@ text_box_symbol(display_t *out,
 void set_window_width    ( int width );
 void set_window_height   ( int height );
 int  get_file_descriptor ( void );
-void handle_event        ( int *nerr );
+char * handle_event        ( int *nerr );
 
 void xsave();
 void initdevice_postscript();

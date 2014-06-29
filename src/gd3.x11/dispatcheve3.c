@@ -206,7 +206,12 @@ crosshairs_draw(XWindow *xw, XEvent *pe) {
   XButtonEvent *e = (XButtonEvent *) pe;
   XDrawLine(DISPLAY(xw), xw->win, xw->gc, 0, e->y, xw->width-1, e->y);
   XDrawLine(DISPLAY(xw), xw->win, xw->gc, e->x, 0, e->x, xw->height-1);
-  
+}
+
+char *
+handle_event_x11(int *nerr) {
+  dispatchevent3( nerr );
+  return NULL;
 }
 
 void

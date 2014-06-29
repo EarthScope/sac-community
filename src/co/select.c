@@ -562,42 +562,29 @@ sac_attempt_complete(const char *text, int start, int end) {
  * @return 
  */
 
-#ifdef OSX_APP
-static int osx_fd[2] = {0,0};
-static char value = 'a';
-void
-osx_gui_command(char *cmd) {
-  size_t n;
-  n = strlen(cmd);
-  write(osx_fd[1], &n, sizeof(size_t));
-  write(osx_fd[1], cmd, n * sizeof(char) );
-}
-
-#endif
-
 int
 select_loop(char *prmt, int prmtlen, 
-	    char *msg, int msglen, 
-	    struct timeval *timeout, 
-	    VCPFunction *func) {
+            char *msg, int msglen, 
+            struct timeval *timeout, 
+            VCPFunction *func,
+            int stdin_on,
+            int gui_on) {
 
   int i;	/* index for prefilling string w/ NULLs */
 
   int retval;
   fd_set fd;
-  int max_fd, stdin_fd;
-#ifdef X11_APP
-  int x11_fd;
-#endif
+  int max_fd, stdin_fd, gui_fd;
   int nerr;
   char kprmt[128];
   char *getline_msg;
+  char *event_msg;
 
   UNUSED(prmtlen);
 
-  if(!sac_history_loaded)
+  if(!sac_history_loaded) {
     sac_history_load(sac_history_file());
-
+  }
   /* Show the Prompt */
   i = 0;
   while(prmt[i] != '$') {
@@ -606,12 +593,13 @@ select_loop(char *prmt, int prmtlen,
   }
   kprmt[i] = '\0';
   
-  if(use_tty()) {
-    rl_callback_handler_install(kprmt, func);
-    rl_completion_append_character = '\0';
-    rl_attempted_completion_function = sac_attempt_complete;
+  if(stdin_on) {
+    if(use_tty()) {
+      rl_callback_handler_install(kprmt, func);
+      rl_completion_append_character = '\0';
+      rl_attempted_completion_function = sac_attempt_complete;
+    }
   }
-
   fflush(stdout);
   /* Take care of printing the prompt when there is no tty
    *    This normally happends during script processing 
@@ -622,14 +610,12 @@ select_loop(char *prmt, int prmtlen,
   }
 
   stdin_fd = -1;
+  gui_fd   = -1;
 
   /* Loop until we encounter a newline */
   select_loop_continue(SELECT_ON);
 
   timeval_fix(timeout);
-
-  /* Clear out any pending events */
-  handle_event(&nerr);
 
   while(select_loop_continue(SELECT_QUERY)) {
     max_fd = -1;
@@ -638,48 +624,34 @@ select_loop(char *prmt, int prmtlen,
     /* Add STDIN to the File Descriptor Set (FD_SET) */
     if(!use_tty() && timeout) { /* This is here due to co/xpause.c and co/zsleep.c */
       max_fd = -1;
-    } else {
-      DEBUG("Adding stdin for select\n");
+    } else if(stdin_on) {
       stdin_fd =  0;
       FD_SET(stdin_fd, &fd);
       if(stdin_fd > max_fd) {
         max_fd = stdin_fd;
       }
     }
-#ifdef X11_APP
-    /* Add X11 to the File Descriptor Set (FD_SET) */
-    if((x11_fd = get_file_descriptor()) > 0) {
-      DEBUG("Adding x11 for select\n");
-      FD_SET(x11_fd, &fd);
-      if(x11_fd > max_fd) {
-        max_fd = x11_fd;
+    /* Add GUI to the File Descriptor Set (FD_SET) */
+    if(gui_on) {
+      if((gui_fd = get_file_descriptor()) > 0) {
+        FD_SET(gui_fd, &fd);
+        if(gui_fd > max_fd) {
+          max_fd = gui_fd;
+        }
       }
     }
-#endif 
-
-#ifdef OSX_APP
-    if(osx_fd[0] == 0 && osx_fd[1] == 0) {
-      pipe(osx_fd);
-    }
-    FD_SET(osx_fd[0], &fd);
-    if(osx_fd[0] > max_fd) {
-      max_fd = osx_fd[0];
-    }
-#endif
 
     /* Wait until we get life from one the File Descriptors, then act */
-    DEBUG("select wait\n");
     retval = select(max_fd+1, &fd, NULL, NULL, timeout);
-    DEBUG("retval: %d\n", retval);
     switch(retval) {
     case -1: /* Error Condition */
       if(errno != EINTR) {
-	perror("SAC: Select Error");
-	exit(-1);
+        perror("SAC: Select Error");
+        exit(-1);
       }
       break;
     case 0: /* Timeout Expired */
-	break;
+      break;
     default:
       if(input(stdin_fd, &fd)) {
         if(!use_tty()) { 
@@ -692,36 +664,27 @@ select_loop(char *prmt, int prmtlen,
         } else {
           rl_callback_read_char();
         }
-	if(!use_tty() && select_loop_continue(SELECT_QUERY)) {
-	  /* This assumes the the entire line is read in at once and processline is called
-	     for each entry into rl_callback_read_char().  This will probably break on
-	     some machine, some where, probably when using the GNU readline library. 
-	  */
-	  fprintf(stderr, "SAC Error: EOF/Quit\n"
-              "     SAC executed from a script: quit command missing\n"
-              "     Please add a quit to the script to avoid this message\n"
-              "     If you think you got this message in error, \n"
-              "     please report it to: %s\n", PACKAGE_BUGREPORT);
-	  select_loop_continue(SELECT_OFF);
-	  select_loop_message("quit", -1);
-	}
+        if(!use_tty() && select_loop_continue(SELECT_QUERY)) {
+          /* Assumes the the entire line is read in at once and processline is called
+             for each entry into rl_callback_read_char().  This will probably break on
+             some machine, some where, probably when using the GNU readline library. 
+          */
+          fprintf(stderr, "SAC Error: EOF/Quit\n"
+                  "     SAC executed from a script: quit command missing\n"
+                  "     Please add a quit to the script to avoid this message\n"
+                  "     If you think you got this message in error, \n"
+                  "     please report it to: %s\n", PACKAGE_BUGREPORT);
+          select_loop_continue(SELECT_OFF);
+          select_loop_message("quit", -1);
+        }
       }
-#ifdef X11_APP      
-      if(input(x11_fd, &fd)) {
-        handle_event( &nerr );
+      if(input(gui_fd, &fd)) {
+        if((event_msg = handle_event( &nerr ))) {
+          select_loop_continue(SELECT_OFF);
+          select_loop_message(event_msg, -1);
+          FREE(event_msg);
+        }
       }
-#endif
-#ifdef OSX_APP
-      if(input(osx_fd[0], &fd)) {
-        size_t n;
-        char pmsg[1024];
-        memset(pmsg,0,sizeof(pmsg));
-        read(osx_fd[0], &n, sizeof(size_t) ); /* Length */
-        read(osx_fd[0], &pmsg[0], n );        /* Message */
-        select_loop_continue(SELECT_OFF);
-        select_loop_message(pmsg, -1);
-      }
-#endif
     }
 
     if(timeout) {

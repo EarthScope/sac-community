@@ -181,8 +181,8 @@ static  int ExecuteCommands(Engine *ep, char *ErrorBuffer)
     printf("     'inspector' to view workspace variables. \n");
     do{
       select_loop(SAC_MAT_PROMPT, strlen(SAC_MAT_PROMPT), 
-		  input, INBUF_LEN-1, 
-		  NULL, process_matlab_line);
+                  input, INBUF_LEN-1, 
+                  NULL, process_matlab_line, TRUE, TRUE);
 
        for(i = 0; i < sizeof(EXIT)/sizeof(char *); i++) {
 	 if( strncmp(input, EXIT[i], strlen(EXIT[i])) == 0 ) {

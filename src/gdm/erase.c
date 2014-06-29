@@ -136,7 +136,7 @@ get_file_descriptor() {
   return -1;
 }
 
-void
+char *
 handle_event(int *nerr) {
   int i, n;
   display_t **dev;  
@@ -146,8 +146,8 @@ handle_event(int *nerr) {
   
   for(i = 0; i < n; i++) {
     if(dev[i]->on && dev[i]->handle_event) {
-      dev[i]->handle_event( nerr );
-      return;
+      return dev[i]->handle_event( nerr );
     }
   }
+  return NULL;
 }
