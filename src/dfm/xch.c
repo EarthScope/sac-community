@@ -225,7 +225,7 @@ xch(int *nerr) {
             goto L_8888;
           }
 		    }
-		    else if( icatx == AUX_TYPE ){
+		    else if( icatx == STRING_TYPE ){
           int n = (itemx == 2) ? 2 : 1; 
           j1 = itemx;
           memset(khdrc[j1-1], ' ', n*8);
