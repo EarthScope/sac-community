@@ -43,9 +43,7 @@ erase3() {
 
 /* Erase window */
 
-#ifdef USE_X11_DOUBLE_BUFFER
   fill_background3(c_win3);
-#endif /* USE_X11_DOUBLE_BUFFER */
 
 }
 

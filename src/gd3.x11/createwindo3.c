@@ -464,11 +464,5 @@ createwindow3(int *win_num,
 
   num_wins3 = max(num_wins3, *win_num);
 
-  /* Process events */
-
-#ifndef USE_X11_DOUBLE_BUFFER
-  dispatchevent3(nerr);
-#endif /* USE_X11_DOUBLE_BUFFER */
-
 }
 

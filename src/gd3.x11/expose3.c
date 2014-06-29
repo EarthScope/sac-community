@@ -7,7 +7,7 @@
 void
 expose3() {
   
-#ifdef USE_X11_DOUBLE_BUFFER
+
   XExposeEvent event;
   XWindowAttributes attributes;
   XWindow *xw;
@@ -17,9 +17,8 @@ expose3() {
   if(!xw) {
       return;
   }
-  
   XGetWindowAttributes(DISPLAY(xw), xw->win, &attributes);
-  
+
   event.type       = Expose;
   event.display    = DISPLAY(xw);
   event.window     = xw->win;
@@ -33,7 +32,6 @@ expose3() {
   DEBUG("size: [%d %d] id: %d\n", attributes.width, attributes.height, xw->win);
   DEBUG("queue: %d\n", XPending( DISPLAY(xw) ));
   XSendEvent(DISPLAY(xw), xw->win, False, ExposureMask, (XEvent *) &event);
-#endif /* USE_X11_DOUBLE_BUFFER */
 
 }
 

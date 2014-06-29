@@ -45,12 +45,7 @@ drawpoly3(float *xloc_vp,
 
   XSetForeground(DISPLAY(xw), xw->gc,color3);
 
-#ifndef USE_X11_DOUBLE_BUFFER
-  XDrawLines(DISPLAY(xw), xw->win, xw->gc, ptlist, npts, CoordModeOrigin);
-
-#else /* USE_X11_DOUBLE_BUFFER */
   XDrawLines(DISPLAY(xw), xw->buffer, xw->gc, ptlist, npts, CoordModeOrigin);
-#endif /* USE_X11_DOUBLE_BUFFER */
 
 }
 

@@ -27,6 +27,9 @@
 /* System Libraries define bzero */
 #undef HAVE_FUNC_BZERO
 
+/* System Libraries define copysign */
+#undef HAVE_FUNC_COPYSIGN
+
 /* System Libraries define fmax */
 #undef HAVE_FUNC_FMAX
 
@@ -47,6 +50,9 @@
 
 /* System Libraries define rindex */
 #undef HAVE_FUNC_RINDEX
+
+/* System Libraries define round */
+#undef HAVE_FUNC_ROUND
 
 /* System Libraries define setenv */
 #undef HAVE_FUNC_SETENV
@@ -150,6 +156,9 @@
 /* System Libraries missing bzero */
 #undef MISSING_FUNC_BZERO
 
+/* System Libraries missing copysign */
+#undef MISSING_FUNC_COPYSIGN
+
 /* System Libraries missing fmax */
 #undef MISSING_FUNC_FMAX
 
@@ -167,6 +176,9 @@
 
 /* System Libraries missing rindex */
 #undef MISSING_FUNC_RINDEX
+
+/* System Libraries missing round */
+#undef MISSING_FUNC_ROUND
 
 /* System Libraries missing sleep */
 #undef MISSING_FUNC_SLEEP
@@ -224,15 +236,6 @@
 
 /* Program needs the Terminal (TTY) to Function */
 #undef USE_TERMIOS
-
-/* Use X11 as a Graphics Device */
-#undef USE_X11
-
-/* Compile with X11 double buffers */
-#undef USE_X11_DOUBLE_BUFFER
-
-/* Compile without X11 double buffers */
-#undef USE_X11_DOUBLE_BUFFER_DISABLED
 
 /* Compile with X11 multiple color depths */
 #undef USE_X11_MULTIPLE_DEPTHS

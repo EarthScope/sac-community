@@ -16,7 +16,7 @@
 #include "select.h"
 #include "debug.h"
 
-#if !defined(READLINE) && !defined(USE_X11_DOUBLE_BUFFER)
+#if !defined(READLINE)
 void
 zgpmsg(prmt,prmtlen,msg,msglen)
 char *prmt;		/* pointer to prompt message */

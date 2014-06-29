@@ -271,7 +271,6 @@ AC_OUTPUT(src/Makefile utils/Makefile libedit/Makefile t/Makefile Makefile)
 DISPLAYSTR=""
 if test x${display} = xx11; then
 DISPLAYSTR="
-X11-buffer     = $x11_buffer
 X11-depth      = $x11_depth
 X_LIBS         = $X_LIBS 
 X_CFLAGS       = $X_CFLAGS  "

@@ -808,7 +808,6 @@ enable_debug
 enable_optim
 with_x
 enable_x11_depth
-enable_x11_buffer
 enable_xpm
 enable_xft
 enable_zlib
@@ -1486,7 +1485,6 @@ Optional Features:
   --enable-debug          enable debugging options
   --enable-optim=level    enable optimization level
   --disable-x11-depth     disable X11 multiple color depth
-  --disable-x11-buffer    disable X11 double buffer
   --enable-xpm            enable saving to XPM files
   --enable-xft            enable XFT Fonts for X11
   --enable-zlib           enable compressed pdf files
@@ -3255,11 +3253,6 @@ xft=""
 # X11 Multiple Color Depths
 x11_depth=off
 
-
-
-
-# X11 Double Buffering
-x11_buffer=off
 
 
 
@@ -7577,31 +7570,6 @@ fi
 
 
 
-        { $as_echo "$as_me:${as_lineno-$LINENO}: Checking Double buffer" >&5
-$as_echo "$as_me: Checking Double buffer" >&6;}
-        # Check whether --enable-x11_buffer was given.
-if test "${enable_x11_buffer+set}" = set; then :
-  enableval=$enable_x11_buffer;  if   test x$enableval != xyes ; then :
-
-$as_echo "#define USE_X11_DOUBLE_BUFFER_DISABLED 1" >>confdefs.h
-
-             x11_buffer=off
-else
-
-$as_echo "#define USE_X11_DOUBLE_BUFFER 1" >>confdefs.h
-
-             x11_buffer=on
-fi
-else
-
-$as_echo "#define USE_X11_DOUBLE_BUFFER 1" >>confdefs.h
-
-             x11_buffer=on
-
-fi
-
-
-
 $as_echo "#define X11_APP 1" >>confdefs.h
 
     fi
@@ -10745,7 +10713,6 @@ fi
 DISPLAYSTR=""
 if test x${display} = xx11; then
 DISPLAYSTR="
-X11-buffer     = $x11_buffer
 X11-depth      = $x11_depth
 X_LIBS         = $X_LIBS
 X_CFLAGS       = $X_CFLAGS  "

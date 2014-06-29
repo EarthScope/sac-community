@@ -23,8 +23,7 @@ void
 flushbuffer3(int *nerr)
 {
   *nerr = 0;
-#ifdef USE_X11_DOUBLE_BUFFER
   expose3();
-#endif	    
+
 }
 

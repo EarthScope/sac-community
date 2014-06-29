@@ -268,12 +268,10 @@ dispatchevent3(int *nerr) {
 
       switch (event.type) {
 
-#ifdef USE_X11_DOUBLE_BUFFER
       case DestroyNotify:
 	break;
       case UnmapNotify:
 	break;
-#endif
 
       /* George Helffrich <george@geology.bristol.ac.uk>
          If you can, handle window destroy events triggered by window manager
