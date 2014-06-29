@@ -732,7 +732,7 @@ sacio_LDADD = -L../src/ -lsacio -L. -lunit
 sacio_LDFLAGS = 
 TEST_EXTENSIONS = .sm
 SM_LOG_COMPILER = $(top_srcdir)/t/pytest.py
-AM_SM_LOG_FLAGS = -s "$(abs_builddir)/$(SACBIN)" -o "${abs_top_srcdir}/t/testsuite/output"
+AM_SM_LOG_FLAGS = -s "$(abs_builddir)/$(SACBIN)" -o "${abs_top_srcdir}/t/testsuite/output" --test
 all: all-am
 
 .SUFFIXES:

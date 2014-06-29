@@ -280,6 +280,6 @@ testsuite/input/zzzzcd.sm
 
 
 SM_LOG_COMPILER = $(top_srcdir)/t/pytest.py
-AM_SM_LOG_FLAGS = -s "$(abs_builddir)/$(SACBIN)" -o "${abs_top_srcdir}/t/testsuite/output"
+AM_SM_LOG_FLAGS = -s "$(abs_builddir)/$(SACBIN)" -o "${abs_top_srcdir}/t/testsuite/output" --test
 
 
