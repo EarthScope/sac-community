@@ -193,6 +193,15 @@ osx_set_color(int index) {
 }
 
 void
+osx_get_bg_color(float *r, float *g, float *b) {
+  int bg;
+  bg = (color_on()) ? color_background() : color_background_default();
+  *r = COLORS[bg].r;
+  *g = COLORS[bg].g;
+  *b = COLORS[bg].b;
+}
+
+void
 osx_text_box(textbox *t) {
     int i;
     int cwidth, cheight, ascent;

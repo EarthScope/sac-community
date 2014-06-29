@@ -5,6 +5,7 @@
 extern OSXColor pixdef6[100000];
 
 void frange(float *z, int n, float *zmin, float *zmax);
+void osx_get_bg_color(float *r, float *g, float *b);
 void 
 scaleimage(float *input_image,
            unsigned int width,
@@ -360,7 +361,13 @@ void NSSacView_width(void *id, int width) {
 }
 
 - (void) erase : (NSRect) rect {
-    [backgroundColor set];
+  float r, g, b;
+  osx_get_bg_color(&r, &g, &b);
+  backgroundColor = [NSColor colorWithDeviceRed: r
+                                          green: g
+                                           blue: b
+                                          alpha: 1.0];
+   [backgroundColor set];
     NSRectFill( rect );
 }
 
