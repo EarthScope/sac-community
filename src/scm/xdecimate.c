@@ -40,6 +40,8 @@ xdecimate(int *nerr) {
 
   sac *s;
   float *new, *scr;
+
+  new = scr = NULL;
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command DECIMATE.
 	 *           This command decimates data in memory.

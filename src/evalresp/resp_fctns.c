@@ -184,7 +184,7 @@ void check_channel(struct channel *chan) {
   int stage_type;
   int  gain_flag, deci_flag, ref_flag;
   int i, j, nc;
-
+  gain_blkt = deci_blkt = ref_blkt = NULL;
   /* first run a 'sanity-check' of the filter sequence, making sure
      that the units match and that the proper blockettes are found
      where they are 'expected'.  At the same time, continuation filters

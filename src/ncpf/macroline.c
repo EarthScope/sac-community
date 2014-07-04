@@ -33,7 +33,7 @@ int *ncmacroline, *nerr;
         FILE *nun;
         char *cattemp;
         char *s1, *s2;
-
+  nrfun = NULL;
 	/*=====================================================================
 	 * PURPOSE: To return the next line in a SAC macro (command) file.
 	 *=====================================================================

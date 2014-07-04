@@ -86,6 +86,9 @@ xtraveltime(	int *nerr)
     static int iphase        = 0;
     file = NULL;
     cmtt.ttdep = 0.0;
+    tx = NULL;
+    list = NULL;
+    s = NULL;
 	/*=====================================================================
 	 * PURPOSE:  To read in travel time curves from a file.
 	 *=====================================================================

@@ -39,7 +39,7 @@ pcxcur(FILE *nunrpl) {
 	float height, width, xcdpsv, xtloc, ycdpsv, ytloc;
         char *strtemp1, *strtemp2;
 
-
+  nunmac = NULL;
 	/*=====================================================================
 	 * MODIFICATION HISTORY:
          *    970129:  Add parameter (0) to cnvatf and cnvati.  0 means that if 

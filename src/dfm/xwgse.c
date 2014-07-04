@@ -44,7 +44,7 @@ xwgse(int *nerr) {
     string_list *list;
 
 	*nerr = 0;
-
+  list = NULL;
 	/* PARSING PHASE: */
 	/* - Loop on each token in command: */
 	while ( lcmore( nerr ) ){

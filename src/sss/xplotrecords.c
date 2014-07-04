@@ -143,7 +143,7 @@ int *nerr;
 	*nerr = 0;
   toff = xarray_new_with_len('f', saclen()+1);
 	/* PARSING PHASE: */
-
+  s = NULL;
 	/* - Loop on each token in command: */
 
 	while ( lcmore( nerr ) ){

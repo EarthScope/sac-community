@@ -533,7 +533,7 @@ void norm_resp(struct channel *chan, int start_stage, int stop_stage) {
   double w,  f;
   double  percent_diff;
   struct complex of, df;
-
+  last_fil = main_filt = NULL;
   /* -------- TEST 1 -------- */
   /*  
       A single stage response must specify a stage gain, a stage zero

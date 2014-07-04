@@ -31,6 +31,8 @@ int *nerr;
 
   string_list *list;
   sac *s;
+
+  list = NULL;
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command WRITESP.
 	 *           This command writes spectral files in memory to disk

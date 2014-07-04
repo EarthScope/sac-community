@@ -1045,7 +1045,7 @@ int parse_channel(FILE *fptr, struct channel* chan) {
 
   struct blkt *blkt_ptr, *last_blkt = (struct blkt *)NULL;
   struct stage *this_stage, *last_stage, *tmp_stage, *tmp_stage2;
-
+  tmp_stage2 = NULL;
   /* initialize the channel's sequence of stages */
 
   last_stage = (struct stage *)NULL;

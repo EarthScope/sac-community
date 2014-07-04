@@ -38,7 +38,7 @@ void xplotdy(int *nerr)
 
     memset(xarray, 0, sizeof(xarray));
     memset(yarray, 0, sizeof(xarray));
-    
+    s = dy = dy2 = NULL;
 	/*=====================================================================
 	 * PURPOSE:  To execute the action command PLOTDY.
 	 *           The user specifies which data file contains the "y" data &

@@ -69,7 +69,7 @@ xppk(int *nerr) {
 	int *const Iwf = &iwf[0] - 1;
         int bellJUNK;
 
-
+        s = NULL;
 	/*=====================================================================
 	 * PURPOSE:  To parse and execute the action command PPK.
 	 *           This command plots data for purposes of picking

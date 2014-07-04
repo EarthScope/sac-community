@@ -73,7 +73,7 @@ xfg(int *nerr) {
 	*nerr = 0;
   memset(kfile, 0, sizeof(kfile));
   ndx1 = ndx2 = 0;
-
+  s = NULL;
 	while ( lcmore( nerr ) ){
 
 		/* -- select one of the possible functions. */

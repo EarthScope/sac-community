@@ -55,6 +55,7 @@ xbbfk(int *nerr) {
 	complexf *const Scm = &scm[0] - 1;
 	complexf *const Sinv = &sinv[0] - 1;
 
+  isacm = 0;
 	/* ============================================================
 	 * PURPOSE: to compute the broadband FK (frequency-wavenumber)
 	 *          spectral estimate on all files in memory.

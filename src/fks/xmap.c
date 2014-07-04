@@ -117,6 +117,7 @@ L_1000:
 	/* DATA INPUT PHASE: */
 
 	nchsav = nch;
+  s = NULL;
 	for( jdfl = 1; jdfl <= nch; jdfl++ ){
     if(!(s = sacget(jdfl-1, FALSE, nerr))) {
       goto L_9999;
