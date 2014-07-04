@@ -9,6 +9,8 @@
 #ifndef _SAC_HEADER_H_
 #define _SAC_HEADER_H_
 
+#include "config.h"
+
 #define REGCONV 100
 
 #pragma pack(push)
@@ -397,19 +399,25 @@ static struct SACheader NullSacHeader = {
 
 #define VALUE(x) (*(x))
 
-static inline float *fhdr(sac *s, int i) {
+#ifdef WIN32
+#define STATIC_INLINE static __inline 
+#else
+#define STATIC_INLINE static inline
+#endif
+
+STATIC_INLINE float *fhdr(sac *s, int i) {
   float *fp = (float *)(&(s->h->delta));
   return &(fp[i-1]);
 }
-static inline int *ihdr(sac *s, int i) {
+STATIC_INLINE int *ihdr(sac *s, int i) {
   int *ip =(int *)(&s->h->iftype);
   return &(ip[i-1]);
 }
-static inline int *nhdr(sac *s, int i) {
+STATIC_INLINE int *nhdr(sac *s, int i) {
   int *ip =(int *)(&s->h->nzyear);
   return &(ip[i-1]);
 }
-static inline int *lhdr(sac *s, int i) {
+STATIC_INLINE int *lhdr(sac *s, int i) {
   int *ip =(int *)(&s->h->leven);
   return &(ip[i-1]);
 }

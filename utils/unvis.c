@@ -40,7 +40,7 @@ __FBSDID("$FreeBSD: src/lib/libc/gen/unvis.c,v 1.10 2007/01/09 00:27:56 imp Exp 
 */
 
 #include "config.h"
-#ifdef WIN_APPLICATION
+#ifdef WIN32
 #define u_char unsigned int
 #endif
 

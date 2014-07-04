@@ -6,9 +6,9 @@
 #include "string_utils.h"
 
 #if ( defined __DEBUG__ || __SAC_DEVELOPER__ )
-#define DEBUG(fmt, args...) debug("%s:%d "fmt, __FUNCTION__, __LINE__, ##args)
+#define DEBUG(fmt, ...) debug("%s:%d "fmt, __FUNCTION__, __LINE__, ## __VA_ARGS__ )
 #else 
-#define DEBUG(fmt, args...)
+#define DEBUG(fmt, ...)
 #endif
 
 #define UNUSED(x) (void) x

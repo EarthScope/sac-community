@@ -105,8 +105,8 @@ bin_PROGRAMS = sac$(EXEEXT)
 @DATABASE_FALSE@am__append_11 = libSacOracleStubFuncs.a
 @DATABASE_FALSE@am__append_12 = libSacOracleStubFuncs.a
 @OSX_APP_TRUE@am__append_13 = $(FORMAT_LIBS) $(FRAMEWORK_FOUNDATION) $(FRAMEWORK_COCOA)
-@X11_APP_TRUE@am__append_14 = $(X_PRE_LIBS) $(FORMAT_LIBS) $(xft_LIBS) $(X_EXTRA_LIBS) $(X_LIBS) -lX11
-@WIN_APP_TRUE@am__append_15 = $(FORMAT_LIBS)
+@X11_APP_TRUE@am__append_14 = $(X_PRE_LIBS) $(FORMAT_LIBS) $(xpm_LIBS) $(xft_LIBS) $(X_EXTRA_LIBS) $(X_LIBS) -lX11
+@WIN_APP_TRUE@am__append_15 = $(FORMAT_LIBS) -lWs2_32
 
 # Readline/Editline Dependencies (Default = ON)
 @EDITLINE_TRUE@am__append_16 = ../libedit/lib/libedit.a
@@ -806,11 +806,12 @@ am_libturtle_a_OBJECTS = docs/pdf.$(OBJEXT) docs/ps.$(OBJEXT) \
 libturtle_a_OBJECTS = $(am_libturtle_a_OBJECTS)
 PROGRAMS = $(bin_PROGRAMS)
 am__sac_SOURCES_DIST = osx/sac.m osx/main.m main/sac.c win/win.cpp \
-	win/sac_resource.rc
+	win/sac_resource.rc win/strlcpy.c
 @OSX_APP_FALSE@@WIN_APP_FALSE@@X11_APP_TRUE@am_sac_OBJECTS = main/sac.$(OBJEXT)
 @OSX_APP_FALSE@@WIN_APP_TRUE@am_sac_OBJECTS = main/sac.$(OBJEXT) \
 @OSX_APP_FALSE@@WIN_APP_TRUE@	win/win.$(OBJEXT) \
-@OSX_APP_FALSE@@WIN_APP_TRUE@	win/sac_resource.$(OBJEXT)
+@OSX_APP_FALSE@@WIN_APP_TRUE@	win/sac_resource.$(OBJEXT) \
+@OSX_APP_FALSE@@WIN_APP_TRUE@	win/strlcpy.$(OBJEXT)
 @OSX_APP_TRUE@am_sac_OBJECTS = osx/sac.$(OBJEXT) osx/main.$(OBJEXT) \
 @OSX_APP_TRUE@	main/sac.$(OBJEXT)
 sac_OBJECTS = $(am_sac_OBJECTS)
@@ -1070,15 +1071,15 @@ FORMAT_CFLAGS = $(xpm_CFLAGS) $(png_CFLAGS) $(zlib_CFLAGS)
 AM_CFLAGS = $(DEBUG) $(COVERAGE) $(OPTIM) $(xft_CFLAGS) \
 	$(FORMAT_CFLAGS) $(X_CFLAGS) -I$(top_srcdir)/inc \
 	$(am__append_17)
-AM_CXXFLAGS = $(am__append_1)
+AM_CXXFLAGS = -I$(top_srcdir)/inc $(am__append_1)
 @OSX_APP_TRUE@sac_SOURCES = osx/sac.m osx/main.m main/sac.c
 
 # Sources
-@WIN_APP_TRUE@sac_SOURCES = main/sac.c win/win.cpp win/sac_resource.rc
+@WIN_APP_TRUE@sac_SOURCES = main/sac.c win/win.cpp win/sac_resource.rc win/strlcpy.c
 @X11_APP_TRUE@sac_SOURCES = main/sac.c
 @WIN_APP_TRUE@sac_LDFLAGS = -static-libgcc -static-libstdc++ -static
 @OSX_APP_TRUE@sac_LINK = $(OBJCLINK)
-@WIN_APP_TRUE@sac_LINK = $(CXXLINK)
+@WIN_APP_TRUE@sac_LINK = $(CXXLINK) 
 @X11_APP_TRUE@sac_LINK = $(LINK)
 @OSX_APP_TRUE@AM_OBJCFLAGS = -ObjC
 
@@ -3179,6 +3180,7 @@ main/$(am__dirstamp):
 main/sac.$(OBJEXT): main/$(am__dirstamp)
 win/win.$(OBJEXT): win/$(am__dirstamp)
 win/sac_resource.$(OBJEXT): win/$(am__dirstamp)
+win/strlcpy.$(OBJEXT): win/$(am__dirstamp)
 
 sac$(EXEEXT): $(sac_OBJECTS) $(sac_DEPENDENCIES) $(EXTRA_sac_DEPENDENCIES) 
 	@rm -f sac$(EXEEXT)
@@ -3543,7 +3545,7 @@ uninstall-am: uninstall-binPROGRAMS uninstall-libLIBRARIES
 .SILENT: mostlyclean-compile
 
 @WIN_APP_TRUE@.rc.o:
-@WIN_APP_TRUE@	$(WINDRES) $< $@
+@WIN_APP_TRUE@	$(WINDRES) $< -o $@
 
 # Compile Rules for the libsacio
 bbs/readbbf_io.o: $(srcdir)/bbs/readbbf.c

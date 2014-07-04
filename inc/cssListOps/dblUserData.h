@@ -1,3 +1,5 @@
+#include "config.h"
+
 #ifndef FALSE
 #       define FALSE 0
 #       define TRUE !FALSE
@@ -11,11 +13,14 @@
 /*                 +=======================================+                 */
 
 /* #ifndef DBL_PUBLIC_DEFS */
-   struct complex{
+#ifdef WIN32
+#undef complex
+#endif
+struct complex{
       float real;
       float imag;
-   };
-   typedef struct complex ComplexFloat;
+};
+typedef struct complex ComplexFloat;
 /* #endif */
 
 enum dataType {dblREAL, dblCOMPLEX};

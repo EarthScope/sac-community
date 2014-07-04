@@ -5,27 +5,7 @@
 #include <stdarg.h>
 
 #include "chash.h"
-
-
-#define FREE(x) do {  \
-  if(x) {             \
-    free(x);          \
-    x = NULL;         \
-  }                   \
-} while(0);
-
-#ifdef __TESTING__
-#define DEBUG(fmt, args...) debug("%s:%d "fmt, __FUNCTION__, __LINE__, ##args)
-void
-debug(char *fmt, ...) {
-  va_list args;
-  va_start(args, fmt);
-  vfprintf(stderr, fmt, args);
-  va_end(args);
-}
-#else 
-#define DEBUG(fmt, args...)
-#endif
+#include "debug.h"
 
 int primes[] = { 3,5,11,23,47,97,
                  191,383,769,1531,3067,6143,12289,

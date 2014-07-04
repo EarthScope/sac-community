@@ -18,11 +18,15 @@
  * Select functions are found in select.h
  *
  */
-
+#ifndef HAVE_FUNC_FMIN
 double fmin(double a, double b);
+#endif
+#ifndef HAVE_FUNC_FMAX
 double fmax(double a, double b);
+#endif
+#ifndef HAVE_FUNC_LROUND
 long int lround(double z);
-
+#endif
 
 int backspace ( FILE *stream, 
                 int n);

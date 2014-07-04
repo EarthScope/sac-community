@@ -6,7 +6,6 @@
 
 #include "color.h"
 
-#define __DEBUG__
 #include "debug.h"
 
 #include "WinSacView.h"
@@ -52,7 +51,6 @@ void
 win_init() {
     DEBUG("\n");
     initsac();
-    win_begindevice();
     DEBUG("\n");
 }
 
@@ -125,6 +123,7 @@ win_create_window(int   *win_num,
     DEBUG("\n");
     *nerr = 0;
     if(!SacViewWindowsGetByID(wins, *win_num)) {
+        DEBUG("No window with ID\n");
         SacWindowAdd( *win_num );
     } 
 }

@@ -6,11 +6,11 @@
 using namespace Gdiplus;
 #pragma comment (lib,"Gdiplus.lib")
 
+#include "sac_resource.h"
 #include "WinSacView.h"
 
-#include "sac_resource.h"
-
 extern "C" {
+    #include "debug.h"
     /* C Code */
     char*    getline_stdin();
     void     main_command(char *kmsg, int n);
@@ -35,6 +35,8 @@ extern "C" {
     SacView * SacWindow      (int id);
     void      SacWindowAdd   (int id);
 
+    int snprintf(char *str, size_t size, const char *format, ...);
+    SacViewWindows *wins = NULL;
 }
 
 #define MAX_CONSOLE_LINES 500
@@ -47,7 +49,6 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 DWORD ThreadId;
 
 //SacView *view;
-SacViewWindows *wins;
 
 DWORD main_thread;
 
@@ -69,16 +70,26 @@ DWORD WINAPI ConsoleIO(LPVOID lpArg) {
 
 void
 SacWindowAdd(int id) {
+    DEBUG("\n");
     if(GetCurrentThreadId() == main_thread) {
         SacView *view;
+        DEBUG("main thread\n");
         view = SacWindow( id );
         SacViewWindowsAdd(wins, view);
         ShowWindow(view->window_handle, SW_SHOWNORMAL);
         UpdateWindow(view->window_handle);
+        PostThreadMessage(ThreadId, SAC_WINDOW_CREATE, id, 0);
     } else {
-        if(!PostThreadMessage(main_thread, SAC_WINDOW_CREATE, id,0)) {
+      MSG msg;
+      DEBUG("post message: CREATE WINDOW\n");
+      if(!PostThreadMessage(main_thread, SAC_WINDOW_CREATE, id,0)) {
             fprintf(stderr, "Error attempting to create window on GUI Thread\n");
-        }
+      }
+      GetMessage(&msg, NULL, 0,0);
+      if(msg.message != SAC_WINDOW_CREATE) {
+        fprintf(stderr, "Error creating window\n");
+      }
+      DEBUG("post message: CREATE WINDOW: DONE\n");
     }
 }
 
@@ -110,12 +121,10 @@ SacWindow(int id) {
         fprintf(stderr, "Error creating window\n");
         return 0;
     }
-    MessageBox(0, "Hello", "Message Box", MB_OK);
     view = SacViewInit();
     view->window_handle = hwnd;
     view->id            = id;
-    fprintf(stderr, "ID: %d Handle: %X %s\n", id, hwnd, title);
-    //win_set_current(view);
+    win_set_current(view);
 
     return view;
 }
@@ -245,6 +254,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
         }
         break;
     case WM_DESTROY:
+        DEBUG("WINDOW DESTORY\n");
         PostQuitMessage(0);
         TerminateThread(&ThreadId, 0);
         break;

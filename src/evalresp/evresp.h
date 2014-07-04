@@ -409,8 +409,12 @@ void free_response(struct response *);
 
 /* simple error handling routines to standardize the output error values and
    allow for control to return to 'evresp' if a recoverable error occurs */
-
+#ifdef WIN32
+__declspec(noreturn) void error_exit(int, char *, ...);
+#else
 void error_exit(int, char *, ...)  __attribute__((__noreturn__)) ;
+#endif
+
 void error_return(int, char *, ...);
 
 /* a simple routine that parses the station information from the input file */

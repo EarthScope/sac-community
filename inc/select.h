@@ -1,16 +1,23 @@
 
 #include "config.h"
 
+#ifndef _SELECT_H_
+#define _SELECT_H_
+
 #ifdef SOLARIS
 #ifndef __sun__
 #define __sun__
 #endif /* __sun__ */
 #endif /* SOLARIS */
 
-#include <stdio.h>
-#include <sys/time.h>
-
 #include "config.h"
+
+#include <stdio.h>
+#ifdef WIN32
+#include <Winsock2.h>
+#else
+#include <sys/time.h>
+#endif
 
 #ifdef READLINE
   #ifdef EDITLINE_DISABLED
@@ -20,8 +27,10 @@
   #else 
     #include "editline/readline.h"
   #endif /* EDITLINE_DISABLED */
-#endif /* READLINE */
-
+#else /* READLINE */
+  /* not READLINE and not EDITLINE */
+  typedef void VCPFunction (char *);
+#endif
 #define SAC_HISTORY_FILE ".sac_history"
 
 #define SELECT_ON      1
@@ -85,3 +94,5 @@ int select_loop(char *prmt, int prmtlen, char *msg, int msglen,
 #endif
 
 int show_prompt_without_tty(int getset);
+
+#endif 

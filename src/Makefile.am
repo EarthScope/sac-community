@@ -13,18 +13,18 @@ AUTOMAKE_OPTIONS  = subdir-objects no-dependencies
 
 FORMAT_CFLAGS     = $(xpm_CFLAGS) $(png_CFLAGS) $(zlib_CFLAGS)
 # Compilation Flags
-AM_CFLAGS           = $(DEBUG) $(COVERAGE) $(OPTIM) $(xft_CFLAGS) $(FORMAT_CFLAGS) $(X_CFLAGS) -I$(top_srcdir)/inc
+AM_CFLAGS         = $(DEBUG) $(COVERAGE) $(OPTIM) $(xft_CFLAGS) $(FORMAT_CFLAGS) $(X_CFLAGS) -I$(top_srcdir)/inc
 
-AM_CXXFLAGS       =
+AM_CXXFLAGS       = -I$(top_srcdir)/inc
 # Compiled Programs 
 bin_PROGRAMS      = sac
 
 # Sources
 if WIN_APP
-  sac_SOURCES       = main/sac.c win/win.cpp win/sac_resource.rc
+  sac_SOURCES       = main/sac.c win/win.cpp win/sac_resource.rc win/strlcpy.c
   AM_CXXFLAGS      += -mwindows
   sac_LDFLAGS       = -static-libgcc -static-libstdc++ -static
-  sac_LINK          = $(CXXLINK)
+  sac_LINK          = $(CXXLINK) 
 endif
 if OSX_APP
   sac_SOURCES       = osx/sac.m osx/main.m main/sac.c
@@ -96,7 +96,7 @@ if X11_APP
   sac_LDADD        += $(X_PRE_LIBS) $(FORMAT_LIBS) $(xft_LIBS) $(X_EXTRA_LIBS) $(X_LIBS) -lX11
 endif
 if WIN_APP
-  sac_LDADD        += $(FORMAT_LIBS)
+  sac_LDADD        += $(FORMAT_LIBS) -lWs2_32
 endif
 
 # Readline/Editline Dependencies (Default = ON)
@@ -121,7 +121,7 @@ EXTRA_DIST       = describedirs gd3.x11/sac.bitmap \
 
 if WIN_APP
 .rc.o:
-	$(WINDRES) $< $@
+	$(WINDRES) $< -o $@
 endif
 
 # Compile Rules for the libsacio

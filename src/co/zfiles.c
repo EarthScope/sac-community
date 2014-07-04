@@ -10,11 +10,11 @@
 
 #include "config.h"
 
-#ifndef WIN_APPLICATION
+#ifndef WIN32
 #include <glob.h>
+#else
+#include <windows.h>
 #endif
-
-#include <glob.h>
 
 #include "clf.h"
 #include "co.h"
@@ -68,8 +68,12 @@ zfiles(char  *kdirin,
     char *command;
     string_list *files;
     int i;
+#ifdef WIN32
+    WIN32_FIND_DATA FindFileData;
+    HANDLE hFind;
+#else
     glob_t g;
-
+#endif
 
     *nErr = 0;
     files = string_list_init();
@@ -86,11 +90,19 @@ zfiles(char  *kdirin,
 
     *nErr = 0 ;
 
+#ifdef WIN32
+    hFind = FindFirstFile(command, &FindFileData);
+    while(hFind) {
+      string_list_put(files, FindFileData.cFileName, -1);
+      FindNextFile(hFind, &FindFileData);
+    }
+#else
     glob(command, 0, NULL, &g);
     for(i = 0; i < (int)g.gl_pathc; i++) {
       string_list_put(files, g.gl_pathv[i], -1);
     }
     free ( command ) ;
     globfree(&g);
+#endif
     return files ;
 }

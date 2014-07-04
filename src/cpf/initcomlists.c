@@ -9,6 +9,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "config.h"
+#ifdef WIN32
+#include <windows.h>
+#endif
+
 #include "cpf.h"
 #include "com.h"
 #include "comlists.h"
@@ -147,6 +152,9 @@ L_9000:
 	apcmsg( "in INITCOMLISTS.",17 );
 	aplmsg( "Problems opening Command List:",31 );
 	apcmsg( kfile,MCPFN+1 );
+#ifdef WIN32
+  Sleep(3000);
+#endif
 	goto L_8888;
 
 L_9100:

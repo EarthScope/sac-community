@@ -138,11 +138,11 @@ sgf_print(char *sgf, char *printer) {
   }
   if(sgf_to_ps(sgf, ps)) {
     retval = -1;
-    goto ERROR;
+    goto L_ERROR;
   }
   retval = ps_print(ps, printer);
 
- ERROR:
+L_ERROR:
   unlink(ps);
   free(ps);
   return retval;

@@ -516,7 +516,6 @@ SacViewWindowsGetByHandle(SacViewWindows *wins, HWND handle) {
     if((i = SacViewWindowsFindByHandle(wins, handle)) < 0) {
         return NULL;
     }
-    fprintf(stderr, "Handle: %X ID: %d\n", handle, wins->plotWindows[i]->id);
     return wins->plotWindows[i];
 }
 

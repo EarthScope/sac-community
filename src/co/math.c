@@ -11,19 +11,6 @@
 
 #include "config.h"
 
-int 
-min(int a,
-    int b) {
-   return ( a < b ? a : b );
-}
-
-int 
-max(int a,
-    int b) {
-  return ( a > b ? a : b );
-}
-
-
 #ifdef MISSING_FUNC_COPYSIGN
 double
 copysign(double x, double y) {

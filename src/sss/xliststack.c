@@ -1,8 +1,11 @@
-
+#include "config.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifndef WIN32
 #include <libgen.h>
+#endif
+
 #include "amf.h"
 #include "sss.h"
 #include "dfm.h"
@@ -12,6 +15,18 @@
 #include "msg.h"
 #include "clf.h"
 #include "cpf.h"
+
+#ifdef WIN32
+
+char *
+basename(char *path)
+{
+    char *base = strrchr(path, '/');
+    return base ? base+1 : path;
+}
+#endif
+
+
 
 void /*FUNCTION*/ xliststack(nerr)
 int *nerr;

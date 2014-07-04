@@ -239,7 +239,7 @@ ps_image(ps_t *ps,
   fprintf(ps->fp, "%f %f translate\n", x, y);
   fprintf(ps->fp, "%d %d scale\n", w, h);
   fprintf(ps->fp, "%d %d 8\n", w, h);
-  fprintf(ps->fp, "[ %d 0 0 %d 0 %d ] \n", w, -h, h);
+  fprintf(ps->fp, "[ %d 0 0 %d 0 %d ] \n", w, -1 * h, h);
   fprintf(ps->fp, "{ currentfile \n picstr readhexstring pop }\n");
   fprintf(ps->fp, "false 3\n");
   fprintf(ps->fp, "colorimage\n\n");

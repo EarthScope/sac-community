@@ -11,7 +11,7 @@
 #include <string.h>
 #include <math.h>
 
-#ifndef WIN_APP
+#ifndef WIN32
 #include <termcap.h>
 #include <getopt.h>
 #include <execinfo.h>
@@ -34,7 +34,6 @@
 #include "ncpf.h"
 #include "ssi.h"
 #include "sac_history.h"
-#define __DEBUG__
 #include "debug.h"
 
 void sac_command_line_options(int argc, char **argv);
@@ -46,6 +45,7 @@ void execute_command_line(char *kmsg, int len);
 #ifdef X11_APPLICATION
 void set_constrain_plot_ratio_x11( int set );
 
+#ifndef WIN32
 void
 segfault_backtrace(int sig) {
  void *array[10];
@@ -59,7 +59,7 @@ segfault_backtrace(int sig) {
   backtrace_symbols_fd(array, size, STDOUT_FILENO);
   exit(-11);
 }
-
+#endif 
 void
 usage() {
   printf("Usage sac [options] [sac-macro-file]\n"
@@ -255,6 +255,12 @@ sac_command_line_copyright(int argc, char **argv) {
     }
 }
 
+#ifdef WIN32
+void
+sac_command_line_options(int *argc_p, char ***argv_p) {
+  return;
+}
+#else 
 void
 sac_command_line_options(int argc, char **argv) {
   int i;
@@ -314,6 +320,7 @@ sac_command_line_options(int argc, char **argv) {
 #endif
     }
 }
+#endif
 
 	/* - THIS IS THE MAIN LOOP OF THE PROGRAM.
 	 *   (1) "zgpmsg" sends a prompt to the user and gets a message back.

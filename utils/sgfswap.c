@@ -22,7 +22,7 @@
 #include "config.h"
 #include <fcntl.h>
 #include <sys/types.h>
-#ifndef WIN_APPLICATION
+#ifndef WIN32
 #include <pwd.h>
 #endif 
 #include <stdio.h>

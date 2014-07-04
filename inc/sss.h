@@ -39,7 +39,7 @@ struct t_cmsss {
   float dlyni[MSFL]; 
   float dlytg; 
   float dlyng; 
-  float wtg;;
+  float wtg;
   int	lpolg;
   float	dstg;
   float dlytig;

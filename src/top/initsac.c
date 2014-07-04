@@ -191,7 +191,7 @@ void setup_pager()
 		    free(buf);
 		buf = (char *)malloc(strlen(*j) + strlen(*i) + 2);
 		sprintf(buf, "%s/%s", *j, *i);
-		if (access(buf, X_OK) == 0) {
+		if (access(buf, F_OK) == 0) {
 		    pager = buf;
 		    return;
 		}

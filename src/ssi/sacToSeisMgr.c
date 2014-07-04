@@ -87,7 +87,7 @@ void sacToSeisMgr ( int lnew , int lupdate , int ldata , int *nerr )
 	    setmsg ( "ERROR" , *nerr ) ;
 	    outmsg () ;
 	    clrmsg () ;
-        goto ERROR;
+        goto L_ERROR;
 	}
     }
 
@@ -98,7 +98,7 @@ void sacToSeisMgr ( int lnew , int lupdate , int ldata , int *nerr )
 	    setmsg ( "ERROR" , *nerr ) ;
 	    outmsg () ;
 	    clrmsg () ;
-        goto ERROR;
+        goto L_ERROR;
 	}
     }
 
@@ -110,7 +110,7 @@ void sacToSeisMgr ( int lnew , int lupdate , int ldata , int *nerr )
       setmsg ( "ERROR" , *nerr ) ;
       outmsg () ;
       clrmsg () ;
-      goto ERROR;
+      goto L_ERROR;
     }
 
     /* Loop through sac data file list, writing data to the tree. */
@@ -118,7 +118,7 @@ void sacToSeisMgr ( int lnew , int lupdate , int ldata , int *nerr )
     for ( jdfl = 0 ; jdfl < saclen() ; jdfl++ ) {
       int localLdata;
       if(!(s = sacget(jdfl, FALSE, nerr))) {
-        goto ERROR;
+        goto L_ERROR;
       }
 
       localLdata = (!s->y) ? FALSE : ldata ;
@@ -130,7 +130,7 @@ void sacToSeisMgr ( int lnew , int lupdate , int ldata , int *nerr )
 	    outmsg () ;
 	    clrmsg () ;
 	    *nerr = 1401 ;
-        goto ERROR;
+        goto L_ERROR;
 	}
 
 	/* Check for nonunique wfid that are defined */
@@ -201,7 +201,7 @@ void sacToSeisMgr ( int lnew , int lupdate , int ldata , int *nerr )
 
     gcCollect ( smGetDefaultTree() ) ;
 
- ERROR:
+ L_ERROR:
     FREE(nwfid_array);
     FREE(data);
 

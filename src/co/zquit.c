@@ -33,6 +33,14 @@ void dfm_free();
 void gdm_free_devices();
 void lexer_free();
 
+#ifdef WIN32
+/**
+ *  Function stub for select_loop_message 
+ *   normally in co/select.c but co/select.c is not compiled for WIN32
+ */
+int select_loop_message(char *p, int len) {return 0;}
+#endif
+
 /** 
  * Terminate the SAC program
  * 

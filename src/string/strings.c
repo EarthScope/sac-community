@@ -36,7 +36,12 @@ POSSIBILITY OF SUCH DAMAGE.
 
 /* For tilde expansion - OS/X */
 #include <sys/types.h>
+#ifdef WIN32
+#include <io.h>
+#else
 #include <unistd.h>
+#endif
+
 #ifdef POSIX
 #include <pwd.h>
 #endif
@@ -813,7 +818,17 @@ strsep(char **stringp, const char *delim)
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#ifdef WIN32
+#include <io.h>
+#else
 #include <unistd.h>
+#endif
+
+#ifdef WIN32
+typedef int mode_t;
+static const mode_t S_IRUSR      = (mode_t)(_S_IREAD);     ///< read by user
+static const mode_t S_IWUSR      = (mode_t)(_S_IWRITE);    ///< write by user
+#endif
 
 #define MKTEMP_NAME	0
 #define MKTEMP_FILE	1
@@ -853,7 +868,7 @@ mktemp_internal(char *path, int slen, int mode)
 		}
 
 		switch (mode) {
-#ifdef POSXI		
+#ifdef POSIX
 		case MKTEMP_NAME:
 			if (lstat(path, &sb) != 0)
 				return(errno == ENOENT ? 0 : -1);
@@ -1186,5 +1201,71 @@ sleep(unsigned int seconds) {
 #else
 	#error(sleep undefined);
 #endif
+}
+#endif
+
+#ifdef MISSING_FUNC_VSNPRINTF
+
+int vsnprintf(char* str, size_t size, const char* format, va_list ap)
+{
+    int count = -1;
+
+    if (size != 0)
+        count = vsnprintf_s(str, size, _TRUNCATE, format, ap);
+    if (count == -1)
+        count = _vscprintf(format, ap);
+
+    return count;
+}
+#endif
+
+#ifdef MISSING_FUNC_SNPRINTF
+
+int snprintf(char* str, size_t size, const char* format, ...)
+{
+    int count;
+    va_list ap;
+
+    va_start(ap, format);
+    count = vsnprintf(str, size, format, ap);
+    va_end(ap);
+
+    return count;
+}
+
+
+#endif
+
+#ifdef MISSING_FUNC_STRCASECMP
+
+int
+strcasecmp(const char *s1, const char *s2) {
+  return stricmp(s1,s2);
+}
+
+#endif
+
+#ifdef MISSING_FUNC_STRNCASECMP
+
+int
+strncasecmp(const char *s1, const char *s2, size_t n) {
+  return strnicmp(s1,s2,n);
+}
+
+#endif
+
+#ifdef MISSING_FUNC_STRLCPY
+size_t
+strlcpy(char *dst, const char *src, size_t size)
+{
+    size_t length, copy;
+
+    length = strlen(src);
+    if (size > 0) {
+        copy = (length >= size) ? size - 1 : length;
+        memcpy(dst, src, copy);
+        dst[copy] = '\0';
+    }
+    return length;
 }
 #endif

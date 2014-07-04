@@ -38,6 +38,9 @@ zgetgd(char *name,
 #ifdef OSX_APP
       strcpy(name,"MAC");
 #endif
+#ifdef WIN32
+      strcpy(name, "WIN");
+#endif
     }
 
     for(i=strlen(name);i<name_len;i++)

@@ -59,6 +59,7 @@ getvvstring(char *vars,
   char *s2;
   var *v;
   *nerr = 0;
+  s2 = NULL;
   UNUSED(vars_s);
   UNUSED(name_s);
   s2 = NULL;
@@ -105,6 +106,7 @@ getvvstringZ(char *vars,
   char *s1;
   char *s2;
   *nerr = 0;
+  s2 = NULL;
   UNUSED(vars_s);
   UNUSED(name_s);
   s1 = upcase_dup(name);

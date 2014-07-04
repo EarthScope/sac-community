@@ -377,7 +377,7 @@ inigdm(int *nerr)
 #ifdef USE_X11
         initdevice3();
 #endif
-#ifdef __MINGW32__
+#ifdef WIN32
         initdevice_win();
 #endif
         

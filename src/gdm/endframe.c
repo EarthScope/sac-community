@@ -70,8 +70,8 @@ endframe(int  ldelay,
                 unlink(kmgd2.kfilename);
 
 		if ( ldelay )
-#ifdef WIN_APP
-      Sleep(6000);
+#ifdef WIN32
+        Sleep(6000);
 #else
 		    sleep( 6 ) ;
 #endif

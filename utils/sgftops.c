@@ -73,7 +73,7 @@
 
 #include <fcntl.h>
 #include <sys/types.h>
-#ifndef WIN_APPLICATION
+#ifndef WIN32
 #include <pwd.h>
 #endif
 #include <stdio.h>
@@ -215,7 +215,7 @@ int main(int argc, char *argv[]) {
     /* initialize buffer contents to nothing */
     memset(buffer, 0, nbuffer);
 
-#ifndef WIN_APPLICATION
+#ifndef WIN32
     /* get the info for the plot id label */
     pw = getpwuid(geteuid());
     if (pw != NULL && pw->pw_name != NULL) {

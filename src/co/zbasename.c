@@ -10,7 +10,7 @@
 #include "config.h"
 #include "co.h"
 
-#ifdef __MINGW32__
+#ifdef WIN32
 #include <windows.h>
 #include <shlobj.h>
 #endif
@@ -46,7 +46,7 @@ void
 zbasename(char *name,
           int   name_len) {
 
-#ifndef WIN_APP
+#ifndef WIN32
   char *aux = sacaux();
   if((int)strlen(aux) > name_len-1) {
     fprintf(stderr, "ERROR: Enviornment variable SACAUX too long: max: %d SACAUX: %d\n",
