@@ -7,7 +7,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
+#include "unistdx.h"
 
 #include "amf.h"
 #include "dff.h"

@@ -4,10 +4,9 @@
  * @brief  Write a SAC data file 
  * 
  */
-
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include "unistdx.h"
 
 #include "dff.h"
 #include "co.h"

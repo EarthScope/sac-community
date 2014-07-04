@@ -5,7 +5,7 @@
 #include <memory.h>
 #include <math.h>
 #include <float.h>
-#include <unistd.h>
+#include "unistdx.h"
 #include <ctype.h>
 
 #include "hdr.h"

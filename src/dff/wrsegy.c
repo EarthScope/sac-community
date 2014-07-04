@@ -4,13 +4,12 @@
  * @brief  Write a SEG-Y file
  * 
  */
-
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
 #include <fcntl.h>
 #include <ctype.h>
-#include <unistd.h>
+#include "unistdx.h"
 
 #include <limits.h>
 

@@ -4,10 +4,14 @@
  * @brief  To the current graphics frame
  *
  */
+#include "config.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include "unistdx.h"
+#ifdef WIN32
+#include <windows.h>
+#endif
 
 #include "gdm.h"
 #include "gem.h"
@@ -66,8 +70,11 @@ endframe(int  ldelay,
                 unlink(kmgd2.kfilename);
 
 		if ( ldelay )
+#ifdef WIN_APP
+      Sleep(6000);
+#else
 		    sleep( 6 ) ;
-
+#endif
 	    }
 
 	    cmgdm.lbegf = FALSE ;

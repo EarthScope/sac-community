@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include "unistdx.h"
 #include "config.h"
 
 #include "smMemory/smMemory.h"

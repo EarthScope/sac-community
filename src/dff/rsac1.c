@@ -4,10 +4,14 @@
  * @brief  Read an evenly spaced SAC file
  * 
  */
+#include "config.h"
 
 #include <sys/types.h>
+#include "unistdx.h"
+
+#ifndef WIN32
 #include <sys/uio.h>
-#include <unistd.h>
+#endif
 
 #include "amf.h"
 #include "dff.h"

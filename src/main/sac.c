@@ -4,24 +4,26 @@
  * @brief  Main execution loop, start here
  * 
  */
+#include "config.h"
 
 #include <stdio.h>
-#include <termcap.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
 
-#include <unistd.h>
-#include <execinfo.h>
-#include <signal.h>
+#ifndef WIN_APP
+#include <termcap.h>
 #include <getopt.h>
+#include <execinfo.h>
+#endif
+
+#include "unistdx.h"
+#include <signal.h>
 
 #include "mach.h"
 #include "exm.h"
 #include "bool.h"
 #include "select.h"
-
-#include "config.h"
 
 #include "bot.h"
 #include "ucf.h"
