@@ -26,6 +26,12 @@
 #include "SacHeader.h"
 #include "datetime.h"
 
+#ifdef WIN32
+#define pointer char *
+#else
+#define pointer void *
+#endif
+
 #define	MPOLES	30
 #define	MZEROS	30
 
@@ -88,7 +94,7 @@ void
 polezero_comment_string(char *p, pzmeta_t *meta, pzcomment_t *c) {
         char *pp;
         char **s;
-        s = (char **) ((char *) meta + c->off);
+        s = (char **) ((pointer) meta + c->off);
         if(*s) {
           free(*s);
           *s = NULL;
@@ -138,7 +144,7 @@ polezero_comment_float(char *p, pzmeta_t *meta, pzcomment_t *c) {
         int nerr;
         float *f;
         nerr = 1;
-        f = (float *) ((void *) meta + c->off);
+        f = (float *) ((pointer) meta + c->off);
         pp = polezero_comment_token( p );
         if(!pp || !*pp) {
           *f = 0.0;

@@ -69,7 +69,7 @@ zopenc(int  *pfd,
       mode=O_RDWR;
     }
 
-#ifdef __MINGW32__
+#ifdef WIN32
     mode = mode | O_BINARY;
 #endif
 
@@ -87,7 +87,7 @@ zopenc(int  *pfd,
     fname[i+1]='\0';
 
     if(*pnewfl) {
-#ifdef __MINGW32__
+#ifdef WIN32
       *pfd = open(fname, O_CREAT | O_TRUNC | O_WRONLY | O_BINARY, 0);
 #else
       *pfd = creat ( fname , 0 ) ; /* create file */

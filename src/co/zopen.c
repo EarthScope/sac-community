@@ -7,7 +7,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-
+#include <errno.h>
 #include "co.h"
 #include "bool.h"
 #include "dff.h"
@@ -112,8 +112,11 @@ zopen_sac(int  *nfu,
 		apcmsg( kname_c,kname_s );
 		if( noerr == 1 )
 		    apcmsg( "(Insufficient access rights.)",30 );
-		else
-		    apcmsg( "(System error occurred.)",25 );
+		else {
+      printf("error: %s\n", strerror(errno));
+      fflush(stdout);
+      apcmsg( "(System error occurred.)",25 );
+    }
 		goto L_8888;
 	    }
 	}

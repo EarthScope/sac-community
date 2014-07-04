@@ -152,9 +152,6 @@ L_9000:
 	apcmsg( "in INITCOMLISTS.",17 );
 	aplmsg( "Problems opening Command List:",31 );
 	apcmsg( kfile,MCPFN+1 );
-#ifdef WIN32
-  Sleep(3000);
-#endif
 	goto L_8888;
 
 L_9100:

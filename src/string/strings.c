@@ -38,6 +38,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <sys/types.h>
 #ifdef WIN32
 #include <io.h>
+#include <windows.h>
 #else
 #include <unistd.h>
 #endif
@@ -1195,7 +1196,7 @@ rindex(const char *s, int c) {
 #ifdef MISSING_FUNC_SLEEP
 unsigned int 
 sleep(unsigned int seconds) {
-#ifdef __MINGW32__
+#ifdef WIN32
 	Sleep(1000 * seconds);
 	return 0;
 #else

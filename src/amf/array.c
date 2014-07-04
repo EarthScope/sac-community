@@ -5,6 +5,12 @@
 #include <stddef.h>
 #include <string.h>
 
+#ifdef WIN32
+#define pointer char *
+#else
+#define pointer void *
+#endif
+
 struct xarray_header {
   size_t len;
   size_t nalloc;
@@ -16,7 +22,7 @@ struct xarray_header {
 struct xarray_header *
 xarray_header(void *a) {
   struct xarray_header *ah;
-  if(!a || !(ah = a - offsetof(struct xarray_header, buf))) {
+  if(!a || !(ah = (struct xarray_header *)((pointer) a - offsetof(struct xarray_header, buf)))) {
     return NULL;
   }
   return ah;
@@ -137,7 +143,7 @@ xarray_delete(void *a, int i) {
     return;
   }
   n = ah->len - 1 - i;
-  memmove(a + ah->size * i, a + ah->size * (i+1), ah->size * n);
+  memmove((pointer) a + ah->size * i, (pointer)a + ah->size * (i+1), ah->size * n);
   ah->len--;
 }
 
