@@ -181,6 +181,9 @@ void zwabs ( int *pfd,
              int pnwords, 
              int *pswords, 
              int *pnerr);
+char * getline_stdin();
+int tty_force(int getset);
+int use_tty();
 
 #if MISSING_FUNC_COPYSIGN
 double copysign(double x, double y);

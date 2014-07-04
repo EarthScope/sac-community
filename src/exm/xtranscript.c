@@ -13,6 +13,7 @@
 #include "bool.h"
 #include "select.h"
 #include "co.h"
+#include "sac_history.h"
 
 /** 
  * Execute the TRANSCRIPT command which controls the output of the session

@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <limits.h>
 
 #include "select.h"
 #include "bool.h"
@@ -137,8 +138,132 @@ AddToHistory(char *line) {
 void read_history(char *file) { }
 void stifle_history(int size) { }
 
-int
+char *
 AddToHistory(char *line) {
-	return TRUE;
+	return strdup(line);
 }
 #endif
+
+/** 
+ * @param SAC_HISTORY_MAX
+ *     1024
+ *     Maximum size of the internal sac history
+ */
+#define SAC_HISTORY_MAX 1024
+
+static int sac_history_size = SAC_HISTORY_MAX;
+
+/** 
+ * Set the internal history size 
+ * 
+ * @param value 
+ *    New history size 
+ *    - < 0 sets the value to its maximum [ SAC_HISTORY_MAX ]
+ */
+void
+history_size_set(int value) {
+  if (value <= 0) {
+    sac_history_size = INT_MAX;
+  } else {
+    sac_history_size = value;
+  }
+  return;
+}
+
+/** 
+ * Get the current history size
+ * 
+ * @return 
+ *    Current histroy size
+ *
+ * @see SAC_HISTORY_MAX
+ * @see history_size_set()
+ *
+ */
+int
+history_size() {
+  return sac_history_size;
+}
+
+
+static char *sac_history_filename = NULL;
+static int sac_history_loaded = FALSE;
+
+void
+sac_history_filename_free() {
+  FREE(sac_history_filename);
+}
+
+/** 
+ * Set the sac_history filename. Free any previous history name.
+ *    Copy the name if it is specified, otherwise derive the name
+ *    from the user's home directory and the variable SAC_HISTORY_FILE
+ * 
+ * @param name 
+ *    New file name for the sac history file
+ *
+ * @see SAC_HISTORY_FILE
+ *
+ */
+void
+sac_history_file_set(char *name) {
+  int len;
+  char *sachistory;
+  char *home;
+  if (sac_history_filename) {
+    /* Free previous, if any */
+    free(sac_history_filename);
+    sac_history_filename = NULL;
+  }
+  if (name) {
+    /* Duplicate for save -- never know whether static area pointed at! */
+    sac_history_filename = strdup(name);
+  } else {
+    /* Null name signifies default */
+    home = getenv("HOME");
+    if(home) {
+      len = strlen(home) + strlen(SAC_HISTORY_FILE) + 2;
+      sachistory = (char *)malloc(sizeof(char) * len);
+      sprintf(sachistory,"%s/%s", home, SAC_HISTORY_FILE);
+      sachistory[len-1] = '\0';
+    } else {
+      sachistory = NULL;
+    }
+    sac_history_filename = sachistory;
+  }
+}
+
+/** 
+ * Get the sac history filename
+ *
+ * @return 
+ *    File name for the sac history
+ */
+char *
+sac_history_file() {
+  return sac_history_filename;
+}
+
+/** 
+ * Load the sac history file from a file
+ * 
+ * @param where 
+ *    Filename to load the history from
+ *
+ */
+void
+sac_history_load(char *where) {
+  if(sac_history_loaded) {
+    return;
+  }
+  stifle_history( history_size() );
+  if(!where) {
+    where = sac_history_file();
+  }
+  if(where) {
+    read_history(where);
+  }
+  sac_history_loaded = TRUE;
+}
+
+

@@ -58,6 +58,8 @@
 #include "wild.h"
 #undef DOINITS
 
+#include "sac_history.h"
+
 /* external pager program we use to view help fils */
 char *pager;
 

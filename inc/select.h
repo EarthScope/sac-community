@@ -83,14 +83,5 @@ int select_loop(char *prmt, int prmtlen, char *msg, int msglen,
                 struct timeval *timeout, VCPFunction *func,
                 int stdin_on, int gui_on);
 #endif
-/** 
- * Return the current history file in sac
- */
-char * sac_history_file();
 
-int tty_force(int getset);
 int show_prompt_without_tty(int getset);
-int use_tty();
-void sac_history_load(char *where);
-void sac_history_file_set(char *name);
-char *sac_history_file();

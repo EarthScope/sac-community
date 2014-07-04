@@ -21,6 +21,7 @@
 #include "token.h"
 #include "cpf.h"
 #include "amf.h"
+#include "sac_history.h"
 
 void sac_vars_free();
 void saccommands_cleanup(eval *e);

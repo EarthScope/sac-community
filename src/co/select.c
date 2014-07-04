@@ -4,6 +4,8 @@
  * @brief  Control input from different sources
  * 
  */
+#include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -15,15 +17,10 @@
 #include <sys/stat.h>
 #include <limits.h>
 
-#include <unistd.h>
+#include "unistdx.h"
 #include <errno.h>
 
-#include "config.h"
-
-#ifdef USE_TERMIOS
-#include <termios.h>
-#endif /* USE_TERMIOS */
-
+#include "co.h"
 #include "string_utils.h"
 #include "proto.h"
 #include "bool.h"
@@ -34,47 +31,7 @@
 #include "gdm.h"
 #include "comlists.h"
 #include "debug.h"
-
-/** 
- * @param SAC_HISTORY_MAX
- *     1024
- *     Maximum size of the internal sac history
- */
-#define SAC_HISTORY_MAX 1024
-
-static int sac_history_size = SAC_HISTORY_MAX;
-
-/** 
- * Set the internal history size 
- * 
- * @param value 
- *    New history size 
- *    - < 0 sets the value to its maximum [ SAC_HISTORY_MAX ]
- */
-void
-history_size_set(int value) {
-  if (value <= 0) {
-    sac_history_size = INT_MAX;
-  } else {
-    sac_history_size = value;
-  }
-  return;
-}
-
-/** 
- * Get the current history size
- * 
- * @return 
- *    Current histroy size
- *
- * @see SAC_HISTORY_MAX
- * @see history_size_set()
- *
- */
-int
-history_size() {
-  return sac_history_size;
-}
+#include "sac_history.h"
 
 /** 
  * Set and Get a message from the command line
@@ -138,52 +95,6 @@ select_loop_continue(int w) {
   }
   return(flag);
 }
-
-int
-tty_force(int getset) {
-  static int use = -1;
-  if(getset != OPTION_GET) {
-    use = getset;
-  }
-  return use;
-}
-
-#ifdef USE_TERMIOS
-/**  
- * Determine if the tty (terminal) is in use.  The terminal is 
- *   normally disabled during scripts/
- * 
- * @return 
- *    - TRUE - Terminal is active
- *    - FALSE - Terminal is not active
- */
-int
-use_tty() {
-  static int use = -1;
-
-  if(use == -1 && tty_force(OPTION_GET) != -1) {
-    use = tty_force(OPTION_GET);
-  }
-
-  if(use == -1) {
-    struct termios t;
-    FILE *rl_instream = stdin;
-    if(tcgetattr(fileno(rl_instream), &t) == -1) {
-      /*      perror("tcgetattr warning:");*/
-      use = 0;
-    } else {
-      use = TRUE;
-    }
-  }
-  return(use);
-}
-#else
-int
-use_tty() {
-	return FALSE;
-}
-#endif /* TERMIOS */
-
 
 /** 
  * Fix a timeval structure; place extra microseconds into seconds
@@ -252,120 +163,6 @@ show_prompt_without_tty(int getset) {
     }
   }
   return flag;
-}
-
-static char *sac_history_filename = NULL;
-static int sac_history_loaded = FALSE;
-
-void
-sac_history_filename_free() {
-  FREE(sac_history_filename);
-}
-
-/** 
- * Set the sac_history filename. Free any previous history name.
- *    Copy the name if it is specified, otherwise derive the name
- *    from the user's home directory and the variable SAC_HISTORY_FILE
- * 
- * @param name 
- *    New file name for the sac history file
- *
- * @see SAC_HISTORY_FILE
- *
- */
-void
-sac_history_file_set(char *name) {
-  int len;
-  char *sachistory;
-  char *home;
-  if (sac_history_filename) {
-    /* Free previous, if any */
-    free(sac_history_filename);
-    sac_history_filename = NULL;
-  }
-  if (name) {
-    /* Duplicate for save -- never know whether static area pointed at! */
-    sac_history_filename = strdup(name);
-  } else {
-    /* Null name signifies default */
-    home = getenv("HOME");
-    if(home) {
-      len = strlen(home) + strlen(SAC_HISTORY_FILE) + 2;
-      sachistory = (char *)malloc(sizeof(char) * len);
-      sprintf(sachistory,"%s/%s", home, SAC_HISTORY_FILE);
-      sachistory[len-1] = '\0';
-    } else {
-      sachistory = NULL;
-    }
-    sac_history_filename = sachistory;
-  }
-}
-
-/** 
- * Get the sac history filename
- *
- * @return 
- *    File name for the sac history
- */
-char *
-sac_history_file() {
-  return sac_history_filename;
-}
-
-/** 
- * Load the sac history file from a file
- * 
- * @param where 
- *    Filename to load the history from
- *
- */
-void
-sac_history_load(char *where) {
-  stifle_history( history_size() );
-  if(where) {
-    read_history(where);
-  }
-  sac_history_loaded = TRUE;
-}
-
-char * 
-getline_stdin() {
-  char *line;
-  size_t lenmax, len;
-  int c;
-
-  lenmax = 2;
-  line = (char *) malloc(lenmax);
-  line[0] = 0;
-  len = 0;
-  if(line == NULL) {
-    return NULL;
-  }
-  while(1) {
-    c = fgetc(stdin);
-    if(c == EOF) {
-      free(line);
-      line = NULL;
-      return NULL;
-    }
-    if(len + 1 >= lenmax) { 
-      lenmax *= 2;
-      char *linep = (char *) realloc(line, lenmax);
-      if(linep == NULL) {
-        free(line);
-        line = NULL;
-        return NULL;
-      }
-      line = linep;
-    }
-    if(c == '\n') { /* Return on a newline */
-      break;
-    }
-    line[len]   = c;
-    line[len+1] = 0; /* String Terminator */
-    len++;
-  }
-  return line;
 }
 
 char *
@@ -508,6 +305,8 @@ is_single_match(char **s) {
   return FALSE;
 }
 
+#ifndef TERMIOS
+
 int
 is_directory(char *s) {
   struct stat stbuf;
@@ -517,7 +316,6 @@ is_directory(char *s) {
   return FALSE;
 }
 
-#ifndef TERMIOS
 char **
 sac_attempt_complete(const char *text, int start, int end) {
   char **matches;
@@ -540,7 +338,7 @@ sac_attempt_complete(const char *text, int start, int end) {
   }
   return matches;
 }
-
+#endif
 /** 
  * Select different input from a variety of sources. Primarilly 
  *    the command line (stdin) through readline/editline and the X11
@@ -582,9 +380,8 @@ select_loop(char *prmt, int prmtlen,
 
   UNUSED(prmtlen);
 
-  if(!sac_history_loaded) {
-    sac_history_load(sac_history_file());
-  }
+  sac_history_load(NULL);
+
   /* Show the Prompt */
   i = 0;
   while(prmt[i] != '$') {
@@ -696,4 +493,3 @@ select_loop(char *prmt, int prmtlen,
   return(0);
 }
 
-#endif /* __MINGW32__ */
