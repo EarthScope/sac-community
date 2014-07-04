@@ -6,7 +6,7 @@
  */
 
 #include <string.h>
-
+#include <stdlib.h>
 #include "co.h"
 #include "gem.h"
 #include "bool.h"

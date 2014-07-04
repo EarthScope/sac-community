@@ -4,7 +4,7 @@
  * @brief Begin a Plotting window
  *
  */
-
+#include <stdlib.h>
 #include "co.h"
 #include "gdm.h"
 #include "gam.h"

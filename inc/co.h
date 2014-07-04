@@ -39,10 +39,7 @@ int getline_sac ( FILE *pfd,
               int maxlen);
 short int izshft ( short int *pint, 
                    short int *pnumshft);
-int min ( int a, 
-	  int b);
-int max ( int a, 
-          int b);
+
 int isign ( int a, 
             int b);
 double sign ( double a, 
@@ -191,6 +188,16 @@ double copysign(double x, double y);
 
 #if MISSING_FUNC_ROUND
 double round(double x);
+#endif
+
+
+
+
+#ifndef HAVE_FUNC_MAX
+#define max(a,b) ( (a) > (b) ? (a) : (b) )
+#endif
+#ifndef HAVE_FUNC_MIN
+#define min(a,b) ( (a) < (b) ? (a) : (b) )
 #endif
 
 #endif /* _CO_H_ */

@@ -5,6 +5,7 @@
  * 
  */
 
+#include <stdlib.h>
 #include "msg.h"
 #include "bot.h"
 #include "co.h"

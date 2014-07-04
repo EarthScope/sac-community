@@ -1,6 +1,6 @@
 
 #include <string.h>
-
+#include <stdlib.h>
 #include "mach.h"
 #include "ncpf.h"
 #include "cpf.h"

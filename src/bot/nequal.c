@@ -6,7 +6,7 @@
  */
 
 #include <string.h>
-
+#include <stdlib.h>
 #include "bot.h"
 #include "co.h"
 

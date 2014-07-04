@@ -4,7 +4,7 @@
  * @brief Convert a color name
  */
 #include <string.h>
-
+#include <stdlib.h>
 #include "co.h"
 #include "mach.h"
 #include "gdm.h"

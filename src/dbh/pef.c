@@ -7,7 +7,7 @@
  */
 
 #include <string.h>
-
+#include <stdlib.h>
 #include "dbh.h"
 #include "co.h"
 #include "ucf.h"

@@ -1,4 +1,5 @@
 
+#include <stdlib.h>
 #include "co.h"
 #include "mach.h"
 #include "gdm.h"

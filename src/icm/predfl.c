@@ -1,6 +1,6 @@
 
 #include <string.h>
-
+#include <stdlib.h>
 #include "icm.h"
 #include "ucf.h"
 #include "co.h"

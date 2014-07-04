@@ -6,7 +6,7 @@
  */
 
 #include <string.h>
-
+#include <stdlib.h>
 #include "clf.h"
 #include "bool.h"
 #include "bot.h"

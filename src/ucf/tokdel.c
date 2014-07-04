@@ -4,7 +4,7 @@
  * @brief  Define token and message delimiters
  * 
  */
-
+#include <stdlib.h>
 #include "ucf.h"
 #include "tok.h"
 #include "co.h"

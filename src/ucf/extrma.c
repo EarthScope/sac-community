@@ -5,6 +5,7 @@
  * 
  */
 
+#include <stdlib.h>
 #include "ucf.h"
 #include "msg.h"
 #include "co.h"

@@ -6,7 +6,7 @@
  */
 
 #include <string.h>
-
+#include <stdlib.h>
 #include "exm.h"
 #include "msg.h"
 #include "bbs.h"

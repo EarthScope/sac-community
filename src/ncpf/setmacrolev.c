@@ -1,6 +1,6 @@
 
 #include <stdio.h>
-
+#include <stdlib.h>
 #include "ncpf.h"
 #include "cpf.h"
 #include "co.h"

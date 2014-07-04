@@ -1,4 +1,6 @@
 
+#include <stdlib.h>
+
 #include "co.h"
 #include "gdm.h"
 
