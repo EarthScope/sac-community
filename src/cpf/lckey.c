@@ -14,7 +14,7 @@
 #include "com.h"
 #include "bot.h"
 #include "co.h"
-
+#include "string_utils.h"
 #include "msg.h"
 
 #define	MCHECK	136

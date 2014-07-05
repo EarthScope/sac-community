@@ -32,6 +32,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <time.h>
 #include <ctype.h>
 #include <math.h>
+#include "string_utils.h"
 
 #include "datetime.h"
 

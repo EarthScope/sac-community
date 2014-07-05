@@ -93,9 +93,7 @@ int module, index, *nerr;
 		case 17: goto L_1700;
 		case 18: goto L_1800;
 
-#ifdef __STDC__
 		case 19: goto L_1900;
-#endif
       //case 20: goto L_2000;
 		}
 

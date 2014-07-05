@@ -10,6 +10,7 @@
 #include "gdm.h"
 #include "bot.h"
 #include "bool.h"
+#include "string_utils.h"
 
 /** 
  * Convert a color name to it's equivalent color number 

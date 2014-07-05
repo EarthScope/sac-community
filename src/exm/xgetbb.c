@@ -7,7 +7,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-
+#include "string_utils.h"
 #include "exm.h"
 #include "bbs.h"
 #include "msg.h"

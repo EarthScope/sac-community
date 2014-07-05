@@ -13,6 +13,13 @@
 void      SacWindowShow (SacView *view);
 SacView * SacWindow     (int id);
 void      SacWindowAdd  (int id);
+void      SacViewUpdate (SacView *view);
+void      SacViewAdd    (SacView *view, SacViewType type, ...);
+void      initsac       ();
+int       color_on      ();
+int       color_skeleton();
+int       color_foreground_default (void);
+
 
 extern SacViewWindows *wins;
 
@@ -119,7 +126,6 @@ win_create_window(int   *win_num,
                   float *ymin,
                   float *ymax,
                   int   *nerr) {
-    SacView *view;
     DEBUG("\n");
     *nerr = 0;
     if(!SacViewWindowsGetByID(wins, *win_num)) {

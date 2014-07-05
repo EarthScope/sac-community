@@ -12,7 +12,7 @@
 #include "msg.h"
 
 #include "errors.h"
-
+#include "string_utils.h"
 
 #include "ucf.h"
 

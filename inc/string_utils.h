@@ -117,21 +117,51 @@ char   * fgetsp(char *s, int n, FILE *stream);
 string * string_read(FILE *stream, int n);
 
 #ifdef MISSING_FUNC_VASPRINTF
-
 int  vasprintf(char **strp, const char *fmt, va_list args);
-int  asprintf(char **strp, const char *fmt, ...);
+#endif 
 
-#endif /* MISSING_FUNC_VASPRINTF */
 void debug(char *fmt, ...);
 
 #ifdef MISSING_FUNC_STRSEP
 char * strsep(char **stringp, const char *delim);
-#endif /* MISSING_FUNC_STRSEP */
+#endif 
 
 #ifdef MISSING_FUNC_MKSTEMPS
-int mkstempsp(char *path, int slen);
-#endif /* MISSING_FUNC_MKSTEMPS */
+int mkstemps(char *path, int slen);
+#endif 
 
 int  sscanff(char *inp, char *fmt, ...);
+
+#ifdef MISSING_FUNC_STRCASECMP
+int strcasecmp(const char *s1, const char *s2);
+#endif
+
+#ifdef MISSING_FUNC_INDEX
+char * index(const char *s, int c);
+#endif
+
+#ifdef MISSING_FUNC_RINDEX
+char * rindex(const char *s, int c);
+#endif
+
+#ifdef MISSING_FUNC_ASPRINTF
+int asprintf(char **strp, const char *fmt, ...);
+#endif
+
+#ifdef MISSING_FUNC_STRLCPY
+size_t strlcpy(char *dst, const char *src, size_t size);
+#endif
+
+#ifdef MISSING_FUNC_SNPRINTF
+int snprintf(char* str, size_t size, const char* format, ...);
+#endif
+
+#ifdef MISSING_FUNC_STRNCASECMP
+int strncasecmp(const char *s1, const char *s2, size_t n);
+#endif
+
+#ifdef MISSING_FUNC_SLEEP
+unsigned int sleep(unsigned int seconds);
+#endif
 
 #endif /* __STRING_UTILS_H__ */

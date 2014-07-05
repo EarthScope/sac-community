@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "string_utils.h"
 
 #include "msg.h"
 #include "select.h"
@@ -41,12 +42,12 @@ env_bool(char *env, int def) {
   if(env_string != NULL) {
     n = strlen(env_string);
     for(i = 0; i < (int)(sizeof(env_on)/sizeof(char *)); i++) {
-      if(strncasecmp(env_string, env_on[i], min(n, strlen(env_on[i]))) == 0) {
+      if(strncasecmp(env_string, env_on[i], min(n, (int)strlen(env_on[i]))) == 0) {
         return TRUE;
       }
     }
     for(i = 0; i < (int)(sizeof(env_off)/sizeof(char *)); i++) {
-      if(strncasecmp(env_string, env_off[i], min(n, strlen(env_off[i]))) == 0) {
+      if(strncasecmp(env_string, env_off[i], min(n, (int)strlen(env_off[i]))) == 0) {
         return FALSE;
       }
     }

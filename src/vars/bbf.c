@@ -42,6 +42,7 @@
 
 #include "vars.h"
 #include "bbf.h"
+#include "string_utils.h"
 
 static int verbose       = 0;
 static int library_use = 0;
@@ -64,7 +65,7 @@ bbf_set_library_use(int value) {
 }
 
 int
-bbf_error(int errno, char *fmt, ...) {
+bbf_error(int error, char *fmt, ...) {
   va_list ap;
   
   if(library_use) {
@@ -73,9 +74,8 @@ bbf_error(int errno, char *fmt, ...) {
     vfprintf(stderr, fmt, ap);
     va_end(ap);
     exit(-1);
-  } else {
-    return errno;
   }
+  return error;
 }
 
 

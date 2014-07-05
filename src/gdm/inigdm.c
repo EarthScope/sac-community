@@ -21,6 +21,13 @@
 
 #include "debug.h"
 
+#ifdef OSX_APP
+void initdevice_osx();
+#endif
+#ifdef WIN32
+void initdevice_win();
+#endif
+
 static display_t **gdm_devices;
 static int         gdm_size;
 static int         gdm_alloc;

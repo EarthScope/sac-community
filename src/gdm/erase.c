@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 #include "gdm.h"
-
+#include "string_utils.h"
 #include "cpf.h"
 
 /** 

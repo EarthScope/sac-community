@@ -9,6 +9,7 @@
 
 #include "config.h"
 #include "co.h"
+#include "string_utils.h"
 
 #ifdef WIN32
 #include <windows.h>

@@ -18,6 +18,7 @@
 #include "lhf.h"
 #include "SacHeader.h"
 #include "errors.h"
+#include "string_utils.h"
 
 static char *env_on[]  = {"on",  "true",  "yes", "1" };
 static char *env_off[] = {"off", "false", "no",  "0" };
@@ -32,12 +33,12 @@ sacio_message_control() {
       n = strlen(env_string);
       flag = FALSE;
       for(i = 0; i < (int)(sizeof(env_on)/sizeof(char *)); i++) {
-        if(strncasecmp(env_string, env_on[i], min(n, strlen(env_on[i]))) == 0) {
+        if(strncasecmp(env_string, env_on[i], min(n, (int)strlen(env_on[i]))) == 0) {
           flag = TRUE;
         }
       }
       for(i = 0; i < (int)(sizeof(env_off)/sizeof(char *)); i++) {
-        if(strncasecmp(env_string, env_off[i], min(n, strlen(env_off[i]))) == 0) {
+        if(strncasecmp(env_string, env_off[i], min(n, (int)strlen(env_off[i]))) == 0) {
           flag = FALSE;
         }
       }

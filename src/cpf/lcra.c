@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "string_utils.h"
 #include "cpf.h"
 #include "com.h"
 #include "bool.h"

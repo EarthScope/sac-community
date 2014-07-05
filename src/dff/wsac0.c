@@ -19,6 +19,8 @@
 #include "proto.h"
 #include "errors.h"
 #include "bool.h"
+#include "string_utils.h"
+
 extern sac *CURRENT;
 /** 
  * Determine the byte order of the machine
@@ -69,12 +71,12 @@ sac_byte_order(int getset) {
     if(env_string != NULL) {
       n = strlen(env_string);
       for(i = 0; i < (int)(sizeof(env_big)/sizeof(char *)); i++) {
-        if(strncasecmp(env_string, env_big[i], min(n, strlen(env_big[i]))) == 0) {
+        if(strncasecmp(env_string, env_big[i], min(n, (int)strlen(env_big[i]))) == 0) {
           getset = ENDIAN_BIG;
         }
       }
       for(i = 0; i < (int)(sizeof(env_little)/sizeof(char *)); i++) {
-        if(strncasecmp(env_string, env_little[i], min(n, strlen(env_little[i]))) == 0) {
+        if(strncasecmp(env_string, env_little[i], min(n, (int)strlen(env_little[i]))) == 0) {
           getset = ENDIAN_LITTLE;
         }
       }

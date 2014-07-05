@@ -11,7 +11,7 @@
 #include "com.h"
 #include "bool.h"
 #include "bot.h"
-
+#include "string_utils.h"
 
 #include "co.h"
 #include "ucf.h"

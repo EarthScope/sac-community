@@ -12,7 +12,7 @@
 #include "com.h"
 #include "bot.h"
 #include "bool.h"
-
+#include "string_utils.h"
 
 
 #include "ucf.h"

@@ -2019,7 +2019,7 @@ modelpath(char *name, char *ext, int upper) {
   int i;
   char *tmp, *model;
   tmp = strdup(name);
-  for(i = 0; i < strlen(tmp); i++) {
+  for(i = 0; i < (int)strlen(tmp); i++) {
     switch(upper){
     case 0: tmp[i] = toupper(tmp[i]);      break;
     case 1: tmp[i] = tolower(tmp[i]);      break;

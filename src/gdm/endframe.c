@@ -9,15 +9,13 @@
 #include <string.h>
 #include <stdlib.h>
 #include "unistdx.h"
-#ifdef WIN32
-#include <windows.h>
-#endif
 
 #include "gdm.h"
 #include "gem.h"
 #include "bool.h"
 #include "gam.h"
 #include "gd2.h"
+#include "string_utils.h"
 
 extern print_device_begin_t  print_device_begin;
 extern print_device_end_t    print_device_end;

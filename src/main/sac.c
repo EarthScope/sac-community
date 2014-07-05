@@ -35,6 +35,7 @@
 #include "ssi.h"
 #include "sac_history.h"
 #include "debug.h"
+#include "string_utils.h"
 
 void sac_command_line_options(int argc, char **argv);
 void sac_command_line_copyright(int argc, char **argv);

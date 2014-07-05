@@ -67,7 +67,9 @@ int select_loop_message(char *p, int len) {return 0;}
  */
 void 
 zquit() {
+#ifdef READLINE
   char *sachistory;
+#endif
   int nerr;
 
 	/* - Close and dispose of any output files. */

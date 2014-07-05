@@ -9,7 +9,7 @@
 
 #include "cnd.h"
 #include "bool.h"
-
+#include "string_utils.h"
 
 #include "ucf.h"
 #include "cpf.h"

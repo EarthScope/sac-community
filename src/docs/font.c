@@ -27,7 +27,7 @@ POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include <string.h>
-
+#include "string_utils.h"
 #include "font.h"
 
 #include "Courier-Bold.h"

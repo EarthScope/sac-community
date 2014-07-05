@@ -10,7 +10,7 @@
 #include "co.h"
 #include "gem.h"
 #include "bool.h"
-
+#include "string_utils.h"
 
 #include "cpf.h"
 

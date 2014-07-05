@@ -62,9 +62,9 @@ getbbv(char  *kname,
 	 nerr );
 	if( *nerr != 0 ) {
         if(callFromC) {
-            nc = max(0,min(kvalue_s-1, strlen("UNDEFINED")));
+            nc = max(0,min(kvalue_s-1, (int)strlen("UNDEFINED")));
         } else {
-            nc = max(0,min(kvalue_s,   strlen("UNDEFINED")));
+            nc = max(0,min(kvalue_s,   (int)strlen("UNDEFINED")));
         }
         strncpy( kvalue, "UNDEFINED", nc);
 	}

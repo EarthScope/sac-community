@@ -18,8 +18,8 @@ extern "C" {
     SacView *SacViewInit();
     void     SacViewDraw(SacView *view);
     void     win_set_current(SacView *view);
-    void     sleep(int seconds);
     char *   ImageToBounds(SacImage *im, SacRect bounds);
+    unsigned int sleep(unsigned int seconds);
 
     void     SacViewWindowsAdd(SacViewWindows *wins, SacView *view);
     SacView *SacViewWindowsGetByHandle(SacViewWindows *wins, HWND handle);
@@ -145,14 +145,14 @@ SacWindowShow(SacView *view) {
     }
 }
 
-int 
+int WINAPI
 WinMain(HINSTANCE hInstance,
         HINSTANCE hPrevInstance,
         LPSTR pCmdLine,
         int nCmdShow)  {
     
     WNDCLASS wc;
-    HWND hwnd;
+    /* HWND hwnd; */
     MSG msg;
 
     GdiplusStartupInput gdiplusStartupInput;

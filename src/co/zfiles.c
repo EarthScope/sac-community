@@ -22,6 +22,7 @@
 #include "msg.h"
 
 #include "errors.h"
+#include "string_utils.h"
 
 /** 
  * Obtain a list of files in a directory given a regualr expression.
@@ -67,11 +68,11 @@ zfiles(char  *kdirin,
 
     char *command;
     string_list *files;
-    int i;
 #ifdef WIN32
     WIN32_FIND_DATA FindFileData;
     HANDLE hFind;
 #else
+    int i;
     glob_t g;
 #endif
 

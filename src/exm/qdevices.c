@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include "string_utils.h"
 
 #include "eam.h"
 #include "msg.h"

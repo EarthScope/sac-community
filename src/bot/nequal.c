@@ -42,7 +42,7 @@ nequal(char *ksrch,
 	for ( jdx = 1 ; jdx <= nlist ; jdx++ ) {
 		jdx_ = jdx - 1 ;
 		if( memcmp ( ksrch , KLIST ( jdx_ , 0 ) ,
-		    min ( strlen ( ksrch ) , klist_s ) ) == 0 ) {
+      min ( (int)strlen ( ksrch ) , klist_s ) ) == 0 ) {
 			nequal_v = jdx ;
 			return( nequal_v ) ;
 		}

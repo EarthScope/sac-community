@@ -623,6 +623,9 @@ vasprintf(char **strp, const char *fmt, va_list args) {
   *strp = NULL;
   return status;
 }
+#endif
+
+#ifdef MISSING_FUNC_ASPRINTF
 
 int 
 asprintf(char **strp, const char *fmt, ...) {
@@ -844,12 +847,14 @@ mktemp_internal(char *path, int slen, int mode)
 	char *start, *cp, *ep;
 	const char *tempchars = TEMPCHARS;
 	unsigned int r, tries;
+#ifdef POSIX
 	struct stat sb;
+#endif
 	size_t len;
 	int fd;
 
 	len = strlen(path);
-	if (len == 0 || slen >= len) {
+	if (len == 0 || slen >= (int)len) {
 		errno = EINVAL;
 		return(-1);
 	}
@@ -914,7 +919,7 @@ mkstemps(char *path, int slen)
  #define LLONG      0x00010 /* ll: long long  */
  #define POINTER    0x00020 /* p: void * */
  #define SIZEINT    0x00040 /* z: size_t */
- #define MAXINT     0x00080 /* j: intmax_t */
+ /* #define MAXINT     0x00080 / * j: intmax_t * /*/
  #define PTRINT     0x00100 /* t: ptrdiff_t */
  #define NOSKIP     0x00200 /* [ or c: do not skip blanks */
  #define SUPPRESS   0x00400 /* *: suppress assignment */

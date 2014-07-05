@@ -50,7 +50,7 @@ lcquot(int   mquot,
   UNUSED(kquot_s);
 
   if((t = arg()) && token_is_quoted_string(t)) {
-    *nquot = min(strlen(t->str), mquot);
+    *nquot = min((int)strlen(t->str), mquot);
     strncpy(kquot, t->str, *nquot);
     kquot[*nquot] = 0;
     arg_next();
