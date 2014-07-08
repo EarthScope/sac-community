@@ -60,6 +60,9 @@
 /* System Libraries define sleep */
 #undef HAVE_FUNC_SLEEP
 
+/* System Libraries define strlcpy */
+#undef HAVE_FUNC_STRLCPY
+
 /* System Libraries define strsep */
 #undef HAVE_FUNC_STRSEP
 
@@ -182,6 +185,9 @@
 
 /* System Libraries missing sleep */
 #undef MISSING_FUNC_SLEEP
+
+/* System Libraries missing strlcpy */
+#undef MISSING_FUNC_STRLCPY
 
 /* System Libraries missing strsep */
 #undef MISSING_FUNC_STRSEP

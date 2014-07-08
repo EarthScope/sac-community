@@ -9171,6 +9171,17 @@ $as_echo "#define MISSING_FUNC_SLEEP 1" >>confdefs.h
 
 fi
 
+ac_fn_c_check_func "$LINENO" "strlcpy" "ac_cv_func_strlcpy"
+if test "x$ac_cv_func_strlcpy" = xyes; then :
+
+$as_echo "#define HAVE_FUNC_STRLCPY 1" >>confdefs.h
+
+else
+
+$as_echo "#define MISSING_FUNC_STRLCPY 1" >>confdefs.h
+
+fi
+
 
 if test x$use_x11 == xon ; then
 

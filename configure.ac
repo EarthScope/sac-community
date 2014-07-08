@@ -229,7 +229,7 @@ AC_CHECK_FUNC(toupper,   [ AC_DEFINE( [HAVE_FUNC_TOUPPER],       [1], [ System L
                          [ AC_DEFINE( [MISSING_FUNC_TOUPPER],    [1], [ System Libraries missing toupper ]) ]  )
 AC_CHECK_FUNC(strtof,    [ AC_DEFINE( [HAVE_FUNC_STRTOF],        [1], [ System Libraries define strtof ]) ] )
 AC_DEFUN([SETENV_ON],    [ AC_DEFINE( [HAVE_FUNC_SETENV],        [1], [ System Libraries define setenv ]) ])
-AC_DEFUN([PUTENV_ON],    [ AC_DEFINE( [HAVE_FUNC_PUTENV], [1], [ System Libraries define putenv ]) ])
+AC_DEFUN([PUTENV_ON],    [ AC_DEFINE( [HAVE_FUNC_PUTENV],        [1], [ System Libraries define putenv ]) ])
 AC_DEFUN([MISSING_SETPUT], [ AC_MSG_FAILURE( [ System does have a working setenv or putenv function ] ) ] )
 AC_CHECK_FUNC(setenv, [ SETENV_ON ], [ AC_CHECK_FUNC(putenv,  [ PUTENV_ON ], [ MISSING_SETPUT ]) ] )
 AC_CHECK_FUNC(vasprintf, [ AC_DEFINE( [HAVE_FUNC_VASPRINTF],     [1], [ System Libraries define vasprintf ]) ],
@@ -239,13 +239,15 @@ AC_CHECK_FUNC(strsep,    [ AC_DEFINE( [HAVE_FUNC_STRSEP],        [1], [ System L
 AC_CHECK_FUNC(mkstemps,  [ AC_DEFINE( [HAVE_FUNC_MKSTEMPS],      [1], [ System Libraries define mkstemps ]) ],
                          [ AC_DEFINE( [MISSING_FUNC_MKSTEMPS],   [1], [ System Libraries missing mkstemps ]) ]  )
 AC_CHECK_FUNC(bzero,     [ AC_DEFINE( [HAVE_FUNC_BZERO],         [1], [ System Libraries define bzero ]) ],
-						 [ AC_DEFINE( [MISSING_FUNC_BZERO],      [1], [ System Libraries missing bzero ]) ] )
+					            	 [ AC_DEFINE( [MISSING_FUNC_BZERO],      [1], [ System Libraries missing bzero ]) ] )
 AC_CHECK_FUNC(index,     [ AC_DEFINE( [HAVE_FUNC_INDEX],         [1], [ System Libraries define index ]) ],
-						 [ AC_DEFINE( [MISSING_FUNC_INDEX],      [1], [ System Libraries missing index ]) ] )
+            						 [ AC_DEFINE( [MISSING_FUNC_INDEX],      [1], [ System Libraries missing index ]) ] )
 AC_CHECK_FUNC(rindex,    [ AC_DEFINE( [HAVE_FUNC_RINDEX],        [1], [ System Libraries define rindex ]) ],
-						 [ AC_DEFINE( [MISSING_FUNC_RINDEX],     [1], [ System Libraries missing rindex ]) ] )
+    			        			 [ AC_DEFINE( [MISSING_FUNC_RINDEX],     [1], [ System Libraries missing rindex ]) ] )
 AC_CHECK_FUNC(sleep,     [ AC_DEFINE( [HAVE_FUNC_SLEEP],         [1], [ System Libraries define sleep ]) ],
-						 [ AC_DEFINE( [MISSING_FUNC_SLEEP],      [1], [ System Libraries missing sleep ]) ] )
+						             [ AC_DEFINE( [MISSING_FUNC_SLEEP],      [1], [ System Libraries missing sleep ]) ] )
+AC_CHECK_FUNC(strlcpy,   [ AC_DEFINE( [HAVE_FUNC_STRLCPY],         [1], [ System Libraries define strlcpy ]) ],
+            						 [ AC_DEFINE( [MISSING_FUNC_STRLCPY],      [1], [ System Libraries missing strlcpy ]) ] )
 
 if test x$use_x11 == xon ; then
    AC_DEFINE([USE_X11],[1],[Use X11 as a Graphics Device])
