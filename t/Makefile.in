@@ -91,19 +91,18 @@ TESTS = use_sac$(EXEEXT) ucf$(EXEEXT) vars$(EXEEXT) sacio$(EXEEXT) \
 	testsuite/input/alpha.sm testsuite/input/apk.sm \
 	testsuite/input/arraymap.sm testsuite/input/axes.sm \
 	testsuite/input/bandpass.sm testsuite/input/bandrej.sm \
-	testsuite/input/begindevices.sm testsuite/input/beginwindow.sm \
-	testsuite/input/benioff.sm testsuite/input/binoperr.sm \
-	testsuite/input/border.sm testsuite/input/ch.sm \
-	testsuite/input/color.sm testsuite/input/comcor.sm \
-	testsuite/input/comment.sm testsuite/input/contour.sm \
-	testsuite/input/convolve.sm testsuite/input/copyhdr.sm \
-	testsuite/input/correlate.sm testsuite/input/css.sm \
-	testsuite/input/cut.sm testsuite/input/cuterr.sm \
-	testsuite/input/cutim.sm testsuite/input/decimate.sm \
-	testsuite/input/deletechannel.sm testsuite/input/dif.sm \
-	testsuite/input/div.sm testsuite/input/divf.sm \
-	testsuite/input/divomega.sm testsuite/input/echo.sm \
-	testsuite/input/empty.sm testsuite/input/enddevices.sm \
+	testsuite/input/beginwindow.sm testsuite/input/benioff.sm \
+	testsuite/input/binoperr.sm testsuite/input/border.sm \
+	testsuite/input/ch.sm testsuite/input/color.sm \
+	testsuite/input/comcor.sm testsuite/input/comment.sm \
+	testsuite/input/contour.sm testsuite/input/convolve.sm \
+	testsuite/input/copyhdr.sm testsuite/input/correlate.sm \
+	testsuite/input/css.sm testsuite/input/cut.sm \
+	testsuite/input/cuterr.sm testsuite/input/cutim.sm \
+	testsuite/input/decimate.sm testsuite/input/deletechannel.sm \
+	testsuite/input/dif.sm testsuite/input/div.sm \
+	testsuite/input/divf.sm testsuite/input/divomega.sm \
+	testsuite/input/echo.sm testsuite/input/empty.sm \
 	testsuite/input/envelope.sm testsuite/input/erase.sm \
 	testsuite/input/escape.sm testsuite/input/evaluate.sm \
 	testsuite/input/evaluate2.sm testsuite/input/exp.sm \
@@ -135,18 +134,18 @@ TESTS = use_sac$(EXEEXT) ucf$(EXEEXT) vars$(EXEEXT) sacio$(EXEEXT) \
 	testsuite/input/readgse.sm testsuite/input/readhdr.sm \
 	testsuite/input/readsdd.sm testsuite/input/readsp.sm \
 	testsuite/input/readtable.sm testsuite/input/replace.sm \
-	testsuite/input/report.sm testsuite/input/reverse.sm \
-	testsuite/input/rmean.sm testsuite/input/rms.sm \
-	testsuite/input/rotate.sm testsuite/input/rq.sm \
-	testsuite/input/rtrend.sm testsuite/input/sam_error.sm \
-	testsuite/input/scallop.sm testsuite/input/segy.sm \
-	testsuite/input/setbb.sm testsuite/input/sgf.sm \
-	testsuite/input/smooth.sm testsuite/input/sort.sm \
-	testsuite/input/spe.sm testsuite/input/spectrogram.sm \
-	testsuite/input/sqr.sm testsuite/input/sqrt.sm \
-	testsuite/input/sss.sm testsuite/input/stretch.sm \
-	testsuite/input/sub.sm testsuite/input/subf.sm \
-	testsuite/input/symbol.sm testsuite/input/synchronize.sm \
+	testsuite/input/reverse.sm testsuite/input/rmean.sm \
+	testsuite/input/rms.sm testsuite/input/rotate.sm \
+	testsuite/input/rq.sm testsuite/input/rtrend.sm \
+	testsuite/input/sam_error.sm testsuite/input/scallop.sm \
+	testsuite/input/segy.sm testsuite/input/setbb.sm \
+	testsuite/input/sgf.sm testsuite/input/smooth.sm \
+	testsuite/input/sort.sm testsuite/input/spe.sm \
+	testsuite/input/spectrogram.sm testsuite/input/sqr.sm \
+	testsuite/input/sqrt.sm testsuite/input/sss.sm \
+	testsuite/input/stretch.sm testsuite/input/sub.sm \
+	testsuite/input/subf.sm testsuite/input/symbol.sm \
+	testsuite/input/synchronize.sm \
 	testsuite/input/systemcommand.sm testsuite/input/taper.sm \
 	testsuite/input/test_break.sm testsuite/input/test_do.sm \
 	testsuite/input/test_if.sm testsuite/input/test_macro.sm \
@@ -170,8 +169,14 @@ TESTS = use_sac$(EXEEXT) ucf$(EXEEXT) vars$(EXEEXT) sacio$(EXEEXT) \
 	testsuite/input/yvport.sm testsuite/input/zaddf.sm \
 	testsuite/input/zam.sm testsuite/input/zfft.sm \
 	testsuite/input/zifft.sm testsuite/input/zprocessline.sm \
-	testsuite/input/zzzzcd.sm
+	testsuite/input/zzzzcd.sm $(am__append_6)
 @HAVE_FC_TRUE@am__append_5 = sacio_fortran.sh saciof saclibf
+
+# These tests have specific calls to the X11 device
+@X11_APP_TRUE@am__append_6 = testsuite/input/begindevices.sm \
+@X11_APP_TRUE@testsuite/input/report.sm \
+@X11_APP_TRUE@testsuite/input/enddevices.sm
+
 subdir = t
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/config/test-driver

@@ -119,7 +119,6 @@ testsuite/input/arraymap.sm \
 testsuite/input/axes.sm \
 testsuite/input/bandpass.sm \
 testsuite/input/bandrej.sm \
-testsuite/input/begindevices.sm \
 testsuite/input/beginwindow.sm \
 testsuite/input/benioff.sm \
 testsuite/input/binoperr.sm \
@@ -144,7 +143,6 @@ testsuite/input/divf.sm \
 testsuite/input/divomega.sm \
 testsuite/input/echo.sm \
 testsuite/input/empty.sm \
-testsuite/input/enddevices.sm \
 testsuite/input/envelope.sm \
 testsuite/input/erase.sm \
 testsuite/input/escape.sm \
@@ -207,7 +205,6 @@ testsuite/input/readsdd.sm \
 testsuite/input/readsp.sm \
 testsuite/input/readtable.sm \
 testsuite/input/replace.sm \
-testsuite/input/report.sm \
 testsuite/input/reverse.sm \
 testsuite/input/rmean.sm \
 testsuite/input/rms.sm \
@@ -278,6 +275,12 @@ testsuite/input/zifft.sm \
 testsuite/input/zprocessline.sm \
 testsuite/input/zzzzcd.sm
 
+# These tests have specific calls to the X11 device
+if X11_APP
+TESTS += testsuite/input/begindevices.sm \
+testsuite/input/report.sm \
+testsuite/input/enddevices.sm
+endif
 
 SM_LOG_COMPILER = $(top_srcdir)/t/pytest.py
 AM_SM_LOG_FLAGS = -s "$(abs_builddir)/$(SACBIN)" -o "${abs_top_srcdir}/t/testsuite/output" --test
