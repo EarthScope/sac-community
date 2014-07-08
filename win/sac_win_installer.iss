@@ -23,8 +23,8 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
-LicenseFile=Z:\Bits\sac\git\License
-OutputDir=Z:\Bits\sac\git\win
+LicenseFile=..\License
+OutputDir=.\
 OutputBaseFilename=sac-{#MyAppVersion}-win32
 Compression=lzma
 SolidCompression=yes
@@ -36,8 +36,8 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "Z:\Bits\sac\git\win\{#MyConfig}\sac.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "Z:\Bits\sac\git\win\{#MyConfig}\winaux\*"; DestDir: "{app}\winaux"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: ".\{#MyConfig}\sac.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\{#MyConfig}\winaux\*"; DestDir: "{app}\winaux"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
