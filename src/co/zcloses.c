@@ -25,7 +25,7 @@
 void 
 zcloses(FILE **nfu, 
 	int   *nerr) {
-  if(nfu) {
+  if(*nfu) {
     *nerr = fclose(*nfu);
   }
 }
