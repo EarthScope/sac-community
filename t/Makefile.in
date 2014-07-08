@@ -687,10 +687,10 @@ AUTOMAKE_OPTIONS = no-dependencies #dejagnu
 
 @OSX_APP_TRUE@SACBIN = ../Sac.app/Contents/MacOS/sac-osx-gui
 @X11_APP_TRUE@SACBIN = ../src/sac
-LDADD = -L../src/ -lsac_all -levalresp -lSMnonOracleFuncs \
-	-lSacOracleStubFuncs $(am__append_1) $(X_PRE_LIBS) \
-	$(X_EXTRA_LIBS) $(X_LIBS) $(SAC_GRAPHICS) $(FORMAT_LIBS) -lX11 \
-	-L. -lunit
+LDADD = -L../src/ -lsac_all -lturtle -lsac_all -levalresp \
+	-lSMnonOracleFuncs -lSacOracleStubFuncs $(am__append_1) \
+	$(X_PRE_LIBS) $(X_EXTRA_LIBS) $(X_LIBS) $(SAC_GRAPHICS) \
+	$(FORMAT_LIBS) -lX11 -L. -lunit
 FORMAT_LIBS = $(xpm_LIBS) $(png_LIBS) $(zlib_LIBS) $(xft_LIBS)
 #SAC_GRAPHICS     += -lsac_osx
 SAC_GRAPHICS = -L.. $(am__append_3) -lsgf -lturtle -lsac_all

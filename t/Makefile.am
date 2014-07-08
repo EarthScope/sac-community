@@ -25,7 +25,7 @@ CFLAGS          += $(DEBUG) $(COVERAGE) $(OPTIM) -Wall \
 		   -I$(top_srcdir)/inc \
 		   -DTOP_SRCDIR=\"$(top_srcdir)\"
 
-LDADD            = -L../src/ -lsac_all \
+LDADD            = -L../src/ -lsac_all -lturtle -lsac_all \
                    -levalresp \
                    -lSMnonOracleFuncs \
                    -lSacOracleStubFuncs 
