@@ -18,8 +18,10 @@ Pausing
           b = 0.000000e+00
           e = 3.996000e+01
       delta = 4.000000e-02
- psp am ; period pause 0.25
- psp ph ; period pause 0.25
+ psp am ; pause period 0.25
+Pausing
+ psp ph ; pause period 0.25
+Pausing
  read test_fd.imp
  lh
   
@@ -67,8 +69,10 @@ Pausing
           b = 0.000000e+00
           e = 3.996000e+01
       delta = 4.000000e-02
- psp am ; period pause 0.25
- psp ph ; period pause 0.25
+ psp am ; pause period 0.25
+Pausing
+ psp ph ; pause period 0.25
+Pausing
  read test_fd.imp
  lh
   
@@ -116,8 +120,10 @@ Pausing
           b = 0.000000e+00
           e = 3.996000e+01
       delta = 4.000000e-02
- psp am ; period pause 0.25
- psp ph ; period pause 0.25
+ psp am ; pause period 0.25
+Pausing
+ psp ph ; pause period 0.25
+Pausing
  read test_fd.imp
  lh
   
@@ -165,8 +171,10 @@ Pausing
           b = 0.000000e+00
           e = 3.996000e+01
       delta = 4.000000e-02
- psp am ; period pause 0.25
- psp ph ; period pause 0.25
+ psp am ; pause period 0.25
+Pausing
+ psp ph ; pause period 0.25
+Pausing
  read test_fd.imp
  lh
   

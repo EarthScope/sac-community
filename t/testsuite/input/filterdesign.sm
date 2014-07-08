@@ -3,8 +3,8 @@ fd file test_fd hp c 2 n 6 p 2 delta 0.025
 pause period 0.25
 read test_fd.spec
 lh depmin depmax depmen iftype b e delta
-psp am ; period pause 0.25
-psp ph ; period pause 0.25
+psp am ; pause period 0.25
+psp ph ; pause period 0.25
 read test_fd.imp
 lh
 read test_fd.gd
@@ -14,8 +14,8 @@ fd file test_fd lp c 10 n 6 p 2 delta 0.025
 pause period 0.25
 read test_fd.spec
 lh depmin depmax depmen iftype b e delta
-psp am ; period pause 0.25
-psp ph ; period pause 0.25
+psp am ; pause period 0.25
+psp ph ; pause period 0.25
 read test_fd.imp
 lh
 read test_fd.gd
@@ -25,8 +25,8 @@ fd file test_fd br c 2 10 n 6 p 2 delta 0.025
 pause period 0.25
 read test_fd.spec
 lh depmin depmax depmen iftype b e delta
-psp am ; period pause 0.25
-psp ph ; period pause 0.25
+psp am ; pause period 0.25
+psp ph ; pause period 0.25
 read test_fd.imp
 lh
 read test_fd.gd
@@ -36,8 +36,8 @@ fd file test_fd bp c 2 10 n 6 p 2 delta 0.025
 pause period 0.25
 read test_fd.spec
 lh depmin depmax depmen iftype b e delta
-psp am ; period pause 0.25
-psp ph ; period pause 0.25
+psp am ; pause period 0.25
+psp ph ; pause period 0.25
 read test_fd.imp
 lh
 read test_fd.gd
