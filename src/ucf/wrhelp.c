@@ -67,9 +67,6 @@ wrhelp(char *ktoken,
   UNUSED(imode);
 	*nerr = 0;
 
-	/* - Activate automatic output message mode. */
-	autooutmsg( TRUE );
-
 	/* - Open requested help package. */
 	ophelp(ktoken, ktoken_s, &nun, kfilename, nerr);
 	if( *nerr != 0 )
@@ -92,7 +89,7 @@ wrhelp(char *ktoken,
 	    system ( kcommand ) ;
 	    goto L_6000 ;
 	}
-
+  fflush(stdout);
 	if (pager) {
 	    external_pager(kfilename);
 	    goto L_6000;
@@ -118,8 +115,6 @@ L_6000:
 	 *   (2) user requests that remainder of file not be printed. */
 	zcloses( &nun, &ncerr );
 
-	/* - Deactivate automatic output message mode. */
-	autooutmsg( FALSE );
 
 L_8888:
 	return;
@@ -137,7 +132,7 @@ L_8888:
 int 
 internal_pager(FILE *nun) {
     char kmsg[MCMSG+1], kerase[41];
-    int nlw = 0, numsave, nlscrn;
+    int nlw = 0, nlscrn;
     char kresp[9];
 
     /* - Set the message type */
@@ -155,16 +150,12 @@ internal_pager(FILE *nun) {
 		return 0;
 	    return -1;
 	}
-	numsave = strlen(kmsg) - 1;
-	if(kmsg[numsave] == '\n')
-	    kmsg[numsave] = ' ';
-
-	aplmsg(kmsg,MCMSG + 1);
+  printf("%s", kmsg);
 	nlw = nlw + 1;
 
 	/* -- After a screen full of info, see if user wants to see more. */
 	if( nlw > (nlscrn - 2) ){
-	    outmsg();
+      outmsg();
 	    clrmsg();
 	    setmsg("OUTPUT", 99);
 	    zgpmsg("More? $", 8, kresp, 9);

@@ -72,11 +72,11 @@ xpause(int *nerr) {
       fflush(stdout);
     }
 		zsleep( cmexm.nperio );
+    fprintf(stdout,"\n");
 	}
 	else{
 		zgtmsg( kmexm.kpause,MCMSG+1, kret,9 );
 	}
-
 
 	return;
 }

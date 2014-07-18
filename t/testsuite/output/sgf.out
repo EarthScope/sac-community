@@ -12,35 +12,35 @@
  fg
  bd sgf
  p1
-test.sgf.001.sgf
  ls -1 test.sgf.*
+test.sgf.001.sgf
   
  ==>  
  message "SGF Number"
  SGF Number
  sgf number 10
  p1
+ ls -1 test.sgf.*
 test.sgf.001.sgf
 test.sgf.010.sgf
- ls -1 test.sgf.*
   
  ==>  
  message "SGF Directory - Directory Current is a bug"
  SGF Directory - Directory Current is a bug
  sgf directory .
  p1
+ ls -1 test.sgf.*
 test.sgf.001.sgf
 test.sgf.010.sgf
- ls -1 test.sgf.*
   
  ==>  
  message "SGF Size Normal"
  SGF Size Normal
  sgf size normal
  p1
+ ls -1 test.sgf.*
 test.sgf.001.sgf
 test.sgf.010.sgf
- ls -1 test.sgf.*
   
  ==>  
  message "SGF Overwrite Off"
@@ -48,9 +48,9 @@ test.sgf.010.sgf
  sgf overwrite off
  sgf number 10
  p1
+ ls -1 test.sgf.*
 test.sgf.001.sgf
 test.sgf.010.sgf
- ls -1 test.sgf.*
   
  ==>  
  quit

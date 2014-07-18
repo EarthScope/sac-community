@@ -5,6 +5,8 @@
  message hi
  hi
  transcript close
-test.transcript.m
- ls test.transcript.m
+ cat test.transcript.m
+ message hi
+ hi
+ transcript close
  quit

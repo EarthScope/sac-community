@@ -9,7 +9,8 @@
 
 #include "co.h"
 #include "bool.h"
- 
+#include "string_utils.h"
+
 #ifndef READLINE
 
 /** 
@@ -17,11 +18,7 @@
  */ 
 void
 zsleep(int timeout) {
-        int i, j;
- 
-	for (i = 0; i < timeout; ++i)
-		for (j=0; j<364; ++j);		/* 1 millisecond loop */
-	return;
+  sleep(timeout / 1000.0);
 }
  
 #else 
@@ -86,7 +83,6 @@ zsleep(int timeout) {
                 &time, process_line, FALSE, TRUE);
   }
   
-  fprintf(stdout,"\n");
   rl_callback_handler_remove(); /* Returns Prompt */
   
 }

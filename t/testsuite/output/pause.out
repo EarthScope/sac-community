@@ -2,7 +2,10 @@
   
  ==>  
  pause
-  
+Pausing   
+ ==>  
+ pause period off
+Pausing   
  ==>  
  pause period 5
 Pausing
@@ -11,11 +14,18 @@ Pausing
  pause message "Pause Message" period 1
 Pause Message
  pause message "Pause Message" period off
+Pause Message   
+ ==>  
+ pause message "Pause Message" period on
+Pause Message
   
  ==>  
  pause period string
  ERROR interpreting command:  pause period string 
  NEED AN "ON", AN "OFF", OR A REAL:               ^
+Pause Message
+  
+ ==>  
   
  ==>  
   

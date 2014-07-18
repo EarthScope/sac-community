@@ -4,6 +4,7 @@
  * @brief  Execute a system command
  * 
  */
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "co.h"
@@ -55,6 +56,8 @@ zsysop(char *comstr,
 	if (system_local(comstr) != -1)
 	  return;
 #else
+  fflush(stdout);
+  fflush(stderr);
 	if (system(comstr) != -1)
 	  return;
 #endif

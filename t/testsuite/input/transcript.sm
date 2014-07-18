@@ -2,4 +2,4 @@
 transcript contents all file test.transcript.m
 message hi
 transcript close
-ls test.transcript.m
+cat test.transcript.m

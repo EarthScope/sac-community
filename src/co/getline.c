@@ -8,7 +8,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "unistdx.h"
 #ifdef USE_TERMIOS
 #include <termios.h>
 #endif /* USE_TERMIOS */
@@ -16,6 +16,8 @@
 #include "select.h"
 #include "debug.h"
 #include "co.h"
+
+
 
 /** 
  * Read a line from a file descriptor and null terminate
@@ -141,7 +143,11 @@ use_tty() {
 #else
 int
 use_tty() {
-	return FALSE;
+#ifdef WIN32
+  return _isatty(_fileno(stdin));
+#else
+  return isatty(fileno(stdin));
+#endif
 }
 #endif /* TERMIOS */
 

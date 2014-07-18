@@ -1,4 +1,5 @@
  wait text off
+ help
 
 Help Introduction
 +++++++++++++++++
@@ -148,9 +149,9 @@ the help subdirectory of the $SACAUX directory.
 The contents of this file are in $SACAUX/help/hlpintro.
 
 Please report any problems to sac-help@iris.washington.edu.
- help
   
  ==>  
+ h
 
 Help Introduction
 +++++++++++++++++
@@ -300,13 +301,13 @@ the help subdirectory of the $SACAUX directory.
 The contents of this file are in $SACAUX/help/hlpintro.
 
 Please report any problems to sac-help@iris.washington.edu.
- h
   
  ==>  
  help nothing
  No help information is available for nothing
   
  ==>  
+ help help
 
 HELP
 ++++
@@ -387,9 +388,9 @@ LATEST REVISION
 ---------------
   November 13, 1998 (Version 0.58)
 
- help help
   
  ==>  
+ h help
 
 HELP
 ++++
@@ -470,7 +471,6 @@ LATEST REVISION
 ---------------
   November 13, 1998 (Version 0.58)
 
- h help
   
  ==>  
   

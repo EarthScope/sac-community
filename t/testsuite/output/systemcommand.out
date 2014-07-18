@@ -1,12 +1,12 @@
  wait text off
   
  ==>  
-Hello
  sc echo "Hello"
+Hello
   
  ==>  
-Hello
  systemcommand echo "Hello"
+Hello
   
  ==>  
  setbb wd test
@@ -16,14 +16,14 @@ Hello
  ==>  touch test.hey
   
  ==>  
-test.hey
  ls %path1
  ==>  ls test.hey
+test.hey
   
  ==>  
-test.hey
  sc ls %path1
  ==>  sc ls test.hey
+test.hey
   
  ==>  
   

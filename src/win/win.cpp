@@ -54,7 +54,9 @@ DWORD main_thread;
 
 int
 show_prompt() {
-  fprintf(stdout, "SAC> ");
+  if(use_tty()) {
+    fprintf(stdout, "SAC> ");
+  }
   return TRUE;	
 }
 

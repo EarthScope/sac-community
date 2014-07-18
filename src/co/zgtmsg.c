@@ -23,8 +23,7 @@ int msglen;		/* length of msg array */
  
 	while (*prmt != '$')
 		putchar (*(prmt++));	/* print prompt */
-	putchar('\n');
- 
+  fflush(stdout);
 	getline_sac (stdin,msg,(short) msglen);
 	return;
 }
@@ -68,6 +67,11 @@ zgtmsg(char *prmt,
        int   prmtlen,
        char *msg, 
        int   msglen) {
+  if(!use_tty()) {
+    while (*prmt != '$')
+      putchar (*(prmt++));	/* print prompt */
+    fflush(stdout);
+  }
   select_loop(prmt, prmtlen, msg, msglen, NULL, process_line, TRUE, TRUE);
 }
 

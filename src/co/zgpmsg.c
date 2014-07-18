@@ -32,9 +32,10 @@ int msglen;		/* length of msg array */
 	for (i=0;i<(int)msglen;++i)	/* prefill with NULLs */
 		*(psave++) = '\0';
  
-	while (*prmt != '$')
-		putchar (*(prmt++));	/* print prompt */
-
+  if(use_tty()) {
+    while (*prmt != '$')
+      putchar (*(prmt++));	/* print prompt */
+  }
 
         fflush(stdout);
 

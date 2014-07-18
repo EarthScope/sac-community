@@ -23,7 +23,6 @@ enddo
 sync
 rmean
 rtrend
-clear
 
 #  mks changing the two lowest period filters
 #setbb lo1  0.1 hi1  1

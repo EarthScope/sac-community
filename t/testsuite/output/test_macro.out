@@ -356,7 +356,7 @@
     if %i eq 1
  ==>  if 1 eq 1
       read $file$.$sfx$
-[H[2J ==>  read 2002.054.09.47.lhor2.e
+ ==>  read 2002.054.09.47.lhor2.e
     else
     endif
  enddo
@@ -382,7 +382,6 @@
  sync
  rmean
  rtrend
- clear
   
  #  mks changing the two lowest period filters
  #setbb lo1  0.1 hi1  1
@@ -2089,7 +2088,7 @@
  unsetbb i nyq_fr xl xh set_xlim
  ERROR 1205: Could not delete VARS variable XL
  ERROR 1205: Could not delete VARS variable XH
-[H[2J m test_macro7.m file 2002.054.09.47.lhor2
+ m test_macro7.m file 2002.054.09.47.lhor2
  cut off
  qdp off
  ylim all
@@ -2129,7 +2128,6 @@
  sync
  rmean
  rtrend
- clear
   
  #  mks changing the two lowest period filters
  #setbb lo1  0.1 hi1  1
@@ -3836,7 +3834,7 @@
  unsetbb i nyq_fr xl xh set_xlim
  ERROR 1205: Could not delete VARS variable XL
  ERROR 1205: Could not delete VARS variable XH
-[H[2J m test_macro7.m FILE 2002.054.09.47.lhor2
+ m test_macro7.m FILE 2002.054.09.47.lhor2
  cut off
  qdp off
  ylim all
@@ -3876,7 +3874,6 @@
  sync
  rmean
  rtrend
- clear
   
  #  mks changing the two lowest period filters
  #setbb lo1  0.1 hi1  1
@@ -5583,7 +5580,7 @@
  unsetbb i nyq_fr xl xh set_xlim
  ERROR 1205: Could not delete VARS variable XL
  ERROR 1205: Could not delete VARS variable XH
-[H[2J m test_macro7.m FILE 2002.054.09.47.lhor2 comps z n e
+ m test_macro7.m FILE 2002.054.09.47.lhor2 comps z n e
  cut off
  qdp off
  ylim all
@@ -5623,7 +5620,6 @@
  sync
  rmean
  rtrend
- clear
   
  #  mks changing the two lowest period filters
  #setbb lo1  0.1 hi1  1
@@ -7330,7 +7326,7 @@
  unsetbb i nyq_fr xl xh set_xlim
  ERROR 1205: Could not delete VARS variable XL
  ERROR 1205: Could not delete VARS variable XH
-[H[2J m test_macro7.m FILE 2002.054.09.47.lhor2 COMPS z n e
+ m test_macro7.m FILE 2002.054.09.47.lhor2 COMPS z n e
  cut off
  qdp off
  ylim all
@@ -7370,7 +7366,6 @@
  sync
  rmean
  rtrend
- clear
   
  #  mks changing the two lowest period filters
  #setbb lo1  0.1 hi1  1
@@ -9077,7 +9072,7 @@
  unsetbb i nyq_fr xl xh set_xlim
  ERROR 1205: Could not delete VARS variable XL
  ERROR 1205: Could not delete VARS variable XH
-[H[2J m test_macro7.m file 2002.054.09.47.lhor2 comps z n e
+ m test_macro7.m file 2002.054.09.47.lhor2 comps z n e
  cut off
  qdp off
  ylim all
@@ -9117,7 +9112,6 @@
  sync
  rmean
  rtrend
- clear
   
  #  mks changing the two lowest period filters
  #setbb lo1  0.1 hi1  1
@@ -10824,7 +10818,7 @@
  unsetbb i nyq_fr xl xh set_xlim
  ERROR 1205: Could not delete VARS variable XL
  ERROR 1205: Could not delete VARS variable XH
-[H[2J m test_macro7.m file 2002.054.09.47.lhor2 COMPS z n e
+ m test_macro7.m file 2002.054.09.47.lhor2 COMPS z n e
  cut off
  qdp off
  ylim all
@@ -10864,7 +10858,6 @@
  sync
  rmean
  rtrend
- clear
   
  #  mks changing the two lowest period filters
  #setbb lo1  0.1 hi1  1
