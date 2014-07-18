@@ -3,11 +3,12 @@
 mkdir test.wild.dir
 cd test.wild.dir
 
-touch newfile
+fg
+write newfile
 
 do i = 0 , 400
   message "touching file test.wild.$i$"
-  systemcommand touch test.wild.$i
+  write test.wild.$i
 enddo
   
 message "finding test.wild.*"

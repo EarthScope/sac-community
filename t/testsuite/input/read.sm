@@ -48,7 +48,7 @@ lh npts delta depmin depmax
 message "Filename with Spaces"
 fg seismo
 write test.read.1
-mv test.read.1 test.read\ space.1
+write "test.read space.1"
 read "test.read space.1"
 message "&1,filename&"
 lh kstnm

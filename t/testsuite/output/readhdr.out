@@ -34,8 +34,7 @@
  Test ReadHeader, Directory
  systemcommand mkdir test.readhdr.dir
  fg impulse
- write test.readhdr.indir
- systemcommand mv test.readhdr.indir test.readhdr.dir/
+ write test.readhdr.dir/test.readhdr.indir
  write test.readhdr.nodir
   
  ==>  

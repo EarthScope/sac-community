@@ -16,8 +16,9 @@ lh npts depmin depmax
 readtable FREE CONTENT Y HEADER 100 test.readtable.1
 lh npts depmin depmax
 
+fg seismo
 systemcommand mkdir test.readtable.dir
-systemcommand cp test.readtable.1 test.readtable.dir/test.readtable.2
+writetable test.readtable.dir/test.readtable.2
 
 readtable free dir test.readtable.dir content P test.readtable.2
 lh npts depmin depmax

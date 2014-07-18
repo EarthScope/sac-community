@@ -23,6 +23,7 @@
 
 #include "errors.h"
 #include "string_utils.h"
+#include "debug.h"
 
 /** 
  * Obtain a list of files in a directory given a regualr expression.
@@ -71,6 +72,7 @@ zfiles(char  *kdirin,
 #ifdef WIN32
     WIN32_FIND_DATA FindFileData;
     HANDLE hFind;
+    char *file = NULL;
 #else
     int i;
     glob_t g;
@@ -93,9 +95,15 @@ zfiles(char  *kdirin,
 
 #ifdef WIN32
     hFind = FindFirstFile(command, &FindFileData);
-    while(hFind) {
-      string_list_put(files, FindFileData.cFileName, -1);
-      FindNextFile(hFind, &FindFileData);
+    if(hFind != INVALID_HANDLE_VALUE) {
+      do {
+        if(strcmp(FindFileData.cFileName, ".") != 0 &&
+           strcmp(FindFileData.cFileName, "..") != 0) {
+          asprintf(&file, "%s%s", kdirin, FindFileData.cFileName);
+          string_list_put(files, file, -1);
+          FREE(file);
+        }
+      } while( FindNextFile(hFind, &FindFileData) != 0) ;
     }
 #else
     glob(command, 0, NULL, &g);

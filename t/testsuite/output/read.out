@@ -208,7 +208,7 @@ test.read.dir/test.read.dir.1 ...test.read.dir.2 ...test.read.dir.3
  Filename with Spaces
  fg seismo
  write test.read.1
- mv test.read.1 test.read\ space.1
+ write "test.read space.1"
  read "test.read space.1"
  message "&1,filename&"
  ==>  message "test.read space.1"
