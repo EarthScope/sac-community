@@ -1,0 +1,48 @@
+ ..\t\testsuite\input\begindevices.sm
+ ..\t\testsuite\input\beginwindow.sm
+ ..\t\testsuite\input\plot.sm
+ ..\t\testsuite\input\plotalpha.sm
+ ..\t\testsuite\input\border.sm
+ ..\t\testsuite\input\axes.sm
+ ..\t\testsuite\input\color.sm
+ ..\t\testsuite\input\contour.sm
+ ..\t\testsuite\input\loglab.sm
+ ..\t\testsuite\input\linlog.sm
+ ..\t\testsuite\input\line.sm
+ ..\t\testsuite\input\plabel.sm
+ ..\t\testsuite\input\output.sm
+ ..\t\testsuite\input\sss.sm
+ ..\t\testsuite\input\yvport.sm
+ ..\t\testsuite\input\ylin.sm
+ ..\t\testsuite\input\ygrid.sm
+ ..\t\testsuite\input\ylabel.sm
+ ..\t\testsuite\input\ydiv.sm
+ ..\t\testsuite\input\yfudge.sm
+ ..\t\testsuite\input\xlabel.sm
+ ..\t\testsuite\input\xlim.sm
+ ..\t\testsuite\input\xlin.sm
+ ..\t\testsuite\input\xvport.sm
+ ..\t\testsuite\input\xfudge.sm
+ ..\t\testsuite\input\xgrid.sm
+ ..\t\testsuite\input\xdiv.sm
+ ..\t\testsuite\input\vspace.sm
+ ..\t\testsuite\input\ticks.sm
+ ..\t\testsuite\input\title.sm
+ ..\t\testsuite\input\erase.sm
+ ..\t\testsuite\input\filterdesign.sm
+ ..\t\testsuite\input\floor.sm
+ ..\t\testsuite\input\full.sm
+ ..\t\testsuite\input\grid.sm
+ ..\t\testsuite\input\scallop.sm
+ ..\t\testsuite\input\spe.sm
+ ..\t\testsuite\input\spectrogram.sm
+ ..\t\testsuite\input\symbol.sm
+ ..\t\testsuite\input\enddevices.sm
+ ..\t\testsuite\input\sgf.sm
+..\t\testsuite\input\xdr.sm
+
+
+..\t\testsuite\input\bandpass.sm
+..\t\testsuite\input\report.sm
+..\t\testsuite\input\test_run.sm
+

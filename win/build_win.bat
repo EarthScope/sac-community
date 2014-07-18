@@ -12,6 +12,8 @@ REM Build SAC
 if %ERRORLEVEL% GEQ 1 EXIT /B 1
 echo %ERRORLEVEL%
 
+del inc\config.h
+
 REM Copy AUX to WINAUX
 
 rmdir %Winaux% /s /q
