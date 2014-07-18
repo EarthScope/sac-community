@@ -9,6 +9,8 @@ using namespace Gdiplus;
 #include "sac_resource.h"
 #include "WinSacView.h"
 
+#define GUI_APP 1
+
 extern "C" {
     #include "debug.h"
     /* C Code */
@@ -198,13 +200,6 @@ main(int __argc, char **__argv) {
   sac_command_line_copyright(__argc, __argv);
 
   main_thread = GetCurrentThreadId();
-    if(__argc > 1) {
-      if(strcmp(__argv[1],"-fake-stdio") == 0) {
-        if(__argc > 2) {
-          faked_stdio = __argv[2];
-        }
-      }
-    }
     /* Initialize the Window List */
     wins = SacViewWindowsInit();
 
