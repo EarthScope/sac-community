@@ -20,6 +20,7 @@ extern "C" {
     void     win_set_current(SacView *view);
     char *   ImageToBounds(SacImage *im, SacRect bounds);
     unsigned int sleep(unsigned int seconds);
+    void     sac_command_line_copyright(int argc, char **argv);
 
     void     SacViewWindowsAdd(SacViewWindows *wins, SacView *view);
     SacView *SacViewWindowsGetByHandle(SacViewWindows *wins, HWND handle);
@@ -34,7 +35,7 @@ extern "C" {
     void      SacWindowShow  (SacView *view);
     SacView * SacWindow      (int id);
     void      SacWindowAdd   (int id);
-
+    int       use_tty        ();
     int snprintf(char *str, size_t size, const char *format, ...);
     SacViewWindows *wins = NULL;
 }
@@ -90,6 +91,7 @@ SacWindowAdd(int id) {
       GetMessage(&msg, NULL, 0,0);
       if(msg.message != SAC_WINDOW_CREATE) {
         fprintf(stderr, "Error creating window\n");
+        exit(-1);
       }
       DEBUG("post message: CREATE WINDOW: DONE\n");
     }
@@ -121,6 +123,7 @@ SacWindow(int id) {
     
     if (!hwnd) {
         fprintf(stderr, "Error creating window\n");
+        exit(-1);
         return 0;
     }
     view = SacViewInit();
@@ -147,6 +150,7 @@ SacWindowShow(SacView *view) {
     }
 }
 
+#ifdef GUI_APP
 int WINAPI
 WinMain(HINSTANCE hInstance,
         HINSTANCE hPrevInstance,
@@ -160,9 +164,6 @@ WinMain(HINSTANCE hInstance,
     GdiplusStartupInput gdiplusStartupInput;
     ULONG_PTR           gdiplusToken;
 
-    if(hPrevInstance) {} 
-    if(pCmdLine){}
-    
     // Initialize GDI+.
     GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
     
@@ -187,9 +188,23 @@ WinMain(HINSTANCE hInstance,
         freopen("CONOUT$", "w", stdout); 
         freopen("CONOUT$", "w", stderr); 
     }
+#else
+int
+main(int __argc, char **__argv) {
+  MSG msg;
+#endif
 
-    main_thread = GetCurrentThreadId();
+  _set_output_format(_TWO_DIGIT_EXPONENT);
+  sac_command_line_copyright(__argc, __argv);
 
+  main_thread = GetCurrentThreadId();
+    if(__argc > 1) {
+      if(strcmp(__argv[1],"-fake-stdio") == 0) {
+        if(__argc > 2) {
+          faked_stdio = __argv[2];
+        }
+      }
+    }
     /* Initialize the Window List */
     wins = SacViewWindowsInit();
 
@@ -210,7 +225,9 @@ WinMain(HINSTANCE hInstance,
         DispatchMessage(&msg);
     }
 
+#ifdef GUI_APP
     GdiplusShutdown(gdiplusToken);
+#endif
 
     return 0;
 }
