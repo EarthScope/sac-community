@@ -215,7 +215,7 @@ bbf_write(bbf *b, char *output, int doswap) {
   FILE *fp;
 
   bbf_message(MESSAGE_INFO, "Writing out bbf: %s\n", output);
-  if((fp = fopen(output, "w")) == NULL) {
+  if((fp = fopen(output, "wb")) == NULL) {
     return bbf_error(101, "opening file for writing: %s\n", output);
   }
 
@@ -402,7 +402,7 @@ bbf_read(char *input, int *doswap) {
   bbf_message(MESSAGE_INFO, "Reading in bbf: %s\n", input);
 
   /* Open the file for reading */
-  if((fp = fopen(input, "r")) == NULL) {
+  if((fp = fopen(input, "rb")) == NULL) {
     *doswap = bbf_error(101, "reading in file: %s\n", input);  
     goto ERROR;
   }

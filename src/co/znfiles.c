@@ -72,11 +72,11 @@ znfiles(FILE **nfu,
 	if( memcmp(ktype,"TEXT",4) == 0 ){
     tmp = rstrip(strdup(kname));
 	    if( lexist ) {
-		if((*nfu = fopen(tmp,"r+")) == NULL)
+		if((*nfu = fopen(tmp,"rb+")) == NULL)
 		    noerr = 1;
 	    }
 	    else {
-		if((*nfu = fopen(tmp,"w+")) == NULL)
+		if((*nfu = fopen(tmp,"wb+")) == NULL)
 		    noerr = 1;
 	    }
         free(tmp);

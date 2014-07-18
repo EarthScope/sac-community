@@ -1006,7 +1006,7 @@ int WriteCSSflatFiles(const char *WorkSetName, const char *basename)
 
    if(HasAffiliationStructs( tree ) ){
       FileName = MakeFileName( basename, "affiliation");
-      if(! (ptr = fopen( FileName, "w" ) ) ){
+      if(! (ptr = fopen( FileName, "wb" ) ) ){
          css_error("Unable to open output file (%s)\n",FileName);
          return 0;
       }
@@ -1027,7 +1027,7 @@ int WriteCSSflatFiles(const char *WorkSetName, const char *basename)
 
    if(HasArrivalStructs( tree ) ){
       FileName = MakeFileName( basename, "arrival");
-      if(! (ptr = fopen( FileName, "w" ) ) ){
+      if(! (ptr = fopen( FileName, "wb" ) ) ){
         css_error("Unable to open output file (%s)\n",FileName);
         return 0;
       }
@@ -1048,7 +1048,7 @@ int WriteCSSflatFiles(const char *WorkSetName, const char *basename)
 
    if(HasAssocStructs( tree ) ){
       FileName = MakeFileName( basename, "assoc");
-      if(! (ptr = fopen( FileName, "w" ) ) ){
+      if(! (ptr = fopen( FileName, "wb" ) ) ){
          css_error("Unable to open output file (%s)\n",FileName);
          return 0;
       }
@@ -1068,7 +1068,7 @@ int WriteCSSflatFiles(const char *WorkSetName, const char *basename)
 
    if(HasEventStructs( tree ) ){
       FileName = MakeFileName( basename, "event");
-      if(! (ptr = fopen( FileName, "w" ) ) ){
+      if(! (ptr = fopen( FileName, "wb" ) ) ){
          css_error("Unable to open output file (%s)\n",FileName);
          return 0;
       }
@@ -1088,7 +1088,7 @@ int WriteCSSflatFiles(const char *WorkSetName, const char *basename)
 
    if(HasGregionStructs( tree ) ){
       FileName = MakeFileName( basename, "gregion");
-      if(! (ptr = fopen( FileName, "w" ) ) ){
+      if(! (ptr = fopen( FileName, "wb" ) ) ){
          css_error("Unable to open output file (%s)\n",FileName);
          return 0;
       }
@@ -1109,7 +1109,7 @@ int WriteCSSflatFiles(const char *WorkSetName, const char *basename)
 
    if(HasInstrumentStructs( tree ) ){
       FileName = MakeFileName( basename, "instrument");
-      if(! (ptr = fopen( FileName, "w" ) ) ){
+      if(! (ptr = fopen( FileName, "wb" ) ) ){
          css_error("Unable to open output file (%s)\n",FileName);
          return 0;
       }
@@ -1130,7 +1130,7 @@ int WriteCSSflatFiles(const char *WorkSetName, const char *basename)
 
    if(HasOrigerrStructs( tree ) ){
       FileName = MakeFileName( basename, "origerr");
-      if(! (ptr = fopen( FileName, "w" ) ) ){
+      if(! (ptr = fopen( FileName, "wb" ) ) ){
          css_error("Unable to open output file (%s)\n",FileName);
          return 0;
       }
@@ -1150,7 +1150,7 @@ int WriteCSSflatFiles(const char *WorkSetName, const char *basename)
 
    if(HasOriginStructs( tree ) ){
       FileName = MakeFileName( basename, "origin");
-      if(! (ptr = fopen( FileName, "w" ) ) ){
+      if(! (ptr = fopen( FileName, "wb" ) ) ){
          css_error("Unable to open output file (%s)\n",FileName);
          return 0;
       }
@@ -1170,7 +1170,7 @@ int WriteCSSflatFiles(const char *WorkSetName, const char *basename)
 
    if(HasRemarkStructs( tree ) ){
       FileName = MakeFileName( basename, "remark");
-      if(! (ptr = fopen( FileName, "w" ) ) ){
+      if(! (ptr = fopen( FileName, "wb" ) ) ){
         css_error("Unable to open output file (%s)\n",FileName);
         return 0;
       }
@@ -1191,7 +1191,7 @@ int WriteCSSflatFiles(const char *WorkSetName, const char *basename)
 
    if(HasSensorStructs( tree ) ){
       FileName = MakeFileName( basename, "sensor");
-      if(! (ptr = fopen( FileName, "w" ) ) ){
+      if(! (ptr = fopen( FileName, "wb" ) ) ){
          css_error("Unable to open output file (%s)\n",FileName);
          return 0;
       }
@@ -1211,7 +1211,7 @@ int WriteCSSflatFiles(const char *WorkSetName, const char *basename)
 
    if(HasSiteStructs( tree ) ){
       FileName = MakeFileName( basename, "site");
-      if(! (ptr = fopen( FileName, "w" ) ) ){
+      if(! (ptr = fopen( FileName, "wb" ) ) ){
          css_error("Unable to open output file (%s)\n",FileName);
          return 0;
       }
@@ -1232,7 +1232,7 @@ int WriteCSSflatFiles(const char *WorkSetName, const char *basename)
 
    if(HasSitechanStructs( tree ) ){
       FileName = MakeFileName( basename, "sitechan");
-      if(! (ptr = fopen( FileName, "w" ) ) ){
+      if(! (ptr = fopen( FileName, "wb" ) ) ){
         css_error("Unable to open output file (%s)\n",FileName);
         return 0;
       }
@@ -1253,7 +1253,7 @@ int WriteCSSflatFiles(const char *WorkSetName, const char *basename)
 
    if(HasStassocStructs( tree ) ){
       FileName = MakeFileName( basename, "stassoc");
-      if(! (ptr = fopen( FileName, "w" ) ) ){
+      if(! (ptr = fopen( FileName, "wb" ) ) ){
          css_error("Unable to open output file (%s)\n",FileName);
          return 0;
       }
@@ -1275,7 +1275,7 @@ int WriteCSSflatFiles(const char *WorkSetName, const char *basename)
 
    if(HasWfdiscStructs( tree ) ){
       FileName = MakeFileName( basename, "wfdisc");
-      if(! (ptr = fopen( FileName, "w" ) ) ){
+      if(! (ptr = fopen( FileName, "wb" ) ) ){
          css_error("Unable to open output file (%s)\n",FileName);
          return 0;
       }
@@ -1296,7 +1296,7 @@ int WriteCSSflatFiles(const char *WorkSetName, const char *basename)
 
    if(HasWftagStructs( tree ) ){
       FileName = MakeFileName( basename, "wftag");
-      if(! (ptr = fopen( FileName, "w" ) ) ){
+      if(! (ptr = fopen( FileName, "wb" ) ) ){
          css_error("Unable to open output file (%s)\n",FileName);
          return 0;
       }
@@ -1317,7 +1317,7 @@ int WriteCSSflatFiles(const char *WorkSetName, const char *basename)
 
    if(HasSacdataStructs( tree ) ){
       FileName = MakeFileName( basename, "sacdata");
-      if(! (ptr = fopen( FileName, "w" ) ) ){
+      if(! (ptr = fopen( FileName, "wb" ) ) ){
          css_error("Unable to open output file (%s)\n",FileName);
          return 0;
       }

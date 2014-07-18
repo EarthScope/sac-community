@@ -141,7 +141,7 @@ void PutIntro ( FILE *ptr , char * datasource )
     today[ 4 ] = '/' ;
     today[ 10 ] = '\0' ;
 
-    togse_date_number = fopen ( "/tmp/togse_date_number" , "r" ) ;
+    togse_date_number = fopen ( "/tmp/togse_date_number" , "rb" ) ;
     if ( togse_date_number ) {
 	fgetsp ( filedate , 24 , togse_date_number ) ;
 	filedate[ 10 ] = '\0' ;
@@ -151,7 +151,7 @@ void PutIntro ( FILE *ptr , char * datasource )
 	fclose ( togse_date_number ) ;
     }
 
-    if (( togse_date_number = fopen ( "/tmp/togse_date_number" , "w" ) )) {
+    if (( togse_date_number = fopen ( "/tmp/togse_date_number" , "wb" ) )) {
 	fprintf ( togse_date_number , "%s\n%d" , today , unique+1 ) ;
 	fclose ( togse_date_number ) ;
     }
@@ -1046,7 +1046,7 @@ int WriteGSEFile( char *outFile, DBlist tree, char *datasource, int cm6 )
     int Ntraces;
     FILE *ptr ;
 
-    ptr = fopen ( outFile , "w" ) ;
+    ptr = fopen ( outFile , "wb" ) ;
 
     if ( !ptr ) {
 	printf ( "Error:  Cannot open output file.\n" ) ;

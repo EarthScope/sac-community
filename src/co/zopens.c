@@ -94,7 +94,7 @@ zopens(FILE **nfu,
 	     memcmp(ktype,"ROTEXT",6) == 0) || 
 	    memcmp(ktype,"READ",4) == 0 ){
         tmp = rstrip(strdup(kname));
-        if((*nfu = fopen(tmp,"r")) == NULL) noerr = 1;
+        if((*nfu = fopen(tmp,"rb")) == NULL) noerr = 1;
 	    if( noerr != 0 ){
 		*nerr = ERROR_OPENING_FILE;
 		setmsg( "ERROR", *nerr );

@@ -43,7 +43,7 @@ ps_new() {
 
 int
 ps_file_open(ps_t *ps, char *file) {
-  ps->fp = fopen(file, "w");
+  ps->fp = fopen(file, "wb");
   if(!ps->fp) {
     return 0;
   }

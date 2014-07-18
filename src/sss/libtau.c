@@ -2094,7 +2094,7 @@ char *modnam;   int modnam_s;
         for(j = 0; j < 3; j++) {
           FREE(model);
           model = modelpath(model_name, "hed", j);
-          file = fopen(model, "r");
+          file = fopen(model, "rb");
           if(file) {
             break;
           }
@@ -2250,7 +2250,7 @@ char *modnam;   int modnam_s;
           for(j = 0; j < 3; j++) {
             FREE(model);
             model = modelpath(model_name, "tbl", j);
-            tblfile.file = fopen(model, "r");
+            tblfile.file = fopen(model, "rb");
             if(tblfile.file) {
               break;
             }

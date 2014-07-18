@@ -44,7 +44,7 @@ getprefs (int lauth,
   FILE *pFile ;		
 
     /* Open the file to count the number of authors in list. */
-    pFile = fopen ( kmdfm.kprefsFileName , "r" ) ;
+    pFile = fopen ( kmdfm.kprefsFileName , "rb" ) ;
     if ( pFile == NULL ) {
         setmsg ( "WARNING" , ERROR_FILE_DOES_NOT_EXIST ) ;
         apcmsg ( kmdfm.kprefsFileName , strlen ( kmdfm.kprefsFileName ) ) ;
@@ -97,7 +97,7 @@ getprefs (int lauth,
 	}
 
 	/* Open the file to read it. */
-	pFile = fopen ( kmdfm.kprefsFileName , "r" ) ;
+	pFile = fopen ( kmdfm.kprefsFileName , "rb" ) ;
 
 	/* Read author names */
 	for ( idx = 0 ; idx < nAuthors ; idx++ )

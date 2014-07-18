@@ -133,7 +133,7 @@ sac_line_style_read(line_style_function func, void *data) {
     rstrip(file);
     strcat(file, "/linestyles.txt");
 
-    if(!(fp = fopen(file, "r"))) {
+    if(!(fp = fopen(file, "rb"))) {
         fprintf(stderr, "linestyles: Error opening file: %s\n", file);
         return;
     }

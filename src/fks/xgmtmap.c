@@ -63,7 +63,7 @@ eventfile_count_lines(char *file, int *nerr) {
   int n;
 
   *nerr = 0;
-  if((fp = fopen(file, "r")) == NULL) {
+  if((fp = fopen(file, "rb")) == NULL) {
     *nerr = 100001;
     return 0;
   }
@@ -543,7 +543,7 @@ L_1000:
 	 */
 	if ( leventfile ) {
 	  /* Open the Event File */
-	  eventFile = fopen ( eventFileName , "r" ) ; 
+	  eventFile = fopen ( eventFileName , "rb" ) ; 
 	  if ( eventFile == NULL ){ 
 	    *nerr = 1000001 ;
 	    goto L_9999 ;
@@ -960,7 +960,7 @@ L_1000:
 	}
 
 	/* Open the output file */
-        if(( fp = fopen(scriptname,"w")) == NULL){
+        if(( fp = fopen(scriptname,"wb")) == NULL){
           *nerr = 102;
           goto L_9999;
 	}

@@ -260,7 +260,7 @@ endframe_pdf(int *nerr) {
 
   file = record_filename(NULL);
 
-  xPDF->fp = fopen(file, "w");
+  xPDF->fp = fopen(file, "wb");
 
   if(!xPDF->fp) {
     *nerr = 102;

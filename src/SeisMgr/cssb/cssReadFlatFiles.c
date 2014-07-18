@@ -244,7 +244,7 @@ static int  GetWfdiscVersion(char *FileName)
 
 
 
-   if(! (ptr = fopen( FileName, "r" ) ) ){
+   if(! (ptr = fopen( FileName, "rb" ) ) ){
      css_error("Unable to open file (%s) for version check.\n",FileName);
      return 0;
    }
@@ -485,7 +485,7 @@ static int ReadWfdiscFile(char* Root,  char* WorkSetName, DBlist tree, char** St
 
    /* Open the wfdisc file */
    FileName = cssConstructFilename(Root, WfSuffix);
-   if(! (ptr = fopen( FileName, "r" ) ) ){
+   if(! (ptr = fopen( FileName, "rb" ) ) ){
      css_error("Unable to open file (%s).\n",FileName);
      if(Replace){ 
        smDeleteWorksetByName( (char*)WorkSetName );
@@ -864,7 +864,7 @@ static void ReadOriginFile(char* Root, DBlist tree)
                      145, 153, 162, 170, 179, 195, 211, 220};
  
    FileName = cssConstructFilename(Root, OrSuffix);
-   if(! (ptr = fopen( FileName, "r" ) ) ){
+   if(! (ptr = fopen( FileName, "rb" ) ) ){
       smFree(FileName);
       return;
    }
@@ -1221,7 +1221,7 @@ static void ReadArrivalFile(char* Root, DBlist tree,
  
 
    FileName = cssConstructFilename(Root, ArSuffix);
-   if(! (ptr = fopen( FileName, "r" ) ) ){
+   if(! (ptr = fopen( FileName, "rb" ) ) ){
       smFree(FileName);
       return;
    }
@@ -1956,7 +1956,7 @@ static void ReadStructureFile(char* Root, DBlist tree, char *Suffix,
  
    UNUSED(StructType);
    FileName = cssConstructFilename(Root, Suffix);
-   if(! (ptr = fopen( FileName, "r" ) ) ){
+   if(! (ptr = fopen( FileName, "rb" ) ) ){
 
       smFree(FileName);
       return;

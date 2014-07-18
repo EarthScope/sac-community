@@ -574,7 +574,7 @@ setwidth_text(int width) {
 void 
 beginframe_text(int *nerr) { 
   UNUSED(nerr);
-  text_fp = fopen(record_filename(NULL), "w");
+  text_fp = fopen(record_filename(NULL), "wb");
   fprintf(text_fp, "beginframe: color %d\n", color_background());
 }
 void 

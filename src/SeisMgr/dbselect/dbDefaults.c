@@ -627,7 +627,7 @@ void  dbUpdateDefaultsFromFile(char * ConFigFileName)
    char *keyword;
    char * value;
 
-   if(! (fptr = fopen(ConFigFileName,"r")) )return;
+   if(! (fptr = fopen(ConFigFileName,"rb")) )return;
    while(fgetsp(buffer,99,fptr) ){
       if( c = strchr(buffer,'!') ) *c = 0;
       if( c = strchr(buffer,'#') ) *c = 0;

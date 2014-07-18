@@ -383,7 +383,7 @@ struct response *evresp_itp(char *stalst, char *chalst, char *net_code,
 
   if(!mode && !stdio_flag) {
     curr_file = file;
-    if((fptr = fopen(file,"r")) == (FILE *)NULL)  {
+    if((fptr = fopen(file,"rb")) == (FILE *)NULL)  {
 #ifdef LIB_MODE
       fprintf(stderr, "%s failed to open file %s\n", myLabel, file);
       return NULL;
@@ -603,7 +603,7 @@ struct response *evresp_itp(char *stalst, char *chalst, char *net_code,
     next_scn:
       for(j = 0; j < flst_ptr->nfiles; j++) {
         if(!stdio_flag) {
-          fptr = fopen(lst_ptr->name,"r");
+          fptr = fopen(lst_ptr->name,"rb");
         }
         if(fptr != (FILE *)NULL) {
           curr_file = lst_ptr->name;
