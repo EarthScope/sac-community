@@ -4,11 +4,14 @@
  * @brief  Write a SEG-Y file
  * 
  */
+#include "config.h"
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
 #include <fcntl.h>
 #include <ctype.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include "unistdx.h"
 
 #include <limits.h>
@@ -26,10 +29,17 @@
 #include "SacHeader.h"
 
 #include "errors.h"
-
+#include "debug.h"
 
 #include "ucf.h"
 
+#ifdef WIN32
+#define SEGY_CREATE_MODE (O_CREAT | O_TRUNC | O_WRONLY | O_BINARY)
+#define SEGY_PERMISSION_MODE _S_IREAD | _S_IWRITE 
+#else
+#define SEGY_CREATE_MODE (O_CREAT | O_TRUNC | O_WRONLY )
+#define SEGY_PERMISSION_MODE 0666
+#endif
 void timecheck_short(short *year, short *day, short *hour, short *min, short *sec, short *ms);
 void swap_array(char *a,  struct field_doc *doc);
 void swap_array_v(char *a, int n, int size);
@@ -230,7 +240,7 @@ wrsegy(int   idfl,
    outHdr.min = value;
 
    /* Open a new file for segy formated header and trace. */
-   segyFile = creat( filename , 0666 ) ;
+   segyFile = open(filename, SEGY_CREATE_MODE, SEGY_PERMISSION_MODE );
    if( segyFile == -1 ) {
       /* error handling */
       *nerr = ERROR_CREATING_FILE ;
