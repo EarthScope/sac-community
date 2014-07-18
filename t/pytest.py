@@ -82,8 +82,9 @@ def main() :
             error = error + test_output(file, Out, Err, opts)
         if opts.die_on_error and error > 0 :
             break
-    print >>sys.stderr, ""
-    print >>sys.stderr, "Errors: ",error
+    if error > 0 :
+        print >>sys.stderr, ""
+        print >>sys.stderr, "Errors: ",error
     if error > 0:
         sys.exit(1)
     sys.exit(0)
@@ -233,10 +234,10 @@ def test_output(file, Out, Err, opts) :
             print >> sys.stderr, "Output:      ", len(out)
             print >> sys.stderr, "Output(exp): ", len(exp_out)
             print >> sys.stderr
-
+        out = [ o.replace('\r','') for o in out]
         for line in difflib.unified_diff(exp_out, out, 
-                                             fromfile = 'expected', 
-                                             tofile   = 'current') :
+                                         fromfile = 'expected', 
+                                         tofile   = 'current') :
             print >>sys.stderr, line,
             error = error + 1
     return error
