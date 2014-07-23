@@ -84,13 +84,13 @@ spectrogram(double window,
 {
 	char windowfunc[11];
 	int buffersize, done, err, idx, iorfft, 
-	 length, lfft, nptswndw, pfile, spectrogram_v, windowovrl;
+	 lfft, nptswndw, pfile, spectrogram_v, windowovrl;
 	float signals[MAXLFFT];
         float ridge_regress = .00001;
         float *buffer, *spectmp;
 	int *const Filelength = &filelength[0] - 1;
 	float *const Signals = &signals[0] - 1;
-  
+  long int length;
   buffer = NULL;
 	/*     * Include Files: */
 	/*     * Arguments: */
