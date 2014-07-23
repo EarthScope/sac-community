@@ -3,12 +3,16 @@
 
 #include "scm.h"
 
-void /*FUNCTION*/ lifite(x1, dx, y, n, a, b, siga, sigb, sig, cc)
-double x1, dx;
-float y[];
-int n;
-float *a, *b, *siga, *sigb, *sig, *cc;
-{
+void lifite(double  x1,
+            double  dx,
+            float  *y,
+            int     n,
+            float  *a,
+            float  *b,
+            float  *siga,
+            float  *sigb,
+            float  *sig,
+            float  *cc) {
 	int i;
 	float d, df, rn, sig2, siga2, sigb2, sumx, sumx2, sumxy, sumy, 
 	 sumy2, xi, yi;
@@ -94,3 +98,28 @@ float *a, *b, *siga, *sigb, *sig, *cc;
 
 } /* end of function */
 
+
+void lifite_(double *x1,
+             double *dx,
+             float  *y,
+             int    *n,
+             float  *a,
+             float  *b,
+             float  *siga,
+             float  *sigb,
+             float  *sig,
+             float  *cc) {
+  lifite(*x1,*dx,y,*n,a,b,siga,sigb,sig,cc);
+}
+void lifite__(double *x1,
+             double *dx,
+             float  *y,
+             int    *n,
+             float  *a,
+             float  *b,
+             float  *siga,
+             float  *sigb,
+             float  *sig,
+             float  *cc) {
+  lifite(*x1,*dx,y,*n,a,b,siga,sigb,sig,cc);
+}

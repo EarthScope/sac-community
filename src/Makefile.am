@@ -264,7 +264,8 @@ libsac_a_SOURCES = co/complex.c  \
 	\
 	sam/envelope.c \
 	\
-	scm/rmean.c scm/rtrend.c scm/taper.c scm/interpolate.c scm/wigint.c scm/rotate.c
+	scm/rmean.c scm/rtrend.c scm/taper.c scm/interpolate.c scm/wigint.c \
+	scm/rotate.c scm/lifite.c
 
 
 libsac_all_a_SOURCES = amf/iniam.c amf/array.c \

@@ -241,7 +241,7 @@ am_libsac_a_OBJECTS = co/complex.$(OBJEXT) dfm/cut.$(OBJEXT) \
 	sam/envelope.$(OBJEXT) scm/rmean.$(OBJEXT) \
 	scm/rtrend.$(OBJEXT) scm/taper.$(OBJEXT) \
 	scm/interpolate.$(OBJEXT) scm/wigint.$(OBJEXT) \
-	scm/rotate.$(OBJEXT)
+	scm/rotate.$(OBJEXT) scm/lifite.$(OBJEXT)
 libsac_a_OBJECTS = $(am_libsac_a_OBJECTS)
 libsac_all_a_AR = $(AR) $(ARFLAGS)
 libsac_all_a_LIBADD =
@@ -1235,7 +1235,8 @@ libsac_a_SOURCES = co/complex.c  \
 	\
 	sam/envelope.c \
 	\
-	scm/rmean.c scm/rtrend.c scm/taper.c scm/interpolate.c scm/wigint.c scm/rotate.c
+	scm/rmean.c scm/rtrend.c scm/taper.c scm/interpolate.c scm/wigint.c \
+	scm/rotate.c scm/lifite.c
 
 libsac_all_a_SOURCES = amf/iniam.c amf/array.c \
 	\
@@ -1874,6 +1875,7 @@ scm/taper.$(OBJEXT): scm/$(am__dirstamp)
 scm/interpolate.$(OBJEXT): scm/$(am__dirstamp)
 scm/wigint.$(OBJEXT): scm/$(am__dirstamp)
 scm/rotate.$(OBJEXT): scm/$(am__dirstamp)
+scm/lifite.$(OBJEXT): scm/$(am__dirstamp)
 
 libsac.a: $(libsac_a_OBJECTS) $(libsac_a_DEPENDENCIES) $(EXTRA_libsac_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libsac.a
@@ -2731,7 +2733,6 @@ sam/xunwr.$(OBJEXT): sam/$(am__dirstamp)
 sam/xwnr.$(OBJEXT): sam/$(am__dirstamp)
 sam/xwsp.$(OBJEXT): sam/$(am__dirstamp)
 scm/iniscm.$(OBJEXT): scm/$(am__dirstamp)
-scm/lifite.$(OBJEXT): scm/$(am__dirstamp)
 scm/lifitu.$(OBJEXT): scm/$(am__dirstamp)
 scm/linear.$(OBJEXT): scm/$(am__dirstamp)
 scm/xabsgl.$(OBJEXT): scm/$(am__dirstamp)

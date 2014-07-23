@@ -37,6 +37,8 @@
       integer nval(15),ival(20),lval(5)
       character *10 fhdr(70),nhdr(15),ihdr(20),lhdr(5),khdr(23)
       character *16 kval(23)
+      real a,b,siga, sigb, sig, cc
+      real *8 dbeg, ddel
       real fval(70)
       data kval/'sta','FUNCGEN: IMPULSE','-12345  ','-12345  ',
      + '-12345  ',
@@ -143,6 +145,9 @@
          call taper(yarray, nlen, 3, 20)
          call interp(yarray,nlen,yarray,5,beg,10.0,0.,del,1.0,0.0)
          call interp2(yarray,nlen,yarray,5,beg,yarray,0.,del,1.,0.)
+         dbeg = beg
+         ddel = del
+         call lifite(dbeg, ddel, yarray, nlen, a,b,siga,sigb,sig,cc)
       enddo
       if (fails .gt. 0) then
          call exit(-1)
