@@ -187,7 +187,7 @@ void xplotpm(int *nerr)
 	    /* -- Determine how much of second file to plot. */
 	    if( lrxlim ){
 		start = fmax( tmin, s2->h->b );
-		stop = fmin( tmax, s2->h->b );
+		stop = fmin( tmax, s2->h->e );
 		ixplot = (int)( (start - s2->h->b)/ s2->h->delta );
 		extrma( &s2->y[ixplot],
 			1, nplot, &xmin, &xmax, &unused );
