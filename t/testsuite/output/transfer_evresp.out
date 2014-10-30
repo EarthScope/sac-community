@@ -93,4 +93,33 @@ Using response from user-specified file: (test_transfer_evresp_resp.m).
  ERROR 2118: No transfer function applied.
   
  ==>  
+ r MK31.IM..LHE.obs.sac
+ lh depmin depmax depmen kstnm knetwk
+  
+  
+  FILE: MK31.IM..LHE.obs.sac - 1
+ --------------------------
+
+     depmin = -2.351000e+03
+     depmax = 2.158000e+03
+     depmen = 6.677235e-01
+      kstnm = MK31
+     knetwk = IM
+ rmean
+ rtrend
+ transfer from evalresp to none freqlimits 0.001 0.002 40 50
+ Extracting evresp response for MK31, BHE...
+ Evalresp Response List 55 - Interpolating...
+ Station (MK31    ), Channel (BHE     )
+ lh depmin depmax depmen kstnm knetwk
+  
+  
+  FILE: MK31.IM..LHE.obs.sac - 1
+ --------------------------
+
+     depmin = -5.527381e+02
+     depmax = 8.248363e+02
+     depmen = -2.607248e+00
+      kstnm = MK31
+     knetwk = IM
  quit

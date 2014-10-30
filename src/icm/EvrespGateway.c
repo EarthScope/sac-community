@@ -428,7 +428,6 @@ int /*FUNCTION*/ EvrespGateway(int nfreq, double delfrq, double xre[],
    else
       (*nmScale) /= 1e09 ;
 
-   printf("orig: %d\n", first->origfreqs);
    if(! first->origfreqs ) {
      printf(" Evalresp Response List 55 - Interpolating...\n");
      InterpolateFromResp(first, freqs, nfreqs, tmpRe, tmpIm);
