@@ -124,6 +124,7 @@ struct response *alloc_response(int npts)
 /*IGD add freqs to this structure to process blockette 55 */
     rptr->nfreqs = 0;
     rptr->freqs = (double *) NULL;
+    rptr->origfreqs = TRUE;
   }
   else
     rptr = (struct response *)NULL;

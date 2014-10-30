@@ -19,6 +19,36 @@
 /* #define MAX_FREQS 16384 */
 #define MAX_FREQS 65536
 
+void InterpolateFromResp(struct response *resp, double *freqs, int nfreqs, double *tmpRe, double *tmpIm) {
+  double f, df;
+  int i,k;
+  double *zf = resp->freqs;
+  int nf = resp->nfreqs;
+  struct complex *z = resp->rvec;
+  k = 0;
+  for(i = 0; i < nfreqs; i++) {
+    f = freqs[i];
+    /* Find limiting frequency range */
+    k = 0;
+    while(k < nf && f >= zf[k]) {
+      k++;
+    }
+    k--;
+    if(k < 0) { /* Less than minimum frequency */
+      k = 0;
+      tmpRe[i] = z[k].real;
+      tmpIm[i] = z[k].imag;
+    } else if(k >= nf-1) { /* Greater than maximium frequency */
+      k = nf-1;
+      tmpRe[i] = z[k].real;
+      tmpIm[i] = z[k].imag;
+    } else { /* Interpolate */
+      df = (f - zf[k]) / (zf[k+1] - zf[k]);
+      tmpRe[i] = z[k].real +  df * (z[k+1].real - z[k].real);
+      tmpIm[i] = z[k].imag +  df * (z[k+1].imag - z[k].imag);
+    }
+  }
+}
 
 void InterpolateArrays(double *freqs, int nfreqs, double *tmpRe, double *tmpIm, 
 		       int nfreq, double *xre, double *xim )
@@ -398,7 +428,13 @@ int /*FUNCTION*/ EvrespGateway(int nfreq, double delfrq, double xre[],
    else
       (*nmScale) /= 1e09 ;
 
-   FillArrays(nfreqs, first, tmpRe, tmpIm);
+   printf("orig: %d\n", first->origfreqs);
+   if(! first->origfreqs ) {
+     printf(" Evalresp Response List 55 - Interpolating...\n");
+     InterpolateFromResp(first, freqs, nfreqs, tmpRe, tmpIm);
+   } else {
+     FillArrays(nfreqs, first, tmpRe, tmpIm);
+   }
 
    if( Interpolate ){
       InterpolateArrays(freqs, nfreqs, tmpRe, tmpIm, nfreq, xre, xim );

@@ -159,6 +159,7 @@ struct response {
   int nfreqs;	/*Add by I.Dricker IGD to  support blockette 55 */
   double *freqs; /*Add by I.Dricker IGD to  support blockette 55 */
   struct response *next;
+  int origfreqs;  /* 0 - Returned frequencies differ than requested, else 1 */
 };
 
 struct file_list {

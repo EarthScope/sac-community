@@ -25,3 +25,8 @@ fg impulse
 ch kstnm NS04 knetwk PD kcmpnm HHZ
 transfer from evalresp DATE 2007/027 TIME 19:24:49.003 to none freqlimits 0.001 0.005 4 5
 
+r MK31.IM..LHE.obs.sac
+rmean
+rtrend
+transfer from evalresp to none freqlimits 0.001 0.002 40 50
+

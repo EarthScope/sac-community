@@ -521,6 +521,7 @@ struct response *evresp_itp(char *stalst, char *chalst, char *net_code,
 	      resp->nfreqs = nfreqs;
 	      resp->freqs = (double *) malloc(sizeof(double) * nfreqs); /* malloc a new vector */
 	      memcpy (resp->freqs, this_channel.first_stage->first_blkt->blkt_info.list.freq, sizeof(double) * nfreqs); /*cp*/
+        resp->origfreqs = FALSE;
 	   }
 	  else
 	  {
@@ -734,6 +735,7 @@ struct response *evresp_itp(char *stalst, char *chalst, char *net_code,
 			resp->nfreqs = nfreqs;
 			resp->freqs = (double *) malloc(sizeof(double) * nfreqs); /* malloc a new vector */
     			memcpy (resp->freqs, this_channel.first_stage->first_blkt->blkt_info.list.freq, sizeof(double) * nfreqs); /*cp*/						
+        resp->origfreqs = FALSE;
 		}
 		else	{
 			nfreqs = nfreqs_orig;
