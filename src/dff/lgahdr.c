@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "amf.h"
 #include "dff.h"
 #include "co.h"
 #include "bot.h"
@@ -16,7 +17,6 @@
 #include "dfm.h"
 #include "bool.h"
 
-extern sac *CURRENT;
 #include "clf.h"
 
 /** 
@@ -57,7 +57,7 @@ lgahdr(char *kfield,
     char *tmp;
     sac *s;
 
-    s = CURRENT;
+    s = sacget_current();
 	/* - Convert the name to upper case before doing any tests. */
 	nc = min( (kfield_s - 1), SAC_HEADER_STRING_LENGTH_FILE );
 	modcase( TRUE, kfield, nc, ktemp );

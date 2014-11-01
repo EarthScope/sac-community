@@ -12,7 +12,7 @@
 #include "hdr.h"
 #include "SacHeader.h"
 #include "errors.h"
-extern sac *CURRENT;
+
 /** 
  * Read and unevenly spaced or spectral SAC file
  * 
@@ -83,7 +83,6 @@ rsac2(char      *kname,
   s = sac_new();
   s->m->filename = fstrdup(kname, kname_s);
   sacput(s);
-  CURRENT = s;
   
   lswap = sac_header_read(nun, s, nerr);
   

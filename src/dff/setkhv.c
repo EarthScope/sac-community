@@ -19,7 +19,7 @@
 #include "SacHeader.h"
 
 #include "errors.h"
-extern sac *CURRENT;
+
 /** 
  * Set an alphanumeric header value in the current SAC file
  * 
@@ -52,7 +52,8 @@ setkhv(char *kname,
 	char *kname_c;
 	char *kvalue_c;
   sac *s;
-  s = CURRENT;
+
+  s = sacget_current();
 	kname_c  = fstrdup(kname, kname_s);
 	kvalue_c = fstrdup(kvalue, kvalue_s);
 

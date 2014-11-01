@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "amf.h"
 #include "dff.h"
 #include "hdr.h"
 #include "msg.h"
@@ -17,7 +18,7 @@
 #include "bool.h"
 #include "SacHeader.h"
 #include "errors.h"
-extern sac *CURRENT;
+
 /** 
  * Set a floating point header value in the current SAC file
  * 
@@ -45,11 +46,13 @@ setfhv(char  *kname,
 	int index;
   float *fp;
 	char *kname_c;
+  sac *s;
+
 	kname_c = fstrdup(kname, kname_s);
 	kname_s = strlen(kname_c) + 1;
 
 	*nerr = 0;
-
+  s = sacget_current();
 	/* - Convert input name to uppercase and 
 	 *   check versus list of legal names. */
   sacio_char_to_keyword(kname_c, ktest);
@@ -57,7 +60,7 @@ setfhv(char  *kname,
 
 	/* - Store value in appropriate header field. */
 	if( index > 0 ){
-    fp = fhdr(CURRENT, index);
+    fp = fhdr(s, index);
     VALUE(fp) = VALUE(fvalue);
 	}
 	else{

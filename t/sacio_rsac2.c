@@ -2,17 +2,18 @@
 #include <string.h>
 #include <math.h>
 
+#include "amf.h"
 #include "unit.h"
 #include "hdr.h"
 #include "dff.h"
 
 #include "sacio_test.h"
-extern sac *CURRENT;
+
 sac *s;
 
 void
 test_rsac2_header_file(int vnpts, float vend) {
-  s = CURRENT;
+  s = sacget_current();
   float_check(s->h->b, 0.10, "b");
   //float_check(s->h->begin, 0.10, "begin");
   float_check(s->h->e, vend, "e");

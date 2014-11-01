@@ -22,7 +22,7 @@
 #include "ucf.h"
 #include "SacHeader.h"
 #include "errors.h"
-extern sac *CURRENT;
+
 void
 sac_data_swap(float *y, int n) {
   int i;
@@ -145,7 +145,7 @@ rsac1(char      *kname,
   s = sac_new();
   s->m->filename = fstrdup(kname, kname_s);
   sacput(s);
-  CURRENT = s;
+
   //lswap = sac_header_read(nun, nerr);
   lswap = sac_header_read(nun, s, nerr);
   if( *nerr != SAC_OK )

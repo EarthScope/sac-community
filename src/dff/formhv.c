@@ -18,8 +18,6 @@
 #include "ucf.h"
 #include "SacHeader.h"
 
-extern sac *CURRENT;
-
 /** 
  * Format a header variable into a text string
  * 

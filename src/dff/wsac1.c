@@ -10,7 +10,7 @@
 #include "msg.h"
 #include "bool.h"
 #include "SacHeader.h"
-extern sac *CURRENT;
+
 /** 
  * Write an evenly spaced SAC file 
  * 
@@ -54,7 +54,7 @@ wsac1(char  *kname,
   s = sac_new();
   s->m->filename = fstrdup(kname, kname_s);
   sacput(s);
-  CURRENT = s;
+
 	/* - Set up the header fields passed by the calling program. */
 	s->h->npts  = *nlen;
 	s->h->delta = *del;

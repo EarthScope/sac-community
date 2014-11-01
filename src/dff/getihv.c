@@ -9,6 +9,7 @@
 #include <string.h>
 #include <ctype.h>
 
+#include "amf.h"
 #include "dff.h"
 #include "bot.h"
 #include "msg.h"
@@ -18,7 +19,7 @@
 #include "bool.h"
 #include "SacHeader.h"
 #include "errors.h"
-extern sac *CURRENT;
+
 /** 
  * Get an enumerated header value from the current SAC file
  * 
@@ -51,6 +52,7 @@ getihv(char *kname,
 	int index, ivalue;
 	char *kname_c;
 	int callFromC = 0;
+  sac *s;
 
 	if(kname_s < 0) {
 	  callFromC = 1;
@@ -60,7 +62,7 @@ getihv(char *kname,
 	kname_s = strlen(kname_c) + 1;
 	
 	*nerr = 0;
-
+  s = sacget_current();
 	/* - Convert input name to uppercase and 
 	 *   check versus list of legal names. */
   sacio_char_to_keyword(kname_c, ktest);
@@ -70,7 +72,7 @@ getihv(char *kname,
 	 *   Otherwise, set error condition. */
 
 	if( index > 0 ){
-    ivalue = IHDR(CURRENT)[index-1];
+    ivalue = IHDR(s)[index-1];
 	    if( ivalue == SAC_ENUM_UNDEFINED ){
         fstrncpy( kvalue, kvalue_s-1, "UNDEFINED", 9);
         *nerr = ERROR_UNDEFINED_HEADER_FIELD_VALUE;

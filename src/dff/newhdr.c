@@ -13,8 +13,6 @@
 #include "bool.h"
 #include "amf.h"
 
-extern sac *CURRENT;
-
 /** 
  * Perpare a new default header
  * 
@@ -37,7 +35,6 @@ newhdr() {
   s = sac_new();
   s->m->filename = strdup("new_hdr_file.sac");
   sacput(s);
-  CURRENT = s;
 
 	return;
 

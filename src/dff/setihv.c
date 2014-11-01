@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "amf.h"
 #include "dff.h"
 #include "bot.h"
 #include "msg.h"
@@ -16,7 +17,7 @@
 #include "bool.h"
 #include "SacHeader.h"
 #include "errors.h"
-extern sac *CURRENT;
+
 /** 
  * Set an enumerated header value in the current SAC file
  * 
@@ -49,7 +50,7 @@ setihv(char *kname,
 	int index, ivalue;
 	char *kname_c;
 	char *kvalue_c;
-
+  sac *s;
 	kname_c  = fstrdup(kname, kname_s);
 	kvalue_c = fstrdup(kvalue, kvalue_s);
 	
@@ -57,7 +58,7 @@ setihv(char *kname,
 	kvalue_s = strlen(kvalue_c) + 1;
 
 	*nerr = 0;
-
+  s = sacget_current();
 	/* - Convert input value to uppercase and check versus list of allowed values. */
   sacio_char_to_keyword(kvalue_c, ktest);
 	ivalue = nequal( ktest, (char*)kmlhf.kiv,9, SAC_ENUMS );
@@ -75,7 +76,7 @@ setihv(char *kname,
   /* - If legal header name, store value in appropriate header field.
    *   Otherwise, set and report error condition. */
   if( index > 0 ){
-    IHDR(CURRENT)[index-1] = ivalue;
+    IHDR(s)[index-1] = ivalue;
   }
   else{
     *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;

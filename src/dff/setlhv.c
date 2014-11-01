@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "amf.h"
 #include "dff.h"
 #include "bot.h"
 #include "co.h"
@@ -17,7 +18,7 @@
 #include "bool.h"
 #include "SacHeader.h"
 #include "errors.h"
-extern sac *CURRENT;
+
 /** 
  * Set a logical header value in the current SAC file
  * 
@@ -44,19 +45,20 @@ setlhv(char *kname,
 	char ktest[9];
 	int index;
 	char *kname_c;
+  sac *s;
 
 	kname_c = fstrdup(kname, kname_s);
 	kname_s = strlen(kname_c) + 1;
 
 	*nerr = 0;
-
+  s = sacget_current();
 	/* - Convert input name to uppercase and check versus list of legal names. */
   sacio_char_to_keyword(kname_c, ktest);
 	index = nequal( ktest, (char*)kmlhf.klhdr,9, SAC_HEADER_LOGICALS );
 
 	/* - Store value in appropriate header field. */
 	if( index > 0 ){
-    LHDR(CURRENT)[index-1] = *lvalue;
+    LHDR(s)[index-1] = *lvalue;
 	}
 	else{
 	    *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;

@@ -25,7 +25,6 @@ test_before_init_vars() {
 
 void
 test_init_vars() {
-  int i;
 
   /* This calls inivars() and inimsg() and iniam() */
   initializevars(); 

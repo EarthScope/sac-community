@@ -11,7 +11,7 @@
 #include "msg.h"
 #include "errors.h"
 #include "SacHeader.h"
-extern sac *CURRENT;
+
 /** 
  * Write an unevenly spaced or spectral SAC file
  * 
@@ -52,7 +52,7 @@ wsac2(char  *kname,
   s = sac_new();
   s->m->filename = fstrdup(kname, kname_s);
   sacput(s);
-  CURRENT = s;
+
 	/* - Set up the header fields passed by the calling program. */
 	s->h->npts  = *nlen;
 	s->h->b     = xarray[0];

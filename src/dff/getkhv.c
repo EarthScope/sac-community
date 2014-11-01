@@ -18,7 +18,6 @@
 #include "bool.h"
 #include "SacHeader.h"
 #include "errors.h"
-extern sac *CURRENT;
 
 int
 is_kundef(char *kvalue) {
@@ -67,7 +66,7 @@ getkhv(char *kname,
           }
 	}
 
-  s = CURRENT;
+  s = sacget_current();
 	kname_c = fstrdup(kname, kname_s);
 	kname_s = strlen(kname_c) + 1;
 

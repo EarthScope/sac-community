@@ -21,7 +21,6 @@
 #include "bool.h"
 #include "string_utils.h"
 
-extern sac *CURRENT;
 /** 
  * Determine the byte order of the machine
  * 
@@ -278,7 +277,7 @@ wsac0(char  *kname,
 	char *kname_c;
   float *x,*y;
 
-  s = CURRENT;
+  s = sacget_current();
 
   sacio_initialize_common();
 

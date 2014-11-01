@@ -1,16 +1,17 @@
 #include <string.h>
 #include <math.h>
 
+#include "amf.h"
 #include "unit.h"
 #include "hdr.h"
 #include "dff.h"
 #include "SacHeader.h"
 #include "sacio_test.h"
 sac *s;
-extern sac *CURRENT;
+
 void
 test_rsac1_header_file() {
-  s = CURRENT;
+  s = sacget_current();
 
   float_check(s->h->b, 0.0, "b");
   //float_check(s->h->begin, 0.0, "begin");
