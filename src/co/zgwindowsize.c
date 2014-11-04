@@ -10,7 +10,7 @@
  
 #include "config.h"
 
-#if POSIX
+#ifndef WIN_APP
 #if GWINSZ_IN_SYS_IOCTL
 # include <sys/ioctl.h>
 #else 
@@ -39,7 +39,7 @@ void
 zgwindowsize_(int *number_rows, 
 	      int *number_columns, 
 	      int *error_flag) { 
-#ifdef POSIX		  
+#ifndef WIN_APP
   struct winsize ws;
  
   if( (*error_flag = ioctl(fileno(stdin),TIOCGWINSZ,&ws) ) == 0)  {
