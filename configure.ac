@@ -1,7 +1,7 @@
 
 
 # Process this file with autoconf to produce a configure script.
-AC_INIT(Seismic Analysis Code, 101.6a, sac-help@iris.washington.edu, sac)
+AC_INIT(Seismic Analysis Code, 102.0, sac-help@iris.washington.edu, sac)
 
 # Place configuration files in the config directory
 AC_CONFIG_AUX_DIR(config)
