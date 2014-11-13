@@ -108,6 +108,7 @@ int *nerr;
 		/* -- "NUMBER n":  set number of windows. */
 		else if( lkint( "NUMBER$",8, &cmsam.nwin ) )
 		{ /* do nothing */ }
+    else if( lklog( "AMP#LITUDE$",10 , &cmsam.amplitude) ) { }
 
 		/* -- "LENGTH ON|OFF|v":  set window length in seconds. */
 		else if( lklogr( "LENGTH$",8, &cmsam.lwinln, &cmsam.winln ) ){
@@ -266,12 +267,17 @@ goto L_8888;
     if( nzeros > 0 )
       fill( signal + nlenCombined, nzeros, 0. );
 
-
 		/* -- Update any header fields that may have changed. */
 		/*	overhauled to preserve differences in begin times. maf 961204 */
     s->h->npts = nlenCombined;
 /*		*begin = -(float)( nlenmx )**delta + *begin - masterBegin ; */
 		s->h->e = s->h->b + s->h->delta*(float)( s->h->npts - 1 );
+    if(cmsam.amplitude) {
+      for(j = 0; j < s->h->npts; j++) {
+        signal[j] = s->h->delta * signal[j];
+      }
+    }
+
 		extrma( signal, 1, nlenCombined, &s->h->depmin, &s->h->depmax, &s->h->depmen );
     FREE(s->y);
     s->y = signal;

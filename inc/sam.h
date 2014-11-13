@@ -101,6 +101,10 @@ struct t_cmsam {
   int   iwintp;
   int   imast;
   float fddelta;
+  int   amplitude; /* Flag to indicate if convolve should multiple signal by delta 
+                    *   Converts a discrete convolution to one that preserves
+                    *   amplitude and takes into account the time sampling
+                    */
 } cmsam;
 
 

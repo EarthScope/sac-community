@@ -266,6 +266,7 @@ void /*FUNCTION*/ inisam()
 	cmsam.lwinln = FALSE;
 	cmsam.winln = 0.;
 	cmsam.imast = 1;
+  cmsam.amplitude = 0;
 	strcpy( kmsam.kwintp[0], "HAMMING " );
 	strcpy( kmsam.kwintp[1], "HANNING " );
 	strcpy( kmsam.kwintp[2], "COSINE  " );

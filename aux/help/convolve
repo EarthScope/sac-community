@@ -19,6 +19,10 @@ INPUT
    :MASTER name|n:  Select master file in data file list by name or
        number.  All files will be cornvolved with the MASTER.
     
+   :AMPLITUDE {OFF}: Perform a Discrete Convolution, ignore time sampling
+   
+   :AMPLITUDE ON: Preserve amplitudes by incorporating time sampling
+   
    :NUMBER n:  Set number of correlation windows to be used.
     
    :LENGTH {ON}:  Turn fixed window length option on.
@@ -42,13 +46,19 @@ INPUT
 DEFAULT VALUES
 --------------
 
-  ``CONVOLVE MASTER 1 NUMBER 1 LENGTH OFF TYPE RECTANGLE``
+  ``CONVOLVE MASTER 1 NUMBER 1 LENGTH OFF TYPE RECTANGLE AMPLITUDE OFF``
 
 DESCRIPTION
 -----------
   If there are N SAC files in memory, there are N output files that are the
   results of the convolution with MASTER.  There is no normalization.
   All signals in memory must have the same DELTA.
+
+  A Discrete Convolution is performed by default.  This does not multiply the
+  signal by the time sampling rate.  The resulting time series does preserve 
+  amplitudes as expected when the time sampling rate is taken into account. 
+  To enable amplitude perservation and incorporate the time sampling rate, use
+  AMPLITUDE ON.
   
   The algorithm assumes all time series are causal, so if one wants to 
   convolve signals with a boxcar (as a method of non-causal,low-pass 
