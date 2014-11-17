@@ -264,5 +264,11 @@ eval norm(5,12)
 eval len(2,2)
 eval norm(2,2)
 
-
-
+** prefix or polish notation
+fg seismo
+eval (DIVIDE 0.1 &1,delta)
+eval (ADD 0.1 ((DIVIDE 0.1 &1,DELTA)))
+eval (ADD 0.1 (DIVIDE 0.1 &1,DELTA))
+setbb nn1 ( INTEGER (( ADD 0.1 (( DIVIDE 0.1 &1,delta )))))
+setbb nn2 ( INTEGER ( ADD 0.1 ( DIVIDE 0.1 &1,delta )))
+getbb

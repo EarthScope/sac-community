@@ -645,8 +645,25 @@
  2.82843
   
  ==>  
-  
- ==>  
-  
- ==>  
+ ** prefix or polish notation
+ fg seismo
+ eval (DIVIDE 0.1 &1,delta)
+ ==>  eval 10
+ 10
+ eval (ADD 0.1 ((DIVIDE 0.1 &1,DELTA)))
+ ==>  eval 10.1
+ 10.1
+ eval (ADD 0.1 (DIVIDE 0.1 &1,DELTA))
+ ==>  eval 10.1
+ 10.1
+ setbb nn1 ( INTEGER (( ADD 0.1 (( DIVIDE 0.1 &1,delta )))))
+ ==>  setbb nn1 10
+ setbb nn2 ( INTEGER ( ADD 0.1 ( DIVIDE 0.1 &1,delta )))
+ ==>  setbb nn2 10
+ getbb
+ NN1 = 10
+ NN2 = 10
+ NUMERROR = 0
+ SACERROR = 'FALSE'
+ SACNFILES = 1
  quit

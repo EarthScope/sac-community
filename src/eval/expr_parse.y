@@ -231,6 +231,7 @@ state(A)   ::= LPAREN state(B) RPAREN.        { token_copy(&A,&B);       }
 
 num_or_pstate(A) ::= number(B).               { token_copy(&A,&B);}
 num_or_pstate(A) ::= LPAREN state(B) RPAREN.  { token_copy(&A,&B);}
+num_or_pstate(A) ::= LPAREN sac_math(B) RPAREN.  { token_copy(&A,&B);}
 
 func(A)    ::= SIN(E) num_or_pstate(B) .   { token_value(&A, sin( B.value ), E.col);  }
 func(A)    ::= COS(E) num_or_pstate(B) .   { token_value(&A, cos( B.value ), E.col);  }
@@ -341,7 +342,7 @@ state(A) ::= LPAREN sac_math(B) RPAREN . { token_copy(&A,&B); }
 expr(A)  ::= sac_math(B) . { token_copy(&A,&B); }
 
 list_item(A) ::= number (B). { token_copy(&A,&B); }
-list_item(A) ::= LPAREN state(B) RPAREN . { token_copy(&A,&B); }
+list_item(A) ::= LPAREN expr(B) RPAREN . { token_copy(&A,&B); }
 xlist(A)     ::= list_item(B) . { token_copy(&A,&B); }
 xlist(A)     ::= xlist(B) commas list_item(C) . { token_append(&A,&B,&C); }
 
