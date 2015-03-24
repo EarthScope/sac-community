@@ -4,7 +4,6 @@
 AC_DEFUN([CHECK_X11_DISPLAY],
     [
     if test x${display} = xx11; then
-       echo "Display: $display"
        no_x=
        AC_PATH_XTRA
        if test x"$no_x" == xyes ; then

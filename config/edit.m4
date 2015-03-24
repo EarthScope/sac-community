@@ -49,7 +49,6 @@ AC_ARG_ENABLE(editline, AS_HELP_STRING([--disable-editline],[disable editline co
 ])
 
 AC_DEFUN([CHECK_EDITING], [
-    echo "Readline: $readline"
     if test x${readline} = xon; then
         CHECK_CURSES
         CHECK_EDITLINE

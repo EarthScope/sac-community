@@ -3303,9 +3303,6 @@ database=off
 editline=on
 readline=on
 
-echo "EDITline: $editline"
-echo "READline: $readline"
-
 # Curses Library
 
 curses_library_found=no
@@ -5983,8 +5980,6 @@ done
 
 
 
-    echo "Editline: $editline"
-    echo "Readline: $readline"
     if test x${readline} = xon; then
 
 # Check whether --enable-ncurses was given.
@@ -6238,8 +6233,6 @@ $as_echo "#define EDITLINE_DISABLED 1" >>confdefs.h
 
 fi
     fi
-    echo "EDITLINE $editline"
-    echo "READLINE $readline"
      if  test x$editline = xon ; then
   EDITLINE_TRUE=
   EDITLINE_FALSE='#'
@@ -7057,7 +7050,6 @@ fi
 
 
     if test x${display} = xx11; then
-       echo "Display: $display"
        no_x=
        if test "$no_x" = yes; then
   # Not all programs may use this symbol, but it does not hurt to define it.
