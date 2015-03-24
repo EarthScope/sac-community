@@ -287,12 +287,13 @@ saccommands(char *kinmsg,
 {
 	char kcommand[30] = "        " ;
 	int lfound;
-	int index, module, nchar;
+	int index, module;
   char *temp;
   int n;
   char *p, *p1, *in;
   eval *e;
 
+  UNUSED(kinmsg_s);
   *nerr = 0;
   kcommand[0] = '\0' ; /* fix an access violation, maf 980507 */
 

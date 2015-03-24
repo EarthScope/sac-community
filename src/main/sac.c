@@ -319,10 +319,12 @@ sac_command_line_options(int argc, char **argv) {
 #ifdef X11_APP
     case 'L': set_constrain_plot_ratio_x11(TRUE); break;
 #endif
+    default:
+      break;
     }
+  }
 }
-#endif
-
+/* #endif */
 	/* - THIS IS THE MAIN LOOP OF THE PROGRAM.
 	 *   (1) "zgpmsg" sends a prompt to the user and gets a message back.
    */

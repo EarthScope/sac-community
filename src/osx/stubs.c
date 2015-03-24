@@ -87,7 +87,7 @@ osx_begindevice() {
 
 void  osx_init         ()                          { initsac(); }
 void  osx_begin_device (int *nerr)                 { *nerr = 0; }
-void  osx_begin_window (int *number, int *nerr)    { *nerr = 0; }
+void  osx_begin_window (int *number, int *nerr)    { UNUSED(number); *nerr = 0; }
 void  osx_end_device   (int *nerr)                 { *nerr = 0; }
 void  osx_end_frame    (int *nerr)                 { *nerr = 0; osx_sac_flush(); }
 void  osx_flush_buffer (int *nerr)                 { *nerr = 0; osx_sac_flush(); }
@@ -124,8 +124,12 @@ osx_create_window(int *win_num,
                   float *xmin_vp,
                   float *xmax_vp,
                   float *ymin_vp,
-                  float *ymax_yp,
+                  float *ymax_vp,
                   int *nerr) {
+  UNUSED(xmin_vp);
+  UNUSED(xmax_vp);
+  UNUSED(ymin_vp);
+  UNUSED(ymax_vp);
     *nerr = 0;
     if(! osx_sac_find_window(*win_num) ) {
         osx_sac_create_window(*win_num);
@@ -141,6 +145,7 @@ osx_set_color_table(int          win_num,
                     float        red[], 
                     float        green[], 
                     float        blue[]) { 
+  UNUSED(win_num);
     int i;
     for(i = 0; i < (int)nentry; i++) {
         pixdef6[i].red   = red[i]   * SAC_COLOR_MAXIMUM;
@@ -167,6 +172,7 @@ osx_set_pseudo_color_table(int *win_num,
     int i;
     int n = (int) un;
     int nalloc = n + cmgdm.npscimage + 7;
+    UNUSED(win_num);
     k = n - 1 + 7;
     set_color(&pixdef6[n-1+7], red[n-1], green[n-1], blue[n-1], SAC_COLOR_MAXIMUM);
     set_color(&pixdef6[7],     red[0],   green[0],   blue[0], SAC_COLOR_MAXIMUM);
@@ -292,12 +298,14 @@ osx_show_image(float *data,
 
 void
 osx_alpha_info(int *num_lines, char erase[], int erase_length ) {
+  UNUSED(erase_length);
     *num_lines = 40000;
     erase[0] = ' ';
 }
 
 void
 osx_cursor(float *x, float *y, char c[], int length) {
+  UNUSED(length);
     osx_sac_wait_for_keypress(x,y,c);
     *x = osx_to_view_x(*x);
     *y = osx_to_view_y(*y);
@@ -328,6 +336,7 @@ char *
 osx_handle_event( int *nerr ) {
   size_t n;
   char pmsg[1024];
+  UNUSED(nerr);
   memset(pmsg,0,sizeof(pmsg));
   read(osx_fd[ OSX_FD_READ ], &n, sizeof(size_t) ); /* Length */
   read(osx_fd[ OSX_FD_READ ], &pmsg[0], n );        /* Message */
@@ -374,21 +383,4 @@ initdevice_osx() {
     
 }
 
-int 
-sac_files_length() {
-    return cmdfm.ndfl;
-}
-
-float 
-sac_files_float(int fid, int hid) {
-  //sac *s;
-  /* Return the float value from the header of a file */
-  return 0;
-  //return f[hid];
-}
-
-char *
-sac_files_header_name(int hid) {
-    return strcut(kmlhf.kfhdr[hid], 1, 8);
-}
 
