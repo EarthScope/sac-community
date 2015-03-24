@@ -12,7 +12,7 @@ void osx_init();
 void sac_main_loop();
 void settextwait(char *mode);
 void osx_gui_command(char *cmd);
-void sac_initialize(int *argc, char ***argv);
+void sac_initialize(int argc, char **argv);
 
 
 @implementation SAC
@@ -55,11 +55,26 @@ void sac_create_window(void *id, int n) {
 }
 
 - (void) applicationDidFinishLaunching: (NSNotification *) note {
-  /* Create SACAUX from variable name*/
-  NSString *aux = [[NSBundle mainBundle] pathForResource: @"aux" ofType: nil];
-  setenv("SACAUX", [aux UTF8String], 1);
+  NSString *aux;
+  NSArray *args;
+  int i;
+  int argc;
+  char **argv;
 
-  sac_initialize(_NSGetArgc(), _NSGetArgv());
+  /* Create SACAUX from variable name*/
+  aux = [[NSBundle mainBundle] pathForResource: @"aux" ofType: nil];
+  setenv("SACAUX", [aux UTF8String], 1);
+  
+  /* Convert arguments into argc,argv */
+  args = [[NSProcessInfo processInfo] arguments]; 
+  argc = [args count];
+  argv = (char **) malloc(sizeof(char *) * argc);
+  for(i = 0; i < argc; i++) {
+    argv[i] = strdup( [[args objectAtIndex: i] UTF8String ] );
+  }
+
+
+  sac_initialize(argc, argv);
 
   osx_init();
   settextwait("OF");
