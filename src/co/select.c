@@ -25,9 +25,7 @@
 #include "proto.h"
 #include "bool.h"
 #include "select.h"
-#ifdef USE_X11
 #include "gd3.x11.h"
-#endif
 #include "gdm.h"
 #include "comlists.h"
 #include "debug.h"

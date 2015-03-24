@@ -6,9 +6,7 @@
 #include "gem.h"
 #include "gdm.h"
 
-#ifdef USE_X11
 #include "gd3.x11.h"
-#endif
 
 #include "bool.h"
 #include "cpf.h"
@@ -50,7 +48,7 @@ L_1000:
             Xwindowmax[iwin] = tmp[1];
             set_window_width( -1 );
             set_window_height( -1 );
-			#ifdef USE_X11
+      #ifdef X11_APP
             set_constrain_plot_ratio_x11( FALSE );
 			#endif
           } else if( lkrrcp( "YSIZE$",7, 0., 1., &Ywindowmin[iwin], &Ywindowmax[iwin] ) ){
@@ -70,7 +68,7 @@ L_1000:
             set_window_height( height );
 
           } else if( lklogr( "ASPECT$", 8, &ratio_on, &ratio) ) { 
-			  #ifdef USE_X11
+			  #ifdef X11_APP
               set_constrain_plot_ratio_x11( ratio_on );
               if(ratio_on) {
                   set_plot_ratio_x11( ratio );

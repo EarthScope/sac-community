@@ -6,9 +6,7 @@
 
 
 #include "gd2.h"
-#ifdef USE_X11
 #include "gd3.x11.h"
-#endif
 
 #include "debug.h"
 

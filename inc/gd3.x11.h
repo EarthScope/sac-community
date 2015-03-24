@@ -10,7 +10,7 @@
 
 #include "config.h"
 
-#ifdef X11_APPLICATION
+#ifdef X11_APP
 
 /*
  * COMMON for XWindow graphics device.
@@ -434,6 +434,6 @@ void xwindow_set_font_base(int type);
 void xwindow_redraw(XWindow *xw);
 Font load_font(Display *display, char *name);
 
-#endif /* X11_APPLICATION */
+#endif /* X11_APP */
 #endif /* _GD3_X11_H_ */
 

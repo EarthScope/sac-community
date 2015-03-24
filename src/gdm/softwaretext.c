@@ -5,7 +5,7 @@
 #include "co.h"
 #include "gdm.h"
 
-#ifdef USE_X11
+#ifdef X11_APP
 #include "gd3.x11.h"
 #endif
 

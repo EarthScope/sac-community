@@ -5,9 +5,7 @@
 #include "config.h"
 
 #include "gd2.h"
-#ifdef USE_X11
 #include "gd3.x11.h"
-#endif
 
 void 
 cbar_window(unsigned int xloc,
@@ -24,7 +22,7 @@ cbar_window(unsigned int xloc,
 
     if( Lgdon[2] )
         cbar_window2(xloc,yloc,height,w_height,w_width,vspaceratio,ypmax,nerr);
-#ifdef X11_APPLICATION
+#ifdef X11_APP
     if( Lgdon[3] )
         cbar_window3(xloc,yloc,height,w_height,w_width,vspaceratio,ypmax,nerr);
 #endif

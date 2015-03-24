@@ -81,14 +81,14 @@ L_1000:
 			}
                 else if( lklist( "SYS#TEM$", 9, (char *)font_systems[0], 9, 3, &i) ) {
                   if(i >= 0) {
-					#ifdef USE_X11
+					#ifdef X11_APP
                     xwindow_set_font_system( i-1 );
 					#endif
                   }
                 }
                 else if( lklist( "NAME$", 6, (char *)fonts[0], 13, 4, &i) ) {
                   if(i >= 0) {
-				    #ifdef USE_X11
+				    #ifdef X11_APP
                     xwindow_set_font_base( i-1 );
 					#endif
                   }

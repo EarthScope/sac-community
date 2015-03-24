@@ -13,7 +13,7 @@
 
 #include "gd2.h"
 
-#ifdef USE_X11
+#ifdef X11_APP
 #include "gd3.x11.h"
 #endif
 #include "string/array.h"
@@ -381,7 +381,7 @@ inigdm(int *nerr)
         gdm_init();
         
         initdevice2();
-#ifdef USE_X11
+#ifdef X11_APP
         initdevice3();
 #endif
 #ifdef WIN32

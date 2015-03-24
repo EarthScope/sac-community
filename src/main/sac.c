@@ -43,9 +43,6 @@ void sac_initialize(int argc, char **argv);
 void main_command(char *kmsg, int n);
 void execute_command_line(char *kmsg, int len);
 
-#ifdef X11_APPLICATION
-void set_constrain_plot_ratio_x11( int set );
-
 #ifndef WIN32
 void
 segfault_backtrace(int sig) {
@@ -61,6 +58,11 @@ segfault_backtrace(int sig) {
   exit(-11);
 }
 #endif 
+
+#ifdef X11_APP
+void set_constrain_plot_ratio_x11( int set );
+#endif
+
 void
 usage() {
   printf("Usage sac [options] [sac-macro-file]\n"
@@ -118,6 +120,7 @@ usage() {
  *
  */
 
+#ifdef X11_APP
 int
 main(int    argc, char **argv ) {
 
@@ -140,7 +143,7 @@ main(int    argc, char **argv ) {
   sac_main_loop();
 }
 
-#endif /* X11_APPLICATION */
+#endif /* X11_APP */
 
 void
 execute_command_line(char *kmsg, int len) {
@@ -256,17 +259,14 @@ sac_command_line_copyright(int argc, char **argv) {
     }
 }
 
-#ifdef WIN32
-void
-sac_command_line_options(int *argc_p, char ***argv_p) {
-  return;
-}
-#else 
+/* #ifdef WIN32 */
+/* void */
+/* sac_command_line_options(int *argc_p, char ***argv_p) { */
+/*   return; */
+/* } */
+/* #else  */
 void
 sac_command_line_options(int argc, char **argv) {
-  int i;
-	char kline[MCMSG+1], kmsg[MCMSG+1];
-	int ic, ic1, ic2, itype, nc, ncmsg, nerr, i;
   char ch;
 
   static struct option longopts[] = {
@@ -290,7 +290,7 @@ sac_command_line_options(int argc, char **argv) {
     {"set-default-station-name", no_argument, NULL, 'n'},
     {"stdout",                   no_argument, NULL, 's'},
     {NULL, 0, NULL, 0}
-  };
+};
 
   while((ch = getopt_long(argc, argv, "cCbBpPdDjJLtgnsh", longopts, NULL)) != -1) {
     switch(ch) {
