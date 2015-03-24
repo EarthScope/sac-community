@@ -93,7 +93,7 @@ if OSX_APP
   sac_LDADD        += $(FORMAT_LIBS) $(FRAMEWORK_FOUNDATION) $(FRAMEWORK_COCOA)
 endif
 if X11_APP
-  sac_LDADD        += $(X_PRE_LIBS) $(FORMAT_LIBS) $(xft_LIBS) $(X_EXTRA_LIBS) $(X_LIBS) -lX11
+  sac_LDADD        += $(X_PRE_LIBS) $(FORMAT_LIBS) $(xft_LIBS) $(xpm_LIBS) $(X_EXTRA_LIBS) $(X_LIBS) -lX11
 endif
 if WIN_APP
   sac_LDADD        += $(FORMAT_LIBS) -lWs2_32

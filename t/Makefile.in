@@ -82,9 +82,11 @@ target_triplet = @target@
 @EDITLINE_TRUE@am__append_1 = ../libedit/lib/libedit.a
 @EDITLINE_TRUE@am__append_2 = -I../libedit/include
 @X11_APP_TRUE@am__append_3 = -lsac_x11
+@X11_APP_TRUE@am__append_4 = $(X_PRE_LIBS) $(X_EXTRA_LIBS) $(X_LIBS) 
+@X11_APP_TRUE@am__append_5 = -lX11 
 check_PROGRAMS = use_sac$(EXEEXT) ucf$(EXEEXT) vars$(EXEEXT) \
 	sacio$(EXEEXT) $(am__EXEEXT_1)
-@HAVE_FC_TRUE@am__append_4 = saciof saclibf
+@HAVE_FC_TRUE@am__append_6 = saciof saclibf
 TESTS = use_sac$(EXEEXT) ucf$(EXEEXT) vars$(EXEEXT) sacio$(EXEEXT) \
 	$(am__EXEEXT_2) copy_files.sh testsuite/input/abs.sm \
 	testsuite/input/add.sm testsuite/input/addf.sm \
@@ -169,11 +171,11 @@ TESTS = use_sac$(EXEEXT) ucf$(EXEEXT) vars$(EXEEXT) sacio$(EXEEXT) \
 	testsuite/input/yvport.sm testsuite/input/zaddf.sm \
 	testsuite/input/zam.sm testsuite/input/zfft.sm \
 	testsuite/input/zifft.sm testsuite/input/zprocessline.sm \
-	testsuite/input/zzzzcd.sm $(am__append_6)
-@HAVE_FC_TRUE@am__append_5 = sacio_fortran.sh saciof saclibf
+	testsuite/input/zzzzcd.sm $(am__append_8)
+@HAVE_FC_TRUE@am__append_7 = sacio_fortran.sh saciof saclibf
 
 # These tests have specific calls to the X11 device
-@X11_APP_TRUE@am__append_6 = testsuite/input/begindevices.sm \
+@X11_APP_TRUE@am__append_8 = testsuite/input/begindevices.sm \
 @X11_APP_TRUE@testsuite/input/report.sm \
 @X11_APP_TRUE@testsuite/input/enddevices.sm
 
@@ -229,24 +231,25 @@ am_ucf_OBJECTS = ucf.$(OBJEXT) ucf_inctim.$(OBJEXT) \
 ucf_OBJECTS = $(am_ucf_OBJECTS)
 ucf_LDADD = $(LDADD)
 am__DEPENDENCIES_1 =
-am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1)
-am__DEPENDENCIES_3 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+@X11_APP_TRUE@am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) \
+@X11_APP_TRUE@	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+am__DEPENDENCIES_3 = $(am__DEPENDENCIES_1)
+am__DEPENDENCIES_4 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
-ucf_DEPENDENCIES = $(am__append_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_2) $(am__DEPENDENCIES_3)
+ucf_DEPENDENCIES = $(am__append_1) $(am__DEPENDENCIES_2) \
+	$(am__DEPENDENCIES_3) $(am__DEPENDENCIES_4) \
+	$(am__DEPENDENCIES_1)
 use_sac_SOURCES = use_sac.c
-use_sac_OBJECTS = use_sac.$(OBJEXT)
-use_sac_LDADD = $(LDADD)
-use_sac_DEPENDENCIES = $(am__append_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_2) $(am__DEPENDENCIES_3)
+use_sac_OBJECTS = use_sac-use_sac.$(OBJEXT)
+use_sac_DEPENDENCIES =
+use_sac_LINK = $(CCLD) $(use_sac_CFLAGS) $(CFLAGS) $(use_sac_LDFLAGS) \
+	$(LDFLAGS) -o $@
 am_vars_OBJECTS = vars.$(OBJEXT)
 vars_OBJECTS = $(am_vars_OBJECTS)
 vars_LDADD = $(LDADD)
-vars_DEPENDENCIES = $(am__append_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_2) $(am__DEPENDENCIES_3)
+vars_DEPENDENCIES = $(am__append_1) $(am__DEPENDENCIES_2) \
+	$(am__DEPENDENCIES_3) $(am__DEPENDENCIES_4) \
+	$(am__DEPENDENCIES_1)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -689,8 +692,8 @@ AUTOMAKE_OPTIONS = no-dependencies #dejagnu
 @X11_APP_TRUE@SACBIN = ../src/sac
 LDADD = -L../src/ -lsac_all -lturtle -lsac_all -levalresp \
 	-lSMnonOracleFuncs -lSacOracleStubFuncs $(am__append_1) \
-	$(X_PRE_LIBS) $(X_EXTRA_LIBS) $(X_LIBS) $(SAC_GRAPHICS) \
-	$(FORMAT_LIBS) -lX11 -L. -lunit
+	$(am__append_4) $(SAC_GRAPHICS) $(FORMAT_LIBS) $(am__append_5) \
+	-L. -lunit
 FORMAT_LIBS = $(xpm_LIBS) $(png_LIBS) $(zlib_LIBS) $(xft_LIBS)
 #SAC_GRAPHICS     += -lsac_osx
 SAC_GRAPHICS = -L.. $(am__append_3) -lsgf -lturtle -lsac_all
@@ -735,6 +738,9 @@ sacio_SOURCES = sacio.c \
 sacio_CFLAGS = $(COVERAGE) -I$(top_srcdir)/include
 sacio_LDADD = -L../src/ -lsacio -L. -lunit
 sacio_LDFLAGS = 
+use_sac_CFLAGS = $(COVERAGE) 
+use_sac_LDADD = -L../src -lsacio -L. -lunit
+use_sac_LDFLAGS = 
 TEST_EXTENSIONS = .sm
 SM_LOG_COMPILER = $(top_srcdir)/t/pytest.py
 AM_SM_LOG_FLAGS = -s "$(abs_builddir)/$(SACBIN)" -o "${abs_top_srcdir}/t/testsuite/output" --test
@@ -802,7 +808,7 @@ ucf$(EXEEXT): $(ucf_OBJECTS) $(ucf_DEPENDENCIES) $(EXTRA_ucf_DEPENDENCIES)
 
 use_sac$(EXEEXT): $(use_sac_OBJECTS) $(use_sac_DEPENDENCIES) $(EXTRA_use_sac_DEPENDENCIES) 
 	@rm -f use_sac$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(use_sac_OBJECTS) $(use_sac_LDADD) $(LIBS)
+	$(AM_V_CCLD)$(use_sac_LINK) $(use_sac_OBJECTS) $(use_sac_LDADD) $(LIBS)
 
 vars$(EXEEXT): $(vars_OBJECTS) $(vars_DEPENDENCIES) $(EXTRA_vars_DEPENDENCIES) 
 	@rm -f vars$(EXEEXT)
@@ -867,6 +873,12 @@ sacio-sacio_getset.o: sacio_getset.c
 
 sacio-sacio_getset.obj: sacio_getset.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sacio_CFLAGS) $(CFLAGS) -c -o sacio-sacio_getset.obj `if test -f 'sacio_getset.c'; then $(CYGPATH_W) 'sacio_getset.c'; else $(CYGPATH_W) '$(srcdir)/sacio_getset.c'; fi`
+
+use_sac-use_sac.o: use_sac.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(use_sac_CFLAGS) $(CFLAGS) -c -o use_sac-use_sac.o `test -f 'use_sac.c' || echo '$(srcdir)/'`use_sac.c
+
+use_sac-use_sac.obj: use_sac.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(use_sac_CFLAGS) $(CFLAGS) -c -o use_sac-use_sac.obj `if test -f 'use_sac.c'; then $(CYGPATH_W) 'use_sac.c'; else $(CYGPATH_W) '$(srcdir)/use_sac.c'; fi`
 
 .f.o:
 	$(AM_V_F77)$(F77COMPILE) -c -o $@ $<

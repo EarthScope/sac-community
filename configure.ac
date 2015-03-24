@@ -47,8 +47,8 @@ BINARY_DIST=""
 
 # Readline/Editline Handling (Editline On by Default, except for Cygwin)
 display=x11
-editline=off
-readline=off
+editline=on
+readline=on
 winaux=off
 
 # Operating System Checks and Sets
@@ -98,6 +98,7 @@ case "${host}" in
                                      AC_DEFINE( [CYGWIN],  [1], [ Cygwin32 System ] )
                                      BINARY_DIST="win32"
                                      readline=on
+                                     editline=off
                                      MATLAB_BIN_PATH="bin/win32"
                                      MATLAB_EXE_PATH="bin/matlab"
                                      AC_MSG_CHECKING([for Cygwin version])
@@ -113,7 +114,6 @@ case "${host}" in
                                      windows=on
 				     readline=off
 				     curses=off
-				     use_x11=off
 				     MATLAB_BIN_PATH=""
 				     MATLAB_EXE_PATH=""
                                      AM_CXXFLAGS=-mwindows
@@ -191,14 +191,12 @@ CHECK_ZLIB
 CHECK_PNG
 
 if [ test x${display} != xosx ]; then
-  CHECK_OPENMP
+   CHECK_OPENMP
 fi
 
 if test x${display} = xx11 ; then
    AC_DEFINE([USE_TERMIOS], [1], [ Program needs the Terminal (TTY) to Function ] )
 fi
-
-CHECK_OPENMP
 
 # Checks for programs.
 AC_PROG_RANLIB
@@ -248,10 +246,6 @@ AC_CHECK_FUNC(sleep,     [ AC_DEFINE( [HAVE_FUNC_SLEEP],         [1], [ System L
 						             [ AC_DEFINE( [MISSING_FUNC_SLEEP],      [1], [ System Libraries missing sleep ]) ] )
 AC_CHECK_FUNC(strlcpy,   [ AC_DEFINE( [HAVE_FUNC_STRLCPY],         [1], [ System Libraries define strlcpy ]) ],
             						 [ AC_DEFINE( [MISSING_FUNC_STRLCPY],      [1], [ System Libraries missing strlcpy ]) ] )
-
-if test x$use_x11 == xon ; then
-   AC_DEFINE([USE_X11],[1],[Use X11 as a Graphics Device])
-fi
 
 # Check for typedefs, structures, and compiler characteristics
 #AC_C_CONST

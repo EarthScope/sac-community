@@ -11,7 +11,7 @@ AC_DEFUN([NCURSES_ON], [ CURSES_SEARCH_PATH="ncurses curses termcap" ])
 AC_DEFUN([NCURSES_OFF], [ CURSES_SEARCH_PATH="curses termcap" ])
 AC_DEFUN([EDITLINE_TURN_ON],  [ editline=on ] )
 AC_DEFUN([READLINE_TURN_ON],  [ readline=on ] )
-AC_DEFUN([READLINE_ON],       [ AC_DEFINE([READLINE],          [1], [Compile with command line capabilities]) ])
+AC_DEFUN([EDITING_ON],       [ AC_DEFINE([READLINE],          [1], [Compile with command line capabilities]) ])
 AC_DEFUN([EDITLINE_TURN_OFF], [ AC_DEFINE([EDITLINE_DISABLED], [1], [Compile without editline comand line capabilities]) ])
 
 AC_DEFUN([CHECK_CURSES],[
@@ -57,7 +57,7 @@ AC_DEFUN([CHECK_EDITING], [
         # Handle the Editline Library
         AS_IF( [ test x$editline = xon ], [
            CURSES
-           READLINE_ON
+           EDITING_ON
            editline=on
            readline=off
         ])
@@ -65,7 +65,7 @@ AC_DEFUN([CHECK_EDITING], [
         # Handle the Readline Library
         AS_IF( [ test x$readline = xon ], [
            CURSES
-           READLINE_ON
+           EDITING_ON
            AC_CHECK_HEADERS([ readline/readline.h ],
               AC_SEARCH_LIBS([add_history], [readline]),
               [AC_MSG_FAILURE( --enable-readline was given, but test for readline failed)] )

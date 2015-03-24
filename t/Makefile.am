@@ -33,8 +33,10 @@ if EDITLINE
 LDADD            += ../libedit/lib/libedit.a
 CFLAGS           += -I../libedit/include
 endif
+
 FORMAT_LIBS      = $(xpm_LIBS) $(png_LIBS) $(zlib_LIBS) $(xft_LIBS)
 SAC_GRAPHICS     = -L.. 
+
 if X11_APP
 SAC_GRAPHICS     += -lsac_x11
 endif
@@ -42,8 +44,20 @@ if OSX_APP
 #SAC_GRAPHICS     += -lsac_osx
 endif
 SAC_GRAPHICS     +=  -lsgf -lturtle -lsac_all
-LDADD            +=  $(X_PRE_LIBS) $(X_EXTRA_LIBS) $(X_LIBS) \
-	             $(SAC_GRAPHICS) $(FORMAT_LIBS) -lX11 -L. -lunit
+
+if X11_APP
+LDADD            +=  $(X_PRE_LIBS) $(X_EXTRA_LIBS) $(X_LIBS) 
+endif
+
+LDADD            += $(SAC_GRAPHICS) $(FORMAT_LIBS)
+
+if X11_APP
+LDADD            += -lX11 
+endif 
+
+LDADD            += -L. -lunit
+
+
 
 EXTRA_DIST = testsuite \
              testsuite/input testsuite/output \
@@ -91,6 +105,10 @@ endif
 sacio_CFLAGS = $(COVERAGE) -I$(top_srcdir)/include
 sacio_LDADD = -L../src/ -lsacio -L. -lunit
 sacio_LDFLAGS =
+
+use_sac_CFLAGS= $(COVERAGE) 
+use_sac_LDADD = -L../src -lsacio -L. -lunit
+use_sac_LDFLAGS = 
 
 #saclibf${EXEEXT}: saclib_f.o
 #	$(F77) $(COVERAGE) -o $@ saclib_f.o -L../src -lsac

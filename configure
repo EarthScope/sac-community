@@ -3303,6 +3303,9 @@ database=off
 editline=on
 readline=on
 
+echo "EDITline: $editline"
+echo "READline: $readline"
+
 # Curses Library
 
 curses_library_found=no
@@ -3418,8 +3421,8 @@ BINARY_DIST=""
 
 # Readline/Editline Handling (Editline On by Default, except for Cygwin)
 display=x11
-editline=off
-readline=off
+editline=on
+readline=on
 winaux=off
 
 # Operating System Checks and Sets
@@ -3485,6 +3488,7 @@ $as_echo "#define CYGWIN 1" >>confdefs.h
 
                                      BINARY_DIST="win32"
                                      readline=on
+                                     editline=off
                                      MATLAB_BIN_PATH="bin/win32"
                                      MATLAB_EXE_PATH="bin/matlab"
                                      { $as_echo "$as_me:${as_lineno-$LINENO}: checking for Cygwin version" >&5
@@ -3504,7 +3508,6 @@ $as_echo "#define MINGW 1" >>confdefs.h
                                      windows=on
 				     readline=off
 				     curses=off
-				     use_x11=off
 				     MATLAB_BIN_PATH=""
 				     MATLAB_EXE_PATH=""
                                      AM_CXXFLAGS=-mwindows
@@ -5980,6 +5983,7 @@ done
 
 
 
+    echo "Editline: $editline"
     echo "Readline: $readline"
     if test x${readline} = xon; then
 
@@ -6234,6 +6238,8 @@ $as_echo "#define EDITLINE_DISABLED 1" >>confdefs.h
 
 fi
     fi
+    echo "EDITLINE $editline"
+    echo "READLINE $readline"
      if  test x$editline = xon ; then
   EDITLINE_TRUE=
   EDITLINE_FALSE='#'
@@ -8669,79 +8675,6 @@ $as_echo "#define USE_TERMIOS 1" >>confdefs.h
 
 fi
 
-
-
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for OpenMP flag of C compiler" >&5
-$as_echo_n "checking for OpenMP flag of C compiler... " >&6; }
-if ${ax_cv_c_openmp+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  saveCFLAGS=$CFLAGS
-ax_cv_c_openmp=unknown
-# Flags to try:  -fopenmp (gcc), -openmp (icc), -mp (SGI & PGI),
-#                -xopenmp (Sun), -omp (Tru64), -qsmp=omp (AIX), none
-ax_openmp_flags="-fopenmp -openmp -mp -xopenmp -omp -qsmp=omp none"
-if test "x$OPENMP_CFLAGS" != x; then
-  ax_openmp_flags="$OPENMP_CFLAGS $ax_openmp_flags"
-fi
-for ax_openmp_flag in $ax_openmp_flags; do
-  case $ax_openmp_flag in
-    none) CFLAGS=$saveC ;;
-    *) CFLAGS="$saveCFLAGS $ax_openmp_flag" ;;
-  esac
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-void omp_set_num_threads(int);
-int
-main ()
-{
-const int N = 100000;
-  int i, arr[N];
-
-  omp_set_num_threads(2);
-
-  #pragma omp parallel for
-  for (i = 0; i < N; i++) {
-    arr[i] = i;
-  }
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"; then :
-  ax_cv_c_openmp=$ax_openmp_flag; break
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-done
-CFLAGS=$saveCFLAGS
-
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_c_openmp" >&5
-$as_echo "$ax_cv_c_openmp" >&6; }
-if test "x$ax_cv_c_openmp" = "xunknown"; then
-  :
-else
-  if test "x$ax_cv_c_openmp" != "xnone"; then
-    OPENMP_CFLAGS=$ax_cv_c_openmp
-  fi
-
-
-$as_echo "#define HAVE_OPENMP 1" >>confdefs.h
-
-        CFLAGS="$CFLAGS $OPENMP_CFLAGS"
-        CXXFLAGS="$CXXFLAGS $OPENMP_CXXFLAGS"
-        FFLAGS="$FFLAGS $OPENMP_FFLAGS"
-        OBJCFLAGS="$OBJCFLAGS $OPENMP_CFLAGS"
-
-fi
-
-
-
 # Checks for programs.
 if test -n "$ac_tool_prefix"; then
   # Extract the first word of "${ac_tool_prefix}ranlib", so it can be a program name with args.
@@ -9182,12 +9115,6 @@ $as_echo "#define MISSING_FUNC_STRLCPY 1" >>confdefs.h
 
 fi
 
-
-if test x$use_x11 == xon ; then
-
-$as_echo "#define USE_X11 1" >>confdefs.h
-
-fi
 
 # Check for typedefs, structures, and compiler characteristics
 #AC_C_CONST

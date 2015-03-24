@@ -105,7 +105,7 @@ bin_PROGRAMS = sac$(EXEEXT)
 @DATABASE_FALSE@am__append_11 = libSacOracleStubFuncs.a
 @DATABASE_FALSE@am__append_12 = libSacOracleStubFuncs.a
 @OSX_APP_TRUE@am__append_13 = $(FORMAT_LIBS) $(FRAMEWORK_FOUNDATION) $(FRAMEWORK_COCOA)
-@X11_APP_TRUE@am__append_14 = $(X_PRE_LIBS) $(FORMAT_LIBS) $(xpm_LIBS) $(xft_LIBS) $(X_EXTRA_LIBS) $(X_LIBS) -lX11
+@X11_APP_TRUE@am__append_14 = $(X_PRE_LIBS) $(FORMAT_LIBS) $(xft_LIBS) $(xpm_LIBS) $(X_EXTRA_LIBS) $(X_LIBS) -lX11
 @WIN_APP_TRUE@am__append_15 = $(FORMAT_LIBS) -lWs2_32
 
 # Readline/Editline Dependencies (Default = ON)
@@ -821,7 +821,8 @@ am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 @OSX_APP_TRUE@	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 @X11_APP_TRUE@am__DEPENDENCIES_4 = $(am__DEPENDENCIES_1) \
 @X11_APP_TRUE@	$(am__DEPENDENCIES_2) $(am__DEPENDENCIES_1) \
-@X11_APP_TRUE@	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+@X11_APP_TRUE@	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+@X11_APP_TRUE@	$(am__DEPENDENCIES_1)
 @WIN_APP_TRUE@am__DEPENDENCIES_5 = $(am__DEPENDENCIES_2)
 sac_DEPENDENCIES = libsac_all.a libsgf.a $(am__append_5) \
 	$(am__append_6) $(am__append_7) libsac_all.a libturtle.a \
