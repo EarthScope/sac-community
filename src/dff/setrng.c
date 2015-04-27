@@ -15,7 +15,6 @@
 #include "hdr.h"
 #include "co.h"
 
-
 /** 
  * Calculate and set the dependent variable range for all files in 
  *    the data file list.  Find the maximum value from the depmin
@@ -24,27 +23,27 @@
  * @date   820818:  Original version.
  *
  */
-void 
+void
 setrng() {
 
-	int i, nerr;
-  sac *s;
-	/* - Initialize range variables. */
-	cmgam.rngmin = VLARGE;
-	cmgam.rngmax = -VLARGE;
+    int i, nerr;
+    sac *s;
+    /* - Initialize range variables. */
+    cmgam.rngmin = VLARGE;
+    cmgam.rngmax = -VLARGE;
 
-	/* - For each file in DFL: */
-	for( i = 0; i < saclen(); i++ ){
-    if(!(s = sacget(i, FALSE, &nerr))) {
-      return;
+    /* - For each file in DFL: */
+    for (i = 0; i < saclen(); i++) {
+        if (!(s = sacget(i, FALSE, &nerr))) {
+            return;
+        }
+        /* -- Adjust range variables. */
+        cmgam.rngmin = fmin(cmgam.rngmin, s->h->depmin);
+        cmgam.rngmax = fmax(cmgam.rngmax, s->h->depmax);
+        DEBUG("%d %f %f\n", i, cmgam.rngmin, cmgam.rngmax);
     }
-		/* -- Adjust range variables. */
-		cmgam.rngmin = fmin( cmgam.rngmin, s->h->depmin );
-		cmgam.rngmax = fmax( cmgam.rngmax, s->h->depmax );
-    DEBUG("%d %f %f\n", i, cmgam.rngmin, cmgam.rngmax );
-	}
 
-  //L_8888:
-	return;
+    //L_8888:
+    return;
 
 }

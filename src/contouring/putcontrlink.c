@@ -12,13 +12,12 @@
 #include "contouring.h"
 extern struct contour contour;
 
-void 
+void
 putcontrlink(number, rlink)
-int number, rlink;
+     int number, rlink;
 {
 
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To put (store) the reverse link for an existing 
 	 *           contouring line point.
 	 *=====================================================================
@@ -39,14 +38,12 @@ int number, rlink;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900412
 	 *===================================================================== */
-	/* PROCEDURE: */
-	if( number <= cmcontouring.numpoints ){
-    contour.points[number-1].rlink = rlink;
-	}
-	else{
-		fprintf( stdout, "Illegal point number:%d putcontrlink\n", number );
-		exit(0);
-	}
-	return;
+    /* PROCEDURE: */
+    if (number <= cmcontouring.numpoints) {
+        contour.points[number - 1].rlink = rlink;
+    } else {
+        fprintf(stdout, "Illegal point number:%d putcontrlink\n", number);
+        exit(0);
+    }
+    return;
 }
-

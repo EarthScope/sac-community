@@ -27,30 +27,26 @@
  * @date   810000:  Original version.
  *
  */
-int 
-nequal(char *ksrch, 
-       char *klist, 
-       int   klist_s, 
-       int   nlist) {
+int
+nequal(char *ksrch, char *klist, int klist_s, int nlist) {
 
 #define KLIST(I_,J_)	(klist+(I_)*(klist_s)+(J_))
 
-	int jdx, jdx_, nequal_v;
+    int jdx, jdx_, nequal_v;
 
-	nequal_v = 0;
+    nequal_v = 0;
 
-	for ( jdx = 1 ; jdx <= nlist ; jdx++ ) {
-		jdx_ = jdx - 1 ;
-		if( memcmp ( ksrch , KLIST ( jdx_ , 0 ) ,
-      min ( (int)strlen ( ksrch ) , klist_s ) ) == 0 ) {
-			nequal_v = jdx ;
-			return( nequal_v ) ;
-		}
-	}
+    for (jdx = 1; jdx <= nlist; jdx++) {
+        jdx_ = jdx - 1;
+        if (memcmp(ksrch, KLIST(jdx_, 0), min((int) strlen(ksrch), klist_s)) ==
+            0) {
+            nequal_v = jdx;
+            return (nequal_v);
+        }
+    }
 
-	return( nequal_v ) ;
+    return (nequal_v);
 
 #undef	KLIST
 
 }
-

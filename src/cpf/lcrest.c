@@ -43,33 +43,29 @@
  *
  */
 int
-lcrest(int   mchar, 
-       char *kchar, 
-       int   kchar_s, 
-       int  *nchar) {
+lcrest(int mchar, char *kchar, int kchar_s, int *nchar) {
 
-  string *s;
-  Token *t;
+    string *s;
+    Token *t;
 
-  s = NULL;
+    s = NULL;
 
-  UNUSED(kchar_s);
+    UNUSED(kchar_s);
 
-  if(!arg()) {
-    return FALSE;
-  }
+    if (!arg()) {
+        return FALSE;
+    }
 
-  while((t = arg())) {
-    char *p = token_as_string(t);
-    s = string_append(s, p);
-    s = string_append(s, " ");
-    arg_next();
-    free(p);
-  }
-  *nchar = min(string_length(s), mchar);
-  strncpy(kchar, string_string(s), *nchar);
-  kchar[*nchar] = 0;
-  return TRUE;
+    while ((t = arg())) {
+        char *p = token_as_string(t);
+        s = string_append(s, p);
+        s = string_append(s, " ");
+        arg_next();
+        free(p);
+    }
+    *nchar = min(string_length(s), mchar);
+    strncpy(kchar, string_string(s), *nchar);
+    kchar[*nchar] = 0;
+    return TRUE;
 
 }
-

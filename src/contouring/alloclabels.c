@@ -13,16 +13,16 @@
 
 struct contour contour;
 
-
-void alloclabels(maxsegments, maxlabels, indexseglabelst, 
-	 indexseglabelnu, indexseglabelfi, indexlabelpoint, indexlabeltype, 
-	 indexlabelangle, indexlabeltext, nerr)
-int maxsegments, maxlabels, *indexseglabelst, *indexseglabelnu, 
-	 *indexseglabelfi, *indexlabelpoint, *indexlabeltype, *indexlabelangle, 
-	 *indexlabeltext, *nerr;
+void
+alloclabels(maxsegments, maxlabels, indexseglabelst, indexseglabelnu,
+            indexseglabelfi, indexlabelpoint, indexlabeltype, indexlabelangle,
+            indexlabeltext, nerr)
+     int maxsegments, maxlabels, *indexseglabelst, *indexseglabelnu,
+         *indexseglabelfi, *indexlabelpoint, *indexlabeltype, *indexlabelangle,
+         *indexlabeltext, *nerr;
 {
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To allocate storage for contour label information.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -56,19 +56,20 @@ int maxsegments, maxlabels, *indexseglabelst, *indexseglabelnu,
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900419
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* - Assume the worst. */
+    /* - Assume the worst. */
 
-	*indexseglabelst = 0;
-	*indexseglabelnu = 0;
-	*indexseglabelfi = 0;
-	*indexlabelpoint = 0;
-	*indexlabeltype = 0;
-	*indexlabelangle = 0;
-	*indexlabeltext = 0;
+    *indexseglabelst = 0;
+    *indexseglabelnu = 0;
+    *indexseglabelfi = 0;
+    *indexlabelpoint = 0;
+    *indexlabeltype = 0;
+    *indexlabelangle = 0;
+    *indexlabeltext = 0;
 
-  contour.label = (struct label *) malloc(sizeof(struct label) * maxlabels);
-  contour.labelseg = (struct labelseg *) malloc(sizeof(struct labelseg) * maxsegments);
+    contour.label = (struct label *) malloc(sizeof(struct label) * maxlabels);
+    contour.labelseg =
+        (struct labelseg *) malloc(sizeof(struct labelseg) * maxsegments);
 }

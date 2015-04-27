@@ -16,15 +16,13 @@
  * @date   870223:  Allowed for multiple windows.
  *
  */
-void 
+void
 getratio3(float *ratio) {
 
-  XWindow *xw;
+    XWindow *xw;
 
-  xw = plot_window( CURRENT );
+    xw = plot_window(CURRENT);
 
-  /* Set the aspect ratio */
-  *ratio = (float) xw->height / (float) xw->width;
+    /* Set the aspect ratio */
+    *ratio = (float) xw->height / (float) xw->width;
 }
-
-

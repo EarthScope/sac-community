@@ -31,39 +31,34 @@
  * @date   880412:  Documented / Reviewed
  *
  */
-void 
-unsetbbv(char *kname, 
-	 int  *nerr, 
-	 int   kname_s) {
+void
+unsetbbv(char *kname, int *nerr, int kname_s) {
 
-	char ktemp[33];
-	int nc;
+    char ktemp[33];
+    int nc;
 
-	char *kname_c;
-	
-	kname_c = fstrdup(kname, kname_s);
-	kname_s = strlen(kname_c) + 1;
-	
-	nc = min( indexb( kname_c,kname_s ), 32 );
-	strcpy( ktemp, "                                " );
-	modcase( TRUE, kname_c, nc, ktemp );
-  ktemp[nc] = 0;
-	deletev( kmbbs.knmbbs,MCPFN+1, ktemp,33, nerr );
+    char *kname_c;
 
-	free(kname_c);
+    kname_c = fstrdup(kname, kname_s);
+    kname_s = strlen(kname_c) + 1;
 
-	return;
+    nc = min(indexb(kname_c, kname_s), 32);
+    strcpy(ktemp, "                                ");
+    modcase(TRUE, kname_c, nc, ktemp);
+    ktemp[nc] = 0;
+    deletev(kmbbs.knmbbs, MCPFN + 1, ktemp, 33, nerr);
+
+    free(kname_c);
+
+    return;
 }
 
-
-
-void unsetbbv_ (char      *kname, 
-		int       *nerr, 
-		int        kname_s) {
-  unsetbbv(kname, nerr, kname_s) ;
+void
+unsetbbv_(char *kname, int *nerr, int kname_s) {
+    unsetbbv(kname, nerr, kname_s);
 }
-void unsetbbv__ (char      *kname, 
-		 int       *nerr, 
-		 int        kname_s) {
-  unsetbbv(kname, nerr, kname_s) ;
+
+void
+unsetbbv__(char *kname, int *nerr, int kname_s) {
+    unsetbbv(kname, nerr, kname_s);
 }

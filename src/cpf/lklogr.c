@@ -11,7 +11,6 @@
 #include "com.h"
 #include "bool.h"
 
-
 #include "bot.h"
 
 /** 
@@ -35,34 +34,29 @@
  *
  */
 int
-lklogr(char   *kkey, 
-       int     kkey_s, 
-       int    *logv, 
-       double *realv) {
+lklogr(char *kkey, int kkey_s, int *logv, double *realv) {
 
-	int lklogr_v;
-	int nerr;
+    int lklogr_v;
+    int nerr;
 
-	/* - Check for key. */
-	lklogr_v = lckey( kkey,kkey_s );
+    /* - Check for key. */
+    lklogr_v = lckey(kkey, kkey_s);
 
-	/* - Get logical variable from next symbol if key was found.
-	 * - Perform standard error recovery if not found. */
+    /* - Get logical variable from next symbol if key was found.
+     * - Perform standard error recovery if not found. */
 
-	if( lklogr_v ){
-L_2000:
-    if(lclog(logv)) {}
-    else if(lcreal(realv)) {
-      *logv = TRUE;
+    if (lklogr_v) {
+      L_2000:
+        if (lclog(logv)) {
+        } else if (lcreal(realv)) {
+            *logv = TRUE;
+        } else {
+            cfmt("NEED AN \"ON\", AN \"OFF\", OR A REAL:", 36);
+            cresp();
+            if (lcmore(&nerr))
+                goto L_2000;
+        }
     }
-		else{
-			cfmt( "NEED AN \"ON\", AN \"OFF\", OR A REAL:",36 );
-			cresp();
-			if( lcmore( &nerr ) )
-				goto L_2000;
-			}
-		}
 
-	return( lklogr_v );
+    return (lklogr_v);
 }
-

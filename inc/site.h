@@ -17,8 +17,8 @@
  * 
  */
 struct t_cmsite {
-  int  nsitecomnames;
-  int  isitecomindex[MSITECOMNAMES];
+    int nsitecomnames;
+    int isitecomindex[MSITECOMNAMES];
 } cmsite;
 
 /** 
@@ -27,13 +27,11 @@ struct t_cmsite {
  * 
  */
 struct t_kmsite {
-  char ksitecomnames[MSITECOMNAMES][9];
+    char ksitecomnames[MSITECOMNAMES][9];
 } kmsite;
 
-
-void initsite (void);
-void xsitecom ( int index, 
-                int *nerr);
-void xtestsite ( int *nerr);
+void initsite(void);
+void xsitecom(int index, int *nerr);
+void xtestsite(int *nerr);
 
 #endif /* _SITE_H_ */

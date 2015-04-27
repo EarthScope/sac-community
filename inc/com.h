@@ -20,8 +20,7 @@
 #define MKARGS  100
 
 struct t_cmcom {
-  int   ncerr;  /* Command Error number */
+    int ncerr;                  /* Command Error number */
 } cmcom;
-
 
 #endif /* _COM_H_ */

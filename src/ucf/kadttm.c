@@ -9,7 +9,6 @@
 
 #include "ucf.h"
 
-
 #include "co.h"
 
 /** 
@@ -35,35 +34,30 @@
  * @date   860203:  Original version.
  *
  */
-void 
-kadttm(int  *idttm, 
-       char *kdttm, 
-       int   kdttm_s, 
-       int  *nerr) {
+void
+kadttm(int *idttm, char *kdttm, int kdttm_s, int *nerr) {
 
-	char kdt[19], ktm[13];
+    char kdt[19], ktm[13];
 
-	int *const Idttm = &idttm[0] - 1;
+    int *const Idttm = &idttm[0] - 1;
     memset(kdt, 0, sizeof(kdt));
     memset(ktm, 0, sizeof(ktm));
-	/* - Convert date part. */
-	kadate( Idttm[1], Idttm[2], 18, kdt,19, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    /* - Convert date part. */
+    kadate(Idttm[1], Idttm[2], 18, kdt, 19, nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* - Convert time part. */
-	katime( Idttm[3], Idttm[4], Idttm[5], Idttm[6], 12, ktm,13, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    /* - Convert time part. */
+    katime(Idttm[3], Idttm[4], Idttm[5], Idttm[6], 12, ktm, 13, nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* - Append two parts to form output argument. */
-        fstrncpy( kdttm, kdttm_s-1, kdt, strlen(kdt));
-        fstrncpy( kdttm+strlen(kdt), kdttm_s-1-strlen(kdt),
-                                           " ", 1 );
-        fstrncpy( kdttm+strlen(kdt)+1, kdttm_s-1-strlen(kdt)-1,
-                                    ktm, strlen(ktm));
+    /* - Append two parts to form output argument. */
+    fstrncpy(kdttm, kdttm_s - 1, kdt, strlen(kdt));
+    fstrncpy(kdttm + strlen(kdt), kdttm_s - 1 - strlen(kdt), " ", 1);
+    fstrncpy(kdttm + strlen(kdt) + 1, kdttm_s - 1 - strlen(kdt) - 1, ktm,
+             strlen(ktm));
 
-L_8888:
-	return;
+  L_8888:
+    return;
 }
-

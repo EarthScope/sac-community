@@ -31,42 +31,38 @@
  * @date   871012:  Documented / Reviewed
  *
  */
-void 
-readbbf(char *kname, 
-	int  *nerr, 
-	int   kname_s) {
+void
+readbbf(char *kname, int *nerr, int kname_s) {
 
-	char *kname_c;
-  int notused;
-	kname_c = fstrdup(kname, kname_s);
+    char *kname_c;
+    int notused;
+    kname_c = fstrdup(kname, kname_s);
 
-	/* - Initialize blackboard store and sacmem array if needed. */
-	if( strcmp(kmbbs.kbbsinit,"INITDONE") != 0 ){
-		initializevars();
-		inibbs();
-		inivars () ;
-	}
+    /* - Initialize blackboard store and sacmem array if needed. */
+    if (strcmp(kmbbs.kbbsinit, "INITDONE") != 0) {
+        initializevars();
+        inibbs();
+        inivars();
+    }
 
-	/* - Read file from disk using the blackboard reserved name. */
+    /* - Read file from disk using the blackboard reserved name. */
 
-	strcpy( kmbbs.knmbbs, kname_c);
+    strcpy(kmbbs.knmbbs, kname_c);
 
-  readvfile(kmbbs.knmbbs, MCPFN+1, &notused, nerr);
+    readvfile(kmbbs.knmbbs, MCPFN + 1, &notused, nerr);
 
-	free(kname_c);
+    free(kname_c);
 
-	return;
+    return;
 }
-
 
 /* Added for FORTRAN friendliness */
-void readbbf_ (char      *kname, 
-	       int       *nerr, 
-	       int        kname_s) {
-  readbbf(kname, nerr, kname_s) ;
+void
+readbbf_(char *kname, int *nerr, int kname_s) {
+    readbbf(kname, nerr, kname_s);
 }
-void readbbf__ (char      *kname, 
-		int       *nerr, 
-		int        kname_s) {
-  readbbf(kname, nerr, kname_s) ;
+
+void
+readbbf__(char *kname, int *nerr, int kname_s) {
+    readbbf(kname, nerr, kname_s);
 }

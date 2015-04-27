@@ -29,20 +29,17 @@
  *                   terminated strings to pass to apcmsg.
  *                   L. Minner
  */
-void 
-apcmsg2(char *kalpha, 
-	int   kalpha_s)
-{
-        char message[MCMSG];
-        
-        int msglen = (kalpha_s < (MCMSG - 1)) ? kalpha_s : (MCMSG - 1);
+void
+apcmsg2(char *kalpha, int kalpha_s) {
+    char message[MCMSG];
 
-        strncpy(message,kalpha,msglen);
-        message[msglen] = '\0';
+    int msglen = (kalpha_s < (MCMSG - 1)) ? kalpha_s : (MCMSG - 1);
 
-        apcmsg(message,msglen + 1);
+    strncpy(message, kalpha, msglen);
+    message[msglen] = '\0';
 
-        return;
+    apcmsg(message, msglen + 1);
+
+    return;
 
 }
-

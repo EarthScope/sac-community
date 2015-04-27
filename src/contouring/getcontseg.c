@@ -11,13 +11,12 @@
 #include "mach.h"
 #include "contouring.h"
 extern struct contour contour;
-void 
+void
 getcontseg(number, level, start, stop)
-int number, *level, *start, *stop;
+     int number, *level, *start, *stop;
 {
 
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To get information about an existing contouring segment.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -39,17 +38,15 @@ int number, *level, *start, *stop;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900315
 	 *===================================================================== */
-	/* PROCEDURE: */
-	if( number <= cmcontouring.numsegments ){
-    *level = contour.segments[number-1].level;
-    *start = contour.segments[number-1].start;
-    *stop  = contour.segments[number-1].stop;
-	}
-	else{
-		fprintf( stdout, "Illegal segment number: %d \n", number );
-		exit(0);
-	}
+    /* PROCEDURE: */
+    if (number <= cmcontouring.numsegments) {
+        *level = contour.segments[number - 1].level;
+        *start = contour.segments[number - 1].start;
+        *stop = contour.segments[number - 1].stop;
+    } else {
+        fprintf(stdout, "Illegal segment number: %d \n", number);
+        exit(0);
+    }
 
-	return;
+    return;
 }
-

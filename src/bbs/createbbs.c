@@ -19,14 +19,12 @@
  * @date    870301:  Original version.
  * @date    870301:  Documented / Reviewed
  */
-void 
+void
 createbbs(int *nerr) {
-  int notused;
+    int notused;
 
-  
-  sac_vars_delete( kmbbs.knmbbs );
-  createvlist( kmbbs.knmbbs,MCPFN+1, cmbbs.nlnbbs, &notused, nerr );
-  
-  return;
-} 
+    sac_vars_delete(kmbbs.knmbbs);
+    createvlist(kmbbs.knmbbs, MCPFN + 1, cmbbs.nlnbbs, &notused, nerr);
 
+    return;
+}

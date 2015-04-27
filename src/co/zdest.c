@@ -29,35 +29,31 @@
  * @date   830812:  Original version.
  *
  */
-void 
-zdest(char *kname, 
-      int   kname_s, 
-      int  *nerr) {
+void
+zdest(char *kname, int kname_s, int *nerr) {
 
-	int lexist;
-	int nc;
+    int lexist;
+    int nc;
 
-	*nerr = 0;
+    *nerr = 0;
 
-	/* - Check existence of file. */
-	zinquire( kname, &lexist );
+    /* - Check existence of file. */
+    zinquire(kname, &lexist);
 
-	/* - If file exists: */
-	if( lexist ){
-    if(kname_s > 0) {
-      nc = indexb(kname,kname_s);
-      if(nc > 0) {
-        kname[nc] = '\0';
-      }
+    /* - If file exists: */
+    if (lexist) {
+        if (kname_s > 0) {
+            nc = indexb(kname, kname_s);
+            if (nc > 0) {
+                kname[nc] = '\0';
+            }
+        }
+        *nerr = unlink(kname);
+    } else {
+        *nerr = ERROR_FILE_DOES_NOT_EXIST;
+        setmsg("ERROR", *nerr);
+        apcmsg(kname, kname_s);
     }
-    *nerr = unlink(kname);
-	}
-	else{
-	    *nerr = ERROR_FILE_DOES_NOT_EXIST;
-	    setmsg( "ERROR", *nerr );
-	    apcmsg( kname,kname_s );
-	}
 
-	return;
+    return;
 }
-

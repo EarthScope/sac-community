@@ -34,60 +34,59 @@
  * @date    851220  Last Modified
  * 
  */
-void 
-firtrn(char     *ftype, 
-       float    *x, 
-       int       n, 
-       float    *buffer, 
-       float    *y)
-{
-	int i, ihlfsz, iptrb1, iptrb2, iptrf, iqrtsz;
-	float c, pi, twopi;
+void
+firtrn(char *ftype, float *x, int n, float *buffer, float *y) {
+    int i, ihlfsz, iptrb1, iptrb2, iptrf, iqrtsz;
+    float c, pi, twopi;
 
-	float *const Buffer = &buffer[0] - 1;
+    float *const Buffer = &buffer[0] - 1;
 
-	pi = 3.14159265;
-	twopi = 2.*pi;
-	iptrf = 1;
-	iptrb1 = 201 + 1;
-	iptrb2 = iptrb1 + 2*1024;
-	ihlfsz = 201/2;
-	iqrtsz = 201/4;
+    pi = 3.14159265;
+    twopi = 2. * pi;
+    iptrf = 1;
+    iptrb1 = 201 + 1;
+    iptrb2 = iptrb1 + 2 * 1024;
+    ihlfsz = 201 / 2;
+    iqrtsz = 201 / 4;
 
-	/* Set up filter coefficients                                                    
-	 * */
-	zero( &Buffer[iptrf], 201 );
-	if( memcmp(ftype,"HILBERT",7) == 0 ){
-		for( i = 1; i <= iqrtsz; i++ ){
-			c = (2./(pi*(float)( 2*i - 1 )))*(.54 + .46*cos( twopi*
-			 (float)( 2*i - 1 )/(float)( 201 ) ));
-			Buffer[ihlfsz + 1 + (2*i - 1)] = c;
-			Buffer[ihlfsz + 1 - (2*i - 1)] = -c;
-			}
+    /* Set up filter coefficients                                                    
+     * */
+    zero(&Buffer[iptrf], 201);
+    if (memcmp(ftype, "HILBERT", 7) == 0) {
+        for (i = 1; i <= iqrtsz; i++) {
+            c = (2. / (pi * (float) (2 * i - 1))) * (.54 +
+                                                     .46 * cos(twopi *
+                                                               (float) (2 * i -
+                                                                        1) /
+                                                               (float) (201)));
+            Buffer[ihlfsz + 1 + (2 * i - 1)] = c;
+            Buffer[ihlfsz + 1 - (2 * i - 1)] = -c;
+        }
 
-		}
-	else if( memcmp(ftype,"DERIVATIVE",10) == 0 ){
+    } else if (memcmp(ftype, "DERIVATIVE", 10) == 0) {
 
-		for( i = 1; i <= ihlfsz; i++ ){
-			c = (cos( pi*(float)( i ) )/(float)( i ))*(.54 + .46*cos( pi*
-			 (float)( i )/(float)( ihlfsz ) ));
-			Buffer[ihlfsz + 1 + i] = c;
-			Buffer[ihlfsz + 1 - i] = -c;
-			}
+        for (i = 1; i <= ihlfsz; i++) {
+            c = (cos(pi * (float) (i)) / (float) (i)) * (.54 +
+                                                         .46 * cos(pi *
+                                                                   (float) (i) /
+                                                                   (float)
+                                                                   (ihlfsz)));
+            Buffer[ihlfsz + 1 + i] = c;
+            Buffer[ihlfsz + 1 - i] = -c;
+        }
 
-		}
+    }
 
+    /* Filtering operation with overlap-save to implement transform                  
+     * */
+    overlp(x, n, y, &Buffer[iptrf], 201, 1024, &Buffer[iptrb1],
+           &Buffer[iptrb2]);
 
-	/* Filtering operation with overlap-save to implement transform                  
-	 * */
-	overlp( x, n, y, &Buffer[iptrf], 201, 1024, &Buffer[iptrb1], &Buffer[iptrb2] );
+    /* Shift data to account for filtering delay                                     
+     * */
+    zshft(y, n, -ihlfsz);
 
-	/* Shift data to account for filtering delay                                     
-	 * */
-	zshft( y, n, -ihlfsz );
-
-	/* Done                                                                          
-	 * */
-	return;
+    /* Done                                                                          
+     * */
+    return;
 }
-

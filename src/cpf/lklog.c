@@ -11,9 +11,7 @@
 #include "com.h"
 #include "bool.h"
 
-
 #include "bot.h"
-
 
 /** 
  * Parse a keyed logical variable command construct
@@ -36,19 +34,16 @@
  *
  */
 int
-lklog(char *kkey, 
-      int   kkey_s, 
-      int  *logv) {
+lklog(char *kkey, int kkey_s, int *logv) {
 
-	/* - Check for key. */
-	if(!lckey( kkey,kkey_s )) {
-    return FALSE;
-  }
+    /* - Check for key. */
+    if (!lckey(kkey, kkey_s)) {
+        return FALSE;
+    }
 
-  if(!lclog(logv)) {
-    *logv = TRUE;
-  }
+    if (!lclog(logv)) {
+        *logv = TRUE;
+    }
 
-  return TRUE;
+    return TRUE;
 }
-

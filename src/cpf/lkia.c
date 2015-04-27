@@ -40,20 +40,14 @@
  *
  */
 int
-lkia(char *kkey, 
-     int   kkey_s, 
-     int   mnint, 
-     int   mxint, 
-     int  *ia, 
-     int  *nia) {
+lkia(char *kkey, int kkey_s, int mnint, int mxint, int *ia, int *nia) {
 
-	/* - Check for key. */
-	if(!lckey( kkey,kkey_s )) {
-    return FALSE;
-  }
-  
-  lcia(mnint, mxint, ia, nia);
-  
-  return TRUE;
+    /* - Check for key. */
+    if (!lckey(kkey, kkey_s)) {
+        return FALSE;
+    }
+
+    lcia(mnint, mxint, ia, nia);
+
+    return TRUE;
 }
-

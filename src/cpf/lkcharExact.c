@@ -14,7 +14,6 @@
 #include "bot.h"
 #include "bool.h"
 
-
 #include "ucf.h"
 #include "debug.h"
 /** 
@@ -50,20 +49,15 @@
  *
  */
 int
-lkcharExact(char *kkey, 
-	    int   kkey_s, 
-	    int   mchar, 
-	    char *kchar, 
-	    int   kchar_s, 
-	    int  *nchar) {
-  UNUSED(kchar_s);
-	/* - Check for key. */
-	if(!lckeyExact( kkey,kkey_s )) {
-    return FALSE;
-  }
+lkcharExact(char *kkey, int kkey_s, int mchar, char *kchar, int kchar_s,
+            int *nchar) {
+    UNUSED(kchar_s);
+    /* - Check for key. */
+    if (!lckeyExact(kkey, kkey_s)) {
+        return FALSE;
+    }
 
-  lcchar(kchar, mchar);
-  *nchar = strlen(kchar);
-  return TRUE;
+    lcchar(kchar, mchar);
+    *nchar = strlen(kchar);
+    return TRUE;
 }
-

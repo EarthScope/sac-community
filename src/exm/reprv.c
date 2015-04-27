@@ -12,7 +12,6 @@
 #include "exm.h"
 #include "msg.h"
 
-
 #include "bot.h"
 
 /** 
@@ -29,29 +28,26 @@
  * @date   820315:  Original version.
  *
  */
-void 
-reprv(char   *ktext, 
-      int     ktext_s, 
-      double  rv) {
+void
+reprv(char *ktext, int ktext_s, double rv) {
 
-	char kline[MCMSG+1];
-	int nctext;
-        char *strtemp;
+    char kline[MCMSG + 1];
+    int nctext;
+    char *strtemp;
     memset(kline, 0, sizeof(kline));
-	/* - Determine length of text. */
-	nctext = indexc( ktext,ktext_s, '$' );
+    /* - Determine length of text. */
+    nctext = indexc(ktext, ktext_s, '$');
 
-	/* - Write text and value of variable to message subsystem. */
+    /* - Write text and value of variable to message subsystem. */
 
-        strtemp = malloc(nctext+1);
-        strncpy(strtemp,ktext,nctext);
-        strtemp[nctext] = '\0';
+    strtemp = malloc(nctext + 1);
+    strncpy(strtemp, ktext, nctext);
+    strtemp[nctext] = '\0';
 
-        sprintf(kline,"   %s%s%12.5g", strtemp, " is ", rv );
-	aplmsg( kline,MCMSG+1 );
+    sprintf(kline, "   %s%s%12.5g", strtemp, " is ", rv);
+    aplmsg(kline, MCMSG + 1);
 
-        free(strtemp);
+    free(strtemp);
 
-	return;
+    return;
 }
-

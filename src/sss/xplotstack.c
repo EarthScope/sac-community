@@ -10,7 +10,6 @@
 #include "hdr.h"
 #include "bool.h"
 
-
 #include "pl.h"
 #include "bot.h"
 #include "ucf.h"
@@ -23,19 +22,19 @@
 
 extern float *sss_sum;
 
-void /*FUNCTION*/ xplotstack(nerr)
-int *nerr;
+void /*FUNCTION*/
+xplotstack(nerr)
+     int *nerr;
 {
-	char kptext[MCMSG+1], kret[9];
-	int lactive, lany, lwait , lframs ;
-	int ioffsetdta, ioffsettw, jdfl, jdfl1, jdfl2, 
-	 jfr, jloc, ncret, nfr, 
-	 nperfr, numplot;
-	float delay, factor, unused, unused_, xwloc, ypdel, ypmxsv, ywloc;
-	static char kwait[9] = "Waiting$";
+    char kptext[MCMSG + 1], kret[9];
+    int lactive, lany, lwait, lframs;
+    int ioffsetdta, ioffsettw, jdfl, jdfl1, jdfl2, jfr, jloc, ncret, nfr,
+        nperfr, numplot;
+    float delay, factor, unused, unused_, xwloc, ypdel, ypmxsv, ywloc;
+    static char kwait[9] = "Waiting$";
     char *tmp;
     sac *s;
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To execute the PLOTST command.  This command plots the
 	 *           files in the signal stack.
 	 *=====================================================================
@@ -74,272 +73,270 @@ int *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  850819
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
-	lframs = cmgem.lframe ;
-	/* PARSING PHASE: */
+    /* PROCEDURE: */
+    *nerr = 0;
+    lframs = cmgem.lframe;
+    /* PARSING PHASE: */
 
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-	while ( lcmore( nerr ) ){
+    while (lcmore(nerr)) {
 
-		/* -- "WEIGHTS ON|OFF":  plot files with or without weights. */
-		if( lklog( "WEIGHTS$",9, &cmsss.lpswt ) )
-		{ /* do nothing */ }
+        /* -- "WEIGHTS ON|OFF":  plot files with or without weights. */
+        if (lklog("WEIGHTS$", 9, &cmsss.lpswt)) {       /* do nothing */
+        }
 
-		/* -- "POLARITY ON|OFF":  plot files with or without polarity. */
-		else if( lklog( "POLARITY$",10, &cmsss.lpspl ) )
-		{ /* do nothing */ }
+        /* -- "POLARITY ON|OFF":  plot files with or without polarity. */
+        else if (lklog("POLARITY$", 10, &cmsss.lpspl)) {        /* do nothing */
+        }
 
-		/* -- "SUM ON|OFF":  plot files with or without summed signal. */
-		else if( lklog( "SUM$",5, &cmsss.lpssum ) )
-		{ /* do nothing */ }
+        /* -- "SUM ON|OFF":  plot files with or without summed signal. */
+        else if (lklog("SUM$", 5, &cmsss.lpssum)) {     /* do nothing */
+        }
 
-		/* -- "PERPLOT ON|OFF|n":  set number of plots per frame. */
-		else if( lklogi( "PERPLOT$",9, &cmsss.lpsper, &cmsss.npsper ) )
-		{ /* do nothing */ }
+        /* -- "PERPLOT ON|OFF|n":  set number of plots per frame. */
+        else if (lklogi("PERPLOT$", 9, &cmsss.lpsper, &cmsss.npsper)) { /* do nothing */
+        }
 
-		/* -- Bad syntax. */
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
-		}
-	}
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
+    }
 
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-	/* CHECKING PHASE: */
+    /* CHECKING PHASE: */
 
-	/* - If no graphics device is open, try to open the default graphics device. */
+    /* - If no graphics device is open, try to open the default graphics device. */
 
-	getstatus( "ANY", &lany );
-	if( !lany ){
-		begindevices( kmgam.kgddef,9, 1, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
-	}
+    getstatus("ANY", &lany);
+    if (!lany) {
+        begindevices(kmgam.kgddef, 9, 1, nerr);
+        if (*nerr != 0)
+            goto L_8888;
+    }
 
-	/* - Test for non-null DFL. */
+    /* - Test for non-null DFL. */
 
-	vflist( nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    vflist(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* - Check for a defined time window. */
+    /* - Check for a defined time window. */
 
-	if( !cmsss.ltwlim ){
-		/* if the user didn't define a time window, figure one out. maf 960710 */
-		float       hedgeSize ;       /* the amount by which to pad the data in the plot */
+    if (!cmsss.ltwlim) {
+        /* if the user didn't define a time window, figure one out. maf 960710 */
+        float hedgeSize;        /* the amount by which to pad the data in the plot */
 
-		/* find the earliest begin time and the latest end time */
-		extrma( cmsss.beginTime, 1, saclen(), &Twlim[1], &unused, &unused_ );
-		extrma( cmsss.endTime, 1, saclen(), &unused, &Twlim[2], &unused_ );
+        /* find the earliest begin time and the latest end time */
+        extrma(cmsss.beginTime, 1, saclen(), &Twlim[1], &unused, &unused_);
+        extrma(cmsss.endTime, 1, saclen(), &unused, &Twlim[2], &unused_);
 
-		/* hedge the data by a small amount on either side */
-		hedgeSize = 0.15*(Twlim[2] - Twlim[1]);
-		Twlim[1] = Twlim[1] - hedgeSize;
-		Twlim[2] = Twlim[2] + hedgeSize;
-	}
+        /* hedge the data by a small amount on either side */
+        hedgeSize = 0.15 * (Twlim[2] - Twlim[1]);
+        Twlim[1] = Twlim[1] - hedgeSize;
+        Twlim[2] = Twlim[2] + hedgeSize;
+    }
 
-	/* - Check for a defined summation. */
+    /* - Check for a defined summation. */
 
-	if( cmsss.lpssum && (cmsss.nlnsum <= 0) ){
-		setmsg( "WARNING", 5113 );
-		outmsg();
-	}
+    if (cmsss.lpssum && (cmsss.nlnsum <= 0)) {
+        setmsg("WARNING", 5113);
+        outmsg();
+    }
 
-	/* EXECUTION PHASE: */
+    /* EXECUTION PHASE: */
 
-	/* - Save current values in common block cmpl2d and reset them after plot. */
+    /* - Save current values in common block cmpl2d and reset them after plot. */
 
-	plsave();
+    plsave();
 
-	/* - Set up specific options for this plot only. */
+    /* - Set up specific options for this plot only. */
 
-	cmgem.axis[LEFT].annotate   = TRUE;
-	cmgem.axis[RIGHT].annotate  = FALSE;
-	cmgem.axis[TOP].annotate    = FALSE;
-	cmgem.axis[BOTTOM].annotate = FALSE;
-	cmgem.axis[LEFT].ticks      = TRUE;
-	cmgem.axis[RIGHT].ticks     = TRUE;
-	cmgem.axis[TOP].ticks       = TRUE;
-	cmgem.axis[BOTTOM].ticks    = FALSE;
-	cmgem.title.on = FALSE;
+    cmgem.axis[LEFT].annotate = TRUE;
+    cmgem.axis[RIGHT].annotate = FALSE;
+    cmgem.axis[TOP].annotate = FALSE;
+    cmgem.axis[BOTTOM].annotate = FALSE;
+    cmgem.axis[LEFT].ticks = TRUE;
+    cmgem.axis[RIGHT].ticks = TRUE;
+    cmgem.axis[TOP].ticks = TRUE;
+    cmgem.axis[BOTTOM].ticks = FALSE;
+    cmgem.title.on = FALSE;
 
-	/* - Calculate velocity model delays. */
+    /* - Calculate velocity model delays. */
 
-	if( Lvm[1] ){
-		vmcalc( 1, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
-		vmdly( nerr );
-		if( *nerr != 0 )
-			goto L_8888;
-	}
+    if (Lvm[1]) {
+        vmcalc(1, nerr);
+        if (*nerr != 0)
+            goto L_8888;
+        vmdly(nerr);
+        if (*nerr != 0)
+            goto L_8888;
+    }
 
-	/* - Set up y window for each subplot. */
+    /* - Set up y window for each subplot. */
 
-	if( cmsss.lpsper ){
-		nfr = (saclen() - 1)/cmsss.npsper + 1;
-		nperfr = cmsss.npsper;
-	}
-	else{
-		nfr = 1;
-		nperfr = saclen();
-	}
-	if( cmsss.lpssum && (cmsss.nlnsum > 0) )
-		nperfr = nperfr + 1;
-	ypdel = (cmgem.plot.ymax - cmgem.plot.ymin)/(float)( nperfr );
+    if (cmsss.lpsper) {
+        nfr = (saclen() - 1) / cmsss.npsper + 1;
+        nperfr = cmsss.npsper;
+    } else {
+        nfr = 1;
+        nperfr = saclen();
+    }
+    if (cmsss.lpssum && (cmsss.nlnsum > 0))
+        nperfr = nperfr + 1;
+    ypdel = (cmgem.plot.ymax - cmgem.plot.ymin) / (float) (nperfr);
 
-	/* - Check WAIT option.  This is on when:
-	 * -- An active device (normally the user's terminal) is on.
-	 * -- There is more than one frame to plot. */
+    /* - Check WAIT option.  This is on when:
+     * -- An active device (normally the user's terminal) is on.
+     * -- There is more than one frame to plot. */
 
-	getstatus( "ACTIVE", &lactive );
-	lwait = lactive && nfr > 1;
+    getstatus("ACTIVE", &lactive);
+    lwait = lactive && nfr > 1;
 
-	/* - Set up x plot limits. */
+    /* - Set up x plot limits. */
 
-	cmgem.ximn = Twlim[1];
-	cmgem.ximx = Twlim[2];
+    cmgem.ximn = Twlim[1];
+    cmgem.ximx = Twlim[2];
 
-	/* - Plot each file in DFL in its own subplot region with framing off.
-	 *   Previous contents of the DFL are destroyed. */
+    /* - Plot each file in DFL in its own subplot region with framing off.
+     *   Previous contents of the DFL are destroyed. */
 
-	lframs = cmgem.lframe ;
-	cmgem.lframe = FALSE;
-	cmgem.xgen.on = TRUE;
-	cmgem.xgen.delta = cmsss.del;
-	cmgem.xgen.first = Twlim[1];
+    lframs = cmgem.lframe;
+    cmgem.lframe = FALSE;
+    cmgem.xgen.on = TRUE;
+    cmgem.xgen.delta = cmsss.del;
+    cmgem.xgen.first = Twlim[1];
 
-	/* - Loop on number of frames. */
+    /* - Loop on number of frames. */
 
-	jdfl1 = 1;
-	ypmxsv = cmgem.plot.ymax;
-	for( jfr = 1; jfr <= nfr; jfr++ ){
-		if ( lframs )
-			beginframe( FALSE , nerr );
+    jdfl1 = 1;
+    ypmxsv = cmgem.plot.ymax;
+    for (jfr = 1; jfr <= nfr; jfr++) {
+        if (lframs)
+            beginframe(FALSE, nerr);
 
-		/* -- Plot sum if requested. */
-		if( cmsss.lpssum && (cmsss.nlnsum > 0) ){
-			cmgem.plot.ymin = cmgem.plot.ymax - ypdel;
-			pl2d( (float*)&unused, sss_sum, cmsss.nlnsum, 
-			 1, 1, nerr );
-			if( *nerr != 0 )
-				goto L_7777;
-			fstrncpy( kptext, MCMSG, kmsss.knmsum, strlen(kmsss.knmsum));
-			cmgem.chht = cmgem.tsdef;
-			cmgem.chwid = cmgem.txrat*cmgem.chht;
-			settextsize( cmgem.chwid, cmgem.chht );
-			xwloc = cmgem.plot.xmin + 3.*cmgem.chwid;
-			ywloc = cmgem.plot.ymax*cmgem.view.ymax - cmgem.chht;
-			pltext( kptext,MCMSG+1, xwloc, ywloc );
-			cmgem.plot.ymax = cmgem.plot.ymin;
-			cmgem.axis[TOP].ticks = FALSE;
-		}
+        /* -- Plot sum if requested. */
+        if (cmsss.lpssum && (cmsss.nlnsum > 0)) {
+            cmgem.plot.ymin = cmgem.plot.ymax - ypdel;
+            pl2d((float *) &unused, sss_sum, cmsss.nlnsum, 1, 1, nerr);
+            if (*nerr != 0)
+                goto L_7777;
+            fstrncpy(kptext, MCMSG, kmsss.knmsum, strlen(kmsss.knmsum));
+            cmgem.chht = cmgem.tsdef;
+            cmgem.chwid = cmgem.txrat * cmgem.chht;
+            settextsize(cmgem.chwid, cmgem.chht);
+            xwloc = cmgem.plot.xmin + 3. * cmgem.chwid;
+            ywloc = cmgem.plot.ymax * cmgem.view.ymax - cmgem.chht;
+            pltext(kptext, MCMSG + 1, xwloc, ywloc);
+            cmgem.plot.ymax = cmgem.plot.ymin;
+            cmgem.axis[TOP].ticks = FALSE;
+        }
 
-		/* -- Plot files in stack file list. */
-		jdfl2 = min( saclen(), jdfl1 + nperfr - 1 );
-		for( jdfl = jdfl1; jdfl <= jdfl2; jdfl++ ){
-			/* --- Adjust some plot parameters if necessary. */
-			if( jdfl == jdfl2 )
-				cmgem.axis[BOTTOM].ticks = TRUE;
-			cmgem.plot.ymin = cmgem.plot.ymax - ypdel;
-			/* --- Get file from memory manager. */
-      if(!(s = sacget(jdfl-1, TRUE, nerr))) {
-        goto L_7777;
-      }
-			//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
+        /* -- Plot files in stack file list. */
+        jdfl2 = min(saclen(), jdfl1 + nperfr - 1);
+        for (jdfl = jdfl1; jdfl <= jdfl2; jdfl++) {
+            /* --- Adjust some plot parameters if necessary. */
+            if (jdfl == jdfl2)
+                cmgem.axis[BOTTOM].ticks = TRUE;
+            cmgem.plot.ymin = cmgem.plot.ymax - ypdel;
+            /* --- Get file from memory manager. */
+            if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
+                goto L_7777;
+            }
+            //getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
-			/* --- Set up delay and compute intersection of file's data and plot's 
-			 *     time windows.  This determines how many data points to plot. */
-			delay = Dlyt[jdfl] + Dlyn[jdfl]*cmsss.del + Dlyvm[jdfl];
-			definelimits( Twlim[1], Twlim[2], s->h->b + delay, s->h->e + delay, 
-			 s->h->delta, &ioffsettw, &ioffsetdta, &numplot );
-			/* -- Set up plot parameters and plot. */
-			factor = 1.;
-			if( cmsss.lpswt )
-				factor = Wt[jdfl];
-			if( cmsss.lpspl && !Lpol[jdfl] )
-				factor = -factor;
-			if( factor != 1. ){
+            /* --- Set up delay and compute intersection of file's data and plot's 
+             *     time windows.  This determines how many data points to plot. */
+            delay = Dlyt[jdfl] + Dlyn[jdfl] * cmsss.del + Dlyvm[jdfl];
+            definelimits(Twlim[1], Twlim[2], s->h->b + delay, s->h->e + delay,
+                         s->h->delta, &ioffsettw, &ioffsetdta, &numplot);
+            /* -- Set up plot parameters and plot. */
+            factor = 1.;
+            if (cmsss.lpswt)
+                factor = Wt[jdfl];
+            if (cmsss.lpspl && !Lpol[jdfl])
+                factor = -factor;
+            if (factor != 1.) {
 
-				for( jloc = 0; jloc <= (- 1); jloc++ ){
-          s->y[jloc] *= factor;
-				}
-			}
-			getxlm( &cmgem.lxlim, &cmgem.ximn, &cmgem.ximx );
-			getylm( &cmgem.lylim, &cmgem.yimn, &cmgem.yimx );
-			cmgem.xgen.first = s->h->b + delay + s->h->delta*(float)( ioffsetdta );
-			pl2d( (float*)&unused, s->y + ioffsetdta, numplot, 
-			 1, 1, nerr );
-			if( *nerr != 0 )
-				goto L_7777;
-			cmgem.chht = cmgem.tsdef;
-			cmgem.chwid = cmgem.txrat*cmgem.chht;
-			settextsize( cmgem.chwid, cmgem.chht );
-      tmp = s->m->filename;
-            fstrncpy(kptext, MCMSG, tmp, strlen(tmp)+1);
-			xwloc = cmgem.plot.xmin + 3.*cmgem.chwid;
-			ywloc = cmgem.plot.ymax*cmgem.view.ymax - cmgem.chht;
-			pltext( kptext,MCMSG+1, xwloc, ywloc );
-			if( delay != 0. ){
-                                sprintf(kptext,"%s%16.5g", "DLY:", delay );
-				ywloc = ywloc - cmgem.chht;
-				pltext( kptext,MCMSG+1, xwloc, ywloc );
-			}
-			if( Wt[jdfl] != 1. && cmsss.lpswt ){
-                                sprintf(kptext,"%s%16.5g", "WT:", Wt[jdfl] );
-				ywloc = ywloc - cmgem.chht;
-				pltext( kptext,MCMSG+1, xwloc, ywloc );
-			}
-			if( cmsss.lpspl && !Lpol[jdfl] ){
-                                sprintf(kptext,"%s", "Polarity reversed");
-				ywloc = ywloc - cmgem.chht;
-				pltext( kptext,MCMSG+1, xwloc, ywloc );
-			}
-			cmgem.axis[TOP].ticks = FALSE;
-			cmgem.plot.ymax = cmgem.plot.ymin;
-		} /* end for ( jdfl ) */
+                for (jloc = 0; jloc <= (-1); jloc++) {
+                    s->y[jloc] *= factor;
+                }
+            }
+            getxlm(&cmgem.lxlim, &cmgem.ximn, &cmgem.ximx);
+            getylm(&cmgem.lylim, &cmgem.yimn, &cmgem.yimx);
+            cmgem.xgen.first =
+                s->h->b + delay + s->h->delta * (float) (ioffsetdta);
+            pl2d((float *) &unused, s->y + ioffsetdta, numplot, 1, 1, nerr);
+            if (*nerr != 0)
+                goto L_7777;
+            cmgem.chht = cmgem.tsdef;
+            cmgem.chwid = cmgem.txrat * cmgem.chht;
+            settextsize(cmgem.chwid, cmgem.chht);
+            tmp = s->m->filename;
+            fstrncpy(kptext, MCMSG, tmp, strlen(tmp) + 1);
+            xwloc = cmgem.plot.xmin + 3. * cmgem.chwid;
+            ywloc = cmgem.plot.ymax * cmgem.view.ymax - cmgem.chht;
+            pltext(kptext, MCMSG + 1, xwloc, ywloc);
+            if (delay != 0.) {
+                sprintf(kptext, "%s%16.5g", "DLY:", delay);
+                ywloc = ywloc - cmgem.chht;
+                pltext(kptext, MCMSG + 1, xwloc, ywloc);
+            }
+            if (Wt[jdfl] != 1. && cmsss.lpswt) {
+                sprintf(kptext, "%s%16.5g", "WT:", Wt[jdfl]);
+                ywloc = ywloc - cmgem.chht;
+                pltext(kptext, MCMSG + 1, xwloc, ywloc);
+            }
+            if (cmsss.lpspl && !Lpol[jdfl]) {
+                sprintf(kptext, "%s", "Polarity reversed");
+                ywloc = ywloc - cmgem.chht;
+                pltext(kptext, MCMSG + 1, xwloc, ywloc);
+            }
+            cmgem.axis[TOP].ticks = FALSE;
+            cmgem.plot.ymax = cmgem.plot.ymin;
+        }                       /* end for ( jdfl ) */
 
-		/* -- Put time axes at bottom of plot and call frame. */
-		cmgem.chht = cmgem.tsaxis;
-		cmgem.chwid = cmgem.txrat*cmgem.chht;
-		settextsize( cmgem.chwid, cmgem.chht );
-		cmgem.axis[BOTTOM].annotate = TRUE;
-		xlinax();
-		centxt( "Time (sec)  [with individual delays]",37, 34, BOTTOM, cmgem.xlabel.text_size );
-		plhome();
-		endframe( FALSE , nerr );
-		cmgem.axis[BOTTOM].annotate = FALSE;
-		cmgem.axis[TOP].ticks       = TRUE;
-		cmgem.axis[BOTTOM].ticks    = FALSE;
-		cmgem.plot.ymax = ypmxsv;
+        /* -- Put time axes at bottom of plot and call frame. */
+        cmgem.chht = cmgem.tsaxis;
+        cmgem.chwid = cmgem.txrat * cmgem.chht;
+        settextsize(cmgem.chwid, cmgem.chht);
+        cmgem.axis[BOTTOM].annotate = TRUE;
+        xlinax();
+        centxt("Time (sec)  [with individual delays]", 37, 34, BOTTOM,
+               cmgem.xlabel.text_size);
+        plhome();
+        endframe(FALSE, nerr);
+        cmgem.axis[BOTTOM].annotate = FALSE;
+        cmgem.axis[TOP].ticks = TRUE;
+        cmgem.axis[BOTTOM].ticks = FALSE;
+        cmgem.plot.ymax = ypmxsv;
 
-		/* -- Wait for user prompt before plotting next frame if appropriate. */
-		if( lwait && jfr < nfr ){
-			zgpmsg( kwait,9, kret,9 );
-			ncret = indexb( kret,9 );
-			upcase( kret, ncret, kret,9 );
-			if( kret[0] == 'K' )
-				goto L_7777;
-			if( kret[0] == 'G' )
-				lwait = FALSE;
-		}
+        /* -- Wait for user prompt before plotting next frame if appropriate. */
+        if (lwait && jfr < nfr) {
+            zgpmsg(kwait, 9, kret, 9);
+            ncret = indexb(kret, 9);
+            upcase(kret, ncret, kret, 9);
+            if (kret[0] == 'K')
+                goto L_7777;
+            if (kret[0] == 'G')
+                lwait = FALSE;
+        }
 
-		jdfl1 = jdfl2 + 1;
-	} /* end for ( jfr ) */
+        jdfl1 = jdfl2 + 1;
+    }                           /* end for ( jfr ) */
 
-	/* - Restore graphics environment before returning. */
+    /* - Restore graphics environment before returning. */
 
-L_7777:
-	plrest();
+  L_7777:
+    plrest();
 
-L_8888:
-	cmgem.lframe = lframs ;
-	return;
+  L_8888:
+    cmgem.lframe = lframs;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

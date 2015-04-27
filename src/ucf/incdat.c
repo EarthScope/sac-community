@@ -29,34 +29,27 @@
  * @date   810000:  Original version.
  *
  */
-void 
-incdat(int   nyrold, 
-       int   njdold, 
-       int   njdinc, 
-       int  *nyrnew, 
-       int  *njdnew) {
+void
+incdat(int nyrold, int njdold, int njdinc, int *nyrnew, int *njdnew) {
 
-        int ndays;
+    int ndays;
 
-	*nyrnew = nyrold;
-	*njdnew = njdold + njdinc;
+    *nyrnew = nyrold;
+    *njdnew = njdold + njdinc;
 
-	while ( 1 ) {
-	    if( *njdnew < 1 ){
-        (*nyrnew) -- ;
-		ndays = isLeapYear( *nyrnew ) ? 366 : 365;
-		*njdnew += ndays;
-	    }
-	    else{
-		ndays = isLeapYear( *nyrnew ) ? 366 : 365;
-		if( *njdnew > ndays ){
-		    *nyrnew = *nyrnew + 1;
-		    *njdnew = *njdnew - ndays;
-		}
-		else{
-		    return;
-		}
-	    }
-	}
+    while (1) {
+        if (*njdnew < 1) {
+            (*nyrnew)--;
+            ndays = isLeapYear(*nyrnew) ? 366 : 365;
+            *njdnew += ndays;
+        } else {
+            ndays = isLeapYear(*nyrnew) ? 366 : 365;
+            if (*njdnew > ndays) {
+                *nyrnew = *nyrnew + 1;
+                *njdnew = *njdnew - ndays;
+            } else {
+                return;
+            }
+        }
+    }
 }
-

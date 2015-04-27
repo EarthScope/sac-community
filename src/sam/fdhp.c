@@ -6,23 +6,23 @@
 #include "amf.h"
 #include "bool.h"
 
-
 #include "dbh.h"
 #include "cpf.h"
 
 #define	IPULSE	100
 
-void /*FUNCTION*/ fdhp(memptr, mxmptr, userData, nerr)
-int  mxmptr, *nerr;
-float *memptr[];
-float *userData ;
+void /*FUNCTION*/
+fdhp(memptr, mxmptr, userData, nerr)
+     int mxmptr, *nerr;
+     float *memptr[];
+     float *userData;
 {
-	int idx, jdx;
-	float rfl, rfh, dummy ;
-  char s1[3];
-  double tmp;
+    int idx, jdx;
+    float rfl, rfh, dummy;
+    char s1[3];
+    double tmp;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  Creates filter response files in memory by evaluating
 	 *           filter command line parameters for highpass.
 	 *=====================================================================
@@ -62,124 +62,119 @@ float *userData ;
 	 *  901116 Added delta option for selecting sampling interval.
 	 *  901001 Original version.
 	 *===================================================================== */
-	/*     PROCEDURE: */
-	*nerr = 0;
-	strcpy( cmfir3.filttype, "HP" );
-        strcpy( s1, "  ");
+    /*     PROCEDURE: */
+    *nerr = 0;
+    strcpy(cmfir3.filttype, "HP");
+    strcpy(s1, "  ");
 
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-	while ( lcmore( nerr ) ){
-	    /* -- CORNER v:  define new corner frequency. */
-	    if( lkrrc( "CORNER$",8, 0., VLARGE, &cmsam.cfhp ) )
-	    { /* do nothing */ }
+    while (lcmore(nerr)) {
+        /* -- CORNER v:  define new corner frequency. */
+        if (lkrrc("CORNER$", 8, 0., VLARGE, &cmsam.cfhp)) {     /* do nothing */
+        }
 
-	    /* -- BU/BE/C1/C2:  change type of IIR filter to perform. */
-	    else if( lclist( (char*)kmsam.ktpiir,9, MTPIIR, &cmsam.itphp ) )
-	    { /* do nothing */ }
+        /* -- BU/BE/C1/C2:  change type of IIR filter to perform. */
+        else if (lclist((char *) kmsam.ktpiir, 9, MTPIIR, &cmsam.itphp)) {      /* do nothing */
+        }
 
-	    /* -- NPOLES n:  define npoles of poles in filter. */
-	    else if( lkirc( "NPOLES$",8, 1, 10, &cmsam.npolhp ) )
-	    { /* do nothing */ }
+        /* -- NPOLES n:  define npoles of poles in filter. */
+        else if (lkirc("NPOLES$", 8, 1, 10, &cmsam.npolhp)) {   /* do nothing */
+        }
 
-	    /* -- TRANBW v:  define new transition bandwidth. */
-	    else if( lkrrc( "TRANBW$",8, 0., VLARGE, &cmsam.tbwhp ) )
-	    { /* do nothing */ }
+        /* -- TRANBW v:  define new transition bandwidth. */
+        else if (lkrrc("TRANBW$", 8, 0., VLARGE, &cmsam.tbwhp)) {       /* do nothing */
+        }
 
-	    /* -- ATTEN v:  define new filter attenuation factor. */
-	    else if( lkrrc( "ATTEN$",7, 1., VLARGE, &cmsam.atnhp ) )
-	    { /* do nothing */ }
+        /* -- ATTEN v:  define new filter attenuation factor. */
+        else if (lkrrc("ATTEN$", 7, 1., VLARGE, &cmsam.atnhp)) {        /* do nothing */
+        }
 
-	    /* -- PASSES n:  Set number of filter passes. */
-	    else if( lkirc( "PASSES$",8, 1, 2, &cmsam.npashp ) )
-	    { /* do nothing */ }
+        /* -- PASSES n:  Set number of filter passes. */
+        else if (lkirc("PASSES$", 8, 1, 2, &cmsam.npashp)) {    /* do nothing */
+        }
 
-	    /* -- DELTA v:  Set the delta. */
-	    else if( lkrrc( "D#ELTA$",8, VSMALL, VLARGE, &tmp ) ) {
-        cmsam.fddelta = (float) tmp;
-      }
+        /* -- DELTA v:  Set the delta. */
+        else if (lkrrc("D#ELTA$", 8, VSMALL, VLARGE, &tmp)) {
+            cmsam.fddelta = (float) tmp;
+        }
 
-	    /* -- Bad syntax. */
-	    else{
-		cfmt( "ILLEGAL OPTION:",17 );
-		cresp();
-	    }
-	}
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
+    }
 
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-	if( *nerr != 0 )
-	    goto L_8888;
+    if (*nerr != 0)
+        goto L_8888;
 
-        /* set userData */
-        userData[ 0 ] = 2 ;
-        userData[ 1 ] = cmsam.itphp ;
-        userData[ 2 ] = cmsam.npolhp ;
-        userData[ 3 ] = cmsam.npashp ;
-        userData[ 4 ] = cmsam.tbwhp ;
-        userData[ 5 ] = cmsam.atnhp ;
-        userData[ 6 ] = cmsam.fddelta ;
-        userData[ 7 ] = cmsam.cfhp ;
-        userData[ 8 ] = -12345.0 ;
+    /* set userData */
+    userData[0] = 2;
+    userData[1] = cmsam.itphp;
+    userData[2] = cmsam.npolhp;
+    userData[3] = cmsam.npashp;
+    userData[4] = cmsam.tbwhp;
+    userData[5] = cmsam.atnhp;
+    userData[6] = cmsam.fddelta;
+    userData[7] = cmsam.cfhp;
+    userData[8] = -12345.0;
 
+    /* - Compute each filter response prototype and put result in memory. */
 
-	/* - Compute each filter response prototype and put result in memory. */
+    /* -- Allocate and load x and y data arrays for analog signals.
+     *    This will be memptr(1 thru 6) */
 
-	/* -- Allocate and load x and y data arrays for analog signals.
-	 *    This will be memptr(1 thru 6) */
+    jdx = 1;
+    for (idx = 0; idx < 3; idx++) {
+        memptr[jdx - 1] = (float *) malloc(sizeof(float) * NDATPTS);
+        memptr[jdx + 1 - 1] = (float *) malloc(sizeof(float) * NDATPTS);
+        strncpy(s1, kmsam.ktpiir[cmsam.itphp - 1], 2);
 
-	jdx = 1;
-	for( idx = 0; idx < 3; idx++ ){
-    memptr[jdx-1] = (float *) malloc(sizeof(float) * NDATPTS);
-      memptr[jdx+1-1] = (float *) malloc(sizeof(float) * NDATPTS);
-            strncpy(s1,kmsam.ktpiir[cmsam.itphp - 1],2);
+        rfh = 1. / (2. * cmsam.fddelta);
+        rfl = .001 * rfh;
 
-            rfh = 1./ (2.*cmsam.fddelta);
-            rfl = .001*rfh;
+        inspect(cmsam.npolhp, "HP", s1, cmsam.atnhp, cmsam.tbwhp, cmsam.cfhp,
+                0.0, cmsam.fddelta, (char *) kmsam.kprotyp[idx], NDATPTS, &rfl,
+                &rfh, "LINEAR", memptr[jdx - 1], memptr[jdx + 1 - 1]);
+        jdx = jdx + 2;
+    }
 
-	    inspect( cmsam.npolhp, "HP", s1, 
-	     cmsam.atnhp, cmsam.tbwhp, cmsam.cfhp, 0.0, cmsam.fddelta, 
-	     (char*)kmsam.kprotyp[idx], NDATPTS, &rfl, &rfh,
-             "LINEAR", memptr[jdx-1], memptr[jdx+1-1] );
-	    jdx = jdx + 2;
-	}
+    /* -- Allocate and load y data array only for digital signals.
+     *    This will be memptr(7 thru 9) */
 
-	/* -- Allocate and load y data array only for digital signals.
-	 *    This will be memptr(7 thru 9) */
+    for (idx = 3; idx < MPROTYP; idx++) {
+        memptr[idx + 4 - 1] = (float *) malloc(sizeof(float) * NDATPTS);
+        memset(memptr[idx + 4 - 1], 0, sizeof(float) * NDATPTS);
+        strncpy(s1, kmsam.ktpiir[cmsam.itphp - 1], 2);
 
-	for( idx = 3; idx < MPROTYP; idx++ ){
-    memptr[idx+4-1] = (float *) malloc(sizeof(float) * NDATPTS);
-    memset(memptr[idx+4-1], 0, sizeof(float) * NDATPTS);
-            strncpy(s1,kmsam.ktpiir[cmsam.itphp - 1],2);
+        rfh = 1. / (2. * cmsam.fddelta);
+        rfl = .001 * rfh;
 
-            rfh = 1./ (2.*cmsam.fddelta);
-            rfl = .001*rfh;
+        inspect(cmsam.npolhp, "HP", s1, cmsam.atnhp, cmsam.tbwhp, cmsam.cfhp,
+                0.0, cmsam.fddelta, (char *) kmsam.kprotyp[idx], NDATPTS, &rfl,
+                &rfh, "LINEAR", memptr[idx + 4 - 1], (float *) &dummy);
+    }
 
-	    inspect( cmsam.npolhp, "HP", s1, 
-	     cmsam.atnhp, cmsam.tbwhp, cmsam.cfhp, 0.0, cmsam.fddelta, 
-	     (char*)kmsam.kprotyp[idx], NDATPTS, &rfl, &rfh,
-             "LINEAR", memptr[idx + 4-1], (float*)&dummy );
-	}
+    /* - Create the impulse response */
 
-	/* - Create the impulse response */
+    memptr[mxmptr - 1] = (float *) malloc(sizeof(float) * NIMPPTS);
+    strncpy(s1, kmsam.ktpiir[cmsam.itphp - 1], 2);
 
-  memptr[mxmptr-1] = (float *) malloc(sizeof(float) * NIMPPTS);
-        strncpy(s1,kmsam.ktpiir[cmsam.itphp - 1],2);
+    design(cmsam.npolhp, "HP", s1, cmsam.atnhp, cmsam.tbwhp, cmsam.cfhp, 0.0,
+           cmsam.fddelta, cmfir3.sn, cmfir3.sd, &cmfir3.nsects);
 
-	design( cmsam.npolhp, "HP", s1, 
-	 cmsam.atnhp, cmsam.tbwhp, cmsam.cfhp, 0.0, cmsam.fddelta, cmfir3.sn, 
-	 cmfir3.sd, &cmfir3.nsects );
+    zero(memptr[mxmptr - 1], NIMPPTS);
+    memptr[mxmptr - 1][IPULSE - 1] = 1.0;
 
-	zero( memptr[mxmptr-1], NIMPPTS );
-  memptr[mxmptr-1][IPULSE-1] = 1.0;
+    apply(memptr[mxmptr - 1], NIMPPTS, FALSE, cmfir3.sn, cmfir3.sd,
+          cmfir3.nsects);
 
-	apply( memptr[mxmptr-1], NIMPPTS, FALSE,
-		cmfir3.sn, cmfir3.sd, cmfir3.nsects );
+  L_8888:
+    return;
 
-L_8888:
-	return;
-
-} /* end of function */
-
+}                               /* end of function */

@@ -51,18 +51,12 @@
  * @date   861229:  Documented/Reviewed
  *
  */
-void 
-createvlist(char      *fullvars, 
-	    int        fullvars_s, 
-	    int        length, 
-	    int       *node, 
-	    int       *nerr)
-{
-	*nerr = 0;
-  UNUSED(fullvars_s);
-  UNUSED(length);
-  UNUSED(node);
-  sac_vars_create(fullvars);
+void
+createvlist(char *fullvars, int fullvars_s, int length, int *node, int *nerr) {
+    *nerr = 0;
+    UNUSED(fullvars_s);
+    UNUSED(length);
+    UNUSED(node);
+    sac_vars_create(fullvars);
 
 }
-

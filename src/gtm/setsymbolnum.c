@@ -4,14 +4,13 @@
 #include "bool.h"
 #include "co.h"
 
-void /*FUNCTION*/ setsymbolnum(number)
-int number;
+void /*FUNCTION*/
+setsymbolnum(number)
+     int number;
 {
-	int ilast;
+    int ilast;
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To set the symbol number attribute.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -37,48 +36,44 @@ int number;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  861022
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Temporarily save previous value of symbol number. */
-	ilast = cmgtm.isym;
+    /* PROCEDURE: */
+    /* - Temporarily save previous value of symbol number. */
+    ilast = cmgtm.isym;
 
-	/* - Make sure new symbol number is positive. */
+    /* - Make sure new symbol number is positive. */
 
-	cmgtm.isym = max( 1, number );
+    cmgtm.isym = max(1, number);
 
-	/* - Calculate new table indices if symbol has changed since last call. */
+    /* - Calculate new table indices if symbol has changed since last call. */
 
-	if( cmgtm.isym != ilast ){
-		cmgtm.isym = number%MSYM;
-		if( cmgtm.isym == 0 )
-			cmgtm.isym = MSYM;
+    if (cmgtm.isym != ilast) {
+        cmgtm.isym = number % MSYM;
+        if (cmgtm.isym == 0)
+            cmgtm.isym = MSYM;
 
-		/* -- Flag for scaled/unscaled symbol. */
-		if( cmgtm.isym <= MUNSYM ){
-			cmgtm.lscsym = FALSE;
-			}
-		else{
-			cmgtm.lscsym = TRUE;
-			}
+        /* -- Flag for scaled/unscaled symbol. */
+        if (cmgtm.isym <= MUNSYM) {
+            cmgtm.lscsym = FALSE;
+        } else {
+            cmgtm.lscsym = TRUE;
+        }
 
-		/* -- Indices for simple symbol. */
-		cmgtm.jsyml1 = cmgtm.isyml1[cmgtm.isym - 1];
-		cmgtm.jsym1b = cmgtm.nsymlc[cmgtm.jsyml1 - 1];
-		cmgtm.jsym1e = cmgtm.nsymlc[cmgtm.jsyml1] - 1;
+        /* -- Indices for simple symbol. */
+        cmgtm.jsyml1 = cmgtm.isyml1[cmgtm.isym - 1];
+        cmgtm.jsym1b = cmgtm.nsymlc[cmgtm.jsyml1 - 1];
+        cmgtm.jsym1e = cmgtm.nsymlc[cmgtm.jsyml1] - 1;
 
-		/* -- Flag and indices for a single/double symbol. */
-		if( cmgtm.isym <= MSISYM ){
-			cmgtm.ldbsym = FALSE;
-			}
-		else{
-			cmgtm.ldbsym = TRUE;
-			cmgtm.jsyml2 = cmgtm.isyml2[cmgtm.isym - 1];
-			cmgtm.jsym2b = cmgtm.nsymlc[cmgtm.jsyml2 - 1];
-			cmgtm.jsym2e = cmgtm.nsymlc[cmgtm.jsyml2] - 1;
-			}
-		}
+        /* -- Flag and indices for a single/double symbol. */
+        if (cmgtm.isym <= MSISYM) {
+            cmgtm.ldbsym = FALSE;
+        } else {
+            cmgtm.ldbsym = TRUE;
+            cmgtm.jsyml2 = cmgtm.isyml2[cmgtm.isym - 1];
+            cmgtm.jsym2b = cmgtm.nsymlc[cmgtm.jsyml2 - 1];
+            cmgtm.jsym2e = cmgtm.nsymlc[cmgtm.jsyml2] - 1;
+        }
+    }
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

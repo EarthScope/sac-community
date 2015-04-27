@@ -8,7 +8,6 @@
 #include "eam.h"
 #include "bool.h"
 
-
 #include "co.h"
 #include "msg.h"
 #include "cpf.h"
@@ -33,64 +32,62 @@
  * @date   800308:  Original version.
  * @date   820624:  Documented/Reviewed
  */
-void 
-xohpf(int *nerr)
-{
+void
+xohpf(int *nerr) {
 
-	*nerr = 0;
+    *nerr = 0;
 
-	/* PARSING PHASE: */
-	/* - Loop on each token in command: */
-	while ( lcmore( nerr ) ){
-		/* -- "name":  name of HPF to open. */
-		if( lcchar(kmeam.khpfnm, sizeof(kmeam.khpfnm)))
-		{ /* do nothing */ }
+    /* PARSING PHASE: */
+    /* - Loop on each token in command: */
+    while (lcmore(nerr)) {
+        /* -- "name":  name of HPF to open. */
+        if (lcchar(kmeam.khpfnm, sizeof(kmeam.khpfnm))) {       /* do nothing */
+        }
 
-		/* -- Bad syntax. */
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
-		}
-	}
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
+    }
 
-	if( *nerr != 0 )
-		goto L_8888;
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* EXECUTION PHASE: */
-	/* - Close previous HPF, (after writing eof string), if it is open. */
-	if( cmeam.lhpfop ){
-                fprintf(cmeam.nhpfun,"%19s\n","10");
-		zcloses( &cmeam.nhpfun, nerr );
-	}
+    /* EXECUTION PHASE: */
+    /* - Close previous HPF, (after writing eof string), if it is open. */
+    if (cmeam.lhpfop) {
+        fprintf(cmeam.nhpfun, "%19s\n", "10");
+        zcloses(&cmeam.nhpfun, nerr);
+    }
 
-	if( *nerr != 0 ){
-		*nerr = 1901;
-		setmsg( "ERROR", *nerr );
-		apcmsg( kmeam.khpfnm,MCPFN+1 );
-		goto L_8888;
-	}
+    if (*nerr != 0) {
+        *nerr = 1901;
+        setmsg("ERROR", *nerr);
+        apcmsg(kmeam.khpfnm, MCPFN + 1);
+        goto L_8888;
+    }
 
-	/* - Open new file. */
-	znfiles( &cmeam.nhpfun, kmeam.khpfnm,MCPFN+1, "TEXT",5, nerr );
-	if( *nerr != 0 ){
-		*nerr = 1901;
-		setmsg( "ERROR", *nerr );
-		apcmsg( kmeam.khpfnm,MCPFN+1 );
-		goto L_8888;
-	}
+    /* - Open new file. */
+    znfiles(&cmeam.nhpfun, kmeam.khpfnm, MCPFN + 1, "TEXT", 5, nerr);
+    if (*nerr != 0) {
+        *nerr = 1901;
+        setmsg("ERROR", *nerr);
+        apcmsg(kmeam.khpfnm, MCPFN + 1);
+        goto L_8888;
+    }
 
-	/* - Position to end-of-file. */
-	if ( fseek (cmeam.nhpfun , 0L , SEEK_END ) != 0 )
-		fprintf ( stdout , "fseek returned error-xohpf\n" ) ;
+    /* - Position to end-of-file. */
+    if (fseek(cmeam.nhpfun, 0L, SEEK_END) != 0)
+        fprintf(stdout, "fseek returned error-xohpf\n");
 
-	/* - Remove the previous hypo eof marker by simply backspacing. */
-	backspace( cmeam.nhpfun, 1L );
+    /* - Remove the previous hypo eof marker by simply backspacing. */
+    backspace(cmeam.nhpfun, 1L);
 
-	/* - Set flag showing that a HPF is open. */
-	cmeam.lhpfop = TRUE;
+    /* - Set flag showing that a HPF is open. */
+    cmeam.lhpfop = TRUE;
 
-L_8888:
-	return;
+  L_8888:
+    return;
 
 }
-

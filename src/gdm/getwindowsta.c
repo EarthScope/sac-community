@@ -15,23 +15,20 @@
  * @date   870127:  Original version.
  *
  */
-void 
-getwindowstatus(int *nwindow, 
-                int *exists)
-{
-        int i, n;
-        display_t **dev;
-        n   = gdm_get_ndevices();
-        dev = gdm_get_devices();
+void
+getwindowstatus(int *nwindow, int *exists) {
+    int i, n;
+    display_t **dev;
+    n = gdm_get_ndevices();
+    dev = gdm_get_devices();
 
-	*exists = FALSE;
+    *exists = FALSE;
 
-	/* - Inquire about the existence of the requested graphics window. */
-        for(i = 0; i < n; i++) {
-          if(dev[i]->on && dev[i]->get_window_status) {
-            dev[i]->get_window_status( *nwindow, exists );
-          }
+    /* - Inquire about the existence of the requested graphics window. */
+    for (i = 0; i < n; i++) {
+        if (dev[i]->on && dev[i]->get_window_status) {
+            dev[i]->get_window_status(*nwindow, exists);
         }
+    }
 
 }
-

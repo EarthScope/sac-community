@@ -13,10 +13,10 @@
 
 void
 endframe3(nerr)
-  int *nerr;
+     int *nerr;
 {
-  *nerr = 0;
-  flushbuffer3(nerr);
+    *nerr = 0;
+    flushbuffer3(nerr);
 
 }
 

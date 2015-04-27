@@ -3,24 +3,23 @@
 
 #include "pl.h"
 
-
 #include "msg.h"
 
-void /*FUNCTION*/ logdta(array, number, lfloor, floor, output, nerr)
-float array[];
-int number;
-int lfloor;
-double floor;
-float output[];
-int *nerr;
+void /*FUNCTION*/
+logdta(array, number, lfloor, floor, output, nerr)
+     float array[];
+     int number;
+     int lfloor;
+     double floor;
+     float output[];
+     int *nerr;
 {
-	int j;
+    int j;
 
-	float *const Array = &array[0] - 1;
-	float *const Output = &output[0] - 1;
+    float *const Array = &array[0] - 1;
+    float *const Output = &output[0] - 1;
 
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To take the base 10 logarithm of an array.
 	 *          Each datum is checked for a non-positive value before taking
 	 *          logarithm.  If non-positive data is found, either an error
@@ -43,44 +42,41 @@ int *nerr;
 	 * SUBROUTINES CALLED:
 	 *    SACLIB:  SETMSG
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* - For each data point: */
+    /* - For each data point: */
 
-	for( j = 1; j <= number; j++ ){
-	
-		/* -- Check for non-positive value. */
+    for (j = 1; j <= number; j++) {
 
-		if( Array[j] <= 0. ){
+        /* -- Check for non-positive value. */
 
-			/* --- If non-positive, either set output to floor value
-			 *     or raise error condition. */
-			if( lfloor ){
-				Output[j] = log10( floor );
-				}
-			else{
-				*nerr = 902;
-				setmsg( "ERROR", *nerr );
-				goto L_8888;
-				}
+        if (Array[j] <= 0.) {
 
-			/* --- If positive, take base 10 logarithm. */
-			}
-		else{
-			Output[j] = log10( Array[j] );
+            /* --- If non-positive, either set output to floor value
+             *     or raise error condition. */
+            if (lfloor) {
+                Output[j] = log10(floor);
+            } else {
+                *nerr = 902;
+                setmsg("ERROR", *nerr);
+                goto L_8888;
+            }
 
-			}
+            /* --- If positive, take base 10 logarithm. */
+        } else {
+            Output[j] = log10(Array[j]);
 
-		}
+        }
 
-L_8888:
-	return;
+    }
 
-	/*=====================================================================
+  L_8888:
+    return;
+
+        /*=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    811223:  Original version extracted from PLDTA.
 	 *===================================================================== */
 
-} /* end of function */
-
+}                               /* end of function */

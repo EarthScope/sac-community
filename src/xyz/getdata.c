@@ -8,7 +8,6 @@
 #include "spectrogram.h"
 #include "specdata.h"
 
-
 #include "dff.h"
 #include "debug.h"
 
@@ -77,143 +76,132 @@
  * 
  *   */
 
+int
+getdata(int nfiles, double delta, int windwsize, int windwovrl, char *windwfunc,
+        int buffersize, int filelength[], float *buffer, float signals[]) {
+    int error, getdata_v, i, j, lread;
+    int err;
+    int *const Filelength = &filelength[0] - 1;
+    float *const Signals = &signals[0] - 1;
+    sac *s;
+    UNUSED(windwfunc);
+    UNUSED(delta);
+    /*    * Include files: */
+    /*     * Local Variables: */
+    /*     * Externals: */
+    /*     * Code Implementation: */
+    getdata_v = 1;
 
-int 
-getdata(int nfiles,
-	double delta,
-	int windwsize,
-	int windwovrl,
-	char *windwfunc,
-	int buffersize,
-	int filelength[],
-	float *buffer,
-	float signals[])
-{
-	int error, getdata_v, i, j, lread;
-  int err;
-	int *const Filelength = &filelength[0] - 1;
-	float *const Signals = &signals[0] - 1;
-  sac *s;
-  UNUSED(windwfunc);
-  UNUSED(delta);
-	/*    * Include files: */
-	/*     * Local Variables: */
-	/*     * Externals: */
-	/*     * Code Implementation: */
-	getdata_v = 1;
+    /*          Initializations */
+    error = 0;
+    for (i = 1; i <= MAXLFFT; i++) {
+        Signals[i] = 0.;
+    }
 
-	/*          Initializations */
-	error = 0;
-	for( i = 1; i <= MAXLFFT; i++ ){
-		Signals[i] = 0.;
-		}
+    if (error != 0) {
+    } else {
+        /*          Check if all data used or last window of data not a full
+         *                window's length */
+        if ((filesinfo.nodata) &&
+            (filesinfo.lbuff - filesinfo.ptrbuffer < windwsize)) {
+            getdata_v = 2;
 
-	if( error != 0 ){
-		}
-	else{
-		/*          Check if all data used or last window of data not a full
-		 *                window's length */
-		if( (filesinfo.nodata) && (filesinfo.lbuff - filesinfo.ptrbuffer < 
-		 windwsize) ){
-			getdata_v = 2;
+        } else {
 
-			}
-		else{
+            /*          Check if enough data left in buffer for a window's worth
+             *          If not need to read in more data from files */
+            if (filesinfo.lbuff - filesinfo.ptrbuffer >= windwsize) {
 
-			/*          Check if enough data left in buffer for a window's worth
-			 *          If not need to read in more data from files */
-			if( filesinfo.lbuff - filesinfo.ptrbuffer >= windwsize ){
-        
-      }	else {
-				/*          Move data at end of buffer to front to provide continuous windowing if not first time through */
-				if( !filesinfo.first ){
-					for( i = 1; i <= windwovrl; i++ ){
-						buffer[i-1] = buffer[buffersize-windwovrl+i-1];
-          }
-					filesinfo.lbuff = windwovrl;
-        }
-        
-				/*          Reset buffer pointer */
-				filesinfo.ptrbuffer = 0;
-				filesinfo.bufferfull = FALSE;
-        
-      L_1:
-				;
-				if( (!(filesinfo.bufferfull) && (!(filesinfo.nodata)
-				 )) && (error == 0) ){
-          
-					/*          If file completely read... */
-					if( filesinfo.filesread ){
-						/*          open a new file */
-						filesinfo.ifile = filesinfo.ifile + 1;
-						filesinfo.filesread = FALSE;
-          }
-					if( error == 0 ){
-            
-						/*          Calculate how much data to read from each station file */
-						if( (Filelength[filesinfo.ifile] - filesinfo.ptrfiles) > 
-                (buffersize - filesinfo.lbuff) ){
-							lread = buffersize - filesinfo.lbuff;
-							filesinfo.bufferfull = TRUE;
+            } else {
+                /*          Move data at end of buffer to front to provide continuous windowing if not first time through */
+                if (!filesinfo.first) {
+                    for (i = 1; i <= windwovrl; i++) {
+                        buffer[i - 1] = buffer[buffersize - windwovrl + i - 1];
+                    }
+                    filesinfo.lbuff = windwovrl;
+                }
+
+                /*          Reset buffer pointer */
+                filesinfo.ptrbuffer = 0;
+                filesinfo.bufferfull = FALSE;
+
+              L_1:
+                ;
+                if ((!(filesinfo.bufferfull) && (!(filesinfo.nodata)
+                     )) && (error == 0)) {
+
+                    /*          If file completely read... */
+                    if (filesinfo.filesread) {
+                        /*          open a new file */
+                        filesinfo.ifile = filesinfo.ifile + 1;
+                        filesinfo.filesread = FALSE;
+                    }
+                    if (error == 0) {
+
+                        /*          Calculate how much data to read from each station file */
+                        if ((Filelength[filesinfo.ifile] - filesinfo.ptrfiles) >
+                            (buffersize - filesinfo.lbuff)) {
+                            lread = buffersize - filesinfo.lbuff;
+                            filesinfo.bufferfull = TRUE;
+                        } else
+                            if ((Filelength[filesinfo.ifile] -
+                                 filesinfo.ptrfiles) ==
+                                (buffersize - filesinfo.lbuff)) {
+                            lread = buffersize - filesinfo.lbuff;
+                            filesinfo.bufferfull = TRUE;
+                            filesinfo.filesread = TRUE;
+                        } else {
+                            lread =
+                                Filelength[filesinfo.ifile] -
+                                filesinfo.ptrfiles;
+                            filesinfo.filesread = TRUE;
+                        }
+
+                        /*          Get data from SAC file */
+                        if (!(s = sacget(filesinfo.ifile - 1, TRUE, &err))) {
+                            error = 1;
+                        }
+                        //getfil( filesinfo.ifile, TRUE, (int*)&dum1, 
+                        //&index, (int*)&dum2, &err );
+                        else {
+                            for (i = 1; i <= lread; i++) {
+                                buffer[i - 1 + filesinfo.lbuff] =
+                                    s->y[i - 1 + filesinfo.ptrfiles];
+                            }
+                        }
+
+                        /*          Set lbuff - length of new data in buffer */
+                        filesinfo.lbuff = filesinfo.lbuff + lread;
+
+                        filesinfo.ptrfiles = filesinfo.ptrfiles + lread;
+
+                        if (filesinfo.filesread) {
+                            /*          Reset files pointer */
+                            filesinfo.ptrfiles = 0;
+                            if (filesinfo.ifile == nfiles) {
+                                filesinfo.nodata = TRUE;
+                            }
+                        }
+                    }
+                    goto L_1;
+                }
+
             }
-						else if( (Filelength[filesinfo.ifile] - filesinfo.ptrfiles) == 
-                     (buffersize - filesinfo.lbuff) ){
-							lread = buffersize - filesinfo.lbuff;
-							filesinfo.bufferfull = TRUE;
-							filesinfo.filesread = TRUE;
-            }
-						else{
-							lread = Filelength[filesinfo.ifile] - 
-                filesinfo.ptrfiles;
-							filesinfo.filesread = TRUE;
-            }
-            
-						/*          Get data from SAC file */
-            if(!(s = sacget(filesinfo.ifile-1, TRUE, &err))) {
-              error = 1;
-            }
-						//getfil( filesinfo.ifile, TRUE, (int*)&dum1, 
-            //&index, (int*)&dum2, &err );
-						else{
-							for( i = 1; i <= lread; i++ ){
-								buffer[i-1+filesinfo.lbuff] = s->y[i-1+filesinfo.ptrfiles];
-              }
-            }
-            
-						/*          Set lbuff - length of new data in buffer */
-						filesinfo.lbuff = filesinfo.lbuff + lread;
-            
-						filesinfo.ptrfiles = filesinfo.ptrfiles + 
-              lread;
-            
-						if( filesinfo.filesread ){
-							/*          Reset files pointer */
-							filesinfo.ptrfiles = 0;
-							if( filesinfo.ifile == nfiles ){
-								filesinfo.nodata = TRUE;
-              }
-            }
-          }
-					goto L_1;
-        }
-        
-      }
-			if( error != 0 ){
-				fprintf( stdout, "Error getting data from file                (getdata).\n" );
-				}
-			else{
+            if (error != 0) {
+                fprintf(stdout,
+                        "Error getting data from file                (getdata).\n");
+            } else {
 
+                /*          Load data to return */
+                for (j = 1; j <= windwsize; j++) {
+                    Signals[j] = buffer[filesinfo.ptrbuffer + j - 1];
+                }
 
-				/*          Load data to return */
-				for( j = 1; j <= windwsize; j++ ){
-					Signals[j] = buffer[filesinfo.ptrbuffer+j-1];
-					}
+                /*          Set buffer pointer to last data passed */
+                filesinfo.ptrbuffer =
+                    filesinfo.ptrbuffer + windwsize - windwovrl;
 
-				/*          Set buffer pointer to last data passed */
-				filesinfo.ptrbuffer = filesinfo.ptrbuffer + windwsize - 
-				 windwovrl;
-
-				/*          Apply any window weighting function to data */
+                /*          Apply any window weighting function to data */
 /*				if( zwindow( (float(*)[4096])signals, windwfunc, windwsize, 
 				 1, (float(*)[4096])signals ) != 0 ){
 					fprintf( stdout, "Error applying window weighting function(getdata).\n" );
@@ -221,16 +209,12 @@ getdata(int nfiles,
 					}
 				else{
 */
-					filesinfo.first = FALSE;
-					getdata_v = 0;
+                filesinfo.first = FALSE;
+                getdata_v = 0;
 /*				      }      */
-				}
-			}
-		}
+            }
+        }
+    }
 
-
-	return( getdata_v );
-} /* end of function */
-
-
-
+    return (getdata_v);
+}                               /* end of function */

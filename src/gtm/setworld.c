@@ -1,13 +1,12 @@
 
 #include "gtm.h"
 
-void /*FUNCTION*/ setworld(xwmin, xwmax, ywmin, ywmax)
-double xwmin, xwmax, ywmin, ywmax;
+void /*FUNCTION*/
+setworld(xwmin, xwmax, ywmin, ywmax)
+     double xwmin, xwmax, ywmin, ywmax;
 {
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To set the world coordinate plot limits.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -32,18 +31,16 @@ double xwmin, xwmax, ywmin, ywmax;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  861027
 	 *===================================================================== */
-	/* - Save requested world coordinates. */
-	cmgtm.xwcmin = xwmin;
-	cmgtm.xwcmax = xwmax;
-	cmgtm.ywcmin = ywmin;
-	cmgtm.ywcmax = ywmax;
+    /* - Save requested world coordinates. */
+    cmgtm.xwcmin = xwmin;
+    cmgtm.xwcmax = xwmax;
+    cmgtm.ywcmin = ywmin;
+    cmgtm.ywcmax = ywmax;
 
-	/* - Calculate world/viewport mapping transformation. */
+    /* - Calculate world/viewport mapping transformation. */
 
-	calwvtransform();
+    calwvtransform();
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

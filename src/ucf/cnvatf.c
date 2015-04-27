@@ -27,32 +27,37 @@
 #define SETMSG_ERROR "ERROR"
 
 double
-cdouble(char *s, 
-        int  *nerr) {
-  double v;
-  char *endptr;
-  *nerr = 0;
+cdouble(char *s, int *nerr) {
+    double v;
+    char *endptr;
+    *nerr = 0;
 
-  v = strtod(s, &endptr);
+    v = strtod(s, &endptr);
 
 #ifdef __UNIT_TESTING_DEBUG__
-  fprintf(stderr, "v: %15.6e %4d %4d <%-12s> <%12s>\n", 
-	  v, errno, strlen(endptr), endptr, s);
+    fprintf(stderr, "v: %15.6e %4d %4d <%-12s> <%12s>\n", v, errno,
+            strlen(endptr), endptr, s);
 #endif /* __UNIT_TESTING_DEBUG__ */
-  
-  /* Error Checking */
-  if(endptr == s)                      { *nerr = CONVERSION_NOT_NUMERIC;      }
-  else if(*endptr != '\0')             { *nerr = CONVERSION_EXTRA_CHARACTERS; }
-  else if(errno == ERANGE) {
-    if(v > 0 && v >=   DBL_MAX)            { *nerr = CONVERSION_TOO_LARGE;        }
-    if(fabs(v) >= 0 && fabs(v) <= DBL_MIN) { *nerr = CONVERSION_BELOW_RESOLUTION; }
-    if(v < 0 && v <=  -DBL_MAX)            { *nerr = CONVERSION_TOO_SMALL;        }
-  }
-  errno = 0;
-  return v;
+
+    /* Error Checking */
+    if (endptr == s) {
+        *nerr = CONVERSION_NOT_NUMERIC;
+    } else if (*endptr != '\0') {
+        *nerr = CONVERSION_EXTRA_CHARACTERS;
+    } else if (errno == ERANGE) {
+        if (v > 0 && v >= DBL_MAX) {
+            *nerr = CONVERSION_TOO_LARGE;
+        }
+        if (fabs(v) >= 0 && fabs(v) <= DBL_MIN) {
+            *nerr = CONVERSION_BELOW_RESOLUTION;
+        }
+        if (v < 0 && v <= -DBL_MAX) {
+            *nerr = CONVERSION_TOO_SMALL;
+        }
+    }
+    errno = 0;
+    return v;
 }
-
-
 
 /** 
  * Convert an ASCII symbol \p kfloat to its floating point equivalent \p floatn.
@@ -92,20 +97,14 @@ cdouble(char *s,
  * @date   810212:  Changed to output message retrieval from disk.
  *
  */
-void 
-cnvatf(char  *kfloat, 
-       int    kfloat_s, 
-       float *floatn, 
-       int    lstrict, 
-       int   *nerr)
-{
-        char *kfloat_copy;
-        UNUSED(lstrict);
-        kfloat_copy = fstrdup(kfloat, kfloat_s);
+void
+cnvatf(char *kfloat, int kfloat_s, float *floatn, int lstrict, int *nerr) {
+    char *kfloat_copy;
+    UNUSED(lstrict);
+    kfloat_copy = fstrdup(kfloat, kfloat_s);
 
-        *floatn = (float )cdouble(kfloat_copy, nerr);
+    *floatn = (float) cdouble(kfloat_copy, nerr);
 
-        free(kfloat_copy);
-        return;
-} 
-
+    free(kfloat_copy);
+    return;
+}

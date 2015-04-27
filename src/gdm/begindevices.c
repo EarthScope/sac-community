@@ -14,8 +14,8 @@
 #include "gd2.h"
 #include "gpm.h"
 
-extern print_device_begin_t  print_device_begin;
-extern print_device_end_t    print_device_end;
+extern print_device_begin_t print_device_begin;
+extern print_device_end_t print_device_end;
 
 /** 
  * Start all specified graphics devices 
@@ -55,92 +55,88 @@ extern print_device_end_t    print_device_end;
  *
  */
 void
-begindevices(char *devices, 
-             int   devices_s, 
-             int   ndevices, 
-             int  *nerr) {
+begindevices(char *devices, int devices_s, int ndevices, int *nerr) {
 
 #define DEVICES(I_,J_)	(devices+(I_)*(devices_s)+(J_))
 
-	int jdevice;
+    int jdevice;
 
-        char *p;
-        char name[14];
+    char *p;
+    char name[14];
 
-        int i, n;
-        display_t **devs;
-        display_t *dev;
-        
-        n    = gdm_get_ndevices();
-        devs = gdm_get_devices();
+    int i, n;
+    display_t **devs;
+    display_t *dev;
 
-	*nerr = 0;
+    n = gdm_get_ndevices();
+    devs = gdm_get_devices();
 
-	/* - Initialize the graphics library if needed. */
+    *nerr = 0;
 
-	if( !cmgdm.lginit ){
-	    begingraphics( nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
-	}
+    /* - Initialize the graphics library if needed. */
 
-        /* Turn off All Devices that are currently on */
-        for(i = 0; i < n; i++) {
-          if(devs[i]->on) {
-            if(devs[i]->end_device) {
-              devs[i]->end_device(nerr);
+    if (!cmgdm.lginit) {
+        begingraphics(nerr);
+        if (*nerr != 0)
+            goto L_8888;
+    }
+
+    /* Turn off All Devices that are currently on */
+    for (i = 0; i < n; i++) {
+        if (devs[i]->on) {
+            if (devs[i]->end_device) {
+                devs[i]->end_device(nerr);
             }
-          }
-          devs[i]->on = FALSE;
-          Lgdon[ devs[i]->id ] = FALSE;
         }
+        devs[i]->on = FALSE;
+        Lgdon[devs[i]->id] = FALSE;
+    }
 
-	/* - Check each input device name for correctness. */
-	for( jdevice = 0; jdevice < ndevices; jdevice++ ){
+    /* - Check each input device name for correctness. */
+    for (jdevice = 0; jdevice < ndevices; jdevice++) {
 
-          strncpy(&name[0], DEVICES(jdevice,0), devices_s);
-          name[devices_s] = 0;
-          p = strchr(&name[0], ' ');
-          if(p) {
+        strncpy(&name[0], DEVICES(jdevice, 0), devices_s);
+        name[devices_s] = 0;
+        p = strchr(&name[0], ' ');
+        if (p) {
             *p = 0;
-          }
-          if((dev = gdm_get_device_by_name(name))){
-            if(dev->active_device && !dev->on) {
-              if(dev->begin_device) {
-                dev->begin_device(nerr);
-              }
-              dev->on = TRUE;
-              Lgdon[ dev->id ] = TRUE;
-              cmgdm.igdtxt = dev->id;
+        }
+        if ((dev = gdm_get_device_by_name(name))) {
+            if (dev->active_device && !dev->on) {
+                if (dev->begin_device) {
+                    dev->begin_device(nerr);
+                }
+                dev->on = TRUE;
+                Lgdon[dev->id] = TRUE;
+                cmgdm.igdtxt = dev->id;
             }
-          } else { 
+        } else {
             fprintf(stderr, "SAC: Unknown device: '%s'\n", name);
-          }
         }
+    }
 
-        {
-          /* Keep RECORD Device On */
-          dev = gdm_get_device_by_name("RECORD");
-          if(dev) {
-            if(!dev->on) {
-              dev->on = TRUE;
-              if(dev->begin_device) {
-                dev->begin_device(nerr);
-              }
+    {
+        /* Keep RECORD Device On */
+        dev = gdm_get_device_by_name("RECORD");
+        if (dev) {
+            if (!dev->on) {
+                dev->on = TRUE;
+                if (dev->begin_device) {
+                    dev->begin_device(nerr);
+                }
             }
-          } else {
+        } else {
             fprintf(stderr, "SAC: Error finding device: Record\n");
-          }
         }
-	/* - Begin plotting to the current graphics window. */
-	beginwindow( cmgdm.iwindow, nerr );
+    }
+    /* - Begin plotting to the current graphics window. */
+    beginwindow(cmgdm.iwindow, nerr);
 
-	/* - Calculate new values for graphics device status variables. */
-	calstatus();
+    /* - Calculate new values for graphics device status variables. */
+    calstatus();
 
-L_8888:
-	return;
+  L_8888:
+    return;
 
 #undef	DEVICES
-} 
-
+}

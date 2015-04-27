@@ -38,23 +38,19 @@
  * @date   870916:  Documented/Reviewed
  *
  */
-void 
-readvfile(char *fullvars, 
-          int   fullvars_s, 
-          int  *node, 
-          int  *nerr) {
+void
+readvfile(char *fullvars, int fullvars_s, int *node, int *nerr) {
 
-  char *s1;
+    char *s1;
 
-	*nerr = 0;
-	*node = 0;
+    *nerr = 0;
+    *node = 0;
 
-  s1 = strcut(fullvars, 1, indexb(fullvars, fullvars_s));
-  if((*nerr = sac_vars_read(s1))) {
-    error(*nerr, "%s", s1);
-  }
-  free(s1);
+    s1 = strcut(fullvars, 1, indexb(fullvars, fullvars_s));
+    if ((*nerr = sac_vars_read(s1))) {
+        error(*nerr, "%s", s1);
+    }
+    free(s1);
 
-  return;
+    return;
 }
-

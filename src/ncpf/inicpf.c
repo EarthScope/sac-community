@@ -4,12 +4,10 @@
 #include "ncpf.h"
 #include "cpf.h"
 
-void /*FUNCTION*/ inicpf()
-{
+void /*FUNCTION*/
+inicpf() {
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: Variable initialization of common blocks cmcpf and kmcpf.
 	 *=====================================================================
 	 * PARAMETERS:
@@ -40,14 +38,12 @@ void /*FUNCTION*/ inicpf()
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  870410
 	 *===================================================================== */
-	/* PROCEDURE: */
-	strcpy( kmcpf.knoval, "NO VALUE" );
+    /* PROCEDURE: */
+    strcpy(kmcpf.knoval, "NO VALUE");
 
-	setmacrolevel( 0 );
-	setmacrostatus( "OK",3 );
+    setmacrolevel(0);
+    setmacrostatus("OK", 3);
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

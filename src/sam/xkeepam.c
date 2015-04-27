@@ -5,19 +5,18 @@
 #include "hdr.h"
 #include "bool.h"
 
-
-
 #include "ucf.h"
 #include "dff.h"
 
-void /*FUNCTION*/ xkeepam(nerr)
-int *nerr;
+void /*FUNCTION*/
+xkeepam(nerr)
+     int *nerr;
 {
-	int jdfl, nfreq;
+    int jdfl, nfreq;
 
-  sac *s;
+    sac *s;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To execute the action command KEEPAM.
 	 *           This command deletes the phase component of 
 	 *           spectral file(s) in memory; if the ifytpe = irlim, the
@@ -53,85 +52,84 @@ int *nerr;
 	 * KNOWN ERRORS:
 	 *
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* PARSING PHASE: */
+    /* PARSING PHASE: */
 
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-	/* 1000 if(lcmore(nerr))then
-	 * - This command accepts no parameters
-	 *      endif */
+    /* 1000 if(lcmore(nerr))then
+     * - This command accepts no parameters
+     *      endif */
 
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-	/*      if(nerr.ne.0)go to 8888 */
+    /*      if(nerr.ne.0)go to 8888 */
 
-	/* CHECKING PHASE: */
+    /* CHECKING PHASE: */
 
-	/* - Check for null data file list. */
+    /* - Check for null data file list. */
 
-	vflist( nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    vflist(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* - Check to make sure all files are spectral files. */
+    /* - Check to make sure all files are spectral files. */
 
-	vfspec( nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    vfspec(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* EXECUTION PHASE: */
+    /* EXECUTION PHASE: */
 
-	/* - Perform the requested function on each file in DFL. */
+    /* - Perform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
+    for (jdfl = 1; jdfl <= saclen(); jdfl++) {
 
-		/* -- Get the next file in DFL, moving header to CMHDR. */
-    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
-      goto L_8888;
-    }
-		//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
+        /* -- Get the next file in DFL, moving header to CMHDR. */
+        if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
+            goto L_8888;
+        }
+        //getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
-		/* -- Convert spectral file type if needed. */
+        /* -- Convert spectral file type if needed. */
 
-		if( s->h->iftype == IRLIM ){
-			toamph( s->y, s->x, s->h->npts, s->y, s->x);
-			s->h->iftype = IAMPH;
-			}
+        if (s->h->iftype == IRLIM) {
+            toamph(s->y, s->x, s->h->npts, s->y, s->x);
+            s->h->iftype = IAMPH;
+        }
 
-		/* -- Release phase component. */
+        /* -- Release phase component. */
 
 /*		if( *nerr != 0 )
 			goto L_8888; */
 /*		cmdfm.ndxdta[jdfl_][1] = 0; */
 
-		/* -- Adjust header from spectral file to ixy file. */
+        /* -- Adjust header from spectral file to ixy file. */
 
-		nfreq = s->h->npts/2 + 1;
-    s->h->npts = nfreq;
-		s->h->b = 0.;
-		s->h->e = s->h->delta*(float)( nfreq - 1 );
-		s->h->iftype = IXY;
+        nfreq = s->h->npts / 2 + 1;
+        s->h->npts = nfreq;
+        s->h->b = 0.;
+        s->h->e = s->h->delta * (float) (nfreq - 1);
+        s->h->iftype = IXY;
 
-		/* -- Adjust header for component specific values. */
-		extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
+        /* -- Adjust header for component specific values. */
+        extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax,
+               &s->h->depmen);
 
+    }
 
-		}
+  L_8888:
+    return;
 
-L_8888:
-	return;
-
-	/*=====================================================================
+        /*=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    910510:  Original version (jjy).
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:
 	 *===================================================================== */
 
-} /* end of function */
-
+}                               /* end of function */

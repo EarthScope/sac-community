@@ -13,14 +13,13 @@
 #include "cpf.h"
 #include "co.h"
 
-void xpc(int *nerr)
-{
-	int lany, lcuron, lexist, lquit, lrplon;
-	int nc;
-        FILE *nunrpl;
+void
+xpc(int *nerr) {
+    int lany, lcuron, lexist, lquit, lrplon;
+    int nc;
+    FILE *nunrpl;
 
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To parse and execute the action command PCURSOR.
 	 *          This command plots objects and text under cursor control.
 	 *=====================================================================
@@ -55,178 +54,173 @@ void xpc(int *nerr)
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* PARSING PHASE: */
+    /* PARSING PHASE: */
 
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-	while( lcmore( nerr ) ){
+    while (lcmore(nerr)) {
 
-		/* -- "REPLAY/CREATE":  set replay file mode. */
-		if( lclog2( "REPLAY$",8, "CREATE$",8, &cmgam.lrplrq ) )
-		{ /* do nothing */ }
+        /* -- "REPLAY/CREATE":  set replay file mode. */
+        if (lclog2("REPLAY$", 8, "CREATE$", 8, &cmgam.lrplrq)) {        /* do nothing */
+        }
 
-		/* -- "FILE/MACRO filename":  set type of file and filename. */
-		else if( lclog2( "FILE$",6, "MACRO$",7, &cmgam.lpcfil ) ){
-      if( lcchar( kmgam.kpcfil, sizeof(kmgam.kpcfil) )){
-          nc = strlen(kmgam.kpcfil);
-			if( cmgam.lpcfil ){
-			    fstrncpy( kmgam.kpcfil, MCPFN, kmgam.kpcfil,
-				      min(nc,MCPFN));
-			    fstrncpy( kmgam.kpcfil+min(nc,MCPFN),
-				      MCPFN-min(nc,MCPFN),
-				      kmgam.kpcfsu,strlen(kmgam.kpcfsu));
+        /* -- "FILE/MACRO filename":  set type of file and filename. */
+        else if (lclog2("FILE$", 6, "MACRO$", 7, &cmgam.lpcfil)) {
+            if (lcchar(kmgam.kpcfil, sizeof(kmgam.kpcfil))) {
+                nc = strlen(kmgam.kpcfil);
+                if (cmgam.lpcfil) {
+                    fstrncpy(kmgam.kpcfil, MCPFN, kmgam.kpcfil, min(nc, MCPFN));
+                    fstrncpy(kmgam.kpcfil + min(nc, MCPFN),
+                             MCPFN - min(nc, MCPFN), kmgam.kpcfsu,
+                             strlen(kmgam.kpcfsu));
 
-			}
-			else{
-			    fstrncpy( kmgam.kpcfil, MCPFN, kmgam.kpcfil,
-				      min(nc,MCPFN));
-			    fstrncpy( kmgam.kpcfil+min(nc,MCPFN),
-				      MCPFN-min(nc,MCPFN), kmgam.kpcmsu,
-				      strlen(kmgam.kpcmsu));
-			}
-		    }
-		} /* end else if( lclog2( "FILE$",6, ... */
+                } else {
+                    fstrncpy(kmgam.kpcfil, MCPFN, kmgam.kpcfil, min(nc, MCPFN));
+                    fstrncpy(kmgam.kpcfil + min(nc, MCPFN),
+                             MCPFN - min(nc, MCPFN), kmgam.kpcmsu,
+                             strlen(kmgam.kpcmsu));
+                }
+            }
+        }
 
-		/* -- "BORDER [ON/OFF]":  set border option for hardcopy. */
-		else if( lklog( "BORDER$",8, &cmgam.lbdrrq ) )
-		{ /* do nothing */ }
+        /* end else if( lclog2( "FILE$",6, ... */
+        /* -- "BORDER [ON/OFF]":  set border option for hardcopy. */
+        else if (lklog("BORDER$", 8, &cmgam.lbdrrq)) {  /* do nothing */
+        }
 
-		/* -- Bad syntax. */
-		else{
-		    cfmt( "ILLEGAL OPTION:",17 );
-		    cresp();
-		}
-	} /* end while( lcmore( nerr ) ) */
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
+    }                           /* end while( lcmore( nerr ) ) */
 
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
+    /* CHECKING PHASE: */
 
-	/* CHECKING PHASE: */
+    /* - If no graphics device is on, initialize the default device. */
 
-	/* - If no graphics device is on, initialize the default device. */
+    getstatus("ANY", &lany);
+    if (!lany) {
+        zgetgd(kmgam.kgddef, 9);
+        begindevices(kmgam.kgddef, 9, 1, nerr);
+        if (*nerr != 0)
+            goto L_8888;
+    }
 
-	getstatus( "ANY", &lany );
-	if( !lany ){
-	    zgetgd( kmgam.kgddef,9 );
-	    begindevices( kmgam.kgddef,9, 1, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
-	    }
+    /* - Now check for a device with graphics input (cursor) capability. */
 
-	/* - Now check for a device with graphics input (cursor) capability. */
+    getstatus("CURSOR", &lcuron);
 
-	getstatus( "CURSOR", &lcuron );
+    /* - Check for replay files' existence if replay mode is requested. */
 
-	/* - Check for replay files' existence if replay mode is requested. */
+    if (cmgam.lrplrq) {
+        zinquire(kmgam.kpcfil, &lexist);
+        if (lexist) {
+            lrplon = TRUE;
+        } else {
+            lrplon = FALSE;
+            setmsg("WARNING", 108);
+            apcmsg(kmgam.kpcfil, MCPFN + 1);
+            outmsg();
+        }
+    } else {
+        lrplon = FALSE;
+    }
 
-	if( cmgam.lrplrq ){
-	    zinquire( kmgam.kpcfil, &lexist );
-	    if( lexist ){
-		lrplon = TRUE;
-	    }
-	    else{
-		lrplon = FALSE;
-		setmsg( "WARNING", 108 );
-		apcmsg( kmgam.kpcfil,MCPFN+1 );
-		outmsg();
-	    }
-	}
-	else{
-	    lrplon = FALSE;
-	}
+    /* EXECUTION PHASE: */
 
-	/* EXECUTION PHASE: */
+    /* - Save plot environment. */
 
-	/* - Save plot environment. */
+    plsave();
 
-	plsave();
+    /* - Begin new plot frame if requested.  Also draw a border region
+     *   if to terminal or if requested to hardcopy. */
 
-	/* - Begin new plot frame if requested.  Also draw a border region
-	 *   if to terminal or if requested to hardcopy. */
+    if (cmgem.lframe) {
+        beginframe(FALSE, nerr);
+        if (*nerr != 0)
+            goto L_8888;
+    }
+    getvspace(&cmgem.view.xmin, &cmgem.view.xmax, &cmgem.view.ymin,
+              &cmgem.view.ymax);
+    if (cmgem.lframe && cmgam.lbdrrq)
+        rectangle(&cmgem.view.xmin, &cmgem.view.xmax, &cmgem.view.ymin,
+                  &cmgem.view.ymax);
 
-	if( cmgem.lframe ){
-	    beginframe( FALSE , nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
-	}
-	getvspace( &cmgem.view.xmin, &cmgem.view.xmax, &cmgem.view.ymin, &cmgem.view.ymax );
-	if( cmgem.lframe && cmgam.lbdrrq )
-	    rectangle( &cmgem.view.xmin, &cmgem.view.xmax,
-		       &cmgem.view.ymin, &cmgem.view.ymax );
+    /* - Map unit square to the current viewspace. */
 
-	/* - Map unit square to the current viewspace. */
+    setvport(cmgem.view.xmin, cmgem.view.xmax, cmgem.view.ymin,
+             cmgem.view.ymax);
+    setworld(0., 1., 0., 1.);
 
-	setvport( cmgem.view.xmin, cmgem.view.xmax, cmgem.view.ymin, cmgem.view.ymax );
-	setworld( 0., 1., 0., 1. );
+    /* - Initialize "current data point" (CDP) to the center of the screen. */
 
-	/* - Initialize "current data point" (CDP) to the center of the screen. */
+    cmgam.xcdp = 0.5;
+    cmgam.ycdp = 0.5;
+    cmgam.lglori = FALSE;
 
-	cmgam.xcdp = 0.5;
-	cmgam.ycdp = 0.5;
-	cmgam.lglori = FALSE;
+    /* - Define cursor location for environment changing commands. */
 
-	/* - Define cursor location for environment changing commands. */
+    cmgam.xcdpe = 0.05;
+    cmgam.ycdpe = 0.05;
 
-	cmgam.xcdpe = 0.05;
-	cmgam.ycdpe = 0.05;
+    /* - If creating a new macro file, define and display macro center point. */
 
-	/* - If creating a new macro file, define and display macro center point. */
+    if (!lrplon && !cmgam.lpcfil) {
+        cmgam.xcen = cmgam.xcdp;
+        cmgam.ycen = cmgam.ycdp;
+        worldmove(cmgam.xcen - 0.02, cmgam.ycen);
+        worlddraw(cmgam.xcen + 0.02, cmgam.ycen);
+        worldmove(cmgam.xcen, cmgam.ycen - 0.02);
+        worlddraw(cmgam.xcen, cmgam.ycen + 0.02);
+    }
 
-	if( !lrplon && !cmgam.lpcfil ){
-	    cmgam.xcen = cmgam.xcdp;
-	    cmgam.ycen = cmgam.ycdp;
-	    worldmove( cmgam.xcen - 0.02, cmgam.ycen );
-	    worlddraw( cmgam.xcen + 0.02, cmgam.ycen );
-	    worldmove( cmgam.xcen, cmgam.ycen - 0.02 );
-	    worlddraw( cmgam.xcen, cmgam.ycen + 0.02 );
-	}
+    /* - Set default text attributes. */
 
-	/* - Set default text attributes. */
+    cmgem.chht = cmgem.tsdef;
+    cmgem.chwid = cmgem.txrat * cmgem.chht;
+    settextsize(cmgem.chwid, cmgem.chht);
 
-	cmgem.chht = cmgem.tsdef;
-	cmgem.chwid = cmgem.txrat*cmgem.chht;
-	settextsize( cmgem.chwid, cmgem.chht );
+    /* - Open replay file. */
 
-	/* - Open replay file. */
+    znfiles(&nunrpl, kmgam.kpcfil, MCPFN + 1, "TEXT", 5, nerr);
+    if (*nerr != 0)
+        goto L_7777;
 
-	znfiles( &nunrpl, kmgam.kpcfil,MCPFN+1, "TEXT",5, nerr );
-	if( *nerr != 0 )
-	    goto L_7777;
+    /* - Execute commands from replay file if requested. */
 
-	/* - Execute commands from replay file if requested. */
+    if (lrplon) {
+        if (cmgam.lpcfil) {
+            pcxrpl(nunrpl, &lquit);
+            if (lquit)
+                goto L_7777;
+        } else {
+            pcmrpl(nunrpl, 1., 0.);
+        }
+    }
 
-	if( lrplon ){
-	    if( cmgam.lpcfil ){
-		pcxrpl( nunrpl, &lquit );
-		if( lquit )
-		    goto L_7777;
-	    }
-	    else{
-		pcmrpl( nunrpl, 1., 0. );
-	    }
-	}
+    /* - Execute commands using terminal cursor if available. */
 
-	/* - Execute commands using terminal cursor if available. */
+    if (lcuron) {
+        if (cmgam.lpcfil) {
+            pcxcur(nunrpl);
+        } else {
+            pcmcur(nunrpl);
+        }
+    }
 
-	if( lcuron ){
-	    if( cmgam.lpcfil ){
-		pcxcur( nunrpl );
-	    }
-	    else{
-		pcmcur( nunrpl );
-	    }
-	}
+    /* - Truncate and close replay file.  End plot frame if requested.
+     *   Restore plot environment. */
 
-	/* - Truncate and close replay file.  End plot frame if requested.
-	 *   Restore plot environment. */
-
-L_7777:
-	;
+  L_7777:
+    ;
 /*
 Need to write routine endfil that (I think):
 (see notes)
@@ -234,18 +228,15 @@ Need to write routine endfil that (I think):
 /*	endfil( nunrpl );*/
 /*	close_unit(nunrpl, "");*/
 
+    fclose(nunrpl);
 
-        fclose(nunrpl);
+    plhome();
+    if (cmgem.lframe)
+        endframe(FALSE, nerr);
+    plrest();
 
+  L_8888:
 
-	plhome();
-	if( cmgem.lframe )
-          endframe( FALSE, nerr );
-	plrest();
+    return;
 
-L_8888:
-
-	return;
-
-} /* end of function */
-
+}                               /* end of function */

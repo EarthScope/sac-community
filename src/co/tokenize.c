@@ -28,47 +28,45 @@
  *    - ERROR_OUT_OF_MEMORY
  *
  */
-void 
-tokenize(char ***argv, 
-	 int    *argc, 
-	 char   *linein, 
-	 int    *nerr) {
+void
+tokenize(char ***argv, int *argc, char *linein, int *nerr) {
 
-  char *temp, *token;
-  int i;
+    char *temp, *token;
+    int i;
 
-  *nerr = 0;
-  *argc = 0;
+    *nerr = 0;
+    *argc = 0;
 
-
-  if((temp = malloc(strlen(linein)+1)) == NULL){
-    *nerr = ERROR_OUT_OF_MEMORY;
-    return;
-  }
-  
-  strcpy(temp, linein);
-
-  token = strtok(temp, " \t\n\0");
-  if( token != NULL ) (*argc)++;
-
-  while( (token = strtok(NULL, " \t\n\0")) != NULL ) (*argc)++;
-
-  if( *argc > 0 ){
-    if((*argv = malloc(*argc * sizeof(char *))) == NULL){
-      *nerr = ERROR_OUT_OF_MEMORY;
-      goto ERROR;
-    }else{
-      (*argv)[0] = strtok(linein, " \t\n\0");
-      for( i=1; i<*argc; i++ ){
-        (*argv)[i] = strtok(NULL, " \t\n\0");
-      }
+    if ((temp = malloc(strlen(linein) + 1)) == NULL) {
+        *nerr = ERROR_OUT_OF_MEMORY;
+        return;
     }
 
-  }
-  
- ERROR:
-  free(temp);
+    strcpy(temp, linein);
 
-  return;
+    token = strtok(temp, " \t\n\0");
+    if (token != NULL)
+        (*argc)++;
+
+    while ((token = strtok(NULL, " \t\n\0")) != NULL)
+        (*argc)++;
+
+    if (*argc > 0) {
+        if ((*argv = malloc(*argc * sizeof(char *))) == NULL) {
+            *nerr = ERROR_OUT_OF_MEMORY;
+            goto ERROR;
+        } else {
+            (*argv)[0] = strtok(linein, " \t\n\0");
+            for (i = 1; i < *argc; i++) {
+                (*argv)[i] = strtok(NULL, " \t\n\0");
+            }
+        }
+
+    }
+
+  ERROR:
+    free(temp);
+
+    return;
 
 }

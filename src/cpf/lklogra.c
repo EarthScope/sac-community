@@ -12,8 +12,6 @@
 #include "com.h"
 #include "bool.h"
 
-
-
 #include "bot.h"
 
 /** 
@@ -51,39 +49,33 @@
  *
  */
 int
-lklogra(char  *kkey, 
-        int    kkey_s, 
-        int   *offOnFlt, 
-        int    nramn, 
-        int    nramx, 
-        double *ra, 
-        int   *nra, 
-        int   *nerr) {
-  
-	int lklogra_v;
+lklogra(char *kkey, int kkey_s, int *offOnFlt, int nramn, int nramx, double *ra,
+        int *nra, int *nerr) {
 
-	*nerr = 0 ;
+    int lklogra_v;
 
-	/* - Check for key. */
-	lklogra_v = lckey( kkey,kkey_s );
+    *nerr = 0;
 
-	/* - Check for "ON" or "OFF" at next token.
-	 *   Set logical variable to .TRUE. if not found. */
-	if( lklogra_v ){
-    if(lclog(offOnFlt)) { }
-    else if(lcra(nramn, nramx, ra, nra)) {
-      *offOnFlt = 2;
-    } else {
-      if( *nra < nramn ){
-        char ktemp[50] ;
-        sprintf (ktemp , "NEED AT LEAST %d REALS OR 'ON' OR 'OFF':$", nramn);
-        cfmt ( ktemp , strlen ( ktemp ) + 1 ) ;
-        cresp() ;
-        *nerr = 10000 ;
-      } 
-		} 
-	}
-  
-	return( lklogra_v );
+    /* - Check for key. */
+    lklogra_v = lckey(kkey, kkey_s);
+
+    /* - Check for "ON" or "OFF" at next token.
+     *   Set logical variable to .TRUE. if not found. */
+    if (lklogra_v) {
+        if (lclog(offOnFlt)) {
+        } else if (lcra(nramn, nramx, ra, nra)) {
+            *offOnFlt = 2;
+        } else {
+            if (*nra < nramn) {
+                char ktemp[50];
+                sprintf(ktemp, "NEED AT LEAST %d REALS OR 'ON' OR 'OFF':$",
+                        nramn);
+                cfmt(ktemp, strlen(ktemp) + 1);
+                cresp();
+                *nerr = 10000;
+            }
+        }
+    }
+
+    return (lklogra_v);
 }
-

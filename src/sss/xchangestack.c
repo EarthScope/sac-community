@@ -8,13 +8,13 @@
 #include "clf.h"
 #include "cpf.h"
 
-void xchangestack(int *nerr)
-{
-	char kfile[MCPFN+1];
-	int jdfl;
-	double delay, tmp;
+void
+xchangestack(int *nerr) {
+    char kfile[MCPFN + 1];
+    int jdfl;
+    double delay, tmp;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To parse the parameter-setting command CHANGESTACK.
 	 *          This command changes properties of a file in stack.
 	 *=====================================================================
@@ -47,99 +47,94 @@ void xchangestack(int *nerr)
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  850812
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* - Parse position dependent tokens.
-	 *   (This is the name or number of the file whose properties are to be changed.) */
+    /* - Parse position dependent tokens.
+     *   (This is the name or number of the file whose properties are to be changed.) */
 
-	if( lcint( &jdfl ) ){
-		if( jdfl < 1 || jdfl > saclen() ){
-			*nerr = 5107;
-			setmsg( "ERROR", *nerr );
-			apimsg( jdfl );
-			goto L_8888;
-			}
-		}
-	else if( lcchar(kfile, sizeof(kfile)) ){
-    char *kfile2 = fstrdup(kfile, -1);
-    jdfl = 1 + sac_find_filename(kfile2);
-		if( jdfl <= 0 ){
-			*nerr = 5106;
-			setmsg( "ERROR", *nerr );
-			apcmsg( kfile,MCPFN+1 );
-			goto L_8888;
-			}
-		}
-	else{
-		cfmt( "NEED A FILENAME OR NUMBER",27 );
-		cresp();
-		}
-
-	/* - Loop on rest of tokens in command:
-	 *   (These are keywords which change properties for this file only.) */
-
-	while( lcmore( nerr ) ){
-
-		/* -- "WEIGHT v":  define global weight property. */
-		if( lkreal( "WEIGHT$",8, &tmp ) ){
-      Wt[jdfl] = (float) tmp;
+    if (lcint(&jdfl)) {
+        if (jdfl < 1 || jdfl > saclen()) {
+            *nerr = 5107;
+            setmsg("ERROR", *nerr);
+            apimsg(jdfl);
+            goto L_8888;
+        }
+    } else if (lcchar(kfile, sizeof(kfile))) {
+        char *kfile2 = fstrdup(kfile, -1);
+        jdfl = 1 + sac_find_filename(kfile2);
+        if (jdfl <= 0) {
+            *nerr = 5106;
+            setmsg("ERROR", *nerr);
+            apcmsg(kfile, MCPFN + 1);
+            goto L_8888;
+        }
+    } else {
+        cfmt("NEED A FILENAME OR NUMBER", 27);
+        cresp();
     }
 
-			/* -- "DELAY v":  define global static delay propertys. */
-		else if( lkreal( "DE#LAY$",8, &delay ) ){
-			if( lckey( "SECONDS$",9 ) ){
-				Dlyt[jdfl] = delay;
-				}
-			else if( lckey( "POINTS$",8 ) ){
-				Dlyn[jdfl] = delay;
-				}
-			}
+    /* - Loop on rest of tokens in command:
+     *   (These are keywords which change properties for this file only.) */
 
-			/* -- "INCREMENT v":  define global static delay propertys. */
-		else if( lkreal( "INCREMENT$",11, &delay ) ){
-			if( lckey( "SECONDS$",9 ) ){
-				Dlyti[jdfl] = delay;
-				}
-			else if( lckey( "POINTS$",8 ) ){
-				Dlyni[jdfl] = delay;
-				}
-			}
+    while (lcmore(nerr)) {
 
-			/* -- "NORMAL/REVERSED":  define global polarity property. */
-		else if( lclog2( "NORMAL$",8, "REVERSED$",10, &Lpol[jdfl] ) ){
-			}
+        /* -- "WEIGHT v":  define global weight property. */
+        if (lkreal("WEIGHT$", 8, &tmp)) {
+            Wt[jdfl] = (float) tmp;
+        }
 
-			/* -- "DISTANCE v":  define global distance property. */
-		else if( lkreal( "DI#STANCE$",11, &tmp ) ){
-      Dst[jdfl] = (float) tmp; 
+        /* -- "DELAY v":  define global static delay propertys. */
+        else if (lkreal("DE#LAY$", 8, &delay)) {
+            if (lckey("SECONDS$", 9)) {
+                Dlyt[jdfl] = delay;
+            } else if (lckey("POINTS$", 8)) {
+                Dlyn[jdfl] = delay;
+            }
+        }
+
+        /* -- "INCREMENT v":  define global static delay propertys. */
+        else if (lkreal("INCREMENT$", 11, &delay)) {
+            if (lckey("SECONDS$", 9)) {
+                Dlyti[jdfl] = delay;
+            } else if (lckey("POINTS$", 8)) {
+                Dlyni[jdfl] = delay;
+            }
+        }
+
+        /* -- "NORMAL/REVERSED":  define global polarity property. */
+        else if (lclog2("NORMAL$", 8, "REVERSED$", 10, &Lpol[jdfl])) {
+        }
+
+        /* -- "DISTANCE v":  define global distance property. */
+        else if (lkreal("DI#STANCE$", 11, &tmp)) {
+            Dst[jdfl] = (float) tmp;
+        }
+
+        /* -- "BEGINTIME v":  define global begin time property. added 960701 maf */
+        else if (lkreal("BE#GINTIME$", 12, &tmp)) {
+            Tbegin[jdfl] = (float) tmp;
+        }
+
+        /* -- "ENDTIME v":  define global end time property. added 960701 maf */
+        else if (lkreal("END#TIME$", 10, &tmp)) {
+            Tend[jdfl] = (float) tmp;
+        }
+
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+
+        }
+
     }
 
-    /* -- "BEGINTIME v":  define global begin time property. added 960701 maf */
-    else if( lkreal( "BE#GINTIME$",12, &tmp ) ){
-      Tbegin[jdfl] = (float) tmp;
-    }
+    /* - The above loop is over when one of two conditions has been met.:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0.
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-    /* -- "ENDTIME v":  define global end time property. added 960701 maf */
-    else if( lkreal( "END#TIME$",10, &tmp ) ){
-      Tend[jdfl] = (float) tmp;
-    }
+  L_8888:
+    return;
 
-			/* -- Bad syntax. */
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
-
-			}
-
-		}
-
-	/* - The above loop is over when one of two conditions has been met.:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0.
-	 *   (2) All the tokens in the command have been successfully parsed. */
-
-L_8888:
-	return;
-
-} /* end of function */
-
+}                               /* end of function */

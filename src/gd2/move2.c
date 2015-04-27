@@ -7,16 +7,13 @@
 #include "gtm.h"
 #include "gdm.h"
 
-void 
-move2(float xloc, float yloc)
-{
-	int ixloc, iyloc, nerr;
-	float unused, xfactor, xpsize, xvpmax, xvpmin, xvsmax, xvsmin, 
-	 xwcmax, xwcmin;
+void
+move2(float xloc, float yloc) {
+    int ixloc, iyloc, nerr;
+    float unused, xfactor, xpsize, xvpmax, xvpmin, xvsmax, xvsmin, xwcmax,
+        xwcmin;
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To perform MOVE operation on graphics device 2 (SGF).
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -41,49 +38,45 @@ move2(float xloc, float yloc)
 	 *=====================================================================
 	 * DOCUMENTED:  861016
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Encode plot size if necessary. */
-	if( cmgd2.encodesize ){
-		getvport( &xvpmin, &xvpmax, &unused, &unused );
-		getvspace( &xvsmin, &xvsmax, &unused, &unused );
-		xfactor = (xvsmax - xvsmin)/(xvpmax - xvpmin);
-		if( strcmp(kmgd2.sizetype,"FIXED   ") == 0 ){
-			xpsize = cmgd2.sizevalue*xfactor;
-			}
-		else if( strcmp(kmgd2.sizetype,"SCALED  ") == 0 ){
-			getworld( &xwcmin, &xwcmax, &unused, &unused );
-			xpsize = cmgd2.sizevalue*(xwcmax - xwcmin)*xfactor;
-			}
-		else{
-			xpsize = 10.0;
-			}
-		Mfbuf[cmgd2.jfbpnt] = MOPSIZ;
-		Mfbuf[cmgd2.jfbpnt + 1] = 1;
-		Mfbuf[cmgd2.jfbpnt + 2] = (int)( fmin( 100.*xpsize, XW ) );
-		cmgd2.jfbpnt = cmgd2.jfbpnt + 3;
-		cmgd2.encodesize = FALSE;
-		}
+    /* PROCEDURE: */
+    /* - Encode plot size if necessary. */
+    if (cmgd2.encodesize) {
+        getvport(&xvpmin, &xvpmax, &unused, &unused);
+        getvspace(&xvsmin, &xvsmax, &unused, &unused);
+        xfactor = (xvsmax - xvsmin) / (xvpmax - xvpmin);
+        if (strcmp(kmgd2.sizetype, "FIXED   ") == 0) {
+            xpsize = cmgd2.sizevalue * xfactor;
+        } else if (strcmp(kmgd2.sizetype, "SCALED  ") == 0) {
+            getworld(&xwcmin, &xwcmax, &unused, &unused);
+            xpsize = cmgd2.sizevalue * (xwcmax - xwcmin) * xfactor;
+        } else {
+            xpsize = 10.0;
+        }
+        Mfbuf[cmgd2.jfbpnt] = MOPSIZ;
+        Mfbuf[cmgd2.jfbpnt + 1] = 1;
+        Mfbuf[cmgd2.jfbpnt + 2] = (int) (fmin(100. * xpsize, XW));
+        cmgd2.jfbpnt = cmgd2.jfbpnt + 3;
+        cmgd2.encodesize = FALSE;
+    }
 
-	/* - Scale floating point values to the devices coordinates. */
+    /* - Scale floating point values to the devices coordinates. */
 
-	ixloc = xloc*XW;
-	iyloc = yloc*XW;
+    ixloc = xloc * XW;
+    iyloc = yloc * XW;
 
-	/* - Store MOVE opcode and location in buffer. */
+    /* - Store MOVE opcode and location in buffer. */
 
-	Mfbuf[cmgd2.jfbpnt] = MOPMOV;
-	Mfbuf[cmgd2.jfbpnt + 1] = 2;
-	Mfbuf[cmgd2.jfbpnt + 2] = ixloc;
-	Mfbuf[cmgd2.jfbpnt + 3] = iyloc;
-	cmgd2.jfbpnt = cmgd2.jfbpnt + 4;
+    Mfbuf[cmgd2.jfbpnt] = MOPMOV;
+    Mfbuf[cmgd2.jfbpnt + 1] = 2;
+    Mfbuf[cmgd2.jfbpnt + 2] = ixloc;
+    Mfbuf[cmgd2.jfbpnt + 3] = iyloc;
+    cmgd2.jfbpnt = cmgd2.jfbpnt + 4;
 
-	/* - Flush buffer if necessary. */
+    /* - Flush buffer if necessary. */
 
-	if( cmgd2.jfbpnt > JFBMAX )
-		flushbuffer2( &nerr );
+    if (cmgd2.jfbpnt > JFBMAX)
+        flushbuffer2(&nerr);
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

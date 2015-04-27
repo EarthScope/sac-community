@@ -9,7 +9,6 @@
 #include "bbs.h"
 #include "vars.h"
 
-
 #include "cpf.h"
 
 /** 
@@ -26,40 +25,38 @@
  * @date   870301:  Original version.
  *
  */
-void 
+void
 xreadbbf(int *nerr) {
-  int notused;
-	*nerr = 0;
+    int notused;
+    *nerr = 0;
 
-	deletevlist( kmbbs.knmbbs,MCPFN+1, "MEMORY", nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    deletevlist(kmbbs.knmbbs, MCPFN + 1, "MEMORY", nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-L_1000:
-	if( lcmore( nerr ) ){
+  L_1000:
+    if (lcmore(nerr)) {
 
-		/* -- "name":  the name of the global variable file. */
-		if( lcchar( kmbbs.knmbbs, sizeof(kmbbs.knmbbs)) ) {
+        /* -- "name":  the name of the global variable file. */
+        if (lcchar(kmbbs.knmbbs, sizeof(kmbbs.knmbbs))) {
 
-			/* -- Bad syntax. */
-			}
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
+            /* -- Bad syntax. */
+        } else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
 
-			}
-		goto L_1000;
+        }
+        goto L_1000;
 
-		}
+    }
 
-  /* Recreate the variable group */
-  sac_vars_create(kmbbs.knmbbs);
+    /* Recreate the variable group */
+    sac_vars_create(kmbbs.knmbbs);
 
-	/* - Get (read from disk) the new blackboard list. */
-  readvfile(kmbbs.knmbbs, MCPFN+1, &notused, nerr);
+    /* - Get (read from disk) the new blackboard list. */
+    readvfile(kmbbs.knmbbs, MCPFN + 1, &notused, nerr);
 
-L_8888:
-	return;
+  L_8888:
+    return;
 
 }
-

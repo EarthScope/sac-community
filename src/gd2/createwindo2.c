@@ -2,14 +2,14 @@
 #include "gd2.h"
 #include "debug.h"
 
-void /*FUNCTION*/ createwindow2(number, xwinmn, xwinmx, ywinmn, ywinmx, 
-	 nerr)
-int *number;
-float *xwinmn, *xwinmx, *ywinmn, *ywinmx;
-int *nerr;
+void /*FUNCTION*/
+createwindow2(number, xwinmn, xwinmx, ywinmn, ywinmx, nerr)
+     int *number;
+     float *xwinmn, *xwinmx, *ywinmn, *ywinmx;
+     int *nerr;
 {
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To create a new graphics window for device 2 (SGF).
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -37,18 +37,16 @@ int *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  850506
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* - This is a no-op for this graphics device. */
-  UNUSED(number);
-  UNUSED(xwinmn);
-  UNUSED(xwinmx);
-  UNUSED(ywinmn);
-  UNUSED(ywinmx);
+    /* - This is a no-op for this graphics device. */
+    UNUSED(number);
+    UNUSED(xwinmn);
+    UNUSED(xwinmx);
+    UNUSED(ywinmn);
+    UNUSED(ywinmx);
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

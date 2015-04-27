@@ -53,71 +53,66 @@ extern char *pager;
  * @date   800915:  Original version.
  * 
  */
-void 
-wrhelp(char *ktoken, 
-       int   ktoken_s, 
-       int   imode, 
-       int   lprint, 
-       int  *nerr) { 
+void
+wrhelp(char *ktoken, int ktoken_s, int imode, int lprint, int *nerr) {
 
-	char kfilename[ MCPFN + 1 ] ;
-	int ncerr;
-        FILE *nun;
-	int i;
-  UNUSED(imode);
-	*nerr = 0;
+    char kfilename[MCPFN + 1];
+    int ncerr;
+    FILE *nun;
+    int i;
+    UNUSED(imode);
+    *nerr = 0;
 
-	/* - Open requested help package. */
-	ophelp(ktoken, ktoken_s, &nun, kfilename, nerr);
-	if( *nerr != 0 )
-		goto L_8888;
-	if( nun == NULL )
-		goto L_5000;
+    /* - Open requested help package. */
+    ophelp(ktoken, ktoken_s, &nun, kfilename, nerr);
+    if (*nerr != 0)
+        goto L_8888;
+    if (nun == NULL)
+        goto L_5000;
 
-	/* Get rid of the trailing white-space characters in kfilename */
-	for (i = 0; i < MCPFN + 1; i++)
-	    if (isspace(kfilename[i]) || kfilename[i] == '\0')
-		break;
-	if (i < MCPFN + 1)
-	    kfilename[i] = '\0';
+    /* Get rid of the trailing white-space characters in kfilename */
+    for (i = 0; i < MCPFN + 1; i++)
+        if (isspace(kfilename[i]) || kfilename[i] == '\0')
+            break;
+    if (i < MCPFN + 1)
+        kfilename[i] = '\0';
 
-	/* If this is the PRINTHELP command, print the file and return, else
-	   go on and send it to the monitor one line at a time. */
-	if ( lprint ) {
-	    char kcommand [ MCPFN + 10 ] ;
-	    sprintf ( kcommand , "lpr %s" , kfilename ) ;
-	    system ( kcommand ) ;
-	    goto L_6000 ;
-	}
-  fflush(stdout);
-	if (pager) {
-	    external_pager(kfilename);
-	    goto L_6000;
-	} else {
-	    if (internal_pager(nun) == 0)
-		goto L_6000;
-	}
+    /* If this is the PRINTHELP command, print the file and return, else
+       go on and send it to the monitor one line at a time. */
+    if (lprint) {
+        char kcommand[MCPFN + 10];
+        sprintf(kcommand, "lpr %s", kfilename);
+        system(kcommand);
+        goto L_6000;
+    }
+    fflush(stdout);
+    if (pager) {
+        external_pager(kfilename);
+        goto L_6000;
+    } else {
+        if (internal_pager(nun) == 0)
+            goto L_6000;
+    }
 
-L_5000:
-	/* - Process error during read. */
-	setmsg( "OUTPUT", 1104 );
-	apcmsg( ktoken,ktoken_s );
-	outmsg();
-        clrmsg();
+  L_5000:
+    /* - Process error during read. */
+    setmsg("OUTPUT", 1104);
+    apcmsg(ktoken, ktoken_s);
+    outmsg();
+    clrmsg();
 
-	if(nun == NULL)
-	  return;
+    if (nun == NULL)
+        return;
 
-L_6000:
+  L_6000:
 
-	/* - Close help package and return when:
-	 *   (1) end-of-file encountered.
-	 *   (2) user requests that remainder of file not be printed. */
-	zcloses( &nun, &ncerr );
+    /* - Close help package and return when:
+     *   (1) end-of-file encountered.
+     *   (2) user requests that remainder of file not be printed. */
+    zcloses(&nun, &ncerr);
 
-
-L_8888:
-	return;
+  L_8888:
+    return;
 }
 
 /** 
@@ -129,44 +124,44 @@ L_8888:
  * @return
  *	0 upon successful completion, -1 otherwise
  */
-int 
-internal_pager(FILE *nun) {
-    char kmsg[MCMSG+1], kerase[41];
+int
+internal_pager(FILE * nun) {
+    char kmsg[MCMSG + 1], kerase[41];
     int nlw = 0, nlscrn;
     char kresp[9];
 
     /* - Set the message type */
-    typmsg( "OUTPUT" );
+    typmsg("OUTPUT");
 
     /* - Get screen attributes (number of lines per screen and
      *   text to send to erase screen, if any.) */
     getalphainfo(&nlscrn, kerase, 41);
-    if(nlscrn <= 0)
-	nlscrn = 23;
+    if (nlscrn <= 0)
+        nlscrn = 23;
 
     for (;;) {
-	if(fgetsp(kmsg, MCMSG + 1, nun)==NULL){
-	    if(feof(nun))
-		return 0;
-	    return -1;
-	}
-  printf("%s", kmsg);
-	nlw = nlw + 1;
+        if (fgetsp(kmsg, MCMSG + 1, nun) == NULL) {
+            if (feof(nun))
+                return 0;
+            return -1;
+        }
+        printf("%s", kmsg);
+        nlw = nlw + 1;
 
-	/* -- After a screen full of info, see if user wants to see more. */
-	if( nlw > (nlscrn - 2) ){
-      outmsg();
-	    clrmsg();
-	    setmsg("OUTPUT", 99);
-	    zgpmsg("More? $", 8, kresp, 9);
+        /* -- After a screen full of info, see if user wants to see more. */
+        if (nlw > (nlscrn - 2)) {
+            outmsg();
+            clrmsg();
+            setmsg("OUTPUT", 99);
+            zgpmsg("More? $", 8, kresp, 9);
 
-	    upcase(kresp, 1, kresp, 9);
+            upcase(kresp, 1, kresp, 9);
 
-	    if (kresp[0] == 'N' || kresp[0] == 'Q')
-		return 0;
-	    else
-		nlw = 0;
-	}
+            if (kresp[0] == 'N' || kresp[0] == 'Q')
+                return 0;
+            else
+                nlw = 0;
+        }
     }
 }
 
@@ -182,28 +177,26 @@ internal_pager(FILE *nun) {
  *
  */
 int
-setenv_portable(const char *name,
-                const char *value,
-                int         overwrite) {
+setenv_portable(const char *name, const char *value, int overwrite) {
 #if defined(HAVE_FUNC_SETENV)
 
-  return setenv(name, value, overwrite);
+    return setenv(name, value, overwrite);
 
 #elif defined(HAVE_FUNC_PUTENV)
-  {
-    int len;
-    char *string;
-    if(getenv(name) == NULL || overwrite != TRUE) {
-      len = strlen(name) + strlen(value) + 2;
-      string = (char*) malloc(sizeof(char) * len);
-      sprintf(string, "%s=%s", name, value);
-      string[len] = 0;
-      return putenv(string);
+    {
+        int len;
+        char *string;
+        if (getenv(name) == NULL || overwrite != TRUE) {
+            len = strlen(name) + strlen(value) + 2;
+            string = (char *) malloc(sizeof(char) * len);
+            sprintf(string, "%s=%s", name, value);
+            string[len] = 0;
+            return putenv(string);
+        }
+        return 0;
     }
-    return 0;
-  }
 #else
-   #error "Requirement of either setenv or putenv not met."
+#error "Requirement of either setenv or putenv not met."
 #endif /* HAVE_FUNC_SETENV and HAVE_FUNC_PUTENV */
 
 }
@@ -216,13 +209,13 @@ setenv_portable(const char *name,
  *
  * @return Nothing
  */
-void 
+void
 external_pager(char *filename) {
     char *syscom;
 
-    syscom = (char *)malloc(strlen(pager) + 1 + strlen(filename) + 1);
+    syscom = (char *) malloc(strlen(pager) + 1 + strlen(filename) + 1);
     sprintf(syscom, "%s %s", pager, filename);
     setenv_portable("LESS", "isRXM+%", 0);
     if (system(syscom) != 0)
-	fprintf(stderr, "Error loading pager %s!\n", pager);
+        fprintf(stderr, "Error loading pager %s!\n", pager);
 }

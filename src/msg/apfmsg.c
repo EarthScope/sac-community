@@ -25,19 +25,17 @@
  * \date   830916: Documented/Reviewed
  *
  */
-void 
-apfmsg(double float_)
-{
-	char kalpha[17];
+void
+apfmsg(double float_) {
+    char kalpha[17];
 
-	/* - Convert integer to alphanumeric. */
-        sprintf(kalpha,"%16.5g",float_);
-	ljust( kalpha,17 );
+    /* - Convert integer to alphanumeric. */
+    sprintf(kalpha, "%16.5g", float_);
+    ljust(kalpha, 17);
 
-	/* - Append alphanumeric representation to message. */
+    /* - Append alphanumeric representation to message. */
 
-	apcmsg( kalpha,17 );
+    apcmsg(kalpha, 17);
 
-	return;
+    return;
 }
-

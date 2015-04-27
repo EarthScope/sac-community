@@ -29,16 +29,16 @@ POSSIBILITY OF SUCH DAMAGE.
 typedef struct _datetime datetime;
 
 struct _datetime {
-  int   year;        /* Year */
-  int   month;       /* Month */
-  int   day;         /* Day of the month: */
-  int   doy;         /* Day of the year: 1 - 366 */
-  int   hour;        /* Hour:   0 - 23 */ 
-  int   minute;      /* Minute: 0 - 59 */
-  int   second;      /* Second: 0 - 59 */
-  long long int nanosecond;  /* Nanoseconds */
-  long long int time;
-  int   set;        
+    int year;                   /* Year */
+    int month;                  /* Month */
+    int day;                    /* Day of the month: */
+    int doy;                    /* Day of the year: 1 - 366 */
+    int hour;                   /* Hour:   0 - 23 */
+    int minute;                 /* Minute: 0 - 59 */
+    int second;                 /* Second: 0 - 59 */
+    long long int nanosecond;   /* Nanoseconds */
+    long long int time;
+    int set;
 };
 
 #define DT_YEAR       ( 1 << 0 )
@@ -52,7 +52,7 @@ struct _datetime {
 #define DT_NORMALIZED ( 1 << 8 )
 
 typedef enum _datetime_op datetime_op;
-enum _datetime_op {  dt_LE, dt_GE, dt_EQ, dt_LT, dt_GT } ;
+enum _datetime_op { dt_LE, dt_GE, dt_EQ, dt_LT, dt_GT };
 
 #ifndef TRUE
 #define TRUE 1
@@ -62,39 +62,39 @@ enum _datetime_op {  dt_LE, dt_GE, dt_EQ, dt_LT, dt_GT } ;
 #endif
 
 enum datetime_stati {
-        DATETIME_OK            = 0,
-        DATETIME_NOT_INIT,
-        DATETIME_NOT_NORM,
+    DATETIME_OK = 0,
+    DATETIME_NOT_INIT,
+    DATETIME_NOT_NORM,
 
 };
 
-datetime * datetime_parse          ( char *in, datetime *t );
-void       datetime_init           ( datetime *t );
-datetime * datetime_alloc          ( );
-datetime * datetime_new            ( );
-void       datetime_free           ( datetime *t );
-datetime * datetime_copy           ( datetime *t );
-void       datetime_copy_deep      ( datetime *new, datetime *t );
-void       datetime_merge          ( datetime *to, datetime *from );
-char *     datetime_string         ( datetime *t );
-datetime * datetime_add_hms        ( datetime *t, int hour, int min, int sec );
-int        datetime_compare        ( datetime *a, datetime *b, datetime_op op );
-int        datetime_in_span        ( datetime *t, datetime *b, datetime *e );
-void       datetime_normalize      ( datetime *t );
-void       datetime_doy2ymd        ( datetime *t );
-void       datetime_ymd2doy        ( datetime *t );
-void       datetime_print          ( datetime *t );
-void       datetime_printn         ( datetime *t );
-void       datetime_print_date     ( datetime *t );
-void       datetime_printn_date    ( datetime *t );
-int        datetime_status         ( datetime *t );
-char *     datetime_status_message ( int status );
+datetime *datetime_parse(char *in, datetime * t);
+void datetime_init(datetime * t);
+datetime *datetime_alloc();
+datetime *datetime_new();
+void datetime_free(datetime * t);
+datetime *datetime_copy(datetime * t);
+void datetime_copy_deep(datetime * new, datetime * t);
+void datetime_merge(datetime * to, datetime * from);
+char *datetime_string(datetime * t);
+datetime *datetime_add_hms(datetime * t, int hour, int min, int sec);
+int datetime_compare(datetime * a, datetime * b, datetime_op op);
+int datetime_in_span(datetime * t, datetime * b, datetime * e);
+void datetime_normalize(datetime * t);
+void datetime_doy2ymd(datetime * t);
+void datetime_ymd2doy(datetime * t);
+void datetime_print(datetime * t);
+void datetime_printn(datetime * t);
+void datetime_print_date(datetime * t);
+void datetime_printn_date(datetime * t);
+int datetime_status(datetime * t);
+char *datetime_status_message(int status);
 
-void datetime_set_year       (datetime *t, int x);
-void datetime_set_doy        (datetime *t, int x);
-void datetime_set_month      (datetime *t, int x);
-void datetime_set_day        (datetime *t, int x);
-void datetime_set_hour       (datetime *t, int x);
-void datetime_set_minute     (datetime *t, int x);
-void datetime_set_second     (datetime *t, int x);
-void datetime_set_nanosecond (datetime *t, int x);
+void datetime_set_year(datetime * t, int x);
+void datetime_set_doy(datetime * t, int x);
+void datetime_set_month(datetime * t, int x);
+void datetime_set_day(datetime * t, int x);
+void datetime_set_hour(datetime * t, int x);
+void datetime_set_minute(datetime * t, int x);
+void datetime_set_second(datetime * t, int x);
+void datetime_set_nanosecond(datetime * t, int x);

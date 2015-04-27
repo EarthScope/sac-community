@@ -13,7 +13,6 @@
 #include "bool.h"
 #include "co.h"
 
-
 #include "gtm.h"
 #include "pl.h"
 #include "bot.h"
@@ -23,18 +22,17 @@
 #include "dff.h"
 #include "array.h"
 
-void xplotxy(int *nerr)
-{
-	char kfile[MCPFN+1], ktemp[MCMSG+1];
-	int lany, lchange, lxlims, lylimj;
-	int *idflnumber, jdfl, jdflnumber,
-    nc, ndflnumber, num;
-	float atrwid, slen, slenm, slenvs, vportratio, xlinl1, 
-	 xlinl2, xrange, xsymlc, yatrlc, yimnj, yimxj, yrange;
+void
+xplotxy(int *nerr) {
+    char kfile[MCPFN + 1], ktemp[MCMSG + 1];
+    int lany, lchange, lxlims, lylimj;
+    int *idflnumber, jdfl, jdflnumber, nc, ndflnumber, num;
+    float atrwid, slen, slenm, slenvs, vportratio, xlinl1, xlinl2, xrange,
+        xsymlc, yatrlc, yimnj, yimxj, yrange;
 
     char *tmp;
     sac *sx, *sy, *s;
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To execute the action command PLOTXY.
 	 *           This command makes a multi-trace, single window plot.
 	 *           The user specifies which data file contains the "x" data
@@ -83,373 +81,363 @@ void xplotxy(int *nerr)
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  890420
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
     ndflnumber = 0;
     atrwid = 0;
-	/* PARSING PHASE: */
-    idflnumber = xarray_new_with_len('i', saclen()+1);
-	/* - Loop on each token in command: */
+    /* PARSING PHASE: */
+    idflnumber = xarray_new_with_len('i', saclen() + 1);
+    /* - Loop on each token in command: */
 
-	jdflnumber = 0;
-	lchange = FALSE;
-L_1000:
-	if( lcmore( nerr ) ){
+    jdflnumber = 0;
+    lchange = FALSE;
+  L_1000:
+    if (lcmore(nerr)) {
 
-		/* -- ASPECT ON|OFF:  maintain aspect ratio of data or not. */
-		if( lklog( "ASPECT$",8, &cmxyz.laspect ) ){
+        /* -- ASPECT ON|OFF:  maintain aspect ratio of data or not. */
+        if (lklog("ASPECT$", 8, &cmxyz.laspect)) {
 
-			/* -- integer:  the index number of data file in data file list. */
-			}
-		else if( lcirc( 1, saclen(), &jdfl ) ){
-			jdflnumber = jdflnumber + 1;
-			idflnumber[jdflnumber] = jdfl;
-			lchange = TRUE;
+            /* -- integer:  the index number of data file in data file list. */
+        } else if (lcirc(1, saclen(), &jdfl)) {
+            jdflnumber = jdflnumber + 1;
+            idflnumber[jdflnumber] = jdfl;
+            lchange = TRUE;
 
-			/* -- "filename":  the name of a data file in the data file list. */
-			}
-		else if( lcchar(kfile, sizeof(kfile)) ){
-      char *kfile2 = fstrdup(kfile, -1);
-      jdfl = 1 + sac_find_filename(kfile2);
-			if( jdfl > 0 ){
-				jdflnumber = jdflnumber + 1;
-				idflnumber[jdflnumber] = jdfl;
-				lchange = TRUE;
-				}
-			else{
-				*nerr = 5106;
-				setmsg( "ERROR", *nerr );
-				apcmsg( kfile,MCPFN+1 );
-				goto L_8888;
-				}
+            /* -- "filename":  the name of a data file in the data file list. */
+        } else if (lcchar(kfile, sizeof(kfile))) {
+            char *kfile2 = fstrdup(kfile, -1);
+            jdfl = 1 + sac_find_filename(kfile2);
+            if (jdfl > 0) {
+                jdflnumber = jdflnumber + 1;
+                idflnumber[jdflnumber] = jdfl;
+                lchange = TRUE;
+            } else {
+                *nerr = 5106;
+                setmsg("ERROR", *nerr);
+                apcmsg(kfile, MCPFN + 1);
+                goto L_8888;
+            }
 
-			/* -- Bad syntax. */
-			}
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
+            /* -- Bad syntax. */
+        } else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
 
-			}
-		goto L_1000;
+        }
+        goto L_1000;
 
-		}
-
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
-
-	if( *nerr != 0 )
-		goto L_8888;
-
-	if( lchange )
-		ndflnumber = jdflnumber;
-
-	/* CHECKING PHASE: */
-
-	/* - Make sure there are at least two data files specified. */
-
-	if( ndflnumber < 2 ){
-		*nerr = 1505;
-		setmsg( "ERROR", *nerr );
-		goto L_8888;
-		}
-
-	/* - Check for null data file list. */
-
-	vflist( nerr );
-	if( *nerr != 0 )
-		goto L_8888;
-
-	/* - If no graphics device is open, try to open the default device. */
-
-	getstatus( "ANY", &lany );
-	if( !lany ){
-		zgetgd( kmgam.kgddef,9 );
-		begindevices( kmgam.kgddef,9, 1, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
-		}
-
-	/* EXECUTION PHASE: */
-
-	/* - Save current plot environment. */
-
-	plsave();
-
-	/* - Set x axis limits based on data file unless limits are already set. */
-
-	getxlm( &lxlims, &cmgem.ximn, &cmgem.ximx );
-	if( !lxlims ){
-    if(!(s = sacget(idflnumber[1]-1, TRUE, nerr))) {
-      *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
-      goto L_8888;
     }
-		//getfil( idflnumber[1], FALSE, &notused, &notused, &notused, 
-    //nerr );
 
-		xrange = s->h->depmax - s->h->depmin;
-		cmgem.lxlim = TRUE;
-            if(cmgem.ixint == AXIS_LINEAR ) {
-		cmgem.ximn = s->h->depmin - cmgem.xfudg*xrange;
-		cmgem.ximx = s->h->depmax + cmgem.xfudg*xrange;
-            } else if(cmgem.ixint == AXIS_LOG ) {
-                xrange     = fmax(xrange, VSMALL);
-                cmgem.ximn = fmax(s->h->depmin, VSMALL);
-                cmgem.ximx = fmax(s->h->depmax, VSMALL);
-                xrange = log10(xrange);
-                cmgem.ximn = pow(10, log10(cmgem.ximn) - cmgem.xfudg*xrange);
-                cmgem.ximx = pow(10, log10(cmgem.ximx) + cmgem.xfudg*xrange);
-            }            
-		}
-	else{
-		cmgem.lxlim = TRUE;
-		}
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-	/* - Set y axis limits. */
+    if (*nerr != 0)
+        goto L_8888;
 
-	cmgem.lylim = TRUE;
-	cmgem.yimn = VLARGE;
-	cmgem.yimx = -VLARGE;
-	for( jdflnumber = 2; jdflnumber <= ndflnumber; jdflnumber++ ){
-		jdfl = idflnumber[jdflnumber];
-    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
-      *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
-      goto L_8888;
-      //getfil( jdfl, FALSE, &notused, &notused, &notused, nerr );
+    if (lchange)
+        ndflnumber = jdflnumber;
+
+    /* CHECKING PHASE: */
+
+    /* - Make sure there are at least two data files specified. */
+
+    if (ndflnumber < 2) {
+        *nerr = 1505;
+        setmsg("ERROR", *nerr);
+        goto L_8888;
     }
-		getylm( &lylimj, &yimnj, &yimxj );
-		cmgem.yimn = fmin( cmgem.yimn, yimnj );
-		cmgem.yimx = fmax( cmgem.yimx, yimxj );
-		}
-	yrange = cmgem.yimx - cmgem.yimn;
-	cmgem.lylim = TRUE;
-    if(cmgem.iyint == AXIS_LINEAR ) {
-	cmgem.yimn = cmgem.yimn - cmgem.yfudg*yrange;
-	cmgem.yimx = cmgem.yimx + cmgem.yfudg*yrange;
 
-    } else if(cmgem.iyint == AXIS_LOG ) {
-      yrange     = fmax(yrange, VSMALL);
-      cmgem.yimn = fmax(cmgem.yimn, VSMALL);
-      cmgem.yimx = fmax(cmgem.yimx, VSMALL);
-      yrange = log10(yrange);
-      cmgem.yimn = pow(10, log10(cmgem.yimn) - cmgem.yfudg*yrange);
-      cmgem.yimx = pow(10, log10(cmgem.yimx) + cmgem.yfudg*yrange);
+    /* - Check for null data file list. */
+
+    vflist(nerr);
+    if (*nerr != 0)
+        goto L_8888;
+
+    /* - If no graphics device is open, try to open the default device. */
+
+    getstatus("ANY", &lany);
+    if (!lany) {
+        zgetgd(kmgam.kgddef, 9);
+        begindevices(kmgam.kgddef, 9, 1, nerr);
+        if (*nerr != 0)
+            goto L_8888;
     }
-	/* - Set background and skeleton attributes. */
 
-	settexttype( kmgem.kgtqua );
-	settextfont( cmgem.igtfnt );
-	setlinestyle( LINE_STYLE_SOLID );
-	setcolor( cmgem.iskcol );
+    /* EXECUTION PHASE: */
 
-	/* -- Set viewport using different aspect ratio if ASPECT ON. */
-	if( cmxyz.laspect ){
-		vportratio = fabs( (cmgem.yimx - cmgem.yimn)/(cmgem.ximx - 
-		 cmgem.ximn) );
-		setvspacetype( FALSE, vportratio );
-		getvport( &cmgem.uplot.xmin, &cmgem.uplot.xmax, &cmgem.uplot.ymin, &cmgem.uplot.ymax );
-		}
-	else{
-		setvspacetype( TRUE, 1.0 );
-		getvport( &cmgem.uplot.xmin, &cmgem.uplot.xmax, &cmgem.uplot.ymin, &cmgem.uplot.ymax );
-		}
+    /* - Save current plot environment. */
 
-	/* - Begin new frame if requested. */
+    plsave();
 
-	if( cmgem.lframe ){
-		beginframe( FALSE , nerr );
-		if( *nerr != 0 )
-			goto L_8888;
-		getvspace( &cmgem.view.xmin, &cmgem.view.xmax, 
-                           &cmgem.view.ymin, &cmgem.view.ymax );
-		}
+    /* - Set x axis limits based on data file unless limits are already set. */
 
-	/* - Calculate mapping transformation for these fixed limits.
-	 *   (In this case, all passed variables but NERR are unused.) */
+    getxlm(&lxlims, &cmgem.ximn, &cmgem.ximx);
+    if (!lxlims) {
+        if (!(s = sacget(idflnumber[1] - 1, TRUE, nerr))) {
+            *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+            goto L_8888;
+        }
+        //getfil( idflnumber[1], FALSE, &notused, &notused, &notused, 
+        //nerr );
 
-	plmap( NULL, NULL, 1, 1, 1, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
-
-	/* - Determine location for id. */
-
-	if( cmgam.lfidrq ){
-		cmgem.chht = cmgam.tsfid;
-		cmgem.chwid = cmgem.txrat*cmgem.chht;
-		settextsize( cmgem.chwid, cmgem.chht );
-		getstringsize( "vs. ", 4, &slenvs );
-		cmgam.fidbdr = cmgem.chht;
-		slenm = 0.;
-		for( jdflnumber = 1; jdflnumber <= ndflnumber; jdflnumber++ ){
-			jdfl = idflnumber[jdflnumber];
-      if(!(s = sacget(jdfl-1, TRUE, nerr))) {
-*nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
-goto L_8888;
-}
-			if( cmgam.ifidtp == 4 ){
-				//getfil( jdfl, FALSE, &notused, &notused, &notused, 
-				// nerr );
-				formhv( (char*)kmgam.kfidnm[0],9, cmgam.ifidfm, ktemp
-				 ,MCMSG+1, nerr );
-				if( *nerr != 0 )
-					goto L_8888;
-				nc = indexb( ktemp,MCMSG+1 );
-				getstringsize( ktemp, nc, &slen );
-				}
-			else{
-        tmp = s->m->filename;
-        getstringsize( tmp, strlen(tmp), &slen );
-				}
-			slenm = fmax( slenm, slen );
-			}
-		/*        if(liline)then
-		 *          atrwid=2.5*chwid
-		 *        elseif(lsym)then
-		 *          atrwid=chwid
-		 *        else
-		 *          atrwid=0.
-		 *        endif */
-		atrwid = slenvs;
-		if( cmgam.ifidlc == cmgam.iur ){
-			cmgam.xfidlc = cmgem.uplot.xmax - cmgam.fidbdr - slenm;
-			cmgam.yfidlc = cmgem.uplot.ymax - cmgam.fidbdr - cmgem.chht;
-			}
-		else if( cmgam.ifidlc == cmgam.iul ){
-			cmgam.xfidlc = cmgem.uplot.xmin + cmgam.fidbdr + atrwid;
-			cmgam.yfidlc = cmgem.uplot.ymax - cmgam.fidbdr - cmgem.chht;
-			}
-		else if( cmgam.ifidlc == cmgam.ilr ){
-			cmgam.xfidlc = cmgem.uplot.xmax - cmgam.fidbdr - slenm;
-			cmgam.yfidlc = cmgem.uplot.ymin + cmgam.fidbdr + (float)( ndflnumber - 
-			 1 )*cmgem.chht;
-			}
-		else if( cmgam.ifidlc == cmgam.ill ){
-			cmgam.xfidlc = cmgem.uplot.xmin + cmgam.fidbdr + atrwid;
-			cmgam.yfidlc = cmgem.uplot.ymin + cmgam.fidbdr + (float)( ndflnumber - 
-			 1 )*cmgem.chht;
-			}
-		else{
-			cmgam.xfidlc = cmgem.uplot.xmin + cmgam.fidbdr + atrwid;
-			cmgam.yfidlc = cmgem.uplot.ymax - cmgam.fidbdr - cmgem.chht;
-			}
-		settextjust( "LEFT", "BOTTOM" );
-		}
-	if( cmgem.liline ){
-		xlinl2 = cmgam.xfidlc - 0.5*cmgem.chwid;
-		xlinl1 = xlinl2 - atrwid;
-		}
-	if( cmgem.lsym )
-		xsymlc = cmgam.xfidlc - 0.5*cmgem.chwid - 0.5*atrwid;
-
-	/* - Loop to plot each requested file vs designated x file. */
-  if(!(sx = sacget(idflnumber[1]-1, TRUE, nerr))) {
-    *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
-    goto L_8888;
-  }
-	//getfil( idflnumber[1], TRUE, &numx, &nlcx, &notused, nerr );
-
-	cmgem.xgen.on = FALSE;
-	for( jdflnumber = 2; jdflnumber <= ndflnumber; jdflnumber++ ){
-		jdfl = idflnumber[jdflnumber];
-    if(!(sy = sacget(jdfl-1, TRUE, nerr))) {
-      *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
-      goto L_8888;
+        xrange = s->h->depmax - s->h->depmin;
+        cmgem.lxlim = TRUE;
+        if (cmgem.ixint == AXIS_LINEAR) {
+            cmgem.ximn = s->h->depmin - cmgem.xfudg * xrange;
+            cmgem.ximx = s->h->depmax + cmgem.xfudg * xrange;
+        } else if (cmgem.ixint == AXIS_LOG) {
+            xrange = fmax(xrange, VSMALL);
+            cmgem.ximn = fmax(s->h->depmin, VSMALL);
+            cmgem.ximx = fmax(s->h->depmax, VSMALL);
+            xrange = log10(xrange);
+            cmgem.ximn = pow(10, log10(cmgem.ximn) - cmgem.xfudg * xrange);
+            cmgem.ximx = pow(10, log10(cmgem.ximx) + cmgem.xfudg * xrange);
+        }
+    } else {
+        cmgem.lxlim = TRUE;
     }
-		//getfil( jdfl, TRUE, &numy, &nlcy, &notused, nerr );
 
-		num = min( sx->h->npts, sy->h->npts );
-		if( cmgam.lfidrq ){
-                  if( cmgem.lcol ) {
-                    setcolor( cmgem.icol );
-                  } else {
-                    setcolor( color_foreground_default() );
-                  }
-			move( cmgam.xfidlc, cmgam.yfidlc );
-			if( cmgam.ifidtp == 4 ){
-				formhv( (char*)kmgam.kfidnm[0],9, cmgam.ifidfm, ktemp
-				 ,MCMSG+1, nerr );
-				if( *nerr != 0 )
-					goto L_8888;
-				nc = indexb( ktemp,MCMSG+1 );
-				text( ktemp,MCMSG+1, nc );
-				}
-			else{
-        tmp = sy->m->filename;
-        text( tmp, strlen(tmp), nc );
-      }
-			yatrlc = cmgam.yfidlc + 0.5*cmgem.chht;
-			if( cmgem.liline && cmgem.icline > 0 ){
-				setlinestyle( cmgem.icline );
-				move( xlinl1, yatrlc );
-				draw( xlinl2, yatrlc );
-				setlinestyle( LINE_STYLE_SOLID );
-				}
-			if( cmgem.lsym && cmgem.isym > 0 ){
-                                setlinewidth( cmgem.isymwidth );
-				symbol( (float*)&xsymlc, (float*)&yatrlc, 1, TRUE );
-                                setlinewidth( cmgem.iwidth );
-			      }
-			if( cmgem.lcol ) {
-                          setcolor( cmgem.iskcol );
-                        } else {
-                          setcolor( color_foreground_default() );
-                        }
-			cmgam.yfidlc = cmgam.yfidlc - cmgem.chht;
-			}
+    /* - Set y axis limits. */
 
-		pldta( sx->y, sy->y, num, 1, 1, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
-		}
-
-	/* - Add last line to fileid and reset text size to default value.
-	 *   Last line specifies which data file was used for the x axis. */
-
-	if( cmgam.lfidrq ){
-		move( cmgam.xfidlc, cmgam.yfidlc );
-		jdfl = idflnumber[1];
-    if(!(s = sacget(jdfl-1, FALSE, nerr))) {
-      goto L_8888;
+    cmgem.lylim = TRUE;
+    cmgem.yimn = VLARGE;
+    cmgem.yimx = -VLARGE;
+    for (jdflnumber = 2; jdflnumber <= ndflnumber; jdflnumber++) {
+        jdfl = idflnumber[jdflnumber];
+        if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
+            *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+            goto L_8888;
+            //getfil( jdfl, FALSE, &notused, &notused, &notused, nerr );
+        }
+        getylm(&lylimj, &yimnj, &yimxj);
+        cmgem.yimn = fmin(cmgem.yimn, yimnj);
+        cmgem.yimx = fmax(cmgem.yimx, yimxj);
     }
-    //getfil( jdfl, FALSE, &notused, &notused, &notused, nerr );
-		if( cmgam.ifidtp == 4 ){
-			formhv( (char*)kmgam.kfidnm[0],9, cmgam.ifidfm, ktemp,MCMSG+1, 
-			 nerr );
-			if( *nerr != 0 )
-				goto L_8888;
-			nc = indexb( ktemp,MCMSG+1 );
-			text( ktemp,MCMSG+1, nc );
-			}
-		else{
-      tmp = s->m->filename;
-      text( tmp, strlen(tmp) , nc );
+    yrange = cmgem.yimx - cmgem.yimn;
+    cmgem.lylim = TRUE;
+    if (cmgem.iyint == AXIS_LINEAR) {
+        cmgem.yimn = cmgem.yimn - cmgem.yfudg * yrange;
+        cmgem.yimx = cmgem.yimx + cmgem.yfudg * yrange;
+
+    } else if (cmgem.iyint == AXIS_LOG) {
+        yrange = fmax(yrange, VSMALL);
+        cmgem.yimn = fmax(cmgem.yimn, VSMALL);
+        cmgem.yimx = fmax(cmgem.yimx, VSMALL);
+        yrange = log10(yrange);
+        cmgem.yimn = pow(10, log10(cmgem.yimn) - cmgem.yfudg * yrange);
+        cmgem.yimx = pow(10, log10(cmgem.yimx) + cmgem.yfudg * yrange);
     }
-		getstringsize( "vs. ", 4, &slenvs );
-		move( cmgam.xfidlc - slenvs, cmgam.yfidlc );
-		text( "vs. ",5, 4 );
-		cmgam.yfidlc = cmgam.yfidlc - cmgem.chht;
-		cmgem.chht = cmgem.tsdef;
-		cmgem.chwid = cmgem.txrat*cmgem.chht;
-		settextsize( cmgem.chwid, cmgem.chht );
-		}
+    /* - Set background and skeleton attributes. */
 
-	/* - Draw grid lines, axes and such. */
+    settexttype(kmgem.kgtqua);
+    settextfont(cmgem.igtfnt);
+    setlinestyle(LINE_STYLE_SOLID);
+    setcolor(cmgem.iskcol);
 
-	plgrid( nerr );
+    /* -- Set viewport using different aspect ratio if ASPECT ON. */
+    if (cmxyz.laspect) {
+        vportratio =
+            fabs((cmgem.yimx - cmgem.yimn) / (cmgem.ximx - cmgem.ximn));
+        setvspacetype(FALSE, vportratio);
+        getvport(&cmgem.uplot.xmin, &cmgem.uplot.xmax, &cmgem.uplot.ymin,
+                 &cmgem.uplot.ymax);
+    } else {
+        setvspacetype(TRUE, 1.0);
+        getvport(&cmgem.uplot.xmin, &cmgem.uplot.xmax, &cmgem.uplot.ymin,
+                 &cmgem.uplot.ymax);
+    }
 
-	/* - Home cursor and end frame if requested. */
+    /* - Begin new frame if requested. */
 
-	plhome();
-	if( cmgem.lframe )
-		endframe( FALSE , nerr );
+    if (cmgem.lframe) {
+        beginframe(FALSE, nerr);
+        if (*nerr != 0)
+            goto L_8888;
+        getvspace(&cmgem.view.xmin, &cmgem.view.xmax, &cmgem.view.ymin,
+                  &cmgem.view.ymax);
+    }
 
-	/* - Restore plot environment and return. */
+    /* - Calculate mapping transformation for these fixed limits.
+     *   (In this case, all passed variables but NERR are unused.) */
 
-L_8888:
-	plrest();
-	settextjust( "LEFT", "BOTTOM" );
-  xarray_free(idflnumber);
-	return;
+    plmap(NULL, NULL, 1, 1, 1, nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-} /* end of function */
+    /* - Determine location for id. */
 
+    if (cmgam.lfidrq) {
+        cmgem.chht = cmgam.tsfid;
+        cmgem.chwid = cmgem.txrat * cmgem.chht;
+        settextsize(cmgem.chwid, cmgem.chht);
+        getstringsize("vs. ", 4, &slenvs);
+        cmgam.fidbdr = cmgem.chht;
+        slenm = 0.;
+        for (jdflnumber = 1; jdflnumber <= ndflnumber; jdflnumber++) {
+            jdfl = idflnumber[jdflnumber];
+            if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
+                *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+                goto L_8888;
+            }
+            if (cmgam.ifidtp == 4) {
+                //getfil( jdfl, FALSE, &notused, &notused, &notused, 
+                // nerr );
+                formhv((char *) kmgam.kfidnm[0], 9, cmgam.ifidfm, ktemp,
+                       MCMSG + 1, nerr);
+                if (*nerr != 0)
+                    goto L_8888;
+                nc = indexb(ktemp, MCMSG + 1);
+                getstringsize(ktemp, nc, &slen);
+            } else {
+                tmp = s->m->filename;
+                getstringsize(tmp, strlen(tmp), &slen);
+            }
+            slenm = fmax(slenm, slen);
+        }
+        /*        if(liline)then
+         *          atrwid=2.5*chwid
+         *        elseif(lsym)then
+         *          atrwid=chwid
+         *        else
+         *          atrwid=0.
+         *        endif */
+        atrwid = slenvs;
+        if (cmgam.ifidlc == cmgam.iur) {
+            cmgam.xfidlc = cmgem.uplot.xmax - cmgam.fidbdr - slenm;
+            cmgam.yfidlc = cmgem.uplot.ymax - cmgam.fidbdr - cmgem.chht;
+        } else if (cmgam.ifidlc == cmgam.iul) {
+            cmgam.xfidlc = cmgem.uplot.xmin + cmgam.fidbdr + atrwid;
+            cmgam.yfidlc = cmgem.uplot.ymax - cmgam.fidbdr - cmgem.chht;
+        } else if (cmgam.ifidlc == cmgam.ilr) {
+            cmgam.xfidlc = cmgem.uplot.xmax - cmgam.fidbdr - slenm;
+            cmgam.yfidlc =
+                cmgem.uplot.ymin + cmgam.fidbdr + (float) (ndflnumber -
+                                                           1) * cmgem.chht;
+        } else if (cmgam.ifidlc == cmgam.ill) {
+            cmgam.xfidlc = cmgem.uplot.xmin + cmgam.fidbdr + atrwid;
+            cmgam.yfidlc =
+                cmgem.uplot.ymin + cmgam.fidbdr + (float) (ndflnumber -
+                                                           1) * cmgem.chht;
+        } else {
+            cmgam.xfidlc = cmgem.uplot.xmin + cmgam.fidbdr + atrwid;
+            cmgam.yfidlc = cmgem.uplot.ymax - cmgam.fidbdr - cmgem.chht;
+        }
+        settextjust("LEFT", "BOTTOM");
+    }
+    if (cmgem.liline) {
+        xlinl2 = cmgam.xfidlc - 0.5 * cmgem.chwid;
+        xlinl1 = xlinl2 - atrwid;
+    }
+    if (cmgem.lsym)
+        xsymlc = cmgam.xfidlc - 0.5 * cmgem.chwid - 0.5 * atrwid;
+
+    /* - Loop to plot each requested file vs designated x file. */
+    if (!(sx = sacget(idflnumber[1] - 1, TRUE, nerr))) {
+        *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+        goto L_8888;
+    }
+    //getfil( idflnumber[1], TRUE, &numx, &nlcx, &notused, nerr );
+
+    cmgem.xgen.on = FALSE;
+    for (jdflnumber = 2; jdflnumber <= ndflnumber; jdflnumber++) {
+        jdfl = idflnumber[jdflnumber];
+        if (!(sy = sacget(jdfl - 1, TRUE, nerr))) {
+            *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+            goto L_8888;
+        }
+        //getfil( jdfl, TRUE, &numy, &nlcy, &notused, nerr );
+
+        num = min(sx->h->npts, sy->h->npts);
+        if (cmgam.lfidrq) {
+            if (cmgem.lcol) {
+                setcolor(cmgem.icol);
+            } else {
+                setcolor(color_foreground_default());
+            }
+            move(cmgam.xfidlc, cmgam.yfidlc);
+            if (cmgam.ifidtp == 4) {
+                formhv((char *) kmgam.kfidnm[0], 9, cmgam.ifidfm, ktemp,
+                       MCMSG + 1, nerr);
+                if (*nerr != 0)
+                    goto L_8888;
+                nc = indexb(ktemp, MCMSG + 1);
+                text(ktemp, MCMSG + 1, nc);
+            } else {
+                tmp = sy->m->filename;
+                text(tmp, strlen(tmp), nc);
+            }
+            yatrlc = cmgam.yfidlc + 0.5 * cmgem.chht;
+            if (cmgem.liline && cmgem.icline > 0) {
+                setlinestyle(cmgem.icline);
+                move(xlinl1, yatrlc);
+                draw(xlinl2, yatrlc);
+                setlinestyle(LINE_STYLE_SOLID);
+            }
+            if (cmgem.lsym && cmgem.isym > 0) {
+                setlinewidth(cmgem.isymwidth);
+                symbol((float *) &xsymlc, (float *) &yatrlc, 1, TRUE);
+                setlinewidth(cmgem.iwidth);
+            }
+            if (cmgem.lcol) {
+                setcolor(cmgem.iskcol);
+            } else {
+                setcolor(color_foreground_default());
+            }
+            cmgam.yfidlc = cmgam.yfidlc - cmgem.chht;
+        }
+
+        pldta(sx->y, sy->y, num, 1, 1, nerr);
+        if (*nerr != 0)
+            goto L_8888;
+    }
+
+    /* - Add last line to fileid and reset text size to default value.
+     *   Last line specifies which data file was used for the x axis. */
+
+    if (cmgam.lfidrq) {
+        move(cmgam.xfidlc, cmgam.yfidlc);
+        jdfl = idflnumber[1];
+        if (!(s = sacget(jdfl - 1, FALSE, nerr))) {
+            goto L_8888;
+        }
+        //getfil( jdfl, FALSE, &notused, &notused, &notused, nerr );
+        if (cmgam.ifidtp == 4) {
+            formhv((char *) kmgam.kfidnm[0], 9, cmgam.ifidfm, ktemp, MCMSG + 1,
+                   nerr);
+            if (*nerr != 0)
+                goto L_8888;
+            nc = indexb(ktemp, MCMSG + 1);
+            text(ktemp, MCMSG + 1, nc);
+        } else {
+            tmp = s->m->filename;
+            text(tmp, strlen(tmp), nc);
+        }
+        getstringsize("vs. ", 4, &slenvs);
+        move(cmgam.xfidlc - slenvs, cmgam.yfidlc);
+        text("vs. ", 5, 4);
+        cmgam.yfidlc = cmgam.yfidlc - cmgem.chht;
+        cmgem.chht = cmgem.tsdef;
+        cmgem.chwid = cmgem.txrat * cmgem.chht;
+        settextsize(cmgem.chwid, cmgem.chht);
+    }
+
+    /* - Draw grid lines, axes and such. */
+
+    plgrid(nerr);
+
+    /* - Home cursor and end frame if requested. */
+
+    plhome();
+    if (cmgem.lframe)
+        endframe(FALSE, nerr);
+
+    /* - Restore plot environment and return. */
+
+  L_8888:
+    plrest();
+    settextjust("LEFT", "BOTTOM");
+    xarray_free(idflnumber);
+    return;
+
+}                               /* end of function */

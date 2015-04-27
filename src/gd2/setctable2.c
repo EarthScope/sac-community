@@ -6,19 +6,15 @@
 
 #include "sgfcolor.h"
 
-void 
-setctable2(int          iwindow, 
-           unsigned int nentry, 
-           float        red[], 
-           float        green[], 
-           float        blue[] )
-{
-  UNUSED(iwindow);
-  UNUSED(nentry);
-  UNUSED(blue);
-  UNUSED(green);
-  UNUSED(red);
-	/*=====================================================================
+void
+setctable2(int iwindow, unsigned int nentry, float red[], float green[],
+           float blue[]) {
+    UNUSED(iwindow);
+    UNUSED(nentry);
+    UNUSED(blue);
+    UNUSED(green);
+    UNUSED(red);
+        /*=====================================================================
 	 * PURPOSE:  To set the color table for graphics device 2 (SGF).
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -38,20 +34,18 @@ setctable2(int          iwindow,
 	 *=====================================================================
 	 * DOCUMENTED:  861020
 	 *===================================================================== */
-	/* PROCEDURE: */
+    /* PROCEDURE: */
 
-        
-    int  i;
+    int i;
 
-    for (i = 0; i < cmgdm.npscimage; i++){
+    for (i = 0; i < cmgdm.npscimage; i++) {
 
-      sred[i] = sgfred[i];
-      sgreen[i] = sgfgreen[i];
-      sblue[i] = sgfblue[i];
+        sred[i] = sgfred[i];
+        sgreen[i] = sgfgreen[i];
+        sblue[i] = sgfblue[i];
     }
-  cmgam.cmap = MCOLOR;
+    cmgam.cmap = MCOLOR;
 
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

@@ -2,11 +2,12 @@
 #include "gtm.h"
 #include "gdm.h"
 
-void /*FUNCTION*/ rectangle(xloc1, xloc2, yloc1, yloc2)
-float *xloc1, *xloc2, *yloc1, *yloc2;
+void /*FUNCTION*/
+rectangle(xloc1, xloc2, yloc1, yloc2)
+     float *xloc1, *xloc2, *yloc1, *yloc2;
 {
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To draw a rectangle.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -25,15 +26,14 @@ float *xloc1, *xloc2, *yloc1, *yloc2;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  861020
 	 *===================================================================== */
-	/* PROCEDURE: */
-	move( *xloc1, *yloc1 );
-	draw( *xloc1, *yloc2 );
-	draw( *xloc2, *yloc2 );
-	draw( *xloc2, *yloc1 );
-	draw( *xloc1, *yloc1 );
-        stroke();
+    /* PROCEDURE: */
+    move(*xloc1, *yloc1);
+    draw(*xloc1, *yloc2);
+    draw(*xloc2, *yloc2);
+    draw(*xloc2, *yloc1);
+    draw(*xloc1, *yloc1);
+    stroke();
 
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

@@ -2,11 +2,12 @@
 #include "gd2.h"
 #include "gem.h"
 
-void /*FUNCTION*/ begindevice2(nerr)
-int *nerr;
+void /*FUNCTION*/
+begindevice2(nerr)
+     int *nerr;
 {
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To begin plotting to graphics device 2 (SGF).
 	 *=====================================================================
 	 * OUTPUT ARGUMENTS:
@@ -19,13 +20,12 @@ int *nerr;
 	 *=====================================================================
 	 * DOCUMENTED:  861014
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - This subroutine is a no-op. */
-	*nerr = 0;
+    /* PROCEDURE: */
+    /* - This subroutine is a no-op. */
+    *nerr = 0;
 
-        set_skeleton_fudge( 0.0003 );
+    set_skeleton_fudge(0.0003);
 
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

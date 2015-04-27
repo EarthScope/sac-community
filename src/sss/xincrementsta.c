@@ -3,14 +3,13 @@
 #include "sss.h"
 #include "dfm.h"
 
-void /*FUNCTION*/ xincrementsta(nerr)
-int *nerr;
+void /*FUNCTION*/
+xincrementsta(nerr)
+     int *nerr;
 {
-	int jdfl, jvm;
+    int jdfl, jvm;
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To execute the INCREMENTSTACK command.  This command 
 	 *           increments certain signal stack parameters.
 	 *=====================================================================
@@ -35,25 +34,23 @@ int *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  850819
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* - Increment static delays. */
+    /* - Increment static delays. */
 
-	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
-		Dlyt[jdfl] = Dlyt[jdfl] + Dlyti[jdfl];
-		Dlyn[jdfl] = Dlyn[jdfl] + Dlyni[jdfl];
-		}
+    for (jdfl = 1; jdfl <= saclen(); jdfl++) {
+        Dlyt[jdfl] = Dlyt[jdfl] + Dlyti[jdfl];
+        Dlyn[jdfl] = Dlyn[jdfl] + Dlyni[jdfl];
+    }
 
-	/* - Increment velocity model parameters. */
+    /* - Increment velocity model parameters. */
 
-	for( jvm = 1; jvm <= MVM; jvm++ ){
-		Vapp[jvm] = Vapp[jvm] + Vappi[jvm];
-		T0vm[jvm] = T0vm[jvm] + T0vmi[jvm];
-		}
+    for (jvm = 1; jvm <= MVM; jvm++) {
+        Vapp[jvm] = Vapp[jvm] + Vappi[jvm];
+        T0vm[jvm] = T0vm[jvm] + T0vmi[jvm];
+    }
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

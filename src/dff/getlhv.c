@@ -36,63 +36,53 @@
  * @date   870902:  Original version.
  *
  */
-void 
-getlhv(char *kname, 
-       int  *lvalue, 
-       int  *nerr, 
-       int   kname_s) {
+void
+getlhv(char *kname, int *lvalue, int *nerr, int kname_s) {
 
-	char ktest[9];
-	int index;
-	char *kname_c;
-  sac *s;
+    char ktest[9];
+    int index;
+    char *kname_c;
+    sac *s;
 
-	kname_c = fstrdup(kname, kname_s);
-	kname_s = strlen(kname_c) + 1;
-	
-	*nerr = 0;
-  s = sacget_current();
-	/* - Convert input name to uppercase and 
-	 *   check versus list of legal names. */
-  sacio_char_to_keyword(kname_c, ktest);
-	index = nequal( ktest, (char*)kmlhf.klhdr,9, SAC_HEADER_LOGICALS );
+    kname_c = fstrdup(kname, kname_s);
+    kname_s = strlen(kname_c) + 1;
 
-	/* - If legal name, return current value.
-	 *   Otherwise, set error condition. */
+    *nerr = 0;
+    s = sacget_current();
+    /* - Convert input name to uppercase and 
+     *   check versus list of legal names. */
+    sacio_char_to_keyword(kname_c, ktest);
+    index = nequal(ktest, (char *) kmlhf.klhdr, 9, SAC_HEADER_LOGICALS);
 
-	if( index > 0 ){
-    *lvalue = LHDR(s)[index-1];
-	}
-	else{
-	    *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;
-	    *lvalue = FALSE;
-	}
+    /* - If legal name, return current value.
+     *   Otherwise, set error condition. */
 
-	/* - Create error message and write to terminal. */
+    if (index > 0) {
+        *lvalue = LHDR(s)[index - 1];
+    } else {
+        *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;
+        *lvalue = FALSE;
+    }
 
-	if( *nerr != 0 ){
-    sacio_message(*nerr, kname_c);
-	}
+    /* - Create error message and write to terminal. */
 
-	free(kname_c);
+    if (*nerr != 0) {
+        sacio_message(*nerr, kname_c);
+    }
 
-	return;
-} 
+    free(kname_c);
 
-
-
+    return;
+}
 
 /* Wrapper to make code more convenient for FORTRAN programmers. */
 
-void getlhv_ (char      *kname, 
-	      int       *lvalue, 
-	      int       *nerr, 
-	      int        kname_s) {
-  getlhv ( kname , lvalue , nerr , kname_s ) ;
+void
+getlhv_(char *kname, int *lvalue, int *nerr, int kname_s) {
+    getlhv(kname, lvalue, nerr, kname_s);
 }
-void getlhv__ (char      *kname, 
-	       int       *lvalue, 
-	       int       *nerr, 
-	       int        kname_s) {
-  getlhv ( kname , lvalue , nerr , kname_s ) ;
+
+void
+getlhv__(char *kname, int *lvalue, int *nerr, int kname_s) {
+    getlhv(kname, lvalue, nerr, kname_s);
 }

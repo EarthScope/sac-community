@@ -13,13 +13,12 @@
 
 extern struct contour contour;
 
-void 
+void
 newcontseg(level, start, stop, number)
-int level, start, stop, *number;
+     int level, start, stop, *number;
 {
 
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To put information about a new contouring segment.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -44,18 +43,16 @@ int level, start, stop, *number;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900315
 	 *===================================================================== */
-	/* PROCEDURE: */
-	if( cmcontouring.numsegments < cmcontouring.maxsegments ){
-		cmcontouring.numsegments = cmcontouring.numsegments + 1;
-		*number = cmcontouring.numsegments;
-    contour.segments[*number-1].level = level;
-    contour.segments[*number-1].start = start;
-    contour.segments[*number-1].stop  = stop;
-	}
-	else{
-		fprintf( stdout, "No more room for segment storage\n" );
-		exit(0);
-	}
-	return;
+    /* PROCEDURE: */
+    if (cmcontouring.numsegments < cmcontouring.maxsegments) {
+        cmcontouring.numsegments = cmcontouring.numsegments + 1;
+        *number = cmcontouring.numsegments;
+        contour.segments[*number - 1].level = level;
+        contour.segments[*number - 1].start = start;
+        contour.segments[*number - 1].stop = stop;
+    } else {
+        fprintf(stdout, "No more room for segment storage\n");
+        exit(0);
+    }
+    return;
 }
-

@@ -16,9 +16,8 @@
  *
  */
 struct t_kmfir {
-  char  kidfir[81];
+    char kidfir[81];
 } kmfir;
-
 
 /** 
  * @struct kmfir 
@@ -26,18 +25,18 @@ struct t_kmfir {
  *
  */
 struct t_cmfir {
-  int    ncfir;
-  float  cfir[MFIR];
-  float  dtfir;
+    int ncfir;
+    float cfir[MFIR];
+    float dtfir;
 } cmfir;
 
 #ifdef DOINITS
 
-   float *const Cfir = &cmfir.cfir[0] - 1;
+float *const Cfir = &cmfir.cfir[0] - 1;
 
 #else
 
-   extern float *const Cfir;
+extern float *const Cfir;
 
 #endif
 

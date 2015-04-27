@@ -6,12 +6,12 @@
 #include "eam.h"
 #include "gam.h"
 
+void /*FUNCTION*/
+pkfunc(float fdold, float fdnew, float *chfsta, float *chflta, float *chf) {
 
-void /*FUNCTION*/ pkfunc(float fdold, float fdnew, float *chfsta, float *chflta, float *chf) {
+    float fdfd;
 
-	float fdfd;
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To calculate characteristic function and its averages
 	 *          by automatic picker.
 	 *=====================================================================
@@ -32,29 +32,27 @@ void /*FUNCTION*/ pkfunc(float fdold, float fdnew, float *chfsta, float *chflta,
 	 *    MACH:
 	 *    EAM:     C2, C3, C5,
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Compute first difference of filtered data. */
-	fdfd = fdnew - fdold;
+    /* PROCEDURE: */
+    /* - Compute first difference of filtered data. */
+    fdfd = fdnew - fdold;
 
-	/* - Compute characteristic function. */
+    /* - Compute characteristic function. */
 
-	*chf = pow(fdnew,2) + cmeam.c2*pow(fdfd,2);
+    *chf = pow(fdnew, 2) + cmeam.c2 * pow(fdfd, 2);
 
-	/* - Compute the short term average. */
+    /* - Compute the short term average. */
 
-	*chfsta = *chfsta + cmeam.c3*(*chf - *chfsta);
+    *chfsta = *chfsta + cmeam.c3 * (*chf - *chfsta);
 
-	/* - Compute the long term average. */
+    /* - Compute the long term average. */
 
-	*chflta = *chflta + cmeam.c4*(*chf - *chflta);
+    *chflta = *chflta + cmeam.c4 * (*chf - *chflta);
 
-       
-	return;
+    return;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    801101:  Factored from PK1.
 	 *===================================================================== */
 
-} /* end of function */
-
+}                               /* end of function */

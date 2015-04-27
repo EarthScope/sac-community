@@ -2,13 +2,11 @@
 #include "ncpf.h"
 #include "cpf.h"
 
-int /*FUNCTION*/ macrostatus()
-{
-	int macrostatus_v;
+int /*FUNCTION*/
+macrostatus() {
+    int macrostatus_v;
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To get the status of the current macro being executed.
 	 *=====================================================================
 	 * FUNCTION VALUE:
@@ -27,12 +25,10 @@ int /*FUNCTION*/ macrostatus()
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900129
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Return status variable as a logical function value. */
-	macrostatus_v = cmcpf.lmacrostatus;
+    /* PROCEDURE: */
+    /* - Return status variable as a logical function value. */
+    macrostatus_v = cmcpf.lmacrostatus;
 
-       
-	return( macrostatus_v );
+    return (macrostatus_v);
 
-} /* end of function */
-
+}                               /* end of function */

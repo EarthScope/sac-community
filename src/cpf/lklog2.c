@@ -11,7 +11,6 @@
 #include "bool.h"
 #include "bot.h"
 
-
 #include "co.h"
 
 /** 
@@ -41,21 +40,15 @@
  * @date   820622:  Original version.
  *
  */
-int 
-lklog2(char *kkey, 
-       int   kkey_s, 
-       char *ktrue, 
-       int   ktrue_s, 
-       char *kfalse, 
-       int   kfalse_s, 
-       int  *logv) {
+int
+lklog2(char *kkey, int kkey_s, char *ktrue, int ktrue_s, char *kfalse,
+       int kfalse_s, int *logv) {
 
-	/* - Check for key. */
-	if(!lckey( kkey,kkey_s )) {
-    return FALSE;
-  }
-  
-  lclog2(ktrue, ktrue_s, kfalse, kfalse_s, logv);
-  return TRUE;
+    /* - Check for key. */
+    if (!lckey(kkey, kkey_s)) {
+        return FALSE;
+    }
+
+    lclog2(ktrue, ktrue_s, kfalse, kfalse_s, logv);
+    return TRUE;
 }
-

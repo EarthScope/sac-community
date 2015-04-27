@@ -1,14 +1,14 @@
 
 #include "pl.h"
 
-void /*FUNCTION*/ incat(icurat, iattab, nattab, jattab, inewat)
-int icurat, iattab[], nattab, *jattab, *inewat;
+void /*FUNCTION*/
+incat(icurat, iattab, nattab, jattab, inewat)
+     int icurat, iattab[], nattab, *jattab, *inewat;
 {
 
-	int *const Iattab = &iattab[0] - 1;
+    int *const Iattab = &iattab[0] - 1;
 
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To increment a attribute based upon an attribute table.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -25,44 +25,41 @@ int icurat, iattab[], nattab, *jattab, *inewat;
 	 *=====================================================================
 	 * MODULE/LEVEL:  SERVICE/4
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Find current attribute value in table if JATTAB is out of range. */
-	if( *jattab <= 0 || *jattab > nattab ){
-		*jattab = 1;
-L_1000:
-		if( icurat != Iattab[*jattab] ){
-			*jattab = *jattab + 1;
-			if( *jattab <= nattab )
-				goto L_1000;
-			}
-		}
+    /* PROCEDURE: */
+    /* - Find current attribute value in table if JATTAB is out of range. */
+    if (*jattab <= 0 || *jattab > nattab) {
+        *jattab = 1;
+      L_1000:
+        if (icurat != Iattab[*jattab]) {
+            *jattab = *jattab + 1;
+            if (*jattab <= nattab)
+                goto L_1000;
+        }
+    }
 
-	/* - Set JATTAB to 1 if current JATTAB is equal to length of table.
-	 *   This could also result from ICURAT could not be found in table. */
+    /* - Set JATTAB to 1 if current JATTAB is equal to length of table.
+     *   This could also result from ICURAT could not be found in table. */
 
-	if( *jattab >= nattab ){
-		*jattab = 1;
+    if (*jattab >= nattab) {
+        *jattab = 1;
 
-		/* - Otherwise, increment JATTAB by 1 */
+        /* - Otherwise, increment JATTAB by 1 */
 
-		}
-	else{
-		*jattab = *jattab + 1;
-		}
+    } else {
+        *jattab = *jattab + 1;
+    }
 
-	/* - Return new attribute value. */
+    /* - Return new attribute value. */
 
-	*inewat = Iattab[*jattab];
+    *inewat = Iattab[*jattab];
 
-       
-	return;
+    return;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    830114:  Modified argument list and logic to allow for
 	 *             multiple occurances of an attribute in the list.
 	 *    820305:  Original version.
 	 *===================================================================== */
 
-} /* end of function */
-
+}                               /* end of function */

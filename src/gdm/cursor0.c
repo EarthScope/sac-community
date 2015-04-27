@@ -25,23 +25,20 @@
  * @date   831026:  Original version.
  *
  */
-void 
-cursor0(float *xloc, 
-        float *yloc, 
-        char  *kchar) {
+void
+cursor0(float *xloc, float *yloc, char *kchar) {
 
-        int i, n;
-        display_t **dev;
-        n   = gdm_get_ndevices();
-        dev = gdm_get_devices();
+    int i, n;
+    display_t **dev;
+    n = gdm_get_ndevices();
+    dev = gdm_get_devices();
 
-        for(i = 0; i < n; i++) {
-          if(dev[i]->on) {
-            if(dev[i]->move && dev[i]->cursor) {
-              dev[i]->move(*xloc, *yloc);
-              dev[i]->cursor(xloc, yloc, kchar, 1);
+    for (i = 0; i < n; i++) {
+        if (dev[i]->on) {
+            if (dev[i]->move && dev[i]->cursor) {
+                dev[i]->move(*xloc, *yloc);
+                dev[i]->cursor(xloc, yloc, kchar, 1);
             }
-          }
         }
+    }
 }
-

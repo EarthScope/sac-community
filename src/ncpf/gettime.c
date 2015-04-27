@@ -7,7 +7,6 @@
 #include "hdr.h"
 #include "amf.h"
 
-
 #include "bot.h"
 #include "ucf.h"
 #include "dfm.h"
@@ -20,11 +19,11 @@
 int
 gettime(int lmax, int lvalue, double tvalue, double *value) {
 
-	int j;
-  int nerr;
+    int j;
+    int nerr;
 
-  sac *s;
-	/*=====================================================================
+    sac *s;
+        /*=====================================================================
 	 * PURPOSE: Returns the time offset in the file for the first occurence
 	 *          of a given value, or the offset coresponding the the first
 	 *          MAXIMUM or MINUMUM data value in the file.
@@ -58,49 +57,45 @@ gettime(int lmax, int lvalue, double tvalue, double *value) {
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  
 	 *===================================================================== */
-  nerr = 0;
+    nerr = 0;
 
-	/* CHECKING PHASE: */
+    /* CHECKING PHASE: */
 
-	/* - Check for null data file list. */
+    /* - Check for null data file list. */
 
-	vflist( &nerr );
-	if( nerr != 0 ) {
-    return nerr;
-  }
+    vflist(&nerr);
+    if (nerr != 0) {
+        return nerr;
+    }
 
-	/* - Get the first file from the memory manager */
-  if(!(s = sacget(0, TRUE, &nerr))) {
-    return nerr;
-  }
-  //getfil( 1, TRUE, &nlen, &ndx1, &ndx2, &nerr );
+    /* - Get the first file from the memory manager */
+    if (!(s = sacget(0, TRUE, &nerr))) {
+        return nerr;
+    }
+    //getfil( 1, TRUE, &nlen, &ndx1, &ndx2, &nerr );
 
+    if (!lvalue) {
+        if (lmax) {
+            tvalue = s->h->depmax;
+        } else {
+            tvalue = s->h->depmin;
+        }
+    }
 
-  
-	if( ! lvalue ){
-    if( lmax ) {
-      tvalue = s->h->depmax;
+    for (j = 0; j < s->h->npts; j++) {
+        if ((lmax && s->y[j] >= tvalue) || (!lmax && s->y[j] <= tvalue)) {
+            if (s->h->leven) {
+                *value = s->h->b + s->h->delta * (j - 1);
+            } else {
+                *value = s->x[j];
+            }
+            return FALSE;
+        }
+    }
+    if (lmax) {
+        error(8201, ": %g > %g (depmax)", tvalue, s->h->depmax);
     } else {
-      tvalue = s->h->depmin;
+        error(8201, ": %g < %g (depmin)", tvalue, s->h->depmin);
     }
-  }
-
-  for( j = 0; j < s->h->npts; j++ ){
-    if( (  lmax && s->y[j] >= tvalue ) ||
-        ( !lmax && s->y[j] <= tvalue ) ) {
-      if( s->h->leven ){
-        *value = s->h->b + s->h->delta * (j-1);
-			} else {
-        *value = s->x[j];
-			}
-      return FALSE;
-    }
-  } 
-  if(lmax) {
-    error(8201, ": %g > %g (depmax)", tvalue, s->h->depmax);
-  } else {
-    error(8201, ": %g < %g (depmin)", tvalue, s->h->depmin);
-  }
-	return 8201;
+    return 8201;
 }
-

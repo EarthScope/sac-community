@@ -7,7 +7,6 @@
 
 #include "gtm.h"
 
-
 #include "gdm.h"
 
 /** 
@@ -30,22 +29,19 @@
  *
  */
 void
-worldcursor(float *xwloc, 
-            float *ywloc, 
-            char *kchar) {
+worldcursor(float *xwloc, float *ywloc, char *kchar) {
 
-	float xloc, yloc;
+    float xloc, yloc;
 
-	/* - Move to input world coordinate position. */
-	worldmove( *xwloc, *ywloc );
+    /* - Move to input world coordinate position. */
+    worldmove(*xwloc, *ywloc);
 
-	/* - Get character and cursor position (in viewport coordinates.) */
-	cursor0( &xloc, &yloc, kchar );
+    /* - Get character and cursor position (in viewport coordinates.) */
+    cursor0(&xloc, &yloc, kchar);
 
-	/* - Convert viewport location to world coordinates. */
-	*xwloc = (xloc - cmgtm.xmpwv2)/cmgtm.xmpwv1;
-	*ywloc = (yloc - cmgtm.ympwv2)/cmgtm.ympwv1;
+    /* - Convert viewport location to world coordinates. */
+    *xwloc = (xloc - cmgtm.xmpwv2) / cmgtm.xmpwv1;
+    *ywloc = (yloc - cmgtm.ympwv2) / cmgtm.ympwv1;
 
-	return;
+    return;
 }
-

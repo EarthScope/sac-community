@@ -42,48 +42,42 @@
  * @date   830505:  Original version.
  *
  */
-int 
-indexa(char *string, 
-       int   string_s, 
-       int   kchar, 
-       int   lfwd, 
-       int   locc) {
+int
+indexa(char *string, int string_s, int kchar, int lfwd, int locc) {
 
-	int ic, ic1, ic3, indexa_v, nc, do_count;
+    int ic, ic1, ic3, indexa_v, nc, do_count;
 
-	/* - Determine length of character string. */
-	nc = (string_s - 1);
-        if ( nc == 0 ) nc = 1;
+    /* - Determine length of character string. */
+    nc = (string_s - 1);
+    if (nc == 0)
+        nc = 1;
 
-	/* - Set up loop parameters based on search direction. */
+    /* - Set up loop parameters based on search direction. */
 
-	if( lfwd ){
-		ic1 = 1;
-		/* ic2 = nc; */
-		ic3 = 1;
-	}
-	else{
-		ic1 = nc;
-		/* ic2 = 1; */
-		ic3 = -1;
-	}
+    if (lfwd) {
+        ic1 = 1;
+        /* ic2 = nc; */
+        ic3 = 1;
+    } else {
+        ic1 = nc;
+        /* ic2 = 1; */
+        ic3 = -1;
+    }
 
-	/* - Search each character in input string for requested character. */
+    /* - Search each character in input string for requested character. */
 
-	indexa_v = 0;
-	for( ic = ic1, do_count = nc; do_count > 0; ic += ic3, do_count-- ){
-		if( string[ic - 1] == kchar && locc ){
-			indexa_v = ic;
-			goto L_8888;
-		}
-		else if( string[ic - 1] != kchar && !locc ){
-			indexa_v = ic;
-			goto L_8888;
-		}
-	}
+    indexa_v = 0;
+    for (ic = ic1, do_count = nc; do_count > 0; ic += ic3, do_count--) {
+        if (string[ic - 1] == kchar && locc) {
+            indexa_v = ic;
+            goto L_8888;
+        } else if (string[ic - 1] != kchar && !locc) {
+            indexa_v = ic;
+            goto L_8888;
+        }
+    }
 
-L_8888:
-	return( indexa_v );
+  L_8888:
+    return (indexa_v);
 
 }
-

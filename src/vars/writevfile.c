@@ -45,15 +45,11 @@
  * @date   870916:  Documented/Reviewed
  *
  */
-void 
-writevfile(char *vars, 
-           int   vars_s, 
-           char *file,
-           int  *nerr) {
-  UNUSED(vars_s);
-  if((*nerr = sac_vars_write(vars, file))) {
-    error(*nerr, "%s", file);
-  }
-  return;
+void
+writevfile(char *vars, int vars_s, char *file, int *nerr) {
+    UNUSED(vars_s);
+    if ((*nerr = sac_vars_write(vars, file))) {
+        error(*nerr, "%s", file);
+    }
+    return;
 }
-

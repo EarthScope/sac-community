@@ -27,16 +27,16 @@
  * @date   910813:  Original version. Replaces part of the old cleardfl.
  *
  */
-void 
+void
 cleardfl(int *nerr) {
 
-  UNUSED(nerr);
+    UNUSED(nerr);
 
-	return;
+    return;
 }
 
 void
 clear_file(int i, int *nerr) {
-  UNUSED(i);
-  UNUSED(nerr);
+    UNUSED(i);
+    UNUSED(nerr);
 }

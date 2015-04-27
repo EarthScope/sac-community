@@ -29,32 +29,28 @@
  * @date   871012:  Documented / Reveiwed
  *
  */
-void 
-writebbf(char *kname, 
-	 int  *nerr, 
-	 int   kname_s) {
+void
+writebbf(char *kname, int *nerr, int kname_s) {
 
-	char *kname_c;
+    char *kname_c;
 
-	kname_c = fstrdup(kname, kname_s);
+    kname_c = fstrdup(kname, kname_s);
 
-	/* - Write file to disk using the blackboard reserved name. */
-	writevfile( kmbbs.knmbbs,MCPFN+1, kname_c, nerr );
+    /* - Write file to disk using the blackboard reserved name. */
+    writevfile(kmbbs.knmbbs, MCPFN + 1, kname_c, nerr);
 
-	free(kname_c);
+    free(kname_c);
 
-	return;
+    return;
 }
-
 
 /* Added for FORTRAN friendliness */
-void writebbf_ (char      *kname, 
-		int       *nerr, 
-		int        kname_s) {
-  writebbf(kname, nerr, kname_s) ;
+void
+writebbf_(char *kname, int *nerr, int kname_s) {
+    writebbf(kname, nerr, kname_s);
 }
-void writebbf__ (char      *kname, 
-		 int       *nerr, 
-		 int        kname_s) {
-  writebbf(kname, nerr, kname_s) ;
+
+void
+writebbf__(char *kname, int *nerr, int kname_s) {
+    writebbf(kname, nerr, kname_s);
 }

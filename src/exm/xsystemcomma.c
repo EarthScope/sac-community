@@ -23,22 +23,21 @@
 void
 xsystemcommand(int *nerr) {
 
-	char kmsg[MCMSG+1];
-	int ncmsg;
+    char kmsg[MCMSG + 1];
+    int ncmsg;
 
-	*nerr = 0;
+    *nerr = 0;
 
-	/* - Store rest of command line in output message buffer. */
-	if( !lcrest( MCMSG, kmsg,MCMSG+1, &ncmsg ) ){
-		cerr( 1001 );
-		goto L_8888;
-        }
+    /* - Store rest of command line in output message buffer. */
+    if (!lcrest(MCMSG, kmsg, MCMSG + 1, &ncmsg)) {
+        cerr(1001);
+        goto L_8888;
+    }
 
-	/* - Execute the system command. */
-	zsysop( kmsg,MCMSG+1, &ncmsg, nerr );
+    /* - Execute the system command. */
+    zsysop(kmsg, MCMSG + 1, &ncmsg, nerr);
 
-L_8888:
-	return;
+  L_8888:
+    return;
 
 }
-

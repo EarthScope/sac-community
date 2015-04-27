@@ -13,22 +13,23 @@
 #include "bot.h"
 #include "dff.h"
 
-void /*FUNCTION*/ plalpha(kalpha, kalpha_s, malpha, lprint, nerr)
-char *kalpha;   int kalpha_s;
-int malpha, *nerr;
-int lprint ;
+void /*FUNCTION*/
+plalpha(kalpha, kalpha_s, malpha, lprint, nerr)
+     char *kalpha;
+     int kalpha_s;
+     int malpha, *nerr;
+     int lprint;
 {
 #define KALPHA(I_,J_)	(kalpha+(I_)*(kalpha_s)+(J_))
-	int lany, lframs, lxgens;
-	int idx, ildp, npoints, nc;
-	float xloc, xpw[2], yloc, ypw[2];
+    int lany, lframs, lxgens;
+    int idx, ildp, npoints, nc;
+    float xloc, xpw[2], yloc, ypw[2];
 
-  sac *s;
-	float *const Xpw = &xpw[0] - 1;
-	float *const Ypw = &ypw[0] - 1;
+    sac *s;
+    float *const Xpw = &xpw[0] - 1;
+    float *const Ypw = &ypw[0] - 1;
 
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To plot tha alpha text along with the first file that
 	 *           is in memory.  Plots at most malpha items.
 	 *=====================================================================
@@ -65,126 +66,119 @@ int lprint ;
          *    970130:  Added arguments to dispid() to not plot file number. maf
 	 *    920713:  Original version from xp.
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* - Save current values of several GEM parameters. */
+    /* - Save current values of several GEM parameters. */
 
-	lxgens = cmgem.xgen.on;
-	lframs = cmgem.lframe;
+    lxgens = cmgem.xgen.on;
+    lframs = cmgem.lframe;
 
-	/* CHECKING PHASE: */
+    /* CHECKING PHASE: */
 
-	/* - Check for null data file list. */
+    /* - Check for null data file list. */
 
-	vflist( nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    vflist(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
+    /* - If no graphics device is open, try to open the default device. */
 
-	/* - If no graphics device is open, try to open the default device. */
+    getstatus("ANY", &lany);
+    if (!lany) {
+        zgetgd(kmgam.kgddef, 9);
+        begindevices(kmgam.kgddef, 9, 1, nerr);
+        if (*nerr != 0)
+            goto L_8888;
+    }
 
-	getstatus( "ANY", &lany );
-	if( !lany ){
-		zgetgd( kmgam.kgddef,9 );
-		begindevices( kmgam.kgddef,9, 1, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
-	}
+    /* EXECUTION PHASE: */
 
-	/* EXECUTION PHASE: */
+    /* -- Get file from memory manager. */
+    if (!(s = sacget(0, TRUE, nerr))) {
+        goto L_8888;
+    }
+    //getfil( 1, TRUE, &nlen, &nlcy, &nlcx, nerr );
 
+    /* -- Set up x axis data generation parameters if evenly spaced. */
+    if (s->h->leven) {
+        cmgem.xgen.delta = s->h->delta;
+        cmgem.xgen.first = s->h->b;
+        cmgem.xgen.on = TRUE;
+    } else {
+        cmgem.xgen.on = FALSE;
+    }
 
-	/* -- Get file from memory manager. */
-  if(!(s = sacget(0, TRUE, nerr))) {
-    goto L_8888;
-  }
-	//getfil( 1, TRUE, &nlen, &nlcy, &nlcx, nerr );
+    /* -- Determine x axis plot limits. */
+    getxlm(&cmgem.lxlim, &cmgem.ximn, &cmgem.ximx);
 
-	/* -- Set up x axis data generation parameters if evenly spaced. */
-	if( s->h->leven ){
-		cmgem.xgen.delta = s->h->delta;
-		cmgem.xgen.first = s->h->b;
-		cmgem.xgen.on = TRUE;
-	}
-	else{
-		cmgem.xgen.on = FALSE;
-	}
+    /* -- Determine y axis plot limits. */
+    getylm(&cmgem.lylim, &cmgem.yimn, &cmgem.yimx);
 
-	/* -- Determine x axis plot limits. */
-	getxlm( &cmgem.lxlim, &cmgem.ximn, &cmgem.ximx );
+    /* -- Begin next plot frame if requested. */
+    if (lframs) {
+        beginframe(lprint, nerr);
+        if (*nerr != 0)
+            goto L_8888;
+        getvspace(&cmgem.view.xmin, &cmgem.view.xmax, &cmgem.view.ymin,
+                  &cmgem.view.ymax);
+    }
 
-	/* -- Determine y axis plot limits. */
-	getylm( &cmgem.lylim, &cmgem.yimn, &cmgem.yimx );
+    /* -- Plot the data.  Do not allow PL2D to perform framing. */
+    cmgem.lframe = FALSE;
+    pl2d(s->x, s->y, s->h->npts, 1, 1, nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* -- Begin next plot frame if requested. */
-	if( lframs ){
-		beginframe( lprint , nerr );
-		if( *nerr != 0 )
-			goto L_8888;
-		getvspace( &cmgem.view.xmin, &cmgem.view.xmax, 
-                           &cmgem.view.ymin, &cmgem.view.ymax );
-	}
+    /* - Set up plotting window */
 
-	/* -- Plot the data.  Do not allow PL2D to perform framing. */
-	cmgem.lframe = FALSE;
-	pl2d( s->x, s->y, s->h->npts, 1, 1, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    Xpw[1] = cmgem.uplot.xmin - VSMALL;
+    Xpw[2] = cmgem.uplot.xmax + VSMALL;
+    Ypw[1] = cmgem.uplot.ymin - VSMALL;
+    Ypw[2] = cmgem.uplot.ymax + VSMALL;
 
+    /* -- Plot the alpha strings. */
+    npoints = s->h->npts;
+    if (npoints > malpha)
+        npoints = malpha;
+    for (idx = 0; idx < npoints; idx++) {
+        if (cmgem.xgen.on) {
+            xloc =
+                cmgem.xmpip1 * (cmgem.xgen.first + idx * cmgem.xgen.delta) +
+                cmgem.xmpip2;
+        } else {
+            xloc = cmgem.xmpip1 * (s->x[idx]) + cmgem.xmpip2;
+        }
+        yloc = cmgem.ympip1 * (s->y[idx]) + cmgem.ympip2;
+        move(xloc, yloc);
+        locdp(xloc, yloc, xpw, ypw, &ildp);
 
-	/* - Set up plotting window */
+        if (ildp == 0) {
+            nc = indexb(KALPHA(idx, 0), kalpha_s);
+            text(KALPHA(idx, 0), kalpha_s, nc);
+        }
+    }
 
-	Xpw[1] = cmgem.uplot.xmin - VSMALL;
-	Xpw[2] = cmgem.uplot.xmax + VSMALL;
-	Ypw[1] = cmgem.uplot.ymin - VSMALL;
-	Ypw[2] = cmgem.uplot.ymax + VSMALL;
+    /* -- Plot the frame id, pick display and home cursor. */
+    dispid(0, 0, 0, NULL);
+    disppk(0.);
+    plhome();
+    flushbuffer(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
+    /* -- End current plot frame if requested. */
+    if (lframs)
+        endframe(FALSE, nerr);
+    else
+        flushbuffer(nerr);
 
-	/* -- Plot the alpha strings. */
-	npoints = s->h->npts;
-	if( npoints > malpha )
-		npoints = malpha;
-	for( idx = 0; idx < npoints; idx++ ){
-		if( cmgem.xgen.on ){
-			xloc = cmgem.xmpip1*(cmgem.xgen.first + idx*cmgem.xgen.delta) + 
-			 cmgem.xmpip2;
-		}
-		else{
-			xloc = cmgem.xmpip1*(s->x[idx]) + cmgem.xmpip2;
-		}
-		yloc = cmgem.ympip1*(s->y[idx]) + cmgem.ympip2;
-		move( xloc, yloc );
-		locdp( xloc, yloc, xpw, ypw, &ildp );
+    /* - Restore GEM parameters before returning. */
 
-		if( ildp == 0 ){
-			nc = indexb( KALPHA(idx,0),kalpha_s );
-			text( KALPHA(idx,0),kalpha_s, nc );
-		}
-	}
-
-
-	/* -- Plot the frame id, pick display and home cursor. */
-	dispid( 0 , 0, 0, NULL );
-	disppk( 0. );
-	plhome();
-	flushbuffer( nerr );
-	if( *nerr != 0 )
-		goto L_8888;
-
-	/* -- End current plot frame if requested. */
-	if( lframs )
-		endframe( FALSE , nerr );
-        else 
-          flushbuffer( nerr );
-
-	/* - Restore GEM parameters before returning. */
-
-L_8888:
-	cmgem.xgen.on = lxgens;
-	cmgem.lframe = lframs;
-	return;
+  L_8888:
+    cmgem.xgen.on = lxgens;
+    cmgem.lframe = lframs;
+    return;
 
 #undef	KALPHA
-} /* end of function */
-
+}                               /* end of function */

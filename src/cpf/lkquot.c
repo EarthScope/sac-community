@@ -41,18 +41,13 @@
  * @date   810208:  Original version.
  *
  */
-int 
-lkquot(char *kkey, 
-       int   kkey_s, 
-       int   mquot, 
-       char *kquot, 
-       int   kquot_s, 
-       int  *nquot) {
+int
+lkquot(char *kkey, int kkey_s, int mquot, char *kquot, int kquot_s, int *nquot) {
 
-	if(!lckey( kkey,kkey_s )) {
-    return FALSE;
-  }
+    if (!lckey(kkey, kkey_s)) {
+        return FALSE;
+    }
 
-  lcquot(mquot, kquot, kquot_s, nquot);
-  return TRUE;
+    lcquot(mquot, kquot, kquot_s, nquot);
+    return TRUE;
 }

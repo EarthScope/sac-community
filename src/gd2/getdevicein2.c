@@ -3,17 +3,16 @@
 
 #include "gd2.h"
 
-
 #include "co.h"
 
-void /*FUNCTION*/ getdeviceinfo2(kdname, kdname_s, idtype)
-char *kdname;   int kdname_s;
-int *idtype;
+void /*FUNCTION*/
+getdeviceinfo2(kdname, kdname_s, idtype)
+     char *kdname;
+     int kdname_s;
+     int *idtype;
 {
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To inquire about certain attributes of graphics device 2.
 	 *=====================================================================
 	 * OUTPUT ARGUMENTS:
@@ -31,12 +30,10 @@ int *idtype;
 	 *=====================================================================
 	 * DOCUMENTED:  862020
 	 *===================================================================== */
-	/* PROCEDURE: */
-	fstrncpy( kdname, kdname_s-1, kmgd2.kname2, strlen(kmgd2.kname2));
-	*idtype = cmgd2.itype2;
+    /* PROCEDURE: */
+    fstrncpy(kdname, kdname_s - 1, kmgd2.kname2, strlen(kmgd2.kname2));
+    *idtype = cmgd2.itype2;
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

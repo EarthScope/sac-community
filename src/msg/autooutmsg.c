@@ -25,20 +25,18 @@
  * \date   890104:  Documented/Reviewed
  * 
  */
-void 
-autooutmsg(int lmode)
-{
-	/* - Save new value of automatic output mode flag. */
-	cmmsg.autoout = lmode;
+void
+autooutmsg(int lmode) {
+    /* - Save new value of automatic output mode flag. */
+    cmmsg.autoout = lmode;
 
-	/* - If terminating automatic output, 
-	   send and clear buffer of remaining message. */
+    /* - If terminating automatic output, 
+       send and clear buffer of remaining message. */
 
-	if( !cmmsg.autoout ){
-		outmsg();
-		clrmsg();
-	}
+    if (!cmmsg.autoout) {
+        outmsg();
+        clrmsg();
+    }
 
-	return;
+    return;
 }
-

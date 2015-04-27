@@ -2,21 +2,21 @@
 #include "spe.h"
 #include "amf.h"
 
-
 #include "msg.h"
 #include "cpf.h"
 #include "dff.h"
 
 extern float *specor;
 
-void /*FUNCTION*/ xwcor(nerr)
-int *nerr;
+void /*FUNCTION*/
+xwcor(nerr)
+     int *nerr;
 {
-	float delcor;
-  sac *s;
-  char *filename;
+    float delcor;
+    sac *s;
+    char *filename;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To execute the action command WCOR.
 	 *           This command writes the correlation function to disk.
 	 *=====================================================================
@@ -36,66 +36,67 @@ int *nerr;
 	 * SUBROUTINES CALLED:
 	 *    SACLIB:  LCMORE, CFMT, CRESP, LCCHAR, GTOUTM, WSAC1
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* PARSING PHASE: */
+    /* PARSING PHASE: */
 
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-	while ( lcmore( nerr ) ){
-	    /* -- "filename":  define name of file to write. */
-    if( lcchar(kmspe.knmcor, sizeof(kmspe.knmcor)) )
-	    { /* do nothing */ }
+    while (lcmore(nerr)) {
+        /* -- "filename":  define name of file to write. */
+        if (lcchar(kmspe.knmcor, sizeof(kmspe.knmcor))) {       /* do nothing */
+        }
 
-	    /* -- Bad syntax. */
-	    else{
-		cfmt( "ILLEGAL OPTION:",17 );
-		cresp();
-	    }
-	}
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
+    }
 
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-	if( *nerr != 0 )
-	    goto L_8888;
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* CHECKING PHASE: */
+    /* CHECKING PHASE: */
 
-	/* - Make sure a spectral estimate has been calculated. */
+    /* - Make sure a spectral estimate has been calculated. */
 
-	if( !cmspe.lcor ){
-	    *nerr = 5003;
-	    setmsg( "ERROR", *nerr );
-	    goto L_8888;
-	}
+    if (!cmspe.lcor) {
+        *nerr = 5003;
+        setmsg("ERROR", *nerr);
+        goto L_8888;
+    }
 
-	/* EXECUTION PHASE: */
+    /* EXECUTION PHASE: */
 
-	/* - Write the correlation function to disk. */
+    /* - Write the correlation function to disk. */
 
-	delcor = 1./cmspe.samfrq;
+    delcor = 1. / cmspe.samfrq;
 
-  s = sac_new();
-  s->h->npts  = cmspe.nlnfft;
-  s->h->delta = delcor;
-  s->h->b     = 0.0;
-  s->h->e     = CALC_E(s);
-  s->h->leven = TRUE;
-  s->y        = specor;
+    s = sac_new();
+    s->h->npts = cmspe.nlnfft;
+    s->h->delta = delcor;
+    s->h->b = 0.0;
+    s->h->e = CALC_E(s);
+    s->h->leven = TRUE;
+    s->y = specor;
 
-  filename = fstrdup(kmspe.knmcor, MCPFN+1);
-  sac_write_r(s, filename, SAC_WRITE_HEADER_AND_DATA, SAC_NO_BYTESWAP_FILE, nerr);
-  s->y = NULL;
-  sac_free(s);
-  FREE(filename);
-  
-L_8888:
-	return;
+    filename = fstrdup(kmspe.knmcor, MCPFN + 1);
+    sac_write_r(s, filename, SAC_WRITE_HEADER_AND_DATA, SAC_NO_BYTESWAP_FILE,
+                nerr);
+    s->y = NULL;
+    sac_free(s);
+    FREE(filename);
 
-	/*=====================================================================
+  L_8888:
+    return;
+
+        /*=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    060627:  Produce error message explicitly after wsac1 failure (grh/ub)
          *    820817:  Changed to newest set of parsing and checking functions.
@@ -104,5 +105,4 @@ L_8888:
 	 * DOCUMENTED/REVIEWED:  850109
 	 *===================================================================== */
 
-} /* end of function */
-
+}                               /* end of function */

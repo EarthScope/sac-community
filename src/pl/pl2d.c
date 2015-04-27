@@ -4,15 +4,15 @@
 #include "bool.h"
 #include "sss.h"
 
-
 #include "gdm.h"
 
-void /*FUNCTION*/ pl2d(xarray, yarray, number, incx, incy, nerr)
-float xarray[], yarray[];
-int number, incx, incy, *nerr;
+void /*FUNCTION*/
+pl2d(xarray, yarray, number, incx, incy, nerr)
+     float xarray[], yarray[];
+     int number, incx, incy, *nerr;
 {
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To produce a "standard" x-y plot in current plot window.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -46,62 +46,59 @@ int number, incx, incy, *nerr;
 	 *    821228:  Removed calls to DISPID and DISPPK.
 	 *    811012:  Added call to home cursor after finishing plot.
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* - Set background and skeleton attributes. */
+    /* - Set background and skeleton attributes. */
 
-	settexttype( kmgem.kgtqua );
-	settextfont( cmgem.igtfnt );
-	cmgem.chht = cmgem.tsdef;
-	cmgem.chwid = cmgem.txrat*cmgem.chht;
-	settextsize( cmgem.chwid, cmgem.chht );
-	setlinestyle( LINE_STYLE_SOLID );
-	setlinewidth( LINE_WIDTH_THIN );
-	setcolor( cmgem.iskcol );
+    settexttype(kmgem.kgtqua);
+    settextfont(cmgem.igtfnt);
+    cmgem.chht = cmgem.tsdef;
+    cmgem.chwid = cmgem.txrat * cmgem.chht;
+    settextsize(cmgem.chwid, cmgem.chht);
+    setlinestyle(LINE_STYLE_SOLID);
+    setlinewidth(LINE_WIDTH_THIN);
+    setcolor(cmgem.iskcol);
 
-	/* - Begin new frame. */
+    /* - Begin new frame. */
 
-	if( cmgem.lframe )
-		beginframe( FALSE , nerr );
-	getvspace( &cmgem.view.xmin, &cmgem.view.xmax, 
-                   &cmgem.view.ymin, &cmgem.view.ymax );
+    if (cmgem.lframe)
+        beginframe(FALSE, nerr);
+    getvspace(&cmgem.view.xmin, &cmgem.view.xmax, &cmgem.view.ymin,
+              &cmgem.view.ymax);
 
-	/* - Calculate new mapping. */
+    /* - Calculate new mapping. */
 
-	plmap( xarray, yarray, number, incx, incy, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    plmap(xarray, yarray, number, incx, incy, nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* - Plot data. */
-	pldta( xarray, yarray, number, incx, incy, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    /* - Plot data. */
+    pldta(xarray, yarray, number, incx, incy, nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* - Draw grid lines, label axes and titles. */
+    /* - Draw grid lines, label axes and titles. */
 
-	if( !cmsss.lPlottingTT ) {	/* if statement added to allow prs in 
-					   origin right mode.  maf 961004 */
-	    plgrid( nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
-	}
+    if (!cmsss.lPlottingTT) {   /* if statement added to allow prs in 
+                                   origin right mode.  maf 961004 */
+        plgrid(nerr);
+        if (*nerr != 0)
+            goto L_8888;
+    }
 
+    /* - Home cursor. */
 
-	/* - Home cursor. */
+    plhome();
 
-	plhome();
+    /* - End current frame. */
 
-	/* - End current frame. */
+    if (cmgem.lframe)
+        endframe(FALSE, nerr);
+    else
+        flushbuffer(nerr);
 
-	if( cmgem.lframe )
-		endframe( FALSE , nerr );
-        else 
-          flushbuffer( nerr );
+  L_8888:
+    return;
 
-L_8888:
-	return;
-
-
-} /* end of function */
-
+}                               /* end of function */

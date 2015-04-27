@@ -27,30 +27,25 @@
  */
 
 void
-zgimsg(int    argc, 
-       char **argv,
-       char  *mess,
-       int    messlen) {
+zgimsg(int argc, char **argv, char *mess, int messlen) {
 
-	int i;			/* index for counting parameters */
-	int j;			/* index for parameter strings */
-	int k;			/* character counter */
-	char *pc;		/* character pointer */
- 
-	k=0;					/* length counter */
-	pc = *(++argv);			        /* skip program name */
+    int i;                      /* index for counting parameters */
+    int j;                      /* index for parameter strings */
+    int k;                      /* character counter */
+    char *pc;                   /* character pointer */
 
-	for (i=1;i<argc;++i,pc= *(++argv)) {
-	  for (j=0;*pc!='\0' && k<messlen;++j,++k)
-	    mess[k] = *(pc++);	/* copy parameters */
-	  if (k == messlen) {
-	    printf ("warning:  command string too long.\n");
-	    break;
-	  }
-	  mess[k++] = ' ';		/* parameter delimiter */
-	}
- 
-	return;
+    k = 0;                      /* length counter */
+    pc = *(++argv);             /* skip program name */
+
+    for (i = 1; i < argc; ++i, pc = *(++argv)) {
+        for (j = 0; *pc != '\0' && k < messlen; ++j, ++k)
+            mess[k] = *(pc++);  /* copy parameters */
+        if (k == messlen) {
+            printf("warning:  command string too long.\n");
+            break;
+        }
+        mess[k++] = ' ';        /* parameter delimiter */
+    }
+
+    return;
 }
- 
- 

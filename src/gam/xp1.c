@@ -12,7 +12,6 @@
 #include "gam.h"
 #include "bool.h"
 
-
 #include "pl.h"
 #include "bot.h"
 #include "ucf.h"
@@ -22,23 +21,22 @@
 #include "dff.h"
 #include "array.h"
 
-void xp1(int *nerr)
-{
-        int n;
-	char *kptext, kret[9];
-	int l1dttm, lany, lbotaxsave, lbottcsave, lframesave, ltitlsave, 
-	 ltoptcsave, lwait, lxgrdsave, lxlabsave, lxlims, lylabsave,
-	 lprint = FALSE , ltry = FALSE ;
-	int jdfl, jdfl1, jdfl2, jfr, jperfr, n1dttm[6], 
-	 ncret, nfr, nperfr;
-	float tmax, tmaxj, tmin, tminj, *toff, ypdel, ypmxsave;
-  sac *s;
-	static int lrel = FALSE;
-	static int lperpl = FALSE;
-	static int nperpl = 3;
-	static char kwait[9] = "Waiting$";
+void
+xp1(int *nerr) {
+    int n;
+    char *kptext, kret[9];
+    int l1dttm, lany, lbotaxsave, lbottcsave, lframesave, ltitlsave, ltoptcsave,
+        lwait, lxgrdsave, lxlabsave, lxlims, lylabsave, lprint = FALSE, ltry =
+        FALSE;
+    int jdfl, jdfl1, jdfl2, jfr, jperfr, n1dttm[6], ncret, nfr, nperfr;
+    float tmax, tmaxj, tmin, tminj, *toff, ypdel, ypmxsave;
+    sac *s;
+    static int lrel = FALSE;
+    static int lperpl = FALSE;
+    static int nperpl = 3;
+    static char kwait[9] = "Waiting$";
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To execute the action command P1.
 	 *           This command makes a multi-trace, multi-window plot.
 	 *=====================================================================
@@ -85,344 +83,341 @@ void xp1(int *nerr)
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED: 
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* Errors before plsave have to avoid going to execute plrest. */
-	*nerr = 0;
+    /* PROCEDURE: */
+    /* Errors before plsave have to avoid going to execute plrest. */
+    *nerr = 0;
 
-	/* PARSING PHASE: */
+    /* PARSING PHASE: */
 
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-	while ( lcmore( nerr ) ){
-	    /* -- "PERPLOT ON/OFF/n":  change number of files plotted per frame. */
-	    if( lklogi( "PERPLOT$",9, &lperpl, &nperpl ) )
-	    { /* do nothing */ }
-
-	    /* -- "RELATIVE/ABSOLUTE":  change method of displaying time on x axis. */
-	    else if( lclog2( "RELATIVE$",10, "ABSOLUTE$",10, &lrel ) )
-	    { /* do nothing */ }
-
-            /* if PRINT option is tried, get printer name */
-            else if ( ltry ) {
-              lcchar(kmgem.kptrName , sizeof(kmgem.kptrName));
-                if ( !lprint )
-                    kmgem.kptrName[0] = '\0' ;
-
-                ltry = FALSE ;
-            }
-
-	    /* -- "PRINT":  print the final product */
-	    else if( lckey( "PRINT#$", 8 ) ) {
-		ltry = TRUE ;
-		if ( cmgdm.lbegf ) {
-		    setmsg ( "WARNING" , 2403 ) ;
-		    outmsg () ;
-		    clrmsg () ;
-		}
-		else {
-		    lprint = TRUE ;
-		}
-	    }
-
-	    /* -- Bad syntax. */
-	    else{
-		cfmt( "ILLEGAL OPTION:",17 );
-		cresp();
-	    }
-	} /* end while */
-
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
-
-	if( *nerr != 0 )
-	    goto L_8888;
-
-	/* CHECKING PHASE: */
-
-	/* - Check for null data file list. */
-
-	vflist( nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
-
-	/* - Check to make sure all files are time series files. */
-
-	vftime( nerr );
-	if( *nerr != 0 ){
-	    aplmsg( "Use PLOTSP command to plot spectral data.",42 );
-	    goto L_8888;
-	}
-
-	/* - If no graphics device is open, try to open the default device. */
-
-	getstatus( "ANY", &lany );
-	if( !lany ){
-	    zgetgd( kmgam.kgddef,9 );
-	    begindevices( kmgam.kgddef,9, 1, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
-	}
-
-	/* EXECUTION PHASE: */
-
-	/* - Save current plot and x limit attributes.
-	 * - Error after plsave have to go to execute plrest. */
-
-	plsave();
-
-        /* initialize plot offsets */
-  toff = xarray_new_with_len('f', saclen()+1);
-  memset(toff, 0.0, sizeof(float) * saclen()+1);
-
-	/* - Set up specific options that apply only to this plot. */
-
-	lbotaxsave = cmgem.axis[BOTTOM].annotate;
-	lbottcsave = cmgem.axis[BOTTOM].ticks;
-	ltoptcsave = cmgem.axis[TOP].ticks;
-	cmgem.axis[BOTTOM].ticks    = FALSE;
-	cmgem.axis[BOTTOM].annotate = FALSE;
-
-	lxlabsave = cmgem.xlabel.on;
-	lylabsave = cmgem.ylabel.on;
-	ltitlsave = cmgem.title.on;
-	lxgrdsave = cmgem.lxgrd;
-	cmgem.xlabel.on = FALSE;
-	cmgem.ylabel.on = FALSE;
-	cmgem.title.on  = FALSE;
-	cmgem.lxgrd = FALSE;
-
-	/* - Set up y window for each subplot. */
-
-	if( lperpl ){
-	    nfr = (saclen() - 1)/nperpl + 1;
-	    nperfr = nperpl;
-	}
-	else{
-	    nfr = 1;
-	    nperfr = saclen();
-	}
-	ypdel = (cmgem.plot.ymax - cmgem.plot.ymin)/(float)( nperfr );
-
-	/* - Check WAIT option.  This is on when:
-	 * -- A wait request has been made.
-	 * -- An active device (normally the user's terminal) is on. */
-
-	if( cmgam.lwaitr )
-	    getstatus( "ACTIVE", &lwait );
-	else
-	    lwait = FALSE;
-
-	/* - Loop on number of frames: */
-
-	jdfl1 = 1;
-	ypmxsave = cmgem.plot.ymax;
-	lframesave = cmgem.lframe;
-	for( jfr = 1; jfr <= nfr; jfr++ ){
-	    /* set cmgem.lframe FALSE for each pass through loop, because 
-		endframe() sets it back to TRUE for the next pass. */
-	    cmgem.lframe = FALSE;
-
-	    /* -- No wait after last frame. */
-	    if( jfr == nfr && !cmgam.lwaite )
-		lwait = FALSE;
-
-	    /* -- Loop on data files in each frame: */
-
-	    jdfl2 = min( saclen(), jdfl1 + nperfr - 1 );
-
-	    /* -- Determine time limits for x axis of this frame.
-	     *    (Correct for any differences in GMT reference time.) */
-      if(!(s = sacget(jdfl1-1, TRUE, nerr))) {
-        goto L_7777;
-      }
-	    //getfil( jdfl1, TRUE, &num, &nlcy, &nlcx, nerr );
-
-	    jperfr = 1;
-	    getxlm( &lxlims, &tmin, &tmax );
-/*            if( !lxlims ){	commented out to allow relative mode when xlim is set. maf 970723 */
-		if( lrel ){
-		    tmax = tmax - tmin;
-		    toff[jperfr] = -tmin;
-		    tmin = 0.;
-	    	}
-	    	else{
-		    copyi( &s->h->nzyear, n1dttm, 6 );
-		    l1dttm = ldttm( n1dttm );
-		    toff[jperfr] = 0.;
-	    	}
-		for( jdfl = jdfl1 + 1; jdfl <= jdfl2; jdfl++ ){
-		    jperfr = jperfr + 1;
-        if(!(s = sacget(jdfl-1, TRUE, nerr))) {
-          goto L_8888;
+    while (lcmore(nerr)) {
+        /* -- "PERPLOT ON/OFF/n":  change number of files plotted per frame. */
+        if (lklogi("PERPLOT$", 9, &lperpl, &nperpl)) {  /* do nothing */
         }
-		    //getfil( jdfl, TRUE, &num, &nlcy, &nlcx, nerr );
-		    if( *nerr != 0 )
-			goto L_7777;
-		    getxlm( &lxlims, &tminj, &tmaxj );
-		    if( lrel ){
-			tmax = fmax( tmax, tmaxj - tminj );
-			toff[jperfr] = -tminj;
-		    }
-		    else{
-			if( l1dttm && ldttm( &s->h->nzyear ) ){
-			    ddttm( &s->h->nzyear, n1dttm, &toff[jperfr] );
-			    /* if it starts 2 days after the first file,
-				plot relative. maf 970908 */
-			    if ( fabs ( toff[jperfr] ) > TWODAYS )
-				toff[jperfr] = 0 ;
-			}
-			else{
-			    toff[jperfr] = 0.;
-			}
-			tmin = fmin( tmin, tminj + toff[jperfr] );
-			tmax = fmax( tmax, tmaxj + toff[jperfr] );
-		    } /* end else associated with if ( lrel ) */
-		} /* end for( jdfl = jdfl1 + 1; jdfl <= jdfl2; jdfl++ ) */
+
+        /* -- "RELATIVE/ABSOLUTE":  change method of displaying time on x axis. */
+        else if (lclog2("RELATIVE$", 10, "ABSOLUTE$", 10, &lrel)) {     /* do nothing */
+        }
+
+        /* if PRINT option is tried, get printer name */
+        else if (ltry) {
+            lcchar(kmgem.kptrName, sizeof(kmgem.kptrName));
+            if (!lprint)
+                kmgem.kptrName[0] = '\0';
+
+            ltry = FALSE;
+        }
+
+        /* -- "PRINT":  print the final product */
+        else if (lckey("PRINT#$", 8)) {
+            ltry = TRUE;
+            if (cmgdm.lbegf) {
+                setmsg("WARNING", 2403);
+                outmsg();
+                clrmsg();
+            } else {
+                lprint = TRUE;
+            }
+        }
+
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
+    }                           /* end while */
+
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
+
+    if (*nerr != 0)
+        goto L_8888;
+
+    /* CHECKING PHASE: */
+
+    /* - Check for null data file list. */
+
+    vflist(nerr);
+    if (*nerr != 0)
+        goto L_8888;
+
+    /* - Check to make sure all files are time series files. */
+
+    vftime(nerr);
+    if (*nerr != 0) {
+        aplmsg("Use PLOTSP command to plot spectral data.", 42);
+        goto L_8888;
+    }
+
+    /* - If no graphics device is open, try to open the default device. */
+
+    getstatus("ANY", &lany);
+    if (!lany) {
+        zgetgd(kmgam.kgddef, 9);
+        begindevices(kmgam.kgddef, 9, 1, nerr);
+        if (*nerr != 0)
+            goto L_8888;
+    }
+
+    /* EXECUTION PHASE: */
+
+    /* - Save current plot and x limit attributes.
+     * - Error after plsave have to go to execute plrest. */
+
+    plsave();
+
+    /* initialize plot offsets */
+    toff = xarray_new_with_len('f', saclen() + 1);
+    memset(toff, 0.0, sizeof(float) * saclen() + 1);
+
+    /* - Set up specific options that apply only to this plot. */
+
+    lbotaxsave = cmgem.axis[BOTTOM].annotate;
+    lbottcsave = cmgem.axis[BOTTOM].ticks;
+    ltoptcsave = cmgem.axis[TOP].ticks;
+    cmgem.axis[BOTTOM].ticks = FALSE;
+    cmgem.axis[BOTTOM].annotate = FALSE;
+
+    lxlabsave = cmgem.xlabel.on;
+    lylabsave = cmgem.ylabel.on;
+    ltitlsave = cmgem.title.on;
+    lxgrdsave = cmgem.lxgrd;
+    cmgem.xlabel.on = FALSE;
+    cmgem.ylabel.on = FALSE;
+    cmgem.title.on = FALSE;
+    cmgem.lxgrd = FALSE;
+
+    /* - Set up y window for each subplot. */
+
+    if (lperpl) {
+        nfr = (saclen() - 1) / nperpl + 1;
+        nperfr = nperpl;
+    } else {
+        nfr = 1;
+        nperfr = saclen();
+    }
+    ypdel = (cmgem.plot.ymax - cmgem.plot.ymin) / (float) (nperfr);
+
+    /* - Check WAIT option.  This is on when:
+     * -- A wait request has been made.
+     * -- An active device (normally the user's terminal) is on. */
+
+    if (cmgam.lwaitr)
+        getstatus("ACTIVE", &lwait);
+    else
+        lwait = FALSE;
+
+    /* - Loop on number of frames: */
+
+    jdfl1 = 1;
+    ypmxsave = cmgem.plot.ymax;
+    lframesave = cmgem.lframe;
+    for (jfr = 1; jfr <= nfr; jfr++) {
+        /* set cmgem.lframe FALSE for each pass through loop, because 
+           endframe() sets it back to TRUE for the next pass. */
+        cmgem.lframe = FALSE;
+
+        /* -- No wait after last frame. */
+        if (jfr == nfr && !cmgam.lwaite)
+            lwait = FALSE;
+
+        /* -- Loop on data files in each frame: */
+
+        jdfl2 = min(saclen(), jdfl1 + nperfr - 1);
+
+        /* -- Determine time limits for x axis of this frame.
+         *    (Correct for any differences in GMT reference time.) */
+        if (!(s = sacget(jdfl1 - 1, TRUE, nerr))) {
+            goto L_7777;
+        }
+        //getfil( jdfl1, TRUE, &num, &nlcy, &nlcx, nerr );
+
+        jperfr = 1;
+        getxlm(&lxlims, &tmin, &tmax);
+/*            if( !lxlims ){	commented out to allow relative mode when xlim is set. maf 970723 */
+        if (lrel) {
+            tmax = tmax - tmin;
+            toff[jperfr] = -tmin;
+            tmin = 0.;
+        } else {
+            copyi(&s->h->nzyear, n1dttm, 6);
+            l1dttm = ldttm(n1dttm);
+            toff[jperfr] = 0.;
+        }
+        for (jdfl = jdfl1 + 1; jdfl <= jdfl2; jdfl++) {
+            jperfr = jperfr + 1;
+            if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
+                goto L_8888;
+            }
+            //getfil( jdfl, TRUE, &num, &nlcy, &nlcx, nerr );
+            if (*nerr != 0)
+                goto L_7777;
+            getxlm(&lxlims, &tminj, &tmaxj);
+            if (lrel) {
+                tmax = fmax(tmax, tmaxj - tminj);
+                toff[jperfr] = -tminj;
+            } else {
+                if (l1dttm && ldttm(&s->h->nzyear)) {
+                    ddttm(&s->h->nzyear, n1dttm, &toff[jperfr]);
+                    /* if it starts 2 days after the first file,
+                       plot relative. maf 970908 */
+                    if (fabs(toff[jperfr]) > TWODAYS)
+                        toff[jperfr] = 0;
+                } else {
+                    toff[jperfr] = 0.;
+                }
+                tmin = fmin(tmin, tminj + toff[jperfr]);
+                tmax = fmax(tmax, tmaxj + toff[jperfr]);
+            }                   /* end else associated with if ( lrel ) */
+        }                       /* end for( jdfl = jdfl1 + 1; jdfl <= jdfl2; jdfl++ ) */
 /*	    }  end if ( !lxlims ) commented out to allow relative mode when xlim is set. maf 970723 */
 
-	    /* - Check range of time limits to avoid errors that could occur
-	     *   later during plotting. *
+        /* - Check range of time limits to avoid errors that could occur
+         *   later during plotting. *
 
-	    if( fabs( tmax - tmin ) > (float)( MLARGE ) ){
-		*nerr = 1504;
-		setmsg( "ERROR", *nerr );
-		goto L_7777;
-	    } */
+         if( fabs( tmax - tmin ) > (float)( MLARGE ) ){
+         *nerr = 1504;
+         setmsg( "ERROR", *nerr );
+         goto L_7777;
+         } */
 
-	    /* - Set x axis plot limits. */
+        /* - Set x axis plot limits. */
 
-	    cmgem.lxlim = TRUE;
-	    cmgem.ximn = tmin;
-	    cmgem.ximx = tmax;
+        cmgem.lxlim = TRUE;
+        cmgem.ximn = tmin;
+        cmgem.ximx = tmax;
 
-	    if( lframesave ){
-		beginframe( lprint , nerr );
-		if( *nerr != 0 )
-		    goto L_7777;
-		getvspace( &cmgem.view.xmin, &cmgem.view.xmax, 
-                           &cmgem.view.ymin, &cmgem.view.ymax );
-	    }
-	    jperfr = 0;
+        if (lframesave) {
+            beginframe(lprint, nerr);
+            if (*nerr != 0)
+                goto L_7777;
+            getvspace(&cmgem.view.xmin, &cmgem.view.xmax, &cmgem.view.ymin,
+                      &cmgem.view.ymax);
+        }
+        jperfr = 0;
 
-	    cmgem.tsdef = fmin( cmgem.tsdef, (cmgem.view.ymax - cmgem.view.ymin)/(8.0*
-	     (float)( nperfr )) );
-	    cmgam.tsfid = cmgem.tsdef;
-	    cmgam.tspk = cmgem.tsdef;
-	    cmgem.tsaxis = cmgem.tsdef;
+        cmgem.tsdef =
+            fmin(cmgem.tsdef,
+                 (cmgem.view.ymax -
+                  cmgem.view.ymin) / (8.0 * (float) (nperfr)));
+        cmgam.tsfid = cmgem.tsdef;
+        cmgam.tspk = cmgem.tsdef;
+        cmgem.tsaxis = cmgem.tsdef;
 
-	    for( jdfl = jdfl1; jdfl <= jdfl2; jdfl++ ){
-		jperfr = jperfr + 1;
-		cmgem.plot.ymin = cmgem.plot.ymax - ypdel;
+        for (jdfl = jdfl1; jdfl <= jdfl2; jdfl++) {
+            jperfr = jperfr + 1;
+            cmgem.plot.ymin = cmgem.plot.ymax - ypdel;
 
-		/* --- Get pointers to this file's location in memory. */
-    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
-      goto L_7777;
-    }
-		//getfil( jdfl, TRUE, &num, &nlcy, &nlcx, nerr );
+            /* --- Get pointers to this file's location in memory. */
+            if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
+                goto L_7777;
+            }
+            //getfil( jdfl, TRUE, &num, &nlcy, &nlcx, nerr );
 
-		/* --- Set up x axis data values. */
+            /* --- Set up x axis data values. */
 
-		if( s->h->leven ){
-		    cmgem.xgen.on = TRUE;
-		    cmgem.xgen.delta = s->h->delta;
-		    cmgem.xgen.first = s->h->b + toff[jperfr];
-		}
-		else{
-		    cmgem.xgen.on = FALSE;
-		}
+            if (s->h->leven) {
+                cmgem.xgen.on = TRUE;
+                cmgem.xgen.delta = s->h->delta;
+                cmgem.xgen.first = s->h->b + toff[jperfr];
+            } else {
+                cmgem.xgen.on = FALSE;
+            }
 
-		/* --- Set up y axis plot limits. */
+            /* --- Set up y axis plot limits. */
 
-		getylm( &cmgem.lylim, &cmgem.yimn, &cmgem.yimx );
+            getylm(&cmgem.lylim, &cmgem.yimn, &cmgem.yimx);
 
-		/* --- Plot this file. */
+            /* --- Plot this file. */
 
-		pl2d( s->x, s->y, s->h->npts, 1, 1, nerr );
-		if( *nerr != 0 )
-		    goto L_7777;
+            pl2d(s->x, s->y, s->h->npts, 1, 1, nerr);
+            if (*nerr != 0)
+                goto L_7777;
 
-		/* --- Plot picks and fileid. */
+            /* --- Plot picks and fileid. */
 
-		disppk( toff[jperfr] );
-                
-		/* --- Add a label with offset time if this is a REL plot. */
+            disppk(toff[jperfr]);
+
+            /* --- Add a label with offset time if this is a REL plot. */
+            kptext = NULL;
+            n = 0;
+            if (lrel && cmgam.lfidrq) {
+                asprintf(&kptext, "OFFSET: %10.3e", -toff[jperfr]);
+                n = 1;
+            }
+            dispid(cmgam.lfinorq, jdfl, n, &kptext);
+            if (kptext) {
+                free(kptext);
                 kptext = NULL;
-                n = 0;
-		if( lrel && cmgam.lfidrq ){
-                  asprintf(&kptext, "OFFSET: %10.3e", -toff[jperfr] );
-                  n = 1;
-                }
-		dispid( cmgam.lfinorq , jdfl, n, &kptext );
-                if(kptext) {
-                  free(kptext);
-                  kptext = NULL;
-                }
-		cmgem.plot.ymax = cmgem.plot.ymin;
-	    } 
+            }
+            cmgem.plot.ymax = cmgem.plot.ymin;
+        }
 
-	    /* -- Draw bottom x axis. */
-	    cmgem.axis[BOTTOM].annotate = lbotaxsave;
-	    cmgem.axis[BOTTOM].ticks    = lbottcsave;
-	    cmgem.axis[TOP].ticks       = ltoptcsave;
-	    cmgem.lxgrd = lxgrdsave;
-	    cmgem.uplot.ymax = ypmxsave*cmgem.view.ymax;
-	    cmgem.chht = cmgem.tsaxis;
-	    cmgem.chwid = cmgem.txrat*cmgem.chht;
-	    settextsize( cmgem.chwid, cmgem.chht );
-	    if( cmgem.ixint == AXIS_LINEAR ){
-		xlinax();
-	    }
-	    else if( cmgem.ixint == AXIS_LOG ){
-		xlogax();
-	    }
+        /* -- Draw bottom x axis. */
+        cmgem.axis[BOTTOM].annotate = lbotaxsave;
+        cmgem.axis[BOTTOM].ticks = lbottcsave;
+        cmgem.axis[TOP].ticks = ltoptcsave;
+        cmgem.lxgrd = lxgrdsave;
+        cmgem.uplot.ymax = ypmxsave * cmgem.view.ymax;
+        cmgem.chht = cmgem.tsaxis;
+        cmgem.chwid = cmgem.txrat * cmgem.chht;
+        settextsize(cmgem.chwid, cmgem.chht);
+        if (cmgem.ixint == AXIS_LINEAR) {
+            xlinax();
+        } else if (cmgem.ixint == AXIS_LOG) {
+            xlogax();
+        }
 
-	    /* -- Draw axes labels and title. */
-	    if( lxlabsave )
-                centxt( kmgem.kxlab,145, cmgem.xlabel.len, cmgem.xlabel.pos, cmgem.xlabel.text_size );
-	    if( lylabsave )
-		centxt( kmgem.kylab,145, cmgem.ylabel.len, cmgem.ylabel.pos, cmgem.ylabel.text_size );
-	    if( ltitlsave )
-		centxt( kmgem.ktitl,145, cmgem.title.len, cmgem.title.pos, cmgem.title.text_size );
+        /* -- Draw axes labels and title. */
+        if (lxlabsave)
+            centxt(kmgem.kxlab, 145, cmgem.xlabel.len, cmgem.xlabel.pos,
+                   cmgem.xlabel.text_size);
+        if (lylabsave)
+            centxt(kmgem.kylab, 145, cmgem.ylabel.len, cmgem.ylabel.pos,
+                   cmgem.ylabel.text_size);
+        if (ltitlsave)
+            centxt(kmgem.ktitl, 145, cmgem.title.len, cmgem.title.pos,
+                   cmgem.title.text_size);
 
-	    /* -- Home cursor, advance frame and restore some GEM parameters. */
-	    plhome();
-	    if( lframesave )
-		endframe( FALSE , nerr );
-            else
-              flushbuffer( nerr );
-	    cmgem.plot.ymax = ypmxsave;
-	    cmgem.axis[BOTTOM].annotate = FALSE;
-	    cmgem.axis[BOTTOM].ticks    = FALSE;
+        /* -- Home cursor, advance frame and restore some GEM parameters. */
+        plhome();
+        if (lframesave)
+            endframe(FALSE, nerr);
+        else
+            flushbuffer(nerr);
+        cmgem.plot.ymax = ypmxsave;
+        cmgem.axis[BOTTOM].annotate = FALSE;
+        cmgem.axis[BOTTOM].ticks = FALSE;
 
-	    /* -- Wait for user prompt before plotting next frame if appropriate. */
-	    if( lwait ){
-		zgpmsg( kwait,9, kret,9 );
-		ncret = indexb( kret,9 );
-		upcase( kret, ncret, kret,9 );
-		if( kret[0] == 'K' )
-		    goto L_7777;
-		if( kret[0] == 'G' )
-		    lwait = FALSE;
-	    }
+        /* -- Wait for user prompt before plotting next frame if appropriate. */
+        if (lwait) {
+            zgpmsg(kwait, 9, kret, 9);
+            ncret = indexb(kret, 9);
+            upcase(kret, ncret, kret, 9);
+            if (kret[0] == 'K')
+                goto L_7777;
+            if (kret[0] == 'G')
+                lwait = FALSE;
+        }
 
-	    jdfl1 = jdfl2 + 1;
-	} /* end for ( jfr ) */
+        jdfl1 = jdfl2 + 1;
+    }                           /* end for ( jfr ) */
 
-	/* - Restore plot and x limit attributes.  Return. */
+    /* - Restore plot and x limit attributes.  Return. */
 
-L_7777:
-	plrest();
-	cmgam.tsfid = cmgem.tsdef;
-	cmgam.tspk = cmgem.tsdef;
-	cmgem.tsaxis = cmgem.tsdef;
+  L_7777:
+    plrest();
+    cmgam.tsfid = cmgem.tsdef;
+    cmgam.tspk = cmgem.tsdef;
+    cmgem.tsaxis = cmgem.tsdef;
 
-	cmgem.plot.ymax = ypmxsave;
-	cmgem.axis[BOTTOM].annotate = lbotaxsave;
-	cmgem.axis[BOTTOM].ticks    = lbottcsave;
-	cmgem.lframe = lframesave;
-  xarray_free(toff);
-L_8888:
-	return;
-} /* end of function */
-
+    cmgem.plot.ymax = ypmxsave;
+    cmgem.axis[BOTTOM].annotate = lbotaxsave;
+    cmgem.axis[BOTTOM].ticks = lbottcsave;
+    cmgem.lframe = lframesave;
+    xarray_free(toff);
+  L_8888:
+    return;
+}                               /* end of function */

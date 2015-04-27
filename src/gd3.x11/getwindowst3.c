@@ -16,16 +16,16 @@
 
 void
 getwindowstat3(win_num, exists)
-  int win_num, *exists;
+     int win_num, *exists;
 {
 
 /* Get status of window */
 
-  if (basew3[win_num].status == AVAILABLE)
-    *exists = 1;
-  else
-    *exists = 0;
- 
+    if (basew3[win_num].status == AVAILABLE)
+        *exists = 1;
+    else
+        *exists = 0;
+
 }
 
 /*******************************************************************************

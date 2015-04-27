@@ -27,4 +27,3 @@
 #define PACKAGE_BUGREPORT "sac-help@iris.washington.edu"
 #define BUILD_DATE        "Feb 31, 2026"
 #define PACKAGE_VERSION   "102.0"
-

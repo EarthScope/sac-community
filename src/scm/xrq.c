@@ -7,7 +7,6 @@
 #include "hdr.h"
 #include "bool.h"
 
-
 #include "ucf.h"
 #include "sam.h"
 #include "cpf.h"
@@ -15,14 +14,15 @@
 
 #define PI  M_PI
 
-void /*FUNCTION*/ xrq(nerr)
-int *nerr;
+void /*FUNCTION*/
+xrq(nerr)
+     int *nerr;
 {
-	int j, jdfl, jj, nfreq;
-	float fac, freq, recqf;
+    int j, jdfl, jj, nfreq;
+    float fac, freq, recqf;
 
-  sac *s;
-	/*=====================================================================
+    sac *s;
+        /*=====================================================================
 	 * PURPOSE:  To execute the action command RQ.
 	 *           This command removes the seismic Q factor from spectral files.
 	 *=====================================================================
@@ -57,104 +57,101 @@ int *nerr;
 	 * LIMITATIONS:
 	 * - Q and C are not functions of frequency.
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* PARSING PHASE: */
+    /* PARSING PHASE: */
 
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-L_1000:
-	if( lcmore( nerr ) ){
+  L_1000:
+    if (lcmore(nerr)) {
 
-		/* -- "Q v":  change seismic Q value. */
-		if( lkreal( "Q$",3, &cmscm.rqqcon ) ){
+        /* -- "Q v":  change seismic Q value. */
+        if (lkreal("Q$", 3, &cmscm.rqqcon)) {
 
-			/* -- "R v":  change distance parameter. */
-			}
-		else if( lkreal( "R$",3, &cmscm.rqrcon ) ){
+            /* -- "R v":  change distance parameter. */
+        } else if (lkreal("R$", 3, &cmscm.rqrcon)) {
 
-			/* -- "C v":  change velocity parameter. */
-			}
-		else if( lkreal( "C$",3, &cmscm.rqccon ) ){
+            /* -- "C v":  change velocity parameter. */
+        } else if (lkreal("C$", 3, &cmscm.rqccon)) {
 
-			/* -- Bad syntax. */
-			}
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
+            /* -- Bad syntax. */
+        } else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
 
-			}
-		goto L_1000;
+        }
+        goto L_1000;
 
-		}
-
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
-
-	if( *nerr != 0 )
-		goto L_8888;
-
-	/* CHECKING PHASE: */
-
-	/* - Check for null data file list. */
-
-	vflist( nerr );
-	if( *nerr != 0 )
-		goto L_8888;
-
-	/* - Check to make sure all files are spectral files. */
-
-	vfspec( nerr );
-	if( *nerr != 0 )
-		goto L_8888;
-
-	/* EXECUTION PHASE: */
-
-	/* - For each file in DFL: */
-
-	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
-    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
-      goto L_8888;
     }
-		/* -- Get the next file in DFL from the memory manager. */
-		//getfil( jdfl, TRUE, &num, &ndx1, &ndx2, nerr );
 
-		/* -- Convert the file to amplitude-phase format if necessary. */
-		if( s->h->iftype == IRLIM ){
-			toamph( s->y, s->x, s->h->npts, s->y, s->x );
-			s->h->iftype = IAMPH;
-			}
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-		/* -- Apply seismic Q correction to each amplitude data point. */
-		freq = s->h->b;
-		//dfreq = s->h->delta;
-		nfreq = s->h->npts/2;
-		fac = PI*cmscm.rqrcon/(cmscm.rqqcon*cmscm.rqccon);
-		for( j = 1; j <= (nfreq - 1); j++ ){
-			freq = s->h->b + j * s->h->delta; //freq + dfreq;
-			recqf = exp( fac*freq );
-      s->y[j] *= recqf;
-			jj = s->h->npts - j;
-			s->y[jj] = s->y[j];
-			}
+    if (*nerr != 0)
+        goto L_8888;
 
-		/* -- Recompute extrema. */
-		extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
-		s->h->depmen = 0.;
+    /* CHECKING PHASE: */
 
+    /* - Check for null data file list. */
 
-		}
+    vflist(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* - Calculate and set new range of dependent variable. */
+    /* - Check to make sure all files are spectral files. */
 
-	setrng();
+    vfspec(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-L_8888:
-	return;
+    /* EXECUTION PHASE: */
 
-	/*=====================================================================
+    /* - For each file in DFL: */
+
+    for (jdfl = 1; jdfl <= saclen(); jdfl++) {
+        if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
+            goto L_8888;
+        }
+        /* -- Get the next file in DFL from the memory manager. */
+        //getfil( jdfl, TRUE, &num, &ndx1, &ndx2, nerr );
+
+        /* -- Convert the file to amplitude-phase format if necessary. */
+        if (s->h->iftype == IRLIM) {
+            toamph(s->y, s->x, s->h->npts, s->y, s->x);
+            s->h->iftype = IAMPH;
+        }
+
+        /* -- Apply seismic Q correction to each amplitude data point. */
+        freq = s->h->b;
+        //dfreq = s->h->delta;
+        nfreq = s->h->npts / 2;
+        fac = PI * cmscm.rqrcon / (cmscm.rqqcon * cmscm.rqccon);
+        for (j = 1; j <= (nfreq - 1); j++) {
+            freq = s->h->b + j * s->h->delta;   //freq + dfreq;
+            recqf = exp(fac * freq);
+            s->y[j] *= recqf;
+            jj = s->h->npts - j;
+            s->y[jj] = s->y[j];
+        }
+
+        /* -- Recompute extrema. */
+        extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax,
+               &s->h->depmen);
+        s->h->depmen = 0.;
+
+    }
+
+    /* - Calculate and set new range of dependent variable. */
+
+    setrng();
+
+  L_8888:
+    return;
+
+        /*=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    820621:  Changed to newest set of parsing and checking functions.
 	 *    810414:  Minor changes relating to new CMSCM.
@@ -164,5 +161,4 @@ L_8888:
 	 * DOCUMENTED:  820624
 	 *===================================================================== */
 
-} /* end of function */
-
+}                               /* end of function */

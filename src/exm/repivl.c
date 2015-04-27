@@ -30,45 +30,41 @@
  * @date   870728:  Original version.
  *
  */
-void 
-repivl(char *ktext, 
-       int   ktext_s, 
-       int  *iv, 
-       int   nv) {
+void
+repivl(char *ktext, int ktext_s, int *iv, int nv) {
 
-	char kline[MCMSG+1];
-	int j, j1, j2, jlines, nctext, nlines;
-        char *strtemp;
+    char kline[MCMSG + 1];
+    int j, j1, j2, jlines, nctext, nlines;
+    char *strtemp;
     memset(kline, 0, sizeof(kline));
 
-	int *const Iv = &iv[0] - 1;
+    int *const Iv = &iv[0] - 1;
 
-	/* - Determine length of text. */
-	nctext = indexc( ktext,ktext_s, '$' );
+    /* - Determine length of text. */
+    nctext = indexc(ktext, ktext_s, '$');
 
-	/* - Write text and values of array to message subsystem.. */
+    /* - Write text and values of array to message subsystem.. */
 
-        strtemp = malloc(nctext+1);
-        strncpy(strtemp,ktext,nctext);
-        strtemp[nctext] = '\0';
+    strtemp = malloc(nctext + 1);
+    strncpy(strtemp, ktext, nctext);
+    strtemp[nctext] = '\0';
 
-        sprintf(kline,"   %s%s",strtemp, " is:");
+    sprintf(kline, "   %s%s", strtemp, " is:");
 
-        free(strtemp);
+    free(strtemp);
 
-	aplmsg( kline,MCMSG+1 );
-	nlines = (nv - 1)/5 + 1;
-	j1 = 1;
-	for( jlines = 1; jlines <= nlines; jlines++ ){
-		j2 = min( j1 + 4, nv );
-                sprintf(kline,"%s","           ");
-		for( j = j1; j <= j2; j++ ){
-                        sprintf(kline+11+((j-1)*5),"%5d",Iv[j] );
-			}
-		aplmsg( kline,MCMSG+1 );
-		j1 = j1 + 5;
-		}
+    aplmsg(kline, MCMSG + 1);
+    nlines = (nv - 1) / 5 + 1;
+    j1 = 1;
+    for (jlines = 1; jlines <= nlines; jlines++) {
+        j2 = min(j1 + 4, nv);
+        sprintf(kline, "%s", "           ");
+        for (j = j1; j <= j2; j++) {
+            sprintf(kline + 11 + ((j - 1) * 5), "%5d", Iv[j]);
+        }
+        aplmsg(kline, MCMSG + 1);
+        j1 = j1 + 5;
+    }
 
-	return;
+    return;
 }
-

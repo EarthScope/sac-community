@@ -13,10 +13,10 @@
 #include "debug.h"
 extern struct contour contour;
 
-void releasepoints()
-{
+void
+releasepoints() {
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To release storage for contour line points.
 	 *=====================================================================
 	 * MODULE/LEVEL:  contouring/5
@@ -34,14 +34,13 @@ void releasepoints()
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900405
 	 *===================================================================== */
-	/* PROCEDURE: */
+    /* PROCEDURE: */
 
-	/* - Release space for points. */
-  FREE(contour.points);
-	cmcontouring.indexpoints = 0;
-	cmcontouring.indexlinks = 0;
-	cmcontouring.indexaction = 0;
+    /* - Release space for points. */
+    FREE(contour.points);
+    cmcontouring.indexpoints = 0;
+    cmcontouring.indexlinks = 0;
+    cmcontouring.indexaction = 0;
 
-	return;
+    return;
 }
-

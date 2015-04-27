@@ -23,30 +23,27 @@
  *
  */
 void
-zgetgd(char *name,
-       int   name_len) {
+zgetgd(char *name, int name_len) {
 
     char *temp;
     int i;
 
     if ((temp = getenv("SACGRAPHICSDEVICE")) != NULL)
-      strcpy(name,temp);
+        strcpy(name, temp);
     else {
 #ifdef X11_APP
-      strcpy(name,"xwindows");
+        strcpy(name, "xwindows");
 #endif
 #ifdef OSX_APP
-      strcpy(name,"MAC");
+        strcpy(name, "MAC");
 #endif
 #ifdef WIN32
-      strcpy(name, "WIN");
+        strcpy(name, "WIN");
 #endif
     }
 
-    for(i=strlen(name);i<name_len;i++)
-      name[i]=' ';      
+    for (i = strlen(name); i < name_len; i++)
+        name[i] = ' ';
 
     return;
 }
-
-            

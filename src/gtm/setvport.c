@@ -1,13 +1,12 @@
 
 #include "gtm.h"
 
-void /*FUNCTION*/ setvport(xmin, xmax, ymin, ymax)
-double xmin, xmax, ymin, ymax;
+void /*FUNCTION*/
+setvport(xmin, xmax, ymin, ymax)
+     double xmin, xmax, ymin, ymax;
 {
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To set the viewport coordinate plot limits.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -32,18 +31,16 @@ double xmin, xmax, ymin, ymax;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  861027
 	 *===================================================================== */
-	/* - Save requested viewport. */
-	cmgtm.xvpmin = xmin;
-	cmgtm.xvpmax = xmax;
-	cmgtm.yvpmin = ymin;
-	cmgtm.yvpmax = ymax;
+    /* - Save requested viewport. */
+    cmgtm.xvpmin = xmin;
+    cmgtm.xvpmax = xmax;
+    cmgtm.yvpmin = ymin;
+    cmgtm.yvpmax = ymax;
 
-	/* - Calculate world/viewport mapping transformation. */
+    /* - Calculate world/viewport mapping transformation. */
 
-	calwvtransform();
+    calwvtransform();
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

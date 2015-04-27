@@ -2,8 +2,8 @@
 #include "ssi.h"
 #include "dfm.h"
 
-void 
-xrecall (int *nerr) {
+void
+xrecall(int *nerr) {
         /*=====================================================================
          * PURPOSE:  To execute the action command RECALL.
          *           Files in SAC are copied to SeisMgr 
@@ -25,8 +25,8 @@ xrecall (int *nerr) {
 	 *	980915:	Original version.
          *=====================================================================*/
 
-    *nerr = 0 ;
+    *nerr = 0;
 
-    sacToSeisMgr ( 0 , 1 , 0 , nerr ) ;
-    rollback ( wfHeader , nerr ) ;
+    sacToSeisMgr(0, 1, 0, nerr);
+    rollback(wfHeader, nerr);
 }

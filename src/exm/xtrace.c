@@ -21,44 +21,41 @@
  * @date   881230:  Original version.
  *
  */
-void 
+void
 xtrace(int *nerr) {
 
-	char kname[17];
-	int  ltracebb;
-	int  indexcomma;
-	static int ltracevar = TRUE;
+    char kname[17];
+    int ltracebb;
+    int indexcomma;
+    static int ltracevar = TRUE;
 
-	*nerr = 0;
+    *nerr = 0;
 
-	/* - Loop on each token in command: */
-L_1000:
-	if( lcmore( nerr ) ){
+    /* - Loop on each token in command: */
+  L_1000:
+    if (lcmore(nerr)) {
 
-		/* -- "ON|OFF":  Turn variable tracing on or off. */
-		if( lclog( &ltracevar ) ){
+        /* -- "ON|OFF":  Turn variable tracing on or off. */
+        if (lclog(&ltracevar)) {
 
-			/* -- "name":  The name of a header or blackboard variable. */
-			}
-		else if( lcchar(kname, sizeof(kname)) ){
-			indexcomma = indexa( kname,17, ',', TRUE, TRUE );
-			ltracebb = indexcomma == 0;
-			tracevariable( ltracevar, ltracebb, kname, nerr );
-			if( *nerr != 0 )
-				goto L_8888;
+            /* -- "name":  The name of a header or blackboard variable. */
+        } else if (lcchar(kname, sizeof(kname))) {
+            indexcomma = indexa(kname, 17, ',', TRUE, TRUE);
+            ltracebb = indexcomma == 0;
+            tracevariable(ltracevar, ltracebb, kname, nerr);
+            if (*nerr != 0)
+                goto L_8888;
 
-			/* -- Bad syntax. */
-			}
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
+            /* -- Bad syntax. */
+        } else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
 
-			}
-		goto L_1000;
+        }
+        goto L_1000;
 
-		}
+    }
 
-L_8888:
-	return;
+  L_8888:
+    return;
 }
-

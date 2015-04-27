@@ -3,6 +3,5 @@
 
 void
 set_skeleton_fudge(float fudge) {
-  cmgem.skdevfudge = fudge;
+    cmgem.skdevfudge = fudge;
 }
-

@@ -1,14 +1,13 @@
 
 #include "gtm.h"
 
-void /*FUNCTION*/ setvportratio(ratio)
-double ratio;
+void /*FUNCTION*/
+setvportratio(ratio)
+     double ratio;
 {
-	float vpratio;
+    float vpratio;
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To define the desired viewport (y to x) aspect ratio.
 	 *           Current viewport is modified to maintain this ratio.
 	 *=====================================================================
@@ -32,23 +31,19 @@ double ratio;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900305
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Determine the largest viewport values with requested aspect ratio. */
-	vpratio = (cmgtm.yvpmax - cmgtm.yvpmin)/(cmgtm.xvpmax - cmgtm.xvpmin);
-	if( ratio <= vpratio ){
-		cmgtm.yvpmax = cmgtm.yvpmin + ratio*(cmgtm.xvpmax - cmgtm.xvpmin);
-		}
-	else if( ratio > 0. ){
-		cmgtm.xvpmax = cmgtm.xvpmin + (cmgtm.yvpmax - cmgtm.yvpmin)/
-		 ratio;
-		}
+    /* PROCEDURE: */
+    /* - Determine the largest viewport values with requested aspect ratio. */
+    vpratio = (cmgtm.yvpmax - cmgtm.yvpmin) / (cmgtm.xvpmax - cmgtm.xvpmin);
+    if (ratio <= vpratio) {
+        cmgtm.yvpmax = cmgtm.yvpmin + ratio * (cmgtm.xvpmax - cmgtm.xvpmin);
+    } else if (ratio > 0.) {
+        cmgtm.xvpmax = cmgtm.xvpmin + (cmgtm.yvpmax - cmgtm.yvpmin) / ratio;
+    }
 
-	/* - Calculate the world to viewport mapping transformation. */
+    /* - Calculate the world to viewport mapping transformation. */
 
-	calwvtransform();
+    calwvtransform();
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

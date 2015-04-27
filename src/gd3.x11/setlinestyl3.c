@@ -24,51 +24,45 @@ line_style_x11(char *line, void *data) {
     char *v;
     char *buf;
     char ***x11 = (char ***) data;
-    
+
     v = xarray_new('c');
     buf = line;
-    while(buf && sscanf(buf, "%f%n", &f, &n) == 1) {
-      v = xarray_append(v, (char) ((int)(f+0.5)));
-      buf += n;
+    while (buf && sscanf(buf, "%f%n", &f, &n) == 1) {
+        v = xarray_append(v, (char) ((int) (f + 0.5)));
+        buf += n;
     }
     *x11 = xarray_append(*x11, v);
 }
 
+void
+setlinestyle3(int *linestyle) {
+    XGCValues gcv;
+    XWindow *xw;
+    int dash_offset = 0;
+    static char **dashes = NULL;
+    char *dash;
 
-void 
-setlinestyle3(int *linestyle)
-{
-  XGCValues gcv;
-  XWindow *xw;
-  int dash_offset = 0;
-  static char **dashes = NULL;
-  char *dash;
+    xw = plot_window(CURRENT);
 
-  xw = plot_window( CURRENT );
-
-  if ((*linestyle < 1) || (*linestyle > 10)) {
-    *linestyle = 1;
-  }
-  if (*linestyle == 1) {
-    gcv.line_style = LineSolid;
-    XChangeGC(DISPLAY(xw), xw->gc, GCLineStyle, &gcv);
-  } else {
-    if(!dashes) {
-        dashes = xarray_new('p');
-        sac_line_style_read(line_style_x11, &dashes);
+    if ((*linestyle < 1) || (*linestyle > 10)) {
+        *linestyle = 1;
     }
-    dash = dashes[*linestyle-2];
-    if(!dash) {
-        return;
+    if (*linestyle == 1) {
+        gcv.line_style = LineSolid;
+        XChangeGC(DISPLAY(xw), xw->gc, GCLineStyle, &gcv);
+    } else {
+        if (!dashes) {
+            dashes = xarray_new('p');
+            sac_line_style_read(line_style_x11, &dashes);
+        }
+        dash = dashes[*linestyle - 2];
+        if (!dash) {
+            return;
+        }
+        gcv.line_style = LineOnOffDash;
+        XChangeGC(DISPLAY(xw), xw->gc, GCLineStyle, &gcv);
+        XSetDashes(DISPLAY(xw), xw->gc, dash_offset, dash, xarray_length(dash));
     }
-    gcv.line_style = LineOnOffDash;
-    XChangeGC(DISPLAY(xw), xw->gc, GCLineStyle, &gcv);
-    XSetDashes(DISPLAY(xw), 
-               xw->gc,
-               dash_offset, 
-               dash,
-               xarray_length(dash));
-  }
 }
 
 /*******************************************************************************

@@ -8,7 +8,6 @@
 #include "eam.h"
 #include "bool.h"
 
-
 #include "co.h"
 #include "msg.h"
 #include "cpf.h"
@@ -31,66 +30,61 @@
  * @date   800725:  Original version.
  *
  */
-void 
-xoapf(int *nerr)
-{
+void
+xoapf(int *nerr) {
 
-	*nerr = 0;
+    *nerr = 0;
 
-	/* PARSING PHASE: */
-	/* - Loop on each token in command: */
-	while ( lcmore( nerr ) ){
-		/* -- "STD/NAME":  use standard pick id or simply name of data file. */
-		if( lclog2( "STANDARD$",10, "NAME$",6, &cmeam.lpfstd ) )
-		{ /* do nothing */ }
+    /* PARSING PHASE: */
+    /* - Loop on each token in command: */
+    while (lcmore(nerr)) {
+        /* -- "STD/NAME":  use standard pick id or simply name of data file. */
+        if (lclog2("STANDARD$", 10, "NAME$", 6, &cmeam.lpfstd)) {       /* do nothing */
+        }
 
-		/* -- "filename":  the name of the APF to open. */
-		else if( lcchar( kmeam.kapfnm, sizeof(kmeam.kapfnm)))
-		{ /* do nothing */ }
+        /* -- "filename":  the name of the APF to open. */
+        else if (lcchar(kmeam.kapfnm, sizeof(kmeam.kapfnm))) {  /* do nothing */
+        }
 
-		/* -- Bad syntax. */
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
-		}
-	}
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
+    }
 
-	if( *nerr != 0 )
-		goto L_8888;
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* EXECUTION PHASE: */
-	/* - Close previous APF if it is open. */
-	if( cmeam.lapfop ){
-		zcloses( &cmeam.napfun, nerr );
-		if( *nerr == 0 ){
-			cmeam.lapfop = FALSE;
-		}
-		else{
-			*nerr = 1903;
-			setmsg( "ERROR", *nerr );
-			goto L_8888;
-		}
-	}
+    /* EXECUTION PHASE: */
+    /* - Close previous APF if it is open. */
+    if (cmeam.lapfop) {
+        zcloses(&cmeam.napfun, nerr);
+        if (*nerr == 0) {
+            cmeam.lapfop = FALSE;
+        } else {
+            *nerr = 1903;
+            setmsg("ERROR", *nerr);
+            goto L_8888;
+        }
+    }
 
+    /* - Open APF. */
+    znfiles(&cmeam.napfun, kmeam.kapfnm, MCPFN + 1, "TEXT", 5, nerr);
+    if (*nerr == 0) {
+        cmeam.lapfop = TRUE;
+    } else {
+        *nerr = 1902;
+        setmsg("ERROR", *nerr);
+        apcmsg(kmeam.kapfnm, MCPFN + 1);
+        goto L_8888;
+    }
 
-	/* - Open APF. */
-	znfiles( &cmeam.napfun, kmeam.kapfnm,MCPFN+1, "TEXT",5, nerr );
-	if( *nerr == 0 ){
-		cmeam.lapfop = TRUE;
-	}
-	else{
-		*nerr = 1902;
-		setmsg( "ERROR", *nerr );
-		apcmsg( kmeam.kapfnm,MCPFN+1 );
-		goto L_8888;
-	}
+    /* - Position to end-of-file. */
 
-	/* - Position to end-of-file. */
+    if (fseek(cmeam.napfun, 0L, SEEK_END) != 0)
+        fprintf(stdout, "fseek returned error-xoapf\n");
 
-	if ( fseek ( cmeam.napfun , 0L , SEEK_END ) != 0 )
-		fprintf ( stdout , "fseek returned error-xoapf\n" ) ;
-
-L_8888:
-	return;
+  L_8888:
+    return;
 }
-

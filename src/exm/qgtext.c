@@ -12,7 +12,6 @@
 #include "gem.h"
 #include "msg.h"
 
-
 #include "exm.h"
 
 /** 
@@ -23,24 +22,17 @@
  */
 void
 qgtext() {
-	char kline[MCPFN+1];
+    char kline[MCPFN + 1];
     memset(kline, 0, sizeof(kline));
-	if( kmgem.kgtqua[0] == 'H') {
-        sprintf(kline,"   %s", "HARDWARE text being used.");
-		aplmsg( kline,MCPFN+1 );
+    if (kmgem.kgtqua[0] == 'H') {
+        sprintf(kline, "   %s", "HARDWARE text being used.");
+        aplmsg(kline, MCPFN + 1);
+    } else {
+        sprintf(kline, "   %s", "SOFTWARE text being used.");
+        aplmsg(kline, MCPFN + 1);
     }
-	else{
-        sprintf(kline,"   %s", "SOFTWARE text being used.");
-		aplmsg( kline,MCPFN+1 );
-    }
-	repiv( "Text FONT$",11, cmgem.igtfnt );
-	reprv( "Text SIZE$",11, cmgem.tsdef );
+    repiv("Text FONT$", 11, cmgem.igtfnt);
+    reprv("Text SIZE$", 11, cmgem.tsdef);
 
-	return;
+    return;
 }
-
-
-
-
-
-

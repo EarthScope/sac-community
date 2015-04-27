@@ -24,29 +24,32 @@
  *       character strings were read in correctly.
  *
  */
-void 
-map_chdr_in(float *memarray,
-	    float *buffer) {
+void
+map_chdr_in(float *memarray, float *buffer) {
 
-  char *ptr1, *ptr2;
-  int i;
+    char *ptr1, *ptr2;
+    int i;
 
-  ptr1 = (char *)memarray;
-  ptr2 = (char *)buffer;
+    ptr1 = (char *) memarray;
+    ptr2 = (char *) buffer;
 
-  memcpy(ptr1,ptr2,8); *(ptr1+8) = '\0';
-  ptr1 += 9;  ptr2 += 8;
-
-  memcpy(ptr1,ptr2,16);*(ptr1+16) = '\0';
-  ptr1 += 18; ptr2 += 16;
-
-  for (i=0; i<21; i++){
-    memcpy(ptr1,ptr2,8);
-    *(ptr1+8) = '\0';
+    memcpy(ptr1, ptr2, 8);
+    *(ptr1 + 8) = '\0';
     ptr1 += 9;
     ptr2 += 8;
-  }
 
-  return;
+    memcpy(ptr1, ptr2, 16);
+    *(ptr1 + 16) = '\0';
+    ptr1 += 18;
+    ptr2 += 16;
+
+    for (i = 0; i < 21; i++) {
+        memcpy(ptr1, ptr2, 8);
+        *(ptr1 + 8) = '\0';
+        ptr1 += 9;
+        ptr2 += 8;
+    }
+
+    return;
 
 }

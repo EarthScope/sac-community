@@ -19,11 +19,10 @@
  * @date    880412:  Original version.
  * @date    880412:  Documented / Reviewed
  */
-void 
+void
 deletebbs(int *nerr) {
 
-  deletevlist( kmbbs.knmbbs,MCPFN+1, "MEMORY", nerr );
+    deletevlist(kmbbs.knmbbs, MCPFN + 1, "MEMORY", nerr);
 
-  return;
-} 
-
+    return;
+}

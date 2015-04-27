@@ -30,30 +30,25 @@
  * @date   820419:  Original version.
  *
  */
-int 
-nccomp(char *ktoken, 
-       char *klist, 
-       int   klist_s, 
-       int   nlist, 
-       int   nchar) {
+int
+nccomp(char *ktoken, char *klist, int klist_s, int nlist, int nchar) {
 
 #define KLIST(I_,J_)	(klist+(I_)*(klist_s)+(J_))
 
-	int j, j_, nccomp_v;
+    int j, j_, nccomp_v;
 
-	nccomp_v = 0;
-	for( j = 1; j <= nlist; j++ ){
-          j_ = j - 1;
-          if( memcmp(ktoken,KLIST(j_,0),nchar) == 0 ){
+    nccomp_v = 0;
+    for (j = 1; j <= nlist; j++) {
+        j_ = j - 1;
+        if (memcmp(ktoken, KLIST(j_, 0), nchar) == 0) {
             nccomp_v = j;
             goto L_8888;
-          }
         }
+    }
 
-L_8888:
-	return( nccomp_v );
+  L_8888:
+    return (nccomp_v);
 
 #undef	KLIST
 
 }
-

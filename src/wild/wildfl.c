@@ -16,7 +16,6 @@
 
 #include "string_utils.h"
 
-
 #include "co.h"
 #include "clf.h"
 #include "bot.h"
@@ -66,13 +65,10 @@
  *
  */
 string_list *
-wildfl(char *kdfdir, 
-       int   kdfdir_s, 
-       string_list *list,
-       int  *lexpnd) {
+wildfl(char *kdfdir, int kdfdir_s, string_list * list, int *lexpnd) {
 
-	char kdirin[MCPFN+1], kfile[MCPFN+1], kpatrn[MCPFN+1];
-	int nc1, nc2, ncfdir, nerr = 0 ;
+    char kdirin[MCPFN + 1], kfile[MCPFN + 1], kpatrn[MCPFN + 1];
+    int nc1, nc2, ncfdir, nerr = 0;
     char *s1;
     int i;
 
@@ -81,139 +77,136 @@ wildfl(char *kdfdir,
     files = string_list_init();
     wild_files = string_list_init();
 
-	/* PROCECURE: */
-	/* - Initialize the output file list. */
-	*lexpnd = FALSE;
+    /* PROCECURE: */
+    /* - Initialize the output file list. */
+    *lexpnd = FALSE;
 
     memset(kdirin, ' ', MCPFN);
     memset(kfile, ' ', MCPFN);
     memset(kpatrn, ' ', MCPFN);
 
-	kdirin[MCPFN] = '\0' ;
-	kfile[MCPFN] = '\0' ;
-	kpatrn[MCPFN] = '\0' ;
+    kdirin[MCPFN] = '\0';
+    kfile[MCPFN] = '\0';
+    kpatrn[MCPFN] = '\0';
 
-	/* - Loop on each entry in input file list. */
-	  /* kdflin is a space delimited list of filenames possibly including paths
-	     and wild cards, ic1 points is the index of the beginning of the current
-	     filename and ic2 is the index of the end of the current filename. */
-    for(i = 0; i < string_list_length(list); i++) {
+    /* - Loop on each entry in input file list. */
+    /* kdflin is a space delimited list of filenames possibly including paths
+       and wild cards, ic1 points is the index of the beginning of the current
+       filename and ic2 is the index of the end of the current filename. */
+    for (i = 0; i < string_list_length(list); i++) {
         s1 = string_list_get(list, i);
-		/* prepare s1 to see if entry contains any wild-cards */
-		if( lwildc( s1 , strlen(s1)+1 ) ){	/* if there is/are wildcard(s) */
-			/* --- Break entry into directory part and pattern part. */
-			getdir( s1, strlen(s1)+1, kdirin,MCPFN+1, kpatrn,MCPFN+1 );
-			/* --- If no directory name was typed, use the default one. */
-			if ( strncmp ( kdirin , "        " , 8 ) == 0 ) 
-			    strncpy ( kdirin , kdfdir , MCPFN+1 ) ;
+        /* prepare s1 to see if entry contains any wild-cards */
+        if (lwildc(s1, strlen(s1) + 1)) {       /* if there is/are wildcard(s) */
+            /* --- Break entry into directory part and pattern part. */
+            getdir(s1, strlen(s1) + 1, kdirin, MCPFN + 1, kpatrn, MCPFN + 1);
+            /* --- If no directory name was typed, use the default one. */
+            if (strncmp(kdirin, "        ", 8) == 0)
+                strncpy(kdirin, kdfdir, MCPFN + 1);
             /*     Else if an absolute directory was typed, just use it. */
-			else if ( kdirin[ 0 ] == '/' )
-			    { /* do nothing */ }
-			/*     Else if a relative directory was typed, append it to kdfdir. */
-			else if ( strncmp ( kdfdir , "        " , 8 ) != 0 )
-			{
-			    char kTemp[ MCPFN ] , * pTemp = NULL ;
+            else if (kdirin[0] == '/') {        /* do nothing */
+            }
+            /*     Else if a relative directory was typed, append it to kdfdir. */
+            else if (strncmp(kdfdir, "        ", 8) != 0) {
+                char kTemp[MCPFN], *pTemp = NULL;
 
-			    pTemp = strrchr ( kdfdir , '/' ) ;
+                pTemp = strrchr(kdfdir, '/');
 
-			    if ( pTemp != NULL ) {
-				int iTemp ;
+                if (pTemp != NULL) {
+                    int iTemp;
 
-				nc1 = indexb ( kdirin , MCPFN + 1 ) ;  /* return beginning of padding */
-				iTemp = nc1 < MCPFN - ( pTemp - kdfdir ) ?
-					nc1 : MCPFN - ( pTemp - kdfdir ) ;
-				strncpy ( kTemp , kdfdir , pTemp - kdfdir + 1 ) ;
-				strncat ( kTemp + ( pTemp - kdfdir + 1 ) , kdirin , iTemp ) ;
-				strncpy ( kdirin , kTemp , MCPFN + 1 ) ;
-			    }
-			} 
+                    nc1 = indexb(kdirin, MCPFN + 1);    /* return beginning of padding */
+                    iTemp =
+                        nc1 <
+                        MCPFN - (pTemp - kdfdir) ? nc1 : MCPFN - (pTemp -
+                                                                  kdfdir);
+                    strncpy(kTemp, kdfdir, pTemp - kdfdir + 1);
+                    strncat(kTemp + (pTemp - kdfdir + 1), kdirin, iTemp);
+                    strncpy(kdirin, kTemp, MCPFN + 1);
+                }
+            }
 
-			    
-			/* --- Perform case conversion of directory and pattern if necessary. */
-			nc1 = indexb ( kdirin , MCPFN + 1 ) ;
-			nc2 = indexb ( kpatrn , MCPFN + 1 ) ;
+            /* --- Perform case conversion of directory and pattern if necessary. */
+            nc1 = indexb(kdirin, MCPFN + 1);
+            nc2 = indexb(kpatrn, MCPFN + 1);
 
-			/* Here's a trick to make these strings behave like C strings. 
-			   After zfiles is run, set these back to FORTRANesc strings. maf 961031*/
-			kdirin[ nc1 < MCPFN+1 ? nc1 : MCPFN+1 ] = '\0' ;
-			kpatrn[ nc2 < MCPFN+1 ? nc2 : MCPFN+1 ] = '\0' ;
+            /* Here's a trick to make these strings behave like C strings. 
+               After zfiles is run, set these back to FORTRANesc strings. maf 961031 */
+            kdirin[nc1 < MCPFN + 1 ? nc1 : MCPFN + 1] = '\0';
+            kpatrn[nc2 < MCPFN + 1 ? nc2 : MCPFN + 1] = '\0';
 
-      /* --- Get the list of files in the directory that
-       *     match the regular expression. */
-			wild_files = zfiles( kdirin, kpatrn, &nerr );
-			if( nerr != 0 || ! wild_files)
-				goto L_8888;
+            /* --- Get the list of files in the directory that
+             *     match the regular expression. */
+            wild_files = zfiles(kdirin, kpatrn, &nerr);
+            if (nerr != 0 || !wild_files)
+                goto L_8888;
 
-			/* set these strings back to their FORTRANish mode for future use. maf 961031 */
-            kdirin[ nc1 < MCPFN+1 ? nc1 : MCPFN+1 ] = ' ' ;
-            kpatrn[ nc2 < MCPFN+1 ? nc2 : MCPFN+1 ] = ' ' ;
+            /* set these strings back to their FORTRANish mode for future use. maf 961031 */
+            kdirin[nc1 < MCPFN + 1 ? nc1 : MCPFN + 1] = ' ';
+            kpatrn[nc2 < MCPFN + 1 ? nc2 : MCPFN + 1] = ' ';
 
-			/* get the length of kdirin */
-			cmdfm.ncdir = indexb( kdirin,MCPFN+1 );
-			
+            /* get the length of kdirin */
+            cmdfm.ncdir = indexb(kdirin, MCPFN + 1);
+
             *lexpnd = TRUE;
             string_list_extend(files, wild_files);
             string_list_free(wild_files);
             wild_files = NULL;
 
-		} else {
+        } else {
             /* -- Otherwise, entry is a simple file name. Add to output. */
-			/* --- Break entry into directory part and name part. */
-                      
-			getdir( s1 , strlen(s1)+1, kdirin,MCPFN+1, kpatrn,MCPFN+1 );
+            /* --- Break entry into directory part and name part. */
 
-			/* --- If no directory name was typed, use the default one.
-			 *          if(kdirin.eq.' ')kdirin=kdfdir */
-			cmdfm.ncdir = indexb( kdirin,MCPFN+1 );
-			ncfdir = indexb( kdfdir,kdfdir_s );
-			nc2 = indexb( kpatrn,MCPFN+1 );
+            getdir(s1, strlen(s1) + 1, kdirin, MCPFN + 1, kpatrn, MCPFN + 1);
 
-			/* make arrays C-like for the following code. maf 970108 */
-			kdirin[ cmdfm.ncdir < MCPFN+1 ? cmdfm.ncdir : MCPFN+1 ] = '\0' ;
-			kdfdir[ ncfdir < MCPFN+1 ? ncfdir : MCPFN+1 ] = '\0' ;
-			kpatrn[ nc2 < MCPFN+1 ? nc2 : MCPFN+1 ] = '\0' ;
+            /* --- If no directory name was typed, use the default one.
+             *          if(kdirin.eq.' ')kdirin=kdfdir */
+            cmdfm.ncdir = indexb(kdirin, MCPFN + 1);
+            ncfdir = indexb(kdfdir, kdfdir_s);
+            nc2 = indexb(kpatrn, MCPFN + 1);
 
-			/* --- Recreate filename from directory and name parts. */
-			if( ncfdir > 0 ){                    /* Default Directory Exists  */
-				if( cmdfm.ncdir > 0 ){           /* Directory in Filename     */
-				    if ( kdirin[ 0 ] == '/' ) {  /* Absolute Directory + File */
-					strcpy ( kfile , kdirin ) ;
-					strcat ( kfile , kpatrn ) ;
-				    } else {                     /* Default Directory + Directory + File */
-					strcpy ( kfile , kdfdir ) ;
-					strcat ( kfile , kdirin ) ;
-					strcat ( kfile , kpatrn ) ;
-				    }
-				} else {                         /* Default Directory + File*/
-					strcpy ( kfile , kdfdir ) ;
-					strcat ( kfile , kpatrn ) ;
-				}
-			}
-			else{
-				if( cmdfm.ncdir > 0 ){           /* Directory + File*/
-					strcpy ( kfile , kdirin ) ;
-					strcat ( kfile , kpatrn ) ;
-				}
-				else{                            /* File Only */
-					strcpy ( kfile , kpatrn ) ;
-				}
-			}
+            /* make arrays C-like for the following code. maf 970108 */
+            kdirin[cmdfm.ncdir < MCPFN + 1 ? cmdfm.ncdir : MCPFN + 1] = '\0';
+            kdfdir[ncfdir < MCPFN + 1 ? ncfdir : MCPFN + 1] = '\0';
+            kpatrn[nc2 < MCPFN + 1 ? nc2 : MCPFN + 1] = '\0';
+
+            /* --- Recreate filename from directory and name parts. */
+            if (ncfdir > 0) {   /* Default Directory Exists  */
+                if (cmdfm.ncdir > 0) {  /* Directory in Filename     */
+                    if (kdirin[0] == '/') {     /* Absolute Directory + File */
+                        strcpy(kfile, kdirin);
+                        strcat(kfile, kpatrn);
+                    } else {    /* Default Directory + Directory + File */
+                        strcpy(kfile, kdfdir);
+                        strcat(kfile, kdirin);
+                        strcat(kfile, kpatrn);
+                    }
+                } else {        /* Default Directory + File */
+                    strcpy(kfile, kdfdir);
+                    strcat(kfile, kpatrn);
+                }
+            } else {
+                if (cmdfm.ncdir > 0) {  /* Directory + File */
+                    strcpy(kfile, kdirin);
+                    strcat(kfile, kpatrn);
+                } else {        /* File Only */
+                    strcpy(kfile, kpatrn);
+                }
+            }
             string_list_put(files, kfile, strlen(kfile));
 
-			/* return strings to their FORTRANish state.  maf 970108 */
-			kdirin[ cmdfm.ncdir < MCPFN+1 ? cmdfm.ncdir : MCPFN+1 ] = ' ' ;
-			kdfdir[ ncfdir < MCPFN+1 ? ncfdir : MCPFN+1 ] = ' ' ;
-                        kpatrn[ nc2 < MCPFN+1 ? nc2 : MCPFN+1 ] = ' ' ;
+            /* return strings to their FORTRANish state.  maf 970108 */
+            kdirin[cmdfm.ncdir < MCPFN + 1 ? cmdfm.ncdir : MCPFN + 1] = ' ';
+            kdfdir[ncfdir < MCPFN + 1 ? ncfdir : MCPFN + 1] = ' ';
+            kpatrn[nc2 < MCPFN + 1 ? nc2 : MCPFN + 1] = ' ';
 
-		} 
+        }
 
-		if( nerr != 0 )
-			break ;
+        if (nerr != 0)
+            break;
 
-	} /* end while */
+    }                           /* end while */
 
-L_8888:
+  L_8888:
 
     return files;
-} 
-
+}

@@ -4,17 +4,16 @@
 #include "ncpf.h"
 #include "cpf.h"
 
-
 #include "co.h"
 
-void /*FUNCTION*/ getmacroinfo(macrolevel, varsname, varsname_s)
-int *macrolevel;
-char *varsname;   int varsname_s;
+void /*FUNCTION*/
+getmacroinfo(macrolevel, varsname, varsname_s)
+     int *macrolevel;
+     char *varsname;
+     int varsname_s;
 {
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To get information about the current macro be executed.
 	 *=====================================================================
 	 * OUTPUT VARIABLES:
@@ -32,14 +31,13 @@ char *varsname;   int varsname_s;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900207
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Return current macro level and name of vars list containing
-	 *   information about macro state. */
-	*macrolevel = cmcpf.nmacrolevel;
-	fstrncpy( varsname, varsname_s-1, kmcpf.kvarsname, strlen(kmcpf.kvarsname));
+    /* PROCEDURE: */
+    /* - Return current macro level and name of vars list containing
+     *   information about macro state. */
+    *macrolevel = cmcpf.nmacrolevel;
+    fstrncpy(varsname, varsname_s - 1, kmcpf.kvarsname,
+             strlen(kmcpf.kvarsname));
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

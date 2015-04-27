@@ -11,7 +11,6 @@
 #include "cpf.h"
 #include "bool.h"
 
-
 #include "bot.h"
 
 /** 
@@ -27,73 +26,70 @@
  *                  is less than the previous number of values.  maf
  * @date   870416:  Original version. 
 */
-void 
+void
 xsetmacro(int *nerr) {
 
-	char ktemp[MCPFN+1];
-  int oldnmcdir = -1 ; /* clean up old values  */
-	int lmore = FALSE ;  /* supports MORE option */
+    char ktemp[MCPFN + 1];
+    int oldnmcdir = -1;         /* clean up old values  */
+    int lmore = FALSE;          /* supports MORE option */
 
-	*nerr = 0;
+    *nerr = 0;
 
-	/* - Look for location-dependent token: MORE.  maf 961205 */
-	if ( lcmore ( nerr ) ) {
-	    if ( lckey( "MORE #$",8 ) )
-		lmore = TRUE ;
-	    else {
-		oldnmcdir = cmexm.nmcdir ;
-		cmexm.nmcdir = 0;
-	    }
-	} /* end if ( lcmore ) */
+    /* - Look for location-dependent token: MORE.  maf 961205 */
+    if (lcmore(nerr)) {
+        if (lckey("MORE #$", 8))
+            lmore = TRUE;
+        else {
+            oldnmcdir = cmexm.nmcdir;
+            cmexm.nmcdir = 0;
+        }
+    }
 
+    /* end if ( lcmore ) */
+    /* - Loop on remaining tokens in command: */
+    while (lcmore(nerr)) {
 
-	/* - Loop on remaining tokens in command: */
+        /* -- "text":  the name of a directory to search for macros. */
+        if (lcchar(ktemp, sizeof(ktemp))) {
+            if (cmexm.nmcdir < MMCDIR) {
+                cmexm.nmcdir = cmexm.nmcdir + 1;
+                if (MODEFILECASE < 0) {
+                    modcase(FALSE, ktemp, strlen(ktemp),
+                            (char *) kmexm.kmcdir[cmexm.nmcdir - 1]);
+                } else if (MODEFILECASE > 0) {
+                    modcase(TRUE, ktemp, strlen(ktemp),
+                            (char *) kmexm.kmcdir[cmexm.nmcdir - 1]);
+                } else {
+                    strcpy(kmexm.kmcdir[cmexm.nmcdir - 1], ktemp);
+                }
+            } /* end if( cmexm.nmcdir < MMCDIR ) */
+            else {
+                cfmt("TOO MANY DIRECTORIES:", 23);
+                cresp();
+            }
+        }
 
-	while( lcmore( nerr ) ){
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
 
-		/* -- "text":  the name of a directory to search for macros. */
-		if( lcchar( ktemp, sizeof(ktemp)) ) {
-			if( cmexm.nmcdir < MMCDIR ){
-				cmexm.nmcdir = cmexm.nmcdir + 1;
-				if( MODEFILECASE < 0 ){
-          modcase( FALSE, ktemp, strlen(ktemp), (char*)kmexm.kmcdir[cmexm.nmcdir - 1] );
-				}
-				else if( MODEFILECASE > 0 ){
-          modcase( TRUE, ktemp, strlen(ktemp), (char*)kmexm.kmcdir[cmexm.nmcdir - 1] );
-				}
-				else{
-				    strcpy( kmexm.kmcdir[cmexm.nmcdir - 1], ktemp );
-				}
-			} /* end if( cmexm.nmcdir < MMCDIR ) */
-			else{
-				cfmt( "TOO MANY DIRECTORIES:",23 );
-				cresp();
-			}
-		} 
+    }                           /* end while ( lcmore( nerr ) ) */
 
-		/* -- Bad syntax. */
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
-		}
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-	} /* end while ( lcmore( nerr ) ) */
+    /* If there are previously defined directories, and lmore is FALSE, erase the old ones */
+    /*      maf 961205 */
+    if (!lmore) {
+        while (oldnmcdir > cmexm.nmcdir) {
+            strcpy(kmexm.kmcdir[oldnmcdir - 1], "");
+            oldnmcdir--;
+        }
+    }
 
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
+    return;
 
-	/* If there are previously defined directories, and lmore is FALSE, erase the old ones */
-	/*	maf 961205 */
-	if ( !lmore ) {
-	    while ( oldnmcdir > cmexm.nmcdir )
-	    {
-		strcpy ( kmexm.kmcdir[oldnmcdir - 1] , "" ) ;
-		oldnmcdir-- ;
-	    }
-	}
-
-	return;
-
-} /* end of function */
-
+}                               /* end of function */

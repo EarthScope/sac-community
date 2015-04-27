@@ -36,53 +36,47 @@
  * @date   861229:  Original version based upon UPCASE.
  *
  */
-void 
-modcase(int   upflag, 
-	char *input, 
-	int   nchar, 
-	char *output) {
+void
+modcase(int upflag, char *input, int nchar, char *output) {
 
-	int  quoted;
-	char kchar;
-	int  itemp, jchar;
-	static int iconv = 32;
+    int quoted;
+    char kchar;
+    int itemp, jchar;
+    static int iconv = 32;
 
-	quoted = FALSE;
+    quoted = FALSE;
 
-	/* - For each character in input string: */
-	for ( jchar = 0 ; jchar < nchar ; jchar++ ){
+    /* - For each character in input string: */
+    for (jchar = 0; jchar < nchar; jchar++) {
 
-		/* -- Copy to local variable. */
-		kchar = input[jchar];
+        /* -- Copy to local variable. */
+        kchar = input[jchar];
 
-		/* -- Toggle quote flag if necessary. */
-		if( kchar == '"' || kchar == '\'' ){
-			quoted = !quoted;
+        /* -- Toggle quote flag if necessary. */
+        if (kchar == '"' || kchar == '\'') {
+            quoted = !quoted;
 
-			/* -- If a character and not inside quotation marks:
-			 * --- Convert character to integer.
-			 * --- Added conversion offset.
-			 * --- Convert from integer back to character. */
-		}
-		else if( !quoted ){
-			if( (upflag && (kchar >= 'a'))  && (kchar <= 'z') ){
-				itemp = ( kchar );
-				itemp = itemp - iconv;
-				kchar = (itemp);
-			}
-			else if( (!upflag && (kchar >= 'A')) && (kchar <= 'Z') ){
-				itemp = ( kchar );
-				itemp = itemp + iconv;
-				kchar = (itemp);
-			}
-		}
+            /* -- If a character and not inside quotation marks:
+             * --- Convert character to integer.
+             * --- Added conversion offset.
+             * --- Convert from integer back to character. */
+        } else if (!quoted) {
+            if ((upflag && (kchar >= 'a')) && (kchar <= 'z')) {
+                itemp = (kchar);
+                itemp = itemp - iconv;
+                kchar = (itemp);
+            } else if ((!upflag && (kchar >= 'A')) && (kchar <= 'Z')) {
+                itemp = (kchar);
+                itemp = itemp + iconv;
+                kchar = (itemp);
+            }
+        }
 
-		/* -- Copy local variable to output string. */
+        /* -- Copy local variable to output string. */
 
-		output[jchar] = kchar;
+        output[jchar] = kchar;
 
-	}
+    }
 
-	return;
+    return;
 }
-

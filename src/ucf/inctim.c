@@ -52,27 +52,16 @@
  * @date   810000:  Original version.
  *
  */
-void 
-inctim(int     nhrold, 
-       int     nmnold, 
-       int     nscold, 
-       int     nmsold, 
-       double  secinc, 
-       int    *nhrnew, 
-       int    *nmnnew, 
-       int    *nscnew, 
-       int    *nmsnew, 
-       int    *nexday) { 
+void
+inctim(int nhrold, int nmnold, int nscold, int nmsold, double secinc,
+       int *nhrnew, int *nmnnew, int *nscnew, int *nmsnew, int *nexday) {
 
-	int nmsinc, nscinc;
+    int nmsinc, nscinc;
 
-        nscinc = floor(secinc);
-        nmsinc = lround( 1000.0 * (secinc - (float)( nscinc )) );
-        
-        return inctimf(nhrold, nmnold, nscold, nmsold,
-                       nscinc, nmsinc,
-                       nhrnew, nmnnew, nscnew, nmsnew, 
-                       nexday);
-        
+    nscinc = floor(secinc);
+    nmsinc = lround(1000.0 * (secinc - (float) (nscinc)));
+
+    return inctimf(nhrold, nmnold, nscold, nmsold, nscinc, nmsinc, nhrnew,
+                   nmnnew, nscnew, nmsnew, nexday);
+
 }
-

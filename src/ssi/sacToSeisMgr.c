@@ -20,189 +20,184 @@
 
 #include "cssListOps/dblErrors.h"
 
-int Unique(int *array, int size, int wfid) 
-{
-  /* Check for a unique wfid */
-  int j;
-  for(j=0;j<=size;++j)
-    if(wfid==array[j]) return 0;
-  return 1;
+int
+Unique(int *array, int size, int wfid) {
+    /* Check for a unique wfid */
+    int j;
+    for (j = 0; j <= size; ++j)
+        if (wfid == array[j])
+            return 0;
+    return 1;
 }
 
-int next_wfid(int *array, int size)
-{
-  /* Set next wfid to max_wfid + 1 */
-     int j;
-     int tmp = 0; 
-     for(j=0;j<=size;++j) {
-       if(array[j]>=tmp) tmp=array[j]+1;
-     }
-     return tmp;
+int
+next_wfid(int *array, int size) {
+    /* Set next wfid to max_wfid + 1 */
+    int j;
+    int tmp = 0;
+    for (j = 0; j <= size; ++j) {
+        if (array[j] >= tmp)
+            tmp = array[j] + 1;
+    }
+    return tmp;
 }
 
-void sacToSeisMgr ( int lnew , int lupdate , int ldata , int *nerr )
-{
+void
+sacToSeisMgr(int lnew, int lupdate, int ldata, int *nerr) {
     /* Declare Variables. */
-    char * worksetName , defaultWorksetName[] = "workset01" ;
-    int jdfl ;
-    int takeEvid = FALSE ;
-    float unused ;
+    char *worksetName, defaultWorksetName[] = "workset01";
+    int jdfl;
+    int takeEvid = FALSE;
+    float unused;
     sacSACdata *data;
-    int * nwfid_array;
+    int *nwfid_array;
     sac *s;
     struct SACheader header;
-    *nerr = 0 ;
+    *nerr = 0;
     nwfid_array = NULL;
-    data        = NULL;
+    data = NULL;
 
-    if(! use_database(OPTION_GET)) 
-      return;
+    if (!use_database(OPTION_GET))
+        return;
 
     /* Initialize SeisMgr error handler */
-    dblClearErrorList () ;
+    dblClearErrorList();
 
     /* Get default workset name */
-    worksetName = smGetDefaultWorksetName () ;
+    worksetName = smGetDefaultWorksetName();
 
-    if ( worksetName && lnew ) {
-        smDeleteWorksetByName ( worksetName ) ;
-    }
-    else if ( !worksetName ) {
-	lnew = TRUE ;
-	worksetName = defaultWorksetName ;
+    if (worksetName && lnew) {
+        smDeleteWorksetByName(worksetName);
+    } else if (!worksetName) {
+        lnew = TRUE;
+        worksetName = defaultWorksetName;
     }
 
     /* Be self consistent */
-    if ( lnew ) 
-	lupdate = FALSE ;
+    if (lnew)
+        lupdate = FALSE;
 
-    if ( lupdate )
-	ldata = FALSE ;
+    if (lupdate)
+        ldata = FALSE;
 
     /* Allocate sacSACdata */
-    if ( ldata ) {
-	data = ( sacSACdata * ) malloc ( sizeof ( sacSACdata ) ) ;
-	if ( !data ) {
-	    *nerr = 301 ;
-	    setmsg ( "ERROR" , *nerr ) ;
-	    outmsg () ;
-	    clrmsg () ;
-        goto L_ERROR;
-	}
+    if (ldata) {
+        data = (sacSACdata *) malloc(sizeof(sacSACdata));
+        if (!data) {
+            *nerr = 301;
+            setmsg("ERROR", *nerr);
+            outmsg();
+            clrmsg();
+            goto L_ERROR;
+        }
     }
 
-
-    if ( lnew ) {
-	if ( 0 != smCreateEmptyWorkset ( worksetName ) ) {
-	    *nerr = 301 ;
-	    setmsg ( "ERROR" , *nerr ) ;
-	    outmsg () ;
-	    clrmsg () ;
-        goto L_ERROR;
-	}
+    if (lnew) {
+        if (0 != smCreateEmptyWorkset(worksetName)) {
+            *nerr = 301;
+            setmsg("ERROR", *nerr);
+            outmsg();
+            clrmsg();
+            goto L_ERROR;
+        }
     }
-
 
     /* Allocate memory for wfid array */
-    nwfid_array = (int *) malloc ( saclen() * sizeof (int) );
-    if ( !nwfid_array ) {
-      *nerr = 301 ;
-      setmsg ( "ERROR" , *nerr ) ;
-      outmsg () ;
-      clrmsg () ;
-      goto L_ERROR;
+    nwfid_array = (int *) malloc(saclen() * sizeof(int));
+    if (!nwfid_array) {
+        *nerr = 301;
+        setmsg("ERROR", *nerr);
+        outmsg();
+        clrmsg();
+        goto L_ERROR;
     }
 
     /* Loop through sac data file list, writing data to the tree. */
 
-    for ( jdfl = 0 ; jdfl < saclen() ; jdfl++ ) {
-      int localLdata;
-      if(!(s = sacget(jdfl, FALSE, nerr))) {
-        goto L_ERROR;
-      }
+    for (jdfl = 0; jdfl < saclen(); jdfl++) {
+        int localLdata;
+        if (!(s = sacget(jdfl, FALSE, nerr))) {
+            goto L_ERROR;
+        }
 
-      localLdata = (!s->y) ? FALSE : ldata ;
+        localLdata = (!s->y) ? FALSE : ldata;
 
-	/* Get next waveform. */
-	//getfil ( jdfl+1 , localLdata , &nunused , &ndx1 , &ndx2 , nerr ) ;
-	if ( *nerr ) {
-	    setmsg ( "ERROR" , *nerr ) ;
-	    outmsg () ;
-	    clrmsg () ;
-	    *nerr = 1401 ;
-        goto L_ERROR;
-	}
+        /* Get next waveform. */
+        //getfil ( jdfl+1 , localLdata , &nunused , &ndx1 , &ndx2 , nerr ) ;
+        if (*nerr) {
+            setmsg("ERROR", *nerr);
+            outmsg();
+            clrmsg();
+            *nerr = 1401;
+            goto L_ERROR;
+        }
 
-	/* Check for nonunique wfid that are defined */
-	nwfid_array[jdfl]=0;
-	if( SAC_INT_DEFINED(s->h->nwfid) && ! Unique(nwfid_array,jdfl,s->h->nwfid) ) {
-        s->h->nwfid = next_wfid(nwfid_array,jdfl);
-        nwfid_array[jdfl] = s->h->nwfid;
-	}
-	else {
-	  nwfid_array[jdfl] = s->h->nwfid;
-	}
+        /* Check for nonunique wfid that are defined */
+        nwfid_array[jdfl] = 0;
+        if (SAC_INT_DEFINED(s->h->nwfid) &&
+            !Unique(nwfid_array, jdfl, s->h->nwfid)) {
+            s->h->nwfid = next_wfid(nwfid_array, jdfl);
+            nwfid_array[jdfl] = s->h->nwfid;
+        } else {
+            nwfid_array[jdfl] = s->h->nwfid;
+        }
 
+        /* update pertinent information */
+        if (s->h->leven)
+            s->h->e = CALC_E(s);
+        else
+            extrma(s->x, 1, s->h->npts, &s->h->b, &s->h->e, &unused);
 
-  
-	/* update pertinent information */
-	if ( s->h->leven )
-    s->h->e = CALC_E(s);
-	else
-    extrma( s->x, 1, s->h->npts, &s->h->b, &s->h->e, &unused );
-  
-  update_distaz(s);
+        update_distaz(s);
 
-	if ( localLdata ) {
-	    extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
-	} 
+        if (localLdata) {
+            extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax,
+                   &s->h->depmen);
+        }
 
-	/* Disallow undefined kstnm and kcmpnm */
-	//if ( uniqueStaAndChan () )
+        /* Disallow undefined kstnm and kcmpnm */
+        //if ( uniqueStaAndChan () )
 
-	/* Put the header into the sacHeader struct. */
-  memset(&header, 0, sizeof(struct SACheader));
-	SacHeaderToDB ( &header , lupdate ? eventHeader : allHeader , jdfl + 1 ) ;
+        /* Put the header into the sacHeader struct. */
+        memset(&header, 0, sizeof(struct SACheader));
+        SacHeaderToDB(&header, lupdate ? eventHeader : allHeader, jdfl + 1);
 
-	/* Put the data into the sacData struct. */
-	if ( localLdata ) {
-	    data->dataType = s->h->iftype ;
-	    data->yarray   = s->y;
-	    data->xarray   = s->x;
-	}
+        /* Put the data into the sacData struct. */
+        if (localLdata) {
+            data->dataType = s->h->iftype;
+            data->yarray = s->y;
+            data->xarray = s->x;
+        }
 
-	/* determine takeEvid to pass into sacLoadFromHeaderAndData */
-	if( !cmdfm.lread || jdfl < cmdfm.nfilesFirst ) {
-	    takeEvid = TRUE ;
-	}
-	else{
-	    if( cmdfm.nreadflag == RDB )
-	        takeEvid = TRUE ;
+        /* determine takeEvid to pass into sacLoadFromHeaderAndData */
+        if (!cmdfm.lread || jdfl < cmdfm.nfilesFirst) {
+            takeEvid = TRUE;
+        } else {
+            if (cmdfm.nreadflag == RDB)
+                takeEvid = TRUE;
 
-	    else if( cmdfm.nreadflag == HIGH) {
-		if( cmdfm.ltrust )
-		    takeEvid = TRUE ;
-		else
-		    takeEvid = FALSE ;
-	    }
+            else if (cmdfm.nreadflag == HIGH) {
+                if (cmdfm.ltrust)
+                    takeEvid = TRUE;
+                else
+                    takeEvid = FALSE;
+            }
 
-	    else{
-		takeEvid = FALSE ;
-	    }
-	}
+            else {
+                takeEvid = FALSE;
+            }
+        }
 
-	/* Put the data into the tree */
-	sacLoadFromHeaderAndData( &header , data, 
-				  worksetName, 0, lnew ? -1 : jdfl, localLdata,
-				  takeEvid );
+        /* Put the data into the tree */
+        sacLoadFromHeaderAndData(&header, data, worksetName, 0,
+                                 lnew ? -1 : jdfl, localLdata, takeEvid);
 
-    } /* end for */
+    }                           /* end for */
 
+    gcCollect(smGetDefaultTree());
 
-    gcCollect ( smGetDefaultTree() ) ;
-
- L_ERROR:
+  L_ERROR:
     FREE(nwfid_array);
     FREE(data);
 
-} /* end sacToSeisMgr */
+}                               /* end sacToSeisMgr */

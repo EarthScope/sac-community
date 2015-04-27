@@ -39,21 +39,15 @@
  * @date   861229:  Documented/Reviewed
  *
  */
-void 
-deletev(char   *vars, 
-	int     vars_s, 
-	char   *name, 
-	int     name_s, 
-	int    *nerr)
-{
-  char *s1; 
-  *nerr = 0;
-  UNUSED(vars_s);
-  UNUSED(name_s);
-  s1 = upcase_dup(name);
-  if(!sac_vars_delete_var(vars, s1)) {
-    error(*nerr = 1205, "%s", s1);
-  }
-  free(s1);
+void
+deletev(char *vars, int vars_s, char *name, int name_s, int *nerr) {
+    char *s1;
+    *nerr = 0;
+    UNUSED(vars_s);
+    UNUSED(name_s);
+    s1 = upcase_dup(name);
+    if (!sac_vars_delete_var(vars, s1)) {
+        error(*nerr = 1205, "%s", s1);
+    }
+    free(s1);
 }
-

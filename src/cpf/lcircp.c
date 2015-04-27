@@ -31,62 +31,55 @@
  *
  */
 int
-lcircp(int  intmn, 
-       int  intmx, 
-       int *intv1, 
-       int *intv2) {
+lcircp(int intmn, int intmx, int *intv1, int *intv2) {
 
-	int lcircp_v;
-	int iv, nerr;
-  Token *t;
+    int lcircp_v;
+    int iv, nerr;
+    Token *t;
 
-	/* - Get real variable from next symbol.
-	 * - Check variable against allowed range.
-	 * - Perform standard command error recovery if not found.
-	 * - Repeat for second real. */
-L_2000:
-  if((t = arg()) && token_is_int(t)) {
-		lcircp_v = TRUE;
-		iv = token_as_int(t);
-		if( iv >= intmn && iv <= intmx ){
-			*intv1 = iv;
-      arg_next();
-L_3000:
-      if((t = arg()) && token_is_int(t)) {
-				iv = token_as_int(t);
-				if( iv >= *intv1 && iv <= intmx ){
-					*intv2 = iv;
-          arg_next();
-				}
-				else{
-					cfmt( "OUTSIDE ALLOWED RANGE:",24 );
-          fprintf(stdout," Allowed range is: %10d%10d\n", *intv1, intmx );
-					cresp();
-					if( lcmore( &nerr ) )
-						goto L_3000;
-					lcircp_v = TRUE;
-				}
-			}
-			else{
-				cfmt( "NEED A INTEGER VARIABLE:",26 );
-				cresp();
-				if( lcmore( &nerr ) )
-					goto L_2000;
-				lcircp_v = TRUE;
-			}
-		}
-		else{
-			cfmt( "OUTSIDE ALLOWED RANGE:",24 );
-      fprintf(stdout," Allowed range is: %10d%10d\n", intmn, intmx );
-			cresp();
-			if( lcmore( &nerr ) )
-				goto L_2000;
-		}
-	}
-	else{
-		lcircp_v = FALSE;
-	}
+    /* - Get real variable from next symbol.
+     * - Check variable against allowed range.
+     * - Perform standard command error recovery if not found.
+     * - Repeat for second real. */
+  L_2000:
+    if ((t = arg()) && token_is_int(t)) {
+        lcircp_v = TRUE;
+        iv = token_as_int(t);
+        if (iv >= intmn && iv <= intmx) {
+            *intv1 = iv;
+            arg_next();
+          L_3000:
+            if ((t = arg()) && token_is_int(t)) {
+                iv = token_as_int(t);
+                if (iv >= *intv1 && iv <= intmx) {
+                    *intv2 = iv;
+                    arg_next();
+                } else {
+                    cfmt("OUTSIDE ALLOWED RANGE:", 24);
+                    fprintf(stdout, " Allowed range is: %10d%10d\n", *intv1,
+                            intmx);
+                    cresp();
+                    if (lcmore(&nerr))
+                        goto L_3000;
+                    lcircp_v = TRUE;
+                }
+            } else {
+                cfmt("NEED A INTEGER VARIABLE:", 26);
+                cresp();
+                if (lcmore(&nerr))
+                    goto L_2000;
+                lcircp_v = TRUE;
+            }
+        } else {
+            cfmt("OUTSIDE ALLOWED RANGE:", 24);
+            fprintf(stdout, " Allowed range is: %10d%10d\n", intmn, intmx);
+            cresp();
+            if (lcmore(&nerr))
+                goto L_2000;
+        }
+    } else {
+        lcircp_v = FALSE;
+    }
 
-	return( lcircp_v );
+    return (lcircp_v);
 }
-

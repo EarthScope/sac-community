@@ -4,12 +4,13 @@
 #include "mach.h"
 #include "gtm.h"
 
-void /*FUNCTION*/ worldsector(xwcen, ywcen, radius, deg1, deg2, degi)
-double xwcen, ywcen, radius, deg1, deg2, degi;
+void /*FUNCTION*/
+worldsector(xwcen, ywcen, radius, deg1, deg2, degi)
+     double xwcen, ywcen, radius, deg1, deg2, degi;
 {
-	float rdeg, rdeg1, rdeg2, rdegi, x, y;
+    float rdeg, rdeg1, rdeg2, rdegi, x, y;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To plot a sector of a circle in world coordinate system.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -34,34 +35,32 @@ double xwcen, ywcen, radius, deg1, deg2, degi;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  861027
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Convert input angles which are in degrees to radians. */
-	rdeg1 = TORAD*deg1;
-	rdeg2 = TORAD*deg2;
-	rdegi = TORAD*degi;
+    /* PROCEDURE: */
+    /* - Convert input angles which are in degrees to radians. */
+    rdeg1 = TORAD * deg1;
+    rdeg2 = TORAD * deg2;
+    rdegi = TORAD * degi;
 
-	/* - Move to first data point. */
+    /* - Move to first data point. */
 
-	x = xwcen + radius*sin( rdeg1 );
-	y = ywcen + radius*cos( rdeg1 );
-	worldmove( x, y );
+    x = xwcen + radius * sin(rdeg1);
+    y = ywcen + radius * cos(rdeg1);
+    worldmove(x, y);
 
-	/* - Draw to rest of points on sector, using given increment. */
+    /* - Draw to rest of points on sector, using given increment. */
 
-        for( rdeg = rdeg1+rdegi; rdeg <= rdeg2; rdeg += rdegi) {
-		x = xwcen + radius*sin( rdeg );
-		y = ywcen + radius*cos( rdeg );
-		worlddraw( x, y );
-		}
+    for (rdeg = rdeg1 + rdegi; rdeg <= rdeg2; rdeg += rdegi) {
+        x = xwcen + radius * sin(rdeg);
+        y = ywcen + radius * cos(rdeg);
+        worlddraw(x, y);
+    }
 
-	/* - Draw to last point. */
+    /* - Draw to last point. */
 
-	x = xwcen + radius*sin( rdeg2 );
-	y = ywcen + radius*cos( rdeg2 );
-	worlddraw( x, y );
+    x = xwcen + radius * sin(rdeg2);
+    y = ywcen + radius * cos(rdeg2);
+    worlddraw(x, y);
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

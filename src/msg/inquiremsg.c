@@ -41,35 +41,29 @@
  * \date   890110:  Documented/Reviewed
  *
  */
-void 
-inquiremsg(FILE *unitnumber, 
-	   int  *activate, 
-	   int   send_[])
-{
-	int jtpmsg, jtpmsg_, junit;
+void
+inquiremsg(FILE * unitnumber, int *activate, int send_[]) {
+    int jtpmsg, jtpmsg_, junit;
 
-	int *const Send_ = &send_[0] - 1;
+    int *const Send_ = &send_[0] - 1;
 
-	junit = 1;
-L_100:
-	if( unitnumber == cmmsg.iunits[junit-1] ){
-		*activate = TRUE;
-		for( jtpmsg = 1; jtpmsg <= MTPMSG; jtpmsg++ ){
-			jtpmsg_ = jtpmsg - 1;
-			Send_[jtpmsg] = cmmsg.lsend[junit - 1][jtpmsg_];
-			}
-		}
-	else if( junit < cmmsg.nunits ){
-		junit = junit + 1;
-		goto L_100;
-		}
-	else{
-		*activate = FALSE;
-		for( jtpmsg = 1; jtpmsg <= MTPMSG; jtpmsg++ ){
-			Send_[jtpmsg] = FALSE;
-			}
-		}
+    junit = 1;
+  L_100:
+    if (unitnumber == cmmsg.iunits[junit - 1]) {
+        *activate = TRUE;
+        for (jtpmsg = 1; jtpmsg <= MTPMSG; jtpmsg++) {
+            jtpmsg_ = jtpmsg - 1;
+            Send_[jtpmsg] = cmmsg.lsend[junit - 1][jtpmsg_];
+        }
+    } else if (junit < cmmsg.nunits) {
+        junit = junit + 1;
+        goto L_100;
+    } else {
+        *activate = FALSE;
+        for (jtpmsg = 1; jtpmsg <= MTPMSG; jtpmsg++) {
+            Send_[jtpmsg] = FALSE;
+        }
+    }
 
-	return;
+    return;
 }
-

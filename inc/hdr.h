@@ -64,7 +64,6 @@
  *
  */
 
-
 #define SAC_VERSION_LOCATION              76
 #define SAC_HEADER_MAJOR_VERSION          6
 
@@ -72,8 +71,8 @@
 #define SAC_INT_UNDEFINED                (-12345)
 #define SAC_ENUM_UNDEFINED                SAC_INT_UNDEFINED
 #define SAC_LOGICAL_UNDEFINED             SAC_INT_UNDEFINED
-#define SAC_CHAR_UNDEFINED                "-12345  " /* Must be 8 characters */
-#define SAC_CHAR_UNDEFINED_2              "-12345          " /* Must be 16 characters */
+#define SAC_CHAR_UNDEFINED                "-12345  "    /* Must be 8 characters */
+#define SAC_CHAR_UNDEFINED_2              "-12345          "    /* Must be 16 characters */
 
 /** 
  * @param SAC_HEADER_FLOATS
@@ -83,7 +82,7 @@
  * @date 2009 Feb 15 was MFHDR
  *
  */
-#define SAC_HEADER_FLOATS                 70  /* 4 bytes  (real or float)    */
+#define SAC_HEADER_FLOATS                 70    /* 4 bytes  (real or float)    */
 /** 
  * @param SAC_HEADER_INTEGERS 
  *    Number of Integer values in the SAC Header
@@ -92,7 +91,7 @@
  * @date 2009 Feb 15 was MNHDR
  *
  */
-#define SAC_HEADER_INTEGERS               15 
+#define SAC_HEADER_INTEGERS               15
 
 /** 
  * @param SAC_HEADER_ENUMS
@@ -102,7 +101,7 @@
  * @date 2009 Feb 15 was MIHDR
  *
  */
-#define SAC_HEADER_ENUMS                  20 
+#define SAC_HEADER_ENUMS                  20
 /** 
  * @param SAC_HEADER_LOGICALS 
  *    Number of Logical values in the SAC Header
@@ -111,7 +110,7 @@
  * @date 2009 Feb 15 was MLHDR
  *
  */
-#define SAC_HEADER_LOGICALS               5   
+#define SAC_HEADER_LOGICALS               5
 /** 
  * @param SAC_HEADER_STRINGS
  *    Number of strings in the SAC Header.  The number here is in reality 
@@ -123,8 +122,8 @@
  * @date 2009 Feb 15 was MKHDR 
  *
  */
-#define SAC_HEADER_STRINGS                24  /* 9 bytes  (character or char)
-					       *   actually 23 + 1 */
+#define SAC_HEADER_STRINGS                24    /* 9 bytes  (character or char)
+                                                 *   actually 23 + 1 */
 
 /** 
  * @param SAC_HEADER_NUMBERS
@@ -145,8 +144,7 @@
  *       and a int or long int on 32 bit machines
  * 
  */
-#define SAC_HEADER_SIZEOF_NUMBER          4  
-
+#define SAC_HEADER_SIZEOF_NUMBER          4
 
 /** 
  * @param SAC_HEADER_STRING_LENGTH_FILE
@@ -154,7 +152,7 @@
  *    Strings are stored without the C string termination character
  * 
  */
-#define SAC_HEADER_STRING_LENGTH_FILE     8 
+#define SAC_HEADER_STRING_LENGTH_FILE     8
 
 /** 
  * @param SAC_HEADER_STRING_LENGTH
@@ -195,7 +193,6 @@
  * @date Feb 15 2009 was MHDRFILE
  */
 #define SAC_HEADER_WORDS_FILE             ( SAC_HEADER_SIZEOF_FILE / SAC_HEADER_SIZEOF_NUMBER )
-
 
 /** 
  * @param SAC_HEADER_STRING_SIZE_BYTES_FILE
@@ -249,17 +246,16 @@
  *
  * @date 2009 Feb 15 was MIV
  */
-#define SAC_ENUMS                         830 
+#define SAC_ENUMS                         830
 
 #define SAC_INT_DEFINED(x) ( x != SAC_INT_UNDEFINED )
 #define SAC_CHAR_DEFINED(x) ( strcasecmp(x, "-12345") != 0 && strcasecmp(x, SAC_CHAR_UNDEFINED) != 0 )
 
 struct t_cmhdr {
-  int   nvhdrc;                     /** Header Number */
-  int   linc;                       /* TRUE if INC option is set on lh. */
-  int   llh;	                    /* TRUE during the execution of xlh() */
+    int nvhdrc;                     /** Header Number */
+    int linc;                   /* TRUE if INC option is set on lh. */
+    int llh;                    /* TRUE during the execution of xlh() */
 } cmhdr;
-
 
 /* 	Note:  in the following list, ninf, nhst, and nsn were 
 	changed to norid, nevid, and nwfid respectively.  maf 961031 
@@ -268,6 +264,4 @@ struct t_cmhdr {
 	magnitude type (mb, ms, ml, etc.) and magnitude source ( ie
 	what institution measured the magnitude).  maf 970205 */
 
-
 #endif /* _HDR_H_ */
-

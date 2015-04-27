@@ -2,13 +2,14 @@
 #include "gd2.h"
 #include "debug.h"
 
-void /*FUNCTION*/ cursortext2(xloc, yloc, ktext, len)
-float *xloc, *yloc;
-char *ktext;
-int len;
+void /*FUNCTION*/
+cursortext2(xloc, yloc, ktext, len)
+     float *xloc, *yloc;
+     char *ktext;
+     int len;
 {
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To perform "cursor text input function on device 2 (SGF.)
 	 *=====================================================================
 	 * OUTPUT ARGUMENTS:
@@ -23,13 +24,12 @@ int len;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  870323
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - This is a no-op for this device-driver. */
-  UNUSED(len);
-  UNUSED(ktext);
-  UNUSED(yloc);
-  UNUSED(xloc);
-	return;
+    /* PROCEDURE: */
+    /* - This is a no-op for this device-driver. */
+    UNUSED(len);
+    UNUSED(ktext);
+    UNUSED(yloc);
+    UNUSED(xloc);
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

@@ -23,32 +23,27 @@
  * @date   820505:  Original version.
  *
  */
-void 
-xclogr(int    *log, 
-       double *real, 
-       int    *nerr) {
+void
+xclogr(int *log, double *real, int *nerr) {
 
-	*nerr = 0;
+    *nerr = 0;
 
-	/* - Loop on each token in command: */
-L_1000:
-	if( lcmore( nerr ) ){
+    /* - Loop on each token in command: */
+  L_1000:
+    if (lcmore(nerr)) {
 
-		/* -- Turn logical flag on/off. */
-		if( lclog( log ) ){
-		}
-		else if( lcreal( real ) ){
-			/* -- Change value of real variable and turn flag on. */
-			*log = TRUE;
-		}
-		else{
-			/* -- Bad syntax. */
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
-		}
-		goto L_1000;
-	}
+        /* -- Turn logical flag on/off. */
+        if (lclog(log)) {
+        } else if (lcreal(real)) {
+            /* -- Change value of real variable and turn flag on. */
+            *log = TRUE;
+        } else {
+            /* -- Bad syntax. */
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
+        goto L_1000;
+    }
 
-	return;
+    return;
 }
-

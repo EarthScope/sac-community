@@ -29,36 +29,34 @@
  *    Swap the buffer if necessary
  *
  */
-void 
-map_hdr_in(float *memarray,
-	   float *buffer,
-	   int    lswap) {
+void
+map_hdr_in(float *memarray, float *buffer, int lswap) {
 
-  char *ptr1, *ptr2;
-  int idx;
+    char *ptr1, *ptr2;
+    int idx;
 
-  /* First get the header values for the non character   
-   * fields fhdr, nhdr, ihdr and lhdr.  These are copied 
-   * straight across.                                    
-   */
-  ptr1 = (char *)memarray;
-  ptr2 = (char *)buffer;
+    /* First get the header values for the non character   
+     * fields fhdr, nhdr, ihdr and lhdr.  These are copied 
+     * straight across.                                    
+     */
+    ptr1 = (char *) memarray;
+    ptr2 = (char *) buffer;
 
-  memcpy(ptr1,ptr2, SAC_HEADER_NUMBERS * sizeof(float));
+    memcpy(ptr1, ptr2, SAC_HEADER_NUMBERS * sizeof(float));
 
-  /* byteswap numeric data if necessary. */
-  if( lswap ){
-    for( idx = 0 ; idx < SAC_HEADER_NUMBERS ; idx++, ptr1 += SAC_HEADER_SIZEOF_NUMBER )
-      byteswap( (void *)ptr1, SAC_HEADER_SIZEOF_NUMBER ) ;
-  }
-  
-  /* Now copy the character variables into the memory    
-   * buffer, supplying the additional null termination   
-   * character.                                          
-   */
-  map_chdr_in(memarray + SAC_HEADER_NUMBERS, 
-              buffer + SAC_HEADER_NUMBERS);
+    /* byteswap numeric data if necessary. */
+    if (lswap) {
+        for (idx = 0; idx < SAC_HEADER_NUMBERS;
+             idx++, ptr1 += SAC_HEADER_SIZEOF_NUMBER)
+            byteswap((void *) ptr1, SAC_HEADER_SIZEOF_NUMBER);
+    }
 
-  return;
+    /* Now copy the character variables into the memory    
+     * buffer, supplying the additional null termination   
+     * character.                                          
+     */
+    map_chdr_in(memarray + SAC_HEADER_NUMBERS, buffer + SAC_HEADER_NUMBERS);
+
+    return;
 
 }

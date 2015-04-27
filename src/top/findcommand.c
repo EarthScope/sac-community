@@ -8,19 +8,17 @@
 #include "site.h"
 #include "comlists.h"
 
-
 #include "ucf.h"
 
-void /*FUNCTION*/ findcommand(kcommand, lfind, module, index)
-char *kcommand;
-int *lfind;
-int *module, *index;
+void /*FUNCTION*/
+findcommand(kcommand, lfind, module, index)
+     char *kcommand;
+     int *lfind;
+     int *module, *index;
 {
-	int istart, j, j_, jfind, nentries;
+    int istart, j, j_, jfind, nentries;
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To find and validate the named SAC command.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -55,58 +53,58 @@ int *module, *index;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900804
 	 *===================================================================== */
-	/* PROCEDURE: */
+    /* PROCEDURE: */
 
-	/* - First sequentially search list of "external" commands.
-	 *   These commands are ones that have been dynamically loaded.
-	 *   If found set module number and command index number and return. */
+    /* - First sequentially search list of "external" commands.
+     *   These commands are ones that have been dynamically loaded.
+     *   If found set module number and command index number and return. */
 
-	for( j = 1; j <= cmcomlists.nextcomnames; j++ ){
-		j_ = j - 1;
-		if( memcmp(kcommand,kmcomlists.kextcomnames[j_],strlen(kcommand)) == 0 ){
-			*lfind = TRUE;
-			*module = MODULEEXTCOM;
-			*index = Iextcomindex[j];
-			goto L_8888;
-			}
-		}
+    for (j = 1; j <= cmcomlists.nextcomnames; j++) {
+        j_ = j - 1;
+        if (memcmp(kcommand, kmcomlists.kextcomnames[j_], strlen(kcommand)) ==
+            0) {
+            *lfind = TRUE;
+            *module = MODULEEXTCOM;
+            *index = Iextcomindex[j];
+            goto L_8888;
+        }
+    }
 
-	/* - Next sequentially search list of "site dependent" commands.
-	 *   These commands are ones that have been statically loaded
-	 *   in the site dependent module. 
-	 *   If found set module number and command index number and return. */
+    /* - Next sequentially search list of "site dependent" commands.
+     *   These commands are ones that have been statically loaded
+     *   in the site dependent module. 
+     *   If found set module number and command index number and return. */
 
-	for( j = 1; j <= cmsite.nsitecomnames; j++ ){
-		j_ = j - 1;
-		if( memcmp(kcommand,kmsite.ksitecomnames[j_],strlen(kcommand)) == 0 ){
-			*lfind = TRUE;
-			*module = MODULESITECOM;
-			*index = cmsite.isitecomindex[j-1];
-			goto L_8888;
-			}
-		}
+    for (j = 1; j <= cmsite.nsitecomnames; j++) {
+        j_ = j - 1;
+        if (memcmp(kcommand, kmsite.ksitecomnames[j_], strlen(kcommand)) == 0) {
+            *lfind = TRUE;
+            *module = MODULESITECOM;
+            *index = cmsite.isitecomindex[j - 1];
+            goto L_8888;
+        }
+    }
 
-	/* - If not found, perform a binary search on the current list of 
-	 *   legitimate internal SAC commands. */
+    /* - If not found, perform a binary search on the current list of 
+     *   legitimate internal SAC commands. */
 
-	istart = Icomliststart[cmcomlists.icomlist];
-	nentries = Ncomlistentries[cmcomlists.icomlist];
-	*lfind = lbsrch( kcommand, MCPW, (char*)kmcomlists.kcomnames_full[istart - 1]
-	 ,30, nentries, &jfind );
+    istart = Icomliststart[cmcomlists.icomlist];
+    nentries = Ncomlistentries[cmcomlists.icomlist];
+    *lfind =
+        lbsrch(kcommand, MCPW, (char *) kmcomlists.kcomnames_full[istart - 1]
+               , 30, nentries, &jfind);
 
-	/* - Return internal module and index numbers if this search was successful. */
+    /* - Return internal module and index numbers if this search was successful. */
 
-	if( *lfind ){
-		*module = Icommodule[istart + jfind - 1];
-		*index = Icomindex[istart + jfind - 1];
-		}
-	else{
-		*module = 0;
-		*index = 0;
-		}
+    if (*lfind) {
+        *module = Icommodule[istart + jfind - 1];
+        *index = Icomindex[istart + jfind - 1];
+    } else {
+        *module = 0;
+        *index = 0;
+    }
 
-L_8888:
-	return;
+  L_8888:
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

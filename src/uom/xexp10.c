@@ -7,17 +7,17 @@
 #include "hdr.h"
 #include "bool.h"
 
-
 #include "ucf.h"
 #include "dff.h"
 
-void /*FUNCTION*/ xexp10(nerr)
-int *nerr;
+void /*FUNCTION*/
+xexp10(nerr)
+     int *nerr;
 {
-	int j, jdfl;
-  sac *s;
+    int j, jdfl;
+    sac *s;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To parse and execute the action command EXP10.
 	 *          This command computes 10.**y where y is each data point.
 	 *=====================================================================
@@ -37,58 +37,58 @@ int *nerr;
 	 * SUBROUTINES CALLED:
 	 *    SACLIB:  VFLIST, VFTIME, GETFIL, EXTRMA, PUTFIL
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* CHECKING PHASE: */
+    /* CHECKING PHASE: */
 
-	/* - Test for a non-null data file list. */
+    /* - Test for a non-null data file list. */
 
-	vflist( nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    vflist(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* - Make sure each file is a time series file. */
+    /* - Make sure each file is a time series file. */
 
-	vftime( nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    vftime(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* EXECUTION PHASE: */
+    /* EXECUTION PHASE: */
 
-	/* - For each file in DFL: */
+    /* - For each file in DFL: */
 
-	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
+    for (jdfl = 1; jdfl <= saclen(); jdfl++) {
 
-		/* -- Get next file from the memory manager.
-		 *   (Header is moved into common blocks CMHDR and KMHDR.) */
-    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
-      goto L_8888;
+        /* -- Get next file from the memory manager.
+         *   (Header is moved into common blocks CMHDR and KMHDR.) */
+        if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
+            goto L_8888;
+        }
+        //getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
+
+        /* -- Perform operation. */
+        for (j = 0; j < s->h->npts; j++) {
+            s->y[j] = pow(10., s->y[j]);
+        }
+
+        /* -- Update any header fields that may have changed. */
+
+        extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax,
+               &s->h->depmen);
+
     }
-		//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
-		/* -- Perform operation. */
-		for( j = 0; j < s->h->npts; j++ ){
-      s->y[j] = pow(10.,s->y[j]);
-    }
+    /* - Calculate and set new range of dependent variable. */
 
-		/* -- Update any header fields that may have changed. */
+    setrng();
 
-		extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
+  L_8888:
+    return;
 
-		}
-
-	/* - Calculate and set new range of dependent variable. */
-
-	setrng();
-
-L_8888:
-	return;
-
-	/*=====================================================================
+        /*=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    831020:  Original version.
 	 *===================================================================== */
 
-} /* end of function */
-
+}                               /* end of function */

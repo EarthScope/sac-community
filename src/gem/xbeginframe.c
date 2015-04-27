@@ -2,17 +2,17 @@
 #include "gem.h"
 #include "bool.h"
 
-
 #include "gdm.h"
 #include "bot.h"
 #include "cpf.h"
 
-void /*FUNCTION*/ xbeginframe(nerr)
-int *nerr;
+void /*FUNCTION*/
+xbeginframe(nerr)
+     int *nerr;
 {
-	int lprint = FALSE ;
+    int lprint = FALSE;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To execute the action command BEGINFRAME.
 	 *           Allows multiple plots to a single graphics frame.
 	 *=====================================================================
@@ -34,50 +34,48 @@ int *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED: 
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* PARSING PHASE: */
+    /* PARSING PHASE: */
 
+    if (lcmore(nerr)) {
 
-	if ( lcmore( nerr ) ){
+        /* -- "PRINT":  print the final product. */
+        if (lckey("PRINT#$", 8)) {
+            lprint = TRUE;
+            lcchar(kmgem.kptrName, sizeof(kmgem.kptrName));
+        }
 
-	    /* -- "PRINT":  print the final product. */
-	    if( lckey( "PRINT#$", 8 ) ) {
-		lprint = TRUE ;
-		lcchar (  kmgem.kptrName , sizeof(kmgem.kptrName)); 
-	    }
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
+    }
 
-	    /* -- Bad syntax. */
-	    else{
-		cfmt( "ILLEGAL OPTION:",17 );
-		cresp();
-	    }
-	}
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
+    if (*nerr != 0)
+        goto L_8888;
 
-	if( *nerr != 0 )
-		goto L_8888;
+    /* EXECUTION PHASE: */
 
-	/* EXECUTION PHASE: */
+    /* - Begin graphics to the requested window. */
 
-	/* - Begin graphics to the requested window. */
+    beginframe(lprint, nerr);
 
-	beginframe( lprint , nerr );
+    if (*nerr != 0)
+        goto L_8888;
 
-	if ( *nerr != 0 )
-	    goto L_8888;
+    getvspace(&cmgem.view.xmin, &cmgem.view.xmax, &cmgem.view.ymin,
+              &cmgem.view.ymax);
 
-	getvspace( &cmgem.view.xmin, &cmgem.view.xmax, 
-                   &cmgem.view.ymin, &cmgem.view.ymax );
+    cmgem.lframe = FALSE;
 
-	cmgem.lframe = FALSE;
+  L_8888:
+    return;
 
-L_8888:
-	return;
-
-} /* end of function */
-
+}                               /* end of function */

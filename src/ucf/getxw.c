@@ -22,21 +22,19 @@
  * @date   850617:  getyw.c initial
  *
  */
-void getxw(double ywloc, 
-           float *xwloc) {
+void
+getxw(double ywloc, float *xwloc) {
 
-	int ioffst;
-  sac *s;
-	/* - Compute index offset into current array. */
-  if(!(s = sacget_current())) {
+    int ioffst;
+    sac *s;
+    /* - Compute index offset into current array. */
+    if (!(s = sacget_current())) {
+        return;
+    }
+    ioffst = (ywloc - s->h->b + 0.5 * s->h->delta) / s->h->delta;
+
+    /* - Return corresponding x world coordinate. */
+    *xwloc = s->y[ioffst];
+
     return;
-  }
-	ioffst = (ywloc - s->h->b + 0.5*s->h->delta)/ s->h->delta;
-
-
-	/* - Return corresponding x world coordinate. */
-	*xwloc = s->y[ioffst];
-
-	return;
 }
-

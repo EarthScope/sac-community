@@ -21,25 +21,18 @@
  * @date   861020:  Original version.
  *
  */
-void 
-getstatus(char *kstat,
-          int *ltrue)
-{
-	if( memcmp(kstat,"AN",2) == 0 || memcmp(kstat,"an",2) == 0 ){
-		*ltrue = cmgdm.lactiv || cmgdm.lpasiv;
-        }
-	else if( memcmp(kstat,"AC",2) == 0 || memcmp(kstat,"ac",2) == 0 ){
-		*ltrue = cmgdm.lactiv;
-        }
-	else if( kstat[0] == 'P' || kstat[0] == 'p' ){
-		*ltrue = cmgdm.lpasiv;
-        }
-	else if( kstat[0] == 'C' || kstat[0] == 'c' ){
-		*ltrue = cmgdm.lcur;
-        }
-	else{
-		*ltrue = FALSE;
-        }
+void
+getstatus(char *kstat, int *ltrue) {
+    if (memcmp(kstat, "AN", 2) == 0 || memcmp(kstat, "an", 2) == 0) {
+        *ltrue = cmgdm.lactiv || cmgdm.lpasiv;
+    } else if (memcmp(kstat, "AC", 2) == 0 || memcmp(kstat, "ac", 2) == 0) {
+        *ltrue = cmgdm.lactiv;
+    } else if (kstat[0] == 'P' || kstat[0] == 'p') {
+        *ltrue = cmgdm.lpasiv;
+    } else if (kstat[0] == 'C' || kstat[0] == 'c') {
+        *ltrue = cmgdm.lcur;
+    } else {
+        *ltrue = FALSE;
+    }
 
 }
-

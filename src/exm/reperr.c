@@ -23,13 +23,12 @@
  * @date   860206:  Original version.
  *
  */
-void 
+void
 reperr(int nerr) {
 
-	/* - Send SAC error status to global variable file. */
-	/* - Also send the error number. */
-  setbb("sacerror", VAR_STRING, (nerr) ? "TRUE" : "FALSE");
-  setbb("numerror", VAR_INTEGER, nerr);
-	return;
+    /* - Send SAC error status to global variable file. */
+    /* - Also send the error number. */
+    setbb("sacerror", VAR_STRING, (nerr) ? "TRUE" : "FALSE");
+    setbb("numerror", VAR_INTEGER, nerr);
+    return;
 }
-

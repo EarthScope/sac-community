@@ -25,16 +25,13 @@
  * @note Only calls co/zclosec()
  *
  */
-void 
-zclose(int *nfu, 
-       int *nerr)
-{
-	*nerr = 0;
-	if( *nfu < 0 ){
-	  zclosec( (int *) nfu );
-	}
-  *nfu = 0;
+void
+zclose(int *nfu, int *nerr) {
+    *nerr = 0;
+    if (*nfu < 0) {
+        zclosec((int *) nfu);
+    }
+    *nfu = 0;
 
-	return;
+    return;
 }
-

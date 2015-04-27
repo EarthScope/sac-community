@@ -18,21 +18,21 @@
  * @date   810415:  Original version.
  *
  */
-void 
+void
 inibom() {
 
-	cmbom.nbfl = 0;
+    cmbom.nbfl = 0;
 
-	strcpy( kmbom.kecnpt, "FATAL   " );
-	strcpy( kmbom.kecdel, "FATAL   " );
+    strcpy(kmbom.kecnpt, "FATAL   ");
+    strcpy(kmbom.kecdel, "FATAL   ");
 
-	cmbom.ibflc = 0;
-	cmbom.ndxhbf = 0;
-	cmbom.ndx1bf = 0;
-	cmbom.ndx2bf = 0;
+    cmbom.ibflc = 0;
+    cmbom.ndxhbf = 0;
+    cmbom.ndx1bf = 0;
+    cmbom.ndx2bf = 0;
 
-	/* by default, take header info from original file. maf 990526 */
-	cmbom.lnewhdr = FALSE ;
+    /* by default, take header info from original file. maf 990526 */
+    cmbom.lnewhdr = FALSE;
 
-	return;
+    return;
 }

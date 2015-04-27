@@ -4,17 +4,17 @@
 #include "dfm.h"
 #include "amf.h"
 
-
 #include "ucf.h"
 #include "dff.h"
 
-void DBwfToSac ( s , seis , nerr )
-int * nerr ;
-sac *s;
-struct trace *seis ;
+void
+DBwfToSac(s, seis, nerr)
+     int *nerr;
+     sac *s;
+     struct trace *seis;
 {
     /* Declare Variables. */
-  int idx, jcomp, numrd;
+    int idx, jcomp, numrd;
     float unused, *pArray;
     int ncomp;
     /*=====================================================================
@@ -31,30 +31,32 @@ struct trace *seis ;
      *    971202:  Original version.  maf
      *===================================================================== */
 
-    *nerr = 0 ;
+    *nerr = 0;
     /* - Define number of points to read and initial disk location. */
     numrd = s->m->nstop - s->m->nstart + 1 - s->m->nfillb - s->m->nfille;
 
     ncomp = sac_comps(s);
     /* - For each data component: */
-    for( jcomp = 0, pArray = seis->i ; jcomp < ncomp; jcomp++, pArray = seis->r ){
-      cut(pArray, s->m->nstart, s->m->nstop, s->m->nfillb, s->m->nfille, s->y);
-      if ( cmdfm.lscale && s->h->scale != SAC_FLOAT_UNDEFINED && s->h->scale != 1.0 ) {
-        for(idx = 0; idx < numrd; idx++) {
-          s->y[idx] *= s->h->scale;
+    for (jcomp = 0, pArray = seis->i; jcomp < ncomp; jcomp++, pArray = seis->r) {
+        cut(pArray, s->m->nstart, s->m->nstop, s->m->nfillb, s->m->nfille,
+            s->y);
+        if (cmdfm.lscale && s->h->scale != SAC_FLOAT_UNDEFINED &&
+            s->h->scale != 1.0) {
+            for (idx = 0; idx < numrd; idx++) {
+                s->y[idx] *= s->h->scale;
+            }
+            s->h->scale = 1.0;
         }
-        s->h->scale = 1.0;
-      }
     }
 
     /* - Compute some header values. */
-    extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
-    if( s->h->leven ){
-      s->h->e = s->h->b + (float)( s->h->npts - 1 )* s->h->delta;
+    extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen);
+    if (s->h->leven) {
+        s->h->e = s->h->b + (float) (s->h->npts - 1) * s->h->delta;
     } else {
-      extrma( s->x, 1, s->h->npts, &s->h->b, &s->h->e, &unused );
+        extrma(s->x, 1, s->h->npts, &s->h->b, &s->h->e, &unused);
     }
 
     return;
 
-} /* end DBwfToSac */
+}                               /* end DBwfToSac */

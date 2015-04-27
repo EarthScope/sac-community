@@ -48,20 +48,15 @@
  *
  */
 int
-lkchar(char *kkey, 
-       int   kkey_s, 
-       int   mchar, 
-       char *kchar, 
-       int   kchar_s, 
-       int  *nchar) {
-  UNUSED(kchar_s);
-	/* - Check for key. */
-	if(!lckey( kkey,kkey_s )) {
-		return FALSE;
-  }
+lkchar(char *kkey, int kkey_s, int mchar, char *kchar, int kchar_s, int *nchar) {
+    UNUSED(kchar_s);
+    /* - Check for key. */
+    if (!lckey(kkey, kkey_s)) {
+        return FALSE;
+    }
 
-  lcchar(kchar, mchar);
-  *nchar = strlen(kchar);
-  return TRUE;
+    lcchar(kchar, mchar);
+    *nchar = strlen(kchar);
+    return TRUE;
 
 }

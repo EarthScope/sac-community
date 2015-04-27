@@ -5,7 +5,6 @@
 #include "hdr.h"
 #include "bool.h"
 
-
 #include "msg.h"
 #include "exm.h"
 #include "cpf.h"
@@ -14,15 +13,14 @@
 sac *spe;
 float *specor, *spepe, *spespe, *speaux;
 
-void /*FUNCTION*/ xspe(linit, nerr)
-int linit;
-int *nerr;
+void /*FUNCTION*/
+xspe(linit, nerr)
+     int linit;
+     int *nerr;
 {
-	int  firstPowerOf2;
+    int firstPowerOf2;
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To initialize the Spectral Estimation Subprocess.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -54,77 +52,77 @@ int *nerr;
 	 *    NDX1:    Index to beginning of data. [i]
 	 *    NLEN:    Number of samples in data. [i]
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* - Make sure there is only one file in DFL and that it is evenly spaced. */
+    /* - Make sure there is only one file in DFL and that it is evenly spaced. */
 
-	vflist( nerr );
-	if( *nerr != 0 ){
-	    cmspe.lfile = FALSE;
-	    goto L_8888;
-	}
+    vflist(nerr);
+    if (*nerr != 0) {
+        cmspe.lfile = FALSE;
+        goto L_8888;
+    }
 
-	/* - Make sure that there is only one file in DFL. */
+    /* - Make sure that there is only one file in DFL. */
 
-	if( saclen() > 1 ){
-	    *nerr = 5002;
-	    setmsg( "ERROR", *nerr );
-	    cmspe.lfile = FALSE;
-	    goto L_8888;
-	}
+    if (saclen() > 1) {
+        *nerr = 5002;
+        setmsg("ERROR", *nerr);
+        cmspe.lfile = FALSE;
+        goto L_8888;
+    }
 
-	/* - Check to make sure all files are evenly spaced time series files. */
+    /* - Check to make sure all files are evenly spaced time series files. */
 
-	vfeven( nerr );
-	if( *nerr != 0 ){
-	    cmspe.lfile = FALSE;
-	    goto L_8888;
-	}
+    vfeven(nerr);
+    if (*nerr != 0) {
+        cmspe.lfile = FALSE;
+        goto L_8888;
+    }
 
-	/* - Get the file from memory or disk. */
-  if(!(spe = sacget(0, TRUE, nerr))) {
-    goto L_8888;
-  }
-	//getfil( 1, TRUE, &nlen, &ndx1, &ndx2, nerr );
+    /* - Get the file from memory or disk. */
+    if (!(spe = sacget(0, TRUE, nerr))) {
+        goto L_8888;
+    }
+    //getfil( 1, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
-	/* - Get work space from memory manager. */
+    /* - Get work space from memory manager. */
 
-	/* Find first power of two greater than or equal to nlen. maf 980527 */
-	firstPowerOf2 = MINPOW ;
-	while ( firstPowerOf2 < spe->h->npts )
-	    firstPowerOf2 *= 2 ;
+    /* Find first power of two greater than or equal to nlen. maf 980527 */
+    firstPowerOf2 = MINPOW;
+    while (firstPowerOf2 < spe->h->npts)
+        firstPowerOf2 *= 2;
 
-	cmspe.firstPowerOf2 = firstPowerOf2 ;
+    cmspe.firstPowerOf2 = firstPowerOf2;
 
-  specor = (float *) malloc(sizeof(float) * firstPowerOf2 * 2);
-  spepe = (float *) malloc(sizeof(float) * MLNPE);
-  spespe = (float *) malloc(sizeof(float) * firstPowerOf2);
-  speaux = (float *) malloc(sizeof(float) * firstPowerOf2 * 5);
+    specor = (float *) malloc(sizeof(float) * firstPowerOf2 * 2);
+    spepe = (float *) malloc(sizeof(float) * MLNPE);
+    spespe = (float *) malloc(sizeof(float) * firstPowerOf2);
+    speaux = (float *) malloc(sizeof(float) * firstPowerOf2 * 5);
 
-        /* - If this is an initialization call, send confirming message
-         *   and change to the proper subprocess command list. */
+    /* - If this is an initialization call, send confirming message
+     *   and change to the proper subprocess command list. */
 
-        if( linit ){
-            setmsg( "OUTPUT", 5001 );
-            outmsg();
-            setcomlist( 2 );
-            setprompt( "SAC/SPE>",9 );
-        }
+    if (linit) {
+        setmsg("OUTPUT", 5001);
+        outmsg();
+        setcomlist(2);
+        setprompt("SAC/SPE>", 9);
+    }
 
-	/* - Set some global values to their initial values. */
+    /* - Set some global values to their initial values. */
 
-        //cmspe.ndxdat = spe;//ndx1;
-        cmspe.nlndat = spe->h->npts;//nlen;
-	cmspe.lfile = TRUE;
-	cmspe.lcor = FALSE;
-	cmspe.lspe = FALSE;
-	cmspe.samfrq = 1./ spe->h->delta;
+    //cmspe.ndxdat = spe;//ndx1;
+    cmspe.nlndat = spe->h->npts;        //nlen;
+    cmspe.lfile = TRUE;
+    cmspe.lcor = FALSE;
+    cmspe.lspe = FALSE;
+    cmspe.samfrq = 1. / spe->h->delta;
 
-L_8888:
-	return;
+  L_8888:
+    return;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    990224:  Reorganized so that if it fails, main mode is preserved
 	 *    850801:  Changes due to new memory manager.
@@ -135,5 +133,4 @@ L_8888:
 	 * DOCUMENTED/REVIEWED:  850801
 	 *===================================================================== */
 
-} /* end of function */
-
+}                               /* end of function */

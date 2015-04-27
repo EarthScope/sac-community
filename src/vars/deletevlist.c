@@ -43,18 +43,13 @@
  * @date   890727:  Documented/Reviewed
  *
  */
-void 
-deletevlist(char  *vars, 
-	    int    vars_s, 
-	    char  *mode, 
-	    int   *nerr)
-{
-	*nerr = 0;
-  UNUSED(vars_s);
-  UNUSED(mode);
-  if(!sac_vars_delete(vars)) {
-    error(*nerr = 1205, "%s", vars);
-  }
-	return;
+void
+deletevlist(char *vars, int vars_s, char *mode, int *nerr) {
+    *nerr = 0;
+    UNUSED(vars_s);
+    UNUSED(mode);
+    if (!sac_vars_delete(vars)) {
+        error(*nerr = 1205, "%s", vars);
+    }
+    return;
 }
-

@@ -21,23 +21,22 @@
  * @date   870317:  Added call to free font.
  * @date   870223:  Original Version
  */
-void 
-enddevice3(int *nerr)
-{
-  int i;
-  XScreen *xs;
- 
-  xs = xscreen_get();
+void
+enddevice3(int *nerr) {
+    int i;
+    XScreen *xs;
 
-  *nerr = 0;
+    xs = xscreen_get();
 
-  /* Destroy window activity and set status flag */
-  c_win3 = 0;
-  for (i=1; i <= num_wins3; i++) {
-    basew3[i].status = UNAVAILABLE;
-  }
+    *nerr = 0;
 
-  /*  Close window display */
-  XCloseDisplay(xs->display);
-  
+    /* Destroy window activity and set status flag */
+    c_win3 = 0;
+    for (i = 1; i <= num_wins3; i++) {
+        basew3[i].status = UNAVAILABLE;
+    }
+
+    /*  Close window display */
+    XCloseDisplay(xs->display);
+
 }

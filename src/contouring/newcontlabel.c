@@ -13,14 +13,14 @@
 #include "contouring.h"
 extern struct contour contour;
 
-void 
+void
 newcontlabel(jpoint, jtype, angle, jtext, number)
-int jpoint, jtype;
-double angle;
-int jtext, *number;
+     int jpoint, jtype;
+     double angle;
+     int jtext, *number;
 {
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To put information about a new contouring line label.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -47,19 +47,17 @@ int jtext, *number;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900418
 	 *===================================================================== */
-	/* PROCEDURE: */
-	if( cmcontouring.numlabels < cmcontouring.maxlabels ){
-		cmcontouring.numlabels = cmcontouring.numlabels + 1;
-		*number = cmcontouring.numlabels;
-    contour.label[*number-1].point = jpoint;
-    contour.label[*number-1].type  = jtype;
-    contour.label[*number-1].angle = angle;
-    contour.label[*number-1].text  = jtext;
-	}
-	else{
-		fprintf( stdout, "No more room for label storage.\n" );
-		exit(0);
-	}
-	return;
+    /* PROCEDURE: */
+    if (cmcontouring.numlabels < cmcontouring.maxlabels) {
+        cmcontouring.numlabels = cmcontouring.numlabels + 1;
+        *number = cmcontouring.numlabels;
+        contour.label[*number - 1].point = jpoint;
+        contour.label[*number - 1].type = jtype;
+        contour.label[*number - 1].angle = angle;
+        contour.label[*number - 1].text = jtext;
+    } else {
+        fprintf(stdout, "No more room for label storage.\n");
+        exit(0);
+    }
+    return;
 }
-

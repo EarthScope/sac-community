@@ -21,34 +21,32 @@
  * @date   861020:  Original version.
  *
  */
-void 
-getalphainfo(int *nlines, char *erase, int erase_s)
-{
+void
+getalphainfo(int *nlines, char *erase, int erase_s) {
 
-        int nerr;
-        int ncols;
-        int i, n;
-        display_t **dev;
-        n   = gdm_get_ndevices();
-        dev = gdm_get_devices();
+    int nerr;
+    int ncols;
+    int i, n;
+    display_t **dev;
+    n = gdm_get_ndevices();
+    dev = gdm_get_devices();
 
-	/* - Inquire about text values from appropriate graphics devies. */
+    /* - Inquire about text values from appropriate graphics devies. */
 
-        *nlines = -1;
-        fstrncpy( erase, erase_s-1, " ", 1 );
-        for(i = 0; i < n; i++) {
-          if(dev[i]->on && dev[i]->get_alpha_info) {
+    *nlines = -1;
+    fstrncpy(erase, erase_s - 1, " ", 1);
+    for (i = 0; i < n; i++) {
+        if (dev[i]->on && dev[i]->get_alpha_info) {
             dev[i]->get_alpha_info(nlines, erase, erase_s);
-          }
         }
+    }
 
-        if(*nlines == -1) {
-          zgwindowsize_(nlines, &ncols, &nerr);
-          if(nerr) {
+    if (*nlines == -1) {
+        zgwindowsize_(nlines, &ncols, &nerr);
+        if (nerr) {
             *nlines = 23;
-          }
         }
-        return;
+    }
+    return;
 
 }
-

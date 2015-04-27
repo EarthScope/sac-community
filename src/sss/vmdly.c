@@ -8,18 +8,18 @@
 #include "hdr.h"
 #include "bool.h"
 
-
 #include "msg.h"
 #include "clf.h"
 
-void /*FUNCTION*/ vmdly(nerr)
-int *nerr;
+void /*FUNCTION*/
+vmdly(nerr)
+     int *nerr;
 {
-	int lmissd;
-	int jdfl;
-	float dstsq, t0vmsq, vappsq;
-  sac *s;
-	/*=====================================================================
+    int lmissd;
+    int jdfl;
+    float dstsq, t0vmsq, vappsq;
+    sac *s;
+        /*=====================================================================
 	 * PURPOSE:  To calculate delays for files in stack file list.
 	 *=====================================================================
 	 * OUTPUT ARGUMENTS:
@@ -53,57 +53,53 @@ int *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  881117
 	 *===================================================================== */
-	/* PROCECURE: */
-	*nerr = 0;
+    /* PROCECURE: */
+    *nerr = 0;
 
-	/* - Check for traces with missing distances. */
+    /* - Check for traces with missing distances. */
 
-	lmissd = FALSE;
-	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
-		if( Dst[jdfl] == SAC_FLOAT_UNDEFINED ){
-			if( !lmissd ){
-				*nerr = 5104;
-				setmsg( "ERROR", *nerr );
-				lmissd = TRUE;
-				}
-      if(!(s = sacget(jdfl-1, FALSE, nerr))) {
+    lmissd = FALSE;
+    for (jdfl = 1; jdfl <= saclen(); jdfl++) {
+        if (Dst[jdfl] == SAC_FLOAT_UNDEFINED) {
+            if (!lmissd) {
+                *nerr = 5104;
+                setmsg("ERROR", *nerr);
+                lmissd = TRUE;
+            }
+            if (!(s = sacget(jdfl - 1, FALSE, nerr))) {
+                goto L_8888;
+            }
+            apcmsg2(s->m->filename, strlen(s->m->filename) + 1);
+        }
+    }
+    if (lmissd)
         goto L_8888;
-      }
-      apcmsg2(s->m->filename, strlen(s->m->filename)+1);
-			}
-		}
-	if( lmissd )
-		goto L_8888;
 
-	/* - Calculate delays. */
+    /* - Calculate delays. */
 
-	/* -- Normal moveout delays. */
-	if( Ivm[1] == cmsss.inmo ){
-		vappsq = Vapp[1]*Vapp[1];
-		t0vmsq = T0vm[1]*T0vm[1];
-		for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
-			dstsq = Dst[jdfl]*Dst[jdfl];
-			Dlyvm[jdfl] = cmsss.tvm[0][0] - sqrt( t0vmsq + dstsq/vappsq );
-			}
+    /* -- Normal moveout delays. */
+    if (Ivm[1] == cmsss.inmo) {
+        vappsq = Vapp[1] * Vapp[1];
+        t0vmsq = T0vm[1] * T0vm[1];
+        for (jdfl = 1; jdfl <= saclen(); jdfl++) {
+            dstsq = Dst[jdfl] * Dst[jdfl];
+            Dlyvm[jdfl] = cmsss.tvm[0][0] - sqrt(t0vmsq + dstsq / vappsq);
+        }
 
-		/* -- Refracted wave delays. */
-		}
-	else if( Ivm[1] == cmsss.irefr ){
-		for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
-			Dlyvm[jdfl] = cmsss.tvm[0][0] - T0vm[1] - fabs( Dst[jdfl] )/
-			 Vapp[1];
-			}
+        /* -- Refracted wave delays. */
+    } else if (Ivm[1] == cmsss.irefr) {
+        for (jdfl = 1; jdfl <= saclen(); jdfl++) {
+            Dlyvm[jdfl] = cmsss.tvm[0][0] - T0vm[1] - fabs(Dst[jdfl]) / Vapp[1];
+        }
 
-		}
-	else{
-		*nerr = 5110;
-		setmsg( "ERROR", *nerr );
-		apimsg( Ivm[1] );
-		goto L_8888;
-		}
+    } else {
+        *nerr = 5110;
+        setmsg("ERROR", *nerr);
+        apimsg(Ivm[1]);
+        goto L_8888;
+    }
 
-L_8888:
-	return;
+  L_8888:
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

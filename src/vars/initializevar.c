@@ -20,24 +20,22 @@
  * @date   890227:  Documented/Reviewed
  *
  */
-void 
-initializevars()
-{
+void
+initializevars() {
 
-	/* - Return immediately if vars has already been initialized. */
-	if( cmvars.lvarsinit )
-		goto L_8888;
+    /* - Return immediately if vars has already been initialized. */
+    if (cmvars.lvarsinit)
+        goto L_8888;
 
-	/* - Initialize vars common block. */
-	inivars();
+    /* - Initialize vars common block. */
+    inivars();
 
-	/* - Initialize message handling subsystem. */
-	inimsg();
+    /* - Initialize message handling subsystem. */
+    inimsg();
 
-	/* - Set initialization flag. */
-	cmvars.lvarsinit = TRUE;
+    /* - Set initialization flag. */
+    cmvars.lvarsinit = TRUE;
 
-L_8888:
-	return;
+  L_8888:
+    return;
 }
-

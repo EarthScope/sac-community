@@ -3,10 +3,10 @@
 
 #include "site.h"
 
-void 
+void
 initsite() {
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: Variable initialization of site common block.
 	 *=====================================================================
 	 * MODULE/LEVEL:  site/4
@@ -35,18 +35,17 @@ initsite() {
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900804
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Initialize list of command names and index numbers. */
-	/*   (The following values are for testing only. They set up a single
-	 *   command called "testsite" and its abbreviation "tsite".) */
-	cmsite.nsitecomnames = 2;
-	strcpy( kmsite.ksitecomnames[0], "TESTSITE" );
-	cmsite.isitecomindex[0] = 1;
-	strcpy( kmsite.ksitecomnames[1], "TSITE   " );
-	cmsite.isitecomindex[1] = 1;
+    /* PROCEDURE: */
+    /* - Initialize list of command names and index numbers. */
+    /*   (The following values are for testing only. They set up a single
+     *   command called "testsite" and its abbreviation "tsite".) */
+    cmsite.nsitecomnames = 2;
+    strcpy(kmsite.ksitecomnames[0], "TESTSITE");
+    cmsite.isitecomindex[0] = 1;
+    strcpy(kmsite.ksitecomnames[1], "TSITE   ");
+    cmsite.isitecomindex[1] = 1;
 
-	/* - Initialize other global variables added to site common block here: */
-	return;
+    /* - Initialize other global variables added to site common block here: */
+    return;
 
 }
-

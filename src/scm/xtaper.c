@@ -14,14 +14,14 @@
 #include "dff.h"
 
 #define PI  M_PI
-void /*FUNCTION*/ xtaper(nerr)
-int *nerr;
+void /*FUNCTION*/
+xtaper(nerr)
+     int *nerr;
 {
-	int ipts, jdfl;
-  sac *s;
+    int ipts, jdfl;
+    sac *s;
 
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To execute the action command TAPER.
 	 *           This command tapers each end of all data files.
 	 *=====================================================================
@@ -52,87 +52,86 @@ int *nerr;
 	 *    NDXL:    Index to last data point in file. [i]
 	 *    VALUE:   Value of taper at each taper point. [f]
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* PARSING PHASE: */
+    /* PARSING PHASE: */
 
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-L_1000:
-	if( lcmore( nerr ) ){
+  L_1000:
+    if (lcmore(nerr)) {
 
-		/* -- Set type of taper. */
-		if( lklist( "TYPE$",6, (char*)kmsam.ktaptp,9, cmsam.ntaptp, 
-		 &cmsam.itaptp ) ){
+        /* -- Set type of taper. */
+        if (lklist
+            ("TYPE$", 6, (char *) kmsam.ktaptp, 9, cmsam.ntaptp,
+             &cmsam.itaptp)) {
 
-			/* -- Set taper width as fraction of total signal width. */
-			}
-		else if( lkrrc( "WIDTH$",7, 0., 1., &cmsam.widtap ) ){
+            /* -- Set taper width as fraction of total signal width. */
+        } else if (lkrrc("WIDTH$", 7, 0., 1., &cmsam.widtap)) {
 
-			/* -- Bad syntax. */
-			}
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
+            /* -- Bad syntax. */
+        } else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
 
-			}
-		goto L_1000;
+        }
+        goto L_1000;
 
-		}
-
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
-
-	if( *nerr != 0 )
-		goto L_8888;
-
-	/* CHECKING PHASE: */
-
-	/* - Check for null data file list. */
-
-	vflist( nerr );
-	if( *nerr != 0 )
-		goto L_8888;
-
-	/* - Check for evenly spaced time series files. */
-
-	vfeven( nerr );
-	if( *nerr != 0 )
-		goto L_8888;
-
-	/* EXECUTION PHASE: */
-
-	/* - Perform taper on each file in DFL. */
-
-	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
-    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
-      goto L_8888;
     }
-		/* -- Get next file from memory manager. */
-		//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
-		/* -- Determine number of points for taper. */
-    taper_width_to_points(cmsam.widtap, s->h->npts, &ipts);
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-    /* -- Taper */
-    taper(s->y, s->h->npts, cmsam.itaptp, ipts);
+    if (*nerr != 0)
+        goto L_8888;
 
-		/* -- Compute new extrema. */
-		extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
+    /* CHECKING PHASE: */
 
+    /* - Check for null data file list. */
 
-		}
+    vflist(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* - Calculate and set new range of dependent variable. */
+    /* - Check for evenly spaced time series files. */
 
-	setrng();
+    vfeven(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-L_8888:
-	return;
+    /* EXECUTION PHASE: */
 
-	/*=====================================================================
+    /* - Perform taper on each file in DFL. */
+
+    for (jdfl = 1; jdfl <= saclen(); jdfl++) {
+        if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
+            goto L_8888;
+        }
+        /* -- Get next file from memory manager. */
+        //getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
+
+        /* -- Determine number of points for taper. */
+        taper_width_to_points(cmsam.widtap, s->h->npts, &ipts);
+
+        /* -- Taper */
+        taper(s->y, s->h->npts, cmsam.itaptp, ipts);
+
+        /* -- Compute new extrema. */
+        extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax,
+               &s->h->depmen);
+
+    }
+
+    /* - Calculate and set new range of dependent variable. */
+
+    setrng();
+
+  L_8888:
+    return;
+
+        /*=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    850118:  Fixed bug in computing cosine taper.
 	 *             Added HANNING and HAMMING tapers.
@@ -148,5 +147,4 @@ L_8888:
 	 * DOCUMENTED/REVIEWED:  850118
 	 *===================================================================== */
 
-} /* end of function */
-
+}                               /* end of function */

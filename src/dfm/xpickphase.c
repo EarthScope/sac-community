@@ -10,7 +10,6 @@
 #include "dfm.h"
 #include "bool.h"
 
-
 #include "cpf.h"
 
 /** 
@@ -23,39 +22,39 @@
  * @date   970409:  Original version.
  *
  */
-void 
+void
 xpickphase(int *nerr) {
 
-    char prefsFileName [ MCPFN + 1 ] ;
+    char prefsFileName[MCPFN + 1];
 
     *nerr = 0;
 
     /* - Look for order dependance key, FILE
      * if no tokens present, assume FILE by default.
      */
-    if ( !lcmore( nerr ) || lckey ( "FILE$" , 6 ) ) {
-	/* get file name if present. */
-      if ( lcchar(prefsFileName , sizeof(prefsFileName)) ) {
-	    strcpy ( kmdfm.kprefsFileName , prefsFileName ) ;
-	}
-	/* get list of phases from user-defined file. */
-	getprefs ( FALSE , TRUE ) ;
-	return ;
+    if (!lcmore(nerr) || lckey("FILE$", 6)) {
+        /* get file name if present. */
+        if (lcchar(prefsFileName, sizeof(prefsFileName))) {
+            strcpy(kmdfm.kprefsFileName, prefsFileName);
+        }
+        /* get list of phases from user-defined file. */
+        getprefs(FALSE, TRUE);
+        return;
     }
 
     /* - Look for order dependance key, AUTHOR */
-    if ( lckey ( "AUTH#OR$" , 9 ) ) {
-	/* get file name if present. */
-      if ( lcchar(prefsFileName , sizeof(prefsFileName)) ) {
-	    strcpy ( kmdfm.kprefsFileName , prefsFileName ) ;
-	}
-	/* get authors and phases from the user-defined file. */
-	getprefs ( TRUE , TRUE ) ;
-	return ;
+    if (lckey("AUTH#OR$", 9)) {
+        /* get file name if present. */
+        if (lcchar(prefsFileName, sizeof(prefsFileName))) {
+            strcpy(kmdfm.kprefsFileName, prefsFileName);
+        }
+        /* get authors and phases from the user-defined file. */
+        getprefs(TRUE, TRUE);
+        return;
     }
 
     /* Loop through order independent keys, t0 - t9, picking up
        phases and authors. */
-    lkt ( nerr ) ;
-    return ;
+    lkt(nerr);
+    return;
 }

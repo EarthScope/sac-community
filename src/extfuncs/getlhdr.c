@@ -6,25 +6,27 @@
 #define SAC_LOG_NAME_FIELDS
 #include "extfunc.h"
 
-
-int getlhdr( header_in, fieldname, error )
-sac_header *header_in;
-char      *fieldname;
-int          *error;
+int
+getlhdr(header_in, fieldname, error)
+     sac_header *header_in;
+     char *fieldname;
+     int *error;
 
 {
-  int i;
+    int i;
 
-  *error = 0;
+    *error = 0;
 
-  for( i=0; i<MLHDR; i++){
-    if(!strcmp(fieldname,log_hdr_fields[i]))break;
-  }
+    for (i = 0; i < MLHDR; i++) {
+        if (!strcmp(fieldname, log_hdr_fields[i]))
+            break;
+    }
 
-  if( i<MLHDR ) return(header_in->ext_lhdr[i]);
-  else {
-    *error = 1;
-    return ((int)FALSE);
-  }
+    if (i < MLHDR)
+        return (header_in->ext_lhdr[i]);
+    else {
+        *error = 1;
+        return ((int) FALSE);
+    }
 
 }

@@ -11,25 +11,22 @@
 #define	MMSGDL	5
 #define	MTOKDL	5
 
-
 /** 
  * @struct kmtok
  *    Token Characters 
  */
 struct t_kmtok {
-  char ktokdl[MTOKDL];
-  char kmsgdl[MMSGDL];
+    char ktokdl[MTOKDL];
+    char kmsgdl[MMSGDL];
 } kmtok;
-
 
 /** 
  * @struct kmtok
  *    Token Lengths
  */
 struct t_cmtok {
-  int ntokdl;
-  int nmsgdl;
+    int ntokdl;
+    int nmsgdl;
 } cmtok;
-
 
 #endif /* _TOK_H_ */

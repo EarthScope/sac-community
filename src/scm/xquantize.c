@@ -16,17 +16,17 @@
 #include "cpf.h"
 #include "dff.h"
 
-void /*FUNCTION*/ xquantize(nerr)
-int *nerr;
+void /*FUNCTION*/
+xquantize(nerr)
+     int *nerr;
 {
-	int irange, ivalue, j, jdfl, jqgain, 
-	 nclip, nqgain;
-	float factor, half, temp;
+    int irange, ivalue, j, jdfl, jqgain, nclip, nqgain;
+    float factor, half, temp;
 
     char *tmp;
-  sac *s;
+    sac *s;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To parse and execute the action command QUANTIZE.
 	 *          This command quantizes the data in DFL.
 	 *=====================================================================
@@ -54,137 +54,132 @@ int *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  870217
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
     nqgain = 0;
-	/* PARSING PHASE */
+    /* PARSING PHASE */
 
-	/* - Loop on each token in command. */
+    /* - Loop on each token in command. */
 
-L_1000:
-	if( lcmore( nerr ) ){
+  L_1000:
+    if (lcmore(nerr)) {
 
-		/* -- "GAINS ilist":  list of allowed gains. */
-		if( lkia( "GAINS$",7, 1, MQGAIN, cmscm.iqgain, &nqgain ) ){
-			Iqgain[nqgain + 1] = 1;
+        /* -- "GAINS ilist":  list of allowed gains. */
+        if (lkia("GAINS$", 7, 1, MQGAIN, cmscm.iqgain, &nqgain)) {
+            Iqgain[nqgain + 1] = 1;
 
-			/* -- "LEVEL v":  quantization level for lowest gain. */
-			}
-		else if( lkreal( "LEVEL$",7, &cmscm.qlevel ) ){
+            /* -- "LEVEL v":  quantization level for lowest gain. */
+        } else if (lkreal("LEVEL$", 7, &cmscm.qlevel)) {
 
-			/* -- "MANTISSA n":  number of bits in mantissa. */
-			}
-		else if( lkint( "MANTISS$",9, &cmscm.nqmant ) ){
+            /* -- "MANTISSA n":  number of bits in mantissa. */
+        } else if (lkint("MANTISS$", 9, &cmscm.nqmant)) {
 
-			/* -- Bad syntax. */
-			}
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
+            /* -- Bad syntax. */
+        } else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
 
-			}
-		goto L_1000;
+        }
+        goto L_1000;
 
-		}
-
-	/* - The above loop is over when one of two conditions has beenmet:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0
-	 *   (2) All the tokens in the command have been successfully parsed */
-
-	if( *nerr != 0 )
-		goto L_8888;
-
-	/* CHECKING PHASE: */
-
-	/* - Test for a non-null data file list. */
-
-	vflist( nerr );
-	if( *nerr != 0 )
-		goto L_8888;
-
-	/* - Make sure each file is an evenly spaced time series file. */
-
-	vfeven( nerr );
-	if( *nerr != 0 )
-		goto L_8888;
-
-	/* - Make sure gains are monotonically decreasing. */
-
-	for( j = 2; j <= nqgain; j++ ){
-		if( Iqgain[j] >= Iqgain[j - 1] ){
-			*nerr = 2006;
-			setmsg( "ERROR", *nerr );
-			goto L_8888;
-			}
-		}
-
-	/* EXECUTION PHASE: */
-
-	/* - Convert number of bits in mantissa to maximum integer range. */
-
-	irange = (ipow(2,cmscm.nqmant) - 1)/2;
-
-	/* - Calculate scale factors. */
-
-	factor = cmscm.qlevel*(float)( Iqgain[1] );
-
-	/* - For each file in DFL: */
-
-	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
-
-		/* -- Get next file from the memory manager.
-		 *   (Header is moved into common blocks CMHDR and KMHDR.) */
-    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
-      goto L_8888;
-    }
-		//getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
-
-		/* -- For each data point in file:
-		 *    (1) Determine proper gain.
-		 *    (2) Store quantized value (using truncation model.) */
-
-		nclip = 0;
-		for( j = 0; j < s->h->npts; j++ ){
-			jqgain = 1;
-			temp = s->y[j];
-			half = sign( 0.5, temp );
-L_3000:
-			ivalue = (int)( half + temp*(float)( Iqgain[jqgain] )/
-			 factor );
-			if( labs( ivalue ) > irange ){
-				jqgain = jqgain + 1;
-				if( jqgain <= nqgain )
-					goto L_3000;
-				nclip = nclip + 1;
-				ivalue = irange + 1;
-				}
-			s->y[j] = (float)( ivalue )*factor/(float)( Iqgain[jqgain] );
     }
 
-		/* -- Write warning message if any data points clipped. */
+    /* - The above loop is over when one of two conditions has beenmet:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0
+     *   (2) All the tokens in the command have been successfully parsed */
 
-		if( nclip > 0 ){
-			setmsg( "WARNING", 1 );
-			apimsg( nclip );
-			apcmsg( "data point(s) clipped in file:",31 );
-      tmp = s->m->filename;
-            apcmsg2(tmp, strlen(tmp)+1);
-			wrtmsg( stdout );
-			}
+    if (*nerr != 0)
+        goto L_8888;
 
-		/* -- Update any header fields that may have changed. */
+    /* CHECKING PHASE: */
 
-		extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
+    /* - Test for a non-null data file list. */
 
+    vflist(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-		}
+    /* - Make sure each file is an evenly spaced time series file. */
 
-	/* - Calculate and set new range of dependent variable. */
+    vfeven(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	setrng();
+    /* - Make sure gains are monotonically decreasing. */
 
-L_8888:
-	return;
+    for (j = 2; j <= nqgain; j++) {
+        if (Iqgain[j] >= Iqgain[j - 1]) {
+            *nerr = 2006;
+            setmsg("ERROR", *nerr);
+            goto L_8888;
+        }
+    }
 
-} /* end of function */
+    /* EXECUTION PHASE: */
 
+    /* - Convert number of bits in mantissa to maximum integer range. */
+
+    irange = (ipow(2, cmscm.nqmant) - 1) / 2;
+
+    /* - Calculate scale factors. */
+
+    factor = cmscm.qlevel * (float) (Iqgain[1]);
+
+    /* - For each file in DFL: */
+
+    for (jdfl = 1; jdfl <= saclen(); jdfl++) {
+
+        /* -- Get next file from the memory manager.
+         *   (Header is moved into common blocks CMHDR and KMHDR.) */
+        if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
+            goto L_8888;
+        }
+        //getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
+
+        /* -- For each data point in file:
+         *    (1) Determine proper gain.
+         *    (2) Store quantized value (using truncation model.) */
+
+        nclip = 0;
+        for (j = 0; j < s->h->npts; j++) {
+            jqgain = 1;
+            temp = s->y[j];
+            half = sign(0.5, temp);
+          L_3000:
+            ivalue = (int) (half + temp * (float) (Iqgain[jqgain]) / factor);
+            if (labs(ivalue) > irange) {
+                jqgain = jqgain + 1;
+                if (jqgain <= nqgain)
+                    goto L_3000;
+                nclip = nclip + 1;
+                ivalue = irange + 1;
+            }
+            s->y[j] = (float) (ivalue) * factor / (float) (Iqgain[jqgain]);
+        }
+
+        /* -- Write warning message if any data points clipped. */
+
+        if (nclip > 0) {
+            setmsg("WARNING", 1);
+            apimsg(nclip);
+            apcmsg("data point(s) clipped in file:", 31);
+            tmp = s->m->filename;
+            apcmsg2(tmp, strlen(tmp) + 1);
+            wrtmsg(stdout);
+        }
+
+        /* -- Update any header fields that may have changed. */
+
+        extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax,
+               &s->h->depmen);
+
+    }
+
+    /* - Calculate and set new range of dependent variable. */
+
+    setrng();
+
+  L_8888:
+    return;
+
+}                               /* end of function */

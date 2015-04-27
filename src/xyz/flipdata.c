@@ -1,16 +1,17 @@
 
 #include "xyz.h"
 
-void /*FUNCTION*/ flipdata(olddata, lengthx, lengthy, newdata)
-float *olddata;
-int lengthx, lengthy;
-float *newdata;
+void /*FUNCTION*/
+flipdata(olddata, lengthx, lengthy, newdata)
+     float *olddata;
+     int lengthx, lengthy;
+     float *newdata;
 {
 #define OLDDATA(I_,J_)	(*(olddata+(I_)*(lengthx)+(J_)))
 #define NEWDATA(I_,J_)	(*(newdata+(I_)*(lengthy)+(J_)))
-	int jx, jx_, jy, jy_;
+    int jx, jx_, jy, jy_;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To flip the data in a two-dimensional array.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -29,19 +30,17 @@ float *newdata;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900308
 	 *===================================================================== */
-	/* - Copy each data point, flipping the indices. */
-	for( jx = 1; jx <= lengthx; jx++ ){
-		jx_ = jx - 1;
-		for( jy = 1; jy <= lengthy; jy++ ){
-			jy_ = jy - 1;
-			NEWDATA(jx_,jy_) = OLDDATA(jy_,jx_);
-			}
-		}
+    /* - Copy each data point, flipping the indices. */
+    for (jx = 1; jx <= lengthx; jx++) {
+        jx_ = jx - 1;
+        for (jy = 1; jy <= lengthy; jy++) {
+            jy_ = jy - 1;
+            NEWDATA(jx_, jy_) = OLDDATA(jy_, jx_);
+        }
+    }
 
-       
-	return;
+    return;
 
 #undef	NEWDATA
 #undef	OLDDATA
-} /* end of function */
-
+}                               /* end of function */

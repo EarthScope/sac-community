@@ -57,18 +57,9 @@
  *
  * 
  */
-void 
-lptbp(complexf *p, 
-      complexf *z, 
-      char     *rtype, 
-      int       rtype_s, 
-      double    dcvalue, 
-      int      *nsects, 
-      double    fl, 
-      double    fh, 
-      float    *sn, 
-      float    *sd )   
-{
+void
+lptbp(complexf * p, complexf * z, char *rtype, int rtype_s, double dcvalue,
+      int *nsects, double fl, double fh, float *sn, float *sd) {
 
 #define RTYPE(I_,J_)	(rtype+(I_)*(rtype_s)+(J_))
 
@@ -81,101 +72,102 @@ lptbp(complexf *p,
     float *const Sn = &sn[0] - 1;
     complexf *const Z = &z[0] - 1;
 
-
     pi = 3.14159265;
-    twopi = 2.*pi;
-    a = twopi*twopi*fl*fh;
-    b = twopi*(fh - fl);
+    twopi = 2. * pi;
+    a = twopi * twopi * fl * fh;
+    b = twopi * (fh - fl);
 
     n = *nsects;
     *nsects = 0;
     iptr = 1;
-    for( idx = 1; idx <= n; idx++ ){
-	idx_ = idx - 1;
+    for (idx = 1; idx <= n; idx++) {
+        idx_ = idx - 1;
 
-	if( memcmp( RTYPE( idx_ , 0 ) , "CPZ" , 3 ) == 0 ){
+        if (memcmp(RTYPE(idx_, 0), "CPZ", 3) == 0) {
 
-	    ctemp = cmplxsub( cmplxpow(
-		      ( cmplxmul( flttocmplx( b , 0. ) , Z[ idx ] ) ) ,
-		      (double) 2 ) , flttocmplx( 4. * a , 0. ) ) ;
+            ctemp =
+                cmplxsub(cmplxpow
+                         ((cmplxmul(flttocmplx(b, 0.), Z[idx])), (double) 2),
+                         flttocmplx(4. * a, 0.));
 
-	    ctemp = cmplxsqrt( ctemp ) ;
-	    z1 = cmplxmul( flttocmplx( 0.5 , 0. ) ,
-		   ( cmplxadd( cmplxmul( flttocmplx( b , 0. ) , Z[ idx ] ) ,
-		   ctemp ) ) ) ;
-	    z2 = cmplxmul( flttocmplx( 0.5 , 0. ) ,
-		   ( cmplxsub( cmplxmul( flttocmplx( b , 0. ) , Z[ idx ] ) ,
-		   ctemp ) ) ) ;
-	    ctemp = cmplxsub( cmplxpow( ( cmplxmul( flttocmplx( b , 0. ) ,
-		   P[ idx ] ) ) , (double) 2 ) , flttocmplx( 4. * a , 0. ) ) ;
-	    ctemp = cmplxsqrt( ctemp ) ;
-	    p1 = cmplxmul( flttocmplx( 0.5 , 0. ) ,
-		   ( cmplxadd( cmplxmul( flttocmplx( b , 0. ) , P[ idx ] ) ,
-		   ctemp ) ) ) ;
-	    p2 = cmplxmul( flttocmplx( 0.5 , 0. ) ,
-		   ( cmplxsub( cmplxmul( flttocmplx( b , 0. ) , P[ idx ] ) ,
-		   ctemp ) ) ) ;
-	    Sn[ iptr ] = cmplxtof( cmplxmul( z1 , cmplxcj( z1 ) ) ) ;
-	    Sn[ iptr + 1 ] = -2. * cmplxtof( z1 ) ;
-	    Sn[ iptr + 2 ] = 1. ;
-	    Sd[ iptr ] = cmplxtof( cmplxmul( p1 , cmplxcj( p1 ) ) ) ;
-	    Sd[ iptr + 1 ] = -2. * cmplxtof( p1 ) ;
-	    Sd[ iptr + 2 ] = 1. ;
-	    iptr = iptr + 3 ;
-	    Sn[ iptr ] = cmplxtof( cmplxmul( z2 , cmplxcj( z2 ) ) ) ;
-	    Sn[ iptr + 1 ] = -2. * cmplxtof( z2 ) ;
-	    Sn[ iptr + 2 ] = 1. ;
-	    Sd[ iptr ] = cmplxtof( cmplxmul( p2 , cmplxcj( p2 ) ) ) ;
-	    Sd[ iptr + 1 ] = -2. * cmplxtof( p2 ) ;
-	    Sd[ iptr + 2 ] = 1. ;
-	    iptr = iptr + 3 ;
+            ctemp = cmplxsqrt(ctemp);
+            z1 = cmplxmul(flttocmplx(0.5, 0.),
+                          (cmplxadd
+                           (cmplxmul(flttocmplx(b, 0.), Z[idx]), ctemp)));
+            z2 = cmplxmul(flttocmplx(0.5, 0.),
+                          (cmplxsub
+                           (cmplxmul(flttocmplx(b, 0.), Z[idx]), ctemp)));
+            ctemp =
+                cmplxsub(cmplxpow
+                         ((cmplxmul(flttocmplx(b, 0.), P[idx])), (double) 2),
+                         flttocmplx(4. * a, 0.));
+            ctemp = cmplxsqrt(ctemp);
+            p1 = cmplxmul(flttocmplx(0.5, 0.),
+                          (cmplxadd
+                           (cmplxmul(flttocmplx(b, 0.), P[idx]), ctemp)));
+            p2 = cmplxmul(flttocmplx(0.5, 0.),
+                          (cmplxsub
+                           (cmplxmul(flttocmplx(b, 0.), P[idx]), ctemp)));
+            Sn[iptr] = cmplxtof(cmplxmul(z1, cmplxcj(z1)));
+            Sn[iptr + 1] = -2. * cmplxtof(z1);
+            Sn[iptr + 2] = 1.;
+            Sd[iptr] = cmplxtof(cmplxmul(p1, cmplxcj(p1)));
+            Sd[iptr + 1] = -2. * cmplxtof(p1);
+            Sd[iptr + 2] = 1.;
+            iptr = iptr + 3;
+            Sn[iptr] = cmplxtof(cmplxmul(z2, cmplxcj(z2)));
+            Sn[iptr + 1] = -2. * cmplxtof(z2);
+            Sn[iptr + 2] = 1.;
+            Sd[iptr] = cmplxtof(cmplxmul(p2, cmplxcj(p2)));
+            Sd[iptr + 1] = -2. * cmplxtof(p2);
+            Sd[iptr + 2] = 1.;
+            iptr = iptr + 3;
 
-	    *nsects = *nsects + 2;
+            *nsects = *nsects + 2;
 
-	}
-	else if( memcmp( RTYPE( idx_ , 0 ) , "CP" , 2 ) == 0 ) {
+        } else if (memcmp(RTYPE(idx_, 0), "CP", 2) == 0) {
 
-	    ctemp = cmplxsub( cmplxpow(
-		      ( cmplxmul( flttocmplx( b , 0. ) , P[ idx ] ) ) ,
-		      (double) 2 ) , flttocmplx( 4. * a , 0. ) ) ;
-	    ctemp = cmplxsqrt( ctemp ) ;
-	    p1 = cmplxmul( flttocmplx( 0.5 , 0. ) ,
-		   ( cmplxadd( cmplxmul( flttocmplx( b , 0. ) , P[ idx ] ) ,
-		   ctemp ) ) ) ;
-	    p2 = cmplxmul( flttocmplx( 0.5 , 0. ) ,
-		   ( cmplxsub( cmplxmul( flttocmplx( b , 0. ) , P[ idx ] ) ,
-		   ctemp ) ) ) ;
-	    Sn[ iptr ] = 0. ;
-	    Sn[ iptr + 1 ] = b ;
-	    Sn[ iptr + 2 ] = 0. ;
-	    Sd[ iptr ] = cmplxtof( cmplxmul( p1 , cmplxcj( p1 ) ) ) ;
-	    Sd[ iptr + 1 ] = -2. * cmplxtof( p1 ) ;
-	    Sd[ iptr + 2 ] = 1. ;
-	    iptr = iptr + 3 ;
-	    Sn[ iptr ] = 0. ;
-	    Sn[ iptr + 1 ] = b ;
-	    Sn[ iptr + 2 ] = 0. ;
-	    Sd[ iptr ] = cmplxtof( cmplxmul( p2 , cmplxcj( p2 ) ) ) ;
-	    Sd[ iptr + 1 ] = -2. * cmplxtof( p2 ) ;
-	    Sd[ iptr + 2 ] = 1. ;
-	    iptr = iptr + 3 ;
+            ctemp =
+                cmplxsub(cmplxpow
+                         ((cmplxmul(flttocmplx(b, 0.), P[idx])), (double) 2),
+                         flttocmplx(4. * a, 0.));
+            ctemp = cmplxsqrt(ctemp);
+            p1 = cmplxmul(flttocmplx(0.5, 0.),
+                          (cmplxadd
+                           (cmplxmul(flttocmplx(b, 0.), P[idx]), ctemp)));
+            p2 = cmplxmul(flttocmplx(0.5, 0.),
+                          (cmplxsub
+                           (cmplxmul(flttocmplx(b, 0.), P[idx]), ctemp)));
+            Sn[iptr] = 0.;
+            Sn[iptr + 1] = b;
+            Sn[iptr + 2] = 0.;
+            Sd[iptr] = cmplxtof(cmplxmul(p1, cmplxcj(p1)));
+            Sd[iptr + 1] = -2. * cmplxtof(p1);
+            Sd[iptr + 2] = 1.;
+            iptr = iptr + 3;
+            Sn[iptr] = 0.;
+            Sn[iptr + 1] = b;
+            Sn[iptr + 2] = 0.;
+            Sd[iptr] = cmplxtof(cmplxmul(p2, cmplxcj(p2)));
+            Sd[iptr + 1] = -2. * cmplxtof(p2);
+            Sd[iptr + 2] = 1.;
+            iptr = iptr + 3;
 
-	    *nsects = *nsects + 2;
+            *nsects = *nsects + 2;
 
-	}
-	else if( memcmp( RTYPE( idx_ , 0 ) , "SP" , 2 ) == 0 ) {
+        } else if (memcmp(RTYPE(idx_, 0), "SP", 2) == 0) {
 
-	    Sn[ iptr ] = 0. ;
-	    Sn[ iptr + 1 ] = b ;
-	    Sn[ iptr + 2 ] = 0. ;
-	    Sd[ iptr ] = a ;
-	    Sd[ iptr + 1 ] = -b * cmplxtof( P[ idx ] ) ;
-	    Sd[ iptr + 2 ] = 1. ;
-	    iptr = iptr + 3 ;
+            Sn[iptr] = 0.;
+            Sn[iptr + 1] = b;
+            Sn[iptr + 2] = 0.;
+            Sd[iptr] = a;
+            Sd[iptr + 1] = -b * cmplxtof(P[idx]);
+            Sd[iptr + 2] = 1.;
+            iptr = iptr + 3;
 
-	    *nsects = *nsects + 1 ;
+            *nsects = *nsects + 1;
 
-	}
+        }
 
     }
 
@@ -183,29 +175,37 @@ lptbp(complexf *p,
      *  at sqrt( omega_l 
      *  equals the amplitude of the lowpass prototype at d.c.
      * */
-    s = flttocmplx( 0. , sqrt( a ) ) ;
-    h = flttocmplx( 1. , 0. ) ;
+    s = flttocmplx(0., sqrt(a));
+    h = flttocmplx(1., 0.);
 
-    iptr = 1 ;
-    for( idx = 1 ; idx <= *nsects ; idx++ ) {
-	h = cmplxdiv( cmplxmul( h , ( cmplxadd( cmplxmul(
-	      ( cmplxadd( cmplxmul( flttocmplx( Sn[ iptr + 2 ] , 0. ) , s ) ,
-	      flttocmplx( Sn[ iptr + 1 ] , 0. ) ) ) , s ) ,
-	      flttocmplx( Sn[ iptr ] , 0. ) ) ) ) , ( cmplxadd( cmplxmul(
-	      ( cmplxadd( cmplxmul( flttocmplx( Sd[ iptr + 2 ] , 0. ) , s ) ,
-	      flttocmplx( Sd[ iptr + 1 ] , 0. ) ) ) , s ) ,
-	      flttocmplx( Sd[ iptr ] , 0. ) ) ) ) ;
-	iptr = iptr + 3 ;
+    iptr = 1;
+    for (idx = 1; idx <= *nsects; idx++) {
+        h = cmplxdiv(cmplxmul
+                     (h,
+                      (cmplxadd
+                       (cmplxmul
+                        ((cmplxadd
+                          (cmplxmul(flttocmplx(Sn[iptr + 2], 0.), s),
+                           flttocmplx(Sn[iptr + 1], 0.))), s),
+                        flttocmplx(Sn[iptr], 0.)))),
+                     (cmplxadd
+                      (cmplxmul
+                       ((cmplxadd
+                         (cmplxmul(flttocmplx(Sd[iptr + 2], 0.), s),
+                          flttocmplx(Sd[iptr + 1], 0.))), s),
+                       flttocmplx(Sd[iptr], 0.))));
+        iptr = iptr + 3;
     }
-    scale = cmplxtof( cmplxdiv( flttocmplx( dcvalue , 0. ) ,
-	      cmplxsqrt( cmplxmul( flttocmplx( cmplxtof( h ) , 0. ) ,
-	      cmplxcj( h ) ) ) ) ) ;
+    scale =
+        cmplxtof(cmplxdiv
+                 (flttocmplx(dcvalue, 0.),
+                  cmplxsqrt(cmplxmul
+                            (flttocmplx(cmplxtof(h), 0.), cmplxcj(h)))));
 
-    Sn[ 1 ] = Sn[ 1 ] * scale ;
-    Sn[ 2 ] = Sn[ 2 ] * scale ;
-    Sn[ 3 ] = Sn[ 3 ] * scale ;
+    Sn[1] = Sn[1] * scale;
+    Sn[2] = Sn[2] * scale;
+    Sn[3] = Sn[3] * scale;
 
     return;
 #undef	RTYPE
 }
-

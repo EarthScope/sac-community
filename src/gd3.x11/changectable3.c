@@ -32,62 +32,61 @@
 
 #include "color.h"
 
-void changectable3(nentry,icolortable)
-  int nentry, icolortable;
-{ 
-  Status status;
-  int i;
-  unsigned long pixels[256];
-  unsigned long masks[256];
-  unsigned int nalloc;
+void
+changectable3(nentry, icolortable)
+     int nentry, icolortable;
+{
+    Status status;
+    int i;
+    unsigned long pixels[256];
+    unsigned long masks[256];
+    unsigned int nalloc;
 
-  XScreen *xs;
+    XScreen *xs;
 
-  xs = xscreen_get();
+    xs = xscreen_get();
 
-  /*  check for depth (black and white = 1; color != 1)  */
-  if(xs->depth != 1) {
-    
-    npscolors = cmgdm.npscimage;
-    
-    nalloc = nentry + npscolors + 7;
-    
-    for (i = nentry+7; i < (int)nalloc; i++){
-      pixels[i-(nentry+7)] = pixdef3[i].pixel; 
-    }
-    
-    XFreeColors(xs->display,colormap,pixels,npscolors,0);
-    
-    status = XAllocColorCells(xs->display,
-                              colormap,
-                              True,
-                              masks,
-                              0,pixels,npscolors);
-    if (status != 0) {
-      
-        for (i = nentry+7; i < (int)nalloc; i++){
-        pixdef3[i].pixel = pixels[i-(nentry+7)];
-        
-        if(icolortable == MCOLOR){
-          pixdef3[i].red   = psred[i-(nentry+7)];
-          pixdef3[i].green = psgreen[i-(nentry+7)];
-          pixdef3[i].blue  = psblue[i-(nentry+7)];
-        } else {
-          pixdef3[i].red   = 256*(255-(i+1))-1;
-          pixdef3[i].green = 256*(255-(i+1))-1;
-          pixdef3[i].blue  = 256*(255-(i+1))-1;
+    /*  check for depth (black and white = 1; color != 1)  */
+    if (xs->depth != 1) {
+
+        npscolors = cmgdm.npscimage;
+
+        nalloc = nentry + npscolors + 7;
+
+        for (i = nentry + 7; i < (int) nalloc; i++) {
+            pixels[i - (nentry + 7)] = pixdef3[i].pixel;
         }
-        pixdef3[i].flags = DoRed | DoGreen | DoBlue;
-        
-      }
-      
-      /* Store color table */
-      XStoreColors(xs->display,colormap,&pixdef3[nentry+7],npscolors);
-      XFlush(xs->display);
 
+        XFreeColors(xs->display, colormap, pixels, npscolors, 0);
+
+        status =
+            XAllocColorCells(xs->display, colormap, True, masks, 0, pixels,
+                             npscolors);
+        if (status != 0) {
+
+            for (i = nentry + 7; i < (int) nalloc; i++) {
+                pixdef3[i].pixel = pixels[i - (nentry + 7)];
+
+                if (icolortable == MCOLOR) {
+                    pixdef3[i].red = psred[i - (nentry + 7)];
+                    pixdef3[i].green = psgreen[i - (nentry + 7)];
+                    pixdef3[i].blue = psblue[i - (nentry + 7)];
+                } else {
+                    pixdef3[i].red = 256 * (255 - (i + 1)) - 1;
+                    pixdef3[i].green = 256 * (255 - (i + 1)) - 1;
+                    pixdef3[i].blue = 256 * (255 - (i + 1)) - 1;
+                }
+                pixdef3[i].flags = DoRed | DoGreen | DoBlue;
+
+            }
+
+            /* Store color table */
+            XStoreColors(xs->display, colormap, &pixdef3[nentry + 7],
+                         npscolors);
+            XFlush(xs->display);
+
+        }
+    } else {
+        /* should return an error here */
     }
-  } else {
-    /* should return an error here */
-  }
 }
-

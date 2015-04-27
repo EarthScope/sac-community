@@ -30,40 +30,33 @@
  * @date   860306:  Original version.
  *
  */
-int 
-lklogc(char *kkey, 
-       int   kkey_s, 
-       int  *logv, 
-       char *kchar, 
-       int   kchar_s) {
+int
+lklogc(char *kkey, int kkey_s, int *logv, char *kchar, int kchar_s) {
 
-	int lklogc_v;
-	int nchar, nerr;
+    int lklogc_v;
+    int nchar, nerr;
 
-	/* - Determine length of character variable. */
-	nchar = (kchar_s - 1);
+    /* - Determine length of character variable. */
+    nchar = (kchar_s - 1);
 
-	/* - Check for key. */
-	lklogc_v = lckey( kkey,kkey_s );
+    /* - Check for key. */
+    lklogc_v = lckey(kkey, kkey_s);
 
-	/* - Get logical variable from next symbol if key was found.
-	 * - Perform standard error recovery if not found. */
+    /* - Get logical variable from next symbol if key was found.
+     * - Perform standard error recovery if not found. */
 
-	if( lklogc_v ){
-L_2000:
-		if( lclog( logv ) ){
-		}
-		else if( lcchar(kchar, kchar_s) ){
-			*logv = TRUE;
-		}
-		else{
-			cfmt( "Need an \"on\", an \"off\", or an alpha:",38 );
-			cresp();
-			if( lcmore( &nerr ) )
-				goto L_2000;
-		}
-	}
+    if (lklogc_v) {
+      L_2000:
+        if (lclog(logv)) {
+        } else if (lcchar(kchar, kchar_s)) {
+            *logv = TRUE;
+        } else {
+            cfmt("Need an \"on\", an \"off\", or an alpha:", 38);
+            cresp();
+            if (lcmore(&nerr))
+                goto L_2000;
+        }
+    }
 
-	return( lklogc_v );
+    return (lklogc_v);
 }
-

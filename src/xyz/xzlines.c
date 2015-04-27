@@ -5,17 +5,15 @@
 
 #include "contouring.h"
 
-
 #include "cpf.h"
 
-void /*FUNCTION*/ xzlines(nerr)
-int *nerr;
+void /*FUNCTION*/
+xzlines(nerr)
+     int *nerr;
 {
-	int ltemp;
+    int ltemp;
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To execute the parameter-setting command ZLINES.
 	 *           This command controls contour linestyle for subsequent
 	 *           contour plots.
@@ -43,54 +41,53 @@ int *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900404
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* PARSING PHASE: */
+    /* PARSING PHASE: */
 
-	/* - Parse positional tokens here. */
+    /* - Parse positional tokens here. */
 
-	/* -- "ON|OFF": Turn tick mark annotation on or off. */
-	if( lclog( &ltemp ) ){
-		if( ltemp ){
-			strcpy( kmcontouring.klinemode, "ON      " );
-			}
-		else{
-			strcpy( kmcontouring.klinemode, "OFF     " );
-			}
-		}
+    /* -- "ON|OFF": Turn tick mark annotation on or off. */
+    if (lclog(&ltemp)) {
+        if (ltemp) {
+            strcpy(kmcontouring.klinemode, "ON      ");
+        } else {
+            strcpy(kmcontouring.klinemode, "OFF     ");
+        }
+    }
 
-	/* - Loop on remaining tokens in command: */
+    /* - Loop on remaining tokens in command: */
 
-L_1000:
-	if( lcmore( nerr ) ){
+  L_1000:
+    if (lcmore(nerr)) {
 
-		/* -- LIST n1 n2 ...: Set list of contour linestyles. */
-		if( lkia( "LIST$",6, 1, MZLEVELS, cmcontouring.linelist, &cmcontouring.nlinelist ) ){
-			strcpy( kmcontouring.klinetype, "LIST    " );
+        /* -- LIST n1 n2 ...: Set list of contour linestyles. */
+        if (lkia
+            ("LIST$", 6, 1, MZLEVELS, cmcontouring.linelist,
+             &cmcontouring.nlinelist)) {
+            strcpy(kmcontouring.klinetype, "LIST    ");
 
-			/* -- REGIONS n1 v1 n2 v2 ... nn: Set linestyles for zlevel regions. */
-			}
-		else if( lkra( "REGIONS$",9, 1, MZLEVELS, cmcontouring.zregionlist, 
-		 &cmcontouring.nzregionlist ) ){
-			strcpy( kmcontouring.klinetype, "REGIONS " );
+            /* -- REGIONS n1 v1 n2 v2 ... nn: Set linestyles for zlevel regions. */
+        } else
+            if (lkra
+                ("REGIONS$", 9, 1, MZLEVELS, cmcontouring.zregionlist,
+                 &cmcontouring.nzregionlist)) {
+            strcpy(kmcontouring.klinetype, "REGIONS ");
 
-			/* -- Bad syntax. */
-			}
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
+            /* -- Bad syntax. */
+        } else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
 
-			}
-		goto L_1000;
-		}
+        }
+        goto L_1000;
+    }
 
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

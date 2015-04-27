@@ -48,21 +48,15 @@
  *           USA
  *           (415) 423-0617
  */
-void 
-chebparm(double    a, 
-         double    trbndw, 
-         int       iord, 
-         float    *eps, 
-         float    *ripple)
-{
-	float alpha, g, omegar;
+void
+chebparm(double a, double trbndw, int iord, float *eps, float *ripple) {
+    float alpha, g, omegar;
 
-	omegar = 1. + trbndw;
-	alpha = powi(omegar + sqrt( powi(omegar,2) - 1. ),iord);
-	g = (powi(alpha,2) + 1.)/(2.*alpha);
-	*eps = sqrt( powi(a,2) - 1. )/g;
-	*ripple = 1./sqrt( 1. + powi(*eps,2) );
+    omegar = 1. + trbndw;
+    alpha = powi(omegar + sqrt(powi(omegar, 2) - 1.), iord);
+    g = (powi(alpha, 2) + 1.) / (2. * alpha);
+    *eps = sqrt(powi(a, 2) - 1.) / g;
+    *ripple = 1. / sqrt(1. + powi(*eps, 2));
 
-	return;
+    return;
 }
-

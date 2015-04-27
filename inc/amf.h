@@ -2,37 +2,35 @@
 #ifndef _AMF_H_
 #define _AMF_H_
 
-
 #include "debug.h"
 #include "SacHeader.h"
 #include "clf.h"
 #include "errors.h"
 
-void iniam  ( );
-
+void iniam();
 
 sac *sacget(int i, int data, int *nerr);
-void sacput(sac* s);
+void sacput(sac * s);
 void sacpop();
 void sacdel(int i);
-int  saclen();
+int saclen();
 void sacclear();
-void sacsort(int (*compare)(const void *a, const void *b));
+void sacsort(int (*compare) (const void *a, const void *b));
 sac *sacget_current();
 int sacget_current_id();
-void sac_header_copy(sac *to, sac *from);
+void sac_header_copy(sac * to, sac * from);
 
 int sac_find_filename(char *file);
 
-sac *bflget(string_list *list, int i);
+sac *bflget(string_list * list, int i);
 void bflclear();
 
 sac *sac_new();
-void sac_free(sac *s);
-void sac_alloc(sac *s);
-int sac_comps(sac *s);
-void sac_extrema(sac *s);
+void sac_free(sac * s);
+void sac_alloc(sac * s);
+int sac_comps(sac * s);
+void sac_extrema(sac * s);
 
-char *khdr(sac *s, int k);
+char *khdr(sac * s, int k);
 
-#endif  /* _AMF_H_ */
+#endif /* _AMF_H_ */

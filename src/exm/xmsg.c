@@ -25,38 +25,36 @@
  * @date   800605:  Original version.
  *
  */
-void 
+void
 xmsg(int *nerr) {
 
-	char kmsg[MCMSG+1];
+    char kmsg[MCMSG + 1];
 
-	*nerr = 0;
+    *nerr = 0;
 
-    memset(kmsg, 0, MCMSG+1);
-	/* PARSING PHASE: */
+    memset(kmsg, 0, MCMSG + 1);
+    /* PARSING PHASE: */
 
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-L_1000:
-	if( lcmore( nerr ) ){
+  L_1000:
+    if (lcmore(nerr)) {
 
-		/* -- "message":  message to write to the user's terminal. */
-		if( lcchar_split( kmsg, sizeof(kmsg)) ) {
-			setmsg( "OUTPUT", 99 );
-			apcmsg( kmsg,MCMSG+1 );
-			outmsg();
-			clrmsg();
+        /* -- "message":  message to write to the user's terminal. */
+        if (lcchar_split(kmsg, sizeof(kmsg))) {
+            setmsg("OUTPUT", 99);
+            apcmsg(kmsg, MCMSG + 1);
+            outmsg();
+            clrmsg();
 
-			/* -- Bad syntax. */
-			}
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
+            /* -- Bad syntax. */
+        } else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
 
-			}
-		goto L_1000;
+        }
+        goto L_1000;
 
-		}
-	return;
+    }
+    return;
 }
-

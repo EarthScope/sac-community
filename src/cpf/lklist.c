@@ -13,7 +13,6 @@
 #include "bool.h"
 #include "bot.h"
 
-
 #include "ucf.h"
 
 #define	MMATCH	5
@@ -47,19 +46,13 @@
  *x
  */
 int
-lklist(char *kkey, 
-       int   kkey_s, 
-       char *klist, 
-       int   klist_s, 
-       int   nlist, 
-       int  *index) {
+lklist(char *kkey, int kkey_s, char *klist, int klist_s, int nlist, int *index) {
 
-	/* - Check for key. */
-	if(!lckey( kkey,kkey_s )) {
-    return FALSE;
-  }
+    /* - Check for key. */
+    if (!lckey(kkey, kkey_s)) {
+        return FALSE;
+    }
 
-  lclist(klist, klist_s, nlist, index);
-  return TRUE;
+    lclist(klist, klist_s, nlist, index);
+    return TRUE;
 }
-

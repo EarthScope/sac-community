@@ -2,13 +2,14 @@
 #include "gd2.h"
 #include "debug.h"
 
-void /*FUNCTION*/ cursor2(xloc, yloc, kchar, len)
-float *xloc, *yloc;
-char *kchar;
-int len;
+void /*FUNCTION*/
+cursor2(xloc, yloc, kchar, len)
+     float *xloc, *yloc;
+     char *kchar;
+     int len;
 {
-  
-	/*=====================================================================
+
+        /*=====================================================================
 	 * PURPOSE:  To perform "graphics input function on device 2 (SGF).
 	 *=====================================================================
 	 * OUTPUT ARGUMENTS:
@@ -18,15 +19,13 @@ int len;
 	 *=====================================================================
 	 * MODULE/LEVEL:  GD2/4
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - This is a no-op for this graphics device. */
-  UNUSED(len);
-  UNUSED(kchar);
-  UNUSED(yloc);
-  UNUSED(xloc);
+    /* PROCEDURE: */
+    /* - This is a no-op for this graphics device. */
+    UNUSED(len);
+    UNUSED(kchar);
+    UNUSED(yloc);
+    UNUSED(xloc);
 
-	return;
+    return;
 
-
-} /* end of function */
-
+}                               /* end of function */

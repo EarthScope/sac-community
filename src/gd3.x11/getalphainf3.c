@@ -23,20 +23,20 @@
 
 void
 getalphainfo3(num_lines, erase, erase_length)
-  int *num_lines;
-  char erase[];
-  int erase_length;
-{ 
-  int num_columns, error_flag;
-  UNUSED(erase_length);
-  erase[0] = ' ';
+     int *num_lines;
+     char erase[];
+     int erase_length;
+{
+    int num_columns, error_flag;
+    UNUSED(erase_length);
+    erase[0] = ' ';
 
 /* Get size of window. */
 
-  zgwindowsize_( num_lines, &num_columns, &error_flag );
-  if( error_flag != 0) {
-    *num_lines = 20;
-  }
+    zgwindowsize_(num_lines, &num_columns, &error_flag);
+    if (error_flag != 0) {
+        *num_lines = 20;
+    }
 
 }
 

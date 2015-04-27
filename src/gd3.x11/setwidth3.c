@@ -14,15 +14,15 @@
  * @date   920526:  Original version.
  *
  */
-void 
+void
 setwidth3(int index) {
 
-  XGCValues gcv;
-  XWindow *xw;
+    XGCValues gcv;
+    XWindow *xw;
 
-  xw = plot_window( CURRENT );
+    xw = plot_window(CURRENT);
 
-  /* Set line-width */
-  gcv.line_width = index;
-  XChangeGC(DISPLAY(xw), xw->gc, GCLineWidth, &gcv);
+    /* Set line-width */
+    gcv.line_width = index;
+    XChangeGC(DISPLAY(xw), xw->gc, GCLineWidth, &gcv);
 }

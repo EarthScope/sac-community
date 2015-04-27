@@ -50,114 +50,105 @@
  * @date   821004:  Fixed bug which was incorrectly clearing error flag.
  * @date   810120:  Changed to output message retrieval from disk.
  */
-void 
-rdsac(int    idfl, 
-      char  *kname, 
-      int    kname_s, 
-      int    lname, 
-      int    ldta, 
-      int   *nlen, 
-      int   *ndxh, 
-      int   *ndx1, 
-      int   *ndx2, 
-      int   *nerr) {
+void
+rdsac(int idfl, char *kname, int kname_s, int lname, int ldta, int *nlen,
+      int *ndxh, int *ndx1, int *ndx2, int *nerr) {
 
-	int ncerr, nun, lswap = 0 ;
+    int ncerr, nun, lswap = 0;
 
-	*nerr = 0;
-  sac *s;
+    *nerr = 0;
+    sac *s;
 
-  UNUSED(nlen);
-  UNUSED(ndxh);
-  UNUSED(ndx1);
-  UNUSED(ndx2);
+    UNUSED(nlen);
+    UNUSED(ndxh);
+    UNUSED(ndx1);
+    UNUSED(ndx2);
 
-  if(!(s = sacget(idfl-1, ldta, nerr))) {
-    goto L_8888;
-  }
+    if (!(s = sacget(idfl - 1, ldta, nerr))) {
+        goto L_8888;
+    }
 
-	/* - Open file. */
-	zopen_sac( &nun, kname,kname_s, "RODATA",7, nerr );
-  if(*nerr) {
+    /* - Open file. */
+    zopen_sac(&nun, kname, kname_s, "RODATA", 7, nerr);
+    if (*nerr) {
+        return;
+    }
+
+    /* - Save some parameters about this data file. */
+    if (lname) {
+        s->m->filename = fstrdup(kname, kname_s);
+    }
+    if (*nerr != 0)
+        goto L_8888;
+
+    /* - Read header record. */
+    lswap = rdhdr(s, &nun, s->m->filename, nerr);
+    if (*nerr != 0)
+        goto L_8888;
+    s->m->swap = lswap;
+
+    /* - Read data if requested. */
+    if (ldta) {
+
+        /* -- Determine memory requirements for this file. */
+        defmem(idfl, TRUE, nerr);
+        if (*nerr != 0)
+            goto L_8888;
+
+        sac_alloc(s);
+
+        /* -- Read data components. */
+        rddta(s, &nun, lswap, nerr);
+        if (*nerr != 0)
+            goto L_8888;
+
+    }
+
+    /* - Close file and return. */
+  L_8888:
+    zclose(&nun, &ncerr);
     return;
-  }
-
-	/* - Save some parameters about this data file. */
-	if ( lname ) {
-    s->m->filename = fstrdup(kname, kname_s);
-  }
-	if( *nerr != 0 )
-	    goto L_8888;
-
-	/* - Read header record. */
-	lswap = rdhdr( s, &nun, s->m->filename, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
-  s->m->swap = lswap;
-
-	/* - Read data if requested. */
-	if( ldta ){
-
-	    /* -- Determine memory requirements for this file. */
-	    defmem( idfl, TRUE, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
-
-      sac_alloc(s);
-
-	    /* -- Read data components. */
-	    rddta( s, &nun, lswap, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
-
-	}
-
-	/* - Close file and return. */
-L_8888:
-	zclose( &nun, &ncerr );
-	return;
 }
-
 
 sac *
 sacread(char *file) {
-  int nerr, nun, lswap;
-  sac *s;
+    int nerr, nun, lswap;
+    sac *s;
 
-  s = NULL;
-  if(!file) {
+    s = NULL;
+    if (!file) {
+        return NULL;
+    }
+    zopen_sac(&nun, file, strlen(file), "RODATA", 7, &nerr);
+    if (nerr != 0) {
+        return NULL;
+    }
+    s = sac_new();
+    s->m->filename = strdup(file);
+    lswap = rdhdr(s, &nun, file, &nerr);
+    s->m->swap = lswap;
+    if (nerr != 0) {
+        printf("sacread error: %d header\n", nerr);
+        goto ERROR;
+    }
+    sac_alloc(s);
+
+    s->m->nstart = 1;
+    s->m->nstop = s->h->npts;
+    s->m->ntotal = s->h->npts;
+    s->m->nfillb = 0;
+    s->m->nfille = 0;
+    rddta(s, &nun, lswap, &nerr);
+    if (nerr != 0) {
+        printf("sacread error: %d data\n", nerr);
+        goto ERROR;
+    }
+    zclose(&nun, &nerr);
+
+    return s;
+  ERROR:
+    printf("sacread error: %d\n", nerr);
+    zclose(&nun, &nerr);
+    sac_free(s);
     return NULL;
-  }
-  zopen_sac(&nun, file, strlen(file), "RODATA", 7, &nerr);
-  if(nerr != 0) {
-    return NULL;
-  }
-  s = sac_new();
-  s->m->filename = strdup(file);
-  lswap = rdhdr(s, &nun, file, &nerr);
-  s->m->swap = lswap;
-  if(nerr != 0) {
-    printf("sacread error: %d header\n", nerr);
-    goto ERROR;
-  }
-  sac_alloc(s);
-
-  s->m->nstart = 1;
-  s->m->nstop  = s->h->npts;
-  s->m->ntotal = s->h->npts;
-  s->m->nfillb = 0;
-  s->m->nfille = 0;
-  rddta(s, &nun, lswap, &nerr);
-  if(nerr != 0) {
-    printf("sacread error: %d data\n", nerr);
-    goto ERROR;
-  }
-  zclose(&nun, &nerr);
-
-  return s;
- ERROR:
-  printf("sacread error: %d\n", nerr);
-  zclose(&nun, &nerr);
-  sac_free(s);
-  return NULL;
 }

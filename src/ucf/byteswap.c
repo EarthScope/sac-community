@@ -23,48 +23,46 @@
  * @date    030205:  Original Version maf (2/5/03)
  *
  */
-int 
-byteswap(void *swappee, 
-	 int   Nbytes )
-{
-    char temp, *ptr = swappee ;
+int
+byteswap(void *swappee, int Nbytes) {
+    char temp, *ptr = swappee;
 
-    if( Nbytes == 2 ){
-        temp   = ptr[0] ;
-        ptr[0] = ptr[1] ;
-        ptr[1] = temp ;
-        return 0 ;
+    if (Nbytes == 2) {
+        temp = ptr[0];
+        ptr[0] = ptr[1];
+        ptr[1] = temp;
+        return 0;
     }
 
-    if( Nbytes == 4 ){
-        temp   = ptr[0] ;
-        ptr[0] = ptr[3] ;
-        ptr[3] = temp ;
+    if (Nbytes == 4) {
+        temp = ptr[0];
+        ptr[0] = ptr[3];
+        ptr[3] = temp;
 
-        temp   = ptr[1] ;
-        ptr[1] = ptr[2] ;
-        ptr[2] = temp ;
-        return 0 ;
+        temp = ptr[1];
+        ptr[1] = ptr[2];
+        ptr[2] = temp;
+        return 0;
     }
 
-     if( Nbytes == 8 ){
-        temp   = ptr[0] ;
-        ptr[0] = ptr[7] ;
-        ptr[7] = temp ;
+    if (Nbytes == 8) {
+        temp = ptr[0];
+        ptr[0] = ptr[7];
+        ptr[7] = temp;
 
-        temp   = ptr[1] ;
-        ptr[1] = ptr[6] ;
-        ptr[6] = temp ;
+        temp = ptr[1];
+        ptr[1] = ptr[6];
+        ptr[6] = temp;
 
-        temp   = ptr[2] ;
-        ptr[2] = ptr[5] ;
-        ptr[5] = temp ;
+        temp = ptr[2];
+        ptr[2] = ptr[5];
+        ptr[5] = temp;
 
-        temp   = ptr[3] ;
-        ptr[3] = ptr[4] ;
-        ptr[4] = temp ;
-        return 0 ;
+        temp = ptr[3];
+        ptr[3] = ptr[4];
+        ptr[4] = temp;
+        return 0;
     }
 
-    return -1 ;
+    return -1;
 }

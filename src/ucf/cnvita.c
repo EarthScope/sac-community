@@ -10,7 +10,6 @@
 
 #include "ucf.h"
 
-
 #include "co.h"
 
 /** 
@@ -27,40 +26,34 @@
  * @date   800102:  Original version.
  *
  */
-void 
-cnvita(int  intgr, 
-       char     *kintgr, 
-       int       kintgr_s)
-{
-	char kfmt[9];
-	int ncf, nck;
+void
+cnvita(int intgr, char *kintgr, int kintgr_s) {
+    char kfmt[9];
+    int ncf, nck;
 
-	/* - Determine length of character variable. */
-	nck = (kintgr_s - 1);
+    /* - Determine length of character variable. */
+    nck = (kintgr_s - 1);
 
-	/* - Create format statement. */
+    /* - Create format statement. */
 
-	strcpy( kfmt, "%" );
-        ncf = 1;
-	if( nck <= 9 ){
-                sprintf(kfmt+ncf,"%1d",nck);
-                ncf++;
-                		}
-	else if( nck <= 99 ){
-                sprintf(kfmt+ncf,"%2d",nck);
-                ncf += 2;
-		}
-	else{
-                sprintf(kfmt+ncf,"%3d",nck);
-                ncf += 3;
-		}
-        strcpy(kfmt+ncf,"d");
+    strcpy(kfmt, "%");
+    ncf = 1;
+    if (nck <= 9) {
+        sprintf(kfmt + ncf, "%1d", nck);
+        ncf++;
+    } else if (nck <= 99) {
+        sprintf(kfmt + ncf, "%2d", nck);
+        ncf += 2;
+    } else {
+        sprintf(kfmt + ncf, "%3d", nck);
+        ncf += 3;
+    }
+    strcpy(kfmt + ncf, "d");
 
-	/* - Encode integer into string. */
+    /* - Encode integer into string. */
 
-        if( sprintf(kintgr,kfmt,intgr) < 0 ) {
-           fstrncpy(kintgr, kintgr_s - 1,"BADINPUT",8);
-	}
-	return;
-} 
-
+    if (sprintf(kintgr, kfmt, intgr) < 0) {
+        fstrncpy(kintgr, kintgr_s - 1, "BADINPUT", 8);
+    }
+    return;
+}

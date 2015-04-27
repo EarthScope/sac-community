@@ -36,76 +36,72 @@
 #include "gam.h"
 #include "debug.h"
 
-#define FULL 65535.0 
+#define FULL 65535.0
 
-void 
-setctable3(int win_num,
-           unsigned int nentry,
-           float red[],
-           float green[],
-           float blue[])
-{ 
-	unsigned int i;
-	Colormap colormap;
-	XColor exact_def;        /* 030227, maf */
-	XScreen *xs;
-	
-  UNUSED(win_num);
-	if (nentry < 2)
-		return;
-	
-	xs = xscreen_get();
-	
-	/*  check for depth (black and white = 1; color != 1)  */
-	if (xs->depth != 1) {
-		/* Scale red, green, blue to be in range [0, full]. */
-		/* Colors are passed in with the first color representing the background */
-		/* color and the last color representing the foreground color.  These    */
-		/* need to be switched around to conform to X standards -- pixel value   */
-		/* 0 representing foreground (black) and pixel value of 1 representing   */
-		/* background (white).                                                   */
-		
-		colormap = DefaultColormap(xs->display, xs->screen);
-		
-		pixdef3[0].pixel = WhitePixel(xs->display, xs->screen);
-		pixdef3[0].red   = FULL * red[0];
-		pixdef3[0].green = FULL * green[0];
-		pixdef3[0].blue  = FULL * blue[0];
-		pixdef3[0].flags = DoRed | DoGreen | DoBlue;
-		
-		for (i = 1; i < nentry - 1; i++) {
-			pixdef3[i].pixel = pixdef3[i - 1].pixel;
-			pixdef3[i].red   = FULL * red[i];
-			pixdef3[i].green = FULL * green[i];
-			pixdef3[i].blue  = FULL * blue[i];
-			pixdef3[i].flags = DoRed | DoGreen | DoBlue;
-			
-			exact_def.red    = pixdef3[i].red;
-			exact_def.green  = pixdef3[i].green;
-			exact_def.blue   = pixdef3[i].blue;
-			
-			XAllocColor(xs->display, colormap, &exact_def) ;
-			
-			pixdef3[i].pixel = exact_def.pixel;
-			pixdef3[i].red   = exact_def.red;
-			pixdef3[i].green = exact_def.green;
-			pixdef3[i].blue  = exact_def.blue;
-		}
-		
-		pixdef3[nentry - 1].pixel = BlackPixel(xs->display, xs->screen);
-		pixdef3[nentry - 1].red   = FULL * red[nentry - 1];
-		pixdef3[nentry - 1].green = FULL * green[nentry - 1];
-		pixdef3[nentry - 1].blue  = FULL * blue[nentry - 1];
-		pixdef3[nentry - 1].flags = DoRed | DoGreen | DoBlue;
-		
-		/* Store color table */
-		XFlush(xs->display);
-	} else {
-		/*  black and white */
-		pixdef3[0].pixel = WhitePixel(xs->display, xs->screen);
-		for (i = 1; i < nentry - 1; i++) 
-			pixdef3[i].pixel = BlackPixel(xs->display, xs->screen);
-	}
-	
-	cmgam.cmap = MDEFAULT;
+void
+setctable3(int win_num, unsigned int nentry, float red[], float green[],
+           float blue[]) {
+    unsigned int i;
+    Colormap colormap;
+    XColor exact_def;           /* 030227, maf */
+    XScreen *xs;
+
+    UNUSED(win_num);
+    if (nentry < 2)
+        return;
+
+    xs = xscreen_get();
+
+    /*  check for depth (black and white = 1; color != 1)  */
+    if (xs->depth != 1) {
+        /* Scale red, green, blue to be in range [0, full]. */
+        /* Colors are passed in with the first color representing the background */
+        /* color and the last color representing the foreground color.  These    */
+        /* need to be switched around to conform to X standards -- pixel value   */
+        /* 0 representing foreground (black) and pixel value of 1 representing   */
+        /* background (white).                                                   */
+
+        colormap = DefaultColormap(xs->display, xs->screen);
+
+        pixdef3[0].pixel = WhitePixel(xs->display, xs->screen);
+        pixdef3[0].red = FULL * red[0];
+        pixdef3[0].green = FULL * green[0];
+        pixdef3[0].blue = FULL * blue[0];
+        pixdef3[0].flags = DoRed | DoGreen | DoBlue;
+
+        for (i = 1; i < nentry - 1; i++) {
+            pixdef3[i].pixel = pixdef3[i - 1].pixel;
+            pixdef3[i].red = FULL * red[i];
+            pixdef3[i].green = FULL * green[i];
+            pixdef3[i].blue = FULL * blue[i];
+            pixdef3[i].flags = DoRed | DoGreen | DoBlue;
+
+            exact_def.red = pixdef3[i].red;
+            exact_def.green = pixdef3[i].green;
+            exact_def.blue = pixdef3[i].blue;
+
+            XAllocColor(xs->display, colormap, &exact_def);
+
+            pixdef3[i].pixel = exact_def.pixel;
+            pixdef3[i].red = exact_def.red;
+            pixdef3[i].green = exact_def.green;
+            pixdef3[i].blue = exact_def.blue;
+        }
+
+        pixdef3[nentry - 1].pixel = BlackPixel(xs->display, xs->screen);
+        pixdef3[nentry - 1].red = FULL * red[nentry - 1];
+        pixdef3[nentry - 1].green = FULL * green[nentry - 1];
+        pixdef3[nentry - 1].blue = FULL * blue[nentry - 1];
+        pixdef3[nentry - 1].flags = DoRed | DoGreen | DoBlue;
+
+        /* Store color table */
+        XFlush(xs->display);
+    } else {
+        /*  black and white */
+        pixdef3[0].pixel = WhitePixel(xs->display, xs->screen);
+        for (i = 1; i < nentry - 1; i++)
+            pixdef3[i].pixel = BlackPixel(xs->display, xs->screen);
+    }
+
+    cmgam.cmap = MDEFAULT;
 }

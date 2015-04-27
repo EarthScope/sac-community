@@ -27,20 +27,19 @@
  * 
  */
 char *
-strscpy(char *to, 
-	char *from, 
-	int   l) {
-  int len;
+strscpy(char *to, char *from, int l) {
+    int len;
 
-  if ((to==NULL) || (from==NULL) || (l <= 0)) return NULL;
+    if ((to == NULL) || (from == NULL) || (l <= 0))
+        return NULL;
 
-  len = strlen(from);
-  if ( l < len ) len = l;
- 
-  strncpy(to,from,len);
- 
-  to[len] = '\0';
+    len = strlen(from);
+    if (l < len)
+        len = l;
 
-  return to ;
+    strncpy(to, from, len);
+
+    to[len] = '\0';
+
+    return to;
 }
-

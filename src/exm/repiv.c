@@ -26,29 +26,26 @@
  * @date   820315:  Original version.
  *
  */
-void 
-repiv(char *ktext, 
-      int   ktext_s, 
-      int   iv) {
+void
+repiv(char *ktext, int ktext_s, int iv) {
 
-	char kline[MCMSG+1];
-	int nct;
-        char *strtemp;
+    char kline[MCMSG + 1];
+    int nct;
+    char *strtemp;
     memset(kline, 0, sizeof(kline));
-	/* - Determine length of text. */
-	nct = indexc( ktext,ktext_s, '$' );
+    /* - Determine length of text. */
+    nct = indexc(ktext, ktext_s, '$');
 
-	/* - Write text and value of variable to message system. */
+    /* - Write text and value of variable to message system. */
 
-        strtemp = malloc(nct+1);
-        strncpy(strtemp,ktext,nct);
-        strtemp[nct] = '\0';
+    strtemp = malloc(nct + 1);
+    strncpy(strtemp, ktext, nct);
+    strtemp[nct] = '\0';
 
-        sprintf(kline,"   %s%s%5d", strtemp, " is ", iv );
-	aplmsg( kline,MCMSG+1 );
+    sprintf(kline, "   %s%s%5d", strtemp, " is ", iv);
+    aplmsg(kline, MCMSG + 1);
 
-        free(strtemp);
+    free(strtemp);
 
-	return;
+    return;
 }
-

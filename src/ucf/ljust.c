@@ -20,40 +20,38 @@
  * @date   871022:  Documented/Reviewed
  *
  */
-void 
-ljust(char *ksym, 
-      int   ksym_s)
-{
-	int i, count, ncsym, ncsave, nchar;
-        char *temp;
+void
+ljust(char *ksym, int ksym_s) {
+    int i, count, ncsym, ncsave, nchar;
+    char *temp;
 
-	/* - Determine number of characters in symbol. */
-	ncsym = (ksym_s - 1);
-        temp = ksym;
-        count = 0;
-        while ( *temp != '\0' && (count <= ncsym) ){
-          temp++;
-          count++;
-	}
-        ncsym = count < ncsym ? count : ncsym;
+    /* - Determine number of characters in symbol. */
+    ncsym = (ksym_s - 1);
+    temp = ksym;
+    count = 0;
+    while (*temp != '\0' && (count <= ncsym)) {
+        temp++;
+        count++;
+    }
+    ncsym = count < ncsym ? count : ncsym;
 
-        ncsave = ncsym;
+    ncsave = ncsym;
 
-	/* - Do loop excludes leading blanks. */
-        temp = ksym;
-        while( ( *temp == ' ' ) && (ncsym > 0) ){
-          temp++;
-          ncsym--;
-	}
+    /* - Do loop excludes leading blanks. */
+    temp = ksym;
+    while ((*temp == ' ') && (ncsym > 0)) {
+        temp++;
+        ncsym--;
+    }
 
-        if( (ncsym > 0) && (temp != ksym) ) {
-          nchar = ncsave - (temp - ksym);
-          for(i=0; i<nchar; i++){
+    if ((ncsym > 0) && (temp != ksym)) {
+        nchar = ncsave - (temp - ksym);
+        for (i = 0; i < nchar; i++) {
             ksym[i] = temp[i];
-	  }
-          for(i=nchar; i< ncsave; i++) ksym[i] = ' ';
-	}
+        }
+        for (i = nchar; i < ncsave; i++)
+            ksym[i] = ' ';
+    }
 
-	return;
+    return;
 }
-

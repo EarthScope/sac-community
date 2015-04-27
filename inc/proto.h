@@ -15,4 +15,3 @@
 #ifndef MIN
 #define MIN(f1,f2) ((f1) < (f2) ? (f1) : (f2))
 #endif
-

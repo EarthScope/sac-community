@@ -5,26 +5,28 @@
 #define SAC_LONG_NAME_FIELDS
 #include "extfunc.h"
 
-
-void setnhdr( header_in, fieldname, value, error )
-sac_header *header_in;
-char      *fieldname;
-int           value;
-int          *error;
+void
+setnhdr(header_in, fieldname, value, error)
+     sac_header *header_in;
+     char *fieldname;
+     int value;
+     int *error;
 
 {
-  int i;
+    int i;
 
-  *error = 0;
+    *error = 0;
 
-  for( i=0; i<MNHDR; i++){
-    if(!strcmp(fieldname,long_hdr_fields[i]))break;
-  }
+    for (i = 0; i < MNHDR; i++) {
+        if (!strcmp(fieldname, long_hdr_fields[i]))
+            break;
+    }
 
-  if( i<MNHDR ) header_in->ext_nhdr[i] = value;
-  else *error = 1;
+    if (i < MNHDR)
+        header_in->ext_nhdr[i] = value;
+    else
+        *error = 1;
 
-  return;
-
+    return;
 
 }

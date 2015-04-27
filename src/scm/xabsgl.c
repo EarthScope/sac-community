@@ -4,22 +4,21 @@
 #include "scm.h"
 #include "bool.h"
 
-
 #include "ucf.h"
 
-void /*FUNCTION*/ xabsgl(data, nlen, thold, irgltp, nerr)
-float data[];
-int nlen;
-double thold;
-int irgltp, *nerr;
+void /*FUNCTION*/
+xabsgl(data, nlen, thold, irgltp, nerr)
+     float data[];
+     int nlen;
+     double thold;
+     int irgltp, *nerr;
 {
-	int lgood;
-	int ibad, igood, j;
+    int lgood;
+    int ibad, igood, j;
 
-	float *const Data = &data[0] - 1;
+    float *const Data = &data[0] - 1;
 
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: Remove glithces that exceed a certain value.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -57,32 +56,27 @@ int irgltp, *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  890427
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* -- Search file for regions outside threshold.
-	 *    Perform requested smoothing on data in each region. */
-	lgood = TRUE;
-	for( j = 1; j <= nlen; j++ ){
-		if( lgood && fabs( Data[j] ) >= thold ){
-			ibad = j;
-			lgood = FALSE;
-			}
-		else if( !lgood && (fabs( Data[j] ) < thold || (j == nlen)) ){
-			igood = j;
-			if( irgltp == 1 ){
-				linear( &Data[ibad - 1], igood - ibad + 2, &Data[ibad - 1] );
-				}
-			else if( irgltp == 2 ){
-				fill( &Data[ibad], igood - ibad, 0. );
-				}
-			lgood = TRUE;
-			}
-		}
+    /* -- Search file for regions outside threshold.
+     *    Perform requested smoothing on data in each region. */
+    lgood = TRUE;
+    for (j = 1; j <= nlen; j++) {
+        if (lgood && fabs(Data[j]) >= thold) {
+            ibad = j;
+            lgood = FALSE;
+        } else if (!lgood && (fabs(Data[j]) < thold || (j == nlen))) {
+            igood = j;
+            if (irgltp == 1) {
+                linear(&Data[ibad - 1], igood - ibad + 2, &Data[ibad - 1]);
+            } else if (irgltp == 2) {
+                fill(&Data[ibad], igood - ibad, 0.);
+            }
+            lgood = TRUE;
+        }
+    }
 
+    return;
 
-       
-	return;
-
-} /* end of function */
-
+}                               /* end of function */

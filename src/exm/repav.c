@@ -29,35 +29,31 @@
  * @date   820315:  Original version.
  *
  */
-void 
-repav(char  *ktext, 
-      int    ktext_s, 
-      char  *av, 
-      int    av_s) {
+void
+repav(char *ktext, int ktext_s, char *av, int av_s) {
 
-	char kline[MCMSG+1];
-	int nct, ncv;
-        char *strtemp1, *strtemp2;
+    char kline[MCMSG + 1];
+    int nct, ncv;
+    char *strtemp1, *strtemp2;
     memset(kline, 0, sizeof(kline));
-	/* - Determine length of text and value. */
-	nct = indexc( ktext,ktext_s, '$' );
-	ncv = indexb( av,av_s );
+    /* - Determine length of text and value. */
+    nct = indexc(ktext, ktext_s, '$');
+    ncv = indexb(av, av_s);
 
-	/* - Encode text and value of variable and send to message subsystem. */
+    /* - Encode text and value of variable and send to message subsystem. */
 
-        strtemp1 = malloc(nct+1);
-        strtemp2 = malloc(ncv+1);
-        strncpy(strtemp1,ktext,nct);
-        strtemp1[nct] = '\0';
-        strncpy(strtemp2,av,ncv);
-        strtemp2[ncv] = '\0';
+    strtemp1 = malloc(nct + 1);
+    strtemp2 = malloc(ncv + 1);
+    strncpy(strtemp1, ktext, nct);
+    strtemp1[nct] = '\0';
+    strncpy(strtemp2, av, ncv);
+    strtemp2[ncv] = '\0';
 
-        sprintf(kline,"   %s%s%s", strtemp1, " is ", strtemp2 );
-	aplmsg( kline,MCMSG+1 );
+    sprintf(kline, "   %s%s%s", strtemp1, " is ", strtemp2);
+    aplmsg(kline, MCMSG + 1);
 
-        free(strtemp1); 
-        free(strtemp2);
+    free(strtemp1);
+    free(strtemp2);
 
-	return;
+    return;
 }
-

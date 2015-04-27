@@ -21,15 +21,13 @@
  * @date   810000:  Original version.
  *
  */
-double 
-tosecs(int nsec, 
-       int nmsec) {
+double
+tosecs(int nsec, int nmsec) {
 
-	float tosecs_v;
+    float tosecs_v;
 
-	tosecs_v = (float)( nsec ) + 0.001*(float)( nmsec );
+    tosecs_v = (float) (nsec) + 0.001 * (float) (nmsec);
 
-	return( tosecs_v );
+    return (tosecs_v);
 
 }
-

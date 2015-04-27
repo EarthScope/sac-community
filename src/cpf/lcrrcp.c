@@ -30,66 +30,60 @@
  *
  */
 int
-lcrrcp(double  realmn, 
-       double  realmx, 
-       double *realv1, 
-       double *realv2) {
+lcrrcp(double realmn, double realmx, double *realv1, double *realv2) {
 
-	int lcrrcp_v;
-	int nerr;
-	float rv;
-  Token *t;
+    int lcrrcp_v;
+    int nerr;
+    float rv;
+    Token *t;
 
-	/* - Get real variable from next symbol.
-	 * - Check variable against allowed range.
-	 * - Perform standard command error recovery if not found.
-	 * - Repeat for second real. */
-L_2000:
-  if((t = arg()) && token_is_number(t)) {
-    //if( Itypcm[cmcom.jcom] == cmcom.inumbr ){
-		lcrrcp_v = TRUE;
-		rv = t->value;
-		if( rv >= realmn && rv <= realmx ){
-			*realv1 = rv;
-      arg_next();
-L_3000:
-      if((t = arg()) && token_is_number(t)) {
+    /* - Get real variable from next symbol.
+     * - Check variable against allowed range.
+     * - Perform standard command error recovery if not found.
+     * - Repeat for second real. */
+  L_2000:
+    if ((t = arg()) && token_is_number(t)) {
         //if( Itypcm[cmcom.jcom] == cmcom.inumbr ){
-				rv = t->value;
-				if( rv >= *realv1 && rv <= realmx ){
-					*realv2 = rv;
-          arg_next();
-				}
-				else{
-					cfmt( "OUTSIDE ALLOWED RANGE:",24 );
-          fprintf(stdout," Allowed range is: %16.5g%16.5g\n", *realv1, realmx );
-					cresp();
-					if( lcmore( &nerr ) )
-						goto L_3000;
-					lcrrcp_v = TRUE;
-				}
-			}
-			else{
-				cfmt( "NEED A REAL VARIABLE:",23 );
-				cresp();
-				if( lcmore( &nerr ) )
-					goto L_2000;
-				lcrrcp_v = TRUE;
-			}
-		}
-		else{
-			cfmt( "OUTSIDE ALLOWED RANGE:",24 );
-      fprintf(stdout," Allowed range is: %16.5g%16.5g\n", realmn, realmx );
-			cresp();
-			if( lcmore( &nerr ) )
-				goto L_2000;
-			lcrrcp_v = TRUE;
-		}
-	}
-	else{
-		lcrrcp_v = FALSE;
-	}
+        lcrrcp_v = TRUE;
+        rv = t->value;
+        if (rv >= realmn && rv <= realmx) {
+            *realv1 = rv;
+            arg_next();
+          L_3000:
+            if ((t = arg()) && token_is_number(t)) {
+                //if( Itypcm[cmcom.jcom] == cmcom.inumbr ){
+                rv = t->value;
+                if (rv >= *realv1 && rv <= realmx) {
+                    *realv2 = rv;
+                    arg_next();
+                } else {
+                    cfmt("OUTSIDE ALLOWED RANGE:", 24);
+                    fprintf(stdout, " Allowed range is: %16.5g%16.5g\n",
+                            *realv1, realmx);
+                    cresp();
+                    if (lcmore(&nerr))
+                        goto L_3000;
+                    lcrrcp_v = TRUE;
+                }
+            } else {
+                cfmt("NEED A REAL VARIABLE:", 23);
+                cresp();
+                if (lcmore(&nerr))
+                    goto L_2000;
+                lcrrcp_v = TRUE;
+            }
+        } else {
+            cfmt("OUTSIDE ALLOWED RANGE:", 24);
+            fprintf(stdout, " Allowed range is: %16.5g%16.5g\n", realmn,
+                    realmx);
+            cresp();
+            if (lcmore(&nerr))
+                goto L_2000;
+            lcrrcp_v = TRUE;
+        }
+    } else {
+        lcrrcp_v = FALSE;
+    }
 
-	return( lcrrcp_v );
+    return (lcrrcp_v);
 }
-

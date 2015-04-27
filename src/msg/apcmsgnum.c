@@ -22,17 +22,16 @@
  * \date   900430:  Documented/Reviewed
  *
  */
-void 
-apcmsgnum(int number)
-{
-	char kmsg[MCMSG+1];
+void
+apcmsgnum(int number) {
+    char kmsg[MCMSG + 1];
 
-	/* - Get message from disk file. */
-	getsmsg( number, kmsg,MCMSG+1 );
+    /* - Get message from disk file. */
+    getsmsg(number, kmsg, MCMSG + 1);
 
-	/* - Append to current message. */
+    /* - Append to current message. */
 
-	apcmsg( kmsg,MCMSG+1 );
+    apcmsg(kmsg, MCMSG + 1);
 
-	return;
+    return;
 }

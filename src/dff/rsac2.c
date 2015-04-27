@@ -53,106 +53,89 @@
  * @date   870902:  Documented/Reviewed
  *
  */
-void 
-rsac2(char      *kname, 
-      float     *yarray, 
-      int       *nlen, 
-      float     *xarray, 
-      int       *max_, 
-      int       *nerr, 
-      int        kname_s)
-{
-  int ncerr, nun;
-  int lswap;
-  int truncated;
-  sac *s;
-  float *const Xarray = &xarray[0] - 1;
-  
-  *nerr     = 0;
-  truncated = FALSE;
-  nun       = 0;
+void
+rsac2(char *kname, float *yarray, int *nlen, float *xarray, int *max_,
+      int *nerr, int kname_s) {
+    int ncerr, nun;
+    int lswap;
+    int truncated;
+    sac *s;
+    float *const Xarray = &xarray[0] - 1;
 
-  /* - Initialize some common blocks if not already done. */
-  sacio_initialize_common();
-  
-  /* - Open the file. */
-  zopen_sac( &nun, kname,kname_s, "RODATA",7, nerr );
-  if( *nerr != SAC_OK )
-    goto ERROR;
+    *nerr = 0;
+    truncated = FALSE;
+    nun = 0;
 
-  s = sac_new();
-  s->m->filename = fstrdup(kname, kname_s);
-  sacput(s);
-  
-  lswap = sac_header_read(nun, s, nerr);
-  
-  /* - Make sure file is unevenly spaced. */
-  
-  if( !s->h->leven ){
-    if( s->h->npts <= *max_ ){
-      *nlen = s->h->npts;
+    /* - Initialize some common blocks if not already done. */
+    sacio_initialize_common();
+
+    /* - Open the file. */
+    zopen_sac(&nun, kname, kname_s, "RODATA", 7, nerr);
+    if (*nerr != SAC_OK)
+        goto ERROR;
+
+    s = sac_new();
+    s->m->filename = fstrdup(kname, kname_s);
+    sacput(s);
+
+    lswap = sac_header_read(nun, s, nerr);
+
+    /* - Make sure file is unevenly spaced. */
+
+    if (!s->h->leven) {
+        if (s->h->npts <= *max_) {
+            *nlen = s->h->npts;
+        } else {
+            *nlen = *max_;
+            truncated = TRUE;
+        }
+    } else {
+        *nerr = ERROR_SAC_FILE_NOT_UNEVENLY_SPACED;
+        setmsg("ERROR", *nerr);
+        apcmsg(kname, kname_s);
+        goto ERROR;
     }
-    else{
-      *nlen = *max_;
-      truncated = TRUE;
+
+    /* - Read in the data. */
+    sac_data_read(nun, yarray, *nlen, SAC_FIRST_COMPONENT, lswap, (int *) nerr);
+    if (*nerr != SAC_OK) {
+        error(*nerr, "%s", s->m->filename);
+        goto ERROR;
     }
-  } else {
-    *nerr = ERROR_SAC_FILE_NOT_UNEVENLY_SPACED;
-    setmsg( "ERROR", *nerr );
-    apcmsg( kname,kname_s );
-    goto ERROR;
-  }
-  
-  /* - Read in the data. */
-  sac_data_read(nun, yarray, *nlen, SAC_FIRST_COMPONENT, lswap, (int *)nerr);
-  if( *nerr != SAC_OK ) {
-    error(*nerr, "%s", s->m->filename);
-    goto ERROR;
-  }
 
-  sac_data_read(nun, xarray, *nlen, SAC_SECOND_COMPONENT, lswap, (int *)nerr);
-  if( *nerr != SAC_OK ) {
-    error(*nerr, "%s", s->m->filename);
-    goto ERROR;
-  }
+    sac_data_read(nun, xarray, *nlen, SAC_SECOND_COMPONENT, lswap,
+                  (int *) nerr);
+    if (*nerr != SAC_OK) {
+        error(*nerr, "%s", s->m->filename);
+        goto ERROR;
+    }
 
-  s->y = yarray;
-  s->x = xarray;
-  /* - Adjust several header fields. */
-  s->h->npts = *nlen;
-  s->h->e    = Xarray[s->h->npts];
-  
- ERROR:
-  *nerr = ( *nerr == SAC_OK && truncated == TRUE) ? -ERROR_SAC_DATA_TRUNCATED_ON_READ : *nerr;
+    s->y = yarray;
+    s->x = xarray;
+    /* - Adjust several header fields. */
+    s->h->npts = *nlen;
+    s->h->e = Xarray[s->h->npts];
 
-  if(*nerr) {
-    outmsg();
-    clrmsg();
-  }
-  zclose( &nun, &ncerr );
-  return;
+  ERROR:
+    *nerr = (*nerr == SAC_OK &&
+             truncated == TRUE) ? -ERROR_SAC_DATA_TRUNCATED_ON_READ : *nerr;
+
+    if (*nerr) {
+        outmsg();
+        clrmsg();
+    }
+    zclose(&nun, &ncerr);
+    return;
 }
 
-
-void 
-rsac2_ (char      *kname, 
-	float     *yarray,
-	int       *nlen, 
-	float     *xarray, 
-	int       *max_, 
-	int       *nerr, 
-	int        kname_s) {
-  rsac2 ( kname , yarray , nlen , xarray , max_ , nerr , kname_s ) ;
+void
+rsac2_(char *kname, float *yarray, int *nlen, float *xarray, int *max_,
+       int *nerr, int kname_s) {
+    rsac2(kname, yarray, nlen, xarray, max_, nerr, kname_s);
 }
 
-
-void 
-rsac2__ (char      *kname, 
-	 float     *yarray, 
-	 int       *nlen, 
-	 float     *xarray, 
-	 int       *max_, 
-	 int       *nerr, 
-	 int        kname_s) {
-  rsac2 ( kname , yarray , nlen , xarray , max_ , nerr , kname_s ) ;
+void
+rsac2__(char *kname, float *yarray, int *nlen, float *xarray, int *max_,
+        int *nerr, int kname_s) {
+    rsac2(kname, yarray, nlen, xarray, max_, nerr, kname_s);
 }

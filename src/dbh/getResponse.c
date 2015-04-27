@@ -12,7 +12,6 @@
 #include "hdr.h"
 #include "sam.h"
 
-
 #include "ucf.h"
 #include "icm.h"
 #include "debug.h"
@@ -100,150 +99,143 @@
  *
  *  @date    071022 Docuemnted/Reviewed
  */
-void 
-getResponse(float     *array, 
-	    int        order, 
-	    float      gain ,
-      char      *kprefix,
-      int        npts,
-      float      delta,
-	    int       *nerr)
-{
-	int idx, jdx , kdx ;
-	const float pi = 3.14159265;
-	float userData[ 10 ] ;
-	float *impulse = NULL , *h ;
-	double *Real = NULL , *Imagine = NULL , *re , *im;
+void
+getResponse(float *array, int order, float gain, char *kprefix, int npts,
+            float delta, int *nerr) {
+    int idx, jdx, kdx;
+    const float pi = 3.14159265;
+    float userData[10];
+    float *impulse = NULL, *h;
+    double *Real = NULL, *Imagine = NULL, *re, *im;
 
-	int nFreq;
-  float *resp[4];
+    int nFreq;
+    float *resp[4];
 
-  nFreq = next2(npts);
-  /* Allocate workspace for impulse response */
-	impulse = (float *) calloc ( npts + order , sizeof( float ) ) ;
-	if ( !impulse )
-	    goto L_ERROR ;
-	h = impulse + order ;  /* leave first set of elements at zero */
+    nFreq = next2(npts);
+    /* Allocate workspace for impulse response */
+    impulse = (float *) calloc(npts + order, sizeof(float));
+    if (!impulse)
+        goto L_ERROR;
+    h = impulse + order;        /* leave first set of elements at zero */
 
-	/* Allocate space for Impulse Response, Amplitude Response,
-	   Phase Response, Group Delay
-	   and Impulse Response. */
-	for( idx = 0; idx < 4 ; idx++ ){
-    resp[idx] = (float *) malloc(sizeof(float) * nFreq);
-    if(!resp[idx]) {
-      goto L_ERROR;
-    }
-	}
-
-	/* Allocate workspace for real/imaginary responses. 
-	   Double precision for the fourier transform function. */
-        Real = (double *) calloc( nFreq , sizeof( double ) ) ;
-        if ( !Real ) {
-            *nerr = 301 ;
-            goto L_ERROR ;
-        }
-        Imagine = (double *) calloc( nFreq , sizeof( double ) ) ;
-        if( !Imagine ) {
-            *nerr = 301 ;
-            free ( Real ) ;
-            Real = NULL ;
+    /* Allocate space for Impulse Response, Amplitude Response,
+       Phase Response, Group Delay
+       and Impulse Response. */
+    for (idx = 0; idx < 4; idx++) {
+        resp[idx] = (float *) malloc(sizeof(float) * nFreq);
+        if (!resp[idx]) {
             goto L_ERROR;
         }
-	re = Real ;
+    }
 
-	/* Determine Impulse Response */
-	   /* store a copy of impulse response in Real for fourier transform. */
-	*re++ = 0.0 ;
-  resp[0][0] = 0.0;
+    /* Allocate workspace for real/imaginary responses. 
+       Double precision for the fourier transform function. */
+    Real = (double *) calloc(nFreq, sizeof(double));
+    if (!Real) {
+        *nerr = 301;
+        goto L_ERROR;
+    }
+    Imagine = (double *) calloc(nFreq, sizeof(double));
+    if (!Imagine) {
+        *nerr = 301;
+        free(Real);
+        Real = NULL;
+        goto L_ERROR;
+    }
+    re = Real;
 
-	//*Sacmem = h[ 0 ] = gain ;
-  resp[0][1] = gain;
-	//*re++ = (double)*Sacmem++ ;
-	*re++ = (double)resp[0][1];
+    /* Determine Impulse Response */
+    /* store a copy of impulse response in Real for fourier transform. */
+    *re++ = 0.0;
+    resp[0][0] = 0.0;
 
-	/* loop over time */
-	for( jdx = 1 ; jdx < npts - 1 ; jdx++ ) {
-	    /* loop over coefficients */
-	    for( kdx = 1 ; kdx <= order ; kdx++ ) {
-		h[ jdx ] -= array[ kdx ] * h[ jdx - kdx ] ;
-	    } /* end loop over coefficients */
+    //*Sacmem = h[ 0 ] = gain ;
+    resp[0][1] = gain;
+    //*re++ = (double)*Sacmem++ ;
+    *re++ = (double) resp[0][1];
 
-	    *re++ = (double) h[ jdx ] ;
-	    //*Sacmem++ = h[ jdx ] ;
-      resp[0][1+jdx] = h[jdx];
-	} /* end loop over time */
+    /* loop over time */
+    for (jdx = 1; jdx < npts - 1; jdx++) {
+        /* loop over coefficients */
+        for (kdx = 1; kdx <= order; kdx++) {
+            h[jdx] -= array[kdx] * h[jdx - kdx];
+        }                       /* end loop over coefficients */
 
-	/* Determine Real and Imaginary responses */
-	re = Real ;
-	im = Imagine ;
+        *re++ = (double) h[jdx];
+        //*Sacmem++ = h[ jdx ] ;
+        resp[0][1 + jdx] = h[jdx];
+    }                           /* end loop over time */
 
-	dcpft( re , im , nFreq , 1 , cmsam.ifwd ) ;
+    /* Determine Real and Imaginary responses */
+    re = Real;
+    im = Imagine;
 
-	re = Real ;
-	im = Imagine ;
+    dcpft(re, im, nFreq, 1, cmsam.ifwd);
 
-	for( jdx = 0; jdx < nFreq; jdx++ ){
-	    (*re) *= delta ;
-	    (*im) *= delta ;
-	    //*Sacmem1++ = (float) *re++ ;
-	    //*Sacmem2++ = (float) *im++ ;
-      resp[1][jdx] = (float) *re++;
-      resp[2][jdx] = (float) *im++;
-	}
+    re = Real;
+    im = Imagine;
 
-	/* Determine Group Delay */
-	re = Real ;
-	im = Imagine ;
+    for (jdx = 0; jdx < nFreq; jdx++) {
+        (*re) *= delta;
+        (*im) *= delta;
+        //*Sacmem1++ = (float) *re++ ;
+        //*Sacmem2++ = (float) *im++ ;
+        resp[1][jdx] = (float) *re++;
+        resp[2][jdx] = (float) *im++;
+    }
 
-	for( jdx = 1; jdx < nFreq; jdx++ ){
-	    /* Fill Group Delay Array */
-      resp[3][jdx] =
-	      ( ( re[ jdx ] * ( im[ jdx ] - im[ jdx - 1 ] ) -
-	        im[ jdx ] * ( re[ jdx ] - re[ jdx - 1 ] ) ) /
-	      ( ( re[ jdx ] * re[ jdx ] + im[ jdx ] * im[ jdx ] ) * 2 * pi ) ) 
-	      * nFreq * delta ;
+    /* Determine Group Delay */
+    re = Real;
+    im = Imagine;
 
-		/* multiplying by nFreq and delta is equivalent to dividing by
-		   delta frequency which is part of the derivative process */
-	}
+    for (jdx = 1; jdx < nFreq; jdx++) {
+        /* Fill Group Delay Array */
+        resp[3][jdx] =
+            ((re[jdx] * (im[jdx] - im[jdx - 1]) -
+              im[jdx] * (re[jdx] - re[jdx - 1])) / ((re[jdx] * re[jdx] +
+                                                     im[jdx] * im[jdx]) * 2 *
+                                                    pi))
+            * nFreq * delta;
 
-	/* copy second point to first point in group delay */
-	   /* the derivative leaves us with one less point than we started with. */
-	   /* setting the first point to the second point is a way get back the
-	      original npts. */
-  resp[3][0] = resp[3][1];
+        /* multiplying by nFreq and delta is equivalent to dividing by
+           delta frequency which is part of the derivative process */
+    }
 
-	/* convert real/imaginary data to amplitude/phase */
-	toamph( resp[1], resp[2], nFreq, resp[1], resp[2] ) ;
+    /* copy second point to first point in group delay */
+    /* the derivative leaves us with one less point than we started with. */
+    /* setting the first point to the second point is a way get back the
+       original npts. */
+    resp[3][0] = resp[3][1];
 
-	/* set userData */
-	userData[ 0 ] = 5 ;
-	userData[ 1 ] = 5 ;
-	userData[ 2 ] = order ;
-	userData[ 3 ] = SAC_FLOAT_UNDEFINED ;
-	userData[ 4 ] = SAC_FLOAT_UNDEFINED ;
-	userData[ 5 ] = SAC_FLOAT_UNDEFINED ;
-	userData[ 6 ] = delta ;
-	userData[ 7 ] = SAC_FLOAT_UNDEFINED ;
-	userData[ 8 ] = SAC_FLOAT_UNDEFINED ;
-	userData[ 9 ] = SAC_FLOAT_UNDEFINED ;
+    /* convert real/imaginary data to amplitude/phase */
+    toamph(resp[1], resp[2], nFreq, resp[1], resp[2]);
 
-	/* Write sac files. */
-	fdWhitenWrite( resp , kprefix , userData , npts , nFreq , nerr ) ;
+    /* set userData */
+    userData[0] = 5;
+    userData[1] = 5;
+    userData[2] = order;
+    userData[3] = SAC_FLOAT_UNDEFINED;
+    userData[4] = SAC_FLOAT_UNDEFINED;
+    userData[5] = SAC_FLOAT_UNDEFINED;
+    userData[6] = delta;
+    userData[7] = SAC_FLOAT_UNDEFINED;
+    userData[8] = SAC_FLOAT_UNDEFINED;
+    userData[9] = SAC_FLOAT_UNDEFINED;
 
-L_ERROR:
-	/* clean up temporary memory */
-	if( Real ) 
-            free( Real ) ;
-	if( Imagine )
-            free( Imagine ) ;
-	if( impulse )
-            free( impulse ) ;
+    /* Write sac files. */
+    fdWhitenWrite(resp, kprefix, userData, npts, nFreq, nerr);
 
-        for( idx = 0; idx < 4 ; idx++ ){
-            FREE(resp[idx]);
-        }
+  L_ERROR:
+    /* clean up temporary memory */
+    if (Real)
+        free(Real);
+    if (Imagine)
+        free(Imagine);
+    if (impulse)
+        free(impulse);
+
+    for (idx = 0; idx < 4; idx++) {
+        FREE(resp[idx]);
+    }
 
 }
-
-

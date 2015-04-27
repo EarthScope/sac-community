@@ -23,11 +23,11 @@ int
 sac_print_disabled(int getset) {
     static int virgin = TRUE;
     static int print_disabled = FALSE;
-    if(getset == OPTION_ON || getset == OPTION_OFF) {
+    if (getset == OPTION_ON || getset == OPTION_OFF) {
         print_disabled = getset;
         virgin = FALSE;
     }
-    if(virgin) {
+    if (virgin) {
         virgin = FALSE;
         print_disabled = env_bool("SAC_PRINT_DISABLED", print_disabled);
     }
@@ -38,11 +38,11 @@ int
 sac_print_verbose(int getset) {
     static int virgin = TRUE;
     static int print_verbose = FALSE;
-    if(getset == OPTION_ON || getset == OPTION_OFF) {
+    if (getset == OPTION_ON || getset == OPTION_OFF) {
         print_verbose = getset;
         virgin = FALSE;
     }
-    if(virgin) {
+    if (virgin) {
         virgin = FALSE;
         print_verbose = env_bool("SAC_PRINT_VERBOSE", print_verbose);
     }
@@ -51,101 +51,101 @@ sac_print_verbose(int getset) {
 
 char *
 tmpfile_create(char *template, int xs) {
-  int fd;
-  char *file = strdup(template);
-  if (!file)
-    return NULL;
-  fd = mkstemps(file, xs);
-  if(fd < 0) {
-    free(file);
-    file = NULL;
-  }
-  close(fd);
-  return file;
+    int fd;
+    char *file = strdup(template);
+    if (!file)
+        return NULL;
+    fd = mkstemps(file, xs);
+    if (fd < 0) {
+        free(file);
+        file = NULL;
+    }
+    close(fd);
+    return file;
 }
 
 int
 sgf_to_ps(char *sgf, char *ps) {
-  int retval;
-  char *command = NULL;
-  if(!sgf || !*sgf) {
-    fprintf(stderr, "sgf_to_ps: No SGF file for conversion from\n");
-    return -1;
-  }
-  if(!ps || !*ps) {
-    fprintf(stderr, "sgf_to_ps: No PS file for conversion to\n");
-    return -1;
-  }
-  asprintf(&command, "sgftops %s %s ", sgf, ps);
-  if(!command) {
-    fprintf(stderr, "sgf_to_ps: Error allocating memory for command\n");
-    return -1;
-  }
-  if(sac_print_verbose(OPTION_GET)) {
-    fprintf(stderr, "sgf:   %s\n", sgf);
-    fprintf(stderr, "ps:    %s\n", ps);
-  }
-  retval = system(command);
-  free(command);
-  command = NULL;
-  return retval;
+    int retval;
+    char *command = NULL;
+    if (!sgf || !*sgf) {
+        fprintf(stderr, "sgf_to_ps: No SGF file for conversion from\n");
+        return -1;
+    }
+    if (!ps || !*ps) {
+        fprintf(stderr, "sgf_to_ps: No PS file for conversion to\n");
+        return -1;
+    }
+    asprintf(&command, "sgftops %s %s ", sgf, ps);
+    if (!command) {
+        fprintf(stderr, "sgf_to_ps: Error allocating memory for command\n");
+        return -1;
+    }
+    if (sac_print_verbose(OPTION_GET)) {
+        fprintf(stderr, "sgf:   %s\n", sgf);
+        fprintf(stderr, "ps:    %s\n", ps);
+    }
+    retval = system(command);
+    free(command);
+    command = NULL;
+    return retval;
 }
 
 int
 ps_print(char *ps, char *printer) {
-  int retval = 0;
-  char *command = NULL;
-  if(!ps || !*ps) {
-    fprintf(stderr, "ps_print: No PS file to print\n");
-    return -1;
-  }
-  if(printer && printer[0] != 0) {
-    asprintf(&command, "lpr -P %s %s", printer, ps);
-  } else {
-    asprintf(&command, "lpr %s", ps);
-  }
-  if (!command) {
-    fprintf(stderr, "ps_print: Error allocating memory for command\n");
-    return -1;
-  }
-  if(sac_print_verbose(OPTION_GET)) {
-      fprintf(stderr, "print: %s\n", command);
-  }
-  if(!sac_print_disabled(OPTION_GET)) {
-      retval = system(command);
-  }
-  if(sac_print_verbose(OPTION_GET)) {
-      fprintf(stderr, "%% ls /tmp/sac*\n");
-      system("ls /tmp/sac*");
-  }
-  free(command);
-  command = NULL;
-  return retval;
+    int retval = 0;
+    char *command = NULL;
+    if (!ps || !*ps) {
+        fprintf(stderr, "ps_print: No PS file to print\n");
+        return -1;
+    }
+    if (printer && printer[0] != 0) {
+        asprintf(&command, "lpr -P %s %s", printer, ps);
+    } else {
+        asprintf(&command, "lpr %s", ps);
+    }
+    if (!command) {
+        fprintf(stderr, "ps_print: Error allocating memory for command\n");
+        return -1;
+    }
+    if (sac_print_verbose(OPTION_GET)) {
+        fprintf(stderr, "print: %s\n", command);
+    }
+    if (!sac_print_disabled(OPTION_GET)) {
+        retval = system(command);
+    }
+    if (sac_print_verbose(OPTION_GET)) {
+        fprintf(stderr, "%% ls /tmp/sac*\n");
+        system("ls /tmp/sac*");
+    }
+    free(command);
+    command = NULL;
+    return retval;
 }
 
 int
 sgf_print(char *sgf, char *printer) {
-  int retval;
-  char *ps;
-  if(!sgf || !*sgf) {
-    fprintf(stderr, "sgf_print: No SGF file to print\n");
-    return -1;
-  }
-  ps = tmpfile_create("/tmp/sac_temp_XXXXXX.ps", 3);
-  if(!ps) {
-    fprintf(stderr, "Error creating tmp PS file\n");
-    return -1;
-  }
-  if(sgf_to_ps(sgf, ps)) {
-    retval = -1;
-    goto L_ERROR;
-  }
-  retval = ps_print(ps, printer);
+    int retval;
+    char *ps;
+    if (!sgf || !*sgf) {
+        fprintf(stderr, "sgf_print: No SGF file to print\n");
+        return -1;
+    }
+    ps = tmpfile_create("/tmp/sac_temp_XXXXXX.ps", 3);
+    if (!ps) {
+        fprintf(stderr, "Error creating tmp PS file\n");
+        return -1;
+    }
+    if (sgf_to_ps(sgf, ps)) {
+        retval = -1;
+        goto L_ERROR;
+    }
+    retval = ps_print(ps, printer);
 
-L_ERROR:
-  unlink(ps);
-  free(ps);
-  return retval;
+  L_ERROR:
+    unlink(ps);
+    free(ps);
+    return retval;
 }
 
 /*
@@ -165,26 +165,25 @@ L_ERROR:
  *	999422:	Original version.  
  *
  */
-void 
-xprint ( int *nerr ) 
-{
-	char printerName[ 80 ];
+void
+xprint(int *nerr) {
+    char printerName[80];
 
-        memset(printerName, 0, 80);
+    memset(printerName, 0, 80);
 
-        *nerr = 0;
+    *nerr = 0;
 
-        /* PARSING PHASE: */
+    /* PARSING PHASE: */
 
-        /* - There will be one or fewer tokens:  printer name */
+    /* - There will be one or fewer tokens:  printer name */
 
-        if ( lcchar ( printerName , sizeof(printerName)) ) { }
-	    
-	/* EXECUTION PHASE */
+    if (lcchar(printerName, sizeof(printerName))) {
+    }
 
-	if ( kmgd2.kfilename[ 0 ] ) {	/* if there is an SGF file */
-          sgf_print(kmgd2.kfilename, printerName);
-	}
-	else 		/* if no SGF files have been produced */
-	    *nerr = 2405 ;
+    /* EXECUTION PHASE */
+
+    if (kmgd2.kfilename[0]) {   /* if there is an SGF file */
+        sgf_print(kmgd2.kfilename, printerName);
+    } else                      /* if no SGF files have been produced */
+        *nerr = 2405;
 }

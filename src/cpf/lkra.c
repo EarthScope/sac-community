@@ -37,19 +37,14 @@
  *
  */
 int
-lkra(char   *kkey, 
-     int     kkey_s, 
-     int     nramn, 
-     int     nramx, 
-     double *ra, 
-     int    *nra) {
+lkra(char *kkey, int kkey_s, int nramn, int nramx, double *ra, int *nra) {
 
-	if(!lckey( kkey,kkey_s )) {
-    return FALSE;
-  }
+    if (!lckey(kkey, kkey_s)) {
+        return FALSE;
+    }
 
-  if(!lcra(nramn, nramx, ra, nra)) {
-    return FALSE;
-  }
-  return TRUE;
+    if (!lcra(nramn, nramx, ra, nra)) {
+        return FALSE;
+    }
+    return TRUE;
 }

@@ -1,36 +1,35 @@
 
 #include "xyz.h"
 
-
 #include "co.h"
 
-void /*FUNCTION*/ writezdata(filename, filename_s, zdata, nzsize, nerr)
-char *filename;   int filename_s;
-float zdata[];
-int *nzsize, *nerr;
+void /*FUNCTION*/
+writezdata(filename, filename_s, zdata, nzsize, nerr)
+     char *filename;
+     int filename_s;
+     float zdata[];
+     int *nzsize, *nerr;
 {
-	int _l0, notused, nun;
+    int _l0, notused, nun;
 
-	/* - Create file */
+    /* - Create file */
 
-	znfile( &nun, filename,filename_s, "DATA",5, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    znfile(&nun, filename, filename_s, "DATA", 5, nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* - Write data to file */
+    /* - Write data to file */
 
-        _l0 = 0;
-	zwabs( (int *)&nun, (char *)(zdata), *nzsize, (int *)&_l0, (int *)nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    _l0 = 0;
+    zwabs((int *) &nun, (char *) (zdata), *nzsize, (int *) &_l0, (int *) nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* - Close file. */
+    /* - Close file. */
 
-	zclose( &nun, &notused );
+    zclose(&nun, &notused);
 
-L_8888:
-	return;
+  L_8888:
+    return;
 
-} /* end of function */
-
-
+}                               /* end of function */

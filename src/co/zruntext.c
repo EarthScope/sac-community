@@ -28,26 +28,22 @@
  * @date   871014:  Original version.
  *
  */
-void 
-zruntext(char *text, 
-	 int   text_s, 
-	 FILE *nfun, 
-	 int  *nerr) {
+void
+zruntext(char *text, int text_s, FILE * nfun, int *nerr) {
 
-	int nctext;
-  char *strtemp;
-  *nerr = 0;
-	/* - Write line to the file. */
-	nctext = max( 1, indexb( text,text_s ) );
+    int nctext;
+    char *strtemp;
+    *nerr = 0;
+    /* - Write line to the file. */
+    nctext = max(1, indexb(text, text_s));
 
-        strtemp = malloc(nctext+1);
-        strncpy(strtemp,text,nctext);
-        strtemp[nctext] = '\0';
+    strtemp = malloc(nctext + 1);
+    strncpy(strtemp, text, nctext);
+    strtemp[nctext] = '\0';
 
-        fprintf(nfun,"%s\n",strtemp);
-  
-        free(strtemp);
+    fprintf(nfun, "%s\n", strtemp);
 
-	return;
+    free(strtemp);
+
+    return;
 }
-

@@ -2,25 +2,26 @@
 
 #include "extfunc.h"
 
-void fsetfhdr_(hdr_index, fieldname, value, error, lenfield)
-int *hdr_index;
-char *fieldname;
-float    *value;
-int     *error;
-int   lenfield;
+void
+fsetfhdr_(hdr_index, fieldname, value, error, lenfield)
+     int *hdr_index;
+     char *fieldname;
+     float *value;
+     int *error;
+     int lenfield;
 {
-  char infield[9];
-  sac_header *hdr_in;
+    char infield[9];
+    sac_header *hdr_in;
 
-  hdr_in = indata->ext_hdrs[*hdr_index-1];
+    hdr_in = indata->ext_hdrs[*hdr_index - 1];
 
-  memset(infield,' ',8);
-  infield[8]='\0';
+    memset(infield, ' ', 8);
+    infield[8] = '\0';
 
-  getfield(fieldname, lenfield, infield);
+    getfield(fieldname, lenfield, infield);
 
-  setfhdr(hdr_in, infield, *value, error);
+    setfhdr(hdr_in, infield, *value, error);
 
-  return;
+    return;
 
 }

@@ -29,28 +29,27 @@
  */
 
 int
-convcolorname(char *name, 
-              int   *number) {
-  int i;
-	char ktest[9];
-  char *nofill[] = {"none","empty","trans","transparent"};
+convcolorname(char *name, int *number) {
+    int i;
+    char ktest[9];
+    char *nofill[] = { "none", "empty", "trans", "transparent" };
 
-	/* - Convert input color name to upper case. */
-	upcase( name, min(strlen(name),MCPW), ktest,9 );
+    /* - Convert input color name to upper case. */
+    upcase(name, min(strlen(name), MCPW), ktest, 9);
 
-	/* - Test name versus list of names in default color table. */
-	if( lequal( ktest,9, (char*)kmgdm.ctname[0],9, cmgdm.nctsize+1, number ) ){
-    *number = *number - 1;
-    return TRUE;
-  }
-  for(i = 0; i < (int)(sizeof(nofill)/sizeof(char*)); i++) {
-    if(strcasecmp(name, nofill[i]) == 0) {
-      *number = -1;
-      return TRUE;
+    /* - Test name versus list of names in default color table. */
+    if (lequal
+        (ktest, 9, (char *) kmgdm.ctname[0], 9, cmgdm.nctsize + 1, number)) {
+        *number = *number - 1;
+        return TRUE;
     }
-  }
-  /* - If not found, return a -1 */
-  *number = -1;
-  return FALSE;
+    for (i = 0; i < (int) (sizeof(nofill) / sizeof(char *)); i++) {
+        if (strcasecmp(name, nofill[i]) == 0) {
+            *number = -1;
+            return TRUE;
+        }
+    }
+    /* - If not found, return a -1 */
+    *number = -1;
+    return FALSE;
 }
-

@@ -14,16 +14,17 @@
 
 extern sac *spe;
 
-void /*FUNCTION*/ xwhiten(nerr)
-int *nerr;
+void /*FUNCTION*/
+xwhiten(nerr)
+     int *nerr;
 {
-	int nprerq;
-	/* names for the FD option */
-	char kname[ MCPFN + 10 ] ;
-	char temp[ 131 ] ;
+    int nprerq;
+    /* names for the FD option */
+    char kname[MCPFN + 10];
+    char temp[131];
     char *tmp;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To parse and execute the action command WHITEN.
 	 *          This command adds white noise to the data. 
 	 *=====================================================================
@@ -43,81 +44,80 @@ int *nerr;
 	 * SUBROUTINES CALLED:
 	 *    SACLIB:  LCMORE, CFMT, CRESP, PREWIT
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* - PARSING PHASE: */
+    /* - PARSING PHASE: */
 
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-	while ( lcmore( nerr ) ){
+    while (lcmore(nerr)) {
 
-	    /* -- order  */
-	    if ( lcint ( &nprerq ) ) {
-		cmspe.nprerq = nprerq ;
-	    }
+        /* -- order  */
+        if (lcint(&nprerq)) {
+            cmspe.nprerq = nprerq;
+        }
 
-	    /* FILTERDESIGN: pass whiten coefficients into filterdesign */
-	    else if ( lckey ( "FILTERDESIGN #$" , 16 ) || lckey ( "FD #$" , 6 ) ) 
-		cmicm.lfd = TRUE ;
+        /* FILTERDESIGN: pass whiten coefficients into filterdesign */
+        else if (lckey("FILTERDESIGN #$", 16) || lckey("FD #$", 6))
+            cmicm.lfd = TRUE;
 
-	    /* -- Bad syntax. */
-	    else{
-		cfmt( "ILLEGAL OPTION:",17 );
-		cresp();
-	    }
-	} /* end while ( lcmore ( nerr ) */
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
+    }                           /* end while ( lcmore ( nerr ) */
 
-	if( *nerr != 0 )
-	    goto L_8888;
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* CHECKING PHASE: */
+    /* CHECKING PHASE: */
 
-	if( !cmspe.lfile ){
-	    *nerr = 5006;
-	    setmsg( "ERROR", *nerr );
-	    goto L_8888;
-	}
+    if (!cmspe.lfile) {
+        *nerr = 5006;
+        setmsg("ERROR", *nerr);
+        goto L_8888;
+    }
 
-	/* EXECUTION PHASE: */
+    /* EXECUTION PHASE: */
 
-	/* - Prewhiten data if requested.
-	 *   Adjust data array start and length to account for prewhitening. */
+    /* - Prewhiten data if requested.
+     *   Adjust data array start and length to account for prewhitening. */
 
-	cmspe.nprewh = min( cmspe.nprerq, MPREWH );
+    cmspe.nprewh = min(cmspe.nprerq, MPREWH);
 
-	/* if FD option used, get filename */
-	if ( cmicm.lfd ) {
+    /* if FD option used, get filename */
+    if (cmicm.lfd) {
         tmp = spe->m->filename;
-        strncpy( kname, tmp, strlen(tmp) );
-	}
+        strncpy(kname, tmp, strlen(tmp));
+    }
 
-	temp[ 0 ] = '\0' ;
-	prewit( spe->y, spe->h->npts, spe->h->delta, &cmspe.nprewh, 
-	  cmspe.cprewh, kname , temp );
+    temp[0] = '\0';
+    prewit(spe->y, spe->h->npts, spe->h->delta, &cmspe.nprewh, cmspe.cprewh,
+           kname, temp);
 
-	if( temp[ 0 ] )
-	    memcpy( kmspe.kermsg, temp, strlen( temp ) ) ;
+    if (temp[0])
+        memcpy(kmspe.kermsg, temp, strlen(temp));
 
-	/* Turn off cmicm.lfd, it is not sticky */
-	cmicm.lfd = FALSE ;
+    /* Turn off cmicm.lfd, it is not sticky */
+    cmicm.lfd = FALSE;
 
-	if( memcmp(kmspe.kermsg,"        ",8) != 0 ){
-	    *nerr = 5005;
-	    setmsg( "ERROR", *nerr );
-	    aplmsg( kmspe.kermsg,131 );
-	    goto L_8888;
-	}
+    if (memcmp(kmspe.kermsg, "        ", 8) != 0) {
+        *nerr = 5005;
+        setmsg("ERROR", *nerr);
+        aplmsg(kmspe.kermsg, 131);
+        goto L_8888;
+    }
 
-L_8888:
-	return;
+  L_8888:
+    return;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    980710:  Original version.  maf
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  
 	 *===================================================================== */
 
-} /* end of function */
-
+}                               /* end of function */

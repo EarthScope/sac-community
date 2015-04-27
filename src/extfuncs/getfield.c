@@ -1,28 +1,29 @@
-void getfield(fieldname, lenfield, fieldout)
-char *fieldname;
-int   lenfield;
-char  *fieldout;
+void
+getfield(fieldname, lenfield, fieldout)
+     char *fieldname;
+     int lenfield;
+     char *fieldout;
 {
 /* Return a NULL terminated string with leading blanks removed. */
-  char *tempin, *tempout;
-  int   count = 0;
+    char *tempin, *tempout;
+    int count = 0;
 
-  tempin = fieldname;
+    tempin = fieldname;
 
-  while ( *tempin == ' ' ) {
-    tempin++;
-    count++;
-  }
+    while (*tempin == ' ') {
+        tempin++;
+        count++;
+    }
 
-  tempout = fieldout;
+    tempout = fieldout;
 
-  while((*tempin != ' ') && (count < lenfield) && (*tempout != '\0')){
-    *tempout++ = *tempin++;
-    count++;
-  }
+    while ((*tempin != ' ') && (count < lenfield) && (*tempout != '\0')) {
+        *tempout++ = *tempin++;
+        count++;
+    }
 
-  *tempout = '\0';
+    *tempout = '\0';
 
-  return;
+    return;
 
 }

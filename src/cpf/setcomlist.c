@@ -22,12 +22,11 @@
  * @date   861203:  Original version.
  *
  */
-void 
+void
 setcomlist(int number) {
 
-	if( number >= 1 && number <= 3 )
-	  cmcomlists.icomlist = number;
+    if (number >= 1 && number <= 3)
+        cmcomlists.icomlist = number;
 
-	return;
+    return;
 }
-

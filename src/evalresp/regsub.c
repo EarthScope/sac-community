@@ -22,7 +22,7 @@
  *                      other libraries.
  */
 #include <stdio.h>
-#include <string.h>          /* added 8/28/2001 -- [ET] */
+#include <string.h>             /* added 8/28/2001 -- [ET] */
 #include "regexp.h"
 #include "regmagic.h"
 
@@ -37,46 +37,46 @@
  */
 void
 evr_regsub(prog, source, dest)
-regexp *prog;
-char *source;
-char *dest;
+     regexp *prog;
+     char *source;
+     char *dest;
 {
-	register char *src;
-	register char *dst;
-	register char c;
-	register int no;
-	register int len;
+    register char *src;
+    register char *dst;
+    register char c;
+    register int no;
+    register int len;
 
-	if (prog == NULL || source == NULL || dest == NULL) {
-		evr_regerror("NULL parm to evr_regsub");
-		return;
-	}
-	if (UCHARAT(prog->program) != MAGIC) {
-		evr_regerror("damaged regexp fed to evr_regsub");
-		return;
-	}
+    if (prog == NULL || source == NULL || dest == NULL) {
+        evr_regerror("NULL parm to evr_regsub");
+        return;
+    }
+    if (UCHARAT(prog->program) != MAGIC) {
+        evr_regerror("damaged regexp fed to evr_regsub");
+        return;
+    }
 
-	src = source;
-	dst = dest;
-	while ((c = *src++) != '\0') {
-		if (c == '&')
-			no = 0;
-		else if (c == '\\' && '0' <= *src && *src <= '9')
-			no = *src++ - '0';
-		else
-			no = -1;
+    src = source;
+    dst = dest;
+    while ((c = *src++) != '\0') {
+        if (c == '&')
+            no = 0;
+        else if (c == '\\' && '0' <= *src && *src <= '9')
+            no = *src++ - '0';
+        else
+            no = -1;
 
-		if (no < 0)	/* Ordinary character. */
-			*dst++ = c;
-		else if (prog->startp[no] != NULL && prog->endp[no] != NULL) {
-			len = prog->endp[no] - prog->startp[no];
-			(void) strncpy(dst, prog->startp[no], len);
-			dst += len;
-			if (*(dst-1) == '\0') {		/* strncpy hit NUL. */
-				evr_regerror("damaged match string");
-				return;
-			}
-		}
-	}
-	*dst++ = '\0';
+        if (no < 0)             /* Ordinary character. */
+            *dst++ = c;
+        else if (prog->startp[no] != NULL && prog->endp[no] != NULL) {
+            len = prog->endp[no] - prog->startp[no];
+            (void) strncpy(dst, prog->startp[no], len);
+            dst += len;
+            if (*(dst - 1) == '\0') {   /* strncpy hit NUL. */
+                evr_regerror("damaged match string");
+                return;
+            }
+        }
+    }
+    *dst++ = '\0';
 }

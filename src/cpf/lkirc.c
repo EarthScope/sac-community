@@ -35,18 +35,13 @@
  *
  */
 int
-lkirc(char *kkey, 
-      int   kkey_s, 
-      int   intmn, 
-      int   intmx, 
-      int  *intv) {
+lkirc(char *kkey, int kkey_s, int intmn, int intmx, int *intv) {
 
-	/* - Check for key. */
-	if(!lckey( kkey,kkey_s )) {
-    return FALSE;
-  }
+    /* - Check for key. */
+    if (!lckey(kkey, kkey_s)) {
+        return FALSE;
+    }
 
-  lcirc(intmn, intmx, intv);
-  return TRUE;
+    lcirc(intmn, intmx, intv);
+    return TRUE;
 }
-

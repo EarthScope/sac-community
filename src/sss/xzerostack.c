@@ -8,19 +8,17 @@
 
 #include "smDataIO.h"
 
-
 #include "dfm.h"
 #include "ucf.h"
 extern float *sss_sum;
 
-void /*FUNCTION*/ xzerostack(nerr)
-int *nerr;
+void /*FUNCTION*/
+xzerostack(nerr)
+     int *nerr;
 {
-	char kvm[9], *worksetName ;
+    char kvm[9], *worksetName;
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To parse the parameter-setting command ZEROSTACK.
 	 *          This command zeroes or reinitializes the signal stack.
 	 *=====================================================================
@@ -52,42 +50,41 @@ int *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  850809
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* - Reset global property values to their default values. */
+    /* - Reset global property values to their default values. */
 
-	cmsss.dlytg = 0.0;
-	cmsss.dlytig = 0.0;
-	cmsss.dlyng = 0.0;
-	cmsss.dlynig = 0.0;
-	cmsss.wtg = 1.0;
-	cmsss.dstg = SAC_FLOAT_UNDEFINED;
-	cmsss.lpolg = TRUE;
-	strcpy( kvm, "     DLY" );
-	fill( cmsss.dlyvm, MSFL, 0.0 );
+    cmsss.dlytg = 0.0;
+    cmsss.dlytig = 0.0;
+    cmsss.dlyng = 0.0;
+    cmsss.dlynig = 0.0;
+    cmsss.wtg = 1.0;
+    cmsss.dstg = SAC_FLOAT_UNDEFINED;
+    cmsss.lpolg = TRUE;
+    strcpy(kvm, "     DLY");
+    fill(cmsss.dlyvm, MSFL, 0.0);
 
-	/* - Release summation data block if necessary. */
+    /* - Release summation data block if necessary. */
 
-	if( (cmsss.ndxsum > 0) && sss_sum != NULL) {
-    FREE(sss_sum);
-		cmsss.ndxsum = 0;
-		cmsss.nlnsum = 0;
-		if( *nerr != 0 )
-			goto L_8888;
-		}
+    if ((cmsss.ndxsum > 0) && sss_sum != NULL) {
+        FREE(sss_sum);
+        cmsss.ndxsum = 0;
+        cmsss.nlnsum = 0;
+        if (*nerr != 0)
+            goto L_8888;
+    }
 
-	/* - Clear data file list storage. */
+    /* - Clear data file list storage. */
 
-	sacclear();
+    sacclear();
 
-	/* delete files from SeisMgr */
-	worksetName = smGetDefaultWorksetName () ;
-	if ( worksetName )
-	    smDeleteWorksetByName ( worksetName ) ;
+    /* delete files from SeisMgr */
+    worksetName = smGetDefaultWorksetName();
+    if (worksetName)
+        smDeleteWorksetByName(worksetName);
 
-L_8888:
-	return;
+  L_8888:
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

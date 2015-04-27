@@ -31,24 +31,18 @@
  *  @date  December 18, 1984 Last Modified
  *
  * */
-void 
-dircor(float *data1, 
-       float *data2, 
-       int    npts, 
-       int    delay, 
-       int    nlags, 
-       double *c) {
+void
+dircor(float *data1, float *data2, int npts, int delay, int nlags, double *c) {
 
-	int i, j;
-	double temp;
+    int i, j;
+    double temp;
 
-	for( i = 0; i < nlags ; i++ ){
-	    temp = 0.0e0;
-	    for( j = i + delay ; j < npts; j++ )
-		temp = temp + (double)data1[j]*(double)data2[j - i - delay];
-	    c[i] = temp;
-	}
+    for (i = 0; i < nlags; i++) {
+        temp = 0.0e0;
+        for (j = i + delay; j < npts; j++)
+            temp = temp + (double) data1[j] * (double) data2[j - i - delay];
+        c[i] = temp;
+    }
 
-	return;
+    return;
 }
-

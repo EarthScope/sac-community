@@ -49,83 +49,76 @@
  *       - a = \p sd
  *     
  */
-void 
-apply(float    *data, 
-      int       nsamps, 
-      int       zp, 
-      float    *sn, 
-      float    *sd, 
-      int       nsects)
-{
-	int i, j, jptr;
-	float a1, a2, b0, b1, b2, output, x1, x2, y1, y2;
+void
+apply(float *data, int nsamps, int zp, float *sn, float *sd, int nsects) {
+    int i, j, jptr;
+    float a1, a2, b0, b1, b2, output, x1, x2, y1, y2;
 
-	float *const Data = &data[0] - 1;
-	float *const Sd = &sd[0] - 1;
-	float *const Sn = &sn[0] - 1;
+    float *const Data = &data[0] - 1;
+    float *const Sd = &sd[0] - 1;
+    float *const Sn = &sn[0] - 1;
 
-	jptr = 1;
-	for( j = 1; j <= nsects; j++ ){
+    jptr = 1;
+    for (j = 1; j <= nsects; j++) {
 
-		x1 = 0.0;
-		x2 = 0.0;
-		y1 = 0.0;
-		y2 = 0.0;
-		b0 = Sn[jptr];
-		b1 = Sn[jptr + 1];
-		b2 = Sn[jptr + 2];
-		a1 = Sd[jptr + 1];
-		a2 = Sd[jptr + 2];
+        x1 = 0.0;
+        x2 = 0.0;
+        y1 = 0.0;
+        y2 = 0.0;
+        b0 = Sn[jptr];
+        b1 = Sn[jptr + 1];
+        b2 = Sn[jptr + 2];
+        a1 = Sd[jptr + 1];
+        a2 = Sd[jptr + 2];
 
-		for( i = 1; i <= nsamps; i++ ){
+        for (i = 1; i <= nsamps; i++) {
 
-			output = b0*Data[i] + b1*x1 + b2*x2;
-			output = output - (a1*y1 + a2*y2);
-			y2 = y1;
-			y1 = output;
-			x2 = x1;
-			x1 = Data[i];
-			Data[i] = output;
+            output = b0 * Data[i] + b1 * x1 + b2 * x2;
+            output = output - (a1 * y1 + a2 * y2);
+            y2 = y1;
+            y1 = output;
+            x2 = x1;
+            x1 = Data[i];
+            Data[i] = output;
 
-			}
+        }
 
-		jptr = jptr + 3;
+        jptr = jptr + 3;
 
-		}
+    }
 
-	if( zp ){
+    if (zp) {
 
-		jptr = 1;
-		for( j = 1; j <= nsects; j++ ){
+        jptr = 1;
+        for (j = 1; j <= nsects; j++) {
 
-			x1 = 0.0;
-			x2 = 0.0;
-			y1 = 0.0;
-			y2 = 0.0;
-			b0 = Sn[jptr];
-			b1 = Sn[jptr + 1];
-			b2 = Sn[jptr + 2];
-			a1 = Sd[jptr + 1];
-			a2 = Sd[jptr + 2];
+            x1 = 0.0;
+            x2 = 0.0;
+            y1 = 0.0;
+            y2 = 0.0;
+            b0 = Sn[jptr];
+            b1 = Sn[jptr + 1];
+            b2 = Sn[jptr + 2];
+            a1 = Sd[jptr + 1];
+            a2 = Sd[jptr + 2];
 
-			for( i = nsamps; i >= 1; i-- ){
+            for (i = nsamps; i >= 1; i--) {
 
-				output = b0*Data[i] + b1*x1 + b2*x2;
-				output = output - (a1*y1 + a2*y2);
-				y2 = y1;
-				y1 = output;
-				x2 = x1;
-				x1 = Data[i];
-				Data[i] = output;
+                output = b0 * Data[i] + b1 * x1 + b2 * x2;
+                output = output - (a1 * y1 + a2 * y2);
+                y2 = y1;
+                y1 = output;
+                x2 = x1;
+                x1 = Data[i];
+                Data[i] = output;
 
-				}
+            }
 
-			jptr = jptr + 3;
+            jptr = jptr + 3;
 
-			}
+        }
 
-		}
+    }
 
-	return;
+    return;
 }
-

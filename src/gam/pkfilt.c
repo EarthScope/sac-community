@@ -5,12 +5,10 @@
 #include "gam.h"
 #include "eam.h"
 
-void pkfilt(float diff, float fdold, float *fdnew, float *rmnabs)
-{
+void
+pkfilt(float diff, float fdold, float *fdnew, float *rmnabs) {
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To filter (high pass) trace data for picking module.
 	 *          The running mean absolute value of the filtered data is
 	 *          also returned.
@@ -29,22 +27,20 @@ void pkfilt(float diff, float fdold, float *fdnew, float *rmnabs)
 	 *    MACH:
 	 *    EAM:     C1, C4
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Compute new value of filtered (high pass) data. */
+    /* PROCEDURE: */
+    /* - Compute new value of filtered (high pass) data. */
 
-	*fdnew = diff + cmeam.c1*fdold;
+    *fdnew = diff + cmeam.c1 * fdold;
 
-	/* - Compute the running mean absolute value of the filtered data. */
+    /* - Compute the running mean absolute value of the filtered data. */
 
-	*rmnabs = *rmnabs + cmeam.c6*(fabs( *fdnew ) - *rmnabs);
+    *rmnabs = *rmnabs + cmeam.c6 * (fabs(*fdnew) - *rmnabs);
 
-       
-	return;
+    return;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    801101:  Factored from original subroutine PK1.
 	 *===================================================================== */
 
-} /* end of function */
-
+}                               /* end of function */

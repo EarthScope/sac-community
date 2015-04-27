@@ -33,31 +33,30 @@
  *
  */
 int
-indexb(char *string, 
-        int   string_s) {
-        char null_;
-	int indexb_v, inull;
+indexb(char *string, int string_s) {
+    char null_;
+    int indexb_v, inull;
 
-	indexb_v = indexa( string,string_s, ' ', FALSE, FALSE );
-	null_ = '\000';
-	inull = indexa( string,string_s, null_, TRUE, TRUE );
-	if( inull > 0 )
-		indexb_v = min( indexb_v, inull - 1 );
+    indexb_v = indexa(string, string_s, ' ', FALSE, FALSE);
+    null_ = '\000';
+    inull = indexa(string, string_s, null_, TRUE, TRUE);
+    if (inull > 0)
+        indexb_v = min(indexb_v, inull - 1);
 
-	return( indexb_v );
+    return (indexb_v);
 }
-
 
 char *
 strcut(char *in, unsigned int start, unsigned int end) {
     unsigned int n;
     char *out;
     n = end - start + 1;
-    if(end < start) {
-        fprintf(stdout, "strcut: end < start: '%s' [start: %d, end: %d]\n", in,start,end);
+    if (end < start) {
+        fprintf(stdout, "strcut: end < start: '%s' [start: %d, end: %d]\n", in,
+                start, end);
         return NULL;
     }
-    out = malloc(n+1);
+    out = malloc(n + 1);
     strncpy(out, in + start - 1, n);
     out[n] = 0;
     return out;
@@ -65,25 +64,25 @@ strcut(char *in, unsigned int start, unsigned int end) {
 
 char *
 lstrip(char *s) {
-        if(*s == 0) {
-                return s;
-        }
-        while(isspace(*s)) {
-                s++;
-        }
+    if (*s == 0) {
         return s;
+    }
+    while (isspace(*s)) {
+        s++;
+    }
+    return s;
 }
 
 char *
 rstrip(char *s) {
-        char *back;
-        if(*s == 0) {
-                return s;
-        }
-        back = s + strlen(s) - 1;
-        while(back >= s && isspace(*back)) {
-          --back;
-        }
-        *(back+1) = 0;
+    char *back;
+    if (*s == 0) {
         return s;
+    }
+    back = s + strlen(s) - 1;
+    while (back >= s && isspace(*back)) {
+        --back;
+    }
+    *(back + 1) = 0;
+    return s;
 }

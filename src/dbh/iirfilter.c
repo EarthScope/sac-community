@@ -56,57 +56,48 @@
  *  @date    910630  Last Modified
  *
  */
-void 
-iirfilter(float    *data, 
-	  int       nsamples, 
-	  float    *a, 
-	  float    *sn, 
-	  float    *sd, 
-	  int       nsects, 
-	  float    *states, 
-	  float    *fdata)
-{
-	int i, j, jptr;
-	float a1, a2, b1, b2, g, s0, s1, s2;
+void
+iirfilter(float *data, int nsamples, float *a, float *sn, float *sd, int nsects,
+          float *states, float *fdata) {
+    int i, j, jptr;
+    float a1, a2, b1, b2, g, s0, s1, s2;
 
-	float *const A = &a[0] - 1;
-	float *const Data = &data[0] - 1;
-	float *const Fdata = &fdata[0] - 1;
-	float *const Sd = &sd[0] - 1;
-	float *const Sn = &sn[0] - 1;
-	float *const States = &states[0] - 1;
+    float *const A = &a[0] - 1;
+    float *const Data = &data[0] - 1;
+    float *const Fdata = &fdata[0] - 1;
+    float *const Sd = &sd[0] - 1;
+    float *const Sn = &sn[0] - 1;
+    float *const States = &states[0] - 1;
 
-	jptr = 1;
-	for( i = 1; i <= nsamples; i++ ){
-		Fdata[i] = Data[i];
-		}
-	for( j = 1; j <= nsects; j++ ){
+    jptr = 1;
+    for (i = 1; i <= nsamples; i++) {
+        Fdata[i] = Data[i];
+    }
+    for (j = 1; j <= nsects; j++) {
 
-		s1 = States[jptr];
-		s2 = States[jptr + 1];
-		g = A[j];
-		b1 = Sn[jptr];
-		b2 = Sn[jptr + 1];
-		a1 = Sd[jptr];
-		a2 = Sd[jptr + 1];
+        s1 = States[jptr];
+        s2 = States[jptr + 1];
+        g = A[j];
+        b1 = Sn[jptr];
+        b2 = Sn[jptr + 1];
+        a1 = Sd[jptr];
+        a2 = Sd[jptr + 1];
 
-		for( i = 1; i <= nsamples; i++ ){
+        for (i = 1; i <= nsamples; i++) {
 
-			s0 = g*Fdata[i] - a1*s1 - a2*s2;
-			Fdata[i] = s0 + b1*s1 + b2*s2;
-			s2 = s1;
-			s1 = s0;
+            s0 = g * Fdata[i] - a1 * s1 - a2 * s2;
+            Fdata[i] = s0 + b1 * s1 + b2 * s2;
+            s2 = s1;
+            s1 = s0;
 
-			}
+        }
 
-		States[jptr] = s1;
-		States[jptr + 1] = s2;
+        States[jptr] = s1;
+        States[jptr + 1] = s2;
 
-		jptr = jptr + 2;
+        jptr = jptr + 2;
 
-		}
+    }
 
-
-	return;
+    return;
 }
-

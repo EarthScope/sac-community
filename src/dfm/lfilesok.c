@@ -17,7 +17,7 @@
 #include "dff.h"
 #include "ncpf.h"
 
-#ifdef HAVE_LIBRPC 
+#ifdef HAVE_LIBRPC
 #include <rpc/rpc.h>
 #endif /* HAVE_LIBRPC */
 
@@ -71,66 +71,50 @@
  *
  */
 int
-lfilesok(string_list *files,
-         char *kdir, 
-         int   kdir_s, 
-         int   lmore, 
-         int   lheader, 
-         int   lxdr, 
-         int  *nerr) {
+lfilesok(string_list * files, char *kdir, int kdir_s, int lmore, int lheader,
+         int lxdr, int *nerr) {
 
     int i;
-	char *file, *kopen;
-	int lfilesok_v ;
+    char *file, *kopen;
+    int lfilesok_v;
 
     UNUSED(kdir_s);
     UNUSED(lxdr);
     UNUSED(lheader);
     kopen = NULL;
-    file  = NULL;
+    file = NULL;
 
     struct stat st;
 
-	*nerr = 0;
+    *nerr = 0;
 
-	lfilesok_v = FALSE;
+    lfilesok_v = FALSE;
 
-
-	/* - For each file in the list. */
-    for(i = 0; i < string_list_length(files); i++) {
-	    /* -- Get a file name. */
+    /* - For each file in the list. */
+    for (i = 0; i < string_list_length(files); i++) {
+        /* -- Get a file name. */
         file = string_list_get(files, i);
 
-        if(kdir) {
+        if (kdir) {
             asprintf(&kopen, "%s/%s", kdir, file);
         } else {
             kopen = strdup(file);
         }
-        if(stat(kopen, &st) == 0) {
-          lfilesok_v = TRUE;
+        if (stat(kopen, &st) == 0) {
+            lfilesok_v = TRUE;
         }
         FREE(kopen);
     }
 
-	if( lfilesok_v ){
-	    if( !lmore ){
-	      /* -- When not using READ MORE: 
-	       * --- Clear working-storage pointers, data-set storage pointers
-	       *     and deallocate memory for the current data set. 
-	       */
-	      sacclear();
-	    }
-	}
+    if (lfilesok_v) {
+        if (!lmore) {
+            /* -- When not using READ MORE: 
+             * --- Clear working-storage pointers, data-set storage pointers
+             *     and deallocate memory for the current data set. 
+             */
+            sacclear();
+        }
+    }
 
-	return( lfilesok_v );
-} 
-
-
-
-
-
-
-
-
-
-
+    return (lfilesok_v);
+}

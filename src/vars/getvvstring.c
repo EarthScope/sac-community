@@ -45,74 +45,61 @@
  * @date   881107:  Documented/Reviewed
  *
  */
-void 
-getvvstring(char *vars, 
-	    int   vars_s, 
-	    char *name, 
-	    int   name_s, 
-	    int  *numchars, 
-	    char *value, 
-	    int   value_s, 
-	    int  *nerr)
-{
-  char *s1;
-  char *s2;
-  var *v;
-  *nerr = 0;
-  s2 = NULL;
-  UNUSED(vars_s);
-  UNUSED(name_s);
-  s2 = NULL;
-  s1 = upcase_dup(name);
-  if(!(v = sac_vars_get_var(vars, s1))) {
-    *nerr = ERROR_FINDING_VARIABLE;
+void
+getvvstring(char *vars, int vars_s, char *name, int name_s, int *numchars,
+            char *value, int value_s, int *nerr) {
+    char *s1;
+    char *s2;
+    var *v;
+    *nerr = 0;
+    s2 = NULL;
+    UNUSED(vars_s);
+    UNUSED(name_s);
+    s2 = NULL;
+    s1 = upcase_dup(name);
+    if (!(v = sac_vars_get_var(vars, s1))) {
+        *nerr = ERROR_FINDING_VARIABLE;
+        return;
+    }
+    switch (v->type) {
+        case VAR_STRING:
+            s2 = strdup(v->str);
+            break;
+        case VAR_VALUE:
+            asprintf(&s2, "%lf", v->value);
+            break;
+        case VAR_INTEGER:
+            asprintf(&s2, "%d", v->ival);
+            break;
+        case VAR_LIST:
+            s2 = token_to_line(v->list);
+            break;
+        default:
+            break;
+    }
+    *numchars = min(value_s, (int) strlen(s2));
+    strncpy(value, s2, *numchars);
+    value[*numchars] = 0;
+    free(s2);
+    s2 = NULL;
+    free(s1);
+    s1 = NULL;
     return;
-  }
-  switch(v->type) {
-  case VAR_STRING:
-    s2 = strdup(v->str);
-    break;
-  case VAR_VALUE:
-    asprintf(&s2, "%lf", v->value);
-    break;
-  case VAR_INTEGER:
-    asprintf(&s2, "%d", v->ival);
-    break;
-  case VAR_LIST:
-    s2 = token_to_line(v->list);
-    break;
-  default:
-    break;
-  }
-  *numchars = min(value_s, (int)strlen(s2));
-  strncpy(value, s2, *numchars);
-  value[*numchars] = 0;
-  free(s2);
-  s2 = NULL;
-  free(s1);
-  s1 = NULL;
-	return;
 }
 
+char *
+getvvstringZ(char *vars, int vars_s, char *name, int name_s, int *numchars,
+             int *nerr) {
 
-char * 
-getvvstringZ(char *vars,
-             int   vars_s,
-             char *name,
-             int   name_s,
-             int  *numchars,
-             int  *nerr) {
-
-  char *s1;
-  char *s2;
-  *nerr = 0;
-  s2 = NULL;
-  UNUSED(vars_s);
-  UNUSED(name_s);
-  s1 = upcase_dup(name);
-  sac_vars_get_string(vars, s1, &s2);
-  *numchars = strlen(s2);
-  free(s1);
-	return s2;
+    char *s1;
+    char *s2;
+    *nerr = 0;
+    s2 = NULL;
+    UNUSED(vars_s);
+    UNUSED(name_s);
+    s1 = upcase_dup(name);
+    sac_vars_get_string(vars, s1, &s2);
+    *numchars = strlen(s2);
+    free(s1);
+    return s2;
 }
-

@@ -22,27 +22,23 @@
  * @date   890202:  Original version.
  *
  */
-void 
-copydouble(double *source, 
-           int     length, 
-           double *sink) { 
- 
-        int j;
+void
+copydouble(double *source, int length, double *sink) {
 
-	double *const Sink = &sink[0] - 1;
-	double *const Source = &source[0] - 1;
+    int j;
 
-	for( j = 1; j <= length; j++ ){
-          Sink[j] = Source[j];
-        }
-        
-	return;
+    double *const Sink = &sink[0] - 1;
+    double *const Source = &source[0] - 1;
+
+    for (j = 1; j <= length; j++) {
+        Sink[j] = Source[j];
+    }
+
+    return;
 
 }
 
 void
-copy_float(float  *src,
-           float  *dest,
-           int     n) {
-  memmove(dest, src, n * sizeof(float));
+copy_float(float *src, float *dest, int n) {
+    memmove(dest, src, n * sizeof(float));
 }

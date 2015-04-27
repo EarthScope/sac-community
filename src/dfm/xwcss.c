@@ -26,7 +26,6 @@
 #include "smDataIO.h"
 #include "errors.h"
 
-
 /** 
  * Write a CSS Ascii Flat File or CSSB (Binary File)
  * 
@@ -50,134 +49,133 @@
  * @date   810203:  Fixed bug in file overwrite option.
  *
  */
-void 
+void
 xwcss(int *nerr) {
 
     int i;
-	int lexpnd;
-	int jdfl, nchar;
-	int ibinORasc ;
-	static int lwrdir = FALSE, Verbose = FALSE ;
-  sac *s;
+    int lexpnd;
+    int jdfl, nchar;
+    int ibinORasc;
+    static int lwrdir = FALSE, Verbose = FALSE;
+    sac *s;
     char *WorkSetName;
-    
+
     lexpnd = FALSE;
-    
-    char *file,*pfile, *dir;
+
+    char *file, *pfile, *dir;
     string_list *list;
 
-	*nerr = 0;
+    *nerr = 0;
     list = NULL;
     dir = NULL;
-	/* PARSING PHASE: */
-	/* - Loop on each token in command: */
-	while ( lcmore( nerr ) ){
+    /* PARSING PHASE: */
+    /* - Loop on each token in command: */
+    while (lcmore(nerr)) {
 
-	    if( lckey( "OVER#$",7 ) ){
+        if (lckey("OVER#$", 7)) {
             cmdfm.lovrrq = TRUE;
             lexpnd = FALSE;
             list = string_list_init();
-            for(i = 0; i < saclen(); i++) {
-              if(!(s = sacget(i, TRUE, nerr))) {
-                return;
-              }
-              string_list_put(list, s->m->filename, -1);
+            for (i = 0; i < saclen(); i++) {
+                if (!(s = sacget(i, TRUE, nerr))) {
+                    return;
+                }
+                string_list_put(list, s->m->filename, -1);
             }
-	    }
+        }
 
-            /* -- "VERBOSE ON|OFF":  turn Verbose mode on or off. */
-        else if( lklog( "VER$BOSE",9, &Verbose ) )
-            { /* do nothing */ }
+        /* -- "VERBOSE ON|OFF":  turn Verbose mode on or off. */
+        else if (lklog("VER$BOSE", 9, &Verbose)) {      /* do nothing */
+        }
 
-	    /* -- "DIR ON|OFF|CURRENT|name":  set the name of the default subdirectory. */
-	    else if( lkchar( "DIR#$",6, MCPFN, kmdfm.kwrdir,MCPFN+1, &nchar ) ){
-        lwrdir = set_output_path(kmdfm.kwrdir);
-	    }
+        /* -- "DIR ON|OFF|CURRENT|name":  set the name of the default subdirectory. */
+        else if (lkchar("DIR#$", 6, MCPFN, kmdfm.kwrdir, MCPFN + 1, &nchar)) {
+            lwrdir = set_output_path(kmdfm.kwrdir);
+        }
 
-	    /* -- "COMMIT|RECALLTRACE|ROLLBACK": how to treat existing data */
-	    else if ( lckeyExact ( "COMMIT" , 7 ) )
-		cmdfm.icomORroll = COMMIT ;
-	    else if (lckeyExact ( "RECALLTRACE" , 12 ) )
-		cmdfm.icomORroll = RECALL ;
-	    else if ( lckeyExact ( "RECALL" , 7 ) )
-		cmdfm.icomORroll = RECALL ;
-	    else if ( lckeyExact ( "ROLLBACK" , 9 ) )
-		cmdfm.icomORroll = ROLLBACK ;
+        /* -- "COMMIT|RECALLTRACE|ROLLBACK": how to treat existing data */
+        else if (lckeyExact("COMMIT", 7))
+            cmdfm.icomORroll = COMMIT;
+        else if (lckeyExact("RECALLTRACE", 12))
+            cmdfm.icomORroll = RECALL;
+        else if (lckeyExact("RECALL", 7))
+            cmdfm.icomORroll = RECALL;
+        else if (lckeyExact("ROLLBACK", 9))
+            cmdfm.icomORroll = ROLLBACK;
 
+        /* -- "BINARY|ASCII": read CSSB or flatfiles */
+        else if (lclist((char *) kmdfm.kbinORasc, 9, 2, &ibinORasc))
+            cmdfm.lwascii = ibinORasc - 1;
 
-	    /* -- "BINARY|ASCII": read CSSB or flatfiles */
-	    else if( lclist( (char*)kmdfm.kbinORasc, 9, 2, &ibinORasc ) ) 
-		cmdfm.lwascii = ibinORasc - 1 ;
+        /* -- "filelist":  write files using names in new filelist. */
+        else if ((list = lcdfl())) {
+            cmdfm.lovrrq = FALSE;
+            lexpnd = FALSE;
+        }
 
-	    /* -- "filelist":  write files using names in new filelist. */
-	    else if( ( list = lcdfl() ) ){
-		cmdfm.lovrrq = FALSE;
-		lexpnd = FALSE;
-	    }
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
+    }                           /* end while */
 
-	    /* -- Bad syntax. */
-	    else{
-		cfmt( "ILLEGAL OPTION:",17 );
-		cresp();
-	    }
-	} /* end while */
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
+    if (*nerr != 0)
+        return;
 
-	if( *nerr != 0 )
-		return;
+    /* CHECKING PHASE: */
 
-	/* CHECKING PHASE: */
+    /* - Check for null write filelist. */
 
-	/* - Check for null write filelist. */
+    if (!list || string_list_length(list) <= 0) {
+        *nerr = 1311;
+        setmsg("ERROR", *nerr);
+        return;
+    }
 
-	if( !list || string_list_length(list) <= 0 ){
-	    *nerr = 1311;
-	    setmsg( "ERROR", *nerr );
-	    return;
-	}
+    /* EXECUTION PHASE: */
 
-	/* EXECUTION PHASE: */
+    /* - Echo expanded filelist if requested. */
 
-	/* - Echo expanded filelist if requested. */
+    if (cmdfm.lechof && lexpnd) {
+        setmsg("OUTPUT", 0);
+        display_file_list(list);
+        wrtmsg(MUNOUT);
+    }
 
-	if( cmdfm.lechof && lexpnd ){
-	    setmsg( "OUTPUT", 0 );
-      display_file_list(list);
-	    wrtmsg( MUNOUT );
-	} /* end if( cmdfm.lechof && lexpnd ) */
-
-
+    /* end if( cmdfm.lechof && lexpnd ) */
     jdfl = 1;
 
-    file = string_list_get(list, jdfl-1);
+    file = string_list_get(list, jdfl - 1);
     pfile = prepare_output_filename(file, lwrdir, kmdfm.kwrdir);
 
-	if(! smGetDefaultWorkset() ){
+    if (!smGetDefaultWorkset()) {
         *nerr = 1385;
         return;
     }
-    
+
     WorkSetName = smGetDefaultWorksetName();
-    if(! WorkSetName){
+    if (!WorkSetName) {
         *nerr = 1386;
         return;
     }
-    
-    /* commit, recall, or rollback data according to user options. */
-    alignFiles ( nerr ) ;
-    if ( *nerr )
-        return ;
-    
-    
-	if ( cmdfm.lwascii )
-	    WriteCSSflatFiles(WorkSetName, pfile ) ;
-	else {
-	    if(!WriteCSSBfile(WorkSetName, pfile, Verbose)) *nerr = 115;
-	    if(Verbose)printf("\n");
-	}
-  FREE(pfile);
-}
 
+    /* commit, recall, or rollback data according to user options. */
+    alignFiles(nerr);
+    if (*nerr)
+        return;
+
+    if (cmdfm.lwascii)
+        WriteCSSflatFiles(WorkSetName, pfile);
+    else {
+        if (!WriteCSSBfile(WorkSetName, pfile, Verbose))
+            *nerr = 115;
+        if (Verbose)
+            printf("\n");
+    }
+    FREE(pfile);
+}

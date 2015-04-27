@@ -9,15 +9,15 @@
 #include "bot.h"
 #include "co.h"
 
-void /*FUNCTION*/ setmacrostatus(kstatus, kstatus_s)
-char *kstatus;   int kstatus_s;
+void /*FUNCTION*/
+setmacrostatus(kstatus, kstatus_s)
+     char *kstatus;
+     int kstatus_s;
 {
-	char ktemp[9];
-	int nc;
+    char ktemp[9];
+    int nc;
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To set the status of a SAC macro (command) file.
 	 *=====================================================================
 	 * INTPUT ARGUMENTS:
@@ -39,25 +39,21 @@ char *kstatus;   int kstatus_s;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  870722
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Convert input to upper case and copy to local variable. */
-	nc = min( MCPW, indexb( kstatus,kstatus_s ) );
-	modcase( TRUE, kstatus, nc, ktemp );
+    /* PROCEDURE: */
+    /* - Convert input to upper case and copy to local variable. */
+    nc = min(MCPW, indexb(kstatus, kstatus_s));
+    modcase(TRUE, kstatus, nc, ktemp);
 
-	/* - Set status variable to appropriate state. */
+    /* - Set status variable to appropriate state. */
 
-	if( memcmp(ktemp,"OK",2) == 0 ){
-		cmcpf.lmacrostatus = TRUE;
-		}
-	else if( memcmp(ktemp,"ERROR",5) == 0 ){
-		cmcpf.lmacrostatus = FALSE;
-		}
-	else{
-		cmcpf.lmacrostatus = TRUE;
-		}
+    if (memcmp(ktemp, "OK", 2) == 0) {
+        cmcpf.lmacrostatus = TRUE;
+    } else if (memcmp(ktemp, "ERROR", 5) == 0) {
+        cmcpf.lmacrostatus = FALSE;
+    } else {
+        cmcpf.lmacrostatus = TRUE;
+    }
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

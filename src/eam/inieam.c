@@ -10,8 +10,6 @@
 #include "eam.h"
 #include "bool.h"
 
-
-
 #include "co.h"
 
 /** 
@@ -77,51 +75,48 @@
  * @date   810414:  Original version.
  *
  */
-void 
-inieam()
-{
+void
+inieam() {
 
-	/* - Initialization for automatic picker. */
-	cmeam.c1 = 0.985;
-	cmeam.c2 = 3.;
-	cmeam.c3 = 0.6;
-	cmeam.c4 = 0.03;
-	cmeam.c5 = 5.;
-	cmeam.c6 = 0.0039;
-	cmeam.c7 = 100.;
-	cmeam.c8 = -0.1;
-	cmeam.i3 = 3;
-	cmeam.i4 = 40;
-	cmeam.d5 = 2.;
-	cmeam.i6 = 3;
-	cmeam.d8 = 3.;
-	cmeam.d9 = 1.;
-	cmeam.lvalpk = TRUE;
+    /* - Initialization for automatic picker. */
+    cmeam.c1 = 0.985;
+    cmeam.c2 = 3.;
+    cmeam.c3 = 0.6;
+    cmeam.c4 = 0.03;
+    cmeam.c5 = 5.;
+    cmeam.c6 = 0.0039;
+    cmeam.c7 = 100.;
+    cmeam.c8 = -0.1;
+    cmeam.i3 = 3;
+    cmeam.i4 = 40;
+    cmeam.d5 = 2.;
+    cmeam.i6 = 3;
+    cmeam.d8 = 3.;
+    cmeam.d9 = 1.;
+    cmeam.lvalpk = TRUE;
 
-	/* - Initialization for HYPO pick file. */
-	cmeam.lhpfop = FALSE;
-	cmeam.nhpfun = 0;
-	fstrncpy( kmeam.khpfnm, MCPFN, "HPF", 3);
-	cmeam.lsphas = FALSE;
-	cmeam.lampx = FALSE;
-	cmeam.lfini = FALSE;
-	strcpy( kmeam.kpwave, "        " );
-	strcpy( kmeam.kswave, "        " );
+    /* - Initialization for HYPO pick file. */
+    cmeam.lhpfop = FALSE;
+    cmeam.nhpfun = 0;
+    fstrncpy(kmeam.khpfnm, MCPFN, "HPF", 3);
+    cmeam.lsphas = FALSE;
+    cmeam.lampx = FALSE;
+    cmeam.lfini = FALSE;
+    strcpy(kmeam.kpwave, "        ");
+    strcpy(kmeam.kswave, "        ");
 
-	cmeam.lichpf = TRUE;
-	Ichpf[1] = 5;
-	Ichpf[2] = 0;
+    cmeam.lichpf = TRUE;
+    Ichpf[1] = 5;
+    Ichpf[2] = 0;
 
-	/* - Initialization for alphanumeric pick file (APF). */
-	cmeam.lapfop = FALSE;
-	fstrncpy( kmeam.kapfnm, MCPFN, "APF", 3);
-	strcpy( kmeam.kpkrid, "        " );
-	cmeam.lpfstd = TRUE;
-	cmeam.lpfgmt = TRUE;
-	strcpy( kmeam.kpkid, "        " );
+    /* - Initialization for alphanumeric pick file (APF). */
+    cmeam.lapfop = FALSE;
+    fstrncpy(kmeam.kapfnm, MCPFN, "APF", 3);
+    strcpy(kmeam.kpkrid, "        ");
+    cmeam.lpfstd = TRUE;
+    cmeam.lpfgmt = TRUE;
+    strcpy(kmeam.kpkid, "        ");
 
-       
-	return;
+    return;
 
 }
-

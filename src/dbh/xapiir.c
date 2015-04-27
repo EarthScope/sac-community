@@ -58,67 +58,32 @@
  *
  * @date 120990 Last Modified:  September 12, 1990
  */
-void 
-xapiir(float    *data, 
-       int       nsamps, 
-       char     *aproto, 
-       double    trbndw, 
-       double    a, 
-       int       iord, 
-       char     *type, 
-       double    flo, 
-       double    fhi, 
-       double    ts, 
-       int       passes) {
+void
+xapiir(float *data, int nsamps, char *aproto, double trbndw, double a, int iord,
+       char *type, double flo, double fhi, double ts, int passes) {
 
-	int zp;
-	int nsects;
-	float sd[30], sn[30];
-        char strtemp1[3], strtemp2[3];
+    int zp;
+    int nsects;
+    float sd[30], sn[30];
+    char strtemp1[3], strtemp2[3];
 
-	/*  Filter designed  */
-        strncpy(strtemp1,type,2);
-        strtemp1[2] = '\0';
-        strncpy(strtemp2,aproto,2);
-        strtemp2[2] = '\0';
+    /*  Filter designed  */
+    strncpy(strtemp1, type, 2);
+    strtemp1[2] = '\0';
+    strncpy(strtemp2, aproto, 2);
+    strtemp2[2] = '\0';
 
-	design( iord, strtemp1, strtemp2, a, trbndw, flo, 
-	 fhi, ts, sn, sd, &nsects );
+    design(iord, strtemp1, strtemp2, a, trbndw, flo, fhi, ts, sn, sd, &nsects);
 
-	/*  Filter data  */
-	if( passes == 1 ){
-		zp = FALSE;
-		}
-	else{
-		zp = TRUE;
-		}
-	apply( data, nsamps, zp, sn, sd, nsects );
+    /*  Filter data  */
+    if (passes == 1) {
+        zp = FALSE;
+    } else {
+        zp = TRUE;
+    }
+    apply(data, nsamps, zp, sn, sd, nsects);
 
-	return;
-}
-
-
-/** 
- *  IIR filter design and implementation
- *     Fortran Interface 
- * 
- * @see xapiir
- *
- */
-void 
-xapiir_(float     *data, 
-         int      *nsamps, 
-         char     *aproto, 
-         double   *trbndw, 
-         double   *a, 
-         int      *iord, 
-         char     *type, 
-         double   *flo, 
-         double   *fhi, 
-         double   *ts, 
-         int      *passes) {
-  xapiir(data, *nsamps, aproto, *trbndw, *a, 
-	 *iord, type, *flo, *fhi, *ts, *passes);
+    return;
 }
 
 /** 
@@ -128,18 +93,25 @@ xapiir_(float     *data,
  * @see xapiir
  *
  */
-void 
-xapiir__(float    *data, 
-         int      *nsamps, 
-         char     *aproto, 
-         double   *trbndw, 
-         double   *a, 
-         int      *iord, 
-         char     *type, 
-         double   *flo, 
-         double   *fhi, 
-         double   *ts, 
-         int      *passes) {
-  xapiir(data, *nsamps, aproto, *trbndw, *a, 
-	 *iord, type, *flo, *fhi, *ts, *passes);
+void
+xapiir_(float *data, int *nsamps, char *aproto, double *trbndw, double *a,
+        int *iord, char *type, double *flo, double *fhi, double *ts,
+        int *passes) {
+    xapiir(data, *nsamps, aproto, *trbndw, *a, *iord, type, *flo, *fhi, *ts,
+           *passes);
+}
+
+/** 
+ *  IIR filter design and implementation
+ *     Fortran Interface 
+ * 
+ * @see xapiir
+ *
+ */
+void
+xapiir__(float *data, int *nsamps, char *aproto, double *trbndw, double *a,
+         int *iord, char *type, double *flo, double *fhi, double *ts,
+         int *passes) {
+    xapiir(data, *nsamps, aproto, *trbndw, *a, *iord, type, *flo, *fhi, *ts,
+           *passes);
 }

@@ -41,68 +41,65 @@
  *
  */
 void
-gennames(char *headerfield, 
-         int   lenheaderfield, 
-         string_list *list,
-         int   nfiles, 
-         int  *nerr) {
+gennames(char *headerfield, int lenheaderfield, string_list * list, int nfiles,
+         int *nerr) {
 
-	int jdfl;
-  char nameout[41];
-  char procname[41];
-  char procnametmp[100];
-  char *field;
-  int flength;
-  int id;
-  sac *s;
-	*nerr = 0;
+    int jdfl;
+    char nameout[41];
+    char procname[41];
+    char procnametmp[100];
+    char *field;
+    int flength;
+    int id;
+    sac *s;
+    *nerr = 0;
 
-	/* - For each file in DFL: */
-	for( jdfl = 1; jdfl <= nfiles; jdfl++ ){
+    /* - For each file in DFL: */
+    for (jdfl = 1; jdfl <= nfiles; jdfl++) {
 
-		/* -- Get header from memory manager. */
-		if(!(s = sacget(jdfl-1, FALSE, nerr))) {
-      goto L_8888;
-    }
-    //getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
+        /* -- Get header from memory manager. */
+        if (!(s = sacget(jdfl - 1, FALSE, nerr))) {
+            goto L_8888;
+        }
+        //getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
 
-        strcpy(nameout,"                                        ");
+        strcpy(nameout, "                                        ");
         flength = 0;
-        
-        formhv(headerfield,lenheaderfield,3,nameout,41,nerr);
-        if(*nerr != 0) 
+
+        formhv(headerfield, lenheaderfield, 3, nameout, 41, nerr);
+        if (*nerr != 0)
             goto L_8888;
         DEBUG("name: %s '%s'\n", nameout, headerfield);
         /* replace interior blanks with a . */
-        if((field = strtok(nameout," ")) == NULL){
+        if ((field = strtok(nameout, " ")) == NULL) {
             *nerr = ERROR_SAC_LOGIC_ERROR;
             goto L_8888;
-		}
-        
-        strcpy(procname,field);
+        }
+
+        strcpy(procname, field);
         flength += strlen(field);
-        while((field = strtok(NULL," ")) != NULL){
+        while ((field = strtok(NULL, " ")) != NULL) {
             procname[flength] = '.';
-            strcpy(procname+flength+1,field);
-            flength += strlen(field) + 1; 
-		}
-        
+            strcpy(procname + flength + 1, field);
+            flength += strlen(field) + 1;
+        }
+
         procname[flength] = ' ';
-        procname[flength+1] = '\0';
-        
+        procname[flength + 1] = '\0';
+
         flength += 1;
-        
+
         id = 0;
-        strncpy(procnametmp, procname, strlen(procname)+1);
-        while(string_list_find(list, procnametmp, strlen(procnametmp)) >= 0) {
+        strncpy(procnametmp, procname, strlen(procname) + 1);
+        while (string_list_find(list, procnametmp, strlen(procnametmp)) >= 0) {
             id++;
             sprintf(procnametmp, "%s%03d", procname, id);
         }
         string_list_put(list, procnametmp, flength);
-        if(*nerr != 0)
+        if (*nerr != 0)
             goto L_8888;
-	}
+    }
 
-L_8888:
-	return;
+  L_8888:
+    return;
 }

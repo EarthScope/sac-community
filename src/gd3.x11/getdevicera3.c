@@ -15,14 +15,12 @@
  * @date   870227:  Original Version
  *
  */
-void 
-getdevicerat3(float *ratio)
-{
-  XScreen *xs;
-  
-  xs = xscreen_get();
+void
+getdevicerat3(float *ratio) {
+    XScreen *xs;
 
-  *ratio = ((float) xs->height) / ((float) xs->width);
-  *ratio = 1.0;
+    xs = xscreen_get();
+
+    *ratio = ((float) xs->height) / ((float) xs->width);
+    *ratio = 1.0;
 }
-

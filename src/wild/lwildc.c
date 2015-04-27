@@ -2,15 +2,16 @@
 #include "wild.h"
 #include "bool.h"
 
-
 #include "bot.h"
 
-int /*FUNCTION*/ lwildc(flist, flist_s)
-char *flist;   int flist_s;
+int /*FUNCTION*/
+lwildc(flist, flist_s)
+     char *flist;
+     int flist_s;
 {
-	int lwildc_v;
+    int lwildc_v;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To check the input string for any wild card specification.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -31,17 +32,16 @@ char *flist;   int flist_s;
 	 *=====================================================================
 	 * DOCUMENTED:  860922
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Set function value to .FALSE., then look for wild card characters
-	 * */
-	lwildc_v = FALSE;
-	if( ((indexa( flist,flist_s, kmwild.sngl, TRUE, TRUE ) != 0 || 
-	 indexa( flist,flist_s, kmwild.mult, TRUE, TRUE ) != 0) || indexa( flist
-	 ,flist_s, kmwild.ccon[0], TRUE, TRUE ) != 0) || indexa( flist
-	 ,flist_s, kmwild.ccon[1], TRUE, TRUE ) != 0 )
-		lwildc_v = TRUE;
+    /* PROCEDURE: */
+    /* - Set function value to .FALSE., then look for wild card characters
+     * */
+    lwildc_v = FALSE;
+    if (((indexa(flist, flist_s, kmwild.sngl, TRUE, TRUE) != 0 ||
+          indexa(flist, flist_s, kmwild.mult, TRUE, TRUE) != 0) ||
+         indexa(flist, flist_s, kmwild.ccon[0], TRUE, TRUE) != 0) ||
+        indexa(flist, flist_s, kmwild.ccon[1], TRUE, TRUE) != 0)
+        lwildc_v = TRUE;
 
-	return( lwildc_v );
+    return (lwildc_v);
 
-} /* end of function */
-
+}                               /* end of function */

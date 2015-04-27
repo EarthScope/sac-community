@@ -23,72 +23,58 @@
 #define	MUNITS	        5
 #define	MWARNINGS	2
 
-
 /** 
  * @struct kmmsg
  *    Message Characters
  */
 struct t_kmmsg {
-  char	ktpmsg[MTPMSG][9]; 
-  char  klimsg[MLIMSG][MCMSG+1]; /* list of messages */
-  char  kfmsg[MFMSG][MCMSG+1];
+    char ktpmsg[MTPMSG][9];
+    char klimsg[MLIMSG][MCMSG + 1];     /* list of messages */
+    char kfmsg[MFMSG][MCMSG + 1];
 } kmmsg;
-
 
 /** 
  * @struct kmmsg
  *    Message Lengths
  */
 struct t_cmmsg {
-  int   nummsg;
-  int   itpmsg;
-  int   nlimsg;
-  int   nchmsg;
-  int   autoout;
-  int   nunits;
-  FILE *iunits[MUNITS];
-  int   lsend[MUNITS][MTPMSG];
-  int   nfmsg;
-  int   ifmsg[MFMSG];
+    int nummsg;
+    int itpmsg;
+    int nlimsg;
+    int nchmsg;
+    int autoout;
+    int nunits;
+    FILE *iunits[MUNITS];
+    int lsend[MUNITS][MTPMSG];
+    int nfmsg;
+    int ifmsg[MFMSG];
 } cmmsg;
 
-void apcmsg ( char *kalpha, 
-	      int kalpha_s);
-void apcmsg2 ( char *kalpha, 
-	       int kalpha_s);
-void apcmsgnum ( int number);
-void apfmsg ( double float_);
-void apimsg ( int integr);
-void aplmsg ( char *kalpha, 
-	      int kalpha_s);
-void autooutmsg ( int lmode);
-void clrmsg (void);
-void getsmsg ( int number, 
-	       char *kmsg, 
-	       int kmsg_s);
-void inimsg (void);
+void apcmsg(char *kalpha, int kalpha_s);
+void apcmsg2(char *kalpha, int kalpha_s);
+void apcmsgnum(int number);
+void apfmsg(double float_);
+void apimsg(int integr);
+void aplmsg(char *kalpha, int kalpha_s);
+void autooutmsg(int lmode);
+void clrmsg(void);
+void getsmsg(int number, char *kmsg, int kmsg_s);
+void inimsg(void);
 
-void inquiremsg ( FILE *unitnumber, 
-		  int *activate, 
-		  int send_[]);
-void outmsg (void);
-void pltmsg ( float *xloc, 
-	      float *yloc);
-void sacmsg ( int *nerr);
-void sendmesg ( FILE *unitnumber, 
-		int activate, 
-		int send_[]);
-void setmsg ( char *ktype, 
-	      int number);
-void typmsg ( char *ktype);
-void wrtmsg ( FILE *nunit);
+void inquiremsg(FILE * unitnumber, int *activate, int send_[]);
+void outmsg(void);
+void pltmsg(float *xloc, float *yloc);
+void sacmsg(int *nerr);
+void sendmesg(FILE * unitnumber, int activate, int send_[]);
+void setmsg(char *ktype, int number);
+void typmsg(char *ktype);
+void wrtmsg(FILE * nunit);
 
-void error     (int error, char *message, ...);
-void warning   (int error, char *message, ...);
-void processed (int val, char *message, ...);
-void out       (char *fmt, ...);
-void message   (int type, int num, char *message, ...);
-
+void error(int error, char *message, ...);
+void warning(int error, char *message, ...);
+void processed(int val, char *message, ...);
+void out(char *fmt, ...);
+void message(int type, int num, char *message, ...);
 
 void sac_warning_stdout();
 void sac_warning_stderr();

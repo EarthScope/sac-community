@@ -23,25 +23,21 @@
  * @date   861201:  Original version.
  *
  */
-void 
-setpsctable(int *nerr)
-{
+void
+setpsctable(int *nerr) {
 
-        int i, n;
-        display_t **dev;
-        n   = gdm_get_ndevices();
-        dev = gdm_get_devices();
+    int i, n;
+    display_t **dev;
+    n = gdm_get_ndevices();
+    dev = gdm_get_devices();
 
-	*nerr = 0;
+    *nerr = 0;
 
-        for(i = 0; i < n; i++) {
-          if(dev[i]->on && dev[i]->set_pseudo_color_table) {
-            dev[i]->set_pseudo_color_table( &cmgdm.iwindow, 
-                                            cmgdm.nctsize + 1, 
-                                            &cmgdm.ctred[0], 
-                                            &cmgdm.ctgreen[0], 
-                                            &cmgdm.ctblue[0] );
-          }
+    for (i = 0; i < n; i++) {
+        if (dev[i]->on && dev[i]->set_pseudo_color_table) {
+            dev[i]->set_pseudo_color_table(&cmgdm.iwindow, cmgdm.nctsize + 1,
+                                           &cmgdm.ctred[0], &cmgdm.ctgreen[0],
+                                           &cmgdm.ctblue[0]);
         }
+    }
 }
-

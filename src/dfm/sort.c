@@ -24,13 +24,13 @@
  *    - TRUE if \p a2 is less than \p a1
  *    - FALSE if \p a2 is not less than \p a1
  */
-int 
-LessThanStrg(void *a1, void *a2)
-{
-   char **a1i = (char**)a1;
-   char **a2i = (char**)a2;
-   if( strcmp(a1i[0], a2i[0]) < 0 ) return 1;
-   return 0;
+int
+LessThanStrg(void *a1, void *a2) {
+    char **a1i = (char **) a1;
+    char **a2i = (char **) a2;
+    if (strcmp(a1i[0], a2i[0]) < 0)
+        return 1;
+    return 0;
 }
 
 /** 
@@ -46,14 +46,13 @@ LessThanStrg(void *a1, void *a2)
  *    - FALSE if \p a2 is not greater than \p a1
  */
 int
-GreaterThanStrg(void *a1, void *a2)
-{
-    char **a1i = (char**)a1;
-    char **a2i = (char**)a2;
-    if( strcmp(a1i[0], a2i[0]) > 0 ) return 1;
-    return 0 ;
+GreaterThanStrg(void *a1, void *a2) {
+    char **a1i = (char **) a1;
+    char **a2i = (char **) a2;
+    if (strcmp(a1i[0], a2i[0]) > 0)
+        return 1;
+    return 0;
 }
-
 
 /** 
  * Check to see if a number is NaN.  This function is deprecated.
@@ -65,13 +64,12 @@ GreaterThanStrg(void *a1, void *a2)
  *    - TRUE if \p a1 is NaN
  *    - FALSE if \p a1 is not NaN
  */
-int 
-isNaN( float a1 )
-{
+int
+isNaN(float a1) {
     DEPRECATED("isNaN()", "isnan()");
-    if( !( a1 < 1.0 ) && !( a1 > 1.0 ) && !( a1 == 1.0 ) )
-	return 1 ;
-    return 0 ;
+    if (!(a1 < 1.0) && !(a1 > 1.0) && !(a1 == 1.0))
+        return 1;
+    return 0;
 }
 
 /** 
@@ -86,17 +84,17 @@ isNaN( float a1 )
  *    - TRUE if \p a2 is less than \p a1
  *    - FALSE if \p a2 is not less than \p a1
  */
-int 
-LessThanFloat(void *a1, void *a2)
-{
-   float a1i = *( (float*)a1);
-   float a2i = *( (float*)a2);
-   if( a1i < a2i ) return 1;
-   if( isnan( a1i ) ) {
-      if( !isnan( a2i ) )
-         return 1 ;
-   }
-   return 0;
+int
+LessThanFloat(void *a1, void *a2) {
+    float a1i = *((float *) a1);
+    float a2i = *((float *) a2);
+    if (a1i < a2i)
+        return 1;
+    if (isnan(a1i)) {
+        if (!isnan(a2i))
+            return 1;
+    }
+    return 0;
 }
 
 /** 
@@ -111,19 +109,18 @@ LessThanFloat(void *a1, void *a2)
  *    - TRUE if \p a2 is greater than \p a1
  *    - FALSE if \p a2 is not greater than \p a1
  */
-int 
-GreaterThanFloat(void *a1, void *a2)
-{
-   float a1i = *( (float*)a1);
-   float a2i = *( (float*)a2);
-   if( a1i > a2i ) return 1;
-   if( isnan( a2i ) ) {
-      if( !isnan( a1i ) )
-         return 1 ;
-   }
-   return 0;
-} 
-
+int
+GreaterThanFloat(void *a1, void *a2) {
+    float a1i = *((float *) a1);
+    float a2i = *((float *) a2);
+    if (a1i > a2i)
+        return 1;
+    if (isnan(a2i)) {
+        if (!isnan(a1i))
+            return 1;
+    }
+    return 0;
+}
 
 /** 
  * Number \p a2 is less than number \p a1
@@ -137,13 +134,13 @@ GreaterThanFloat(void *a1, void *a2)
  *    - TRUE if \p a2 is less than \p a1
  *    - FALSE if \p a2 is not less than \p a1
  */
-int 
-LessThanLong(void *a1, void *a2)
-{
-   int a1i = *( (int*)a1);
-   int a2i = *( (int*)a2);
-   if( a1i < a2i ) return 1;
-   return 0;
+int
+LessThanLong(void *a1, void *a2) {
+    int a1i = *((int *) a1);
+    int a2i = *((int *) a2);
+    if (a1i < a2i)
+        return 1;
+    return 0;
 }
 
 /** 
@@ -158,16 +155,14 @@ LessThanLong(void *a1, void *a2)
  *    - TRUE if \p a2 is greater than \p a1
  *    - FALSE if \p a2 is not greater than \p a1
  */
-int 
-GreaterThanLong(void *a1, void *a2)
-{
-   int a1i = *( (int*)a1);
-   int a2i = *( (int*)a2);
-   if( a1i > a2i ) return 1;
-   return 0;
+int
+GreaterThanLong(void *a1, void *a2) {
+    int a1i = *((int *) a1);
+    int a2i = *((int *) a2);
+    if (a1i > a2i)
+        return 1;
+    return 0;
 }
-
-
 
 /** 
  * Sorting function that produces a permutation index that will put
@@ -192,27 +187,22 @@ GreaterThanLong(void *a1, void *a2)
  *
  *
  */
-void 
-Index(char *a, 
-      int   N, 
-      int   size, 
-      int   (*fp1)(void *a1, void *a2), 
-      int   *index) {
+void
+Index(char *a, int N, int size, int (*fp1) (void *a1, void *a2), int *index) {
 
-   int i, j;
-   char *v;
-   
-   for(i=0; i< N;i++)
-      index[i] = i;
-   
-   for(i=1;i<N; i++){
-      v = a + index[i] * size;
-      j = i;
-      while(j > 0 && fp1(v, a +  index[j-1] * size ) ){
-         index[j] = index[j-1];
-         j--;
-      }
-      index[j] = i;
-   }
+    int i, j;
+    char *v;
+
+    for (i = 0; i < N; i++)
+        index[i] = i;
+
+    for (i = 1; i < N; i++) {
+        v = a + index[i] * size;
+        j = i;
+        while (j > 0 && fp1(v, a + index[j - 1] * size)) {
+            index[j] = index[j - 1];
+            j--;
+        }
+        index[j] = i;
+    }
 }
-

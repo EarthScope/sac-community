@@ -1,13 +1,12 @@
 
 #include "gd2.h"
 
-void /*FUNCTION*/ getratio2(aspect)
-float *aspect;
+void /*FUNCTION*/
+getratio2(aspect)
+     float *aspect;
 {
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To inquire about the aspect ratio (ratio of y viewport
 	 *           size to x viewport size) for graphics device 2 (SGF).
 	 *=====================================================================
@@ -21,11 +20,9 @@ float *aspect;
 	 *=====================================================================
 	 * DOCUMENTED:  861020
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*aspect = 0.75;
+    /* PROCEDURE: */
+    *aspect = 0.75;
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

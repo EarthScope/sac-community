@@ -11,7 +11,6 @@
 #include "sam.h"
 #include "dbh.h"
 
-
 /** 
  * Envelope Function using the Hilbert transform
  * 
@@ -27,30 +26,29 @@
  */
 void
 envelope(int n, float *in, float *out) {
-  int i;
-  int n2;
-  float *scratch;
+    int i;
+    int n2;
+    float *scratch;
 
-  n2 = 5*1024;
-  scratch = (float *)calloc(n2, sizeof(float));
-  if(scratch == NULL) {
-    fprintf(stderr, 
-	    "Error allocating space for hilbert transform: npts %d\n", 
-           n2);
+    n2 = 5 * 1024;
+    scratch = (float *) calloc(n2, sizeof(float));
+    if (scratch == NULL) {
+        fprintf(stderr,
+                "Error allocating space for hilbert transform: npts %d\n", n2);
+        return;
+    }
+    for (i = 0; i < n; i++) {
+        out[i] = 0.0;
+    }
+    firtrn("HILBERT", in, n, scratch, out);
+
+    for (i = 0; i < n; i++) {
+        out[i] = sqrt(in[i] * in[i] + out[i] * out[i]);
+    }
+
+    free(scratch);
+    scratch = NULL;
     return;
-  }
-  for(i = 0; i < n; i++) {
-    out[i] = 0.0;
-  }
-  firtrn("HILBERT",  in, n, scratch, out);
-
-  for(i = 0; i < n; i++) {
-    out[i] = sqrt(in[i] * in[i] + out[i] * out[i]);
-  }
-
-  free(scratch);
-  scratch = NULL;
-  return;
 }
 
 /** 
@@ -61,7 +59,7 @@ envelope(int n, float *in, float *out) {
  */
 void
 envelope_(int *n, float *in, float *out) {
-  envelope(*n, in, out);
+    envelope(*n, in, out);
 }
 
 /** 
@@ -72,5 +70,5 @@ envelope_(int *n, float *in, float *out) {
  */
 void
 envelope__(int *n, float *in, float *out) {
-  envelope(*n, in, out);
+    envelope(*n, in, out);
 }

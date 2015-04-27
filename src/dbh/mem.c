@@ -37,37 +37,32 @@
  *  @date  December 28, 1984 Last Modified
  * 
  */
-void 
-mem(float  *r, 
-    int     n, 
-    int     nfft, 
-    float  *spect, 
-    char   *errmsg, 
-    int     errmsg_s, 
-    float  *aux) {
+void
+mem(float *r, int n, int nfft, float *spect, char *errmsg, int errmsg_s,
+    float *aux) {
 
-	int i;
-        float scale;
-        float *a, *reflct;
-        float *A;
+    int i;
+    float scale;
+    float *a, *reflct;
+    float *A;
 
-	float *const Aux = &aux[0] - 1;
-	float *const R = &r[0] - 1;
-	float *const Spect = &spect[0] - 1;
-  UNUSED(errmsg_s);
+    float *const Aux = &aux[0] - 1;
+    float *const R = &r[0] - 1;
+    float *const Spect = &spect[0] - 1;
+    UNUSED(errmsg_s);
 
-        if((a = (float *)malloc(n*sizeof(float))) == NULL){
-            strcpy(errmsg, "error allocating memory--mem\n");
-            return;
-	}
+    if ((a = (float *) malloc(n * sizeof(float))) == NULL) {
+        strcpy(errmsg, "error allocating memory--mem\n");
+        return;
+    }
 
-        if((reflct = (float *)malloc(n*sizeof(float))) == NULL){
-            strcpy(errmsg, "error allocating memory--mem\n");
-            free(a);
-            return;
-	}
+    if ((reflct = (float *) malloc(n * sizeof(float))) == NULL) {
+        strcpy(errmsg, "error allocating memory--mem\n");
+        free(a);
+        return;
+    }
 
-        A = a-1;
+    A = a - 1;
 
 /*
 	if( n > 100 ){
@@ -76,38 +71,38 @@ mem(float  *r,
 		return;
 		}
 */
-	/*  Zero arrays
-	 * */
-	zero( spect, nfft );
-	zero( aux, nfft );
+    /*  Zero arrays
+     * */
+    zero(spect, nfft);
+    zero(aux, nfft);
 
-	/*  Invoke Levinson's recursion to compute prediction filter
-	 * */
-	levin( r, a, reflct, n );
+    /*  Invoke Levinson's recursion to compute prediction filter
+     * */
+    levin(r, a, reflct, n);
 
-	/*  Compute transfer function of prediction filter
-	 * */
-	for( i = 1; i <= n; i++ )
-	    Spect[i] = A[i];
+    /*  Compute transfer function of prediction filter
+     * */
+    for (i = 1; i <= n; i++)
+        Spect[i] = A[i];
 
-	fft( spect, aux, nfft, -1 );
+    fft(spect, aux, nfft, -1);
 
-	/*  Spectral estimate is reciprocal of filter's power spectrum
-	 *
-	 *    Scale factor is equal to prediction error
-	 * */
-	scale = 0.;
-	for( i = 1; i <= n; i++ )
-	    scale = scale + R[i]*A[i];
+    /*  Spectral estimate is reciprocal of filter's power spectrum
+     *
+     *    Scale factor is equal to prediction error
+     * */
+    scale = 0.;
+    for (i = 1; i <= n; i++)
+        scale = scale + R[i] * A[i];
 
-	for( i = 1; i <= nfft; i++ )
-	    Spect[i] = scale/(powi(Spect[i],2) + powi(Aux[i],2));
+    for (i = 1; i <= nfft; i++)
+        Spect[i] = scale / (powi(Spect[i], 2) + powi(Aux[i], 2));
 
-	/*  Bye
-	 * */
+    /*  Bye
+     * */
 
-        free(a); free(reflct);
+    free(a);
+    free(reflct);
 
-	return;
-} /* end of function */
-
+    return;
+}                               /* end of function */

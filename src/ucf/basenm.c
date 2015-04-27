@@ -47,40 +47,34 @@
  * @date   800103:  Original version.
  *
  */
-void 
-basenm(char        *kbase, 
-       int          kbase_s, 
-       int          n1, 
-       int          n2, 
-       string_list *list,
-       int         *nerr)
-{
-	char kname[MCPFN+1];
-	int  j;
+void
+basenm(char *kbase, int kbase_s, int n1, int n2, string_list * list, int *nerr) {
+    char kname[MCPFN + 1];
+    int j;
 
-  char *base;
+    char *base;
 
-	*nerr = 0;
+    *nerr = 0;
 
-  base = fstrdup(kbase, kbase_s);
-    
-	if( memcmp(base," ",1) == 0 ){
-    error(914, "%s", base);
-    goto L_8888;
-  } else if( (n1 > n2 || n1 < 0) || n2 > 99 ) {
-		*nerr = 915;
-    error(915, "%d %d", n1, n2);
-		goto L_8888;
-  } else {
-    DEBUG("%d => %d\n", n1, n2);
-    DEBUG("base: '%s'\n", base);
-    for( j = n1; j <= n2; j++) {
-      sprintf(kname, "%s%02d", base, j);
-      string_list_put(list, kname, strlen(kname));
+    base = fstrdup(kbase, kbase_s);
+
+    if (memcmp(base, " ", 1) == 0) {
+        error(914, "%s", base);
+        goto L_8888;
+    } else if ((n1 > n2 || n1 < 0) || n2 > 99) {
+        *nerr = 915;
+        error(915, "%d %d", n1, n2);
+        goto L_8888;
+    } else {
+        DEBUG("%d => %d\n", n1, n2);
+        DEBUG("base: '%s'\n", base);
+        for (j = n1; j <= n2; j++) {
+            sprintf(kname, "%s%02d", base, j);
+            string_list_put(list, kname, strlen(kname));
+        }
     }
-  }    
- L_8888:
-  free(base);
-  base = NULL;
-	return;
+  L_8888:
+    free(base);
+    base = NULL;
+    return;
 }

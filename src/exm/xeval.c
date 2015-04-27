@@ -14,7 +14,6 @@
 #include "bool.h"
 #include "cnv.h"
 
-
 #include "msg.h"
 #include "co.h"
 #include "bot.h"
@@ -38,18 +37,17 @@
  * @date   840822:  Defaulted first variable to 1.0 if omitted.
  * @date   840615:  Original version (from FCALC program.)
  */
-void 
-xeval(int *nerr)  {
-  UNUSED(nerr);
-  Token *t;
-  if((t = arg())) {
-    if((token_is_int_precision(t, TOKEN_INT_PRECISION_NON_ARGUMENT))) {
-      printf(" %d\n", token_as_int(t));
-    } else if((token_is_number(t))) {
-      printf(" %g\n", t->value);
+void
+xeval(int *nerr) {
+    UNUSED(nerr);
+    Token *t;
+    if ((t = arg())) {
+        if ((token_is_int_precision(t, TOKEN_INT_PRECISION_NON_ARGUMENT))) {
+            printf(" %d\n", token_as_int(t));
+        } else if ((token_is_number(t))) {
+            printf(" %g\n", t->value);
+        }
     }
-  }
 
-  return;
+    return;
 }
-

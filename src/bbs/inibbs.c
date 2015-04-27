@@ -16,13 +16,12 @@
  * @date  870301:  Documented / Reviewed
  *
  */
-void 
+void
 inibbs() {
 
-  strcpy( kmbbs.knmbbs, "blackboard");
-  cmbbs.nlnbbs = 128;
-  strcpy( kmbbs.kbbsinit, "INITDONE" );
-  
-  return;
-}
+    strcpy(kmbbs.knmbbs, "blackboard");
+    cmbbs.nlnbbs = 128;
+    strcpy(kmbbs.kbbsinit, "INITDONE");
 
+    return;
+}

@@ -9,18 +9,18 @@
 
 #include "bool.h"
 
-
 #include "dfm.h"
 
-void getxlm(lxlm, xmin, xmax)
-int *lxlm;
-float *xmin, *xmax;
+void
+getxlm(lxlm, xmin, xmax)
+     int *lxlm;
+     float *xmin, *xmax;
 {
-	int nerr, nlnatw, nofmin;
-  double tmin, tmax;
-  sac *s;
+    int nerr, nlnatw, nofmin;
+    double tmin, tmax;
+    sac *s;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To return x axis plot limit attributes for current file.
 	 *=====================================================================
 	 * OUTPUT ARGUMENTS:
@@ -44,32 +44,31 @@ float *xmin, *xmax;
 	 * SUBROUTINES CALLED:
 	 *    SACLIB:  GETATW
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Set x limit option flag. */
-	*lxlm = cmgam.lrtwxl;
-  s = sacget_current();
-	/* - If option is on, determine x limits. */
+    /* PROCEDURE: */
+    /* - Set x limit option flag. */
+    *lxlm = cmgam.lrtwxl;
+    s = sacget_current();
+    /* - If option is on, determine x limits. */
 
-	if( *lxlm ){
-		getatw( (char*)kmgam.krtwxl,9, cmgam.ortwxl, &tmin, &tmax, &nofmin, 
-		 &nlnatw, &nerr );
-    *xmin = (float) tmin;
-    *xmax = (float) tmax;
-		if( nerr != 0 )
-			*lxlm = FALSE;
-		}
+    if (*lxlm) {
+        getatw((char *) kmgam.krtwxl, 9, cmgam.ortwxl, &tmin, &tmax, &nofmin,
+               &nlnatw, &nerr);
+        *xmin = (float) tmin;
+        *xmax = (float) tmax;
+        if (nerr != 0)
+            *lxlm = FALSE;
+    }
 
-	/* - Return begin and end times if option is off or an error occurred. */
+    /* - Return begin and end times if option is off or an error occurred. */
 
-	if( !*lxlm ){
-		*xmin = s->h->b;
-		*xmax = s->h->e;
-		}
+    if (!*lxlm) {
+        *xmin = s->h->b;
+        *xmax = s->h->e;
+    }
 
-       
-	return;
+    return;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    860304:  Changes in argument list of GETATW.
 	 *    820623:  Now uses GETATW to perform calculation.
@@ -77,5 +76,4 @@ float *xmin, *xmax;
 	 *    800723:  Original version.
 	 *===================================================================== */
 
-} /* end of function */
-
+}                               /* end of function */

@@ -26,7 +26,6 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 */
 
-
 #ifndef __STRING_UTIL_H__
 #define __STRING_UTIL_H__
 
@@ -45,103 +44,102 @@ POSSIBILITY OF SUCH DAMAGE.
 
 typedef struct _string string;
 struct _string {
-  size_t   alloc;
-  size_t   n;
-  char *str;
+    size_t alloc;
+    size_t n;
+    char *str;
 };
 
-
 /* String Creation and Destruction*/
- string *string_new(char *c);
- void    string_free(string **s);
- void    string_free_v(void **s);
- string *string_from_fortran(char *c, long int *pn);
+string *string_new(char *c);
+void string_free(string ** s);
+void string_free_v(void **s);
+string *string_from_fortran(char *c, long int *pn);
 
 /* String Utilities */
- string *string_check(string *s);
- string *string_grow(string *s, int len);
- string *string_alloc();
- string *string_pack(string *s);
- char   *strstr_escape(char *big, char *little);
- char   *strchr_reverse(char *s, int n, int c);
- char   *strchr_reverse_isnot(char *s, int n, int c);
+string *string_check(string * s);
+string *string_grow(string * s, int len);
+string *string_alloc();
+string *string_pack(string * s);
+char *strstr_escape(char *big, char *little);
+char *strchr_reverse(char *s, int n, int c);
+char *strchr_reverse_isnot(char *s, int n, int c);
 
 /* Copy String */
- string *string_copy(string *s);
+string *string_copy(string * s);
 
 /* String Formatted Addition and Creation */
- string *string_printf(string *z, char *fmt, ...);
- string *string_printf_append_internal(string *z, char *fmt, va_list args);
- string *string_printf_append(string *z, char *fmt, ...);
- string *string_printf_prepend_internal(string *z, char *fmt, va_list args);
- string *string_printf_prepend(string *z, char *fmt, ...);
- string *string_append_int(string *z, int d);
- string *string_prepend_int(string *z, int d);
+string *string_printf(string * z, char *fmt, ...);
+string *string_printf_append_internal(string * z, char *fmt, va_list args);
+string *string_printf_append(string * z, char *fmt, ...);
+string *string_printf_prepend_internal(string * z, char *fmt, va_list args);
+string *string_printf_prepend(string * z, char *fmt, ...);
+string *string_append_int(string * z, int d);
+string *string_prepend_int(string * z, int d);
 
 /* String Addition */
- string *string_append(string *z, char *c);
- string *string_prepend(string *z, char *c);
- string *string_insert(string *s, int n, char *in);
+string *string_append(string * z, char *c);
+string *string_prepend(string * z, char *c);
+string *string_insert(string * s, int n, char *in);
 
 /* String Removal */
- string *string_remove(string *s, int n, int len);
+string *string_remove(string * s, int n, int len);
 
 /* String Trunctation */
- string *string_trunc(string *s);
+string *string_trunc(string * s);
 
 /* String Comparison */
- int     string_equal_char(string *s, char *c);
- int     string_equal(string *a, string *b);
- int     string_compare(const string *a, const string *b);
- int     string_compare_v(const void *a, const void *b);
- int     string_compare_v_inv(const void *a, const void *b);
+int string_equal_char(string * s, char *c);
+int string_equal(string * a, string * b);
+int string_compare(const string * a, const string * b);
+int string_compare_v(const void *a, const void *b);
+int string_compare_v_inv(const void *a, const void *b);
 
 /* String Contents */
- char   *string_string(const string *s);
- int     string_length(string *s);
- int     string_nalloc(string *s);
+char *string_string(const string * s);
+int string_length(string * s);
+int string_nalloc(string * s);
 /* Get a Portion of a String */
- string *string_substr(string *s, int n, int len); 
- char   *string_substr_char(string *s, int n, int len);
+string *string_substr(string * s, int n, int len);
+char *string_substr_char(string * s, int n, int len);
 
 /* String Find and Replace */
- string *string_replace(string *s, char *find, char *replace);
- string *string_tilde_expand(string *s);
+string *string_replace(string * s, char *find, char *replace);
+string *string_tilde_expand(string * s);
 
 /* Print out the contents of a String */
- void    string_dump(string *s);
- void    string_dump_v(void *s);
+void string_dump(string * s);
+void string_dump_v(void *s);
 
 /* Read in a line regardless of line terminator */
-char   * fgetsp(char *s, int n, FILE *stream);
-string * string_read(FILE *stream, int n);
+char *fgetsp(char *s, int n, FILE * stream);
+string *string_read(FILE * stream, int n);
 
 #ifdef MISSING_FUNC_VASPRINTF
-int  vasprintf(char **strp, const char *fmt, va_list args);
-#endif 
+int vasprintf(char **strp, const char *fmt, va_list args);
+#endif
 
 void debug(char *fmt, ...);
 
 #ifdef MISSING_FUNC_STRSEP
-char * strsep(char **stringp, const char *delim);
-#endif 
+char *strsep(char **stringp, const char *delim);
+#endif
 
 #ifdef MISSING_FUNC_MKSTEMPS
 int mkstemps(char *path, int slen);
-#endif 
+#endif
 
-int  sscanff(char *inp, char *fmt, ...);
+int sscanff(char *inp, char *fmt, ...);
 
 #ifdef MISSING_FUNC_STRCASECMP
 int strcasecmp(const char *s1, const char *s2);
 #endif
 
 #ifdef MISSING_FUNC_INDEX
-char * index(const char *s, int c);
+char *index(const char *s, int c);
 #endif
 
 #ifdef MISSING_FUNC_RINDEX
-char * rindex(const char *s, int c);
+char *rindex(const char *s, int c);
 #endif
 
 #ifdef MISSING_FUNC_ASPRINTF
@@ -153,7 +151,7 @@ size_t strlcpy(char *dst, const char *src, size_t size);
 #endif
 
 #ifdef MISSING_FUNC_SNPRINTF
-int snprintf(char* str, size_t size, const char* format, ...);
+int snprintf(char *str, size_t size, const char *format, ...);
 #endif
 
 #ifdef MISSING_FUNC_STRNCASECMP

@@ -5,7 +5,6 @@
  * 
  */
 
-
 #define	IABOVE	8
 #define	IBELOW	4
 #define	ILEFT	1
@@ -72,38 +71,30 @@
  * @date   811222:  Original version.
  *
  */
-void 
-locdp(double x, 
-      double y, 
-      float *xr, 
-      float *yr, 
-      int   *ilocdp)
-{
+void
+locdp(double x, double y, float *xr, float *yr, int *ilocdp) {
 
-	float *const Xr = &xr[0] - 1;
-	float *const Yr = &yr[0] - 1;
+    float *const Xr = &xr[0] - 1;
+    float *const Yr = &yr[0] - 1;
 
-	/* - Assume data point is inside rectangle. */
-	*ilocdp = 0;
+    /* - Assume data point is inside rectangle. */
+    *ilocdp = 0;
 
-	/* - Check to see if data point is above or below rectangle. */
+    /* - Check to see if data point is above or below rectangle. */
 
-	if( y > Yr[2] ){
-		*ilocdp = IABOVE;
-	}
-	else if( y < Yr[1] ){
-		*ilocdp = IBELOW;
-	}
+    if (y > Yr[2]) {
+        *ilocdp = IABOVE;
+    } else if (y < Yr[1]) {
+        *ilocdp = IBELOW;
+    }
 
-	/* - Check to see if data point is to left or right of rectangle. */
+    /* - Check to see if data point is to left or right of rectangle. */
 
-	if( x > Xr[2] ){
-		*ilocdp = *ilocdp + IRIGHT;
-	}
-	else if( x < Xr[1] ){
-		*ilocdp = *ilocdp + ILEFT;
-	}
-	
-	return;
+    if (x > Xr[2]) {
+        *ilocdp = *ilocdp + IRIGHT;
+    } else if (x < Xr[1]) {
+        *ilocdp = *ilocdp + ILEFT;
+    }
+
+    return;
 }
-

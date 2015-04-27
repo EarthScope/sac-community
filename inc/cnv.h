@@ -13,7 +13,7 @@
  *    No idea
  */
 struct t_cmicnv {
-  int icnver;
-}  cmicnv;
+    int icnver;
+} cmicnv;
 
 #endif /* _CNV_H_ */

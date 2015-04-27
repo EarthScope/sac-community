@@ -74,99 +74,95 @@
  * @date   820312:  Original version.
  *
  */
-int 
-lckey(char *kkey, 
-      int   kkey_s) {
+int
+lckey(char *kkey, int kkey_s) {
 
-        char kcheck[MCHECK + 1];
-        char ktoken[MCHECK + 1];
-	int lckey_v, lnoabb;
-	int ncabb, ncheck, nckey, ncsym;
-  Token *t;
+    char kcheck[MCHECK + 1];
+    char ktoken[MCHECK + 1];
+    int lckey_v, lnoabb;
+    int ncabb, ncheck, nckey, ncsym;
+    Token *t;
 
-	/* - Determine length of input key (i.e., find trailing dollar sign.) */
-	nckey = indexc( kkey,kkey_s, '$' );
-  memset(ktoken, ' ', 136);
-  memset(kcheck, ' ', 136);
-	ktoken[ 136 ] = '\0' ;
-	kcheck[ 136 ] = '\0' ;
+    /* - Determine length of input key (i.e., find trailing dollar sign.) */
+    nckey = indexc(kkey, kkey_s, '$');
+    memset(ktoken, ' ', 136);
+    memset(kcheck, ' ', 136);
+    ktoken[136] = '\0';
+    kcheck[136] = '\0';
 
-	/* - If trailing dollar sign is missing find 
-	 *   last non-blank character. */
-	if( nckey <= 0 )
-		nckey = indexb( kkey,kkey_s );
+    /* - If trailing dollar sign is missing find 
+     *   last non-blank character. */
+    if (nckey <= 0)
+        nckey = indexb(kkey, kkey_s);
 
-	/* - If character length of key is still 0, 
-	 *   set function value to .TRUE. and return immediately.  
-	 *   Do not increment command pointer. */
-	if( nckey == 0 ){
-		lckey_v = TRUE;
-		goto L_8888;
-	}
+    /* - If character length of key is still 0, 
+     *   set function value to .TRUE. and return immediately.  
+     *   Do not increment command pointer. */
+    if (nckey == 0) {
+        lckey_v = TRUE;
+        goto L_8888;
+    }
 
-	/* - Copy key to local variable, 
-	 *    deleting special characters if present. */
-	lnoabb = kkey[0] == '&';
-	ncabb = indexa( kkey,kkey_s, '#', TRUE, TRUE );
-	if( lnoabb ){
-                fstrncpy(kcheck,136,kkey+1,kkey_s-2);
-		nckey = nckey - 1;
-	}
-	else if( ncabb > 0 ){
-                fstrncpy(kcheck,136,kkey,ncabb-1);
-                memcpy(kcheck+ncabb-1,kkey+ncabb,kkey_s - (ncabb + 1));
-		nckey = nckey - 1;
-	}
-	else{
-                fstrncpy(kcheck,136,kkey,strlen(kkey));
-	}
-  if(!(t = arg()) || !token_is_string(t)) {
+    /* - Copy key to local variable, 
+     *    deleting special characters if present. */
+    lnoabb = kkey[0] == '&';
+    ncabb = indexa(kkey, kkey_s, '#', TRUE, TRUE);
+    if (lnoabb) {
+        fstrncpy(kcheck, 136, kkey + 1, kkey_s - 2);
+        nckey = nckey - 1;
+    } else if (ncabb > 0) {
+        fstrncpy(kcheck, 136, kkey, ncabb - 1);
+        memcpy(kcheck + ncabb - 1, kkey + ncabb, kkey_s - (ncabb + 1));
+        nckey = nckey - 1;
+    } else {
+        fstrncpy(kcheck, 136, kkey, strlen(kkey));
+    }
+    if (!(t = arg()) || !token_is_string(t)) {
+        return FALSE;
+    }
+    ncsym = strlen(t->str);
+
+    /* - Determine number of characters to check. */
+    if (lnoabb) {
+        ncheck = max(nckey, ncsym);
+    } else {
+        ncheck = min(nckey, ncsym);
+        ncheck = min(ncheck, MCHECK);
+        if (ncabb > 0)
+            ncheck = max(ncheck, ncabb - 1);
+    }
+
+    /* - Convert current command token upper case. */
+    modcase(TRUE, ktoken, ncheck, ktoken);
+
+    if (strncasecmp(kcheck, t->str, ncheck) == 0) {
+        arg_next();
+        return TRUE;
+    }
     return FALSE;
-  }
-	ncsym = strlen(t->str);
 
-	/* - Determine number of characters to check. */
-	if( lnoabb ){
-		ncheck = max( nckey, ncsym );
-	}
-	else{
-                ncheck = min(nckey,ncsym);
-                ncheck = min(ncheck,MCHECK);
-		if( ncabb > 0 )
-			ncheck = max( ncheck, ncabb - 1 );
-	}
+  L_8888:
 
-	/* - Convert current command token upper case. */
-	modcase( TRUE, ktoken, ncheck, ktoken );
-
-  if(strncasecmp(kcheck, t->str, ncheck) == 0) {
-    arg_next();
-    return TRUE;
-  }
-  return FALSE;
-
-
-L_8888:
-
-	return( lckey_v );
+    return (lckey_v);
 
 }
 
 int
 lcequals() {
-  Token *t;
-  if((t = arg()) && token_is_equals(t)) {
-    arg_next();
-    return TRUE;
-  }
-  return FALSE;
+    Token *t;
+    if ((t = arg()) && token_is_equals(t)) {
+        arg_next();
+        return TRUE;
+    }
+    return FALSE;
 }
+
 int
 lccomma() {
-  Token *t;
-  if((t = arg()) && token_is_comma(t)) {
-    arg_next();
-    return TRUE;
-  }
-  return FALSE;
+    Token *t;
+    if ((t = arg()) && token_is_comma(t)) {
+        arg_next();
+        return TRUE;
+    }
+    return FALSE;
 }

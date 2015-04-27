@@ -47,145 +47,133 @@
  * @date   861020:  Original version.
 
  */
-void 
-readctable(char *name,
-           int name_s,
-           int max_,
-           float red[],
-           float green[],
-           float blue[],
-           char *cnames,
-           int cnames_s,
-           int *nentry,
-           int *nerr)
-{
+void
+readctable(char *name, int name_s, int max_, float red[], float green[],
+           float blue[], char *cnames, int cnames_s, int *nentry, int *nerr) {
 
 #define CNAMES(I_,J_)	(cnames+(I_)*(cnames_s)+(J_))
 
-	char ctable[MCPFN+1], line[MCMSG+1];
-	int  idx ;
-	int ic, ic1, ic2, itype, nc, numsave;
-  FILE *nun;
-	float bluev, greenv, redv;
-  char *s1;
-  UNUSED(max_);
-        for( idx = 0 ; idx < MCPFN ; idx++ )
-            ctable[ idx ] = ' ' ;
-        ctable[ MCPFN ] = '\0' ;
+    char ctable[MCPFN + 1], line[MCMSG + 1];
+    int idx;
+    int ic, ic1, ic2, itype, nc, numsave;
+    FILE *nun;
+    float bluev, greenv, redv;
+    char *s1;
+    UNUSED(max_);
+    for (idx = 0; idx < MCPFN; idx++)
+        ctable[idx] = ' ';
+    ctable[MCPFN] = '\0';
 
-	/* - Build name of color table file. */
-	zbasename( ctable,MCPFN+1 );
-	crname( ctable,MCPFN+1, KSUBDL, "ctables",8, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
-	crname( ctable,MCPFN+1, KDIRDL, name,name_s, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    /* - Build name of color table file. */
+    zbasename(ctable, MCPFN + 1);
+    crname(ctable, MCPFN + 1, KSUBDL, "ctables", 8, nerr);
+    if (*nerr != 0)
+        goto L_8888;
+    crname(ctable, MCPFN + 1, KDIRDL, name, name_s, nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* - Open color table file. */
+    /* - Open color table file. */
 
-	zopens( &nun, ctable,MCPFN+1, "TEXT",5, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    zopens(&nun, ctable, MCPFN + 1, "TEXT", 5, nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* - Initialize entry number counter. */
+    /* - Initialize entry number counter. */
 
-	*nentry = 0;
+    *nentry = 0;
 
-	/* - Read each line from disk file. */
+    /* - Read each line from disk file. */
 
-L_1000:
-        if(fgetsp( line,MCMSG+1,nun)==NULL) {
-          if(feof(nun)) goto L_5000;
-          goto L_9000;
-        }
-        if(line[(numsave=strlen(line)-1)] == '\n') line[numsave] = ' ';
+  L_1000:
+    if (fgetsp(line, MCMSG + 1, nun) == NULL) {
+        if (feof(nun))
+            goto L_5000;
+        goto L_9000;
+    }
+    if (line[(numsave = strlen(line) - 1)] == '\n')
+        line[numsave] = ' ';
 
-	nc = numsave + 1;;
-	ic = 0;
+    nc = numsave + 1;;
+    ic = 0;
 
-	/* -- Pop first three tokens.  They are the red, green, and blue values. */
-	poptok( line, nc, &ic, &ic1, &ic2, &itype );
-	if( itype == 1 ){
-                strncpy((s1=malloc(ic2-ic1+2)),line+ic1 - 1,ic2-ic1+1);
-                s1[ic2-ic1+1] = '\0';
-		cnvatf( s1, ic2-ic1 + 2, &redv, 0, nerr ); /* add 0 before nerr. maf 970129 */
-		free(s1);
-		}
-	else{
-		*nerr = 2201;
-		setmsg( "ERROR", *nerr );
-		aplmsg( line, MCMSG+1 );
-		}
-	if( *nerr != 0 )
-		goto L_8888;
+    /* -- Pop first three tokens.  They are the red, green, and blue values. */
+    poptok(line, nc, &ic, &ic1, &ic2, &itype);
+    if (itype == 1) {
+        strncpy((s1 = malloc(ic2 - ic1 + 2)), line + ic1 - 1, ic2 - ic1 + 1);
+        s1[ic2 - ic1 + 1] = '\0';
+        cnvatf(s1, ic2 - ic1 + 2, &redv, 0, nerr);      /* add 0 before nerr. maf 970129 */
+        free(s1);
+    } else {
+        *nerr = 2201;
+        setmsg("ERROR", *nerr);
+        aplmsg(line, MCMSG + 1);
+    }
+    if (*nerr != 0)
+        goto L_8888;
 
-	poptok( line, nc, &ic, &ic1, &ic2, &itype );
-	if( itype == 1 ){
-                strncpy((s1=malloc(ic2-ic1+2)),line+ic1 - 1,ic2-ic1+1);
-                s1[ic2-ic1+1] = '\0';
-		cnvatf( s1, ic2-ic1 + 2, &greenv, 0, nerr ); /* add 0 before nerr. maf 970129 */
-		free(s1);
-		}
-	else{
-		*nerr = 2201;
-		setmsg( "ERROR", *nerr );
-		aplmsg( line, nc);
-		}
-	if( *nerr != 0 )
-		goto L_8888;
+    poptok(line, nc, &ic, &ic1, &ic2, &itype);
+    if (itype == 1) {
+        strncpy((s1 = malloc(ic2 - ic1 + 2)), line + ic1 - 1, ic2 - ic1 + 1);
+        s1[ic2 - ic1 + 1] = '\0';
+        cnvatf(s1, ic2 - ic1 + 2, &greenv, 0, nerr);    /* add 0 before nerr. maf 970129 */
+        free(s1);
+    } else {
+        *nerr = 2201;
+        setmsg("ERROR", *nerr);
+        aplmsg(line, nc);
+    }
+    if (*nerr != 0)
+        goto L_8888;
 
-	poptok( line, nc, &ic, &ic1, &ic2, &itype );
-	if( itype == 1 ){
-                strncpy((s1=malloc(ic2-ic1+2)),line+ic1 - 1,ic2-ic1+1);
-                s1[ic2-ic1+1] = '\0';
-		cnvatf( s1, ic2- ic1 + 2, &bluev, 0, nerr ); /* add 0 before nerr. maf 970129 */
-		free(s1);
-		}
-	else{
-		*nerr = 2201;
-		setmsg( "ERROR", *nerr );
-		aplmsg( line, nc);
-		}
-	if( *nerr != 0 )
-		goto L_8888;
+    poptok(line, nc, &ic, &ic1, &ic2, &itype);
+    if (itype == 1) {
+        strncpy((s1 = malloc(ic2 - ic1 + 2)), line + ic1 - 1, ic2 - ic1 + 1);
+        s1[ic2 - ic1 + 1] = '\0';
+        cnvatf(s1, ic2 - ic1 + 2, &bluev, 0, nerr);     /* add 0 before nerr. maf 970129 */
+        free(s1);
+    } else {
+        *nerr = 2201;
+        setmsg("ERROR", *nerr);
+        aplmsg(line, nc);
+    }
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* -- Store values in color table if everything is okay. */
-	red[*nentry] = redv;
-	green[*nentry] = greenv;
-	blue[*nentry] = bluev;
+    /* -- Store values in color table if everything is okay. */
+    red[*nentry] = redv;
+    green[*nentry] = greenv;
+    blue[*nentry] = bluev;
 
-	/* -- Pop next token.  It is an optional color name. */
-	poptok( line, nc, &ic, &ic1, &ic2, &itype );
-	if( itype == 1 ){
-		fstrncpy( CNAMES(*nentry,0), cnames_s-1, line+ic1 - 1,min(ic2,MCMSG) - 
-		 ic1 + 1);
-		}
-	else{
-		fstrncpy( CNAMES(*nentry,0), cnames_s-1, "UNKNOWN", 7 );
-		}
+    /* -- Pop next token.  It is an optional color name. */
+    poptok(line, nc, &ic, &ic1, &ic2, &itype);
+    if (itype == 1) {
+        fstrncpy(CNAMES(*nentry, 0), cnames_s - 1, line + ic1 - 1,
+                 min(ic2, MCMSG) - ic1 + 1);
+    } else {
+        fstrncpy(CNAMES(*nentry, 0), cnames_s - 1, "UNKNOWN", 7);
+    }
 
-	/* -- Increment color table entry pointer and loop until end-of-file */
-	*nentry = *nentry + 1;
-	goto L_1000;
+    /* -- Increment color table entry pointer and loop until end-of-file */
+    *nentry = *nentry + 1;
+    goto L_1000;
 
-	/* - Come to here on end-of-file */
+    /* - Come to here on end-of-file */
 
-L_5000:
-	;
+  L_5000:
+    ;
 
-L_8888:
-	zcloses( &nun, nerr );
-	return;
+  L_8888:
+    zcloses(&nun, nerr);
+    return;
 
-	/* - Come to here on errors during read. */
+    /* - Come to here on errors during read. */
 
-L_9000:
-	*nerr = 114;
-	setmsg( "ERROR", *nerr );
-	apcmsg( ctable,MCPFN+1 );
-	goto L_8888;
+  L_9000:
+    *nerr = 114;
+    setmsg("ERROR", *nerr);
+    apcmsg(ctable, MCPFN + 1);
+    goto L_8888;
 
 #undef	CNAMES
 }
-

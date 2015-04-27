@@ -9,7 +9,6 @@
 #include "hdr.h"
 #include "bool.h"
 
-
 #include "co.h"
 #include "dbh.h"
 #include "ucf.h"
@@ -19,17 +18,17 @@
 #define	MXFIR       7
 #define	NFILTHALF   100
 
-void /*FUNCTION*/ xstretch(nerr)
-int *nerr;
+void /*FUNCTION*/
+xstretch(nerr)
+     int *nerr;
 {
-	int jdfl, jold, jzero, 
-    ncoef, ndatout, nlnnew;
-	float c[NFILTHALF + 1];
+    int jdfl, jold, jzero, ncoef, ndatout, nlnnew;
+    float c[NFILTHALF + 1];
 
-  float *Sacmem1, *Sacmem2;
-  sac *s;
-  float *new;
-	/*=====================================================================
+    float *Sacmem1, *Sacmem2;
+    sac *s;
+    float *new;
+        /*=====================================================================
 	 * PURPOSE: To parse and execute the action command STRETCH.
 	 *          This command stretches (upsamples) data.  An optional
 	 *          interpolating FIR filter may be applied.
@@ -72,133 +71,132 @@ int *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  
 	 *===================================================================== */
-	/* this routine no longer reads a filter pre-designed by FIR;
-	 * it designs its own from hardwired parameters
-	 *      include '../../inc/fir' */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* this routine no longer reads a filter pre-designed by FIR;
+     * it designs its own from hardwired parameters
+     *      include '../../inc/fir' */
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* PARSING PHASE: */
+    /* PARSING PHASE: */
 
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-L_1000:
-	if( lcmore( nerr ) ){
+  L_1000:
+    if (lcmore(nerr)) {
 
-		/* -- "n": set upsampling factor. */
-		if( lcirc( 2, MXFIR, &cmscm.nstrfc ) ){
+        /* -- "n": set upsampling factor. */
+        if (lcirc(2, MXFIR, &cmscm.nstrfc)) {
 
-			/* -- "FILTER ON|OFF": turn interpolating filter on or off. */
-			}
-		else if( lklog( "FILTER$",8, &cmscm.lstrfi ) ){
+            /* -- "FILTER ON|OFF": turn interpolating filter on or off. */
+        } else if (lklog("FILTER$", 8, &cmscm.lstrfi)) {
 
-			/* -- Bad syntax. */
-			}
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
+            /* -- Bad syntax. */
+        } else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
 
-			}
-		goto L_1000;
-
-		}
-
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
-
-	if( *nerr != 0 )
-		goto L_8888;
-
-	/* CHECKING PHASE: */
-
-	/* - Test for a non-null data file list. */
-
-	vflist( nerr );
-	if( *nerr != 0 )
-		goto L_8888;
-
-	/* - Make sure each file is an evenly spaced time series file. */
-
-	vfeven( nerr );
-	if( *nerr != 0 )
-		goto L_8888;
-
-	/* EXECUTION PHASE: */
-
-	/* - Design filter: compute coefficients. */
-
-	if( cmscm.lstrfi ){
-		lpdesign( cmscm.nstrfc, 2*NFILTHALF + 1, c, &ncoef );
-		if( ncoef == 0 || ncoef != NFILTHALF ){
-			fprintf( stdout, "zero or wrong num of coefs returned\n" );
-			goto L_8888;
-			}
-		}
-
-	/* - Perform the requested function on each file in DFL. */
-
-	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
-
-		/* -- Get next file from the memory manager.
-		 *    (Header is moved into common blocks CMHDR and KMHDR.) */
-    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
-      goto L_8888;
-    }
-		//getfil( jdfl, TRUE, &nlnold, &ndxold, &ntused, nerr );
-
-		/* -- Allocate block for output. */
-		nlnnew = (s->h->npts - 1)*cmscm.nstrfc + 1;
-    new = (float *) malloc(sizeof(float) * nlnnew);
-
-		if( !cmscm.lstrfi ){
-			/* -- Perform stretching on data file without filtering. */
-      Sacmem1 = new;
-      Sacmem2 = s->y;
-			for( jold = 0; jold <= (s->h->npts - 2); jold++ ){
-        *Sacmem1 = *Sacmem2;
-				for( jzero = 1; jzero <= (cmscm.nstrfc - 1); jzero++ ){
-          *(++Sacmem1) = 0.0;
         }
-        Sacmem1++;
-        Sacmem2++;
-      }
-      *Sacmem1 = *(s->y + s->h->npts - 1);
-			}
-		else{
+        goto L_1000;
 
-			/* -- Apply interpolating filter, 
-			 *    which transfers existing data to their stretched positions,
-			 *    and applies filter coefficients to all data, including inserted
-			 *    zeros, to obtain filtered values for these prefiltered zeros. */
+    }
 
-			inter( s->y, s->h->npts, cmscm.nstrfc, c, NFILTHALF, 
-             new, &ndatout );
-			if( ndatout != nlnnew ){
-				fprintf( stdout, "wrong num of data ptd returned by filter routine\n" );
-				goto L_8888;
-				}
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-			}
-    FREE(s->y);
-    s->y = new;
+    if (*nerr != 0)
+        goto L_8888;
 
-		/* -- Update any header fields that may have changed. */
-		s->h->npts = nlnnew;
-		s->h->delta = s->h->delta/(float)( cmscm.nstrfc );
-		s->h->e = s->h->b + s->h->delta*(float)( s->h->npts - 1 );
-		extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
+    /* CHECKING PHASE: */
 
-		}
+    /* - Test for a non-null data file list. */
 
-	/* - Calculate and set new range of dependent variable. */
+    vflist(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	setrng();
+    /* - Make sure each file is an evenly spaced time series file. */
 
-L_8888:
-	return;
+    vfeven(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-} /* end of function */
+    /* EXECUTION PHASE: */
+
+    /* - Design filter: compute coefficients. */
+
+    if (cmscm.lstrfi) {
+        lpdesign(cmscm.nstrfc, 2 * NFILTHALF + 1, c, &ncoef);
+        if (ncoef == 0 || ncoef != NFILTHALF) {
+            fprintf(stdout, "zero or wrong num of coefs returned\n");
+            goto L_8888;
+        }
+    }
+
+    /* - Perform the requested function on each file in DFL. */
+
+    for (jdfl = 1; jdfl <= saclen(); jdfl++) {
+
+        /* -- Get next file from the memory manager.
+         *    (Header is moved into common blocks CMHDR and KMHDR.) */
+        if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
+            goto L_8888;
+        }
+        //getfil( jdfl, TRUE, &nlnold, &ndxold, &ntused, nerr );
+
+        /* -- Allocate block for output. */
+        nlnnew = (s->h->npts - 1) * cmscm.nstrfc + 1;
+        new = (float *) malloc(sizeof(float) * nlnnew);
+
+        if (!cmscm.lstrfi) {
+            /* -- Perform stretching on data file without filtering. */
+            Sacmem1 = new;
+            Sacmem2 = s->y;
+            for (jold = 0; jold <= (s->h->npts - 2); jold++) {
+                *Sacmem1 = *Sacmem2;
+                for (jzero = 1; jzero <= (cmscm.nstrfc - 1); jzero++) {
+                    *(++Sacmem1) = 0.0;
+                }
+                Sacmem1++;
+                Sacmem2++;
+            }
+            *Sacmem1 = *(s->y + s->h->npts - 1);
+        } else {
+
+            /* -- Apply interpolating filter, 
+             *    which transfers existing data to their stretched positions,
+             *    and applies filter coefficients to all data, including inserted
+             *    zeros, to obtain filtered values for these prefiltered zeros. */
+
+            inter(s->y, s->h->npts, cmscm.nstrfc, c, NFILTHALF, new, &ndatout);
+            if (ndatout != nlnnew) {
+                fprintf(stdout,
+                        "wrong num of data ptd returned by filter routine\n");
+                goto L_8888;
+            }
+
+        }
+        FREE(s->y);
+        s->y = new;
+
+        /* -- Update any header fields that may have changed. */
+        s->h->npts = nlnnew;
+        s->h->delta = s->h->delta / (float) (cmscm.nstrfc);
+        s->h->e = s->h->b + s->h->delta * (float) (s->h->npts - 1);
+        extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax,
+               &s->h->depmen);
+
+    }
+
+    /* - Calculate and set new range of dependent variable. */
+
+    setrng();
+
+  L_8888:
+    return;
+
+}                               /* end of function */
+
 /*-------------------------------------------------------------------------- 
  *  SUBROUTINE LPDESIGN Designs a lowpass FIR filter for interpolation.           
  *
@@ -221,34 +219,34 @@ L_8888:
  *      nc         number of coefficients (half size)                            
  *
  * */
-void /*FUNCTION*/ lpdesign(irate, n, c, nc)
-int irate, n;
-float c[];
-int *nc;
+void /*FUNCTION*/
+lpdesign(irate, n, c, nc)
+     int irate, n;
+     float c[];
+     int *nc;
 {
-	int i;
-	float x;
+    int i;
+    float x;
 
-	float *const C = &c[0] - 1;
+    float *const C = &c[0] - 1;
 
+    *nc = n / 2;
 
+    /* Evaluate filter coefficients                                                  
+     * */
+    C[1] = 1.0;
+    for (i = 1; i <= *nc; i++) {
+        x = (M_PI / (float) (irate)) * (float) (i);
+        C[i + 1] =
+            (sin(x) / x) * (.54 +
+                            .46 * cos(M_PI * (float) (i) / (float) (*nc)));
 
+    }
 
-	*nc = n/2;
-
-	/* Evaluate filter coefficients                                                  
-	 * */
-	C[1] = 1.0;
-	for( i = 1; i <= *nc; i++ ){
-		x = (M_PI/(float)( irate ))*(float)( i );
-		C[i + 1] = (sin( x )/x)*(.54 + .46*cos( M_PI*(float)( i )/(float)( *nc ) ));
-
-		}
-
-	/* Done                                                                          
-	 * */
-	return;
-} /* end of function */
+    /* Done                                                                          
+     * */
+    return;
+}                               /* end of function */
 
 /*------------------------------------------------------------------------------ 
  * Subroutine INTER - Signal interpolation with FIR filter                       
@@ -289,108 +287,108 @@ int *nc;
  *
  *  Linkage:  ZERO                                                               
  * */
-void /*FUNCTION*/ inter(x, nx, irate, c, nc, y, ny)
-float x[];
-int nx, irate;
-float c[];
-int nc;
-float y[];
-int *ny;
+void /*FUNCTION*/
+inter(x, nx, irate, c, nc, y, ny)
+     float x[];
+     int nx, irate;
+     float c[];
+     int nc;
+     float y[];
+     int *ny;
 {
-	int i, ic, imax, ix, iy, j;
-	float t;
+    int i, ic, imax, ix, iy, j;
+    float t;
 
-	float *const C = &c[0] - 1;
-	float *const X = &x[0] - 1;
-	float *const Y = &y[0] - 1;
-
+    float *const C = &c[0] - 1;
+    float *const X = &x[0] - 1;
+    float *const Y = &y[0] - 1;
 
     *ny = 0;
 
-	if( irate > 1 ){
+    if (irate > 1) {
 
-		*ny = nx + (nx - 1)*(irate - 1);
-		zero( y, *ny );
+        *ny = nx + (nx - 1) * (irate - 1);
+        zero(y, *ny);
 
-		/*  The samples that require no interpolation (original data samples are         
-		 *    simply copied to their respective locations in the interpolated            
-		 *    signal)                                                                    
-		 * */
-		ix = 1;
-		iy = 1;
-L_1:
-		;
-		if( ix > nx )
-			goto L_2;
-		Y[iy] = X[ix];
-		iy = iy + irate;
-		ix = ix + 1;
-		goto L_1;
-L_2:
-		;
+        /*  The samples that require no interpolation (original data samples are         
+         *    simply copied to their respective locations in the interpolated            
+         *    signal)                                                                    
+         * */
+        ix = 1;
+        iy = 1;
+      L_1:
+        ;
+        if (ix > nx)
+            goto L_2;
+        Y[iy] = X[ix];
+        iy = iy + irate;
+        ix = ix + 1;
+        goto L_1;
+      L_2:
+        ;
 
-		/*  Now handle the interpolated samples by stretching and filtering.  There      
-		 *    is some tricky indexing here to avoid multiplying by the interstitial      
-		 *    zeroes introduced by stretching the input sequence.                        
-		 *
-		 *                           Pointer to output sequence location                  */
-		iy = 2;
-		/*                           Interval counter                                     */
-		ic = 1;
+        /*  Now handle the interpolated samples by stretching and filtering.  There      
+         *    is some tricky indexing here to avoid multiplying by the interstitial      
+         *    zeroes introduced by stretching the input sequence.                        
+         *
+         *                           Pointer to output sequence location                  */
+        iy = 2;
+        /*                           Interval counter                                     */
+        ic = 1;
 
-		/*                                       Do until output slots exhausted          */
-L_3:
-		;
-		if( iy > *ny )
-			goto L_4;
+        /*                                       Do until output slots exhausted          */
+      L_3:
+        ;
+        if (iy > *ny)
+            goto L_4;
 
-		/*                                             Guard left-hand boundary           */
-		i = max( iy - nc, 1 );
-		/*                                             Find non-zero sample               */
-		i = i/irate;
-		i = i*irate + 1;
-		if( i < iy - nc ){
-			/*                                             Force within filter footprint      */
-			i = i + irate;
-			}
-		/*                                             Guard right-hand boundary          */
-		imax = min( iy + nc, *ny );
-		/*                                             Filter coefficient pointer         */
-		j = i - iy;
+        /*                                             Guard left-hand boundary           */
+        i = max(iy - nc, 1);
+        /*                                             Find non-zero sample               */
+        i = i / irate;
+        i = i * irate + 1;
+        if (i < iy - nc) {
+            /*                                             Force within filter footprint      */
+            i = i + irate;
+        }
+        /*                                             Guard right-hand boundary          */
+        imax = min(iy + nc, *ny);
+        /*                                             Filter coefficient pointer         */
+        j = i - iy;
 
-		/*     Filter loop                                                               
-		 * */
-		t = 0.;
-L_5:
-		;
-		if( i > imax )
-			goto L_6;
-		t = t + Y[i]*C[labs( j ) + 1];
-		i = i + irate;
-		j = j + irate;
-		goto L_5;
-L_6:
-		;
-		Y[iy] = t;
+        /*     Filter loop                                                               
+         * */
+        t = 0.;
+      L_5:
+        ;
+        if (i > imax)
+            goto L_6;
+        t = t + Y[i] * C[labs(j) + 1];
+        i = i + irate;
+        j = j + irate;
+        goto L_5;
+      L_6:
+        ;
+        Y[iy] = t;
 
-		/*     Output pointer increment                                                  
-		 * */
-		iy = iy + 1;
-		ic = ic + 1;
-		if( ic == irate ){
-			iy = iy + 1;
-			ic = 1;
-			}
+        /*     Output pointer increment                                                  
+         * */
+        iy = iy + 1;
+        ic = ic + 1;
+        if (ic == irate) {
+            iy = iy + 1;
+            ic = 1;
+        }
 
-		goto L_3;
-L_4:
-		;
+        goto L_3;
+      L_4:
+        ;
 
-		}
+    }
 
-	/* Bye                                                                           
-	 * */
-	return;
-} /* end of function */
+    /* Bye                                                                           
+     * */
+    return;
+}                               /* end of function */
+
 /*------------------------------------------------------------------------------  */
-

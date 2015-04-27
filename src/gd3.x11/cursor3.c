@@ -52,60 +52,49 @@
 
 extern int bellON;
 
-void 
-cursor3(float *xloc_vp,
-	float *yloc_vp,
-	char cchar[],
-	int cchar_length)
-{
-  int nerr;
+void
+cursor3(float *xloc_vp, float *yloc_vp, char cchar[], int cchar_length) {
+    int nerr;
 
 /* Use an offset of OW_OFFSET for calls to XDrawLine. OpenWindows has a problem
    that does not occur in generic X11R4. */
 
-  XWindow *xw;
-  UNUSED(cchar_length);
-  xw = plot_window( CURRENT );
+    XWindow *xw;
+    UNUSED(cchar_length);
+    xw = plot_window(CURRENT);
 
-  if(bellON) {
-    XBell(DISPLAY(xw),25); 
-  }
-    
+    if (bellON) {
+        XBell(DISPLAY(xw), 25);
+    }
+
 /* Select which events the plot window needs to accept for cursor input */
 
-  XSelectInput(DISPLAY(xw),xw->win,
-	       KeyPressMask          |
-	       ButtonPressMask       |
-	       ButtonReleaseMask     |
-	       EnterWindowMask       |
-	       LeaveWindowMask       |
-	       PointerMotionMask     |
-	       StructureNotifyMask   |
-	       ExposureMask);
+    XSelectInput(DISPLAY(xw), xw->win,
+                 KeyPressMask | ButtonPressMask | ButtonReleaseMask |
+                 EnterWindowMask | LeaveWindowMask | PointerMotionMask |
+                 StructureNotifyMask | ExposureMask);
 
 /* Initialize character struck */
 
-  char_cursor3[0] = cchar[0];
+    char_cursor3[0] = cchar[0];
 
 /* While waiting for cursor event, handle other events */
 
-  expose3();
+    expose3();
 
-  cursor_on3 = TRUE;
+    cursor_on3 = TRUE;
 
-  dispatchevent3(&nerr);
+    dispatchevent3(&nerr);
 
-  /* Don't accept events anymore for cursor input */
+    /* Don't accept events anymore for cursor input */
 
-  XSelectInput(DISPLAY(xw),xw->win,
-	       (StructureNotifyMask | ExposureMask));
+    XSelectInput(DISPLAY(xw), xw->win, (StructureNotifyMask | ExposureMask));
 
 /* Set location of cursor and character struck */
 
-  *xloc_vp = x11_to_view_x(xcursor_p3, xw);
-  *yloc_vp = x11_to_view_y(ycursor_p3, xw);
+    *xloc_vp = x11_to_view_x(xcursor_p3, xw);
+    *yloc_vp = x11_to_view_y(ycursor_p3, xw);
 
-  cchar[0] = char_cursor3[0];
+    cchar[0] = char_cursor3[0];
 
 }
-

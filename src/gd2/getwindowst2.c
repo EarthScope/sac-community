@@ -3,13 +3,13 @@
 #include "bool.h"
 #include "debug.h"
 
-
-void /*FUNCTION*/ getwindowstat2(number, exists)
-int number;
-int *exists;
+void /*FUNCTION*/
+getwindowstat2(number, exists)
+     int number;
+     int *exists;
 {
-  UNUSED(number);
-	/*=====================================================================
+    UNUSED(number);
+        /*=====================================================================
 	 * PURPOSE: To get graphics window attributes for device 2 (SGF.)
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -29,12 +29,10 @@ int *exists;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  850506
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - This is a no-op for this graphics device. */
-	*exists = FALSE;
+    /* PROCEDURE: */
+    /* - This is a no-op for this graphics device. */
+    *exists = FALSE;
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

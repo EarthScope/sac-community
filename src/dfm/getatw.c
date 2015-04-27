@@ -49,90 +49,78 @@
  * @date    820623:  Original version.
  *
  */
-void 
-getatw(char   *krtw, 
-       int     krtw_s, 
-       double *ortw, 
-       double *tmin, 
-       double *tmax, 
-       int    *nofmin, 
-       int    *nlnwin, 
-       int    *nerr) {
+void
+getatw(char *krtw, int krtw_s, double *ortw, double *tmin, double *tmax,
+       int *nofmin, int *nlnwin, int *nerr) {
 
 #define KRTW(I_,J_)	(krtw+(I_)*(krtw_s)+(J_))
 
-	int irtb, irte, nofmax, num;
-	float rtrb, rtre ;
-	double *const Ortw = &ortw[0] - 1;
-  sac *s;
-  
-	*nerr = 0;
-  s = sacget_current();
-	/* - Get indexes of start and stop time picks. */
+    int irtb, irte, nofmax, num;
+    float rtrb, rtre;
+    double *const Ortw = &ortw[0] - 1;
+    sac *s;
 
-	irtb = nequal( KRTW(0,0), (char*)kmdfm.kpick,9, MPICK );
-	if( (irtb <= 0 || irtb == cmdfm.ipckn) || irtb == cmdfm.ipckg ){
-		*nerr = ERROR_ILLEGAL_RELATIVE_TIME_PICK;
-		setmsg( "ERROR", *nerr );
-		goto L_8888;
-	}
-	irte = nequal( KRTW(1,0), (char*)kmdfm.kpick,9, MPICK );
-	if( irte <= 0 || irte == cmdfm.ipckg ){
-		*nerr = ERROR_ILLEGAL_RELATIVE_TIME_PICK;
-		setmsg( "ERROR", *nerr );
-		goto L_8888;
-	}
+    *nerr = 0;
+    s = sacget_current();
+    /* - Get indexes of start and stop time picks. */
 
-	/* - Determine start absolute time window. */
-	if( irtb == cmdfm.ipckz ){
-		*tmin = Ortw[1];
-	}
-	else{
-		rtrb = VALUE(fhdr(s,cmdfm.ipckhd[irtb-1]));
-		if( rtrb != SAC_FLOAT_UNDEFINED ){
-			*tmin = rtrb + Ortw[1];
-		}
-		else{
-			*tmin = s->h->b;
-			*nerr = ERROR_UNDEFINED_START_CUT_TIME;
-			setmsg( "ERROR", *nerr );
-            apcmsg2(s->m->filename, strlen(s->m->filename)+1);
-			goto L_8888;
-		}
-	}
+    irtb = nequal(KRTW(0, 0), (char *) kmdfm.kpick, 9, MPICK);
+    if ((irtb <= 0 || irtb == cmdfm.ipckn) || irtb == cmdfm.ipckg) {
+        *nerr = ERROR_ILLEGAL_RELATIVE_TIME_PICK;
+        setmsg("ERROR", *nerr);
+        goto L_8888;
+    }
+    irte = nequal(KRTW(1, 0), (char *) kmdfm.kpick, 9, MPICK);
+    if (irte <= 0 || irte == cmdfm.ipckg) {
+        *nerr = ERROR_ILLEGAL_RELATIVE_TIME_PICK;
+        setmsg("ERROR", *nerr);
+        goto L_8888;
+    }
 
-	/* - Determine stop absolute window. */
+    /* - Determine start absolute time window. */
+    if (irtb == cmdfm.ipckz) {
+        *tmin = Ortw[1];
+    } else {
+        rtrb = VALUE(fhdr(s, cmdfm.ipckhd[irtb - 1]));
+        if (rtrb != SAC_FLOAT_UNDEFINED) {
+            *tmin = rtrb + Ortw[1];
+        } else {
+            *tmin = s->h->b;
+            *nerr = ERROR_UNDEFINED_START_CUT_TIME;
+            setmsg("ERROR", *nerr);
+            apcmsg2(s->m->filename, strlen(s->m->filename) + 1);
+            goto L_8888;
+        }
+    }
 
-	if( irte == cmdfm.ipckz ){
-		*tmax = Ortw[2];
-	}
-	else if( irte == cmdfm.ipckn ){
-		num = (int)( Ortw[2] );
-		*tmax = *tmin + s->h->delta*(float)( num );
-	}
-	else{
-		rtre = VALUE(fhdr(s,cmdfm.ipckhd[irte-1]));
-		if( rtre != SAC_FLOAT_UNDEFINED ){
-			*tmax = rtre + Ortw[2];
-		}
-		else{
-			*tmax = s->h->e;
-			*nerr = ERROR_UNDEFINED_STOP_CUT_TIME;
-			setmsg( "ERROR", *nerr );
-            apcmsg2(s->m->filename, strlen(s->m->filename)+1);
-			goto L_8888;
-		}
-	}
+    /* - Determine stop absolute window. */
 
-	/* - Determine offset and length of window in points. */
+    if (irte == cmdfm.ipckz) {
+        *tmax = Ortw[2];
+    } else if (irte == cmdfm.ipckn) {
+        num = (int) (Ortw[2]);
+        *tmax = *tmin + s->h->delta * (float) (num);
+    } else {
+        rtre = VALUE(fhdr(s, cmdfm.ipckhd[irte - 1]));
+        if (rtre != SAC_FLOAT_UNDEFINED) {
+            *tmax = rtre + Ortw[2];
+        } else {
+            *tmax = s->h->e;
+            *nerr = ERROR_UNDEFINED_STOP_CUT_TIME;
+            setmsg("ERROR", *nerr);
+            apcmsg2(s->m->filename, strlen(s->m->filename) + 1);
+            goto L_8888;
+        }
+    }
 
-	*nofmin = (int)( (*tmin - s->h->b)/ s->h->delta );
-	nofmax = (int)( (*tmax - s->h->b)/ s->h->delta );
-	*nlnwin = nofmax - *nofmin + 1;
+    /* - Determine offset and length of window in points. */
 
-L_8888:
-	return;
+    *nofmin = (int) ((*tmin - s->h->b) / s->h->delta);
+    nofmax = (int) ((*tmax - s->h->b) / s->h->delta);
+    *nlnwin = nofmax - *nofmin + 1;
+
+  L_8888:
+    return;
 
 #undef	KRTW
-} 
-
+}

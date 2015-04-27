@@ -1,13 +1,11 @@
 
 #include "gd2.h"
 
-void 
+void
 settextangle2(float angle) {
-	int nerr;
+    int nerr;
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To change the textangle for graphics device 2 (SGF).
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -27,20 +25,18 @@ settextangle2(float angle) {
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  861020
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Write linestyle opcode to SGF buffer. */
-	Mfbuf[cmgd2.jfbpnt] = MOPTAN;
-	Mfbuf[cmgd2.jfbpnt + 1] = 1;
-	Mfbuf[cmgd2.jfbpnt + 2] = angle;
-	cmgd2.jfbpnt = cmgd2.jfbpnt + 3;
+    /* PROCEDURE: */
+    /* - Write linestyle opcode to SGF buffer. */
+    Mfbuf[cmgd2.jfbpnt] = MOPTAN;
+    Mfbuf[cmgd2.jfbpnt + 1] = 1;
+    Mfbuf[cmgd2.jfbpnt + 2] = angle;
+    cmgd2.jfbpnt = cmgd2.jfbpnt + 3;
 
-	/* - Flush buffer if necessary. */
+    /* - Flush buffer if necessary. */
 
-	if( cmgd2.jfbpnt > JFBMAX )
-		flushbuffer2( &nerr );
+    if (cmgd2.jfbpnt > JFBMAX)
+        flushbuffer2(&nerr);
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

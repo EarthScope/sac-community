@@ -45,23 +45,16 @@
  * @date   790606:  Original version.
  *
  */
-void 
-getfil(int    idfl, 
-       int    ldta, 
-       int   *nlen, 
-       int   *ndx1, 
-       int   *ndx2, 
-       int   *nerr) {
+void
+getfil(int idfl, int ldta, int *nlen, int *ndx1, int *ndx2, int *nerr) {
 
+    UNUSED(idfl);
+    UNUSED(ldta);
+    UNUSED(nlen);
 
-  UNUSED(idfl);
-  UNUSED(ldta);
-  UNUSED(nlen);
-
-  UNUSED(ndx1);
-  UNUSED(ndx2);
-  UNUSED(nerr);
-	return;
+    UNUSED(ndx1);
+    UNUSED(ndx2);
+    UNUSED(nerr);
+    return;
 
 }
-

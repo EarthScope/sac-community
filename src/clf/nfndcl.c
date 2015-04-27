@@ -34,43 +34,39 @@
  * @date   860918:  Original version.
  *
  */
-int 
-nfndcl(char *kcl, 
-       int   kcl_s, 
-       char *kentry, 
-       int   kentry_s, 
-       int  *index1, 
-       int  *index2) {
+int
+nfndcl(char *kcl, int kcl_s, char *kentry, int kentry_s, int *index1,
+       int *index2) {
 
-	int jentry, nentry, nfndcl_v;
+    int jentry, nentry, nfndcl_v;
 
-	/* - Assume the worst. */
-	nfndcl_v = 0;
+    /* - Assume the worst. */
+    nfndcl_v = 0;
 
-	/* - Initialize character pointer and determine length of entry. */
-	*index1 = 0;
-	nentry = indexb( kentry,kentry_s );
+    /* - Initialize character pointer and determine length of entry. */
+    *index1 = 0;
+    nentry = indexb(kentry, kentry_s);
 
-	/* - Loop on each token in character list. */
-	jentry = 1;
+    /* - Loop on each token in character list. */
+    jentry = 1;
 
-L_1000:
-	if( lnxtcl( kcl,kcl_s, index1, index2 ) ){
+  L_1000:
+    if (lnxtcl(kcl, kcl_s, index1, index2)) {
 
-		/* -- If match, set index and return. */
-		if( memcmp(kentry,kcl+*index1 - 1,max(nentry,*index2 - *index1 + 1)) == 0 ){
-			nfndcl_v = jentry;
-			goto L_8888;
-                }
-		else{
-			/* -- Otherwise, increment counter and loop. */
-			jentry = jentry + 1;
-			goto L_1000;
-                }
-                
+        /* -- If match, set index and return. */
+        if (memcmp
+            (kentry, kcl + *index1 - 1,
+             max(nentry, *index2 - *index1 + 1)) == 0) {
+            nfndcl_v = jentry;
+            goto L_8888;
+        } else {
+            /* -- Otherwise, increment counter and loop. */
+            jentry = jentry + 1;
+            goto L_1000;
         }
 
-L_8888:
-	return( nfndcl_v );
-}
+    }
 
+  L_8888:
+    return (nfndcl_v);
+}

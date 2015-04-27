@@ -10,7 +10,6 @@
 #include "complex.h"
 #include "dbh.h"
 
-
 /** 
  * Design IIR Digital Filters from Analog Prototypes
  * 
@@ -60,96 +59,71 @@
  *  @date Documented/Reviewed
  *
  */
-void 
-design(int        iord, 
-       char      *type, 
-       char      *aproto, 
-       double     a, 
-       double     trbndw, 
-       double     fl, 
-       double     fh, 
-       double     ts, 
-       float     *sn, 
-       float     *sd, 
-       int       *nsects)
-{
-	char stype[10][4];
-	float dcvalue, eps, fhw, flw, omegar, ripple;
-	complexf p[10], z[10];
+void
+design(int iord, char *type, char *aproto, double a, double trbndw, double fl,
+       double fh, double ts, float *sn, float *sd, int *nsects) {
+    char stype[10][4];
+    float dcvalue, eps, fhw, flw, omegar, ripple;
+    complexf p[10], z[10];
 
-	/*  Analog prototype selection                                                   
-	 * */
-	if( memcmp(aproto,"BU",2) == 0 ){
+    /*  Analog prototype selection                                                   
+     * */
+    if (memcmp(aproto, "BU", 2) == 0) {
 
-		buroots( p, (char*)stype,4, &dcvalue, nsects, iord );
+        buroots(p, (char *) stype, 4, &dcvalue, nsects, iord);
 
-		}
-	else if( memcmp(aproto,"BE",2) == 0 ){
+    } else if (memcmp(aproto, "BE", 2) == 0) {
 
-		beroots( p, (char*)stype,4, &dcvalue, nsects, iord );
+        beroots(p, (char *) stype, 4, &dcvalue, nsects, iord);
 
-		}
-	else if( memcmp(aproto,"C1",2) == 0 ){
+    } else if (memcmp(aproto, "C1", 2) == 0) {
 
-		chebparm( a, trbndw, iord, &eps, &ripple );
-		c1roots( p, (char*)stype,4, &dcvalue, nsects, iord, eps );
+        chebparm(a, trbndw, iord, &eps, &ripple);
+        c1roots(p, (char *) stype, 4, &dcvalue, nsects, iord, eps);
 
-		}
-	else if( memcmp(aproto,"C2",2) == 0 ){
+    } else if (memcmp(aproto, "C2", 2) == 0) {
 
-		omegar = 1. + trbndw;
-		c2roots( p, z, (char*)stype,4, &dcvalue, nsects, iord, a, 
-		 omegar );
+        omegar = 1. + trbndw;
+        c2roots(p, z, (char *) stype, 4, &dcvalue, nsects, iord, a, omegar);
 
     } else {
-        fprintf(stderr, "filter: Unknown Analog filter prototype: '%s'\n", aproto);
+        fprintf(stderr, "filter: Unknown Analog filter prototype: '%s'\n",
+                aproto);
         fprintf(stderr, "        Expected: BU, BESSEL, C1, C2\n");
-        return;        
+        return;
     }
 
-	/*  Analog mapping selection                                                     
-	 * */
-	if( memcmp(type,"BP",2) == 0 ){
+    /*  Analog mapping selection                                                     
+     * */
+    if (memcmp(type, "BP", 2) == 0) {
 
-		flw = warp( fl*ts/2., 2. );
-		fhw = warp( fh*ts/2., 2. );
-		lptbp( p, z, (char*)stype,4, dcvalue, nsects, flw, fhw, sn, 
-		 sd );
+        flw = warp(fl * ts / 2., 2.);
+        fhw = warp(fh * ts / 2., 2.);
+        lptbp(p, z, (char *) stype, 4, dcvalue, nsects, flw, fhw, sn, sd);
 
-		}
-	else if( memcmp(type,"BR",2) == 0 ){
+    } else if (memcmp(type, "BR", 2) == 0) {
 
-		flw = warp( fl*ts/2., 2. );
-		fhw = warp( fh*ts/2., 2. );
-		lptbr( p, z, (char*)stype,4, dcvalue, nsects, flw, fhw, sn, 
-		 sd );
+        flw = warp(fl * ts / 2., 2.);
+        fhw = warp(fh * ts / 2., 2.);
+        lptbr(p, z, (char *) stype, 4, dcvalue, nsects, flw, fhw, sn, sd);
 
-		}
-	else if( memcmp(type,"LP",2) == 0 ){
+    } else if (memcmp(type, "LP", 2) == 0) {
 
-		fhw = warp( fh*ts/2., 2. );
-		lp( p, z, (char*)stype,4, dcvalue, *nsects, sn, sd );
-		cutoffs( sn, sd, *nsects, fhw );
+        fhw = warp(fh * ts / 2., 2.);
+        lp(p, z, (char *) stype, 4, dcvalue, *nsects, sn, sd);
+        cutoffs(sn, sd, *nsects, fhw);
 
-		}
-	else if( memcmp(type,"HP",2) == 0 ){
+    } else if (memcmp(type, "HP", 2) == 0) {
 
-		flw = warp( fl*ts/2., 2. );
-		lpthp( p, z, (char*)stype,4, dcvalue, *nsects, sn, sd );
-		cutoffs( sn, sd, *nsects, flw );
+        flw = warp(fl * ts / 2., 2.);
+        lpthp(p, z, (char *) stype, 4, dcvalue, *nsects, sn, sd);
+        cutoffs(sn, sd, *nsects, flw);
 
-		}
+    }
 
-	/*  Bilinear analog to digital transformation                                    
-	 * */
-	bilin2( sn, sd, *nsects );
+    /*  Bilinear analog to digital transformation                                    
+     * */
+    bilin2(sn, sd, *nsects);
 
-	return;
+    return;
 }
-
-
-
-
-
-
-

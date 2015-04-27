@@ -36,41 +36,35 @@
  * @date   870305:  Original version.
  *
  */
-void 
-formmarker(double  time, 
-	   char   *type, 
-	   int     type_s, 
-	   char   *output, 
-	   int     output_s, 
-	   int    *lok) {
+void
+formmarker(double time, char *type, int type_s, char *output, int output_s,
+           int *lok) {
 
-	int nc1, nc2;
-        char *cattemp;
+    int nc1, nc2;
+    char *cattemp;
 
-	if( time != SAC_FLOAT_UNDEFINED ){
-                sprintf(output,"%16.5g",time);
-		ljust( output,output_s );
-		*lok = TRUE;
-		nc1 = indexb( output,output_s );
-		if( memcmp(type, SAC_CHAR_UNDEFINED,
-			   min(strlen(type),strlen(SAC_CHAR_UNDEFINED))) != 0 ){
-			nc2 = indexb( type,type_s );
-                        cattemp = malloc(2+nc2+2);
-                        strcpy(cattemp," (");
-                        strncat(cattemp,type,nc2);
-                        strcat(cattemp,")");
-			subscpy( output, nc1, -1, output_s - 1, cattemp );
-                        free(cattemp);
-		}
-		else{
-			subscpy( output, nc1, -1, output_s - 1, " " );
-		}
-	}
-	else{
-                fstrncpy(output, output_s-1, "UNDEFINED", 9); 
-		*lok = FALSE;
-	}
+    if (time != SAC_FLOAT_UNDEFINED) {
+        sprintf(output, "%16.5g", time);
+        ljust(output, output_s);
+        *lok = TRUE;
+        nc1 = indexb(output, output_s);
+        if (memcmp
+            (type, SAC_CHAR_UNDEFINED,
+             min(strlen(type), strlen(SAC_CHAR_UNDEFINED))) != 0) {
+            nc2 = indexb(type, type_s);
+            cattemp = malloc(2 + nc2 + 2);
+            strcpy(cattemp, " (");
+            strncat(cattemp, type, nc2);
+            strcat(cattemp, ")");
+            subscpy(output, nc1, -1, output_s - 1, cattemp);
+            free(cattemp);
+        } else {
+            subscpy(output, nc1, -1, output_s - 1, " ");
+        }
+    } else {
+        fstrncpy(output, output_s - 1, "UNDEFINED", 9);
+        *lok = FALSE;
+    }
 
-	return;
+    return;
 }
-

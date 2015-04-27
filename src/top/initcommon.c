@@ -4,7 +4,6 @@
 #include "top.h"
 #include "amf.h"
 
-
 #include "bom.h"
 #include "sam.h"
 #include "vars.h"
@@ -31,11 +30,11 @@
 #include "fks.h"
 #include "dff.h"
 
-void /*FUNCTION*/ initcommon()
-{
-	int nerr;
+void /*FUNCTION*/
+initcommon() {
+    int nerr;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: Variable initialization of ALL common blocks.
 	 *=====================================================================
 	 * MODULE/LEVEL:  EXM/4
@@ -76,56 +75,54 @@ void /*FUNCTION*/ initcommon()
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900305
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Terminate graphics library. */
-	endgraphics( &nerr );
+    /* PROCEDURE: */
+    /* - Terminate graphics library. */
+    endgraphics(&nerr);
 
-	/* - SAC's common blocks. */
+    /* - SAC's common blocks. */
 
-	inibom();
-	inicom();
-	inicpf();
-	inidfm();
-	inieam();
-	iniexm();
-	inifks();
-	inigem();
-	inigam();
-	inihdr();
-	inilhf();
-	inisam();
-	iniscm();
-	inispe();
-	initok();
-	inisss();
-	iniuom();
-	initcomlists( &nerr );
-	if( nerr == 901 )
-		exit(1);
-	initsite();
-	inismm();
-	inibbs();
-	iniicm();
-	inivars();
-	inixyz();
-	initcontattr();
+    inibom();
+    inicom();
+    inicpf();
+    inidfm();
+    inieam();
+    iniexm();
+    inifks();
+    inigem();
+    inigam();
+    inihdr();
+    inilhf();
+    inisam();
+    iniscm();
+    inispe();
+    initok();
+    inisss();
+    iniuom();
+    initcomlists(&nerr);
+    if (nerr == 901)
+        exit(1);
+    initsite();
+    inismm();
+    inibbs();
+    iniicm();
+    inivars();
+    inixyz();
+    initcontattr();
 
-	/* - SACMEM array manager. */
+    /* - SACMEM array manager. */
 
-	iniam();
+    iniam();
 
-	/* - Blackboard store. */
+    /* - Blackboard store. */
 
-	createbbs( &nerr );
-	reperr(nerr);
-	sac_report_files_in_memory(&nerr);
+    createbbs(&nerr);
+    reperr(nerr);
+    sac_report_files_in_memory(&nerr);
 
-	/* - Initialize wildcard patterns with system values. */
+    /* - Initialize wildcard patterns with system values. */
 
-	wildch( KWSNGL, KWMULT, KWCONC );
+    wildch(KWSNGL, KWMULT, KWCONC);
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

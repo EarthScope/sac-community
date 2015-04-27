@@ -15,13 +15,13 @@
 
 /** 
  *
- */ 
+ */
 void
 zsleep(int timeout) {
-  sleep(timeout / 1000.0);
+    sleep(timeout / 1000.0);
 }
- 
-#else 
+
+#else
 
 #include <sys/time.h>
 #include <stdio.h>
@@ -41,11 +41,12 @@ zsleep(int timeout) {
  *    Command 
  *
  */
-static 
-void process_line(char *p) { 
-  select_loop_continue(SELECT_OFF);
-  select_loop_message(p, SELECT_MSG_SET);
-  return; 
+static
+    void
+process_line(char *p) {
+    select_loop_continue(SELECT_OFF);
+    select_loop_message(p, SELECT_MSG_SET);
+    return;
 }
 
 /** 
@@ -59,34 +60,32 @@ void process_line(char *p) {
 void
 zsleep(int timeout) {
 
-  int left;
-  struct timeval time;
-  char prmt[ZSLEEP_PRMTLEN];
-  char msg[ZSLEEP_MSGLEN];
+    int left;
+    struct timeval time;
+    char prmt[ZSLEEP_PRMTLEN];
+    char msg[ZSLEEP_MSGLEN];
 
-  prmt[0] = '$';
-  prmt[1] = '\0';
+    prmt[0] = '$';
+    prmt[1] = '\0';
 
-  /* Convert milliseconds to microseconds */
-  timeout = timeout * TIMER_MSEC_TO_USEC; 
-  if((left = timer(TIMER_SET, timeout)) == 0) {
-    return;
-  }
-  time.tv_sec = 0;
-  time.tv_usec = left;
-  
-  while((left = timer(TIMER_GET, timeout)) > 0) {
+    /* Convert milliseconds to microseconds */
+    timeout = timeout * TIMER_MSEC_TO_USEC;
+    if ((left = timer(TIMER_SET, timeout)) == 0) {
+        return;
+    }
     time.tv_sec = 0;
     time.tv_usec = left;
-    select_loop(prmt, ZSLEEP_PRMTLEN, 
-                msg, ZSLEEP_MSGLEN, 
-                &time, process_line, FALSE, TRUE);
-  }
-  
-  rl_callback_handler_remove(); /* Returns Prompt */
-  
-}
 
+    while ((left = timer(TIMER_GET, timeout)) > 0) {
+        time.tv_sec = 0;
+        time.tv_usec = left;
+        select_loop(prmt, ZSLEEP_PRMTLEN, msg, ZSLEEP_MSGLEN, &time,
+                    process_line, FALSE, TRUE);
+    }
+
+    rl_callback_handler_remove();       /* Returns Prompt */
+
+}
 
 /** 
  * Internal Timer
@@ -100,25 +99,26 @@ zsleep(int timeout) {
  * @return 
  *    Time left on timer in micro-seconds
  */
-int 
+int
 timer(int set_get, int usec) {
-  static struct timeval start;
-  struct timeval now;
-  int delta;
+    static struct timeval start;
+    struct timeval now;
+    int delta;
 
-  if(set_get == TIMER_SET) {
-    if(gettimeofday(&start, NULL) != 0) {
-      perror("gettimeofday");
-    } 
-  }
+    if (set_get == TIMER_SET) {
+        if (gettimeofday(&start, NULL) != 0) {
+            perror("gettimeofday");
+        }
+    }
 
-  if(gettimeofday(&now, NULL) != 0) {
-    perror("gettimeofday");
-  } 
-  delta = (now.tv_sec - start.tv_sec) * TIMER_SEC_TO_USEC + 
-    (now.tv_usec - start.tv_usec);
+    if (gettimeofday(&now, NULL) != 0) {
+        perror("gettimeofday");
+    }
+    delta =
+        (now.tv_sec - start.tv_sec) * TIMER_SEC_TO_USEC + (now.tv_usec -
+                                                           start.tv_usec);
 
-  return(usec - delta);
+    return (usec - delta);
 }
 
 #endif /* READLINE */

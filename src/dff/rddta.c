@@ -36,75 +36,70 @@
  * @date   810120:  Changed to output message retrieval from disk.
  *
  */
-void 
-rddta(sac  *s,
-      int  *nun, 
-      int   lswap, 
-      int  *nerr) {
+void
+rddta(sac * s, int *nun, int lswap, int *nerr) {
 
-	int jcomp, nlcdsk, numrd, offset;
-	float unused;
-  float *d;
-	*nerr = 0;
+    int jcomp, nlcdsk, numrd, offset;
+    float unused;
+    float *d;
+    *nerr = 0;
 
-	/* - Define number of points to read and initial disk location. */
+    /* - Define number of points to read and initial disk location. */
 
-	numrd = s->m->nstop - s->m->nstart + 1 - s->m->nfillb - s->m->nfille;
-        nlcdsk = SAC_HEADER_WORDS_FILE;
-	/* - For each data component: */
-	for( jcomp = 0; jcomp < sac_comps(s); jcomp++ ){
-            offset = 0;
-      d = (jcomp == 0) ? s->y : s->x;
-      DEBUG("comp: %d/%d\n", jcomp, sac_comps(s));
-      DEBUG("npts: %d [%d]\n", s->h->npts, numrd);
+    numrd = s->m->nstop - s->m->nstart + 1 - s->m->nfillb - s->m->nfille;
+    nlcdsk = SAC_HEADER_WORDS_FILE;
+    /* - For each data component: */
+    for (jcomp = 0; jcomp < sac_comps(s); jcomp++) {
+        offset = 0;
+        d = (jcomp == 0) ? s->y : s->x;
+        DEBUG("comp: %d/%d\n", jcomp, sac_comps(s));
+        DEBUG("npts: %d [%d]\n", s->h->npts, numrd);
 
-	    /* -- Fill beginning with zeros if requested.  
-	     *    Update memory location. */
-	    if( s->m->nfillb > 0 ){
-        fill( d, s->m->nfillb, 0. );
-        offset += s->m->nfillb;
-	    }
+        /* -- Fill beginning with zeros if requested.  
+         *    Update memory location. */
+        if (s->m->nfillb > 0) {
+            fill(d, s->m->nfillb, 0.);
+            offset += s->m->nfillb;
+        }
 
-	    /* -- Update disk location and read data. */
-	    if( numrd > 0 ){
-		nlcdsk = nlcdsk + s->m->nstart - 1 + s->m->nfillb;
-		zrabs( (int *)nun, (char *)(d + offset), 
-		       numrd, (int *)&nlcdsk, (int *)nerr );
-                if( lswap ){     /* byteswap if necessary. */
-                    int idx ;
-                    float *ptr ;
+        /* -- Update disk location and read data. */
+        if (numrd > 0) {
+            nlcdsk = nlcdsk + s->m->nstart - 1 + s->m->nfillb;
+            zrabs((int *) nun, (char *) (d + offset), numrd, (int *) &nlcdsk,
+                  (int *) nerr);
+            if (lswap) {        /* byteswap if necessary. */
+                int idx;
+                float *ptr;
 
-                    for( idx = 0, ptr = d+offset ;
-                         idx < numrd ; idx++, ptr++ ) {
-                        byteswap( (void *)ptr, 4 ) ;
-                    }
+                for (idx = 0, ptr = d + offset; idx < numrd; idx++, ptr++) {
+                    byteswap((void *) ptr, 4);
                 }
+            }
 
-		if( *nerr != 0 )
-		    goto L_8888;
-		offset += numrd;
-	    }
+            if (*nerr != 0)
+                goto L_8888;
+            offset += numrd;
+        }
 
-	    /* -- Fill end with zeros if requested. */
-	    if( s->m->nfille > 0 ){
-		fill( d+offset, s->m->nfille, 0. );
-	    }
+        /* -- Fill end with zeros if requested. */
+        if (s->m->nfille > 0) {
+            fill(d + offset, s->m->nfille, 0.);
+        }
 
-	    /* -- Update disk location to point to start of next component. */
-	    nlcdsk = nlcdsk + s->m->ntotal - s->m->nstart + 1;
-	} /* end for ( jcomp ) */
+        /* -- Update disk location to point to start of next component. */
+        nlcdsk = nlcdsk + s->m->ntotal - s->m->nstart + 1;
+    }                           /* end for ( jcomp ) */
 
-	/* - Compute some header values. */
+    /* - Compute some header values. */
 
-  //	s->h->npts = s->m->nlndta;
-	extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
-	if( s->h->leven ) {
-    s->h->e = s->h->b + (float)( s->h->npts - 1 )* s->h->delta;
-  }else{
-    extrma( s->x, 1, s->h->npts, &s->h->b, &s->h->e, &unused );
-	}
+    //    s->h->npts = s->m->nlndta;
+    extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen);
+    if (s->h->leven) {
+        s->h->e = s->h->b + (float) (s->h->npts - 1) * s->h->delta;
+    } else {
+        extrma(s->x, 1, s->h->npts, &s->h->b, &s->h->e, &unused);
+    }
 
-L_8888:
-	return;
+  L_8888:
+    return;
 }
-

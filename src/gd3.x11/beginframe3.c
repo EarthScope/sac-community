@@ -13,15 +13,15 @@
 
 void
 beginframe3(nerr)
-  int *nerr;
+     int *nerr;
 {
-  *nerr = 0;
-  
-  /* Erase the window */
-  erase3();
+    *nerr = 0;
 
-  /* Set the Current Text Size */
-  settextsize3( cmgdm.twidth, cmgdm.thgt );
+    /* Erase the window */
+    erase3();
+
+    /* Set the Current Text Size */
+    settextsize3(cmgdm.twidth, cmgdm.thgt);
 
 }
 

@@ -18,34 +18,35 @@
 
 #if !defined(READLINE)
 void
-zgpmsg(prmt,prmtlen,msg,msglen)
-char *prmt;		/* pointer to prompt message */
-int prmtlen;		/* length of prmt array */
-char *msg;		/* pointer to character array to receive input */
-int msglen;		/* length of msg array */
- 
-{
-	int i;			/* index for prefilling string w/ NULLs */
-	char *psave;		/* save msg */
- 
-	psave = msg;
-	for (i=0;i<(int)msglen;++i)	/* prefill with NULLs */
-		*(psave++) = '\0';
- 
-  if(use_tty()) {
-    while (*prmt != '$')
-      putchar (*(prmt++));	/* print prompt */
-  }
+zgpmsg(prmt, prmtlen, msg, msglen)
+     char *prmt;                /* pointer to prompt message */
+     int prmtlen;               /* length of prmt array */
+     char *msg;                 /* pointer to character array to receive input */
+     int msglen;                /* length of msg array */
 
-        fflush(stdout);
+{
+    int i;                      /* index for prefilling string w/ NULLs */
+    char *psave;                /* save msg */
+
+    psave = msg;
+    for (i = 0; i < (int) msglen; ++i)  /* prefill with NULLs */
+        *(psave++) = '\0';
+
+    if (use_tty()) {
+        while (*prmt != '$')
+            putchar(*(prmt++)); /* print prompt */
+    }
+
+    fflush(stdout);
 
 /* A control-d sets the message response to quit */
-	if ( getfline (stdin,msg,(short)msglen) == -1)
-	   if ( msglen >= 5 ) strncpy (msg, "quit", 4);
-	
+    if (getfline(stdin, msg, (short) msglen) == -1)
+        if (msglen >= 5)
+            strncpy(msg, "quit", 4);
+
 }
 
-#else 
+#else
 
 /** 
  * Process a command line
@@ -56,10 +57,10 @@ int msglen;		/* length of msg array */
  */
 static void
 process_line(char *p) {
-  select_loop_continue(SELECT_OFF); /* Turn off select loop */
-  select_loop_message(p, SELECT_MSG_SET); /* Set the outgoing message */
-  FREE(p);
-  rl_callback_handler_remove();
+    select_loop_continue(SELECT_OFF);   /* Turn off select loop */
+    select_loop_message(p, SELECT_MSG_SET);     /* Set the outgoing message */
+    FREE(p);
+    rl_callback_handler_remove();
 }
 
 /** 
@@ -77,11 +78,8 @@ process_line(char *p) {
  * @note Calls co/select_loop()
  */
 void
-zgpmsg(char *prmt,
-       int   prmtlen,
-       char *msg,
-       int   msglen) {
-  select_loop(prmt, prmtlen, msg, msglen, NULL, process_line, TRUE, TRUE);
+zgpmsg(char *prmt, int prmtlen, char *msg, int msglen) {
+    select_loop(prmt, prmtlen, msg, msglen, NULL, process_line, TRUE, TRUE);
 }
 
 #endif /* !READLINE */

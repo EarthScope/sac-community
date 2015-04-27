@@ -13,14 +13,13 @@
 #include "contouring.h"
 #include "bot.h"
 
-void 
-calccontlabel4()
-{
-	int j, jlabel, jlevel, jloc, jpoint, 
-	 jsegment, jstart, jstatus, jstop, jtype, nc, numlocs;
-	float angle, textwidth;
+void
+calccontlabel4() {
+    int j, jlabel, jlevel, jloc, jpoint, jsegment, jstart, jstatus, jstop,
+        jtype, nc, numlocs;
+    float angle, textwidth;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: Fourth pass to calculate contouring line label locations.
 	 *          This pass computes gaps and marks segments for labels.
 	 *=====================================================================
@@ -43,36 +42,35 @@ calccontlabel4()
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900418
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Loop on each contouring line segment: */
-	jsegment = 0;
-L_1000:
-	if( nextcontseg( &jsegment, &jlevel, &jstart, &jstop ) ){
+    /* PROCEDURE: */
+    /* - Loop on each contouring line segment: */
+    jsegment = 0;
+  L_1000:
+    if (nextcontseg(&jsegment, &jlevel, &jstart, &jstop)) {
 
-		/* -- Determine whether this segment has labels. */
-		getcontseglabel( jsegment, &jstatus, &numlocs, &jloc );
+        /* -- Determine whether this segment has labels. */
+        getcontseglabel(jsegment, &jstatus, &numlocs, &jloc);
 
-		/* -- If labels are to be placed on this line segment, loop through
-		 *    labels and mark the ones that have been selected. */
-		if( jstatus == MSEGLABELCOMPLE || jstatus == MSEGLABELINCOMP ){
-			for( j = 1; j <= numlocs; j++ ){
-				getcontlabel( jloc, &jpoint, &jtype, &angle, &jlabel );
-				if( jtype == MLABELSELECTED || jtype == MLABELCANDIDATE ){
-					nc = indexb( (char*)kmcontouring.klabel[jlabel - 1]
-					 ,17 );
-					getstringsize( (char*)kmcontouring.klabel[jlabel - 1]
-					 , nc, &textwidth );
-					markcontlabel( jpoint, jloc, textwidth + cmcontouring.widthlabels, 
-					 &angle );
-					putcontlabel( jloc, jpoint, jtype, angle, jlabel );
-					}
-				jloc = jloc + 1;
-				}
-			}
+        /* -- If labels are to be placed on this line segment, loop through
+         *    labels and mark the ones that have been selected. */
+        if (jstatus == MSEGLABELCOMPLE || jstatus == MSEGLABELINCOMP) {
+            for (j = 1; j <= numlocs; j++) {
+                getcontlabel(jloc, &jpoint, &jtype, &angle, &jlabel);
+                if (jtype == MLABELSELECTED || jtype == MLABELCANDIDATE) {
+                    nc = indexb((char *) kmcontouring.klabel[jlabel - 1]
+                                , 17);
+                    getstringsize((char *) kmcontouring.klabel[jlabel - 1]
+                                  , nc, &textwidth);
+                    markcontlabel(jpoint, jloc,
+                                  textwidth + cmcontouring.widthlabels, &angle);
+                    putcontlabel(jloc, jpoint, jtype, angle, jlabel);
+                }
+                jloc = jloc + 1;
+            }
+        }
 
-		/* -- Loop until there are no more segments. */
-		goto L_1000;
-		}
-	return;
-} 
-
+        /* -- Loop until there are no more segments. */
+        goto L_1000;
+    }
+    return;
+}

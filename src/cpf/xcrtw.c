@@ -30,29 +30,23 @@
  * @date   820608:  Original version.
  *
  */
-void 
-xcrtw(int    *lrtw, 
-      char   *krtw, 
-      int     krtw_s, 
-      double *ortw, 
-      int    *nerr) {
+void
+xcrtw(int *lrtw, char *krtw, int krtw_s, double *ortw, int *nerr) {
 
-	*nerr = 0;
+    *nerr = 0;
 
-	/* - Loop on each token in command: */
-	while ( lcmore( nerr ) ){
+    /* - Loop on each token in command: */
+    while (lcmore(nerr)) {
 
-		/* -- Check for RTW construct at current location. */
-		if( lcrtw( lrtw, krtw,krtw_s, ortw ) )
-		{ /* do nothing */ }
-		else{
-		        /* -- Bad syntax. */
-			*nerr = ERROR_BAD_COMMAND_SYNTAX;
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
-		}
-	}
+        /* -- Check for RTW construct at current location. */
+        if (lcrtw(lrtw, krtw, krtw_s, ortw)) {  /* do nothing */
+        } else {
+            /* -- Bad syntax. */
+            *nerr = ERROR_BAD_COMMAND_SYNTAX;
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
+    }
 
-	return;
+    return;
 }
-

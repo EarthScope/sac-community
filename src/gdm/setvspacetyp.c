@@ -14,13 +14,10 @@
  * @date   861021:  Original version.
  *
  */
-void 
-setvspacetype(int lfull,
-              double ratio)
-{
-	/* - Save input variables in common. */
-	cmgdm.lvsful = lfull;
-	cmgdm.vsrat = ratio;
+void
+setvspacetype(int lfull, double ratio) {
+    /* - Save input variables in common. */
+    cmgdm.lvsful = lfull;
+    cmgdm.vsrat = ratio;
 
 }
-

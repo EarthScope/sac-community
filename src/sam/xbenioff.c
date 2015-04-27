@@ -5,17 +5,17 @@
 #include "hdr.h"
 #include "bool.h"
 
-
 #include "ucf.h"
 #include "dff.h"
 
-void /*FUNCTION*/ xbenioff(nerr)
-int *nerr;
+void /*FUNCTION*/
+xbenioff(nerr)
+     int *nerr;
 {
-	int j, jdfl;
-  sac *s;
+    int j, jdfl;
+    sac *s;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To parse and execute the action command BENIOFF.
 	 *          This command applies a Benioff filter to data in memory.
 	 *=====================================================================
@@ -40,56 +40,56 @@ int *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  870211
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* CHECKING PHASE: */
+    /* CHECKING PHASE: */
 
-	/* - Test for a non-null data file list. */
+    /* - Test for a non-null data file list. */
 
-	vflist( nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    vflist(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* - Make sure each file is an evenly spaced time series file. */
+    /* - Make sure each file is an evenly spaced time series file. */
 
-	vfeven( nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    vfeven(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* EXECUTION PHASE: */
+    /* EXECUTION PHASE: */
 
-	/* - Perform the requested function on each file in DFL. */
+    /* - Perform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
+    for (jdfl = 1; jdfl <= saclen(); jdfl++) {
 
-		/* -- Get next file from the memory manager.
-		 *    (Header is moved into common blocks CMHDR and KMHDR.) */
-    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
-      goto L_8888;
+        /* -- Get next file from the memory manager.
+         *    (Header is moved into common blocks CMHDR and KMHDR.) */
+        if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
+            goto L_8888;
+        }
+        //getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
+
+        /* -- Initialize filter for this file. */
+        filtb(0, s->h->delta);
+
+        /* -- Filter this data file. */
+
+        for (j = 0; j < s->h->npts; j++) {
+            s->y[j] = filtb(1, s->y[j]);
+        }
+
+        /* -- Update any header fields that may have changed. */
+        extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax,
+               &s->h->depmen);
+
     }
-		//getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
 
-		/* -- Initialize filter for this file. */
-		filtb( 0, s->h->delta );
+    /* - Calculate and set new range of dependent variable. */
 
-		/* -- Filter this data file. */
+    setrng();
 
-		for( j = 0; j < s->h->npts ; j++ ){
-			s->y[j] = filtb( 1, s->y[j] );
-			}
+  L_8888:
+    return;
 
-		/* -- Update any header fields that may have changed. */
-		extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
-
-		}
-
-	/* - Calculate and set new range of dependent variable. */
-
-	setrng();
-
-L_8888:
-	return;
-
-} /* end of function */
-
+}                               /* end of function */

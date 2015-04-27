@@ -2,17 +2,15 @@
 #include "gtm.h"
 #include "co.h"
 
-
 #include "gdm.h"
 
-void /*FUNCTION*/ setsymbolsize(size)
-double size;
+void /*FUNCTION*/
+setsymbolsize(size)
+     double size;
 {
-	float chht, chwid;
+    float chht, chwid;
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To set the symbol size attribute.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -37,17 +35,14 @@ double size;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  861022
 	 *===================================================================== */
-	/* PROCEDURE: */
-	if( size <= 0. ){
-		gettextsize( &chwid, &chht );
-		cmgtm.symsz = chht;
-		}
-	else{
-		cmgtm.symsz = fmin( size, 1.0 );
-		}
+    /* PROCEDURE: */
+    if (size <= 0.) {
+        gettextsize(&chwid, &chht);
+        cmgtm.symsz = chht;
+    } else {
+        cmgtm.symsz = fmin(size, 1.0);
+    }
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

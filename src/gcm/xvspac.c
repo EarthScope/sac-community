@@ -5,16 +5,16 @@
 #include "gcm.h"
 #include "bool.h"
 
-
 #include "gdm.h"
 #include "cpf.h"
 
-void /*FUNCTION*/ xvspac(nerr)
-int *nerr;
+void /*FUNCTION*/
+xvspac(nerr)
+     int *nerr;
 {
-	double ratio;
+    double ratio;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To parse the parameter-setting command VSPACE.
 	 *          This command defines the graphics viewspace.
 	 *=====================================================================
@@ -38,46 +38,42 @@ int *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  861112
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* PARSING PHASE: */
+    /* PARSING PHASE: */
 
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-L_1000:
-	if( lcmore( nerr ) ){
+  L_1000:
+    if (lcmore(nerr)) {
 
-		/* -- "FULL": select full viewspace option. */
-		if( lckey( "FULL$",6 ) ){
-			setvspacetype( TRUE, 1.0 );
+        /* -- "FULL": select full viewspace option. */
+        if (lckey("FULL$", 6)) {
+            setvspacetype(TRUE, 1.0);
 
-			/* -- "v":  set viewspace ratio directly. */
-			}
-		else if( lcreal( &ratio ) ){
-			setvspacetype( FALSE, (float)ratio );
+            /* -- "v":  set viewspace ratio directly. */
+        } else if (lcreal(&ratio)) {
+            setvspacetype(FALSE, (float) ratio);
 
-			/* -- Bad syntax. */
-			}
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
+            /* -- Bad syntax. */
+        } else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
 
-			}
-		goto L_1000;
+        }
+        goto L_1000;
 
-		}
+    }
 
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-	/* - Calculate the new viewspace. */
+    /* - Calculate the new viewspace. */
 
-	calvspace();
+    calvspace();
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

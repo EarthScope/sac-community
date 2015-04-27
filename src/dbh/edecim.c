@@ -44,70 +44,62 @@
  *  @date    801117   Last Modified
  * 
  */
-void 
-edecim(float     *data, 
-       int        ndata, 
-       int        irate, 
-       float     *ddata, 
-       int       *nddata, 
-       float     *c, 
-       int        nc, 
-       int        isym)
-{
-	int in, j, k, ncm1, out;
-	float add, temp;
+void
+edecim(float *data, int ndata, int irate, float *ddata, int *nddata, float *c,
+       int nc, int isym) {
+    int in, j, k, ncm1, out;
+    float add, temp;
 
-	float *const C = &c[0] - 1;
-	float *const Data = &data[0] - 1;
-	float *const Ddata = &ddata[0] - 1;
+    float *const C = &c[0] - 1;
+    float *const Data = &data[0] - 1;
+    float *const Ddata = &ddata[0] - 1;
 
-	/*  CALCULATING NEW DATA LENGTH
-	 * */
-	*nddata = ndata/irate;
+    /*  CALCULATING NEW DATA LENGTH
+     * */
+    *nddata = ndata / irate;
 
-	/*  LOOP TO FILTER/DECIMATE DATA
-	 *
-	 *    INITIALIZE INPUT AND OUTPUT POINTERS
-	 * */
-	in = 1;
-	out = 1;
+    /*  LOOP TO FILTER/DECIMATE DATA
+     *
+     *    INITIALIZE INPUT AND OUTPUT POINTERS
+     * */
+    in = 1;
+    out = 1;
 
-	/*    CALCULATE OUTPUT POINTS UNTIL OUT EXCEEDS THE NUMBER OF NEW POINTS
-	 * */
-	ncm1 = nc - 1;
-L_1:
-	;
-	if( out > *nddata )
-		goto L_2;
-	temp = C[1]*Data[in];
-	for( j = 1; j <= ncm1; j++ ){
-		add = 0.;
-		k = in + j;
-		if( k <= ndata ){
-			add = Data[k];
-			}
-		k = in - j;
-		if( k > 0 ){
-			add = add + Data[k]*isym;
-			}
-		temp = temp + C[j + 1]*add;
-		}
-	;
-	Ddata[out] = temp;
+    /*    CALCULATE OUTPUT POINTS UNTIL OUT EXCEEDS THE NUMBER OF NEW POINTS
+     * */
+    ncm1 = nc - 1;
+  L_1:
+    ;
+    if (out > *nddata)
+        goto L_2;
+    temp = C[1] * Data[in];
+    for (j = 1; j <= ncm1; j++) {
+        add = 0.;
+        k = in + j;
+        if (k <= ndata) {
+            add = Data[k];
+        }
+        k = in - j;
+        if (k > 0) {
+            add = add + Data[k] * isym;
+        }
+        temp = temp + C[j + 1] * add;
+    }
+    ;
+    Ddata[out] = temp;
 
-	/*    UPDATE DATA POINTERS
-	 * */
-	in = in + irate;
-	out = out + 1;
+    /*    UPDATE DATA POINTERS
+     * */
+    in = in + irate;
+    out = out + 1;
 
-	/*  DONE LOOP
-	 * */
-	goto L_1;
-L_2:
-	;
+    /*  DONE LOOP
+     * */
+    goto L_1;
+  L_2:
+    ;
 
-	/*  BYE
-	 * */
-	return;
+    /*  BYE
+     * */
+    return;
 }
-

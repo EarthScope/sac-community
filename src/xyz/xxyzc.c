@@ -1,14 +1,14 @@
 
 #include "xyz.h"
 
-
 #include "msg.h"
 
-void /*FUNCTION*/ xxyzc(index, nerr)
-int index, *nerr;
+void /*FUNCTION*/
+xxyzc(index, nerr)
+     int index, *nerr;
 {
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To execute commands in the XYZ Data Module.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -29,90 +29,99 @@ int index, *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900305
 	 *===================================================================== */
-	/* LOCAL VARIABLES  */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* LOCAL VARIABLES  */
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* - Jump to correct command based upon its index number. */
+    /* - Jump to correct command based upon its index number. */
 
-	switch( index ){
-		case 1: goto L_100;
-		case 2: goto L_200;
-		case 3: goto L_300;
-		case 4: goto L_400;
-		case 5: goto L_500;
-		case 6: goto L_600;
-		case 7: goto L_700;
-		case 8: goto L_800;
-                case 9: goto L_900;
-                case 10: goto L_1000;
-		}
+    switch (index) {
+        case 1:
+            goto L_100;
+        case 2:
+            goto L_200;
+        case 3:
+            goto L_300;
+        case 4:
+            goto L_400;
+        case 5:
+            goto L_500;
+        case 6:
+            goto L_600;
+        case 7:
+            goto L_700;
+        case 8:
+            goto L_800;
+        case 9:
+            goto L_900;
+        case 10:
+            goto L_1000;
+    }
 
-	/* - Error return if bad index value. */
+    /* - Error return if bad index value. */
 
-	*nerr = 901;
-	setmsg( "ERROR", *nerr );
-	apcmsg( "in XXYZC",9 );
-	goto L_8888;
+    *nerr = 901;
+    setmsg("ERROR", *nerr);
+    apcmsg("in XXYZC", 9);
+    goto L_8888;
 
-	/* - Command 01: SPECTROGRAM */
+    /* - Command 01: SPECTROGRAM */
 
-L_100:
-	xspectrogram( nerr );
-	goto L_8888;
+  L_100:
+    xspectrogram(nerr);
+    goto L_8888;
 
-	/* - Command 02: GRAYSCALE */
+    /* - Command 02: GRAYSCALE */
 
-L_200:
-	xgrayscale( nerr );
-	goto L_8888;
+  L_200:
+    xgrayscale(nerr);
+    goto L_8888;
 
-	/* - Command 03: CONTOUR */
+    /* - Command 03: CONTOUR */
 
-L_300:
-	xcontour( nerr );
-	goto L_8888;
+  L_300:
+    xcontour(nerr);
+    goto L_8888;
 
-	/* - Command 04: ZLEVELS */
+    /* - Command 04: ZLEVELS */
 
-L_400:
-	xzlevels( nerr );
-	goto L_8888;
+  L_400:
+    xzlevels(nerr);
+    goto L_8888;
 
-	/* - Command 05: ZLINES */
+    /* - Command 05: ZLINES */
 
-L_500:
-	xzlines( nerr );
-	goto L_8888;
+  L_500:
+    xzlines(nerr);
+    goto L_8888;
 
-	/* - Command 06: ZTICKS */
+    /* - Command 06: ZTICKS */
 
-L_600:
-	xzticks( nerr );
-	goto L_8888;
+  L_600:
+    xzticks(nerr);
+    goto L_8888;
 
-	/* - Command 07: ZLABELS */
+    /* - Command 07: ZLABELS */
 
-L_700:
-	xzlabels( nerr );
-	goto L_8888;
+  L_700:
+    xzlabels(nerr);
+    goto L_8888;
 
-	/* - Command 08: ZCOLORS */
+    /* - Command 08: ZCOLORS */
 
-L_800:
-	xzcolors( nerr );
-	goto L_8888;
+  L_800:
+    xzcolors(nerr);
+    goto L_8888;
 
-L_900:
-        ximage( nerr );
-        goto L_8888;
+  L_900:
+    ximage(nerr);
+    goto L_8888;
 
-L_1000:
-        xscallop( nerr );
-        goto L_8888;
+  L_1000:
+    xscallop(nerr);
+    goto L_8888;
 
-L_8888:
-	return;
+  L_8888:
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

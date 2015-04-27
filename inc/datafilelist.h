@@ -8,24 +8,21 @@
 #ifndef _DFL_H_
 #define _DFL_H_
 
-
 #include "mach.h"
 
 struct t_kmdatafilelist {
-  char kselectmode[9]; /** Current data file list mode. could use a enum */
+    char kselectmode[9];
+                       /** Current data file list mode. could use a enum */
 } kmdatafilelist;
 
 struct t_cmdatafilelist {
-  int nentries;       /** Total Entries in the data file list */
-  int nselect;        /** Number of entries selected          */
-  int jselect;        /** Current index within iselect        */
+    int nentries;     /** Total Entries in the data file list */
+    int nselect;      /** Number of entries selected          */
+    int jselect;      /** Current index within iselect        */
 } cmdatafilelist;
 
-int       nextinputfile      (int   *ientry);
-void      selectinputfiles   (int   *list, 
-			      int    nlist);
-void      setinputmode       (char  *mode);
-
+int nextinputfile(int *ientry);
+void selectinputfiles(int *list, int nlist);
+void setinputmode(char *mode);
 
 #endif /* _DFL_H_ */
-

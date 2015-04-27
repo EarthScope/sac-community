@@ -14,7 +14,6 @@
 #include "com.h"
 #include "bool.h"
 
-
 #include "co.h"
 #include "bot.h"
 
@@ -29,11 +28,10 @@
  * @date   840206:  Improved method of formatting current command.
  *
  */
-void 
+void
 wrcom() {
 
-  fprintf(stdout, "%s\n", lexer_input());
+    fprintf(stdout, "%s\n", lexer_input());
 
-  return;
+    return;
 }
-

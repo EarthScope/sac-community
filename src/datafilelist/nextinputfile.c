@@ -38,27 +38,25 @@ static int *iselect = NULL;/** Current entries which are selected  */
  * @date   900409:  Original version.
  *
  */
-void 
-selectinputfiles(int  *list, 
-		 int   nlist) {
-	int j;
+void
+selectinputfiles(int *list, int nlist) {
+    int j;
 
-	int *const List = &list[0] - 1;
+    int *const List = &list[0] - 1;
 
-  if(iselect) {
-    xarray_free(iselect);
-  }
-  iselect = xarray_new_with_len('i', nlist+1);
-	/* - Save list in common block. */
-	cmdatafilelist.nselect = nlist;
+    if (iselect) {
+        xarray_free(iselect);
+    }
+    iselect = xarray_new_with_len('i', nlist + 1);
+    /* - Save list in common block. */
+    cmdatafilelist.nselect = nlist;
 
-	for( j = 1; j <= nlist; j++ ){
-		iselect[j] = List[j];
-	}
+    for (j = 1; j <= nlist; j++) {
+        iselect[j] = List[j];
+    }
 
-	return;
+    return;
 }
-
 
 /** 
  * Get the next entry in the input data file list
@@ -74,55 +72,51 @@ selectinputfiles(int  *list,
  * @date   900409:  Original version.
  *
  */
-int 
+int
 nextinputfile(int *ientry) {
 
-	int nextinputfile_v;
+    int nextinputfile_v;
 
-	/* - If in "ALL" mode: */
-	if( strcmp(kmdatafilelist.kselectmode,"ALL     ") == 0 ){
+    /* - If in "ALL" mode: */
+    if (strcmp(kmdatafilelist.kselectmode, "ALL     ") == 0) {
 
-		/* -- Initialize entry pointer and number of files */
-		if( *ientry <= 0 ){
-			*ientry = 0;
-			getnfiles( &cmdatafilelist.nentries );
-		}
+        /* -- Initialize entry pointer and number of files */
+        if (*ientry <= 0) {
+            *ientry = 0;
+            getnfiles(&cmdatafilelist.nentries);
+        }
 
-		/* -- Increment entry number */
-		if( *ientry < cmdatafilelist.nentries ){
-			*ientry = *ientry + 1;
-			nextinputfile_v = TRUE;
-		}
-		else{
-                       /* -- Zero entry number and return with FALSE 
-			*    value if no more entries. */
-		       *ientry = 0;
-		       nextinputfile_v = FALSE;
-		}
-	}
-	else{
-		/* - If in "SELECT" mode: */
+        /* -- Increment entry number */
+        if (*ientry < cmdatafilelist.nentries) {
+            *ientry = *ientry + 1;
+            nextinputfile_v = TRUE;
+        } else {
+            /* -- Zero entry number and return with FALSE 
+             *    value if no more entries. */
+            *ientry = 0;
+            nextinputfile_v = FALSE;
+        }
+    } else {
+        /* - If in "SELECT" mode: */
 
-		/* -- Initialize select pointer and if necessary. */
-		if( *ientry <= 0 )
-			cmdatafilelist.jselect = 0;
+        /* -- Initialize select pointer and if necessary. */
+        if (*ientry <= 0)
+            cmdatafilelist.jselect = 0;
 
-		/* -- Increment select pointer if there are more selections.
-		 *    Set entry number to selected entry. */
-		if( cmdatafilelist.jselect < cmdatafilelist.nselect ){
-			cmdatafilelist.jselect = cmdatafilelist.jselect + 1;
-			*ientry = iselect[cmdatafilelist.jselect];
-			nextinputfile_v = TRUE;
-		}
-		else{
-			/* -- Zero entry number and return with FALSE 
-			 *    value if no more selections. */
-			*ientry = 0;
-			nextinputfile_v = FALSE;
-		}
-	}
+        /* -- Increment select pointer if there are more selections.
+         *    Set entry number to selected entry. */
+        if (cmdatafilelist.jselect < cmdatafilelist.nselect) {
+            cmdatafilelist.jselect = cmdatafilelist.jselect + 1;
+            *ientry = iselect[cmdatafilelist.jselect];
+            nextinputfile_v = TRUE;
+        } else {
+            /* -- Zero entry number and return with FALSE 
+             *    value if no more selections. */
+            *ientry = 0;
+            nextinputfile_v = FALSE;
+        }
+    }
 
-	return( nextinputfile_v );
+    return (nextinputfile_v);
 
 }
-

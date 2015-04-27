@@ -9,7 +9,6 @@
 
 #include "dbh.h"
 
-
 #include "msg.h"
 
 /** 
@@ -55,149 +54,132 @@
  * 
  */
 
-void 
-wiener(float  *data, 
-       int     nsamps, 
-       int     start, 
-       int     wlen, 
-       int     nc, 
-       int     lmu, 
-       double  mu, 
-       int     lepsilon, 
-       double  epsilon, 
-       float  *fdata, 
-       int    *ierr) {
+void
+wiener(float *data, int nsamps, int start, int wlen, int nc, int lmu, double mu,
+       int lepsilon, double epsilon, float *fdata, int *ierr) {
 
-	int i, j, k, point;
-	float	a[100],
-		buffer[100],
-		reflct[100],
-		rho[100],
-		originalRho;	/* added to allow variable epsilon.  maf 970306 */
-	double e1, err ;	/* changed err from float to double, maf 960723 */
+    int i, j, k, point;
+    float a[100], buffer[100], reflct[100], rho[100], originalRho;      /* added to allow variable epsilon.  maf 970306 */
+    double e1, err;             /* changed err from float to double, maf 960723 */
 
-	float *const A = &a[0] - 1;
-	float *const Buffer = &buffer[0] - 1;
-	float *const Data = &data[0] - 1;
-	float *const Fdata = &fdata[0] - 1;
-	float *const Reflct = &reflct[0] - 1;
-	float *const Rho = &rho[0] - 1;
+    float *const A = &a[0] - 1;
+    float *const Buffer = &buffer[0] - 1;
+    float *const Data = &data[0] - 1;
+    float *const Fdata = &fdata[0] - 1;
+    float *const Reflct = &reflct[0] - 1;
+    float *const Rho = &rho[0] - 1;
 
+    /*  ESTIMATE AUTOCORRELATION FUNCTION
+     * */
+    zero(rho, nc);
+    for (i = 1; i <= nc; i++) {
+        for (j = 0; j <= (wlen - i); j++) {
+            k = j + start;
 
+            if (k > 0 && k + i - 1 < nsamps) {  /* check array limits. maf 970401 */
+                /* added casting operators, maf 960723 */
+                Rho[i] += (double) (Data[k]) * (double) (Data[k + i - 1]);
+            }
+        }                       /* end for ( j ) */
+    }                           /* end for ( i ) */
 
+    /* IF EPSILON IS NOT SET, SET IT TO DEFAULT maf 960723 */
+    if (!lepsilon)
+        epsilon = 0.0;
 
-	/*  ESTIMATE AUTOCORRELATION FUNCTION
-	 * */
-	zero( rho, nc );
-	for( i = 1; i <= nc; i++ ){
-	    for( j = 0; j <= (wlen - i); j++ ){
-		k = j + start;
+    originalRho = Rho[1];       /* added to allow variable epsilon.  maf 970306 */
 
-		if ( k > 0 && k + i - 1 < nsamps ) {	/* check array limits. maf 970401 */
-			/* added casting operators, maf 960723 */
-		    Rho[i] +=  (double) ( Data[k] ) * (double) ( Data[k + i - 1] ) ;
-		}
-	    } /* end for ( j ) */
-	} /* end for ( i ) */
+    do {                        /* This do loop allows epsilon to vary from zero to 0.01,  maf 970306 */
+        /*  REGULARIZE DIAGONAL ELEMENT, 
+           RHO[1]==> RHO[1] * (1.0 + EPSILON) maf 960723 */
+        Rho[1] = (double) (originalRho) * (1.0 + epsilon);
 
-	/* IF EPSILON IS NOT SET, SET IT TO DEFAULT maf 960723 */
-	if ( !lepsilon )
-	    epsilon = 0.0 ;
+        /*  CALCULATE PREDICTION FILTER COEFFICIENTS
+         * */
+        levin(rho, a, reflct, nc);
 
-	originalRho = Rho[1] ;	/* added to allow variable epsilon.  maf 970306 */
+        /*  CHECK NUMERICAL STABILITY OF LEVINSON RECURSION
+         * */
+        *ierr = 0;
+        for (i = 1; i <= (nc - 1); i++) {
+            if (fabs(Reflct[i]) > .999) {
+                *ierr = 1;
+                break;
+            }
+        }
 
-	do {	/* This do loop allows epsilon to vary from zero to 0.01,  maf 970306 */
-	    /*  REGULARIZE DIAGONAL ELEMENT, 
-	        RHO[1]==> RHO[1] * (1.0 + EPSILON) maf 960723 */
-	    Rho[1] = (double) ( originalRho ) * ( 1.0 + epsilon ) ;
+        if (*ierr && !lepsilon) {
+            if (epsilon == 0.0)
+                epsilon = 0.00001;
+            else
+                epsilon *= 10.;
 
-	    /*  CALCULATE PREDICTION FILTER COEFFICIENTS
-	     * */
-	    levin( rho, a, reflct, nc );
+            /* Send a message about increasing epsilon unless epsilon is 
+               too big */
+            if (epsilon < 0.1) {
+                setmsg("WARNING", 1614);
+                apfmsg(epsilon);
+                outmsg();
+                clrmsg();
+            }
+        }
+    } while (!lepsilon && *ierr && epsilon < 0.1);
 
-	    /*  CHECK NUMERICAL STABILITY OF LEVINSON RECURSION
-	     * */
-	    *ierr = 0;
-	    for( i = 1; i <= (nc - 1); i++ ){
-		if( fabs( Reflct[i] ) > .999 ){
-		    *ierr = 1;
-		    break ;
-		}
-	    }
+    /*  FILTER DATA
+     *
+     *    INITIALIZE BUFFER
+     * */
+    zero(buffer, nc);
 
-	    if ( *ierr && !lepsilon ) {
-		if ( epsilon == 0.0 )
-		    epsilon = 0.00001 ;
-		else
-		    epsilon *= 10. ;
+    /*    INITIALIZE POINTER
+     * */
+    point = 1;
 
-		/* Send a message about increasing epsilon unless epsilon is 
-		   too big */
-		if ( epsilon < 0.1 ) {
-		    setmsg ( "WARNING", 1614 ) ;
-		    apfmsg ( epsilon ) ;
-		    outmsg () ;
-		    clrmsg () ;
-		}
-	    }
-	}while ( !lepsilon && *ierr && epsilon < 0.1 ) ;
+    /*    LOOP
+     * */
 
-	/*  FILTER DATA
-	 *
-	 *    INITIALIZE BUFFER
-	 * */
-	zero( buffer, nc );
+    while (point <= nsamps) {
+        /*    FETCH INPUT DATUM
+         * */
+        Buffer[1] = Data[point];
 
-	/*    INITIALIZE POINTER
-	 * */
-	point = 1;
+        /*    CALCULATE NEW ERROR POINT
+         * */
+        e1 = err = Buffer[1];
+        for (i = 2; i <= nc; i++) {     /* casting operators added. maf 960723 */
+            e1 = e1 + (double) (Buffer[i]) * (double) (A[i]);
+        }
 
-	/*    LOOP
-	 * */
+        Fdata[point] = e1;
 
-	while( point <= nsamps ) {
-	    /*    FETCH INPUT DATUM
-	     * */
-	    Buffer[1] = Data[point];
+        /*    UPDATE FILTER COEFFICIENTS
+         * *//* replaced !lmu with lmu maf 960801 */
+        if (lmu) {              /* if the user wants mu calculated */
+            mu = 0.0;           /* figure it out. maf 960723 */
+            for (i = 1; i <= nc; i++) {
+                mu += fabs((double) Rho[i]);
+            }                   /* end for */
 
-	    /*    CALCULATE NEW ERROR POINT
-	     * */
-	    e1 = err = Buffer[1];
-	    for( i = 2; i <= nc; i++ ){ /* casting operators added. maf 960723 */
-		e1 = e1 + (double) ( Buffer[i] ) * (double) ( A[i] ) ;
-	    }
+            mu = fabs(1.95 / mu);
+        }
+        /* end if */
+        for (i = 2; i <= nc; i++) {     /* casting operators added. maf 960723 */
+            A[i] = (double) (A[i]) - mu * err * (double) (Buffer[i]);
+        }
 
-	    Fdata[point] = e1;
+        /*    SHIFT BUFFER
+         * */
+        for (i = 2; i <= nc; i++) {
+            k = nc + 2 - i;
+            Buffer[k] = Buffer[k - 1];
+        }
 
-	    /*    UPDATE FILTER COEFFICIENTS
-	     * */		 /* replaced !lmu with lmu maf 960801 */
-	    if ( lmu ) {	/* if the user wants mu calculated */
-		mu = 0.0 ;  /* figure it out. maf 960723 */
-		for ( i = 1 ; i <= nc ; i++ ){
-		    mu += fabs ( (double) Rho[i] ) ;
-		} /* end for */
+        /*    UPDATE POINTER
+         * */
+        point = point + 1;
+    }                           /* end while */
 
-		mu = fabs( 1.95 / mu ) ;
-	    } /* end if */
- 
-	    for( i = 2; i <= nc; i++ ){ /* casting operators added. maf 960723 */
-		A[i] = (double) ( A[i] ) - mu * err * (double) ( Buffer[i] ) ;
-	    }
-
-	    /*    SHIFT BUFFER
-	     * */
-	    for( i = 2; i <= nc; i++ ){
-		k = nc + 2 - i;
-		Buffer[k] = Buffer[k - 1];
-	    }
-
-	    /*    UPDATE POINTER
-	     * */
-	    point = point + 1;
-	} /* end while */
-
-	/*  DONE
-	 * */
-	return;
-} /* end of function */
-
+    /*  DONE
+     * */
+    return;
+}                               /* end of function */

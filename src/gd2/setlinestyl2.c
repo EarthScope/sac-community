@@ -1,14 +1,13 @@
 
 #include "gd2.h"
 
-void /*FUNCTION*/ setlinestyle2(iline)
-int *iline;
+void /*FUNCTION*/
+setlinestyle2(iline)
+     int *iline;
 {
-	int nerr;
+    int nerr;
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To change the linestyle for graphics device 2 (SGF).
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -31,20 +30,18 @@ int *iline;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  861020
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Write linestyle opcode to SGF buffer. */
-	Mfbuf[cmgd2.jfbpnt] = MOPLIN;
-	Mfbuf[cmgd2.jfbpnt + 1] = 1;
-	Mfbuf[cmgd2.jfbpnt + 2] = *iline;
-	cmgd2.jfbpnt = cmgd2.jfbpnt + 3;
+    /* PROCEDURE: */
+    /* - Write linestyle opcode to SGF buffer. */
+    Mfbuf[cmgd2.jfbpnt] = MOPLIN;
+    Mfbuf[cmgd2.jfbpnt + 1] = 1;
+    Mfbuf[cmgd2.jfbpnt + 2] = *iline;
+    cmgd2.jfbpnt = cmgd2.jfbpnt + 3;
 
-	/* - Flush buffer if necessary. */
+    /* - Flush buffer if necessary. */
 
-	if( cmgd2.jfbpnt > JFBMAX )
-		flushbuffer2( &nerr );
+    if (cmgd2.jfbpnt > JFBMAX)
+        flushbuffer2(&nerr);
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

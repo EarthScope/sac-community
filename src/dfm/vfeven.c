@@ -14,7 +14,6 @@
 
 #include "errors.h"
 
-
 #include "msg.h"
 #include "clf.h"
 #include "dff.h"
@@ -32,43 +31,40 @@
  * @date   820622:  Original version.
  *
  */
-void 
+void
 vfeven(int *nerr) {
 
-	int jdfl;
+    int jdfl;
     char *tmp;
-	*nerr = 0;
-  sac *s;
-	/* - For each file in DFL: */
-	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
-		/* -- Get header from memory manager. */
-        if(!(s = sacget(jdfl-1, FALSE, nerr))) {
-          goto L_8888;
+    *nerr = 0;
+    sac *s;
+    /* - For each file in DFL: */
+    for (jdfl = 1; jdfl <= saclen(); jdfl++) {
+        /* -- Get header from memory manager. */
+        if (!(s = sacget(jdfl - 1, FALSE, nerr))) {
+            goto L_8888;
         }
         tmp = s->m->filename;
         //getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
 
-		/* -- Check file type. */
-		if( !s->h->leven ){
-			*nerr = ERROR_OPERATION_ON_UNEVEN_FILE;
-			setmsg( "ERROR", *nerr );
-            apcmsg2(tmp, strlen(tmp)+1);
-			goto L_8888;
-		}
-		else if( s->h->iftype == IRLIM || s->h->iftype == IAMPH ){
-			*nerr = ERROR_OPERATION_ON_SPECTRAL_FILE;
-			setmsg( "ERROR", *nerr );
-            apcmsg2(tmp, strlen(tmp)+1);
-			goto L_8888;
-		}
-                else if( s->h->iftype == IXYZ ){
-                        *nerr = ERROR_OPERATION_ON_XYZ_FILE;
-			setmsg( "ERROR", *nerr );
-                        goto L_8888;
-		}
-	}
+        /* -- Check file type. */
+        if (!s->h->leven) {
+            *nerr = ERROR_OPERATION_ON_UNEVEN_FILE;
+            setmsg("ERROR", *nerr);
+            apcmsg2(tmp, strlen(tmp) + 1);
+            goto L_8888;
+        } else if (s->h->iftype == IRLIM || s->h->iftype == IAMPH) {
+            *nerr = ERROR_OPERATION_ON_SPECTRAL_FILE;
+            setmsg("ERROR", *nerr);
+            apcmsg2(tmp, strlen(tmp) + 1);
+            goto L_8888;
+        } else if (s->h->iftype == IXYZ) {
+            *nerr = ERROR_OPERATION_ON_XYZ_FILE;
+            setmsg("ERROR", *nerr);
+            goto L_8888;
+        }
+    }
 
-L_8888:
-	return;
+  L_8888:
+    return;
 }
-

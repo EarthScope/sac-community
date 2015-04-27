@@ -26,33 +26,32 @@
  *
  */
 
-void 
+void
 xsetdevice(int *nerr) {
 
-        char token[TOKEN_LENGTH];
-        display_t *dev;
-        char *p;
+    char token[TOKEN_LENGTH];
+    display_t *dev;
+    char *p;
 
-	*nerr = 0;
+    *nerr = 0;
 
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-	while ( lcmore( nerr ) ){
+    while (lcmore(nerr)) {
 
-		/* -- "text":  the name of the default graphics device. */
-    if(lcchar(&token[0], sizeof(token)) ) {
-      p = strchr(&token[0], ' ');
-      *p = 0;
-      if((dev = gdm_get_device_by_name( &token[0]))) {
-        strscpy(kmgam.kgddef, dev->name, strlen(dev->name));
-      } else {
-        cfmt( "ILLEGAL OPTION:",17 );
-        cresp();
-      }
+        /* -- "text":  the name of the default graphics device. */
+        if (lcchar(&token[0], sizeof(token))) {
+            p = strchr(&token[0], ' ');
+            *p = 0;
+            if ((dev = gdm_get_device_by_name(&token[0]))) {
+                strscpy(kmgam.kgddef, dev->name, strlen(dev->name));
+            } else {
+                cfmt("ILLEGAL OPTION:", 17);
+                cresp();
+            }
+        }
     }
-	}
 
-	return;
+    return;
 
 }
-

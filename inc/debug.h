@@ -7,7 +7,7 @@
 
 #if ( defined __DEBUG__ || __SAC_DEVELOPER__ )
 #define DEBUG(fmt, ...) debug("%s:%d "fmt, __FUNCTION__, __LINE__, ## __VA_ARGS__ )
-#else 
+#else
 #define DEBUG(fmt, ...)
 #endif
 
@@ -20,6 +20,4 @@
     }                \
   } while(0);
 
-
 #endif /* __DEBUG_H__ */
-

@@ -31,114 +31,113 @@
  * @date   990420:  Original Version, plagerized from xw.c.   maf
  *
  */
-void 
+void
 xwgse(int *nerr) {
 
-	char ktemp[9];
-	char kdstemp[ 21 ] ;
-	static char kdatasource[ 21 ] = "" ;
-	static int ldatasource = FALSE ;
-	int ntraces ;
-	int nchar;
-	static int lwrdir = FALSE;
-  char *pfile;
-  string_list *list;
+    char ktemp[9];
+    char kdstemp[21];
+    static char kdatasource[21] = "";
+    static int ldatasource = FALSE;
+    int ntraces;
+    int nchar;
+    static int lwrdir = FALSE;
+    char *pfile;
+    string_list *list;
 
-	*nerr = 0;
-  list = NULL;
+    *nerr = 0;
+    list = NULL;
 
-	/* PARSING PHASE: */
-	/* - Loop on each token in command: */
-	while ( lcmore( nerr ) ){
+    /* PARSING PHASE: */
+    /* - Loop on each token in command: */
+    while (lcmore(nerr)) {
 
-	    /* -- "SOURCE"  specify the data source for the MSG_ID line */
-	    if ( lkcharExact ( "SOURCE#$" , 9 , 20 , kdstemp , 21 , &nchar ) ) {
-		modcase( TRUE , kdstemp , MCPW , ktemp ) ;
-		if( strcmp(ktemp,"ON      ") == 0 )
-		    ldatasource = TRUE ;
-		else if( strcmp(ktemp,"OFF     ") == 0 )
-		    ldatasource = FALSE ;
-		else {
-		    ldatasource = TRUE ;
-		    strcpy ( kdatasource , kdstemp ) ;
-		    terminate ( kdatasource ) ;
-		}
-	    }
-		
+        /* -- "SOURCE"  specify the data source for the MSG_ID line */
+        if (lkcharExact("SOURCE#$", 9, 20, kdstemp, 21, &nchar)) {
+            modcase(TRUE, kdstemp, MCPW, ktemp);
+            if (strcmp(ktemp, "ON      ") == 0)
+                ldatasource = TRUE;
+            else if (strcmp(ktemp, "OFF     ") == 0)
+                ldatasource = FALSE;
+            else {
+                ldatasource = TRUE;
+                strcpy(kdatasource, kdstemp);
+                terminate(kdatasource);
+            }
+        }
 
-            /* -- CM6:  if this option is on, write waveforms in CM6 compressed
-                        format.  If it is off, write INT data (default). */
-            else if( lklog( "CM6#$",6, &cmdfm.lcm6 ) )
-            { /* do nothing */ }
+        /* -- CM6:  if this option is on, write waveforms in CM6 compressed
+           format.  If it is off, write INT data (default). */
+        else if (lklog("CM6#$", 6, &cmdfm.lcm6)) {      /* do nothing */
+        }
 
+        /* -- "DIR ON|OFF|CURRENT|name":  set the name of the default subdirectory. */
+        else if (lkcharExact
+                 ("DIR#$", 6, MCPFN, kmdfm.kwrdir, MCPFN + 1, &nchar)) {
+            lwrdir = set_output_path(kmdfm.kwrdir);
+        }
 
-	    /* -- "DIR ON|OFF|CURRENT|name":  set the name of the default subdirectory. */
-	    else if( lkcharExact( "DIR#$",6, MCPFN, kmdfm.kwrdir,MCPFN+1, &nchar ) ){
-        lwrdir = set_output_path(kmdfm.kwrdir);
-	    }
+        /* -- "COMMIT|RECALLTRACE|ROLLBACK": 
+           how to treat existing data */
+        else if (lckeyExact("COMMIT", 7))
+            cmdfm.icomORroll = COMMIT;
+        else if (lckeyExact("RECALLTRACE", 12))
+            cmdfm.icomORroll = RECALL;
+        else if (lckeyExact("RECALL", 7))
+            cmdfm.icomORroll = RECALL;
+        else if (lckeyExact("ROLLBACK", 9))
+            cmdfm.icomORroll = ROLLBACK;
 
-	    /* -- "COMMIT|RECALLTRACE|ROLLBACK": 
-	          how to treat existing data */
-	    else if ( lckeyExact ( "COMMIT" , 7 ) )
-		cmdfm.icomORroll = COMMIT ;
-	    else if (lckeyExact ( "RECALLTRACE" , 12 ) )
-		cmdfm.icomORroll = RECALL ;
-	    else if ( lckeyExact ( "RECALL" , 7 ) )
-		cmdfm.icomORroll = RECALL ;
-	    else if ( lckeyExact ( "ROLLBACK" , 9 ) ) 
-		cmdfm.icomORroll = ROLLBACK ;
+        /* -- "filelist":  write files using names in new filelist. */
+        else if ((list = lcdfl())) {    /* do nothing */
+        }
 
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
+    }
 
-	    /* -- "filelist":  write files using names in new filelist. */
-	    else if( ( list = lcdfl() ) )
-	    { /* do nothing */ }
+    if (*nerr != 0)
+        goto L_8888;
 
-	    /* -- Bad syntax. */
-	    else{
-		cfmt( "ILLEGAL OPTION:",17 );
-		cresp();
-	    }
-	}
+    /* CHECKING PHASE: */
+    /* - Check for null write filelist. */
+    if (string_list_length(list) <= 0) {
+        *nerr = 1311;
+        setmsg("ERROR", *nerr);
+        goto L_8888;
+    }
 
-	if( *nerr != 0 )
-	    goto L_8888;
-
-	/* CHECKING PHASE: */
-	/* - Check for null write filelist. */
-	if( string_list_length(list) <= 0 ){
-	    *nerr = 1311;
-	    setmsg( "ERROR", *nerr );
-	    goto L_8888;
-	}
-
-	/* - Make sure the write filelist has one entry */
-	if( string_list_length(list) != 1 ){
-	    *nerr = 1312;
+    /* - Make sure the write filelist has one entry */
+    if (string_list_length(list) != 1) {
+        *nerr = 1312;
         error(*nerr, "%d %d", string_list_length(list), 1);
-	    goto L_8888;
-	}
+        goto L_8888;
+    }
 
-	/* EXECUTION PHASE: */
-        /* - Commit or rollback data according to lmore and cmdfm.icomORroll */
-	alignFiles ( nerr ) ;
-	if ( *nerr )
-	    return ;
+    /* EXECUTION PHASE: */
+    /* - Commit or rollback data according to lmore and cmdfm.icomORroll */
+    alignFiles(nerr);
+    if (*nerr)
+        return;
 
-	/* make filename */
-  pfile = prepare_output_filename(string_list_get(list, 0), lwrdir, kmdfm.kwrdir);
+    /* make filename */
+    pfile =
+        prepare_output_filename(string_list_get(list, 0), lwrdir, kmdfm.kwrdir);
 
-	ntraces = WriteGSEFile( pfile , smGetDefaultTree() ,
-                                ldatasource ? kdatasource : "" , cmdfm.lcm6 ) ;
-	if ( ntraces > 0 )
-	    printf ( "%d waveforms written in %s\n" , ntraces , pfile ) ;
-	else {
+    ntraces =
+        WriteGSEFile(pfile, smGetDefaultTree(), ldatasource ? kdatasource : "",
+                     cmdfm.lcm6);
+    if (ntraces > 0)
+        printf("%d waveforms written in %s\n", ntraces, pfile);
+    else {
         *nerr = 1344;
         error(*nerr, "%s", pfile);
-	    outmsg () ;
-	    clrmsg () ;
-	}
-  FREE(pfile);
-L_8888:
-	return;
+        outmsg();
+        clrmsg();
+    }
+    FREE(pfile);
+  L_8888:
+    return;
 }
-

@@ -19,17 +19,17 @@
 
 void
 make_label3(string, num, label)
-  char string[];
-  int *num;
-  char label[];
+     char string[];
+     int *num;
+     char label[];
 {
-  char kwin_num[8];
+    char kwin_num[8];
 
 /* Convert integer to integer and concatenate it to string */
 
-  sprintf(kwin_num, "%d", *num);
-  strcpy(label, string);
-  strcat(label, kwin_num);
+    sprintf(kwin_num, "%d", *num);
+    strcpy(label, string);
+    strcat(label, kwin_num);
 
 }
 

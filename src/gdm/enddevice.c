@@ -25,62 +25,58 @@
  * @date   831027:  Original version.
  *
  */
-void 
-enddevice(char *device,
-          int device_s,
-          int *nerr)
-{
-        display_t *dev;
+void
+enddevice(char *device, int device_s, int *nerr) {
+    display_t *dev;
 
-	*nerr = 0;
+    *nerr = 0;
 
-        DEBUG("device: '%s'\n", device);
+    DEBUG("device: '%s'\n", device);
 
-	/* - End current frame if necessary. */
-	if( cmgdm.lbegf ){
-		endframe( FALSE , nerr );
-		if( *nerr != 0 )
-			goto L_8888;
-	}
+    /* - End current frame if necessary. */
+    if (cmgdm.lbegf) {
+        endframe(FALSE, nerr);
+        if (*nerr != 0)
+            goto L_8888;
+    }
 
-	/* - Handle request to end all graphics devices here. Terminate library. */
+    /* - Handle request to end all graphics devices here. Terminate library. */
 
-	if( memcmp(device,"ALL",3) == 0 ){
-		endgraphics( nerr );
-		if( *nerr != 0 )
-			goto L_8888;
-	}
+    if (memcmp(device, "ALL", 3) == 0) {
+        endgraphics(nerr);
+        if (*nerr != 0)
+            goto L_8888;
+    }
 
-	/* - Check name versus list of graphics devices. */
-        //	else if( lequal( device,device_s, (char*)kmgdm.kgdnam,13, MGD, &igd ) ){
-        else if((dev = gdm_get_device_by_name(device))) {
-          if(dev->on) {
-            if(dev->end_device) {
-              dev->end_device( nerr );
+    /* - Check name versus list of graphics devices. */
+    //      else if( lequal( device,device_s, (char*)kmgdm.kgdnam,13, MGD, &igd ) ){
+    else if ((dev = gdm_get_device_by_name(device))) {
+        if (dev->on) {
+            if (dev->end_device) {
+                dev->end_device(nerr);
             }
             dev->on = FALSE;
-          } else{
+        } else {
             *nerr = 901;
-            setmsg( "ERROR", *nerr );
-            apcmsg( "in ENDDEVICE",13 );
+            setmsg("ERROR", *nerr);
+            apcmsg("in ENDDEVICE", 13);
             goto L_8888;
-          }
-	}
+        }
+    }
 
-	/*   Raise illegal device error if still no match. */
-	else{
-		*nerr = 201;
-		setmsg( "ERROR", *nerr );
-		apcmsg( device,device_s );
-		goto L_8888;
-	}
+    /*   Raise illegal device error if still no match. */
+    else {
+        *nerr = 201;
+        setmsg("ERROR", *nerr);
+        apcmsg(device, device_s);
+        goto L_8888;
+    }
 
-	/* - Calculate new values for graphics device status variables. */
+    /* - Calculate new values for graphics device status variables. */
 
-	calstatus();
+    calstatus();
 
-L_8888:
-	return;
+  L_8888:
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

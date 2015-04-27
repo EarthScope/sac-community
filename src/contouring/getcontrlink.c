@@ -11,12 +11,12 @@
 #include "mach.h"
 #include "contouring.h"
 extern struct contour contour;
-void 
+void
 getcontrlink(number, rlink)
-int number, *rlink;
+     int number, *rlink;
 {
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To get the reverse link for an existing 
 	 *           contouring line point.
 	 *=====================================================================
@@ -36,15 +36,13 @@ int number, *rlink;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900412
 	 *===================================================================== */
-	/* PROCEDURE: */
-	if( number <= cmcontouring.numpoints ){
-    *rlink = contour.points[number-1].rlink;
-	}
-	else{
-		fprintf( stdout, "Illegal point number: %d getcontrlink\n", number );
-		exit(0);
-	}
+    /* PROCEDURE: */
+    if (number <= cmcontouring.numpoints) {
+        *rlink = contour.points[number - 1].rlink;
+    } else {
+        fprintf(stdout, "Illegal point number: %d getcontrlink\n", number);
+        exit(0);
+    }
 
-	return;
+    return;
 }
-

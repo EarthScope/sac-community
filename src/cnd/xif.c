@@ -36,37 +36,36 @@
 void
 xif(int *nerr) {
 
-	char kcond[MCMSG+1], kresult[9];
+    char kcond[MCMSG + 1], kresult[9];
 
-	*nerr = 0;
+    *nerr = 0;
 
-	/* - Get rest of command line and store in condition string. */
-        memset(kcond,(int)' ',MCMSG);
-        kcond[MCMSG] = '\0';
+    /* - Get rest of command line and store in condition string. */
+    memset(kcond, (int) ' ', MCMSG);
+    kcond[MCMSG] = '\0';
 
-	/* - Evaluate condition. */
-	evallogical( kcond,MCMSG+1, kresult,9 );
-  if(arg()) {
-    if(!token_is_string(arg()) || strcasecmp(arg()->str, "then") != 0) {
-      arg_msg("Unexpected characters after IF: ");
+    /* - Evaluate condition. */
+    evallogical(kcond, MCMSG + 1, kresult, 9);
+    if (arg()) {
+        if (!token_is_string(arg()) || strcasecmp(arg()->str, "then") != 0) {
+            arg_msg("Unexpected characters after IF: ");
+        }
     }
-  }
-	if( memcmp(kresult,"ERROR",5) == 0 )
-		goto L_9000;
-	cnd.niflevel = cnd.niflevel + 1;
-	if( memcmp(kresult,"TRUE",4) == 0 )
-		Lifresp[cnd.niflevel] = TRUE;
-	if( memcmp(kresult,"FALSE",5) == 0 )
-		Lifresp[cnd.niflevel] = FALSE;
-	if( !Lifresp[cnd.niflevel] )
-		skipif( nerr );
+    if (memcmp(kresult, "ERROR", 5) == 0)
+        goto L_9000;
+    cnd.niflevel = cnd.niflevel + 1;
+    if (memcmp(kresult, "TRUE", 4) == 0)
+        Lifresp[cnd.niflevel] = TRUE;
+    if (memcmp(kresult, "FALSE", 5) == 0)
+        Lifresp[cnd.niflevel] = FALSE;
+    if (!Lifresp[cnd.niflevel])
+        skipif(nerr);
 
-L_8888:
-	return;
+  L_8888:
+    return;
 
-L_9000:
-	*nerr = ERROR_EVALUATING_LOGICAL_EXPRESSION;
-	setmsg( "ERROR", *nerr );
-	goto L_8888;
+  L_9000:
+    *nerr = ERROR_EVALUATING_LOGICAL_EXPRESSION;
+    setmsg("ERROR", *nerr);
+    goto L_8888;
 }
-

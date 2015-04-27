@@ -9,13 +9,14 @@
 #include "hdr.h"
 #include "bool.h"
 
-void getylm(lylmon, ystart, ystop)
-int *lylmon;
-float *ystart, *ystop;
+void
+getylm(lylmon, ystart, ystop)
+     int *lylmon;
+     float *ystart, *ystop;
 {
-  int i;
-  sac *s;
-	/*=====================================================================
+    int i;
+    sac *s;
+        /*=====================================================================
 	 * PURPOSE:  To return y axis plot limit attributes for current data file.
 	 *=====================================================================
 	 * OUTPUT ARGUMENTS:
@@ -35,46 +36,41 @@ float *ystart, *ystop;
 	 * - SETRNG calculates RNGMIN and RNGMAX.
 	 * - YLIM command defines KYLIMS and YLIMS.
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Determine proper limits for "current" data file: */
-  s = sacget_current();
-  i = sacget_current_id();
-  DEBUG("i: %d\n", i);
-  if(i < 0) {
+    /* PROCEDURE: */
+    /* - Determine proper limits for "current" data file: */
+    s = sacget_current();
+    i = sacget_current_id();
+    DEBUG("i: %d\n", i);
+    if (i < 0) {
+        return;
+    }
+    DEBUG("i: %d <%s>\n", i, kmgam.kylims[i]);
+    if (strcmp(kmgam.kylims[i], "ON      ") == 0) {
+
+        /* -- limits set to fixed values. */
+        *lylmon = TRUE;
+        *ystart = cmgam.ylims[i][0];
+        *ystop = cmgam.ylims[i][1];
+
+        /* -- limits set to range of entire data file list. */
+    } else if (strcmp(kmgam.kylims[i], "ALL     ") == 0) {
+        *lylmon = TRUE;
+        *ystart = cmgam.rngmin;
+        *ystop = cmgam.rngmax;
+        DEBUG("ALL: %f %f\n", cmgam.rngmin, cmgam.rngmax);
+        /* -- limits not fixed; plot will be scaled to data itself. */
+    } else {
+        *lylmon = FALSE;
+        *ystart = s->h->depmin;
+        *ystop = s->h->depmax;
+    }
+
     return;
-  }
-  DEBUG("i: %d <%s>\n", i, kmgam.kylims[i]);
-	if( strcmp(kmgam.kylims[i],"ON      ") == 0 ){
 
-		/* -- limits set to fixed values. */
-		*lylmon = TRUE;
-		*ystart = cmgam.ylims[i][0];
-		*ystop = cmgam.ylims[i][1];
-
-		/* -- limits set to range of entire data file list. */
-		}
-	else if( strcmp(kmgam.kylims[i],"ALL     ") == 0
-	  ){
-		*lylmon = TRUE;
-		*ystart = cmgam.rngmin;
-		*ystop = cmgam.rngmax;
-    DEBUG("ALL: %f %f\n", cmgam.rngmin, cmgam.rngmax);
-		/* -- limits not fixed; plot will be scaled to data itself. */
-		}
-	else{
-		*lylmon = FALSE;
-		*ystart = s->h->depmin;
-		*ystop = s->h->depmax;
-		}
-
-       
-	return;
-
-	/*=====================================================================
+        /*=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    810709:  Modifications for YLIM ALL option.
 	 *    810203:  Original version.
 	 *===================================================================== */
 
-} /* end of function */
-
+}                               /* end of function */

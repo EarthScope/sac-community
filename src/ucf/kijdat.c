@@ -7,7 +7,6 @@
 
 #include "ucf.h"
 
-
 #include "msg.h"
 
 /** 
@@ -32,48 +31,41 @@
  * @date   810120:  Changed to output message retrieval from disk.
  *
  */
-void 
-kijdat(
-       int   iyear, 
-       int   imonth, 
-       int   iday, 
-       int  *ijday, 
-       int  *nerr) { 
+void
+kijdat(int iyear, int imonth, int iday, int *ijday, int *nerr) {
 
-	int jmonth;
-	static int ndays[12]={31,28,31,30,31,30,31,31,30,31,30,31};
+    int jmonth;
+    static int ndays[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
-	int *const Ndays = &ndays[0] - 1;
+    int *const Ndays = &ndays[0] - 1;
 
-	*nerr = 0;
+    *nerr = 0;
 
-	/* - Make temporary leap year adjustment to days-in-month table
-	 *   if necessary. */
-	if( (iyear/4)*4 == iyear ){
-		Ndays[2] = 29;
-		}
-	else{
-		Ndays[2] = 28;
-		}
+    /* - Make temporary leap year adjustment to days-in-month table
+     *   if necessary. */
+    if ((iyear / 4) * 4 == iyear) {
+        Ndays[2] = 29;
+    } else {
+        Ndays[2] = 28;
+    }
 
-	/* - Check month and day fields for validity. */
-	if( ((imonth <= 0 || imonth > 12) || iday <= 0) || iday > Ndays[imonth] ){
-		*nerr = 909;
-		setmsg( "ERROR", *nerr );
-		apimsg( iyear );
-		apimsg( imonth );
-		apimsg( iday );
-		*ijday = 0;
-		goto L_8888;
-		}
+    /* - Check month and day fields for validity. */
+    if (((imonth <= 0 || imonth > 12) || iday <= 0) || iday > Ndays[imonth]) {
+        *nerr = 909;
+        setmsg("ERROR", *nerr);
+        apimsg(iyear);
+        apimsg(imonth);
+        apimsg(iday);
+        *ijday = 0;
+        goto L_8888;
+    }
 
-	/* - Compute julian day from days-in-month table. */
-	*ijday = iday;
-	for( jmonth = 1; jmonth <= (imonth - 1); jmonth++ ){
-		*ijday = *ijday + Ndays[jmonth];
-		}
+    /* - Compute julian day from days-in-month table. */
+    *ijday = iday;
+    for (jmonth = 1; jmonth <= (imonth - 1); jmonth++) {
+        *ijday = *ijday + Ndays[jmonth];
+    }
 
-L_8888:
-	return;
+  L_8888:
+    return;
 }
-

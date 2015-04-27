@@ -5,21 +5,21 @@
 
 #define PI M_PI
 
-void /*FUNCTION*/ toamph(rl, im, num, am, ph)
-float rl[], im[];
-int num;
-float am[], ph[];
+void /*FUNCTION*/
+toamph(rl, im, num, am, ph)
+     float rl[], im[];
+     int num;
+     float am[], ph[];
 {
-	int j;
-	float arg, parg, rl1;
+    int j;
+    float arg, parg, rl1;
 
-	float *const Am = &am[0] - 1;
-	float *const Im = &im[0] - 1;
-	float *const Ph = &ph[0] - 1;
-	float *const Rl = &rl[0] - 1;
+    float *const Am = &am[0] - 1;
+    float *const Im = &im[0] - 1;
+    float *const Ph = &ph[0] - 1;
+    float *const Rl = &rl[0] - 1;
 
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To convert two input arrays which contain real and imaginary
 	 *          components into two output arrays containing the equivalent
 	 *          amplitudes and phases.  The input and output arrays may be
@@ -47,31 +47,28 @@ float am[], ph[];
 	 * DOCUMENTED/REVIEWED:  870211
 	 *  NOTE - THIS ROUTINE WILL NOT WORK (CONSISTENTLY) WITH COMPLEX SIGNALS.
 	 *===================================================================== */
-	/* PROCEDURE: */
-	arg = Rl[1]*Rl[1] + Im[1]*Im[1];
-	/* Save first real value because am(1) is rl(1) from calling routine. */
-	rl1 = Rl[1];
-	Am[1] = sqrt( arg );
+    /* PROCEDURE: */
+    arg = Rl[1] * Rl[1] + Im[1] * Im[1];
+    /* Save first real value because am(1) is rl(1) from calling routine. */
+    rl1 = Rl[1];
+    Am[1] = sqrt(arg);
 
-	/* - BUG FIX 5/18/92 per PK et.al. */
-	if( rl1 < 0 ){
-		Ph[1] = PI;
-	}
-	else{
-		Ph[1] = 0.;
-	}
+    /* - BUG FIX 5/18/92 per PK et.al. */
+    if (rl1 < 0) {
+        Ph[1] = PI;
+    } else {
+        Ph[1] = 0.;
+    }
 
-	for( j = 2; j <= num; j++ ){
-		arg = Rl[j]*Rl[j] + Im[j]*Im[j];
-		if( arg > 0. ){
-			parg = atan2( Im[j], Rl[j] );
-		}
-		else{
-			parg = 0.;
-		}
-		Am[j] = sqrt( arg );
-		Ph[j] = parg;
-	}
+    for (j = 2; j <= num; j++) {
+        arg = Rl[j] * Rl[j] + Im[j] * Im[j];
+        if (arg > 0.) {
+            parg = atan2(Im[j], Rl[j]);
+        } else {
+            parg = 0.;
+        }
+        Am[j] = sqrt(arg);
+        Ph[j] = parg;
+    }
 
-} /* end of function */
-
+}                               /* end of function */

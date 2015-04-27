@@ -3,7 +3,6 @@
 #include "comlists.h"
 #include "site.h"
 
-
 #include "gcm.h"
 #include "uom.h"
 #include "gem.h"
@@ -27,13 +26,12 @@
 #include "fks.h"
 #include "coda.h"
 
-void /*FUNCTION*/ executecommand(module, index, nerr)
-int module, index, *nerr;
+void /*FUNCTION*/
+executecommand(module, index, nerr)
+     int module, index, *nerr;
 {
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To execute a SAC command given its module and index numbers.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -68,175 +66,150 @@ int module, index, *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900804
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* - Jump to correct module number. */
+    /* - Jump to correct module number. */
 
-	switch( module ){
-		case 1: goto L_100;
-		case 2: goto L_200;
-		case 3: goto L_300;
-		case 4: goto L_400;
-		case 5: goto L_500;
-		case 6: goto L_600;
-		case 7: goto L_700;
-		case 8: goto L_800;
-		case 9: goto L_900;
-		case 10: goto L_1000;
-		case 11: goto L_1100;
-		case 12: goto L_1200;
-		case 13: goto L_1300;
-		case 14: goto L_1400;
-		case 15: goto L_1500;
-		case 16: goto L_1600;
-		case 17: goto L_1700;
-		case 18: goto L_1800;
+    switch (module) {
+        case 1:
+            goto L_100;
+        case 2:
+            goto L_200;
+        case 3:
+            goto L_300;
+        case 4:
+            goto L_400;
+        case 5:
+            goto L_500;
+        case 6:
+            goto L_600;
+        case 7:
+            goto L_700;
+        case 8:
+            goto L_800;
+        case 9:
+            goto L_900;
+        case 10:
+            goto L_1000;
+        case 11:
+            goto L_1100;
+        case 12:
+            goto L_1200;
+        case 13:
+            goto L_1300;
+        case 14:
+            goto L_1400;
+        case 15:
+            goto L_1500;
+        case 16:
+            goto L_1600;
+        case 17:
+            goto L_1700;
+        case 18:
+            goto L_1800;
 
-		case 19: goto L_1900;
-      //case 20: goto L_2000;
-		}
+        case 19:
+            goto L_1900;
+            //case 20: goto L_2000;
+    }
 
-	
+    if (module == MODULEEXTCOM) {       /* - "External Command Module" */
+        zexecute(index, nerr);
+        goto L_8888;
+    }
 
-	if( module == MODULEEXTCOM ){      /* - "External Command Module" */
-		zexecute( index, nerr );
-		goto L_8888;
-		}
+    if (module == MODULESITECOM) {      /* - "Installation (Site) Dependent Module" */
+        xsitecom(index, nerr);
+        goto L_8888;
+    }
 
-	
+    *nerr = 901;                /* - Return if bad value for module number. */
+    setmsg("ERROR", *nerr);
+    apcmsg("in EXECUTECOMMAND", 18);
+    goto L_8888;
 
-	if( module == MODULESITECOM ){     /* - "Installation (Site) Dependent Module" */
-		xsitecom( index, nerr );
-		goto L_8888;
-		}
+  L_100:
+    xexmc(index, nerr);         /* - Module EXM:  Executive Module */
+    goto L_8888;
 
-	
+  L_200:
+    xdfmc(index, nerr);         /* - Module DFM:  Data File Module */
+    goto L_8888;
 
-	*nerr = 901;			   /* - Return if bad value for module number. */
-	setmsg( "ERROR", *nerr );
-	apcmsg( "in EXECUTECOMMAND",18 );
-	goto L_8888;
+  L_300:
+    xgcmc(index, nerr);         /* - Module GCM:  Graphics Control Module */
+    goto L_8888;
 
-	
+  L_400:
+    xgemc(index, nerr);         /* - Module GEM:  Graphic Environment Module */
+    goto L_8888;
 
-L_100:
-	xexmc( index, nerr );   /* - Module EXM:  Executive Module */
-	goto L_8888;
+  L_500:
+    xgamc(index, nerr);         /* - Module GAM:  Graphic Action Module */
+    goto L_8888;
 
-	
+  L_600:
+    xsamc(index, nerr);         /* - Module SAM:  Spectral Analysis Module */
+    goto L_8888;
 
-L_200:
-	xdfmc( index, nerr );   /* - Module DFM:  Data File Module */
-	goto L_8888;
+  L_700:
+    xuomc(index, nerr);         /* - Module UOM:  Unary Operations Module */
+    goto L_8888;
 
-	
+  L_800:
+    xbomc(index, nerr);         /* - Module BOM:  Binary Operations Module */
+    goto L_8888;
 
-L_300:
-	xgcmc( index, nerr );   /* - Module GCM:  Graphics Control Module */
-	goto L_8888;
+  L_900:
+    xeamc(index, nerr);         /* - Module EAM:  Event Analysis Module */
+    goto L_8888;
 
-	
+  L_1000:
+    xscmc(index, nerr);         /* - Module SCM: Signal Correction Module */
+    goto L_8888;
 
-L_400:
-	xgemc( index, nerr );   /* - Module GEM:  Graphic Environment Module */
-	goto L_8888;
+  L_1100:
+    xspec(index, nerr);         /* - Module SPE:  Spectral Estimation Subprocess */
+    goto L_8888;
 
-	
+  L_1200:
+    xsssc(index, nerr);         /* - Module SSS:  Signal Stacking Subprocess */
+    goto L_8888;
 
-L_500:
-	xgamc( index, nerr );   /* - Module GAM:  Graphic Action Module */
-	goto L_8888;
+  L_1300:
+    xsmmc(index, nerr);         /* - Module SMM:  Signal Measurement Module */
+    goto L_8888;
 
-	
+  L_1400:
+    xicmc(index, nerr);         /* - Module ICM:  Instrument Correction Module */
+    goto L_8888;
 
-L_600:
-	xsamc( index, nerr );   /* - Module SAM:  Spectral Analysis Module */
-	goto L_8888;
+  L_1500:
+    xcndc(index, nerr);         /* - Module CND:  Conditional Execution Module */
+    goto L_8888;
 
-	
+  L_1600:
+    xnnmc(index, nerr);         /* - Module NNM:  Neural Network Module */
+    goto L_8888;
 
-L_700:
-	xuomc( index, nerr );   /* - Module UOM:  Unary Operations Module */
-	goto L_8888;
+  L_1700:
+    xxyzc(index, nerr);         /* - Module "xyz":  XYZ (3-d) Data Processing Module */
+    goto L_8888;
 
-	
+  L_1800:
+    xfksc(index, nerr);         /* - Module "fks":  frequency-wavenumber (k) spectral analysis */
+    goto L_8888;
 
-L_800:
-	xbomc( index, nerr );   /* - Module BOM:  Binary Operations Module */
-	goto L_8888;
+  L_1900:
+    xmatc(index, nerr);         /* - Module "mat":  matlab analysis routines */
+    goto L_8888;
 
-	
+    //L_2000:
+    //xcoda( index, nerr ); /* - Module "coda": Kevin Mayeda's coda magnitude */
+    goto L_8888;
 
-L_900:
-	xeamc( index, nerr );   /* - Module EAM:  Event Analysis Module */
-	goto L_8888;
+  L_8888:
+    return;
 
-	
-
-L_1000:
-	xscmc( index, nerr );   /* - Module SCM: Signal Correction Module */
-	goto L_8888;
-
-	
-
-L_1100:
-	xspec( index, nerr );   /* - Module SPE:  Spectral Estimation Subprocess */
-	goto L_8888;
-
-	
-
-L_1200:
-	xsssc( index, nerr );   /* - Module SSS:  Signal Stacking Subprocess */
-	goto L_8888;
-
-	
-
-L_1300:
-	xsmmc( index, nerr );   /* - Module SMM:  Signal Measurement Module */
-	goto L_8888;
-
-	
-
-L_1400:
-	xicmc( index, nerr );   /* - Module ICM:  Instrument Correction Module */
-	goto L_8888;
-
-	
-
-L_1500:
-	xcndc( index, nerr );   /* - Module CND:  Conditional Execution Module */
-	goto L_8888;
-
-	
-
-L_1600:
-	xnnmc( index, nerr );   /* - Module NNM:  Neural Network Module */
-	goto L_8888;
-
-	
-
-L_1700:
-	xxyzc( index, nerr );  /* - Module "xyz":  XYZ (3-d) Data Processing Module */
-	goto L_8888;
-
-	
-
-L_1800:
-	xfksc( index, nerr ); /* - Module "fks":  frequency-wavenumber (k) spectral analysis */
-	goto L_8888;
-	
-
-L_1900:
-	xmatc( index, nerr ); /* - Module "mat":  matlab analysis routines */
-	goto L_8888;
-	
-  //L_2000:
-	//xcoda( index, nerr ); /* - Module "coda": Kevin Mayeda's coda magnitude */
-	goto L_8888;
-
-L_8888:
-	return;
-
-} /* end of function */
-
+}                               /* end of function */

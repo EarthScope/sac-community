@@ -3,17 +3,15 @@
 
 #include "gd2.h"
 
-
 #include "co.h"
 #include "bot.h"
 
-void /*FUNCTION*/ setsgfprefix(prefix)
-char *prefix;
+void /*FUNCTION*/
+setsgfprefix(prefix)
+     char *prefix;
 {
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To set the prefix to use for
 	 *           subsequent SAC Graphics Files (SGF).
 	 *=====================================================================
@@ -38,17 +36,15 @@ char *prefix;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  861020
 	 *===================================================================== */
-	/* PROCEDURE: */
-	fstrncpy( kmgd2.kfnamb, MCPFN, prefix, strlen(prefix));
-	cmgd2.nfnamb = indexb( kmgd2.kfnamb,MCPFN+1 );
+    /* PROCEDURE: */
+    fstrncpy(kmgd2.kfnamb, MCPFN, prefix, strlen(prefix));
+    cmgd2.nfnamb = indexb(kmgd2.kfnamb, MCPFN + 1);
 
-	if( cmgd2.nfnamb <= 0 ){
-		fstrncpy( kmgd2.kfnamb, MCPFN, "F", 1);
-		cmgd2.nfnamb = 1;
-		}
+    if (cmgd2.nfnamb <= 0) {
+        fstrncpy(kmgd2.kfnamb, MCPFN, "F", 1);
+        cmgd2.nfnamb = 1;
+    }
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

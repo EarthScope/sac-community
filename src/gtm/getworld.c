@@ -1,13 +1,12 @@
 
 #include "gtm.h"
 
-void /*FUNCTION*/ getworld(xmin, xmax, ymin, ymax)
-float *xmin, *xmax, *ymin, *ymax;
+void /*FUNCTION*/
+getworld(xmin, xmax, ymin, ymax)
+     float *xmin, *xmax, *ymin, *ymax;
 {
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To get the world coordinate limits.
 	 *=====================================================================
 	 * OUTPUT ARGUMENTS:
@@ -27,15 +26,13 @@ float *xmin, *xmax, *ymin, *ymax;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900310
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Return current world coordinates. */
-	*xmin = cmgtm.xwcmin;
-	*xmax = cmgtm.xwcmax;
-	*ymin = cmgtm.ywcmin;
-	*ymax = cmgtm.ywcmax;
+    /* PROCEDURE: */
+    /* - Return current world coordinates. */
+    *xmin = cmgtm.xwcmin;
+    *xmax = cmgtm.xwcmax;
+    *ymin = cmgtm.ywcmin;
+    *ymax = cmgtm.ywcmax;
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

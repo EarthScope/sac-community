@@ -4,14 +4,13 @@
 #include "sam.h"
 #include "bool.h"
 
-
 #include "co.h"
 
-void /*FUNCTION*/ inisam()
-{
-	char krtbwi[9], krtewi[9];
+void /*FUNCTION*/
+inisam() {
+    char krtbwi[9], krtewi[9];
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: Variable initialization of common block CMSAM.
 	 *=====================================================================
 	 * PARAMETERS:
@@ -111,116 +110,115 @@ void /*FUNCTION*/ inisam()
 	 *             = 1 use logarithmic interpolation.
 	 *=====================================================================
 	 * VARIABLE DEFINITIONS FOR: FILTERDESIGN command. */
-	/*                      Used for plotting and writing spectral components.
-	 *   NDATPTS            Number of points used in signal data sets.
-	 *                      This is actually a parameter.
-	 *   NIMPPTS            Number of points used in impulse resposne data set.
-	 *                      This is actually a parameter.
-	 *   FDDELTA            Sampling interval for the data set. User selectable
-	 *                      for the filterdesign command. Actual filtering
-	 *                      commands get the delta from the SAC file header.
-	 *   KTPIIR             Array of types or classes of IIR filters:
-	 *                      (1)='BU' for Butterworth filter.
-	 *                      (2)='BE' for Bessel filter.
-	 *                      (3)='C1' for Chebyshev Type I filter.
-	 *                      (4)='C2' for Chebyshev Type II filter.
-	 *   KPROTYP            Array of prototypes for the filters:
-	 *                      (1)='AM'  for analog amplitude.
-	 *                      (2)='PH'  for analog phase.
-	 *                      (3)='GD'  for analog group delay.
-	 *                      (4)='DAM' for digital amplitude.
-	 *                      (5)='DPH' for digital phase.
-	 *                      (6)='DGD' for digital group delay.
-	 *===================================================================== */
-	/* PROCEDURE: */
-	cmsam.ifwd = -1;
-	cmsam.ibwd = 1;
-	cmsam.lrlim = FALSE;
-	cmsam.lwmean = TRUE;
-	cmsam.lspfwd = TRUE;
-	cmsam.lspbwd = TRUE;
+    /*                      Used for plotting and writing spectral components.
+     *   NDATPTS            Number of points used in signal data sets.
+     *                      This is actually a parameter.
+     *   NIMPPTS            Number of points used in impulse resposne data set.
+     *                      This is actually a parameter.
+     *   FDDELTA            Sampling interval for the data set. User selectable
+     *                      for the filterdesign command. Actual filtering
+     *                      commands get the delta from the SAC file header.
+     *   KTPIIR             Array of types or classes of IIR filters:
+     *                      (1)='BU' for Butterworth filter.
+     *                      (2)='BE' for Bessel filter.
+     *                      (3)='C1' for Chebyshev Type I filter.
+     *                      (4)='C2' for Chebyshev Type II filter.
+     *   KPROTYP            Array of prototypes for the filters:
+     *                      (1)='AM'  for analog amplitude.
+     *                      (2)='PH'  for analog phase.
+     *                      (3)='GD'  for analog group delay.
+     *                      (4)='DAM' for digital amplitude.
+     *                      (5)='DPH' for digital phase.
+     *                      (6)='DGD' for digital group delay.
+     *===================================================================== */
+    /* PROCEDURE: */
+    cmsam.ifwd = -1;
+    cmsam.ibwd = 1;
+    cmsam.lrlim = FALSE;
+    cmsam.lwmean = TRUE;
+    cmsam.lspfwd = TRUE;
+    cmsam.lspbwd = TRUE;
 
-	cmsam.fddelta = 0.025;
+    cmsam.fddelta = 0.025;
 
-	strcpy( kmsam.ktpiir[0], "BUTTER  " );
-	strcpy( kmsam.ktpiir[1], "BESSEL  " );
-	strcpy( kmsam.ktpiir[2], "C1      " );
-	strcpy( kmsam.ktpiir[3], "C2      " );
+    strcpy(kmsam.ktpiir[0], "BUTTER  ");
+    strcpy(kmsam.ktpiir[1], "BESSEL  ");
+    strcpy(kmsam.ktpiir[2], "C1      ");
+    strcpy(kmsam.ktpiir[3], "C2      ");
 
-	strcpy( kmsam.kprotyp[0], "AM " );
-	strcpy( kmsam.kprotyp[1], "PH " );
-	strcpy( kmsam.kprotyp[2], "GD " );
-	strcpy( kmsam.kprotyp[3], "DAM" );
-	strcpy( kmsam.kprotyp[4], "DPH" );
-	strcpy( kmsam.kprotyp[5], "DGD" );
+    strcpy(kmsam.kprotyp[0], "AM ");
+    strcpy(kmsam.kprotyp[1], "PH ");
+    strcpy(kmsam.kprotyp[2], "GD ");
+    strcpy(kmsam.kprotyp[3], "DAM");
+    strcpy(kmsam.kprotyp[4], "DPH");
+    strcpy(kmsam.kprotyp[5], "DGD");
 
-	cmsam.itplp = 1;
-	cmsam.npollp = 2;
-	cmsam.npaslp = 1;
-	cmsam.cflp = 0.4;
-	cmsam.tbwlp = 0.3;
-	cmsam.atnlp = 30.0;
-	cmsam.itphp = 1;
-	cmsam.npolhp = 2;
-	cmsam.npashp = 1;
-	cmsam.cfhp = 0.2;
-	cmsam.tbwhp = 0.3;
-	cmsam.atnhp = 30.0;
-	cmsam.itpbp = 1;
-	cmsam.npolbp = 2;
-	cmsam.npasbp = 1;
-	cmsam.cfbp1 = 0.1;
-	cmsam.cfbp2 = 0.4;
-	cmsam.tbwbp = 0.3;
-	cmsam.atnbp = 30.0;
-	cmsam.itpbr = 1;
-	cmsam.npolbr = 2;
-	cmsam.npasbr = 1;
-	cmsam.cfbr1 = 0.1;
-	cmsam.cfbr2 = 0.4;
-	cmsam.tbwbr = 0.3;
-	cmsam.atnbr = 30.0;
-	cmsam.lmu = FALSE ;
-	cmsam.lepsilon = FALSE ;
-	
+    cmsam.itplp = 1;
+    cmsam.npollp = 2;
+    cmsam.npaslp = 1;
+    cmsam.cflp = 0.4;
+    cmsam.tbwlp = 0.3;
+    cmsam.atnlp = 30.0;
+    cmsam.itphp = 1;
+    cmsam.npolhp = 2;
+    cmsam.npashp = 1;
+    cmsam.cfhp = 0.2;
+    cmsam.tbwhp = 0.3;
+    cmsam.atnhp = 30.0;
+    cmsam.itpbp = 1;
+    cmsam.npolbp = 2;
+    cmsam.npasbp = 1;
+    cmsam.cfbp1 = 0.1;
+    cmsam.cfbp2 = 0.4;
+    cmsam.tbwbp = 0.3;
+    cmsam.atnbp = 30.0;
+    cmsam.itpbr = 1;
+    cmsam.npolbr = 2;
+    cmsam.npasbr = 1;
+    cmsam.cfbr1 = 0.1;
+    cmsam.cfbr2 = 0.4;
+    cmsam.tbwbr = 0.3;
+    cmsam.atnbr = 30.0;
+    cmsam.lmu = FALSE;
+    cmsam.lepsilon = FALSE;
 
-	cmsam.lrqrec = FALSE;
-	fstrncpy( cmsam.knmfir, MCPFN, "FIR", 3 );
-	cmsam.ncwien = 30;
-	cmsam.wienwb = 0.;
-	cmsam.wienwe = 0.;
-	cmsam.wienmu = 0.;
-	cmsam.lrtwwi = TRUE;
-	strcpy( krtbwi, "B       " );
-	strcpy( krtewi, "B       " );
+    cmsam.lrqrec = FALSE;
+    fstrncpy(cmsam.knmfir, MCPFN, "FIR", 3);
+    cmsam.ncwien = 30;
+    cmsam.wienwb = 0.;
+    cmsam.wienwe = 0.;
+    cmsam.wienmu = 0.;
+    cmsam.lrtwwi = TRUE;
+    strcpy(krtbwi, "B       ");
+    strcpy(krtewi, "B       ");
 
-	cmsam.nsptpl = 8;
-	strcpy( kmsam.ksptpl[0], "ASIS" );
-	strcpy( kmsam.ksptpl[1], "RLIM" );
-	strcpy( kmsam.ksptpl[2], "AMPH" );
-	strcpy( kmsam.ksptpl[3], "RL" );
-	strcpy( kmsam.ksptpl[4], "IM" );
-	strcpy( kmsam.ksptpl[5], "AM" );
-	strcpy( kmsam.ksptpl[6], "PH" );
-	strcpy( kmsam.ksptpl[7], "POWER" );
-	cmsam.lrspe = FALSE;
-	cmsam.lramph = TRUE;
-	strcpy( kmsam.kwsptp, "ASIS    " );
-	cmsam.lwspov = TRUE;
-	cmsam.nwspfl = 0;
-	cmsam.lwamph = FALSE;
-	cmsam.lwrlim = FALSE;
-	cmsam.lwspc1 = TRUE;
-	cmsam.lwspc2 = TRUE;
-	strcpy( kmsam.kpsptp, "ASIS    " );
-	cmsam.lpamph = FALSE;
-	cmsam.lprlim = FALSE;
-	cmsam.lpspc1 = TRUE;
-	cmsam.lpspc2 = TRUE;
-	cmsam.ixspin = 1;
-	cmsam.iyspin = 1;
+    cmsam.nsptpl = 8;
+    strcpy(kmsam.ksptpl[0], "ASIS");
+    strcpy(kmsam.ksptpl[1], "RLIM");
+    strcpy(kmsam.ksptpl[2], "AMPH");
+    strcpy(kmsam.ksptpl[3], "RL");
+    strcpy(kmsam.ksptpl[4], "IM");
+    strcpy(kmsam.ksptpl[5], "AM");
+    strcpy(kmsam.ksptpl[6], "PH");
+    strcpy(kmsam.ksptpl[7], "POWER");
+    cmsam.lrspe = FALSE;
+    cmsam.lramph = TRUE;
+    strcpy(kmsam.kwsptp, "ASIS    ");
+    cmsam.lwspov = TRUE;
+    cmsam.nwspfl = 0;
+    cmsam.lwamph = FALSE;
+    cmsam.lwrlim = FALSE;
+    cmsam.lwspc1 = TRUE;
+    cmsam.lwspc2 = TRUE;
+    strcpy(kmsam.kpsptp, "ASIS    ");
+    cmsam.lpamph = FALSE;
+    cmsam.lprlim = FALSE;
+    cmsam.lpspc1 = TRUE;
+    cmsam.lpspc2 = TRUE;
+    cmsam.ixspin = 1;
+    cmsam.iyspin = 1;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * VARIABLE DEFINITIONS FOR: TAPER command.
 	 *    MTAPTP:  Maximum number of taper types. [p]
 	 *    KTAPTP:  List of taper types. [k]
@@ -229,29 +227,29 @@ void /*FUNCTION*/ inisam()
 	 *    WIDTAP:  Fractional width of taper at each end. [f]
 	 *===================================================================== */
 
-	strcpy( kmsam.ktaptp[0], "COSINE  " );
-	strcpy( kmsam.ktaptp[1], "HANNING " );
-	strcpy( kmsam.ktaptp[2], "HAMMING " );
-	cmsam.ntaptp = 3;
-	cmsam.itaptp = 2;
-	cmsam.widtap = 0.05;
+    strcpy(kmsam.ktaptp[0], "COSINE  ");
+    strcpy(kmsam.ktaptp[1], "HANNING ");
+    strcpy(kmsam.ktaptp[2], "HAMMING ");
+    cmsam.ntaptp = 3;
+    cmsam.itaptp = 2;
+    cmsam.widtap = 0.05;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * VARIABLE DEFINITIONS FOR: UNWRAP command.
 	 *===================================================================== */
 
-	cmsam.lunwfz = FALSE;
-	cmsam.vunwit = 1.5;
-	cmsam.vunwct = 0.5;
+    cmsam.lunwfz = FALSE;
+    cmsam.vunwit = 1.5;
+    cmsam.vunwct = 0.5;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * VARIABLE DEFINITIONS FOR: KHRONHITE command.
 	 *    CUTKHR:  Cutoff frequency for khronhite filter. [f]
 	 *===================================================================== */
 
-	cmsam.cutkhr = 2.0;
+    cmsam.cutkhr = 2.0;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * VARIABLE DEFINITIONS FOR: CROSS command.
 	 *    NWIN:    Number of (potentially overlapping) windows. [i]
 	 *    LWINLN:  Set to .TRUE. if a fixed window length is desired. [l]
@@ -262,22 +260,21 @@ void /*FUNCTION*/ inisam()
 	 *    IWINTP:  Desired window type. [i]
 	 *===================================================================== */
 
-	cmsam.nwin = 1;
-	cmsam.lwinln = FALSE;
-	cmsam.winln = 0.;
-	cmsam.imast = 1;
-  cmsam.amplitude = 0;
-	strcpy( kmsam.kwintp[0], "HAMMING " );
-	strcpy( kmsam.kwintp[1], "HANNING " );
-	strcpy( kmsam.kwintp[2], "COSINE  " );
-	strcpy( kmsam.kwintp[3], "RECTANGL" );
-	strcpy( kmsam.kwintp[4], "TRIANGLE" );
-	cmsam.iwintp = 4;
+    cmsam.nwin = 1;
+    cmsam.lwinln = FALSE;
+    cmsam.winln = 0.;
+    cmsam.imast = 1;
+    cmsam.amplitude = 0;
+    strcpy(kmsam.kwintp[0], "HAMMING ");
+    strcpy(kmsam.kwintp[1], "HANNING ");
+    strcpy(kmsam.kwintp[2], "COSINE  ");
+    strcpy(kmsam.kwintp[3], "RECTANGL");
+    strcpy(kmsam.kwintp[4], "TRIANGLE");
+    cmsam.iwintp = 4;
 
-       
-	return;
+    return;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    960723:  Added cmsam.lmu and cmsam.lepsilon
 	 *    901115:  Added fddelta as a variable to cmsam for filterdesign.
@@ -292,5 +289,4 @@ void /*FUNCTION*/ inisam()
 	 *    810413:  Original version.
 	 *===================================================================== */
 
-} /* end of function */
-
+}                               /* end of function */

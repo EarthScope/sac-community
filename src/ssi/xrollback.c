@@ -2,8 +2,8 @@
 #include "ssi.h"
 #include "dfm.h"
 
-void 
-xrollback (int *nerr) {
+void
+xrollback(int *nerr) {
 
         /*=====================================================================
          * PURPOSE:  To execute the action command ROLLBACK.
@@ -26,9 +26,8 @@ xrollback (int *nerr) {
 	 *	980915:	Original version.
          *=====================================================================*/
 
-    *nerr = 0 ;
+    *nerr = 0;
 
-    rollback ( allHeader , nerr ) ;
+    rollback(allHeader, nerr);
 
 }
-

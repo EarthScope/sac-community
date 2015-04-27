@@ -8,7 +8,6 @@
 #include <ctype.h>
 #include <string.h>
 
-
 /** 
  * Takes a space-padded string, and terminates it at the first space.
  * 
@@ -22,13 +21,11 @@
  * @note Requires that string be terminated at the end of the padding.
  *
  */
-void 
-terminate (char * paddedString) {
+void
+terminate(char *paddedString) {
 
-    int nLen ;
+    int nLen;
 
-    for ( nLen = strlen ( paddedString ) - 1 ; 
-	  isspace ( paddedString[ nLen ] ) ;
-	  nLen-- )
-      paddedString[ nLen ] = '\0' ;
+    for (nLen = strlen(paddedString) - 1; isspace(paddedString[nLen]); nLen--)
+        paddedString[nLen] = '\0';
 }

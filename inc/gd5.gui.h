@@ -70,18 +70,18 @@
 #include "gd3.aux.h"
 
 struct win_status5 {
-  Window win;
-  int width_p;
-  int height_p;
-  int status;
-  GC  gc;
+    Window win;
+    int width_p;
+    int height_p;
+    int status;
+    GC gc;
 };
 
 point current_pt_p5;
 /*  struct win_status3 basew3[MAX_WINS+1]; */
 /*  struct win_status3 titlew3[MAX_WINS+1]; */
-struct win_status5 plotw5[MAX_WINS+1];
-GC cursorgc5[MAX_WINS+1];
+struct win_status5 plotw5[MAX_WINS + 1];
+GC cursorgc5[MAX_WINS + 1];
 /* unsigned int borderwidth5; */
 int current_mouse_x_p5, current_mouse_y_p5;
 int num_wins5;
@@ -101,112 +101,53 @@ Display *display5;
 XColor pixdef5[256];
 unsigned long color5;
 
-
-void begindevice5 ( int *nerr);
-void beginframe5 ( int *nerr);
-void beginwindow5 ( int *win_num, 
-	 int *nerr);
-void calc_loc5 ( unsigned int *xloc, 
-	 unsigned int *yloc, 
-	 unsigned int *cbarxoffset, 
-	 unsigned int *cbaryoffset, 
-	 unsigned int w_width, 
-	 unsigned int w_height, 
-	 double xpmn, 
-	 double xpmx, 
-	 double xmin, 
-	 double first, 
-	 double last, 
-	 double ypmn, 
-	 double ypdel, 
-	 int *nerr);
-void cbar_window5 ( unsigned int xloc, 
-	 unsigned int yloc, 
-	 unsigned int height, 
-	 unsigned int w_height, 
-	 unsigned int w_width, 
-	 double vspaceratio, 
-	 double ypmax, 
-	 int *nerr);
-void changectable5 ( int nentry, 
-	 int icolortable);
-void createwindow5 ( int *win_num, 
-	 float *xmin_vp, 
-	 float *xmax_vp, 
-	 float *ymin_vp, 
-	 float *ymax_vp, 
-	 int *nerr);
-void cursor5 ( float *xloc_vp, 
-	 float *yloc_vp, 
-	 char cchar[], 
-	 int cchar_length);
-void cursortext5 ( float *xloc_vp, 
-	 float *yloc_vp, 
-	 char ktext[], 
-	 int ktext_length);
-int dispatchevent5 ( int *nerr);
-void draw5 ( float xloc_vp, 
-             float yloc_vp);
-void drawpoly5 ( float *xloc_vp, 
-                float *yloc_vp, 
-                int npts);
-void enddevice5 ( int *nerr);
-void endframe5 ( int *nerr);
-void erase5 (void);
-char *fill_clrbar5 ( int npseudocolors, 
-	 int width, 
-	 int npricolors, 
-	 int ndefcolors, 
-	 int *nerr);
-char *fill_image5 ( unsigned int height, 
-	 unsigned int width, 
-	 float data[], 
-	 double dmin, 
-	 double range, 
-	 int npseudocolors, 
-	 int nsaccolors, 
-	 int ndefcolors, 
-	 int *nerr);
-void flushbuffer5 ( int *nerr);
-void get_geometry5 ( int window, 
-	 unsigned int *width_return, 
-	 unsigned int *height_return, 
-	 int *nerr);
-void getalphainfo5 ( int *num_lines, 
-	 char erase[], 
-	 int erase_length);
-int getdeviceinfo5 ( char dev_name[], 
-	 int dev_name_length, 
-	 int *dev_type);
-void getdevicerat5 ( float *ratio);
-void getratio5 ( float *ratio);
-void getwindowstat5 ( int win_num, 
-	 int *exists);
-void initdevice5 ( Display *display, 
-                   Widget draw_area);
-void move5 ( float xloc_vp, 
-	 float yloc_vp);
-void put_image5 ( char *data, 
-	 unsigned int xloc, 
-	 unsigned int yloc, 
-	 unsigned int width, 
-	 unsigned int height, 
-	 int *nerr);
-void setcolor5 ( int index);
-void setctable5 ( int win_num, 
-	 unsigned int nentry, 
-	 float red[], 
-	 float green[], 
-	 float blue[]);
-void setlinestyle5 ( int *linestyle);
-void setpsctable5 ( int *win_num, 
-	 unsigned int nentry, 
-	 float red[], 
-	 float green[], 
-	 float blue[]);
-void settextsize5 ( float width, 
-                    float height);
-void setwidth5 ( int index);
-
+void begindevice5(int *nerr);
+void beginframe5(int *nerr);
+void beginwindow5(int *win_num, int *nerr);
+void calc_loc5(unsigned int *xloc, unsigned int *yloc,
+               unsigned int *cbarxoffset, unsigned int *cbaryoffset,
+               unsigned int w_width, unsigned int w_height, double xpmn,
+               double xpmx, double xmin, double first, double last, double ypmn,
+               double ypdel, int *nerr);
+void cbar_window5(unsigned int xloc, unsigned int yloc, unsigned int height,
+                  unsigned int w_height, unsigned int w_width,
+                  double vspaceratio, double ypmax, int *nerr);
+void changectable5(int nentry, int icolortable);
+void createwindow5(int *win_num, float *xmin_vp, float *xmax_vp, float *ymin_vp,
+                   float *ymax_vp, int *nerr);
+void cursor5(float *xloc_vp, float *yloc_vp, char cchar[], int cchar_length);
+void cursortext5(float *xloc_vp, float *yloc_vp, char ktext[],
+                 int ktext_length);
+int dispatchevent5(int *nerr);
+void draw5(float xloc_vp, float yloc_vp);
+void drawpoly5(float *xloc_vp, float *yloc_vp, int npts);
+void enddevice5(int *nerr);
+void endframe5(int *nerr);
+void erase5(void);
+char *fill_clrbar5(int npseudocolors, int width, int npricolors, int ndefcolors,
+                   int *nerr);
+char *fill_image5(unsigned int height, unsigned int width, float data[],
+                  double dmin, double range, int npseudocolors, int nsaccolors,
+                  int ndefcolors, int *nerr);
+void flushbuffer5(int *nerr);
+void get_geometry5(int window, unsigned int *width_return,
+                   unsigned int *height_return, int *nerr);
+void getalphainfo5(int *num_lines, char erase[], int erase_length);
+int getdeviceinfo5(char dev_name[], int dev_name_length, int *dev_type);
+void getdevicerat5(float *ratio);
+void getratio5(float *ratio);
+void getwindowstat5(int win_num, int *exists);
+void initdevice5(Display * display, Widget draw_area);
+void move5(float xloc_vp, float yloc_vp);
+void put_image5(char *data, unsigned int xloc, unsigned int yloc,
+                unsigned int width, unsigned int height, int *nerr);
+void setcolor5(int index);
+void setctable5(int win_num, unsigned int nentry, float red[], float green[],
+                float blue[]);
+void setlinestyle5(int *linestyle);
+void setpsctable5(int *win_num, unsigned int nentry, float red[], float green[],
+                  float blue[]);
+void settextsize5(float width, float height);
+void setwidth5(int index);
 
 #endif /* _GD5_GUI_H_ */

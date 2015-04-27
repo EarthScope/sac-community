@@ -34,194 +34,201 @@
 #include "token.h"
 #include "debug.h"
 
-static Token *tok0 = NULL; /* First token   */
-static Token *tok  = NULL; /* Current token */
-static eval  *e0 = NULL; 
+static Token *tok0 = NULL;      /* First token   */
+static Token *tok = NULL;       /* Current token */
+static eval *e0 = NULL;
 
 Token *
 arg() {
-  return tok;
+    return tok;
 }
 
 void
 arg_reset() {
-  if(tok0) {
-    token_free(tok0);
-    tok0 = NULL;
-  }  
+    if (tok0) {
+        token_free(tok0);
+        tok0 = NULL;
+    }
 }
 
 void
 arg_next() {
-  tok = tok->next;
+    tok = tok->next;
 }
 
 void
 arg_prev() {
-  Token *p = tok0; /* Global first token */
-  while(p && p->next != tok) {
-    p = p->next;
-  }
-  tok = p;
+    Token *p = tok0;            /* Global first token */
+    while (p && p->next != tok) {
+        p = p->next;
+    }
+    tok = p;
 }
 
 void
 arg_end() {
-  Token *p = tok0; /* Global first token */
-  while(p && p->next) {
-    p = p->next;
-  }
-  tok = p;
+    Token *p = tok0;            /* Global first token */
+    while (p && p->next) {
+        p = p->next;
+    }
+    tok = p;
 }
 
-void 
+void
 arg_change(char *str) {
-  arg_delete();
-  arg_insert(str);
+    arg_delete();
+    arg_insert(str);
 }
 
 void
 arg_delete() {
-  Token *tmp = tok->next;
-  tok0 = token_remove(tok0, tok);
-  tok = tmp;
+    Token *tmp = tok->next;
+    tok0 = token_remove(tok0, tok);
+    tok = tmp;
 }
 
-void 
+void
 arg_truncate() {
-  while(tok) {
-    arg_delete();
-  }
-  arg_end();
+    while (tok) {
+        arg_delete();
+    }
+    arg_end();
 }
 
 void
 arg_append(char *str) {
-  Token *new = token_new_string(str);
-  arg_end();
-  tok->next = new;
-  tok = new;
+    Token *new = token_new_string(str);
+    arg_end();
+    tok->next = new;
+    tok = new;
 }
 
 void
 arg_insert(char *str) {
-  Token *new = token_new_string(str);
-  if(new) {
-    tok0 = token_insert_before(tok0, tok, new);
-    tok = new;
-  }
+    Token *new = token_new_string(str);
+    if (new) {
+        tok0 = token_insert_before(tok0, tok, new);
+        tok = new;
+    }
 }
 
 Token *
 arg_begin() {
-  return tok0;
+    return tok0;
 }
 
 char *
 strchr_quote(char *p) {
-  char quote;
-  int escape;
-  char *k;
+    char quote;
+    int escape;
+    char *k;
 
-  #define SEMI ';'
-  #define SINGLE '\''
-  #define DOUBLE '"'
-  #define ESCAPE '\\'
+#define SEMI ';'
+#define SINGLE '\''
+#define DOUBLE '"'
+#define ESCAPE '\\'
 
-  if(!strchr(p, ';')) {
-    return NULL;
-  }
-
-  k = p;
-  quote  = 0;
-  escape = 0;
-  while(k && *k && (quote || *k != SEMI || (escape && *k == SEMI))) {
-    if(escape) {
-      escape = 0;
-    } else {
-      switch(*k) {
-      case DOUBLE:
-      case SINGLE:
-        if(!quote || quote == *k) {
-          quote = (quote) ? 0 : *k;
-        }
-        break;
-      case ESCAPE: escape = 1;  break;
-      }
+    if (!strchr(p, ';')) {
+        return NULL;
     }
-    k++;
-  }
-  return k;
+
+    k = p;
+    quote = 0;
+    escape = 0;
+    while (k && *k && (quote || *k != SEMI || (escape && *k == SEMI))) {
+        if (escape) {
+            escape = 0;
+        } else {
+            switch (*k) {
+                case DOUBLE:
+                case SINGLE:
+                    if (!quote || quote == *k) {
+                        quote = (quote) ? 0 : *k;
+                    }
+                    break;
+                case ESCAPE:
+                    escape = 1;
+                    break;
+            }
+        }
+        k++;
+    }
+    return k;
 }
 
 void
-saccommands_cleanup(eval *e) {
-  if(!e) {
-    e = e0;
-  }
-  eval_free(e);
-  if(tok0) {
-    token_free(tok0);
-    tok0 = NULL;
-  }
+saccommands_cleanup(eval * e) {
+    if (!e) {
+        e = e0;
+    }
+    eval_free(e);
+    if (tok0) {
+        token_free(tok0);
+        tok0 = NULL;
+    }
 }
 
 char *
 char_repeat(char *in, char c) {
-  char *p, *t, *out;
-  UNUSED(c);
-  t = out = (char *)malloc(sizeof(char) * ((2*strlen(in))+1));
-  p = in;
-  while(p && *p) {
-    if(*p == '%') { *t = '%'; t++; }
-    *t = *p; t++; p++;
-  }
-  *t = 0;
-  return out;
+    char *p, *t, *out;
+    UNUSED(c);
+    t = out = (char *) malloc(sizeof(char) * ((2 * strlen(in)) + 1));
+    p = in;
+    while (p && *p) {
+        if (*p == '%') {
+            *t = '%';
+            t++;
+        }
+        *t = *p;
+        t++;
+        p++;
+    }
+    *t = 0;
+    return out;
 }
 
 eval *
 tokenize_line(char *in) {
-  eval *e;
-  e = eval_new();
-  eval_input(e, in);
-  arg_reset();
-  tok = tok0 = parse(e);
-  if(e->status == EVAL_STATUS_SYNTAX_ERROR) {
-    if(e->error_message) {
-      bell();
-      fprintf(stdout, "%s", e->error_message);
+    eval *e;
+    e = eval_new();
+    eval_input(e, in);
+    arg_reset();
+    tok = tok0 = parse(e);
+    if (e->status == EVAL_STATUS_SYNTAX_ERROR) {
+        if (e->error_message) {
+            bell();
+            fprintf(stdout, "%s", e->error_message);
+        }
+        token_free(tok0);
+        tok0 = NULL;
+        eval_free(e);
+        return NULL;            //goto L_8888;
     }
-    token_free(tok0);
-    tok0 = NULL;
-    eval_free(e);
-    return NULL;//goto L_8888;
-  }
-  if(e->processed) {
-    char *str = token_to_line(tok0);
-    if(strchr(str,'%')) {
-      char *out = char_repeat(str, '%');
-      FREE(str);
-      str = out;
+    if (e->processed) {
+        char *str = token_to_line(tok0);
+        if (strchr(str, '%')) {
+            char *out = char_repeat(str, '%');
+            FREE(str);
+            str = out;
+        }
+        processed(99, str);
+        free(str);
     }
-    processed(99, str);
-    free(str);
-  }
-  return e;
+    return e;
 }
 
 char *
 process_line(char *in) {
-  char *s;
-  eval *e;
-  e = tokenize_line(in);
-  if(!e) {
-    return NULL;
-  }
-  s = token_to_line(tok0);
-  eval_free(e);
-  arg_reset();
-  return s;
+    char *s;
+    eval *e;
+    e = tokenize_line(in);
+    if (!e) {
+        return NULL;
+    }
+    s = token_to_line(tok0);
+    eval_free(e);
+    arg_reset();
+    return s;
 }
 
 /** 
@@ -242,8 +249,8 @@ process_line(char *in) {
  */
 void
 sac_report_files_in_memory(int *nerr) {
-  UNUSED(nerr);
-  setbb(SAC_BLACKBOARD_SACNFILES, VAR_INTEGER, saclen());
+    UNUSED(nerr);
+    setbb(SAC_BLACKBOARD_SACNFILES, VAR_INTEGER, saclen());
 }
 
 /** 
@@ -280,117 +287,111 @@ sac_report_files_in_memory(int *nerr) {
  * @date   810429:  Original version.
  *
  */
-void 
-saccommands(char *kinmsg, 
-            int   kinmsg_s, 
-            int  *nerr)
-{
-	char kcommand[30] = "        " ;
-	int lfound;
-	int index, module;
-  char *temp;
-  int n;
-  char *p, *p1, *in;
-  eval *e;
+void
+saccommands(char *kinmsg, int kinmsg_s, int *nerr) {
+    char kcommand[30] = "        ";
+    int lfound;
+    int index, module;
+    char *temp;
+    int n;
+    char *p, *p1, *in;
+    eval *e;
 
-  UNUSED(kinmsg_s);
-  *nerr = 0;
-  kcommand[0] = '\0' ; /* fix an access violation, maf 980507 */
+    UNUSED(kinmsg_s);
+    *nerr = 0;
+    kcommand[0] = '\0';         /* fix an access violation, maf 980507 */
 
-  /* Comment as First '*' Character on Line */
-  if(kinmsg && *kinmsg == '*') {
-    if(cmexm.lecho) {
-      wrcom();
+    /* Comment as First '*' Character on Line */
+    if (kinmsg && *kinmsg == '*') {
+        if (cmexm.lecho) {
+            wrcom();
+        }
+        return;
     }
+
+    if (SeisMgrCode(kinmsg, nerr))
+        goto L_8888;
+
+    p = rstrip(kinmsg);
+
+    if (p && !*p) {
+        processed(99, p);
+    }
+
+    while (p && *p) {
+        if ((p1 = strchr_quote(p))) {
+            n = p1 - p;
+        } else {
+            n = strlen(p);
+        }
+
+        in = strcut(p, 1, n);
+        e0 = e = tokenize_line(in);
+        free(in);
+        if (!e) {
+            *nerr = 101;
+            return;
+            goto L_8888;
+        }
+        /* Reset the Conversion Error Flag to a Non-Error - 0 */
+        cmicnv.icnver = 0;
+
+        /* -- Get command name and convert to uppercase. */
+        lcchar(kcommand, sizeof(kcommand));
+        modcase(TRUE, kcommand, strlen(kcommand), kcommand);
+
+        /* -- Echo command if requested. */
+        if (cmexm.lecho && strcmp(kcommand, "ECHO") != 0)
+            wrcom();
+        //printf("com: '%s'\n", kcommand);
+        /* -- Validate command name and find module and index number. */
+        findcommand(kcommand, &lfound, &module, &index);
+
+        /* -- If valid, execute command.
+         *    Report any errors. */
+        if (lfound) {
+            executecommand(module, index, nerr);
+            reperr(*nerr);
+            if (*nerr != 0) {
+                setmsg("ERROR", *nerr);
+                proerr(nerr);
+            }
+            if (cmexm.ntraces > 0)
+                tracereport(nerr);
+        } else {
+            if (strlen(kinmsg) > 0) {
+                temp = kinmsg;
+                while ((*temp == ' ') || (*temp == '\t'))
+                    temp++;
+                /* make sure that the first char is not something like *, and */
+                /* disable the dangerous rm command.                          */
+                if (isalpha((int) *temp) || (*temp == '/')) {
+                    if (strncmp(temp, "rm ", 3) != 0) {
+                        arg_prev();
+                        xsystemcommand(nerr);
+                    } else {
+                        *nerr = 1106;
+                    }
+                }
+            }
+            if (*nerr != 0) {
+                *nerr = 1106;
+                setmsg("ERROR", *nerr);
+                reperr(*nerr);
+                if (*nerr != 0)
+                    proerr(nerr);
+            }
+            goto L_8888;
+        }
+        p = (p1) ? p1 + 1 : NULL;
+
+        saccommands_cleanup(e);
+        /* Reset Error Condition */
+        cmcom.ncerr = 0;
+
+    }
+
+  L_8888:
+    sac_report_files_in_memory(nerr);
     return;
-  }
-
-  if ( SeisMgrCode ( kinmsg , nerr ) ) 
-    goto L_8888 ;
-
-  p = rstrip(kinmsg);
-
-  if(p && !*p) {
-    processed(99,p);
-  }
-
-
-  while(p && *p) {
-    if((p1 = strchr_quote(p))) {
-      n = p1 - p;
-    } else {
-      n = strlen(p);
-    }
-      
-    in = strcut(p, 1, n);
-    e0 = e = tokenize_line(in);
-    free(in);
-    if(!e) {
-      *nerr = 101;
-      return;
-      goto L_8888;
-    }
-    /* Reset the Conversion Error Flag to a Non-Error - 0 */
-    cmicnv.icnver = 0;
-
-	  /* -- Get command name and convert to uppercase. */
-	  lcchar(kcommand, sizeof(kcommand) );
-	  modcase( TRUE, kcommand, strlen(kcommand), kcommand );
-
-	  /* -- Echo command if requested. */
-	  if( cmexm.lecho && strcmp(kcommand,"ECHO") != 0 )
-	    wrcom();
-    //printf("com: '%s'\n", kcommand);
-	  /* -- Validate command name and find module and index number. */
-	  findcommand( kcommand, &lfound, &module, &index );
-
-	  /* -- If valid, execute command.
-	   *    Report any errors. */
-	  if( lfound ){
-	    executecommand( module, index, nerr );
-	    reperr( *nerr );
-	    if( *nerr != 0 ){
-	      setmsg( "ERROR", *nerr );
-	      proerr( nerr );
-	    }
-	    if( cmexm.ntraces > 0 )
-	      tracereport( nerr );
-	  }
-	  else{
-	    if(strlen(kinmsg) > 0){
-	      temp = kinmsg;
-	      while ( (*temp == ' ') || (*temp == '\t') ) temp++;
-	      /* make sure that the first char is not something like *, and */
-	      /* disable the dangerous rm command.                          */
-	      if ( isalpha ((int)*temp) || (*temp == '/')) {
-              if(strncmp(temp,"rm ",3) != 0){
-                arg_prev();
-                xsystemcommand(nerr);
-              } else {
-                  *nerr = 1106;
-              }
-          }
-	    }
-	    if(*nerr != 0 ) {
-	      *nerr = 1106;
-	      setmsg( "ERROR", *nerr );
-	      reperr( *nerr );
-	      if( *nerr != 0 )
-          proerr( nerr );
-	    }
-	    goto L_8888;
-	  }
-    p = (p1) ? p1 + 1 : NULL;
-
-    saccommands_cleanup(e);
-    /* Reset Error Condition */
-    cmcom.ncerr = 0;
-
-  }
-
-	
- L_8888:
-	sac_report_files_in_memory(nerr);
-	return;	
 }
-

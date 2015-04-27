@@ -12,14 +12,14 @@
 #include "contouring.h"
 extern struct contour contour;
 
-void 
+void
 newcontpoint(point, link, action, number)
-float point[];
-int link, action, *number;
+     float point[];
+     int link, action, *number;
 {
-	float *const Point = &point[0] - 1;
+    float *const Point = &point[0] - 1;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To put information about a new contouring line point.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -45,19 +45,17 @@ int link, action, *number;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900405
 	 *===================================================================== */
-	/* PROCEDURE: */
-	if( cmcontouring.numpoints < cmcontouring.maxpoints ){
-		cmcontouring.numpoints = cmcontouring.numpoints + 1;
-		*number = cmcontouring.numpoints;
-    contour.points[*number-1].pts[0] = Point[1];
-    contour.points[*number-1].pts[1] = Point[2];
-    contour.points[*number-1].link   = link;
-    contour.points[*number-1].action = action;
-	}
-	else{
-		fprintf( stdout, "No more room for point storage.\n" );
-		exit(0);
-	}
-	return;
+    /* PROCEDURE: */
+    if (cmcontouring.numpoints < cmcontouring.maxpoints) {
+        cmcontouring.numpoints = cmcontouring.numpoints + 1;
+        *number = cmcontouring.numpoints;
+        contour.points[*number - 1].pts[0] = Point[1];
+        contour.points[*number - 1].pts[1] = Point[2];
+        contour.points[*number - 1].link = link;
+        contour.points[*number - 1].action = action;
+    } else {
+        fprintf(stdout, "No more room for point storage.\n");
+        exit(0);
+    }
+    return;
 }
-

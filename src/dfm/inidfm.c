@@ -18,7 +18,6 @@
 
 #include "cssListOps/cssArchitecture.h"
 
-
 #include "co.h"
 #include "bot.h"
 #include "dff.h"
@@ -26,13 +25,13 @@
 
 void
 dfm_free() {
-  int i;
-  if(kmdfm.kauthors) {
-    for(i = 0; i < cmdfm.iauthors; i++) {
-      FREE(kmdfm.kauthors[i]);
+    int i;
+    if (kmdfm.kauthors) {
+        for (i = 0; i < cmdfm.iauthors; i++) {
+            FREE(kmdfm.kauthors[i]);
+        }
+        FREE(kmdfm.kauthors);
     }
-    FREE(kmdfm.kauthors);
-  }
 }
 
 /** 
@@ -60,186 +59,184 @@ dfm_free() {
  * @date   810414:  Original version.
  *
  */
-void 
+void
 inidfm() {
 
-        int jdx;
+    int jdx;
     int nerr;
 
-	inihdr();
+    inihdr();
 
-	cmdfm.lcut = FALSE;
+    cmdfm.lcut = FALSE;
 
-	strcpy( kmdfm.kpick[0], "N       " );
-	strcpy( kmdfm.kpick[1], "Z       " );
-	strcpy( kmdfm.kpick[2], "G       " );
-	strcpy( kmdfm.kpick[3], "B       " );
-	strcpy( kmdfm.kpick[4], "E       " );
-	strcpy( kmdfm.kpick[5], "O       " );
-	strcpy( kmdfm.kpick[6], "A       " );
-	strcpy( kmdfm.kpick[7], "T0      " );
-	strcpy( kmdfm.kpick[8], "T1      " );
-	strcpy( kmdfm.kpick[9], "T2      " );
-	strcpy( kmdfm.kpick[10], "T3      " );
-	strcpy( kmdfm.kpick[11], "T4      " );
-	strcpy( kmdfm.kpick[12], "T5      " );
-	strcpy( kmdfm.kpick[13], "T6      " );
-	strcpy( kmdfm.kpick[14], "T7      " );
-	strcpy( kmdfm.kpick[15], "T8      " );
-	strcpy( kmdfm.kpick[16], "T9      " );
-	strcpy( kmdfm.kpick[17], "F       " );
+    strcpy(kmdfm.kpick[0], "N       ");
+    strcpy(kmdfm.kpick[1], "Z       ");
+    strcpy(kmdfm.kpick[2], "G       ");
+    strcpy(kmdfm.kpick[3], "B       ");
+    strcpy(kmdfm.kpick[4], "E       ");
+    strcpy(kmdfm.kpick[5], "O       ");
+    strcpy(kmdfm.kpick[6], "A       ");
+    strcpy(kmdfm.kpick[7], "T0      ");
+    strcpy(kmdfm.kpick[8], "T1      ");
+    strcpy(kmdfm.kpick[9], "T2      ");
+    strcpy(kmdfm.kpick[10], "T3      ");
+    strcpy(kmdfm.kpick[11], "T4      ");
+    strcpy(kmdfm.kpick[12], "T5      ");
+    strcpy(kmdfm.kpick[13], "T6      ");
+    strcpy(kmdfm.kpick[14], "T7      ");
+    strcpy(kmdfm.kpick[15], "T8      ");
+    strcpy(kmdfm.kpick[16], "T9      ");
+    strcpy(kmdfm.kpick[17], "F       ");
 
-	cmdfm.ipckn = 1;
-	cmdfm.ipckz = 2;
-	cmdfm.ipckg = 3;
-	cmdfm.ipckb = 4;
-	cmdfm.ipcke = 5;
-	cmdfm.ipcko = 6;
-	cmdfm.ipcka = 7;
-	cmdfm.ipckt0 = 8;
-	cmdfm.ipckt1 = 9;
-	cmdfm.ipckt2 = 10;
-	cmdfm.ipckt3 = 11;
-	cmdfm.ipckt4 = 12;
-	cmdfm.ipckt5 = 13;
-	cmdfm.ipckt6 = 14;
-	cmdfm.ipckt7 = 15;
-	cmdfm.ipckt8 = 16;
-	cmdfm.ipckt9 = 17;
-	cmdfm.ipckf = 18;
+    cmdfm.ipckn = 1;
+    cmdfm.ipckz = 2;
+    cmdfm.ipckg = 3;
+    cmdfm.ipckb = 4;
+    cmdfm.ipcke = 5;
+    cmdfm.ipcko = 6;
+    cmdfm.ipcka = 7;
+    cmdfm.ipckt0 = 8;
+    cmdfm.ipckt1 = 9;
+    cmdfm.ipckt2 = 10;
+    cmdfm.ipckt3 = 11;
+    cmdfm.ipckt4 = 12;
+    cmdfm.ipckt5 = 13;
+    cmdfm.ipckt6 = 14;
+    cmdfm.ipckt7 = 15;
+    cmdfm.ipckt8 = 16;
+    cmdfm.ipckt9 = 17;
+    cmdfm.ipckf = 18;
 
-	cmdfm.ipckhd[0] = 0;
-	cmdfm.ipckhd[1] = 0;
-	cmdfm.ipckhd[2] = 0;
-	cmdfm.ipckhd[3] = 6;
-	cmdfm.ipckhd[4] = 7;
-	cmdfm.ipckhd[5] = 8;
-	cmdfm.ipckhd[6] = 9;
-	for( jdx = 7; jdx <= 17; jdx++ ){
-		cmdfm.ipckhd[jdx] = jdx + 3 + 1;
-	}
+    cmdfm.ipckhd[0] = 0;
+    cmdfm.ipckhd[1] = 0;
+    cmdfm.ipckhd[2] = 0;
+    cmdfm.ipckhd[3] = 6;
+    cmdfm.ipckhd[4] = 7;
+    cmdfm.ipckhd[5] = 8;
+    cmdfm.ipckhd[6] = 9;
+    for (jdx = 7; jdx <= 17; jdx++) {
+        cmdfm.ipckhd[jdx] = jdx + 3 + 1;
+    }
 
-	fstrncpy( kmdfm.krddir, MCPFN, " ", 1);
-  memset(kmdfm.kwrdir, 0, MCPFN);
-	fstrncpy( kmdfm.kdirnm, MCPFN, "FIRST_TIME", 10);
-	cmdfm.ncdir = indexb( kmdfm.kdirnm,MCPFN+1 );
-	cmdfm.lechof = TRUE;
+    fstrncpy(kmdfm.krddir, MCPFN, " ", 1);
+    memset(kmdfm.kwrdir, 0, MCPFN);
+    fstrncpy(kmdfm.kdirnm, MCPFN, "FIRST_TIME", 10);
+    cmdfm.ncdir = indexb(kmdfm.kdirnm, MCPFN + 1);
+    cmdfm.lechof = TRUE;
 
-	fstrncpy( kmdfm.krdcssdir, MCPFN, " ", 1);
-	kmdfm.lstation = FALSE;
-	kmdfm.lchannel = FALSE;
-	kmdfm.lbandw = FALSE;
-	kmdfm.lorient = FALSE;
-	strcpy( kmdfm.kstation, "*     ");	
-	strcpy( kmdfm.kchannel, "*       ");
-	strcpy( kmdfm.kbandw,   "*       " );
-	strcpy( kmdfm.korient,  "*       " );
+    fstrncpy(kmdfm.krdcssdir, MCPFN, " ", 1);
+    kmdfm.lstation = FALSE;
+    kmdfm.lchannel = FALSE;
+    kmdfm.lbandw = FALSE;
+    kmdfm.lorient = FALSE;
+    strcpy(kmdfm.kstation, "*     ");
+    strcpy(kmdfm.kchannel, "*       ");
+    strcpy(kmdfm.kbandw, "*       ");
+    strcpy(kmdfm.korient, "*       ");
 
-	cmdfm.lovrrq = FALSE;
+    cmdfm.lovrrq = FALSE;
 
-	strcpy( kmdfm.kcuter[0], "FATAL   " );
-	strcpy( kmdfm.kcuter[1], "USEBE   " );
-	strcpy( kmdfm.kcuter[2], "FILLZ   " );
-	cmdfm.icuter = 2;
-	cmdfm.nrwfmt = 2;
-	strcpy( kmdfm.krwfmt[0], "SAC     " );
-	strcpy( kmdfm.krwfmt[1], "ALPHA   " );
-	cmdfm.iwfmt = 1;
-	//Icfmt[1] = 1;
-	//Icfmt[2] = 1;
-	strcpy( kmdfm.kcfmt[0], "%#15.7g" );
-	strcpy( kmdfm.kcfmt[1], "%#15.7g" );
-	fstrncpy( kmdfm.kcfile[0], MCPFN, "in.saf", 6);
-	fstrncpy( kmdfm.kcfile[1], MCPFN, "out.saf", 7);
+    strcpy(kmdfm.kcuter[0], "FATAL   ");
+    strcpy(kmdfm.kcuter[1], "USEBE   ");
+    strcpy(kmdfm.kcuter[2], "FILLZ   ");
+    cmdfm.icuter = 2;
+    cmdfm.nrwfmt = 2;
+    strcpy(kmdfm.krwfmt[0], "SAC     ");
+    strcpy(kmdfm.krwfmt[1], "ALPHA   ");
+    cmdfm.iwfmt = 1;
+    //Icfmt[1] = 1;
+    //Icfmt[2] = 1;
+    strcpy(kmdfm.kcfmt[0], "%#15.7g");
+    strcpy(kmdfm.kcfmt[1], "%#15.7g");
+    fstrncpy(kmdfm.kcfile[0], MCPFN, "in.saf", 6);
+    fstrncpy(kmdfm.kcfile[1], MCPFN, "out.saf", 7);
 
-	strcpy( kmdfm.kecbdf, "WARNING " );
-	strcpy( kmdfm.kecmem, "SAVE    " );
+    strcpy(kmdfm.kecbdf, "WARNING ");
+    strcpy(kmdfm.kecmem, "SAVE    ");
 
-	/* - SYNCH command. */
-	cmdfm.lround = FALSE;
+    /* - SYNCH command. */
+    cmdfm.lround = FALSE;
 
-	/* - READALPHA command. */
-	cmdfm.ldfree = TRUE;
-	fstrncpy( kmdfm.kdform, MCMSG, "(5G15.7)", 8);
-	fstrncpy( kmdfm.kdcont, MCMSG, "Y.", 2);
+    /* - READALPHA command. */
+    cmdfm.ldfree = TRUE;
+    fstrncpy(kmdfm.kdform, MCMSG, "(5G15.7)", 8);
+    fstrncpy(kmdfm.kdcont, MCMSG, "Y.", 2);
 
-	/* - DATAGEN command. */
-	strcpy( kmdfm.kdgsub[0], "LOCAL   " );
-	strcpy( kmdfm.kdgsub[1], "REGIONAL" );
-	strcpy( kmdfm.kdgsub[2], "TELESEIS" );
-	cmdfm.idgsub = 1;
-	fstrncpy( kmdfm.kdgfil, MCMSG, " cdv.z", 6);
-	cmdfm.ndgfil = 1;
+    /* - DATAGEN command. */
+    strcpy(kmdfm.kdgsub[0], "LOCAL   ");
+    strcpy(kmdfm.kdgsub[1], "REGIONAL");
+    strcpy(kmdfm.kdgsub[2], "TELESEIS");
+    cmdfm.idgsub = 1;
+    fstrncpy(kmdfm.kdgfil, MCMSG, " cdv.z", 6);
+    cmdfm.ndgfil = 1;
 
-	/* by default rcss shifts orogin time to zero.  */
-	cmdfm.lshift = TRUE ;
-	/* by default, don't calibrate */
-	cmdfm.lscale = FALSE;
+    /* by default rcss shifts orogin time to zero.  */
+    cmdfm.lshift = TRUE;
+    /* by default, don't calibrate */
+    cmdfm.lscale = FALSE;
 
-	/* by default choose mag from algorithm. */
-	cmdfm.nMagSpec = Any ;	
+    /* by default choose mag from algorithm. */
+    cmdfm.nMagSpec = Any;
 
-	/* The following added to facilitate rcss reading picks from
-	 *   the .arrival css file. 
-	 */
-        cmdfm.lpref    = FALSE ;  
-	cmdfm.iauthors = 0 ;
-	kmdfm.kauthors = NULL ;
+    /* The following added to facilitate rcss reading picks from
+     *   the .arrival css file. 
+     */
+    cmdfm.lpref = FALSE;
+    cmdfm.iauthors = 0;
+    kmdfm.kauthors = NULL;
 
-	/* get name of pick prefrences file */
-    
-    zbasename(kmdfm.kprefsFileName, MCPFN+1);
-    if(strlen(kmdfm.kprefsFileName) == 0) {
+    /* get name of pick prefrences file */
+
+    zbasename(kmdfm.kprefsFileName, MCPFN + 1);
+    if (strlen(kmdfm.kprefsFileName) == 0) {
         fprintf(stderr, "ERROR: Environmental variable SACAUX not defined.\n");
         exit(1);
     }
-    
+
     /* append the name of the prefs file. */
-    crname(kmdfm.kprefsFileName, MCPFN+1, KDIRDL, 
-           "csspickprefs", strlen("csspickprefs")+1, &nerr);
+    crname(kmdfm.kprefsFileName, MCPFN + 1, KDIRDL, "csspickprefs",
+           strlen("csspickprefs") + 1, &nerr);
     rstrip(kmdfm.kprefsFileName);
-	getprefs ( TRUE , TRUE ) ;
+    getprefs(TRUE, TRUE);
 
-	/* SORT command */
-	cmdfm.nSortOrder = 0 ;
-	for ( jdx = 0 ; jdx < MAXSORTFIELDS ; jdx++ ) {
-	    kmdfm.ksort[ jdx ][ 0 ] = '\0' ;
-	    cmdfm.idirection[ jdx ] = Ascending ;
-	}
+    /* SORT command */
+    cmdfm.nSortOrder = 0;
+    for (jdx = 0; jdx < MAXSORTFIELDS; jdx++) {
+        kmdfm.ksort[jdx][0] = '\0';
+        cmdfm.idirection[jdx] = Ascending;
+    }
 
-	/* added for array option in readcss */
-	cmdfm.larray = FALSE ;
+    /* added for array option in readcss */
+    cmdfm.larray = FALSE;
 
-	/* read and write ascii by default */
-	cmdfm.lrascii = TRUE ;
-	cmdfm.lwascii = TRUE ;
+    /* read and write ascii by default */
+    cmdfm.lrascii = TRUE;
+    cmdfm.lwascii = TRUE;
 
-	/* COMMIT and ROLLBACK options. */
-	cmdfm.icomORroll = COMMIT ;
+    /* COMMIT and ROLLBACK options. */
+    cmdfm.icomORroll = COMMIT;
 
-	/* BINARY or ASCII options */
-	strcpy ( kmdfm.kbinORasc[BINARY] , "BINARY  " ) ;
-	strcpy ( kmdfm.kbinORasc[ASCII] ,  "ASCII   " ) ;
+    /* BINARY or ASCII options */
+    strcpy(kmdfm.kbinORasc[BINARY], "BINARY  ");
+    strcpy(kmdfm.kbinORasc[ASCII], "ASCII   ");
 
-	/* COMMIT option on deletechannel */
-	cmdfm.lcommit = FALSE ;
+    /* COMMIT option on deletechannel */
+    cmdfm.lcommit = FALSE;
 
-        /* rdsegy */
-        cmdfm.iztype = IB ;
+    /* rdsegy */
+    cmdfm.iztype = IB;
 
-        /* writetable  */
-        cmdfm.liftype = FALSE ;
-        cmdfm.lheader = FALSE ;
+    /* writetable  */
+    cmdfm.liftype = FALSE;
+    cmdfm.lheader = FALSE;
 
-        /* Fix data transfer from SAC buffers to CSS buffers. */
-        cmdfm.ltrust = TRUE ;
-        cmdfm.nreadflag = RDB ;
-        cmdfm.lread = FALSE ;
-	cmdfm.nfilesFirst = 0 ;
+    /* Fix data transfer from SAC buffers to CSS buffers. */
+    cmdfm.ltrust = TRUE;
+    cmdfm.nreadflag = RDB;
+    cmdfm.lread = FALSE;
+    cmdfm.nfilesFirst = 0;
 
-	/* TRUE has GSE write CM6 data instead of integer. */
-        cmdfm.lcm6 = FALSE ;  
+    /* TRUE has GSE write CM6 data instead of integer. */
+    cmdfm.lcm6 = FALSE;
 
 }
-
-

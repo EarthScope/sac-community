@@ -23,52 +23,49 @@
  * @date   880412:  Original version.
  *
  */
-void 
+void
 xunsetbb(int *nerr) {
 
-	char kname[MCMSG+1];
+    char kname[MCMSG + 1];
 
-	*nerr = 0;
+    *nerr = 0;
     memset(kname, 0, sizeof(kname));
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-L_1000:
-	if( lcmore( nerr ) ){
+  L_1000:
+    if (lcmore(nerr)) {
 
-		/* -- "ALL": unset all blackboard variables by deleting the current
-		 *     blackboard and creating a new one. */
-		if( lckey( "ALL#$",6 ) ){
-			deletebbs( nerr );
-			if( *nerr != 0 )
-				goto L_8888;
-			createbbs( nerr );
-			if( *nerr != 0 )
-				goto L_8888;
+        /* -- "ALL": unset all blackboard variables by deleting the current
+         *     blackboard and creating a new one. */
+        if (lckey("ALL#$", 6)) {
+            deletebbs(nerr);
+            if (*nerr != 0)
+                goto L_8888;
+            createbbs(nerr);
+            if (*nerr != 0)
+                goto L_8888;
 
-			/* -- "name":  the name of a specific blackboard variable to unset. */
-			}
-		else if( lcchar(kname, sizeof(kname) ) ){
-			unsetbbv( kname, nerr, MCMSG );
-			if( *nerr != 0 ) {
-        if(*nerr == ERROR_DELETING_VARIABLE) {
-          /* If variable does not exist, show the error and clear it immediately */
-          outmsg();
-          clrmsg();
+            /* -- "name":  the name of a specific blackboard variable to unset. */
+        } else if (lcchar(kname, sizeof(kname))) {
+            unsetbbv(kname, nerr, MCMSG);
+            if (*nerr != 0) {
+                if (*nerr == ERROR_DELETING_VARIABLE) {
+                    /* If variable does not exist, show the error and clear it immediately */
+                    outmsg();
+                    clrmsg();
+                } else {
+                    goto L_8888;
+                }
+            }
+            /* -- Bad syntax. */
         } else {
-          goto L_8888;
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+
         }
-      }
-			/* -- Bad syntax. */
-			}
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
+        goto L_1000;
 
-			}
-		goto L_1000;
-
-		}
-L_8888:
-	return;
+    }
+  L_8888:
+    return;
 }
-

@@ -12,14 +12,15 @@
 #include "clf.h"
 #include "dff.h"
 
-void /*FUNCTION*/ vfxyz(nerr)
-int *nerr;
+void /*FUNCTION*/
+vfxyz(nerr)
+     int *nerr;
 {
-	int jdfl;
-  char *tmp;
-  sac *s;
-  
-	/*=====================================================================
+    int jdfl;
+    char *tmp;
+    sac *s;
+
+        /*=====================================================================
 	 * PURPOSE:  To verify that only xyz data files are in data file list.
 	 *=====================================================================
 	 * OUTPUT ARGUMENTS:
@@ -41,32 +42,30 @@ int *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900305
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* - For each file in DFL: */
+    /* - For each file in DFL: */
 
-	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
-		/* -- Get header from memory manager. */
-    if(!(s = sacget(jdfl-1, FALSE, nerr))) {
-      goto L_8888;
+    for (jdfl = 1; jdfl <= saclen(); jdfl++) {
+        /* -- Get header from memory manager. */
+        if (!(s = sacget(jdfl - 1, FALSE, nerr))) {
+            goto L_8888;
+        }
+        //getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
+        tmp = s->m->filename;
+
+        /* -- Check file type. */
+        if (s->h->iftype != IXYZ) {
+            *nerr = 1366;
+            setmsg("ERROR", *nerr);
+            apcmsg(tmp, strlen(tmp) + 1);
+            goto L_8888;
+        }
+
     }
-    //getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
-    tmp = s->m->filename;
 
-		/* -- Check file type. */
-		if( s->h->iftype != IXYZ ){
-			*nerr = 1366;
-			setmsg( "ERROR", *nerr );
-            apcmsg(tmp, strlen(tmp)+1);
-			goto L_8888;
-			}
+  L_8888:
+    return;
 
-		}
-
-
-L_8888:
-	return;
-
-} /* end of function */
-
+}                               /* end of function */

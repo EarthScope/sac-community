@@ -19,22 +19,20 @@
  * @date   861017:  Original version.
  *
  */
-void 
-settexttype(char *kqual)
-{
-	/* - If first character is an "H", turn software quality text flag off.
-	 *   Otherwise, turn software quality text flag on. */
-	if( kqual[0] == 'H' || kqual[0] == 'h' ){
-		cmgdm.ltsoft = FALSE;
-        } else {
-		cmgdm.ltsoft = TRUE;
-        }
+void
+settexttype(char *kqual) {
+    /* - If first character is an "H", turn software quality text flag off.
+     *   Otherwise, turn software quality text flag on. */
+    if (kqual[0] == 'H' || kqual[0] == 'h') {
+        cmgdm.ltsoft = FALSE;
+    } else {
+        cmgdm.ltsoft = TRUE;
+    }
 
-	/* - If hardware text has been chosen, select the simplest font. */
+    /* - If hardware text has been chosen, select the simplest font. */
 
-	if( !cmgdm.ltsoft ) {
-		settextfont( 1 );
-        }
+    if (!cmgdm.ltsoft) {
+        settextfont(1);
+    }
 
 }
-

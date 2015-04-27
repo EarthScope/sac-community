@@ -5,7 +5,6 @@
  * 
  */
 
-
 #define	MCOMNAMES	800
 #define	MEXTCOMNAMES	100
 #define	MODULEEXTCOM	100
@@ -16,13 +15,13 @@
  *   Command Character Lists Lengths
  */
 struct t_cmcomlists {
-  int icomlist;
-  int icomliststart[MPROCESSES];
-  int ncomlistentries[MPROCESSES];
-  int icommodule[MCOMNAMES];
-  int icomindex[MCOMNAMES];
-  int nextcomnames;
-  int iextcomindex[MEXTCOMNAMES];
+    int icomlist;
+    int icomliststart[MPROCESSES];
+    int ncomlistentries[MPROCESSES];
+    int icommodule[MCOMNAMES];
+    int icomindex[MCOMNAMES];
+    int nextcomnames;
+    int iextcomindex[MEXTCOMNAMES];
 } cmcomlists;
 
 /** 
@@ -30,27 +29,25 @@ struct t_cmcomlists {
  *   Command Character Lists
  */
 struct t_kmcomlists {
-  char kcomnames[MCOMNAMES][9];
-  char kextcomnames[MEXTCOMNAMES][9];
-  char kcomnames_full[MCOMNAMES][30];
+    char kcomnames[MCOMNAMES][9];
+    char kextcomnames[MEXTCOMNAMES][9];
+    char kcomnames_full[MCOMNAMES][30];
 } kmcomlists;
-
 
 #ifdef DOINITS
 
-   int *const Icomindex = &cmcomlists.icomindex[0] - 1;
-   int *const Icomliststart = &cmcomlists.icomliststart[0] - 1;
-   int *const Icommodule = &cmcomlists.icommodule[0] - 1;
-   int *const Iextcomindex = &cmcomlists.iextcomindex[0] - 1;
-   int *const Ncomlistentries = &cmcomlists.ncomlistentries[0] - 1;
+int *const Icomindex = &cmcomlists.icomindex[0] - 1;
+int *const Icomliststart = &cmcomlists.icomliststart[0] - 1;
+int *const Icommodule = &cmcomlists.icommodule[0] - 1;
+int *const Iextcomindex = &cmcomlists.iextcomindex[0] - 1;
+int *const Ncomlistentries = &cmcomlists.ncomlistentries[0] - 1;
 
 #else
 
-   extern int *const Icomindex;
-   extern int *const Icomliststart;
-   extern int *const Icommodule;
-   extern int *const Iextcomindex;
-   extern int *const Ncomlistentries;
+extern int *const Icomindex;
+extern int *const Icomliststart;
+extern int *const Icommodule;
+extern int *const Iextcomindex;
+extern int *const Ncomlistentries;
 
 #endif
-

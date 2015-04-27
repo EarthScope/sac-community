@@ -1,13 +1,13 @@
 
-
 #include "gd2.h"
 #include "debug.h"
 
-void /*FUNCTION*/ beginwindow2(number, nerr)
-int *number, *nerr;
+void /*FUNCTION*/
+beginwindow2(number, nerr)
+     int *number, *nerr;
 {
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To begin plotting to a graphics window for device 2 (SGF).
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -23,14 +23,12 @@ int *number, *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  861104
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* - This is a no-op for this graphics device. */
-  UNUSED(number);
-  
-	return;
+    /* - This is a no-op for this graphics device. */
+    UNUSED(number);
 
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

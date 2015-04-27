@@ -13,12 +13,12 @@
 #include "contouring.h"
 extern struct contour contour;
 
-void 
+void
 getcontseglabel(number, status, numlocs, firstloc)
-int number, *status, *numlocs, *firstloc;
+     int number, *status, *numlocs, *firstloc;
 {
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To get (store) label information about an existing
 	 *           contouring segment information.
 	 *=====================================================================
@@ -47,16 +47,14 @@ int number, *status, *numlocs, *firstloc;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900418
 	 *===================================================================== */
-	/* PROCEDURE: */
-	if( number <= cmcontouring.numsegments ){
-    *status   = contour.labelseg[number-1].status;
-    *numlocs  = contour.labelseg[number-1].number;
-    *firstloc = contour.labelseg[number-1].first;
-  }
-	else{
-		fprintf( stdout, "Illegal labeled segment number: %d \n", number );
-		}
+    /* PROCEDURE: */
+    if (number <= cmcontouring.numsegments) {
+        *status = contour.labelseg[number - 1].status;
+        *numlocs = contour.labelseg[number - 1].number;
+        *firstloc = contour.labelseg[number - 1].first;
+    } else {
+        fprintf(stdout, "Illegal labeled segment number: %d \n", number);
+    }
 
-	return;
+    return;
 }
-

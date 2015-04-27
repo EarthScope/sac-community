@@ -1,14 +1,13 @@
 
 #include "gd2.h"
 
-void /*FUNCTION*/ setwidth2(index)
-int index;
+void /*FUNCTION*/
+setwidth2(index)
+     int index;
 {
-	int nerr;
+    int nerr;
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To set the width attribute for graphics device 2 (SGF).
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -33,20 +32,18 @@ int index;
 	 *=====================================================================
 	 * DOCUMENTED:  861020
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Add width opcode to file buffer. */
-	Mfbuf[cmgd2.jfbpnt] = MOPWIDTH;
-	Mfbuf[cmgd2.jfbpnt + 1] = 1;
-	Mfbuf[cmgd2.jfbpnt + 2] = index;
-	cmgd2.jfbpnt = cmgd2.jfbpnt + 3;
+    /* PROCEDURE: */
+    /* - Add width opcode to file buffer. */
+    Mfbuf[cmgd2.jfbpnt] = MOPWIDTH;
+    Mfbuf[cmgd2.jfbpnt + 1] = 1;
+    Mfbuf[cmgd2.jfbpnt + 2] = index;
+    cmgd2.jfbpnt = cmgd2.jfbpnt + 3;
 
-	/* - Flush buffer if necessary. */
+    /* - Flush buffer if necessary. */
 
-	if( cmgd2.jfbpnt > JFBMAX )
-		flushbuffer2( &nerr );
+    if (cmgd2.jfbpnt > JFBMAX)
+        flushbuffer2(&nerr);
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

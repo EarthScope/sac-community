@@ -2,14 +2,15 @@
 #include "sss.h"
 #include "co.h"
 
-void /*FUNCTION*/ definelimits(beginwindow, endwindow, begindata, 
-	 enddata, delta, indexwindow, indexdata, numintersect)
-double beginwindow, endwindow, begindata, enddata, delta;
-int *indexwindow, *indexdata, *numintersect;
+void /*FUNCTION*/
+definelimits(beginwindow, endwindow, begindata, enddata, delta, indexwindow,
+             indexdata, numintersect)
+     double beginwindow, endwindow, begindata, enddata, delta;
+     int *indexwindow, *indexdata, *numintersect;
 {
-	int numdata, numstart, numstop;
+    int numdata, numstart, numstop;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To define the limits of the intersection of a data file
 	 *           and a time window.
 	 *=====================================================================
@@ -38,47 +39,43 @@ int *indexwindow, *indexdata, *numintersect;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  881117
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Compute the offset in terms of number of points between beginning
-	 *   of the window and the beginning of the data.
-	 *   Round down to get the point at or before beginning of window. */
-	numstart = (int)( (beginwindow - begindata)/delta );
+    /* PROCEDURE: */
+    /* - Compute the offset in terms of number of points between beginning
+     *   of the window and the beginning of the data.
+     *   Round down to get the point at or before beginning of window. */
+    numstart = (int) ((beginwindow - begindata) / delta);
 
-	/* - Compute offset between end of the window and beginning of data.
-	 *   Round up to get the point at or after end of window. */
+    /* - Compute offset between end of the window and beginning of data.
+     *   Round up to get the point at or after end of window. */
 
-	numstop = (int)( (endwindow - begindata)/delta ) + 1;
+    numstop = (int) ((endwindow - begindata) / delta) + 1;
 
-	/* - Compute number of points in the data set. */
+    /* - Compute number of points in the data set. */
 
-	numdata = (int)( (enddata - begindata)/delta ) + 1;
+    numdata = (int) ((enddata - begindata) / delta) + 1;
 
-	/* - Handle normal case where there is some overlap of window and data.
-	 *   Compute starting indices and number of points in intersection. */
+    /* - Handle normal case where there is some overlap of window and data.
+     *   Compute starting indices and number of points in intersection. */
 
-	if( numstart <= numdata && numstop >= 1 ){
-		if( numstart >= 0 ){
-			*indexwindow = 0;
-			*indexdata = numstart;
-			}
-		else{
-			*indexwindow = -numstart;
-			*indexdata = 0;
-			}
-		*numintersect = min( numdata, numstop ) - *indexdata;
+    if (numstart <= numdata && numstop >= 1) {
+        if (numstart >= 0) {
+            *indexwindow = 0;
+            *indexdata = numstart;
+        } else {
+            *indexwindow = -numstart;
+            *indexdata = 0;
+        }
+        *numintersect = min(numdata, numstop) - *indexdata;
 
-		/* - Handle special case where entire window is after data end 
-		 *   or entire window before data begin (i.e. no data overlap.) */
+        /* - Handle special case where entire window is after data end 
+         *   or entire window before data begin (i.e. no data overlap.) */
 
-		}
-	else{
-		*numintersect = 0;
-		*indexwindow = 0;
-		*indexdata = 0;
-		}
+    } else {
+        *numintersect = 0;
+        *indexwindow = 0;
+        *indexdata = 0;
+    }
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

@@ -10,7 +10,6 @@
 #include "amf.h"
 #include "errors.h"
 
-
 #include "msg.h"
 
 /** 
@@ -24,15 +23,14 @@
  * @date   820622:  Original version.
  *
  */
-void 
+void
 vflist(int *nerr) {
 
-  *nerr = 0;
-  
-  if( saclen() <= 0 ){
-    *nerr = ERROR_NO_DATA_FILES_READ_IN;
-    setmsg( "ERROR", *nerr );
-  }
-  return;
-}
+    *nerr = 0;
 
+    if (saclen() <= 0) {
+        *nerr = ERROR_NO_DATA_FILES_READ_IN;
+        setmsg("ERROR", *nerr);
+    }
+    return;
+}

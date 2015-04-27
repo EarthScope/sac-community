@@ -25,23 +25,28 @@
  *                  Deleted call to INIHDR.
  *
  */
-void 
+void
 newhdr() {
-  sac *s;
+    sac *s;
 
-	/* - Initialize some common blocks if not already done. */
-  sacio_initialize_common();
+    /* - Initialize some common blocks if not already done. */
+    sacio_initialize_common();
 
-  s = sac_new();
-  s->m->filename = strdup("new_hdr_file.sac");
-  sacput(s);
+    s = sac_new();
+    s->m->filename = strdup("new_hdr_file.sac");
+    sacput(s);
 
-	return;
+    return;
 
 }
 
-
-
 /* Wrapper to make the function more convenient for FORTRAN programmers. */
-void newhdr_ () {  newhdr (); }
-void newhdr__() {  newhdr (); }
+void
+newhdr_() {
+    newhdr();
+}
+
+void
+newhdr__() {
+    newhdr();
+}

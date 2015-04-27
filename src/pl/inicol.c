@@ -1,15 +1,15 @@
 
 #include "pl.h"
 
-void /*FUNCTION*/ inicol(iicol, nicol)
-int iicol[], *nicol;
+void /*FUNCTION*/
+inicol(iicol, nicol)
+     int iicol[], *nicol;
 {
-	int j;
+    int j;
 
-	int *const Iicol = &iicol[0] - 1;
+    int *const Iicol = &iicol[0] - 1;
 
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To initialize the "standard" color list.
 	 *           This is the list of colors used in plotting data.
 	 *=====================================================================
@@ -22,20 +22,18 @@ int iicol[], *nicol;
 	 * GLOBAL INPUT:
 	 *    MACH:
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Set up standard color table. */
-	*nicol = 6;
-	for( j = 1; j <= *nicol; j++ ){
-		Iicol[j] = j;
-		}
+    /* PROCEDURE: */
+    /* - Set up standard color table. */
+    *nicol = 6;
+    for (j = 1; j <= *nicol; j++) {
+        Iicol[j] = j;
+    }
 
-       
-	return;
+    return;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    821221:  Original version from INIGEM.
 	 *===================================================================== */
 
-} /* end of function */
-
+}                               /* end of function */

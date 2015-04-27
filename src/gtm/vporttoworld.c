@@ -1,14 +1,13 @@
 
 #include "gtm.h"
 
-void /*FUNCTION*/ vporttoworld(xloc, yloc, xwloc, ywloc)
-double xloc, yloc;
-float *xwloc, *ywloc;
+void /*FUNCTION*/
+vporttoworld(xloc, yloc, xwloc, ywloc)
+     double xloc, yloc;
+     float *xwloc, *ywloc;
 {
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To convert a viewport location to a world location.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -33,12 +32,10 @@ float *xwloc, *ywloc;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  861027
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*xwloc = (xloc - cmgtm.xmpwv2)/cmgtm.xmpwv1;
-	*ywloc = (yloc - cmgtm.ympwv2)/cmgtm.ympwv1;
+    /* PROCEDURE: */
+    *xwloc = (xloc - cmgtm.xmpwv2) / cmgtm.xmpwv1;
+    *ywloc = (yloc - cmgtm.ympwv2) / cmgtm.ympwv1;
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

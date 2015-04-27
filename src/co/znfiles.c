@@ -50,59 +50,52 @@
  * @date   830812:  Original version.
  *
  */
-void 
-znfiles(FILE **nfu, 
-	char  *kname, 
-	int    kname_s, 
-	char  *ktype, 
-	int    ktype_s, 
-	int   *nerr) {
+void
+znfiles(FILE ** nfu, char *kname, int kname_s, char *ktype, int ktype_s,
+        int *nerr) {
 
     char *tmp;
-	int lexist ;
-	int noerr;
+    int lexist;
+    int noerr;
 
-	*nerr = 0;
-        noerr = 0;
+    *nerr = 0;
+    noerr = 0;
 
-	/* - Check existance of file */
-	zinquire( kname, &lexist );
+    /* - Check existance of file */
+    zinquire(kname, &lexist);
 
-	/* - Open data file. */
-	if( memcmp(ktype,"TEXT",4) == 0 ){
-    tmp = rstrip(strdup(kname));
-	    if( lexist ) {
-		if((*nfu = fopen(tmp,"rb+")) == NULL)
-		    noerr = 1;
-	    }
-	    else {
-		if((*nfu = fopen(tmp,"wb+")) == NULL)
-		    noerr = 1;
-	    }
+    /* - Open data file. */
+    if (memcmp(ktype, "TEXT", 4) == 0) {
+        tmp = rstrip(strdup(kname));
+        if (lexist) {
+            if ((*nfu = fopen(tmp, "rb+")) == NULL)
+                noerr = 1;
+        } else {
+            if ((*nfu = fopen(tmp, "wb+")) == NULL)
+                noerr = 1;
+        }
         free(tmp);
         tmp = NULL;
-	    if( noerr != 0 ){
-		*nerr = ERROR_OPENING_FILE;
-		setmsg( "ERROR", *nerr );
-		apcmsg( kname,kname_s );
-		apcmsg( "(i/o error number =",19 );
-		apimsg( noerr );
-		apcmsg( ")",2 );
-		goto L_8888;
-	    }
+        if (noerr != 0) {
+            *nerr = ERROR_OPENING_FILE;
+            setmsg("ERROR", *nerr);
+            apcmsg(kname, kname_s);
+            apcmsg("(i/o error number =", 19);
+            apimsg(noerr);
+            apcmsg(")", 2);
+            goto L_8888;
+        }
 
-	}
-	else{
-	    *nerr = ERROR_OPENING_FILE;
-	    setmsg( "ERROR", *nerr );
-	    apcmsg( kname,kname_s );
-	    aplmsg( "Bad value for file type = ",27 );
-	    apcmsg( ktype,ktype_s );
-	    goto L_8888;
-	}
+    } else {
+        *nerr = ERROR_OPENING_FILE;
+        setmsg("ERROR", *nerr);
+        apcmsg(kname, kname_s);
+        aplmsg("Bad value for file type = ", 27);
+        apcmsg(ktype, ktype_s);
+        goto L_8888;
+    }
 
-L_8888:
-	return;
+  L_8888:
+    return;
 
 }
-

@@ -2,14 +2,14 @@
 #include "gem.h"
 #include "gdm.h"
 
-
 #include "cpf.h"
 
-void /*FUNCTION*/ xbeginwindow(nerr)
-int *nerr;
+void /*FUNCTION*/
+xbeginwindow(nerr)
+     int *nerr;
 {
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To execute the action command BEGINWINDOW.
 	 *           This command begins plotting to a specific graphics window.
 	 *=====================================================================
@@ -34,42 +34,40 @@ int *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  870127
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* PARSING PHASE: */
+    /* PARSING PHASE: */
 
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-	while ( lcmore( nerr ) ){
+    while (lcmore(nerr)) {
 
-		/* -- "n":  the graphics window number. */
-		if( lcirc( 1, MWINDOWS, &cmgdm.iwindow ) )
-		{ /* do nothing */ }
+        /* -- "n":  the graphics window number. */
+        if (lcirc(1, MWINDOWS, &cmgdm.iwindow)) {       /* do nothing */
+        }
 
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
+    }
 
-		/* -- Bad syntax. */
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
-		}
-	}
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
+    if (*nerr != 0)
+        goto L_8888;
 
-	if( *nerr != 0 )
-		goto L_8888;
+    /* EXECUTION PHASE: */
 
-	/* EXECUTION PHASE: */
+    /* - Begin graphics to the requested window. */
 
-	/* - Begin graphics to the requested window. */
+    beginwindow(cmgdm.iwindow, nerr);
 
-	beginwindow( cmgdm.iwindow, nerr );
+  L_8888:
+    return;
 
-L_8888:
-	return;
-
-} /* end of function */
-
+}                               /* end of function */

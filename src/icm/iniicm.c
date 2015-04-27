@@ -4,10 +4,10 @@
 #include "icm.h"
 #include "bool.h"
 
-void /*FUNCTION*/ iniicm()
-{
+void /*FUNCTION*/
+iniicm() {
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: Variable initialization of common block CMICM.
 	 *=====================================================================
 	 * MODIFICATION HISTORY: 
@@ -20,8 +20,8 @@ void /*FUNCTION*/ iniicm()
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  870316
 	 *===================================================================== */
-	/* PROCEDURE:  */
-	/*=====================================================================
+    /* PROCEDURE:  */
+        /*=====================================================================
 	 * VARIABLE DEFINITIONS FOR:  TRANSFER command
 	 *     fpfrom:   Array of floating point parameters for "from" instrument.
 	 *               (1) = free period
@@ -37,69 +37,68 @@ void /*FUNCTION*/ iniicm()
 	 *               (2) = instrument subtype name
 	 *    fpto, ipto, kpto:  Arrays of parameters for the "to" instrument.
 	 *===================================================================== */
-	cmicm.lprew = FALSE;
-	cmicm.iprew = 6 ;
+    cmicm.lprew = FALSE;
+    cmicm.iprew = 6;
 
-	cmicm.lfd = FALSE ;	/* TRUE if WHITEN move coefficients into FILTERDESIGN */
+    cmicm.lfd = FALSE;          /* TRUE if WHITEN move coefficients into FILTERDESIGN */
 
-	cmicm.lfreql = TRUE;
-	cmicm.freq[0] = -2.0;
-	cmicm.freq[1] = -1.0;
-	cmicm.freq[2] = 1.0e5;
-	cmicm.freq[3] = 1.0e6;
+    cmicm.lfreql = TRUE;
+    cmicm.freq[0] = -2.0;
+    cmicm.freq[1] = -1.0;
+    cmicm.freq[2] = 1.0e5;
+    cmicm.freq[3] = 1.0e6;
 
-	cmicm.ninstr = 49;
-	strcpy( kmicm.kinstr[0], "ACC" );
-	strcpy( kmicm.kinstr[1], "BBDISP" );
-	strcpy( kmicm.kinstr[2], "BBVEL" );
-	strcpy( kmicm.kinstr[3], "BENBOG" );
-	strcpy( kmicm.kinstr[4], "DSS" );
-	strcpy( kmicm.kinstr[5], "DWWSSN" );
-	strcpy( kmicm.kinstr[6], "EKALP6" );
-	strcpy( kmicm.kinstr[7], "EKASP2" );
-	strcpy( kmicm.kinstr[8], "ELMAG" );
-	strcpy( kmicm.kinstr[9], "IW" );
-	strcpy( kmicm.kinstr[10], "GBALP" );
-	strcpy( kmicm.kinstr[11], "GBASP" );
-	strcpy( kmicm.kinstr[12], "GENERAL" );
-	strcpy( kmicm.kinstr[13], "GSREF" );
-	strcpy( kmicm.kinstr[14], "HFSLPWB" );
-	strcpy( kmicm.kinstr[15], "S750" );
-	strcpy( kmicm.kinstr[16], "LLL" );
-	strcpy( kmicm.kinstr[17], "LLSN" );
-	strcpy( kmicm.kinstr[18], "LRSMLP" );
-	strcpy( kmicm.kinstr[19], "LRSMSP" );
-	strcpy( kmicm.kinstr[20], "NORESS" );
-	strcpy( kmicm.kinstr[21], "NORESSHF" );
-	strcpy( kmicm.kinstr[22], "OLDBB" );
-	strcpy( kmicm.kinstr[23], "OLDKIR" );
-	strcpy( kmicm.kinstr[24], "PORTABLE" );
-	strcpy( kmicm.kinstr[25], "PTBLLP" );
-	strcpy( kmicm.kinstr[26], "REDKIR" );
-	strcpy( kmicm.kinstr[27], "RSTN" );
-	strcpy( kmicm.kinstr[28], "SANDIA" );
-	strcpy( kmicm.kinstr[29], "SANDIA3" );
-	strcpy( kmicm.kinstr[30], "SRO" );
-	strcpy( kmicm.kinstr[31], "VEL" );
-	strcpy( kmicm.kinstr[32], "WA" );
-	strcpy( kmicm.kinstr[33], "WABN" );
-	strcpy( kmicm.kinstr[34], "WIECH" );
-	strcpy( kmicm.kinstr[35], "WWLPBN" );
-	strcpy( kmicm.kinstr[36], "WWSP" );
-	strcpy( kmicm.kinstr[37], "WWSPBN" );
-	strcpy( kmicm.kinstr[38], "YKALP" );
-	strcpy( kmicm.kinstr[39], "YKASP" );
-	strcpy( kmicm.kinstr[40], "POLEZERO" );
-	strcpy( kmicm.kinstr[41], "NONE" );
-	strcpy( kmicm.kinstr[42], "REFTEK" );
-	strcpy( kmicm.kinstr[43], "LNN" );
-	strcpy( kmicm.kinstr[44], "EVALRESP" );
-	strcpy( kmicm.kinstr[45], "FAPFILE" );
-	strcpy( kmicm.kinstr[46], "DBASE" );
-  strcpy( kmicm.kinstr[47], "NDC" );
-  strcpy( kmicm.kinstr[48], "FAP" );
-       
-	return;
+    cmicm.ninstr = 49;
+    strcpy(kmicm.kinstr[0], "ACC");
+    strcpy(kmicm.kinstr[1], "BBDISP");
+    strcpy(kmicm.kinstr[2], "BBVEL");
+    strcpy(kmicm.kinstr[3], "BENBOG");
+    strcpy(kmicm.kinstr[4], "DSS");
+    strcpy(kmicm.kinstr[5], "DWWSSN");
+    strcpy(kmicm.kinstr[6], "EKALP6");
+    strcpy(kmicm.kinstr[7], "EKASP2");
+    strcpy(kmicm.kinstr[8], "ELMAG");
+    strcpy(kmicm.kinstr[9], "IW");
+    strcpy(kmicm.kinstr[10], "GBALP");
+    strcpy(kmicm.kinstr[11], "GBASP");
+    strcpy(kmicm.kinstr[12], "GENERAL");
+    strcpy(kmicm.kinstr[13], "GSREF");
+    strcpy(kmicm.kinstr[14], "HFSLPWB");
+    strcpy(kmicm.kinstr[15], "S750");
+    strcpy(kmicm.kinstr[16], "LLL");
+    strcpy(kmicm.kinstr[17], "LLSN");
+    strcpy(kmicm.kinstr[18], "LRSMLP");
+    strcpy(kmicm.kinstr[19], "LRSMSP");
+    strcpy(kmicm.kinstr[20], "NORESS");
+    strcpy(kmicm.kinstr[21], "NORESSHF");
+    strcpy(kmicm.kinstr[22], "OLDBB");
+    strcpy(kmicm.kinstr[23], "OLDKIR");
+    strcpy(kmicm.kinstr[24], "PORTABLE");
+    strcpy(kmicm.kinstr[25], "PTBLLP");
+    strcpy(kmicm.kinstr[26], "REDKIR");
+    strcpy(kmicm.kinstr[27], "RSTN");
+    strcpy(kmicm.kinstr[28], "SANDIA");
+    strcpy(kmicm.kinstr[29], "SANDIA3");
+    strcpy(kmicm.kinstr[30], "SRO");
+    strcpy(kmicm.kinstr[31], "VEL");
+    strcpy(kmicm.kinstr[32], "WA");
+    strcpy(kmicm.kinstr[33], "WABN");
+    strcpy(kmicm.kinstr[34], "WIECH");
+    strcpy(kmicm.kinstr[35], "WWLPBN");
+    strcpy(kmicm.kinstr[36], "WWSP");
+    strcpy(kmicm.kinstr[37], "WWSPBN");
+    strcpy(kmicm.kinstr[38], "YKALP");
+    strcpy(kmicm.kinstr[39], "YKASP");
+    strcpy(kmicm.kinstr[40], "POLEZERO");
+    strcpy(kmicm.kinstr[41], "NONE");
+    strcpy(kmicm.kinstr[42], "REFTEK");
+    strcpy(kmicm.kinstr[43], "LNN");
+    strcpy(kmicm.kinstr[44], "EVALRESP");
+    strcpy(kmicm.kinstr[45], "FAPFILE");
+    strcpy(kmicm.kinstr[46], "DBASE");
+    strcpy(kmicm.kinstr[47], "NDC");
+    strcpy(kmicm.kinstr[48], "FAP");
 
-} /* end of function */
+    return;
 
+}                               /* end of function */

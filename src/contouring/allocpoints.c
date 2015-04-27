@@ -13,18 +13,17 @@
 
 extern struct contour contour;
 
-void allocpoints(maxpoints, indexpoints, indexlinks, 
-	 indexrlinks, indexaction, nerr)
-     int maxpoints, *indexpoints, *indexlinks, *indexrlinks, *indexaction, 
-	 *nerr;
+void
+allocpoints(maxpoints, indexpoints, indexlinks, indexrlinks, indexaction, nerr)
+     int maxpoints, *indexpoints, *indexlinks, *indexrlinks, *indexaction,
+         *nerr;
 {
-  UNUSED(indexpoints);
-  UNUSED(indexlinks);
-  UNUSED(indexrlinks);
-  UNUSED(indexaction);
+    UNUSED(indexpoints);
+    UNUSED(indexlinks);
+    UNUSED(indexrlinks);
+    UNUSED(indexaction);
 
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To allocate storage for contour line points.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -49,8 +48,9 @@ void allocpoints(maxpoints, indexpoints, indexlinks,
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900412
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-  contour.points = (struct points *) malloc(sizeof(struct points) * maxpoints);
+    contour.points =
+        (struct points *) malloc(sizeof(struct points) * maxpoints);
 }

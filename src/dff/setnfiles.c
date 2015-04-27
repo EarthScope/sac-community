@@ -21,9 +21,8 @@
  * @date   900305:  Original version.
  *
  */
-void 
-setnfiles(int nfiles)  {
-  UNUSED(nfiles);
-	return;
+void
+setnfiles(int nfiles) {
+    UNUSED(nfiles);
+    return;
 }
-

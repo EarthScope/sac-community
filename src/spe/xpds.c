@@ -6,7 +6,6 @@
 #include "amf.h"
 #include "bool.h"
 
-
 #include "msg.h"
 #include "co.h"
 #include "ucf.h"
@@ -17,12 +16,13 @@ extern float *specor;
 extern float *spespe;
 extern float *speaux;
 
-void /*FUNCTION*/ xpds(nerr)
-int *nerr;
+void /*FUNCTION*/
+xpds(nerr)
+     int *nerr;
 {
-	double secpds;
+    double secpds;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To parse and execute the action command PDS.
 	 *          This command calculates a spectral estimate using
 	 *          the Power Density Spectrum method.
@@ -47,90 +47,89 @@ int *nerr;
 	 * SUBROUTINES CALLED:
 	 *    SACLIB:  LCMORE, CFMT, CRESP, LKLIST, LKREAL, LCLOG2, LKIRC, SPECTR
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* - PARSING PHASE: */
+    /* - PARSING PHASE: */
 
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-	while ( lcmore( nerr ) ){
+    while (lcmore(nerr)) {
 
-	    /* -- "SECONDS v": set window length in seconds. */
-    if( lkreal( "SECONDS$",9, &secpds ) ) {
-      cmspe.nlgpds = (int)( secpds*cmspe.samfrq );
+        /* -- "SECONDS v": set window length in seconds. */
+        if (lkreal("SECONDS$", 9, &secpds)) {
+            cmspe.nlgpds = (int) (secpds * cmspe.samfrq);
+        }
+        /* -- "LAGS n": set window length in lags. */
+        else if (lkint("LAGS$", 6, &cmspe.nlgpds)) {    /* do nothing */
+        }
+
+        /* -- "NUMBER i":  set number of points in spectral estimate. */
+        else if (lkirc("NUMBER$", 8, 512, cmspe.firstPowerOf2, &cmspe.nlnspe))
+            cmspe.nlnspe = next2(cmspe.nlnspe);
+
+        /* -- "TYPE c":  set window type. */
+        else if (lklist("TYPE$", 6, (char *) kmspe.kwintp, 9, MWINTP, &cmspe.iwnpds)) { /* do nothing */
+        }
+
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
     }
-	    /* -- "LAGS n": set window length in lags. */
-	    else if( lkint( "LAGS$",6, &cmspe.nlgpds ) )
-	    { /* do nothing */ }
 
-	    /* -- "NUMBER i":  set number of points in spectral estimate. */
-	    else if( lkirc( "NUMBER$",8, 512, cmspe.firstPowerOf2, &cmspe.nlnspe ) )
-		cmspe.nlnspe = next2( cmspe.nlnspe );
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-	    /* -- "TYPE c":  set window type. */
-	    else if( lklist( "TYPE$",6, (char*)kmspe.kwintp,9, MWINTP, 
-	     &cmspe.iwnpds ) ) { /* do nothing */ }
+    if (*nerr != 0)
+        goto L_8888;
 
-	    /* -- Bad syntax. */
-	    else{
-		cfmt( "ILLEGAL OPTION:",17 );
-		cresp();
-	    }
-	}
+    /* CHECKING PHASE: */
 
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
+    /* - Make sure correlation function has been calculated. */
 
-	if( *nerr != 0 )
-	    goto L_8888;
+    if (!cmspe.lcor) {
+        *nerr = 5003;
+        setmsg("ERROR", *nerr);
+        goto L_8888;
+    }
 
-	/* CHECKING PHASE: */
+    /* EXECUTION PHASE: */
 
-	/* - Make sure correlation function has been calculated. */
+    /* - Perform PDS function. */
 
-	if( !cmspe.lcor ){
-	    *nerr = 5003;
-	    setmsg( "ERROR", *nerr );
-	    goto L_8888;
-	}
+    spectr(specor, cmspe.nlnfft, cmspe.nlncor, "PDS", &cmspe.nlgpds,
+           cmspe.nlnspe, (char *) kmspe.kwintp[cmspe.iwnpds - 1]
+           , cmspe.cprewh, cmspe.nprewh, spespe, kmspe.kermsg, 131, speaux);
 
-	/* EXECUTION PHASE: */
+    /* - Check for error. */
 
-	/* - Perform PDS function. */
+    if (memcmp(kmspe.kermsg, "        ", 8) != 0) {
+        *nerr = 5005;
+        setmsg("ERROR", *nerr);
+        aplmsg(kmspe.kermsg, 131);
+        goto L_8888;
+    }
 
-	spectr( specor, cmspe.nlnfft, cmspe.nlncor, "PDS"
-	 , &cmspe.nlgpds, cmspe.nlnspe, (char*)kmspe.kwintp[cmspe.iwnpds - 1]
-	 , cmspe.cprewh, cmspe.nprewh, spespe, kmspe.kermsg
-	 ,131, speaux );
+    /* - Define globals pertaining to PSP plot. */
 
-	/* - Check for error. */
+    cmspe.lspe = TRUE;
+    cmspe.lresl = TRUE;
+    cmspe.lcl = TRUE;
+    strcpy(kmspe.kpspl1, "PDS             ");
+    secpds = (float) (cmspe.nlgpds) / cmspe.samfrq;
+    sprintf(kmspe.kpspl2, "SECONDS %5.1lf", secpds);
+    fstrncpy(kmspe.kpspl3, 16, "TYPE ", 5);
+    fstrncpy(kmspe.kpspl3 + 5, 16 - 5, kmspe.kwintp[cmspe.iwnpds - 1],
+             strlen(kmspe.kwintp[cmspe.iwnpds - 1]));
 
-	if( memcmp(kmspe.kermsg,"        ",8) != 0 ){
-	    *nerr = 5005;
-	    setmsg( "ERROR", *nerr );
-	    aplmsg( kmspe.kermsg,131 );
-	    goto L_8888;
-	}
+  L_8888:
 
-	/* - Define globals pertaining to PSP plot. */
+    return;
 
-	cmspe.lspe = TRUE;
-	cmspe.lresl = TRUE;
-	cmspe.lcl = TRUE;
-	strcpy( kmspe.kpspl1, "PDS             " );
-	secpds = (float)( cmspe.nlgpds )/cmspe.samfrq;
-  sprintf(kmspe.kpspl2,"SECONDS %5.1lf", secpds );
-  fstrncpy( kmspe.kpspl3, 16, "TYPE ", 5);
-  fstrncpy( kmspe.kpspl3+5, 16-5, kmspe.kwintp[cmspe.iwnpds - 1],
-            strlen(kmspe.kwintp[cmspe.iwnpds - 1]));
-
-L_8888:
-
-	return;
-
-	/*=====================================================================
+        /*=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    850111:  Changed SPE id logic.
 	 *    841227:  Changes due to major rewrite of SPE subprocess.
@@ -144,6 +143,4 @@ L_8888:
 	 * DOCUMENTED/REVIEWED:  850109
 	 *===================================================================== */
 
-
-} /* end of function */
-
+}                               /* end of function */

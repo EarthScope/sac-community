@@ -20,16 +20,16 @@
 #endif
 
 #ifdef READLINE
-  #ifdef EDITLINE_DISABLED
-    #include <readline/readline.h>
-    #include <readline/history.h>
-    typedef void VCPFunction (char *); /* For rl_vcpfunc_t in Readline */
-  #else 
-    #include "editline/readline.h"
-  #endif /* EDITLINE_DISABLED */
+#ifdef EDITLINE_DISABLED
+#include <readline/readline.h>
+#include <readline/history.h>
+typedef void VCPFunction(char *);       /* For rl_vcpfunc_t in Readline */
+#else
+#include "editline/readline.h"
+#endif /* EDITLINE_DISABLED */
 #else /* READLINE */
   /* not READLINE and not EDITLINE */
-  typedef void VCPFunction (char *);
+typedef void VCPFunction(char *);
 #endif
 #define SAC_HISTORY_FILE ".sac_history"
 
@@ -66,7 +66,7 @@ int select_loop_continue(int w);
          a string terminator '\0'
 	 
 */
-int select_loop_message(char *p, int len); 
+int select_loop_message(char *p, int len);
 /* 
    Function:
    select_loop        Loop on STDIN and X11 for input 
@@ -89,10 +89,10 @@ int select_loop_message(char *p, int len);
 */
 #ifdef READLINE
 int select_loop(char *prmt, int prmtlen, char *msg, int msglen,
-                struct timeval *timeout, VCPFunction *func,
-                int stdin_on, int gui_on);
+                struct timeval *timeout, VCPFunction * func, int stdin_on,
+                int gui_on);
 #endif
 
 int show_prompt_without_tty(int getset);
 
-#endif 
+#endif

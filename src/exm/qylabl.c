@@ -15,13 +15,13 @@
  * @date   820316:  Original version.
  *
  */
-void 
+void
 qylabl() {
 
-  replv( "YLABEL option$",15, cmgem.ylabel.on );
-  repkv( "Text of ylabel$",16, kmgem.kylab,145 );
-  reprv( "SIZE of ylabel$",16, cmgem.ylabel.text_size );
-  repav( "LOCATION of ylabel$",20, (char*)kmgem.ksides[cmgem.ylabel.pos - 1], 9 );
-  return;
+    replv("YLABEL option$", 15, cmgem.ylabel.on);
+    repkv("Text of ylabel$", 16, kmgem.kylab, 145);
+    reprv("SIZE of ylabel$", 16, cmgem.ylabel.text_size);
+    repav("LOCATION of ylabel$", 20,
+          (char *) kmgem.ksides[cmgem.ylabel.pos - 1], 9);
+    return;
 }
-

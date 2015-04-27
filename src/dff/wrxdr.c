@@ -16,9 +16,8 @@
 #include "errors.h"
 #include "debug.h"
 
-#ifdef HAVE_LIBRPC 
+#ifdef HAVE_LIBRPC
 #include <rpc/rpc.h>
-
 
 /** 
  * Write a SAC data file from memory to disk is XDR (portable) format
@@ -41,88 +40,81 @@
  * @date   010496:  Original version.
  *
  */
-void 
-wrxdr(int   idfl, 
-      char *kname, 
-      int   kname_s, 
-      int   ldta, 
-      int  *nerr) {
+void
+wrxdr(int idfl, char *kname, int kname_s, int ldta, int *nerr) {
 
-	int jcomp, ncerr, nlcmem, nptwr; 
-        FILE *nun;
-        XDR xdrs;
-  float *z;
-  sac *s;
-	*nerr = 0;
+    int jcomp, ncerr, nlcmem, nptwr;
+    FILE *nun;
+    XDR xdrs;
+    float *z;
+    sac *s;
+    *nerr = 0;
 
-        if( !ldta ){
-          *nerr = ERROR_WRITING_XDR_FILE;
-          return;
-	}
+    if (!ldta) {
+        *nerr = ERROR_WRITING_XDR_FILE;
+        return;
+    }
 
-  if(!(s = sacget(idfl-1, TRUE, nerr))){
-    goto L_8888;
-  }
+    if (!(s = sacget(idfl - 1, TRUE, nerr))) {
+        goto L_8888;
+    }
 
-	/* create a file */
-	znfiles(&nun, kname, kname_s, "TEXT", 5, nerr);
-	if( *nerr != 0 )
-	    return;
+    /* create a file */
+    znfiles(&nun, kname, kname_s, "TEXT", 5, nerr);
+    if (*nerr != 0)
+        return;
 
-	/* create a stream for the XDR conversions */
-	xdrstdio_create(&xdrs, nun, XDR_ENCODE);
+    /* create a stream for the XDR conversions */
+    xdrstdio_create(&xdrs, nun, XDR_ENCODE);
 
-	/* - Write the header to disk. */
-	nlcmem = Ndxhdr[idfl];
+    /* - Write the header to disk. */
+    nlcmem = Ndxhdr[idfl];
 
-	xdrhdr(xdrs, s->h, nerr);
-	if( *nerr != 0 )
-	    goto L_8888;
+    xdrhdr(xdrs, s->h, nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* - Write each data component, if requested. */
-	if( ldta ){
-    for( jcomp = 0; jcomp < sac_comps(s); jcomp++ ){
-      z = (jcomp == 0) ? s->y : s->x;
+    /* - Write each data component, if requested. */
+    if (ldta) {
+        for (jcomp = 0; jcomp < sac_comps(s); jcomp++) {
+            z = (jcomp == 0) ? s->y : s->x;
 
-      if( !xdr_array(&xdrs, (caddr_t *)z, 
-		    (u_int *)&s->h->npts, (u_int)s->h->npts, sizeof(float), xdr_float)){
-		    *nerr = ERROR_ENCODING_XDR_FILE;
-		    goto L_8888;
-		}
-	    }
-	}
+            if (!xdr_array
+                (&xdrs, (caddr_t *) z, (u_int *) & s->h->npts,
+                 (u_int) s->h->npts, sizeof(float), xdr_float)) {
+                *nerr = ERROR_ENCODING_XDR_FILE;
+                goto L_8888;
+            }
+        }
+    }
 
 /* - Close disk file. */
 
-L_8888:
-        xdr_destroy(&xdrs);
-	zcloses( &nun, &ncerr );
+  L_8888:
+    xdr_destroy(&xdrs);
+    zcloses(&nun, &ncerr);
 
-	return;
+    return;
 
-} 
+}
 
-#else 
+#else
 
-void 
-wrxdr(int   idfl, 
-      char *kname, 
-      int   kname_s, 
-      int   ldta, 
-      int  *nerr) {
-  librpc_not_available();
-  UNUSED(idfl);
-  UNUSED(kname);
-  UNUSED(kname_s);
-  UNUSED(ldta);
-  UNUSED(nerr);
+void
+wrxdr(int idfl, char *kname, int kname_s, int ldta, int *nerr) {
+    librpc_not_available();
+    UNUSED(idfl);
+    UNUSED(kname);
+    UNUSED(kname_s);
+    UNUSED(ldta);
+    UNUSED(nerr);
 }
 
 void
 librpc_not_available() {
-  fprintf(stderr, 
-          "XDR file format read/write feature not compiled into sac\n"
-          "    please re-configure with --with-librpc and recompile\n");
+    fprintf(stderr,
+            "XDR file format read/write feature not compiled into sac\n"
+            "    please re-configure with --with-librpc and recompile\n");
 }
 
 #endif /* HAVE_LIBRPC */

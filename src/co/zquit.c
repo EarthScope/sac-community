@@ -14,7 +14,6 @@
 
 #include "config.h"
 
-
 #include "gdm.h"
 #include "xyz.h"
 
@@ -24,7 +23,7 @@
 #include "sac_history.h"
 
 void sac_vars_free();
-void saccommands_cleanup(eval *e);
+void saccommands_cleanup(eval * e);
 
 void vfilelist_free();
 void sac_history_filename_free();
@@ -38,7 +37,10 @@ void lexer_free();
  *  Function stub for select_loop_message 
  *   normally in co/select.c but co/select.c is not compiled for WIN32
  */
-int select_loop_message(char *p, int len) {return 0;}
+int
+select_loop_message(char *p, int len) {
+    return 0;
+}
 #endif
 
 /** 
@@ -65,68 +67,65 @@ int select_loop_message(char *p, int len) {return 0;}
  * @date   891002:  Documented/Reviewed
  *
  */
-void 
+void
 zquit() {
 #ifdef READLINE
-  char *sachistory;
+    char *sachistory;
 #endif
-  int nerr;
+    int nerr;
 
-	/* - Close and dispose of any output files. */
-	/* -- Plot files. */
-	endgraphics( &nerr );
-	if( nerr != 0 )
-		goto L_8888;
+    /* - Close and dispose of any output files. */
+    /* -- Plot files. */
+    endgraphics(&nerr);
+    if (nerr != 0)
+        goto L_8888;
 
-	/* -- Pick files. */
-	capf( &nerr );
-	if( nerr != 0 )
-		goto L_8888;
-	chpf( &nerr );
-	if( nerr != 0 )
-		goto L_8888;
+    /* -- Pick files. */
+    capf(&nerr);
+    if (nerr != 0)
+        goto L_8888;
+    chpf(&nerr);
+    if (nerr != 0)
+        goto L_8888;
 
-	/* - Destroy any scratch files created during execution. */
+    /* - Destroy any scratch files created during execution. */
 
-	zdestf( "ZDFL ",6, &nerr );
-	if( nerr != 0 )
-		goto L_8888;
+    zdestf("ZDFL ", 6, &nerr);
+    if (nerr != 0)
+        goto L_8888;
 
-	xyzcleanup();
-  sac_vars_free();
-
-
+    xyzcleanup();
+    sac_vars_free();
 
 #ifdef READLINE
-        /* Cleanup Command Line Editing Tools */
-	{
-	  sachistory = sac_history_file();
-	  if(sachistory) {
-	    write_history(sachistory);
-        clear_history();
-	  }
-	}
-  if(use_tty()) {
-    rl_callback_handler_remove();
-    /* rl_cleanup(); */
-  }
+    /* Cleanup Command Line Editing Tools */
+    {
+        sachistory = sac_history_file();
+        if (sachistory) {
+            write_history(sachistory);
+            clear_history();
+        }
+    }
+    if (use_tty()) {
+        rl_callback_handler_remove();
+        /* rl_cleanup(); */
+    }
 #endif /* READLINE */
-  arg_reset();
-  saccommands_cleanup(NULL);
+    arg_reset();
+    saccommands_cleanup(NULL);
 
-  vfilelist_free();
-  sac_history_filename_free();
-  dblErrorFree();
-  select_loop_message(NULL, -1);
-  dfm_free();
-  gdm_free_devices();
-  lexer_free();
-	/* - Terminate program. */
+    vfilelist_free();
+    sac_history_filename_free();
+    dblErrorFree();
+    select_loop_message(NULL, -1);
+    dfm_free();
+    gdm_free_devices();
+    lexer_free();
+    /* - Terminate program. */
 
-	exit(0);
+    exit(0);
 
-L_8888:
-	return;
+  L_8888:
+    return;
 
 }
-

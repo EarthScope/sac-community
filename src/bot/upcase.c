@@ -37,65 +37,62 @@
  * @date   820309:  Original version.
  *
  */
-void 
-upcase(char *kinput, 
-       int   nchar, 
-       char *koutpt, 
-       int   koutpt_s) {
+void
+upcase(char *kinput, int nchar, char *koutpt, int koutpt_s) {
 
-	char ktemp[133];
-	char kchar;
-	int itemp, jchar, length;
-	static int iconv = -32;
+    char ktemp[133];
+    char kchar;
+    int itemp, jchar, length;
+    static int iconv = -32;
 
-	/* - Initialize output string to blanks: */
-        memset(ktemp,(int)' ',132);
-        ktemp[132] = '\0';
+    /* - Initialize output string to blanks: */
+    memset(ktemp, (int) ' ', 132);
+    ktemp[132] = '\0';
 
-	/* - For each character in input string: */
+    /* - For each character in input string: */
 
-	length = nchar;
-	if( length > 132 )
-		length = 132;
-	for ( jchar = 1 ; jchar <= length ; jchar++ ){
+    length = nchar;
+    if (length > 132)
+        length = 132;
+    for (jchar = 1; jchar <= length; jchar++) {
 
-		/* -- Copy to local variable. */
+        /* -- Copy to local variable. */
 
-		kchar = kinput[jchar - 1];
+        kchar = kinput[jchar - 1];
 
-		/* -- If between "a" and "z":
-		 * --- Convert character to integer.
-		 * --- Added conversion offset.
-		 * --- Convert from integer back to character. */
+        /* -- If between "a" and "z":
+         * --- Convert character to integer.
+         * --- Added conversion offset.
+         * --- Convert from integer back to character. */
 
-		if( (kchar >= 'a') && (kchar <= 'z') ){
-			itemp = ( kchar );
-			itemp = itemp + iconv;
-			kchar = (itemp);
-		}
+        if ((kchar >= 'a') && (kchar <= 'z')) {
+            itemp = (kchar);
+            itemp = itemp + iconv;
+            kchar = (itemp);
+        }
 
-		/* -- Copy local variable to output string. */
+        /* -- Copy local variable to output string. */
 
-		ktemp[jchar - 1] = kchar;
+        ktemp[jchar - 1] = kchar;
 
-	} /* end for */
+    }                           /* end for */
 
-        if ( koutpt_s == 1 )
-		*koutpt = ktemp[0];
-        else
-		fstrncpy(koutpt,koutpt_s - 1,ktemp,jchar-1);
+    if (koutpt_s == 1)
+        *koutpt = ktemp[0];
+    else
+        fstrncpy(koutpt, koutpt_s - 1, ktemp, jchar - 1);
 
-	return;
+    return;
 
 }
 
-char * 
+char *
 upcase_dup(char *s) {
-  char *p, *new;
-  p = new = strdup(s);
-  while(*p) {
-    *p = toupper(*p);
-    p++;
-  }
-  return new;
+    char *p, *new;
+    p = new = strdup(s);
+    while (*p) {
+        *p = toupper(*p);
+        p++;
+    }
+    return new;
 }

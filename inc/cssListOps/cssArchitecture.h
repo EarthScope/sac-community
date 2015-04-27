@@ -10,7 +10,7 @@ static int big = 1 ;
    This value is set by SetIndianSize(), and is accessed by IsBigendin().
 */
 
-void SetIndianSize() ;
-int  IsBigendin() ;
+void SetIndianSize();
+int IsBigendin();
 
 #endif

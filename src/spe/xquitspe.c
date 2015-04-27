@@ -4,20 +4,19 @@
 #include "spe.h"
 #include "amf.h"
 
-
 #include "cpf.h"
 #include "exm.h"
-
 
 extern float *specor;
 extern float *spepe;
 extern float *spespe;
 extern float *speaux;
 
-void /*FUNCTION*/ xquitspe(nerr)
-int *nerr;
+void /*FUNCTION*/
+xquitspe(nerr)
+     int *nerr;
 {
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To execute the QUITSUB command in the Spectral Estimation
 	 *           Subprocess.  This command terminates the subprocess and
 	 *           returns to the main SAC program.
@@ -40,26 +39,24 @@ int *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  850801
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* - Change to the standard command list and default prompt. */
+    /* - Change to the standard command list and default prompt. */
 
-	setcomlist( 1 );
-	setprompt( "SAC>",5 );
+    setcomlist(1);
+    setprompt("SAC>", 5);
 
-	/* - Reset firstPowerOf2 for use in SPECTROGRAM */
-	cmspe.firstPowerOf2 = MINPOW ;
+    /* - Reset firstPowerOf2 for use in SPECTROGRAM */
+    cmspe.firstPowerOf2 = MINPOW;
 
-	/* - Release data blocks used in this subprocess. */
+    /* - Release data blocks used in this subprocess. */
 
-  FREE(specor);
-  FREE(spepe);
-  FREE(spespe);
-  FREE(speaux);
+    FREE(specor);
+    FREE(spepe);
+    FREE(spespe);
+    FREE(speaux);
 
+    return;
 
-	return;
-
-} /* end of function */
-
+}                               /* end of function */

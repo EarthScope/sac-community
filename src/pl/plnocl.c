@@ -4,18 +4,18 @@
 #include "pl.h"
 #include "gem.h"
 
-
 #include "gtm.h"
 #include "gdm.h"
 
-void /*FUNCTION*/ plnocl(xarray, yarray, number, lnewdp)
-float xarray[], yarray[];
-int *number;
-int lnewdp;
+void /*FUNCTION*/
+plnocl(xarray, yarray, number, lnewdp)
+     float xarray[], yarray[];
+     int *number;
+     int lnewdp;
 {
-	int iline;
+    int iline;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To display a set of data points without clipping.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -34,28 +34,27 @@ int lnewdp;
 	 * SUBROUTINES CALLED:
 	 *    SACLIB:  POLYLINE, SETLINESTYLE, SYMBOL
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Connect the data points if requested. */
+    /* PROCEDURE: */
+    /* - Connect the data points if requested. */
 
-	if( cmgem.lline && cmgem.icline > 0 ) {
-		polyline( xarray, yarray, number );
-                stroke();
-        }
-	/* - Plot scaled symbols if requested. */
+    if (cmgem.lline && cmgem.icline > 0) {
+        polyline(xarray, yarray, number);
+        stroke();
+    }
+    /* - Plot scaled symbols if requested. */
 
-	if( cmgem.lsym && cmgem.isym > 0 ){
-                iline = cmgdm.iline;
-		setlinestyle( LINE_STYLE_SOLID );
-		setlinewidth( cmgem.isymwidth );
-		symbol( xarray, yarray, *number, lnewdp );
-		setlinestyle( iline );
-		setlinewidth( cmgem.iwidth );
-		}
+    if (cmgem.lsym && cmgem.isym > 0) {
+        iline = cmgdm.iline;
+        setlinestyle(LINE_STYLE_SOLID);
+        setlinewidth(cmgem.isymwidth);
+        symbol(xarray, yarray, *number, lnewdp);
+        setlinestyle(iline);
+        setlinewidth(cmgem.iwidth);
+    }
 
-       
-	return;
+    return;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    920526:  Added line-width.
 	 *    910301:  Changed iline to icline.
@@ -66,5 +65,4 @@ int lnewdp;
 	 *    811223:  Original version extracted from PLDTA.
 	 *===================================================================== */
 
-} /* end of function */
-
+}                               /* end of function */

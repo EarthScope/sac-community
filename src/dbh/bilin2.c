@@ -46,41 +46,37 @@
  *
  * \todo Further Documentation 
  */
-void 
-bilin2(float    *sn, 
-       float    *sd, 
-       int       nsects)
-{
-	int i, iptr;
-	double a0, a1, a2, scale;
+void
+bilin2(float *sn, float *sd, int nsects) {
+    int i, iptr;
+    double a0, a1, a2, scale;
 
-	float *const Sd = &sd[0] - 1;
-	float *const Sn = &sn[0] - 1;
+    float *const Sd = &sd[0] - 1;
+    float *const Sn = &sn[0] - 1;
 
-	iptr = 1;
-	for( i = 1; i <= nsects; i++ ){
+    iptr = 1;
+    for (i = 1; i <= nsects; i++) {
 
-		a0 = Sd[iptr];
-		a1 = Sd[iptr + 1];
-		a2 = Sd[iptr + 2];
+        a0 = Sd[iptr];
+        a1 = Sd[iptr + 1];
+        a2 = Sd[iptr + 2];
 
-		scale = a2 + a1 + a0;
-		Sd[iptr] = 1.;
-		Sd[iptr + 1] = (2.*(a0 - a2))/scale;
-		Sd[iptr + 2] = (a2 - a1 + a0)/scale;
+        scale = a2 + a1 + a0;
+        Sd[iptr] = 1.;
+        Sd[iptr + 1] = (2. * (a0 - a2)) / scale;
+        Sd[iptr + 2] = (a2 - a1 + a0) / scale;
 
-		a0 = Sn[iptr];
-		a1 = Sn[iptr + 1];
-		a2 = Sn[iptr + 2];
+        a0 = Sn[iptr];
+        a1 = Sn[iptr + 1];
+        a2 = Sn[iptr + 2];
 
-		Sn[iptr] = (a2 + a1 + a0)/scale;
-		Sn[iptr + 1] = (2.*(a0 - a2))/scale;
-		Sn[iptr + 2] = (a2 - a1 + a0)/scale;
+        Sn[iptr] = (a2 + a1 + a0) / scale;
+        Sn[iptr + 1] = (2. * (a0 - a2)) / scale;
+        Sn[iptr + 2] = (a2 - a1 + a0) / scale;
 
-		iptr = iptr + 3;
+        iptr = iptr + 3;
 
-		}
+    }
 
-	return;
-} 
-
+    return;
+}

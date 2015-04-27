@@ -43,31 +43,23 @@
  * @date   881107:  Doumented/Reviewed
  *
  */
-void 
-putvvstring(char *vars, 
-	    int   vars_s, 
-	    char *name, 
-	    int   name_s, 
-	    int   numchars, 
-	    char *value, 
-	    int   value_s, 
-	    int  *nerr)
-{
-  char *n;
-  *nerr = 0;
-  UNUSED(vars_s);
-  UNUSED(name_s);
-  UNUSED(numchars);
-  UNUSED(value_s);
-  n = upcase_dup(name);
-  if(!sac_vars_put_var(vars, n, VAR_STRING, value)) {
-    if(!sac_vars_exists(vars)) {
-      *nerr = 1203; /* variable list not found */
-    } else {
-      *nerr = 1205; /* Error deleting variable */
+void
+putvvstring(char *vars, int vars_s, char *name, int name_s, int numchars,
+            char *value, int value_s, int *nerr) {
+    char *n;
+    *nerr = 0;
+    UNUSED(vars_s);
+    UNUSED(name_s);
+    UNUSED(numchars);
+    UNUSED(value_s);
+    n = upcase_dup(name);
+    if (!sac_vars_put_var(vars, n, VAR_STRING, value)) {
+        if (!sac_vars_exists(vars)) {
+            *nerr = 1203;       /* variable list not found */
+        } else {
+            *nerr = 1205;       /* Error deleting variable */
+        }
     }
-  }
-  free(n);
-	return;
+    free(n);
+    return;
 }
-

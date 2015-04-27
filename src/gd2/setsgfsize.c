@@ -3,14 +3,13 @@
 
 #include "gd2.h"
 
-void /*FUNCTION*/ setsgfsize(type, value)
-char *type;
-double value;
+void /*FUNCTION*/
+setsgfsize(type, value)
+     char *type;
+     double value;
 {
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To set the plot size of a SAC Graphics File.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -47,25 +46,20 @@ double value;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWD:  900310
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Save passed arguments in common block. */
-	if( type[0] == 'N' || type[0] == 'n' ){
-		strcpy( kmgd2.sizetype, "NORMAL  " );
-		}
-	else if( type[0] == 'F' || type[0] == 'f' ){
-		strcpy( kmgd2.sizetype, "FIXED   " );
-		cmgd2.sizevalue = value;
-		}
-	else if( type[0] == 'S' || type[0] == 's' ){
-		strcpy( kmgd2.sizetype, "SCALED  " );
-		cmgd2.sizevalue = value;
-		}
-	else{
-		strcpy( kmgd2.sizetype, "NORMAL  " );
-		}
+    /* PROCEDURE: */
+    /* - Save passed arguments in common block. */
+    if (type[0] == 'N' || type[0] == 'n') {
+        strcpy(kmgd2.sizetype, "NORMAL  ");
+    } else if (type[0] == 'F' || type[0] == 'f') {
+        strcpy(kmgd2.sizetype, "FIXED   ");
+        cmgd2.sizevalue = value;
+    } else if (type[0] == 'S' || type[0] == 's') {
+        strcpy(kmgd2.sizetype, "SCALED  ");
+        cmgd2.sizevalue = value;
+    } else {
+        strcpy(kmgd2.sizetype, "NORMAL  ");
+    }
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

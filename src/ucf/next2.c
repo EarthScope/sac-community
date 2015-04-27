@@ -21,20 +21,19 @@
  * @date    810000:  Original version.
  *
  */
-int 
+int
 next2(int num) {
-  int next2_v;
-  
-  next2_v = STARTING_POWER_OF_TWO;
-    
-  while(next2_v < num) {
-    next2_v *= 2;
-    if(next2_v < STARTING_POWER_OF_TWO) {
-      printf("next2: %d %d\n", next2_v, num);
-      exit(-1);
-    }
-  }
-  
-  return( next2_v );
-}
+    int next2_v;
 
+    next2_v = STARTING_POWER_OF_TWO;
+
+    while (next2_v < num) {
+        next2_v *= 2;
+        if (next2_v < STARTING_POWER_OF_TWO) {
+            printf("next2: %d %d\n", next2_v, num);
+            exit(-1);
+        }
+    }
+
+    return (next2_v);
+}

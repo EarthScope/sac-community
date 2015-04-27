@@ -15,8 +15,7 @@
  * @date   870728:  Original version.
  *
  */
-void 
+void
 qam() {
-	return;
+    return;
 }
-

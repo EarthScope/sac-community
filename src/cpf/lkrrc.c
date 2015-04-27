@@ -36,42 +36,37 @@
  *
  */
 int
-lkrrc(char   *kkey, 
-      int     kkey_s, 
-      double  realmn, 
-      double  realmx, 
-      double *realv) {
+lkrrc(char *kkey, int kkey_s, double realmn, double realmx, double *realv) {
 
-	int nerr;
-	double rv;
-  Token *t;
+    int nerr;
+    double rv;
+    Token *t;
 
-	/* - Check for key. */
-	if(!lckey( kkey,kkey_s )) {
-    return FALSE;
-  }
-
-
-L_2000:
-  if((t = arg()) && token_is_number(t)) {
-    rv = t->value;
-    if( rv >= realmn && rv <= realmx ){
-      *realv = rv;
-      arg_next();
-    } else {
-      cfmt( "OUTSIDE ALLOWED RANGE:",24 );
-      fprintf(stdout, " Allowed range is: %12.5g%12.5g\n",realmn, realmx);
-      cresp();
-      if( lcmore( &nerr ) )
-        goto L_2000;
+    /* - Check for key. */
+    if (!lckey(kkey, kkey_s)) {
+        return FALSE;
     }
-  } else {
-    cfmt( "NEED A REAL VARIABLE:",23 );
-    cresp();
-    if( lcmore( &nerr ) )
-      goto L_2000;
-  }
 
-	return TRUE;
+  L_2000:
+    if ((t = arg()) && token_is_number(t)) {
+        rv = t->value;
+        if (rv >= realmn && rv <= realmx) {
+            *realv = rv;
+            arg_next();
+        } else {
+            cfmt("OUTSIDE ALLOWED RANGE:", 24);
+            fprintf(stdout, " Allowed range is: %12.5g%12.5g\n", realmn,
+                    realmx);
+            cresp();
+            if (lcmore(&nerr))
+                goto L_2000;
+        }
+    } else {
+        cfmt("NEED A REAL VARIABLE:", 23);
+        cresp();
+        if (lcmore(&nerr))
+            goto L_2000;
+    }
+
+    return TRUE;
 }
-

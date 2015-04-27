@@ -14,13 +14,13 @@
 extern struct contour contour;
 int
 nextcontseg(number, level, start, stop)
-int *number, *level, *start, *stop;
+     int *number, *level, *start, *stop;
 {
-	int nextcontseg_v;
+    int nextcontseg_v;
 
-  struct segments *segs;
+    struct segments *segs;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To get information about the "next" contouring segment.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -44,33 +44,29 @@ int *number, *level, *start, *stop;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900315
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Initialize or increment segment pointer. */
-	if( *number <= 0 ){
-		*number = 1;
-		}
-	else{
-		*number = *number + 1;
-		}
-  segs = contour.segments;
- 
-L_1000:
-	if( *number <= cmcontouring.numsegments ){
-		*start = segs[*number-1].start;
-		if( *start > 0 ){
-			*level = segs[*number-1].level;
-			*stop = segs[*number-1].stop;
-			}
-		else{
-			*number = *number + 1;
-			goto L_1000;
-			}
-		nextcontseg_v = TRUE;
-		}
-	else{
-		nextcontseg_v = FALSE;
-		}
+    /* PROCEDURE: */
+    /* - Initialize or increment segment pointer. */
+    if (*number <= 0) {
+        *number = 1;
+    } else {
+        *number = *number + 1;
+    }
+    segs = contour.segments;
 
-	return( nextcontseg_v );
+  L_1000:
+    if (*number <= cmcontouring.numsegments) {
+        *start = segs[*number - 1].start;
+        if (*start > 0) {
+            *level = segs[*number - 1].level;
+            *stop = segs[*number - 1].stop;
+        } else {
+            *number = *number + 1;
+            goto L_1000;
+        }
+        nextcontseg_v = TRUE;
+    } else {
+        nextcontseg_v = FALSE;
+    }
+
+    return (nextcontseg_v);
 }
-

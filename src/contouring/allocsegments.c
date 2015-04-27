@@ -13,16 +13,16 @@
 
 extern struct contour contour;
 
-void allocsegments(maxsegments, indexlevels, indexstarts, 
-	 indexstops, nerr)
-int maxsegments, *indexlevels, *indexstarts, *indexstops, *nerr;
+void
+allocsegments(maxsegments, indexlevels, indexstarts, indexstops, nerr)
+     int maxsegments, *indexlevels, *indexstarts, *indexstops, *nerr;
 {
-  UNUSED(indexlevels);
-  UNUSED(indexstarts);
-  UNUSED(indexstops);
-  UNUSED(nerr);
+    UNUSED(indexlevels);
+    UNUSED(indexstarts);
+    UNUSED(indexstops);
+    UNUSED(nerr);
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To allocate storage for contour line segments.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -44,11 +44,9 @@ int maxsegments, *indexlevels, *indexstarts, *indexstops, *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900315
 	 *===================================================================== */
-	/* PROCEDURE: */
+    /* PROCEDURE: */
 
-  contour.segments = (struct segments *) malloc(sizeof(struct segments) * maxsegments);
+    contour.segments =
+        (struct segments *) malloc(sizeof(struct segments) * maxsegments);
 
-
-
-} /* end of function */
-
+}                               /* end of function */

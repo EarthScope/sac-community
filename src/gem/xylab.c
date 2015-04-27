@@ -12,41 +12,41 @@
 #include "bool.h"
 #include "string_utils.h"
 
-
 #include "cpf.h"
 
-void 
+void
 ylabel_switch(int flag) {
-  cmgem.ylabel.on = flag;  /* X Label Flag */
+    cmgem.ylabel.on = flag;     /* X Label Flag */
 }
 
 void
 ylabel_label(char *c) {
-  ylabel_switch(TRUE);
-  strncpy(kmgem.kylab, c, MCPTXT); /* kmgem.lxlab - Label for the X Axis */
-  cmgem.ylabel.len = min(MCPTXT, strlen(c));
+    ylabel_switch(TRUE);
+    strncpy(kmgem.kylab, c, MCPTXT);    /* kmgem.lxlab - Label for the X Axis */
+    cmgem.ylabel.len = min(MCPTXT, strlen(c));
 }
 
 void
 ylabel_location(char *c) {
-  int i;
-  for(i = 0; i < SAC_LABEL_LOCATIONS; i++) {
-    if(strncasecmp(c, kmgem.ksides[i], min(strlen(c), SAC_KEY_SIZE_LENGTH)) == 0) {
-      cmgem.ylabel.pos = i + 1;
-      ylabel_switch(TRUE);
+    int i;
+    for (i = 0; i < SAC_LABEL_LOCATIONS; i++) {
+        if (strncasecmp(c, kmgem.ksides[i], min(strlen(c), SAC_KEY_SIZE_LENGTH))
+            == 0) {
+            cmgem.ylabel.pos = i + 1;
+            ylabel_switch(TRUE);
+        }
     }
-  }
 }
-
 
 void
 ylabel_size(char *c) {
-  int i;
-  for(i = 0; i < SAC_FONT_SIZES; i++) {
-    if(strncasecmp(c, kmgem.ktxsiz[i], min(strlen(c), SAC_KEY_SIZE_LENGTH)) == 0) {
-      cmgem.ylabel.text_size = cmgem.dtxsiz[i];
+    int i;
+    for (i = 0; i < SAC_FONT_SIZES; i++) {
+        if (strncasecmp(c, kmgem.ktxsiz[i], min(strlen(c), SAC_KEY_SIZE_LENGTH))
+            == 0) {
+            cmgem.ylabel.text_size = cmgem.dtxsiz[i];
+        }
     }
-  }
 }
 
 /** 
@@ -62,45 +62,41 @@ ylabel_size(char *c) {
  * @date   820614:  Original version.
  *
  */
-void 
-xylab(int *nerr)
-{
-	int iylabs;
+void
+xylab(int *nerr) {
+    int iylabs;
 
-	*nerr = 0;
+    *nerr = 0;
 
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-L_1000:
-	if( lcmore( nerr ) ){
+  L_1000:
+    if (lcmore(nerr)) {
 
-		/* -- Turn y labeling on/off: */
-		if( lclog( &cmgem.ylabel.on ) ){
+        /* -- Turn y labeling on/off: */
+        if (lclog(&cmgem.ylabel.on)) {
 
-			/* -- Define text of y label: */
-			}
-		else if( lcquot( MCPTXT, kmgem.kylab,145, &cmgem.ylabel.len ) ){
-			cmgem.ylabel.on = TRUE;
+            /* -- Define text of y label: */
+        } else if (lcquot(MCPTXT, kmgem.kylab, 145, &cmgem.ylabel.len)) {
+            cmgem.ylabel.on = TRUE;
 
-			/* -- Set y label size: */
-			}
-		else if( lklist( "S$",3, (char*)kmgem.ktxsiz,9, MTXSIZ, &iylabs ) ){
-			cmgem.ylabel.text_size = cmgem.txsiz[iylabs-1];
+            /* -- Set y label size: */
+        } else if (lklist("S$", 3, (char *) kmgem.ktxsiz, 9, MTXSIZ, &iylabs)) {
+            cmgem.ylabel.text_size = cmgem.txsiz[iylabs - 1];
 
-			/* -- Set location of y label: */
-			}
-		else if( lklist( "L$",3, (char*)kmgem.ksides,9, 4, &cmgem.ylabel.pos ) ){
-			}
+            /* -- Set location of y label: */
+        } else
+            if (lklist("L$", 3, (char *) kmgem.ksides, 9, 4, &cmgem.ylabel.pos))
+        {
+        }
         /* -- Bad syntax. */
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
 
-			}
-		goto L_1000;
-		}
+        }
+        goto L_1000;
+    }
 
-       
-	return;
+    return;
 }
-

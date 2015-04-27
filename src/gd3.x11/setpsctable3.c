@@ -45,22 +45,18 @@
 
 #define FULL 65535.0
 
-void 
-setpsctable3(int *win_num,
-             unsigned int nentry,
-             float red[],
-             float green[],
-             float blue[])
-{ 
-  int i, nent;
-  unsigned int nalloc;
+void
+setpsctable3(int *win_num, unsigned int nentry, float red[], float green[],
+             float blue[]) {
+    int i, nent;
+    unsigned int nalloc;
 
-  XScreen *xs;
-  UNUSED(win_num);
-  xs = xscreen_get();
+    XScreen *xs;
+    UNUSED(win_num);
+    xs = xscreen_get();
 
 /*  check for depth (black and white = 1; color != 1)  */
-  if(xs->depth != 1) {
+    if (xs->depth != 1) {
 
 /* Scale red, green, blue to be in range [0, full]. */
 /** Colors are passed in with the first color representing the background   **/
@@ -69,117 +65,121 @@ setpsctable3(int *win_num,
 /** 0 representing foreground (black) and pixel value of 1 representing     **/
 /** background (white).                                                     **/
 
-  npscolors = cmgdm.npscimage;
+        npscolors = cmgdm.npscimage;
 
-  nalloc = nentry + npscolors + 7;
+        nalloc = nentry + npscolors + 7;
 
 #ifdef USE_X11_MULTIPLE_DEPTHS
 
-  {
+        {
 
-    colormap = DefaultColormap(xs->display, xs->screen);
+            colormap = DefaultColormap(xs->display, xs->screen);
 
-    for(i = 0; i<7; i++) {
-      pixdef3[i].pixel = i;
-      pixdef3[i].flags = DoRed | DoGreen | DoBlue;
-    }
-    
-    /* Foreground -- White */
-    pixdef3[nentry - 1 + 7].red   = FULL * red[nentry-1];
-    pixdef3[nentry - 1 + 7].green = FULL * green[nentry-1];
-    pixdef3[nentry - 1 + 7].blue  = FULL * blue[nentry-1];
-    pixdef3[nentry - 1 + 7].flags = DoRed | DoGreen | DoBlue;
+            for (i = 0; i < 7; i++) {
+                pixdef3[i].pixel = i;
+                pixdef3[i].flags = DoRed | DoGreen | DoBlue;
+            }
 
-    /* Background -- Black */
-    pixdef3[7].red   = FULL * red[0];
-    pixdef3[7].green = FULL * green[0];
-    pixdef3[7].blue  = FULL * blue[0];
-    pixdef3[7].flags = DoRed | DoGreen | DoBlue;
-    
-    for (i = 8; i< (int)(nentry-1+7); i++) {
-      pixdef3[i].red   = FULL * red[i-7];
-      pixdef3[i].green = FULL * green[i-7];
-      pixdef3[i].blue  = FULL * blue[i-7];
-      pixdef3[i].flags = DoRed | DoGreen | DoBlue;
-    }
-    for (i = nentry+7; i < (int)nalloc; i++){
-      pixdef3[i].red   = psred[i-(nentry+7)];
-      pixdef3[i].green = psgreen[i-(nentry+7)];
-      pixdef3[i].blue  = psblue[i-(nentry+7)];
-      pixdef3[i].flags = DoRed | DoGreen | DoBlue;
-    }
-    for ( i = 0; i <= (int)nalloc; i++) {
-      if(XAllocColor(xs->display, colormap, &(pixdef3[i])) == 0) {
-        fprintf(stderr, "XAllocColor: allocation of (%d %d %d) color failed %d\n",
-                pixdef3[i].red, pixdef3[i].green, pixdef3[i].blue, i);
-      }
-    }
-  }
+            /* Foreground -- White */
+            pixdef3[nentry - 1 + 7].red = FULL * red[nentry - 1];
+            pixdef3[nentry - 1 + 7].green = FULL * green[nentry - 1];
+            pixdef3[nentry - 1 + 7].blue = FULL * blue[nentry - 1];
+            pixdef3[nentry - 1 + 7].flags = DoRed | DoGreen | DoBlue;
+
+            /* Background -- Black */
+            pixdef3[7].red = FULL * red[0];
+            pixdef3[7].green = FULL * green[0];
+            pixdef3[7].blue = FULL * blue[0];
+            pixdef3[7].flags = DoRed | DoGreen | DoBlue;
+
+            for (i = 8; i < (int) (nentry - 1 + 7); i++) {
+                pixdef3[i].red = FULL * red[i - 7];
+                pixdef3[i].green = FULL * green[i - 7];
+                pixdef3[i].blue = FULL * blue[i - 7];
+                pixdef3[i].flags = DoRed | DoGreen | DoBlue;
+            }
+            for (i = nentry + 7; i < (int) nalloc; i++) {
+                pixdef3[i].red = psred[i - (nentry + 7)];
+                pixdef3[i].green = psgreen[i - (nentry + 7)];
+                pixdef3[i].blue = psblue[i - (nentry + 7)];
+                pixdef3[i].flags = DoRed | DoGreen | DoBlue;
+            }
+            for (i = 0; i <= (int) nalloc; i++) {
+                if (XAllocColor(xs->display, colormap, &(pixdef3[i])) == 0) {
+                    fprintf(stderr,
+                            "XAllocColor: allocation of (%d %d %d) color failed %d\n",
+                            pixdef3[i].red, pixdef3[i].green, pixdef3[i].blue,
+                            i);
+                }
+            }
+        }
 #else /* USE_X11_MULTPLE_DEPTHS */
-  colormap = XCreateColormap(xs->display,basew3[*win_num].win,xs-visual,AllocNone);
+        colormap =
+            XCreateColormap(xs->display, basew3[*win_num].win, xs - visual,
+                            AllocNone);
 
-  status = XAllocColorCells(xs->display, colormap,True,masks,0, pixels,nalloc);
-  if (status != 0) {
-    colorcell->flags = DoRed | DoGreen | DoBlue;
-    for (i=0; i<7; i++){
-      colorcell->pixel = i;
-      XQueryColor(xs->display,
-                  DefaultColormap(xs->display,xs->screen),colorcell);
-      pixdef3[i].pixel = pixels[i+2];
-      pixdef3[i].red   = colorcell->red;
-      pixdef3[i].green = colorcell->green;
-      pixdef3[i].blue  = colorcell->blue;
-      pixdef3[i].flags = DoRed | DoGreen | DoBlue;
-      
-    }
+        status =
+            XAllocColorCells(xs->display, colormap, True, masks, 0, pixels,
+                             nalloc);
+        if (status != 0) {
+            colorcell->flags = DoRed | DoGreen | DoBlue;
+            for (i = 0; i < 7; i++) {
+                colorcell->pixel = i;
+                XQueryColor(xs->display,
+                            DefaultColormap(xs->display, xs->screen),
+                            colorcell);
+                pixdef3[i].pixel = pixels[i + 2];
+                pixdef3[i].red = colorcell->red;
+                pixdef3[i].green = colorcell->green;
+                pixdef3[i].blue = colorcell->blue;
+                pixdef3[i].flags = DoRed | DoGreen | DoBlue;
 
-    pixdef3[nentry - 1 + 7].pixel = pixels[1];
-    pixdef3[nentry - 1 + 7].red = FULL * red[nentry-1];
-    pixdef3[nentry - 1 + 7].green = FULL * green[nentry-1];
-    pixdef3[nentry - 1 + 7].blue = FULL * blue[nentry-1];
-    pixdef3[nentry - 1 + 7].flags = DoRed | DoGreen | DoBlue;
+            }
 
-    pixdef3[7].pixel = pixels[0];
-    pixdef3[7].red   = FULL * red[0];
-    pixdef3[7].green = FULL * green[0];
-    pixdef3[7].blue  = FULL * blue[0];
-    pixdef3[7].flags = DoRed | DoGreen | DoBlue;
+            pixdef3[nentry - 1 + 7].pixel = pixels[1];
+            pixdef3[nentry - 1 + 7].red = FULL * red[nentry - 1];
+            pixdef3[nentry - 1 + 7].green = FULL * green[nentry - 1];
+            pixdef3[nentry - 1 + 7].blue = FULL * blue[nentry - 1];
+            pixdef3[nentry - 1 + 7].flags = DoRed | DoGreen | DoBlue;
 
-    for (i = 8; i< nentry-1+7; i++) {
-      pixdef3[i].pixel = pixels[i+1];
-      pixdef3[i].red   = FULL * red[i-7];
-      pixdef3[i].green = FULL * green[i-7];
-      pixdef3[i].blue  = FULL * blue[i-7];
-      pixdef3[i].flags = DoRed | DoGreen | DoBlue;
-    }
+            pixdef3[7].pixel = pixels[0];
+            pixdef3[7].red = FULL * red[0];
+            pixdef3[7].green = FULL * green[0];
+            pixdef3[7].blue = FULL * blue[0];
+            pixdef3[7].flags = DoRed | DoGreen | DoBlue;
 
-    for (i = nentry+7; i < nalloc; i++){
-      pixdef3[i].pixel = pixels[i];
-      pixdef3[i].red   = psred[i-(nentry+7)];
-      pixdef3[i].green = psgreen[i-(nentry+7)];
-      pixdef3[i].blue  = psblue[i-(nentry+7)];
-      pixdef3[i].flags = DoRed | DoGreen | DoBlue;
-    }
+            for (i = 8; i < nentry - 1 + 7; i++) {
+                pixdef3[i].pixel = pixels[i + 1];
+                pixdef3[i].red = FULL * red[i - 7];
+                pixdef3[i].green = FULL * green[i - 7];
+                pixdef3[i].blue = FULL * blue[i - 7];
+                pixdef3[i].flags = DoRed | DoGreen | DoBlue;
+            }
+
+            for (i = nentry + 7; i < nalloc; i++) {
+                pixdef3[i].pixel = pixels[i];
+                pixdef3[i].red = psred[i - (nentry + 7)];
+                pixdef3[i].green = psgreen[i - (nentry + 7)];
+                pixdef3[i].blue = psblue[i - (nentry + 7)];
+                pixdef3[i].flags = DoRed | DoGreen | DoBlue;
+            }
 /* Store color table */
 
-    XStoreColors(xs->display,colormap,pixdef3,nalloc);
-    
-    XSetWindowColormap(xs->display,basew3[*win_num].win,colormap); 
+            XStoreColors(xs->display, colormap, pixdef3, nalloc);
 
-    XFlush(xs->display);
+            XSetWindowColormap(xs->display, basew3[*win_num].win, colormap);
 
-  } /* if(status != 0) */
+            XFlush(xs->display);
+
+        }                       /* if(status != 0) */
 #endif /* USE_X11_MULTPLE_DEPTHS */
-  }
-  else
-  {
-  /*  black and white */
-    pixdef3[0].pixel = WhitePixel(xs->display, xs->screen);
-    nent = nentry - 1;
-    for (i = 1; i< nent; i++) 
-      pixdef3[i].pixel = BlackPixel(xs->display, xs->screen);
-  }
+    } else {
+        /*  black and white */
+        pixdef3[0].pixel = WhitePixel(xs->display, xs->screen);
+        nent = nentry - 1;
+        for (i = 1; i < nent; i++)
+            pixdef3[i].pixel = BlackPixel(xs->display, xs->screen);
+    }
 
-  cmgam.cmap = MCOLOR;
+    cmgam.cmap = MCOLOR;
 }
-

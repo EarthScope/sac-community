@@ -3,7 +3,6 @@
 #include <string.h>
 #include <math.h>
 
-
 #include "gdm.h"
 #include "bot.h"
 #include "cpf.h"
@@ -16,14 +15,15 @@
 
 #include "gcm.h"
 
-void /*FUNCTION*/ xbegindevices(nerr)
-int *nerr;
+void /*FUNCTION*/
+xbegindevices(nerr)
+     int *nerr;
 {
-	char kchar[9], kdev[MDEV][9];
-	int ndev, i;
+    char kchar[9], kdev[MDEV][9];
+    int ndev, i;
 
-    memset(kchar,0,sizeof(kchar));
-	/*=====================================================================
+    memset(kchar, 0, sizeof(kchar));
+        /*=====================================================================
 	 * PURPOSE:  To execute the action command BEGINDEVICES.
 	 *           This command begins plotting to one or more graphics devices.
 	 *=====================================================================
@@ -51,59 +51,57 @@ int *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  850307
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* PARSING PHASE: */
+    /* PARSING PHASE: */
 
-	ndev = 0;
+    ndev = 0;
 
-        for( i=0; i< MDEV; i++){
-	    strcpy(&kdev[i][0],"        ");
-	}
+    for (i = 0; i < MDEV; i++) {
+        strcpy(&kdev[i][0], "        ");
+    }
 
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-	while ( lcmore( nerr ) ){
+    while (lcmore(nerr)) {
 
-	    /* -- "device":  save name of new device in scratch array after
-	     *               converting name to upper case. */
-    if( lcchar( kchar, sizeof(kchar)) ){
-		ndev = min( MDEV, ndev + 1 );
-		modcase( TRUE, kchar, MCPW, (char*)kdev[ndev - 1] );
-	    }
+        /* -- "device":  save name of new device in scratch array after
+         *               converting name to upper case. */
+        if (lcchar(kchar, sizeof(kchar))) {
+            ndev = min(MDEV, ndev + 1);
+            modcase(TRUE, kchar, MCPW, (char *) kdev[ndev - 1]);
+        }
 
-	    /* -- Bad syntax. */
-	    else{
-		cfmt( "ILLEGAL OPTION:",17 );
-		cresp();
-	    }
-	}
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
+    }
 
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-	if( *nerr != 0 )
-	    goto L_8888;
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* EXECUTION PHASE: */
+    /* EXECUTION PHASE: */
 
-	/* - Call device handler with list of graphic devices.
-	 *   Raise syntax error condition if ANY error occurs
-	 *   or if no graphics device name was typed in command. */
+    /* - Call device handler with list of graphic devices.
+     *   Raise syntax error condition if ANY error occurs
+     *   or if no graphics device name was typed in command. */
 
-	if( ndev > 0 ){
-	    begindevices( (char*)kdev,9, ndev, nerr );
-	    calvspace();
-	}
-	else{
-	    *nerr = 1001;
-	    cfmt( "NO DEVICE NAME:",17 );
-	}
+    if (ndev > 0) {
+        begindevices((char *) kdev, 9, ndev, nerr);
+        calvspace();
+    } else {
+        *nerr = 1001;
+        cfmt("NO DEVICE NAME:", 17);
+    }
 
-L_8888:
-	return;
+  L_8888:
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

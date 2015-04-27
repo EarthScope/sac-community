@@ -5,20 +5,20 @@
 #include "hdr.h"
 #include "bool.h"
 
-
 #include "msg.h"
 #include "cpf.h"
 #include "dff.h"
 #include "array.h"
-void /*FUNCTION*/ xdiv(nerr)
-int *nerr;
+void /*FUNCTION*/
+xdiv(nerr)
+     int *nerr;
 {
-	int j, jdfl, n, new_list;
-	double con, temp;
+    int j, jdfl, n, new_list;
+    double con, temp;
 
-  static double *v = NULL;
-  sac *s;
-	/*=====================================================================
+    static double *v = NULL;
+    sac *s;
+        /*=====================================================================
 	 * PURPOSE:  To execute the action command DIV.
 	 *           This command divides a constant into data in memory.
 	 *=====================================================================
@@ -44,107 +44,103 @@ int *nerr;
 	 * LOCAL VARIABLES:
 	 *    CON:     Constant currently being used in division.
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* PARSING PHASE: */
+    /* PARSING PHASE: */
 
-	/* - Loop on each token in command: */
-  new_list = TRUE;
-  if(!v) {
-    v = xarray_new('d');
-  }
-L_1000:
-	if( lcmore( nerr ) ){
-
-		/* -- "v":  constant to multiply. */
-		if( lcreal( &con ) ){
-      if(new_list) {
-        xarray_clear(v);
-        new_list = FALSE;
-      }
-      v = xarray_append(v, con);
-			/* -- Bad syntax. */
-			}
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
-
-			}
-		goto L_1000;
-
-		}
-
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
-
-	if( *nerr != 0 )
-		goto L_8888;
-
-
-	/* CHECKING PHASE: */
-
-	/* - Check for null data file list. */
-
-	vflist( nerr );
-	if( *nerr != 0 )
-		goto L_8888;
-
-	/* - Check to make sure all files are time series files. */
-
-	vftime( nerr );
-	if( *nerr != 0 )
-		goto L_8888;
-
-	/* EXECUTION PHASE: */
-  con = 1.0;
-  n = xarray_length(v);
-	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
-
-		/* -- Get next file from memory manager. */
-    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
-      goto L_8888;
+    /* - Loop on each token in command: */
+    new_list = TRUE;
+    if (!v) {
+        v = xarray_new('d');
     }
-		//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
+  L_1000:
+    if (lcmore(nerr)) {
 
-		/* -- Divide appropriate constant into each data point.
-		 *    (Multiply by reciprocal since this is faster.) */
-    if(jdfl-1 < n) {
-      con = 1.0 / v[jdfl-1];
+        /* -- "v":  constant to multiply. */
+        if (lcreal(&con)) {
+            if (new_list) {
+                xarray_clear(v);
+                new_list = FALSE;
+            }
+            v = xarray_append(v, con);
+            /* -- Bad syntax. */
+        } else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+
+        }
+        goto L_1000;
+
     }
 
-		for( j = 0; j < s->h->npts; j++ ){
-      s->y[j] *= con;
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
+
+    if (*nerr != 0)
+        goto L_8888;
+
+    /* CHECKING PHASE: */
+
+    /* - Check for null data file list. */
+
+    vflist(nerr);
+    if (*nerr != 0)
+        goto L_8888;
+
+    /* - Check to make sure all files are time series files. */
+
+    vftime(nerr);
+    if (*nerr != 0)
+        goto L_8888;
+
+    /* EXECUTION PHASE: */
+    con = 1.0;
+    n = xarray_length(v);
+    for (jdfl = 1; jdfl <= saclen(); jdfl++) {
+
+        /* -- Get next file from memory manager. */
+        if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
+            goto L_8888;
+        }
+        //getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
+
+        /* -- Divide appropriate constant into each data point.
+         *    (Multiply by reciprocal since this is faster.) */
+        if (jdfl - 1 < n) {
+            con = 1.0 / v[jdfl - 1];
+        }
+
+        for (j = 0; j < s->h->npts; j++) {
+            s->y[j] *= con;
+        }
+
+        /* -- Recompute extrema. */
+        s->h->depmen = s->h->depmen * con;
+        if (con >= 0.) {
+            s->h->depmin = s->h->depmin * con;
+            s->h->depmax = s->h->depmax * con;
+        } else {
+            temp = s->h->depmin;
+            s->h->depmin = s->h->depmax * con;
+            s->h->depmax = temp * con;
+        }
+
     }
 
-		/* -- Recompute extrema. */
-		s->h->depmen = s->h->depmen*con;
-		if( con >= 0. ){
-			s->h->depmin = s->h->depmin*con;
-			s->h->depmax = s->h->depmax*con;
-			}
-		else{
-			temp = s->h->depmin;
-			s->h->depmin = s->h->depmax*con;
-			s->h->depmax = temp*con;
-			}
+    /* - Calculate and set new range of dependent variable. */
 
-		}
+    setrng();
 
-	/* - Calculate and set new range of dependent variable. */
+  L_8888:
+    return;
 
-	setrng();
-
-L_8888:
-	return;
-
-	/*=====================================================================
+        /*=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    830623:  Fixed bug involving recomputing extrema.
 	 *    820701:  Documented subroutine.
 	 *    820701:  Changed to newest set of parsing and checking functions.
 	 *===================================================================== */
 
-} /* end of function */
-
+}                               /* end of function */

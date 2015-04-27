@@ -12,7 +12,6 @@
 #include "amf.h"
 #include "bool.h"
 
-
 #include "bot.h"
 #include "ucf.h"
 #include "dfm.h"
@@ -21,52 +20,47 @@
 #include "dff.h"
 #include "array.h"
 
-void 
-xspectrogram(int *nerr)
-{
-	int idx,
-	 jdfl, *nptslist, numfiles, speclength, 
-	 specsize, specwidth, nchar;
-	int lprint = FALSE , ltry = FALSE ;
-	float begin, *deltalist, xmaximum, 
-	 xminimum, ymaximum, yminimum;
-  float *sdata;
-  float *spec;
-        float ymax = -1.0;
-        float ymin = VLARGE;
-	static double window = 2.0;
-	static double slice = 1.0;
+void
+xspectrogram(int *nerr) {
+    int idx, jdfl, *nptslist, numfiles, speclength, specsize, specwidth, nchar;
+    int lprint = FALSE, ltry = FALSE;
+    float begin, *deltalist, xmaximum, xminimum, ymaximum, yminimum;
+    float *sdata;
+    float *spec;
+    float ymax = -1.0;
+    float ymin = VLARGE;
+    static double window = 2.0;
+    static double slice = 1.0;
 
-        double tmp;
-	static char type[4] = "mem";
-        static char imagetype[6] = "color";
-	static int order  = 200;
-        static int morder = 100;
-        static int lorder = FALSE;
-        static int lcbar  = TRUE;
-        static int sfft = 1024;
-        static int cnumber = 1;            /* number of correlation windows */
-        static int lcnumber = FALSE;       /* was cnumber set by user? */
+    double tmp;
+    static char type[4] = "mem";
+    static char imagetype[6] = "color";
+    static int order = 200;
+    static int morder = 100;
+    static int lorder = FALSE;
+    static int lcbar = TRUE;
+    static int sfft = 1024;
+    static int cnumber = 1;     /* number of correlation windows */
+    static int lcnumber = FALSE;        /* was cnumber set by user? */
 
-	/* length of correlation window (in seconds) should default to
-	   the window size of the image (WINDOW) */
-        static float cwinlength = 0.0;
+    /* length of correlation window (in seconds) should default to
+       the window size of the image (WINDOW) */
+    static float cwinlength = 0.0;
 
-	/* was cwinlength set? if not default to value of WINDOW */
-        static int lcwinlength = FALSE;
+    /* was cwinlength set? if not default to value of WINDOW */
+    static int lcwinlength = FALSE;
 
-        static char cwintype[9] = "HAMMING ";  /* correlation window type */
-        int cwindex;
-        
-        static char scale[11] = "STOCHASTIC";  /* type of scaling */
+    static char cwintype[9] = "HAMMING ";       /* correlation window type */
+    int cwindex;
 
-        static int lsqrt  = FALSE;
-        static int llog   = FALSE;
-        static int llog10 = FALSE;
+    static char scale[11] = "STOCHASTIC";       /* type of scaling */
 
+    static int lsqrt = FALSE;
+    static int llog = FALSE;
+    static int llog10 = FALSE;
 
-  sac *s;
-	/*=====================================================================
+    sac *s;
+        /*=====================================================================
 	 * PURPOSE:  To execute the action command SPECTROGRAM
 	 *           This command computes a spectrogram of data in memory.
 	 *           The spectrogram is held in memory.
@@ -103,286 +97,288 @@ xspectrogram(int *nerr)
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900308
 	 *===================================================================== */
-	/* LOCAL VARIABLES */
-	/* EXTERNALS:  */
-	/* PROCEDURE: */
-	*nerr = 0;
-  begin = 0.0;
-  nptslist = xarray_new_with_len('i', saclen());
-  deltalist = xarray_new_with_len('f', saclen());
-  memset(deltalist, 0, saclen() * sizeof(float));
-	/* - Loop on each token in command: */
-	while ( lcmore( nerr ) ){
+    /* LOCAL VARIABLES */
+    /* EXTERNALS:  */
+    /* PROCEDURE: */
+    *nerr = 0;
+    begin = 0.0;
+    nptslist = xarray_new_with_len('i', saclen());
+    deltalist = xarray_new_with_len('f', saclen());
+    memset(deltalist, 0, saclen() * sizeof(float));
+    /* - Loop on each token in command: */
+    while (lcmore(nerr)) {
 
-	    /* -- WINDOW v: define window size of image. */
-    if( lkreal( "WINDOW$",8, &window ) ) {
-    }
-	    else if( lklog( "CBAR#$",7, &lcbar ) )
-	    { /* do nothing */ }
+        /* -- WINDOW v: define window size of image. */
+        if (lkreal("WINDOW$", 8, &window)) {
+        } else if (lklog("CBAR#$", 7, &lcbar)) {        /* do nothing */
+        }
 
-	    else if( lckey( "SQ#RT$",7 ) )
-		lsqrt = TRUE;
+        else if (lckey("SQ#RT$", 7))
+            lsqrt = TRUE;
 
-	    else if( lckey( "NLOG#$",7 ) )
-		llog  = TRUE;
+        else if (lckey("NLOG#$", 7))
+            llog = TRUE;
 
-	    else if( lckey( "LOG10#$",8 ) )
-		llog10 = TRUE;
+        else if (lckey("LOG10#$", 8))
+            llog10 = TRUE;
 
-	    else if( lckey( "NOSCALING#$",12 ) ){
-		lsqrt  = FALSE;
-		llog   = FALSE;
-		llog10 = FALSE;
-	    }
+        else if (lckey("NOSCALING#$", 12)) {
+            lsqrt = FALSE;
+            llog = FALSE;
+            llog10 = FALSE;
+        }
 
-	    /* -- SLICE v:  define slice size for image. */
-	    else if( lkreal( "SLICE$",7, &slice ) ) {
-      }
-            /* -- YMAX specify size of output image in y direction */
-	    else if( lkreal( "YMAX#$",7, &tmp ) ) { 
-        ymax = (float) tmp;
-      }
+        /* -- SLICE v:  define slice size for image. */
+        else if (lkreal("SLICE$", 7, &slice)) {
+        }
+        /* -- YMAX specify size of output image in y direction */
+        else if (lkreal("YMAX#$", 7, &tmp)) {
+            ymax = (float) tmp;
+        }
 
-	    /* -- YMIN specify begining of output image in y direction */
-	    else if( lkreal( "YMIN#$",7, &tmp ) ) { 
-        ymin = (float) tmp;
-      }
+        /* -- YMIN specify begining of output image in y direction */
+        else if (lkreal("YMIN#$", 7, &tmp)) {
+            ymin = (float) tmp;
+        }
 
-	    /* -- CORRELATION v: correlation function */
-	    else if(lkchar("COR#RELATION$",14,3,type,4,&nchar))
-	    { /* do nothing */ }
+        /* -- CORRELATION v: correlation function */
+        else if (lkchar("COR#RELATION$", 14, 3, type, 4, &nchar)) {     /* do nothing */
+        }
 
-	    /* -- METHOD v: correlation function */
-	    else if(lkchar("M#ETHOD$",9,3,type,4,&nchar))
-	    { /* do nothing */ }
+        /* -- METHOD v: correlation function */
+        else if (lkchar("M#ETHOD$", 9, 3, type, 4, &nchar)) {   /* do nothing */
+        }
 
-	    /* -- ORDER v: order of correlation function */
-	    else if( lkirc( "ORDER$",7, 10, 400, &order ) )
-		lorder = TRUE;  /* user specified order */
+        /* -- ORDER v: order of correlation function */
+        else if (lkirc("ORDER$", 7, 10, 400, &order))
+            lorder = TRUE;      /* user specified order */
 
-            /* number of points in the spectral estimate */
-	    else if( lkirc( "NUMBER$",8, 512, 2048, &sfft ) )
-		sfft = next2( sfft );
+        /* number of points in the spectral estimate */
+        else if (lkirc("NUMBER$", 8, 512, 2048, &sfft))
+            sfft = next2(sfft);
 
-	    /* -- Color image    */
-            else if(lckey("C#OLOR$",8))
-		strcpy(imagetype,"color");
+        /* -- Color image    */
+        else if (lckey("C#OLOR$", 8))
+            strcpy(imagetype, "color");
 
-	    /* -- Greyscale image */
-            else if(lckey("G#REY$",7))
-		strcpy(imagetype,"grey");
+        /* -- Greyscale image */
+        else if (lckey("G#REY$", 7))
+            strcpy(imagetype, "grey");
 
-	    /* -- Greyscale image */
-            else if(lckey("G#RAY$",7))
-		strcpy(imagetype,"grey");
+        /* -- Greyscale image */
+        else if (lckey("G#RAY$", 7))
+            strcpy(imagetype, "grey");
 
-            else if(lkreal("CWL#ENGTH$",11,&tmp)) {
-              cwinlength = (float) tmp;
-              lcwinlength = TRUE;
-            }
-            else if(lklogi("CWNUM#BER$",11,&cnumber,&lcnumber))
-	    { /* do nothing */ }
+        else if (lkreal("CWL#ENGTH$", 11, &tmp)) {
+            cwinlength = (float) tmp;
+            lcwinlength = TRUE;
+        } else if (lklogi("CWNUM#BER$", 11, &cnumber, &lcnumber)) {     /* do nothing */
+        }
 
-            else if(lklist("CWT#YPE&",9, (char *)kmspe.kwintp,9,MWINTP,&cwindex))
-		strcpy(cwintype,(char *)kmspe.kwintp[cwindex]);
+        else if (lklist
+                 ("CWT#YPE&", 9, (char *) kmspe.kwintp, 9, MWINTP, &cwindex))
+            strcpy(cwintype, (char *) kmspe.kwintp[cwindex]);
 
-            /*  if prewhitening is requested prewhiten all the input traces and
-		replace the data in memory with the prewhitened data first,
-		then call the spectrogram routine with these.  Prewhitening
-		will alter the number of points in the input, so have to be
-		sure to get that right. */
+        /*  if prewhitening is requested prewhiten all the input traces and
+           replace the data in memory with the prewhitened data first,
+           then call the spectrogram routine with these.  Prewhitening
+           will alter the number of points in the input, so have to be
+           sure to get that right. */
 /*          else if ( lklogi ( "PREW#HITEN&" , 12 , &lprew , &nprew ) )
 	    { * do nothing * } */
 
-            else if(lckey("STOCH#ASTIC&",13))
-		strcpy(scale,"STOCHASTIC");
+        else if (lckey("STOCH#ASTIC&", 13))
+            strcpy(scale, "STOCHASTIC");
 
-            else if(lckey("TRANS#IENT&",12))
-		strcpy(scale,"TRANSIENT");
+        else if (lckey("TRANS#IENT&", 12))
+            strcpy(scale, "TRANSIENT");
 
-            /* if PRINT option is tried, get printer name */
-            else if ( ltry ) {
-              lcchar (kmgem.kptrName , sizeof(kmgem.kptrName));
-                if ( !lprint )
-                    kmgem.kptrName[0] = '\0' ;
+        /* if PRINT option is tried, get printer name */
+        else if (ltry) {
+            lcchar(kmgem.kptrName, sizeof(kmgem.kptrName));
+            if (!lprint)
+                kmgem.kptrName[0] = '\0';
 
-                ltry = FALSE ;
+            ltry = FALSE;
+        }
+
+        /* -- "PRINT":  print the final product */
+        else if (lckey("PRINT#$", 8)) {
+            ltry = TRUE;
+            if (cmgdm.lbegf) {
+                setmsg("WARNING", 2403);
+                outmsg();
+                clrmsg();
+            } else if (Lgdon[3] || !Lgdon[2]) {
+                setmsg("WARNING", 2404);
+                outmsg();
+                clrmsg();
+            } else {
+                lprint = TRUE;
             }
+        }
 
-            /* -- "PRINT":  print the final product */
-            else if( lckey( "PRINT#$", 8 ) ) {
-                ltry = TRUE ;
-                if ( cmgdm.lbegf ) {
-                    setmsg ( "WARNING" , 2403 ) ;
-                    outmsg () ;
-                    clrmsg () ;
-                }
-                else if ( Lgdon[3] || !Lgdon[2] ) {
-                    setmsg ( "WARNING" , 2404 ) ;
-                    outmsg () ;
-                    clrmsg () ;
-                }
-                else {
-                    lprint = TRUE ;
-                }
-            }
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
 
+    }                           /* end while */
 
-	    else{
-		cfmt( "ILLEGAL OPTION:",17 );
-		cresp();
-	    }
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-	} /* end while */
+    /* if mlm or mem were selected and no order was specified set default for these methods */
 
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
+    if (!lorder && (!strncmp(type, "MEM", 3) || !strncmp(type, "MLM", 3)))
+        order = morder;
 
-        /* if mlm or mem were selected and no order was specified set default for these methods */
+    if (*nerr != 0)
+        return;
 
-        if( !lorder  && (!strncmp(type,"MEM",3) || !strncmp(type,"MLM",3))) order = morder;
-
-	if( *nerr != 0 )
-           return ;
-
-	if( (window <= 0.0) || (slice <= 0.0) ){
-	    fprintf( stdout, "Error: WINDOW and SLICE must be positive (xspectrogram).\n" );
-            return ;
-	}
-
-	if( slice > window ){
-	    fprintf( stdout, "Error: SLICE can not be greater than WINDOW(xspectrogram).\n" );
-            return ;
-	}
-
-	/* cwinlength defaults to size of window */
-	if(!lcwinlength) cwinlength = window;
-
-	/* - Get number of files in data file list. */
-	getnfiles( &numfiles );
-
-	/* CHECKING PHASE:
-	 * - Check for null data file list. */
-	vflist( nerr );
-	if( *nerr != 0 )
-	    return ;
-
-	/* - Check to make sure all files are evenly spaced time series files. */
-	vfeven( nerr );
-	if( *nerr != 0 )
-	    return ;
-
-	/* - Perform the requested function on each file in DFL. */
-	for( jdfl = 1; jdfl <= numfiles; jdfl++ ){
-	    /* -- Get the next file and their lengths in DFL, moving header to CMHDR. */
-    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
-      return;
+    if ((window <= 0.0) || (slice <= 0.0)) {
+        fprintf(stdout,
+                "Error: WINDOW and SLICE must be positive (xspectrogram).\n");
+        return;
     }
-    nptslist[jdfl-1] = s->h->npts;
-    //getfil( jdfl, TRUE, &Nptslist[jdfl], &idum, &idum, nerr );
 
-	    /* -- Get sampling interval of data. */
-    deltalist[jdfl-1] = s->h->delta;
+    if (slice > window) {
+        fprintf(stdout,
+                "Error: SLICE can not be greater than WINDOW(xspectrogram).\n");
+        return;
+    }
 
-	    /* -- Get begin value if first file. */
-	    if( jdfl == 1 ){
-        begin = s->h->b;
-      }
+    /* cwinlength defaults to size of window */
+    if (!lcwinlength)
+        cwinlength = window;
 
-	} /* end for ( jdfl ) */
+    /* - Get number of files in data file list. */
+    getnfiles(&numfiles);
 
-	/* -- Check if all files have same delta. */
-	for( jdfl = 1; jdfl <= numfiles; jdfl++ ){
-	    if( deltalist[0] != deltalist[jdfl-1] )
-		*nerr = 1;
-	}
+    /* CHECKING PHASE:
+     * - Check for null data file list. */
+    vflist(nerr);
+    if (*nerr != 0)
+        return;
 
-	/* EXECUTION PHASE: */
+    /* - Check to make sure all files are evenly spaced time series files. */
+    vfeven(nerr);
+    if (*nerr != 0)
+        return;
 
-	/* 'Sampling intervals of files not equal.' */
-	if( *nerr != 0 )
-	    return ;
+    /* - Perform the requested function on each file in DFL. */
+    for (jdfl = 1; jdfl <= numfiles; jdfl++) {
+        /* -- Get the next file and their lengths in DFL, moving header to CMHDR. */
+        if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
+            return;
+        }
+        nptslist[jdfl - 1] = s->h->npts;
+        //getfil( jdfl, TRUE, &Nptslist[jdfl], &idum, &idum, nerr );
 
-	if( spectrogram( window, slice, type, &order, numfiles, 
-	  nptslist, (double)deltalist[0], &spec, &specwidth,
-	  &speclength, sfft, cwinlength, lcnumber, cnumber,
-	  cwintype, scale ) != 0 )
-	    return ;
+        /* -- Get sampling interval of data. */
+        deltalist[jdfl - 1] = s->h->delta;
 
+        /* -- Get begin value if first file. */
+        if (jdfl == 1) {
+            begin = s->h->b;
+        }
 
-        /* - Do the spectrogram graphical output. */
+    }                           /* end for ( jdfl ) */
 
-        /* Flip the x and y storage */
-        if((sdata = (float *)malloc(specwidth*speclength*sizeof(float))) == NULL) {
-            printf("error allocating memory-xspectrogram\n");
-            *nerr = 301;
-            return ;
-	}
+    /* -- Check if all files have same delta. */
+    for (jdfl = 1; jdfl <= numfiles; jdfl++) {
+        if (deltalist[0] != deltalist[jdfl - 1])
+            *nerr = 1;
+    }
 
-        flipdata(spec,specwidth,speclength,sdata);
-        FREE(spec);
+    /* EXECUTION PHASE: */
 
-        if( lsqrt ){
-            for( idx = 0; idx < (specwidth*speclength); idx++)
-		sdata[idx] = sqrt(sdata[idx]);
-	}
+    /* 'Sampling intervals of files not equal.' */
+    if (*nerr != 0)
+        return;
+
+    if (spectrogram
+        (window, slice, type, &order, numfiles, nptslist, (double) deltalist[0],
+         &spec, &specwidth, &speclength, sfft, cwinlength, lcnumber, cnumber,
+         cwintype, scale) != 0)
+        return;
+
+    /* - Do the spectrogram graphical output. */
+
+    /* Flip the x and y storage */
+    if ((sdata =
+         (float *) malloc(specwidth * speclength * sizeof(float))) == NULL) {
+        printf("error allocating memory-xspectrogram\n");
+        *nerr = 301;
+        return;
+    }
+
+    flipdata(spec, specwidth, speclength, sdata);
+    FREE(spec);
+
+    if (lsqrt) {
+        for (idx = 0; idx < (specwidth * speclength); idx++)
+            sdata[idx] = sqrt(sdata[idx]);
+    }
 /*
         if( lexp ){
             for( idx = 0; idx < (specwidth*speclength); idx++)
 		sdata[idx] = exp(sdata[idx]);
 	}
 */
-        if( llog ){
-            for( idx = 0; idx < (specwidth*speclength); idx++)
-		sdata[idx] = log(sdata[idx]);
-	}
+    if (llog) {
+        for (idx = 0; idx < (specwidth * speclength); idx++)
+            sdata[idx] = log(sdata[idx]);
+    }
 
-        if( llog10 ) {
-            for( idx = 0; idx < (specwidth*speclength); idx++)
-		sdata[idx] = log10(sdata[idx]);
-	}
-	xminimum = begin + 0.5*window;
-	xmaximum = xminimum + (float)( speclength - 1 )*slice;
-        yminimum = 0.0;
-        ymaximum =  0.5/deltalist[0];
+    if (llog10) {
+        for (idx = 0; idx < (specwidth * speclength); idx++)
+            sdata[idx] = log10(sdata[idx]);
+    }
+    xminimum = begin + 0.5 * window;
+    xmaximum = xminimum + (float) (speclength - 1) * slice;
+    yminimum = 0.0;
+    ymaximum = 0.5 / deltalist[0];
 
-        /* nxsize = speclength, nysize = specwidth */
-        if(ymax <= 0.0) ymax = ymaximum;
-        if(ymin > 1.e30 ) ymin = yminimum;
-        specplot(sdata,speclength,specwidth,xminimum,xmaximum,yminimum,ymaximum,
-            ymin,ymax,imagetype,FALSE,lcbar,lprint,nerr);
-        if( *nerr != 0 ) return ;
-        
-	/* - Replace data in memory with spectrogram. */
+    /* nxsize = speclength, nysize = specwidth */
+    if (ymax <= 0.0)
+        ymax = ymaximum;
+    if (ymin > 1.e30)
+        ymin = yminimum;
+    specplot(sdata, speclength, specwidth, xminimum, xmaximum, yminimum,
+             ymaximum, ymin, ymax, imagetype, FALSE, lcbar, lprint, nerr);
+    if (*nerr != 0)
+        return;
 
-	/* -- Clear current data file list. */
-  sacclear();
+    /* - Replace data in memory with spectrogram. */
 
-	/* -- Create space for a single data file. */
-	specsize = specwidth*speclength;
+    /* -- Clear current data file list. */
+    sacclear();
 
-  s = sac_new();
-  s->m->filename = strdup("spectrogram");
-  sacput(s);
-	//getfil( 1, TRUE, &itemp1, &itemp2, &itemp3, nerr );
-        /* Store the spectrogram data in sacmem */
-  s->y = sdata;
+    /* -- Create space for a single data file. */
+    specsize = specwidth * speclength;
 
-  s->h->npts = specsize;
-  s->h->delta = 1.0;
-  s->h->b = 0.0;
-  s->h->e = specsize-1.0;
+    s = sac_new();
+    s->m->filename = strdup("spectrogram");
+    sacput(s);
+    //getfil( 1, TRUE, &itemp1, &itemp2, &itemp3, nerr );
+    /* Store the spectrogram data in sacmem */
+    s->y = sdata;
 
-  s->h->iftype = IXYZ;
-  s->h->nxsize = speclength;
-  s->h->nysize = specwidth;
-  s->h->xminimum = xminimum;
-  s->h->xmaximum = xmaximum;
-  s->h->yminimum = yminimum;
-  s->h->ymaximum = ymaximum;
+    s->h->npts = specsize;
+    s->h->delta = 1.0;
+    s->h->b = 0.0;
+    s->h->e = specsize - 1.0;
 
-	extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
+    s->h->iftype = IXYZ;
+    s->h->nxsize = speclength;
+    s->h->nysize = specwidth;
+    s->h->xminimum = xminimum;
+    s->h->xmaximum = xmaximum;
+    s->h->yminimum = yminimum;
+    s->h->ymaximum = ymaximum;
 
-} /* end of function */
+    extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen);
 
+}                               /* end of function */

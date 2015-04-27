@@ -31,34 +31,35 @@
  * @date   820420:  Original version.
  *
  */
-void 
-cfmt(char *kmsg2, 
-     int   kmsg2_s) {
+void
+cfmt(char *kmsg2, int kmsg2_s) {
 
-	static char kmsg1[28] = "ERROR interpreting command:";
+    static char kmsg1[28] = "ERROR interpreting command:";
 
-	/* - Raise command syntax error condition. */
-	cerr( 1001 );
-  
-  char *s = strcut(kmsg2, 1, indexb(kmsg2, kmsg2_s));
-  bell();
-  fprintf(stdout, " %s  %s \n", kmsg1, lexer_input());
-  if(arg()) {
-    fprintf(stdout, " %*s  %*s\n", -(int)strlen(kmsg1), s, arg()->col, "^");
-  } else {
-    fprintf(stdout, " %*s  %*s\n", -(int)strlen(kmsg1), s, (int)strlen(lexer_input()), "^");
-  }
-  
-  FREE(s);
+    /* - Raise command syntax error condition. */
+    cerr(1001);
 
-  return;
+    char *s = strcut(kmsg2, 1, indexb(kmsg2, kmsg2_s));
+    bell();
+    fprintf(stdout, " %s  %s \n", kmsg1, lexer_input());
+    if (arg()) {
+        fprintf(stdout, " %*s  %*s\n", -(int) strlen(kmsg1), s, arg()->col,
+                "^");
+    } else {
+        fprintf(stdout, " %*s  %*s\n", -(int) strlen(kmsg1), s,
+                (int) strlen(lexer_input()), "^");
+    }
 
-	return;
+    FREE(s);
 
-} /* end of function */
+    return;
+
+    return;
+
+}                               /* end of function */
 
 void
 arg_msg(char *msg) {
-  fprintf(stdout, " %s %s \n", msg, lexer_input());
-  fprintf(stdout, "  %*s\n", (int)strlen(msg)+arg()->col, "^");  
+    fprintf(stdout, " %s %s \n", msg, lexer_input());
+    fprintf(stdout, "  %*s\n", (int) strlen(msg) + arg()->col, "^");
 }

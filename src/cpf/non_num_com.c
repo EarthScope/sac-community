@@ -26,22 +26,29 @@
  *    - FALSE if a command does not match a command with no numeric arguments
  *
  */
-int 
-non_num_com(char *command, 
-	    int   command_s) {
-  UNUSED(command_s);
+int
+non_num_com(char *command, int command_s) {
+    UNUSED(command_s);
 
-  if(     memcmp(command,"r "      ,2) == 0) return TRUE;
-  else if(memcmp(command,"read "   ,5) == 0) return TRUE;
-  else if(memcmp(command,"rh "     ,3) == 0) return TRUE;
-  else if(memcmp(command,"readhdr ",8) == 0) return TRUE;
-  else if(memcmp(command,"readcss ",8) == 0) return TRUE;
-  else if(memcmp(command,"rcss "   ,5) == 0) return TRUE;
-  else if(memcmp(command,"merge "  ,6) == 0) return TRUE;
-  else if(memcmp(command,"setbb "  ,6) == 0) return TRUE;
-  else if(memcmp(command,"message" ,7) == 0) return TRUE;
+    if (memcmp(command, "r ", 2) == 0)
+        return TRUE;
+    else if (memcmp(command, "read ", 5) == 0)
+        return TRUE;
+    else if (memcmp(command, "rh ", 3) == 0)
+        return TRUE;
+    else if (memcmp(command, "readhdr ", 8) == 0)
+        return TRUE;
+    else if (memcmp(command, "readcss ", 8) == 0)
+        return TRUE;
+    else if (memcmp(command, "rcss ", 5) == 0)
+        return TRUE;
+    else if (memcmp(command, "merge ", 6) == 0)
+        return TRUE;
+    else if (memcmp(command, "setbb ", 6) == 0)
+        return TRUE;
+    else if (memcmp(command, "message", 7) == 0)
+        return TRUE;
 
-  return FALSE;  
+    return FALSE;
 
 }
-

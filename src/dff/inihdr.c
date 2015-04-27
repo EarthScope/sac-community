@@ -20,19 +20,25 @@
  * @date   810414:  Original version.
  *
  */
-void 
+void
 inihdr() {
 
-	cmhdr.nvhdrc = SAC_HEADER_MAJOR_VERSION;
+    cmhdr.nvhdrc = SAC_HEADER_MAJOR_VERSION;
 
-	/* lh starts without the INC option. */
-	cmhdr.linc = FALSE ;
-	/* not currently executing xlh(). */
-	cmhdr.llh  = FALSE ;
+    /* lh starts without the INC option. */
+    cmhdr.linc = FALSE;
+    /* not currently executing xlh(). */
+    cmhdr.llh = FALSE;
 
-	return;
+    return;
 }
 
+void
+inihdr_() {
+    inihdr();
+}
 
-void inihdr_()  { inihdr() ; }
-void inihdr__() { inihdr() ; }
+void
+inihdr__() {
+    inihdr();
+}

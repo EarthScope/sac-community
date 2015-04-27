@@ -27,15 +27,14 @@
  * @date   810207:  Original version.
  *
  */
-int 
+int
 lcint(int *intv) {
-  Token *t;
+    Token *t;
 
-  if((t = arg()) && token_is_int(t)) {
-    *intv = token_as_int(t);
-    arg_next();
-    return TRUE;
-  }      
-  return FALSE;
-} 
-
+    if ((t = arg()) && token_is_int(t)) {
+        *intv = token_as_int(t);
+        arg_next();
+        return TRUE;
+    }
+    return FALSE;
+}

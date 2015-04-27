@@ -25,17 +25,14 @@
  * @date   870817:  Original version.
  *
  */
-void 
-getclun(FILE **nun, 
-	int   *nerr) {
+void
+getclun(FILE ** nun, int *nerr) {
 
-	if( strcmp(kmcpf.kvarsname,"macro000") == 0 ){
-		*nun = MUNINP;
-	}
-	else{
-		getvFILEptr( kmcpf.kvarsname,9, "fileunit",9, nun, nerr );
-	}
+    if (strcmp(kmcpf.kvarsname, "macro000") == 0) {
+        *nun = MUNINP;
+    } else {
+        getvFILEptr(kmcpf.kvarsname, 9, "fileunit", 9, nun, nerr);
+    }
 
-	return;
+    return;
 }
-

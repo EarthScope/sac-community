@@ -25,29 +25,23 @@
  * @date   820608:  Original version.
  *
  */
-void 
-xcrrcp(double  realmn, 
-       double  realmx, 
-       double *real1, 
-       double *real2, 
-       int    *nerr) {
+void
+xcrrcp(double realmn, double realmx, double *real1, double *real2, int *nerr) {
 
-	*nerr = 0;
+    *nerr = 0;
 
-	/* - Loop on each token in command: */
-L_1000:
-	if( lcmore( nerr ) ){
+    /* - Loop on each token in command: */
+  L_1000:
+    if (lcmore(nerr)) {
 
-		if( lcrrcp( realmn, realmx, real1, real2 ) ){
-		}
-		else{
-			/* -- Bad syntax. */
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
-		}
-		goto L_1000;
-	}
+        if (lcrrcp(realmn, realmx, real1, real2)) {
+        } else {
+            /* -- Bad syntax. */
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
+        goto L_1000;
+    }
 
-	return;
+    return;
 }
-

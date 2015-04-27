@@ -36,38 +36,32 @@
  * @date   860910:  Original version.
  *
  */
-void 
-cnvfmt(char  *kcard, 
-       int    kcard_s, 
-       char  *kfmt, 
-       int    kfmt_s, 
-       int    nentry, 
-       float *fentry, 
-       int   *nerr) {
+void
+cnvfmt(char *kcard, int kcard_s, char *kfmt, int kfmt_s, int nentry,
+       float *fentry, int *nerr) {
 
-	int nc;
+    int nc;
 
-	*nerr = 0;
-  UNUSED(nentry);
-  UNUSED(fentry);
+    *nerr = 0;
+    UNUSED(nentry);
+    UNUSED(fentry);
     printf("formatted reads are not supported in SAC2000 yet\n");
-	goto L_8888;
+    goto L_8888;
 
-	/* - Come to here if an error occurs during decode. */
+    /* - Come to here if an error occurs during decode. */
 
-	/* - Determine length of input card. */
-	nc = indexb( kcard,kcard_s );
+    /* - Determine length of input card. */
+    nc = indexb(kcard, kcard_s);
 
-	*nerr = ERROR_DECODING_ALPHANUMERIC_FORMAT;
-	setmsg( "ERROR", *nerr );
-	aplmsg( "Format statement =",19 );
-	apcmsg( kfmt,kfmt_s );
-	aplmsg( "Data card =",12 );
-	apcmsg( "\"",2 );
-        apcmsg2(kcard,nc);
-	apcmsg( "\"",2 );
+    *nerr = ERROR_DECODING_ALPHANUMERIC_FORMAT;
+    setmsg("ERROR", *nerr);
+    aplmsg("Format statement =", 19);
+    apcmsg(kfmt, kfmt_s);
+    aplmsg("Data card =", 12);
+    apcmsg("\"", 2);
+    apcmsg2(kcard, nc);
+    apcmsg("\"", 2);
 
-L_8888:
-	return;
+  L_8888:
+    return;
 }
-

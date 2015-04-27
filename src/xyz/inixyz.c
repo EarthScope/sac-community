@@ -5,12 +5,10 @@
 
 #include "bool.h"
 
-void /*FUNCTION*/ inixyz()
-{
+void /*FUNCTION*/
+inixyz() {
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: Variable initialization of common block CMXYZ.
 	 *=====================================================================
 	 * PARAMETER DEFINITIONS:
@@ -51,26 +49,24 @@ void /*FUNCTION*/ inixyz()
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900503
 	 *===================================================================== */
-	/* PROCEDURE: */
-	cmxyz.lcleanup = FALSE;
+    /* PROCEDURE: */
+    cmxyz.lcleanup = FALSE;
 
-	cmxyz.lzllist = FALSE;
-	cmxyz.nzllist = 20;
-	cmxyz.lzlmin = FALSE;
-	cmxyz.zlmin = 1.0;
-	cmxyz.lzlmax = FALSE;
-	cmxyz.zlmax = 1.0;
-	cmxyz.lzlinc = FALSE;
-	cmxyz.zlinc = 0.05;
+    cmxyz.lzllist = FALSE;
+    cmxyz.nzllist = 20;
+    cmxyz.lzlmin = FALSE;
+    cmxyz.zlmin = 1.0;
+    cmxyz.lzlmax = FALSE;
+    cmxyz.zlmax = 1.0;
+    cmxyz.lzlinc = FALSE;
+    cmxyz.zlinc = 0.05;
 
-	cmxyz.lzlines = TRUE;
-	Izlines[1] = 1;
-	cmxyz.nzlines = 1;
+    cmxyz.lzlines = TRUE;
+    Izlines[1] = 1;
+    cmxyz.nzlines = 1;
 
-	cmxyz.laspect = FALSE;
+    cmxyz.laspect = FALSE;
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

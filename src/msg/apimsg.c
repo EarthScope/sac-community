@@ -23,19 +23,17 @@
  * \date  830916:  Original version.
  * \date  830916: Documented/Reviewed
  */
-void 
-apimsg(int integr)
-{
-	char kalpha[9];
+void
+apimsg(int integr) {
+    char kalpha[9];
 
-	/* - Convert integer to alphanumeric. */
-	cnvita( integr, kalpha,9 );
-	ljust( kalpha,9 );
+    /* - Convert integer to alphanumeric. */
+    cnvita(integr, kalpha, 9);
+    ljust(kalpha, 9);
 
-	/* - Append alphanumeric representation to message. */
+    /* - Append alphanumeric representation to message. */
 
-	apcmsg( kalpha,9 );
+    apcmsg(kalpha, 9);
 
-	return;
+    return;
 }
-

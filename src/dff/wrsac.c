@@ -19,8 +19,6 @@
 
 #include "errors.h"
 
-
-
 /** 
  * Write a SAC data file from memory to disk
  * 
@@ -47,31 +45,26 @@
  * @date   800510:  Original version.
  *
  */
-void 
-wrsac(int   idfl, 
-      char *kname, 
-      int   kname_s, 
-      int   ldta, 
-      int  *nerr) {
+void
+wrsac(int idfl, char *kname, int kname_s, int ldta, int *nerr) {
 
-	int lswap;
-  sac *s;
-  char *filename;
+    int lswap;
+    sac *s;
+    char *filename;
 
-	*nerr = 0;
-  if(!(s = sacget(idfl-1, ldta, nerr))) {
+    *nerr = 0;
+    if (!(s = sacget(idfl - 1, ldta, nerr))) {
+        return;
+    }
+    filename = fstrdup(kname, kname_s);
+
+    /* Determine if swapping is necessary */
+    lswap = sac_byte_order(-1);
+
+    /* Write the file */
+    sac_write_r(s, filename, ldta, lswap, nerr);
+
+    FREE(filename);
+
     return;
-  }
-  filename = fstrdup(kname, kname_s);
-
-  /* Determine if swapping is necessary */
-  lswap = sac_byte_order(-1);
-
-  /* Write the file */
-  sac_write_r(s, filename, ldta, lswap, nerr);
-
-  FREE(filename);
-
-	return;
 }
-

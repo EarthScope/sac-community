@@ -30,16 +30,12 @@
  * @date December 27, 1984  Last Modified
  *
  */
-void 
-winmov(float  *data, 
-       int     wlen, 
-       float  *w,
-       float  *wdata) {
+void
+winmov(float *data, int wlen, float *w, float *wdata) {
 
-	int i;
+    int i;
 
-	for( i = 0; i < wlen; i++ ){
-		wdata[i] = w[i]*data[i];
-	}
+    for (i = 0; i < wlen; i++) {
+        wdata[i] = w[i] * data[i];
+    }
 }
-

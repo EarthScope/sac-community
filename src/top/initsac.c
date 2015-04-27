@@ -1,5 +1,4 @@
 
-
 #include <stdlib.h>
 #include "unistdx.h"
 #include <string.h>
@@ -63,12 +62,12 @@
 /* external pager program we use to view help fils */
 char *pager;
 
-void /*FUNCTION*/ initsac()
-{
-	int nerr;
-        static int ifirst = 1;
+void /*FUNCTION*/
+initsac() {
+    int nerr;
+    static int ifirst = 1;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To initialize (or reinitialize) SAC.
 	 *=====================================================================
 	 * MODULE/LEVEL:  exm/4
@@ -99,103 +98,101 @@ void /*FUNCTION*/ initsac()
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  850222
 	 *===================================================================== */
-	/* PROCEDURE: */
+    /* PROCEDURE: */
 /*
 #ifndef POSIX
         i = ieee_flags("set","direction","nearest",&dummy);
 #endif
 */
-	/* -- BLOCK DATA initialization of variables in common blocks. */
-	initblkdata();
+    /* -- BLOCK DATA initialization of variables in common blocks. */
+    initblkdata();
 
-  sacclear();
-	/* - Initialization that can't be handled in lower level modules. */
+    sacclear();
+    /* - Initialization that can't be handled in lower level modules. */
 
-	/* -- SAC error message function. */
-	inimsg();
+    /* -- SAC error message function. */
+    inimsg();
 
-	/* -- Common blocks. */
-	initcommon();
+    /* -- Common blocks. */
+    initcommon();
 
-	/* -- Graphics Library. */
-	begingraphics( &nerr );
+    /* -- Graphics Library. */
+    begingraphics(&nerr);
 
-	/* -- Get name of default graphics device. */
-	zgetgd( kmgam.kgddef,9 );
+    /* -- Get name of default graphics device. */
+    zgetgd(kmgam.kgddef, 9);
 
-	/* Initialize Data Base Module */
-	inissi () ;
+    /* Initialize Data Base Module */
+    inissi();
 
-        /* Read in the Resource Control file (RC) 
-         *   to handle options and settings
-         *   Status: Unknown as of 101.2
-         *   rc();
-         */
+    /* Read in the Resource Control file (RC) 
+     *   to handle options and settings
+     *   Status: Unknown as of 101.2
+     *   rc();
+     */
 
-	/* - Say hello. */
+    /* - Say hello. */
 
-        sac_history_file_set(NULL);
+    sac_history_file_set(NULL);
 
-        if (ifirst){
-            ifirst = 0;
-	    xabout () ;
-        }
+    if (ifirst) {
+        ifirst = 0;
+        xabout();
+    }
 
-	setup_pager();
+    setup_pager();
 
-       
-	return;
+    return;
 
-} /* end of function */
+}                               /* end of function */
 
-void /*FUNCTION*/ initblkdata()
-{
-        static int _aini = 1;
+void /*FUNCTION*/
+initblkdata() {
+    static int _aini = 1;
 
+    if (_aini) {                /* Do 1 TIME INITIALIZATIONS! */
+        cmextcom.nfiles = 0;
+        cmgdm.lginit = FALSE;
+        cmdfm.ndsflcnt = 0;
+        cmicnv.icnver = 0;
+        cmvars.lvarsinit = FALSE;
+        _aini = 0;
+    }
 
-        if( _aini ){ /* Do 1 TIME INITIALIZATIONS! */
-                cmextcom.nfiles = 0;
-                cmgdm.lginit = FALSE;
-		cmdfm.ndsflcnt = 0;
-                cmicnv.icnver = 0;
-                cmvars.lvarsinit = FALSE;
-                _aini = 0;
-        }
+    /* - inc/dload */
+    /* - inc/gdm */
+    /* - inc/dfm */
+    /* - inc/cnv */
+    /* - inc/vars */
 
-        /* - inc/dload */
-        /* - inc/gdm */
-        /* - inc/dfm */
-        /* - inc/cnv */
-        /* - inc/vars */
+    return;
+}                               /* end of function */
 
-        return ;
-} /* end of function */
-
-void setup_pager()
-{
+void
+setup_pager() {
     char *pager_search_list[] = { "less", "more", NULL };
     char *pager_dir_list[] = { "/usr/bin", "/bin", NULL };
     char *buf = NULL;
 
     pager = getenv("PAGER");
     if (pager && pager[0] == '\0')
-	pager = NULL;
+        pager = NULL;
 
     if (pager == NULL) {
         char **i, **j;
 
-	pager = NULL;
-	for (i = pager_search_list; *i; i++) {
-          for (j = pager_dir_list; *j; j++) {
-		if (buf)
-		    free(buf);
-		buf = (char *)malloc(strlen(*j) + strlen(*i) + 2);
-		sprintf(buf, "%s/%s", *j, *i);
-		if (access(buf, F_OK) == 0) {
-		    pager = buf;
-		    return;
-		}
-	    }
-	}
+        pager = NULL;
+        for (i = pager_search_list; *i; i++) {
+            for (j = pager_dir_list; *j; j++) {
+                if (buf)
+                    free(buf);
+                buf = (char *) malloc(strlen(*j) + strlen(*i) + 2);
+                sprintf(buf, "%s/%s", *j, *i);
+                if (access(buf, F_OK) == 0) {
+                    pager = buf;
+                    return;
+                }
+            }
+        }
     }
 }

@@ -5,13 +5,12 @@
 #include "bool.h"
 #include "gam.h"
 
-
 #include "dfm.h"
 
-void  xplotalpha(int *nerr)
-{
+void
+xplotalpha(int *nerr) {
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To execute the action command PLOTALPHA.
 	 *           This command calls readalpha with a flag that tells it to 
 	 *           plot also.
@@ -35,11 +34,10 @@ void  xplotalpha(int *nerr)
 	 * MODIFICATION HISTORY:
 	 *    920713:  Original version.
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	xrtab( TRUE, nerr );
-	return;
+    xrtab(TRUE, nerr);
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

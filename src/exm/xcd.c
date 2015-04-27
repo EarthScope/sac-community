@@ -21,35 +21,33 @@
  * @date   102795:  Original version.
  *
  */
-void 
+void
 xcd(int *nerr) {
-    char kname[MCPFN+1];
+    char kname[MCPFN + 1];
 
-	*nerr = 0;
-    memset(kname, 0, MCPFN+1);
+    *nerr = 0;
+    memset(kname, 0, MCPFN + 1);
 
-L_1000:
-	if( lcmore( nerr ) ){
+  L_1000:
+    if (lcmore(nerr)) {
 
-         /* Get the name of a directory to change to. */
-		if( lcchar( kname, sizeof(kname)) ){
-                  if( chdir(kname) != 0 ){
-                    *nerr = 124;
-                    goto L_8888;
-                  }  
+        /* Get the name of a directory to change to. */
+        if (lcchar(kname, sizeof(kname))) {
+            if (chdir(kname) != 0) {
+                *nerr = 124;
+                goto L_8888;
+            }
 
-			/* -- Bad syntax. */
-		}
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
+            /* -- Bad syntax. */
+        } else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
 
-			}
-		goto L_1000;
+        }
+        goto L_1000;
 
-		}
+    }
 
-L_8888:
-	return;
+  L_8888:
+    return;
 }
-

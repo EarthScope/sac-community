@@ -35,26 +35,23 @@
  * \date   860203:  Documented/Reviewed
  *
  */
-void 
-getsmsg(int   number, 
-	char *kmsg, 
-	int   kmsg_s)
-{
-	int j, j_;
+void
+getsmsg(int number, char *kmsg, int kmsg_s) {
+    int j, j_;
 
-	/* - Loop through list of message numbers, looking for a match. */
-	for( j = 1; j <= cmmsg.nfmsg; j++ ){
-		j_ = j - 1;
-		if( number == cmmsg.ifmsg[j-1] ){
-			fstrncpy( kmsg, kmsg_s-1, kmmsg.kfmsg[j_], strlen(kmmsg.kfmsg[j_]));
-			goto L_8888;
-			}
-		}
+    /* - Loop through list of message numbers, looking for a match. */
+    for (j = 1; j <= cmmsg.nfmsg; j++) {
+        j_ = j - 1;
+        if (number == cmmsg.ifmsg[j - 1]) {
+            fstrncpy(kmsg, kmsg_s - 1, kmmsg.kfmsg[j_],
+                     strlen(kmmsg.kfmsg[j_]));
+            goto L_8888;
+        }
+    }
 
-	/* - If no match is found, simply encode the error number. */
-        sprintf(kmsg,"%s%5d", "Number", number );
+    /* - If no match is found, simply encode the error number. */
+    sprintf(kmsg, "%s%5d", "Number", number);
 
-L_8888:
-	return;
+  L_8888:
+    return;
 }
-

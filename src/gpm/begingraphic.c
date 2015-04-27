@@ -12,7 +12,6 @@
 
 #include "errors.h"
 
-
 #include "gtm.h"
 #include "gdm.h"
 
@@ -26,17 +25,16 @@
  * @date   861027:  Original version.
  *
  */
-void 
+void
 begingraphics(int *nerr) {
 
-  *nerr = SAC_OK;
-  
-  /* - Initialize the Graphics Tool Module. */
-  inigtm();
-  
-  /* - Initialize the Graphics Device Module. */
-  inigdm( nerr );
-  
-  return;
-}
+    *nerr = SAC_OK;
 
+    /* - Initialize the Graphics Tool Module. */
+    inigtm();
+
+    /* - Initialize the Graphics Device Module. */
+    inigdm(nerr);
+
+    return;
+}

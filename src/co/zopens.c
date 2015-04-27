@@ -65,62 +65,56 @@
  * @date   830812:  Original version.
  *
  */
-void 
-zopens(FILE **nfu, 
-       char  *kname, 
-       int    kname_s, 
-       char  *ktype, 
-       int    ktype_s, 
-       int   *nerr) {
+void
+zopens(FILE ** nfu, char *kname, int kname_s, char *ktype, int ktype_s,
+       int *nerr) {
 
     char *tmp;
-	int lexist;
-	int noerr;
+    int lexist;
+    int noerr;
 
-	*nerr = 0;
-        noerr = 0;
+    *nerr = 0;
+    noerr = 0;
     tmp = NULL;
-	/* - Error exit if file does not exist. */
-	zinquire( kname, &lexist );
+    /* - Error exit if file does not exist. */
+    zinquire(kname, &lexist);
 
-	if( !lexist ){
-	    *nerr = ERROR_FILE_DOES_NOT_EXIST;
-	    setmsg( "ERROR", *nerr );
-	    apcmsg( kname,kname_s );
-	    goto L_8888;
-	}
+    if (!lexist) {
+        *nerr = ERROR_FILE_DOES_NOT_EXIST;
+        setmsg("ERROR", *nerr);
+        apcmsg(kname, kname_s);
+        goto L_8888;
+    }
 
-	if( (memcmp(ktype,"TEXT",4) == 0 || 
-	     memcmp(ktype,"ROTEXT",6) == 0) || 
-	    memcmp(ktype,"READ",4) == 0 ){
+    if ((memcmp(ktype, "TEXT", 4) == 0 || memcmp(ktype, "ROTEXT", 6) == 0) ||
+        memcmp(ktype, "READ", 4) == 0) {
         tmp = rstrip(strdup(kname));
-        if((*nfu = fopen(tmp,"rb")) == NULL) noerr = 1;
-	    if( noerr != 0 ){
-		*nerr = ERROR_OPENING_FILE;
-		setmsg( "ERROR", *nerr );
-		apcmsg( kname,kname_s );
-		apcmsg( "(Fortran i/o error number =",28 );
-		apimsg( noerr );
-		apcmsg( ")",2 );
-		goto L_8888;
-	    }
+        if ((*nfu = fopen(tmp, "rb")) == NULL)
+            noerr = 1;
+        if (noerr != 0) {
+            *nerr = ERROR_OPENING_FILE;
+            setmsg("ERROR", *nerr);
+            apcmsg(kname, kname_s);
+            apcmsg("(Fortran i/o error number =", 28);
+            apimsg(noerr);
+            apcmsg(")", 2);
+            goto L_8888;
+        }
 
-	}
-	else{
-	    *nerr = ERROR_OPENING_FILE;
-	    setmsg( "ERROR", *nerr );
-	    apcmsg( kname,kname_s );
-	    apcmsg( "(Bad value for file type =",27 );
-	    apcmsg( ktype,ktype_s );
-	    apcmsg( ")",2 );
-	    goto L_8888;
-	}
+    } else {
+        *nerr = ERROR_OPENING_FILE;
+        setmsg("ERROR", *nerr);
+        apcmsg(kname, kname_s);
+        apcmsg("(Bad value for file type =", 27);
+        apcmsg(ktype, ktype_s);
+        apcmsg(")", 2);
+        goto L_8888;
+    }
 
-L_8888:
-    if(tmp) {
+  L_8888:
+    if (tmp) {
         free(tmp);
     }
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

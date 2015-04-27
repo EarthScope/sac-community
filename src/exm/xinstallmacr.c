@@ -12,7 +12,6 @@
 #include "msg.h"
 #include "bool.h"
 
-
 #include "co.h"
 #include "bot.h"
 
@@ -32,48 +31,44 @@
  * @date   870416:  Original version.
  *
  */
-void 
+void
 xinstallmacro(int *nerr) {
 
-	char kname[MCPFN+1];
-	int lexist;
+    char kname[MCPFN + 1];
+    int lexist;
 
-	*nerr = 0;
+    *nerr = 0;
 
+    while (lcmore(nerr)) {
 
-	while( lcmore( nerr ) ){
+        /* -- "text":  the name of a macro to install. */
+        if (lcchar(kname, sizeof(kname))) {
+            modcase(FALSE, kname, strlen(kname), kname);
 
-		/* -- "text":  the name of a macro to install. */
-		if( lcchar(kname, sizeof(kname)) ){
-			modcase( FALSE, kname, strlen(kname), kname );
+            /* -- Bad syntax. */
+        } else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
 
-			/* -- Bad syntax. */
-			}
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
+        }
 
-			}
+        /* - Make sure macro file exists. */
 
+        zinquire(kname, &lexist);
 
-		/* - Make sure macro file exists. */
+        if (!lexist) {
+            *nerr = 108;
+            setmsg("ERROR", *nerr);
+            apcmsg(kname, MCPFN + 1);
+            goto L_8888;
+        }
 
-		zinquire( kname, &lexist );
+        /* - Install macro in the SAC auxiliary directory. */
 
-		if( !lexist ){
-			*nerr = 108;
-			setmsg( "ERROR", *nerr );
-			apcmsg( kname,MCPFN+1 );
-			goto L_8888;
-			}
+        zauxfile("macros", 7, kname, MCPFN + 1, nerr);
 
-		/* - Install macro in the SAC auxiliary directory. */
+    }
 
-		zauxfile( "macros",7, kname,MCPFN+1, nerr );
-
-		}
-
-L_8888:
-	return;
+  L_8888:
+    return;
 }
-

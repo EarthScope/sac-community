@@ -2,14 +2,12 @@
 #include "gtm.h"
 #include "co.h"
 
-
-void /*FUNCTION*/ setsymbolgap(gap)
-double gap;
+void /*FUNCTION*/
+setsymbolgap(gap)
+     double gap;
 {
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To set the symbol gap attribute.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -32,11 +30,9 @@ double gap;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  861027
 	 *===================================================================== */
-	/* PROCEDURE: */
-	cmgtm.symgap = fmin( 1.0, fmax( 0.0, gap ) );
+    /* PROCEDURE: */
+    cmgtm.symgap = fmin(1.0, fmax(0.0, gap));
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

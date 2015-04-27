@@ -21,13 +21,13 @@
  */
 void
 sacio_initialize_common() {
-  static int init = FALSE;
-  if( init == FALSE ) {
-    init = TRUE;
-    inihdr();
-    inilhf();
-    inimsg();
-  }
+    static int init = FALSE;
+    if (init == FALSE) {
+        init = TRUE;
+        inihdr();
+        inilhf();
+        inimsg();
+    }
 }
 
 /** 
@@ -48,32 +48,31 @@ sacio_initialize_common() {
  * @date July 01, 2007 Initial Version -- B. Savage
  */
 int
-sac_check_header_version(float *hdr, 
-			 int   *nerr) {
-  int lswap;
-  int *ver;
+sac_check_header_version(float *hdr, int *nerr) {
+    int lswap;
+    int *ver;
 
-  lswap = FALSE;
-  *nerr = SAC_OK;
-  /* determine if the data needs to be swapped. */
-  ver = (int *)( hdr + SAC_VERSION_LOCATION ) ;
-  if( *ver < 1 || *ver > SAC_HEADER_MAJOR_VERSION ){
-    byteswap( (void *)ver, SAC_HEADER_SIZEOF_NUMBER ) ;
+    lswap = FALSE;
+    *nerr = SAC_OK;
+    /* determine if the data needs to be swapped. */
+    ver = (int *) (hdr + SAC_VERSION_LOCATION);
+    if (*ver < 1 || *ver > SAC_HEADER_MAJOR_VERSION) {
+        byteswap((void *) ver, SAC_HEADER_SIZEOF_NUMBER);
 
-    if( *ver < 1 || *ver > SAC_HEADER_MAJOR_VERSION ) {
-      *nerr = ERROR_NOT_A_SAC_FILE ;
-      setmsg( "ERROR", *nerr ) ;
-      aplmsg( "not in sac format, nor byteswapped sac format.", 62 );
-      outmsg();
-      clrmsg();
-      return -1;
-    }  else {
-      /* swap back, so it can be */
-      byteswap( (void *)ver, SAC_HEADER_SIZEOF_NUMBER );
-      lswap = TRUE;
+        if (*ver < 1 || *ver > SAC_HEADER_MAJOR_VERSION) {
+            *nerr = ERROR_NOT_A_SAC_FILE;
+            setmsg("ERROR", *nerr);
+            aplmsg("not in sac format, nor byteswapped sac format.", 62);
+            outmsg();
+            clrmsg();
+            return -1;
+        } else {
+            /* swap back, so it can be */
+            byteswap((void *) ver, SAC_HEADER_SIZEOF_NUMBER);
+            lswap = TRUE;
+        }
     }
-  }
-  return lswap;
+    return lswap;
 }
 
 /** 
@@ -90,11 +89,11 @@ sac_check_header_version(float *hdr,
  */
 void
 sac_header_swap(float *hdr) {
-  int i;
-  float *ptr;
-  for( i = 0, ptr = hdr ; i < SAC_HEADER_NUMBERS ; i++, ptr++ ){
-    byteswap( (void*)ptr, SAC_HEADER_SIZEOF_NUMBER ) ;
-  }
+    int i;
+    float *ptr;
+    for (i = 0, ptr = hdr; i < SAC_HEADER_NUMBERS; i++, ptr++) {
+        byteswap((void *) ptr, SAC_HEADER_SIZEOF_NUMBER);
+    }
 }
 
 /** 
@@ -132,37 +131,36 @@ sac_header_swap(float *hdr) {
  * @date July 01, 2007 Initial Version -- B. Savage
  */
 int
-sac_header_read(int nun, sac *s, int *nerr) {
-  int lswap;
-  float temp2[2 * SAC_HEADER_STRINGS];
-  float temp[(2 * SAC_HEADER_STRINGS) + 6];
-  int word;
-                                           
-  lswap = FALSE;
-  word = 0;
-  zrabs( &nun, (char *)s->h, SAC_HEADER_NUMBERS, &word, nerr );
-  if( *nerr != SAC_OK )
+sac_header_read(int nun, sac * s, int *nerr) {
+    int lswap;
+    float temp2[2 * SAC_HEADER_STRINGS];
+    float temp[(2 * SAC_HEADER_STRINGS) + 6];
+    int word;
+
+    lswap = FALSE;
+    word = 0;
+    zrabs(&nun, (char *) s->h, SAC_HEADER_NUMBERS, &word, nerr);
+    if (*nerr != SAC_OK)
+        return lswap;
+
+    lswap = sac_check_header_version((float *) s->h, nerr);
+
+    if (lswap) {                /* byteswap all the non-character header elements. */
+        sac_header_swap((float *) s->h);
+    }
+
+    word = word + SAC_HEADER_NUMBERS;
+    zrabs(&nun, (char *) temp2, 2 * SAC_HEADER_STRINGS, &word, nerr);
+    if (*nerr != SAC_OK)
+        return lswap;
+
+    map_chdr_in(temp, temp2);
+
+    zgetc((int *) temp, (char *) s->h->kstnm,
+          SAC_HEADER_STRING_LENGTH * SAC_HEADER_STRINGS);
+
     return lswap;
 
-  lswap = sac_check_header_version((float*)s->h, nerr);
-  
-  if( lswap ){     /* byteswap all the non-character header elements. */
-    sac_header_swap((float*)s->h);
-  }
-  
-  word = word + SAC_HEADER_NUMBERS;
-  zrabs( &nun, (char *)temp2, 2 * SAC_HEADER_STRINGS, &word, nerr );
-  if( *nerr != SAC_OK )
-    return lswap;
-
-  map_chdr_in(temp,temp2);
-  
-  zgetc( (int *) temp, 
-         (char *) s->h->kstnm,
-         SAC_HEADER_STRING_LENGTH * SAC_HEADER_STRINGS );
-  
-  return lswap;
- 
 }
 
 /** 
@@ -180,32 +178,30 @@ sac_header_read(int nun, sac *s, int *nerr) {
  * @date July 01, 2007 Initial Version -- B. Savage
  */
 void
-rsach(char *kname,
-       int  *nerr,
-      int   kname_s) {
-  int ncerr;
-  int nun;
-  sac *s;
-  nun = 0;
+rsach(char *kname, int *nerr, int kname_s) {
+    int ncerr;
+    int nun;
+    sac *s;
+    nun = 0;
 
-  *nerr = SAC_OK;
+    *nerr = SAC_OK;
 
-  sacio_initialize_common();
-  
-  /* - Open the file. */
-  zopen_sac( (int *)&nun, kname,kname_s, "RODATA",7, (int *)nerr );
-  if( *nerr != SAC_OK )
-    goto ERROR;
+    sacio_initialize_common();
 
-  s = sac_new();
-  s->m->filename = fstrdup(kname, kname_s);
-  sacput(s);
+    /* - Open the file. */
+    zopen_sac((int *) &nun, kname, kname_s, "RODATA", 7, (int *) nerr);
+    if (*nerr != SAC_OK)
+        goto ERROR;
 
-  sac_header_read(nun, s, nerr);
-  if( *nerr != SAC_OK )
-    goto ERROR;
+    s = sac_new();
+    s->m->filename = fstrdup(kname, kname_s);
+    sacput(s);
 
- ERROR:
-  zclose((int *)&nun, (int *)&ncerr);
-  return;
+    sac_header_read(nun, s, nerr);
+    if (*nerr != SAC_OK)
+        goto ERROR;
+
+  ERROR:
+    zclose((int *) &nun, (int *) &ncerr);
+    return;
 }

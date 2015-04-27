@@ -7,7 +7,6 @@
 
 #include "dfm.h"
 
-
 #include "cpf.h"
 
 /** 
@@ -21,22 +20,22 @@
  * @date   820809:  Changed to newest set of parsing and checking functions.
  *
  */
-void 
+void
 xcuter(int *nerr) {
 
-  *nerr = 0;
+    *nerr = 0;
 
-  while( lcmore( nerr ) ){
-    
-    /* -- "FATAL/USEBE/FILLZ":  select cut error control technique. */
-    if( lclist( (char*)kmdfm.kcuter,9, MCUTER, &cmdfm.icuter ) ) {  
+    while (lcmore(nerr)) {
 
-    } else {
-      /* -- Bad syntax. */
-      cfmt( "ILLEGAL OPTION:",17 );
-      cresp();
+        /* -- "FATAL/USEBE/FILLZ":  select cut error control technique. */
+        if (lclist((char *) kmdfm.kcuter, 9, MCUTER, &cmdfm.icuter)) {
+
+        } else {
+            /* -- Bad syntax. */
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
     }
-  }
-  
-  return;
+
+    return;
 }

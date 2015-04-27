@@ -11,11 +11,11 @@
 #include "mach.h"
 #include "contouring.h"
 
-void 
+void
 setcontdatalim(ixstart, ixstop, iystart, iystop)
-int ixstart, ixstop, iystart, iystop;
+     int ixstart, ixstop, iystart, iystop;
 {
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To set the contour data limits to use in
 	 *           subsequent contour plots.
 	 *=====================================================================
@@ -37,13 +37,12 @@ int ixstart, ixstop, iystart, iystop;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900409
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Save input variables in common block. */
-	cmcontouring.ixdatastart = ixstart;
-	cmcontouring.ixdatastop = ixstop;
-	cmcontouring.iydatastart = iystart;
-	cmcontouring.iydatastop = iystop;
+    /* PROCEDURE: */
+    /* - Save input variables in common block. */
+    cmcontouring.ixdatastart = ixstart;
+    cmcontouring.ixdatastop = ixstop;
+    cmcontouring.iydatastart = iystart;
+    cmcontouring.iydatastop = iystop;
 
-	return;
+    return;
 }
-

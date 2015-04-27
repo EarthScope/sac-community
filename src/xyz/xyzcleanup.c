@@ -1,14 +1,13 @@
 
 #include "xyz.h"
 
-
 #include "co.h"
 
-void /*FUNCTION*/ xyzcleanup()
-{
-	int _l0, nerr;
+void /*FUNCTION*/
+xyzcleanup() {
+    int _l0, nerr;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To cleanup xyz images and temporary files if necessary.
 	 *=====================================================================
 	 * MODULE/LEVEL:  xyz/4
@@ -24,17 +23,16 @@ void /*FUNCTION*/ xyzcleanup()
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900310
 	 *===================================================================== */
-	/* - If cleanup flag is set, execute the command to delete image windows 
-	 *   and destory temporary files. */
-	if( cmxyz.lcleanup ){
-                _l0 = 20;
-		zsysop( "Utahcleanup getsun &",21, &_l0, &nerr );
-		if( nerr != 0 )
-			goto L_8888;
-		}
+    /* - If cleanup flag is set, execute the command to delete image windows 
+     *   and destory temporary files. */
+    if (cmxyz.lcleanup) {
+        _l0 = 20;
+        zsysop("Utahcleanup getsun &", 21, &_l0, &nerr);
+        if (nerr != 0)
+            goto L_8888;
+    }
 
-L_8888:
-	return;
+  L_8888:
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

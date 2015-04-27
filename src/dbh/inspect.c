@@ -79,143 +79,118 @@
  *           (415) 423-0617
  *
  */
-void 
-inspect(int       iord, 
-	char     *type, 
-	char     *aproto, 
-	double    att, 
-	double    trbndw, 
-	double    fl, 
-	double    fh, 
-	double    ts, 
-	char     *rtype, 
-	int       nfreqs, 
-	float    *rfl, 
-	float    *rfh, 
-	char     *sampling, 
-	float    *response, 
-	float    *freqs)
-{
-	char stype[10][4];
-	int digital;
-	int nsects;
-	float dcvalue, eps, fhw, flw, omegar, ripple, sd[30], sn[30];
-	complexf poles[10], zeros[10];
-        char *strtemp;
+void
+inspect(int iord, char *type, char *aproto, double att, double trbndw,
+        double fl, double fh, double ts, char *rtype, int nfreqs, float *rfl,
+        float *rfh, char *sampling, float *response, float *freqs) {
+    char stype[10][4];
+    int digital;
+    int nsects;
+    float dcvalue, eps, fhw, flw, omegar, ripple, sd[30], sn[30];
+    complexf poles[10], zeros[10];
+    char *strtemp;
 
+    if (rtype[0] == 'D')
+        digital = TRUE;
+    else
+        digital = FALSE;
 
-	if( rtype[0] == 'D' )
-	     digital = TRUE;
-	else
-	     digital = FALSE;
-
-	/*  Analog prototype selection                                                   
-	 * */
-	if( memcmp(aproto,"BU",2) == 0 ){
-	     buroots( poles, (char*)stype,4, &dcvalue, &nsects, iord );
-	}
-	else if( memcmp(aproto,"BE",2) == 0 ){
-	     beroots( poles, (char*)stype,4, &dcvalue, &nsects, iord );
-	}
-	else if( memcmp(aproto,"C1",2) == 0 ){
-	     chebparm( att, trbndw, iord, &eps, &ripple );
-	     c1roots( poles, (char*)stype,4, &dcvalue, &nsects, iord, eps );
-	}
-	else if( memcmp(aproto,"C2",2) == 0 ){
-	     omegar = 1. + trbndw;
-	     c2roots( poles, zeros, (char*)stype,4, &dcvalue, &nsects, iord,
-			att, omegar);
-	} else {
-        fprintf(stderr, "filter: Unknown Analog filter prototype: '%s'\n", aproto);
+    /*  Analog prototype selection                                                   
+     * */
+    if (memcmp(aproto, "BU", 2) == 0) {
+        buroots(poles, (char *) stype, 4, &dcvalue, &nsects, iord);
+    } else if (memcmp(aproto, "BE", 2) == 0) {
+        beroots(poles, (char *) stype, 4, &dcvalue, &nsects, iord);
+    } else if (memcmp(aproto, "C1", 2) == 0) {
+        chebparm(att, trbndw, iord, &eps, &ripple);
+        c1roots(poles, (char *) stype, 4, &dcvalue, &nsects, iord, eps);
+    } else if (memcmp(aproto, "C2", 2) == 0) {
+        omegar = 1. + trbndw;
+        c2roots(poles, zeros, (char *) stype, 4, &dcvalue, &nsects, iord, att,
+                omegar);
+    } else {
+        fprintf(stderr, "filter: Unknown Analog filter prototype: '%s'\n",
+                aproto);
         fprintf(stderr, "        Expected: BU, BESSEL, C1, C2\n");
         return;
     }
 
-	/*  Analog mapping selection
-	 * */
-	if( memcmp(type,"BP",2) == 0 ){
-	    flw = warp( fl*ts/2., 2. );
-	    fhw = warp( fh*ts/2., 2. );
+    /*  Analog mapping selection
+     * */
+    if (memcmp(type, "BP", 2) == 0) {
+        flw = warp(fl * ts / 2., 2.);
+        fhw = warp(fh * ts / 2., 2.);
 
-	    if( digital ){
-		lptbp( poles, zeros, (char*)stype,4, dcvalue, &nsects,
-			flw, fhw, sn,sd);
-	    }
-	    else{
-		lptbp( poles, zeros, (char*)stype,4, dcvalue, &nsects,
-			fl, fh, sn, sd );
-	    }
+        if (digital) {
+            lptbp(poles, zeros, (char *) stype, 4, dcvalue, &nsects, flw, fhw,
+                  sn, sd);
+        } else {
+            lptbp(poles, zeros, (char *) stype, 4, dcvalue, &nsects, fl, fh, sn,
+                  sd);
+        }
 
-	}
-	else if( memcmp(type,"BR",2) == 0 ){
+    } else if (memcmp(type, "BR", 2) == 0) {
 
-	    flw = warp( fl*ts/2., 2. );
-	    fhw = warp( fh*ts/2., 2. );
+        flw = warp(fl * ts / 2., 2.);
+        fhw = warp(fh * ts / 2., 2.);
 
-	    if( digital ){
-		lptbr( poles, zeros, (char*)stype,4, dcvalue, &nsects,
-			flw, fhw, sn,sd);
-	    }
-	    else{
-		lptbr( poles, zeros, (char*)stype,4, dcvalue, &nsects,
-			fl, fh, sn, sd );
-	    }
+        if (digital) {
+            lptbr(poles, zeros, (char *) stype, 4, dcvalue, &nsects, flw, fhw,
+                  sn, sd);
+        } else {
+            lptbr(poles, zeros, (char *) stype, 4, dcvalue, &nsects, fl, fh, sn,
+                  sd);
+        }
 
-	}
-	else if( memcmp(type,"LP",2) == 0 ){
+    } else if (memcmp(type, "LP", 2) == 0) {
 
-	    if( digital ){
-		fhw = warp( fh*ts/2., 2. );
-		lp( poles, zeros, (char*)stype,4, dcvalue, nsects, sn, sd );
-		cutoffs( sn, sd, nsects, fhw );
-	    }
-	    else{
-		lp( poles, zeros, (char*)stype,4, dcvalue, nsects, sn, sd );
-		cutoffs( sn, sd, nsects, fh );
-	    }
+        if (digital) {
+            fhw = warp(fh * ts / 2., 2.);
+            lp(poles, zeros, (char *) stype, 4, dcvalue, nsects, sn, sd);
+            cutoffs(sn, sd, nsects, fhw);
+        } else {
+            lp(poles, zeros, (char *) stype, 4, dcvalue, nsects, sn, sd);
+            cutoffs(sn, sd, nsects, fh);
+        }
 
-	}
-	else if( memcmp(type,"HP",2) == 0 ){
+    } else if (memcmp(type, "HP", 2) == 0) {
 
-	    if( digital ){
-		flw = warp( fl*ts/2., 2. );
-		lpthp( poles, zeros, (char*)stype,4, dcvalue, nsects, sn, sd );
-		cutoffs( sn, sd, nsects, flw );
-	    }
-	    else{
-		lpthp( poles, zeros, (char*)stype,4, dcvalue, nsects, sn, sd );
-		cutoffs( sn, sd, nsects, fl );
-	    }
+        if (digital) {
+            flw = warp(fl * ts / 2., 2.);
+            lpthp(poles, zeros, (char *) stype, 4, dcvalue, nsects, sn, sd);
+            cutoffs(sn, sd, nsects, flw);
+        } else {
+            lpthp(poles, zeros, (char *) stype, 4, dcvalue, nsects, sn, sd);
+            cutoffs(sn, sd, nsects, fl);
+        }
 
-	}
+    }
 
-	/*  Response calculation                                                         
-	 * */
-	if( digital ){
-	    bilin2( sn, sd, nsects );
+    /*  Response calculation                                                         
+     * */
+    if (digital) {
+        bilin2(sn, sd, nsects);
 
-            strtemp = malloc(3);
-            strncpy(strtemp,rtype+1,2);
-            strtemp[2] = '\0';
+        strtemp = malloc(3);
+        strncpy(strtemp, rtype + 1, 2);
+        strtemp[2] = '\0';
 
-	    dfr( sn, sd, nsects, strtemp, nfreqs, ts, response );
+        dfr(sn, sd, nsects, strtemp, nfreqs, ts, response);
 
-            free(strtemp);
+        free(strtemp);
 
-	    *rfl = 0.0;
-	    *rfh = 1/(2.*ts);
-	}
-	else{
-            strtemp = malloc(3);
-            strncpy(strtemp,rtype,2);
-            strtemp[2] = '\0';
+        *rfl = 0.0;
+        *rfh = 1 / (2. * ts);
+    } else {
+        strtemp = malloc(3);
+        strncpy(strtemp, rtype, 2);
+        strtemp[2] = '\0';
 
-	    afr( sn, sd, nsects, strtemp, sampling, *rfl, *rfh, 
-	     nfreqs, response, freqs );
+        afr(sn, sd, nsects, strtemp, sampling, *rfl, *rfh, nfreqs, response,
+            freqs);
 
-            free(strtemp);
-	}
+        free(strtemp);
+    }
 
-	return;
+    return;
 }
-

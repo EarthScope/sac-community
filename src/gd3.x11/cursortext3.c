@@ -44,58 +44,45 @@
 
 extern int bellON;
 
-void 
-cursortext3(float *xloc_vp,
-            float *yloc_vp,
-            char ktext[],
-            int ktext_length)
-{
-  int nerr;
+void
+cursortext3(float *xloc_vp, float *yloc_vp, char ktext[], int ktext_length) {
+    int nerr;
 /* Use an offset of OW_OFFSET for calls to XDrawLine. OpenWindows has a problem
    that does not occur in generic X11R4. */
 
-  XWindow *xw;
-  UNUSED(ktext_length);
+    XWindow *xw;
+    UNUSED(ktext_length);
 
-  xw = plot_window( CURRENT );
+    xw = plot_window(CURRENT);
 
-  if(bellON) {
-    XBell(DISPLAY(xw),25);
-  }
-    
+    if (bellON) {
+        XBell(DISPLAY(xw), 25);
+    }
+
 /* Select which events the plot window needs to accept for cursor input */
 
-  XSelectInput(DISPLAY(xw),xw->win,
-	       KeyPressMask        |
+    XSelectInput(DISPLAY(xw), xw->win,
+                 KeyPressMask | ButtonPressMask | ButtonReleaseMask |
+                 EnterWindowMask | LeaveWindowMask | PointerMotionMask |
+                 StructureNotifyMask | ExposureMask);
 
-	       ButtonPressMask     |
-               ButtonReleaseMask   |
-	       EnterWindowMask     |
-	       LeaveWindowMask     |
-	       PointerMotionMask   |
-	       StructureNotifyMask |
-	       ExposureMask);
+    expose3();
 
+    /* While waiting for cursor text event, handle other events */
 
-  expose3();
+    cursortext_on3 = TRUE;
 
-  /* While waiting for cursor text event, handle other events */
-
-  cursortext_on3 = TRUE;
-
-  dispatchevent3(&nerr);
+    dispatchevent3(&nerr);
 
 /* Don't accept events anymore for cursor input */
 
-  XSelectInput(DISPLAY(xw),xw->win,
-               (StructureNotifyMask | ExposureMask));
+    XSelectInput(DISPLAY(xw), xw->win, (StructureNotifyMask | ExposureMask));
 
 /* Set location of cursor and character struck */
 
-  *xloc_vp = x11_to_view_x(xcursor_p3, xw);
-  *yloc_vp = x11_to_view_y(ycursor_p3, xw);
+    *xloc_vp = x11_to_view_x(xcursor_p3, xw);
+    *yloc_vp = x11_to_view_y(ycursor_p3, xw);
 
-  strcpy(ktext, text_cursor3);
+    strcpy(ktext, text_cursor3);
 
 }
-

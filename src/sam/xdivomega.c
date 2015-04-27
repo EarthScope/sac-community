@@ -12,16 +12,16 @@
 
 #define PI  M_PI
 
-void /*FUNCTION*/ xdivomega(nerr)
-int *nerr;
+void /*FUNCTION*/
+xdivomega(nerr)
+     int *nerr;
 {
-	int j, jdfl, jj, nfreq;
-	float const_, oldimag, oldreal, value;
-  float slope;
-  sac *s;
+    int j, jdfl, jj, nfreq;
+    float const_, oldimag, oldreal, value;
+    float slope;
+    sac *s;
 
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To parse and execute the action command DIVOMEGA.
 	 *          This command divides a spectral file by a ramp
 	 *          function equal to omega.
@@ -50,91 +50,89 @@ int *nerr;
 	 * DOCUMENTED/REVIEWED: 
 	 *===================================================================== */
 
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* - CHECKING PHASE: */
+    /* - CHECKING PHASE: */
 
-	/* - Test for a non-null data file list. */
+    /* - Test for a non-null data file list. */
 
-	vflist( nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    vflist(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* - Make sure each file is a spectral file. */
+    /* - Make sure each file is a spectral file. */
 
-	vfspec( nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    vfspec(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* - EXECUTION PHASE: */
+    /* - EXECUTION PHASE: */
 
-	/* - Perform the requested function on each file in DFL. */
+    /* - Perform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
-    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
-      goto L_8888;
+    for (jdfl = 1; jdfl <= saclen(); jdfl++) {
+        if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
+            goto L_8888;
+        }
+        //getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
+
+        /* -- Need to divide spectra by "eye omega". */
+        /* -- If real-imaginary this means: (REAL, IMAG) = (+IMAG/omega, -REAL/omega) */
+        if (s->h->iftype == IRLIM) {
+
+            nfreq = s->h->npts / 2;
+            value = 2.0 * PI * s->h->delta;
+            slope = 2.0 * PI * s->h->delta;
+            s->y[0] = 0.0;
+            s->x[0] = 0.0;
+            for (j = 1; j <= (nfreq - 1); j++) {
+                oldreal = s->y[j];
+                oldimag = s->x[j];
+                s->y[j] = oldimag / value;
+                s->x[j] = -oldreal / value;
+                jj = s->h->npts - j;
+                s->y[jj] = s->y[j];
+                s->x[jj] = -s->x[j];
+                value = slope * (j + 1);
+            }
+            oldreal = s->y[nfreq];
+            oldimag = s->x[nfreq];
+            s->y[nfreq] = oldimag / value;
+            s->x[nfreq] = -oldreal / value;
+
+            /* -- If amplitude-phase this means: (AMP, PHASE) = (AMP/omega, PHASE-pi/2) */
+        } else {
+            nfreq = s->h->npts / 2;
+            value = 2. * PI * s->h->delta;
+            slope = 2. * PI * s->h->delta;
+            s->y[0] = 0;
+            const_ = 0.5 * PI;
+            s->x[0] += const_;
+
+            for (j = 1; j <= (nfreq - 1); j++) {
+                s->y[j] /= value;
+                s->x[j] -= const_;
+                jj = s->h->npts - j;
+                s->y[jj] = s->y[j];
+                s->x[jj] = -s->x[j];
+                value = slope * (j + 1);
+            }
+            s->y[nfreq] /= value;
+            s->x[nfreq] -= const_;
+        }
+
+        /* -- Update any header fields that may have changed. */
+        extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax,
+               &s->h->depmen);
+
     }
-		//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
-		/* -- Need to divide spectra by "eye omega". */
-		/* -- If real-imaginary this means: (REAL, IMAG) = (+IMAG/omega, -REAL/omega) */
-		if( s->h->iftype == IRLIM ){
+    /* - Calculate and set new range of dependent variable. */
 
-			nfreq = s->h->npts/2;
-			value = 2.0 * PI * s->h->delta;
-      slope = 2.0 * PI * s->h->delta;
-			s->y[0] = 0.0;
-      s->x[0] = 0.0;
-			for( j = 1; j <= (nfreq - 1); j++ ){
-				oldreal = s->y[j];
-				oldimag = s->x[j];
-        s->y[j] = oldimag / value;
-        s->x[j] = -oldreal / value;
-				jj = s->h->npts - j;
-        s->y[jj] =  s->y[j];
-        s->x[jj] = -s->x[j];
-				value = slope * (j+1);
-      }
-			oldreal = s->y[nfreq];
-			oldimag = s->x[nfreq];
-      s->y[nfreq] =  oldimag / value;
-      s->x[nfreq] = -oldreal/ value;
+    setrng();
 
-			/* -- If amplitude-phase this means: (AMP, PHASE) = (AMP/omega, PHASE-pi/2) */
-			}
-		else{
-			nfreq = s->h->npts/2;
-			value = 2.*PI*s->h->delta;
-      slope = 2.*PI*s->h->delta;
-      s->y[0] = 0;
-			const_ = 0.5*PI;
-      s->x[0] += const_;
+  L_8888:
+    return;
 
-			for( j = 1; j <= (nfreq - 1); j++ ){
-        s->y[j] /= value;
-        s->x[j] -= const_;
-				jj = s->h->npts - j;
-        s->y[jj] =  s->y[j];
-        s->x[jj] = -s->x[j];
-				value = slope * (j+1);
-      }
-      s->y[nfreq] /= value;
-      s->x[nfreq] -= const_;
-			}
-
-		/* -- Update any header fields that may have changed. */
-		extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
-
-
-		}
-
-	/* - Calculate and set new range of dependent variable. */
-
-	setrng();
-
-L_8888:
-	return;
-
-} /* end of function */
-
+}                               /* end of function */

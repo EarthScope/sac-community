@@ -14,13 +14,10 @@
  * @date   831026:  Original version.
  *
  */
-void 
-gettextsize(float *width,
-            float *height)
-{
+void
+gettextsize(float *width, float *height) {
 
-	*width = cmgdm.twidth;
-	*height = cmgdm.thgt;
+    *width = cmgdm.twidth;
+    *height = cmgdm.thgt;
 
 }
-

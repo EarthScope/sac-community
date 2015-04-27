@@ -11,10 +11,8 @@
  * @date   870501:  Original version.
  *
  */
-void 
-setvspaceclip(int lclip)
-{
-	/* - Save input variables in common. */
-	cmgdm.lvsclip = lclip;
+void
+setvspaceclip(int lclip) {
+    /* - Save input variables in common. */
+    cmgdm.lvsclip = lclip;
 }
-

@@ -1,13 +1,12 @@
 
 #include "gd2.h"
 
-void /*FUNCTION*/ setsgfnumber(number)
-int number;
+void /*FUNCTION*/
+setsgfnumber(number)
+     int number;
 {
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To set the frame number to use for
 	 *           subsequent SAC Graphics Files (SGF).
 	 *=====================================================================
@@ -34,12 +33,10 @@ int number;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  861020
 	 *===================================================================== */
-	/* PROCEDURE: */
-	cmgd2.nfnum = number;
-	cmgd2.lfnum = cmgd2.nfnum <= 0;
+    /* PROCEDURE: */
+    cmgd2.nfnum = number;
+    cmgd2.lfnum = cmgd2.nfnum <= 0;
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

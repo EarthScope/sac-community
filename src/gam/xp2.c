@@ -24,24 +24,20 @@
 #include "dff.h"
 #include "array.h"
 
-void xp2(int *nerr)
-{
-	char ktemp[MCMSG+7];	/* increased array size for jdfl.  maf 970130 */
-	int lany, lfirst, lxlimj, lxlims, lylimj,
-	     lprint = FALSE , ltry = FALSE ;
-	int jdx, jdfl,
-	 nrdttm[6], num1, 
-	 num2, num2m1;
-	float atrwid, fjunk, ximnj, ximxj, xjunk, 
-    yimnj, yimxj;
-  char *tmp;
+void
+xp2(int *nerr) {
+    char ktemp[MCMSG + 7];      /* increased array size for jdfl.  maf 970130 */
+    int lany, lfirst, lxlimj, lxlims, lylimj, lprint = FALSE, ltry = FALSE;
+    int jdx, jdfl, nrdttm[6], num1, num2, num2m1;
+    float atrwid, fjunk, ximnj, ximxj, xjunk, yimnj, yimxj;
+    char *tmp;
 
-  float *toff = NULL;
-  
-  sac *s;
-  textbox *tbox;
+    float *toff = NULL;
 
-	/*=====================================================================
+    sac *s;
+    textbox *tbox;
+
+        /*=====================================================================
 	 * PURPOSE:  To execute the action command PLOT2.
 	 *           This command makes a multi-trace, single window plot.
 	 *=====================================================================
@@ -115,374 +111,363 @@ void xp2(int *nerr)
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  861112
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
     tbox = NULL;
-	/* PARSING PHASE: */
+    /* PARSING PHASE: */
 
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-    toff = xarray_new_with_len('f', saclen()+1);
+    toff = xarray_new_with_len('f', saclen() + 1);
     memset(toff, 0.0, sizeof(float) * saclen());
-	while ( lcmore( nerr ) ){
+    while (lcmore(nerr)) {
 
-	    /* -- "RELATIVE/ABSOLUTE":  change method of displaying time
-					on x axis. */
-	    if( lclog2( "A$",3, "R$",3, &cmgam.lp2abs ) )
-	    { /* do nothing */ }
-
-            /* if PRINT option is tried, get printer name */
-            else if ( ltry ) {
-              lcchar(kmgem.kptrName , sizeof(kmgem.kptrName));
-                if ( !lprint )
-                    kmgem.kptrName[0] = '\0' ;
-
-                ltry = FALSE ;
-            }
-
-            /* -- "PRINT":  print the final product */
-            else if( lckey( "PRINT#$", 8 ) ) {
-                ltry = TRUE ;
-                if ( cmgdm.lbegf ) {
-                    setmsg ( "WARNING" , 2403 ) ;
-                    outmsg () ;
-                    clrmsg () ;
-                }
-                else {
-                    lprint = TRUE ;
-                }
-            }
-
-
-	    /* -- Bad syntax. */
-	    else{	
-		cfmt( "ILLEGAL OPTION:",17 );
-		cresp();
-	    }
-	}
-
-
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
-
-	if( *nerr != 0 )
-	    goto L_8888;
-
-	/* CHECKING PHASE: */
-
-	/* - Check for null data file list. */
-
-	vflist( nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
-
-	/* - If no graphics device is open, try to open the default device. */
-
-	getstatus( "ANY", &lany );
-	if( !lany ){
-	    zgetgd( kmgam.kgddef,9 );
-	    begindevices( kmgam.kgddef,9, 1, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
-	}
-
-	/* EXECUTION PHASE: */
-
-	/* - Save current plot environment. */
-
-	plsave();
-
-	/* - Calculate x and y axis limits. */
-
-	getxlm( &lxlims, &xjunk, &xjunk );
-	cmgem.lxlim = TRUE;
-	cmgem.lylim = TRUE;
-	cmgem.ximn = VLARGE;
-	cmgem.ximx = -VLARGE;
-	cmgem.yimn = VLARGE;
-	cmgem.yimx = -VLARGE;
-
-	/* -- Absolute mode. */
-	if( cmgam.lp2abs ){
-	    lfirst = TRUE;
-	    for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
-        if(!(s = sacget(jdfl-1, TRUE, nerr))) {
-          goto L_8888;
+        /* -- "RELATIVE/ABSOLUTE":  change method of displaying time
+           on x axis. */
+        if (lclog2("A$", 3, "R$", 3, &cmgam.lp2abs)) {  /* do nothing */
         }
-        //getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
 
-		/* --- LDTTM function returns .TRUE. if 
-			     date-time stamp is defined. */
-		if( ldttm( &s->h->nzyear ) ){
-		    if( lfirst ){
-			lfirst = FALSE;
-			copyi( &s->h->nzyear, nrdttm, 6 );
-			toff[jdfl-1] = 0.;
-		    }
-		    else if ( s->h->iftype == IRLIM || s->h->iftype == IAMPH ) {
-			/* if it is frequency information, plot relative */
-          toff[jdfl-1] = 0. ;
-		    }
-		    else{
-			/* --- DDTTM function computes difference in two
-				     date-time stamps. */
-			ddttm( &s->h->nzyear, nrdttm, &toff[jdfl-1] );
-			/* if difference is more than twodays, plot relative */
-			if ( fabs ( toff[jdfl-1] ) > TWODAYS )
-			    toff[jdfl-1] = 0. ;
-		    }
-		} /* end if( ldttm( nzdttm ) ) */
-		else{
-		    toff[jdfl-1] = 0.;
-		}
-		/* --- X limits first. */
-		getxlm( &lxlimj, &ximnj, &ximxj );
-		if(!lxlims && ( s->h->iftype == IRLIM || s->h->iftype == IAMPH )) 
-		  ximnj = s->h->delta;
-		cmgem.ximn = fmin( cmgem.ximn, ximnj + toff[jdfl-1] ); 
-		cmgem.ximx = fmax( cmgem.ximx, ximxj + toff[jdfl-1] );
-		/* --- Y limits are more complicated if XLIM is already on. */
-		/* If spectral file, use first component range (AM or RL). */
-		getylm( &lylimj, &yimnj, &yimxj );
-		if(!lylimj && !lxlims && ( s->h->iftype == IRLIM || s->h->iftype == IAMPH )) 
-		  extrma(&s->y[1],1,s->h->npts-11,&yimnj,&yimxj,&fjunk); 
-		if( lxlims && !lylimj ){
-		    if( s->h->leven ){
-			num1 = (int)( (ximnj - s->h->b)/ s->h->delta ) + 1;
-			if( num1 < 1 )
-			    num1 = 1;
-			num2 = (int)( (ximxj - s->h->b)/ s->h->delta ) + 1;
-			if( num2 > s->h->npts )
-			    num2 = s->h->npts;
-			if( num1 <= s->h->npts && num2 >= 1 ){
-			    num2m1 = num2 - num1 + 1;
-			    extrma( &s->y[num1-1], 1, num2m1,
-				    &yimnj, &yimxj, &fjunk );
-			}
-			else{
-			    yimnj = -1.;
-			    yimxj = 1.;
-			}
-		    }
-		    else{
-			yimnj = VLARGE;
-			yimxj = -VLARGE;
-			for( jdx = 1; jdx <= s->h->npts; jdx++ ){
-			    if( s->x[jdx-1] >= ximnj && s->x[jdx-1] <= ximxj ){
-				if( s->y[jdx-1] < yimnj )
-				    yimnj = s->y[jdx-1];
-				if( s->y[jdx-1] > yimxj )
-          yimxj = s->y[jdx-1];
-			    } /* end if( *Sacmem1 >= ximnj && ... */
-			} /* end for( jdx = 1; jdx <= nlen; jdx++ ) */
-		    } /* end else associated with if( s->h->leven ) */
-		} /* end if( lxlims && !lylimj ) */
-		cmgem.yimn = fmin( cmgem.yimn, yimnj );
-		cmgem.yimx = fmax( cmgem.yimx, yimxj );
-	    } /* end for( jdfl = 1; jdfl <= saclen(); jdfl++ ) */
-	} /* end if( cmgam.lp2abs ) */
+        /* if PRINT option is tried, get printer name */
+        else if (ltry) {
+            lcchar(kmgem.kptrName, sizeof(kmgem.kptrName));
+            if (!lprint)
+                kmgem.kptrName[0] = '\0';
 
-	/* -- Relative mode. */
-	else{
-	    cmgem.ximn = 0.;
-	    cmgem.ximx = -VLARGE;
-	    for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
-        if(!(s = sacget(jdfl-1, FALSE, nerr))) {
-          goto L_8888;
+            ltry = FALSE;
         }
-        //getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
 
-		getxlm( &lxlimj, &ximnj, &ximxj );
-		cmgem.ximx = fmax( cmgem.ximx, ximxj - ximnj );
-		toff[jdfl-1] = -ximnj;
-		getylm( &lylimj, &yimnj, &yimxj );
-		if(!lylimj && ( s->h->iftype == IRLIM || s->h->iftype == IAMPH ))
-		  extrma(&s->y[1],1,s->h->npts-1,&yimnj,&yimxj,&fjunk);
-		cmgem.yimn = fmin( cmgem.yimn, yimnj );
-		cmgem.yimx = fmax( cmgem.yimx, yimxj );
-	    } /* end for ( jdfl = 1; jdfl <= saclen(); jdfl++ ) */
-	} /* end else */
+        /* -- "PRINT":  print the final product */
+        else if (lckey("PRINT#$", 8)) {
+            ltry = TRUE;
+            if (cmgdm.lbegf) {
+                setmsg("WARNING", 2403);
+                outmsg();
+                clrmsg();
+            } else {
+                lprint = TRUE;
+            }
+        }
 
-	/* - Set background and skeleton attributes. */
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
+    }
 
-	settexttype( kmgem.kgtqua );
-	settextfont( cmgem.igtfnt );
-	setlinestyle( LINE_STYLE_SOLID );
-	setcolor( cmgem.iskcol );
-	setlinewidth( LINE_WIDTH_THIN );
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-	/* - Begin new frame if requested. */
+    if (*nerr != 0)
+        goto L_8888;
 
-	if( cmgem.lframe ){
-	    beginframe( lprint , nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
-	    getvspace( &cmgem.view.xmin, &cmgem.view.xmax,
-		       &cmgem.view.ymin, &cmgem.view.ymax );
-	}
+    /* CHECKING PHASE: */
 
-	/* - Calculate mapping transformation for these fixed limits.
-	 *   (In this case, all passed variables but NERR are unused.) */
+    /* - Check for null data file list. */
 
-	plmap( NULL, NULL, 1, 1, 1, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
+    vflist(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* - Determine location for id. */
+    /* - If no graphics device is open, try to open the default device. */
 
-	if( cmgam.lfidrq ){
-        tbox        = textbox_new( saclen() );
-        if(!tbox) {
+    getstatus("ANY", &lany);
+    if (!lany) {
+        zgetgd(kmgam.kgddef, 9);
+        begindevices(kmgam.kgddef, 9, 1, nerr);
+        if (*nerr != 0)
+            goto L_8888;
+    }
+
+    /* EXECUTION PHASE: */
+
+    /* - Save current plot environment. */
+
+    plsave();
+
+    /* - Calculate x and y axis limits. */
+
+    getxlm(&lxlims, &xjunk, &xjunk);
+    cmgem.lxlim = TRUE;
+    cmgem.lylim = TRUE;
+    cmgem.ximn = VLARGE;
+    cmgem.ximx = -VLARGE;
+    cmgem.yimn = VLARGE;
+    cmgem.yimx = -VLARGE;
+
+    /* -- Absolute mode. */
+    if (cmgam.lp2abs) {
+        lfirst = TRUE;
+        for (jdfl = 1; jdfl <= saclen(); jdfl++) {
+            if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
+                goto L_8888;
+            }
+            //getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
+
+            /* --- LDTTM function returns .TRUE. if 
+               date-time stamp is defined. */
+            if (ldttm(&s->h->nzyear)) {
+                if (lfirst) {
+                    lfirst = FALSE;
+                    copyi(&s->h->nzyear, nrdttm, 6);
+                    toff[jdfl - 1] = 0.;
+                } else if (s->h->iftype == IRLIM || s->h->iftype == IAMPH) {
+                    /* if it is frequency information, plot relative */
+                    toff[jdfl - 1] = 0.;
+                } else {
+                    /* --- DDTTM function computes difference in two
+                       date-time stamps. */
+                    ddttm(&s->h->nzyear, nrdttm, &toff[jdfl - 1]);
+                    /* if difference is more than twodays, plot relative */
+                    if (fabs(toff[jdfl - 1]) > TWODAYS)
+                        toff[jdfl - 1] = 0.;
+                }
+            } /* end if( ldttm( nzdttm ) ) */
+            else {
+                toff[jdfl - 1] = 0.;
+            }
+            /* --- X limits first. */
+            getxlm(&lxlimj, &ximnj, &ximxj);
+            if (!lxlims && (s->h->iftype == IRLIM || s->h->iftype == IAMPH))
+                ximnj = s->h->delta;
+            cmgem.ximn = fmin(cmgem.ximn, ximnj + toff[jdfl - 1]);
+            cmgem.ximx = fmax(cmgem.ximx, ximxj + toff[jdfl - 1]);
+            /* --- Y limits are more complicated if XLIM is already on. */
+            /* If spectral file, use first component range (AM or RL). */
+            getylm(&lylimj, &yimnj, &yimxj);
+            if (!lylimj && !lxlims &&
+                (s->h->iftype == IRLIM || s->h->iftype == IAMPH))
+                extrma(&s->y[1], 1, s->h->npts - 11, &yimnj, &yimxj, &fjunk);
+            if (lxlims && !lylimj) {
+                if (s->h->leven) {
+                    num1 = (int) ((ximnj - s->h->b) / s->h->delta) + 1;
+                    if (num1 < 1)
+                        num1 = 1;
+                    num2 = (int) ((ximxj - s->h->b) / s->h->delta) + 1;
+                    if (num2 > s->h->npts)
+                        num2 = s->h->npts;
+                    if (num1 <= s->h->npts && num2 >= 1) {
+                        num2m1 = num2 - num1 + 1;
+                        extrma(&s->y[num1 - 1], 1, num2m1, &yimnj, &yimxj,
+                               &fjunk);
+                    } else {
+                        yimnj = -1.;
+                        yimxj = 1.;
+                    }
+                } else {
+                    yimnj = VLARGE;
+                    yimxj = -VLARGE;
+                    for (jdx = 1; jdx <= s->h->npts; jdx++) {
+                        if (s->x[jdx - 1] >= ximnj && s->x[jdx - 1] <= ximxj) {
+                            if (s->y[jdx - 1] < yimnj)
+                                yimnj = s->y[jdx - 1];
+                            if (s->y[jdx - 1] > yimxj)
+                                yimxj = s->y[jdx - 1];
+                        }       /* end if( *Sacmem1 >= ximnj && ... */
+                    }           /* end for( jdx = 1; jdx <= nlen; jdx++ ) */
+                }               /* end else associated with if( s->h->leven ) */
+            }                   /* end if( lxlims && !lylimj ) */
+            cmgem.yimn = fmin(cmgem.yimn, yimnj);
+            cmgem.yimx = fmax(cmgem.yimx, yimxj);
+        }                       /* end for( jdfl = 1; jdfl <= saclen(); jdfl++ ) */
+    }
+
+    /* end if( cmgam.lp2abs ) */
+    /* -- Relative mode. */
+    else {
+        cmgem.ximn = 0.;
+        cmgem.ximx = -VLARGE;
+        for (jdfl = 1; jdfl <= saclen(); jdfl++) {
+            if (!(s = sacget(jdfl - 1, FALSE, nerr))) {
+                goto L_8888;
+            }
+            //getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
+
+            getxlm(&lxlimj, &ximnj, &ximxj);
+            cmgem.ximx = fmax(cmgem.ximx, ximxj - ximnj);
+            toff[jdfl - 1] = -ximnj;
+            getylm(&lylimj, &yimnj, &yimxj);
+            if (!lylimj && (s->h->iftype == IRLIM || s->h->iftype == IAMPH))
+                extrma(&s->y[1], 1, s->h->npts - 1, &yimnj, &yimxj, &fjunk);
+            cmgem.yimn = fmin(cmgem.yimn, yimnj);
+            cmgem.yimx = fmax(cmgem.yimx, yimxj);
+        }                       /* end for ( jdfl = 1; jdfl <= saclen(); jdfl++ ) */
+    }                           /* end else */
+
+    /* - Set background and skeleton attributes. */
+
+    settexttype(kmgem.kgtqua);
+    settextfont(cmgem.igtfnt);
+    setlinestyle(LINE_STYLE_SOLID);
+    setcolor(cmgem.iskcol);
+    setlinewidth(LINE_WIDTH_THIN);
+
+    /* - Begin new frame if requested. */
+
+    if (cmgem.lframe) {
+        beginframe(lprint, nerr);
+        if (*nerr != 0)
+            goto L_8888;
+        getvspace(&cmgem.view.xmin, &cmgem.view.xmax, &cmgem.view.ymin,
+                  &cmgem.view.ymax);
+    }
+
+    /* - Calculate mapping transformation for these fixed limits.
+     *   (In this case, all passed variables but NERR are unused.) */
+
+    plmap(NULL, NULL, 1, 1, 1, nerr);
+    if (*nerr != 0)
+        goto L_8888;
+
+    /* - Determine location for id. */
+
+    if (cmgam.lfidrq) {
+        tbox = textbox_new(saclen());
+        if (!tbox) {
             goto L_8888;
         }
-	    cmgem.chht = cmgam.tsfid;
-	    cmgem.chwid = cmgem.txrat*cmgem.chht;
-	    settextsize( cmgem.chwid, cmgem.chht );
-	    cmgam.fidbdr = cmgem.chht;
-	    for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
-      if(!(s = sacget(jdfl-1, FALSE, nerr))) {
-        goto L_8888;
-      }
-      //getfil( jdfl, FALSE, &notused, &notused, &notused, nerr );
-		if( cmgam.ifidtp == 4 ){
-		    formhv( (char*)kmgam.kfidnm[0],9, cmgam.ifidfm, ktemp
-			 ,MCMSG+7, nerr );
-		    if( *nerr != 0 )
-			goto L_8888;
-                    tbox->text[jdfl-1] = fstrdup(ktemp, MCMSG+7);
-		} /* end if( cmgam.ifidtp == 4 ) */
-		else{
-         tmp = s->m->filename;
-         if(tmp) {
-                if ( cmgam.lfinorq ){
-                    sprintf ( ktemp , "%s - %d" , tmp , jdfl ) ;
-                } else {
-                    sprintf( ktemp, "%s", tmp);
+        cmgem.chht = cmgam.tsfid;
+        cmgem.chwid = cmgem.txrat * cmgem.chht;
+        settextsize(cmgem.chwid, cmgem.chht);
+        cmgam.fidbdr = cmgem.chht;
+        for (jdfl = 1; jdfl <= saclen(); jdfl++) {
+            if (!(s = sacget(jdfl - 1, FALSE, nerr))) {
+                goto L_8888;
+            }
+            //getfil( jdfl, FALSE, &notused, &notused, &notused, nerr );
+            if (cmgam.ifidtp == 4) {
+                formhv((char *) kmgam.kfidnm[0], 9, cmgam.ifidfm, ktemp,
+                       MCMSG + 7, nerr);
+                if (*nerr != 0)
+                    goto L_8888;
+                tbox->text[jdfl - 1] = fstrdup(ktemp, MCMSG + 7);
+            } /* end if( cmgam.ifidtp == 4 ) */
+            else {
+                tmp = s->m->filename;
+                if (tmp) {
+                    if (cmgam.lfinorq) {
+                        sprintf(ktemp, "%s - %d", tmp, jdfl);
+                    } else {
+                        sprintf(ktemp, "%s", tmp);
+                    }
+                    tbox->text[jdfl - 1] = fstrdup(ktemp, MCMSG + 7);
                 }
-                tbox->text[jdfl-1] = fstrdup(ktemp, MCMSG + 7);
-		     }
-		} /* end else associated with if( cmgam.lp2abs ) */
-	    } /* end for ( jdfl = 1; jdfl <= saclen(); jdfl++ ) */
+            }                   /* end else associated with if( cmgam.lp2abs ) */
+        }                       /* end for ( jdfl = 1; jdfl <= saclen(); jdfl++ ) */
 
-	    if( cmgem.liline )
-		atrwid = 2.5*cmgem.chwid;
-	    else if( cmgem.lsym )
-		atrwid = cmgem.chwid;
-	    else
-		atrwid = 0.;
+        if (cmgem.liline)
+            atrwid = 2.5 * cmgem.chwid;
+        else if (cmgem.lsym)
+            atrwid = cmgem.chwid;
+        else
+            atrwid = 0.;
 
         atrwid = 0;
 
-	    if( cmgam.ifidlc == cmgam.iur ){
-                tbox->x = cmgem.uplot.xmax - cmgam.fidbdr;
-                tbox->y = cmgem.uplot.ymax - cmgam.fidbdr;
-                tbox->location = TEXT_BOX_UPPER | TEXT_BOX_RIGHT;
-	    }
-	    else if( cmgam.ifidlc == cmgam.iul ){
-                tbox->x = cmgem.uplot.xmin + cmgam.fidbdr + atrwid;
-                tbox->y = cmgem.uplot.ymax - cmgam.fidbdr;
-                tbox->location = TEXT_BOX_UPPER | TEXT_BOX_LEFT;
-	    }
-	    else if( cmgam.ifidlc == cmgam.ilr ){
-                tbox->x = cmgem.uplot.xmax - cmgam.fidbdr;
-                tbox->y = cmgem.uplot.ymin + cmgam.fidbdr;
-                tbox->location = TEXT_BOX_LOWER | TEXT_BOX_RIGHT;
-	    }
-	    else if( cmgam.ifidlc == cmgam.ill ){
-                tbox->x = cmgem.uplot.xmin + cmgam.fidbdr + atrwid;
-                tbox->y = cmgem.uplot.ymin + cmgam.fidbdr;
-                tbox->location = TEXT_BOX_LOWER | TEXT_BOX_LEFT;
-	    }
-	    else{
-                tbox->x = cmgem.uplot.xmin + cmgam.fidbdr + atrwid;
-                tbox->y = cmgem.uplot.ymax - cmgam.fidbdr;
-                tbox->location = TEXT_BOX_UPPER | TEXT_BOX_LEFT;
-	    }
-	}
+        if (cmgam.ifidlc == cmgam.iur) {
+            tbox->x = cmgem.uplot.xmax - cmgam.fidbdr;
+            tbox->y = cmgem.uplot.ymax - cmgam.fidbdr;
+            tbox->location = TEXT_BOX_UPPER | TEXT_BOX_RIGHT;
+        } else if (cmgam.ifidlc == cmgam.iul) {
+            tbox->x = cmgem.uplot.xmin + cmgam.fidbdr + atrwid;
+            tbox->y = cmgem.uplot.ymax - cmgam.fidbdr;
+            tbox->location = TEXT_BOX_UPPER | TEXT_BOX_LEFT;
+        } else if (cmgam.ifidlc == cmgam.ilr) {
+            tbox->x = cmgem.uplot.xmax - cmgam.fidbdr;
+            tbox->y = cmgem.uplot.ymin + cmgam.fidbdr;
+            tbox->location = TEXT_BOX_LOWER | TEXT_BOX_RIGHT;
+        } else if (cmgam.ifidlc == cmgam.ill) {
+            tbox->x = cmgem.uplot.xmin + cmgam.fidbdr + atrwid;
+            tbox->y = cmgem.uplot.ymin + cmgam.fidbdr;
+            tbox->location = TEXT_BOX_LOWER | TEXT_BOX_LEFT;
+        } else {
+            tbox->x = cmgem.uplot.xmin + cmgam.fidbdr + atrwid;
+            tbox->y = cmgem.uplot.ymax - cmgam.fidbdr;
+            tbox->location = TEXT_BOX_UPPER | TEXT_BOX_LEFT;
+        }
+    }
 
-    if(tbox) {
-        if( cmgem.lline && cmgem.liline ){
-	    /* xlinl2 = cmgam.xfidlc - 0.5*cmgem.chwid; */
-	    /* xlinl1 = xlinl2 - atrwid; */
+    if (tbox) {
+        if (cmgem.lline && cmgem.liline) {
+            /* xlinl2 = cmgam.xfidlc - 0.5*cmgem.chwid; */
+            /* xlinl1 = xlinl2 - atrwid; */
             tbox->use_style = TRUE;
         }
-        if( cmgem.lsym) {
+        if (cmgem.lsym) {
             /* xsymlc = cmgam.xfidlc - 0.5*cmgem.chwid - 0.5*atrwid; */
             tbox->use_symbol = TRUE;
         }
     }
 
-	/* - Loop to plot each trace in DFL on same plot window. */
+    /* - Loop to plot each trace in DFL on same plot window. */
 
-	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
-    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
-      goto L_8888;
-    }
-    //getfil( jdfl, TRUE, &num, &nlcy, &nlcx, nerr );
+    for (jdfl = 1; jdfl <= saclen(); jdfl++) {
+        if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
+            goto L_8888;
+        }
+        //getfil( jdfl, TRUE, &num, &nlcy, &nlcx, nerr );
 
-    if( s->h->leven ){
-		cmgem.xgen.on = TRUE;
-		cmgem.xgen.delta = s->h->delta;
-		cmgem.xgen.first = s->h->b + toff[jdfl-1];
-	    }
-	    else{
-		cmgem.xgen.on = FALSE;
-	    }
-	    if( cmgam.lfidrq ){
-            settextjust( "LEFT", "BOTTOM" );
-            if(tbox) {
-                if( cmgem.lcol ) {
-                    tbox->color[jdfl-1] = cmgem.icol;
+        if (s->h->leven) {
+            cmgem.xgen.on = TRUE;
+            cmgem.xgen.delta = s->h->delta;
+            cmgem.xgen.first = s->h->b + toff[jdfl - 1];
+        } else {
+            cmgem.xgen.on = FALSE;
+        }
+        if (cmgam.lfidrq) {
+            settextjust("LEFT", "BOTTOM");
+            if (tbox) {
+                if (cmgem.lcol) {
+                    tbox->color[jdfl - 1] = cmgem.icol;
                 } else {
-                    tbox->color[jdfl-1] = color_foreground_default();
+                    tbox->color[jdfl - 1] = color_foreground_default();
                 }
-                if( cmgem.lline && cmgem.liline && cmgem.icline > 0 ){
-                    tbox->style[jdfl-1] = cmgem.icline;
-                    tbox->width[jdfl-1] = cmgem.iwidth;
+                if (cmgem.lline && cmgem.liline && cmgem.icline > 0) {
+                    tbox->style[jdfl - 1] = cmgem.icline;
+                    tbox->width[jdfl - 1] = cmgem.iwidth;
                 }
-                
-                if( cmgem.lsym && cmgem.isym > 0 ){
-                    tbox->symbol[jdfl-1] = cmgem.isym;
+
+                if (cmgem.lsym && cmgem.isym > 0) {
+                    tbox->symbol[jdfl - 1] = cmgem.isym;
                 }
             }
-	    }
-	    pldta( s->x, s->y, s->h->npts, 1, 1, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
-	} /* end for( jdfl = 1; jdfl <= saclen(); jdfl++ ) */
-        
-	if( cmgam.lfidrq && tbox ){
-            textbox_show( tbox );
-            textbox_free( tbox );
-            tbox = NULL;
+        }
+        pldta(s->x, s->y, s->h->npts, 1, 1, nerr);
+        if (*nerr != 0)
+            goto L_8888;
+    }                           /* end for( jdfl = 1; jdfl <= saclen(); jdfl++ ) */
 
-	    cmgem.chht = cmgem.tsdef;
-	    cmgem.chwid = cmgem.txrat*cmgem.chht;
-	    settextsize( cmgem.chwid, cmgem.chht );
-	}
+    if (cmgam.lfidrq && tbox) {
+        textbox_show(tbox);
+        textbox_free(tbox);
+        tbox = NULL;
 
-	/* - Draw grid lines, axes and such. */
+        cmgem.chht = cmgem.tsdef;
+        cmgem.chwid = cmgem.txrat * cmgem.chht;
+        settextsize(cmgem.chwid, cmgem.chht);
+    }
 
-	setlinewidth( LINE_WIDTH_THIN );
-	if( !cmgam.lp2abs )
-	    pltext( "RELATIVE MODE",14, cmgam.xfidlc, cmgam.yfidlc );
-	plgrid( nerr );
+    /* - Draw grid lines, axes and such. */
 
-	/* - Home cursor and end frame if requested. */
+    setlinewidth(LINE_WIDTH_THIN);
+    if (!cmgam.lp2abs)
+        pltext("RELATIVE MODE", 14, cmgam.xfidlc, cmgam.yfidlc);
+    plgrid(nerr);
 
-	plhome();
-	if( cmgem.lframe )
-	    endframe( FALSE , nerr );
-        else 
-          flushbuffer( nerr );
-	/* - Restore plot environment and return. */
+    /* - Home cursor and end frame if requested. */
 
-L_8888:
-	plrest();
-	settextjust( "LEFT", "BOTTOM" );
-  xarray_free(toff);
-	return;
+    plhome();
+    if (cmgem.lframe)
+        endframe(FALSE, nerr);
+    else
+        flushbuffer(nerr);
+    /* - Restore plot environment and return. */
 
-} /* end of function */
+  L_8888:
+    plrest();
+    settextjust("LEFT", "BOTTOM");
+    xarray_free(toff);
+    return;
 
+}                               /* end of function */

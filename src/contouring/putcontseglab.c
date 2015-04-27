@@ -14,10 +14,10 @@ extern struct contour contour;
 
 void
 putcontseglabel(number, status, numlocs, firstloc)
-int number, status, numlocs, firstloc;
+     int number, status, numlocs, firstloc;
 {
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To put (store) label information about an existing
 	 *           contouring segment information.
 	 *=====================================================================
@@ -46,16 +46,13 @@ int number, status, numlocs, firstloc;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900418
 	 *===================================================================== */
-	/* PROCEDURE: */
-	if( number <= cmcontouring.numsegments ){
-    contour.labelseg[number-1].status = status;
-    contour.labelseg[number-1].number = numlocs;
-    contour.labelseg[number-1].first  = firstloc;
-  }
-	else{
-		fprintf( stdout, "Illegal labeled segment number: %d \n", 
-		 number );
-		}
-	return;
+    /* PROCEDURE: */
+    if (number <= cmcontouring.numsegments) {
+        contour.labelseg[number - 1].status = status;
+        contour.labelseg[number - 1].number = numlocs;
+        contour.labelseg[number - 1].first = firstloc;
+    } else {
+        fprintf(stdout, "Illegal labeled segment number: %d \n", number);
+    }
+    return;
 }
-

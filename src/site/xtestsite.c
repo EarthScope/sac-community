@@ -20,17 +20,16 @@
  * @date   900804:  Original version.
  *
  */
-void 
+void
 xtestsite(int *nerr) {
 
-	*nerr = SAC_OK;
+    *nerr = SAC_OK;
 
-	/* - Acknowledge that this test routine has been executed. */
-	setmsg( "OUTPUT", 99 );
-	apcmsg( "Executing Site Command TESTSITE.",33 );
-	outmsg();
-	clrmsg();
+    /* - Acknowledge that this test routine has been executed. */
+    setmsg("OUTPUT", 99);
+    apcmsg("Executing Site Command TESTSITE.", 33);
+    outmsg();
+    clrmsg();
 
-	return;
+    return;
 }
-

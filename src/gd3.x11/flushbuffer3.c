@@ -19,11 +19,9 @@
  * @date   870223:  Original Version
  *
  */
-void 
-flushbuffer3(int *nerr)
-{
-  *nerr = 0;
-  expose3();
+void
+flushbuffer3(int *nerr) {
+    *nerr = 0;
+    expose3();
 
 }
-

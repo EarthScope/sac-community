@@ -35,61 +35,54 @@
  *
  */
 
-void 
-alias(float    *x, 
-      int       origin, 
-      int       m, 
-      int       n, 
-      float    *y)
-{
-	int iptr, optr;
+void
+alias(float *x, int origin, int m, int n, float *y) {
+    int iptr, optr;
 
-	float *const X = &x[0] - 1;
-	float *const Y = &y[0] - 1;
+    float *const X = &x[0] - 1;
+    float *const Y = &y[0] - 1;
 
+    zero(y, n);
 
-	zero( y, n );
+    iptr = 1;
 
-	iptr = 1;
+    if (origin == 1) {
 
-	if( origin == 1 ){
+        optr = 1;
 
-		optr = 1;
+    } else if (origin > 1) {
 
-		}
-	else if( origin > 1 ){
+        optr = n + 1 - ((origin - 1) - (origin / n) * n);
 
-		optr = n + 1 - ((origin - 1) - (origin/n)*n);
-
-    } else if (origin < 1 || origin > m ) {
-        fprintf(stderr, "alias: Origin is outside of array bounds: %d [%d,%d]\n", 
+    } else if (origin < 1 || origin > m) {
+        fprintf(stderr,
+                "alias: Origin is outside of array bounds: %d [%d,%d]\n",
                 origin, 1, m);
         return;
     }
 
-L_1:
-	;
-	if( iptr > m )
-		goto L_2;
+  L_1:
+    ;
+    if (iptr > m)
+        goto L_2;
 
-	Y[optr] = Y[optr] + X[iptr];
+    Y[optr] = Y[optr] + X[iptr];
 
-	iptr = iptr + 1;
-	optr = optr + 1;
+    iptr = iptr + 1;
+    optr = optr + 1;
 
-	/*  Wrap-around */
-	if( optr > n ){
+    /*  Wrap-around */
+    if (optr > n) {
 
-		optr = optr - n;
+        optr = optr - n;
 
-		}
+    }
 
-	goto L_1;
-L_2:
-	;
+    goto L_1;
+  L_2:
+    ;
 
-	/*  Done
-	 * */
-	return;
+    /*  Done
+     * */
+    return;
 }
-

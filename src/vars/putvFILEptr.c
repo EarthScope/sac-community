@@ -34,56 +34,50 @@
  * @date   121493:  Original version.
  *
  */
-void 
-putvFILEptr(char *vars, 
-	    int   vars_s, 
-	    char *name, 
-	    int   name_s, 
-	    FILE *value, 
-	    int  *nerr)
-{
-	int i;
+void
+putvFILEptr(char *vars, int vars_s, char *name, int name_s, FILE * value,
+            int *nerr) {
+    int i;
     struct varsfile *tempptr;
     struct varsfile *flist;
-  UNUSED(vars_s);
-  UNUSED(name_s);
+    UNUSED(vars_s);
+    UNUSED(name_s);
 
-	*nerr = 0;
-        flist = vfilelist.filelist;
+    *nerr = 0;
+    flist = vfilelist.filelist;
 
-	/* search for existing entry to replace */
-        for (i=0; i<vfilelist.nentries; i++, flist++){
-          if(strcmp(flist->varsname,vars) == 0) {
-            if(strcmp(flist->variable,name) == 0) {
-               /* replace existing entry */
-              flist->value = value;
-              goto L_8888;
+    /* search for existing entry to replace */
+    for (i = 0; i < vfilelist.nentries; i++, flist++) {
+        if (strcmp(flist->varsname, vars) == 0) {
+            if (strcmp(flist->variable, name) == 0) {
+                /* replace existing entry */
+                flist->value = value;
+                goto L_8888;
             }
-          }
         }
+    }
 
-	/* is there room for another entry? */
-        if((vfilelist.nentries + 1) > vfilelist.nallocated) {
-           tempptr = realloc(vfilelist.filelist,
-                             (vfilelist.nentries+NVFILEINC)*sizeof(struct varsfile));
-           if(tempptr==NULL){
-             *nerr = 1;
-             goto L_8888;
-	   }
-           else {
-             vfilelist.filelist = (struct varsfile *)tempptr;
-             vfilelist.nallocated += NVFILEINC;
-           }           
+    /* is there room for another entry? */
+    if ((vfilelist.nentries + 1) > vfilelist.nallocated) {
+        tempptr =
+            realloc(vfilelist.filelist,
+                    (vfilelist.nentries + NVFILEINC) * sizeof(struct varsfile));
+        if (tempptr == NULL) {
+            *nerr = 1;
+            goto L_8888;
+        } else {
+            vfilelist.filelist = (struct varsfile *) tempptr;
+            vfilelist.nallocated += NVFILEINC;
         }
+    }
 
-	/* store the new entry */
-        flist = vfilelist.filelist + vfilelist.nentries;
-        flist->varsname = strdup(vars);
-        flist->variable = strdup(name);
-        flist->value = value;
-        vfilelist.nentries += 1;
+    /* store the new entry */
+    flist = vfilelist.filelist + vfilelist.nentries;
+    flist->varsname = strdup(vars);
+    flist->variable = strdup(name);
+    flist->value = value;
+    vfilelist.nentries += 1;
 
-L_8888:
-	return;
-} 
-
+  L_8888:
+    return;
+}

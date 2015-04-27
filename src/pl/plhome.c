@@ -2,11 +2,11 @@
 #include "pl.h"
 #include "gdm.h"
 
-void /*FUNCTION*/ plhome()
-{
-	float height, ratio, width;
+void /*FUNCTION*/
+plhome() {
+    float height, ratio, width;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To home the alphanumeric cursor to its standard position.
 	 *=====================================================================
 	 * MODULE/LEVEL:  GEM/3
@@ -27,15 +27,14 @@ void /*FUNCTION*/ plhome()
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  870224
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Home cursor to top left hand corner of screen. */
-	gettextsize( &width, &height );
-	getratio( &ratio );
-	/* xhome = width; */
-	/* yhome = ratio - 2.0*height; */
-	//move( xhome, yhome );
+    /* PROCEDURE: */
+    /* - Home cursor to top left hand corner of screen. */
+    gettextsize(&width, &height);
+    getratio(&ratio);
+    /* xhome = width; */
+    /* yhome = ratio - 2.0*height; */
+    //move( xhome, yhome );
 
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

@@ -1,11 +1,12 @@
 
 #include "gtm.h"
 
-void /*FUNCTION*/ worldline(xwloc1, ywloc1, xwloc2, ywloc2)
-double xwloc1, ywloc1, xwloc2, ywloc2;
+void /*FUNCTION*/
+worldline(xwloc1, ywloc1, xwloc2, ywloc2)
+     double xwloc1, ywloc1, xwloc2, ywloc2;
 {
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To draw a line between two world locations.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -24,12 +25,10 @@ double xwloc1, ywloc1, xwloc2, ywloc2;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  861017
 	 *===================================================================== */
-	/* PROCEDURE: */
-	worldmove( xwloc1, ywloc1 );
-	worlddraw( xwloc2, ywloc2 );
+    /* PROCEDURE: */
+    worldmove(xwloc1, ywloc1);
+    worlddraw(xwloc2, ywloc2);
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

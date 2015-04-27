@@ -4,7 +4,7 @@
  * @brief  Get a stirng from an array
  * 
  */
- 
+
 /** 
  * Get a character string from an integer or real array
  * 
@@ -23,18 +23,16 @@
  *
  */
 void
-zgetc(int  *array,
-      char *str,
-      int   pnumc) {
+zgetc(int *array, char *str, int pnumc) {
 
-	char  *parray;		/* pointer into array */
-	char  *pstr;		/* pointer into string */
-	int    i;		/* index */
- 
-	parray = (char *) &array[0];	/* character pointer into array */
-	pstr   = &str[0];		/* character pointer into str */
-	for (i=0;i<pnumc;++i)
-		*pstr++ = *parray++;	/* copy characters */
- 
-	return;
+    char *parray;               /* pointer into array */
+    char *pstr;                 /* pointer into string */
+    int i;                      /* index */
+
+    parray = (char *) &array[0];        /* character pointer into array */
+    pstr = &str[0];             /* character pointer into str */
+    for (i = 0; i < pnumc; ++i)
+        *pstr++ = *parray++;    /* copy characters */
+
+    return;
 }

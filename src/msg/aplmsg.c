@@ -26,37 +26,32 @@
  * \date   830916:  Original version.
  * \date   890104:  Documented/Reviewed
  */
-void 
-aplmsg(char *kalpha, 
-       int   kalpha_s)
-{
-	int isave, nalpha;
+void
+aplmsg(char *kalpha, int kalpha_s) {
+    int isave, nalpha;
 
-	/* - If buffer is full and in automatic output mode, 
-	 *   send message, clear message buffer. */
-	if( cmmsg.nlimsg == MLIMSG && cmmsg.autoout ){
-		outmsg();
-		isave = cmmsg.itpmsg;
-		clrmsg();
-		cmmsg.itpmsg = isave;
+    /* - If buffer is full and in automatic output mode, 
+     *   send message, clear message buffer. */
+    if (cmmsg.nlimsg == MLIMSG && cmmsg.autoout) {
+        outmsg();
+        isave = cmmsg.itpmsg;
+        clrmsg();
+        cmmsg.itpmsg = isave;
 
-		/* - Otherwise increment buffer line counter if there is room. */
+        /* - Otherwise increment buffer line counter if there is room. */
 
-		}
-	else if( cmmsg.nlimsg < MLIMSG ){
-		cmmsg.nlimsg = cmmsg.nlimsg + 1;
-		}
+    } else if (cmmsg.nlimsg < MLIMSG) {
+        cmmsg.nlimsg = cmmsg.nlimsg + 1;
+    }
 
-	/* - Determine length of text string without trailing blanks. */
+    /* - Determine length of text string without trailing blanks. */
 
-	nalpha = indexb( kalpha,kalpha_s );
+    nalpha = indexb(kalpha, kalpha_s);
 
-	/* - Start new line of message with string.  Include one trailing blank. */
+    /* - Start new line of message with string.  Include one trailing blank. */
 
-	fstrncpy( kmmsg.klimsg[cmmsg.nlimsg - 1], MCMSG, kalpha,
-                 max( 1,nalpha ));
-	cmmsg.nchmsg = nalpha + 1;
+    fstrncpy(kmmsg.klimsg[cmmsg.nlimsg - 1], MCMSG, kalpha, max(1, nalpha));
+    cmmsg.nchmsg = nalpha + 1;
 
-	return;
+    return;
 }
-

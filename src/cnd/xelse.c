@@ -18,20 +18,18 @@
  * @date   870817:  Original version.
  *
  */
-void 
+void
 xelse(int *nerr) {
-	*nerr = 0;
-  if(arg()) {
-    arg_msg("Unexpected characters after ELSE: ");
-  }
-	if( cnd.niflevel > 0 ){
-		if( Lifresp[cnd.niflevel] ){
-			skipif( nerr );
-		}
-	}
-	else{
-		*nerr = 1;
-	}
-	return;
+    *nerr = 0;
+    if (arg()) {
+        arg_msg("Unexpected characters after ELSE: ");
+    }
+    if (cnd.niflevel > 0) {
+        if (Lifresp[cnd.niflevel]) {
+            skipif(nerr);
+        }
+    } else {
+        *nerr = 1;
+    }
+    return;
 }
-

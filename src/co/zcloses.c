@@ -22,12 +22,9 @@
  * @date   830812:  Original version.
  *
  */
-void 
-zcloses(FILE **nfu, 
-	int   *nerr) {
-  if(*nfu) {
-    *nerr = fclose(*nfu);
-  }
+void
+zcloses(FILE ** nfu, int *nerr) {
+    if (*nfu) {
+        *nerr = fclose(*nfu);
+    }
 }
-
-

@@ -63,9 +63,7 @@
  *
  */
 string_list *
-zfiles(char  *kdirin, 
-       char  *kpatrn, 
-       int   *nErr) {
+zfiles(char *kdirin, char *kpatrn, int *nErr) {
 
     char *command;
     string_list *files;
@@ -81,37 +79,37 @@ zfiles(char  *kdirin,
     *nErr = 0;
     files = string_list_init();
 
-    asprintf ( &command , "%s%s" , kdirin, kpatrn ) ;
-    if( ! command ) {
-        *nErr = ERROR_OUT_OF_MEMORY ;
+    asprintf(&command, "%s%s", kdirin, kpatrn);
+    if (!command) {
+        *nErr = ERROR_OUT_OF_MEMORY;
         error(*nErr, "Error: Insufficient memory to read in this directory");
-        outmsg () ;
-        clrmsg () ;
+        outmsg();
+        clrmsg();
         string_list_free(files);
-        return NULL ;
+        return NULL;
     }
 
-    *nErr = 0 ;
+    *nErr = 0;
 
 #ifdef WIN32
     hFind = FindFirstFile(command, &FindFileData);
-    if(hFind != INVALID_HANDLE_VALUE) {
-      do {
-        if(strcmp(FindFileData.cFileName, ".") != 0 &&
-           strcmp(FindFileData.cFileName, "..") != 0) {
-          asprintf(&file, "%s%s", kdirin, FindFileData.cFileName);
-          string_list_put(files, file, -1);
-          FREE(file);
-        }
-      } while( FindNextFile(hFind, &FindFileData) != 0) ;
+    if (hFind != INVALID_HANDLE_VALUE) {
+        do {
+            if (strcmp(FindFileData.cFileName, ".") != 0 &&
+                strcmp(FindFileData.cFileName, "..") != 0) {
+                asprintf(&file, "%s%s", kdirin, FindFileData.cFileName);
+                string_list_put(files, file, -1);
+                FREE(file);
+            }
+        } while (FindNextFile(hFind, &FindFileData) != 0);
     }
 #else
     glob(command, 0, NULL, &g);
-    for(i = 0; i < (int)g.gl_pathc; i++) {
-      string_list_put(files, g.gl_pathv[i], -1);
+    for (i = 0; i < (int) g.gl_pathc; i++) {
+        string_list_put(files, g.gl_pathv[i], -1);
     }
-    free ( command ) ;
+    free(command);
     globfree(&g);
 #endif
-    return files ;
+    return files;
 }

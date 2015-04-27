@@ -18,15 +18,15 @@
 
 char *
 sacaux() {
-  static char *aux = NULL;
-  if(aux) {
+    static char *aux = NULL;
+    if (aux) {
+        return aux;
+    }
+    if ((aux = getenv("SACAUX"))) {
+        return aux;
+    }
+    aux = strdup(SACAUX);
     return aux;
-  }
-  if((aux = getenv("SACAUX"))) {
-    return aux;
-  }
-  aux = strdup( SACAUX );
-  return aux;
 }
 
 /** 
@@ -44,19 +44,19 @@ sacaux() {
  *
  */
 void
-zbasename(char *name,
-          int   name_len) {
+zbasename(char *name, int name_len) {
 
 #ifndef WIN32
-  char *aux = sacaux();
-  if((int)strlen(aux) > name_len-1) {
-    fprintf(stderr, "ERROR: Enviornment variable SACAUX too long: max: %d SACAUX: %d\n",
-            name_len-1, (int)strlen(aux));
-    exit(1);
-  }
-  memset(name, ' ', name_len);
-  name[name_len-1] = 0;
-  memcpy(name, aux, strlen(aux));
+    char *aux = sacaux();
+    if ((int) strlen(aux) > name_len - 1) {
+        fprintf(stderr,
+                "ERROR: Enviornment variable SACAUX too long: max: %d SACAUX: %d\n",
+                name_len - 1, (int) strlen(aux));
+        exit(1);
+    }
+    memset(name, ' ', name_len);
+    name[name_len - 1] = 0;
+    memcpy(name, aux, strlen(aux));
 #else
     TCHAR wintemp[MAX_PATH];
     char *p;
@@ -64,27 +64,25 @@ zbasename(char *name,
     //GetProcessImageFileName(, wintemp, MAX_PATH);
     //QueryFullProcessImageName(
     GetModuleFileName(NULL, wintemp, MAX_PATH);
-    
+
     p = wintemp;
-    while(p = index(p, '\\')) {
-        if(*(p+1) != '\\') {
+    while (p = index(p, '\\')) {
+        if (*(p + 1) != '\\') {
             *p = '/';
         }
         p++;
     }
-    
+
     //getcwd(&wintemp[0], MAX_PATH);
-    p = rindex(wintemp,'/');
+    p = rindex(wintemp, '/');
     *p = 0;
     //p = rindex(wintemp,'/');
     //*p = 0;
-    strncat(wintemp,"/winaux",7);
+    strncat(wintemp, "/winaux", 7);
 
     strcpy(name, wintemp);
     //name[strlen(wintemp)] = 0;
 #endif
 
-  return;
+    return;
 }
-
-

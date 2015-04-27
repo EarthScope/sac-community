@@ -25,14 +25,10 @@
  * REMOVE THIS FUNCTION
  *
  */
-void 
-getdeviceinfo1(char *kdname,
-               int kdname_s,
-               int *idtype)
-{
+void
+getdeviceinfo1(char *kdname, int kdname_s, int *idtype) {
 
-	fstrncpy( kdname , kdname_s-1 , "        " , 8 );
-	*idtype = 3 ;
+    fstrncpy(kdname, kdname_s - 1, "        ", 8);
+    *idtype = 3;
 
 }
-

@@ -37,67 +37,57 @@
  * @date   870902:  Original version.
  *
  */
-void 
-getnhv(char *kname, 
-       int  *nvalue, 
-       int  *nerr, 
-       int   kname_s) {
+void
+getnhv(char *kname, int *nvalue, int *nerr, int kname_s) {
 
-	char ktest[9];
-	int index;
-  int *np;
-	char *kname_c;
-  sac *s;
+    char ktest[9];
+    int index;
+    int *np;
+    char *kname_c;
+    sac *s;
 
-	kname_c = fstrdup(kname, kname_s);
-	kname_s = strlen(kname_c) + 1;
+    kname_c = fstrdup(kname, kname_s);
+    kname_s = strlen(kname_c) + 1;
 
-	*nerr = 0;
-  s = sacget_current();
-	/* - Convert input name to uppercase and 
-	 *   check versus list of legal names. */
-  sacio_char_to_keyword(kname_c, ktest);  
-	index = nequal( ktest, (char*)kmlhf.knhdr,9, SAC_HEADER_INTEGERS );
+    *nerr = 0;
+    s = sacget_current();
+    /* - Convert input name to uppercase and 
+     *   check versus list of legal names. */
+    sacio_char_to_keyword(kname_c, ktest);
+    index = nequal(ktest, (char *) kmlhf.knhdr, 9, SAC_HEADER_INTEGERS);
 
-	/* - If legal name, return current value.
-	 *   Otherwise, set error condition. */
+    /* - If legal name, return current value.
+     *   Otherwise, set error condition. */
 
-	if( index > 0 ){
-    np = (int *)(&s->h->nzyear) + (index-1);
-    *nvalue = *np;
-	    if( *nvalue == SAC_INT_UNDEFINED )
-		*nerr = ERROR_UNDEFINED_HEADER_FIELD_VALUE;
-	}
-	else{
-	    *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;
-	    *nvalue = SAC_INT_UNDEFINED;
-	}
+    if (index > 0) {
+        np = (int *) (&s->h->nzyear) + (index - 1);
+        *nvalue = *np;
+        if (*nvalue == SAC_INT_UNDEFINED)
+            *nerr = ERROR_UNDEFINED_HEADER_FIELD_VALUE;
+    } else {
+        *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;
+        *nvalue = SAC_INT_UNDEFINED;
+    }
 
-	/* - Create error message and write to terminal. */
+    /* - Create error message and write to terminal. */
 
-	if( *nerr != 0 ){
-    sacio_message(*nerr, kname_c);
-	}
+    if (*nerr != 0) {
+        sacio_message(*nerr, kname_c);
+    }
 
-	free(kname_c);
+    free(kname_c);
 
-	return;
+    return;
 }
-
-
-
 
 /* Wrapper to make code more convenient for FORTRAN programmers.  */
 
-void getnhv_ (char      *kname, 
-	      int       *nvalue, 
-	      int       *nerr, 
-	      int        kname_s) {
-  getnhv ( kname , nvalue , nerr , kname_s ) ;
+void
+getnhv_(char *kname, int *nvalue, int *nerr, int kname_s) {
+    getnhv(kname, nvalue, nerr, kname_s);
 }
-void getnhv__ (char      *kname, 
-	       int       *nvalue, 
-	       int       *nerr, 
-	       int        kname_s) {
-  getnhv ( kname , nvalue , nerr , kname_s ) ;
+
+void
+getnhv__(char *kname, int *nvalue, int *nerr, int kname_s) {
+    getnhv(kname, nvalue, nerr, kname_s);
 }

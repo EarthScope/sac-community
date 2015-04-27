@@ -2,19 +2,17 @@
 #include "sss.h"
 #include "amf.h"
 
-
 #include "cpf.h"
 #include "exm.h"
 
 extern float *sss_sum;
 
-void /*FUNCTION*/ xquitsss(nerr)
-int *nerr;
+void /*FUNCTION*/
+xquitsss(nerr)
+     int *nerr;
 {
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To execute the QUITSUB command in the Signal Stacking
 	 *           Subprocess.  This command terminates the subprocess
 	 *           and returns to the make SAC program.
@@ -36,26 +34,25 @@ int *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  850801
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* - Change to the standard command list and default prompt. */
+    /* - Change to the standard command list and default prompt. */
 
-	setcomlist( 1 );
-	setprompt( "SAC>",5 );
+    setcomlist(1);
+    setprompt("SAC>", 5);
 
-	/* - Release data blocks used in this subprocess. */
+    /* - Release data blocks used in this subprocess. */
 
-	if( cmsss.nlnsum > 0 ){
-    FREE(sss_sum);
-		cmsss.nlnsum = 0;
-		cmsss.ndxsum = 0;
-		if( *nerr != 0 )
-			goto L_8888;
-		}
+    if (cmsss.nlnsum > 0) {
+        FREE(sss_sum);
+        cmsss.nlnsum = 0;
+        cmsss.ndxsum = 0;
+        if (*nerr != 0)
+            goto L_8888;
+    }
 
-L_8888:
-	return;
+  L_8888:
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

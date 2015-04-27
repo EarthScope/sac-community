@@ -3,7 +3,7 @@
  *
  * @brief Start all specified devices
  *
- */ 
+ */
 
 #include "gdm.h"
 
@@ -31,15 +31,12 @@
  * @date   831027:  Original version.
  *
  */
-void 
-begindevice(char *device, 
-            int   device_s, 
-            int  *nerr) {
-  
-  *nerr = 0;
-  
-  begindevices( device,device_s, 1, nerr );
-  
-  return;
-}
+void
+begindevice(char *device, int device_s, int *nerr) {
 
+    *nerr = 0;
+
+    begindevices(device, device_s, 1, nerr);
+
+    return;
+}

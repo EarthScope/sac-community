@@ -32,17 +32,14 @@
  * @date   810207:  Original version.
  *
  */
-int 
-lkint(char *kkey, 
-      int   kkey_s, 
-      int  *intv) {
+int
+lkint(char *kkey, int kkey_s, int *intv) {
 
-	/* - Check for key. */
-	if(!lckey( kkey,kkey_s )) {
-    return FALSE;
-  }
+    /* - Check for key. */
+    if (!lckey(kkey, kkey_s)) {
+        return FALSE;
+    }
 
-  lcint(intv);
-  return TRUE;
+    lcint(intv);
+    return TRUE;
 }
-

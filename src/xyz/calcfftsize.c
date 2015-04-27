@@ -55,59 +55,58 @@
  *  
  *   */
 
-int /*FUNCTION*/ calcfftsize(delta, sliceint, window, iorfft, lfft, 
-	 nptswndw, buffersize, windowovrl)
-double delta, sliceint, window;
-int *iorfft, *lfft, *nptswndw, *buffersize, *windowovrl;
+int /*FUNCTION*/
+calcfftsize(delta, sliceint, window, iorfft, lfft, nptswndw, buffersize,
+            windowovrl)
+     double delta, sliceint, window;
+     int *iorfft, *lfft, *nptswndw, *buffersize, *windowovrl;
 {
-	int calcfftsize_v, n;
+    int calcfftsize_v, n;
 
-	/*     * Include Files: */
-	/*     * Local Variables: */
-	/*     * Code Implementation: */
-	calcfftsize_v = 1;
+    /*     * Include Files: */
+    /*     * Local Variables: */
+    /*     * Code Implementation: */
+    calcfftsize_v = 1;
 
-	/*         Convert window from seconds to number of points */
-	*nptswndw = window/delta;
+    /*         Convert window from seconds to number of points */
+    *nptswndw = window / delta;
 
-	/*         Calculate FFT size */
-	*lfft = 2;
-	*iorfft = 1;
+    /*         Calculate FFT size */
+    *lfft = 2;
+    *iorfft = 1;
 
-	/*          FFT size must be at least twice the size of the window */
-L_1:
-	;
-	if( *lfft < 2**nptswndw ){
-		*lfft = *lfft*2;
-		*iorfft = *iorfft + 1;
-		goto L_1;
-		}
+    /*          FFT size must be at least twice the size of the window */
+  L_1:
+    ;
+    if (*lfft < 2 ** nptswndw) {
+        *lfft = *lfft * 2;
+        *iorfft = *iorfft + 1;
+        goto L_1;
+    }
 
-	/*         Calculate window overlap from 'sliceint' */
-	*windowovrl = *nptswndw - sliceint/(delta + .0000001);
+    /*         Calculate window overlap from 'sliceint' */
+    *windowovrl = *nptswndw - sliceint / (delta + .0000001);
 
-	/*         Calculate optimum buffersize for reading in data */
-	n = 1;
-L_3:
-	;
-	if( (MAXBUFSIZE - *windowovrl)/(*nptswndw - *windowovrl) > n ){
-		n = n + 1;
-		goto L_3;
-		}
-	*buffersize = n**nptswndw - (n - 1)**windowovrl;
+    /*         Calculate optimum buffersize for reading in data */
+    n = 1;
+  L_3:
+    ;
+    if ((MAXBUFSIZE - *windowovrl) / (*nptswndw - *windowovrl) > n) {
+        n = n + 1;
+        goto L_3;
+    }
+    *buffersize = n ** nptswndw - (n - 1) ** windowovrl;
 
-	/*         Check if FFT size is 'legal' */
-	if( *lfft > MAXLFFT ){
-		fprintf( stdout, "Error fft size greater than the largest allowed of %d .\n", 
-		 MAXLFFT );
-		}
-	else{
-		fprintf( stdout, "Window size: %d  Overlap: %d  FFT size: %d \n", 
-		 *nptswndw, *windowovrl, *lfft );
-		calcfftsize_v = 0;
-		}
+    /*         Check if FFT size is 'legal' */
+    if (*lfft > MAXLFFT) {
+        fprintf(stdout,
+                "Error fft size greater than the largest allowed of %d .\n",
+                MAXLFFT);
+    } else {
+        fprintf(stdout, "Window size: %d  Overlap: %d  FFT size: %d \n",
+                *nptswndw, *windowovrl, *lfft);
+        calcfftsize_v = 0;
+    }
 
-
-	return( calcfftsize_v );
-} /* end of function */
-
+    return (calcfftsize_v);
+}                               /* end of function */

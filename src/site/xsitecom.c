@@ -7,7 +7,6 @@
 
 #include "site.h"
 
-
 #include "msg.h"
 
 /** 
@@ -24,28 +23,27 @@
  * @date   831107:  Original version.
  *
  */
-void 
-xsitecom(int  index, 
-         int *nerr) {
+void
+xsitecom(int index, int *nerr) {
 
-	/* - Jump to correct command based upon its index number. */
-	switch( index ){
-		case 1: goto L_100;
-        }
-        
-	/* - Error return if bad index value. */
-	*nerr = 901;
-	setmsg( "ERROR", *nerr );
-	apcmsg( "in XSITECOM",12 );
-	goto L_8888;
+    /* - Jump to correct command based upon its index number. */
+    switch (index) {
+        case 1:
+            goto L_100;
+    }
 
-	/* - Command 01: TESTSITE --- Test the site command module logic. */
-L_100:
-	xtestsite( nerr );
-	goto L_8888;
+    /* - Error return if bad index value. */
+    *nerr = 901;
+    setmsg("ERROR", *nerr);
+    apcmsg("in XSITECOM", 12);
+    goto L_8888;
 
-L_8888:
-	return;
+    /* - Command 01: TESTSITE --- Test the site command module logic. */
+  L_100:
+    xtestsite(nerr);
+    goto L_8888;
 
-} 
+  L_8888:
+    return;
 
+}

@@ -22,22 +22,20 @@
  * \date   830916:  Original version.
  * \date   860203:  Documented/Reviewed
  */
-void 
-clrmsg()
-{
-	int j, j_;
+void
+clrmsg() {
+    int j, j_;
 
-	/* - Reset message number and message length. */
-	cmmsg.nummsg = 0;
-	cmmsg.itpmsg = 0;
+    /* - Reset message number and message length. */
+    cmmsg.nummsg = 0;
+    cmmsg.itpmsg = 0;
 
-	for( j = 1; j <= cmmsg.nlimsg; j++ ){
-		j_ = j - 1;
-		fstrncpy( kmmsg.klimsg[j_], MCMSG, " ", 1);
-		}
-	cmmsg.nlimsg = 1;
-	cmmsg.nchmsg = 0;
+    for (j = 1; j <= cmmsg.nlimsg; j++) {
+        j_ = j - 1;
+        fstrncpy(kmmsg.klimsg[j_], MCMSG, " ", 1);
+    }
+    cmmsg.nlimsg = 1;
+    cmmsg.nchmsg = 0;
 
-	return;
+    return;
 }
-

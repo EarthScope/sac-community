@@ -29,38 +29,33 @@
  * @date   861201:  Original version.
  *
  */
-void 
-createwindow(int    *number, 
-             double  xwinmn, 
-             double  xwinmx, 
-             double  ywinmn, 
-             double  ywinmx, 
-             int    *nerr) {
+void
+createwindow(int *number, double xwinmn, double xwinmx, double ywinmn,
+             double ywinmx, int *nerr) {
 
-	float xwmn, xwmx, ywmn, ywmx;
+    float xwmn, xwmx, ywmn, ywmx;
 
-	*nerr = 0;
+    *nerr = 0;
 
-        int i, n;
-        display_t **dev;
-        n   = gdm_get_ndevices();
-        dev = gdm_get_devices();
+    int i, n;
+    display_t **dev;
+    n = gdm_get_ndevices();
+    dev = gdm_get_devices();
 
-	/* - Check input window number for correctness. */
-	/* - Turn each window on if needed. */
+    /* - Check input window number for correctness. */
+    /* - Turn each window on if needed. */
 
-        xwmn = fmax( 0.0, xwinmn );
-        xwmx = fmin( 1.0, xwinmx );
-        ywmn = fmax( 0.0, ywinmn );
-        ywmx = fmin( 1.0, ywinmx );
+    xwmn = fmax(0.0, xwinmn);
+    xwmx = fmin(1.0, xwinmx);
+    ywmn = fmax(0.0, ywinmn);
+    ywmx = fmin(1.0, ywinmx);
 
-        for(i = 0; i < n; i++) {
-          if(dev[i]->on && dev[i]->create_window) {
-            dev[i]->create_window( number, &xwmn, &xwmx, &ywmn, &ywmx, nerr );
-          }
+    for (i = 0; i < n; i++) {
+        if (dev[i]->on && dev[i]->create_window) {
+            dev[i]->create_window(number, &xwmn, &xwmx, &ywmn, &ywmx, nerr);
         }
+    }
 
-	return;
+    return;
 
 }
-

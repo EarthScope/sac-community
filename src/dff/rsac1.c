@@ -25,11 +25,11 @@
 
 void
 sac_data_swap(float *y, int n) {
-  int i;
-  float *ptr;
-  for(i = 0, ptr = y; i < n; i++, ptr++) {
-    byteswap((void*)ptr, SAC_HEADER_SIZEOF_NUMBER);
-  }
+    int i;
+    float *ptr;
+    for (i = 0, ptr = y; i < n; i++, ptr++) {
+        byteswap((void *) ptr, SAC_HEADER_SIZEOF_NUMBER);
+    }
 }
 
 /** 
@@ -55,26 +55,18 @@ sac_data_swap(float *y, int n) {
  *
  */
 void
-sac_data_read(int    nun, 
-	      float *yarray, 
-	      int    npts, 
-	      int    comp, 
-	      int    lswap, 
-	      int   *nerr) {
-  UNUSED(comp);
-  *nerr = SAC_OK;
+sac_data_read(int nun, float *yarray, int npts, int comp, int lswap, int *nerr) {
+    UNUSED(comp);
+    *nerr = SAC_OK;
 
-  if(read(-nun, yarray, npts * SAC_DATA_SIZE) != (npts * SAC_DATA_SIZE)) {
-    *nerr = ERROR_READING_FILE;
-    return;
-  }
-  if(lswap) {
-    sac_data_swap(yarray, npts);
-  }
+    if (read(-nun, yarray, npts * SAC_DATA_SIZE) != (npts * SAC_DATA_SIZE)) {
+        *nerr = ERROR_READING_FILE;
+        return;
+    }
+    if (lswap) {
+        sac_data_swap(yarray, npts);
+    }
 }
-
-
-
 
 /** 
  * Read an evenly spaced SAC file
@@ -115,104 +107,81 @@ sac_data_read(int    nun,
  * @date   870902:  Documented/Reviewed
  *
  */
-void 
-rsac1(char      *kname, 
-      float     *yarray, 
-      int       *nlen, 
-      float     *beg, 
-      float     *del, 
-      int       *max_, 
-      int       *nerr, 
-      int        kname_s)
-{
-  int ncerr, nun;
-  int lswap;
-  int truncated;
-  sac *s;
+void
+rsac1(char *kname, float *yarray, int *nlen, float *beg, float *del, int *max_,
+      int *nerr, int kname_s) {
+    int ncerr, nun;
+    int lswap;
+    int truncated;
+    sac *s;
 
-  *nerr     = 0;
-  truncated = FALSE;
-  nun       = 0;
+    *nerr = 0;
+    truncated = FALSE;
+    nun = 0;
 
-  /* - Initialize some common blocks if not already done. */
-  sacio_initialize_common();
+    /* - Initialize some common blocks if not already done. */
+    sacio_initialize_common();
 
-  /* - Open the file. */
-  zopen_sac( &nun, kname,kname_s, "RODATA",7, nerr );
-  if( *nerr != SAC_OK )
-    goto ERROR;
+    /* - Open the file. */
+    zopen_sac(&nun, kname, kname_s, "RODATA", 7, nerr);
+    if (*nerr != SAC_OK)
+        goto ERROR;
 
-  s = sac_new();
-  s->m->filename = fstrdup(kname, kname_s);
-  sacput(s);
+    s = sac_new();
+    s->m->filename = fstrdup(kname, kname_s);
+    sacput(s);
 
-  //lswap = sac_header_read(nun, nerr);
-  lswap = sac_header_read(nun, s, nerr);
-  if( *nerr != SAC_OK )
-    goto ERROR;
-  
-  /* - Make sure file is evenly spaced. */
-  if( s->h->leven ){
-    if( s->h->npts <= *max_ ){
-      *nlen = s->h->npts;
+    //lswap = sac_header_read(nun, nerr);
+    lswap = sac_header_read(nun, s, nerr);
+    if (*nerr != SAC_OK)
+        goto ERROR;
+
+    /* - Make sure file is evenly spaced. */
+    if (s->h->leven) {
+        if (s->h->npts <= *max_) {
+            *nlen = s->h->npts;
+        } else {
+            *nlen = *max_;
+            truncated = TRUE;
+        }
+        *beg = s->h->b;
+        *del = s->h->delta;
+    } else {
+        *nerr = ERROR_SAC_FILE_NOT_EVENLY_SPACED;
+        error(*nerr, "%s", s->m->filename);
+        goto ERROR;
     }
-    else{
-      *nlen = *max_;
-      truncated = TRUE;
+
+    /* - Read in the data. */
+    sac_data_read(nun, yarray, *nlen, SAC_FIRST_COMPONENT, lswap, (int *) nerr);
+    if (nerr != SAC_OK) {
+        error(*nerr, "%s", s->m->filename);
+        goto ERROR;
     }
-    *beg = s->h->b;
-    *del = s->h->delta;
-  }
-  else{
-    *nerr = ERROR_SAC_FILE_NOT_EVENLY_SPACED;
-    error(*nerr, "%s", s->m->filename);
-    goto ERROR;
-  }
-  
-  /* - Read in the data. */
-  sac_data_read(nun, yarray, *nlen, SAC_FIRST_COMPONENT, lswap, (int *)nerr);
-  if(nerr != SAC_OK) {
-    error(*nerr, "%s", s->m->filename);
-    goto ERROR;
-  }
-  s->y = yarray;
-  /* - Adjust several header fields. */
-  s->h->npts = *nlen;
-  s->h->e    = CALC_E(s);
-  
- ERROR:
-  *nerr = ( *nerr == SAC_OK && truncated == TRUE) ?
-    -ERROR_SAC_DATA_TRUNCATED_ON_READ : *nerr;
-  if(*nerr) {
-    outmsg();
-    clrmsg();
-  }
-  zclose( &nun, &ncerr );
-  return;
+    s->y = yarray;
+    /* - Adjust several header fields. */
+    s->h->npts = *nlen;
+    s->h->e = CALC_E(s);
+
+  ERROR:
+    *nerr = (*nerr == SAC_OK &&
+             truncated == TRUE) ? -ERROR_SAC_DATA_TRUNCATED_ON_READ : *nerr;
+    if (*nerr) {
+        outmsg();
+        clrmsg();
+    }
+    zclose(&nun, &ncerr);
+    return;
 }
-
 
 void
-rsac1_ (char      *kname, 
-	float     *yarray, 
-	int       *nlen, 
-	float     *beg, 
-	float     *del, 
-	int       *max_, 
-	int       *nerr, 
-	int        kname_s) {
-  rsac1 ( kname , yarray , nlen , beg , del , max_ , nerr , kname_s ) ;
+rsac1_(char *kname, float *yarray, int *nlen, float *beg, float *del, int *max_,
+       int *nerr, int kname_s) {
+    rsac1(kname, yarray, nlen, beg, del, max_, nerr, kname_s);
 }
 
-
-void 
-rsac1__ (char      *kname, 
-	 float     *yarray, 
-	 int       *nlen, 
-	 float     *beg, 
-	 float     *del, 
-	 int       *max_, 
-	 int       *nerr, 
-	 int        kname_s) {
-  rsac1 ( kname , yarray , nlen , beg , del , max_ , nerr , kname_s ) ;
+void
+rsac1__(char *kname, float *yarray, int *nlen, float *beg, float *del,
+        int *max_, int *nerr, int kname_s) {
+    rsac1(kname, yarray, nlen, beg, del, max_, nerr, kname_s);
 }

@@ -1,12 +1,10 @@
 
 #include "gtm.h"
 
-void /*FUNCTION*/ calwvtransform()
-{
+void /*FUNCTION*/
+calwvtransform() {
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * *** INTERNAL SUBROUTINE: NOT NORMALLY CALLED BY USER ***
 	 *=====================================================================
 	 * PURPOSE:  To calculate the world to viewport mapping transformation.
@@ -26,15 +24,15 @@ void /*FUNCTION*/ calwvtransform()
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  861027
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Define world/viewport mapping transformation. */
-	cmgtm.xmpwv1 = (cmgtm.xvpmax - cmgtm.xvpmin)/(cmgtm.xwcmax - cmgtm.xwcmin);
-	cmgtm.xmpwv2 = -cmgtm.xmpwv1*cmgtm.xwcmax + cmgtm.xvpmax;
-	cmgtm.ympwv1 = (cmgtm.yvpmax - cmgtm.yvpmin)/(cmgtm.ywcmax - cmgtm.ywcmin);
-	cmgtm.ympwv2 = -cmgtm.ympwv1*cmgtm.ywcmax + cmgtm.yvpmax;
+    /* PROCEDURE: */
+    /* - Define world/viewport mapping transformation. */
+    cmgtm.xmpwv1 =
+        (cmgtm.xvpmax - cmgtm.xvpmin) / (cmgtm.xwcmax - cmgtm.xwcmin);
+    cmgtm.xmpwv2 = -cmgtm.xmpwv1 * cmgtm.xwcmax + cmgtm.xvpmax;
+    cmgtm.ympwv1 =
+        (cmgtm.yvpmax - cmgtm.yvpmin) / (cmgtm.ywcmax - cmgtm.ywcmin);
+    cmgtm.ympwv2 = -cmgtm.ympwv1 * cmgtm.ywcmax + cmgtm.yvpmax;
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

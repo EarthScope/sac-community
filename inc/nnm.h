@@ -16,7 +16,7 @@
  *
  */
 struct t_kmnnm {
-  char kwritenn[MCPFN+1];
+    char kwritenn[MCPFN + 1];
 } kmnnm;
 
 /** 
@@ -25,13 +25,11 @@ struct t_kmnnm {
  *
  */
 struct t_cmnnm {
-  int   numpoints;
-  int   numfiles;
+    int numpoints;
+    int numfiles;
 } cmnnm;
 
-
-void xnnmc ( int index, 
-             int *nerr);
-void xwritenn ( int *nerr);
+void xnnmc(int index, int *nerr);
+void xwritenn(int *nerr);
 
 #endif /* _NNM_H_ */

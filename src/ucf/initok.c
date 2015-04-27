@@ -14,10 +14,10 @@
  * @date   841011:  Original version.
  *
  */
-void 
+void
 initok() {
 
-  cmtok.ntokdl = 0;
-  cmtok.nmsgdl = 0;
-  
+    cmtok.ntokdl = 0;
+    cmtok.nmsgdl = 0;
+
 }

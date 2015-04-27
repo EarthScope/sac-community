@@ -28,150 +28,145 @@
  * @date   870625:  Factored execution portion to readfl.
  *
  */
-void 
+void
 xdatagen(int *nerr) {
 
-	char _c0[2], kdgdir[MCPFN+1], ktemp[9];
-	int ldata, lmore, lsdd, lFirstLoop;
-	int nc, idx ;
-	int lexist;
+    char _c0[2], kdgdir[MCPFN + 1], ktemp[9];
+    int ldata, lmore, lsdd, lFirstLoop;
+    int nc, idx;
+    int lexist;
 
     string_list *list;
 
-	*nerr = 0;
+    *nerr = 0;
     list = NULL;
-        for( idx = 0 ; idx < MCPFN ; idx++ )
-            kdgdir[ idx ] = ' ' ;
-        kdgdir[ MCPFN ] = '\0' ;
+    for (idx = 0; idx < MCPFN; idx++)
+        kdgdir[idx] = ' ';
+    kdgdir[MCPFN] = '\0';
 
-	/* - Parse position-dependent tokens: */
-	lmore = FALSE;
+    /* - Parse position-dependent tokens: */
+    lmore = FALSE;
 
-	do {
-	    lFirstLoop = FALSE ;
-  
-	    /* -- "MORE":  signifies addition of more files to current 
-	     *             read filelist rather than replacement of 
-	     *             current list with new one. 
-	     */
-	    if( (lcmore( nerr ) && lckey( "&MORE$",7 )) && saclen() > 0 ) {
-		lmore = TRUE;
-		lFirstLoop = TRUE ;
-	    }
+    do {
+        lFirstLoop = FALSE;
 
-	    /* -- "SUB name": select subdirectory name. */
-	    else if( lklist( "&SUB$",6, (char*)kmdfm.kdgsub,9, 
-			     MDGSUB, &cmdfm.idgsub ) )
-		lFirstLoop = TRUE ;
+        /* -- "MORE":  signifies addition of more files to current 
+         *             read filelist rather than replacement of 
+         *             current list with new one. 
+         */
+        if ((lcmore(nerr) && lckey("&MORE$", 7)) && saclen() > 0) {
+            lmore = TRUE;
+            lFirstLoop = TRUE;
+        }
 
-	    /* -- "COMMIT|RECALLTRACE|ROLLBACK": how to treat existing data */
-	    else if ( lckeyExact ( "COMMIT" , 7 ) ) {
-		cmdfm.icomORroll = COMMIT ;
-		lFirstLoop = TRUE ;
-	    }
-	    else if (lckeyExact ( "RECALLTRACE" , 12 ) ) {
-		cmdfm.icomORroll = RECALL ;
-		lFirstLoop = TRUE ;
-	    }
-	    else if ( lckeyExact ( "RECALL" , 7 ) ) {
-		cmdfm.icomORroll = RECALL ;
-		lFirstLoop = TRUE ;
-	    }
-	    else if ( lckeyExact ( "ROLLBACK" , 9 ) ) {
-		cmdfm.icomORroll = ROLLBACK ;
-		lFirstLoop = TRUE ;
-	    }
+        /* -- "SUB name": select subdirectory name. */
+        else if (lklist
+                 ("&SUB$", 6, (char *) kmdfm.kdgsub, 9, MDGSUB, &cmdfm.idgsub))
+            lFirstLoop = TRUE;
 
-	} while ( lFirstLoop ) ;
+        /* -- "COMMIT|RECALLTRACE|ROLLBACK": how to treat existing data */
+        else if (lckeyExact("COMMIT", 7)) {
+            cmdfm.icomORroll = COMMIT;
+            lFirstLoop = TRUE;
+        } else if (lckeyExact("RECALLTRACE", 12)) {
+            cmdfm.icomORroll = RECALL;
+            lFirstLoop = TRUE;
+        } else if (lckeyExact("RECALL", 7)) {
+            cmdfm.icomORroll = RECALL;
+            lFirstLoop = TRUE;
+        } else if (lckeyExact("ROLLBACK", 9)) {
+            cmdfm.icomORroll = ROLLBACK;
+            lFirstLoop = TRUE;
+        }
 
-	/* - Parse position-independent tokens: */
+    } while (lFirstLoop);
 
-	/* - Loop on each token in command: */
+    /* - Parse position-independent tokens: */
 
-	while ( lcmore( nerr ) ){
+    /* - Loop on each token in command: */
 
-	    /* -- "filelist":  define a new input filelist. */
-    if( ( list = lcdfl() ) )
-	    { /* do nothing */ }
+    while (lcmore(nerr)) {
 
-	    /* -- Bad syntax. */
-	    else{
-		cfmt( "ILLEGAL OPTION:",17 );
-		cresp();
-	    }
-	}
+        /* -- "filelist":  define a new input filelist. */
+        if ((list = lcdfl())) { /* do nothing */
+        }
 
-	if( *nerr != 0 )
-	    goto L_8888;
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
+    }
 
-	/* EXECUTION PHASE: */
-	/* - Commit or rollback data according to lmore and cmdfm.icomORroll */
-	if ( lmore ) {
-	    alignFiles ( nerr ) ;
-	    if ( *nerr )
-		return ;
-	    cmdfm.nfilesFirst = saclen() ;
-	}
-	else{
-	    cmdfm.nfilesFirst = 0 ;
-	}
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* - Set up the directory name of the sample data files. */
+    /* EXECUTION PHASE: */
+    /* - Commit or rollback data according to lmore and cmdfm.icomORroll */
+    if (lmore) {
+        alignFiles(nerr);
+        if (*nerr)
+            return;
+        cmdfm.nfilesFirst = saclen();
+    } else {
+        cmdfm.nfilesFirst = 0;
+    }
 
-	/* -- Get name of base directory. */
-	zbasename( kdgdir,MCPFN+1 );
+    /* - Set up the directory name of the sample data files. */
 
-	/* -- Append datagen to get subdirectory name. */
-	crname( kdgdir,MCPFN+1, KSUBDL, "datagen",8, nerr );
+    /* -- Get name of base directory. */
+    zbasename(kdgdir, MCPFN + 1);
 
-	/* -- See if datagen subdirectory exists */
-	zinquire( kdgdir, &lexist );
-	if ( lexist == 0 ) {
+    /* -- Append datagen to get subdirectory name. */
+    crname(kdgdir, MCPFN + 1, KSUBDL, "datagen", 8, nerr);
 
-	  /* -- If necessary, try basename/../datagen -- */
-	  zbasename( kdgdir,MCPFN+1 );
-	  crname( kdgdir,MCPFN+1, KSUBDL, "../datagen",11, nerr );
-	  zinquire( kdgdir, &lexist );
-	  if ( lexist == 0 ) {
-	    setmsg("ERROR", 131);
-	    apcmsg( "Contact LLNL for this data (peterg@llnl.gov)", 45 );
-	    outmsg();
-	    goto L_8888;
-	  }
+    /* -- See if datagen subdirectory exists */
+    zinquire(kdgdir, &lexist);
+    if (lexist == 0) {
 
-	}
+        /* -- If necessary, try basename/../datagen -- */
+        zbasename(kdgdir, MCPFN + 1);
+        crname(kdgdir, MCPFN + 1, KSUBDL, "../datagen", 11, nerr);
+        zinquire(kdgdir, &lexist);
+        if (lexist == 0) {
+            setmsg("ERROR", 131);
+            apcmsg("Contact LLNL for this data (peterg@llnl.gov)", 45);
+            outmsg();
+            goto L_8888;
+        }
 
-	if( *nerr != 0 )
-	    goto L_8888;
-	modcase( FALSE, (char*)kmdfm.kdgsub[cmdfm.idgsub - 1], MCPW, ktemp );
-	crname( kdgdir,MCPFN+1, KSUBDL, ktemp,9, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
+    }
 
-	/* -- Append directory delimiter. */
-	nc = indexb( kdgdir,MCPFN+1 );
+    if (*nerr != 0)
+        goto L_8888;
+    modcase(FALSE, (char *) kmdfm.kdgsub[cmdfm.idgsub - 1], MCPW, ktemp);
+    crname(kdgdir, MCPFN + 1, KSUBDL, ktemp, 9, nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-        _c0[0] = KDIRDL;
-        _c0[1] = '\0';
- 	subscpy( kdgdir, nc, -1, MCPFN, _c0 );
+    /* -- Append directory delimiter. */
+    nc = indexb(kdgdir, MCPFN + 1);
 
-	/* - Expand the filelist and read the files into memory. */
+    _c0[0] = KDIRDL;
+    _c0[1] = '\0';
+    subscpy(kdgdir, nc, -1, MCPFN, _c0);
 
-    if(!list) {
+    /* - Expand the filelist and read the files into memory. */
+
+    if (!list) {
         list = string_list_init();
     }
 
-	ldata = TRUE;
-	lsdd = FALSE;
-	readfl( ldata, lmore, lsdd, kdgdir,MCPFN+1, list, nerr );
+    ldata = TRUE;
+    lsdd = FALSE;
+    readfl(ldata, lmore, lsdd, kdgdir, MCPFN + 1, list, nerr);
 
-	/* put it out to SeisMgr. */
-	cmdfm.nreadflag = LOW ;
-	cmdfm.lread = TRUE ;
-	sacToSeisMgr ( !lmore , 0 , 1 , nerr ) ;
-	cmdfm.lread = FALSE ;
+    /* put it out to SeisMgr. */
+    cmdfm.nreadflag = LOW;
+    cmdfm.lread = TRUE;
+    sacToSeisMgr(!lmore, 0, 1, nerr);
+    cmdfm.lread = FALSE;
 
-L_8888:
-	return;
+  L_8888:
+    return;
 }
-

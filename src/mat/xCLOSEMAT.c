@@ -12,7 +12,6 @@
 #include "mat.h"
 #include "matFuncExternal.h"
 
-
 /** 
  * Execute the command "closemat" which closes the Matlab Engine
  *
@@ -24,20 +23,19 @@
  * @date 970902:  Original version.
  *
  */
-void 
-xCLOSEMAT(int *nerr)
-{
-#	include "matFuncInternal.h" 
+void
+xCLOSEMAT(int *nerr) {
+#	include "matFuncInternal.h"
 
-	*nerr = 0;
+    *nerr = 0;
 
-	if ( linkedAndRunning ) {
-	   matDisconnect () ;
-	}
+    if (linkedAndRunning) {
+        matDisconnect();
+    }
 
-        return;
-        
-} 
+    return;
+
+}
 
 #endif /* HAVE_MATLAB */
 
@@ -45,6 +43,10 @@ xCLOSEMAT(int *nerr)
 
 void matlab_unavailable();
 
-void xCLOSEMAT(int *nerr) { UNUSED(nerr); matlab_unavailable(); }
+void
+xCLOSEMAT(int *nerr) {
+    UNUSED(nerr);
+    matlab_unavailable();
+}
 
-#endif 
+#endif

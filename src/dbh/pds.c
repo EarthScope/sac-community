@@ -9,8 +9,6 @@
 
 #include "dbh.h"
 
-
-
 #include "co.h"
 
 /** 
@@ -55,79 +53,71 @@
  *
  */
 void
-pds(float *r, 
-    int    nr, 
-    int    nlags, 
-    int   *wlen, 
-    char  *wtype, 
-    int    nfft, 
-    float *spectr, 
-    char  *errmsg, 
-    int    errmsg_s, 
-    float *tempor)
-{
-	char tempe[131];
-	int fsamp, hsize, i, sympnt;
+pds(float *r, int nr, int nlags, int *wlen, char *wtype, int nfft,
+    float *spectr, char *errmsg, int errmsg_s, float *tempor) {
+    char tempe[131];
+    int fsamp, hsize, i, sympnt;
 
-	float *const Spectr = &spectr[0] - 1;
+    float *const Spectr = &spectr[0] - 1;
 
-	/*  Enforce odd window length */
-	*wlen = (*wlen/2)*2 + 1;
+    /*  Enforce odd window length */
+    *wlen = (*wlen / 2) * 2 + 1;
 
-	/*  Check to be sure that the window size does not exceed the number
-	 *    of available correlation function lags.	*/
-	if( *wlen > nlags ){
-	    fstrncpy( errmsg, errmsg_s-1, "PDS *** Correlation window length exceeds #lags ***"
-	     , 51 );
-	    return;
-	}
+    /*  Check to be sure that the window size does not exceed the number
+     *    of available correlation function lags.   */
+    if (*wlen > nlags) {
+        fstrncpy(errmsg, errmsg_s - 1,
+                 "PDS *** Correlation window length exceeds #lags ***", 51);
+        return;
+    }
 
-	hsize = nfft/2 + 1;
+    hsize = nfft / 2 + 1;
 
-	/*  If WINDOW_SIZE is larger than FFT_SIZE, it is necessary to form an
-	 *    aliased version of the correlation sequence before transforming to
-	 *    obtain the spectrum.  Thus, the correlation sequence is first windowed,
-	 *    then aliased.
-	 *
-	 *    First rotate the correlation sequence by half its length
-	 * */
-	shift( r, nr, nlags/2, "Circular", tempor, errmsg,errmsg_s );
-	if( !(memcmp(errmsg,"        ",8) == 0) ){
+    /*  If WINDOW_SIZE is larger than FFT_SIZE, it is necessary to form an
+     *    aliased version of the correlation sequence before transforming to
+     *    obtain the spectrum.  Thus, the correlation sequence is first windowed,
+     *    then aliased.
+     *
+     *    First rotate the correlation sequence by half its length
+     * */
+    shift(r, nr, nlags / 2, "Circular", tempor, errmsg, errmsg_s);
+    if (!(memcmp(errmsg, "        ", 8) == 0)) {
 
-	    fstrncpy(tempe, 130, errmsg, strlen(errmsg));
-	    fstrncpy(tempe+strlen(errmsg),130-strlen(errmsg)," (FROM PDS)", 11);
-	    fstrncpy(errmsg,errmsg_s-1,tempe,strlen(tempe));
-	    return;
-	}
-	sympnt = nlags/2 + 1;
+        fstrncpy(tempe, 130, errmsg, strlen(errmsg));
+        fstrncpy(tempe + strlen(errmsg), 130 - strlen(errmsg), " (FROM PDS)",
+                 11);
+        fstrncpy(errmsg, errmsg_s - 1, tempe, strlen(tempe));
+        return;
+    }
+    sympnt = nlags / 2 + 1;
 
-	/*    Next window it */
-	fsamp = sympnt - *wlen/2;
-	window( tempor, nr, wtype, fsamp, *wlen, tempor, errmsg,errmsg_s );
-	if( !(memcmp(errmsg,"        ",8) == 0) ){
-	    fstrncpy(tempe, 130, errmsg, strlen(errmsg));
-	    fstrncpy(tempe+strlen(errmsg),130-strlen(errmsg)," (FROM PDS)", 11);
-	    fstrncpy(errmsg,errmsg_s-1,tempe,strlen(tempe));
-	    return;
-	}
+    /*    Next window it */
+    fsamp = sympnt - *wlen / 2;
+    window(tempor, nr, wtype, fsamp, *wlen, tempor, errmsg, errmsg_s);
+    if (!(memcmp(errmsg, "        ", 8) == 0)) {
+        fstrncpy(tempe, 130, errmsg, strlen(errmsg));
+        fstrncpy(tempe + strlen(errmsg), 130 - strlen(errmsg), " (FROM PDS)",
+                 11);
+        fstrncpy(errmsg, errmsg_s - 1, tempe, strlen(tempe));
+        return;
+    }
 
-	/*    Now alias the windowed correlation function */
-	alias( tempor, sympnt, nr, nfft, spectr );
+    /*    Now alias the windowed correlation function */
+    alias(tempor, sympnt, nr, nfft, spectr);
 
-	/*  Compute Fourier transform */
-	zero( tempor, nfft );
-	fft( spectr, tempor, nfft, -1 );
+    /*  Compute Fourier transform */
+    zero(tempor, nfft);
+    fft(spectr, tempor, nfft, -1);
 
-	/*  Enforce positivity of result
-	 * */
-	for( i = 1; i <= hsize; i++ ){
-	    if( Spectr[i] < 0. ){
-		Spectr[i] = -Spectr[i];
-	    }
-	}
+    /*  Enforce positivity of result
+     * */
+    for (i = 1; i <= hsize; i++) {
+        if (Spectr[i] < 0.) {
+            Spectr[i] = -Spectr[i];
+        }
+    }
 
-	/*  Bye */
+    /*  Bye */
 
-	return;
-} /* end of function */
-
+    return;
+}                               /* end of function */

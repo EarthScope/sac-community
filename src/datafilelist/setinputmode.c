@@ -10,7 +10,6 @@
 #include "datafilelist.h"
 #include "bool.h"
 
-
 #include "bot.h"
 
 /** 
@@ -24,25 +23,22 @@
  * @date   900409:  Original version.
  *
  */
-void 
+void
 setinputmode(char *mode) {
 
-	char test;
+    char test;
 
-	/* - Convert first input character to upper case. */
-	modcase( TRUE, mode, 1, &test );
+    /* - Convert first input character to upper case. */
+    modcase(TRUE, mode, 1, &test);
 
-	/* - Test versus allowed options. */
-	if( test == 'A' ){
-		strcpy( kmdatafilelist.kselectmode, "ALL     " );
-	}
-	else if( test == 'S' ){
-		strcpy( kmdatafilelist.kselectmode, "SELECT  " );
-	}
-	else{
-		strcpy( kmdatafilelist.kselectmode, "ALL     " );
-	}
+    /* - Test versus allowed options. */
+    if (test == 'A') {
+        strcpy(kmdatafilelist.kselectmode, "ALL     ");
+    } else if (test == 'S') {
+        strcpy(kmdatafilelist.kselectmode, "SELECT  ");
+    } else {
+        strcpy(kmdatafilelist.kselectmode, "ALL     ");
+    }
 
-	return;
+    return;
 }
-

@@ -15,11 +15,10 @@
  * @date   810414:  Original version.
  *
  */
-void 
+void
 inicom() {
 
-	cmcom.ncerr  = 0; /* command error */
+    cmcom.ncerr = 0;            /* command error */
 
-	return;
+    return;
 }
-

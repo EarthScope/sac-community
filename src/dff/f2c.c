@@ -22,9 +22,9 @@
  */
 void
 DEPRECATED(char *old_func, char *new_func) {
-  fprintf(stderr, "%s has been deprecated. Inform the developer or use %s\n",
-	  old_func, new_func);
-  return;
+    fprintf(stderr, "%s has been deprecated. Inform the developer or use %s\n",
+            old_func, new_func);
+    return;
 }
 
 /** 
@@ -37,22 +37,22 @@ DEPRECATED(char *old_func, char *new_func) {
  * @return 
  *    Trimmed string, same as input argument
  *
- */ 
+ */
 char *
 fstrtrim(char *s) {
-  char *p;
-  if(strlen(s) <= 0) {
+    char *p;
+    if (strlen(s) <= 0) {
+        return s;
+    }
+    p = s + strlen(s) - 1;
+    while (*p == ' ' && p != s) {
+        p--;
+    }
+    s[p - s + 1] = 0;
+    if (strlen(s) == 1 && *s == ' ') {
+        s[0] = 0;
+    }
     return s;
-  }
-  p = s + strlen(s) - 1;
-  while(*p == ' ' && p != s) {
-    p--;
-  }
-  s[p-s+1] = 0;
-  if(strlen(s) == 1 && *s == ' ') {
-    s[0] = 0;
-  }
-  return s;
 }
 
 /** 
@@ -71,19 +71,19 @@ fstrtrim(char *s) {
  */
 char *
 fstrdup(char *s, int n) {
-  char *q;
-  if(n < 0) {
-    n = strlen(s);
-  }
-  /* Length of string plus terminator */
-  q = (char *)malloc(sizeof(char) * (n + 1)); 
-  q[0] = '\0';
-  q = strncpy(q,s, (size_t) n);
-  /* Null - Terminate String */
-  q[n] = '\0'; 
-  /* Find First of All Remaining Whitespace and Terminate There */
-  q = fstrtrim(q);
-  return q; 
+    char *q;
+    if (n < 0) {
+        n = strlen(s);
+    }
+    /* Length of string plus terminator */
+    q = (char *) malloc(sizeof(char) * (n + 1));
+    q[0] = '\0';
+    q = strncpy(q, s, (size_t) n);
+    /* Null - Terminate String */
+    q[n] = '\0';
+    /* Find First of All Remaining Whitespace and Terminate There */
+    q = fstrtrim(q);
+    return q;
 }
 
 /** 
@@ -101,44 +101,49 @@ fstrdup(char *s, int n) {
  */
 char *
 fstrset(char *in, char *out, int n) {
-  memset(out, ' ', (size_t) n);
-  strncpy(out, in, strlen(in));
-  return out;
+    memset(out, ' ', (size_t) n);
+    strncpy(out, in, strlen(in));
+    return out;
 }
 
 #ifdef __TESTING_F2C__
 
 void
 cfunc(char *s, int len) {
-  char *q = fstrdup(s,len);
-  free(q);
-  return;
+    char *q = fstrdup(s, len);
+    free(q);
+    return;
 }
 
-void cfunc_ (char *s, int len) { cfunc(s, len); }
-void cfunc__(char *s, int len) { cfunc(s, len); }
+void
+cfunc_(char *s, int len) {
+    cfunc(s, len);
+}
 
+void
+cfunc__(char *s, int len) {
+    cfunc(s, len);
+}
 
 void
 ccall_() {
-  char *a;
-  a = strdup("hello");
-  cfunc(a, -1);
-  a = strdup("hello    ");
-  cfunc(a, -1);
-  a = strdup("hel lo ");
-  cfunc(a, -1);
-  a = strdup(" hel lo   ");
-  cfunc(a, -1);
-  cfunc("hello", -1);
-  cfunc(" hello", -1);
-  cfunc("hello ", -1);
-  cfunc("he llo", -1);
-  cfunc(" he llo", -1);
-  cfunc("he llo ", -1);
-  cfunc(" he llo ", -1);
-  cfunc(" he llo fjfjdj  jfjdjj j jfjdj j j jfjdkfkdk j j jfjd jj j    ", -1);
-  cfunc("jfdkjfdksjfdkslfjdskfjdslkfjdslkfjsdlkfjsdlfkjsdlfkdjsl", -1);
+    char *a;
+    a = strdup("hello");
+    cfunc(a, -1);
+    a = strdup("hello    ");
+    cfunc(a, -1);
+    a = strdup("hel lo ");
+    cfunc(a, -1);
+    a = strdup(" hel lo   ");
+    cfunc(a, -1);
+    cfunc("hello", -1);
+    cfunc(" hello", -1);
+    cfunc("hello ", -1);
+    cfunc("he llo", -1);
+    cfunc(" he llo", -1);
+    cfunc("he llo ", -1);
+    cfunc(" he llo ", -1);
+    cfunc(" he llo fjfjdj  jfjdjj j jfjdj j j jfjdkfkdk j j jfjd jj j    ", -1);
+    cfunc("jfdkjfdksjfdkslfjdskfjdslkfjdslkfjsdlkfjsdlfkjsdlfkdjsl", -1);
 }
 #endif /* __TESTING_F2C__  */
-

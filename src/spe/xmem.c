@@ -6,7 +6,6 @@
 #include "amf.h"
 #include "bool.h"
 
-
 #include "msg.h"
 #include "ucf.h"
 #include "cpf.h"
@@ -16,10 +15,11 @@ extern float *specor;
 extern float *spespe;
 extern float *speaux;
 
-void /*FUNCTION*/ xmem(nerr)
-int *nerr;
+void /*FUNCTION*/
+xmem(nerr)
+     int *nerr;
 {
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To execute the action command MEM.
 	 *           This command calculates a spectral estimate using
 	 *           the Maximum Entropy Method.
@@ -43,78 +43,77 @@ int *nerr;
 	 * SUBROUTINES CALLED:
 	 *    SACLIB:  LCMORE, CFMT, CRESP, LKINT, LKIRC, GTOUTM, SPECTR
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* - PARSING PHASE: */
+    /* - PARSING PHASE: */
 
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-	while ( lcmore( nerr ) ){
+    while (lcmore(nerr)) {
 
-		/* -- "ORDER n": set order of estimate in lags. */
-		if( lkint( "ORDER$",7, &cmspe.nlgmem ) )
-		{ /* do nothing */ }
+        /* -- "ORDER n": set order of estimate in lags. */
+        if (lkint("ORDER$", 7, &cmspe.nlgmem)) {        /* do nothing */
+        }
 
-		/* -- "NUMBER i":  set number of points in spectral estimate. */
-		else if( lkirc( "NUMBER$",8, 512, cmspe.firstPowerOf2, &cmspe.nlnspe ) )
-		    cmspe.nlnspe = next2( cmspe.nlnspe );
+        /* -- "NUMBER i":  set number of points in spectral estimate. */
+        else if (lkirc("NUMBER$", 8, 512, cmspe.firstPowerOf2, &cmspe.nlnspe))
+            cmspe.nlnspe = next2(cmspe.nlnspe);
 
-		/* -- Bad syntax. */
-		else{
-		    cfmt( "ILLEGAL OPTION:",17 );
-		    cresp();
-		}
-	}
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
+    }
 
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-	if( *nerr != 0 )
-	    goto L_8888;
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* CHECKING PHASE: */
+    /* CHECKING PHASE: */
 
-	/* - Make sure correlation function has been calculated. */
+    /* - Make sure correlation function has been calculated. */
 
-	if( !cmspe.lcor ){
-	    *nerr = 5003;
-	    setmsg( "ERROR", *nerr );
-	    goto L_8888;
-	}
+    if (!cmspe.lcor) {
+        *nerr = 5003;
+        setmsg("ERROR", *nerr);
+        goto L_8888;
+    }
 
-	/* EXECUTION PHASE: */
+    /* EXECUTION PHASE: */
 
-	/* - Perform MEM function. */
+    /* - Perform MEM function. */
 
-	spectr( specor, cmspe.nlnfft, cmspe.nlncor, "MEM"
-	 , &cmspe.nlgmem, cmspe.nlnspe, " ", cmspe.cprewh, cmspe.nprewh, 
-	 spespe, kmspe.kermsg,131, speaux );
+    spectr(specor, cmspe.nlnfft, cmspe.nlncor, "MEM", &cmspe.nlgmem,
+           cmspe.nlnspe, " ", cmspe.cprewh, cmspe.nprewh, spespe, kmspe.kermsg,
+           131, speaux);
 
-	/* - Check for error. */
+    /* - Check for error. */
 
-	if( memcmp(kmspe.kermsg,"        ",8) != 0 ){
-	    *nerr = 5005;
-	    setmsg( "ERROR", *nerr );
-	    aplmsg( kmspe.kermsg,131 );
-	    goto L_8888;
-	}
+    if (memcmp(kmspe.kermsg, "        ", 8) != 0) {
+        *nerr = 5005;
+        setmsg("ERROR", *nerr);
+        aplmsg(kmspe.kermsg, 131);
+        goto L_8888;
+    }
 
-	/* - Define globals pertaining to PSP plot. */
+    /* - Define globals pertaining to PSP plot. */
 
-	cmspe.lspe = TRUE;
-	cmspe.lresl = FALSE;
-	cmspe.lcl = FALSE;
-	strcpy( kmspe.kpspl1, "MEM             " );
-        sprintf(kmspe.kpspl2,"LAGS: %5d",cmspe.nlgmem );
-	strcpy( kmspe.kpspl3, "                " );
+    cmspe.lspe = TRUE;
+    cmspe.lresl = FALSE;
+    cmspe.lcl = FALSE;
+    strcpy(kmspe.kpspl1, "MEM             ");
+    sprintf(kmspe.kpspl2, "LAGS: %5d", cmspe.nlgmem);
+    strcpy(kmspe.kpspl3, "                ");
 
-L_8888:
-	return;
+  L_8888:
+    return;
 
-
-	/*=====================================================================
+        /*=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    850111:  Changed SPE id logic.
 	 *    841227:  Changes due to major rewrite of SPE subprocess.
@@ -128,5 +127,4 @@ L_8888:
 	 * DOCUMENTED/REVIEWED:  850109
 	 *===================================================================== */
 
-} /* end of function */
-
+}                               /* end of function */

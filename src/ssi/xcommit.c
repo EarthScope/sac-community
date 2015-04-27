@@ -1,8 +1,8 @@
 
 #include "ssi.h"
 
-void 
-xcommit (int *nerr) {
+void
+xcommit(int *nerr) {
         /*=====================================================================
          * PURPOSE:  To execute the action command COMMIT.
          *           Files in SAC are copied to SeisMgr 
@@ -24,8 +24,7 @@ xcommit (int *nerr) {
 	 *	980915:	Original version.
          *=====================================================================*/
 
-    *nerr = 0 ;
+    *nerr = 0;
 
-    sacToSeisMgr ( 0 , 0 , 1 , nerr ) ;
+    sacToSeisMgr(0, 0, 1, nerr);
 }
-

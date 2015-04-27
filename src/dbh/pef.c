@@ -12,12 +12,10 @@
 #include "co.h"
 #include "ucf.h"
 
-
 struct t_pefcom {
-  float inbuf[2000];
-  float outbuf[2000];
+    float inbuf[2000];
+    float outbuf[2000];
 } pefcom;
-
 
 /** 
  *
@@ -49,120 +47,110 @@ struct t_pefcom {
  * @date April 26, 1984    Last Modified
  *
  */
-void 
-pef(float  *data, 
-    int     npts, 
-    float  *a, 
-    int     nc, 
-    int     delay, 
-    double  mu, 
-    float  *result, 
-    char   *errmsg) {
+void
+pef(float *data, int npts, float *a, int nc, int delay, double mu,
+    float *result, char *errmsg) {
 
-	int bufptr, datptr, k, lsamp, memory, ncmp, nextra, vrtptr;
-	double e;
+    int bufptr, datptr, k, lsamp, memory, ncmp, nextra, vrtptr;
+    double e;
 
-	float *const A = &a[0] - 1;
-	float *const Data = &data[0] - 1;
-	float *const Inbuf = &pefcom.inbuf[0] - 1;
-	float *const Outbuf = &pefcom.outbuf[0] - 1;
-	float *const Result = &result[0] - 1;
+    float *const A = &a[0] - 1;
+    float *const Data = &data[0] - 1;
+    float *const Inbuf = &pefcom.inbuf[0] - 1;
+    float *const Outbuf = &pefcom.outbuf[0] - 1;
+    float *const Result = &result[0] - 1;
 
+    /*  Declarations
+     * */
 
+    /*  Initializations
+     * */
+    datptr = 1;
+    vrtptr = 1;
+    memory = nc + delay;
+    nextra = 2000 - memory;
 
-	/*  Declarations
-	 * */
+    if (nextra < 1)
+        strcpy(errmsg, " PEF - Delay and/or filter too large ");
+    else
+        errmsg[0] = '\0';
 
+    zero(pefcom.inbuf, 2000);
+    zero(pefcom.outbuf, 2000);
 
-	/*  Initializations
-	 * */
-	datptr = 1;
-	vrtptr = 1;
-	memory = nc + delay;
-	nextra = 2000 - memory;
+    /*  Loop
+     * */
+  L_1:
+    ;
+    if (datptr >= npts)
+        goto L_2;
 
-	if( nextra < 1 )
-		strcpy( errmsg, " PEF - Delay and/or filter too large " ) ;
-	else
-                errmsg[ 0 ] = '\0' ;
+    /*    Shift input buffer points back
+     * */
+    /* copy( (int*)&Inbuf[nextra + 1], (int*)&Inbuf[1], memory ); */
+    copy_float(&(Inbuf[nextra + 1]), &(Inbuf[1]), memory);
 
-	zero( pefcom.inbuf, 2000 );
-	zero( pefcom.outbuf, 2000 );
+    /*    Calculate start and stop points for buffer index.
+     * */
+    bufptr = memory + 1;
+    lsamp = min(2000, npts - datptr + 1 + memory);
+    ncmp = lsamp - bufptr + 1;
 
-	/*  Loop
-	 * */
-L_1:
-	;
-	if( datptr >= npts )
-		goto L_2;
+    /*    Load new data into input buffer
+     * */
+    /* copy( (int*)&Data[datptr], (int*)&Inbuf[memory + 1], ncmp ); */
+    copy_float(&(Data[datptr]), &(Inbuf[memory + 1]), ncmp);
 
-	/*    Shift input buffer points back
-	 * */
-	/* copy( (int*)&Inbuf[nextra + 1], (int*)&Inbuf[1], memory ); */
-	copy_float( &(Inbuf[nextra + 1]), &(Inbuf[1]), memory );
+    /*    Filter data.
+     * */
+  L_3:
+    ;
+    if (bufptr > lsamp)
+        goto L_4;
 
-	/*    Calculate start and stop points for buffer index.
-	 * */
-	bufptr = memory + 1;
-	lsamp = min( 2000, npts - datptr + 1 + memory );
-	ncmp = lsamp - bufptr + 1;
+    e = Inbuf[bufptr];
 
-	/*    Load new data into input buffer
-	 * */
-	/* copy( (int*)&Data[datptr], (int*)&Inbuf[memory + 1], ncmp ); */
-	copy_float( &(Data[datptr]), &(Inbuf[memory + 1]), ncmp );
+    for (k = 1; k <= nc; k++) {
+        e = e - A[k] * Inbuf[bufptr - delay - k];
+    }
 
-	/*    Filter data.
-	 * */
-L_3:
-	;
-	if( bufptr > lsamp )
-		goto L_4;
+    /*    Widrow algorithm to correct filter coefficients
+     * */
+    if (mu != 0.) {
 
-	e = Inbuf[bufptr];
+        /*  Correction made only when filter memory extends onto data
+         * */
+        if (vrtptr > memory) {
+            for (k = 1; k <= nc; k++) {
+                A[k] = A[k] + 2. * mu * e * Inbuf[bufptr - delay - k];
+            }
+        }
 
-	for( k = 1; k <= nc; k++ ){
-		e = e - A[k]*Inbuf[bufptr - delay - k];
-	}
+    }
 
-	/*    Widrow algorithm to correct filter coefficients
-	 * */
-	if( mu != 0. ){
+    Outbuf[bufptr] = e;
 
-		/*  Correction made only when filter memory extends onto data
-		 * */
-		if( vrtptr > memory ){
-			for( k = 1; k <= nc; k++ ){
-				A[k] = A[k] + 2.*mu*e*Inbuf[bufptr - delay - k];
-			}
-		}
+    bufptr = bufptr + 1;
+    vrtptr = vrtptr + 1;
 
-	}
+    goto L_3;
+  L_4:
+    ;
 
-	Outbuf[bufptr] = e;
+    /*    Store newly filtered data.
+     * */
+    /* copy( (int*)&Outbuf[memory + 1], (int*)&Result[datptr], ncmp ); */
+    copy_float(&(Outbuf[memory + 1]), &(Result[datptr]), ncmp);
 
-	bufptr = bufptr + 1;
-	vrtptr = vrtptr + 1;
+    /*    Increment data pointer.
+     * */
+    datptr = datptr + ncmp;
 
-	goto L_3;
-L_4:
-	;
+    goto L_1;
+  L_2:
+    ;
 
-	/*    Store newly filtered data.
-	 * */
-	/* copy( (int*)&Outbuf[memory + 1], (int*)&Result[datptr], ncmp ); */
-	copy_float( &(Outbuf[memory + 1]), &(Result[datptr]), ncmp );
-
-	/*    Increment data pointer.
-	 * */
-	datptr = datptr + ncmp;
-
-	goto L_1;
-L_2:
-	;
-
-	/*  Done
-	 * */
-	return;
-} /* end of function */
-
+    /*  Done
+     * */
+    return;
+}                               /* end of function */

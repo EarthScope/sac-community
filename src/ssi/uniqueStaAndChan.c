@@ -11,14 +11,13 @@
 #include "smDataIO.h"
 #include "cssListOps/cssListOps.h"
 
-
 int
 set_default_station_name(int getset) {
-  static int default_station_names = OPTION_OFF;
-  if(getset != OPTION_GET) {
-    default_station_names = getset;
-  }
-  return default_station_names;
+    static int default_station_names = OPTION_OFF;
+    if (getset != OPTION_GET) {
+        default_station_names = getset;
+    }
+    return default_station_names;
 }
 
 /*
@@ -33,49 +32,49 @@ set_default_station_name(int getset) {
 		      vast majority of cases where it will not be used.
 */
 
-int uniqueStaAndChan ( ) 
-{
-    int returnValue = FALSE ;
+int
+uniqueStaAndChan() {
+    int returnValue = FALSE;
     sac *s;
     s = sacget_current();
-    if( set_default_station_name(OPTION_GET) == OPTION_OFF ) {
-      return returnValue;
+    if (set_default_station_name(OPTION_GET) == OPTION_OFF) {
+        return returnValue;
     }
-    if ( !strcmp ( s->h->kstnm , SAC_CHAR_UNDEFINED ) ) {
-	int idx ;
-	DBlist tree ;
+    if (!strcmp(s->h->kstnm, SAC_CHAR_UNDEFINED)) {
+        int idx;
+        DBlist tree;
 
-	/* get tree for default wordset */
-	tree = smGetDefaultTree () ;
+        /* get tree for default wordset */
+        tree = smGetDefaultTree();
 
-	strcpy ( s->h->kstnm , MakeUniqueSiteName ( tree , "sta" ) ) ;
+        strcpy(s->h->kstnm, MakeUniqueSiteName(tree, "sta"));
 
-	if ( strlen ( s->h->kstnm ) < 8 ) {
-	    for ( idx = strlen ( s->h->kstnm ) ; idx < 8 ; idx++ )
-		s->h->kstnm[ idx ] = ' ' ;
-	    s->h->kstnm[ 8 ] = '\0' ;
-	}
-
-	returnValue = TRUE ;
-    }
-
-    if ( !strcmp ( s->h->kcmpnm , SAC_CHAR_UNDEFINED ) ) {
-	int idx ;
-	DBlist tree ;
-
-	/* get tree for default wordset */
-	tree = smGetDefaultTree () ;
-
-	strcpy ( s->h->kcmpnm , MakeUniqueChanName ( tree , s->h->kstnm , "Q" ) ) ;
-
-        if ( strlen ( s->h->kcmpnm ) < 8 ) {
-            for ( idx = strlen ( s->h->kcmpnm ) ; idx < 8 ; idx++ )
-                s->h->kcmpnm[ idx ] = ' ' ;
-            s->h->kcmpnm[ 8 ] = '\0' ;
+        if (strlen(s->h->kstnm) < 8) {
+            for (idx = strlen(s->h->kstnm); idx < 8; idx++)
+                s->h->kstnm[idx] = ' ';
+            s->h->kstnm[8] = '\0';
         }
 
-	returnValue = TRUE ;
+        returnValue = TRUE;
     }
 
-    return returnValue ;
+    if (!strcmp(s->h->kcmpnm, SAC_CHAR_UNDEFINED)) {
+        int idx;
+        DBlist tree;
+
+        /* get tree for default wordset */
+        tree = smGetDefaultTree();
+
+        strcpy(s->h->kcmpnm, MakeUniqueChanName(tree, s->h->kstnm, "Q"));
+
+        if (strlen(s->h->kcmpnm) < 8) {
+            for (idx = strlen(s->h->kcmpnm); idx < 8; idx++)
+                s->h->kcmpnm[idx] = ' ';
+            s->h->kcmpnm[8] = '\0';
+        }
+
+        returnValue = TRUE;
+    }
+
+    return returnValue;
 }

@@ -33,39 +33,33 @@
  * @date   830121:  Original version.
  *
  */
-void 
-reprtw(char  *ktext, 
-       int    ktext_s, 
-       int    lrtw, 
-       char  *krtw, 
-       int    krtw_s, 
-       float *ortw) {
+void
+reprtw(char *ktext, int ktext_s, int lrtw, char *krtw, int krtw_s, float *ortw) {
 
 #define KRTW(I_,J_)	(krtw+(I_)*(krtw_s)+(J_))
 
-	char kline[MCMSG+1];
-        char chartemp[3];
+    char kline[MCMSG + 1];
+    char chartemp[3];
 
-	float *const Ortw = &ortw[0] - 1;
+    float *const Ortw = &ortw[0] - 1;
     memset(kline, 0, sizeof(kline));
-	/* - Report logical variable with text. */
-	replv( ktext,ktext_s, lrtw );
+    /* - Report logical variable with text. */
+    replv(ktext, ktext_s, lrtw);
 
-	/* - Report stop and stop window if on. */
+    /* - Report stop and stop window if on. */
 
-	if( lrtw ){
-                strcpy(chartemp,"  ");
-                memcpy(chartemp,KRTW(0,0),2);
-                sprintf(kline,"   %s%s%12.5g", "Start is ", chartemp, Ortw[1] );
-		aplmsg( kline,MCMSG+1 );
+    if (lrtw) {
+        strcpy(chartemp, "  ");
+        memcpy(chartemp, KRTW(0, 0), 2);
+        sprintf(kline, "   %s%s%12.5g", "Start is ", chartemp, Ortw[1]);
+        aplmsg(kline, MCMSG + 1);
 
-                memcpy(chartemp,KRTW(1,0),2);
-                sprintf(kline,"   %s%s%12.5g", "Stop  is ", chartemp, Ortw[2] );
-		aplmsg( kline,MCMSG+1 );
-		}
+        memcpy(chartemp, KRTW(1, 0), 2);
+        sprintf(kline, "   %s%s%12.5g", "Stop  is ", chartemp, Ortw[2]);
+        aplmsg(kline, MCMSG + 1);
+    }
 
-	return;
+    return;
 #undef	KRTW
 
 }
-

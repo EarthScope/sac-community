@@ -50,81 +50,66 @@
  * @date   830812:  Original version.
  *
  */
-void 
-znfile(int  *nfu, 
-       char *kname, 
-       int   kname_s, 
-       char *ktype, 
-       int   ktype_s, 
-       int  *nerr) {
+void
+znfile(int *nfu, char *kname, int kname_s, char *ktype, int ktype_s, int *nerr) {
 
-	int lnewfl, lro;
-	int noerr;
+    int lnewfl, lro;
+    int noerr;
 
-	*nerr = 0;
+    *nerr = 0;
 
-	/* - Open data file. */
-	if( memcmp(ktype,"DATA",4) == 0 ){
-	    lnewfl = TRUE;
-	    lro = FALSE;
-	    zopenc( (int *)nfu, kname, &lnewfl, &lro, (int*) &noerr, kname_s );
-	    if( noerr != 0 ){
-		*nerr = ERROR_OPENING_FILE;
-		setmsg( "ERROR", *nerr );
-		apcmsg( kname,kname_s );
-		if( noerr == 1 )
-		    apcmsg( "(Insufficient access rights.)",30 );
-		else
-		    apcmsg( "(System error occurred.)",25 );
-		goto L_8888;
-	    }
-	}
+    /* - Open data file. */
+    if (memcmp(ktype, "DATA", 4) == 0) {
+        lnewfl = TRUE;
+        lro = FALSE;
+        zopenc((int *) nfu, kname, &lnewfl, &lro, (int *) &noerr, kname_s);
+        if (noerr != 0) {
+            *nerr = ERROR_OPENING_FILE;
+            setmsg("ERROR", *nerr);
+            apcmsg(kname, kname_s);
+            if (noerr == 1)
+                apcmsg("(Insufficient access rights.)", 30);
+            else
+                apcmsg("(System error occurred.)", 25);
+            goto L_8888;
+        }
+    }
 
-	/* - Open text file. */
-	else{
-	    *nerr = ERROR_OPENING_FILE;
-	    setmsg( "ERROR", *nerr );
-	    apcmsg( kname,kname_s );
-	    aplmsg( "Bad value for file type = ",27 );
-	    apcmsg( ktype,ktype_s );
-	    goto L_8888;
-	}
+    /* - Open text file. */
+    else {
+        *nerr = ERROR_OPENING_FILE;
+        setmsg("ERROR", *nerr);
+        apcmsg(kname, kname_s);
+        aplmsg("Bad value for file type = ", 27);
+        apcmsg(ktype, ktype_s);
+        goto L_8888;
+    }
 
-L_8888:
-	return;
+  L_8888:
+    return;
 }
 
 void
-znfilef(int  *nfu,
-	char *kname,     /* File name to open */
-	char *ktype,     /* 'DATA' or Error */
-	int  *nlen,      /* Unused, historical from Fortran on MASSCOMP */
-	int  *nerr,      /* Error return Flag */
-	int   kname_s,   /* Length of string kname */
-	int   ktype_s) { /* Length of string ktype */
-  UNUSED(nlen);
-  znfile(nfu, kname, kname_s, ktype, ktype_s, nerr);
+znfilef(int *nfu, char *kname,  /* File name to open */
+        char *ktype,            /* 'DATA' or Error */
+        int *nlen,              /* Unused, historical from Fortran on MASSCOMP */
+        int *nerr,              /* Error return Flag */
+        int kname_s,            /* Length of string kname */
+        int ktype_s) {          /* Length of string ktype */
+    UNUSED(nlen);
+    znfile(nfu, kname, kname_s, ktype, ktype_s, nerr);
 }
 
 void
-znfilef_(int  *nfu,
-	 char *kname,
-	 char *ktype,
-	 int  *nlen,
-	 int  *nerr,
-	 int   kname_s,
-	 int   ktype_s) {
-  UNUSED(nlen);
-  znfile(nfu, kname, kname_s, ktype, ktype_s, nerr);
+znfilef_(int *nfu, char *kname, char *ktype, int *nlen, int *nerr, int kname_s,
+         int ktype_s) {
+    UNUSED(nlen);
+    znfile(nfu, kname, kname_s, ktype, ktype_s, nerr);
 }
+
 void
-znfilef__(int  *nfu,  
-	  char *kname,
-	  char *ktype,
-	  int  *nlen,
-	  int  *nerr,
-	  int   kname_s,
-	  int   ktype_s) {
-  UNUSED(nlen);
-  znfile(nfu, kname, kname_s, ktype, ktype_s, nerr);
+znfilef__(int *nfu, char *kname, char *ktype, int *nlen, int *nerr, int kname_s,
+          int ktype_s) {
+    UNUSED(nlen);
+    znfile(nfu, kname, kname_s, ktype, ktype_s, nerr);
 }

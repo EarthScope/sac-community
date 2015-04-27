@@ -48,43 +48,42 @@ void sac_main_loop();
 #ifndef WIN32
 void
 segfault_backtrace(int sig) {
- void *array[10];
-  size_t size;
+    void *array[10];
+    size_t size;
 
-  // get void*'s for all entries on the stack
-  size = backtrace(array, 10);
+    // get void*'s for all entries on the stack
+    size = backtrace(array, 10);
 
-  // print out all the frames to stderr
-  fprintf(stdout, "Error: signal %d:\n", sig);
-  backtrace_symbols_fd(array, size, STDOUT_FILENO);
-  exit(-11);
+    // print out all the frames to stderr
+    fprintf(stdout, "Error: signal %d:\n", sig);
+    backtrace_symbols_fd(array, size, STDOUT_FILENO);
+    exit(-11);
 }
-#endif 
+#endif
 
 #ifdef X11_APP
-void set_constrain_plot_ratio_x11( int set );
+void set_constrain_plot_ratio_x11(int set);
 #endif
 
 void
 usage() {
-  printf("Usage sac [options] [sac-macro-file]\n"
-         "   -b --bell-off      Turn off bell \n"
-         "   -B --bell-on       Turn on bell\n"
-         "   -c --copyright-off Turn copyright off\n"
-         "   -C --copyright-on  Turn copyright on\n"
-         "   -d --database-off  Turn off SeisMgr database \n"
-         "   -D --database-on   Turn on SeisMgr database\n"
-         "   -j --history-off   Turn off History\n"
-         "   -J --history-on    Turn on History\n"
-         "   -p --prompt-off    Turn off prompt without a tty, i.e. script\n"
-         "   -P --prompt-on     Turn on prompt \n"
-         "   -L --letter        Make plots letter page size (X11)\n"
-         "   -t --no-tty        Force the tty off (no line editing)\n"
-         //         "   -g --gdb-debug     \n"
-         "   -s --stdout        All output as stdout\n"
-         "   -n --set-default-station-name\n"
-         );
-  exit(1);
+    printf("Usage sac [options] [sac-macro-file]\n"
+           "   -b --bell-off      Turn off bell \n"
+           "   -B --bell-on       Turn on bell\n"
+           "   -c --copyright-off Turn copyright off\n"
+           "   -C --copyright-on  Turn copyright on\n"
+           "   -d --database-off  Turn off SeisMgr database \n"
+           "   -D --database-on   Turn on SeisMgr database\n"
+           "   -j --history-off   Turn off History\n"
+           "   -J --history-on    Turn on History\n"
+           "   -p --prompt-off    Turn off prompt without a tty, i.e. script\n"
+           "   -P --prompt-on     Turn on prompt \n"
+           "   -L --letter        Make plots letter page size (X11)\n"
+           "   -t --no-tty        Force the tty off (no line editing)\n"
+           //         "   -g --gdb-debug     \n"
+           "   -s --stdout        All output as stdout\n"
+           "   -n --set-default-station-name\n");
+    exit(1);
 }
 
 /** 
@@ -124,53 +123,53 @@ usage() {
 
 #ifdef X11_APP
 int
-main(int    argc, char **argv ) {
+main(int argc, char **argv) {
 
-  char kmsg[MCMSG+1];
+    char kmsg[MCMSG + 1];
 
-  memset(&(kmsg[0]), ' ', MCMSG);
+    memset(&(kmsg[0]), ' ', MCMSG);
 
-	kmsg[0] = '\0' ;
-	kmsg[MCMSG] = '\0' ;
+    kmsg[0] = '\0';
+    kmsg[MCMSG] = '\0';
 
-	/* - Initialize common. */
+    /* - Initialize common. */
     sac_initialize(argc, argv);
 
-	/* - Get the input line message, if any.
-	 *   This should be the name of the a default SAC macro to execute. */
+    /* - Get the input line message, if any.
+     *   This should be the name of the a default SAC macro to execute. */
 
-	zgimsg(argc,argv,kmsg,MCMSG+1 );
-  execute_command_line( kmsg, MCMSG+1 );
+    zgimsg(argc, argv, kmsg, MCMSG + 1);
+    execute_command_line(kmsg, MCMSG + 1);
 
-  sac_main_loop();
+    sac_main_loop();
 }
 
 #endif /* X11_APP */
 
 void
 execute_command_line(char *kmsg, int len) {
-  int nc, ic, ic1, ic2, itype, nerr;
-  char *s1, *s2;
-	nc = indexb( kmsg, len );
-	if( nc > 0 ){
-	    ic = 0;
-	    poptok( kmsg, nc, &ic, &ic1, &ic2, &itype );
-	    setmsg( "COMMAND", 99 );
-	    apcmsg( "(INPUT LINE) MACRO",19 );
-	    apcmsg( kmsg,MCMSG+1 );
-	    outmsg();
-	    clrmsg();
+    int nc, ic, ic1, ic2, itype, nerr;
+    char *s1, *s2;
+    nc = indexb(kmsg, len);
+    if (nc > 0) {
+        ic = 0;
+        poptok(kmsg, nc, &ic, &ic1, &ic2, &itype);
+        setmsg("COMMAND", 99);
+        apcmsg("(INPUT LINE) MACRO", 19);
+        apcmsg(kmsg, MCMSG + 1);
+        outmsg();
+        clrmsg();
 
-      strncpy((s1=malloc(ic2-ic1+2)),kmsg+ic1 - 1,ic2-ic1+1);
-      s1[ic2-ic1+1] = '\0';
-      strncpy((s2=malloc(nc-ic+2)),kmsg+ic - 1,nc-ic+1);
-      s2[nc-ic+1] = '\0';
+        strncpy((s1 = malloc(ic2 - ic1 + 2)), kmsg + ic1 - 1, ic2 - ic1 + 1);
+        s1[ic2 - ic1 + 1] = '\0';
+        strncpy((s2 = malloc(nc - ic + 2)), kmsg + ic - 1, nc - ic + 1);
+        s2[nc - ic + 1] = '\0';
 
-	    executemacro( s1, ic2-ic1+2, s2, nc-ic+2, &nerr );
+        executemacro(s1, ic2 - ic1 + 2, s2, nc - ic + 2, &nerr);
 
-	    free(s1);
-	    free(s2);
-	}
+        free(s1);
+        free(s2);
+    }
 }
 
 /*
@@ -209,35 +208,35 @@ void
 main_command(char *kmsg, int n) {
     int nerr, ncmsg;
     char *msgout;
-    
+
     msgout = AddToHistory(kmsg);
-    if(!msgout) {
+    if (!msgout) {
         return;
     }
 
     n = strlen(msgout);
 
-    ncmsg = indexb(msgout,n+1);
-    if( ncmsg > MCMSG) {
+    ncmsg = indexb(msgout, n + 1);
+    if (ncmsg > MCMSG) {
         error(99, "Cmd line exceeds buffer limited to num of chars: %d", MCMSG);
         outmsg();
         clrmsg();
         return;
     }
     setmsg("COMMAND", 99);
-    apcmsg( msgout, n+1);
+    apcmsg(msgout, n + 1);
     outmsg();
     clrmsg();
-    
+
     /* Remove prompt at beginning of a line */
-    if(strncasecmp(msgout, "SAC> ", 5) == 0) {
-      memmove(&msgout[0], &msgout[5], MCMSG-5);
+    if (strncasecmp(msgout, "SAC> ", 5) == 0) {
+        memmove(&msgout[0], &msgout[5], MCMSG - 5);
     }
-    
-    saccommands( msgout,MCMSG+1, &nerr );
-    
-    if(msgout) {
-      FREE(msgout);
+
+    saccommands(msgout, MCMSG + 1, &nerr);
+
+    if (msgout) {
+        FREE(msgout);
     }
 }
 
@@ -251,12 +250,12 @@ sac_initialize(int argc, char **argv) {
 void
 sac_command_line_copyright(int argc, char **argv) {
     int i;
-    for( i=1; i<argc; i++ ){
-        if(strcmp(argv[i], "--copyright-off") == 0) {
-            display_copyright( OPTION_OFF );
+    for (i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "--copyright-off") == 0) {
+            display_copyright(OPTION_OFF);
         }
-        if(strcmp(argv[i], "--copyright-on") == 0) {
-            display_copyright( OPTION_ON );
+        if (strcmp(argv[i], "--copyright-on") == 0) {
+            display_copyright(OPTION_ON);
         }
     }
 }
@@ -269,72 +268,103 @@ sac_command_line_copyright(int argc, char **argv) {
 /* #else  */
 void
 sac_command_line_options(int argc, char **argv) {
-  char ch;
+    char ch;
 
-  static struct option longopts[] = {
-    {"help",                     no_argument, NULL, 'h'},
-    {"copyright-off",            no_argument, NULL, 'c'},
-    {"copyright-on",             no_argument, NULL, 'C'},
-    {"bell-off",                 no_argument, NULL, 'b'},
-    {"bell-on",                  no_argument, NULL, 'b'},
-    {"no-show-prompt",           no_argument, NULL, 'p'},
-    {"show-prompt",              no_argument, NULL, 'P'},
-    {"database-off",             no_argument, NULL, 'd'},
-    {"database-on",              no_argument, NULL, 'D'},
-    {"history-off",              no_argument, NULL, 'j'},
-    {"history-on",               no_argument, NULL, 'J'},
+    static struct option longopts[] = {
+        {"help", no_argument, NULL, 'h'},
+        {"copyright-off", no_argument, NULL, 'c'},
+        {"copyright-on", no_argument, NULL, 'C'},
+        {"bell-off", no_argument, NULL, 'b'},
+        {"bell-on", no_argument, NULL, 'b'},
+        {"no-show-prompt", no_argument, NULL, 'p'},
+        {"show-prompt", no_argument, NULL, 'P'},
+        {"database-off", no_argument, NULL, 'd'},
+        {"database-on", no_argument, NULL, 'D'},
+        {"history-off", no_argument, NULL, 'j'},
+        {"history-on", no_argument, NULL, 'J'},
 
 #ifdef X11_APP
-    {"letter",                   no_argument, NULL, 'L'},
+        {"letter", no_argument, NULL, 'L'},
 #endif
-    {"no-tty",                   no_argument, NULL, 't'},
-    {"gdb-debug",                no_argument, NULL, 'g'},
-    {"set-default-station-name", no_argument, NULL, 'n'},
-    {"stdout",                   no_argument, NULL, 's'},
-    {NULL, 0, NULL, 0}
-};
+        {"no-tty", no_argument, NULL, 't'},
+        {"gdb-debug", no_argument, NULL, 'g'},
+        {"set-default-station-name", no_argument, NULL, 'n'},
+        {"stdout", no_argument, NULL, 's'},
+        {NULL, 0, NULL, 0}
+    };
 
-  while((ch = getopt_long(argc, argv, "cCbBpPdDjJLtgnsh", longopts, NULL)) != -1) {
-    switch(ch) {
-    case 'h': usage(); break;
-    case 'c': display_copyright(OPTION_OFF); break;
-    case 'C': display_copyright(OPTION_ON); break;
-    case 'b': bell_off(); break;
-    case 'B': bell_on();  break;
-    case 'p': show_prompt_without_tty(OPTION_OFF);break;
-    case 'P': show_prompt_without_tty(OPTION_ON);break;
-    case 'd': use_database(OPTION_OFF); break;
-    case 'D': use_database(OPTION_ON); break;
-    case 'j': use_history(OPTION_OFF); break;
-    case 'J': use_history(OPTION_ON); break;
-    case 't': tty_force(OPTION_OFF); break;
-    case 'g':
-      tty_force(OPTION_OFF);
-      show_prompt_without_tty(OPTION_ON);
-      /* Fall Through */
-    case 's':
-      sac_output_stdout();
-      sac_warning_stdout();
-      sac_error_stdout();
-      break;
-    case 'n': set_default_station_name(OPTION_ON); break;
+    while ((ch =
+            getopt_long(argc, argv, "cCbBpPdDjJLtgnsh", longopts,
+                        NULL)) != -1) {
+        switch (ch) {
+            case 'h':
+                usage();
+                break;
+            case 'c':
+                display_copyright(OPTION_OFF);
+                break;
+            case 'C':
+                display_copyright(OPTION_ON);
+                break;
+            case 'b':
+                bell_off();
+                break;
+            case 'B':
+                bell_on();
+                break;
+            case 'p':
+                show_prompt_without_tty(OPTION_OFF);
+                break;
+            case 'P':
+                show_prompt_without_tty(OPTION_ON);
+                break;
+            case 'd':
+                use_database(OPTION_OFF);
+                break;
+            case 'D':
+                use_database(OPTION_ON);
+                break;
+            case 'j':
+                use_history(OPTION_OFF);
+                break;
+            case 'J':
+                use_history(OPTION_ON);
+                break;
+            case 't':
+                tty_force(OPTION_OFF);
+                break;
+            case 'g':
+                tty_force(OPTION_OFF);
+                show_prompt_without_tty(OPTION_ON);
+                /* Fall Through */
+            case 's':
+                sac_output_stdout();
+                sac_warning_stdout();
+                sac_error_stdout();
+                break;
+            case 'n':
+                set_default_station_name(OPTION_ON);
+                break;
 #ifdef X11_APP
-    case 'L': set_constrain_plot_ratio_x11(TRUE); break;
+            case 'L':
+                set_constrain_plot_ratio_x11(TRUE);
+                break;
 #endif
-    default:
-      break;
+            default:
+                break;
+        }
     }
-  }
 }
+
 /* #endif */
-	/* - THIS IS THE MAIN LOOP OF THE PROGRAM.
-	 *   (1) "zgpmsg" sends a prompt to the user and gets a message back.
-   */
+        /* - THIS IS THE MAIN LOOP OF THE PROGRAM.
+         *   (1) "zgpmsg" sends a prompt to the user and gets a message back.
+         */
 void
 sac_main_loop() {
-  char kmsg[MCMSG+1];
-  while(TRUE) {
-    zgpmsg( kmexm.kprmt,13, kmsg,MCMSG+1 );
-    main_command(kmsg, MCMSG);
-  }
+    char kmsg[MCMSG + 1];
+    while (TRUE) {
+        zgpmsg(kmexm.kprmt, 13, kmsg, MCMSG + 1);
+        main_command(kmsg, MCMSG);
+    }
 }

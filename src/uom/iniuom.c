@@ -4,10 +4,10 @@
 #include "uom.h"
 #include "bool.h"
 
-void /*FUNCTION*/ iniuom()
-{
+void /*FUNCTION*/
+iniuom() {
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: Variable initialization of common block CMUOM.
 	 *=====================================================================
 	 * MODULE/LEVEL:  UOM/4
@@ -26,29 +26,27 @@ void /*FUNCTION*/ iniuom()
 	 *             This filter simulates the differential operator.
 	 *    LTRAP:   Integration technique flag used in INT command. [l]
 	 *===================================================================== */
-	/* PROCEDURE: */
+    /* PROCEDURE: */
 
-	/* - DIF command. */
+    /* - DIF command. */
 
-	strcpy( kmuom.kdiftp[0], "TWO     " );
-	strcpy( kmuom.kdiftp[1], "THREE   " );
-	strcpy( kmuom.kdiftp[2], "FIVE    " );
-	cmuom.ndiftp = 3;
-	cmuom.idiftp = 1;
+    strcpy(kmuom.kdiftp[0], "TWO     ");
+    strcpy(kmuom.kdiftp[1], "THREE   ");
+    strcpy(kmuom.kdiftp[2], "FIVE    ");
+    cmuom.ndiftp = 3;
+    cmuom.idiftp = 1;
 
-	/* - INT command. */
+    /* - INT command. */
 
-	cmuom.ltrap = TRUE;
+    cmuom.ltrap = TRUE;
 
-       
-	return;
+    return;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    901218:  Added initialization of INT command ltrap variable.
 	 *    831024:  Added initialization for DIF command.
 	 *    810414:  Original version.
 	 *===================================================================== */
 
-} /* end of function */
-
+}                               /* end of function */

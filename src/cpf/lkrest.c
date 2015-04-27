@@ -33,19 +33,13 @@
  * @date   820914:  Original version.
  *
  */
-int 
-lkrest(char *kkey, 
-       int   kkey_s, 
-       int   mchar, 
-       char *kchar, 
-       int   kchar_s, 
-       int  *nchar) {
+int
+lkrest(char *kkey, int kkey_s, int mchar, char *kchar, int kchar_s, int *nchar) {
 
-	if(!lckey( kkey,kkey_s )) {
-    return FALSE;
-  }
+    if (!lckey(kkey, kkey_s)) {
+        return FALSE;
+    }
 
-  lcrest(mchar, kchar, kchar_s, nchar);
-  return TRUE;
+    lcrest(mchar, kchar, kchar_s, nchar);
+    return TRUE;
 }
-

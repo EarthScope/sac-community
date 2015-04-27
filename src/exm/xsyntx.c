@@ -9,7 +9,6 @@
 #include "cpf.h"
 #include "bool.h"
 
-
 #include "ucf.h"
 
 /** 
@@ -22,30 +21,28 @@
  * @date   831013:  Original version (from XHELP.)
  *
  */
-void 
+void
 xsyntx(int *nerr) {
 
-	char ktoken[9];
+    char ktoken[9];
 
-	*nerr = 0;
+    *nerr = 0;
 
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-L_1000:
-	if( lcmore( nerr ) ){
+  L_1000:
+    if (lcmore(nerr)) {
 
-		/* -- "token":  the name of a help package. */
-		if( lcchar(ktoken, sizeof(ktoken)) ){
-			wrhelp( ktoken,9, 2, FALSE, nerr );
+        /* -- "token":  the name of a help package. */
+        if (lcchar(ktoken, sizeof(ktoken))) {
+            wrhelp(ktoken, 9, 2, FALSE, nerr);
+        } else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+
+        }
+        goto L_1000;
+
     }
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
-
-			}
-		goto L_1000;
-
-		}
-	return;
+    return;
 }
-

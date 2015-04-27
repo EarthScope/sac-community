@@ -20,14 +20,13 @@
  * @bug Users should use the internal random number generator
  *
  */
-double 
+double
 dbh_random(int *seed) {
-        double random_v;
+    double random_v;
 
-	*seed = 2045**seed + 1;
-	*seed = *seed - (*seed/1048576)*1048576;
-	random_v = (double)( *seed + 1 )/1048577.0;
+    *seed = 2045 ** seed + 1;
+    *seed = *seed - (*seed / 1048576) * 1048576;
+    random_v = (double) (*seed + 1) / 1048577.0;
 
-	return( random_v );
+    return (random_v);
 }
-

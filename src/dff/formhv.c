@@ -46,111 +46,102 @@
  * @date   841025:  Original version.
  *
  */
-void 
-formhv(char  *kname, 
-       int    kname_s, 
-       int    iform, 
-       char  *kout, 
-       int    kout_s, 
-       int   *nerr) {
+void
+formhv(char *kname, int kname_s, int iform, char *kout, int kout_s, int *nerr) {
 
-	char kvalue[41];
-	int lok, lok2 = FALSE, linc ;  
-	int icat, item, nc, ip;
-  float fp;
-  char *p;
-  sac *s;
-	*nerr = 0;
-  s = sacget_current();
-  memset(&(kvalue[0]), ' ', 40);
-	kvalue[ 40 ] = '\0' ;
+    char kvalue[41];
+    int lok, lok2 = FALSE, linc;
+    int icat, item, nc, ip;
+    float fp;
+    char *p;
+    sac *s;
+    *nerr = 0;
+    s = sacget_current();
+    memset(&(kvalue[0]), ' ', 40);
+    kvalue[40] = '\0';
 
-	/* if cmhdr.linc and .llh are both TRUE, so is linc. maf 961212 */
-	linc = cmhdr.linc && cmhdr.llh ;
+    /* if cmhdr.linc and .llh are both TRUE, so is linc. maf 961212 */
+    linc = cmhdr.linc && cmhdr.llh;
 
-	/* - Determine type and location of header field. */
-	hdrfld( kname,kname_s, &icat, &item, &lok );
+    /* - Determine type and location of header field. */
+    hdrfld(kname, kname_s, &icat, &item, &lok);
 
-	if( lok ){
-	        /* lok was true coming out of hdrfld().  maf 961212 */
-		lok2 = TRUE ;	
-    switch( icat ) {
-    case FLOAT_TYPE:
-      fp = VALUE(fhdr(s,item));
-			lok = fp != SAC_FLOAT_UNDEFINED ;
-			if( lok ||  linc ) {
-                                sprintf(kvalue,"%#16.6e", fp); 
-				ljust( kvalue,41 );
-			}
-      break;
-    case INT_TYPE: 
-      ip = VALUE(nhdr(s,item));
-			lok = ip != SAC_INT_UNDEFINED ;
-			if( lok ||  linc  ){	
-                                sprintf(kvalue,"%10d", ip);
-				ljust( kvalue,41 );
-			}
-      break;
-    case ENUM_TYPE:
-      ip = VALUE(ihdr(s,item));
-			lok = ip != SAC_ENUM_UNDEFINED ;
-			if( lok )
-				fstrncpy(kvalue, 40, kmlhf.kdiv[ip - 1],
-					 strlen(kmlhf.kdiv[ip - 1]));
-			else if ( linc )
-				strcpy( kvalue, "UNDEFINED                               " );
-      break;
-    case LOGICAL_TYPE:
-      ip = VALUE(lhdr(s,item));
-			lok = TRUE;
-			if( ip ){
-				strcpy( kvalue, "TRUE                                    " );
-			}
-			else{
-				strcpy( kvalue, "FALSE                                   " );
-			}
-      break;
-    case STRING_TYPE:
-      p = khdr(s,item);
-			lok = memcmp(p, SAC_CHAR_UNDEFINED,
-                   min(strlen(p),strlen(SAC_CHAR_UNDEFINED))) != 0 ;
-      if( lok ||  linc  ) {
-        memset(kvalue, ' ', sizeof(kvalue));
-        strncpy(kvalue, p, strlen(p));
-        kvalue[strlen(p)] = 0;
-			}
-      break;
-    case AUX_TYPE:
-			lok = lgahdr( kname,kname_s, kvalue,41 );
-      break;
+    if (lok) {
+        /* lok was true coming out of hdrfld().  maf 961212 */
+        lok2 = TRUE;
+        switch (icat) {
+            case FLOAT_TYPE:
+                fp = VALUE(fhdr(s, item));
+                lok = fp != SAC_FLOAT_UNDEFINED;
+                if (lok || linc) {
+                    sprintf(kvalue, "%#16.6e", fp);
+                    ljust(kvalue, 41);
+                }
+                break;
+            case INT_TYPE:
+                ip = VALUE(nhdr(s, item));
+                lok = ip != SAC_INT_UNDEFINED;
+                if (lok || linc) {
+                    sprintf(kvalue, "%10d", ip);
+                    ljust(kvalue, 41);
+                }
+                break;
+            case ENUM_TYPE:
+                ip = VALUE(ihdr(s, item));
+                lok = ip != SAC_ENUM_UNDEFINED;
+                if (lok)
+                    fstrncpy(kvalue, 40, kmlhf.kdiv[ip - 1],
+                             strlen(kmlhf.kdiv[ip - 1]));
+                else if (linc)
+                    strcpy(kvalue, "UNDEFINED                               ");
+                break;
+            case LOGICAL_TYPE:
+                ip = VALUE(lhdr(s, item));
+                lok = TRUE;
+                if (ip) {
+                    strcpy(kvalue, "TRUE                                    ");
+                } else {
+                    strcpy(kvalue, "FALSE                                   ");
+                }
+                break;
+            case STRING_TYPE:
+                p = khdr(s, item);
+                lok =
+                    memcmp(p, SAC_CHAR_UNDEFINED,
+                           min(strlen(p), strlen(SAC_CHAR_UNDEFINED))) != 0;
+                if (lok || linc) {
+                    memset(kvalue, ' ', sizeof(kvalue));
+                    strncpy(kvalue, p, strlen(p));
+                    kvalue[strlen(p)] = 0;
+                }
+                break;
+            case AUX_TYPE:
+                lok = lgahdr(kname, kname_s, kvalue, 41);
+                break;
+        }
     }
-	}
 
-	if( !lok2 || ( !lok && !linc ) ) {
-		strcpy( kvalue, "Undefined                               " );
-		*nerr = -1;
-	}
+    if (!lok2 || (!lok && !linc)) {
+        strcpy(kvalue, "Undefined                               ");
+        *nerr = -1;
+    }
 
-	if( iform == 1 ){
-		nc = indexb( kname,kname_s );
-                fstrncpy(kout, kout_s-1, kname, nc);
-                fstrncpy(kout+nc, kout_s-1-nc, " = ", 3);
-                fstrncpy(kout+nc+3, kout_s-1-nc-3, kvalue, strlen(kvalue));
-	}
-	else if( iform == 2 ){
-		nc = indexb( kname,kname_s );
-                fstrncpy(kout, kout_s-1, kname, nc);
-                fstrncpy(kout+nc, kout_s-1-nc, ": ", 2);
-                fstrncpy(kout+nc+2, kout_s-1-nc-2, kvalue, strlen(kvalue));
-	}
-	else if( iform == 3 ){
-                fstrncpy(kout, kout_s-1, kvalue, strlen(kvalue));
-	}
-	else{
-		*nerr = -2;
-		strcpy( kvalue, "Bad format number                       " );
-	}
+    if (iform == 1) {
+        nc = indexb(kname, kname_s);
+        fstrncpy(kout, kout_s - 1, kname, nc);
+        fstrncpy(kout + nc, kout_s - 1 - nc, " = ", 3);
+        fstrncpy(kout + nc + 3, kout_s - 1 - nc - 3, kvalue, strlen(kvalue));
+    } else if (iform == 2) {
+        nc = indexb(kname, kname_s);
+        fstrncpy(kout, kout_s - 1, kname, nc);
+        fstrncpy(kout + nc, kout_s - 1 - nc, ": ", 2);
+        fstrncpy(kout + nc + 2, kout_s - 1 - nc - 2, kvalue, strlen(kvalue));
+    } else if (iform == 3) {
+        fstrncpy(kout, kout_s - 1, kvalue, strlen(kvalue));
+    } else {
+        *nerr = -2;
+        strcpy(kvalue, "Bad format number                       ");
+    }
 
-	return;
+    return;
 }
-

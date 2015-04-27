@@ -6,23 +6,22 @@
 #include "gdm.h"
 #include "gam.h"
 
-
 #include "gtm.h"
 #include "bot.h"
 
-void markvert(jmark1, jmark2, xloc, ytop, ydel, klabel, 
-	 klabel_s, nmarks)
-int jmark1, jmark2;
-float *xloc;
-double ytop, ydel;
-char *klabel;   int klabel_s;
-int nmarks;
+void
+markvert(jmark1, jmark2, xloc, ytop, ydel, klabel, klabel_s, nmarks)
+     int jmark1, jmark2;
+     float *xloc;
+     double ytop, ydel;
+     char *klabel;
+     int klabel_s;
+     int nmarks;
 {
-	int jmark, nc;
-	float height, width, ydiff, yloc1, yloc2;
+    int jmark, nc;
+    float height, width, ydiff, yloc1, yloc2;
 
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: Writes the vertical line and accompanying text on ppk plot.
 	 *=====================================================================
 	 * USAGE:
@@ -42,32 +41,30 @@ int nmarks;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED: 
 	 *===================================================================== */
-	/* - Set text justification and get current text size. */
-	settextjust( "LEFT", "TOP" );
-	gettextsize( &width, &height );
+    /* - Set text justification and get current text size. */
+    settextjust("LEFT", "TOP");
+    gettextsize(&width, &height);
 
-	/* - Draw and label marker line on requested subplots. */
+    /* - Draw and label marker line on requested subplots. */
 
-	for( jmark = jmark1; jmark <= jmark2; jmark++ ){
-		yloc1 = ytop - ((float)( jmark - 1 ) + 0.05)*ydel;
-		yloc2 = yloc1 - 0.90*ydel;
-		setlinewidth( cmgem.iwidth );
-		line( *xloc, yloc1, *xloc, yloc2 );
-		setlinewidth( LINE_WIDTH_THIN );
-		nc = indexb( klabel,klabel_s );
-		if( nc > 0 ){
-			ydiff = (float)( nmarks )*height + 0.005;
-			move( *xloc + 0.005, yloc1 - ydiff );
-			text( klabel,klabel_s, nc );
-			}
-		}
+    for (jmark = jmark1; jmark <= jmark2; jmark++) {
+        yloc1 = ytop - ((float) (jmark - 1) + 0.05) * ydel;
+        yloc2 = yloc1 - 0.90 * ydel;
+        setlinewidth(cmgem.iwidth);
+        line(*xloc, yloc1, *xloc, yloc2);
+        setlinewidth(LINE_WIDTH_THIN);
+        nc = indexb(klabel, klabel_s);
+        if (nc > 0) {
+            ydiff = (float) (nmarks) * height + 0.005;
+            move(*xloc + 0.005, yloc1 - ydiff);
+            text(klabel, klabel_s, nc);
+        }
+    }
 
-	/* - Reset text justification. */
+    /* - Reset text justification. */
 
-	settextjust( "LEFT", "BOTTOM" );
+    settextjust("LEFT", "BOTTOM");
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

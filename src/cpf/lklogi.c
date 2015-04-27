@@ -11,7 +11,6 @@
 #include "bool.h"
 #include "com.h"
 
-
 #include "bot.h"
 
 /** 
@@ -35,33 +34,28 @@
  *
  */
 int
-lklogi(char *kkey, 
-       int   kkey_s, 
-       int  *logv, 
-       int  *intv) {
+lklogi(char *kkey, int kkey_s, int *logv, int *intv) {
 
-	int lklogi_v;
-	int nerr;
+    int lklogi_v;
+    int nerr;
 
-	/* - Check for key. */
-	lklogi_v = lckey( kkey,kkey_s );
+    /* - Check for key. */
+    lklogi_v = lckey(kkey, kkey_s);
 
-	/* - Get logical variable from next symbol if key was found.
-	 * - Perform standard error recovery if not found. */
-	if( lklogi_v ){
-L_2000:
-    if(lclog(logv)) {}
-    else if(lcint(intv)) {
-      *logv = TRUE;
+    /* - Get logical variable from next symbol if key was found.
+     * - Perform standard error recovery if not found. */
+    if (lklogi_v) {
+      L_2000:
+        if (lclog(logv)) {
+        } else if (lcint(intv)) {
+            *logv = TRUE;
+        } else {
+            cfmt("NEED ON, OFF, OR INTEGER:", 26);
+            cresp();
+            if (lcmore(&nerr))
+                goto L_2000;
+        }
     }
-		else{
-			cfmt( "NEED ON, OFF, OR INTEGER:",26 );
-			cresp();
-			if( lcmore( &nerr ) )
-				goto L_2000;
-		}
-	}
 
-	return( lklogi_v );
+    return (lklogi_v);
 }
-

@@ -24,39 +24,35 @@
 #define	MIFLEVEL	10
 
 struct t_cnd {
-  int niflevel;
-  int lifresp[MIFLEVEL];
-  int ndolevel;
-  int ndolines[MDOLEVEL];
-  int ndotype[MDOLEVEL];
-  int idoin1[MDOLEVEL];
-  int idoin2[MDOLEVEL];
+    int niflevel;
+    int lifresp[MIFLEVEL];
+    int ndolevel;
+    int ndolines[MDOLEVEL];
+    int ndotype[MDOLEVEL];
+    int idoin1[MDOLEVEL];
+    int idoin2[MDOLEVEL];
 } cnd;
 
 struct t_kcnd {
-  char kdovar[MDOLEVEL][MCPFN+1];
-  char kdolist[MDOLEVEL][MCPFN+1];
-  char kdoname[MDOLEVEL][MCPFN+1];
+    char kdovar[MDOLEVEL][MCPFN + 1];
+    char kdolist[MDOLEVEL][MCPFN + 1];
+    char kdoname[MDOLEVEL][MCPFN + 1];
 } kcnd;
 
-void   getclun  (FILE **nun, 
-		 int   *nerr);
-void   getdolen (int *nlines, 
-		 int *nerr);
-int    ldolist  (int *nerr);
-void   skipdo   (int *nerr);
-void   skipif   (int *nerr);
-void   xbreak   (int *nerr);
-void   xcndc    (int  index, 
-		 int *nerr);
-void   xdo      (int *nerr);
-void   xelse    (int *nerr);
-void   xelseif  (int *nerr);
-void   xenddo   (int *nerr);
-void   xendif   (int *nerr);
-void   xif      (int *nerr);
-void   xwhile   (int *nerr);
-
+void getclun(FILE ** nun, int *nerr);
+void getdolen(int *nlines, int *nerr);
+int ldolist(int *nerr);
+void skipdo(int *nerr);
+void skipif(int *nerr);
+void xbreak(int *nerr);
+void xcndc(int index, int *nerr);
+void xdo(int *nerr);
+void xelse(int *nerr);
+void xelseif(int *nerr);
+void xenddo(int *nerr);
+void xendif(int *nerr);
+void xif(int *nerr);
+void xwhile(int *nerr);
 
 #ifdef DOINITS
 int *const Idoin1 = &cnd.idoin1[0] - 1;

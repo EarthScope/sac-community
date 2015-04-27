@@ -7,7 +7,6 @@
 
 #include "eam.h"
 
-
 #include "exm.h"
 
 /** 
@@ -18,7 +17,6 @@
  */
 void
 qapf() {
-  repav( "HYPO pick file$",16, kmeam.kapfnm,MCPFN+1 );
-  return;
+    repav("HYPO pick file$", 16, kmeam.kapfnm, MCPFN + 1);
+    return;
 }
-

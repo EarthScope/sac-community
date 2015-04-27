@@ -34,37 +34,31 @@
  * @date   121493:  Original version.
  *
  */
-void 
-getvFILEptr(char  *vars, 
-	    int    vars_s, 
-	    char  *name, 
-	    int    name_s, 
-	    FILE **value, 
-	    int   *nerr)
-{
-	int i;
-  struct varsfile *flist;
+void
+getvFILEptr(char *vars, int vars_s, char *name, int name_s, FILE ** value,
+            int *nerr) {
+    int i;
+    struct varsfile *flist;
 
-  UNUSED(vars_s);
-  UNUSED(name_s);
+    UNUSED(vars_s);
+    UNUSED(name_s);
 
-	*nerr = 0;
-  flist = vfilelist.filelist;
+    *nerr = 0;
+    flist = vfilelist.filelist;
 
-	/* search for entry */
-        for (i=0; i<vfilelist.nentries; i++, flist++){
-          if(strcmp(flist->varsname,vars) == 0) {
-            if(strcmp(flist->variable,name) == 0) {
-              *value = flist->value;
-              goto L_8888;
+    /* search for entry */
+    for (i = 0; i < vfilelist.nentries; i++, flist++) {
+        if (strcmp(flist->varsname, vars) == 0) {
+            if (strcmp(flist->variable, name) == 0) {
+                *value = flist->value;
+                goto L_8888;
             }
-          }
         }
+    }
 
-	/* if we got here we didnt find it */
-        *nerr = 1;
-        
-L_8888:
-	return;
+    /* if we got here we didnt find it */
+    *nerr = 1;
+
+  L_8888:
+    return;
 }
-

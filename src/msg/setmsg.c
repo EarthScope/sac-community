@@ -59,50 +59,47 @@
  * \date   830916:  Original version.
  * \date   860203:  Documented/Reviewed
  */
-void 
-setmsg(char *ktype, 
-       int   number)
-{
-	char kmsg[MCMSG+1];
-	int idx ;
+void
+setmsg(char *ktype, int number) {
+    char kmsg[MCMSG + 1];
+    int idx;
 
-        for( idx = 0 ; idx < MCMSG ; idx++ )
-            kmsg[ idx ] = ' ' ;
-        kmsg[ MCMSG ] = '\0' ;
+    for (idx = 0; idx < MCMSG; idx++)
+        kmsg[idx] = ' ';
+    kmsg[MCMSG] = '\0';
 
-        /* This is added to avoid clearing a message that is already set
-         *   and losing the appended text in the message buffer.
-         *   Setting of multiple error messages requires extra work and 
-         *   a direct call of outmsg() of the command 
-         */
-        if(number == cmmsg.nummsg && number != 0) {
-          return;
-        }
+    /* This is added to avoid clearing a message that is already set
+     *   and losing the appended text in the message buffer.
+     *   Setting of multiple error messages requires extra work and 
+     *   a direct call of outmsg() of the command 
+     */
+    if (number == cmmsg.nummsg && number != 0) {
+        return;
+    }
 
-	/* - Clear previous message condition. */
-	clrmsg();
+    /* - Clear previous message condition. */
+    clrmsg();
 
-	/* - Set the type of message condition to raise. */
+    /* - Set the type of message condition to raise. */
 
-	typmsg( ktype );
+    typmsg(ktype);
 
-	/* - Get output message from AUX disk file MESSAGES.
-	 *   It will be appended to first line of message. */
+    /* - Get output message from AUX disk file MESSAGES.
+     *   It will be appended to first line of message. */
 
-	/* - Message numbers 1 through 99 are treated differently.
-	 *   There are no messages in disk file for those numbers.
-	 *   These numbers are used for messages generated entirely
-	 *   by the calling subroutine or function. */
+    /* - Message numbers 1 through 99 are treated differently.
+     *   There are no messages in disk file for those numbers.
+     *   These numbers are used for messages generated entirely
+     *   by the calling subroutine or function. */
 
-	if( number >= 100 ){
-		getsmsg( number, kmsg,MCMSG+1 );
-		apcmsg( kmsg,MCMSG+1 );
-		}
+    if (number >= 100) {
+        getsmsg(number, kmsg, MCMSG + 1);
+        apcmsg(kmsg, MCMSG + 1);
+    }
 
-	/* - Save message number. */
+    /* - Save message number. */
 
-	cmmsg.nummsg = number;
+    cmmsg.nummsg = number;
 
-	return;
+    return;
 }
-

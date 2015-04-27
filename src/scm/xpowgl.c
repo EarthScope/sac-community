@@ -4,26 +4,25 @@
 
 #include "scm.h"
 
-
 #include "ucf.h"
 #include "debug.h"
 
-void /*FUNCTION*/ xpowgl(data, nlen, sr, alpha, doval, irgltp, nerr)
-float data[];
-int nlen;
-double sr, alpha, doval;
-int irgltp, *nerr;
+void /*FUNCTION*/
+xpowgl(data, nlen, sr, alpha, doval, irgltp, nerr)
+     float data[];
+     int nlen;
+     double sr, alpha, doval;
+     int irgltp, *nerr;
 {
-	int i, ibegptr, isglw, nglitches, 
-	 nsglw, nwin;
-	float bd[100000], sec, sumbd, t1, value;
-	static float glwin = 5.0;
+    int i, ibegptr, isglw, nglitches, nsglw, nwin;
+    float bd[100000], sec, sumbd, t1, value;
+    static float glwin = 5.0;
 
-	float *const Bd = &bd[0] - 1;
+    float *const Bd = &bd[0] - 1;
 
-  UNUSED(doval);
+    UNUSED(doval);
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To "deglitch" one channel using backward difference 
 	 *           threshold.  Only one point glitches are modified.
 	 *           Dropouts (more than one data point with the same value)
@@ -67,61 +66,59 @@ int irgltp, *nerr;
 	 *
 	 * */
 
-	/* - Declarations:
-	 * */
+    /* - Declarations:
+     * */
 
-	/* - Parameters:
-	 * */
+    /* - Parameters:
+     * */
 
-	/* - Initializations:
-	 * */
-	*nerr = 0;
+    /* - Initializations:
+     * */
+    *nerr = 0;
 
-	/*  adjust window length so that all data is processed */
-	sec = nlen*sr;
-	nwin = sec/glwin + 1;
-	nsglw = nlen/nwin;
-	nglitches = 0;
-	data[0] = data[1];
-	/* - For each window: */
-	for( i = 1; i <= nwin; i++ ){
-		sumbd = 0.0;
-		ibegptr = (i - 1)*nsglw;
-		/*          calculate backward differences in window */
-		for( isglw = 1; isglw <= nsglw; isglw++ ){
-			value = fabs( data[ibegptr + isglw] );
-			Bd[isglw] = value - data[ibegptr + isglw - 1];
-			sumbd = sumbd + fabs( Bd[isglw] );
-			}
+    /*  adjust window length so that all data is processed */
+    sec = nlen * sr;
+    nwin = sec / glwin + 1;
+    nsglw = nlen / nwin;
+    nglitches = 0;
+    data[0] = data[1];
+    /* - For each window: */
+    for (i = 1; i <= nwin; i++) {
+        sumbd = 0.0;
+        ibegptr = (i - 1) * nsglw;
+        /*          calculate backward differences in window */
+        for (isglw = 1; isglw <= nsglw; isglw++) {
+            value = fabs(data[ibegptr + isglw]);
+            Bd[isglw] = value - data[ibegptr + isglw - 1];
+            sumbd = sumbd + fabs(Bd[isglw]);
+        }
 
-		/*     t1 is the difference threshold for the current window */
-		t1 = (sumbd/nsglw)/alpha;
+        /*     t1 is the difference threshold for the current window */
+        t1 = (sumbd / nsglw) / alpha;
 
-		/*     examine each backward difference to see if it exceeds
-		 *     the threshold.  If so, check to see if it is the beginning
-		 *     or the end of a droput.  If it isn't then it is a one-point 
-		 *     glitch; replace offending data point with a linearly 
-		 *     interpolated value. */
+        /*     examine each backward difference to see if it exceeds
+         *     the threshold.  If so, check to see if it is the beginning
+         *     or the end of a droput.  If it isn't then it is a one-point 
+         *     glitch; replace offending data point with a linearly 
+         *     interpolated value. */
 
-		for( isglw = 1; isglw <= nsglw; isglw++ ){
-			if( fabs( Bd[isglw] ) > t1 ){
-				if( irgltp == 1 ){
-					linear( &data[ibegptr + isglw - 1], 3, &data[ibegptr + isglw - 1] );
-					}
-				else if( irgltp == 2 ){
-					fill( &data[ibegptr + isglw], 1, 0. );
-					}
-				Bd[isglw + 1] = 0.0;
-				nglitches = nglitches + 1;
-				}
-			}
+        for (isglw = 1; isglw <= nsglw; isglw++) {
+            if (fabs(Bd[isglw]) > t1) {
+                if (irgltp == 1) {
+                    linear(&data[ibegptr + isglw - 1], 3,
+                           &data[ibegptr + isglw - 1]);
+                } else if (irgltp == 2) {
+                    fill(&data[ibegptr + isglw], 1, 0.);
+                }
+                Bd[isglw + 1] = 0.0;
+                nglitches = nglitches + 1;
+            }
+        }
 
-		}
-	fprintf( stdout, "nglitches= %d \n", nglitches );
+    }
+    fprintf(stdout, "nglitches= %d \n", nglitches);
 
-       
-	;
+    ;
 
-	return;
-} /* end of function */
-
+    return;
+}                               /* end of function */

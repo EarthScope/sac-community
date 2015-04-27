@@ -35,12 +35,10 @@
  * @date   820917:  Modification due to change in HDR common blocks.
  *
  */
-void 
-putfil(int  idfl, 
-       int *nerr) {
+void
+putfil(int idfl, int *nerr) {
 
-  UNUSED(idfl);
-  UNUSED(nerr);
-	return;
+    UNUSED(idfl);
+    UNUSED(nerr);
+    return;
 }
-

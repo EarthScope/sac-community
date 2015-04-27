@@ -2,14 +2,15 @@
 #include "sss.h"
 #include "debug.h"
 
-void /*FUNCTION*/ velocityadj(velocity, bdist, dist, atime, nerr)
-double velocity, bdist, dist;
-float *atime;
-int *nerr;
+void /*FUNCTION*/
+velocityadj(velocity, bdist, dist, atime, nerr)
+     double velocity, bdist, dist;
+     float *atime;
+     int *nerr;
 {
-	float sdist;
-  UNUSED(bdist);
-	/*=====================================================================
+    float sdist;
+    UNUSED(bdist);
+        /*=====================================================================
 	 * PURPOSE:  Adjust the time relative to a certain velocity. Used to
 	 *           create reduced travel time plots.
 	 *=====================================================================
@@ -39,15 +40,13 @@ int *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
-	sdist = 0.;
-	/* - Compute adjusted start time */
+    /* PROCEDURE: */
+    *nerr = 0;
+    sdist = 0.;
+    /* - Compute adjusted start time */
 
-	*atime = (dist - sdist)/velocity;
+    *atime = (dist - sdist) / velocity;
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

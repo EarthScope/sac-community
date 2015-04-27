@@ -17,22 +17,19 @@
  * @date   940921:  Original version.
  *
  */
-void 
-changectable(int nentry,
-             int ctable) {
+void
+changectable(int nentry, int ctable) {
 
-        int i, n;
-        display_t **dev;
-        n   = gdm_get_ndevices();
-        dev = gdm_get_devices();
+    int i, n;
+    display_t **dev;
+    n = gdm_get_ndevices();
+    dev = gdm_get_devices();
 
-	/* - Send color table to all active graphics devices. */
-        for(i = 0; i < n; i++) {
-          if(dev[i]->on && dev[i]->change_color_table) {
+    /* - Send color table to all active graphics devices. */
+    for (i = 0; i < n; i++) {
+        if (dev[i]->on && dev[i]->change_color_table) {
             dev[i]->change_color_table(nentry, ctable);
-          }
         }
-
+    }
 
 }
-

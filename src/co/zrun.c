@@ -30,37 +30,33 @@
  *         This behavior is taken care of using the underlying system.
  *
  */
-void 
-zrun(FILE **nfun, 
-     char  *runfile, 
-     int    runfile_s, 
-     int   *nerr) {
+void
+zrun(FILE ** nfun, char *runfile, int runfile_s, int *nerr) {
 
-	char runtext[81];
-	int nc;
+    char runtext[81];
+    int nc;
 
     memset(runtext, 0, sizeof(runtext));
-	/* - Write last line to the runfile. */
-        fprintf(*nfun,"%s\n","endrun");
+    /* - Write last line to the runfile. */
+    fprintf(*nfun, "%s\n", "endrun");
 
-	/* - Close runfile. */
-	zcloses( nfun, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    /* - Close runfile. */
+    zcloses(nfun, nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* - Execute the runfile as a shell script using "zsysop". */
-	subscpy( runtext, 0, 2, 80, "sh " );
-	subscpy( runtext, 3, -1, 80, runfile );
-	nc = indexb( runtext,81 );
-	zsysop( runtext,81, &nc, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    /* - Execute the runfile as a shell script using "zsysop". */
+    subscpy(runtext, 0, 2, 80, "sh ");
+    subscpy(runtext, 3, -1, 80, runfile);
+    nc = indexb(runtext, 81);
+    zsysop(runtext, 81, &nc, nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* - Destroy the runfile. */
-	zdest( runfile,runfile_s, nerr );
+    /* - Destroy the runfile. */
+    zdest(runfile, runfile_s, nerr);
 
-L_8888:
-	return;
+  L_8888:
+    return;
 
 }
-

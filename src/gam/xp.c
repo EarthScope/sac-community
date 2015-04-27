@@ -12,7 +12,6 @@
 #include "amf.h"
 #include "bool.h"
 
-
 #include "pl.h"
 #include "bot.h"
 #include "msg.h"
@@ -20,15 +19,15 @@
 #include "co.h"
 #include "dff.h"
 
-void xp(int *nerr)
-{
-	char kret[9];
-	int lany, lframs, lwait, lxgens, lprint = FALSE ;
-	int jdfl, ncret;
-	static char kwait[9] = "Waiting$";
-  sac *s;
+void
+xp(int *nerr) {
+    char kret[9];
+    int lany, lframs, lwait, lxgens, lprint = FALSE;
+    int jdfl, ncret;
+    static char kwait[9] = "Waiting$";
+    sac *s;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To execute the action command PLOT.
 	 *           This command plots data in memory, one file per frame.
 	 *=====================================================================
@@ -70,149 +69,145 @@ void xp(int *nerr)
 	 *    820430:  Mod due to change in ZGPMSG.
 	 *    810120:  Changed to output message retrieval from disk.
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* - Save current values of several GEM parameters. */
+    /* - Save current values of several GEM parameters. */
 
-	lxgens = cmgem.xgen.on;
-	lframs = cmgem.lframe;
+    lxgens = cmgem.xgen.on;
+    lframs = cmgem.lframe;
 
-	/* PARSING PHASE: */
+    /* PARSING PHASE: */
 
-	if ( lcmore( nerr ) ){
-	    /* -- "PRINT":  print the final product. */
-	    if( lckey( "PRINT#$", 8 ) ) {
-		if ( cmgdm.lbegf ) {
-		    setmsg ( "WARNING" , 2403 ) ;
-		    outmsg () ;
-		    clrmsg () ;
-		}
-		else {
-		    lprint = TRUE ;
-		    lcchar (kmgem.kptrName , sizeof(kmgem.kptrName));
-		}
-	    }
+    if (lcmore(nerr)) {
+        /* -- "PRINT":  print the final product. */
+        if (lckey("PRINT#$", 8)) {
+            if (cmgdm.lbegf) {
+                setmsg("WARNING", 2403);
+                outmsg();
+                clrmsg();
+            } else {
+                lprint = TRUE;
+                lcchar(kmgem.kptrName, sizeof(kmgem.kptrName));
+            }
+        }
 
-	    /* -- Bad syntax. */
-	    else{
-		cfmt( "ILLEGAL OPTION:",17 );
-		cresp();
-	    }
-	}
-
-	/* CHECKING PHASE: */
-
-	/* - Check for null data file list. */
-
-	vflist( nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
-
-	/* - Check to make sure all files are time series files. */
-
-	vftime( nerr );
-	if( *nerr != 0 ){
-	    aplmsg( "Use PLOTSP command to plot spectral data.",42 );
-	    goto L_8888;
-	}
-
-	/* - If no graphics device is open, try to open the default device. */
-
-	getstatus( "ANY", &lany );
-	if( !lany ){
-	    zgetgd( kmgam.kgddef,9 );
-	    begindevices( kmgam.kgddef,9, 1, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
-	}
-
-	/* EXECUTION PHASE: */
-
-	/* - Check WAIT option.  This is on when:
-	 * -- A wait request has been made.
-	 * -- An active device (normally the user's terminal) is on. */
-
-	if( cmgam.lwaitr ){
-	    getstatus( "ACTIVE", &lwait );
-	}
-	else{
-	    lwait = FALSE;
-	}
-
-	/* - For each file in DFL: */
-
-	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
-	    /* -- Get file from memory manager. */
-    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
-      goto L_8888;
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
     }
 
-	    /* -- Set up x axis data generation parameters if evenly spaced. */
-	    if( s->h->leven ){
-		cmgem.xgen.delta = s->h->delta;
-		cmgem.xgen.first = s->h->b;
-		cmgem.xgen.on = TRUE;
-	    }
-	    else{
-		cmgem.xgen.on = FALSE;
-	    }
+    /* CHECKING PHASE: */
 
-	    /* -- Determine x axis plot limits. */
-	    getxlm( &cmgem.lxlim, &cmgem.ximn, &cmgem.ximx );
+    /* - Check for null data file list. */
 
-	    /* -- Determine y axis plot limits. */
-	    getylm( &cmgem.lylim, &cmgem.yimn, &cmgem.yimx );
+    vflist(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	    /* -- Begin next plot frame if requested. */
-	    if( lframs ){
-		beginframe( lprint , nerr );
-		if( *nerr != 0 )
-		    goto L_8888;
-		getvspace( &cmgem.view.xmin, &cmgem.view.xmax, 
-                           &cmgem.view.ymin, &cmgem.view.ymax );
-	    }
+    /* - Check to make sure all files are time series files. */
 
-	    /* -- Plot the data.  Do not allow PL2D to perform framing. */
-	    cmgem.lframe = FALSE;
-	    pl2d( s->x, s->y, s->h->npts, 1, 1, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
+    vftime(nerr);
+    if (*nerr != 0) {
+        aplmsg("Use PLOTSP command to plot spectral data.", 42);
+        goto L_8888;
+    }
 
-	    /* -- Plot the frame id, pick display and home cursor. */
-	    dispid( cmgam.lfinorq , jdfl, 0, NULL );
+    /* - If no graphics device is open, try to open the default device. */
 
-	    disppk( 0. );
-	    plhome();
-	    flushbuffer( nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
+    getstatus("ANY", &lany);
+    if (!lany) {
+        zgetgd(kmgam.kgddef, 9);
+        begindevices(kmgam.kgddef, 9, 1, nerr);
+        if (*nerr != 0)
+            goto L_8888;
+    }
 
-	    /* -- End current plot frame if requested. */
-	    if( lframs )
-		endframe( TRUE , nerr );
-            else 
-              flushbuffer( nerr );
-	    /* -- Wait for user prompt before plotting next frame if appropriate. */
-	    if( jdfl == saclen() && !cmgam.lwaite )
-		lwait = FALSE;
-	    if( lwait ){
-		zgpmsg( kwait,9, kret,9 );
-		ncret = indexb( kret,9 );
-		upcase( kret, ncret, kret,9 );
-		if( kret[0] == 'K' )
-		    goto L_8888;
-		if( kret[0] == 'G' )
-		    lwait = FALSE;
-	    }
-	}
+    /* EXECUTION PHASE: */
 
-	/* - Restore GEM parameters before returning. */
+    /* - Check WAIT option.  This is on when:
+     * -- A wait request has been made.
+     * -- An active device (normally the user's terminal) is on. */
 
-L_8888:
-	cmgem.xgen.on = lxgens;
-	cmgem.lframe = lframs;
-	return;
+    if (cmgam.lwaitr) {
+        getstatus("ACTIVE", &lwait);
+    } else {
+        lwait = FALSE;
+    }
 
-} /* end of function */
+    /* - For each file in DFL: */
 
+    for (jdfl = 1; jdfl <= saclen(); jdfl++) {
+        /* -- Get file from memory manager. */
+        if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
+            goto L_8888;
+        }
+
+        /* -- Set up x axis data generation parameters if evenly spaced. */
+        if (s->h->leven) {
+            cmgem.xgen.delta = s->h->delta;
+            cmgem.xgen.first = s->h->b;
+            cmgem.xgen.on = TRUE;
+        } else {
+            cmgem.xgen.on = FALSE;
+        }
+
+        /* -- Determine x axis plot limits. */
+        getxlm(&cmgem.lxlim, &cmgem.ximn, &cmgem.ximx);
+
+        /* -- Determine y axis plot limits. */
+        getylm(&cmgem.lylim, &cmgem.yimn, &cmgem.yimx);
+
+        /* -- Begin next plot frame if requested. */
+        if (lframs) {
+            beginframe(lprint, nerr);
+            if (*nerr != 0)
+                goto L_8888;
+            getvspace(&cmgem.view.xmin, &cmgem.view.xmax, &cmgem.view.ymin,
+                      &cmgem.view.ymax);
+        }
+
+        /* -- Plot the data.  Do not allow PL2D to perform framing. */
+        cmgem.lframe = FALSE;
+        pl2d(s->x, s->y, s->h->npts, 1, 1, nerr);
+        if (*nerr != 0)
+            goto L_8888;
+
+        /* -- Plot the frame id, pick display and home cursor. */
+        dispid(cmgam.lfinorq, jdfl, 0, NULL);
+
+        disppk(0.);
+        plhome();
+        flushbuffer(nerr);
+        if (*nerr != 0)
+            goto L_8888;
+
+        /* -- End current plot frame if requested. */
+        if (lframs)
+            endframe(TRUE, nerr);
+        else
+            flushbuffer(nerr);
+        /* -- Wait for user prompt before plotting next frame if appropriate. */
+        if (jdfl == saclen() && !cmgam.lwaite)
+            lwait = FALSE;
+        if (lwait) {
+            zgpmsg(kwait, 9, kret, 9);
+            ncret = indexb(kret, 9);
+            upcase(kret, ncret, kret, 9);
+            if (kret[0] == 'K')
+                goto L_8888;
+            if (kret[0] == 'G')
+                lwait = FALSE;
+        }
+    }
+
+    /* - Restore GEM parameters before returning. */
+
+  L_8888:
+    cmgem.xgen.on = lxgens;
+    cmgem.lframe = lframs;
+    return;
+
+}                               /* end of function */

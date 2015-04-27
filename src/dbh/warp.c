@@ -33,18 +33,14 @@
  *           (415) 423-0617
  *
  */
-double 
-warp(double f, 
-     double ts)
-{
-	float angle, twopi, warp_v;
+double
+warp(double f, double ts) {
+    float angle, twopi, warp_v;
 
+    twopi = 2.0 * M_PI;
+    angle = twopi * f * ts / 2.;
+    warp_v = 2. * tan(angle) / ts;
+    warp_v = warp_v / twopi;
 
-	twopi = 2.0 * M_PI;
-	angle = twopi*f*ts/2.;
-	warp_v = 2.*tan( angle )/ts;
-	warp_v = warp_v/twopi;
-
-	return( warp_v );
+    return (warp_v);
 }
-

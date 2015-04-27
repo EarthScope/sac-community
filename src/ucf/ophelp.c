@@ -42,75 +42,70 @@
  * @date   810316:  Added indexed search to find correct help file.
  *
  */
-void 
-ophelp(char  *kitem, 
-       int    kitem_s, 
-       FILE **nun, 
-       char  *khfile, 
-       int   *nerr) {
+void
+ophelp(char *kitem, int kitem_s, FILE ** nun, char *khfile, int *nerr) {
 
-	char khitem[30], khname[100], klfile[MCPFN+1];
-    char kiline[MCMSG+1];
-	int ncerr, idx;
-  UNUSED(kitem_s);
+    char khitem[30], khname[100], klfile[MCPFN + 1];
+    char kiline[MCMSG + 1];
+    int ncerr, idx;
+    UNUSED(kitem_s);
 
-	*nerr = 0;
+    *nerr = 0;
     memset(khname, 0, sizeof(khname));
-        for( idx = 0 ; idx < MCPFN ; idx++ )
-            klfile[ idx ] = ' ' ;
-        klfile[ MCPFN ] = '\0' ;
+    for (idx = 0; idx < MCPFN; idx++)
+        klfile[idx] = ' ';
+    klfile[MCPFN] = '\0';
 
-	/* - Create pathname and open file that contains list of help packages. */
+    /* - Create pathname and open file that contains list of help packages. */
 
-	zbasename( klfile,MCPFN+1 );
-	crname( klfile,MCPFN+1, KSUBDL, "help",5, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
-	crname( klfile,MCPFN+1, KDIRDL, "contents",9, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
-	zopens( nun, klfile,MCPFN+1, "ROTEXT",7, nerr );
-	if( *nerr != 0 ){
-		goto L_8000;
-		}
+    zbasename(klfile, MCPFN + 1);
+    crname(klfile, MCPFN + 1, KSUBDL, "help", 5, nerr);
+    if (*nerr != 0)
+        goto L_8888;
+    crname(klfile, MCPFN + 1, KDIRDL, "contents", 9, nerr);
+    if (*nerr != 0)
+        goto L_8888;
+    zopens(nun, klfile, MCPFN + 1, "ROTEXT", 7, nerr);
+    if (*nerr != 0) {
+        goto L_8000;
+    }
 
-	/* - For each item in help list file: */
+    /* - For each item in help list file: */
 
-L_1000:
-        if(fgetsp(kiline,MCMSG+1,*nun)==NULL) goto L_8000;
-        if(sscanf(kiline," %s %s", khitem, khname) != 2){
-          goto L_8000;
-	}
+  L_1000:
+    if (fgetsp(kiline, MCMSG + 1, *nun) == NULL)
+        goto L_8000;
+    if (sscanf(kiline, " %s %s", khitem, khname) != 2) {
+        goto L_8000;
+    }
 
-	/* -- If it matches the requested help package name, close
-	 *    the help list file, open the help package, and return. */
+    /* -- If it matches the requested help package name, close
+     *    the help list file, open the help package, and return. */
 
-        
-	if( strcmp(kitem,khitem) == 0 ){
-		zcloses( nun, nerr );
-		zbasename( khfile,MCPFN+1 );
-		crname( khfile,MCPFN+1, KSUBDL, "help",5, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
-		crname( khfile,MCPFN+1, KDIRDL, khname,30, nerr );
-		if( *nerr != 0 )
-			goto L_8888;
-		zopens( nun, khfile,MCPFN+1, "ROTEXT",7, nerr );
-		goto L_8888;
-		}
+    if (strcmp(kitem, khitem) == 0) {
+        zcloses(nun, nerr);
+        zbasename(khfile, MCPFN + 1);
+        crname(khfile, MCPFN + 1, KSUBDL, "help", 5, nerr);
+        if (*nerr != 0)
+            goto L_8888;
+        crname(khfile, MCPFN + 1, KDIRDL, khname, 30, nerr);
+        if (*nerr != 0)
+            goto L_8888;
+        zopens(nun, khfile, MCPFN + 1, "ROTEXT", 7, nerr);
+        goto L_8888;
+    }
 
-	/* -- If not loop back for next item in help list file. */
+    /* -- If not loop back for next item in help list file. */
 
-	goto L_1000;
+    goto L_1000;
 
-	/* - Set error flag if no help file was found. */
+    /* - Set error flag if no help file was found. */
 
-L_8000:
-	zcloses( nun, &ncerr );
-	*nun = NULL ;
+  L_8000:
+    zcloses(nun, &ncerr);
+    *nun = NULL;
 
-L_8888:
-	return;
+  L_8888:
+    return;
 
 }
-

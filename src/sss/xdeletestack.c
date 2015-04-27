@@ -17,21 +17,19 @@
 #include "cpf.h"
 #include "array.h"
 
-void /*FUNCTION*/ xdeletestack(nerr)
-int *nerr;
+void /*FUNCTION*/
+xdeletestack(nerr)
+     int *nerr;
 {
-	char kfile[MCPFN+1];
-	int lincr;
-	int *idel, jdel, jdfl, jdfl2,
-	 jdfl3, ndel ; 
+    char kfile[MCPFN + 1];
+    int lincr;
+    int *idel, jdel, jdfl, jdfl2, jdfl3, ndel;
 
-	DBlist tree ;
+    DBlist tree;
 
-	tree = smGetDefaultTree () ;
+    tree = smGetDefaultTree();
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To execute the DELETESTACK command.  This command deletes
 	 *           one or more files from the signal stack.
 	 *=====================================================================
@@ -71,105 +69,104 @@ int *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  850812
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
-	ndel = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
+    ndel = 0;
 
-  idel = xarray_new_with_len('i', saclen());
-	/* PARSING PHASE: */
+    idel = xarray_new_with_len('i', saclen());
+    /* PARSING PHASE: */
 
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-	while ( lcmore( nerr ) ){
+    while (lcmore(nerr)) {
 
-            /* "COMMIT": removes infromation from SeisMgr as well as SAC */
+        /* "COMMIT": removes infromation from SeisMgr as well as SAC */
 /*	    if( lklog( "COMMIT$",8, &lcommit ) ){
                 cmdfm.lcommit = lcommit ;
             }	*/
 
-	    /* -- "n":  the number of a file from the signal stack. */
-	    if( lcint( &jdfl ) ){
-		if( jdfl < 1 || jdfl > saclen() ){
-		    *nerr = 5107;
-		    setmsg( "ERROR", *nerr );
-		    apimsg( jdfl );
-		    goto L_8888;
-		}
-		idel[ndel] = jdfl;
-    ndel++;
-	    }
+        /* -- "n":  the number of a file from the signal stack. */
+        if (lcint(&jdfl)) {
+            if (jdfl < 1 || jdfl > saclen()) {
+                *nerr = 5107;
+                setmsg("ERROR", *nerr);
+                apimsg(jdfl);
+                goto L_8888;
+            }
+            idel[ndel] = jdfl;
+            ndel++;
+        }
 
-	    /* -- "filename":  the name of a file from the signal stack. */
-	    else if( lcchar( kfile, sizeof(kfile) ) ){
-        char *kfile2 = fstrdup(kfile, -1);
-        jdfl = 1 + sac_find_filename(kfile2);
-        if( jdfl <= 0 ){
-		    *nerr = 5106;
-		    setmsg( "ERROR", *nerr );
-		    apcmsg( kfile,MCPFN+1 );
-		    goto L_8888;
-		}
-		idel[ndel] = jdfl;
-		ndel++;
-	    }
+        /* -- "filename":  the name of a file from the signal stack. */
+        else if (lcchar(kfile, sizeof(kfile))) {
+            char *kfile2 = fstrdup(kfile, -1);
+            jdfl = 1 + sac_find_filename(kfile2);
+            if (jdfl <= 0) {
+                *nerr = 5106;
+                setmsg("ERROR", *nerr);
+                apcmsg(kfile, MCPFN + 1);
+                goto L_8888;
+            }
+            idel[ndel] = jdfl;
+            ndel++;
+        }
 
-	    /* -- Bad syntax. */
-	    else{
-		cfmt( "ILLEGAL OPTION:",17 );
-		cresp();
-	    }
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
 
-	} /* end while */
+    }                           /* end while */
 
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-	/* EXECUTION PHASE: */
+    /* EXECUTION PHASE: */
 
-	/* - Sort the list of file numbers into decreasing order */
+    /* - Sort the list of file numbers into decreasing order */
 
-	lincr = FALSE;
-	sorti( idel, ndel, lincr, idel );
+    lincr = FALSE;
+    sorti(idel, ndel, lincr, idel);
 
-	/* - For each file to be deleted: */
+    /* - For each file to be deleted: */
 
-	jdfl = 0;
-	for( jdel = 1; jdel <= ndel; jdel++ ){
-    if( idel[jdel-1] != jdfl ){
-      jdfl = idel[jdel-1];
-		/* -- Release memory blocks. */
-      sacdel(jdfl-1);
-		/* -- Move DFM and SSS array variables down.           */
-		for( jdfl2 = jdfl; jdfl2 <= (saclen() - 1); jdfl2++ ){
-		    jdfl3 = jdfl2 + 1;
-		    Dlyt[jdfl2] = Dlyt[jdfl3];
-		    Dlyti[jdfl2] = Dlyti[jdfl3];
-		    Dlyn[jdfl2] = Dlyn[jdfl3];
-		    Dlyni[jdfl2] = Dlyni[jdfl3];
-		    Wt[jdfl2] = Wt[jdfl3];
-		    Dst[jdfl2] = Dst[jdfl3];
-		    Tbegin[jdfl2] = Tbegin[jdfl3] ; /* maf 960701 */
-		    Tend[jdfl2] = Tend[jdfl3] ; /* maf 960701 */
-		    Lpol[jdfl2] = Lpol[jdfl3];
+    jdfl = 0;
+    for (jdel = 1; jdel <= ndel; jdel++) {
+        if (idel[jdel - 1] != jdfl) {
+            jdfl = idel[jdel - 1];
+            /* -- Release memory blocks. */
+            sacdel(jdfl - 1);
+            /* -- Move DFM and SSS array variables down.           */
+            for (jdfl2 = jdfl; jdfl2 <= (saclen() - 1); jdfl2++) {
+                jdfl3 = jdfl2 + 1;
+                Dlyt[jdfl2] = Dlyt[jdfl3];
+                Dlyti[jdfl2] = Dlyti[jdfl3];
+                Dlyn[jdfl2] = Dlyn[jdfl3];
+                Dlyni[jdfl2] = Dlyni[jdfl3];
+                Wt[jdfl2] = Wt[jdfl3];
+                Dst[jdfl2] = Dst[jdfl3];
+                Tbegin[jdfl2] = Tbegin[jdfl3];  /* maf 960701 */
+                Tend[jdfl2] = Tend[jdfl3];      /* maf 960701 */
+                Lpol[jdfl2] = Lpol[jdfl3];
 
-		}
+            }
 
-	    } /* end if( Idel[jdel] != jdfl ) */
-	} /* end for( jdel = 1; jdel <= ndel; jdel++ ) */
+        }                       /* end if( Idel[jdel] != jdfl ) */
+    }                           /* end for( jdel = 1; jdel <= ndel; jdel++ ) */
 
-	/* If COMMIT option set, delete files from SeisMgr as well. */
+    /* If COMMIT option set, delete files from SeisMgr as well. */
 /*	if ( cmdfm.lcommit ) {	*/
-	    /* decrement elements of idel for the sake of the C array numbering */
-	    for ( jdel = 0 ; jdel < ndel ; jdel++ )
-		idel[ jdel ] -- ;
+    /* decrement elements of idel for the sake of the C array numbering */
+    for (jdel = 0; jdel < ndel; jdel++)
+        idel[jdel]--;
 
-	    dblDeleteWfdiscs ( tree , (int *) idel , ndel ) ;
+    dblDeleteWfdiscs(tree, (int *) idel, ndel);
 /*	} * end if ( cmdfm.lcommit ) */
 
- L_8888:
-      xarray_free(idel);
-	return;
+  L_8888:
+    xarray_free(idel);
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

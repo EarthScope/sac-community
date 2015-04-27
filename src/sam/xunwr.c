@@ -7,25 +7,24 @@
 #include "hdr.h"
 #include "bool.h"
 
-
 #include "msg.h"
 #include "clf.h"
 #include "ucf.h"
 #include "cpf.h"
 #include "dff.h"
 
-void /*FUNCTION*/ xunwr(nerr)
-int *nerr;
+void /*FUNCTION*/
+xunwr(nerr)
+     int *nerr;
 {
-	int lok;
-	int int_, j, jdfl, jj, 
-	 nfreq, nlnaux, nlnnew, nok, nptsmx;
-	float scalef;
+    int lok;
+    int int_, j, jdfl, jj, nfreq, nlnaux, nlnnew, nok, nptsmx;
+    float scalef;
 
-        char *tmp;
-  sac *s;
-  float *x, *y, *aux1, *aux2, *aux3;
-	/*=====================================================================
+    char *tmp;
+    sac *s;
+    float *x, *y, *aux1, *aux2, *aux3;
+        /*=====================================================================
 	 * PURPOSE: To parse and execute the action command UNWRAP.
 	 *          This command does a phase unwrapping.
 	 *=====================================================================
@@ -77,191 +76,185 @@ int *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  850617
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* - PARSING PHASE: */
+    /* - PARSING PHASE: */
 
-	/* - For each token in command: */
+    /* - For each token in command: */
 
-  int_ = 0;
-	while ( lcmore( nerr ) ){
+    int_ = 0;
+    while (lcmore(nerr)) {
 
-	    /* -- "FILL n/OFF/ON":  fill with zeros option. */
-	    if( lklogi( "FILL$",6, &cmsam.lunwfz, &int_ ) ){
-		int_ = next2( int_ );
-		if( int_ <= MFFT )
-		    cmsam.nunwfz = int_;
+        /* -- "FILL n/OFF/ON":  fill with zeros option. */
+        if (lklogi("FILL$", 6, &cmsam.lunwfz, &int_)) {
+            int_ = next2(int_);
+            if (int_ <= MFFT)
+                cmsam.nunwfz = int_;
 
-		else{
-		    int_ = MFFT;
-		    *nerr = 1606;
-		    setmsg( "ERROR", *nerr );
-		    apimsg( int_ );
-		    goto L_8888;
-		}
-	    }
+            else {
+                int_ = MFFT;
+                *nerr = 1606;
+                setmsg("ERROR", *nerr);
+                apimsg(int_);
+                goto L_8888;
+            }
+        }
 
-	    /* -- "INCTHR v":  phase increment threshold parameter. */
-	    else if( lkreal( "INTTHR$",8, &cmsam.vunwit ) )
-	    { /* do nothing */ }
+        /* -- "INCTHR v":  phase increment threshold parameter. */
+        else if (lkreal("INTTHR$", 8, &cmsam.vunwit)) { /* do nothing */
+        }
 
-	    /* -- "CONTHR v":  phase consistency threshold parameter. */
-	    else if( lkreal( "PVTHR$",7, &cmsam.vunwct ) )
-	    { /* do nothing */ }
+        /* -- "CONTHR v":  phase consistency threshold parameter. */
+        else if (lkreal("PVTHR$", 7, &cmsam.vunwct)) {  /* do nothing */
+        }
 
-	    /* -- Bad syntax. */
-	    else{
-		cfmt( "ILLEGAL OPTION:",17 );
-		cresp();
-	    }
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
 
-	} /* end while */
+    }                           /* end while */
 
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-	if( *nerr != 0 )
-	    goto L_8888;
-
-	/* CHECKING PHASE: */
-
-	/* - Check for null data file list. */
-
-	vflist( nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
-
-	/* - Check to make sure all files are evenly spaced time series files. */
-
-	vfeven( nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
-
-        /* get the maximum number of points in the input files */
-
-	vfmax( &nptsmx, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
-
-	/* EXECUTION PHASE: */
-
-	/* - Allocate three scratch arrays for use by unwrap.
-	 *   Each must be equal to the size of the fft being performed. */
-
-	if( cmsam.lunwfz )
-	    nlnaux = cmsam.nunwfz;
-
-	else
-	    nlnaux = next2( nptsmx );
-
-  aux1 = (float *) malloc(sizeof(float) * nlnaux);
-  aux2 = (float *) malloc(sizeof(float) * nlnaux);
-  aux3 = (float *) malloc(sizeof(float) * nlnaux);
-  if(!aux1 || !aux2 || !aux3) {
-    goto L_8888;
-  }
-
-	/* - For each file in data file list: */
-
-	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
-      if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+    if (*nerr != 0)
         goto L_8888;
-      }
-	    /* -- Get file from memory manager. */
-	    //getfil( jdfl, TRUE, &nlnold, &ndxold, &ntused, nerr );
 
-	    /* - Compute length of data after transform. */
-	    if( cmsam.lunwfz ){
-		nlnnew = cmsam.nunwfz;
-	    }
-	    else{
-        nlnnew = next2( s->h->npts );
-	    }
+    /* CHECKING PHASE: */
 
-	    /* - Allocate memory block for first component. */
-      y = (float *) malloc(sizeof(float) * nlnnew);
+    /* - Check for null data file list. */
 
-	    /* -- Copy time-series data into first block and zero fill. */
-	    copy_float( s->y, y, s->h->npts);
-	    fill( y + s->h->npts, nlnnew - s->h->npts, 0. );
+    vflist(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	    /* -- Release old data block containing time-series. */
-      FREE(s->y);
-      s->y = y;
+    /* - Check to make sure all files are evenly spaced time series files. */
 
-	    /* -- Allocate memory block for second component and zero fill. */
-      x = (float *) malloc(sizeof(float) * nlnnew);
-	    fill( x, nlnnew, 0. );
-      FREE(s->x);
-      s->x = x;
-	    /* -- Perform phase unwrapping. */
-	    unwrap( s->y, s->h->npts, nlnnew, 
-              (float)cmsam.vunwct, (float)cmsam.vunwit, 
-              aux1, aux2, aux3,
-              s->y, s->x,
-              &nok, &lok );
+    vfeven(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	    /* -- Check for errors. */
-	    if( !lok ){
-		*nerr = 1610;
-		setmsg( "ERROR", 1610 );
-		apimsg( nok );
-    tmp = s->m->filename;
-        apcmsg2(tmp, strlen(tmp)+1);
-		outmsg();
-		clrmsg();
-		goto L_8888;
-	    }
+    /* get the maximum number of points in the input files */
 
-	    /* -- Scale the transformed data. */
-	    nfreq = nlnnew/2;
-	    scalef = s->h->delta;
+    vfmax(&nptsmx, nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-      s->y[0] *= scalef;
-      s->y[nfreq] *= scalef;
-	    for( j = 1; j <= (nfreq - 1); j++ ){
-        s->y[j] *= scalef;
-        jj = nlnnew - j;
-        s->y[jj] =  s->y[j];
-        s->x[jj] = -s->x[j];
-	    }
+    /* EXECUTION PHASE: */
 
-	    /* -- Write DC level to terminal. */
-	    setmsg( "OUTPUT", 1607 );
-	    if( s->x[0] != 0 ){
-        apfmsg( -s->y[0] );
-	    }
-	    else{
-        apfmsg( s->y[0] );
-	    }
-	    outmsg();
-	    clrmsg();
+    /* - Allocate three scratch arrays for use by unwrap.
+     *   Each must be equal to the size of the fft being performed. */
 
-	    /* -- Adjust header to reflect new status. */
-	    s->h->nsnpts = s->h->npts;
-	    s->h->npts   = nlnnew;
-	    s->h->iftype = IAMPH;
-	    s->h->sb     = s->h->b;
-	    s->h->sdelta = s->h->delta;
-	    s->h->b      = 0.;
-	    s->h->delta  = 1./(s->h->delta*(float)( s->h->npts ));
-	    s->h->e      = s->h->b + (float)( nfreq )*s->h->delta;
+    if (cmsam.lunwfz)
+        nlnaux = cmsam.nunwfz;
 
-	}
+    else
+        nlnaux = next2(nptsmx);
 
-	/* - Release scratch space. */
-  FREE(aux1);
-  FREE(aux2);
-  FREE(aux3);
+    aux1 = (float *) malloc(sizeof(float) * nlnaux);
+    aux2 = (float *) malloc(sizeof(float) * nlnaux);
+    aux3 = (float *) malloc(sizeof(float) * nlnaux);
+    if (!aux1 || !aux2 || !aux3) {
+        goto L_8888;
+    }
 
-	/* - Calculate and set new range of dependent variable. */
+    /* - For each file in data file list: */
 
-	setrng();
+    for (jdfl = 1; jdfl <= saclen(); jdfl++) {
+        if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
+            goto L_8888;
+        }
+        /* -- Get file from memory manager. */
+        //getfil( jdfl, TRUE, &nlnold, &ndxold, &ntused, nerr );
 
-L_8888:
-	return;
+        /* - Compute length of data after transform. */
+        if (cmsam.lunwfz) {
+            nlnnew = cmsam.nunwfz;
+        } else {
+            nlnnew = next2(s->h->npts);
+        }
 
-} /* end of function */
+        /* - Allocate memory block for first component. */
+        y = (float *) malloc(sizeof(float) * nlnnew);
 
+        /* -- Copy time-series data into first block and zero fill. */
+        copy_float(s->y, y, s->h->npts);
+        fill(y + s->h->npts, nlnnew - s->h->npts, 0.);
+
+        /* -- Release old data block containing time-series. */
+        FREE(s->y);
+        s->y = y;
+
+        /* -- Allocate memory block for second component and zero fill. */
+        x = (float *) malloc(sizeof(float) * nlnnew);
+        fill(x, nlnnew, 0.);
+        FREE(s->x);
+        s->x = x;
+        /* -- Perform phase unwrapping. */
+        unwrap(s->y, s->h->npts, nlnnew, (float) cmsam.vunwct,
+               (float) cmsam.vunwit, aux1, aux2, aux3, s->y, s->x, &nok, &lok);
+
+        /* -- Check for errors. */
+        if (!lok) {
+            *nerr = 1610;
+            setmsg("ERROR", 1610);
+            apimsg(nok);
+            tmp = s->m->filename;
+            apcmsg2(tmp, strlen(tmp) + 1);
+            outmsg();
+            clrmsg();
+            goto L_8888;
+        }
+
+        /* -- Scale the transformed data. */
+        nfreq = nlnnew / 2;
+        scalef = s->h->delta;
+
+        s->y[0] *= scalef;
+        s->y[nfreq] *= scalef;
+        for (j = 1; j <= (nfreq - 1); j++) {
+            s->y[j] *= scalef;
+            jj = nlnnew - j;
+            s->y[jj] = s->y[j];
+            s->x[jj] = -s->x[j];
+        }
+
+        /* -- Write DC level to terminal. */
+        setmsg("OUTPUT", 1607);
+        if (s->x[0] != 0) {
+            apfmsg(-s->y[0]);
+        } else {
+            apfmsg(s->y[0]);
+        }
+        outmsg();
+        clrmsg();
+
+        /* -- Adjust header to reflect new status. */
+        s->h->nsnpts = s->h->npts;
+        s->h->npts = nlnnew;
+        s->h->iftype = IAMPH;
+        s->h->sb = s->h->b;
+        s->h->sdelta = s->h->delta;
+        s->h->b = 0.;
+        s->h->delta = 1. / (s->h->delta * (float) (s->h->npts));
+        s->h->e = s->h->b + (float) (nfreq) * s->h->delta;
+
+    }
+
+    /* - Release scratch space. */
+    FREE(aux1);
+    FREE(aux2);
+    FREE(aux3);
+
+    /* - Calculate and set new range of dependent variable. */
+
+    setrng();
+
+  L_8888:
+    return;
+
+}                               /* end of function */

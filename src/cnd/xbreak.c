@@ -20,18 +20,16 @@
  * @date   870817:  Original version.
  *
  */
-void 
+void
 xbreak(int *nerr) {
 
-	*nerr = 0;
-	if( cnd.ndolevel > 0 ){
-		skipdo( nerr );
-	}
-	else{
-		/* - Raise error condition if not in an do condition. */
-		*nerr = 1;
-	}
+    *nerr = 0;
+    if (cnd.ndolevel > 0) {
+        skipdo(nerr);
+    } else {
+        /* - Raise error condition if not in an do condition. */
+        *nerr = 1;
+    }
 
-	return;
+    return;
 }
-

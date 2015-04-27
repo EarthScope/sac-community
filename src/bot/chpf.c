@@ -24,22 +24,21 @@
  * @date   820303:  Only call ZCLOSE if LHPFOP is .TRUE.
  *
  */
-void 
+void
 chpf(int *nerr) {
 
-	*nerr = 0;
+    *nerr = 0;
 
-	/* - Close HYPO pick file if open. Write hypo eof string first. */
+    /* - Close HYPO pick file if open. Write hypo eof string first. */
 
-	if( cmeam.lhpfop ){
-                fprintf(cmeam.nhpfun,"%19s\n","10");
-		zcloses( &cmeam.nhpfun, nerr );
-	}
+    if (cmeam.lhpfop) {
+        fprintf(cmeam.nhpfun, "%19s\n", "10");
+        zcloses(&cmeam.nhpfun, nerr);
+    }
 
-	/* - Set flag to show that HPF is closed. */
+    /* - Set flag to show that HPF is closed. */
 
-	cmeam.lhpfop = FALSE;
+    cmeam.lhpfop = FALSE;
 
-	return;
+    return;
 }
-

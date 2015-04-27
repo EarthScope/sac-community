@@ -13,7 +13,6 @@
 #include "amf.h"
 #include "bool.h"
 
-
 #include "msg.h"
 #include "scm.h"
 #include "clf.h"
@@ -22,18 +21,17 @@
 #include "co.h"
 #include "array.h"
 
-void /*FUNCTION*/ xfitxy(nerr)
-int *nerr;
+void /*FUNCTION*/
+xfitxy(nerr)
+     int *nerr;
 {
-	char kfile[MCPFN+1];
-	int lchange;
-	int *idflnumber, jdfl, 
-	 jdflnumber, ndflnumber, 
-    num;
-  char *tmpx, *tmpy;
-  float cc, sig, siga, sigb;
+    char kfile[MCPFN + 1];
+    int lchange;
+    int *idflnumber, jdfl, jdflnumber, ndflnumber, num;
+    char *tmpx, *tmpy;
+    float cc, sig, siga, sigb;
     sac *sx, *sy;
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To execute the action command FITXY.
 	 *           This command fits a line through pairs of data files.
 	 *           The user specifies which data file contains the "x" data
@@ -74,115 +72,111 @@ int *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  890420
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* PARSING PHASE: */
+    /* PARSING PHASE: */
 
-	/* - Loop on each token in command: */
-  idflnumber = xarray_new_with_len('i', saclen()+1);
-	jdflnumber = 0;
-	lchange = FALSE;
-L_1000:
-	if( lcmore( nerr ) ){
+    /* - Loop on each token in command: */
+    idflnumber = xarray_new_with_len('i', saclen() + 1);
+    jdflnumber = 0;
+    lchange = FALSE;
+  L_1000:
+    if (lcmore(nerr)) {
 
-		/* -- integer:  the index number of data file in data file list. */
-		if( lcirc( 1, saclen(), &jdfl ) ){
-			jdflnumber = jdflnumber + 1;
-			idflnumber[jdflnumber] = jdfl;
-			lchange = TRUE;
+        /* -- integer:  the index number of data file in data file list. */
+        if (lcirc(1, saclen(), &jdfl)) {
+            jdflnumber = jdflnumber + 1;
+            idflnumber[jdflnumber] = jdfl;
+            lchange = TRUE;
 
-			/* -- "filename":  the name of a data file in the data file list. */
-			}
-		else if( lcchar(kfile, sizeof(kfile)) ){
-      char *kfile2 = fstrdup(kfile, MCPFN+1);
-			jdfl = 1 + sac_find_filename(kfile2);
-			if( jdfl > 0 ){
-				jdflnumber = jdflnumber + 1;
-				idflnumber[jdflnumber] = jdfl;
-				lchange = TRUE;
-				}
-			else{
-				*nerr = 5106;
-				setmsg( "ERROR", *nerr );
-				apcmsg( kfile,MCPFN+1 );
-				goto L_8888;
-				}
+            /* -- "filename":  the name of a data file in the data file list. */
+        } else if (lcchar(kfile, sizeof(kfile))) {
+            char *kfile2 = fstrdup(kfile, MCPFN + 1);
+            jdfl = 1 + sac_find_filename(kfile2);
+            if (jdfl > 0) {
+                jdflnumber = jdflnumber + 1;
+                idflnumber[jdflnumber] = jdfl;
+                lchange = TRUE;
+            } else {
+                *nerr = 5106;
+                setmsg("ERROR", *nerr);
+                apcmsg(kfile, MCPFN + 1);
+                goto L_8888;
+            }
 
-			/* -- Bad syntax. */
-			}
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
+            /* -- Bad syntax. */
+        } else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
 
-			}
-		goto L_1000;
+        }
+        goto L_1000;
 
-		}
+    }
 
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-	if( *nerr != 0 )
-		goto L_8888;
+    if (*nerr != 0)
+        goto L_8888;
 
     ndflnumber = 0;
-	if( lchange )
-		ndflnumber = jdflnumber;
+    if (lchange)
+        ndflnumber = jdflnumber;
 
-	/* CHECKING PHASE: */
+    /* CHECKING PHASE: */
 
-	/* - Make sure there are at least two data files specified. */
+    /* - Make sure there are at least two data files specified. */
 
-	if( ndflnumber < 2 ){
-		*nerr = 1505;
-		setmsg( "ERROR", *nerr );
-		goto L_8888;
-		}
-
-	/* - Check for null data file list. */
-
-	vflist( nerr );
-	if( *nerr != 0 )
-		goto L_8888;
-
-	/* EXECUTION PHASE: */
-
-	/* - Loop on each pair of files to compute straight line fit. */
-
-	jdfl = idflnumber[1];
-  if(!(sx = sacget(jdfl-1, TRUE, nerr))) {
-    goto L_8888;
-  }
-	//getfil( jdfl, TRUE, &numx, &nlcx, &notused, nerr );
-
-  tmpx = sx->m->filename;
-	for( jdflnumber = 2; jdflnumber <= ndflnumber; jdflnumber++ ){
-		jdfl = idflnumber[jdflnumber];
-    if(!(sy = sacget(jdfl-1, TRUE, nerr))) {
-      goto L_8888;
+    if (ndflnumber < 2) {
+        *nerr = 1505;
+        setmsg("ERROR", *nerr);
+        goto L_8888;
     }
-		//getfil( jdfl, TRUE, &numy, &nlcy, &notused, nerr );
 
-		num = min( sx->h->npts, sy->h->npts );
-		lifitu( sx->x, sy->y, num, &sy->h->a, &sy->h->b, &siga, &sigb, 
-    &sig, &cc );
-    tmpy = sy->m->filename;
-		setmsg( "INFO", 1 );
-		apcmsg( "Slope and intercept for",24 );
-        apcmsg2(tmpy, strlen(tmpy)+1);
-		apcmsg( "vs.",4 );
-        apcmsg2(tmpx, strlen(tmpx)+1);
-		apcmsg( ":",2 );
-		apfmsg( sy->h->a );
-		apfmsg( sy->h->b );
-		outmsg();
-		}
+    /* - Check for null data file list. */
 
-L_8888:
-  xarray_free(idflnumber);
-	return;
+    vflist(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-} /* end of function */
+    /* EXECUTION PHASE: */
 
+    /* - Loop on each pair of files to compute straight line fit. */
+
+    jdfl = idflnumber[1];
+    if (!(sx = sacget(jdfl - 1, TRUE, nerr))) {
+        goto L_8888;
+    }
+    //getfil( jdfl, TRUE, &numx, &nlcx, &notused, nerr );
+
+    tmpx = sx->m->filename;
+    for (jdflnumber = 2; jdflnumber <= ndflnumber; jdflnumber++) {
+        jdfl = idflnumber[jdflnumber];
+        if (!(sy = sacget(jdfl - 1, TRUE, nerr))) {
+            goto L_8888;
+        }
+        //getfil( jdfl, TRUE, &numy, &nlcy, &notused, nerr );
+
+        num = min(sx->h->npts, sy->h->npts);
+        lifitu(sx->x, sy->y, num, &sy->h->a, &sy->h->b, &siga, &sigb, &sig,
+               &cc);
+        tmpy = sy->m->filename;
+        setmsg("INFO", 1);
+        apcmsg("Slope and intercept for", 24);
+        apcmsg2(tmpy, strlen(tmpy) + 1);
+        apcmsg("vs.", 4);
+        apcmsg2(tmpx, strlen(tmpx) + 1);
+        apcmsg(":", 2);
+        apfmsg(sy->h->a);
+        apfmsg(sy->h->b);
+        outmsg();
+    }
+
+  L_8888:
+    xarray_free(idflnumber);
+    return;
+
+}                               /* end of function */

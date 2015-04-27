@@ -1,13 +1,12 @@
 
 #include "gtm.h"
 
-void /*FUNCTION*/ getvport(xmin, xmax, ymin, ymax)
-float *xmin, *xmax, *ymin, *ymax;
+void /*FUNCTION*/
+getvport(xmin, xmax, ymin, ymax)
+     float *xmin, *xmax, *ymin, *ymax;
 {
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To get the viewport coordinate plot limits.
 	 *=====================================================================
 	 * OUTPUT ARGUMENTS:
@@ -27,15 +26,13 @@ float *xmin, *xmax, *ymin, *ymax;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  870202
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Return current viewport coordinates. */
-	*xmin = cmgtm.xvpmin;
-	*xmax = cmgtm.xvpmax;
-	*ymin = cmgtm.yvpmin;
-	*ymax = cmgtm.yvpmax;
+    /* PROCEDURE: */
+    /* - Return current viewport coordinates. */
+    *xmin = cmgtm.xvpmin;
+    *xmax = cmgtm.xvpmax;
+    *ymin = cmgtm.yvpmin;
+    *ymax = cmgtm.yvpmax;
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

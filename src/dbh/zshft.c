@@ -27,62 +27,52 @@
  * @date November 17, 1981  Created
  *
  */
-void 
-zshft(float *signal, 
-      int    n, 
-      int    ishft) {
+void
+zshft(float *signal, int n, int ishft) {
 
-       int k, nhalt;
+    int k, nhalt;
 
-	float *const Signal = &signal[0] - 1;
+    float *const Signal = &signal[0] - 1;
 
+    /* Shift specified too large.   */
+    if (labs(ishft) > n) {
 
+        fprintf(stdout, "*** ZSHFT - SPECIFIED SHIFT TOO LARGE ***\n");
 
+    } else if (ishft < 0) {
 
-	/* Shift specified too large.   */
-	if( labs( ishft ) > n ){
+        /*   Left shift.  */
+        /*  Shift array entries to the left.  */
+        nhalt = n + ishft + 1;
+        k = 1;
+      L_6:
 
-	  fprintf( stdout, "*** ZSHFT - SPECIFIED SHIFT TOO LARGE ***\n" );
+        if (k == nhalt)
+            goto L_7;
+        Signal[k] = Signal[k - ishft];
+        k = k + 1;
+        goto L_6;
+      L_7:
 
-	}
-	else if( ishft < 0 ){
+        /*  Zero high end of array */
+        zero(&Signal[n + ishft + 1], -ishft);
 
-	  /*   Left shift.  */
-	  /*  Shift array entries to the left.  */
-	  nhalt = n + ishft + 1;
-	  k = 1;
-	L_6:
+    } else if (ishft > 0) {
 
-	  if( k == nhalt )
-	    goto L_7;
-	  Signal[k] = Signal[k - ishft];
-	  k = k + 1;
-	  goto L_6;
-	L_7:
+        /*  Shift array entries to the right.  */
+        k = n;
+      L_8:
 
-	  
-	  /*  Zero high end of array */
-	  zero( &Signal[n + ishft + 1], -ishft );
-	  
-	}
-	else if( ishft > 0 ){
-	  
-	  /*  Shift array entries to the right.  */
-	  k = n;
-	L_8:
+        if (k == ishft)
+            goto L_9;
+        Signal[k] = Signal[k - ishft];
+        k = k - 1;
+        goto L_8;
+      L_9:
 
-	  if( k == ishft )
-	    goto L_9;
-	  Signal[k] = Signal[k - ishft];
-	  k = k - 1;
-	  goto L_8;
-	L_9:
+        /* Zero low end of array. */
+        zero(signal, ishft);
 
-	  
-	  /* Zero low end of array. */
-	  zero( signal, ishft );
-	  
-	}
-	return;
+    }
+    return;
 }
-

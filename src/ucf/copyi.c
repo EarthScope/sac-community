@@ -27,10 +27,7 @@
  * @date   800103:  Original Prime version.
  *
  */
-void 
-copyi(int *isrce, 
-      int *isink, 
-      int  ncopy) {
-  memmove(isink, isrce, ncopy * sizeof(int));
+void
+copyi(int *isrce, int *isink, int ncopy) {
+    memmove(isink, isrce, ncopy * sizeof(int));
 }
-

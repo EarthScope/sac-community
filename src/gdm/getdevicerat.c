@@ -13,28 +13,26 @@
  * @date   861026:  Original version.
  *
  */
-void 
-getdeviceratio(float *ratio)
-{
-	float ratio2;
+void
+getdeviceratio(float *ratio) {
+    float ratio2;
 
-        int i, n;
-        display_t **dev;
-        n   = gdm_get_ndevices();
-        dev = gdm_get_devices();
+    int i, n;
+    display_t **dev;
+    n = gdm_get_ndevices();
+    dev = gdm_get_devices();
 
-	/* - Determine the minimum screen aspect (y to x) ratio of all active
-	 *   graphics devices. */
-	*ratio = VLARGE;
-        for(i = 0; i < n; i++) {
-          if(dev[i]->on && dev[i]->get_device_ratio) {
-            dev[i]->get_device_ratio( &ratio2 );
-            *ratio = fmin( *ratio, ratio2 );
-          }
+    /* - Determine the minimum screen aspect (y to x) ratio of all active
+     *   graphics devices. */
+    *ratio = VLARGE;
+    for (i = 0; i < n; i++) {
+        if (dev[i]->on && dev[i]->get_device_ratio) {
+            dev[i]->get_device_ratio(&ratio2);
+            *ratio = fmin(*ratio, ratio2);
         }
-	if( *ratio == VLARGE ) {
-          *ratio = 1.0;
-        }
+    }
+    if (*ratio == VLARGE) {
+        *ratio = 1.0;
+    }
 
 }
-

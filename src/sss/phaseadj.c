@@ -4,23 +4,23 @@
 #include "sss.h"
 #include "debug.h"
 
-void /*FUNCTION*/ phaseadj(leven, npts, xarray, yarray, xfirst, xdel, 
-	 bdist, dist, atime, nerr)
-int leven;
-int npts;
-float xarray[], yarray[];
-double xfirst, xdel, bdist, dist;
-float *atime;
-int *nerr;
+void /*FUNCTION*/
+phaseadj(leven, npts, xarray, yarray, xfirst, xdel, bdist, dist, atime, nerr)
+     int leven;
+     int npts;
+     float xarray[], yarray[];
+     double xfirst, xdel, bdist, dist;
+     float *atime;
+     int *nerr;
 {
-	int i, n;
-	float deldist;
+    int i, n;
+    float deldist;
 
-	float *const Xarray = &xarray[0] - 1;
-	float *const Yarray = &yarray[0] - 1;
-  UNUSED(bdist);
+    float *const Xarray = &xarray[0] - 1;
+    float *const Yarray = &yarray[0] - 1;
+    UNUSED(bdist);
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  Adjust the time relative to a certain phase structure. Used to
 	 *           create reduced travel time plots.  The phase is defined by 
 	 *           xarray and yarray.
@@ -61,44 +61,42 @@ int *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* - Compute time */
+    /* - Compute time */
 
-	if( leven ){
-		n = (dist - xfirst)/xdel;
-		deldist = fabs( dist - (float)( n )*xdel + xfirst );
-		n = n + 1;
-		if( deldist < RNDOFF ){
-			*atime = Yarray[n];
-			}
-		else{
-			*atime = (Yarray[n + 1] - Yarray[n])/xdel*deldist + Yarray[n];
-			}
-		}
-	else{
-		for( i = 1; i <= npts; i++ ){
-			if( fabs( Xarray[i] - dist ) < RNDOFF )
-				goto L_30;
-			if( (i < npts && Xarray[i] <= dist) && Xarray[i + 1] > 
-			 dist )
-				goto L_40;
-			}
-		*nerr = 1;
-		goto L_8888;
-L_30:
-		*atime = Yarray[i];
-		goto L_8888;
-L_40:
-		*atime = (Yarray[i + 1] - Yarray[i])/(Xarray[i + 1] - Xarray[i])*
-		 (dist - Xarray[i]) + Yarray[i];
-		goto L_8888;
-		}
+    if (leven) {
+        n = (dist - xfirst) / xdel;
+        deldist = fabs(dist - (float) (n) * xdel + xfirst);
+        n = n + 1;
+        if (deldist < RNDOFF) {
+            *atime = Yarray[n];
+        } else {
+            *atime = (Yarray[n + 1] - Yarray[n]) / xdel * deldist + Yarray[n];
+        }
+    } else {
+        for (i = 1; i <= npts; i++) {
+            if (fabs(Xarray[i] - dist) < RNDOFF)
+                goto L_30;
+            if ((i < npts && Xarray[i] <= dist) && Xarray[i + 1] > dist)
+                goto L_40;
+        }
+        *nerr = 1;
+        goto L_8888;
+      L_30:
+        *atime = Yarray[i];
+        goto L_8888;
+      L_40:
+        *atime =
+            (Yarray[i + 1] - Yarray[i]) / (Xarray[i + 1] - Xarray[i]) * (dist -
+                                                                         Xarray
+                                                                         [i]) +
+            Yarray[i];
+        goto L_8888;
+    }
 
+  L_8888:
+    return;
 
-L_8888:
-	return;
-
-} /* end of function */
-
+}                               /* end of function */

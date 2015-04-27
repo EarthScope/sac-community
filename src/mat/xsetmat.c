@@ -12,14 +12,15 @@
 #include "bool.h"
 #include "mat.h"
 
-char matdir[MCPFN+1];
+char matdir[MCPFN + 1];
 
-void /*FUNCTION*/ xsetmat(nerr)
-int *nerr;
+void /*FUNCTION*/
+xsetmat(nerr)
+     int *nerr;
 {
-	char ktemp[MCPFN+1];
+    char ktemp[MCPFN + 1];
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To execute the action command SETMAT.
 	 *           This command sets the matlab search path.
 	 *=====================================================================
@@ -41,52 +42,49 @@ int *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
+    /* - Get token */
 
-	/* - Get token */
+    /* -- "text":  the name of a directory to search for matlab scripts. */
+    if (lcchar(ktemp, sizeof(ktemp))) {
+        if (MODEFILECASE < 0) {
+            modcase(FALSE, ktemp, strlen(ktemp), (char *) matdir);
+        } else if (MODEFILECASE > 0) {
+            modcase(TRUE, ktemp, strlen(ktemp), (char *) matdir);
+        } else {
+            strcpy(matdir, ktemp);
+            matdir[MCPFN] = '\0';
+        }
+    }
 
+    /* -- Bad syntax. */
+    else {
+        cfmt("ILLEGAL OPTION:", 17);
+        cresp();
+    }
 
-	/* -- "text":  the name of a directory to search for matlab scripts. */
-	if( lcchar(ktemp, sizeof(ktemp)) ){
-		if( MODEFILECASE < 0 ){
-      modcase( FALSE, ktemp, strlen(ktemp), (char*)matdir );
-		}
-		else if( MODEFILECASE > 0 ){
-      modcase( TRUE, ktemp, strlen(ktemp), (char*)matdir );
-		}
-		else{
-		    strcpy( matdir, ktemp );
-		    matdir[MCPFN]='\0';
-		}
-	} 
+    if (lcmore(nerr)) {
+        setmsg("WARNING", 8001);
+        outmsg();
+        clrmsg();
+    }
 
-	/* -- Bad syntax. */
-	else{
-		cfmt( "ILLEGAL OPTION:",17 );
-		cresp();
-	}
+    return;
 
-	if ( lcmore( nerr ) ) {
-		setmsg ( "WARNING" , 8001 ) ;
-		outmsg () ;
-		clrmsg () ;
-	}
-
-	return;
-
-} /* end of function */
-
+}                               /* end of function */
 
 #endif /* HAVE_MATLAB */
-
 
 #ifndef HAVE_MATLAB
 
 void matlab_unavailable();
 
-void xsetmat(int *err) { UNUSED(err); matlab_unavailable(); }
+void
+xsetmat(int *err) {
+    UNUSED(err);
+    matlab_unavailable();
+}
 
 #endif
-

@@ -5,8 +5,8 @@
 
 void
 settextsize_internal(float width, float height) {
-  cmgdm.twidth = width;
-  cmgdm.thgt   = height;
+    cmgdm.twidth = width;
+    cmgdm.thgt = height;
 }
 
 /** 
@@ -30,27 +30,24 @@ settextsize_internal(float width, float height) {
  * @date   831026:  Original version.
  *
  */
-void 
-settextsize(float width,
-            float height)
-{
-        int i, n;
-        display_t **dev;
-        n   = gdm_get_ndevices();
-        dev = gdm_get_devices();
+void
+settextsize(float width, float height) {
+    int i, n;
+    display_t **dev;
+    n = gdm_get_ndevices();
+    dev = gdm_get_devices();
 
-	/* - If size is different than current size: */
-	if( width != cmgdm.twidth || height != cmgdm.thgt ){
+    /* - If size is different than current size: */
+    if (width != cmgdm.twidth || height != cmgdm.thgt) {
 
-		/* -- Save new size. */
-                settextsize_internal(width, height);
+        /* -- Save new size. */
+        settextsize_internal(width, height);
 
-		/* -- Send new text size to active graphics devices. */
-                for(i = 0; i < n; i++) {
-                  if(dev[i]->on && dev[i]->set_text_size) {
-                    dev[i]->set_text_size(width, height);
-                  }
-                }
+        /* -- Send new text size to active graphics devices. */
+        for (i = 0; i < n; i++) {
+            if (dev[i]->on && dev[i]->set_text_size) {
+                dev[i]->set_text_size(width, height);
+            }
         }
+    }
 }
-

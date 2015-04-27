@@ -38,62 +38,60 @@
  * @date   870301:  Original version.
  *
  */
-void 
+void
 xsetbb(int *nerr) {
-	char kname[MCMSG+1], ktemp[1001], kvalue[MCMSG+1];
-	int  lappend;
-  Token *t;
+    char kname[MCMSG + 1], ktemp[1001], kvalue[MCMSG + 1];
+    int lappend;
+    Token *t;
 
-	*nerr = 0;
+    *nerr = 0;
     memset(kvalue, 0, sizeof(kvalue));
     memset(ktemp, 0, sizeof(ktemp));
     memset(kname, 0, sizeof(kname));
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-	while ( lcmore( nerr ) ){
-    /* -- "name [APPEND] value":  the name and value of the blackboard variable.
-     *    Store the name and value in the blackboard store. */
-    if( lcchar(kname, sizeof(kname))) {
-      lappend = lckey( "APPEND#$",9);
+    while (lcmore(nerr)) {
+        /* -- "name [APPEND] value":  the name and value of the blackboard variable.
+         *    Store the name and value in the blackboard store. */
+        if (lcchar(kname, sizeof(kname))) {
+            lappend = lckey("APPEND#$", 9);
 
-L_1200:
-    if((t = arg())) {
-      if(!lappend) {
-        if(!token_to_bb(t, kname)) {
-          ERROR( ERROR_VARIABLE_TYPE_INCORRECT );
+          L_1200:
+            if ((t = arg())) {
+                if (!lappend) {
+                    if (!token_to_bb(t, kname)) {
+                        ERROR(ERROR_VARIABLE_TYPE_INCORRECT);
+                    }
+                } else {
+                    char *new;
+                    var *v;
+                    if (!(v = getbb(kname))) {
+                        ERROR(ERROR_FINDING_VARIABLE);
+                    }
+                    if ((!token_is_string(t) && !token_is_quoted_string(t) &&
+                         !token_is_escape_string(t)) || v->type != VAR_STRING) {
+                        ERROR(ERROR_VARIABLE_TYPE_INCORRECT);
+                    }
+                    asprintf(&new, "%s%s", v->str, t->str);
+                    setbb(kname, VAR_STRING, new);
+                    free(new);
+                }
+                arg_next();
+            } else {
+                arg_end();
+                cfmt("NEED A BLACKBOARD VALUE", 24);
+                cresp();
+                if (lcmore(nerr))
+                    goto L_1200;
+            }
+
+        } else {
+            /* -- Bad syntax. */
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
         }
-      } else {
-        char *new;
-        var *v;
-        if(!(v = getbb(kname))) {
-          ERROR( ERROR_FINDING_VARIABLE );
-        }
-        if((!token_is_string(t) && !token_is_quoted_string(t) && !token_is_escape_string(t)) || v->type != VAR_STRING) {
-          ERROR( ERROR_VARIABLE_TYPE_INCORRECT );
-        }
-        asprintf(&new, "%s%s", v->str, t->str);
-        setbb(kname, VAR_STRING, new);
-        free(new);
-      }
-      arg_next();
     }
-		else {
-      arg_end();
-      cfmt( "NEED A BLACKBOARD VALUE",24 );
-      cresp();
-      if( lcmore( nerr ) )
-        goto L_1200;
-		}
 
-    }
-    else{
-      /* -- Bad syntax. */
-      cfmt( "ILLEGAL OPTION:",17 );
-      cresp();
-    }
-	}
-
-L_8888:
-	return;
+  L_8888:
+    return;
 }
-

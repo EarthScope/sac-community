@@ -12,12 +12,12 @@
 #include "contouring.h"
 extern struct contour contour;
 
-void 
+void
 putcontseg(number, level, start, stop)
-int number, level, start, stop;
+     int number, level, start, stop;
 {
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To put (store) information about an existing contouring
 	 *           line segment.
 	 *=====================================================================
@@ -40,15 +40,13 @@ int number, level, start, stop;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900315
 	 *===================================================================== */
-	/* PROCEDURE: */
-	if( number <= cmcontouring.numsegments ){
-    contour.segments[number-1].level = level;
-    contour.segments[number-1].start = start;
-    contour.segments[number-1].stop  = stop;
-  }
-	else{
-		fprintf( stdout, "Illegal segment number: %d \n", number );
-		}
-	return;
+    /* PROCEDURE: */
+    if (number <= cmcontouring.numsegments) {
+        contour.segments[number - 1].level = level;
+        contour.segments[number - 1].start = start;
+        contour.segments[number - 1].stop = stop;
+    } else {
+        fprintf(stdout, "Illegal segment number: %d \n", number);
+    }
+    return;
 }
-

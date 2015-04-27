@@ -45,78 +45,69 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "Times-Roman.h"
 #include "ZapfDingbats.h"
 
-
 char NAME[] = "Times";
 /* static const int NAME_A = 1; */
 int NAME_D = 1;
 int NAME_W = 1;
-FontMetricsWidths NAME_WID[] = { {0,0,"X"} };
+FontMetricsWidths NAME_WID[] = { {0, 0, "X"} };
 
 FontMetrics Base14Fonts[] = {
-  /* Regular Fonts */
-  { 
-    Helvetica_Name, 
-    Helvetica_Ascent, Helvetica_Descent, Helvetica_Average_Width,
-    Helvetica_Widths
-  },       
-  { 
-    Courier_Name, 
-    Courier_Ascent, Courier_Descent, Courier_Average_Width,
-    Courier_Widths
-  },       
-  { 
-    Times_Name, 
-    Times_Ascent, Times_Descent, Times_Average_Width,
-    Times_Widths
-  },       
+    /* Regular Fonts */
+    {
+     Helvetica_Name,
+     Helvetica_Ascent, Helvetica_Descent, Helvetica_Average_Width,
+     Helvetica_Widths},
+    {
+     Courier_Name,
+     Courier_Ascent, Courier_Descent, Courier_Average_Width,
+     Courier_Widths},
+    {
+     Times_Name,
+     Times_Ascent, Times_Descent, Times_Average_Width,
+     Times_Widths},
 
-  /* Bold Fonts */
-  { 
-    Helvetica_Bold_Name, 
-    Helvetica_Bold_Ascent, Helvetica_Bold_Descent, Helvetica_Bold_Average_Width,
-    Helvetica_Bold_Widths
-  },       
-  { 
-    Courier_Bold_Name, 
-    Courier_Bold_Ascent, Courier_Bold_Descent, Courier_Bold_Average_Width,
-    Courier_Bold_Widths
-  },       
-  { 
-    Times_Bold_Name, 
-    Times_Bold_Ascent, Times_Bold_Descent, Times_Bold_Average_Width,
-    Times_Bold_Widths
-  },       
+    /* Bold Fonts */
+    {
+     Helvetica_Bold_Name,
+     Helvetica_Bold_Ascent, Helvetica_Bold_Descent,
+     Helvetica_Bold_Average_Width,
+     Helvetica_Bold_Widths},
+    {
+     Courier_Bold_Name,
+     Courier_Bold_Ascent, Courier_Bold_Descent, Courier_Bold_Average_Width,
+     Courier_Bold_Widths},
+    {
+     Times_Bold_Name,
+     Times_Bold_Ascent, Times_Bold_Descent, Times_Bold_Average_Width,
+     Times_Bold_Widths},
 
-  /* Bold Italic Fonts */ 
-  { 
-    Helvetica_BoldItalic_Name, 
-    Helvetica_BoldItalic_Ascent, Helvetica_BoldItalic_Descent, Helvetica_BoldItalic_Average_Width,
-    Helvetica_BoldItalic_Widths
-  },       
-  { 
-    Courier_BoldItalic_Name, 
-    Courier_BoldItalic_Ascent, Courier_BoldItalic_Descent, Courier_BoldItalic_Average_Width,
-    Courier_BoldItalic_Widths
-  },       
-  { 
-    Times_BoldItalic_Name, 
-    Times_BoldItalic_Ascent, Times_BoldItalic_Descent, Times_BoldItalic_Average_Width,
-    Times_BoldItalic_Widths
-  },       
+    /* Bold Italic Fonts */
+    {
+     Helvetica_BoldItalic_Name,
+     Helvetica_BoldItalic_Ascent, Helvetica_BoldItalic_Descent,
+     Helvetica_BoldItalic_Average_Width,
+     Helvetica_BoldItalic_Widths},
+    {
+     Courier_BoldItalic_Name,
+     Courier_BoldItalic_Ascent, Courier_BoldItalic_Descent,
+     Courier_BoldItalic_Average_Width,
+     Courier_BoldItalic_Widths},
+    {
+     Times_BoldItalic_Name,
+     Times_BoldItalic_Ascent, Times_BoldItalic_Descent,
+     Times_BoldItalic_Average_Width,
+     Times_BoldItalic_Widths},
 
-  /* Symbol and ZapfDingbats */
-  { 
-    Symbol_Name, 
-    Symbol_Ascent, Symbol_Descent, Symbol_Average_Width,
-    Symbol_Widths
-  },       
-  { 
-    ZapfDingbats_Name, 
-    ZapfDingbats_Ascent, ZapfDingbats_Descent, ZapfDingbats_Average_Width,
-    ZapfDingbats_Widths
-  },       
+    /* Symbol and ZapfDingbats */
+    {
+     Symbol_Name,
+     Symbol_Ascent, Symbol_Descent, Symbol_Average_Width,
+     Symbol_Widths},
+    {
+     ZapfDingbats_Name,
+     ZapfDingbats_Ascent, ZapfDingbats_Descent, ZapfDingbats_Average_Width,
+     ZapfDingbats_Widths},
 };
-
 
 #define Base14FontLength   14
 
@@ -133,19 +124,18 @@ FontMetrics Base14Fonts[] = {
  * @return 
  *    FontMetrics specifying the size of characters
  */
-FontMetrics * 
+FontMetrics *
 base14font_find(char *name) {
-  int i;
-  for(i = 0; i < Base14FontLength; i++) {
-    if(strcasecmp(name, Base14Fonts[i].name) == 0) {
-      //return Base14Fonts[i];
-      return &(Base14Fonts[i]);
+    int i;
+    for (i = 0; i < Base14FontLength; i++) {
+        if (strcasecmp(name, Base14Fonts[i].name) == 0) {
+            //return Base14Fonts[i];
+            return &(Base14Fonts[i]);
+        }
     }
-  }
-  
-  return NULL;
-}
 
+    return NULL;
+}
 
 /** 
  * Get ascent of a Font
@@ -160,14 +150,14 @@ base14font_find(char *name) {
  */
 int
 string_ascent(char *font, float size) {
-  int ascent;
-  FontMetrics *Font = base14font_find(font);
-  if(!Font) {
-    ascent = DEFAULT_ASCENT;
-  } else {
-    ascent = Font->ascent;
-  }
-  return (int)(ascent * size / 1000.0);
+    int ascent;
+    FontMetrics *Font = base14font_find(font);
+    if (!Font) {
+        ascent = DEFAULT_ASCENT;
+    } else {
+        ascent = Font->ascent;
+    }
+    return (int) (ascent * size / 1000.0);
 }
 
 /** 
@@ -183,14 +173,14 @@ string_ascent(char *font, float size) {
  */
 int
 string_descent(char *font, float size) {
-  int descent;
-  FontMetrics *Font = base14font_find(font);
-  if(!Font) {
-    descent = DEFAULT_DESCENT;
-  } else {
-    descent = Font->descent;
-  }
-  return (int)(-1.0 * descent * size / 1000.0);
+    int descent;
+    FontMetrics *Font = base14font_find(font);
+    if (!Font) {
+        descent = DEFAULT_DESCENT;
+    } else {
+        descent = Font->descent;
+    }
+    return (int) (-1.0 * descent * size / 1000.0);
 }
 
 /** 
@@ -206,14 +196,14 @@ string_descent(char *font, float size) {
  */
 int
 string_average_width(char *font, float size) {
-  int width;
-  FontMetrics *Font = base14font_find(font);
-  if(!Font) {
-    width = DEFAULT_WIDTH;
-  } else {
-    width = Font->average_width;
-  }
-  return (int)(width * size / 1000.0);
+    int width;
+    FontMetrics *Font = base14font_find(font);
+    if (!Font) {
+        width = DEFAULT_WIDTH;
+    } else {
+        width = Font->average_width;
+    }
+    return (int) (width * size / 1000.0);
 }
 
 /** 
@@ -229,15 +219,15 @@ string_average_width(char *font, float size) {
  */
 int
 string_height(char *font, float size) {
-  int height;
-  FontMetrics *Font = base14font_find(font);
-  if(!Font) {
-    height = DEFAULT_ASCENT - DEFAULT_DESCENT;
-  } else {
-    height = Font->ascent - Font->descent;
-  }
-  
-  return (int)(height * size / 1000);
+    int height;
+    FontMetrics *Font = base14font_find(font);
+    if (!Font) {
+        height = DEFAULT_ASCENT - DEFAULT_DESCENT;
+    } else {
+        height = Font->ascent - Font->descent;
+    }
+
+    return (int) (height * size / 1000);
 }
 
 /** 
@@ -255,20 +245,20 @@ string_height(char *font, float size) {
  */
 int
 string_width(char *font, char *text, float size) {
-  char c;
-  int i;
-  int width;
-  FontMetrics *Font = base14font_find(font);
-  
-  width = 0;
-  if(!Font) {
-    width = strlen(text) * DEFAULT_WIDTH;
-  } else {
-   for(i = 0; i < (int)strlen(text); i++) {
-      c = text[i];
-      width += Font->widths[c-32].width;
+    char c;
+    int i;
+    int width;
+    FontMetrics *Font = base14font_find(font);
+
+    width = 0;
+    if (!Font) {
+        width = strlen(text) * DEFAULT_WIDTH;
+    } else {
+        for (i = 0; i < (int) strlen(text); i++) {
+            c = text[i];
+            width += Font->widths[c - 32].width;
+        }
     }
-  }
-  width = width * size / 1000;
-  return width;
+    width = width * size / 1000;
+    return width;
 }

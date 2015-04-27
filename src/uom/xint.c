@@ -5,19 +5,19 @@
 #include "hdr.h"
 #include "bool.h"
 
-
 #include "ucf.h"
 #include "cpf.h"
 #include "dff.h"
 
-void /*FUNCTION*/ xint(nerr)
-int *nerr;
+void /*FUNCTION*/
+xint(nerr)
+     int *nerr;
 {
-	int jdfl, jy;
-	float deltat, hstep, prtint, totint;
+    int jdfl, jy;
+    float deltat, hstep, prtint, totint;
 
-  sac *s;
-	/*=====================================================================
+    sac *s;
+        /*=====================================================================
 	 * PURPOSE:  To execute the action command INTEGRATE.
 	 *           This command integrates each data file.
 	 *=====================================================================
@@ -59,125 +59,123 @@ int *nerr;
 	 *    810120:  Changed to output message retrieval from disk.
 	 *    800314:  Original version.
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* PARSING PHASE: */
+    /* PARSING PHASE: */
 
-	/* - Loop on each token in command: */
-	while ( lcmore( nerr ) ){
-	    /* -- Midpoint option is the default. */
-	    if( lclog2( "T#RAPEZOIDAL$",14, "R#ECTANGULAR$",14, &cmuom.ltrap ) )
-	    { /* do nothing */ }
+    /* - Loop on each token in command: */
+    while (lcmore(nerr)) {
+        /* -- Midpoint option is the default. */
+        if (lclog2("T#RAPEZOIDAL$", 14, "R#ECTANGULAR$", 14, &cmuom.ltrap)) {   /* do nothing */
+        }
 
-	    /* -- Bad syntax. */
-	    else{
-		cfmt( "ILLEGAL OPTION:",17 );
-		cresp();
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
 
-	    }
-	}
-
-	/* CHECKING PHASE: */
-
-	/* - Check for null data file list. */
-
-	vflist( nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
-
-	/* - Check to make sure all files are time series files. */
-
-	vftime( nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
-
-	/* EXECUTION PHASE: */
-
-	/* - Perform requested operation on each file in DFL. */
-
-	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
-	    /* -- Get file */
-    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
-      goto L_8888;
+        }
     }
-    //getfil( jdfl, TRUE, &nlen, &nlcy, &nlcx, nerr );
 
-	    /* -- Logic for evenly spaced data. */
-	    if( s->h->leven ){
-		if( cmuom.ltrap ){
-		    /* --- Midpoint (trapezoidal) method.  */
-		    hstep = 0.5*s->h->delta;
-		    totint = 0.;
-		    for( jy = 0; jy < s->h->npts-1; jy++ ){
-          prtint = hstep*(s->y[jy] + s->y[jy+1]);
-          totint = totint + prtint;
-          s->y[jy] = totint;
-		    }
-		}
-		else{
-		    /* --- Rectangular method.  */
-      s->y[0] = s->h->delta * s->y[0];
-      for( jy = 1; jy < s->h->npts; jy++ ){
-        s->y[jy] = s->h->delta * s->y[jy] + s->y[jy-1] ;
-      }
-		}
-	    } /* end if( s->h->leven ) */
+    /* CHECKING PHASE: */
 
-	    /* -- Logic for unevenly spaced data. */
-	    else{
-		if( cmuom.ltrap ){
-		    /* --- Midpoint (trapezoidal) method.  */
-		    totint = 0.;
-		    for( jy = 0; jy < (s->h->npts - 1); jy++ ){
-          hstep = 0.5*(s->x[jy+1] - s->x[jy]);
-          prtint = hstep*(s->y[jy] + s->y[jy+1]);
-          totint = totint + prtint;
-          s->y[jy] = totint;
-          s->x[jy] += hstep;
-		    }
-		}
-		else{
-		    /* --- Rectangular method.  */
-		    for( jy = 1; jy <= s->h->npts; jy++ ){
-          deltat = s->x[jy] - s->x[jy-1];
-          s->y[jy] = deltat*s->y[jy] + s->y[jy-1];
-		    }
-		}
-	    } /* end else associated with if( s->h->leven ) */
+    /* - Check for null data file list. */
 
-	    /* -- Change the type of the dependent variable. */
-	    if( s->h->idep == IACC )
-		s->h->idep = IVEL;
-	    else if( s->h->idep == IVEL )
-		s->h->idep = IDISP;
-	    else
-		s->h->idep = IUNKN;
+    vflist(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	    /* -- If using trapezoidal method, decrease NPTS by one, set B and E. */
-	    if( cmuom.ltrap ){
-		s->h->npts = s->h->npts - 1;
-		if( s->h->leven ){
-		    s->h->b = s->h->b + 0.5*s->h->delta;
-		    s->h->e = s->h->b + (float)( s->h->npts - 1 )*s->h->delta;
-		}
-		else{
-      s->h->b = s->x[0];
-      s->h->e = s->x[s->h->npts-1];
-		}
-	    }
+    /* - Check to make sure all files are time series files. */
 
-	    /* -- Recalculate min, max and mean. */
-	    extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
+    vftime(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	} /* end for ( jdfl ) */
+    /* EXECUTION PHASE: */
 
-	/* - Calculate and set new range of dependent variable. */
+    /* - Perform requested operation on each file in DFL. */
 
-	setrng();
+    for (jdfl = 1; jdfl <= saclen(); jdfl++) {
+        /* -- Get file */
+        if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
+            goto L_8888;
+        }
+        //getfil( jdfl, TRUE, &nlen, &nlcy, &nlcx, nerr );
 
-L_8888:
-	return;
+        /* -- Logic for evenly spaced data. */
+        if (s->h->leven) {
+            if (cmuom.ltrap) {
+                /* --- Midpoint (trapezoidal) method.  */
+                hstep = 0.5 * s->h->delta;
+                totint = 0.;
+                for (jy = 0; jy < s->h->npts - 1; jy++) {
+                    prtint = hstep * (s->y[jy] + s->y[jy + 1]);
+                    totint = totint + prtint;
+                    s->y[jy] = totint;
+                }
+            } else {
+                /* --- Rectangular method.  */
+                s->y[0] = s->h->delta * s->y[0];
+                for (jy = 1; jy < s->h->npts; jy++) {
+                    s->y[jy] = s->h->delta * s->y[jy] + s->y[jy - 1];
+                }
+            }
+        }
 
-} /* end of function */
+        /* end if( s->h->leven ) */
+        /* -- Logic for unevenly spaced data. */
+        else {
+            if (cmuom.ltrap) {
+                /* --- Midpoint (trapezoidal) method.  */
+                totint = 0.;
+                for (jy = 0; jy < (s->h->npts - 1); jy++) {
+                    hstep = 0.5 * (s->x[jy + 1] - s->x[jy]);
+                    prtint = hstep * (s->y[jy] + s->y[jy + 1]);
+                    totint = totint + prtint;
+                    s->y[jy] = totint;
+                    s->x[jy] += hstep;
+                }
+            } else {
+                /* --- Rectangular method.  */
+                for (jy = 1; jy <= s->h->npts; jy++) {
+                    deltat = s->x[jy] - s->x[jy - 1];
+                    s->y[jy] = deltat * s->y[jy] + s->y[jy - 1];
+                }
+            }
+        }                       /* end else associated with if( s->h->leven ) */
 
+        /* -- Change the type of the dependent variable. */
+        if (s->h->idep == IACC)
+            s->h->idep = IVEL;
+        else if (s->h->idep == IVEL)
+            s->h->idep = IDISP;
+        else
+            s->h->idep = IUNKN;
+
+        /* -- If using trapezoidal method, decrease NPTS by one, set B and E. */
+        if (cmuom.ltrap) {
+            s->h->npts = s->h->npts - 1;
+            if (s->h->leven) {
+                s->h->b = s->h->b + 0.5 * s->h->delta;
+                s->h->e = s->h->b + (float) (s->h->npts - 1) * s->h->delta;
+            } else {
+                s->h->b = s->x[0];
+                s->h->e = s->x[s->h->npts - 1];
+            }
+        }
+
+        /* -- Recalculate min, max and mean. */
+        extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax,
+               &s->h->depmen);
+
+    }                           /* end for ( jdfl ) */
+
+    /* - Calculate and set new range of dependent variable. */
+
+    setrng();
+
+  L_8888:
+    return;
+
+}                               /* end of function */

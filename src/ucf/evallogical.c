@@ -21,13 +21,13 @@
 
 int
 is_undefined(char *s) {
-  if(strcasecmp(s, "undefined") == 0) {
-    return 1;
-  }
-  if(strcasecmp(s, "undef") == 0) {
-    return 1;
-  }
-  return 0;
+    if (strcasecmp(s, "undefined") == 0) {
+        return 1;
+    }
+    if (strcasecmp(s, "undef") == 0) {
+        return 1;
+    }
+    return 0;
 }
 
 #define	MLOGICALS	6
@@ -64,100 +64,104 @@ is_undefined(char *s) {
  * @date   870811:  Original version.
  *
  */
-void 
-evallogical(char *string, 
-            int   string_s, 
-            char *result, 
-            int   result_s) {
+void
+evallogical(char *string, int string_s, char *result, int result_s) {
 
-  UNUSED(string);
-  UNUSED(string_s);
+    UNUSED(string);
+    UNUSED(string_s);
 
-	int lresult;
-	float x, y;
+    int lresult;
+    float x, y;
 
-  Token *t1, *t2, *top;
+    Token *t1, *t2, *top;
 
-  if(!(t1 = arg()))  { goto ERROR; }
-  arg_next();
-  if(!(top = arg())) { goto ERROR; }
-  arg_next();
-  if(!(t2 = arg()))  { goto ERROR; }
-  arg_next();
-
-	/* - If first and third tokens are not floating point numbers (i.e. strings)
-	 *   then the only tests that are allowed are "EQ" and "NE". */
-
-	if( (token_is_string(t1) || token_is_quoted_string(t1) || token_is_escape_string(t1)) &&
-      (token_is_string(t2) || token_is_quoted_string(t2) || token_is_escape_string(t2))) {
-    lresult = strcmp(t1->str, t2->str);
-    if(is_undefined(t1->str) && strcmp(t2->str, "-12345  ") == 0) {
-      lresult = 0;
+    if (!(t1 = arg())) {
+        goto ERROR;
     }
-    if(is_undefined(t2->str) && strcmp(t1->str, "-12345  ") == 0) {
-      lresult = 0;
+    arg_next();
+    if (!(top = arg())) {
+        goto ERROR;
     }
-    if( token_is_eq(top) ) {
-      lresult = lresult == 0;
-      goto L_8000;
-    }	else if( token_is_ne(top) ) {
-      lresult = lresult != 0;
-			goto L_8000;
-    }	else {
-			goto ERROR;
+    arg_next();
+    if (!(t2 = arg())) {
+        goto ERROR;
     }
-  }
-  if(!token_is_number(t1) || !token_is_number(t2)) {
-    if( (token_is_string(t1) || token_is_quoted_string(t1) || token_is_escape_string(t1)) &&
-        is_undefined(t1->str) &&
-        token_is_number(t2) ) {
-        t1->value = -12345;
-    } else if( (token_is_string(t2) || token_is_quoted_string(t2) || token_is_escape_string(t2)) &&
-               is_undefined(t2->str) &&
-               token_is_number(t1) ) {
-      t2->value = -12345;
+    arg_next();
+
+    /* - If first and third tokens are not floating point numbers (i.e. strings)
+     *   then the only tests that are allowed are "EQ" and "NE". */
+
+    if ((token_is_string(t1) || token_is_quoted_string(t1) ||
+         token_is_escape_string(t1)) && (token_is_string(t2) ||
+                                         token_is_quoted_string(t2) ||
+                                         token_is_escape_string(t2))) {
+        lresult = strcmp(t1->str, t2->str);
+        if (is_undefined(t1->str) && strcmp(t2->str, "-12345  ") == 0) {
+            lresult = 0;
+        }
+        if (is_undefined(t2->str) && strcmp(t1->str, "-12345  ") == 0) {
+            lresult = 0;
+        }
+        if (token_is_eq(top)) {
+            lresult = lresult == 0;
+            goto L_8000;
+        } else if (token_is_ne(top)) {
+            lresult = lresult != 0;
+            goto L_8000;
+        } else {
+            goto ERROR;
+        }
+    }
+    if (!token_is_number(t1) || !token_is_number(t2)) {
+        if ((token_is_string(t1) || token_is_quoted_string(t1) ||
+             token_is_escape_string(t1)) && is_undefined(t1->str) &&
+            token_is_number(t2)) {
+            t1->value = -12345;
+        } else
+            if ((token_is_string(t2) || token_is_quoted_string(t2) ||
+                 token_is_escape_string(t2)) && is_undefined(t2->str) &&
+                token_is_number(t1)) {
+            t2->value = -12345;
+        } else {
+            goto ERROR;
+        }
+    }
+
+    /* - Evaluate logical expressions involving floating point numbers. */
+
+    if (token_is_lt(top)) {
+        lresult = t1->value < t2->value;
+    } else if (token_is_le(top)) {
+        lresult = t1->value <= t2->value;
+    } else if (token_is_gt(top)) {
+        lresult = t1->value > t2->value;
+    } else if (token_is_ge(top)) {
+        lresult = t1->value >= t2->value;
+    } else if (token_is_eq(top)) {
+        /* y = t1 - t2;
+           x = MAX((t1 + t2)/2, 1e-30)
+           (t1-t2)/(t1+t2)/2 <= RNDOFF
+         */
+        y = fabs(t1->value - t2->value);
+        x = fmax(0.5 * (t1->value + t2->value), VSMALL);
+        lresult = (y / x) <= RNDOFF;
+    } else if (token_is_ne(top)) {
+        y = fabs(t1->value - t2->value);
+        x = fmax(0.5 * (t1->value + t2->value), VSMALL);
+        lresult = (y / x) > RNDOFF;
     } else {
-      goto ERROR;
+        goto ERROR;
     }
-  }
 
-	/* - Evaluate logical expressions involving floating point numbers. */
+  L_8000:
+    if (lresult) {
+        fstrncpy(result, result_s - 1, "TRUE", 4);
+    } else {
+        fstrncpy(result, result_s - 1, "FALSE", 5);
+    }
+    return;
 
-  if(token_is_lt(top)) {
-    lresult = t1->value < t2->value;
-  } else if(token_is_le(top)) {
-    lresult = t1->value <= t2->value;
-  } else if(token_is_gt(top)) {
-    lresult = t1->value > t2->value;
-  } else if(token_is_ge(top)) {
-    lresult = t1->value >= t2->value;
-  } else if(token_is_eq(top)) {
-    /* y = t1 - t2;
-       x = MAX((t1 + t2)/2, 1e-30)
-       (t1-t2)/(t1+t2)/2 <= RNDOFF
-    */
-    y = fabs( t1->value - t2->value );
-    x = fmax( 0.5*(t1->value + t2->value), VSMALL );
-    lresult = (y/x) <= RNDOFF;
-  } else if(token_is_ne(top)) {
-    y = fabs( t1->value - t2->value );
-    x = fmax( 0.5*(t1->value + t2->value), VSMALL );
-    lresult = (y/x) > RNDOFF;
-  } else {
-    goto ERROR;
-  }
-
-L_8000:
-	if( lresult ){
-		fstrncpy( result, result_s - 1, "TRUE", 4 );
-		}
-	else{
-		fstrncpy( result, result_s - 1, "FALSE", 5 );
-		}
-	return;
-
- ERROR:
-  fstrncpy( result, result_s-1, "ERROR", 5 );
-  return;
-} /* end of function */
-
+  ERROR:
+    fstrncpy(result, result_s - 1, "ERROR", 5);
+    return;
+}                               /* end of function */

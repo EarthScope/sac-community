@@ -5,17 +5,17 @@
 #include "gem.h"
 #include "gdm.h"
 
-
 #include "bot.h"
 
-void /*FUNCTION*/ pltext(ktext, ktext_s, xloc, yloc)
-char *ktext;   int ktext_s;
-float xloc, yloc;
+void /*FUNCTION*/
+pltext(ktext, ktext_s, xloc, yloc)
+     char *ktext;
+     int ktext_s;
+     float xloc, yloc;
 {
-	int iline, nctext;
+    int iline, nctext;
 
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To plot a text string at a specific location.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -41,25 +41,23 @@ float xloc, yloc;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  890523
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Determine length of string without trailing blanks. */
-	nctext = indexb( ktext,ktext_s );
+    /* PROCEDURE: */
+    /* - Determine length of string without trailing blanks. */
+    nctext = indexb(ktext, ktext_s);
 
-	/* - Move to plot location. */
+    /* - Move to plot location. */
 
-        move( xloc, yloc );
+    move(xloc, yloc);
 
-	/* - Plot text. Make sure linestyle is solid. */
+    /* - Plot text. Make sure linestyle is solid. */
 
-	getlinestyle( &iline );
-	setlinestyle( 1 );
-	setlinewidth( LINE_WIDTH_THIN );
-	text( ktext,ktext_s, nctext );
-	setlinestyle( iline );
-	setlinewidth( cmgem.iwidth );
+    getlinestyle(&iline);
+    setlinestyle(1);
+    setlinewidth(LINE_WIDTH_THIN);
+    text(ktext, ktext_s, nctext);
+    setlinestyle(iline);
+    setlinewidth(cmgem.iwidth);
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

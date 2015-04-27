@@ -20,9 +20,8 @@
  *    External Command Storage 
  */
 struct t_cmextcom {
-  int nfiles;
-  int (*extfuncs[MEXTCOMS])();
+    int nfiles;
+    int (*extfuncs[MEXTCOMS]) ();
 } cmextcom;
-
 
 #endif /* _DLOAD_H_ */

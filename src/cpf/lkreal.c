@@ -28,16 +28,13 @@
  * @date   810207:  Original version.
  *
  */
-int 
-lkreal(char   *kkey, 
-       int     kkey_s, 
-       double *realv) {
+int
+lkreal(char *kkey, int kkey_s, double *realv) {
 
-	if(!lckey( kkey,kkey_s )) {
-    return FALSE;
-  }
+    if (!lckey(kkey, kkey_s)) {
+        return FALSE;
+    }
 
-  lcreal(realv);
-  return TRUE;
+    lcreal(realv);
+    return TRUE;
 }
-

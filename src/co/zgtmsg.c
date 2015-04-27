@@ -9,26 +9,26 @@
 #include "co.h"
 
 #include "config.h"
-#include "bool.h" 
+#include "bool.h"
 
 #ifndef READLINE
 void
-zgtmsg(prmt,prmtlen,msg,msglen)
-char *prmt;		/* pointer to prompt message */
-int prmtlen;		/* length of prmt array */
-char *msg;		/* pointer to character array to receive input */
-int msglen;		/* length of msg array */
- 
+zgtmsg(prmt, prmtlen, msg, msglen)
+     char *prmt;                /* pointer to prompt message */
+     int prmtlen;               /* length of prmt array */
+     char *msg;                 /* pointer to character array to receive input */
+     int msglen;                /* length of msg array */
+
 {
- 
-	while (*prmt != '$')
-		putchar (*(prmt++));	/* print prompt */
-  fflush(stdout);
-	getline_sac (stdin,msg,(short) msglen);
-	return;
+
+    while (*prmt != '$')
+        putchar(*(prmt++));     /* print prompt */
+    fflush(stdout);
+    getline_sac(stdin, msg, (short) msglen);
+    return;
 }
- 
-#else 
+
+#else
 
 #include "select.h"
 
@@ -39,11 +39,12 @@ int msglen;		/* length of msg array */
  *   Command line to process
  *
  */
-static 
-void process_line(char *p) { 
-  select_loop_continue(SELECT_OFF);
-  select_loop_message(p, SELECT_MSG_SET);
-  return; 
+static
+    void
+process_line(char *p) {
+    select_loop_continue(SELECT_OFF);
+    select_loop_message(p, SELECT_MSG_SET);
+    return;
 }
 
 /** 
@@ -63,17 +64,13 @@ void process_line(char *p) {
  *      to the history
  */
 void
-zgtmsg(char *prmt, 
-       int   prmtlen,
-       char *msg, 
-       int   msglen) {
-  if(!use_tty()) {
-    while (*prmt != '$')
-      putchar (*(prmt++));	/* print prompt */
-    fflush(stdout);
-  }
-  select_loop(prmt, prmtlen, msg, msglen, NULL, process_line, TRUE, TRUE);
+zgtmsg(char *prmt, int prmtlen, char *msg, int msglen) {
+    if (!use_tty()) {
+        while (*prmt != '$')
+            putchar(*(prmt++)); /* print prompt */
+        fflush(stdout);
+    }
+    select_loop(prmt, prmtlen, msg, msglen, NULL, process_line, TRUE, TRUE);
 }
-
 
 #endif /* ! READLINE */

@@ -3,19 +3,21 @@
 #include "wild.h"
 #include "bool.h"
 
-
 #include "co.h"
 #include "bot.h"
 
-void /*FUNCTION*/ getdir(kpath, kpath_s, kdirpt, kdirpt_s, kpatpt, 
-	 kpatpt_s)
-char *kpath;   int kpath_s;
-char *kdirpt;   int kdirpt_s;
-char *kpatpt;   int kpatpt_s;
+void /*FUNCTION*/
+getdir(kpath, kpath_s, kdirpt, kdirpt_s, kpatpt, kpatpt_s)
+     char *kpath;
+     int kpath_s;
+     char *kdirpt;
+     int kdirpt_s;
+     char *kpatpt;
+     int kpatpt_s;
 {
-	int ifirst;
+    int ifirst;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: Breaks a pathname into a directory part and a pattern part.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -42,30 +44,27 @@ char *kpatpt;   int kpatpt_s;
 	 *=====================================================================
 	 * DOCUMENTED: 860922
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Search pathname backwards for last occurrence of a delimiter */
-	ifirst = indexa( kpath,kpath_s, KDIRDL, FALSE, TRUE );
+    /* PROCEDURE: */
+    /* - Search pathname backwards for last occurrence of a delimiter */
+    ifirst = indexa(kpath, kpath_s, KDIRDL, FALSE, TRUE);
 
-	/* - If there's not one, then return empty string for the directory part */
+    /* - If there's not one, then return empty string for the directory part */
 
-	if( ifirst == 0 ){
+    if (ifirst == 0) {
 
-		fstrncpy( kdirpt, kdirpt_s-1, " ", 1 );
-		fstrncpy( kpatpt, kpatpt_s-1, kpath, kpath_s - 1);
+        fstrncpy(kdirpt, kdirpt_s - 1, " ", 1);
+        fstrncpy(kpatpt, kpatpt_s - 1, kpath, kpath_s - 1);
 
-		}
-	else{
+    } else {
 
-		/* - If it's there, break string there */
+        /* - If it's there, break string there */
 
-		fstrncpy( kdirpt, kdirpt_s-1, kpath, ifirst);
-		ifirst = ifirst + 1;
-		fstrncpy( kpatpt, kpatpt_s-1, kpath+ifirst - 1, kpath_s - ifirst);
+        fstrncpy(kdirpt, kdirpt_s - 1, kpath, ifirst);
+        ifirst = ifirst + 1;
+        fstrncpy(kpatpt, kpatpt_s - 1, kpath + ifirst - 1, kpath_s - ifirst);
 
-		}
+    }
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

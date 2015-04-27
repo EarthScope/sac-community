@@ -21,7 +21,8 @@
 
 int
 is_kundef(char *kvalue) {
-  return (memcmp(kvalue, SAC_CHAR_UNDEFINED, strlen(SAC_CHAR_UNDEFINED)) == 0);
+    return (memcmp(kvalue, SAC_CHAR_UNDEFINED, strlen(SAC_CHAR_UNDEFINED)) ==
+            0);
 }
 
 /** 
@@ -44,93 +45,80 @@ is_kundef(char *kvalue) {
  * @date   870902:  Original version.
  *
  */
-void 
-getkhv(char *kname, 
-       char *kvalue, 
-       int  *nerr, 
-       int   kname_s, 
-       int   kvalue_s) {
+void
+getkhv(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
 
-	char ktest[9];
-	int index;
-	char *p;
-	char *kname_c;
-	int callFromC = 0;
-  sac *s;
-	if(kname_s < 0) {
-	  callFromC = 1;
-          kvalue_s = kvalue_s + 1; /* This +1 will be removed later on */
-          if(kvalue_s <= 1) {
+    char ktest[9];
+    int index;
+    char *p;
+    char *kname_c;
+    int callFromC = 0;
+    sac *s;
+    if (kname_s < 0) {
+        callFromC = 1;
+        kvalue_s = kvalue_s + 1;        /* This +1 will be removed later on */
+        if (kvalue_s <= 1) {
             *nerr = SAC_OK;
-            return ;
-          }
-	}
-
-  s = sacget_current();
-	kname_c = fstrdup(kname, kname_s);
-	kname_s = strlen(kname_c) + 1;
-
-	*nerr = 0;
-    memset(kvalue, 0, kvalue_s);
-	/* - Convert input name to uppercase and 
-	 *   check versus list of legal names. */
-  sacio_char_to_keyword(kname_c, ktest);
-	index = nequal( ktest, (char*)kmlhf.kkhdr,9, SAC_HEADER_STRINGS );
-
-	/* - If legal name, return current value.
-	 *   Otherwise, set error condition. */
-	if( index > 0 ){
-    p = khdr(s, index);
-    fstrncpy( kvalue, kvalue_s-1, p,  strlen(p) );
-    if( is_kundef(kvalue) ){
-          *nerr = ERROR_UNDEFINED_HEADER_FIELD_VALUE;
-	    }
-	}
-	else{
-	    *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;
-	    fstrncpy( kvalue, kvalue_s-1, SAC_CHAR_UNDEFINED, strlen(SAC_CHAR_UNDEFINED) );
-	    index = 1;
-	}
-
-	/* - Create error message and write to terminal. */
-
-	if( *nerr != 0 ){
-    sacio_message(*nerr, kname_c);
-	}
-	if(callFromC) {
-          /* Null Terminate the String at the approproiate Length */
-          kvalue[min(((index == 2) ? 16 : 8), kvalue_s-1)] = 0; 
-	} else {
-      if(index == 2 && kvalue_s > 16) {
-        memset(kvalue + 16, ' ', kvalue_s-16);
-      }
-      if(index != 2 && kvalue_s > 8) {
-        memset(kvalue + 8, ' ', kvalue_s - 8);
-      }
+            return;
+        }
     }
 
-	free(kname_c);
+    s = sacget_current();
+    kname_c = fstrdup(kname, kname_s);
+    kname_s = strlen(kname_c) + 1;
 
-	return;
+    *nerr = 0;
+    memset(kvalue, 0, kvalue_s);
+    /* - Convert input name to uppercase and 
+     *   check versus list of legal names. */
+    sacio_char_to_keyword(kname_c, ktest);
+    index = nequal(ktest, (char *) kmlhf.kkhdr, 9, SAC_HEADER_STRINGS);
+
+    /* - If legal name, return current value.
+     *   Otherwise, set error condition. */
+    if (index > 0) {
+        p = khdr(s, index);
+        fstrncpy(kvalue, kvalue_s - 1, p, strlen(p));
+        if (is_kundef(kvalue)) {
+            *nerr = ERROR_UNDEFINED_HEADER_FIELD_VALUE;
+        }
+    } else {
+        *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;
+        fstrncpy(kvalue, kvalue_s - 1, SAC_CHAR_UNDEFINED,
+                 strlen(SAC_CHAR_UNDEFINED));
+        index = 1;
+    }
+
+    /* - Create error message and write to terminal. */
+
+    if (*nerr != 0) {
+        sacio_message(*nerr, kname_c);
+    }
+    if (callFromC) {
+        /* Null Terminate the String at the approproiate Length */
+        kvalue[min(((index == 2) ? 16 : 8), kvalue_s - 1)] = 0;
+    } else {
+        if (index == 2 && kvalue_s > 16) {
+            memset(kvalue + 16, ' ', kvalue_s - 16);
+        }
+        if (index != 2 && kvalue_s > 8) {
+            memset(kvalue + 8, ' ', kvalue_s - 8);
+        }
+    }
+
+    free(kname_c);
+
+    return;
 }
-
-
-
 
 /* Wrapper to make fuction more convenient for FORTRAN programmers. */
 
-void getkhv_ (char      *kname, 
-	      char      *kvalue, 
-	      int       *nerr, 
-	      int        kname_s,
-	      int        kvalue_s) {
-  getkhv ( kname , kvalue , nerr , kname_s , kvalue_s ) ;
+void
+getkhv_(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
+    getkhv(kname, kvalue, nerr, kname_s, kvalue_s);
 }
 
-void getkhv__ (char      *kname, 
-	       char      *kvalue, 
-	       int       *nerr, 
-	       int        kname_s,
-	       int        kvalue_s) {
-  getkhv ( kname , kvalue , nerr , kname_s , kvalue_s ) ;
+void
+getkhv__(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
+    getkhv(kname, kvalue, nerr, kname_s, kvalue_s);
 }

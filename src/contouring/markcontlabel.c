@@ -15,24 +15,24 @@
 
 #define	MPOINTS	5
 
-void 
+void
 markcontlabel(index, ilabel, width, angle)
-int index, ilabel;
-double width;
-float *angle;
+     int index, ilabel;
+     double width;
+     float *angle;
 {
-	int lchange;
-	int jaction[MPOINTS], jlink[MPOINTS], jloc, jlocm1, jlocm2, 
-	 jlocp1, jlocp2, jpoint[MPOINTS], jrlink[MPOINTS], jtemp;
-	float anglem12, anglep12, anglepm2, correction, distance, fpoint[MPOINTS][2];
+    int lchange;
+    int jaction[MPOINTS], jlink[MPOINTS], jloc, jlocm1, jlocm2, jlocp1, jlocp2,
+        jpoint[MPOINTS], jrlink[MPOINTS], jtemp;
+    float anglem12, anglep12, anglepm2, correction, distance,
+        fpoint[MPOINTS][2];
 
-	int *const Jaction = &jaction[0] - 1;
-	int *const Jlink = &jlink[0] - 1;
-	int *const Jpoint = &jpoint[0] - 1;
-	int *const Jrlink = &jrlink[0] - 1;
+    int *const Jaction = &jaction[0] - 1;
+    int *const Jlink = &jlink[0] - 1;
+    int *const Jpoint = &jpoint[0] - 1;
+    int *const Jrlink = &jrlink[0] - 1;
 
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To mark a contouring line segment label.
 	 *           A gap in the segment is produced width enough for label.
 	 *=====================================================================
@@ -74,141 +74,148 @@ float *angle;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900423
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - Set up initial indices. */
-	jlocm2 = 1;
-	jlocm1 = 2;
-	jloc = 3;
-	jlocp1 = 4;
-	jlocp2 = 5;
+    /* PROCEDURE: */
+    /* - Set up initial indices. */
+    jlocm2 = 1;
+    jlocm1 = 2;
+    jloc = 3;
+    jlocp1 = 4;
+    jlocp2 = 5;
 
-	/* - Get the attributes for the point to be labeled,
-	 *   including the reverse link. */
+    /* - Get the attributes for the point to be labeled,
+     *   including the reverse link. */
 
-	Jpoint[jloc] = index;
-	getcontpoint( Jpoint[jloc], &fpoint[jloc - 1][0], &Jlink[jloc], 
-	 &Jaction[jloc] );
-	getcontrlink( Jpoint[jloc], &Jrlink[jloc] );
+    Jpoint[jloc] = index;
+    getcontpoint(Jpoint[jloc], &fpoint[jloc - 1][0], &Jlink[jloc],
+                 &Jaction[jloc]);
+    getcontrlink(Jpoint[jloc], &Jrlink[jloc]);
 
-	/* - Store label point in the "minus 1" and "plus 1" locations to start
-	 *   process. This is necessary in case label is very short compared
-	 *   with data spacing. */
+    /* - Store label point in the "minus 1" and "plus 1" locations to start
+     *   process. This is necessary in case label is very short compared
+     *   with data spacing. */
 
-	Jpoint[jlocm1] = Jpoint[jloc];
-	fpoint[jlocm1 - 1][0] = fpoint[jloc - 1][0];
-	fpoint[jlocm1 - 1][1] = fpoint[jloc - 1][1];
-	Jlink[jlocm1] = Jlink[jloc];
-	Jaction[jlocm1] = Jaction[jloc];
-	Jrlink[jlocm1] = Jrlink[jloc];
+    Jpoint[jlocm1] = Jpoint[jloc];
+    fpoint[jlocm1 - 1][0] = fpoint[jloc - 1][0];
+    fpoint[jlocm1 - 1][1] = fpoint[jloc - 1][1];
+    Jlink[jlocm1] = Jlink[jloc];
+    Jaction[jlocm1] = Jaction[jloc];
+    Jrlink[jlocm1] = Jrlink[jloc];
 
-	Jpoint[jlocp1] = Jpoint[jloc];
-	fpoint[jlocp1 - 1][0] = fpoint[jloc - 1][0];
-	fpoint[jlocp1 - 1][1] = fpoint[jloc - 1][1];
-	Jlink[jlocp1] = Jlink[jloc];
-	Jaction[jlocp1] = Jaction[jloc];
-	Jrlink[jlocp1] = Jrlink[jloc];
+    Jpoint[jlocp1] = Jpoint[jloc];
+    fpoint[jlocp1 - 1][0] = fpoint[jloc - 1][0];
+    fpoint[jlocp1 - 1][1] = fpoint[jloc - 1][1];
+    Jlink[jlocp1] = Jlink[jloc];
+    Jaction[jlocp1] = Jaction[jloc];
+    Jrlink[jlocp1] = Jrlink[jloc];
 
-	/* - Move forward and backward in segment one point at a time
-	 *   until the distance is big enough for the label. */
+    /* - Move forward and backward in segment one point at a time
+     *   until the distance is big enough for the label. */
 
-L_1000:
-	lchange = FALSE;
+  L_1000:
+    lchange = FALSE;
 
-	if( Jlink[jlocp1] > 0 ){
-		Jpoint[jlocp2] = Jlink[jlocp1];
-		getcontpoint( Jpoint[jlocp2], &fpoint[jlocp2 - 1][0], &Jlink[jlocp2], 
-		 &Jaction[jlocp2] );
-		lchange = TRUE;
-		}
-	else{
-		Jpoint[jlocp2] = Jpoint[jlocp1];
-		fpoint[jlocp2 - 1][0] = fpoint[jlocp1 - 1][0];
-		fpoint[jlocp2 - 1][1] = fpoint[jlocp1 - 1][1];
-		Jlink[jlocp2] = Jlink[jlocp1];
-		Jaction[jlocp2] = Jaction[jlocp1];
-		Jrlink[jlocp2] = Jrlink[jlocp1];
-		}
+    if (Jlink[jlocp1] > 0) {
+        Jpoint[jlocp2] = Jlink[jlocp1];
+        getcontpoint(Jpoint[jlocp2], &fpoint[jlocp2 - 1][0], &Jlink[jlocp2],
+                     &Jaction[jlocp2]);
+        lchange = TRUE;
+    } else {
+        Jpoint[jlocp2] = Jpoint[jlocp1];
+        fpoint[jlocp2 - 1][0] = fpoint[jlocp1 - 1][0];
+        fpoint[jlocp2 - 1][1] = fpoint[jlocp1 - 1][1];
+        Jlink[jlocp2] = Jlink[jlocp1];
+        Jaction[jlocp2] = Jaction[jlocp1];
+        Jrlink[jlocp2] = Jrlink[jlocp1];
+    }
 
-	if( Jrlink[jlocm1] > 0 ){
-		Jpoint[jlocm2] = Jrlink[jlocm1];
-		getcontpoint( Jpoint[jlocm2], &fpoint[jlocm2 - 1][0], &Jlink[jlocm2], 
-		 &Jaction[jlocm2] );
-		getcontrlink( Jpoint[jlocm2], &Jrlink[jlocm2] );
-		lchange = TRUE;
-		}
-	else{
-		Jpoint[jlocm2] = Jpoint[jlocm1];
-		fpoint[jlocm2 - 1][0] = fpoint[jlocm1 - 1][0];
-		fpoint[jlocm2 - 1][1] = fpoint[jlocm1 - 1][1];
-		Jlink[jlocm2] = Jlink[jlocm1];
-		Jaction[jlocm2] = Jaction[jlocm1];
-		Jrlink[jlocm2] = Jrlink[jlocm1];
-		}
+    if (Jrlink[jlocm1] > 0) {
+        Jpoint[jlocm2] = Jrlink[jlocm1];
+        getcontpoint(Jpoint[jlocm2], &fpoint[jlocm2 - 1][0], &Jlink[jlocm2],
+                     &Jaction[jlocm2]);
+        getcontrlink(Jpoint[jlocm2], &Jrlink[jlocm2]);
+        lchange = TRUE;
+    } else {
+        Jpoint[jlocm2] = Jpoint[jlocm1];
+        fpoint[jlocm2 - 1][0] = fpoint[jlocm1 - 1][0];
+        fpoint[jlocm2 - 1][1] = fpoint[jlocm1 - 1][1];
+        Jlink[jlocm2] = Jlink[jlocm1];
+        Jaction[jlocm2] = Jaction[jlocm1];
+        Jrlink[jlocm2] = Jrlink[jlocm1];
+    }
 
-	distance = sqrt( powi(fpoint[jlocm2 - 1][0] - fpoint[jlocp2 - 1][0],2) + 
-	 powi(fpoint[jlocm2 - 1][1] - fpoint[jlocp2 - 1][1],2) );
-	if( distance < width && lchange ){
-		Jaction[jlocm2] = MACTIONMOVE;
-		putcontpoint( Jpoint[jlocm2], &fpoint[jlocm2 - 1][0], Jlink[jlocm2], 
-		 Jaction[jlocm2] );
-		Jaction[jlocp2] = MACTIONMOVE;
-		putcontpoint( Jpoint[jlocp2], &fpoint[jlocp2 - 1][0], Jlink[jlocp2], 
-		 Jaction[jlocp2] );
-		jtemp = jlocm1;
-		jlocm1 = jlocm2;
-		jlocm2 = jtemp;
-		jtemp = jlocp1;
-		jlocp1 = jlocp2;
-		jlocp2 = jtemp;
-		goto L_1000;
-		}
-	else if( lchange ){
-		correction = 0.5*(distance - width);
+    distance =
+        sqrt(powi(fpoint[jlocm2 - 1][0] - fpoint[jlocp2 - 1][0], 2) +
+             powi(fpoint[jlocm2 - 1][1] - fpoint[jlocp2 - 1][1], 2));
+    if (distance < width && lchange) {
+        Jaction[jlocm2] = MACTIONMOVE;
+        putcontpoint(Jpoint[jlocm2], &fpoint[jlocm2 - 1][0], Jlink[jlocm2],
+                     Jaction[jlocm2]);
+        Jaction[jlocp2] = MACTIONMOVE;
+        putcontpoint(Jpoint[jlocp2], &fpoint[jlocp2 - 1][0], Jlink[jlocp2],
+                     Jaction[jlocp2]);
+        jtemp = jlocm1;
+        jlocm1 = jlocm2;
+        jlocm2 = jtemp;
+        jtemp = jlocp1;
+        jlocp1 = jlocp2;
+        jlocp2 = jtemp;
+        goto L_1000;
+    } else if (lchange) {
+        correction = 0.5 * (distance - width);
 
-                if((fpoint[jlocm1 - 1][1] == fpoint[jlocm2 - 1][1]) &&
-                   (fpoint[jlocm1 - 1][0] == fpoint[jlocm2 - 1][0])) anglem12 = 0.0;
-                else
-		    anglem12 = atan2( fpoint[jlocm1 - 1][1] - fpoint[jlocm2 - 1][1], 
-		                      fpoint[jlocm1 - 1][0] - fpoint[jlocm2 - 1][0] );
-		fpoint[jlocm2 - 1][0] = fpoint[jlocm2 - 1][0] + correction*cos( anglem12 );
-		fpoint[jlocm2 - 1][1] = fpoint[jlocm2 - 1][1] + correction*sin( anglem12 );
-		putcontpoint( Jpoint[jlocm2], &fpoint[jlocm2 - 1][0], Jlink[jlocm2], 
-		 Jaction[jlocm2] );
-
-                if(( fpoint[jlocp1 - 1][1] == fpoint[jlocp2 - 1][1]) &&
-                   ( fpoint[jlocp1 - 1][0] == fpoint[jlocp2 - 1][0])) anglep12 = 0.0;
-                else
-		    anglep12 = atan2( fpoint[jlocp1 - 1][1] - fpoint[jlocp2 - 1][1], 
-		                      fpoint[jlocp1 - 1][0] - fpoint[jlocp2 - 1][0] );
-		fpoint[jlocp2 - 1][0] = fpoint[jlocp2 - 1][0] + correction*cos( anglep12 );
-		fpoint[jlocp2 - 1][1] = fpoint[jlocp2 - 1][1] + correction*sin( anglep12 );
-		Jaction[jlocp2] = MACTIONMOVE;
-		putcontpoint( Jpoint[jlocp2], &fpoint[jlocp2 - 1][0], Jlink[jlocp2], 
-		 Jaction[jlocp2] );
-
-		}
-
-	/* - Mark the action at the requested point to be of type LABEL.
-	 *   Position of this point is also adjusted for the angle. */
-
-        if((fpoint[jlocp2 - 1][1] == fpoint[jlocm2 - 1][1]) &&
-           (fpoint[jlocp2 - 1][0] == fpoint[jlocm2 - 1][0])) anglepm2 = 0.0;
+        if ((fpoint[jlocm1 - 1][1] == fpoint[jlocm2 - 1][1]) &&
+            (fpoint[jlocm1 - 1][0] == fpoint[jlocm2 - 1][0]))
+            anglem12 = 0.0;
         else
-	    anglepm2 = atan2( fpoint[jlocp2 - 1][1] - fpoint[jlocm2 - 1][1], 
-	                      fpoint[jlocp2 - 1][0] - fpoint[jlocm2 - 1][0] );
+            anglem12 =
+                atan2(fpoint[jlocm1 - 1][1] - fpoint[jlocm2 - 1][1],
+                      fpoint[jlocm1 - 1][0] - fpoint[jlocm2 - 1][0]);
+        fpoint[jlocm2 - 1][0] =
+            fpoint[jlocm2 - 1][0] + correction * cos(anglem12);
+        fpoint[jlocm2 - 1][1] =
+            fpoint[jlocm2 - 1][1] + correction * sin(anglem12);
+        putcontpoint(Jpoint[jlocm2], &fpoint[jlocm2 - 1][0], Jlink[jlocm2],
+                     Jaction[jlocm2]);
 
-	correction = 0.5*width;
-	fpoint[jloc - 1][0] = fpoint[jlocm2 - 1][0] + correction*cos( anglepm2 );
-	fpoint[jloc - 1][1] = fpoint[jlocm2 - 1][1] + correction*sin( anglepm2 );
+        if ((fpoint[jlocp1 - 1][1] == fpoint[jlocp2 - 1][1]) &&
+            (fpoint[jlocp1 - 1][0] == fpoint[jlocp2 - 1][0]))
+            anglep12 = 0.0;
+        else
+            anglep12 =
+                atan2(fpoint[jlocp1 - 1][1] - fpoint[jlocp2 - 1][1],
+                      fpoint[jlocp1 - 1][0] - fpoint[jlocp2 - 1][0]);
+        fpoint[jlocp2 - 1][0] =
+            fpoint[jlocp2 - 1][0] + correction * cos(anglep12);
+        fpoint[jlocp2 - 1][1] =
+            fpoint[jlocp2 - 1][1] + correction * sin(anglep12);
+        Jaction[jlocp2] = MACTIONMOVE;
+        putcontpoint(Jpoint[jlocp2], &fpoint[jlocp2 - 1][0], Jlink[jlocp2],
+                     Jaction[jlocp2]);
 
-	Jaction[jloc] = MACTIONLABEL + ilabel;
-	putcontpoint( Jpoint[jloc], &fpoint[jloc - 1][0], Jlink[jloc], 
-	 Jaction[jloc] );
+    }
 
-	/* - Compute the angle between for the label. */
+    /* - Mark the action at the requested point to be of type LABEL.
+     *   Position of this point is also adjusted for the angle. */
 
-	calcsegangle( &fpoint[jlocm2 - 1][0], &fpoint[jlocp2 - 1][0], angle );
+    if ((fpoint[jlocp2 - 1][1] == fpoint[jlocm2 - 1][1]) &&
+        (fpoint[jlocp2 - 1][0] == fpoint[jlocm2 - 1][0]))
+        anglepm2 = 0.0;
+    else
+        anglepm2 =
+            atan2(fpoint[jlocp2 - 1][1] - fpoint[jlocm2 - 1][1],
+                  fpoint[jlocp2 - 1][0] - fpoint[jlocm2 - 1][0]);
 
-	return;
+    correction = 0.5 * width;
+    fpoint[jloc - 1][0] = fpoint[jlocm2 - 1][0] + correction * cos(anglepm2);
+    fpoint[jloc - 1][1] = fpoint[jlocm2 - 1][1] + correction * sin(anglepm2);
+
+    Jaction[jloc] = MACTIONLABEL + ilabel;
+    putcontpoint(Jpoint[jloc], &fpoint[jloc - 1][0], Jlink[jloc],
+                 Jaction[jloc]);
+
+    /* - Compute the angle between for the label. */
+
+    calcsegangle(&fpoint[jlocm2 - 1][0], &fpoint[jlocp2 - 1][0], angle);
+
+    return;
 }
-

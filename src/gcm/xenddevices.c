@@ -6,17 +6,16 @@
 #include "mach.h"
 #include "gcm.h"
 
-
-
 #include "gdm.h"
 #include "cpf.h"
 
-void /*FUNCTION*/ xenddevices(nerr)
-int *nerr;
+void /*FUNCTION*/
+xenddevices(nerr)
+     int *nerr;
 {
-	char kdev[9];
+    char kdev[9];
     memset(kdev, 0, sizeof(kdev));
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To execute the action command ENDDEVICES.
 	 *           This command terminates one or more graphics devices.
 	 *=====================================================================
@@ -40,43 +39,40 @@ int *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  861112
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-L_1000:
-	if( lcmore( nerr ) ){
+  L_1000:
+    if (lcmore(nerr)) {
 
-		if( lckey( "ALL#$",6 ) ){
-			endgraphics( nerr );
-			if( *nerr != 0 )
-				goto L_8888;
+        if (lckey("ALL#$", 6)) {
+            endgraphics(nerr);
+            if (*nerr != 0)
+                goto L_8888;
 
-			/* -- Call graphics device handler with each token. */
-			}
-		else if( lcchar(kdev, sizeof(kdev)) ){
-			enddevice( kdev,9, nerr );
-			if( *nerr != 0 )
-				goto L_8888;
+            /* -- Call graphics device handler with each token. */
+        } else if (lcchar(kdev, sizeof(kdev))) {
+            enddevice(kdev, 9, nerr);
+            if (*nerr != 0)
+                goto L_8888;
 
-			/* -- Bad syntax. */
-			}
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
+            /* -- Bad syntax. */
+        } else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
 
-			}
-		goto L_1000;
+        }
+        goto L_1000;
 
-		}
+    }
 
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-L_8888:
-	return;
+  L_8888:
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

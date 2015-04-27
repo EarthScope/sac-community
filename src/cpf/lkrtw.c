@@ -39,31 +39,25 @@
  *
  */
 int
-lkrtw(char  *kkey, 
-      int    kkey_s, 
-      int   *lrtw, 
-      char  *krtw, 
-      int    krtw_s, 
-      double *ortw) {
+lkrtw(char *kkey, int kkey_s, int *lrtw, char *krtw, int krtw_s, double *ortw) {
 
-	int nerr;
+    int nerr;
 
-	/* - Check for key. */
-	if(!lckey( kkey,kkey_s )) {
-    return FALSE;
-  }
+    /* - Check for key. */
+    if (!lckey(kkey, kkey_s)) {
+        return FALSE;
+    }
 
-	/* - Use LCRTW to perform parsing.
-	 * - Perform standard error recovery if not found. */
-L_2000:
-	if( lcrtw( lrtw, krtw,krtw_s, ortw ) ){ 
-  } else {
-		cfmt( "ILLEGAL OPTION:",17 );
-		cresp();
-		if( lcmore( &nerr ) )
-		  goto L_2000;
-	}
-  
-  return TRUE;
+    /* - Use LCRTW to perform parsing.
+     * - Perform standard error recovery if not found. */
+  L_2000:
+    if (lcrtw(lrtw, krtw, krtw_s, ortw)) {
+    } else {
+        cfmt("ILLEGAL OPTION:", 17);
+        cresp();
+        if (lcmore(&nerr))
+            goto L_2000;
+    }
+
+    return TRUE;
 }
-

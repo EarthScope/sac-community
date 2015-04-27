@@ -24,25 +24,22 @@
  * @date   900410:  Original version.
  *
  */
-void 
+void
 settextwait(char *mode) {
-	char test[3];
+    char test[3];
 
-	/* - Convert first two input characters to upper case. */
+    /* - Convert first two input characters to upper case. */
     memset(test, 0, sizeof(test));
-	modcase( TRUE, mode, 2, test );
+    modcase(TRUE, mode, 2, test);
 
-	/* - Test versus allowed options. */
-	if( strcmp(test,"ON") == 0 ){
-		strcpy( kmexm.ktextwait, "ON      " );
-		}
-	else if( strcmp(test,"OF") == 0 ){
-		strcpy( kmexm.ktextwait, "OFF     " );
-		}
-	else{
-		strcpy( kmexm.ktextwait, "ON      " );
-		}
+    /* - Test versus allowed options. */
+    if (strcmp(test, "ON") == 0) {
+        strcpy(kmexm.ktextwait, "ON      ");
+    } else if (strcmp(test, "OF") == 0) {
+        strcpy(kmexm.ktextwait, "OFF     ");
+    } else {
+        strcpy(kmexm.ktextwait, "ON      ");
+    }
 
-	return;
+    return;
 }
-

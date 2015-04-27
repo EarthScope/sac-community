@@ -13,11 +13,10 @@
 #include "debug.h"
 extern struct contour contour;
 
-void 
-releaselabels()
-{
+void
+releaselabels() {
 
-	/*=====================================================================
+        /*=====================================================================
 	 * purpose:  to release storage for contour label information.
 	 *=====================================================================
 	 * module/level:  contouring/5
@@ -39,21 +38,19 @@ releaselabels()
 	 *=====================================================================
 	 * documented/reviewed:  900425
 	 *===================================================================== */
-	/* procedure: */
+    /* procedure: */
 
-	/* - release space for each of the label attributes. */
-  FREE(contour.labelseg);
-	cmcontouring.indexseglabelst = 0;
-	cmcontouring.indexseglabelnu = 0;
-	cmcontouring.indexseglabelfi = 0;
+    /* - release space for each of the label attributes. */
+    FREE(contour.labelseg);
+    cmcontouring.indexseglabelst = 0;
+    cmcontouring.indexseglabelnu = 0;
+    cmcontouring.indexseglabelfi = 0;
 
-  FREE(contour.label);
-	cmcontouring.indexlabelpoint = 0;
-	cmcontouring.indexlabeltype = 0;
-	cmcontouring.indexlabelangle = 0;
-	cmcontouring.indexlabeltext = 0;
+    FREE(contour.label);
+    cmcontouring.indexlabelpoint = 0;
+    cmcontouring.indexlabeltype = 0;
+    cmcontouring.indexlabelangle = 0;
+    cmcontouring.indexlabeltext = 0;
 
-	return;
+    return;
 }
-
-

@@ -37,18 +37,13 @@
  *
  */
 int
-lkrrcp(char   *kkey, 
-       int     kkey_s, 
-       double  realmn, 
-       double  realmx, 
-       double *realv1, 
+lkrrcp(char *kkey, int kkey_s, double realmn, double realmx, double *realv1,
        double *realv2) {
 
-	if(!lckey( kkey,kkey_s )) {
-    return FALSE;
-  }
+    if (!lckey(kkey, kkey_s)) {
+        return FALSE;
+    }
 
-  lcrrcp(realmn, realmx, realv1, realv2);
-  return TRUE;
+    lcrrcp(realmn, realmx, realv1, realv2);
+    return TRUE;
 }
-

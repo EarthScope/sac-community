@@ -36,67 +36,66 @@
  * \date   860203:  Documented/Reviewed
  *
  */
-void 
-sacmsg(int *nerr)
-{
-	char kfile[MCPFN+1], kiline[MCMSG+1];
-	int  idx ;
-	int ioerr, ntused, numsave;
-        FILE *nun;
+void
+sacmsg(int *nerr) {
+    char kfile[MCPFN + 1], kiline[MCMSG + 1];
+    int idx;
+    int ioerr, ntused, numsave;
+    FILE *nun;
 
-	/* - Build the pathname and open the file containing output messages. */
-	ioerr = 0;
-        /*memset(kfile,' ',MCPFN);*/
-        for( idx = 0 ; idx < MCPFN ; idx++ )
-	    kfile[ idx ] = ' ' ;
-        kfile[MCPFN] = '\0';
+    /* - Build the pathname and open the file containing output messages. */
+    ioerr = 0;
+    /*memset(kfile,' ',MCPFN); */
+    for (idx = 0; idx < MCPFN; idx++)
+        kfile[idx] = ' ';
+    kfile[MCPFN] = '\0';
 
-	zbasename( kfile,MCPFN+1 );
-	crname( kfile,MCPFN+1, KDIRDL, "messages",9, nerr );
-	if( *nerr != 0 )
-		goto L_4000;
-	zopens( &nun, kfile,MCPFN+1, "ROTEXT",7, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    zbasename(kfile, MCPFN + 1);
+    crname(kfile, MCPFN + 1, KDIRDL, "messages", 9, nerr);
+    if (*nerr != 0)
+        goto L_4000;
+    zopens(&nun, kfile, MCPFN + 1, "ROTEXT", 7, nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* - Read each message from disk file into common. */
+    /* - Read each message from disk file into common. */
 
-L_2000:
-	if( cmmsg.nfmsg < MFMSG ){
-		cmmsg.nfmsg = cmmsg.nfmsg + 1;
+  L_2000:
+    if (cmmsg.nfmsg < MFMSG) {
+        cmmsg.nfmsg = cmmsg.nfmsg + 1;
 
-                if(fgetsp(kiline,MCMSG,nun)==NULL){
-                  if(feof(nun)) goto L_2020;
-                  goto L_2010;
-		}
-                if(kiline[(numsave=strlen(kiline)-1)] == '\n') kiline[numsave] = ' ';
+        if (fgetsp(kiline, MCMSG, nun) == NULL) {
+            if (feof(nun))
+                goto L_2020;
+            goto L_2010;
+        }
+        if (kiline[(numsave = strlen(kiline) - 1)] == '\n')
+            kiline[numsave] = ' ';
 
-                if(sscanf(kiline,"%4d",  &cmmsg.ifmsg[cmmsg.nfmsg-1]) != 1){
-                  printf("error reading SAC message file-sacmsg\n");
-                  goto L_2010;
-	        }
-                strcpy( kmmsg.kfmsg[cmmsg.nfmsg - 1],kiline+5);
+        if (sscanf(kiline, "%4d", &cmmsg.ifmsg[cmmsg.nfmsg - 1]) != 1) {
+            printf("error reading SAC message file-sacmsg\n");
+            goto L_2010;
+        }
+        strcpy(kmmsg.kfmsg[cmmsg.nfmsg - 1], kiline + 5);
 
-		goto L_2000;
-L_2010:
-		*nerr = 100;
-		setmsg( "ERROR", *nerr );
-		apimsg( ioerr );
-		apcmsgnum( 114 );
-		apcmsg( kfile,MCPFN+1 );
-L_2020:
-		cmmsg.nfmsg = cmmsg.nfmsg - 1;
-		}
-	else{
-		*nerr = 919;
-		setmsg( "ERROR", *nerr );
-		}
+        goto L_2000;
+      L_2010:
+        *nerr = 100;
+        setmsg("ERROR", *nerr);
+        apimsg(ioerr);
+        apcmsgnum(114);
+        apcmsg(kfile, MCPFN + 1);
+      L_2020:
+        cmmsg.nfmsg = cmmsg.nfmsg - 1;
+    } else {
+        *nerr = 919;
+        setmsg("ERROR", *nerr);
+    }
 
-L_4000:
-	zcloses( &nun, &ntused );
+  L_4000:
+    zcloses(&nun, &ntused);
 
-L_8888:
-	return;
+  L_8888:
+    return;
 
 }
-

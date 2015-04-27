@@ -18,7 +18,7 @@
 #define	KWMULT	'*'
 #define	KWSNGL	'?'
 #define	MCMSG	1001
-#define	MCPFN	128		/* max length of filename maybe. maf 960619 */
+#define	MCPFN	128             /* max length of filename maybe. maf 960619 */
 #define	MCPW	8
 
 #define	MLARGE	2147483647
@@ -32,6 +32,5 @@
 #define	TORAD	(1./TODEG)
 #define	VLARGE	3.40282e38
 #define	VSMALL	1.0e-30
-
 
 #endif /* _MACH_H */

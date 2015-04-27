@@ -23,66 +23,65 @@
  * @date   861230:  Original version.
  *
  */
-void 
+void
 xwindow(int *nerr) {
-	int iwin;
+    int iwin;
 
-  int width, height;
-  double ratio;
-  int ratio_on;
-  double tmp[2];
+    int width, height;
+    double ratio;
+    int ratio_on;
+    double tmp[2];
 
-	*nerr = 0;
-	iwin = 1;
+    *nerr = 0;
+    iwin = 1;
     ratio = 11.0 / 8.5;
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-L_1000:
-	if( lcmore( nerr ) ){
+  L_1000:
+    if (lcmore(nerr)) {
 
-          /* -- Set up window number. */
-          if( lcirc( 1, MWINDOWS, &iwin ) ){  
+        /* -- Set up window number. */
+        if (lcirc(1, MWINDOWS, &iwin)) {
 
-          } else if( lkrrcp( "XSIZE$",7, 0., 1., &tmp[0], &tmp[1] ) ){
+        } else if (lkrrcp("XSIZE$", 7, 0., 1., &tmp[0], &tmp[1])) {
             Xwindowmin[iwin] = tmp[0];
             Xwindowmax[iwin] = tmp[1];
-            set_window_width( -1 );
-            set_window_height( -1 );
-      #ifdef X11_APP
-            set_constrain_plot_ratio_x11( FALSE );
-			#endif
-          } else if( lkrrcp( "YSIZE$",7, 0., 1., &tmp[0], &tmp[1] ) ){
+            set_window_width(-1);
+            set_window_height(-1);
+#ifdef X11_APP
+            set_constrain_plot_ratio_x11(FALSE);
+#endif
+        } else if (lkrrcp("YSIZE$", 7, 0., 1., &tmp[0], &tmp[1])) {
             Ywindowmin[iwin] = tmp[0];
             Ywindowmax[iwin] = tmp[1];
-            set_window_width( -1 );
-            set_window_height( -1 );
+            set_window_width(-1);
+            set_window_height(-1);
 
-          } else if( lkint( "WIDTH$", 7, &width) ) { 
+        } else if (lkint("WIDTH$", 7, &width)) {
 
-            set_window_width( width );
+            set_window_width(width);
 
-          } else if( lkint( "HEIGHT$", 7, &height) ) { 
+        } else if (lkint("HEIGHT$", 7, &height)) {
 
-            set_window_height( height );
+            set_window_height(height);
 
-          } else if( lklogr( "ASPECT$", 8, &ratio_on, &ratio) ) { 
-			  #ifdef X11_APP
-              set_constrain_plot_ratio_x11( ratio_on );
-              if(ratio_on) {
-                  set_plot_ratio_x11( ratio );
-              }
-			  #endif
+        } else if (lklogr("ASPECT$", 8, &ratio_on, &ratio)) {
+#ifdef X11_APP
+            set_constrain_plot_ratio_x11(ratio_on);
+            if (ratio_on) {
+                set_plot_ratio_x11(ratio);
+            }
+#endif
 
-          } else{
+        } else {
 
-            cfmt( "ILLEGAL OPTION:",17 );
+            cfmt("ILLEGAL OPTION:", 17);
             cresp();
-            
-          }
-          goto L_1000;
+
         }
-        
- 	return;
+        goto L_1000;
+    }
+
+    return;
 
 }
-

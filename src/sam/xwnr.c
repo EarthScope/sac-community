@@ -9,7 +9,6 @@
 #include "hdr.h"
 #include "bool.h"
 
-
 #include "ucf.h"
 #include "msg.h"
 #include "clf.h"
@@ -17,15 +16,15 @@
 #include "cpf.h"
 #include "dff.h"
 
-void /*FUNCTION*/ xwnr(nerr)
-int *nerr;
+void /*FUNCTION*/
+xwnr(nerr)
+     int *nerr;
 {
-	int jdfl, ncerr, nlnatw, 
-	 nofatw;
-	double xmax, xmin;
-  char *tmp;
-  sac *s;
-	/*=====================================================================
+    int jdfl, ncerr, nlnatw, nofatw;
+    double xmax, xmin;
+    char *tmp;
+    sac *s;
+        /*=====================================================================
 	 * PURPOSE:  To execute the action command WIENER.
 	 *           This command applies a Wiener filter to data in memory.
 	 *=====================================================================
@@ -52,146 +51,143 @@ int *nerr;
 	 *=====================================================================
 	 * KNOWN ERRORS:
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-	while ( lcmore( nerr ) ){
+    while (lcmore(nerr)) {
 
-		/* -- NCOEFF n:  define number of coefficients to use in filter. */
-		if( lkint( "NCOEFF$",8, &cmsam.ncwien ) )
-		{ /* do nothing */ }
-	
-		/* -- MU v/on/off:  */
-		else if ( lklogr ( "MU#$", 5, &cmsam.lmu, &cmsam.wienmu ) ) {
-		} 
+        /* -- NCOEFF n:  define number of coefficients to use in filter. */
+        if (lkint("NCOEFF$", 8, &cmsam.ncwien)) {       /* do nothing */
+        }
 
-		/* -- EPSILON v/on/off:  define epsilon  */
-    else if ( lklogr ( "EPS#ILON$", 10, &cmsam.lepsilon, &cmsam.epsilon ) ) {
-    }
+        /* -- MU v/on/off:  */
+        else if (lklogr("MU#$", 5, &cmsam.lmu, &cmsam.wienmu)) {
+        }
 
-		/* -- WINDOW:  define a new "relative time window" for filter. */
-		else if( lkrtw( "WINDOW$",8, &cmsam.lrtwwi, (char*)kmsam.krtwwi
-		 ,9, cmsam.ortwwi ) )
-		{ /* do nothing */ }
+        /* -- EPSILON v/on/off:  define epsilon  */
+        else if (lklogr("EPS#ILON$", 10, &cmsam.lepsilon, &cmsam.epsilon)) {
+        }
 
-		/* -- Bad syntax. */
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
-		}
-	} /* end while */
+        /* -- WINDOW:  define a new "relative time window" for filter. */
+        else if (lkrtw("WINDOW$", 8, &cmsam.lrtwwi, (char *) kmsam.krtwwi, 9, cmsam.ortwwi)) {  /* do nothing */
+        }
 
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
+    }                           /* end while */
 
-	if( *nerr != 0 )
-		goto L_8888;
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-	/* CHECKING PHASE: */
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* - Check for null data file list. */
+    /* CHECKING PHASE: */
 
-	vflist( nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    /* - Check for null data file list. */
 
-	/* - Check to make sure all files are evenly spaced time series files. */
+    vflist(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	vfeven( nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    /* - Check to make sure all files are evenly spaced time series files. */
 
-	/* EXECUTION PHASE: */
+    vfeven(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* - Perform the requested function on each file in DFL. */
+    /* EXECUTION PHASE: */
 
-	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
+    /* - Perform the requested function on each file in DFL. */
 
-		/* -- Get the next file in DFL, moving header to CMHDR. */
-    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
-      goto L_8888;
-    }
-		//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
+    for (jdfl = 1; jdfl <= saclen(); jdfl++) {
 
-		/* -- Call the specific subroutine to work on this file. */
+        /* -- Get the next file in DFL, moving header to CMHDR. */
+        if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
+            goto L_8888;
+        }
+        //getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
-		if( cmsam.lrtwwi ){
-			getatw( (char*)kmsam.krtwwi,9, cmsam.ortwwi, &xmin, &xmax, 
-			 &nofatw, &nlnatw, nerr );
-			if( *nerr != 0 ){
-				*nerr = 1608;
-				setmsg( "ERROR", *nerr );
-        tmp = s->m->filename;
-                apcmsg2(tmp, strlen(tmp)+1);
-				goto L_8888;
-			}
-		}
-		else{
-			nofatw = 0;
-			nlnatw = s->h->npts;
-		}
+        /* -- Call the specific subroutine to work on this file. */
 
-		/* -- Check limits of noise window.  maf 970401 */
-		  /* see if noise window is completely outside of data window. */
-		if ( cmsam.ortwwi[1] < s->h->b || cmsam.ortwwi[0] > s->h->e ) {
-		    setmsg ( "ERROR" , 1615 ) ;
-		    apcmsg ( " in file number " , 17 ) ;
-		    apimsg ( jdfl ) ;
-		    outmsg () ;
-		    clrmsg () ;
-		    continue ;
-		}
+        if (cmsam.lrtwwi) {
+            getatw((char *) kmsam.krtwwi, 9, cmsam.ortwwi, &xmin, &xmax,
+                   &nofatw, &nlnatw, nerr);
+            if (*nerr != 0) {
+                *nerr = 1608;
+                setmsg("ERROR", *nerr);
+                tmp = s->m->filename;
+                apcmsg2(tmp, strlen(tmp) + 1);
+                goto L_8888;
+            }
+        } else {
+            nofatw = 0;
+            nlnatw = s->h->npts;
+        }
 
-		  /* see if noise window over extends data window at both extremes. */
-		if ( cmsam.ortwwi[0] < s->h->b && cmsam.ortwwi[1] > s->h->e ) {
-                    setmsg ( "ERROR" , 1616 ) ;
-                    apcmsg ( " in file number " , 17 ) ;
-                    apimsg ( jdfl ) ;
-                    outmsg () ;
-                    clrmsg () ;
-		    continue ;
-                }
+        /* -- Check limits of noise window.  maf 970401 */
+        /* see if noise window is completely outside of data window. */
+        if (cmsam.ortwwi[1] < s->h->b || cmsam.ortwwi[0] > s->h->e) {
+            setmsg("ERROR", 1615);
+            apcmsg(" in file number ", 17);
+            apimsg(jdfl);
+            outmsg();
+            clrmsg();
+            continue;
+        }
 
-		  /* see if noise window is partially outside of the data window. */
-                if ( cmsam.ortwwi[0] < s->h->b || cmsam.ortwwi[1] > s->h->e ) {
-                    setmsg ( "WARNING" , 1617 ) ;
-                    apcmsg ( " in file number " , 17 ) ;
-                    apimsg ( jdfl ) ;
-                    outmsg () ;
-                    clrmsg () ;
-                }
-		/* -- done checking limits of noise window. maf 970401 */
-		
-		    
-		wiener( s->y, s->h->npts, nofatw + 1, nlnatw, cmsam.ncwien, 
-            cmsam.lmu, (float)cmsam.wienmu, 
-            cmsam.lepsilon, (float)cmsam.epsilon, s->y, &ncerr ); 
+        /* see if noise window over extends data window at both extremes. */
+        if (cmsam.ortwwi[0] < s->h->b && cmsam.ortwwi[1] > s->h->e) {
+            setmsg("ERROR", 1616);
+            apcmsg(" in file number ", 17);
+            apimsg(jdfl);
+            outmsg();
+            clrmsg();
+            continue;
+        }
 
-		if( ncerr > 0 ){
-			setmsg( "WARNING", 1609 );
-      tmp = s->m->filename;
-            apcmsg2(tmp, strlen(tmp)+1);
-			outmsg();
-		}
+        /* see if noise window is partially outside of the data window. */
+        if (cmsam.ortwwi[0] < s->h->b || cmsam.ortwwi[1] > s->h->e) {
+            setmsg("WARNING", 1617);
+            apcmsg(" in file number ", 17);
+            apimsg(jdfl);
+            outmsg();
+            clrmsg();
+        }
+        /* -- done checking limits of noise window. maf 970401 */
 
-		/* -- Update any header fields that may have changed. */
+        wiener(s->y, s->h->npts, nofatw + 1, nlnatw, cmsam.ncwien, cmsam.lmu,
+               (float) cmsam.wienmu, cmsam.lepsilon, (float) cmsam.epsilon,
+               s->y, &ncerr);
 
-		extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
+        if (ncerr > 0) {
+            setmsg("WARNING", 1609);
+            tmp = s->m->filename;
+            apcmsg2(tmp, strlen(tmp) + 1);
+            outmsg();
+        }
 
+        /* -- Update any header fields that may have changed. */
 
-	} /* end for */
+        extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax,
+               &s->h->depmen);
 
-	/* - Calculate and set new range of dependent variable. */
+    }                           /* end for */
 
-	setrng();
+    /* - Calculate and set new range of dependent variable. */
 
-L_8888:
-	return;
+    setrng();
 
-	/*=====================================================================
+  L_8888:
+    return;
+
+        /*=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    970401:  Checks noise window against data window.  maf
 	 *    970306:  Epsilon rewritten so that it can now be turned off. maf
@@ -202,5 +198,4 @@ L_8888:
 	 *    810205:  Original version.
 	 *===================================================================== */
 
-} /* end of function */
-
+}                               /* end of function */

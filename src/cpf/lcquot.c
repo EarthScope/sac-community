@@ -10,7 +10,6 @@
 #include "com.h"
 #include "bool.h"
 
-
 #include "co.h"
 #include "ucf.h"
 #include "debug.h"
@@ -39,23 +38,19 @@
  * @date   810208:  Original version.
  *
  */
-int 
-lcquot(int   mquot, 
-       char *kquot, 
-       int   kquot_s, 
-       int  *nquot) {
+int
+lcquot(int mquot, char *kquot, int kquot_s, int *nquot) {
 
-  Token *t;
+    Token *t;
 
-  UNUSED(kquot_s);
+    UNUSED(kquot_s);
 
-  if((t = arg()) && token_is_quoted_string(t)) {
-    *nquot = min((int)strlen(t->str), mquot);
-    strncpy(kquot, t->str, *nquot);
-    kquot[*nquot] = 0;
-    arg_next();
-    return TRUE;
-  }
-  return FALSE;
+    if ((t = arg()) && token_is_quoted_string(t)) {
+        *nquot = min((int) strlen(t->str), mquot);
+        strncpy(kquot, t->str, *nquot);
+        kquot[*nquot] = 0;
+        arg_next();
+        return TRUE;
+    }
+    return FALSE;
 }
-

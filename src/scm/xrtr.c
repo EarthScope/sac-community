@@ -8,21 +8,21 @@
 #include "hdr.h"
 #include "bool.h"
 
-
 #include "msg.h"
 #include "bbs.h"
 #include "ucf.h"
 #include "dff.h"
 
-void /*FUNCTION*/ xrtr(nerr)
-int *nerr;
+void /*FUNCTION*/
+xrtr(nerr)
+     int *nerr;
 {
-	int jdfl;
-	float corrcf, sddta, sdslp, sdyint, slp, yint;
+    int jdfl;
+    float corrcf, sddta, sdslp, sdyint, slp, yint;
 
     static int verbose = FALSE;
-  sac *s;
-	/*=====================================================================
+    sac *s;
+        /*=====================================================================
 	 * PURPOSE:  To execute the action command RTREND.
 	 *=====================================================================
 	 * OUTPUT ARGUMENTS:
@@ -44,102 +44,99 @@ int *nerr;
 	 *    SLP:     Slope of linear trend.
 	 *    YINT:    Intercept of linear trend.
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* CHECKING PHASE: */
+    /* CHECKING PHASE: */
 
-	/* - Check for null data file list. */
+    /* - Check for null data file list. */
 
-    while( lcmore( nerr ) ) {
-        if(lckey("V#ERBOSE$", 10)) {
+    while (lcmore(nerr)) {
+        if (lckey("V#ERBOSE$", 10)) {
             verbose = TRUE;
         }
-        if(lckey("Q#UIET$", 8)) {
+        if (lckey("Q#UIET$", 8)) {
             verbose = FALSE;
         }
     }
 
-	vflist( nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    vflist(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* - Check to make sure all files are time series files. */
+    /* - Check to make sure all files are time series files. */
 
-	vftime( nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    vftime(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* EXECUTION PHASE: */
+    /* EXECUTION PHASE: */
 
-	/* - Perform the requested function on each file in DFL. */
+    /* - Perform the requested function on each file in DFL. */
 
-	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
-		/* -- Get the next file in DFL, moving header to CMHDR. */
-    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
-      goto L_8888;
-    }
-		//getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
+    for (jdfl = 1; jdfl <= saclen(); jdfl++) {
+        /* -- Get the next file in DFL, moving header to CMHDR. */
+        if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
+            goto L_8888;
+        }
+        //getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
-		/* -- Two versions of linear fit: one for evenly spaced
-		 *    data and one for unevenly spaced data. */
+        /* -- Two versions of linear fit: one for evenly spaced
+         *    data and one for unevenly spaced data. */
 
-		if( s->h->leven ){ 
-			lifite( s->h->b, s->h->delta, s->y, s->h->npts, &slp, &yint, 
-			 &sdslp, &sdyint, &sddta, &corrcf );
-      rtrend( s->y, s->h->npts, yint, slp, s->h->b, s->h->delta );
-		}
-		else{
-			lifitu( s->x, s->y, s->h->npts, &slp, &yint, 
-			 &sdslp, &sdyint, &sddta, &corrcf );
-      rtrend2(s->y, s->h->npts, yint, slp, s->x);
-		}
+        if (s->h->leven) {
+            lifite(s->h->b, s->h->delta, s->y, s->h->npts, &slp, &yint, &sdslp,
+                   &sdyint, &sddta, &corrcf);
+            rtrend(s->y, s->h->npts, yint, slp, s->h->b, s->h->delta);
+        } else {
+            lifitu(s->x, s->y, s->h->npts, &slp, &yint, &sdslp, &sdyint, &sddta,
+                   &corrcf);
+            rtrend2(s->y, s->h->npts, yint, slp, s->x);
+        }
 
-		/* -- Write results oflinear fit. */
-        if(verbose) {
-            setmsg( "OUTPUT", 0 );
-            apcmsg( "Slope and standard deviation are:",34 );
-            apfmsg( slp );
-            apfmsg( sdslp );
-            aplmsg( "Intercept and standard deviation are:",38 );
-            apfmsg( yint );
-            apfmsg( sdyint );
-            aplmsg( "Data standard deviation is:",28 );
-            apfmsg( sddta );
-            aplmsg( "Data correlation coefficient is:",33 );
-            apfmsg( corrcf );
+        /* -- Write results oflinear fit. */
+        if (verbose) {
+            setmsg("OUTPUT", 0);
+            apcmsg("Slope and standard deviation are:", 34);
+            apfmsg(slp);
+            apfmsg(sdslp);
+            aplmsg("Intercept and standard deviation are:", 38);
+            apfmsg(yint);
+            apfmsg(sdyint);
+            aplmsg("Data standard deviation is:", 28);
+            apfmsg(sddta);
+            aplmsg("Data correlation coefficient is:", 33);
+            apfmsg(corrcf);
             outmsg();
         }
 
+        /* -- write the fitting parameters to blackboard variables */
+        setbb("rtr_slp ", VAR_VALUE, slp);
+        setbb("rtr_sdslp ", VAR_VALUE, sdslp);
+        setbb("rtr_yint ", VAR_VALUE, yint);
+        setbb("rtr_sdyint ", VAR_VALUE, sdyint);
+        setbb("rtr_sddta ", VAR_VALUE, sddta);
+        setbb("rtr_corrcf ", VAR_VALUE, corrcf);
 
-		/* -- write the fitting parameters to blackboard variables */
-    setbb("rtr_slp ",    VAR_VALUE, slp);
-    setbb("rtr_sdslp ",  VAR_VALUE, sdslp);
-    setbb("rtr_yint ",   VAR_VALUE, yint);
-    setbb("rtr_sdyint ", VAR_VALUE, sdyint);
-    setbb("rtr_sddta ",  VAR_VALUE, sddta);
-    setbb("rtr_corrcf ", VAR_VALUE, corrcf);
+        /* -- Update any header fields that may have changed. */
 
-		/* -- Update any header fields that may have changed. */
+        extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax,
+               &s->h->depmen);
 
-		extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
+    }
 
+    /* - Calculate and set new range of dependent variable. */
 
-	}
+    setrng();
 
-	/* - Calculate and set new range of dependent variable. */
+  L_8888:
+    return;
 
-	setrng();
-
-L_8888:
-	return;
-
-	/*=====================================================================
+        /*=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    820817:  Documented subroutine.
 	 *    820817:  Changed to newest set of parsing and checking functions.
 	 *    810528:  Original version.
 	 *===================================================================== */
 
-} /* end of function */
-
+}                               /* end of function */

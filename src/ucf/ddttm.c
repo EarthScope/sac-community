@@ -27,29 +27,26 @@
  * @date   810130:  Original version.
  *
  */
-void 
-ddttm(int   *ndttm1, 
-      int   *ndttm2, 
-      float *diff) {
+void
+ddttm(int *ndttm1, int *ndttm2, float *diff) {
 
-	int nday;
+    int nday;
 
-	int *const Ndttm1 = &ndttm1[0] - 1;
-	int *const Ndttm2 = &ndttm2[0] - 1;
+    int *const Ndttm1 = &ndttm1[0] - 1;
+    int *const Ndttm2 = &ndttm2[0] - 1;
 
+    if (4 * (Ndttm2[1] / 4) == Ndttm2[1])
+        nday = 366;
+    else
+        nday = 365;
 
-	if( 4*(Ndttm2[1]/4) == Ndttm2[1] )
-		nday = 366;
-	else
-		nday = 365;
+    *diff =
+        0.001 * (float) (Ndttm1[6] - Ndttm2[6]) + (float) (Ndttm1[5] -
+                                                           Ndttm2[5]) +
+        60.000 * (float) (Ndttm1[4] - Ndttm2[4]) +
+        3600.000 * (float) (Ndttm1[3] - Ndttm2[3]) +
+        86400.000 * (float) (Ndttm1[2] - Ndttm2[2]) +
+        nday * 86400.000 * (float) (Ndttm1[1] - Ndttm2[1]);
 
-	*diff =     0.001 * (float) ( Ndttm1[ 6 ] - Ndttm2[ 6 ] ) + 
-			    (float) ( Ndttm1[ 5 ] - Ndttm2[ 5 ] ) + 
-		   60.000 * (float) ( Ndttm1[ 4 ] - Ndttm2[ 4 ] ) + 
-		 3600.000 * (float) ( Ndttm1[ 3 ] - Ndttm2[ 3 ] ) + 
-		86400.000 * (float) ( Ndttm1[ 2 ] - Ndttm2[ 2 ] ) + 
-	 nday * 86400.000 * (float) ( Ndttm1[ 1 ] - Ndttm2[ 1 ] ) ;
-
-	return;
+    return;
 }
-

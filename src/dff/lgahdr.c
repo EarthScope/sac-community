@@ -45,186 +45,157 @@
  *
  */
 int
-lgahdr(char *kfield, 
-       int   kfield_s, 
-       char *kvalue, 
-       int   kvalue_s) {
+lgahdr(char *kfield, int kfield_s, char *kvalue, int kvalue_s) {
 
-	char kcmpaz[9], kcmpin[9], ktemp[9];
-	int lgahdr_v;
-	int nc, nerr;
+    char kcmpaz[9], kcmpin[9], ktemp[9];
+    int lgahdr_v;
+    int nc, nerr;
     char *cattemp;
     char *tmp;
     sac *s;
 
     s = sacget_current();
-	/* - Convert the name to upper case before doing any tests. */
-	nc = min( (kfield_s - 1), SAC_HEADER_STRING_LENGTH_FILE );
-	modcase( TRUE, kfield, nc, ktemp );
+    /* - Convert the name to upper case before doing any tests. */
+    nc = min((kfield_s - 1), SAC_HEADER_STRING_LENGTH_FILE);
+    modcase(TRUE, kfield, nc, ktemp);
 
+    /* - Compute the requested auxiliary header field from actual header
+     *   fields, making sure that each one is defined. */
 
-	/* - Compute the requested auxiliary header field from actual header
-	 *   fields, making sure that each one is defined. */
+    /* -- KZDATE:  Zero date field: */
 
-	/* -- KZDATE:  Zero date field: */
+    if (memcmp(ktemp, "KZDATE", 6) == 0) {
+        if (s->h->nzyear != SAC_INT_UNDEFINED &&
+            s->h->nzjday != SAC_INT_UNDEFINED) {
+            nc = (kvalue_s - 1);
+            kadate(s->h->nzyear, s->h->nzjday, nc, kvalue, kvalue_s, &nerr);
+            if (nerr == 0) {
+                lgahdr_v = TRUE;
+            } else {
+                fstrncpy(kvalue, kvalue_s - 1, "BAD FIELD", 9);
+                lgahdr_v = FALSE;
+            }
+        } else {
+            fstrncpy(kvalue, kvalue_s - 1, "UNDEFINED", 9);
+            lgahdr_v = FALSE;
+        }
 
-	if( memcmp(ktemp,"KZDATE",6) == 0 ){
-		if( s->h->nzyear != SAC_INT_UNDEFINED && s->h->nzjday != SAC_INT_UNDEFINED ){
-			nc = (kvalue_s - 1);
-			kadate( s->h->nzyear, s->h->nzjday, nc, kvalue,kvalue_s, &nerr );
-			if( nerr == 0 ){
-				lgahdr_v = TRUE;
-				}
-			else{
-				fstrncpy( kvalue, kvalue_s-1, "BAD FIELD", 9);
-				lgahdr_v = FALSE;
-				}
-			}
-		else{
-			fstrncpy( kvalue, kvalue_s-1, "UNDEFINED", 9);
-			lgahdr_v = FALSE;
-			}
+        /* -- KZTIME:  Zero time field: */
 
-		/* -- KZTIME:  Zero time field: */
+    } else if (memcmp(ktemp, "KZTIME", 6) == 0) {
+        if (((s->h->nzhour != SAC_INT_UNDEFINED &&
+              s->h->nzmin != SAC_INT_UNDEFINED) &&
+             s->h->nzsec != SAC_INT_UNDEFINED) &&
+            s->h->nzmsec != SAC_INT_UNDEFINED) {
+            nc = (kvalue_s - 1);
+            katime(s->h->nzhour, s->h->nzmin, s->h->nzsec, s->h->nzmsec, nc,
+                   kvalue, kvalue_s, &nerr);
+            if (nerr == 0) {
+                lgahdr_v = TRUE;
+            } else {
+                fstrncpy(kvalue, kvalue_s - 1, "BAD FIELD", 9);
+                lgahdr_v = FALSE;
+            }
+        } else {
+            fstrncpy(kvalue, kvalue_s - 1, "UNDEFINED", 9);
+            lgahdr_v = FALSE;
+        }
 
-		}
-	else if( memcmp(ktemp,"KZTIME",6) == 0 ){
-		if( ((s->h->nzhour != SAC_INT_UNDEFINED && s->h->nzmin != SAC_INT_UNDEFINED) && 
-		 s->h->nzsec != SAC_INT_UNDEFINED) && s->h->nzmsec != SAC_INT_UNDEFINED ){
-			nc = (kvalue_s - 1);
-			katime( s->h->nzhour, s->h->nzmin, s->h->nzsec, s->h->nzmsec, nc, kvalue,kvalue_s, 
-			 &nerr );
-			if( nerr == 0 ){
-				lgahdr_v = TRUE;
-				}
-			else{
-				fstrncpy( kvalue, kvalue_s-1, "BAD FIELD", 9);
-				lgahdr_v = FALSE;
-				}
-			}
-		else{
-			fstrncpy( kvalue, kvalue_s-1, "UNDEFINED", 9);
-			lgahdr_v = FALSE;
-			}
+        /* -- KSTCMP:  Station component field: */
 
-		/* -- KSTCMP:  Station component field: */
+    } else if (memcmp(ktemp, "KSTCMP", 6) == 0) {
+        if (!is_kundef(s->h->kstnm)) {
+            lgahdr_v = TRUE;
+            nc = indexb(s->h->kstnm, 9);
+            fstrncpy(kvalue, kvalue_s - 1, s->h->kstnm, nc);
+            if (!is_kundef(s->h->kcmpnm)) {
+                cattemp = malloc(2 + strlen(s->h->kcmpnm) + 1);
+                strcpy(cattemp, "  ");
+                strcat(cattemp, s->h->kcmpnm);
+                subscpy(kvalue, nc, -1, kvalue_s - 1, cattemp);
+                free(cattemp);
+            } else if (s->h->cmpaz != SAC_FLOAT_UNDEFINED &&
+                       s->h->cmpinc != SAC_FLOAT_UNDEFINED) {
+                if (s->h->cmpaz == 0. && s->h->cmpinc == 0.) {
+                    subscpy(kvalue, nc, -1, kvalue_s - 1, "  VERT");
+                } else if (s->h->cmpaz == 0 && s->h->cmpinc == 90.) {
+                    subscpy(kvalue, nc, -1, kvalue_s - 1, "  NORTH");
+                } else if (s->h->cmpaz == 90. && s->h->cmpinc == 90.) {
+                    subscpy(kvalue, nc, -1, kvalue_s - 1, "  EAST");
+                } else {
+                    cnvita((int) (s->h->cmpaz + 0.5), kcmpaz, 9);
+                    ljust(kcmpaz, 9);
+                    cattemp = malloc(2 + 3 + 1);
+                    strcpy(cattemp, "  ");
+                    strncat(cattemp, kcmpaz, 3);
+                    subscpy(kvalue, nc, nc + 4, kvalue_s - 1, cattemp);
+                    free(cattemp);
+                    nc = nc + 5;
+                    if (s->h->cmpinc != 90.) {
+                        cnvita((int) (s->h->cmpinc + 0.5), kcmpin, 9);
+                        ljust(kcmpin, 9);
+                        cattemp = malloc(2 + 2 + 1);
+                        strcpy(cattemp, "  ");
+                        strncat(cattemp, kcmpin, 2);
+                        subscpy(kvalue, nc, nc + 3, kvalue_s - 1, cattemp);
+                        free(cattemp);
+                    }
+                }
+            }
+        } else {
+            fstrncpy(kvalue, kvalue_s - 1, "UNDEFINED", 9);
+            lgahdr_v = FALSE;
+        }
 
-		}
-	else if( memcmp(ktemp,"KSTCMP",6) == 0 ){
-		if( ! is_kundef(s->h->kstnm) ){
-			lgahdr_v = TRUE;
-			nc = indexb( s->h->kstnm,9 );
-			fstrncpy( kvalue, kvalue_s-1, s->h->kstnm , nc );
-			if( ! is_kundef(s->h->kcmpnm) ) {
-                                cattemp = malloc(2+strlen(s->h->kcmpnm)+1);
-                                strcpy(cattemp,"  ");
-                                strcat(cattemp,s->h->kcmpnm);
-				subscpy( kvalue, nc, -1, kvalue_s - 1, cattemp );
-                                free(cattemp);
-				}
-			else if( s->h->cmpaz != SAC_FLOAT_UNDEFINED && s->h->cmpinc != SAC_FLOAT_UNDEFINED ){
-				if( s->h->cmpaz == 0. && s->h->cmpinc == 0. ){
-					subscpy( kvalue, nc, -1, kvalue_s - 1, "  VERT"
-					  );
-					}
-				else if( s->h->cmpaz == 0 && s->h->cmpinc == 90. ){
-					subscpy( kvalue, nc, -1, kvalue_s - 1, "  NORTH"
-					  );
-					}
-				else if( s->h->cmpaz == 90. && s->h->cmpinc == 90. ){
-					subscpy( kvalue, nc, -1, kvalue_s - 1, "  EAST"
-					  );
-					}
-				else{
-					cnvita( (int)( s->h->cmpaz + 0.5 ), kcmpaz,9 );
-					ljust( kcmpaz,9 );
-                                        cattemp = malloc(2+3+1);
-                                        strcpy(cattemp,"  ");
-                                        strncat(cattemp,kcmpaz,3);
-					subscpy( kvalue, nc, nc + 4, kvalue_s - 1, cattemp );
-                                        free(cattemp);
-					nc = nc + 5;
-					if( s->h->cmpinc != 90. ){
-						cnvita( (int)( s->h->cmpinc + 0.5 ), kcmpin,9 );
-						ljust( kcmpin,9 );
-                                                cattemp = malloc(2+2+1);
-                                                strcpy(cattemp,"  ");
-                                                strncat(cattemp,kcmpin,2);
-						subscpy( kvalue, nc, nc + 3, kvalue_s - 
-						                            1, cattemp );
-                                                free(cattemp);
-						}
-					}
-				}
-			}
-		else{
-			fstrncpy( kvalue, kvalue_s-1, "UNDEFINED", 9);
-			lgahdr_v = FALSE;
-			}
+        /* -- FILENAME:  Name of data file field: */
 
-		/* -- FILENAME:  Name of data file field: */
-
-		}
-	else if( memcmp(ktemp,"FILENAME",8) == 0 || memcmp(ktemp,"NAME",4) == 0 ){
+    } else if (memcmp(ktemp, "FILENAME", 8) == 0 ||
+               memcmp(ktemp, "NAME", 4) == 0) {
         tmp = s->m->filename;
-        if(tmp) {
-            fstrncpy(kvalue, kvalue_s-1, tmp, strlen(tmp)+1);
-        }else{
-            fstrncpy(kvalue,kvalue_s-1," ",1);
+        if (tmp) {
+            fstrncpy(kvalue, kvalue_s - 1, tmp, strlen(tmp) + 1);
+        } else {
+            fstrncpy(kvalue, kvalue_s - 1, " ", 1);
         }
         lgahdr_v = TRUE;
 
-		/* -- XMARKER:  X time pick and KX descriptor where
-		 *              (where X is A, O, F, T0, T1, ... T9) */
+        /* -- XMARKER:  X time pick and KX descriptor where
+         *              (where X is A, O, F, T0, T1, ... T9) */
 
-		}
-	else if( memcmp(ktemp,"AM",2) == 0 ){
-		formmarker( s->h->a, s->h->ka,9, kvalue,kvalue_s, &lgahdr_v );
-		}
-	else if( memcmp(ktemp,"OM",2) == 0 ){
-		formmarker( s->h->o, s->h->ko,9, kvalue,kvalue_s, &lgahdr_v );
-		}
-	else if( memcmp(ktemp,"FM",2) == 0 ){
-		formmarker( s->h->f, s->h->kf,9, kvalue,kvalue_s, &lgahdr_v );
-		}
-	else if( memcmp(ktemp,"T0M",3) == 0 ){
-		formmarker( s->h->t0, s->h->kt0,9, kvalue,kvalue_s, &lgahdr_v );
-		}
-	else if( memcmp(ktemp,"T1M",3) == 0 ){
-		formmarker( s->h->t1, s->h->kt1,9, kvalue,kvalue_s, &lgahdr_v );
-		}
-	else if( memcmp(ktemp,"T2M",3) == 0 ){
-		formmarker( s->h->t2, s->h->kt2,9, kvalue,kvalue_s, &lgahdr_v );
-		}
-	else if( memcmp(ktemp,"T3M",3) == 0 ){
-		formmarker( s->h->t3, s->h->kt3,9, kvalue,kvalue_s, &lgahdr_v );
-		}
-	else if( memcmp(ktemp,"T4M",3) == 0 ){
-		formmarker( s->h->t4, s->h->kt4,9, kvalue,kvalue_s, &lgahdr_v );
-		}
-	else if( memcmp(ktemp,"T5M",3) == 0 ){
-		formmarker( s->h->t5, s->h->kt5,9, kvalue,kvalue_s, &lgahdr_v );
-		}
-	else if( memcmp(ktemp,"T6M",3) == 0 ){
-		formmarker( s->h->t6, s->h->kt6,9, kvalue,kvalue_s, &lgahdr_v );
-		}
-	else if( memcmp(ktemp,"T7M",3) == 0 ){
-		formmarker( s->h->t7, s->h->kt7,9, kvalue,kvalue_s, &lgahdr_v );
-		}
-	else if( memcmp(ktemp,"T8M",3) == 0 ){
-		formmarker( s->h->t8, s->h->kt8,9, kvalue,kvalue_s, &lgahdr_v );
-		}
-	else if( memcmp(ktemp,"T9M",3) == 0 ){
-		formmarker( s->h->t9, s->h->kt9,9, kvalue,kvalue_s, &lgahdr_v );
+    } else if (memcmp(ktemp, "AM", 2) == 0) {
+        formmarker(s->h->a, s->h->ka, 9, kvalue, kvalue_s, &lgahdr_v);
+    } else if (memcmp(ktemp, "OM", 2) == 0) {
+        formmarker(s->h->o, s->h->ko, 9, kvalue, kvalue_s, &lgahdr_v);
+    } else if (memcmp(ktemp, "FM", 2) == 0) {
+        formmarker(s->h->f, s->h->kf, 9, kvalue, kvalue_s, &lgahdr_v);
+    } else if (memcmp(ktemp, "T0M", 3) == 0) {
+        formmarker(s->h->t0, s->h->kt0, 9, kvalue, kvalue_s, &lgahdr_v);
+    } else if (memcmp(ktemp, "T1M", 3) == 0) {
+        formmarker(s->h->t1, s->h->kt1, 9, kvalue, kvalue_s, &lgahdr_v);
+    } else if (memcmp(ktemp, "T2M", 3) == 0) {
+        formmarker(s->h->t2, s->h->kt2, 9, kvalue, kvalue_s, &lgahdr_v);
+    } else if (memcmp(ktemp, "T3M", 3) == 0) {
+        formmarker(s->h->t3, s->h->kt3, 9, kvalue, kvalue_s, &lgahdr_v);
+    } else if (memcmp(ktemp, "T4M", 3) == 0) {
+        formmarker(s->h->t4, s->h->kt4, 9, kvalue, kvalue_s, &lgahdr_v);
+    } else if (memcmp(ktemp, "T5M", 3) == 0) {
+        formmarker(s->h->t5, s->h->kt5, 9, kvalue, kvalue_s, &lgahdr_v);
+    } else if (memcmp(ktemp, "T6M", 3) == 0) {
+        formmarker(s->h->t6, s->h->kt6, 9, kvalue, kvalue_s, &lgahdr_v);
+    } else if (memcmp(ktemp, "T7M", 3) == 0) {
+        formmarker(s->h->t7, s->h->kt7, 9, kvalue, kvalue_s, &lgahdr_v);
+    } else if (memcmp(ktemp, "T8M", 3) == 0) {
+        formmarker(s->h->t8, s->h->kt8, 9, kvalue, kvalue_s, &lgahdr_v);
+    } else if (memcmp(ktemp, "T9M", 3) == 0) {
+        formmarker(s->h->t9, s->h->kt9, 9, kvalue, kvalue_s, &lgahdr_v);
 
-		/* -- Invalid field: */
+        /* -- Invalid field: */
 
-		}
-	else{
-		fstrncpy( kvalue, kvalue_s-1, "INVALID FIELD", 13);
-		lgahdr_v = FALSE;
+    } else {
+        fstrncpy(kvalue, kvalue_s - 1, "INVALID FIELD", 13);
+        lgahdr_v = FALSE;
 
-		}
+    }
 
-	return( lgahdr_v );
+    return (lgahdr_v);
 }

@@ -10,7 +10,6 @@
 #include "cpf.h"
 #include "bool.h"
 
-
 #include "co.h"
 #include "bot.h"
 
@@ -46,78 +45,73 @@
  *
  */
 int
-lkentries(char *kkey, 
-	  int   kkey_s, 
-	  char *klist, 
-	  int   klist_s, 
-	  int   nlist, 
-	  int  *llist) {
+lkentries(char *kkey, int kkey_s, char *klist, int klist_s, int nlist,
+          int *llist) {
 
 #define KLIST(I_,J_)	(klist+(I_)*(klist_s)+(J_))
 
-	char kmsg[MCMSG+1];
-	int lcentries, lkentries_v;
-	int index, j, nerr;
+    char kmsg[MCMSG + 1];
+    int lcentries, lkentries_v;
+    int index, j, nerr;
 
-	int *const Llist = &llist[0] - 1;
+    int *const Llist = &llist[0] - 1;
 
-	/* - Check next token for key.
-	 *   Return if key is not found. */
-	lkentries_v = lckey( kkey,kkey_s );
-	if( !lkentries_v )
-		goto L_8888;
+    /* - Check next token for key.
+     *   Return if key is not found. */
+    lkentries_v = lckey(kkey, kkey_s);
+    if (!lkentries_v)
+        goto L_8888;
 
-	/* - Initialize output values. */
+    /* - Initialize output values. */
 
-	lcentries = FALSE;
-	for( j = 1; j <= nlist; j++ ){
-		Llist[j] = FALSE;
-		}
+    lcentries = FALSE;
+    for (j = 1; j <= nlist; j++) {
+        Llist[j] = FALSE;
+    }
 
-	/* - Loop until command is exhausted or 
-	 *   the next token does not match. 
-	 */
-L_2000:
-	if( lcmore( &nerr ) ){
+    /* - Loop until command is exhausted or 
+     *   the next token does not match. 
+     */
+  L_2000:
+    if (lcmore(&nerr)) {
 
-		/* -- Test for individual entries. */
-		if( lclist( klist,klist_s, nlist, &index ) ){
-			lcentries = TRUE;
-			Llist[index] = TRUE;
-			goto L_2000;
+        /* -- Test for individual entries. */
+        if (lclist(klist, klist_s, nlist, &index)) {
+            lcentries = TRUE;
+            Llist[index] = TRUE;
+            goto L_2000;
 
-		}
-		/* -- Test for ALL keyword. */
-		else if( lckey( "ALL#$",6 ) ){
-			/* lcentries = TRUE; */
-			for( j = 1; j <= nlist; j++ ){
-				Llist[j] = TRUE;
-				}
+        }
+        /* -- Test for ALL keyword. */
+        else if (lckey("ALL#$", 6)) {
+            /* lcentries = TRUE; */
+            for (j = 1; j <= nlist; j++) {
+                Llist[j] = TRUE;
+            }
 
-		}
-		/* -- Test for NONE keyword. */
-		else if( lckey( "NONE#$",7 ) ){
-			/* lcentries = TRUE;*/
-			for( j = 1; j <= nlist; j++ ){
-				Llist[j] = FALSE;
-			}
-		}
-		/* -- Perform standard error recovery if we still 
-		 *    have not found an entry. 
-		 */
-		else if( !lcentries ){
-		  fstrncpy(kmsg,MCMSG, ERROR_MESSAGE, strlen(ERROR_MESSAGE));
-		  cfmt( kmsg,MCMSG+1 );
-		  wrlist( klist,klist_s, nlist );
-		  cresp();
-		  goto L_2000;
-		}
-	}
+        }
+        /* -- Test for NONE keyword. */
+        else if (lckey("NONE#$", 7)) {
+            /* lcentries = TRUE; */
+            for (j = 1; j <= nlist; j++) {
+                Llist[j] = FALSE;
+            }
+        }
+        /* -- Perform standard error recovery if we still 
+         *    have not found an entry. 
+         */
+        else if (!lcentries) {
+            fstrncpy(kmsg, MCMSG, ERROR_MESSAGE, strlen(ERROR_MESSAGE));
+            cfmt(kmsg, MCMSG + 1);
+            wrlist(klist, klist_s, nlist);
+            cresp();
+            goto L_2000;
+        }
+    }
 
-L_8888:
-	return( lkentries_v );
+  L_8888:
+    return (lkentries_v);
 
 #undef	KLIST
 
 }
-

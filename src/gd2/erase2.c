@@ -1,10 +1,10 @@
 
 #include "gd2.h"
 
-void /*FUNCTION*/ erase2()
-{
+void /*FUNCTION*/
+erase2() {
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To erase the screen for graphics device 2 (SGF).
 	 *=====================================================================
 	 * MODULE/LEVEL:  GD2/4
@@ -12,10 +12,9 @@ void /*FUNCTION*/ erase2()
 	 * MODIFICATION HISTORY:
 	 *    840106:  Original version.
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - This is a no-op for this graphics device. */
-       
-	return;
+    /* PROCEDURE: */
+    /* - This is a no-op for this graphics device. */
 
-} /* end of function */
+    return;
 
+}                               /* end of function */

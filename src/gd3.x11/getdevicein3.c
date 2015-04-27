@@ -21,15 +21,15 @@
 
 void
 getdeviceinfo3(dev_name, dev_name_length, dev_type)
-  char dev_name[];
-  int dev_name_length;
-  int *dev_type;
+     char dev_name[];
+     int dev_name_length;
+     int *dev_type;
 {
 
 /* Set attributes */
-  UNUSED(dev_name_length);
-  strcpy(dev_name, device_name3);
-  *dev_type = device_type3;
+    UNUSED(dev_name_length);
+    strcpy(dev_name, device_name3);
+    *dev_type = device_type3;
 
 }
 

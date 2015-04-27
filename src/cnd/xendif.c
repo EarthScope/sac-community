@@ -19,17 +19,15 @@
  * @date   870817:  Original version.
  *
  */
-void 
+void
 xendif(int *nerr) {
 
-	*nerr = 0;
-	if( cnd.niflevel > 0 ){
-		cnd.niflevel = cnd.niflevel - 1;
-	}
-	else{
-		/* - Raise error condition if not in an if condition. */
-		*nerr = 1;
-	}
-	return;
+    *nerr = 0;
+    if (cnd.niflevel > 0) {
+        cnd.niflevel = cnd.niflevel - 1;
+    } else {
+        /* - Raise error condition if not in an if condition. */
+        *nerr = 1;
+    }
+    return;
 }
-

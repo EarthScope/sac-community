@@ -7,5 +7,5 @@ void Convert2(void *in);
 void Convert4(void *in);
 void Convert8(void *in);
 
-void ConvertPZArray(SUDS_CALIBR *PZA, int npts);
+void ConvertPZArray(SUDS_CALIBR * PZA, int npts);
 #endif

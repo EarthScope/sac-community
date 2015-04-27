@@ -28,6 +28,6 @@
  */
 void
 zclosec(int *pfd) {
-  close(-(*pfd));
-  return;
+    close(-(*pfd));
+    return;
 }

@@ -17,8 +17,8 @@
 #include "gd2.h"
 #include "string_utils.h"
 
-extern print_device_begin_t  print_device_begin;
-extern print_device_end_t    print_device_end;
+extern print_device_begin_t print_device_begin;
+extern print_device_end_t print_device_end;
 
 /*
  * To end the current graphics frame.
@@ -40,48 +40,46 @@ extern print_device_end_t    print_device_end;
  *
  */
 
-void 
-endframe(int  ldelay, 
-         int *nerr) {
+void
+endframe(int ldelay, int *nerr) {
 
-        int i, n;
-        display_t **dev;
-        n   = gdm_get_ndevices();
-        dev = gdm_get_devices();
+    int i, n;
+    display_t **dev;
+    n = gdm_get_ndevices();
+    dev = gdm_get_devices();
 
-	*nerr = 0;
+    *nerr = 0;
 
-	/* - Perform end frame action if necessary. */
-	if( cmgdm.lbegf ){
+    /* - Perform end frame action if necessary. */
+    if (cmgdm.lbegf) {
 
-          for(i = 0; i < n; i++) {
-            if(dev[i]->on && dev[i]->end_frame) {
-              dev[i]->end_frame( nerr );
+        for (i = 0; i < n; i++) {
+            if (dev[i]->on && dev[i]->end_frame) {
+                dev[i]->end_frame(nerr);
             }
-          }
-
-	    /* Take care of PRINT option. */
-	    if ( cmgem.lprint ) {
-                
-                sgf_print( kmgd2.kfilename, &kmgem.kptrName[0] );
-
-                unlink(kmgd2.kfilename);
-
-		if ( ldelay )
-		    sleep( 6 ) ;
-	    }
-
-	    cmgdm.lbegf = FALSE ;
-	    cmgem.lframe = cmgemsav.lframe = TRUE ;
-	    cmgem.lprint = cmgemsav.lprint = FALSE ;
-	    kmgem.kptrName[0] = kmgemsav.kptrName[0] = '\0' ;
-        if ( cmgem.lSGFtemp ) {
-            print_device_end( nerr );
         }
 
-	}
+        /* Take care of PRINT option. */
+        if (cmgem.lprint) {
 
-	return;
+            sgf_print(kmgd2.kfilename, &kmgem.kptrName[0]);
+
+            unlink(kmgd2.kfilename);
+
+            if (ldelay)
+                sleep(6);
+        }
+
+        cmgdm.lbegf = FALSE;
+        cmgem.lframe = cmgemsav.lframe = TRUE;
+        cmgem.lprint = cmgemsav.lprint = FALSE;
+        kmgem.kptrName[0] = kmgemsav.kptrName[0] = '\0';
+        if (cmgem.lSGFtemp) {
+            print_device_end(nerr);
+        }
+
+    }
+
+    return;
 
 }
-

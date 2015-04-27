@@ -22,18 +22,15 @@
  * @date   940823:  Original Version
  *
  */
-void 
-get_geometry3(int window,
-              unsigned int *width_return,
-              unsigned int *height_return,
-              int *nerr)
-{
-  XWindow *xw;
+void
+get_geometry3(int window, unsigned int *width_return,
+              unsigned int *height_return, int *nerr) {
+    XWindow *xw;
 
-  xw = plot_window( window );
-  
-  *nerr = 0;
-  *width_return  = xw->width;
-  *height_return = xw->height;
+    xw = plot_window(window);
+
+    *nerr = 0;
+    *width_return = xw->width;
+    *height_return = xw->height;
 
 }

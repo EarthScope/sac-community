@@ -12,7 +12,6 @@
 #include "spe.h"
 #include "ucf.h"
 
-
 /** 
  *
  *  Dispatcher for three spectral estimation algorithms.
@@ -85,85 +84,73 @@
  *           Livermore, CA  94550
  *
  */
-void 
-spectr(float  *r, 
-       int     nrsize, 
-       int     nlags, 
-       char   *etype, 
-       int    *order, 
-       int     nfft, 
-       char   *wtype, 
-       float  *a, 
-       int     aorder, 
-       float  *s, 
-       char   *errmsg, 
-       int     errmsg_s, 
-       float  *aux) {
+void
+spectr(float *r, int nrsize, int nlags, char *etype, int *order, int nfft,
+       char *wtype, float *a, int aorder, float *s, char *errmsg, int errmsg_s,
+       float *aux) {
 
-	char tempe[131];
-	int i;
+    char tempe[131];
+    int i;
 
-	float *const A = &a[0] - 1;
-	float *const Aux = &aux[0] - 1;
-	float *const S = &s[0] - 1;
+    float *const A = &a[0] - 1;
+    float *const Aux = &aux[0] - 1;
+    float *const S = &s[0] - 1;
 
-	/*  Dispatcher */
-	if( memcmp(etype,"PDS",3) == 0 ){
-	    pds( r, nrsize, nlags, order, wtype, nfft, s, errmsg,errmsg_s, aux );
-	    if( memcmp(errmsg,"        ",8) != 0 ){
-                fstrncpy(tempe, 130, errmsg, strlen(errmsg));
-                fstrncpy(tempe+strlen(errmsg),130-strlen(errmsg),
-                  " from (SPECTR)", 14);
-                fstrncpy(errmsg, errmsg_s-1, tempe, strlen(tempe)); 
+    /*  Dispatcher */
+    if (memcmp(etype, "PDS", 3) == 0) {
+        pds(r, nrsize, nlags, order, wtype, nfft, s, errmsg, errmsg_s, aux);
+        if (memcmp(errmsg, "        ", 8) != 0) {
+            fstrncpy(tempe, 130, errmsg, strlen(errmsg));
+            fstrncpy(tempe + strlen(errmsg), 130 - strlen(errmsg),
+                     " from (SPECTR)", 14);
+            fstrncpy(errmsg, errmsg_s - 1, tempe, strlen(tempe));
 
-	    }
+        }
 
-	}
-	else if( memcmp(etype,"MLM",3) == 0 ){
+    } else if (memcmp(etype, "MLM", 3) == 0) {
 
-	    mlm( r, *order, nfft, s, errmsg,errmsg_s, aux );
-	    if( memcmp(errmsg,"        ",8) != 0 ){
-                fstrncpy(tempe, 130, errmsg, strlen(errmsg));
-                fstrncpy(tempe+strlen(errmsg),130-strlen(errmsg),
-                  " from (SPECTR)", 14);
-                fstrncpy(errmsg, errmsg_s-1, tempe, strlen(tempe)); 
+        mlm(r, *order, nfft, s, errmsg, errmsg_s, aux);
+        if (memcmp(errmsg, "        ", 8) != 0) {
+            fstrncpy(tempe, 130, errmsg, strlen(errmsg));
+            fstrncpy(tempe + strlen(errmsg), 130 - strlen(errmsg),
+                     " from (SPECTR)", 14);
+            fstrncpy(errmsg, errmsg_s - 1, tempe, strlen(tempe));
 
-	    }
+        }
 
-	}
-	else if( memcmp(etype,"MEM",3) == 0 ){
+    } else if (memcmp(etype, "MEM", 3) == 0) {
 
-	    mem( r, *order, nfft, s, errmsg,errmsg_s, aux );
-	    if( memcmp(errmsg,"        ",8) != 0 ){
-                fstrncpy(tempe, 130, errmsg, strlen(errmsg));
-                fstrncpy(tempe+strlen(errmsg),130-strlen(errmsg),
-                  " from (SPECTR)", 14);
-                fstrncpy(errmsg, errmsg_s-1, tempe, strlen(tempe)); 
+        mem(r, *order, nfft, s, errmsg, errmsg_s, aux);
+        if (memcmp(errmsg, "        ", 8) != 0) {
+            fstrncpy(tempe, 130, errmsg, strlen(errmsg));
+            fstrncpy(tempe + strlen(errmsg), 130 - strlen(errmsg),
+                     " from (SPECTR)", 14);
+            fstrncpy(errmsg, errmsg_s - 1, tempe, strlen(tempe));
 
-	    }
+        }
 
-	}
-	else{
+    } else {
 
-            fstrncpy(errmsg, errmsg_s-1,
-             "SPECTR *** Invalid spectral estimator type ***" ,46 ); 
-	    return;
+        fstrncpy(errmsg, errmsg_s - 1,
+                 "SPECTR *** Invalid spectral estimator type ***", 46);
+        return;
 
-	}
+    }
 
-	/*  Correction for prewhitening */
-	if( !(aorder == 0) ){
+    /*  Correction for prewhitening */
+    if (!(aorder == 0)) {
 
-	    zero( &Aux[1], nfft );
-	    zero( &Aux[cmspe.firstPowerOf2 + 1], nfft );
-	    /* copy( (int*)&A[1], (int*)&Aux[1], aorder + 1 ); */
-	    copy_float( &(A[1]), &(Aux[1]), aorder + 1 );
-	    fft( &Aux[1], &Aux[cmspe.firstPowerOf2 + 1], nfft, -1 );
-	    for( i = 1; i <= nfft; i++ )
-		S[i] = S[i]/(powi(Aux[i],2) + powi(Aux[cmspe.firstPowerOf2 + i],2));
+        zero(&Aux[1], nfft);
+        zero(&Aux[cmspe.firstPowerOf2 + 1], nfft);
+        /* copy( (int*)&A[1], (int*)&Aux[1], aorder + 1 ); */
+        copy_float(&(A[1]), &(Aux[1]), aorder + 1);
+        fft(&Aux[1], &Aux[cmspe.firstPowerOf2 + 1], nfft, -1);
+        for (i = 1; i <= nfft; i++)
+            S[i] =
+                S[i] / (powi(Aux[i], 2) +
+                        powi(Aux[cmspe.firstPowerOf2 + i], 2));
 
-	}
+    }
 
-	return;
+    return;
 }
-

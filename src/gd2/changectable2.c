@@ -35,22 +35,21 @@
 #define MCOLOR 2
 
 void
-changectable2(nentry,icolortable)
-  int nentry, icolortable;
-{ 
+changectable2(nentry, icolortable)
+     int nentry, icolortable;
+{
 
     int i;
     UNUSED(nentry);
-    for (i = 0; i < cmgdm.npscimage; i++){
-      if(icolortable == MCOLOR){
-      sred[i] = sgfred[i];
-      sgreen[i] = sgfgreen[i];
-      sblue[i] = sgfblue[i];
-      } else {
-      sred[i] = 255-i;
-      sgreen[i] = 255-i;
-      sblue[i] = 255-i;
-      }
+    for (i = 0; i < cmgdm.npscimage; i++) {
+        if (icolortable == MCOLOR) {
+            sred[i] = sgfred[i];
+            sgreen[i] = sgfgreen[i];
+            sblue[i] = sgfblue[i];
+        } else {
+            sred[i] = 255 - i;
+            sgreen[i] = 255 - i;
+            sblue[i] = 255 - i;
+        }
     }
 }
-

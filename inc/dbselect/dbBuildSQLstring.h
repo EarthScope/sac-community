@@ -21,19 +21,16 @@ static int BazRestrictionApplied;
 
 /* ------------------------------------------------------------------ */
 
-
-
-
-
 /* Public functions and data*/
 
 /* list of possible restrictions */
-enum Restriction {Origin, Site, SrcPoly, StaPoly, EvidList, SrcCircle, Quadrant};
+enum Restriction { Origin, Site, SrcPoly, StaPoly, EvidList, SrcCircle,
+        Quadrant };
 
 /* Build the SQL string from user data */
 char *dbBuildSQLstring(void);
 
-/* Return the status of a search restriction */ 
+/* Return the status of a search restriction */
 int dbRestrictionApplied(enum Restriction Restrict);
 
 int dbDistRestrictionApplied(void);
@@ -45,21 +42,18 @@ float GetSrcCircleLatC(void);
 float GetSrcCircleLonC(void);
 float GetSrcCircleRadius(void);
 
-float dbGetMinBaz(void) {
-    return MinBaz ;
+float
+dbGetMinBaz(void) {
+    return MinBaz;
 }
 
-float dbGetMaxBaz(void) {
-    return MaxBaz ;
+float
+dbGetMaxBaz(void) {
+    return MaxBaz;
 }
-
-
-
-
-
 
 /* private function list */
-/* Get centroid coords of polygon */ 
+/* Get centroid coords of polygon */
 static void GetBoxCentroid(int index, float *LatCenter, float *LonCenter);
 
 /* extract all the user-supplied stations and put in a comma-delimited list */
@@ -78,7 +72,7 @@ static char *FormatQueryString(char *QueryString);
 static char *GetBoxExtrema(int index, char *TableDot, char *latlon);
 
 /* This function forms clauses of the form " item1 <= value1 and item2 >= value2" */
-static char *BuildMinMaxRestrict(int index, char *TableDot, char * option, 
+static char *BuildMinMaxRestrict(int index, char *TableDot, char *option,
                                  char *latlon);
 
 /* Set the maximum number of rows for db to return */
@@ -86,19 +80,18 @@ static char *BuildMinMaxRestrict(int index, char *TableDot, char * option,
 
 /* ------------------------------------------------------------------ */
 
-
-
 #else
 
 /* Public functions and data*/
 
 /* list of possible restrictions */
-enum Restriction {Origin, Site, SrcPoly, StaPoly, EvidList, SrcCircle, Quadrant};
+enum Restriction { Origin, Site, SrcPoly, StaPoly, EvidList, SrcCircle,
+        Quadrant };
 
 /* Build the SQL string from user data */
 extern char *dbBuildSQLstring(void);
 
-/* Return the status of a search restriction */ 
+/* Return the status of a search restriction */
 extern int dbRestrictionApplied(enum Restriction Restrict);
 
 extern int dbDistRestrictionApplied(void);
@@ -111,6 +104,4 @@ extern float GetSrcCircleRadius(void);
 extern float dbGetMinBaz(void);
 extern float dbGetMaxBaz(void);
 
-
-
-#endif 
+#endif

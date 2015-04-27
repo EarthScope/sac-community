@@ -51,23 +51,18 @@
  * @date 07/31/87  Added check for insufficient access rights--J.Tull
  */
 void
-zopenc(int  *pfd,
-       char *pfname,
-       int  *pnewfl,
-       int  *pro,
-       int  *pnerr,
-       int   pfnlen) {
+zopenc(int *pfd, char *pfname, int *pnewfl, int *pro, int *pnerr, int pfnlen) {
 
     int i;
     int mode;
     int errno;
     char fname[BUFSIZ];
 
-    *pnerr=0;
-    if(*pro) {
-      mode=O_RDONLY;
+    *pnerr = 0;
+    if (*pro) {
+        mode = O_RDONLY;
     } else {
-      mode=O_RDWR;
+        mode = O_RDWR;
     }
 
 #ifdef WIN32
@@ -76,59 +71,46 @@ zopenc(int  *pfd,
 
     memset(fname, 0, sizeof(fname));
 
-    if ( (size_t)pfnlen > strlen( pfname ) || pfnlen < 0) {
-	pfnlen = strlen( pfname ) ;
+    if ((size_t) pfnlen > strlen(pfname) || pfnlen < 0) {
+        pfnlen = strlen(pfname);
     }
 
-    for(i=0;i<BUFSIZ && i<pfnlen;++i)
-	fname[i] = pfname[i];
+    for (i = 0; i < BUFSIZ && i < pfnlen; ++i)
+        fname[i] = pfname[i];
 
     /* get rid of trailing blanks */
-    for(--i;i>0&&((fname[i]==' ') || (fname[i]=='\0'));--i);
-    fname[i+1]='\0';
+    for (--i; i > 0 && ((fname[i] == ' ') || (fname[i] == '\0')); --i);
+    fname[i + 1] = '\0';
 
-    if(*pnewfl) {
+    if (*pnewfl) {
 #ifdef WIN32
-      *pfd = open(fname, O_CREAT | O_TRUNC | O_WRONLY | O_BINARY, 0);
+        *pfd = open(fname, O_CREAT | O_TRUNC | O_WRONLY | O_BINARY, 0);
 #else
-      *pfd = creat ( fname , 0 ) ; /* create file */
+        *pfd = creat(fname, 0); /* create file */
 #endif
     } else {
-      *pfd=open(fname,mode, 0) ; /* open file */
+        *pfd = open(fname, mode, 0);    /* open file */
     }
-    if ( *pfd < 0 ) {
-	if(errno == EACCES) 
-	    *pnerr = ERROR_ZOPENC_INSUFFICIENT_ACCESS;
-	else 
-	    *pnerr = ERROR_ZOPENC_ERROR;
+    if (*pfd < 0) {
+        if (errno == EACCES)
+            *pnerr = ERROR_ZOPENC_INSUFFICIENT_ACCESS;
+        else
+            *pnerr = ERROR_ZOPENC_ERROR;
     }
 
-    if(*pnewfl && *pnerr == 0)
-	chmod(fname,0666);			/* set file permissions */
+    if (*pnewfl && *pnerr == 0)
+        chmod(fname, 0666);     /* set file permissions */
 
-    *pfd = -(*pfd);			/* see Notes above */
+    *pfd = -(*pfd);             /* see Notes above */
     return;
 }
 
-
-
-
-
 void
-zopenc_(int  *pfd,
-	char *pfname,
-	int  *pnewfl,
-	int  *pro,
-	int  *pnerr,
-	int   pfnlen) {
-  zopenc(pfd,pfname,pnewfl,pro,pnerr,pfnlen) ;
+zopenc_(int *pfd, char *pfname, int *pnewfl, int *pro, int *pnerr, int pfnlen) {
+    zopenc(pfd, pfname, pnewfl, pro, pnerr, pfnlen);
 }
+
 void
-zopenc__(int  *pfd,
-	 char *pfname,
-	 int  *pnewfl,
-	 int  *pro,
-	 int  *pnerr,
-	 int   pfnlen) {
-  zopenc(pfd,pfname,pnewfl,pro,pnerr,pfnlen) ;
+zopenc__(int *pfd, char *pfname, int *pnewfl, int *pro, int *pnerr, int pfnlen) {
+    zopenc(pfd, pfname, pnewfl, pro, pnerr, pfnlen);
 }

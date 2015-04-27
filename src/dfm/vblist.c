@@ -10,7 +10,6 @@
 
 #include "errors.h"
 
-
 #include "msg.h"
 
 /** 
@@ -25,15 +24,14 @@
  * @date   820721:  Original version.
  *
  */
-void 
+void
 vblist(int *nerr) {
-  *nerr = 0;
-  
-  if( cmbom.nbfl <= 0 ){
-    *nerr = ERROR_BINOP_FILE_LIST_EMPTY;
-    setmsg( "ERROR", *nerr );
-  }
-  
-  return;
-}
+    *nerr = 0;
 
+    if (cmbom.nbfl <= 0) {
+        *nerr = ERROR_BINOP_FILE_LIST_EMPTY;
+        setmsg("ERROR", *nerr);
+    }
+
+    return;
+}

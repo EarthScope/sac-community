@@ -33,33 +33,30 @@
  *
  */
 int
-lcirc(int  intmn, 
-      int  intmx, 
-      int *intv) { 
+lcirc(int intmn, int intmx, int *intv) {
 
-	int iv, nerr;
-  Token *t;
+    int iv, nerr;
+    Token *t;
 
-	/* -- Get integer variable from next symbol.
-	 * -- Check variable against allowed range.
-	 * -- Perform standard command error recovery if out of range. */
-L_2000:
-  if((t = arg()) && token_is_int(t)) {
-		iv = token_as_int(t);
-		if( iv >= intmn && iv <= intmx ){
-			*intv = iv;
-      arg_next();
-			return TRUE;
-		}	else {
-			cfmt( "OUTSIDE ALLOWED RANGE:",24 );
-      fprintf(MUNOUT," Allowed range is: %10d%10d\n",intmn, intmx );
-			cresp();
-			if( lcmore( &nerr ) )
-				goto L_2000;
-      return TRUE;
-		}
-	}
-	return FALSE;
+    /* -- Get integer variable from next symbol.
+     * -- Check variable against allowed range.
+     * -- Perform standard command error recovery if out of range. */
+  L_2000:
+    if ((t = arg()) && token_is_int(t)) {
+        iv = token_as_int(t);
+        if (iv >= intmn && iv <= intmx) {
+            *intv = iv;
+            arg_next();
+            return TRUE;
+        } else {
+            cfmt("OUTSIDE ALLOWED RANGE:", 24);
+            fprintf(MUNOUT, " Allowed range is: %10d%10d\n", intmn, intmx);
+            cresp();
+            if (lcmore(&nerr))
+                goto L_2000;
+            return TRUE;
+        }
+    }
+    return FALSE;
 
 }
-

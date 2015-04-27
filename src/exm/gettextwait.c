@@ -25,10 +25,8 @@
  * @date   900410:  Original version.
  *
  */
-void 
-gettextwait (char *mode, 
-             int mode_s) {
-  fstrncpy( mode, mode_s-1, kmexm.ktextwait, strlen(kmexm.ktextwait));
-  return;
+void
+gettextwait(char *mode, int mode_s) {
+    fstrncpy(mode, mode_s - 1, kmexm.ktextwait, strlen(kmexm.ktextwait));
+    return;
 }
-

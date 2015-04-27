@@ -11,9 +11,7 @@
  * @date   870514:  Original version.
  *
  */
-void 
-getmaxdevices(int *number)
-{
-	*number = gdm_get_ndevices();
+void
+getmaxdevices(int *number) {
+    *number = gdm_get_ndevices();
 }
-

@@ -14,7 +14,6 @@
 
 #include "errors.h"
 
-
 #include "ucf.h"
 
 /** 
@@ -33,55 +32,52 @@
  * @date   870817:  Original version.
  *
  */
-void 
+void
 xwhile(int *nerr) {
 
-	char kcond[MCMSG+1], kmacroname[MCPFN+1], kresult[9];
-	int nc, numlines, nverr;
+    char kcond[MCMSG + 1], kmacroname[MCPFN + 1], kresult[9];
+    int nc, numlines, nverr;
 
-	*nerr = 0;
-	numlines = 0;
+    *nerr = 0;
+    numlines = 0;
 
-	/* -- Get length of do loop */
-	getdolen( &numlines, nerr );
-	if( *nerr != 0 ){
-		apcmsg( "in macro file",14 );
-		getvvstring( kmcpf.kvarsname,9, "macroname",10, 
-			     &nc, kmacroname, MCPFN+1, &nverr );
-		apcmsg( kmacroname,MCPFN+1 );
-		goto L_8888;
-	}
+    /* -- Get length of do loop */
+    getdolen(&numlines, nerr);
+    if (*nerr != 0) {
+        apcmsg("in macro file", 14);
+        getvvstring(kmcpf.kvarsname, 9, "macroname", 10, &nc, kmacroname,
+                    MCPFN + 1, &nverr);
+        apcmsg(kmacroname, MCPFN + 1);
+        goto L_8888;
+    }
 
-	/* - Copy rest of command to condition string. */
-        memset(kcond,(int)' ',MCMSG);
-        kcond[MCMSG] = '\0';
+    /* - Copy rest of command to condition string. */
+    memset(kcond, (int) ' ', MCMSG);
+    kcond[MCMSG] = '\0';
 
-	/* - Evaluate condition */
-	evallogical( kcond,MCMSG+1, kresult,9 );
-	if( memcmp(kresult,"ERROR",5) == 0 )
-		goto L_9000;
+    /* - Evaluate condition */
+    evallogical(kcond, MCMSG + 1, kresult, 9);
+    if (memcmp(kresult, "ERROR", 5) == 0)
+        goto L_9000;
 
-	if( memcmp(kresult,"TRUE",4) == 0 ){
-		cnd.ndolevel = cnd.ndolevel + 1;
-		Ndotype[cnd.ndolevel] = 1;
-		Ndolines[cnd.ndolevel] = numlines;
-	}
-	else if( memcmp(kresult,"FALSE",5) == 0 ){
-	        /* added 970128 to fix a bug in nesting. */
-		cnd.ndolevel++ ;	
-		skipdo( nerr );
-	}
-	else{
-		*nerr = 1;
-	}
-	
-L_8888:
-	return;
+    if (memcmp(kresult, "TRUE", 4) == 0) {
+        cnd.ndolevel = cnd.ndolevel + 1;
+        Ndotype[cnd.ndolevel] = 1;
+        Ndolines[cnd.ndolevel] = numlines;
+    } else if (memcmp(kresult, "FALSE", 5) == 0) {
+        /* added 970128 to fix a bug in nesting. */
+        cnd.ndolevel++;
+        skipdo(nerr);
+    } else {
+        *nerr = 1;
+    }
 
-L_9000:
-	*nerr = ERROR_EVALUATING_LOGICAL_EXPRESSION;
-	setmsg( "ERROR", *nerr );
-	goto L_8888;
+  L_8888:
+    return;
+
+  L_9000:
+    *nerr = ERROR_EVALUATING_LOGICAL_EXPRESSION;
+    setmsg("ERROR", *nerr);
+    goto L_8888;
 
 }
-

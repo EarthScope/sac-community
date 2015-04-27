@@ -55,129 +55,86 @@
 #define NVFILELIST     10
 #define NVFILEINC       5
 
-
 struct t_cmvars {
-  int lvarsinit;
+    int lvarsinit;
 } cmvars;
 
 struct varsfile {
-  char *varsname;
-  char *variable;
-  FILE *value;
+    char *varsname;
+    char *variable;
+    FILE *value;
 };
 
 struct t_varsfile {
-  int nallocated;
-  int nentries;
-  struct varsfile *filelist;
+    int nallocated;
+    int nentries;
+    struct varsfile *filelist;
 } vfilelist;
 
 enum {
-  VAR_UNKNOWN = 0,
-  VAR_VALUE   = VALUEDOUBLE,
-  VAR_STRING  = VALUESTRING,
-  VAR_INTEGER = VALUEINTEGER,
-  VAR_LIST    = VALUELIST,
+    VAR_UNKNOWN = 0,
+    VAR_VALUE = VALUEDOUBLE,
+    VAR_STRING = VALUESTRING,
+    VAR_INTEGER = VALUEINTEGER,
+    VAR_LIST = VALUELIST,
 };
 
 enum {
-  DELETE_F = 1,
-  READ_ONLY,
-  INDIRECT,
-  SHARED,
-  RESERVED,
-  APPL1,
-  APPL2,
+    DELETE_F = 1,
+    READ_ONLY,
+    INDIRECT,
+    SHARED,
+    RESERVED,
+    APPL1,
+    APPL2,
 };
 
 typedef struct var_t var;
 struct var_t {
-  int    type;
-  char  *name;  /* VAR_STRING */
-  double value; /* VAR_VALUE */ 
-  int    ival;  /* VAR_INTEGER */
-  Token *list;  /* VAR_LIST, null terminated */
-  char  *str;
-  int    flag[7];
+    int type;
+    char *name;                 /* VAR_STRING */
+    double value;               /* VAR_VALUE */
+    int ival;                   /* VAR_INTEGER */
+    Token *list;                /* VAR_LIST, null terminated */
+    char *str;
+    int flag[7];
 };
 
-
-void createvlist ( char *fullvars, 
-                   int fullvars_s, 
-                   int length, 
-                   int *node, 
-                   int *nerr);
-void deletev ( char *vars, 
-               int vars_s, 
-               char *name, 
-               int name_s, 
-               int *nerr);
-void deletevlist ( char *vars, 
-                   int vars_s, 
-                   char *mode, 
-                   int *nerr);
-void getvFILEptr ( char *vars, 
-                   int vars_s, 
-                   char *name, 
-                   int name_s, 
-                   FILE **value, 
-                   int *nerr);
-void getvvstring ( char *vars, 
-                   int vars_s, 
-                   char *name, 
-                   int name_s, 
-                   int *numchars, 
-                   char *value, 
-                   int value_s, 
-                   int *nerr);
-void initializevars (void);
-void inivars (void);
-void putvFILEptr ( char *vars, 
-                   int vars_s, 
-                   char *name, 
-                   int name_s, 
-                   FILE *value, 
-                   int *nerr);
-void putvvstring ( char *vars, 
-                   int vars_s, 
-                   char *name, 
-                   int name_s, 
-                   int numchars, 
-                   char *value, 
-                   int value_s, 
-                   int *nerr);
-void readvfile ( char *fullvars, 
-                 int fullvars_s, 
-                 int *node, 
+void createvlist(char *fullvars, int fullvars_s, int length, int *node,
                  int *nerr);
-void writevfile ( char *vars, 
-                  int vars_s, 
-                  char *file, 
-                  int *nerr);
+void deletev(char *vars, int vars_s, char *name, int name_s, int *nerr);
+void deletevlist(char *vars, int vars_s, char *mode, int *nerr);
+void getvFILEptr(char *vars, int vars_s, char *name, int name_s, FILE ** value,
+                 int *nerr);
+void getvvstring(char *vars, int vars_s, char *name, int name_s, int *numchars,
+                 char *value, int value_s, int *nerr);
+void initializevars(void);
+void inivars(void);
+void putvFILEptr(char *vars, int vars_s, char *name, int name_s, FILE * value,
+                 int *nerr);
+void putvvstring(char *vars, int vars_s, char *name, int name_s, int numchars,
+                 char *value, int value_s, int *nerr);
+void readvfile(char *fullvars, int fullvars_s, int *node, int *nerr);
+void writevfile(char *vars, int vars_s, char *file, int *nerr);
 
-char * getvvstringZ(char *vars,
-                    int   vars_s,
-                    char *name,
-                    int   name_s,
-                    int  *numchars,
-                    int  *nerr);
+char *getvvstringZ(char *vars, int vars_s, char *name, int name_s,
+                   int *numchars, int *nerr);
 
+void sac_vars_init();
+int sac_vars_get_value(char *group, char *name, double *val);
+int sac_vars_get_string(char *group, char *name, char **val);
+int sac_vars_put_var(char *group, char *name, int type, ...);
+int sac_vars_delete_var(char *group, char *name);
+var *sac_vars_get_var(char *group, char *name);
+char **sac_vars_keys(char *group);
+int sac_vars_create(char *group);
+int sac_vars_delete(char *group);
+int sac_vars_write(char *group, char *file);
+int sac_vars_read(char *group);
+int sac_vars_exists(char *group);
 
-void    sac_vars_init       ();
-int     sac_vars_get_value  (char *group, char *name, double *val);
-int     sac_vars_get_string (char *group, char *name, char **val);
-int     sac_vars_put_var    (char *group, char *name, int type, ...);
-int     sac_vars_delete_var (char *group, char *name);
-var *   sac_vars_get_var    (char *group, char *name);
-char ** sac_vars_keys       (char *group);
-int     sac_vars_create     (char *group);
-int     sac_vars_delete     (char *group);
-int     sac_vars_write      (char *group, char *file);
-int     sac_vars_read       (char *group);
-int     sac_vars_exists     (char *group);
-
-int     token_to_var (Token *tok, char *group, char *name);
-int     setvar       (char *group, char *name, int type, ...);
-int     setvar_ap    (char *group, char *name, int type, va_list ap);
+int token_to_var(Token * tok, char *group, char *name);
+int setvar(char *group, char *name, int type, ...);
+int setvar_ap(char *group, char *name, int type, va_list ap);
 
 #endif /* _VARS_H_ */

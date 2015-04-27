@@ -2,11 +2,12 @@
 #include "gtm.h"
 #include "gdm.h"
 
-void /*FUNCTION*/ line(xloc1, yloc1, xloc2, yloc2)
-float xloc1, yloc1, xloc2, yloc2;
+void /*FUNCTION*/
+line(xloc1, yloc1, xloc2, yloc2)
+     float xloc1, yloc1, xloc2, yloc2;
 {
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To draw a line between two viewport coordinates.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -25,13 +26,12 @@ float xloc1, yloc1, xloc2, yloc2;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  861017
 	 *===================================================================== */
-	/* PROCEDURE: */
+    /* PROCEDURE: */
 
-	move( xloc1, yloc1 );
-	draw( xloc2, yloc2 );
-        stroke();
+    move(xloc1, yloc1);
+    draw(xloc2, yloc2);
+    stroke();
 
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

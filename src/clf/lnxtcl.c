@@ -31,52 +31,45 @@
  * @date   860128:  Original version. 
  *
  */
-int 
-lnxtcl(char *kcl, 
-       int   kcl_s, 
-       int  *index1, 
-       int  *index2) {
+int
+lnxtcl(char *kcl, int kcl_s, int *index1, int *index2) {
 
-	int lnxtcl_v;
-	char  kdel;
-	int idel, ncl;
-        char *cstart;
+    int lnxtcl_v;
+    char kdel;
+    int idel, ncl;
+    char *cstart;
 
-	/* - Determine delimiter and length of character list. */
-	kdel = kcl[0];
-	ncl = (kcl_s - 1);
+    /* - Determine delimiter and length of character list. */
+    kdel = kcl[0];
+    ncl = (kcl_s - 1);
 
-	/* - Set start pointer if first pass.
-	 *   Increment start pointer if not first pass. */
-	if( *index1 <= 0 ){
-		*index1 = 2;
-        }
-	else{
-		*index1 = *index2 + 2;
-        }
+    /* - Set start pointer if first pass.
+     *   Increment start pointer if not first pass. */
+    if (*index1 <= 0) {
+        *index1 = 2;
+    } else {
+        *index1 = *index2 + 2;
+    }
 
-        cstart = kcl+*index1-1;
+    cstart = kcl + *index1 - 1;
 
-L_1000:
+  L_1000:
 
-	idel = indexa( cstart, ncl-*index1+2, kdel, TRUE, TRUE );
+    idel = indexa(cstart, ncl - *index1 + 2, kdel, TRUE, TRUE);
 
-	/* - See if we have an entry or not. */
-	if( idel > 1 ){
-		lnxtcl_v = TRUE;
-		*index2 = *index1 + idel - 2;
-		}
-	else if( idel == 1 ){
-		/* lnxtcl_v = TRUE; */
-		*index1 = *index1 + 1;
-                cstart++;
-		goto L_1000;
-		}
-	else{
-		lnxtcl_v = FALSE;
-		*index2 = 0;
-		}
+    /* - See if we have an entry or not. */
+    if (idel > 1) {
+        lnxtcl_v = TRUE;
+        *index2 = *index1 + idel - 2;
+    } else if (idel == 1) {
+        /* lnxtcl_v = TRUE; */
+        *index1 = *index1 + 1;
+        cstart++;
+        goto L_1000;
+    } else {
+        lnxtcl_v = FALSE;
+        *index2 = 0;
+    }
 
-	return( lnxtcl_v );
+    return (lnxtcl_v);
 }
-

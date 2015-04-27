@@ -3,16 +3,16 @@
 #include "gdm.h"
 #include "bool.h"
 
-
 #include "msg.h"
 #include "bot.h"
 #include "cpf.h"
 
-void /*FUNCTION*/ xendframe(nerr)
-int *nerr;
+void /*FUNCTION*/
+xendframe(nerr)
+     int *nerr;
 {
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To execute the action command ENDFRAME.
 	 *           Ends multiple plots to a single graphics frame.
 	 *=====================================================================
@@ -34,54 +34,51 @@ int *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED: 
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* PARSING PHASE: */
+    /* PARSING PHASE: */
 
+    if (lcmore(nerr)) {
 
-	if ( lcmore( nerr ) ){
+        /* -- "PRINT":  print the final product. */
+        if (lckey("PRINT#$", 8)) {
+            if (Lgdon[2]) {
+                cmgem.lprint = TRUE;
+                lcchar(kmgem.kptrName, sizeof(kmgem.kptrName));
+            } else {
+                setmsg("WARNING", 2402);
+                outmsg();
+                clrmsg();
+            }
+        }
 
-	    /* -- "PRINT":  print the final product. */
-	    if( lckey( "PRINT#$", 8 ) ) {
-		if ( Lgdon[2] ) {
-		    cmgem.lprint = TRUE ;
-		    lcchar (kmgem.kptrName , sizeof(kmgem.kptrName));
-		}
-		else {
-		    setmsg ( "WARNING" , 2402 ) ;
-		    outmsg () ;
-		    clrmsg () ;
-		}
-	    }
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
+    }
 
-	    /* -- Bad syntax. */
-	    else{
-		cfmt( "ILLEGAL OPTION:",17 );
-		cresp();
-	    }
-	}
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
+    if (*nerr != 0)
+        goto L_8888;
 
-	if( *nerr != 0 )
-		goto L_8888;
+    /* EXECUTION PHASE: */
 
-	/* EXECUTION PHASE: */
+    /* - Begin graphics to the requested window. */
 
-	/* - Begin graphics to the requested window. */
+    endframe(FALSE, nerr);
 
-	endframe( FALSE , nerr );
+    if (*nerr != 0)
+        goto L_8888;
 
-	if ( *nerr != 0 )
-	    goto L_8888;
+    cmgem.lframe = TRUE;
 
-	cmgem.lframe = TRUE;
+  L_8888:
+    return;
 
-L_8888:
-	return;
-
-} /* end of function */
-
+}                               /* end of function */

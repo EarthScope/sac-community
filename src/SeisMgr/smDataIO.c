@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "dbselect/dbselect.h" 
+#include "dbselect/dbselect.h"
 
 #include "dbselect/dbDefaults.h"
 #include "dbselect/dbBuildSQLstring.h"
@@ -20,12 +20,7 @@
 #include "smDataIO.h"
 #include "sacIO/sacIO.h"
 
-
-
 void dbPrintToDevice(char *string);
-
-
-
 
 /* int smLoadSACData(int takeEvid, char *specifier,...) */
 /* { */
@@ -38,7 +33,6 @@ void dbPrintToDevice(char *string);
 /*    int filesReturned = 0; */
 /*    char results[100]; */
 
-
 /* /\* Begin by initializing error handling *\/ */
 /*    dblClearErrorList(); */
 /*    if(setjmp(dblJmpBuf) != 0){ */
@@ -47,9 +41,8 @@ void dbPrintToDevice(char *string);
 /*      return 0; */
 /*    } */
 
-
 /*    if(!specifier) return 0; */
-  
+
 /* /\* Then take care of getting the variable args using stdarg macros. *\/ */
 /*    va_start(ap,specifier); */
 /*    while( (arg = va_arg(ap,int)) ){ */
@@ -70,7 +63,7 @@ void dbPrintToDevice(char *string);
 /*      } */
 
 /*    } */
-  
+
 /*    va_end(ap); */
 
 /*    if(Mode == OverWrite){ */
@@ -90,22 +83,16 @@ void dbPrintToDevice(char *string);
 /*    smMakeDefaultTree();   /\* Create a Tree if necessary or just return current tree. *\/ */
 /*    filesReturned = sacLoadDataFromFiles(specifier,SkipData, smGetDefaultWorksetName(), */
 /*                                         takeEvid ); */
-   
+
 /*    if(!filesReturned)smDeleteDefaultTree(); */
 /*    sprintf(results,"Files returned = %d\n",filesReturned); */
 /*    dbPrintToDevice(results); */
 
 /*    return filesReturned; */
-  
+
 /* } */
 
 /*----------------------------------------------------------------------*/
-
-
-
-
-
-
 
 /* int smWriteSACData(char *WorkSet, ... ) */
 /* { */
@@ -118,7 +105,6 @@ void dbPrintToDevice(char *string);
 /*    struct wfdiscList *w; */
 /*    int NumFilesWritten = 0; */
 
-
 /*    if(!WorkSet) return 0; */
 
 /* /\* Initializing error handling *\/ */
@@ -128,7 +114,6 @@ void dbPrintToDevice(char *string);
 /*      printf("%s", dblGetErrorMessage() ); */
 /*      return 0; */
 /*    } */
-
 
 /* /\* Then take care of getting the variable args using stdarg macros. *\/ */
 /*    va_start(ap,WorkSet); */
@@ -144,7 +129,6 @@ void dbPrintToDevice(char *string);
 /*      } */
 /*    } */
 /*    va_end(ap); */
-
 
 /*    smChangeDefaultWorksetByName(WorkSet); */
 /*    tree = smGetDefaultTree(); */

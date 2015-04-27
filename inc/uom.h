@@ -17,9 +17,9 @@
  *   Unary Variables
  */
 struct t_cmuom {
-  int   ndiftp;          /** */
-  int   idiftp;          /** */
-  int   ltrap;           /** */
+    int ndiftp;          /** */
+    int idiftp;          /** */
+    int ltrap;           /** */
 } cmuom;
 
 /** 
@@ -27,38 +27,27 @@ struct t_cmuom {
  *   Unary Characters
  */
 struct t_kmuom {
-  char kdiftp[MDIFTP][9]; /** */
+    char kdiftp[MDIFTP][9];
+                          /** */
 } kmuom;
 
-
-void dif2 ( float array[], 
-            int number, 
-            double step, 
-            float output[]);
-void dif3 ( float array[], 
-            int number, 
-            double step, 
-            float output[]);
-void dif5 ( float array[], 
-            int number, 
-            double step, 
-            float output[]);
-void iniuom (void);
-void xabs ( int *nerr);
-void xadd ( int *nerr);
-void xdif ( int *nerr);
-void xdiv ( int *nerr);
-void xexp ( int *nerr);
-void xexp10 ( int *nerr);
-void xint ( int *nerr);
-void xlog ( int *nerr);
-void xlog10 ( int *nerr);
-void xmul ( int *nerr);
-void xsqr ( int *nerr);
-void xsqrt ( int *nerr);
-void xsub ( int *nerr);
-void xuomc ( int index, 
-             int *nerr);
+void dif2(float array[], int number, double step, float output[]);
+void dif3(float array[], int number, double step, float output[]);
+void dif5(float array[], int number, double step, float output[]);
+void iniuom(void);
+void xabs(int *nerr);
+void xadd(int *nerr);
+void xdif(int *nerr);
+void xdiv(int *nerr);
+void xexp(int *nerr);
+void xexp10(int *nerr);
+void xint(int *nerr);
+void xlog(int *nerr);
+void xlog10(int *nerr);
+void xmul(int *nerr);
+void xsqr(int *nerr);
+void xsqrt(int *nerr);
+void xsub(int *nerr);
+void xuomc(int index, int *nerr);
 
 #endif /* _UOM_H_ */
-

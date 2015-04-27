@@ -34,36 +34,33 @@
  * @date   820818:  Original version.
  *
  */
-void 
-vfrng(double  rngmin, 
-      double  rngmax, 
-      int    *nerr) {
+void
+vfrng(double rngmin, double rngmax, int *nerr) {
 
-	int jdfl;
+    int jdfl;
     char *tmp;
     sac *s;
     *nerr = 0;
 
-	/* - For each file in DFL: */
-	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
-    if(!(s = sacget(jdfl-1, FALSE, nerr))) {
-      goto L_8888;
+    /* - For each file in DFL: */
+    for (jdfl = 1; jdfl <= saclen(); jdfl++) {
+        if (!(s = sacget(jdfl - 1, FALSE, nerr))) {
+            goto L_8888;
+        }
+        tmp = s->m->filename;
+        /* -- Get header from memory manager. */
+        //getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
+
+        /* -- Check range of dependent variable. */
+        if (s->h->depmin < rngmin || s->h->depmax > rngmax) {
+            *nerr = ERROR_DATA_POINTS_OUTSIDE_OF_RANGE;
+            setmsg("ERROR", *nerr);
+            apfmsg(rngmin);
+            apfmsg(rngmax);
+            apcmsg2(tmp, strlen(tmp) + 1);
+            goto L_8888;
+        }
     }
-    tmp = s->m->filename;
-		/* -- Get header from memory manager. */
-		//getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
-
-		/* -- Check range of dependent variable. */
-		if( s->h->depmin < rngmin || s->h->depmax > rngmax ){
-			*nerr = ERROR_DATA_POINTS_OUTSIDE_OF_RANGE;
-			setmsg( "ERROR", *nerr );
-			apfmsg( rngmin );
-			apfmsg( rngmax );
-            apcmsg2(tmp, strlen(tmp)+1);
-			goto L_8888;
-		}
-	}
-L_8888:
-	return;
+  L_8888:
+    return;
 }
-

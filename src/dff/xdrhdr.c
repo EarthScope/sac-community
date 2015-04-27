@@ -7,7 +7,7 @@
 
 #include "config.h"
 
-#ifdef HAVE_LIBRPC 
+#ifdef HAVE_LIBRPC
 #include "dff.h"
 #include "hdr.h"
 
@@ -30,57 +30,56 @@
  * @date   010496:  Original version.
  *
  */
-void 
-xdrhdr(XDR    xdrs, 
-       float *headerbuf, 
-       int   *nerr) {
+void
+xdrhdr(XDR xdrs, float *headerbuf, int *nerr) {
 
-        int nfloat, nlong, nbytes;
-        char *cbuf;
-        int *lbuf;
+    int nfloat, nlong, nbytes;
+    char *cbuf;
+    int *lbuf;
 
-	*nerr = 0;
+    *nerr = 0;
 
-        if( !xdr_setpos(&xdrs, 0)){
-          *nerr = ERROR_ENCODING_XDR_FILE;
-          goto L_8888;
-	}
+    if (!xdr_setpos(&xdrs, 0)) {
+        *nerr = ERROR_ENCODING_XDR_FILE;
+        goto L_8888;
+    }
 
-	/* Read/Write the floating point header block */
-        nfloat = SAC_HEADER_FLOATS;
-        if( !xdr_array(&xdrs, (caddr_t *)&headerbuf, (u_int *)&nfloat,
-                       (u_int)nfloat, sizeof(float), xdr_float)){
-          *nerr = ERROR_ENCODING_XDR_FILE;
-          goto L_8888;
-	}
+    /* Read/Write the floating point header block */
+    nfloat = SAC_HEADER_FLOATS;
+    if (!xdr_array
+        (&xdrs, (caddr_t *) & headerbuf, (u_int *) & nfloat, (u_int) nfloat,
+         sizeof(float), xdr_float)) {
+        *nerr = ERROR_ENCODING_XDR_FILE;
+        goto L_8888;
+    }
 
-	/* Read/Write the long header vars (nhdr, ihdr and lhdr) */
-        nlong = SAC_HEADER_INTEGERS + SAC_HEADER_ENUMS + SAC_HEADER_LOGICALS;
-        lbuf = (int *)(headerbuf+nfloat);
-        if( !xdr_array(&xdrs, (caddr_t *)&lbuf, (u_int *)&nlong,
-                       (u_int)nlong, sizeof(int), xdr_int)){
-          *nerr = ERROR_ENCODING_XDR_FILE;
-          goto L_8888;
-	}
+    /* Read/Write the long header vars (nhdr, ihdr and lhdr) */
+    nlong = SAC_HEADER_INTEGERS + SAC_HEADER_ENUMS + SAC_HEADER_LOGICALS;
+    lbuf = (int *) (headerbuf + nfloat);
+    if (!xdr_array
+        (&xdrs, (caddr_t *) & lbuf, (u_int *) & nlong, (u_int) nlong,
+         sizeof(int), xdr_int)) {
+        *nerr = ERROR_ENCODING_XDR_FILE;
+        goto L_8888;
+    }
 
-	/* Read/Write the character header fields */
-        nbytes = SAC_HEADER_STRINGS * 9;
-        cbuf = (char *)(headerbuf+nfloat+nlong);
-        if( !xdr_bytes(&xdrs, &cbuf, (u_int *)&nbytes, (u_int)nbytes)){
-          *nerr = ERROR_ENCODING_XDR_FILE;
-          goto L_8888;
-        } 
+    /* Read/Write the character header fields */
+    nbytes = SAC_HEADER_STRINGS * 9;
+    cbuf = (char *) (headerbuf + nfloat + nlong);
+    if (!xdr_bytes(&xdrs, &cbuf, (u_int *) & nbytes, (u_int) nbytes)) {
+        *nerr = ERROR_ENCODING_XDR_FILE;
+        goto L_8888;
+    }
 
-L_8888:
-	return;
+  L_8888:
+    return;
 }
 
-#else 
+#else
 
-void xdrhdr_no_librpc() { 
-  
+void
+xdrhdr_no_librpc() {
+
 }
 
-#endif 
-
-
+#endif

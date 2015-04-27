@@ -10,7 +10,6 @@
 
 #include "errors.h"
 
-
 #include "msg.h"
 
 /** 
@@ -22,16 +21,15 @@
  * @date   821004:  Removed error message for error number 1001.
  * @date   820415:  Original version.
  */
-void 
+void
 cerr(int nerr) {
 
-  cmcom.ncerr = nerr;
-  
-  if( cmcom.ncerr != ERROR_BAD_COMMAND_SYNTAX ){
-    setmsg( "ERROR", cmcom.ncerr );
-    //apimsg( cmcom.jcom );
-  }
-  
-  return;
-}
+    cmcom.ncerr = nerr;
 
+    if (cmcom.ncerr != ERROR_BAD_COMMAND_SYNTAX) {
+        setmsg("ERROR", cmcom.ncerr);
+        //apimsg( cmcom.jcom );
+    }
+
+    return;
+}

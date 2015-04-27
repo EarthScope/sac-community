@@ -20,18 +20,15 @@
  * @date   810000:  Original version.
  *
  */
-void 
-fill(float  array[], 
-     int    number, 
-     double value)
-{
-	int j;
+void
+fill(float array[], int number, double value) {
+    int j;
 
-	float *const Array = &array[0] - 1;
+    float *const Array = &array[0] - 1;
 
-	for( j = 1; j <= number; j++ ){
-          Array[j] = value;
-        }
-        
-	return;
+    for (j = 1; j <= number; j++) {
+        Array[j] = value;
+    }
+
+    return;
 }

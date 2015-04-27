@@ -4,12 +4,11 @@
 #include "spe.h"
 #include "bool.h"
 
-
 #include "co.h"
 
-void /*FUNCTION*/ inispe()
-{
-	/*=====================================================================
+void /*FUNCTION*/
+inispe() {
+        /*=====================================================================
 	 * PURPOSE: Variable initialization of common blocks CMSPE and KMSPE.
 	 *=====================================================================
 	 * MODULE/LEVEL:  SPE/4
@@ -74,41 +73,40 @@ void /*FUNCTION*/ inispe()
 	 *    KNMSPE:   Spectral estimate file name. [c]
 	 *    KERMSG:  Error message returned from Harris's subroutines. [c130]
 	 *===================================================================== */
-	/* PROCEDURE: */
-	cmspe.lfile = FALSE;
-	cmspe.lcor = FALSE;
-	cmspe.winlen = 10.0;
-	cmspe.lsnumw = FALSE;
-	cmspe.numwin = 10;
-	cmspe.lprewh = FALSE;
-	cmspe.nprerq = 6;
-	strcpy( kmspe.kscale, "STOCHASTIC" );
-	cmspe.nlnspe = 1024;
-	strcpy( kmspe.kwintp[0], "HAMMING " );
-	strcpy( kmspe.kwintp[1], "HANNING " );
-	strcpy( kmspe.kwintp[2], "COSINE  " );
-	strcpy( kmspe.kwintp[3], "RECTANGL" );
-	strcpy( kmspe.kwintp[4], "TRIANGLE" );
-	cmspe.iwncor = 1;
-	cmspe.iwnpds = 1;
-	cmspe.nlgmem = 25;
-	cmspe.nlgmlm = 25;
-	cmspe.lrqcl = FALSE;
-	cmspe.lspeid = TRUE;
-	strcpy( kmspe.kpsptp[0], "POWER   " );
-	strcpy( kmspe.kpsptp[1], "LOG     " );
-	strcpy( kmspe.kpsptp[2], "AMPLITUD" );
-	cmspe.npsptp = 3;
-	cmspe.ipsptp = 1;
-	fstrncpy( kmspe.knmspe, MCPFN, "spe", 3 );
-	fstrncpy( kmspe.knmcor, MCPFN, "cor", 3 );
+    /* PROCEDURE: */
+    cmspe.lfile = FALSE;
+    cmspe.lcor = FALSE;
+    cmspe.winlen = 10.0;
+    cmspe.lsnumw = FALSE;
+    cmspe.numwin = 10;
+    cmspe.lprewh = FALSE;
+    cmspe.nprerq = 6;
+    strcpy(kmspe.kscale, "STOCHASTIC");
+    cmspe.nlnspe = 1024;
+    strcpy(kmspe.kwintp[0], "HAMMING ");
+    strcpy(kmspe.kwintp[1], "HANNING ");
+    strcpy(kmspe.kwintp[2], "COSINE  ");
+    strcpy(kmspe.kwintp[3], "RECTANGL");
+    strcpy(kmspe.kwintp[4], "TRIANGLE");
+    cmspe.iwncor = 1;
+    cmspe.iwnpds = 1;
+    cmspe.nlgmem = 25;
+    cmspe.nlgmlm = 25;
+    cmspe.lrqcl = FALSE;
+    cmspe.lspeid = TRUE;
+    strcpy(kmspe.kpsptp[0], "POWER   ");
+    strcpy(kmspe.kpsptp[1], "LOG     ");
+    strcpy(kmspe.kpsptp[2], "AMPLITUD");
+    cmspe.npsptp = 3;
+    cmspe.ipsptp = 1;
+    fstrncpy(kmspe.knmspe, MCPFN, "spe", 3);
+    fstrncpy(kmspe.knmcor, MCPFN, "cor", 3);
 
-	cmspe.firstPowerOf2 = MINPOW ;
+    cmspe.firstPowerOf2 = MINPOW;
 
-       
-	return;
+    return;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    841227:  Changes due to major rewrite of SPE subprocess.
 	 *    810414:  Original version.
@@ -116,5 +114,4 @@ void /*FUNCTION*/ inispe()
 	 * DOCUMENTED/REVIEWED:  850109
 	 *===================================================================== */
 
-} /* end of function */
-
+}                               /* end of function */

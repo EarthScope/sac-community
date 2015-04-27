@@ -34,55 +34,43 @@
  * @date   800820:  Original version.
  *
  */
-void 
-wsac2(char  *kname, 
-      float *yarray, 
-      int   *nlen, 
-      float *xarray, 
-      int   *nerr, 
-      int    kname_s) {
+void
+wsac2(char *kname, float *yarray, int *nlen, float *xarray, int *nerr,
+      int kname_s) {
 
-  sac *s;
-	*nerr = 0;
-  if(*nlen <= 0) {
-    *nerr = ERROR_WRITING_FILE;
+    sac *s;
+    *nerr = 0;
+    if (*nlen <= 0) {
+        *nerr = ERROR_WRITING_FILE;
+        return;
+    }
+
+    s = sac_new();
+    s->m->filename = fstrdup(kname, kname_s);
+    sacput(s);
+
+    /* - Set up the header fields passed by the calling program. */
+    s->h->npts = *nlen;
+    s->h->b = xarray[0];
+    s->h->e = xarray[s->h->npts - 1];
+    s->h->leven = FALSE;
+
+    /* - Write the file to disk. */
+    wsac0(kname, xarray, yarray, nerr, kname_s);
+
     return;
-  }
-
-  s = sac_new();
-  s->m->filename = fstrdup(kname, kname_s);
-  sacput(s);
-
-	/* - Set up the header fields passed by the calling program. */
-	s->h->npts  = *nlen;
-	s->h->b     = xarray[0];
-	s->h->e     = xarray[s->h->npts-1];
-	s->h->leven = FALSE;
-
- 	/* - Write the file to disk. */
-	wsac0( kname, xarray, yarray, nerr, kname_s );
-
-	return;
 }
-
-
-
 
 /* Wrapper to make the function more convenient for FORTRAN programmers. */
 
-void wsac2_ (char      *kname, 
-	     float     *yarray, 
-	     int       *nlen, 
-	     float     *xarray, 
-	     int       *nerr, 
-	     int        kname_s) {
-  wsac2 ( kname , yarray , nlen , xarray , nerr , kname_s ) ;
+void
+wsac2_(char *kname, float *yarray, int *nlen, float *xarray, int *nerr,
+       int kname_s) {
+    wsac2(kname, yarray, nlen, xarray, nerr, kname_s);
 }
-void wsac2__ (char      *kname, 
-	      float     *yarray, 
-	      int       *nlen, 
-	      float     *xarray, 
-	      int       *nerr, 
-	      int        kname_s) {
-  wsac2 ( kname , yarray , nlen , xarray , nerr , kname_s ) ;
+
+void
+wsac2__(char *kname, float *yarray, int *nlen, float *xarray, int *nerr,
+        int kname_s) {
+    wsac2(kname, yarray, nlen, xarray, nerr, kname_s);
 }

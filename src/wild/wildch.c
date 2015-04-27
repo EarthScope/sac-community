@@ -3,14 +3,14 @@
 
 #include "wild.h"
 
-
 #include "co.h"
 
-void /*FUNCTION*/ wildch(xsngl, xmult, xccon)
-char xsngl, xmult, *xccon;
+void /*FUNCTION*/
+wildch(xsngl, xmult, xccon)
+     char xsngl, xmult, *xccon;
 {
 
-	/*==============================================================
+        /*==============================================================
 	 * PURPOSE:  To set the various key characters for pattern matching.
 	 *==============================================================
 	 * INPUT ARGUMENTS:
@@ -27,15 +27,13 @@ char xsngl, xmult, *xccon;
 	 *==============================================================
 	 * DOCUMENTED/REVIEWED:  870619
 	 *============================================================== */
-	/* PROCEDURE: */
-	kmwild.sngl = xsngl;
-	kmwild.mult = xmult;
-	fstrncpy( kmwild.ccon, 2, xccon, strlen(xccon));
+    /* PROCEDURE: */
+    kmwild.sngl = xsngl;
+    kmwild.mult = xmult;
+    fstrncpy(kmwild.ccon, 2, xccon, strlen(xccon));
 
-	cmwild.igcon = 0;
+    cmwild.igcon = 0;
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

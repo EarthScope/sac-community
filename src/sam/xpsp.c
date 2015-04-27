@@ -1,7 +1,6 @@
 
 #include <string.h>
 
-
 #include "sam.h"
 #include "gem.h"
 #include "gam.h"
@@ -9,7 +8,6 @@
 #include "amf.h"
 #include "hdr.h"
 #include "bool.h"
-
 
 #include "pl.h"
 #include "bot.h"
@@ -19,18 +17,19 @@
 #include "co.h"
 #include "dff.h"
 
-void /*FUNCTION*/ xpsp(nerr)
-int *nerr;
+void /*FUNCTION*/
+xpsp(nerr)
+     int *nerr;
 {
-	char kret[9];
-	int lany, lconv, lframs, lwait, ncret;
-	int index, jdfl, nptspl;
-	float xjunk;
+    char kret[9];
+    int lany, lconv, lframs, lwait, ncret;
+    int index, jdfl, nptspl;
+    float xjunk;
 
-	static char kwait[9] = "Waiting$";
-  sac *s;
+    static char kwait[9] = "Waiting$";
+    sac *s;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To execute the action command PSP.
 	 *           This command plots spectral data files.
 	 *=====================================================================
@@ -55,348 +54,343 @@ int *nerr;
 	 *             GETSTATUS, BEGINDEVICE, PLSAVE, GETFIL, TOAMPH, TORLIM,
 	 *             INDEXB, GETYLM, PL2D, ZGPMSG, PLREST
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* PARSING PHASE: */
+    /* PARSING PHASE: */
 
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-	while ( lcmore( nerr ) ){
+    while (lcmore(nerr)) {
 
-	     /* -- "component":  select spectral component(s) to plot. */
-	     if( lclist( (char*)kmsam.ksptpl,9, cmsam.nsptpl, &index ) ){
-		strcpy( kmsam.kpsptp, kmsam.ksptpl[index - 1] );
-		/* Case branch:   ASIS,RLIM,AMPH,RL  ,IM  ,AM  ,PH  ,POWER */
-		switch( index ){
-		    case 1: cmsam.lpamph = FALSE;
-			    cmsam.lprlim = FALSE;
-			    cmsam.lpspc1 = TRUE;
-			    cmsam.lpspc2 = TRUE;
-			    break ;
-		    case 2: cmsam.lpamph = FALSE;
-			    cmsam.lprlim = TRUE;
-			    cmsam.lpspc1 = TRUE;
-			    cmsam.lpspc2 = TRUE;
-			    strcpy( kmsam.kpspl1, "Real Component  " );
-			    strcpy( kmsam.kpspl2, "Imag. Component " );
-			    break ;
-		    case 3: cmsam.lpamph = TRUE;
-			    cmsam.lprlim = FALSE;
-			    cmsam.lpspc1 = TRUE;
-			    cmsam.lpspc2 = TRUE;
-			    strcpy( kmsam.kpspl1, "Amplitude       " );
-			    strcpy( kmsam.kpspl2, "Phase (radians) " );
-			    break ;
-		    case 4: cmsam.lpamph = FALSE;
-			    cmsam.lprlim = TRUE;
-			    cmsam.lpspc1 = TRUE;
-			    cmsam.lpspc2 = FALSE;
-			    strcpy( kmsam.kpspl1, "Real Component  " );
-			    strcpy( kmsam.kpspl2, "NOT PLOTTED     " );
-			    break ;
-		    case 5: cmsam.lpamph = FALSE;
-			    cmsam.lprlim = TRUE;
-			    cmsam.lpspc1 = FALSE;
-			    cmsam.lpspc2 = TRUE;
-			    strcpy( kmsam.kpspl1, "NOT PLOTTED     " );
-			    strcpy( kmsam.kpspl2, "Imag. Component " );
-			    break ;
-		    case 6: cmsam.lpamph = TRUE;
-			    cmsam.lprlim = FALSE;
-			    cmsam.lpspc1 = TRUE;
-			    cmsam.lpspc2 = FALSE;
-			    strcpy( kmsam.kpspl1, "Amplitude       " );
-			    strcpy( kmsam.kpspl2, "NOT PLOTTED     " );
-			    break ;
-		    case 7: cmsam.lpamph = TRUE;
-			    cmsam.lprlim = FALSE;
-			    cmsam.lpspc1 = FALSE;
-			    cmsam.lpspc2 = TRUE;
-			    strcpy( kmsam.kpspl1, "NOT PLOTTED     " );
-			    strcpy( kmsam.kpspl2, "Phase (radians) " );
-			    break ;
-		    case 8: *nerr = 1012;			/* TEMP */
-			    setmsg( "ERROR", *nerr );
-			    apcmsg( kmsam.kpsptp,9 );	/* ENDTEMP */
-			    cmsam.lpamph = TRUE;
-			    cmsam.lprlim = FALSE;
-			    cmsam.lpspc1 = TRUE;
-			    cmsam.lpspc2 = FALSE;
-			    strcpy( kmsam.kpspl1, "Power           " );
-			    strcpy( kmsam.kpspl2, "NOT PLOTTED     " );
-			    break ;
-		} /* end switch */
+        /* -- "component":  select spectral component(s) to plot. */
+        if (lclist((char *) kmsam.ksptpl, 9, cmsam.nsptpl, &index)) {
+            strcpy(kmsam.kpsptp, kmsam.ksptpl[index - 1]);
+            /* Case branch:   ASIS,RLIM,AMPH,RL  ,IM  ,AM  ,PH  ,POWER */
+            switch (index) {
+                case 1:
+                    cmsam.lpamph = FALSE;
+                    cmsam.lprlim = FALSE;
+                    cmsam.lpspc1 = TRUE;
+                    cmsam.lpspc2 = TRUE;
+                    break;
+                case 2:
+                    cmsam.lpamph = FALSE;
+                    cmsam.lprlim = TRUE;
+                    cmsam.lpspc1 = TRUE;
+                    cmsam.lpspc2 = TRUE;
+                    strcpy(kmsam.kpspl1, "Real Component  ");
+                    strcpy(kmsam.kpspl2, "Imag. Component ");
+                    break;
+                case 3:
+                    cmsam.lpamph = TRUE;
+                    cmsam.lprlim = FALSE;
+                    cmsam.lpspc1 = TRUE;
+                    cmsam.lpspc2 = TRUE;
+                    strcpy(kmsam.kpspl1, "Amplitude       ");
+                    strcpy(kmsam.kpspl2, "Phase (radians) ");
+                    break;
+                case 4:
+                    cmsam.lpamph = FALSE;
+                    cmsam.lprlim = TRUE;
+                    cmsam.lpspc1 = TRUE;
+                    cmsam.lpspc2 = FALSE;
+                    strcpy(kmsam.kpspl1, "Real Component  ");
+                    strcpy(kmsam.kpspl2, "NOT PLOTTED     ");
+                    break;
+                case 5:
+                    cmsam.lpamph = FALSE;
+                    cmsam.lprlim = TRUE;
+                    cmsam.lpspc1 = FALSE;
+                    cmsam.lpspc2 = TRUE;
+                    strcpy(kmsam.kpspl1, "NOT PLOTTED     ");
+                    strcpy(kmsam.kpspl2, "Imag. Component ");
+                    break;
+                case 6:
+                    cmsam.lpamph = TRUE;
+                    cmsam.lprlim = FALSE;
+                    cmsam.lpspc1 = TRUE;
+                    cmsam.lpspc2 = FALSE;
+                    strcpy(kmsam.kpspl1, "Amplitude       ");
+                    strcpy(kmsam.kpspl2, "NOT PLOTTED     ");
+                    break;
+                case 7:
+                    cmsam.lpamph = TRUE;
+                    cmsam.lprlim = FALSE;
+                    cmsam.lpspc1 = FALSE;
+                    cmsam.lpspc2 = TRUE;
+                    strcpy(kmsam.kpspl1, "NOT PLOTTED     ");
+                    strcpy(kmsam.kpspl2, "Phase (radians) ");
+                    break;
+                case 8:
+                    *nerr = 1012;       /* TEMP */
+                    setmsg("ERROR", *nerr);
+                    apcmsg(kmsam.kpsptp, 9);    /* ENDTEMP */
+                    cmsam.lpamph = TRUE;
+                    cmsam.lprlim = FALSE;
+                    cmsam.lpspc1 = TRUE;
+                    cmsam.lpspc2 = FALSE;
+                    strcpy(kmsam.kpspl1, "Power           ");
+                    strcpy(kmsam.kpspl2, "NOT PLOTTED     ");
+                    break;
+            }                   /* end switch */
 
-	     } /* end if( lclist( (char*)kmsam.ksptpl ... */
-
-	     else if( lckey( "LINLIN$",8 ) ){
-		cmsam.ixspin = AXIS_LINEAR;
-		cmsam.iyspin = AXIS_LINEAR;
-	     }
-	     else if( lckey( "LINLOG$",8 ) ){
-		cmsam.ixspin = AXIS_LINEAR;
-		cmsam.iyspin = AXIS_LOG;
-	     }
-	     else if( lckey( "LOGLIN$",8 ) ){
-		cmsam.ixspin = AXIS_LOG;
-		cmsam.iyspin = AXIS_LINEAR;
-	     }
-	     else if( lckey( "LOGLOG$",8 ) ){
-		cmsam.ixspin = AXIS_LOG;
-		cmsam.iyspin = AXIS_LOG;
-	     }
-	     else if( lckey( "XLIN$",6 ) ){
-		cmsam.ixspin = AXIS_LINEAR;
-	     }
-	     else if( lckey( "XLOG$",6 ) ){
-		cmsam.ixspin = AXIS_LOG;
-	     }
-	     else if( lckey( "YLIN$",6 ) ){
-		cmsam.iyspin = AXIS_LINEAR;
-	     }
-	     else if( lckey( "YLOG$",6 ) ){
-		cmsam.iyspin = AXIS_LOG;
-	     }
-
-	     /* -- Bad syntax. */
-	     else{
-		cfmt( "ILLEGAL OPTION:",17 );
-		cresp();
-	     }
-	} /* end while */
-
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
-
-	if( *nerr != 0 )
-	    goto L_8888;
-
-	/* CHECKING PHASE: */
-
-	/* - Check for null data file list. */
-
-	vflist( nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
-
-	/* - Check to make sure all files are spectral files. */
-
-	vfspec( nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
-
-	/* EXECUTION PHASE: */
-
-	/* - If no graphics device is open, try to open the default graphics device. */
-
-	getstatus( "ANY", &lany );
-	if( !lany ){
-	    begindevice( kmgam.kgddef,9, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
-	}
-
-	/* - Save current plot environment and define specific
-	 *   options that apply to these spectral plots. */
-
-	plsave();
-	lframs = cmgem.lframe;
-	cmgem.lframe = FALSE;
-	cmgem.xgen.on = TRUE;
-	cmgem.ygen.on = FALSE;
-	cmgem.ylabel.on = TRUE;
-	cmgem.xlabel.on = TRUE;
-	fstrncpy( kmgem.kxlab, 144, "Frequency (Hz)", 14 );
-	cmgem.xlabel.len = 14;
-
-	/* - Check WAIT option.  This is on when:
-	 * -- A wait request has been made.
-	 * -- An active device (normally the user's terminal) is on. */
-
-	if( cmgam.lwaitr ){
-	    getstatus( "ACTIVE", &lwait );
-	}
-	else{
-	    lwait = FALSE;
-	}
-
-	/* - For each file in data file list: */
-
-	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
-
-	    /* -- Get the next file in DFL, moving header to CMHDR. */
-    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
-      goto L_7777;
-    }
-    //getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
-
-	    /* -- Convert spectral file type if needed. */
-
-	    if( cmsam.lpamph && s->h->iftype == IRLIM ){
-        toamph( s->y, s->x, s->h->npts, s->y, s->x);
-		lconv = TRUE;
-		s->h->iftype = IAMPH;
-	    }
-	    else if( cmsam.lprlim && s->h->iftype == IAMPH ){
-        torlim( s->y, s->x, s->h->npts, s->y, s->x);
-		lconv = TRUE;
-		s->h->iftype = IRLIM;
-	    }
-	    else{
-		lconv = FALSE;
-	    }
-
-
-	    /* -- Set up specific plot options for this data file. */
-
-	    nptspl = s->h->npts/2 - 1;
-	    cmgem.xgen.first = s->h->delta;
-	    cmgem.xgen.delta = s->h->delta;
-	    getxlm( &cmgem.lxlim, &cmgem.ximn, &cmgem.ximx );
-	    getylm( &cmgem.lylim, &cmgem.yimn, &cmgem.yimx );
-
-	    /* -- Determine suffixes if KPSPTP is 'ASIS'. */
-
-	    if( strcmp(kmsam.kpsptp,"ASIS    ") == 0 ){
-		if( s->h->iftype == IRLIM ){
-		    strcpy( kmsam.kpspl1, "REAL COMPONENT  " );
-		    strcpy( kmsam.kpspl2, "IMAGINARY CMP.  " );
-		    cmsam.lprlim = TRUE;
-		    cmsam.lpamph = FALSE;
-		}
-		else{
-		    strcpy( kmsam.kpspl1, "AMPLITUDE       " );
-		    strcpy( kmsam.kpspl2, "PHASE (RADIANS) " );
-		    cmsam.lprlim = FALSE;
-		    cmsam.lpamph = TRUE;
-		}
-	    }
-      {
-        int i;
-        for(i = 0 ; i < s->h->npts; i++) {
-          DEBUG("%d %f /  %f\n", i, s->y[i], s->x[i]);
         }
-        DEBUG("plot type: real/imag %d phase/amp %d [%d/%d]\n", cmsam.lprlim, cmsam.lpamph, cmsam.lpspc1, cmsam.lpspc2);
-      }
-	    /* -- Plot first spectral component if requested. */
+        /* end if( lclist( (char*)kmsam.ksptpl ... */
+        else if (lckey("LINLIN$", 8)) {
+            cmsam.ixspin = AXIS_LINEAR;
+            cmsam.iyspin = AXIS_LINEAR;
+        } else if (lckey("LINLOG$", 8)) {
+            cmsam.ixspin = AXIS_LINEAR;
+            cmsam.iyspin = AXIS_LOG;
+        } else if (lckey("LOGLIN$", 8)) {
+            cmsam.ixspin = AXIS_LOG;
+            cmsam.iyspin = AXIS_LINEAR;
+        } else if (lckey("LOGLOG$", 8)) {
+            cmsam.ixspin = AXIS_LOG;
+            cmsam.iyspin = AXIS_LOG;
+        } else if (lckey("XLIN$", 6)) {
+            cmsam.ixspin = AXIS_LINEAR;
+        } else if (lckey("XLOG$", 6)) {
+            cmsam.ixspin = AXIS_LOG;
+        } else if (lckey("YLIN$", 6)) {
+            cmsam.iyspin = AXIS_LINEAR;
+        } else if (lckey("YLOG$", 6)) {
+            cmsam.iyspin = AXIS_LOG;
+        }
 
-	    if( cmsam.lpspc1 ){
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
+    }                           /* end while */
 
-		/* --- Set up interpolation mode. */
-		cmgem.ixint = cmsam.ixspin;
-		cmgem.iyint = cmsam.iyspin;
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-		/* --- Set up y axis label. */
-		fstrncpy( kmgem.kylab, 144, kmsam.kpspl1, strlen(kmsam.kpspl1));
-		cmgem.ylabel.len = indexb( kmgem.kylab,145 );
+    if (*nerr != 0)
+        goto L_8888;
 
-		/* --- Plot data, excluding first data point (dc level). */
-		if( lframs ){
-		    beginframe( FALSE , nerr );
-		    getvspace( &cmgem.view.xmin, &cmgem.view.xmax, 
-                               &cmgem.view.ymin, &cmgem.view.ymax );
-		}
+    /* CHECKING PHASE: */
 
-		pl2d( (float*)&xjunk, &s->y[1], nptspl, 1,1, nerr );
-		if( *nerr != 0 )
-		    goto L_7777;
+    /* - Check for null data file list. */
 
-		dispid( cmgam.lfinorq, jdfl, 0, NULL );
+    vflist(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-		plhome();
-		if( lframs )
-		    endframe( FALSE , nerr );
-                else
-                  flushbuffer(nerr);
+    /* - Check to make sure all files are spectral files. */
 
-		/* --- Wait for user prompt before plotting
-			next frame if appropriate. */
-		if( ( jdfl == saclen() && !cmsam.lpspc2 ) && !cmgam.lwaite )
-		    lwait = FALSE;
-		if( lwait ){
-		    zgpmsg( kwait,9, kret,9 );
-		    ncret = indexb( kret,9 );
-		    upcase( kret, ncret, kret,9 );
-		    if( kret[0] == 'K' )
-			goto L_7777;
-		    if( kret[0] == 'G' )
-			lwait = FALSE;
-		}
-	    } /* end if( cmsam.lpspc1 ) */
+    vfspec(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	    /* -- Plot second spectral component if requested. */
+    /* EXECUTION PHASE: */
 
-	    if( cmsam.lpspc2 ){
-		/* --- Set up y axis label. */
-		fstrncpy( kmgem.kylab, 144, kmsam.kpspl2, strlen(kmsam.kpspl2));
-		cmgem.ylabel.len = indexb( kmgem.kylab,145 );
+    /* - If no graphics device is open, try to open the default graphics device. */
 
-		/* --- Set up interpolation mode,
-			forcing phase plots to be linlin. */
-		if( cmsam.lpamph ){
-		    cmgem.ixint = AXIS_LINEAR;
-		    cmgem.iyint = AXIS_LINEAR;
-		}
-		else{
-		    cmgem.ixint = cmsam.ixspin;
-		    cmgem.iyint = cmsam.iyspin;
-		}
+    getstatus("ANY", &lany);
+    if (!lany) {
+        begindevice(kmgam.kgddef, 9, nerr);
+        if (*nerr != 0)
+            goto L_8888;
+    }
 
-		/* --- Plot data, excluding first data point (dc level). */
-		if( lframs ){
-		    beginframe( FALSE , nerr );
-		    getvspace( &cmgem.view.xmin, &cmgem.view.xmax, 
-                               &cmgem.view.ymin, &cmgem.view.ymax );
-		}
-		pl2d( (float*)&xjunk, &s->x[1], nptspl, 1,1, nerr );
-		if( *nerr != 0 )
-		    goto L_8888;
-		dispid( cmgam.lfinorq, jdfl, 0, NULL ); 
+    /* - Save current plot environment and define specific
+     *   options that apply to these spectral plots. */
 
-		plhome();
-		if( lframs )
-		    endframe( FALSE , nerr );
-                else
-                  flushbuffer(nerr);
+    plsave();
+    lframs = cmgem.lframe;
+    cmgem.lframe = FALSE;
+    cmgem.xgen.on = TRUE;
+    cmgem.ygen.on = FALSE;
+    cmgem.ylabel.on = TRUE;
+    cmgem.xlabel.on = TRUE;
+    fstrncpy(kmgem.kxlab, 144, "Frequency (Hz)", 14);
+    cmgem.xlabel.len = 14;
 
-		/* --- Wait for user prompt before plotting
-			next frame if appropriate. */
-		if( jdfl == saclen() && !cmgam.lwaite )
-		    lwait = FALSE;
-		if( lwait ){
-		    zgpmsg( kwait,9, kret,9 );
-		    if( kret[0] == 'K' )
-			goto L_7777;
-		    if( kret[0] == 'G' )
-			lwait = FALSE;
-		}
+    /* - Check WAIT option.  This is on when:
+     * -- A wait request has been made.
+     * -- An active device (normally the user's terminal) is on. */
 
-	    } /* end if( cmsam.lpspc2 ) */
+    if (cmgam.lwaitr) {
+        getstatus("ACTIVE", &lwait);
+    } else {
+        lwait = FALSE;
+    }
 
-	    /* -- Convert file back to original type if necessary. */
+    /* - For each file in data file list: */
 
-	    if( lconv && s->h->iftype == IRLIM ){
-        toamph( s->y, s->x, s->h->npts, s->y, s->x);
-		s->h->iftype = IAMPH;
-	    }
-	    else if( lconv && s->h->iftype == IAMPH ){
-        torlim( s->y, s->x, s->h->npts, s->y, s->x);
-		s->h->iftype = IRLIM;
-	    }
+    for (jdfl = 1; jdfl <= saclen(); jdfl++) {
 
-	} /* end for ( jdfl ) */
+        /* -- Get the next file in DFL, moving header to CMHDR. */
+        if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
+            goto L_7777;
+        }
+        //getfil( jdfl, TRUE, &nlen, &ndx1, &ndx2, nerr );
 
-	/* - Restore plot environment and return. */
+        /* -- Convert spectral file type if needed. */
 
-L_7777:
-	plrest();
+        if (cmsam.lpamph && s->h->iftype == IRLIM) {
+            toamph(s->y, s->x, s->h->npts, s->y, s->x);
+            lconv = TRUE;
+            s->h->iftype = IAMPH;
+        } else if (cmsam.lprlim && s->h->iftype == IAMPH) {
+            torlim(s->y, s->x, s->h->npts, s->y, s->x);
+            lconv = TRUE;
+            s->h->iftype = IRLIM;
+        } else {
+            lconv = FALSE;
+        }
 
-L_8888:
-	return;
+        /* -- Set up specific plot options for this data file. */
 
-	/*=====================================================================
+        nptspl = s->h->npts / 2 - 1;
+        cmgem.xgen.first = s->h->delta;
+        cmgem.xgen.delta = s->h->delta;
+        getxlm(&cmgem.lxlim, &cmgem.ximn, &cmgem.ximx);
+        getylm(&cmgem.lylim, &cmgem.yimn, &cmgem.yimx);
+
+        /* -- Determine suffixes if KPSPTP is 'ASIS'. */
+
+        if (strcmp(kmsam.kpsptp, "ASIS    ") == 0) {
+            if (s->h->iftype == IRLIM) {
+                strcpy(kmsam.kpspl1, "REAL COMPONENT  ");
+                strcpy(kmsam.kpspl2, "IMAGINARY CMP.  ");
+                cmsam.lprlim = TRUE;
+                cmsam.lpamph = FALSE;
+            } else {
+                strcpy(kmsam.kpspl1, "AMPLITUDE       ");
+                strcpy(kmsam.kpspl2, "PHASE (RADIANS) ");
+                cmsam.lprlim = FALSE;
+                cmsam.lpamph = TRUE;
+            }
+        }
+        {
+            int i;
+            for (i = 0; i < s->h->npts; i++) {
+                DEBUG("%d %f /  %f\n", i, s->y[i], s->x[i]);
+            }
+            DEBUG("plot type: real/imag %d phase/amp %d [%d/%d]\n",
+                  cmsam.lprlim, cmsam.lpamph, cmsam.lpspc1, cmsam.lpspc2);
+        }
+        /* -- Plot first spectral component if requested. */
+
+        if (cmsam.lpspc1) {
+
+            /* --- Set up interpolation mode. */
+            cmgem.ixint = cmsam.ixspin;
+            cmgem.iyint = cmsam.iyspin;
+
+            /* --- Set up y axis label. */
+            fstrncpy(kmgem.kylab, 144, kmsam.kpspl1, strlen(kmsam.kpspl1));
+            cmgem.ylabel.len = indexb(kmgem.kylab, 145);
+
+            /* --- Plot data, excluding first data point (dc level). */
+            if (lframs) {
+                beginframe(FALSE, nerr);
+                getvspace(&cmgem.view.xmin, &cmgem.view.xmax, &cmgem.view.ymin,
+                          &cmgem.view.ymax);
+            }
+
+            pl2d((float *) &xjunk, &s->y[1], nptspl, 1, 1, nerr);
+            if (*nerr != 0)
+                goto L_7777;
+
+            dispid(cmgam.lfinorq, jdfl, 0, NULL);
+
+            plhome();
+            if (lframs)
+                endframe(FALSE, nerr);
+            else
+                flushbuffer(nerr);
+
+            /* --- Wait for user prompt before plotting
+               next frame if appropriate. */
+            if ((jdfl == saclen() && !cmsam.lpspc2) && !cmgam.lwaite)
+                lwait = FALSE;
+            if (lwait) {
+                zgpmsg(kwait, 9, kret, 9);
+                ncret = indexb(kret, 9);
+                upcase(kret, ncret, kret, 9);
+                if (kret[0] == 'K')
+                    goto L_7777;
+                if (kret[0] == 'G')
+                    lwait = FALSE;
+            }
+        }
+
+        /* end if( cmsam.lpspc1 ) */
+        /* -- Plot second spectral component if requested. */
+        if (cmsam.lpspc2) {
+            /* --- Set up y axis label. */
+            fstrncpy(kmgem.kylab, 144, kmsam.kpspl2, strlen(kmsam.kpspl2));
+            cmgem.ylabel.len = indexb(kmgem.kylab, 145);
+
+            /* --- Set up interpolation mode,
+               forcing phase plots to be linlin. */
+            if (cmsam.lpamph) {
+                cmgem.ixint = AXIS_LINEAR;
+                cmgem.iyint = AXIS_LINEAR;
+            } else {
+                cmgem.ixint = cmsam.ixspin;
+                cmgem.iyint = cmsam.iyspin;
+            }
+
+            /* --- Plot data, excluding first data point (dc level). */
+            if (lframs) {
+                beginframe(FALSE, nerr);
+                getvspace(&cmgem.view.xmin, &cmgem.view.xmax, &cmgem.view.ymin,
+                          &cmgem.view.ymax);
+            }
+            pl2d((float *) &xjunk, &s->x[1], nptspl, 1, 1, nerr);
+            if (*nerr != 0)
+                goto L_8888;
+            dispid(cmgam.lfinorq, jdfl, 0, NULL);
+
+            plhome();
+            if (lframs)
+                endframe(FALSE, nerr);
+            else
+                flushbuffer(nerr);
+
+            /* --- Wait for user prompt before plotting
+               next frame if appropriate. */
+            if (jdfl == saclen() && !cmgam.lwaite)
+                lwait = FALSE;
+            if (lwait) {
+                zgpmsg(kwait, 9, kret, 9);
+                if (kret[0] == 'K')
+                    goto L_7777;
+                if (kret[0] == 'G')
+                    lwait = FALSE;
+            }
+
+        }
+
+        /* end if( cmsam.lpspc2 ) */
+        /* -- Convert file back to original type if necessary. */
+        if (lconv && s->h->iftype == IRLIM) {
+            toamph(s->y, s->x, s->h->npts, s->y, s->x);
+            s->h->iftype = IAMPH;
+        } else if (lconv && s->h->iftype == IAMPH) {
+            torlim(s->y, s->x, s->h->npts, s->y, s->x);
+            s->h->iftype = IRLIM;
+        }
+
+    }                           /* end for ( jdfl ) */
+
+    /* - Restore plot environment and return. */
+
+  L_7777:
+    plrest();
+
+  L_8888:
+    return;
+
+        /*=====================================================================
 	 * MODIFICATION HISTORY:
          *    970130:  Added arguments to dispid() to plot file number. maf
 	 *    850307:  Deleted y limits on phase plot.
@@ -407,5 +401,4 @@ L_8888:
 	 *    810401:  Original version.
 	 *===================================================================== */
 
-} /* end of function */
-
+}                               /* end of function */

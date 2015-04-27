@@ -15,13 +15,10 @@
  * @date   890927:  Original version.
  *
  */
-void 
-getvspacetype(int *lfull,
-              float *ratio)
-{
-	/* - Return current variables from common. */
-	*lfull = cmgdm.lvsful;
-	*ratio = cmgdm.vsrat;
+void
+getvspacetype(int *lfull, float *ratio) {
+    /* - Return current variables from common. */
+    *lfull = cmgdm.lvsful;
+    *ratio = cmgdm.vsrat;
 
 }
-

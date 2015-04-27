@@ -9,7 +9,6 @@
 
 #include "dbh.h"
 
-
 #include "co.h"
 
 /** 
@@ -45,90 +44,79 @@
  * @date  January 3, 1985  Last Modified
  *
  */
-void 
-shift(float  *x, 
-      int     n, 
-      int     ishft, 
-      char   *type, 
-      float  *y, 
-      char   *errmsg, 
-      int     errmsg_s) {
+void
+shift(float *x, int n, int ishft, char *type, float *y, char *errmsg,
+      int errmsg_s) {
 
-	int i, is, m;
+    int i, is, m;
 
-	float *const X = &x[0] - 1;
-	float *const Y = &y[0] - 1;
+    float *const X = &x[0] - 1;
+    float *const Y = &y[0] - 1;
 
-	/*  Initializations
-	 * */
-        fstrncpy(errmsg, errmsg_s-1, " ", 1);
+    /*  Initializations
+     * */
+    fstrncpy(errmsg, errmsg_s - 1, " ", 1);
 
-	/*  Error checking
-	 *
-	 *                                         Shift too large */
-	if( labs( ishft ) >= n ){
+    /*  Error checking
+     *
+     *                                         Shift too large */
+    if (labs(ishft) >= n) {
 
-                fstrncpy(errmsg, errmsg_s-1,
-                  " SHIFT *** shift larger than data record *** ", 45);
+        fstrncpy(errmsg, errmsg_s - 1,
+                 " SHIFT *** shift larger than data record *** ", 45);
 
-		}
-	else if( type[0] != 'C' && type[0] != 'L' ){
+    } else if (type[0] != 'C' && type[0] != 'L') {
 
-                fstrncpy(errmsg, errmsg_s-1,
-                  " SHIFT *** illegal shift type *** ", 34);
+        fstrncpy(errmsg, errmsg_s - 1, " SHIFT *** illegal shift type *** ",
+                 34);
 
-		/*                                         Everything OK */
-		}
-	else{
+        /*                                         Everything OK */
+    } else {
 
-		/*                                          Shift right */
-		if( ishft >= 0 ){
+        /*                                          Shift right */
+        if (ishft >= 0) {
 
-			m = n - ishft;
-			for( i = 1; i <= m; i++ ){
-				Y[i + ishft] = X[i];
-				}
-			/*                                      Circular shift */
-			if( type[0] == 'C' ){
-				for( i = 1; i <= ishft; i++ ){
-					Y[i] = X[n - ishft + i];
-					}
-				/*                                       Linear shift (zero filling) */
-				}
-			else{
-				for( i = 1; i <= ishft; i++ ){
-					Y[i] = 0.;
-					}
-				}
+            m = n - ishft;
+            for (i = 1; i <= m; i++) {
+                Y[i + ishft] = X[i];
+            }
+            /*                                      Circular shift */
+            if (type[0] == 'C') {
+                for (i = 1; i <= ishft; i++) {
+                    Y[i] = X[n - ishft + i];
+                }
+                /*                                       Linear shift (zero filling) */
+            } else {
+                for (i = 1; i <= ishft; i++) {
+                    Y[i] = 0.;
+                }
+            }
 
-			/*                                         Shift left */
-			}
-		else if( ishft < 0 ){
+            /*                                         Shift left */
+        } else if (ishft < 0) {
 
-			is = -ishft;
-			m = n - is;
-			for( i = 1; i <= m; i++ ){
-				Y[i] = X[i + is];
-				}
-			/*                                       Circular shift */
-			if( type[0] == 'C' ){
-				for( i = 1; i <= is; i++ ){
-					Y[n - is + i] = X[i];
-					}
-				/*                                        Linear shift (zero filling) */
-				}
-			else{
-				for( i = 1; i <= is; i++ ){
-					Y[n - is + i] = 0.;
-					}
-				}
+            is = -ishft;
+            m = n - is;
+            for (i = 1; i <= m; i++) {
+                Y[i] = X[i + is];
+            }
+            /*                                       Circular shift */
+            if (type[0] == 'C') {
+                for (i = 1; i <= is; i++) {
+                    Y[n - is + i] = X[i];
+                }
+                /*                                        Linear shift (zero filling) */
+            } else {
+                for (i = 1; i <= is; i++) {
+                    Y[n - is + i] = 0.;
+                }
+            }
 
-			}
+        }
 
-		}
+    }
 
-	/*  Bye
-	 * */
-	return;
-} /* end of function */
-
+    /*  Bye
+     * */
+    return;
+}                               /* end of function */

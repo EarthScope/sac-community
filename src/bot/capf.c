@@ -21,18 +21,17 @@
  * @date   820303:  Only call ZCLOSE if LCIPF is .TRUE.
  *
  */
-void 
+void
 capf(int *nerr) {
 
-	/* - Close APF if open. */
-	if( cmeam.lapfop )
-		zcloses( &cmeam.napfun, nerr );
+    /* - Close APF if open. */
+    if (cmeam.lapfop)
+        zcloses(&cmeam.napfun, nerr);
 
-	/* - Set flag showing APF is closed. */
+    /* - Set flag showing APF is closed. */
 
-	cmeam.lapfop = FALSE;
+    cmeam.lapfop = FALSE;
 
-	return;
+    return;
 
 }
-

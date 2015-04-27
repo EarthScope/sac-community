@@ -58,7 +58,7 @@
  *
  */
 
-static int gain_value[4] = {0, 2, 4, 7}; 
+static int gain_value[4] = { 0, 2, 4, 7 };
 
 /*
  * Array gain_range contains the maximum+1 value for each
@@ -68,34 +68,34 @@ static int gain_value[4] = {0, 2, 4, 7};
 /*static int gain_range[4] = {1 << 13, 1 << 15, 1 << 17, 1 << 30};*/
 
 #define REG	register
-#define TOP	0xc0			/* top two bits */
-#define BOT	0x3f			/* bottom 6 bits */
-#define BIAS	8191			/* offset */
-#define BYTES_PER_G2	2		/* bytes in g2 sample.  Changing
-					 this is not sufficient to change
-					 the size of g2 format data */
+#define TOP	0xc0            /* top two bits */
+#define BOT	0x3f            /* bottom 6 bits */
+#define BIAS	8191            /* offset */
+#define BYTES_PER_G2	2       /* bytes in g2 sample.  Changing
+                                   this is not sufficient to change
+                                   the size of g2 format data */
 
 /*
  * g2tofloat converts NORESS gain ranged data to host specific float format
  */
 
-void g2tofloat (REG unsigned char *from, REG float *to, REG int num)
+void
+g2tofloat(REG unsigned char *from, REG float *to, REG int num)
 /*REG unsigned char	*from;		* array with gain ranged data */
 /*REG float		*to;		* degained data */
 /*REG int		num;		* number of entries */
 {
-	REG int	value;
+    REG int value;
 
-	/*
-	 * Start at the end and work backwords.  This allows
-	 * inplace conversions, assuming there is enough space
-	 * and the user is not doing any tricky buffering.
-	 */
+    /*
+     * Start at the end and work backwords.  This allows
+     * inplace conversions, assuming there is enough space
+     * and the user is not doing any tricky buffering.
+     */
 
-	for (to += (num - 1), from += (num-1) * BYTES_PER_G2;num-- ;
-	     from -= BYTES_PER_G2, --to)
-	{
-		value = ((from[0] & BOT) << 8) | from[1];
-		*to = (value - BIAS) << gain_value[(TOP & from[0]) >> 6];
-	}
+    for (to += (num - 1), from += (num - 1) * BYTES_PER_G2; num--;
+         from -= BYTES_PER_G2, --to) {
+        value = ((from[0] & BOT) << 8) | from[1];
+        *to = (value - BIAS) << gain_value[(TOP & from[0]) >> 6];
+    }
 }

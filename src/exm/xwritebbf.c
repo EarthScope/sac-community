@@ -9,7 +9,6 @@
 #include "bbs.h"
 #include "cpf.h"
 
-
 #include "co.h"
 #include "vars.h"
 
@@ -25,36 +24,33 @@
  * @date   870301:  Original version.
  *
  */
-void 
+void
 xwritebbf(int *nerr) {
 
-	char kname[MCPFN+1];
+    char kname[MCPFN + 1];
 
-	*nerr = 0;
+    *nerr = 0;
 
-	/* - Loop on each token in command: */
-	fstrncpy( kname, MCPFN, " ", 1 );
-L_1000:
-	if( lcmore( nerr ) ){
+    /* - Loop on each token in command: */
+    fstrncpy(kname, MCPFN, " ", 1);
+  L_1000:
+    if (lcmore(nerr)) {
 
-		/* -- "name":  the name of the global variable file. */
-		if( lcchar(kname, sizeof(kname)) ){
+        /* -- "name":  the name of the global variable file. */
+        if (lcchar(kname, sizeof(kname))) {
 
-			/* -- Bad syntax. */
-			}
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
+            /* -- Bad syntax. */
+        } else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
 
-			}
-		goto L_1000;
+        }
+        goto L_1000;
 
-		}
+    }
 
-	writevfile( kmbbs.knmbbs,MCPFN+1, kname, nerr );
+    writevfile(kmbbs.knmbbs, MCPFN + 1, kname, nerr);
 
-       
-	return;
+    return;
 
 }
-

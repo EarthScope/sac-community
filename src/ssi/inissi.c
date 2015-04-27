@@ -5,8 +5,8 @@
 #include "cssListOps/dblErrors.h"
 #include "dbselect/dbDefaults.h"
 
-int linkedToOracleLibs ;  /* True if oracle libraries are linked to sac */
-int triedAndFailed ;      /* True if sac tried to link to libs and failed */
+int linkedToOracleLibs;         /* True if oracle libraries are linked to sac */
+int triedAndFailed;             /* True if sac tried to link to libs and failed */
 
         /*=====================================================================
          * PURPOSE: Initialization of the data base module.
@@ -20,23 +20,22 @@ int triedAndFailed ;      /* True if sac tried to link to libs and failed */
 	 *	971208:	Original version.
          *===================================================================== */
 
-void inissi () 
-{
-    char * worksetName ;
+void
+inissi() {
+    char *worksetName;
 
     /* set flag */
-    linkedToOracleLibs = FALSE ;
-    triedAndFailed = FALSE ;
+    linkedToOracleLibs = FALSE;
+    triedAndFailed = FALSE;
 
     /* Initialize SeisMgr error handler */
-    dblClearErrorList () ;
+    dblClearErrorList();
 
     /* initialize query */
-    dbSetQueryDefaults () ;
+    dbSetQueryDefaults();
 
     /* delete files from SeisMgr (if this is a INICM command) */
-    worksetName = smGetDefaultWorksetName () ;
-    if ( worksetName )
-	smDeleteWorksetByName ( worksetName ) ;
-} /* end inissi */
-
+    worksetName = smGetDefaultWorksetName();
+    if (worksetName)
+        smDeleteWorksetByName(worksetName);
+}                               /* end inissi */

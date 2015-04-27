@@ -1,16 +1,14 @@
 
 #include "icm.h"
 
-
 #include "msg.h"
 
-void /*FUNCTION*/ xicmc(index, nerr)
-int index, *nerr;
+void /*FUNCTION*/
+xicmc(index, nerr)
+     int index, *nerr;
 {
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To execute a Instrument Correction Module (ICM) command 
 	 *          given its index number.
 	 *=====================================================================
@@ -37,36 +35,36 @@ int index, *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  870316
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* - Jump to correct command based upon its index number. */
+    /* - Jump to correct command based upon its index number. */
 
-	switch( index ){
-		case 1: goto L_100;
-		case 2: goto L_200;
-		}
+    switch (index) {
+        case 1:
+            goto L_100;
+        case 2:
+            goto L_200;
+    }
 
-	/* - Error return if bad index value. */
+    /* - Error return if bad index value. */
 
-	*nerr = 901;
-	setmsg( "ERROR", *nerr );
-	apcmsg( "in XICMC",9 );
-	goto L_8888;
+    *nerr = 901;
+    setmsg("ERROR", *nerr);
+    apcmsg("in XICMC", 9);
+    goto L_8888;
 
+  L_100:
+    /* - Command 01: TRANSFER */
+    xtransfer(nerr);
+    goto L_8888;
 
-L_100:
-	/* - Command 01: TRANSFER */
-	xtransfer( nerr );
-	goto L_8888;
+  L_200:
+    /* - Command 02: WHITEN */
+    xprewit(nerr);
+    goto L_8888;
 
-L_200:
-	/* - Command 02: WHITEN */
-	xprewit( nerr ) ;
-	goto L_8888 ;
+  L_8888:
+    return;
 
-L_8888:
-	return;
-
-} /* end of function */
-
+}                               /* end of function */

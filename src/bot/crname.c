@@ -16,7 +16,6 @@
 
 #include "errors.h"
 
-
 #include "bot.h"
 
 /** 
@@ -46,40 +45,33 @@
  * @date   831110:  Original version.
  *
  */
-void 
-crname(char *kname, 
-       int   kname_s, 
-       char  kdelim, 
-       char *kappnd, 
-       int   kappnd_s, 
-       int  *nerr)
-{
-	int mname, nappnd, nname;
-  char *cattemp;
+void
+crname(char *kname, int kname_s, char kdelim, char *kappnd, int kappnd_s,
+       int *nerr) {
+    int mname, nappnd, nname;
+    char *cattemp;
 
-	*nerr = 0;
+    *nerr = 0;
 
-	/* - Determine length of base and additional name. */
+    /* - Determine length of base and additional name. */
 
-	mname = (kname_s - 1);
-	nname = indexb( kname,kname_s );
-	nappnd = indexb( kappnd,kappnd_s );
+    mname = (kname_s - 1);
+    nname = indexb(kname, kname_s);
+    nappnd = indexb(kappnd, kappnd_s);
 
-	/* - Concantenate delimiter and new name to base name if they fit. */
+    /* - Concantenate delimiter and new name to base name if they fit. */
 
-	if( mname >= (nname + nappnd + 1) ){
-                cattemp = malloc(nappnd+2);
-                cattemp[0] = kdelim;
-                strncpy(cattemp+1,kappnd,nappnd);
-                cattemp[nappnd+1] = '\0';
-		subscpy( kname, nname, -1, kname_s - 1, cattemp);
-                free(cattemp);
-	}
-	else{
-		*nerr = ERROR_FILE_NAME_TOO_LONG;
-    error(*nerr, "%s", kappnd);
-	}
+    if (mname >= (nname + nappnd + 1)) {
+        cattemp = malloc(nappnd + 2);
+        cattemp[0] = kdelim;
+        strncpy(cattemp + 1, kappnd, nappnd);
+        cattemp[nappnd + 1] = '\0';
+        subscpy(kname, nname, -1, kname_s - 1, cattemp);
+        free(cattemp);
+    } else {
+        *nerr = ERROR_FILE_NAME_TOO_LONG;
+        error(*nerr, "%s", kappnd);
+    }
 
-	return;
+    return;
 }
-

@@ -22,55 +22,52 @@
  * @date   910212:  Original Version  (jjy)
  */
 
-void 
-drawpoly3(float *xloc_vp,
-          float *yloc_vp,
-          int npts)
-{
-  static int i;
-  static XPoint ptlist[102];
-  XWindow *xw;
-  xw = plot_window( CURRENT );
+void
+drawpoly3(float *xloc_vp, float *yloc_vp, int npts) {
+    static int i;
+    static XPoint ptlist[102];
+    XWindow *xw;
+    xw = plot_window(CURRENT);
 
-  /* w = xw->width - 1; */
-  /* h = xw->height - 1; */
+    /* w = xw->width - 1; */
+    /* h = xw->height - 1; */
 
 /* Convert points from viewport coords to pixels */
-  for (i = 0; i<npts; i++) {
-    ptlist[i].x = view_to_x11_x( xloc_vp[i], xw );
-    ptlist[i].y = view_to_x11_y( yloc_vp[i], xw );
-  }
+    for (i = 0; i < npts; i++) {
+        ptlist[i].x = view_to_x11_x(xloc_vp[i], xw);
+        ptlist[i].y = view_to_x11_y(yloc_vp[i], xw);
+    }
 
 /* Draw line */
 
-  XSetForeground(DISPLAY(xw), xw->gc,color3);
+    XSetForeground(DISPLAY(xw), xw->gc, color3);
 
-  XDrawLines(DISPLAY(xw), xw->buffer, xw->gc, ptlist, npts, CoordModeOrigin);
+    XDrawLines(DISPLAY(xw), xw->buffer, xw->gc, ptlist, npts, CoordModeOrigin);
 
 }
 
-
 void
 fillpoly3(float *x, float *y, int n) {
-  int i;
-  XWindow *xw;
-  XPoint *p;
-  xw = plot_window(CURRENT);
+    int i;
+    XWindow *xw;
+    XPoint *p;
+    xw = plot_window(CURRENT);
 
-  if(n <= 0) {
-    return;
-  }
-  p = (XPoint *) malloc(sizeof(XPoint) * n);
-  for(i = 0; i < n; i++) {
-    p[i].x = view_to_x11_x(x[i], xw);
-    p[i].y = view_to_x11_y(y[i], xw);
-  }
+    if (n <= 0) {
+        return;
+    }
+    p = (XPoint *) malloc(sizeof(XPoint) * n);
+    for (i = 0; i < n; i++) {
+        p[i].x = view_to_x11_x(x[i], xw);
+        p[i].y = view_to_x11_y(y[i], xw);
+    }
 
-  XSetForeground(DISPLAY(xw), xw->gc,color3);  
-  XFillPolygon(DISPLAY(xw), xw->buffer, xw->gc, p, n, Complex, CoordModeOrigin);
+    XSetForeground(DISPLAY(xw), xw->gc, color3);
+    XFillPolygon(DISPLAY(xw), xw->buffer, xw->gc, p, n, Complex,
+                 CoordModeOrigin);
 
-  if(p) {
-    free(p);
-    p = NULL;
-  }
+    if (p) {
+        free(p);
+        p = NULL;
+    }
 }

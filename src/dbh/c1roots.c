@@ -54,57 +54,49 @@
  * \date 900907    LAST MODIFIED
  *
  */
-void 
-c1roots(complexf  *p, 
-        char      *rtype, 
-        int        rtype_s, 
-        float     *dcvalue, 
-        int       *nsects, 
-        int        iord, 
-        double     eps)
-{
+void
+c1roots(complexf * p, char *rtype, int rtype_s, float *dcvalue, int *nsects,
+        int iord, double eps) {
 #define RTYPE(I_,J_)	(rtype+(I_)*(rtype_s)+(J_))
-	int half, i, i_;
-	float angle, c, gamma, omega, pi, s, sigma;
+    int half, i, i_;
+    float angle, c, gamma, omega, pi, s, sigma;
 
-	complexf *const P = &p[0] - 1;
+    complexf *const P = &p[0] - 1;
 
-	pi = 3.14159265;
-	half = iord/2;
+    pi = 3.14159265;
+    half = iord / 2;
 
-	/*  INTERMEDIATE DESIGN PARAMETERS                                               
-	 * */
-	gamma = (1. + sqrt( 1. + eps*eps ))/eps;
-	gamma = log( gamma )/(float)( iord );
-	gamma = exp( gamma );
-	s = .5*(gamma - 1./gamma);
-	c = .5*(gamma + 1./gamma);
+    /*  INTERMEDIATE DESIGN PARAMETERS                                               
+     * */
+    gamma = (1. + sqrt(1. + eps * eps)) / eps;
+    gamma = log(gamma) / (float) (iord);
+    gamma = exp(gamma);
+    s = .5 * (gamma - 1. / gamma);
+    c = .5 * (gamma + 1. / gamma);
 
-	/*  CALCULATE POLES                                                              
-	 * */
-	*nsects = 0;
-	for( i = 1; i <= half; i++ ){
-		i_ = i - 1;
-		fstrncpy( RTYPE(i_,0) , rtype_s - 1 , "CP", 2 );
-		angle = (float)( 2*i - 1 )*pi/(float)( 2*iord );
-		sigma = -s*sin( angle );
-		omega = c*cos( angle );
-		P[i] = flttocmplx( sigma, omega );
-		*nsects = *nsects + 1;
-		}
-	if( 2*half < iord ){
-		fstrncpy( RTYPE(half,0) , rtype_s - 1 , "SP", 2 );
-		P[half + 1] = flttocmplx( -s, 0.0 );
-		*nsects = *nsects + 1;
-		*dcvalue = 1.0;
-		}
-	else{
-		*dcvalue = 1./sqrt( 1 + powi(eps,2) );
-		}
+    /*  CALCULATE POLES                                                              
+     * */
+    *nsects = 0;
+    for (i = 1; i <= half; i++) {
+        i_ = i - 1;
+        fstrncpy(RTYPE(i_, 0), rtype_s - 1, "CP", 2);
+        angle = (float) (2 * i - 1) * pi / (float) (2 * iord);
+        sigma = -s * sin(angle);
+        omega = c * cos(angle);
+        P[i] = flttocmplx(sigma, omega);
+        *nsects = *nsects + 1;
+    }
+    if (2 * half < iord) {
+        fstrncpy(RTYPE(half, 0), rtype_s - 1, "SP", 2);
+        P[half + 1] = flttocmplx(-s, 0.0);
+        *nsects = *nsects + 1;
+        *dcvalue = 1.0;
+    } else {
+        *dcvalue = 1. / sqrt(1 + powi(eps, 2));
+    }
 
-	/*  DONE                                                                         
-	 * */
-	return;
+    /*  DONE                                                                         
+     * */
+    return;
 #undef	RTYPE
 }
-

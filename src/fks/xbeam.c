@@ -16,7 +16,6 @@
 #include "hdr.h"
 #include "amf.h"
 
-
 #include "ucf.h"
 #include "msg.h"
 #include "cpf.h"
@@ -25,30 +24,29 @@
 #include "dff.h"
 #include "array.h"
 
-#define NFILE_LENGTH 128 /* max length of output file name */
+#define NFILE_LENGTH 128        /* max length of output file name */
 
 void
 xbeam(int *nerr) {
 
-	char kfile[NFILE_LENGTH];
-	int elevc;
-	int iadv, jdx, jdfl, jdfl_, jout, 
-	 nckofbeam, nec, nsampsout, number, numbersav;
-	float advance, angle, anglev, beginout, delt_horiz, deltaout, 
-    el_delay, endout,
-	 *xr, *yr, *zr;
-  double ra[3];
-	int   lLocalRef ;	
-	int   nLocalRef ;	
-	double rLocalRef[ 3 ] ;
-  sac *s, *beam;
+    char kfile[NFILE_LENGTH];
+    int elevc;
+    int iadv, jdx, jdfl, jdfl_, jout, nckofbeam, nec, nsampsout, number,
+        numbersav;
+    float advance, angle, anglev, beginout, delt_horiz, deltaout, el_delay,
+        endout, *xr, *yr, *zr;
+    double ra[3];
+    int lLocalRef;
+    int nLocalRef;
+    double rLocalRef[3];
+    sac *s, *beam;
 
-	int   lfillz = 0 ;	/* set to 1 if npts or begins differ. maf 970211 */
-  int n;
-  double tmp;
-	double *const Ra = &ra[0] - 1;
+    int lfillz = 0;             /* set to 1 if npts or begins differ. maf 970211 */
+    int n;
+    double tmp;
+    double *const Ra = &ra[0] - 1;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To compute beam for an array of stations
 	 *=====================================================================
 	 * OUTPUT ARGUMENTS:
@@ -102,297 +100,294 @@ xbeam(int *nerr) {
 	 *  Main (signal stack) common block                                             
 	 * */
 
+    /* These were the parameters XAP looked for
+     *          CALL KEYCHN( 'VELOCITY BEARING EC OUTNAME CENTER' )           
+     * The non-keyworded parameter NUMBER is suppressed for SAC
+     *          CALL FI( ' ', 1, 'OPTIONAL', NCH, NUMBER)                      */
+    number = saclen();
+    xr = xarray_new_with_len('f', saclen());
+    yr = xarray_new_with_len('f', saclen());
+    zr = xarray_new_with_len('f', saclen());
+    /*    PARSING PHASE    
+     * */
+    elevc = FALSE;
+    nckofbeam = nstrlensp(cmfks.kofbeam, MCPFN + 1);
 
-	/* These were the parameters XAP looked for
-	 *          CALL KEYCHN( 'VELOCITY BEARING EC OUTNAME CENTER' )           
-	 * The non-keyworded parameter NUMBER is suppressed for SAC
-	 *          CALL FI( ' ', 1, 'OPTIONAL', NCH, NUMBER)                      */
-	number = saclen();
-  xr = xarray_new_with_len('f', saclen());
-  yr = xarray_new_with_len('f', saclen());
-  zr = xarray_new_with_len('f', saclen());
-	/*    PARSING PHASE    
-	 * */
-	elevc = FALSE;
-	nckofbeam = nstrlensp( cmfks.kofbeam,MCPFN+1 );
+    while (lcmore(nerr)) {
+        int offsetTemp = 0;
 
-	while ( lcmore( nerr ) ){
-	    int offsetTemp = 0 ;
+        if (lkreal("B#EARING$", 10, &tmp)) {
+            cmfks.bear = (float) tmp;
+        } else if (lkreal("V#ELOCITY$", 11, &tmp)) {
+            cmfks.veloc = (float) tmp;
+        }
 
-	    if( lkreal( "B#EARING$",10, &tmp ) ) {
-        cmfks.bear = (float) tmp;
-      }
-	    else if( lkreal( "V#ELOCITY$",11, &tmp ) ) {
-        cmfks.veloc = (float) tmp;
-      }
+        else if (lkra("E#C$", 5, 0, 2, ra, &nec)) {
+            elevc = TRUE;
+            /* Angle of incidence -- measured from vertical
+             *  (the farther the source, the smaller the angle) */
+            if (nec == 0) {     /* do nothing */
+            }
 
-	    else if( lkra( "E#C$",5, 0, 2, ra, &nec ) ){
-		elevc = TRUE;
-		/* Angle of incidence -- measured from vertical
-		 *  (the farther the source, the smaller the angle) */
-		if( nec == 0 )
-		{ /* do nothing */ }
+            /* keep values initialized or previously set in /common/cmfks */
+            else if (nec == 1) {
+                cmfks.anginc = Ra[1];
+            }
 
-		/* keep values initialized or previously set in /common/cmfks */
-		else if( nec == 1 ){
-		    cmfks.anginc = Ra[1];
-		}
+            /* - keep the value for survel  */
+            else {
+                cmfks.anginc = Ra[1];
+                cmfks.survel = Ra[2];
+            }
+        }
+        /* end else if( lkra( "E#C$",5, 0, 2, ra, &nec ) ) */
+        else if (lkra("C#ENTER$", 9, 2, 3, ra, &n)) {
+            cmfks.nctr = n;
+            cmfks.ctrx = Ra[1];
+            cmfks.ctry = Ra[2];
+            if (cmfks.nctr == 3)
+                cmfks.ctrz = Ra[3];
+        }
 
-		/* - keep the value for survel  */
-		else{
-		    cmfks.anginc = Ra[1];
-		    cmfks.survel = Ra[2];
-		}
-	    } /* end else if( lkra( "E#C$",5, 0, 2, ra, &nec ) ) */
+        /* OFFSET: allow user to specify a method of determining offsets */
+        else if (lklist
+                 ("O#FFSET$", 9, (char *) cmfks.koffset, 9, MOFFSETOPTS,
+                  &offsetTemp)) {
+            cmfks.flagOffset = offsetTemp - 1;
+        }
 
-	    else if( lkra( "C#ENTER$",9, 2, 3, ra, &n ) ){
-        cmfks.nctr = n;
-        cmfks.ctrx = Ra[1];
-        cmfks.ctry = Ra[2];
-        if( cmfks.nctr == 3 )
-          cmfks.ctrz = Ra[3];
-	    }
+        /* REFERENCE: allow user to specify a reference point. maf 970207 */
+        else if (lklogra
+                 ("REF#ERENCE$", 12, &lLocalRef, 2, 3, rLocalRef, &nLocalRef,
+                  nerr)) {
+            if (*nerr != 0) {
+                *nerr = 0;
+                goto L_9999;
+            }
 
-	    /* OFFSET: allow user to specify a method of determining offsets */
-	    else if ( lklist( "O#FFSET$",9, (char*)cmfks.koffset,9,
-		      MOFFSETOPTS, &offsetTemp ) )
-	    { cmfks.flagOffset = offsetTemp - 1 ; }
+            if (lLocalRef == 2) {       /* Numbers were entered */
+                cmfks.lReference = TRUE;
+                cmfks.rReference[0] = rLocalRef[0];
+                cmfks.rReference[1] = rLocalRef[1];
+                cmfks.rReference[2] = nLocalRef == 3 ? rLocalRef[2] : 0.0;
+                cmfks.nReference = nLocalRef;
+            } else
+                cmfks.lReference = lLocalRef;
+        }
+        /* end else if ( lklogra ( "REF#ERENCE$" , 12 ... ) */
+        else if (lkchar("W#RITE$", 8, 24, cmfks.kofbeam, MCPFN + 1, &nckofbeam)) {      /* do nothing */
+        }
 
-	    /* REFERENCE: allow user to specify a reference point. maf 970207 */
-	    else if ( lklogra ( "REF#ERENCE$" , 12 , &lLocalRef , 
-		      2 , 3 , rLocalRef , &nLocalRef , nerr ) ) {
-		if ( *nerr != 0 ) {
-		    *nerr = 0 ;
-		    goto L_9999 ;
-		}
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+            goto L_9999;
+        }
 
-		if ( lLocalRef == 2 ) {		/* Numbers were entered */
-		    cmfks.lReference = TRUE ;
-		    cmfks.rReference[0] = rLocalRef[0] ;
-		    cmfks.rReference[1] = rLocalRef[1] ;
-		    cmfks.rReference[2] = nLocalRef == 3 ? rLocalRef[2] : 0.0 ;
-		    cmfks.nReference = nLocalRef ;
-		}
-		else
-		    cmfks.lReference = lLocalRef ;
-	    } /* end else if ( lklogra ( "REF#ERENCE$" , 12 ... ) */
+    }                           /* end while */
 
-	    else if(lkchar("W#RITE$",8, 24, cmfks.kofbeam,MCPFN+1, &nckofbeam))
-	    { /* do nothing */ }
+    /* CHECKING PHASE 
+     * */
+    if (elevc && cmfks.nctr == 2) {
+        fprintf(MUNOUT,
+                "ERR: If EC is desired, you must specify z for CENTER.\n");
+        goto L_9999;
+    }
 
-	    else{
-		cfmt( "ILLEGAL OPTION:",17 );
-		cresp();
-		goto L_9999;
-	    }
+    /* EXECUTION PHASE 
 
-	} /* end while */
+     * */
+    angle = (cmfks.bear / 180.0) * 3.14159265;
+    anglev = (cmfks.anginc / 180.) * 3.14159265;
 
-	/* CHECKING PHASE 
-	 * */
-	if( elevc && cmfks.nctr == 2 ){
-	    fprintf( MUNOUT, "ERR: If EC is desired, you must specify z for CENTER.\n" );
-	    goto L_9999;
-	}
+    /* This line was in for loop in if(jdfl == 1) block. 
+       moved out here.  maf 970211 */
+    fstrncpy(kfile, NFILE_LENGTH - 1, cmfks.kofbeam, min(nckofbeam, MCPFN));
 
+    numbersav = number;
 
-	/* EXECUTION PHASE 
+    /* Now getting xr, yr, and zr from calcoffsets instead of from
+       user7, 8, and 9 directly.  maf 970108 */
+    /* calcBeamOffsets replaces calcoffsets.  maf 970207 */
+    calcBeamOffsets(number, elevc, xr, yr, zr, nerr);
+    if (*nerr != 0)
+        goto L_9999;
 
-	 * */
-	angle = (cmfks.bear/180.0)*3.14159265;
-	anglev = (cmfks.anginc/180.)*3.14159265;
-
-	/* This line was in for loop in if(jdfl == 1) block. 
-	   moved out here.  maf 970211 */
-	fstrncpy( kfile, NFILE_LENGTH - 1, cmfks.kofbeam, min(nckofbeam,MCPFN));
-
-	numbersav = number;
-
-	/* Now getting xr, yr, and zr from calcoffsets instead of from
-	   user7, 8, and 9 directly.  maf 970108 */
-	/* calcBeamOffsets replaces calcoffsets.  maf 970207 */
-	calcBeamOffsets ( number , elevc , xr , yr , zr , nerr ) ;
-	if ( *nerr != 0 )
-	    goto L_9999 ;
-	
     beginout = endout = 0.0;
     deltaout = 0;
-    nsampsout  = 0;
-        
-	/* Preliminary loop through files to check delta and get extremes added.*/
-	for( jdfl = 1; jdfl <= number; jdfl++ ){
-    if(!(s = sacget(jdfl-1, TRUE, nerr))) {
-      *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
-      goto L_9999;
+    nsampsout = 0;
+
+    /* Preliminary loop through files to check delta and get extremes added. */
+    for (jdfl = 1; jdfl <= number; jdfl++) {
+        if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
+            *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+            goto L_9999;
+        }
+        //getfil( jdfl, TRUE, &nsamps, &inptr, &idummy, nerr );
+
+        if (jdfl == 1) {
+            nsampsout = s->h->npts;
+            beginout = s->h->b;
+            deltaout = s->h->delta;
+            endout = s->h->e;
+        }
+
+        else {
+            if (s->h->delta != deltaout) {
+                /* error handling */
+                *nerr = 1801;
+                setmsg("ERROR", *nerr);
+                apcmsg("DELTA", 6);
+                apcmsg(" - can be fixed using INTERPOLATE command", 42);
+                outmsg();
+                goto L_9999;
+            }
+
+            /* end if ( s->h->delta != deltaout ) */
+            /* if waveforms not properly aligned ... */
+            if (s->h->npts != nsampsout || s->h->b != beginout) {
+                lfillz = 1;     /* set flag to fill with zeros */
+
+                /* get the extreme values. */
+                beginout = beginout < s->h->b ? beginout : s->h->b;
+                endout = endout > s->h->e ? endout : s->h->e;
+            }
+        }                       /* end else associated with if( jdfl == 1 ) */
+    }                           /* end Preliminary loop through files. */
+
+    /* if waveforms weren't properly aligned, warn user. maf 970211 */
+    if (lfillz) {
+        printf("\a\nCAUTION:  Waveforms not properly aligned.");
+        printf("  Filling with zeros and proceding.\n");
     }
-    //getfil( jdfl, TRUE, &nsamps, &inptr, &idummy, nerr );
 
-	    if( jdfl == 1 ){
-        nsampsout = s->h->npts;
-		beginout = s->h->b;
-		deltaout = s->h->delta;
-		endout = s->h->e;
-	    }
+    /* These lines were in for loop in if(jdfl == 1) block.  I moved them
+       out to here, and there's a new way to get nsampsout. The '+ 2' in
+       the calculation of nsampsout is 1 for the math, and 1 for the
+       FORTRAN indexing.  maf 970211 */
+    jout = number + 1;
+    nsampsout = ((endout - beginout) / deltaout) + 2;
 
-	    else {
-		if ( s->h->delta != deltaout ) {
-		    /* error handling */
-		    *nerr = 1801;
-		    setmsg ("ERROR" , *nerr) ;
-		    apcmsg ( "DELTA" , 6 ) ;
-		    apcmsg ( " - can be fixed using INTERPOLATE command", 42);
-		    outmsg () ;
-		    goto L_9999;
-		} /* end if ( s->h->delta != deltaout ) */
+    /* Allocate space for the input waveforms. */
+    beam = sac_new();
+    beam->h->npts = nsampsout;
+    sac_alloc(beam);
 
-		/* if waveforms not properly aligned ... */
-		if ( s->h->npts != nsampsout || s->h->b != beginout ) {
-		    lfillz = 1 ; /* set flag to fill with zeros */
+    /* Loop between files to build the beam, overhauled.  maf 970211 */
+    for (jdfl = 1; jdfl <= number; jdfl++) {
+        float *waveform = NULL;
 
-		    /* get the extreme values. */
-		    beginout  = beginout < s->h->b ? beginout : s->h->b ;
-		    endout    = endout   > s->h->e  ? endout   : s->h->e ;
-		} 
-	    } /* end else associated with if( jdfl == 1 ) */
-	} /* end Preliminary loop through files. */
+        jdfl_ = jdfl - 1;
 
-	/* if waveforms weren't properly aligned, warn user. maf 970211 */
-	if ( lfillz ) {
-	    printf ( "\a\nCAUTION:  Waveforms not properly aligned." ) ;
-	    printf ( "  Filling with zeros and proceding.\n");
-	}
-	
-	/* These lines were in for loop in if(jdfl == 1) block.  I moved them
-	   out to here, and there's a new way to get nsampsout. The '+ 2' in
-	   the calculation of nsampsout is 1 for the math, and 1 for the
-	   FORTRAN indexing.  maf 970211 */
-	jout = number + 1 ;
-	nsampsout = ( ( endout - beginout ) / deltaout ) + 2 ;
+        if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
+            goto L_9999;
+        }
+        if (s->h->iftype != ITIME) {
+            numbersav = jdfl - 1;
+            break;
+        }
 
-	/* Allocate space for the input waveforms. */
-  beam = sac_new();
-  beam->h->npts = nsampsout;
-  sac_alloc(beam);
+        /* if necessary, do a fillz.  maf 970211 */
+        if (lfillz) {
+            int n;
 
-	/* Loop between files to build the beam, overhauled.  maf 970211 */
-	for( jdfl = 1; jdfl <= number; jdfl++ ){
-	    float * waveform = NULL ;
+            /* allocate space for the filled waveform. 
+               calloc initiallizes the space to zreo. */
+            waveform = (float *) calloc(nsampsout, sizeof(float));
+            if (waveform == NULL) {
+                /* error handling */
+                printf("error allocating filled waveform--xbeam\n");
+                *nerr = 301;
+                return;
+            }
 
-	    jdfl_ = jdfl - 1;
+            /* copy the waveform. */
+            n = ((s->h->b - beginout) / s->h->delta) /* + 0.5 */ ;
+            memcpy(waveform + n, s->y, s->h->npts * sizeof(float));
 
-      if(!(s = sacget(jdfl-1, TRUE, nerr))) {
+        } /* end if ( lfillz ) */
+        else
+            waveform = s->y;
+
+        /* Use dot product to get signed horizontal distance from
+           array center to station */
+
+        /* xr and yr are now arrays.  maf 970108 */
+        delt_horiz =
+            cos(angle) * (yr[jdfl_] - cmfks.ctry) + sin(angle) * (xr[jdfl_] -
+                                                                  cmfks.ctrx);
+
+        /* Compute the delay for the input phase velocity.  */
+
+        advance = delt_horiz / cmfks.veloc;
+
+        if (elevc) {            /* zr is now an array.  maf 970108 */
+            el_delay = (zr[jdfl_] - cmfks.ctrz) / (cmfks.survel * cos(anglev));
+            advance = advance - el_delay;
+        }
+
+        /* Convention:  input bearing is receiver to station backazimuth. 
+           Signals at station on the source side from the center of the
+           array should start earlier in time and should have a positive
+           delay. */
+
+        /* rewrote rounding, maf 960709 */
+        iadv =
+            (int) (advance >=
+                   0 ? advance / s->h->delta + 0.5 : advance / s->h->delta -
+                   0.5);
+        beamadd(waveform, beam->y, nsampsout, iadv);
+
+        /* if new space was created release it */
+        if (lfillz && waveform != NULL) {
+            free(waveform);
+            waveform = NULL;
+        }
+
+    }                           /* end for( jdfl = 1; jdfl <= number; jdfl++ ) */
+
+    number = numbersav;
+    fprintf(MUNOUT, "NUM TIME-SERIES FILES FROM THE START OF DFL:%d \n",
+            number);
+    if (number < 1)
         goto L_9999;
-      }
-	    if( s->h->iftype != ITIME ){
-        numbersav = jdfl - 1;
-        break ;
-	    }
+    s = beam;
+    for (jdx = 0; jdx <= (nsampsout - 1); jdx++) {
+        s->y[jdx] = s->y[jdx] / (float) number;
+    }
 
-	    /* if necessary, do a fillz.  maf 970211 */
-	    if ( lfillz ) {
-		int n ;
+    s->h->iftype = ITIME;
+    s->h->npts = nsampsout;
+    s->h->b = beginout;
+    s->h->delta = deltaout;
+    extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen);
+    s->h->user7 = 0.;
+    s->h->user8 = 0.;
+    s->h->user9 = 0.;
 
-		/* allocate space for the filled waveform. 
-		   calloc initiallizes the space to zreo. */
-		waveform = (float *) calloc ( nsampsout , sizeof ( float ) ) ;
-		if ( waveform == NULL ) {
-		    /* error handling */
-		    printf("error allocating filled waveform--xbeam\n");
-		    *nerr = 301;
-		    return ;
-		}
+    /*  Write SAC file from SACMEM out to OS
+     * */
+    sacput(s);
+    wrsac(jout, kfile, NFILE_LENGTH, TRUE, nerr);
+    sacpop();
+  L_9999:
+    xarray_free(xr);
+    xarray_free(yr);
+    xarray_free(zr);
+    return;
+}                               /* end of function */
 
-		/* copy the waveform. */
-		n = ( ( s->h->b - beginout ) / s->h->delta ) /* + 0.5 */ ;
-		memcpy ( waveform + n , s->y ,
-             s->h->npts * sizeof ( float ) ) ;
+/*  Function to add beam */
+void
+beamadd(float *s, float *b, int n, int iadv) {
 
-	    } /* end if ( lfillz ) */
-	    else
-        waveform = s->y;
+    int i;
+    float *const B = &b[0];
+    float *const S = &s[0];
 
-	    /* Use dot product to get signed horizontal distance from
-               array center to station */
+    for (i = 0; i < n; i++)
+        if ((i - iadv) >= 0 && (i - iadv) < n)
+            B[i] += S[i - iadv];
 
-	    /* xr and yr are now arrays.  maf 970108 */
-	    delt_horiz = cos ( angle ) * ( yr[ jdfl_ ] - cmfks.ctry ) + 
-			 sin ( angle ) * ( xr[ jdfl_ ] - cmfks.ctrx ) ;
-
-	    /* Compute the delay for the input phase velocity.  */
-
-	    advance = delt_horiz/cmfks.veloc;
-
-	    if( elevc ){	/* zr is now an array.  maf 970108 */
-		el_delay = ( zr[ jdfl_ ] - cmfks.ctrz ) /
-			   ( cmfks.survel * cos ( anglev ) ) ;
-		advance = advance - el_delay;
-	    }
-
-	    /* Convention:  input bearing is receiver to station backazimuth. 
-	       Signals at station on the source side from the center of the
-	       array should start earlier in time and should have a positive
-	       delay. */  
-
-	    /* rewrote rounding, maf 960709 */
-	    iadv = (int) ( advance >= 0 ? advance / s->h->delta + 0.5 :
-					   advance / s->h->delta - 0.5 ) ;
-	    beamadd( waveform, beam->y, nsampsout, iadv );
-
-	    /* if new space was created release it */
-	    if ( lfillz && waveform != NULL ) {
-		free ( waveform ) ;
-		waveform = NULL ;
-	    }
-
-	} /* end for( jdfl = 1; jdfl <= number; jdfl++ ) */
-
-	number = numbersav;
-	fprintf( MUNOUT, "NUM TIME-SERIES FILES FROM THE START OF DFL:%d \n", 
-	 number );
-	if( number < 1 )
-	    goto L_9999;
-  s = beam;
-	for( jdx = 0; jdx <= (nsampsout - 1); jdx++ ){
-	    s->y[jdx] = s->y[jdx] / (float)number;
-	}
-
-  
-	s->h->iftype = ITIME;
-	s->h->npts   = nsampsout;
-	s->h->b      = beginout;
-	s->h->delta  = deltaout;
-	extrma( s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen );
-	s->h->user7 = 0.;
-	s->h->user8 = 0.;
-	s->h->user9 = 0.;
-
-	/*  Write SAC file from SACMEM out to OS
-	 * */
-  sacput(s);
-	wrsac( jout, kfile,NFILE_LENGTH, TRUE, nerr );
-  sacpop();
- L_9999:
-  xarray_free(xr);
-  xarray_free(yr);
-  xarray_free(zr);
-	return;
-} /* end of function */
-
-
-/*  Function to add beam */ 
-void 
-beamadd(float *s, 
-        float *b, 
-        int    n, 
-        int    iadv) {
-
-	int i;
-	float *const B = &b[0];
-	float *const S = &s[0];
-
-	for( i = 0; i < n; i++ )
-	  if ( (i-iadv) >= 0 && (i-iadv) < n ) 
-	    B[i] += S[i-iadv];
-
-	return;
-} 
+    return;
+}

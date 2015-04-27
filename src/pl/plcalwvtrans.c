@@ -2,12 +2,10 @@
 #include "pl.h"
 #include "gem.h"
 
-void /*FUNCTION*/ plcalwvtrans()
-{
+void /*FUNCTION*/
+plcalwvtrans() {
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * *** INTERNAL SUBROUTINE: NOT NORMALLY CALLED BY USER ***
 	 *=====================================================================
 	 * PURPOSE:  To calculate the world (input) to viewport (plot)
@@ -27,16 +25,19 @@ void /*FUNCTION*/ plcalwvtrans()
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900307
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - The mapping constants (slope and intercept) needed to convert from
-	 *   input coordinates to plot coordinates  (i.e. normalized device
-	 *   coordinates in the range 0. to 1.) are calculated here. */
-	cmgem.xmpip1 = (cmgem.uplot.xmax - cmgem.uplot.xmin)/(cmgem.zdata.xmax - cmgem.zdata.xmin);
-	cmgem.xmpip2 = -cmgem.xmpip1*cmgem.zdata.xmax + cmgem.uplot.xmax;
-	cmgem.ympip1 = (cmgem.uplot.ymax - cmgem.uplot.ymin)/(cmgem.zdata.ymax - cmgem.zdata.ymin);
-	cmgem.ympip2 = -cmgem.ympip1*cmgem.zdata.ymax + cmgem.uplot.ymax;
+    /* PROCEDURE: */
+    /* - The mapping constants (slope and intercept) needed to convert from
+     *   input coordinates to plot coordinates  (i.e. normalized device
+     *   coordinates in the range 0. to 1.) are calculated here. */
+    cmgem.xmpip1 =
+        (cmgem.uplot.xmax - cmgem.uplot.xmin) / (cmgem.zdata.xmax -
+                                                 cmgem.zdata.xmin);
+    cmgem.xmpip2 = -cmgem.xmpip1 * cmgem.zdata.xmax + cmgem.uplot.xmax;
+    cmgem.ympip1 =
+        (cmgem.uplot.ymax - cmgem.uplot.ymin) / (cmgem.zdata.ymax -
+                                                 cmgem.zdata.ymin);
+    cmgem.ympip2 = -cmgem.ympip1 * cmgem.zdata.ymax + cmgem.uplot.ymax;
 
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

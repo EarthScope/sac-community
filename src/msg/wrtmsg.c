@@ -30,42 +30,38 @@
  * \date   860203:  Documented/Reviewed
  *
  */
-void 
-wrtmsg(FILE *nunit)
-{
-	int j, nc;
-        char *s1, *message;
+void
+wrtmsg(FILE * nunit) {
+    int j, nc;
+    char *s1, *message;
 
-	/* - Add a prefix to first line of message if appropriate.
-	 *   (There is an ASCII BEL embedded in the error prefix.) */
-	nc = indexb( (char*)kmmsg.klimsg[0],MCMSG+1 );
+    /* - Add a prefix to first line of message if appropriate.
+     *   (There is an ASCII BEL embedded in the error prefix.) */
+    nc = indexb((char *) kmmsg.klimsg[0], MCMSG + 1);
     s1 = strcut(kmmsg.klimsg[0], 1, nc);
-    message = (char *)malloc(nc+100+1);
+    message = (char *) malloc(nc + 100 + 1);
 
-	if( cmmsg.itpmsg == MERRORS ){
-                sprintf(message,"%s%s", " ERROR: ", s1 );
-                  fprintf(nunit,"\a%s\n", message );
-		}
-	else if( cmmsg.itpmsg == MWARNINGS ){
-                sprintf(message,"%s%s", "WARNING: ", s1 );
-                  fprintf(nunit,"%s\n", message );
-		}
-	else{
-                  fprintf(nunit,"%s\n",s1);
-		}
+    if (cmmsg.itpmsg == MERRORS) {
+        sprintf(message, "%s%s", " ERROR: ", s1);
+        fprintf(nunit, "\a%s\n", message);
+    } else if (cmmsg.itpmsg == MWARNINGS) {
+        sprintf(message, "%s%s", "WARNING: ", s1);
+        fprintf(nunit, "%s\n", message);
+    } else {
+        fprintf(nunit, "%s\n", s1);
+    }
 
-        free(s1);
-        free(message);
+    free(s1);
+    free(message);
 
-	/* - Write remaining lines of current message. */
+    /* - Write remaining lines of current message. */
 
-	for( j = 2; j <= cmmsg.nlimsg; j++ ){
-		nc = indexb( (char*)kmmsg.klimsg[j-1],MCMSG+1 );
-        s1 = strcut(kmmsg.klimsg[j-1], 1, nc);
-        fprintf(nunit,"%s\n",s1);
+    for (j = 2; j <= cmmsg.nlimsg; j++) {
+        nc = indexb((char *) kmmsg.klimsg[j - 1], MCMSG + 1);
+        s1 = strcut(kmmsg.klimsg[j - 1], 1, nc);
+        fprintf(nunit, "%s\n", s1);
         free(s1);
     }
 
-	return;
+    return;
 }
-

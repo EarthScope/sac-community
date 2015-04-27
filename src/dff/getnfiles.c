@@ -18,10 +18,9 @@
  *    900305:  Original version.
  *
  */
-void 
+void
 getnfiles(int *nfiles) {
 
-	*nfiles = saclen();
-	return;
+    *nfiles = saclen();
+    return;
 }
-

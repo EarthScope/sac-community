@@ -24,27 +24,22 @@
  * @date   870323:  Original version based upon cursor.
  *
  */
-void 
-cursortext(float *xloc,
-           float *yloc,
-           char *ktext,
-           int ktext_s)
-{
-  
-        int i, n;
-        display_t **dev;
-        n   = gdm_get_ndevices();
-        dev = gdm_get_devices();
+void
+cursortext(float *xloc, float *yloc, char *ktext, int ktext_s) {
 
-        for(i = 0; i < n; i++) {
-          if(dev[i]->on) {
-            if(dev[i]->move && dev[i]->cursor_text) {
-              dev[i]->move(*xloc, *yloc);
-              dev[i]->cursor_text(xloc, yloc, ktext, ktext_s);
-              break;
+    int i, n;
+    display_t **dev;
+    n = gdm_get_ndevices();
+    dev = gdm_get_devices();
+
+    for (i = 0; i < n; i++) {
+        if (dev[i]->on) {
+            if (dev[i]->move && dev[i]->cursor_text) {
+                dev[i]->move(*xloc, *yloc);
+                dev[i]->cursor_text(xloc, yloc, ktext, ktext_s);
+                break;
             }
-          }
         }
+    }
 
 }
-

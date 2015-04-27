@@ -12,7 +12,6 @@
 #include "xyz.h"
 #include "bool.h"
 
-
 #include "gtm.h"
 #include "pl.h"
 #include "bot.h"
@@ -23,23 +22,22 @@
 #include "dff.h"
 #include "array.h"
 
-void xplotdy(int *nerr)
-{
-	char kfile[ MCPFN + 1 ] ; 
-	int lany, lchange, lydlimj, lprint = FALSE , ltry = FALSE ;
-	int idx, *idflnumber, issym, jdfl, jdflnumber, 
-    ndflnumber, num;
-	float vportratio, xarray[3], yarray[3], ydimnj, ydimxj, 
-	 ydvalue, ydyimx, yrange, yvalue;
+void
+xplotdy(int *nerr) {
+    char kfile[MCPFN + 1];
+    int lany, lchange, lydlimj, lprint = FALSE, ltry = FALSE;
+    int idx, *idflnumber, issym, jdfl, jdflnumber, ndflnumber, num;
+    float vportratio, xarray[3], yarray[3], ydimnj, ydimxj, ydvalue, ydyimx,
+        yrange, yvalue;
 
-	float *const Xarray = &xarray[0] - 1;
-	float *const Yarray = &yarray[0] - 1;
-  sac *s, *dy, *dy2;
+    float *const Xarray = &xarray[0] - 1;
+    float *const Yarray = &yarray[0] - 1;
+    sac *s, *dy, *dy2;
 
     memset(xarray, 0, sizeof(xarray));
     memset(yarray, 0, sizeof(xarray));
     s = dy = dy2 = NULL;
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To execute the action command PLOTDY.
 	 *           The user specifies which data file contains the "y" data &
 	 *           which data file contains the "dy" data.
@@ -86,256 +84,249 @@ void xplotdy(int *nerr)
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  890420
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* PARSING PHASE: */
+    /* PARSING PHASE: */
 
-	/* - Loop on each token in command: */
-  idflnumber = xarray_new_with_len('i',saclen()+1);
-	jdflnumber = 0;
-	lchange = FALSE;
+    /* - Loop on each token in command: */
+    idflnumber = xarray_new_with_len('i', saclen() + 1);
+    jdflnumber = 0;
+    lchange = FALSE;
 
-	while ( lcmore( nerr ) ){
+    while (lcmore(nerr)) {
 
-	    /* -- ASPECT ON|OFF:  maintain aspect ratio of data or not. */
-	    if( lklog( "ASPECT$",8, &cmxyz.laspect ) )
-	    { /* do nothing */ }
+        /* -- ASPECT ON|OFF:  maintain aspect ratio of data or not. */
+        if (lklog("ASPECT$", 8, &cmxyz.laspect)) {      /* do nothing */
+        }
 
-            /* if PRINT option is tried, get printer name */
-            else if ( ltry ) {
-              lcchar(kmgem.kptrName , sizeof(kmgem.kptrName));
-                if ( !lprint )
-                    kmgem.kptrName[0] = '\0' ;
+        /* if PRINT option is tried, get printer name */
+        else if (ltry) {
+            lcchar(kmgem.kptrName, sizeof(kmgem.kptrName));
+            if (!lprint)
+                kmgem.kptrName[0] = '\0';
 
-                ltry = FALSE ;
+            ltry = FALSE;
+        }
+
+        /* -- "PRINT":  print the final product */
+        else if (lckey("PRINT#$", 8)) {
+            ltry = TRUE;
+            if (cmgdm.lbegf) {
+                setmsg("WARNING", 2403);
+                outmsg();
+                clrmsg();
+            } else {
+                lprint = TRUE;
             }
+        }
 
-            /* -- "PRINT":  print the final product */
-            else if( lckey( "PRINT#$", 8 ) ) {
-                ltry = TRUE ;
-                if ( cmgdm.lbegf ) {
-                    setmsg ( "WARNING" , 2403 ) ;
-                    outmsg () ;
-                    clrmsg () ;
-                }
-                else {
-                    lprint = TRUE ;
-                }
+        /* -- integer: the index number of file in data file list. */
+        else if (lcirc(1, saclen(), &jdfl)) {
+            jdflnumber = jdflnumber + 1;
+            idflnumber[jdflnumber] = jdfl;
+            lchange = TRUE;
+        }
+
+        /* -- "filename":  the name of a file in the data file list. */
+        else if (lcchar(kfile, sizeof(kfile))) {
+            char *kfile2 = fstrdup(kfile, -1);
+            jdfl = 1 + sac_find_filename(kfile2);
+            if (jdfl > 0) {
+                jdflnumber = jdflnumber + 1;
+                idflnumber[jdflnumber] = jdfl;
+                lchange = TRUE;
+            } else {
+                *nerr = 5106;
+                setmsg("ERROR", *nerr);
+                apcmsg(kfile, MCPFN + 1);
+                goto L_8888;
             }
+        }
 
-	    /* -- integer: the index number of file in data file list. */
-	    else if( lcirc( 1, saclen(), &jdfl ) ){
-		jdflnumber = jdflnumber + 1;
-		idflnumber[jdflnumber] = jdfl;
-		lchange = TRUE;
-	    }
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
+    }
 
-	    /* -- "filename":  the name of a file in the data file list. */
-	    else if( lcchar( kfile, sizeof(kfile)) ){
-        char *kfile2 = fstrdup(kfile, -1);
-        jdfl = 1 + sac_find_filename(kfile2);
-		if( jdfl > 0 ){
-			jdflnumber = jdflnumber + 1;
-			idflnumber[jdflnumber] = jdfl;
-			lchange = TRUE;
-		}
-		else{
-		    *nerr = 5106;
-		    setmsg( "ERROR", *nerr );
-		    apcmsg( kfile,MCPFN+1 );
-		    goto L_8888;
-		}
-	    }
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-	    /* -- Bad syntax. */
-	    else{
-		cfmt( "ILLEGAL OPTION:",17 );
-		cresp();
-	    }
-	}
-
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
-
-	if( *nerr != 0 )
-	    goto L_8888;
+    if (*nerr != 0)
+        goto L_8888;
 
     ndflnumber = 0;
-	if( lchange )
-	    ndflnumber = jdflnumber;
+    if (lchange)
+        ndflnumber = jdflnumber;
 
-	/* CHECKING PHASE: */
+    /* CHECKING PHASE: */
 
-	/* - Make sure there are two data files specified. */
+    /* - Make sure there are two data files specified. */
 
-	if( ndflnumber != 2 && ndflnumber != 3 ){
-	    *nerr = 1505;
-	    setmsg( "ERROR", *nerr );
-	    goto L_8888;
-	}
-
-	/* - Check for null data file list. */
-
-	vflist( nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
-
-	/* - If no graphics device is open, try to open the default device. */
-
-	getstatus( "ANY", &lany );
-	if( !lany ){
-	    zgetgd( kmgam.kgddef,9 );
-	    begindevices( kmgam.kgddef,9, 1, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
-	}
-
-	/* EXECUTION PHASE: */
-
-	/* - Save current plot environment. */
-
-	plsave();
-
-	/* - Set dy limits */
-  if(!(dy = sacget(idflnumber[2]-1, TRUE, nerr))) {
-    goto L_8888;
-  }
-	//getfil( idflnumber[2], TRUE, &numdy, &nlcdy, &ndx2, nerr );
-
-	getylm( &lydlimj, &ydimnj, &ydimxj );
-	ydyimx = fmax( fabs( ydimnj ), fabs( ydimxj ) );
-
-	/* - Set dy2 limits */
-
-	if( ndflnumber != 2 ){
-    if(!(dy2 = sacget(idflnumber[3]-1, TRUE, nerr))) {
-      goto L_8888;
+    if (ndflnumber != 2 && ndflnumber != 3) {
+        *nerr = 1505;
+        setmsg("ERROR", *nerr);
+        goto L_8888;
     }
-    //getfil( idflnumber[3], TRUE, &numdy, &nlcdy2, &ndx2, nerr );
 
-	    getylm( &lydlimj, &ydimnj, &ydimxj );
-	    ydyimx = fmax( fabs( ydimnj ), ydyimx);
-	    ydyimx = fmax( fabs( ydimxj ), ydyimx);
-	}
+    /* - Check for null data file list. */
 
-	/* - Set x axis limits on data file unless limits are already set. */
-  if(!(s = sacget(idflnumber[1]-1, TRUE, nerr))) {
-    goto L_8888;
-  }
-	//getfil( idflnumber[1], TRUE, &num, &nlcy, &nlcx, nerr );
+    vflist(nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	getxlm( &cmgem.lxlim, &cmgem.ximn, &cmgem.ximx );
-	num = min( s->h->npts, dy->h->npts );
+    /* - If no graphics device is open, try to open the default device. */
 
-	/* - Set y axis limits based on data file plus dy 
-	     unless limits are already set. */
+    getstatus("ANY", &lany);
+    if (!lany) {
+        zgetgd(kmgam.kgddef, 9);
+        begindevices(kmgam.kgddef, 9, 1, nerr);
+        if (*nerr != 0)
+            goto L_8888;
+    }
 
-	getylm( &cmgem.lylim, &cmgem.yimn, &cmgem.yimx );
-	if( !cmgem.lylim ){
-	    yrange = s->h->depmax - s->h->depmin;
-	    cmgem.yimn = s->h->depmin - cmgem.yfudg*yrange - ydyimx;
-	    cmgem.yimx = s->h->depmax + cmgem.yfudg*yrange + ydyimx;
-	}
-	cmgem.lylim = TRUE;
-	cmgem.lxlim = TRUE;
+    /* EXECUTION PHASE: */
 
-	/* - Set background and skeleton attributes. */
+    /* - Save current plot environment. */
 
-	settexttype( kmgem.kgtqua );
-	settextfont( cmgem.igtfnt );
-	setlinestyle( LINE_STYLE_SOLID );
-	setcolor( cmgem.iskcol );
+    plsave();
 
-	/* -- Set viewport using different aspect ratio if ASPECT ON. */
-	if( cmxyz.laspect ){
-	    vportratio = fabs( (cmgem.yimx - cmgem.yimn) /
-			       (cmgem.ximx - cmgem.ximn) );
-	    setvspacetype( FALSE, vportratio );
-	    getvport( &cmgem.uplot.xmin, &cmgem.uplot.xmax, &cmgem.uplot.ymin, &cmgem.uplot.ymax );
-	}
-	else{
-	    setvspacetype( TRUE, 1.0 );
-	    getvport( &cmgem.uplot.xmin, &cmgem.uplot.xmax, &cmgem.uplot.ymin, &cmgem.uplot.ymax );
-	}
+    /* - Set dy limits */
+    if (!(dy = sacget(idflnumber[2] - 1, TRUE, nerr))) {
+        goto L_8888;
+    }
+    //getfil( idflnumber[2], TRUE, &numdy, &nlcdy, &ndx2, nerr );
 
-	/* - Begin new frame if requested. */
+    getylm(&lydlimj, &ydimnj, &ydimxj);
+    ydyimx = fmax(fabs(ydimnj), fabs(ydimxj));
 
-	if( cmgem.lframe ){
-	    beginframe( lprint , nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
-	    getvspace( &cmgem.view.xmin, &cmgem.view.xmax,
-		       &cmgem.view.ymin, &cmgem.view.ymax );
-	}
+    /* - Set dy2 limits */
 
-	/* - Calculate mapping transformation for these fixed limits.
-	 *   (In this case, all passed variables but NERR are unused.) */
+    if (ndflnumber != 2) {
+        if (!(dy2 = sacget(idflnumber[3] - 1, TRUE, nerr))) {
+            goto L_8888;
+        }
+        //getfil( idflnumber[3], TRUE, &numdy, &nlcdy2, &ndx2, nerr );
 
-	plmap( NULL, NULL, 1, 1, 1, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
+        getylm(&lydlimj, &ydimnj, &ydimxj);
+        ydyimx = fmax(fabs(ydimnj), ydyimx);
+        ydyimx = fmax(fabs(ydimxj), ydyimx);
+    }
 
+    /* - Set x axis limits on data file unless limits are already set. */
+    if (!(s = sacget(idflnumber[1] - 1, TRUE, nerr))) {
+        goto L_8888;
+    }
+    //getfil( idflnumber[1], TRUE, &num, &nlcy, &nlcx, nerr );
 
-	/* - Loop to plot an error bar for each point in main file */
+    getxlm(&cmgem.lxlim, &cmgem.ximn, &cmgem.ximx);
+    num = min(s->h->npts, dy->h->npts);
 
-	cmgem.lline = TRUE;
-	cmgem.lsym = TRUE;
-	issym = cmgem.isym;
-	cmgem.isym = 1;
-	setsymbolnum( cmgem.isym );
-	cmgem.xgen.on = FALSE;
-	cmgem.ygen.on = FALSE;
+    /* - Set y axis limits based on data file plus dy 
+       unless limits are already set. */
 
+    getylm(&cmgem.lylim, &cmgem.yimn, &cmgem.yimx);
+    if (!cmgem.lylim) {
+        yrange = s->h->depmax - s->h->depmin;
+        cmgem.yimn = s->h->depmin - cmgem.yfudg * yrange - ydyimx;
+        cmgem.yimx = s->h->depmax + cmgem.yfudg * yrange + ydyimx;
+    }
+    cmgem.lylim = TRUE;
+    cmgem.lxlim = TRUE;
 
-	for( idx = 1; idx <= num; idx++ ){
+    /* - Set background and skeleton attributes. */
 
-	    if( s->h->leven ){
-		Xarray[1] = (float)( idx - 1 )* s->h->delta+ s->h->b;
-	    }
-	    else{
-        Xarray[1] = s->x[idx-1];
-	    }
-	    Xarray[2] = Xarray[1];
-	    Xarray[3] = Xarray[1];
-	    yvalue = s->y[idx-1];
-	    if( ndflnumber == 2 ){
-        ydvalue = dy->y[idx-1];
-		Yarray[1] = yvalue - ydvalue;
-		Yarray[2] = yvalue;
-		Yarray[3] = yvalue + ydvalue;
-	    }
-	    else{
-        Yarray[1] = yvalue + dy->y[idx-1];
-		Yarray[2] = yvalue;
-		Yarray[3] = yvalue + dy2->y[idx-1];
-	    }
-	    pldta( xarray, yarray, 3, 1, 1, nerr );
-	    if( *nerr != 0 )
-		goto L_8888;
-	}
-	setsymbolnum( issym );
+    settexttype(kmgem.kgtqua);
+    settextfont(cmgem.igtfnt);
+    setlinestyle(LINE_STYLE_SOLID);
+    setcolor(cmgem.iskcol);
 
+    /* -- Set viewport using different aspect ratio if ASPECT ON. */
+    if (cmxyz.laspect) {
+        vportratio =
+            fabs((cmgem.yimx - cmgem.yimn) / (cmgem.ximx - cmgem.ximn));
+        setvspacetype(FALSE, vportratio);
+        getvport(&cmgem.uplot.xmin, &cmgem.uplot.xmax, &cmgem.uplot.ymin,
+                 &cmgem.uplot.ymax);
+    } else {
+        setvspacetype(TRUE, 1.0);
+        getvport(&cmgem.uplot.xmin, &cmgem.uplot.xmax, &cmgem.uplot.ymin,
+                 &cmgem.uplot.ymax);
+    }
 
-	/* - Draw grid lines, axes and such. */
+    /* - Begin new frame if requested. */
 
-	plgrid( nerr );
+    if (cmgem.lframe) {
+        beginframe(lprint, nerr);
+        if (*nerr != 0)
+            goto L_8888;
+        getvspace(&cmgem.view.xmin, &cmgem.view.xmax, &cmgem.view.ymin,
+                  &cmgem.view.ymax);
+    }
 
-	/* - Home cursor and end frame if requested. */
+    /* - Calculate mapping transformation for these fixed limits.
+     *   (In this case, all passed variables but NERR are unused.) */
 
-	plhome();
-	if( cmgem.lframe )
-	    endframe( FALSE , nerr );
-        else 
-          flushbuffer( nerr );
-	/* - Restore plot environment and return. */
+    plmap(NULL, NULL, 1, 1, 1, nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-L_8888:
-	plrest();
-	settextjust( "LEFT", "BOTTOM" );
-  xarray_free(idflnumber);
-	return;
+    /* - Loop to plot an error bar for each point in main file */
 
-} /* end of function */
+    cmgem.lline = TRUE;
+    cmgem.lsym = TRUE;
+    issym = cmgem.isym;
+    cmgem.isym = 1;
+    setsymbolnum(cmgem.isym);
+    cmgem.xgen.on = FALSE;
+    cmgem.ygen.on = FALSE;
 
+    for (idx = 1; idx <= num; idx++) {
+
+        if (s->h->leven) {
+            Xarray[1] = (float) (idx - 1) * s->h->delta + s->h->b;
+        } else {
+            Xarray[1] = s->x[idx - 1];
+        }
+        Xarray[2] = Xarray[1];
+        Xarray[3] = Xarray[1];
+        yvalue = s->y[idx - 1];
+        if (ndflnumber == 2) {
+            ydvalue = dy->y[idx - 1];
+            Yarray[1] = yvalue - ydvalue;
+            Yarray[2] = yvalue;
+            Yarray[3] = yvalue + ydvalue;
+        } else {
+            Yarray[1] = yvalue + dy->y[idx - 1];
+            Yarray[2] = yvalue;
+            Yarray[3] = yvalue + dy2->y[idx - 1];
+        }
+        pldta(xarray, yarray, 3, 1, 1, nerr);
+        if (*nerr != 0)
+            goto L_8888;
+    }
+    setsymbolnum(issym);
+
+    /* - Draw grid lines, axes and such. */
+
+    plgrid(nerr);
+
+    /* - Home cursor and end frame if requested. */
+
+    plhome();
+    if (cmgem.lframe)
+        endframe(FALSE, nerr);
+    else
+        flushbuffer(nerr);
+    /* - Restore plot environment and return. */
+
+  L_8888:
+    plrest();
+    settextjust("LEFT", "BOTTOM");
+    xarray_free(idflnumber);
+    return;
+
+}                               /* end of function */

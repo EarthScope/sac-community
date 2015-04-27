@@ -3,12 +3,11 @@
 #include "debug.h"
 
 #define MBLOCK 100
-void 
-worldpolyline(float *xwloc, float *ywloc, int number)
-{
-	int j;
-  int n;
-	/*=====================================================================
+void
+worldpolyline(float *xwloc, float *ywloc, int number) {
+    int j;
+    int n;
+        /*=====================================================================
 	 * PURPOSE:  To draw a line through a set of world locations.
 	 *=====================================================================
 	 * SPECIAL NOTE:  This polyline subroutine does NOT conform to the
@@ -28,34 +27,33 @@ worldpolyline(float *xwloc, float *ywloc, int number)
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  861017
 	 *===================================================================== */
-	/* PROCEDURE: */
+    /* PROCEDURE: */
 
-  float *x = (float *) malloc(sizeof(float) * number);
-  float *y = (float *) malloc(sizeof(float) * number);
-  
-  /* Coordinate change from world to view */
-  for(j = 0; j < number; j++) {
-    x[j] = cmgtm.xmpwv1 * xwloc[j] + cmgtm.xmpwv2;
-    y[j] = cmgtm.ympwv1 * ywloc[j] + cmgtm.ympwv2;
-  }
-  j = 0;
-  while(j < number ) {
-    n = MBLOCK;
-    if(j + n >= number) {
-      n = number - j ;
-    } else {
-      if(number - (j + n) < 2) {
-        n -= 1;
-      }
+    float *x = (float *) malloc(sizeof(float) * number);
+    float *y = (float *) malloc(sizeof(float) * number);
+
+    /* Coordinate change from world to view */
+    for (j = 0; j < number; j++) {
+        x[j] = cmgtm.xmpwv1 * xwloc[j] + cmgtm.xmpwv2;
+        y[j] = cmgtm.ympwv1 * ywloc[j] + cmgtm.ympwv2;
     }
-    polyline(&x[j], &y[j], &n);
-    j += n;
-  }
+    j = 0;
+    while (j < number) {
+        n = MBLOCK;
+        if (j + n >= number) {
+            n = number - j;
+        } else {
+            if (number - (j + n) < 2) {
+                n -= 1;
+            }
+        }
+        polyline(&x[j], &y[j], &n);
+        j += n;
+    }
 
-  FREE(x);
-  FREE(y);
+    FREE(x);
+    FREE(y);
 
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

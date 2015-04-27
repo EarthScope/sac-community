@@ -16,16 +16,11 @@
  * @date   861021:  Original version.
  *
  */
-void 
-getvspace(float *xvsmin,
-          float *xvsmax,
-          float *yvsmin,
-          float *yvsmax)
-{
-	/* - Report current common block values. */
-	*xvsmin = Xvs[1];
-	*xvsmax = Xvs[2];
-	*yvsmin = Yvs[1];
-	*yvsmax = Yvs[2];
+void
+getvspace(float *xvsmin, float *xvsmax, float *yvsmin, float *yvsmax) {
+    /* - Report current common block values. */
+    *xvsmin = Xvs[1];
+    *xvsmax = Xvs[2];
+    *yvsmin = Yvs[1];
+    *yvsmax = Yvs[2];
 }
-

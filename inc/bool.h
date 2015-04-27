@@ -4,10 +4,10 @@
 
 #ifndef TRUE
 #define TRUE 1
-#endif  /* TRUE */
+#endif /* TRUE */
 
 #ifndef FALSE
 #define FALSE 0
-#endif  /* FALSE */
+#endif /* FALSE */
 
 #endif /* _BOOL_H_ */

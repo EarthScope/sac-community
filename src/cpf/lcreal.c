@@ -23,17 +23,16 @@
  * @date   810207:  Original version.
  *
  */
-int 
+int
 lcreal(double *realv) {
-  Token *t;
+    Token *t;
 
-  if((t = arg()) && token_is_number(t)) {
-    *realv = t->value;
-    arg_next();
-    return TRUE;
-  }
+    if ((t = arg()) && token_is_number(t)) {
+        *realv = t->value;
+        arg_next();
+        return TRUE;
+    }
 
-  return FALSE;
+    return FALSE;
 
 }
-

@@ -12,15 +12,14 @@
 #include "contouring.h"
 extern struct contour contour;
 
-void 
+void
 putcontlabel(number, jpoint, jtype, angle, jtext)
-int number, jpoint, jtype;
-double angle;
-int jtext;
+     int number, jpoint, jtype;
+     double angle;
+     int jtext;
 {
 
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To put information about an existing contouring line label.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -43,18 +42,16 @@ int jtext;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900418
 	 *===================================================================== */
-	/* PROCEDURE: */
-	if( number <= cmcontouring.numlabels ){
-    contour.label[number-1].point = jpoint;
-    contour.label[number-1].type  = jtype;
-    contour.label[number-1].angle = angle;
-    contour.label[number-1].text  = jtext;
+    /* PROCEDURE: */
+    if (number <= cmcontouring.numlabels) {
+        contour.label[number - 1].point = jpoint;
+        contour.label[number - 1].type = jtype;
+        contour.label[number - 1].angle = angle;
+        contour.label[number - 1].text = jtext;
 
-	}
-	else{
-		fprintf( stdout, "Illegal label number: %d \n", number );
-		exit(0);
-	}
-	return;
+    } else {
+        fprintf(stdout, "Illegal label number: %d \n", number);
+        exit(0);
+    }
+    return;
 }
-

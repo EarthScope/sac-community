@@ -18,23 +18,22 @@
 #include "gem.h"
 #include "gdm.h"
 
-
 void
 fill_background3(int window) {
-  int color;
+    int color;
 
-  XWindow *w = plot_window( window );
+    XWindow *w = plot_window(window);
 
-  color = (color_on()) ? color_background() : color_background_default() ;
-  setcolor(color);
+    color = (color_on())? color_background() : color_background_default();
+    setcolor(color);
 
-  XSetForeground(DISPLAY(w), w->gc, color3);
-  XSetBackground(DISPLAY(w), w->gc, color3);
+    XSetForeground(DISPLAY(w), w->gc, color3);
+    XSetBackground(DISPLAY(w), w->gc, color3);
 
-  XFillRectangle(DISPLAY(w), w->buffer, w->gc, 0, 0, w->width, w->height);
+    XFillRectangle(DISPLAY(w), w->buffer, w->gc, 0, 0, w->width, w->height);
 
-  color = (color_on()) ? color_foreground() : color_foreground_default() ;
-  setcolor(color);
+    color = (color_on())? color_foreground() : color_foreground_default();
+    setcolor(color);
 
 }
 
@@ -43,7 +42,7 @@ erase3() {
 
 /* Erase window */
 
-  fill_background3(c_win3);
+    fill_background3(c_win3);
 
 }
 

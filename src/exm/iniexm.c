@@ -10,20 +10,18 @@
 #include "exm.h"
 #include "bool.h"
 
-
 #include "co.h"
 
 /** 
  * Initialize the execution module
  * 
  */
-void 
+void
 iniexm() {
-	char k1301[9];
-	int jtranscript, jtranscript_, jtype, jtype_;
+    char k1301[9];
+    int jtranscript, jtranscript_, jtype, jtype_;
 
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: Variable initialization of common block CMEXM.
 	 *=====================================================================
 	 * MODULE/LEVEL:  EXM/4
@@ -101,144 +99,142 @@ iniexm() {
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:
 	 *===================================================================== */
-	/* PROCEDURE: */
-	cmexm.linsys = FALSE;
-	cmexm.lprod = FALSE;
-	cmexm.lcomf = FALSE;
-	strcpy( kmexm.kprmt, "SAC> $      " );
-	strcpy( k1301, "FATAL   " );
-	cmexm.lcomcr = FALSE;
+    /* PROCEDURE: */
+    cmexm.linsys = FALSE;
+    cmexm.lprod = FALSE;
+    cmexm.lcomf = FALSE;
+    strcpy(kmexm.kprmt, "SAC> $      ");
+    strcpy(k1301, "FATAL   ");
+    cmexm.lcomcr = FALSE;
 
-	cmexm.nfgtp = 12;
-	strcpy( kmexm.kfgtp[0], "IMPULSE " );
-	strcpy( kmexm.kfgtp[1], "STEP    " );
-	strcpy( kmexm.kfgtp[2], "BOXCAR  " );
-	strcpy( kmexm.kfgtp[3], "TRIANGLE" );
-	strcpy( kmexm.kfgtp[4], "SINE    " );
-	strcpy( kmexm.kfgtp[5], "LINE    " );
-	strcpy( kmexm.kfgtp[6], "QUADRATI" );
-	strcpy( kmexm.kfgtp[7], "CUBIC   " );
-	strcpy( kmexm.kfgtp[8], "RANDOM  " );
-	strcpy( kmexm.kfgtp[9], "SEISMOGR" );
-	strcpy( kmexm.kfgtp[10], "UNIT    " );
-	strcpy( kmexm.kfgtp[11], "IMPSTRIN" );
-	cmexm.ifgtp = 1;
-	cmexm.nfgpts = 100;
-	cmexm.fgbeg = 0.;
-	cmexm.fgdel = 1.;
-	Fgsico[1] = 0.05;
-	Fgsico[2] = 0.;
-	Fglico[1] = 1.;
-	Fglico[2] = 1.;
-	Fgquco[1] = 1.;
-	Fgquco[2] = 1.;
-	Fgquco[3] = 1.;
-	Fgcuco[1] = 1.;
-	Fgcuco[2] = 1.;
-	Fgcuco[3] = 1.;
-	Fgcuco[4] = 1.;
-	Fgraco[1] = 1.;
-	Fgraco[2] = 12357.;
+    cmexm.nfgtp = 12;
+    strcpy(kmexm.kfgtp[0], "IMPULSE ");
+    strcpy(kmexm.kfgtp[1], "STEP    ");
+    strcpy(kmexm.kfgtp[2], "BOXCAR  ");
+    strcpy(kmexm.kfgtp[3], "TRIANGLE");
+    strcpy(kmexm.kfgtp[4], "SINE    ");
+    strcpy(kmexm.kfgtp[5], "LINE    ");
+    strcpy(kmexm.kfgtp[6], "QUADRATI");
+    strcpy(kmexm.kfgtp[7], "CUBIC   ");
+    strcpy(kmexm.kfgtp[8], "RANDOM  ");
+    strcpy(kmexm.kfgtp[9], "SEISMOGR");
+    strcpy(kmexm.kfgtp[10], "UNIT    ");
+    strcpy(kmexm.kfgtp[11], "IMPSTRIN");
+    cmexm.ifgtp = 1;
+    cmexm.nfgpts = 100;
+    cmexm.fgbeg = 0.;
+    cmexm.fgdel = 1.;
+    Fgsico[1] = 0.05;
+    Fgsico[2] = 0.;
+    Fglico[1] = 1.;
+    Fglico[2] = 1.;
+    Fgquco[1] = 1.;
+    Fgquco[2] = 1.;
+    Fgquco[3] = 1.;
+    Fgcuco[1] = 1.;
+    Fgcuco[2] = 1.;
+    Fgcuco[3] = 1.;
+    Fgcuco[4] = 1.;
+    Fgraco[1] = 1.;
+    Fgraco[2] = 12357.;
 
-	cmexm.nreptp = 18;
-	strcpy( kmexm.kreptp[0], "HPF     " );
-	strcpy( kmexm.kreptp[1], "APF     " );
-	strcpy( kmexm.kreptp[2], "COLOR   " );
-	strcpy( kmexm.kreptp[3], "FILEID  " );
-	strcpy( kmexm.kreptp[4], "PICKS   " );
-	strcpy( kmexm.kreptp[5], "TITLE   " );
-	strcpy( kmexm.kreptp[6], "XLABEL  " );
-	strcpy( kmexm.kreptp[7], "YLABEL  " );
-	strcpy( kmexm.kreptp[8], "CUT     " );
-	strcpy( kmexm.kreptp[9], "XLIM    " );
-	strcpy( kmexm.kreptp[10], "MEMORY  " );
-	strcpy( kmexm.kreptp[11], "DEVICES " );
-	strcpy( kmexm.kreptp[12], "LINE    " );
-	strcpy( kmexm.kreptp[13], "SYMBOL  " );
-	strcpy( kmexm.kreptp[14], "GTEXT   " );
-	strcpy( kmexm.kreptp[15], "YLIM    " );
-	strcpy( kmexm.kreptp[16], "MTW     " );
-	strcpy( kmexm.kreptp[17], "WIDTH   " );
-	cmexm.nrep = 0;
+    cmexm.nreptp = 18;
+    strcpy(kmexm.kreptp[0], "HPF     ");
+    strcpy(kmexm.kreptp[1], "APF     ");
+    strcpy(kmexm.kreptp[2], "COLOR   ");
+    strcpy(kmexm.kreptp[3], "FILEID  ");
+    strcpy(kmexm.kreptp[4], "PICKS   ");
+    strcpy(kmexm.kreptp[5], "TITLE   ");
+    strcpy(kmexm.kreptp[6], "XLABEL  ");
+    strcpy(kmexm.kreptp[7], "YLABEL  ");
+    strcpy(kmexm.kreptp[8], "CUT     ");
+    strcpy(kmexm.kreptp[9], "XLIM    ");
+    strcpy(kmexm.kreptp[10], "MEMORY  ");
+    strcpy(kmexm.kreptp[11], "DEVICES ");
+    strcpy(kmexm.kreptp[12], "LINE    ");
+    strcpy(kmexm.kreptp[13], "SYMBOL  ");
+    strcpy(kmexm.kreptp[14], "GTEXT   ");
+    strcpy(kmexm.kreptp[15], "YLIM    ");
+    strcpy(kmexm.kreptp[16], "MTW     ");
+    strcpy(kmexm.kreptp[17], "WIDTH   ");
+    cmexm.nrep = 0;
 
-	cmexm.nectp = 5;
-	strcpy( kmexm.kectp[0], "FATAL   " );
-	strcpy( kmexm.kectp[1], "WARNING " );
-	strcpy( kmexm.kectp[2], "IGNORE  " );
-	strcpy( kmexm.kectp[3], "SAVE    " );
-	strcpy( kmexm.kectp[4], "DELETE  " );
+    cmexm.nectp = 5;
+    strcpy(kmexm.kectp[0], "FATAL   ");
+    strcpy(kmexm.kectp[1], "WARNING ");
+    strcpy(kmexm.kectp[2], "IGNORE  ");
+    strcpy(kmexm.kectp[3], "SAVE    ");
+    strcpy(kmexm.kectp[4], "DELETE  ");
 
-	fstrncpy( kmexm.kpause, MCMSG, "Pausing $", 9);
-	cmexm.lperio = FALSE;
-	cmexm.nperio = 10000;
-	cmexm.lecho = FALSE;
+    fstrncpy(kmexm.kpause, MCMSG, "Pausing $", 9);
+    cmexm.lperio = FALSE;
+    cmexm.nperio = 10000;
+    cmexm.lecho = FALSE;
 
-	cmexm.nfeval = 20;
-	strcpy( kmexm.kfeval[0], "+       " );
-	strcpy( kmexm.kfeval[1], "-       " );
-	strcpy( kmexm.kfeval[2], "*       " );
-	strcpy( kmexm.kfeval[3], "/       " );
-	strcpy( kmexm.kfeval[4], "**      " );
-	strcpy( kmexm.kfeval[5], "SQRT    " );
-	strcpy( kmexm.kfeval[6], "EXP     " );
-	strcpy( kmexm.kfeval[7], "ALOG    " );
-	strcpy( kmexm.kfeval[8], "ALOG10  " );
-	strcpy( kmexm.kfeval[9], "SIN     " );
-	strcpy( kmexm.kfeval[10], "ASIN    " );
-	strcpy( kmexm.kfeval[11], "COS     " );
-	strcpy( kmexm.kfeval[12], "ACOS    " );
-	strcpy( kmexm.kfeval[13], "TAN     " );
-	strcpy( kmexm.kfeval[14], "ATAN    " );
-	strcpy( kmexm.kfeval[15], "ADD     " );
-	strcpy( kmexm.kfeval[16], "SUBTRACT" );
-	strcpy( kmexm.kfeval[17], "MULTIPLY" );
-	strcpy( kmexm.kfeval[18], "DIVIDE  " );
-	strcpy( kmexm.kfeval[19], "POWER   " );
+    cmexm.nfeval = 20;
+    strcpy(kmexm.kfeval[0], "+       ");
+    strcpy(kmexm.kfeval[1], "-       ");
+    strcpy(kmexm.kfeval[2], "*       ");
+    strcpy(kmexm.kfeval[3], "/       ");
+    strcpy(kmexm.kfeval[4], "**      ");
+    strcpy(kmexm.kfeval[5], "SQRT    ");
+    strcpy(kmexm.kfeval[6], "EXP     ");
+    strcpy(kmexm.kfeval[7], "ALOG    ");
+    strcpy(kmexm.kfeval[8], "ALOG10  ");
+    strcpy(kmexm.kfeval[9], "SIN     ");
+    strcpy(kmexm.kfeval[10], "ASIN    ");
+    strcpy(kmexm.kfeval[11], "COS     ");
+    strcpy(kmexm.kfeval[12], "ACOS    ");
+    strcpy(kmexm.kfeval[13], "TAN     ");
+    strcpy(kmexm.kfeval[14], "ATAN    ");
+    strcpy(kmexm.kfeval[15], "ADD     ");
+    strcpy(kmexm.kfeval[16], "SUBTRACT");
+    strcpy(kmexm.kfeval[17], "MULTIPLY");
+    strcpy(kmexm.kfeval[18], "DIVIDE  ");
+    strcpy(kmexm.kfeval[19], "POWER   ");
 
-	cmexm.nleval = 6;
-	strcpy( kmexm.kleval[0], "LT      " );
-	strcpy( kmexm.kleval[1], "LE      " );
-	strcpy( kmexm.kleval[2], "GT      " );
-	strcpy( kmexm.kleval[3], "GE      " );
-	strcpy( kmexm.kleval[4], "EQ      " );
-	strcpy( kmexm.kleval[5], "NE      " );
+    cmexm.nleval = 6;
+    strcpy(kmexm.kleval[0], "LT      ");
+    strcpy(kmexm.kleval[1], "LE      ");
+    strcpy(kmexm.kleval[2], "GT      ");
+    strcpy(kmexm.kleval[3], "GE      ");
+    strcpy(kmexm.kleval[4], "EQ      ");
+    strcpy(kmexm.kleval[5], "NE      ");
 
-	cmexm.lfloat = TRUE;
-	cmexm.lfeval = TRUE;
-	strcpy( kmexm.kevaln, "TERM    " );
-	cmexm.neval = 1;
-	Ifeval[1] = 3;
-	cmexm.feval[0] = 1.;
-	cmexm.feval[1] = 1.;
+    cmexm.lfloat = TRUE;
+    cmexm.lfeval = TRUE;
+    strcpy(kmexm.kevaln, "TERM    ");
+    cmexm.neval = 1;
+    Ifeval[1] = 3;
+    cmexm.feval[0] = 1.;
+    cmexm.feval[1] = 1.;
 
-	cmexm.nmcdir = 0;
+    cmexm.nmcdir = 0;
 
-	cmexm.lbball = TRUE;
-	cmexm.nunbbwrite = MUNOUT;
-	cmexm.lnames = TRUE;
-	cmexm.lnewline = TRUE;
-	fstrncpy( kmexm.knmbbwrite, MCPFN, "getbbout", 8);
+    cmexm.lbball = TRUE;
+    cmexm.nunbbwrite = MUNOUT;
+    cmexm.lnames = TRUE;
+    cmexm.lnewline = TRUE;
+    fstrncpy(kmexm.knmbbwrite, MCPFN, "getbbout", 8);
 
-	cmexm.ntranscripts = 0;
-	for( jtranscript = 1; jtranscript <= MTRANSCRIPTS; jtranscript++ ){
-		jtranscript_ = jtranscript - 1;
-		cmexm.nuntranscript[jtranscript_] = 0;
-		for( jtype = 1; jtype <= MTYPES; jtype++ ){
-			jtype_ = jtype - 1;
-			cmexm.lsendtranscript[jtranscript_][jtype_] = TRUE;
-			}
-		}
-	fstrncpy( kmexm.knametranscript[0], MCPFN, "transcript", 10);
+    cmexm.ntranscripts = 0;
+    for (jtranscript = 1; jtranscript <= MTRANSCRIPTS; jtranscript++) {
+        jtranscript_ = jtranscript - 1;
+        cmexm.nuntranscript[jtranscript_] = 0;
+        for (jtype = 1; jtype <= MTYPES; jtype++) {
+            jtype_ = jtype - 1;
+            cmexm.lsendtranscript[jtranscript_][jtype_] = TRUE;
+        }
+    }
+    fstrncpy(kmexm.knametranscript[0], MCPFN, "transcript", 10);
 
-	cmexm.itranscript = 1;
-	cmexm.imodetranscript = 1;
+    cmexm.itranscript = 1;
+    cmexm.imodetranscript = 1;
 
-	cmexm.ntraces = 0;
+    cmexm.ntraces = 0;
 
-	strcpy( kmexm.ktextwait, "ON      " );
+    strcpy(kmexm.ktextwait, "ON      ");
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

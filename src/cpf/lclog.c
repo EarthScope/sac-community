@@ -12,7 +12,6 @@
 #include "bool.h"
 #include "com.h"
 
-
 #include "bot.h"
 
 /** 
@@ -34,34 +33,32 @@
 int
 lclog(int *logv) {
 
-	int lclog_v;
-  char *key, *c;
-  Token *t;
+    int lclog_v;
+    char *key, *c;
+    Token *t;
 
-  if(!(t = arg()) || !(c = token_as_string(t))) {
-    return FALSE; 
-  }
-  key = upcase_dup(c);
-  free(c);
-  c = NULL;
-  
-  lclog_v = FALSE;
-	/* - Check for "ON" or "OFF" at next token.
-	 * - Do not change value of logical variable if not found. */
-	if( memcmp(key,"ON",2) == 0 ){
-		*logv = TRUE;
-		lclog_v = TRUE;
-	}
-	else if( memcmp(key,"OF",2) == 0 ){
-		*logv = FALSE;
-		lclog_v = TRUE;
-	}
+    if (!(t = arg()) || !(c = token_as_string(t))) {
+        return FALSE;
+    }
+    key = upcase_dup(c);
+    free(c);
+    c = NULL;
 
-  if(lclog_v) {
-    arg_next();
-  }
-  free(key);
+    lclog_v = FALSE;
+    /* - Check for "ON" or "OFF" at next token.
+     * - Do not change value of logical variable if not found. */
+    if (memcmp(key, "ON", 2) == 0) {
+        *logv = TRUE;
+        lclog_v = TRUE;
+    } else if (memcmp(key, "OF", 2) == 0) {
+        *logv = FALSE;
+        lclog_v = TRUE;
+    }
 
-	return( lclog_v );
+    if (lclog_v) {
+        arg_next();
+    }
+    free(key);
+
+    return (lclog_v);
 }
-

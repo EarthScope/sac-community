@@ -51,62 +51,54 @@
  * @date   810130:  Original version.
  *
  */
-void 
-getbfl(string_list *list,
-       int  ibfl, 
-       int  ldta, 
-       int *nlen, 
-       int *ndx1, 
-       int *ndx2, 
+void
+getbfl(string_list * list, int ibfl, int ldta, int *nlen, int *ndx1, int *ndx2,
        int *nerr) {
 
-  char *file;
-	*nerr = 0;
+    char *file;
+    *nerr = 0;
 
-	/* - Make sure a valid binop file entry has been requested. */
-	if( ibfl <= 0 || ibfl > string_list_length(list) ){
-		*nerr = ERROR_ILLEGAL_BINARY_DATA_INDEX;
+    /* - Make sure a valid binop file entry has been requested. */
+    if (ibfl <= 0 || ibfl > string_list_length(list)) {
+        *nerr = ERROR_ILLEGAL_BINARY_DATA_INDEX;
         error(*nerr, "%d", ibfl);
-		*nlen = 0;
-		*ndx1 = 0;
-		*ndx2 = 0;
-	}
+        *nlen = 0;
+        *ndx1 = 0;
+        *ndx2 = 0;
+    }
 
-	/* - Only read if binop file if it is different from current one. */
-	else if( ibfl != cmbom.ibflc || TRUE){
+    /* - Only read if binop file if it is different from current one. */
+    else if (ibfl != cmbom.ibflc || TRUE) {
 
-		/* -- Release memory blocks for previous file. */
-		relbfl( nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+        /* -- Release memory blocks for previous file. */
+        relbfl(nerr);
+        if (*nerr != 0)
+            goto L_8888;
 
-		/* -- Read data file into memory.
-		 *    (Use DFM index NDFL+1 to temporarily store pointers during read.) */
-        file = string_list_get(list, ibfl-1);
-		rdsac(saclen() + 1, file, strlen(file),
-		      FALSE, ldta, &cmbom.nlenbf,
-		      &cmbom.ndxhbf, &cmbom.ndx1bf, &cmbom.ndx2bf, 
-		      nerr );
-		if( *nerr != 0 )
-			goto L_8888;
+        /* -- Read data file into memory.
+         *    (Use DFM index NDFL+1 to temporarily store pointers during read.) */
+        file = string_list_get(list, ibfl - 1);
+        rdsac(saclen() + 1, file, strlen(file), FALSE, ldta, &cmbom.nlenbf,
+              &cmbom.ndxhbf, &cmbom.ndx1bf, &cmbom.ndx2bf, nerr);
+        if (*nerr != 0)
+            goto L_8888;
 
-		/* -- Save current binary file list number. */
-		cmbom.ibflc = ibfl;
+        /* -- Save current binary file list number. */
+        cmbom.ibflc = ibfl;
 
-		/* -- Return pointers to header and data. */
-		*nlen = cmbom.nlenbf;
-		*ndx1 = cmbom.ndx1bf;
-		*ndx2 = cmbom.ndx2bf;
-	}
+        /* -- Return pointers to header and data. */
+        *nlen = cmbom.nlenbf;
+        *ndx1 = cmbom.ndx1bf;
+        *ndx2 = cmbom.ndx2bf;
+    }
 
-	/* - If same file as last time, simply return the pointers. */
-	else{
-		*nlen = cmbom.nlenbf;
-		*ndx1 = cmbom.ndx1bf;
-		*ndx2 = cmbom.ndx2bf;
-	}
+    /* - If same file as last time, simply return the pointers. */
+    else {
+        *nlen = cmbom.nlenbf;
+        *ndx1 = cmbom.ndx1bf;
+        *ndx2 = cmbom.ndx2bf;
+    }
 
-L_8888:
-	return;
-} 
-
+  L_8888:
+    return;
+}

@@ -13,7 +13,6 @@
 
 #include "errors.h"
 
-
 #include "msg.h"
 #include "bot.h"
 #include "cpf.h"
@@ -29,93 +28,94 @@
  * @date    970409:  Original version.  maf
  *
  */
-void 
+void
 xpickauthor(int *nerr) {
 
-    char prefsFileName [ MCPFN + 1 ] ;
-    int idx , nAuthors = 0 ;
+    char prefsFileName[MCPFN + 1];
+    int idx, nAuthors = 0;
 
     *nerr = 0;
 
     /* - Look for order dependance key, FILE 
      * also if no tokens are present, assume FILE be default 
      */
-    if ( !lcmore ( nerr ) || lckey ( "FILE$" , 6 ) ) {
-	/* see if a filename was given. */
-      if ( lcchar( prefsFileName , sizeof(prefsFileName)) ) {
-	    strcpy ( kmdfm.kprefsFileName , prefsFileName ) ;
-	}
+    if (!lcmore(nerr) || lckey("FILE$", 6)) {
+        /* see if a filename was given. */
+        if (lcchar(prefsFileName, sizeof(prefsFileName))) {
+            strcpy(kmdfm.kprefsFileName, prefsFileName);
+        }
 
-	/* get list of authors from user-defined file. */
-	getprefs ( TRUE , FALSE ) ;
-	return ;
+        /* get list of authors from user-defined file. */
+        getprefs(TRUE, FALSE);
+        return;
     }
 
-    if ( lckey ( "PHASE$" , 7 ) ) {
-	/* see if a filename was given. */
-      if ( lcchar(prefsFileName , sizeof(prefsFileName)) ) {
-	    strcpy ( kmdfm.kprefsFileName , prefsFileName ) ;
-	}
+    if (lckey("PHASE$", 7)) {
+        /* see if a filename was given. */
+        if (lcchar(prefsFileName, sizeof(prefsFileName))) {
+            strcpy(kmdfm.kprefsFileName, prefsFileName);
+        }
 
-	/* get authors and phases from the user-defined file. */
-	getprefs ( TRUE , TRUE ) ;
-	return ;
+        /* get authors and phases from the user-defined file. */
+        getprefs(TRUE, TRUE);
+        return;
     }
 
     /* free up kmdfm.kauthors */
-    if ( kmdfm.kauthors != NULL ) {
-	for ( idx = 0 ; idx < cmdfm.iauthors ; idx++ )
-	    free ( kmdfm.kauthors[idx] ) ;
-	free ( kmdfm.kauthors ) ;
-	cmdfm.iauthors = 0 ;
+    if (kmdfm.kauthors != NULL) {
+        for (idx = 0; idx < cmdfm.iauthors; idx++)
+            free(kmdfm.kauthors[idx]);
+        free(kmdfm.kauthors);
+        cmdfm.iauthors = 0;
     }
 
     /* - Loop on each token in command: */
-    while ( lcmore ( nerr ) ) {
-	if ( nAuthors % 10 == 0 ) {
-	  /* stop every 10 authors and get space */
-	    char **temp = NULL ;
+    while (lcmore(nerr)) {
+        if (nAuthors % 10 == 0) {
+            /* stop every 10 authors and get space */
+            char **temp = NULL;
 
-	    temp = ( char ** ) realloc ( (void *) kmdfm.kauthors ,
-	      ( nAuthors + 10 ) * sizeof ( char * ) ) ;
-	    if ( temp == NULL ) {
-	      goto L_8888 ;
-	    } else {
-	      kmdfm.kauthors = temp ;
-	    }
-	} 
+            temp =
+                (char **) realloc((void *) kmdfm.kauthors,
+                                  (nAuthors + 10) * sizeof(char *));
+            if (temp == NULL) {
+                goto L_8888;
+            } else {
+                kmdfm.kauthors = temp;
+            }
+        }
 
-	/* allocate a string for the author name. */
-	kmdfm.kauthors[nAuthors] = (char *) malloc ( 16 * sizeof ( char ) ) ;
-	if ( kmdfm.kauthors[nAuthors] == NULL ) {
-	    goto L_8888 ;
-	} 
+        /* allocate a string for the author name. */
+        kmdfm.kauthors[nAuthors] = (char *) malloc(16 * sizeof(char));
+        if (kmdfm.kauthors[nAuthors] == NULL) {
+            goto L_8888;
+        }
 
-	/* copy the author name. */
-	lcchar ( kmdfm.kauthors[nAuthors] , sizeof(kmdfm.kauthors[nAuthors]));
+        /* copy the author name. */
+        lcchar(kmdfm.kauthors[nAuthors], sizeof(kmdfm.kauthors[nAuthors]));
 
-	/* convert to lower case for case insensitive comparisons. */
-	modcase ( FALSE , kmdfm.kauthors[nAuthors] ,
-            strlen(kmdfm.kauthors[nAuthors]), kmdfm.kauthors[nAuthors] ) ;
+        /* convert to lower case for case insensitive comparisons. */
+        modcase(FALSE, kmdfm.kauthors[nAuthors],
+                strlen(kmdfm.kauthors[nAuthors]), kmdfm.kauthors[nAuthors]);
 
-	nAuthors++ ; 
+        nAuthors++;
 
-    } 
+    }
 
     /* save number of authors. */
-    cmdfm.iauthors = nAuthors ;
+    cmdfm.iauthors = nAuthors;
 
-    return ;
+    return;
 
-L_8888:
-    *nerr = ERROR_OUT_OF_MEMORY ;
-    setmsg ( "ERROR" , *nerr ) ;
-    outmsg () ;
-    clrmsg () ;
+  L_8888:
+    *nerr = ERROR_OUT_OF_MEMORY;
+    setmsg("ERROR", *nerr);
+    outmsg();
+    clrmsg();
 
-    if ( kmdfm.kauthors != NULL ) {
-      for ( idx = 0 ; idx < nAuthors ; idx ++ )
-	free ( kmdfm.kauthors[idx] ) ;
-      free ( kmdfm.kauthors ) ;
-    } 
+    if (kmdfm.kauthors != NULL) {
+        for (idx = 0; idx < nAuthors; idx++)
+            free(kmdfm.kauthors[idx]);
+        free(kmdfm.kauthors);
+    }
 }

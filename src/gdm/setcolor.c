@@ -17,29 +17,27 @@
  * @date   831026:  Original version.
  *
  */
-void 
-setcolor(int number)
-{
-	int ncolor;
+void
+setcolor(int number) {
+    int ncolor;
 
-        int i, n;
-        display_t **dev;
-        n   = gdm_get_ndevices();
-        dev = gdm_get_devices();
+    int i, n;
+    display_t **dev;
+    n = gdm_get_ndevices();
+    dev = gdm_get_devices();
 
-	/* - Range check the requested color number. */
-	ncolor = min( cmgdm.nctsize, max( 0, number ) );
-	/*      if(ncolor.eq.0)ncolor=nctsize */
+    /* - Range check the requested color number. */
+    ncolor = min(cmgdm.nctsize, max(0, number));
+    /*      if(ncolor.eq.0)ncolor=nctsize */
 
-	/* - Save the current color without regard to the device being used. */
-	cmgdm.icolor = ncolor;
+    /* - Save the current color without regard to the device being used. */
+    cmgdm.icolor = ncolor;
 
-	/* -- Set color for all active graphics devices. */
-        for(i = 0; i < n; i++) {
-          if(dev[i]->on && dev[i]->set_color) {
-            dev[i]->set_color( ncolor );
-          }
+    /* -- Set color for all active graphics devices. */
+    for (i = 0; i < n; i++) {
+        if (dev[i]->on && dev[i]->set_color) {
+            dev[i]->set_color(ncolor);
         }
+    }
 
 }
-

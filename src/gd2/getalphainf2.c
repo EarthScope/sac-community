@@ -2,15 +2,16 @@
 #include "gd2.h"
 #include "debug.h"
 
-void /*FUNCTION*/ getalphainfo2(nlines, erase, len)
-int *nlines;
-char *erase;
-int len;
+void /*FUNCTION*/
+getalphainfo2(nlines, erase, len)
+     int *nlines;
+     char *erase;
+     int len;
 {
-  UNUSED(len);
-  UNUSED(erase);
-  UNUSED(nlines);
-	/*=====================================================================
+    UNUSED(len);
+    UNUSED(erase);
+    UNUSED(nlines);
+        /*=====================================================================
 	 * PURPOSE: To inquire about text attributes of graphics device 2.
 	 *=====================================================================
 	 * MODULE/LEVEL: GD2/4
@@ -25,10 +26,9 @@ int len;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  861020
 	 *===================================================================== */
-	/* PROCEDURE: */
-	/* - This is a no-op for this graphics device. */
-       
-	return;
+    /* PROCEDURE: */
+    /* - This is a no-op for this graphics device. */
 
-} /* end of function */
+    return;
 
+}                               /* end of function */

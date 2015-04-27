@@ -68,119 +68,111 @@
  * @date 071022 Documented/Reviewed
  *
  */
-void 
-afr(float    *sn, 
-    float    *sd, 
-    int       nsects, 
-    char     *type, 
-    char     *sampling, 
-    double    fl, 
-    double    fh, 
-    int       nsamps, 
-    float    *response, 
-    float    *freqs)
-{
-	int logspacing;
-	int i, iptr, j;
-	float a0, a1, a2, afh, afl, delf, ft, gd, phase, twopi;
-	complexf denominator, dent, h, numerator, numt, pd, pdt, s;
+void
+afr(float *sn, float *sd, int nsects, char *type, char *sampling, double fl,
+    double fh, int nsamps, float *response, float *freqs) {
+    int logspacing;
+    int i, iptr, j;
+    float a0, a1, a2, afh, afl, delf, ft, gd, phase, twopi;
+    complexf denominator, dent, h, numerator, numt, pd, pdt, s;
 
-	float *const Freqs = &freqs[0] - 1;
-	float *const Response = &response[0] - 1;
-	float *const Sd = &sd[0] - 1;
-	float *const Sn = &sn[0] - 1;
+    float *const Freqs = &freqs[0] - 1;
+    float *const Response = &response[0] - 1;
+    float *const Sd = &sd[0] - 1;
+    float *const Sn = &sn[0] - 1;
 
-	/*  Frequency sampling initialization                                            
-	 * */
-	twopi = 2.*3.14159265;
-	if( memcmp(sampling,"LOG",3) == 0 ){
-		logspacing = TRUE;
-		afl = log( fl );
-		afh = log( fh );
-		}
-	else if( memcmp(sampling,"LIN",3) == 0 ){
-		logspacing = FALSE;
-		afl = fl;
-		afh = fh;
+    /*  Frequency sampling initialization                                            
+     * */
+    twopi = 2. * 3.14159265;
+    if (memcmp(sampling, "LOG", 3) == 0) {
+        logspacing = TRUE;
+        afl = log(fl);
+        afh = log(fh);
+    } else if (memcmp(sampling, "LIN", 3) == 0) {
+        logspacing = FALSE;
+        afl = fl;
+        afh = fh;
     } else {
-        fprintf(stderr, "filter: Unknown Sampling in Analog Frequency Response\n");
+        fprintf(stderr,
+                "filter: Unknown Sampling in Analog Frequency Response\n");
         fprintf(stderr, "      : Expected LOG or LON\n");
         return;
     }
-	delf = (afh - afl)/(float)( nsamps - 1 );
+    delf = (afh - afl) / (float) (nsamps - 1);
 
-	ft = afl;
+    ft = afl;
 
-	/*  Loop over frequency                                                          
-	 * */
-	for( j = 1; j <= nsamps; j++ ){
+    /*  Loop over frequency                                                          
+     * */
+    for (j = 1; j <= nsamps; j++) {
 
-		if( logspacing ){
-			Freqs[j] = exp( ft );
-			}
-		else{
-			Freqs[j] = ft;
-			}
-		s = flttocmplx( 0., twopi*Freqs[j] );
-		h = flttocmplx( 1., 0. );
-		gd = 0.0;
+        if (logspacing) {
+            Freqs[j] = exp(ft);
+        } else {
+            Freqs[j] = ft;
+        }
+        s = flttocmplx(0., twopi * Freqs[j]);
+        h = flttocmplx(1., 0.);
+        gd = 0.0;
 
-		iptr = 1;
-		for( i = 1; i <= nsects; i++ ){
+        iptr = 1;
+        for (i = 1; i <= nsects; i++) {
 
-			a0 = Sn[iptr];
-			a1 = Sn[iptr + 1];
-			a2 = Sn[iptr + 2];
-			numerator = cmplxadd(cmplxmul((cmplxadd(cmplxmul(flttocmplx(a2,0.),s),flttocmplx(a1,0.))),
-			 s),flttocmplx(a0,0.));
-			pd = cmplxadd(cmplxmul(flttocmplx(2*a2,0.),s),flttocmplx(a1,0.));
-			if( fabs( cmplxtof( cmplxmul(numerator,cmplxcj( numerator )) ) ) == 
-			 0.0 ){
-				numt = pd;
-				pdt = flttocmplx(2*a2,0.);
-				gd = gd - cmplxtof( cmplxdiv(pdt,numt) );
-				}
-			else{
-				gd = gd - cmplxtof( cmplxdiv(pd,numerator) );
-				}
+            a0 = Sn[iptr];
+            a1 = Sn[iptr + 1];
+            a2 = Sn[iptr + 2];
+            numerator =
+                cmplxadd(cmplxmul
+                         ((cmplxadd
+                           (cmplxmul(flttocmplx(a2, 0.), s),
+                            flttocmplx(a1, 0.))), s), flttocmplx(a0, 0.));
+            pd = cmplxadd(cmplxmul(flttocmplx(2 * a2, 0.), s),
+                          flttocmplx(a1, 0.));
+            if (fabs(cmplxtof(cmplxmul(numerator, cmplxcj(numerator)))) == 0.0) {
+                numt = pd;
+                pdt = flttocmplx(2 * a2, 0.);
+                gd = gd - cmplxtof(cmplxdiv(pdt, numt));
+            } else {
+                gd = gd - cmplxtof(cmplxdiv(pd, numerator));
+            }
 
-			a0 = Sd[iptr];
-			a1 = Sd[iptr + 1];
-			a2 = Sd[iptr + 2];
-			denominator = cmplxadd(cmplxmul((cmplxadd(cmplxmul(flttocmplx(a2,0.),s),
-			 flttocmplx(a1,0.))),s),flttocmplx(a0,0.));
-			pd = cmplxadd(cmplxmul(flttocmplx(2*a2,0.),s),flttocmplx(a1,0.));
-			if( fabs( cmplxtof( cmplxmul(denominator,cmplxcj( denominator )) ) ) == 
-			 0.0 ){
-				dent = pd;
-				pdt = flttocmplx(2*a2,0.);
-				gd = gd + cmplxtof( cmplxdiv(pdt,dent) );
-				}
-			else{
-				gd = gd + cmplxtof( cmplxdiv(pd,denominator) );
-				}
+            a0 = Sd[iptr];
+            a1 = Sd[iptr + 1];
+            a2 = Sd[iptr + 2];
+            denominator =
+                cmplxadd(cmplxmul
+                         ((cmplxadd
+                           (cmplxmul(flttocmplx(a2, 0.), s),
+                            flttocmplx(a1, 0.))), s), flttocmplx(a0, 0.));
+            pd = cmplxadd(cmplxmul(flttocmplx(2 * a2, 0.), s),
+                          flttocmplx(a1, 0.));
+            if (fabs(cmplxtof(cmplxmul(denominator, cmplxcj(denominator)))) ==
+                0.0) {
+                dent = pd;
+                pdt = flttocmplx(2 * a2, 0.);
+                gd = gd + cmplxtof(cmplxdiv(pdt, dent));
+            } else {
+                gd = gd + cmplxtof(cmplxdiv(pd, denominator));
+            }
 
-			h = cmplxdiv(cmplxmul(h,numerator),denominator);
+            h = cmplxdiv(cmplxmul(h, numerator), denominator);
 
-			iptr = iptr + 3;
+            iptr = iptr + 3;
 
-			}
+        }
 
-		if( memcmp(type,"AM",2) == 0 ){
-			Response[j] = sqrt( cmplxtof( cmplxmul(cmplxcj( h ),h) ) );
-			}
-		else if( memcmp(type,"PH",2) == 0 ){
-			phase = atan2( aimag( h ), cmplxtof( h ) );
-			Response[j] = phase*360./twopi;
-			}
-		else if( memcmp(type,"GD",2) == 0 ){
-			Response[j] = gd;
-			}
+        if (memcmp(type, "AM", 2) == 0) {
+            Response[j] = sqrt(cmplxtof(cmplxmul(cmplxcj(h), h)));
+        } else if (memcmp(type, "PH", 2) == 0) {
+            phase = atan2(aimag(h), cmplxtof(h));
+            Response[j] = phase * 360. / twopi;
+        } else if (memcmp(type, "GD", 2) == 0) {
+            Response[j] = gd;
+        }
 
-		ft = ft + delf;
+        ft = ft + delf;
 
-		}
+    }
 
-	return;
+    return;
 }
-

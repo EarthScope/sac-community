@@ -1,11 +1,12 @@
 
 #include "gd2.h"
 
-void /*FUNCTION*/ getdevicerat2(ratio)
-float *ratio;
+void /*FUNCTION*/
+getdevicerat2(ratio)
+     float *ratio;
 {
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To inquire about the graphics screen aspect ratio.
 	 *=====================================================================
 	 * OUTPUT ARGUMENTS:
@@ -21,11 +22,9 @@ float *ratio;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  861026
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*ratio = 0.75;
+    /* PROCEDURE: */
+    *ratio = 0.75;
 
-       
-	return;
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

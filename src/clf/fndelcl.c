@@ -30,48 +30,45 @@
  * @date   980922:  Original version. plagerized from ldelcl.c.  maf
  *
  */
-int 
-fndelcl(char *kcl, 
-        int   kcl_s, 
-        int   fileNumber ) {
+int
+fndelcl(char *kcl, int kcl_s, int fileNumber) {
 
-	char *ptr1 , *ptr2 ;
-	int ldelcl_v;
-	int index1, index2, j1, idx ;
+    char *ptr1, *ptr2;
+    int ldelcl_v;
+    int index1, index2, j1, idx;
 
-        idx = 1;
+    idx = 1;
 
-	/* - Assume the entry will not be found. */
-	ldelcl_v = FALSE;
+    /* - Assume the entry will not be found. */
+    ldelcl_v = FALSE;
 
-	/* - Initialize character pointer and determine length of entry. */
-	index1 = 0;
+    /* - Initialize character pointer and determine length of entry. */
+    index1 = 0;
 
-	/* - Loop on each ENTRY in character list. */
-	while ( lnxtcl( kcl,kcl_s, &index1, &index2 ) ){
+    /* - Loop on each ENTRY in character list. */
+    while (lnxtcl(kcl, kcl_s, &index1, &index2)) {
 
-          /* -- If match, delete characters in list, fill with delimiter, 
-           *    and set return value to .TRUE. */
-		if( idx == fileNumber ) {
-			ptr1 = kcl + index1 - 2 ;
-			ptr2 = kcl + index2 ;
+        /* -- If match, delete characters in list, fill with delimiter, 
+         *    and set return value to .TRUE. */
+        if (idx == fileNumber) {
+            ptr1 = kcl + index1 - 2;
+            ptr2 = kcl + index2;
 
-			for ( j1 = index2 ; j1 < kcl_s - 1 ; j1++ , ptr1++ , ptr2++ )
-			    *ptr1 = *ptr2 ;
+            for (j1 = index2; j1 < kcl_s - 1; j1++, ptr1++, ptr2++)
+                *ptr1 = *ptr2;
 
-			while ( ptr1 < ptr2 ) {
-			    *ptr1 = ' ' ;
-			    ptr1++ ;
-			}
+            while (ptr1 < ptr2) {
+                *ptr1 = ' ';
+                ptr1++;
+            }
 
-			ldelcl_v = TRUE;
+            ldelcl_v = TRUE;
 
-			break ;
-		}
+            break;
+        }
 
-		idx++ ;
-	}
+        idx++;
+    }
 
-	return( ldelcl_v );
+    return (ldelcl_v);
 }
-

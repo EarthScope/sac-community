@@ -39,72 +39,59 @@
  * @date   870902:  Original version.
  *
  */
-void 
-setihv(char *kname, 
-       char *kvalue, 
-       int  *nerr, 
-       int   kname_s, 
-       int   kvalue_s) {
+void
+setihv(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
 
-	char ktest[9];
-	int index, ivalue;
-	char *kname_c;
-	char *kvalue_c;
-  sac *s;
-	kname_c  = fstrdup(kname, kname_s);
-	kvalue_c = fstrdup(kvalue, kvalue_s);
-	
-	kname_s  = strlen(kname_c)  + 1;
-	kvalue_s = strlen(kvalue_c) + 1;
+    char ktest[9];
+    int index, ivalue;
+    char *kname_c;
+    char *kvalue_c;
+    sac *s;
+    kname_c = fstrdup(kname, kname_s);
+    kvalue_c = fstrdup(kvalue, kvalue_s);
 
-	*nerr = 0;
-  s = sacget_current();
-	/* - Convert input value to uppercase and check versus list of allowed values. */
-  sacio_char_to_keyword(kvalue_c, ktest);
-	ivalue = nequal( ktest, (char*)kmlhf.kiv,9, SAC_ENUMS );
+    kname_s = strlen(kname_c) + 1;
+    kvalue_s = strlen(kvalue_c) + 1;
 
-	/* - If not a match, set and report error condition. */
-	if( ivalue <= 0 ){
-	    *nerr = ERROR_ILLEGAL_ENUMERATED_VALUE;
-      sacio_message(*nerr, kvalue_c);
-      ivalue = SAC_ENUM_UNDEFINED;
-  }
-  /* - Convert input name to uppercase and check versus list of legal names. */
-  sacio_char_to_keyword(kname_c, ktest);
-  index = nequal( ktest, (char*)kmlhf.kihdr,9, SAC_HEADER_ENUMS );
+    *nerr = 0;
+    s = sacget_current();
+    /* - Convert input value to uppercase and check versus list of allowed values. */
+    sacio_char_to_keyword(kvalue_c, ktest);
+    ivalue = nequal(ktest, (char *) kmlhf.kiv, 9, SAC_ENUMS);
 
-  /* - If legal header name, store value in appropriate header field.
-   *   Otherwise, set and report error condition. */
-  if( index > 0 ){
-    IHDR(s)[index-1] = ivalue;
-  }
-  else{
-    *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;
-    sacio_message(*nerr, kname);
-  }
+    /* - If not a match, set and report error condition. */
+    if (ivalue <= 0) {
+        *nerr = ERROR_ILLEGAL_ENUMERATED_VALUE;
+        sacio_message(*nerr, kvalue_c);
+        ivalue = SAC_ENUM_UNDEFINED;
+    }
+    /* - Convert input name to uppercase and check versus list of legal names. */
+    sacio_char_to_keyword(kname_c, ktest);
+    index = nequal(ktest, (char *) kmlhf.kihdr, 9, SAC_HEADER_ENUMS);
 
-	free(kname_c);
-	free(kvalue_c);
+    /* - If legal header name, store value in appropriate header field.
+     *   Otherwise, set and report error condition. */
+    if (index > 0) {
+        IHDR(s)[index - 1] = ivalue;
+    } else {
+        *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;
+        sacio_message(*nerr, kname);
+    }
 
-	return;
+    free(kname_c);
+    free(kvalue_c);
+
+    return;
 }
-
-
-
 
 /* Wrapper to make the function more convenient for FORTRAN programmers. */
 
-void setihv_ (char      *kname, 
-	      char      *kvalue, 
-	      int       *nerr, 
-	      int        kname_s,
-	      int        kvalue_s) {
-  setihv ( kname , kvalue , nerr , kname_s , kvalue_s ) ;
+void
+setihv_(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
+    setihv(kname, kvalue, nerr, kname_s, kvalue_s);
 }
-void setihv__ (char     *kname, 
-	      char      *kvalue, 
-	      int       *nerr, 
-	      int        kname_s,
-	      int        kvalue_s) {
-  setihv ( kname , kvalue , nerr , kname_s , kvalue_s ) ;
+
+void
+setihv__(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
+    setihv(kname, kvalue, nerr, kname_s, kvalue_s);
 }

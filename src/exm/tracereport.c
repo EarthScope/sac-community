@@ -23,34 +23,37 @@
  * @date   881230:  Original version.
  *
  */
-void 
+void
 tracereport(int *nerr) {
 
-	char currentvalue[MCMSG+1];
-	int jtrace, jtrace_, ngerr;
+    char currentvalue[MCMSG + 1];
+    int jtrace, jtrace_, ngerr;
 
-	*nerr = 0;
+    *nerr = 0;
 
-	for( jtrace = 1; jtrace <= cmexm.ntraces; jtrace++ ){
-		jtrace_ = jtrace - 1;
-		if( Lblackboard[jtrace] ){
-                  getbbv( (char*)cmexm.ktracename[jtrace_], currentvalue, &ngerr, 16, MCMSG );
-                }
-		else{
-                  gethv( (char*)cmexm.ktracename[jtrace_],17, currentvalue, MCMSG+1, &ngerr );
-                }
-		if( memcmp(currentvalue,cmexm.ktracevalue[jtrace_],min(strlen(currentvalue),strlen(cmexm.ktracevalue[jtrace_]))) != 0 ){
-                  strcpy( cmexm.ktracevalue[jtrace_], currentvalue );
-                  setmsg( "OUTPUT", 99 );
-                  apcmsg( "TRACE (mod)",12 );
-                  apcmsg( (char*)cmexm.ktracename[jtrace_],17 );
-                  apcmsg( "=",2 );
-                  apcmsg( (char*)cmexm.ktracevalue[jtrace_],MCMSG+1 );
-                  outmsg();
-                  clrmsg();
-                }
+    for (jtrace = 1; jtrace <= cmexm.ntraces; jtrace++) {
+        jtrace_ = jtrace - 1;
+        if (Lblackboard[jtrace]) {
+            getbbv((char *) cmexm.ktracename[jtrace_], currentvalue, &ngerr, 16,
+                   MCMSG);
+        } else {
+            gethv((char *) cmexm.ktracename[jtrace_], 17, currentvalue,
+                  MCMSG + 1, &ngerr);
         }
-        
-	return;
-}
+        if (memcmp
+            (currentvalue, cmexm.ktracevalue[jtrace_],
+             min(strlen(currentvalue),
+                 strlen(cmexm.ktracevalue[jtrace_]))) != 0) {
+            strcpy(cmexm.ktracevalue[jtrace_], currentvalue);
+            setmsg("OUTPUT", 99);
+            apcmsg("TRACE (mod)", 12);
+            apcmsg((char *) cmexm.ktracename[jtrace_], 17);
+            apcmsg("=", 2);
+            apcmsg((char *) cmexm.ktracevalue[jtrace_], MCMSG + 1);
+            outmsg();
+            clrmsg();
+        }
+    }
 
+    return;
+}

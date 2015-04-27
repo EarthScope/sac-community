@@ -11,15 +11,15 @@
 #include "mach.h"
 #include "contouring.h"
 extern struct contour contour;
-void 
+void
 getcontpoint(number, point, link, action)
-int number;
-float point[];
-int *link, *action;
+     int number;
+     float point[];
+     int *link, *action;
 {
-	float *const Point = &point[0] - 1;
+    float *const Point = &point[0] - 1;
 
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE:  To get information about an existing contouring line point.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -42,19 +42,17 @@ int *link, *action;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  900405
 	 *===================================================================== */
-	/* PROCEDURE: */
-	if( number <= cmcontouring.numpoints ){
-    Point[1] = contour.points[number-1].pts[0];
-    Point[2] = contour.points[number-1].pts[1];
-    *action   = contour.points[number-1].action;
-    *link     = contour.points[number-1].link;
-	}
-	else{
-		fprintf( stdout, "Illegal point number: %d getcontpoint \n", number );
-		exit(0);
-	}
+    /* PROCEDURE: */
+    if (number <= cmcontouring.numpoints) {
+        Point[1] = contour.points[number - 1].pts[0];
+        Point[2] = contour.points[number - 1].pts[1];
+        *action = contour.points[number - 1].action;
+        *link = contour.points[number - 1].link;
+    } else {
+        fprintf(stdout, "Illegal point number: %d getcontpoint \n", number);
+        exit(0);
+    }
 
-	return;
+    return;
 
 }
-

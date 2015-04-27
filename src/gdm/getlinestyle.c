@@ -12,10 +12,8 @@
  * @date   861026:  Original version.
  *
  */
-void 
-getlinestyle(int *istyle)
-{
-	*istyle = cmgdm.iline;
+void
+getlinestyle(int *istyle) {
+    *istyle = cmgdm.iline;
 
 }
-

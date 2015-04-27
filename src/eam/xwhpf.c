@@ -8,7 +8,6 @@
 #include "eam.h"
 #include "bool.h"
 
-
 #include "msg.h"
 #include "cpf.h"
 
@@ -28,54 +27,50 @@
  * @date   820624:  Documented/Reviewed
  *
  */
-void 
-xwhpf(int *nerr)
-{
-	int notusd;
+void
+xwhpf(int *nerr) {
+    int notusd;
 
-	*nerr = 0;
+    *nerr = 0;
 
-	/* - PARSING PHASE: */
-	/* - Loop on each token in command: */
-L_1000:
-	if( lcmore( nerr ) ){
+    /* - PARSING PHASE: */
+    /* - Loop on each token in command: */
+  L_1000:
+    if (lcmore(nerr)) {
 
-		/* -- "IC n1 n2":  change IC constants. */
-		if( lkia( "IC$",4, 1, 2, cmeam.nhpfic, &notusd ) ){
-			cmeam.lhpfic = TRUE;
+        /* -- "IC n1 n2":  change IC constants. */
+        if (lkia("IC$", 4, 1, 2, cmeam.nhpfic, &notusd)) {
+            cmeam.lhpfic = TRUE;
 
-			/* -- Bad syntax. */
-			}
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
+            /* -- Bad syntax. */
+        } else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
 
-			}
-		goto L_1000;
+        }
+        goto L_1000;
 
-		}
+    }
 
-	if( *nerr != 0 )
-		goto L_8888;
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* EXECUTION PHASE: */
-	/* - Make sure HPF is open. */
-	if( !cmeam.lhpfop ){
-		*nerr = 1908;
-		setmsg( "ERROR", *nerr );
-		goto L_8888;
-		}
+    /* EXECUTION PHASE: */
+    /* - Make sure HPF is open. */
+    if (!cmeam.lhpfop) {
+        *nerr = 1908;
+        setmsg("ERROR", *nerr);
+        goto L_8888;
+    }
 
-	/* - Write IC card to HPF if requested. */
+    /* - Write IC card to HPF if requested. */
 
-	if( cmeam.lhpfic )
-		{
-                fprintf(cmeam.nhpfun,"                 %1d%1d\n", Nhpfic[1], 
-		                                                    Nhpfic[2] );
-		}
+    if (cmeam.lhpfic) {
+        fprintf(cmeam.nhpfun, "                 %1d%1d\n", Nhpfic[1],
+                Nhpfic[2]);
+    }
 
-L_8888:
-	return;
+  L_8888:
+    return;
 
 }
-

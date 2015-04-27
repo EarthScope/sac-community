@@ -4,18 +4,17 @@
 #include "ncpf.h"
 #include "cpf.h"
 
-
 #include "co.h"
 #include "vars.h"
 
-void /*FUNCTION*/ closemacro(nerr)
-int *nerr;
+void /*FUNCTION*/
+closemacro(nerr)
+     int *nerr;
 {
-	int ntused;
-        FILE *nun;
+    int ntused;
+    FILE *nun;
 
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To close a SAC macro (command) file.
 	 *=====================================================================
 	 * OUTPUT ARGUMENTS:
@@ -40,24 +39,23 @@ int *nerr;
 	 *=====================================================================
 	 * DOCUMENTED/REVIEWED:  870402
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* - Get the fortran file unit number from the vars list. */
+    /* - Get the fortran file unit number from the vars list. */
 
-	getvFILEptr( kmcpf.kvarsname,9, "fileunit",9, &nun, nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    getvFILEptr(kmcpf.kvarsname, 9, "fileunit", 9, &nun, nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-	/* - Close the macro file and delete the vars list. */
+    /* - Close the macro file and delete the vars list. */
 
-	zcloses( &nun, &ntused );
-	deletevlist( kmcpf.kvarsname,9, "MEMORY", nerr );
-	if( *nerr != 0 )
-		goto L_8888;
+    zcloses(&nun, &ntused);
+    deletevlist(kmcpf.kvarsname, 9, "MEMORY", nerr);
+    if (*nerr != 0)
+        goto L_8888;
 
-L_8888:
-	return;
+  L_8888:
+    return;
 
-} /* end of function */
-
+}                               /* end of function */

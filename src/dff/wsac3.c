@@ -46,60 +46,46 @@
  * @date   800821:  Original version [Prime].
  *
  */
-void 
-wsac3(char  *kname, 
-      float *xarray, 
-      float *yarray, 
-      int   *nerr, 
-      int    kname_s) {
+void
+wsac3(char *kname, float *xarray, float *yarray, int *nerr, int kname_s) {
 
-  wsac0(kname, xarray, yarray, nerr, kname_s);
-  return;
+    wsac0(kname, xarray, yarray, nerr, kname_s);
+    return;
 }
 
 /* Wrapper to make the function more convenient for FORTRAN programmers. */
 
-void 
-wsac3_ (char  *kname, 
-        float *xarray, 
-        float *yarray, 
-        int   *nerr, 
-        int    kname_s) {
-	wsac0 ( kname , xarray , yarray , nerr , kname_s ) ;
+void
+wsac3_(char *kname, float *xarray, float *yarray, int *nerr, int kname_s) {
+    wsac0(kname, xarray, yarray, nerr, kname_s);
 }
 
-void 
-wsac3__ (char  *kname, 
-         float *xarray, 
-         float *yarray, 
-         int   *nerr, 
-         int    kname_s) {
-	wsac0 ( kname , xarray , yarray , nerr , kname_s ) ;
+void
+wsac3__(char *kname, float *xarray, float *yarray, int *nerr, int kname_s) {
+    wsac0(kname, xarray, yarray, nerr, kname_s);
 }
 
-void 
-update_distaz (sac *s) {
+void
+update_distaz(sac * s) {
 
-  int ndaerr = 0;
-  if(s->h->lcalda && 
-     s->h->stla != SAC_FLOAT_UNDEFINED && s->h->stlo != SAC_FLOAT_UNDEFINED && 
-     s->h->evla != SAC_FLOAT_UNDEFINED && s->h->evlo != SAC_FLOAT_UNDEFINED ) {
-    distaz( s->h->evla, s->h->evlo, (float*)&s->h->stla, (float*)&s->h->stlo, 1,
-	    (float*) &s->h->dist, 
-	    (float*) &s->h->az, 
-	    (float*) &s->h->baz, 
-	    (float*) &s->h->gcarc, 
-	    &ndaerr);
-    if( s->h->evla == s->h->stla && s->h->evlo == s->h->stlo ){
-      s->h->az = 0;
-      s->h->baz = 0;
+    int ndaerr = 0;
+    if (s->h->lcalda && s->h->stla != SAC_FLOAT_UNDEFINED &&
+        s->h->stlo != SAC_FLOAT_UNDEFINED && s->h->evla != SAC_FLOAT_UNDEFINED
+        && s->h->evlo != SAC_FLOAT_UNDEFINED) {
+        distaz(s->h->evla, s->h->evlo, (float *) &s->h->stla,
+               (float *) &s->h->stlo, 1, (float *) &s->h->dist,
+               (float *) &s->h->az, (float *) &s->h->baz,
+               (float *) &s->h->gcarc, &ndaerr);
+        if (s->h->evla == s->h->stla && s->h->evlo == s->h->stlo) {
+            s->h->az = 0;
+            s->h->baz = 0;
+        }
+        if (ndaerr) {
+            s->h->dist = SAC_FLOAT_UNDEFINED;
+            s->h->az = SAC_FLOAT_UNDEFINED;
+            s->h->baz = SAC_FLOAT_UNDEFINED;
+            s->h->gcarc = SAC_FLOAT_UNDEFINED;
+        }
     }
-    if(ndaerr) {
-      s->h->dist  = SAC_FLOAT_UNDEFINED;
-      s->h->az    = SAC_FLOAT_UNDEFINED;
-      s->h->baz   = SAC_FLOAT_UNDEFINED;
-      s->h->gcarc = SAC_FLOAT_UNDEFINED;
-    }
-  }
-  return;
+    return;
 }

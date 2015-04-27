@@ -24,16 +24,13 @@
  * @date   810000:  Original version.
  *
  */
-int 
-linrng(double value, 
-       double valmin, 
-       double valmax) {
+int
+linrng(double value, double valmin, double valmax) {
 
-	int linrng_v;
+    int linrng_v;
 
-	linrng_v = value >= valmin && value <= valmax;
+    linrng_v = value >= valmin && value <= valmax;
 
-	return( linrng_v );
+    return (linrng_v);
 
 }
-

@@ -6,9 +6,9 @@
  */
 
 #include "unistdx.h"
-#include <sys/types.h>  
-#include <sys/stat.h>                                                         
-#include <fcntl.h>     
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 #include "co.h"
 #include "msg.h"
@@ -38,30 +38,25 @@
  *
  */
 void
-zwabs(int  *pfd,
-      char *array,
-      int   pnwords,
-      int  *pswords,
-      int  *pnerr) {
+zwabs(int *pfd, char *array, int pnwords, int *pswords, int *pnerr) {
 
-  int ret;
+    int ret;
 
-  *pnerr = 0;
+    *pnerr = 0;
 
-  if(lseek(-(*pfd), (off_t)(*pswords * sizeof(float)), 0) == -1) {
-    *pnerr = ERROR_WRITING_FILE;
-    setmsg("ERROR", *pnerr);
+    if (lseek(-(*pfd), (off_t) (*pswords * sizeof(float)), 0) == -1) {
+        *pnerr = ERROR_WRITING_FILE;
+        setmsg("ERROR", *pnerr);
+        return;
+    }
+
+    ret = write(-(*pfd), &array[0], pnwords * sizeof(float));
+
+    if ((size_t) ret != pnwords * sizeof(float)) {
+        *pnerr = ERROR_WRITING_FILE;
+        setmsg("ERROR", *pnerr);
+        return;
+    }
+
     return;
-  }
-
-  ret = write(-(*pfd), &array[0], pnwords * sizeof(float));
-
-  if((size_t)ret != pnwords * sizeof(float)) {
-    *pnerr = ERROR_WRITING_FILE;
-    setmsg("ERROR", *pnerr);
-    return;
-  }
-
-  return;
 }
-

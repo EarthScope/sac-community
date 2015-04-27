@@ -7,16 +7,13 @@
 #include "gam.h"
 #include "bool.h"
 
-
 #include "cpf.h"
 
-void  xfilenumber(int *nerr)
-{
-	int lfino = FALSE ;
+void
+xfilenumber(int *nerr) {
+    int lfino = FALSE;
 
-
-
-	/*=====================================================================
+        /*=====================================================================
 	 * PURPOSE: To parse the parameter-setting command FILENUMBER.
 	 *          This command controls the file number display on each plot.
 	 *=====================================================================
@@ -36,39 +33,36 @@ void  xfilenumber(int *nerr)
 	 * SUBROUTINES CALLED:
 	 *    SACLIB:  LCMORE, CFMT, CRESP, LCLOG
 	 *===================================================================== */
-	/* PROCEDURE: */
-	*nerr = 0;
+    /* PROCEDURE: */
+    *nerr = 0;
 
-	/* - Loop on each token in command: */
+    /* - Loop on each token in command: */
 
-	while ( lcmore( nerr ) ){
+    while (lcmore(nerr)) {
 
-		/* -- "ON/OFF":  turn file number display on or off. */
-		if( lclog( &lfino ) )
-		{ /* do nothing */ }
+        /* -- "ON/OFF":  turn file number display on or off. */
+        if (lclog(&lfino)) {    /* do nothing */
+        }
 
+        /* -- Bad syntax. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
 
-		/* -- Bad syntax. */
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
-		}
+    }                           /* end while ( lcmore( nerr ) ) */
 
-	} /* end while ( lcmore( nerr ) ) */
+    /* - The above loop is over when one of two conditions has been met:
+     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
+     *   (2) All the tokens in the command have been successfully parsed. */
 
-	/* - The above loop is over when one of two conditions has been met:
-	 *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-	 *   (2) All the tokens in the command have been successfully parsed. */
+    cmgam.lfinorq = lfino;
 
-	cmgam.lfinorq = lfino ;
+    return;
 
-       
-	return;
-
-	/*=====================================================================
+        /*=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    970204:  Original version (from XFID).
 	 *===================================================================== */
 
-} /* end of function */
-
+}                               /* end of function */

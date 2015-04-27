@@ -37,59 +37,52 @@
  * \date   881230:  Documented/Reviewed
  *
  */
-void 
-sendmesg(FILE *unitnumber, 
-	 int   activate, 
-	 int   send_[])
-{
-	int j, j_, jtpmsg, jtpmsg_, junit, nunitsav;
+void
+sendmesg(FILE * unitnumber, int activate, int send_[]) {
+    int j, j_, jtpmsg, jtpmsg_, junit, nunitsav;
 
-	int *const Send_ = &send_[0] - 1;
+    int *const Send_ = &send_[0] - 1;
 
-	if( activate ){
-		junit = 1;
-L_100:
-		if( unitnumber == cmmsg.iunits[junit-1] ){
-			for( jtpmsg = 1; jtpmsg <= MTPMSG; jtpmsg++ ){
-				jtpmsg_ = jtpmsg - 1;
-				cmmsg.lsend[junit - 1][jtpmsg_] = Send_[jtpmsg];
-				}
-			}
-		else if( junit < cmmsg.nunits ){
-			junit = junit + 1;
-			goto L_100;
-			}
-		else if( cmmsg.nunits < MUNITS ){
-			cmmsg.nunits = cmmsg.nunits + 1;
-			cmmsg.iunits[cmmsg.nunits-1] = unitnumber;
-			for( jtpmsg = 1; jtpmsg <= MTPMSG; jtpmsg++ ){
-				jtpmsg_ = jtpmsg - 1;
-				cmmsg.lsend[cmmsg.nunits - 1][jtpmsg_] = Send_[jtpmsg];
-				}
-			}
-		}
-	else{
-		nunitsav = cmmsg.nunits;
-		for( junit = 1; junit <= cmmsg.nunits; junit++ ){
-			if( unitnumber == cmmsg.iunits[junit-1] ){
-				nunitsav = cmmsg.nunits - 1;
-				for( j = junit; j <= nunitsav; j++ ){
-					j_ = j - 1;
-					cmmsg.iunits[j_] = cmmsg.iunits[j_ + 1];
-					for( jtpmsg = 1; jtpmsg <= MTPMSG; jtpmsg++ ){
-						jtpmsg_ = jtpmsg - 1;
-						cmmsg.lsend[j_][jtpmsg_] = cmmsg.lsend[j_ + 1][jtpmsg_];
-						}
-					}
-				goto L_1001;
-				}
-			}
+    if (activate) {
+        junit = 1;
+      L_100:
+        if (unitnumber == cmmsg.iunits[junit - 1]) {
+            for (jtpmsg = 1; jtpmsg <= MTPMSG; jtpmsg++) {
+                jtpmsg_ = jtpmsg - 1;
+                cmmsg.lsend[junit - 1][jtpmsg_] = Send_[jtpmsg];
+            }
+        } else if (junit < cmmsg.nunits) {
+            junit = junit + 1;
+            goto L_100;
+        } else if (cmmsg.nunits < MUNITS) {
+            cmmsg.nunits = cmmsg.nunits + 1;
+            cmmsg.iunits[cmmsg.nunits - 1] = unitnumber;
+            for (jtpmsg = 1; jtpmsg <= MTPMSG; jtpmsg++) {
+                jtpmsg_ = jtpmsg - 1;
+                cmmsg.lsend[cmmsg.nunits - 1][jtpmsg_] = Send_[jtpmsg];
+            }
+        }
+    } else {
+        nunitsav = cmmsg.nunits;
+        for (junit = 1; junit <= cmmsg.nunits; junit++) {
+            if (unitnumber == cmmsg.iunits[junit - 1]) {
+                nunitsav = cmmsg.nunits - 1;
+                for (j = junit; j <= nunitsav; j++) {
+                    j_ = j - 1;
+                    cmmsg.iunits[j_] = cmmsg.iunits[j_ + 1];
+                    for (jtpmsg = 1; jtpmsg <= MTPMSG; jtpmsg++) {
+                        jtpmsg_ = jtpmsg - 1;
+                        cmmsg.lsend[j_][jtpmsg_] = cmmsg.lsend[j_ + 1][jtpmsg_];
+                    }
+                }
+                goto L_1001;
+            }
+        }
 
-L_1001:
-		cmmsg.nunits = nunitsav;
+      L_1001:
+        cmmsg.nunits = nunitsav;
 
-		}
+    }
 
-	return;
+    return;
 }
-

@@ -24,77 +24,73 @@
  * @date   810723:  Original version.
  *
  */
-void 
+void
 xboec(int *nerr) {
 
-	int index;
+    int index;
 
-	*nerr = 0;
+    *nerr = 0;
 
-L_1000:
-	if( lcmore( nerr ) ){
+  L_1000:
+    if (lcmore(nerr)) {
 
-		/* -- "NPTS condition":  
-		   set control for unequal number of data points. */
-		if( lklist( "N$",3, (char*)kmexm.kectp,9, 
-			    cmexm.nectp, &index ) ){
-			strcpy( kmbom.kecnpt, kmexm.kectp[index - 1] );
+        /* -- "NPTS condition":  
+           set control for unequal number of data points. */
+        if (lklist("N$", 3, (char *) kmexm.kectp, 9, cmexm.nectp, &index)) {
+            strcpy(kmbom.kecnpt, kmexm.kectp[index - 1]);
 
-		}
-		/* "DELTA condition":  
-		   set control for sampling interval mismatch. */
-		else if( lklist( "D$",3, (char*)kmexm.kectp, 9, 
-				 cmexm.nectp, &index ) ){
-			strcpy( kmbom.kecdel, kmexm.kectp[index - 1] );
+        }
+        /* "DELTA condition":  
+           set control for sampling interval mismatch. */
+        else if (lklist("D$", 3, (char *) kmexm.kectp, 9, cmexm.nectp, &index)) {
+            strcpy(kmbom.kecdel, kmexm.kectp[index - 1]);
 
-		}
-		else{
-			cfmt( "ILLEGAL OPTION:",17 );
-			cresp();
+        } else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
 
-		}
-		goto L_1000;
+        }
+        goto L_1000;
 
-	}
+    }
 
-	return;
+    return;
 }
 
 #include "array.h"
 
-static sac ** sac_binary_file_list = NULL;
+static sac **sac_binary_file_list = NULL;
 
 sac *sacread(char *file);
 
 sac *
-bflget(string_list *list, int i) {
-  sac *s;
+bflget(string_list * list, int i) {
+    sac *s;
 
-  if(!sac_binary_file_list) {
-    sac_binary_file_list = xarray_new('p');
-  }
-
-  if( i >= (int)xarray_length(sac_binary_file_list)) {
-    /* Read in File */
-    if(i >= string_list_length(list)) {
-      return NULL;
+    if (!sac_binary_file_list) {
+        sac_binary_file_list = xarray_new('p');
     }
-    if(!(s = sacread(string_list_get(list, i)))) {
-      return NULL;
-    }
-    sac_binary_file_list = xarray_append(sac_binary_file_list, s);
-  }
-  s = sac_binary_file_list[i];
 
-  return s;
+    if (i >= (int) xarray_length(sac_binary_file_list)) {
+        /* Read in File */
+        if (i >= string_list_length(list)) {
+            return NULL;
+        }
+        if (!(s = sacread(string_list_get(list, i)))) {
+            return NULL;
+        }
+        sac_binary_file_list = xarray_append(sac_binary_file_list, s);
+    }
+    s = sac_binary_file_list[i];
+
+    return s;
 }
-
 
 void
 bflclear() {
 
-  if(sac_binary_file_list) {
-    xarray_free(sac_binary_file_list);
-  }
-  sac_binary_file_list = NULL;
+    if (sac_binary_file_list) {
+        xarray_free(sac_binary_file_list);
+    }
+    sac_binary_file_list = NULL;
 }

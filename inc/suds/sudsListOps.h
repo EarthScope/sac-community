@@ -3,10 +3,8 @@
 
 #include "suds.h"
 
-
-
-void *AddSudsListElement(SUDS *S, short StructID); 
-void FreeSuds(SUDS *S);
+void *AddSudsListElement(SUDS * S, short StructID);
+void FreeSuds(SUDS * S);
 SUDS *NewSudsList(void);
 char *Phasecode(short obs_phase);
 char *Instcode(short code);
