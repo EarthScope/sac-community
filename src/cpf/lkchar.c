@@ -14,6 +14,7 @@
 #include "bool.h"
 
 #include "ucf.h"
+#include "debug.h"
 
 /** 
  * Parse a keyed character string command construct
@@ -53,7 +54,7 @@ lkchar(char *kkey,
        char *kchar, 
        int   kchar_s, 
        int  *nchar) {
-
+  UNUSED(kchar_s);
 	/* - Check for key. */
 	if(!lckey( kkey,kkey_s )) {
 		return FALSE;

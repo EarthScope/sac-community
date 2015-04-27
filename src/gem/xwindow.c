@@ -51,8 +51,6 @@ L_1000:
       #ifdef X11_APP
             set_constrain_plot_ratio_x11( FALSE );
 			#endif
-          } else if( lkrrcp( "YSIZE$",7, 0., 1., &Ywindowmin[iwin], &Ywindowmax[iwin] ) ){
-
           } else if( lkrrcp( "YSIZE$",7, 0., 1., &tmp[0], &tmp[1] ) ){
             Ywindowmin[iwin] = tmp[0];
             Ywindowmax[iwin] = tmp[1];

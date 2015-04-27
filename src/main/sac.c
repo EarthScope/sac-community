@@ -43,6 +43,8 @@ void sac_initialize(int argc, char **argv);
 void main_command(char *kmsg, int n);
 void execute_command_line(char *kmsg, int len);
 
+void sac_main_loop();
+
 #ifndef WIN32
 void
 segfault_backtrace(int sig) {

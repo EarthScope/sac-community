@@ -16,7 +16,7 @@
 
 
 #include "ucf.h"
-
+#include "debug.h"
 /** 
  * Parse a keyed character string command construct
  * 
@@ -56,7 +56,7 @@ lkcharExact(char *kkey,
 	    char *kchar, 
 	    int   kchar_s, 
 	    int  *nchar) {
-
+  UNUSED(kchar_s);
 	/* - Check for key. */
 	if(!lckeyExact( kkey,kkey_s )) {
     return FALSE;

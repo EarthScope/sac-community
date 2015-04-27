@@ -99,7 +99,7 @@ int prflg[];
 	 "pP      ","pPKiKP  ","sP      ","sPKiKP  ","ScP     ","SKP     ",
 	 "PKKP    ","SKKP    ","PP      ","S       ","ScS     ","sS      ",
 	 "pS      "};
-	static int ncmpt[NCMD][2]={1,2,1,7,1,13,13,16};
+	static int ncmpt[NCMD][2]={{1,2},{1,7},{1,13},{13,16}};
         char *s1;
 
 

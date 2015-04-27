@@ -84,7 +84,7 @@ getvvstring(char *vars,
   default:
     break;
   }
-  *numchars = min(value_s, strlen(s2));
+  *numchars = min(value_s, (int)strlen(s2));
   strncpy(value, s2, *numchars);
   value[*numchars] = 0;
   free(s2);

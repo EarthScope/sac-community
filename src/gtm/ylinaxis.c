@@ -98,6 +98,8 @@ float *widlef, *widrig;
 		if( power < 0. )
 			power = power - 1.;
 		jpower = power;
+    ymin = cmgtm.ywcmin;
+    ymax = cmgtm.ywcmax;
 		}
 	else{
 		if( cmgtm.lnydiv ){

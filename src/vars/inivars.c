@@ -23,7 +23,6 @@
 void 
 inivars()
 {
-	int node, node_;
   int i;
 
 
