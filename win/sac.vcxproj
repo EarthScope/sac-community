@@ -1007,10 +1007,7 @@
     <ClCompile Include="..\src\msg\setmsg.c" />
     <ClCompile Include="..\src\msg\typmsg.c" />
     <ClCompile Include="..\src\msg\wrtmsg.c" />
-    <ClCompile Include="..\src\ncpf\appendstring.c" />
-    <ClCompile Include="..\src\ncpf\changestring.c" />
     <ClCompile Include="..\src\ncpf\closemacro.c" />
-    <ClCompile Include="..\src\ncpf\deletestring.c" />
     <ClCompile Include="..\src\ncpf\executemacro.c" />
     <ClCompile Include="..\src\ncpf\getepoch.c" />
     <ClCompile Include="..\src\ncpf\getmacroinfo.c" />
@@ -1024,7 +1021,6 @@
     <ClCompile Include="..\src\ncpf\macrostatus.c" />
     <ClCompile Include="..\src\ncpf\nstrlensp.c" />
     <ClCompile Include="..\src\ncpf\openmacro.c" />
-    <ClCompile Include="..\src\ncpf\prependstring.c" />
     <ClCompile Include="..\src\ncpf\setmacrolev.c" />
     <ClCompile Include="..\src\ncpf\setmacrostat.c" />
     <ClCompile Include="..\src\nnm\xnnmc.c" />

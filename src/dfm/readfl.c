@@ -5,9 +5,12 @@
  * 
  */
 
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <libgen.h>
 
 #include "config.h"
 
@@ -36,6 +39,180 @@ extern enum filetype {
     xdr, 
     segy 
 } ftype ;
+
+static
+int read_alpha(string_list *files) {
+  int i, nerr, nlen, ndx1, ndx2, retval;
+  char *file;
+  retval = 0;
+  for ( i = 0 ; i < string_list_length(files) ; i++ ) {
+    file = string_list_get(files, i-1);
+    rdci (0 , file , -1 , &nlen, &ndx1, &ndx2, &nerr ) ;
+    if ( nerr ) {
+      strcpy ( kmdfm.kecbdf , "WARNING " ) ;
+      typmsg("WARNING");
+      outmsg();
+      retval = 1;
+    }
+  }
+  return retval;
+}
+
+static
+int read_segy(string_list *files) {
+  sac *s;
+  int i, nerr;
+  int nlen, ndx1, ndx2, retval ;
+  retval = 0;
+  nerr = 0;
+  for ( i = 0 ; i < string_list_length(files) ; i++ ) {
+    if(!(s = sac_new())) {
+      return ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+     }
+    s->m->filename = strdup( string_list_get(files, i) );
+    sacput(s);
+    rdsegy ( saclen() , s->m->filename , &nlen, &ndx1, &ndx2, &nerr ) ;
+    if ( nerr ) {
+      strcpy ( kmdfm.kecbdf , "WARNING " ) ;
+      typmsg("WARNING");
+      outmsg();
+      sacpop();
+      retval = 1;
+    }
+  }
+  return retval;
+}
+
+static
+int read_xdr(string_list *files) {
+  int i, nerr, retval;
+  retval = 0;
+  for(i = 0; i < string_list_length(files); i++) {
+    rdxdrdta( i, string_list_get(files,i), -1, &nerr );
+    if(nerr) {
+      strcpy ( kmdfm.kecbdf , "WARNING " ) ;
+      typmsg("WARNING");
+      outmsg();
+      retval = 1;
+    }
+  }
+  return retval;
+}
+
+static
+int read_sdd(string_list *files, int ldata) {
+  int i, nerr, nun, retval;
+  sac *s;
+  s = NULL;
+  retval = 0;
+  i = 0;
+  while(i < string_list_length(files)) {
+    nerr = 0;
+    zopen_sac( &nun, string_list_get(files, i), -1, "RODATA",7, &nerr );
+    if( nerr ) { goto SDD_ERROR;    }
+
+    if(!(s = sac_new())) {  goto SDD_ERROR; }
+
+    s->m->filename = strdup(string_list_get(files, i));
+    sacput(s);
+
+    rdshdr( saclen(), &nun, &nerr );
+    if(nerr) { goto SDD_ERROR; }
+
+    s->m->data_read = ldata;
+    if( s->h->nevid == -12345 || s->h->norid == -12345 ) {
+      cmdfm.nreadflag = LOW ;
+    }
+
+    if(ldata) {
+	    defmem( saclen(), TRUE, &nerr );
+      if(nerr) { goto SDD_ERROR; }
+
+      sac_alloc(s);
+
+      rdsdta( saclen(), &nun, &nerr );
+      if(nerr) { goto SDD_ERROR; }
+
+	    zclose( &nun, &nerr );
+    }
+  SDD_ERROR:
+    if(nerr) {
+      sacpop();
+      sac_free(s);
+      string_list_delete(files, i);
+      retval = TRUE;
+      strcpy ( kmdfm.kecbdf , "WARNING " ) ;
+      typmsg("WARNING");
+      outmsg();
+    } else {
+      i++;
+    }
+  }
+  return retval;
+}
+
+int
+read_sac(string_list *files, int ldata) {
+  int i, nerr, retval, idx;
+  sac *s;
+  retval = 0;
+  s = NULL;
+  i = 0;
+  while(i < string_list_length(files)) {
+    nerr = 0;
+    if(!(s = sac_new())) {
+      nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+      goto SAC_ERROR;
+    }
+    s->m->filename = strdup(string_list_get(files, i));
+    sacput(s);
+    rdsac(saclen(), s->m->filename, -1, FALSE, ldata, &idx, &idx, &idx, &idx, &nerr);
+    if( nerr )
+      goto SAC_ERROR;
+    
+    s->m->data_read = ldata;
+    if( s->h->nevid == -12345 || s->h->norid == -12345 ) {
+      cmdfm.nreadflag = LOW ;
+    }
+    SAC_ERROR:
+    if(nerr) {
+      sacpop();
+      sac_free(s);
+      string_list_delete(files, i);
+      retval = TRUE;
+      strcpy ( kmdfm.kecbdf , "WARNING " ) ;
+      typmsg("WARNING");
+      outmsg();
+    } else {
+      i++;
+    }
+  }
+  return retval;
+}
+
+
+void
+display_file_list(string_list *files) {
+  char *file, *dir, *base, *pdir;
+  pdir = NULL;
+  int i;
+  for(i = 0; i < string_list_length(files); i++) {
+    file = string_list_get(files, i);
+    dir = dirname(file);
+    if(strcmp(dir, ".") == 0) {         /* No directory */
+      out( file );
+    } else if(pdir && strcmp(dir, pdir) == 0) { /* Same as previous directory */
+      base = basename(file);
+      out("...%s", base);
+    } else {                            /* With directory part */
+      out(file);
+      FREE(pdir);
+      pdir = strdup(dir);
+    }
+  }
+  FREE(pdir);
+}
+
 
 /** 
  * Read a data filelist into memory
@@ -122,385 +299,62 @@ readfl(int   ldata,
        string_list *list,
        int  *nerr) {
 
-    int i;
-	char kcdir[MCPFN+1], kfile[MCPFN+1], kpdir[MCPFN+1];
-	int lexpnd, lrdrem, lheader;
-	int iflag, idx,
-	 jdfl, jdflrq, jstart, ncerr, ndflrq, 
-    ndflsv, nun;
-    char *cattemp;
-    char *strtemp;
-    sac *s;
-    string_list *files;
-
-#ifdef HAVE_LIBRPC
-        XDR xdrs;
-#else 
-        if(ftype == xdr) {
-          *nerr = ERROR_NO_DATA_FILES_READ_IN;
-          return;
-        }
-        #endif /* HAVE_LIBRPC */
+	int lexpnd, lrdrem;
+  string_list *files;
 
 	/* PROCEDURE: */
 	*nerr = 0;
-	for( idx = 0 ; idx < MCPFN ; idx++ ) {
-	    kcdir[ idx ] = ' ' ;
-	    kfile[ idx ] = ' ' ;
-	    kpdir[ idx ] = ' ' ;
-	}
-	kcdir[MCPFN] = '\0' ;
-	kfile[MCPFN] = '\0' ;
-	kpdir[MCPFN] = '\0' ;
-
-
-	/* - Set up indices and flags depending upon lmore flag.
-	 * - Echo out what type of read this is, and to what data-set. */
-	if( lmore ){
-	    ndflsv = saclen();
-	}
-	else{
-	  ndflsv = 0;
-	}
 
 	/* - Convert KDFLIN which may contain wild-cards, predefined file sets,
 	 *   etc. into an expanded file list. */
-    DEBUG("wildfl\n");
 	files = wildfl( kdirin, kdirin_s, list, &lexpnd );
-	fstrncpy( kpdir, MCPFN, " ", 1);
-    ndflrq = string_list_length(files);
-    DEBUG("wildfl: done\n");
+
 	/* - Echo expanded filelist if requested. */
-	if( (cmdfm.lechof && lexpnd) && ndflrq > 0 ){
-	    setmsg( "OUTPUT", 0 );
-        
-	    /* -- Loop until all pathnames in expanded filelist 
-           have been processed. */
-        for(i = 0; i < string_list_length(files); i++) {
-            strtemp = string_list_get(files, i);
-            
-            /* -- Break pathname into directory and filename parts. */
-            getdir( strtemp, strlen(strtemp)+1, kcdir,MCPFN+1, kfile,MCPFN+1 );
-            /* -- Echo the filename part if there is no directory part. */
-            if( memcmp(kcdir," ",1) == 0 ){
-                apcmsg( kfile,MCPFN+1 );
-            }
-            /* -- Prepend the filename part with some special characters if
-             *    directory part is same as that of the previous file. */
-            else if ( memcmp ( kcdir , kpdir , 
-                               min ( strlen ( kcdir ) ,
-                                     strlen ( kpdir ) ) ) == 0 ){
-                cattemp = malloc(3+strlen(kfile)+1);
-                strcpy(cattemp,"...");
-                strcat(cattemp,kfile);
-                apcmsg( cattemp, 3+strlen(kfile)+1 );
-                free(cattemp);
-            }
-            /* -- Echo complete pathname if directory part is different. */
-            else{
-                apcmsg2(strtemp, strlen(strtemp)+1);
-                strcpy( kpdir, kcdir );
-            }
-	    } 
-	    wrtmsg( MUNOUT );
-	} 
-    DEBUG("\n");
-	/* -- Test to see whether to expect a sac header. */
-	if ( ftype == alpha || ftype == segy || lsdd == TRUE )
-	    lheader = FALSE ;
-	else
-	    lheader = TRUE ;
+	if( (cmdfm.lechof && lexpnd) && string_list_length(files) > 0 ){
+    setmsg( "OUTPUT", 0 );
+    display_file_list(files);
+    wrtmsg( MUNOUT );
+	}
 
-    DEBUG("lfilesok\n");
 	/* -- Test to see that at least one file exists. */
-	if( !lfilesok(files, NULL, 0, lmore, lheader, ftype == xdr, nerr ) ){
-        DEBUG("files not ok\n");
-	    /* --- If destroying files in memory, */
-        if( strcmp(kmdfm.kecmem,"DELETE  ") == 0 ) {
-          sacclear();
-        }
-	    *nerr = ERROR_NO_DATA_FILES_READ_IN;
-	    goto L_8888;
+	if( !lfilesok(files, NULL, 0, lmore, FALSE, ftype == xdr, nerr ) ){
+    DEBUG("files not ok\n");
+    /* --- If destroying files in memory, */
+    if( strcmp(kmdfm.kecmem,"DELETE  ") == 0 ) {
+      sacclear();
+    }
+    *nerr = ERROR_NO_DATA_FILES_READ_IN;
+    goto L_8888;
 	}
-    DEBUG("\n");
 
-	if( ! lmore) {
+	if(! lmore) {
     sacclear();
-	  if(*nerr != 0) {
-	    clrmsg();
-	    setmsg("OUTPUT", 0);
-	    apcmsg("Error clearing Data File List ", 30);
-	    wrtmsg( MUNOUT );
-	    clrmsg();
-	  }
 	}
 
-	jstart = 1;
 	lrdrem = FALSE;
-	
 
-L_1800:
-	iflag = 0 ;
-	/* - If it's alpha files, handle that separately. */
 	if ( ftype == alpha ) {
-	    cmdfm.nreadflag = LOW ;
-	    for ( jdflrq = jstart ; jdflrq <= ndflrq ; jdflrq++ ) {
-            int nlen, ndx1, ndx2 ;
-            jdfl = ndflsv + jdflrq ;
-
-            /* -- Get name of requested file and store in data file list. */
-            strtemp = string_list_get(files, jdflrq-1);
-            fstrncpy( kfile, MCPFN, strtemp, strlen(strtemp)+1);
-
-            rdci ( jdfl , kfile , MCPFN , &nlen, &ndx1, &ndx2, nerr ) ;
-
-            if ( *nerr ) {
-                strcpy ( kmdfm.kecbdf , "WARNING " ) ;
-                goto L_4000 ;
-            }
-	    }
-	    *nerr = 0;
-	    goto L_4000 ;
-	}
-
-	/* - If it's segy files, handle that separately. */
-        if ( ftype == segy ) {
-	    cmdfm.nreadflag = LOW ;
-            for ( jdflrq = jstart ; jdflrq <= ndflrq ; jdflrq++ ) {
-                int nlen, ndx1, ndx2 ;
-                jdfl = ndflsv + jdflrq ;
-
-                if(!(s = sac_new())) {
-                  *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
-                  goto L_4000;
-                }
-                
-                /* -- Get name of requested file and store in data file list. */
-                strtemp = string_list_get(files, jdflrq-1);
-                fstrncpy( kfile, MCPFN, strtemp, strlen(strtemp)+1);
-                terminate ( kfile ) ;
-                s->m->filename = strdup(kfile);
-                sacput(s);
-                rdsegy ( jdfl , kfile , &nlen, &ndx1, &ndx2, nerr ) ;
-
-                if ( *nerr ) {
-                    strcpy ( kmdfm.kecbdf , "WARNING " ) ;
-                    goto L_4000 ;
-                }
-            }
-            *nerr = 0;
-            goto L_4000 ;
-        }
-
-	/* - Read headers into memory. */
-
-L_2000:
-	iflag = 1;
-	for( jdflrq = jstart; jdflrq <= ndflrq; jdflrq++ ){
-	    jdfl = ndflsv + jdflrq;
-      if(!(s = sac_new())) {
-        *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
-        goto L_4000;
-      }
-	    /* -- Get name of requested file and store it in data file list. */
-      DEBUG("getfile: %d/%d\n", jdfl, ndflrq);
-      strtemp = string_list_get(files, jdflrq-1);
-	    fstrncpy( kfile, MCPFN, strtemp, strlen(strtemp)+1);
-      s->m->filename = fstrdup(kfile, MCPFN+1);
-      DEBUG("filename: <%s>", s->m->filename);
-      sacput(s);
-
-	    if( *nerr != 0 )
-            goto L_4000;
-
-	    /* -- Open file. */
-        if( ftype == xdr ) {
-#ifdef HAVE_LIBRPC 
-            znfiles(&fileun, kfile, MCPFN+1, "TEXT", 5, nerr);
-            if( *nerr == 0 ){
-                xdrstdio_create(&xdrs, fileun, XDR_DECODE);
-            }
-            else{
-                goto L_4000;
-            }
-#endif /* HAVE_LIBRPC */
-	    }
-	    else{
-            zopen_sac( &nun, kfile,MCPFN+1, "RODATA",7, nerr );
-            if( *nerr != 0 )
-                goto L_4000;
-	    }
-
-        DEBUG("Read header block\n");        
-	    /* -- Read header. */
-	    if( lsdd ){
-            rdshdr( jdfl, &nun, nerr );
-	    }
-	    else if( ftype == xdr ){
-#ifdef HAVE_LIBRPC
-        xdrhdr( xdrs, (float*) s->h, nerr);
-#endif /* HAVE_LIBRPC */
-	    }
-	    else{
-             s->m->swap = rdhdr(s,
-                                &nun, 
-                                s->m->filename,
-                                nerr);
-	    }
-      s->m->data_read = ldata;
-	    if( s->h->nevid == -12345 || s->h->norid == -12345 )
-            cmdfm.nreadflag = LOW ;
-
-	    if( *nerr != 0 )
-            goto L_4000;
-
-        DEBUG("Close File\n");
-	    /* -- Close file. */
-        if( ftype == xdr ){
-#ifdef HAVE_LIBRPC 
-            xdr_destroy( &xdrs );
-            zcloses( &fileun, nerr);
-#endif /* HAVE_LIBRPC */
-	    }
-	    else{
-            DEBUG("zclose\n");
-            zclose( &nun, nerr );
-            DEBUG("zclose: done: %d\n", *nerr);
-	    }
-	    if( *nerr != 0 )
-            goto L_4000;
-	}
-    
-	/* - Skip to bottom if only headers are to be read. */
-    DEBUG("ldata: %d\n", ldata);
-	if( !ldata )
-	    goto L_4000;
-
-	/* - Define memory requirements for each file. */
-
-	jstart = 1;
-
-L_2200:
-	iflag = 2;
-  DEBUG("Define memory requirements :: %d -> %d\n", jstart, ndflrq);
-	for( jdflrq = jstart; jdflrq <= ndflrq; jdflrq++ ){
-	    jdfl = ndflsv + jdflrq;
-      if(!(s = sacget(jdfl-1, FALSE, nerr))) {
-         goto L_4000;
-      }
-	    //getfil( jdfl, FALSE, &ntused, &ntused, &ntused, nerr );
-      
-	    defmem( jdfl, TRUE, nerr );
-	    if( *nerr != 0 )
-            goto L_4000;
-	}
-    
-	/* - Allocate memory for each data file.
-	 *   If there is not enough room, release allocated memory
-	 *   and switch to buffered mode. */
-    
-	jstart = 1;
-    
-L_2400:
-
-  DEBUG("Allocate data block\n");
-	/* iflag = 3; */
-
-	for( jdflrq = jstart; jdflrq <= ndflrq; jdflrq++ ){
-	    jdfl = ndflsv + jdflrq;
-      if(!(s = sacget(jdfl-1, FALSE, nerr))) {
-        goto L_8888;
-      }
-      sac_alloc(s);
-	} /* end for ( jdflrq = jstart; jdflrq <= ndflrq; jdflrq++ ) */
-
-	/* - Now we are finally ready to actually read in the data. */
-
-	jstart = 1;
-L_3000:
-    DEBUG("Read data block\n");
-	iflag = 4;
-	for( jdflrq = jstart; jdflrq <= ndflrq; jdflrq++ ){
-	    jdfl = ndflsv + jdflrq;
-      if(!(s = sacget(jdfl-1, FALSE, nerr))) {
-        goto L_4000;
-      }
-	    //getfil( jdfl, FALSE, &ntused, &ntused, &ntused, nerr );
-
-	    /* -- Open file. */
-        strtemp = string_list_get(files, jdflrq-1);
-
-        fstrncpy( kfile, MCPFN, strtemp, strlen(strtemp)+1);
-	    if ( ftype != xdr ){
-                zopen_sac( &nun, kfile,MCPFN+1, "RODATA",7, nerr );
-		if( *nerr != 0 )
-		    goto L_4000;
-	    }
-	    /* -- Read data. */
-	    if( lsdd ){
-		rdsdta( jdfl, &nun, nerr );
-	    }
-	    else if( ftype == xdr ){
-                #ifdef HAVE_LIBRPC 
-		rdxdrdta( jdfl, kfile, MCPFN+1, nerr );
-                #endif /* HAVE_LIBRPC */
-	    }
-	    else{
-		rddta( s, &nun, s->m->swap, nerr );
-	    }
-	    if( *nerr != 0 )
-		goto L_4000;
-	    /* -- Close file. */
-	    if( ftype != xdr )zclose( &nun, nerr );
-	}
-
-	/* - If an error occurred anywhere in read, either quit
-	 *   or delete this file from DFL.  See READERR command. */
-
-L_4000:
-  DEBUG("nerr: %d\n", *nerr);
-	if( *nerr != 0 ){
-	    zclose( &nun, &ncerr );
-      sacpop();
-	    if( strcmp(kmdfm.kecbdf,"FATAL   ") == 0 ){
-            goto L_8888;
-	    }
-	    else{
-            strtemp = string_list_get(files, jdflrq-1);
-            fstrncpy( kfile, MCPFN, strtemp, strlen(strtemp));
-
-            if( strcmp(kmdfm.kecbdf,"WARNING ") == 0 ){
-                typmsg( "WARNING" );
-                outmsg();
-            }
-            *nerr = 0;
-            lrdrem = FALSE;
-            /* -- Delete name from file lists and reset do loop variables */
-            string_list_delete(files, jdflrq-1);
-            ndflrq = ndflrq - 1;
-            if(string_list_length(files) > 0) {
-              lrdrem = TRUE;
-            }
-            
-		/* -- Jump to appropriate loop in the reading process. */
-		switch( iflag ){
-		    case 0: goto L_1800;
-		    case 1: goto L_2000;
-		    case 2: goto L_2200;
-		    case 3: goto L_2400;
-		    case 4: goto L_3000;
-		} /* end switch */
-	    } /* end else associated with if ( strcmp ( kmdfm.kecbdf ... ) */
-	} /* end if ( *nerr != 0 ) */
+    cmdfm.nreadflag = LOW ;
+    lrdrem = read_alpha(files);
+	} else if ( ftype == segy ) {
+    cmdfm.nreadflag = LOW ;
+    lrdrem = read_segy(files);
+  } else if (ftype == xdr) {
+    lrdrem = read_xdr(files);
+  } else if (lsdd) {
+    lrdrem = read_sdd(files, ldata);
+  } else {
+    lrdrem = read_sac(files, ldata);
+  }
 
 	/* - Check again for a non-null DFL. */
 	if( saclen() <= 0 ){
-  	    *nerr = ERROR_NO_DATA_FILES_READ_IN;
-	    setmsg( "ERROR", *nerr );
+    *nerr = ERROR_NO_DATA_FILES_READ_IN;
+    setmsg( "ERROR", *nerr );
 	}
 
 	/* - Write a warning message if some of the files could not be read. */
-	else if( lrdrem && strcmp(kmdfm.kecbdf,"WARNING ") == 0 ){
+	else if( lrdrem ) {
 	    setmsg( "WARNING", ERROR_UNABLE_TO_READ_SOME_FILES );
 	    apcmsg( " reading the rest of the files.", 32 ) ;
 	    outmsg();

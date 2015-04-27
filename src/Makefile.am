@@ -493,13 +493,13 @@ libsac_all_a_SOURCES = amf/iniam.c amf/array.c \
 	msg/inquiremsg.c msg/outmsg.c msg/pltmsg.c msg/sacmsg.c \
 	msg/sendmesg.c msg/setmsg.c msg/typmsg.c msg/wrtmsg.c \
 	\
-	ncpf/appendstring.c ncpf/changestring.c ncpf/closemacro.c \
-	ncpf/deletestring.c ncpf/executemacro.c \
+	ncpf/closemacro.c \
+	ncpf/executemacro.c \
 	ncpf/getepoch.c ncpf/getmacroinfo.c \
 	ncpf/gettime.c  ncpf/indexs.c ncpf/inicpf.c \
 	ncpf/macrokeyword.c ncpf/macroline.c ncpf/macroordered.c \
 	ncpf/macropreambl.c ncpf/macrostatus.c ncpf/nstrlensp.c \
-	ncpf/openmacro.c ncpf/prependstring.c \
+	ncpf/openmacro.c \
 	ncpf/setmacrolev.c \
 	ncpf/setmacrostat.c \
 	\

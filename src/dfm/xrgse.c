@@ -16,6 +16,8 @@
 #include "cpf.h"
 #include "clf.h"
 
+int magnitude_option();
+
 /** 
  * Execute the command READGSE which reads in a GSE File
  * 
@@ -37,7 +39,7 @@ xrgse(int *nerr) {
   static string_list *last_list = NULL;
   char file[MCMSG+1];
   
-	char kmag[4] ;	/* magnitude type: mb, ms, or ml. maf 970206 */
+  int ret;
   string_list *list;
   double tmp;
 
@@ -105,29 +107,11 @@ xrgse(int *nerr) {
 		 *                               algorithm to determine which 
 		 *                               magnitude to read.
 		 */
-		else if ( lkchar ( "MAG#NITUDE$", 12 , 4 , kmag , 4 , &nchar ) ) {
-			if ( kmag [ 0 ] == 'm' || kmag[ 0 ] == 'M' ) {
-			    if ( kmag [ 1 ] == 'b' || kmag [ 1 ] == 'B' ) 
-                    cmdfm.nMagSpec = MbMag ;
-			    else if ( kmag [ 1 ] == 's' || kmag [ 1 ] == 'S' )
-                    cmdfm.nMagSpec = MsMag ;
-			    else if ( kmag [ 1 ] == 'l' || kmag [ 1 ] == 'L' )
-                    cmdfm.nMagSpec = MlMag ;
-			    else {
-                    cfmt( "ILLEGAL PARAM VALUE:",22 );
-                    cresp();
-                    return ;
-                }
-			} /* end if ( kmag [ 0 ] == 'm' ... ) */
-			else if ( strncmp ( kmag , "def" , 3 ) == 0 || 
-                      strncmp ( kmag , "DEF" , 3 ) == 0 )
-			    cmdfm.nMagSpec = Any ;
-			else {
-                cfmt( "ILLEGAL PARAM VALUE:",22 );
-                cresp();
-                return ;
-            }
-		} /* end if ( lkchar ( "MAG#NITUDE$", ... ) */
+    else if((ret = magnitude_option())) {
+      if(ret < 0) {
+        return;
+      }
+    }
 
         /* -- "COMMIT|RECALLTRACE|ROLLBACK":
            how to treat existing data */

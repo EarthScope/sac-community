@@ -275,6 +275,9 @@ rdci(int   idfl,
 	zcloses( &nun, nerr );
 
 L_8888:
+  if(*nerr) {
+    sac_free(s);
+  }
 	return;
 }
 

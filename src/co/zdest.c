@@ -44,9 +44,13 @@ zdest(char *kname,
 
 	/* - If file exists: */
 	if( lexist ){
-            nc = indexb(kname,kname_s);
-            kname[nc] = '\0';
-            *nerr = unlink(kname);
+    if(kname_s > 0) {
+      nc = indexb(kname,kname_s);
+      if(nc > 0) {
+        kname[nc] = '\0';
+      }
+    }
+    *nerr = unlink(kname);
 	}
 	else{
 	    *nerr = ERROR_FILE_DOES_NOT_EXIST;

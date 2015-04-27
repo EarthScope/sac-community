@@ -50,10 +50,10 @@ rdxdrdta(int   idfl,
   sac *s;
 	*nerr = 0;
 
-  if(!(s = sacget(idfl-1, TRUE, nerr))) {
+  if(!(s = sacnew())) {
     goto L_8888;
   }
-  
+  s->m->filename = strdup(kname);
 	/* Open the input file */
 	znfiles(&nun, kname, kname_s, "TEXT", 5, nerr);
 	if( *nerr != 0 ) return;
@@ -68,24 +68,22 @@ rdxdrdta(int   idfl,
 	if( *nerr != 0 ) goto L_8888;
 
 	/* - Define number of points to read. */
-	lendata = Nlndta[idfl]; 
+	lendata = s->h->npts;
  
+  sac_alloc(s);
+
 	/* - For each data component: */
 	for( jcomp = 0; jcomp < Ncomp[idfl]; jcomp++ ){
 
-	    /* -- Define initial memory location. */
-	    nlcmem = cmdfm.ndxdta[idfl - 1][jcomp];
-
-	    if( !xdr_array(&xdrs, (caddr_t *) s->y,
-		(u_int *)&lendata, (u_int)lendata, sizeof(float), xdr_float)){
-                  *nerr = 123;
-                  goto L_8888;
+	    if( !xdr_array(&xdrs, (caddr_t *) (jcomp == 0) ? s->y : s->x,
+                     (u_int *)&lendata, (u_int)lendata, sizeof(float), xdr_float)){
+        *nerr = 123;
+        goto L_8888;
 	    }
 	}
 
 	/* - Compute some header values. */
 
-	s->h->npts = Nlndta[idfl];
   sac_extrema(s);
 	if( s->h->leven ){
 	    s->h->e = s->h->b + (float)( s->h->npts - 1 )*s->h->delta;
@@ -94,7 +92,12 @@ rdxdrdta(int   idfl,
 	    extrma( s->y, 1, s->h->npts, &s->h->b, &s->h->e, &unused );
 	}
 
+  sacput(s);
+
 L_8888:
+  if(*nerr) {
+    sac_free(s);
+  }
 	xdr_destroy( &xdrs );
 	zcloses( &nun, &ncerr );
 

@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <sys/stat.h>
 
 #include "config.h"
 
@@ -81,121 +82,36 @@ lfilesok(string_list *files,
     int i;
 	char *file, *kopen;
 	int lfilesok_v ;
-	int nun;
-  sac *s;
-#ifdef HAVE_LIBRPC
-    XDR xdrs;
-#else
-    if(lxdr) {
-        return FALSE;
-    }
-#endif /* HAVE_LIBRPC */
+
     UNUSED(kdir_s);
+    UNUSED(lxdr);
+    UNUSED(lheader);
     kopen = NULL;
     file  = NULL;
 
+    struct stat st;
+
 	*nerr = 0;
 
-	/* - Assume the worst. */
 	lfilesok_v = FALSE;
 
-	/* -- Save contents of ndxhdr(1) */
-	//nsdxhdr = Ndxhdr[1];
-
-	/* -- Allocate block for header. Set ndxhdr for this file. */
-  s = sac_new();
 
 	/* - For each file in the list. */
     for(i = 0; i < string_list_length(files); i++) {
-	    /* -- Try to open and [optionally] read the header of each file in 
-	     *    the list. If successfull then it's ok to continue read 
-	     *    process. */
-
 	    /* -- Get a file name. */
         file = string_list_get(files, i);
-	    /* -- Try to open the file. */
-        
+
         if(kdir) {
             asprintf(&kopen, "%s/%s", kdir, file);
         } else {
             kopen = strdup(file);
         }
-        DEBUG("file: %s\n", kopen);
-        if( lxdr ) {
-#ifdef HAVE_LIBRPC 
-            znfiles(&fileun, kopen, MCPFN+1, "TEXT", 5, nerr);
-            if( *nerr == 0 ){
-                xdrstdio_create(&xdrs, fileun, XDR_DECODE);
-            }
-            else{
-                continue ;
-            }
-#endif /* HAVE_LIBRPC */
-	    }
-	    else{
-            zopen_sac( &nun, kopen, strlen(kopen), "RODATA",7, nerr );
-            if( *nerr != 0 ){
-                continue ;
-            }
-	    }
-	    /* --- Try to read the header. */
-	    if( lheader ){
-            if( lxdr ){
-#ifdef HAVE_LIBRPC
-                xdrhdr( xdrs, s->h, nerr );
-#endif /* HAVE_LIBRPC */
-            }
-            else{
-                rdhdr( s, &nun, file, nerr );
-            }
-	    }
-	    else{
-            lfilesok_v = TRUE;
-            if( lxdr ) {
-#ifdef HAVE_LIBRPC 
-                xdr_destroy( &xdrs );
-                zcloses( &fileun, nerr);
-#endif /* HAVE_LIBPRC */                    
-            }
-            else{
-                zclose( &nun, nerr );
-            }
-            break;
-	    }
-        
-	    /* -- Test for successfull header read with this file. */
-	    if( *nerr != 0 ){
-            if( lxdr ) {
-#ifdef HAVE_LIBRPC 
-                xdr_destroy( &xdrs );
-                zcloses( &fileun, nerr);
-#endif /* HAVE_LIBPRC */
-            }
-            else{
-                zclose( &nun, nerr );
-            }
-            continue ;
-	    }
-	    else{
-            lfilesok_v = TRUE;
-            if( lxdr ) {
-#ifdef HAVE_LIBRPC 
-                xdr_destroy( &xdrs );
-                zcloses( &fileun, nerr);
-#endif /* HAVE_LIBPRC */
-            }
-            else{
-                zclose( &nun, nerr );
-            }
-            break;
-	    }
-	} /* end for */
-    
-    
-	/* - Restore ndxhdr */
-	//Ndxhdr[1] = nsdxhdr;
+        if(stat(kopen, &st) == 0) {
+          lfilesok_v = TRUE;
+        }
+        FREE(kopen);
+    }
 
-	/* - A file was found to be a valid sac file, or we ran out of files */
 	if( lfilesok_v ){
 	    if( !lmore ){
 	      /* -- When not using READ MORE: 
@@ -205,13 +121,6 @@ lfilesok(string_list *files,
 	      sacclear();
 	    }
 	}
-
-
-  sac_free(s);
-  
-    if(kopen) { 
-        free(kopen);
-    }
 
 	return( lfilesok_v );
 } 

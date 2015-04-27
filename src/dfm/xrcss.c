@@ -17,6 +17,38 @@
 #include "ssi.h"
 #include "cpf.h"
 
+int
+magnitude_option() {
+  int nchar;
+  char kmag[4];
+  /* -- "MAGNITUDE|mb|ms|ml|def":  specify a field for magnitude, or
+     if def is found, use the algorithm to determine which
+     magnitude to read.  maf 970206. */
+  if ( lkchar ( "MAG#NITUDE$", 12 , 4 , kmag , 4 , &nchar ) ) {
+    if ( kmag [ 0 ] == 'm' || kmag[ 0 ] == 'M' ) {
+      if ( kmag [ 1 ] == 'b' || kmag [ 1 ] == 'B' ) 
+        cmdfm.nMagSpec = MbMag ;
+      else if ( kmag [ 1 ] == 's' || kmag [ 1 ] == 'S' )
+        cmdfm.nMagSpec = MsMag ;
+      else if ( kmag [ 1 ] == 'l' || kmag [ 1 ] == 'L' )
+        cmdfm.nMagSpec = MlMag ;
+      else {
+        cfmt( "ILLEGAL PARAM VALUE:",22 );
+        cresp();
+        return -1;
+      }
+    } else if (strncasecmp ( kmag , "def" , 3 ) == 0) {
+      cmdfm.nMagSpec = Any ;
+    } else {
+      cfmt( "ILLEGAL PARAM VALUE:",22 );
+      cresp();
+      return -1;
+    }
+    return 1;
+  }
+  return 0;
+}
+
 /** 
  * Execute the command READCSS to read a CSS file 
  * 
@@ -40,6 +72,7 @@ xrcss(int *nerr) {
     char file[MCMSG+1];
 	int lmore, lshift, lscale, larray ;
 	int nchar;
+  int ret;
     static int Verbose = 0;
     static int ibinORasc;
     static string_list *last_list = NULL;
@@ -47,7 +80,6 @@ xrcss(int *nerr) {
 
     memory_max = 0.30;
 
-	char kmag[4] ;	/* magnitude type: mb, ms, or ml. maf 970206 */
     string_list *list;
 
     if(!last_list) {
@@ -114,33 +146,11 @@ xrcss(int *nerr) {
       continue;
     }
     
-    /* -- "MAGNITUDE|mb|ms|ml|def":  specify a field for magnitude, or
-       if def is found, use the algorithm to determine which
-       magnitude to read.  maf 970206. */
-    else if ( lkchar ( "MAG#NITUDE$", 12 , 4 , kmag , 4 , &nchar ) ) {
-      if ( kmag [ 0 ] == 'm' || kmag[ 0 ] == 'M' ) {
-		    if ( kmag [ 1 ] == 'b' || kmag [ 1 ] == 'B' ) 
-          cmdfm.nMagSpec = MbMag ;
-		    else if ( kmag [ 1 ] == 's' || kmag [ 1 ] == 'S' )
-          cmdfm.nMagSpec = MsMag ;
-		    else if ( kmag [ 1 ] == 'l' || kmag [ 1 ] == 'L' )
-          cmdfm.nMagSpec = MlMag ;
-		    else {
-          cfmt( "ILLEGAL PARAM VALUE:",22 );
-          cresp();
-          return ;
-		    }
-      } /* end if ( kmag [ 0 ] == 'm' ... ) */
-      else if ( strncmp ( kmag , "def" , 3 ) == 0 || 
-                strncmp ( kmag , "DEF" , 3 ) == 0 )
-		    cmdfm.nMagSpec = Any ;
-      else {
-		    cfmt( "ILLEGAL PARAM VALUE:",22 );
-		    cresp();
-		    return ;
+    else if((ret = magnitude_option())) {
+      if(ret < 0) {
+        return;
       }
-    } /* end if ( lkchar ( "MAG#NITUDE$", ... ) */
-
+    }
 
 	    /* -- "STATION": whether wfdisc record fld 'sta' matches given */
 	    /*		string.   maf 961216 */

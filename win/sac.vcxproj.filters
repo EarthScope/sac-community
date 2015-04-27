@@ -2807,16 +2807,7 @@
     <ClCompile Include="..\src\msg\wrtmsg.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ncpf\appendstring.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\ncpf\changestring.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\ncpf\closemacro.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\ncpf\deletestring.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ncpf\executemacro.c">
@@ -2856,9 +2847,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ncpf\openmacro.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\ncpf\prependstring.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ncpf\setmacrolev.c">

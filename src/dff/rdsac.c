@@ -78,8 +78,9 @@ rdsac(int    idfl,
 
 	/* - Open file. */
 	zopen_sac( &nun, kname,kname_s, "RODATA",7, nerr );
-	if( *nerr != 0 )
-	    goto L_8888;
+  if(*nerr) {
+    return;
+  }
 
 	/* - Save some parameters about this data file. */
 	if ( lname ) {
@@ -92,6 +93,7 @@ rdsac(int    idfl,
 	lswap = rdhdr( s, &nun, s->m->filename, nerr );
 	if( *nerr != 0 )
 	    goto L_8888;
+  s->m->swap = lswap;
 
 	/* - Read data if requested. */
 	if( ldta ){
@@ -133,6 +135,7 @@ sacread(char *file) {
   s = sac_new();
   s->m->filename = strdup(file);
   lswap = rdhdr(s, &nun, file, &nerr);
+  s->m->swap = lswap;
   if(nerr != 0) {
     printf("sacread error: %d header\n", nerr);
     goto ERROR;
