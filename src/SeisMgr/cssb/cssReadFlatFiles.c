@@ -450,7 +450,8 @@ static int AddToWfdisc(char* buffer, DBlist tree, char** Station, int Nstation,
      css_error("Cannot create wfdiscList Instance\n");
      return 0;
    }
-   dblCopyTableElement(dbl_LIST_WFDISC,&w,wf);
+   //dblCopyTableElement(dbl_LIST_WFDISC,&w,wf);
+   *(wf->element) = w;
    if(!dblGetSeismograms( wf , 0 , 0 ) ){
      css_error("Problem reading seismogram. Freeing wfdisc struct...\n");
      dblDeleteTableInstance(dbl_LIST_WFDISC, tree, wf);

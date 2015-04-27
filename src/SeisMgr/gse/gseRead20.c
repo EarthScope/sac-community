@@ -252,7 +252,8 @@ static float *GetSamples(FILE *ptr, int Nsamp, char *datatype, struct wfdisc *w,
        return 0;
      }
 
-     dblCopyTableElement(dbl_LIST_SITE, &s, si);
+     //dblCopyTableElement(dbl_LIST_SITE, &s, si);
+     *(si->element) = s;
 
      /* Add logic to assign lat and lon from the sta2 line */
      if(!GetCompleteLine(line, MAX_LINE, ptr) ){
@@ -352,7 +353,8 @@ static void GetStationData(FILE *ptr, DBlist tree)
       si = (struct siteList *) dblCreateTableInstance(tree, dbl_LIST_SITE);
       if(!si)return;
 
-      dblCopyTableElement(dbl_LIST_SITE,&s,si);
+      //dblCopyTableElement(dbl_LIST_SITE,&s,si);
+      *(si->element) = s;
 
    }
 
@@ -411,7 +413,8 @@ static int GetWaveformData(char *line, FILE *ptr, DBlist tree, int MaxWaveforms)
    wf = (struct wfdiscList *) dblCreateTableInstance(tree, dbl_LIST_WFDISC);
    if(!wf)return 0;
 
-   dblCopyTableElement(dbl_LIST_WFDISC,&w,wf);
+   //dblCopyTableElement(dbl_LIST_WFDISC,&w,wf);
+   *(wf->element) = w;
    wf->seis->i = Data;
 
    WaveformsInMemory++;
@@ -474,7 +477,8 @@ static void GetChannelData(FILE *ptr, DBlist tree)
       sc = (struct sitechanList *) dblCreateTableInstance(tree, dbl_LIST_SITECHAN);
       if(!sc)return;
 
-      dblCopyTableElement(dbl_LIST_SITECHAN,&s,sc);
+      //dblCopyTableElement(dbl_LIST_SITECHAN,&s,sc);
+      *(sc->element) = s;
 
    }
 }
@@ -537,7 +541,8 @@ static void GetArrivalData(FILE *ptr, DBlist tree)
       ar = (struct arrivalList *) dblCreateTableInstance(tree, dbl_LIST_ARRIVAL);
       if(!ar)return;
 
-      dblCopyTableElement(dbl_LIST_ARRIVAL, &a, ar);
+      //dblCopyTableElement(dbl_LIST_ARRIVAL, &a, ar);
+      *(ar->element) = a;
    }
 
 }

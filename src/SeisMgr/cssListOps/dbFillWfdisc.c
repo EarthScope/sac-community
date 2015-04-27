@@ -261,6 +261,22 @@ int dblGetSeismograms( struct wfdiscList *wfStruc , char *kpath1 , char * kpath2
 
 
 
+static int Device = 0;   /* Output device for status messages (0 is stdout) */
+
+
+void dbPrintToDevice(char *string)
+{
+  switch(Device){
+  case 0:
+    printf("%s",string);
+    return;
+  default:
+    fprintf(stderr,"Unrecognised output device!\n");
+    exit(-1);
+  }
+}
+
+
 
 
 

@@ -1027,7 +1027,8 @@ static void MakeNameUpdateStructCopies(DBlist tree, struct wfdiscList *w, char *
   si = findSite(tree, w->element->sta, w->element->jdate);
   if(si){
      si2 = (struct siteList *) dblCreateTableInstance(tree, dbl_LIST_SITE);
-     dblCopyTable(dbl_LIST_SITE, si, si2);
+     *(si2->element) = *(si->element);
+     //dblCopyTable(dbl_LIST_SITE, si, si2);
      CSSstrcpy(si2->element->sta, NewSta);
   }
      
@@ -1040,7 +1041,8 @@ static void MakeNameUpdateStructCopies(DBlist tree, struct wfdiscList *w, char *
       if(sc->element->ondate <= w->element->jdate)
 	 if(sc->element->offdate >= w->element->jdate || sc->element->offdate < 0){
 	    sc2 = (struct sitechanList *) dblCreateTableInstance(tree, dbl_LIST_SITECHAN);
-	    dblCopyTable(dbl_LIST_SITECHAN, sc, sc2);
+      *(sc2->element) = *(sc->element);
+	    //dblCopyTable(dbl_LIST_SITECHAN, sc, sc2);
             CSSstrcpy(sc2->element->sta, NewSta);
 	 }
    }while(sc);
@@ -1048,7 +1050,8 @@ static void MakeNameUpdateStructCopies(DBlist tree, struct wfdiscList *w, char *
    af = findAffiliation(tree, w->element->sta, net);
    if(af){
       af2 = (struct affiliationList *) dblCreateTableInstance(tree, dbl_LIST_AFFILIATION);
-      dblCopyTable(dbl_LIST_AFFILIATION, af, af2);
+      *(af2->element) = *(af->element);
+      //dblCopyTable(dbl_LIST_AFFILIATION, af, af2);
       CSSstrcpy(af2->element->sta, NewSta);
    }
 
@@ -1066,12 +1069,14 @@ static void MakeNameUpdateStructCopies(DBlist tree, struct wfdiscList *w, char *
       if(se->element->time <= w->element->jdate)
 	 if(se->element->endtime >= w->element->jdate || se->element->endtime < 0){
 	    se2 = (struct sensorList *) dblCreateTableInstance(tree, dbl_LIST_SENSOR);
-	    dblCopyTable(dbl_LIST_SENSOR, se, se2);
+      *(se2->element) = *(se->element);
+	    //dblCopyTable(dbl_LIST_SENSOR, se, se2);
             CSSstrcpy(se2->element->sta, NewSta);
 	    in = FindLinkedSensor(tree, se2->element->inid);
 	    if(in){
 	       in2 = (struct instrumentList *) dblCreateTableInstance(tree, dbl_LIST_INSTRUMENT);
-	       dblCopyTable(dbl_LIST_INSTRUMENT, in, in2);
+         *(in2->element) = *(in->element);
+	       //dblCopyTable(dbl_LIST_INSTRUMENT, in, in2);
 	       in2->element->inid = dblNextAvailableInid(tree);
 	       se2->element->inid = in2->element->inid;
 	    }
@@ -1168,7 +1173,8 @@ static void MakeChanUpdateStructCopies(DBlist tree, struct wfdiscList *w, char *
       if(sc->element->ondate <= w->element->jdate)
 	 if(sc->element->offdate >= w->element->jdate || sc->element->offdate < 0){
 	    sc2 = (struct sitechanList *) dblCreateTableInstance(tree, dbl_LIST_SITECHAN);
-	    dblCopyTable(dbl_LIST_SITECHAN, sc, sc2);
+      *(sc2->element) = *(sc->element);
+	    //dblCopyTable(dbl_LIST_SITECHAN, sc, sc2);
             CSSstrcpy(sc2->element->chan, NewChan);
 	 }
    }while(sc);
@@ -1189,12 +1195,14 @@ static void MakeChanUpdateStructCopies(DBlist tree, struct wfdiscList *w, char *
       if(se->element->time <= w->element->jdate)
 	 if(se->element->endtime >= w->element->jdate || se->element->endtime < 0){
 	    se2 = (struct sensorList *) dblCreateTableInstance(tree, dbl_LIST_SENSOR);
-	    dblCopyTable(dbl_LIST_SENSOR, se, se2);
+      *(se2->element) = *(se->element);
+	    //dblCopyTable(dbl_LIST_SENSOR, se, se2);
             CSSstrcpy(se2->element->chan, NewChan);
 	    in = FindLinkedSensor(tree, se2->element->inid);
 	    if(in){
 	       in2 = (struct instrumentList *) dblCreateTableInstance(tree, dbl_LIST_INSTRUMENT);
-	       dblCopyTable(dbl_LIST_INSTRUMENT, in, in2);
+         *(in2->element) = *(in->element);
+	       //dblCopyTable(dbl_LIST_INSTRUMENT, in, in2);
 	       in2->element->inid = dblNextAvailableInid(tree);
 	       se2->element->inid = in2->element->inid;
 	    }
@@ -1981,7 +1989,8 @@ static void CreateUpdateOrigin(DBlist tree, struct originList *OldOr,
       !dblDefined(otime)) return;
  
    orig = (struct originList *) dblCreateTableInstance(tree,dbl_LIST_ORIGIN);
-   dblCopyTable(dbl_LIST_ORIGIN, OldOr, orig);
+   *(orig->element) = *(OldOr->element);
+   //dblCopyTable(dbl_LIST_ORIGIN, OldOr, orig);
    if(fltDefined(header->evla)) orig->element->lat = header->evla;
    if(fltDefined(header->evlo)) orig->element->lon = header->evlo;
    if(fltDefined(header->evdp)) orig->element->depth = header->evdp / 1000.0 ;
@@ -1996,7 +2005,8 @@ static void CreateUpdateOrigin(DBlist tree, struct originList *OldOr,
 
    ev2 = (struct eventList *) dblCreateTableInstance(tree, dbl_LIST_EVENT);
    if( ev ){
-      dblCopyTable(dbl_LIST_EVENT, ev, ev2);
+     *(ev2->element) = *(ev->element);
+     //dblCopyTable(dbl_LIST_EVENT, ev, ev2);
    }
    else {
       strcpy( ev2->element->auth ,  orig->element->auth ) ;

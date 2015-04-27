@@ -189,7 +189,8 @@ static int AddToWfdisc(char* buffer, DBlist tree, char** Station, int Nstation,
    
    wf = (struct wfdiscList *) dblCreateTableInstance(tree, dbl_LIST_WFDISC);
    if(!wf)return 0;
-   dblCopyTableElement(dbl_LIST_WFDISC,&w,wf);
+   //dblCopyTableElement(dbl_LIST_WFDISC,&w,wf);
+   *(wf->element) = w;
    if(!dblGetSeismograms( wf , 0 , 0 ) ){
       printf("Problem reading seismogram. Freeing wfdisc struct...\n");
       dblDeleteTableInstance(dbl_LIST_WFDISC, tree, wf);
