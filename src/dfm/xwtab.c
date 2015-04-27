@@ -28,6 +28,7 @@
 #include "co.h"
 #include "dff.h"
 #include "ncpf.h"
+#include "debug.h"
 
 #define MALPHA  100
 #define MAXCH   40
@@ -46,18 +47,16 @@
 void 
 xwtab(int *nerr) {
 
-    int i;
-    char *tmp;
-        char slash[2], kchange[ MCPFN+1 ], 
-	     kfile[ MCPFN+1 ], kcdir[ MCPFN+1 ], 
-	     kstring[ MCPFN+1 ], kdirpart[ MCPFN+1 ],
-	     *cattemp, *strtemp1, *strtemp2, *strtemp3, junk[ 7 ] ;
-	int nstr, nchg, nwrdir, nderr ;
+        char  kchange[ MCPFN+1 ], 
+          kfile[ MCPFN+1 ],
+          kstring[ MCPFN+1 ];
+
+	int nderr ;
         int lexpnd, liftype, lheader, lwrdir ;
-        int idx, ic1, ic2, jdfl, nchar, nstring;
+        int idx, jdfl, nchar, nstring;
         FILE *nun;
 
-        char *file;
+        char *file, *pfile, *dir;
         string_list *list;
         sac *s;
         nun = 0;
@@ -66,6 +65,7 @@ xwtab(int *nerr) {
 
         *nerr = 0;
         lexpnd = TRUE;
+        dir = NULL;
         /* PARSING PHASE: */
         /* - Loop on each token in command: */
 
@@ -75,16 +75,7 @@ xwtab(int *nerr) {
 
             /* -- "DIR CURRENT|name":  set name of the default subdirectory. */
             if( lkchar( "DIR#$",6, MCPFN, kmdfm.kwrdir,MCPFN+1, &nchar ) ){
-                lwrdir = TRUE;
-                if(memcmp(kmdfm.kwrdir,"CURRENT",7) == 0 || 
-                   memcmp(kmdfm.kwrdir,"current",7) == 0 ){
-                    fstrncpy( kmdfm.kwrdir, MCPFN, " ", 1);
-                }
-                else if( kmdfm.kwrdir[nchar - 1] != KDIRDL ){
-                    slash[0] = KDIRDL;
-                    slash[1] = '\0';
-                    subscpy( kmdfm.kwrdir, nchar, -1, MCPFN, slash );
-                }
+              lwrdir = set_output_path(kmdfm.kwrdir);
             }
 
             /* -- "IFTYPE": provide the data type, default is off. */
@@ -120,104 +111,34 @@ xwtab(int *nerr) {
             /* -- "APPEND string": append string to filenames */
             else if( lkcharExact( "APPEND#$",9, MCPFN, kstring,MCPFN+1,
                      &nstring ) ){
-                ic1 = 0;
-                ic2 = 0;
-                for(i = 0; i < saclen(); i++) {
-                  if(!(s = sacget(i, TRUE, nerr))) {
-                    goto L_8888;
-                  }
-                  tmp = s->m->filename;
-                    appendstring(kstring, MCPFN+1, tmp, strlen(tmp)+1, kfile, MCPFN+1);
-                    string_list_put(list, kfile, MCPFN+1);
-                    if( *nerr != 0 )
-                        goto L_8888;
-                }
-                cmdfm.lovrrq = FALSE;
-                lexpnd = TRUE;
+              if((*nerr = files_append(list, kstring))) { goto L_8888; }
+              cmdfm.lovrrq = FALSE;
+              lexpnd = TRUE;
             }
 
             /* -- "PREPEND string": prepend string to filenames */
             else if( lkcharExact( "PREPEND#$",10, MCPFN, kstring,
                      MCPFN+1, &nstring ) ){
-                ic1 = 0;
-                ic2 = 0;
-                for(i = 0; i < saclen(); i++) {
-                  if(!(s = sacget(i, TRUE, nerr))) {
-                    goto L_8888;
-                  }
-                  tmp = s->m->filename;
-                    strtemp1 = malloc(nstring+1);
-                    strncpy(strtemp1,kstring,nstring);
-                    strtemp1[nstring] = '\0';
-                    prependstring( strtemp1, nstring+1, tmp,
-                                   ic2-ic1+2, kfile,MCPFN+1 );
-
-                    free(strtemp1);
-
-                    string_list_put(list, kfile, MCPFN+1);
-                    if( *nerr != 0 )
-                        goto L_8888;
-                }
-                cmdfm.lovrrq = FALSE;
-                lexpnd = TRUE;
+              if((*nerr = files_prepend(list, kstring))) { goto L_8888; }
+              cmdfm.lovrrq = FALSE;
+              lexpnd = TRUE;
             }
 
             /* -- "DELETE string": delete string from filenames */
             else if( lkcharExact( "DELETE#$",9, MCPFN, kstring,MCPFN+1,
                      &nstring ) ){
-                ic1 = 0;
-                ic2 = 0;
-                for(i = 0; i < saclen(); i++) {
-                  if(!(s = sacget(i, TRUE, nerr))) {
-                    goto L_8888;
-                  }
-                  strtemp1 = malloc(nstring+1);
-                    strncpy(strtemp1,kstring,nstring);
-                    strtemp1[nstring] = '\0';
-                    strtemp2 = s->m->filename;
-                    deletestring( strtemp1, nstring+1, strtemp2,
-                                  ic2-ic1+2, kfile,MCPFN+1 );
-
-                    free(strtemp1);
-                    string_list_put(list, kfile, MCPFN+1);
-                    if( *nerr != 0 )
-                        goto L_8888;
-                }
-                cmdfm.lovrrq = FALSE;
-                lexpnd = TRUE;
+              if((*nerr = files_delete(list, kstring))) { goto L_8888; }
+              cmdfm.lovrrq = FALSE;
+              lexpnd = TRUE;
             }
 
             /* -- "CHANGE string1 string2": change string1 to string2 in filenames */
             else if( lkcharExact( "CHANGE#$",9, MCPFN, kstring,MCPFN+1,
                      &nstring ) ){
               lcchar( kchange, sizeof(kchange));
-                ic1 = 0;
-                ic2 = 0;
-                for(i = 0; i < saclen(); i++) {
-                  if(!(s = sacget(i, TRUE, nerr))) {
-                    goto L_8888;
-                  }
-                  nstr = indexb( kstring,MCPFN+1 );
-                    nchg = indexb( kchange,MCPFN+1 );
-
-                    strtemp1 = malloc(nstr+1);
-                    strtemp2 = malloc(nchg+1);
-                    strncpy(strtemp1,kstring,nstr);
-                    strncpy(strtemp2,kchange,nchg);
-                    strtemp1[nstr] = '\0';
-                    strtemp2[nchg] = '\0';
-                    strtemp3 = s->m->filename;
-                    changestring( strtemp1, nstr+1, strtemp2, nchg+1,
-                                  strtemp3, ic2-ic1+2, kfile,MCPFN+1 );
-
-                    free(strtemp1);
-                    free(strtemp2);
-                    string_list_put(list, kfile, MCPFN+1);
-                    if( *nerr != 0 )
-                        goto L_8888;
-                }
-                cmdfm.lovrrq = FALSE;
-                lexpnd = TRUE;
+              if((*nerr = files_change(list, kstring, kchange))) { goto L_8888; }
+              cmdfm.lovrrq = FALSE;
+              lexpnd = TRUE;
             }
 
 
@@ -244,11 +165,8 @@ xwtab(int *nerr) {
 
         /* - Make sure the write filelist has as many entries as read filelist*/
         if( string_list_length(list) != saclen() ){
-            *nerr = 1312;
-            setmsg( "ERROR", *nerr );
-            apimsg( string_list_length(list) );
-            apimsg( saclen() );
-            goto L_8888;
+          error(*nerr = 1312, " %d, in memory: %d", string_list_length(list), saclen());
+          goto L_8888;
         }
 
 
@@ -260,37 +178,12 @@ xwtab(int *nerr) {
 
         if( cmdfm.lechof && lexpnd ){
             setmsg( "OUTPUT", 0 );
-            ic1 = 0;
-
-            for(i = 0; i < string_list_length(list); i++) {
-                file = string_list_get(list, i);
-                getdir(file, strlen(file)+1, kcdir,MCPFN , kfile,MCPFN+1 );
-
-                /* -- Echo the filename part if there is no directory part. */
-                if( strcmp(kcdir,"        ") == 0 )
-                        apcmsg( kfile,MCPFN+1 );
-
-                /* -- Prepend the filename part with some special characters if
-                 *    directory part is same as that of the previous file. */
-                else if( kcdir[ 0 ] == '\0' ) {
-                    cattemp = malloc(3+strlen(kfile)+1);
-                    strcpy(cattemp, "...");
-                    strcat(cattemp,kfile);
-                    apcmsg( cattemp, 3+strlen(kfile)+1 );
-                    free(cattemp);
-                }
-                /* -- Echo complete pathname if directory part is different. */
-                else{
-                    apcmsg2(file, strlen(file)+1);
-                }
-            }
+            display_file_list(list);
             wrtmsg( MUNOUT );
         }
 
 
         /* - Write each file in memory to disk. */
-
-        nwrdir = indexb( kmdfm.kwrdir,MCPFN+1 );
         for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
             /* -- Get file from memory manager. */
           if(!(s = sacget(jdfl-1, TRUE, nerr))) {
@@ -300,48 +193,18 @@ xwtab(int *nerr) {
             file = string_list_get(list, jdfl-1);
             /* -- Check overwrite-protect flag in header record. */
             if( cmdfm.lovrrq && !s->h->lovrok ){
-                *nerr = 1303;
-                setmsg( "ERROR", *nerr );
-                apcmsg2(file, strlen(file)+1);
-                outmsg () ;
-                clrmsg () ;
-                goto L_8888;
+              error(*nerr = 1303, "%s", file);
+              outmsg () ;
+              clrmsg () ;
+              goto L_8888;
             }
 
-            /* -- Prepare output file name:
-             * --- If directory option is ON (lwrdir=.TRUE. and nwrdir>0),
-             *     concatenate directory name with file name part of write file
-             *     list.
-             * --- If directory option is CURRENT (lwrdir=.TRUE. and nwrdir=0),
-             *     use file name part of write file list.
-             * --- If directory option is OFF, use write file list. */
-            if( lwrdir ){
-                if( nwrdir > 0 ){
-                    fstrncpy( kfile, MCPFN, kmdfm.kwrdir,min(nwrdir,MCPFN));
-
-                    strtemp2 = malloc(130-(nwrdir+1));
-                    strncpy(strtemp2,kfile+nwrdir,MCPFN+1-(nwrdir + 1));
-                    strtemp2[MCPFN+1-(nwrdir+1)] = '\0';
-
-                    getdir(file, strlen(file)+1, 
-                           kdirpart, MCPFN+1,
-                           strtemp2,-(nwrdir+1)+130);
-                    subscpy(kfile,nwrdir,-1,MCPFN,strtemp2);
-
-                    free(strtemp2);
-                }
-                else{
-                    fstrncpy( kfile, MCPFN, " ", 1);
-                    getdir(file, strlen(file)+1, 
-                           kdirpart,MCPFN+1, kfile,MCPFN+1);
-                }
-            }
-            else
-                fstrncpy( kfile, MCPFN, file, strlen(file)+1);
+            pfile = prepare_output_filename(file, lwrdir, kmdfm.kwrdir);
 
             /* - Create file. */
-            zdest( kfile, strlen( kfile )+1 , &nderr );
-            znfiles( &nun, kfile, strlen( kfile ) , "TEXT",5, nerr );
+            zdest( pfile, strlen( kfile )+1 , &nderr );
+            znfiles( &nun, pfile, strlen( pfile ) , "TEXT",5, nerr );
+            FREE(pfile);
             if( *nerr != 0 )
                 goto L_8888;
             if( cmdfm.liftype ) {
@@ -397,14 +260,9 @@ xwtab(int *nerr) {
                switch( s->h->iftype ) {
                  case ITIME : /* one calculated column, one read column */
                    if( s->h->b == SAC_FLOAT_UNDEFINED || s->h->delta == SAC_FLOAT_UNDEFINED ) {
-                       /* error */
-                       *nerr = 1393 ;
-                       setmsg( "WARNING" , *nerr ) ;
-                       sprintf( junk , " %d" , jdfl ) ;
-                       apcmsg( junk , strlen( junk ) + 1 ) ;
-                       outmsg() ;
-                       clrmsg() ;
-                       *nerr = 0 ;
+                     warning(1393, " %d", jdfl);
+                     outmsg() ;
+                     clrmsg() ;
                    } 
                    for( idx = 0 ; idx < s->h->npts ; idx++ ) {
                      fprintf( nun , "%0 13.6e\t%0 13.6e\n" , 
@@ -416,14 +274,9 @@ xwtab(int *nerr) {
 
                  case IRLIM : case IAMPH : case IXYZ : /* one calc, two read */
                    if( s->h->b == SAC_FLOAT_UNDEFINED || s->h->delta == SAC_FLOAT_UNDEFINED ) {
-                       /* error */
-                       *nerr = 1393 ;
-                       setmsg( "WARNING" , *nerr ) ;
-                       sprintf( junk , " %d" , jdfl ) ;
-                       apcmsg( junk , strlen( junk ) + 1 ) ;
-                       outmsg() ;
-                       clrmsg() ;
-                       *nerr = 0 ;
+                     warning(1393, " %d", jdfl);
+                     outmsg() ;
+                     clrmsg() ;
                    }
                    for( idx = 0 ; idx < s->h->npts ; idx++ ) {
                        fprintf( nun , "%0 13.6e\t%0 13.6e\t%0 13.6e\n" , 
@@ -441,15 +294,11 @@ xwtab(int *nerr) {
                    fflush( nun ) ;
                    break ;
 
-                 default : /* error */
-                           *nerr = 1393 ;
-                           setmsg( "WARNING" , *nerr ) ;
-                           sprintf( junk , " %d" , jdfl ) ;
-                           apcmsg( junk , strlen( junk ) + 1 ) ;
-                           outmsg() ;
-                           clrmsg() ;
-                           *nerr = 0 ;
-                           break ;
+                 default : 
+                   warning(1393, " %d", jdfl);
+                   outmsg() ;
+                   clrmsg() ;
+                   break ;
                } /* end switch */
             } /* end elseif( s->h->leven ) */
 
@@ -465,14 +314,9 @@ xwtab(int *nerr) {
 
                   case IRLIM: case IAMPH: case IXYZ: /* pretend it's leven */
                     if( s->h->b == SAC_FLOAT_UNDEFINED || s->h->delta == SAC_FLOAT_UNDEFINED ) {
-                        /* error */
-                       *nerr = 1393 ;
-                       setmsg( "WARNING" , *nerr ) ;
-                       sprintf( junk , " %d" , jdfl ) ;
-                       apcmsg( junk , strlen( junk ) + 1 ) ;
-                       outmsg() ;
-                       clrmsg() ;
-                       *nerr = 0 ;
+                      warning(1393, " %d", jdfl);
+                      outmsg() ;
+                      clrmsg() ;
                     }
                     for( idx = 0 ; idx < s->h->npts ; idx++ ) {
                        fprintf( nun , "%0 13.6e\t%0 13.6e\t%0 13.6e\n" , 
@@ -482,21 +326,16 @@ xwtab(int *nerr) {
                     fflush( nun ) ;
                     break ;
 
-                  default: /* error */
-                           *nerr = 1393 ;
-                           setmsg( "WARNING" , *nerr ) ;
-                           sprintf( junk , " %d" , jdfl ) ;
-                           apcmsg( junk , strlen( junk ) + 1 ) ;
-                           outmsg() ;
-                           clrmsg() ;
-                           *nerr = 0 ;
-                           break ;
+                  default: 
+                    warning(1393, " %d", jdfl);
+                    outmsg() ;
+                    clrmsg() ;
+                    break ;
                 } /* end switch */
             }
         } /* end for ( jdfl ) */
 
 L_8888:
-
         if(nun != 0) {
           zcloses( &nun, &nderr );
         }

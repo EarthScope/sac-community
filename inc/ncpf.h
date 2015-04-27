@@ -10,27 +10,7 @@
 
 #include <stdio.h>
 
-void appendstring ( char *string, 
-                    int string_s, 
-                    char *input, 
-                    int input_s, 
-                    char *output, 
-                    int output_s);
-void changestring ( char *string1, 
-                    int string1_s, 
-                    char *string2, 
-                    int string2_s, 
-                    char *input, 
-                    int input_s, 
-                    char *output, 
-                    int output_s);
 void closemacro ( int *nerr);
-void deletestring ( char *string, 
-                    int string_s, 
-                    char *input, 
-                    int input_s, 
-                    char *output, 
-                    int output_s);
 void executemacro ( char *kmacroname, 
                     int kmacroname_s, 
                     char *kmacroargs, 
@@ -138,12 +118,6 @@ void openmacro ( char *kmacroname,
                  char *kmacroargs, 
                  int kmacroargs_s, 
                  int *nerr);
-void prependstring ( char *string, 
-                     int string_s, 
-                     char *input, 
-                     int input_s, 
-                     char *output, 
-                     int output_s);
 void processembedded ( char *kfunction, 
                        int kfunction_s, 
                        int nc, 

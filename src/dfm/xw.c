@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <libgen.h>
 #include "dfm.h"
 #include "bool.h"
 #include "hdr.h"
@@ -25,6 +25,119 @@
 #include "dff.h"
 #include "ncpf.h"
 #include "errors.h"
+
+/* -- Prepare output file name:
+ * --- If directory option is ON (lwrdir=.TRUE. and nwrdir>0), 
+ *     concatenate directory name with file name part of write file list.
+ * --- If directory option is CURRENT (lwrdir=.TRUE. and nwrdir=0), 
+ *     use file name part of write file list.
+ * --- If directory option is OFF, use write file list. */
+char *
+prepare_output_filename(char *in, int ldir, char *dir) {
+  char *out;
+  char *b;
+  if(ldir) {
+    b = basename(in);
+    asprintf(&out, "%s%s", dir, b);
+  } else {
+    out = strdup(in);
+  }
+  return out;
+}
+
+int
+set_output_path(char *ktemp) {
+  int lwrdir = FALSE;
+  rstrip(ktemp);
+  if( strcasecmp(ktemp,"OFF") == 0 ) {
+    lwrdir = FALSE;
+  } else if( strcasecmp(ktemp,"CURRENT") == 0 ){
+    lwrdir = TRUE;
+    ktemp[0] = 0;
+  } else if( ktemp[strlen(ktemp)-1] != KDIRDL ){ 
+    /* If the string is mising the "/" path separator */
+    strcat(ktemp, "/");
+    lwrdir = TRUE;
+  } else {
+    /* Path is not OFF, CURRENT and has the "/" at the end */
+    lwrdir = TRUE;
+  }
+  return lwrdir;
+}
+
+int
+files_append(string_list *files, char *kstr) {
+  int i,nerr;
+  sac *s;
+  char *out;
+  for(i = 0; i < saclen(); i++) {
+    if(!(s = sacget(i, TRUE, &nerr))) {
+      return nerr;
+    }
+    asprintf(&out, "%s%s", s->m->filename, kstr);
+    string_list_put(files, out, MCPFN+1);
+    FREE(out);
+  }
+  return 0;
+}
+int
+files_prepend(string_list *files, char *kstr) {
+  int i, nerr;
+  sac *s;
+  char *out;
+  for(i = 0; i < saclen(); i++) {
+    if(!(s = sacget(i, TRUE, &nerr))) {
+      return nerr;
+    }
+    asprintf(&out, "%s%s", kstr, s->m->filename);
+    string_list_put(files, out, MCPFN+1);
+    FREE(out);
+  }
+  return 0;
+}
+int
+files_delete(string_list *files, char *kstr) {
+  int i, nerr, n;
+  sac *s;
+  char *out, *p;
+  for(i = 0; i < saclen(); i++) {
+    if(!(s = sacget(i, TRUE, &nerr))) {
+      return nerr;
+    }
+    out = strdup(s->m->filename);
+    if((p = strstr(out, kstr))) {
+      n = strlen(p)-strlen(kstr);
+      memmove(p, p+strlen(kstr), n);
+      p[n]= 0;
+    }
+    string_list_put(files, out, MCPFN+1);
+    FREE(out);
+  }
+  return 0;
+}
+
+int
+files_change(string_list *files, char *from, char *to) {
+  int i,nerr,n;
+  sac *s;
+  char *out,*p;
+  for(i = 0; i < saclen(); i++) {
+    if(!(s = sacget(i, TRUE, &nerr))) {
+      return nerr;
+    }
+    out = (char *) malloc(sizeof(char) * (strlen(s->m->filename) + strlen(to) + 1 ));
+    strcpy(out, s->m->filename);
+    if((p = strstr(out, from))) {
+      n = strlen(p) - strlen(from) + strlen(to);
+      memmove(p, p+strlen(from), n);
+      memmove(p, to, strlen(to));
+      p[n] = 0;
+    }
+    string_list_put(files, out, MCPFN+1);
+    FREE(out);
+  }
+  return 0;
+}
 
 /** 
  * Write a File to disk
@@ -59,17 +172,15 @@ void
 xw(int  lsdd, 
    int *nerr) {
 
-    int i;
-        char delimiter[2], kcdir[9], kchange[MCPFN+1], kdirpart[MCPFN+1];
-	char kfile[MCPFN+1], kpdir[9], kstring[MCPFN+1], ktemp[9];
+  int i;
+  char kchange[MCPFN+1];
+	char  kstring[MCPFN+1];
 	int lexpnd;
-	int jdfl, nchar, nchg;
-	int nstr, nstring, nwrdir;
+	int jdfl, nchar;
+	int nstring;
 	static int lwrdir = FALSE;
-    char *cattemp;
-    char *strtemp1, *strtemp2, *strtemp3;
     sac *s;
-    char *file;
+    char *file, *pfile;
     string_list *list, *files;
 
 	kschan[12]='\0';
@@ -79,14 +190,8 @@ xw(int  lsdd,
 	ksevnm[8]='\0';
 	ksfrmt[8]='\0';
 	ksstnm[8]='\0';
-    memset(kfile, 0, sizeof(kfile));
-    memset(kdirpart, 0, sizeof(kdirpart));
     memset(kchange, 0, sizeof(kchange));
-    memset(ktemp, 0, sizeof(ktemp));
     memset(kstring, 0, sizeof(kstring));
-    memset(kpdir, 0, sizeof(kpdir));
-    memset(kcdir, 0, sizeof(kcdir));
-    memset(delimiter, 0, sizeof(delimiter));
 
         lexpnd = FALSE;
 
@@ -143,115 +248,37 @@ xw(int  lsdd,
 
 	    /* -- "APPEND string": append string to filenames from READ command. */
 	    else if( lkcharExact( "APPEND#$",9, MCPFN, kstring,MCPFN+1, &nstring ) ){
-        for(i = 0; i < saclen(); i++) {
-          if(!(s = sacget(i, TRUE, nerr))) {
-            goto L_8888;
-          }
-          strtemp1 = s->m->filename;
-		    appendstring( kstring,MCPFN+1, strtemp1, strlen(strtemp1)+2, kfile,MCPFN+1 );
-
-            string_list_put(files, kfile, MCPFN+1);
-		    if( *nerr != 0 )
-                goto L_8888;
-		}
-		cmdfm.lovrrq = FALSE;
-		lexpnd = TRUE;
+        if((*nerr = files_append(files, kstring))) { goto L_8888; }
+        cmdfm.lovrrq = FALSE;
+        lexpnd = TRUE;
 	    }
 
 	    /* -- "PREPEND string": prepend string to filenames from READ command. */
 	    else if( lkcharExact( "PREPEND#$",10, MCPFN, kstring,MCPFN+1, &nstring ) ){
-        for(i = 0; i < saclen(); i++) {
-          if(!(s = sacget(i, TRUE, nerr))) {
-            goto L_8888;
-          }
-          strtemp1 = malloc(nstring+1);
-		    strncpy(strtemp1,kstring,nstring);
-		    strtemp1[nstring] = '\0';
-        strtemp2 = s->m->filename;
-		    prependstring( strtemp1, nstring+1, strtemp2, strlen(strtemp2)+2, kfile,MCPFN+1);
-
-		    free(strtemp1);
-            string_list_put(files, kfile, MCPFN+1);
-		    if( *nerr != 0 )
-			goto L_8888;
-		}
-		cmdfm.lovrrq = FALSE;
-		lexpnd = TRUE;
+        if((*nerr = files_prepend(files, kstring))) { goto L_8888; }
+        cmdfm.lovrrq = FALSE;
+        lexpnd = TRUE;
 	    }
 
 	    /* -- "DELETE string": delete string from filenames from READ command. */
 	    else if( lkcharExact( "DELETE#$",9, MCPFN, kstring,MCPFN+1, &nstring ) ){
-        for(i = 0; i < saclen(); i++) {
-          if(!(s = sacget(i, TRUE, nerr))) {
-            goto L_8888;
-          }
-          strtemp1 = malloc(nstring+1);
-		    strncpy(strtemp1,kstring,nstring);
-		    strtemp1[nstring] = '\0';
-        strtemp2 = s->m->filename;
-
-		    deletestring( strtemp1, nstring+1, strtemp2, strlen(strtemp2)+2, kfile,MCPFN+1);
-
-		    free(strtemp1);
-            string_list_put(files, kfile, MCPFN+1);
-		    if( *nerr != 0 )
-			goto L_8888;
-		}
-		cmdfm.lovrrq = FALSE;
-		lexpnd = TRUE;
+        if((*nerr = files_delete(files, kstring))) { goto L_8888; }
+        cmdfm.lovrrq = FALSE;
+        lexpnd = TRUE;
 	    }
 
 	    /* -- "CHANGE string1 string2": change string1 to string2 in READ filenames. */
 	    else if( lkcharExact( "CHANGE#$",9, MCPFN, kstring,MCPFN+1, &nstring ) ){
         lcchar( kchange, sizeof(kchange)) ;
-        for(i = 0; i < saclen(); i++) {
-          if(!(s = sacget(i, TRUE, nerr))) {
-            goto L_8888;
-          }
-          nstr = indexb( kstring,MCPFN+1 );
-		    nchg = indexb( kchange,MCPFN+1 );
-
-		    strtemp1 = malloc(nstr+1);
-		    strtemp2 = malloc(nchg+1);
-		    strncpy(strtemp1,kstring,nstr);
-		    strncpy(strtemp2,kchange,nchg);
-		    strtemp1[nstr] = '\0';
-		    strtemp2[nchg] = '\0';
-        strtemp3 = s->m->filename;
-		    changestring( strtemp1, nstr+1, strtemp2, nchg+1,
-                          strtemp3, strlen(strtemp3)+2, kfile,MCPFN+1 );
-
-		    free(strtemp1);            
-		    free(strtemp2);
-
-            string_list_put(files, kfile, MCPFN+1);
-		    if( *nerr != 0 )
-			goto L_8888;
-		}
-		cmdfm.lovrrq = FALSE;
-		lexpnd = TRUE;
+        if((*nerr = files_change(files, kstring, kchange))) { goto L_8888; }
+        cmdfm.lovrrq = FALSE;
+        lexpnd = TRUE;
 	    }
 
 	    /* -- "DIR ON|OFF|CURRENT|name":  set the name of the default subdirectory. */
 	    else if( lkcharExact( "DIR#$",6, MCPFN, kmdfm.kwrdir,MCPFN+1, &nchar ) ){
-		modcase( TRUE, kmdfm.kwrdir, MCPW, ktemp );
-
-		if( strncmp(ktemp,"OFF     ",8) == 0 ) {
-          lwrdir = FALSE;
-        } else if( strncmp(ktemp,"CURRENT ",8) == 0 ){
-          lwrdir = TRUE;
-          fstrncpy( kmdfm.kwrdir, MCPFN, " ", 1);
-		} else if( kmdfm.kwrdir[nchar - 1] != KDIRDL ){ 
-          /* If the string is mising the "/" path separator */
-          lwrdir = TRUE;
-          delimiter[0] = KDIRDL;
-          delimiter[1] = '\0';
-          subscpy( kmdfm.kwrdir, nchar, -1, MCPFN, delimiter );
-		} else {
-          /* Path is not OFF, CURRENT and has the "/" at the end */
-          lwrdir = TRUE;
-	    }
-        }
+        lwrdir = set_output_path(kmdfm.kwrdir);
+      }
 	    /* -- "COMMIT|RECALLTRACE|ROLLBACK": 
 	          how to treat existing data */
 	    else if ( lckeyExact ( "COMMIT" , 7 ) )
@@ -295,17 +322,15 @@ xw(int  lsdd,
 
 	/* - Check for null write filelist. */
 	if( string_list_length(list) <= 0 ){
-	    *nerr = 1311;
-	    setmsg( "ERROR", *nerr );
-	    goto L_8888;
+    setmsg( "ERROR", *nerr=1311 );
+    goto L_8888;
 	}
 
 	/* - Make sure the write filelist has as many entries as read filelist. */
 
 	if( string_list_length(list) != saclen() ){
-	    *nerr = 1312;
-        error(1312, "%d %d", string_list_length(list), saclen());
-	    goto L_8888;
+    error(*nerr = 1312, "%d, in memory: %d", string_list_length(list), saclen());
+    goto L_8888;
 	}
 
 	/* EXECUTION PHASE: */
@@ -320,38 +345,12 @@ xw(int  lsdd,
 
 	if( cmdfm.lechof && lexpnd ){
 	    setmsg( "OUTPUT", 0 );
-
-        for(i = 0; i < string_list_length(list); i++) {
-            file = string_list_get(list, i);
-
-            getdir( file, strlen(file)+1, kcdir,9, kfile,MCPFN+1 );
-
-		/* -- Echo the filename part if there is no directory part. */
-            if( strcmp(kcdir,"        ") == 0 )
-                apcmsg( kfile,MCPFN+1 );
-
-		/* -- Prepend the filename part with some special characters if
-         *    directory part is same as that of the previous file. */
-            else if( memcmp(kcdir,kpdir,min(strlen(kcdir),strlen(kpdir)))
-                     == 0 ){
-                cattemp = malloc(3+strlen(kfile)+1);
-                strcpy(cattemp, "...");
-                strcat(cattemp,kfile);
-                apcmsg( cattemp, 3+strlen(kfile)+1 );
-                free(cattemp);
-            }
-		/* -- Echo complete pathname if directory part is different. */
-            else{
-                apcmsg2(file, strlen(file)+1);
-                strcpy( kpdir, kcdir );
-            }
-	    }
+      display_file_list(list);
 	    wrtmsg( MUNOUT );
 	}
 
 	/* - Write each file in memory to disk. */
 
-	nwrdir = indexb( kmdfm.kwrdir,MCPFN+1 );
 	for( jdfl = 1; jdfl <= saclen(); jdfl++ ){
 	    /* -- Get file from memory manager. */
         if(!(s = sacget(jdfl-1, TRUE, nerr))) {
@@ -370,54 +369,29 @@ xw(int  lsdd,
 		goto L_8888;
 	    }
 
-	    /* -- Prepare output file name:
-	     * --- If directory option is ON (lwrdir=.TRUE. and nwrdir>0), 
-	     *     concatenate directory name with file name part of write file list.
-	     * --- If directory option is CURRENT (lwrdir=.TRUE. and nwrdir=0), 
-	     *     use file name part of write file list.
-	     * --- If directory option is OFF, use write file list. */
-	    if( lwrdir ){
-		if( nwrdir > 0 ){
-		    fstrncpy( kfile, MCPFN, kmdfm.kwrdir,min(nwrdir,MCPFN));
+      pfile = prepare_output_filename(file, lwrdir, kmdfm.kwrdir);
 
-            strtemp1 = file;
-		    strtemp2 = malloc(130-(nwrdir+1));
-		    strncpy(strtemp2,kfile+nwrdir,MCPFN+1-(nwrdir + 1));
-		    strtemp2[MCPFN+1-(nwrdir+1)] = '\0';
-		    getdir( strtemp1, strlen(strtemp1)+1, 
-                    kdirpart, MCPFN+1, strtemp2,-(nwrdir+1)+130);
-		    subscpy(kfile,nwrdir,-1,MCPFN,strtemp2);
-		    free(strtemp2);
-		}
-		else{
-		    fstrncpy( kfile, MCPFN, " ", 1);
-		    getdir( file, strlen(file)+1, kdirpart,MCPFN+1, kfile,MCPFN+1 );
-		}
-	    }
-	    else {
-            fstrncpy( kfile, MCPFN, file, strlen(file));
-        }
 	    /* -- Write file in appropriate format. */
-	    if( cmdfm.iwfmt == 2 )
-		wrci( jdfl, kfile,MCPFN+1, "%#15.7g", nerr );
-
+	    if( cmdfm.iwfmt == 2 ) {
+		wrci( jdfl, pfile,-1, "%#15.7g", nerr );
+      }
 	    else if( cmdfm.iwfmt == 3 )
-		wrsdd( jdfl, kfile,MCPFN+1, TRUE, nerr );
+		wrsdd( jdfl, pfile,-1, TRUE, nerr );
 
 	    else if( cmdfm.iwfmt == 4 )
-		wrxdr( jdfl, kfile,MCPFN+1, TRUE, nerr );
+		wrxdr( jdfl, pfile,-1, TRUE, nerr );
 
 	    else if( cmdfm.iwfmt == 5 )
-		wrsegy( jdfl , kfile , nerr ) ;
+		wrsegy( jdfl , pfile , nerr ) ;
 
 	    else
-		wrsac( jdfl, kfile,MCPFN+1, TRUE, nerr );
+		wrsac( jdfl, pfile,-1, TRUE, nerr );
 
+      FREE(pfile);
 	    if( *nerr != 0 )
 		goto L_8888;
 
 	} /* end for ( jdfl ) */
-
 L_8888:
 	return;
 }

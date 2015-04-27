@@ -120,7 +120,7 @@ inidfm() {
 	}
 
 	fstrncpy( kmdfm.krddir, MCPFN, " ", 1);
-	fstrncpy( kmdfm.kwrdir, MCPFN, " ", 1);
+  memset(kmdfm.kwrdir, 0, MCPFN);
 	fstrncpy( kmdfm.kdirnm, MCPFN, "FIRST_TIME", 10);
 	cmdfm.ncdir = indexb( kmdfm.kdirnm,MCPFN+1 );
 	cmdfm.lechof = TRUE;

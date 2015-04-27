@@ -9,6 +9,7 @@
 #include <string.h>
 
 #include "dfm.h"
+#include "dff.h"
 #include "bool.h"
 
 #include "clf.h"
@@ -19,7 +20,7 @@
 #include "cpf.h"
 #include "gse.h"
 #include "smDataIO.h"
-
+#include "debug.h"
 /** 
  * Execute the command WRITEGSE which writes a GSE file
  * 
@@ -33,18 +34,19 @@
 void 
 xwgse(int *nerr) {
 
-	char delimiter[2], ktemp[9], outfile[256];
+	char ktemp[9];
 	char kdstemp[ 21 ] ;
 	static char kdatasource[ 21 ] = "" ;
 	static int ldatasource = FALSE ;
 	int ntraces ;
 	int nchar;
 	static int lwrdir = FALSE;
-
-    string_list *list;
+  char *pfile;
+  string_list *list;
 
 	*nerr = 0;
   list = NULL;
+
 	/* PARSING PHASE: */
 	/* - Loop on each token in command: */
 	while ( lcmore( nerr ) ){
@@ -72,23 +74,7 @@ xwgse(int *nerr) {
 
 	    /* -- "DIR ON|OFF|CURRENT|name":  set the name of the default subdirectory. */
 	    else if( lkcharExact( "DIR#$",6, MCPFN, kmdfm.kwrdir,MCPFN+1, &nchar ) ){
-		modcase( TRUE, kmdfm.kwrdir, MCPW, ktemp );
-		if( strcmp(ktemp,"ON      ") == 0 )
-		    lwrdir = TRUE;
-		else if( strcmp(ktemp,"OFF     ") == 0 )
-		    lwrdir = FALSE;
-		else if( strcmp(ktemp,"CURRENT ") == 0 ){
-		    lwrdir = TRUE;
-		    fstrncpy( kmdfm.kwrdir, MCPFN, " ", 1);
-		}
-		else if( kmdfm.kwrdir[nchar - 1] != KDIRDL ){
-		    lwrdir = TRUE;
-		    delimiter[0] = KDIRDL;
-		    delimiter[1] = '\0';
-		    subscpy( kmdfm.kwrdir, nchar, -1, MCPFN, delimiter );
-		}
-		else
-		    lwrdir = TRUE;
+        lwrdir = set_output_path(kmdfm.kwrdir);
 	    }
 
 	    /* -- "COMMIT|RECALLTRACE|ROLLBACK": 
@@ -139,24 +125,19 @@ xwgse(int *nerr) {
 	    return ;
 
 	/* make filename */
-	if ( lwrdir ) {
-        sprintf(outfile, "%s%s", kmdfm.kwrdir, string_list_get(list, 0));
-	}
-	else {
-        sprintf(outfile, "%s", string_list_get(list, 0));
-	}
+  pfile = prepare_output_filename(string_list_get(list, 0), lwrdir, kmdfm.kwrdir);
 
-	ntraces = WriteGSEFile( outfile , smGetDefaultTree() ,
+	ntraces = WriteGSEFile( pfile , smGetDefaultTree() ,
                                 ldatasource ? kdatasource : "" , cmdfm.lcm6 ) ;
 	if ( ntraces > 0 )
-	    printf ( "%d waveforms written in %s\n" , ntraces , outfile ) ;
+	    printf ( "%d waveforms written in %s\n" , ntraces , pfile ) ;
 	else {
         *nerr = 1344;
-        error(*nerr, "%s", outfile);
+        error(*nerr, "%s", pfile);
 	    outmsg () ;
 	    clrmsg () ;
 	}
-
+  FREE(pfile);
 L_8888:
 	return;
 }

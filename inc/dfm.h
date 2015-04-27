@@ -368,5 +368,12 @@ int    LessThanLong     ( void *a1,
                           void *a2);
 int    GreaterThanLong  ( void *a1, 
                           void *a2);
+void   display_file_list(string_list *files);
+char * prepare_output_filename(char *in, int ldir, char *dir);
+int    set_output_path(char *ktemp);
+int files_append(string_list *files, char *kstr);
+int files_prepend(string_list *files, char *kstr);
+int files_delete(string_list *files, char *kstr);
+int files_change(string_list *files, char *from, char *to);
 
 #endif /* _DFM_H_ */

@@ -10,6 +10,7 @@
 
 #include "amf.h"
 #include "dfm.h"
+#include "dff.h"
 #include "bool.h"
 #include "sddhdr.h"
 #include "cssb.h"
@@ -53,24 +54,21 @@ void
 xwcss(int *nerr) {
 
     int i;
-    char dirDelimeter[2], kcdir[9], kdirpart[MCPFN+1], kfile[MCPFN+1]; 
-	char kpdir[9], ktemp[9] ;
 	int lexpnd;
-	int jdfl, nchar, nwrdir ;
+	int jdfl, nchar;
 	int ibinORasc ;
 	static int lwrdir = FALSE, Verbose = FALSE ;
-  char *cattemp;
-  char *strtemp2;
   sac *s;
     char *WorkSetName;
     
     lexpnd = FALSE;
     
-    char *file;
+    char *file,*pfile, *dir;
     string_list *list;
 
 	*nerr = 0;
     list = NULL;
+    dir = NULL;
 	/* PARSING PHASE: */
 	/* - Loop on each token in command: */
 	while ( lcmore( nerr ) ){
@@ -93,26 +91,7 @@ xwcss(int *nerr) {
 
 	    /* -- "DIR ON|OFF|CURRENT|name":  set the name of the default subdirectory. */
 	    else if( lkchar( "DIR#$",6, MCPFN, kmdfm.kwrdir,MCPFN+1, &nchar ) ){
-		modcase( TRUE, kmdfm.kwrdir, MCPW, ktemp );
-		if( strcmp(ktemp,"ON      ") == 0 ){
-		    lwrdir = TRUE;
-		}
-		else if( strcmp(ktemp,"OFF     ") == 0 ){
-		    lwrdir = FALSE;
-		}
-		else if( strcmp(ktemp,"CURRENT ") == 0 ){
-		    lwrdir = TRUE;
-		    fstrncpy( kmdfm.kwrdir, MCPFN, " ", 1);
-		}
-		else if( kmdfm.kwrdir[nchar - 1] != KDIRDL ){
-		    lwrdir = TRUE;
-		    dirDelimeter[0] = KDIRDL;
-		    dirDelimeter[1] = '\0';
-		    subscpy( kmdfm.kwrdir, nchar, -1, MCPFN, dirDelimeter );
-		}
-		else{
-		    lwrdir = TRUE;
-		}
+        lwrdir = set_output_path(kmdfm.kwrdir);
 	    }
 
 	    /* -- "COMMIT|RECALLTRACE|ROLLBACK": how to treat existing data */
@@ -166,75 +145,15 @@ xwcss(int *nerr) {
 
 	if( cmdfm.lechof && lexpnd ){
 	    setmsg( "OUTPUT", 0 );
-
-	    /* -- Loop until all pathnames in expanded filelist have been processed. */
-        for(i = 0; i < string_list_length(list); i++) {
-            file = string_list_get(list, i);
-            /* -- Break pathname into directory and filename parts. */
-            if ( file[strlen(file)] == KDIRDL ) {
-                file[strlen(file)] = '\0' ;
-            }
-            
-            getdir( file, strlen(file), kcdir,9, kfile,MCPFN+1 );
-
-		/* -- Echo the filename part if there is no directory part. */
-		if( strcmp(kcdir,"        ") == 0 ){
-		    apcmsg( kfile,MCPFN+1 );
-		}
-
-		/* -- Prepend the filename part with some special characters if 
-		 *    directory part is same as that of the previous file. */
-		else if( memcmp(kcdir,kpdir,min(strlen(kcdir),strlen(kpdir))) == 0 ){
-		    cattemp = malloc(3+strlen(kfile)+1);
-		    strcpy(cattemp, "...");
-		    strcat(cattemp,kfile);
-		    apcmsg( cattemp, 3+strlen(kfile)+1 );
-		    free(cattemp);
-		}
-
-		/* -- Echo complete pathname if directory part is different. */
-		else{
-		    apcmsg2(file, strlen(file)+1);
-		    strcpy( kpdir, kcdir );
-		}
-	    } /* end while */
+      display_file_list(list);
 	    wrtmsg( MUNOUT );
 	} /* end if( cmdfm.lechof && lexpnd ) */
 
 
-	/* -- Prepare output file name:
-	 * --- If directory option is ON (lwrdir=.TRUE. and nwrdir>0), 
-	 *     concatenate directory name with file name part of write file list.
-	 * --- If directory option is CURRENT (lwrdir=.TRUE. and nwrdir=0), 
-      	 *     use file name part of write file list.
-       	 * --- If directory option is OFF, use write file list. */
     jdfl = 1;
 
     file = string_list_get(list, jdfl-1);
-    if( lwrdir ){
-	    nwrdir = indexb( kmdfm.kwrdir,MCPFN+1);
-	    if( nwrdir > 0 ){
-            fstrncpy( kfile, MCPFN, kmdfm.kwrdir,min(nwrdir,MCPFN));
-
-            strtemp2 = malloc(130-(nwrdir+1));
-            strncpy(strtemp2,kfile+nwrdir,MCPFN+1-(nwrdir + 1));
-            strtemp2[MCPFN+1-(nwrdir+1)] = '\0';
-            
-            getdir(file, strlen(file)+1, kdirpart, MCPFN+1, strtemp2,-(nwrdir+1)+130);
-            subscpy(kfile,nwrdir,-1,MCPFN,strtemp2);
-            
-            free(strtemp2);
-	    } else{
-            fstrncpy( kfile, MCPFN, " ", 1);
-            getdir(file, strlen(file)+1, kdirpart,MCPFN+1, kfile,MCPFN+1 );
-	    }
-	} /* end if ( lwrdir ) */
-	else{
-	    fstrncpy( kfile, MCPFN, file, strlen(file)+1);
-	}
-    
-	terminate ( kfile ) ;
-
+    pfile = prepare_output_filename(file, lwrdir, kmdfm.kwrdir);
 
 	if(! smGetDefaultWorkset() ){
         *nerr = 1385;
@@ -254,10 +173,11 @@ xwcss(int *nerr) {
     
     
 	if ( cmdfm.lwascii )
-	    WriteCSSflatFiles(WorkSetName, kfile ) ;
+	    WriteCSSflatFiles(WorkSetName, pfile ) ;
 	else {
-	    if(!WriteCSSBfile(WorkSetName, kfile, Verbose)) *nerr = 115;
+	    if(!WriteCSSBfile(WorkSetName, pfile, Verbose)) *nerr = 115;
 	    if(Verbose)printf("\n");
 	}
+  FREE(pfile);
 }
 
