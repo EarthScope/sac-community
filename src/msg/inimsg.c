@@ -379,6 +379,17 @@ out(char *fmt, ...) {
     free(str);
     str = NULL;
 }
+void
+mprint(char *fmt, ...) {
+    char *str;
+    va_list ap;
+    va_start(ap, fmt);
+    vasprintf(&str, fmt, ap);
+    va_end(ap);
+    aplmsg(str, strlen(str) + 1);
+    free(str);
+    str = NULL;
+}
 
 void
 message(int type, int num, char *message, ...) {

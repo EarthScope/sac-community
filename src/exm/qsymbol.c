@@ -19,14 +19,14 @@
 void
 qsymbol() {
 
-    replv("SYMBOL option$", 15, cmgem.lsym);
+    mprint("   SYMBOL option is %s", ON_OFF(cmgem.lsym));
     if (cmgem.lsym) {
-        repiv("Current SYMBOL$", 16, cmgem.isym);
-        reprv("Symbol SIZE$", 13, cmgem.symsz);
-        reprv("Symbol SPACEING$", 17, cmgem.symsp);
-        replv("Symbol INCREMENT option$", 25, cmgem.lisym);
+        mprint("   Current SYMBOL is " REPORT_INT, cmgem.isym);
+        mprint("   Symbol SIZE is " REPORT_FLOAT, cmgem.symsz);
+        mprint("   Symbol SPACEING is " REPORT_FLOAT, cmgem.symsp);
+        mprint("   Symbol INCREMENT option is %s", ON_OFF(cmgem.lisym));
         if (cmgem.lisym)
-            repivl("Symbol increment LIST$", 23, cmgem.iisym, cmgem.nisym);
+            repivl("Symbol increment LIST:", cmgem.iisym, cmgem.nisym);
     }
 
     return;

@@ -44,7 +44,7 @@ reprtw(char *ktext, int ktext_s, int lrtw, char *krtw, int krtw_s, float *ortw) 
     float *const Ortw = &ortw[0] - 1;
     memset(kline, 0, sizeof(kline));
     /* - Report logical variable with text. */
-    replv(ktext, ktext_s, lrtw);
+    mprint("   %s is %s", ktext, ON_OFF(lrtw));
 
     /* - Report stop and stop window if on. */
 

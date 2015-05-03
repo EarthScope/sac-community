@@ -624,31 +624,21 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
     } else if (!polezero_is_correct_block(meta, filetime, stat, net, loc, chan)) {
 
     } else if (strncmp(key, KEY_CONSTANT, strlen(KEY_CONSTANT)) == 0) {
-        poptok(kline, nc, &ic, &ic1, &ic2, &itype);
-        strncpy((s1 = malloc(ic2 - ic1 + 2)), kline + ic1 - 1, ic2 - ic1 + 1);
-        s1[ic2 - ic1 + 1] = '\0';
-
-        const_ = atof(s1);
-        if (const_ == 0 || const_ == HUGE_VAL || const_ == -HUGE_VAL ||
-            isnan(const_)) {
+        if(sscanf(kline, KEY_CONSTANT " %lf", &const_) != 1) {
+            const_ = 0;
+        }
+        if (*nerr || const_ == 0 || const_ == HUGE_VAL || const_ == -HUGE_VAL || isnan(const_)) {
             *nerr = 2118;
-            setmsg("ERROR", *nerr);
-            apcmsg("Unrecognized Constant: ", 24);
-            apcmsg(s1, strlen(s1) + 1);
-            free(s1);
+            error(*nerr = 2118, "Unrecognized Constant: %s", kline);
             goto L_8888;
         }
-        free(s1);
         meta_used = polezero_meta_copy(meta);
 
     } else if (strncmp(key, KEY_POLES, strlen(KEY_POLES)) == 0) {
-        poptok(kline, nc, &ic, &ic1, &ic2, &itype);
-        strncpy((s1 = malloc(ic2 - ic1 + 2)), kline + ic1 - 1, ic2 - ic1 + 1);
-        s1[ic2 - ic1 + 1] = '\0';
-        cnvati(s1, ic2 - ic1 + 2, &npoles, 0, nerr);    /* add 0 before nerr. maf 970129 */
-        free(s1);
-        if (*nerr != 0)
+        if(sscanf(kline, KEY_POLES " %d", &npoles) != 1) {
+            *nerr = 2118;
             goto L_8888;
+        }
         if (npoles > MPOLES) {
             *nerr = 2109;
             setmsg("ERROR", *nerr);
@@ -660,13 +650,10 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
         lzeros = FALSE;
         ipoles = 0;
     } else if (strncmp(key, KEY_ZEROS, strlen(KEY_ZEROS)) == 0) {
-        poptok(kline, nc, &ic, &ic1, &ic2, &itype);
-        strncpy((s1 = malloc(ic2 - ic1 + 2)), kline + ic1 - 1, ic2 - ic1 + 1);
-        s1[ic2 - ic1 + 1] = '\0';
-        cnvati(s1, ic2 - ic1 + 2, &nzeros, 0, nerr);    /* add 0 before nerr. maf 970129 */
-        free(s1);
-        if (*nerr != 0)
+        if(sscanf(kline, KEY_ZEROS " %d", &nzeros) != 1) {
+            *nerr = 2118;
             goto L_8888;
+        }
         if (nzeros > MZEROS) {
             *nerr = 2109;
             setmsg("ERROR", *nerr);

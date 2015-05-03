@@ -36,7 +36,7 @@ pcmrpl(FILE * nunmac, double scale, double angle) {
     int i1, i2, iop1, iop2, iope, iopei, j, jope, nc, nerr, numchar;
     float cosang, height, sinang, theight, twidth, width, xtemp, ytemp;
     static char kbdlin[26] = "Bad line in replay file: ";
-    char *strtemp1, *strtemp2;
+    char strtemp1[3], strtemp2[3];
 
         /*=====================================================================
 	 * PURPOSE:
@@ -160,8 +160,6 @@ pcmrpl(FILE * nunmac, double scale, double angle) {
             goto L_5000;
         jope = jope + 1;
 
-        strtemp1 = malloc(3);
-        strtemp2 = malloc(3);
         strncpy(strtemp1, kmgam.kopetx + jope - 2, 2);
         strncpy(strtemp2, kmgam.kopetx + jope - 2, 2);
         strtemp1[2] = '\0';
@@ -170,10 +168,7 @@ pcmrpl(FILE * nunmac, double scale, double angle) {
         upcase(strtemp1, 2, strtemp2, jope - (jope - 1) + 2);
         subscpy(kmgam.kopetx, jope - 2, jope - 1, 80, strtemp2);
 
-        free(strtemp2);
-
         iope = nccomp(strtemp1, (char *) kmgam.kope, 3, cmgam.nope, 2);
-        free(strtemp1);
 
         if (iope < cmgam.nopei) {
             pcxope(iope, 0);

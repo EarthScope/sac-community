@@ -75,15 +75,6 @@ FloatsDiffer0(float V1, float V2) {
     return (fabs(V1 - V2) < FLT_EPSILON) ? 0 : 1;
 }
 
-/* ------------------------------------------------------------------ */
-
-/* static int FloatsDiffer1(float V1, float V2) */
-/* { */
-/*    if(V1 == -1.0 && V2 == -12345.0) return 0; */
-/*    if(V2 == -1.0 && V1 == -12345.0) return 0; */
-/*    return (fabs(V1 - V2) < FLT_EPSILON) ? 0 : 1; */
-/* } */
-/* ------------------------------------------------------------------ */
 
 static int
 FloatsDiffer9(float V1, float V2) {
@@ -93,31 +84,6 @@ FloatsDiffer9(float V1, float V2) {
         return 0;
     return (fabs(V1 - V2) < FLT_EPSILON) ? 0 : 1;
 }
-
-/* ------------------------------------------------------------------ */
-
-/* static int FloatsDiffer59(float V1, float V2) */
-/* { */
-/*    if(V1 == -99999.0 && V2 == -12345.0) return 0; */
-/*    if(V2 == -99999.0 && V1 == -12345.0) return 0; */
-/*    return (fabs(V1 - V2) < FLT_EPSILON) ? 0 : 1; */
-/* } */
-/* ------------------------------------------------------------------ */
-
-/* static int FloatsDiffer99(float V1, float V2) */
-/* { */
-/*    if(abs(V1) == 9999999999.999 && V2 == -12345.0) return 0; */
-/*    if(abs(V2) == 9999999999.999 && V1 == -12345.0) return 0; */
-/*    return (fabs(V1 - V2) < FLT_EPSILON) ? 0 : 1; */
-/* } */
-/* ------------------------------------------------------------------ */
-
-/* static void NullOut(char *str, int len) */
-/* { */
-/*   int j; */
-/*   for(j=0;j < len;j++) *(str +j) = '\0'; */
-/* } */
-/* ------------------------------------------------------------------ */
 
 static void
 DeBlank(char *str) {
@@ -196,38 +162,6 @@ StrDefined(char *value) {
     return TRUE;
 }
 
-/* ------------------------------------------------------------------ */
-
-/* static void CopyStrings(struct SACheader *header, struct SACFileCharHeader   */
-/* 			                                       *charHeader) */
-/* { */
-
-/*    NullOut(header->kstnm,9); strncpy(header->kstnm,charHeader->kstnm,8);  */
-/*    NullOut(header->kevnm,17); strncpy(header->kevnm,charHeader->kevnm,16);  */
-/*    NullOut(header->khole,9); strncpy(header->khole,charHeader->khole,8);  */
-/*    NullOut(header->ko,9); strncpy(header->ko,charHeader->ko,8);  */
-/*    NullOut(header->ka,9); strncpy(header->ka,charHeader->ka,8);  */
-/*    NullOut(header->kt0,9); strncpy(header->kt0,charHeader->kt0,8);  */
-/*    NullOut(header->kt1,9); strncpy(header->kt1,charHeader->kt1,8);  */
-/*    NullOut(header->kt2,9); strncpy(header->kt2,charHeader->kt2,8);  */
-/*    NullOut(header->kt3,9); strncpy(header->kt3,charHeader->kt3,8);  */
-/*    NullOut(header->kt4,9); strncpy(header->kt4,charHeader->kt4,8);  */
-/*    NullOut(header->kt5,9); strncpy(header->kt5,charHeader->kt5,8);  */
-/*    NullOut(header->kt6,9); strncpy(header->kt6,charHeader->kt6,8);  */
-/*    NullOut(header->kt7,9); strncpy(header->kt7,charHeader->kt7,8);  */
-/*    NullOut(header->kt8,9); strncpy(header->kt8,charHeader->kt8,8);  */
-/*    NullOut(header->kt9,9); strncpy(header->kt9,charHeader->kt9,8);  */
-/*    NullOut(header->kf,9); strncpy(header->kf,charHeader->kf,8);  */
-/*    NullOut(header->kuser0,9); strncpy(header->kuser0,charHeader->kuser0,8);  */
-/*    NullOut(header->kuser1,9); strncpy(header->kuser1,charHeader->kuser1,8);  */
-/*    NullOut(header->kuser2,9); strncpy(header->kuser2,charHeader->kuser2,8);  */
-/*    NullOut(header->kcmpnm,9); strncpy(header->kcmpnm,charHeader->kcmpnm,8);  */
-/*    NullOut(header->knetwk,9); strncpy(header->knetwk,charHeader->knetwk,8);  */
-/*    NullOut(header->kdatrd,9); strncpy(header->kdatrd,charHeader->kdatrd,8);  */
-/*    NullOut(header->kinst,9); strncpy(header->kinst,charHeader->kinst,8);  */
-/*    DeBlankHeaderStrings(header); */
-/* } */
-/* ------------------------------------------------------------------ */
 
 /* Map event type from CSS to SAC */
 static char *
@@ -305,305 +239,6 @@ sacSetEtype(int ievtyp) {
     return "-";
 }
 
-/* ------------------------------------------------------------------ */
-
-/* static int HeaderOK(struct SACheader *header) */
-/* { */
-/*    if(header->nvhdr < 1 || header->nvhdr > 6) return 0; /\* version # *\/ */
-/*    if(header->iftype < IREAL || header->iftype > IUNKN ||  */
-/*       header->iftype == SAC_INT_UNDEFINED) return 0; */
-
-/*    if(header->idep == SAC_INT_UNDEFINED)header->idep = IUNKN;  */
-/*    return 1; */
-/* } */
-/* ------------------------------------------------------------------ */
-
-/* static int ReadSACheader(char *Filename,struct SACheader *header) */
-/* /\* Open the sac file, fill a header struct from file, */
-/*    Leave file open for subsequent data read. *\/ */
-/* { */
-/*    FILE *sacfile; */
-/*    int bytesToRead; */
-/*    int numStrings=23; */
-/*    struct SACFileCharHeader charHeader; */
-
-/*     if( (sacfile=fopen(Filename, "rb") ) == (FILE *) NULL ){ */
-/*       strcpy(sacErrorStrg,"Error opening SAC file: "); */
-/*       strcat(sacErrorStrg,Filename); */
-/*       dblSetError(0, sacErrorStrg); */
-/*       return FALSE; */
-/*    } */
-
-/* /\* In order to NULL-terminate strings in the SAC header without wiping */
-/*    out the contents of the last character, the string arrays stored in  */
-/*    memory are 1-byte longer than those stored on disk. To ease the i/o */
-/*    define this secondary header struct that contains only strings of */
-/*    the same length as the strings on disk. When reading a file, read in */
-/*    the header up to the first string, then read the remainder of the  */
-/*    header into the SACFileCharHeader struct. If the original header  */
-/*    struct was allocated with calloc, then by simply strncpy'ing the */
-/*    second set of header strings into the appropriate places in the */
-/*    main header, the strings are null-terminated. */
-/*    *\/ */
-
-/*    bytesToRead=sizeof(struct SACheader) - sizeof(struct SACFileCharHeader) - numStrings -1; */
-
-/*    if(fread( (char *) header, bytesToRead,1,sacfile) ){ */
-/*       if(fread( (char *) &charHeader, sizeof(struct SACFileCharHeader),1,sacfile) ){ */
-/*          CopyStrings(header,&charHeader); */
-/*          if( !HeaderOK(header) ){ */
-/* 	      strcpy(sacErrorStrg,"Invalid SAC file: "); */
-/* 	      strcat(sacErrorStrg,Filename); */
-/* 	      dblSetError(0, sacErrorStrg); */
-/* 	      return FALSE; */
-/*          } */
-/*       } */
-/*       else{ */
-/*          return FALSE; */
-/*       } */
-/*       return TRUE; */
-/*    } */
-/*    else{ */
-/*       return FALSE; */
-/*    } */
-
-/* } */
-/* ------------------------------------------------------------------ */
-
-/* static sacSACdata *ReadSACdata(struct SACheader *header, int index1,  */
-/* 				                            int index2) */
-/* { */
-/* /\* SAC file is assumed to be open already, and header is already read. */
-/*    The file handle sacfile is global to this source file. */
-/*    index1 and index2 are assumed to be within the range of data in file */
-/*    and index2 is assumed to be >= index1.*\/ */
-
-/*    int NPTS; */
-/*    int start; */
-/*    sacSACdata *data; */
-
-/*    data = (sacSACdata *) malloc(sizeof(sacSACdata)); */
-/*    if(data == (sacSACdata *) NULL){ */
-/*       strcpy(sacErrorStrg, */
-/* 	     "Error allocating data struct for SAC data in ReadSACdata."); */
-/*       dblSetError(1, sacErrorStrg); */
-/*       return 0; */
-/*     } */
-
-/*    NPTS=index2-index1+1; */
-/*    data->dataType = 0; */
-/*    data->xarray = 0; */
-/*    data->yarray = 0; */
-/*    data->yarray= (float *) calloc(NPTS,sizeof(float)); */
-/*    if(data->yarray == (float *) NULL){ */
-/*       strcpy(sacErrorStrg,"Error allocating y-array for SAC data in ReadSACdata."); */
-/*       dblSetError(1, sacErrorStrg); */
-/*       return 0; */
-/*     } */
-
-/*     if(header->iftype != ITIME){ */
-/*        data->xarray= (float *) calloc(NPTS,sizeof(float)); */
-/*        if(data->xarray == (float *) NULL){ */
-/*           strcpy(sacErrorStrg,"Error allocating x-array for SAC data in ReadSACdata."); */
-/*           dblSetError(1, sacErrorStrg); */
-/* 	  return 0; */
-/*        } */
-/*     } */
-
-/*    start=index1*sizeof(float)+sizeof(struct SACheader); */
-/*    fseek(sacfile,start,0);  */
-/*    if(!fread( (char *) data->yarray, sizeof(float),NPTS,sacfile) ){ */
-/*       free(data->yarray); */
-/*       free(data); */
-/*       return (sacSACdata *) NULL;    */
-/*    } */
-
-/*    if(header->iftype != ITIME){    /\* Must be some form of X-Y *\/  */
-/*       start += header->npts - NPTS; */
-/*       fseek(sacfile,start,0); */
-/*       if(!fread( (char *) data->xarray, sizeof(float),NPTS,sacfile) ){ */
-/*          free(data->xarray); */
-/*          free(data->yarray); */
-/*          free(data); */
-/*          return (sacSACdata *) NULL;    */
-/*       } */
-
-/*    } */
-
-/*    return data; */
-/* } */
-/* ------------------------------------------------------------------ */
-
-/* static float getPickTime(struct SACheader *header,char *cutpnt) */
-/* { */
-
-/*    if(cutpnt[0] == 'A') */
-/*       return header->a; */
-/*    else if(!strcmp(cutpnt,"T0")){ */
-/*       if( header->t0 != SAC_FLOAT_UNDEFINED && strcmp(header->kt0,SAC_CHAR_UNDEFINED) ) */
-/*          return header->t0; */
-/*       }   */
-/*    else if(!strcmp(cutpnt,"T1")){ */
-/*       if( header->t1 != SAC_FLOAT_UNDEFINED && strcmp(header->kt1,SAC_CHAR_UNDEFINED) ) */
-/*          return header->t1; */
-/*       }   */
-/*    else if(!strcmp(cutpnt,"T2")){ */
-/*       if( header->t2 != SAC_FLOAT_UNDEFINED && strcmp(header->kt2,SAC_CHAR_UNDEFINED) ) */
-/*          return header->t2; */
-/*       }   */
-/*    else if(!strcmp(cutpnt,"T3")){ */
-/*       if( header->t3 != SAC_FLOAT_UNDEFINED && strcmp(header->kt3,SAC_CHAR_UNDEFINED) ) */
-/*          return header->t3; */
-/*       }   */
-/*    else if(!strcmp(cutpnt,"T4")){ */
-/*       if( header->t4 != SAC_FLOAT_UNDEFINED && strcmp(header->kt4,SAC_CHAR_UNDEFINED) ) */
-/*          return header->t4; */
-/*       }   */
-/*    else if(!strcmp(cutpnt,"T5")){ */
-/*       if( header->t5 != SAC_FLOAT_UNDEFINED && strcmp(header->kt5,SAC_CHAR_UNDEFINED) ) */
-/*          return header->t5; */
-/*       }   */
-/*    else if(!strcmp(cutpnt,"T6")){ */
-/*       if( header->t6 != SAC_FLOAT_UNDEFINED && strcmp(header->kt6,SAC_CHAR_UNDEFINED) ) */
-/*          return header->t6; */
-/*       }   */
-/*    else if(!strcmp(cutpnt,"T7")){ */
-/*       if( header->t7 != SAC_FLOAT_UNDEFINED && strcmp(header->kt7,SAC_CHAR_UNDEFINED) ) */
-/*          return header->t7; */
-/*       }   */
-/*    else if(!strcmp(cutpnt,"T8")){ */
-/*       if( header->t8 != SAC_FLOAT_UNDEFINED && strcmp(header->kt8,SAC_CHAR_UNDEFINED) ) */
-/*          return header->t8; */
-/*       }   */
-/*    else if(!strcmp(cutpnt,"T9")){ */
-/*       if( header->t9 != SAC_FLOAT_UNDEFINED && strcmp(header->kt9,SAC_CHAR_UNDEFINED) ) */
-/*          return header->t9; */
-/*       }   */
-/*    else if(cutpnt[0] == 'O'){ */
-/*          return header->o; */
-/*       }   */
-/*    else{ */
-/*       return SAC_FLOAT_UNDEFINED; */
-/*       } */
-/*    return SAC_FLOAT_UNDEFINED; */
-/* } */
-/* ------------------------------------------------------------------ */
-
-/* This function is called to read the SAC file specified by filename and
-   fill header and yarray. If called with just these three arguments, it
-   returns the entire sac file. However, it also accepts the following
-   {KEYWORD,value} pairs:
-   
-   PREPICK, value,
-   POSTPICK, value,
-   CUTPOINT, char-value,
-   NULL)
-   
-   CUTPOINT, when used should be followed by one of the strings "A","T0" - "T9", "O"
-   When this specification is made, a section of the file will be read relative
-   to CUTPOINT. PREPICK and POSTPICK are used to specify that section. They should
-   be followed by positive floats which represent the number of seconds before and
-   after the CUTPOINT to read. If PREPICK is not specified, the file is read from the
-   beginning. If POSTPICK is not specified, the file is read to the end. If PREPICK
-   and/or POSTPICK are used without CUTPOINT, then they should be followed by times
-   relative to the beginning of the file. For instance:
-   
-   sacInput(Name, header, yarray, PREPICK,10.0, POSTPICK 35.0,NULL);
-   
-   reads 25 seconds of data from the file beginning 10.0 seconds from the file
-   begin time. */
-
-/* sacSACdata *sacInput(char *filename, struct SACheader *header, ...) */
-/* { */
-/*     va_list ap; */
-/*     int arg; */
-/*     float prePickTime, postPickTime; */
-/*     float pickTime; */
-/*     char cutPnt[20]; */
-/*     sacSACdata *data; */
-/*     int prePickSet = FALSE; */
-/*     int postPickSet = FALSE; */
-/*     int cutPntSet = FALSE; */
-
-/*     int startIndex;    /\* index to start reading in file *\/ */
-/*     int endIndex;      /\* index of last pnt to read *\/ */
-
-/* /\* First take care of getting the variable args using stdarg macros. *\/ */
-/*     va_start(ap,header); */
-/*     while( (arg = va_arg(ap,int)) != 0){ */
-/*       if(arg == PREPICK){ */
-/*          prePickTime = va_arg(ap,double); */
-/*          prePickSet=TRUE; */
-/*          if(prePickTime < 0.0) prePickTime = -prePickTime; */
-/*       } */
-/*       else if(arg == POSTPICK){ */
-/*          postPickTime = va_arg(ap,double); */
-/*          postPickSet=TRUE; */
-/*          if(postPickTime < 0.0) postPickTime = -postPickTime; */
-/*       } */
-/*       else if(arg == CUTPOINT){ */
-/*          strcpy(cutPnt , va_arg(ap, char*)); */
-/*          cutPntSet=TRUE; */
-/*       } */
-/*    }    */
-/*    va_end(ap); */
-
-/* /\* Now make sure it is a valid filename and try to read the header. *\/     */
-/*     if (filename == 0 || *filename == 0)  */
-/*         return 0; */
-/*     if( !ReadSACheader(filename, header) ) return 0; */
-
-/*     if( header->npts  <= 0) return 0;  */
-
-/* /\* There is data to read. Determine the start and end indices from the arg list.*\/ */
-
-/*        if(!prePickSet)  */
-/*           startIndex = 0; */
-/*        else{ */
-/*           if(!cutPntSet){    /\* first number is relative to file begin time. *\/ */
-/*              startIndex = (prePickTime-header->b)/header->delta; */
-/*              if(startIndex < 0)startIndex = 0; */
-/*           }    */
-/*           else{              /\* get start time relative to some pick in file *\/ */
-/*              pickTime=getPickTime(header,cutPnt); */
-/*              startIndex = (pickTime - prePickTime - header->b)/header->delta; */
-/*              if(startIndex < 0){ */
-/*                 fclose(sacfile); */
-/*                 return 0; */
-/*              } */
-/*           }    */
-/*        } */
-
-/*        if(!postPickSet) */
-/*           endIndex = header->npts - 1; */
-/*        else{  */
-/*           if(!cutPntSet){   /\* 2nd number is relative to file begin time *\/ */
-/*              endIndex = (postPickTime-header->b)/header->delta; */
-/*           } */
-/*           else {              /\* get end time relative to some pick in file *\/ */
-/*              pickTime=getPickTime(header,cutPnt); */
-/*              endIndex = (postPickTime + pickTime - header->b)/header->delta; */
-/*           } */
-/*        } */
-/*        if(endIndex > header->npts -1) */
-/*           endIndex = header->npts -1; */
-
-/*        if(endIndex < startIndex){ */
-/*           fclose(sacfile); */
-/*           return 0; */
-/*        } */
-/*        data = ReadSACdata(header, startIndex, endIndex); */
-
-/*        /\* Update these header values in case a section of file was read. *\/ */
-/*        header->npts = endIndex - startIndex + 1; */
-/*        header->b += startIndex * header->delta; */
-/*        header->e = header->b + (header->npts -1) * header->delta; */
-
-/*        fclose(sacfile); */
-/*        return data; */
-
-/* } */
-/* ------------------------------------------------------------------ */
 
 static int
 MagInfoConsistent(float mag, int imagtyp, int imagsrc, float ml, float mb,
@@ -648,78 +283,6 @@ MagInfoConsistent(float mag, int imagtyp, int imagsrc, float ml, float mb,
     /* for now, don't check imagsrc against auth */
     return 1;
 
-    /* Commented out the rest of this function since it 
-       isn't currently active */
-
-    /* Got to here, so mags match. Now check author. 
-       if(!lngDefined(imagsrc) && !CSSchrDefined(auth) )return 1;
-
-       if(!lngDefined(imagsrc) ) {
-       if ( !strcmp ( auth , "NEIC")) return 0;
-       else if(!strcmp(auth, "PDE"))    return 0;
-       else if(!strcmp(auth, "PDE-Q"))  return 0;
-       else if(!strcmp(auth, "PDE-W"))  return 0;
-       else if(!strcmp(auth, "ISC"))    return 0;
-       else if(!strcmp(auth, "REB"))    return 0;
-       else if(!strcmp(auth, "USGS"))   return 0;
-       else if(!strcmp(auth, "BRK"))    return 0;
-       else if(!strcmp(auth, "CALTECH"))return 0;
-       else if(!strcmp(auth, "LLNL"))   return 0;
-       else if(!strcmp(auth, "EVLOC"))  return 0;
-       else if(!strcmp(auth, "JSOP"))   return 0;
-       else if(!strcmp(auth, "USER"))   return 0;
-       else if(!strcmp(auth, "UNKNOWN"))return 0;
-       else return 1 ;
-       }
-
-       switch(imagsrc){
-       case INEIC:
-       if(strcmp(auth, "NEIC"))   return 0;
-       break;
-       case IPDE:
-       if(strcmp(auth, "PDE") && strcmp(auth, "PDE-M") )    return 0;
-       break;
-       case IPDEQ:
-       if(strcmp(auth, "PDE-Q"))  return 0;
-       break;
-       case IPDEW:
-       if(strcmp(auth, "PDE-W"))  return 0;
-       break;
-       case IISC:
-       if(strcmp(auth, "ISC"))    return 0;
-       break;
-       case IREB:
-       if(strcmp(auth, "REB"))    return 0;
-       break;
-       case IUSGS:
-       if(strcmp(auth, "USGS"))   return 0;
-       break;
-       case IBRK:
-       if(strcmp(auth, "BRK"))    return 0;
-       break;
-       case ICALTECH:
-       if(strcmp(auth, "CALTECH"))return 0;
-       break;
-       case ILLNL:
-       if(strcmp(auth, "LLNL"))   return 0;
-       break;
-       case IEVLOC:
-       if(strcmp(auth, "EVLOC"))  return 0;
-       break;
-       case IJSOP:
-       if(strcmp(auth, "JSOP"))   return 0;
-       break;
-       case IUSER:
-       if(strcmp(auth, "USER"))   return 0;
-       break;
-       case IUNKNOWN:
-       if(strcmp(auth, "UNKNOWN"))return 0;
-       break;
-       default:
-       return 0;
-       }
-
-       return 1;  */
 }
 
 /* ------------------------------------------------------------------ */
@@ -1344,22 +907,6 @@ MakeNewArrival(DBlist tree, struct SACheader *header, double refTime,
     return ar;
 }
 
-/* ------------------------------------------------------------------------- */
-
-/* static struct wftagList *findArrivalWftag(DBlist tree, int arid) */
-/* { */
-/*    struct wftagList   *wt = 0; */
-/*    do{ */
-/*       wt = (struct wftagList *) dblNextTableInstance(wt, tree, dbl_LIST_WFTAG); */
-/*       if(!wt)break; */
-/*       if(!strcmp(wt->element->tagname, "arid") ) */
-/*          if(wt->element->tagid == arid) */
-/*             return wt; */
-/*    }while(wt); */
-
-/*    return wt; */
-/* } */
-/* ------------------------------------------------------------------------- */
 
 int
 AridJoinsWithWfid(DBlist tree, int arid, int wfid) {
@@ -2059,62 +1606,6 @@ CreateUpdateEvent(DBlist tree, struct originList *orig,
             strcpy(ev->element->evname, header->kevnm);
 }
 
-/* ------------------------------------------------------------------ */
-
-/*
-static int isGoodEvid( DBlist tree, int evid, int ndfl )
-{
-   struct wftagList *wt = 0 ;
-   struct wfdiscList *wf = 0 ;
-
-   do{
-      wt = (struct wftagList *)dblNextTableInstance( wt, tree, dbl_LIST_WFTAG );
-      if( !wt ) break ;
-      if( !strcmp( wt->element->tagname , "evid" ) &&
-          wt->element->tagid == evid )
-      {
-         do{
-            wf = (struct wfdiscList *)dblNextTableInstance( wf, tree,
-                                                    dbl_LIST_WFDISC ) ;
-            if( !wf ) break ;
-            if( wt->element->wfid == wf->element->wfid && wf->index <= ndfl ){
-               return TRUE ;
-            }
-         }while( wf ) ;
-      }
-   }while( wt ) ;
-
-   return FALSE ;
-}
-* ------------------------------------------------------------------ */
-
-/*
-static int isGoodPrefor( DBlist tree, int evid, int ndfl )
-{
-   struct wftagList *wt = 0 ;
-   struct wfdiscList *wf = 0 ;
-
-   do{
-      wt = (struct wftagList *)dblNextTableInstance( wt, tree, dbl_LIST_WFTAG );
-      if( !wt ) break ;
-      if( !strcmp( wt->element->tagname , "evid" ) &&
-          wt->element->tagid == evid )
-      {
-         do{
-            wf = (struct wfdiscList *)dblNextTableInstance( wf, tree,
-                                                    dbl_LIST_WFDISC ) ;
-            if( !wf ) break ;
-            if( wt->element->wfid == wf->element->wfid && wf->index <= ndfl ){
-               return TRUE ;
-            }
-         }while( wf ) ;
-      }
-   }while( wt ) ;
-
-   return FALSE ;
-}
-* ------------------------------------------------------------------ */
-
 static struct originList *
 sacAddOriginStruct(DBlist tree, struct SACheader *header, struct wfdiscList *w,
                    double otime, int takeEvid) {
@@ -2289,19 +1780,6 @@ FindOriginByEvid(DBlist tree, int evid) {
     return 0;
 }
 
-/* ------------------------------------------------------------------ */
-
-/* static struct wftagList *FindWftag(DBlist tree, int wfid) */
-/* { */
-/*    struct wftagList *wt = 0; */
-/*    do{ */
-/*       wt = (struct wftagList *) dblNextTableInstance(wt, tree, dbl_LIST_WFTAG); */
-/*       if(!wt)break; */
-/*       if(wt->element->wfid == wfid ) return wt; */
-/*    }while(wt); */
-/*    return 0; */
-/* } */
-/* ------------------------------------------------------------------ */
 
 static struct wftagList *
 FindNxtWftag(struct wftagList *wt, DBlist tree, int wfid) {
@@ -2316,22 +1794,6 @@ FindNxtWftag(struct wftagList *wt, DBlist tree, int wfid) {
     } while (wt);
     return 0;
 }
-
-/* ------------------------------------------------------------------ */
-
-/* static struct wftagList *FindWftagByWfidAndTagname(DBlist tree, int wfid,  */
-/*                                                    char *tagname ) */
-/* { */
-/*    struct wftagList *wt = 0; */
-/*    do{ */
-/*       wt = (struct wftagList *) dblNextTableInstance(wt, tree, dbl_LIST_WFTAG); */
-/*       if(!wt)break; */
-/*       if(wt->element->wfid == wfid && !strcmp( wt->element->tagname, tagname ) ) */
-/*          return wt; */
-/*    }while(wt); */
-/*    return NULL ; */
-/* } */
-/* ------------------------------------------------------------------ */
 
 static struct eventList *
 sacAddEventStruct(DBlist tree, struct SACheader *header, struct wfdiscList *w,
@@ -2374,58 +1836,6 @@ sacAddEventStruct(DBlist tree, struct SACheader *header, struct wfdiscList *w,
     return ev;
 }
 
-/* ------------------------------------------------------------------ */
-
-/* int sacLoadDataFromFiles(char *specifier, int SkipData, char* WorkSetName , */
-/*                          int takeEvid ) */
-/* { */
-/*    struct SACheader header; */
-/*    sacSACdata *data; */
-/*    FILE *fileList; */
-
-/*    char command[200]; */
-/*    char files[1000]; */
-/*    int filesReturned = 0; */
-/*    int Replace       = 0; */
-
-/*    strcpy(command,"ls "); */
-/*    strcat(command,specifier); */
-/*    fileList = popen(command, "r"); */
-/*     while(fscanf(fileList,"%s",files) != EOF){ */
-/*       printf("%s \n",files); */
-/*       if((data = sacInput(files, &header, 0))){ */
-/*          if(SkipData){ */
-/*             if(sacLoadFromHeaderAndData(&header, 0, WorkSetName, Replace, */
-/*                                         -1, 1, takeEvid ) ) */
-/*                filesReturned++; */
-/*          } */
-/*          else{ */
-/*             if(sacLoadFromHeaderAndData(&header, data, WorkSetName, Replace, */
-/*                                         -1, 1, takeEvid ) ) */
-/*                filesReturned++; */
-/*          } */
-/*          if(data->yarray)free(data->yarray); */
-/*          if(data->xarray)free(data->xarray); */
-/*       } */
-/*     } */
-/*    pclose(fileList); */
-/*    return filesReturned; */
-/* } */
-
-/* ------------------------------------------------------------------ */
-
-/* static DBdataComm MatchingDataComment(DBlist tree, int Trcindex, int j) */
-/* { */
-/*    DBdataComm DCpntr; */
-/*    DCpntr = dblGetNextDCSacUserMatch(tree, Trcindex, j); */
-/*    if(!DCpntr){ */
-/*       DCpntr = dblCreateDataComment(tree); */
-/*       dblSetDCIndex( DCpntr, Trcindex); */
-/*       dblSetSacUserNum( DCpntr, j); */
-/*    } */
-/*    return DCpntr; */
-/* } */
-/* ------------------------------------------------------------------ */
 
 static void
 DeBlankSacHeaderStrings(struct SACheader *header) {

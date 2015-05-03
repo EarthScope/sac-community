@@ -87,13 +87,7 @@ skipdo(int *nerr) {
     poptok(kiline, niline, &ic, &ic1, &ic2, &itype);
     nc = min(MCPW, ic2 - ic1 + 1);
 
-    strtemp = malloc(nc + 1);
-    strncpy(strtemp, kiline + ic1 - 1, nc);
-    strtemp[nc] = '\0';
-
-    modcase(TRUE, strtemp, nc, ktoken);
-
-    free(strtemp);
+    modcase(TRUE, kiline+ic1-1, nc, ktoken);
 
     /* -- If "WHILE", increment number of nested dos  */
     if (memcmp(ktoken, "WHILE", 5) == 0)

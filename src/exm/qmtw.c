@@ -22,6 +22,6 @@ qmtw() {
     float tmp[2];
     tmp[0] = cmsmm.omtw[0];
     tmp[1] = cmsmm.omtw[1];
-    reprtw("MTW option$", 12, cmsmm.lmtw, kmwt, 9, tmp);
+    reprtw("MTW option", 12, cmsmm.lmtw, kmwt, 9, tmp);
     return;
 }

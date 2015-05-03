@@ -140,26 +140,22 @@ pcxrpl(FILE * nunrpl, int *lquit) {
     /* - See if it is a "change environment op". */
 
     if (kchar == kmgam.kopbe) {
+        char sa[3], sb[3];
         kmgam.kopetx[0] = kmgam.kopbe;
         jope = 2;
       L_5500:
         if (kmgam.kopetx[jope - 1] == kmgam.kopee)
             goto L_5000;
         jope = jope + 1;
-        s1 = malloc(3);
-        strncpy(s1, kmgam.kopetx + jope - 2, 2);
-        s1[2] = '\0';
-        s2 = malloc(3);
-        strncpy(s2, kmgam.kopetx + jope - 2, 2);
-        s2[2] = '\0';
 
-        upcase(s1, 2, s2, jope - (jope - 1) + 2);
+        strlcpy(sa, kmgam.kopetx + jope - 2, sizeof(sa));
+        strlcpy(sb, kmgam.kopetx + jope - 2, sizeof(sb));
+
+        upcase(sa, 2, sb, jope - (jope - 1) + 2);
         subscpy(kmgam.kopetx, jope - 2, jope - 1, 80, s2);
 
-        free(s1);
+        iope = nccomp(sb, (char *) kmgam.kope, 3, cmgam.nope, 2);
 
-        iope = nccomp(s2, (char *) kmgam.kope, 3, cmgam.nope, 2);
-        free(s2);
         if (iope < cmgam.nopei) {
             pcxope(iope, 0);
             jope = jope + 1;

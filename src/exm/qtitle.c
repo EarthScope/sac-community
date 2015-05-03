@@ -17,9 +17,9 @@
  */
 void
 qtitle() {
-    replv("TITLE option$", 14, cmgem.title.on);
+    mprint("   TITLE option is %s", ON_OFF(cmgem.title.on));
     repkv("Text of title$", 15, kmgem.ktitl, 145);
-    reprv("SIZE of title$", 15, cmgem.title.text_size);
+    mprint("   SIZE of title is " REPORT_FLOAT, cmgem.title.text_size);
     repav("LOCATION of title$", 19, (char *) kmgem.ksides[cmgem.title.pos - 1],
           9);
     return;

@@ -34,7 +34,7 @@ xdecimate(int *nerr) {
     static char kint[7 - (2) + 1] = { '2', '3', '4', '5', '6', '7' };
     static int ndecmn = 2;
     static int ndecmx = 7;
-    char *cattemp;
+    char cattemp[5];
 
     sac *s;
     float *new, *scr;
@@ -146,12 +146,8 @@ xdecimate(int *nerr) {
         crname(kdecnm, MCPFN + 1, KSUBDL, "fir", 4, nerr);
         if (*nerr != 0)
             return;
-        cattemp = malloc(3 + 1 + 1);
-        strcpy(cattemp, "dec");
-        cattemp[3] = kint[cmscm.ndecfc - (2)];
-        cattemp[4] = '\0';
-        crname(kdecnm, MCPFN + 1, KDIRDL, cattemp, 3 + 1 + 1, nerr);
-        free(cattemp);
+        snprintf(cattemp, sizeof(cattemp), "dec%c", kint[cmscm.ndecfc - (2)]);
+        crname(kdecnm, MCPFN + 1, KDIRDL, cattemp, sizeof(cattemp), nerr);
         if (*nerr != 0)
             return;
         rfir(kdecnm, MCPFN + 1, MFIR, cmfir.cfir, &cmfir.ncfir, &cmfir.dtfir,

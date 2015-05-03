@@ -22,10 +22,10 @@ qcolor() {
 
     char kcol[9];
 
-    replv("COLOR option$", 14, cmgem.lcol);
+    mprint("   COLOR option is %s", ON_OFF(cmgem.lcol));
     convcolornum(cmgem.icol, kcol, 9);
     repav("DATA color$", 12, kcol, 9);
-    replv("INCREMENT data color$", 22, cmgem.licol);
+    mprint("   INCREMENT data color is %s", ON_OFF(cmgem.licol));
     convcolornum(cmgem.iskcol, kcol, 9);
     repav("SKELETON color$", 16, kcol, 9);
     convcolornum(cmgem.ibacol, kcol, 9);

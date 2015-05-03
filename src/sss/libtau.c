@@ -199,10 +199,10 @@ brnset(nn, pcntl, pcntl_s, prflg)
                 phtmp[l - 1] != 'n')
                 goto L_5;
             if (l < 8) {
-                strncpy((s1 = malloc(9 - (l + 1) + 1)), phtmp + l, 9 - (l + 1));
-                s1[9 - (l + 1)] = '\0';
-                subscpy(phtmp, l - 1, -1, 8, s1);
-                free(s1);
+                char s11[9];
+                strncpy(s11, phtmp + l, 9 - (l + 1));
+                s11[9 - (l + 1)] = '\0';
+                subscpy(phtmp, l - 1, -1, 8, s11);
             }
             if (l >= 8)
                 subscpy(phtmp, l - 1, -1, 8, " ");

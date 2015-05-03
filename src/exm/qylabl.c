@@ -5,9 +5,12 @@
  * 
  */
 
+#include <string.h>
 #include "eam.h"
 #include "gem.h"
 #include "exm.h"
+#include "msg.h"
+#include "bot.h"
 
 /** 
  * Report current values of the ylable command parameters
@@ -17,11 +20,16 @@
  */
 void
 qylabl() {
-
-    replv("YLABEL option$", 15, cmgem.ylabel.on);
-    repkv("Text of ylabel$", 16, kmgem.kylab, 145);
-    reprv("SIZE of ylabel$", 16, cmgem.ylabel.text_size);
-    repav("LOCATION of ylabel$", 20,
-          (char *) kmgem.ksides[cmgem.ylabel.pos - 1], 9);
+    char text[145];
+    memcpy(text, kmgem.kylab, sizeof(text));
+    rstrip(text);
+    mprint("   YLABEL option is %s\n"
+           "    Text of ylabel is '%s'\n"
+           "    SIZE of ylabel is %12.5g\n"
+           "    LOCATION of ylabel is %s", 
+           (cmgem.ylabel.on) ? "ON" : "OFF",
+           text,
+           cmgem.ylabel.text_size,
+           (char *) kmgem.ksides[cmgem.ylabel.pos - 1]);
     return;
 }

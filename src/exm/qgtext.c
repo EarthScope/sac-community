@@ -31,8 +31,8 @@ qgtext() {
         sprintf(kline, "   %s", "SOFTWARE text being used.");
         aplmsg(kline, MCPFN + 1);
     }
-    repiv("Text FONT$", 11, cmgem.igtfnt);
-    reprv("Text SIZE$", 11, cmgem.tsdef);
+    mprint("   Text FONT is " REPORT_INT, cmgem.igtfnt);
+    mprint("   Text SIZE is " REPORT_FLOAT, cmgem.tsdef);
 
     return;
 }

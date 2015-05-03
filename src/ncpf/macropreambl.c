@@ -95,10 +95,7 @@ macropreamble(char *kmacroargs, int kmacroargs_s, FILE * nun, int *nerr) {
     poptok(kiline, niline, &ic, &ic1, &ic2, &itype);
     nc = min(ic2 - ic1 + 1, MCPW);
 
-    strncpy((s1 = malloc(nc + 1)), kiline + ic1 - 1, nc);
-    s1[nc] = '\0';
-    upcase(s1, nc, ktoken, 9);
-    free(s1);
+    upcase(kiline+ic1-1, nc, ktoken, 9);
 
     lkey = memcmp(ktoken, "$KEYS", 5) == 0;
 

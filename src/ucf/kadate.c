@@ -65,49 +65,7 @@ kadate(int iyear, int ijday, int ncdate, char *kkdate, int kkdate_s, int *nerr) 
         goto L_8888;
     }
 
-    /* - Define month subfield: */
-    subscpy(kkdate, 0, 3, kkdate_s - 1, kmonth[imonth - 1]);
-
-    /* - Encode day subfield: */
-    sprintf(kenc, "%4d", iday);
-    if (iday >= 10) {
-        s1 = strcut(kenc, 3, 4);
-        subscpy(kkdate, 4, 5, kkdate_s - 1, s1);
-        free(s1);
-    } else {
-        cattemp = malloc(3);
-        cattemp[0] = '0';
-        cattemp[1] = kenc[3];
-        cattemp[2] = '\0';
-        subscpy(kkdate, 4, 5, kkdate_s - 1, cattemp);
-        free(cattemp);
-    }
-
-    /* - Encode julian day subfield. */
-
-    subscpy(kkdate, 6, 7, kkdate_s - 1, " (");
-    sprintf(kenc, "%4d", ijday);
-    if (ijday >= 100) {
-        s1 = strcut(kenc, 2, 4);
-        subscpy(kkdate, 8, 10, kkdate_s - 1, s1);
-        free(s1);
-    } else if (ijday >= 10) {
-        kkdate[8] = '0';
-        s1 = strcut(kenc, 3, 4);
-        subscpy(kkdate, 9, 10, kkdate_s - 1, s1);
-        free(s1);
-    } else {
-        subscpy(kkdate, 8, 9, kkdate_s - 1, "00");
-        kkdate[10] = kenc[3];
-    }
-
-    /* - Encode year subfield, blank filling to end of output field. */
-
-    subscpy(kkdate, 11, 13, kkdate_s - 1, "), ");
-    sprintf(kenc, "%4d", iyear);
-    s1 = strcut(kenc, 1, 4);
-    subscpy(kkdate, 14, ncdate - 1, kkdate_s - 1, s1);
-    free(s1);
+    snprintf(kkdate, kkdate_s, "%3s%02d (%03d), %4d", kmonth[imonth-1], iday, ijday, iyear);
 
   L_8888:
 

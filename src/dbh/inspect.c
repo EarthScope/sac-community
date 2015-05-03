@@ -171,25 +171,13 @@ inspect(int iord, char *type, char *aproto, double att, double trbndw,
     if (digital) {
         bilin2(sn, sd, nsects);
 
-        strtemp = malloc(3);
-        strncpy(strtemp, rtype + 1, 2);
-        strtemp[2] = '\0';
-
-        dfr(sn, sd, nsects, strtemp, nfreqs, ts, response);
-
-        free(strtemp);
+        dfr(sn, sd, nsects, &rtype[1], nfreqs, ts, response);
 
         *rfl = 0.0;
         *rfh = 1 / (2. * ts);
     } else {
-        strtemp = malloc(3);
-        strncpy(strtemp, rtype, 2);
-        strtemp[2] = '\0';
-
-        afr(sn, sd, nsects, strtemp, sampling, *rfl, *rfh, nfreqs, response,
+        afr(sn, sd, nsects, &rtype[0], sampling, *rfl, *rfh, nfreqs, response,
             freqs);
-
-        free(strtemp);
     }
 
     return;

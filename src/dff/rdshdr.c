@@ -34,7 +34,7 @@ void
 rdshdr(int idfl, int *nun, int *nerr) {
 
     int i, idd, imm, is, iss, nlcdsk, numrd;
-    char *strtemp;
+    char strtemp[9];
 
     //int *Isacmem;
     sac *s;
@@ -63,7 +63,6 @@ rdshdr(int idfl, int *nun, int *nerr) {
     ksstnm[8] = 0;
     strcpy(s->h->kstnm, ksstnm);
 
-    strtemp = malloc(9);
     strncpy(strtemp, kschan, 8);
     strtemp[8] = '\0';
 
@@ -75,8 +74,6 @@ rdshdr(int idfl, int *nun, int *nerr) {
     strtemp[4] = '\0';
 
     subscpy(s->h->kinst, 0, 3, 8, strtemp);
-
-    free(strtemp);
 
     s->h->delta = (1.0 / (float) (*isdelt)) * 100.0;
     s->h->npts = *isnpts;

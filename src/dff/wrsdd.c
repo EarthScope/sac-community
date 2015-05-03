@@ -94,18 +94,16 @@ wrsdd(int idfl, char *kname, int kname_s, int ldta, int *nerr) {
         strcpy(ksstnm, s->h->kstnm);
     }
     if (!is_kundef(s->h->kcmpnm)) {
-        strtemp = malloc(9);
+        char strtemp[9];
         strncpy(strtemp, s->h->kcmpnm, 8);
         strtemp[8] = '\0';
         subscpy(kschan, 0, 7, 12, strtemp);
-        free(strtemp);
     }
     if (!is_kundef(s->h->kinst)) {
-        strtemp = malloc(5);
+        char strtemp[5];
         strncpy(strtemp, s->h->kinst, 4);
         strtemp[4] = '\0';
         subscpy(kschan, 8, 11, 12, strtemp);
-        free(strtemp);
     }
     if (s->h->delta != SAC_FLOAT_UNDEFINED)
         *isdelt = (int) ((1.0 / s->h->delta) * 100.0 + .5);

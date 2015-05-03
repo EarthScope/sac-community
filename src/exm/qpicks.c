@@ -25,20 +25,20 @@ qpicks() {
     int j, j_;
     char *cattemp;
 
-    replv("PICK display$", 14, cmgam.ldsppk);
+    mprint("   PICK display is %s", ON_OFF(cmgam.ldsppk));
     repav("Type of each pick display$", 27, "        ", 9);
     for (j = 1; j <= MPKNAM; j++) {
+        char cattemp[6];
+        cattemp[0] = 0;
         j_ = j - 1;
-        cattemp = malloc(2 + 2 + 2);
         strcpy(cattemp, "  ");
         strncat(cattemp, kmgam.kpknam[j_], 2);
         strcat(cattemp, "$");
         repav(cattemp, 2 + 2 + 1 + 1,
               (char *) kmgam.kpktyp[cmgam.ipktyp[j - 1] - 1], 9);
-        free(cattemp);
     }
-    reprv("WIDTH of pick lines$", 21, cmgam.pkwdth);
-    reprv("HEIGHT of pick lines$", 22, cmgam.pkhgth);
+    mprint("   WIDTH of pick lines is " REPORT_FLOAT, cmgam.pkwdth);
+    mprint("   HEIGHT of pick lines is " REPORT_FLOAT, cmgam.pkhgth);
 
     return;
 }

@@ -18,7 +18,7 @@
  */
 void
 qfid() {
-    replv("FILEID display$", 16, cmgam.lfidrq);
+    mprint("   FILEID display is %s", ON_OFF(cmgam.lfidrq));
     repav("Fileid display TYPE$", 21, (char *) kmgam.kfidtp[cmgam.ifidtp - 1],
           9);
     repav("Fileid display LOCATION$", 25,

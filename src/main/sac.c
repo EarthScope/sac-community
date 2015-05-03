@@ -148,27 +148,19 @@ main(int argc, char **argv) {
 
 void
 execute_command_line(char *kmsg, int len) {
-    int nc, ic, ic1, ic2, itype, nerr;
+    int nerr;
     char *s1, *s2;
-    nc = indexb(kmsg, len);
-    if (nc > 0) {
-        ic = 0;
-        poptok(kmsg, nc, &ic, &ic1, &ic2, &itype);
-        setmsg("COMMAND", 99);
-        apcmsg("(INPUT LINE) MACRO", 19);
-        apcmsg(kmsg, MCMSG + 1);
-        outmsg();
-        clrmsg();
-
-        strncpy((s1 = malloc(ic2 - ic1 + 2)), kmsg + ic1 - 1, ic2 - ic1 + 1);
-        s1[ic2 - ic1 + 1] = '\0';
-        strncpy((s2 = malloc(nc - ic + 2)), kmsg + ic - 1, nc - ic + 1);
-        s2[nc - ic + 1] = '\0';
-
-        executemacro(s1, ic2 - ic1 + 2, s2, nc - ic + 2, &nerr);
-
-        free(s1);
-        free(s2);
+    if(strlen(kmsg) > 0) {
+        /* Macro name */
+        s1 = kmsg;
+        /* Macro arguments */
+        s2 = index(kmsg, ' ');
+        if(s2) {
+            *s2 = 0;
+            s2++;
+        }
+        /* Execute Macro */
+        executemacro(s1, strlen(s1), s2, strlen(s2), &nerr);
     }
 }
 

@@ -123,22 +123,9 @@ lgahdr(char *kfield, int kfield_s, char *kvalue, int kvalue_s) {
                 } else if (s->h->cmpaz == 90. && s->h->cmpinc == 90.) {
                     subscpy(kvalue, nc, -1, kvalue_s - 1, "  EAST");
                 } else {
-                    cnvita((int) (s->h->cmpaz + 0.5), kcmpaz, 9);
-                    ljust(kcmpaz, 9);
-                    cattemp = malloc(2 + 3 + 1);
-                    strcpy(cattemp, "  ");
-                    strncat(cattemp, kcmpaz, 3);
-                    subscpy(kvalue, nc, nc + 4, kvalue_s - 1, cattemp);
-                    free(cattemp);
-                    nc = nc + 5;
+                    snprintf(kvalue, sizeof(kvalue)-1, " %-4d", (int) (s->h->cmpaz + 0.5));
                     if (s->h->cmpinc != 90.) {
-                        cnvita((int) (s->h->cmpinc + 0.5), kcmpin, 9);
-                        ljust(kcmpin, 9);
-                        cattemp = malloc(2 + 2 + 1);
-                        strcpy(cattemp, "  ");
-                        strncat(cattemp, kcmpin, 2);
-                        subscpy(kvalue, nc, nc + 3, kvalue_s - 1, cattemp);
-                        free(cattemp);
+                        snprintf(kvalue, sizeof(kvalue)-1, "%s %-4d", kvalue, (int)(s->h->cmpinc+0.5));
                     }
                 }
             }

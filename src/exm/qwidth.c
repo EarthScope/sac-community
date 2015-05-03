@@ -19,13 +19,13 @@
 void
 qwidth() {
 
-    replv("WIDTH option$", 14, cmgem.lwidth);
+    mprint("   WIDTH option is %s", ON_OFF(cmgem.lwidth));
     if (cmgem.lwidth) {
-        replv("WIDTH INCREMENT option$", 24, cmgem.liwidth);
-        repiv("Current WIDTH value$", 21, cmgem.iwidth);
-        repiv("Current SKELETON WIDTH value$", 30, cmgem.iskwidth);
+        mprint("   WIDTH INCREMENT option is %s", ON_OFF(cmgem.liwidth));
+        mprint("   Current WIDTH value is " REPORT_INT,  cmgem.iwidth);
+        mprint("   Current SKELETON WIDTH value is " REPORT_INT, cmgem.iskwidth);
         if (cmgem.liwidth)
-            repivl("WIDTH increment LIST:$", 23, cmgem.iiwidth, cmgem.niwidth);
+            repivl("WIDTH increment LIST:", cmgem.iiwidth, cmgem.niwidth);
     }
     return;
 }

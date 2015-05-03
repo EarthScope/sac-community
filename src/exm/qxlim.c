@@ -21,6 +21,6 @@ qxlim() {
     float tmp[2];
     tmp[0] = cmgam.ortwxl[0];
     tmp[1] = cmgam.ortwxl[1];
-    reprtw("XLIM option$", 13, cmgam.lrtwxl, (char *) kmgam.krtwxl, 9, tmp);
+    reprtw("XLIM option", 13, cmgam.lrtwxl, (char *) kmgam.krtwxl, 9, tmp);
     return;
 }

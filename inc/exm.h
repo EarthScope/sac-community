@@ -175,7 +175,7 @@ void qylim(void);
 void repav(char *ktext, int ktext_s, char *av, int av_s);
 void reperr(int nerr);
 void repiv(char *ktext, int ktext_s, int iv);
-void repivl(char *ktext, int ktext_s, int *iv, int nv);
+void repivl(char *ktext, int *iv, int nv);
 void repkv(char *ktext, int ktext_s, char *kv, int kv_s);
 void replv(char *ktext, int ktext_s, int lv);
 void reprtw(char *ktext, int ktext_s, int lrtw, char *krtw, int krtw_s,
@@ -213,5 +213,9 @@ void xtrace(int *nerr);
 void xtranscript(int *nerr);
 void xunsetbb(int *nerr);
 void xwritebbf(int *nerr);
+
+#define ON_OFF(x) ( (x) ? "ON" : "OFF" )
+#define REPORT_FLOAT "%12.5g"
+#define REPORT_INT "%5d"
 
 #endif /* _EXM_H_ */

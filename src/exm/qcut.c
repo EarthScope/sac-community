@@ -22,6 +22,6 @@ qcut() {
     float tmp[2];
     tmp[0] = cmdfm.ocut[0];
     tmp[1] = cmdfm.ocut[1];
-    reprtw("CUT option$", 12, cmdfm.lcut, (char *) kmdfm.kcut, 9, tmp);
+    reprtw("CUT option", 12, cmdfm.lcut, (char *) kmdfm.kcut, 9, tmp);
     return;
 }

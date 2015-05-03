@@ -37,6 +37,7 @@ pcxcur(FILE * nunrpl) {
     FILE *nunmac;
     float height, width, xcdpsv, xtloc, ycdpsv, ytloc;
     char *strtemp1, *strtemp2;
+    char s1[3], s2[3];
 
     nunmac = NULL;
         /*=====================================================================
@@ -191,20 +192,15 @@ pcxcur(FILE * nunrpl) {
         }
         jope = jope + 1;
         worldcursor(&cmgam.xcdpe, &cmgam.ycdpe, &kmgam.kopetx[jope - 1]);
-        strtemp1 = malloc(3);
-        strncpy(strtemp1, kmgam.kopetx + jope - 2, 2);
-        strtemp1[2] = '\0';
-        strtemp2 = malloc(3);
-        strncpy(strtemp2, kmgam.kopetx + jope - 2, 2);
-        strtemp2[2] = '\0';
+        strncpy(s1, kmgam.kopetx + jope - 2, 2);
+        s1[2] = '\0';
+        strncpy(s2, kmgam.kopetx + jope - 2, 2);
+        s2[2] = '\0';
 
-        upcase(strtemp1, 2, strtemp2, jope - (jope - 1) + 2);
-        subscpy(kmgam.kopetx, jope - 2, jope - 1, 80, strtemp2);
+        upcase(s1, 2, s2, jope - (jope - 1) + 2);
+        subscpy(kmgam.kopetx, jope - 2, jope - 1, 80, s2);
 
-        free(strtemp1);
-
-        iope = nccomp(strtemp2, (char *) kmgam.kope, 3, cmgam.nope, 2);
-        free(strtemp2);
+        iope = nccomp(s2, (char *) kmgam.kope, 3, cmgam.nope, 2);
 
         if (iope < cmgam.nopei) {
             pcxope(iope, 0);

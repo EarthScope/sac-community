@@ -20,12 +20,12 @@
 void
 qline() {
 
-    replv("LINE option$", 13, cmgem.lline);
+    mprint("   LINE option is %s", ON_OFF(cmgem.lline));
     if (cmgem.lline) {
-        repiv("Current linestyle$", 19, cmgem.icline);
-        replv("Line INCREMENT option$", 23, cmgem.liline);
+        mprint("   Current linestyle is " REPORT_INT, cmgem.icline);
+        mprint("   Line INCREMENT option is %s", ON_OFF(cmgem.liline));
         if (cmgem.liline)
-            repivl("Line increment LIST$", 21, cmgem.iiline, cmgem.niline);
+            repivl("Line increment LIST:", cmgem.iiline, cmgem.niline);
     }
 
     return;
