@@ -1,0 +1,8 @@
+fD seismo
+bp co 0.01 0.1 p 2 n 4
+fft womean
+psp am
+write output
+
+
+

@@ -120,32 +120,29 @@ filterdesign(nerr)
         findcommand(kcommand, &lfound, &module, &index);
 
         /* --- Test for filter module number. */
-        if (lfound && (module == IFILTMOD)) {
-
+        if (lfound && (module == IFILTMOD) &&
             /* ---- Produce the data files in memory */
-            if (index >= 6 && index <= 9) {
-                switch (index - 5) {
-                    case 1:    /* LP - lowpass */
-                        fdlp(memptr, MXMPTR, userData, nerr);
-                        break;
-                    case 2:    /* HP - highpass */
-                        fdhp(memptr, MXMPTR, userData, nerr);
-                        break;
-                    case 3:    /* BP - bandpass */
-                        fdbp(memptr, MXMPTR, userData, nerr);
-                        break;
-                    case 4:    /* BR - bandreject */
-                        fdbr(memptr, MXMPTR, userData, nerr);
-                        break;
-                }
+            index >= 6 && index <= 9) {
+            switch (index - 5) {
+            case 1:    /* LP - lowpass */
+                fdlp(memptr, MXMPTR, userData, nerr);
+                break;
+            case 2:    /* HP - highpass */
+                fdhp(memptr, MXMPTR, userData, nerr);
+                break;
+            case 3:    /* BP - bandpass */
+                fdbp(memptr, MXMPTR, userData, nerr);
+                break;
+            case 4:    /* BR - bandreject */
+                fdbr(memptr, MXMPTR, userData, nerr);
+                break;
             }
-
-            /* --- invalid module or index number. */
-            else {
-                cfmt("ILLEGAL OPTION:", 17);
-                cresp();
-                goto L_8888;
-            }
+        }
+        /* --- invalid module or index number. */
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+            goto L_8888;
         }
     }
 

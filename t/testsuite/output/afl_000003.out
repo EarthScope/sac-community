@@ -1,0 +1,19 @@
+ wait text off
+ fD seismo
+ ERROR interpreting command:  fD seismo 
+ ILLEGAL OPTION:                      ^
+ bp co 0.01 0.1 p 2 n 4
+ ERROR 1301: No data files read in.
+ fft womean
+ ERROR 1301: No data files read in.
+ psp am
+ ERROR 1301: No data files read in.
+ write output
+ ERROR 1312: Bad number of files in write file list: 1 0
+  
+ ==>  
+  
+ ==>  
+  
+ ==>  
+ quit
