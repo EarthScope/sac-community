@@ -102,7 +102,7 @@ lclist(char *klist, int klist_s, int nlist, int *index) {
         cresp();
         if (lcmore(&nerr))
             goto L_2000;
-        lclist_v = TRUE;
+        lclist_v = FALSE;
     }
 
     /* - If no match found, return with LCLIST set to .FALSE. */

@@ -1,0 +1,73 @@
+ wait text off
+ wait tex off
+ ERROR interpreting command:  wait tex off 
+ ILLEGAL OPTION:                   ^
+ fg impulsewrite
+ ERROR interpreting command:  fg impulsewrite 
+ ILLEGAL OPTION:                 ^
+ lh 
+ ERROR 1301: No data files read in.
+ b e
+  
+ ==>  
+ cut -^t.imulse
+ ERROR interpreting command:  cut -^t.imulse 
+ ILLEGAL OPTION:                  ^
+ lh ÿuŽ -10 20
+ ERROR 1301: No data files read in.
+ read test
+ ERROR 1301: No data files read in.
+ lt.impulsg
+ lh b e
+ ERROR 1301: No data files read in.
+ cut t 10 180
+ ERROR interpreting command:  cut t 10 180 
+ AMBIGUOUS OPTION                 ^
+ Possible matches are:
+   T0 T1 T2 T3 T9
+ ERROR interpreting command:  cut t 10 180 
+ ILLEGAL OPTION:                  ^
+ reSd erò fiite
+ cread0 20
+ se
+ lh b e
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ cut€
+ cutfatal0
+ rb e
+  
+ ==>  
+ cut -10 20
+ read test.
+ ERROR 1301: No data files read in.
+ ‰h b e
+  
+ ==>  
+ cut -10 180
+ rerd te^t.imulse
+ lh ÿÿ€
+ ERROR 1301: No data files read in.
+ rad te^t.impulse
+ lh b õ
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ cuterr fill:
+ ERROR interpreting command:  cuterr fill: 
+ ILLEGAL OPTION:                     ^
+ c
+ lh b e
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ c -10 2
+ read
+ ERROR 1301: No data files read in.
+ cut 50 18ÿÿÿad–test.impulsK
+ ERROR interpreting command:  cut 50 18ÿÿÿad–test.impulsK 
+ ILLEGAL OPTION:                     ^
+ lh b e
+ ERROR 1301: No data files read in.
+ quit
