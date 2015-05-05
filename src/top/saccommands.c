@@ -164,7 +164,10 @@ saccommands_cleanup(eval * e) {
     if (!e) {
         e = e0;
     }
-    eval_free(e);
+    if(e) {
+        eval_free(e);
+    }
+    e0 = NULL;
     if (tok0) {
         token_free(tok0);
         tok0 = NULL;
@@ -327,8 +330,15 @@ saccommands(char *kinmsg, int kinmsg_s, int *nerr) {
         } else {
             n = strlen(p);
         }
-
+        if(n < 1) {
+            p = (p1) ? p1 + 1 : NULL;
+            continue;
+        }
         in = strcut(p, 1, n);
+        if(!in) {
+            p = (p1) ? p1 + 1 : NULL;
+            continue;
+        }
         e0 = e = tokenize_line(in);
         free(in);
         if (!e) {
