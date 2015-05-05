@@ -1,0 +1,15 @@
+ wait text off
+ echo on
+  
+ ==>  
+ fg impulse
+ log10
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 0  Minvalue = -inf
+ p depmin depmax
+ ERROR interpreting command:  p depmin depmax 
+ ILLEGAL OPTION:                ^
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 0  Minvalue = -inf
+ ERROR 1340: data points outside allowed range contained in file
+ quit

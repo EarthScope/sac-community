@@ -8,7 +8,7 @@
 
 #include "gtm.h"
 #include "ucf.h"
-
+#include "msg.h"
 
 GEM_EXTERN
 
@@ -181,12 +181,18 @@ plmap(xarray, yarray, number, incx, incy, nerr)
                     }           /* end for ( jdx ) */
                 }               /* end else associated with if( cmgem.lxgen ) */
             } /* end if( cmgem.lxlim ) */
-            else
-                extrma(yarray, incy, number, &cmgem.data.ymin, &cmgem.data.ymax,
-                       &fjunk);
+            else {
+                extrma(yarray, incy, number, &cmgem.data.ymin, &cmgem.data.ymax, &fjunk);
+            }
         }                       /* end else associated with if( cmgem.lygen ) */
     }                           /* end else associated with if( cmgem.lylim ) */
-
+    if(!isfinite(cmgem.data.xmin) ||
+       !isfinite(cmgem.data.xmax) ||
+       !isfinite(cmgem.data.ymin) ||
+       !isfinite(cmgem.data.ymax)) {
+        error(*nerr = 1340, "");
+        return;
+    }
     /* - Adjust data limits to produce 'nice' plots if limits not fixed.
      * - If LXFUDG or LYFUDG is .TRUE. make that data window
      *   slightly larger than extrema.
