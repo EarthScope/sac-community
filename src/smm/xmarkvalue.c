@@ -123,9 +123,9 @@ xmarkvalue(nerr)
     /* - Format description for storage in header. */
 
     if (cmsmm.lgedata) {
-        sprintf(kdescr, "%s%5.1f", "GE ", cmsmm.value);
+        snprintf(kdescr, 9,"GE %5.1f", cmsmm.value);
     } else {
-        sprintf(kdescr, "%s%5.1f", "LE ", cmsmm.value);
+        snprintf(kdescr, 9,"LE %5.1f", cmsmm.value);
     }
 
     /* - Perform the requested function on each file in DFL. */
