@@ -1,0 +1,44 @@
+ wait text off
+ echo on
+ fg seismo
+  
+ ==>  
+ message "MTW Off"
+ MTW Off
+ mtw off
+ markvalue ge -1.0 to t0
+ lht0
+  
+ ==>  
+ message "MTW 12-13"
+ MTW 12-13
+ mtw 12 13
+ markvalue ge+
+ markvalueAge -1. -1. <= 5mtw b 0 5
+ markvalue ge -1100
+ markvalue ge<= 3"
+ ERROR interpreting command:  markvalue ge<= 3" 
+ ILLEGAL OPTION:                              ^
+ mtw f -3 3
+ markvalueAge -1.0 t~ t0
+ lh t%
+  
+ ==>  
+ message "MTW B: 100 pts"
+ MTW B: 100 pts
+ mtw b n 100
+ markvalue ge -1 to v0
+ ERROR interpreting command:  markvalue ge -1 to v0 
+ ILLEGAL OPTION:                                 ^
+ lh t0
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     t0 = 1.200000e+01
+  
+ ==>  
+  
+ ==>  
+ quit

@@ -53,6 +53,5 @@ lklist(char *kkey, int kkey_s, char *klist, int klist_s, int nlist, int *index) 
         return FALSE;
     }
 
-    lclist(klist, klist_s, nlist, index);
-    return TRUE;
+    return lclist(klist, klist_s, nlist, index);
 }
