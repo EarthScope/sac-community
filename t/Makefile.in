@@ -182,7 +182,14 @@ TESTS = use_sac$(EXEEXT) ucf$(EXEEXT) vars$(EXEEXT) sacio$(EXEEXT) \
 	testsuite/input/yvport.sm testsuite/input/zaddf.sm \
 	testsuite/input/zam.sm testsuite/input/zfft.sm \
 	testsuite/input/zifft.sm testsuite/input/zprocessline.sm \
-	testsuite/input/zzzzcd.sm $(am__append_8)
+	testsuite/input/zzzzcd.sm testsuite/input/afl_000000.sm \
+	testsuite/input/afl_000001.sm testsuite/input/afl_000002.sm \
+	testsuite/input/afl_000003.sm testsuite/input/afl_000004.sm \
+	testsuite/input/afl_000005.sm testsuite/input/afl_000006.sm \
+	testsuite/input/afl_000007.sm testsuite/input/afl_000008.sm \
+	testsuite/input/afl_000009.sm testsuite/input/afl_000010.sm \
+	testsuite/input/afl_000011.sm testsuite/input/afl_000012.sm \
+	$(am__append_8)
 @HAVE_FC_TRUE@am__append_7 = sacio_fortran.sh saciof saclibf
 
 # These tests have specific calls to the X11 device

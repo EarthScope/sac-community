@@ -296,7 +296,21 @@ testsuite/input/zam.sm \
 testsuite/input/zfft.sm \
 testsuite/input/zifft.sm \
 testsuite/input/zprocessline.sm \
-testsuite/input/zzzzcd.sm
+testsuite/input/zzzzcd.sm \
+testsuite/input/afl_000000.sm \
+testsuite/input/afl_000001.sm \
+testsuite/input/afl_000002.sm \
+testsuite/input/afl_000003.sm \
+testsuite/input/afl_000004.sm \
+testsuite/input/afl_000005.sm \
+testsuite/input/afl_000006.sm \
+testsuite/input/afl_000007.sm \
+testsuite/input/afl_000008.sm \
+testsuite/input/afl_000009.sm \
+testsuite/input/afl_000010.sm \
+testsuite/input/afl_000011.sm \
+testsuite/input/afl_000012.sm
+
 
 # These tests have specific calls to the X11 device
 if X11_APP
