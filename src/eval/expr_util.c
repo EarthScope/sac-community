@@ -188,6 +188,11 @@ header_to_token(char *str, Token * t, int col) {
     if (!ok) {
         return FALSE;
     }
+    n = strlen(key);
+    if( n > 8) {
+        return FALSE;
+    }
+
     if (!(s = sacget(id - 1, FALSE, &nerr))) {
         //getfil(id, FALSE, &hdr, &x, &y, &nerr);
         setmsg("ERROR", nerr);
@@ -196,7 +201,6 @@ header_to_token(char *str, Token * t, int col) {
         return FALSE;
     }
 
-    n = strlen(key);
     memset(&key[n], ' ', 8 - n);
     key[8] = 0;
     hdrfld(key, 9, &icat, &item, &ok);
