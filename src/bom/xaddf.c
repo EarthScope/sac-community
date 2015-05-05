@@ -148,7 +148,7 @@ files_similar(string_list * list) {
         jbfl = min(jdfl - 1, nbfl - 1);
         if (!(s2 = bflget(list, jbfl))) {
             DEBUG("BOM get: %d/%d\n", jdfl - 1, string_list_length(list));
-            return -1;
+            return 1301;
         }
         //printf("npts: %d %d delta: %f %f\n", s1->h->npts, s2->h->npts, s1->h->delta, s2->h->delta);
         if ((nerr = vbeven(s2)) != 0) {
