@@ -1,4 +1,5 @@
 
+#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 
@@ -9,7 +10,7 @@
 #include "msg.h"
 #include "bot.h"
 #include "ucf.h"
-
+#include "debug.h"
 
 EXM_EXTERN
 
@@ -32,7 +33,7 @@ SeisMgrCode(kcommand, nerr)
      int *nerr;
 {
     /* Declare Variables */
-    char *kcommandPtr = kcommand, *endCommand = NULL, commandName[81];
+    char *kcommandPtr = kcommand, *endCommand = NULL, *commandName;
     int commandLength;
 
     /* Get first word in command, and convert to upper case */
@@ -43,6 +44,8 @@ SeisMgrCode(kcommand, nerr)
         commandLength = strlen(kcommandPtr);
     else
         commandLength = endCommand - kcommandPtr;
+    comamndName = (char *) malloc(sizeof(char) * (commandLength + 1));
+    memset(commandName, 0, sizeof(char) * (commandLength + 1));
     modcase(TRUE, kcommandPtr, commandLength, commandName);
 
     /* If it's a SeisMgr command, run it, otherwise return 0. */
@@ -95,8 +98,10 @@ SeisMgrCode(kcommand, nerr)
        * execute the command *
        xtablname( kcommandPtr , nerr ) ;
        } * end TABLNAME */
-    else
+    else {
+        FREE(commandName);
         return 0;
+    }
 
     /* Take care of loose ends and stuff */
     reperr(*nerr);
@@ -109,6 +114,7 @@ SeisMgrCode(kcommand, nerr)
     if (cmexm.ntraces > 0)
         tracereport(nerr);
 
+    FREE(commandName);
     return 1;
 }
 
