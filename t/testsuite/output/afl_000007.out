@@ -1,0 +1,17 @@
+ wait text off
+ add
+ ERROR 1301: No data files read in.
+ fg
+ lh depmin€Ş2ÿmax
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+ add 10
+ l„ depm€n dep…Kx
+ rb
+ lh demin $epm
+  
+ ==>  
+ quit

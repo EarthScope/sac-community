@@ -416,8 +416,13 @@ macro_variable_no_value(char *k) {
         }
         TOKEN_LIST_APPEND(t, cur, new);
     }
-    sac_vars_put_var(KMACRONAME, p, VAR_LIST, t);
-    free(p);
+    if(!sac_vars_put_var(KMACRONAME, p, VAR_LIST, t)) {
+        FREE(p);
+        FREE(prmt);
+        return 0;
+    }
+    FREE(p);
+    FREE(prmt);
     return 1;
 }
 

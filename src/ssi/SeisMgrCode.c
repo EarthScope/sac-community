@@ -81,10 +81,10 @@ SeisMgrCode(kcommand, nerr)
               commandLength == 8) || (commandLength == 2 &&
                                       !strncmp(commandName, "RB",
                                                commandLength))) {
-        echoAndShave(kcommand, &kcommandPtr, commandLength);
+        /*echoAndShave(kcommand, &kcommandPtr, commandLength);*/
 
         /* execute the command */
-        xrollback( /* kcommandPtr , */ nerr);
+        /* xrollback( / * kcommandPtr , * / nerr); */
         /* Note:  kcommandPtr will be used if ROLLBACK gets an option */
     }
 
