@@ -14,7 +14,7 @@
 #include "bot.h"
 #include "ucf.h"
 #include "cpf.h"
-
+#include "co.h"
 /** 
  * Execute the HELP command printing the online help package
  * 
@@ -35,6 +35,7 @@ xhelp(int lprint, int *nerr) {
     int lintro;
     static char kintro[9] = "HLPINTRO";
 
+    size_t n;
     int i;
     char *file;
     string_list *list;
@@ -50,8 +51,9 @@ xhelp(int lprint, int *nerr) {
 
             for (i = 0; i < string_list_length(list); i++) {
                 file = string_list_get(list, i);
-                strncpy(ktoken, file, strlen(file));
-                ktoken[strlen(file)] = 0;
+                n = min(strlen(file), sizeof(file)-1);
+                strcpy(ktoken, file, n);
+                ktoken[n] = 0;
                 modcase(FALSE, ktoken, strlen(ktoken), ktoken);
                 wrhelp(ktoken, strlen(ktoken) + 1, 1, lprint, nerr);
                 if (*nerr != 0) {
