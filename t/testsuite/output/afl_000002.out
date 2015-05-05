@@ -14,7 +14,7 @@
  MTW 12-13
  mtw 12 13
  markvalue ge+
- markvalueAge -1. -1. <= 5mtw b 0 5
+ markvalueAge -1. -1. <= 5mtw b 0 5
  markvalue ge -1100
  markvalue ge<= 3"
  ERROR interpreting command:  markvalue ge<= 3" 
@@ -22,6 +22,7 @@
  mtw f -3 3
  markvalueAge -1.0 t~ t0
  lh t%
+ ERROR 1201: Could not find VARS variable
   
  ==>  
  message "MTW B: 100 pts"
