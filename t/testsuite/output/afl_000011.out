@@ -1,0 +1,377 @@
+ wait text off
+  
+ ==>  
+ echo on
+ fg seismo
+ ch kuser29divf.1
+ ERROR interpreting command:  ch kuser29divf.1 
+ ILLEGAL OPTION:                             ^
+ cut One
+ ERROR interpreting command:  cut One 
+ ILLEGAL OPTION:                  ^
+ write test.diËf.1
+  
+ ==>  
+ fg seismo
+ mul 2
+ cŠ kuser2 Two
+ write test.divf.2
+  
+ ==>  
+ read 180t.divf.1 test.divf.2
+ WARNING: File does not exist: 180t.divf.1 180t.divf.1
+ WARNING: Unable to read some files  reading the rest of the files.
+ lh depmin depmax kuser2
+  
+  
+  FILE: test.divf.2 - 1
+ -----------------
+
+     depmin = -3.138560e+00
+     depmax = 3.041280e+00
+  
+ ==>  
+ message "Defa
+ Defa
+  
+ ==>  
+ message "One"
+ One
+ read test.divf.1
+ ERROR 1301: No data files read in.
+ divf ivf.2
+ ERROR 1301: No data files read in.
+ lh deîmièèèèèèèèn oepm}x depmin kuser2
+  
+  
+  FILE: test.divf.2 - 1
+ -----------------
+
+     depmin = -3.138560e+00
+  
+ ==>  
+ message "Two"
+ Two
+ read test.div].2
+ ERROR 1301: No data files read in.
+ divf test.divf.1
+ ERROR 1301: No data files read in.
+ lh depmin depmax depmin er2
+  
+  
+  FILE: test.divf.2 - 1
+ -----------------
+
+     depmin = -3.138560e+00
+     depmax = 3.041280e+00
+     depmin = -3.138560e+00
+  
+ ==>  
+ mesóaè
+divf.1: Event not found
+ read test test.divf.2
+ WARNING: File does not exist: test test
+ WARNING: Unable to read some files  reading the rest of the files.
+ divf test.divf.2 test.divf.1
+ WARNING: Data value outside system storage bounds
+ Maxvalue = 3.4028e+38  Minvalue = 1
+ lh depmin depmax
+  
+  
+  FILE: test.divf.2 - 1
+ -----------------
+
+     depmin = 1.000000e+00
+     depmax = 3.402820e+38
+  
+ ==>  
+ message "One Two"
+ One Two
+ read test.divf.1 test.divf.2
+ WARNING: File does not exist: test.divf.1 test.divf.1
+ WARNING: Unable to read some files  reading the rest of the files.
+ divf test.div].10test.divf.2
+ ERROR 1803: No binary data files read in.
+ lh depmin depmax depm
+  
+  
+  FILE: test.divf.2 - 1
+ -----------------
+
+     depmin = -3.138560e+00
+     depmax = 3.041280e+00
+  
+ ==>  
+ message "One Two"
+ One Two
+ red test.divf®1 test.div1
+ lh depmin dtpmax depmin Default
+  
+  
+  FILE: test.divf.2 - 1
+ -----------------
+
+        NPTS = 1000
+           B = 9.459999e+00
+           E = 1.945000e+01
+      IFTYPE = TIME SERIES FILE
+       LEVEN = TRUE
+       DELTA = 1.000000e-02
+        IDEP = VELOCITY (VOLTS)
+      DEPMIN = -3.138560e+00
+      DEPMAX = 3.041280e+00
+      DEPMEN = -1.970944e-01
+     OMARKER = -41.43
+     AMARKER = 10.464
+      KZDATE = MAR 29 (088), 1981
+      KZTIME = 10:38:14.000
+      IZTYPE = BEGIN TIME
+       KSTNM = CDV
+       CMPAZ = 0.000000e+00
+      CMPINC = 0.000000e+00
+        STLA = 4.800000e+01
+        STLO = -1.200000e+02
+       KEVNM = K8108838
+        EVLA = 4.800000e+01
+        EVLO = -1.250000e+02
+        EVDP = 1.500000e+01
+      IEVTYP = AFTERSHOCK
+        DIST = 3.730627e+02
+          AZ = 8.814721e+01
+         BAZ = 2.718528e+02
+       GCARC = 3.357465e+00
+      LOVROK = TRUE
+       NVHDR = 6
+       NORID = 0
+       NEVID = 0
+      LPSPOL = TRUE
+      LCALDA = TRUE
+ mesage One Two"
+ read test.digf.1 test.divf.2
+ WARNING: File does not exist: test.digf.1 test.digf.1
+ WARNING: Unable to read some files  reading the rest of the files.
+ divf test.divax depm\n kuX
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ mesóage "New Headdr Off"
+  
+ ==>  
+ message "One"
+ One
+ read test.divf.1
+ ERROR 1301: No data files read in.
+ divf nÿhdr off test.divf.2
+ ERROR 1301: No data files read in.
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.divf.2 - 1
+ -----------------
+
+     depmin = -3.138560e+00
+     depmax = 3.041280e+00
+     depmin = -3.138560e+00
+  
+ ==>  
+ message "Two"
+ Two
+ read test.div’f newhdr off testtest_binop_uneven depmax äLpmin kuser2
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ message
+ read test.divf.1 test.divf.2
+ WARNING: File does not exist: test.divf.1 test.divf.1
+ WARNING: Unable to read some files  reading the rest of the files.
+ divf newh
+ ERROR 1803: No binary data files read in.
+ lh depmin depmax depmin buser2
+  
+  
+  FILE: test.divf.2 - 1
+ -----------------
+
+     depmin = -3.138560e+00
+     depmax = 3.041280e+00
+     depmin = -3.138560e+00
+  
+ ==>  
+ message "One Two"
+ One Two
+ read tfst.divf.1 test.divf.2
+ WARNING: File does not exist: tfst.divf.1 tfst.divf.1
+ WARNING: Unable to read some files  reading the rest of the files.
+ divf newhdr off test.divf.1 test.ivf.2
+ ERROR 1301: No data files read in.
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.divf.2 - 1
+ -----------------
+
+     depmin = -3.138560e+00
+     depmax = 3.041280e+00
+     depmin = -3.138560e+00
+  
+ ==>  
+ message "One Two"depm
+ One Two
+ depm
+ read test.di^f.1 test.divf.2
+ WARNING: File does not exist: test.di^f.1 test.di^f.1
+ WARNING: Unable to read some files  reading the rest of the files.
+ divf €ewhdr off tes€.divf.1
+ ERROR 1301: No data files read in.
+ lh depmin depmºx dep
+  
+  
+  FILE: test.divf.2 - 1
+ -----------------
+
+     depmin = -3.138560e+00
+ read testextvf.1 test.divf.2
+ WARNING: File does not exist: testextvf.1 testextvf.1
+ WARNING: Unable to read some files  reading the rest of the files.
+ divf newhdr off te~t.divfÿ2
+ ERROR 1301: No data files read in.
+ lh depmin depmax depmin kuser2
+  
+  
+  FILE: test.divf.2 - 1
+ -----------------
+
+     depmin = -3.138560e+00
+     depmax = 3.041280e+00
+     depmin = -3.138560e+00
+  
+ ==>  
+ message "New Header On"test.divf.1
+ New Header On
+ test.divf.1
+  
+ ==>  
+ message "Two"
+ Two
+ read test.divf.1
+ ERROR 1301: No data files read in.
+ divf?newmax depmin kuser2
+  
+ ==>  
+ message ×××××××××××××××××××××××××××××××hdr on test.@ivf.1
+ ×××××××××××××××××××××××××××××××hdr
+ on
+ test.@ivf.1
+ lh de@@@@@depmax'''pmax
+ ==>  lh de@@@depmax "" "pma"
+  
+  
+  FILE: test.divf.2 - 1
+ -----------------
+
+  
+ ==>  
+ age "Two Two"
+ readread tOst.divf.1 test.divf.2
+ divf newhdº on test.divf.2 test.divf.1
+ ERROR 1301: No data files read in.
+ lh depmin depmax depmi~ kuser2
+  
+  
+  FILE: test.divf.2 - 1
+ -----------------
+
+     depmin = -3.138560e+00
+     depmax = 3.041280e+00
+  
+ ==>  
+ mes€age "One Two"
+ read tesª.divf.1 tÿ€t.divf.2
+ ERROR 1301: No data files read in.
+ divf newhdr on test.d
+ ERROR 1301: No data files read in.
+ lh depmin depmag depwax depmin kuser2
+  
+  
+  FILE: test.divf.2 - 1
+ -----------------
+
+     depmin = -3.138560e+00
+     depmin = -3.138560e+00
+ "message "One One"
+ read test.divf.1 test.divf.1ýdivf newhdr on test.d
+ ERROR 1301: No data files read in.
+  
+ ==>  
+ message "Two Two"
+ Two Two
+ read test.divf.1 testseismo2
+ ERROR 1301: No data files read in.
+ divf newhdr on test.digf.2
+ ERROR 1301: No data files read in.
+ lh depmin depmax depmin kgser2
+  
+  
+  FILE: test.divf.2 - 1
+ -----------------
+
+     depmin = -3.138560e+00
+     depmax = 3.041280e+00
+     depmin = -3.138560e+00
+  
+ ==>  
+ mess‹ge "Nothiýg"
+ read t‡st.divf.1
+ ERROR 1301: No data files read in.
+ divf
+ ERROR 1803: No binary data files read in.
+  
+ ==>  
+ message "Specpral"
+ Specpral
+ read tect.dÎvf.1
+ ERROR 1301: No data files read in.
+ fft
+ DC level after DFT is -1.9709
+ write test.div‡.spectral.1
+ read test.divf.1
+ ERROR 1301: No data files read in.
+ dTwo Two"
+ reaf.
+ Uneven"
+ read test.ivf.1
+ ERROR 1301: No data files read in.
+ divf test_binop_unevenm
+ ERROR 1307: Illegal operation on spectral file test.divf.2
+  
+ ==>  
+ message "Di ferent Delta"
+ Di ferent Delta
+ read test.divf.1
+ ERROR 1301: No data files read in.
+ interpolate del@a 0.005
+ ERROR interpreting command:  interpolate del@a 0.005 
+ ILLEGAL OPTION:                          ^
+ write test.divf.dt
+ read yest.divf.1
+ ERROR 1301: No data files read in.
+ div\ test.divf.dt
+  
+ ==>  
+ m^ssage "Different Npts"
+  :ad test.divf.1)cut &1,b (&1,e - 1.0)
+Syntax error:  :ad test.divf.1)cut &1,b (&1,e - 1.0)
+                              ^
+ read test.divf.1
+ ERROR 1301: No data files read in.
+ cut off
+ write test.divf.npage "Diffecent Times"
+ ERROR 1312: Bad number of files in write file list: 2 1
+ read test.divffatal y -10
+ ERROR 1301: No data files read in.
+ write test.divf.time
+ read test.divf.1
+ ERROR 1301: No data files read in.
+ divf test.divf.time
+ ERROR 1307: Illegal operation on spectral file test.divf.2
+ quit

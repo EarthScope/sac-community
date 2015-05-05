@@ -47,10 +47,10 @@ lclog(int *logv) {
     lclog_v = FALSE;
     /* - Check for "ON" or "OFF" at next token.
      * - Do not change value of logical variable if not found. */
-    if (memcmp(key, "ON", 2) == 0) {
+    if (strcmp(key, "ON") == 0) {
         *logv = TRUE;
         lclog_v = TRUE;
-    } else if (memcmp(key, "OF", 2) == 0) {
+    } else if (strcmp(key, "OF") == 0 || strcmp(key, "OFF") == 0) {
         *logv = FALSE;
         lclog_v = TRUE;
     }
