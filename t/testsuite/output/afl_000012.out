@@ -1,0 +1,7 @@
+ wait text off
+ echo on
+  
+ ==>  
+ fg nmpulsimpul -1
+ ERROR 1002: Bad value for NPTS, must be positive
+ quit

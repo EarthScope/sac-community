@@ -69,6 +69,8 @@ xfg(int *nerr) {
     char kfile[MCPFN + 1];
     int iseed, j, j1, jdfl, ndx1, ndx2, ndxh, nlen, n;
     static int nra;
+    int itmp;
+    double dtmp[2];
     double arg, con, del;
     double arg0;
     sac *s;
@@ -93,7 +95,14 @@ xfg(int *nerr) {
                 if (lcra(0, 4, cmexm.fgcuco, &nra)) {   /* do nothing */
                 }
             } else if (cmexm.ifgtp == 9) {
-                if (lcra(0, 2, cmexm.fgraco, &nra)) {   /* do nothing */
+                if (lcra(0, 2, dtmp, &nra)) {
+                    if(nra > 0 && dtmp[0] <= 0) {
+                        error(*nerr = 1002, "'Number of Files', must be positive");
+                        break;
+                    }
+                    for(j = 0; j < nra; j++) {
+                        cmexm.fgraco[j] = dtmp[j];
+                    }
                 }
             } else if (cmexm.ifgtp == 12) {
                 if (lcra(0, 1000, cmexm.fgistr, &nra)) {        /* do nothing */
@@ -111,7 +120,12 @@ xfg(int *nerr) {
         }
 
         /* -- "NPTS n":  change number of data points in function. */
-        else if (lkint("N$", 3, &cmexm.nfgpts)) {       /* do nothing */
+        else if (lkint("N$", 3, &itmp)) {
+            if(itmp <= 0) {
+                error(*nerr = 1002, "NPTS, must be positive");
+                break;
+            }
+            cmexm.nfgpts = itmp;
         }
 
         /* -- Bad syntax. */
