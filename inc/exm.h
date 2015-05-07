@@ -49,7 +49,7 @@ struct t_kmexm {
     char kargs[MCMSG + 1];     /** macro, arguments ???*/
     char knametranscript[MTRANSCRIPTS][MCPFN + 1];
                                                  /** transcript, names */
-    char ktextwait[9];         /** Waiting text ??? */
+    int textwait;         /** Waiting for more text */
 } kmexm;
 
 /** 
@@ -151,7 +151,7 @@ extern int *const Lblackboard;
 
 #endif
 
-void gettextwait(char *mode, int mode_s);
+int gettextwait();
 void iniexm(void);
 void proerr(int *nerr);
 void qam(void);

@@ -34,11 +34,11 @@ settextwait(char *mode) {
 
     /* - Test versus allowed options. */
     if (strcmp(test, "ON") == 0) {
-        strcpy(kmexm.ktextwait, "ON      ");
+        kmexm.textwait = TRUE;
     } else if (strcmp(test, "OF") == 0) {
-        strcpy(kmexm.ktextwait, "OFF     ");
+        kmexm.textwait = FALSE;
     } else {
-        strcpy(kmexm.ktextwait, "ON      ");
+        kmexm.textwait = TRUE;
     }
 
     return;

@@ -39,7 +39,7 @@ void
 xnews(int *nerr) {
 
     char erasechars[9], kfile[MCPFN + 1], kresp[9], ktext[MCMSG + 1];
-    int idx;
+    int idx, lwait;
     int nc, nlinesscreen, nlw, noerr, numchar;
     FILE *nun;
 
@@ -79,6 +79,7 @@ xnews(int *nerr) {
      *   to see it more is desired. */
 
     nlw = 0;
+    lwait = gettextwait();
   L_3000:
     if (fgetsp(ktext, MCMSG + 1, nun) == NULL)
         goto L_6000;
@@ -89,9 +90,9 @@ xnews(int *nerr) {
     if (nc == 0) {
         fstrncpy(ktext, MCMSG, " ", 1);
     }
-    aplmsg(ktext, MCMSG + 1);
+    mprint(ktext);
     nlw = nlw + 1;
-    if (nlw >= (nlinesscreen - 2)) {
+    if (lwait && nlw >= (nlinesscreen - 2)) {
         outmsg();
         clrmsg();
         zgtmsg("More? $", 8, kresp, 9);

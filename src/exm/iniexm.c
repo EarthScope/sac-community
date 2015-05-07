@@ -233,7 +233,7 @@ iniexm() {
 
     cmexm.ntraces = 0;
 
-    strcpy(kmexm.ktextwait, "ON      ");
+    kmexm.textwait = TRUE;
 
     return;
 

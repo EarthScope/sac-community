@@ -196,13 +196,9 @@ xlh(int *nerr) {
     }
 
     nlw = 0;
-    gettextwait(kwait, 9);
-    lwait = memcmp(kwait, "ON", 2) == 0;
+    lwait = gettextwait();
     autooutmsg(TRUE);
     setmsg("OUTPUT", 99);
-    if (!use_tty()) {
-        lwait = FALSE;
-    }
     jdfl = 0;
   L_4000:
     if (nextinputfile(&jdfl)) {
