@@ -97,16 +97,11 @@ xrtr(nerr)
         /* -- Write results oflinear fit. */
         if (verbose) {
             setmsg("OUTPUT", 0);
-            apcmsg("Slope and standard deviation are:", 34);
-            apfmsg(slp);
-            apfmsg(sdslp);
-            aplmsg("Intercept and standard deviation are:", 38);
-            apfmsg(yint);
-            apfmsg(sdyint);
-            aplmsg("Data standard deviation is:", 28);
-            apfmsg(sddta);
-            aplmsg("Data correlation coefficient is:", 33);
-            apfmsg(corrcf);
+            out("Slope and standard deviation are: %.5g %.5g\n"
+                " Intercept and standard deviation are: %.5g %.5g\n"
+                " Data standard deviation is: %.5g\n"
+                " Data correlation coefficient is: %.5g",
+                slp, sdslp, yint, sdyint, sddta, corrcf);
             outmsg();
         }
 
