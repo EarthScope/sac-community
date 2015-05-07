@@ -51,6 +51,7 @@ inimsg() {
     cmmsg.nummsg = 0;
     cmmsg.itpmsg = 0;
     cmmsg.autoout = FALSE;
+    cmmsg.nlimsg = 1;
 
     cmmsg.nfmsg = 0;
     sacmsg(&nerr);

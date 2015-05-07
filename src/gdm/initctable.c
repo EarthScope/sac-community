@@ -62,12 +62,10 @@ initctable(char *name, int name_s, int *nentry, int *nerr) {
     }
 
     if (nbad > 0.) {
-        *nerr = 2203;
-        setmsg("ERROR", *nerr);
-        apimsg(nbad);
-        aplmsg("Values must be in the range 0.0 to 1.0", 39);
-        aplmsg("Name of color table is", 23);
-        apcmsg(name, name_s);
+        error(*nerr = 2203, "%d\n"
+              " Values must be in the range 0.0 to 1.0\n"
+              " Name of color table is '%s'",
+              nbad, name);
     }
 
   L_8888:

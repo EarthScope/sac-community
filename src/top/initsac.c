@@ -118,6 +118,10 @@ initsac() {
 
     /* -- Graphics Library. */
     begingraphics(&nerr);
+    if(nerr) {
+        outmsg();
+        clrmsg();
+    }
 
     /* -- Get name of default graphics device. */
     zgetgd(kmgam.kgddef, 9);
