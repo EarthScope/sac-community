@@ -101,9 +101,7 @@ xprewit(nerr)
         prewit(s->y, s->h->npts, s->h->delta, &cmicm.iprew, coefficients, kname,
                errmsg);
         if (errmsg[0]) {
-            *nerr = 5005;
-            setmsg("ERROR", *nerr);
-            aplmsg(errmsg, 131);
+            error(*nerr = 5005, "\n %s", errmsg);
             goto L_8888;
         }
     }

@@ -71,6 +71,7 @@ prewit(float data[], int nsamps, float delta, int *order, float array[],
     if (*order < 1 || *order > NCMAX) {
         strcpy(errmsg,
                "*** PREWIT  -  Predictor order out of bounds (1-12) ***");
+        return;
     }
 
     /*  Design the prewhitening filter

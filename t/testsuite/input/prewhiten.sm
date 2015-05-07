@@ -29,3 +29,6 @@ fg sine
 lh depmin depmin
 prewhiten 9
 lh depmin depmin
+
+fg
+prewhiten -2

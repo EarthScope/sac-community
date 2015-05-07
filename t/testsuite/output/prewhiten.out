@@ -120,4 +120,10 @@
 
      depmin = -1.000000e+00
      depmin = -1.000000e+00
+  
+ ==>  
+ fg
+ prewhiten -2
+ ERROR 5005: Error within Dave Harris's subroutine package. 
+ *** PREWIT  -  Predictor order out of bounds (1-12) ***
  quit
