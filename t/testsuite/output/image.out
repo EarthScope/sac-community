@@ -1,0 +1,8 @@
+ wait text off
+  
+ ==>  
+ fg
+ image
+ ERROR 1366: This command requires that data in memory be of type XYZ: IMPULSE
+ Must be XYZ data files to use this command.
+ quit

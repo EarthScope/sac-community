@@ -169,7 +169,7 @@ ximage(nerr)
 
     vfxyz(nerr);
     if (*nerr != 0) {
-        aplmsg("Must be XYZ data files to use this command.", 44);
+        mprint("Must be XYZ data files to use this command.");
         goto L_8888;
     }
 
