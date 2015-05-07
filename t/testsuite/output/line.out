@@ -80,4 +80,7 @@ Pausing
 Pausing
   
  ==>  
+ line on list 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ WARNING: Maximum length of linestyle list is 10
+ Will ignore remaining entries in list.
  quit

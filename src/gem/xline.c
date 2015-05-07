@@ -60,7 +60,7 @@ xline(nerr)
 	 *=====================================================================
 	 * SUBROUTINES CALLED:
 	 *    sac:     lcmore, cfmt, cresp, lclog, lcint, lklog, lckey,
-	 *             setmsg, apcmsg, apimsg, aplmsg, outmsg
+	 *             setmsg, apcmsg, apimsg, outmsg
 	 *=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    910301:  Changed iline to icline.
@@ -158,9 +158,9 @@ xline(nerr)
                         cmgem.iiline[cmgem.niline - 1] = int_;
                     } else if (!lwarning) {
                         setmsg("WARNING", 1);
-                        apcmsg("Maximum length of linestyle list is", 36);
-                        apimsg(MILINE);
-                        aplmsg("Will ignore remaining entries in list.", 39);
+                        out("Maximum length of linestyle list is %d\n" 
+                            " Will ignore remaining entries in list.", 
+                            MILINE);
                         outmsg();
                         clrmsg();
                         lwarning = TRUE;

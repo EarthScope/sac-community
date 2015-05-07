@@ -48,3 +48,4 @@ p1 ; pause period 0.25
 line fill red/white
 p1 ; pause period 0.25
 
+line on list 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
