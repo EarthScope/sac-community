@@ -24,3 +24,15 @@ lh user0
 rms noise on 
 lh user0
 
+fg seismo
+mtw b -100 -90
+rms noise off
+
+fg seismo
+mtw b -2 e -2
+rms
+
+fg seismo
+mtw b 2 e 2
+rms
+

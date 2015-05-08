@@ -131,10 +131,15 @@ xrms(nerr)
 
         /* -- Sum square of data points within measurement window.  Normalize result. */
         sumsqsignal = 0.;
-        for (j = nofsignal; j <= (nofsignal + nlnsignal - 1); j++) {
-            sumsqsignal += s->y[j] * s->y[j];
+        if(nlnsignal > 0) {
+            for (j = nofsignal; j <= (nofsignal + nlnsignal - 1); j++) {
+                sumsqsignal += s->y[j] * s->y[j];
+            }
+            sumsqsignal = sumsqsignal / (double) (nlnsignal);
+        } else {
+            error(*nerr = 8008, "");
+            goto L_8888;
         }
-        sumsqsignal = sumsqsignal / (float) (nlnsignal);
 
         /* -- Perform same calculation on noise window if requested.
          *    Subtract result from signal summation. */

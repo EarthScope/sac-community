@@ -87,4 +87,24 @@
 
   
  ==>  
+ fg seismo
+ mtw b -100 -90
+ rms noise off
+ ERROR 8010: Measurement Time Window end < data begin (-80.54 < 9.46)
+  
+ ==>  
+ fg seismo
+ mtw b -2 e -2
+ rms
+ WARNING: Time Window begin corrected to data begin value
+	begin < data begin (7.46 < 9.46)
+  
+ ==>  
+ fg seismo
+ mtw b 2 e 2
+ rms
+ WARNING: Time Window end corrected to data end value
+	end > data end (21.45 > 19.45)
+  
+ ==>  
  quit

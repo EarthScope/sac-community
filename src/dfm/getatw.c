@@ -7,6 +7,7 @@
 
 #include <string.h>
 
+#include "co.h"
 #include "amf.h"
 #include "dfm.h"
 #include "hdr.h"
@@ -114,6 +115,32 @@ getatw(char *krtw, int krtw_s, double *ortw, double *tmin, double *tmax,
             goto L_8888;
         }
     }
+    if(*tmin > *tmax) {
+        error(*nerr = 8009, "(%.5g > %.5g)", *tmin, *tmax);
+        return;
+    }
+    if(*tmax < s->h->b && *tmin < s->h->b) {
+        error(*nerr = 8010, "(%.5g < %.5g)", *tmax, s->h->b);
+        return;
+    }
+    if(*tmin > s->h->e && *tmax > s->h->e) {
+        error(*nerr = 8011, "(%.5g > %.5g)", *tmin, s->h->e);
+        return;
+    }
+
+    if(*tmin < s->h->b) {
+        warning(8012, "(%.5g < %.5g)", *tmin, s->h->b);
+        outmsg();
+        clrmsg();
+        *tmin = s->h->b;
+    }
+
+    if(*tmax > s->h->e) {
+        warning(8013, "(%.5g > %.5g)", *tmax, s->h->e);
+        outmsg();
+        clrmsg();
+        *tmax = s->h->e;
+    }
 
     /* - Determine offset and length of window in points. */
 
@@ -121,6 +148,13 @@ getatw(char *krtw, int krtw_s, double *ortw, double *tmin, double *tmax,
     nofmax = (int) ((*tmax - s->h->b) / s->h->delta);
     *nlnwin = nofmax - *nofmin + 1;
 
+    if(*nlnwin <= 0) {
+        message(MOUTPUT, 0, "Warning: No data points within Time window\n"
+                "\tStart time %.5g End time: %.5g", *tmin, *tmax);
+        outmsg();
+        clrmsg();
+    }
+    
   L_8888:
     return;
 
