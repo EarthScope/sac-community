@@ -1,0 +1,14 @@
+
+** Error -- system error
+fg seismo
+fft
+sc mkdir test.error.dir.am
+wsp test.error.dir
+sc rmdir test.error.dir.am
+
+** Error - insufficient rights
+fg seismo
+fft
+wsp /something
+
+

@@ -1,0 +1,24 @@
+ wait text off
+  
+ ==>  
+ ** Error -- system error
+ fg seismo
+ fft
+ DC level after DFT is -0.98547
+ sc mkdir test.error.dir.am
+ wsp test.error.dir
+ ERROR  101: opening file test.error.dir.am (System error occurred.)
+ sc rmdir test.error.dir.am
+  
+ ==>  
+ ** Error - insufficient rights
+ fg seismo
+ fft
+ DC level after DFT is -0.98547
+ wsp /something
+ ERROR  101: opening file /something.am (Insufficient access rights.)
+  
+ ==>  
+  
+ ==>  
+ quit
