@@ -661,80 +661,29 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
     } else if (lpoles) {
         if (ipoles < MPOLES) {
             ipoles = ipoles + 1;
-            strncpy((s1 =
-                     malloc(ic2 - ic1 + 2)), kline + ic1 - 1, ic2 - ic1 + 1);
-            s1[ic2 - ic1 + 1] = '\0';
-            cnvatf(s1, ic2 - ic1 + 2, &temp1, 0, nerr); /* add 0 before nerr. maf 970129 */
-            if (*nerr != 0) {
-                *nerr = 2126;
-                setmsg("ERROR", *nerr);
-                apcmsg(s1, strlen(s1) + 1);
-                free(s1);
+            if(sscanf(kline, "%g %g", &temp1, &temp2) != 2) {
+                error(*nerr = 2126, "%s", kline);
                 goto L_8888;
             }
-            free(s1);
-            poptok(kline, nc, &ic, &ic1, &ic2, &itype);
-            strncpy((s1 =
-                     malloc(ic2 - ic1 + 2)), kline + ic1 - 1, ic2 - ic1 + 1);
-            s1[ic2 - ic1 + 1] = '\0';
-            cnvatf(s1, ic2 - ic1 + 2, &temp2, 0, nerr); /* add 0 before nerr. maf 970129 */
-            if (*nerr != 0) {
-                *nerr = 2126;
-                setmsg("ERROR", *nerr);
-                apcmsg(s1, strlen(s1) + 1);
-                free(s1);
-                goto L_8888;
-            }
-            free(s1);
             Poles[ipoles] = flttocmplx(temp1, temp2);
         } else {
-            *nerr = 2108;
-            setmsg("ERROR", *nerr);
-            apcmsg(subtyp, subtyp_s);
-            apimsg(MPOLES);
+            error(*nerr = 2108, "%s %d", subtyp, MPOLES);
             goto L_8888;
         }
     } else if (lzeros) {
         if (izeros < MZEROS) {
             izeros = izeros + 1;
-            strncpy((s1 =
-                     malloc(ic2 - ic1 + 2)), kline + ic1 - 1, ic2 - ic1 + 1);
-            s1[ic2 - ic1 + 1] = '\0';
-            cnvatf(s1, ic2 - ic1 + 2, &temp1, 0, nerr); /* add 0 before nerr. maf 970129 */
-            if (*nerr != 0) {
-                *nerr = 2127;
-                setmsg("ERROR", *nerr);
-                apcmsg(s1, strlen(s1) + 1);
-                free(s1);
+            if(sscanf(kline, "%g %g", &temp1, &temp2) != 2) {
+                error(*nerr = 2127, "%s", kline);
                 goto L_8888;
             }
-            free(s1);
-            poptok(kline, nc, &ic, &ic1, &ic2, &itype);
-            strncpy((s1 =
-                     malloc(ic2 - ic1 + 2)), kline + ic1 - 1, ic2 - ic1 + 1);
-            s1[ic2 - ic1 + 1] = '\0';
-            cnvatf(s1, ic2 - ic1 + 2, &temp2, 0, nerr); /* add 0 before nerr. maf 970129 */
-            if (*nerr != 0) {
-                *nerr = 2127;
-                setmsg("ERROR", *nerr);
-                apcmsg(s1, strlen(s1) + 1);
-                free(s1);
-                goto L_8888;
-            }
-            free(s1);
             Zeros[izeros] = flttocmplx(temp1, temp2);
         } else {
-            *nerr = 2109;
-            setmsg("ERROR", *nerr);
-            apcmsg(subtyp, subtyp_s);
-            apimsg(MZEROS);
+            error(*nerr = 2109, "%s %d", subtyp, MZEROS);
             goto L_8888;
         }
     } else {
-        *nerr = 2110;
-        setmsg("ERROR", *nerr);
-        apcmsg(subtyp, subtyp_s);
-        apcmsg(key, 9);
+        error(*nerr = 2110, "%s %s", subtyp, key);
         goto L_8888;
     }
     free(key);
