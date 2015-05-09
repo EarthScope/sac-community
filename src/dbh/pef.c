@@ -65,6 +65,11 @@ pef(float *data, int npts, float *a, int nc, int delay, double mu,
 
     /*  Initializations
      * */
+    if(nc <= 0) {
+        strcpy(errmsg, " PEF - Filter Coefficients must be positive");
+        return;
+    }
+
     datptr = 1;
     vrtptr = 1;
     memory = nc + delay;
