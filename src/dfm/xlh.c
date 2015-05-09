@@ -63,8 +63,6 @@ xlh(int *nerr) {
 
     static int iform = 1;
     static char kblank[41] = "                                        ";
-    char *cattemp;
-    char *strtemp1, *strtemp2, *strtemp3, *strtemp4, *strtemp5;
     int idx, ldef;
     char *tmp;
     int *const Nctx = &nctx[0] - 1;
@@ -210,17 +208,10 @@ xlh(int *nerr) {
             return;
         }
         if ((tmp = s->m->filename)) {
-            aplmsg(" ", 2);
-            cattemp = malloc(7 + strlen(tmp) + 7);
-            sprintf(cattemp, " FILE: %s - %d", tmp, jdfl);
-            aplmsg(cattemp, strlen(cattemp) + 1);
-            free(cattemp);
-
-            memset(kline, '-', strlen(tmp) + 6);
-            kline[strlen(tmp) + 6] = '\n';
-            kline[strlen(tmp) + 7] = '\0';
-
-            aplmsg(kline, MCMSG + 1);
+            mprint(" ");
+            mprint(" FILE: %s - %d", tmp, jdfl);
+            mprint("%.*s\n", strlen(tmp) + 6, 
+                   "--------------------------------------------------");
             nlw = nlw + 4;
         }
         nrpttx = 0;
@@ -241,21 +232,9 @@ xlh(int *nerr) {
             for (jrpttx = 1; jrpttx <= nrpttx; jrpttx++) {
                 jrpttx_ = jrpttx - 1;
                 nc1 = 2 + nctxm - Nctx[jrpttx];
-                nc2 = indexb((char *) krpttx[jrpttx_], 41);
 
-                strtemp1 = malloc(nc1 + 1);
-                strtemp2 = malloc(nc2 + 1);
-                strncpy(strtemp1, kblank, nc1);
-                strncpy(strtemp2, krpttx[jrpttx_], nc2);
-                strtemp1[nc1] = '\0';
-                strtemp2[nc2] = '\0';
+                mprint(" %.*s %s", nc1, kblank, krpttx[jrpttx_]);
 
-                sprintf(kline, " %s %s", strtemp1, strtemp2);
-
-                free(strtemp1);
-                free(strtemp2);
-
-                aplmsg(kline, MCMSG + 1);
                 nlw = nlw + 1;
                 if (lwait && (nlw >= (nlscrn - 2))) {
                     outmsg();
@@ -294,51 +273,17 @@ xlh(int *nerr) {
                 nc2 = indexb((char *) krpttx[jrpttx_], 41);
                 nc3 = 2 + nctxm - Nctx[jrpttx + 1];
                 nc4 = indexb((char *) krpttx[jrpttx_ + 1], 41);
+                rstrip(krpttx[jrpttx_]);
+                rstrip(krpttx[jrpttx_+1]);
                 if (nc4 > 0) {
-                    strtemp1 = malloc(nc1 + 1);
-                    strtemp2 = malloc(nc2 + 1);
-                    strtemp3 = malloc(nc3 + 1);
-                    strtemp4 = malloc(nc4 + 1);
-
-                    strncpy(strtemp1, kblank, nc1);
-                    strtemp1[nc1] = '\0';
-                    strncpy(strtemp2, krpttx[jrpttx_], nc2);
-                    strtemp2[nc2] = '\0';
-                    strncpy(strtemp3, kblank, nc3);
-                    strtemp3[nc3] = '\0';
-                    strncpy(strtemp4, krpttx[jrpttx_ + 1], nc4);
-                    strtemp4[nc4] = '\0';
                     if ((nc1 + nc2) < 40) {
-                        strtemp5 = malloc(40 - (nc1 + nc2) + 1);
-                        memset(strtemp5, ' ', 40 - (nc1 + nc2));
-                        strtemp5[40 - (nc1 + nc2)] = '\0';
-                        sprintf(kline, " %s%s%s%s%s", strtemp1, strtemp2,
-                                strtemp5, strtemp3, strtemp4);
-                        free(strtemp5);
-                    } else {
-                        sprintf(kline, " %s%s%s%s", strtemp1, strtemp2,
-                                strtemp3, strtemp4);
+                        nc3 += 40 - (nc1+nc2);
                     }
-                    free(strtemp1);
-                    free(strtemp2);
-                    free(strtemp3);
-                    free(strtemp4);
+                    mprint(" %*.s%s%*.s%s", nc1, kblank, krpttx[jrpttx_],
+                           nc3, kblank, krpttx[jrpttx_+1]);
                 } else {
-                    strtemp1 = malloc(nc1 + 1);
-                    strtemp2 = malloc(nc2 + 1);
-
-                    strncpy(strtemp1, kblank, nc1);
-                    strtemp1[nc1] = '\0';
-                    strncpy(strtemp2, krpttx[jrpttx_], nc2);
-                    strtemp2[nc2] = '\0';
-
-                    sprintf(kline, " %s%s", strtemp1, strtemp2);
-
-                    free(strtemp1);
-                    free(strtemp2);
-
+                    mprint(" %*.s%s", nc1, kblank, krpttx[jrpttx_]);
                 }
-                aplmsg(kline, MCMSG + 1);
                 nlw = nlw + 1;
                 if (lwait && (nlw >= (nlscrn - 1))) {
                     outmsg();
