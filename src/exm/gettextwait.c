@@ -9,6 +9,7 @@
 
 #include "exm.h"
 #include "co.h"
+#include "bool.h"
 
 /** 
  * Get the current text output wait mode 
@@ -25,8 +26,10 @@
  * @date   900410:  Original version.
  *
  */
-void
-gettextwait(char *mode, int mode_s) {
-    fstrncpy(mode, mode_s - 1, kmexm.ktextwait, strlen(kmexm.ktextwait));
-    return;
+int
+gettextwait() {
+    if(!use_tty()) {
+        return FALSE;
+    }
+    return kmexm.textwait;
 }
