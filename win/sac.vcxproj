@@ -634,10 +634,8 @@
     <ClCompile Include="..\src\exm\qylim.c" />
     <ClCompile Include="..\src\exm\repav.c" />
     <ClCompile Include="..\src\exm\reperr.c" />
-    <ClCompile Include="..\src\exm\repiv.c" />
     <ClCompile Include="..\src\exm\repivl.c" />
     <ClCompile Include="..\src\exm\repkv.c" />
-    <ClCompile Include="..\src\exm\replv.c" />
     <ClCompile Include="..\src\exm\reprtw.c" />
     <ClCompile Include="..\src\exm\reprv.c" />
     <ClCompile Include="..\src\exm\setprompt.c" />

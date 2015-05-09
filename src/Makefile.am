@@ -384,8 +384,8 @@ libsac_all_a_SOURCES = amf/iniam.c amf/array.c \
 	exm/qcut.c exm/qdevices.c exm/qfid.c exm/qgtext.c exm/qhpf.c \
 	exm/qline.c exm/qmtw.c exm/qpicks.c exm/qsymbol.c exm/qtitle.c \
 	exm/qwidth.c exm/qxlabl.c exm/qxlim.c exm/qylabl.c exm/qylim.c \
-	exm/repav.c exm/reperr.c exm/repiv.c exm/repivl.c exm/repkv.c \
-	exm/replv.c exm/reprtw.c exm/reprv.c exm/setprompt.c \
+	exm/repav.c exm/reperr.c exm/repivl.c exm/repkv.c \
+	exm/reprtw.c exm/setprompt.c \
 	exm/settextwait.c exm/tracereport.c exm/tracevariable.c exm/xabout.c \
 	exm/xcd.c exm/xecho.c exm/xeval.c exm/xexmc.c exm/xfg.c exm/xgetbb.c \
 	exm/xhelp.c exm/xinstallmacr.c exm/xload.c exm/xmacro.c exm/xmsg.c \

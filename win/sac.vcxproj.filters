@@ -1691,16 +1691,10 @@
     <ClCompile Include="..\src\exm\reperr.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\exm\repiv.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\exm\repivl.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\exm\repkv.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\exm\replv.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\exm\reprtw.c">

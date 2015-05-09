@@ -423,9 +423,8 @@ am_libsac_all_a_OBJECTS = amf/iniam.$(OBJEXT) amf/array.$(OBJEXT) \
 	exm/qsymbol.$(OBJEXT) exm/qtitle.$(OBJEXT) \
 	exm/qwidth.$(OBJEXT) exm/qxlabl.$(OBJEXT) exm/qxlim.$(OBJEXT) \
 	exm/qylabl.$(OBJEXT) exm/qylim.$(OBJEXT) exm/repav.$(OBJEXT) \
-	exm/reperr.$(OBJEXT) exm/repiv.$(OBJEXT) exm/repivl.$(OBJEXT) \
-	exm/repkv.$(OBJEXT) exm/replv.$(OBJEXT) exm/reprtw.$(OBJEXT) \
-	exm/reprv.$(OBJEXT) exm/setprompt.$(OBJEXT) \
+	exm/reperr.$(OBJEXT) exm/repivl.$(OBJEXT) exm/repkv.$(OBJEXT) \
+	exm/reprtw.$(OBJEXT) exm/setprompt.$(OBJEXT) \
 	exm/settextwait.$(OBJEXT) exm/tracereport.$(OBJEXT) \
 	exm/tracevariable.$(OBJEXT) exm/xabout.$(OBJEXT) \
 	exm/xcd.$(OBJEXT) exm/xecho.$(OBJEXT) exm/xeval.$(OBJEXT) \
@@ -1364,8 +1363,8 @@ libsac_all_a_SOURCES = amf/iniam.c amf/array.c \
 	exm/qcut.c exm/qdevices.c exm/qfid.c exm/qgtext.c exm/qhpf.c \
 	exm/qline.c exm/qmtw.c exm/qpicks.c exm/qsymbol.c exm/qtitle.c \
 	exm/qwidth.c exm/qxlabl.c exm/qxlim.c exm/qylabl.c exm/qylim.c \
-	exm/repav.c exm/reperr.c exm/repiv.c exm/repivl.c exm/repkv.c \
-	exm/replv.c exm/reprtw.c exm/reprv.c exm/setprompt.c \
+	exm/repav.c exm/reperr.c exm/repivl.c exm/repkv.c \
+	exm/reprtw.c exm/setprompt.c \
 	exm/settextwait.c exm/tracereport.c exm/tracevariable.c exm/xabout.c \
 	exm/xcd.c exm/xecho.c exm/xeval.c exm/xexmc.c exm/xfg.c exm/xgetbb.c \
 	exm/xhelp.c exm/xinstallmacr.c exm/xload.c exm/xmacro.c exm/xmsg.c \
@@ -2282,12 +2281,9 @@ exm/qylabl.$(OBJEXT): exm/$(am__dirstamp)
 exm/qylim.$(OBJEXT): exm/$(am__dirstamp)
 exm/repav.$(OBJEXT): exm/$(am__dirstamp)
 exm/reperr.$(OBJEXT): exm/$(am__dirstamp)
-exm/repiv.$(OBJEXT): exm/$(am__dirstamp)
 exm/repivl.$(OBJEXT): exm/$(am__dirstamp)
 exm/repkv.$(OBJEXT): exm/$(am__dirstamp)
-exm/replv.$(OBJEXT): exm/$(am__dirstamp)
 exm/reprtw.$(OBJEXT): exm/$(am__dirstamp)
-exm/reprv.$(OBJEXT): exm/$(am__dirstamp)
 exm/setprompt.$(OBJEXT): exm/$(am__dirstamp)
 exm/settextwait.$(OBJEXT): exm/$(am__dirstamp)
 exm/tracereport.$(OBJEXT): exm/$(am__dirstamp)
