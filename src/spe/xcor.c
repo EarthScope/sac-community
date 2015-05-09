@@ -128,9 +128,7 @@ xcor(nerr)
             memcpy(kmspe.kermsg, temp, strlen(temp));
 
         if (memcmp(kmspe.kermsg, "        ", 8) != 0) {
-            *nerr = 5005;
-            setmsg("ERROR", *nerr);
-            aplmsg(kmspe.kermsg, 131);
+            error(*nerr = 5005, "%s", kmspe.kermsg);
             goto L_8888;
         }
     } else {
@@ -161,9 +159,7 @@ xcor(nerr)
     /* - Check for error in autocorrelation. */
 
     if (memcmp(kmspe.kermsg, "        ", 8) != 0) {
-        *nerr = 5005;
-        setmsg("ERROR", *nerr);
-        aplmsg(kmspe.kermsg, 131);
+        error(*nerr = 5005, "%s", kmspe.kermsg);
         goto L_8888;
     }
 
