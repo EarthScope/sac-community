@@ -111,7 +111,7 @@ xp(int *nerr) {
 
     vftime(nerr);
     if (*nerr != 0) {
-        aplmsg("Use PLOTSP command to plot spectral data.", 42);
+        mprint("Use PLOTSP command to plot spectral data.");
         goto L_8888;
     }
 
