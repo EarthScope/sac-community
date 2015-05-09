@@ -64,24 +64,18 @@ znfile(int *nfu, char *kname, int kname_s, char *ktype, int ktype_s, int *nerr) 
         lro = FALSE;
         zopenc((int *) nfu, kname, &lnewfl, &lro, (int *) &noerr, kname_s);
         if (noerr != 0) {
-            *nerr = ERROR_OPENING_FILE;
-            setmsg("ERROR", *nerr);
-            apcmsg(kname, kname_s);
-            if (noerr == 1)
-                apcmsg("(Insufficient access rights.)", 30);
-            else
-                apcmsg("(System error occurred.)", 25);
+            error(*nerr = ERROR_OPENING_FILE, "%s %s", kname,
+                  (noerr == ERROR_ZOPENC_INSUFFICIENT_ACCESS) ?
+                  "(Insufficient access rights.)" :
+                  "(System error occurred.)");
             goto L_8888;
         }
     }
 
     /* - Open text file. */
     else {
-        *nerr = ERROR_OPENING_FILE;
-        setmsg("ERROR", *nerr);
-        apcmsg(kname, kname_s);
-        aplmsg("Bad value for file type = ", 27);
-        apcmsg(ktype, ktype_s);
+        error(*nerr = ERROR_OPENING_FILE, "%s", kname);
+        mprint("Bad value for file type = %s", ktype);
         goto L_8888;
     }
 

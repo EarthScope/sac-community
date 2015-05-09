@@ -76,9 +76,7 @@ zopen_sac(int *nfu, char *kname, int kname_s, char *ktype, int ktype_s,
     zinquire(kname_c, &lexist);
 
     if (!lexist) {
-        *nerr = ERROR_FILE_DOES_NOT_EXIST;
-        setmsg("ERROR", *nerr);
-        apcmsg(kname_c, kname_s);
+        error(*nerr = ERROR_FILE_DOES_NOT_EXIST, "%s", kname_c);
         goto L_8888;
     }
 
@@ -88,13 +86,9 @@ zopen_sac(int *nfu, char *kname, int kname_s, char *ktype, int ktype_s,
         lro = FALSE;
         zopenc((int *) nfu, kname_c, &lnewfl, &lro, (int *) &noerr, kname_s);
         if (noerr != 0) {
-            *nerr = ERROR_OPENING_FILE;
-            setmsg("ERROR", *nerr);
-            apcmsg(kname_c, kname_s);
-            if (noerr == 1)
-                apcmsg("(Insufficient access rights.)", 30);
-            else
-                apcmsg("(System error occurred.)", 25);
+            error(*nerr = ERROR_OPENING_FILE, "%s %s", kname_c,
+                  (noerr == 1) ? "(Insufficient access rights.)" :
+                  "(System error occurred.)");
             goto L_8888;
         }
     } else if (memcmp(ktype, "RODATA", 6) == 0) {
@@ -102,16 +96,11 @@ zopen_sac(int *nfu, char *kname, int kname_s, char *ktype, int ktype_s,
         lro = TRUE;
         zopenc((int *) nfu, kname_c, &lnewfl, &lro, (int *) &noerr, kname_s);
         if (noerr != 0) {
-            *nerr = ERROR_OPENING_FILE;
-            setmsg("ERROR", *nerr);
-            apcmsg(kname_c, kname_s);
-            if (noerr == 1)
-                apcmsg("(Insufficient access rights.)", 30);
-            else {
-                printf("error: %s\n", strerror(errno));
-                fflush(stdout);
-                apcmsg("(System error occurred.)", 25);
-            }
+            error(*nerr = ERROR_OPENING_FILE, "%s %s", kname_c,
+                  (noerr == 1) ? "(Insufficient access rights.)" :
+                  "(System error occurred.)");
+            printf("error: %s\n", strerror(errno));
+            fflush(stdout);
             goto L_8888;
         }
     }
@@ -120,12 +109,9 @@ zopen_sac(int *nfu, char *kname, int kname_s, char *ktype, int ktype_s,
     else if (memcmp(ktype, "ROUNFR", 6) == 0) {
         noerr = 1;
         if (noerr != 0) {
-            *nerr = ERROR_OPENING_FILE;
-            setmsg("ERROR", *nerr);
-            apcmsg(kname_c, kname_s);
-            apcmsg("ROUNFR files not supported at this time-zopen", 46);
-            apimsg(noerr);
-            apcmsg(")", 2);
+            error(*nerr = ERROR_OPENING_FILE, "%s %s (%d)", kname_c,
+                  "ROUNFR files not supported at this time-zopen",
+                  noerr);
             goto L_8888;
         }
     }
@@ -134,23 +120,16 @@ zopen_sac(int *nfu, char *kname, int kname_s, char *ktype, int ktype_s,
     else if (memcmp(ktype, "RODIR", 5) == 0) {
         noerr = 1;
         if (noerr != 0) {
-            *nerr = ERROR_OPENING_FILE;
-            setmsg("ERROR", *nerr);
-            apcmsg(kname_c, kname_s);
-            apcmsg("RODIR files not supported at this time-zopen", 45);
-            apimsg(noerr);
-            apcmsg(")", 2);
+            error(*nerr = ERROR_OPENING_FILE, "%s %s (%d)", kname_c,
+                  "RODIR files not supported at this time-zopen",
+                  noerr);
             goto L_8888;
         }
     }
 
     else {
-        *nerr = ERROR_OPENING_FILE;
-        setmsg("ERROR", *nerr);
-        apcmsg(kname_c, kname_s);
-        apcmsg("(Bad value for file type =", 27);
-        apcmsg(ktype, ktype_s);
-        apcmsg(")", 2);
+        error(*nerr = ERROR_OPENING_FILE, "%s (%s %s)", kname_c,
+              "Bad value for file type =", ktype);
         goto L_8888;
     }
 

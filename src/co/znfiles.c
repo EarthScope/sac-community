@@ -77,21 +77,14 @@ znfiles(FILE ** nfu, char *kname, int kname_s, char *ktype, int ktype_s,
         free(tmp);
         tmp = NULL;
         if (noerr != 0) {
-            *nerr = ERROR_OPENING_FILE;
-            setmsg("ERROR", *nerr);
-            apcmsg(kname, kname_s);
-            apcmsg("(i/o error number =", 19);
-            apimsg(noerr);
-            apcmsg(")", 2);
+            error(*nerr = ERROR_OPENING_FILE, "%s (i/o error number = %d)",
+                  kname, noerr);
             goto L_8888;
         }
 
     } else {
-        *nerr = ERROR_OPENING_FILE;
-        setmsg("ERROR", *nerr);
-        apcmsg(kname, kname_s);
-        aplmsg("Bad value for file type = ", 27);
-        apcmsg(ktype, ktype_s);
+        error(*nerr = ERROR_OPENING_FILE, "%s\n"
+              " Bad value for file type =  %s", kname, ktype);
         goto L_8888;
     }
 
