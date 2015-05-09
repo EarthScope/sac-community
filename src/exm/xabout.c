@@ -130,8 +130,7 @@ xabout() {
     }
     sprintf(kvdate, fmt, BUILD_DATE, PACKAGE_VERSION);
     setmsg("OUTPUT", 99);
-    apcmsg(kvdate, strlen(kvdate) + 1);
-    aplmsg(kcopyr, strlen(kcopyr) + 1);
+    out("%s\n %s", kvdate, kcopyr);
     outmsg();
     clrmsg();
 }

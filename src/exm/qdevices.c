@@ -25,16 +25,14 @@ qdevices() {
     int j, number;
 
     memset(kline, 0, sizeof(kline));
-    sprintf(kline, "   %s", "Available graphics devices are:");
-    aplmsg(kline, MCMSG + 1);
+    mprint("   %s", "Available graphics devices are:");
 
     getmaxdevices(&number);
     for (j = 1; j <= number; j++) {
         getdevicename(j, name, 13);
         if (strcmp(name, "            ") != 0 && strcasecmp(name, "RECORD") != 0
             && strcasecmp(name, "TEXT") != 0) {
-            sprintf(kline, "%s", name);
-            aplmsg(kline, MCMSG + 1);
+            mprint("%s", name);
         }
     }
 

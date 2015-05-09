@@ -48,8 +48,7 @@ repkv(char *ktext, int ktext_s, char *kv, int kv_s) {
     strtemp1[nct] = '\0';
     strtemp2[ncv] = '\0';
 
-    sprintf(kline, "   %s%s%c%s%c", strtemp1, " is ", '\'', strtemp2, '\'');
-    aplmsg(kline, MCMSG + 1);
+    mprint("   %s%s%c%s%c", strtemp1, " is ", '\'', strtemp2, '\'');
 
     free(strtemp1);
     free(strtemp2);

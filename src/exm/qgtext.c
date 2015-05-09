@@ -25,11 +25,9 @@ qgtext() {
     char kline[MCPFN + 1];
     memset(kline, 0, sizeof(kline));
     if (kmgem.kgtqua[0] == 'H') {
-        sprintf(kline, "   %s", "HARDWARE text being used.");
-        aplmsg(kline, MCPFN + 1);
+        mprint("   %s", "HARDWARE text being used.");
     } else {
-        sprintf(kline, "   %s", "SOFTWARE text being used.");
-        aplmsg(kline, MCPFN + 1);
+        mprint("   %s", "SOFTWARE text being used.");
     }
     mprint("   Text FONT is " REPORT_INT, cmgem.igtfnt);
     mprint("   Text SIZE is " REPORT_FLOAT, cmgem.tsdef);

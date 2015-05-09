@@ -49,8 +49,7 @@ repav(char *ktext, int ktext_s, char *av, int av_s) {
     strncpy(strtemp2, av, ncv);
     strtemp2[ncv] = '\0';
 
-    sprintf(kline, "   %s%s%s", strtemp1, " is ", strtemp2);
-    aplmsg(kline, MCMSG + 1);
+    mprint("   %s%s%s", strtemp1, " is ", strtemp2);
 
     free(strtemp1);
     free(strtemp2);

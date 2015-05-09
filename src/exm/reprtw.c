@@ -51,12 +51,10 @@ reprtw(char *ktext, int ktext_s, int lrtw, char *krtw, int krtw_s, float *ortw) 
     if (lrtw) {
         strcpy(chartemp, "  ");
         memcpy(chartemp, KRTW(0, 0), 2);
-        sprintf(kline, "   %s%s%12.5g", "Start is ", chartemp, Ortw[1]);
-        aplmsg(kline, MCMSG + 1);
+        mprint("   %s%s%12.5g", "Start is ", chartemp, Ortw[1]);
 
         memcpy(chartemp, KRTW(1, 0), 2);
-        sprintf(kline, "   %s%s%12.5g", "Stop  is ", chartemp, Ortw[2]);
-        aplmsg(kline, MCMSG + 1);
+        mprint("   %s%s%12.5g", "Stop  is ", chartemp, Ortw[2]);
     }
 
     return;

@@ -44,7 +44,7 @@ repivl(char *ktext, int *iv, int nv) {
     strcpy(kline, "   ");
     strcat(kline, ktext);
 
-    aplmsg(kline, MCMSG + 1);
+    mprint(kline);
     nlines = (nv - 1) / 5 + 1;
     j1 = 1;
     for (jlines = 1; jlines <= nlines; jlines++) {
@@ -54,7 +54,7 @@ repivl(char *ktext, int *iv, int nv) {
         for (j = j1; j <= j2; j++) {
             n += sprintf(&kline[n], "%5d", Iv[j]);
         }
-        aplmsg(kline, MCMSG + 1);
+        mprint(kline);
         j1 = j1 + 5;
     }
 
