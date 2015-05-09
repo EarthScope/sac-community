@@ -640,10 +640,7 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
             goto L_8888;
         }
         if (npoles > MPOLES) {
-            *nerr = 2109;
-            setmsg("ERROR", *nerr);
-            apcmsg(subtyp, subtyp_s);
-            apimsg(MPOLES);
+            error(*nerr = 2108, "%s %d", subtyp, MPOLES);
             goto L_8888;
         }
         lpoles = TRUE;
@@ -655,10 +652,7 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
             goto L_8888;
         }
         if (nzeros > MZEROS) {
-            *nerr = 2109;
-            setmsg("ERROR", *nerr);
-            apcmsg(subtyp, subtyp_s);
-            apimsg(MZEROS);
+            error(*nerr = 2109, "%s %d", subtyp, MZEROS);
             goto L_8888;
         }
         lpoles = FALSE;

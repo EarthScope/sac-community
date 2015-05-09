@@ -66,7 +66,7 @@ xliststack(nerr)
 	 *=====================================================================
 	 * SUBROUTINES CALLED:
 	 *    saclib:  lcmore, lclog2, cfmt, cresp, vmcalc, vmdly, 
-	 *             aplmsg, autooutmsg
+	 *             autooutmsg
 	 *=====================================================================
 	 * MODIFICATION HISTORY:
 	 *    960708:  Added begin time and end time. maf
@@ -125,17 +125,14 @@ xliststack(nerr)
        Rearranged 960708 to fit begin time and end time, maf */
 
     if (cmsss.lnarli) {
-        sprintf(kline, " filename  weight      delayt\
+        mprint(" filename  weight      delayt\
       delayn     delayvm   polarity   distance");
-        aplmsg(kline, MCMSG + 1);
-        sprintf(kline, "                           delayti\
+        mprint("                           delayti\
      delayni      begin       end");
-        aplmsg(kline, MCMSG + 1);
     } else {
-        sprintf(kline, " filename                  weight      delayt\
+        mprint(" filename                  weight      delayt\
       delayn     delayvm    polarity    distance     delayti     delayni\
       begin       end");
-        aplmsg(kline, MCMSG + 1);
     }
 
     /* - Loop on stack list. */
@@ -151,22 +148,17 @@ xliststack(nerr)
                 strcpy(kpol, "REVERSED");
             if (cmsss.lnarli) {
                 /* Rearranged 960708 to fit begin time and end time, maf */
-                sprintf(kline, " %s  %12.3f%12.3f%12.3f%12.3f %s %12.3f", tmp,
-                        Wt[jdfl], Dlyt[jdfl], Dlyn[jdfl], Dlyvm[jdfl], kpol,
-                        Dst[jdfl]);
-                aplmsg(kline, MCMSG + 1);
-                sprintf(kline, "                      %12.3f%12.3f%12.3f%12.3f",
-                        Dlyti[jdfl], Dlyni[jdfl], Tbegin[jdfl], Tend[jdfl]);
-                aplmsg(kline, MCMSG + 1);
+                mprint(" %s  %12.3f%12.3f%12.3f%12.3f %s %12.3f", tmp,
+                       Wt[jdfl], Dlyt[jdfl], Dlyn[jdfl], Dlyvm[jdfl], kpol,
+                       Dst[jdfl]);
+                mprint("                      %12.3f%12.3f%12.3f%12.3f",
+                       Dlyti[jdfl], Dlyni[jdfl], Tbegin[jdfl], Tend[jdfl]);
             } else {
                 /* Rearranged 960708 to fit begin time and end time, maf */
-                sprintf(kline,
-                        " %20s%12.3f%12.3f%12.3f%12.3f    %8s%12.3f%12.3f%12.3f%12.3f%12.3f",
+                mprint(" %20s%12.3f%12.3f%12.3f%12.3f    %8s%12.3f%12.3f%12.3f%12.3f%12.3f",
                         tmp, Wt[jdfl], Dlyt[jdfl], Dlyn[jdfl], Dlyvm[jdfl],
                         kpol, Dlyti[jdfl], Dlyni[jdfl], Dst[jdfl], Tbegin[jdfl],
                         Tend[jdfl]);
-
-                aplmsg(kline, MCMSG + 1);
             }
         } else {
             printf("programming logic error-xliststack\n");
@@ -176,8 +168,7 @@ xliststack(nerr)
 
     /* - Write time window. */
 
-    sprintf(kline, " Time Window:%12.3f%12.3f", Twlim[1], Twlim[2]);
-    aplmsg(kline, MCMSG + 1);
+    mprint(" Time Window:%12.3f%12.3f", Twlim[1], Twlim[2]);
 
     /* - Write velocity models. */
 
@@ -186,48 +177,40 @@ xliststack(nerr)
 
         if (Lvm[jvm]) {
             if (Ivm[jvm] == cmsss.inmo) {
-                sprintf(kline, " Stack Velocity Model %1d %8s", jvm, knmo);
+                mprint(" Stack Velocity Model %1d %8s", jvm, knmo);
             } else if (Ivm[jvm] == cmsss.irefr) {
-                sprintf(kline, " Stack Velocity Model %1d %8s", jvm, krefr);
+                mprint(" Stack Velocity Model %1d %8s", jvm, krefr);
             }
-            aplmsg(kline, MCMSG + 1);
             if (Lcvapp[jvm]) {
-                sprintf(kline, "    %8s%12.8f    %8s", kvapp, Vapp[jvm], kcalc);
+                mprint("    %8s%12.8f    %8s", kvapp, Vapp[jvm], kcalc);
             } else {
-                sprintf(kline, "    %8s%12.8f    %8s", kvapp, Vapp[jvm],
-                        kinput);
+                mprint("    %8s%12.8f    %8s", kvapp, Vapp[jvm], kinput);
             }
-            aplmsg(kline, MCMSG + 1);
             if (Vappi[jvm] != 0.) {
-                sprintf(kline, "    %8s%12.8f", kvappi, Vappi[jvm]);
-                aplmsg(kline, MCMSG + 1);
+                mprint("    %8s%12.8f", kvappi, Vappi[jvm]);
             }
             if (Lct0vm[jvm]) {
-                sprintf(kline, "    %8s%12.8f    %8s", kt0vm, T0vm[jvm], kcalc);
+                mprint("    %8s%12.8f    %8s", kt0vm, T0vm[jvm], kcalc);
             } else {
-                sprintf(kline, "    %8s%12.8f    %8s", kt0vm, T0vm[jvm],
-                        kinput);
+                mprint("    %8s%12.8f    %8s", kt0vm, T0vm[jvm], kinput);
             }
-            aplmsg(kline, MCMSG + 1);
             if (T0vmi[jvm] != 0.) {
-                sprintf(kline, "    %8s%12.8f", kt0vmi, T0vmi[jvm]);
-                aplmsg(kline, MCMSG + 1);
+                mprint("    %8s%12.8f", kt0vmi, T0vmi[jvm]);
             }
             sprintf(kline, "    %8s", kdvm);
             for (j = 1; j <= Ndvm[1]; j++) {
                 sprintf(kline + 12 + ((j - 1) * 12), "%12.8f",
                         cmsss.dvm[jvm_][j - 1]);
             }
-            aplmsg(kline, MCMSG + 1);
+            mprint(kline);
             sprintf(kline, "    %8s", ktvm);
             for (j = 1; j <= Ntvm[1]; j++) {
                 sprintf(kline + 12 + ((j - 1) * 12), "%12.8f",
                         cmsss.tvm[jvm_][j - 1]);
             }
-            aplmsg(kline, MCMSG + 1);
+            mprint(kline);
         } else {
-            sprintf(kline, " Stack Velocity Model %1d %8s", jvm, koff);
-            aplmsg(kline, MCMSG + 1);
+            mprint(" Stack Velocity Model %1d %8s", jvm, koff);
         }
 
     }

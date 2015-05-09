@@ -100,9 +100,7 @@ readctable(char *name, int name_s, int max_, float red[], float green[],
 
     /* -- Pop first three tokens.  They are the red, green, and blue values. */
     if(sscanf(line, "%f %f %f %s", &redv, &greenv, &bluev, tmp) != 4) {
-        *nerr = 2201;
-        setmsg("ERROR", *nerr);
-        aplmsg(line, MCMSG + 1);
+        error(*nerr = 2201, "\n %s", line);
         goto L_8888;
     }
 

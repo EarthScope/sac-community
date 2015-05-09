@@ -73,10 +73,7 @@ executemacro(char *kmacroname, int kmacroname_s, char *kmacroargs,
             saccommands(kmacroline, 1000, nerr);
         if (*nerr != 0 || !macrostatus()) {
             *nerr = 1016;
-            setmsg("ERROR", *nerr);
-            apcmsg(kmacroname, kmacroname_s);
-            aplmsg("Command line is:", 17);
-            apcmsg2(kmacroline, ncmacroline);
+            error(*nerr = 1016, "%s\n Command line is: %s", kmacroname, kmacroline);
             goto L_7000;
         }
         goto L_1000;

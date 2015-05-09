@@ -81,7 +81,7 @@ initsac() {
 	 *=====================================================================
 	 * SUBROUTINES CALLED:
 	 *    saclib:  inimsg, initcommon, begingraphics, flash, zgetgd,
-	 *             setmsg, apcmsg, aplmsg
+	 *             setmsg, apcmsg
 	 *=====================================================================
 	 * LOCAL VARIABLES:
 	 *=====================================================================

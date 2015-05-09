@@ -106,11 +106,8 @@ extrma(float *array, int incrmt, int number, float *aminm, float *amaxm,
      * */
     if (*aminm < -VLARGE || *amaxm > VLARGE) {
         setmsg("WARNING", 0);
-        apcmsg("Data value outside system storage bounds", 41);
-        aplmsg("Maxvalue = ", 12);
-        apfmsg(*amaxm);
-        apcmsg(" Minvalue = ", 13);
-        apfmsg(*aminm);
+        out("Data value outside system storage bounds\n"
+            " Maxvalue = %-.5g  Minvalue = %-.5g", *amaxm, *aminm);
         outmsg();
         clrmsg();
     }

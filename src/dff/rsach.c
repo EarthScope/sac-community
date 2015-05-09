@@ -60,9 +60,8 @@ sac_check_header_version(float *hdr, int *nerr) {
         byteswap((void *) ver, SAC_HEADER_SIZEOF_NUMBER);
 
         if (*ver < 1 || *ver > SAC_HEADER_MAJOR_VERSION) {
-            *nerr = ERROR_NOT_A_SAC_FILE;
-            setmsg("ERROR", *nerr);
-            aplmsg("not in sac format, nor byteswapped sac format.", 62);
+            error(*nerr = ERROR_NOT_A_SAC_FILE,
+                  "not in sac format, nor byteswapped sac format.");
             outmsg();
             clrmsg();
             return -1;

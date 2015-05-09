@@ -118,8 +118,8 @@ rdhdr(sac * s, int *nun, char *file, int *nerr) {
 
         if (*nerr != 0) {
             *nerr = 0;
-            aplmsg("Insufficient access rights to update disk file.", 48);
-            aplmsg("Header in memory has been updated.", 35);
+            mprint("Insufficient access rights to update disk file.\n"
+                   "Header in memory has been updated.");
             goto L_4000;
         }
         nlcdsk = 0;
@@ -139,13 +139,13 @@ rdhdr(sac * s, int *nun, char *file, int *nerr) {
 
         if (*nerr != 0) {
             *nerr = 0;
-            aplmsg("Could not update header in disk file.", 38);
-            aplmsg("Header in memory has been updated.", 35);
+            mprint("Could not update header in disk file.\n"
+                   "Header in memory has been updated.");
             zclose(nun, &ncerr);
             goto L_4000;
         }
         zclose(nun, &ncerr);
-        aplmsg("Headers in memory and on disk have been updated.", 49);
+        mprint("Headers in memory and on disk have been updated.");
       L_4000:
         outmsg();
         clrmsg();

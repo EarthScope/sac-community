@@ -151,19 +151,16 @@ initcomlists(int *nerr) {
 
     /* - Process any errors that may have occurred. */
   L_9000:
-    *nerr = ERROR_SAC_LOGIC_ERROR;
-    setmsg("ERROR", *nerr);
-    apcmsg("in INITCOMLISTS.", 17);
-    aplmsg("Problems opening Command List:", 31);
-    apcmsg(kfile, MCPFN + 1);
+    printf("kfile: '%s'\n", kfile);
+    error(*nerr = ERROR_SAC_LOGIC_ERROR, 
+          "in INITCOMLISTS.\n"
+          " Problems opening Command List: %s", kfile);
     goto L_8888;
 
   L_9100:
-    *nerr = ERROR_SAC_LOGIC_ERROR;
-    setmsg("ERROR", *nerr);
-    apcmsg("in INITCOMLISTS.", 17);
-    aplmsg("Problems reading Command List:", 31);
-    apcmsg(kfile, MCPFN + 1);
+    error(*nerr = ERROR_SAC_LOGIC_ERROR,
+          "in INITCOMLISTS.\n",
+          " Problems reading Command List: %s", kfile);
     zcloses(&nun, &ncerr);
     goto L_8888;
 
