@@ -246,7 +246,13 @@ sac_command_line_copyright(int argc, char **argv) {
         if (strcmp(argv[i], "--copyright-off") == 0) {
             display_copyright(OPTION_OFF);
         }
+        if (strcmp(argv[i], "-c") == 0) {
+            display_copyright(OPTION_OFF);
+        }
         if (strcmp(argv[i], "--copyright-on") == 0) {
+            display_copyright(OPTION_ON);
+        }
+        if (strcmp(argv[i], "-C") == 0) {
             display_copyright(OPTION_ON);
         }
     }
