@@ -16,6 +16,7 @@
 #include "bot.h"
 #include "ucf.h"
 #include "vars.h"
+#include "debug.h"
 
 char *process_line(char *in);
 
@@ -231,6 +232,7 @@ macroline(kmacroline, kmacroline_s, ncmacroline, nerr)
                 out = strdup(kiline);
             }
             zruntext(out, strlen(out), nrfun, nerr);
+            FREE(out);
             if (*nerr != 0)
                 goto L_8888;
             goto L_1000;
@@ -257,6 +259,7 @@ macroline(kmacroline, kmacroline_s, ncmacroline, nerr)
             out = strdup(kiline);
         }
         zruntext(out, strlen(out), nrfun, nerr);
+        FREE(out);
         if (*nerr != 0)
             goto L_8888;
         goto L_1000;

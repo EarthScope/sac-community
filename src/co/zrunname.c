@@ -40,12 +40,7 @@ void
 zrunname(char *name, int name_s, char *args, int args_s, FILE ** nfun,
          char *runfile, int runfile_s, int *nerr) {
 
-    int ncargs, ncname;
-    char *strtemp1, *strtemp2;
-
     /* - Create a new file to contain the shell script. */
-    ncname = indexb(name, name_s);
-
     memset(runfile, (int) ' ', runfile_s - 1);
     runfile[runfile_s - 1] = '\0';
     memcpy(runfile, "sacrunfile", 10);
@@ -54,20 +49,9 @@ zrunname(char *name, int name_s, char *args, int args_s, FILE ** nfun,
     if (*nerr != 0)
         goto L_8888;
 
-    /* - Write the first line to the file. */
-    ncargs = max(1, indexb(args, args_s));
 
-    strtemp1 = malloc(ncname + 1);
-    strtemp2 = malloc(ncargs + 1);
-    strncpy(strtemp1, name, ncname);
-    strtemp1[ncname] = '\0';
-    strncpy(strtemp2, args, ncargs);
-    strtemp2[ncargs] = '\0';
+    fprintf(*nfun, "%s %s << endrun\n", name, args);
 
-    fprintf(*nfun, "%s%c%s%s\n", strtemp1, ' ', strtemp2, " << endrun");
-
-    free(strtemp1);
-    free(strtemp2);
   L_8888:
     return;
 

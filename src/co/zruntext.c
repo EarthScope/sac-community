@@ -31,19 +31,11 @@
 void
 zruntext(char *text, int text_s, FILE * nfun, int *nerr) {
 
-    int nctext;
-    char *strtemp;
     *nerr = 0;
     /* - Write line to the file. */
-    nctext = max(1, indexb(text, text_s));
+    rstrip(text);
+    fprintf(nfun, "%s\n", text);
 
-    strtemp = malloc(nctext + 1);
-    strncpy(strtemp, text, nctext);
-    strtemp[nctext] = '\0';
-
-    fprintf(nfun, "%s\n", strtemp);
-
-    free(strtemp);
 
     return;
 }
