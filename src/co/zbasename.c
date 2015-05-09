@@ -6,6 +6,8 @@
  */
 #include <stdlib.h>
 #include <string.h>
+#include <libgen.h>
+#include <sys/stat.h>
 
 #include "config.h"
 #include "co.h"
@@ -16,16 +18,66 @@
 #include <shlobj.h>
 #endif
 
+char *aux_tries[] = {
+    "/usr/local/sac/aux/messages",
+    "/usr/sac/aux/messages",
+    "/opt/local/sac/aux/messages",
+    "/opt/sac/aux/messages",
+    NULL,
+};
+
+#define SET_VAR \
+    "  To set the SACAUX enviornment variable:\n" \
+    "  - For sh like shells:\n" \
+    "    export SACAUX=/usr/local/sac/aux\n" \
+    "  - For csh like shells:\n" \
+    "     setenv SACAUX /usr/local/sac/aux\n" \
+    "\n" \
+    "  Consult the README file for setting up SAC for more details\n" 
+
+#define AUX_NOT_FOUND \
+    "SAC Error: aux directory not Found\n" \
+    "  Could not find aux directory from SACAUX environmental variable,\n" \
+    "  default location ["SACAUX"] or other probable locations.\n" \
+    "\n" \
+    SET_VAR 
+
+
+#define AUX_ALT_FOUND \
+    "SAC Warning: difficulty finding aux directory\n" \
+    "  Could not find aux directory from SACAUX enviornmental variable or\n" \
+    "  default location ["SACAUX"].\n"                 \
+    "  Setting SACAUX will disable this warning.\n"\
+    "\n" \
+    SET_VAR \
+    "\n"
+
+
 char *
 sacaux() {
+    int i;
+    struct stat st;
     static char *aux = NULL;
     if (aux) {
         return aux;
     }
-    if ((aux = getenv("SACAUX"))) {
-        return aux;
+    if (!(aux = getenv("SACAUX"))) {
+        aux = strdup(SACAUX);
     }
-    aux = strdup(SACAUX);
+    
+    if(stat(aux, &st) == -1) {
+        i = 0;
+        while(aux_tries[i] && stat(aux_tries[i], &st) == -1) {
+            i++;
+        }
+        if(!aux_tries[i]) {
+            fprintf(stderr, AUX_NOT_FOUND);
+            exit(-2);
+        }
+        aux = strdup(dirname(aux_tries[i]));
+        fprintf(stderr, AUX_ALT_FOUND);
+        fprintf(stderr, "  Found aux directory at: %s\n\n", aux);
+    }
     return aux;
 }
 
