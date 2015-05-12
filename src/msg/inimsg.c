@@ -15,6 +15,10 @@
 #include "bool.h"
 #include "dff.h"
 #include "debug.h"
+
+#include "vars/chash.h"
+extern dict *msg_dict;
+
 /** 
  * Initialize the Message Subsystem
  *
@@ -25,7 +29,6 @@
  * \see t_cmmsg.nummsg
  * \see t_cmmsg.itpmsg
  * \see t_cmmsg.autoout
- * \see t_cmmsg.nfmsg
  * \see t_cmmsg.nunits
  * \see t_cmmsg.iunits
  *
@@ -53,7 +56,6 @@ inimsg() {
     cmmsg.autoout = FALSE;
     cmmsg.nlimsg = 1;
 
-    cmmsg.nfmsg = 0;
     sacmsg(&nerr);
     if (nerr != 0)
         outmsg();
@@ -279,10 +281,11 @@ char *message_prefix[] = { "",
 char *
 getsmsg2(int number) {
     int j;
-    for (j = 1; j <= cmmsg.nfmsg; j++) {
-        if (number == cmmsg.ifmsg[j]) {
-            return fstrdup(kmmsg.kfmsg[j], MCMSG + 1);
-        }
+    char str[16], *v;
+    sprintf(str, "%d", number);
+    v = dict_get(msg_dict, str);
+    if(v) {
+        return strdup(v);
     }
     return NULL;
 }
@@ -398,4 +401,14 @@ message(int type, int num, char *message, ...) {
     va_start(args, message);
     msg(num, type, message, args);
     va_end(args);
+}
+
+void
+sac_msg_add(int id, char *msg) {
+    char str[16];
+    sprintf(str, "%d", id);
+    if(dict_get(msg_dict, str)) {
+        printf("SAC: Message %d overwritten\n", id);
+    }
+    dict_put(msg_dict, str, msg);
 }

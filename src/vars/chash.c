@@ -51,18 +51,24 @@ dict_entry_alloc(int size) {
     return de;
 }
 
+
 dict *
-dict_new() {
+dict_new_with_length(int n) {
     dict *d;
     DEBUG("\n");
     d = (dict *) malloc(sizeof(dict));
     if (d) {
         d->used = 0;
-        d->hashsize = prime_larger(10);
+        d->hashsize = prime_larger(n);
         d->resize = 0.80;
         d->hashtab = dict_entry_alloc(d->hashsize);
     }
     return d;
+}
+
+dict *
+dict_new() {
+    return dict_new_with_length(10);
 }
 
 void
@@ -166,6 +172,13 @@ dict_get_internal(dict * d, char *s) {
         }
     }
     return NULL;                /* not found */
+}
+
+void
+dict_status(dict *d) {
+    if(d) {
+        fprintf(stdout, "Dict: %p Size: %d Used: %d\n", d, d->hashsize, d->used);
+    }
 }
 
 void *

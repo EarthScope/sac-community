@@ -30,7 +30,6 @@
 struct t_kmmsg {
     char ktpmsg[MTPMSG][9];
     char klimsg[MLIMSG][MCMSG + 1];     /* list of messages */
-    char kfmsg[MFMSG][MCMSG + 1];
 } kmmsg;
 
 /** 
@@ -46,8 +45,6 @@ struct t_cmmsg {
     int nunits;
     FILE *iunits[MUNITS];
     int lsend[MUNITS][MTPMSG];
-    int nfmsg;
-    int ifmsg[MFMSG];
 } cmmsg;
 
 void apcmsg(char *kalpha, int kalpha_s);
@@ -91,5 +88,7 @@ void sac_output_off();
 void bell();
 void bell_off();
 void bell_on();
+
+void sac_msg_add(int id, char *msg);
 
 #endif /* _MSG_H_ */
