@@ -280,7 +280,6 @@ char *message_prefix[] = { "",
 
 char *
 getsmsg2(int number) {
-    int j;
     char str[16], *v;
     sprintf(str, "%d", number);
     v = dict_get(msg_dict, str);

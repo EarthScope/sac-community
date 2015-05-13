@@ -11,6 +11,8 @@
 
 #include "co.h"
 #include "bot.h"
+#include "debug.h"
+
 
 /** 
  * Create a file to run an external program
@@ -41,6 +43,8 @@ zrunname(char *name, int name_s, char *args, int args_s, FILE ** nfun,
          char *runfile, int runfile_s, int *nerr) {
 
     /* - Create a new file to contain the shell script. */
+    UNUSED(args_s);
+    UNUSED(name_s);
     memset(runfile, (int) ' ', runfile_s - 1);
     runfile[runfile_s - 1] = '\0';
     memcpy(runfile, "sacrunfile", 10);

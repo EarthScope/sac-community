@@ -7,9 +7,9 @@
 
 #include "eam.h"
 #include "gem.h"
-
 #include "gdm.h"
 #include "exm.h"
+#include "msg.h"
 
 /** 
  * Report the current values of the color parameters
@@ -20,16 +20,11 @@
 void
 qcolor() {
 
-    char kcol[9];
-
     mprint("   COLOR option is %s", ON_OFF(cmgem.lcol));
-    convcolornum(cmgem.icol, kcol, 9);
-    repav("DATA color$", 12, kcol, 9);
+    mprint("   DATA color is ", cmgem.icol.name);
     mprint("   INCREMENT data color is %s", ON_OFF(cmgem.licol));
-    convcolornum(cmgem.iskcol, kcol, 9);
-    repav("SKELETON color$", 16, kcol, 9);
-    convcolornum(cmgem.ibacol, kcol, 9);
-    repav("BACKGROUND color$", 18, kcol, 9);
+    mprint("   SKELETON color is %s", cmgem.iskcol.name);
+    mprint("   BACKGROUND color is %s", cmgem.ibacol.name);
 
     return;
 }

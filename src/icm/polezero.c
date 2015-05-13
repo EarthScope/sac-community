@@ -474,7 +474,6 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
     float temp1, temp2;
     double const_;
     complexf poles[MPOLES], zeros[MZEROS];
-    char *s1;
 
     pzmeta_t *meta, *meta_used;
     datetime *filetime;

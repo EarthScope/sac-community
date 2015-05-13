@@ -38,7 +38,7 @@ pcxrpl(FILE * nunrpl, int *lquit) {
     FILE *nunmac;
     float height, width, xcdpsv, ycdpsv;
     static char kbdlin[26] = "Bad line in replay file: ";
-    char *s1, *s2;
+    char *s1, s2[80];
 
         /*=====================================================================
 	 * PURPOSE:

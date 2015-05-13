@@ -13,6 +13,7 @@
 #include "msg.h"
 #include "bot.h"
 #include "errors.h"
+#include "debug.h"
 
 /** 
  * @param MRECLB
@@ -57,7 +58,8 @@ znfiles(FILE ** nfu, char *kname, int kname_s, char *ktype, int ktype_s,
     char *tmp;
     int lexist;
     int noerr;
-
+    UNUSED(ktype_s);
+    UNUSED(kname_s);
     *nerr = 0;
     noerr = 0;
 

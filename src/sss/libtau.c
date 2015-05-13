@@ -102,7 +102,6 @@ brnset(nn, pcntl, pcntl_s, prflg)
         "pS      "
     };
     static int ncmpt[NCMD][2] = { {1, 2}, {1, 7}, {1, 13}, {13, 16} };
-    char *s1;
 
     /* int *const Iidx = &brkc.iidx[0] - 1; */
     /* int *const Int0 = &brkc.int0[0] - 1; */

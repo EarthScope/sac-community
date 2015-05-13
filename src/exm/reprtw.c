@@ -11,6 +11,8 @@
 
 #include "exm.h"
 #include "msg.h"
+#include "debug.h"
+
 
 /** 
  * Report the value of a "relative time window"
@@ -37,7 +39,7 @@ void
 reprtw(char *ktext, int ktext_s, int lrtw, char *krtw, int krtw_s, float *ortw) {
 
 #define KRTW(I_,J_)	(krtw+(I_)*(krtw_s)+(J_))
-
+    UNUSED(ktext_s);
     char kline[MCMSG + 1];
     char chartemp[3];
 

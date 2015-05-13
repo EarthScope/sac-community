@@ -420,17 +420,12 @@ strunvisx(char *dst, const char *src, int flag)
  */
 
 #ifndef lint
-static const char copyright[] =
-"@(#) Copyright (c) 1989, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
 #ifndef lint
 #if 0
 static char sccsid[] = "@(#)unvis.c	8.1 (Berkeley) 6/6/93";
 #endif
-static const char rcsid[] =
-  "$FreeBSD: src/usr.bin/unvis/unvis.c,v 1.9 2002/09/04 23:29:08 dwmalone Exp $";
 #endif /* not lint */
 
 #include <stdio.h>

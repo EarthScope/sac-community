@@ -36,7 +36,7 @@ pcxcur(FILE * nunrpl) {
         nc, nctext, nerr, numchar;
     FILE *nunmac;
     float height, width, xcdpsv, xtloc, ycdpsv, ytloc;
-    char *strtemp1, *strtemp2;
+    char *strtemp1;
     char s1[3], s2[3];
 
     nunmac = NULL;

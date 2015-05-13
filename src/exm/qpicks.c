@@ -10,8 +10,8 @@
 
 #include "eam.h"
 #include "gam.h"
-
 #include "exm.h"
+#include "msg.h"
 
 /** 
  * Report the current values of the PICKS parameters
@@ -23,7 +23,6 @@ void
 qpicks() {
 
     int j, j_;
-    char *cattemp;
 
     mprint("   PICK display is %s", ON_OFF(cmgam.ldsppk));
     repav("Type of each pick display$", 27, "        ", 9);

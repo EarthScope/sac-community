@@ -47,7 +47,7 @@
 int
 lgahdr(char *kfield, int kfield_s, char *kvalue, int kvalue_s) {
 
-    char kcmpaz[9], kcmpin[9], ktemp[9];
+    char ktemp[9];
     int lgahdr_v;
     int nc, nerr;
     char *cattemp;

@@ -34,8 +34,7 @@ void
 repivl(char *ktext, int *iv, int nv) {
 
     char kline[MCMSG + 1];
-    int j, j1, j2, jlines, nctext, nlines, n;
-    char *strtemp;
+    int j, j1, j2, jlines, nlines, n;
     memset(kline, 0, sizeof(kline));
 
     int *const Iv = &iv[0] - 1;

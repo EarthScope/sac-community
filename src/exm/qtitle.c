@@ -8,6 +8,7 @@
 #include "eam.h"
 #include "gem.h"
 #include "exm.h"
+#include "msg.h"
 
 /** 
  * Report current values of the TITLE command 

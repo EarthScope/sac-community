@@ -50,7 +50,6 @@ wrsdd(int idfl, char *kname, int kname_s, int ldta, int *nerr) {
     int iss, itm, jcomp, ncerr, nlcdsk, nptwr;
     int nun;
     float frac;
-    char *strtemp;
     sac *s;
     int *sdd;
     kschan[12] = '\0';

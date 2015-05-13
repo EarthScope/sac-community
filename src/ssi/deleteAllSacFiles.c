@@ -70,11 +70,4 @@ deleteAllSacFiles(nerr, lname)
 
     return returnValue;
 
-    //L_8888:
-    setmsg("ERROR", *nerr);
-    apimsg(jdfl);
-    outmsg();
-    clrmsg();
-    return jdfl - 1;
-
 }                               /* end deleteAllSacFiles() */

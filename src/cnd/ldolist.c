@@ -39,13 +39,6 @@ extern Token *do_token[100];
 int
 ldolist(int *nerr) {
 
-    int ldolist_v;
-    int nchars;
-    char *strtemp;
-
-    char *filelist;
-    int start, end;
-
     char *key;
     *nerr = 0;
     Token *t;
@@ -73,31 +66,4 @@ ldolist(int *nerr) {
 
     return TRUE;
 
-    filelist =
-        getvvstringZ((char *) kcnd.kdovar[cnd.ndolevel - 1], MCPFN + 1,
-                     (char *) kcnd.kdolist[cnd.ndolevel - 1], MCPFN + 1,
-                     &nchars, nerr);
-
-    if (lnxtcl
-        (filelist, strlen(filelist), &Idoin1[cnd.ndolevel],
-         &Idoin2[cnd.ndolevel])) {
-        start = Idoin1[cnd.ndolevel];
-        end = Idoin2[cnd.ndolevel];
-        end = min(end, nchars);
-        nchars = end - start + 1;
-        strtemp = (char *) malloc(sizeof(char) * (nchars + 1));
-        strncpy(strtemp, filelist + start - 1, nchars);
-        strtemp[nchars] = '\0';
-
-        /* Copy the token to the variable name */
-        putvvstring((char *) kcnd.kdovar[cnd.ndolevel - 1], MCPFN + 1,
-                    (char *) kcnd.kdoname[cnd.ndolevel - 1], MCPFN + 1, nchars,
-                    strtemp, end - start + 2, nerr);
-        free(strtemp);
-        ldolist_v = TRUE;
-    } else {
-        ldolist_v = FALSE;
-    }
-    free(filelist);
-    return (ldolist_v);
 }

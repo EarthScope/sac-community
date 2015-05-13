@@ -14,6 +14,7 @@
 #include "msg.h"
 
 #include "errors.h"
+#include "debug.h"
 
 /** 
  * @param MRECLB
@@ -66,7 +67,7 @@ zopen_sac(int *nfu, char *kname, int kname_s, char *ktype, int ktype_s,
     int lexist, lnewfl, lro;
     int noerr;
     char *kname_c;
-
+    UNUSED(ktype_s);
     *nerr = 0;
 
     /* - Error exit if file does not exist. */

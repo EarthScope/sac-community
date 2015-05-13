@@ -8,9 +8,7 @@
 #include "bot.h"
 
 void /*FUNCTION*/
-xaxis(type, annot, ticks, label, label_s)
-     char *type, *annot, *ticks, *label;
-     int label_s;
+xaxis(char *type, char *annot, char *ticks, char *label, int label_s)
 {
     char kannot[3], kticks[3], ktype[3], kxjust[9], kyjust[9];
     int lbotax, lbotlb, lbottc, ltopax, ltoptc, lxlin;

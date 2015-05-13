@@ -145,7 +145,6 @@ iaspmodel(zs, dstart, dinc, nloops, nerr)
 
     /* - Return. (Try to close data file just to be sure.) */
 
-  L_8888:
     iaspcl(nerr);
     return;
 

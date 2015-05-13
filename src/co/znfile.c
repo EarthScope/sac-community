@@ -56,6 +56,7 @@ znfile(int *nfu, char *kname, int kname_s, char *ktype, int ktype_s, int *nerr) 
     int lnewfl, lro;
     int noerr;
 
+    UNUSED(ktype_s);
     *nerr = 0;
 
     /* - Open data file. */

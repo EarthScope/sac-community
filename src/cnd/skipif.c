@@ -46,7 +46,6 @@ skipif(int *nerr) {
     FILE *nun;
     int nchars;
     int numchar;
-    char *strtemp;
 
     *nerr = 0;
     numifs = 0;

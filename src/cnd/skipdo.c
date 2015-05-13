@@ -50,7 +50,6 @@ skipdo(int *nerr) {
     FILE *nun;
     int nchars;
     int numchar;
-    char *strtemp;
 
     *nerr = 0;
     numdos = 0;

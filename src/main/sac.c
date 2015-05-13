@@ -150,6 +150,7 @@ void
 execute_command_line(char *kmsg, int len) {
     int nerr;
     char *s1, *s2;
+    UNUSED(len);
     if(strlen(kmsg) > 0) {
         /* Macro name */
         s1 = kmsg;

@@ -40,9 +40,12 @@ void
 cnvfmt(char *kcard, int kcard_s, char *kfmt, int kfmt_s, int nentry,
        float *fentry, int *nerr) {
 
-    int nc;
 
     *nerr = 0;
+    UNUSED(kcard);
+    UNUSED(kcard_s);
+    UNUSED(kfmt);
+    UNUSED(kfmt_s);
     UNUSED(nentry);
     UNUSED(fentry);
     printf("formatted reads are not supported in SAC2000 yet\n");

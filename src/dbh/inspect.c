@@ -88,7 +88,6 @@ inspect(int iord, char *type, char *aproto, double att, double trbndw,
     int nsects;
     float dcvalue, eps, fhw, flw, omegar, ripple, sd[30], sn[30];
     complexf poles[10], zeros[10];
-    char *strtemp;
 
     if (rtype[0] == 'D')
         digital = TRUE;

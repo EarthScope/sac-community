@@ -205,10 +205,6 @@ executecommand(module, index, nerr)
     xmatc(index, nerr);         /* - Module "mat":  matlab analysis routines */
     goto L_8888;
 
-    //L_2000:
-    //xcoda( index, nerr ); /* - Module "coda": Kevin Mayeda's coda magnitude */
-    goto L_8888;
-
   L_8888:
     return;
 

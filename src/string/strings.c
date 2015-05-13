@@ -81,14 +81,17 @@ string_string(const string * s) {
 
 int
 string_check_length(string * s) {
+    UNUSED(s);
     return TRUE;
 
+    /*
     if (s->n != strlen(s->str)) {
         fprintf(stderr, "string error: length mismatch: %d - %d\n", (int) s->n,
                 (int) strlen(s->str));
         return FALSE;
     }
     return TRUE;
+    */
 }
 
 string *

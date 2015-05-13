@@ -7,8 +7,8 @@
 
 #include "eam.h"
 #include "gam.h"
-
 #include "exm.h"
+#include "msg.h"
 
 /** 
  * Report the current values of the fileid parameters

@@ -7,8 +7,8 @@
 
 #include "eam.h"
 #include "gem.h"
-
 #include "exm.h"
+#include "msg.h"
 
 /** 
  * Report the current values of the SYMBOL parameters

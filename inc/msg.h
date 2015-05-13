@@ -71,6 +71,7 @@ void error(int error, char *message, ...);
 void warning(int error, char *message, ...);
 void processed(int val, char *message, ...);
 void out(char *fmt, ...);
+void mprint(char *fmt, ...);
 void message(int type, int num, char *message, ...);
 
 void sac_warning_stdout();

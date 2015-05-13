@@ -49,7 +49,7 @@ pcmcur(FILE * nunmac) {
     char kchar, kchar2;
     int i1, i2, iop1, iop2, iope, iopei, jope, nc, nctext, nerr, numchar;
     float height, width, xloc, xtemp, xtloc, yloc, ytemp, ytloc;
-    char *strtemp1, *strtemp2;
+    char *strtemp1;
     char s1[3], s2[3];
 
   L_5000:

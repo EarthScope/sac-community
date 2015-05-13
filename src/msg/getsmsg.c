@@ -10,6 +10,7 @@
 
 #include "msg.h"
 #include "co.h"
+#include "debug.h"
 
 #include "vars/chash.h"
 
@@ -39,6 +40,7 @@ void
 getsmsg(int number, char *kmsg, int kmsg_s) {
 
     char str[16];
+    UNUSED(kmsg_s);
  	/* - Loop through list of message numbers, looking for a match. */
     sprintf(str, "%d", number);
     char *v = (char *) dict_get(msg_dict, str);

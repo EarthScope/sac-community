@@ -331,7 +331,6 @@ saccommands(char *kinmsg, int kinmsg_s, int *nerr) {
         if (!e) {
             *nerr = 101;
             return;
-            goto L_8888;
         }
         /* Reset the Conversion Error Flag to a Non-Error - 0 */
         cmicnv.icnver = 0;

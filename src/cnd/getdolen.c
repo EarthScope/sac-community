@@ -52,7 +52,6 @@ getdolen(int *nlines, int *nerr) {
     int ic, ic1, ic2, itype, nc, niline, numdos, nchars;
     int numchar;
     FILE *nun;
-    char *strtemp;
 
     *nerr = 0;
     numdos = 0;

@@ -17,6 +17,7 @@ strcpy_check(char *dst, char *src) {
     if (dst != src) {
         strcpy(dst, src);
     }
+    return dst;
 }
 
 void                            /* FUNCTION */

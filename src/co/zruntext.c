@@ -11,6 +11,7 @@
 
 #include "co.h"
 #include "bot.h"
+#include "debug.h"
 
 /** 
  * Add a line of text to a run file
@@ -32,6 +33,7 @@ void
 zruntext(char *text, int text_s, FILE * nfun, int *nerr) {
 
     *nerr = 0;
+    UNUSED(text_s);
     /* - Write line to the file. */
     rstrip(text);
     fprintf(nfun, "%s\n", text);

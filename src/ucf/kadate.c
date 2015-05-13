@@ -38,13 +38,10 @@
 void
 kadate(int iyear, int ijday, int ncdate, char *kkdate, int kkdate_s, int *nerr) {
 
-    char kenc[5];
     int iday, imonth;
     static char kmonth[12][5] = { "JAN ", "FEB ", "MAR ", "APR ", "MAY ",
         "JUN ", "JUL ", "AUG ", "SEP ", "OCT ", "NOV ", "DEC "
     };
-    char *cattemp;
-    char *s1;
 
     *nerr = 0;
 

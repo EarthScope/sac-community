@@ -55,8 +55,7 @@
 void
 xlh(int *nerr) {
 
-    char kerase[41], kline[MCMSG + 1], kresp[9], krpttx[MRPT][41], ktok[9],
-        kwait[9];
+    char kerase[41], kline[MCMSG + 1], kresp[9], krpttx[MRPT][41], ktok[9];
     int lwait;
     int j, j_, jdfl, jrpt, jrpt_, jrpttx, jrpttx_, jsprpt, nc1, nc2, nc3, nc4,
         nctx[MRPT], nctxm, nferr, nlscrn, nlw, nrpttx;
