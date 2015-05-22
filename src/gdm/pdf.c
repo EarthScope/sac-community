@@ -39,16 +39,6 @@ display_t _pdf;
 
 static pdf_t *xPDF = NULL;
 
-static pdf_color_t COLORS[] = {
-    {1.0, 1.0, 1.0},
-    {1.0, 0.0, 0.0},
-    {0.0, 1.0, 0.0},
-    {0.0, 0.0, 1.0},
-    {1.0, 1.0, 0.0},
-    {0.0, 1.0, 1.0},
-    {1.0, 0.0, 1.0},
-    {0.0, 0.0, 0.0},
-};
 
 void begindevice_pdf(int *nerr);
 void beginframe_pdf(int *nerr);
@@ -67,7 +57,7 @@ void get_geometry_pdf(int number, unsigned int *width, unsigned int *height,
 void move_pdf(float x, float y);
 void put_image3(char *data, unsigned int xloc, unsigned int yloc,
                 unsigned int width, unsigned int height, int *nerr);
-void setcolor_pdf(int index);
+void setcolor_pdf(color rgb);
 void setlinestyle_pdf(int *iline);
 void setwidth_pdf(int index);
 void settextangle_pdf(float angle);
@@ -109,6 +99,7 @@ marker(float x, float y) {
 
 void
 beginframe_pdf(int *nerr) {
+    color cb;
     pdf_color_t c;
 
     *nerr = 0;
@@ -121,7 +112,10 @@ beginframe_pdf(int *nerr) {
     pdf_page_new(xPDF);
 
     if (color_on()) {
-        c = COLORS[color_background()];
+        color_background(&cb);
+        c.r = cb.r/255.;
+        c.g = cb.g/255.;
+        c.b = cb.b/255.;
         if (c.r != 1.0 || c.b != 1.0 || c.g != 1.0) {
             pdf_rectangle(xPDF, XSCALE, YSCALE, c);
         }
@@ -370,8 +364,11 @@ put_image_pdf(char *data, unsigned int xloc, unsigned int yloc,
 }
 
 void
-setcolor_pdf(int index) {
-    pdf_color_t c = COLORS[index];
+setcolor_pdf(color rgb) {
+    pdf_color_t c;
+    c.r = rgb.r/255.;
+    c.g = rgb.g/255.;
+    c.b = rgb.b/255.;
     if (xPDF && xPDF->stream) {
         pdf_color_stroke(xPDF, c);
     }
@@ -423,6 +420,7 @@ textbox_pdf(textbox * t) {
     int len, xlen;
     float x, y, w, h, sx, sy;
     int height, size;
+    pdf_color_t c;
 
     if (!t || t->n == 0) {
         return;
@@ -461,7 +459,10 @@ textbox_pdf(textbox * t) {
 
     for (i = 0; i < t->n; i++) {
         pdf_save(xPDF);
-        pdf_color_fill(xPDF, COLORS[t->color[i]]);
+        c.r = t->color[i].r/255.;
+        c.g = t->color[i].g/255.;
+        c.b = t->color[i].b/255.;
+        pdf_color_fill(xPDF, c);
         pdf_text_font(xPDF, "/F1", size);
         pdf_text_begin(xPDF);
         pdf_text_position(xPDF, x, y);

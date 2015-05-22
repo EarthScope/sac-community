@@ -2,8 +2,13 @@
 #include <stdlib.h>
 #include "co.h"
 #include "mach.h"
+#include "gem.h"
 #include "gdm.h"
 #include "bot.h"
+#include "debug.h"
+#include "vars/chash.h"
+
+extern dict *color_dict;
 
 /** 
  * Set color attribute by name
@@ -18,22 +23,12 @@
  *
  */
 void
-setcolorname(char *color, int color_s) {
-    char ktest[9];
-    int index, nc;
-
-    /* - Determine length of input color name and convert it to upper case. */
-    nc = min(indexb(color, color_s), MCPW);
-    upcase(color, nc, ktest, 9);
-
-    /* - Test name versus list of names in default color table.
-     *   Set requested color if found. */
-
-    if (lequal(ktest, 9, (char *) kmgdm.ctname[1], 9, cmgdm.nctsize, &index)) {
-        setcolor(index);
-    } else {
-        /* - If not found, set to foreground color. */
-        setcolor(cmgdm.nctsize);
+setcolorname(char *kolor, int kolor_s) {
+    color *p;
+    
+    UNUSED(kolor_s);
+    if(!(p = dict_get(color_dict, kolor))) {
+        setcolor_fg_def();
     }
-
+    setcolor(*p);
 }

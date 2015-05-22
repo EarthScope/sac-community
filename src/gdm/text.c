@@ -130,7 +130,7 @@ textbox_new(int n) {
 
     /* Memory Allocation */
     t->text = (char **) malloc(sizeof(char *) * t->n);
-    t->color = (int *) malloc(sizeof(int) * t->n);
+    t->color = (color *) malloc(sizeof(color) * t->n);
     t->symbol = (int *) malloc(sizeof(int) * t->n);
     t->style = (int *) malloc(sizeof(int) * t->n);
     t->width = (int *) malloc(sizeof(int) * t->n);
@@ -139,7 +139,7 @@ textbox_new(int n) {
     for (i = 0; i < n; i++) {
         t->text[i] = NULL;
     }
-    memset(t->color, 0, t->n * sizeof(int));
+    memset(t->color, 0, t->n * sizeof(color));
     memset(t->symbol, 0, t->n * sizeof(int));
     memset(t->style, 0, t->n * sizeof(int));
     memset(t->width, 0, t->n * sizeof(int));

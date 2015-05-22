@@ -9,6 +9,7 @@
 #define _GD2_H_
 
 #include "gdm.h"
+#include "gem.h"
 #include "mach.h"
 
 #define	JFBMAX    5000
@@ -120,7 +121,7 @@ void initdevice2(void);
 void move2(float xloc, float yloc);
 void put_image2(char *data, unsigned int xloc, unsigned int yloc,
                 unsigned int width, unsigned int height, int *nerr);
-void setcolor2(int index);
+void setcolor2(color c);
 void setctable2(int iwindow, unsigned int nentry, float red[], float green[],
                 float blue[]);
 void setlinestyle2(int *iline);

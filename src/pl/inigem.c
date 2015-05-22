@@ -9,12 +9,21 @@
 #include "co.h"
 #include "gdm.h"
 #include "gtm.h"
+#include "vars/chash.h"
+
+extern color COLORS[];
+extern color COLOR_RED;
+extern color COLOR_GREEN;
+extern color COLOR_BLUE;
+extern color COLOR_BLACK;
+extern color COLOR_WHITE;
+dict *color_dict = NULL;
 
 void /*FUNCTION*/
 inigem() {
     int j, j_;
 
-        /*=====================================================================
+  /*=====================================================================
 	 * PURPOSE:  Variable initialization of Graphic Environment common.
 	 *=====================================================================
 	 * MODULE/LEVEL:  GEM/4
@@ -436,9 +445,9 @@ inigem() {
     inicol(cmgem.iicol, &cmgem.nicol);
     cmgem.licol = FALSE;
     cmgem.jicol = 1;
-    cmgem.icol = 7;
-    cmgem.iskcol = 7;
-    cmgem.ibacol = 0;
+    color_foreground_default(&cmgem.icol);
+    color_foreground_default(&cmgem.iskcol);
+    color_background_default(&cmgem.ibacol);
 
         /*=====================================================================
 	 * VARIABLE DEFINITIONS FOR:  automatic framing flag.
@@ -500,13 +509,24 @@ inigem() {
     kmgem.kptrName[0] = '\0';
 
     cmgem.lfill = FALSE;
-    cmgem.ifill[0] = 1;
-    cmgem.ifill[1] = 2;
+    cmgem.ifill[0] = COLOR_RED;
+    cmgem.ifill[1] = COLOR_BLUE;
     inicol(cmgem.iifillp, &cmgem.nifill);
     inicol(cmgem.iifilln, &cmgem.nifill);
     cmgem.lifill = FALSE;
     cmgem.jifill[0] = 1;
     cmgem.jifill[1] = 2;
+
+    color_dict = dict_new_with_length(100);
+    for(j = 0; j < 8; j++) {
+        dict_put(color_dict, COLORS[j].name, color_dup(COLORS[j]));
+    }
+    dict_put(color_dict, "default", color_dup(COLOR_BLACK));
+    dict_put(color_dict, "foreground", color_dup(COLOR_BLACK));
+    dict_put(color_dict, "background", color_dup(COLOR_WHITE));
+    dict_put(color_dict, "fg", color_dup(COLOR_BLACK));
+    dict_put(color_dict, "bg", color_dup(COLOR_WHITE));
+
 
     return;
 

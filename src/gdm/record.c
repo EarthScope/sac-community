@@ -68,7 +68,7 @@ void record_free(record_t * r);
 int record_add(record_t * r, record_object_t * obj);
 record_object_t *record_draw(float x, float y);
 record_object_t *record_move(float x, float y);
-record_object_t *record_color(int index);
+record_object_t *record_color(color c);
 record_object_t *record_width(int index);
 record_object_t *record_style(int index);
 record_object_t *record_stroke();
@@ -96,7 +96,7 @@ struct _record_object_t {
 
 struct _record_beginframe_t {
     record_object_t base;
-    int color;
+    color rgb;
 };
 
 struct _record_stroke_t {
@@ -117,7 +117,7 @@ struct _record_style_t {
 
 struct _record_color_t {
     record_object_t base;
-    int index;
+    color rgb;
 };
 
 struct _record_draw_t {
@@ -188,11 +188,6 @@ struct _record_t {
     }                                      \
 } while(0);
 
-typedef struct _color color;
-struct _color {
-    float r, g, b;
-};
-
 /*
 static color COLORS[] = { 
   {1.0, 1.0, 1.0},
@@ -218,7 +213,7 @@ void getratio_record(float *aspect);
 void get_geometry_record(int number, unsigned int *width, unsigned int *height,
                          int *nerr);
 void move_record(float x, float y);
-void setcolor_record(int index);
+void setcolor_record(color c);
 void setctable_record(int iwindow, unsigned int nentry, float red[],
                       float green[], float blue[]);
 void setlinestyle_record(int *iline);
@@ -417,9 +412,9 @@ move_record(float x, float y) {
 }
 
 void
-setcolor_record(int index) {
+setcolor_record(color rgb) {
     record_object_t *r;
-    r = record_color(index);
+    r = record_color(rgb);
     ADD_OR_FREE(Record, r);
 }
 
@@ -589,9 +584,11 @@ setwidth_text(int width) {
 
 void
 beginframe_text(int *nerr) {
+    color rgb;
     UNUSED(nerr);
+    color_background(&rgb);
     text_fp = fopen(record_filename(NULL), "wb");
-    fprintf(text_fp, "beginframe: color %d\n", color_background());
+    fprintf(text_fp, "beginframe: color %d/%d/%d\n", rgb.r,rgb.g,rgb.b);
 }
 
 void
@@ -614,8 +611,8 @@ textbox_text(textbox * tbox) {
 }
 
 void
-setcolor_text(int index) {
-    fprintf(text_fp, "color: %d\n", index);
+setcolor_text(color rgb) {
+    fprintf(text_fp, "color: %d/%d/%d\n", rgb.r,rgb.g,rgb.b);
 }
 
 void
@@ -1000,15 +997,15 @@ void
 record_color_play(record_object_t * obj, display_t * out) {
     record_color_t *r = (record_color_t *) obj;
     if (out->set_color) {
-        out->set_color(r->index);
+        out->set_color(r->rgb);
     }
 }
 
 record_object_t *
-record_color(int index) {
+record_color(color rgb) {
     record_color_t *r;
     r = (record_color_t *) malloc(sizeof(record_color_t));
-    r->index = index;
+    r->rgb = rgb;
     record_object_init(OBJ(r), RECORD_COLOR, record_color_play,
                        record_color_free);
     return OBJ(r);
@@ -1198,20 +1195,20 @@ record_beginframe_free(record_object_t * obj) {
 
 void
 record_beginframe_play(record_object_t * obj, display_t * out) {
-    int color;
+    color rgb;
     int nerr;
     record_beginframe_t *r = (record_beginframe_t *) obj;
 
     if (out->begin_frame) {
         /* Copy current and set color value 
          * Color is set in beginframe */
-        color = color_background();
-        color_background_set(r->color);
+        color_background(&rgb);
+        color_background_set(r->rgb);
 
         out->begin_frame(&nerr);
 
         /* Return to original value */
-        color_background_set(color);
+        color_background_set(rgb);
     }
 }
 
@@ -1219,7 +1216,7 @@ record_object_t *
 record_beginframe() {
     record_beginframe_t *r;
     r = (record_beginframe_t *) malloc(sizeof(record_beginframe_t));
-    r->color = color_background();
+    color_background(&r->rgb);
     getratio(&current_ratio);
 
     record_object_init(OBJ(r), RECORD_BEGINFRAME, record_beginframe_play,

@@ -351,9 +351,9 @@ xplotxy(int *nerr) {
         num = min(sx->h->npts, sy->h->npts);
         if (cmgam.lfidrq) {
             if (cmgem.lcol) {
-                setcolor(cmgem.icol);
+                setcolor_fg();
             } else {
-                setcolor(color_foreground_default());
+                setcolor_fg_def();
             }
             move(cmgam.xfidlc, cmgam.yfidlc);
             if (cmgam.ifidtp == 4) {
@@ -380,9 +380,9 @@ xplotxy(int *nerr) {
                 setlinewidth(cmgem.iwidth);
             }
             if (cmgem.lcol) {
-                setcolor(cmgem.iskcol);
+                setcolor_skel();
             } else {
-                setcolor(color_foreground_default());
+                setcolor_fg_def();
             }
             cmgam.yfidlc = cmgam.yfidlc - cmgem.chht;
         }

@@ -2,12 +2,10 @@
 #include "gd2.h"
 
 void /*FUNCTION*/
-setcolor2(index)
-     int index;
-{
+setcolor2(color c) {
     int nerr;
 
-        /*=====================================================================
+    /*=====================================================================
 	 * PURPOSE:  To set the color attribute for graphics device 2 (SGF).
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -35,9 +33,12 @@ setcolor2(index)
     /* PROCEDURE: */
     /* - Add color opcode to file buffer. */
     Mfbuf[cmgd2.jfbpnt] = MOPCOL;
-    Mfbuf[cmgd2.jfbpnt + 1] = 1;
-    Mfbuf[cmgd2.jfbpnt + 2] = index;
-    cmgd2.jfbpnt = cmgd2.jfbpnt + 3;
+    Mfbuf[cmgd2.jfbpnt + 1] = 3;
+    Mfbuf[cmgd2.jfbpnt + 2] = c.r;
+    Mfbuf[cmgd2.jfbpnt + 3] = c.g;
+    Mfbuf[cmgd2.jfbpnt + 4] = c.b;
+
+    cmgd2.jfbpnt = cmgd2.jfbpnt + 5;
 
     /* - Flush buffer if necessary. */
 

@@ -419,9 +419,9 @@ xp2(int *nerr) {
             settextjust("LEFT", "BOTTOM");
             if (tbox) {
                 if (cmgem.lcol) {
-                    tbox->color[jdfl - 1] = cmgem.icol;
+                    color_foreground(&tbox->color[(jdfl - 1)]);
                 } else {
-                    tbox->color[jdfl - 1] = color_foreground_default();
+                    color_foreground_default(&tbox->color[(jdfl - 1)]);
                 }
                 if (cmgem.lline && cmgem.liline && cmgem.icline > 0) {
                     tbox->style[jdfl - 1] = cmgem.icline;

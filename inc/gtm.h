@@ -9,6 +9,7 @@
 #define _GTM_H_
 
 #include "gdm.h"
+#include "gem.h"
 
 #define	MSISYM	8
 #define	MSYM	16
@@ -97,7 +98,7 @@ void getworld(float *xmin, float *xmax, float *ymin, float *ymax);
 void inigtm(void);
 void line(double xloc1, double yloc1, double xloc2, double yloc2);
 void polyline(float xloc[], float yloc[], int *number);
-void polyfill(float *x, float *y, int n, int positive, int color);
+void polyfill(float *x, float *y, int n, int positive, color c);
 void rectangle(float *xloc1, float *xloc2, float *yloc1, float *yloc2);
 void setsymbolgap(double gap);
 void setsymbolnum(int number);

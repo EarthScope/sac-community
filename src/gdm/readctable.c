@@ -56,7 +56,7 @@ readctable(char *name, int name_s, int max_, float red[], float green[],
     char ctable[MCPFN + 1], line[MCMSG + 1];
     char tmp[MCMSG+1];
     int idx;
-    int ic, ic1, ic2, itype, nc, numsave;
+    int ic, nc, numsave;
     FILE *nun;
     float bluev, greenv, redv;
 
@@ -99,7 +99,7 @@ readctable(char *name, int name_s, int max_, float red[], float green[],
     ic = 0;
 
     /* -- Pop first three tokens.  They are the red, green, and blue values. */
-    if(sscanf(line, "%f %f %f %s", &redv, &greenv, &bluev, tmp) != 4) {
+    if(sscanf(line, "%f %f %f %[^\t\n]", &redv, &greenv, &bluev, tmp) != 4) {
         error(*nerr = 2201, "\n %s", line);
         goto L_8888;
     }

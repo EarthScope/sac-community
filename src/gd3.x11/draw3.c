@@ -36,7 +36,7 @@ draw3(float xloc_vp, float yloc_vp) {
 
 /* Draw line */
 
-    XSetForeground(DISPLAY(xw), xw->gc, color3);
+    XSetForeground(DISPLAY(xw), xw->gc, xw->color.pixel);
 
     XDrawLine(DISPLAY(xw), xw->buffer, xw->gc, draw_pos.x, draw_pos.y,
               new_pt_p.x, new_pt_p.y);

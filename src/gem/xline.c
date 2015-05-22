@@ -10,16 +10,18 @@
 #include "bot.h"
 
 int
-color_parse(char *key, int *c) {
+color_parse(char *key, color *c) {
     int nr;
-    if (sscanf(key, "%d%n", c, &nr) == 1 && nr == (int) strlen(key)) {
+    int i;
+    if (sscanf(key, "%d%n", &i, &nr) == 1 && nr == (int) strlen(key)) {
+        color_index_to_rgb(i, c);
         return TRUE;
     }
     return convcolorname(key, c);
 }
 
 int
-color_parse2(char *key, int *p, int *n) {
+color_parse2(char *key, color *p, color *n) {
     int nr;
     char pos[100], neg[100];
     if (sscanf(key, "%[^/]/%[^/]%n", pos, neg, &nr) == 2 &&

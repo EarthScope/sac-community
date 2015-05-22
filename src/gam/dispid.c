@@ -85,11 +85,11 @@ dispid(int ldfl, int idfl, int nlast, char **last) {
         if (nerr != 0) {
             cmgam.nfidtx = cmgam.nfidtx - 1;
             tbox->text[jfidnm - 1] = strdup(" ");
-            tbox->color[jfidnm - 1] = color_foreground_default();
+            color_foreground_default(&tbox->color[(jfidnm - 1)]);
         } else {
             tbox->text[jfidnm - 1] =
                 fstrdup(kmgam.kfidtx[cmgam.nfidtx - 1], 41);
-            tbox->color[jfidnm - 1] = color_foreground_default();
+            color_foreground_default(&tbox->color[(jfidnm - 1)]);
         }
     }
 
@@ -99,12 +99,12 @@ dispid(int ldfl, int idfl, int nlast, char **last) {
                (char *) kmgam.kfidtx[cmgam.nfidtx - 1]
                , 41, &nerr);
         tbox->text[0] = fstrdup(kmgam.kfidtx[cmgam.nfidtx - 1], 41);
-        tbox->color[0] = color_foreground_default();
+        color_foreground_default(&tbox->color[0]);
     }
     if (nlast > 0) {
         for (i = 0; i < nlast; i++) {
             tbox->text[cmgam.nfidnm + i] = strdup(last[i]);
-            tbox->color[cmgam.nfidnm + i] = color_foreground_default();
+            color_foreground_default(&tbox->color[(cmgam.nfidnm + i)]);
         }
     }
 

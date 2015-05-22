@@ -298,6 +298,12 @@ sac_buffer_new() {
 }
 
 void
+sac_buffer_free() {
+    sacclear();
+    xarray_free(sac_buffer);
+}
+
+void
 sac_header_copy(sac * to, sac * from) {
     memmove(to->h, from->h, sizeof(struct SACheader));
 }

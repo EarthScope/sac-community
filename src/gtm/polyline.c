@@ -208,8 +208,8 @@ polyfillrect(float *x, float *y, int n, int positive, float rect[4]) {
 }
 
 void
-polyfill(float *x, float *y, int n, int positive, int color) {
-    int old;
+polyfill(float *x, float *y, int n, int positive, color c) {
+    color old;
     int yon, xon;
     float ymin, ymax, xmin, xmax;
     float rect[4] = { 0, 100, 0, 10 };
@@ -225,8 +225,8 @@ polyfill(float *x, float *y, int n, int positive, int color) {
         ymax = fmin(ymax, 0);
     }
 
-    old = cmgdm.icolor;
-    setcolor(color);
+    old = cmgem.icol;
+    setcolor(c);
 
     /* Convert data space to view space */
     xmin = data_to_view_x(xmin);

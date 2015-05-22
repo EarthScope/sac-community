@@ -18,25 +18,23 @@
  * @date   870310:  Original Version
  */
 void
-setcolor3(int index) {
-    int index2;
+setcolor3(color c) {
     XScreen *xs;
     XWindow *xw;
 
     xw = plot_window(CURRENT);
     xs = xscreen_get();
 
-    if (XDisplayCells(xs->display, xs->screen) > index) {
-        index2 = index;
-        if (cmgam.cmap != MDEFAULT)
-            index2 += 7;        /* if MGREY or MCOLOR skip over */
-        /* the first seven entries. */
-        color3 = pixdef3[index2].pixel;
-        xw->color = &(pixdef3[index2]);
-        DEBUG("setcolor3: %ld %ld [default]\n", color3, xw->color->pixel);
-    } else {
-        color3 = BlackPixel(xs->display, xs->screen);
-        xw->color = &(pixdef3[cmgdm.nctsize]);
-        DEBUG("setcolor3: %ld %ld [default]\n", color3, xw->color->pixel);
+    
+
+    if(xw->color.red   != c.r * 256 ||
+       xw->color.green != c.g * 256 ||
+       xw->color.blue  != c.b * 256) {
+        xw->color.red   = c.r * 256;
+        xw->color.green = c.g * 256;
+        xw->color.blue  = c.b * 256;
+        xw->color.flags = DoRed | DoGreen | DoBlue;
+        XAllocColor(xs->display, DefaultColormap(xs->display, xs->screen), &xw->color);
     }
+    return;
 }

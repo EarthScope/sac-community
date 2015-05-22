@@ -6,6 +6,8 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "mach.h"
 #include "gem.h"
@@ -13,6 +15,32 @@
 #include "bool.h"
 #include "pl.h"
 #include "cpf.h"
+
+color bg_color = {255,255,255,"white"};
+color fg_color = {0,0,0,"black"};
+
+#define _BLACK_ {0,255,0, "black"};
+#define _WHITE_ {0,255,0, "white"};
+
+color COLOR_WHITE = _WHITE_;
+color COLOR_RED   = {255,0,0, "red"};
+color COLOR_BLUE  = {0,0,255, "blue"};
+color COLOR_GREEN = {0,255,0, "green"};
+color COLOR_BLACK = _BLACK_;
+color COLOR_FG_DEFAULT = _BLACK_;
+color COLOR_BG_DEFAULT = _WHITE_;
+
+color COLORS[] = {
+    {255, 255, 255, "white"},
+    {255,   0,   0, "red"},
+    {  0, 255,   0, "green"},
+    {  0,   0, 255, "blue"},
+    {255, 255,   0, "yellow"},
+    {  0, 255, 255, "cyan"},
+    {255,   0, 255, "magenta"},
+    {  0,   0,   0, "black"},
+};
+
 
 #define BAD_COLOR do {                \
   cfmt( "NEED NAME OF A COLOR:",23 ); \
@@ -24,29 +52,29 @@ color_on() {
     return cmgem.lcol;
 }
 
-int
-color_foreground() {
-    return cmgem.icol;
+void
+color_foreground(color *c) {
+    *c = cmgem.icol;
 }
 
-int
-color_background() {
-    return cmgem.ibacol;
+void
+color_background(color *c) {
+    *c = cmgem.ibacol;
 }
 
-int
-color_skeleton() {
-    return cmgem.iskcol;
+void
+color_skeleton(color *c) {
+    *c = cmgem.iskcol;
 }
 
-int
-color_foreground_default() {
-    return 7;
+void
+color_foreground_default(color *c) {
+    *c = COLOR_FG_DEFAULT;
 }
 
-int
-color_background_default() {
-    return 0;
+void
+color_background_default(color *c) {
+    *c = COLOR_BG_DEFAULT;
 }
 
 /* Color on or off */
@@ -64,82 +92,68 @@ color_increment_set(int value) {
 
 /* Background Color */
 int
-color_background_set(int color) {
-    if (color >= 0) {
-        cmgem.ibacol = color;
-        color_switch(TRUE);
-        return TRUE;
-    }
-    return FALSE;
+color_background_set(color c) {
+    cmgem.ibacol = c;
+    color_switch(TRUE);
+    return TRUE;
 }
 
 int
-color_background_set_by_name(char *color) {
-    int icolor;
-    convcolorname(color, &icolor);
-    if (icolor < 0) {
-        return FALSE;
-    }
-    return color_background_set(icolor);
+color_background_set_by_name(char *kolor) {
+    color c;
+    convcolorname(kolor, &c);
+    return color_background_set(c);
 }
 
 /* Data Color */
 int
-color_data_set(int color) {
-    if (color >= 0) {
-        cmgem.icol = color;
-        color_switch(TRUE);
-        return TRUE;
-    }
-    return FALSE;
+color_data_set(color c) {
+    cmgem.icol = c;
+    color_switch(TRUE);
+    return TRUE;
 }
 
 int
-color_data_set_by_name(char *color) {
-    int icolor;
-    icolor = 1;
-    convcolorname(color, &icolor);
-    if (icolor < 0) {
-        return FALSE;
-    }
-    return color_data_set(icolor);
+color_data_set_by_name(char *kolor) {
+    color c;
+    convcolorname(kolor, &c);
+    return color_data_set(c);
 }
 
 /* Skeleton Color */
 int
-color_skeleton_set(int color) {
-    if (color >= 0) {
-        cmgem.iskcol = color;
-        color_switch(TRUE);
-        return TRUE;
-    }
-    return FALSE;
+color_skeleton_set(color c) {
+    cmgem.iskcol = c;
+    color_switch(TRUE);
+    return TRUE;
 }
 
 int
-color_skeleton_set_by_name(char *color) {
-    int icolor;
-    convcolorname(color, &icolor);
-    if (icolor < 0) {
-        return FALSE;
-    }
-    return color_skeleton_set(icolor);
+color_skeleton_set_by_name(char *kolor) {
+    color c;
+    convcolorname(kolor, &c);
+    return color_skeleton_set(c);
 }
 
 /* Foreground Color (Data + Skeleton) */
 int
-color_foreground_set(int color) {
-    return color_skeleton_set(color) && color_data_set(color);
+color_foreground_set(color c) {
+    return color_skeleton_set(c) && color_data_set(c);
 }
 
 int
-color_foreground_set_by_name(char *color) {
-    int icolor;
-    convcolorname(color, &icolor);
-    if (icolor < 0) {
-        return FALSE;
-    }
-    return color_foreground_set(icolor);
+color_foreground_set_by_name(char *kolor) {
+    color c;
+    convcolorname(kolor, &c);
+    return color_foreground_set(c);
+}
+
+color *
+color_dup(color c) {
+    color *out;
+    out = (color *) malloc(sizeof(color));
+    *out = c;
+    return out;
 }
 
 /** 
@@ -164,13 +178,14 @@ xcolor(int *nerr) {
     char ktok[10];
     int lnum;
     int inum;
+    color rgb;
     *nerr = 0;
 
     /* - Parse position-dependent tokens: */
 
     if (lclog(&cmgem.lcol)) {
     } else if (lcint(&lnum)) {
-        if (!color_data_set(lnum)) {
+        if(!color_index_to_rgb(lnum,&rgb) || !color_data_set(rgb)) {
             BAD_COLOR;
         }
     } else if (lcchar(ktok, sizeof(ktok))) {
@@ -186,7 +201,7 @@ xcolor(int *nerr) {
         /* -- "SKELETON color/int":  change skeleton color. */
         if (lckey("SK$", 4)) {
             if (lcint(&lnum)) {
-                if (!color_skeleton_set(lnum)) {
+                if (!color_index_to_rgb(lnum,&rgb) || !color_skeleton_set(rgb)) {
                     BAD_COLOR;
                 }
             } else if (lcchar(ktok, sizeof(ktok))) {
@@ -200,7 +215,7 @@ xcolor(int *nerr) {
         /* -- "BACKGROUND color/int":  change the background color. */
         else if (lckey("BA$", 4)) {
             if (lcint(&lnum)) {
-                if (!color_background_set(lnum)) {
+                if (!color_index_to_rgb(lnum,&rgb) || !color_background_set(rgb)) {
                     BAD_COLOR;
                 }
             } else if (lcchar(ktok, sizeof(ktok))) {
@@ -222,16 +237,13 @@ xcolor(int *nerr) {
                         if (inum >= 0) {
                             if (cmgem.nicol < MICOL)
                                 cmgem.nicol = cmgem.nicol + 1;
-                            cmgem.iicol[cmgem.nicol - 1] = inum;
+                            color_index_to_rgb(inum, &cmgem.iicol[cmgem.nicol - 1]);
                         } else {
                             BAD_COLOR;
                         }
                     } else if (lcchar(ktok, sizeof(ktok))) {
-                        convcolorname(ktok, &inum);
-                        if (inum >= 0) {
-                            if (cmgem.nicol < MICOL)
-                                cmgem.nicol = cmgem.nicol + 1;
-                            cmgem.iicol[cmgem.nicol - 1] = inum;
+                        if(convcolorname(ktok, &rgb)) {
+                            cmgem.iicol[cmgem.nicol-1] = rgb;
                         } else {
                             BAD_COLOR;
                         }
@@ -239,7 +251,7 @@ xcolor(int *nerr) {
                 }
                 if (cmgem.nicol <= 0)
                     inicol(cmgem.iicol, &cmgem.nicol);
-                cmgem.icol = cmgem.iicol[1 - 1];
+                cmgem.icol = cmgem.iicol[0];
                 color_switch(TRUE);
                 cmgem.jicol = 0;
             }

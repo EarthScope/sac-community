@@ -1,13 +1,14 @@
 
+#include <string.h>
 #include "pl.h"
+#include "gem.h"
+
+extern color COLORS[];
 
 void /*FUNCTION*/
-inicol(iicol, nicol)
-     int iicol[], *nicol;
+inicol(color *iicol, int *nicol)
 {
     int j;
-
-    int *const Iicol = &iicol[0] - 1;
 
         /*=====================================================================
 	 * PURPOSE:  To initialize the "standard" color list.
@@ -25,8 +26,8 @@ inicol(iicol, nicol)
     /* PROCEDURE: */
     /* - Set up standard color table. */
     *nicol = 6;
-    for (j = 1; j <= *nicol; j++) {
-        Iicol[j] = j;
+    for (j = 0; j < *nicol; j++) {
+        iicol[j] = COLORS[j];
     }
 
     return;

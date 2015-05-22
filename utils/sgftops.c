@@ -526,21 +526,28 @@ static void execute_buffer(short *buffer, int buflen, int *done, FILE *ofp,
                     needmove++;
                     break;
                 case -4: /* Color command - default SAC color map  */
-                    i++;
-                    newindx = buffer[i++];
-                    
-                    if (newindx >= 0 && newindx < ict) {
-                        if (newindx != indx) {
-                            indx = newindx;
+                    indx = buffer[i++];
+                    if(indx == 1) {
+                        newindx = buffer[i++];
+                        if (newindx >= 0 && newindx < ict) {
+                            if (newindx != indx) {
+                                indx = newindx;
+                                EndPath(ofp, &fillFlag);
+                                fprintf(ofp, "\n%g %g %g setrgbcolor", red[indx],
+                                        green[indx], blue[indx]);
+                            }
+                        } else {
                             EndPath(ofp, &fillFlag);
-                            fprintf(ofp, "\n%g %g %g setrgbcolor", red[indx],
-                                    green[indx], blue[indx]);
+                            fprintf(ofp, "\n0.0 0.0 0.0 setrgbcolor");
+                            printf("Illegal color value encountered - set to "
+                                   "default color black\n");
                         }
-                    } else {
+                    }
+                    if(indx == 3) {
                         EndPath(ofp, &fillFlag);
-                        fprintf(ofp, "\n0.0 0.0 0.0 setrgbcolor");
-                        printf("Illegal color value encountered - set to "
-                               "default color black\n");
+                        fprintf(ofp, "\n%g ", (float)(buffer[i++]/255));
+                        fprintf(ofp, "%g ", (float)(buffer[i++]/255));
+                        fprintf(ofp, "%g setrgbcolor", (float)(buffer[i++]/255));
                     }
                     break;
                 case -5: /* Hardware text command */

@@ -168,7 +168,7 @@ struct _XWindow {
     void *expose_data;
     void *draw_data;
 
-    XColor *color;
+    XColor color;
 
     XFont *font;
 
@@ -258,7 +258,7 @@ void make_label3(char string[], int *num, char label[]);
 void move3(float xloc_vp, float yloc_vp);
 void put_image3(char *data, unsigned int xloc, unsigned int yloc,
                 unsigned int width, unsigned int height, int *nerr);
-void setcolor3(int index);
+void setcolor3(color c);
 void setctable3(int win_num, unsigned int nentry, float red[], float green[],
                 float blue[]);
 void setlinestyle3(int *linestyle);

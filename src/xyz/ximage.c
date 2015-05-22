@@ -207,7 +207,7 @@ ximage(nerr)
     lframesave = cmgem.lframe;
     plsave();
 
-    setcolor(cmgdm.nctsize);
+    setcolor_fg_def();
 
     /* - Check WAIT option.  This is on when:
      * -- A wait request has been made.

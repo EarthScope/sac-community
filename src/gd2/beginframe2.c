@@ -138,7 +138,7 @@ beginframe2(int *nerr) {
 
     /* - If SGF device is active, must also reset color, linestyle, etc.
      *   because each SGF frame is in a separate disk file. */
-    sgf.set_color(cmgdm.icolor);
+    sgf.set_color(cmgem.icol);
     sgf.set_line_style(&cmgdm.iline);
     sgf.set_text_size(cmgdm.twidth, cmgdm.thgt);
 

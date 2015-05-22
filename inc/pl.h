@@ -8,9 +8,11 @@
 #ifndef _PL_H_
 #define _PL_H_
 
+#include "gem.h"
+
 void centxt(char *ktext, int ktext_s, int ntext, int itextp, double tsize);
 void incat(int icurat, int iattab[], int nattab, int *jattab, int *inewat);
-void inicol(int iicol[], int *nicol);
+void inicol(color *iicol, int *nicol);
 void inigem(void);
 void inilin(int iilin[], int *nilin);
 void iniwidth(void);

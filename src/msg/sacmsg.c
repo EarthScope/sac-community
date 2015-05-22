@@ -45,7 +45,6 @@ sacmsg(int *nerr) {
     int ioerr, ntused, numsave;
     FILE *nun;
     int n;
-    char str[16];
 
     msg_dict = dict_new_with_length(500);
 
@@ -74,10 +73,9 @@ sacmsg(int *nerr) {
             *nerr = 100;
             break;
         }
-        value = strdup(kiline+5);
-        sprintf(str, "%d", n);
-        rstrip(value);
-        dict_put(msg_dict, str, value);
+
+        value = rstrip(strdup(kiline+5));
+        sac_msg_add(n, value);
     }
 
     if(!feof(nun) || *nerr ) {

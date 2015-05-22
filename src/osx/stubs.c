@@ -244,8 +244,8 @@ osx_text_width(char *text) {
 }
 
 void
-osx_set_color(int index) {
-    osx_sac_color(COLORS[index].r, COLORS[index].g, COLORS[index].b);
+osx_set_color(color c) {
+    osx_sac_color(rgb.r/255., rgb.g/255., rgb.b/255.);
 }
 
 void
@@ -264,6 +264,7 @@ osx_text_box(textbox * t) {
     int len, xlen;
     float x, y, sx, sy;
     int width, height;
+    color c;
 
     if (!t || t->n == 0) {
         return;
@@ -312,8 +313,12 @@ osx_text_box(textbox * t) {
         }
         y -= cheight;
     }
-
-    osx_set_color(color_on()? color_skeleton() : color_foreground_default());
+    if(color_on()) {
+        color_skeleton(&c);
+    } else {
+        color_foreground_default(&c);
+    }
+    osx_set_color(c);
 }
 
 void

@@ -201,7 +201,7 @@ xmap(int *nerr) {
      *
      *  Add axes to plot                                                             
      * */
-    setcolor(3);
+    setcolor_index(3);
     worldmove(-.85, 0.05);
     worlddraw(.85, 0.05);
     worldmove(0., -.80);
@@ -233,7 +233,7 @@ xmap(int *nerr) {
     settextfont(2);
     settexttype("SOFTWARE");
     settextjust("LEFT", "BOTTOM");
-    setcolor(2);
+    setcolor_index(2);
     worldmove(0.03, 0.865);
     text("NORTH", 6, 5);
 
@@ -276,7 +276,7 @@ xmap(int *nerr) {
 
     /*  Plot location of each array element                                          
      * */
-    setcolor(1);
+    setcolor_index(1);
 
     if (strcmp(cmfks.kmaptype, "ARRAY   ") == 0) {
 

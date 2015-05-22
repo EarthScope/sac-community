@@ -408,6 +408,7 @@ sac_msg_add(int id, char *msg) {
     sprintf(str, "%d", id);
     if(dict_get(msg_dict, str)) {
         printf("SAC: Message %d overwritten\n", id);
+        dict_remove(msg_dict, str, free);
     }
     dict_put(msg_dict, str, msg);
 }

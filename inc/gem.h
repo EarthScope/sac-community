@@ -31,6 +31,16 @@
 
 #define GROUP_LENGTH 50
 
+
+typedef struct _color color;
+struct _color {
+    int r;
+    int g;
+    int b;
+    char name[64];
+};
+
+
 /* For Generic Plot Labels */
 typedef struct _label label;
 struct _label {
@@ -217,14 +227,14 @@ struct t_cmgem {
 
     // group_t color;
     int lcol;                   /* Color drawing flag */
-    int icol;                   /* Current color */
+    color icol;                   /* Current color */
     int licol;                  /* Color incrementing flag */
-    int iicol[MICOL];           /* Color array */
+    color iicol[MICOL];           /* Color array */
     int nicol;                  /* Length of color array */
     int jicol;                  /* Current position in color array */
 
-    int iskcol;                 /* Skeleton color */
-    int ibacol;                 /* Background color */
+    color iskcol;                 /* Skeleton color */
+    color ibacol;                 /* Background color */
 
     // group_t width;
     int lwidth;                 /* Line Width drawing flag */
@@ -258,10 +268,10 @@ struct t_cmgem {
     int lSGFtemp;               /* TRUE if SGF turned on exclusively for PRINT option */
 
     int lfill;                  /* Turn on color filling of traces */
-    int ifill[2];               /* Current fill color */
+    color ifill[2];               /* Current fill color */
     int lifill;                 /* Color fill increment flag */
-    int iifillp[MILINE];        /* Filling Color Array */
-    int iifilln[MILINE];        /* Filling Color Array */
+    color iifillp[MILINE];        /* Filling Color Array */
+    color iifilln[MILINE];        /* Filling Color Array */
     int nifill;                 /* Length of color fill array */
     int jifill[2];              /* Current position in color fill array */
 } cmgem;
@@ -291,20 +301,20 @@ void xaxes(int *nerr);
 void xbeginframe(int *nerr);
 void xbeginwindow(int *nerr);
 int color_on(void);
-int color_foreground(void);
-int color_background(void);
-int color_skeleton(void);
-int color_foreground_default(void);
-int color_background_default(void);
+void color_foreground(color *c);
+void color_background(color *c);
+void color_skeleton(color *c);
+void color_foreground_default(color *c);
+void color_background_default(color *c);
 void color_switch(int value);
 void color_increment_set(int value);
-int color_background_set(int color);
+int color_background_set(color c);
 int color_background_set_by_name(char *color);
-int color_data_set(int color);
+int color_data_set(color c);
 int color_data_set_by_name(char *color);
-int color_skeleton_set(int color);
+int color_skeleton_set(color c);
 int color_skeleton_set_by_name(char *color);
-int color_foreground_set(int color);
+int color_foreground_set(color c);
 int color_foreground_set_by_name(char *color);
 void xcolor(int *nerr);
 void xendframe(int *nerr);
@@ -351,5 +361,7 @@ void set_skeleton_fudge(float fudge);
 
 label *label_store_get(int n);
 int label_store_length();
+
+color * color_dup(color c);
 
 #endif /* _GEM_H_ */

@@ -34,16 +34,6 @@ char *record_filename(char *in);
 
 display_t ps;
 
-static ps_color_t COLORS[] = {
-    {1.0, 1.0, 1.0},
-    {1.0, 0.0, 0.0},
-    {0.0, 1.0, 0.0},
-    {0.0, 0.0, 1.0},
-    {1.0, 1.0, 0.0},
-    {0.0, 1.0, 1.0},
-    {1.0, 0.0, 1.0},
-    {0.0, 0.0, 0.0},
-};
 
 void begindevice_ps(int *nerr);
 void beginframe_ps(int *nerr);
@@ -63,7 +53,7 @@ void get_geometry_ps(int number, unsigned int *width, unsigned int *height,
 void move_ps(float x, float y);
 void put_image3(char *data, unsigned int xloc, unsigned int yloc,
                 unsigned int width, unsigned int height, int *nerr);
-void setcolor_ps(int index);
+void setcolor_ps(color c);
 void setctable_ps(int iwindow, unsigned int nentry, float red[], float green[],
                   float blue[]);
 void setlinestyle_ps(int *iline);
@@ -95,6 +85,7 @@ beginframe_ps(int *nerr) {
     char *file;
     ps_t *ps;
     ps_color_t c;
+    color rgb;
 
     *nerr = 0;
 
@@ -116,7 +107,10 @@ beginframe_ps(int *nerr) {
     ps_header(ps);
 
     if (color_on()) {
-        c = COLORS[color_background()];
+        color_background(&rgb);
+        c.r = rgb.r/255;
+        c.g = rgb.g/255;
+        c.b = rgb.b/255;
         if (c.r != 1.0 || c.b != 1.0 || c.g != 1.0) {
             ps_save(ps);
             ps_color(ps, c);
@@ -316,8 +310,12 @@ show_image_ps(float *data, unsigned int iw,     /* Size of the image in data poi
 }
 
 void
-setcolor_ps(int index) {
-    ps_color_t c = COLORS[index];
+setcolor_ps(color rgb) {
+    ps_color_t c;
+    c.r = rgb.r/255.;
+    c.g = rgb.g/255.;
+    c.b = rgb.b/255.;
+
     if (PSC && PSC->fp) {
         ps_color(PSC, c);
     }

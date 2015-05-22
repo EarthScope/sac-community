@@ -9,6 +9,7 @@
 #define _GDM_H_
 
 #include "gd4.null.h"
+#include "gem.h"
 
 #define	MCTSIZE	  256
 #define	MGD	   50
@@ -72,7 +73,7 @@ struct t_cmgdm {
     int ivjust;
     int itcol;
     int lfhard;
-    int icolor;
+    color icolor;
     int nctsize;
     int npscimage;
     float ctred[MCTSIZE - 1 - (0) + 1];
@@ -102,7 +103,7 @@ typedef struct _textbox textbox;
 struct _textbox {
     int n;                      /* Number of Strings */
     char **text;                /* Text Strings */
-    int *color;                 /* Color of strings and lines */
+    color *color;                 /* Color of strings and lines */
     int *symbol;                /* Symbol Type */
     int *style;                 /* Line style  */
     int *width;                 /* Line width */
@@ -148,7 +149,7 @@ typedef void (*linewidth_t) (int width);
 typedef char *(*fill_colorbar_t) (int npseudocolors, int width, int npricolors,
                                   int ndefcolors, int *nerr);
 typedef void (*get_alpha_info_t) (int *num_lines, char erase[], int len);
-typedef void (*set_color_t) (int index);
+typedef void (*set_color_t) (color c);
 typedef void (*set_color_table_t) (int win_num, unsigned int nentry,
                                    float red[], float green[], float blue[]);
 typedef void (*set_pseudo_color_table_t) (int *num, unsigned int nentry,
@@ -289,7 +290,7 @@ void beginwindow(int number, int *nerr);
 void calstatus(void);
 void calvspace(void);
 void changectable(int nentry, int ctable);
-int convcolorname(char *name, int *number);
+int convcolorname(char *name, color *c);
 void convcolornum(int number, char *name, int name_s);
 void createwindow(int *number, double xwinmn, double xwinmx, double ywinmn,
                   double ywinmx, int *nerr);
@@ -335,7 +336,8 @@ void put_image(char **data, unsigned int xloc, unsigned int yloc,
 void readctable(char *name, int name_s, int max_, float red[], float green[],
                 float blue[], char *cnames, int cnames_s, int *nentry,
                 int *nerr);
-void setcolor(int number);
+void setcolor(color c);
+void setcolor_index(int index);
 void setcolorname(char *color, int color_s);
 void setlinestyle(int istyle);
 void setlinewidth(int nwidth);
@@ -400,5 +402,8 @@ char *record_filename(char *in);
 
 typedef void (*line_style_function) (char *line, void *data);
 void sac_line_style_read(line_style_function func, void *data);
+
+int color_index_to_rgb(int index, color *c);
+
 
 #endif /* _GDM_H_ */

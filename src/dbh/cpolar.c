@@ -90,13 +90,15 @@ cpolar(float *x, int nrad, int naz, int lev, double zmin, double zmax) {
     dela = twopi / (float) (nazm1);
 
     /* Draw a circle around plot                                                      */
-    setcolor(3);
+
+    setcolor_index(3);
 
     worldsector(0.0, 0.0, 0.8, 0., 360., 1.);
 
     /* Main plotting loop                                                            
      * */
-    setcolor(1);
+    setcolor_index(1);
+
     for (i = 1; i <= nazm1; i++) {
 
         for (j = 1; j <= nradm1; j++) {

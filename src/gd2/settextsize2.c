@@ -123,5 +123,9 @@ text_box_sgf(textbox * t) {
     sgf.set_line_width(cmgem.iwidth);
 
     /* Color for Skeleton */
-    setcolor2(color_on()? color_skeleton() : color_foreground_default());
+    if(color_on()) {
+        setcolor_skel();
+    } else {
+        setcolor_fg_def();
+    }
 }

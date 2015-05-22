@@ -1,8 +1,11 @@
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "co.h"
 #include "gdm.h"
+#include "gem.h"
+#include "bool.h"
 
 /** 
  * Set the current color attribute
@@ -18,26 +21,45 @@
  *
  */
 void
-setcolor(int number) {
-    int ncolor;
+setcolor(color c) {
 
     int i, n;
     display_t **dev;
     n = gdm_get_ndevices();
     dev = gdm_get_devices();
 
-    /* - Range check the requested color number. */
-    ncolor = min(cmgdm.nctsize, max(0, number));
-    /*      if(ncolor.eq.0)ncolor=nctsize */
-
-    /* - Save the current color without regard to the device being used. */
-    cmgdm.icolor = ncolor;
-
     /* -- Set color for all active graphics devices. */
     for (i = 0; i < n; i++) {
         if (dev[i]->on && dev[i]->set_color) {
-            dev[i]->set_color(ncolor);
+            dev[i]->set_color(c);
         }
     }
 
 }
+extern color COLORS[];
+
+int
+color_index_to_rgb(int index, color *c) {
+    if(index < 0 || index > 7) {
+        return FALSE;
+    }
+    *c = COLORS[index];
+    return TRUE;
+}
+
+void
+setcolor_index(int index) {
+    color c;
+    if(color_index_to_rgb(index, &c)) {
+        setcolor(c);
+    }
+}
+
+extern color COLOR_FG_DEFAULT;
+extern color COLOR_BG_DEFAULT;
+
+void setcolor_fg()     { setcolor(cmgem.icol); }
+void setcolor_bg()     { setcolor(cmgem.ibacol); }
+void setcolor_skel()   { setcolor(cmgem.iskcol); }
+void setcolor_fg_def() { setcolor( COLOR_FG_DEFAULT ); }
+void setcolor_bg_def() { setcolor( COLOR_BG_DEFAULT ); }

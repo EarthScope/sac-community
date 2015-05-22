@@ -18,10 +18,7 @@
 #include "gd3.x11.h"
 
 void
-make_label3(string, num, label)
-     char string[];
-     int *num;
-     char label[];
+make_label3(char string[], int *num, char label[])
 {
     char kwin_num[8];
 

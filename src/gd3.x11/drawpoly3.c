@@ -40,7 +40,7 @@ drawpoly3(float *xloc_vp, float *yloc_vp, int npts) {
 
 /* Draw line */
 
-    XSetForeground(DISPLAY(xw), xw->gc, color3);
+    XSetForeground(DISPLAY(xw), xw->gc, xw->color.pixel);
 
     XDrawLines(DISPLAY(xw), xw->buffer, xw->gc, ptlist, npts, CoordModeOrigin);
 
@@ -62,7 +62,7 @@ fillpoly3(float *x, float *y, int n) {
         p[i].y = view_to_x11_y(y[i], xw);
     }
 
-    XSetForeground(DISPLAY(xw), xw->gc, color3);
+    XSetForeground(DISPLAY(xw), xw->gc, xw->color.pixel);
     XFillPolygon(DISPLAY(xw), xw->buffer, xw->gc, p, n, Complex,
                  CoordModeOrigin);
 

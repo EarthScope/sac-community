@@ -21,6 +21,8 @@
 #include "cpf.h"
 #include "amf.h"
 #include "sac_history.h"
+#include "vars/chash.h"
+#include "debug.h"
 
 void sac_vars_free();
 void saccommands_cleanup(eval * e);
@@ -31,6 +33,9 @@ void dblErrorFree();
 void dfm_free();
 void gdm_free_devices();
 void lexer_free();
+
+extern dict *color_dict;
+extern dict *msg_dict;
 
 #ifdef WIN32
 /**
@@ -96,6 +101,11 @@ zquit() {
 
     xyzcleanup();
     sac_vars_free();
+    
+    sacclear();
+    sac_buffer_free();
+    dict_free(color_dict, free);
+    dict_free(msg_dict,   free);
 
 #ifdef READLINE
     /* Cleanup Command Line Editing Tools */

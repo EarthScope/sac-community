@@ -8,6 +8,7 @@
 #include "co.h"
 #include "gdm.h"
 #include "gam.h"
+#include "gem.h"
 
 /** 
  * Begin a Plotting Window
@@ -81,9 +82,9 @@ beginwindow(int number, int *nerr) {
     /* - Set default color if window did not exist.
      *   Must be done after beginwindow, at least for Sunwindows. */
 
-    if (!exists)
-        setcolor(cmgdm.nctsize);
-
+    if (!exists) {
+        setcolor_fg_def();
+    }
     /* - Calculate new values for graphics status variables. */
 
     calstatus();

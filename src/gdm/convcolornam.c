@@ -12,6 +12,10 @@
 #include "bool.h"
 #include "string_utils.h"
 
+#include "vars/chash.h"
+extern color COLOR_WHITE;
+extern dict *color_dict;
+
 /** 
  * Convert a color name to it's equivalent color number 
  *
@@ -29,27 +33,28 @@
  */
 
 int
-convcolorname(char *name, int *number) {
+convcolorname(char *name, color *c) {
     int i;
+    color *c0;
     char ktest[9];
     char *nofill[] = { "none", "empty", "trans", "transparent" };
 
     /* - Convert input color name to upper case. */
     upcase(name, min(strlen(name), MCPW), ktest, 9);
 
-    /* - Test name versus list of names in default color table. */
-    if (lequal
-        (ktest, 9, (char *) kmgdm.ctname[0], 9, cmgdm.nctsize + 1, number)) {
-        *number = *number - 1;
-        return TRUE;
-    }
-    for (i = 0; i < (int) (sizeof(nofill) / sizeof(char *)); i++) {
-        if (strcasecmp(name, nofill[i]) == 0) {
-            *number = -1;
+    for(i = 0; i < 4; i++) {
+        if(strcasecmp(name, nofill[i]) == 0) {
+            *c = COLOR_WHITE;
             return TRUE;
         }
     }
-    /* - If not found, return a -1 */
-    *number = -1;
-    return FALSE;
+
+    /* - Test name versus list of names in default color table. */
+    if(!(c0 = dict_get(color_dict, name))) {
+        fprintf(stderr, "SAC: Color not found: %s\n", name);
+        color_foreground_default(c);
+        return FALSE;
+    }
+    *c = *c0;
+    return TRUE;
 }

@@ -263,10 +263,10 @@ pldta(float xarray[], float yarray[], int number, int incx, int incy, int *nerr)
     setlinestyle(cmgem.icline);
 
     /* -- line color */
-    if (cmgem.lcol) {
-        setcolor(cmgem.icol);
+    if (color_on()) {
+        setcolor_fg();
     } else {
-        setcolor(color_foreground_default());
+        setcolor_fg_def();
     }
 
     /* -- line-width */
@@ -412,12 +412,8 @@ pldta(float xarray[], float yarray[], int number, int incx, int incy, int *nerr)
 
         /* --- Plot the data with the fill color */
         if (cmgem.lfill) {
-            if (cmgem.ifill[0] >= 0) {  /* Positive */
-                polyfill(xblock, yblock, nblock, TRUE, cmgem.ifill[0]);
-            }
-            if (cmgem.ifill[1] >= 0) {  /* Negative */
-                polyfill(xblock, yblock, nblock, FALSE, cmgem.ifill[1]);
-            }
+            polyfill(xblock, yblock, nblock, TRUE, cmgem.ifill[0]);
+            polyfill(xblock, yblock, nblock, FALSE, cmgem.ifill[1]);
         }
 
         /* --- Plot the data points (with or without clipping). */
@@ -465,9 +461,9 @@ pldta(float xarray[], float yarray[], int number, int incx, int incy, int *nerr)
 
     /* -- color */
     if (cmgem.lcol) {
-        setcolor(cmgem.iskcol);
+        setcolor_skel();
     } else {
-        setcolor(color_foreground_default());
+        setcolor_fg_def();
     }
 
     /* -- line-width */
@@ -482,8 +478,14 @@ pldta(float xarray[], float yarray[], int number, int incx, int incy, int *nerr)
               &cmgem.icline);
 
     /* -- line color */
-    if (cmgem.lcol && cmgem.licol)
-        incat(cmgem.icol, cmgem.iicol, cmgem.nicol, &cmgem.jicol, &cmgem.icol);
+    if (cmgem.lcol && cmgem.licol) {
+        if(cmgem.jicol <= 0 || cmgem.jicol >= cmgem.nicol) {
+            cmgem.jicol = 0;
+        }
+        cmgem.jicol++;
+        color_data_set(cmgem.iicol[cmgem.jicol]);
+        //incat(cmgem.icol, cmgem.iicol, cmgem.nicol, &cmgem.jicol, &cmgem.icol);
+    }
     /* -- line-width */
     if (cmgem.lwidth && cmgem.liwidth)
         incat(cmgem.iwidth, cmgem.iiwidth, cmgem.niwidth, &cmgem.jiwidth,
@@ -497,10 +499,20 @@ pldta(float xarray[], float yarray[], int number, int incx, int incy, int *nerr)
             setsymbolnum(cmgem.isym);
     }
     if (cmgem.lfill & cmgem.lifill) {
-        incat(cmgem.ifill[0], cmgem.iifillp, cmgem.nifill, &cmgem.jifill[0],
-              &cmgem.ifill[0]);
-        incat(cmgem.ifill[1], cmgem.iifilln, cmgem.nifill, &cmgem.jifill[1],
-              &cmgem.ifill[1]);
+        if(cmgem.jifill[0] <= 0 || cmgem.jifill[0] > cmgem.nifill) {
+            cmgem.jifill[0] = 0;
+        }
+        cmgem.jifill[0]++;
+        if(cmgem.jifill[1] <= 0 || cmgem.jifill[1] > cmgem.nifill) {
+            cmgem.jifill[1] = 0;
+        }
+        cmgem.jifill[1]++;
+        cmgem.ifill[0] = cmgem.iifillp[cmgem.jifill[0]];
+        cmgem.ifill[1] = cmgem.iifilln[cmgem.jifill[1]];
+        //incat(cmgem.ifill[0], cmgem.iifillp, cmgem.nifill, &cmgem.jifill[0],
+        //&cmgem.ifill[0]);
+        //incat(cmgem.ifill[1], cmgem.iifilln, cmgem.nifill, &cmgem.jifill[1],
+        //&cmgem.ifill[1]);
     }
 
     /* - Write the desampling factor on the plot if the QDP option is on. */

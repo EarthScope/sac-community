@@ -297,9 +297,9 @@ xwindow_draw_string_xft(XWindow * xw, char *text, int x, int y) {
                       DefaultColormap(DISPLAY(xw), SCREEN(xw)));
 
     /* Set Text from current Color */
-    rc.red = xw->color->red;
-    rc.green = xw->color->green;
-    rc.blue = xw->color->blue;
+    rc.red = xw->color.red;
+    rc.green = xw->color.green;
+    rc.blue = xw->color.blue;
     rc.alpha = 0xFFFF;          /* 65535 */
     XftColorAllocValue(DISPLAY(xw), VISUAL(xw),
                        DefaultColormap(DISPLAY(xw), SCREEN(xw)), &rc, &color);
@@ -611,7 +611,7 @@ xwindow_draw_string_core(XWindow * xw, char *text, int x, int y) {
     font = xw->font->font_core;
 
     /* Set Foreground Color */
-    XSetForeground(DISPLAY(xw), xw->gc, color3);
+    XSetForeground(DISPLAY(xw), xw->gc, xw->color.pixel);
 
     /* Determine the Width of Font and Text */
     text_width = XTextWidth(font, text, strlen(text));
@@ -804,7 +804,7 @@ text_box_x11(textbox * t) {
     /* Show Text in correct color */
     for (i = 0; i < t->n; i++) {
         setcolor3(t->color[i]);
-        XSetForeground(DISPLAY(xw), xw->gc, color3);
+        XSetForeground(DISPLAY(xw), xw->gc, xw->color.pixel);
         if (t->text[i]) {
             xwindow_draw_string(xw, t->text[i], (int) x, (int) y);
         }
@@ -826,7 +826,12 @@ text_box_x11(textbox * t) {
     }
 
     /* Return Color for Skeleton */
-    setcolor3((color_on())? color_skeleton() : color_foreground_default());
+    if(color_on()) {
+        setcolor_skel();
+    } else {
+        setcolor_fg_def();
+    }
+
 
 }
 

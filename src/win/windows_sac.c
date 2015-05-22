@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "gdm.h"
+#include "gem.h"
 
 #include "color.h"
 
@@ -244,10 +245,10 @@ win_text_width(char *text) {
 }
 
 void
-win_set_color(int index) {
-    SacColor c = MakeColor(COLORS[index].red * WIN_COLOR_MAXIMUM,
-                           COLORS[index].green * WIN_COLOR_MAXIMUM,
-                           COLORS[index].blue * WIN_COLOR_MAXIMUM);
+win_set_color(color rgb) {
+    SacColor c = MakeColor(rgb.r/255. * WIN_COLOR_MAXIMUM,
+                           rgb.g/255. * WIN_COLOR_MAXIMUM,
+                           rgb.b/255. * WIN_COLOR_MAXIMUM);
     SacViewAdd(current_view, SV_Color, c);
 }
 
@@ -265,6 +266,7 @@ win_text_box(textbox * t) {
     int len, xlen;
     float x, y, sx, sy;
     int width, height;
+    color c;
 
     if (!t || t->n == 0) {
         return;
@@ -313,8 +315,12 @@ win_text_box(textbox * t) {
         }
         y += cheight;
     }
-
-    win_set_color(color_on()? color_skeleton() : color_foreground_default());
+    if(color_on()){
+        color_skeleton(&c);
+    } else {
+        color_foreground_default(&c);
+    }
+    win_set_color(c);
 }
 
 void
