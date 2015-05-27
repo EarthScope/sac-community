@@ -26,6 +26,34 @@
 #include "amf.h"
 #include "errors.h"
 
+char 
+lh_prompt() {
+    char kresp[9];
+    outmsg();
+    clrmsg();
+    setmsg("OUTPUT", 99);
+    zgpmsg("Waiting $", 10, kresp, 9);
+    return kresp[0];
+}
+
+#define handle_lh_input()                       \
+    do {                                        \
+        nlw = 0;                                \
+        switch(lh_prompt()){                    \
+        case 'K': case 'k':                     \
+        case 'Q': case 'q':                     \
+            goto DONE;                          \
+            break;                              \
+        case 'G': case 'g':                     \
+            lwait = FALSE;                      \
+            break;                              \
+        case 'N': case 'n':                     \
+            goto NEXT_FILE;                     \
+            break;                              \
+        }                                       \
+    } while(0)
+
+
 /** 
  * Execute the command LISTHDR (LH) which lists header values
  * 
@@ -55,16 +83,16 @@
 void
 xlh(int *nerr) {
 
-    char kerase[41], kline[MCMSG + 1], kresp[9], krpttx[MRPT][41], ktok[9];
+    char kerase[41], vals[MRPT][41], ktok[9];
     int lwait;
-    int j, j_, jdfl, jrpt, jrpt_, jrpttx, jrpttx_, jsprpt, nc1, nc2, nc3, nc4,
-        nctx[MRPT], nctxm, nferr, nlscrn, nlw, nrpttx;
+    int i;
+    int j, j_, jdfl, jrpt, jsprpt, nc1, nc2, nc3, nc4,
+        nctx[MRPT], nctxm, nferr, nlscrn, nlw, nv;
 
     static int iform = 1;
     static char kblank[41] = "                                        ";
     int idx, ldef;
     char *tmp;
-    int *const Nctx = &nctx[0] - 1;
     sac *s;
     *nerr = 0;
     ldef = FALSE;
@@ -74,9 +102,6 @@ xlh(int *nerr) {
 
     /* currently executing listhdr command. maf 961212 */
     cmhdr.llh = TRUE;
-    for (idx = 0; idx < MCMSG; idx++)
-        kline[idx] = ' ';
-    kline[MCMSG] = '\0';
 
     jsprpt = 0;
 
@@ -197,7 +222,7 @@ xlh(int *nerr) {
     autooutmsg(TRUE);
     setmsg("OUTPUT", 99);
     jdfl = 0;
-  L_4000:
+ NEXT_FILE:
     if (nextinputfile(&jdfl)) {
         //getfil( jdfl, FALSE, &junk1, &junk2, &junk3, nerr );
         if (!(s = sacget(jdfl - 1, FALSE, nerr))) {
@@ -213,112 +238,56 @@ xlh(int *nerr) {
                    "--------------------------------------------------");
             nlw = nlw + 4;
         }
-        nrpttx = 0;
+        nv = 0;
         nctxm = 0;
         for (jrpt = 1; jrpt <= cmlhf.nrpt; jrpt++) {
-            jrpt_ = jrpt - 1;
-            nrpttx = nrpttx + 1;
-            formhv((char *) kmlhf.krpt[jrpt_], 9, iform,
-                   (char *) krpttx[nrpttx - 1], 41, &nferr);
+            formhv((char *) kmlhf.krpt[jrpt-1], 9, iform,
+                   (char *) vals[nv], 41, &nferr);
             if (nferr == 0) {
-                Nctx[nrpttx] = indexc((char *) krpttx[nrpttx - 1], 41, '=');
-                nctxm = max(nctxm, Nctx[nrpttx]);
-            } else if (!cmhdr.linc) {
-                nrpttx = nrpttx - 1;
+                nctx[nv] = strchr(vals[nv], '=') - vals[nv];
+                nctxm = max(nctxm, nctx[nv]);
+                nv = nv + 1;
             }
         }
         if (cmlhf.nlhcol == 1) {
-            for (jrpttx = 1; jrpttx <= nrpttx; jrpttx++) {
-                jrpttx_ = jrpttx - 1;
-                nc1 = 2 + nctxm - Nctx[jrpttx];
-
-                mprint(" %.*s %s", nc1, kblank, krpttx[jrpttx_]);
-
+            for (i = 0; i < nv; i++) {
+                nc1 = 2 + nctxm - nctx[i];
+                mprint(" %.*s %s", nc1, kblank, vals[i]);
                 nlw = nlw + 1;
                 if (lwait && (nlw >= (nlscrn - 2))) {
-                    outmsg();
-                    clrmsg();
-                    setmsg("OUTPUT", 99);
-                    zgpmsg("Waiting $", 10, kresp, 9);
-                    upcase(kresp, 1, kresp, 9);
-                    nlw = 0;
-                    if (kresp[0] == 'K' || kresp[0] == 'Q') {
-                        autooutmsg(FALSE);
-                        /* no longer executing xlh(). */
-                        cmhdr.llh = FALSE;
-                        return;
-                    } else if (kresp[0] == 'G') {
-                        if (strcmp
-                            (kerase,
-                             "                                        ") != 0) {
-                            fprintf(MUNOUT, " %s\n", kerase);
-                        }
-                        lwait = FALSE;
-                    } else if (kresp[0] == 'N') {
-                        if (strcmp
-                            (kerase,
-                             "                                        ") != 0) {
-                            fprintf(MUNOUT, " %s\n", kerase);
-                        }
-                        goto L_4000;
-                    }
+                    handle_lh_input();
                 }
             }
         } else {
-            strcpy(krpttx[nrpttx], "                                        ");
-            for (jrpttx = 1; jrpttx <= nrpttx; jrpttx += 2) {
-                jrpttx_ = jrpttx - 1;
-                nc1 = 2 + nctxm - Nctx[jrpttx];
-                nc2 = indexb((char *) krpttx[jrpttx_], 41);
-                nc3 = 2 + nctxm - Nctx[jrpttx + 1];
-                nc4 = indexb((char *) krpttx[jrpttx_ + 1], 41);
-                rstrip(krpttx[jrpttx_]);
-                rstrip(krpttx[jrpttx_+1]);
+            strcpy(vals[nv], "                                        ");
+            for (i = 0; i < nv; i += 2) {
+                nc1 = 2 + nctxm - nctx[i];
+                nc2 = indexb((char *) vals[i], 41);
+                nc3 = 2 + nctxm - nctx[i + 1];
+                nc4 = indexb((char *) vals[i + 1], 41);
+                rstrip(vals[i]);
+                rstrip(vals[i+1]);
                 if (nc4 > 0) {
                     if ((nc1 + nc2) < 40) {
                         nc3 += 40 - (nc1+nc2);
                     }
-                    mprint(" %*.s%s%*.s%s", nc1, kblank, krpttx[jrpttx_],
-                           nc3, kblank, krpttx[jrpttx_+1]);
+                    mprint(" %*.s%s%*.s%s", nc1, kblank, vals[i],
+                           nc3, kblank, vals[i+1]);
                 } else {
-                    mprint(" %*.s%s", nc1, kblank, krpttx[jrpttx_]);
+                    mprint(" %*.s%s", nc1, kblank, vals[i]);
                 }
                 nlw = nlw + 1;
                 if (lwait && (nlw >= (nlscrn - 1))) {
-                    outmsg();
-                    clrmsg();
-                    setmsg("OUTPUT", 99);
-                    nlw = 0;
-                    zgpmsg("Waiting $", 10, kresp, 9);
-                    upcase(kresp, 1, kresp, 9);
-                    if (kresp[0] == 'K' || kresp[0] == 'Q') {
-                        autooutmsg(FALSE);
-                        /* no longer executing xlh(). */
-                        cmhdr.llh = FALSE;
-                        return;
-                    } else if (kresp[0] == 'G') {
-                        if (strcmp
-                            (kerase,
-                             "                                        ") != 0) {
-                            fprintf(MUNOUT, " %s\n", kerase);
-                        }
-                        lwait = FALSE;
-                    } else if (kresp[0] == 'N') {
-                        if (strcmp
-                            (kerase,
-                             "                                        ") != 0) {
-                            fprintf(MUNOUT, " %s\n", kerase);
-                        }
-                        goto L_4000;
-                    }
+                    handle_lh_input();
                 }
             }
         }
 
         /* -- Loop on entries in input dfl. */
-        goto L_4000;
+        goto NEXT_FILE;
     }
 
+    DONE:
     /* - Turn automatic output mode off before returning. */
     autooutmsg(FALSE);
 
