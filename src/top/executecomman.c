@@ -124,9 +124,7 @@ executecommand(module, index, nerr)
         goto L_8888;
     }
 
-    *nerr = 901;                /* - Return if bad value for module number. */
-    setmsg("ERROR", *nerr);
-    apcmsg("in EXECUTECOMMAND", 18);
+    error(*nerr = 901, "in EXECUTECOMMAND: module %d index %d", module, index);
     goto L_8888;
 
   L_100:

@@ -94,6 +94,15 @@ findcommand(kcommand, lfind, module, index)
         lbsrch(kcommand, MCPW, (char *) kmcomlists.kcomnames_full[istart - 1]
                , 30, nentries, &jfind);
 
+    if(strcasecmp(kcommand, "quitmacro") == 0 ||
+       strcasecmp(kcommand, "macroquit") == 0) {
+        *module = 15;
+        *index = 9;
+        *lfind = 1;
+        goto L_8888;
+    }
+
+
     /* - Return internal module and index numbers if this search was successful. */
 
     if (*lfind) {

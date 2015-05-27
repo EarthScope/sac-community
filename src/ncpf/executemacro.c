@@ -57,6 +57,7 @@ executemacro(char *kmacroname, int kmacroname_s, char *kmacroargs,
     imacrolevel = imacrolevel + 1;
     setmacrostatus("OK", 3);
     setmacrolevel(imacrolevel);
+    macro_on();
 
     /* - Open macro file. */
     openmacro(kmacroname, kmacroname_s, kmacroargs, kmacroargs_s, nerr);
@@ -76,6 +77,9 @@ executemacro(char *kmacroname, int kmacroname_s, char *kmacroargs,
             error(*nerr = 1016, "%s\n Command line is: %s", kmacroname, kmacroline);
             goto L_7000;
         }
+        if( ! macro_active() ) {
+            goto L_7000;
+        }
         goto L_1000;
     }
 
@@ -87,6 +91,7 @@ executemacro(char *kmacroname, int kmacroname_s, char *kmacroargs,
     setmacrolevel(imacrolevel);
 
   L_8888:
+    macro_off();
     return;
 
 }                               /* end of function */

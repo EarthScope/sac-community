@@ -1,6 +1,7 @@
 
 #include "ncpf.h"
 #include "cpf.h"
+#include "bool.h"
 
 int /*FUNCTION*/
 macrostatus() {
@@ -32,3 +33,9 @@ macrostatus() {
     return (macrostatus_v);
 
 }                               /* end of function */
+
+
+static int _macro_active = FALSE;
+void macro_on()     { _macro_active = TRUE;  }
+void macro_off()    { _macro_active = FALSE; }
+int  macro_active() { return _macro_active;  }

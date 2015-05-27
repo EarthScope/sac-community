@@ -83,5 +83,8 @@ char *tmListEpochTime(double time, int form);
 double tmStrToEpochTime(char *string);
 void setmacrolevel(int imacrolevel);
 void setmacrostatus(char *kstatus, int kstatus_s);
+void macro_on();
+void macro_off();
+int macro_active();
 
 #endif /* _NCPF_H_ */

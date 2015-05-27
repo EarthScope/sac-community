@@ -61,13 +61,13 @@ xcndc(int index, int *nerr) {
             goto L_700;
         case 8:
             goto L_800;
+        case 9:
+            goto L_900;
     }
 
     /* - Error return if bad index value. */
 
-    *nerr = ERROR_SAC_LOGIC_ERROR;
-    setmsg("ERROR", *nerr);
-    apcmsg("in XCNDC", 9);
+    error(*nerr = ERROR_SAC_LOGIC_ERROR, "in XCNDC: index: %d", index);
     goto L_8888;
 
   L_100:                       /* - Command 01: IF */
@@ -100,6 +100,10 @@ xcndc(int index, int *nerr) {
 
   L_800:                       /* - Command 08: BREAK */
     xbreak(nerr);
+    goto L_8888;
+
+ L_900:                        /* - Command 08: MACROQUIT */
+    macro_off();
     goto L_8888;
 
   L_8888:
