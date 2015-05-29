@@ -85,7 +85,7 @@ sacmsg(int *nerr) {
 
  L_4000:
     zcloses(&nun, &ntused);
-    dict_status(msg_dict);
+
   L_8888:
     return;
 

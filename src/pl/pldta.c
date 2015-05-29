@@ -479,8 +479,8 @@ pldta(float xarray[], float yarray[], int number, int incx, int incy, int *nerr)
 
     /* -- line color */
     if (cmgem.lcol && cmgem.licol) {
-        if(cmgem.jicol <= 0 || cmgem.jicol >= cmgem.nicol) {
-            cmgem.jicol = 0;
+        if(cmgem.jicol < 0 || cmgem.jicol + 1 >= cmgem.nicol) {
+            cmgem.jicol = -1;
         }
         cmgem.jicol++;
         color_data_set(cmgem.iicol[cmgem.jicol]);

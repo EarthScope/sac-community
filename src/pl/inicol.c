@@ -26,7 +26,7 @@ inicol(color *iicol, int *nicol)
     /* PROCEDURE: */
     /* - Set up standard color table. */
     *nicol = 6;
-    for (j = 0; j < *nicol; j++) {
+    for (j = 1; j <= *nicol; j++) {
         iicol[j] = COLORS[j];
     }
 

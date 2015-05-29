@@ -91,7 +91,9 @@ executemacro(char *kmacroname, int kmacroname_s, char *kmacroargs,
     setmacrolevel(imacrolevel);
 
   L_8888:
-    macro_off();
+    if(imacrolevel <= 0) {
+        macro_off();
+    }
     return;
 
 }                               /* end of function */

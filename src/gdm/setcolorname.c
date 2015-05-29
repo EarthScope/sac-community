@@ -29,6 +29,7 @@ setcolorname(char *kolor, int kolor_s) {
     UNUSED(kolor_s);
     if(!(p = dict_get(color_dict, kolor))) {
         setcolor_fg_def();
+        return;
     }
     setcolor(*p);
 }

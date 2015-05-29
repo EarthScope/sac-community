@@ -51,7 +51,6 @@ convcolorname(char *name, color *c) {
 
     /* - Test name versus list of names in default color table. */
     if(!(c0 = dict_get(color_dict, name))) {
-        fprintf(stderr, "SAC: Color not found: %s\n", name);
         color_foreground_default(c);
         return FALSE;
     }

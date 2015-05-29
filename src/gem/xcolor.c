@@ -16,11 +16,8 @@
 #include "pl.h"
 #include "cpf.h"
 
-color bg_color = {255,255,255,"white"};
-color fg_color = {0,0,0,"black"};
-
-#define _BLACK_ {0,255,0, "black"};
-#define _WHITE_ {0,255,0, "white"};
+#define _BLACK_ {0,0,0, "black"};
+#define _WHITE_ {255,255,255, "white"};
 
 color COLOR_WHITE = _WHITE_;
 color COLOR_RED   = {255,0,0, "red"};
@@ -31,14 +28,14 @@ color COLOR_FG_DEFAULT = _BLACK_;
 color COLOR_BG_DEFAULT = _WHITE_;
 
 color COLORS[] = {
-    {255, 255, 255, "white"},
+    {  0,   0,   0, "black"},
     {255,   0,   0, "red"},
     {  0, 255,   0, "green"},
     {  0,   0, 255, "blue"},
     {255, 255,   0, "yellow"},
     {  0, 255, 255, "cyan"},
     {255,   0, 255, "magenta"},
-    {  0,   0,   0, "black"},
+    {255, 255, 255, "white"},
 };
 
 
@@ -101,8 +98,7 @@ color_background_set(color c) {
 int
 color_background_set_by_name(char *kolor) {
     color c;
-    convcolorname(kolor, &c);
-    return color_background_set(c);
+    return convcolorname(kolor, &c) && color_background_set(c);
 }
 
 /* Data Color */
@@ -116,8 +112,7 @@ color_data_set(color c) {
 int
 color_data_set_by_name(char *kolor) {
     color c;
-    convcolorname(kolor, &c);
-    return color_data_set(c);
+    return convcolorname(kolor, &c) && color_data_set(c);
 }
 
 /* Skeleton Color */
@@ -131,8 +126,7 @@ color_skeleton_set(color c) {
 int
 color_skeleton_set_by_name(char *kolor) {
     color c;
-    convcolorname(kolor, &c);
-    return color_skeleton_set(c);
+    return convcolorname(kolor, &c) && color_skeleton_set(c);
 }
 
 /* Foreground Color (Data + Skeleton) */
@@ -144,8 +138,7 @@ color_foreground_set(color c) {
 int
 color_foreground_set_by_name(char *kolor) {
     color c;
-    convcolorname(kolor, &c);
-    return color_foreground_set(c);
+    return convcolorname(kolor, &c) && color_foreground_set(c);
 }
 
 color *
@@ -243,14 +236,16 @@ xcolor(int *nerr) {
                         }
                     } else if (lcchar(ktok, sizeof(ktok))) {
                         if(convcolorname(ktok, &rgb)) {
-                            cmgem.iicol[cmgem.nicol-1] = rgb;
+                            cmgem.iicol[cmgem.nicol] = rgb;
+                            cmgem.nicol ++;
                         } else {
                             BAD_COLOR;
                         }
                     }
                 }
-                if (cmgem.nicol <= 0)
+                if (cmgem.nicol <= 0) {
                     inicol(cmgem.iicol, &cmgem.nicol);
+                }
                 cmgem.icol = cmgem.iicol[0];
                 color_switch(TRUE);
                 cmgem.jicol = 0;

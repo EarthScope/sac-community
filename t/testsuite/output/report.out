@@ -18,7 +18,7 @@
     DATA color is BLACK
     INCREMENT data color is OFF
     SKELETON color is BLACK
-    BACKGROUND color is UNKNOWN
+    BACKGROUND color is WHITE
  report cut
   
     CUT option is OFF
