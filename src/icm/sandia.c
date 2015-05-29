@@ -2,25 +2,19 @@
 #include <string.h>
 
 #include "icm.h"
-#include "complex.h"
+#include "complex_sac.h"
 
 #include "msg.h"
 
-void /*FUNCTION*/
-sandia(nfreq, delfrq, xre, xim, subtyp, subtyp_s, nerr)
-     int nfreq;
-     double delfrq, xre[], xim[];
-     char *subtyp;
-     int subtyp_s;
-     int *nerr;
+void
+sandia(int nfreq, double delfrq, double xre[], double xim[], char *subtyp, int subtyp_s, int *nerr)
 {
     int i, npole, nzero;
     float const_, facnew, s1, s2, srf;
-    complexf pole[7], zero[5];
-
-    complexf *const Pole = &pole[0] - 1;
-    complexf *const Zero = &zero[0] - 1;
-
+    complex double pole[7];
+    complex double zero[5];
+    complex double * const Pole = (&pole[0]) - 1;
+    complex double * const Zero = (&zero[0]) - 1;
     /*   .....Sandia system 23 instrumental response.....
      * */
 
@@ -29,19 +23,20 @@ sandia(nfreq, delfrq, xre, xim, subtyp, subtyp_s, nerr)
     const_ = 2.0e4 * facnew;
     nzero = 5;
     /*                           <* Amplifier Transfer Function */
-    Zero[1] = flttocmplx(-189.50087, 0.0);
-    for (i = 2; i <= nzero; i++) {
-        Zero[i] = flttocmplx(0.0, 0.0);
+    Zero[1] = (-189.50087) + (0.0 * I);
+    for (i = 2; i <= nzero; i++)
+    {
+        Zero[i] = 0.0 + (0.0 * I);
     }
 
     npole = 7;
     /*  poles 1 & 2 are amplifier transfer function */
-    Pole[1] = flttocmplx(-0.326726, 0.0);
-    Pole[2] = flttocmplx(-0.326726, 0.0);
+    Pole[1] = (-0.326726) + (0.0 * I);
+    Pole[2] = (-0.326726) + (0.0 * I);
     /*  poles 3 to 6 are filter trandfer function */
-    Pole[3] = flttocmplx(-125.66371, 0.0);
-    Pole[4] = flttocmplx(-62.83185, -108.82477);
-    Pole[5] = flttocmplx(-62.83185, 108.82477);
+    Pole[3] = (-125.66371) + (0.0 * I);
+    Pole[4] = (-62.83185) + ((-108.82477) * I);
+    Pole[5] = (-62.83185) + (108.82477 * I);
 
     if (subtyp[0] == 'O') {
         if (subtyp[1] == 'L') {
@@ -54,9 +49,6 @@ sandia(nfreq, delfrq, xre, xim, subtyp, subtyp_s, nerr)
             srf = 1.23;
         } else {
             *nerr = 2105;
-            setmsg("ERROR", *nerr);
-            apcmsg("SANDIA:", 8);
-            apcmsg(subtyp, subtyp_s);
             goto L_8888;
         }
 
@@ -88,16 +80,10 @@ sandia(nfreq, delfrq, xre, xim, subtyp, subtyp_s, nerr)
             srf = 1.22;
         } else {
             *nerr = 2105;
-            setmsg("ERROR", *nerr);
-            apcmsg("SANDIA:", 8);
-            apcmsg(subtyp, subtyp_s);
             goto L_8888;
         }
     } else {
         *nerr = 2105;
-        setmsg("ERROR", *nerr);
-        apcmsg("SANDIA:", 8);
-        apcmsg(subtyp, subtyp_s);
         goto L_8888;
     }
 
@@ -109,16 +95,17 @@ sandia(nfreq, delfrq, xre, xim, subtyp, subtyp_s, nerr)
      *        where:
      *              s = i * omega    and  h = seismometer damping factor
      * */
-    s1 = -150.53419 * srf;
-    s2 = -0.2622555 * srf;
 
-    Pole[6] = flttocmplx(s1, 0.0);
-    Pole[7] = flttocmplx(s2, 0.0);
+    s1 = (-150.53419) * srf;
+    s2 = (-0.2622555) * srf;
 
+    Pole[6] = s1 + (0.0 * I);
+    Pole[7] = s2 + (0.0 * I);
     /*   .....Compute transfer function.....
      * */
-    getran(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim);
-
-  L_8888:
+    getranx(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim);
+    L_8888:
     return;
-}                               /* end of function */
+
+}
+

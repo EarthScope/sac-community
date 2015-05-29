@@ -2,21 +2,19 @@
 #include <math.h>
 
 #include "icm.h"
-#include "complex.h"
+#include "complex_sac.h"
 #include "co.h"
 
-void /*FUNCTION*/
-wiech(nfreq, delfrq, xre, xim)
-     int nfreq;
-     double delfrq, xre[], xim[];
+void
+wiech(int nfreq, double delfrq, double xre[], double xim[])
 {
     int npole, nzero;
     float const_, h, om0, rad, t0;
-    complexf pole[2], zero[2];
+    complex double pole[2];
+    complex double zero[2];
     static double twopi = 6.283185307179586;
-
-    complexf *const Pole = &pole[0] - 1;
-    complexf *const Zero = &zero[0] - 1;
+    complex double * const Pole = (&pole[0]) - 1;
+    complex double * const Zero = (&zero[0]) - 1;
 
     /*   .....WIEC - for a Wiechert seismometer.....
      * */
@@ -31,19 +29,19 @@ wiech(nfreq, delfrq, xre, xim)
     const_ = 188.5;
     om0 = twopi / t0;
     nzero = 2;
-    Zero[1] = flttocmplx(0.0, 0.0);
-    Zero[2] = flttocmplx(0.0, 0.0);
+    Zero[1] = 0.0 + (0.0 * I);
+    Zero[2] = 0.0 + (0.0 * I);
 
     npole = 2;
     /*  ??????????????????????????????????????? */
     rad = sqrt(1.0 - powi(h, 2));
-    Pole[1] = flttocmplx(-om0 * h, om0 * rad);
-    Pole[2] = flttocmplx(-om0 * h, -om0 * rad);
+    Pole[1] = ((-om0) * h) + ((om0 * rad) * I);
+    Pole[2] = ((-om0) * h) + (((-om0) * rad) * I);
     /*  ???????????????????????????????????????
      *
      *   .....Compute transfer function.....
      * */
-    getran(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim);
-
+    getranx(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim);
     return;
-}                               /* end of function */
+}
+

@@ -95,69 +95,69 @@ target_triplet = @target@
 @X11_APP_TRUE@am__append_4 = $(X_PRE_LIBS) $(X_EXTRA_LIBS) $(X_LIBS) 
 @X11_APP_TRUE@am__append_5 = -lX11 
 check_PROGRAMS = use_sac$(EXEEXT) ucf$(EXEEXT) vars$(EXEEXT) \
-	sacio$(EXEEXT) $(am__EXEEXT_1)
+	sacio$(EXEEXT) icm$(EXEEXT) $(am__EXEEXT_1)
 @HAVE_FC_TRUE@am__append_6 = saciof saclibf
 TESTS = use_sac$(EXEEXT) ucf$(EXEEXT) vars$(EXEEXT) sacio$(EXEEXT) \
-	$(am__EXEEXT_2) copy_files.sh testsuite/input/abs.sm \
-	testsuite/input/add.sm testsuite/input/addf.sm \
-	testsuite/input/alpha.sm testsuite/input/apk.sm \
-	testsuite/input/arraymap.sm testsuite/input/axes.sm \
-	testsuite/input/bandpass.sm testsuite/input/bandrej.sm \
-	testsuite/input/beginwindow.sm testsuite/input/benioff.sm \
-	testsuite/input/binoperr.sm testsuite/input/border.sm \
-	testsuite/input/ch.sm testsuite/input/color.sm \
-	testsuite/input/comcor.sm testsuite/input/comment.sm \
-	testsuite/input/contour.sm testsuite/input/convolve.sm \
-	testsuite/input/copyhdr.sm testsuite/input/correlate.sm \
-	testsuite/input/css.sm testsuite/input/cut.sm \
-	testsuite/input/cuterr.sm testsuite/input/cutim.sm \
-	testsuite/input/decimate.sm testsuite/input/deletechannel.sm \
-	testsuite/input/dif.sm testsuite/input/div.sm \
-	testsuite/input/divf.sm testsuite/input/divomega.sm \
-	testsuite/input/echo.sm testsuite/input/empty.sm \
-	testsuite/input/envelope.sm testsuite/input/erase.sm \
-	testsuite/input/escape.sm testsuite/input/evaluate.sm \
-	testsuite/input/evaluate2.sm testsuite/input/exp.sm \
-	testsuite/input/exp10.sm testsuite/input/fg.sm \
-	testsuite/input/fg_random.sm testsuite/input/filterdesign.sm \
-	testsuite/input/floor.sm testsuite/input/full.sm \
-	testsuite/input/getbb.sm testsuite/input/grid.sm \
-	testsuite/input/hanning.sm testsuite/input/help.sm \
-	testsuite/input/highpass.sm testsuite/input/hilbert.sm \
-	testsuite/input/inicm.sm testsuite/input/int.sm \
-	testsuite/input/interpolate.sm testsuite/input/keepam.sm \
-	testsuite/input/khronhite.sm testsuite/input/lh.sm \
-	testsuite/input/line.sm testsuite/input/linefit.sm \
-	testsuite/input/linlog.sm testsuite/input/log.sm \
-	testsuite/input/log10.sm testsuite/input/loglab.sm \
-	testsuite/input/lowpass.sm testsuite/input/makrptp.sm \
-	testsuite/input/marktimes.sm testsuite/input/markvalue.sm \
-	testsuite/input/mathop.sm testsuite/input/merge.sm \
-	testsuite/input/message.sm testsuite/input/mtw.sm \
-	testsuite/input/mul.sm testsuite/input/mulf.sm \
-	testsuite/input/mulomega.sm testsuite/input/oapf.sm \
-	testsuite/input/ohpf.sm testsuite/input/output.sm \
-	testsuite/input/pause.sm testsuite/input/plabel.sm \
-	testsuite/input/plot.sm testsuite/input/plotalpha.sm \
-	testsuite/input/prewhiten.sm testsuite/input/qdp.sm \
-	testsuite/input/quantize.sm testsuite/input/read.sm \
-	testsuite/input/readalpha.sm testsuite/input/readbbf.sm \
-	testsuite/input/readcomp2.sm testsuite/input/readerr.sm \
-	testsuite/input/readgse.sm testsuite/input/readhdr.sm \
-	testsuite/input/readsdd.sm testsuite/input/readsp.sm \
-	testsuite/input/readtable.sm testsuite/input/replace.sm \
-	testsuite/input/reverse.sm testsuite/input/rmean.sm \
-	testsuite/input/rms.sm testsuite/input/rotate.sm \
-	testsuite/input/rq.sm testsuite/input/rtrend.sm \
-	testsuite/input/sam_error.sm testsuite/input/scallop.sm \
-	testsuite/input/segy.sm testsuite/input/setbb.sm \
-	testsuite/input/sgf.sm testsuite/input/smooth.sm \
-	testsuite/input/sort.sm testsuite/input/spe.sm \
-	testsuite/input/spectrogram.sm testsuite/input/sqr.sm \
-	testsuite/input/sqrt.sm testsuite/input/sss.sm \
-	testsuite/input/stretch.sm testsuite/input/sub.sm \
-	testsuite/input/subf.sm testsuite/input/symbol.sm \
-	testsuite/input/synchronize.sm \
+	copy_files.sh icm$(EXEEXT) $(am__EXEEXT_2) \
+	testsuite/input/abs.sm testsuite/input/add.sm \
+	testsuite/input/addf.sm testsuite/input/alpha.sm \
+	testsuite/input/apk.sm testsuite/input/arraymap.sm \
+	testsuite/input/axes.sm testsuite/input/bandpass.sm \
+	testsuite/input/bandrej.sm testsuite/input/beginwindow.sm \
+	testsuite/input/benioff.sm testsuite/input/binoperr.sm \
+	testsuite/input/border.sm testsuite/input/ch.sm \
+	testsuite/input/color.sm testsuite/input/comcor.sm \
+	testsuite/input/comment.sm testsuite/input/contour.sm \
+	testsuite/input/convolve.sm testsuite/input/copyhdr.sm \
+	testsuite/input/correlate.sm testsuite/input/css.sm \
+	testsuite/input/cut.sm testsuite/input/cuterr.sm \
+	testsuite/input/cutim.sm testsuite/input/decimate.sm \
+	testsuite/input/deletechannel.sm testsuite/input/dif.sm \
+	testsuite/input/div.sm testsuite/input/divf.sm \
+	testsuite/input/divomega.sm testsuite/input/echo.sm \
+	testsuite/input/empty.sm testsuite/input/envelope.sm \
+	testsuite/input/erase.sm testsuite/input/escape.sm \
+	testsuite/input/evaluate.sm testsuite/input/evaluate2.sm \
+	testsuite/input/exp.sm testsuite/input/exp10.sm \
+	testsuite/input/fg.sm testsuite/input/fg_random.sm \
+	testsuite/input/filterdesign.sm testsuite/input/floor.sm \
+	testsuite/input/full.sm testsuite/input/getbb.sm \
+	testsuite/input/grid.sm testsuite/input/hanning.sm \
+	testsuite/input/help.sm testsuite/input/highpass.sm \
+	testsuite/input/hilbert.sm testsuite/input/inicm.sm \
+	testsuite/input/int.sm testsuite/input/interpolate.sm \
+	testsuite/input/keepam.sm testsuite/input/khronhite.sm \
+	testsuite/input/lh.sm testsuite/input/line.sm \
+	testsuite/input/linefit.sm testsuite/input/linlog.sm \
+	testsuite/input/log.sm testsuite/input/log10.sm \
+	testsuite/input/loglab.sm testsuite/input/lowpass.sm \
+	testsuite/input/makrptp.sm testsuite/input/marktimes.sm \
+	testsuite/input/markvalue.sm testsuite/input/mathop.sm \
+	testsuite/input/merge.sm testsuite/input/message.sm \
+	testsuite/input/mtw.sm testsuite/input/mul.sm \
+	testsuite/input/mulf.sm testsuite/input/mulomega.sm \
+	testsuite/input/oapf.sm testsuite/input/ohpf.sm \
+	testsuite/input/output.sm testsuite/input/pause.sm \
+	testsuite/input/plabel.sm testsuite/input/plot.sm \
+	testsuite/input/plotalpha.sm testsuite/input/prewhiten.sm \
+	testsuite/input/qdp.sm testsuite/input/quantize.sm \
+	testsuite/input/read.sm testsuite/input/readalpha.sm \
+	testsuite/input/readbbf.sm testsuite/input/readcomp2.sm \
+	testsuite/input/readerr.sm testsuite/input/readgse.sm \
+	testsuite/input/readhdr.sm testsuite/input/readsdd.sm \
+	testsuite/input/readsp.sm testsuite/input/readtable.sm \
+	testsuite/input/replace.sm testsuite/input/reverse.sm \
+	testsuite/input/rmean.sm testsuite/input/rms.sm \
+	testsuite/input/rotate.sm testsuite/input/rq.sm \
+	testsuite/input/rtrend.sm testsuite/input/sam_error.sm \
+	testsuite/input/scallop.sm testsuite/input/segy.sm \
+	testsuite/input/setbb.sm testsuite/input/sgf.sm \
+	testsuite/input/smooth.sm testsuite/input/sort.sm \
+	testsuite/input/spe.sm testsuite/input/spectrogram.sm \
+	testsuite/input/sqr.sm testsuite/input/sqrt.sm \
+	testsuite/input/sss.sm testsuite/input/stretch.sm \
+	testsuite/input/sub.sm testsuite/input/subf.sm \
+	testsuite/input/symbol.sm testsuite/input/synchronize.sm \
 	testsuite/input/systemcommand.sm testsuite/input/taper.sm \
 	testsuite/input/test_break.sm testsuite/input/test_do.sm \
 	testsuite/input/test_if.sm testsuite/input/test_macro.sm \
@@ -218,6 +218,11 @@ libunit_a_LIBADD =
 am_libunit_a_OBJECTS = unit.$(OBJEXT)
 libunit_a_OBJECTS = $(am_libunit_a_OBJECTS)
 @HAVE_FC_TRUE@am__EXEEXT_1 = saciof$(EXEEXT) saclibf$(EXEEXT)
+am_icm_OBJECTS = icm-icm.$(OBJEXT)
+icm_OBJECTS = $(am_icm_OBJECTS)
+icm_DEPENDENCIES =
+icm_LINK = $(CCLD) $(icm_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o \
+	$@
 am_sacio_OBJECTS = sacio-sacio.$(OBJEXT) sacio-sacio_rsac1.$(OBJEXT) \
 	sacio-sacio_rsac2.$(OBJEXT) sacio-sacio_wsac0.$(OBJEXT) \
 	sacio-sacio_wsac1.$(OBJEXT) sacio-sacio_wsac2.$(OBJEXT) \
@@ -302,9 +307,10 @@ AM_V_F77LD = $(am__v_F77LD_@AM_V@)
 am__v_F77LD_ = $(am__v_F77LD_@AM_DEFAULT_V@)
 am__v_F77LD_0 = @echo "  F77LD   " $@;
 am__v_F77LD_1 = 
-SOURCES = $(libunit_a_SOURCES) $(sacio_SOURCES) $(saciof_SOURCES) \
-	$(saclibf_SOURCES) $(ucf_SOURCES) use_sac.c $(vars_SOURCES)
-DIST_SOURCES = $(libunit_a_SOURCES) $(sacio_SOURCES) \
+SOURCES = $(libunit_a_SOURCES) $(icm_SOURCES) $(sacio_SOURCES) \
+	$(saciof_SOURCES) $(saclibf_SOURCES) $(ucf_SOURCES) use_sac.c \
+	$(vars_SOURCES)
+DIST_SOURCES = $(libunit_a_SOURCES) $(icm_SOURCES) $(sacio_SOURCES) \
 	$(am__saciof_SOURCES_DIST) $(am__saclibf_SOURCES_DIST) \
 	$(ucf_SOURCES) use_sac.c $(vars_SOURCES)
 am__can_run_installinfo = \
@@ -752,6 +758,12 @@ sacio_LDFLAGS =
 use_sac_CFLAGS = $(COVERAGE) 
 use_sac_LDADD = -L../src -lsacio -L. -lunit
 use_sac_LDFLAGS = 
+
+#saclibf${EXEEXT}: saclib_f.o
+#	$(F77) $(COVERAGE) -o $@ saclib_f.o -L../src -lsac
+icm_SOURCES = icm.c 
+icm_CFLAGS = $(COVERAGE)
+icm_LDADD = -L../src -lsac_all 
 TEST_EXTENSIONS = .sm
 SM_LOG_COMPILER = $(top_srcdir)/t/pytest.py
 AM_SM_LOG_FLAGS = -s "$(abs_builddir)/$(SACBIN)" -o "${abs_top_srcdir}/t/testsuite/output" --test
@@ -800,6 +812,10 @@ libunit.a: $(libunit_a_OBJECTS) $(libunit_a_DEPENDENCIES) $(EXTRA_libunit_a_DEPE
 clean-checkPROGRAMS:
 	-test -z "$(check_PROGRAMS)" || rm -f $(check_PROGRAMS)
 
+icm$(EXEEXT): $(icm_OBJECTS) $(icm_DEPENDENCIES) $(EXTRA_icm_DEPENDENCIES) 
+	@rm -f icm$(EXEEXT)
+	$(AM_V_CCLD)$(icm_LINK) $(icm_OBJECTS) $(icm_LDADD) $(LIBS)
+
 sacio$(EXEEXT): $(sacio_OBJECTS) $(sacio_DEPENDENCIES) $(EXTRA_sacio_DEPENDENCIES) 
 	@rm -f sacio$(EXEEXT)
 	$(AM_V_CCLD)$(sacio_LINK) $(sacio_OBJECTS) $(sacio_LDADD) $(LIBS)
@@ -835,6 +851,12 @@ distclean-compile:
 
 .c.obj:
 	$(AM_V_CC)$(COMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+icm-icm.o: icm.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(icm_CFLAGS) $(CFLAGS) -c -o icm-icm.o `test -f 'icm.c' || echo '$(srcdir)/'`icm.c
+
+icm-icm.obj: icm.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(icm_CFLAGS) $(CFLAGS) -c -o icm-icm.obj `if test -f 'icm.c'; then $(CYGPATH_W) 'icm.c'; else $(CYGPATH_W) '$(srcdir)/icm.c'; fi`
 
 sacio-sacio.o: sacio.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sacio_CFLAGS) $(CFLAGS) -c -o sacio-sacio.o `test -f 'sacio.c' || echo '$(srcdir)/'`sacio.c
@@ -1117,6 +1139,20 @@ sacio.log: sacio$(EXEEXT)
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
+copy_files.sh.log: copy_files.sh
+	@p='copy_files.sh'; \
+	b='copy_files.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+icm.log: icm$(EXEEXT)
+	@p='icm$(EXEEXT)'; \
+	b='icm'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
 sacio_fortran.sh.log: sacio_fortran.sh
 	@p='sacio_fortran.sh'; \
 	b='sacio_fortran.sh'; \
@@ -1134,13 +1170,6 @@ saciof.log: saciof$(EXEEXT)
 saclibf.log: saclibf$(EXEEXT)
 	@p='saclibf$(EXEEXT)'; \
 	b='saclibf'; \
-	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
-	--log-file $$b.log --trs-file $$b.trs \
-	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
-	"$$tst" $(AM_TESTS_FD_REDIRECT)
-copy_files.sh.log: copy_files.sh
-	@p='copy_files.sh'; \
-	b='copy_files.sh'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \

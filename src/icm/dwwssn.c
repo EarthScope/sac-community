@@ -1,19 +1,12 @@
 
 #include "icm.h"
-#include "complex.h"
+#include "complex_sac.h"
 
-void /*FUNCTION*/
-dwwssn(nfreq, delfrq, xre, xim)
-     int nfreq;
-     double delfrq, xre[], xim[];
+void
+dwwssn(int nfreq, double delfrq, double xre[], double xim[])
 {
     int i, npole, nzero;
     float const_;
-    complexf pole[11], zero[5];
-
-    complexf *const Pole = &pole[0] - 1;
-    complexf *const Zero = &zero[0] - 1;
-
     /*   .....DWWSSN - For a digital WWSSN system response.....
      *            ( poles and zeros due to H. Patton )
      *
@@ -25,25 +18,29 @@ dwwssn(nfreq, delfrq, xre, xim)
 
     /*   .....Set poles and zeros.....
      * */
+    complex double pole[11];
+    complex double zero[5];
+    complex double * const Pole = (&pole[0]) - 1;
+    complex double * const Zero = (&zero[0]) - 1;
     const_ = 0.0243 * 500.;
     nzero = 5;
-    for (i = 1; i <= nzero; i++) {
-        Zero[i] = flttocmplx(0.0, 0.0);
+    for (i = 1; i <= nzero; i++)
+    {
+        Zero[i] = 0.0 + (0.0 * I);
     }
 
     npole = 11;
-    Pole[1] = flttocmplx(-0.369, .199);
-    Pole[2] = flttocmplx(-0.369, -.199);
-    Pole[3] = flttocmplx(-0.628, 0.0);
-    Pole[4] = flttocmplx(-0.0209, 0.0);
-    Pole[5] = flttocmplx(-0.0209, 0.0);
-    for (i = 6; i <= npole; i++) {
-        Pole[i] = flttocmplx(-.273, 0.0);
+    Pole[1] = (-0.369) + (.199 * I);
+    Pole[2] = (-0.369) + ((-.199) * I);
+    Pole[3] = (-0.628) + (0.0 * I);
+    Pole[4] = (-0.0209) + (0.0 * I);
+    Pole[5] = (-0.0209) + (0.0 * I);
+    for (i = 6; i <= npole; i++)
+    {
+        Pole[i] = (-.273) + (0.0 * I);
     }
 
-    /*   .....Compute transfer function.....
-     * */
-    getran(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim);
-
+    getranx(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim);
     return;
-}                               /* end of function */
+}
+

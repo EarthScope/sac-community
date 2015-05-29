@@ -30,9 +30,6 @@ rstn(nfreq, delfrq, xre, xim, subtyp, subtyp_s, nerr)
                 clh(nfreq, delfrq, xre, xim);
             } else {
                 *nerr = 2105;
-                setmsg("ERROR", *nerr);
-                apcmsg("RSTN:", 6);
-                apcmsg(subtyp, subtyp_s);
                 goto L_8888;
             }
         } else if (memcmp(subtyp + 2, "KM", 2) == 0) {
@@ -43,9 +40,6 @@ rstn(nfreq, delfrq, xre, xim, subtyp, subtyp_s, nerr)
                 cmh(nfreq, delfrq, xre, xim);
             } else {
                 *nerr = 2105;
-                setmsg("ERROR", *nerr);
-                apcmsg("RSTN:", 6);
-                apcmsg(subtyp, subtyp_s);
                 goto L_8888;
             }
         } else if (memcmp(subtyp + 2, "KS", 2) == 0) {
@@ -56,16 +50,10 @@ rstn(nfreq, delfrq, xre, xim, subtyp, subtyp_s, nerr)
                 csh(nfreq, delfrq, xre, xim);
             } else {
                 *nerr = 2105;
-                setmsg("ERROR", *nerr);
-                apcmsg("RSTN:", 6);
-                apcmsg(subtyp, subtyp_s);
                 goto L_8888;
             }
         } else {
             *nerr = 2105;
-            setmsg("ERROR", *nerr);
-            apcmsg("RSTN:", 6);
-            apcmsg(subtyp, subtyp_s);
             goto L_8888;
         }
     } else
@@ -81,16 +69,10 @@ rstn(nfreq, delfrq, xre, xim, subtyp, subtyp_s, nerr)
             rsk(nfreq, delfrq, xre, xim, subtyp);
         } else {
             *nerr = 2105;
-            setmsg("ERROR", *nerr);
-            apcmsg("RSTN:", 6);
-            apcmsg(subtyp, subtyp_s);
             goto L_8888;
         }
     } else {
         *nerr = 2105;
-        setmsg("ERROR", *nerr);
-        apcmsg("RSTN:", 6);
-        apcmsg(subtyp, subtyp_s);
         goto L_8888;
     }
 

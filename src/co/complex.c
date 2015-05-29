@@ -45,8 +45,8 @@ cmplxmul(complexf c1, complexf c2) {
 complexf
 flttocmplx(double d1, double d2) {
     complexf c;
-    c.re = (float) d1;
-    c.im = (float) d2;
+    c.re = (double) d1;
+    c.im = (double) d2;
     return (c);
 }
 
@@ -108,8 +108,8 @@ cmplxsqrt(complexf c) {
     sqrtsave = sqrt(cmplxabs(c));
     angle = cmplxang(c);
 
-    c.re = (float) (sqrtsave * cos(angle / 2.0));
-    c.im = (float) (sqrtsave * sin(angle / 2.0));
+    c.re = (double) (sqrtsave * cos(angle / 2.0));
+    c.im = (double) (sqrtsave * sin(angle / 2.0));
 
     if (c.re < 0.0) {
         c.re = -c.re;
@@ -123,7 +123,7 @@ cmplxsqrt(complexf c) {
 complexf
 cmplxdiv(complexf c1, complexf c2) {
     complexf c;
-    float f;
+    double f;
 
     if (c2.re == 0.0 && c2.im == 0.0) {
         printf("complex divide by zero-cmplxdiv\n");
@@ -142,8 +142,8 @@ complexf
 cmplxlog(complexf c) {
     complexf c1;
 
-    c1.re = (float) log(cmplxabs(c));
-    c1.im = (float) cmplxang(c);
+    c1.re = (double) log(cmplxabs(c));
+    c1.im = (double) cmplxang(c);
 
     return (c1);
 }
@@ -158,12 +158,12 @@ cmplxexp(complexf c) {
         d = exp(c.re);
 
     if (c.im == 0.0) {
-        c.re = (float) d;
+        c.re = (double) d;
         return (c);
     }
 
-    c.re = (float) (d * cos(c.im));
-    c.im = (float) (d * sin(c.im));
+    c.re = (double) (d * cos(c.im));
+    c.im = (double) (d * sin(c.im));
 
     return (c);
 }
@@ -174,8 +174,8 @@ cmplxpow(complexf c, double d) {
         return (c);
 
     c = cmplxlog(c);
-    c.re = (float) (d * c.re);
-    c.im = (float) (d * c.im);
+    c.re = (double) (d * c.re);
+    c.im = (double) (d * c.im);
 
     return (cmplxexp(c));
 }

@@ -113,8 +113,12 @@ use_sac_LDFLAGS =
 #saclibf${EXEEXT}: saclib_f.o
 #	$(F77) $(COVERAGE) -o $@ saclib_f.o -L../src -lsac
 
+icm_SOURCES = icm.c 
+icm_CFLAGS = $(COVERAGE)
+icm_LDADD = -L../src -lsac_all 
+
 # Compiled programs as tests
-check_PROGRAMS   = use_sac ucf vars sacio 
+check_PROGRAMS   = use_sac ucf vars sacio icm
 
 if HAVE_FC
 check_PROGRAMS += saciof saclibf
@@ -122,12 +126,11 @@ endif
 
 TEST_EXTENSIONS = .sm
 # Compiled programs to test
-TESTS            =  use_sac ucf vars sacio 
+TESTS            =  use_sac ucf vars sacio copy_files.sh icm
 
 if HAVE_FC
 TESTS += sacio_fortran.sh saciof saclibf
 endif
-TESTS += copy_files.sh
 TESTS += testsuite/input/abs.sm \
 testsuite/input/add.sm \
 testsuite/input/addf.sm \

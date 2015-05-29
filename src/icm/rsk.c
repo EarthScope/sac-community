@@ -2,59 +2,51 @@
 #include <string.h>
 
 #include "icm.h"
-#include "complex.h"
+#include "complex_sac.h"
 
-void /*FUNCTION*/
-rsk(nfreq, delfrq, xre, xim, subtyp)
-     int nfreq;
-     double delfrq, xre[], xim[];
-     char *subtyp;
+void
+rsk(int nfreq, double delfrq, double xre[], double xim[], char *subtyp)
 {
     int npole, nzero;
     float const_;
-    complexf pole[16], zero[9];
-
-    complexf *const Pole = &pole[0] - 1;
-    complexf *const Zero = &zero[0] - 1;
-
     /*   .....RSTN KS-36000 SP seismometer transfer function.....
      * */
     const_ = 0.249e18 * 32000.0 * 1.0e-8;
+    complex double pole[16];
+    complex double zero[9];
+    complex double * const Pole = (&pole[0]) - 1;
+    complex double * const Zero = (&zero[0]) - 1;
     if (memcmp(subtyp, "ONKS.N  ", 8) == 0)
         const_ = 0.5 * const_;
 
     nzero = 9;
-    Zero[1] = flttocmplx(-0.10067e4, 0.0);
-    Zero[2] = flttocmplx(-0.40078e3, 0.0);
-    Zero[3] = flttocmplx(0.0, 0.0);
-    Zero[4] = flttocmplx(0.0, 0.0);
-    Zero[5] = flttocmplx(0.0, 0.0);
-    Zero[6] = flttocmplx(0.0, 0.0);
-    Zero[7] = flttocmplx(0.0, 0.0);
-    Zero[8] = flttocmplx(0.0, 0.0);
-    Zero[9] = flttocmplx(0.0, 0.0);
-
+    Zero[1] = (-0.10067e4) + (0.0 * I);
+    Zero[2] = (-0.40078e3) + (0.0 * I);
+    Zero[3] = 0.0 + (0.0 * I);
+    Zero[4] = 0.0 + (0.0 * I);
+    Zero[5] = 0.0 + (0.0 * I);
+    Zero[6] = 0.0 + (0.0 * I);
+    Zero[7] = 0.0 + (0.0 * I);
+    Zero[8] = 0.0 + (0.0 * I);
+    Zero[9] = 0.0 + (0.0 * I);
     npole = 16;
-    Pole[1] = flttocmplx(-0.12272e3, -0.16843e3);
-    Pole[2] = flttocmplx(-0.12272e3, 0.16843e3);
-    Pole[3] = flttocmplx(-0.13505e3, 0.0);
-    Pole[4] = flttocmplx(-0.11287e4, 0.0);
-    Pole[5] = flttocmplx(-0.99716, -0.76548);
-    Pole[6] = flttocmplx(-0.99716, 0.76548);
-    Pole[7] = flttocmplx(-0.12566e4, 0.0);
-    Pole[8] = flttocmplx(-0.62814e3, 0.0);
-    Pole[9] = flttocmplx(-0.28273e1, 0.0);
-    Pole[10] = flttocmplx(-0.28273e1, 0.0);
-    Pole[11] = flttocmplx(-0.28273e1, 0.0);
-    Pole[12] = flttocmplx(-0.28273e1, 0.0);
-    Pole[13] = flttocmplx(-0.86194e2, -0.25840e2);
-    Pole[14] = flttocmplx(-0.86194e2, 0.25840e2);
-    Pole[15] = flttocmplx(-0.62640e2, -0.79078e2);
-    Pole[16] = flttocmplx(-0.62640e2, 0.79078e2);
-
-    /*   .....Compute transfer function.....
-     * */
-    getran(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim);
-
+    Pole[1] = (-0.12272e3) + ((-0.16843e3) * I);
+    Pole[2] = (-0.12272e3) + (0.16843e3 * I);
+    Pole[3] = (-0.13505e3) + (0.0 * I);
+    Pole[4] = (-0.11287e4) + (0.0 * I);
+    Pole[5] = (-0.99716) + ((-0.76548) * I);
+    Pole[6] = (-0.99716) + (0.76548 * I);
+    Pole[7] = (-0.12566e4) + (0.0 * I);
+    Pole[8] = (-0.62814e3) + (0.0 * I);
+    Pole[9] = (-0.28273e1) + (0.0 * I);
+    Pole[10] = (-0.28273e1) + (0.0 * I);
+    Pole[11] = (-0.28273e1) + (0.0 * I);
+    Pole[12] = (-0.28273e1) + (0.0 * I);
+    Pole[13] = (-0.86194e2) + ((-0.25840e2) * I);
+    Pole[14] = (-0.86194e2) + (0.25840e2 * I);
+    Pole[15] = (-0.62640e2) + ((-0.79078e2) * I);
+    Pole[16] = (-0.62640e2) + (0.79078e2 * I);
+    getranx(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim);
     return;
-}                               /* end of function */
+}
+

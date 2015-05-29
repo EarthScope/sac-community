@@ -11,7 +11,7 @@
 
 #include "amf.h"
 #include "icm.h"
-#include "complex.h"
+#include "complex_sac.h"
 #include "bool.h"
 #include "hdr.h"
 
@@ -473,7 +473,7 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
     FILE *nun;
     float temp1, temp2;
     double const_;
-    complexf poles[MPOLES], zeros[MZEROS];
+    double complex poles[MPOLES], zeros[MZEROS];
 
     pzmeta_t *meta, *meta_used;
     datetime *filetime;
@@ -482,8 +482,8 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
     char *pstat, *pnet, *ploc, *pchan;
     sac *s;
 
-    complexf *const Poles = &poles[0] - 1;
-    complexf *const Zeros = &zeros[0] - 1;
+    double complex *const Poles = &poles[0] - 1;
+    double complex *const Zeros = &zeros[0] - 1;
     s = sacget_current();
     memset(kfile, 0, sizeof(kfile));
     memset(kiline, 0, sizeof(kiline));
@@ -562,11 +562,11 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
     npoles = 0;
     nzeros = 0;
     for (i = 1; i <= MZEROS; i++) {
-        Zeros[i] = flttocmplx(0.0, 0.0);
+        Zeros[i] = 0.0 + 0.0 * I;
     }
 
     for (i = 1; i <= MPOLES; i++) {
-        Poles[i] = flttocmplx(0.0, 0.0);
+        Poles[i] = 0.0 + 0.0 * I;
     }
 
     /* - Open file. */
@@ -664,7 +664,7 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
                 error(*nerr = 2126, "%s", kline);
                 goto L_8888;
             }
-            Poles[ipoles] = flttocmplx(temp1, temp2);
+            Poles[ipoles] = temp1 + temp2 * I;
         } else {
             error(*nerr = 2108, "%s %d", subtyp, MPOLES);
             goto L_8888;
@@ -676,7 +676,7 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
                 error(*nerr = 2127, "%s", kline);
                 goto L_8888;
             }
-            Zeros[izeros] = flttocmplx(temp1, temp2);
+            Zeros[izeros] = temp1 + temp2 * I;
         } else {
             error(*nerr = 2109, "%s %d", subtyp, MZEROS);
             goto L_8888;
@@ -723,16 +723,16 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
             printf("\tconstant: %e\n", const_);
             printf("\tzeros:    %d\n", nzeros);
             for (i = 0; i < nzeros; i++) {
-                printf("\t    %e  %e\n", zeros[i].re, zeros[i].im);
+                printf("\t    %e  %e\n", creal(zeros[i]), cimag(zeros[i]));
             }
             printf("\tpoles:    %d\n", npoles);
             for (i = 0; i < npoles; i++) {
-                printf("\t    %e  %e\n", poles[i].re, poles[i].im);
+                printf("\t    %e  %e\n", creal(poles[i]), cimag(poles[i]));
             }
         }
     }
 
-    getran(nfreq, delfrq, const_, nzeros, zeros, npoles, poles, xre, xim);
+    getranx(nfreq, delfrq, const_, nzeros, zeros, npoles, poles, xre, xim);
     datetime_free(filetime);
     polezero_meta_free(meta);
     polezero_meta_free(meta_used);

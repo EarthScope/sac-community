@@ -1,40 +1,35 @@
 
 #include "icm.h"
-#include "complex.h"
+#include "complex_sac.h"
 
-void /*FUNCTION*/
-gbasp(nfreq, delfrq, xre, xim)
-     int nfreq;
-     double delfrq, xre[], xim[];
+void
+gbasp(int nfreq, double delfrq, double xre[], double xim[])
 {
     int i, npole, nzero;
     float const_;
-    complexf pole[4], zero[3];
-
-    complexf *const Pole = &pole[0] - 1;
-    complexf *const Zero = &zero[0] - 1;
-
     /*   .....GBA SP - Blacknest specified poles and zeros.....
      * */
 
     /*   .....Set poles and zeros.....
      *
      *                             <*  AMP of 1.0 at FREQ of 1.6 Hz */
+    complex double pole[4];
+    complex double zero[3];
+    complex double * const Pole = (&pole[0]) - 1;
+    complex double * const Zero = (&zero[0]) - 1;
     const_ = 2.5597471e2;
     nzero = 3;
-    for (i = 1; i <= nzero; i++) {
-        Zero[i] = flttocmplx(0.0, 0.0);
+    for (i = 1; i <= nzero; i++)
+    {
+        Zero[i] = 0.0 + (0.0 * I);
     }
 
     npole = 4;
-    Pole[1] = flttocmplx(-4.02, 4.82);
-    Pole[2] = flttocmplx(-4.02, -4.82);
-    Pole[3] = flttocmplx(-40.2, 30.2);
-    Pole[4] = flttocmplx(-40.2, -30.2);
-
-    /*   .....Compute transfer function.....
-     * */
-    getran(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim);
-
+    Pole[1] = (-4.02) + (4.82 * I);
+    Pole[2] = (-4.02) + ((-4.82) * I);
+    Pole[3] = (-40.2) + (30.2 * I);
+    Pole[4] = (-40.2) + ((-30.2) * I);
+    getranx(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim);
     return;
-}                               /* end of function */
+}
+

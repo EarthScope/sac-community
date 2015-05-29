@@ -1,5 +1,6 @@
-
+#include <stdio.h>
 #include <math.h>
+
 
 #include "complex.h"
 
@@ -58,10 +59,64 @@ getran(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim)
                 tid = ti0;
             }
         }
-
         fac = (double) (const_) / (trd * trd + tid * tid);
         Xre[jdx] = fac * (trn * trd + tin * tid);
         Xim[jdx] = fac * (trd * tin - trn * tid);
+
+    }
+    return;
+}                               /* end of function */
+
+
+#include "complex_sac.h"
+
+void /*FUNCTION*/
+getranx(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim)
+     int nfreq;
+     double delfrq, const_;
+     int nzero;
+     double complex zero[];
+     int npole;
+     double complex pole[];
+     double xre[], xim[];
+{
+    int idx, jdx;
+    double delomg, fac, ti, ti0, tid, tin, tr, tr0, trd, trn;
+    static double twopi;
+
+    double complex *const Pole = &pole[0] - 1;
+    double *const Xim = &xim[0] - 1;
+    double *const Xre = &xre[0] - 1;
+    double complex *const Zero = &zero[0] - 1;
+    double complex td, tn;
+    double complex omega;
+
+    twopi = M_PI * 2.0;
+
+    /*   .....Subroutine to compute the transfer function.....
+     * */
+
+    delomg = twopi * delfrq;
+
+    for (jdx = 1; jdx <= nfreq; jdx++) {
+        omega =  delomg * (double) (jdx - 1) * I;
+        tn = 1.0 + 0.0 * I;
+
+        if (nzero != 0) {
+            for (idx = 1; idx <= nzero; idx++) {
+                tn = tn * (omega - Zero[idx]);
+            }
+        }
+
+        td = 1.0 + 0.0 * I;
+        if (npole != 0) {
+            for (idx = 1; idx <= npole; idx++) {
+                td = td * (omega - Pole[idx]);
+            }
+        }
+        tn = tn/td;
+        Xre[jdx] = const_ * creal(tn);
+        Xim[jdx] = const_ * cimag(tn);
 
     }
     return;

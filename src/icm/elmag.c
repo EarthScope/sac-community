@@ -1,24 +1,17 @@
 
 #include "icm.h"
 #include "co.h"
-#include "complex.h"
+#include "complex_sac.h"
 
-#include "msg.h"
-
-void /*FUNCTION*/
-elmag(nfreq, delfrq, xre, xim, freepd, mag, nerr)
-     int nfreq;
-     double delfrq, xre[], xim[], freepd, mag;
-     int *nerr;
+void
+elmag(int nfreq, double delfrq, double xre[], double xim[], double freepd, double mag, int *nerr)
 {
     int i, nmag;
     float const_, delomg, h1, h2, om1, omega, p, sigsq, t1, t2;
-    complexf cs, ct, ctd;
+    double complex cs;
+    double complex ct;
+    double complex ctd;
     static double twopi = 6.283185307179586;
-
-    double *const Xim = &xim[0] - 1;
-    double *const Xre = &xre[0] - 1;
-
     /* for a WWSSN Elecromagnetic Instrument
      *
      * */
@@ -54,9 +47,10 @@ elmag(nfreq, delfrq, xre, xim, freepd, mag, nerr)
      *                3000             0.195
      *                6000             0.767
      * */
+    double * const Xim = (&xim[0]) - 1;
+    double * const Xre = (&xre[0]) - 1;
     *nerr = 0;
     delomg = twopi * delfrq;
-
     nmag = (int) (mag + 0.01);
     if (freepd == 15.0) {
 
@@ -81,7 +75,6 @@ elmag(nfreq, delfrq, xre, xim, freepd, mag, nerr)
             sigsq = 0.805;
         } else {
             *nerr = 2112;
-            setmsg("ERROR", *nerr);
             goto L_8888;
         }
 
@@ -108,14 +101,12 @@ elmag(nfreq, delfrq, xre, xim, freepd, mag, nerr)
             sigsq = 0.767;
         } else {
             *nerr = 2112;
-            setmsg("ERROR", *nerr);
             goto L_8888;
         }
 
     } else {
 
         *nerr = 2112;
-        setmsg("ERROR", *nerr);
         goto L_8888;
 
     }
@@ -124,37 +115,23 @@ elmag(nfreq, delfrq, xre, xim, freepd, mag, nerr)
     om1 = twopi / t1;
     for (i = 1; i <= nfreq; i++) {
         omega = (float) (i - 1) * delomg;
-        cs = flttocmplx(0.0, omega);
-        ctd =
-            cmplxadd(cmplxpow(cs, (double) 4),
-                     cmplxmul(flttocmplx(2.0 * om1 * (h1 + p * h2), 0.),
-                              cmplxpow(cs, (double) 3)));
-        ctd =
-            cmplxadd(ctd,
-                     cmplxmul(flttocmplx
-                              (((1.0 + powi(p, 2)) +
-                                4.0 * h1 * h2 * p * (1.0 - sigsq)) * powi(om1,
-                                                                          2),
-                               0.), cmplxpow(cs, (double) 2)));
-        ctd =
-            cmplxadd(ctd,
-                     cmplxmul(flttocmplx
-                              (2.0 * (p * h1 + h2) * p * powi(om1, 3), 0.),
-                              cs));
-        ctd = cmplxadd(ctd, flttocmplx(powi(p, 2) * powi(om1, 4), 0.));
-        ct = cmplxdiv(cmplxmul(flttocmplx(om1, 0.), cmplxpow(cs, (double) 3)),
-                      ctd);
-
+        cs = 0.0 + (omega * I);
+        ctd = cpow(cs, (double) 4) + ((((2.0 * om1) * (h1 + (p * h2))) + (0. * I)) * cpow(cs, (double) 3));
+        ctd = ctd + (((((1.0 + powi(p, 2)) + ((((4.0 * h1) * h2) * p) * (1.0 - sigsq))) * powi(om1, 2)) + (0. * I)) * cpow(cs, (double) 2));
+        ctd = ctd + (((((2.0 * ((p * h1) + h2)) * p) * powi(om1, 3)) + (0. * I)) * cs);
+        ctd = ctd + ((powi(p, 2) * powi(om1, 4)) + (0. * I));
         /* THE PHASE RESPONSE IS DEFINED AS NEGATIVE THE PHASE RESPONSE OF
          * HAGIWARA IN ORDER TO YIELD UPWARD FIRST MOTION ON THE SEISMOGRAM TRACE
          * FOR AN IMPULSE OF GROUND DISPLACEMENT IN THE POSITIVE PHI DIRECTION.
          * */
-        ct = cmplxmul(flttocmplx(const_, 0.), ct);
-        Xre[i] = cmplxtof(ct);
-        Xim[i] = aimag(ct);
+        ct = ((om1 + (0. * I)) * cpow(cs, (double) 3)) / ctd;
+        ct = (const_ + (0. * I)) * ct;
+        Xre[i] = creal(ct);
+        Xim[i] = cimag(ct);
     }
 
   L_8888:
     return;
 
-}                               /* end of function */
+}
+

@@ -1,47 +1,41 @@
 
 #include "icm.h"
-#include "complex.h"
+#include "complex_sac.h"
 
-void /*FUNCTION*/
-gsref(nfreq, delfrq, xre, xim)
-     int nfreq;
-     double delfrq, xre[], xim[];
+void
+gsref(int nfreq, double delfrq, double xre[], double xim[])
 {
     int i, npole, nzero;
     float const_;
-    complexf pole[11], zero[5];
-
-    complexf *const Pole = &pole[0] - 1;
-    complexf *const Zero = &zero[0] - 1;
-
     /*   .....USGS Refraction Seismometer.....
      *
      *
      *   .....Set poles and zeros (due to J. Zucca).....
      * */
     const_ = 276.46 * 276.46 * 283.177 * 293.349 * 293.349 * 330.873 * 330.873;
+    complex double pole[11];
+    complex double zero[5];
+    complex double * const Pole = (&pole[0]) - 1;
+    complex double * const Zero = (&zero[0]) - 1;
     nzero = 5;
-
-    for (i = 1; i <= nzero; i++) {
-        Zero[i] = flttocmplx(0.0, 0.0);
+    for (i = 1; i <= nzero; i++)
+    {
+        Zero[i] = 0.0 + (0.0 * I);
     }
 
     npole = 11;
-    Pole[1] = cmplxneg(flttocmplx(10.0531, 7.5398));
-    Pole[2] = cmplxneg(flttocmplx(10.0531, -7.5398));
-    Pole[3] = cmplxneg(flttocmplx(0.5969, 0.0));
-    Pole[4] = cmplxneg(flttocmplx(0.5969, 0.0));
-    Pole[5] = cmplxneg(flttocmplx(276.4602, 0.0));
-    Pole[6] = cmplxneg(flttocmplx(276.4602, 0.0));
-    Pole[7] = cmplxneg(flttocmplx(283.1769, 0.0));
-    Pole[8] = cmplxneg(flttocmplx(260.2009, 135.4598));
-    Pole[9] = cmplxneg(flttocmplx(260.2009, -135.4598));
-    Pole[10] = cmplxneg(flttocmplx(180.6564, 277.2001));
-    Pole[11] = cmplxneg(flttocmplx(180.6564, -277.2001));
-
-    /*   .....Compute transfer function.....
-     * */
-    getran(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim);
-
+    Pole[1] = -(10.0531 + (7.5398 * I));
+    Pole[2] = -(10.0531 + ((-7.5398) * I));
+    Pole[3] = -(0.5969 + (0.0 * I));
+    Pole[4] = -(0.5969 + (0.0 * I));
+    Pole[5] = -(276.4602 + (0.0 * I));
+    Pole[6] = -(276.4602 + (0.0 * I));
+    Pole[7] = -(283.1769 + (0.0 * I));
+    Pole[8] = -(260.2009 + (135.4598 * I));
+    Pole[9] = -(260.2009 + ((-135.4598) * I));
+    Pole[10] = -(180.6564 + (277.2001 * I));
+    Pole[11] = -(180.6564 + ((-277.2001) * I));
+    getranx(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim);
     return;
-}                               /* end of function */
+}
+
