@@ -104,16 +104,16 @@ bin_PROGRAMS = sac$(EXEEXT)
 @X11_APP_TRUE@am__append_2 = libsac_x11.a
 @WIN_APP_TRUE@am__append_3 = libsac_win.a
 @OSX_APP_TRUE@am__append_4 = libsac_osx.a
-@X11_APP_TRUE@am__append_5 = libsac_x11.a
+@X11_APP_TRUE@am__append_5 = -lsac_x11
 @WIN_APP_TRUE@am__append_6 = libsac_win.a
 @OSX_APP_TRUE@am__append_7 = libsac_osx.a
 @WIN_APP_TRUE@am__append_8 = -lgdiplus 
 
 # SeisMgr Database Capabilities
 @DATABASE_TRUE@am__append_9 = libSMOracleFuncs.a
-@DATABASE_TRUE@am__append_10 = libSMOracleFuncs.a
+@DATABASE_TRUE@am__append_10 = -lSMOracleFuncs
 @DATABASE_FALSE@am__append_11 = libSacOracleStubFuncs.a
-@DATABASE_FALSE@am__append_12 = libSacOracleStubFuncs.a
+@DATABASE_FALSE@am__append_12 = -lSacOracleStubFuncs
 @OSX_APP_TRUE@am__append_13 = $(FORMAT_LIBS) $(FRAMEWORK_FOUNDATION) $(FRAMEWORK_COCOA)
 @X11_APP_TRUE@am__append_14 = $(X_PRE_LIBS) $(FORMAT_LIBS) $(xft_LIBS) $(xpm_LIBS) $(X_EXTRA_LIBS) $(X_LIBS) -lX11
 @WIN_APP_TRUE@am__append_15 = $(FORMAT_LIBS) -lWs2_32
@@ -130,7 +130,7 @@ am__aclocal_m4_deps = $(top_srcdir)/config/matlab.m4 \
 	$(top_srcdir)/config/xdr.m4 $(top_srcdir)/config/db.m4 \
 	$(top_srcdir)/config/code.m4 $(top_srcdir)/config/edit.m4 \
 	$(top_srcdir)/config/win.m4 $(top_srcdir)/config/ax_openmp.m4 \
-	$(top_srcdir)/configure.ac
+	$(top_srcdir)/config/ax_complex.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
@@ -234,6 +234,28 @@ am_libevalresp_a_OBJECTS = evalresp/alloc_fctns.$(OBJEXT) \
 	evalresp/regexp.$(OBJEXT) evalresp/regsub.$(OBJEXT) \
 	evalresp/resp_fctns.$(OBJEXT) evalresp/string_fctns.$(OBJEXT)
 libevalresp_a_OBJECTS = $(am_libevalresp_a_OBJECTS)
+libicm_a_AR = $(AR) $(ARFLAGS)
+libicm_a_LIBADD =
+am_libicm_a_OBJECTS = icm/acc.$(OBJEXT) icm/bbdisp.$(OBJEXT) \
+	icm/bbvel.$(OBJEXT) icm/benbog.$(OBJEXT) icm/clh.$(OBJEXT) \
+	icm/clz.$(OBJEXT) icm/cmh.$(OBJEXT) icm/cmz.$(OBJEXT) \
+	icm/csh.$(OBJEXT) icm/csz.$(OBJEXT) icm/dss.$(OBJEXT) \
+	icm/dwwssn.$(OBJEXT) icm/ekalp6.$(OBJEXT) icm/ekasp2.$(OBJEXT) \
+	icm/elmag.$(OBJEXT) icm/eyeomg.$(OBJEXT) icm/gbalp.$(OBJEXT) \
+	icm/gbasp.$(OBJEXT) icm/general.$(OBJEXT) icm/gsref.$(OBJEXT) \
+	icm/hfslpwb.$(OBJEXT) icm/hqr.$(OBJEXT) icm/hs3.$(OBJEXT) \
+	icm/lll.$(OBJEXT) icm/llsn.$(OBJEXT) icm/lrsmlp.$(OBJEXT) \
+	icm/lrsmsp.$(OBJEXT) icm/noress.$(OBJEXT) \
+	icm/noresshf.$(OBJEXT) icm/oldbb.$(OBJEXT) \
+	icm/oldkir.$(OBJEXT) icm/portable.$(OBJEXT) \
+	icm/ptbllp.$(OBJEXT) icm/redkir.$(OBJEXT) icm/reftek.$(OBJEXT) \
+	icm/rs7.$(OBJEXT) icm/rsk.$(OBJEXT) icm/rsl.$(OBJEXT) \
+	icm/rsm.$(OBJEXT) icm/rstn.$(OBJEXT) icm/sandia.$(OBJEXT) \
+	icm/snla3.$(OBJEXT) icm/sro.$(OBJEXT) icm/vel.$(OBJEXT) \
+	icm/wa.$(OBJEXT) icm/wabn.$(OBJEXT) icm/wiech.$(OBJEXT) \
+	icm/wwlpbn.$(OBJEXT) icm/wwsp.$(OBJEXT) icm/wwspbn.$(OBJEXT) \
+	icm/ykalp.$(OBJEXT) icm/ykasp.$(OBJEXT) icm/getran.$(OBJEXT)
+libicm_a_OBJECTS = $(am_libicm_a_OBJECTS)
 libsac_a_AR = $(AR) $(ARFLAGS)
 libsac_a_LIBADD =
 am_libsac_a_OBJECTS = co/complex.$(OBJEXT) dfm/cut.$(OBJEXT) \
@@ -525,35 +547,17 @@ am_libsac_all_a_OBJECTS = amf/iniam.$(OBJEXT) amf/array.$(OBJEXT) \
 	gtm/yaxis.$(OBJEXT) gtm/ylinaxis.$(OBJEXT) \
 	gtm/ylogaxis.$(OBJEXT) history/history.$(OBJEXT) \
 	icm/EVRESPnames.$(OBJEXT) icm/EvrespGateway.$(OBJEXT) \
-	icm/acc.$(OBJEXT) icm/balance.$(OBJEXT) icm/bbdisp.$(OBJEXT) \
-	icm/bbvel.$(OBJEXT) icm/benbog.$(OBJEXT) icm/ckinst.$(OBJEXT) \
-	icm/clh.$(OBJEXT) icm/clz.$(OBJEXT) icm/cmh.$(OBJEXT) \
-	icm/cmz.$(OBJEXT) icm/csh.$(OBJEXT) icm/csz.$(OBJEXT) \
-	icm/dcpft.$(OBJEXT) icm/dewit.$(OBJEXT) icm/dseis.$(OBJEXT) \
-	icm/dss.$(OBJEXT) icm/dwwssn.$(OBJEXT) icm/ekalp6.$(OBJEXT) \
-	icm/ekasp2.$(OBJEXT) icm/elmag.$(OBJEXT) icm/eyeomg.$(OBJEXT) \
-	icm/gbalp.$(OBJEXT) icm/gbasp.$(OBJEXT) icm/general.$(OBJEXT) \
-	icm/getins.$(OBJEXT) icm/getran.$(OBJEXT) \
-	icm/getroots.$(OBJEXT) icm/gsref.$(OBJEXT) \
-	icm/hfslpwb.$(OBJEXT) icm/hqr.$(OBJEXT) icm/hs3.$(OBJEXT) \
-	icm/iniicm.$(OBJEXT) icm/lll.$(OBJEXT) icm/llsn.$(OBJEXT) \
-	icm/lrsmlp.$(OBJEXT) icm/lrsmsp.$(OBJEXT) icm/noress.$(OBJEXT) \
-	icm/noresshf.$(OBJEXT) icm/oldbb.$(OBJEXT) \
-	icm/oldkir.$(OBJEXT) icm/polezero.$(OBJEXT) \
-	icm/portable.$(OBJEXT) icm/predfl.$(OBJEXT) \
-	icm/prewit.$(OBJEXT) icm/ptbllp.$(OBJEXT) icm/redkir.$(OBJEXT) \
-	icm/reftek.$(OBJEXT) icm/rs7.$(OBJEXT) icm/rsk.$(OBJEXT) \
-	icm/rsl.$(OBJEXT) icm/rsm.$(OBJEXT) icm/rstn.$(OBJEXT) \
-	icm/sandia.$(OBJEXT) icm/snla3.$(OBJEXT) icm/sro.$(OBJEXT) \
-	icm/taper.$(OBJEXT) icm/transfer.$(OBJEXT) icm/vel.$(OBJEXT) \
-	icm/wa.$(OBJEXT) icm/wabn.$(OBJEXT) icm/wiech.$(OBJEXT) \
-	icm/wwlpbn.$(OBJEXT) icm/wwsp.$(OBJEXT) icm/wwspbn.$(OBJEXT) \
-	icm/xicmc.$(OBJEXT) icm/xprewit.$(OBJEXT) \
-	icm/xtransfer.$(OBJEXT) icm/ykalp.$(OBJEXT) \
-	icm/ykasp.$(OBJEXT) icm/fap.$(OBJEXT) icm/trans.$(OBJEXT) \
-	mat/engineCall.$(OBJEXT) mat/engineCall2.$(OBJEXT) \
-	mat/matBlackBoardVars.$(OBJEXT) mat/matConnect.$(OBJEXT) \
-	mat/matDisconnect.$(OBJEXT) mat/matHeaderDataManage.$(OBJEXT) \
+	icm/balance.$(OBJEXT) icm/ckinst.$(OBJEXT) icm/dcpft.$(OBJEXT) \
+	icm/dewit.$(OBJEXT) icm/dseis.$(OBJEXT) icm/getins.$(OBJEXT) \
+	icm/getroots.$(OBJEXT) icm/iniicm.$(OBJEXT) \
+	icm/polezero.$(OBJEXT) icm/predfl.$(OBJEXT) \
+	icm/prewit.$(OBJEXT) icm/taper.$(OBJEXT) \
+	icm/transfer.$(OBJEXT) icm/xicmc.$(OBJEXT) \
+	icm/xprewit.$(OBJEXT) icm/xtransfer.$(OBJEXT) \
+	icm/fap.$(OBJEXT) icm/trans.$(OBJEXT) mat/engineCall.$(OBJEXT) \
+	mat/engineCall2.$(OBJEXT) mat/matBlackBoardVars.$(OBJEXT) \
+	mat/matConnect.$(OBJEXT) mat/matDisconnect.$(OBJEXT) \
+	mat/matHeaderDataManage.$(OBJEXT) \
 	mat/matStructArrayOps.$(OBJEXT) mat/stationSets.$(OBJEXT) \
 	mat/xCLOSEMAT.$(OBJEXT) mat/xMAT.$(OBJEXT) \
 	mat/xMAT3C.$(OBJEXT) mat/xmatc.$(OBJEXT) mat/xsetmat.$(OBJEXT) \
@@ -831,12 +835,10 @@ am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 @X11_APP_TRUE@	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 @X11_APP_TRUE@	$(am__DEPENDENCIES_1)
 @WIN_APP_TRUE@am__DEPENDENCIES_5 = $(am__DEPENDENCIES_2)
-sac_DEPENDENCIES = libsac_all.a libsgf.a $(am__append_5) \
-	$(am__append_6) $(am__append_7) libsac_all.a libturtle.a \
-	libevalresp.a libSMnonOracleFuncs.a $(am__DEPENDENCIES_1) \
-	libsac_all.a libsgf.a $(am__append_10) $(am__append_12) \
-	$(am__DEPENDENCIES_3) $(am__DEPENDENCIES_4) \
-	$(am__DEPENDENCIES_5) $(am__append_16)
+sac_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__append_6) \
+	$(am__append_7) $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_3) \
+	$(am__DEPENDENCIES_4) $(am__DEPENDENCIES_5) $(am__append_16)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -893,19 +895,20 @@ am__v_OBJCLD_1 =
 SOURCES = $(libSMOracleFuncs_a_SOURCES) \
 	$(libSMnonOracleFuncs_a_SOURCES) \
 	$(libSacOracleStubFuncs_a_SOURCES) $(libevalresp_a_SOURCES) \
-	$(libsac_a_SOURCES) $(libsac_all_a_SOURCES) \
-	$(libsac_check_a_SOURCES) $(libsac_osx_a_SOURCES) \
-	$(libsac_win_a_SOURCES) $(libsac_x11_a_SOURCES) \
-	$(libsacio_a_SOURCES) $(libsgf_a_SOURCES) \
-	$(libturtle_a_SOURCES) $(sac_SOURCES)
+	$(libicm_a_SOURCES) $(libsac_a_SOURCES) \
+	$(libsac_all_a_SOURCES) $(libsac_check_a_SOURCES) \
+	$(libsac_osx_a_SOURCES) $(libsac_win_a_SOURCES) \
+	$(libsac_x11_a_SOURCES) $(libsacio_a_SOURCES) \
+	$(libsgf_a_SOURCES) $(libturtle_a_SOURCES) $(sac_SOURCES)
 DIST_SOURCES = $(libSMOracleFuncs_a_SOURCES) \
 	$(libSMnonOracleFuncs_a_SOURCES) \
 	$(libSacOracleStubFuncs_a_SOURCES) $(libevalresp_a_SOURCES) \
-	$(libsac_a_SOURCES) $(libsac_all_a_SOURCES) \
-	$(libsac_check_a_SOURCES) $(am__libsac_osx_a_SOURCES_DIST) \
-	$(libsac_win_a_SOURCES) $(libsac_x11_a_SOURCES) \
-	$(libsacio_a_SOURCES) $(libsgf_a_SOURCES) \
-	$(libturtle_a_SOURCES) $(am__sac_SOURCES_DIST)
+	$(libicm_a_SOURCES) $(libsac_a_SOURCES) \
+	$(libsac_all_a_SOURCES) $(libsac_check_a_SOURCES) \
+	$(am__libsac_osx_a_SOURCES_DIST) $(libsac_win_a_SOURCES) \
+	$(libsac_x11_a_SOURCES) $(libsacio_a_SOURCES) \
+	$(libsgf_a_SOURCES) $(libturtle_a_SOURCES) \
+	$(am__sac_SOURCES_DIST)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -1097,17 +1100,16 @@ lib_LIBRARIES = libsacio.a libsac.a
 
 # Libraries not installed
 noinst_LIBRARIES = libsac_all.a libevalresp.a libSMnonOracleFuncs.a \
-	libsac_check.a libsgf.a libturtle.a $(am__append_2) \
+	libsac_check.a libsgf.a libturtle.a libicm.a $(am__append_2) \
 	$(am__append_3) $(am__append_4) $(am__append_9) \
 	$(am__append_11)
 # Libraries needed to compile sac
 #  libsac_all.a is included twice to satisfy recursive dependencies; fix
-sac_LDADD = -L$(srcdir) libsac_all.a libsgf.a $(am__append_5) \
-	$(am__append_6) $(am__append_7) libsac_all.a libturtle.a \
-	libevalresp.a libSMnonOracleFuncs.a $(am__append_8) \
-	-L$(srcdir) libsac_all.a libsgf.a $(am__append_10) \
-	$(am__append_12) $(am__append_13) $(am__append_14) \
-	$(am__append_15) $(am__append_16)
+sac_LDADD = -L$(srcdir) -L. -lsac_all -lsgf -licm $(am__append_5) \
+	$(am__append_6) $(am__append_7) -lsac_all -lturtle -levalresp \
+	-lSMnonOracleFuncs $(am__append_8) -lsac_all -lsgf \
+	$(am__append_10) $(am__append_12) $(am__append_13) \
+	$(am__append_14) $(am__append_15) $(am__append_16)
 
 # More Libraries
 FORMAT_LIBS = $(png_LIBS) $(zlib_LIBS) 
@@ -1246,6 +1248,18 @@ libsac_a_SOURCES = co/complex.c  \
 	\
 	scm/rmean.c scm/rtrend.c scm/taper.c scm/interpolate.c scm/wigint.c \
 	scm/rotate.c scm/lifite.c
+
+libicm_a_SOURCES = icm/acc.c icm/bbdisp.c icm/bbvel.c \
+	icm/benbog.c icm/clh.c icm/clz.c icm/cmh.c icm/cmz.c \
+	icm/csh.c icm/csz.c icm/dss.c icm/dwwssn.c icm/ekalp6.c icm/ekasp2.c \
+	icm/elmag.c icm/eyeomg.c icm/gbalp.c icm/gbasp.c icm/general.c icm/gsref.c \
+	icm/hfslpwb.c icm/hqr.c icm/hs3.c icm/lll.c icm/llsn.c icm/lrsmlp.c \
+	icm/lrsmsp.c icm/noress.c icm/noresshf.c icm/oldbb.c \
+	icm/oldkir.c icm/portable.c icm/ptbllp.c icm/redkir.c icm/reftek.c \
+	icm/rs7.c icm/rsk.c icm/rsl.c icm/rsm.c icm/rstn.c icm/sandia.c \
+	icm/snla3.c icm/sro.c icm/vel.c icm/wa.c icm/wabn.c icm/wiech.c \
+	icm/wwlpbn.c icm/wwsp.c icm/wwspbn.c icm/ykalp.c icm/ykasp.c \
+	icm/getran.c
 
 libsac_all_a_SOURCES = amf/iniam.c amf/array.c \
 	\
@@ -1439,24 +1453,11 @@ libsac_all_a_SOURCES = amf/iniam.c amf/array.c \
 	\
 	history/history.c \
 	\
-	icm/EVRESPnames.c \
-	icm/EvrespGateway.c icm/acc.c icm/balance.c icm/bbdisp.c icm/bbvel.c \
-	icm/benbog.c icm/ckinst.c icm/clh.c icm/clz.c icm/cmh.c icm/cmz.c \
-	icm/csh.c icm/csz.c icm/dcpft.c icm/dewit.c icm/dseis.c icm/dss.c \
-	icm/dwwssn.c icm/ekalp6.c icm/ekasp2.c icm/elmag.c icm/eyeomg.c \
-	icm/gbalp.c icm/gbasp.c icm/general.c icm/getins.c icm/getran.c \
-	icm/getroots.c icm/gsref.c icm/hfslpwb.c icm/hqr.c icm/hs3.c \
-	icm/iniicm.c icm/lll.c icm/llsn.c icm/lrsmlp.c icm/lrsmsp.c \
-	icm/noress.c icm/noresshf.c icm/oldbb.c \
-	icm/oldkir.c icm/polezero.c icm/portable.c \
-	icm/predfl.c icm/prewit.c icm/ptbllp.c icm/redkir.c icm/reftek.c \
-	icm/rs7.c icm/rsk.c icm/rsl.c icm/rsm.c icm/rstn.c icm/sandia.c \
-	icm/snla3.c icm/sro.c icm/taper.c icm/transfer.c \
-	icm/vel.c icm/wa.c icm/wabn.c icm/wiech.c icm/wwlpbn.c icm/wwsp.c \
-	icm/wwspbn.c icm/xicmc.c icm/xprewit.c icm/xtransfer.c icm/ykalp.c \
-	icm/ykasp.c icm/fap.c \
-	icm/dbFuncs.h \
-	icm/trans.c \
+	icm/EVRESPnames.c icm/EvrespGateway.c icm/balance.c icm/ckinst.c \
+	icm/dcpft.c icm/dewit.c icm/dseis.c icm/getins.c \
+	icm/getroots.c icm/iniicm.c icm/polezero.c icm/predfl.c icm/prewit.c \
+	icm/taper.c icm/transfer.c icm/xicmc.c icm/xprewit.c icm/xtransfer.c \
+	icm/fap.c icm/dbFuncs.h icm/trans.c \
 	\
 	mat/engineCall.c mat/engineCall2.c mat/matBlackBoardVars.c \
 	mat/matConnect.c mat/matDisconnect.c mat/matHeaderDataManage.c \
@@ -1824,6 +1825,67 @@ libevalresp.a: $(libevalresp_a_OBJECTS) $(libevalresp_a_DEPENDENCIES) $(EXTRA_li
 	$(AM_V_at)-rm -f libevalresp.a
 	$(AM_V_AR)$(libevalresp_a_AR) libevalresp.a $(libevalresp_a_OBJECTS) $(libevalresp_a_LIBADD)
 	$(AM_V_at)$(RANLIB) libevalresp.a
+icm/$(am__dirstamp):
+	@$(MKDIR_P) icm
+	@: > icm/$(am__dirstamp)
+icm/acc.$(OBJEXT): icm/$(am__dirstamp)
+icm/bbdisp.$(OBJEXT): icm/$(am__dirstamp)
+icm/bbvel.$(OBJEXT): icm/$(am__dirstamp)
+icm/benbog.$(OBJEXT): icm/$(am__dirstamp)
+icm/clh.$(OBJEXT): icm/$(am__dirstamp)
+icm/clz.$(OBJEXT): icm/$(am__dirstamp)
+icm/cmh.$(OBJEXT): icm/$(am__dirstamp)
+icm/cmz.$(OBJEXT): icm/$(am__dirstamp)
+icm/csh.$(OBJEXT): icm/$(am__dirstamp)
+icm/csz.$(OBJEXT): icm/$(am__dirstamp)
+icm/dss.$(OBJEXT): icm/$(am__dirstamp)
+icm/dwwssn.$(OBJEXT): icm/$(am__dirstamp)
+icm/ekalp6.$(OBJEXT): icm/$(am__dirstamp)
+icm/ekasp2.$(OBJEXT): icm/$(am__dirstamp)
+icm/elmag.$(OBJEXT): icm/$(am__dirstamp)
+icm/eyeomg.$(OBJEXT): icm/$(am__dirstamp)
+icm/gbalp.$(OBJEXT): icm/$(am__dirstamp)
+icm/gbasp.$(OBJEXT): icm/$(am__dirstamp)
+icm/general.$(OBJEXT): icm/$(am__dirstamp)
+icm/gsref.$(OBJEXT): icm/$(am__dirstamp)
+icm/hfslpwb.$(OBJEXT): icm/$(am__dirstamp)
+icm/hqr.$(OBJEXT): icm/$(am__dirstamp)
+icm/hs3.$(OBJEXT): icm/$(am__dirstamp)
+icm/lll.$(OBJEXT): icm/$(am__dirstamp)
+icm/llsn.$(OBJEXT): icm/$(am__dirstamp)
+icm/lrsmlp.$(OBJEXT): icm/$(am__dirstamp)
+icm/lrsmsp.$(OBJEXT): icm/$(am__dirstamp)
+icm/noress.$(OBJEXT): icm/$(am__dirstamp)
+icm/noresshf.$(OBJEXT): icm/$(am__dirstamp)
+icm/oldbb.$(OBJEXT): icm/$(am__dirstamp)
+icm/oldkir.$(OBJEXT): icm/$(am__dirstamp)
+icm/portable.$(OBJEXT): icm/$(am__dirstamp)
+icm/ptbllp.$(OBJEXT): icm/$(am__dirstamp)
+icm/redkir.$(OBJEXT): icm/$(am__dirstamp)
+icm/reftek.$(OBJEXT): icm/$(am__dirstamp)
+icm/rs7.$(OBJEXT): icm/$(am__dirstamp)
+icm/rsk.$(OBJEXT): icm/$(am__dirstamp)
+icm/rsl.$(OBJEXT): icm/$(am__dirstamp)
+icm/rsm.$(OBJEXT): icm/$(am__dirstamp)
+icm/rstn.$(OBJEXT): icm/$(am__dirstamp)
+icm/sandia.$(OBJEXT): icm/$(am__dirstamp)
+icm/snla3.$(OBJEXT): icm/$(am__dirstamp)
+icm/sro.$(OBJEXT): icm/$(am__dirstamp)
+icm/vel.$(OBJEXT): icm/$(am__dirstamp)
+icm/wa.$(OBJEXT): icm/$(am__dirstamp)
+icm/wabn.$(OBJEXT): icm/$(am__dirstamp)
+icm/wiech.$(OBJEXT): icm/$(am__dirstamp)
+icm/wwlpbn.$(OBJEXT): icm/$(am__dirstamp)
+icm/wwsp.$(OBJEXT): icm/$(am__dirstamp)
+icm/wwspbn.$(OBJEXT): icm/$(am__dirstamp)
+icm/ykalp.$(OBJEXT): icm/$(am__dirstamp)
+icm/ykasp.$(OBJEXT): icm/$(am__dirstamp)
+icm/getran.$(OBJEXT): icm/$(am__dirstamp)
+
+libicm.a: $(libicm_a_OBJECTS) $(libicm_a_DEPENDENCIES) $(EXTRA_libicm_a_DEPENDENCIES) 
+	$(AM_V_at)-rm -f libicm.a
+	$(AM_V_AR)$(libicm_a_AR) libicm.a $(libicm_a_OBJECTS) $(libicm_a_LIBADD)
+	$(AM_V_at)$(RANLIB) libicm.a
 co/$(am__dirstamp):
 	@$(MKDIR_P) co
 	@: > co/$(am__dirstamp)
@@ -1858,13 +1920,9 @@ dbh/fft.$(OBJEXT): dbh/$(am__dirstamp)
 dbh/crscor.$(OBJEXT): dbh/$(am__dirstamp)
 dbh/window.$(OBJEXT): dbh/$(am__dirstamp)
 dbh/rms.$(OBJEXT): dbh/$(am__dirstamp)
-icm/$(am__dirstamp):
-	@$(MKDIR_P) icm
-	@: > icm/$(am__dirstamp)
 icm/trans.$(OBJEXT): icm/$(am__dirstamp)
 icm/dcpft.$(OBJEXT): icm/$(am__dirstamp)
 icm/taper.$(OBJEXT): icm/$(am__dirstamp)
-icm/getran.$(OBJEXT): icm/$(am__dirstamp)
 ucf/$(am__dirstamp):
 	@$(MKDIR_P) ucf
 	@: > ucf/$(am__dirstamp)
@@ -2535,72 +2593,20 @@ history/$(am__dirstamp):
 history/history.$(OBJEXT): history/$(am__dirstamp)
 icm/EVRESPnames.$(OBJEXT): icm/$(am__dirstamp)
 icm/EvrespGateway.$(OBJEXT): icm/$(am__dirstamp)
-icm/acc.$(OBJEXT): icm/$(am__dirstamp)
 icm/balance.$(OBJEXT): icm/$(am__dirstamp)
-icm/bbdisp.$(OBJEXT): icm/$(am__dirstamp)
-icm/bbvel.$(OBJEXT): icm/$(am__dirstamp)
-icm/benbog.$(OBJEXT): icm/$(am__dirstamp)
 icm/ckinst.$(OBJEXT): icm/$(am__dirstamp)
-icm/clh.$(OBJEXT): icm/$(am__dirstamp)
-icm/clz.$(OBJEXT): icm/$(am__dirstamp)
-icm/cmh.$(OBJEXT): icm/$(am__dirstamp)
-icm/cmz.$(OBJEXT): icm/$(am__dirstamp)
-icm/csh.$(OBJEXT): icm/$(am__dirstamp)
-icm/csz.$(OBJEXT): icm/$(am__dirstamp)
 icm/dewit.$(OBJEXT): icm/$(am__dirstamp)
 icm/dseis.$(OBJEXT): icm/$(am__dirstamp)
-icm/dss.$(OBJEXT): icm/$(am__dirstamp)
-icm/dwwssn.$(OBJEXT): icm/$(am__dirstamp)
-icm/ekalp6.$(OBJEXT): icm/$(am__dirstamp)
-icm/ekasp2.$(OBJEXT): icm/$(am__dirstamp)
-icm/elmag.$(OBJEXT): icm/$(am__dirstamp)
-icm/eyeomg.$(OBJEXT): icm/$(am__dirstamp)
-icm/gbalp.$(OBJEXT): icm/$(am__dirstamp)
-icm/gbasp.$(OBJEXT): icm/$(am__dirstamp)
-icm/general.$(OBJEXT): icm/$(am__dirstamp)
 icm/getins.$(OBJEXT): icm/$(am__dirstamp)
 icm/getroots.$(OBJEXT): icm/$(am__dirstamp)
-icm/gsref.$(OBJEXT): icm/$(am__dirstamp)
-icm/hfslpwb.$(OBJEXT): icm/$(am__dirstamp)
-icm/hqr.$(OBJEXT): icm/$(am__dirstamp)
-icm/hs3.$(OBJEXT): icm/$(am__dirstamp)
 icm/iniicm.$(OBJEXT): icm/$(am__dirstamp)
-icm/lll.$(OBJEXT): icm/$(am__dirstamp)
-icm/llsn.$(OBJEXT): icm/$(am__dirstamp)
-icm/lrsmlp.$(OBJEXT): icm/$(am__dirstamp)
-icm/lrsmsp.$(OBJEXT): icm/$(am__dirstamp)
-icm/noress.$(OBJEXT): icm/$(am__dirstamp)
-icm/noresshf.$(OBJEXT): icm/$(am__dirstamp)
-icm/oldbb.$(OBJEXT): icm/$(am__dirstamp)
-icm/oldkir.$(OBJEXT): icm/$(am__dirstamp)
 icm/polezero.$(OBJEXT): icm/$(am__dirstamp)
-icm/portable.$(OBJEXT): icm/$(am__dirstamp)
 icm/predfl.$(OBJEXT): icm/$(am__dirstamp)
 icm/prewit.$(OBJEXT): icm/$(am__dirstamp)
-icm/ptbllp.$(OBJEXT): icm/$(am__dirstamp)
-icm/redkir.$(OBJEXT): icm/$(am__dirstamp)
-icm/reftek.$(OBJEXT): icm/$(am__dirstamp)
-icm/rs7.$(OBJEXT): icm/$(am__dirstamp)
-icm/rsk.$(OBJEXT): icm/$(am__dirstamp)
-icm/rsl.$(OBJEXT): icm/$(am__dirstamp)
-icm/rsm.$(OBJEXT): icm/$(am__dirstamp)
-icm/rstn.$(OBJEXT): icm/$(am__dirstamp)
-icm/sandia.$(OBJEXT): icm/$(am__dirstamp)
-icm/snla3.$(OBJEXT): icm/$(am__dirstamp)
-icm/sro.$(OBJEXT): icm/$(am__dirstamp)
 icm/transfer.$(OBJEXT): icm/$(am__dirstamp)
-icm/vel.$(OBJEXT): icm/$(am__dirstamp)
-icm/wa.$(OBJEXT): icm/$(am__dirstamp)
-icm/wabn.$(OBJEXT): icm/$(am__dirstamp)
-icm/wiech.$(OBJEXT): icm/$(am__dirstamp)
-icm/wwlpbn.$(OBJEXT): icm/$(am__dirstamp)
-icm/wwsp.$(OBJEXT): icm/$(am__dirstamp)
-icm/wwspbn.$(OBJEXT): icm/$(am__dirstamp)
 icm/xicmc.$(OBJEXT): icm/$(am__dirstamp)
 icm/xprewit.$(OBJEXT): icm/$(am__dirstamp)
 icm/xtransfer.$(OBJEXT): icm/$(am__dirstamp)
-icm/ykalp.$(OBJEXT): icm/$(am__dirstamp)
-icm/ykasp.$(OBJEXT): icm/$(am__dirstamp)
 icm/fap.$(OBJEXT): icm/$(am__dirstamp)
 mat/$(am__dirstamp):
 	@$(MKDIR_P) mat

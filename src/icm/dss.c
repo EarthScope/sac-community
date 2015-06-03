@@ -29,7 +29,7 @@ dss(int nfreq, double delfrq, double xre[], double xim[])
     }
 
     npole = 8;
-    crad = csqrt((1.0 - powi(0.707, 2)) + (0.0 * I));
+    crad = csqrt((1.0 - pow(0.707, 2)) + (0.0 * I));
     Pole[1] = (omo + (0. * I)) * (((-0.707) + (0. * I)) + ((0.0 + (1.0 * I)) * crad));
     Pole[2] = (omo + (0. * I)) * (((-0.707) + (0. * I)) - ((0.0 + (1.0 * I)) * crad));
     Pole[3] = (-33.80165) + (60.35942 * I);

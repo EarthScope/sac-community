@@ -44,7 +44,7 @@ noinst_LIBRARIES  = libsac_all.a \
 		    libevalresp.a \
 		    libSMnonOracleFuncs.a \
 		    libsac_check.a \
-		    libsgf.a libturtle.a
+		    libsgf.a libturtle.a libicm.a 
 if X11_APP
   noinst_LIBRARIES += libsac_x11.a
 endif
@@ -56,9 +56,9 @@ if OSX_APP
 endif
 # Libraries needed to compile sac
 #  libsac_all.a is included twice to satisfy recursive dependencies; fix
-sac_LDADD         = -L$(srcdir) libsac_all.a libsgf.a
+sac_LDADD         = -L$(srcdir) -L. -lsac_all -lsgf  -licm
 if X11_APP
-  sac_LDADD        += libsac_x11.a
+  sac_LDADD        += -lsac_x11
 endif
 if WIN_APP
   sac_LDADD        += libsac_win.a
@@ -67,24 +67,24 @@ if OSX_APP
   sac_LDADD        += libsac_osx.a
 endif
 
-sac_LDADD        += libsac_all.a \
-		    libturtle.a \
-		    libevalresp.a \
-		    libSMnonOracleFuncs.a
+sac_LDADD        += -lsac_all \
+		    -lturtle \
+		    -levalresp \
+		    -lSMnonOracleFuncs
 
 if WIN_APP
   sac_LDADD        += -lgdiplus 
 endif
 
-sac_LDADD        += -L$(srcdir) libsac_all.a libsgf.a 
+sac_LDADD        += -lsac_all -lsgf
 
 # SeisMgr Database Capabilities
 if DATABASE
   noinst_LIBRARIES += libSMOracleFuncs.a
-  sac_LDADD        += libSMOracleFuncs.a
+  sac_LDADD        += -lSMOracleFuncs
 else
   noinst_LIBRARIES += libSacOracleStubFuncs.a
-  sac_LDADD        += libSacOracleStubFuncs.a
+  sac_LDADD        += -lSacOracleStubFuncs
 endif
 
 # More Libraries
@@ -267,6 +267,17 @@ libsac_a_SOURCES = co/complex.c  \
 	scm/rmean.c scm/rtrend.c scm/taper.c scm/interpolate.c scm/wigint.c \
 	scm/rotate.c scm/lifite.c
 
+libicm_a_SOURCES = icm/acc.c icm/bbdisp.c icm/bbvel.c \
+	icm/benbog.c icm/clh.c icm/clz.c icm/cmh.c icm/cmz.c \
+	icm/csh.c icm/csz.c icm/dss.c icm/dwwssn.c icm/ekalp6.c icm/ekasp2.c \
+	icm/elmag.c icm/eyeomg.c icm/gbalp.c icm/gbasp.c icm/general.c icm/gsref.c \
+	icm/hfslpwb.c icm/hqr.c icm/hs3.c icm/lll.c icm/llsn.c icm/lrsmlp.c \
+	icm/lrsmsp.c icm/noress.c icm/noresshf.c icm/oldbb.c \
+	icm/oldkir.c icm/portable.c icm/ptbllp.c icm/redkir.c icm/reftek.c \
+	icm/rs7.c icm/rsk.c icm/rsl.c icm/rsm.c icm/rstn.c icm/sandia.c \
+	icm/snla3.c icm/sro.c icm/vel.c icm/wa.c icm/wabn.c icm/wiech.c \
+	icm/wwlpbn.c icm/wwsp.c icm/wwspbn.c icm/ykalp.c icm/ykasp.c \
+	icm/getran.c
 
 libsac_all_a_SOURCES = amf/iniam.c amf/array.c \
 	\
@@ -460,24 +471,11 @@ libsac_all_a_SOURCES = amf/iniam.c amf/array.c \
 	\
 	history/history.c \
 	\
-	icm/EVRESPnames.c \
-	icm/EvrespGateway.c icm/acc.c icm/balance.c icm/bbdisp.c icm/bbvel.c \
-	icm/benbog.c icm/ckinst.c icm/clh.c icm/clz.c icm/cmh.c icm/cmz.c \
-	icm/csh.c icm/csz.c icm/dcpft.c icm/dewit.c icm/dseis.c icm/dss.c \
-	icm/dwwssn.c icm/ekalp6.c icm/ekasp2.c icm/elmag.c icm/eyeomg.c \
-	icm/gbalp.c icm/gbasp.c icm/general.c icm/getins.c icm/getran.c \
-	icm/getroots.c icm/gsref.c icm/hfslpwb.c icm/hqr.c icm/hs3.c \
-	icm/iniicm.c icm/lll.c icm/llsn.c icm/lrsmlp.c icm/lrsmsp.c \
-	icm/noress.c icm/noresshf.c icm/oldbb.c \
-	icm/oldkir.c icm/polezero.c icm/portable.c \
-	icm/predfl.c icm/prewit.c icm/ptbllp.c icm/redkir.c icm/reftek.c \
-	icm/rs7.c icm/rsk.c icm/rsl.c icm/rsm.c icm/rstn.c icm/sandia.c \
-	icm/snla3.c icm/sro.c icm/taper.c icm/transfer.c \
-	icm/vel.c icm/wa.c icm/wabn.c icm/wiech.c icm/wwlpbn.c icm/wwsp.c \
-	icm/wwspbn.c icm/xicmc.c icm/xprewit.c icm/xtransfer.c icm/ykalp.c \
-	icm/ykasp.c icm/fap.c \
-	icm/dbFuncs.h \
-	icm/trans.c \
+	icm/EVRESPnames.c icm/EvrespGateway.c icm/balance.c icm/ckinst.c \
+	icm/dcpft.c icm/dewit.c icm/dseis.c icm/getins.c \
+	icm/getroots.c icm/iniicm.c icm/polezero.c icm/predfl.c icm/prewit.c \
+	icm/taper.c icm/transfer.c icm/xicmc.c icm/xprewit.c icm/xtransfer.c \
+	icm/fap.c icm/dbFuncs.h icm/trans.c \
 	\
 	mat/engineCall.c mat/engineCall2.c mat/matBlackBoardVars.c \
 	mat/matConnect.c mat/matDisconnect.c mat/matHeaderDataManage.c \

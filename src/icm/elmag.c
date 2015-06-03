@@ -117,9 +117,9 @@ elmag(int nfreq, double delfrq, double xre[], double xim[], double freepd, doubl
         omega = (float) (i - 1) * delomg;
         cs = 0.0 + (omega * I);
         ctd = cpow(cs, (double) 4) + ((((2.0 * om1) * (h1 + (p * h2))) + (0. * I)) * cpow(cs, (double) 3));
-        ctd = ctd + (((((1.0 + powi(p, 2)) + ((((4.0 * h1) * h2) * p) * (1.0 - sigsq))) * powi(om1, 2)) + (0. * I)) * cpow(cs, (double) 2));
-        ctd = ctd + (((((2.0 * ((p * h1) + h2)) * p) * powi(om1, 3)) + (0. * I)) * cs);
-        ctd = ctd + ((powi(p, 2) * powi(om1, 4)) + (0. * I));
+        ctd = ctd + (((((1.0 + pow(p, 2)) + ((((4.0 * h1) * h2) * p) * (1.0 - sigsq))) * pow(om1, 2)) + (0. * I)) * cpow(cs, (double) 2));
+        ctd = ctd + (((((2.0 * ((p * h1) + h2)) * p) * pow(om1, 3)) + (0. * I)) * cs);
+        ctd = ctd + ((pow(p, 2) * pow(om1, 4)) + (0. * I));
         /* THE PHASE RESPONSE IS DEFINED AS NEGATIVE THE PHASE RESPONSE OF
          * HAGIWARA IN ORDER TO YIELD UPWARD FIRST MOTION ON THE SEISMOGRAM TRACE
          * FOR AN IMPULSE OF GROUND DISPLACEMENT IN THE POSITIVE PHI DIRECTION.

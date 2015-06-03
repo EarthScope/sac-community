@@ -35,6 +35,7 @@ m4_include([config/code.m4])
 m4_include([config/edit.m4])
 m4_include([config/win.m4])
 m4_include([config/ax_openmp.m4])
+m4_include([config/ax_complex.m4])
 
 # Check for CFLAGS Variable and set default to ""
 AS_IF( [ test x"${CFLAGS}" = x ],  [ CFLAGS="" ] )
@@ -142,6 +143,9 @@ AC_PROG_CC
 AC_PROG_CXX
 #fi
 AC_PROG_OBJC
+
+# Complex Number Check
+AX_COMPLEX
 
 # Linking Files
 AC_PROG_LN_S

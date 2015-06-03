@@ -28,7 +28,7 @@ general(int nfreq, double delfrq, double xre[], double xim[], int nzer, double t
     nzero = nzer;
     npole = 2;
     omo = twopi / t0;
-    crad = csqrt((1.0 - powi(h, 2)) + (0.0 * I));
+    crad = csqrt((1.0 - pow(h, 2)) + (0.0 * I));
     Pole[1] = (omo + (0. * I)) * (((-h) + (0. * I)) + ((0.0 + (1.0 * I)) * crad));
     Pole[2] = (omo + (0. * I)) * (((-h) + (0. * I)) - ((0.0 + (1.0 * I)) * crad));
     getranx(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim);

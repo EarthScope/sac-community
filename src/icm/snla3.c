@@ -88,10 +88,10 @@ snla3(int nfreq, double delfrq, double xre[], double xim[])
             tid = ti0;
         }
 
-        fac = ((double) const_) / (powi(trd, 2) + powi(tid, 2));
+        fac = ((double) const_) / (pow(trd, 2) + pow(tid, 2));
         Xre[j] = fac * ((trn * trd) + (tin * tid));
         Xim[j] = fac * ((trd * tin) - (trn * tid));
-        astest = powi(Xre[j], 2) + powi(Xim[j], 2);
+        astest = pow(Xre[j], 2) + pow(Xim[j], 2);
         if (astest > asqrd)
             asqrd = astest;
     }

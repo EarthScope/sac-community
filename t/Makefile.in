@@ -198,7 +198,7 @@ am__aclocal_m4_deps = $(top_srcdir)/config/matlab.m4 \
 	$(top_srcdir)/config/xdr.m4 $(top_srcdir)/config/db.m4 \
 	$(top_srcdir)/config/code.m4 $(top_srcdir)/config/edit.m4 \
 	$(top_srcdir)/config/win.m4 $(top_srcdir)/config/ax_openmp.m4 \
-	$(top_srcdir)/configure.ac
+	$(top_srcdir)/config/ax_complex.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
@@ -763,7 +763,7 @@ use_sac_LDFLAGS =
 #	$(F77) $(COVERAGE) -o $@ saclib_f.o -L../src -lsac
 icm_SOURCES = icm.c 
 icm_CFLAGS = $(COVERAGE)
-icm_LDADD = -L../src -lsac_all 
+icm_LDADD = -L../src -licm
 TEST_EXTENSIONS = .sm
 SM_LOG_COMPILER = $(top_srcdir)/t/pytest.py
 AM_SM_LOG_FLAGS = -s "$(abs_builddir)/$(SACBIN)" -o "${abs_top_srcdir}/t/testsuite/output" --test
