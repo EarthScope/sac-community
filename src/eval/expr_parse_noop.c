@@ -3,6 +3,11 @@
 */
 /* First off, code is included that follows the "include" declaration
 ** in the input grammar file. */
+#ifdef NDEBUG
+#undef NDEBUG
+#endif
+
+
 #include <stdio.h>
 #line 2 "expr_parse_noop.y"
 
