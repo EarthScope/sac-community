@@ -56,9 +56,9 @@ if OSX_APP
 endif
 # Libraries needed to compile sac
 #  libsac_all.a is included twice to satisfy recursive dependencies; fix
-sac_LDADD         = -L$(srcdir) -L. -lsac_all -lsgf  -licm
+sac_LDADD         = -L$(srcdir) -L. libsac_all.a libsgf.a  libicm.a
 if X11_APP
-  sac_LDADD        += -lsac_x11
+  sac_LDADD        += libsac_x11.a
 endif
 if WIN_APP
   sac_LDADD        += libsac_win.a
@@ -67,24 +67,24 @@ if OSX_APP
   sac_LDADD        += libsac_osx.a
 endif
 
-sac_LDADD        += -lsac_all \
-		    -lturtle \
-		    -levalresp \
-		    -lSMnonOracleFuncs
+sac_LDADD        += libsac_all.a \
+		    libturtle.a \
+		    libevalresp.a \
+		    libSMnonOracleFuncs.a
 
 if WIN_APP
   sac_LDADD        += -lgdiplus 
 endif
 
-sac_LDADD        += -lsac_all -lsgf
+sac_LDADD        += libsac_all.a libsgf.a
 
 # SeisMgr Database Capabilities
 if DATABASE
   noinst_LIBRARIES += libSMOracleFuncs.a
-  sac_LDADD        += -lSMOracleFuncs
+  sac_LDADD        += libSMOracleFuncs.a
 else
   noinst_LIBRARIES += libSacOracleStubFuncs.a
-  sac_LDADD        += -lSacOracleStubFuncs
+  sac_LDADD        += libSacOracleStubFuncs.a
 endif
 
 # More Libraries

@@ -104,16 +104,16 @@ bin_PROGRAMS = sac$(EXEEXT)
 @X11_APP_TRUE@am__append_2 = libsac_x11.a
 @WIN_APP_TRUE@am__append_3 = libsac_win.a
 @OSX_APP_TRUE@am__append_4 = libsac_osx.a
-@X11_APP_TRUE@am__append_5 = -lsac_x11
+@X11_APP_TRUE@am__append_5 = libsac_x11.a
 @WIN_APP_TRUE@am__append_6 = libsac_win.a
 @OSX_APP_TRUE@am__append_7 = libsac_osx.a
 @WIN_APP_TRUE@am__append_8 = -lgdiplus 
 
 # SeisMgr Database Capabilities
 @DATABASE_TRUE@am__append_9 = libSMOracleFuncs.a
-@DATABASE_TRUE@am__append_10 = -lSMOracleFuncs
+@DATABASE_TRUE@am__append_10 = libSMOracleFuncs.a
 @DATABASE_FALSE@am__append_11 = libSacOracleStubFuncs.a
-@DATABASE_FALSE@am__append_12 = -lSacOracleStubFuncs
+@DATABASE_FALSE@am__append_12 = libSacOracleStubFuncs.a
 @OSX_APP_TRUE@am__append_13 = $(FORMAT_LIBS) $(FRAMEWORK_FOUNDATION) $(FRAMEWORK_COCOA)
 @X11_APP_TRUE@am__append_14 = $(X_PRE_LIBS) $(FORMAT_LIBS) $(xft_LIBS) $(xpm_LIBS) $(X_EXTRA_LIBS) $(X_LIBS) -lX11
 @WIN_APP_TRUE@am__append_15 = $(FORMAT_LIBS) -lWs2_32
@@ -835,10 +835,12 @@ am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 @X11_APP_TRUE@	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 @X11_APP_TRUE@	$(am__DEPENDENCIES_1)
 @WIN_APP_TRUE@am__DEPENDENCIES_5 = $(am__DEPENDENCIES_2)
-sac_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__append_6) \
-	$(am__append_7) $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_3) \
-	$(am__DEPENDENCIES_4) $(am__DEPENDENCIES_5) $(am__append_16)
+sac_DEPENDENCIES = libsac_all.a libsgf.a libicm.a $(am__append_5) \
+	$(am__append_6) $(am__append_7) libsac_all.a libturtle.a \
+	libevalresp.a libSMnonOracleFuncs.a $(am__DEPENDENCIES_1) \
+	libsac_all.a libsgf.a $(am__append_10) $(am__append_12) \
+	$(am__DEPENDENCIES_3) $(am__DEPENDENCIES_4) \
+	$(am__DEPENDENCIES_5) $(am__append_16)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -1105,11 +1107,12 @@ noinst_LIBRARIES = libsac_all.a libevalresp.a libSMnonOracleFuncs.a \
 	$(am__append_11)
 # Libraries needed to compile sac
 #  libsac_all.a is included twice to satisfy recursive dependencies; fix
-sac_LDADD = -L$(srcdir) -L. -lsac_all -lsgf -licm $(am__append_5) \
-	$(am__append_6) $(am__append_7) -lsac_all -lturtle -levalresp \
-	-lSMnonOracleFuncs $(am__append_8) -lsac_all -lsgf \
-	$(am__append_10) $(am__append_12) $(am__append_13) \
-	$(am__append_14) $(am__append_15) $(am__append_16)
+sac_LDADD = -L$(srcdir) -L. libsac_all.a libsgf.a libicm.a \
+	$(am__append_5) $(am__append_6) $(am__append_7) libsac_all.a \
+	libturtle.a libevalresp.a libSMnonOracleFuncs.a \
+	$(am__append_8) libsac_all.a libsgf.a $(am__append_10) \
+	$(am__append_12) $(am__append_13) $(am__append_14) \
+	$(am__append_15) $(am__append_16)
 
 # More Libraries
 FORMAT_LIBS = $(png_LIBS) $(zlib_LIBS) 

@@ -708,7 +708,7 @@ AUTOMAKE_OPTIONS = no-dependencies #dejagnu
 @OSX_APP_TRUE@SACBIN = ../Sac.app/Contents/MacOS/sac-osx-gui
 @X11_APP_TRUE@SACBIN = ../src/sac
 LDADD = -L../src/ -lsac_all -lturtle -lsac_all -levalresp \
-	-lSMnonOracleFuncs -lSacOracleStubFuncs $(am__append_1) \
+	-lSMnonOracleFuncs -lSacOracleStubFuncs -licm $(am__append_1) \
 	$(am__append_4) $(SAC_GRAPHICS) $(FORMAT_LIBS) $(am__append_5) \
 	-L. -lunit
 FORMAT_LIBS = $(xpm_LIBS) $(png_LIBS) $(zlib_LIBS) $(xft_LIBS)
@@ -735,7 +735,7 @@ ucf_SOURCES = ucf.c \
                   ucf_cnvatf.c \
                   ucf_cnvfta.c
 
-vars_SOURCES = vars.c 
+vars_SOURCES = vars.c
 sacio_SOURCES = sacio.c \
 	           sacio_rsac1.c  \
 	           sacio_rsac2.c  \

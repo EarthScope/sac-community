@@ -28,7 +28,8 @@ CFLAGS          += $(DEBUG) $(COVERAGE) $(OPTIM) -Wall \
 LDADD            = -L../src/ -lsac_all -lturtle -lsac_all \
                    -levalresp \
                    -lSMnonOracleFuncs \
-                   -lSacOracleStubFuncs 
+                   -lSacOracleStubFuncs \
+									 -licm
 if EDITLINE
 LDADD            += ../libedit/lib/libedit.a
 CFLAGS           += -I../libedit/include
@@ -80,7 +81,7 @@ ucf_SOURCES     = ucf.c \
                   ucf_cnvatf.c \
                   ucf_cnvfta.c
 
-vars_SOURCES   = vars.c 
+vars_SOURCES   = vars.c
 
 sacio_SOURCES    = sacio.c \
 	           sacio_rsac1.c  \
