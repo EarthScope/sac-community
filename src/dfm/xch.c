@@ -195,10 +195,12 @@ xch(int *nerr) {
                     ival = 0;
                     if (lclist((char *) kmlhf.kiv, 9, SAC_ENUMS - 1, &ival)) {
                         Ihdrc[itemx] = ival;
-                    } else if (lckey("UNDEF$", 7)) {
+                    } else if (lckey("UNDEF$", 7) || arg() == NULL) {
                         Ihdrc[itemx] = SAC_ENUM_UNDEFINED;
                     } else {
-                        cerr(1001);
+                        char *ts = token_as_string(arg());
+                        error(*nerr = 1365, "\"%s\"", ts);
+                        FREE(ts);
                         goto L_8888;
                     }
                 } else if (icatx == LOGICAL_TYPE) {
