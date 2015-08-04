@@ -14,6 +14,8 @@
 #include "dff.h"
 #include "array.h"
 
+DFM_EXTERN
+
 void
 rollback(int whichHeaders, int *nerr) {
 

@@ -15,6 +15,8 @@
 #include "cpf.h"
 #include "dff.h"
 
+DFM_EXTERN
+
 /** 
  * Execute the CONV command which converts a file from one format to another
  * 

@@ -10,6 +10,8 @@
 #include "bool.h"
 #include "bot.h"
 
+MSG_EXTERN
+
 /** 
  * Set the mesage type
  *

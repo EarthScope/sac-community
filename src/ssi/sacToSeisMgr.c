@@ -20,6 +20,8 @@
 
 #include "cssListOps/dblErrors.h"
 
+DFM_EXTERN
+
 int
 Unique(int *array, int size, int wfid) {
     /* Check for a unique wfid */

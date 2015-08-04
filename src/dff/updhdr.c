@@ -15,6 +15,8 @@
 
 #include "errors.h"
 
+HDR_EXTERN
+
 /** 
  * Update an old header to the current version
  * 

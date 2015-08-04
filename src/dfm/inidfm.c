@@ -23,6 +23,9 @@
 #include "dff.h"
 #include "debug.h"
 
+struct t_cmdfm cmdfm;
+struct t_kmdfm kmdfm;
+
 void
 dfm_free() {
     int i;

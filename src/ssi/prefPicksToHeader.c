@@ -12,6 +12,8 @@
 #include "bot.h"
 #include "sacIO/sacIO.h"
 
+DFM_EXTERN
+
 static char *
 strcpy_check(char *dst, char *src) {
     if (dst != src) {

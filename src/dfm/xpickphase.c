@@ -12,6 +12,8 @@
 
 #include "cpf.h"
 
+DFM_EXTERN
+
 /** 
  * Execute the command PICKPHASE which controls phases read by readcss
  * 

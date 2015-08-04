@@ -11,6 +11,8 @@
 #include "bot.h"
 #include "cpf.h"
 
+DFM_EXTERN
+
 void
 xreaddb(kinput, nerr)
      char *kinput;

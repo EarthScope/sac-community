@@ -18,6 +18,8 @@
 #include "ucf.h"
 #include "SacHeader.h"
 
+HDR_EXTERN
+
 /** 
  * Format a header variable into a text string
  * 

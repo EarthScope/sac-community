@@ -26,6 +26,8 @@
 #include "ssi.h"
 #include "ncpf.h"
 
+DFM_EXTERN
+
 /** 
  * Read a File list of CSS files 
  * 

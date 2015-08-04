@@ -17,6 +17,8 @@
 #include "array.h"
 #include "errors.h"
 
+DFM_EXTERN
+
 /** 
  * Execute the command SORT to sort the data file list
  * 

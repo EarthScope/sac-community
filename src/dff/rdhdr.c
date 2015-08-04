@@ -22,6 +22,9 @@
 
 #include "clf.h"
 
+HDR_EXTERN
+DFM_EXTERN
+
 /** 
  * Read header from currently open SAC file into memory
  * 

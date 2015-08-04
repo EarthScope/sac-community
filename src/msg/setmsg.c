@@ -7,6 +7,8 @@
 
 #include "msg.h"
 
+MSG_EXTERN
+
 /** 
  * Set a Message Condition
  *

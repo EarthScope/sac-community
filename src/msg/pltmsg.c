@@ -13,6 +13,8 @@
 
 #include "pl.h"
 
+MSG_EXTERN
+
 /** 
  * Write current output message to the active graphics device
  *

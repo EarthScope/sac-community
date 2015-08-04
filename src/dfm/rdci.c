@@ -25,6 +25,9 @@
 #include "dff.h"
 
 #include "debug.h"
+
+HDR_EXTERN
+
 /** 
  * Read a SAC Card Image data file into memory
  * 

@@ -16,6 +16,8 @@
 #include "cpf.h"
 #include "clf.h"
 
+DFM_EXTERN
+
 /** 
  * Execute the command READSUDS which reads in a SUDS file
  * 

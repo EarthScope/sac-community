@@ -18,6 +18,8 @@
 #include "clf.h"
 #include "bot.h"
 
+DFM_EXTERN
+
 /** 
  * Convert a relative time window to an absolute time window by 
  *   examing the header for the current data file

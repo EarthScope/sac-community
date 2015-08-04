@@ -24,6 +24,8 @@
 #include "ssi.h"
 #include "debug.h"
 
+DFM_EXTERN
+
 int gseRead20(char *fileName, char *WorkSetName, int Replace, int MaxWaveforms,
               int verbose, double MaxPhysMem);
 

@@ -30,7 +30,7 @@
 struct t_kmmsg {
     char ktpmsg[MTPMSG][9];
     char klimsg[MLIMSG][MCMSG + 1];     /* list of messages */
-} kmmsg;
+};
 
 /** 
  * @struct kmmsg
@@ -45,7 +45,11 @@ struct t_cmmsg {
     int nunits;
     FILE *iunits[MUNITS];
     int lsend[MUNITS][MTPMSG];
-} cmmsg;
+};
+
+#define MSG_EXTERN               \
+    extern struct t_cmmsg cmmsg; \
+    extern struct t_kmmsg kmmsg;
 
 void apcmsg(char *kalpha, int kalpha_s);
 void apcmsg2(char *kalpha, int kalpha_s);

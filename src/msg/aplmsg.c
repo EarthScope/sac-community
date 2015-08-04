@@ -10,6 +10,8 @@
 #include "bot.h"
 #include "co.h"
 
+MSG_EXTERN
+
 /** 
  * Append a new line of text to the current message
  *

@@ -37,6 +37,8 @@
 #define	MBLKSZ	500
 #define	MENTRY	40
 
+DFM_EXTERN
+
 struct t_xracom {
     int nhlines;
 } xracom;

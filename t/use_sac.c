@@ -11,6 +11,9 @@
 #include "bool.h"
 #include "dff.h"
 
+MSG_EXTERN
+HDR_EXTERN
+
 #ifdef OSX_APP
 void initdevice_osx() {}
 #endif

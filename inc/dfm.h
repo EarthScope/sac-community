@@ -117,7 +117,7 @@ struct t_cmdfm {
     int nfilesFirst;
 
     int lcm6;                   /* GSE CM6 compressed format instead of integer format */
-} cmdfm;
+} ;
 
 struct t_kmdfm {
     char krddir[MCPFN + 1];/** Current directory to read from */
@@ -160,11 +160,13 @@ struct t_kmdfm {
 
     /* Added for the sort command. */
     char ksort[MAXSORTFIELDS][9];    /** Fields to use during sorting */
-} kmdfm;
+} ;
+
+#define DFM_EXTERN \
+    extern struct t_cmdfm cmdfm; \
+    extern struct t_kmdfm kmdfm;
 
 #ifdef DOINITS
-int *const Icatco = &cmdfm.icatco[0] - 1;
-int *const Itemco = &cmdfm.itemco[0] - 1;
 int const wfHeader = -1;
 int const allHeader = 0;
 int const eventHeader = 1;

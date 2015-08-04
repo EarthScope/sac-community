@@ -22,6 +22,8 @@
 #include "ssi.h"
 #include "debug.h"
 
+DFM_EXTERN
+
 /** 
  * Read a File list of GSE files 
  * 

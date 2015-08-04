@@ -11,6 +11,8 @@
 #include "hdr.h"
 #include "bool.h"
 
+struct t_cmhdr cmhdr;
+
 /** 
  * Initialize the Header Block
  * 

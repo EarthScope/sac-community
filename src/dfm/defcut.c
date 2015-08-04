@@ -21,6 +21,8 @@
 
 #include "SacHeader.h"
 
+DFM_EXTERN
+
 //#define __DEBUG__
 #include "debug.h"
 

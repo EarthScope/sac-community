@@ -24,7 +24,7 @@
 
 #include "EVRESPnames.h"
 #include "SacHeader.h"
-#include "datetime.h"
+#include "sac_datetime.h"
 
 #ifdef WIN32
 #define pointer char *

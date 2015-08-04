@@ -9,6 +9,8 @@
 
 #include "msg.h"
 
+MSG_EXTERN
+
 /** 
  * Activate or Deactivate the send of output messages 
  *    to a psecific file unit

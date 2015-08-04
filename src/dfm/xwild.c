@@ -13,6 +13,8 @@
 
 #include "cpf.h"
 
+DFM_EXTERN
+
 /** 
  * Execute the command WILD which defined the wild card keys to be used
  *    in the commands READ, READHDR, and READALPHA.

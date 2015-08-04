@@ -18,6 +18,11 @@
 #include "amf.h"
 #include "errors.h"
 
+DFM_EXTERN
+
+int *const Icatco = &cmdfm.icatco[0] - 1;
+int *const Itemco = &cmdfm.itemco[0] - 1;
+
 /** 
  * Execute the command COPYHDR which copies header varibles from one
  *    file to the remaining file in the data file list

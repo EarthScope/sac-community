@@ -16,6 +16,8 @@
 #include "ssi.h"
 #include "cpf.h"
 
+DFM_EXTERN
+
 /** 
  * Execute a Data File List Command given its index number
  * 

@@ -26,6 +26,8 @@
 
 #include "ssi.h"
 
+DFM_EXTERN
+
 /** 
  * Execute a dynamically loaded external command
  * 

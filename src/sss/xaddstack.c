@@ -11,6 +11,8 @@
 #include "cpf.h"
 #include "dff.h"
 
+DFM_EXTERN
+
 void
 xaddstack(int *nerr) {
     char kfile[MCPFN + 1];

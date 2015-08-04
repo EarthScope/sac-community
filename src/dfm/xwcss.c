@@ -26,6 +26,8 @@
 #include "smDataIO.h"
 #include "errors.h"
 
+DFM_EXTERN
+
 /** 
  * Write a CSS Ascii Flat File or CSSB (Binary File)
  * 

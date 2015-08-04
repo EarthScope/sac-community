@@ -19,6 +19,8 @@
 #include "cpf.h"
 #include "dff.h"
 
+DFM_EXTERN
+
 /** 
  * Execute the command WRITEHDR which writes a SAC Header
  * 

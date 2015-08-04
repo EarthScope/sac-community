@@ -21,6 +21,9 @@
 #include "gse.h"
 #include "smDataIO.h"
 #include "debug.h"
+
+DFM_EXTERN
+
 /** 
  * Execute the command WRITEGSE which writes a GSE file
  * 

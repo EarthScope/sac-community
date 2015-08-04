@@ -17,6 +17,8 @@
 #include "msg.h"
 #include "clf.h"
 
+DFM_EXTERN
+
 /** 
  * Define memory requirement for a given data fiile
  * 

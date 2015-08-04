@@ -21,6 +21,8 @@
 #include "ucf.h"
 #include "dff.h"
 
+DFM_EXTERN
+
 /** 
  * Replace or append to the filelist in memory
  * 

@@ -7,6 +7,8 @@
 
 #include "msg.h"
 
+MSG_EXTERN
+
 /** 
  * Set the mesage output mode type
  *

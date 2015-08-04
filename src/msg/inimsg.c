@@ -19,6 +19,9 @@
 #include "vars/chash.h"
 extern dict *msg_dict;
 
+struct t_kmmsg kmmsg;
+struct t_cmmsg cmmsg;
+
 /** 
  * Initialize the Message Subsystem
  *

@@ -14,6 +14,8 @@
 #include "cssListOps/dblPublicDefs.h"
 #include "cssListOps/cssListOps.h"
 
+DFM_EXTERN
+
 void
 SeisMgrToSac(DBlist tree, int lname, int *nerr, int Verbose, int lcutnow,
              int takeEvid) {

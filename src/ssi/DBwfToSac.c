@@ -7,6 +7,8 @@
 #include "ucf.h"
 #include "dff.h"
 
+DFM_EXTERN
+
 void
 DBwfToSac(s, seis, nerr)
      int *nerr;

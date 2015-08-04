@@ -57,6 +57,8 @@
 #include "wild.h"
 #undef DOINITS
 
+DFM_EXTERN
+
 #include "sac_history.h"
 
 /* external pager program we use to view help fils */

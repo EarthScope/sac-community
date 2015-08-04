@@ -22,6 +22,8 @@
 
 #define MAXPAIRS 10
 
+DFM_EXTERN
+
 sac **cut_data;
 sac *cut_file;
 void sacpop_no_free();

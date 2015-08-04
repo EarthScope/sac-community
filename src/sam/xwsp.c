@@ -17,6 +17,8 @@
 #include "co.h"
 #include "dff.h"
 
+DFM_EXTERN
+
 void /*FUNCTION*/
 xwsp(nerr)
      int *nerr;

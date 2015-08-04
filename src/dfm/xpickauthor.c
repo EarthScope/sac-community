@@ -17,6 +17,8 @@
 #include "bot.h"
 #include "cpf.h"
 
+DFM_EXTERN
+
 /** 
  * Execute the command PICKAUTHOR which controls the picks read by readcss
  * 

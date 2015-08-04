@@ -15,6 +15,8 @@
 #include "cpf.h"
 #include "clf.h"
 
+DFM_EXTERN
+
 /** 
  * Execute the command READHDR (RH) which reads in a SAC Header
  * 

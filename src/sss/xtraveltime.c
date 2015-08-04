@@ -27,6 +27,8 @@
 #define	MBLKSZ	500
 #define	MENTRY	40
 
+DFM_EXTERN
+
 extern float *tty[MXTT];
 extern float *ttx[MXTT];
 

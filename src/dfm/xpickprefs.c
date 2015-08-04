@@ -13,6 +13,8 @@
 #include "msg.h"
 #include "cpf.h"
 
+DFM_EXTERN
+
 /** 
  * Control the use of the picks preferences file. By default, the 
  *    pickPreferences file is not used in reading picks from CSS data 

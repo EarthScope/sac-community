@@ -14,6 +14,8 @@
 #include "cpf.h"
 #include "dff.h"
 
+DFM_EXTERN
+
 void /*FUNCTION*/
 xmarkvalue(nerr)
      int *nerr;

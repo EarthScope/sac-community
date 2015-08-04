@@ -13,6 +13,8 @@
 #include "cpf.h"
 #include "dff.h"
 
+DFM_EXTERN
+
 void /*FUNCTION*/
 xmarkptp(nerr)
      int *nerr;

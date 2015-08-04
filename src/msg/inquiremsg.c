@@ -10,6 +10,8 @@
 #include "msg.h"
 #include "bool.h"
 
+MSG_EXTERN
+
 /** 
  * Inquire about the current output message system status
  *    associated with a specific file unit.

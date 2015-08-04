@@ -24,6 +24,8 @@
 
 #include "debug.h"
 
+DFM_EXTERN
+
 enum filetype {
     sacfi,
     alpha,

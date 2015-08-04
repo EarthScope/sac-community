@@ -20,6 +20,8 @@
 #include "clf.h"
 #include "bot.h"
 
+DFM_EXTERN
+
 /** 
  *  To convert a potentially wild-card laden input file list
  *     to an expanded output list of file names.

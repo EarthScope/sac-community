@@ -27,6 +27,8 @@
 
 #include "debug.h"
 
+DFM_EXTERN
+
 #define PI M_PI
 
 /** 

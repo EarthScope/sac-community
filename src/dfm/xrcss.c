@@ -16,6 +16,8 @@
 #include "ssi.h"
 #include "cpf.h"
 
+DFM_EXTERN
+
 int
 magnitude_option() {
     int nchar;

@@ -20,6 +20,8 @@
 #include "msg.h"
 #include "bot.h"
 
+DFM_EXTERN
+
 /** 
  * Read pick preference file.
  * 

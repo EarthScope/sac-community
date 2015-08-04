@@ -34,7 +34,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <math.h>
 #include "string_utils.h"
 
-#include "datetime.h"
+#include "sac_datetime.h"
 
 #define DATETIME_NA        "n/a"
 #define DATETIME_NA_VALUE  "2999/365 23:59:59"

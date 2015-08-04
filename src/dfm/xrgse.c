@@ -16,6 +16,8 @@
 #include "cpf.h"
 #include "clf.h"
 
+DFM_EXTERN
+
 int magnitude_option();
 
 /** 

@@ -26,6 +26,8 @@
 #include "amf.h"
 #include "errors.h"
 
+HDR_EXTERN
+
 char 
 lh_prompt() {
     char kresp[9];

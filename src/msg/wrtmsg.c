@@ -12,6 +12,8 @@
 #include "msg.h"
 #include "bot.h"
 
+MSG_EXTERN
+
 /** 
  * Write output message to a specific file unit \p nunit
  *

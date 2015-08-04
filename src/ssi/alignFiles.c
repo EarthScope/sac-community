@@ -2,6 +2,8 @@
 #include "ssi.h"
 #include "dfm.h"
 
+DFM_EXTERN
+
 void
 alignFiles(int *nerr) {
     /* Commit, recall, or rollback existing data as per user specs. */

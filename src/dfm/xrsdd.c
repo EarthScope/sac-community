@@ -16,6 +16,8 @@
 
 #include "clf.h"
 
+DFM_EXTERN
+
 extern enum filetype {
     sacfi,
     alpha,

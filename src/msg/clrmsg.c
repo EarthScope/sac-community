@@ -8,6 +8,9 @@
 #include "msg.h"
 #include "co.h"
 
+MSG_EXTERN
+
+
 /** 
  * Clear current Message condition
  *

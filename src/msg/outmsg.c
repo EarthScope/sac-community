@@ -16,6 +16,8 @@
 #include "top.h"
 #include "bool.h"
 
+MSG_EXTERN
+
 /** 
  * Write current output message to the approproate device
  *

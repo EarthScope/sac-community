@@ -20,6 +20,8 @@
 #include "msg.h"
 #include "ucf.h"
 
+DFM_EXTERN
+
 #define ERROR_RETURN(x) do { \
     *nerr = x;               \
     setmsg("ERROR", *nerr);  \

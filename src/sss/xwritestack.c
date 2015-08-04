@@ -10,6 +10,8 @@
 #include "cpf.h"
 #include "dff.h"
 
+DFM_EXTERN
+
 extern float *sss_sum;
 
 void /*FUNCTION*/

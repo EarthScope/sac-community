@@ -18,6 +18,9 @@
 #include "clf.h"
 #include "co.h"
 #include "dff.h"
+#include "dfm.h"
+
+DFM_EXTERN
 
 #ifdef HAVE_LIBRPC
 #include <rpc/rpc.h>

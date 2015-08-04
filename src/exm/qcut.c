@@ -10,6 +10,8 @@
 
 #include "exm.h"
 
+DFM_EXTERN
+
 /** 
  * Report the current values of the cut parameters
  * 

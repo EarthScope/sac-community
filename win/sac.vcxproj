@@ -104,7 +104,7 @@
     <ClInclude Include="..\inc\cssListOps\dblPublicDefs.h" />
     <ClInclude Include="..\inc\cssListOps\dblUserData.h" />
     <ClInclude Include="..\inc\datafilelist.h" />
-    <ClInclude Include="..\inc\datetime.h" />
+    <ClInclude Include="..\inc\sac_datetime.h" />
     <ClInclude Include="..\inc\dbBuildSearchlink.h" />
     <ClInclude Include="..\inc\dbh.h" />
     <ClInclude Include="..\inc\dbPtsInside.h" />

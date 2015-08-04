@@ -33,6 +33,9 @@
 #define MAXCH   40
 #define MBLKSZ  500
 #define MENTRY  40
+
+DFM_EXTERN
+
 /** 
  * Execute the command WRITETABLE which reads in columns of data
  * 

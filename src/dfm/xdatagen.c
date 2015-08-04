@@ -16,6 +16,8 @@
 #include "cpf.h"
 #include "clf.h"
 
+DFM_EXTERN
+
 /** 
  * Execute the command DATAGEN which reads sample data files into memory
  * 

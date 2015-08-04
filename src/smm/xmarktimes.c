@@ -15,6 +15,8 @@
 #include "cpf.h"
 #include "dff.h"
 
+DFM_EXTERN
+
 void
 xmarktimes(int *nerr) {
 

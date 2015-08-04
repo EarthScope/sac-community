@@ -12,6 +12,8 @@
 #include "bot.h"
 #include "co.h"
 
+MSG_EXTERN
+
 /** 
  * Append alphanumberic string \p kalpha to current message
  *

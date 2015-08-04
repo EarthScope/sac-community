@@ -9,6 +9,8 @@
 
 #include "cpf.h"
 
+DFM_EXTERN
+
 /** 
  * Execute the command CUTERR which defines the behavior when certain
  *    cut errors are encounted during reads

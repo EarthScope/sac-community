@@ -15,6 +15,8 @@
 #include "co.h"
 #include "debug.h"
 
+DFM_EXTERN
+
 /** 
  * Parse a reference time window command construct
  * 

@@ -26,6 +26,8 @@
 #include "array.h"
 #include "errors.h"
 
+DFM_EXTERN
+
 /** 
  * Execute the command DELETECHANNEL which deletes one or more channels from
  *    the file list
