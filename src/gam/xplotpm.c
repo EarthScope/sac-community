@@ -239,7 +239,7 @@ xplotpm(int *nerr) {
         /* -- Plot time window display. */
         xloc = cmgem.plot.xmin + 0.01;
         yloc = cmgem.plot.ymax - 0.01;
-        settextjust("TOP", "LEFT");
+        settextjust(TOP, LEFT);
         move(xloc, yloc);
         nc = indexb(kstart, 25);
         text(kstart, 25, nc);
@@ -249,7 +249,7 @@ xplotpm(int *nerr) {
 
         /* -- Plot title if any. */
         if (cmgem.title.on) {
-            settextjust("BOTTOM", "CENTER");
+            settextjust(BOTTOM, CENTER);
             move(0.5 * (xvmin + xvmax), yvmax + 0.01);
             nc = indexb(kmgem.ktitl, 145);
             text(kmgem.ktitl, 145, nc);

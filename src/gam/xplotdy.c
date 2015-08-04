@@ -325,7 +325,7 @@ xplotdy(int *nerr) {
 
   L_8888:
     plrest();
-    settextjust("LEFT", "BOTTOM");
+    settextjust(LEFT, BOTTOM);
     xarray_free(idflnumber);
     return;
 

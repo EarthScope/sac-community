@@ -66,6 +66,7 @@ enum {
     BOTTOM,
     RIGHT,
     LEFT,
+    CENTER
 };
 
 enum {
@@ -283,8 +284,8 @@ struct t_kmgem {
     char kplab[MPLAB][145];
     char ktxsiz[MTXSIZ][9];
     char kgtqua[9];
-    char khjust[9];
-    char kvjust[9];
+    int khjust;
+    int kvjust;
     char ktxpos[5][9];
     char ktxori[2][9];
     char kxtgem[20][9];

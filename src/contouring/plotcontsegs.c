@@ -20,7 +20,7 @@
 
 void
 plotcontsegs() {
-    char khorz[9], kvert[9];
+    int horz, vert;
     int icolorlist, jaction[MPOINTS], jcur, jlabel, jlevel, jlink[MPOINTS],
         jloc, jnext, jpoint[MPOINTS], jprev, jsegment, jstart, jstop, jtemp,
         jtype, nc;
@@ -58,8 +58,8 @@ plotcontsegs() {
 	 *===================================================================== */
     /* PROCEDURE: */
     /* - Save previous text justification and set new values. */
-    gettextjust(khorz, 9, kvert, 9);
-    settextjust("CENTER", "CENTER");
+    gettextjust(&horz, &vert);
+    settextjust(CENTER, CENTER);
 
     /* - Loop on each contouring line segment: */
 
@@ -165,7 +165,7 @@ plotcontsegs() {
 
     setlinestyle(1);
     settextangle(0.0);
-    settextjust(khorz, kvert);
+    settextjust(horz, vert);
     setcolorname("DEFAULT", 8);
 
     return;

@@ -448,7 +448,7 @@ xppk(int *nerr) {
         centxt(kmgem.ktitl, 145, cmgem.title.len, cmgem.title.pos,
                cmgem.title.text_size);
     }
-    settextjust("LEFT", "BOTTOM");
+    settextjust(LEFT, BOTTOM);
 
     /* -- Perform graphics input function. */
 
@@ -950,9 +950,9 @@ xppk(int *nerr) {
         line(xloc1, yloc, xloc2, yloc);
         setlinewidth(LINE_WIDTH_THIN);
         move(xloc2 + 0.005, yloc);
-        settextjust("LEFT", "CENTER");
+        settextjust(LEFT, CENTER);
         text(kmeam.kpkid, 9, 2);
-        settextjust("LEFT", "BOTTOM");
+        settextjust(LEFT, BOTTOM);
     }
 
     /* -- Define a reference or zero level. */
@@ -962,7 +962,7 @@ xppk(int *nerr) {
         line(cmgem.plot.xmin, yloc, cmgem.plot.xmax, yloc);
         setlinewidth(LINE_WIDTH_THIN);
         move(cmgem.plot.xmax + 0.005, yloc);
-        settextjust("LEFT", "CENTER");
+        settextjust(LEFT, CENTER);
         text(kmeam.kpkid, 9, 4);
         if (cmgam.lppkrl) {
             prl = cmgam.vppkrl * ypdelv / (amplmx - amplmn);
@@ -977,7 +977,7 @@ xppk(int *nerr) {
             move(cmgem.plot.xmax + 0.005, yloc - prl);
             text("REF", 4, 3);
         }
-        settextjust("LEFT", "BOTTOM");
+        settextjust(LEFT, BOTTOM);
     }
 
     /* -- Cancel last operation. */
@@ -995,13 +995,16 @@ xppk(int *nerr) {
         strcpy(s->h->kf, SAC_CHAR_UNDEFINED);
         strcpy(kmeam.kpkid, "DEL     ");
     }
+    else if (kchar == 0) {
 
+    }
     /* -- Bad cursor response handled here. */
     else {
         setmsg("OUTPUT", 1503);
         apcmsg(&kchar, 1);
         pltmsg(&xtpos, &ytpos);
         ytpos = ytpos - cmgem.chht;
+        clrmsg();
     }
 
     /* -- Write to alphanumeric pick file. */

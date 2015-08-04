@@ -42,7 +42,7 @@ markvert(jmark1, jmark2, xloc, ytop, ydel, klabel, klabel_s, nmarks)
 	 * DOCUMENTED/REVIEWED: 
 	 *===================================================================== */
     /* - Set text justification and get current text size. */
-    settextjust("LEFT", "TOP");
+    settextjust(LEFT, TOP);
     gettextsize(&width, &height);
 
     /* - Draw and label marker line on requested subplots. */
@@ -63,7 +63,7 @@ markvert(jmark1, jmark2, xloc, ytop, ydel, klabel, klabel_s, nmarks)
 
     /* - Reset text justification. */
 
-    settextjust("LEFT", "BOTTOM");
+    settextjust(LEFT, BOTTOM);
 
     return;
 

@@ -24,21 +24,21 @@
  *
  */
 void
-gettextjust(char *khorz, int khorz_s, char *kvert, int kvert_s) {
+gettextjust(int *horz, int *vert) {
     if (cmgdm.ihjust == 1) {
-        fstrncpy(khorz, khorz_s - 1, "LEFT", 4);
+        *horz = LEFT;
     } else if (cmgdm.ihjust == 2) {
-        fstrncpy(khorz, khorz_s - 1, "CENTER", 6);
+        *horz = CENTER;
     } else {
-        fstrncpy(khorz, khorz_s - 1, "RIGHT", 5);
+        *horz = RIGHT;
     }
 
     if (cmgdm.ivjust == 1) {
-        fstrncpy(kvert, kvert_s - 1, "BOTTOM", 6);
+        *vert = BOTTOM;
     } else if (cmgdm.ivjust == 2) {
-        fstrncpy(kvert, kvert_s - 1, "CENTER", 6);
+        *vert = CENTER;
     } else {
-        fstrncpy(kvert, kvert_s - 1, "TOP", 3);
+        *vert = TOP;
     }
 
 }

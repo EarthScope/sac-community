@@ -85,7 +85,7 @@ fdplot(memptr, lprint, xbeg, nerr)
     xos = .05;
     yos = .05;
 
-    /*      call settextjust('CENTER', 'CENTER') */
+    /*      call settextjust(CENTER, CENTER) */
 
     /* - lower left, Group Delay Plot
      * -- Set world min & max values for this data set. */

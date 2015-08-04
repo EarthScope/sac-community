@@ -133,7 +133,7 @@ ylogax() {
                 if ((lsecax && cmgem.axis[LEFT].annotate) &&
                     (jfac % isecin) == 0) {
                     xloc = cmgem.uplot.xmin - 0.1 * cmgem.chwid;
-                    settextjust("RIGHT", "CENTER");
+                    settextjust(RIGHT, CENTER);
                     pltext(&kmgem.kfac[jfac - 1], 1, xloc, yrefs);
                     setlinewidth(cmgem.iskwidth);
                 }
@@ -153,9 +153,9 @@ ylogax() {
             yref = decade * cmgem.ympip1 + cmgem.ympip2;
             if (cmgem.axis[LEFT].annotate) {
                 xloc = cmgem.uplot.xmin - 0.2 * cmgem.chwid - slenmx;
-                settextjust("RIGHT", "CENTER");
+                settextjust(RIGHT, CENTER);
                 pltext("10", 3, xloc, yref);
-                settextjust("LEFT", "BOTTOM");
+                settextjust(LEFT, BOTTOM);
                 pltext(kdec, 9, xloc, yref);
                 setlinewidth(cmgem.iskwidth);
             }
@@ -166,7 +166,7 @@ ylogax() {
                     if ((lsecax && cmgem.axis[LEFT].annotate) &&
                         (jfac % isecin) == 0) {
                         xloc = cmgem.uplot.xmin - cmgem.chwid;
-                        settextjust("LEFT", "CENTER");
+                        settextjust(LEFT, CENTER);
                         pltext(&kmgem.kfac[jfac - 1], 1, xloc, yrefs);
                         setlinewidth(cmgem.iskwidth);
                     }
@@ -211,7 +211,7 @@ ylogax() {
                 if ((lsecax && cmgem.axis[RIGHT].annotate) &&
                     (jfac % isecin) == 0) {
                     xloc = cmgem.uplot.xmax + 0.1 * cmgem.chwid;
-                    settextjust("LEFT", "CENTER");
+                    settextjust(LEFT, CENTER);
                     pltext(&kmgem.kfac[jfac - 1], 1, xloc, yrefs);
                 }
                 if (lsectc) {
@@ -230,9 +230,9 @@ ylogax() {
             yref = decade * cmgem.ympip1 + cmgem.ympip2;
             if (cmgem.axis[RIGHT].annotate) {
                 xloc = cmgem.uplot.xmax + 0.2 * cmgem.chwid + slen10;
-                settextjust("RIGHT", "CENTER");
+                settextjust(RIGHT, CENTER);
                 pltext("10", 3, xloc, yref);
-                settextjust("LEFT", "BOTTOM");
+                settextjust(LEFT, BOTTOM);
                 pltext(kdec, 9, xloc, yref);
                 setlinewidth(cmgem.iskwidth);
             }
@@ -243,7 +243,7 @@ ylogax() {
                     if ((lsecax && cmgem.axis[RIGHT].annotate) &&
                         (jfac % isecin) == 0) {
                         xloc = cmgem.uplot.xmax + 0.1 * cmgem.chwid;
-                        settextjust("LEFT", "CENTER");
+                        settextjust(LEFT, CENTER);
                         pltext(&kmgem.kfac[jfac - 1], 1, xloc, yrefs);
                         setlinewidth(cmgem.iskwidth);
                     }

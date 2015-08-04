@@ -135,7 +135,7 @@ centxt(ktext, ktext_s, ntext, itextp, tsize)
 
     /* - Write centered text at computed location. */
 
-    settextjust("CENTER", "CENTER");
+    settextjust(CENTER, CENTER);
     pltext(ktext, ktext_s, textx, texty);
 
     /* - Restore character size and orientation attributes. */

@@ -17,7 +17,8 @@
 void
 ylogaxis(int llefax, int lrigax, int lleftc, int lrigtc, float *widlef,
          float *widrig) {
-    char kdec[9], khorz[9], kvert[9];
+    char kdec[9];
+    int horz, vert;
     int lsecax, lsectc;
     int idecin, idecmn, idecmx, iline, isecin, jdec, jfac, jfac_, nc, ndivu;
     float chht, chwid, decade, decmn, decmx, decsiz, slen, slen10, slenmx, xloc,
@@ -118,7 +119,7 @@ ylogaxis(int llefax, int lrigax, int lleftc, int lrigtc, float *widlef,
     /* - Save current linestyle and text justification. Set linestyle to solid. */
 
     getlinestyle(&iline);
-    gettextjust(khorz, 9, kvert, 9);
+    gettextjust(&horz, &vert);
     setlinestyle(1);
 
     /* - Draw the left axis. */
@@ -139,7 +140,7 @@ ylogaxis(int llefax, int lrigax, int lleftc, int lrigtc, float *widlef,
             if (yrefs >= ypmnf && yrefs <= ypmxf) {
                 if ((lsecax && llefax) && (jfac % isecin) == 0) {
                     xloc = cmgtm.xvpmin - 0.1 * chwid;
-                    settextjust("RIGHT", "CENTER");
+                    settextjust(RIGHT, CENTER);
                     move(xloc, yrefs);
                     text(&kmgtm.kfac[jfac_], 1, 1);
                 }
@@ -159,10 +160,10 @@ ylogaxis(int llefax, int lrigax, int lleftc, int lrigtc, float *widlef,
             yref = decade * cmgtm.ympwv1 + cmgtm.ympwv2;
             if (llefax) {
                 xloc = cmgtm.xvpmin - 0.2 * chwid - slenmx;
-                settextjust("RIGHT", "CENTER");
+                settextjust(RIGHT, CENTER);
                 move(xloc, yref);
                 text("10", 3, 2);
-                settextjust("LEFT", "BOTTOM");
+                settextjust(LEFT, BOTTOM);
                 nc = indexb(kdec, 9);
                 text(kdec, 9, nc);
             }
@@ -173,7 +174,7 @@ ylogaxis(int llefax, int lrigax, int lleftc, int lrigtc, float *widlef,
                 if (yrefs <= ypmxf) {
                     if ((lsecax && llefax) && (jfac % isecin) == 0) {
                         xloc = cmgtm.xvpmin - chwid;
-                        settextjust("LEFT", "CENTER");
+                        settextjust(LEFT, CENTER);
                         move(xloc, yrefs);
                         text(&kmgtm.kfac[jfac_], 1, 1);
                     }
@@ -212,7 +213,7 @@ ylogaxis(int llefax, int lrigax, int lleftc, int lrigtc, float *widlef,
             if (yrefs >= ypmnf && yrefs <= ypmxf) {
                 if ((lsecax && lrigax) && (jfac % isecin) == 0) {
                     xloc = cmgtm.xvpmax + 0.1 * chwid;
-                    settextjust("LEFT", "CENTER");
+                    settextjust(LEFT, CENTER);
                     move(xloc, yrefs);
                     text(&kmgtm.kfac[jfac_], 1, 1);
                 }
@@ -232,10 +233,10 @@ ylogaxis(int llefax, int lrigax, int lleftc, int lrigtc, float *widlef,
             yref = decade * cmgtm.ympwv1 + cmgtm.ympwv2;
             if (lrigax) {
                 xloc = cmgtm.xvpmax + 0.2 * chwid + slen10;
-                settextjust("RIGHT", "CENTER");
+                settextjust(RIGHT, CENTER);
                 move(xloc, yref);
                 text("10", 3, 2);
-                settextjust("LEFT", "BOTTOM");
+                settextjust(LEFT, BOTTOM);
                 nc = indexb(kdec, 9);
                 text(kdec, 9, nc);
             }
@@ -246,7 +247,7 @@ ylogaxis(int llefax, int lrigax, int lleftc, int lrigtc, float *widlef,
                 if (yrefs <= ypmxf) {
                     if ((lsecax && lrigax) && (jfac % isecin) == 0) {
                         xloc = cmgtm.xvpmax + 0.1 * chwid;
-                        settextjust("LEFT", "CENTER");
+                        settextjust(LEFT, CENTER);
                         move(xloc, yrefs);
                         text(&kmgtm.kfac[jfac_], 1, 1);
                     }
@@ -303,7 +304,7 @@ ylogaxis(int llefax, int lrigax, int lleftc, int lrigtc, float *widlef,
     /* - Restore linestyle and text justification. */
 
     setlinestyle(iline);
-    settextjust(khorz, kvert);
+    settextjust(horz, vert);
 
     return;
 

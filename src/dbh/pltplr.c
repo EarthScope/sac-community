@@ -155,17 +155,17 @@ pltplr(float *s, int naz, int ninc, int levels, char *scalng, int lprint,
     /*  Label axes                                                                   
      * */
     setcolor_index(2);
-    settextjust("CENTER", "BOTTOM");
+    settextjust(CENTER, BOTTOM);
     worldmove(0.0, 0.82);
     text("NORTH", 6, 5);
-    settextjust("LEFT", "CENTER");
+    settextjust(LEFT, CENTER);
     worldmove(0.82, 0.00);
     text("EAST", 5, 4);
 
     /*    Title                                                                      
      * */
     setcolor_index(7);
-    settextjust("CENTER", "CENTER");
+    settextjust(CENTER, CENTER);
     txtxps = .5;
     txtyps = .9 * aspect;
     move(txtxps, txtyps);
@@ -180,13 +180,13 @@ pltplr(float *s, int naz, int ninc, int levels, char *scalng, int lprint,
 
         txtxps = 0.10;
         txtyps = .8 * aspect;
-        settextjust("LEFT", "CENTER");
+        settextjust(LEFT, CENTER);
 
     } else {
 
         txtxps = .5;
         txtyps = .8 * aspect;
-        settextjust("CENTER", "CENTER");
+        settextjust(CENTER, CENTER);
 
     }
     txtyin = 0.04;
@@ -248,7 +248,7 @@ pltplr(float *s, int naz, int ninc, int levels, char *scalng, int lprint,
 
   L_8888:
     plrest();
-    settextjust("LEFT", "BOTTOM");
+    settextjust(LEFT, BOTTOM);
     setvspacetype(lfullsav, ratiosav);
 
   L_9999:

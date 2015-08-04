@@ -99,7 +99,7 @@ text_box_sgf(textbox * t) {
 
     /* Set text size */
     gettextsize(&cmgem.chwid, &cmgem.chht);
-    settextjust("LEFT", "BOTTOM");
+    settextjust(LEFT, BOTTOM);
 
     for (i = 0; i < t->n; i++) {
         sgf.set_color(t->color[i]);

@@ -69,7 +69,7 @@ dispid(int ldfl, int idfl, int nlast, char **last) {
             cmgam.xfidlc = cmgem.uplot.xmin + cmgam.fidbdr;
             cmgam.yfidlc = cmgem.uplot.ymax + cmgam.fidbdr + 4.0 * cmgem.chht;
         }
-        settextjust("LEFT", "BOTTOM");
+        settextjust(LEFT, BOTTOM);
         goto L_8888;
     }
     /* end if( !cmgam.lfidrq ) */
@@ -149,7 +149,7 @@ dispid(int ldfl, int idfl, int nlast, char **last) {
         }
         for (jfidtx = 1; jfidtx <= cmgam.nfidtx; jfidtx++) {
             jfidtx_ = jfidtx - 1;
-            settextjust("RIGHT", "BOTTOM");
+            settextjust(RIGHT, BOTTOM);
             nc1 = indexc((char *) kmgam.kfidtx[jfidtx_], 41, '=') + 1;
 
             strtemp = malloc(nc1 + 1);
@@ -160,7 +160,7 @@ dispid(int ldfl, int idfl, int nlast, char **last) {
 
             free(strtemp);
 
-            settextjust("LEFT", "BOTTOM");
+            settextjust(LEFT, BOTTOM);
             nc2 = indexb((char *) kmgam.kfidtx[jfidtx_], 41);
 
             strtemp = malloc(nc2 - (nc1 + 1) + 2);
@@ -195,7 +195,7 @@ dispid(int ldfl, int idfl, int nlast, char **last) {
             tbox->location = TEXT_BOX_UPPER | TEXT_BOX_LEFT;
         }
 
-        settextjust("LEFT", "BOTTOM");
+        settextjust(LEFT, BOTTOM);
 
         textbox_show(tbox);
         textbox_free(tbox);

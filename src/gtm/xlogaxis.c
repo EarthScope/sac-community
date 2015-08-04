@@ -18,7 +18,8 @@ void
 xlogaxis(int lbotax, int ltopax, int lbottc, int ltoptc, float *widbot,
          float *widtop) {
 
-    char kdec[9], khorz[9], kvert[9];
+    char kdec[9];
+    int horz, vert;
     int lsecax, lsectc;
     int idecin, idecmn, idecmx, iline, isecin, jdec, jfac, jfac_, nc, ndivu;
     float chht, chwid, decade, decmn, decmx, decsiz, slen, slen10, slenmx,
@@ -122,7 +123,7 @@ xlogaxis(int lbotax, int ltopax, int lbottc, int ltoptc, float *widbot,
     /* - Save current linestyle and text justification. Set linestyle to solid. */
 
     getlinestyle(&iline);
-    gettextjust(khorz, 9, kvert, 9);
+    gettextjust(&horz, &vert);
     setlinestyle(LINE_STYLE_SOLID);
 
     /* - Draw the bottom axes. */
@@ -144,7 +145,7 @@ xlogaxis(int lbotax, int ltopax, int lbottc, int ltoptc, float *widbot,
             if (xrefs >= xpmnf && xrefs <= xpmxf) {
                 if ((lsecax && lbotax) && (jfac % isecin) == 0) {
                     yloc = cmgtm.yvpmin - 0.1 * chht;
-                    settextjust("CENTER", "TOP");
+                    settextjust(CENTER, TOP);
                     move(xrefs, yloc);
                     text(&kmgtm.kfac[jfac_], 1, 1);
                 }
@@ -163,10 +164,10 @@ xlogaxis(int lbotax, int ltopax, int lbottc, int ltoptc, float *widbot,
             xref = decade * cmgtm.xmpwv1 + xmpip2;
             if (lbotax) {
                 yloc = cmgtm.yvpmin - 1.2 * chht;
-                settextjust("RIGHT", "TOP");
+                settextjust(RIGHT, TOP);
                 move(xref, yloc);
                 text("10", 3, 2);
-                settextjust("LEFT", "CENTER");
+                settextjust(LEFT, CENTER);
                 move(xref, yloc);
                 nc = indexb(kdec, 9);
                 text(kdec, 9, nc);
@@ -178,7 +179,7 @@ xlogaxis(int lbotax, int ltopax, int lbottc, int ltoptc, float *widbot,
                 if (xrefs <= xpmxf) {
                     if ((lsecax && lbotax) && (jfac % isecin) == 0) {
                         yloc = cmgtm.yvpmin - 0.1 * chht;
-                        settextjust("CENTER", "TOP");
+                        settextjust(CENTER, TOP);
                         move(xrefs, yloc);
                         text(&kmgtm.kfac[jfac_], 1, 1);
                     }
@@ -216,7 +217,7 @@ xlogaxis(int lbotax, int ltopax, int lbottc, int ltoptc, float *widbot,
             if (xrefs >= xpmnf && xrefs <= xpmxf) {
                 if ((lsecax && ltopax) && (jfac % isecin) == 0) {
                     yloc = cmgtm.yvpmax + 0.1 * chht;
-                    settextjust("CENTER", "BOTTOM");
+                    settextjust(CENTER, BOTTOM);
                     move(xrefs, yloc);
                     text(&kmgtm.kfac[jfac_], 1, 1);
                 }
@@ -235,10 +236,10 @@ xlogaxis(int lbotax, int ltopax, int lbottc, int ltoptc, float *widbot,
             xref = decade * cmgtm.xmpwv1 + xmpip2;
             if (ltopax) {
                 yloc = cmgtm.yvpmax + 1.2 * chht;
-                settextjust("RIGHT", "CENTER");
+                settextjust(RIGHT, CENTER);
                 move(xref, yloc);
                 text("10", 3, 2);
-                settextjust("LEFT", "BOTTOM");
+                settextjust(LEFT, BOTTOM);
                 nc = indexb(kdec, 9);
                 text(kdec, 9, nc);
             }
@@ -249,7 +250,7 @@ xlogaxis(int lbotax, int ltopax, int lbottc, int ltoptc, float *widbot,
                 if (xrefs <= xpmxf) {
                     if ((lsecax && ltopax) && (jfac % isecin) == 0) {
                         yloc = cmgtm.yvpmax + 0.1 * chht;
-                        settextjust("CENTER", "BOTTOM");
+                        settextjust(CENTER, BOTTOM);
                         move(xrefs, yloc);
                         text(&kmgtm.kfac[jfac_], 1, 1);
                     }
@@ -300,7 +301,7 @@ xlogaxis(int lbotax, int ltopax, int lbottc, int ltoptc, float *widbot,
     /* - Restore linestyle and text justification. */
 
     setlinestyle(iline);
-    settextjust(khorz, kvert);
+    settextjust(horz, vert);
 
     return;
 

@@ -940,8 +940,8 @@ record_text_play(record_object_t * obj, display_t * out) {
 
     gettextsize(&save.width, &save.height);
     save.angle = gettextangle();
-    save.vert = cmgdm.ivjust;
-    save.horiz = cmgdm.ihjust;
+    gettextjust(&save.horiz, &save.vert);
+
 
     /* Text Size, calls all active devices */
     settextsize_internal(r->width, r->height);
@@ -950,7 +950,7 @@ record_text_play(record_object_t * obj, display_t * out) {
     }
 
     /* Text Justificiation */
-    settextjust(horz[r->horiz], vert[r->vert]);
+    settextjust(r->horiz, r->vert);
 
     /* Text Angle */
     settextangle_internal(r->angle);
@@ -966,7 +966,7 @@ record_text_play(record_object_t * obj, display_t * out) {
     /* Return back to original values */
     settextsize_internal(save.width, save.height);
     settextangle_internal(save.angle);
-    settextjust(horz[save.horiz], vert[save.vert]);
+    settextjust(save.horiz, save.vert);
 
 }
 
@@ -979,8 +979,7 @@ record_text(char *text, int n) {
 
     r->n = n;
     r->angle = gettextangle();
-    r->vert = cmgdm.ivjust;
-    r->horiz = cmgdm.ihjust;
+    gettextjust(&r->horiz, &r->vert);
     gettextsize(&r->width, &r->height);
     record_object_init(OBJ(r), RECORD_TEXT, record_text_play, record_text_free);
     return OBJ(r);

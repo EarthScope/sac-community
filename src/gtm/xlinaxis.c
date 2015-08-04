@@ -18,7 +18,8 @@ xlinaxis(lbotax, ltopax, lbottc, ltoptc, widbot, widtop)
      int lbotax, ltopax, lbottc, ltoptc;
      float *widbot, *widtop;
 {
-    char khorz[9], ktemp[9], kvert[9];
+    int horz, vert;
+    char ktemp[9];
     int lpower, lxpowr;
     int ia, ib, igdlog, iline, jdiv, jpower, jstep, jtick, mds, nc, nds, ndsu,
         ntick, nxdivu;
@@ -26,8 +27,6 @@ xlinaxis(lbotax, ltopax, lbottc, ltoptc, widbot, widtop)
         xdivu, xgrdmn, xgrdmx, xref, xrefi, xtick, xticki, yloc, ypow, yvspmx;
     static char kvalue[17] = "                ";
     static char kpower[9] = "        ";
-
-    kvert[0] = '\0';
 
         /*=====================================================================
 	 * *** INTERNAL SUBROUTINE:  NOT NORMALLY CALLED BY USER ***
@@ -198,7 +197,7 @@ xlinaxis(lbotax, ltopax, lbottc, ltoptc, widbot, widtop)
     /* - Save current linestyle and text justification. Set linestyle to solid. */
 
     getlinestyle(&iline);
-    gettextjust(khorz, 9, kvert, 9);
+    gettextjust(&horz, &vert);
     setlinestyle(1);
 
     /* - Draw the bottom axis. */
@@ -211,7 +210,7 @@ xlinaxis(lbotax, ltopax, lbottc, ltoptc, widbot, widtop)
         /* -- Label for multiplying scale factor. */
         if (lpower && lbotax) {
             ypow = fmax(cmgtm.yvpmin - 2.2 * chht, 0.1 * chht);
-            settextjust("LEFT", "BOTTOM");
+            settextjust(LEFT, BOTTOM);
             move(cmgtm.xvpmin, ypow);
             nc = indexb(kpower, 9);
             text(kpower, 9, nc);
@@ -254,7 +253,7 @@ xlinaxis(lbotax, ltopax, lbottc, ltoptc, widbot, widtop)
                 cnvfta(value, ndsu, mds, kvalue, 17);
                 ljust(kvalue, 17);
                 yloc = cmgtm.yvpmin - 0.1 * chht;
-                settextjust("CENTER", "TOP");
+                settextjust(CENTER, TOP);
                 move(xref, yloc);
                 nc = indexb(kvalue, 17);
                 text(kvalue, 17, nc);
@@ -293,7 +292,7 @@ xlinaxis(lbotax, ltopax, lbottc, ltoptc, widbot, widtop)
         /* -- Label for multiplying scale factor. */
         if (lpower && ltopax) {
             ypow = fmin(cmgtm.yvpmax + 2.2 * chht, yvspmx - 0.1 * chht);
-            settextjust("LEFT", "TOP");
+            settextjust(LEFT, TOP);
             move(cmgtm.xvpmin, ypow);
             nc = indexb(kpower, 9);
             text(kpower, 9, nc);
@@ -336,7 +335,7 @@ xlinaxis(lbotax, ltopax, lbottc, ltoptc, widbot, widtop)
                 cnvfta(value, ndsu, mds, kvalue, 17);
                 ljust(kvalue, 17);
                 yloc = cmgtm.yvpmax + 0.1 * chht;
-                settextjust("CENTER", "BOTTOM");
+                settextjust(CENTER, BOTTOM);
                 move(xref, yloc);
                 nc = indexb(kvalue, 17);
                 text(kvalue, 17, nc);
@@ -380,7 +379,7 @@ xlinaxis(lbotax, ltopax, lbottc, ltoptc, widbot, widtop)
     /* - Restore linestyle and text justification attributes. */
 
     setlinestyle(iline);
-    settextjust(khorz, kvert);
+    settextjust(horz, vert);
 
     return;
 

@@ -323,7 +323,7 @@ xplotxy(int *nerr) {
             cmgam.xfidlc = cmgem.uplot.xmin + cmgam.fidbdr + atrwid;
             cmgam.yfidlc = cmgem.uplot.ymax - cmgam.fidbdr - cmgem.chht;
         }
-        settextjust("LEFT", "BOTTOM");
+        settextjust(LEFT, BOTTOM);
     }
     if (cmgem.liline) {
         xlinl2 = cmgam.xfidlc - 0.5 * cmgem.chwid;
@@ -436,7 +436,7 @@ xplotxy(int *nerr) {
 
   L_8888:
     plrest();
-    settextjust("LEFT", "BOTTOM");
+    settextjust(LEFT, BOTTOM);
     xarray_free(idflnumber);
     return;
 

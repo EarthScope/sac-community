@@ -169,42 +169,42 @@ pcxope(int iope, int iopei) {
     /* - Option 01: HL --- Set horizontal text justification to left. */
 
   L_100:
-    strcpy(kmgem.khjust, "LEFT    ");
+    kmgem.khjust = LEFT;
     settextjust(kmgem.khjust, kmgem.kvjust);
     goto L_8888;
 
     /* - Option 02: HC --- Set horizontal text justification to center. */
 
   L_200:
-    strcpy(kmgem.khjust, "CENTER  ");
+    kmgem.khjust = CENTER;
     settextjust(kmgem.khjust, kmgem.kvjust);
     goto L_8888;
 
     /* - Option 03: HR --- Set horizontal text justification to right. */
 
   L_300:
-    strcpy(kmgem.khjust, "RIGHT   ");
+    kmgem.khjust = RIGHT;
     settextjust(kmgem.khjust, kmgem.kvjust);
     goto L_8888;
 
     /* - Option 04: VB --- Set vertical text justification to bottom. */
 
   L_400:
-    strcpy(kmgem.kvjust, "BOTTOM  ");
+    kmgem.kvjust = BOTTOM;
     settextjust(kmgem.khjust, kmgem.kvjust);
     goto L_8888;
 
     /* - Option 05: VC --- Set vertical text justification to center. */
 
   L_500:
-    strcpy(kmgem.kvjust, "CENTER  ");
+    kmgem.kvjust = CENTER;
     settextjust(kmgem.khjust, kmgem.kvjust);
     goto L_8888;
 
     /* - Option 06: VT --- Set vertical text justification to top. */
 
   L_600:
-    strcpy(kmgem.kvjust, "TOP     ");
+    kmgem.kvjust = TOP;
     settextjust(kmgem.khjust, kmgem.kvjust);
     goto L_8888;
 

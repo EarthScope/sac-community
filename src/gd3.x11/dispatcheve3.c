@@ -204,6 +204,8 @@ cursor_char(XEvent * e) {
     nbytes = XLookupString(key, &kchar, 1, NULL, NULL);
     if (nbytes > 0) {
         char_cursor3[0] = kchar;
+    } else {
+        char_cursor3[0] = 0;
     }
     cursor_on3 = 0;
 }

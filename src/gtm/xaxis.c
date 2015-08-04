@@ -10,7 +10,8 @@
 void /*FUNCTION*/
 xaxis(char *type, char *annot, char *ticks, char *label, int label_s)
 {
-    char kannot[3], kticks[3], ktype[3], kxjust[9], kyjust[9];
+    char kannot[3], kticks[3], ktype[3];
+    int xjust, yjust;
     int lbotax, lbotlb, lbottc, ltopax, ltoptc, lxlin;
     int nc;
     float hgtch, widbot, widch, widtop, xlab, ylab;
@@ -119,11 +120,11 @@ xaxis(char *type, char *annot, char *ticks, char *label, int label_s)
         } else {
             ylab = cmgtm.yvpmax + widtop + 0.75 * hgtch;
         }
-        gettextjust(kxjust, 9, kyjust, 9);
-        settextjust("CENTER", "CENTER");
+        gettextjust(&xjust, &yjust);
+        settextjust(CENTER, CENTER);
         move(xlab, ylab);
         text(label, label_s, nc);
-        settextjust(kxjust, kyjust);
+        settextjust(xjust, yjust);
     }
 
     return;

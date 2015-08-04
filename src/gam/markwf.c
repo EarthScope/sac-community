@@ -20,7 +20,7 @@ markwf(jmark1, jmark2, xloc1, xloc2, ytop, ydel, klabel, klabel_s)
     float yloc1, yloc2;
 
     /* - Set text justification. */
-    settextjust("RIGHT", "TOP");
+    settextjust(RIGHT, TOP);
 
     /* - Draw and label marker lines on requested subplots. */
 
@@ -37,7 +37,7 @@ markwf(jmark1, jmark2, xloc1, xloc2, ytop, ydel, klabel, klabel_s)
 
     /* - Reset text justification. */
 
-    settextjust("LEFT", "BOTTOM");
+    settextjust(LEFT, BOTTOM);
 
     return;
 

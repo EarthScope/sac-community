@@ -540,7 +540,7 @@ pldta(float xarray[], float yarray[], int number, int incx, int incy, int *nerr)
             line(x1, y2, x1, y1);
         }
         setlinewidth(LINE_WIDTH_THIN);
-        settextjust("CENTER", "CENTER");
+        settextjust(CENTER, CENTER);
         pltext(kinc, 9, x1 + 0.5 * xrectangle, y1 + 0.5 * yrectangle);
         setlinewidth(cmgem.iskwidth);
     }

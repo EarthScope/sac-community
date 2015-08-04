@@ -232,7 +232,7 @@ xmap(int *nerr) {
     settextsize(0.014, 0.021);
     settextfont(2);
     settexttype("SOFTWARE");
-    settextjust("LEFT", "BOTTOM");
+    settextjust(LEFT, BOTTOM);
     setcolor_index(2);
     worldmove(0.03, 0.865);
     text("NORTH", 6, 5);
@@ -242,7 +242,7 @@ xmap(int *nerr) {
 
     /*  Label scale                                                                  
      * */
-    settextjust("CENTER", "CENTER");
+    settextjust(CENTER, CENTER);
     if (s->h->scale > .099 && s->h->scale < .101) {
 
         worldmove(0.0, -1.0);
@@ -309,7 +309,7 @@ xmap(int *nerr) {
 
   L_8888:
     plrest();
-    settextjust("LEFT", "BOTTOM");
+    settextjust(LEFT, BOTTOM);
     setvspacetype(lfullsav, ratiosav);
 
   L_9999:

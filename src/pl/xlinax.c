@@ -19,7 +19,7 @@ void
 xlinax() {
     char ktemp[9];
     int lpower;
-    int ia, ib, igdlog, jdiv, jpower, jstep, jtick, mds, nds, ndsu, ntick,
+    int ia, ib, igdlog, jpower, jstep, mds, nds, ndsu, ntick,
         nxdivu;
     float divlog, divtry, factor, grdlog, power, skfudge, value, valuei, xdivu,
         xgrdmn, xgrdmx, xref, xrefi, xtick, xticki, xvpmax, xvpmin, yloc, ypow,
@@ -168,15 +168,7 @@ xlinax() {
         if (labs(igdlog) >= 3 && cmgem.lxpowr) {
             mds = 0;
             nds = max(4, (int) (grdlog) - (int) (divlog) + 2);
-            cnvita(jpower, ktemp, 9);
-            ljust(ktemp, 9);
-            if (jpower >= 0) {
-                fstrncpy(kpower, 8, "X 10+", 5);
-                fstrncpy(kpower + 5, 8 - 5, ktemp, strlen(ktemp));
-            } else {
-                fstrncpy(kpower, 8, "X 10", 4);
-                fstrncpy(kpower + 4, 8 - 4, ktemp, strlen(ktemp));
-            }
+            snprintf(kpower, sizeof(kpower), "X 10%+d", jpower);
             factor = powi(10., -jpower);
             lpower = TRUE;
         } else {
@@ -196,31 +188,43 @@ xlinax() {
     getvport(&xvpmin, &xvpmax, &yvpmin, &yvpmax);
     skfudge = cmgem.skdevfudge * ((yvpmin - yvpmax) / (xvpmin - xvpmax));
 
-    /* - Draw the bottom axis. */
+    /* - Draw the axes. */
 
     setlinestyle(LINE_STYLE_SOLID);
     setlinewidth(cmgem.iskwidth);
 
-    if (cmgem.axis[BOTTOM].annotate || cmgem.axis[BOTTOM].ticks) {
-
+    for(int i = 0; i < 2; i++){
+        int ax = (i == 0 ) ? BOTTOM : TOP;
+    if (cmgem.axis[ax].annotate || cmgem.axis[ax].ticks) {
+        float x0,x1,y0,y1,tick;
+        int dir;
+        x0 = cmgem.uplot.xmin;
+        x1 = cmgem.uplot.xmax;
+        tick = cmgem.chwid;
+        if(ax == BOTTOM) {
+            y0 = y1 = cmgem.uplot.ymin;
+            dir = +1;
+        } else {
+            y0 = y1 = cmgem.uplot.ymax;
+            dir = -1;
+        }
         /* -- Bottom Axes line. */
         if (cmgem.iskwidth > LINE_WIDTH_THIN) {
-            line(cmgem.uplot.xmin - cmgem.iskwidth * skfudge, cmgem.uplot.ymin,
-                 cmgem.uplot.xmax + cmgem.iskwidth * skfudge, cmgem.uplot.ymin);
+            line(x0 - cmgem.iskwidth * skfudge, y0,
+                 x1 + cmgem.iskwidth * skfudge, y1);
         } else {
-            line(cmgem.uplot.xmin, cmgem.uplot.ymin, cmgem.uplot.xmax,
-                 cmgem.uplot.ymin);
+            line(x0,y0,x1,y1);
         }
 
         /* -- Label for multiplying scale factor. */
-        if (lpower && cmgem.axis[BOTTOM].annotate) {
-            ypow = fmax(cmgem.uplot.ymin - 2.2 * cmgem.chht, 0.1 * cmgem.chht);
-            if (cmgem.lxrev) {
-                settextjust("RIGHT", "BOTTOM");
+        if (lpower && cmgem.axis[ax].annotate) {
+            if(ax == BOTTOM) {
+                ypow = fmax(y0 - 2.2 * cmgem.chht, 0.1 * cmgem.chht);
             } else {
-                settextjust("LEFT", "BOTTOM");
+                ypow = fmin(y0 + 2.2 * cmgem.chht, y0 - 0.1 * cmgem.chht);
             }
-            pltext(kpower, 9, cmgem.uplot.xmin, ypow);
+            settextjust((cmgem.lxrev) ? RIGHT : LEFT, ax);
+            pltext(kpower, 9, x0, ypow);
             setlinewidth(cmgem.iskwidth);
         }
 
@@ -242,18 +246,17 @@ xlinax() {
             ntick = 9;
         xticki = xrefi / (float) (ntick + 1);
         xtick = xref - xrefi;
-        for (jtick = 1; jtick <= ntick; jtick++) {
+        for (int j = 1; j <= ntick; j++) {
             xtick = xtick + xticki;
-            if (xtick >= cmgem.uplot.xmin) {
-                line(xtick, cmgem.uplot.ymin, xtick,
-                     cmgem.uplot.ymin + 0.5 * cmgem.chwid);
+            if (xtick >= x0) {
+                line(xtick, y0, xtick, y0 + dir * 0.5 * tick);
             }
         }
 
         /* -- Loop on labeled tick marks. */
-        for (jdiv = 1; jdiv <= nxdivu; jdiv++) {
-            line(xref, cmgem.uplot.ymin, xref, cmgem.uplot.ymin + cmgem.chwid);
-            if (cmgem.axis[BOTTOM].annotate) {
+        for (int k = 1; k <= nxdivu; k++) {
+            line(xref, y0, xref, y0 + dir * tick);
+            if (cmgem.axis[ax].annotate) {
                 if (value >= 0) {
                     ndsu = nds;
                 } else {
@@ -261,18 +264,17 @@ xlinax() {
                 }
                 cnvfta(value, ndsu, mds, kvalue, 17);
                 ljust(kvalue, 17);
-                yloc = cmgem.uplot.ymin - 0.1 * cmgem.chht;
-                settextjust("CENTER", "TOP");
+                yloc = y0 - dir * 0.1 * cmgem.chht;
+                settextjust(CENTER, (ax == BOTTOM) ? TOP : BOTTOM);
                 pltext(kvalue, 17, xref, yloc);
                 setlinewidth(cmgem.iskwidth);
             }
             /* --- Loop on secondary tick marks. */
             xtick = xref;
-            for (jtick = 1; jtick <= ntick; jtick++) {
+            for (int j = 1; j <= ntick; j++) {
                 xtick = xtick + xticki;
-                if (xtick <= cmgem.uplot.xmax) {
-                    line(xtick, cmgem.uplot.ymin, xtick,
-                         cmgem.uplot.ymin + 0.5 * cmgem.chwid);
+                if (xtick <= x1) {
+                    line(xtick, y0, xtick, y0 + dir * 0.5 * tick);
                 }
             }
             value = value + valuei;
@@ -280,107 +282,20 @@ xlinax() {
         }
 
         /* -- Save axes widths. */
-        if (cmgem.axis[BOTTOM].annotate) {
-            cmgem.axis[BOTTOM].width = 1.1 * cmgem.chht;
-            if (lpower)
-                cmgem.axis[BOTTOM].width = cmgem.uplot.ymin - ypow;
+        if (cmgem.axis[ax].annotate) {
+            cmgem.axis[ax].width = 1.1 * cmgem.chht;
+            if (lpower) {
+                if(ax == BOTTOM) {
+                    cmgem.axis[ax].width = y0 - ypow;
+                } else {
+                    cmgem.axis[ax].width = ypow - y0;
+                }
+            }
         } else {
-            cmgem.axis[BOTTOM].width = 0.;
+            cmgem.axis[ax].width = 0.;
         }
 
     }
-
-    /* - Top axis: */
-
-    if (cmgem.axis[TOP].annotate || cmgem.axis[TOP].ticks) {
-
-        /* -- Top Axes line. */
-        if (cmgem.iskwidth > LINE_WIDTH_THIN) {
-            line(cmgem.uplot.xmin - cmgem.iskwidth * skfudge, cmgem.uplot.ymax,
-                 cmgem.uplot.xmax + cmgem.iskwidth * skfudge, cmgem.uplot.ymax);
-        } else {
-            line(cmgem.uplot.xmin, cmgem.uplot.ymax, cmgem.uplot.xmax,
-                 cmgem.uplot.ymax);
-        }
-
-        /* -- Label for multiplying scale factor. */
-        if (lpower && cmgem.axis[TOP].annotate) {
-            ypow =
-                fmin(cmgem.uplot.ymax + 2.2 * cmgem.chht,
-                     cmgem.view.ymax - 0.1 * cmgem.chht);
-            if (cmgem.lxrev) {
-                settextjust("RIGHT", "TOP");
-            } else {
-                settextjust("LEFT", "TOP");
-            }
-            pltext(kpower, 9, cmgem.uplot.xmin, ypow);
-            setlinewidth(cmgem.iskwidth);
-        }
-
-        /* -- Calculate constants for labeled tick marks. */
-        value = xgrdmn * factor;
-        xref = xgrdmn * cmgem.xmpip1 + cmgem.xmpip2;
-        valuei = xdivu * factor;
-        xrefi = xdivu * cmgem.xmpip1;
-        strcpy(kvalue, "                ");
-
-        /* -- Draw secondary tick marks before first labeled one. */
-        ntick = 1;
-        if (xrefi >= 0.10) {
-            ntick = 3;
-            if (jstep == 5)
-                ntick = 4;
-        }
-        if (xrefi >= 0.25)
-            ntick = 9;
-        xticki = xrefi / (float) (ntick + 1);
-        xtick = xref - xrefi;
-        for (jtick = 1; jtick <= ntick; jtick++) {
-            xtick = xtick + xticki;
-            if (xtick >= cmgem.uplot.xmin) {
-                line(xtick, cmgem.uplot.ymax, xtick,
-                     cmgem.uplot.ymax - 0.5 * cmgem.chwid);
-            }
-        }
-
-        /* -- Loop on labeled tick marks. */
-        for (jdiv = 1; jdiv <= nxdivu; jdiv++) {
-            line(xref, cmgem.uplot.ymax, xref, cmgem.uplot.ymax - cmgem.chwid);
-            if (cmgem.axis[TOP].annotate) {
-                if (value >= 0.) {
-                    ndsu = nds;
-                } else {
-                    ndsu = nds + 1;
-                }
-                cnvfta(value, ndsu, mds, kvalue, 17);
-                ljust(kvalue, 17);
-                yloc = cmgem.uplot.ymax + 0.1 * cmgem.chht;
-                settextjust("CENTER", "BOTTOM");
-                pltext(kvalue, 17, xref, yloc);
-                setlinewidth(cmgem.iskwidth);
-            }
-            /* --- Loop on secondary tick marks. */
-            xtick = xref;
-            for (jtick = 1; jtick <= ntick; jtick++) {
-                xtick = xtick + xticki;
-                if (xtick <= cmgem.uplot.xmax) {
-                    line(xtick, cmgem.uplot.ymax, xtick,
-                         cmgem.uplot.ymax - 0.5 * cmgem.chwid);
-                }
-            }
-            value = value + valuei;
-            xref = xref + xrefi;
-        }
-
-        /* -- Save axes widths. */
-        if (cmgem.axis[TOP].annotate) {
-            cmgem.axis[TOP].width = 1.1 * cmgem.chht;
-            if (lpower)
-                cmgem.axis[TOP].width = ypow - cmgem.uplot.ymax;
-        } else {
-            cmgem.axis[TOP].width = 0.;
-        }
-
     }
 
     /* - Grid lines. */
@@ -390,7 +305,7 @@ xlinax() {
         xref = xgrdmn * cmgem.xmpip1 + cmgem.xmpip2;
         xrefi = xdivu * cmgem.xmpip1;
         setlinestyle(cmgem.ixgrd);
-        for (jdiv = 1; jdiv <= nxdivu; jdiv++) {
+        for (int j = 1; j <= nxdivu; j++) {
             line(xref, cmgem.uplot.ymin, xref, cmgem.uplot.ymax);
             xref = xref + xrefi;
         }

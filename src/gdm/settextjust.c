@@ -21,24 +21,24 @@
  *
  */
 void
-settextjust(char *khorz, char *kvert) {
+settextjust(int horz, int vert) {
     /* - Only check first character, but check for upper and lower case. */
     /* - Errors result in default (LEFT, BOTTOM). */
-    if (khorz[0] == 'L' || khorz[0] == 'l') {
+    if (horz == LEFT) {
         cmgdm.ihjust = 1;
-    } else if (khorz[0] == 'C' || khorz[0] == 'c') {
+    } else if (horz == CENTER) {
         cmgdm.ihjust = 2;
-    } else if (khorz[0] == 'R' || khorz[0] == 'r') {
+    } else if (horz == RIGHT) {
         cmgdm.ihjust = 3;
     } else {
         cmgdm.ihjust = 1;
     }
 
-    if (kvert[0] == 'B' || kvert[0] == 'b') {
+    if (vert == BOTTOM) {
         cmgdm.ivjust = 1;
-    } else if (kvert[0] == 'C' || kvert[0] == 'c') {
+    } else if (vert == CENTER) {
         cmgdm.ivjust = 2;
-    } else if (kvert[0] == 'T' || kvert[0] == 't') {
+    } else if (vert == TOP) {
         cmgdm.ivjust = 3;
     } else {
         cmgdm.ivjust = 1;

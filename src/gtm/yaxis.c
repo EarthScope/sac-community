@@ -16,7 +16,8 @@
 void
 yaxis(char *type, char *annot, char *ticks, char *label, int label_s) {
 
-    char ktype[3], kxjust[9], kyjust[9];
+    char ktype[3];
+    int xjust, yjust;
     int lleftax, lleftlb, llefttc, lrightax, lrighttc, lylin;
     char kannot, kticks;
     int nc;
@@ -127,12 +128,12 @@ yaxis(char *type, char *annot, char *ticks, char *label, int label_s) {
             xlab = cmgtm.xvpmax + widright + 0.75 * hgtch;
         }
         settextangle(90.);
-        gettextjust(kxjust, 9, kyjust, 9);
-        settextjust("CENTER", "CENTER");
+        gettextjust(&xjust, &yjust);
+        settextjust(CENTER, CENTER);
         move(xlab, ylab);
         text(label, label_s, nc);
         settextangle(0.);
-        settextjust(kxjust, kyjust);
+        settextjust(xjust, yjust);
     }
 
     return;

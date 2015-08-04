@@ -772,7 +772,7 @@ xplotrecords(nerr)
                 cmgem.chht = cmgem.tsdef * fmin(cmsss.xpsize, 1.0);
                 cmgem.chwid = cmgem.txrat * cmgem.chht;
                 settextsize(cmgem.chwid, cmgem.chht);
-                settextjust("l", "b");
+                settextjust(LEFT, BOTTOM);
 
                 if (cmsss.lorient) {
                     settextangle(TEXT_HORIZONTAL);
@@ -827,7 +827,7 @@ xplotrecords(nerr)
             cmgem.chwid = cmgem.txrat * cmgem.chht;
             settextsize(cmgem.chwid, cmgem.chht);
             settextangle(TEXT_HORIZONTAL);
-            settextjust("l", "b");
+            settextjust(LEFT, BOTTOM);
         }
 
         /* - Set text size for axes and labels. */

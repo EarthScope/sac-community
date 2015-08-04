@@ -265,7 +265,7 @@ ylinax() {
                 getstringsize(kvalue, nc, &slen);
                 slenmx = fmax(slenmx, slen);
                 xloc = cmgem.uplot.xmin - 0.1 * cmgem.chwid;
-                settextjust("RIGHT", "CENTER");
+                settextjust(RIGHT, CENTER);
                 pltext(kvalue, 17, xloc, yref);
                 setlinewidth(cmgem.iskwidth);
             }
@@ -294,7 +294,7 @@ ylinax() {
             xpow =
                 fmax(cmgem.uplot.xmin - slenmx - 1.2 * cmgem.chht,
                      0.1 * cmgem.chht);
-            settextjust("LEFT", "TOP");
+            settextjust(LEFT, TOP);
             pltext(kpower, 9, xpow, cmgem.uplot.ymin);
             setlinewidth(cmgem.iskwidth);
         }
@@ -371,7 +371,7 @@ ylinax() {
                 xloc = cmgem.uplot.xmax + 0.1 * cmgem.chwid;
                 if (lneglb && value >= 0.)
                     xloc = xloc + cmgem.chwid;
-                settextjust("LEFT", "CENTER");
+                settextjust(LEFT, CENTER);
                 pltext(kvalue, 17, xloc, yref);
                 setlinewidth(cmgem.iskwidth);
             }
@@ -394,7 +394,7 @@ ylinax() {
             xpow =
                 fmin(cmgem.uplot.xmax + slenmx + 1.2 * cmgem.chwid,
                      cmgem.view.xmax - 0.1 * cmgem.chht);
-            settextjust("LEFT", "BOTTOM");
+            settextjust(LEFT, BOTTOM);
             pltext(kpower, 9, xpow, cmgem.uplot.ymin);
             setlinewidth(cmgem.iskwidth);
             settextangle(TEXT_HORIZONTAL);

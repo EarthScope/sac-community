@@ -18,7 +18,8 @@ ylinaxis(llefax, lrigax, lleftc, lrigtc, widlef, widrig)
      int llefax, lrigax, lleftc, lrigtc;
      float *widlef, *widrig;
 {
-    char khorz[9], ktemp[9], kvert[9];
+    int horz, vert;
+    char ktemp[9];
     int lneglb, lpower, lrev, lypowr;
     int ia, ib, igdlog, iline, jdiv, jpower, jstep, jtick, mds, nc, nds, ndsu,
         ntick, nydivu;
@@ -211,7 +212,7 @@ ylinaxis(llefax, lrigax, lleftc, lrigtc, widlef, widrig)
     /* - Save current linestyle and text justification. Set linestyle to solid. */
 
     getlinestyle(&iline);
-    gettextjust(khorz, 9, kvert, 9);
+    gettextjust(&horz, &vert);
     setlinestyle(1);
 
     /* - Draw the left axis. */
@@ -272,7 +273,7 @@ ylinaxis(llefax, lrigax, lleftc, lrigtc, widlef, widrig)
                 getstringsize(kvalue, nc, &slen);
                 slenmx = fmax(slenmx, slen);
                 xloc = cmgtm.xvpmin - 0.1 * chwid;
-                settextjust("RIGHT", "CENTER");
+                settextjust(RIGHT, CENTER);
                 move(xloc, yref);
                 text(kvalue, 17, nc);
             }
@@ -306,7 +307,7 @@ ylinaxis(llefax, lrigax, lleftc, lrigtc, widlef, widrig)
             /*      ndsu = nds; */
             /*      } */
             xpow = fmax(cmgtm.xvpmin - slenmx - 1.2 * chht, 0.1 * chht);
-            settextjust("LEFT", "TOP");
+            settextjust(LEFT, TOP);
             move(xpow, cmgtm.yvpmin);
             text(kpower, 9, nc);
             settextangle(0.);
@@ -385,7 +386,7 @@ ylinaxis(llefax, lrigax, lleftc, lrigtc, widlef, widrig)
                 xloc = cmgtm.xvpmax + 0.1 * chwid;
                 if (lneglb && value >= 0.)
                     xloc = xloc + chwid;
-                settextjust("LEFT", "CENTER");
+                settextjust(LEFT, CENTER);
                 move(xloc, yref);
                 text(kvalue, 17, nc);
             }
@@ -414,7 +415,7 @@ ylinaxis(llefax, lrigax, lleftc, lrigtc, widlef, widrig)
             settextangle(90.);
             xpow =
                 fmin(cmgtm.xvpmax + slenmx + 1.2 * chwid, xvspmx - 0.1 * chht);
-            settextjust("LEFT", "BOTTOM");
+            settextjust(LEFT, BOTTOM);
             move(xpow, cmgtm.yvpmin);
             text(kpower, 9, nc);
             settextangle(0.);
@@ -447,7 +448,7 @@ ylinaxis(llefax, lrigax, lleftc, lrigtc, widlef, widrig)
     /* - Restore linestyle and text justification attributes. */
 
     setlinestyle(iline);
-    settextjust(khorz, kvert);
+    settextjust(horz, vert);
 
     return;
 

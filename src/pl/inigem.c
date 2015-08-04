@@ -125,8 +125,8 @@ inigem() {
     strcpy(kmgem.kgtqua, "SOFTWARE");
     settexttype(kmgem.kgtqua);
     cmgem.igtfnt = 1;
-    strcpy(kmgem.khjust, "LEFT    ");
-    strcpy(kmgem.kvjust, "BOTTOM  ");
+    kmgem.khjust = LEFT;
+    kmgem.kvjust = BOTTOM;
 
         /*=====================================================================
 	 * VARIABLE DEFINITIONS FOR:  input (world) and plot (viewport) limits.

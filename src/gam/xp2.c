@@ -416,7 +416,7 @@ xp2(int *nerr) {
             cmgem.xgen.on = FALSE;
         }
         if (cmgam.lfidrq) {
-            settextjust("LEFT", "BOTTOM");
+            settextjust(LEFT, BOTTOM);
             if (tbox) {
                 if (cmgem.lcol) {
                     color_foreground(&tbox->color[(jdfl - 1)]);
@@ -466,7 +466,7 @@ xp2(int *nerr) {
 
   L_8888:
     plrest();
-    settextjust("LEFT", "BOTTOM");
+    settextjust(LEFT, BOTTOM);
     xarray_free(toff);
     return;
 

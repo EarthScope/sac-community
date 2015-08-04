@@ -39,7 +39,7 @@ plplab() {
 
     settextangle(0.);
     angcur = 0.;
-    settextjust("LEFT", "BOTTOM");
+    settextjust(LEFT, BOTTOM);
 
     /* - For each label: */
 
