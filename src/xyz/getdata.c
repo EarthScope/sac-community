@@ -11,6 +11,7 @@
 #include "dff.h"
 #include "debug.h"
 
+extern struct t_filesinfo filesinfo;
 /* 
  * 
  *  Name:     GETDATA

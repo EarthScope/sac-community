@@ -16,6 +16,8 @@
 #include "msg.h"
 #include "errors.h"
 
+CND_EXTERN
+
 /** 
  * Parse the action command "ELSEIF"
  * 

@@ -11,6 +11,8 @@
 #include "bool.h"
 #include "cpf.h"
 
+GDM_EXTERN
+
 /** 
  * WINDOW command, parse the parameter setting command
  *    Sets graphics window attributes

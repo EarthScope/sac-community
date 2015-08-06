@@ -19,6 +19,8 @@
 #include "SacHeader.h"
 #include "errors.h"
 
+LHF_EXTERN
+
 /** 
  * Set an integer header value for the current SAC file
  * 

@@ -7,6 +7,8 @@
 
 #include "sgfcolor.h"
 
+SCOLOR
+
 char *
 fill_clrbar2(npseudocolors, width, npricolors, ndefcolors, nerr)
 

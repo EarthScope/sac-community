@@ -13,6 +13,7 @@
 
 MSG_EXTERN
 HDR_EXTERN
+LHF_EXTERN
 
 #ifdef OSX_APP
 void initdevice_osx() {}

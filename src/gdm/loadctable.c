@@ -15,7 +15,15 @@
 
 #include "string_utils.h"
 
+GAM_EXTERN
+
 #define NPSCIMAGE 237
+
+int sred[NUMSGFCOLORS];
+int sgreen[NUMSGFCOLORS];
+int sblue[NUMSGFCOLORS];
+int npscolors;
+
 
 /** 
  * Set the color table by name. 

@@ -13,6 +13,8 @@
 #include "dff.h"
 #include "co.h"
 
+EXM_EXTERN
+
 /** 
  * Send a variable tracing report to the message subsystem
  * 

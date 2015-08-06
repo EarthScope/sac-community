@@ -8,6 +8,8 @@
 #include "cpf.h"
 #include "com.h"
 
+COM_EXTERN
+
 /** 
  * Variable initialization of the Command Block
  * 

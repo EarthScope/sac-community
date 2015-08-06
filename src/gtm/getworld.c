@@ -1,6 +1,9 @@
 
 #include "gtm.h"
 
+
+GTM_EXTERN
+
 void /*FUNCTION*/
 getworld(xmin, xmax, ymin, ymax)
      float *xmin, *xmax, *ymin, *ymax;

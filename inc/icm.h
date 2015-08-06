@@ -39,7 +39,7 @@ struct t_cmicm {
     double freq[4];
     int ninstr;
     int lfd;
-} cmicm;
+} ;
 
 /** 
  * @struct kmicm 
@@ -50,7 +50,11 @@ struct t_kmicm {
     char kpfrom[MAXKP][MCPFN + 1];
     char kpto[MAXKP][MCPFN + 1];
     char kinstr[MINSTR][9];
-} kmicm;
+} ;
+
+#define ICM_EXTERN \
+    extern struct t_kmicm kmicm;                \
+    extern struct t_cmicm cmicm;
 
 void InterpolateArrays(double *freqs, int nfreqs, double *tmpRe, double *tmpIm,
                        int nfreq, double *xre, double *xim);
@@ -165,5 +169,8 @@ void frequency_amplitude_phase(int nf, double df, double *xre, double *xim,
 void ztransfer(float *dat, int npts, double delta, double *sre, double *sim,
                double *xre, double *xim, int nfreq, int nfft, double delfrq,
                double *F);
+
+#define FFT_FORWARD  -1
+#define FFT_BACKWARD  1
 
 #endif /* _ICM_H_ */

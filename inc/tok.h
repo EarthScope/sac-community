@@ -18,7 +18,7 @@
 struct t_kmtok {
     char ktokdl[MTOKDL];
     char kmsgdl[MMSGDL];
-} kmtok;
+} ;
 
 /** 
  * @struct kmtok
@@ -27,6 +27,10 @@ struct t_kmtok {
 struct t_cmtok {
     int ntokdl;
     int nmsgdl;
-} cmtok;
+} ;
+
+#define TOK_EXTERN \
+    extern struct t_kmtok kmtok; \
+    extern struct t_cmtok cmtok;
 
 #endif /* _TOK_H_ */

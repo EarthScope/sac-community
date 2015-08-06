@@ -11,6 +11,9 @@
 
 #define	IPULSE	100
 
+SAM_EXTERN
+DFIR_EXTERN
+
 void /*FUNCTION*/
 fdlp(memptr, mxmptr, userData, nerr)
      int mxmptr, *nerr;

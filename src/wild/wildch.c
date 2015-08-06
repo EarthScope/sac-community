@@ -5,6 +5,8 @@
 
 #include "co.h"
 
+WILD_EXTERN
+
 void /*FUNCTION*/
 wildch(xsngl, xmult, xccon)
      char xsngl, xmult, *xccon;

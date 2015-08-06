@@ -1,6 +1,9 @@
 
 #include "gtm.h"
 
+
+GTM_EXTERN
+
 void /*FUNCTION*/
 setvport(xmin, xmax, ymin, ymax)
      double xmin, xmax, ymin, ymax;

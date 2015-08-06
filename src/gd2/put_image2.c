@@ -10,6 +10,8 @@
 #include "gdm.h"
 #include "xyz.h"
 
+GD2_EXTERN
+
 void
 put_image2(char *data, unsigned int xloc, unsigned int yloc, unsigned int width,
            unsigned int height, int *nerr) {

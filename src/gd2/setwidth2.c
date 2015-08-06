@@ -1,6 +1,9 @@
 
 #include "gd2.h"
 
+
+GD2_EXTERN
+
 void /*FUNCTION*/
 setwidth2(index)
      int index;

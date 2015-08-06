@@ -9,6 +9,8 @@
 #include "gtm.h"
 #include "bot.h"
 
+GEM_EXTERN
+
 void
 markvert(jmark1, jmark2, xloc, ytop, ydel, klabel, klabel_s, nmarks)
      int jmark1, jmark2;

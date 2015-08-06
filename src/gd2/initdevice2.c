@@ -10,6 +10,11 @@
 #include "gdm.h"
 #include "gam.h"
 
+
+struct t_kmgd2 kmgd2;
+struct t_cmgd2 cmgd2;
+short *const Mfbuf = &cmgd2.mfbuf[0] - 1;
+
 display_t sgf;
 
 static char *sgf_name = "SGF";

@@ -15,6 +15,8 @@
 #include "hdr.h"
 #include "co.h"
 
+GAM_EXTERN
+
 /** 
  * Calculate and set the dependent variable range for all files in 
  *    the data file list.  Find the maximum value from the depmin

@@ -4,6 +4,8 @@
 
 #include "cpf.h"
 
+GDM_EXTERN
+
 void /*FUNCTION*/
 xbeginwindow(nerr)
      int *nerr;

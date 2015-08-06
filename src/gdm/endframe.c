@@ -17,6 +17,10 @@
 #include "gd2.h"
 #include "string_utils.h"
 
+GDM_EXTERN
+GEM_EXTERN
+GD2_EXTERN
+
 extern print_device_begin_t print_device_begin;
 extern print_device_end_t print_device_end;
 

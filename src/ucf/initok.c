@@ -8,6 +8,10 @@
 #include "ucf.h"
 #include "tok.h"
 
+
+struct t_kmtok kmtok;
+struct t_cmtok cmtok;
+
 /** 
  * Initialize token module
  * 

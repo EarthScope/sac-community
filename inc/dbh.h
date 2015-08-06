@@ -97,4 +97,9 @@ void zero(float *a, int n);
 
 void ceigvv(int nd, int n, complexf * a, float *e, complexf * z, int *ierr);
 
+struct t_pefcom {
+    float inbuf[2000];
+    float outbuf[2000];
+};
+
 #endif /* _DBH_H_ */

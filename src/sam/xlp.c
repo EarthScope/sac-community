@@ -10,6 +10,7 @@
 #include "dbh.h"
 #include "cpf.h"
 #include "dff.h"
+SAM_EXTERN
 
 void /*FUNCTION*/
 xlp(nerr)

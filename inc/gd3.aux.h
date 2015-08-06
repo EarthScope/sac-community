@@ -21,9 +21,4 @@ typedef struct {
     int x, y;
 } point;
 
-Colormap colormap;
-int npscolors;
-unsigned long blackpixel;
-unsigned long whitepixel;
-
 #endif /* GD3_AUX_H_ */

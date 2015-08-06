@@ -17,6 +17,9 @@
 #include "bot.h"
 #include "dff.h"
 
+GEM_EXTERN
+GAM_EXTERN
+
 /** 
  * Put file ID information on a current plot 
  *

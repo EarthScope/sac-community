@@ -12,6 +12,8 @@
 
 #include "bot.h"
 
+DATAFILELIST_EXTERN
+
 /** 
  * Set the input data file list mode
  * 

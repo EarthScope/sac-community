@@ -35,6 +35,24 @@ static int gdm_alloc;
 print_device_begin_t print_device_begin;
 print_device_end_t print_device_end;
 
+struct t_kmgdm kmgdm;
+struct t_cmgdm cmgdm;
+
+
+short *const Ascstr = &cmgdm.ascstr[0] - 1;
+int *const Iflhc = &cmgdm.iflhc[0] - 1;
+int *const Igdtyp = &cmgdm.igdtyp[0] - 1;
+int *const Lgdon = &cmgdm.lgdon[0] - 1;
+short *const Stroke = &cmgdm.stroke[0] - 1;
+short *const Stxmax = &cmgdm.stxmax[0] - 1;
+short *const Stxmin = &cmgdm.stxmin[0] - 1;
+float *const Xvs = &cmgdm.xvs[0] - 1;
+float *const Xwindowmax = &cmgdm.xwindowmax[0] - 1;
+float *const Xwindowmin = &cmgdm.xwindowmin[0] - 1;
+float *const Yvs = &cmgdm.yvs[0] - 1;
+float *const Ywindowmax = &cmgdm.ywindowmax[0] - 1;
+float *const Ywindowmin = &cmgdm.ywindowmin[0] - 1;
+
 #define BUFLEN 1024
 
 void

@@ -13,6 +13,8 @@
 #include "cpf.h"
 #include "dff.h"
 
+SCM_EXTERN
+
 void /*FUNCTION*/
 xrotate(nerr)
      int *nerr;

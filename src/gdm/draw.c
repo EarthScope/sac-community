@@ -2,6 +2,8 @@
 #include "gdm.h"
 #include "bot.h"
 
+GDM_EXTERN
+
 #define	IABOVE	8
 #define	IBELOW	4
 #define	ILEFT	1

@@ -27,6 +27,7 @@
 #include "errors.h"
 
 DFM_EXTERN
+SDD_EXTERN
 
 /* -- Prepare output file name:
  * --- If directory option is ON (lwrdir=.TRUE. and nwrdir>0), 

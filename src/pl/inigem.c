@@ -19,6 +19,12 @@ extern color COLOR_BLACK;
 extern color COLOR_WHITE;
 dict *color_dict = NULL;
 
+struct t_kmgem kmgem;
+struct t_cmgem cmgem;
+struct t_kmgem kmgemsav;
+struct t_cmgem cmgemsav;
+int lgems;
+
 void /*FUNCTION*/
 inigem() {
     int j, j_;

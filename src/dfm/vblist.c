@@ -12,6 +12,8 @@
 
 #include "msg.h"
 
+BOM_EXTERN
+
 /** 
  * Verify that there is at least one file in the binop file list
  * 

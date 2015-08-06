@@ -17,6 +17,9 @@
 #include "co.h"
 #include "ucf.h"
 
+COM_EXTERN
+EXM_EXTERN
+
 /** 
  * Perform standar error recovery when a syntax error is discovered in the 
  *    current command

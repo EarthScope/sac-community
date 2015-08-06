@@ -17,6 +17,10 @@
 #include "co.h"
 #include "dff.h"
 
+GAM_EXTERN
+GEM_EXTERN
+SPE_EXTERN
+
 extern float *spespe;
 extern float *speaux;
 void

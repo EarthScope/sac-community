@@ -3,6 +3,8 @@
 
 #include "cpf.h"
 
+GEM_EXTERN
+
 void /*FUNCTION*/
 xtsize(nerr)
      int *nerr;

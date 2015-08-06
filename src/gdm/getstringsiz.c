@@ -3,6 +3,8 @@
 
 #include "gdm.h"
 
+GDM_EXTERN
+
 /** 
  * Determine the width of a text string
  *

@@ -5,4 +5,4 @@ struct t_filesinfo {
     int bufferfull, filesread, nodata;
     int lbuff;
     int first;
-} filesinfo;
+};

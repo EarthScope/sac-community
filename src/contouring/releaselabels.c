@@ -11,7 +11,9 @@
 #include "mach.h"
 #include "contouring.h"
 #include "debug.h"
+
 extern struct contour contour;
+CONTOURING_EXTERN
 
 void
 releaselabels() {

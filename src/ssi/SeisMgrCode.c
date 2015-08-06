@@ -10,6 +10,9 @@
 #include "bot.h"
 #include "ucf.h"
 
+
+EXM_EXTERN
+
 /* SeisMgrCode:	facilitates running SAC commands that make use of the
 		SeisMgr module.
 

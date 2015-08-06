@@ -16,6 +16,8 @@
 
 #include "ucf.h"
 
+CND_EXTERN
+
 /** 
  * Parse the action command "IF"
  * 

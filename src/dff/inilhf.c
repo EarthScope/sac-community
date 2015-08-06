@@ -12,6 +12,10 @@
 #include "hdr.h"
 #include "bool.h"
 
+struct t_kmlhf kmlhf;
+struct t_cmlhf cmlhf;
+
+
 /** 
  * Initialize the List Header Block
  * 

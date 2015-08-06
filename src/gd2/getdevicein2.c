@@ -5,6 +5,8 @@
 
 #include "co.h"
 
+GD2_EXTERN
+
 void /*FUNCTION*/
 getdeviceinfo2(kdname, kdname_s, idtype)
      char *kdname;

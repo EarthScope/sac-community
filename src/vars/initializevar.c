@@ -12,6 +12,8 @@
 #include "vars.h"
 #include "msg.h"
 
+VARS_EXTERN
+
 /** 
  * Initialize the VARS access library
  * 

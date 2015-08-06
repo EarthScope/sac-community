@@ -4,6 +4,9 @@
 #include "scm.h"
 #include "bool.h"
 
+struct t_kmscm kmscm;
+struct t_cmscm cmscm;
+
 void /*FUNCTION*/
 iniscm() {
     int j;
@@ -68,11 +71,11 @@ iniscm() {
 	 *    NQMANT:  Number of bits in mantissa. [i]
 	 *===================================================================== */
 
-    Iqgain[1] = 128;
-    Iqgain[2] = 32;
-    Iqgain[3] = 8;
-    for (j = 4; j <= (MQGAIN + 1); j++) {
-        Iqgain[j] = 1;
+    cmscm.iqgain[0] = 128;
+    cmscm.iqgain[1] = 32;
+    cmscm.iqgain[2] = 8;
+    for (j = 3; j < (MQGAIN + 1); j++) {
+        cmscm.iqgain[j] = 1;
     }
     cmscm.qlevel = 0.00001;
     cmscm.nqmant = 14;
@@ -118,8 +121,8 @@ iniscm() {
     cmscm.lrglwin = FALSE;
     strcpy(kmscm.krglwin[0], "B       ");
     strcpy(kmscm.krglwin[1], "E       ");
-    Orglwin[1] = 0.;
-    Orglwin[2] = 0.;
+    cmscm.orglwin[0] = 0.;
+    cmscm.orglwin[1] = 0.;
 
         /*=====================================================================
 	 * VARIABLE DEFINITIONS FOR: DECIMATE command.

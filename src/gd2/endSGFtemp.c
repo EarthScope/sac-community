@@ -6,6 +6,10 @@
 #include "gem.h"
 #include "bool.h"
 
+GEM_EXTERN
+GD2_EXTERN
+GDM_EXTERN
+
 void /*FUNCTION*/
 endSGFtemp(int *nerr) {
 

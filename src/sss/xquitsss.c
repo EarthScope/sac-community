@@ -5,6 +5,9 @@
 #include "cpf.h"
 #include "exm.h"
 
+
+SSS_EXTERN
+
 extern float *sss_sum;
 
 void /*FUNCTION*/

@@ -4,6 +4,9 @@
 #include "msg.h"
 #include "cpf.h"
 
+
+SMM_EXTERN
+
 void /*FUNCTION*/
 xsmmc(index, nerr)
      int index, *nerr;

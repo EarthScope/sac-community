@@ -12,6 +12,8 @@
 #include "top.h"
 #include "cpf.h"
 
+EXM_EXTERN
+
 int set_op_order(int want_order);
 void
 xmath_op() {

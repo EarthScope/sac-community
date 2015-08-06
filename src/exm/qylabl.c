@@ -12,6 +12,8 @@
 #include "msg.h"
 #include "bot.h"
 
+GEM_EXTERN
+
 /** 
  * Report current values of the ylable command parameters
  * 

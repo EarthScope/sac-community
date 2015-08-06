@@ -18,6 +18,9 @@
 
 #include "debug.h"
 
+
+CPF_EXTERN
+
 Token *token_dup(Token * t);
 
 void /*FUNCTION*/

@@ -6,6 +6,9 @@
 
 #include "gdm.h"
 
+GEM_EXTERN
+SSS_EXTERN
+
 void /*FUNCTION*/
 pl2d(xarray, yarray, number, incx, incy, nerr)
      float xarray[], yarray[];

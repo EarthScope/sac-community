@@ -12,6 +12,8 @@
 
 #include "msg.h"
 
+COM_EXTERN
+
 /** 
  * Format and store a command parsing error
  * 

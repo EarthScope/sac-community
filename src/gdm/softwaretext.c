@@ -9,6 +9,8 @@
 #include "gd3.x11.h"
 #endif
 
+GDM_EXTERN
+
 /** 
  * Display a text stirng using software font
  *

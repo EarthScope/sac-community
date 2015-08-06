@@ -43,7 +43,7 @@ struct t_kmgd2 {
     char sizetype[9];            /**  */
     char kfdirStore[MCPFN + 1];  /** store value of kfdir for use later */
     char kfilename[MCPFN + 1];   /** name of last SGF file written. */
-} kmgd2;
+} ;
 
 /** 
  * @struct cmgd2 
@@ -66,17 +66,13 @@ struct t_cmgd2 {
     float sizevalue;       /** */
     int encodesize;        /** */
     int lover;             /** TRUE overwrites sgf files. */
-} cmgd2;
+} ;
 
-#ifdef DOINITS
+#define GD2_EXTERN \
+    extern struct t_kmgd2 kmgd2;                \
+    extern struct t_cmgd2 cmgd2;                \
+    extern short *const Mfbuf;
 
-short *const Mfbuf = &cmgd2.mfbuf[0] - 1;
-
-#else
-
-extern short *const Mfbuf;
-
-#endif
 
 void beginSGFtemp(int *nerr);
 void begindevice2(int *nerr);

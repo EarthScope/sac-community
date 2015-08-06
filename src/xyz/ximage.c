@@ -22,6 +22,14 @@
 #include "co.h"
 #include "dff.h"
 
+
+
+CONTOURING_EXTERN
+GAM_EXTERN
+GDM_EXTERN
+GEM_EXTERN
+XYZ_EXTERN
+
 void
 ximage(nerr)
      int *nerr;

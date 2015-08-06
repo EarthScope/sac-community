@@ -7,8 +7,11 @@
 
 #include "eam.h"
 #include "gem.h"
+#include "gam.h"
 #include "exm.h"
 #include "msg.h"
+
+GEM_EXTERN
 
 /** 
  * Report current values of the line parameters

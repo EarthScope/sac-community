@@ -16,6 +16,11 @@
 #include "bot.h"
 #include "cpf.h"
 
+GAM_EXTERN
+GDM_EXTERN
+GEM_EXTERN
+SPE_EXTERN
+
 extern float *specor;
 extern float *spespe;
 extern float *speaux;

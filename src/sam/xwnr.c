@@ -15,6 +15,7 @@
 #include "dbh.h"
 #include "cpf.h"
 #include "dff.h"
+SAM_EXTERN
 
 void /*FUNCTION*/
 xwnr(nerr)

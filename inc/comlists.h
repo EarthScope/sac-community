@@ -22,7 +22,7 @@ struct t_cmcomlists {
     int icomindex[MCOMNAMES];
     int nextcomnames;
     int iextcomindex[MEXTCOMNAMES];
-} cmcomlists;
+} ;
 
 /** 
  * @struct kmcomlists
@@ -32,22 +32,15 @@ struct t_kmcomlists {
     char kcomnames[MCOMNAMES][9];
     char kextcomnames[MEXTCOMNAMES][9];
     char kcomnames_full[MCOMNAMES][30];
-} kmcomlists;
+} ;
 
-#ifdef DOINITS
+#define COMLISTS_EXTERN \
+    extern struct t_kmcomlists kmcomlists;                \
+    extern struct t_cmcomlists cmcomlists;                \
+    extern int *const Icomindex;                          \
+    extern int *const Icomliststart;                      \
+    extern int *const Icommodule;                         \
+    extern int *const Iextcomindex;                       \
+    extern int *const Ncomlistentries;
 
-int *const Icomindex = &cmcomlists.icomindex[0] - 1;
-int *const Icomliststart = &cmcomlists.icomliststart[0] - 1;
-int *const Icommodule = &cmcomlists.icommodule[0] - 1;
-int *const Iextcomindex = &cmcomlists.iextcomindex[0] - 1;
-int *const Ncomlistentries = &cmcomlists.ncomlistentries[0] - 1;
 
-#else
-
-extern int *const Icomindex;
-extern int *const Icomliststart;
-extern int *const Icommodule;
-extern int *const Iextcomindex;
-extern int *const Ncomlistentries;
-
-#endif

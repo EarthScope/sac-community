@@ -4,6 +4,9 @@
 
 #include "cpf.h"
 
+
+SSS_EXTERN
+
 void /*FUNCTION*/
 xtimewindow(nerr)
      int *nerr;

@@ -1,6 +1,8 @@
 
 #include "gdm.h"
 
+GDM_EXTERN
+
 /** 
  * Set the Viewspace type
  *  

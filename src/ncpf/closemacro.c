@@ -7,6 +7,9 @@
 #include "co.h"
 #include "vars.h"
 
+
+CPF_EXTERN
+
 void /*FUNCTION*/
 closemacro(nerr)
      int *nerr;

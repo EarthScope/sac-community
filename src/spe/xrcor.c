@@ -14,6 +14,8 @@
 #include "cpf.h"
 #include "dff.h"
 
+SPE_EXTERN
+
 sac *sacread(char *file);
 
 #define error_handling(error, line) if( *(error) != SAC_OK) { goto line; }

@@ -7,6 +7,9 @@
 #include "bot.h"
 #include "cpf.h"
 
+GEM_EXTERN
+GDM_EXTERN
+
 void /*FUNCTION*/
 xendframe(nerr)
      int *nerr;

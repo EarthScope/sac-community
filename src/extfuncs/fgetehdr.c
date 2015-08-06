@@ -2,6 +2,8 @@
 
 #include "extfunc.h"
 
+extern sac_files *indata;
+
 void
 fgetehdr_(hdr_index, fieldname, value, error, lenfield)
      int *hdr_index;

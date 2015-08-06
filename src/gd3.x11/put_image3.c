@@ -15,6 +15,8 @@
 
 #include "config.h"
 
+GD3_EXTERN
+
 /** 
  * Place a image into an X11 window 
  *

@@ -44,7 +44,7 @@ struct t_cmscm {
     double orglwin[2];
     int ndecfc;
     int ldecfi;
-} cmscm;
+} ;
 
 /** 
  * @struct kmscm
@@ -56,19 +56,12 @@ struct t_kmscm {
     char krgltp[MRGLTP][9];
     char krglmt[MRGLMT][9];
     char krglwin[2][9];
-} kmscm;
+} ;
 
-#ifdef DOINITS
+#define SCM_EXTERN \
+    extern struct t_kmscm kmscm; \
+    extern struct t_cmscm cmscm;
 
-int *const Iqgain = &cmscm.iqgain[0] - 1;
-double *const Orglwin = &cmscm.orglwin[0] - 1;
-
-#else
-
-extern int *const Iqgain;
-extern float *const Orglwin;
-
-#endif
 
 void iniscm(void);
 void lifite(double x1, double dx, float y[], int n, float *a, float *b,

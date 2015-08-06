@@ -14,6 +14,9 @@
 
 #include "gdm.h"
 
+
+GEM_EXTERN
+
 /** 
  * Write plot labels to the current frame
  *

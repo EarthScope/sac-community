@@ -34,21 +34,14 @@ struct t_cmxyz {
     float zregions[MZREGIONS];/** */
     int nzregions;            /** */
     int laspect;              /** */
-} cmxyz;
+} ;
 
-#ifdef DOINITS
+#define XYZ_EXTERN \
+    extern struct t_cmxyz cmxyz;                \
+    extern int *const Izlines;                  \
+    extern float *const Zllist;                 \
+    extern float *const Zregions;
 
-int *const Izlines = &cmxyz.izlines[0] - 1;
-float *const Zllist = &cmxyz.zllist[0] - 1;
-float *const Zregions = &cmxyz.zregions[0] - 1;
-
-#else
-
-extern int *const Izlines;
-extern float *const Zllist;
-extern float *const Zregions;
-
-#endif
 
 void adjust_height(float *input_image, unsigned int width, unsigned int height,
                    float *output_image, unsigned int height_out, float ymin,

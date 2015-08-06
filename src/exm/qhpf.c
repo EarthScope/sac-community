@@ -9,6 +9,8 @@
 
 #include "exm.h"
 
+EAM_EXTERN
+
 /** 
  * Report current values of the HYPO pick file parameters
  * 

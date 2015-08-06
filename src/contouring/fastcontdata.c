@@ -16,6 +16,9 @@
 
 #include "gdm.h"
 
+CONTOURING_EXTERN
+GTM_EXTERN
+
 void
 fastcontdata(array, nxsize, nysize, nerr)
      float array[];

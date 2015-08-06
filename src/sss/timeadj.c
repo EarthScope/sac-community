@@ -6,6 +6,8 @@
 extern float *ttx;
 extern float *tty;
 
+TT_EXTERN
+
 void /*FUNCTION*/
 timeadj(rdist, atime, nerr)
      double rdist;

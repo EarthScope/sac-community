@@ -15,6 +15,8 @@
 #include "clf.h"
 #include "cpf.h"
 
+SSS_EXTERN
+
 #ifdef WIN32
 
 char *

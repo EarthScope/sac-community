@@ -7,6 +7,8 @@
 
 #include "sgfcolor.h"
 
+SCOLOR 
+
 char *
 fill_image2(unsigned int height, unsigned int width, float data[], float dmin,
             float range, int npseudocolors, int nsaccolors, int ndefcolors,

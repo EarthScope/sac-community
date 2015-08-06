@@ -15,7 +15,7 @@
 #include "docs/font.h"
 #include "array.h"
 
-#include "debug.h"
+GDM_EXTERN
 
 #include "debug.h"
 
@@ -31,6 +31,8 @@ char *record_filename(char *in);
 
 #define PS_LINE_SPACING    1.333
 #define PS_FONT_SIZE_MIN  10.0
+
+SCOLOR
 
 display_t ps;
 

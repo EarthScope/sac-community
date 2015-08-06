@@ -4,6 +4,8 @@
 
 #include "cpf.h"
 
+TT_EXTERN
+
 void /*FUNCTION*/
 xphase(nerr)
      int *nerr;

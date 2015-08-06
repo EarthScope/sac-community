@@ -30,6 +30,16 @@
 #include "dff.h"
 #include "ncpf.h"
 
+GEM_EXTERN
+GDM_EXTERN
+FKS_EXTERN
+
+struct t_cmfir3 cmfir3;
+
+float *const Sd = &cmfir3.sd[0] - 1;
+float *const Sn = &cmfir3.sn[0] - 1;
+
+
 #define	MXLENB	40000
 #define MXLENS 200
 

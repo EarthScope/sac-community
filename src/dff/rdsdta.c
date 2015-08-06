@@ -14,6 +14,9 @@
 
 #include "sddhdr.h"
 #include "errors.h"
+
+SDD_EXTERN
+
 /** 
  * Read data components from a SDD disk file to memory
  * 

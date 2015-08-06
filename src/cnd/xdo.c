@@ -23,6 +23,9 @@
 #include "token.h"
 #include "clf.h"
 
+CND_EXTERN
+CPF_EXTERN
+
 Token *do_token[100];
 
 /** 

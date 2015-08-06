@@ -22,6 +22,17 @@ display_t x11;
 static char *x11_name = "XWINDOWS";
 static char *x11_ext = "x11";
 
+char text_cursor3[132];
+
+GD3_EXTERN
+
+extern XWindow basew3[MAX_WINS + 1];
+extern XWindow titlew3[MAX_WINS + 1];
+extern XWindow plotw3[MAX_WINS + 1];
+extern int num_wins3;
+
+XColor pixdef3[256];
+
 void
 initdevice3() {
 

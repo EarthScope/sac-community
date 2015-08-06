@@ -8,6 +8,8 @@
 #include "bbs.h"
 #include "vars.h"
 
+BBS_EXTERN
+
 /** 
  * Create the "Blackboard Store"
  * 

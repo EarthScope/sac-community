@@ -15,6 +15,8 @@
 
 #include "cpf.h"
 
+CND_EXTERN
+
 extern Token *do_token[100];
 
 /** 

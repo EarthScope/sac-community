@@ -17,6 +17,8 @@
 #include "cpf.h"
 #include "array.h"
 
+SSS_EXTERN
+
 void /*FUNCTION*/
 xdeletestack(nerr)
      int *nerr;

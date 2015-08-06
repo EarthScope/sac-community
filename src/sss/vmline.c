@@ -8,6 +8,10 @@
 
 #include "pl.h"
 
+
+GEM_EXTERN
+SSS_EXTERN
+
 #define	MP	100
 
 void /*FUNCTION*/

@@ -21,6 +21,10 @@
 
 struct t_cmcom {
     int ncerr;                  /* Command Error number */
-} cmcom;
+} ;
+
+#define COM_EXTERN \
+    extern struct t_cmcom cmcom;
+
 
 #endif /* _COM_H_ */

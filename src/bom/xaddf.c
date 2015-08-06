@@ -24,6 +24,8 @@
 
 #include "clf.h"
 
+BOM_EXTERN
+
 int
 vbeven(sac * s) {
     int nerr = 0;

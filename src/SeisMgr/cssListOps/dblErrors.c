@@ -5,6 +5,8 @@
 #include "cssListOps/dblErrors.h"
 #include "debug.h"
 
+jmp_buf dblJmpBuf;
+
 static char *ErrorMessage = 0;
 static int NumErrors;
 int *registers = (int *) dblJmpBuf;

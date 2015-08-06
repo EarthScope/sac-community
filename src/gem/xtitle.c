@@ -6,6 +6,8 @@
 
 #include "cpf.h"
 
+GEM_EXTERN
+
 void /*FUNCTION*/
 xtitle(nerr)
      int *nerr;

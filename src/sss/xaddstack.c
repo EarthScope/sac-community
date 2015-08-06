@@ -11,6 +11,9 @@
 #include "cpf.h"
 #include "dff.h"
 
+
+SSS_EXTERN
+
 DFM_EXTERN
 
 void

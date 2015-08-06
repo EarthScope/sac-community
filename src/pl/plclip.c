@@ -9,6 +9,10 @@
 #include "bot.h"
 #include "gdm.h"
 
+
+GEM_EXTERN
+SSS_EXTERN
+
 void
 plclip(xarray, yarray, number, lnewdp)
      float xarray[], yarray[];

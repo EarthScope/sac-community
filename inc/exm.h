@@ -50,7 +50,7 @@ struct t_kmexm {
     char knametranscript[MTRANSCRIPTS][MCPFN + 1];
                                                  /** transcript, names */
     int textwait;         /** Waiting for more text */
-} kmexm;
+} ;
 
 /** 
  * @struct kmexm
@@ -125,31 +125,20 @@ struct t_cmexm {
     int lblackboard[MTRACES];  /** trace, If the variable is a blackboard variable, otherwise a header variable */
     char ktracevalue[MTRACES][MCMSG + 1];
                                         /** trace, value of the traced variable */
-} cmexm;
+} ;
 
-#ifdef DOINITS
+#define EXM_EXTERN \
+    extern struct t_kmexm kmexm;                \
+    extern struct t_cmexm cmexm;                \
+    extern double *const Fgcuco;                \
+    extern double *const Fglico;                \
+    extern double *const Fgquco;                \
+    extern double *const Fgraco;                \
+    extern double *const Fgsico;                \
+    extern int *const Ifeval;                   \
+    extern int *const Irep;                     \
+    extern int *const Lblackboard;
 
-double *const Fgcuco = &cmexm.fgcuco[0] - 1;
-double *const Fglico = &cmexm.fglico[0] - 1;
-double *const Fgquco = &cmexm.fgquco[0] - 1;
-double *const Fgraco = &cmexm.fgraco[0] - 1;
-double *const Fgsico = &cmexm.fgsico[0] - 1;
-int *const Ifeval = &cmexm.ifeval[0] - 1;
-int *const Irep = &cmexm.irep[0] - 1;
-int *const Lblackboard = &cmexm.lblackboard[0] - 1;
-
-#else
-
-extern double *const Fgcuco;
-extern double *const Fglico;
-extern double *const Fgquco;
-extern double *const Fgraco;
-extern double *const Fgsico;
-extern int *const Ifeval;
-extern int *const Irep;
-extern int *const Lblackboard;
-
-#endif
 
 int gettextwait();
 void iniexm(void);

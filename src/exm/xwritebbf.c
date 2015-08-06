@@ -12,6 +12,8 @@
 #include "co.h"
 #include "vars.h"
 
+BBS_EXTERN
+
 /** 
  * Execute the writebbf command which writes the blackboard variable to a file
  * 

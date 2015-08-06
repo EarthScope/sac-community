@@ -10,6 +10,10 @@
 
 #include "ucf.h"
 
+
+SITE_EXTERN
+COMLISTS_EXTERN
+
 void /*FUNCTION*/
 findcommand(kcommand, lfind, module, index)
      char *kcommand;

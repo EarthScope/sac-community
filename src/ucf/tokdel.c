@@ -9,6 +9,8 @@
 #include "tok.h"
 #include "co.h"
 
+TOK_EXTERN
+
 /** 
  * Define token and message delimiters for poptok()
  * 

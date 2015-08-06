@@ -14,6 +14,11 @@
 #include "co.h"
 #include "gd2.h"
 
+
+GDM_EXTERN
+GEM_EXTERN
+GAM_EXTERN
+
 extern print_device_begin_t print_device_begin;
 extern print_device_end_t print_device_end;
 

@@ -3,6 +3,9 @@
 #include "gdm.h"
 #include "debug.h"
 
+
+GDM_EXTERN
+
 void
 calculate_location2(float *x, float *y, float *cx, float *cy, unsigned int w,
                     unsigned int h, unsigned int iw, unsigned int ih) {

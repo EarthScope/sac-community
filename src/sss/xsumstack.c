@@ -15,6 +15,11 @@
 #include "co.h"
 #include "dff.h"
 
+
+GEM_EXTERN
+SSS_EXTERN
+GAM_EXTERN
+
 float *sss_sum;
 
 void /*FUNCTION*/

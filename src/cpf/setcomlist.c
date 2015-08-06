@@ -9,6 +9,8 @@
 #include "com.h"
 #include "comlists.h"
 
+COMLISTS_EXTERN
+
 /** 
  * Set the command list number, which define the set of commands
  *    that are available for execution

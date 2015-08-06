@@ -57,7 +57,11 @@
 
 struct t_cmvars {
     int lvarsinit;
-} cmvars;
+} ;
+
+#define VARS_EXTERN \
+    extern struct t_cmvars cmvars;
+
 
 struct varsfile {
     char *varsname;
@@ -69,7 +73,9 @@ struct t_varsfile {
     int nallocated;
     int nentries;
     struct varsfile *filelist;
-} vfilelist;
+};
+
+#define VFILE_EXTERN extern struct t_varsfile vfilelist;
 
 enum {
     VAR_UNKNOWN = 0,

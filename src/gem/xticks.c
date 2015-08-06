@@ -4,6 +4,8 @@
 
 #include "cpf.h"
 
+GEM_EXTERN
+
 void /*FUNCTION*/
 xticks(nerr)
      int *nerr;

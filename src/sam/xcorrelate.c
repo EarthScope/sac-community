@@ -29,6 +29,7 @@
 #define NORMALIZED_KEY "NORMALIZED$"
 
 int correlation_normalized = FALSE;
+SAM_EXTERN
 
 /** 
  * PURPOSE: To parse and execute the action command CORRELATE.

@@ -8,6 +8,11 @@
 #include "gd3.x11.h"
 #include "bool.h"
 
+extern XWindow basew3[MAX_WINS + 1];
+extern XWindow plotw3[MAX_WINS + 1];
+
+GD3_EXTERN
+
 /** 
  * Begin plotting to a specified window 
  *

@@ -275,7 +275,7 @@ struct t_cmgem {
     color iifilln[MILINE];        /* Filling Color Array */
     int nifill;                 /* Length of color fill array */
     int jifill[2];              /* Current position in color fill array */
-} cmgem;
+} ;
 struct t_kmgem {
     char ksides[4][9];
     char ktitl[145];
@@ -291,11 +291,16 @@ struct t_kmgem {
     char kxtgem[20][9];
     char kptrName[MAXPRNTRNAMELEN + 1];
     char kfac[9];
-} kmgem;
+} ;
 
-int lgems;
-struct t_cmgem cmgemsav;
-struct t_kmgem kmgemsav;
+
+#define GEM_EXTERN \
+    extern struct t_kmgem kmgem;                \
+    extern struct t_cmgem cmgem;                \
+    extern struct t_kmgem kmgemsav;             \
+    extern struct t_cmgem cmgemsav;             \
+    extern int lgems;
+
 
 void inisym(int iisym[], int *nisym);
 void xaxes(int *nerr);

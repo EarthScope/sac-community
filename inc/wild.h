@@ -18,7 +18,7 @@ struct t_kmwild {
     char sngl;     /** Single wildcard character */
     char mult;     /** Multiple wildcard character */
     char ccon[3];  /**  */
-} kmwild;
+} ;
 
 /** 
  * @struct cmwild
@@ -26,7 +26,12 @@ struct t_kmwild {
  */
 struct t_cmwild {
     int igcon;     /**  */
-} cmwild;
+} ;
+
+#define WILD_EXTERN \
+    extern struct t_kmwild kmwild; \
+    extern struct t_cmwild cmwild;
+
 
 void getdir(char *kpath, int kpath_s, char *kdirpt, int kdirpt_s, char *kpatpt,
             int kpatpt_s);

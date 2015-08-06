@@ -6,6 +6,8 @@
 #include "co.h"
 #include "bot.h"
 
+GD2_EXTERN
+
 void /*FUNCTION*/
 setsgfprefix(prefix)
      char *prefix;

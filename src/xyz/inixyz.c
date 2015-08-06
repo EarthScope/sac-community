@@ -5,6 +5,12 @@
 
 #include "bool.h"
 
+struct t_cmxyz cmxyz;
+int *const Izlines = &cmxyz.izlines[0] - 1;
+float *const Zllist = &cmxyz.zllist[0] - 1;
+float *const Zregions = &cmxyz.zregions[0] - 1;
+
+
 void /*FUNCTION*/
 inixyz() {
 

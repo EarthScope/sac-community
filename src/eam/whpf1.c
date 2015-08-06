@@ -12,6 +12,8 @@
 #include "co.h"
 #include "ucf.h"
 
+EAM_EXTERN
+
 /** 
  * Put the current pick into the HYPO pick format
  * 

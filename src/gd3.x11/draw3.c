@@ -6,6 +6,9 @@
 #include "gd3.x11.h"
 
 #include "config.h"
+
+GD3_EXTERN
+
 /** 
  * To draw to a given viewport location. 
  *

@@ -21,6 +21,10 @@
 #include "dff.h"
 #include "array.h"
 
+GEM_EXTERN
+GDM_EXTERN
+GAM_EXTERN
+
 void
 xp1(int *nerr) {
     int n;

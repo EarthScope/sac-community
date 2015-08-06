@@ -17,6 +17,8 @@
 #include "cpf.h"
 #include "bot.h"
 
+CND_EXTERN
+
 extern Token *do_token[100];
 /** 
  * Pick off the next do list variable off the string

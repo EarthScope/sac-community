@@ -4,6 +4,8 @@
 
 #include "gdm.h"
 
+GDM_EXTERN
+
 void
 settextangle_internal(float angle) {
     cmgdm.tangle = angle;

@@ -11,6 +11,12 @@
 #include "pl.h"
 #include "gtm.h"
 
+
+
+SAM_EXTERN
+
+GAM_EXTERN
+
 int /*FUNCTION*/
 fdplot(memptr, lprint, xbeg, nerr)
      int *xbeg, *nerr;

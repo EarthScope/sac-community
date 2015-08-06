@@ -12,6 +12,18 @@
 
 #include "co.h"
 
+struct t_kmexm kmexm;
+struct t_cmexm cmexm;
+double *const Fgcuco = &cmexm.fgcuco[0] - 1;
+double *const Fglico = &cmexm.fglico[0] - 1;
+double *const Fgquco = &cmexm.fgquco[0] - 1;
+double *const Fgraco = &cmexm.fgraco[0] - 1;
+double *const Fgsico = &cmexm.fgsico[0] - 1;
+int *const Ifeval = &cmexm.ifeval[0] - 1;
+int *const Irep = &cmexm.irep[0] - 1;
+int *const Lblackboard = &cmexm.lblackboard[0] - 1;
+
+
 /** 
  * Initialize the execution module
  * 

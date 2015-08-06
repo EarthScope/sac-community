@@ -2,6 +2,8 @@
 #include "gdm.h"
 #include "bool.h"
 
+GDM_EXTERN
+
 /** 
  * Change the Graphics Text Quality
  *

@@ -18,6 +18,8 @@
 #include "gdm.h"
 #include "ucf.h"
 
+CONTOURING_EXTERN
+
 void
 plotcontdata(zdata, nxsize, nysize, nerr)
      float zdata[];

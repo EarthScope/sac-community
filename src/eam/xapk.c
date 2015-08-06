@@ -25,6 +25,8 @@
 #include "dff.h"
 #include "array.h"
 
+EAM_EXTERN
+
 /** 
  * Execute the action command APK to apply an automatic first arrival
  *    picker to data in memory

@@ -19,6 +19,7 @@
 #include "SacHeader.h"
 
 HDR_EXTERN
+LHF_EXTERN
 
 /** 
  * Format a header variable into a text string

@@ -19,6 +19,9 @@
 
 #include "ucf.h"
 
+
+SDD_EXTERN
+
 /** 
  * Write a SDD file from memory to file
  * 

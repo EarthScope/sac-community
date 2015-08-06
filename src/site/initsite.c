@@ -2,6 +2,8 @@
 #include <string.h>
 
 #include "site.h"
+struct t_kmsite kmsite;
+struct t_cmsite cmsite;
 
 void
 initsite() {

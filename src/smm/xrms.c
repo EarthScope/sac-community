@@ -13,6 +13,9 @@
 #include "cpf.h"
 #include "dff.h"
 
+SMM_EXTERN
+LHF_EXTERN
+
 void /*FUNCTION*/
 xrms(nerr)
      int *nerr;

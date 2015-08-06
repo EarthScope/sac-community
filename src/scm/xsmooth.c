@@ -9,6 +9,8 @@
 #include "cpf.h"
 #include "dff.h"
 
+SCM_EXTERN
+
 #define	MHALF	128
 
 void /*FUNCTION*/

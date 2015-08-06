@@ -16,6 +16,34 @@
 #include "dfm.h"
 #include "ucf.h"
 #include "errors.h"
+
+struct t_kmshdr kmshdr;
+
+int *const iscalg = (int *) (kmshdr.kshdr + 112);
+int *const isclas = (int *) kmshdr.kshdr;
+int *const iscom = (int *) (kmshdr.kshdr + 40);
+int *const isdate = (int *) (kmshdr.kshdr + 80);
+int *const isdelt = (int *) (kmshdr.kshdr + 88);
+int *const isfrmt = (int *) (kmshdr.kshdr + 4);
+int *const ishdr = (int *) kmshdr.kshdr;
+int *const isnpts = (int *) (kmshdr.kshdr + 92);
+int *const isrep = (int *) (kmshdr.kshdr + 116);
+int *const issdep = (int *) (kmshdr.kshdr + 108);
+int *const issel = (int *) (kmshdr.kshdr + 96);
+int *const issla = (int *) (kmshdr.kshdr + 100);
+int *const isslo = (int *) (kmshdr.kshdr + 104);
+int *const istime = (int *) (kmshdr.kshdr + 84);
+char *const kschan = (char *) (kmshdr.kshdr + 28);
+char *const kschdr = (char *) kmshdr.kshdr;
+char *const ksclas = (char *) kmshdr.kshdr;
+char *const kscom = (char *) (kmshdr.kshdr + 40);
+char *const ksevnm = (char *) (kmshdr.kshdr + 12);
+char *const ksfrmt = (char *) (kmshdr.kshdr + 4);
+char *const ksstnm = (char *) (kmshdr.kshdr + 20);
+int *const Iscom = (int *) (kmshdr.kshdr + 40 - 4);
+int *const Ishdr = (int *) (kmshdr.kshdr - 4);
+int *const Isrep = (int *) (kmshdr.kshdr + 116 - 4);
+
 /** 
  * Read a SDD Header from a currently open file into memory
  * 

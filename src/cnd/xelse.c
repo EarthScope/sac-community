@@ -8,6 +8,8 @@
 #include "cnd.h"
 #include "cpf.h"
 
+CND_EXTERN
+
 /** 
  * Parse the action command "ELSE"
  * 

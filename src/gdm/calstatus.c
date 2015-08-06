@@ -6,6 +6,8 @@
 #include "gdm.h"
 #include "bool.h"
 
+GDM_EXTERN
+
 /** 
  * Compute several graphic device status variables
  *

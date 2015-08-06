@@ -11,6 +11,7 @@
 #include "amf.h"
 #include "hdr.h"
 #include "sam.h"
+#include "icm.h"
 
 #include "ucf.h"
 #include "icm.h"
@@ -170,7 +171,7 @@ getResponse(float *array, int order, float gain, char *kprefix, int npts,
     re = Real;
     im = Imagine;
 
-    dcpft(re, im, nFreq, 1, cmsam.ifwd);
+    dcpft(re, im, nFreq, 1, FFT_FORWARD);
 
     re = Real;
     im = Imagine;

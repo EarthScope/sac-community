@@ -4,6 +4,13 @@
 #include "smm.h"
 #include "bool.h"
 
+struct t_kmsmm kmsmm;
+struct t_cmsmm cmsmm;
+int *const Iodttm = &cmsmm.iodttm[0] - 1;
+double *const Omtw = &cmsmm.omtw[0] - 1;
+double *const Onoisemtw = &cmsmm.onoisemtw[0] - 1;
+double *const Vel = &cmsmm.vel[0] - 1;
+
 void
 inismm() {
 

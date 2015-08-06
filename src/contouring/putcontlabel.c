@@ -10,7 +10,9 @@
 
 #include "mach.h"
 #include "contouring.h"
+
 extern struct contour contour;
+CONTOURING_EXTERN
 
 void
 putcontlabel(number, jpoint, jtype, angle, jtext)

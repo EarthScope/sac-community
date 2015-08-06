@@ -3,6 +3,9 @@
 #include "gem.h"
 #include "debug.h"
 
+
+GEM_EXTERN
+
 #define HT_ADJUST 32            /* these parameters also exist in gdm/adj_geometry */
 #define WD_ADJUST 32            /* these parameters also exist in gdm/adj_geometry */
 

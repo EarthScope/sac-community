@@ -1,6 +1,8 @@
 
 #include "gdm.h"
 
+GDM_EXTERN
+
 /** 
  * Turn Viewspace clipping on or off
  *

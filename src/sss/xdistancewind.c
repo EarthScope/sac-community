@@ -4,6 +4,8 @@
 
 #include "cpf.h"
 
+SSS_EXTERN
+
 void /*FUNCTION*/
 xdistancewind(nerr)
      int *nerr;

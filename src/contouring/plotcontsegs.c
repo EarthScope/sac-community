@@ -15,6 +15,8 @@
 #include "bot.h"
 
 #include "gdm.h"
+CONTOURING_EXTERN
+GEM_EXTERN
 
 #define	MPOINTS	3
 

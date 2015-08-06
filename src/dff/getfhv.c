@@ -21,6 +21,8 @@
 #include "errors.h"
 #include "string_utils.h"
 
+LHF_EXTERN
+
 static char *env_on[] = { "on", "true", "yes", "1" };
 static char *env_off[] = { "off", "false", "no", "0" };
 

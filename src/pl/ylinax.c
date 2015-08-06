@@ -15,6 +15,9 @@
 #include "ucf.h"
 #include "gdm.h"
 
+
+GEM_EXTERN
+
 #define	FDIVSP	5.
 
 void /*FUNCTION*/

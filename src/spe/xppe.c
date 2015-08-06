@@ -11,6 +11,11 @@
 #include "dbh.h"
 #include "co.h"
 
+
+GAM_EXTERN
+GEM_EXTERN
+SPE_EXTERN
+
 extern float *specor;
 extern float *spespe;
 extern float *spepe;

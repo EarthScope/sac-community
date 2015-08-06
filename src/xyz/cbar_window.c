@@ -7,6 +7,8 @@
 #include "gd2.h"
 #include "gd3.x11.h"
 
+GDM_EXTERN
+
 void
 cbar_window(unsigned int xloc, unsigned int yloc, unsigned int height,
             unsigned int w_height, unsigned int w_width, float vspaceratio,

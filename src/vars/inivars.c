@@ -13,6 +13,8 @@
 #include "co.h"
 #include "debug.h"
 
+struct t_varsfile vfilelist;
+
 /** 
  * Initialize the VARS storage subsystem
  * 

@@ -10,6 +10,8 @@
 #include "co.h"
 #include "bot.h"
 
+EXM_EXTERN
+
 /** 
  * Set the prompt 
  * 

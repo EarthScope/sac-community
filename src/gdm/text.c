@@ -11,6 +11,12 @@
 #include "bool.h"
 #include "debug.h"
 
+
+
+GDM_EXTERN
+
+GEM_EXTERN
+
 /** 
  * Display a text string at the current plot location
  *

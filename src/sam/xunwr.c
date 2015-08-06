@@ -13,6 +13,8 @@
 #include "cpf.h"
 #include "dff.h"
 
+SAM_EXTERN
+
 void /*FUNCTION*/
 xunwr(nerr)
      int *nerr;

@@ -1,6 +1,9 @@
 
 #include "gtm.h"
 
+
+GTM_EXTERN
+
 void /*FUNCTION*/
 calwvtransform() {
 

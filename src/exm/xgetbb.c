@@ -22,6 +22,9 @@
 #include "errors.h"
 #include "debug.h"
 
+EXM_EXTERN
+BBS_EXTERN
+
 static void
 newline(FILE * nun) {
     if (nun == MUNOUT) {

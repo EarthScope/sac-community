@@ -13,6 +13,10 @@
 #include "bot.h"
 #include "dff.h"
 
+
+GEM_EXTERN
+GAM_EXTERN
+
 void /*FUNCTION*/
 plalpha(kalpha, kalpha_s, malpha, lprint, nerr)
      char *kalpha;

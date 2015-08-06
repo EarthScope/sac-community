@@ -15,6 +15,8 @@
 #include "vars.h"
 #include "dff.h"
 
+BBS_EXTERN
+
 /** 
  * Unset or delete a blackboard variable
  * 

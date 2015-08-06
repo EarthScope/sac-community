@@ -4,6 +4,9 @@
 #include "co.h"
 #include "gdm.h"
 
+
+GEM_EXTERN
+
 void /*FUNCTION*/
 centxt(ktext, ktext_s, ntext, itextp, tsize)
      char *ktext;

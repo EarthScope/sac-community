@@ -16,7 +16,6 @@ deleteAllSacFiles(nerr, lname)
 {
     /* Declare Variables. */
     int returnValue;
-    int jdfl;
     UNUSED(lname);
     /*=====================================================================
      * PURPOSE:  To remove all files from SACs data file manager (dfm)

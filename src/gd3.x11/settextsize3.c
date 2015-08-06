@@ -26,6 +26,9 @@
 
 #include "debug.h"
 
+
+GDM_EXTERN
+
 #ifdef HAVE_XFT
 #include <X11/Xft/Xft.h>
 #endif

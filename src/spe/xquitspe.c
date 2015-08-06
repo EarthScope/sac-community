@@ -7,6 +7,9 @@
 #include "cpf.h"
 #include "exm.h"
 
+
+SPE_EXTERN
+
 extern float *specor;
 extern float *spepe;
 extern float *spespe;

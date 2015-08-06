@@ -26,7 +26,7 @@ struct t_cmbom {
     int lnewhdr;                /* optionally let the header information come from
                                    the new file being added or whatever in
                                    addf, subf, mulf, and divf.  */
-} cmbom;
+} ;
 
 /** 
  * @struct kmbom
@@ -35,7 +35,12 @@ struct t_cmbom {
 struct t_kmbom {
     char kecnpt[9];
     char kecdel[9];
-} kmbom;
+} ;
+
+#define BOM_EXTERN \
+    extern struct t_kmbom kmbom;                \
+    extern struct t_cmbom cmbom;
+
 
 void getbfl(string_list * list, int ibfl, int ldta, int *nlen, int *ndx1,
             int *ndx2, int *nerr);

@@ -20,7 +20,7 @@ struct t_cmuom {
     int ndiftp;          /** */
     int idiftp;          /** */
     int ltrap;           /** */
-} cmuom;
+} ;
 
 /** 
  * @struct kmuom
@@ -29,7 +29,11 @@ struct t_cmuom {
 struct t_kmuom {
     char kdiftp[MDIFTP][9];
                           /** */
-} kmuom;
+} ;
+
+#define UOM_EXTERN         \
+    extern struct t_kmuom kmuom;  \
+    extern struct t_cmuom cmuom;
 
 void dif2(float array[], int number, double step, float output[]);
 void dif3(float array[], int number, double step, float output[]);

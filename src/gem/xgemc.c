@@ -5,6 +5,8 @@
 #include "gtm.h"
 #include "cpf.h"
 
+GEM_EXTERN
+
 void /*FUNCTION*/
 xgemc(index, nerr)
      int index, *nerr;

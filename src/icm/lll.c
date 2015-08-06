@@ -34,8 +34,6 @@ lll(int nfreq, double delfrq, double xre[], double xim[], char *subtyp, int subt
      *        IN THE LLL SEISMIC NET AND THEIR CALIBRATION, UCRL-52216.
      * */
     if (memcmp(subtyp, "LV", 2) == 0) {
-    complex double * const Pole = (&pole[0]) - 1;
-    complex double * const Zero = (&zero[0]) - 1;
         t0 = 20.9;
         h = 0.800;
     } else if (memcmp(subtyp, "LR", 2) == 0) {

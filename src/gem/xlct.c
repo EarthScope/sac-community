@@ -11,6 +11,8 @@
 #include "co.h"
 #include "cpf.h"
 
+GDM_EXTERN
+
 void /*FUNCTION*/
 xlct(nerr)
      int *nerr;

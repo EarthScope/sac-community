@@ -14,6 +14,8 @@
 #include "dff.h"
 #include "co.h"
 
+BBS_EXTERN
+
 /** 
  * Read a Blackboard variable file into a program
  * 

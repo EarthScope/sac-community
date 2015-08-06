@@ -4,6 +4,9 @@
 
 #include "gdm.h"
 
+
+GTM_EXTERN
+
 void /*FUNCTION*/
 setsymbolsize(size)
      double size;

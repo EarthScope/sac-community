@@ -18,6 +18,9 @@
 #include "vars.h"
 #include "debug.h"
 
+
+CPF_EXTERN
+
 char *process_line(char *in);
 
 int /*FUNCTION*/

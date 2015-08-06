@@ -9,6 +9,9 @@
 
 #include "gdm.h"
 
+
+GTM_EXTERN
+
 /** 
  * To perform "locator" graphics input function.
  *      The cursor is turned on and initially placed at the

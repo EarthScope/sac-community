@@ -20,6 +20,8 @@
 
 #include "errors.h"
 
+LHF_EXTERN
+
 /** 
  * Set an alphanumeric header value in the current SAC file
  * 

@@ -17,6 +17,7 @@
 #include "cpf.h"
 #include "dff.h"
 #include "errors.h"
+SAM_EXTERN
 
 void /*FUNCTION*/
 xbp(nerr)

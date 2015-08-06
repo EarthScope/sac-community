@@ -14,6 +14,8 @@
 
 #include "co.h"
 
+EXM_EXTERN
+
 /** 
  * Control the tracing of a blackboard or header variable
  * 

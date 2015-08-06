@@ -76,7 +76,7 @@ struct t_cmcontouring {
     double desiredangle;
     double widthlabels;
     double heightlabels;
-} cmcontouring;
+} ;
 
 struct t_kmcontouring {
     char klistname[MCPFN + 1];
@@ -91,27 +91,18 @@ struct t_kmcontouring {
     char klabellist[MZLEVELS][17];
     char klabel[MZLEVELS][17];
     char kdecimal;
-} kmcontouring;
+} ;
 
-#ifdef DOINITS
+#define CONTOURING_EXTERN \
+    extern struct t_kmcontouring kmcontouring;                \
+    extern struct t_cmcontouring cmcontouring;                \
+    extern int *const Iticklist;                              \
+    extern int *const Linelist;                               \
+    extern int *const Lines;                                  \
+    extern double *const Zlevellist;                          \
+    extern double *const Zlevels;                             \
+    extern double *const Zregionlist;
 
-int *const Iticklist = &cmcontouring.iticklist[0] - 1;
-int *const Linelist = &cmcontouring.linelist[0] - 1;
-int *const Lines = &cmcontouring.lines[0] - 1;
-double *const Zlevellist = &cmcontouring.zlevellist[0] - 1;
-double *const Zlevels = &cmcontouring.zlevels[0] - 1;
-double *const Zregionlist = &cmcontouring.zregionlist[0] - 1;
-
-#else
-
-extern int *const Iticklist;
-extern int *const Linelist;
-extern int *const Lines;
-extern double *const Zlevellist;
-extern double *const Zlevels;
-extern double *const Zregionlist;
-
-#endif
 
 void alloclabels(int maxsegments, int maxlabels, int *indexseglabelst,
                  int *indexseglabelnu, int *indexseglabelfi,

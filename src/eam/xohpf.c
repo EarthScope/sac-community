@@ -12,6 +12,8 @@
 #include "msg.h"
 #include "cpf.h"
 
+EAM_EXTERN
+
 /** 
  * Execute the action command OHPF to open a HYPO Pick File (HPF).
  * 

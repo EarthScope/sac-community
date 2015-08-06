@@ -19,7 +19,8 @@
 
 #include "debug.h"
 
-#include "debug.h"
+GDM_EXTERN
+
 
 char *record_filename(char *in);
 
@@ -28,6 +29,8 @@ char *record_filename(char *in);
 
 #define PDF_LINE_SPACING   1.333
 #define PDF_FONT_SIZE_MIN 10.0
+
+SCOLOR
 
 /* These patterns match those in sgftops.c */
 void fill_pdf();

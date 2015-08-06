@@ -7,6 +7,9 @@
 #include "gdm.h"
 #include "bot.h"
 
+
+GTM_EXTERN
+
 void /*FUNCTION*/
 xaxis(char *type, char *annot, char *ticks, char *label, int label_s)
 {

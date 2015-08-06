@@ -5,6 +5,9 @@
 #include "gdm.h"
 #include "co.h"
 
+
+GTM_EXTERN
+
 void /*FUNCTION*/
 symbol(xloc, yloc, number, lnewdp)
      float xloc[], yloc[];

@@ -10,6 +10,10 @@
 #include "bom.h"
 #include "bool.h"
 
+struct t_kmbom kmbom;
+struct t_cmbom cmbom;
+
+
 /** 
  * Initialize the Common Block for Binary Operations
  * 

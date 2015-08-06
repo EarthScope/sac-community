@@ -11,6 +11,7 @@
 #include "dff.h"
 
 DFM_EXTERN
+SSS_EXTERN
 
 extern float *sss_sum;
 

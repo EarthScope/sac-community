@@ -32,6 +32,9 @@
 
 #include "color.h"
 
+GDM_EXTERN
+GD3_EXTERN
+
 void
 changectable3(nentry, icolortable)
      int nentry, icolortable;

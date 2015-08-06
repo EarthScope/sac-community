@@ -4,6 +4,8 @@
 #include "gdm.h"
 #include "bool.h"
 
+GDM_EXTERN
+
 /** 
  * Get graphics device status
  *

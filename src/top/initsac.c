@@ -57,9 +57,15 @@
 #include "wild.h"
 #undef DOINITS
 
-DFM_EXTERN
-
 #include "sac_history.h"
+
+DFM_EXTERN
+GAM_EXTERN
+GDM_EXTERN
+
+struct t_cmcom cmcom;
+struct t_cmvars cmvars;
+struct t_cmextcom cmextcom;
 
 /* external pager program we use to view help fils */
 char *pager;
@@ -160,7 +166,6 @@ initblkdata() {
         cmextcom.nfiles = 0;
         cmgdm.lginit = FALSE;
         cmdfm.ndsflcnt = 0;
-        cmicnv.icnver = 0;
         cmvars.lvarsinit = FALSE;
         _aini = 0;
     }

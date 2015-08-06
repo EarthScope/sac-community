@@ -64,7 +64,16 @@
 
 #define MOTION   2
 
+GD3_EXTERN
+
 void x11_replay();
+
+int xcursor_p3, ycursor_p3;
+extern XWindow basew3[MAX_WINS + 1];
+extern XWindow titlew3[MAX_WINS + 1];
+extern XWindow plotw3[MAX_WINS + 1];
+extern char text_cursor3[132];
+extern int num_wins3;
 
 char *
 event_type(XEvent * e) {

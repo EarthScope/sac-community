@@ -9,6 +9,8 @@
 #include "cpf.h"
 #include "dff.h"
 
+SAM_EXTERN
+
 void /*FUNCTION*/
 xkhronhite(nerr)
      int *nerr;

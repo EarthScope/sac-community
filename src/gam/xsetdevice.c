@@ -12,6 +12,8 @@
 #include "co.h"
 #include "cpf.h"
 
+GAM_EXTERN
+
 #define TOKEN_LENGTH 256
 
 /** 

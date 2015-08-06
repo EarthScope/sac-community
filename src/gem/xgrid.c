@@ -4,6 +4,9 @@
 
 #include "cpf.h"
 
+GEM_EXTERN
+
+
 void /*FUNCTION*/
 xgrid(nerr)
      int *nerr;

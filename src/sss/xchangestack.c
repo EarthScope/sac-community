@@ -8,6 +8,8 @@
 #include "clf.h"
 #include "cpf.h"
 
+SSS_EXTERN
+
 void
 xchangestack(int *nerr) {
     char kfile[MCPFN + 1];

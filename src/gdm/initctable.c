@@ -2,6 +2,8 @@
 #include "gdm.h"
 #include "msg.h"
 
+GDM_EXTERN
+
 /** 
  * Initialize the memory base color table from a named file
  *

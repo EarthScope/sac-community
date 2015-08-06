@@ -32,6 +32,12 @@
 #include "co.h"
 #include "dff.h"
 #include "debug.h"
+
+
+GEM_EXTERN
+
+GDM_EXTERN
+
 #define	MALPHA	100
 #define	MAXCH	40
 #define	MBLKSZ	500

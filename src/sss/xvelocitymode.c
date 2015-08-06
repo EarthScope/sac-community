@@ -4,6 +4,7 @@
 #include "bool.h"
 
 #include "cpf.h"
+SSS_EXTERN
 
 void /*FUNCTION*/
 xvelocitymode(nerr)

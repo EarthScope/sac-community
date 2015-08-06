@@ -9,6 +9,9 @@
 #include "gtm.h"
 #include "ucf.h"
 
+
+GEM_EXTERN
+
 double
 yinterp(double x, double x0, double x1, double y0, double y1) {
     return y0 + (y1 - y0) * (x - x0) / (x1 - x0);

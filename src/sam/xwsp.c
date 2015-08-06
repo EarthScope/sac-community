@@ -18,6 +18,7 @@
 #include "dff.h"
 
 DFM_EXTERN
+SAM_EXTERN
 
 void /*FUNCTION*/
 xwsp(nerr)

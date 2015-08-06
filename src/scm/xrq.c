@@ -14,6 +14,8 @@
 
 #define PI  M_PI
 
+SCM_EXTERN
+
 void /*FUNCTION*/
 xrq(nerr)
      int *nerr;

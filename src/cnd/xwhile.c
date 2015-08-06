@@ -16,6 +16,9 @@
 
 #include "ucf.h"
 
+CND_EXTERN
+CPF_EXTERN
+
 /** 
  * Parse the action command "WHILE"
  * 

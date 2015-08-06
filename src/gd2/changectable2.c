@@ -31,6 +31,9 @@
 
 #include "sgfcolor.h"
 
+GDM_EXTERN
+SCOLOR
+
 #define MGREY 1
 #define MCOLOR 2
 

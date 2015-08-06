@@ -9,7 +9,7 @@
 
 #include "sacio_test.h"
 
-sac *s;
+static sac *s;
 
 void
 test_rsac2_header_file(int vnpts, float vend) {

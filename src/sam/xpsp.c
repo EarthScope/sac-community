@@ -17,6 +17,10 @@
 #include "co.h"
 #include "dff.h"
 
+SAM_EXTERN
+GAM_EXTERN
+GEM_EXTERN
+
 void /*FUNCTION*/
 xpsp(nerr)
      int *nerr;

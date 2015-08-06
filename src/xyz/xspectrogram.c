@@ -20,6 +20,11 @@
 #include "dff.h"
 #include "array.h"
 
+
+GDM_EXTERN
+GEM_EXTERN
+SPE_EXTERN
+
 void
 xspectrogram(int *nerr) {
     int idx, jdfl, *nptslist, numfiles, speclength, specsize, specwidth, nchar;

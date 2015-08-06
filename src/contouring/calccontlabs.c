@@ -11,6 +11,8 @@
 #include "mach.h"
 #include "contouring.h"
 
+CONTOURING_EXTERN
+
 #define	MPOINTS	3
 
 void

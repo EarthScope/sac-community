@@ -19,6 +19,10 @@
 #include "gam.h"
 #include "dff.h"
 
+GAM_EXTERN
+GEM_EXTERN
+XYZ_EXTERN
+
 void /*FUNCTION*/
 xcontour(nerr)
      int *nerr;

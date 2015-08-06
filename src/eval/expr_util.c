@@ -19,6 +19,11 @@
 #include "msg.h"
 #include "ncpf.h"
 #include "co.h"
+#include "cpf.h"
+
+CPF_EXTERN
+LHF_EXTERN
+
 char *unescape(char *in);
 Token *token_dup(Token * t);
 

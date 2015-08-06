@@ -11,6 +11,8 @@
 #include "vars.h"
 #include "debug.h"
 
+VFILE_EXTERN
+
 /** 
  * Get a vars FILE pointer
  * 

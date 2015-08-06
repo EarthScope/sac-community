@@ -9,6 +9,8 @@
 #include "cpf.h"
 #include "dff.h"
 
+UOM_EXTERN
+
 void /*FUNCTION*/
 xint(nerr)
      int *nerr;

@@ -13,6 +13,8 @@
 #include "cpf.h"
 #include "dff.h"
 
+SAM_EXTERN
+
 #define PI  M_PI
 void /*FUNCTION*/
 xtaper(nerr)

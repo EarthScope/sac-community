@@ -13,6 +13,8 @@
 #include "contouring.h"
 #include "bot.h"
 
+CONTOURING_EXTERN
+
 void
 calccontlabel4() {
     int j, jlabel, jlevel, jloc, jpoint, jsegment, jstart, jstatus, jstop,

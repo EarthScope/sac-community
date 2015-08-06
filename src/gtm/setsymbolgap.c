@@ -2,6 +2,9 @@
 #include "gtm.h"
 #include "co.h"
 
+
+GTM_EXTERN
+
 void /*FUNCTION*/
 setsymbolgap(gap)
      double gap;

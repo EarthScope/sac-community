@@ -2,6 +2,9 @@
 #include "gtm.h"
 #include "debug.h"
 
+
+GTM_EXTERN
+
 #define MBLOCK 100
 void
 worldpolyline(float *xwloc, float *ywloc, int number) {

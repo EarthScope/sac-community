@@ -17,6 +17,7 @@
 
 #define	MCORLN	4096
 #define	MWINLN	2048
+SAM_EXTERN
 
 void /*FUNCTION*/
 xconvolve(nerr)

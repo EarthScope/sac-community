@@ -9,6 +9,8 @@
 
 #include "cpf.h"
 
+GAM_EXTERN
+
 void
 xfilenumber(int *nerr) {
     int lfino = FALSE;

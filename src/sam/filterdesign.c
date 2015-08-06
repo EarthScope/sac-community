@@ -15,6 +15,9 @@
 
 #include "errors.h"
 
+GDM_EXTERN
+GEM_EXTERN
+
 #define	IFILTMOD	6
 #define	MXMPTR	10
 

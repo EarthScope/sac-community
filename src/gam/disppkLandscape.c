@@ -17,6 +17,10 @@
 #include "gtm.h"
 #include "SacHeader.h"
 
+GAM_EXTERN
+GEM_EXTERN
+LHF_EXTERN
+
 void
 disppkLandscape(tdelay)
      double tdelay;

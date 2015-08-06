@@ -14,6 +14,8 @@
 #include "cpf.h"
 #include "dff.h"
 
+
+SMM_EXTERN
 DFM_EXTERN
 
 void /*FUNCTION*/

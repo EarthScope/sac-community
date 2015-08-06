@@ -4,6 +4,10 @@
 #include "uom.h"
 #include "bool.h"
 
+struct t_kmuom kmuom;
+struct t_cmuom cmuom;
+
+
 void /*FUNCTION*/
 iniuom() {
 

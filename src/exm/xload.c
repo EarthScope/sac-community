@@ -17,6 +17,8 @@
 #include "bot.h"
 #include "cpf.h"
 
+COMLISTS_EXTERN
+
 /** 
  * Execute the LOAD command which dynamically loads an external SAC command
  *    into memory

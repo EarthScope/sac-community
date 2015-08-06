@@ -36,6 +36,10 @@
 #include "gam.h"
 #include "debug.h"
 
+
+GAM_EXTERN
+GD3_EXTERN
+
 #define FULL 65535.0
 
 void

@@ -12,6 +12,9 @@
 #include "cpf.h"
 #include "exm.h"
 
+
+SSS_EXTERN
+
 void /*FUNCTION*/
 xsss(nerr)
      int *nerr;

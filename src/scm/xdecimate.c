@@ -25,6 +25,12 @@
 #include "co.h"
 #include "dff.h"
 
+
+
+SCM_EXTERN
+
+FIR_EXTERN
+
 void
 xdecimate(int *nerr) {
 

@@ -13,6 +13,8 @@
 #include "msg.h"
 #include "bool.h"
 
+GAM_EXTERN
+
 /** 
  * Report current values of YLIM parameters
  * 

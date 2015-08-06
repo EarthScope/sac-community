@@ -10,6 +10,8 @@
 #include "gam.h"
 #include "gem.h"
 
+GDM_EXTERN
+
 /** 
  * Begin a Plotting Window
  *

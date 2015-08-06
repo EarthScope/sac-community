@@ -26,7 +26,7 @@ struct t_kmtt {
     char kphases[MXTT][9];
     char kmodel[9];
     char **kphaseNames;
-} kmtt;
+} ;
 
 /** 
  * @struct cmtt
@@ -54,28 +54,17 @@ struct t_cmtt {
     int ndxtty[MXTT];         /** indicates the beginning of a tt data curve */
     int ndxttx[MXTT];         /** same for x axis */
     int nttpt[MXTT];          /**  */
-} cmtt;
+} ;
 
-#ifdef DOINITS
-
-int *const Ltteven = &cmtt.ltteven[0] - 1;
-int *const Lttplt = &cmtt.lttplt[0] - 1;
-int *const Ndxttx = &cmtt.ndxttx[0] - 1;
-int *const Ndxtty = &cmtt.ndxtty[0] - 1;
-int *const Nttpt = &cmtt.nttpt[0] - 1;
-float *const Xttdel = &cmtt.xttdel[0] - 1;
-float *const Xttfirst = &cmtt.xttfirst[0] - 1;
-
-#else
-
-extern int *const Ltteven;
-extern int *const Lttplt;
-extern int *const Ndxttx;
-extern int *const Ndxtty;
-extern int *const Nttpt;
-extern float *const Xttdel;
-extern float *const Xttfirst;
-
-#endif
+#define TT_EXTERN                \
+    extern struct t_kmtt kmtt;   \
+    extern struct t_cmtt cmtt;   \
+    extern int *const Ltteven;   \
+    extern int *const Lttplt;    \
+    extern int *const Ndxttx;    \
+    extern int *const Ndxtty;    \
+    extern int *const Nttpt;     \
+    extern float *const Xttdel;  \
+    extern float *const Xttfirst;
 
 #endif /* _TT_H_ */

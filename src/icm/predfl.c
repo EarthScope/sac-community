@@ -1,10 +1,12 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include "dbh.h"
 #include "icm.h"
 #include "ucf.h"
 #include "co.h"
 
+extern struct t_pefcom pefcom;
 /*                                                              PREDFL
  *
  *  Prediction filter, with options for 
@@ -45,10 +47,6 @@
  *
  * */
 #define	NCMAX	12
-
-struct t_pefcom {
-    float inbuf[2000], outbuf[2000];
-} pefcom;
 
 void /*FUNCTION*/
 predfl(data, npts, a, nc, result, errmsg)

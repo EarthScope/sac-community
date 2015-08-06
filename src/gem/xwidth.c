@@ -6,6 +6,8 @@
 #include "pl.h"
 #include "cpf.h"
 
+GEM_EXTERN
+
 void /*FUNCTION*/
 xwidth(nerr)
      int *nerr;

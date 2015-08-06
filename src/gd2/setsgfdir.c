@@ -4,6 +4,8 @@
 #include "co.h"
 #include "bot.h"
 
+GD2_EXTERN
+
 void /*FUNCTION*/
 setsgfdir(dir, dir_s)
      char *dir;

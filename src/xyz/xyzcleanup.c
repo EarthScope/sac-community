@@ -3,6 +3,9 @@
 
 #include "co.h"
 
+
+XYZ_EXTERN
+
 void /*FUNCTION*/
 xyzcleanup() {
     int _l0, nerr;

@@ -10,6 +10,8 @@
 #include "msg.h"
 #include "bool.h"
 
+EXM_EXTERN
+
 /** 
  * Execute the report command showing the current status of sac variables
  * 

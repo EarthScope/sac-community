@@ -28,6 +28,7 @@
 #include "debug.h"
 
 DFM_EXTERN
+EXM_EXTERN
 
 #define PI M_PI
 

@@ -7,6 +7,8 @@
 
 #include "cpf.h"
 
+GAM_EXTERN
+
 void
 xylim(int *nerr) {
     int j, j_, jl;

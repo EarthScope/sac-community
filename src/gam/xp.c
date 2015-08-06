@@ -19,6 +19,10 @@
 #include "co.h"
 #include "dff.h"
 
+GEM_EXTERN
+GDM_EXTERN
+GAM_EXTERN
+
 void
 xp(int *nerr) {
     char kret[9];

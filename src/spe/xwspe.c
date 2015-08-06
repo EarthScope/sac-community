@@ -8,6 +8,8 @@
 #include "cpf.h"
 #include "dff.h"
 
+SPE_EXTERN
+
 extern sac *spe;
 extern float *spespe;
 void /*FUNCTION*/

@@ -7,6 +7,8 @@
 #include "msg.h"
 #include "cpf.h"
 
+GAM_EXTERN
+
 void
 xgamc(int index, int *nerr) {
 

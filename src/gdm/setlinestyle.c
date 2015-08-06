@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include "gdm.h"
 
+GDM_EXTERN
+
 /** 
  * Change the linestyle
  *

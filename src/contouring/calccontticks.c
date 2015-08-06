@@ -12,6 +12,8 @@
 #include "contouring.h"
 #include "co.h"
 
+CONTOURING_EXTERN
+
 #define	MPOINTS	2
 
 void

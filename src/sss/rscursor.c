@@ -18,6 +18,10 @@
 #include "gdm.h"
 #include "bbs.h"
 
+
+GEM_EXTERN
+SSS_EXTERN
+
 void
 rscursor(float **limits, int *action, int *nerr) {
 

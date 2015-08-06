@@ -14,6 +14,9 @@
 #include "dff.h"
 #include "array.h"
 
+struct t_kmdatafilelist kmdatafilelist;
+struct t_cmdatafilelist cmdatafilelist;
+
 static int *iselect = NULL;/** Current entries which are selected  */
 
 /** 

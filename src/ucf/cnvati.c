@@ -166,8 +166,7 @@ cnvati(char *kintgr, int kintgr_s, int *intgr, int lstrict, int *nerr) {
          * - Use a fudge factor of 100k to test present integer value.*/
         if ((ifac == 1000000000) || (*intgr >= (MLARGE - 100000))) {
             if (lstrict) {      /* lstrict added. maf 970129 */
-                cmicnv.icnver = 4003;
-                setmsg("WARNING", cmicnv.icnver);
+                setmsg("WARNING", 4003);
                 apcmsg("integer too large\a", 19);
                 outmsg();
                 clrmsg();

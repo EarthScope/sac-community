@@ -12,6 +12,7 @@
 #include "contouring.h"
 
 extern struct contour contour;
+CONTOURING_EXTERN
 
 void
 newcontseg(level, start, stop, number)

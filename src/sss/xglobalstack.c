@@ -3,6 +3,9 @@
 
 #include "cpf.h"
 
+
+SSS_EXTERN
+
 void
 xglobalstack(int *nerr) {
     double delay, tmp;

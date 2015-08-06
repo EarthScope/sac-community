@@ -1,6 +1,8 @@
 
 #include "gdm.h"
 
+GDM_EXTERN
+
 /** 
  * Get current viewspace range
  *

@@ -7,6 +7,9 @@
 #include "co.h"
 #include "vars.h"
 
+
+CPF_EXTERN
+
 #define	MVARSSIZE	200
 
 void /*FUNCTION*/

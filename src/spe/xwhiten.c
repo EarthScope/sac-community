@@ -12,6 +12,9 @@
 #include "clf.h"
 #include "cpf.h"
 
+ICM_EXTERN
+SPE_EXTERN
+
 extern sac *spe;
 
 void /*FUNCTION*/

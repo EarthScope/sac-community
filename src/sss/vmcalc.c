@@ -6,6 +6,9 @@
 
 #include "msg.h"
 
+
+SSS_EXTERN
+
 void /*FUNCTION*/
 vmcalc(jvm, nerr)
      int jvm, *nerr;

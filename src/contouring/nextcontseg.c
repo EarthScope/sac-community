@@ -11,7 +11,10 @@
 #include "mach.h"
 #include "contouring.h"
 #include "bool.h"
+
 extern struct contour contour;
+CONTOURING_EXTERN
+
 int
 nextcontseg(number, level, start, stop)
      int *number, *level, *start, *stop;

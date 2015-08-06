@@ -31,6 +31,8 @@
 #include "debug.h"
 #include "sac_history.h"
 
+COMLISTS_EXTERN
+
 /** 
  * Set and Get a message from the command line
  * 

@@ -3,6 +3,8 @@
 
 #include "gdm.h"
 
+GDM_EXTERN
+
 /** 
  * Calculate the current graphics viewspace
  *

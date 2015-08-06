@@ -6,6 +6,8 @@
 #include "cpf.h"
 #include "exm.h"
 
+GAM_EXTERN
+
 void /*FUNCTION*/
 xwait(nerr)
      int *nerr;

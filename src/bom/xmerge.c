@@ -27,6 +27,8 @@
 //#define __DEBUG__
 #include "debug.h"
 
+BOM_EXTERN
+
 static int verbose_merge = FALSE;
 
 /** 

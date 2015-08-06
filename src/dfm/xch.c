@@ -25,6 +25,8 @@
 #include "array.h"
 #include "errors.h"
 
+LHF_EXTERN
+
 /** 
  * @param MGDTTM 
  *    15 - Size of a time value

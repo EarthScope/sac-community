@@ -9,6 +9,8 @@
 #include "cpf.h"
 #include "bot.h"
 
+GEM_EXTERN
+
 int
 color_parse(char *key, color *c) {
     int nr;

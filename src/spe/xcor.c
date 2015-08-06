@@ -11,6 +11,9 @@
 #include "cpf.h"
 #include "dbh.h"
 
+
+SPE_EXTERN
+
 extern sac *spe;
 extern float *specor;
 extern float *speaux;

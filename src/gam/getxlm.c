@@ -11,6 +11,8 @@
 
 #include "dfm.h"
 
+GAM_EXTERN
+
 void
 getxlm(lxlm, xmin, xmax)
      int *lxlm;

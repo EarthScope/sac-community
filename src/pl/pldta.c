@@ -11,6 +11,9 @@
 #include "bot.h"
 #include "ucf.h"
 
+
+GEM_EXTERN
+
 #define	MBLOCK	100
 
 float

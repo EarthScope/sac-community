@@ -18,6 +18,10 @@
 #include "gem.h"
 #include "gdm.h"
 
+GD3_EXTERN
+
+extern XWindow plotw3[MAX_WINS + 1];
+
 void
 fill_background3(int window) {
 

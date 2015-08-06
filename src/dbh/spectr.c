@@ -12,6 +12,8 @@
 #include "spe.h"
 #include "ucf.h"
 
+SPE_EXTERN
+
 /** 
  *
  *  Dispatcher for three spectral estimation algorithms.

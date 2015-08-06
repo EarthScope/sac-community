@@ -10,6 +10,9 @@
 #include "gtm.h"
 #include "gdm.h"
 
+GAM_EXTERN
+GEM_EXTERN
+
 #define PI M_PI
 
 void

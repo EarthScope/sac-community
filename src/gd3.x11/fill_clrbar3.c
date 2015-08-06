@@ -5,7 +5,7 @@
 #include "gd3.x11.h"
 
 #include "config.h"
-
+extern XColor pixdef3[256];
 char *
 fill_clrbar3(int npseudocolors, /* number of pseudocolors in the colortable */
              int width,         /* number of elements in one scan line of the color bar */

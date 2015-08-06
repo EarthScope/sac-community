@@ -12,6 +12,10 @@
 #include "msg.h"
 #include "bot.h"
 
+GDM_EXTERN
+GD2_EXTERN
+GEM_EXTERN
+
 extern display_t sgf;
 
 void

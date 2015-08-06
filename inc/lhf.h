@@ -57,7 +57,7 @@ struct t_cmlhf {
     int itmfnm[MTM];  /** Indicies in header (floats) for Time Picks */
     int nlhdr;        /** Unused */
     int nkhdr[SAC_HEADER_STRINGS];/** Length of Character strings*/
-} cmlhf;
+} ;
 
 struct t_kmlhf {
     char kstrpt[MSTRPT][9]; /** Header names for "DEFAULT"  */
@@ -74,7 +74,11 @@ struct t_kmlhf {
     char kiv[SAC_ENUMS][9]; /** Ids for enumerated values         */
     char kdiv[SAC_ENUMS][33];
                             /** Description for enumerated values */
-} kmlhf;
+} ;
+
+#define LHF_EXTERN \
+    extern struct t_kmlhf kmlhf; \
+    extern struct t_cmlhf cmlhf;
 
 enum {
     FLOAT_TYPE = 1,

@@ -3,6 +3,11 @@
 #include "cpf.h"
 #include "bool.h"
 
+
+struct t_kmcpf kmcpf;
+struct t_cmcpf cmcpf;
+
+
 int /*FUNCTION*/
 macrostatus() {
     int macrostatus_v;

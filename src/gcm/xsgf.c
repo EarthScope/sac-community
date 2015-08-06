@@ -9,6 +9,8 @@
 
 #include "cpf.h"
 
+GD2_EXTERN
+
 void /*FUNCTION*/
 xsgf(nerr)
      int *nerr;

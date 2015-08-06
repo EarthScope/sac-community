@@ -21,6 +21,8 @@
 
 #include "ucf.h"
 
+CND_EXTERN
+
 /** 
  * Skip over a clause of a "DO" Statement
  * 

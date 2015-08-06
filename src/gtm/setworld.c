@@ -1,6 +1,9 @@
 
 #include "gtm.h"
 
+
+GTM_EXTERN
+
 void /*FUNCTION*/
 setworld(xwmin, xwmax, ywmin, ywmax)
      double xwmin, xwmax, ywmin, ywmax;

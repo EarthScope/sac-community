@@ -27,6 +27,8 @@
 #include "cpf.h"
 #include "dff.h"
 
+GEM_EXTERN
+
 #define MAXRECORDLENGTH 128     /* max characters in a line of the event file, maf 960620 */
 #define MAXSTRING 10000         /* Max characters in a string like psxy etc... */
 #define MAXSTANAME 9            /* Max number of characters in a station name */

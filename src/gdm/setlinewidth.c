@@ -2,6 +2,8 @@
 #include "gdm.h"
 #include "gem.h"
 
+GEM_EXTERN
+
 /** 
  * Set the line width
  *

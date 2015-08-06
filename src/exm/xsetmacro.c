@@ -13,6 +13,8 @@
 
 #include "bot.h"
 
+EXM_EXTERN
+
 /** 
  * Execute the SETMACRO command which sets the macro search path
  * 

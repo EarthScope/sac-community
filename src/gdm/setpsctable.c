@@ -7,6 +7,8 @@
 #include "sgfcolor.h"
 #undef DOINITS
 
+GDM_EXTERN
+
 /** 
  * Set the Pseudo Color Table
  *

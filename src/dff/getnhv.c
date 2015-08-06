@@ -19,6 +19,8 @@
 #include "SacHeader.h"
 #include "errors.h"
 
+LHF_EXTERN
+
 /** 
  * Get an integer header value from the current SAC file
  * 

@@ -3,6 +3,8 @@
 #include "sss.h"
 #include "dfm.h"
 
+SSS_EXTERN
+
 void /*FUNCTION*/
 xincrementsta(nerr)
      int *nerr;

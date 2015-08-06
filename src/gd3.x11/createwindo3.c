@@ -63,6 +63,22 @@
 #include "sac.bitmap"
 #include "debug.h"
 
+XWindow basew3[MAX_WINS + 1];
+XWindow titlew3[MAX_WINS + 1];
+XWindow plotw3[MAX_WINS + 1];
+GC cursorgc3[MAX_WINS + 1];
+int num_wins3;
+point draw_pos;
+int c_win3;
+int device_type3;
+int cursor_on3;
+int cursortext_on3;
+/*int linestyle3;*/
+char char_cursor3[1];
+char device_name3[13];
+unsigned long color3;
+Colormap colormap;
+
 extern display_t x11;
 
 Cursor cursor;

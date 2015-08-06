@@ -10,7 +10,10 @@
 
 #include "mach.h"
 #include "contouring.h"
+
 extern struct contour contour;
+CONTOURING_EXTERN
+
 void
 getcontseg(number, level, start, stop)
      int number, *level, *start, *stop;

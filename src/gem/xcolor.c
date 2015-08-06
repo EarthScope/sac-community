@@ -16,6 +16,8 @@
 #include "pl.h"
 #include "cpf.h"
 
+GEM_EXTERN
+
 #define _BLACK_ {0,0,0, "black"};
 #define _WHITE_ {255,255,255, "white"};
 

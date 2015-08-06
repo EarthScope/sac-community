@@ -1,6 +1,9 @@
 
 #include "gd2.h"
 
+
+GD2_EXTERN
+
 void /*FUNCTION*/
 setcolor2(color c) {
     int nerr;

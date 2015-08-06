@@ -18,6 +18,8 @@
 #include "msg.h"
 #include "cpf.h"
 
+GEM_EXTERN
+
 static label **store = NULL;
 
 label *

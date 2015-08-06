@@ -24,6 +24,10 @@
 #include "dff.h"
 #include "array.h"
 
+GAM_EXTERN
+GEM_EXTERN
+FKS_EXTERN
+
 void
 xmap(int *nerr) {
 

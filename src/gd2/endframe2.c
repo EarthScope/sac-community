@@ -3,6 +3,9 @@
 
 #include "co.h"
 
+
+GD2_EXTERN
+
 void /*FUNCTION*/
 endframe2(nerr)
      int *nerr;

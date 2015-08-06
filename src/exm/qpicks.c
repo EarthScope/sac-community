@@ -13,6 +13,8 @@
 #include "exm.h"
 #include "msg.h"
 
+GAM_EXTERN
+
 /** 
  * Report the current values of the PICKS parameters
  * 

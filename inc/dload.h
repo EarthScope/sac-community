@@ -22,6 +22,10 @@
 struct t_cmextcom {
     int nfiles;
     int (*extfuncs[MEXTCOMS]) ();
-} cmextcom;
+} ;
+
+#define EXTCOM_EXTERN \
+    extern struct t_cmextcom cmextcom;
+
 
 #endif /* _DLOAD_H_ */

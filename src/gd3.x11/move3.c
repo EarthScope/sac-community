@@ -5,6 +5,8 @@
 
 #include "gd3.x11.h"
 
+GD3_EXTERN
+
 /** 
  * Move to a Viewport Location
  *

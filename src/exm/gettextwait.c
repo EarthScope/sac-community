@@ -11,6 +11,8 @@
 #include "co.h"
 #include "bool.h"
 
+EXM_EXTERN
+
 /** 
  * Get the current text output wait mode 
  * 

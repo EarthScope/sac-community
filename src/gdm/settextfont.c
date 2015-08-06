@@ -10,6 +10,8 @@
 
 #include "string_utils.h"
 
+GDM_EXTERN
+
 /** 
  * Set the Graphics Text Font
  *

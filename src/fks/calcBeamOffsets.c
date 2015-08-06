@@ -14,6 +14,8 @@
 #include "dff.h"
 #include "amf.h"
 
+FKS_EXTERN
+
 #define PI M_PI
 
 #define	MXLENB	40000

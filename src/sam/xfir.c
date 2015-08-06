@@ -14,6 +14,12 @@
 #include "cpf.h"
 #include "dff.h"
 
+struct t_kmfir kmfir;
+struct t_cmfir cmfir;
+float *const Cfir = &cmfir.cfir[0] - 1;
+
+SAM_EXTERN
+
 void /*FUNCTION*/
 xfir(nerr)
      int *nerr;

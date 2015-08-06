@@ -17,6 +17,8 @@ static double Thresh2 = 5.0;
 static double MinGlitchAmp = 50.0;
 int PntsInWin;
 
+SCM_EXTERN
+
 float
 R4Mean(array, Nsamples)
      float *array;

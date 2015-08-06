@@ -3,6 +3,8 @@
 #include "extfunc.h"
 #include "debug.h"
 
+sac_files *indata;  /* Global variable used by FORTRAN header access functions   */
+
 void
 fgetahdr_(hdr_index, fieldname, value, error, lenfield, lenvalue)
      int *hdr_index;

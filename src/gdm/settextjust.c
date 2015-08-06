@@ -1,6 +1,9 @@
 
 #include "gdm.h"
 
+
+GDM_EXTERN
+
 /** 
  * Change the text justification
  *

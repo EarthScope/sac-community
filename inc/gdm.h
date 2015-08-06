@@ -39,7 +39,7 @@ struct t_kmgdm {
     char kgdnam[MGD][13];
     char ctname[MCTSIZE - 1 - (0) + 1][9];
     char kgtfn[4][41];
-} kmgdm;
+} ;
 
 /** 
  * @struct kmgdm 
@@ -96,8 +96,26 @@ struct t_cmgdm {
     short int stxmin[128];
     short int stxmax[128];
     short int stroke[3252];
-    int lgui;
-} cmgdm;
+} ;
+
+#define GDM_EXTERN                              \
+    extern struct t_kmgdm kmgdm;                \
+    extern struct t_cmgdm cmgdm;                \
+    extern short *const Ascstr;                 \
+    extern int *const Iflhc;                    \
+    extern int *const Igdtyp;                   \
+    extern int *const Lgdon;                    \
+    extern short *const Stroke;                 \
+    extern short *const Stxmax;                 \
+    extern short *const Stxmin;                 \
+    extern float *const Xvs;                    \
+    extern float *const Xwindowmax;             \
+    extern float *const Xwindowmin;             \
+    extern float *const Yvs;                    \
+    extern float *const Ywindowmax;             \
+    extern float *const Ywindowmin;             \
+    extern int npscolors;
+
 
 typedef struct _textbox textbox;
 struct _textbox {
@@ -246,40 +264,6 @@ struct _display_t {
     handle_event_t handle_event;
 };
 
-#ifdef DOINITS
-
-short *const Ascstr = &cmgdm.ascstr[0] - 1;
-int *const Iflhc = &cmgdm.iflhc[0] - 1;
-int *const Igdtyp = &cmgdm.igdtyp[0] - 1;
-int *const Lgdon = &cmgdm.lgdon[0] - 1;
-short *const Stroke = &cmgdm.stroke[0] - 1;
-short *const Stxmax = &cmgdm.stxmax[0] - 1;
-short *const Stxmin = &cmgdm.stxmin[0] - 1;
-float *const Xvs = &cmgdm.xvs[0] - 1;
-float *const Xwindowmax = &cmgdm.xwindowmax[0] - 1;
-float *const Xwindowmin = &cmgdm.xwindowmin[0] - 1;
-float *const Yvs = &cmgdm.yvs[0] - 1;
-float *const Ywindowmax = &cmgdm.ywindowmax[0] - 1;
-float *const Ywindowmin = &cmgdm.ywindowmin[0] - 1;
-
-#else
-
-extern short *const Ascstr;
-extern int *const Iflhc;
-extern int *const Igdtyp;
-extern int *const Lgdon;
-extern short *const Stroke;
-extern short *const Stxmax;
-extern short *const Stxmin;
-extern float *const Xvs;
-extern float *const Xwindowmax;
-extern float *const Xwindowmin;
-extern float *const Yvs;
-extern float *const Ywindowmax;
-extern float *const Ywindowmin;
-
-#endif
-
 void initdevice_null(display_t * d);
 
 void adj_geometry(unsigned int *width, unsigned int *height, int *nerr);
@@ -405,5 +389,10 @@ void sac_line_style_read(line_style_function func, void *data);
 
 int color_index_to_rgb(int index, color *c);
 
+void setcolor_fg_def();
+void setcolor_skel();
+void setcolor_bg_def();
+void setcolor_fg();
+void setcolor_bg();
 
 #endif /* _GDM_H_ */

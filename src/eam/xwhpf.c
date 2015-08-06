@@ -11,6 +11,8 @@
 #include "msg.h"
 #include "cpf.h"
 
+EAM_EXTERN
+
 /** 
  * Parse and execute the action command WHPF to write an auxillary card
  *    to the HYPO Pick File (HPF).

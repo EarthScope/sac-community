@@ -13,6 +13,9 @@
 #include "gdm.h"
 #include "bot.h"
 
+
+GTM_EXTERN
+
 void
 yaxis(char *type, char *annot, char *ticks, char *label, int label_s) {
 

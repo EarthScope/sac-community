@@ -14,6 +14,9 @@
 #include "contouring.h"
 #include "co.h"
 
+CONTOURING_EXTERN
+GTM_EXTERN
+
 void
 calccontsegs(array, nxsize, nysize, nerr)
      float array[];

@@ -7,6 +7,10 @@
 #include "gtm.h"
 #include "gdm.h"
 
+
+GDM_EXTERN
+GEM_EXTERN
+
 void /*FUNCTION*/
 plnocl(xarray, yarray, number, lnewdp)
      float xarray[], yarray[];

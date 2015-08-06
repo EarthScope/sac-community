@@ -10,6 +10,9 @@
 #include "cpf.h"
 #include "dff.h"
 
+
+SPE_EXTERN
+
 sac *spe;
 float *specor, *spepe, *spespe, *speaux;
 

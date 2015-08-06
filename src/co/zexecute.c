@@ -27,6 +27,7 @@
 #include "ssi.h"
 
 DFM_EXTERN
+EXTCOM_EXTERN
 
 /** 
  * Execute a dynamically loaded external command

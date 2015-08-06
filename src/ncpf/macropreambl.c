@@ -20,6 +20,9 @@
 #include "ucf.h"
 #include "vars.h"
 
+
+CPF_EXTERN
+
 #define	MMSGDL	2
 
 void

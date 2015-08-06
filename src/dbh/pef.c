@@ -12,10 +12,7 @@
 #include "co.h"
 #include "ucf.h"
 
-struct t_pefcom {
-    float inbuf[2000];
-    float outbuf[2000];
-} pefcom;
+struct t_pefcom pefcom;
 
 /** 
  *

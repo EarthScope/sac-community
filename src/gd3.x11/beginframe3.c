@@ -11,6 +11,9 @@
 
 #include "gd3.x11.h"
 
+
+GDM_EXTERN
+
 void
 beginframe3(nerr)
      int *nerr;

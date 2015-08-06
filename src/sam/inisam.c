@@ -6,6 +6,10 @@
 
 #include "co.h"
 
+struct t_kmsam kmsam;
+struct t_cmsam cmsam;
+struct t_cmunwr cmunwr;
+
 void /*FUNCTION*/
 inisam() {
     char krtbwi[9], krtewi[9];

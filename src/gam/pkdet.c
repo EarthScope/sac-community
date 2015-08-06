@@ -8,6 +8,8 @@
 #include "bool.h"
 #include "gam.h"
 
+EAM_EXTERN
+
 void
 pkdet(float array[], int ndxmx, float si, int ndxst, int *ndxpk) {
     int lfzc;

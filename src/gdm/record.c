@@ -11,6 +11,8 @@
 #include "sgfcolor.h"
 #include "debug.h"
 
+GDM_EXTERN
+
 #define XSCALE 32000
 #define YSCALE 24000
 
@@ -934,8 +936,6 @@ record_text_free(record_object_t * obj) {
 void
 record_text_play(record_object_t * obj, display_t * out) {
     record_text_t save;
-    char *horz[] = { "", "LEFT", "CENTER", "RIGHT" };
-    char *vert[] = { "", "BOTTOM", "CENTER", "TOP" };
     record_text_t *r = (record_text_t *) obj;
 
     gettextsize(&save.width, &save.height);

@@ -11,6 +11,8 @@
 #include "eam.h"
 #include "co.h"
 
+EAM_EXTERN
+
 /** 
  * Close the HYPO pick file (HPF) if open
  * 

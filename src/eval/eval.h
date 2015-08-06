@@ -23,7 +23,7 @@ typedef union {
 #endif
 
 /* extern YYSTYPE yylval; */
-YYSTYPE yylval; 
+/* YYSTYPE yylval; */
 
 #ifndef YY_TYPEDEF_YY_BUFFER_STATE
 #define YY_TYPEDEF_YY_BUFFER_STATE

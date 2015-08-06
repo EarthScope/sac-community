@@ -8,6 +8,9 @@
 #include "gdm.h"
 #include "pl.h"
 
+
+GEM_EXTERN
+
 void
 label_cbar(float xloc, float yloc, float width, float height, float dmin,
            float dmax, int *nerr) {

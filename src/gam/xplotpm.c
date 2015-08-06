@@ -20,6 +20,11 @@
 #include "co.h"
 #include "dff.h"
 
+GEM_EXTERN
+GDM_EXTERN
+GAM_EXTERN
+
+
 void
 xplotpm(int *nerr) {
     char kret[9], kstart[25], kstop[25], ktemp[17], xlabel[MCMSG + 1],

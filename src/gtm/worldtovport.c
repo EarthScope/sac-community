@@ -1,6 +1,9 @@
 
 #include "gtm.h"
 
+
+GTM_EXTERN
+
 void /*FUNCTION*/
 worldtovport(xwloc, ywloc, xloc, yloc)
      double xwloc, ywloc;

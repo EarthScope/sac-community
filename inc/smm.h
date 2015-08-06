@@ -32,7 +32,7 @@ struct t_cmsmm {
     int lnoisemtw;
     double onoisemtw[2];
     int irmspick;
-} cmsmm;
+} ;
 
 /** 
  * @struct kmsmm
@@ -45,23 +45,16 @@ struct t_kmsmm {
     char kvmark[9];
     char kpmark[9];
     char knoisemtw[2][9];
-} kmsmm;
+} ;
 
-#ifdef DOINITS
+#define SMM_EXTERN \
+    extern struct t_kmsmm kmsmm;                \
+    extern struct t_cmsmm cmsmm;                \
+    extern int *const Iodttm;                   \
+    extern double *const Omtw;                  \
+    extern double *const Onoisemtw;             \
+    extern double *const Vel;
 
-int *const Iodttm = &cmsmm.iodttm[0] - 1;
-double *const Omtw = &cmsmm.omtw[0] - 1;
-double *const Onoisemtw = &cmsmm.onoisemtw[0] - 1;
-double *const Vel = &cmsmm.vel[0] - 1;
-
-#else
-
-extern int *const Iodttm;
-extern double *const Omtw;
-extern double *const Onoisemtw;
-extern double *const Vel;
-
-#endif
 
 void inismm(void);
 void ptp(float signal[], int npts, int *length, float *ptpval, int *ipmin,

@@ -3,6 +3,9 @@
 
 #include "cpf.h"
 
+
+SSS_EXTERN
+
 void /*FUNCTION*/
 xdistanceaxis(nerr)
      int *nerr;

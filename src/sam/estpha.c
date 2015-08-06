@@ -9,11 +9,7 @@
 #define	PI	M_PI
 #define	TWOPI	(2.*PI)
 
-struct t_cmunwr {
-    float thlinc, thlcon;
-    int nfft;
-    float con1, dvtmn2;
-} cmunwr;
+SAM_EXTERN
 
 double /*FUNCTION*/
 estpha(x, nx, i, pphase, ppdvt, ppv, pdvt, iscons)

@@ -7,6 +7,8 @@
 
 #include "cnd.h"
 
+CND_EXTERN
+
 /** 
  * Parse the action command "BREAK"
  * 

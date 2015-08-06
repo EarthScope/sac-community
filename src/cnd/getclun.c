@@ -12,6 +12,8 @@
 #include "cnd.h"
 #include "vars.h"
 
+CPF_EXTERN
+
 /** 
  * Parse the action command "DO"
  * 

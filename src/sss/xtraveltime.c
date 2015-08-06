@@ -28,6 +28,8 @@
 #define	MENTRY	40
 
 DFM_EXTERN
+TT_EXTERN
+SSS_EXTERN
 
 extern float *tty[MXTT];
 extern float *ttx[MXTT];

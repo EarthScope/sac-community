@@ -48,9 +48,6 @@ void
 katime(int ihour, int imin, int isec, int imsec, int nctime, char *kktime,
        int kktime_s, int *nerr) {
 
-    char kenc[5];
-    char *s1;
-
     *nerr = 0;
 
     /* - Make sure output character variable is long enough. */

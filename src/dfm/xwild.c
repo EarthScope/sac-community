@@ -14,6 +14,7 @@
 #include "cpf.h"
 
 DFM_EXTERN
+WILD_EXTERN
 
 /** 
  * Execute the command WILD which defined the wild card keys to be used

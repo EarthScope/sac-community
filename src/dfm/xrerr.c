@@ -13,6 +13,7 @@
 #include "cpf.h"
 
 DFM_EXTERN
+EXM_EXTERN
 
 /** 
  * Execute the command READERR which controls behavior for read errors 

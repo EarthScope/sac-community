@@ -3,6 +3,9 @@
 
 #include "co.h"
 
+
+GD2_EXTERN
+
 void /*FUNCTION*/
 flushbuffer2(nerr)
      int *nerr;

@@ -14,6 +14,8 @@
 
 #include "exm.h"
 
+GEM_EXTERN
+
 /** 
  * Report current values of the gtext value parameters
  * 

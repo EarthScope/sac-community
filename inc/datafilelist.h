@@ -13,13 +13,18 @@
 struct t_kmdatafilelist {
     char kselectmode[9];
                        /** Current data file list mode. could use a enum */
-} kmdatafilelist;
+} ;
 
 struct t_cmdatafilelist {
     int nentries;     /** Total Entries in the data file list */
     int nselect;      /** Number of entries selected          */
     int jselect;      /** Current index within iselect        */
-} cmdatafilelist;
+} ;
+
+#define DATAFILELIST_EXTERN \
+    extern struct t_kmdatafilelist kmdatafilelist;                \
+    extern struct t_cmdatafilelist cmdatafilelist;
+
 
 int nextinputfile(int *ientry);
 void selectinputfiles(int *list, int nlist);

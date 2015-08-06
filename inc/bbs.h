@@ -18,7 +18,7 @@
 struct t_kmbbs {
     char knmbbs[MCPFN + 1];
     char kbbsinit[9];
-} kmbbs;
+} ;
 
 /** 
  * @struct cmbbs
@@ -26,7 +26,12 @@ struct t_kmbbs {
  */
 struct t_cmbbs {
     int nlnbbs;
-} cmbbs;
+} ;
+
+#define BBS_EXTERN \
+    extern struct t_kmbbs kmbbs;                \
+    extern struct t_cmbbs cmbbs;
+
 
 void createbbs(int *nerr);
 void deletebbs(int *nerr);

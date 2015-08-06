@@ -8,6 +8,10 @@
 #include "cpf.h"
 #include "gd3.x11.h"
 
+GEM_EXTERN
+GAM_EXTERN
+GDM_EXTERN
+
 char *font_systems[] = { "SOFTWARE", "CORE\0\0\0\0", "XFT\0\0\0\0\0" };
 
 char *fonts[] = { "HELVETICA   ",

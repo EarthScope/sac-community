@@ -27,6 +27,7 @@
 #include "errors.h"
 
 HDR_EXTERN
+LHF_EXTERN
 
 char 
 lh_prompt() {

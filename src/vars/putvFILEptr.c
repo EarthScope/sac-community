@@ -11,6 +11,8 @@
 #include "vars.h"
 #include "debug.h"
 
+VFILE_EXTERN
+
 /** 
  * Store a vars FILE poiner
  * 

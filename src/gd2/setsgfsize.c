@@ -3,6 +3,8 @@
 
 #include "gd2.h"
 
+GD2_EXTERN
+
 void /*FUNCTION*/
 setsgfsize(type, value)
      char *type;

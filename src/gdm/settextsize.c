@@ -3,6 +3,8 @@
 
 #include "gdm.h"
 
+GDM_EXTERN
+
 void
 settextsize_internal(float width, float height) {
     cmgdm.twidth = width;

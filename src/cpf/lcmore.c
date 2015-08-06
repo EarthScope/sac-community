@@ -8,6 +8,8 @@
 #include "cpf.h"
 #include "com.h"
 
+COM_EXTERN
+
 /** 
  * Tell whether there are more tokens in the current command
  * 

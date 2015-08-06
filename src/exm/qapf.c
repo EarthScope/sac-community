@@ -9,6 +9,8 @@
 
 #include "exm.h"
 
+EAM_EXTERN
+
 /** 
  * Report the current alphanumeric pick file parameters
  * 

@@ -10,6 +10,9 @@
 #include "bot.h"
 #include "ucf.h"
 
+GEM_EXTERN
+GTM_EXTERN
+
 #define	FSECAX	8.
 #define	FSECTC	4.
 #define	MDECLB	4

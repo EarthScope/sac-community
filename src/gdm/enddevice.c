@@ -8,6 +8,8 @@
 
 #include "debug.h"
 
+GDM_EXTERN
+
 /** 
  * End plotting to a graphics device 
  *

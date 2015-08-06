@@ -10,6 +10,8 @@
 #include "exm.h"
 #include "msg.h"
 
+GEM_EXTERN
+
 /** 
  * Report the current values of the SYMBOL parameters
  * 

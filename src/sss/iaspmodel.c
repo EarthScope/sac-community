@@ -10,6 +10,8 @@
 float *ttx[MXTT];
 float *tty[MXTT];
 
+TT_EXTERN
+
 #include "msg.h"
 
 #define	MAX_	MAX_PHASES

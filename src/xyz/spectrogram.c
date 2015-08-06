@@ -9,6 +9,7 @@
 #include "specdata.h"
 #include "spectrogram.h"
 
+struct t_filesinfo filesinfo;
 /** 
  * 
  *  Name:     SPECTROGRAM

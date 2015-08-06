@@ -20,6 +20,8 @@
 #include "SacHeader.h"
 #include "errors.h"
 
+LHF_EXTERN
+
 /** 
  * Get an enumerated header value from the current SAC file
  * 

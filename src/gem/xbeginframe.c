@@ -6,6 +6,8 @@
 #include "bot.h"
 #include "cpf.h"
 
+GEM_EXTERN
+
 void /*FUNCTION*/
 xbeginframe(nerr)
      int *nerr;

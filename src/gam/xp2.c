@@ -24,6 +24,11 @@
 #include "dff.h"
 #include "array.h"
 
+
+GAM_EXTERN
+GEM_EXTERN
+GDM_EXTERN
+
 void
 xp2(int *nerr) {
     char ktemp[MCMSG + 7];      /* increased array size for jdfl.  maf 970130 */

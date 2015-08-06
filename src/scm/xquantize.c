@@ -16,6 +16,8 @@
 #include "cpf.h"
 #include "dff.h"
 
+SCM_EXTERN
+
 void /*FUNCTION*/
 xquantize(nerr)
      int *nerr;
@@ -66,7 +68,7 @@ xquantize(nerr)
 
         /* -- "GAINS ilist":  list of allowed gains. */
         if (lkia("GAINS$", 7, 1, MQGAIN, cmscm.iqgain, &nqgain)) {
-            Iqgain[nqgain + 1] = 1;
+            cmscm.iqgain[nqgain] = 1;
 
             /* -- "LEVEL v":  quantization level for lowest gain. */
         } else if (lkreal("LEVEL$", 7, &cmscm.qlevel)) {
@@ -107,8 +109,8 @@ xquantize(nerr)
 
     /* - Make sure gains are monotonically decreasing. */
 
-    for (j = 2; j <= nqgain; j++) {
-        if (Iqgain[j] >= Iqgain[j - 1]) {
+    for (j = 1; j < nqgain; j++) {
+        if (cmscm.iqgain[j] >= cmscm.iqgain[j - 1]) {
             *nerr = 2006;
             setmsg("ERROR", *nerr);
             goto L_8888;
@@ -123,7 +125,7 @@ xquantize(nerr)
 
     /* - Calculate scale factors. */
 
-    factor = cmscm.qlevel * (float) (Iqgain[1]);
+    factor = cmscm.qlevel * (float) (cmscm.iqgain[0]);
 
     /* - For each file in DFL: */
 
@@ -146,7 +148,7 @@ xquantize(nerr)
             temp = s->y[j];
             half = sign(0.5, temp);
           L_3000:
-            ivalue = (int) (half + temp * (float) (Iqgain[jqgain]) / factor);
+            ivalue = (int) (half + temp * (float) (cmscm.iqgain[jqgain-1]) / factor);
             if (labs(ivalue) > irange) {
                 jqgain = jqgain + 1;
                 if (jqgain <= nqgain)
@@ -154,7 +156,7 @@ xquantize(nerr)
                 nclip = nclip + 1;
                 ivalue = irange + 1;
             }
-            s->y[j] = (float) (ivalue) * factor / (float) (Iqgain[jqgain]);
+            s->y[j] = (float) (ivalue) * factor / (float) (cmscm.iqgain[jqgain-1]);
         }
 
         /* -- Write warning message if any data points clipped. */

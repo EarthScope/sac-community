@@ -13,6 +13,8 @@
 #include "cpf.h"
 #include "ncpf.h"
 
+EXM_EXTERN
+
 void
 proerr(int *nerr) {
 

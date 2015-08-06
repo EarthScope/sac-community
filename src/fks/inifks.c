@@ -12,6 +12,8 @@
 
 #include "co.h"
 
+struct t_cmfks cmfks;
+
 /** 
  * Initialize the FKS Module
  * 

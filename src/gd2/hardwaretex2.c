@@ -8,6 +8,9 @@
 
 #include "gtm.h"
 
+GD2_EXTERN
+GDM_EXTERN
+
 void /*FUNCTION*/
 hardwaretext2(ktext, ntext)
      char *ktext;

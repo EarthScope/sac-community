@@ -22,6 +22,8 @@
 #include "bot.h"
 #include "ucf.h"
 
+GAM_EXTERN
+
 #define	MCTEXT	80
 
 void

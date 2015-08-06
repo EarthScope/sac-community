@@ -11,6 +11,9 @@
 #include "gam.h"
 #include "SacHeader.h"
 
+
+GEM_EXTERN
+
 float data_to_view_x(float x);
 float data_to_view_y(float y);
 

@@ -187,26 +187,18 @@ struct _XScreen {
 
 #define CURRENT -1
 
-point draw_pos;
 
-XWindow basew3[MAX_WINS + 1];
-XWindow titlew3[MAX_WINS + 1];
-XWindow plotw3[MAX_WINS + 1];
-GC cursorgc3[MAX_WINS + 1];
-
-int num_wins3;
-int c_win3;
-int device_type3;
-int cursor_on3;
-int cursortext_on3;
-int linestyle3;
-int xcursor_p3, ycursor_p3;
-char char_cursor3[1];
-char text_cursor3[132];
-char device_name3[13];
-Font title_font3;
-XColor pixdef3[256];
-unsigned long color3;
+#define GD3_EXTERN                              \
+    extern XColor pixdef3[256];                 \
+    extern point draw_pos;                      \
+    extern int c_win3;                          \
+    extern int device_type3;                    \
+    extern int cursor_on3;                      \
+    extern int cursortext_on3;                  \
+    extern char char_cursor3[1];                \
+    extern char device_name3[13];               \
+    extern unsigned long color3;                \
+    extern Colormap colormap;
 
 void fill_background3(int window);
 void begindevice3(int *nerr);

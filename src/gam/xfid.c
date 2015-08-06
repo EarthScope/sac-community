@@ -9,6 +9,8 @@
 
 #include "cpf.h"
 
+GAM_EXTERN
+
 void /*FUNCTION*/
 xfid(nerr)
      int *nerr;

@@ -18,6 +18,8 @@
 
 #include "errors.h"
 
+BOM_EXTERN
+
 /** 
  * Get a Binary Operations file from memory
  * 

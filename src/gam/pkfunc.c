@@ -6,6 +6,8 @@
 #include "eam.h"
 #include "gam.h"
 
+EAM_EXTERN
+
 void /*FUNCTION*/
 pkfunc(float fdold, float fdnew, float *chfsta, float *chflta, float *chf) {
 

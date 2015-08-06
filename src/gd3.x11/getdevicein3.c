@@ -19,6 +19,8 @@
 #include "gd3.x11.h"
 #include "debug.h"
 
+GD3_EXTERN
+
 void
 getdeviceinfo3(dev_name, dev_name_length, dev_type)
      char dev_name[];

@@ -67,7 +67,11 @@ struct t_cmfks {
     int lReference;             /* 1 if reference option is set. maf 970207 */
     int nReference;             /* number of numbers set in reference option. */
     float rReference[3];        /* array of numbers for reference option. maf */
-} cmfks;
+} ;
+
+#define FKS_EXTERN \
+    extern struct t_cmfks cmfks;
+
 
 void calcBeamOffsets(int ns, int elevc, float *xr, float *yr, float *zr,
                      int *nerr);

@@ -13,6 +13,12 @@
 #include "bot.h"
 #include "ucf.h"
 
+
+
+GEM_EXTERN
+
+GTM_EXTERN
+
 void /*FUNCTION*/
 xlinaxis(lbotax, ltopax, lbottc, ltoptc, widbot, widtop)
      int lbotax, ltopax, lbottc, ltoptc;

@@ -19,6 +19,8 @@
 #include "SacHeader.h"
 #include "errors.h"
 
+LHF_EXTERN
+
 int
 is_kundef(char *kvalue) {
     return (memcmp(kvalue, SAC_CHAR_UNDEFINED, strlen(SAC_CHAR_UNDEFINED)) ==

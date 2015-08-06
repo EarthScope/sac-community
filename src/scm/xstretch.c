@@ -15,6 +15,8 @@
 #include "cpf.h"
 #include "dff.h"
 
+SCM_EXTERN
+
 #define	MXFIR       7
 #define	NFILTHALF   100
 

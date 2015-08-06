@@ -13,6 +13,10 @@
 #include "cpf.h"
 #include "dff.h"
 
+
+EAM_EXTERN
+SMM_EXTERN
+
 DFM_EXTERN
 
 void /*FUNCTION*/

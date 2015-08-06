@@ -10,6 +10,9 @@
 
 #include "dfm.h"
 #include "ucf.h"
+
+SSS_EXTERN
+
 extern float *sss_sum;
 
 void /*FUNCTION*/

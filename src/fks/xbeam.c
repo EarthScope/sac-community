@@ -24,6 +24,8 @@
 #include "dff.h"
 #include "array.h"
 
+FKS_EXTERN
+
 #define NFILE_LENGTH 128        /* max length of output file name */
 
 void

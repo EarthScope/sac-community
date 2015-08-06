@@ -13,6 +13,9 @@
 
 #include "pl.h"
 
+
+GEM_EXTERN
+
 MSG_EXTERN
 
 /** 

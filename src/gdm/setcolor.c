@@ -7,6 +7,8 @@
 #include "gem.h"
 #include "bool.h"
 
+GEM_EXTERN
+
 /** 
  * Set the current color attribute
  *

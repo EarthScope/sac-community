@@ -29,6 +29,9 @@
 #include "co.h"
 #include "debug.h"
 
+COM_EXTERN
+EXM_EXTERN
+
 #define SAC_BLACKBOARD_SACNFILES         "SACNFILES"
 
 #include "token.h"
@@ -332,8 +335,6 @@ saccommands(char *kinmsg, int kinmsg_s, int *nerr) {
             *nerr = 101;
             return;
         }
-        /* Reset the Conversion Error Flag to a Non-Error - 0 */
-        cmicnv.icnver = 0;
 
         /* -- Get command name and convert to uppercase. */
         lcchar(kcommand, sizeof(kcommand));

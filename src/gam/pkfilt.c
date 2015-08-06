@@ -5,6 +5,8 @@
 #include "gam.h"
 #include "eam.h"
 
+EAM_EXTERN
+
 void
 pkfilt(float diff, float fdold, float *fdnew, float *rmnabs) {
 

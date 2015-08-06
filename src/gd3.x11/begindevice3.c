@@ -11,6 +11,8 @@
 #include "gem.h"
 #include "bool.h"
 
+Font title_font3;
+
 static char *fontnames[] = { "9x15", "fixed", "6x13" };
 
 #define NUMBER_OF_FONTS (sizeof(fontnames) / sizeof(char*))

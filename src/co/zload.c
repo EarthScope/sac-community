@@ -23,6 +23,8 @@
 
 #include "debug.h"
 
+EXTCOM_EXTERN
+
 /** 
  * Dynamically load an external command
  * 

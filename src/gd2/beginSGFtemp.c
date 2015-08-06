@@ -10,6 +10,9 @@
 #include "gpm.h"
 #include "bool.h"
 
+
+GD2_EXTERN
+
 void
 beginSGFtemp(int *nerr) {
         /*=====================================================================

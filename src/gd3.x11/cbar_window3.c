@@ -3,6 +3,9 @@
 #include "gem.h"
 #include "debug.h"
 
+
+GEM_EXTERN
+
 void
 cbar_window3(xloc, yloc, height, w_height, w_width, vspaceratio, ypmax, nerr)
      unsigned int xloc, yloc, height, w_height, w_width;

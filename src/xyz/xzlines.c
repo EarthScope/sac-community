@@ -7,6 +7,8 @@
 
 #include "cpf.h"
 
+CONTOURING_EXTERN
+
 void /*FUNCTION*/
 xzlines(nerr)
      int *nerr;

@@ -5,6 +5,9 @@
 #include "gem.h"
 #include "bool.h"
 
+
+GEM_EXTERN
+
 void /*FUNCTION*/
 plsave() {
     /* ind

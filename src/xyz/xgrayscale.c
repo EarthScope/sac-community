@@ -17,6 +17,9 @@
 #include "cpf.h"
 #include "dff.h"
 
+
+XYZ_EXTERN
+
 void
 xgrayscale(int *nerr) {
 

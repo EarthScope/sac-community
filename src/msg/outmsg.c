@@ -11,7 +11,6 @@
 
 #include "msg.h"
 #include "bot.h"
-#include "gdm.h"
 #include "co.h"
 #include "top.h"
 #include "bool.h"
@@ -79,10 +78,7 @@ outmsg() {
             if (cmmsg.lsend[junit_][cmmsg.itpmsg - 1]) {
 
                 sprintf(message, "%s%s", " WARNING: ", s1);
-                if (cmgdm.lgui) {
-                    ;
-                } else
-                    fprintf(cmmsg.iunits[junit_], "%s\n", message);
+                fprintf(cmmsg.iunits[junit_], "%s\n", message);
             }
         }
     } else if (cmmsg.itpmsg == MPROCESSED) {
@@ -91,20 +87,14 @@ outmsg() {
             if (cmmsg.lsend[junit_][cmmsg.itpmsg - 1]) {
 
                 sprintf(message, "%s%s", " ==> ", s1);
-                if (cmgdm.lgui) {
-                    ;
-                } else
-                    fprintf(cmmsg.iunits[junit_], "%s\n", message);
+                fprintf(cmmsg.iunits[junit_], "%s\n", message);
             }
         }
     } else {
         for (junit = 1; junit <= cmmsg.nunits; junit++) {
             junit_ = junit - 1;
             if (cmmsg.lsend[junit_][cmmsg.itpmsg - 1]) {
-                if (cmgdm.lgui) {
-                    ;
-                } else
-                    fprintf(cmmsg.iunits[junit_], " %s\n", s1);
+                fprintf(cmmsg.iunits[junit_], " %s\n", s1);
             }
         }
     }
@@ -123,10 +113,7 @@ outmsg() {
         for (junit = 1; junit <= cmmsg.nunits; junit++) {
             junit_ = junit - 1;
             if (cmmsg.lsend[junit_][cmmsg.itpmsg - 1]) {
-                if (cmgdm.lgui) {
-                    ;
-                } else
-                    fprintf(cmmsg.iunits[junit_], " %s\n", s1);
+                fprintf(cmmsg.iunits[junit_], " %s\n", s1);
                 fflush(cmmsg.iunits[junit_]);
             }
         }

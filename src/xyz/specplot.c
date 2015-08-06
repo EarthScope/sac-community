@@ -18,6 +18,11 @@
 #include "ucf.h"
 #include "dff.h"
 #include "array.h"
+
+GAM_EXTERN
+GDM_EXTERN
+GEM_EXTERN
+
 void
 show_colorbar(float x, float y, float width, float height, float zmin,
               float zmax, int lbinary, int *nerr) {

@@ -25,6 +25,8 @@
 #include "co.h"
 #include "gam.h"
 
+GAM_EXTERN
+
 /** 
  * Cursor Command
  * 

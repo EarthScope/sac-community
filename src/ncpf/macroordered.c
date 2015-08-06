@@ -17,6 +17,9 @@
 
 #include "debug.h"
 
+
+CPF_EXTERN
+
 void /*FUNCTION*/
 macroordered(kmacroargs, kmacroargs_s, nun, kline, kline_s, nerr)
      char *kmacroargs;

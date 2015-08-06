@@ -17,6 +17,14 @@
 #include "gtm.h"
 #include "SacHeader.h"
 
+
+
+GAM_EXTERN
+GEM_EXTERN
+
+LHF_EXTERN
+LHF_EXTERN
+
 void /*FUNCTION*/
 disppk(tdelay)
      double tdelay;

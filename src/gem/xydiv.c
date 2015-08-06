@@ -10,6 +10,8 @@
 
 #include "cpf.h"
 
+GEM_EXTERN
+
 void
 ydiv_nice(int flag) {
     cmgem.ydiv_spacing_on = (flag == TRUE) ? FALSE : TRUE;      /* Y Division "Increment"; spacing between divisons: cmgem.ydiv  */

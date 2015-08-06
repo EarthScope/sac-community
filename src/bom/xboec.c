@@ -12,6 +12,9 @@
 #include "exm.h"
 #include "cpf.h"
 
+EXM_EXTERN
+BOM_EXTERN
+
 /** 
  * Execute the parameter setting command "BOEC".  This command controls
  *   certain error conditions that can occur during binary operations.

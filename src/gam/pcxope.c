@@ -9,6 +9,9 @@
 
 #include "gdm.h"
 
+GEM_EXTERN
+GAM_EXTERN
+
 void
 pcxope(int iope, int iopei) {
     char _c0[2];

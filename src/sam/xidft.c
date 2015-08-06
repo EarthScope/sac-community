@@ -11,6 +11,8 @@
 #include "icm.h"
 #include "dff.h"
 
+SAM_EXTERN
+
 void /*FUNCTION*/
 xidft(nerr)
      int *nerr;

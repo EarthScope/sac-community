@@ -13,6 +13,12 @@
 #include "bot.h"
 #include "ucf.h"
 
+
+
+GEM_EXTERN
+
+GTM_EXTERN
+
 void /*FUNCTION*/
 ylinaxis(llefax, lrigax, lleftc, lrigtc, widlef, widrig)
      int llefax, lrigax, lleftc, lrigtc;

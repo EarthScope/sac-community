@@ -2,6 +2,9 @@
 #include "pl.h"
 #include "gem.h"
 
+
+GEM_EXTERN
+
 void /*FUNCTION*/
 plcalwvtrans() {
 

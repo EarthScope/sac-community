@@ -10,6 +10,8 @@
 
 #include "exm.h"
 
+SMM_EXTERN
+
 /** 
  * Report current values of the MTW parameters
  * 

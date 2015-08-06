@@ -15,6 +15,8 @@
 
 #include "cpf.h"
 
+EXM_EXTERN
+
 /** 
  * Execute the PAUSE command to pause.
  *    The command sends a message to the terminal and then pauses 

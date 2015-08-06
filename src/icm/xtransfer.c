@@ -17,6 +17,8 @@
 #include "co.h"
 #include "dff.h"
 
+ICM_EXTERN
+
 void DisconnectFromOracleTransfer(void);
 
 void /*FUNCTION*/

@@ -16,6 +16,8 @@
 
 #include "ucf.h"
 
+CONTOURING_EXTERN
+
 void
 listcontsegs() {
     char temptext[17];

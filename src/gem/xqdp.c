@@ -10,6 +10,8 @@
 
 #include "cpf.h"
 
+GEM_EXTERN
+
 void
 qdp_switch(int flag) {
     cmgem.ltqdp = flag;         /* Terminal */

@@ -17,6 +17,9 @@
 #include "ucf.h"
 #include "cpf.h"
 #include "dff.h"
+#include "sam.h"
+
+SCM_EXTERN
 
 float geteps(float y[], int nlen, float dx);
 float geteps_xy(float y[], int nlen, float x[]);

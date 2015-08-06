@@ -7,6 +7,9 @@
 #include "vars.h"
 #include "dff.h"
 
+VARS_EXTERN
+VFILE_EXTERN
+
 // tests used here
 void test_getventry ();
 

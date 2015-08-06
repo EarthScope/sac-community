@@ -38,7 +38,7 @@ enum {
     PS_LINE_JOIN_STYLE_MITER = 0,
     PS_LINE_JOIN_STYLE_ROUND = 1,
     PS_LINE_JOIN_STYLE_BEVEL = 2,
-} PS_LINE_JOIN_STYLE;
+} ;
 
 typedef struct _ps_t ps_t;
 struct _ps_t {

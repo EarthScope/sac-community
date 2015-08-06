@@ -12,6 +12,15 @@
 
 #include "co.h"
 
+struct t_kmeam kmeam;
+struct t_cmeam cmeam;
+float *const Awf = &cmeam.awf[0] - 1;
+float *const Dtwf = &cmeam.dtwf[0] - 1;
+float *const Exteam = &cmeam.exteam[0] - 1;
+int *const Ichpf = &cmeam.ichpf[0] - 1;
+int *const Nhpfic = &cmeam.nhpfic[0] - 1;
+
+
 /** 
  * Initialize the Common Block CMEAM
  * 

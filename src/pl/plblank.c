@@ -5,6 +5,9 @@
 #include "gtm.h"
 #include "bot.h"
 
+
+GEM_EXTERN
+
 void /*FUNCTION*/
 plblank(xblank, yblank, xarray, yarray, number)
      float xblank[], yblank[], xarray[], yarray[];

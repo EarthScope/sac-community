@@ -81,7 +81,7 @@ getranx(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim)
      double xre[], xim[];
 {
     int idx, jdx;
-    double delomg, fac, ti, ti0, tid, tin, tr, tr0, trd, trn;
+    double delomg;
     static double twopi;
 
     double complex *const Pole = &pole[0] - 1;

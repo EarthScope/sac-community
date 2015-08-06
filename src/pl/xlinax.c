@@ -13,11 +13,13 @@
 #include "ucf.h"
 #include "gtm.h"
 
+
+GEM_EXTERN
+
 #define	FDIVSP	5.
 
 void
 xlinax() {
-    char ktemp[9];
     int lpower;
     int ia, ib, igdlog, jpower, jstep, mds, nds, ndsu, ntick,
         nxdivu;

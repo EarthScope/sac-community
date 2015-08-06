@@ -6,6 +6,11 @@
 
 #include "co.h"
 
+struct t_kmspe kmspe;
+struct t_cmspe cmspe;
+float *const Cprewh = &cmspe.cprewh[0] - 1;
+float *const Extspe = &cmspe.extspe[0] - 1;
+
 void /*FUNCTION*/
 inispe() {
         /*=====================================================================

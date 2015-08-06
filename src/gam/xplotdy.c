@@ -22,6 +22,11 @@
 #include "dff.h"
 #include "array.h"
 
+XYZ_EXTERN
+GEM_EXTERN
+GDM_EXTERN
+GAM_EXTERN
+
 void
 xplotdy(int *nerr) {
     char kfile[MCPFN + 1];

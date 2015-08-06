@@ -16,6 +16,7 @@
 #include "dff.h"
 #include "vars.h"
 
+BBS_EXTERN
 /** 
  * Set or Define a Blackboard Variable
  * 

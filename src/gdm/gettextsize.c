@@ -3,6 +3,8 @@
 
 #include "gdm.h"
 
+GDM_EXTERN
+
 /** 
  * Get current graphics text size
  *

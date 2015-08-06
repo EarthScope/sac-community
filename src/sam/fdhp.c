@@ -11,6 +11,9 @@
 
 #define	IPULSE	100
 
+SAM_EXTERN
+DFIR_EXTERN
+
 void /*FUNCTION*/
 fdhp(memptr, mxmptr, userData, nerr)
      int mxmptr, *nerr;

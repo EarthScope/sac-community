@@ -29,6 +29,12 @@
 #include "dff.h"
 #include "array.h"
 
+
+
+GAM_EXTERN
+GEM_EXTERN
+EAM_EXTERN
+
 #define	MWIN	5
 
 int bellON = TRUE;

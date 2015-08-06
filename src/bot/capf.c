@@ -9,6 +9,8 @@
 #include "bool.h"
 #include "co.h"
 
+EAM_EXTERN
+
 /** 
  * Close the Alphanumeric pick file (APF) if open
  * 

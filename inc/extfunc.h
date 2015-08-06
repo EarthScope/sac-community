@@ -297,8 +297,6 @@ static char *char_hdr_fields[MKHDR] = { "kstnm", "kevnm", " ", "khole", "ko",
 
 /**************   FORTRAN interface support   ****************************/
 
-sac_files *indata;              /* Global variable used by FORTRAN header access    */
-                     /* functions.                                       */
 
 void fgetahdr_();
 /* void fgetahdr_(int *hdr_index, char *fieldname, char *value,

@@ -9,6 +9,8 @@
 #include "gdm.h"
 #include "co.h"
 
+GDM_EXTERN
+
 /** 
  * Convert a color number to it;s equivalen color name 
  *

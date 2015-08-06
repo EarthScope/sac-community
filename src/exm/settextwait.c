@@ -11,6 +11,8 @@
 #include "bot.h"
 #include "bool.h"
 
+EXM_EXTERN
+
 /** 
  * Set the text output wait mode
  * 

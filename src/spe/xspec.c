@@ -6,6 +6,9 @@
 #include "dfm.h"
 #include "cpf.h"
 
+
+SPE_EXTERN
+
 void /*FUNCTION*/
 xspec(index, nerr)
      int index, *nerr;

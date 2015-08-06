@@ -21,6 +21,8 @@
 #include "smDataIO.h"
 #include "sacIO/sacIO.h"
 
+extern jmp_buf dblJmpBuf;
+
 int dbSelect(char *command);
 int dbExecuteOracleQuery(char *SQLstring, int SkipData, DBlist tree);
 void dbPrintToDevice(char *string);

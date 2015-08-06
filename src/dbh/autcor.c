@@ -11,6 +11,8 @@
 #include "spe.h"
 #include "co.h"
 
+SPE_EXTERN
+
 /** 
  * Compute the Auto-Correlation Function
  * 

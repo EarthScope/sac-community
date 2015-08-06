@@ -109,8 +109,9 @@ extern int sgfgreen[NUMSGFCOLORS];
 extern int sgfblue[NUMSGFCOLORS];
 #endif
 
-int sred[NUMSGFCOLORS];
-int sgreen[NUMSGFCOLORS];
-int sblue[NUMSGFCOLORS];
+#define SCOLOR                                \
+    extern int sred[NUMSGFCOLORS];            \
+    extern int sgreen[NUMSGFCOLORS];          \
+    extern int sblue[NUMSGFCOLORS];
 
 #endif /* _SGF_COLOR_H_ */

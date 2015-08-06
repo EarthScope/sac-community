@@ -6,6 +6,8 @@
 
 #include "co.h"
 
+CPF_EXTERN
+
 void /*FUNCTION*/
 getmacroinfo(macrolevel, varsname, varsname_s)
      int *macrolevel;

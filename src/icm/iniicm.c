@@ -4,6 +4,9 @@
 #include "icm.h"
 #include "bool.h"
 
+struct t_kmicm kmicm;
+struct t_cmicm cmicm;
+
 void /*FUNCTION*/
 iniicm() {
 

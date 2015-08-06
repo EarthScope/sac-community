@@ -66,7 +66,7 @@ struct t_cmspe {
     int ipsptp;
     float extspe[20];
     int firstPowerOf2;    /** first power of 2 >= number of datapoints. maf 980527 */
-} cmspe;
+} ;
 
 /** 
  * @struct kmspe
@@ -83,19 +83,14 @@ struct t_kmspe {
     char knmspe[MCPFN + 1];
     char kermsg[131];
     char kxtspe[10][9];
-} kmspe;
+} ;
 
-#ifdef DOINITS
+#define SPE_EXTERN \
+    extern struct t_kmspe kmspe; \
+    extern struct t_cmspe cmspe; \
+    extern float *const Cprewh;  \
+    extern float *const Extspe;
 
-float *const Cprewh = &cmspe.cprewh[0] - 1;
-float *const Extspe = &cmspe.extspe[0] - 1;
-
-#else
-
-extern float *const Cprewh;
-extern float *const Extspe;
-
-#endif
 
 void inispe(void);
 void xcor(int *nerr);

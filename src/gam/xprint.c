@@ -19,6 +19,8 @@
 
 #include "select.h"
 
+GD2_EXTERN
+
 int
 sac_print_disabled(int getset) {
     static int virgin = TRUE;

@@ -5,6 +5,8 @@
 #include "cpf.h"
 #include "co.h"
 
+CPF_EXTERN
+
 void /*FUNCTION*/
 setmacrolevel(imacrolevel)
      int imacrolevel;

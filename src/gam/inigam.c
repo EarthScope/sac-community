@@ -10,6 +10,11 @@
 
 #include "co.h"
 
+struct t_kmgam kmgam;
+struct t_cmgam cmgam;
+
+GEM_EXTERN
+
 void /*FUNCTION*/
 inigam() {
     int j, j_;

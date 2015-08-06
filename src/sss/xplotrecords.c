@@ -25,6 +25,12 @@
 #include "dff.h"
 #include "array.h"
 
+SSS_EXTERN
+TT_EXTERN
+GDM_EXTERN
+GEM_EXTERN
+GAM_EXTERN
+
 #define maxCropLevels 5
 extern float *tty[MXTT];
 extern float *ttx[MXTT];

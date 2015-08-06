@@ -4,6 +4,9 @@
 
 #include "bot.h"
 
+struct t_kmwild kmwild;
+struct t_cmwild cmwild;
+
 int /*FUNCTION*/
 lwildc(flist, flist_s)
      char *flist;

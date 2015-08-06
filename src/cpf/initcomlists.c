@@ -26,6 +26,15 @@
 #include "msg.h"
 #include "bot.h"
 
+struct t_kmcomlists kmcomlists;
+struct t_cmcomlists cmcomlists;
+int *const Icomindex = &cmcomlists.icomindex[0] - 1;
+int *const Icomliststart = &cmcomlists.icomliststart[0] - 1;
+int *const Icommodule = &cmcomlists.icommodule[0] - 1;
+int *const Iextcomindex = &cmcomlists.iextcomindex[0] - 1;
+int *const Ncomlistentries = &cmcomlists.ncomlistentries[0] - 1;
+
+
 #define	MCOMLISTS	3
 
 /** 

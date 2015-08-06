@@ -11,6 +11,9 @@
 #include "ucf.h"
 #include "gdm.h"
 
+
+GEM_EXTERN
+
 #define	FSECAX	8.
 #define	FSECTC	4.
 #define	MDECLB	4

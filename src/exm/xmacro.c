@@ -15,6 +15,8 @@
 #include "cpf.h"
 #include "ncpf.h"
 
+EXM_EXTERN
+
 /** 
  * Execute the MACRO command which execute a macro command file
  * 

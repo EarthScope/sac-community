@@ -26,6 +26,7 @@
 #include "amf.h"
 
 DFM_EXTERN
+LHF_EXTERN
 
 static int nSortOrder;
 

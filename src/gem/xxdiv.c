@@ -10,6 +10,8 @@
 
 #include "cpf.h"
 
+GEM_EXTERN
+
 void
 xdiv_nice(int flag) {
     /* X Division "Increment"; spacing between divisons: cmgem.xdiv_spacing  */

@@ -16,6 +16,9 @@
 
 #include "dff.h"
 
+struct t_kmnnm kmnnm;
+struct t_cmnnm cmnnm;
+
 /** 
  * Exectue WRITENN which writes data files in a neural net format
  * 

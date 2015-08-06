@@ -19,6 +19,9 @@
 #include "pl.h"
 #include "gtm.h"
 
+GAM_EXTERN
+GEM_EXTERN
+
 /** 
  * Polar Plot
  * 

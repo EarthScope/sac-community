@@ -12,6 +12,8 @@
 #include "dff.h"
 #include "vars.h"
 
+BBS_EXTERN
+
 /** 
  * Write a Blackboard variable file from a program
  * 

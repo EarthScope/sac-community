@@ -2,6 +2,8 @@
 #include "gdm.h"
 #include "bool.h"
 
+GDM_EXTERN
+
 /** 
  * End the graphics module library
  *

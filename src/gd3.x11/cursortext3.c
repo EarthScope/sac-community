@@ -43,6 +43,10 @@
 #include "debug.h"
 
 extern int bellON;
+extern int xcursor_p3, ycursor_p3;
+extern XWindow plotw3[MAX_WINS + 1];
+extern char text_cursor3[132];
+GD3_EXTERN
 
 void
 cursortext3(float *xloc_vp, float *yloc_vp, char ktext[], int ktext_length) {

@@ -11,6 +11,8 @@
 
 #include "cpf.h"
 
+BBS_EXTERN
+
 /** 
  * Execute the READBBF command which reads a blackboard variable file
  * 

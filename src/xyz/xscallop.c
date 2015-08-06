@@ -19,6 +19,11 @@
 #include "dff.h"
 #include "array.h"
 
+
+GDM_EXTERN
+GEM_EXTERN
+SPE_EXTERN
+
 void /*FUNCTION*/
 xscallop(nerr)
      int *nerr;

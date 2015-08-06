@@ -15,6 +15,8 @@
 #include "vars.h"
 #include "co.h"
 
+BBS_EXTERN
+
 /** 
  * Get a Blackboard Variable
  * 

@@ -62,35 +62,23 @@ struct t_cmgtm {
     float xsymtb[MSYMTB];       /* Symbol Table x position */
     float ysymtb[MSYMTB];       /* Symbol Table y position */
     float fac[9];               /* Fractions used in logarithmic scaling */
-} cmgtm;
+} ;
 
 struct t_kmgtm {
     char kfac[9];               /* The number 1 to 9 used in logarithmic scaling */
-} kmgtm;
+} ;
 
-#ifdef DOINITS
-
-float *const xvp = (float *) &cmgtm.xvpmin;
-float *const xwc = (float *) &cmgtm.xwcmin;
-float *const yvp = (float *) &cmgtm.yvpmin;
-float *const ywc = (float *) &cmgtm.ywcmin;
-float *const Xvp = (float *) (&cmgtm.xvpmin - 1);
-float *const Xwc = (float *) (&cmgtm.xwcmin - 1);
-float *const Yvp = (float *) (&cmgtm.yvpmin - 1);
-float *const Ywc = (float *) (&cmgtm.ywcmin - 1);
-
-#else
-
-extern float *const xvp;
-extern float *const xwc;
-extern float *const yvp;
-extern float *const ywc;
-extern float *const Xvp;
-extern float *const Xwc;
-extern float *const Yvp;
-extern float *const Ywc;
-
-#endif
+#define GTM_EXTERN \
+    extern struct t_kmgtm kmgtm;                \
+    extern struct t_cmgtm cmgtm;                \
+    extern float *const xvp;                    \
+    extern float *const xwc;                    \
+    extern float *const yvp;                    \
+    extern float *const ywc;                    \
+    extern float *const Xvp;                    \
+    extern float *const Xwc;                    \
+    extern float *const Yvp;                    \
+    extern float *const Ywc;
 
 void calwvtransform(void);
 void getvport(float *xmin, float *xmax, float *ymin, float *ymax);

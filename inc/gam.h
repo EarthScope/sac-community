@@ -111,7 +111,7 @@ struct t_cmgam {
     float yrect[4];
     float extgam[11];
     int cmap;
-} cmgam;
+} ;
 
 struct t_kmgam {
     char kp2loc[MP2LOC][9];
@@ -144,7 +144,12 @@ struct t_kmgam {
     char kylims[MYLIM][9];
     char kgddef[9];
     char kxtgam[9][9];
-} kmgam;
+} ;
+
+#define GAM_EXTERN \
+    extern struct t_kmgam kmgam;                \
+    extern struct t_cmgam cmgam;
+
 
 char *tmpfile_create(char *template, int xs);
 int sgf_to_ps(char *sgf, char *ps);

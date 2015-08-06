@@ -13,6 +13,15 @@
 #include "contouring.h"
 #include "bool.h"
 
+struct t_kmcontouring kmcontouring;
+struct t_cmcontouring cmcontouring;
+int *const Iticklist = &cmcontouring.iticklist[0] - 1;
+int *const Linelist = &cmcontouring.linelist[0] - 1;
+int *const Lines = &cmcontouring.lines[0] - 1;
+double *const Zlevellist = &cmcontouring.zlevellist[0] - 1;
+double *const Zlevels = &cmcontouring.zlevels[0] - 1;
+double *const Zregionlist = &cmcontouring.zregionlist[0] - 1;
+
 #define PI  M_PI
 
 void

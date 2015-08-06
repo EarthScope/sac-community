@@ -13,6 +13,9 @@
 #include "cpf.h"
 #include "co.h"
 
+GAM_EXTERN
+GEM_EXTERN
+
 void
 xpc(int *nerr) {
     int lany, lcuron, lexist, lquit, lrplon;

@@ -18,6 +18,8 @@
 #include "SacHeader.h"
 #include "errors.h"
 
+LHF_EXTERN
+
 /** 
  * Set an enumerated header value in the current SAC file
  * 

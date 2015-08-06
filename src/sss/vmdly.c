@@ -11,6 +11,9 @@
 #include "msg.h"
 #include "clf.h"
 
+
+SSS_EXTERN
+
 void /*FUNCTION*/
 vmdly(nerr)
      int *nerr;

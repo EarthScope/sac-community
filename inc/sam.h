@@ -103,7 +103,7 @@ struct t_cmsam {
                                  *   Converts a discrete convolution to one that preserves
                                  *   amplitude and takes into account the time sampling
                                  */
-} cmsam;
+} ;
 
 /** 
  * @struct kmsam 
@@ -125,18 +125,19 @@ struct t_kmsam {
     char ktaptp[MTAPTP][9];
     char kxtsam[6][9];
     char kwintp[MWINTP][9];
-} kmsam;
+} ;
 
-#ifdef DOINITS
+struct t_cmunwr {
+    float thlinc, thlcon;
+    int nfft;
+    float con1, dvtmn2;
+} ;
 
-float *const Extsam = &cmsam.extsam[0] - 1;
+#define SAM_EXTERN \
+    extern struct t_kmsam kmsam; \
+    extern struct t_cmsam cmsam; \
+    extern struct t_cmunwr cmunwr;
 
-#else
-
-extern float *const Extsam;
-extern float *const Ortwwi;
-
-#endif
 
 void chkpha(float *ph, double pv, int *iscons);
 void cpft(float r[], float i[], int n, int incp, int isignp);

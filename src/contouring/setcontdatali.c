@@ -10,6 +10,7 @@
 
 #include "mach.h"
 #include "contouring.h"
+CONTOURING_EXTERN
 
 void
 setcontdatalim(ixstart, ixstop, iystart, iystop)

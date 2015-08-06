@@ -1,6 +1,8 @@
 
 #include "gdm.h"
 
+GDM_EXTERN
+
 /** 
  * Get the geometry of the active window
  *

@@ -9,6 +9,9 @@
 #include "gem.h"
 #include "exm.h"
 #include "msg.h"
+
+GEM_EXTERN
+
 /** 
  * Report current values of the xlabel command parameters
  * 

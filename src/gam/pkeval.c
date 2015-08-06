@@ -5,6 +5,8 @@
 #include "eam.h"
 #include "gam.h"
 
+EAM_EXTERN
+
 void /*FUNCTION*/
 pkeval(array, ndxmx, si, ndxpk, nlncda)
      float array[];

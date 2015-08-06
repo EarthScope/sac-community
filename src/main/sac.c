@@ -37,6 +37,8 @@
 #include "debug.h"
 #include "string_utils.h"
 
+EXM_EXTERN
+
 void sac_command_line_options(int argc, char **argv);
 void sac_command_line_copyright(int argc, char **argv);
 void sac_initialize(int argc, char **argv);

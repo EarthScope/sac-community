@@ -4,6 +4,9 @@
 #include "bool.h"
 #include "co.h"
 
+
+GTM_EXTERN
+
 void /*FUNCTION*/
 setsymbolnum(number)
      int number;

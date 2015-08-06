@@ -9,6 +9,10 @@
 
 #include "bbs.h"
 
+struct t_kmbbs kmbbs;
+struct t_cmbbs cmbbs;
+
+
 /** 
  * Initialize the "Blackboard function" Common Blocks
  * 

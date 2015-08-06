@@ -14,6 +14,8 @@
 #include "lhf.h"
 #include "bool.h"
 
+LHF_EXTERN
+
 /** 
  * Determine the category (type) and the index number of a header variable
  * 

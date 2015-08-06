@@ -14,6 +14,8 @@
 
 #include "cpf.h"
 
+GEM_EXTERN
+
 void
 ylabel_switch(int flag) {
     cmgem.ylabel.on = flag;     /* X Label Flag */

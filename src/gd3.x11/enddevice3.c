@@ -5,6 +5,9 @@
 
 #include "gd3.x11.h"
 
+extern XWindow basew3[MAX_WINS + 1];
+extern int num_wins3;
+GD3_EXTERN
 /** 
  * End X11 graphics device
  * 

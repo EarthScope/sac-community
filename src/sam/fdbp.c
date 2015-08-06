@@ -12,6 +12,9 @@
 #define	IPULSE	   100
 #define	SAMPLING   0.025
 
+SAM_EXTERN
+DFIR_EXTERN
+
 void /*FUNCTION*/
 fdbp(memptr, mxmptr, userData, nerr)
      int mxmptr, *nerr;

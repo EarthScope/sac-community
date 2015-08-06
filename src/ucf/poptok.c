@@ -13,6 +13,8 @@
 
 #include "co.h"
 
+TOK_EXTERN
+
 /** 
  * Pop the next token off a text string
  * 

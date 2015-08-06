@@ -6,6 +6,8 @@
 #include "cpf.h"
 #include "dff.h"
 
+SPE_EXTERN
+
 extern float *specor;
 
 void /*FUNCTION*/

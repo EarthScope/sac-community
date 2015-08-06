@@ -6,6 +6,8 @@
 
 #include "cpf.h"
 
+GAM_EXTERN
+
 void
 xpicks(int *nerr) {
     int index, ipknam;

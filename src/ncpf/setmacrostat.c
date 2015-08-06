@@ -9,6 +9,9 @@
 #include "bot.h"
 #include "co.h"
 
+
+CPF_EXTERN
+
 void /*FUNCTION*/
 setmacrostatus(kstatus, kstatus_s)
      char *kstatus;

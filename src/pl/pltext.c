@@ -7,6 +7,9 @@
 
 #include "bot.h"
 
+
+GEM_EXTERN
+
 void /*FUNCTION*/
 pltext(ktext, ktext_s, xloc, yloc)
      char *ktext;

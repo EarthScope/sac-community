@@ -43,6 +43,10 @@
 #include "color.h"
 #include "debug.h"
 
+GAM_EXTERN
+GDM_EXTERN
+GD3_EXTERN
+
 #define FULL 65535.0
 
 void

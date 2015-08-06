@@ -14,6 +14,8 @@
 #include "bool.h"
 #include "co.h"
 
+CONTOURING_EXTERN
+
 #define	MPOINTS	3
 
 void

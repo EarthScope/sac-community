@@ -20,6 +20,10 @@
 #include "co.h"
 #include "dff.h"
 
+SSS_EXTERN
+GEM_EXTERN
+GAM_EXTERN
+
 extern float *sss_sum;
 
 void /*FUNCTION*/

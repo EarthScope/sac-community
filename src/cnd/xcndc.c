@@ -15,6 +15,15 @@
 #include "ncpf.h"
 #include "errors.h"
 
+
+struct t_kcnd kcnd;
+struct t_cnd cnd;
+int *const Idoin1 = &cnd.idoin1[0] - 1;
+int *const Idoin2 = &cnd.idoin2[0] - 1;
+int *const Lifresp = &cnd.lifresp[0] - 1;
+int *const Ndolines = &cnd.ndolines[0] - 1;
+int *const Ndotype = &cnd.ndotype[0] - 1;
+
 /** 
  * Execute a CND (Conditional) Command given its index number.
  *    This module contains conditional execution commands.

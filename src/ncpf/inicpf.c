@@ -4,6 +4,9 @@
 #include "ncpf.h"
 #include "cpf.h"
 
+
+CPF_EXTERN
+
 void /*FUNCTION*/
 inicpf() {
 

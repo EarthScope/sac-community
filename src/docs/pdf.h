@@ -286,7 +286,7 @@ enum {
     PDF_LINE_JOIN_STYLE_MITER = 0,
     PDF_LINE_JOIN_STYLE_ROUND = 1,
     PDF_LINE_JOIN_STYLE_BEVEL = 2,
-} PDF_LINE_JOIN_STYLE;
+} ;
 
 void pdf_header(pdf_t *pdf);
 void pdf_footer(pdf_t *pdf);

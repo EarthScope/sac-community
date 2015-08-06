@@ -1,6 +1,9 @@
 
 #include "gd2.h"
 
+
+GD2_EXTERN
+
 void
 draw2(float xloc, float yloc) {
     int ixloc, iyloc, nerr;

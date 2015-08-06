@@ -14,6 +14,9 @@
 #include "cpf.h"
 #include "dff.h"
 
+
+ICM_EXTERN
+
 void /*FUNCTION*/
 xprewit(nerr)
      int *nerr;

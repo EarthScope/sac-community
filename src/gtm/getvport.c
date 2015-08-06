@@ -1,6 +1,9 @@
 
 #include "gtm.h"
 
+
+GTM_EXTERN
+
 void /*FUNCTION*/
 getvport(xmin, xmax, ymin, ymax)
      float *xmin, *xmax, *ymin, *ymax;

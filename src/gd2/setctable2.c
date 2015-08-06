@@ -6,6 +6,10 @@
 
 #include "sgfcolor.h"
 
+GAM_EXTERN
+GDM_EXTERN
+SCOLOR
+
 void
 setctable2(int iwindow, unsigned int nentry, float red[], float green[],
            float blue[]) {

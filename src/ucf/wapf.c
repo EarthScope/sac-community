@@ -18,6 +18,8 @@
 #include "clf.h"
 #include "SacHeader.h"
 
+EAM_EXTERN
+
 /** 
  * Write a pick to an alphanumeric pick file (APF)
  * 

@@ -31,13 +31,24 @@ struct t_cnd {
     int ndotype[MDOLEVEL];
     int idoin1[MDOLEVEL];
     int idoin2[MDOLEVEL];
-} cnd;
+} ;
 
 struct t_kcnd {
     char kdovar[MDOLEVEL][MCPFN + 1];
     char kdolist[MDOLEVEL][MCPFN + 1];
     char kdoname[MDOLEVEL][MCPFN + 1];
-} kcnd;
+} ;
+
+#define CND_EXTERN \
+    extern struct t_kcnd kcnd;                \
+    extern struct t_cnd cnd;                  \
+    extern int *const Idoin1;                 \
+    extern int *const Idoin2;                 \
+    extern int *const Lifresp;                \
+    extern int *const Ndolines;               \
+    extern int *const Ndotype;
+
+
 
 void getclun(FILE ** nun, int *nerr);
 void getdolen(int *nlines, int *nerr);
@@ -53,19 +64,5 @@ void xenddo(int *nerr);
 void xendif(int *nerr);
 void xif(int *nerr);
 void xwhile(int *nerr);
-
-#ifdef DOINITS
-int *const Idoin1 = &cnd.idoin1[0] - 1;
-int *const Idoin2 = &cnd.idoin2[0] - 1;
-int *const Lifresp = &cnd.lifresp[0] - 1;
-int *const Ndolines = &cnd.ndolines[0] - 1;
-int *const Ndotype = &cnd.ndotype[0] - 1;
-#else
-extern int *const Idoin1;
-extern int *const Idoin2;
-extern int *const Lifresp;
-extern int *const Ndolines;
-extern int *const Ndotype;
-#endif
 
 #endif /* _CND_H_ */

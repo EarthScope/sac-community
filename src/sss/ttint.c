@@ -4,6 +4,10 @@
 #include "sss.h"
 #include "gem.h"
 
+
+GEM_EXTERN
+SSS_EXTERN
+
 void
 ttint(darray, tarray, npts, dvint, tvint, nerr)
      float darray[], tarray[];

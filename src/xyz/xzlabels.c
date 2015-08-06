@@ -11,6 +11,8 @@
 #include "ucf.h"
 #include "cpf.h"
 
+CONTOURING_EXTERN
+
 void /*FUNCTION*/
 xzlabels(nerr)
      int *nerr;

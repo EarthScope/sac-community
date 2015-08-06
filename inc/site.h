@@ -19,7 +19,7 @@
 struct t_cmsite {
     int nsitecomnames;
     int isitecomindex[MSITECOMNAMES];
-} cmsite;
+} ;
 
 /** 
  * @struct kmsite
@@ -28,10 +28,14 @@ struct t_cmsite {
  */
 struct t_kmsite {
     char ksitecomnames[MSITECOMNAMES][9];
-} kmsite;
+} ;
 
 void initsite(void);
 void xsitecom(int index, int *nerr);
 void xtestsite(int *nerr);
+
+#define SITE_EXTERN \
+    extern struct t_kmsite kmsite; \
+    extern struct t_cmsite cmsite;
 
 #endif /* _SITE_H_ */

@@ -17,7 +17,7 @@
  */
 struct t_kmnnm {
     char kwritenn[MCPFN + 1];
-} kmnnm;
+} ;
 
 /** 
  * @struct cmnnm 
@@ -27,7 +27,11 @@ struct t_kmnnm {
 struct t_cmnnm {
     int numpoints;
     int numfiles;
-} cmnnm;
+} ;
+
+#define NNM_EXTERN \
+    extern struct t_kmnnm kmnnm; \
+    extern struct t_cmnnm cmnnm;
 
 void xnnmc(int index, int *nerr);
 void xwritenn(int *nerr);

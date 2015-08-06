@@ -7,7 +7,7 @@
 #include "dff.h"
 #include "SacHeader.h"
 #include "sacio_test.h"
-sac *s;
+static sac *s;
 
 void
 test_rsac1_header_file() {

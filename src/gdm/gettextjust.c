@@ -4,6 +4,8 @@
 
 #include "debug.h"
 
+GDM_EXTERN
+
 /** 
  * Get current graphics text justification
  *

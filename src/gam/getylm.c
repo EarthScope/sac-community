@@ -9,6 +9,8 @@
 #include "hdr.h"
 #include "bool.h"
 
+GAM_EXTERN
+
 void
 getylm(lylmon, ystart, ystop)
      int *lylmon;

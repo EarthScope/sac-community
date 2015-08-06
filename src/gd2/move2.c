@@ -7,6 +7,8 @@
 #include "gtm.h"
 #include "gdm.h"
 
+GD2_EXTERN
+
 void
 move2(float xloc, float yloc) {
     int ixloc, iyloc, nerr;

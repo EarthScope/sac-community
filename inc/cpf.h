@@ -20,12 +20,17 @@ struct t_kmcpf {
     /* designates that a particular macro keyword has no current value */
     char knoval[9];
     char kvarsname[9];
-} kmcpf;
+} ;
 
 struct t_cmcpf {
     int nmacrolevel;
     int lmacrostatus;
-} cmcpf;
+} ;
+
+#define CPF_EXTERN \
+    extern struct t_kmcpf kmcpf;                \
+    extern struct t_cmcpf cmcpf;
+
 
 void cerr(int nerr);
 void cfmt(char *kmsg2, int kmsg2_s);

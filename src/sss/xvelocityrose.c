@@ -4,6 +4,10 @@
 
 #include "cpf.h"
 
+
+SSS_EXTERN
+GAM_EXTERN
+
 void /*FUNCTION*/
 xvelocityrose(nerr)
      int *nerr;

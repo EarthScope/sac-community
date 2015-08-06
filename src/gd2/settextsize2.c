@@ -6,6 +6,10 @@
 #include "gem.h"
 #include "gam.h"
 
+
+GD2_EXTERN
+GEM_EXTERN
+
 extern display_t sgf;
 
 void
