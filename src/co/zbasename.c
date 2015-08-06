@@ -12,6 +12,7 @@
 #include "config.h"
 #include "co.h"
 #include "string_utils.h"
+#include "debug.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -58,13 +59,26 @@ sacaux() {
     int i;
     struct stat st;
     static char *aux = NULL;
+    char *tmp = NULL;
     if (aux) {
         return aux;
     }
-    if (!(aux = getenv("SACAUX"))) {
-        aux = strdup(SACAUX);
+    /* Enviornment Variable */
+    if ((aux = getenv("SACAUX"))) {
+        asprintf(&tmp, "%s/messages", aux);
+        if(stat(tmp, &st) == 0) {
+            FREE(tmp);
+            return aux;
+        }
     }
-    
+    /* Compiled Location */
+    aux = strdup(SACAUX);
+    asprintf(&tmp, "%s/messages", aux);
+    if(stat(aux, &st) == 0) {
+        FREE(tmp);
+        return aux;
+    }
+
     if(stat(aux, &st) == -1) {
         i = 0;
         while(aux_tries[i] && stat(aux_tries[i], &st) == -1) {
