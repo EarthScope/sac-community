@@ -124,13 +124,6 @@ if WIN_APP
 	$(WINDRES) $< -o $@
 endif
 
-# Compile Rules for the libsacio
-bbs/readbbf_io.o: $(srcdir)/bbs/readbbf.c
-	$(COMPILE) -DDOINITS -c $(srcdir)/bbs/readbbf.c -o $@
-dff/hdrfld_io.o: $(srcdir)/dff/hdrfld.c
-	$(COMPILE) -DDOINITS -c $(srcdir)/dff/hdrfld.c -o $@
-msg/outmsg_io.o: $(srcdir)/msg/outmsg.c
-	$(COMPILE) -DDOINITS -c $(srcdir)/msg/outmsg.c -o $@
 
 evalresp/evresp.o: $(srcdir)/evalresp/evresp.c
 	$(COMPILE) -DLIB_MODE -DLOG_LABEL -c $(srcdir)/evalresp/evresp.c -o $@
@@ -139,13 +132,10 @@ evalresp/parse_fctns.o: $(srcdir)/evalresp/parse_fctns.c
 evalresp/string_fctns.o: $(srcdir)/evalresp/string_fctns.c
 	$(COMPILE) -DLIB_MODE -c $(srcdir)/evalresp/string_fctns.c -o $@
 
-CLEANFILES        = bbs/readbbf_io.o dff/hdrfld_io.o msg/outmsg_io.o
-
-libsacio_a_LIBADD = bbs/readbbf_io.o dff/hdrfld_io.o msg/outmsg_io.o
-
 libsacio_a_SOURCES = amf/iniam.c amf/array.c \
 	bbs/getbbv.c bbs/inibbs.c bbs/setbbv.c bbs/unsetbbv.c \
 	bbs/writebbf.c \
+	bbs/readbbf.c \
 	\
 	bot/crname.c bot/indexa.c bot/indexb.c \
 	bot/modcase.c bot/nequal.c \
@@ -164,11 +154,13 @@ libsacio_a_SOURCES = amf/iniam.c amf/array.c \
 	dff/setkhv.c dff/setlhv.c dff/setnhv.c  dff/wsac0.c \
 	dff/wsac1.c dff/wsac2.c dff/f2c.c \
 	dff/wsac3.c dff/rsach.c \
+	dff/hdrfld.c \
 	\
 	msg/apcmsg.c msg/apcmsg2.c \
 	msg/apcmsgnum.c msg/apimsg.c msg/aplmsg.c msg/clrmsg.c \
 	msg/getsmsg.c msg/inimsg.c msg/sacmsg.c msg/sendmesg.c \
 	msg/setmsg.c msg/typmsg.c msg/wrtmsg.c msg/apfmsg.c \
+	msg/outmsg.c \
 	\
 	ucf/byteswap.c \
 	ucf/cnvita.c ucf/fill.c ucf/ljust.c  \

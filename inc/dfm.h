@@ -166,22 +166,6 @@ struct t_kmdfm {
     extern struct t_cmdfm cmdfm; \
     extern struct t_kmdfm kmdfm;
 
-#ifdef DOINITS
-int const wfHeader = -1;
-int const allHeader = 0;
-int const eventHeader = 1;
-float MaxMem = 0.3;
-
-#else
-extern int *const Icatco;
-extern int *const Itemco;
-extern int const wfHeader;
-extern int const allHeader;
-extern int const eventHeader;
-extern float MaxMem;
-
-#endif
-
 void cleardfl(int *nerr);
 void clear_file(int i, int *nerr);
 void cnvfmt(char *kcard, int kcard_s, char *kfmt, int kfmt_s, int nentry,

@@ -17,6 +17,7 @@
 #include "cpf.h"
 
 DFM_EXTERN
+extern float MaxMem;
 
 int
 magnitude_option() {

@@ -3,9 +3,7 @@
 
 #include "co.h"
 
-#define DOINITS
 #include "sss.h"
-#undef DOINITS
 #include "tt.h"
 #include "hdr.h"
 #include "bool.h"

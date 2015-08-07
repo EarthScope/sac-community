@@ -2,6 +2,8 @@
 #include "ssi.h"
 #include "dfm.h"
 
+extern int const wfHeader;
+
 void
 xrecall(int *nerr) {
         /*=====================================================================

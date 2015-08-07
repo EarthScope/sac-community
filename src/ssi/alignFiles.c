@@ -4,6 +4,10 @@
 
 DFM_EXTERN
 
+extern int const wfHeader;
+extern int const allHeader;
+
+
 void
 alignFiles(int *nerr) {
     /* Commit, recall, or rollback existing data as per user specs. */

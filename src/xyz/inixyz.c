@@ -1,8 +1,5 @@
 
-#define DOINITS
 #include "xyz.h"
-#undef DOINITS
-
 #include "bool.h"
 
 struct t_cmxyz cmxyz;

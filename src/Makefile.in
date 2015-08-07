@@ -745,12 +745,12 @@ am_libsac_x11_a_OBJECTS = gd3.x11/begindevice3.$(OBJEXT) \
 	gd3.x11/setwidth3.$(OBJEXT) gd3.x11/save3.$(OBJEXT)
 libsac_x11_a_OBJECTS = $(am_libsac_x11_a_OBJECTS)
 libsacio_a_AR = $(AR) $(ARFLAGS)
-libsacio_a_DEPENDENCIES = bbs/readbbf_io.o dff/hdrfld_io.o \
-	msg/outmsg_io.o
+libsacio_a_LIBADD =
 am_libsacio_a_OBJECTS = amf/iniam.$(OBJEXT) amf/array.$(OBJEXT) \
 	bbs/getbbv.$(OBJEXT) bbs/inibbs.$(OBJEXT) bbs/setbbv.$(OBJEXT) \
 	bbs/unsetbbv.$(OBJEXT) bbs/writebbf.$(OBJEXT) \
-	bot/crname.$(OBJEXT) bot/indexa.$(OBJEXT) bot/indexb.$(OBJEXT) \
+	bbs/readbbf.$(OBJEXT) bot/crname.$(OBJEXT) \
+	bot/indexa.$(OBJEXT) bot/indexb.$(OBJEXT) \
 	bot/modcase.$(OBJEXT) bot/nequal.$(OBJEXT) \
 	co/fstrncpy.$(OBJEXT) co/math.$(OBJEXT) co/subscpy.$(OBJEXT) \
 	co/zbasename.$(OBJEXT) co/zclose.$(OBJEXT) \
@@ -766,15 +766,16 @@ am_libsacio_a_OBJECTS = amf/iniam.$(OBJEXT) amf/array.$(OBJEXT) \
 	dff/setfhv.$(OBJEXT) dff/setihv.$(OBJEXT) dff/setkhv.$(OBJEXT) \
 	dff/setlhv.$(OBJEXT) dff/setnhv.$(OBJEXT) dff/wsac0.$(OBJEXT) \
 	dff/wsac1.$(OBJEXT) dff/wsac2.$(OBJEXT) dff/f2c.$(OBJEXT) \
-	dff/wsac3.$(OBJEXT) dff/rsach.$(OBJEXT) msg/apcmsg.$(OBJEXT) \
-	msg/apcmsg2.$(OBJEXT) msg/apcmsgnum.$(OBJEXT) \
-	msg/apimsg.$(OBJEXT) msg/aplmsg.$(OBJEXT) msg/clrmsg.$(OBJEXT) \
+	dff/wsac3.$(OBJEXT) dff/rsach.$(OBJEXT) dff/hdrfld.$(OBJEXT) \
+	msg/apcmsg.$(OBJEXT) msg/apcmsg2.$(OBJEXT) \
+	msg/apcmsgnum.$(OBJEXT) msg/apimsg.$(OBJEXT) \
+	msg/aplmsg.$(OBJEXT) msg/clrmsg.$(OBJEXT) \
 	msg/getsmsg.$(OBJEXT) msg/inimsg.$(OBJEXT) \
 	msg/sacmsg.$(OBJEXT) msg/sendmesg.$(OBJEXT) \
 	msg/setmsg.$(OBJEXT) msg/typmsg.$(OBJEXT) msg/wrtmsg.$(OBJEXT) \
-	msg/apfmsg.$(OBJEXT) ucf/byteswap.$(OBJEXT) \
-	ucf/cnvita.$(OBJEXT) ucf/fill.$(OBJEXT) ucf/ljust.$(OBJEXT) \
-	ucf/extrma.$(OBJEXT) ucf/distaz.$(OBJEXT) \
+	msg/apfmsg.$(OBJEXT) msg/outmsg.$(OBJEXT) \
+	ucf/byteswap.$(OBJEXT) ucf/cnvita.$(OBJEXT) ucf/fill.$(OBJEXT) \
+	ucf/ljust.$(OBJEXT) ucf/extrma.$(OBJEXT) ucf/distaz.$(OBJEXT) \
 	vars/createvlist.$(OBJEXT) vars/deletev.$(OBJEXT) \
 	vars/deletevlist.$(OBJEXT) vars/getvFILEptr.$(OBJEXT) \
 	vars/getvvstring.$(OBJEXT) vars/initializevar.$(OBJEXT) \
@@ -1128,10 +1129,12 @@ EXTRA_DIST = describedirs gd3.x11/sac.bitmap \
 		   ssi/xrecall.c
 
 CLEANFILES = bbs/readbbf_io.o dff/hdrfld_io.o msg/outmsg_io.o
-libsacio_a_LIBADD = bbs/readbbf_io.o dff/hdrfld_io.o msg/outmsg_io.o
+
+#libsacio_a_LIBADD = bbs/readbbf_io.o dff/hdrfld_io.o msg/outmsg_io.o
 libsacio_a_SOURCES = amf/iniam.c amf/array.c \
 	bbs/getbbv.c bbs/inibbs.c bbs/setbbv.c bbs/unsetbbv.c \
 	bbs/writebbf.c \
+	bbs/readbbf.c \
 	\
 	bot/crname.c bot/indexa.c bot/indexb.c \
 	bot/modcase.c bot/nequal.c \
@@ -1150,11 +1153,13 @@ libsacio_a_SOURCES = amf/iniam.c amf/array.c \
 	dff/setkhv.c dff/setlhv.c dff/setnhv.c  dff/wsac0.c \
 	dff/wsac1.c dff/wsac2.c dff/f2c.c \
 	dff/wsac3.c dff/rsach.c \
+	dff/hdrfld.c \
 	\
 	msg/apcmsg.c msg/apcmsg2.c \
 	msg/apcmsgnum.c msg/apimsg.c msg/aplmsg.c msg/clrmsg.c \
 	msg/getsmsg.c msg/inimsg.c msg/sacmsg.c msg/sendmesg.c \
 	msg/setmsg.c msg/typmsg.c msg/wrtmsg.c msg/apfmsg.c \
+	msg/outmsg.c \
 	\
 	ucf/byteswap.c \
 	ucf/cnvita.c ucf/fill.c ucf/ljust.c  \
@@ -3562,11 +3567,11 @@ uninstall-am: uninstall-binPROGRAMS uninstall-libLIBRARIES
 
 # Compile Rules for the libsacio
 bbs/readbbf_io.o: $(srcdir)/bbs/readbbf.c
-	$(COMPILE) -DDOINITS -c $(srcdir)/bbs/readbbf.c -o $@
+	$(COMPILE) -c $(srcdir)/bbs/readbbf.c -o $@
 dff/hdrfld_io.o: $(srcdir)/dff/hdrfld.c
-	$(COMPILE) -DDOINITS -c $(srcdir)/dff/hdrfld.c -o $@
+	$(COMPILE) -c $(srcdir)/dff/hdrfld.c -o $@
 msg/outmsg_io.o: $(srcdir)/msg/outmsg.c
-	$(COMPILE) -DDOINITS -c $(srcdir)/msg/outmsg.c -o $@
+	$(COMPILE) -c $(srcdir)/msg/outmsg.c -o $@
 
 evalresp/evresp.o: $(srcdir)/evalresp/evresp.c
 	$(COMPILE) -DLIB_MODE -DLOG_LABEL -c $(srcdir)/evalresp/evresp.c -o $@

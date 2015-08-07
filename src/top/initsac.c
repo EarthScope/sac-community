@@ -10,58 +10,23 @@
 #include "ssi.h"
 #include "select.h"
 #include "gpm.h"
-
-#define DOINITS
-#include "mach.h"
-#include "bbs.h"
-#include "bom.h"
-#include "cnd.h"
-#include "cnv.h"
-#include "com.h"
-#include "comlists.h"
-#include "contouring.h"
-#include "cpf.h"
-#include "datafilelist.h"
-#include "dfir.h"
 #include "dfm.h"
-#include "dload.h"
-#include "eam.h"
-#include "exm.h"
-#include "fir.h"
-#include "fks.h"
 #include "gam.h"
-#include "gd2.h"
 #include "gdm.h"
-#include "gtm.h"
-#include "gem.h"
-#include "hdr.h"
-#include "icm.h"
-#include "lhf.h"
-#include "amf.h"
 #include "msg.h"
-#include "nnm.h"
-#include "nvars.h"
-#include "sam.h"
-#include "scm.h"
-#include "sddhdr.h"
-#include "site.h"
-#include "smm.h"
-#include "snf.h"
-#include "spe.h"
-#include "specdata.h"
-#include "spectrogram.h"
-#include "tok.h"
-#include "tt.h"
-#include "uom.h"
 #include "vars.h"
-#include "wild.h"
-#undef DOINITS
-
+#include "com.h"
+#include "dload.h"
+#include "amf.h"
+#include "exm.h"
 #include "sac_history.h"
 
 DFM_EXTERN
 GAM_EXTERN
 GDM_EXTERN
+VARS_EXTERN
+COM_EXTERN
+EXTCOM_EXTERN
 
 struct t_cmcom cmcom;
 struct t_cmvars cmvars;

@@ -17,6 +17,7 @@
 #include "clf.h"
 
 DFM_EXTERN
+extern float MaxMem;
 
 /** 
  * Execute the command READSUDS which reads in a SUDS file

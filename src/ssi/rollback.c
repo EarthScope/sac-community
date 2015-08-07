@@ -15,6 +15,7 @@
 #include "array.h"
 
 DFM_EXTERN
+extern int const allHeader;
 
 void
 rollback(int whichHeaders, int *nerr) {

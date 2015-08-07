@@ -2,6 +2,9 @@
 #include "ssi.h"
 #include "dfm.h"
 
+
+extern int const allHeader;
+
 void
 xrollback(int *nerr) {
 

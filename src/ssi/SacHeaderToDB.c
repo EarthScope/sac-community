@@ -9,6 +9,11 @@
 #include "msg.h"
 #include "dff.h"
 
+int const wfHeader = -1;
+int const allHeader = 0;
+int const eventHeader = 1;
+float MaxMem = 0.3;
+
 void
 SacHeaderToDB(header, whichHeaders, idfl)
      struct SACheader *header;

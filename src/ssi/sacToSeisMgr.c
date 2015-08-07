@@ -21,6 +21,8 @@
 #include "cssListOps/dblErrors.h"
 
 DFM_EXTERN
+extern int const allHeader;
+extern int const eventHeader;
 
 int
 Unique(int *array, int size, int wfid) {
