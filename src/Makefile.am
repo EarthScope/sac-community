@@ -518,6 +518,7 @@ libsac_all_a_SOURCES = amf/iniam.c amf/array.c \
 	scm/xrotate.c scm/xrq.c scm/xrtr.c scm/xscmc.c scm/xsmooth.c \
 	scm/xstretch.c scm/xtaper.c \
 	scm/rmean.c scm/rtrend.c scm/taper.c scm/interpolate.c \
+	scm/rotinc.c \
 	\
 	site/initsite.c site/xsitecom.c site/xtestsite.c \
 	\

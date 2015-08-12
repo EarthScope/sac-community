@@ -614,9 +614,10 @@ am_libsac_all_a_OBJECTS = amf/iniam.$(OBJEXT) amf/array.$(OBJEXT) \
 	scm/xrtr.$(OBJEXT) scm/xscmc.$(OBJEXT) scm/xsmooth.$(OBJEXT) \
 	scm/xstretch.$(OBJEXT) scm/xtaper.$(OBJEXT) \
 	scm/rmean.$(OBJEXT) scm/rtrend.$(OBJEXT) scm/taper.$(OBJEXT) \
-	scm/interpolate.$(OBJEXT) site/initsite.$(OBJEXT) \
-	site/xsitecom.$(OBJEXT) site/xtestsite.$(OBJEXT) \
-	smm/inismm.$(OBJEXT) smm/ptp.$(OBJEXT) smm/xmarkptp.$(OBJEXT) \
+	scm/interpolate.$(OBJEXT) scm/rotinc.$(OBJEXT) \
+	site/initsite.$(OBJEXT) site/xsitecom.$(OBJEXT) \
+	site/xtestsite.$(OBJEXT) smm/inismm.$(OBJEXT) \
+	smm/ptp.$(OBJEXT) smm/xmarkptp.$(OBJEXT) \
 	smm/xmarktimes.$(OBJEXT) smm/xmarkvalue.$(OBJEXT) \
 	smm/xrms.$(OBJEXT) smm/xsmmc.$(OBJEXT) spe/inispe.$(OBJEXT) \
 	spe/xcor.$(OBJEXT) spe/xmem.$(OBJEXT) spe/xmlm.$(OBJEXT) \
@@ -1128,9 +1129,6 @@ EXTRA_DIST = describedirs gd3.x11/sac.bitmap \
 		   ncpf/hrtoe.c ncpf/readableToEpoch.c \
 		   ssi/xrecall.c
 
-CLEANFILES = bbs/readbbf_io.o dff/hdrfld_io.o msg/outmsg_io.o
-
-#libsacio_a_LIBADD = bbs/readbbf_io.o dff/hdrfld_io.o msg/outmsg_io.o
 libsacio_a_SOURCES = amf/iniam.c amf/array.c \
 	bbs/getbbv.c bbs/inibbs.c bbs/setbbv.c bbs/unsetbbv.c \
 	bbs/writebbf.c \
@@ -1516,6 +1514,7 @@ libsac_all_a_SOURCES = amf/iniam.c amf/array.c \
 	scm/xrotate.c scm/xrq.c scm/xrtr.c scm/xscmc.c scm/xsmooth.c \
 	scm/xstretch.c scm/xtaper.c \
 	scm/rmean.c scm/rtrend.c scm/taper.c scm/interpolate.c \
+	scm/rotinc.c \
 	\
 	site/initsite.c site/xsitecom.c site/xtestsite.c \
 	\
@@ -2766,6 +2765,7 @@ scm/xscmc.$(OBJEXT): scm/$(am__dirstamp)
 scm/xsmooth.$(OBJEXT): scm/$(am__dirstamp)
 scm/xstretch.$(OBJEXT): scm/$(am__dirstamp)
 scm/xtaper.$(OBJEXT): scm/$(am__dirstamp)
+scm/rotinc.$(OBJEXT): scm/$(am__dirstamp)
 site/$(am__dirstamp):
 	@$(MKDIR_P) site
 	@: > site/$(am__dirstamp)
@@ -3400,7 +3400,6 @@ install-strip:
 mostlyclean-generic:
 
 clean-generic:
-	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
@@ -3564,14 +3563,6 @@ uninstall-am: uninstall-binPROGRAMS uninstall-libLIBRARIES
 
 @WIN_APP_TRUE@.rc.o:
 @WIN_APP_TRUE@	$(WINDRES) $< -o $@
-
-# Compile Rules for the libsacio
-bbs/readbbf_io.o: $(srcdir)/bbs/readbbf.c
-	$(COMPILE) -c $(srcdir)/bbs/readbbf.c -o $@
-dff/hdrfld_io.o: $(srcdir)/dff/hdrfld.c
-	$(COMPILE) -c $(srcdir)/dff/hdrfld.c -o $@
-msg/outmsg_io.o: $(srcdir)/msg/outmsg.c
-	$(COMPILE) -c $(srcdir)/msg/outmsg.c -o $@
 
 evalresp/evresp.o: $(srcdir)/evalresp/evresp.c
 	$(COMPILE) -DLIB_MODE -DLOG_LABEL -c $(srcdir)/evalresp/evresp.c -o $@

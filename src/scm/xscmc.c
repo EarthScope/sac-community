@@ -68,6 +68,8 @@ xscmc(index, nerr)
             goto L_1300;
         case 14:
             goto L_1400;
+        case 15:
+            goto L_1500;
     }
 
     /* - Error return if bad index value. */
@@ -158,6 +160,10 @@ xscmc(index, nerr)
 
   L_1400:
     xlinefit(nerr);
+    goto L_8888;
+
+ L_1500:
+    rotinc(nerr);
     goto L_8888;
 
   L_8888:

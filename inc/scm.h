@@ -107,5 +107,5 @@ void interp(float *in, int nlen, float *out, int newlen, float bval, float eval,
             float dt, float tstart, float dtnew, float eps);
 void interp2(float *in, int nlen, float *out, int newlen, float bval,
              float eval, float *t, float tstart, float dtnew, float eps);
-
+void rotinc(int *nerr);
 #endif /* _SCM_H_ */

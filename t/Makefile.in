@@ -148,16 +148,17 @@ TESTS = use_sac$(EXEEXT) ucf$(EXEEXT) vars$(EXEEXT) sacio$(EXEEXT) \
 	testsuite/input/readsp.sm testsuite/input/readtable.sm \
 	testsuite/input/replace.sm testsuite/input/reverse.sm \
 	testsuite/input/rmean.sm testsuite/input/rms.sm \
-	testsuite/input/rotate.sm testsuite/input/rq.sm \
-	testsuite/input/rtrend.sm testsuite/input/sam_error.sm \
-	testsuite/input/scallop.sm testsuite/input/segy.sm \
-	testsuite/input/setbb.sm testsuite/input/sgf.sm \
-	testsuite/input/smooth.sm testsuite/input/sort.sm \
-	testsuite/input/spe.sm testsuite/input/spectrogram.sm \
-	testsuite/input/sqr.sm testsuite/input/sqrt.sm \
-	testsuite/input/sss.sm testsuite/input/stretch.sm \
-	testsuite/input/sub.sm testsuite/input/subf.sm \
-	testsuite/input/symbol.sm testsuite/input/synchronize.sm \
+	testsuite/input/rotate.sm testsuite/input/rotinc.sm \
+	testsuite/input/rq.sm testsuite/input/rtrend.sm \
+	testsuite/input/sam_error.sm testsuite/input/scallop.sm \
+	testsuite/input/segy.sm testsuite/input/setbb.sm \
+	testsuite/input/sgf.sm testsuite/input/smooth.sm \
+	testsuite/input/sort.sm testsuite/input/spe.sm \
+	testsuite/input/spectrogram.sm testsuite/input/sqr.sm \
+	testsuite/input/sqrt.sm testsuite/input/sss.sm \
+	testsuite/input/stretch.sm testsuite/input/sub.sm \
+	testsuite/input/subf.sm testsuite/input/symbol.sm \
+	testsuite/input/synchronize.sm \
 	testsuite/input/systemcommand.sm testsuite/input/taper.sm \
 	testsuite/input/test_break.sm testsuite/input/test_do.sm \
 	testsuite/input/test_if.sm testsuite/input/test_macro.sm \

@@ -231,6 +231,7 @@ testsuite/input/reverse.sm \
 testsuite/input/rmean.sm \
 testsuite/input/rms.sm \
 testsuite/input/rotate.sm \
+testsuite/input/rotinc.sm \
 testsuite/input/rq.sm \
 testsuite/input/rtrend.sm \
 testsuite/input/sam_error.sm \

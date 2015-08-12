@@ -1,0 +1,77 @@
+
+ROTINC
+++++++
+
+SUMMARY
+-------
+
+Rotate a set of 3 perpendicular seismograms
+
+SYNTAX
+------
+
+  ``ROTINC TO [VRT|LQT|VNE|XYZ] { INCIDENCE i | iP | iS } { VP alpha VS beta RAY{DEG|KM} par {FREESURFACE} } ``
+
+INPUT
+-----
+      :TO VRT: rotate into vertical,radial, transverse coordinate system
+
+      :TO LQT: rotate into P,SV, and SH coordinate system
+
+      :TO VNE: rotate into system aligned with N, E and vertical
+
+      :TO XYZ: rotate into system aligned with N, E and vertical
+          Z: Up, X: East, Y: North
+
+      :INCIDENCE iP: Use P wave to determine angle of L direction
+
+      :INCIDENCE iS: Use S wave to determine angle of L direction
+
+      :INCIDENCE i: Define angle from vertical of L direction
+
+      :VP v: P wave velocity near surface (default 5.8)
+
+      :VS v: S wave velocity near surface (default 3.35)
+
+      :RAYDEG v: ray parameter = horizontal slowness (s/deg)
+
+      :RAYKM v: ray parameter= horizontal slowness (s/km)
+
+      :FREESURFACE: use free surface response instead of propagation vector
+
+DEFAULT VALUES
+--------------
+
+ None
+
+DESCRIPTION
+-----------
+
+  Given three perpendicular components of the same seismogram, rotate the set
+  into coordinate systems. It works its way through all records in memory
+  until it fails to find 3 consecutive perpendicular traces. It assumes
+  vertical up (cmpinc = 0.0), cmpaz measured clockwise from N.
+
+HEADER CHANGES
+--------------
+
+  CMPINC, CMPAZ, KCMPNM, DEPMAX, DEPMIN, DEPMEN
+
+ERROR MESSAGES
+--------------
+- 1002: Bad value for
+- 1011: Bad command file syntax
+- 1301: No data file read in.
+- 1304: Illegal operation on data file
+- 1336: Undefined header field value.
+
+AUTHOR
+------
+
+  This command was orignally contributed by Frederik Tilmann in 2015
+
+LATEST REVISION
+---------------
+
+  August 2015 (Version 102.0)
+

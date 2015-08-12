@@ -1,0 +1,88 @@
+
+
+rotinc
+fg seismo
+div &1,depmax
+rotinc
+
+ch cmpaz 0 cmpinc 90 kcmpnm n
+write test.rinc_n.sac
+
+mul 2
+ch cmpaz 90 cmpinc 90 kcmpnm e
+write test.rinc_e.sac
+
+mul 2
+ch cmpaz 0 cmpinc 0 kcmpnm z
+write test.rinc_z.sac
+
+message "Input Files"
+read test.rinc_?.sac
+message "Max: &1,depmax &2,depmax &3,depmax"
+message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
+message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
+message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
+
+message ""
+message "TO VNE"
+read test.rinc_?.sac
+rotinc to VNE
+message "Max: &1,depmax &2,depmax &3,depmax"
+message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
+message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
+message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
+
+message ""
+message "TO XYZ"
+read test.rinc_?.sac
+rotinc to XYZ
+message "Max: &1,depmax &2,depmax &3,depmax"
+message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
+message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
+message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
+
+message ""
+message "TO VRT az: &1,az"
+read test.rinc_?.sac
+rotinc to VRT
+message "Max: &1,depmax &2,depmax &3,depmax"
+message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
+message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
+message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
+
+message ""
+message "TO LQT az: &1,az"
+rotinc INCIDENCE IP RAYDEG 0.0
+message "Max: &1,depmax &2,depmax &3,depmax"
+message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
+message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
+message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
+
+message ""
+message "TO LQT az: &1,az"
+read test.rinc_?.sac
+rotinc INCIDENCE IP RAYDEG 6.8
+message "Max: &1,depmax &2,depmax &3,depmax"
+message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
+message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
+message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
+
+message ""
+message "TO LQT az: &1,az"
+read test.rinc_?.sac
+rotinc INCIDENCE IP RAYDEG 6.8 VERBOSE
+message "Max: &1,depmax &2,depmax &3,depmax"
+message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
+message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
+message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
+
+read test.rinc_?.sac
+ch baz 
+rotinc INCIDENCE IP RAYDEG 6.8
+
+read test.rinc_e.sac
+ch nzyear 1982
+write over
+read test.rinc_?.sac
+rotinc TO VNE
+

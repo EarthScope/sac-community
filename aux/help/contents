@@ -265,6 +265,7 @@ rms           rms
 rollback      crr
 rotate        rotate
 rot           rotate
+rotinc        rotinc
 rq            rq
 rtrend        rtrend
 rtr           rtrend
