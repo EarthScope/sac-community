@@ -9,7 +9,7 @@ in C or FORTRAN to read and write SAC formatted data files. The SAC_I/O library 
 included in the sub-directory ${SACHOME}/lib.  The complete listing of sample 
 programs in both C and Fortran for reading and writing SAC data files and for getting 
 and setting SAC header values, are give below in the online version of this file at 
-<http://www.iris.edu/files/sac-manual/manual/input_output.html>.
+<http://ds.iris.edu/files/sac-manual/manual/input_output.html>.
 
 When compiling/linking your code, it is necessary to include ${SACHOME}/lib/libsacio.a 
 in order to access the routines discussed below. To ease the requirements for 

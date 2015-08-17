@@ -32,17 +32,12 @@ INPUT
     
    :op:  One of the arithmetic or logical operators listed above.
     
-ALTERNATE FORMS
----------------
-::
+ALTERNATE FORMS FOR ADD, SUBTRACT, MULTIPLY, DIVIDE, AND POWER
+--------------------------------------------------------------
 
- + may be substituted for ADD_
- - for SUBTRACT
- * for MULTIPLY
- / for DIVIDE
- ** for POWER
+  `` +   -   *   /   **``
 
-Be sure and place spaces around each operator.
+
 
 DEFAULT VALUES
 --------------
@@ -59,7 +54,7 @@ DESCRIPTION
   terminal or to a specified blackboard variable.  This blackboard variable can
   later be used directly in other commands.  This is especially useful when
   writing macros.  You can also get the value of a blackboard variable using the
-  GETBB_ command. Previously, there was a maximum number of operators (10) in a 
+  GETBB_ command.  Previously, there was a maximum number of operators (10) in a 
   single command.  As of v101.6, there is no maximum number.
 
 EXAMPLES

@@ -16,7 +16,7 @@ _________
   - `Using the SAC Library`_
   - `Blackboard Variables in SAC`_
   - `Graphics in SAC`_
-  - `SAC Graphics Format`_ (SGF)
+  - `SAC Graphics File`_ (SGF)
   - `Calling SAC from Scripts`_
   - `SAC Error Messages`_
 
@@ -29,7 +29,7 @@ ____________________________
 SAC Subprocesses
 ________________
 
-  A subprocess is like a small program within the main SAC program. You start a subprocess by typing
+  A subprocess is like a small program within the main SAC program. You start a subprocess by typing 
   its acronym: SPE for Spectral Estimation or SSS for Signal Stacking.
 
   - SPE_

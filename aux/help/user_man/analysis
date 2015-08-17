@@ -25,7 +25,7 @@ Function Module
 
   Files README, HISTORY, and CHANGES in the top directory of SAC give general
   information about the current version of SAC and previous versions. HELP_ 
-  and SYNTAX_ give you information about a specific command, and REPORT_ gives 
+  gives you information about a specific command, and REPORT_ gives 
   you the current values of important parameters. SAC has an extensive macro 
   capability that is described in `SAC Macros`_. A macro lets you execute a set 
   of SAC commands from a file you write. You can define arguments complete 
@@ -53,7 +53,7 @@ Function Module
 
   Using `SAC Reading and Writing Routines`_, one can write stand-alone codes in C 
   or FORTRAN to read and write SAC-formatted data files.
-  
+ 
   You can write your own SAC command in FORTRAN or C routines that can be 
   loaded into SAC (LOAD_), and executed thereafter just like an indiginous SAC 
   command (see Notes and external_interface in aux/external).
@@ -151,7 +151,7 @@ Spectral Analysis Module
   - KEEPAM_ keeps amplitude component of spectral files (of either the AMPH or 
     RLIM format) in SAC memory.
 
-Unary Operations Module
+Unary-Operations Module
 -----------------------
 
   The commands in this module perform some arithmetic operation on each data 
@@ -163,7 +163,7 @@ Unary Operations Module
   base 10 exponential (EXP10_) of each data point. Lastly you can perform 
   integratation (INT_) and differentation (DIF_).
 
-Binary Operations Module
+Binary-Operations Module
 ------------------------
   These commands perform operations on pairs of data files.
 
@@ -174,7 +174,7 @@ Binary Operations Module
   - DIVF_ divides the data in memory by a set of files.
   - BINOPERR_ controls errors that can occur during these binary operations.
 
-Signal Correction Module
+Signal-Correction Module
 ------------------------
 
   These commands let you perform certain signal correction operations.
@@ -195,7 +195,7 @@ Signal Correction Module
   - ROTATE_ Finally, you can rotate pairs of data components through a 
     specified angle with the ROTATE command.
 
-Event Analysis Module
+Event-Analysis Module
 ---------------------
   This module is used to pick seismic phases.
 
@@ -212,7 +212,7 @@ Event Analysis Module
   format using the OAPF_ (open alphanumeric pick file) and CAPF_ (close 
   alphanumeric pick file) commands. The picks are also saved in the headers.
 
-Signal Measurement Module
+Signal-Measurement Module
 -------------------------
 
   These commands measure and "mark" selected attributes about the data in 
@@ -226,20 +226,20 @@ Signal Measurement Module
   When this option is on, the measurements are made within this window only. 
   Otherwise the measurements are made on the entire signal.
 
-  MTW applies to the MARKPTP and MARKVALUE commands only. RMS computes the root 
+  MTW_ applies to the MARKPTP and MARKVALUE commands only. RMS_ computes the root 
   mean square of the data within the measurement time window.
 
-Instrument Correction Module
+Instrument-Correction Module
 ----------------------------
   This module currently contains only one command, TRANSFER_.
 
-  TRANSFER_ performs a deconvolution to remove one instrument response followed 
+  TRANSFER performs a deconvolution to remove one instrument response followed 
   a convolution to apply another instrument response. Over 40 predefined 
   instrument responses are available. A general instrument response can also be 
   specified in terms of its poles and zeros, frequency-amplitude-phase files, or
   the EVALRESP package.
 
-XYZ Data Processing Module
+XYZ Data-Processing Module
 --------------------------
   The commands in this module produce output that is a function of two input 
   domains.
@@ -308,3 +308,4 @@ Subprocesses
   be static or dynamic. Two velocity models are available. The signals can be 
   individually weighted. Traveltimes can be computed, or read from a file. A 
   record section plot is also part of this subprocess. 
+

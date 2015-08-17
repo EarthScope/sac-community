@@ -4,7 +4,7 @@ CUT
 
 SUMMARY
 -------
-Defines how much of a data file is to be read.
+Defines how much of a data file is to be read.  CUT does not act on data currently in memory.
 
 SYNTAX
 ------
@@ -42,7 +42,7 @@ DESCRIPTION
 -----------
   The CUT command simply sets cut points and does not change the file in memory.  For
   the command to take effect, CUT must be followed by a READ_.  This is in contrast
-  with command CUTIM_, which carries out cut (or cuts) when the command is given. 
+  with command CUTIM_, which carries out cut (or cuts) on the data currently in memory. 
    
   If the start or stop offset is omitted it is assumed to be zero.  If the start 
   reference value is omitted it is assumed to be zero (in contrast with CUTIM, for 
@@ -192,3 +192,4 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
    April 21, 2010 (Version 101.4)
+

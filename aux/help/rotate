@@ -23,9 +23,9 @@ INPUT
    :THROUGH v:  Rotate through the angle v in degrees.  One component may
        be vertical.
     
-   :NORMAL:  Output components with normal polarity.
+   :NORMAL:  Output (horizontal) components with the second leading the first by 90 degrees
     
-   :REVERSED:  Output components with reversed polarity.
+   :REVERSED:  Output (horizontal) components with the second lagging the first by 90 degrees.
     
 DEFAULT VALUES
 --------------
@@ -59,14 +59,14 @@ EXAMPLES
 --------
   To rotate a pair of horizontals through 123.43 degrees::
 
-      u: READ XYZ.N XYZ.E
-      u: ROTATE TO 123.43
+      SAC> READ XYZ.N XYZ.E
+      SAC> ROTATE TO 123.43
 
   To rotate two sets of horizontals to the great circle path::
 
-      u: READ ABC.N ABC.E DEF.N DEF.E
-      u: ROTATE TO GCP
-      u: W ABC.R ABC.T DEF.R DEF.T
+      SAC> READ ABC.N ABC.E DEF.N DEF.E
+      SAC> ROTATE TO GCP
+      SAC> W ABC.R ABC.T DEF.R DEF.T
 
   In the above example if the BAZ header variable had been 33 degrees, the
   radial components would be at 213 degrees and the tangential components at

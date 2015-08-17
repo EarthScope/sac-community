@@ -4,7 +4,7 @@ CUTIM
 
 SUMMARY
 -------
-Cuts files in memory.  Can cut multiple segments from each file.
+Cuts files in memory.  Can cut multiple segments from each file currently in memory
 
 SYNTAX
 ------
@@ -34,7 +34,7 @@ If the start or stop offset is omitted, it is assumed to be zero.
 
 DESCRIPTION
 -----------
-  While the CUT_ command simply sets cut points and does not change the file in memory
+  While the CUT_ command simply sets cut points and does not change the file in memory,
   CUTIM carries out the cut(s) when the command is given.  The user can READ_ a file
   aand type CUTIM with the desired cutpoints, and SAC will cut the file to those 
   specified cutpoints.  CUTIM allows multiple pairs of cutpoints, with an output file

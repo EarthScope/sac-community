@@ -237,6 +237,7 @@
 .. _sac_macros:  ../manual/sac_macros.html
 
 .. _sss: sss.com/sss.html
+.. _ssstraveltime: sss.com/traveltime.html
 .. _deletestack: sss.com/deletestack.html
 
 .. _spe: spe.com/spe.html

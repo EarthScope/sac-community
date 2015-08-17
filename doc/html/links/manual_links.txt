@@ -24,7 +24,7 @@
 .. _using the sac library:            saclib.html
 .. _blackboard variables in sac:      blackboard.html
 .. _graphics in sac:                  graphics.html
-.. _sac graphics format:              sgf_format.html
+.. _sac graphics file:                sgf_format.html
 .. _sac error messages:               error_messages.html
 .. _calling sac from scripts:         sac_script.html
 

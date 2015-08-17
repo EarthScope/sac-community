@@ -6,3 +6,4 @@ SUMMARY
 Reads data from Oracle database into memory.
 
 As of v101.5, the Oracle database has been removed from the distribution.
+

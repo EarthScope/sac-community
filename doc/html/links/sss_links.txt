@@ -161,7 +161,7 @@
 .. _smooth: ../smooth.html
 .. _sonogram: ../sonogram.html
 .. _sort: ../sort.html
-.. _spe: spe.html
+.. _spe: ../spe.com/spe.html
 .. _spe_dir: ../spe_dir.html
 .. _spectrogram: ../spectrogram.html
 .. _sqr: ../sqr.html
@@ -263,7 +263,6 @@
 .. _distancewindow: distancewindow.html
 .. _writestack: writestack.html
 .. _ssstraveltime: traveltime.html
-
 .. _deltacheck: deltacheck.html
 .. _liststack: liststack.html
 .. _zerostack:  zerostack.html

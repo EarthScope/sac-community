@@ -457,7 +457,7 @@ There may be times when you need to use a dollar sign or a percent sign in a
 command and not have SAC interpret it as a macro argument or blackboard 
 variable entry. To do this you preceed the special character with another 
 special character, called the escape character. The escape character is an "at" 
-sign ("@".) The special characters that must be treated in this way are::
+sign ("@"). The special characters that must be treated in this way are::
 
   $  The macro argument expansion character.
   %  The blackboard variable expansion character.
@@ -472,3 +472,4 @@ Acknowledgements
 ----------------
 The concept of blackboard variables are due to Dave Harris.
 The "if test" and "do loop" features were developed by Mandy Goldner.
+

@@ -16,7 +16,7 @@
   <a href="sss.html"><span class="menuitem">SSS</span></a>
   
   <span class="menuspace"></span>
-  <a href="http://www.iris.edu/dms/nodes/dmc/software/downloads/sac/"><span class="menuitem">SAC/IRIS</span></a>
+  <a href="http://ds.iris.edu/ds/nodes/dmc/software/downloads/sac/"><span class="menuitem">SAC/IRIS</span></a>
 </div>
 <div class="header">
 %(body_pre_docinfo)s
@@ -37,7 +37,7 @@
   <a href="sss.html"><span class="menuitem">SSS</span></a>
   
   <span class="menuspace"></span>
-  <a href="http://www.iris.edu/dms/nodes/dmc/software/downloads/sac/"><span class="menuitem">SAC/IRIS</span></a>
+  <a href="http://ds.iris.edu/ds/nodes/dmc/software/downloads/sac/"><span class="menuitem">SAC/IRIS</span></a>
 </div>
 </div>
 %(body_suffix)s

@@ -1,85 +1,70 @@
+.. _alpha_commands: sac-commands_
+.. _alphabetical: sac-commands_
+.. _functional: sac-commands_
+.. _command reference manual: sac-commands_
+.. _sac-commands:
+.. 
+.. _sac data file format: sac-data-file-format_
+.. _sac-data-file-format:
+..  
+.. _macros: sac-macros_
+.. _sac macros: sac-macros_
+.. _sac_macros: sac-macros_
+.. _sac-macros:
+..
+.. _tutorial for new users: sac-tutorial-guide-for-new-users_ 
+.. _tutorial: sac-tutorial-guide-for-new-users_
+.. _sac-tutorial-guide-for-new-users: 
 
-.. _spectral_estimation_subprocess: spectral-estimation-spe_
+.. _sgf format: sac-graphics-file_
+.. _SAC Graphics File: sac-graphics-file_
+.. _sac-graphics-file:
+
+.. _error messages: sac-output-messages_
+.. _sac error messages: sac-output-messages_
+.. _sac-output-messages:
+..
+.. _intro: using-sac-introduction_
+.. _introduction: using-sac-introduction_ 
+.. _using-sac-introduction: 
+..
+.. _analysis: sac-analysis-capabilities_
+.. _sac analysis capabilities: sac-analysis-capabilities_
+.. _sac-analysis-capabilities: 
+..
+.. _saclib: using-the-sac-library_
+.. _sac library: using-the-sac-library_
+.. _using the sac library: using-the-sac-library_
+.. _using-the-sac-library:
+..
+.. _calling sac from scripts: sac-scripts_
+.. _sac-scripts:
+..
+.. _sac inline functions:  sac-inline-functions_
+.. _sac-inline-functions:
+..
+.. _sac reading and writing routines: sac-reading-and-writing-routines_
+.. _sac-reading-and-writing-routines:
+..
+.. _blackboard: blackboard-variables-in-sac_
+.. _blackboard variables in sac: blackboard-variables-in-sac_
+.. _blackboard variables: blackboard-variables-in-sac_
+.. _blackboard-variables-in-sac:
+..
+.. _graphics in sac: graphics-in-sac_
+.. _graphics-in-sac:
+..
+.. _spectral-estimation subprocess manual: spectral-estimation_
+.. _spe: spectral-estimation_
+.. _spectral-estimation:	
+..	
+.. _signal-stacking subprocess manual: signal-stacking-subprocess_	
+.. _sss: signal-stacking-subprocess_
+.. _signal-stacking-subprocess:
 ..
 .. _mul:
 ..
 .. _div: 
-..
-.. _sac-tutorial-guide-for-new-users:  
-..
-.. _tutorial: sac-tutorial-guide-for-new-users_
-..
-.. _tutorial-for-new-users: sac-tutorial-guide-for-new-users_
-..
-.. _tutorial_for_new_users: sac-tutorial-guide-for-new-users_
-..
-.. _error_messages: sac_output_messages_
- ..
-.. _sac_output_messages:
-..
-.. _sac_error_messages: sac_output_messages_
-..
-.. _sac_error_messages: sac_output_messages_
-..
-.. _intro: using-sac-introduction_
-..
-.. _introduction: using-sac-introduction_
-..
-.. _using-sac-introduction: 
-..
-.. _analysis: sac-analysis-capabilities_
-..
-.. _sac_analysis_capabilities: sac-analysis-capabilities_
-..
-.. _sac-analysis-capabilities: 
-..
-.. _macros: sac-macros_
-..
-.. _sac_macros: sac-macros_
-..
-.. _sac-macros:
-..
-.. _inline: sac-inline-functions_
-..
-.. _sac_inline_functions: sac-inline-functions_
-..
-.. _sac-inline-functions:
-..
-.. _sac_data_file_format:
-..
-.. _sac data file format: sac_data_file_format_ 
-..
-.. _command reference manual: sac-commands_
-..
-.. _sac_io: sac-reading-and-writing-routines_
-..
-.. _sac_reading_and_writing_routines: sac-reading-and-writing-routines_
-..
-.. _sac-reading-and-writing-routines:
-..
-.. _blackboard: blackboard_variables_in_sac_
-..
-.. _blackboard_variables_in_sac:
-.. 
-.. _graphics: graphics-in-sac_
-..
-.. _sac_graphics_format: graphics-in-sac_
-..
-.. _graphics_in_sac: graphics-in-sac_
-..
-.. _graphics-in-sac:
-..
-.. _alpha_commands: sac-commands_
-..
-.. _command_reference: sac-commands_
-..
-.. _alphabetical: sac-commands_
-..
-.. _functional: sac-commands_
-..
-.. _command_reference: sac-commands_
-..
-.. _sac-commands: alphabetical-comamnd-listing_
 ..
 .. _readme: http://www.iris.edu
 ..
@@ -89,7 +74,7 @@
 ..
 .. _recalltrace: commit-recalltrace-rollback_
 ..
-.. _commit-recalltrace-rollback_:
+.. _commit-recalltrace-rollback:
 ..
 .. _abs:
 ..
@@ -207,7 +192,7 @@
 ..
 .. _correlate:	
 ..
-.. _crr: commit-recalltrace-rollback
+.. _crr: commit-recalltrace-rollback_
 ..
 .. _cut:	
 ..
@@ -247,9 +232,9 @@
 ..
 .. _external_interface: external-command-interface_
 ..
-.. _external-command-interface: 
+.. _external-command-interface:
 ..
-.. _external-interface:	external-command-interface_
+.. _external-interface: external-command-interface_
 ..
 .. _fileid:	
 ..
@@ -438,25 +423,7 @@
 .. _sonogram:	
 ..
 .. _sort:	
-..
-.. _spe: spectral-estimation-spe_
-..
-.. _spectral-estimation-spe:
-..
-.. _spe_dir:	
-..
-.. _spectrogram:	
-..
-.. _sss: signal-stacking-subprocess_
-..
-.. _signal-stacking-subprocess:
-..
-.. _signal_stacking_subprocess: signal-stacking-subprocess_
-..
-.. _sss-html.doc:	
-..
-.. _sss_dir:	
-..
+.. _spectrogram:
 .. _stretch:	
 ..
 .. _symbol:	
@@ -620,12 +587,5 @@
 .. _saveimg:
 ..
 .. _ssstraveltime:
-..
-.. _saclib: using_the_sac_library_
-..
-.. _using_the_sac_library:
-..
-.. _calling_sac_from_scripts:
-..
-.. _sac_software_request_form:
-..
+
+

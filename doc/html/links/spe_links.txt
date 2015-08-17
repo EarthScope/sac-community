@@ -166,7 +166,7 @@
 .. _spectrogram: ../spectrogram.html
 .. _sqr: ../sqr.html
 .. _sqrt: ../sqrt.html
-.. _sss: sss.html
+.. _sss: ../sss.com/sss.html
 .. _sss-html.doc: ../sss-html.doc.html
 .. _sss_dir: ../sss_dir.html
 .. _stretch: ../stretch.html

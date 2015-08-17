@@ -1,5 +1,5 @@
-SAC Graphics Format (SGF)
-+++++++++++++++++++++++++
+SAC Graphics File
++++++++++++++++++
 
 Overview
 --------
@@ -149,3 +149,4 @@ available postscript file viewers, such as gv, ggv, or evince.
 Script sgftoeps.csh can be modified to produce a PDF file if script 
 epstopdf is on the system and in the path.  Note that the output file 
 for both sgftoeps.csh and sgftox.csh is in portrait format.
+

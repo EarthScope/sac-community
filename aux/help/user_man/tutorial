@@ -127,10 +127,15 @@ screen. Now for another function::
 
   SAC> fg sine 2 npts 200 delta 0.01 
 
-This is an example of a more complicated SAC command.  This example generates 
-a 2 Hz sine wave in SAC's memory.  The function will contain 200 data points 
-and have a sampling interval of 0.01 seconds. You may want to use the PLOT_ 
-command to plot this function also.
+The first thing to note is that SAC remembers seismogram as the function
+read most recently by fg.  This is common for most commands in SAC: if a new
+argument for an option is not given, SAC uses the one most recently used in the
+current session.  (Sometimes one forgot that an option had been used, so one may 
+not correctly anticipate correctly the result of the operation.)
+
+This more complicated example generates  a 2 Hz sine wave in SAC's memory.  
+The function will contain 200 data points  and have a sampling interval of
+0.01 seconds. You may want to use the PLOT_ command to plot this function also.
 
 SAC Commands
 ------------
@@ -205,7 +210,7 @@ types (e.g., sampling interval, begin time, etc. for evenly spaced time series
 files.)  Other header variables provide information needed by a particular 
 operation  (e.g., seismic component orientation used by the ROTATE_ command.)  
 Still others are not used by SAC at all. They are simply informational. File
-sac_data_file_format_ lists and discusses all header values.  The LISTHDR_  command 
+`sac data file format`_ lists and discusses all header values.  The LISTHDR_  command 
 displays the contents of the headers for the data files currently in memory. 
 You may wish to examine the header from the sample seismogram mentioned earlier::
 
@@ -244,7 +249,7 @@ names.  Each time you use the READ_ command to transfer data from disk to
 memory the data currently in memory is destroyed.  If you want this data 
 saved, you must write it to diskbefore reading more data into memory.  There 
 is an option called  MORE in the READ_ command that lets you read data into 
-memory without destroying the old data.  See the Command_Reference_ for 
+memory without destroying the old data.  See the `Command Reference Manual`_ for 
 details.
 
 Writing Data Files
@@ -258,7 +263,7 @@ currently in memory.  The data files on disk are not modified.
 Reading and Writing Examples
 ----------------------------
 A complete discussion of reading and writing SAC data files is given in 
-sac_reading_and_writing_routines_.
+`sac reading and writing routines`_.
 
 The examples below demonstrates several uses of the READ_ and WRITE_ commands.
 
@@ -343,17 +348,17 @@ location of annotated axes, change the linestyle, select a symbol to be
 plotted at each data point, create titles and labels, make logarithmic plots, 
 change the size and type of text, and control a number of other even more 
 exotic aspects of the plot.  These commands are part of the Graphics 
-Environment Module, and are defined in links frmon the Command_Reference_ Manual.
+Environment Module, and are defined in links frmon the `Command Reference Manual`_.
 
 An Overview of Graphics Capability in SAC
 -----------------------------------------
 
-File GRAPHICS_IN_SAC_ has an overview of graphics in SAC.  Of paaricular interest
+File `Graphics in SAC`_ has an overview of graphics in SAC.  Of paaricular interest
 may be the command SAVEIMG_ that allws one to save displayed plots in several formats.
 
 Analysis Capabilities
 ---------------------
 SAC does a lot more than just reading, writing, and plotting data files! 
-SAC_ANALYSIS_CAPABILITIES_ provides an introduction to these features.
-COMMAND_REFERENCE_ lists all the commands and has links to help files for them.
+`SAC Analysis Capabilities`_ provides an introduction to these features.
+`Command Reference Manual`_ lists all the commands and has links to help files for them.
 

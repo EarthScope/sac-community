@@ -18,7 +18,7 @@ There are three general classes of inline functions:
 
 Inline functions can be placed inside other inline functions. This is refered 
 to as nesting.  Beginning with v 101.6, there is no nesting limits of inline functions. 
-Macro arguments, blackboard variables, and header variables can be used as arguments 
+Macro arguments, blackboard variables and header variables can be used as arguments 
 to inline functions. They are inserted in inline functions using the same 
 syntax as in regular SAC commands.
 
@@ -302,3 +302,4 @@ simply hits return, SAC will put the default value (in this case, the string
 If one copies a set of SAC commands back into SAC, the copied commands will start
 with SAC>, which is not a part of the command.  The parser will remove a doubled
 SAC> SAC>, so lines like SAC> SAC> read a.sac will be translated into SAC> read a.sac
+

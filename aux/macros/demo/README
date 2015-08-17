@@ -1,0 +1,17 @@
+Introduction
+------------
+
+This directory, sac/macros/demo,  contains a set of macros and data called by those macros.  The set of macros interactively demonstrates some of SAC's features.
+
+To run the set of macros, start SAC, and call the macro:
+
+sac/macros/demo% sac
+SEISMIC ANALYSIS CODE [11/09/2014 (Version 101.6a)]
+Copyright 1995 Regents of the University of California
+
+SAC> m demo.m
+
+Macro demo sequentially calls three other macros: read.m, plot.m, and filter.m.  Commands will be displayed on the SAC> screen as they are executed.  At several points, "pause" is displayed, and the user must hit a carriage return in the SAC> window to proceed.  After the second "pause" a plot image will be displayed on the screen -- probably overlapping the SAC> window.  Because you will be producing several plots during this run, an efficient way to progress through the operations is to move the windows on your screen so they do not overlap.. Clicking on the border of the window with the SAC> prompts makes it the active window (which is necessary for the program to proceed).
+
+Subdirectory results/ is created aabd contains PDF copies of the six plots created by the macros  using the SAC command saveimg.  Also put into results/ is a command-line history file named demo_run.txt, which is created by command transcript.  (The syntax of the calls to these commands can be seen by looking at the macros, and further information about them can be gotten from the help files saveimg and transcript.) Copies of the PDF files and transcript output file from a successful run are in  directory successful_run_results.
+

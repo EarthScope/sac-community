@@ -74,9 +74,9 @@ ERROR MESSAGES
 - 1301: No data files read in.
 - 1306: Illegal operation on unevenly spaced file
 - 1307: Illegal operation on spectral file
-- 1002: Bad value for corner frequency larger than Nyquist frequency.
-        See Chapter 4 of Rabiner and Gold, Theory and Application of
-        Digital Signal Processing, Prentice-Hall, 1975 for a discussion
+- 1002: Bad value forcorner frequency larger than Nyquist frequency.  
+        See Chapter 4 of Rabinerand Gold, Theory and Application of 
+        Digital Signal Processing, Prentice-Hall, 1975 for a discussion 
         of IIR filters.
 
 SEE COMMANDS

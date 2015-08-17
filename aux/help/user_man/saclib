@@ -4,12 +4,12 @@ Using the SAC Library
 Overview
 --------
 In addition to being able to read and write SAC data files in one's own C or
-FORTRAN programs (see `SAC Reading and Writing Routines`_ ),   one can use many of 
+FORTRAN programs (see `SAC Reading and Writing Routines`_ ), one can use many of
 SAC's data-processing routines in stand-alone codes if one uses specific flags
-in the compiling stage and the SAC library in the linking stage.  This library 
-(along with the SAC I/O library) can be found in ${SACHOME}/lib.  The complete 
+in the compiling stage and the SAC libraries in the linking stage.  These
+libraries libsac.a and libsacio.a are in ${SACHOME}/lib.  The complete
 listing of sample programs in both C and Fortran are given below in the online
-version of this file at <http://www.iris.edu/files/sac-manual/manual/saclib.html>.
+version of this file at <http://ds.iris.edu/files/sac-manual/manual/saclib.html>.
 
 - Filtering_
 - `Cut Data`_

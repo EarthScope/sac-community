@@ -81,7 +81,7 @@ DESCRIPTION
    program, one can run EVALRESP with a FAP output option and use the
    FAP option (see below) to correct a SAC data file. For the source
    code for programs RDSEED and EVALRESP, go to URL
-   <http://www.iris.edu/dms/nodes/dmc/software/downloads/>.
+   <http://ds.iris.edu/ds/nodes/dmc/software/downloads/>.
 
    Most of the implementation is done using double-precision
    (64-bit) arithmetic even though the SAC data is single-precision.
@@ -104,9 +104,11 @@ DESCRIPTION
    < f3 < f4.  The taper is unity between f2 and f3 and zero
    below f1 and above f4.  Frequencies f1 and f2 specify the
    high-pass filter at low frequencies, while frequencies f3
-   and f4 specify the low-pass filter at high frequencies. The
+   and f4 specify the low-pass filter at high frequencies.  Both
+   f3 and f4 should be less than the Nyquist frequency: 0.5/DELTA.  The
    filters applied between f1 and f2 and between f3 and f4 are
-   quarter cycles of a cosine wave.
+   quarter cycles of a cosine wave.  To avoid ringing in the output
+   time series, a suggestr rule-of-thumb is f1 ,= f2/2 and f4 >= 2*f3. 
    
    If you want to do a low-pass filter but have no filtering at low
    frequencies, one way is to set f1=-2 and f2=-1.  If you want to  do
@@ -290,7 +292,7 @@ POLEZERO OPTION
   For this reason, SAC now supports the 'annotated' polezero file, 
   which can be readily produced by IRIS DMC's RDSEED program (v5.2, 
   October 2011) as well as IRIS DMC's SAC PZ web service 
-  <http://www.iris.edu/ws/sacpz>.  (RDSEED v5.0 had annotation lines
+  <http://service.iris.edu/irisws/sacpz/>.  (RDSEED v5.0 had annotation lines
   with slightly different formats for some entries.  SAC v 101.5 can
   handle files written by either v5.0 or 5.2 of RDSEED.  Polezero files
   produced by a request to sacpz are in the RDSEED 5.2 format.) If a 
@@ -590,3 +592,4 @@ LATEST REVISION
    August 2011 (Version 101.5) In previous versions, if the header vaiable
    SCALE was defined, it might be used in scaling the output and would be 
    changed.  In this version, SCALE is ignored.
+

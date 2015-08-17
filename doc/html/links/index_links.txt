@@ -233,6 +233,7 @@
 .. _analysis:          manual/analysis.html
 .. _inline:            manual/inline.html
 .. _macros:            manual/sac_macros.html
+.. _sac_macros:        manual/sac_macros.html
 .. _sgf format:        manual/sgf_format.html
 .. _error messages:    manual/error_messages.html
 .. _graphics:          manual/graphics.html
@@ -243,22 +244,22 @@
 .. _introduction:                     manual/intro.html
 .. _tutorial for new users:           manual/tutorial.html
 .. _sac analysis capabilities:        manual/analysis.html
-.. _sac macros:                       manual/sac_macros.html
 .. _sac inline functions:             manual/inline.html
+.. _sac macros:                       manual/sac_macros.html
 .. _sac data file format:             manual/file_format.html
 .. _sac reading and writing routines: manual/input_output.html
 .. _using the sac library:            manual/saclib.html
 .. _blackboard variables in sac:      manual/blackboard.html
 .. _graphics in sac:                  manual/graphics.html
-.. _sac graphics format:              manual/sgf_format.html
+.. _sac graphics file:                manual/sgf_format.html
 .. _sac error messages:               manual/error_messages.html
 .. _calling sac from scripts:         manual/sac_script.html
 
 .. _alphabetical:                     commands/alpha_commands.html
 .. _functional:                       commands/func_commands.html
 
-.. _IRIS SAC Software Page:           http://www.iris.edu/dms/nodes/dmc/software/downloads/sac/
-.. _SAC Software Request Form:        http://www.iris.edu/forms/sac_request.htm
+.. _IRIS SAC Software Page:           http://ds.iris.edu/ds/nodes/dmc/software/downloads/sac/
+.. _SAC Software Request Form:        http://ds.iris.edu/ds/nodes/dmc/forms/sac/
 
 .. _PDF SAC Manual:                   sac_manual.pdf
 

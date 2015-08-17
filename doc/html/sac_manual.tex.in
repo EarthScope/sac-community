@@ -55,7 +55,7 @@
 
 \begin{titlepage}
 \title{{\Huge Seismic Analysis Code\\
-Users Manual}
+Users Manual}}
 \date{\today}
 \author{Version 101.6a}
 \maketitle
@@ -63,6 +63,7 @@ Users Manual}
 \begin{center} \
 
 \includegraphics[width=0.9\linewidth]{./sac_spectrogram.pdf}
+\end{center}
 
 {\Large Sections}
 
@@ -73,7 +74,6 @@ Users Manual}
 \item Spectral-Estimation Subprocess
 \end{itemize}
 
-\end{center}
 \end{titlepage}
 
 \tableofcontents
@@ -82,7 +82,7 @@ Users Manual}
 \section{Using SAC
 \label{using_sac}
 }
-\include{manual/intro}
+\input{manual/intro}
 \include{manual/tutorial}
 \include{manual/analysis}
 \include{manual/sac_macros}
@@ -99,7 +99,9 @@ Users Manual}
 \section{SAC Commands
 \label{sac_commands}
 }
-\input{commands/about}
+\input{commands/alpha_commands}
+\include{commands/3c}
+\include{commands/about}
 \include{commands/absolutevalue}
 \include{commands/add}
 \include{commands/addf}
@@ -318,7 +320,7 @@ Users Manual}
 
 \newpage
 \section{Signal-Stacking Subprocess
-\label{signal-stacking_subprocess}
+\label{`signal-stacking subprocess manual`}
 }
 \input{commands/sss.com/sss}
 \include{commands/sss.com/addstack}
@@ -343,7 +345,7 @@ Users Manual}
 
 \newpage
 \section{Spectral-Estimation Subprocess
-\label{spectral-estimation_subprocess}
+\label{`spectral-estimation subprocess manual`}
 }
 \input{commands/spe.com/spe}
 \include{commands/spe.com/cor}

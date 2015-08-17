@@ -1,0 +1,10 @@
+
+This directory contains a sub-directory demo.  See demo/README for details.  The original version of the macros were written in the early 90s when Sun Solaris was the most used platform, sunwindows was the default screen display, and SGF files were the only way to get hard copies of SAC-created plots.   Starting with v101.6, the macros have been updated and are included because they remain  a potentially useful that for both showing off some of SAC's capabilities and  providing some sample coding in macros.
+
+The original version included a second set of macros that demonstrated some of SAC's features.  They are not included here because there are now other suites  of macros and programs that serve this purpose.  These include:
+
+1. Seismic Analysis Code Example Program (sac/doc/examples/README)
+2. https://seiscode.iris.washington.edu/projects/sac/wiki/Examples
+3. sac/t/testsuite/README.check (currently available only with the source distribution)
+
+There are additional macros in this directory that might be of use.  Their names and comment lines explain their actions.

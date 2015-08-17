@@ -31,7 +31,7 @@ Beginning with v101.5, after an image has been displayed on the terminal using
 X11, command SAVEIMG can be used to create a high-definition Postscript or PDF
 file of the displayed image.  See SAVEIMG_ for details.
 
-SGF stands for `SAC Graphics Format`_. A SAC Graphics File contains all the 
+SGF stands for `SAC Graphics File`_. A SAC Graphics File contains all the 
 information needed to generate a single plot on any graphics device. (Using 
 the current computer jargon, these are called graphics "metafiles.") Each 
 plot is stored in a separate file. The file names are of the form "Fnnn.SGF" 

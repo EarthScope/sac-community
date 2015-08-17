@@ -74,8 +74,7 @@ DESCRIPTION
    extremes (MAXDEP, MINDEP) will return values in LH for the time domain, not the
    frequency domain.
 
-   A description of each of the SAC header fields is contained in SAC_DATA_FILE_FORMAT_.
-   sac_format_.
+   A description of each of the SAC header fields is contained in `SAC Data File Format`_.
 
 ERROR MESSAGES
 --------------
