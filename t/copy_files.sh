@@ -10,6 +10,7 @@ cp -f ${INPUT}/*.sac .
 cp -f ${INPUT}/*.SAC .
 cp -f ${INPUT}/*.GSE .
 cp -f ${INPUT}/2002.054* .
-cp -f ${INPUT}/*.txt .
+cp -f ${TESTDIR}/*.txt .
 
 exit 0
+

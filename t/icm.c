@@ -78,6 +78,7 @@ response_read(struct resp *R, int *nfreq, double *dfreq, double **xrep, double *
     double *xim;
 
     if((fp = fopen(R->file, "r")) == NULL) {
+        fprintf(stderr, "icm: error opening file: %s\n", R->file);
         error();
     }
     
