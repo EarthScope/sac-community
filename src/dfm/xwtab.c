@@ -172,7 +172,7 @@ xwtab(int *nerr) {
     /* - Make sure the write filelist has as many entries as read filelist */
     if (string_list_length(list) != saclen()) {
         error(*nerr =
-              1312, " %d, in memory: %d", string_list_length(list), saclen());
+              1312, " %d, file in memory: %d", string_list_length(list), saclen());
         goto L_8888;
     }
 

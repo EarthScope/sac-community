@@ -347,7 +347,7 @@ xw(int lsdd, int *nerr) {
 
     if (string_list_length(list) != saclen()) {
         error(*nerr =
-              1312, "%d, in memory: %d", string_list_length(list), saclen());
+              1312, "%d, files in memory: %d", string_list_length(list), saclen());
         goto L_8888;
     }
 
