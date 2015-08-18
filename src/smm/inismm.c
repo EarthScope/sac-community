@@ -97,14 +97,14 @@ inismm() {
     cmsmm.irmspick = 1;
 
 
-  sac_msg_add(8008, "No Data to Compute RMS");
-  sac_msg_add(8009, "Measurement Time Window start > end");
-  sac_msg_add(8010, "Measurement Time Window end < data begin");
-  sac_msg_add(8011, "Measurement Time Window start > data end");
-  sac_msg_add(8012, "Time Window begin corrected to data begin value\n"
-              "\tbegin < data begin");
-  sac_msg_add(8013, "Time Window end corrected to data end value\n"
-              "\tend > data end");
+    sac_msg_add(8008, strdup("No Data to Compute RMS"));
+    sac_msg_add(8009, strdup("Measurement Time Window start > end"));
+    sac_msg_add(8010, strdup("Measurement Time Window end < data begin"));
+    sac_msg_add(8011, strdup("Measurement Time Window start > data end"));
+    sac_msg_add(8012, strdup("Time Window begin corrected to data begin value\n"
+                             "\tbegin < data begin"));
+    sac_msg_add(8013, strdup("Time Window end corrected to data end value\n"
+                             "\tend > data end"));
 
 
     return;

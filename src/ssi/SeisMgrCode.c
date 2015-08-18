@@ -44,7 +44,7 @@ SeisMgrCode(kcommand, nerr)
         commandLength = strlen(kcommandPtr);
     else
         commandLength = endCommand - kcommandPtr;
-    comamndName = (char *) malloc(sizeof(char) * (commandLength + 1));
+    commandName = (char *) malloc(sizeof(char) * (commandLength + 1));
     memset(commandName, 0, sizeof(char) * (commandLength + 1));
     modcase(TRUE, kcommandPtr, commandLength, commandName);
 

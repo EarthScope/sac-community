@@ -23,6 +23,7 @@ xlinax() {
     int lpower;
     int ia, ib, igdlog, jpower, jstep, mds, nds, ndsu, ntick,
         nxdivu;
+    int i, j, k;
     float divlog, divtry, factor, grdlog, power, skfudge, value, valuei, xdivu,
         xgrdmn, xgrdmx, xref, xrefi, xtick, xticki, xvpmax, xvpmin, yloc, ypow,
         yvpmax, yvpmin;
@@ -195,7 +196,7 @@ xlinax() {
     setlinestyle(LINE_STYLE_SOLID);
     setlinewidth(cmgem.iskwidth);
 
-    for(int i = 0; i < 2; i++){
+    for(i = 0; i < 2; i++){
         int ax = (i == 0 ) ? BOTTOM : TOP;
     if (cmgem.axis[ax].annotate || cmgem.axis[ax].ticks) {
         float x0,x1,y0,y1,tick;
@@ -248,7 +249,7 @@ xlinax() {
             ntick = 9;
         xticki = xrefi / (float) (ntick + 1);
         xtick = xref - xrefi;
-        for (int j = 1; j <= ntick; j++) {
+        for (j = 1; j <= ntick; j++) {
             xtick = xtick + xticki;
             if (xtick >= x0) {
                 line(xtick, y0, xtick, y0 + dir * 0.5 * tick);
@@ -256,7 +257,7 @@ xlinax() {
         }
 
         /* -- Loop on labeled tick marks. */
-        for (int k = 1; k <= nxdivu; k++) {
+        for (k = 1; k <= nxdivu; k++) {
             line(xref, y0, xref, y0 + dir * tick);
             if (cmgem.axis[ax].annotate) {
                 if (value >= 0) {
@@ -273,7 +274,7 @@ xlinax() {
             }
             /* --- Loop on secondary tick marks. */
             xtick = xref;
-            for (int j = 1; j <= ntick; j++) {
+            for (j = 1; j <= ntick; j++) {
                 xtick = xtick + xticki;
                 if (xtick <= x1) {
                     line(xtick, y0, xtick, y0 + dir * 0.5 * tick);
@@ -307,7 +308,7 @@ xlinax() {
         xref = xgrdmn * cmgem.xmpip1 + cmgem.xmpip2;
         xrefi = xdivu * cmgem.xmpip1;
         setlinestyle(cmgem.ixgrd);
-        for (int j = 1; j <= nxdivu; j++) {
+        for (j = 1; j <= nxdivu; j++) {
             line(xref, cmgem.uplot.ymin, xref, cmgem.uplot.ymax);
             xref = xref + xrefi;
         }

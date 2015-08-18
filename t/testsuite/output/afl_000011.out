@@ -19,7 +19,7 @@
   
  ==>  
  read 180t.divf.1 test.divf.2
- WARNING: File does not exist: 180t.divf.1 180t.divf.1
+ WARNING: File does not exist: 180t.divf.1
  WARNING: Unable to read some files  reading the rest of the files.
  lh depmin depmax kuser2
   
@@ -70,7 +70,7 @@
  mesóaè
 divf.1: Event not found
  read test test.divf.2
- WARNING: File does not exist: test test
+ WARNING: File does not exist: test
  WARNING: Unable to read some files  reading the rest of the files.
  divf test.divf.2 test.divf.1
  WARNING: Data value outside system storage bounds
@@ -88,7 +88,7 @@ divf.1: Event not found
  message "One Two"
  One Two
  read test.divf.1 test.divf.2
- WARNING: File does not exist: test.divf.1 test.divf.1
+ WARNING: File does not exist: test.divf.1
  WARNING: Unable to read some files  reading the rest of the files.
  divf test.div].10test.divf.2
  ERROR 1803: No binary data files read in.
@@ -148,7 +148,7 @@ divf.1: Event not found
       LCALDA = TRUE
  mesage One Two"
  read test.digf.1 test.divf.2
- WARNING: File does not exist: test.digf.1 test.digf.1
+ WARNING: File does not exist: test.digf.1
  WARNING: Unable to read some files  reading the rest of the files.
  divf test.divax depm\n kuX
  ERROR 1301: No data files read in.
@@ -182,7 +182,7 @@ divf.1: Event not found
  ==>  
  message
  read test.divf.1 test.divf.2
- WARNING: File does not exist: test.divf.1 test.divf.1
+ WARNING: File does not exist: test.divf.1
  WARNING: Unable to read some files  reading the rest of the files.
  divf newh
  ERROR 1803: No binary data files read in.
@@ -200,7 +200,7 @@ divf.1: Event not found
  message "One Two"
  One Two
  read tfst.divf.1 test.divf.2
- WARNING: File does not exist: tfst.divf.1 tfst.divf.1
+ WARNING: File does not exist: tfst.divf.1
  WARNING: Unable to read some files  reading the rest of the files.
  divf newhdr off test.divf.1 test.ivf.2
  ERROR 1301: No data files read in.
@@ -219,7 +219,7 @@ divf.1: Event not found
  One Two
  depm
  read test.di^f.1 test.divf.2
- WARNING: File does not exist: test.di^f.1 test.di^f.1
+ WARNING: File does not exist: test.di^f.1
  WARNING: Unable to read some files  reading the rest of the files.
  divf €ewhdr off tes€.divf.1
  ERROR 1301: No data files read in.
@@ -231,7 +231,7 @@ divf.1: Event not found
 
      depmin = -3.138560e+00
  read testextvf.1 test.divf.2
- WARNING: File does not exist: testextvf.1 testextvf.1
+ WARNING: File does not exist: testextvf.1
  WARNING: Unable to read some files  reading the rest of the files.
  divf newhdr off te~t.divfÿ2
  ERROR 1301: No data files read in.
@@ -366,7 +366,7 @@ divf.1: Event not found
  ERROR 1301: No data files read in.
  cut off
  write test.divf.npage "Diffecent Times"
- ERROR 1312: Bad number of files in write file list: 2 1
+ ERROR 1312: Bad number of files in write file list: 2, files in memory: 1
  read test.divffatal y -10
  ERROR 1301: No data files read in.
  write test.divf.time
