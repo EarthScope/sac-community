@@ -52,7 +52,7 @@ xhelp(int lprint, int *nerr) {
             for (i = 0; i < string_list_length(list); i++) {
                 file = string_list_get(list, i);
                 n = min(strlen(file), sizeof(file)-1);
-                strcpy(ktoken, file, n);
+                strncpy(ktoken, file, n);
                 ktoken[n] = 0;
                 modcase(FALSE, ktoken, strlen(ktoken), ktoken);
                 wrhelp(ktoken, strlen(ktoken) + 1, 1, lprint, nerr);

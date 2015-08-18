@@ -91,7 +91,7 @@ Main SAC commands (ns means not supported)
  rtrend
 
  scallop         setbb           setdevice       setmacro        sgf
- smooth          sonogram        sort       	 spectrogram
+ smooth          sonogram        sort            spectrogram
  sqr             sqrt            stretch         sub
  subf            symbol          synchronize     systemcommand
 
@@ -121,7 +121,7 @@ Signal Stacking Subprocess Commands
 
  addstack	 changestack	deletestack	deltacheck      distanceaxis
  distancewindow  globalstack	incrementstack	liststack
- plotrecordsection   sss
+ plotrecordsection     sss
  plotstack       sumstack	timeaxis	timewindow	traveltime
  velocitymodel   velocityroset	writestack	zerostack
 
