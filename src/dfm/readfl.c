@@ -212,18 +212,23 @@ display_file_list(string_list * files) {
     pdir = NULL;
     int i;
     for (i = 0; i < string_list_length(files); i++) {
-        file = string_list_get(files, i);
-        dir = dirname(file);
+        file = strdup(string_list_get(files, i));
+        dir = strdup(dirname(file));
+        FREE(file);
         if (strcmp(dir, ".") == 0) {    /* No directory */
-            out(file);
+            out(string_list_get(files, i));
         } else if (pdir && strcmp(dir, pdir) == 0) {    /* Same as previous directory */
-            base = basename(file);
+            file = strdup(string_list_get(files, i));
+            base = strdup(basename(file));
             out("...%s", base);
+            FREE(file);
+            FREE(base);
         } else {                /* With directory part */
-            out(file);
+            out(string_list_get(files, i));
             FREE(pdir);
             pdir = strdup(dir);
         }
+        FREE(dir);
     }
     FREE(pdir);
 }
