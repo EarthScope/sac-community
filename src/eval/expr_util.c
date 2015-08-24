@@ -162,7 +162,7 @@ token_string_rstrip(Token * t, char *s, int col) {
 int
 header_to_token(char *str, Token * t, int col) {
     int n, nerr;
-    char key[9], val[41], name[1000];
+    char key[1000], val[41], name[1000];
     int id, icat, item, ok;
     sac *s;
     ok = 0;
@@ -188,10 +188,6 @@ header_to_token(char *str, Token * t, int col) {
     if (!ok) {
         return FALSE;
     }
-    n = strlen(key);
-    if( n > 8) {
-        return FALSE;
-    }
 
     if (!(s = sacget(id - 1, FALSE, &nerr))) {
         //getfil(id, FALSE, &hdr, &x, &y, &nerr);
@@ -200,8 +196,6 @@ header_to_token(char *str, Token * t, int col) {
         clrmsg();
         return FALSE;
     }
-
-    memset(&key[n], ' ', 8 - n);
     key[8] = 0;
     hdrfld(key, 9, &icat, &item, &ok);
     if (!ok) {
