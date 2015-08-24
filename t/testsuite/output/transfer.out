@@ -230,7 +230,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -7.526619e+06
      depmax = 7.627230e+06
-     depmen = 6.260924e+01
+     depmen = 6.260817e+01
  enddo
    fg seismo
    transfer from $type to none
@@ -284,7 +284,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
   FILE: SEISMOGR - 1
  --------------
 
-     depmin = -6.454304e+00
+     depmin = -6.454305e+00
      depmax = 6.457499e+00
      depmen = -1.491912e-01
  enddo
@@ -300,7 +300,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.491383e+04
      depmax = 4.322245e+04
-     depmen = 1.368005e+01
+     depmen = 1.368006e+01
  enddo
    fg seismo
    transfer from $type to none
@@ -328,7 +328,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.317535e-01
      depmax = 4.619208e-01
-     depmen = -1.940856e-03
+     depmen = -1.940857e-03
  enddo
    fg seismo
    transfer from $type to none
@@ -342,7 +342,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -1.242096e+07
      depmax = 1.256570e+07
-     depmen = 2.282795e+01
+     depmen = 2.282723e+01
  enddo
    fg seismo
    transfer from $type to none
@@ -384,7 +384,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -1.711851e+00
      depmax = 1.883136e+00
-     depmen = -2.289920e-03
+     depmen = -2.289919e-03
  enddo
    fg seismo
    transfer from $type to none
@@ -398,7 +398,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -3.181612e+05
      depmax = 3.234665e+05
-     depmen = 6.625638e+00
+     depmen = 6.625692e+00
  enddo
    fg seismo
    transfer from $type to none
@@ -440,7 +440,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -5.886985e-04
      depmax = 5.838564e-04
-     depmen = 3.188041e-06
+     depmen = 3.188042e-06
  enddo
    fg seismo
    transfer from $type to none
@@ -453,7 +453,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
  --------------
 
      depmin = -7.933964e-01
-     depmax = 7.868706e-01
+     depmax = 7.868707e-01
      depmen = 4.296559e-03
  enddo
    fg seismo
@@ -482,7 +482,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -1.526437e+02
      depmax = 1.562077e+02
-     depmen = -7.241067e-04
+     depmen = -7.241047e-04
  enddo
    fg seismo
    transfer from $type to none
@@ -510,7 +510,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -1.876191e+01
      depmax = 1.978468e+01
-     depmen = -1.582791e-02
+     depmen = -1.582790e-02
  enddo
    fg seismo
    transfer from $type to none
@@ -524,7 +524,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.751717e+04
      depmax = 2.648977e+04
-     depmen = 8.376446e+00
+     depmen = 8.376440e+00
  enddo
    fg seismo
    transfer from $type to none
@@ -552,7 +552,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -3.061911e-01
      depmax = 3.136668e-01
-     depmen = -3.507507e-06
+     depmen = -3.507542e-06
   
  do type list LV LR LT MV MR MT EV ER ET KV KR KT
    fg seismo
@@ -567,7 +567,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -5.066228e-02
      depmax = 5.580590e-02
-     depmen = -8.820221e-05
+     depmen = -8.820220e-05
  enddo
    fg seismo
    transfer from LLL subtype $type to none
@@ -595,8 +595,8 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
   FILE: SEISMOGR - 1
  --------------
 
-     depmin = -5.654949e+00
-     depmax = 6.163613e+00
+     depmin = -5.654950e+00
+     depmax = 6.163614e+00
      depmen = -4.827837e-03
  enddo
    fg seismo
@@ -610,8 +610,8 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
  --------------
 
      depmin = -6.127409e-01
-     depmax = 7.081311e-01
-     depmen = -6.923635e-03
+     depmax = 7.081310e-01
+     depmen = -6.923634e-03
  enddo
   
  do type list LP IP SP
@@ -741,9 +741,9 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
   FILE: SEISMOGR - 1
  --------------
 
-     depmin = -5.442192e+15
-     depmax = 5.086470e+15
-     depmen = -3.061835e+12
+     depmin = -5.442191e+15
+     depmax = 5.086469e+15
+     depmen = -3.061836e+12
  enddo
   
  do a list N O
@@ -765,7 +765,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.741004e-02
      depmax = 4.802494e-02
-     depmen = 7.916303e-05
+     depmen = 7.916304e-05
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -783,7 +783,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.702903e-02
      depmax = 4.767327e-02
-     depmen = 7.796056e-05
+     depmen = 7.796055e-05
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -839,7 +839,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.664813e-02
      depmax = 4.732128e-02
-     depmen = 7.676459e-05
+     depmen = 7.676461e-05
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -857,7 +857,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.702903e-02
      depmax = 4.767327e-02
-     depmen = 7.796056e-05
+     depmen = 7.796055e-05
  enddo
  enddo
  do c list V R T
@@ -877,7 +877,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.588673e-02
      depmax = 4.661633e-02
-     depmen = 7.439229e-05
+     depmen = 7.439226e-05
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -895,7 +895,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.588673e-02
      depmax = 4.661633e-02
-     depmen = 7.439229e-05
+     depmen = 7.439226e-05
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -913,7 +913,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.741004e-02
      depmax = 4.802494e-02
-     depmen = 7.916303e-05
+     depmen = 7.916304e-05
  enddo
  enddo
  do c list V R T
@@ -933,7 +933,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.741004e-02
      depmax = 4.802494e-02
-     depmen = 7.916303e-05
+     depmen = 7.916304e-05
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -951,7 +951,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.702903e-02
      depmax = 4.767327e-02
-     depmen = 7.796056e-05
+     depmen = 7.796055e-05
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -969,7 +969,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.664813e-02
      depmax = 4.732128e-02
-     depmen = 7.676459e-05
+     depmen = 7.676461e-05
  enddo
  enddo
  do c list V R T
@@ -989,7 +989,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.817245e-02
      depmax = 4.872733e-02
-     depmen = 8.158739e-05
+     depmen = 8.158738e-05
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1007,7 +1007,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.664813e-02
      depmax = 4.732128e-02
-     depmen = 7.676459e-05
+     depmen = 7.676461e-05
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1025,7 +1025,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.588673e-02
      depmax = 4.661633e-02
-     depmen = 7.439229e-05
+     depmen = 7.439226e-05
  enddo
  enddo
  do c list V R T
@@ -1103,7 +1103,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.741004e-02
      depmax = 4.802494e-02
-     depmen = 7.916303e-05
+     depmen = 7.916304e-05
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1121,7 +1121,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.741004e-02
      depmax = 4.802494e-02
-     depmen = 7.916303e-05
+     depmen = 7.916304e-05
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1139,7 +1139,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.741004e-02
      depmax = 4.802494e-02
-     depmen = 7.916303e-05
+     depmen = 7.916304e-05
  enddo
  enddo
  do c list V R T
@@ -1215,7 +1215,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.702903e-02
      depmax = 4.767327e-02
-     depmen = 7.796056e-05
+     depmen = 7.796055e-05
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1233,7 +1233,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.702903e-02
      depmax = 4.767327e-02
-     depmen = 7.796056e-05
+     depmen = 7.796055e-05
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1251,7 +1251,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.702903e-02
      depmax = 4.767327e-02
-     depmen = 7.796056e-05
+     depmen = 7.796055e-05
  enddo
  enddo
  do c list V R T
@@ -1271,7 +1271,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.741004e-02
      depmax = 4.802494e-02
-     depmen = 7.916303e-05
+     depmen = 7.916304e-05
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1289,7 +1289,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.741004e-02
      depmax = 4.802494e-02
-     depmen = 7.916303e-05
+     depmen = 7.916304e-05
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1307,7 +1307,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.741004e-02
      depmax = 4.802494e-02
-     depmen = 7.916303e-05
+     depmen = 7.916304e-05
  enddo
  enddo
  do c list V R T
@@ -1327,7 +1327,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.588673e-02
      depmax = 4.661633e-02
-     depmen = 7.439229e-05
+     depmen = 7.439226e-05
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1345,7 +1345,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.588673e-02
      depmax = 4.661633e-02
-     depmen = 7.439229e-05
+     depmen = 7.439226e-05
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1363,7 +1363,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.588673e-02
      depmax = 4.661633e-02
-     depmen = 7.439229e-05
+     depmen = 7.439226e-05
  enddo
  enddo
  do c list V R T
@@ -1383,7 +1383,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.588673e-02
      depmax = 4.661633e-02
-     depmen = 7.439229e-05
+     depmen = 7.439226e-05
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1401,7 +1401,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.588673e-02
      depmax = 4.661633e-02
-     depmen = 7.439229e-05
+     depmen = 7.439226e-05
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1419,7 +1419,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -4.588673e-02
      depmax = 4.661633e-02
-     depmen = 7.439229e-05
+     depmen = 7.439226e-05
  enddo
  enddo
  enddo
@@ -1443,7 +1443,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1461,7 +1461,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1479,7 +1479,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
  enddo
  do c list V R T
@@ -1499,7 +1499,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1517,7 +1517,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1535,7 +1535,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
  enddo
  do c list V R T
@@ -1555,7 +1555,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1573,7 +1573,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1591,7 +1591,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
  enddo
  do c list V R T
@@ -1611,7 +1611,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1629,7 +1629,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1647,7 +1647,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
  enddo
  do c list V R T
@@ -1667,7 +1667,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1685,7 +1685,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1703,7 +1703,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
  enddo
  do c list V R T
@@ -1781,7 +1781,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1799,7 +1799,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1817,7 +1817,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
  enddo
  do c list V R T
@@ -1837,7 +1837,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1855,7 +1855,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1873,7 +1873,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
  enddo
  do c list V R T
@@ -1893,7 +1893,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1911,7 +1911,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1929,7 +1929,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
  enddo
  do c list V R T
@@ -1949,7 +1949,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1967,7 +1967,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -1985,7 +1985,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
  enddo
  do c list V R T
@@ -2005,7 +2005,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -2023,7 +2023,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -2041,7 +2041,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
  enddo
  do c list V R T
@@ -2061,7 +2061,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -2079,7 +2079,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
    fg seismo
    if "$a$$b$" != "NE" then
@@ -2097,7 +2097,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.070065e+00
      depmax = 6.877761e+00
-     depmen = 6.382150e-03
+     depmen = 6.382148e-03
  enddo
  enddo
  enddo
@@ -2121,7 +2121,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.476854e+18
      depmax = 2.477755e+18
-     depmen = -4.832637e+14
+     depmen = -4.832646e+14
  enddo
    fg seismo
    if "$a$$b$" != "CP7S" then
@@ -2139,7 +2139,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.397214e+18
      depmax = 2.386105e+18
-     depmen = -2.733117e+14
+     depmen = -2.733115e+14
  enddo
    fg seismo
    if "$a$$b$" != "CP7S" then
@@ -2157,7 +2157,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.397214e+18
      depmax = 2.386105e+18
-     depmen = -2.733117e+14
+     depmen = -2.733115e+14
  enddo
  enddo
  do c list .Z .N .E
@@ -2176,8 +2176,8 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
  --------------
 
      depmin = -2.098403e+16
-     depmax = 1.788920e+16
-     depmen = 9.882224e+12
+     depmax = 1.788919e+16
+     depmen = 9.882223e+12
  enddo
    fg seismo
    if "$a$$b$" != "CP7S" then
@@ -2195,7 +2195,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -1.542179e+16
      depmax = 2.080286e+16
-     depmen = 1.191582e+13
+     depmen = 1.191581e+13
  enddo
    fg seismo
    if "$a$$b$" != "CP7S" then
@@ -2213,7 +2213,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -1.542179e+16
      depmax = 2.080286e+16
-     depmen = 1.191582e+13
+     depmen = 1.191581e+13
  enddo
  enddo
  do c list .Z .N .E
@@ -2233,7 +2233,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -6.687748e+09
      depmax = 6.773772e+09
-     depmen = -6.749554e+06
+     depmen = -6.749555e+06
  enddo
    fg seismo
    if "$a$$b$" != "CP7S" then
@@ -2347,7 +2347,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.102247e+18
      depmax = 2.082878e+18
-     depmen = -2.726887e+13
+     depmen = -2.726854e+13
  enddo
    fg seismo
    if "$a$$b$" != "CP7S" then
@@ -2365,7 +2365,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.102247e+18
      depmax = 2.082878e+18
-     depmen = -2.726887e+13
+     depmen = -2.726854e+13
  enddo
    fg seismo
    if "$a$$b$" != "CP7S" then
@@ -2383,7 +2383,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.102247e+18
      depmax = 2.082878e+18
-     depmen = -2.726887e+13
+     depmen = -2.726854e+13
  enddo
  enddo
  do c list .Z .N .E
@@ -2403,7 +2403,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.168999e+16
      depmax = 2.654357e+16
-     depmen = -1.283286e+12
+     depmen = -1.283289e+12
  enddo
    fg seismo
    if "$a$$b$" != "CP7S" then
@@ -2421,7 +2421,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.168999e+16
      depmax = 2.654357e+16
-     depmen = -1.283286e+12
+     depmen = -1.283289e+12
  enddo
    fg seismo
    if "$a$$b$" != "CP7S" then
@@ -2439,7 +2439,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.168999e+16
      depmax = 2.654357e+16
-     depmen = -1.283286e+12
+     depmen = -1.283289e+12
  enddo
  enddo
  do c list .Z .N .E
@@ -2513,7 +2513,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
   FILE: SEISMOGR - 1
  --------------
 
-     depmin = -2.134649e+05
+     depmin = -2.134650e+05
      depmax = 2.065318e+05
      depmen = -4.889760e+03
  enddo
@@ -2531,7 +2531,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
   FILE: SEISMOGR - 1
  --------------
 
-     depmin = -2.134649e+05
+     depmin = -2.134650e+05
      depmax = 2.065318e+05
      depmen = -4.889760e+03
  enddo
@@ -2549,7 +2549,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
   FILE: SEISMOGR - 1
  --------------
 
-     depmin = -2.134649e+05
+     depmin = -2.134650e+05
      depmax = 2.065318e+05
      depmen = -4.889760e+03
  enddo
@@ -2573,7 +2573,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.102247e+18
      depmax = 2.082878e+18
-     depmen = -2.726887e+13
+     depmen = -2.726854e+13
  enddo
    fg seismo
    if "$a$$b$" != "CP7S" then
@@ -2591,7 +2591,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.102247e+18
      depmax = 2.082878e+18
-     depmen = -2.726887e+13
+     depmen = -2.726854e+13
  enddo
    fg seismo
    if "$a$$b$" != "CP7S" then
@@ -2609,7 +2609,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.102247e+18
      depmax = 2.082878e+18
-     depmen = -2.726887e+13
+     depmen = -2.726854e+13
  enddo
  enddo
  do c list .Z .N .E
@@ -2629,7 +2629,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.168999e+16
      depmax = 2.654357e+16
-     depmen = -1.283286e+12
+     depmen = -1.283289e+12
  enddo
    fg seismo
    if "$a$$b$" != "CP7S" then
@@ -2647,7 +2647,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.168999e+16
      depmax = 2.654357e+16
-     depmen = -1.283286e+12
+     depmen = -1.283289e+12
  enddo
    fg seismo
    if "$a$$b$" != "CP7S" then
@@ -2665,7 +2665,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.168999e+16
      depmax = 2.654357e+16
-     depmen = -1.283286e+12
+     depmen = -1.283289e+12
  enddo
  enddo
  do c list .Z .N .E
@@ -2739,7 +2739,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
   FILE: SEISMOGR - 1
  --------------
 
-     depmin = -2.134649e+05
+     depmin = -2.134650e+05
      depmax = 2.065318e+05
      depmen = -4.889760e+03
  enddo
@@ -2757,7 +2757,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
   FILE: SEISMOGR - 1
  --------------
 
-     depmin = -2.134649e+05
+     depmin = -2.134650e+05
      depmax = 2.065318e+05
      depmen = -4.889760e+03
  enddo
@@ -2775,7 +2775,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
   FILE: SEISMOGR - 1
  --------------
 
-     depmin = -2.134649e+05
+     depmin = -2.134650e+05
      depmax = 2.065318e+05
      depmen = -4.889760e+03
  enddo
@@ -2799,7 +2799,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.102247e+18
      depmax = 2.082878e+18
-     depmen = -2.726887e+13
+     depmen = -2.726854e+13
  enddo
    fg seismo
    if "$a$$b$" != "CP7S" then
@@ -2817,7 +2817,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.102247e+18
      depmax = 2.082878e+18
-     depmen = -2.726887e+13
+     depmen = -2.726854e+13
  enddo
    fg seismo
    if "$a$$b$" != "CP7S" then
@@ -2835,7 +2835,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.102247e+18
      depmax = 2.082878e+18
-     depmen = -2.726887e+13
+     depmen = -2.726854e+13
  enddo
  enddo
  do c list .Z .N .E
@@ -2855,7 +2855,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.168999e+16
      depmax = 2.654357e+16
-     depmen = -1.283286e+12
+     depmen = -1.283289e+12
  enddo
    fg seismo
    if "$a$$b$" != "CP7S" then
@@ -2873,7 +2873,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.168999e+16
      depmax = 2.654357e+16
-     depmen = -1.283286e+12
+     depmen = -1.283289e+12
  enddo
    fg seismo
    if "$a$$b$" != "CP7S" then
@@ -2891,7 +2891,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.168999e+16
      depmax = 2.654357e+16
-     depmen = -1.283286e+12
+     depmen = -1.283289e+12
  enddo
  enddo
  do c list .Z .N .E
@@ -2965,7 +2965,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
   FILE: SEISMOGR - 1
  --------------
 
-     depmin = -2.134649e+05
+     depmin = -2.134650e+05
      depmax = 2.065318e+05
      depmen = -4.889760e+03
  enddo
@@ -2983,7 +2983,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
   FILE: SEISMOGR - 1
  --------------
 
-     depmin = -2.134649e+05
+     depmin = -2.134650e+05
      depmax = 2.065318e+05
      depmen = -4.889760e+03
  enddo
@@ -3001,7 +3001,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
   FILE: SEISMOGR - 1
  --------------
 
-     depmin = -2.134649e+05
+     depmin = -2.134650e+05
      depmax = 2.065318e+05
      depmen = -4.889760e+03
  enddo
@@ -3025,7 +3025,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.102247e+18
      depmax = 2.082878e+18
-     depmen = -2.726887e+13
+     depmen = -2.726854e+13
  enddo
    fg seismo
    if "$a$$b$" != "CP7S" then
@@ -3043,7 +3043,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.102247e+18
      depmax = 2.082878e+18
-     depmen = -2.726887e+13
+     depmen = -2.726854e+13
  enddo
    fg seismo
    if "$a$$b$" != "CP7S" then
@@ -3061,7 +3061,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.102247e+18
      depmax = 2.082878e+18
-     depmen = -2.726887e+13
+     depmen = -2.726854e+13
  enddo
  enddo
  do c list .Z .N .E
@@ -3081,7 +3081,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.168999e+16
      depmax = 2.654357e+16
-     depmen = -1.283286e+12
+     depmen = -1.283289e+12
  enddo
    fg seismo
    if "$a$$b$" != "CP7S" then
@@ -3099,7 +3099,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.168999e+16
      depmax = 2.654357e+16
-     depmen = -1.283286e+12
+     depmen = -1.283289e+12
  enddo
    fg seismo
    if "$a$$b$" != "CP7S" then
@@ -3117,7 +3117,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
 
      depmin = -2.168999e+16
      depmax = 2.654357e+16
-     depmen = -1.283286e+12
+     depmen = -1.283289e+12
  enddo
  enddo
  do c list .Z .N .E
@@ -3191,7 +3191,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
   FILE: SEISMOGR - 1
  --------------
 
-     depmin = -2.134649e+05
+     depmin = -2.134650e+05
      depmax = 2.065318e+05
      depmen = -4.889760e+03
  enddo
@@ -3209,7 +3209,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
   FILE: SEISMOGR - 1
  --------------
 
-     depmin = -2.134649e+05
+     depmin = -2.134650e+05
      depmax = 2.065318e+05
      depmen = -4.889760e+03
  enddo
@@ -3227,7 +3227,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
   FILE: SEISMOGR - 1
  --------------
 
-     depmin = -2.134649e+05
+     depmin = -2.134650e+05
      depmax = 2.065318e+05
      depmen = -4.889760e+03
  enddo
@@ -3244,11 +3244,12 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
  --------------
 
      depmin = -8.871782e-01
-     depmax = 8.813424e-01
+     depmax = 8.813425e-01
      depmen = -1.530281e-03
   
  fg seismo
  transfer from general nzeros 2 freeperiod 1 magnification 1 dampingfactor 1 to none
+ sac complex: Attempt to take angle (argument) of 0+0i
  Station (CDV     ), Channel (-12345  )
  lh depmin depmax depmen
   
@@ -3269,9 +3270,9 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
   FILE: SEISMOGR - 1
  --------------
 
-     depmin = -2.150295e+05
-     depmax = 2.295895e+05
-     depmen = -6.894855e+01
+     depmin = -2.150296e+05
+     depmax = 2.295896e+05
+     depmen = -6.894849e+01
   
  fg seismo
  lh depmin depmax

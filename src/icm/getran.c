@@ -2,17 +2,17 @@
 #include <math.h>
 
 
-#include "complex.h"
+#include "icm.h"
 
 void /*FUNCTION*/
 getran(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim)
      int nfreq;
      double delfrq, const_;
      int nzero;
-     complexf zero[];
+     complexf *zero;
      int npole;
-     complexf pole[];
-     double xre[], xim[];
+     complexf *pole;
+     double *xre, *xim;
 {
     int idx, jdx;
     double delomg, fac, omega, ti, ti0, tid, tin, tr, tr0, trd, trn;
@@ -28,8 +28,7 @@ getran(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim)
     /*   .....Subroutine to compute the transfer function.....
      * */
 
-    delomg = twopi * delfrq;
-
+    delomg = M_PI * 2 * delfrq;
     for (jdx = 1; jdx <= nfreq; jdx++) {
         omega = delomg * (double) (jdx - 1);
         trn = 1.0e0;
@@ -38,7 +37,7 @@ getran(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim)
         if (nzero != 0) {
             for (idx = 1; idx <= nzero; idx++) {
                 tr = -(double) Zero[idx].re;
-                ti = omega - Zero[idx].im;
+                ti = omega - (double) Zero[idx].im;
                 tr0 = trn * tr - tin * ti;
                 ti0 = trn * ti + tin * tr;
                 trn = tr0;
@@ -52,7 +51,7 @@ getran(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim)
         if (npole != 0) {
             for (idx = 1; idx <= npole; idx++) {
                 tr = -(double) Pole[idx].re;
-                ti = omega - Pole[idx].im;
+                ti = omega - (double) Pole[idx].im;
                 tr0 = trd * tr - tid * ti;
                 ti0 = trd * ti + tid * tr;
                 trd = tr0;
