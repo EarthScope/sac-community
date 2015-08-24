@@ -15,6 +15,8 @@
 #include "ucf.h"
 #include "cpf.h"
 #include "co.h"
+#include "debug.h"
+
 /** 
  * Execute the HELP command printing the online help package
  * 
@@ -31,11 +33,9 @@
 void
 xhelp(int lprint, int *nerr) {
 
-    char ktoken[30];
     int lintro;
     static char kintro[9] = "HLPINTRO";
 
-    size_t n;
     int i;
     char *file;
     string_list *list;
@@ -50,12 +50,10 @@ xhelp(int lprint, int *nerr) {
             lintro = FALSE;
 
             for (i = 0; i < string_list_length(list); i++) {
-                file = string_list_get(list, i);
-                n = min(strlen(file), sizeof(file)-1);
-                strncpy(ktoken, file, n);
-                ktoken[n] = 0;
-                modcase(FALSE, ktoken, strlen(ktoken), ktoken);
-                wrhelp(ktoken, strlen(ktoken) + 1, 1, lprint, nerr);
+                file = strdup(string_list_get(list, i));
+                modcase(FALSE, file, strlen(file), file);
+                wrhelp(file, strlen(file) + 1, 1, lprint, nerr);
+                FREE(file);
                 if (*nerr != 0) {
                     if (*nerr < 0)
                         *nerr = 0;
