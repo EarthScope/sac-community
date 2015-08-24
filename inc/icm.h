@@ -97,6 +97,8 @@ void getins(char *kinstr, int kinstr_s, int ninstr, int *ldone, float fp[],
             int *nerr);
 void getran(int nfreq, double delfrq, double const_, int nzero, complexf zero[],
             int npole, complexf pole[], double xre[], double xim[]);
+void getrand(int nfreq, double delfrq, double const_, int nzero, complexd zero[],
+            int npole, complexd pole[], double xre[], double xim[]);
 void getroots(float in[], int order, struct roots theseRoots[], int *nerr);
 void gsref(int nfreq, double delfrq, double xre[], double xim[]);
 void hfslpwb(int nfreq, double delfrq, double xre[], double xim[]);

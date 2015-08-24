@@ -4,6 +4,7 @@
 #include "icm.h"
 
 #include "msg.h"
+#include "debug.h"
 
 void /*FUNCTION*/
 rstn(nfreq, delfrq, xre, xim, subtyp, subtyp_s, nerr)
@@ -20,7 +21,7 @@ rstn(nfreq, delfrq, xre, xim, subtyp, subtyp_s, nerr)
      *        for the Regional Seismic Test Network (RSTN), Sandia Report
      *        SAND82-2935.....
      * */
-
+    UNUSED(subtyp_s);
     if (memcmp(subtyp, "CP", 2) == 0) {
         if (memcmp(subtyp + 2, "KL", 2) == 0) {
             if (memcmp(subtyp + 4, ".Z", 2) == 0) {

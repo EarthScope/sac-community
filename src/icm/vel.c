@@ -1,15 +1,18 @@
 
 #include "icm.h"
-#include "complex_sac.h"
 
-void
-vel(int nfreq, double delfrq, double xre[], double xim[])
+
+void /*FUNCTION*/
+vel(nfreq, delfrq, xre, xim)
+     int nfreq;
+     double delfrq, xre[], xim[];
 {
     int npole, nzero;
-    float const_;
-    complex double pole[1];
-    complex double zero[1];
-    complex double * const Zero = (&zero[0]) - 1;
+    double const_;
+    complexd pole[1], zero[1];
+
+    complexd *const Zero = &zero[0] - 1;
+
     /*   .....VEL - velocity spectral operator.....
      * */
 
@@ -18,13 +21,13 @@ vel(int nfreq, double delfrq, double xre[], double xim[])
     const_ = 1.0;
     nzero = 1;
 
-    Zero[1] = 0.0 + (0.0 * I);
+    Zero[1] = dbltocmplx(0.0, 0.0);
 
     npole = 0;
 
     /*   .....Compute transfer function.....
      * */
-    getranx(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim);
-    return;
-}
+    getrand(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim);
 
+    return;
+}                               /* end of function */

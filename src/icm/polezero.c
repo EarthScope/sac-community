@@ -11,7 +11,7 @@
 
 #include "amf.h"
 #include "icm.h"
-#include "complex_sac.h"
+
 #include "bool.h"
 #include "hdr.h"
 
@@ -473,7 +473,8 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
     FILE *nun;
     float temp1, temp2;
     double const_;
-    double complex poles[MPOLES], zeros[MZEROS];
+    complexd poles[MPOLES], zeros[MZEROS];
+    char *s1;
 
     pzmeta_t *meta, *meta_used;
     datetime *filetime;
@@ -482,8 +483,8 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
     char *pstat, *pnet, *ploc, *pchan;
     sac *s;
 
-    double complex *const Poles = &poles[0] - 1;
-    double complex *const Zeros = &zeros[0] - 1;
+    complexd *const Poles = &poles[0] - 1;
+    complexd *const Zeros = &zeros[0] - 1;
     s = sacget_current();
     memset(kfile, 0, sizeof(kfile));
     memset(kiline, 0, sizeof(kiline));
@@ -562,11 +563,11 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
     npoles = 0;
     nzeros = 0;
     for (i = 1; i <= MZEROS; i++) {
-        Zeros[i] = 0.0 + 0.0 * I;
+        Zeros[i] = dbltocmplx(0.0, 0.0);
     }
 
     for (i = 1; i <= MPOLES; i++) {
-        Poles[i] = 0.0 + 0.0 * I;
+        Poles[i] = dbltocmplx(0.0, 0.0);
     }
 
     /* - Open file. */
@@ -623,35 +624,54 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
     } else if (!polezero_is_correct_block(meta, filetime, stat, net, loc, chan)) {
 
     } else if (strncmp(key, KEY_CONSTANT, strlen(KEY_CONSTANT)) == 0) {
-        if(sscanf(kline, KEY_CONSTANT " %lf", &const_) != 1) {
-            const_ = 0;
-        }
-        if (*nerr || const_ == 0 || const_ == HUGE_VAL || const_ == -HUGE_VAL || isnan(const_)) {
+        poptok(kline, nc, &ic, &ic1, &ic2, &itype);
+        strncpy((s1 = malloc(ic2 - ic1 + 2)), kline + ic1 - 1, ic2 - ic1 + 1);
+        s1[ic2 - ic1 + 1] = '\0';
+
+        const_ = atof(s1);
+        if (const_ == 0 || const_ == HUGE_VAL || const_ == -HUGE_VAL ||
+            isnan(const_)) {
             *nerr = 2118;
-            error(*nerr = 2118, "Unrecognized Constant: %s", kline);
+            setmsg("ERROR", *nerr);
+            apcmsg("Unrecognized Constant: ", 24);
+            apcmsg(s1, strlen(s1) + 1);
+            free(s1);
             goto L_8888;
         }
+        free(s1);
         meta_used = polezero_meta_copy(meta);
 
     } else if (strncmp(key, KEY_POLES, strlen(KEY_POLES)) == 0) {
-        if(sscanf(kline, KEY_POLES " %d", &npoles) != 1) {
-            *nerr = 2118;
+        poptok(kline, nc, &ic, &ic1, &ic2, &itype);
+        strncpy((s1 = malloc(ic2 - ic1 + 2)), kline + ic1 - 1, ic2 - ic1 + 1);
+        s1[ic2 - ic1 + 1] = '\0';
+        cnvati(s1, ic2 - ic1 + 2, &npoles, 0, nerr);    /* add 0 before nerr. maf 970129 */
+        free(s1);
+        if (*nerr != 0)
             goto L_8888;
-        }
         if (npoles > MPOLES) {
-            error(*nerr = 2108, "%s %d", subtyp, MPOLES);
+            *nerr = 2109;
+            setmsg("ERROR", *nerr);
+            apcmsg(subtyp, subtyp_s);
+            apimsg(MPOLES);
             goto L_8888;
         }
         lpoles = TRUE;
         lzeros = FALSE;
         ipoles = 0;
     } else if (strncmp(key, KEY_ZEROS, strlen(KEY_ZEROS)) == 0) {
-        if(sscanf(kline, KEY_ZEROS " %d", &nzeros) != 1) {
-            *nerr = 2118;
+        poptok(kline, nc, &ic, &ic1, &ic2, &itype);
+        strncpy((s1 = malloc(ic2 - ic1 + 2)), kline + ic1 - 1, ic2 - ic1 + 1);
+        s1[ic2 - ic1 + 1] = '\0';
+        cnvati(s1, ic2 - ic1 + 2, &nzeros, 0, nerr);    /* add 0 before nerr. maf 970129 */
+        free(s1);
+        if (*nerr != 0)
             goto L_8888;
-        }
         if (nzeros > MZEROS) {
-            error(*nerr = 2109, "%s %d", subtyp, MZEROS);
+            *nerr = 2109;
+            setmsg("ERROR", *nerr);
+            apcmsg(subtyp, subtyp_s);
+            apimsg(MZEROS);
             goto L_8888;
         }
         lpoles = FALSE;
@@ -660,29 +680,80 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
     } else if (lpoles) {
         if (ipoles < MPOLES) {
             ipoles = ipoles + 1;
-            if(sscanf(kline, "%g %g", &temp1, &temp2) != 2) {
-                error(*nerr = 2126, "%s", kline);
+            strncpy((s1 =
+                     malloc(ic2 - ic1 + 2)), kline + ic1 - 1, ic2 - ic1 + 1);
+            s1[ic2 - ic1 + 1] = '\0';
+            cnvatf(s1, ic2 - ic1 + 2, &temp1, 0, nerr); /* add 0 before nerr. maf 970129 */
+            if (*nerr != 0) {
+                *nerr = 2126;
+                setmsg("ERROR", *nerr);
+                apcmsg(s1, strlen(s1) + 1);
+                free(s1);
                 goto L_8888;
             }
-            Poles[ipoles] = temp1 + temp2 * I;
+            free(s1);
+            poptok(kline, nc, &ic, &ic1, &ic2, &itype);
+            strncpy((s1 =
+                     malloc(ic2 - ic1 + 2)), kline + ic1 - 1, ic2 - ic1 + 1);
+            s1[ic2 - ic1 + 1] = '\0';
+            cnvatf(s1, ic2 - ic1 + 2, &temp2, 0, nerr); /* add 0 before nerr. maf 970129 */
+            if (*nerr != 0) {
+                *nerr = 2126;
+                setmsg("ERROR", *nerr);
+                apcmsg(s1, strlen(s1) + 1);
+                free(s1);
+                goto L_8888;
+            }
+            free(s1);
+            Poles[ipoles] = dbltocmplx(temp1, temp2);
         } else {
-            error(*nerr = 2108, "%s %d", subtyp, MPOLES);
+            *nerr = 2108;
+            setmsg("ERROR", *nerr);
+            apcmsg(subtyp, subtyp_s);
+            apimsg(MPOLES);
             goto L_8888;
         }
     } else if (lzeros) {
         if (izeros < MZEROS) {
             izeros = izeros + 1;
-            if(sscanf(kline, "%g %g", &temp1, &temp2) != 2) {
-                error(*nerr = 2127, "%s", kline);
+            strncpy((s1 =
+                     malloc(ic2 - ic1 + 2)), kline + ic1 - 1, ic2 - ic1 + 1);
+            s1[ic2 - ic1 + 1] = '\0';
+            cnvatf(s1, ic2 - ic1 + 2, &temp1, 0, nerr); /* add 0 before nerr. maf 970129 */
+            if (*nerr != 0) {
+                *nerr = 2127;
+                setmsg("ERROR", *nerr);
+                apcmsg(s1, strlen(s1) + 1);
+                free(s1);
                 goto L_8888;
             }
-            Zeros[izeros] = temp1 + temp2 * I;
+            free(s1);
+            poptok(kline, nc, &ic, &ic1, &ic2, &itype);
+            strncpy((s1 =
+                     malloc(ic2 - ic1 + 2)), kline + ic1 - 1, ic2 - ic1 + 1);
+            s1[ic2 - ic1 + 1] = '\0';
+            cnvatf(s1, ic2 - ic1 + 2, &temp2, 0, nerr); /* add 0 before nerr. maf 970129 */
+            if (*nerr != 0) {
+                *nerr = 2127;
+                setmsg("ERROR", *nerr);
+                apcmsg(s1, strlen(s1) + 1);
+                free(s1);
+                goto L_8888;
+            }
+            free(s1);
+            Zeros[izeros] = dbltocmplx(temp1, temp2);
         } else {
-            error(*nerr = 2109, "%s %d", subtyp, MZEROS);
+            *nerr = 2109;
+            setmsg("ERROR", *nerr);
+            apcmsg(subtyp, subtyp_s);
+            apimsg(MZEROS);
             goto L_8888;
         }
     } else {
-        error(*nerr = 2110, "%s %s", subtyp, key);
+        *nerr = 2110;
+        setmsg("ERROR", *nerr);
+        apcmsg(subtyp, subtyp_s);
+        apcmsg(key, 9);
         goto L_8888;
     }
     free(key);
@@ -723,16 +794,16 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
             printf("\tconstant: %e\n", const_);
             printf("\tzeros:    %d\n", nzeros);
             for (i = 0; i < nzeros; i++) {
-                printf("\t    %e  %e\n", creal(zeros[i]), cimag(zeros[i]));
+                printf("\t    %e  %e\n", zeros[i].re, zeros[i].im);
             }
             printf("\tpoles:    %d\n", npoles);
             for (i = 0; i < npoles; i++) {
-                printf("\t    %e  %e\n", creal(poles[i]), cimag(poles[i]));
+                printf("\t    %e  %e\n", poles[i].re, poles[i].im);
             }
         }
     }
 
-    getranx(nfreq, delfrq, const_, nzeros, zeros, npoles, poles, xre, xim);
+    getrand(nfreq, delfrq, const_, nzeros, zeros, npoles, poles, xre, xim);
     datetime_free(filetime);
     polezero_meta_free(meta);
     polezero_meta_free(meta_used);

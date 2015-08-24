@@ -1,16 +1,18 @@
 
 #include "icm.h"
-#include "complex_sac.h"
 
-void
-wwlpbn(int nfreq, double delfrq, double xre[], double xim[])
+
+void /*FUNCTION*/
+wwlpbn(nfreq, delfrq, xre, xim)
+     int nfreq;
+     double delfrq, xre[], xim[];
 {
     int npole, nzero;
-    float const_;
-    complex double pole[4];
-    complex double zero[3];
-    complex double * const Pole = (&pole[0]) - 1;
-    complex double * const Zero = (&zero[0]) - 1;
+    double const_;
+    complexd pole[4], zero[3];
+
+    complexd *const Pole = &pole[0] - 1;
+    complexd *const Zero = &zero[0] - 1;
 
     /*  .....WWSSN LP - Blacknest specified poles and zeros.....
      * */
@@ -21,18 +23,19 @@ wwlpbn(int nfreq, double delfrq, double xre[], double xim[])
     const_ = 0.5985275;
 
     nzero = 3;
-    Zero[1] = 0.0 + (0.0 * I);
-    Zero[2] = 0.0 + (0.0 * I);
-    Zero[3] = 0.0 + (0.0 * I);
+    Zero[1] = dbltocmplx(0.0, 0.0);
+    Zero[2] = dbltocmplx(0.0, 0.0);
+    Zero[3] = dbltocmplx(0.0, 0.0);
 
     npole = 4;
-    Pole[1] = (-0.257) + (0.3376 * I);
-    Pole[2] = (-0.257) + ((-0.3376) * I);
-    Pole[3] = (-0.06283) + (0.0 * I);
-    Pole[4] = (-0.06283) + (0.0 * I);
+    Pole[1] = dbltocmplx(-0.257, 0.3376);
+    Pole[2] = dbltocmplx(-0.257, -0.3376);
+    Pole[3] = dbltocmplx(-0.06283, 0.0);
+    Pole[4] = dbltocmplx(-0.06283, 0.0);
+
     /*   .....Compute transfer function.....
      * */
-    getranx(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim);
-    return;
-}
+    getrand(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim);
 
+    return;
+}                               /* end of function */

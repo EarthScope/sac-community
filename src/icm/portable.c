@@ -3,7 +3,7 @@
 
 #include "icm.h"
 #include "co.h"
-#include "complex_sac.h"
+
 
 void /*FUNCTION*/
 portable(nfreq, delfrq, xre, xim, freepd, damp, crfrq)
@@ -11,16 +11,16 @@ portable(nfreq, delfrq, xre, xim, freepd, damp, crfrq)
      double delfrq, xre[], xim[], freepd, damp, crfrq;
 {
     int i, j, npole, nzero;
-    float anorm, asqrd, astest, cf, comp, const_, dc, delomg, discrm, fac, fp,
+    double anorm, asqrd, astest, cf, comp, const_, dc, delomg, discrm, fac, fp,
         omega, s1i, s1r, s2i, s2r, sfil1i, sfil1r, sfil2i, sfil2r, sqr202, ti,
         ti0, tid, tin, tr, tr0, trd, trn, xxim, xxre;
-    double complex pole[4], zero[2];
+    complexd pole[4], zero[2];
     static double twopi = 6.283185307179586;
 
-    double complex *const Pole = &pole[0] - 1;
+    complexd *const Pole = &pole[0] - 1;
     double *const Xim = &xim[0] - 1;
     double *const Xre = &xre[0] - 1;
-    double complex *const Zero = &zero[0] - 1;
+    complexd *const Zero = &zero[0] - 1;
 
     /*   .....PORTABLE - for portable seismometer-PDR2 response.....
      *             (poles and zeros due to H. Patton)
@@ -79,28 +79,28 @@ portable(nfreq, delfrq, xre, xim, freepd, damp, crfrq)
      * */
     nzero = 2;
     /*     zero(1) = cmplx ( 0.0, 0.0 )              <*  Seismometer. */
-    Zero[1] = 0.0 + 0.0 * I;
-    Zero[2] = 0.0 + 0.0 * I;
+    Zero[1] = dbltocmplx(0.0, 0.0);
+    Zero[2] = dbltocmplx(0.0, 0.0);
 
     npole = 4;
     /*     pole(1) = cmplx ( sfil1r, sfil1i )        <*  Filter */
-    Pole[1] = sfil1r + sfil1i * I;
+    Pole[1] = dbltocmplx(sfil1r, sfil1i);
     /*     pole(2) = cmplx ( sfil2r, sfil2i )        <*  Filter */
-    Pole[2] = sfil2r + sfil2i * I;
+    Pole[2] = dbltocmplx(sfil2r, sfil2i);
     /*     pole(3) = cmplx ( s1r, s1i )              <*  Seismometer */
-    Pole[3] = s1r + s1i * I;
+    Pole[3] = dbltocmplx(s1r, s1i);
     /*     pole(4) = cmplx ( s2r, s2i )              <*  Seismometer */
-    Pole[4] = s2r + s2i * I;
+    Pole[4] = dbltocmplx(s2r, s2i);
 
     asqrd = 0.0;
     for (j = 1; j <= nfreq; j++) {
-        omega = delomg * (float) (j - 1);
+        omega = delomg * (double) (j - 1);
         trn = 1.0e0;
         tin = 0.0e0;
 
         for (i = 1; i <= nzero; i++) {
-            tr = -creal(Zero[i]);
-            ti = omega - cimag(Zero[i]);
+            tr = -dcmplxtof(Zero[i]);
+            ti = omega - daimag(Zero[i]);
             tr0 = trn * tr - tin * ti;
             ti0 = trn * ti + tin * tr;
             trn = tr0;
@@ -110,17 +110,17 @@ portable(nfreq, delfrq, xre, xim, freepd, damp, crfrq)
         trd = 1.0e0;
         tid = 0.0e0;
         for (i = 1; i <= npole; i++) {
-            tr = -creal(Pole[i]);
-            ti = omega - cimag(Pole[i]);
+            tr = -dcmplxtof(Pole[i]);
+            ti = omega - daimag(Pole[i]);
             tr0 = trd * tr - tid * ti;
             ti0 = trd * ti + tid * tr;
             trd = tr0;
             tid = ti0;
         }
-        fac = (double) (const_) / (pow(trd, 2) + pow(tid, 2));
+        fac = (double) (const_) / (powi(trd, 2) + powi(tid, 2));
         Xre[j] = fac * (trn * trd + tin * tid);
         Xim[j] = fac * (trd * tin - trn * tid);
-        astest = pow(Xre[j], 2) + pow(Xim[j], 2);
+        astest = powi(Xre[j], 2) + powi(Xim[j], 2);
         if (astest > asqrd)
             asqrd = astest;
     }
@@ -135,7 +135,7 @@ portable(nfreq, delfrq, xre, xim, freepd, damp, crfrq)
      * */
     anorm = 1.0 / sqrt(asqrd);
     for (j = 1; j <= nfreq; j++) {
-        omega = delomg * (float) (j - 1);
+        omega = delomg * (double) (j - 1);
         xxre = -Xim[j] * (double) (omega * anorm);
         xxim = Xre[j] * (double) (omega * anorm);
         Xre[j] = xxre;

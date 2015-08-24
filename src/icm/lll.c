@@ -4,20 +4,27 @@
 
 #include "icm.h"
 #include "co.h"
-#include "complex_sac.h"
+
 
 #include "msg.h"
 
-void
-lll(int nfreq, double delfrq, double xre[], double xim[], char *subtyp, int subtyp_s, double freepd, double damp, int *nerr)
+void /*FUNCTION*/
+lll(nfreq, delfrq, xre, xim, subtyp, subtyp_s, freepd, damp, nerr)
+     int nfreq;
+     double delfrq, xre[], xim[];
+     char *subtyp;
+     int subtyp_s;
+     double freepd, damp;
+     int *nerr;
 {
     int i, npole, nzero;
-    float const_, h, om0, rad, t0;
-    complex double pole[8];
-    complex double zero[3];
+    double const_, h, om0, rad, t0;
+    complexd pole[8], zero[3];
     static double twopi = 6.283185307179586;
-    complex double * const Pole = (&pole[0]) - 1;
-    complex double * const Zero = (&zero[0]) - 1;
+
+    complexd *const Pole = &pole[0] - 1;
+    complexd *const Zero = &zero[0] - 1;
+
     /*   .....LLL - for all LLL broadband (analog) seismometers.....
      * */
 
@@ -74,35 +81,35 @@ lll(int nfreq, double delfrq, double xre[], double xim[], char *subtyp, int subt
         h = damp;
     } else {
         *nerr = 2105;
+        setmsg("ERROR", *nerr);
+        apcmsg("LLL:", 5);
+        apcmsg(subtyp, subtyp_s);
         goto L_8888;
     }
 
     om0 = twopi / t0;
     const_ = 3.93785011e12;
     nzero = 3;
-    for (i = 1; i <= nzero; i++)
-    {
-        Zero[i] = 0.0 + (0.0 * I);
+    for (i = 1; i <= nzero; i++) {
+        Zero[i] = dbltocmplx(0.0, 0.0);
     }
-
     npole = 8;
     /*    ??????????????????????????????? */
-    rad = sqrt(1.0 - pow(h, 2));
-    Pole[1] = ((-om0) * h) + ((om0 * rad) * I);
-    Pole[2] = ((-om0) * h) + (((-om0) * rad) * I);
+    rad = sqrt(1.0 - powi(h, 2));
+    Pole[1] = dbltocmplx(-om0 * h, om0 * rad);
+    Pole[2] = dbltocmplx(-om0 * h, -om0 * rad);
     /* ???????????????????????????????????? */
-    Pole[3] = (-114.28) + (23.317 * I);
-    Pole[4] = (-114.28) + ((-23.317) * I);
-    Pole[5] = (-100.48) + (70.65 * I);
-    Pole[6] = (-100.48) + ((-70.65) * I);
-    Pole[7] = (-67.677) + (120.85 * I);
-    Pole[8] = (-67.677) + ((-120.85) * I);
+    Pole[3] = dbltocmplx(-114.28, 23.317);
+    Pole[4] = dbltocmplx(-114.28, -23.317);
+    Pole[5] = dbltocmplx(-100.48, 70.65);
+    Pole[6] = dbltocmplx(-100.48, -70.65);
+    Pole[7] = dbltocmplx(-67.677, 120.85);
+    Pole[8] = dbltocmplx(-67.677, -120.85);
 
     /*   .....Compute transfer function.....
      * */
-    getranx(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim);
-    L_8888:
+    getrand(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim);
+
+  L_8888:
     return;
-
-}
-
+}                               /* end of function */

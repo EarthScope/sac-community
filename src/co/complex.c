@@ -50,6 +50,14 @@ flttocmplx(double d1, double d2) {
     return (c);
 }
 
+complexd
+dbltocmplx(double d1, double d2) {
+    complexd c;
+    c.re = (double) d1;
+    c.im = (double) d2;
+    return (c);
+}
+
 complexf
 cmplxsub(complexf c1, complexf c2) {
     c1.re -= c2.re;
@@ -72,8 +80,8 @@ cmplxang(complexf c) {
         } else if (c.re < 0) {
             d = M_PI;
         } else {
-            fprintf(stderr,
-                    "complex: Attempt to take angle (argument) of 0+0i\n");
+            fprintf(stdout,
+                    " sac complex: Attempt to take angle (argument) of 0+0i\n");
             return 0.0;
         }
     } else if (fabs(c.re) < 1.0e-14) {  /* Imaginary Number */
@@ -82,8 +90,8 @@ cmplxang(complexf c) {
         } else if (c.re < 0) {
             d = -M_PI_2;
         } else {
-            fprintf(stderr,
-                    "complex: Attempt to take angle (argument) of 0+0i\n");
+            fprintf(stdout,
+                    " sac complex: Attempt to take angle (argument) of 0+0i\n");
             return 0.0;
         }
     } else {
@@ -185,4 +193,164 @@ cmplxneg(complexf c) {
     c.re = -c.re;
     c.im = -c.im;
     return (c);
+}
+
+complexd
+dcmplxneg(complexd c) {
+    c.re = -c.re;
+    c.im = -c.im;
+    return c;
+}
+
+complexd
+dcmplxsqrt(complexd c) {
+
+    double sqrtsave, angle;
+
+    sqrtsave = sqrt(dcmplxabs(c));
+    angle = dcmplxang(c);
+
+    c.re = (double) (sqrtsave * cos(angle / 2.0));
+    c.im = (double) (sqrtsave * sin(angle / 2.0));
+
+    if (c.re < 0.0) {
+        c.re = -c.re;
+        c.im = -c.im;
+    } else if (c.re < 1.0e-14 && c.re > -1.0e-14 && c.im < 0.0)
+        c.im = -c.im;
+
+    return (c);
+}
+
+
+double
+dcmplxang(complexd c) {
+    double d;
+
+    if (fabs(c.im) < 1.0e-14) { /* Real Number */
+        if (c.re > 0) {
+            d = 0;
+        } else if (c.re < 0) {
+            d = M_PI;
+        } else {
+            fprintf(stdout,
+                    " sac complex: Attempt to take angle (argument) of 0+0i\n");
+            return 0.0;
+        }
+    } else if (fabs(c.re) < 1.0e-14) {  /* Imaginary Number */
+        if (c.im > 0) {
+            d = M_PI_2;
+        } else if (c.re < 0) {
+            d = -M_PI_2;
+        } else {
+            fprintf(stdout,
+                    " sac complex: Attempt to take angle (argument) of 0+0i\n");
+            return 0.0;
+        }
+    } else {
+        d = atan(c.im / c.re);
+        if (c.re < 0.0) {
+            if (c.im < 0.0) {
+                d -= M_PI;
+            } else {
+                d += M_PI;
+            }
+        }
+    }
+
+    return (d);
+}
+
+double
+dcmplxabs(complexd c) {
+    return (sqrt((double) ((c.re * c.re) + (c.im * c.im))));
+}
+
+complexd
+dcmplxadd(complexd c1, complexd c2) {
+    c1.re += c2.re;
+    c1.im += c2.im;
+    return (c1);
+}
+complexd
+dcmplxsub(complexd c1, complexd c2) {
+    c1.re -= c2.re;
+    c1.im -= c2.im;
+    return (c1);
+}
+
+complexd
+dcmplxmul(complexd c1, complexd c2) {
+    complexd c3;
+
+    c3.re = (c1.re * c2.re) - (c1.im * c2.im);
+    c3.im = (c1.re * c2.im) + (c1.im * c2.re);
+    return (c3);
+}
+
+complexd
+dcmplxpow(complexd c, double d) {
+    if (c.re == 0.0 && c.im == 0.0)
+        return (c);
+
+    c = dcmplxlog(c);
+    c.re = (double) (d * c.re);
+    c.im = (double) (d * c.im);
+
+    return (dcmplxexp(c));
+}
+complexd
+dcmplxlog(complexd c) {
+    complexd c1;
+
+    c1.re = (double) log(dcmplxabs(c));
+    c1.im = (double) dcmplxang(c);
+
+    return (c1);
+}
+
+complexd
+dcmplxexp(complexd c) {
+    double d;
+
+    if (c.re == 0.0)
+        d = 1.0;
+    else
+        d = exp(c.re);
+
+    if (c.im == 0.0) {
+        c.re = (double) d;
+        return (c);
+    }
+
+    c.re = (double) (d * cos(c.im));
+    c.im = (double) (d * sin(c.im));
+
+    return (c);
+}
+
+complexd
+dcmplxdiv(complexd c1, complexd c2) {
+    complexd c;
+    double f;
+
+    if (c2.re == 0.0 && c2.im == 0.0) {
+        printf("complex divide by zero-cmplxdiv\n");
+        exit(1);
+    }
+
+    f = c2.re * c2.re + c2.im * c2.im;
+
+    c.re = (c1.re * c2.re + c1.im * c2.im) / f;
+    c.im = (c2.re * c1.im - c1.re * c2.im) / f;
+
+    return (c);
+}
+double
+daimag(complexd c) {
+    return (c.im);
+}
+double
+dcmplxtof(complexd c) {
+    return (c.re);
 }

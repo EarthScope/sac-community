@@ -1,36 +1,42 @@
 
 #include "icm.h"
-#include "complex_sac.h"
 
-void
-oldbb(int nfreq, double delfrq, double xre[], double xim[])
+
+void /*FUNCTION*/
+oldbb(nfreq, delfrq, xre, xim)
+     int nfreq;
+     double delfrq, xre[], xim[];
 {
     int i, npole, nzero;
-    float const_;
+    double const_;
+    complexd pole[5], zero[4];
+
+    complexd *const Pole = &pole[0] - 1;
+    complexd *const Zero = &zero[0] - 1;
+
     /*   .....OLD BB - Blacknest specified poles and zeros.....
      * */
 
     /*   .....Set poles and zeros.....
      *
      *     const = 8.0336077 e1   <*  AMP of 1.0 at FREQ of 1.0 Hz */
-    complex double pole[5];
-    complex double zero[4];
-    complex double * const Pole = (&pole[0]) - 1;
-    complex double * const Zero = (&zero[0]) - 1;
     const_ = 8.0336077e1;
     nzero = 4;
-    for (i = 1; i <= nzero; i++)
-    {
-        Zero[i] = 0.0 + (0.0 * I);
+
+    for (i = 1; i <= nzero; i++) {
+        Zero[i] = dbltocmplx(0.0, 0.0);
     }
 
     npole = 5;
-    Pole[1] = (-0.2140) + (0.2300 * I);
-    Pole[2] = (-0.2140) + ((-0.2300) * I);
-    Pole[3] = (-0.3150) + (0.0 * I);
-    Pole[4] = (-80.0000) + (0.0 * I);
-    Pole[5] = (-0.0555) + (0.0 * I);
-    getranx(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim);
-    return;
-}
+    Pole[1] = dbltocmplx(-0.2140, 0.2300);
+    Pole[2] = dbltocmplx(-0.2140, -0.2300);
+    Pole[3] = dbltocmplx(-0.3150, 0.0);
+    Pole[4] = dbltocmplx(-80.0000, 0.0);
+    Pole[5] = dbltocmplx(-0.0555, 0.0);
 
+    /*   .....Compute transfer function.....
+     * */
+    getrand(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim);
+
+    return;
+}                               /* end of function */

@@ -1,17 +1,24 @@
 
 #include "icm.h"
 #include "co.h"
-#include "complex_sac.h"
 
-void
-elmag(int nfreq, double delfrq, double xre[], double xim[], double freepd, double mag, int *nerr)
+
+#include "msg.h"
+
+void /*FUNCTION*/
+elmag(nfreq, delfrq, xre, xim, freepd, mag, nerr)
+     int nfreq;
+     double delfrq, xre[], xim[], freepd, mag;
+     int *nerr;
 {
     int i, nmag;
-    float const_, delomg, h1, h2, om1, omega, p, sigsq, t1, t2;
-    double complex cs;
-    double complex ct;
-    double complex ctd;
-    static double twopi = 6.283185307179586;
+    double const_, delomg, h1, h2, om1, omega, p, sigsq, t1, t2;
+    complexd cs, ct, ctd;
+    static double twopi = 2 * M_PI;
+
+    double *const Xim = &xim[0] - 1;
+    double *const Xre = &xre[0] - 1;
+
     /* for a WWSSN Elecromagnetic Instrument
      *
      * */
@@ -47,10 +54,9 @@ elmag(int nfreq, double delfrq, double xre[], double xim[], double freepd, doubl
      *                3000             0.195
      *                6000             0.767
      * */
-    double * const Xim = (&xim[0]) - 1;
-    double * const Xre = (&xre[0]) - 1;
     *nerr = 0;
     delomg = twopi * delfrq;
+
     nmag = (int) (mag + 0.01);
     if (freepd == 15.0) {
 
@@ -75,6 +81,7 @@ elmag(int nfreq, double delfrq, double xre[], double xim[], double freepd, doubl
             sigsq = 0.805;
         } else {
             *nerr = 2112;
+            setmsg("ERROR", *nerr);
             goto L_8888;
         }
 
@@ -101,12 +108,14 @@ elmag(int nfreq, double delfrq, double xre[], double xim[], double freepd, doubl
             sigsq = 0.767;
         } else {
             *nerr = 2112;
+            setmsg("ERROR", *nerr);
             goto L_8888;
         }
 
     } else {
 
         *nerr = 2112;
+        setmsg("ERROR", *nerr);
         goto L_8888;
 
     }
@@ -114,24 +123,38 @@ elmag(int nfreq, double delfrq, double xre[], double xim[], double freepd, doubl
     p = t1 / t2;
     om1 = twopi / t1;
     for (i = 1; i <= nfreq; i++) {
-        omega = (float) (i - 1) * delomg;
-        cs = 0.0 + (omega * I);
-        ctd = cpow(cs, (double) 4) + ((((2.0 * om1) * (h1 + (p * h2))) + (0. * I)) * cpow(cs, (double) 3));
-        ctd = ctd + (((((1.0 + pow(p, 2)) + ((((4.0 * h1) * h2) * p) * (1.0 - sigsq))) * pow(om1, 2)) + (0. * I)) * cpow(cs, (double) 2));
-        ctd = ctd + (((((2.0 * ((p * h1) + h2)) * p) * pow(om1, 3)) + (0. * I)) * cs);
-        ctd = ctd + ((pow(p, 2) * pow(om1, 4)) + (0. * I));
+        omega = (double) (i - 1) * delomg;
+        cs = dbltocmplx(0.0, omega);
+        ctd =
+            dcmplxadd(dcmplxpow(cs, (double) 4),
+                     dcmplxmul(dbltocmplx(2.0 * om1 * (h1 + p * h2), 0.),
+                              dcmplxpow(cs, (double) 3)));
+        ctd =
+            dcmplxadd(ctd,
+                     dcmplxmul(dbltocmplx
+                              (((1.0 + powi(p, 2)) +
+                                4.0 * h1 * h2 * p * (1.0 - sigsq)) * powi(om1,
+                                                                          2),
+                               0.), dcmplxpow(cs, (double) 2)));
+        ctd =
+            dcmplxadd(ctd,
+                     dcmplxmul(dbltocmplx
+                              (2.0 * (p * h1 + h2) * p * powi(om1, 3), 0.),
+                              cs));
+        ctd = dcmplxadd(ctd, dbltocmplx(powi(p, 2) * powi(om1, 4), 0.));
+        ct = dcmplxdiv(dcmplxmul(dbltocmplx(om1, 0.), dcmplxpow(cs, (double) 3)),
+                      ctd);
+
         /* THE PHASE RESPONSE IS DEFINED AS NEGATIVE THE PHASE RESPONSE OF
          * HAGIWARA IN ORDER TO YIELD UPWARD FIRST MOTION ON THE SEISMOGRAM TRACE
          * FOR AN IMPULSE OF GROUND DISPLACEMENT IN THE POSITIVE PHI DIRECTION.
          * */
-        ct = ((om1 + (0. * I)) * cpow(cs, (double) 3)) / ctd;
-        ct = (const_ + (0. * I)) * ct;
-        Xre[i] = creal(ct);
-        Xim[i] = cimag(ct);
+        ct = dcmplxmul(dbltocmplx(const_, 0.), ct);
+        Xre[i] = dcmplxtof(ct);
+        Xim[i] = daimag(ct);
     }
 
   L_8888:
     return;
 
-}
-
+}                               /* end of function */

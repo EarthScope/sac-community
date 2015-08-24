@@ -1,30 +1,34 @@
 
 #include "icm.h"
-#include "complex_sac.h"
 
-void
-eyeomg(int nfreq, double delfrq, double xre[], double xim[], int nzer)
+
+void /*FUNCTION*/
+eyeomg(nfreq, delfrq, xre, xim, nzer)
+     int nfreq;
+     double delfrq, xre[], xim[];
+     int nzer;
 {
     int i, npole;
-    float const_;
+    double const_;
+    complexd pole[30], zero[30];
+
+    complexd *const Zero = &zero[0] - 1;
+
     /*   .....I - Omega.....
      *
      *
      *   .....Set poles and zeros.....
      * */
-    complex double pole[30];
-    complex double zero[30];
-    complex double * const Zero = (&zero[0]) - 1;
     const_ = 1.0;
     npole = 0;
 
-    for (i = 1; i <= nzer; i++)
-    {
-        Zero[i] = 0.0 + (0.0 * I);
+    for (i = 1; i <= nzer; i++) {
+        Zero[i] = dbltocmplx(0.0, 0.0);
     }
 
-    getranx(nfreq, delfrq, const_, nzer, zero, npole, pole, xre, xim);
+    /*   .....Compute transfer function.....
+     * */
+    getrand(nfreq, delfrq, const_, nzer, zero, npole, pole, xre, xim);
 
     return;
-}
-
+}                               /* end of function */

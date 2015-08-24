@@ -1,16 +1,17 @@
 
 #include "icm.h"
-#include "complex_sac.h"
 
-void
-ykalp(int nfreq, double delfrq, double xre[], double xim[])
+void /*FUNCTION*/
+ykalp(nfreq, delfrq, xre, xim)
+     int nfreq;
+     double delfrq, xre[], xim[];
 {
     int i, npole, nzero;
-    float const_;
-    complex double pole[6];
-    complex double zero[4];
-    complex double * const Pole = (&pole[0]) - 1;
-    complex double * const Zero = (&zero[0]) - 1;
+    double const_;
+    complexd pole[6], zero[4];
+
+    complexd *const Pole = &pole[0] - 1;
+    complexd *const Zero = &zero[0] - 1;
 
     /*  .....YKA LP - Blacknest specified poles and zeros.....
      * */
@@ -21,23 +22,22 @@ ykalp(int nfreq, double delfrq, double xre[], double xim[])
     const_ = 0.28761294212;
 
     nzero = 4;
-    for (i = 1; i <= nzero; i++)
-    {
-        Zero[i] = 0.0 + (0.0 * I);
+    for (i = 1; i <= nzero; i++) {
+        Zero[i] = dbltocmplx(0.0, 0.0);
     }
 
     npole = 6;
-    Pole[1] = (-0.2010) + (0.2415 * I);
-    Pole[2] = (-0.2010) + ((-0.2415) * I);
-    Pole[3] = (-0.134) + (0.161 * I);
-    Pole[4] = (-0.134) + ((-0.161) * I);
-    Pole[5] = (-0.628) + (0.0 * I);
+    Pole[1] = dbltocmplx(-0.2010, 0.2415);
+    Pole[2] = dbltocmplx(-0.2010, -0.2415);
+    Pole[3] = dbltocmplx(-0.134, 0.161);
+    Pole[4] = dbltocmplx(-0.134, -0.161);
+    Pole[5] = dbltocmplx(-0.628, 0.0);
     /*     pole(6) = cmplx ( -0.0134, 0.0 )              <*  KKN */
-    Pole[6] = (-0.0134) + (0.0 * I);
+    Pole[6] = dbltocmplx(-0.0134, 0.0);
 
     /*   .....Compute transfer function.....
      * */
-    getranx(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim);
-    return;
-}
+    getrand(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim);
 
+    return;
+}                               /* end of function */

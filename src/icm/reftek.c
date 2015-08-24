@@ -2,18 +2,22 @@
 #include <math.h>
 
 #include "icm.h"
-#include "complex_sac.h"
 
-void
-reftek(int nfreq, double delfrq, double xre[], double xim[], double freepd, double damp, double crfrq, double hpfrq)
+void /*FUNCTION*/
+reftek(nfreq, delfrq, xre, xim, freepd, damp, crfrq, hpfrq)
+     int nfreq;
+     double delfrq, xre[], xim[], freepd, damp, crfrq, hpfrq;
 {
     int npole, nzero;
-    float dc, discrm, fp, s1i, s1r, s2i, s2r, sfil1i, sfil1r, sfil2i, sfil2r,
+    double dc, discrm, fp, s1i, s1r, s2i, s2r, sfil1i, sfil1r, sfil2i, sfil2r,
         sfil3i, sfil3r, temp;
     double cf, cfTo6th;
-    complex double pole[9];
-    complex double zero[4];
-    static float twopi = 6.283185307179586;
+    complexd pole[9], zero[4];
+    static double twopi = M_PI * 2;
+
+    complexd *const Pole = &pole[0] - 1;
+    complexd *const Zero = &zero[0] - 1;
+
     /*   .....REFTEK - for seismometer-REFTEK box response.....
      *             (poles and zeros due to G. Randall, modified version
      *              port routine original by H. Patton)
@@ -23,10 +27,7 @@ reftek(int nfreq, double delfrq, double xre[], double xim[], double freepd, doub
      *             response constant. (wct)
      *    900409:  Deleted the gain argument and coding.
      * */
-
     /*     fp = twopi / freepd       <*   (Radians) */
-    complex double * const Pole = (&pole[0]) - 1;
-    complex double * const Zero = (&zero[0]) - 1;
     fp = twopi / freepd;
     dc = damp;
     /*     cf = twopi * crfrq        <*   Corner Frequency ( Radians ) */
@@ -77,30 +78,31 @@ reftek(int nfreq, double delfrq, double xre[], double xim[], double freepd, doub
      * */
     cfTo6th = cf * cf * cf * cf * cf * cf;
     nzero = 3;
-    Zero[1] = 0.0 + (0.0 * I);
-    Zero[2] = 0.0 + (0.0 * I);
-    Zero[3] = 0.0 + (0.0 * I);
+    Zero[1] = dbltocmplx(0.0, 0.0);
+    Zero[2] = dbltocmplx(0.0, 0.0);
+    Zero[3] = dbltocmplx(0.0, 0.0);
+
     npole = 8;
     /*     Butterworth filter, 6 poles */
-    Pole[1] = sfil1r + (sfil1i * I);
-    Pole[2] = sfil2r + (sfil2i * I);
-    Pole[3] = sfil3r + (sfil3i * I);
-    Pole[4] = sfil1r + ((-sfil1i) * I);
-    Pole[5] = sfil2r + ((-sfil2i) * I);
-    Pole[6] = sfil3r + ((-sfil3i) * I);
+    Pole[1] = dbltocmplx(sfil1r, sfil1i);
+    Pole[2] = dbltocmplx(sfil2r, sfil2i);
+    Pole[3] = dbltocmplx(sfil3r, sfil3i);
+    Pole[4] = dbltocmplx(sfil1r, -sfil1i);
+    Pole[5] = dbltocmplx(sfil2r, -sfil2i);
+    Pole[6] = dbltocmplx(sfil3r, -sfil3i);
     /*     Seismometer poles */
-    Pole[7] = s1r + (s1i * I);
-    Pole[8] = s2r + (s2i * I);
+    Pole[7] = dbltocmplx(s1r, s1i);
+    Pole[8] = dbltocmplx(s2r, s2i);
     /*     The high pass filter if present..... */
     if (hpfrq > 0.0) {
         nzero = 4;
         npole = 9;
-        Zero[4] = 0.0 + (0.0 * I);
-        temp = (-twopi) * hpfrq;
-        Pole[9] = temp + (0.0 * I);
+        Zero[4] = dbltocmplx(0.0, 0.0);
+        temp = -twopi * hpfrq;
+        Pole[9] = dbltocmplx(temp, 0.0);
     }
 
-    getranx(nfreq, delfrq, cfTo6th, nzero, zero, npole, pole, xre, xim);
-    return;
-}
+    getrand(nfreq, delfrq, cfTo6th, nzero, zero, npole, pole, xre, xim);
 
+    return;
+}                               /* end of function */
