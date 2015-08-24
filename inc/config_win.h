@@ -18,12 +18,23 @@
 #define MISSING_FUNC_MKSTEMPS    1
 #define MISSING_FUNC_STRLCPY     1
 #define MISSING_FUNC_SLEEP       1
+#define MISSING_FUNC_DIRNAME     1
+#define MISSING_FUNC_BASENAME    1
 
 #define COMPLEX_STRUCT_DEFINED 1
 #define F_OK 0
 
 #define SACAUX "C:\\Program Files\\Sac\\winaux"
 
-#define PACKAGE_BUGREPORT "sac-help@iris.washington.edu"
+#define PACKAGE_BUGREPORT "sac-help@lists.ds.iris.edu"
 #define BUILD_DATE        "Feb 31, 2026"
 #define PACKAGE_VERSION   "102.0"
+
+/* GUI_APP - If defined (to any value, 0, 1, ...)
+      Create a new window command windown on execution
+
+   GUI_APP - If not defined (commented out), run sac only from the command line
+      This is only really useful for testing the numerical capabilities of sac
+      Plotting windows are not available if GUI_APP is commented out
+ */
+#define GUI_APP 1

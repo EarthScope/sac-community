@@ -8,8 +8,7 @@ using namespace Gdiplus;
 
 #include "sac_resource.h"
 #include "WinSacView.h"
-
-#define GUI_APP 1
+#include "config.h"
 
 extern "C" {
     #include "debug.h"

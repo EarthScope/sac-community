@@ -8,7 +8,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifndef WIN32
 #include <libgen.h>
+#endif
 #include "dfm.h"
 #include "bool.h"
 #include "hdr.h"

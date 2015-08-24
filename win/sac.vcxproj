@@ -634,7 +634,6 @@
     <ClCompile Include="..\src\exm\repivl.c" />
     <ClCompile Include="..\src\exm\repkv.c" />
     <ClCompile Include="..\src\exm\reprtw.c" />
-    <ClCompile Include="..\src\exm\reprv.c" />
     <ClCompile Include="..\src\exm\setprompt.c" />
     <ClCompile Include="..\src\exm\settextwait.c" />
     <ClCompile Include="..\src\exm\tracereport.c" />
@@ -1095,6 +1094,7 @@
     <ClCompile Include="..\src\scm\linear.c" />
     <ClCompile Include="..\src\scm\rmean.c" />
     <ClCompile Include="..\src\scm\rotate.c" />
+    <ClCompile Include="..\src\scm\rotinc.c" />
     <ClCompile Include="..\src\scm\rtrend.c" />
     <ClCompile Include="..\src\scm\taper.c" />
     <ClCompile Include="..\src\scm\wigint.c" />

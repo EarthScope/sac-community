@@ -6,7 +6,9 @@
  */
 #include <stdlib.h>
 #include <string.h>
+#ifndef WIN32
 #include <libgen.h>
+#endif
 #include <sys/stat.h>
 
 #include "config.h"
@@ -53,7 +55,7 @@ char *aux_tries[] = {
     SET_VAR \
     "\n"
 
-
+#ifndef WIN32
 char *
 sacaux() {
     int i;
@@ -94,39 +96,12 @@ sacaux() {
     }
     return aux;
 }
+#else /* WIN32 */
 
-/** 
- * Get the name of the SAC base directory, will exit if the SACAUX variable
- *    is not defined.  String is padded with spaces and then null-terminated.
- * 
- * @param name 
- *    Expanded base directory on output
- * @param name_len 
- *    Length of \p name
- *
- * @date  04/19/87      Original version based upon zexpnd.
- * @date  04/22/87      Modified to blank fill returned base name.
- * @date  02/02/88      Modified to exit if SACAUX is not defined.
- *
- */
-void
-zbasename(char *name, int name_len) {
-
-#ifndef WIN32
-    char *aux = sacaux();
-    if ((int) strlen(aux) > name_len - 1) {
-        fprintf(stderr,
-                "ERROR: Enviornment variable SACAUX too long: max: %d SACAUX: %d\n",
-                name_len - 1, (int) strlen(aux));
-        exit(1);
-    }
-    memset(name, ' ', name_len);
-    name[name_len - 1] = 0;
-    memcpy(name, aux, strlen(aux));
-#else
+char *
+sacaux() {
     TCHAR wintemp[MAX_PATH];
     char *p;
-
     //GetProcessImageFileName(, wintemp, MAX_PATH);
     //QueryFullProcessImageName(
     GetModuleFileName(NULL, wintemp, MAX_PATH);
@@ -145,10 +120,38 @@ zbasename(char *name, int name_len) {
     //p = rindex(wintemp,'/');
     //*p = 0;
     strncat(wintemp, "/winaux", 7);
+    return strdup(wintemp);
+}
 
-    strcpy(name, wintemp);
-    //name[strlen(wintemp)] = 0;
 #endif
+
+/** 
+ * Get the name of the SAC base directory, will exit if the SACAUX variable
+ *    is not defined.  String is padded with spaces and then null-terminated.
+ * 
+ * @param name 
+ *    Expanded base directory on output
+ * @param name_len 
+ *    Length of \p name
+ *
+ * @date  04/19/87      Original version based upon zexpnd.
+ * @date  04/22/87      Modified to blank fill returned base name.
+ * @date  02/02/88      Modified to exit if SACAUX is not defined.
+ *
+ */
+void
+zbasename(char *name, int name_len) {
+
+    char *aux = sacaux();
+    if ((int) strlen(aux) > name_len - 1) {
+        fprintf(stderr,
+                "ERROR: Enviornment variable SACAUX too long: max: %d SACAUX: %d\n",
+                name_len - 1, (int) strlen(aux));
+        exit(1);
+    }
+    memset(name, ' ', name_len);
+    name[name_len - 1] = 0;
+    memcpy(name, aux, strlen(aux));
 
     return;
 }

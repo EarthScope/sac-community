@@ -11,6 +11,8 @@
 
 #include "WinSacView.h"
 
+GDM_EXTERN
+
 void SacWindowShow(SacView * view);
 SacView *SacWindow(int id);
 void SacWindowAdd(int id);
@@ -18,8 +20,8 @@ void SacViewUpdate(SacView * view);
 void SacViewAdd(SacView * view, SacViewType type, ...);
 void initsac();
 int color_on();
-int color_skeleton();
-int color_foreground_default(void);
+void color_skeleton(color *c);
+void color_foreground_default(color *c);
 
 extern SacViewWindows *wins;
 

@@ -1691,9 +1691,6 @@
     <ClCompile Include="..\src\exm\reprtw.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\exm\reprv.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\exm\setprompt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -3069,6 +3066,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\scm\rotate.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\scm\rotinc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\scm\rtrend.c">

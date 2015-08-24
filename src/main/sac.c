@@ -12,9 +12,7 @@
 #include <math.h>
 
 #ifndef WIN32
-#include <termcap.h>
 #include <getopt.h>
-#include <execinfo.h>
 #endif
 
 #include "unistdx.h"
@@ -46,22 +44,6 @@ void main_command(char *kmsg, int n);
 void execute_command_line(char *kmsg, int len);
 
 void sac_main_loop();
-
-#ifndef WIN32
-void
-segfault_backtrace(int sig) {
-    void *array[10];
-    size_t size;
-
-    // get void*'s for all entries on the stack
-    size = backtrace(array, 10);
-
-    // print out all the frames to stderr
-    fprintf(stdout, "Error: signal %d:\n", sig);
-    backtrace_symbols_fd(array, size, STDOUT_FILENO);
-    exit(-11);
-}
-#endif
 
 #ifdef X11_APP
 void set_constrain_plot_ratio_x11(int set);
@@ -144,6 +126,7 @@ main(int argc, char **argv) {
     execute_command_line(kmsg, MCMSG + 1);
 
     sac_main_loop();
+    return 0;
 }
 
 #endif /* X11_APP */
@@ -261,12 +244,12 @@ sac_command_line_copyright(int argc, char **argv) {
     }
 }
 
-/* #ifdef WIN32 */
-/* void */
-/* sac_command_line_options(int *argc_p, char ***argv_p) { */
-/*   return; */
-/* } */
-/* #else  */
+#ifdef WIN32
+void
+sac_command_line_options(int *argc_p, char ***argv_p) {
+  return;
+}
+#else
 void
 sac_command_line_options(int argc, char **argv) {
     char ch;
@@ -346,7 +329,7 @@ sac_command_line_options(int argc, char **argv) {
             case 'n':
                 set_default_station_name(OPTION_ON);
                 break;
-#ifdef X11_APP
+  #ifdef X11_APP
             case 'L':
                 set_constrain_plot_ratio_x11(TRUE);
                 break;
@@ -357,7 +340,7 @@ sac_command_line_options(int argc, char **argv) {
     }
 }
 
-/* #endif */
+#endif
         /* - THIS IS THE MAIN LOOP OF THE PROGRAM.
          *   (1) "zgpmsg" sends a prompt to the user and gets a message back.
          */

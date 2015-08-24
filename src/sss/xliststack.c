@@ -17,14 +17,6 @@
 
 SSS_EXTERN
 
-#ifdef WIN32
-
-char *
-basename(char *path) {
-    char *base = strrchr(path, '/');
-    return base ? base + 1 : path;
-}
-#endif
 
 void /*FUNCTION*/
 xliststack(nerr)
