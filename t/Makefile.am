@@ -116,7 +116,7 @@ use_sac_LDFLAGS =
 
 icm_SOURCES = icm.c 
 icm_CFLAGS = $(COVERAGE)
-icm_LDADD = -L../src -licm
+icm_LDADD = -L../src -licm -lsac -lsacio
 
 # Compiled programs as tests
 check_PROGRAMS   = use_sac ucf vars sacio icm

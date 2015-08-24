@@ -47,7 +47,7 @@ struct resp {
 
 
 void
-error() {
+icm_error() {
     exit(-1);
 }
 
@@ -61,7 +61,7 @@ dcomp(double *x, double *xt, int n) {
         v = 1e-8  + 1e-5 * fabs(xt[i]);
         if(fabs(x[i] - xt[i]) > v) { /* Taken from numpy.isclose() May,2015 */
             if(verbose) {
-                fprintf(stderr, "Error: %d/%d val: %.18e comp: %.18e tol: %.18e\n", i,n,xt[i],x[i], v);
+                fprintf(stderr, "Error: %d/%d true: %.18e comp: %.18e tol: %.18e (%.18e)\n", i,n,xt[i],x[i], v, fabs(x[i]-xt[i]));
             }
             flag = 0;
         }
@@ -79,25 +79,25 @@ response_read(struct resp *R, int *nfreq, double *dfreq, double **xrep, double *
 
     if((fp = fopen(R->file, "r")) == NULL) {
         fprintf(stderr, "icm: error opening file: %s\n", R->file);
-        error();
+        icm_error();
     }
     
     if(R->type == RESP_ELMAG) {
         if(fscanf(fp, "freeperiod %le magnification %le\n", &R->freeper, &R->mag) != 2) {
             fprintf(stdout, "Error reading response header [elmag]\n");
-            error();
+            icm_error();
         }
     }
     if(R->type == RESP_EYEOMG) {
         if(fscanf(fp, "nzeros %d\n", &R->nzeros) != 1) {
             fprintf(stdout, "Error reading response header [eyeomg]\n");
-            error();
+            icm_error();
         }
     }
     
     if(fscanf(fp, "npts %d dfreq %le\n", nfreq, dfreq) != 2) {
         fprintf(stdout, "Error reading response header\n");
-        error();
+        icm_error();
     }
 
     xre  = malloc(sizeof(double) * *nfreq);
@@ -105,7 +105,7 @@ response_read(struct resp *R, int *nfreq, double *dfreq, double **xrep, double *
     for(i = 0; i < *nfreq; i++) {
         if(fscanf(fp, "%le %le\n", &xre[i], &xim[i]) != 2) {
             fprintf(stdout, "Error reading response at point %d\n", i);
-            error();
+            icm_error();
         }
     }
     fclose(fp);
@@ -118,7 +118,7 @@ response_write(struct resp R, int nfreq, double dfreq, double *xre, double *xim)
     FILE *fp;
     int i;
     if((fp = fopen(R.file, "w")) == NULL) {
-        error();
+        icm_error();
     }
     if(R.type == RESP_ELMAG) {
         fprintf(fp, "freeperiod %le magnification %le\n", R.freeper, R.mag);
@@ -129,13 +129,13 @@ response_write(struct resp R, int nfreq, double dfreq, double *xre, double *xim)
 
     if(fprintf(fp, "npts %d dfreq %.18le\n", nfreq, dfreq) < 0) {
         fprintf(stdout, "Error writing response header\n");
-        error();
+        icm_error();
     }
 
     for(i = 0; i < nfreq; i++) {
         if(fprintf(fp, "%.18le %.18le\n", xre[i], xim[i]) < 0) {
             fprintf(stdout, "Error writing response at point %d\n", i);
-            error();
+            icm_error();
         }
     }
     fclose(fp);
@@ -265,7 +265,7 @@ struct resp Resps[] = {
     { RESP_RSK, NULL, "rsk.txt", RESP_BASIC_PADDING },
     { RESP_RSK_INV, NULL, "rsk_inv.txt", RESP_BASIC_PADDING },
     { RESP_SANDIA, NULL, "sandia_ol.txt", 0,0,0, 0,0,0,"OL" },
-    { RESP_REFTEK, NULL, "reftek.txt", 20,0,0, 0.7, 1, -0.5, ""},
+    { RESP_REFTEK, NULL, "reftek.txt", 20,0,0, 0.7, 1.0, -0.5, ""},
     { RESP_GENERAL, NULL, "general.txt", 20.0,1e3,3, 0.7,0,0, ""},
     { RESP_PORTABLE, NULL, "portable.txt", 20.0,1e3,0, 0.7,1.0,0, ""},
     { RESP_LLL, NULL, "lll.txt", 20.0,0,0, 0.7,0,0, "BB" },
@@ -276,24 +276,23 @@ struct resp Resps[] = {
 int
 main(int argc, char *argv[]) {
     int i, n;
+    int status;
     n = sizeof(Resps)/sizeof(struct resp);
     if(argc > 1 && strcmp(argv[1], "-v") == 0) {
         verbose = 1;
     }
+    status = 0;
     for( i = 0;  i < n; i++) {
         //printf("%d/%d: %s\n", i+1,n,Resps[i].file);
         //response_compute(513, 1e-2, Resps[i]);
         if(! response_compare(Resps[i]) ) {
             printf("%3d/%3d: %s - Error\n", i+1,n,Resps[i].file);
-            if(verbose) {
-                error();
-            }
+            status = -1;
         } else {
             if(verbose) {
                 printf("%3d/%3d: %s - Ok\n", i+1,n,Resps[i].file);
             }
         }
     }
-    return 0;
-    
+    return status;
 }
