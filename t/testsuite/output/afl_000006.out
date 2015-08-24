@@ -1,7 +1,9 @@
  wait text off
+ setbb __no_exec__ 1
  abs
  ERROR 1301: No data files read in.
  DDDDDDDDDDDDDDDDDDDxxxxxxxxxxxxxcxxxxxxxxxxxxDDf‹‹‹‹‹‹‹‹‹¬‹‹‹­‹vnöxxxxxxxxxxxxxxxxxDxxxxxxxxcxxxD d
+sac: No external execution: '__no_exec__' set
   
  ==>  
  quit

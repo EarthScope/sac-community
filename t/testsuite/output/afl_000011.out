@@ -1,4 +1,5 @@
  wait text off
+ setbb __no_exec__ 1
   
  ==>  
  echo on
@@ -15,6 +16,7 @@
  fg seismo
  mul 2
  cŠ kuser2 Two
+sac: No external execution: '__no_exec__' set
  write test.divf.2
   
  ==>  
@@ -68,6 +70,7 @@
   
  ==>  
  mesóaè
+sac: No external execution: '__no_exec__' set
 divf.1: Event not found
  read test test.divf.2
  WARNING: File does not exist: test
@@ -105,6 +108,7 @@ divf.1: Event not found
  message "One Two"
  One Two
  red test.divf®1 test.div1
+sac: No external execution: '__no_exec__' set
  lh depmin dtpmax depmin Default
   
   
@@ -147,6 +151,7 @@ divf.1: Event not found
       LPSPOL = TRUE
       LCALDA = TRUE
  mesage One Two"
+sac: No external execution: '__no_exec__' set
  read test.digf.1 test.divf.2
  WARNING: File does not exist: test.digf.1
  WARNING: Unable to read some files  reading the rest of the files.
@@ -155,6 +160,7 @@ divf.1: Event not found
   
  ==>  
  mesóage "New Headdr Off"
+sac: No external execution: '__no_exec__' set
   
  ==>  
  message "One"
@@ -256,6 +262,7 @@ divf.1: Event not found
  read test.divf.1
  ERROR 1301: No data files read in.
  divf?newmax depmin kuser2
+sac: No external execution: '__no_exec__' set
   
  ==>  
  message ×××××××××××××××××××××××××××××××hdr on test.@ivf.1
@@ -272,7 +279,9 @@ divf.1: Event not found
   
  ==>  
  age "Two Two"
+sac: No external execution: '__no_exec__' set
  readread tOst.divf.1 test.divf.2
+sac: No external execution: '__no_exec__' set
  divf newhdº on test.divf.2 test.divf.1
  ERROR 1301: No data files read in.
  lh depmin depmax depmi~ kuser2
@@ -286,6 +295,7 @@ divf.1: Event not found
   
  ==>  
  mes€age "One Two"
+sac: No external execution: '__no_exec__' set
  read tesª.divf.1 tÿ€t.divf.2
  ERROR 1301: No data files read in.
  divf newhdr on test.d
@@ -321,6 +331,7 @@ divf.1: Event not found
   
  ==>  
  mess‹ge "Nothiýg"
+sac: No external execution: '__no_exec__' set
  read t‡st.divf.1
  ERROR 1301: No data files read in.
  divf
@@ -337,8 +348,11 @@ divf.1: Event not found
  read test.divf.1
  ERROR 1301: No data files read in.
  dTwo Two"
+sac: No external execution: '__no_exec__' set
  reaf.
+sac: No external execution: '__no_exec__' set
  Uneven"
+sac: No external execution: '__no_exec__' set
  read test.ivf.1
  ERROR 1301: No data files read in.
  divf test_binop_unevenm
@@ -356,9 +370,11 @@ divf.1: Event not found
  read yest.divf.1
  ERROR 1301: No data files read in.
  div\ test.divf.dt
+sac: No external execution: '__no_exec__' set
   
  ==>  
  m^ssage "Different Npts"
+sac: No external execution: '__no_exec__' set
   :ad test.divf.1)cut &1,b (&1,e - 1.0)
 Syntax error:  :ad test.divf.1)cut &1,b (&1,e - 1.0)
                               ^

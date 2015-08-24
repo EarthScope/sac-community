@@ -1,5 +1,6 @@
  wait text off
  echo on
+ setbb __no_exec__ 1
  fg seismo
   
  ==>  
@@ -8,6 +9,7 @@
  mtw off
  markvalue ge -1.0 to t0
  lht0
+sac: No external execution: '__no_exec__' set
   
  ==>  
  message "MTW 12-13"
@@ -15,12 +17,14 @@
  mtw 12 13
  markvalue ge+
  markvalueAge -1. -1. <= 5mtw b 0 5
+sac: No external execution: '__no_exec__' set
  markvalue ge -1100
  markvalue ge<= 3"
  ERROR interpreting command:  markvalue ge<= 3" 
  ILLEGAL OPTION:                              ^
  mtw f -3 3
  markvalueAge -1.0 t~ t0
+sac: No external execution: '__no_exec__' set
  lh t%
  ERROR 1201: Could not find VARS variable
   

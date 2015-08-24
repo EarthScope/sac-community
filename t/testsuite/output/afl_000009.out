@@ -1,4 +1,5 @@
  wait text off
+ setbb __no_exec__ 1
  wait tex off
  ERROR interpreting command:  wait tex off 
  ILLEGAL OPTION:                   ^
@@ -18,6 +19,7 @@
  read test
  ERROR 1301: No data files read in.
  lt.impulsg
+sac: No external execution: '__no_exec__' set
  lh b e
  ERROR 1301: No data files read in.
  cut t 10 180
@@ -28,14 +30,19 @@
  ERROR interpreting command:  cut t 10 180 
  ILLEGAL OPTION:                  ^
  reSd erò fiite
+sac: No external execution: '__no_exec__' set
  cread0 20
+sac: No external execution: '__no_exec__' set
  se
+sac: No external execution: '__no_exec__' set
  lh b e
  ERROR 1301: No data files read in.
   
  ==>  
  cut€
+sac: No external execution: '__no_exec__' set
  cutfatal0
+sac: No external execution: '__no_exec__' set
  rb e
   
  ==>  
@@ -47,9 +54,11 @@
  ==>  
  cut -10 180
  rerd te^t.imulse
+sac: No external execution: '__no_exec__' set
  lh ÿÿ€
  ERROR 1301: No data files read in.
  rad te^t.impulse
+sac: No external execution: '__no_exec__' set
  lh b õ
  ERROR 1301: No data files read in.
   
@@ -58,11 +67,13 @@
  ERROR interpreting command:  cuterr fill: 
  ILLEGAL OPTION:                     ^
  c
+sac: No external execution: '__no_exec__' set
  lh b e
  ERROR 1301: No data files read in.
   
  ==>  
  c -10 2
+sac: No external execution: '__no_exec__' set
  read
  ERROR 1301: No data files read in.
  cut 50 18ÿÿÿad–test.impulsK

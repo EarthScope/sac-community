@@ -8,6 +8,7 @@
 #include <stdlib.h>
 
 #include "co.h"
+#include "bbs.h"
 #include "debug.h"
 #include "errors.h"
 
@@ -49,6 +50,12 @@ zsysop(char *comstr, int dummylen, int *pnumc, int *perr) {
     UNUSED(dummylen);
     comstr[(int) *pnumc] = '\0';
 
+    if(getbb("__no_exec__")) {
+        printf("sac: No external execution: '__no_exec__' set\n");
+        return;
+    }
+
+    
 #ifdef USE_LOCAL_SYSTEM_COMMAND
     if (system_local(comstr) != -1)
         return;

@@ -526,6 +526,7 @@
  Different Npts
  read test.divf.1
  cut &1,test_binop_unevenad test.divf.1
+ ERROR 1337: Illegal header field name. test_bin
  cut off
  write test.divf.npts
  read test.divf.1

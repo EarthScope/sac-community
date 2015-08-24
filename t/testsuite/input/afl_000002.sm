@@ -1,4 +1,5 @@
 echo on
+setbb __no_exec__ 1
 fg seismo
 
 message "MTW Off"
