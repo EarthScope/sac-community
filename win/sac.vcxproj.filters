@@ -536,16 +536,7 @@
     <ClCompile Include="..\src\bom\xbomc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\bom\xdivf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\bom\xmerge.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\bom\xmulf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\bom\xsubf.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\bot\capf.c">
@@ -3150,9 +3141,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\SeisMgr\cssListOps\cssListOps.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\SeisMgr\cssListOps\cssTableDump.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\SeisMgr\cssListOps\dbFillWfdisc.c">

@@ -188,7 +188,6 @@ libSMnonOracleFuncs_a_SOURCES = \
 	SeisMgr/cssb/cssWriteFlatFiles.c \
 	SeisMgr/cssb/cssbIO.c \
 	SeisMgr/cssListOps/cssListOps.c \
-	SeisMgr/cssListOps/cssTableDump.c \
 	SeisMgr/cssListOps/dbFillWfdisc.c \
 	SeisMgr/cssListOps/dblErrors.c \
 	SeisMgr/cssListOps/dblGetDataSubs.c \
@@ -277,8 +276,7 @@ libsac_all_a_SOURCES = amf/iniam.c amf/array.c \
 	bbs/inibbs.c bbs/readbbf.c bbs/setbbv.c bbs/unsetbbv.c bbs/writebbf.c \
 	\
 	bom/getbfl.c bom/inibom.c bom/relbfl.c bom/xaddf.c \
-	bom/xboec.c bom/xbomc.c bom/xdivf.c bom/xmerge.c bom/xmulf.c \
-	bom/xsubf.c \
+	bom/xboec.c bom/xbomc.c bom/xmerge.c \
 	\
 	bot/capf.c bot/chpf.c bot/clipdp.c bot/crname.c \
 	bot/indexa.c bot/indexb.c bot/indexc.c bot/lequal.c bot/locdp.c \

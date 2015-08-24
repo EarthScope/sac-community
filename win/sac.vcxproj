@@ -250,10 +250,7 @@
     <ClCompile Include="..\src\bom\xaddf.c" />
     <ClCompile Include="..\src\bom\xboec.c" />
     <ClCompile Include="..\src\bom\xbomc.c" />
-    <ClCompile Include="..\src\bom\xdivf.c" />
     <ClCompile Include="..\src\bom\xmerge.c" />
-    <ClCompile Include="..\src\bom\xmulf.c" />
-    <ClCompile Include="..\src\bom\xsubf.c" />
     <ClCompile Include="..\src\bot\capf.c" />
     <ClCompile Include="..\src\bot\chpf.c" />
     <ClCompile Include="..\src\bot\clipdp.c" />
@@ -1122,7 +1119,6 @@
     <ClCompile Include="..\src\SeisMgr\cssb\cssReadFlatFiles.c" />
     <ClCompile Include="..\src\SeisMgr\cssb\cssWriteFlatFiles.c" />
     <ClCompile Include="..\src\SeisMgr\cssListOps\cssListOps.c" />
-    <ClCompile Include="..\src\SeisMgr\cssListOps\cssTableDump.c" />
     <ClCompile Include="..\src\SeisMgr\cssListOps\dbFillWfdisc.c" />
     <ClCompile Include="..\src\SeisMgr\cssListOps\dblErrors.c" />
     <ClCompile Include="..\src\SeisMgr\cssListOps\dblGetDataSubs.c" />

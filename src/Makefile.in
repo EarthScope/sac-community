@@ -193,7 +193,6 @@ am_libSMnonOracleFuncs_a_OBJECTS = SeisMgr/smDataIO.$(OBJEXT) \
 	SeisMgr/cssb/cssWriteFlatFiles.$(OBJEXT) \
 	SeisMgr/cssb/cssbIO.$(OBJEXT) \
 	SeisMgr/cssListOps/cssListOps.$(OBJEXT) \
-	SeisMgr/cssListOps/cssTableDump.$(OBJEXT) \
 	SeisMgr/cssListOps/dbFillWfdisc.$(OBJEXT) \
 	SeisMgr/cssListOps/dblErrors.$(OBJEXT) \
 	SeisMgr/cssListOps/dblGetDataSubs.$(OBJEXT) \
@@ -284,8 +283,7 @@ am_libsac_all_a_OBJECTS = amf/iniam.$(OBJEXT) amf/array.$(OBJEXT) \
 	bbs/unsetbbv.$(OBJEXT) bbs/writebbf.$(OBJEXT) \
 	bom/getbfl.$(OBJEXT) bom/inibom.$(OBJEXT) bom/relbfl.$(OBJEXT) \
 	bom/xaddf.$(OBJEXT) bom/xboec.$(OBJEXT) bom/xbomc.$(OBJEXT) \
-	bom/xdivf.$(OBJEXT) bom/xmerge.$(OBJEXT) bom/xmulf.$(OBJEXT) \
-	bom/xsubf.$(OBJEXT) bot/capf.$(OBJEXT) bot/chpf.$(OBJEXT) \
+	bom/xmerge.$(OBJEXT) bot/capf.$(OBJEXT) bot/chpf.$(OBJEXT) \
 	bot/clipdp.$(OBJEXT) bot/crname.$(OBJEXT) bot/indexa.$(OBJEXT) \
 	bot/indexb.$(OBJEXT) bot/indexc.$(OBJEXT) bot/lequal.$(OBJEXT) \
 	bot/locdp.$(OBJEXT) bot/modcase.$(OBJEXT) bot/nequal.$(OBJEXT) \
@@ -1184,7 +1182,6 @@ libSMnonOracleFuncs_a_SOURCES = \
 	SeisMgr/cssb/cssWriteFlatFiles.c \
 	SeisMgr/cssb/cssbIO.c \
 	SeisMgr/cssListOps/cssListOps.c \
-	SeisMgr/cssListOps/cssTableDump.c \
 	SeisMgr/cssListOps/dbFillWfdisc.c \
 	SeisMgr/cssListOps/dblErrors.c \
 	SeisMgr/cssListOps/dblGetDataSubs.c \
@@ -1273,8 +1270,7 @@ libsac_all_a_SOURCES = amf/iniam.c amf/array.c \
 	bbs/inibbs.c bbs/readbbf.c bbs/setbbv.c bbs/unsetbbv.c bbs/writebbf.c \
 	\
 	bom/getbfl.c bom/inibom.c bom/relbfl.c bom/xaddf.c \
-	bom/xboec.c bom/xbomc.c bom/xdivf.c bom/xmerge.c bom/xmulf.c \
-	bom/xsubf.c \
+	bom/xboec.c bom/xbomc.c bom/xmerge.c \
 	\
 	bot/capf.c bot/chpf.c bot/clipdp.c bot/crname.c \
 	bot/indexa.c bot/indexb.c bot/indexc.c bot/lequal.c bot/locdp.c \
@@ -1743,8 +1739,6 @@ SeisMgr/cssListOps/$(am__dirstamp):
 	@: > SeisMgr/cssListOps/$(am__dirstamp)
 SeisMgr/cssListOps/cssListOps.$(OBJEXT):  \
 	SeisMgr/cssListOps/$(am__dirstamp)
-SeisMgr/cssListOps/cssTableDump.$(OBJEXT):  \
-	SeisMgr/cssListOps/$(am__dirstamp)
 SeisMgr/cssListOps/dbFillWfdisc.$(OBJEXT):  \
 	SeisMgr/cssListOps/$(am__dirstamp)
 SeisMgr/cssListOps/dblErrors.$(OBJEXT):  \
@@ -1979,10 +1973,7 @@ bom/relbfl.$(OBJEXT): bom/$(am__dirstamp)
 bom/xaddf.$(OBJEXT): bom/$(am__dirstamp)
 bom/xboec.$(OBJEXT): bom/$(am__dirstamp)
 bom/xbomc.$(OBJEXT): bom/$(am__dirstamp)
-bom/xdivf.$(OBJEXT): bom/$(am__dirstamp)
 bom/xmerge.$(OBJEXT): bom/$(am__dirstamp)
-bom/xmulf.$(OBJEXT): bom/$(am__dirstamp)
-bom/xsubf.$(OBJEXT): bom/$(am__dirstamp)
 bot/$(am__dirstamp):
 	@$(MKDIR_P) bot
 	@: > bot/$(am__dirstamp)
