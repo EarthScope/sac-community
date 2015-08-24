@@ -1,7 +1,7 @@
 
 
 # Process this file with autoconf to produce a configure script.
-AC_INIT(Seismic Analysis Code, 102.0, sac-help@iris.washington.edu, sac)
+AC_INIT(Seismic Analysis Code, 102.0, sac-help@lists.ds.iris.edu, sac)
 
 # Place configuration files in the config directory
 AC_CONFIG_AUX_DIR(config)
@@ -137,6 +137,8 @@ AM_CONDITIONAL([WINAUX_NOT_AUX], [ test x${winaux} = on ] )
 
 # C Compiler
 AC_PROG_CC
+
+AC_PROG_CC_STDC
 
 # C++ Compiler for Windows
 #if test x$windows == xon; then
