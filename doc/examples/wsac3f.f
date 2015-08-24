@@ -10,7 +10,7 @@
       dimension xdata(MAX), ydata(MAX)
 
 !     Define the varaibles used in the call to wsac2()
-      character*10 kname
+      character*11 kname
       integer j
       integer nerr
       real cona, conb

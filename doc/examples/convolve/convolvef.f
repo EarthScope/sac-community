@@ -29,7 +29,7 @@
 
       if(nerr .NE. 0) then
       	  write(*,*)'Error reading in file: ',kname
-	  call exit(-1)
+          call exit(-1)
       endif
 
 !     Read in the second data file
@@ -38,7 +38,7 @@
 
       if(nerr .NE. 0) then
       	  write(*,*)'Error reading in file: ',kname
-	  call exit(-1)
+          call exit(-1)
       endif
 
 !     Reverse the First Signal */      
@@ -73,7 +73,6 @@
      &            nwin, wlen, SAC_RECTANGLE,
      &            out, nfft, error)
 
-
 !     Zero out the tmp signal      
       do i = 1, MAX
          ytmp(i) = 0.0
@@ -107,9 +106,9 @@
       call setfhv('b',      beg,     nerr)
       call setfhv('e',      endv,    nerr)
       call setihv('iftype', 'itime', nerr)
-      call setkhv('kstnm',  'sta',   nerr)
-      call setkhv('kcmpnm', 'Q',     nerr)
-      call setnhv('nwfid',  j, nerr)
+!      call setkhv('kstnm',  'sta',   nerr)
+!      call setkhv('kcmpnm', 'Q',     nerr)
+!      call setnhv('nwfid',  j, nerr)
       kevnm = 'FUNCGEN: TRIANGLE'
       call setkhv ('kevnm', kevnm, nerr)
 !     Write the SAC file
@@ -117,7 +116,7 @@
       call wsac0(kname, xarray, ytmp, nerr)
       if(nerr .NE. 0) then
       	  write(*,*)'Error writing out file: ',kname,nerr
-	  call exit(-1)
+          call exit(-1)
       endif
 
       call exit(0)

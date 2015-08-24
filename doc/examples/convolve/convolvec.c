@@ -124,9 +124,9 @@ main(int argc, char *argv[]) {
     setfhv ( "b",      &beg,     &nerr, SAC_STRING_LENGTH);
     setfhv ( "e",      &end,     &nerr, SAC_STRING_LENGTH);
     setihv ( "iftype", "itime",  &nerr, SAC_STRING_LENGTH, SAC_STRING_LENGTH);
-    setkhv ( "kcmpnm", "Q",      &nerr, SAC_STRING_LENGTH, SAC_STRING_LENGTH);
-    setkhv ( "kstnm",  "sta",    &nerr, SAC_STRING_LENGTH, SAC_STRING_LENGTH);
-    setnhv ( "nwfid",  &j,       &nerr, SAC_STRING_LENGTH);
+    /* setkhv ( "kcmpnm", "Q",      &nerr, SAC_STRING_LENGTH, SAC_STRING_LENGTH); */
+    /* setkhv ( "kstnm",  "sta",    &nerr, SAC_STRING_LENGTH, SAC_STRING_LENGTH); */
+    /* setnhv ( "nwfid",  &j,       &nerr, SAC_STRING_LENGTH); */
     setkhv ( "kevnm",  "FUNCGEN: TRIANGLE", &nerr, SAC_STRING_LENGTH, SAC_STRING_LENGTH);
 
     /*   Write out the correlation function   */

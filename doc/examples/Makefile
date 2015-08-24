@@ -1,5 +1,7 @@
 
 
+FC=gfortran
+
 FFLAGS=-Wall `sac-config --cflags`
 CFLAGS=-Wall `sac-config --cflags`
 SACLIB=`sac-config --libs sac`
@@ -15,10 +17,11 @@ PROGS_IO = rsac1c rsac1f \
 	   wsac4c wsac4f \
 	   wsac5c wsac5f 
 
-PROGS_LIB = filterf filterc \
+PROGS_LIB = convolve_input filterf filterc \
 	    envelopef envelopec \
 	    correlatec correlatef \
-	    convolvef convolvec 
+	    convolvef convolvec \
+			convolvef2
 
 
 all: 
@@ -31,6 +34,7 @@ lib: $(PROGS_LIB)
 
 test:
 	./create_input.sh
+	./convolve_input
 	./filterf
 	./filterc
 	diff filterf_out_sac.sac filterf_out.sac 
@@ -47,9 +51,30 @@ test:
 	./correlatec
 	diff correlatef_out_sac1.sac correlatef_out1.sac
 	diff correlatec_out_sac1.sac correlatec_out1.sac
-
+	./convolvef2
 
 clean:
 	rm -f $(PROGS_IO) $(PROGS_LIB) *.o *~ core
 	rm -f *.sac
+	rm -f `find . -name '*.o'`
+	rm -f `find . -name '*~'`
 
+filterf: filter/filterf.o
+	$(FC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+envelopef: envelope/envelopef.o
+	$(FC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+correlatef: correlate/correlatef.o
+	$(FC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+convolvef: convolve/convolvef.o
+	$(FC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+convolvef2: convolve/convolve.o convolve/convolvef2.o
+	$(FC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+
+filterc: filter/filterc.o
+	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+envelopec: envelope/envelopec.o
+	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+correlatec: correlate/correlatec.o
+	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+convolvec: convolve/convolvec.o
+	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
