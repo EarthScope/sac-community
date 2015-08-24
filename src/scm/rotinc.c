@@ -3,8 +3,6 @@
 #include <math.h>
 #include <string.h>
 
-/* #include "nrutil.h" */
-
 #include "extfunc.h"
 
 #include "amf.h"

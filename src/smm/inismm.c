@@ -3,6 +3,7 @@
 
 #include "smm.h"
 #include "bool.h"
+#include "msg.h"
 
 struct t_kmsmm kmsmm;
 struct t_cmsmm cmsmm;

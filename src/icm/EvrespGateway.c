@@ -254,7 +254,7 @@ EvrespGateway(int nfreq, double delfrq, double xre[], double xim[],
     memset(datime, 0, 30);
     setTimeString(&s->h->nzhour, &s->h->nzmin, &s->h->nzsec, &s->h->nzmsec,
                   t_o_day);
-    setDateString(&s->h->nzyear, &s->h->nzjday, &t_o_day, &datime);
+    setDateString(&s->h->nzyear, &s->h->nzjday, &t_o_day[0], &datime[0]);
 
     if (inFile) {
         file = (char *) malloc(strlen(inFile));

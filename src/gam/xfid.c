@@ -1,11 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include "../../inc/complex.h"
-#include "../../inc/proto.h"
 #include <string.h>
-#include "../../inc/mach.h"
-#include "../../inc/gam.h"
+#include "gam.h"
 
 #include "cpf.h"
 

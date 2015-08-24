@@ -15,6 +15,7 @@
 #include "bot.h"
 #include "ucf.h"
 #include "co.h"
+#include "debug.h"
 
 /** 
  * Format a time marker
@@ -41,7 +42,7 @@ formmarker(double time, char *type, int type_s, char *output, int output_s,
            int *lok) {
 
     char tmp[10];
-
+    UNUSED(type_s);
     if (time != SAC_FLOAT_UNDEFINED) {
         sprintf(output, "%16.5g", time);
         ljust(output, output_s);
