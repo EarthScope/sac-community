@@ -2,7 +2,7 @@
 #ifndef _DBH_H_
 #define _DBH_H_
 
-#include "complex.h"
+#include "sac_complex.h"
 
 void afr(float *sn, float *sd, int nsects, char *type, char *sampling,
          double fl, double fh, int nsamps, float *response, float *freqs);

@@ -11,7 +11,7 @@
 #include <stdio.h>
 
 #include "mach.h"
-#include "complex.h"
+#include "sac_complex.h"
 
 #define MOFFSETOPTS	5
 #define OCASCADE	0

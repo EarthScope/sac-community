@@ -4,7 +4,7 @@
 #include <sys/stat.h>
 #include <ctype.h>
 
-#include "complex.h"
+#include "sac_complex.h"
 #include "amf.h"
 #include "mach.h"
 #include "../evalresp/evresp.h"

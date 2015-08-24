@@ -9,7 +9,7 @@
 #include <string.h>
 #include <math.h>
 
-#include "complex.h"
+#include "sac_complex.h"
 #include "proto.h"
 #include "mach.h"
 #include "gam.h"

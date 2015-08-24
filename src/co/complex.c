@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-#include "complex.h"
+#include "sac_complex.h"
 
 double
 aimag(complexf c) {

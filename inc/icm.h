@@ -9,7 +9,7 @@
 #define _ICM_H_
 
 #include "mach.h"
-#include "complex.h"
+#include "sac_complex.h"
 #include "wtofd.h"
 
 #define	MAXFP	10

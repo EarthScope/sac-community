@@ -2,7 +2,7 @@
 #ifndef __CODA_H__
 #define __CODA_H__
 
-#include "complex.h"
+#include "sac_complex.h"
 
 /* needs to be in an include file */
 #define NPMAX 6
