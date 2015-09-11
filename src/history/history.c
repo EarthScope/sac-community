@@ -267,6 +267,10 @@ sac_history_load(char *where) {
     if (sac_history_loaded) {
         return;
     }
+    if(!use_history(OPTION_GET)) {
+        sac_history_loaded = TRUE;
+        return;
+    }
     stifle_history(history_size());
     if (!where) {
         where = sac_history_file();

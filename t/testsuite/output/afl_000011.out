@@ -71,7 +71,6 @@ sac: No external execution: '__no_exec__' set
  ==>  
  mesóaè
 sac: No external execution: '__no_exec__' set
-divf.1: Event not found
  read test test.divf.2
  WARNING: File does not exist: test
  WARNING: Unable to read some files  reading the rest of the files.

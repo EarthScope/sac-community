@@ -109,6 +109,7 @@ zquit() {
 
 #ifdef READLINE
     /* Cleanup Command Line Editing Tools */
+    if(use_history(OPTION_GET)) 
     {
         sachistory = sac_history_file();
         if (sachistory) {
