@@ -105,9 +105,19 @@ extrma(float *array, int incrmt, int number, float *aminm, float *amaxm,
      *   would do with inappropriate Q or C values.
      * */
     if (*aminm < -VLARGE || *amaxm > VLARGE) {
+        /* All this for a lower case 'inf' */
         setmsg("WARNING", 0);
-        out("Data value outside system storage bounds\n"
-            " Maxvalue = %-.5g  Minvalue = %-.5g", *amaxm, *aminm);
+        out("Data value outside system storage bounds\n");
+        if(isinf(*amaxm)) { 
+            out(" Maxvalue = %s ", (*amaxm<0) ?"-inf":"inf");
+        } else {
+            out( "Maxvalue = %-.5g ", *amaxm);
+        }
+        if(isinf(*aminm)) {
+            out(" Minvalue = %s", (*aminm<0) ?"-inf":"inf");
+        } else {
+            out(" Minvalue = %-.5g ", *aminm);
+        }
         outmsg();
         clrmsg();
     }
