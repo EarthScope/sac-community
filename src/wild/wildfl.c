@@ -5,8 +5,14 @@
  * 
  */
 
+#include "config.h"
+
 #include <stdlib.h>
 #include <string.h>
+
+#ifdef HAVE_WORDEXP
+#include <wordexp.h>
+#endif
 
 #include "amf.h"
 #include "mach.h"
@@ -19,8 +25,20 @@
 #include "co.h"
 #include "clf.h"
 #include "bot.h"
-
+#include "debug.h"
 DFM_EXTERN
+
+#ifdef HAVE_FUNC_WORDEXP
+void
+tilde_expansion(char *in, size_t n) {
+    wordexp_t pw;
+    wordexp(in, &pw, WRDE_NOCMD);
+    if(pw.we_wordc == 1) {
+        strlcpy(in, pw.we_wordv[0], n);
+    }
+    wordfree(&pw);
+}
+#endif /* HAVE_FUNC_WORDEXP */
 
 /** 
  *  To convert a potentially wild-card laden input file list
@@ -101,14 +119,19 @@ wildfl(char *kdfdir, int kdfdir_s, string_list * list, int *lexpnd) {
         if (lwildc(s1, strlen(s1) + 1)) {       /* if there is/are wildcard(s) */
             /* --- Break entry into directory part and pattern part. */
             getdir(s1, strlen(s1) + 1, kdirin, MCPFN + 1, kpatrn, MCPFN + 1);
+            DEBUG("kdirin: '%s'\n", kdirin);
             /* --- If no directory name was typed, use the default one. */
-            if (strncmp(kdirin, "        ", 8) == 0)
+            if (strncmp(kdirin, "        ", 8) == 0) {
+                DEBUG("no dir\n");
                 strncpy(kdirin, kdfdir, MCPFN + 1);
+            }
             /*     Else if an absolute directory was typed, just use it. */
             else if (kdirin[0] == '/') {        /* do nothing */
+                DEBUG("absolute dir\n");
             }
             /*     Else if a relative directory was typed, append it to kdfdir. */
             else if (strncmp(kdfdir, "        ", 8) != 0) {
+                DEBUG("relative dir\n");
                 char kTemp[MCPFN], *pTemp = NULL;
 
                 pTemp = strrchr(kdfdir, '/');
@@ -126,6 +149,12 @@ wildfl(char *kdfdir, int kdfdir_s, string_list * list, int *lexpnd) {
                     strncpy(kdirin, kTemp, MCPFN + 1);
                 }
             }
+#ifdef HAVE_FUNC_WORDEXP
+            else if(kdirin[0] == '~') {
+                tilde_expansion(kdirin, sizeof(kdirin));
+            }
+            DEBUG("kdirin: '%s'\n", kdirin);
+#endif /* HAVE_FUNC_WORDEXP */
 
             /* --- Perform case conversion of directory and pattern if necessary. */
             nc1 = indexb(kdirin, MCPFN + 1);

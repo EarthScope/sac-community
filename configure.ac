@@ -146,9 +146,6 @@ AC_PROG_CXX
 #fi
 AC_PROG_OBJC
 
-# Complex Number Check
-AX_COMPLEX
-
 # Linking Files
 AC_PROG_LN_S
 
@@ -250,8 +247,10 @@ AC_CHECK_FUNC(rindex,    [ AC_DEFINE( [HAVE_FUNC_RINDEX],        [1], [ System L
     			        			 [ AC_DEFINE( [MISSING_FUNC_RINDEX],     [1], [ System Libraries missing rindex ]) ] )
 AC_CHECK_FUNC(sleep,     [ AC_DEFINE( [HAVE_FUNC_SLEEP],         [1], [ System Libraries define sleep ]) ],
 						             [ AC_DEFINE( [MISSING_FUNC_SLEEP],      [1], [ System Libraries missing sleep ]) ] )
-AC_CHECK_FUNC(strlcpy,   [ AC_DEFINE( [HAVE_FUNC_STRLCPY],         [1], [ System Libraries define strlcpy ]) ],
-            						 [ AC_DEFINE( [MISSING_FUNC_STRLCPY],      [1], [ System Libraries missing strlcpy ]) ] )
+AC_CHECK_FUNC(strlcpy,   [ AC_DEFINE( [HAVE_FUNC_STRLCPY],       [1], [ System Libraries define strlcpy ]) ],
+            						 [ AC_DEFINE( [MISSING_FUNC_STRLCPY],    [1], [ System Libraries missing strlcpy ]) ] )
+AC_CHECK_FUNC(wordexp,   [ AC_DEFINE( [HAVE_FUNC_WORDEXP],       [1], [ System Libraries define wordexp ]) ],
+            						 [ AC_DEFINE( [MISSING_FUNC_WORDEXP],    [1], [ System Libraries missing wordexp ]) ] )
 
 # Check for typedefs, structures, and compiler characteristics
 #AC_C_CONST

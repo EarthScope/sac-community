@@ -27,9 +27,6 @@
 /* System Libraries define bzero */
 #undef HAVE_FUNC_BZERO
 
-/* System Libraries define copysign */
-#undef HAVE_FUNC_COPYSIGN
-
 /* System Libraries define fmax */
 #undef HAVE_FUNC_FMAX
 
@@ -50,9 +47,6 @@
 
 /* System Libraries define rindex */
 #undef HAVE_FUNC_RINDEX
-
-/* System Libraries define round */
-#undef HAVE_FUNC_ROUND
 
 /* System Libraries define setenv */
 #undef HAVE_FUNC_SETENV
@@ -77,6 +71,9 @@
 
 /* System Libraries define vasprintf */
 #undef HAVE_FUNC_VASPRINTF
+
+/* System Libraries define wordexp */
+#undef HAVE_FUNC_WORDEXP
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
@@ -159,9 +156,6 @@
 /* System Libraries missing bzero */
 #undef MISSING_FUNC_BZERO
 
-/* System Libraries missing copysign */
-#undef MISSING_FUNC_COPYSIGN
-
 /* System Libraries missing fmax */
 #undef MISSING_FUNC_FMAX
 
@@ -180,9 +174,6 @@
 /* System Libraries missing rindex */
 #undef MISSING_FUNC_RINDEX
 
-/* System Libraries missing round */
-#undef MISSING_FUNC_ROUND
-
 /* System Libraries missing sleep */
 #undef MISSING_FUNC_SLEEP
 
@@ -200,6 +191,9 @@
 
 /* System Libraries missing vasprintf */
 #undef MISSING_FUNC_VASPRINTF
+
+/* System Libraries missing wordexp */
+#undef MISSING_FUNC_WORDEXP
 
 /* Apple/OSX/Darwin Operating System */
 #undef OSX

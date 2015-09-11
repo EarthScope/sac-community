@@ -1,4 +1,6 @@
 
+#include "config.h"
+
 #include "wild.h"
 #include "bool.h"
 
@@ -44,6 +46,11 @@ lwildc(flist, flist_s)
          indexa(flist, flist_s, kmwild.ccon[0], TRUE, TRUE) != 0) ||
         indexa(flist, flist_s, kmwild.ccon[1], TRUE, TRUE) != 0)
         lwildc_v = TRUE;
+#ifdef HAVE_FUNC_WORDEXP
+    if(flist[0] == '~') { /* Tilde -> User Home directory expansion */
+        lwildc_v = TRUE;
+    }
+#endif /* HAVE_FUNC_WORDEXP */
 
     return (lwildc_v);
 
