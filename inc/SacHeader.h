@@ -12,8 +12,6 @@
 
 #define REGCONV 100
 
-#pragma pack(push)
-#pragma pack(1)
 /* SAC header structure */
 struct SACheader {
     float delta;                /* RF time increment, sec    */
@@ -150,7 +148,6 @@ struct SACheader {
     char kdatrd[9];             /*    date data read         */
     char kinst[9];              /*    instrument name        */
 };
-#pragma pack(pop)
 #define CASSERT(predicate, file) _impl_CASSERT_LINE(predicate,__LINE__,file)
 
 #define _impl_PASTE(a,b) a##b
