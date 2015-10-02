@@ -116,30 +116,37 @@ test.write.sei
  ==>  
  message "Test Write Directory Off BUG"
  Test Write Directory Off BUG
- # fg seismo
- # write dir OFF test.write.nodir.1
- # read test.write.nodir
+ fg seismo
+ write dir OFF test.write.nodir.1
+ read test.write.nodir.1
   
  ==>  
  message "Test Write Directory On BUG"
  Test Write Directory On BUG
- # fg seismo
- # write dir on test.write.indir.2
- # read test.write.dir/test.write.indir.2
+ fg seismo
+ write dir test.write.dir test.write.indir.2
+ read test.write.dir/test.write.indir.2
   
  ==>  
  message "Test Write Directory Current BUG"
  Test Write Directory Current BUG
- # fg seismo
- # write dir current test.write.nodir.2
- # read test.write.indir.2
+ fg seismo
+ write dir current test.write.nodir.2
+ read test.write.nodir.2
   
  ==>  
  message "Test Write Directory ./ BUG"
  Test Write Directory ./ BUG
- # fg seismo
- # write dir ./ test.write.dir.bug
- # read test.write.dir.bug
+ fg seismo
+ write dir ./ test.write.dir.bug
+ read test.write.dir.bug
+  
+ ==>  
+ fg seis
+ w dir off seis.SAC
+ r seis.SAC
+ w dir current seis.SAC
+ r seis.SAC
   
  ==>  
   
