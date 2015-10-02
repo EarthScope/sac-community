@@ -439,8 +439,10 @@ int
 setvar(char *group, char *name, int type, ...) {
     int retval;
     va_list ap;
+    char *vname = rstrip(strdup(name));
     va_start(ap, type);
-    retval = setvar_ap(group, name, type, ap);
+    retval = setvar_ap(group, vname, type, ap);
     va_end(ap);
+    FREE(vname);
     return retval;
 }

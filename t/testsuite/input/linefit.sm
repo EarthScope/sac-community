@@ -12,4 +12,12 @@ getbb
 fg sine
 linefit
 getbb
-
+getbb corrcoef
+getbb numerror
+getbb sacerror
+getbb sacnfiles
+getbb sddata
+getbb sdslope
+getbb sdyint
+getbb slope
+getbb yint

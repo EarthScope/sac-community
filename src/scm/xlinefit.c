@@ -102,55 +102,33 @@ xlinefit(nerr)
 
         /* store results to blackboard */
         if (saclen() > 1) {
-            sprintf(seqnum, "%4d", jdfl);
-            ljust(seqnum, 5);
+            snprintf(seqnum, sizeof(seqnum), "%d", jdfl);
+        } else {
+            memset(seqnum,0,sizeof(seqnum));
         }
         strcpy(vnslope, "slope");
         strcat(vnslope, seqnum);
-        //sprintf(cslp,"%12.8f",slp);
-        //setbbv(vnslope,cslp,nerr,strlen(vnslope),strlen(cslp));
         setbb(vnslope, VAR_VALUE, slp);
-        //if(*nerr != 0) goto L_8888;
 
         strcpy(vnyint, "yint");
         strcat(vnyint, seqnum);
-        //sprintf(cyint,"%12.8f",yint);
-        //setbbv(vnyint,cyint,nerr,strlen(vnyint),strlen(cyint));
         setbb(vnyint, VAR_VALUE, yint);
-        if (*nerr != 0)
-            goto L_8888;
 
         strcpy(vnsdslope, "sdslope");
         strcat(vnsdslope, seqnum);
-        //sprintf(csdslp,"%12.8f",sdslp);    
-        //setbbv(vnsdslope,csdslp,nerr,strlen(vnsdslope),strlen(csdslp));
         setbb(vnsdslope, VAR_VALUE, sdslp);
-        if (*nerr != 0)
-            goto L_8888;
 
         strcpy(vnsdyint, "sdyint");
         strcat(vnsdyint, seqnum);
-        //sprintf(csdyint,"%12.8f",sdyint);
-        //setbbv(vnsdyint,csdyint,nerr,strlen(vnsdyint),strlen(csdyint));
         setbb(vnsdyint, VAR_VALUE, sdyint);
-        if (*nerr != 0)
-            goto L_8888;
 
         strcpy(vnsddata, "sddata");
         strcat(vnsddata, seqnum);
-        //sprintf(csddta,"%12.8f",sddta);
-        //setbbv(vnsddata,csddta,nerr,strlen(vnsddata),strlen(csddta));
         setbb(vnsddata, VAR_VALUE, sddta);
-        if (*nerr != 0)
-            goto L_8888;
 
         strcpy(vncorrcoef, "corrcoef");
         strcat(vncorrcoef, seqnum);
-        //sprintf(ccorrcf,"%12.8f",corrcf);
-        //setbbv(vncorrcoef,ccorrcf,nerr,strlen(vncorrcoef),strlen(ccorrcf));
         setbb(vncorrcoef, VAR_VALUE, corrcf);
-        if (*nerr != 0)
-            goto L_8888;
 
     }
 

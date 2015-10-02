@@ -10,15 +10,15 @@
  Data standard deviation is: 0.10051
  Data correlation coefficient is: 0.0017409
  getbb
- CORRCOEF     = 0.00174086
+ CORRCOEF = 0.00174086
  NUMERROR = 0
  SACERROR = 'FALSE'
  SACNFILES = 1
- SDDATA     = 0.100509
- SDSLOPE     = 0.00034819
- SDYINT     = 0.0199519
- SLOPE     = -6.0006e-06
- YINT     = 0.010297
+ SDDATA = 0.100509
+ SDSLOPE = 0.00034819
+ SDYINT = 0.0199519
+ SLOPE = -6.0006e-06
+ YINT = 0.010297
   
  ==>  
   
@@ -30,15 +30,15 @@
  Data standard deviation is: 0.32054
  Data correlation coefficient is: 0.0020765
  getbb
- CORRCOEF     = 0.0020765
+ CORRCOEF = 0.0020765
  NUMERROR = 0
  SACERROR = 'FALSE'
  SACNFILES = 1
- SDDATA     = 0.32054
- SDSLOPE     = 0.00351135
- SDYINT     = 0.0517588
- SLOPE     = 0.000230341
- YINT     = -0.101877
+ SDDATA = 0.32054
+ SDSLOPE = 0.00351135
+ SDYINT = 0.0517588
+ SLOPE = 0.000230341
+ YINT = -0.101877
   
  ==>  
  fg sine
@@ -48,15 +48,31 @@
  Data standard deviation is: 0.70569
  Data correlation coefficient is: 0.15466
  getbb
- CORRCOEF     = 0.154662
+ CORRCOEF = 0.154662
  NUMERROR = 0
  SACERROR = 'FALSE'
  SACNFILES = 1
- SDDATA     = 0.705691
- SDSLOPE     = 0.00244471
- SDYINT     = 0.140086
- SLOPE     = -0.00378863
- YINT     = 0.187537
-  
- ==>  
+ SDDATA = 0.705691
+ SDSLOPE = 0.00244471
+ SDYINT = 0.140086
+ SLOPE = -0.00378863
+ YINT = 0.187537
+ getbb corrcoef
+ corrcoef = 0.154662
+ getbb numerror
+ numerror = 0
+ getbb sacerror
+ sacerror = 'FALSE'
+ getbb sacnfiles
+ sacnfiles = 1
+ getbb sddata
+ sddata = 0.705691
+ getbb sdslope
+ sdslope = 0.00244471
+ getbb sdyint
+ sdyint = 0.140086
+ getbb slope
+ slope = -0.00378863
+ getbb yint
+ yint = 0.187537
  quit

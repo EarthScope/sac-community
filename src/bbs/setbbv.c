@@ -9,12 +9,14 @@
 #include <string.h>
 #include <stdarg.h>
 
+#include "bot.h"
 #include "bbs.h"
 #include "bool.h"
 #include "co.h"
 #include "bot.h"
 #include "dff.h"
 #include "vars.h"
+#include "debug.h"
 
 BBS_EXTERN
 /** 
@@ -68,9 +70,12 @@ int
 setbb(char *name, int type, ...) {
     int retval;
     va_list ap;
+    char *vname;
+    vname = rstrip(strdup(name));
     va_start(ap, type);
-    retval = setvar_ap(kmbbs.knmbbs, name, type, ap);
+    retval = setvar_ap(kmbbs.knmbbs, vname, type, ap);
     va_end(ap);
+    FREE(vname);
     return retval;
 }
 
