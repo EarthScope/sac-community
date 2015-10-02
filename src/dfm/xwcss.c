@@ -21,12 +21,22 @@
 #include "clf.h"
 #include "cpf.h"
 #include "co.h"
+#include "exm.h"
+#include "select.h"
 
 #include "cssListOps/dblPublicDefs.h"
 #include "smDataIO.h"
 #include "errors.h"
 
 DFM_EXTERN
+
+void
+warn_if_database_is_off() {
+    if(!use_database(OPTION_GET)) {
+        printf("SAC: Seismgr Database is currently off\n"
+               "     Turn it on to enable this functionality\n");
+    }
+}
 
 /** 
  * Write a CSS Ascii Flat File or CSSB (Binary File)
@@ -156,11 +166,17 @@ xwcss(int *nerr) {
     pfile = prepare_output_filename(file, lwrdir, kmdfm.kwrdir);
 
     if (!smGetDefaultWorkset()) {
+        warn_if_database_is_off();
         *nerr = 1385;
         return;
     }
 
     WorkSetName = smGetDefaultWorksetName();
+    if(!WorkSetName) {
+        warn_if_database_is_off();
+        *nerr = 1386;
+        return;
+    }
     if (!WorkSetName) {
         *nerr = 1386;
         return;

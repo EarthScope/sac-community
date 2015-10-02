@@ -114,7 +114,11 @@ readcfl(int lmore, char *kdirin, int kdirin_s, string_list * list, int Verbose,
     wfdiscs = NULL;
 
     WorkSetName = smGetDefaultWorksetName();
-
+    if(!WorkSetName) {
+        warn_if_database_is_off();
+        *nerr = 1386;
+        goto L_8888;
+    }
     if (isASCII) {
         /* pull the wfdisc file names out of the input file list--store in
            wfdiscroots and remove them from input file list (kdflin)

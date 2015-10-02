@@ -208,6 +208,7 @@ xreaddb(kinput, nerr)
     tree = (smGetDefaultWorkset())->tree;
 
     if (!tree) {
+        warn_if_database_is_off();
         printf("Error: can't get a valid tree.\n");
         return;
         /* this will have to be rewritten with real error handling. */

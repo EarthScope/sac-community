@@ -256,5 +256,6 @@ int files_append(string_list * files, char *kstr);
 int files_prepend(string_list * files, char *kstr);
 int files_delete(string_list * files, char *kstr);
 int files_change(string_list * files, char *from, char *to);
+void warn_if_database_is_off();
 
 #endif /* _DFM_H_ */

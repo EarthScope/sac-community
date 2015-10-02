@@ -77,6 +77,11 @@ readsuds(int lmore, char *kdirin, int kdirin_s, string_list * list, int Verbose,
         smClearDefaultTree();
 
     WorkSetName = smGetDefaultWorksetName();
+    if(!WorkSetName) {
+        warn_if_database_is_off();
+        *nerr = 1386;
+        goto L_8888;
+    }
 
     files = wildfl(kdirin, kdirin_s, list, &expand);
     for (j = 0; j < string_list_length(files); j++) {
