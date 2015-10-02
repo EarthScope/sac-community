@@ -61,3 +61,44 @@ No wfdisc file(s) found in the specified directory
  ERROR 1301: No data files read in.
 No wfdisc file(s) found in the specified directory
  ERROR 1301: No data files read in.
+  
+ ==>  
+ fg seismo
+ writecss filename9012345678
+css-warning: Skipping affiliation record because of null keys...
+css-warning: -99999.00 truncated to (-99999.) to fit format requirements
+  
+ ==>  
+ fg seismo
+ writecss filename90123456789
+css-warning: Skipping affiliation record because of null keys...
+css-warning: -99999.00 truncated to (-99999.) to fit format requirements
+  
+ ==>  
+ fg seismo
+ writecss filename901234567890123456789012
+css-warning: Skipping affiliation record because of null keys...
+css-warning: -99999.00 truncated to (-99999.) to fit format requirements
+css-warning: File name longer than 32 characters
+css-warning:    basename[ 32]: filename901234567890123456789012
+css-warning:     station[  3]: CDV
+css-warning:        wfid[  8]: 00000001
+css-warning:   extension[  2]: .w
+css-warning:    filename[ 45]: filename901234567890123456789012CDV00000001.w
+css-warning: Skipping wfdisc record because file name is too long...
+  
+ ==>  
+ fg seismo
+ writecss filename9012345678901234567890123
+css-warning: Skipping affiliation record because of null keys...
+css-warning: -99999.00 truncated to (-99999.) to fit format requirements
+css-warning: File name longer than 32 characters
+css-warning:    basename[ 33]: filename9012345678901234567890123
+css-warning:     station[  3]: CDV
+css-warning:        wfid[  8]: 00000001
+css-warning:   extension[  2]: .w
+css-warning:    filename[ 46]: filename9012345678901234567890123CDV00000001.w
+css-warning: Skipping wfdisc record because file name is too long...
+  
+ ==>  
+ quit

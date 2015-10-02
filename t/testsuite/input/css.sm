@@ -27,3 +27,18 @@ message "No Files"
 readcss nofilename*.wfdisc
 
 readcss station 123 nofilename*.wfdisc
+
+echo on
+
+fg seismo
+writecss filename9012345678
+
+fg seismo
+writecss filename90123456789
+
+fg seismo
+writecss filename901234567890123456789012
+
+fg seismo
+writecss filename9012345678901234567890123
+
