@@ -364,7 +364,7 @@ fill_interp(float y[], int b, int e, float yb, float ye, float dt) {
             printf("merge: Gap interp fill\n");
             err = FALSE;
         }
-        y[i] = yb + i * (ye - yb) / (e - b);
+        y[i] = yb + (i-b) * (ye - yb) / (e - b);
     }
 }
 

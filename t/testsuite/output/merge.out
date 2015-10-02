@@ -483,4 +483,27 @@ merge: Gap zero fill
      delta = 2.500000e-02
          b = 0.000000e+00
          e = 3.242087e+06
+  
+ ==>  
+ r 2007.117.08.01.48.8100.IA.TSI..BHZ.D.SAC 2007.117.08.02.02.9299.IA.TSI..BHZ.D.SAC
+ merge gap zero
+merge: Gap zero fill
+ write test.zero.sac
+  
+ ==>  
+ r 2007.117.08.01.48.8100.IA.TSI..BHZ.D.SAC 2007.117.08.02.02.9299.IA.TSI..BHZ.D.SAC
+ merge gap interp
+merge: Gap interp fill
+ write test.interp.sac
+  
+ ==>  
+ r 2007.117.08.01.48.8100.IA.TSI..BHZ.D.SAC 2007.117.08.02.02.9299.IA.TSI..BHZ.D.SAC test.zero.sac test.interp.sac
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+  
+ ==>  
+  
+ ==>  
  quit

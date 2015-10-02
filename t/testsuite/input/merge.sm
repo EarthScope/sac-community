@@ -50,3 +50,17 @@ getbb sacnfiles
 read data.merge.long1.sac data.merge.long2.sac
 merge overlap average
 lh npts delta b e
+
+r 2007.117.08.01.48.8100.IA.TSI..BHZ.D.SAC 2007.117.08.02.02.9299.IA.TSI..BHZ.D.SAC 
+merge gap zero
+write test.zero.sac
+
+r 2007.117.08.01.48.8100.IA.TSI..BHZ.D.SAC 2007.117.08.02.02.9299.IA.TSI..BHZ.D.SAC 
+merge gap interp
+write test.interp.sac
+
+r 2007.117.08.01.48.8100.IA.TSI..BHZ.D.SAC 2007.117.08.02.02.9299.IA.TSI..BHZ.D.SAC test.zero.sac test.interp.sac
+p1 ; pause period 0.25
+
+
+
