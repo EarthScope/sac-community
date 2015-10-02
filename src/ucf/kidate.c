@@ -24,7 +24,6 @@
  *    Error Return Flag
  *    - 0 on Success
  *
- * @bug Leap year is handled incorrectly
  * @bug Extra days are not handled properly
  * 
  * @date   811019:  Documention completed.
@@ -43,7 +42,11 @@ kidate(int iyear, int ijday, int *imonth, int *iday, int *nerr) {
     /* - Make temporary leap year adjustment to days-in-month table
      *   if necessary. */
 
-    if ((iyear / 4) * 4 == iyear) {
+    if(ijday < 1) {
+        goto ERROR;
+    }
+
+    if(isleap(iyear)) {
         Ndays[2] = 29;
     } else {
         Ndays[2] = 28;
@@ -59,7 +62,7 @@ kidate(int iyear, int ijday, int *imonth, int *iday, int *nerr) {
     }
 
     /* - Process error due to bad input here. */
-
+ ERROR:
     *nerr = 909;
     setmsg("ERROR", *nerr);
     apimsg(iyear);
