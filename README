@@ -1,4 +1,4 @@
-README file for SAC.  (Last modified November 2013)
+README file for SAC.  (Last modified September 2015)
 
 Contents
 ---------------------------------------------------------------------------
@@ -39,7 +39,7 @@ later, one must have xcode installed.
 New features with this release are listed in the HISTORY file, and major
 features are described in more detail in the CHANGES file and in the help
 files, which can be accessed from within SAC or read online (HTML format) at
-URL <http://www.iris.edu/software/sac/manual.html>.
+URL <http://ds.iris.edu/files/sac-manual/>.
 
 As discussed in CHANGES, a feature new with v101.5 is the capability to save
 plots in alternative file formats to SGF.  One of these is PNG, but starting
@@ -164,18 +164,18 @@ File utils/README_utils describes some Matlab macros provided by a user.
 ---------------------------------------------------------------------------
 1.  If you have SAC working, use the help command from within SAC.  You can
     print hard-copies of the help files using printhelp.  HTML versions of the 
-    help files can be found at <http://www.iris.edu/software/manual.html>.
+    help files can be found at URL <http://ds.iris.edu/files/sac-manual/>.
     Also, a link from that site takes you to a single-file version of the manual
     in which the search command and links from the side-bar table of contents
     allow one to navigate the manual efficiently.
 2.  Some features of SAC are described in the CHANGES file in this directory,
     and changes in new versions are summarized in HISTORY.
-3.  URL <http://www.iris.edu/dms/nodes/dmc/software/downloads/sac/> has links 
+3.  URL <http://ds.iris.edu/ds/nodes/dmc/software/downloads/sac/> has links
     to other resources and information about updates.
 4.  A place to share problems and find solutions is the sac-help llistserv:
-    <sac-help@iris.washington.edu>.  You must be a subscriber
+    SAC Help <sac-help@lists.ds.iris.edu>.  You must be a subscriber
     to post to this listserv.  For further information, go to
-    URL <http://www.iris.edu/mailman/listinfo/sac-help>.
+    URL <http://ds.iris.edu/message-center/topic/sac-help/>.
     You do not have to be a subscriber to access the list archives.
 5.  Beginning in Spring 2013, IRIS has set up a SAC project in their SeisCode
     initiative: <https://seiscode.iris.washington.edu/projects/sac/>.  
@@ -193,7 +193,7 @@ the  following references:
 
 Goldstein, P., A. Snoke, (2005), "Sac Availability for the IRIS Community",
 Incorporated Institutions For Seismology Data Management Center Electronic
-Newsletter, <http://www.iris.edu/dms/newsletter/vol7/no1/sac-availability-for-the-iris-community/>
+Newsletter, <http://ds.iris.edu/ds/newsletter/vol7/no1/sac-availability-for-the-iris-community/>
 
 Goldstein, P., D. Dodge, M. Firpo, Lee Minner (2003), "SAC2000: Signal
 processing and analysis tools for seismologists and engineers", Invited
