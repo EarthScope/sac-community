@@ -1,10 +1,6 @@
 
 #include "config.h"
 
-#ifdef HAVE_OPENMP
-#include <omp.h>
-#endif
-
 #include "sam.h"
 #include "dfm.h"
 #include "amf.h"
@@ -139,13 +135,10 @@ xbp(nerr)
 
     /* - Perform the requested function on each file in DFL. */
     err = 0;
-#pragma omp parallel shared(err) private(i,s)
     {
-#pragma omp for schedule(dynamic)
         for (i = 1; i <= saclen(); i++) {
             //int ierr;
             if (!(s = sacget(i - 1, TRUE, nerr))) {
-#pragma omp critical
                 {
                     clrmsg();
                     error(*nerr, "%s", s->m->filename);

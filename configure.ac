@@ -193,10 +193,6 @@ fi
 CHECK_ZLIB
 CHECK_PNG
 
-if [ test x${display} != xosx ]; then
-   CHECK_OPENMP
-fi
-
 if test x${display} = xx11 ; then
    AC_DEFINE([USE_TERMIOS], [1], [ Program needs the Terminal (TTY) to Function ] )
 fi

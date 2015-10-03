@@ -99,9 +99,6 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
-/* Compiler supports OpenMP */
-#undef HAVE_OPENMP
-
 /* Compile with PNG File Support */
 #undef HAVE_PNG
 
