@@ -33,4 +33,6 @@ void sac_extrema(sac * s);
 
 char *khdr(sac * s, int k);
 
+void sac_buffer_free();
+
 #endif /* _AMF_H_ */

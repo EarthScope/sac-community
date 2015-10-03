@@ -14,6 +14,7 @@
 
 #include "config.h"
 
+#include "amf.h"
 #include "gdm.h"
 #include "xyz.h"
 
