@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef HAVE_WORDEXP
+#ifdef HAVE_FUNC_WORDEXP
 #include <wordexp.h>
 #endif
 
