@@ -1,3 +1,11 @@
+/*  convolvec.c
+        Reads in a short time series that is convolved with the
+          second (longer) time series.  Easiily expanded to read
+          in multiple long time series.  Output has same length
+          and time parameters as longer series.  (Assumes longer
+          goes to zero at start and finish.)
+ gcc -o convolvec convolvec.c -I/usr/local/sac/include  -L/usr/local/sac/lib  -lsacio -lsac
+ */
 
 #include <stdio.h>
 #include <string.h>
@@ -9,135 +17,144 @@
 #define MAX        4000
 #define ERROR_MAX  256
 
+static void td_conv(
+                    float     *yarray,
+                    int        nlen,
+                    float     *yarrays,
+                    int        nlens,
+                    float     *yconv,
+                    float      delta,
+                    float      begs);
 int 
 main(int argc, char *argv[]) {
-
+    
     /* Local variables */
     int i, j;
-    int nlen, nlen1, nlen2, nerr, max;
-
-    float beg, delta, end;
+    int nlen, nlens, nerr, max;
+    
+    float beg, begs, delta;
     char *kname;
-
-    float yarray1[MAX], yarray2[MAX], ytmp[MAX], xarray[1];
-    float *out;
-
-    int nwin, wlen, nfft, leven;
-
+    
+    float yarray[MAX], yarrays[MAX], yconv[MAX], dummy[MAX];
+    
     char error[ERROR_MAX];
-
+    
     max = MAX;
-
+    
     for(i = 0; i < MAX; i++) {
-      yarray1[i] = 0.0;
-      yarray2[i] = 0.0;
-      ytmp[i] = 0.0;
+      yarray[i] = 0.0;
+      yarrays[i] = 0.0;
+      yconv[i] = 0.0;
+      dummy[i] = 0.0;
     }
-    /* Read in the first file  */        
-    kname = strdup("convolvec_in1.sac");
-    rsac1(kname, ytmp, &nlen1, &beg, &delta, &max, &nerr, SAC_STRING_LENGTH);
-
+    /* Read in the short time series  */
+    kname = strdup("brune_pulse.sac");
+    rsac1(kname, yarrays, &nlens, &begs, &delta, &max, &nerr, SAC_STRING_LENGTH);
+    
     if (nerr != 0) {
-      fprintf(stderr, "Error reading in file(%d): %s\n", nerr, kname);
-      exit(-1);
+        fprintf(stderr, "Error reading in file(%d): %s\n", nerr, kname);
+        exit(-1);
     }
-
-
-    /* Read in the second file  */
-    kname = strdup("convolvec_in2.sac");
-    rsac1(kname, yarray2, &nlen2, &beg, &delta, &max, &nerr, SAC_STRING_LENGTH);
-
+    
+    
+    /* Read in the long time series against which short series is convolved  */
+    kname = strdup("synthetic.sac");
+    rsac1(kname, yarray, &nlen, &beg, &delta, &max, &nerr, SAC_STRING_LENGTH);
+    
     if (nerr != 0) {
-      fprintf(stderr, "Error reading in file: %s\n", kname);
-      exit(-1);
-    }
-
-    /* Reverse the First Signal */
-    j = 0;
-    for(i = nlen1 - 1; i >= 0; i--) {
-      yarray1[j] = ytmp[i];
-      j++;
+        fprintf(stderr, "Error reading in file: %s\n", kname);
+        exit(-1);
     }
     
-    nlen = nlen1;
-    if(nlen2 > nlen) {
-      nlen = nlen2;
-    }
-    /* Allocate space for the correlation of yarray1 and yarray2 */
-    max = next2((2 * nlen) - 1) * 2;
-    out = (float *) malloc(sizeof(float) * max);
-    if(out == NULL) {
-      fprintf(stderr, "Error allocating memory for correlation\n");
-      exit(-1);
-    }
-
-    /* Set up values for the cross correlation */
-    nwin = 1;
-    wlen = nlen;
-    nfft = 0;
-    
-    /*     Call crscor ( Cross Correlation, no, wait, uh Convolution )
-     *        - yarray1 - First  Input array to correlate
-     *        - yarray2 - Second Input array to correlate
-     *        - nlen    - Number of points in yarray and yarray2
-     *        - nwin    - Windows to use in the correlation
-     *        - wlen    - Length of the windows
-     *        - type    - Type of Window (SAC_RECTANGLE)
-     *        - out     - output sequence 
-     *        - nfft    - Length of the output sequence
-     *        - error   - Error Message
-     *        - err_len - Length of Error Message (on input)
-     */
-    crscor(yarray1, yarray2, nlen, 
-           nwin, wlen, SAC_RECTANGLE,
-           out, &nfft, error, ERROR_MAX);
-
-    /* Zero out the tmp signal */
-    for(i = 0; i < MAX; i++) {
-      ytmp[i] = 0.0;
-    }
-    
-    /* Reconstruct the signal from the "cross correlation" back to front
-     *  
-     *  ytmp[0         : nlen1 - 2         ] <- out[nfft-nlen1+1 : nfft  - 1 ] 
-     *  ytmp[nlen1 - 1 : nlen1 + nlen2  -2 ] <- out[0            : nlen2 - 1 ]
-     *
-     *  nfft-1 is the last point of the output sequence
-     */
-    for(i = 0; i <= nlen1 - 2; i++) {  
-      ytmp[i] = out[nfft - nlen1 + i + 1];
-    }
-    for(i = 0; i <= nlen2 - 1; i++) {
-      ytmp[nlen1 + i - 1] = out[i];
-    }
-
-    nfft = nlen1 + nlen2 - 1;
-    xarray[0] = 0;
-    leven = TRUE;
-    beg = 0;
-    end = beg + delta * (nfft - 1);
-    newhdr();
-    j = 1;
-    setnhv ( "npts",   &nfft,    &nerr, SAC_STRING_LENGTH);
-    setfhv ( "delta",  &delta,   &nerr, SAC_STRING_LENGTH);
-    setlhv ( "leven",  &leven,   &nerr, SAC_STRING_LENGTH);
-    setfhv ( "b",      &beg,     &nerr, SAC_STRING_LENGTH);
-    setfhv ( "e",      &end,     &nerr, SAC_STRING_LENGTH);
-    setihv ( "iftype", "itime",  &nerr, SAC_STRING_LENGTH, SAC_STRING_LENGTH);
-    /* setkhv ( "kcmpnm", "Q",      &nerr, SAC_STRING_LENGTH, SAC_STRING_LENGTH); */
-    /* setkhv ( "kstnm",  "sta",    &nerr, SAC_STRING_LENGTH, SAC_STRING_LENGTH); */
-    /* setnhv ( "nwfid",  &j,       &nerr, SAC_STRING_LENGTH); */
-    setkhv ( "kevnm",  "FUNCGEN: TRIANGLE", &nerr, SAC_STRING_LENGTH, SAC_STRING_LENGTH);
-
-    /*   Write out the correlation function   */
-    kname = strdup("convolvec_out1.sac");    
-    wsac0(kname, xarray, ytmp, &nerr, SAC_STRING_LENGTH);
+  /*  Do the convolution (in the time domain) */
+  
+  td_conv(yarray,nlen,yarrays,nlens,yconv,delta,begs);
+  
+  setkhv ( "kevnm",  "Convolution", &nerr, SAC_STRING_LENGTH, SAC_STRING_LENGTH);
+  
+  /* Write output SAC file */
+  
+    kname = strdup("convolvec_out.sac");
+    wsac0(kname, dummy, yconv, &nerr, SAC_STRING_LENGTH);
     if (nerr != 0) {
-      fprintf(stderr, "Error writing out file: %s\n", kname);
-      exit(-1);
+        fprintf(stderr, "Error writing out file: %s\n", kname);
+        exit(-1);
     }
     
-    free(out);
-
     return 0;
-}
+} /* end of program convolvec*/
+
+/**
+ * @file   td_conv.c
+ *
+ * @brief  Compute convolution of a long series (yarray) with yarrays
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+
+/**
+ * Compute the Cross-Correlation Function
+ *
+ * @param yarray
+ *    Array containing input time series
+ * @param nlen
+ *    Number of samples in input time series yarray
+ * @param yarrays
+ *    Array containing the sshort time series to be convolved with array
+ * @param nlens
+ *    Number of samples in arrays
+ * @param yconv
+ *    Array containing the output time series
+ * @param delta
+ *    Time interval for yarray, yarrays, yconv
+ * @param begs
+ *    Begin time of arrays
+ *
+ * @return Nothing
+ *
+ * \author   Arthur Snoke
+ *           VT
+ *
+ * \date 150908  Created
+ *
+ */
+static void td_conv(
+             float     *yarray,
+             int        nlen,
+             float     *yarrays,
+             int        nlens,
+             float     *yconv,
+             float      delta,
+             float      begs)
+{
+  int kshift, k, kstart, kk;
+  float sum2, temp;
+  
+  if (nlens >= nlen) {
+    fprintf(stderr, "Error: Long and short lengths %d %d\n", nlen, nlens);
+    exit(-1);
+  }
+  
+  sum2 = 0;
+  kshift = lrint(begs/delta);
+  if (kshift < 0) {
+    kstart = -kshift;
+  }
+  else{
+    kstart = 0;
+  }
+  
+  for(k=0; k < nlens; k++)  sum2 = sum2 + yarrays[k]*yarrays[k];
+  
+  for(k=kstart; k < nlen; k++){
+    temp = 0.0;
+    for(kk=kstart; kk < nlen; kk++)
+    if (k >= (kk-kstart) || nlens >= (k-kk+kstart))
+      temp = temp + yarray[kk]*yarrays[k-kk+kstart];
+    yconv[k] = delta*temp/sqrt(sum2);
+  }
+  return;
+} /* end of function td_conv*/

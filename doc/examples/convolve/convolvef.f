@@ -1,4 +1,13 @@
-      program envelopef
+      program convolvef
+      
+!       Reads in a short time series that is convolved with the
+!         second (longer) time series.  Easiily expanded to read
+!         in multiple long time series.  Output has same length
+!         and time parameters as longer series.  (Assumes longer
+!         goes to zero at start and finish.)
+!       gfortran -o convolvef convolvef.f -I/usr/local/sac/include
+!           -L/usr/local/sac/lib -lsacio -lsac
+
       implicit none
 
       include "sacf.h"
@@ -8,117 +17,94 @@
       integer MAX
       parameter (MAX=4000)
 
-!     Define the Data Array of size MAX
-      real yarray1, yarray2, ytmp, xarray, out
-      dimension yarray1(MAX), yarray2(MAX), ytmp(MAX), out(MAX*4)
+      real yarray, yarrays, ytmp, yconv
+      dimension yarray(MAX), yarrays(MAX), ytmp(MAX), yconv(MAX)
+      character*16 kevnm
 
-!     Declare Variables used in the rsac1() subroutine
-      real beg, delta, endv
-      integer nlen1, nlen2, nlen
-      character*30 KNAME
+!     Declare Variables used in the rsac1() calls
+      real beg, delta, begs
+      integer nlen, nlens
+      character*80 KNAME
       integer nerr
-      
-!     Cross Correlation Variables
-      integer nwin, wlen, nfft
-      character *256 error
-      character *24  kevnm
 
-!     Read in the first data file
-      kname = 'convolvef_in1.sac'
-      call rsac1(kname, ytmp, nlen1, beg, delta, MAX, nerr)
+!   Read in short time series
+      kname = 'brune_pulse.sac'
+      call rsac1(kname, yarrays, nlens, begs, delta, MAX, nerr)
+
+      if(nerr .NE. 0) then
+         write(*,*)'Error reading in file: ',kname
+         call exit(-1)
+       endif
+
+!    Read in long series against which short series is convolved
+
+      kname = 'synthetic.sac'
+
+      call rsac1(kname, yarray, nlen, beg, delta, MAX, nerr)
 
       if(nerr .NE. 0) then
       	  write(*,*)'Error reading in file: ',kname
-          call exit(-1)
-      endif
+	  call exit(-1)
+       endif
 
-!     Read in the second data file
-      kname = 'convolvef_in2.sac'
-      call rsac1(kname, yarray2, nlen2, beg, delta, MAX, nerr)
+!     Do the convolution
 
-      if(nerr .NE. 0) then
-      	  write(*,*)'Error reading in file: ',kname
-          call exit(-1)
-      endif
+        call td_conv(yarray,nlen,yarrays,nlens,yconv,delta,begs)
 
-!     Reverse the First Signal */      
-      j = 1
-      do i = nlen1,1,-1
-         yarray1(j) = ytmp(i)
-         j = j + 1
-      enddo
-
-      nlen = nlen1
-      if(nlen2 > nlen) then
-         nlen = nlen2
-      endif
-
-
-      nwin = 1
-      wlen = nlen
-      nfft = 0
-!     Call crscor ( Cross Correlation )
-!        - yarray1 - First  Input array to correlate
-!        - yarray2 - Second Input array to correlate
-!        - nlen    - Number of points in yarray and yarray2
-!        - nwin    - Windows to use in the correlation
-!        - wlen    - Length of the windows
-!        - type    - Type of Window (SAC_RECTANGLE)
-!        - out     - output sequence 
-!        - nfft    - Length of the output sequence
-!        - error   - Error Message
-!
-
-      call crscor(yarray1, yarray2, nlen, 
-     &            nwin, wlen, SAC_RECTANGLE,
-     &            out, nfft, error)
-
-!     Zero out the tmp signal      
-      do i = 1, MAX
-         ytmp(i) = 0.0
-      enddo
-
-!     Reconstruct the signal from the "cross correlation" back to front
-!  
-!     ytmp[1        : nlen1 - 1         ] <- out[nfft-nlen1+2 : nfft  ] 
-!     ytmp[nlen1    : nlen1 + nlen2 - 1 ] <- out[1            : nlen2 ]
-!
-!     nfft is the last point of the output sequence
-!
-      do i = 1,nlen1-1
-         ytmp(i) = out(nfft - nlen1 + i + 1)
-      enddo
-      do i = 1, nlen2
-         ytmp(nlen1 + i - 1) = out(i)
-      enddo
-
-
-      nfft = nlen1 + nlen2 - 1
-      xarray = 0
-      beg = 0
-      endv = beg + delta * (nfft - 1)
-      j = 1
-
-      call newhdr()
-      call setnhv('npts',   nfft,    nerr)
-      call setfhv('delta',  delta,   nerr)
-      call setlhv('leven',  .true.,  nerr)
-      call setfhv('b',      beg,     nerr)
-      call setfhv('e',      endv,    nerr)
-      call setihv('iftype', 'itime', nerr)
-!      call setkhv('kstnm',  'sta',   nerr)
-!      call setkhv('kcmpnm', 'Q',     nerr)
-!      call setnhv('nwfid',  j, nerr)
-      kevnm = 'FUNCGEN: TRIANGLE'
+      kevnm = 'Convolution'
       call setkhv ('kevnm', kevnm, nerr)
 !     Write the SAC file
-      kname='convolvef_out1.sac'
-      call wsac0(kname, xarray, ytmp, nerr)
+      kname='convolvef_out.sac'
+      call wsac0(kname, ytmp, yconv, nerr)
       if(nerr .NE. 0) then
       	  write(*,*)'Error writing out file: ',kname,nerr
-          call exit(-1)
+	  call exit(-1)
       endif
 
       call exit(0)
 
-      end program envelopef
+      end program convolvef
+      
+c+
+      subroutine td_conv(trace,n,traces,ns,conv,delta,begs)
+C
+C       trace of length n is the time series against which traces
+C         of length ns is convolved.  Output is conv of length n.
+C         trace and traces are unchanged.
+C       In principle, could be n + ns output points, but assume
+C         trace goes to zero at points 1 amd n so output is n.
+C         The convoluton is done as an inner product in the time
+C         domain.  Normalizing so traces has unit amplitude.
+C       Stops if n < ns.
+C
+C       Arthur Snoke 2015
+C-
+        real*4 trace(*), traces(*), conv(*)
+C
+        if (ns .ge. n) then
+                write(*,*) 'Numbers for long and short:',n, ns
+                stop
+        end if
+        sum2 = 0.0
+        kshift = nint(begs/delta)
+        if (kshift .lt. 0) then
+          do k=1,-kshift
+            conv(k) = 0.0
+          enddo
+          kstart = -kshift+1
+        else
+          kstart = 1
+        endif
+        do k = 1,ns
+          sum2 = sum2 + traces(k)**2
+        end do
+        do k=kstart,n
+          temp = 0.0
+          do kk=kstart,n
+            if (k.ge.(kk-kstart+1) .and. ns.ge.(k-kk+kstart))
+     1          temp = temp + trace(kk)*traces(k-kk+kstart)
+          end do
+          conv(k) = delta*temp/sqrt(sum2)
+        end do
+        return
+        end
