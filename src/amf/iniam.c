@@ -14,8 +14,9 @@
 #include "SacHeader.h"
 #include "hdr.h"
 #include "ucf.h"
-
+#include "scm.h"
 #include "array.h"
+#include "dbh.h"
 
 static sac **sac_buffer = NULL;
 
@@ -307,6 +308,25 @@ void
 sac_header_copy(sac * to, sac * from) {
     memmove(to->h, from->h, sizeof(struct SACheader));
 }
+void
+sac_meta_copy(sac *to, sac *from) {
+    to->m->swap      = from->m->swap;
+    to->m->filename  = strdup(from->m->filename);
+    to->m->data_read = from->m->data_read;
+    to->m->nstop     = from->m->nstop;
+    to->m->nstart    = from->m->nstart;
+    to->m->nfillb    = from->m->nfillb;
+    to->m->nfille    = from->m->nfille;
+    to->m->ntotal    = from->m->ntotal;
+}
+void
+sac_data_copy(sac *to, sac *from) {
+    sac_alloc(to);
+    memcpy(to->y, from->y, sizeof(float) * from->h->npts);
+    if(sac_comps(to) == 2) {
+        memcpy(to->x, from->x, sizeof(float) * from->h->npts);
+    }
+}
 
 char *
 khdr(sac * s, int k) {
@@ -409,3 +429,14 @@ sac_find_filename(char *file) {
     }
     return -1;
 }
+
+sac *
+sac_copy(sac *s) {
+    sac *new;
+    new = sac_new();
+    sac_header_copy(new, s);
+    sac_meta_copy(new, s);
+    sac_data_copy(new, s);
+    return new;
+}
+
