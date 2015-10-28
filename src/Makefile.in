@@ -268,11 +268,11 @@ am_libsac_a_OBJECTS = co/complex.$(OBJEXT) dfm/cut.$(OBJEXT) \
 	dbh/zshft.$(OBJEXT) dbh/fft.$(OBJEXT) dbh/crscor.$(OBJEXT) \
 	dbh/window.$(OBJEXT) dbh/rms.$(OBJEXT) icm/trans.$(OBJEXT) \
 	icm/dcpft.$(OBJEXT) icm/taper.$(OBJEXT) icm/getran.$(OBJEXT) \
-	ucf/next2.$(OBJEXT) ucf/copydouble.$(OBJEXT) \
-	sam/envelope.$(OBJEXT) scm/rmean.$(OBJEXT) \
-	scm/rtrend.$(OBJEXT) scm/taper.$(OBJEXT) \
+	icm/libpz.$(OBJEXT) ucf/next2.$(OBJEXT) \
+	ucf/copydouble.$(OBJEXT) sam/envelope.$(OBJEXT) \
+	scm/rmean.$(OBJEXT) scm/rtrend.$(OBJEXT) scm/taper.$(OBJEXT) \
 	scm/interpolate.$(OBJEXT) scm/wigint.$(OBJEXT) \
-	scm/rotate.$(OBJEXT) scm/lifite.$(OBJEXT)
+	scm/rotate.$(OBJEXT) scm/lifite.$(OBJEXT) scm/lifitu.$(OBJEXT)
 libsac_a_OBJECTS = $(am_libsac_a_OBJECTS)
 libsac_all_a_AR = $(AR) $(ARFLAGS)
 libsac_all_a_LIBADD =
@@ -552,10 +552,10 @@ am_libsac_all_a_OBJECTS = amf/iniam.$(OBJEXT) amf/array.$(OBJEXT) \
 	icm/prewit.$(OBJEXT) icm/taper.$(OBJEXT) \
 	icm/transfer.$(OBJEXT) icm/xicmc.$(OBJEXT) \
 	icm/xprewit.$(OBJEXT) icm/xtransfer.$(OBJEXT) \
-	icm/fap.$(OBJEXT) icm/trans.$(OBJEXT) mat/engineCall.$(OBJEXT) \
-	mat/engineCall2.$(OBJEXT) mat/matBlackBoardVars.$(OBJEXT) \
-	mat/matConnect.$(OBJEXT) mat/matDisconnect.$(OBJEXT) \
-	mat/matHeaderDataManage.$(OBJEXT) \
+	icm/fap.$(OBJEXT) icm/trans.$(OBJEXT) icm/libpz.$(OBJEXT) \
+	mat/engineCall.$(OBJEXT) mat/engineCall2.$(OBJEXT) \
+	mat/matBlackBoardVars.$(OBJEXT) mat/matConnect.$(OBJEXT) \
+	mat/matDisconnect.$(OBJEXT) mat/matHeaderDataManage.$(OBJEXT) \
 	mat/matStructArrayOps.$(OBJEXT) mat/stationSets.$(OBJEXT) \
 	mat/xCLOSEMAT.$(OBJEXT) mat/xMAT.$(OBJEXT) \
 	mat/xMAT3C.$(OBJEXT) mat/xmatc.$(OBJEXT) mat/xsetmat.$(OBJEXT) \
@@ -782,7 +782,7 @@ am_libsacio_a_OBJECTS = amf/iniam.$(OBJEXT) amf/array.$(OBJEXT) \
 	vars/putvvstring.$(OBJEXT) vars/readvfile.$(OBJEXT) \
 	vars/writevfile.$(OBJEXT) vars/var.$(OBJEXT) \
 	vars/chash.$(OBJEXT) vars/bbf.$(OBJEXT) \
-	string/strings.$(OBJEXT)
+	string/strings.$(OBJEXT) string/datetime.$(OBJEXT)
 libsacio_a_OBJECTS = $(am_libsacio_a_OBJECTS)
 libsgf_a_AR = $(AR) $(ARFLAGS)
 libsgf_a_LIBADD =
@@ -1171,7 +1171,7 @@ libsacio_a_SOURCES = amf/iniam.c amf/array.c \
 	vars/writevfile.c \
 	vars/var.c vars/chash.c vars/bbf.c vars/chash.h \
 	\
-	string/strings.c
+	string/strings.c 	string/datetime.c
 
 libSMnonOracleFuncs_a_SOURCES = \
 	SeisMgr/smDataIO.c \
@@ -1243,14 +1243,14 @@ libsac_a_SOURCES = co/complex.c  \
 	dbh/zero.c dbh/zshft.c dbh/fft.c dbh/crscor.c \
 	dbh/window.c dbh/rms.c \
 	\
-	icm/trans.c icm/dcpft.c icm/taper.c icm/getran.c \
+	icm/trans.c icm/dcpft.c icm/taper.c icm/getran.c icm/libpz.c \
 	\
   ucf/next2.c ucf/copydouble.c \
 	\
 	sam/envelope.c \
 	\
 	scm/rmean.c scm/rtrend.c scm/taper.c scm/interpolate.c scm/wigint.c \
-	scm/rotate.c scm/lifite.c
+	scm/rotate.c scm/lifite.c scm/lifitu.c
 
 libicm_a_SOURCES = icm/acc.c icm/bbdisp.c icm/bbvel.c \
 	icm/benbog.c icm/clh.c icm/clz.c icm/cmh.c icm/cmz.c \
@@ -1459,7 +1459,7 @@ libsac_all_a_SOURCES = amf/iniam.c amf/array.c \
 	icm/dcpft.c icm/dewit.c icm/dseis.c icm/getins.c \
 	icm/getroots.c icm/iniicm.c icm/polezero.c icm/predfl.c icm/prewit.c \
 	icm/taper.c icm/transfer.c icm/xicmc.c icm/xprewit.c icm/xtransfer.c \
-	icm/fap.c icm/dbFuncs.h icm/trans.c \
+	icm/fap.c icm/dbFuncs.h icm/trans.c icm/libpz.c \
 	\
 	mat/engineCall.c mat/engineCall2.c mat/matBlackBoardVars.c \
 	mat/matConnect.c mat/matDisconnect.c mat/matHeaderDataManage.c \
@@ -1924,6 +1924,7 @@ dbh/rms.$(OBJEXT): dbh/$(am__dirstamp)
 icm/trans.$(OBJEXT): icm/$(am__dirstamp)
 icm/dcpft.$(OBJEXT): icm/$(am__dirstamp)
 icm/taper.$(OBJEXT): icm/$(am__dirstamp)
+icm/libpz.$(OBJEXT): icm/$(am__dirstamp)
 ucf/$(am__dirstamp):
 	@$(MKDIR_P) ucf
 	@: > ucf/$(am__dirstamp)
@@ -1943,6 +1944,7 @@ scm/interpolate.$(OBJEXT): scm/$(am__dirstamp)
 scm/wigint.$(OBJEXT): scm/$(am__dirstamp)
 scm/rotate.$(OBJEXT): scm/$(am__dirstamp)
 scm/lifite.$(OBJEXT): scm/$(am__dirstamp)
+scm/lifitu.$(OBJEXT): scm/$(am__dirstamp)
 
 libsac.a: $(libsac_a_OBJECTS) $(libsac_a_DEPENDENCIES) $(EXTRA_libsac_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libsac.a
@@ -2738,7 +2740,6 @@ sam/xunwr.$(OBJEXT): sam/$(am__dirstamp)
 sam/xwnr.$(OBJEXT): sam/$(am__dirstamp)
 sam/xwsp.$(OBJEXT): sam/$(am__dirstamp)
 scm/iniscm.$(OBJEXT): scm/$(am__dirstamp)
-scm/lifitu.$(OBJEXT): scm/$(am__dirstamp)
 scm/linear.$(OBJEXT): scm/$(am__dirstamp)
 scm/xabsgl.$(OBJEXT): scm/$(am__dirstamp)
 scm/xdecimate.$(OBJEXT): scm/$(am__dirstamp)
@@ -3066,6 +3067,7 @@ string/$(am__dirstamp):
 	@$(MKDIR_P) string
 	@: > string/$(am__dirstamp)
 string/strings.$(OBJEXT): string/$(am__dirstamp)
+string/datetime.$(OBJEXT): string/$(am__dirstamp)
 
 libsacio.a: $(libsacio_a_OBJECTS) $(libsacio_a_DEPENDENCIES) $(EXTRA_libsacio_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libsacio.a
@@ -3124,7 +3126,6 @@ docs/pdf.$(OBJEXT): docs/$(am__dirstamp)
 docs/ps.$(OBJEXT): docs/$(am__dirstamp)
 docs/font.$(OBJEXT): docs/$(am__dirstamp)
 string/array.$(OBJEXT): string/$(am__dirstamp)
-string/datetime.$(OBJEXT): string/$(am__dirstamp)
 eval/$(am__dirstamp):
 	@$(MKDIR_P) eval
 	@: > eval/$(am__dirstamp)

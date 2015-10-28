@@ -8,9 +8,11 @@
 #ifndef _ICM_H_
 #define _ICM_H_
 
+#include <stdio.h>
 #include "mach.h"
 #include "sac_complex.h"
 #include "wtofd.h"
+#include "sac_datetime.h"
 
 #define	MAXFP	10
 #define	MAXIP	1
@@ -55,6 +57,62 @@ struct t_kmicm {
 #define ICM_EXTERN \
     extern struct t_kmicm kmicm;                \
     extern struct t_cmicm cmicm;
+
+
+typedef struct _pzmeta_t pzmeta_t;
+typedef struct _pzcomment_t pzcomment_t;
+typedef struct _pz_t pz_t;
+typedef struct _station_id_t station_id_t;
+
+struct _pz_t {
+    int nzero;
+    int npole;
+    complexd *poles;
+    complexd *zeros;
+    double constant;
+    int nerr;
+    char *line;
+};
+
+struct _station_id_t {
+    char *net;
+    char *stat;
+    char *loc;
+    char *chan;
+    datetime *ref;
+};
+
+struct _pzmeta_t {
+    char *net;
+    char *stat;
+    char *chan;
+    char *loc;
+    datetime *created;
+    datetime *start;
+    datetime *end;
+    char *descrip;
+    float lat;
+    float lon;
+    float elev;
+    float depth;
+    float dip;
+    float az;
+    float sample_rate;
+    char *input_unit;
+    char *output_unit;
+    char *instrument_type;
+    float gain;
+    char *comment;
+    float sensitivity;
+    float a0;
+};
+
+struct _pzcomment_t {
+    char *key;
+    void (*parse) (char *p, pzmeta_t * meta, pzcomment_t * c);
+    size_t off;
+};
+
 
 void InterpolateArrays(double *freqs, int nfreqs, double *tmpRe, double *tmpIm,
                        int nfreq, double *xre, double *xim);
@@ -174,5 +232,12 @@ void ztransfer(float *dat, int npts, double delta, double *sre, double *sim,
 
 #define FFT_FORWARD  -1
 #define FFT_BACKWARD  1
+
+pzmeta_t * polezero_meta_new();
+void polezero_comment_parse(char *line, pzmeta_t * meta);
+int polezero_is_correct_block(pzmeta_t * meta, datetime * filetime, char *stat,
+                              char *net, char *loc, char *chan);
+pzmeta_t * polezero_meta_copy(pzmeta_t * m);
+void polezero_meta_free(pzmeta_t * meta);
 
 #endif /* _ICM_H_ */

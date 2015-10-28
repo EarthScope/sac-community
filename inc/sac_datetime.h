@@ -26,6 +26,9 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 */
 
+#ifndef _SAC_DATETIME_H_
+#define _SAC_DATETIME_H_
+
 typedef struct _datetime datetime;
 
 struct _datetime {
@@ -98,3 +101,5 @@ void datetime_set_hour(datetime * t, int x);
 void datetime_set_minute(datetime * t, int x);
 void datetime_set_second(datetime * t, int x);
 void datetime_set_nanosecond(datetime * t, int x);
+
+#endif /* _SAC_DATETIME_H_ */

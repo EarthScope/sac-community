@@ -176,7 +176,7 @@ libsacio_a_SOURCES = amf/iniam.c amf/array.c \
 	vars/writevfile.c \
 	vars/var.c vars/chash.c vars/bbf.c vars/chash.h \
 	\
-	string/strings.c
+	string/strings.c string/datetime.c
 
 
 libSMnonOracleFuncs_a_SOURCES = \
@@ -249,14 +249,14 @@ libsac_a_SOURCES = co/complex.c  \
 	dbh/zero.c dbh/zshft.c dbh/fft.c dbh/crscor.c \
 	dbh/window.c dbh/rms.c \
 	\
-	icm/trans.c icm/dcpft.c icm/taper.c icm/getran.c \
+	icm/trans.c icm/dcpft.c icm/taper.c icm/getran.c icm/libpz.c \
 	\
   ucf/next2.c ucf/copydouble.c \
 	\
 	sam/envelope.c \
 	\
 	scm/rmean.c scm/rtrend.c scm/taper.c scm/interpolate.c scm/wigint.c \
-	scm/rotate.c scm/lifite.c
+	scm/rotate.c scm/lifite.c scm/lifitu.c
 
 libicm_a_SOURCES = icm/acc.c icm/bbdisp.c icm/bbvel.c \
 	icm/benbog.c icm/clh.c icm/clz.c icm/cmh.c icm/cmz.c \
@@ -465,7 +465,7 @@ libsac_all_a_SOURCES = amf/iniam.c amf/array.c \
 	icm/dcpft.c icm/dewit.c icm/dseis.c icm/getins.c \
 	icm/getroots.c icm/iniicm.c icm/polezero.c icm/predfl.c icm/prewit.c \
 	icm/taper.c icm/transfer.c icm/xicmc.c icm/xprewit.c icm/xtransfer.c \
-	icm/fap.c icm/dbFuncs.h icm/trans.c \
+	icm/fap.c icm/dbFuncs.h icm/trans.c icm/libpz.c \
 	\
 	mat/engineCall.c mat/engineCall2.c mat/matBlackBoardVars.c \
 	mat/matConnect.c mat/matDisconnect.c mat/matHeaderDataManage.c \
