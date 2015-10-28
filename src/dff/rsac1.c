@@ -185,3 +185,104 @@ rsac1__(char *kname, float *yarray, int *nlen, float *beg, float *del,
         int *max_, int *nerr, int kname_s) {
     rsac1(kname, yarray, nlen, beg, del, max_, nerr, kname_s);
 }
+
+int
+sac_data_read_new(sac *s, FILE *fp) {
+    float *p;
+    int i;
+    size_t n;
+    n = s->h->npts;
+    for(i = 0; i < sac_comps(s); i++) {
+        p = (i == 0) ? s->y : s->x ;
+        if(fread(p, sizeof(float), n, fp) != n) {
+            return ERROR_READING_FILE;
+        }
+        if(s->m->swap) {
+            sac_data_swap(p, s->h->npts);
+        }
+    }
+    return 0;
+}
+
+int
+sac_header_read_new(sac *s, FILE *fp) {
+    int nerr;
+    char *p;
+    size_t n, i;
+    char str[SAC_HEADER_STRINGS * 8];
+    //fprintf(stderr, "sac hdr: %p\n", s->h);
+    n = SAC_HEADER_NUMBERS;
+    if(fread((char *) s->h, sizeof(float), n, fp) != n) {
+        return ERROR_READING_FILE;
+    }
+    s->m->swap = sac_check_header_version((float *) s->h, &nerr);
+    if(nerr) {
+        return ERROR_READING_FILE;
+    }
+    if(s->m->swap) {
+        sac_header_swap((float *) s->h);
+    }
+
+    if(fread(str, 8, SAC_HEADER_STRINGS, fp) != SAC_HEADER_STRINGS) {
+        return ERROR_READING_FILE;
+    }
+    map_chdr_in((float *) s->h->kstnm, (float *) str);
+    return 0;
+}
+
+sac *
+sac_read(char *filename, int read_data, int *nerr) {
+    FILE *fp;
+    sac *s;
+
+    *nerr = 0;
+    s = NULL;
+    //fprintf(stderr, "filename: %s\n", filename);
+    sacio_initialize_common();
+
+    if(!filename) {
+        return NULL;
+    }
+
+    if(!(fp = fopen(filename, "rb"))) {
+        *nerr = 101;
+        return NULL;
+    }
+    s = sac_new();
+    //fprintf(stderr, "sac_new() %p\n", s);
+    s->m->filename = strdup(filename);
+    *nerr = sac_header_read_new(s, fp);
+    if(s->h->iftype <= 0) {
+        exit(-1);
+    }
+    //fprintf(stderr, "header: %d %d %p\n", *nerr, s->h->npts, s->h);
+    if(*nerr) {
+        goto ERROR;
+    }
+    //fprintf(stderr, "alloc: %d\n", s->h->npts);
+    sac_alloc(s);
+    s->m->nstart = 1;
+    s->m->nstop  = s->h->npts;
+    s->m->ntotal = s->h->npts;
+    s->m->nfillb = 0;
+    s->m->nfille = 0;
+    if((*nerr = sac_data_read_new(s, fp))) {
+        goto ERROR;
+    }
+    if(s->h->iftype == ITIME) {
+        s->h->e = CALC_E(s);
+    }
+    update_distaz(s);
+    sac_extrema(s);
+
+    fclose(fp);
+    return s;
+
+ ERROR:
+    if(s) {
+        sac_free(s);
+        s = NULL;
+    }
+    fclose(fp);
+    return NULL;
+}
