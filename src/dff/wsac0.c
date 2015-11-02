@@ -229,8 +229,8 @@ sac_write_internal(sac * s, char *filename, int write_data, int lswap,
 }
 
 void
-sac_write(sac * s, char *filename, int write_data, int lswap, int *nerr) {
-    sac_write_internal(s, filename, write_data, lswap, nerr, FALSE);
+sac_write(sac * s, char *filename, int *nerr) { 
+    sac_write_internal(s, filename, SAC_WRITE_HEADER_AND_DATA, s->m->swap, nerr, FALSE);
 }
 
 void
@@ -298,7 +298,7 @@ wsac0(char *kname, float *xarray, float *yarray, int *nerr, int kname_s) {
     s->x = xarray;
     s->y = yarray;
     /* Write the file */
-    sac_write(s, kname_c, TRUE, swap, nerr);
+    sac_write_internal(s, kname_c, TRUE, swap, nerr, FALSE);
     s->x = x;
     s->y = y;
 

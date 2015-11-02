@@ -248,31 +248,3 @@ okdf(float x[], int npts) {
     }
     return SAC_OK;
 }
-
-float
-geteps(float y[], int nlen, float dx) {
-    float avrat, eps;
-    int j;
-
-    /*  Calculate epsilon */
-    avrat = 0.0;
-    for (j = 0; j < (nlen - 1); j++) {
-        avrat = avrat + fabs((y[j + 1] - y[j]) / dx);
-    }
-    eps = 0.0001 * avrat / (nlen - 1);
-    return (eps);
-}
-
-float
-geteps_xy(float y[], int nlen, float x[]) {
-    float avrat, eps;
-    int j;
-
-    /*  Calculate epsilon */
-    avrat = 0.0;
-    for (j = 0; j <= (nlen - 1); j++) {
-        avrat = avrat + fabs((y[j + 1] - y[j]) / (x[j + 1] - x[j]));
-    }
-    eps = 0.0001 * avrat / (nlen - 1);
-    return (eps);
-}

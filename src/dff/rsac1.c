@@ -231,7 +231,7 @@ sac_header_read_new(sac *s, FILE *fp) {
 }
 
 sac *
-sac_read(char *filename, int read_data, int *nerr) {
+sac_read_internal(char *filename, int read_data, int *nerr) {
     FILE *fp;
     sac *s;
 
@@ -286,3 +286,14 @@ sac_read(char *filename, int read_data, int *nerr) {
     fclose(fp);
     return NULL;
 }
+
+sac *
+sac_read_header(char *filename, int *nerr) {
+    return sac_read_internal(filename, 0, nerr);
+}
+
+sac *
+sac_read(char *filename, int *nerr) {
+    return sac_read_internal(filename, 1, nerr);
+}
+

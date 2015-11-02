@@ -1,4 +1,9 @@
-
+/** 
+ * @file sac.h
+ * 
+ * @brief SAC Library Routines
+ * 
+ */
 
 #ifndef __SAC_H__
 #define __SAC_H__
@@ -13,9 +18,9 @@
 #define SAC_CHEBYSHEV_TYPE_I  "C1"
 #define SAC_CHEBYSHEV_TYPE_II "C2"
 
-/***
+/** 
  * IIR Filter Types 
- * 
+ *
  * @see xapiir
  */
 #define SAC_BANDPASS          "BP"
@@ -25,7 +30,7 @@
 
 /** 
  * FIR Filter Type 
- *   
+ *
  * @see firtrn
  */
 #define SAC_HILBERT           "HILBERT"
@@ -35,7 +40,7 @@
  * Window Type
  * 
  * @see crscor, window
- */ 
+ */
 #define SAC_HAMMING           "HAMMING"
 #define SAC_HANNING           "HANNING"
 #define SAC_RECTANGLE         "RECTANGLE"
@@ -45,23 +50,12 @@
 /** 
  * Filter
  *   
- *   Yes, this is what you want.  It is an IIR (Infinte Impulse Response) 
- *   filter and is the same that is used in lowpass, highpass, bandpass 
- *   and bandreject.  
- *
- *  @note Sensible Default
- *
- *  @bug This function needs to be wrapped in a filter function
- *       which is easier to use than what is presented here and
- *       functions in a similar manner to what is found in SAC. 
- *       Removal of the variables \p trbndw and \p a which are 
- *       only used with Cheyshev filters would be good, along with
- *       setting functions which only do lowpass, highpass, ....
- *        
+ *   IIR (Infinte Impulse Response) filter and is the same 
+ *   that is used in lowpass, highpass, bandpass and bandreject. 
  */
-void xapiir ( float      data[], 
+void xapiir ( float      data[],  
               int        nsamps, 
-              char      *aproto, 
+              char      *aproto,  
               double     trbndw, 
               double     a, 
               int        iord, 
@@ -74,20 +68,20 @@ void xapiir ( float      data[],
 /** 
  * Compute the envelope of a function
  *
+ * @param n - Length of \p in and \p out
+ * @param in - Input data series
+ * @param out - Output data series
+ *
  */
 void envelope(int        n, 
               float     *in, 
               float     *out);
 
 /** 
- * Finite Impulse Response Digital Filter 
- *
- * Can perform a hilbert transform or a derivative
- * 
- * @bug This function needs to be wrapped in a hilbert transform
- *      function to be made more accesible.  The same should be
- *      done for the derivative function as well.
- *
+ * Calculate the Hilbert Transform or derivative of a signal
+ *   with a FIR filter.  Currently uses a 201 point filter 
+ *   constructed by windowing the ideal impulse response
+ *   with a hamming window.
  */
 void firtrn(char     *ftype, 
             float     x[], 
@@ -96,23 +90,7 @@ void firtrn(char     *ftype,
             float     y[]);
 
 
-/** 
- * Cross Correlation 
- * 
- *  Compute the cross correlation of two signals.
- *
- *  @note Sensible Defaults
- *     - \p nwin = 1
- *     - \p wlen = \p nsamps / \p nwin
- *     - \p type = SAC_RECTANGLE
- *     - \p nfft = Power of 2 greater than longest series
- *     
- *  @bug This function is capable of preforming a convolution
- *       if the input of either input data is reversed.
- *       This function needs to be wrapped in a more useable
- *       form for "convolution" and "correlation" with sensible
- *       defaults, as are set and used in the default SAC program
- */
+/* Compute the Cross-Correlation Function */
 void crscor(float     data1[], 
             float     data2[], 
             int       nsamps, 
@@ -125,13 +103,101 @@ void crscor(float     data1[],
             int       err_s);
 
 
-/** 
- * Power of Two 
- *
- * Find the next largest power of two greater than \p num
+/* Find the next largest power of two greater than num */
+int next2(int num);
+
+/* Add and/or remove an instrument response  */
+void ztransfer(float *dat, int npts, double delta, double *sre, double *sim,
+               double *xre, double *xim, int nfreq, int nfft, double delfrq,
+               double *F);
+
+/* Compute response from poles and zero */
+void getrand(int nfreq, double delfrq, double const_, int nzero, complexd zero[],
+             int npole, complexd pole[], double xre[], double xim[]);
+
+/* Determine trend of even and unevenly spaced data */
+void lifite(double x1, double dx, float y[], int n, float *a, float *b,
+            float *siga, float *sigb, float *sig, float *cc);
+void lifitu(float x[], float y[], int n, float *a, float *b, float *siga,
+            float *sigb, float *sig, float *cc);
+
+/* Remove trend from even and unevely spaced data */
+void rtrend(float *data, int n, float yint, float slope, float b, float delta);
+void rtrend2(float *data, int n, float yint, float slope, float *t);
+
+/* Remove mean from data*/
+void rmean(float *data, int n, float mean);
+
+/* Interpolate even and unevely spaced data */
+void interp(float *in, int nlen, float *out, int newlen, float bval, float eval,
+            float dt, float tstart, float dtnew, float eps);
+void interp2(float *in, int nlen, float *out, int newlen, float bval,
+             float eval, float *t, float tstart, float dtnew, float eps);
+float geteps_xy(float y[], int nlen, float x[]);
+float geteps(float y[], int nlen, float dx);
+
+/* icm.h */
+typedef struct _pzmeta_t pzmeta_t;
+typedef struct _pzcomment_t pzcomment_t;
+typedef struct _pz_t pz_t;
+typedef struct _station_id_t station_id_t;
+
+struct _pz_t {
+    int nzero;
+    int npole;
+    complexd *poles;
+    complexd *zeros;
+    double constant;
+    int nerr;
+    char *line;
+};
+
+struct _station_id_t {
+    char *net;
+    char *stat;
+    char *loc;
+    char *chan;
+    datetime *ref;
+};
+
+
+pz_t * polezero_parse(char *filename, station_id_t *stat);
+station_id_t * station_id_from_sac(sac *s);
+
+/* scm.h */
+void lifite(double x1, double dx, float y[], int n, float *a, float *b,
+            float *siga, float *sigb, float *sig, float *cc);
+void lifitu(float x[], float y[], int n, float *a, float *b, float *siga,
+            float *sigb, float *sig, float *cc);
+void rtrend(float *data, int n, float yint, float slope, float b, float delta);
+void rtrend2(float *data, int n, float yint, float slope, float *t);
+void rmean(float *data, int n, float mean);
+void interp(float *in, int nlen, float *out, int newlen, float bval, float eval,
+            float dt, float tstart, float dtnew, float eps);
+void interp2(float *in, int nlen, float *out, int newlen, float bval,
+             float eval, float *t, float tstart, float dtnew, float eps);
+
+void cut(float *in, int nstart, int nstop, int nfillb, int nfille, float *out);
+void cut_define(float b, float delta, double dt, int *n);
+
+/**
+ * cuterr
+ * Options for options cuterr in function cut_define_check
  *
  */
-int next2(int num);
+enum {
+    CUT_FILLZ = 3,
+    CUT_USEBE = 2,
+    CUR_FATAL = 1,
+};
+
+/**
+ *
+ */
+void cut_define_check(float start, float stop, int npts, int cuterr, int *nstart,
+                      int *nstop, int *nfillb, int *nfille, int *nerr);
+
+
 
 
 #endif /* __SAC_H__ */
