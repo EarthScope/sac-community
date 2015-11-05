@@ -9,7 +9,7 @@ LINK_SS="--link-stylesheet"
 
 PROG=$( basename $0 )
 
-RST2HTML="rst2html-2.6.py"
+RST2HTML="rst2html-2.7.py"
 
 N=1
 

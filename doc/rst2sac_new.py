@@ -1,7 +1,8 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 import re
 import sys
+import os
 import docutils.core
 from docutils import nodes
 from docutils.writers import latex2e
@@ -51,18 +52,18 @@ class MySacTranslator(latex2e.LaTeXTranslator):
             raise AssertionError('Unknown reference.')
 
         if href[:2] == 'id':
-            print "Forcing lookup of indirect internal refernce: " + node['name'] + ' ' + href
+            #print "Forcing lookup of indirect internal refernce: " + node['name'] + ' ' + href
             p = re.compile('^\.\. _' + node['name'] + ':\s+(\S+)_\s*\n', re.IGNORECASE)
             t = [ p.search(link) for link in links if p.search(link) ]
             if not t:
-                print "Search failed for internal target link " + node['name']
+                print "Indirect lookup: Search failed for internal target link " + node['name']
                 sys.exit(-1)
             if len(t) != 1 :
-                print "Multiple internal links found for " + node['name']
+                print "Indirect lookup: Multiple internal links found for " + node['name']
                 sys.exit(-1)
             t = t[0]
             if len(t.groups()) != 1:
-                print "Search failed for internal target: " + t.group()
+                print "Indirect lookup: Search failed for internal target: " + t.group()
                 sys.exit(-1)
             href = t.groups()[0]
         if not self.is_inline(node):
@@ -183,12 +184,13 @@ def footer( cmd, links ):
     if cmd:
         p = re.compile('\.\. +_(syntax|' + cmd + '):.*') # .. cmd: 
         return ''.join( [ link for link in links if not p.findall(link) ] )
-    return ''.join( [ link for link in links ] )
+    return '\n'.join( [ link for link in links ] )
 
 def read_rst( f, links ):
-    skips = ['_commands.txt', '/manual/',
+    skips = ['_commands.txt', '/manual/','/tmpl/', '/links/',
              'external_howto.txt', 'external_interface.txt', 'crr.txt',
-             'hlpintro.txt', 'spe.txt', 'sss.txt', 'transfertable.txt',
+             'hlpintro.txt',
+             'spe.txt', 'sss.txt', 'transfertable.txt',
              'manual.txt', 'index.txt', 'error_messages.txt']
     rst = header
     rst += open(f, 'r').read()
@@ -205,7 +207,23 @@ def read_rst( f, links ):
     return rst
 
 listcnt = 0
-for arg in sys.argv[1:]:
+
+def find_txt_files():
+    out = []
+    skipdir = ['./html/links', './html/tmpl','./html/css','./examples']
+    for root, subdirs, files in os.walk("."):
+        if any([root.startswith(f) for f in skipdir]):
+            continue
+        for f in files:
+            if f.endswith('.txt') and not f in ['manual.txt','index.txt']:
+                out.append( os.path.join(root, f) )
+    return out
+
+files = sys.argv[1:]
+if len(files) == 0:
+    files = find_txt_files()
+
+for arg in files:
     if 'contents.txt' in arg:
         continue
     out = arg.replace('.txt', '.tex')
