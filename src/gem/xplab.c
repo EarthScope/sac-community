@@ -163,10 +163,10 @@ xplab(int *nerr) {
             str[notusd + 1] = 0;
             p->text = strdup(str);
             p->plot = TRUE;
-        } else if (lklist("S$", 3, (char *) kmgem.ktxsiz, 9, MTXSIZ, &iplabs)) {
+        } else if (lklist("SIZE$", 6, (char *) kmgem.ktxsiz, 9, MTXSIZ, &iplabs)) {
             /* -- Set plot label size: */
             p->size = cmgem.txsiz[iplabs - 1];
-        } else if (lkra("P$", 3, 2, 3, temp, &ntemp)) {
+        } else if (lkra("POSITION$", 10, 2, 3, temp, &ntemp)) {
             /* -- Set location of plot label: */
             p->relative = FALSE;
             p->x = Temp[1];
@@ -177,13 +177,16 @@ xplab(int *nerr) {
                 p->angle = 0.0;
             }
 
-        } else if (lckey("B$", 3)) {
+        } else if (lckey("BELOW$", 7)) {
             /* -- Set location of plot label to be below previous label. */
             if (prev) {
                 p->relative = TRUE;
             } else {
                 p->relative = FALSE;
             }
+        } else if(lcchar(str, sizeof(str))) {
+            p->text = strdup(str);
+            p->plot = TRUE;
         } else {
             /* -- Bad syntax. */
             cfmt("ILLEGAL OPTION:", 17);
