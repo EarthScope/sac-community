@@ -10,7 +10,7 @@ Rotate a set of 3 perpendicular seismograms
 SYNTAX
 ------
 
-  ``ROTINC TO [VRT|LQT|VNE|XYZ] { INCIDENCE i | iP | iS } { VP alpha VS beta RAY{DEG|KM} par {FREESURFACE} } ``
+  ``ROTINC TO [VRT|LQT|VNE|XYZ] { INCIDENCE i | iP | iS } { VP alpha VS beta RAY{DEG|KM} par {FREESURFACE} }``
 
 INPUT
 -----
