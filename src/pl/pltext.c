@@ -1,5 +1,6 @@
 
 #include <stdio.h>
+#include <string.h>
 
 #include "pl.h"
 #include "gem.h"
@@ -16,6 +17,7 @@ pltext(ktext, ktext_s, xloc, yloc)
      int ktext_s;
      float xloc, yloc;
 {
+    size_t n;
     int iline, nctext;
 
         /*=====================================================================
@@ -46,8 +48,12 @@ pltext(ktext, ktext_s, xloc, yloc)
 	 *===================================================================== */
     /* PROCEDURE: */
     /* - Determine length of string without trailing blanks. */
-    nctext = indexb(ktext, ktext_s);
-
+    n = strlen(ktext);
+    if(ktext[n-1] == ' ') {
+        nctext = indexb(ktext, ktext_s);
+    } else {
+        nctext = (int)n;
+    }
     /* - Move to plot location. */
 
     move(xloc, yloc);
