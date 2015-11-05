@@ -293,18 +293,147 @@ Pausing
  40
  enddo
   
-  
- ==>  
  fg seismo
   
- ==>  
  p1
   
- ==>  
  pause period 0.5
 Pausing
   
+ do i = 1, %max
+ ==>  do i = 1 , 40
+   plabel $i off
+ ==>  plabel 1 off
+ enddo
+   plabel $i off
+ ==>  plabel 2 off
+ enddo
+   plabel $i off
+ ==>  plabel 3 off
+ enddo
+   plabel $i off
+ ==>  plabel 4 off
+ enddo
+   plabel $i off
+ ==>  plabel 5 off
+ enddo
+   plabel $i off
+ ==>  plabel 6 off
+ enddo
+   plabel $i off
+ ==>  plabel 7 off
+ enddo
+   plabel $i off
+ ==>  plabel 8 off
+ enddo
+   plabel $i off
+ ==>  plabel 9 off
+ enddo
+   plabel $i off
+ ==>  plabel 10 off
+ enddo
+   plabel $i off
+ ==>  plabel 11 off
+ enddo
+   plabel $i off
+ ==>  plabel 12 off
+ enddo
+   plabel $i off
+ ==>  plabel 13 off
+ enddo
+   plabel $i off
+ ==>  plabel 14 off
+ enddo
+   plabel $i off
+ ==>  plabel 15 off
+ enddo
+   plabel $i off
+ ==>  plabel 16 off
+ enddo
+   plabel $i off
+ ==>  plabel 17 off
+ enddo
+   plabel $i off
+ ==>  plabel 18 off
+ enddo
+   plabel $i off
+ ==>  plabel 19 off
+ enddo
+   plabel $i off
+ ==>  plabel 20 off
+ enddo
+   plabel $i off
+ ==>  plabel 21 off
+ enddo
+   plabel $i off
+ ==>  plabel 22 off
+ enddo
+   plabel $i off
+ ==>  plabel 23 off
+ enddo
+   plabel $i off
+ ==>  plabel 24 off
+ enddo
+   plabel $i off
+ ==>  plabel 25 off
+ enddo
+   plabel $i off
+ ==>  plabel 26 off
+ enddo
+   plabel $i off
+ ==>  plabel 27 off
+ enddo
+   plabel $i off
+ ==>  plabel 28 off
+ enddo
+   plabel $i off
+ ==>  plabel 29 off
+ enddo
+   plabel $i off
+ ==>  plabel 30 off
+ enddo
+   plabel $i off
+ ==>  plabel 31 off
+ enddo
+   plabel $i off
+ ==>  plabel 32 off
+ enddo
+   plabel $i off
+ ==>  plabel 33 off
+ enddo
+   plabel $i off
+ ==>  plabel 34 off
+ enddo
+   plabel $i off
+ ==>  plabel 35 off
+ enddo
+   plabel $i off
+ ==>  plabel 36 off
+ enddo
+   plabel $i off
+ ==>  plabel 37 off
+ enddo
+   plabel $i off
+ ==>  plabel 38 off
+ enddo
+   plabel $i off
+ ==>  plabel 39 off
+ enddo
+   plabel $i off
+ ==>  plabel 40 off
+ enddo
+  
  ==>  
+ fg seismo
+ plabel 1 "Earthquake"
+ p1; pause period 0.25
+Pausing
+ plabel 1 "on Jun, 16"
+ p1; pause period 0.25
+Pausing
+ plabel 1 'on Jun, 16'
+ p1; pause period 0.25
+Pausing
   
  ==>  
  quit

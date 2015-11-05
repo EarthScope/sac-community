@@ -26,9 +26,10 @@ title off
 m test_plabel.m
 
 fg seismo
-
-p1
-
-pause period 0.5
-
+plabel 1 "Earthquake"
+p1; pause period 0.25
+plabel 1 "on Jun, 16"
+p1; pause period 0.25
+plabel 1 'on Jun, 16'
+p1; pause period 0.25
 

@@ -8,3 +8,12 @@ do i = 1 , %max
   message $i
 enddo
 
+fg seismo
+
+p1
+
+pause period 0.5
+
+do i = 1, %max
+  plabel $i off
+enddo

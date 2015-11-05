@@ -45,12 +45,21 @@ plplab() {
     settextjust(LEFT, BOTTOM);
 
     /* - For each label: */
-
     for (j = 1; j <= label_store_length(); j++) {       /* Number of labels */
 
         p = label_store_get(j);
 
         /* -- If label is to be plotted: */
+        if (p->relative) {
+            xcur = xcur + cmgem.chht * sin(TORAD * angcur);
+            ycur = ycur - cmgem.chht * cos(TORAD * angcur);
+        } else {
+            /* --- Otherwise, use defined text location and orientation. */
+            xcur = p->x;
+            ycur = p->y * cmgem.view.ymax;
+            angcur = p->angle;
+            settextangle(angcur);
+        }
         if (p->plot) {
 
             /* --- Set text size. */
@@ -60,16 +69,6 @@ plplab() {
 
             /* --- If location of label is to be "below" last label,
              *     calculate the position. */
-            if (p->relative) {
-                xcur = xcur + cmgem.chht * sin(TORAD * angcur);
-                ycur = ycur - cmgem.chht * cos(TORAD * angcur);
-            } else {
-                /* --- Otherwise, use defined text location and orientation. */
-                xcur = p->x;
-                ycur = p->y * cmgem.view.ymax;
-                angcur = p->angle;
-                settextangle(angcur);
-            }
 
             /* --- Finally ready to actually plot the label. */
             pltext(p->text, strlen(p->text), xcur, ycur);
