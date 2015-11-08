@@ -219,6 +219,16 @@ polezero_new() {
     return pz;
 }
 
+void
+polezero_free(pz_t *pz) {
+    if(pz) {
+        FREE(pz->zeros);
+        FREE(pz->poles);
+        FREE(pz->line);
+        FREE(pz);
+    }
+}
+
 pzmeta_t *
 polezero_meta_new() {
     pzmeta_t *meta;

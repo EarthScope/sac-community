@@ -163,6 +163,7 @@ struct _station_id_t {
 
 pz_t * polezero_parse(char *filename, station_id_t *stat);
 station_id_t * station_id_from_sac(sac *s);
+void polezero_free(pz_t *pz);
 
 /* scm.h */
 void lifite(double x1, double dx, float y[], int n, float *a, float *b,
