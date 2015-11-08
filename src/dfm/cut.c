@@ -44,6 +44,7 @@ void
 cut_define_check(float start, float stop, int npts, int cuterr, int *nstart,
                  int *nstop, int *nfillb, int *nfille, int *nerr) {
     /* - Check that start value less than stop value. */
+    *nerr = 0;
     if (start >= stop) {
         *nerr = ERROR_START_TIME_GREATER_THAN_STOP;
         return;
