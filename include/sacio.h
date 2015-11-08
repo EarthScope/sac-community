@@ -56,7 +56,7 @@ void getnhv(char      *kname,
             int       *nerr, 
             int        kname_s);
 
-void newhdr ();
+void newhdr (void);
 
 void rsac1(char      *kname, 
            float      yarray[], 
@@ -154,17 +154,17 @@ void setbbv(char      *kname,
             int        kname_s, 
             int        kvalue_s);
 
-void sac_warning_stdout();
-void sac_warning_stderr();
-void sac_warning_off();
+void sac_warning_stdout(void);
+void sac_warning_stderr(void);
+void sac_warning_off(void);
 
-void sac_error_stdout();
-void sac_error_stderr();
-void sac_error_off();
+void sac_error_stdout(void);
+void sac_error_stderr(void);
+void sac_error_off(void);
 
-void sac_output_stdout();
-void sac_output_stderr();
-void sac_output_off();
+void sac_output_stdout(void);
+void sac_output_stderr(void);
+void sac_output_off(void);
 
 
 
@@ -369,7 +369,7 @@ struct _datetime {
     int set;
 };
 
-sac * sac_new();
+sac * sac_new(void);
 void  sac_free(sac *s);
 sac * sac_read(char *filename, int *nerr);
 void  sac_write(sac *s, char *filename, int *nerr);
