@@ -12,6 +12,7 @@
 #include "debug.h"
 #include "dfm.h"
 #include "msg.h"
+#include "debug.h"
 
 #define EPSILON 1e-5
 

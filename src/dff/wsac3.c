@@ -16,6 +16,8 @@
 #include "SacHeader.h"
 #include "errors.h"
 
+#include "debug.h"
+
 /** 
  * Write a SAC file to disk using the current header values
  * 
@@ -67,15 +69,28 @@ wsac3__(char *kname, float *xarray, float *yarray, int *nerr, int kname_s) {
 
 void
 update_distaz(sac * s) {
-
+    float d,a,b,g;
     int ndaerr = 0;
+    DEBUG("\n");
     if (s->h->lcalda && s->h->stla != SAC_FLOAT_UNDEFINED &&
         s->h->stlo != SAC_FLOAT_UNDEFINED && s->h->evla != SAC_FLOAT_UNDEFINED
         && s->h->evlo != SAC_FLOAT_UNDEFINED) {
-        distaz(s->h->evla, s->h->evlo, (float *) &s->h->stla,
-               (float *) &s->h->stlo, 1, (float *) &s->h->dist,
-               (float *) &s->h->az, (float *) &s->h->baz,
-               (float *) &s->h->gcarc, &ndaerr);
+        DEBUG("compute\n");
+        /* These temporary values are necessary as distaz() will not
+         * calculate an output if the input is < 0
+         */
+        d = a = b = g = 0;
+        distaz(s->h->evla, s->h->evlo,
+               (float *) &s->h->stla, (float *) &s->h->stlo,
+               1,
+               (float *) &d, (float *) &a, (float *) &b, (float *) &g,
+               &ndaerr);
+        s->h->dist  = d;
+        s->h->gcarc = g;
+        s->h->az    = a;
+        s->h->baz   = b;
+        DEBUG("done\n");
+        DEBUG("dist: %.2f gcarc: %.2f\n", s->h->dist, s->h->gcarc);
         if (s->h->evla == s->h->stla && s->h->evlo == s->h->stlo) {
             s->h->az = 0;
             s->h->baz = 0;

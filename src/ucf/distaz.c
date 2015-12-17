@@ -15,6 +15,7 @@
 #include "bool.h"
 #include "co.h"
 #include "msg.h"
+#include "debug.h"
 
 /** 
  * Compute the distance and azimuth between locations
@@ -105,7 +106,7 @@ distaz(double the, double phe, float *ths, float *phs, int ns, float *dist,
     ec2 = 2. * fl - fl * fl;
     onemec2 = 1. - ec2;
     /* eps = 1. + ec2/onemec2; */
-
+    DEBUG("%.2f %.2f %.2f %.2f %d\n", the, phe, *ths, *phs, ns);
     /* - Check which output items are required. */
     laz = TRUE;
     if (Az[1] < 0.)
@@ -170,7 +171,7 @@ distaz(double the, double phe, float *ths, float *phs, int ns, float *dist,
         g1 = -c1 * e1;
         h1 = c1 * d1;
         sc = a * a1 + b * b1 + c * c1;
-
+        DEBUG("in computation\n");
         /* - Spherical trig relationships used to compute angles. */
 
         if (lxdeg) {
@@ -198,7 +199,7 @@ distaz(double the, double phe, float *ths, float *phs, int ns, float *dist,
             if (Baz[idx] < 0.)
                 Baz[idx] = Baz[idx] + twopideg;
         }
-
+        DEBUG("in computation %d %d %d %d\n",ldist, lxdeg, laz, lbaz);
         /* - Now compute the distance between the two points using Rudoe's
          *   formula given in GEODESY, section 2.15(b).
          *   (There is some numerical problem with the following formulae.
@@ -330,6 +331,7 @@ distaz(double the, double phe, float *ths, float *phs, int ns, float *dist,
             }
         }                       /* end if ( ldist ) */
     }                           /* end for */
-
+    DEBUG("distaz done: %.2f %.2f %.2f %.2f\n", *dist, *az, *baz, *xdeg);
+    DEBUG("distaz done: %.2f %.2f %.2f %.2f\n", Dist[0], *az, *baz, *xdeg);
     return;
 }

@@ -178,6 +178,7 @@ test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
  ==>  
  read test.rinc_?.sac
 test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
+ ch lcalda False
  ch baz
  rotinc INCIDENCE IP RAYDEG 6.8
  ERROR 1336: Undefined header field value. baz for files 1-3

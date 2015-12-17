@@ -895,4 +895,43 @@
  ==>  
   
  ==>  
+ fg impulse
+ lh lcalda
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     lcalda = TRUE
+ lh stlo stla evlo evla dist az baz
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+ ch stlo 0 evlo 0
+ lh stlo stla evlo evla dist az baz
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     stlo = 0.000000e+00
+     evlo = 0.000000e+00
+ ch stla 10 evla 0
+ lh
+  
+  
+  FILE: IMPULSE - 1
+ -------------
+
+     stlo = 0.000000e+00
+     stla = 1.000000e+01
+     evlo = 0.000000e+00
+     evla = 0.000000e+00
+     dist = 1.105859e+03
+       az = 0.000000e+00
+      baz = 1.800000e+02
+  
+ ==>  
  quit

@@ -77,6 +77,7 @@ message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
 message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
 
 read test.rinc_?.sac
+ch lcalda False
 ch baz 
 rotinc INCIDENCE IP RAYDEG 6.8
 

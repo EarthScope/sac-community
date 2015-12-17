@@ -218,3 +218,11 @@ ch allt 10
 lh default
 
 
+fg impulse
+lh lcalda
+lh stlo stla evlo evla dist az baz
+ch stlo 0 evlo 0
+lh stlo stla evlo evla dist az baz
+ch stla 10 evla 0
+lh
+
