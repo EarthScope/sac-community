@@ -14,7 +14,7 @@
 
      depmin = -1.927772e+03
      depmax = 1.540637e+03
-     depmen = -1.026619e-06
+     depmen = 9.938266e-07
           b = -9.980005e+01
           e = 3.000200e+03
  transfer from evalresp fname test_transfer_evresp_resp.m to none freq 0.002 0.005 0.1 0.2
@@ -117,9 +117,9 @@ Using response from user-specified file: (test_transfer_evresp_resp.m).
   FILE: MK31.IM..LHE.obs.sac - 1
  --------------------------
 
-     depmin = -5.527381e+02
-     depmax = 8.248363e+02
-     depmen = -2.607248e+00
+     depmin = -5.527382e+02
+     depmax = 8.248364e+02
+     depmen = -2.607095e+00
       kstnm = MK31
      knetwk = IM
  quit

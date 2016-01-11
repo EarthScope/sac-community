@@ -10,10 +10,10 @@
      depmax = 1.520640e+00
      depmen = -9.854721e-02
  rtrend verbose
- Slope and standard deviation are: 0.00023034 0.0035114
+ Slope and standard deviation are: 0.00023045 0.0035113
  Intercept and standard deviation are: -0.10188 0.051759
  Data standard deviation is: 0.32054
- Data correlation coefficient is: 0.0020765
+ Data correlation coefficient is: 0.0020775
  lh depmin depmax depmen
   
   
@@ -22,7 +22,7 @@
 
      depmin = -1.470322e+00
      depmax = 1.619626e+00
-     depmen = -2.264476e-07
+     depmen = -5.095266e-09
   
  ==>  
  fg impulse
@@ -70,5 +70,5 @@
 
      depmin = -1.130708e+00
      depmax = 1.134496e+00
-     depmen = -1.072884e-08
+     depmen = 1.743436e-08
  quit

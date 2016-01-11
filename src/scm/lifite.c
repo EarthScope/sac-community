@@ -1,15 +1,16 @@
 
 #include <math.h>
 
+#include "msg.h"
 #include "scm.h"
+#include "debug.h"
 
 void
 lifite(double x1, double dx, float *y, int n, float *a, float *b, float *siga,
        float *sigb, float *sig, float *cc) {
     int i;
-    float d, df, rn, sig2, siga2, sigb2, sumx, sumx2, sumxy, sumy, sumy2, xi,
-        yi;
-
+    float d, df, rn, sig2, siga2, sigb2, xi, yi;
+    double sumx, sumx2, sumxy, sumy, sumy2;
     float *const Y = &y[0] - 1;
 
         /*=====================================================================
@@ -44,7 +45,7 @@ lifite(double x1, double dx, float *y, int n, float *a, float *b, float *siga,
     sumy2 = 0.;
 
     /* - Loop on each data point. */
-
+    DEBUG("x1: %e\n", x1);
     xi = x1;
     for (i = 1; i <= n; i++) {
         yi = Y[i];
@@ -55,13 +56,18 @@ lifite(double x1, double dx, float *y, int n, float *a, float *b, float *siga,
         sumx2 = sumx2 + xi * xi;
         sumy2 = sumy2 + yi * yi;
     }
-
+    DEBUG("sumx %e sumy %e sumxy %e\n", sumx, sumy, sumxy);
+    DEBUG("sumx2 %e sumy2: %e\n", sumx2, sumy2);
     /* - Calculate linear fit. */
-
+    DEBUG("rn %e sumx2 %e %e\n", rn, sumx2*rn, sumx*sumx);
     d = rn * sumx2 - sumx * sumx;
+    if(d < 0.0) {
+        warning(1002, "variance of x, value < 0 : %e", d);
+        outmsg();
+    }
     *b = (sumx2 * sumy - sumx * sumxy) / d;
     *a = (rn * sumxy - sumx * sumy) / d;
-
+    DEBUG("d %e a %e b %e %d\n", d, *a, *b, n);
     /* - Estimate standard deviation in data. */
 
     sig2 =
@@ -73,14 +79,15 @@ lifite(double x1, double dx, float *y, int n, float *a, float *b, float *siga,
 
     siga2 = rn * sig2 / d;
     sigb2 = sig2 * sumx2 / d;
+    DEBUG("siga2 %e sigb2 %e\n", siga2, sigb2);
     *siga = sqrt(siga2);
     *sigb = sqrt(sigb2);
-
+    DEBUG("siga %e sigb %e\n", *siga, *sigb);
     /* - Calculate correlation coefficient between data and model. */
 
     *cc = (rn * sumxy - sumx * sumy) / sqrt(d * (rn * sumy2 - sumy * sumy));
     *cc = fabs(*cc);
-
+    DEBUG("cc %e\n", *cc);
     return;
 
         /*=====================================================================

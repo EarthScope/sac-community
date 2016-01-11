@@ -10,9 +10,8 @@ lifitu(x, y, n, a, b, siga, sigb, sig, cc)
      float *a, *b, *siga, *sigb, *sig, *cc;
 {
     int i;
-    float d, df, rn, sig2, siga2, sigb2, sumx, sumx2, sumxy, sumy, sumy2, xi,
-        yi;
-
+    float d, df, rn, sig2, siga2, sigb2, xi, yi;
+    double sumx, sumx2, sumxy, sumy, sumy2;
     float *const X = &x[0] - 1;
     float *const Y = &y[0] - 1;
 
