@@ -171,6 +171,14 @@ polezero_meta_init(pzmeta_t * meta) {
     meta->a0 = 0.0;
 }
 
+char *
+strdup_rstrip(char *s) {
+    if(!s) {
+        return strdup("");
+    }
+    return rstrip(strdup(s));
+}
+
 station_id_t *
 station_id_new(char *net, char *stat, char *loc, char *chan,
                int year, int doy, int hour, int min, int sec, int msec) {
@@ -179,10 +187,10 @@ station_id_new(char *net, char *stat, char *loc, char *chan,
     if(!s) {
         return NULL;
     }
-    s->net  = strdup(net);
-    s->stat = strdup(stat);
-    s->loc  = strdup(loc);
-    s->chan = strdup(chan);
+    s->net  = strdup_rstrip(net);
+    s->stat = strdup_rstrip(stat);
+    s->loc  = strdup_rstrip(loc);
+    s->chan = strdup_rstrip(chan);
     s->ref  = datetime_new();
     datetime_set_year(s->ref, year);
     datetime_set_doy(s->ref, doy);
@@ -190,6 +198,7 @@ station_id_new(char *net, char *stat, char *loc, char *chan,
     datetime_set_minute(s->ref, min);
     datetime_set_second(s->ref, sec);
     datetime_set_nanosecond(s->ref, msec*1e6);
+    datetime_normalize(s->ref);
     return s;
 }
 
