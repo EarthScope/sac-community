@@ -199,6 +199,8 @@ void cut_define_check(float start, float stop, int npts, int cuterr, int *nstart
                       int *nstop, int *nfillb, int *nfille, int *nerr);
 
 
+void rotate(float si1[], float si2[], int ns, double angle, int lnpi, int lnpo,
+            float so1[], float so2[]);
 
 
 #endif /* __SAC_H__ */

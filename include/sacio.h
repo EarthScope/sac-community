@@ -386,6 +386,6 @@ char *rstrip(char *s);
 #define SAC_NO_BYTESWAP_FILE      0
 #define SAC_BYTESWAP_FILE         1
 
-
+void update_distaz(sac * s);
 
 #endif /* __SACIO_H__ */
