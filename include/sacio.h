@@ -334,14 +334,6 @@ struct _sac {
     int *sddhdr;           /* SDD Header - Length MWESHD - 164 */
 };
 
-#define IREAL   0               /* undocumented              */
-#define ITIME   1               /* file: time series data    */
-#define IRLIM   2               /* file: real&imag spectrum  */
-#define IAMPH   3               /* file: ampl&phas spectrum  */
-#define IXY     4               /* file: gen'l x vs y data   */
-#define IUNKN   5               /* x data: unknown type      */
-#define IXYZ   51
-
 typedef struct complexf_t complexf;
 typedef struct complexd_t complexd;
 
