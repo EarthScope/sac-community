@@ -21,7 +21,7 @@ bin_PROGRAMS      = sac
 
 # Sources
 if WIN_APP
-  sac_SOURCES       = main/sac.c win/win.cpp win/sac_resource.rc win/strlcpy.c
+  sac_SOURCES       = main/sac.c win/win.cpp win/sac_resource.rc 
   AM_CXXFLAGS      += -mwindows
   sac_LDFLAGS       = -static-libgcc -static-libstdc++ -static
   sac_LINK          = $(CXXLINK) 
@@ -643,7 +643,7 @@ libturtle_a_SOURCES    = docs/pdf.c docs/ps.c docs/font.c string/strings.c \
 if OSX_APP
 
 libsac_osx_a_SOURCES = osx/NSSacView.m osx/osx_sac.c osx/stubs.c \
-	osx/osx_color.h osx/NSSacView.h osx/NSSacView_C.h Sac.app sac.h
+	osx/osx_color.h osx/NSSacView.h osx/NSSacView_C.h osx/Sac.app osx/sac.h
 
 sacapp: $(bin_PROGRAMS)
 	for z in $(bin_PROGRAMS); do \

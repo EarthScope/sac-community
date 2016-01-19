@@ -712,7 +712,7 @@ libsac_osx_a_AR = $(AR) $(ARFLAGS)
 libsac_osx_a_LIBADD =
 am__libsac_osx_a_SOURCES_DIST = osx/NSSacView.m osx/osx_sac.c \
 	osx/stubs.c osx/osx_color.h osx/NSSacView.h osx/NSSacView_C.h \
-	Sac.app sac.h
+	osx/Sac.app osx/sac.h
 @OSX_APP_TRUE@am_libsac_osx_a_OBJECTS = osx/NSSacView.$(OBJEXT) \
 @OSX_APP_TRUE@	osx/osx_sac.$(OBJEXT) osx/stubs.$(OBJEXT)
 libsac_osx_a_OBJECTS = $(am_libsac_osx_a_OBJECTS)
@@ -817,12 +817,11 @@ am_libturtle_a_OBJECTS = docs/pdf.$(OBJEXT) docs/ps.$(OBJEXT) \
 libturtle_a_OBJECTS = $(am_libturtle_a_OBJECTS)
 PROGRAMS = $(bin_PROGRAMS)
 am__sac_SOURCES_DIST = osx/sac.m osx/main.m main/sac.c win/win.cpp \
-	win/sac_resource.rc win/strlcpy.c
+	win/sac_resource.rc
 @OSX_APP_FALSE@@WIN_APP_FALSE@@X11_APP_TRUE@am_sac_OBJECTS = main/sac.$(OBJEXT)
 @OSX_APP_FALSE@@WIN_APP_TRUE@am_sac_OBJECTS = main/sac.$(OBJEXT) \
 @OSX_APP_FALSE@@WIN_APP_TRUE@	win/win.$(OBJEXT) \
-@OSX_APP_FALSE@@WIN_APP_TRUE@	win/sac_resource.$(OBJEXT) \
-@OSX_APP_FALSE@@WIN_APP_TRUE@	win/strlcpy.$(OBJEXT)
+@OSX_APP_FALSE@@WIN_APP_TRUE@	win/sac_resource.$(OBJEXT)
 @OSX_APP_TRUE@am_sac_OBJECTS = osx/sac.$(OBJEXT) osx/main.$(OBJEXT) \
 @OSX_APP_TRUE@	main/sac.$(OBJEXT)
 sac_OBJECTS = $(am_sac_OBJECTS)
@@ -1089,7 +1088,7 @@ AM_CXXFLAGS = -I$(top_srcdir)/inc $(am__append_1)
 @OSX_APP_TRUE@sac_SOURCES = osx/sac.m osx/main.m main/sac.c
 
 # Sources
-@WIN_APP_TRUE@sac_SOURCES = main/sac.c win/win.cpp win/sac_resource.rc win/strlcpy.c
+@WIN_APP_TRUE@sac_SOURCES = main/sac.c win/win.cpp win/sac_resource.rc 
 @X11_APP_TRUE@sac_SOURCES = main/sac.c
 @WIN_APP_TRUE@sac_LDFLAGS = -static-libgcc -static-libstdc++ -static
 @OSX_APP_TRUE@sac_LINK = $(OBJCLINK)
@@ -1171,7 +1170,7 @@ libsacio_a_SOURCES = amf/iniam.c amf/array.c \
 	vars/writevfile.c \
 	vars/var.c vars/chash.c vars/bbf.c vars/chash.h \
 	\
-	string/strings.c 	string/datetime.c
+	string/strings.c string/datetime.c
 
 libSMnonOracleFuncs_a_SOURCES = \
 	SeisMgr/smDataIO.c \
@@ -1631,7 +1630,7 @@ libturtle_a_SOURCES = docs/pdf.c docs/ps.c docs/font.c string/strings.c \
 	eval/eval.h eval/expr_parse.h
 
 @OSX_APP_TRUE@libsac_osx_a_SOURCES = osx/NSSacView.m osx/osx_sac.c osx/stubs.c \
-@OSX_APP_TRUE@	osx/osx_color.h osx/NSSacView.h osx/NSSacView_C.h Sac.app sac.h
+@OSX_APP_TRUE@	osx/osx_color.h osx/NSSacView.h osx/NSSacView_C.h osx/Sac.app osx/sac.h
 
 all: all-am
 
@@ -3188,7 +3187,6 @@ main/$(am__dirstamp):
 main/sac.$(OBJEXT): main/$(am__dirstamp)
 win/win.$(OBJEXT): win/$(am__dirstamp)
 win/sac_resource.$(OBJEXT): win/$(am__dirstamp)
-win/strlcpy.$(OBJEXT): win/$(am__dirstamp)
 
 sac$(EXEEXT): $(sac_OBJECTS) $(sac_DEPENDENCIES) $(EXTRA_sac_DEPENDENCIES) 
 	@rm -f sac$(EXEEXT)
