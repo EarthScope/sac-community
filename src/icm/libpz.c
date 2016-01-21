@@ -443,14 +443,14 @@ polezero_parse(char *filename, station_id_t *stat) {
                pz->constant == HUGE_VAL ) {
                 pz->nerr = 2118;
                 pz->line = strdup(kiline);
-                return pz;
+                goto ERROR;
             }
             meta_used = polezero_meta_copy(meta);
         } else if(startswith(kline, KEY_POLES, TRUE)) {
             if(sscanf(kline + strlen(KEY_POLES), "%d", &pz->npole) != 1 || pz->npole < 0) {
                 pz->nerr = 2108;
                 pz->line = strdup(kiline);
-                return pz;
+                goto ERROR;
             }
             state = POLES;
             pz->poles = (complexd *) calloc(pz->npole, sizeof(complexd));
@@ -458,7 +458,7 @@ polezero_parse(char *filename, station_id_t *stat) {
             if(sscanf(kline + strlen(KEY_ZEROS), "%d", &pz->nzero) != 1 || pz->nzero < 0) {
                 pz->nerr = 2109;
                 pz->line = strdup(kiline);
-                return pz;
+                goto ERROR;
             }
             state = ZEROS;
             pz->zeros = (complexd *) calloc(pz->nzero, sizeof(complexd));
@@ -467,7 +467,7 @@ polezero_parse(char *filename, station_id_t *stat) {
             if(sscanf(kline, "%lg %lg", &re, &im) != 2) {
                 pz->nerr = (state == POLES) ? 2126 : 2127;
                 pz->line = strdup(kiline);
-                return pz;
+                goto ERROR;
             }
             if(state == POLES) {
                 pz->poles[ip].re = re;
@@ -481,11 +481,13 @@ polezero_parse(char *filename, station_id_t *stat) {
         } else {
             pz->nerr = 2110;
             pz->line = strdup(kiline);
-            return pz;
+            goto ERROR;
         }
     }
     if(!feof(fp)) {
         pz->nerr = 114;
     }
+ ERROR:
+    fclose(fp);
     return pz;
 }
