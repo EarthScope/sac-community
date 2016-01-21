@@ -364,6 +364,7 @@ struct _datetime {
 sac * sac_new(void);
 void  sac_free(sac *s);
 sac * sac_read(char *filename, int *nerr);
+sac * sac_read_header(char *filename, int *nerr);
 void  sac_write(sac *s, char *filename, int *nerr);
 sac * sac_copy(sac *s);
 void  sac_extrema(sac *s);

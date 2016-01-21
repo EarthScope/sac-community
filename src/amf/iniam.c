@@ -321,10 +321,12 @@ sac_meta_copy(sac *to, sac *from) {
 }
 void
 sac_data_copy(sac *to, sac *from) {
-    sac_alloc(to);
-    memcpy(to->y, from->y, sizeof(float) * from->h->npts);
-    if(sac_comps(to) == 2) {
-        memcpy(to->x, from->x, sizeof(float) * from->h->npts);
+    if(from->y) {
+        sac_alloc(to);
+        memcpy(to->y, from->y, sizeof(float) * from->h->npts);
+        if(sac_comps(to) == 2 && from->x) {
+            memcpy(to->x, from->x, sizeof(float) * from->h->npts);
+        }
     }
 }
 

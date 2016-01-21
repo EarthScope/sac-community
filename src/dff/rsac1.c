@@ -249,31 +249,35 @@ sac_read_internal(char *filename, int read_data, int *nerr) {
         return NULL;
     }
     s = sac_new();
-    //fprintf(stderr, "sac_new() %p\n", s);
+
     s->m->filename = strdup(filename);
     *nerr = sac_header_read_new(s, fp);
     if(s->h->iftype <= 0) {
         exit(-1);
     }
-    //fprintf(stderr, "header: %d %d %p\n", *nerr, s->h->npts, s->h);
+
     if(*nerr) {
         goto ERROR;
     }
-    //fprintf(stderr, "alloc: %d\n", s->h->npts);
-    sac_alloc(s);
-    s->m->nstart = 1;
-    s->m->nstop  = s->h->npts;
-    s->m->ntotal = s->h->npts;
-    s->m->nfillb = 0;
-    s->m->nfille = 0;
-    if((*nerr = sac_data_read_new(s, fp))) {
-        goto ERROR;
+    if(read_data) {
+        //fprintf(stderr, "alloc: %d\n", s->h->npts);
+        sac_alloc(s);
+        s->m->nstart = 1;
+        s->m->nstop  = s->h->npts;
+        s->m->ntotal = s->h->npts;
+        s->m->nfillb = 0;
+        s->m->nfille = 0;
+        if((*nerr = sac_data_read_new(s, fp))) {
+            goto ERROR;
+        }
     }
     if(s->h->iftype == ITIME) {
         s->h->e = CALC_E(s);
     }
     update_distaz(s);
-    sac_extrema(s);
+    if(read_data) {
+        sac_extrema(s);
+    }
 
     fclose(fp);
     return s;
