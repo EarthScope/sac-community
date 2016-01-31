@@ -201,7 +201,7 @@
  SACERROR = 'FALSE'
  SACNFILES = 1
  setbb ans (reply "Prompt: ")
-Prompt:  ==>  setbb ans Hi
+ ==>  setbb ans Hi
  message %ans
  ==>  message Hi
  Hi
@@ -215,7 +215,7 @@ Prompt:  ==>  setbb ans Hi
   
  ==>  
  setbb ans (reply "Prompt: ")
-Prompt:  ==>  setbb ans 123
+ ==>  setbb ans 123
  message %ans
  ==>  message 123
  123
@@ -229,7 +229,7 @@ Prompt:  ==>  setbb ans 123
   
  ==>  
  setbb ans (reply "Prompt: ")
-Prompt:  ==>  setbb ans 3.5
+ ==>  setbb ans 3.5
  message %ans
  ==>  message 3.5
  3.5
@@ -243,7 +243,7 @@ Prompt:  ==>  setbb ans 3.5
   
  ==>  
  setbb ans (reply "Prompt: ")
-Prompt:  ==>  setbb ans
+ ==>  setbb ans
  message %ans
  ==>  message
   

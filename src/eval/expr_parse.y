@@ -492,8 +492,8 @@ fstring(A) ::= AFTER(E) string(B) string(C) . {
 fstring(A) ::= REPLY(E) string(B) . {
   char *a, *b, *def;
   char in[1024];
+  char *prmt = NULL;
   memset(in, 0, sizeof(in));
-  fprintf(stdout, "%s", B.str);
   a = strrchr(B.str, '[');
   b = strrchr(B.str, ']');
   if(a && b && a < b) {
@@ -504,23 +504,22 @@ fstring(A) ::= REPLY(E) string(B) . {
   } else {
     def = strdup("");
   }
-  if(fgets(in, 1024, stdin) == NULL) {
-    parse_error(value, TOKEN_STATUS_ERROR_SYNTAX);
-  } else {
-    rstrip(in);
-    if(strlen(in) <= 0) {
+  asprintf(&prmt, "%s$", B.str);
+  zgpmsg(prmt, strlen(prmt), in, 1023);
+  FREE(prmt);
+  rstrip(in);
+  if(strlen(in) <= 0) {
       if(isnumx(def)) {
-        token_value(&A, atof(def), E.col);
+          token_value(&A, atof(def), E.col);
       } else {
-        token_string(&A, strdup(def), E.col);
+          token_string(&A, strdup(def), E.col);
       }
-    } else {
+  } else {
       if(isnumx(in)) {
-        token_value(&A, atof(in), E.col);
+          token_value(&A, atof(in), E.col);
       } else {
-        token_string(&A, strdup( in ), E.col);
+          token_string(&A, strdup( in ), E.col);
       }
-    }
   }
   FREE(def);
 }
