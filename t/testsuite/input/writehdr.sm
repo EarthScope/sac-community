@@ -10,5 +10,42 @@ writehdr
 readhdr test.writehdr
 lh kevnm iftype
 
+fg seismo
+write 00405000_145_CN.FRB.bhe
+write 00405000_145_CN.FRB.bhn
+write 00405000_145_CN.FRB.bhz
+
+rh 00405000_145_CN.FRB.bhe 00405000_145_CN.FRB.bhn 00405000_145_CN.FRB.bhz
+ch a 654.834 f 718.916
+
+wh 00405000_145_CN.FRB.bhe 00405000_145_CN.FRB.bhn 00405000_145_CN.FRB.bhz
+
+read 00405000_145_CN.FRB.bhe 00405000_145_CN.FRB.bhn 00405000_145_CN.FRB.bhz
+lh a f
+
+rh 00405000_145_CN.FRB.bhe 00405000_145_CN.FRB.bhn 00405000_145_CN.FRB.bhz
+ch a 650 f 720
+wh over
+rh
+lh a f
+
+* Read with Write Header
+read 00405000_145_CN.FRB.bhe 00405000_145_CN.FRB.bhn 00405000_145_CN.FRB.bhz
+ch a 600 f 700
+wh
+read 00405000_145_CN.FRB.bhe 00405000_145_CN.FRB.bhn 00405000_145_CN.FRB.bhz
+lh a f
+
+* Read Header with Write
+rh 00405000_145_CN.FRB.bhe 00405000_145_CN.FRB.bhn 00405000_145_CN.FRB.bhz
+ch a 500 f 600
+write over
+
+* Read Header with Write
+rh 00405000_145_CN.FRB.bhe 00405000_145_CN.FRB.bhn 00405000_145_CN.FRB.bhz
+ch a 500 f 600
+write tmpe tmpn tmpz
+
+
 
 

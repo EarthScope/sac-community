@@ -186,8 +186,10 @@ sac_write_internal(sac * s, char *filename, int write_data, int lswap,
         goto L_8888;
     }
 
-    /* Update the Variables describing the dependent variable array */
-    extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen);
+    if(write_data) {
+        /* Update the Variables describing the dependent variable array */
+        extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen);
+    }
 
     /* Recompute the distance, azimuth, etc if proper header fields are present */
     update_distaz(s);
