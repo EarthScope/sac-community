@@ -20,7 +20,7 @@ GEM_EXTERN
 SSS_EXTERN
 GAM_EXTERN
 
-float *sss_sum;
+float *sss_sum = NULL;
 
 void /*FUNCTION*/
 xsumstack(nerr)
@@ -48,7 +48,7 @@ xsumstack(nerr)
 	 *    sss:     wt, lpol, dlyt, dlyn, dlyvm
 	 *=====================================================================
 	 * GLOBAL OUTPUT:
-	 *    sss:     lnorm, twlim, del, ndxsum, nlnsum
+	 *    sss:     lnorm, twlim, del, nlnsum
 	 *=====================================================================
 	 * SUBROUTINES CALLED:
 	 *    saclib:  lcmore, lklog, cfmt, cresp, setmsg, getstatus, 

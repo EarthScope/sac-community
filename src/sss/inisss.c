@@ -139,7 +139,6 @@ inisss() {
     cmsss.irefr = 1;
     cmsss.inmo = 2;
     cmsss.lnarli = TRUE;
-    cmsss.ndxsum = 0;
     cmsss.nlnsum = 0;
     fstrncpy(kmsss.knmsum, MCPFN, "sum", 3);
 

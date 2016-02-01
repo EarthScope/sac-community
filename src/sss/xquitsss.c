@@ -27,7 +27,6 @@ xquitsss(nerr)
 	 *=====================================================================
 	 * GLOBAL INPUT:
 	 *    MACH:
-	 *    SSS:     NDXSUM
 	 *=====================================================================
 	 * SUBROUTINES CALLED:
 	 *    SACLIB:  RELAMB, SETCOMLIST, SETPROMPT
@@ -50,7 +49,6 @@ xquitsss(nerr)
     if (cmsss.nlnsum > 0) {
         FREE(sss_sum);
         cmsss.nlnsum = 0;
-        cmsss.ndxsum = 0;
         if (*nerr != 0)
             goto L_8888;
     }

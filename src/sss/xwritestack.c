@@ -35,7 +35,7 @@ xwritestack(nerr)
 	 *    mach:    MCPFN
 	 *    hdr:     itime
 	 *    mem:     sacmem
-	 *    sss:     nlnsum, ndxsum
+	 *    sss:     nlnsum
 	 *=====================================================================
 	 * GLOBAL OUTPUT:
 	 *    hdr:     iftype, npts, delta, b, e, depmin, depmax, depmen
@@ -91,7 +91,7 @@ xwritestack(nerr)
 
     /* - Make sure a sum has been calculated. */
 
-    if (cmsss.ndxsum <= 0) {
+    if(! sss_sum ) {
         *nerr = 5113;
         setmsg("ERROR", *nerr);
         goto L_8888;

@@ -47,7 +47,6 @@ struct t_cmsss {
     float dlynig;
     int lsrc;
     float srcfac;
-    int ndxsum;
     int nlnsum;
     int ndwun;
     int idwun;

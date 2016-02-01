@@ -33,11 +33,10 @@ xzerostack(nerr)
 	 * GLOBAL INPUT:
 	 *    mach:
 	 *    hdr:     fundef
-	 *    sss:     ndxsum
 	 *=====================================================================
 	 * GLOBAL OUTPUT:
 	 *    sss:     dlytg, dlytig, dlyng, dlyngi, wtg, dstg, lpolg,
-	 *             kvm, dlyvm, ndxsum, nlnsum
+	 *             kvm, dlyvm, nlnsum
 	 *    mem:     isacmem
 	 *=====================================================================
 	 * SUBROUTINES CALLED:
@@ -70,9 +69,8 @@ xzerostack(nerr)
 
     /* - Release summation data block if necessary. */
 
-    if ((cmsss.ndxsum > 0) && sss_sum != NULL) {
+    if (sss_sum != NULL) {
         FREE(sss_sum);
-        cmsss.ndxsum = 0;
         cmsss.nlnsum = 0;
         if (*nerr != 0)
             goto L_8888;
