@@ -161,7 +161,7 @@ struct labelseg {
     int first;
 };
 struct points {
-    int pts[2];
+    float pts[2];
     int link;
     int rlink;
     int action;
