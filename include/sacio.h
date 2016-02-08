@@ -380,5 +380,8 @@ char *rstrip(char *s);
 #define SAC_BYTESWAP_FILE         1
 
 void update_distaz(sac * s);
+void distaz(double the, double phe, float *ths, float *phs,
+            int ns, float *dist, float *az, float *baz, float *xdeg,
+            int *nerr);
 
 #endif /* __SACIO_H__ */
