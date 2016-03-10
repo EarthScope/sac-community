@@ -198,6 +198,7 @@ station_id_new(char *net, char *stat, char *loc, char *chan,
     datetime_set_minute(s->ref, min);
     datetime_set_second(s->ref, sec);
     datetime_set_nanosecond(s->ref, msec*1e6);
+    datetime_doy2ymd(s->ref);
     datetime_normalize(s->ref);
     return s;
 }
