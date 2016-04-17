@@ -272,7 +272,9 @@ am_libsac_a_OBJECTS = co/complex.$(OBJEXT) dfm/cut.$(OBJEXT) \
 	ucf/copydouble.$(OBJEXT) sam/envelope.$(OBJEXT) \
 	scm/rmean.$(OBJEXT) scm/rtrend.$(OBJEXT) scm/taper.$(OBJEXT) \
 	scm/interpolate.$(OBJEXT) scm/wigint.$(OBJEXT) \
-	scm/rotate.$(OBJEXT) scm/lifite.$(OBJEXT) scm/lifitu.$(OBJEXT)
+	scm/rotate.$(OBJEXT) scm/lifite.$(OBJEXT) scm/lifitu.$(OBJEXT) \
+	uom/dif2.$(OBJEXT) uom/dif3.$(OBJEXT) uom/dif5.$(OBJEXT) \
+	uom/int.$(OBJEXT)
 libsac_a_OBJECTS = $(am_libsac_a_OBJECTS)
 libsac_all_a_AR = $(AR) $(ARFLAGS)
 libsac_all_a_LIBADD =
@@ -1249,7 +1251,9 @@ libsac_a_SOURCES = co/complex.c  \
 	sam/envelope.c \
 	\
 	scm/rmean.c scm/rtrend.c scm/taper.c scm/interpolate.c scm/wigint.c \
-	scm/rotate.c scm/lifite.c scm/lifitu.c
+	scm/rotate.c scm/lifite.c scm/lifitu.c \
+	\
+	uom/dif2.c uom/dif3.c uom/dif5.c uom/int.c
 
 libicm_a_SOURCES = icm/acc.c icm/bbdisp.c icm/bbvel.c \
 	icm/benbog.c icm/clh.c icm/clz.c icm/cmh.c icm/cmz.c \
@@ -1944,6 +1948,13 @@ scm/wigint.$(OBJEXT): scm/$(am__dirstamp)
 scm/rotate.$(OBJEXT): scm/$(am__dirstamp)
 scm/lifite.$(OBJEXT): scm/$(am__dirstamp)
 scm/lifitu.$(OBJEXT): scm/$(am__dirstamp)
+uom/$(am__dirstamp):
+	@$(MKDIR_P) uom
+	@: > uom/$(am__dirstamp)
+uom/dif2.$(OBJEXT): uom/$(am__dirstamp)
+uom/dif3.$(OBJEXT): uom/$(am__dirstamp)
+uom/dif5.$(OBJEXT): uom/$(am__dirstamp)
+uom/int.$(OBJEXT): uom/$(am__dirstamp)
 
 libsac.a: $(libsac_a_OBJECTS) $(libsac_a_DEPENDENCIES) $(EXTRA_libsac_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libsac.a
@@ -2903,12 +2914,6 @@ ucf/wapf.$(OBJEXT): ucf/$(am__dirstamp)
 ucf/wrcom.$(OBJEXT): ucf/$(am__dirstamp)
 ucf/wrhelp.$(OBJEXT): ucf/$(am__dirstamp)
 ucf/wrindx.$(OBJEXT): ucf/$(am__dirstamp)
-uom/$(am__dirstamp):
-	@$(MKDIR_P) uom
-	@: > uom/$(am__dirstamp)
-uom/dif2.$(OBJEXT): uom/$(am__dirstamp)
-uom/dif3.$(OBJEXT): uom/$(am__dirstamp)
-uom/dif5.$(OBJEXT): uom/$(am__dirstamp)
 uom/iniuom.$(OBJEXT): uom/$(am__dirstamp)
 uom/xabs.$(OBJEXT): uom/$(am__dirstamp)
 uom/xadd.$(OBJEXT): uom/$(am__dirstamp)

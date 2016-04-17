@@ -256,7 +256,9 @@ libsac_a_SOURCES = co/complex.c  \
 	sam/envelope.c \
 	\
 	scm/rmean.c scm/rtrend.c scm/taper.c scm/interpolate.c scm/wigint.c \
-	scm/rotate.c scm/lifite.c scm/lifitu.c
+	scm/rotate.c scm/lifite.c scm/lifitu.c \
+	\
+	uom/dif2.c uom/dif3.c uom/dif5.c uom/int.c
 
 libicm_a_SOURCES = icm/acc.c icm/bbdisp.c icm/bbvel.c \
 	icm/benbog.c icm/clh.c icm/clz.c icm/cmh.c icm/cmz.c \

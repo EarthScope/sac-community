@@ -136,6 +136,23 @@ void interp2(float *in, int nlen, float *out, int newlen, float bval,
 float geteps_xy(float y[], int nlen, float x[]);
 float geteps(float y[], int nlen, float dx);
 
+/* Integrate and Differentiate */
+enum {
+    SAC_INT_TRAPEZODIAL = 1,
+    SAC_INT_RECTANGULAR = 2,
+};
+enum {
+    SAC_DIFF_TWO_POINT   = 2,
+    SAC_DIFF_THREE_POINT = 3,
+    SAC_DIFF_FIVE_POINT  = 5,
+};
+
+void int_trap(float *y, int npts, double delta);
+void int_rect(float *y, int npts, double delta);
+void dif2(float *array, int number, double step, float *output);
+void dif3(float *array, int number, double step, float *output);
+void dif5(float *array, int number, double step, float *output);
+
 /* icm.h */
 typedef struct _pzmeta_t pzmeta_t;
 typedef struct _pzcomment_t pzcomment_t;
