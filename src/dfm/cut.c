@@ -32,10 +32,10 @@ void
 cut_define(float b, float delta, double dt, int *n) {
     int iTime, iBegin;
 
-    iBegin = lround(b / delta);
+    iBegin = lround((double)b / (double)delta);
 
     /* Compute time and index */
-    iTime = lround(dt / delta);
+    iTime = lround((double)dt / (double)delta);
     *n = iTime - iBegin + 1;
 
 }
