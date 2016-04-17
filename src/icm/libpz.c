@@ -415,6 +415,7 @@ polezero_parse(char *filename, station_id_t *stat) {
     }
 
     meta = polezero_meta_new();
+    meta_used = NULL;
 
     state = NONE;
     ip = iz = 0;
@@ -446,7 +447,7 @@ polezero_parse(char *filename, station_id_t *stat) {
                 pz->line = strdup(kiline);
                 goto ERROR;
             }
-            meta_used = polezero_meta_copy(meta);
+            meta_used = (meta_used) ? meta_used : polezero_meta_copy(meta) ;
         } else if(startswith(kline, KEY_POLES, TRUE)) {
             if(sscanf(kline + strlen(KEY_POLES), "%d", &pz->npole) != 1 || pz->npole < 0) {
                 pz->nerr = 2108;
@@ -455,6 +456,7 @@ polezero_parse(char *filename, station_id_t *stat) {
             }
             state = POLES;
             pz->poles = (complexd *) calloc(pz->npole, sizeof(complexd));
+            meta_used = (meta_used) ? meta_used : polezero_meta_copy(meta) ;
         } else if(startswith(kline, KEY_ZEROS, TRUE)) {
             if(sscanf(kline + strlen(KEY_ZEROS), "%d", &pz->nzero) != 1 || pz->nzero < 0) {
                 pz->nerr = 2109;
@@ -463,6 +465,7 @@ polezero_parse(char *filename, station_id_t *stat) {
             }
             state = ZEROS;
             pz->zeros = (complexd *) calloc(pz->nzero, sizeof(complexd));
+            meta_used = (meta_used) ? meta_used : polezero_meta_copy(meta) ;
         } else if(state == POLES || state == ZEROS) {
             double re, im;
             if(sscanf(kline, "%lg %lg", &re, &im) != 2) {
@@ -488,7 +491,12 @@ polezero_parse(char *filename, station_id_t *stat) {
     if(!feof(fp)) {
         pz->nerr = 114;
     }
+    if(!meta_used) {
+        pz->nerr = 2128;
+    }
  ERROR:
+    polezero_meta_free(meta);
+    polezero_meta_free(meta_used);
     fclose(fp);
     return pz;
 }
