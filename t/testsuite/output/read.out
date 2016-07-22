@@ -289,4 +289,21 @@ test.read space.1 test.read space.2
  ERROR 1301: No data files read in.
  read base 5
  ERROR 1301: No data files read in.
+  
+ ==>  
+ * read with filenames starting with read option values
+ fg seismo
+ write ibtmp
+ read ibtmp
+ message &1,filename
+ ==>  message ibtmp
+ ibtmp
+  
+ ==>  
+ fg seismo
+ write iotmp
+ read iotmp
+ message &1,filename
+ ==>  message iotmp
+ iotmp
  quit

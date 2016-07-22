@@ -72,3 +72,14 @@ message "&1,filename&"
 
 read base 1 10
 read base 5
+
+* read with filenames starting with read option values
+fg seismo
+write ibtmp
+read ibtmp
+message &1,filename
+
+fg seismo
+write iotmp
+read iotmp
+message &1,filename

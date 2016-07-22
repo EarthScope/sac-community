@@ -4,7 +4,7 @@
  * @brief  Parse a key
  * 
  */
-
+/* #define __DEBUG__ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -16,6 +16,8 @@
 #include "co.h"
 #include "string_utils.h"
 #include "msg.h"
+
+#include "debug.h"
 
 #define	MCHECK	136
 
@@ -107,10 +109,16 @@ lckey(char *kkey, int kkey_s) {
      *    deleting special characters if present. */
     lnoabb = kkey[0] == '&';
     ncabb = indexa(kkey, kkey_s, '#', TRUE, TRUE);
+    DEBUG("ncabb: %d nckey: %d\n", ncabb, nckey);
     if (lnoabb) {
         fstrncpy(kcheck, 136, kkey + 1, kkey_s - 2);
         nckey = nckey - 1;
     } else if (ncabb > 0) {
+        if(kkey[ncabb-1] == '#' &&
+           (kkey[ncabb] == '$' || kkey[ncabb] == ' ' || kkey[ncabb] == 0)) {
+            DEBUG("kkey: '%s' %c %c\n", kkey, kkey[ncabb-1], kkey[ncabb]);
+            lnoabb = TRUE;
+        }
         fstrncpy(kcheck, 136, kkey, ncabb - 1);
         memcpy(kcheck + ncabb - 1, kkey + ncabb, kkey_s - (ncabb + 1));
         nckey = nckey - 1;
@@ -134,7 +142,7 @@ lckey(char *kkey, int kkey_s) {
 
     /* - Convert current command token upper case. */
     modcase(TRUE, ktoken, ncheck, ktoken);
-
+    DEBUG("'%s' <=> '%s' [%d/%d/%d/%d]\n", kcheck, t->str, ncheck,nckey,ncsym,ncabb);
     if (strncasecmp(kcheck, t->str, ncheck) == 0) {
         arg_next();
         return TRUE;
