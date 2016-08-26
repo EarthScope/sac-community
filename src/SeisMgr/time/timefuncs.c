@@ -110,19 +110,6 @@ static char *tmTimeErrorBuff;   /* Error message buffer */
 static char outstr[40];         /* buffer for tmListEpochTime output */
 static char buffer[80];         /* buffer for strToEpochTime input copy */
 
-/* Recognize leap years  */
-int
-isleap(int yr) {
-    int l;
-
-    if (yr < 0)
-        yr++;
-    l = (yr % 4 == 0);
-    l = l && (yr % 100 != 0 || yr % 400 == 0);
-
-    return (l);
-}
-
 /* retrieve a pointer to string holding last error */
 char *
 tmGetLastError(void) {

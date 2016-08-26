@@ -57,19 +57,6 @@ tmMakeEpochTime(int year, int month, int day, int hour, int min, float second) {
 
 /* ------------------------------------------------------------------ */
 
-/* Recognize leap years  */
-int
-isleap(int yr) {
-    int l;
-
-    if (yr < 0)
-        yr++;
-    l = (yr % 4 == 0);
-    l = l && (yr % 100 != 0 || yr % 400 == 0);
-
-    return (l);
-}
-
 /* Calculate month, day from day of year  */
 void
 mnday(int d, int lp, int *pm, int *pd) {

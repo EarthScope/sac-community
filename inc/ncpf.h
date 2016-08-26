@@ -59,7 +59,6 @@ void processnumeric(char *kfunction, int kfunction_s, int nc, int *ic,
                     int index, char *kvalue, int kvalue_s, int *nerr);
 void processstring(char *kfunction, int kfunction_s, int nc, int *ic,
                    int *index, char *kvalue, int kvalue_s, int *nerr);
-int isleap(int yr);
 char *tmGetLastError(void);
 void tmPrintLastError(void);
 void SetWarningMessage(char *string);

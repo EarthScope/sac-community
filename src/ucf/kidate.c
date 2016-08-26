@@ -9,6 +9,27 @@
 
 #include "msg.h"
 
+
+/* Recognize leap years  */
+int
+isleap(int yr) {
+    int l;
+
+    if (yr < 0) {
+        yr++;
+    }
+    if(yr % 400 == 0) {
+        return 1;
+    }
+    if(yr % 100 == 0) {
+        return 0;
+    }
+    if(yr % 4 == 0) {
+        return 1;
+    }
+    return 0;
+}
+
 /** 
  * Convert a Year/Day_of_year to a Year/Month/Day
  * 
