@@ -19,6 +19,41 @@
 /* #define MAX_FREQS 16384 */
 #define MAX_FREQS 65536
 
+#define X_FOR_B62 0
+#define XML_FLAG  0
+#define XML_FLAG_ON  1
+
+int
+is_xml_file(char *file) {
+    int is_xml_file = 1;
+    char p;
+    char data[6];
+    char xml[6] = "<?xml";
+    FILE *fp;
+
+    if(!file) {
+        return 0;
+    }
+
+    fp = fopen(file, "rb");
+    while((p = fgetc(fp))) {
+        if(! isspace(p)) {
+            break;
+        }
+    }
+    if(!p) {
+        return 0;
+    }
+    ungetc(p, fp);
+    memset(data,0,sizeof(data));
+
+    if(fread(data, 1, 5, fp) != 5) {
+        return 0;
+    }
+
+    return strncasecmp(data, "<?xml", 5) == 0;
+}
+
 void
 InterpolateFromResp(struct response *resp, double *freqs, int nfreqs,
                     double *tmpRe, double *tmpIm) {
@@ -26,7 +61,7 @@ InterpolateFromResp(struct response *resp, double *freqs, int nfreqs,
     int i, k;
     double *zf = resp->freqs;
     int nf = resp->nfreqs;
-    struct complex *z = resp->rvec;
+    struct evr_complex *z = resp->rvec;
     k = 0;
     for (i = 0; i < nfreqs; i++) {
         f = freqs[i];
@@ -91,7 +126,7 @@ void
 FillArrays(int nfreqs, struct response *first, double *xre, double *xim) {
     int i;
     struct response *resp;
-    struct complex *output;
+    struct evr_complex *output;
 
     resp = first;
     output = resp->rvec;
@@ -363,9 +398,12 @@ EvrespGateway(int nfreq, double delfrq, double xre[], double xim[],
 
     printf(" Extracting evresp response for %s, %s...\n", station, component);
     /* 2010/02/03 added ,0 */
+
     first =
         evresp(station, component, net_code, locid, datime, units, file, freqs,
-               nfreqs, rtype, verbose, start_stage, stop_stage, stdio_flag, 0);
+               nfreqs, rtype, verbose, start_stage, stop_stage, 0, 0,
+               X_FOR_B62,
+               is_xml_file(file));
 
     if (file) {
         free(file);
@@ -387,11 +425,25 @@ EvrespGateway(int nfreq, double delfrq, double xre[], double xim[],
     else
         (*nmScale) /= 1e09;
 
-    if (!first->origfreqs) {
-        printf(" Evalresp Response List 55 - Interpolating...\n");
-        InterpolateFromResp(first, freqs, nfreqs, tmpRe, tmpIm);
-    } else {
-        FillArrays(nfreqs, first, tmpRe, tmpIm);
+    {
+        int needs_interp = 0;
+        if(first->nfreqs != nfreqs) {
+            needs_interp = 1;
+        }
+        if(needs_interp == 0) {
+            for(int i = 0; i < nfreqs; i++) {
+                if(first->freqs[i] != freqs[i]) {
+                    needs_interp = 1;
+                    break;
+                }
+            }
+        }
+        if(needs_interp) {
+            printf(" Evalresp Response List 55 - Interpolating...\n");
+            InterpolateFromResp(first, freqs, nfreqs, tmpRe, tmpIm);
+        } else {
+            FillArrays(nfreqs, first, tmpRe, tmpIm);
+        }
     }
 
     if (Interpolate) {

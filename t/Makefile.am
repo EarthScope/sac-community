@@ -35,7 +35,7 @@ LDADD            += ../libedit/lib/libedit.a
 CFLAGS           += -I../libedit/include
 endif
 
-FORMAT_LIBS      = $(xpm_LIBS) $(png_LIBS) $(zlib_LIBS) $(xft_LIBS)
+FORMAT_LIBS      = $(xpm_LIBS) $(png_LIBS) $(zlib_LIBS) $(xft_LIBS) $(XML_LIBS)
 SAC_GRAPHICS     = -L.. 
 
 if X11_APP

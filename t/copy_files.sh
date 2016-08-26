@@ -9,6 +9,7 @@ cp -f ${INPUT}/RESP.* .
 cp -f ${INPUT}/*.sac .
 cp -f ${INPUT}/*.SAC .
 cp -f ${INPUT}/*.GSE .
+cp -f ${INPUT}/*.xml .
 cp -f ${INPUT}/2002.054* .
 cp -f ${TESTDIR}/*.txt .
 

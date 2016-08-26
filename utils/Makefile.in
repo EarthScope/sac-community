@@ -96,10 +96,11 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/config/matlab.m4 \
 	$(top_srcdir)/config/png.m4 $(top_srcdir)/config/xpm.m4 \
 	$(top_srcdir)/config/zlib.m4 $(top_srcdir)/config/xft.m4 \
-	$(top_srcdir)/config/x11.m4 $(top_srcdir)/config/osx.m4 \
-	$(top_srcdir)/config/xdr.m4 $(top_srcdir)/config/db.m4 \
-	$(top_srcdir)/config/code.m4 $(top_srcdir)/config/edit.m4 \
-	$(top_srcdir)/config/win.m4 $(top_srcdir)/config/ax_openmp.m4 \
+	$(top_srcdir)/config/x11.m4 $(top_srcdir)/config/xml.m4 \
+	$(top_srcdir)/config/osx.m4 $(top_srcdir)/config/xdr.m4 \
+	$(top_srcdir)/config/db.m4 $(top_srcdir)/config/code.m4 \
+	$(top_srcdir)/config/edit.m4 $(top_srcdir)/config/win.m4 \
+	$(top_srcdir)/config/ax_openmp.m4 \
 	$(top_srcdir)/config/ax_complex.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
@@ -257,6 +258,11 @@ SHELL = @SHELL@
 STRIP = @STRIP@
 VERSION = @VERSION@
 XMKMF = @XMKMF@
+XML = @XML@
+XML2_CONFIG = @XML2_CONFIG@
+XML_CFLAGS = @XML_CFLAGS@
+XML_CPPFLAGS = @XML_CPPFLAGS@
+XML_LIBS = @XML_LIBS@
 XPM = @XPM@
 X_CFLAGS = @X_CFLAGS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@

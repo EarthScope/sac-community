@@ -31,3 +31,13 @@ rmean
 rtrend
 transfer from evalresp to none freqlimits 0.001 0.002 40 50
 lh depmin depmax depmen kstnm knetwk
+
+fg seismo
+ch kstnm ANMO
+ch knetwk IU
+ch khole 60
+ch kcmpnm HDF
+ch nzyear 2015
+transfer from evalresp fname station-1.xml  to none freq 0.1 0.2 2. 5.
+lh depmin depmax depmen
+

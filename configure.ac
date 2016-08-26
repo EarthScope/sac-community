@@ -28,6 +28,7 @@ m4_include([config/xpm.m4])
 m4_include([config/zlib.m4])
 m4_include([config/xft.m4])
 m4_include([config/x11.m4])
+m4_include([config/xml.m4])
 m4_include([config/osx.m4])
 m4_include([config/xdr.m4])
 m4_include([config/db.m4])
@@ -192,6 +193,7 @@ fi
 
 CHECK_ZLIB
 CHECK_PNG
+CHECK_XML
 
 if test x${display} = xx11 ; then
    AC_DEFINE([USE_TERMIOS], [1], [ Program needs the Terminal (TTY) to Function ] )
@@ -269,7 +271,7 @@ DISPLAYSTR=""
 if test x${display} = xx11; then
 DISPLAYSTR="
 X11-depth      = $x11_depth
-X_LIBS         = $X_LIBS 
+X_LIBS         = $X_LIBS
 X_CFLAGS       = $X_CFLAGS  "
 fi
 
@@ -279,13 +281,14 @@ Compilation Options for $PACKAGE_TARNAME ($PACKAGE_STRING)
 
 CFLAGS         = $AM_CFLAGS $CFLAGS
 LDFLAGS        = $LDFLAGS
-LIBS           = $LIBS 
+LIBS           = $LIBS
 Debug          = $DEBUG $COVERAGE
 Optimization   = $OPTIM
 Database       = $database
 Matlab         = $have_matlab  $DISPLAYSTR
-XDR Format     = $librpc
-Support        = $xpm$png$zlib$xft$freetype$fontconfig
+Support        = $xpm$png$zlib$xft$freetype$fontconfig$XML$librpc
+Support LIBS   = $XML_LIBS $png_LIBS $zlib_LIBS $xft_LIBS
+Support CFLAGS = $XML_CFLAGS $png_CFLAGS $zlib_CFLAGS $xft_CFLAGS
 Readline       = $readline
 Editline       = $editline
 Install Base   = $prefix

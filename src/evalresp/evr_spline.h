@@ -36,7 +36,7 @@
                       if any new abscissa values are out of range).
    Returns:  NULL if successful; an error message string if not.
 */
-char *evr_spline(int num_points, double *t, double *y, double tension,
-                                 double k, double *xvals_arr, int num_xvals,
-                                double **p_retvals_arr, int *p_num_retvals);
+char *evr_spline(int num_points, double *t, double *y, double tension, double k,
+        double *xvals_arr, int num_xvals, double **p_retvals_arr,
+        int *p_num_retvals);
 

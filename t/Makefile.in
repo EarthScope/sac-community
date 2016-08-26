@@ -202,10 +202,11 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/config/matlab.m4 \
 	$(top_srcdir)/config/png.m4 $(top_srcdir)/config/xpm.m4 \
 	$(top_srcdir)/config/zlib.m4 $(top_srcdir)/config/xft.m4 \
-	$(top_srcdir)/config/x11.m4 $(top_srcdir)/config/osx.m4 \
-	$(top_srcdir)/config/xdr.m4 $(top_srcdir)/config/db.m4 \
-	$(top_srcdir)/config/code.m4 $(top_srcdir)/config/edit.m4 \
-	$(top_srcdir)/config/win.m4 $(top_srcdir)/config/ax_openmp.m4 \
+	$(top_srcdir)/config/x11.m4 $(top_srcdir)/config/xml.m4 \
+	$(top_srcdir)/config/osx.m4 $(top_srcdir)/config/xdr.m4 \
+	$(top_srcdir)/config/db.m4 $(top_srcdir)/config/code.m4 \
+	$(top_srcdir)/config/edit.m4 $(top_srcdir)/config/win.m4 \
+	$(top_srcdir)/config/ax_openmp.m4 \
 	$(top_srcdir)/config/ax_complex.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
@@ -257,7 +258,8 @@ am__DEPENDENCIES_1 =
 @X11_APP_TRUE@	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 am__DEPENDENCIES_3 = $(am__DEPENDENCIES_1)
 am__DEPENDENCIES_4 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
 ucf_DEPENDENCIES = $(am__append_1) $(am__DEPENDENCIES_2) \
 	$(am__DEPENDENCIES_3) $(am__DEPENDENCIES_4) \
 	$(am__DEPENDENCIES_1)
@@ -630,6 +632,11 @@ SHELL = @SHELL@
 STRIP = @STRIP@
 VERSION = @VERSION@
 XMKMF = @XMKMF@
+XML = @XML@
+XML2_CONFIG = @XML2_CONFIG@
+XML_CFLAGS = @XML_CFLAGS@
+XML_CPPFLAGS = @XML_CPPFLAGS@
+XML_LIBS = @XML_LIBS@
 XPM = @XPM@
 X_CFLAGS = @X_CFLAGS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
@@ -719,7 +726,7 @@ LDADD = -L../src/ -lsac_all -lturtle -lsac_all -levalresp \
 	-lSMnonOracleFuncs -lSacOracleStubFuncs -licm $(am__append_1) \
 	$(am__append_4) $(SAC_GRAPHICS) $(FORMAT_LIBS) $(am__append_5) \
 	-L. -lunit
-FORMAT_LIBS = $(xpm_LIBS) $(png_LIBS) $(zlib_LIBS) $(xft_LIBS)
+FORMAT_LIBS = $(xpm_LIBS) $(png_LIBS) $(zlib_LIBS) $(xft_LIBS) $(XML_LIBS)
 #SAC_GRAPHICS     += -lsac_osx
 SAC_GRAPHICS = -L.. $(am__append_3) -lsgf -lturtle -lsac_all
 EXTRA_DIST = testsuite \

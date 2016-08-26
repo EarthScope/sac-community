@@ -122,4 +122,27 @@ Using response from user-specified file: (test_transfer_evresp_resp.m).
      depmen = -2.607095e+00
       kstnm = MK31
      knetwk = IM
+  
+ ==>  
+ fg seismo
+ ch kstnm ANMO
+ ch knetwk IU
+ ch khole 60
+ ch kcmpnm HDF
+ ch nzyear 2015
+ transfer from evalresp fname station-1.xml  to none freq 0.1 0.2 2. 5.
+Using response from user-specified file: (station-1.xml).
+ Extracting evresp response for ANMO, HDF...
+ Station (ANMO    ), Channel (HDF     )
+ lh depmin depmax depmen
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.447024e+01
+     depmax = 1.552713e+01
+     depmen = -8.190056e-02
+  
+ ==>  
  quit

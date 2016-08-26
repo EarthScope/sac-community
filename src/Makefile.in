@@ -126,10 +126,11 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/config/matlab.m4 \
 	$(top_srcdir)/config/png.m4 $(top_srcdir)/config/xpm.m4 \
 	$(top_srcdir)/config/zlib.m4 $(top_srcdir)/config/xft.m4 \
-	$(top_srcdir)/config/x11.m4 $(top_srcdir)/config/osx.m4 \
-	$(top_srcdir)/config/xdr.m4 $(top_srcdir)/config/db.m4 \
-	$(top_srcdir)/config/code.m4 $(top_srcdir)/config/edit.m4 \
-	$(top_srcdir)/config/win.m4 $(top_srcdir)/config/ax_openmp.m4 \
+	$(top_srcdir)/config/x11.m4 $(top_srcdir)/config/xml.m4 \
+	$(top_srcdir)/config/osx.m4 $(top_srcdir)/config/xdr.m4 \
+	$(top_srcdir)/config/db.m4 $(top_srcdir)/config/code.m4 \
+	$(top_srcdir)/config/edit.m4 $(top_srcdir)/config/win.m4 \
+	$(top_srcdir)/config/ax_openmp.m4 \
 	$(top_srcdir)/config/ax_complex.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
@@ -231,7 +232,9 @@ am_libevalresp_a_OBJECTS = evalresp/alloc_fctns.$(OBJEXT) \
 	evalresp/file_ops.$(OBJEXT) evalresp/parse_fctns.$(OBJEXT) \
 	evalresp/print_fctns.$(OBJEXT) evalresp/regerror.$(OBJEXT) \
 	evalresp/regexp.$(OBJEXT) evalresp/regsub.$(OBJEXT) \
-	evalresp/resp_fctns.$(OBJEXT) evalresp/string_fctns.$(OBJEXT)
+	evalresp/resp_fctns.$(OBJEXT) evalresp/string_fctns.$(OBJEXT) \
+	evalresp/x2r_log.$(OBJEXT) evalresp/x2r_xml.$(OBJEXT) \
+	evalresp/x2r_ws.$(OBJEXT)
 libevalresp_a_OBJECTS = $(am_libevalresp_a_OBJECTS)
 libicm_a_AR = $(AR) $(ARFLAGS)
 libicm_a_LIBADD =
@@ -828,7 +831,8 @@ am__sac_SOURCES_DIST = osx/sac.m osx/main.m main/sac.c win/win.cpp \
 @OSX_APP_TRUE@	main/sac.$(OBJEXT)
 sac_OBJECTS = $(am_sac_OBJECTS)
 am__DEPENDENCIES_1 =
-am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
 @OSX_APP_TRUE@am__DEPENDENCIES_3 = $(am__DEPENDENCIES_2) \
 @OSX_APP_TRUE@	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 @X11_APP_TRUE@am__DEPENDENCIES_4 = $(am__DEPENDENCIES_1) \
@@ -1010,6 +1014,11 @@ SHELL = @SHELL@
 STRIP = @STRIP@
 VERSION = @VERSION@
 XMKMF = @XMKMF@
+XML = @XML@
+XML2_CONFIG = @XML2_CONFIG@
+XML_CFLAGS = @XML_CFLAGS@
+XML_CPPFLAGS = @XML_CPPFLAGS@
+XML_LIBS = @XML_LIBS@
 XPM = @XPM@
 X_CFLAGS = @X_CFLAGS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
@@ -1081,7 +1090,7 @@ xpm_LIBS = @xpm_LIBS@
 zlib_CFLAGS = @zlib_CFLAGS@
 zlib_LIBS = @zlib_LIBS@
 AUTOMAKE_OPTIONS = subdir-objects no-dependencies
-FORMAT_CFLAGS = $(xpm_CFLAGS) $(png_CFLAGS) $(zlib_CFLAGS)
+FORMAT_CFLAGS = $(xpm_CFLAGS) $(png_CFLAGS) $(zlib_CFLAGS) $(XML_CFLAGS)
 # Compilation Flags
 AM_CFLAGS = $(DEBUG) $(COVERAGE) $(OPTIM) $(xft_CFLAGS) \
 	$(FORMAT_CFLAGS) $(X_CFLAGS) -I$(top_srcdir)/inc \
@@ -1116,7 +1125,7 @@ sac_LDADD = -L$(srcdir) -L. libsac_all.a libsgf.a libicm.a \
 	$(am__append_15) $(am__append_16)
 
 # More Libraries
-FORMAT_LIBS = $(png_LIBS) $(zlib_LIBS) 
+FORMAT_LIBS = $(png_LIBS) $(zlib_LIBS) $(XML_LIBS)
 EXTRA_DIST = describedirs gd3.x11/sac.bitmap \
 		   history/History.doc \
 		   SeisMgr/dbselect/dbHelpQuery.pc \
@@ -1230,7 +1239,9 @@ libevalresp_a_SOURCES = evalresp/alloc_fctns.c evalresp/calc_fctns.c \
 	evalresp/regerror.c evalresp/regexp.c evalresp/regsub.c \
 	evalresp/resp_fctns.c evalresp/string_fctns.c \
 	evalresp/evr_spline.h evalresp/evresp.h evalresp/regexp.h \
-	evalresp/regmagic.h
+	evalresp/regmagic.h evalresp/x2r_log.c evalresp/x2r_xml.c \
+	evalresp/x2r_ws.c evalresp/x2r.h evalresp/x2r_log.h evalresp/x2r_ws.h \
+	evalresp/x2r_xml.h
 
 libsac_a_SOURCES = co/complex.c  \
 	\
@@ -1824,6 +1835,9 @@ evalresp/regexp.$(OBJEXT): evalresp/$(am__dirstamp)
 evalresp/regsub.$(OBJEXT): evalresp/$(am__dirstamp)
 evalresp/resp_fctns.$(OBJEXT): evalresp/$(am__dirstamp)
 evalresp/string_fctns.$(OBJEXT): evalresp/$(am__dirstamp)
+evalresp/x2r_log.$(OBJEXT): evalresp/$(am__dirstamp)
+evalresp/x2r_xml.$(OBJEXT): evalresp/$(am__dirstamp)
+evalresp/x2r_ws.$(OBJEXT): evalresp/$(am__dirstamp)
 
 libevalresp.a: $(libevalresp_a_OBJECTS) $(libevalresp_a_DEPENDENCIES) $(EXTRA_libevalresp_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libevalresp.a

@@ -11,7 +11,7 @@
 AUTOMAKE_OPTIONS  = subdir-objects no-dependencies
 
 
-FORMAT_CFLAGS     = $(xpm_CFLAGS) $(png_CFLAGS) $(zlib_CFLAGS)
+FORMAT_CFLAGS     = $(xpm_CFLAGS) $(png_CFLAGS) $(zlib_CFLAGS) $(XML_CFLAGS)
 # Compilation Flags
 AM_CFLAGS         = $(DEBUG) $(COVERAGE) $(OPTIM) $(xft_CFLAGS) $(FORMAT_CFLAGS) $(X_CFLAGS) -I$(top_srcdir)/inc
 
@@ -88,7 +88,7 @@ else
 endif
 
 # More Libraries
-FORMAT_LIBS      = $(png_LIBS) $(zlib_LIBS) 
+FORMAT_LIBS      = $(png_LIBS) $(zlib_LIBS) $(XML_LIBS)
 if OSX_APP
   sac_LDADD        += $(FORMAT_LIBS) $(FRAMEWORK_FOUNDATION) $(FRAMEWORK_COCOA)
 endif
@@ -235,7 +235,9 @@ libevalresp_a_SOURCES = evalresp/alloc_fctns.c evalresp/calc_fctns.c \
 	evalresp/regerror.c evalresp/regexp.c evalresp/regsub.c \
 	evalresp/resp_fctns.c evalresp/string_fctns.c \
 	evalresp/evr_spline.h evalresp/evresp.h evalresp/regexp.h \
-	evalresp/regmagic.h
+	evalresp/regmagic.h evalresp/x2r_log.c evalresp/x2r_xml.c \
+	evalresp/x2r_ws.c evalresp/x2r.h evalresp/x2r_log.h evalresp/x2r_ws.h \
+	evalresp/x2r_xml.h
 
 libsac_a_SOURCES = co/complex.c  \
 	\
