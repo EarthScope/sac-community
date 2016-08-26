@@ -294,6 +294,8 @@
 2010 Number of points in pair of files are not equal:
 2011 Cannot read filter coefficient file:
 2012 Interpolate data dx not positive:
+2013 Sample rates are not equal
+2014 Files are offset in time
 2100 INSTRUMENT CORRECTION MODULE
 2101 Need free period and magnification for ELMAG.
 2102 Need number of zeros for EYEOMG.
@@ -322,6 +324,7 @@
 2125 Interpolate begin value too large:
 2126 Bad pole value in file
 2127 Bad zero value in file
+2128 Cannot find polezero file matching metadata
 2200 GRAPHICS DEVICE MODULE
 2201 First three elements in color table entry must be numeric:
 2202 Size of passed color table arrays are too large.
