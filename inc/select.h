@@ -26,6 +26,7 @@
 typedef void VCPFunction(char *);       /* For rl_vcpfunc_t in Readline */
 #else
 #include "editline/readline.h"
+#define VCPFunction rl_vcpfunc_t
 #endif /* EDITLINE_DISABLED */
 #else /* READLINE */
   /* not READLINE and not EDITLINE */
