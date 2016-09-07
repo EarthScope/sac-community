@@ -11652,11 +11652,6 @@ X_LIBS         = $X_LIBS
 X_CFLAGS       = $X_CFLAGS  "
 fi
 
-SUPPORTLIBS="
-Support LIBS   = $XML_LIBS $png_LIBS $zlib_LIBS $xft_LIBS
-Support CFLAGS = $XML_CFLAGS $png_CFLAGS $zlib_CFLAGS $xft_CFLAGS "
-
-
 { $as_echo "$as_me:${as_lineno-$LINENO}:
 
 Compilation Options for $PACKAGE_TARNAME ($PACKAGE_STRING)
@@ -11668,7 +11663,9 @@ Debug          = $DEBUG $COVERAGE
 Optimization   = $OPTIM
 Database       = $database
 Matlab         = $have_matlab  $DISPLAYSTR
-Support        = $xpm$png$zlib$xft$freetype$fontconfig$XML$librpc $SUPPORTLIBS
+Support        = $xpm$png$zlib$xft$freetype$fontconfig$XML$librpc
+Support LIBS   = $XML_LIBS $png_LIBS $zlib_LIBS $xft_LIBS
+Support CFLAGS = $XML_CFLAGS $png_CFLAGS $zlib_CFLAGS $xft_CFLAGS
 Readline       = $readline
 Editline       = $editline
 Install Base   = $prefix
@@ -11686,7 +11683,9 @@ Debug          = $DEBUG $COVERAGE
 Optimization   = $OPTIM
 Database       = $database
 Matlab         = $have_matlab  $DISPLAYSTR
-Support        = $xpm$png$zlib$xft$freetype$fontconfig$XML$librpc $SUPPORTLIBS
+Support        = $xpm$png$zlib$xft$freetype$fontconfig$XML$librpc
+Support LIBS   = $XML_LIBS $png_LIBS $zlib_LIBS $xft_LIBS
+Support CFLAGS = $XML_CFLAGS $png_CFLAGS $zlib_CFLAGS $xft_CFLAGS
 Readline       = $readline
 Editline       = $editline
 Install Base   = $prefix

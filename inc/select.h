@@ -25,14 +25,15 @@
 #include <readline/history.h>
 typedef void VCPFunction(char *);       /* For rl_vcpfunc_t in Readline */
 #else
-#include "editline/readline.h"
-#define VCPFunction rl_vcpfunc_t
+#include <editline/readline.h>
 #endif /* EDITLINE_DISABLED */
 #else /* READLINE */
   /* not READLINE and not EDITLINE */
 typedef void VCPFunction(char *);
 #endif
 #define SAC_HISTORY_FILE ".sac_history"
+
+typedef void      rl_vcpfunc_t(char *);
 
 #define SELECT_ON      1
 #define SELECT_OFF     0
