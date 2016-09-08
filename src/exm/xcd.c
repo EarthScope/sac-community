@@ -34,6 +34,7 @@ xcd(int *nerr) {
         /* Get the name of a directory to change to. */
         if (lcchar(kname, sizeof(kname))) {
             if (chdir(kname) != 0) {
+                perror("Error changing directory");
                 *nerr = 124;
                 goto L_8888;
             }
