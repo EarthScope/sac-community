@@ -1492,7 +1492,7 @@ Optional Features:
   --enable-osx-app        enable build of OSX Application
   --enable-editing        enable command line capabilities
   --disable-ncurses       avoid the ncurses library
-  --enable-editline       enable editline command line capabilities
+  --enable-editline       enable local editline command line capabilities
   --enable-readline       enable readline command line capabilities
   --enable-xdr            Enable XDR File Format
   --enable-database       enable SeisMgr database capabilities

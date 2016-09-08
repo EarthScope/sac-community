@@ -24,12 +24,12 @@
     //#error "readline and no editline"
     #include <readline/readline.h>
     #include <readline/history.h>
-    typedef void VCPFunction(char *);       /* For rl_vcpfunc_t in Readline */
   #endif
   #ifdef READLINE_EDITLINE
     //#error "readline and editline"
     #include <editline/readline.h>
   #endif 
+  typedef void readline_callback(char *);
 #endif
 
 #define SAC_HISTORY_FILE ".sac_history"
@@ -90,7 +90,7 @@ int select_loop_message(char *p, int len);
 */
 #ifdef READLINE
 int select_loop(char *prmt, int prmtlen, char *msg, int msglen,
-                struct timeval *timeout, VCPFunction * func, int stdin_on,
+                struct timeval *timeout, readline_callback * func, int stdin_on,
                 int gui_on);
 #endif
 

@@ -361,7 +361,7 @@ sac_attempt_complete(const char *text, int start, int end) {
 
 int
 select_loop(char *prmt, int prmtlen, char *msg, int msglen,
-            struct timeval *timeout, VCPFunction * func, int stdin_on,
+            struct timeval *timeout, readline_callback * func, int stdin_on,
             int gui_on) {
 
     int i;                      /* index for prefilling string w/ NULLs */
