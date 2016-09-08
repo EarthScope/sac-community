@@ -12,9 +12,6 @@
 /* Compile with SeisMgr Database Capabilities */
 #undef DATABASE_ENABLED
 
-/* Compile without editline comand line capabilities */
-#undef EDITLINE_DISABLED
-
 /* Define to 1 if `TIOCGWINSZ' requires <sys/ioctl.h>. */
 #undef GWINSZ_IN_SYS_IOCTL
 
@@ -132,6 +129,9 @@
 /* Compile with XFT File Support */
 #undef HAVE_XFT
 
+/* Compile with XML-Station Support */
+#undef HAVE_XML
+
 /* Compile with XPM File Support */
 #undef HAVE_XPM
 
@@ -221,6 +221,12 @@
 
 /* Compile with command line capabilities */
 #undef READLINE
+
+/* Compile with editline comand line capabilities */
+#undef READLINE_EDITLINE
+
+/* Compile with readline comand line capabilities */
+#undef READLINE_READLINE
 
 /* Define the SACAUX directory */
 #undef SACAUX

@@ -388,6 +388,8 @@ select_loop(char *prmt, int prmtlen, char *msg, int msglen,
 
     if (stdin_on) {
         if (use_tty()) {
+            rl_callback_handler_remove();
+            rl_set_prompt(NULL);
             rl_callback_handler_install(kprmt, func);
             rl_completion_append_character = '\0';
             rl_attempted_completion_function = sac_attempt_complete;

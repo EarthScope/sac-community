@@ -650,6 +650,8 @@ HAVE_FC_TRUE
 ac_ct_F77
 FFLAGS
 F77
+SYSEDITLINE_FALSE
+SYSEDITLINE_TRUE
 READLINE_FALSE
 READLINE_TRUE
 EDITLINE_FALSE
@@ -803,8 +805,8 @@ enable_silent_rules
 enable_dependency_tracking
 enable_win_app
 enable_osx_app
-enable_ncurses
 enable_editline
+enable_ncurses
 enable_readline
 enable_xdr
 with_matlab
@@ -1488,8 +1490,9 @@ Optional Features:
                           speeds up one-time build
   --enable-win-app        enable build of WIN Applications
   --enable-osx-app        enable build of OSX Application
+  --enable-editing        enable command line capabilities
   --disable-ncurses       avoid the ncurses library
-  --disable-editline      disable editline command line capabilities
+  --enable-editline       enable editline command line capabilities
   --enable-readline       enable readline command line capabilities
   --enable-xdr            Enable XDR File Format
   --enable-database       enable SeisMgr database capabilities
@@ -3332,8 +3335,10 @@ database=off
 
 
 
-editline=on
-readline=on
+editing=on
+editline=off
+readline=off
+syseditline=on
 
 # Curses Library
 
@@ -3351,10 +3356,15 @@ curses_library_found=no
 
 
 
+
 # Readline (OFF by Default)
 
 
-# Editline (ON by Default)
+# Editline (OFF by Default)
+
+
+
+
 
 
 
@@ -3471,10 +3481,7 @@ fi
 
 BINARY_DIST=""
 
-# Readline/Editline Handling (Editline On by Default, except for Cygwin)
 display=x11
-editline=on
-readline=on
 winaux=off
 
 # Operating System Checks and Sets
@@ -3558,7 +3565,8 @@ $as_echo "#define MINGW 1" >>confdefs.h
 
 				     BINARY_DIST="mingw"
                                      windows=on
-				     readline=off
+             editing=off
+             readline=off
 				     curses=off
 				     MATLAB_BIN_PATH=""
 				     MATLAB_EXE_PATH=""
@@ -6328,7 +6336,24 @@ done
 
 
 
-    if test x${readline} = xon; then
+
+# Check whether --enable-editline was given.
+if test "${enable_editline+set}" = set; then :
+  enableval=$enable_editline;  if  test x$enableval == xyes ; then :
+
+       editing=on
+
+else
+  editing=off
+fi
+else
+   test
+
+fi
+
+
+    if test x${editing} = xon; then :
+
 
 # Check whether --enable-ncurses was given.
 if test "${enable_ncurses+set}" = set; then :
@@ -6344,19 +6369,72 @@ fi
 
 
 
+    for termlib in ${CURSES_SEARCH_PATH} ; do
+        as_ac_Lib=`$as_echo "ac_cv_lib_${termlib}''_tgoto" | $as_tr_sh`
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for tgoto in -l${termlib}" >&5
+$as_echo_n "checking for tgoto in -l${termlib}... " >&6; }
+if eval \${$as_ac_Lib+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-l${termlib}  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char tgoto ();
+int
+main ()
+{
+return tgoto ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  eval "$as_ac_Lib=yes"
+else
+  eval "$as_ac_Lib=no"
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+eval ac_res=\$$as_ac_Lib
+	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
+$as_echo "$ac_res" >&6; }
+if eval test \"x\$"$as_ac_Lib"\" = x"yes"; then :
+  LIBS="-l${termlib} $LIBS"; curses_library_found=yes; break
+else
+   test
+fi
+
+    done
+    if test "$curses_library_found" = no ; then
+        as_fn_error $? "Developer Library ncurses, curses, or termcap not found, please install them" "$LINENO" 5
+    fi
+
+$as_echo "#define USE_TERMIOS 1" >>confdefs.h
+
+
+
+
 # Check whether --enable-editline was given.
 if test "${enable_editline+set}" = set; then :
-  enableval=$enable_editline;  if  test x$enableval == xno ; then :
+  enableval=$enable_editline;  if  test x$enableval == xyes ; then :
 
-$as_echo "#define EDITLINE_DISABLED 1" >>confdefs.h
+      readline=off
+      editline=on
+      syseditline=off
 
-else
-    editline=on
 fi
 else
-   if  test x$readline  != xon ; then :
-    editline=on
-fi
+   test
 
 fi
 
@@ -6365,7 +6443,11 @@ fi
 # Check whether --enable-readline was given.
 if test "${enable_readline+set}" = set; then :
   enableval=$enable_readline;  if  test x$enableval == xyes ; then :
-    readline=on
+
+        readline=on
+        editline=off
+        syseditline=off
+
 fi
 else
    test
@@ -6373,8 +6455,74 @@ else
 fi
 
 
-        # Handle the Editline Library
-        if  test x$editline = xon ; then :
+       # Handle the System Editline Library
+       if test x${syseditline} = xon; then :
+
+
+   syseditline=off
+   ac_fn_c_check_header_mongrel "$LINENO" "editline/readline.h" "ac_cv_header_editline_readline_h" "$ac_includes_default"
+if test "x$ac_cv_header_editline_readline_h" = xyes; then :
+
+      { $as_echo "$as_me:${as_lineno-$LINENO}: checking for library containing el_init" >&5
+$as_echo_n "checking for library containing el_init... " >&6; }
+if ${ac_cv_search_el_init+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_func_search_save_LIBS=$LIBS
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char el_init ();
+int
+main ()
+{
+return el_init ();
+  ;
+  return 0;
+}
+_ACEOF
+for ac_lib in '' edit; do
+  if test -z "$ac_lib"; then
+    ac_res="none required"
+  else
+    ac_res=-l$ac_lib
+    LIBS="-l$ac_lib  $ac_func_search_save_LIBS"
+  fi
+  if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_search_el_init=$ac_res
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext
+  if ${ac_cv_search_el_init+:} false; then :
+  break
+fi
+done
+if ${ac_cv_search_el_init+:} false; then :
+
+else
+  ac_cv_search_el_init=no
+fi
+rm conftest.$ac_ext
+LIBS=$ac_func_search_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_search_el_init" >&5
+$as_echo "$ac_cv_search_el_init" >&6; }
+ac_res=$ac_cv_search_el_init
+if test "$ac_res" != no; then :
+  test "$ac_res" = "none required" || LIBS="$ac_res $LIBS"
+  syseditline=on
+fi
+
+
+fi
+
+
 
 
     for termlib in ${CURSES_SEARCH_PATH} ; do
@@ -6431,74 +6579,81 @@ $as_echo "#define USE_TERMIOS 1" >>confdefs.h
 
 
 
-
-$as_echo "#define READLINE 1" >>confdefs.h
-
-           editline=on
-           readline=off
-
-fi
-
-        # Handle the Readline Library
-        if  test x$readline = xon ; then :
-
-
-    for termlib in ${CURSES_SEARCH_PATH} ; do
-        as_ac_Lib=`$as_echo "ac_cv_lib_${termlib}''_tgoto" | $as_tr_sh`
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for tgoto in -l${termlib}" >&5
-$as_echo_n "checking for tgoto in -l${termlib}... " >&6; }
-if eval \${$as_ac_Lib+:} false; then :
-  $as_echo_n "(cached) " >&6
+            if  false ; then
+  EDITLINE_TRUE=
+  EDITLINE_FALSE='#'
 else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-l${termlib}  $LIBS"
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
+  EDITLINE_TRUE='#'
+  EDITLINE_FALSE=
+fi
 
-/* Override any GCC internal prototype to avoid an error.
-   Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char tgoto ();
-int
-main ()
-{
-return tgoto ();
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"; then :
-  eval "$as_ac_Lib=yes"
+            if  false ; then
+  READLINE_TRUE=
+  READLINE_FALSE='#'
 else
-  eval "$as_ac_Lib=no"
+  READLINE_TRUE='#'
+  READLINE_FALSE=
 fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-eval ac_res=\$$as_ac_Lib
-	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
-$as_echo "$ac_res" >&6; }
-if eval test \"x\$"$as_ac_Lib"\" = x"yes"; then :
-  LIBS="-l${termlib} $LIBS"; curses_library_found=yes; break
+
+            if  true ; then
+  SYSEDITLINE_TRUE=
+  SYSEDITLINE_FALSE='#'
 else
-   test
+  SYSEDITLINE_TRUE='#'
+  SYSEDITLINE_FALSE=
 fi
 
-    done
-    if test "$curses_library_found" = no ; then
-        as_fn_error $? "Developer Library ncurses, curses, or termcap not found, please install them" "$LINENO" 5
-    fi
 
-$as_echo "#define USE_TERMIOS 1" >>confdefs.h
 
+$as_echo "#define READLINE_EDITLINE 1" >>confdefs.h
 
 
 
 $as_echo "#define READLINE 1" >>confdefs.h
+
+
+
+
+elif # Handle the Local Editline Library
+         test x${editline} = xon; then :
+
+
+
+$as_echo "#define READLINE_EDITLINE 1" >>confdefs.h
+
+
+
+$as_echo "#define READLINE 1" >>confdefs.h
+
+
+
+            if  true ; then
+  EDITLINE_TRUE=
+  EDITLINE_FALSE='#'
+else
+  EDITLINE_TRUE='#'
+  EDITLINE_FALSE=
+fi
+
+            if  false ; then
+  READLINE_TRUE=
+  READLINE_FALSE='#'
+else
+  READLINE_TRUE='#'
+  READLINE_FALSE=
+fi
+
+            if  false ; then
+  SYSEDITLINE_TRUE=
+  SYSEDITLINE_FALSE='#'
+else
+  SYSEDITLINE_TRUE='#'
+  SYSEDITLINE_FALSE=
+fi
+
+
+elif # Handle the System Readline Library
+         test x${readline} = xon; then :
 
            for ac_header in  readline/readline.h
 do :
@@ -6574,14 +6729,16 @@ fi
 done
 
 
-$as_echo "#define EDITLINE_DISABLED 1" >>confdefs.h
 
-           editline=off
-           readline=on
+$as_echo "#define READLINE_READLINE 1" >>confdefs.h
 
-fi
-    fi
-     if  test x$editline = xon ; then
+
+
+$as_echo "#define READLINE 1" >>confdefs.h
+
+
+
+            if  false ; then
   EDITLINE_TRUE=
   EDITLINE_FALSE='#'
 else
@@ -6589,7 +6746,7 @@ else
   EDITLINE_FALSE=
 fi
 
-     if  test x$readline = xon ; then
+            if  true ; then
   READLINE_TRUE=
   READLINE_FALSE='#'
 else
@@ -6597,6 +6754,23 @@ else
   READLINE_FALSE=
 fi
 
+            if  false ; then
+  SYSEDITLINE_TRUE=
+  SYSEDITLINE_FALSE='#'
+else
+  SYSEDITLINE_TRUE='#'
+  SYSEDITLINE_FALSE=
+fi
+
+
+
+else
+   test
+
+fi
+       #
+
+fi
 
 
 # XDR Format Option
@@ -10310,6 +10484,34 @@ if test -z "${READLINE_TRUE}" && test -z "${READLINE_FALSE}"; then
   as_fn_error $? "conditional \"READLINE\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
+if test -z "${SYSEDITLINE_TRUE}" && test -z "${SYSEDITLINE_FALSE}"; then
+  as_fn_error $? "conditional \"SYSEDITLINE\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${EDITLINE_TRUE}" && test -z "${EDITLINE_FALSE}"; then
+  as_fn_error $? "conditional \"EDITLINE\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${READLINE_TRUE}" && test -z "${READLINE_FALSE}"; then
+  as_fn_error $? "conditional \"READLINE\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${SYSEDITLINE_TRUE}" && test -z "${SYSEDITLINE_FALSE}"; then
+  as_fn_error $? "conditional \"SYSEDITLINE\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${EDITLINE_TRUE}" && test -z "${EDITLINE_FALSE}"; then
+  as_fn_error $? "conditional \"EDITLINE\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${READLINE_TRUE}" && test -z "${READLINE_FALSE}"; then
+  as_fn_error $? "conditional \"READLINE\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${SYSEDITLINE_TRUE}" && test -z "${SYSEDITLINE_FALSE}"; then
+  as_fn_error $? "conditional \"SYSEDITLINE\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
 if test -z "${HAVE_FC_TRUE}" && test -z "${HAVE_FC_FALSE}"; then
   as_fn_error $? "conditional \"HAVE_FC\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
@@ -11652,6 +11854,20 @@ X_LIBS         = $X_LIBS
 X_CFLAGS       = $X_CFLAGS  "
 fi
 
+EDITING=""
+if test x${readline} = xon; then
+EDITING="${EDITING}readline"
+fi
+if test x${editline} = xon; then
+EDITING="${EDITING}editline"
+fi
+if test x${syseditline} = xon; then
+EDITING="${EDITING}system-editline"
+fi
+if test x${EDITING} = x; then
+EDITING="none"
+fi
+
 { $as_echo "$as_me:${as_lineno-$LINENO}:
 
 Compilation Options for $PACKAGE_TARNAME ($PACKAGE_STRING)
@@ -11666,8 +11882,7 @@ Matlab         = $have_matlab  $DISPLAYSTR
 Support        = $xpm$png$zlib$xft$freetype$fontconfig$XML$librpc
 Support LIBS   = $XML_LIBS $png_LIBS $zlib_LIBS $xft_LIBS
 Support CFLAGS = $XML_CFLAGS $png_CFLAGS $zlib_CFLAGS $xft_CFLAGS
-Readline       = $readline
-Editline       = $editline
+Editing        = $EDITING
 Install Base   = $prefix
 System         = $BINARY_DIST ($host) ($display)
 
@@ -11686,8 +11901,7 @@ Matlab         = $have_matlab  $DISPLAYSTR
 Support        = $xpm$png$zlib$xft$freetype$fontconfig$XML$librpc
 Support LIBS   = $XML_LIBS $png_LIBS $zlib_LIBS $xft_LIBS
 Support CFLAGS = $XML_CFLAGS $png_CFLAGS $zlib_CFLAGS $xft_CFLAGS
-Readline       = $readline
-Editline       = $editline
+Editing        = $EDITING
 Install Base   = $prefix
 System         = $BINARY_DIST ($host) ($display)
 

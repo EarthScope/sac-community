@@ -20,20 +20,19 @@
 #endif
 
 #ifdef READLINE
-#ifdef EDITLINE_DISABLED
-#include <readline/readline.h>
-#include <readline/history.h>
-typedef void VCPFunction(char *);       /* For rl_vcpfunc_t in Readline */
-#else
-#include <editline/readline.h>
-#endif /* EDITLINE_DISABLED */
-#else /* READLINE */
-  /* not READLINE and not EDITLINE */
-typedef void VCPFunction(char *);
+  #ifdef READLINE_READLINE
+    //#error "readline and no editline"
+    #include <readline/readline.h>
+    #include <readline/history.h>
+    typedef void VCPFunction(char *);       /* For rl_vcpfunc_t in Readline */
+  #endif
+  #ifdef READLINE_EDITLINE
+    //#error "readline and editline"
+    #include <editline/readline.h>
+  #endif 
 #endif
-#define SAC_HISTORY_FILE ".sac_history"
 
-typedef void      rl_vcpfunc_t(char *);
+#define SAC_HISTORY_FILE ".sac_history"
 
 #define SELECT_ON      1
 #define SELECT_OFF     0

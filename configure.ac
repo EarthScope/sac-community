@@ -47,10 +47,7 @@ AS_IF( [ test x"${LDFLAGS}" = x ], [ LDFLAGS="" ] )
 AC_SUBST([BINARY_DIST])
 BINARY_DIST=""
 
-# Readline/Editline Handling (Editline On by Default, except for Cygwin)
 display=x11
-editline=on
-readline=on
 winaux=off
 
 # Operating System Checks and Sets
@@ -114,7 +111,8 @@ case "${host}" in
      *mingw* )                       AC_DEFINE([MINGW], [1], [Minimalist GNU for Windows])
 				     BINARY_DIST="mingw"
                                      windows=on
-				     readline=off
+             editing=off
+             readline=off
 				     curses=off
 				     MATLAB_BIN_PATH=""
 				     MATLAB_EXE_PATH=""
@@ -275,6 +273,20 @@ X_LIBS         = $X_LIBS
 X_CFLAGS       = $X_CFLAGS  "
 fi
 
+EDITING=""
+if test x${readline} = xon; then
+EDITING="${EDITING}readline"
+fi
+if test x${editline} = xon; then
+EDITING="${EDITING}editline"
+fi
+if test x${syseditline} = xon; then
+EDITING="${EDITING}system-editline"
+fi
+if test x${EDITING} = x; then
+EDITING="none"
+fi
+
 AC_MSG_NOTICE([
 
 Compilation Options for $PACKAGE_TARNAME ($PACKAGE_STRING)
@@ -289,8 +301,7 @@ Matlab         = $have_matlab  $DISPLAYSTR
 Support        = $xpm$png$zlib$xft$freetype$fontconfig$XML$librpc
 Support LIBS   = $XML_LIBS $png_LIBS $zlib_LIBS $xft_LIBS
 Support CFLAGS = $XML_CFLAGS $png_CFLAGS $zlib_CFLAGS $xft_CFLAGS
-Readline       = $readline
-Editline       = $editline
+Editing        = $EDITING
 Install Base   = $prefix
 System         = $BINARY_DIST ($host) ($display)
 

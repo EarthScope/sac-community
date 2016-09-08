@@ -99,12 +99,11 @@ if WIN_APP
   sac_LDADD        += $(FORMAT_LIBS) -lWs2_32
 endif
 
-# Readline/Editline Dependencies (Default = ON)
+# Editline Dependencies (Default = ON)
 if EDITLINE
-  sac_LDADD        += ../libedit/lib/libedit.a
-  AM_CFLAGS        += -I../libedit/include
+sac_LDADD        += ../libedit/lib/libedit.a
+AM_CFLAGS        += -I../libedit/include
 endif
-
 
 EXTRA_DIST       = describedirs gd3.x11/sac.bitmap \
 		   history/History.doc \

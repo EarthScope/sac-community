@@ -118,7 +118,7 @@ bin_PROGRAMS = sac$(EXEEXT)
 @X11_APP_TRUE@am__append_14 = $(X_PRE_LIBS) $(FORMAT_LIBS) $(xft_LIBS) $(xpm_LIBS) $(X_EXTRA_LIBS) $(X_LIBS) -lX11
 @WIN_APP_TRUE@am__append_15 = $(FORMAT_LIBS) -lWs2_32
 
-# Readline/Editline Dependencies (Default = ON)
+# Editline Dependencies (Default = ON)
 @EDITLINE_TRUE@am__append_16 = ../libedit/lib/libedit.a
 @EDITLINE_TRUE@am__append_17 = -I../libedit/include
 subdir = src
