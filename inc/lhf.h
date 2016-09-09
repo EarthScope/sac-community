@@ -72,7 +72,7 @@ struct t_kmlhf {
     char kkhdr[SAC_HEADER_STRINGS][9];   /** Ids for header values, characters */
     char kahdr[MAHDR][9];   /** Ids for auxillary header values   */
     char kiv[SAC_ENUMS][9]; /** Ids for enumerated values         */
-    char kdiv[SAC_ENUMS][33];
+    char kdiv[SAC_ENUMS][34];
                             /** Description for enumerated values */
 } ;
 
