@@ -11,7 +11,7 @@
 AUTOMAKE_OPTIONS  = subdir-objects no-dependencies
 
 
-FORMAT_CFLAGS     = $(xpm_CFLAGS) $(png_CFLAGS) $(zlib_CFLAGS) $(XML_CFLAGS)
+FORMAT_CFLAGS     = $(xpm_CFLAGS) $(png_CFLAGS) $(zlib_CFLAGS) $(XML_CPPFLAGS)
 # Compilation Flags
 AM_CFLAGS         = $(DEBUG) $(COVERAGE) $(OPTIM) $(xft_CFLAGS) $(FORMAT_CFLAGS) $(X_CFLAGS) -I$(top_srcdir)/inc
 
