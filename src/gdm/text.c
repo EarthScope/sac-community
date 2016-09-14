@@ -1,4 +1,6 @@
 
+#define __DEBUG__
+
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
@@ -36,7 +38,7 @@ GEM_EXTERN
 void
 text(char *ktext, int ktext_s, int nctext) {
     int lrotated, ltemp;
-    float swidth, xchar, xdel, ychar, ydel;
+    float swidth, xchar, xdel, ychar, ydel,xp,yp;
     UNUSED(ktext_s);
 
     int i, n;
@@ -100,7 +102,9 @@ text(char *ktext, int ktext_s, int nctext) {
         }
         for (i = 0; i < n; i++) {
             if (dev[i]->on && dev[i]->text) {
+                get_position(&xp, &yp);
                 dev[i]->text(dev[i], ktext, nctext);
+                set_position(xp, yp);
             }
         }
     }
