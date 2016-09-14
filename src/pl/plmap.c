@@ -134,29 +134,29 @@ plmap(xarray, yarray, number, incx, incy, nerr)
                         /* Check points just outside of the plot region */
                         if (num2 < number &&
                             Yarray[num2 + 1] >= cmgem.data.ymax) {
-                            cmgem.data.ymax =
+                            cmgem.data.ymax = fmax(cmgem.data.ymax,
                                 yinterp(cmgem.data.xmax, IDX2TIME(num2),
                                         IDX2TIME(num2 + 1), Yarray[num2],
-                                        Yarray[num2 + 1]);
+                                        Yarray[num2 + 1]));
                         }
                         if (num2 < number &&
                             Yarray[num2 + 1] <= cmgem.data.ymin) {
-                            cmgem.data.ymin =
+                            cmgem.data.ymin = fmin(cmgem.data.ymin,
                                 yinterp(cmgem.data.xmax, IDX2TIME(num2),
                                         IDX2TIME(num2 + 1), Yarray[num2],
-                                        Yarray[num2 + 1]);
+                                        Yarray[num2 + 1]));
                         }
                         if (num1 > 1 && Yarray[num1 - 1] >= cmgem.data.ymax) {
-                            cmgem.data.ymax =
+                            cmgem.data.ymax = fmax(cmgem.data.ymax,
                                 yinterp(cmgem.data.xmin, IDX2TIME(num1 - 1),
                                         IDX2TIME(num1), Yarray[num1 - 1],
-                                        Yarray[num1]);
+                                        Yarray[num1]));
                         }
                         if (num1 > 1 && Yarray[num1 - 1] <= cmgem.data.ymin) {
-                            cmgem.data.ymin =
+                            cmgem.data.ymin = fmin(cmgem.data.ymin,
                                 yinterp(cmgem.data.xmin, IDX2TIME(num1 - 1),
                                         IDX2TIME(num1), Yarray[num1 - 1],
-                                        Yarray[num1]);
+                                        Yarray[num1]));
                         }
                     } else {
                         cmgem.data.ymin = -1.;
