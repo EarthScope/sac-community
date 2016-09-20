@@ -14,8 +14,8 @@ centxt(ktext, ktext_s, ntext, itextp, tsize)
      int ntext, itextp;
      double tsize;
 {
-    float anglsv, slen, textx, texty, tssave, xpwid, ypwid;
-
+    float anglsv, slen, textx, texty, xpwid, ypwid;
+    float savew, saveh;
     /* Ind
      *=====================================================================
      * PURPOSE: To center a text string relative to current plot.
@@ -46,14 +46,15 @@ centxt(ktext, ktext_s, ntext, itextp, tsize)
      *===================================================================== */
     /* PROCEDURE: */
     /* - Change to requested character size. */
+
+    gettextsize(&savew,&saveh);
+
     cmgem.chht = tsize;
     cmgem.chwid = cmgem.txrat * cmgem.chht;
     settextsize(cmgem.chwid, cmgem.chht);
 
     /* - Save character size in case we have to modify it. */
 
-    /* ts = tsize; */
-    tssave = cmgem.tscur;
     anglsv = 0.0;
 
     /* - Compute location of text to be centered on top of plot. */
@@ -143,9 +144,9 @@ centxt(ktext, ktext_s, ntext, itextp, tsize)
 
     /* - Restore character size and orientation attributes. */
 
-    cmgem.chht = tssave;
-    cmgem.chwid = cmgem.txrat * cmgem.chht;
-    settextsize(cmgem.chwid, cmgem.chht);
+    cmgem.chht = saveh;
+    cmgem.chwid = savew;
+    settextsize(savew, saveh);
     settextangle(anglsv);
 
     return;
