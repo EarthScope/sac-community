@@ -657,19 +657,11 @@ xppk(int *nerr) {
     else if (kchar == 'L') {
         sprintf(kyloc, "%15.5e", cmeam.pkampl);
         if (cmgam.lsavelocs) {
+            char bbvar[32];
             nsavelocs = nsavelocs + 1;
-            cnvita(nsavelocs, knlocs, 9);
-            ljust(knlocs, 9);
-            setbbv("nlocs", knlocs, nerr, 5, 8);
-            if (*nerr != 0)
-                goto L_7777;
-            cattemp = malloc(4 + strlen(knlocs) + 1);
-            strcpy(cattemp, "yloc");
-            strcat(cattemp, knlocs);
-            setbbv(cattemp, kyloc, nerr, 4 + strlen(knlocs), 16);
-            free(cattemp);
-            if (*nerr != 0)
-                goto L_7777;
+            snprintf(bbvar, sizeof(bbvar), "yloc%d", nsavelocs);
+            setbb("nlocs", VAR_INTEGER, nsavelocs);
+            setbb(bbvar,   VAR_VALUE, cmeam.pkampl);
         }
         if (lzdttm[jdfl] && cmgam.lppkut) {
             inctim(s->h->nzhour, s->h->nzmin, s->h->nzsec, s->h->nzmsec, secinc,
@@ -678,32 +670,24 @@ xppk(int *nerr) {
             kadate(jyear, jjday, 24, kndate, 25, &ncerr);
             katime(jhour, jmin, jsec, jmsec, 16, kntime, 17, &ncerr);
 
-            sprintf(kptext, "%s%s%s", kndate, kntime, kyloc);
+            sprintf(kptext, "%s %s %s", kndate, kntime, kyloc);
             if (cmgam.lsavelocs) {
-                cattemp = malloc(4 + strlen(knlocs) + 1);
-                strcpy(cattemp, "xloc");
-                strcat(cattemp, knlocs);
-                cattemp1 = malloc(strlen(kndate) + strlen(kntime) + 1);
-                strcpy(cattemp1, kndate);
-                strcat(cattemp1, kntime);
-                setbbv(cattemp, cattemp1, nerr, 4 + strlen(knlocs),
-                       strlen(kndate) + strlen(kntime));
-                free(cattemp);
-                free(cattemp1);
-                if (*nerr != 0)
-                    goto L_7777;
+                char bbvar[32], bbval[64];
+                snprintf(bbvar, sizeof(bbvar), "xloc%d", nsavelocs);
+                snprintf(bbval, sizeof(bbval), "%s %s", kndate, kntime);
+                setbb(bbvar, VAR_STRING, bbval);
+                snprintf(bbvar, sizeof(bbvar), "tloc%d", nsavelocs);
+                setbb(bbvar, VAR_VALUE, secinc);
             }
         } else {
             sprintf(kxloc, "%15.5e", secinc);
-            sprintf(kptext, "%s%s", kxloc, kyloc);
+            sprintf(kptext, "%s %s", kxloc, kyloc);
             if (cmgam.lsavelocs) {
-                cattemp = malloc(4 + strlen(knlocs) + 1);
-                strcpy(cattemp, "xloc");
-                strcat(cattemp, knlocs);
-                setbbv(cattemp, kxloc, nerr, 4 + strlen(knlocs), 16);
-                free(cattemp);
-                if (*nerr != 0)
-                    goto L_7777;
+                char bbvar[32];
+                snprintf(bbvar, sizeof(bbvar), "xloc%d", nsavelocs);
+                setbb(bbvar, VAR_VALUE, secinc);
+                snprintf(bbvar, sizeof(bbvar), "tloc%d", nsavelocs);
+                setbb(bbvar, VAR_VALUE, secinc);
             }
         }
         pltext(kptext, MCMSG + 1, xtpos, ytpos);
@@ -1088,24 +1072,14 @@ xppk(int *nerr) {
 
     if (cmgam.lsavelocs) {
         for (jdx = nsavelocs + 1; jdx <= nsavelast; jdx++) {
-            cnvita(jdx, knlocs, 9);
-            ljust(knlocs, 9);
+            char bbvar[32];
 
-            cattemp = malloc(4 + strlen(knlocs) + 1);
-            strcpy(cattemp, "xloc");
-            strcat(cattemp, knlocs);
-            unsetbbv(cattemp, nerr, 4 + strlen(knlocs));
+            snprintf(bbvar, sizeof(bbvar), "xloc%d", jdx);
+            unsetbbv(bbvar, nerr, -1);
 
-            if (*nerr != 0)
-                goto L_8888;
+            snprintf(bbvar, sizeof(bbvar), "yloc%d", jdx);
+            unsetbbv(bbvar, nerr, -1);
 
-            strcpy(cattemp, "yloc");
-            strcpy(cattemp + 4, knlocs);
-            unsetbbv(cattemp, nerr, 4 + strlen(knlocs));
-            free(cattemp);
-
-            if (*nerr != 0)
-                goto L_8888;
         }
     }
 
