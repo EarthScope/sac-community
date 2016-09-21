@@ -45,6 +45,7 @@ xppk(int *nerr) {
     char _c0[2], kmsg[MCMSG + 1], knlocs[9], kptext[MCMSG + 1], kundrt[9],
         kxloc[17], kyloc[17];
     int lany, lempty, *lhlwrt, lppkab, lrdttm, ltitls, lwfok, lxlims, *lzdttm;
+    int xlabelsave, ylabelsave;
     char kchar;
     int iwf[5], jdx, jdfl, jdfl1, jdfl2, jdfls, jfr, jhdr1, jhdr2, jhour, jjday,
         jmark, jmark1, jmark2, jmin, jmsec, jofset, jsec, jwin, jyear, ncerr,
@@ -243,6 +244,10 @@ xppk(int *nerr) {
     cmgem.ydiv_number_on = TRUE;
     cmgem.ydiv_number = 5;
     cmgem.lxfudg = FALSE;
+    xlabelsave = cmgem.xlabel.on;
+    ylabelsave = cmgem.ylabel.on;
+    cmgem.xlabel.on = FALSE;
+    cmgem.ylabel.on = FALSE;
     kchar = 'U';
 
     psecsi = 0;
@@ -455,6 +460,13 @@ xppk(int *nerr) {
                cmgem.title.text_size);
     }
     settextjust(LEFT, BOTTOM);
+
+    if (xlabelsave) {
+        centxt(kmgem.kxlab, 145, cmgem.xlabel.len, cmgem.xlabel.pos, cmgem.xlabel.text_size);
+    }
+    if (ylabelsave) {
+        centxt(kmgem.kylab, 145, cmgem.ylabel.len, cmgem.ylabel.pos, cmgem.ylabel.text_size);
+    }
 
     /* -- Perform graphics input function. */
 
@@ -1098,6 +1110,8 @@ xppk(int *nerr) {
     }
 
   L_8888:
+    cmgem.xlabel.on = xlabelsave;
+    cmgem.ylabel.on = ylabelsave;
     xarray_free(lhlwrt);
     xarray_free(lzdttm);
     xarray_free(toff);
