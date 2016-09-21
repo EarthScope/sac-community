@@ -12,28 +12,6 @@ GDM_EXTERN
 #define	INSIDE	0
 #define	IRIGHT	2
 
-#ifdef HAVE_PRINT_TRACE
-#include <execinfo.h>
-
-void
-print_trace(void) {
-    void *array[10];
-    size_t size;
-    char **strings;
-    size_t i;
-
-    size = backtrace(array, 10);
-    strings = backtrace_symbols(array, size);
-
-    printf("Obtained %zd stack frames.\n", size);
-
-    for (i = 1; i < 6; i++)
-        printf("%s\n", strings[i]);
-
-    free(strings);
-}
-#endif /* HAVE_PRINT_TRACE */
-
 /** 
  * Move the the requested viewport point
  *
