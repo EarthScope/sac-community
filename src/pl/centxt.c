@@ -16,6 +16,7 @@ centxt(ktext, ktext_s, ntext, itextp, tsize)
 {
     float anglsv, slen, textx, texty, xpwid, ypwid;
     float savew, saveh;
+     int hjust, vjust;
     /* Ind
      *=====================================================================
      * PURPOSE: To center a text string relative to current plot.
@@ -49,6 +50,7 @@ centxt(ktext, ktext_s, ntext, itextp, tsize)
 
     gettextsize(&savew,&saveh);
 
+    gettextjust(&hjust, &vjust);
     cmgem.chht = tsize;
     cmgem.chwid = cmgem.txrat * cmgem.chht;
     settextsize(cmgem.chwid, cmgem.chht);
@@ -147,6 +149,7 @@ centxt(ktext, ktext_s, ntext, itextp, tsize)
     cmgem.chht = saveh;
     cmgem.chwid = savew;
     settextsize(savew, saveh);
+    settextjust(hjust, vjust);
     settextangle(anglsv);
 
     return;
