@@ -25,7 +25,7 @@ xlogax() {
     int idecin, idecmn, idecmx, isecin, jdec, jfac, nc, ndivu;
     float decade, decmn, decmx, decsiz, skfudge, slen, slen10, slenmx, xpmnf,
         xpmxf, xref, xrefs, xvpmax, xvpmin, yloc, yvpmax, yvpmin;
-
+    char v[2];
         /*=====================================================================
 	 * PURPOSE:  To produce a logarithmically-scaled axis at the bottom
 	 *           and/or top of the current plot window.
@@ -149,7 +149,7 @@ xlogax() {
                     yloc = cmgem.uplot.ymin - 0.1 * cmgem.chht;
                     settextjust(CENTER, TOP);
                     snprintf(v, sizeof(v), "%d", jfac);
-                    pltext(v, 1, xrefs, yloc);
+                    pltext(v, xrefs, yloc);
                     setlinewidth(cmgem.iskwidth);
                 }
                 if (lsectc) {
@@ -160,18 +160,16 @@ xlogax() {
         }
 
         /* -- Put primary and secondary labels on remainder of axis. */
-        strcpy(kdec, "        ");
         for (jdec = idecmn; jdec <= idecmx; jdec += idecin) {
             decade = (float) (jdec);
-            cnvita(jdec, kdec, 9);
-            ljust(kdec, 9);
+            snprintf(kdec, sizeof(kdec), "%d", jdec);
             xref = decade * cmgem.xmpip1 + cmgem.xmpip2;
             if (cmgem.axis[BOTTOM].annotate) {
                 yloc = cmgem.uplot.ymin - 1.2 * cmgem.chht;
                 settextjust(RIGHT, TOP);
-                pltext("10", 3, xref, yloc);
+                pltext("10", xref, yloc);
                 settextjust(LEFT, CENTER);
-                pltext(kdec, 9, xref, yloc);
+                pltext(kdec, xref, yloc);
                 setlinewidth(cmgem.iskwidth);
             }
             line(xref, cmgem.uplot.ymin, xref, cmgem.uplot.ymin + cmgem.chwid);
@@ -183,7 +181,7 @@ xlogax() {
                         yloc = cmgem.uplot.ymin - 0.1 * cmgem.chht;
                         settextjust(CENTER, TOP);
                         snprintf(v, sizeof(v), "%d", jfac);
-                        pltext(v, 1, xrefs, yloc);
+                        pltext(v, xrefs, yloc);
                         setlinewidth(cmgem.iskwidth);
                     }
                     if (lsectc) {
@@ -229,7 +227,7 @@ xlogax() {
                     yloc = cmgem.uplot.ymax + 0.1 * cmgem.chht;
                     settextjust(CENTER, BOTTOM);
                     snprintf(v, sizeof(v), "%d", jfac);
-                    pltext(v, 1, xrefs, yloc);
+                    pltext(v, xrefs, yloc);
                     setlinewidth(cmgem.iskwidth);
                 }
                 if (lsectc) {
@@ -240,18 +238,16 @@ xlogax() {
         }
 
         /* -- Put primary and secondary labels on remainder of axis. */
-        strcpy(kdec, "        ");
         for (jdec = idecmn; jdec <= idecmx; jdec += idecin) {
             decade = (float) (jdec);
-            cnvita(jdec, kdec, 9);
-            ljust(kdec, 9);
+            snprintf(kdec, sizeof(kdec), "%d", jdec);
             xref = decade * cmgem.xmpip1 + cmgem.xmpip2;
             if (cmgem.axis[TOP].annotate) {
                 yloc = cmgem.uplot.ymax + 1.2 * cmgem.chht;
                 settextjust(RIGHT, CENTER);
-                pltext("10", 3, xref, yloc);
+                pltext("10", xref, yloc);
                 settextjust(LEFT, BOTTOM);
-                pltext(kdec, 9, xref, yloc);
+                pltext(kdec, xref, yloc);
                 setlinewidth(cmgem.iskwidth);
             }
             line(xref, cmgem.uplot.ymax, xref, cmgem.uplot.ymax - cmgem.chwid);
@@ -263,7 +259,7 @@ xlogax() {
                         yloc = cmgem.uplot.ymax + 0.1 * cmgem.chht;
                         settextjust(CENTER, BOTTOM);
                         snprintf(v, sizeof(v), "%d", jfac);
-                        pltext(v, 1, xrefs, yloc);
+                        pltext(v, xrefs, yloc);
                         setlinewidth(cmgem.iskwidth);
                     }
                     if (lsectc) {

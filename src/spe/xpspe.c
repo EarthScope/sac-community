@@ -255,7 +255,7 @@ xpspe(int *nerr) {
 
     cmspe.lresl = FALSE;
     if (cmspe.lresl) {
-        pltext("FR:", 4, cmgam.xfidlc, cmgam.yfidlc);
+        pltext("FR:", cmgam.xfidlc, cmgam.yfidlc);
         frwid =
             (cmgem.uplot.xmax -
              cmgem.uplot.xmin) * cmspe.resl / (0.5 * cmspe.samfrq);

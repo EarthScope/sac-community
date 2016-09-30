@@ -419,9 +419,11 @@ xppk(int *nerr) {
                 cmeam.fmp = fsecsi - psecsi;
             settextangle(TEXT_HORIZONTAL);
             whpf1(kmsg, MCMSG + 1);
-            if (lhlwrt[jdfl])
-                pltext("*", 2, xtpos - cmgem.chwid, ytpos);
-            pltext(kmsg, MCMSG + 1, xtpos, ytpos);
+            if (lhlwrt[jdfl]) {
+                pltext("*", xtpos - cmgem.chwid, ytpos);
+            }
+            rstrip(kmsg);
+            pltext(kmsg, xtpos, ytpos);
             ytpos = ytpos - cmgem.chht;
             lhltrm = FALSE;
         }
@@ -455,9 +457,9 @@ xppk(int *nerr) {
     if (cmgem.ixint == AXIS_LINEAR)
         xlinax();
     if (ltitls) {
+        /*  This puts the title at the bottom of the plot */
         cmgem.uplot.ymax = ypmxus;
-        centxt(kmgem.ktitl, 145, cmgem.title.len, cmgem.title.pos,
-               cmgem.title.text_size);
+        centxt(kmgem.ktitl, 145, cmgem.title.len, cmgem.title.pos, cmgem.title.text_size);
     }
     settextjust(LEFT, BOTTOM);
 
@@ -491,8 +493,8 @@ xppk(int *nerr) {
         cnvati(&kchar, 1, &unused, 0, &ncerr);  /* add 0, maf 970129 */
         if (ncerr > 0) {
             setmsg("WARNING", 1905);
+            pltmsg(&xtpos, &ytpos);
             outmsg();
-            pltext(kptext, MCMSG + 1, xtpos, ytpos);
             ytpos = ytpos - cmgem.chht;
         } else {
             fstrncpy(kmeam.kpkid, 8, "T", 1);
@@ -545,13 +547,13 @@ xppk(int *nerr) {
 
     /* - Rest of cursor responses need a valid cursor position. */
 
-    if (((xloc < cmgem.plot.xmin || xloc > cmgem.plot.xmax) || yloc < ypmnv) ||
-        yloc > ypmxv) {
+    if (((xloc < cmgem.plot.xmin || xloc > cmgem.plot.xmax) || yloc < ypmnv) || yloc > ypmxv) {
         setmsg("OUTPUT", 1502);
         apfmsg(xloc);
         apfmsg(yloc);
         pltmsg(&xtpos, &ytpos);
         ytpos = ytpos - cmgem.chht;
+        clrmsg();
         goto L_4000;
     }
 
@@ -690,7 +692,7 @@ xppk(int *nerr) {
                 setbb(bbvar, VAR_VALUE, secinc);
             }
         }
-        pltext(kptext, MCMSG + 1, xtpos, ytpos);
+        pltext(kptext, xtpos, ytpos);
         flushbuffer(nerr);
         ytpos = ytpos - cmgem.chht;
         strcpy(kmeam.kpkid, "LOC     ");
@@ -857,7 +859,7 @@ xppk(int *nerr) {
                 pltmsg(&xtpos, &ytpos);
                 ytpos = ytpos - cmgem.chht;
             } else if (!lzdttm[jdfl]) {
-                pltext(kundrt, 9, xtpos, ytpos);
+                pltext(kundrt, xtpos, ytpos);
                 ytpos = ytpos - cmgem.chht;
             } else {
                 if (kchar == 'G') {
@@ -1043,13 +1045,15 @@ xppk(int *nerr) {
             whpf1(kmsg, MCMSG + 1);
             fprintf(cmeam.nhpfun, "%s\n", kmsg);
             lhlwrt[jdfl] = TRUE;
-            pltext("*", 2, xtpos - cmgem.chwid, ytpos);
-            pltext(kmsg, MCMSG + 1, xtpos, ytpos);
+            pltext("*", xtpos - cmgem.chwid, ytpos);
+            rstrip(kmsg);
+            pltext(kmsg, xtpos, ytpos);
             ytpos = ytpos - cmgem.chht;
             lhlhyp = FALSE;
         } else if (lhltrm) {
             whpf1(kmsg, MCMSG + 1);
-            pltext(kmsg, MCMSG + 1, xtpos, ytpos);
+            rstrip(kmsg);
+            pltext(kmsg, xtpos, ytpos);
             ytpos = ytpos - cmgem.chht;
             lhltrm = FALSE;
         }

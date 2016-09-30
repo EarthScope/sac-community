@@ -159,7 +159,7 @@ dispid(int ldfl, int idfl, int nlast, char **last) {
             strncpy(strtemp, kmgam.kfidtx[jfidtx_], nc1);
             strtemp[nc1] = '\0';
 
-            pltext(strtemp, nc1 + 1, cmgam.xfidlc, cmgam.yfidlc);
+            pltext(strtemp, cmgam.xfidlc, cmgam.yfidlc);
 
             free(strtemp);
 
@@ -170,7 +170,7 @@ dispid(int ldfl, int idfl, int nlast, char **last) {
             strncpy(strtemp, kmgam.kfidtx[jfidtx_] + nc1, nc2 - (nc1 + 1) + 1);
             strtemp[nc2 - (nc1 + 1) + 1] = '\0';
 
-            pltext(strtemp, nc2 - (nc1 + 1) + 2, cmgam.xfidlc, cmgam.yfidlc);
+            pltext(strtemp, cmgam.xfidlc, cmgam.yfidlc);
 
             free(strtemp);
             cmgam.yfidlc = cmgam.yfidlc - cmgem.chht;
@@ -221,7 +221,7 @@ dispid(int ldfl, int idfl, int nlast, char **last) {
             (cmgem.view.xmax - cmgem.view.xmin) * 0.92 + cmgem.view.xmin;
         yPosition = cmgam.yfidlc + cmgem.chht;
 
-        pltext(kdfl, strlen(kdfl) + 1, xPosition, yPosition);
+        pltext(kdfl, xPosition, yPosition);
     }
 
   L_8888:

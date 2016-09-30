@@ -71,7 +71,7 @@ plplab() {
              *     calculate the position. */
 
             /* --- Finally ready to actually plot the label. */
-            pltext(p->text, strlen(p->text), xcur, ycur);
+            pltext(p->text, xcur, ycur);
 
         }
 

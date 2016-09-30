@@ -794,7 +794,7 @@ xplotrecords(nerr)
                 kpllab[indexb(kpllab, MCPFN + 1)] = '\0';       /* these four lines */
                 if (cmgam.lfinorq)
                     sprintf(kpllab, "%s - %d", kpllab, jdfl);   /* modified. maf     */
-                pltext(kpllab, strlen(kpllab) + 1, xwloc, ywloc);       /* 970129 */
+                pltext(kpllab, xwloc, ywloc);       /* 970129 */
 
                 if (cmsss.lorient) {
                     line(cmgem.view.xmax * cmgem.plot.xmin - cmgem.chwid,
@@ -910,21 +910,23 @@ xplotrecords(nerr)
 
         if (cmsss.lxlabreq) {
             if (cmsss.lxlabdef) {
-                if (cmsss.ndwun == 1)
+                if (cmsss.ndwun == 1) {
                     fstrncpy(kmgem.kxlab, 144, "Distance (km)", 13);
-                else
+                } else {
                     fstrncpy(kmgem.kxlab, 144, "Distance (degrees)", 18);
-            } else
+                }
+            } else {
                 strscpy(kmgem.kxlab, kmsss.kxlabreq, 144);
-
+            }
+            rstrip(kmgem.kxlab);
             cmgem.xlabel.len = indexb(kmgem.kxlab, 145);
-
-            if (cmsss.lorient)
+            if (cmsss.lorient) {
                 centxt(kmgem.kxlab, 145, cmgem.xlabel.len, LEFT,
                        cmgem.xlabel.text_size);
-            else
+            } else {
                 centxt(kmgem.kxlab, 145, cmgem.xlabel.len, BOTTOM,
                        cmgem.xlabel.text_size);
+            }
 
         }
         /* end if( cmsss.lxlabreq ) */
@@ -932,21 +934,26 @@ xplotrecords(nerr)
             if (cmsss.lylabdef) {
                 subscpy(kmgem.kylab, 0, 15, 144, "Time (sec)   [VM");
                 if (Lvm[1]) {
-                    if (Ivm[1] == cmsss.irefr)
+                    if (Ivm[1] == cmsss.irefr) {
                         subscpy(kmgem.kylab, 16, -1, 144, "=REFR]");
-                    else
+                    } else {
                         subscpy(kmgem.kylab, 16, -1, 144, "=NMO]");
-                } else
+                    }
+                } else {
                     subscpy(kmgem.kylab, 16, -1, 144, " OFF]");
-            } else
+                }
+            } else {
                 strscpy(kmgem.kylab, kmsss.kylabreq, 144);
+            }
+            rstrip(kmgem.kylab);
             cmgem.ylabel.len = indexb(kmgem.kylab, 145);
-            if (cmsss.lorient)
+            if (cmsss.lorient) {
                 centxt(kmgem.kylab, 145, cmgem.ylabel.len, BOTTOM,
                        cmgem.ylabel.text_size);
-            else
+            } else {
                 centxt(kmgem.kylab, 145, cmgem.ylabel.len, LEFT,
                        cmgem.ylabel.text_size);
+            }
         }
 
         /* end if( cmsss.lylabreq ) */
@@ -1012,12 +1019,11 @@ xplotrecords(nerr)
 
                 /* -- Draw and label line. */
                 line(xbp, ybp, xep, yep);
-                cnvita((int) (vr), kvr, 9);
-                ljust(kvr, 9);
+                snprintf(kvr,sizeof(kvr),"%d",(int)vr);
                 cmgem.chht = cmgem.tsdef;
                 cmgem.chwid = cmgem.txrat * cmgem.chht;
                 settextsize(cmgem.chwid, cmgem.chht);
-                pltext(kvr, 9, xep + cmgem.chwid, yep);
+                pltext(kvr, xep + cmgem.chwid, yep);
                 vr = vr + dvr;
             }                   /* end for ( jvr ) */
         }
@@ -1138,37 +1144,32 @@ xplotrecords(nerr)
                     if (cmsss.lorient /*&& cmtt.lpreviousModel */ ) {
                         if (cmsss.lOriginDefault)
                             pltext(kmtt.kphaseNames[kdx_],
-                                   strlen(kmtt.kphaseNames[kdx_]) + 1, yttint,
-                                   xttint - cmgem.chwid);
+                                   yttint, xttint - cmgem.chwid);
                         else
                             pltext(kmtt.kphaseNames[kdx_],
-                                   strlen(kmtt.kphaseNames[kdx_]) + 1, yttint,
-                                   xttint + cmgem.chwid);
+                                   yttint, xttint + cmgem.chwid);
                     } else {
                         if (cmsss.lOriginDefault)
                             pltext(kmtt.kphaseNames[kdx_],
-                                   strlen(kmtt.kphaseNames[kdx_]) + 1,
                                    xttint - cmgem.chwid, yttint);
                         else
                             pltext(kmtt.kphaseNames[kdx_],
-                                   strlen(kmtt.kphaseNames[kdx_]) + 1,
                                    xttint + cmgem.chwid / 2, yttint);
                     }
                 } else {
+                    char phase[16];
+                    snprintf(phase, sizeof(phase), "%s", kmtt.kttnm[kdx_]);
+                    rstrip(phase);
                     if (cmsss.lorient /*&& cmtt.lpreviousModel */ ) {
                         if (cmsss.lOriginDefault)
-                            pltext((char *) kmtt.kttnm[kdx_], 6, yttint,
-                                   xttint - cmgem.chwid);
+                            pltext(phase, yttint, xttint - cmgem.chwid);
                         else
-                            pltext((char *) kmtt.kttnm[kdx_], 6, yttint,
-                                   xttint + cmgem.chwid);
+                            pltext(phase, yttint, xttint + cmgem.chwid);
                     } else {
                         if (cmsss.lOriginDefault)
-                            pltext((char *) kmtt.kttnm[kdx_], 6,
-                                   xttint - cmgem.chwid, yttint);
+                            pltext(phase, xttint - cmgem.chwid, yttint);
                         else
-                            pltext((char *) kmtt.kttnm[kdx_], 6,
-                                   xttint + cmgem.chwid / 2, yttint);
+                            pltext(phase, xttint + cmgem.chwid / 2, yttint);
                     }
                 }
                 flushbuffer(nerr);

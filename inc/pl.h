@@ -35,7 +35,7 @@ void plnocl(float xarray[], float yarray[], int *number, int lnewdp);
 void plplab(void);
 void plrest(void);
 void plsave(void);
-void pltext(char *ktext, int ktext_s, double xloc, double yloc);
+void pltext(char *ktext, double xloc, double yloc);
 void xlinax(void);
 void xlogax(void);
 void ylinax(void);

@@ -1,5 +1,6 @@
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "co.h"
 #include "mach.h"
@@ -524,9 +525,8 @@ pldta(float xarray[], float yarray[], int number, int incx, int incy, int *nerr)
         cmgem.chht = cmgem.tsdef;
         cmgem.chwid = cmgem.txrat * cmgem.chht;
         settextsize(cmgem.chwid, cmgem.chht);
-        cnvita(inc / 2, kinc, 9);
-        ljust(kinc, 9);
-        ninc = indexb(kinc, 9);
+        snprintf(kinc, sizeof(kinc), "%d", inc/2);
+        ninc = strlen(kinc);
         getstringsize(kinc, ninc, &slen);
         xrectangle = slen + cmgem.chht;
         yrectangle = 2. * cmgem.chht;
@@ -544,7 +544,7 @@ pldta(float xarray[], float yarray[], int number, int incx, int incy, int *nerr)
         }
         setlinewidth(LINE_WIDTH_THIN);
         settextjust(CENTER, CENTER);
-        pltext(kinc, 9, x1 + 0.5 * xrectangle, y1 + 0.5 * yrectangle);
+        pltext(kinc, x1 + 0.5 * xrectangle, y1 + 0.5 * yrectangle);
         setlinewidth(cmgem.iskwidth);
     }
     /* end if ( lqdp ) */

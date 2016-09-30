@@ -172,7 +172,7 @@ xplotpm(int *nerr) {
             if (memcmp(ylabel, "UNDEFINED", 9) == 0)
                 fstrncpy(ylabel, MCMSG, " ", 1);
         }
-
+        rstrip(ylabel);
         /* -- Get second of pair of files from the memory manager.
          *    This will be plotted along the X axis. */
         if (!(s2 = sacget(jdfl, TRUE, nerr))) {
@@ -202,7 +202,7 @@ xplotpm(int *nerr) {
             if (memcmp(xlabel, "UNDEFINED", 9) == 0)
                 fstrncpy(xlabel, MCMSG, " ", 1);
         }
-
+        rstrip(xlabel);
         /* -- Set up time window display. */
         sprintf(ktemp, "%14.6g", start);
         ljust(ktemp, 17);

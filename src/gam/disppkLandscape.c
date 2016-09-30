@@ -98,6 +98,7 @@ disppkLandscape(tdelay)
                 } else {
                     strcpy(kpktxt, kmlhf.kfhdr[cmlhf.itmfnm[j - 1] - 1]);
                 }
+                rstrip(kpktxt);
                 /* ---- Display a horizontal line, a vertical line or a cross at pick.
                  *      Also display time pick text at appropriate location. */
                 setlinewidth(LINE_WIDTH_THIN);
@@ -105,7 +106,7 @@ disppkLandscape(tdelay)
                     setlinewidth(cmgem.iwidth);
                     line(xploc1, yploc, xploc2, yploc);
                     setlinewidth(LINE_WIDTH_THIN);
-                    pltext(kpktxt, 9, xploc2 + 0.005, yploc + 0.005);
+                    pltext(kpktxt, xploc2 + 0.005, yploc + 0.005);
                 } else {
                     yploc = cmgem.ympip1 * ywloc + cmgem.ympip2;
                     getxw(VALUE(fhdr(s, cmlhf.itmfnm[j - 1])), &xwloc);
@@ -128,7 +129,7 @@ disppkLandscape(tdelay)
                     } else {
                         xtloc = xploc - cmgem.chht - 0.005;
                     }
-                    pltext(kpktxt, 9, xtloc, ytloc);
+                    pltext(kpktxt, xtloc, ytloc);
                 }
             }
         }

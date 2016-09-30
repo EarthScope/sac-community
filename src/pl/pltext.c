@@ -1,4 +1,7 @@
 
+#define __DEBUG__
+#define HAVE_PRINT_TRACE
+
 #include <stdio.h>
 #include <string.h>
 
@@ -8,18 +11,16 @@
 
 #include "bot.h"
 
+#include "debug.h"
 
 GEM_EXTERN
 
 void /*FUNCTION*/
-pltext(ktext, ktext_s, xloc, yloc)
+pltext(ktext, xloc, yloc)
      char *ktext;
-     int ktext_s;
      float xloc, yloc;
 {
-    size_t n;
-    int iline, nctext;
-
+    int iline;
         /*=====================================================================
 	 * PURPOSE:  To plot a text string at a specific location.
 	 *=====================================================================
@@ -47,13 +48,6 @@ pltext(ktext, ktext_s, xloc, yloc)
 	 * DOCUMENTED/REVIEWED:  890523
 	 *===================================================================== */
     /* PROCEDURE: */
-    /* - Determine length of string without trailing blanks. */
-    n = strlen(ktext);
-    if(ktext[n-1] == ' ') {
-        nctext = indexb(ktext, ktext_s);
-    } else {
-        nctext = (int)n;
-    }
     /* - Move to plot location. */
 
     move(xloc, yloc);
@@ -63,7 +57,7 @@ pltext(ktext, ktext_s, xloc, yloc)
     getlinestyle(&iline);
     setlinestyle(1);
     setlinewidth(LINE_WIDTH_THIN);
-    text(ktext, ktext_s, nctext);
+    text(ktext, 0, strlen(ktext));
     setlinestyle(iline);
     setlinewidth(cmgem.iwidth);
 

@@ -25,7 +25,7 @@ ylogax() {
     int idecin, idecmn, idecmx, isecin, jdec, jfac, nc, ndivu;
     float decade, decmn, decmx, decsiz, skfudge, slen, slen10, slenmx, xloc,
         xvpmax, xvpmin, ypmnf, ypmxf, yref, yrefs, yvpmax, yvpmin;
-
+    char v[2];
         /*=====================================================================
 	 * PURPOSE:  To produce a logarithmically-scaled axis to the right
 	 *           and/or left of the current plot window.
@@ -97,10 +97,8 @@ ylogax() {
 
     slenmx = 0.;
     for (jdec = idecmn; jdec <= idecmx; jdec += idecin) {
-        cnvita(jdec, kdec, 9);
-        ljust(kdec, 9);
-        nc = indexb(kdec, 9);
-        getstringsize(kdec, nc, &slen);
+        snprintf(kdec, sizeof(kdec), "%d", jdec);
+        getstringsize(kdec, strlen(kdec), &slen);
         slenmx = fmax(slenmx, slen);
     }
     getstringsize("10", 2, &slen10);
@@ -138,7 +136,7 @@ ylogax() {
                     xloc = cmgem.uplot.xmin - 0.1 * cmgem.chwid;
                     settextjust(RIGHT, CENTER);
                     snprintf(v, sizeof(v), "%d", jfac);
-                    pltext(v, 1, xloc, yrefs);
+                    pltext(v, xloc, yrefs);
                     setlinewidth(cmgem.iskwidth);
                 }
                 if (lsectc) {
@@ -149,18 +147,16 @@ ylogax() {
         }
 
         /* -- Put primary and secondary labels on remainder of axis. */
-        strcpy(kdec, "        ");
         for (jdec = idecmn; jdec <= idecmx; jdec += idecin) {
             decade = (float) (jdec);
-            cnvita(jdec, kdec, 9);
-            ljust(kdec, 9);
+            snprintf(kdec, sizeof(kdec), "%d", jdec);
             yref = decade * cmgem.ympip1 + cmgem.ympip2;
             if (cmgem.axis[LEFT].annotate) {
                 xloc = cmgem.uplot.xmin - 0.2 * cmgem.chwid - slenmx;
                 settextjust(RIGHT, CENTER);
-                pltext("10", 3, xloc, yref);
+                pltext("10", xloc, yref);
                 settextjust(LEFT, BOTTOM);
-                pltext(kdec, 9, xloc, yref);
+                pltext(kdec, xloc, yref);
                 setlinewidth(cmgem.iskwidth);
             }
             line(cmgem.uplot.xmin, yref, cmgem.uplot.xmin + cmgem.chwid, yref);
@@ -172,7 +168,7 @@ ylogax() {
                         xloc = cmgem.uplot.xmin - cmgem.chwid;
                         settextjust(LEFT, CENTER);
                         snprintf(v, sizeof(v), "%d", jfac);
-                        pltext(v, 1, xloc, yrefs);
+                        pltext(v, xloc, yrefs);
                         setlinewidth(cmgem.iskwidth);
                     }
                     if (lsectc) {
@@ -218,7 +214,7 @@ ylogax() {
                     xloc = cmgem.uplot.xmax + 0.1 * cmgem.chwid;
                     settextjust(LEFT, CENTER);
                     snprintf(v, sizeof(v), "%d", jfac);
-                    pltext(v, 1, xloc, yrefs);
+                    pltext(v, xloc, yrefs);
                 }
                 if (lsectc) {
                     line(cmgem.uplot.xmax, yrefs,
@@ -228,18 +224,16 @@ ylogax() {
         }
 
         /* -- Put primary and secondary labels on remainder of axis. */
-        strcpy(kdec, "        ");
         for (jdec = idecmn; jdec <= idecmx; jdec += idecin) {
             decade = (float) (jdec);
-            cnvita(jdec, kdec, 9);
-            ljust(kdec, 9);
+            snprintf(kdec, sizeof(kdec), "%d", jdec);
             yref = decade * cmgem.ympip1 + cmgem.ympip2;
             if (cmgem.axis[RIGHT].annotate) {
                 xloc = cmgem.uplot.xmax + 0.2 * cmgem.chwid + slen10;
                 settextjust(RIGHT, CENTER);
-                pltext("10", 3, xloc, yref);
+                pltext("10", xloc, yref);
                 settextjust(LEFT, BOTTOM);
-                pltext(kdec, 9, xloc, yref);
+                pltext(kdec, xloc, yref);
                 setlinewidth(cmgem.iskwidth);
             }
             line(cmgem.uplot.xmax, yref, cmgem.uplot.xmax - cmgem.chwid, yref);
@@ -251,7 +245,7 @@ ylogax() {
                         xloc = cmgem.uplot.xmax + 0.1 * cmgem.chwid;
                         settextjust(LEFT, CENTER);
                         snprintf(v, sizeof(v), "%d", jfac);
-                        pltext(v, 1, xloc, yrefs);
+                        pltext(v, xloc, yrefs);
                         setlinewidth(cmgem.iskwidth);
                     }
                     if (lsectc) {

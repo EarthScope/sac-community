@@ -21,6 +21,7 @@ GEM_EXTERN
 void
 xlinax() {
     int lpower;
+    char kfmt[32];
     int ia, ib, igdlog, jpower, jstep, mds, nds, ndsu, ntick,
         nxdivu;
     int i, j, k;
@@ -227,7 +228,7 @@ xlinax() {
                 ypow = fmin(y0 + 2.2 * cmgem.chht, y0 - 0.1 * cmgem.chht);
             }
             settextjust((cmgem.lxrev) ? RIGHT : LEFT, ax);
-            pltext(kpower, 9, x0, ypow);
+            pltext(kpower, x0, ypow);
             setlinewidth(cmgem.iskwidth);
         }
 
@@ -265,11 +266,11 @@ xlinax() {
                 } else {
                     ndsu = nds + 1;
                 }
-                cnvfta(value, ndsu, mds, kvalue, 17);
-                ljust(kvalue, 17);
+                snprintf(kfmt, sizeof(kfmt), "%%.%df", mds);
+                snprintf(kvalue, sizeof(kvalue), kfmt, value);
                 yloc = y0 - dir * 0.1 * cmgem.chht;
                 settextjust(CENTER, (ax == BOTTOM) ? TOP : BOTTOM);
-                pltext(kvalue, 17, xref, yloc);
+                pltext(kvalue, xref, yloc);
                 setlinewidth(cmgem.iskwidth);
             }
             /* --- Loop on secondary tick marks. */

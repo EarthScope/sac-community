@@ -264,7 +264,7 @@ specplot(float *specdata, int nx, int ny, float xmin, float xmax, float ymin,
         cmgem.chwid = cmgem.txrat * cmgem.chht;
         settextsize(cmgem.chwid, cmgem.chht);
         settextangle(TEXT_HORIZONTAL);
-        pltext(kptext, MCMSG + 1, cmgam.xfidlc, cmgam.yfidlc);
+        pltext(kptext, cmgam.xfidlc, cmgam.yfidlc);
         cmgam.yfidlc = cmgam.yfidlc - cmgem.chht;
     }
 

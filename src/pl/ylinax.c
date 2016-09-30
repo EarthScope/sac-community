@@ -22,7 +22,7 @@ GEM_EXTERN
 
 void /*FUNCTION*/
 ylinax() {
-    char ktemp[9];
+    char ktemp[9],kfmt[32];
     int lneglb, lpower;
     int ia, ib, igdlog, jdiv, jpower, jstep, jtick, mds, nc, nds, ndsu, ntick,
         nydivu;
@@ -30,7 +30,7 @@ ylinax() {
         valuei, xloc, xpow, xvpmax, xvpmin, ydivu, ygrdmn, ygrdmx, yref, yrefi,
         ytick, yticki, yvpmax, yvpmin;
     static char kvalue[17] = "                ";
-    static char kpower[9] = "        ";
+    static char kpower[9];
 
         /*=====================================================================
 	 * PURPOSE:  To produce a linearly-scaled axis to the right and/or
@@ -178,15 +178,7 @@ ylinax() {
         if (labs(igdlog) >= 3 && cmgem.lypowr) {
             mds = 0;
             nds = max(4, (int) (grdlog) - (int) (divlog) + 2);
-            cnvita(jpower, ktemp, 9);
-            ljust(ktemp, 9);
-            if (jpower >= 0) {
-                fstrncpy(kpower, 8, "X 10+", 5);
-                fstrncpy(kpower + 5, 8 - 5, ktemp, strlen(ktemp));
-            } else {
-                fstrncpy(kpower, 8, "X 10", 4);
-                fstrncpy(kpower + 4, 8 - 4, ktemp, strlen(ktemp));
-            }
+            snprintf(kpower, sizeof(kpower), "X 10%+d", jpower);
             factor = powi(10., -jpower);
             lpower = TRUE;
         } else {
@@ -260,16 +252,13 @@ ylinax() {
                 } else {
                     ndsu = nds + 1;
                 }
-                cnvfta(value, ndsu, mds, kvalue, 17);
-                ljust(kvalue, 17);
-                nc = indexb(kvalue, ndsu);      /* changed 17 to ndsu. maf 970819 */
-                if (kvalue[nc] == ' ')  /* terminate where padding ... */
-                    kvalue[nc] = '\0';  /* ... begins. maf 970819 */
-                getstringsize(kvalue, nc, &slen);
+                snprintf(kfmt, sizeof(kfmt), "%%.%df", mds);
+                snprintf(kvalue, sizeof(kvalue), kfmt, value);
+                getstringsize(kvalue, strlen(kvalue), &slen);
                 slenmx = fmax(slenmx, slen);
                 xloc = cmgem.uplot.xmin - 0.1 * cmgem.chwid;
                 settextjust(RIGHT, CENTER);
-                pltext(kvalue, 17, xloc, yref);
+                pltext(kvalue, xloc, yref);
                 setlinewidth(cmgem.iskwidth);
             }
             /* --- Loop on secondary tick marks. */
@@ -298,7 +287,7 @@ ylinax() {
                 fmax(cmgem.uplot.xmin - slenmx - 1.2 * cmgem.chht,
                      0.1 * cmgem.chht);
             settextjust(LEFT, TOP);
-            pltext(kpower, 9, xpow, cmgem.uplot.ymin);
+            pltext(kpower, xpow, cmgem.uplot.ymin);
             setlinewidth(cmgem.iskwidth);
         }
 
@@ -366,16 +355,16 @@ ylinax() {
                     ndsu = nds + 1;
                     lneglb = TRUE;
                 }
-                cnvfta(value, ndsu, mds, kvalue, 17);
-                ljust(kvalue, 17);
-                nc = indexb(kvalue, 17);
-                getstringsize(kvalue, nc, &slen);
+                snprintf(kfmt, sizeof(kfmt), "%%.%df", mds);
+                snprintf(kvalue, sizeof(kvalue), kfmt, value);
+
+                getstringsize(kvalue, strlen(kvalue), &slen);
                 slenmx = fmax(slenmx, slen);
                 xloc = cmgem.uplot.xmax + 0.1 * cmgem.chwid;
                 if (lneglb && value >= 0.)
                     xloc = xloc + cmgem.chwid;
                 settextjust(LEFT, CENTER);
-                pltext(kvalue, 17, xloc, yref);
+                pltext(kvalue, xloc, yref);
                 setlinewidth(cmgem.iskwidth);
             }
             /* --- Loop on secondary tick marks. */
@@ -398,7 +387,7 @@ ylinax() {
                 fmin(cmgem.uplot.xmax + slenmx + 1.2 * cmgem.chwid,
                      cmgem.view.xmax - 0.1 * cmgem.chht);
             settextjust(LEFT, BOTTOM);
-            pltext(kpower, 9, xpow, cmgem.uplot.ymin);
+            pltext(kpower, xpow, cmgem.uplot.ymin);
             setlinewidth(cmgem.iskwidth);
             settextangle(TEXT_HORIZONTAL);
         }

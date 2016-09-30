@@ -457,7 +457,7 @@ xp2(int *nerr) {
 
     setlinewidth(LINE_WIDTH_THIN);
     if (!cmgam.lp2abs)
-        pltext("RELATIVE MODE", 14, cmgam.xfidlc, cmgam.yfidlc);
+        pltext("RELATIVE MODE", cmgam.xfidlc, cmgam.yfidlc);
     plgrid(nerr);
 
     /* - Home cursor and end frame if requested. */

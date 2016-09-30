@@ -3,7 +3,7 @@
 #include "gem.h"
 #include "co.h"
 #include "gdm.h"
-
+#include "debug.h"
 
 GEM_EXTERN
 
@@ -17,6 +17,7 @@ centxt(ktext, ktext_s, ntext, itextp, tsize)
     float anglsv, slen, textx, texty, xpwid, ypwid;
     float savew, saveh;
      int hjust, vjust;
+     UNUSED(ktext_s);
     /* Ind
      *=====================================================================
      * PURPOSE: To center a text string relative to current plot.
@@ -142,7 +143,7 @@ centxt(ktext, ktext_s, ntext, itextp, tsize)
     /* - Write centered text at computed location. */
 
     settextjust(CENTER, CENTER);
-    pltext(ktext, ktext_s, textx, texty);
+    pltext(ktext, textx, texty);
 
     /* - Restore character size and orientation attributes. */
 

@@ -110,6 +110,7 @@ disppk(tdelay)
                 } else {
                     strcpy(kpktxt, kmlhf.kfhdr[cmlhf.itmfnm[j - 1] - 1]);
                 }
+                rstrip(kpktxt);
                 /* ---- Display a horizontal line, a vertical line or a cross at pick.
                  *      Also display time pick text at appropriate location. */
                 setlinewidth(LINE_WIDTH_THIN);
@@ -117,7 +118,7 @@ disppk(tdelay)
                     setlinewidth(cmgem.iwidth);
                     line(xploc, yploc1, xploc, yploc2);
                     setlinewidth(LINE_WIDTH_THIN);
-                    pltext(kpktxt, 9, xploc + 0.005, yploc2 + 0.005);
+                    pltext(kpktxt, xploc + 0.005, yploc2 + 0.005);
                 } else {
                     xploc = cmgem.xmpip1 * xwloc + cmgem.xmpip2;
                     getyw(VALUE(fhdr(s, cmlhf.itmfnm[j - 1])), &ywloc);
@@ -139,7 +140,7 @@ disppk(tdelay)
                         ytloc = yploc + 0.005;
                     else
                         ytloc = yploc - cmgem.chht - 0.005;
-                    pltext(kpktxt, 9, xtloc, ytloc);
+                    pltext(kpktxt, xtloc, ytloc);
                 }
             }                   /* end if ( xploc ... ) */
         }                       /* end if ( Fhdr ... ) */

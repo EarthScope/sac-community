@@ -230,13 +230,12 @@ xplotstack(nerr)
             pl2d((float *) &unused, sss_sum, cmsss.nlnsum, 1, 1, nerr);
             if (*nerr != 0)
                 goto L_7777;
-            fstrncpy(kptext, MCMSG, kmsss.knmsum, strlen(kmsss.knmsum));
             cmgem.chht = cmgem.tsdef;
             cmgem.chwid = cmgem.txrat * cmgem.chht;
             settextsize(cmgem.chwid, cmgem.chht);
             xwloc = cmgem.plot.xmin + 3. * cmgem.chwid;
             ywloc = cmgem.plot.ymax * cmgem.view.ymax - cmgem.chht;
-            pltext(kptext, MCMSG + 1, xwloc, ywloc);
+            pltext(kmsss.knmsum, xwloc, ywloc);
             cmgem.plot.ymax = cmgem.plot.ymin;
             cmgem.axis[TOP].ticks = FALSE;
         }
@@ -282,24 +281,23 @@ xplotstack(nerr)
             cmgem.chwid = cmgem.txrat * cmgem.chht;
             settextsize(cmgem.chwid, cmgem.chht);
             tmp = s->m->filename;
-            fstrncpy(kptext, MCMSG, tmp, strlen(tmp) + 1);
             xwloc = cmgem.plot.xmin + 3. * cmgem.chwid;
             ywloc = cmgem.plot.ymax * cmgem.view.ymax - cmgem.chht;
-            pltext(kptext, MCMSG + 1, xwloc, ywloc);
+            pltext(tmp, xwloc, ywloc);
             if (delay != 0.) {
                 sprintf(kptext, "%s%16.5g", "DLY:", delay);
                 ywloc = ywloc - cmgem.chht;
-                pltext(kptext, MCMSG + 1, xwloc, ywloc);
+                pltext(kptext, xwloc, ywloc);
             }
             if (Wt[jdfl] != 1. && cmsss.lpswt) {
                 sprintf(kptext, "%s%16.5g", "WT:", Wt[jdfl]);
                 ywloc = ywloc - cmgem.chht;
-                pltext(kptext, MCMSG + 1, xwloc, ywloc);
+                pltext(kptext, xwloc, ywloc);
             }
             if (cmsss.lpspl && !Lpol[jdfl]) {
                 sprintf(kptext, "%s", "Polarity reversed");
                 ywloc = ywloc - cmgem.chht;
-                pltext(kptext, MCMSG + 1, xwloc, ywloc);
+                pltext(kptext, xwloc, ywloc);
             }
             cmgem.axis[TOP].ticks = FALSE;
             cmgem.plot.ymax = cmgem.plot.ymin;
