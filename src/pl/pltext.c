@@ -1,7 +1,4 @@
 
-#define __DEBUG__
-#define HAVE_PRINT_TRACE
-
 #include <stdio.h>
 #include <string.h>
 
