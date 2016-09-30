@@ -290,7 +290,6 @@ struct t_kmgem {
     char ktxori[2][9];
     char kxtgem[20][9];
     char kptrName[MAXPRNTRNAMELEN + 1];
-    char kfac[9];
 } ;
 
 

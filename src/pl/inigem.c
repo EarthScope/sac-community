@@ -484,7 +484,6 @@ inigem() {
         /*=====================================================================
 	 * VARIABLE DEFINITIONS FOR:  annotation generation constants.
 	 *    FAC:     Fractions used to compute logarithmic scalings. [f]
-	 *    KFAC:    Integers 1 through 9 used in logarithmic labeling. [c1]
 	 *===================================================================== */
 
     cmgem.fac[1 - 1] = 0.0000;
@@ -496,15 +495,6 @@ inigem() {
     cmgem.fac[7 - 1] = 0.8451;
     cmgem.fac[8 - 1] = 0.9031;
     cmgem.fac[9 - 1] = 0.9542;
-    kmgem.kfac[1 - 1] = '1';
-    kmgem.kfac[2 - 1] = '2';
-    kmgem.kfac[3 - 1] = '3';
-    kmgem.kfac[4 - 1] = '4';
-    kmgem.kfac[5 - 1] = '5';
-    kmgem.kfac[6 - 1] = '6';
-    kmgem.kfac[7 - 1] = '7';
-    kmgem.kfac[8 - 1] = '8';
-    kmgem.kfac[9 - 1] = '9';
 
     /* lprint is TRUE when the user wishes to print a plot, FALSE by default 
        lSGFtemp is TRUE when SGF is turned on exclusively for PRINT option.

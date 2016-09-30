@@ -148,7 +148,8 @@ xlogax() {
                     (jfac % isecin) == 0) {
                     yloc = cmgem.uplot.ymin - 0.1 * cmgem.chht;
                     settextjust(CENTER, TOP);
-                    pltext(&kmgem.kfac[jfac - 1], 1, xrefs, yloc);
+                    snprintf(v, sizeof(v), "%d", jfac);
+                    pltext(v, 1, xrefs, yloc);
                     setlinewidth(cmgem.iskwidth);
                 }
                 if (lsectc) {
@@ -181,7 +182,8 @@ xlogax() {
                         (jfac % isecin) == 0) {
                         yloc = cmgem.uplot.ymin - 0.1 * cmgem.chht;
                         settextjust(CENTER, TOP);
-                        pltext(&kmgem.kfac[jfac - 1], 1, xrefs, yloc);
+                        snprintf(v, sizeof(v), "%d", jfac);
+                        pltext(v, 1, xrefs, yloc);
                         setlinewidth(cmgem.iskwidth);
                     }
                     if (lsectc) {
@@ -226,7 +228,8 @@ xlogax() {
                     (jfac % isecin) == 0) {
                     yloc = cmgem.uplot.ymax + 0.1 * cmgem.chht;
                     settextjust(CENTER, BOTTOM);
-                    pltext(&kmgem.kfac[jfac - 1], 1, xrefs, yloc);
+                    snprintf(v, sizeof(v), "%d", jfac);
+                    pltext(v, 1, xrefs, yloc);
                     setlinewidth(cmgem.iskwidth);
                 }
                 if (lsectc) {
@@ -259,7 +262,8 @@ xlogax() {
                         (jfac % isecin) == 0) {
                         yloc = cmgem.uplot.ymax + 0.1 * cmgem.chht;
                         settextjust(CENTER, BOTTOM);
-                        pltext(&kmgem.kfac[jfac - 1], 1, xrefs, yloc);
+                        snprintf(v, sizeof(v), "%d", jfac);
+                        pltext(v, 1, xrefs, yloc);
                         setlinewidth(cmgem.iskwidth);
                     }
                     if (lsectc) {
