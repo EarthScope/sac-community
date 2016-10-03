@@ -205,11 +205,11 @@ test_gethv() {
   char_check(cval, "", "empty iftype");
   cval[0] = 0;
   getihv("iftype", &(cval[0]), &err, -1, 0);
-  int_check(err, SAC_OK, "non-existant header value");
+  int_check(err, 1337, "non-existant header value");
   char_check(cval, "", "empty iftype");
   cval[0] = 0;
   getihv("iftype", &(cval[0]), &err, -1, -1);
-  int_check(err, SAC_OK, "non-existant header value");
+  int_check(err, 1337, "non-existant header value");
   char_check(cval, "", "empty iftype");
 }
 
@@ -512,7 +512,7 @@ test_sethv() {
     kin[16] = 0;
     setkhv("kevnm", &kin[0], &err, -1, -1);
     int_check(err, SAC_OK, "setkhv() for kstnm, too short");
-    getkhv("kevnm", &(kout[0]), &err, -1, 16);
+    getkhv("kevnm", &(kout[0]), &err, -1, 17);
     ok(err == SAC_OK, "set/get khv() for variable %s err %d expected %d", 
        "kevnm", err, SAC_OK);
     ok(strncmp(kin, kout,16) == 0,
@@ -537,7 +537,7 @@ test_sethv() {
       setkhv("kevnm", &kin[0], &err, -1, -1);
       int_check(err, SAC_OK, "setkhv() for kstnm, too short");
       getkhv("kevnm", &(kout[0]), &err, -1, 0);      
-      ok(err == SAC_OK, "set/get khv() for variable %s err %d expected %d", 
+      ok(err == 1337, "set/get khv() for variable %s err %d expected %d", 
          "kevnm", err, SAC_OK);
       for(i = 1; i < 17; i++) {
         strcpy(&ktmp[0], &kin[0]);
@@ -545,7 +545,7 @@ test_sethv() {
         ktmp[i] = 0;
         memset(kout, 0, 17);
         /* Set a short character string with a long character string */
-        getkhv("kevnm", &(kout[0]), &err, -1, i);
+        getkhv("kevnm", &(kout[0]), &err, -1, i+1);
         ok(err == SAC_OK, "set/get khv() for variable %s err %d expected %d", 
            "kevnm", err, SAC_OK);
         ok(strncmp(ktmp, kout,i) == 0,
@@ -566,7 +566,7 @@ test_sethv() {
         ktmp[i] = 0;
         memset(kout, 0, 17);
         /* Set a short character string with a long character string */
-        getkhv("kstnm", &(kout[0]), &err, -1, i);
+        getkhv("kstnm", &(kout[0]), &err, -1, i+1);
         ok(err == SAC_OK, "set/get khv() for variable %s err %d expected %d", 
            "kstnm", err, SAC_OK);
         ok(strncmp(ktmp, kout,i) == 0,
@@ -594,7 +594,7 @@ test_sethv() {
           if(j > 8) {
             ktmp[8] = 0;
           }
-          getkhv("kstnm", &kout[0], &err, -1, j);
+          getkhv("kstnm", &kout[0], &err, -1, j+1);
           int_check(err, SAC_OK, "getkhv() for kstnm, variable length");
           ok(strncmp(ktmp, kout, j) == 0,
              "set/get khv() for variable %s in[%d] <%s> out[%d] <%s> ",

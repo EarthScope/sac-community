@@ -5,6 +5,7 @@
  * 
  */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -20,6 +21,9 @@
 #include "errors.h"
 
 LHF_EXTERN
+
+#define SPACE_PAD ' '
+#define NULL_PAD  '\0'
 
 int
 is_kundef(char *kvalue) {
@@ -48,79 +52,71 @@ is_kundef(char *kvalue) {
  *
  */
 void
-getkhv(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
+getkhv_internal(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s,
+                int null_terminate) {
 
     char ktest[9];
     int index;
     char *p;
-    char *kname_c;
-    int callFromC = 0;
     sac *s;
-    if (kname_s < 0) {
-        callFromC = 1;
-        kvalue_s = kvalue_s + 1;        /* This +1 will be removed later on */
-        if (kvalue_s <= 1) {
-            *nerr = SAC_OK;
-            return;
-        }
+
+    if(kvalue_s <= 0) {
+        *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;
+        return;
     }
 
     s = sacget_current();
-    kname_c = fstrdup(kname, kname_s);
-    kname_s = strlen(kname_c) + 1;
 
     *nerr = 0;
-    memset(kvalue, 0, kvalue_s);
     /* - Convert input name to uppercase and 
      *   check versus list of legal names. */
-    sacio_char_to_keyword(kname_c, ktest);
+    sacio_char_to_keyword(kname, ktest);
     index = nequal(ktest, (char *) kmlhf.kkhdr, 9, SAC_HEADER_STRINGS);
 
     /* - If legal name, return current value.
      *   Otherwise, set error condition. */
+    memset(kvalue, ' ', kvalue_s);
     if (index > 0) {
         p = khdr(s, index);
-        fstrncpy(kvalue, kvalue_s - 1, p, strlen(p));
-        if (is_kundef(kvalue)) {
+        memcpy(kvalue, p, min(kvalue_s, (index == 2) ? 16 : 8));
+        if (is_kundef(p)) {
             *nerr = ERROR_UNDEFINED_HEADER_FIELD_VALUE;
         }
     } else {
         *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;
-        fstrncpy(kvalue, kvalue_s - 1, SAC_CHAR_UNDEFINED,
-                 strlen(SAC_CHAR_UNDEFINED));
+        memcpy(kvalue, SAC_CHAR_UNDEFINED, min(kvalue_s, strlen(SAC_CHAR_UNDEFINED)));
         index = 1;
+    }
+    if(null_terminate) {
+        int n = min(kvalue_s-1, (index==2) ? 16:8);
+        kvalue[n] = 0;
     }
 
     /* - Create error message and write to terminal. */
 
     if (*nerr != 0) {
+        char *kname_c = fstrdup(kname, kname_s);
         sacio_message(*nerr, kname_c);
+        free(kname_c);
     }
-    if (callFromC) {
-        /* Null Terminate the String at the approproiate Length */
-        kvalue[min(((index == 2) ? 16 : 8), kvalue_s - 1)] = 0;
-    } else {
-        if (index == 2 && kvalue_s > 16) {
-            memset(kvalue + 16, ' ', kvalue_s - 16);
-        }
-        if (index != 2 && kvalue_s > 8) {
-            memset(kvalue + 8, ' ', kvalue_s - 8);
-        }
-    }
-
-    free(kname_c);
 
     return;
 }
+
+void
+getkhv(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
+    getkhv_internal(kname, kvalue, nerr, kname_s, kvalue_s, 1);
+}
+
 
 /* Wrapper to make fuction more convenient for FORTRAN programmers. */
 
 void
 getkhv_(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
-    getkhv(kname, kvalue, nerr, kname_s, kvalue_s);
+    getkhv_internal(kname, kvalue, nerr, kname_s, kvalue_s, 0);
 }
 
 void
 getkhv__(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
-    getkhv(kname, kvalue, nerr, kname_s, kvalue_s);
+    getkhv_internal(kname, kvalue, nerr, kname_s, kvalue_s, 0);
 }

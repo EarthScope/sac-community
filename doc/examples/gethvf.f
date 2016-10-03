@@ -11,6 +11,7 @@
       
 !     Declare Variables used in the rsac1() and getfhv() subroutines
       character*10 kname
+      character*9 name
       integer nlen
       real beg, del
       integer nerr
@@ -65,6 +66,8 @@
       n2 = int((t2 - b) / delta)
 
 !     ......
-
+      name = ' '
+      call getkhv('kstnm', name, nerr);
+      write(*,*)'kstnm: "',name,'"'
       call exit(0)
       end

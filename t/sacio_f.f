@@ -28,17 +28,21 @@
       dimension yarray(MAX)
 
       character*20 str
+      character*7 str7
+      character*8 str8
+      character*9 str9
       integer fails 
 !     Declare Variables used in the rsac1() subroutine
       real beg, del, f
       integer nlen, i,j, n
       character*64 KNAME,kname2
       integer nerr
-      integer nval(15),ival(20),lval(5)
+      integer nval(15),lval(5)
       character *10 fhdr(70),nhdr(15),ihdr(20),lhdr(5),khdr(23)
+      character *9 ival(20)
       character *16 kval(23)
       real fval(70)
-      data kval/'sta','FUNCGEN: IMPULSE','-12345  ','-12345  ',
+      data kval/'sta     ','FUNCGEN: IMPULSE','-12345  ','-12345  ',
      + '-12345  ',
      + '-12345  ','-12345  ','-12345  ','-12345  ','-12345  ',
      + '-12345  ','-12345  ','-12345  ','-12345  ','-12345  ',
@@ -75,10 +79,11 @@
      +     -12345,6,-12345,-12345,100,
      +     -12345,-12345,-12345,-12345,-12345/
       data lval/1,0,1,1,0/
-      data ival/-12345,-12345,-12345,-12345,-12345,
-     +     -12345,-12345,-12345,-12345,-12345,
-     +     -12345,-12345,-12345,-12345,-12345,
-     +     -12345,-12345,-12345,-12345,-12345/
+      data ival/'ITIME    ','UNDEFINED','UNDEFINED','UNDEFINED',
+     +     'UNDEFINED','UNDEFINED','UNDEFINED','UNDEFINED',
+     +     'UNDEFINED','UNDEFINED','UNDEFINED','UNDEFINED',
+     +     'UNDEFINED','UNDEFINED','UNDEFINED','UNDEFINED',
+     +     'UNDEFINED','UNDEFINED','UNDEFINED','UNDEFINED'/
       data fval/1,0,1,-12345,-12345,
      +     0,99,-12345,-12345,-12345,
      +     -12345,-12345,-12345,-12345,-12345,
@@ -155,8 +160,26 @@
          do i = 1,20
             call getihv(ihdr(i), str, nerr)
             call check_error(nerr, ihdr(i))
-            if(n .ne. ival(i)) then
-               write(*,*)'Fail:',n,ival(i),ihdr(i)
+            if(str .ne. ival(i)) then
+               write(*,*)'Fail20:',str,ival(i),ihdr(i),i
+               fails = fails + 1
+            endif
+            call getihv(ihdr(i), str7, nerr)
+            call check_error(nerr, ihdr(i))
+            if(str7 .ne. ival(i)(1:7)) then
+               write(*,*)'Fail7:',str7,ival(i),ihdr(i),i
+               fails = fails + 1
+            endif
+            call getihv(ihdr(i), str8, nerr)
+            call check_error(nerr, ihdr(i))
+            if(str8 .ne. ival(i)(1:8)) then
+               write(*,*)'Fail8:',str8,ival(i),ihdr(i),i
+               fails = fails + 1
+            endif
+            call getihv(ihdr(i), str9, nerr)
+            call check_error(nerr, ihdr(i))
+            if(str9 .ne. ival(i)(1:9)) then
+               write(*,*)'Fail9:',str9,ival(i),ihdr(i),str
                fails = fails + 1
             endif
          enddo
@@ -172,8 +195,39 @@
             call getkhv(khdr(i), str, nerr)
             call check_error(nerr, khdr(i))
             if(str .ne. kval(i)) then
-               write(*,*)'Fail:',str,kval(i),khdr(i)
+               write(*,*)'Fail20:',str,kval(i),khdr(i),20
                fails = fails + 1
+            endif
+            if (i .ne. 2) then
+               ! Character*7
+               str7(:) = ' '
+               call getkhv(khdr(i), str7, nerr)
+               call check_error(nerr, khdr(i))
+               if(str7 .ne. kval(i)(1:7)) then
+                  write(*,*)'Fail7:"',str7,'" "',kval(i),'" ',khdr(i),7
+                  write(*,*)'Fail7:"',kval(i)(1:7),'"'
+                  if( str7(7:7) == char(0) ) then
+                     write(*,*)'Last character is \0'
+                  endif
+                  fails = fails + 1
+               endif
+               ! Character*8
+               call getkhv(khdr(i), str8, nerr)
+               call check_error(nerr, khdr(i))
+               if(str8 .ne. kval(i)) then
+                  write(*,*)'Fail8:"',str8,'" "',kval(i),'" ',khdr(i),8
+                  if( str8(8:8) == char(0) ) then
+                     write(*,*)'Last character is \0'
+                  endif
+                  fails = fails + 1
+               endif
+               ! Character*9
+               call getkhv(khdr(i), str9, nerr)
+               call check_error(nerr, khdr(i))
+               if(str9 .ne. kval(i)) then
+                  write(*,*)'Fail9:"',str9,'" "',kval(i),'" ',khdr(i),9
+                  fails = fails + 1
+               endif
             endif
          enddo
          do i = 1,nlen
