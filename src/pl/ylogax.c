@@ -26,6 +26,7 @@ ylogax() {
     float decade, decmn, decmx, decsiz, skfudge, slen, slen10, slenmx, xloc,
         xvpmax, xvpmin, ypmnf, ypmxf, yref, yrefs, yvpmax, yvpmin;
     char v[2];
+    float exp_width = 0.2;
         /*=====================================================================
 	 * PURPOSE:  To produce a logarithmically-scaled axis to the right
 	 *           and/or left of the current plot window.
@@ -152,7 +153,7 @@ ylogax() {
             snprintf(kdec, sizeof(kdec), "%d", jdec);
             yref = decade * cmgem.ympip1 + cmgem.ympip2;
             if (cmgem.axis[LEFT].annotate) {
-                xloc = cmgem.uplot.xmin - 0.2 * cmgem.chwid - slenmx;
+                xloc = cmgem.uplot.xmin - ((lsecax) ? 0.5 : 0.3) * cmgem.chwid - slenmx;
                 settextjust(RIGHT, CENTER);
                 pltext("10", xloc, yref);
                 settextjust(LEFT, BOTTOM);
@@ -229,7 +230,7 @@ ylogax() {
             snprintf(kdec, sizeof(kdec), "%d", jdec);
             yref = decade * cmgem.ympip1 + cmgem.ympip2;
             if (cmgem.axis[RIGHT].annotate) {
-                xloc = cmgem.uplot.xmax + 0.2 * cmgem.chwid + slen10;
+                xloc = cmgem.uplot.xmax + ((lsecax) ? 0.5 : 0.3) * cmgem.chwid + slen10;
                 settextjust(RIGHT, CENTER);
                 pltext("10", xloc, yref);
                 settextjust(LEFT, BOTTOM);

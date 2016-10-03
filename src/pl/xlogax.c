@@ -165,7 +165,7 @@ xlogax() {
             snprintf(kdec, sizeof(kdec), "%d", jdec);
             xref = decade * cmgem.xmpip1 + cmgem.xmpip2;
             if (cmgem.axis[BOTTOM].annotate) {
-                yloc = cmgem.uplot.ymin - 1.2 * cmgem.chht;
+                yloc = cmgem.uplot.ymin - ((lsecax) ? 1.0 : 0.5 ) * cmgem.chht;
                 settextjust(RIGHT, TOP);
                 pltext("10", xref, yloc);
                 settextjust(LEFT, CENTER);
@@ -243,10 +243,10 @@ xlogax() {
             snprintf(kdec, sizeof(kdec), "%d", jdec);
             xref = decade * cmgem.xmpip1 + cmgem.xmpip2;
             if (cmgem.axis[TOP].annotate) {
-                yloc = cmgem.uplot.ymax + 1.2 * cmgem.chht;
-                settextjust(RIGHT, CENTER);
+                yloc = cmgem.uplot.ymax + ((lsecax) ? 1.75 : 1) * cmgem.chht;
+                settextjust(RIGHT, TOP);
                 pltext("10", xref, yloc);
-                settextjust(LEFT, BOTTOM);
+                settextjust(LEFT, CENTER);
                 pltext(kdec, xref, yloc);
                 setlinewidth(cmgem.iskwidth);
             }
