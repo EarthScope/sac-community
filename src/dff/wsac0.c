@@ -195,7 +195,7 @@ sac_write_internal(sac * s, char *filename, int write_data, int lswap,
     update_distaz(s);
 
     if (write_data) {
-        znfile(&nun, filename, strlen(filename) + 1, "DATA", 5, nerr);
+        znfile(&nun, filename, strlen(filename) + 1, nerr);
         if (*nerr) {
             goto L_9999;
         }

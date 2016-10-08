@@ -135,7 +135,7 @@ fdWriteFiles(float *memptr[10], char *kprefix, float *userData, int newnpts,
         sprintf(kname, "%s%s", kprefix, ksuffix[jdx]);
 
         /* Open file */
-        znfile(&fileDescriptor, kname, MCPFN, "DATA", 5, nerr);
+        znfile(&fileDescriptor, kname, MCPFN, nerr);
         if (*nerr)
             goto L_ERROR;
 

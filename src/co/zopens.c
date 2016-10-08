@@ -95,7 +95,10 @@ zopens(FILE ** nfu, char *kname, int kname_s, int *nerr) {
     }
 
   L_8888:
-    FREE(tmp);
+    if(tmp) {
+        free(tmp);
+        tmp = NULL;
+    }
     return;
 
 }                               /* end of function */

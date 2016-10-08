@@ -14,7 +14,7 @@ writezdata(filename, filename_s, zdata, nzsize, nerr)
 
     /* - Create file */
 
-    znfile(&nun, filename, filename_s, "DATA", 5, nerr);
+    znfile(&nun, filename, filename_s, nerr);
     if (*nerr != 0)
         goto L_8888;
 

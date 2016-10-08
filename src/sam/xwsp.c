@@ -289,7 +289,7 @@ xwsp(nerr)
 
             /* --- Create file. */
             zdest(kwspnm, MCPFN + 1, &nderr);
-            znfile(&nun, kwspnm, MCPFN + 1, "DATA", 5, nerr);
+            znfile(&nun, kwspnm, MCPFN + 1, nerr);
             if (*nerr != 0)
                 goto L_8888;
 
@@ -351,7 +351,7 @@ xwsp(nerr)
 
             /* --- Create file. */
             zdest(kwspnm, MCPFN + 1, &nderr);
-            znfile(&nun, kwspnm, MCPFN + 1, "DATA", 5, nerr);
+            znfile(&nun, kwspnm, MCPFN + 1, nerr);
             if (*nerr != 0)
                 goto L_8888;
 

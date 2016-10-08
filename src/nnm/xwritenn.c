@@ -70,7 +70,7 @@ xwritenn(int *nerr) {
 
     /* - Create data file and write dummy header into it. */
 
-    znfile(&nun, kmnnm.kwritenn, MCPFN + 1, "DATA", 5, nerr);
+    znfile(&nun, kmnnm.kwritenn, MCPFN + 1, nerr);
     if (*nerr != 0)
         goto L_8888;
 

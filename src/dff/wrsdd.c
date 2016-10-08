@@ -68,7 +68,7 @@ wrsdd(int idfl, char *kname, int kname_s, int ldta, int *nerr) {
     /* - If header and data is to be written, a new file is created.
      *   If header only is to be written, the old file is opened. */
     if (ldta) {
-        znfile(&nun, kname, kname_s, "DATA", 5, nerr);
+        znfile(&nun, kname, kname_s, nerr);
         if (*nerr != 0)
             goto L_8888;
     } else {

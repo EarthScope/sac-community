@@ -119,7 +119,7 @@ beginframe2(int *nerr) {
 
     /* - Open a new file. */
 
-    znfile(&cmgd2.jfun, kfname, MCPFN + 1, "DATA", 5, nerr);
+    znfile(&cmgd2.jfun, kfname, MCPFN + 1, nerr);
     if (*nerr != 0)
         goto L_8888;
 

@@ -51,32 +51,22 @@
  *
  */
 void
-znfile(int *nfu, char *kname, int kname_s, char *ktype, int ktype_s, int *nerr) {
+znfile(int *nfu, char *kname, int kname_s, int *nerr) {
 
     int lnewfl, lro;
     int noerr;
 
-    UNUSED(ktype_s);
     *nerr = 0;
 
     /* - Open data file. */
-    if (memcmp(ktype, "DATA", 4) == 0) {
-        lnewfl = TRUE;
-        lro = FALSE;
-        zopenc((int *) nfu, kname, &lnewfl, &lro, (int *) &noerr, kname_s);
-        if (noerr != 0) {
-            error(*nerr = ERROR_OPENING_FILE, "%s %s", kname,
-                  (noerr == ERROR_ZOPENC_INSUFFICIENT_ACCESS) ?
-                  "(Insufficient access rights.)" :
-                  "(System error occurred.)");
-            goto L_8888;
-        }
-    }
-
-    /* - Open text file. */
-    else {
-        error(*nerr = ERROR_OPENING_FILE, "%s", kname);
-        mprint("Bad value for file type = %s", ktype);
+    lnewfl = TRUE;
+    lro = FALSE;
+    zopenc((int *) nfu, kname, &lnewfl, &lro, (int *) &noerr, kname_s);
+    if (noerr != 0) {
+        error(*nerr = ERROR_OPENING_FILE, "%s %s", kname,
+              (noerr == ERROR_ZOPENC_INSUFFICIENT_ACCESS) ?
+              "(Insufficient access rights.)" :
+              "(System error occurred.)");
         goto L_8888;
     }
 
@@ -92,19 +82,25 @@ znfilef(int *nfu, char *kname,  /* File name to open */
         int kname_s,            /* Length of string kname */
         int ktype_s) {          /* Length of string ktype */
     UNUSED(nlen);
-    znfile(nfu, kname, kname_s, ktype, ktype_s, nerr);
+    UNUSED(ktype);
+    UNUSED(ktype_s);
+    znfile(nfu, kname, kname_s, nerr);
 }
 
 void
 znfilef_(int *nfu, char *kname, char *ktype, int *nlen, int *nerr, int kname_s,
          int ktype_s) {
     UNUSED(nlen);
-    znfile(nfu, kname, kname_s, ktype, ktype_s, nerr);
+    UNUSED(ktype);
+    UNUSED(ktype_s);
+    znfile(nfu, kname, kname_s, nerr);
 }
 
 void
 znfilef__(int *nfu, char *kname, char *ktype, int *nlen, int *nerr, int kname_s,
           int ktype_s) {
     UNUSED(nlen);
-    znfile(nfu, kname, kname_s, ktype, ktype_s, nerr);
+    UNUSED(ktype);
+    UNUSED(ktype_s);
+    znfile(nfu, kname, kname_s, nerr);
 }
