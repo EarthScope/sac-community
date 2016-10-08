@@ -240,7 +240,7 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
 
     /* - Open file. */
 
-    zopens(&nun, kfile, MCPFN + 1, "ROTEXT", 7, nerr);
+    zopens(&nun, kfile, MCPFN + 1, nerr);
     if (*nerr != 0)
         goto L_8888;
     lopen = TRUE;

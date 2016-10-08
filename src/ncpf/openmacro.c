@@ -69,7 +69,7 @@ openmacro(kmacroname, kmacroname_s, kmacroargs, kmacroargs_s, nerr)
 
     /* - Open macro file. */
 
-    zopens(&nun, kmacroname, kmacroname_s, "TEXT", 5, nerr);
+    zopens(&nun, kmacroname, kmacroname_s, nerr);
     if (*nerr != 0)
         goto L_8888;
 

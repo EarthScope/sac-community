@@ -65,7 +65,7 @@ ophelp(char *kitem, int kitem_s, FILE ** nun, char *khfile, int *nerr) {
     crname(klfile, MCPFN + 1, KDIRDL, "contents", 9, nerr);
     if (*nerr != 0)
         goto L_8888;
-    zopens(nun, klfile, MCPFN + 1, "ROTEXT", 7, nerr);
+    zopens(nun, klfile, MCPFN + 1, nerr);
     if (*nerr != 0) {
         goto L_8000;
     }
@@ -91,7 +91,7 @@ ophelp(char *kitem, int kitem_s, FILE ** nun, char *khfile, int *nerr) {
         crname(khfile, MCPFN + 1, KDIRDL, khname, 30, nerr);
         if (*nerr != 0)
             goto L_8888;
-        zopens(nun, khfile, MCPFN + 1, "ROTEXT", 7, nerr);
+        zopens(nun, khfile, MCPFN + 1, nerr);
         goto L_8888;
     }
 

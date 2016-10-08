@@ -432,7 +432,7 @@ xtraveltime(int *nerr) {
     for (i = 0; i < string_list_length(files); i++) {
         file = string_list_get(files, i);
         /* -- Open input alphanumeric data file. */
-        zopens(&nun, file, strlen(file), "ROTEXT", 7, nerr);
+        zopens(&nun, file, strlen(file), nerr);
 
         if (*nerr != 0)
             goto L_8888;

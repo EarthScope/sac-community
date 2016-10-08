@@ -66,8 +66,7 @@
  *
  */
 void
-zopens(FILE ** nfu, char *kname, int kname_s, char *ktype, int ktype_s,
-       int *nerr) {
+zopens(FILE ** nfu, char *kname, int kname_s, int *nerr) {
 
     char *tmp;
     int lexist;
@@ -86,35 +85,17 @@ zopens(FILE ** nfu, char *kname, int kname_s, char *ktype, int ktype_s,
         goto L_8888;
     }
 
-    if ((memcmp(ktype, "TEXT", 4) == 0 || memcmp(ktype, "ROTEXT", 6) == 0) ||
-        memcmp(ktype, "READ", 4) == 0) {
-        tmp = rstrip(strdup(kname));
-        if ((*nfu = fopen(tmp, "rb")) == NULL)
-            noerr = 1;
-        if (noerr != 0) {
-            *nerr = ERROR_OPENING_FILE;
-            setmsg("ERROR", *nerr);
-            apcmsg(kname, kname_s);
-            apcmsg("(Fortran i/o error number =", 28);
-            apimsg(noerr);
-            apcmsg(")", 2);
-            goto L_8888;
-        }
-
-    } else {
+    tmp = rstrip(strdup(kname));
+    if ((*nfu = fopen(tmp, "rb")) == NULL)
+        noerr = 1;
+    if (noerr != 0) {
         *nerr = ERROR_OPENING_FILE;
-        setmsg("ERROR", *nerr);
-        apcmsg(kname, kname_s);
-        apcmsg("(Bad value for file type =", 27);
-        apcmsg(ktype, ktype_s);
-        apcmsg(")", 2);
+        error(*nerr, "%s (Fortran i/o error number = %d)\n", tmp, noerr);
         goto L_8888;
     }
 
   L_8888:
-    if (tmp) {
-        free(tmp);
-    }
+    FREE(tmp);
     return;
 
 }                               /* end of function */

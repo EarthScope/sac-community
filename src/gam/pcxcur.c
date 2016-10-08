@@ -160,7 +160,7 @@ pcxcur(FILE * nunrpl) {
             }
         }
 
-        zopens(&nunmac, kmgam.kpcmac, MCPFN + 1, "TEXT", 5, &nerr);
+        zopens(&nunmac, kmgam.kpcmac, MCPFN + 1, &nerr);
         if (nerr != 0)
             goto L_8888;
         pcmrpl(nunmac, cmgam.scamac, cmgam.rotmac);

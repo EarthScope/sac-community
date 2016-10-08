@@ -57,7 +57,7 @@ frequency_amplitude_phase(int nf, double df, double *xre, double *xim,
 
     freq = amp = phase = NULL;
 
-    zopens(&fp, file, file_s, "ROTEXT", 7, nerr);
+    zopens(&fp, file, file_s, nerr);
     if (!nerr) {
         return;
     }

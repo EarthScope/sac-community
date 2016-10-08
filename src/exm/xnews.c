@@ -62,7 +62,7 @@ xnews(int *nerr) {
 
     /* - Open file if it exists, send "cute" message if it does not. */
 
-    zopens(&nun, kfile, MCPFN + 1, "ROTEXT", 7, &noerr);
+    zopens(&nun, kfile, MCPFN + 1, &noerr);
     if (noerr != 0) {
         setmsg("OUTPUT", 1110);
         outmsg();

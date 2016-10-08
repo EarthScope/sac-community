@@ -70,8 +70,7 @@ void zopen_sac(int *nfu, char *kname, int kname_s, char *ktype, int ktype_s,
                int *nerr);
 void zopenc(int *pfd, char *pfname, int *pnewfl, int *pro, int *pnerr,
             int pfnlen);
-void zopens(FILE ** nfu, char *kname, int kname_s, char *ktype, int ktype_s,
-            int *nerr);
+void zopens(FILE ** nfu, char *kname, int kname_s, int *nerr);
 void zputc(char *str, int strlen, int *array, int pnumc);
 void zquit(void);
 void zrabs(int *pfd, char *array, int pnwords, int *pswords, int *pnerr);

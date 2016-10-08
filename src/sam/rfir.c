@@ -72,7 +72,7 @@ rfir(knmfir, knmfir_s, mfir, cfir, nfir, desdt, kidfir, kidfir_s, nerr)
     /* PROCEDURE: */
     *nerr = 0;
     nun = NULL;
-    zopens(&nun, knmfir, knmfir_s, "ROTEXT", 7, nerr);
+    zopens(&nun, knmfir, knmfir_s, nerr);
     if (*nerr != 0)
         goto L_8888;
 

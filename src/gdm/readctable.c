@@ -76,7 +76,7 @@ readctable(char *name, int name_s, int max_, float red[], float green[],
 
     /* - Open color table file. */
 
-    zopens(&nun, ctable, MCPFN + 1, "TEXT", 5, nerr);
+    zopens(&nun, ctable, MCPFN + 1, nerr);
     if (*nerr != 0)
         goto L_8888;
 

@@ -105,7 +105,7 @@ initcomlists(int *nerr) {
         crname(kfile, MCPFN + 1, KDIRDL, (char *) kclpro[jclsub_]
                , 6, nerr);
 
-        zopens(&nun, kfile, MCPFN + 1, "ROTEXT", 7, nerr);
+        zopens(&nun, kfile, MCPFN + 1, nerr);
         if (*nerr != 0)
             goto L_9000;
 

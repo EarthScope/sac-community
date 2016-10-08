@@ -78,7 +78,7 @@ rdci(int idfl, char *kname, int kname_s, int *nlen, int *ndx1, int *ndx2,
     s = sac_new();
 
     /* - Open file. */
-    zopens(&nun, kname, kname_s, "ROTEXT", 7, nerr);
+    zopens(&nun, kname, kname_s, nerr);
     if (*nerr != 0)
         goto L_8888;
 

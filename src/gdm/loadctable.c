@@ -88,15 +88,15 @@ loadctable(char *name, char *directory, int *nentry, int *nerr) {
     /* - Open color table file. */
     /* - If no input directory, try to open the file in the current directory */
     if ((directory == NULL) || !strcmp(directory, "")) {
-        zopens(&nun, name, name_s, "TEXT", 5, nerr);
+        zopens(&nun, name, name_s, nerr);
         if (*nerr != 0) {
             /* - Try SACAUX or input directory */
-            zopens(&nun, ctable, MCPFN + 1, "TEXT", 5, nerr);
+            zopens(&nun, ctable, MCPFN + 1, nerr);
             if (*nerr != 0)
                 goto L_8888;
         }
     } else {
-        zopens(&nun, ctable, MCPFN + 1, "TEXT", 5, nerr);
+        zopens(&nun, ctable, MCPFN + 1, nerr);
         if (*nerr != 0)
             goto L_8888;
     }

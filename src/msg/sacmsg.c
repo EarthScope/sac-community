@@ -59,7 +59,7 @@ sacmsg(int *nerr) {
     crname(kfile, MCPFN + 1, KDIRDL, "messages", 9, nerr);
     if (*nerr != 0)
         goto L_4000;
-    zopens(&nun, kfile, MCPFN + 1, "ROTEXT", 7, nerr);
+    zopens(&nun, kfile, MCPFN + 1, nerr);
     if (*nerr != 0)
         goto L_8888;
 
