@@ -227,7 +227,7 @@ iniexm() {
     cmexm.nunbbwrite = MUNOUT;
     cmexm.lnames = TRUE;
     cmexm.lnewline = TRUE;
-    fstrncpy(kmexm.knmbbwrite, MCPFN, "getbbout", 8);
+    strlcpy(kmexm.knmbbwrite, "getbbout", sizeof(kmexm.knmbbwrite));
 
     cmexm.ntranscripts = 0;
     for (jtranscript = 1; jtranscript <= MTRANSCRIPTS; jtranscript++) {

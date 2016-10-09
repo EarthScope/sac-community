@@ -5,6 +5,8 @@
  * 
  */
 
+#include <stdio.h>
+#include "bot.h"
 #include "eam.h"
 #include "bool.h"
 
@@ -72,13 +74,10 @@ xoapf(int *nerr) {
     }
 
     /* - Open APF. */
-    znfiles(&cmeam.napfun, kmeam.kapfnm, MCPFN + 1, "TEXT", 5, nerr);
-    if (*nerr == 0) {
-        cmeam.lapfop = TRUE;
-    } else {
-        *nerr = 1902;
-        setmsg("ERROR", *nerr);
-        apcmsg(kmeam.kapfnm, MCPFN + 1);
+    cmeam.lapfop = TRUE;
+    if((cmeam.napfun = fopen(kmeam.kapfnm, "wb+")) == NULL) {
+        cmeam.lapfop = FALSE;
+        error(*nerr = 1902, "%s", kmeam.kapfnm);
         goto L_8888;
     }
 

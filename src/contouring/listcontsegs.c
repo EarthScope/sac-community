@@ -50,12 +50,13 @@ listcontsegs() {
     if (memcmp(kmcontouring.klistname, "ON", 2) == 0) {
         unit = MUNOUT;
     } else {
-        znfiles(&unit, kmcontouring.klistname, MCPFN + 1, "TEXT", 5, &nerr);
-        if (nerr == 0) {
-            if (fseek(unit, 0L, SEEK_END) != 0)
-                fprintf(stdout, "fseek returned error-listcontsegs\n");
-        } else
+        if((unit = fopen(kmcontouring.klistname, "wb+")) == NULL) {
             unit = MUNOUT;
+        } else {
+            if (fseek(unit, 0L, SEEK_END) != 0) {
+                fprintf(stdout, "fseek returned error-listcontsegs\n");
+            }
+        }
     }
 
     /* - Loop on each segment, printing each data point and action to

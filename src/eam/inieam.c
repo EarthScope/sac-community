@@ -107,7 +107,7 @@ inieam() {
     /* - Initialization for HYPO pick file. */
     cmeam.lhpfop = FALSE;
     cmeam.nhpfun = 0;
-    fstrncpy(kmeam.khpfnm, MCPFN, "HPF", 3);
+    strlcpy(kmeam.khpfnm, "HPF", sizeof(kmeam.khpfnm));
     cmeam.lsphas = FALSE;
     cmeam.lampx = FALSE;
     cmeam.lfini = FALSE;
@@ -120,7 +120,7 @@ inieam() {
 
     /* - Initialization for alphanumeric pick file (APF). */
     cmeam.lapfop = FALSE;
-    fstrncpy(kmeam.kapfnm, MCPFN, "APF", 3);
+    strlcpy(kmeam.kapfnm, "APF", sizeof(kmeam.kapfnm));
     strcpy(kmeam.kpkrid, "        ");
     cmeam.lpfstd = TRUE;
     cmeam.lpfgmt = TRUE;

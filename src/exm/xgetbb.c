@@ -148,12 +148,13 @@ xgetbb(int *nerr) {
     /* - Open disk file if necessary. */
 
     if (cmexm.nunbbwrite != MUNOUT) {
-        znfiles(&cmexm.nunbbwrite, kmexm.knmbbwrite, MCPFN + 1, "TEXT", 5,
-                nerr);
-        if (*nerr != 0)
+        if((cmexm.nunbbwrite = fopen(kmexm.knmbbwrite, "wb+")) == NULL) {
+            *nerr = ERROR_OPENING_FILE;
             goto L_8888;
-        if (fseek(cmexm.nunbbwrite, 0L, SEEK_END) != 0)
+        }
+        if (fseek(cmexm.nunbbwrite, 0L, SEEK_END) != 0) {
             fprintf(stdout, "fseek returned error-xgetbb\n");
+        }
     }
 
     /* - Sequentially access blackboard if ALL was requested. */

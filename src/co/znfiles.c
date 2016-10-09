@@ -52,13 +52,11 @@
  *
  */
 void
-znfiles(FILE ** nfu, char *kname, int kname_s, char *ktype, int ktype_s,
-        int *nerr) {
+znfiles(FILE ** nfu, char *kname, int kname_s, int *nerr) {
 
     char *tmp;
     int lexist;
     int noerr;
-    UNUSED(ktype_s);
     UNUSED(kname_s);
     *nerr = 0;
     noerr = 0;
@@ -67,26 +65,19 @@ znfiles(FILE ** nfu, char *kname, int kname_s, char *ktype, int ktype_s,
     zinquire(kname, &lexist);
 
     /* - Open data file. */
-    if (memcmp(ktype, "TEXT", 4) == 0) {
-        tmp = rstrip(strdup(kname));
-        if (lexist) {
-            if ((*nfu = fopen(tmp, "rb+")) == NULL)
-                noerr = 1;
-        } else {
-            if ((*nfu = fopen(tmp, "wb+")) == NULL)
-                noerr = 1;
-        }
-        free(tmp);
-        tmp = NULL;
-        if (noerr != 0) {
-            error(*nerr = ERROR_OPENING_FILE, "%s (i/o error number = %d)",
-                  kname, noerr);
-            goto L_8888;
-        }
-
+    tmp = rstrip(strdup(kname));
+    if (lexist) {
+        if ((*nfu = fopen(tmp, "rb+")) == NULL)
+            noerr = 1;
     } else {
-        error(*nerr = ERROR_OPENING_FILE, "%s\n"
-              " Bad value for file type =  %s", kname, ktype);
+        if ((*nfu = fopen(tmp, "wb+")) == NULL)
+            noerr = 1;
+    }
+    free(tmp);
+    tmp = NULL;
+    if (noerr != 0) {
+        error(*nerr = ERROR_OPENING_FILE, "%s (i/o error number = %d)",
+              kname, noerr);
         goto L_8888;
     }
 

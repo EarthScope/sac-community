@@ -55,9 +55,7 @@ initcontattr() {
     cmcontouring.iydatastart = 0;
     cmcontouring.iydatastop = 0;
 
-    memset(kmcontouring.klistname, (int) ' ', MCPFN);
-    kmcontouring.klistname[MCPFN] = '\0';
-    memcpy(kmcontouring.klistname, "OFF", 3);
+    strlcpy(kmcontouring.klistname, "OFF", sizeof(kmcontouring.klistname));
 
     strcpy(kmcontouring.klevelmode, "SCALE   ");
     cmcontouring.nzlevellist = 0;

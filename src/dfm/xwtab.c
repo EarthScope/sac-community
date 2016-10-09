@@ -208,10 +208,10 @@ xwtab(int *nerr) {
 
         /* - Create file. */
         zdest(pfile, strlen(kfile) + 1, &nderr);
-        znfiles(&nun, pfile, strlen(pfile), "TEXT", 5, nerr);
-        FREE(pfile);
-        if (*nerr != 0)
+        if((nun = fopen(pfile, "wb+")) == NULL) {
+            *nerr = ERROR_OPENING_FILE;
             goto L_8888;
+        }
         if (cmdfm.liftype) {
             /* Write the data type. */
             switch (s->h->iftype) {
@@ -358,6 +358,7 @@ xwtab(int *nerr) {
     if (nun != 0) {
         zcloses(&nun, &nderr);
     }
+    FREE(pfile);
     return;
 
 }

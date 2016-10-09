@@ -52,9 +52,10 @@ rdxdrdta(int idfl, char *kname, int kname_s, int *nerr) {
     }
     s->m->filename = strdup(kname);
     /* Open the input file */
-    znfiles(&nun, kname, kname_s, "TEXT", 5, nerr);
-    if (*nerr != 0)
+    if((nun = fopen(kname, "rb")) == NULL) {
+        *nerr = ERROR_OPENING_FILE;
         return;
+    }
 
     /* Create a stream for the XDR decoding */
     xdrstdio_create(&xdrs, nun, XDR_DECODE);

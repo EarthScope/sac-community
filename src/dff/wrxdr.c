@@ -60,9 +60,10 @@ wrxdr(int idfl, char *kname, int kname_s, int ldta, int *nerr) {
     }
 
     /* create a file */
-    znfiles(&nun, kname, kname_s, "TEXT", 5, nerr);
-    if (*nerr != 0)
+    if((nun = fopen(kname, "wb")) == NULL) {
+        *nerr = ERROR_OPENING_FILE;
         return;
+    }
 
     /* create a stream for the XDR conversions */
     xdrstdio_create(&xdrs, nun, XDR_ENCODE);

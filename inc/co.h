@@ -63,8 +63,7 @@ void zinquire(char *kname, int *lexist);
 void zload(char *kfile, int *index, int *nerr);
 void zmemad(short *pvar, void *pvarloc);
 void znfile(int *nfu, char *kname, int kname_s, int *nerr);
-void znfiles(FILE ** nfu, char *kname, int kname_s, char *ktype, int ktype_s,
-             int *nerr);
+void znfiles(FILE ** nfu, char *kname, int kname_s, int *nerr);
 void zopen_sac(int *nfu, char *kname, int kname_s, char *ktype, int ktype_s,
                int *nerr);
 void zopenc(int *pfd, char *pfname, int *pnewfl, int *pro, int *pnerr,

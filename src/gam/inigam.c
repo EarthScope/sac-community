@@ -152,16 +152,13 @@ inigam() {
 
     cmgam.scamac = 1.;
     cmgam.rotmac = 0.;
-    strcpy(kmgam.kpcmsu, ".pcm");
-    fstrncpy(kmgam.kpcmac, MCPFN, "out", 3);
-    fstrncpy(kmgam.kpcmac + 3, MCPFN - 3, kmgam.kpcmsu, strlen(kmgam.kpcmsu));
+    strlcpy(kmgam.kpcmsu, ".pcm", sizeof(kmgam.kpcmsu));
+    strlcpy(kmgam.kpcmac, "out.pcm", sizeof(kmgam.kpcmac));
 
     cmgam.lrplrq = FALSE;
     cmgam.lpcfil = TRUE;
-    strcpy(kmgam.kpcfsu, ".pcf");
-    fstrncpy(kmgam.kpcfil, MCPFN, "out", 3);
-    fstrncpy(kmgam.kpcfil + 3, MCPFN - 3, kmgam.kpcfsu, strlen(kmgam.kpcfsu));
-
+    strlcpy(kmgam.kpcfsu, ".pcf", sizeof(kmgam.kpcfsu));
+    strlcpy(kmgam.kpcfil, "out.pcf", sizeof(kmgam.kpcfil));
     /* - Initialization for FILEID command. */
 
     cmgam.lfidrq = TRUE;

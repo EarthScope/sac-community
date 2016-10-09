@@ -53,9 +53,10 @@ wrci(int idfl, char *kname, int kname_s, char *kfmt, int *nerr) {
     }
     /* - Create file. */
     zdest(kname, kname_s, &nderr);
-    znfiles(&nun, kname, kname_s, "TEXT", 5, nerr);
-    if (*nerr != 0)
+    if((nun = fopen(kname, "wb+")) == NULL) {
+        *nerr = ERROR_OPENING_FILE;
         goto L_8888;
+    }
 
     /* - Get file from memory manager. */
     //getfil( idfl, TRUE, &nlen, &ndx1, &ndx2, nerr );

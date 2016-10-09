@@ -12,7 +12,7 @@
 #include "co.h"
 #include "bot.h"
 #include "debug.h"
-
+#include "errors.h"
 
 /** 
  * Create a file to run an external program
@@ -45,14 +45,13 @@ zrunname(char *name, int name_s, char *args, int args_s, FILE ** nfun,
     /* - Create a new file to contain the shell script. */
     UNUSED(args_s);
     UNUSED(name_s);
-    memset(runfile, (int) ' ', runfile_s - 1);
-    runfile[runfile_s - 1] = '\0';
-    memcpy(runfile, "sacrunfile", 10);
 
-    znfiles(nfun, runfile, runfile_s, "TEXT", 5, nerr);
-    if (*nerr != 0)
+    strlcpy(runfile, "sacrunfile", runfile_s);
+
+    if((*nfun = fopen(runfile, "wb")) == NULL) {
+        *nerr = ERROR_OPENING_FILE;
         goto L_8888;
-
+    }
 
     fprintf(*nfun, "%s %s << endrun\n", name, args);
 

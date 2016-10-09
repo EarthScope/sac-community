@@ -14,6 +14,7 @@
 #include "select.h"
 #include "co.h"
 #include "sac_history.h"
+#include "errors.h"
 
 MSG_EXTERN
 EXM_EXTERN
@@ -166,13 +167,14 @@ xtranscript(int *nerr) {
      *   (5) Write message to file if requested. */
 
     if (cmexm.imodetranscript == 1) {
-        znfiles(&cmexm.nuntranscript[jdx - 1],
-                (char *) kmexm.knametranscript[jdx - 1], MCPFN + 1, "TEXT", 5,
-                nerr);
-        if (*nerr != 0)
+        if((cmexm.nuntranscript[jdx - 1] =
+            fopen(kmexm.knametranscript[jdx - 1], "wb+")) == NULL) {
+            *nerr = ERROR_OPENING_FILE;
             goto L_8888;
-        if (fseek(cmexm.nuntranscript[jdx - 1], 0L, SEEK_END) != 0)
+        }
+        if (fseek(cmexm.nuntranscript[jdx - 1], 0L, SEEK_END) != 0) {
             fprintf(stdout, "fseek returned error-xtranscript\n");
+        }
         sendmesg(cmexm.nuntranscript[jdx - 1], TRUE,
                  &cmexm.lsendtranscript[jdx - 1][0]);
         if (lnewmessage) {
@@ -193,14 +195,14 @@ xtranscript(int *nerr) {
 
     else if (cmexm.imodetranscript == 2) {
         zdest((char *) kmexm.knametranscript[jdx - 1], MCPFN + 1, &nderr);
-        if (nderr != 0)
+        if (nderr != 0) {
             clrmsg();
-        znfiles(&cmexm.nuntranscript[jdx - 1],
-                (char *) kmexm.knametranscript[jdx - 1], MCPFN + 1, "TEXT", 5,
-                nerr);
-        if (*nerr != 0)
+        }
+        if((cmexm.nuntranscript[jdx - 1] =
+            fopen(kmexm.knametranscript[jdx - 1], "wb+")) == NULL) {
+            *nerr = ERROR_OPENING_FILE;
             goto L_8888;
-
+        }
         sendmesg(cmexm.nuntranscript[jdx - 1], TRUE,
                  &cmexm.lsendtranscript[jdx - 1][0]);
         if (lnewmessage) {
@@ -272,11 +274,11 @@ xtranscript(int *nerr) {
         zcloses(&cmexm.nuntranscript[jdx - 1], nerr);
         if (*nerr != 0)
             goto L_8888;
-        znfiles(&cmexm.nuntranscript[jdx - 1],
-                (char *) kmexm.knametranscript[jdx - 1], MCPFN + 1, "TEXT", 5,
-                nerr);
-        if (*nerr != 0)
+        if((cmexm.nuntranscript[jdx - 1] =
+            fopen(kmexm.knametranscript[jdx - 1], "wb+")) == NULL) {
+            *nerr = ERROR_OPENING_FILE;
             goto L_8888;
+        }
         if (fseek(cmexm.nuntranscript[jdx - 1], 0L, SEEK_END) != 0)
             fprintf(stdout, "fseek returned error-xtranscript\n");
         sendmesg(cmexm.nuntranscript[jdx - 1], TRUE,

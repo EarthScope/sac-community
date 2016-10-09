@@ -46,12 +46,6 @@
  *    - ERROR_OPENING_FILE
  *    - ERROR_FILE_DOES_NOT_EXIST
  *
- * @bug This function is very similar to co/znfiles(). They should 
- *      probably be merged at some point.  There are about 5 different
- *      ways to open a file in this code base, there should be only two
- *      binary data (int/read/write) and 
- *      text-file string data (FILE/fscanf/fprintf)
- *
  * @date   920805:  Added 'ROUNFR' option.
  * @date   920319:  Added precompiler flag for SCRATCH file open on 1.
  * @date   910320:  Added option of status='SCRATCH' (wct)

@@ -5,6 +5,8 @@
  * 
  */
 
+#include <stdio.h>
+#include "bot.h"
 #include "eam.h"
 #include "bool.h"
 
@@ -43,7 +45,7 @@ xohpf(int *nerr) {
     /* - Loop on each token in command: */
     while (lcmore(nerr)) {
         /* -- "name":  name of HPF to open. */
-        if (lcchar(kmeam.khpfnm, sizeof(kmeam.khpfnm))) {       /* do nothing */
+        if (lcchar(kmeam.khpfnm, sizeof(kmeam.khpfnm))) {
         }
 
         /* -- Bad syntax. */
@@ -71,18 +73,14 @@ xohpf(int *nerr) {
     }
 
     /* - Open new file. */
-    znfiles(&cmeam.nhpfun, kmeam.khpfnm, MCPFN + 1, "TEXT", 5, nerr);
-    if (*nerr != 0) {
-        *nerr = 1901;
-        setmsg("ERROR", *nerr);
-        apcmsg(kmeam.khpfnm, MCPFN + 1);
+    if((cmeam.nhpfun = fopen(kmeam.khpfnm, "wb+")) == NULL) {
+        error(*nerr = 1901, "%s", kmeam.khpfnm);
         goto L_8888;
     }
 
-    /* - Position to end-of-file. */
-    if (fseek(cmeam.nhpfun, 0L, SEEK_END) != 0)
+    if (fseek(cmeam.nhpfun, 0L, SEEK_END) != 0) {
         fprintf(stdout, "fseek returned error-xohpf\n");
-
+    }
     /* - Remove the previous hypo eof marker by simply backspacing. */
     backspace(cmeam.nhpfun, 1L);
 

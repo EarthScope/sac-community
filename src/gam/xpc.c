@@ -12,6 +12,7 @@
 #include "gdm.h"
 #include "cpf.h"
 #include "co.h"
+#include "errors.h"
 
 GAM_EXTERN
 GEM_EXTERN
@@ -73,18 +74,10 @@ xpc(int *nerr) {
         /* -- "FILE/MACRO filename":  set type of file and filename. */
         else if (lclog2("FILE$", 6, "MACRO$", 7, &cmgam.lpcfil)) {
             if (lcchar(kmgam.kpcfil, sizeof(kmgam.kpcfil))) {
-                nc = strlen(kmgam.kpcfil);
                 if (cmgam.lpcfil) {
-                    fstrncpy(kmgam.kpcfil, MCPFN, kmgam.kpcfil, min(nc, MCPFN));
-                    fstrncpy(kmgam.kpcfil + min(nc, MCPFN),
-                             MCPFN - min(nc, MCPFN), kmgam.kpcfsu,
-                             strlen(kmgam.kpcfsu));
-
+                    strlcat(kmgam.kpcfil, kmgam.kpcfsu, sizeof(kmgam.kpcfil));
                 } else {
-                    fstrncpy(kmgam.kpcfil, MCPFN, kmgam.kpcfil, min(nc, MCPFN));
-                    fstrncpy(kmgam.kpcfil + min(nc, MCPFN),
-                             MCPFN - min(nc, MCPFN), kmgam.kpcmsu,
-                             strlen(kmgam.kpcmsu));
+                    strlcat(kmgam.kpcfil, kmgam.kpcmsu, sizeof(kmgam.kpcfil));
                 }
             }
         }
@@ -193,9 +186,10 @@ xpc(int *nerr) {
 
     /* - Open replay file. */
 
-    znfiles(&nunrpl, kmgam.kpcfil, MCPFN + 1, "TEXT", 5, nerr);
-    if (*nerr != 0)
+    if((nunrpl = fopen(kmgam.kpcfil, "w+")) == NULL) {
+        *nerr = ERROR_OPENING_FILE;
         goto L_7777;
+    }
 
     /* - Execute commands from replay file if requested. */
 
