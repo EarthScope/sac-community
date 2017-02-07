@@ -149,13 +149,13 @@ CN      FORMAT   NAMES    o        o        o      o
 08      (5G15.7) EVLA     EVLO     EVEL     EVDP   MAG
 09      (5G15.7) USER0    USER1    USER2    USER3  USER4
 10      (5G15.7) USER5    USER6    USER7    USER8  USER9
-11      (5G15.7) DIST     AZ       BAZ      GCARC  INTERNAL
-12      (5G15.7) INTERNAL DEPMEN   CMPAZ    CMPINC XMINIMUM
+11      (5G15.7) DIST     AZ       BAZ      GCARC  SB
+12      (5G15.7) SDELTA   DEPMEN   CMPAZ    CMPINC XMINIMUM
 13      (5G15.7) XMAXIMUM YMINIMUM YMAXIMUM ADJTM  UNUSED
 14      (5G15.7) UNUSED   UNUSED   UNUSED   UNUSED UNUSED
 15      (5I10)   NZYEAR   NZJDAY   NZHOUR   NZMIN  NZSEC
 16      (5I10)   NZMSEC   NVHDR    NORID    NEVID  NPTS
-17      (5I10)   NSPTS 	  NWFID    NXSIZE   NYSIZE UNUSED
+17      (5I10)   NSNPTS 	NWFID    NXSIZE   NYSIZE UNUSED
 18      (5I10)   IFTYPE   IDEP 	   IZTYPE   UNUSED IINST
 19      (5I10)   ISTREG   IEVREG   IEVTYP   IQUAL  ISYNTH
 20      (5I10)   IMAGTYP  IMAGSRC  UNUSED   UNUSED UNUSED
@@ -280,7 +280,7 @@ DEPMIN    F     Minimum value of dependent variable.
 DEPMAX    F     Maximum value of dependent variable. 
 DEPMEN    F     Mean value of dependent variable. 
 NZYEAR    N     GMT year corresponding to reference (zero) time in file. 
-NZJDAY    N     GMT julian day. 
+NZJDAY    N     GMT Day of the Year.
 NZHOUR    N     GMT hour. 
 NZMIN     N     GMT minute. 
 NZSEC     N     GMT second. 
@@ -299,7 +299,10 @@ IZTYPE    I     Reference time equivalence:
                  - IA (First arrival time)
                  - ITn (User defined time pick n, n=0,9)
 O         F     Event origin time (seconds relative to reference time.) 
-KO        A     Event origin time identification. 
+KO        A     Event origin time identification.
+NSNPTS    I     Number of points of original time series file (Stored NPTS).
+SB        F     Begin value of orignal time series file (Stored B).
+SDELTA    F     Time increment in original time series file (Stored DELTA).
 ========= ===== =============================================================
 
 Phase Picks
