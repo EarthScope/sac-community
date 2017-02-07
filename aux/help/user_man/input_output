@@ -97,8 +97,18 @@ length specifier.
 
 Reading an Unevenly-Sampled or Spectral SAC File
 ------------------------------------------------
-In routine rsac2() for a spectral file, the time and amplitude data are both 
-stored and returned on the call to rsac2().  For an unevenly-sampled file, the
+In routine rsac2() is for reading in either:
+  - a spectral file, (Real + Imaginary or Amplitude + Phase)
+  - an unevely spaced time series file (Amplitude + Time)
+
+To determine the type of file, you must check the IFTYPE and LEVEN header variables:
+  - Evenly spaced file:   IFTYPE = ITIME (1) and LEVEN = True
+  - Unevenly spaced file: IFTPYE = ITIME (1) and LEVEN = False
+  - Spectral file: (Real + Imaginary) IFTYPE = IRLIM (2)
+  - Spectrla file: (Amplitude + Phase) IFTYPE = IAMPH (3)
+
+
+Both components are returned on the call to rsac2().  For an unevenly-sampled file, the
 first array is the independent variable and the second one the dependent variable. 
 Unlike rsac1(), the beginning time and time sampling are not returned as they 
 can be determined from the returned time data.
