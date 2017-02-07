@@ -27,7 +27,7 @@ GAM_EXTERN
 
 void
 xplotpm(int *nerr) {
-    char kret[9], kstart[25], kstop[25], ktemp[17], xlabel[MCMSG + 1],
+    char kret[9], kstart[25], kstop[25], xlabel[MCMSG + 1],
         ylabel[MCMSG + 1];
     int lany, lframesave, lrxlim, lwait, lprint = FALSE, ltry = FALSE;
     int ixplot, iyplot, jdfl, nc, ncret, nplot;
@@ -204,14 +204,9 @@ xplotpm(int *nerr) {
         }
         rstrip(xlabel);
         /* -- Set up time window display. */
-        sprintf(ktemp, "%14.6g", start);
-        ljust(ktemp, 17);
-        fstrncpy(kstart, 24, "START: ", 7);
-        fstrncpy(kstart + 7, 24 - 7, ktemp, strlen(ktemp));
-        sprintf(ktemp, "%14.6g", stop);
-        ljust(ktemp, 17);
-        fstrncpy(kstop, 24, "STOP:  ", 7);
-        fstrncpy(kstop + 7, 24 - 7, ktemp, strlen(ktemp));
+        sprintf(kstart, "START: %-14.6g", start);
+        sprintf(kstop,  "STOP:  %-14.6g", stop);
+
 
         /* -- Begin new frame if necessary. 
          *       Added framing test 5/10/91 (wct). */
@@ -237,25 +232,28 @@ xplotpm(int *nerr) {
         /* -- Plot this pair of files. */
         rectangle(&xvmin, &xvmax, &yvmin, &yvmax);
         worldpolyline(&s2->y[ixplot], &s->y[iyplot], nplot);
-        settexttype("SOFTWARE");
+
+        //settexttype("SOFTWARE");
         xaxis("LINEAR", "BELOW", "BOTH", xlabel, MCMSG + 1);
         yaxis("LINEAR", "LEFT", "BOTH", ylabel, MCMSG + 1);
 
         /* -- Plot time window display. */
-        xloc = cmgem.plot.xmin + 0.01;
-        yloc = cmgem.plot.ymax - 0.01;
-        settextjust(TOP, LEFT);
+        xloc = xvmin + 0.01;
+        yloc = yvmax - (yvmax-yvmin)*0.05;
+        settextjust(LEFT, BOTTOM);
         move(xloc, yloc);
         nc = indexb(kstart, 25);
         text(kstart, 25, nc);
+        yloc = yvmax - (yvmax-yvmin)*0.10;
         move(xloc, yloc);
         nc = indexb(kstop, 25);
         text(kstop, 25, nc);
 
         /* -- Plot title if any. */
         if (cmgem.title.on) {
-            settextjust(BOTTOM, CENTER);
-            move(0.5 * (xvmin + xvmax), yvmax + 0.01);
+            rstrip(kmgem.ktitl);
+            move(xvmin + 0.5 * (xvmax - xvmin), yvmax + 0.01);
+            settextjust(CENTER, BOTTOM);
             nc = indexb(kmgem.ktitl, 145);
             text(kmgem.ktitl, 145, nc);
         }
