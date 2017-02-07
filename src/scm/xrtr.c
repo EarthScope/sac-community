@@ -55,10 +55,16 @@ xrtr(nerr)
         if (lckey("V#ERBOSE$", 10)) {
             verbose = TRUE;
         }
-        if (lckey("Q#UIET$", 8)) {
+        else if (lckey("Q#UIET$", 8)) {
             verbose = FALSE;
         }
+        else {
+            cfmt("ILLEGAL OPTION:", 17);
+            cresp();
+        }
     }
+    if (*nerr != 0)
+        return;
 
     vflist(nerr);
     if (*nerr != 0)

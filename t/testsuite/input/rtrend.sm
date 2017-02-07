@@ -12,3 +12,5 @@ fg sine
 lh depmin depmax depmen
 rtrend quiet
 lh depmin depmax depmen
+
+rtrend  verbose on

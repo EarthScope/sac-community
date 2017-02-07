@@ -71,4 +71,9 @@
      depmin = -1.130708e+00
      depmax = 1.134496e+00
      depmen = 1.743436e-08
+  
+ ==>  
+ rtrend  verbose on
+ ERROR interpreting command:  rtrend  verbose on 
+ ILLEGAL OPTION:                              ^
  quit
