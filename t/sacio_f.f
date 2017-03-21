@@ -230,6 +230,43 @@
                endif
             endif
          enddo
+         ! Short Identifies
+         i = 1
+         call getkhv('kstnm', str, nerr)
+         call check_error(nerr, khdr(i))
+         if(str .ne. kval(i)) then
+            write(*,*)'Failshort:',str,kval(i),khdr(i),20
+            fails = fails + 1
+         endif
+
+         call getlhv('leven', n, nerr)
+         call check_error(nerr, lhdr(i))
+         if(n .ne. lval(i)) then
+            write(*,*)'Failshort:',n,lval(i),lhdr(i)
+            fails = fails + 1
+         endif
+
+         call getihv('iftype', str, nerr)
+         call check_error(nerr, ihdr(i))
+         if(str .ne. ival(i)) then
+            write(*,*)'Fail20:',str,ival(i),ihdr(i),i
+            fails = fails + 1
+         endif
+
+         call getnhv('nzyear', n, nerr)
+         call check_error(nerr, nhdr(i))
+         if(n .ne. nval(i)) then
+            write(*,*)'Fail:',n,nval(i),nhdr(i)
+            fails = fails + 1
+         endif
+
+         call getfhv('delta', f, nerr)
+         call check_error(nerr, fhdr(i))
+         if(f .ne. fval(i)) then
+            write(*,*)'Fail:',f,fval(i),fhdr(i)
+            fails = fails + 1
+         endif
+
          do i = 1,nlen
             if(i .eq. 50) then
                if (yarray(i) .ne. 1.0) then
@@ -244,8 +281,103 @@
             endif
          enddo
       enddo
+
+      call multiple_files(fails)
+
       if (fails .gt. 0) then
          call exit(-1)
       endif
       call exit(0)
+      end
+
+
+      subroutine multiple_files(fails)
+      implicit none
+      integer fails
+      integer MAX
+      parameter (MAX=1000)
+
+      real yarray
+      dimension yarray(MAX)
+      real beg,del,dt,b
+      integer nlen, nerr
+      character *8 iftype
+      character *8 kstnm
+      character *128 kname
+
+      kname  = 'test_io_small.sac'
+
+      call rsac1(kname, yarray, nlen, beg, del, MAX, nerr)
+
+      call getkhv('kstnm',kstnm,nerr)
+      call getfhv('delta',dt,nerr)
+      call getfhv('b',b,nerr)
+      call getihv('iftype',iftype,nerr)
+      if (beg .ne. b) then
+         write(*,*)'Begin times differ',beg,b
+         fails = fails + 1
+      endif
+      if (kstnm .ne. "sta") then
+         write(*,*)'Station names differ',kstnm, "sta"
+         fails = fails + 1
+      endif
+      if (del .ne. dt) then
+         write(*,*)'Time sampling differs',del,dt
+         fails = fails + 1
+      endif
+      if (iftype .ne. "ITIME  ") then
+         write(*,*)'File types differ',iftype, "ITIME  "
+         fails = fails + 1
+      endif
+
+
+      call newhdr()
+      del = -12345.0
+      beg = -12345.0
+      call getkhv('kstnm',kstnm,nerr)
+      call getfhv('delta',dt,nerr)
+      call getfhv('b',b,nerr)
+      call getihv('iftype',iftype,nerr)
+      if (b .ne. beg) then
+         write(*,*)'Begin times differ',b,beg
+         fails = fails + 1
+      endif
+      if (kstnm .ne. "-12345") then
+         write(*,*)'Station names differ',kstnm, "sta"
+         fails = fails + 1
+      endif
+      if (del .ne. dt) then
+         write(*,*)'Time sampling differs',del,dt
+         fails = fails + 1
+      endif
+      if (iftype .ne. "ITIME  ") then
+         write(*,*)'File types differ',iftype, "ITIME  "
+         fails = fails + 1
+      endif
+
+
+      kname  = 'test_io_big.sac'
+      call rsac1(kname, yarray, nlen, beg, del, MAX, nerr)
+
+      call getkhv('kstnm',kstnm,nerr)
+      call getfhv('delta',dt,nerr)
+      call getfhv('b',b,nerr)
+      call getihv('iftype',iftype,nerr)
+      if (beg .ne. b) then
+         write(*,*)'Begin times differ',beg,b
+         fails = fails + 1
+      endif
+      if (del .ne. dt) then
+         write(*,*)'Time sampling differs',del,dt
+         fails = fails + 1
+      endif
+      if (iftype .ne. "ITIME  ") then
+         write(*,*)'File types differ',iftype, "ITIME  "
+         fails = fails + 1
+      endif
+      if (kstnm .ne. "sta") then
+         write(*,*)'Station names differ',kstnm, "sta"
+         fails = fails + 1
+      endif
+
       end

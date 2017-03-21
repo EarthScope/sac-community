@@ -61,12 +61,12 @@ getihv_internal(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s,
         *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;
         return;
     }
-    
+    kname_c = fstrdup(kname, kname_s);
     *nerr = 0;
     s = sacget_current();
     /* - Convert input name to uppercase and 
      *   check versus list of legal names. */
-    sacio_char_to_keyword(kname, ktest);
+    sacio_char_to_keyword(kname_c, ktest);
     index = nequal(ktest, (char *) kmlhf.kihdr, 9, SAC_HEADER_ENUMS);
 
     /* - If legal name, return current value.
@@ -97,10 +97,9 @@ getihv_internal(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s,
     /* - Create error message and write to terminal. */
 
     if (*nerr != 0) {
-        char *kname_c = fstrdup(kname, kname_s);
         sacio_message(*nerr, kname_c);
-        free(kname_c);
     }
+    free(kname_c);
 
     return;
 
