@@ -319,7 +319,10 @@ createwindow3(int *win_num, float *xmin_vp, float *xmax_vp, float *ymin_vp,
     /* ptitle_label = title_label; */
 
     xs = xscreen_get();
-
+    if(!xs) {
+        *nerr =203;
+        return;
+    }
     wm_delete_window = XInternAtom(xs->display, "WM_DELETE_WINDOW", False);
 
     /* Set up boundaries of window */

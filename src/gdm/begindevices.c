@@ -108,6 +108,9 @@ begindevices(char *devices, int devices_s, int ndevices, int *nerr) {
                 if (dev->begin_device) {
                     dev->begin_device(nerr);
                 }
+                if(*nerr != 0) {
+                    return;
+                }
                 dev->on = TRUE;
                 Lgdon[dev->id] = TRUE;
                 cmgdm.igdtxt = dev->id;
