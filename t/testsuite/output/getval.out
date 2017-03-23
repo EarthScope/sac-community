@@ -1,0 +1,64 @@
+ wait text off
+  
+ ==>  
+ fg impulse
+ eval (getval 49.0)
+ ==>  eval 1
+ 1
+ eval (getval 50.0)
+ ==>  eval 0
+ 0
+ mul 1.2
+ eval (getval 49.0)
+ ==>  eval 1.2
+ 1.2
+ eval (getval 50.0)
+ ==>  eval 0
+ 0
+ message (getval 49.0)
+ ==>  message 1.2
+ 1.2
+ w test.getval
+ r test.getval
+ mul 2
+ r more test.getval
+ mul 2
+ r more test.getval
+ mul 2
+ **lh depmax
+ message (getval 49.0)
+ ==>  message 9.6 4.8 2.4
+ 9.6
+ 4.8
+ 2.4
+ message (getval file 1 49.0) (getval file 1 50.0)
+ ==>  message 9.6 0
+ 9.6
+ 0
+ message (getval file 2 49.0) (getval file 2 50.0)
+ ==>  message 4.8 0
+ 4.8
+ 0
+ message (getval file 3 49.0) (getval file 3 50.0)
+ ==>  message 2.4 0
+ 2.4
+ 0
+ message (getval 49.0)
+ ==>  message 9.6 4.8 2.4
+ 9.6
+ 4.8
+ 2.4
+ message (getval file 1 48.51)
+ ==>  message 9.6
+ 9.6
+  
+ ==>  
+ message (maximum (getval 49.0))
+ ==>  message 9.6
+ 9.6
+ message (minimum (getval 49.0))
+ ==>  message 2.4
+ 2.4
+  
+ ==>  
+ quit

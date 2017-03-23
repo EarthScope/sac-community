@@ -1,0 +1,26 @@
+
+fg impulse
+eval (getval 49.0)
+eval (getval 50.0)
+mul 1.2
+eval (getval 49.0)
+eval (getval 50.0)
+message (getval 49.0)
+w test.getval
+r test.getval
+mul 2
+r more test.getval
+mul 2
+r more test.getval
+mul 2
+**lh depmax
+message (getval 49.0)
+message (getval file 1 49.0) (getval file 1 50.0)
+message (getval file 2 49.0) (getval file 2 50.0)
+message (getval file 3 49.0) (getval file 3 50.0)
+message (getval 49.0)
+message (getval file 1 48.51)
+
+message (maximum (getval 49.0))
+message (minimum (getval 49.0))
+

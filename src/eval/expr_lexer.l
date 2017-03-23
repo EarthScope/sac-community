@@ -224,6 +224,8 @@ __debug_parser__            { return DEBUG_PARSER;      }
 <math>divide     {  return DIV; }
 
 <math>gettime    { return GETTIME; }
+<math>getval     { return GETVAL; }
+<math>file       { return XFILE; }
 
   /* eval or evaluate to beginning of a line */
 ^" "*(eval|evaluate)    { 
@@ -645,6 +647,7 @@ eval_syntax_error(eval *e, Token *t) {
   case TOKEN_STATUS_ERROR_UNKNOWN_MACRO_VARIABLE:
   case TOKEN_STATUS_ERROR_UNKNOWN_HEADER_VARIABLE:
   case TOKEN_STATUS_ERROR_GETTIME:
+  case TOKEN_STATUS_ERROR_GETVAL:
     break;
   default:
     asprintf(&(e->error_message), 

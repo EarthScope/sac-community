@@ -43,6 +43,16 @@ Token *token_dup(Token * t);
     }                \
   } while(0);
 
+#define TOKEN_LIST_APPEND(top, cur, new) do {   \
+    if(cur) {                                   \
+      cur->next = new;                          \
+    } else {                                    \
+      top = new;                                  \
+    }                                           \
+    cur = new;                                  \
+  } while(0)
+
+
 enum {
     SAC_HEADER_FLOAT_TYPE = 1,
     SAC_HEADER_INT_TYPE,
@@ -143,6 +153,69 @@ gettime_expr(Token * A, Token * B, int lmax, int lvalue) {
         return FALSE;
     }
     token_value(A, val, 0);
+    return TRUE;
+}
+
+int
+getval_expr(Token *A, Token *time, Token *fileno, int lfile) {
+    int n,m1,m2, nerr, it, i;
+    Token *new, *cur;
+    double t,val;
+    sac *s;
+    new = NULL;
+    cur = NULL;
+    n = saclen();
+    if(time->type != NUM) { /* Make sure time token is a number */
+        error(3141, "time is not a number\n");
+        show_error();
+        return FALSE;
+    }
+    if(lfile) { /* If 'FILE n' option was given */
+        if (fileno->type != NUM) {
+            error(3141, "file_number is not a number\n");
+            show_error();
+            return FALSE;
+        }
+        if( !token_is_int(fileno) ) {
+            error(3141,"file_number must be an integer, found %f\n", fileno->value);
+            show_error();
+            return FALSE;
+        }
+        m1 = token_as_int(fileno);
+        if(m1 < 1 || m1 > n) {
+            error(3141,"file_number must be between 1 and n [n = %d], given: %d\n", n,m1);
+            show_error();
+            return FALSE;
+        }
+        m2 = m1+1;
+    } else {
+        m1 = 1;
+        m2 = n+1;
+    }
+    for(i = m1; i < m2; i++) {
+        if(!(s = sacget(i-1, TRUE, &nerr))) {
+            error(3141, "error retrieving sac data file\n");
+            show_error();
+            return FALSE;
+        }
+        t = time->value;
+        it = round( (t - s->h->b)/s->h->delta );
+        if(it < 0 || it > s->h->npts-1) {
+            error(3141, "time outside of file range [%f %f] (%s)\n",
+                  s->h->b, s->h->e, s->m->filename);
+            show_error();
+            return FALSE;
+        }
+        val = s->y[it];
+        if(cur) {
+            new = token_new_value(val);
+            cur->next = new;
+            cur = new;
+        } else {
+            token_value(A, val, 0);
+            cur = A;
+        }
+    }
     return TRUE;
 }
 
@@ -295,15 +368,6 @@ string_to_token(char *b, char *e) {
     }
     return token_new_string(p);
 }
-
-#define TOKEN_LIST_APPEND(top, cur, new) do {   \
-    if(cur) {                                   \
-      cur->next = new;                          \
-    } else {                                    \
-      t = new;                                  \
-    }                                           \
-    cur = new;                                  \
-  } while(0)
 
 Token *
 token_to_token_list(Token * t) {

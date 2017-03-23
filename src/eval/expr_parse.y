@@ -386,7 +386,20 @@ sac_math(A) ::= GETTIME(E) MAXIMUM state(B) . {
     A.col = E.col;
   }
 }
-
+sac_math(A) ::= GETVAL(E) XFILE num_or_pstate(C) state(B) . {
+    if(!getval_expr(&A, &B, &C, TRUE)) {
+        parse_error(value, TOKEN_STATUS_ERROR_GETVAL);
+    } else {
+        A.col = E.col;
+    }
+}
+sac_math(A) ::= GETVAL(E) state(B) . {
+    if(!getval_expr(&A, &B, NULL, FALSE)) {
+        parse_error(value, TOKEN_STATUS_ERROR_GETVAL);
+    } else {
+        A.col = E.col;
+    }
+}
 
 func(A) ::= INTEGER(E)    num_or_pstate(B). { token_value(&A, (int) B.value, E.col);   }
 func(A) ::= POWER(E)      num_or_pstate(B). { token_value(&A, pow(10,B.value), E.col); }
