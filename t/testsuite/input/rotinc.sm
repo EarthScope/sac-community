@@ -17,7 +17,7 @@ ch cmpaz 0 cmpinc 0 kcmpnm z
 write test.rinc_z.sac
 
 message "Input Files"
-read test.rinc_?.sac
+read test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
 message "Max: &1,depmax &2,depmax &3,depmax"
 message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
 message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
@@ -42,7 +42,9 @@ message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
 message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
 
 message ""
-message "TO VRT az: &1,az"
+setbb r (&1,baz - 180)
+setbb t (&1,baz -90)
+message "TO VRT az: &1,az R: %r T: %t"
 read test.rinc_?.sac
 rotinc to VRT
 message "Max: &1,depmax &2,depmax &3,depmax"
@@ -51,36 +53,53 @@ message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
 message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
 
 message ""
-message "TO LQT az: &1,az"
-rotinc INCIDENCE IP RAYDEG 0.0
+setbb r (&1,baz - 180)
+setbb t (&1,baz -90)
+message "TO LQT az: &1,az R: %r T: %t RAYDEG 0"
+rotinc IP RAYDEG 0.0
 message "Max: &1,depmax &2,depmax &3,depmax"
 message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
 message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
 message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
 
 message ""
-message "TO LQT az: &1,az"
+message "TO LQT az: &1,az R: %r T: %t RAYDEG 6.8 iP"
 read test.rinc_?.sac
-rotinc INCIDENCE IP RAYDEG 6.8
+rotinc IP RAYDEG 6.8 verbose
 message "Max: &1,depmax &2,depmax &3,depmax"
 message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
 message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
 message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
 
 message ""
-message "TO LQT az: &1,az"
+message "TO LQT az: &1,az R: %r T: %t RAYDEG 6.8 iS"
 read test.rinc_?.sac
-rotinc INCIDENCE IP RAYDEG 6.8 VERBOSE
+rotinc TO LQT iS RAYDEG 6.8 VERBOSE
 message "Max: &1,depmax &2,depmax &3,depmax"
 message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
 message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
 message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
 
+message ""
+setbb inc (pi * 10)
+message "TO LQT az: &1,az R: %r T: %t INCIDENCE %inc"
+read test.rinc_?.sac
+rotinc TO LQT INCIDENCE %inc VERBOSE
+message "Max: &1,depmax &2,depmax &3,depmax"
+message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
+message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
+message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
+
+message "Erorr with INCIDENCE"
+rotinc TO LQT INCIDENCE IP VERBOSE
+
+message "Undefined Back-Azimuth"
 read test.rinc_?.sac
 ch lcalda False
-ch baz 
-rotinc INCIDENCE IP RAYDEG 6.8
+ch baz
+rotinc INCIDENCE 25.34 RAYDEG 6.8
 
+message "Difference in Origin Times (nzyear)"
 read test.rinc_e.sac
 ch nzyear 1982
 write over

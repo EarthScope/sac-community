@@ -361,7 +361,9 @@ int statimcmp(sac *a, sac *b) {
 }
 
 void parse_rotinc(int *target, double *incidence, int *verbose, int *nerr) {
-    int imethod;  /* bit 0: 0: incidence   1: model derived;  bit 1: 0: vp 1:vs; bit2 0: normal 1: free surface response */
+    int imethod;  /* bit0: -- 0:incidence,   1:model derived
+                     bit1: -- 0:vp,          1:vs
+                     bit2: -- 0:normal       1:free surface response */
     double vp,vs,ray,vs2,csi2;
 
     *nerr = 0;
@@ -375,6 +377,7 @@ void parse_rotinc(int *target, double *incidence, int *verbose, int *nerr) {
     ray = 0.0;
 
     while(lcmore(nerr)) {
+        
         if(lckey("TO$", 4)) {
             /* skip */
         } else if(lckey("VERBOSE$", 5)) {
@@ -387,6 +390,8 @@ void parse_rotinc(int *target, double *incidence, int *verbose, int *nerr) {
             *target = XYZ;
         } else if(lckey("VNE$", 5)) {
             *target = VNE;
+        } else if(lckey("LQT$", 5)) {
+            *target = LQT;
         } else if(lkreal("INCIDENCE$", 11, incidence)) {
             imethod = 0;
             if(*target == -1) {
@@ -409,15 +414,20 @@ void parse_rotinc(int *target, double *incidence, int *verbose, int *nerr) {
         }
     }
 
+    if(*nerr != 0) {
+        return;
+    }
+    
     if (*target== -1) {
         *target=LQT;
     }
 
-    if(*target == LQT && imethod == 0) {
+    /*if(*target == LQT && imethod == 0) {
         *nerr = 1011;
         error(*nerr, "Must specify a incidence angle method");
         return;
     }
+    */
 
     if(*verbose) {
         printf(" Target Coordinate System: %s\n", target_str[*target]);
@@ -464,7 +474,7 @@ void parse_rotinc(int *target, double *incidence, int *verbose, int *nerr) {
         }
         if(*verbose) {
             const char *method_str[] = {
-                "0","Vp No Free Surface", "2", "Vs No Free Surface", "4",
+                "Incidence","Vp No Free Surface", "2", "Vs No Free Surface", "4",
                 "Vp Free Surface", "6", "Vsv Free Surface",
             };
             printf(" Incidence Angle Method: '%s'\n", method_str[imethod]);

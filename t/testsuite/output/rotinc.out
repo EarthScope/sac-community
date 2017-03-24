@@ -28,8 +28,7 @@
  ==>  
  message "Input Files"
  Input Files
- read test.rinc_?.sac
-test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
+ read test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
  message "Max: &1,depmax &2,depmax &3,depmax"
  ==>  message "Max: 2 1 4"
  Max: 2 1 4
@@ -88,9 +87,13 @@ test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
  ==>  
  message ""
   
- message "TO VRT az: &1,az"
- ==>  message "TO VRT az: 88.1472"
- TO VRT az: 88.1472
+ setbb r (&1,baz - 180)
+ ==>  setbb r 91.8528
+ setbb t (&1,baz -90)
+ ==>  setbb t 181.853
+ message "TO VRT az: &1,az R: %r T: %t"
+ ==>  message "TO VRT az: 88.1472 R: 91.8528 T: 181.853"
+ TO VRT az: 88.1472 R: 91.8528 T: 181.853
  read test.rinc_?.sac
 test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
  rotinc to VRT
@@ -110,10 +113,14 @@ test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
  ==>  
  message ""
   
- message "TO LQT az: &1,az"
- ==>  message "TO LQT az: 88.1472"
- TO LQT az: 88.1472
- rotinc INCIDENCE IP RAYDEG 0.0
+ setbb r (&1,baz - 180)
+ ==>  setbb r 91.8528
+ setbb t (&1,baz -90)
+ ==>  setbb t 181.853
+ message "TO LQT az: &1,az R: %r T: %t RAYDEG 0"
+ ==>  message "TO LQT az: 88.1472 R: 91.8528 T: 181.853 RAYDEG 0"
+ TO LQT az: 88.1472 R: 91.8528 T: 181.853 RAYDEG 0
+ rotinc IP RAYDEG 0.0
  message "Max: &1,depmax &2,depmax &3,depmax"
  ==>  message "Max: 4 1.96662 1.09818"
  Max: 4 1.96662 1.09818
@@ -130,34 +137,12 @@ test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
  ==>  
  message ""
   
- message "TO LQT az: &1,az"
- ==>  message "TO LQT az: 88.1472"
- TO LQT az: 88.1472
+ message "TO LQT az: &1,az R: %r T: %t RAYDEG 6.8 iP"
+ ==>  message "TO LQT az: 88.1472 R: 91.8528 T: 181.853 RAYDEG 6.8 iP"
+ TO LQT az: 88.1472 R: 91.8528 T: 181.853 RAYDEG 6.8 iP
  read test.rinc_?.sac
 test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
- rotinc INCIDENCE IP RAYDEG 6.8
- message "Max: &1,depmax &2,depmax &3,depmax"
- ==>  message "Max: 4.43748 0.419989 1.09818"
- Max: 4.43748 0.419989 1.09818
- message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
- ==>  message "Az:  0 91.8528 181.853"
- Az:  0 91.8528 181.853
- message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
- ==>  message "Inc: 20.7746 110.775 90"
- Inc: 20.7746 110.775 90
- message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
- ==>  message "Cmp: L Q T"
- Cmp: L Q T
-  
- ==>  
- message ""
-  
- message "TO LQT az: &1,az"
- ==>  message "TO LQT az: 88.1472"
- TO LQT az: 88.1472
- read test.rinc_?.sac
-test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
- rotinc INCIDENCE IP RAYDEG 6.8 VERBOSE
+ rotinc IP RAYDEG 6.8 verbose
  Target Coordinate System: LQT
  Incidence Angle Method: 'Vp No Free Surface'
     Vp: 5.80 km/s Vs: 3.35 km/s Ray Param: 0.061154 s/km
@@ -176,15 +161,78 @@ test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
  Cmp: L Q T
   
  ==>  
+ message ""
+  
+ message "TO LQT az: &1,az R: %r T: %t RAYDEG 6.8 iS"
+ ==>  message "TO LQT az: 88.1472 R: 91.8528 T: 181.853 RAYDEG 6.8 iS"
+ TO LQT az: 88.1472 R: 91.8528 T: 181.853 RAYDEG 6.8 iS
+ read test.rinc_?.sac
+test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
+ rotinc TO LQT iS RAYDEG 6.8 VERBOSE
+ Target Coordinate System: LQT
+ Incidence Angle Method: 'Vs No Free Surface'
+    Vp: 5.80 km/s Vs: 3.35 km/s Ray Param: 0.061154 s/km
+    Incidence angle: 11.82
+ message "Max: &1,depmax &2,depmax &3,depmax"
+ ==>  message "Max: 4.31805 1.10545 1.09818"
+ Max: 4.31805 1.10545 1.09818
+ message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
+ ==>  message "Az:  0 91.8528 181.853"
+ Az:  0 91.8528 181.853
+ message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
+ ==>  message "Inc: 11.8216 101.822 90"
+ Inc: 11.8216 101.822 90
+ message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
+ ==>  message "Cmp: L Q T"
+ Cmp: L Q T
+  
+ ==>  
+ message ""
+  
+ setbb inc (pi * 10)
+ ==>  setbb inc 31.4159
+ message "TO LQT az: &1,az R: %r T: %t INCIDENCE %inc"
+ ==>  message "TO LQT az: 88.1472 R: 91.8528 T: 181.853 INCIDENCE 31.4159"
+ TO LQT az: 88.1472 R: 91.8528 T: 181.853 INCIDENCE 31.4159
+ read test.rinc_?.sac
+test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
+ rotinc TO LQT INCIDENCE %inc VERBOSE
+ ==>  rotinc TO LQT INCIDENCE 31.4159 VERBOSE
+ Target Coordinate System: LQT
+ message "Max: &1,depmax &2,depmax &3,depmax"
+ ==>  message "Max: 4.43872 0.419668 1.09818"
+ Max: 4.43872 0.419668 1.09818
+ message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
+ ==>  message "Az:  0 91.8528 181.853"
+ Az:  0 91.8528 181.853
+ message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
+ ==>  message "Inc: 31.4159 121.416 90"
+ Inc: 31.4159 121.416 90
+ message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
+ ==>  message "Cmp: L Q T"
+ Cmp: L Q T
+  
+ ==>  
+ message "Erorr with INCIDENCE"
+ Erorr with INCIDENCE
+ rotinc TO LQT INCIDENCE IP VERBOSE
+ ERROR interpreting command:  rotinc TO LQT INCIDENCE IP VERBOSE 
+ NEED A REAL VARIABLE:                                ^
+  
+ ==>  
+ message "Undefined Back-Azimuth"
+ Undefined Back-Azimuth
  read test.rinc_?.sac
 test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
  ch lcalda False
  ch baz
- rotinc INCIDENCE IP RAYDEG 6.8
+ rotinc INCIDENCE 25.34 RAYDEG 6.8
  ERROR 1336: Undefined header field value. baz for files 1-3
              Cannot rotate to LQT coordinate system
   
  ==>  
+ message "Difference in Origin Times (nzyear)"
+ Difference in Origin Times (nzyear)
  read test.rinc_e.sac
  ch nzyear 1982
  write over
