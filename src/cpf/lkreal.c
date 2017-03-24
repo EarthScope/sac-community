@@ -30,11 +30,15 @@
  */
 int
 lkreal(char *kkey, int kkey_s, double *realv) {
-
+    int retval;
     if (!lckey(kkey, kkey_s)) {
         return FALSE;
     }
 
-    lcreal(realv);
-    return TRUE;
+    if(!(retval = lcreal(realv))) {
+        cfmt("NEED A REAL VARIABLE:", 23);
+        cresp();
+    }
+    return retval;
 }
+

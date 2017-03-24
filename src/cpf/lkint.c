@@ -35,11 +35,15 @@
 int
 lkint(char *kkey, int kkey_s, int *intv) {
 
+    int retval;
     /* - Check for key. */
     if (!lckey(kkey, kkey_s)) {
         return FALSE;
     }
 
-    lcint(intv);
+    if(!(retval = lcint(intv))) {
+        cfmt("NEED A INTEGER VARIABLE:", 23);
+        cresp();
+    }
     return TRUE;
 }
