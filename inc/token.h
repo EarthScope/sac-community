@@ -103,6 +103,7 @@ int isnumx(char *s);
 int is_string_like(int type);
 char *lexer_input();
 int gettime_expr(Token * A, Token * B, int lmax, int lvalue);
+int getval_expr(Token *A, Token *time, Token *fileno, int lfile);
 
 int token_is_eq(Token * t);
 int token_is_ne(Token * t);
