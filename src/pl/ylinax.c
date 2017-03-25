@@ -22,9 +22,9 @@ GEM_EXTERN
 
 void /*FUNCTION*/
 ylinax() {
-    char ktemp[9],kfmt[32];
+    char kfmt[32];
     int lneglb, lpower;
-    int ia, ib, igdlog, jdiv, jpower, jstep, jtick, mds, nc, nds, ndsu, ntick,
+    int ia, ib, igdlog, jdiv, jpower, jstep, jtick, mds, nds, ndsu, ntick,
         nydivu;
     float divlog, divtry, factor, grdlog, power, skfudge, slen, slenmx, value,
         valuei, xloc, xpow, xvpmax, xvpmin, ydivu, ygrdmn, ygrdmx, yref, yrefi,

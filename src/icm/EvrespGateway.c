@@ -25,10 +25,8 @@
 
 int
 is_xml_file(char *file) {
-    int is_xml_file = 1;
     char p;
     char data[6];
-    char xml[6] = "<?xml";
     FILE *fp;
 
     if(!file) {
@@ -268,7 +266,7 @@ EvrespGateway(int nfreq, double delfrq, double xre[], double xim[],
     char units[4] = "   ";
     char locid[9] = "*";
     char check[9] = "        ";
-    int start_stage = -1, stop_stage = 0, stdio_flag = 0;
+    int start_stage = -1, stop_stage = 0;
     double incr, freq_lims[2], *freqs;
     char *verbose = 0;
     struct response *first;

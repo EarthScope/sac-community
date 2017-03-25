@@ -86,7 +86,7 @@ getkhv_internal(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s,
         }
     } else {
         *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;
-        memcpy(kvalue, SAC_CHAR_UNDEFINED, min(kvalue_s, strlen(SAC_CHAR_UNDEFINED)));
+        memcpy(kvalue, SAC_CHAR_UNDEFINED, min(kvalue_s, (int)strlen(SAC_CHAR_UNDEFINED)));
         index = 1;
     }
     if(null_terminate) {

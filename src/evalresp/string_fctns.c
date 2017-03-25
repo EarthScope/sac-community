@@ -197,7 +197,7 @@ int get_line(FILE *fptr, char *return_line, int blkt_no, int fld_no, char *sep) 
         ungetc(test, fptr);
         (void) fgets(line, MAXLINELEN, fptr);
 
-        for (i = 0; i < strlen(line); i++) {
+        for (i = 0; i < (int)strlen(line); i++) {
             if ('\t' == line[i])
                 line[i] = ' ';
         }

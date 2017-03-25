@@ -42,7 +42,7 @@ int bellON = TRUE;
 void
 xppk(int *nerr) {
 
-    char _c0[2], kmsg[MCMSG + 1], knlocs[9], kptext[MCMSG + 1], kundrt[9],
+    char _c0[2], kmsg[MCMSG + 1], kptext[MCMSG + 1], kundrt[9],
         kxloc[17], kyloc[17];
     int lany, lempty, *lhlwrt, lppkab, lrdttm, ltitls, lwfok, lxlims, *lzdttm;
     int xlabelsave, ylabelsave;
@@ -67,7 +67,6 @@ xppk(int *nerr) {
     static int lhltrm = FALSE;
     static int lhlhyp = FALSE;
     static int nsavelocs = 0;
-    char *cattemp, *cattemp1;
 
     int *const Iwf = &iwf[0] - 1;
     int bellJUNK;

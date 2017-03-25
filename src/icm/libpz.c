@@ -85,7 +85,6 @@ is_numexp(char c) {
 void
 polezero_comment_float(char *p, pzmeta_t * meta, pzcomment_t * c) {
     char *pp;
-    char *s;
     int nerr;
     float *f;
     nerr = 1;

@@ -207,8 +207,7 @@ sac_data_read_new(sac *s, FILE *fp) {
 int
 sac_header_read_new(sac *s, FILE *fp) {
     int nerr;
-    char *p;
-    size_t n, i;
+    size_t n;
     char str[SAC_HEADER_STRINGS * 8];
     //fprintf(stderr, "sac hdr: %p\n", s->h);
     n = SAC_HEADER_NUMBERS;

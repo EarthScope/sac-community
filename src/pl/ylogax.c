@@ -22,11 +22,11 @@ void /*FUNCTION*/
 ylogax() {
     char kdec[9];
     int lsecax, lsectc;
-    int idecin, idecmn, idecmx, isecin, jdec, jfac, nc, ndivu;
+    int idecin, idecmn, idecmx, isecin, jdec, jfac, ndivu;
     float decade, decmn, decmx, decsiz, skfudge, slen, slen10, slenmx, xloc,
         xvpmax, xvpmin, ypmnf, ypmxf, yref, yrefs, yvpmax, yvpmin;
     char v[2];
-    float exp_width = 0.2;
+
         /*=====================================================================
 	 * PURPOSE:  To produce a logarithmically-scaled axis to the right
 	 *           and/or left of the current plot window.

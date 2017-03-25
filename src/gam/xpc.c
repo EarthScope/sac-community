@@ -20,7 +20,6 @@ GEM_EXTERN
 void
 xpc(int *nerr) {
     int lany, lcuron, lexist, lquit, lrplon;
-    int nc;
     FILE *nunrpl;
 
         /*=====================================================================

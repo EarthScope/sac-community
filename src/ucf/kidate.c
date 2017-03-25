@@ -13,7 +13,6 @@
 /* Recognize leap years  */
 int
 isleap(int yr) {
-    int l;
 
     if (yr < 0) {
         yr++;
