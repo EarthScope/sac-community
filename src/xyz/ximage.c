@@ -35,7 +35,7 @@ ximage(nerr)
      int *nerr;
 {
     char kret[9];
-    int lany, lframesave, lwait, lxlimits, lylimits, lprint = FALSE, ltry =
+    int lany, lframesave = 0, lwait, lxlimits, lylimits, lprint = FALSE, ltry =
         FALSE;
     int ixstart, ixstop, iystart, iystop, jfile, ncret, nfiles, nxsize, nysize;
     int jxstart, jxstop, jystart, jystop;

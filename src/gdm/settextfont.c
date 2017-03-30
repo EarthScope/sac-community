@@ -36,7 +36,7 @@ GDM_EXTERN
 void
 settextfont(int ifont) {
     char kfile[MCPFN + 1], kiline[MCMSG + 1], fontbuf[11];
-    int i, igtfn, j, jfont, ncerr, nerr;
+    int i, igtfn = 1, j, jfont, ncerr, nerr;
     FILE *nun;
 
     for (i = 0; i < MCPFN; i++)

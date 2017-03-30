@@ -30,8 +30,8 @@ void
 xplotxy(int *nerr) {
     char kfile[MCPFN + 1], ktemp[MCMSG + 1];
     int lany, lchange, lxlims, lylimj;
-    int *idflnumber, jdfl, jdflnumber, nc, ndflnumber, num;
-    float atrwid, slen, slenm, slenvs, vportratio, xlinl1, xlinl2, xrange,
+    int *idflnumber, jdfl, jdflnumber, nc = 0, ndflnumber, num;
+    float atrwid, slen, slenm, slenvs, vportratio, xlinl1 = 0.0, xlinl2 = 0.0, xrange,
         xsymlc, yatrlc, yimnj, yimxj, yrange;
 
     char *tmp;

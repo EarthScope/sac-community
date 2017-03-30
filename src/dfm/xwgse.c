@@ -45,7 +45,7 @@ xwgse(int *nerr) {
     int nchar;
     static int lwrdir = FALSE;
     char *pfile;
-    string_list *list;
+    string_list *list = NULL;
 
     *nerr = 0;
     list = NULL;

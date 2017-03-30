@@ -26,11 +26,11 @@ ylinaxis(llefax, lrigax, lleftc, lrigtc, widlef, widrig)
 {
     int horz, vert;
     char ktemp[9];
-    int lneglb, lpower, lrev, lypowr;
-    int ia, ib, igdlog, iline, jdiv, jpower, jstep, jtick, mds, nc, nds, ndsu,
+    int lneglb, lpower, lrev = 0, lypowr;
+    int ia, ib, igdlog, iline, jdiv, jpower, jstep = 0, jtick, mds, nc, nds, ndsu,
         ntick, nydivu;
     float chht, chwid, divlog, divtry, factor, grdlog, power, slen, slenmx,
-        value, valuei, xloc, xpow, xvspmx, ydivu, ygrdmn, ygrdmx, ymax, ymin,
+        value, valuei, xloc, xpow, xvspmx, ydivu, ygrdmn, ygrdmx, ymax = 0.0, ymin = 0.0,
         yref, yrefi, ytick, yticki;
     static char kvalue[17] = "                ";
     static char kpower[9] = "        ";

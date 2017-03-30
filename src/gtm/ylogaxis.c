@@ -23,7 +23,7 @@ ylogaxis(int llefax, int lrigax, int lleftc, int lrigtc, float *widlef,
     char kdec[9];
     int horz, vert;
     int lsecax, lsectc;
-    int idecin, idecmn, idecmx, iline, isecin, jdec, jfac, jfac_, nc, ndivu;
+    int idecin, idecmn, idecmx, iline, isecin = 1, jdec, jfac, jfac_, nc, ndivu;
     float chht, chwid, decade, decmn, decmx, decsiz, slen, slen10, slenmx, xloc,
         ypmnf, ypmxf, yref, yrefs;
 

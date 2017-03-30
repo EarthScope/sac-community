@@ -80,7 +80,7 @@ xrtab(int lplot, int *nerr) {
         kform[MCMSG + 1];
     int lbcksp, lexpnd, lfree, lmore, ltoend, numchar, lprint = FALSE, ltry =
         FALSE;
-    int idx, ic, ic1, ic2, iopch[MAXCH], ipt, itype, jdx, jch, jen, nc, nchar,
+    int idx, ic, ic1, ic2, iopch[MAXCH], ipt = 0, itype, jdx, jch, jen, nc, nchar,
         ndcont, ndflsv, ndform, nentry, nlnch[MAXCH - (0) + 1],
         nptch[MAXCH - (0) + 1], nsndfl, numch, numxch, numych;
     FILE *nun;

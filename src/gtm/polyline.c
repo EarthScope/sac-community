@@ -94,7 +94,7 @@ clip_to_rect(float x[2], float y[2], float r[4]) {
         if ((c0 & c1)) {
             return 0;
         }
-        double tx, ty;
+        double tx = 0.0, ty = 0.0;
         c2 = c0 ? c0 : c1;
         if (c2 & TOP) {
             tx = x[0] + (x[1] - x[0]) * (r[3] - y[0]) / (y[1] - y[0]);

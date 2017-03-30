@@ -197,7 +197,7 @@ xgmtmap(int *nerr) {
     float minsize, maxsize, midsize, deltasize;
     float minneg, minpos, maxneg, maxpos;
     float midscale, deltascale;
-    float slope, intercept;
+    float slope= 0.0, intercept = 0.0;
 
     float *buf = NULL;
     float *size;

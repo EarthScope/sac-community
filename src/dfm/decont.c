@@ -56,7 +56,7 @@ decont(char *kcont, int kcont_s, int maxch, int *numch, int *numxch,
        int *numych, int *iopch, int *ltoend, int *nerr) {
 
     char kop, krep;
-    int jdx, jc, nc, nchstart, nrep;
+    int jdx, jc, nc, nchstart, nrep = 0;
 
     int *const Iopch = &iopch[0] - 1;
 

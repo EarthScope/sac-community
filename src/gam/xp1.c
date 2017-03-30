@@ -29,7 +29,7 @@ void
 xp1(int *nerr) {
     int n;
     char *kptext, kret[9];
-    int l1dttm, lany, lbotaxsave, lbottcsave, lframesave, ltitlsave, ltoptcsave,
+    int l1dttm = 0, lany, lbotaxsave, lbottcsave, lframesave, ltitlsave, ltoptcsave,
         lwait, lxgrdsave, lxlabsave, lxlims, lylabsave, lprint = FALSE, ltry =
         FALSE;
     int jdfl, jdfl1, jdfl2, jfr, jperfr, n1dttm[6], ncret, nfr, nperfr;

@@ -67,6 +67,8 @@ Notes:
 #include <stdlib.h>
 #include <string.h>
 
+#define UNUSED(x) (void) x
+
 /* define a global flag to use if using "default" units */
 int def_units_flag;
 
@@ -266,6 +268,7 @@ struct response *evresp_itp(char *stalst, char *chalst, char *net_code,
 
     /* Let's save the original frequencies requested by a user since they can be overwritten */
     /* if we process blockette 55 IGD for version 3.2.17 of evalresp*/
+    UNUSED(rtype);
 
     nfreqs_orig = nfreqs;
     freqs_orig = (double *) malloc(sizeof(double) * nfreqs_orig);
@@ -918,6 +921,7 @@ struct response *evresp(char *stalst, char *chalst, char *net_code,
         int nfreqs, char *rtype, char *verbose, int start_stage, int stop_stage,
         int stdio_flag, int useTotalSensitivityFlag, double x_for_b62,
 		int xml_flag) {
+    UNUSED(useTotalSensitivityFlag);
     return evresp_itp(stalst, chalst, net_code, locidlst, date_time, units,
             file, freqs, nfreqs, rtype, verbose, start_stage, stop_stage,
             stdio_flag, 0, 0, 0.0, 0, x_for_b62, xml_flag);

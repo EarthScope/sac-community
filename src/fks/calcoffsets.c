@@ -22,7 +22,7 @@
 void
 calcoffsets(int ns, float *xr, float *yr, float *zr, int *nerr) {
 
-    float reflat, reflon, refel, dlat, dlon, avlat;
+    float reflat = 0.0, reflon = 0.0 , refel = 0.0, dlat, dlon, avlat;
     int jdfl, idfl, count;
     int lrefset, lstaset, luserset, levset;
     char refsta[9];

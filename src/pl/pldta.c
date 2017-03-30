@@ -32,9 +32,9 @@ pldta(float xarray[], float yarray[], int number, int incx, int incy, int *nerr)
     char kinc[9];
     int nXdata = 0, nYdata = 0; /* number of points plotted so far, maf 980116 */
     int lclip, lfdon, lnewdp, lqdp, ltdon;
-    int inc, insym, j, j3, jblock, jcopy, jx, jx1, jx2, jxb, jxf, jxl, jxx, jy,
-        jy1, jy2, jyb, jyf, jyl, jyy, nblinbuf, nblock, ncopy, ncopyd, ninc,
-        nqdp, nremdr, numf, numl, numu, nwhole, do_count;
+    int inc, insym, j, j3, jblock, jcopy, jx, jx1, jx2, jxb, jxf, jxl, jxx = 0, jy,
+        jy1, jy2, jyb, jyf, jyl, jyy = 0, nblinbuf, nblock, ncopy, ncopyd, ninc,
+        nqdp = 1, nremdr, numf, numl, numu, nwhole, do_count;
     float slen, x1, x2, xblock[MBLOCK + 2], xrectangle, xtest, y1, y2,
         yblock[MBLOCK + 2], yrectangle, ytest;
 

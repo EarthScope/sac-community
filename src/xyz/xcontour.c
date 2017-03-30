@@ -28,7 +28,7 @@ xcontour(nerr)
      int *nerr;
 {
     char kret[9];
-    int lany, lframesave, lwait, lxlimits, lylimits;
+    int lany, lframesave = 0, lwait, lxlimits, lylimits;
     int ixstart, ixstop, iystart, iystop, jfile, ncret, nfiles, nxsize, nysize;
     float vportratio, vspaceratio, xmaximum, xminimum, xstart, xstop, ymaximum,
         yminimum, ystart, ystop;

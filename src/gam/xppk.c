@@ -50,9 +50,9 @@ xppk(int *nerr) {
     int iwf[5], jdx, jdfl, jdfl1, jdfl2, jdfls, jfr, jhdr1, jhdr2, jhour, jjday,
         jmark, jmark1, jmark2, jmin, jmsec, jofset, jsec, jwin, jyear, ncerr,
         ndxpk, nexday, nfr, nlncda, nperfr, npmark, npmsec, npsec, nrdttm[6],
-        nsavelast, nst, unused;
-    float amplmn, amplmx, facc, fsecsi, prl, psecsi, seccur, secinc, ssecsi,
-        time, tmax, tmaxj, tmin, tminew, tminj, *toff, tref1, twin[MWIN][2],
+        nsavelast = 0, nst, unused;
+    float amplmn, amplmx, facc, fsecsi, prl, psecsi, seccur, secinc = 0.0, ssecsi,
+        time, tmax, tmaxj, tmin, tminew = 0.0, tminj, *toff, tref1, twin[MWIN][2],
         xloc, xloc1, xloc2, xlocs1, xlocs2, xtpos, *yimnzs, *yimxzs, yloc,
         ypdel, ypdelv, ypmns, ypmnv, ypmxs, ypmxus, ypmxv, ytpos;
     double tmp;

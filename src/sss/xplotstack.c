@@ -31,7 +31,7 @@ xplotstack(nerr)
      int *nerr;
 {
     char kptext[MCMSG + 1], kret[9];
-    int lactive, lany, lwait, lframs;
+    int lactive, lany, lwait, lframs = 0;
     int ioffsetdta, ioffsettw, jdfl, jdfl1, jdfl2, jfr, jloc, ncret, nfr,
         nperfr, numplot;
     float delay, factor, unused, unused_, xwloc, ypdel, ypmxsv, ywloc;

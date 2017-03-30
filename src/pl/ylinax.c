@@ -24,10 +24,10 @@ void /*FUNCTION*/
 ylinax() {
     char kfmt[32];
     int lneglb, lpower;
-    int ia, ib, igdlog, jdiv, jpower, jstep, jtick, mds, nds, ndsu, ntick,
+    int ia, ib, igdlog, jdiv, jpower, jstep = 1, jtick, mds, nds, ndsu, ntick,
         nydivu;
     float divlog, divtry, factor, grdlog, power, skfudge, slen, slenmx, value,
-        valuei, xloc, xpow, xvpmax, xvpmin, ydivu, ygrdmn, ygrdmx, yref, yrefi,
+        valuei, xloc, xpow = 0.0, xvpmax, xvpmin, ydivu, ygrdmn, ygrdmx, yref, yrefi,
         ytick, yticki, yvpmax, yvpmin;
     static char kvalue[17] = "                ";
     static char kpower[9];

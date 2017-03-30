@@ -67,7 +67,7 @@ EXM_EXTERN
 void
 xfg(int *nerr) {
     char kfile[MCPFN + 1];
-    int iseed, j, j1, jdfl, ndx1, ndx2, ndxh, nlen, n;
+    int iseed, j, j1, jdfl = 0, ndx1, ndx2, ndxh, nlen, n;
     static int nra;
     int itmp;
     double dtmp[2];

@@ -35,7 +35,7 @@ void
 xdecimate(int *nerr) {
 
     char kdecnm[MCPFN + 1];
-    int idx, jdx, jdfl, nlndec, nlnnew, nlnscr;
+    int idx, jdx, jdfl, nlndec, nlnnew, nlnscr = 0;
 
     static char kint[7 - (2) + 1] = { '2', '3', '4', '5', '6', '7' };
     static int ndecmn = 2;

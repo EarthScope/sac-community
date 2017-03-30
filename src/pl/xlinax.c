@@ -22,11 +22,11 @@ void
 xlinax() {
     int lpower;
     char kfmt[32];
-    int ia, ib, igdlog, jpower, jstep, mds, nds, ndsu, ntick,
+    int ia, ib, igdlog, jpower, jstep = 1, mds, nds, ndsu, ntick,
         nxdivu;
     int i, j, k;
     float divlog, divtry, factor, grdlog, power, skfudge, value, valuei, xdivu,
-        xgrdmn, xgrdmx, xref, xrefi, xtick, xticki, xvpmax, xvpmin, yloc, ypow,
+        xgrdmn, xgrdmx, xref, xrefi, xtick, xticki, xvpmax, xvpmin, yloc, ypow = 0.0,
         yvpmax, yvpmin;
     static char kvalue[17] = "                ";
     static char kpower[9] = "        ";

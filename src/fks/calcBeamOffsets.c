@@ -268,7 +268,7 @@ userOffsets(int nFiles, float *xr, float *yr, float *zr, int *nerr) {
 void
 eventOffsets(int nFiles, float *xr, float *yr, float *zr, int *nerr) {
     int jdfl;
-    float dlat, dlon, avlat, reflat, reflon, refel;
+    float dlat, dlon, avlat, reflat = 0.0, reflon = 0.0, refel = 0.0;
     sac *s;
     for (jdfl = 1; jdfl <= nFiles; jdfl++) {
         if (!(s = sacget(jdfl - 1, FALSE, nerr))) {

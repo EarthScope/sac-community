@@ -27,7 +27,7 @@ xlinaxis(lbotax, ltopax, lbottc, ltoptc, widbot, widtop)
     int horz, vert;
     char ktemp[9];
     int lpower, lxpowr;
-    int ia, ib, igdlog, iline, jdiv, jpower, jstep, jtick, mds, nc, nds, ndsu,
+    int ia, ib, igdlog, iline, jdiv, jpower, jstep = 0, jtick, mds, nc, nds, ndsu,
         ntick, nxdivu;
     float chht, chwid, divlog, divtry, factor, grdlog, power, value, valuei,
         xdivu, xgrdmn, xgrdmx, xref, xrefi, xtick, xticki, yloc, ypow, yvspmx;

@@ -136,7 +136,7 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
     char *key;
     char *kline;
     int lexist, lopen, lpoles, lzeros;
-    int i, idx, ic, ic1, ic2, ipoles, itype, izeros, nc, ncerr, npoles, nzeros,
+    int i, idx, ic, ic1, ic2, ipoles = 0, itype, izeros = 0, nc, ncerr, npoles, nzeros,
         numsave;
     FILE *nun;
     float temp1, temp2;

@@ -24,7 +24,7 @@ xlogaxis(int lbotax, int ltopax, int lbottc, int ltoptc, float *widbot,
     char kdec[9];
     int horz, vert;
     int lsecax, lsectc;
-    int idecin, idecmn, idecmx, iline, isecin, jdec, jfac, jfac_, nc, ndivu;
+    int idecin, idecmn, idecmx, iline, isecin = 1, jdec, jfac, jfac_, nc, ndivu;
     float chht, chwid, decade, decmn, decmx, decsiz, slen, slen10, slenmx,
         xmpip2, xpmnf, xpmxf, xpmxu, xref, xrefs, yloc, ypmnu, ypmxu;
 

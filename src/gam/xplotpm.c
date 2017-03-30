@@ -29,7 +29,7 @@ void
 xplotpm(int *nerr) {
     char kret[9], kstart[25], kstop[25], xlabel[MCMSG + 1],
         ylabel[MCMSG + 1];
-    int lany, lframesave, lrxlim, lwait, lprint = FALSE, ltry = FALSE;
+    int lany, lframesave = 0, lrxlim, lwait, lprint = FALSE, ltry = FALSE;
     int ixplot, iyplot, jdfl, nc, ncret, nplot;
     float ratio, start, stop, tmax, tmin, unused, wmax, wmin, xloc, xmax, xmin,
         xvmax, xvmin, yloc, ymax, ymin, yvmax, yvmin;

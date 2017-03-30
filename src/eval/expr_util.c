@@ -504,6 +504,8 @@ token_var(Token * a, int type, char *key, int col) {
         case VARIABLE:
             c = '$';
             break;
+        default:
+            return FALSE;
     }
 
     p = (*key == c) ? key + 1 : key;

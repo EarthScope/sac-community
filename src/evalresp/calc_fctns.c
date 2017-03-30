@@ -45,6 +45,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define UNUSED(x) (void) x
+
 /*=================================================================
  *                   Calculate response
  *=================================================================*/
@@ -343,6 +345,7 @@ void iir_trans(struct blkt *blkt_ptr, double wint, struct evr_complex *out) {
  *===============================================================*/
 void calc_polynomial(struct blkt *blkt_ptr, int i, struct evr_complex *out,
         double x_for_b62) {
+    UNUSED(i);
     double amp = 0, phase = 0;
     int j;
 

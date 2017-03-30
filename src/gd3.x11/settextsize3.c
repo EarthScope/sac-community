@@ -743,7 +743,7 @@ void
 text_box_x11(textbox * t) {
     int i;
     float x, y, sx, sy;
-    int len, xlen, cwidth, cheight, ascent;
+    int len, xlen, cwidth = 0, cheight = 0, ascent = 0;
     XWindow *xw;
     XFontStruct *font;
 
