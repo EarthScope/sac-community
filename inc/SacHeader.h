@@ -148,11 +148,17 @@ struct SACheader {
     char kdatrd[9];             /*    date data read         */
     char kinst[9];              /*    instrument name        */
 };
+
+/* Compile Time Assert
+   SACheader must be 656 bytes
+   (70 * 4) + (40 * 4) + (24 * 9)
+   float    + ints     + strings
+*/
 #define CASSERT(predicate, file) _impl_CASSERT_LINE(predicate,__LINE__,file)
 
 #define _impl_PASTE(a,b) a##b
 #define _impl_CASSERT_LINE(predicate, line, file) \
-  typedef char _impl_PASTE(assertion_failed_##file##_,line)[2*!!(predicate)-1];
+  typedef char _impl_PASTE(assertion_failed_##file##_line ,line)[2*!!(predicate)-1];
 
 CASSERT(sizeof(struct SACheader) == 656, SacHeader_h)
 

@@ -109,9 +109,7 @@ formhv(char *kname, int kname_s, int iform, char *kout, int kout_s, int *nerr) {
                 break;
             case STRING_TYPE:
                 p = khdr(s, item);
-                lok =
-                    memcmp(p, SAC_CHAR_UNDEFINED,
-                           min(strlen(p), strlen(SAC_CHAR_UNDEFINED))) != 0;
+                lok = ! is_kundefn(p, item);
                 if (lok || linc) {
                     memset(kvalue, ' ', sizeof(kvalue));
                     strncpy(kvalue, p, strlen(p));

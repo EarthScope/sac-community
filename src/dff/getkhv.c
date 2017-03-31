@@ -26,9 +26,33 @@ LHF_EXTERN
 #define NULL_PAD  '\0'
 
 int
+hdr_len(int index) {
+    if(index == 2) {
+        return 2 * SAC_HEADER_STRING_LENGTH_FILE;
+    }
+    return SAC_HEADER_STRING_LENGTH_FILE;
+}
+
+
+int
 is_kundef(char *kvalue) {
-    return (memcmp(kvalue, SAC_CHAR_UNDEFINED, strlen(SAC_CHAR_UNDEFINED)) ==
-            0);
+    size_t n = strlen(kvalue);
+    return n == strlen(SAC_CHAR_UNDEFINED) &&
+        (memcmp(kvalue, SAC_CHAR_UNDEFINED, strlen(SAC_CHAR_UNDEFINED)) == 0);
+}
+int
+is_kundef2(char *kvalue) {
+    size_t n = strlen(kvalue);
+    return n == strlen(SAC_CHAR_UNDEFINED_2 ) &&
+        (memcmp(kvalue, SAC_CHAR_UNDEFINED_2, strlen(SAC_CHAR_UNDEFINED_2)) == 0);
+}
+
+int
+is_kundefn(char *kvalue, int item) {
+    if(item == 2) {
+        return is_kundef2(kvalue);
+    }
+    return is_kundef(kvalue);
 }
 
 /** 
@@ -80,8 +104,8 @@ getkhv_internal(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s,
     memset(kvalue, ' ', kvalue_s);
     if (index > 0) {
         p = khdr(s, index);
-        memcpy(kvalue, p, min(kvalue_s, (index == 2) ? 16 : 8));
-        if (is_kundef(p)) {
+        memcpy(kvalue, p, min(kvalue_s, hdr_len(index)));
+        if (is_kundefn(p, index)) {
             *nerr = ERROR_UNDEFINED_HEADER_FIELD_VALUE;
         }
     } else {
@@ -90,7 +114,7 @@ getkhv_internal(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s,
         index = 1;
     }
     if(null_terminate) {
-        int n = min(kvalue_s-1, (index==2) ? 16:8);
+        int n = min(kvalue_s-1, hdr_len(index));
         kvalue[n] = 0;
     }
 

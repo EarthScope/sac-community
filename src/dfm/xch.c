@@ -231,8 +231,11 @@ xch(int *nerr) {
                             clrmsg();
                             continue;
                         }
-                        strncpy(khdrc[j1 - 1], SAC_CHAR_UNDEFINED,
-                                strlen(SAC_CHAR_UNDEFINED));
+                        if(itemx == 2) {
+                            strncpy(khdrc[j1 - 1], SAC_CHAR_UNDEFINED_2, strlen(SAC_CHAR_UNDEFINED_2));
+                        } else {
+                            strncpy(khdrc[j1 - 1], SAC_CHAR_UNDEFINED, strlen(SAC_CHAR_UNDEFINED));
+                        }
                     } else {
                         strcpy(ktemp, "                  ");
                         if (lcchar_base(ktemp, sizeof(ktemp))) {

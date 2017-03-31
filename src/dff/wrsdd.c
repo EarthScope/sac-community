@@ -89,7 +89,7 @@ wrsdd(int idfl, char *kname, int kname_s, int ldta, int *nerr) {
 
     /* - Convert header from SAC format to SDD format */
 
-    if (!is_kundef(s->h->kevnm)) {
+    if (!is_kundef2(s->h->kevnm)) {
         strscpy(ksevnm, s->h->kevnm, 8);
     }
     if (!is_kundef(s->h->kstnm)) {

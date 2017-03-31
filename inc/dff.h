@@ -98,6 +98,8 @@ void sac_write(sac * s, char *filename, int *nerr);
 void sac_write_r(sac * s, char *filename, int write_data, int lswap, int *nerr);
 
 int is_kundef(char *kvalue);
+int is_kundef2(char *kvalue);
+int is_kundefn(char *kvalue, int index);
 
 void cut(float *in, int nstart, int nstop, int nfillb, int nfille, float *out);
 

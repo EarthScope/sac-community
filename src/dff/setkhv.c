@@ -20,6 +20,9 @@
 
 #include "errors.h"
 
+
+int hdr_len(int index);
+
 LHF_EXTERN
 
 /** 
@@ -68,9 +71,7 @@ setkhv(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
 
     if (index > 0) {
         p = khdr(s, index);
-        fstrncpy(p, 8, kvalue_c, strlen(kvalue_c));
-        if (index == 2)
-            fstrncpy(p + 8, 8, kvalue_c + 8, kvalue_s - 9);
+        fstrncpy(p, hdr_len(index), kvalue_c, strlen(kvalue_c));
     } else {
         *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;
     }

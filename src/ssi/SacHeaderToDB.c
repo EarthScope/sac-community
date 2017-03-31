@@ -205,19 +205,18 @@ SacHeaderToDB(header, whichHeaders, idfl)
 
     } /* end if ( whichHeaders == wfHeader || whichHeaders == allHeader ) */
     else {
-        if (!strcmp(header->kstnm, SAC_CHAR_UNDEFINED) &&
-            strcmp(s->h->kstnm, SAC_CHAR_UNDEFINED))
+        if (is_kundef(header->kstnm) &&  !is_kundef(s->h->kstnm)) {
             strcpy(header->kstnm, s->h->kstnm);
-        if (!strcmp(header->kcmpnm, SAC_CHAR_UNDEFINED) &&
-            strcmp(s->h->kcmpnm, SAC_CHAR_UNDEFINED))
+        }
+        if (is_kundef(header->kcmpnm) && !is_kundef(s->h->kcmpnm)) {
             strcpy(header->kcmpnm, s->h->kcmpnm);
-        if (!strcmp(header->khole, SAC_CHAR_UNDEFINED) &&
-            strcmp(s->h->khole, SAC_CHAR_UNDEFINED))
+        }
+        if (is_kundef(header->khole) && !is_kundef(s->h->khole)) {
             strcpy(header->khole, s->h->khole);
-        if (!strcmp(header->knetwk, SAC_CHAR_UNDEFINED) &&
-            strcmp(s->h->knetwk, SAC_CHAR_UNDEFINED))
+        }
+        if (is_kundef(header->knetwk) && !is_kundef(s->h->knetwk)) {
             strcpy(header->knetwk, s->h->knetwk);
-
+        }
         if (header->nvhdr == SAC_INT_UNDEFINED &&
             s->h->nvhdr != SAC_INT_UNDEFINED)
             header->nvhdr = s->h->nvhdr;

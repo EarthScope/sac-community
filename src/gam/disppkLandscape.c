@@ -16,6 +16,7 @@
 #include "ucf.h"
 #include "gtm.h"
 #include "SacHeader.h"
+#include "dff.h"
 
 GAM_EXTERN
 GEM_EXTERN
@@ -90,11 +91,9 @@ disppkLandscape(tdelay)
             /* --- If time pick is within y plot window: */
             if (yploc >= cmgem.uplot.ymin && yploc <= cmgem.uplot.ymax) {
                 /* ---- Determine time pick text: either pick id (KTn) or pick name. */
-                if (memcmp
-                    (khdr(s, cmlhf.itmkrf + j_), SAC_CHAR_UNDEFINED,
-                     strlen(SAC_CHAR_UNDEFINED)) != 0) {
-                    strcpy(kpktxt, khdr(s, cmlhf.itmkrf + j_)
-                        );
+                char *p = khdr(s, cmlhf.itmkrf + j_);
+                if (!is_kundef(p)) {
+                    strcpy(kpktxt, p );
                 } else {
                     strcpy(kpktxt, kmlhf.kfhdr[cmlhf.itmfnm[j - 1] - 1]);
                 }
