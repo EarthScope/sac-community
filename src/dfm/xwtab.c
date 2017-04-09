@@ -56,16 +56,16 @@ xwtab(int *nerr) {
     int idx, jdfl, nchar, nstring;
     FILE *nun;
 
-    char *file, *pfile, *dir;
+    char *file, *pfile;
     string_list *list;
     sac *s;
     nun = 0;
 
     lwrdir = FALSE;
-
+    file = pfile = NULL;
     *nerr = 0;
     lexpnd = TRUE;
-    dir = NULL;
+
     /* PARSING PHASE: */
     /* - Loop on each token in command: */
 

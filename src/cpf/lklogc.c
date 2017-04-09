@@ -34,10 +34,7 @@ int
 lklogc(char *kkey, int kkey_s, int *logv, char *kchar, int kchar_s) {
 
     int lklogc_v;
-    int nchar, nerr;
-
-    /* - Determine length of character variable. */
-    nchar = (kchar_s - 1);
+    int nerr;
 
     /* - Check for key. */
     lklogc_v = lckey(kkey, kkey_s);

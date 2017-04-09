@@ -218,7 +218,7 @@ GetSamples(FILE * ptr, int Nsamp, char *datatype, struct wfdisc *w, DBlist tree)
     if (!strncmp(line, "STA2", 4)) {
         char buf[36];
         char hdr[15], net[15], coord[15];
-        float depth;
+
         hdr[0] = 0;
         net[0] = 0;
         coord[0] = 0;
@@ -233,7 +233,6 @@ GetSamples(FILE * ptr, int Nsamp, char *datatype, struct wfdisc *w, DBlist tree)
         strlcpy(buf, line + 49, 6);
         s.elev = atof(buf);
         strlcpy(buf, line + 55, 6);
-        depth = atof(buf);
 
         strncpy(s.sta, w->sta, strlen(w->sta));
         if (!

@@ -24,7 +24,7 @@ void /*FUNCTION*/
 ylinax() {
     char kfmt[32];
     int lneglb, lpower;
-    int ia, ib, igdlog, jdiv, jpower, jstep = 1, jtick, mds, nds, ndsu, ntick,
+    int ia, ib, igdlog, jdiv, jpower, jstep = 1, jtick, mds, nds, ntick,
         nydivu;
     float divlog, divtry, factor, grdlog, power, skfudge, slen, slenmx, value,
         valuei, xloc, xpow = 0.0, xvpmax, xvpmin, ydivu, ygrdmn, ygrdmx, yref, yrefi,
@@ -247,11 +247,6 @@ ylinax() {
         for (jdiv = 1; jdiv <= nydivu; jdiv++) {
             line(cmgem.uplot.xmin, yref, cmgem.uplot.xmin + cmgem.chwid, yref);
             if (cmgem.axis[LEFT].annotate) {
-                if (value >= 0.) {
-                    ndsu = nds;
-                } else {
-                    ndsu = nds + 1;
-                }
                 snprintf(kfmt, sizeof(kfmt), "%%.%df", mds);
                 snprintf(kvalue, sizeof(kvalue), kfmt, value);
                 getstringsize(kvalue, strlen(kvalue), &slen);
@@ -277,12 +272,6 @@ ylinax() {
         /* -- Label for multiplying scale factor. */
         if (lpower && cmgem.axis[LEFT].annotate) {
             settextangle(TEXT_VERTICAL);
-            /* if( lneg ){ */
-            /*      ndsu = nds + 1; */
-            /* } */
-            /* else{ */
-            /*      ndsu = nds; */
-            /* } */
             xpow =
                 fmax(cmgem.uplot.xmin - slenmx - 1.2 * cmgem.chht,
                      0.1 * cmgem.chht);
@@ -350,9 +339,7 @@ ylinax() {
             line(cmgem.uplot.xmax, yref, cmgem.uplot.xmax - cmgem.chwid, yref);
             if (cmgem.axis[RIGHT].annotate) {
                 if (value >= 0.) {
-                    ndsu = nds;
                 } else {
-                    ndsu = nds + 1;
                     lneglb = TRUE;
                 }
                 snprintf(kfmt, sizeof(kfmt), "%%.%df", mds);
@@ -361,8 +348,9 @@ ylinax() {
                 getstringsize(kvalue, strlen(kvalue), &slen);
                 slenmx = fmax(slenmx, slen);
                 xloc = cmgem.uplot.xmax + 0.1 * cmgem.chwid;
-                if (lneglb && value >= 0.)
+                if (lneglb && value >= 0.) {
                     xloc = xloc + cmgem.chwid;
+                }
                 settextjust(LEFT, CENTER);
                 pltext(kvalue, xloc, yref);
                 setlinewidth(cmgem.iskwidth);

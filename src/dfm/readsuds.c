@@ -63,7 +63,7 @@ readsuds(int lmore, char *kdirin, int kdirin_s, string_list * list, int Verbose,
     DBlist tree;
     char *file, *WorkSetName;
     int j, expand;
-    string_list *files;
+    string_list *files = NULL;
 
     int filesReturned = 0;
     int Replace = 0;

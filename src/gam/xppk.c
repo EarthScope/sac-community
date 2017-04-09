@@ -144,6 +144,10 @@ xppk(int *nerr) {
     yimnzs = xarray_new_with_len('f', saclen() + 1);
     yimxzs = xarray_new_with_len('f', saclen() + 1);
 
+
+    xlabelsave = cmgem.xlabel.on;
+    ylabelsave = cmgem.ylabel.on;
+
     /* PARSING PHASE: */
 
     /* - Loop on each token in command: */
@@ -210,8 +214,9 @@ xppk(int *nerr) {
     if (!lany) {
         zgetgd(kmgam.kgddef, 9);
         begindevices(kmgam.kgddef, 9, 1, nerr);
-        if (*nerr != 0)
+        if (*nerr != 0) {
             goto L_8888;
+        }
     }
 
     /* EXECUTION PHASE: */
@@ -243,8 +248,6 @@ xppk(int *nerr) {
     cmgem.ydiv_number_on = TRUE;
     cmgem.ydiv_number = 5;
     cmgem.lxfudg = FALSE;
-    xlabelsave = cmgem.xlabel.on;
-    ylabelsave = cmgem.ylabel.on;
     cmgem.xlabel.on = FALSE;
     cmgem.ylabel.on = FALSE;
     kchar = 'U';

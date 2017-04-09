@@ -2070,11 +2070,11 @@ tabin(modnam, modnam_s)
      char *modnam;
      int modnam_s;
 {
-    char kfile[MCPFN + 1], phdif[6][9], *model, *model_name;
+    char phdif[6][9], *model, *model_name;
     /* short int _i0; */
     FILE *file;
 
-    int i, i_, idx, ind, j, j_, k, l, len2, nasgr, nl, nph, nph_;
+    int i, i_, ind, j, j_, k, l, len2, nasgr, nl, nph, nph_;
     /* double tauc[JTSM], xc[JXSM]; */
     static int _aini = 1;
 
@@ -2106,10 +2106,6 @@ tabin(modnam, modnam_s)
 
         _aini = TRUE;
     }
-
-    for (idx = 0; idx < MCPFN; idx++)
-        kfile[idx] = ' ';
-    kfile[MCPFN] = '\0';
 
     /*     logical log */
 

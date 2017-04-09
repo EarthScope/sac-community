@@ -247,11 +247,16 @@ __debug_parser__            { return DEBUG_PARSER;      }
 \"([^\"\n]|{esc}\")*\"? {
   int err;
   char *t;
+  size_t n;
 
   t = strdup(yytext+1);
+  n = strlen(t);
+
   t[strlen(t)] = 0;
-  if(t[strlen(t)-1] == '"') { /* " */
-     t[strlen(t)-1] = 0;
+  n = strlen(t);
+
+  if(n > 0 && t[n-1] == '"') { /* " */
+     t[n-1] = 0;
   }
   t = lex_replace(t, &err);
   string_escaped = FALSE;
@@ -266,10 +271,16 @@ __debug_parser__            { return DEBUG_PARSER;      }
 \'([^\'\n]|{esc}\')*\'? {
   int err;
   char *t;
+  size_t n;
+
   t = strdup(yytext+1);
-  t[strlen(t)-1] = 0;
-  if(t[strlen(t)-1] == '\'') { /* ' */
-    t[strlen(t)-1] = 0;
+  n = strlen(t);
+  if(n > 0) {
+      t[n-1] = 0;
+      n = strlen(t);
+  }
+  if(n > 0 && t[n-1] == '\'') { /* ' */
+    t[n-1] = 0;
   }
   t = lex_replace(t, &err);
   string_escaped = FALSE;

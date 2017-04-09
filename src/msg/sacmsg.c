@@ -42,14 +42,14 @@ sacmsg(int *nerr) {
     char kfile[MCPFN + 1], kiline[MCMSG + 1];
     char *value;
     int idx;
-    int ioerr, ntused, numsave;
+    int ntused, numsave;
     FILE *nun;
     int n;
 
     msg_dict = dict_new_with_length(500);
 
     /* - Build the pathname and open the file containing output messages. */
-    ioerr = 0;
+
     /*memset(kfile,' ',MCPFN); */
     for (idx = 0; idx < MCPFN; idx++)
         kfile[idx] = ' ';

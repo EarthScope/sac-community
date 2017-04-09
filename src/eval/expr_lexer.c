@@ -46,6 +46,7 @@ typedef int16_t flex_int16_t;
 typedef uint16_t flex_uint16_t;
 typedef int32_t flex_int32_t;
 typedef uint32_t flex_uint32_t;
+typedef uint64_t flex_uint64_t;
 #else
 typedef signed char flex_int8_t;
 typedef short int flex_int16_t;
@@ -354,7 +355,7 @@ static void yy_fatal_error (yyconst char msg[]  );
  */
 #define YY_DO_BEFORE_ACTION \
 	(yytext_ptr) = yy_bp; \
-	yyleng = (size_t) (yy_cp - yy_bp); \
+	yyleng = (yy_size_t) (yy_cp - yy_bp); \
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
@@ -1183,7 +1184,7 @@ back  \\
 
 
 
-#line 1187 "<stdout>"
+#line 1188 "<stdout>"
 
 #define INITIAL 0
 #define evaluate 1
@@ -1374,7 +1375,7 @@ YY_DECL
 
 
   /* Number # #.# */
-#line 1378 "<stdout>"
+#line 1379 "<stdout>"
 
 	if ( !(yy_init) )
 		{
@@ -1917,11 +1918,16 @@ YY_RULE_SETUP
 {
   int err;
   char *t;
+  size_t n;
 
   t = strdup(yytext+1);
+  n = strlen(t);
+
   t[strlen(t)] = 0;
-  if(t[strlen(t)-1] == '"') { /* " */
-     t[strlen(t)-1] = 0;
+  n = strlen(t);
+
+  if(n > 0 && t[n-1] == '"') { /* " */
+     t[n-1] = 0;
   }
   t = lex_replace(t, &err);
   string_escaped = FALSE;
@@ -1935,14 +1941,20 @@ YY_RULE_SETUP
 /* Single quote string */
 case 85:
 YY_RULE_SETUP
-#line 266 "expr_lexer.l"
+#line 271 "expr_lexer.l"
 {
   int err;
   char *t;
+  size_t n;
+
   t = strdup(yytext+1);
-  t[strlen(t)-1] = 0;
-  if(t[strlen(t)-1] == '\'') { /* ' */
-    t[strlen(t)-1] = 0;
+  n = strlen(t);
+  if(n > 0) {
+      t[n-1] = 0;
+      n = strlen(t);
+  }
+  if(n > 0 && t[n-1] == '\'') { /* ' */
+    t[n-1] = 0;
   }
   t = lex_replace(t, &err);
   string_escaped = FALSE;
@@ -1955,7 +1967,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 86:
 YY_RULE_SETUP
-#line 283 "expr_lexer.l"
+#line 294 "expr_lexer.l"
 {
   return STRING;
 }
@@ -1963,7 +1975,7 @@ YY_RULE_SETUP
 /* DO | IF | WHILE | ELSEIF at beginning of a line */
 case 87:
 YY_RULE_SETUP
-#line 288 "expr_lexer.l"
+#line 299 "expr_lexer.l"
 {
   BEGIN(notmath_do);
   yylval.sval = strdup(lstrip(yytext));
@@ -1974,7 +1986,7 @@ YY_RULE_SETUP
 case 88:
 /* rule 88 can match eol */
 YY_RULE_SETUP
-#line 295 "expr_lexer.l"
+#line 306 "expr_lexer.l"
 {
   int err;
   char *t;
@@ -1995,7 +2007,7 @@ YY_RULE_SETUP
 case 89:
 /* rule 89 can match eol */
 YY_RULE_SETUP
-#line 312 "expr_lexer.l"
+#line 323 "expr_lexer.l"
 {
   int err;
   char *t;
@@ -2020,7 +2032,7 @@ YY_RULE_SETUP
 /* Anything else */
 case 90:
 YY_RULE_SETUP
-#line 334 "expr_lexer.l"
+#line 345 "expr_lexer.l"
 {
 
   return -1;
@@ -2028,10 +2040,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 91:
 YY_RULE_SETUP
-#line 339 "expr_lexer.l"
+#line 350 "expr_lexer.l"
 ECHO;
 	YY_BREAK
-#line 2035 "<stdout>"
+#line 2047 "<stdout>"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(evaluate):
 case YY_STATE_EOF(math):
@@ -2998,7 +3010,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 339 "expr_lexer.l"
+#line 350 "expr_lexer.l"
 
 
 

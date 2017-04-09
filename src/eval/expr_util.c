@@ -595,6 +595,7 @@ replace(char *t, char k) {
     int n, nerr;
     char *s, *e, *p, v[1001], key[1001];
     char *key_cap;
+    size_t m = 0;
     p = t;
     memset(v, 0, 1001);
     while (p && (s = strchr(p, k))) {
@@ -608,6 +609,7 @@ replace(char *t, char k) {
         while (e && *e && (*e != k && (*e != ' ' || *(e - 1) == ESCAPE_CHAR))) {
             e++;
         }
+
         strncpy(key, s + 1, e - s);
         if (*e == k) {          /* Change character to space */
             if (key[e - s - 1] == k) {
@@ -615,9 +617,10 @@ replace(char *t, char k) {
             }
             e++;
         }
-        if (key[strlen(key) - 1] != ' ') {      /* Append space if needed */
-            key[strlen(key) + 1] = 0;
-            key[strlen(key)] = ' ';
+        m = strlen(key);
+        if (m > 0 && key[m - 1] != ' ') { /* Append space if needed */
+            key[m + 1] = 0;
+            key[m] = ' ';
         }
         switch (k) {
             case '$':

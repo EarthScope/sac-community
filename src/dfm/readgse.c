@@ -66,7 +66,7 @@ readgse(int lmore, char *kdirin, int kdirin_s, string_list * list, int Verbose,
     DBlist tree;
     char *WorkSetName, *file;
     int j, expand;
-    string_list *files;
+    string_list *files = NULL;
 
     int Replace = 0;
     int filesReturned = 0;

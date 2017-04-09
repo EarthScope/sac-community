@@ -354,14 +354,15 @@ MakeSiteChan(DBlist tree, char *kstnm, char *kcmpnm, float cmpinc, float stdp,
     sc = (struct sitechanList *) dblCreateTableInstance(tree,
                                                         dbl_LIST_SITECHAN);
     sc->element->chanid = dblNextAvailableChanid(tree);
-    strcpy(sc->element->lddate, tmListEpochTime(tmGetEpochTime(), 18));
+    strlcpy(sc->element->lddate, tmListEpochTime(tmGetEpochTime(), 18),
+            sizeof(sc->element->lddate));
     sc->element->ondate = LONGAGO;
 
     if (StrDefined(kstnm))
-        strcpy(sc->element->sta, kstnm);
+        strlcpy(sc->element->sta, kstnm, sizeof(sc->element->sta));
 
     if (StrDefined(kcmpnm))
-        strcpy(sc->element->chan, kcmpnm);
+        strlcpy(sc->element->chan, kcmpnm, sizeof(sc->element->chan));
 
     if (fltDefined(stdp))
         sc->element->edepth = stdp / 1000.0;
@@ -770,10 +771,10 @@ sacAddWftagStruct(DBlist tree, struct originList *orig, struct wfdiscList *w) {
 
     /* Add a wftag struct linking origin to wfdisc... */
     wt = (struct wftagList *) dblCreateTableInstance(tree, dbl_LIST_WFTAG);
-    strcpy(wt->element->tagname, "evid");
+    strlcpy(wt->element->tagname, "evid",sizeof(wt->element->tagname));
     wt->element->tagid = orig->element->evid;
     wt->element->wfid = w->element->wfid;
-    strcpy(wt->element->lddate, w->element->lddate);
+    strlcpy(wt->element->lddate, w->element->lddate, sizeof(wt->element->lddate));
 }
 
 /* ------------------------------------------------------------------------- */
@@ -898,10 +899,10 @@ MakeNewArrival(DBlist tree, struct SACheader *header, double refTime,
 
     /* Add a wftag struct linking arrival to wfdisc... */
     wt = (struct wftagList *) dblCreateTableInstance(tree, dbl_LIST_WFTAG);
-    strcpy(wt->element->tagname, "arid");
+    strlcpy(wt->element->tagname, "arid", sizeof(wt->element->tagname));
     wt->element->tagid = ar->element->arid;
     wt->element->wfid = w->element->wfid;
-    strcpy(wt->element->lddate, w->element->lddate);
+    strlcpy(wt->element->lddate, w->element->lddate, sizeof(wt->element->lddate));
     ar->element->wfid = w->element->wfid;
 
     return ar;
@@ -1030,7 +1031,7 @@ FindMatchingWftagStruct(DBlist tree, char *tagname, int tagid, int wfid) {
                                                        dbl_LIST_WFTAG);
         if (!wt)
             break;
-        if (wt->element->tagname && tagname &&
+        if (wt->element && tagname &&
             !strcmp(wt->element->tagname, tagname) &&
             wt->element->tagid == tagid && wt->element->wfid == wfid)
             break;
@@ -1129,17 +1130,17 @@ sacAddWfdiscStruct(DBlist tree, struct SACheader *header, sacSACdata * data,
         w->element->chanid = dblNextAvailableChanid(tree);
 
         if (StrDefined(header->kstnm))
-            strcpy(w->element->sta, header->kstnm);
+            strlcpy(w->element->sta, header->kstnm, sizeof(w->element->sta));
         else
-            strcpy(w->element->sta, "-");
+            strlcpy(w->element->sta, "-",sizeof(w->element->sta));
 
         if (StrDefined(header->kcmpnm))
-            strcpy(w->element->chan, header->kcmpnm);
+            strlcpy(w->element->chan, header->kcmpnm, sizeof(w->element->chan));
         else
-            strcpy(w->element->chan, "-");
+            strlcpy(w->element->chan, "-", sizeof(w->element->chan));
 
-        strcpy(w->element->lddate, tmListEpochTime(tmGetEpochTime(), 18));
-        strcpy(w->element->dattype, "t4");
+        strlcpy(w->element->lddate, tmListEpochTime(tmGetEpochTime(), 18), sizeof(w->element->lddate));
+        strlcpy(w->element->dattype, "t4", sizeof(w->element->dattype));
         dblAddComment(tree, dbl_LIST_WFDISC, w, "Converted from SAC format");
     }
 
@@ -1176,10 +1177,10 @@ sacAddWfdiscStruct(DBlist tree, struct SACheader *header, sacSACdata * data,
             wt = 0;
             wt = (struct wftagList *) dblCreateTableInstance(tree,
                                                              dbl_LIST_WFTAG);
-            strcpy(wt->element->tagname, "evid");
+            strlcpy(wt->element->tagname, "evid", sizeof(wt->element->tagname));
             wt->element->tagid = header->nevid;
             wt->element->wfid = w->element->wfid;
-            strcpy(wt->element->lddate, w->element->lddate);
+            strlcpy(wt->element->lddate, w->element->lddate, sizeof(wt->element->lddate));
         }
     }
 
@@ -1189,7 +1190,7 @@ sacAddWfdiscStruct(DBlist tree, struct SACheader *header, sacSACdata * data,
     w->element->calib = CALIB_UNDEF;
 
     if (StrDefined(header->kinst))
-        strcpy(w->element->instype, header->kinst);
+        strlcpy(w->element->instype, header->kinst,sizeof(w->element->instype));
 
     if (!SkipData) {
         w->seis->Cmplx = 0;
@@ -1281,7 +1282,7 @@ sacAddSiteStruct(DBlist tree, char *name, struct SACheader *header, int jdate) {
     if (fltDefined(header->stel))
         si->element->elev = header->stel / 1000.0;
     si->element->ondate = LONGAGO;      /* make site active from pre-seismography  */
-    strcpy(si->element->lddate, tmListEpochTime(tmGetEpochTime(), 18));
+    strlcpy(si->element->lddate, tmListEpochTime(tmGetEpochTime(), 18),sizeof(si->element->lddate));
 
     return si;
 }
@@ -1341,7 +1342,7 @@ AddAffilStruct(DBlist tree, struct wfdiscList *w, char *net) {
                                                            dbl_LIST_AFFILIATION);
     CSSstrcpy(af->element->net, net);
     CSSstrcpy(af->element->sta, w->element->sta);
-    strcpy(af->element->lddate, w->element->lddate);
+    strlcpy(af->element->lddate, w->element->lddate,sizeof(af->element->lddate));
     return af;
 }
 
@@ -1371,9 +1372,9 @@ sacAddSacdataStruct(DBlist tree, struct SACheader *header, int wfid) {
                                                            dbl_LIST_SACDATA);
         sd->element->wfid = wfid;
     }
-    strcpy(sd->element->userdata.label[0], header->kuser0);
-    strcpy(sd->element->userdata.label[1], header->kuser1);
-    strcpy(sd->element->userdata.label[2], header->kuser2);
+    strlcpy(sd->element->userdata.label[0], header->kuser0, sizeof(sd->element->userdata.label[0]));
+    strlcpy(sd->element->userdata.label[1], header->kuser1, sizeof(sd->element->userdata.label[1]));
+    strlcpy(sd->element->userdata.label[2], header->kuser2, sizeof(sd->element->userdata.label[2]));
 
     sd->element->userdata.value[0] = header->user0;
     sd->element->userdata.value[1] = header->user1;
@@ -1424,9 +1425,9 @@ sacAddSacdataStruct(DBlist tree, struct SACheader *header, int wfid) {
     sd->element->iqual = header->iqual;
     sd->element->lovrok = header->lovrok;
     sd->element->lcalda = header->lcalda;
-    strcpy(sd->element->khole, header->khole);
-    strcpy(sd->element->ko, header->ko);
-    strcpy(sd->element->kdatrd, header->kdatrd);
+    strlcpy(sd->element->khole, header->khole, sizeof(sd->element->khole));
+    strlcpy(sd->element->ko, header->ko, sizeof(sd->element->ko));
+    strlcpy(sd->element->kdatrd, header->kdatrd,sizeof(sd->element->kdatrd));
 
 }
 
@@ -1437,7 +1438,7 @@ UpdateMagInfoInOrigin(struct originList *orig, struct SACheader *header) {
     orig->element->mb = -999.0;
     orig->element->ms = -999.0;
     orig->element->ml = -999.0;
-    strcpy(orig->element->auth, "-");
+    strlcpy(orig->element->auth, "-", sizeof(orig->element->auth));
 
     if (fltDefined(header->mag)) {
         if (header->imagtyp) {
@@ -1461,45 +1462,47 @@ UpdateMagInfoInOrigin(struct originList *orig, struct SACheader *header) {
     if (lngDefined(header->imagsrc)) {
         switch (header->imagsrc) {
             case INEIC:
-                strcpy(orig->element->auth, "NEIC");
+                strlcpy(orig->element->auth, "NEIC",sizeof(orig->element->auth));
                 break;
             case IPDE:
-                strcpy(orig->element->auth, "PDE");
+                strlcpy(orig->element->auth, "PDE",sizeof(orig->element->auth));
                 break;
             case IPDEQ:
-                strcpy(orig->element->auth, "PDE-Q");
+                strlcpy(orig->element->auth, "PDE-Q",sizeof(orig->element->auth));
                 break;
             case IPDEW:
-                strcpy(orig->element->auth, "PDE-W");
+                strlcpy(orig->element->auth, "PDE-W",sizeof(orig->element->auth));
                 break;
             case IISC:
-                strcpy(orig->element->auth, "ISC");
+                strlcpy(orig->element->auth, "ISC",sizeof(orig->element->auth));
                 break;
             case IREB:
-                strcpy(orig->element->auth, "REB");
+                strlcpy(orig->element->auth, "REB",sizeof(orig->element->auth));
                 break;
             case IUSGS:
-                strcpy(orig->element->auth, "USGS");
+                strlcpy(orig->element->auth, "USGS",sizeof(orig->element->auth));
                 break;
             case IBRK:
-                strcpy(orig->element->auth, "BRK");
+                strlcpy(orig->element->auth, "BRK",sizeof(orig->element->auth));
                 break;
             case ICALTECH:
-                strcpy(orig->element->auth, "CALTECH");
+                strlcpy(orig->element->auth, "CALTECH",sizeof(orig->element->auth));
                 break;
             case ILLNL:
-                strcpy(orig->element->auth, "LLNL");
+                strlcpy(orig->element->auth, "LLNL",sizeof(orig->element->auth));
                 break;
             case IEVLOC:
-                strcpy(orig->element->auth, "EVLOC");
+                strlcpy(orig->element->auth, "EVLOC",sizeof(orig->element->auth));
                 break;
             case IJSOP:
-                strcpy(orig->element->auth, "JSOP");
+                strlcpy(orig->element->auth, "JSOP",sizeof(orig->element->auth));
                 break;
             case IUSER:
-                strcpy(orig->element->auth, "USER");
+                strlcpy(orig->element->auth, "USER",sizeof(orig->element->auth));
+                break;
             case IUNKNOWN:
-                strcpy(orig->element->auth, "UNKNOWN");
+                strlcpy(orig->element->auth, "UNKNOWN",sizeof(orig->element->auth));
+                break;
         }
     }
 }
@@ -1545,14 +1548,15 @@ CreateUpdateOrigin(DBlist tree, struct originList *OldOr,
         *(ev2->element) = *(ev->element);
         //dblCopyTable(dbl_LIST_EVENT, ev, ev2);
     } else {
-        strcpy(ev2->element->auth, orig->element->auth);
-        strcpy(ev2->element->lddate, orig->element->lddate);
+        strlcpy(ev2->element->auth, orig->element->auth, sizeof(ev2->element->auth));
+        strlcpy(ev2->element->lddate, orig->element->lddate, sizeof(ev2->element->lddate));
         ev2->element->commid = orig->element->commid;
     }
     ev2->element->evid = orig->element->evid;
     ev2->element->prefor = orig->element->orid;
-    if (strcmp(header->kevnm, SAC_CHAR_UNDEFINED))
-        strcpy(ev2->element->evname, header->kevnm);
+    if (strcmp(header->kevnm, SAC_CHAR_UNDEFINED)) {
+        strlcpy(ev2->element->evname, header->kevnm, sizeof(ev2->element->evname));
+    }
     ev2->element->wfid = w->element->wfid;
 
     /* Now find wftag element with proper wfid and reset its evid... */
@@ -1574,11 +1578,11 @@ CreateUpdateOrigin(DBlist tree, struct originList *OldOr,
 
         /* Make a new wftag struct and associate new origin with the wfdisc. */
         wt = (struct wftagList *) dblCreateTableInstance(tree, dbl_LIST_WFTAG);
-        strcpy(wt->element->tagname, "evid");
+        strlcpy(wt->element->tagname, "evid", sizeof(wt->element->tagname));
         wt->element->tagid = orig->element->evid;
 
         wt->element->wfid = w->element->wfid;
-        strcpy(wt->element->lddate, w->element->lddate);
+        strlcpy(wt->element->lddate, w->element->lddate,sizeof(wt->element->lddate));
     }
 
     do {
@@ -1602,8 +1606,9 @@ CreateUpdateEvent(DBlist tree, struct originList *orig,
     ev = FindMatchingEventStruct(tree, orig->element->evid);
 
     if (ev)
-        if (strcmp(header->kevnm, SAC_CHAR_UNDEFINED))
-            strcpy(ev->element->evname, header->kevnm);
+        if (strcmp(header->kevnm, SAC_CHAR_UNDEFINED)) {
+            strlcpy(ev->element->evname, header->kevnm, sizeof(ev->element->evname));
+        }
 }
 
 static struct originList *
@@ -1634,10 +1639,11 @@ sacAddOriginStruct(DBlist tree, struct SACheader *header, struct wfdiscList *w,
                                                              dbl_LIST_EVENT);
             ev->element->evid = orig->element->evid;
             ev->element->prefor = orig->element->orid;
-            if (StrDefined(header->kevnm))
-                strcpy(ev->element->evname, header->kevnm);
-            strcpy(ev->element->lddate, orig->element->lddate);
-            strcpy(ev->element->auth, orig->element->auth);
+            if (StrDefined(header->kevnm)) {
+                strlcpy(ev->element->evname, header->kevnm, sizeof(ev->element->evname));
+            }
+            strlcpy(ev->element->lddate, orig->element->lddate, sizeof(ev->element->lddate));
+            strlcpy(ev->element->auth, orig->element->auth, sizeof(ev->element->auth));
         }
     } else {
 
@@ -1671,9 +1677,10 @@ sacAddOriginStruct(DBlist tree, struct SACheader *header, struct wfdiscList *w,
 
             if (lngDefined(header->ievreg))
                 orig->element->grn = header->ievreg - REGCONV;
-            if (lngDefined(header->ievtyp))
-                strcpy(orig->element->etype, sacSetEtype(header->ievtyp));
-            strcpy(orig->element->lddate, w->element->lddate);
+            if (lngDefined(header->ievtyp)) {
+                strlcpy(orig->element->etype, sacSetEtype(header->ievtyp), sizeof(orig->element->etype));
+            }
+            strlcpy(orig->element->lddate, w->element->lddate, sizeof(orig->element->lddate));
         } else {
             int evid, orid;
             /* get next evid and orid */
@@ -1685,9 +1692,10 @@ sacAddOriginStruct(DBlist tree, struct SACheader *header, struct wfdiscList *w,
                                                              dbl_LIST_EVENT);
             ev->element->evid = evid;
             ev->element->prefor = orid;
-            if (StrDefined(header->kevnm))
-                strcpy(ev->element->evname, header->kevnm);
-            strcpy(ev->element->lddate, w->element->lddate);
+            if (StrDefined(header->kevnm)) {
+                strlcpy(ev->element->evname, header->kevnm, sizeof(ev->element->evname));
+            }
+            strlcpy(ev->element->lddate, w->element->lddate, sizeof(ev->element->lddate));
 
             orig =
                 (struct originList *) dblCreateTableInstance(tree,
@@ -1709,9 +1717,10 @@ sacAddOriginStruct(DBlist tree, struct SACheader *header, struct wfdiscList *w,
             orig->element->jdate = w->element->jdate;
             if (lngDefined(header->ievreg))
                 orig->element->grn = header->ievreg - REGCONV;
-            if (lngDefined(header->ievtyp))
-                strcpy(orig->element->etype, sacSetEtype(header->ievtyp));
-            strcpy(orig->element->lddate, w->element->lddate);
+            if (lngDefined(header->ievtyp)) {
+                strlcpy(orig->element->etype, sacSetEtype(header->ievtyp), sizeof(orig->element->etype));
+            }
+            strlcpy(orig->element->lddate, w->element->lddate, sizeof(orig->element->lddate));
         }
     }
 
@@ -1721,10 +1730,10 @@ sacAddOriginStruct(DBlist tree, struct SACheader *header, struct wfdiscList *w,
          FindMatchingWftagStruct(tree, "evid", ev->element->evid,
                                  w->element->wfid))) {
         wt = (struct wftagList *) dblCreateTableInstance(tree, dbl_LIST_WFTAG);
-        strcpy(wt->element->tagname, "evid");
+        strlcpy(wt->element->tagname, "evid", sizeof(wt->element->tagname));
         wt->element->tagid = ev->element->evid;
         wt->element->wfid = w->element->wfid;
-        strcpy(wt->element->lddate, w->element->lddate);
+        strlcpy(wt->element->lddate, w->element->lddate, sizeof(wt->element->lddate));
     }
 
     return orig;
@@ -1822,16 +1831,17 @@ sacAddEventStruct(DBlist tree, struct SACheader *header, struct wfdiscList *w,
         ev->element->evid = dblNextAvailableEvid(tree);
     else
         ev->element->evid = evid;
-    if (strcmp(header->kevnm, SAC_CHAR_UNDEFINED))
+    if (strcmp(header->kevnm, SAC_CHAR_UNDEFINED)) {
         strncpy(ev->element->evname, header->kevnm, 15);
-    strcpy(ev->element->lddate, w->element->lddate);
+    }
+    strlcpy(ev->element->lddate, w->element->lddate, sizeof(ev->element->lddate));
 
     if (!wt) {
         wt = (struct wftagList *) dblCreateTableInstance(tree, dbl_LIST_WFTAG);
         wt->element->wfid = w->element->wfid;
-        strcpy(wt->element->tagname, "evid");
+        strlcpy(wt->element->tagname, "evid", sizeof(wt->element->tagname));
         wt->element->tagid = ev->element->evid;
-        strcpy(wt->element->lddate, w->element->lddate);
+        strlcpy(wt->element->lddate, w->element->lddate, sizeof(wt->element->lddate));
     }
     return ev;
 }
@@ -1920,35 +1930,36 @@ sacLoadFromHeaderAndData(struct SACheader *header, sacSACdata * data,
         if (data) {
             if (data->dataType != ITIME && !data->xarray) {
                 /* error */
-                strcpy(sacErrorStrg, "Missing data array for complex data\n");
+                strlcpy(sacErrorStrg, "Missing data array for complex data\n",sizeof(sacErrorStrg));
                 dblSetError(0, sacErrorStrg);
                 return 0;
             } else if (data->dataType == ITIME && data->xarray) {
                 /* warning */
-                strcpy(sacErrorStrg, "Unexpected data array found. \n");
+                strlcpy(sacErrorStrg, "Unexpected data array found. \n",sizeof(sacErrorStrg));
                 dblSetError(0, sacErrorStrg);
             }
         }
     }
 
     DeBlankSacHeaderStrings(header);
-    if (!strcmp(header->kstnm, "-12345"))
-        strcpy(header->kstnm, MakeUniqueSiteName(tree, "STA"));
-
-    if (!strcmp(header->kcmpnm, "-12345"))
-        strcpy(header->kcmpnm, MakeUniqueSiteName(tree, "CHAN"));
-
+    if (!strcmp(header->kstnm, "-12345")) {
+        strlcpy(header->kstnm, MakeUniqueSiteName(tree, "STA"), sizeof(header->kstnm));
+    }
+    if (!strcmp(header->kcmpnm, "-12345")) {
+        strlcpy(header->kcmpnm, MakeUniqueSiteName(tree, "CHAN"), sizeof(header->kcmpnm));
+    }
     CSSstrcpy(TmpStaName, header->kstnm);
     /* Create or update a wfdisc from header and data. */
     w = sacAddWfdiscStruct(tree, header, data, SkipData, index);        /* index is position in list. */
     if (CSSstrcmp(w->element->sta, header->kstnm)) {    /* There's been a name change. */
-        strcpy(TmpStaName, MakeUniqueSiteName(tree, header->kstnm));
+        strlcpy(TmpStaName, MakeUniqueSiteName(tree, header->kstnm),sizeof(TmpStaName));
         MakeNameUpdateStructCopies(tree, w, TmpStaName, header->knetwk);
         /* everything linked by name must get new row. which is copy of old but with new name */
     }
     if (CSSstrcmp(w->element->chan, header->kcmpnm)) {
-        strcpy(TmpChanName,
-               MakeUniqueChanName(tree, w->element->sta, header->kcmpnm));
+        strlcpy(TmpChanName,
+                MakeUniqueChanName(tree, w->element->sta, header->kcmpnm),
+                sizeof(TmpChanName));
         MakeChanUpdateStructCopies(tree, w, TmpChanName);
         /* everything linked by name and chan must get new row. which is copy of old but with new chan */
     }
@@ -1962,7 +1973,7 @@ sacLoadFromHeaderAndData(struct SACheader *header, sacSACdata * data,
                                   w->element->jdate);
         else {
             if (!SitesMatch(si, header)) {      /* check non-key elements */
-                strcpy(TmpStaName, MakeUniqueSiteName(tree, si->element->sta));
+                strlcpy(TmpStaName, MakeUniqueSiteName(tree, si->element->sta), sizeof(TmpStaName));
                 MakeNameUpdateStructCopies(tree, w, TmpStaName, header->knetwk);
                 UpdateSiteStruct(tree, w->element->sta, header);
             }
@@ -1979,9 +1990,10 @@ sacLoadFromHeaderAndData(struct SACheader *header, sacSACdata * data,
                               w->element->jdate);
         else {
             if (!SiteChansMatch(sc, header)) {  /* check non-key elements */
-                strcpy(TmpChanName,
+                strlcpy(TmpChanName,
                        MakeUniqueChanName(tree, sc->element->sta,
-                                          sc->element->chan));
+                                          sc->element->chan),
+                        sizeof(TmpChanName));
                 MakeChanUpdateStructCopies(tree, w, TmpChanName);
                 UpdateSitechanStruct(tree, w, header);
             }

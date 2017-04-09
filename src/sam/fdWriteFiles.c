@@ -27,7 +27,7 @@ fdWriteFiles(float *memptr[10], char *kprefix, float *userData, int newnpts,
 
     /* index sacmem for amplitude, phase, group delay,
        and the impulse response. */
-    int fileDescriptor = 0, xbegin = 0, idx, jdx, nlcmem, nlcdsk, nptwr;
+    int fileDescriptor = 0, xbegin = 0, idx, jdx, nlcmem, nlcdsk;
 
     char kname[MCPFN], ksuffix[3][6];
     sac *s;
@@ -141,19 +141,19 @@ fdWriteFiles(float *memptr[10], char *kprefix, float *userData, int newnpts,
 
         /* Get ready to write header to disk */
         nlcdsk = 0;
-        nptwr = SAC_HEADER_WORDS_FILE;
+        /* nptwr = SAC_HEADER_WORDS_FILE; */
 
         /* write the headers */
         sac_header_write(fileDescriptor, &s->h->delta, (char *) &s->h->kstnm,
                          FALSE, nerr);
 
         nlcdsk += SAC_HEADER_WORDS_FILE;
-        nptwr = NDATPTS;
+        /* nptwr = NDATPTS; */
 
         /* Write data to disk */
         switch (jdx) {
             case 0:
-                nptwr = 2 * NDATPTS - 2;
+                /* nptwr = 2 * NDATPTS - 2; */
                 sac_data_write2(fileDescriptor, amph[0], amph[1], s->h->npts,
                                 FALSE, nerr);
                 break;

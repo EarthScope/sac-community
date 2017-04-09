@@ -12,7 +12,7 @@
 #include "bot.h"
 #include "sac_datetime.h"
 #include "debug.h"
-#include "SACHeader.h"
+#include "SacHeader.h"
 
 #ifdef WIN32
 #define pointer char *
@@ -85,9 +85,8 @@ is_numexp(char c) {
 void
 polezero_comment_float(char *p, pzmeta_t * meta, pzcomment_t * c) {
     char *pp;
-    int nerr;
     float *f;
-    nerr = 1;
+
     f = (float *) ((pointer) meta + c->off);
     pp = polezero_comment_token(p);
     if (!pp || !*pp) {

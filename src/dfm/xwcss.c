@@ -74,12 +74,11 @@ xwcss(int *nerr) {
 
     lexpnd = FALSE;
 
-    char *file, *pfile, *dir;
+    char *file, *pfile;
     string_list *list;
 
     *nerr = 0;
     list = NULL;
-    dir = NULL;
     /* PARSING PHASE: */
     /* - Loop on each token in command: */
     while (lcmore(nerr)) {

@@ -22,7 +22,7 @@ void
 xlinax() {
     int lpower;
     char kfmt[32];
-    int ia, ib, igdlog, jpower, jstep = 1, mds, nds, ndsu, ntick,
+    int ia, ib, igdlog, jpower, jstep = 1, mds, nds, ntick,
         nxdivu;
     int i, j, k;
     float divlog, divtry, factor, grdlog, power, skfudge, value, valuei, xdivu,
@@ -261,11 +261,6 @@ xlinax() {
         for (k = 1; k <= nxdivu; k++) {
             line(xref, y0, xref, y0 + dir * tick);
             if (cmgem.axis[ax].annotate) {
-                if (value >= 0) {
-                    ndsu = nds;
-                } else {
-                    ndsu = nds + 1;
-                }
                 snprintf(kfmt, sizeof(kfmt), "%%.%df", mds);
                 snprintf(kvalue, sizeof(kvalue), kfmt, value);
                 yloc = y0 - dir * 0.1 * cmgem.chht;

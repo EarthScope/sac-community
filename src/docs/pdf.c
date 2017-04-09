@@ -2111,7 +2111,7 @@ RunLengthEncode(unsigned char *p, int *n) {
         in[j++] = (unsigned int) 255 - y + 1;
         in[j++] = t[0];
     }
-    in[j++] = 128;              /* End of Encoding */
+    in[j++] = (unsigned int) 128;              /* End of Encoding */
     in[j++] = '\n';
     *n = j;
     return in;

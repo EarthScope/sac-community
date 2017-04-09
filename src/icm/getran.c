@@ -16,14 +16,11 @@ getran(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim)
 {
     int idx, jdx;
     double delomg, fac, omega, ti, ti0, tid, tin, tr, tr0, trd, trn;
-    static double twopi;
 
     complexf *const Pole = &pole[0] - 1;
     double *const Xim = &xim[0] - 1;
     double *const Xre = &xre[0] - 1;
     complexf *const Zero = &zero[0] - 1;
-
-    twopi = M_PI * 2.0;
 
     /*   .....Subroutine to compute the transfer function.....
      * */
@@ -79,14 +76,11 @@ getrand(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim)
 {
     int idx, jdx;
     double delomg, fac, omega, ti, ti0, tid, tin, tr, tr0, trd, trn;
-    static double twopi;
 
     complexd *const Pole = &pole[0] - 1;
     double *const Xim = &xim[0] - 1;
     double *const Xre = &xre[0] - 1;
     complexd *const Zero = &zero[0] - 1;
-
-    twopi = M_PI * 2.0;
 
     /*   .....Subroutine to compute the transfer function.....
      * */
