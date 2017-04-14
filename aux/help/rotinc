@@ -1,56 +1,105 @@
-
 ROTINC
 ++++++
 
 SUMMARY
 -------
 
-Rotate a set of 3 perpendicular seismograms
+Rotate a set of 3 perpendicular components either around the vertical direction
+(TO VRT or TO VNE) or around the T direction (TO LQT)
 
-SYNTAX
-------
+SYNTAX FOR ROTATIONS AROUND THE VERTICAL
+----------------------------------------
 
-  ``ROTINC TO [VRT|LQT|VNE|XYZ] { INCIDENCE i | iP | iS } { VP alpha VS beta RAY{DEG|KM} par {FREESURFACE} }``
+  ``ROTINC TO [VRT|VNE] {VERBOSE}``
+
+SYNTAX FOR ROTATIONS AROUND THE TRANSVERSE DIRECTION
+----------------------------------------------------
+
+  ``ROTINC TO [LQT] {INCIDENCE i | iP | iS} {VP alpha} {VS beta} {RAY{DEG|KM} par}  {FREESURFACE} {VERBOSE}``
 
 INPUT
 -----
       :TO VRT: rotate into vertical,radial, transverse coordinate system
 
-      :TO LQT: rotate into P,SV, and SH coordinate system
+      :TO VNE: rotate into system aligned with vertical, N, and E
 
-      :TO VNE: rotate into system aligned with N, E and vertical
+      :TO LQT: rotate into P, SV, and SH coordinate system.  cmpinc for L is the apparent angle
 
-      :TO XYZ: rotate into system aligned with N, E and vertical
-          Z: Up, X: East, Y: North
+      :iP: apparent angle for P incidence, computed from Vp,Vs and Ray Parameter
 
-      :INCIDENCE iP: Use P wave to determine angle of L direction
-
-      :INCIDENCE iS: Use S wave to determine angle of L direction
-
-      :INCIDENCE i: Define angle from vertical of L direction
+      :iS: apparent angle for S incidence, computed from Vp,Vs and Ray Parameter
 
       :VP v: P wave velocity near surface (default 5.8)
 
-      :VS v: S wave velocity near surface (default 3.35)
+      :VS v: S wave velocity near surface (default 3.36)
 
-      :RAYDEG v: ray parameter = horizontal slowness (s/deg)
+      :RAYKM v: ray parameter = horizontal slowness, sin(theta)/v
 
-      :RAYKM v: ray parameter= horizontal slowness (s/km)
+      :RAYDEG v: ray parameter = horizontal slowness, r*sin(theta)/v
 
       :FREESURFACE: use free surface response instead of propagation vector
 
-DEFAULT VALUES
---------------
-
- None
+      :VERBOSE: prints information to the screen (default off)
 
 DESCRIPTION
 -----------
 
-  Given three perpendicular components of the same seismogram, rotate the set
-  into coordinate systems. It works its way through all records in memory
-  until it fails to find 3 consecutive perpendicular traces. It assumes
-  vertical up (cmpinc = 0.0), cmpaz measured clockwise from N.
+  Given three perpendicular components of a recorded time series, rotinc
+  rotates the set into the selected coordinate system. It works its way
+  through all records in memory until it fails to find 3 consecutive
+  perpendicular traces. It assumes vertical up (cmpinc = 0.0), cmpaz
+  measured clockwise from N.  T to the right from the vertical-radial
+  plane (baz - 90).  Hence,  VNE, VRT, and LQT are all left-handed coordinate
+  systems.  For LQT with FREESURFACE, cmpinc in L is the apparent angle: the
+  arctangent of the radial (R) amplitude  over the vertical (V) amplitude.
+
+EXAMPLES
+--------
+
+  Rotations around the vertical are straightforward, but there are several options
+  for TO LQT.  (Because additional arguments are required, TO LQT is not explicitly
+  required)::
+
+    SAC> rotinc iP raykm 0.063 freesurface verbose
+      Target Coordinate System: LQT
+      Apparent Angle Method: 'Vp Free Surface'
+      Vp: 5.80 km/s Vs: 3.36 km/s Ray Param: 0.063000 s/km
+      Apparent angle: 24.44
+
+  For this case, the V-R paticle motion gave an angle more than 10 degrees higher
+  for the apparent angle.  The pulse width is about 20 seconds, so the arrivals
+  average over the whole crut.  The following run gives more consistency::
+
+    SAC> rotinc iP vp 8.04 vs 4.47 raykm 0.063 freesurface verbose
+      Target Coordinate System: LQT
+      Apparent Angle Method: 'Vp Free Surface'
+      Vp: 8.04 km/s Vs: 4.47 km/s Ray Param: 0.063000 s/km
+      Apparent angle: 32.71
+
+INCIDENCE
+---------
+
+  Apparent, or incidence, angles are computed using the following equations:
+
+  * Vp, No Free Surface, Whole Space
+
+    angle = arcsin(Vp * p)
+
+  * Vs, No Free Surface, Whole Space
+
+    angle = arcsin(Vs * p)
+
+  * Vp at Free Surface
+
+    angle = arctan( 2 Vs p sqrt(1 - Vs**2 p**2) / (1 - 2 Vs**2 p**2) )
+
+  * Vs at Free Surface
+
+    angle = 90 - arctan( Vp * (1 - 2 Vs**2 p**2) / (2 Vs**2 p sqrt(||1 - Vp**2 p**2||)) )
+
+  At the Free Surface, the angle of the P wave is dependent on the S-wave only and the
+  angle of the S wave is dependent on both the P wave and S wave.  Equations are based
+  on Problem 5.6 in Aki and Richards, 2002, pg. 184.
 
 HEADER CHANGES
 --------------
@@ -60,7 +109,7 @@ HEADER CHANGES
 ERROR MESSAGES
 --------------
 - 1002: Bad value for
-- 1011: Bad command file syntax
+- 1011: Bad command file syntax; must specify an apparent-angle method
 - 1301: No data file read in.
 - 1304: Illegal operation on data file
 - 1336: Undefined header field value.
@@ -68,10 +117,10 @@ ERROR MESSAGES
 AUTHOR
 ------
 
-  This command was orignally contributed by Frederik Tilmann in 2015
+  This command was orignally contributed by Frederik Tilmann in 2015,
+  modified by J.A. Snoke in April 2017
 
 LATEST REVISION
 ---------------
 
-  August 2015 (Version 102.0)
-
+  April 2017 (Version 102.0)

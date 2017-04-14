@@ -18,41 +18,41 @@
 
 #define R_EARTH 6371.0
 
-/* ROTINC TO [VRT|LQT|VNE|XYZ] { INCIDENCE i | iP | iS } { VP alpha VS beta RAY{DEG|KM} par {FREESURFACE} } 
+/* ROTINC TO [VRT|LQT|VNE|XYZ] { INCIDENCE i | iP | iS } { VP alpha VS beta RAY{DEG|KM} par {FREESURFACE} }
  INPUT:
       TO VRT: rotate into vertical,radial, transverse coordinate system
-      TO LQT: rotate into P,SV, and SH coordinate system
+      TO LQT: rotate into P,SV, and SH coordinate system.  Angle is apparent angle
       TO VNE,XYZ: rotate into system aligned with N, E and vertical
 
       INCIDENCE, iP, iS are alternative methods of determing angle
          of L direction
-      INCIDENCE i: is angle from vertical of L direction
+      INCIDENCE i: is apparent angle from vertical (up) of L direction
       iP: incident P wave (need to set VP, RAY)
       iS: incident S wave (need to set VS, RAY)
 
       VP: P wave velocity near surface (default 5.8)
-      VS: S wave velocity near surface (default 3.35)
+      VS: S wave velocity near surface (default 3.36)  These are iasp91 values
       RAYDEG: ray parameter = horizontal slowness (s/deg)
       RAYKM: ray parameter= horizontal slowness (s/km)
-      FREESURFACE : use free surface response instead of propagation vector
-		    (need to set VP, VS, RAY)
-      
+      FREESURFACE: use free surface response instead of propagation vector
+       (need to set VP, VS, RAY)
+      VERBOSE: Prints out details
+
 
  DESCRIPTION:
- Given three perpendicular components of the same seismogram, it rotates them
- into coordinate systems. It works its way through all records in memory
+ Given three perpendicular components of a recorded time series, it rotates them
+ into selected coordinate systems. It works its way through all records in memory
  until it fails to find 3 consecutive perpendicular traces. It assumes
- vertical up (cmpinc = 0.0), cmpaz measured clockwise from N.
+ vertical up (cmpinc = 0.0), cmpaz measured clockwise from N.  VNE is a
+ left-handed coordinate system.  With one's back to the epicenter, R is
+ towards the station and T is to the right, so VRT is a left-handed
+ coordinate system.
 
  HEADER CHANGES:
  CMPINC,CMPAZ,KCMPNM (DEPMAX,DEPMIN,DEPMEN)
 
- This command is an external command written by Frederik Tilmann. It needs
- to be declared first with
- LOAD ROTINC
- Environment variables SACSOLIST and LD_LIBRARY_PATH need to be set correctly for
- this to work.
-
+ This command was originally an external command written by Frederik Tilmann.
+ Currently an internal command
 */
 /* (C) 2000 Frederik Tilmann   */
 
@@ -107,7 +107,7 @@ matrix_mul(float **a, float **b, float **c, int n1, int n, int n2) {
 void parse_rotinc(int *target, double *incidence, int *verbose, int *nerr);
 int statimcmp(sac *a, sac *b);
 
-void 
+void
 rotinc(int *nerr) {
     int numfiles,i,j,k;
     float cmpinc,cmpaz;
@@ -119,7 +119,7 @@ rotinc(int *nerr) {
     /* float **base=matrix(1,3,1,3); */
     /* float **dum=matrix(1,3,1,3); */
     /* float **Ltb=matrix(1,3,1,3),**Ltar=matrix(1,3,1,3);  */
- 
+
     float **base;
     /* float **dum=alloc_fmatrix(3,3); */
     float **Ltb, **Ltar;
@@ -134,7 +134,7 @@ rotinc(int *nerr) {
     if (*nerr != 0) {
         goto L_8888;
     }
-    /* - Check to make sure all files are evenly 
+    /* - Check to make sure all files are evenly
        spaced time series files. */
     vfeven(nerr);
     if (*nerr != 0) {
@@ -162,7 +162,7 @@ rotinc(int *nerr) {
     if (*nerr) {
         return;
     }
-    
+
 
     j=0;
     while(j+3 <= numfiles) {
@@ -231,7 +231,7 @@ rotinc(int *nerr) {
                 s[i]->h->cmpinc = incs[i];
                 s[i]->h->cmpaz = azs[i];
             }
-            /* ltar = identity matrix */ 
+            /* ltar = identity matrix */
             for(i=0;i<3;i++) {
                 for(k=0;k<3;k++) {
                     Ltar[i][k] = (i+k == 2) ? 1 : 0;
@@ -373,11 +373,11 @@ void parse_rotinc(int *target, double *incidence, int *verbose, int *nerr) {
     imethod    = 0;
 
     vp  = 5.8;   /* Approximate values valid for crust */
-    vs  = 3.35;
+    vs  = 3.36;  /* Original had 3.35*/
     ray = 0.0;
 
     while(lcmore(nerr)) {
-        
+
         if(lckey("TO$", 4)) {
             /* skip */
         } else if(lckey("VERBOSE$", 5)) {
@@ -417,14 +417,14 @@ void parse_rotinc(int *target, double *incidence, int *verbose, int *nerr) {
     if(*nerr != 0) {
         return;
     }
-    
+
     if (*target== -1) {
         *target=LQT;
     }
 
     /*if(*target == LQT && imethod == 0) {
         *nerr = 1011;
-        error(*nerr, "Must specify a incidence angle method");
+        error(*nerr, "Must specify an apparent angle method");
         return;
     }
     */
@@ -459,7 +459,11 @@ void parse_rotinc(int *target, double *incidence, int *verbose, int *nerr) {
             //printf("Incident S wave + free surface response\n");
             csi2=_ABS(1-ray*ray*vp*vp);
             //printf("%f %f\n",_ABS(1-ray*ray*vp*vp),csi2);
-            *incidence=vp*(1-2*ray*ray*vs*vs)/(vs*vs*ray*sqrt(csi2));
+            *incidence=vp*(1-2*ray*ray*vs*vs)/(2*vs*vs*ray*sqrt(csi2));
+            /*
+              Original missing a factor of 2---^
+            *incidence=vp*(1-2*ray*ray*vs*vs)/(  vs*vs*ray*sqrt(csi2));
+            */
             /* The Aki formula gives the polarisation of the S wave
                with an angle off typically 70-90 deg for steep incidence,
                but potentially negative angles for 1/ray > vp.
@@ -468,7 +472,7 @@ void parse_rotinc(int *target, double *incidence, int *verbose, int *nerr) {
             *incidence=90-atan(*incidence)*180./PI;
             break;
         default:
-            printf("Unknown combination %d for incidence angle determination\n",imethod);
+            printf("Unknown combination %d for apparent angle determination\n",imethod);
             *nerr= 1014;
             return;
         }
@@ -477,15 +481,13 @@ void parse_rotinc(int *target, double *incidence, int *verbose, int *nerr) {
                 "Incidence","Vp No Free Surface", "2", "Vs No Free Surface", "4",
                 "Vp Free Surface", "6", "Vsv Free Surface",
             };
-            printf(" Incidence Angle Method: '%s'\n", method_str[imethod]);
+            printf(" Apparent Angle Method: '%s'\n", method_str[imethod]);
             printf("    Vp: %.2f km/s Vs: %.2f km/s Ray Param: %f s/km\n",vp,vs,ray);
-            printf("    Incidence angle: %.2f\n",*incidence);
+            printf("    Apparent angle: %.2f\n",*incidence);
 
         }
     }
     if (*target== -1) {
-        *target=VNE; 
+        *target=VNE;
     }
 }
-
-
