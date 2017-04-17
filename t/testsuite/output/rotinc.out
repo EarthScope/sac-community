@@ -144,9 +144,9 @@ test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
 test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
  rotinc IP RAYDEG 6.8 verbose
  Target Coordinate System: LQT
- Incidence Angle Method: 'Vp No Free Surface'
-    Vp: 5.80 km/s Vs: 3.35 km/s Ray Param: 0.061154 s/km
-    Incidence angle: 20.77
+ Apparent Angle Method: 'Vp No Free Surface'
+    Vp: 5.80 km/s Vs: 3.36 km/s Ray Param: 0.061154 s/km
+    Apparent angle: 20.77
  message "Max: &1,depmax &2,depmax &3,depmax"
  ==>  message "Max: 4.43748 0.419989 1.09818"
  Max: 4.43748 0.419989 1.09818
@@ -170,18 +170,18 @@ test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
 test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
  rotinc TO LQT iS RAYDEG 6.8 VERBOSE
  Target Coordinate System: LQT
- Incidence Angle Method: 'Vs No Free Surface'
-    Vp: 5.80 km/s Vs: 3.35 km/s Ray Param: 0.061154 s/km
-    Incidence angle: 11.82
+ Apparent Angle Method: 'Vs No Free Surface'
+    Vp: 5.80 km/s Vs: 3.36 km/s Ray Param: 0.061154 s/km
+    Apparent angle: 11.86
  message "Max: &1,depmax &2,depmax &3,depmax"
- ==>  message "Max: 4.31805 1.10545 1.09818"
- Max: 4.31805 1.10545 1.09818
+ ==>  message "Max: 4.31874 1.10275 1.09818"
+ Max: 4.31874 1.10275 1.09818
  message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
  ==>  message "Az:  0 91.8528 181.853"
  Az:  0 91.8528 181.853
  message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
- ==>  message "Inc: 11.8216 101.822 90"
- Inc: 11.8216 101.822 90
+ ==>  message "Inc: 11.8574 101.857 90"
+ Inc: 11.8574 101.857 90
  message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
  ==>  message "Cmp: L Q T"
  Cmp: L Q T
