@@ -10,14 +10,14 @@ SYNTAX
 ------
 ::
 
-  [RTR]END  [QUIET [ON | OFF]] [VERBOSE [ON | OFF]]
+  [RTR]END  [QUIET] [VERBOSE]
 
 INPUT
 -----
-   :QUIET: If ON, supresses screen output
-    
-   :VERBOSE: If on, there is output to the screen about slope removed, et.
-       
+   :QUIET: If given, supresses screen output
+
+   :VERBOSE: If given, there is output to the screen about slope removed, etc.
+
    :DEFAULT VALUES:  RTR QUIET
 
 DESCRIPTION
