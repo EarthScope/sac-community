@@ -24,7 +24,8 @@ DESCRIPTION
 -----------
    A least-squares curve-fit to a straight line is calculated.  This straight
    line (trend and intercept) is then "subtracted" from the data.  The data does
-   not have to be evenly spaced.
+   not have to be evenly spaced.  The sequence RMEAN ; RTREND gives the same
+   result as siimply entering RTREND.
 
    OUTPUT: The best-fitting straight line parameters for the last file in
    the data file list are written to blackboard variables begining with RTR.
