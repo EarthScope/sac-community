@@ -11,7 +11,6 @@ lifite(double x1, double dx, float *y, int n, float *a, float *b, float *siga,
     int i;
     float d, df, rn, sig2, siga2, sigb2, xi, yi;
     double sumx, sumx2, sumxy, sumy, sumy2;
-    float *const Y = &y[0] - 1;
 
         /*=====================================================================
 	 * PURPOSE:  To apply a linear least squares fit to evenly spaced data.
@@ -46,12 +45,11 @@ lifite(double x1, double dx, float *y, int n, float *a, float *b, float *siga,
 
     /* - Loop on each data point. */
     DEBUG("x1: %e\n", x1);
-    xi = x1;
-    for (i = 1; i <= n; i++) {
-        yi = Y[i];
-        xi = x1 + (dx * (i - 1));
+    for (i = 0; i < n; i++) {
+        xi = x1 + dx * i;
+        yi = y[i];
         sumx = sumx + xi;
-        sumy = sumy + Y[i];
+        sumy = sumy + yi;
         sumxy = sumxy + xi * yi;
         sumx2 = sumx2 + xi * xi;
         sumy2 = sumy2 + yi * yi;
