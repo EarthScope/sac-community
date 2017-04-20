@@ -64,7 +64,7 @@ filtk(iopt, freq, yt)
         A[i] = 1.0 + 2.0 * C[j] * wct + wct2 * (C[j] * C[j] + C[k] * C[k]);
         B[i] = 2.0 * (1.0 + C[j] * wct);
     }
-    goto L_9000;
+    return 0.0;
 
     /* . . .    FILTER
      * */
@@ -93,8 +93,6 @@ filtk(iopt, freq, yt)
         e4[i_][iopt - 1] = e4[i_ + 1][iopt - 1];
     }
 
-  L_9000:
-    ;
     filtk_v = e4[2][iopt - 1];
     return (filtk_v);
 }                               /* end of function */
