@@ -59,7 +59,9 @@ datetime_get_file_time(datetime * t) {
         datetime_set_hour(t, s->h->nzhour);
         datetime_set_minute(t, s->h->nzmin);
         datetime_set_second(t, s->h->nzsec);
-        datetime_set_nanosecond(t, s->h->nzmsec * 1000000);
+        if(s->h->nzmsec >= 0) {
+            datetime_set_nanosecond(t, s->h->nzmsec * 1000000);
+        }
     }
     if (isSet(DATE, dir)) {
         datetime_set_year(t, getYear(dir) - 1900);
