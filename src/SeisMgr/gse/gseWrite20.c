@@ -191,7 +191,7 @@ PutWaveformData(FILE * ptr, DBlist tree, int cm6) {
         strcpy(id, "WID2");
 
         /* date and time */
-        if (isValidFloat(dbl_LIST_WFDISC, dbl_WFDIS_TIME, wfL->element->time)) {
+        if (isValidDouble(dbl_LIST_WFDISC, dbl_WFDIS_TIME, wfL->element->time)) {
             sprintf(time, "%-23.23s", tmListEpochTime(wfL->element->time, 14));
             time[10] = ' ';
         } else
@@ -229,11 +229,11 @@ PutWaveformData(FILE * ptr, DBlist tree, int cm6) {
         }
 
         /* samprat */
-        if (isValidFloat
-            (dbl_LIST_WFDISC, dbl_WFDIS_SAMPRATE, wfL->element->samprate))
+        if (isValidFloat(dbl_LIST_WFDISC, dbl_WFDIS_SAMPRATE, wfL->element->samprate)) {
             sprintf(samprat, "%11.6f", wfL->element->samprate);
-        else
+        } else {
             strcpy(samprat, "           ");     /* 11 spaces */
+        }
 
         /* calib */
         if (isValidFloat(dbl_LIST_WFDISC, dbl_WFDIS_CALIB, wfL->element->calib))
@@ -242,12 +242,11 @@ PutWaveformData(FILE * ptr, DBlist tree, int cm6) {
             strcpy(calib, "          ");        /* 10 spaces */
 
         /* calper */
-        if (isValidFloat
-            (dbl_LIST_WFDISC, dbl_WFDIS_CALPER, wfL->element->calper))
+        if (isValidFloat(dbl_LIST_WFDISC, dbl_WFDIS_CALPER, wfL->element->calper)) {
             sprintf(calper, "%7.3f", wfL->element->calper);
-        else
+        } else {
             sprintf(calper, "%s", "        ");  /* 8 spaces */
-
+        }
         /* instype */
         if (isValidString
             (dbl_LIST_WFDISC, dbl_WFDIS_INSTYPE, wfL->element->instype) &&
@@ -258,16 +257,17 @@ PutWaveformData(FILE * ptr, DBlist tree, int cm6) {
 
         /* hang and vang */
         GetChannelInfo(sc, station, channel, &dHang, &dVang);
-        if (isValidFloat(dbl_LIST_SITECHAN, dbl_SITEC_HANG, dHang))
+        if (isValidDouble(dbl_LIST_SITECHAN, dbl_SITEC_HANG, dHang)) {
             sprintf(hang, "%5.1f", dHang);
-        else
+        } else {
             strcpy(hang, "     ");      /* 5 spaces */
+        }
 
-        if (isValidFloat(dbl_LIST_SITECHAN, dbl_SITEC_VANG, dVang))
+        if (isValidDouble(dbl_LIST_SITECHAN, dbl_SITEC_VANG, dVang)) {
             sprintf(vang, "%4.1f", dVang);
-        else
+        } else {
             strcpy(vang, "    ");       /* 4 spaces */
-
+        }
         fprintf(ptr, "%s %s %s %s %s %s %s %s %s %s %s %s %s\n", id, time,
                 station, channel, auxid, datatype, samps, samprat, calib,
                 calper, instype, hang, vang);
@@ -378,23 +378,23 @@ PutStationData(FILE * ptr, DBlist tree) {
             strcpy(statype, "    ");    /* 4 spaces */
 
         /* lat */
-        if (isValidFloat(dbl_LIST_SITE, dbl_SITE_LAT, si->element->lat))
+        if (isValidDouble(dbl_LIST_SITE, dbl_SITE_LAT, si->element->lat)) {
             sprintf(lat, "%9.5f", si->element->lat);
-        else
+        } else {
             strcpy(lat, "         ");   /* 9 spaces */
-
+        }
         /* lon */
-        if (isValidFloat(dbl_LIST_SITE, dbl_SITE_LON, si->element->lon))
+        if (isValidDouble(dbl_LIST_SITE, dbl_SITE_LON, si->element->lon)) {
             sprintf(lon, "%10.5f", si->element->lon);
-        else
+        } else {
             strcpy(lon, "          ");  /* 10 spaces */
-
+        }
         /* elev */
-        if (isValidFloat(dbl_LIST_SITE, dbl_SITE_ELEV, si->element->elev))
+        if (isValidDouble(dbl_LIST_SITE, dbl_SITE_ELEV, si->element->elev)) {
             sprintf(elev, "%7.3f", si->element->elev);
-        else
+        } else {
             strcpy(elev, "       ");    /* 7 spaces */
-
+        }
         /* ondate */
         if (isValidInt(dbl_LIST_SITE, dbl_SITE_ONDATE, si->element->ondate)) {
             int doy, mm, id, iyyy, jdate = si->element->ondate;
@@ -484,39 +484,38 @@ PutChannelData(FILE * ptr, DBlist tree) {
         GetSiteInfo(si, sc->element->sta, sc->element->ondate,
                     sc->element->offdate, &fLat, &fLon, &fElev);
 
-        if (isValidFloat(dbl_LIST_SITE, dbl_SITE_LAT, fLat))
+        if (isValidDouble(dbl_LIST_SITE, dbl_SITE_LAT, fLat)) {
             sprintf(lat, "%9.5f", fLat);
-        else
+        } else {
             strcpy(lat, "         ");   /* 9 spaces */
-
-        if (isValidFloat(dbl_LIST_SITE, dbl_SITE_LON, fLon))
+        }
+        if (isValidDouble(dbl_LIST_SITE, dbl_SITE_LON, fLon)) {
             sprintf(lon, "%10.5f", fLon);
-        else
+        } else {
             strcpy(lon, "          ");  /* 10 spaces */
-
-        if (isValidFloat(dbl_LIST_SITE, dbl_SITE_ELEV, fElev))
+        }
+        if (isValidDouble(dbl_LIST_SITE, dbl_SITE_ELEV, fElev)) {
             sprintf(elev, "%7.3f", fElev);
-        else
+        } else {
             strcpy(elev, "       ");    /* 7 spaces */
-
+        }
         /* depth */
-        if (isValidFloat
-            (dbl_LIST_SITECHAN, dbl_SITEC_EDEPTH, sc->element->edepth))
+        if (isValidDouble(dbl_LIST_SITECHAN, dbl_SITEC_EDEPTH, sc->element->edepth)) {
             sprintf(depth, "%6.3f", sc->element->edepth);
-        else
+        } else {
             strcpy(depth, "      ");    /* 6 spaces */
-
+        }
         /* hang & vang */
-        if (isValidFloat(dbl_LIST_SITECHAN, dbl_SITEC_HANG, sc->element->hang))
+        if (isValidDouble(dbl_LIST_SITECHAN, dbl_SITEC_HANG, sc->element->hang)) {
             sprintf(hang, "%6.1f", sc->element->hang);
-        else
+        } else {
             strcpy(hang, "      ");     /* 6 spaces */
-
-        if (isValidFloat(dbl_LIST_SITECHAN, dbl_SITEC_VANG, sc->element->vang))
+        }
+        if (isValidDouble(dbl_LIST_SITECHAN, dbl_SITEC_VANG, sc->element->vang)) {
             sprintf(vang, "%5.1f", sc->element->vang);
-        else
+        } else {
             strcpy(vang, "     ");      /* 5 spaces */
-
+        }
         /* samprat */
         strcpy(samprat, "           "); /* 11 spaces */
 
@@ -643,10 +642,10 @@ PutArrivalData(FILE * ptr, DBlist tree) {
         }                       /* end while ( si ) */
 
         if (orig && si &&
-            isValidFloat(dbl_LIST_ORIGIN, dbl_ORIGI_LAT, orig->element->lat) &&
-            isValidFloat(dbl_LIST_ORIGIN, dbl_ORIGI_LON, orig->element->lon) &&
-            isValidFloat(dbl_LIST_SITE, dbl_SITE_LAT, si->element->lat) &&
-            isValidFloat(dbl_LIST_SITE, dbl_SITE_LON, si->element->lon)) {
+            isValidDouble(dbl_LIST_ORIGIN, dbl_ORIGI_LAT, orig->element->lat) &&
+            isValidDouble(dbl_LIST_ORIGIN, dbl_ORIGI_LON, orig->element->lon) &&
+            isValidDouble(dbl_LIST_SITE, dbl_SITE_LAT, si->element->lat) &&
+            isValidDouble(dbl_LIST_SITE, dbl_SITE_LON, si->element->lon)) {
 
             float slat = si->element->lat, slon = si->element->lon, elat =
                 orig->element->lat, elon =
@@ -700,38 +699,36 @@ PutArrivalData(FILE * ptr, DBlist tree) {
             strcpy(phase, "       ");   /* 7 spaces */
 
         /* time */
-        if (isValidFloat(dbl_LIST_ARRIVAL, dbl_ARRIV_TIME, ar->element->time)) {
+        if (isValidDouble(dbl_LIST_ARRIVAL, dbl_ARRIV_TIME, ar->element->time)) {
             sprintf(time, "%-21.21s", tmListEpochTime(ar->element->time, 14));
             time[10] = ' ';
-        } else
+        } else {
             strcpy(time, "                     ");      /* 21 spaces */
-
+        }
         /* azim */
-        if (isValidFloat
-            (dbl_LIST_ARRIVAL, dbl_ARRIV_AZIMUTH, ar->element->azimuth))
+        if (isValidDouble(dbl_LIST_ARRIVAL, dbl_ARRIV_AZIMUTH, ar->element->azimuth)) {
             sprintf(azim, "%5.1f", ar->element->azimuth);
-        else
+        } else {
             strcpy(azim, "     ");      /* 5 spaces */
-
+        }
         /* azres */
-        if (isValidFloat(dbl_LIST_ARRIVAL, dbl_ARRIV_DELAZ, ar->element->delaz))
+        if (isValidDouble(dbl_LIST_ARRIVAL, dbl_ARRIV_DELAZ, ar->element->delaz)) {
             sprintf(azres, "%6.1f", ar->element->delaz);
-        else
+        } else {
             strcpy(azres, "      ");    /* 6 spaces */
-
+        }
         /* slow */
-        if (isValidFloat(dbl_LIST_ARRIVAL, dbl_ARRIV_SLOW, ar->element->slow))
+        if (isValidDouble(dbl_LIST_ARRIVAL, dbl_ARRIV_SLOW, ar->element->slow)) {
             sprintf(slow, "%5.1f", ar->element->slow);
-        else
+        } else {
             strcpy(slow, "     ");      /* 5 spaces */
-
+        }
         /* sres */
-        if (isValidFloat
-            (dbl_LIST_ARRIVAL, dbl_ARRIV_DELSLO, ar->element->delslo))
+        if (isValidDouble(dbl_LIST_ARRIVAL, dbl_ARRIV_DELSLO, ar->element->delslo)) {
             sprintf(sres, "%5.1f", ar->element->delslo);
-        else
+        } else {
             strcpy(sres, "     ");      /* 5 spaces */
-
+        }
         /* tdef, adef, & sdef */
         if (as && as->element->timedef[0] == 'd')
             tdef = 'T';
@@ -747,46 +744,39 @@ PutArrivalData(FILE * ptr, DBlist tree) {
             sdef = ' ';
 
         /* snr */
-        if (isValidFloat(dbl_LIST_ARRIVAL, dbl_ARRIV_SNR, ar->element->snr))
+        if (isValidDouble(dbl_LIST_ARRIVAL, dbl_ARRIV_SNR, ar->element->snr)) {
             sprintf(snr, "%5.1f", ar->element->snr);
-        else
+        } else {
             strcpy(snr, "     ");       /* 5 spaces */
-
+        }
         /* amp */
-        if (isValidFloat(dbl_LIST_ARRIVAL, dbl_ARRIV_AMP, ar->element->amp))
+        if (isValidDouble(dbl_LIST_ARRIVAL, dbl_ARRIV_AMP, ar->element->amp)) {
             sprintf(amp, "%9.1f", ar->element->amp);
-        else
+        } else {
             strcpy(amp, "         ");   /* 9 spaces */
-
+        }
         /* per */
-        if (isValidFloat(dbl_LIST_ARRIVAL, dbl_ARRIV_PER, ar->element->per))
+        if (isValidDouble(dbl_LIST_ARRIVAL, dbl_ARRIV_PER, ar->element->per)) {
             sprintf(per, "%5.2f", ar->element->per);
-        else
+        } else {
             strcpy(per, "     ");       /* 5 spaces */
-
+        }
         /* mdef1, mag1, mdef2, & mag2 */
         if (orig) {
-            if (isValidFloat(dbl_LIST_ORIGIN, dbl_ORIGI_MB, orig->element->mb)
-                && isValidFloat(dbl_LIST_ORIGIN, dbl_ORIGI_MS,
-                                orig->element->ms)) {
+            if (isValidDouble(dbl_LIST_ORIGIN, dbl_ORIGI_MB, orig->element->mb) &&
+                isValidDouble(dbl_LIST_ORIGIN, dbl_ORIGI_MS, orig->element->ms)) {
                 strcpy(mdef1, "mb");
                 sprintf(mag1, "%4.1f", orig->element->mb);
                 strcpy(mdef2, "ms");
                 sprintf(mag2, "%4.1f", orig->element->ms);
-            } else
-                if (isValidFloat
-                    (dbl_LIST_ORIGIN, dbl_ORIGI_MB, orig->element->mb) &&
-                    isValidFloat(dbl_LIST_ORIGIN, dbl_ORIGI_ML,
-                                 orig->element->ml)) {
+            } else if (isValidDouble(dbl_LIST_ORIGIN, dbl_ORIGI_MB, orig->element->mb) &&
+                       isValidDouble(dbl_LIST_ORIGIN, dbl_ORIGI_ML, orig->element->ml)) {
                 strcpy(mdef1, "mb");
                 sprintf(mag1, "%4.1f", orig->element->mb);
                 strcpy(mdef2, "ml");
                 sprintf(mag2, "%4.1f", orig->element->ml);
-            } else
-                if (isValidFloat
-                    (dbl_LIST_ORIGIN, dbl_ORIGI_MS, orig->element->ms) &&
-                    isValidFloat(dbl_LIST_ORIGIN, dbl_ORIGI_ML,
-                                 orig->element->ml)) {
+            } else if (isValidDouble(dbl_LIST_ORIGIN, dbl_ORIGI_MS, orig->element->ms) &&
+                       isValidDouble(dbl_LIST_ORIGIN, dbl_ORIGI_ML, orig->element->ml)) {
                 strcpy(mdef1, "ms");
                 sprintf(mag1, "%4.1f", orig->element->ms);
                 strcpy(mdef2, "ml");
@@ -795,18 +785,13 @@ PutArrivalData(FILE * ptr, DBlist tree) {
                 strcpy(mdef2, "  ");
                 strcpy(mag2, "    ");
 
-                if (isValidFloat
-                    (dbl_LIST_ORIGIN, dbl_ORIGI_MB, orig->element->mb)) {
+                if (isValidDouble(dbl_LIST_ORIGIN, dbl_ORIGI_MB, orig->element->mb)) {
                     strcpy(mdef1, "mb");
                     sprintf(mag1, "%4.1f", orig->element->mb);
-                } else
-                    if (isValidFloat
-                        (dbl_LIST_ORIGIN, dbl_ORIGI_MS, orig->element->ms)) {
+                } else if (isValidDouble(dbl_LIST_ORIGIN, dbl_ORIGI_MS, orig->element->ms)) {
                     strcpy(mdef1, "ms");
                     sprintf(mag1, "%4.1f", orig->element->ms);
-                } else
-                    if (isValidFloat
-                        (dbl_LIST_ORIGIN, dbl_ORIGI_ML, orig->element->ml)) {
+                } else if (isValidDouble(dbl_LIST_ORIGIN, dbl_ORIGI_ML, orig->element->ml)) {
                     strcpy(mdef1, "ml");
                     sprintf(mag1, "%4.1f", orig->element->ml);
                 } else {
@@ -874,31 +859,30 @@ PutOriginData(FILE * ptr, DBlist tree) {
         fflush(stdout);
 
         /* time */
-        if (isValidFloat(dbl_LIST_ORIGIN, dbl_ORIGI_TIME, orig->element->time)) {
+        if (isValidDouble(dbl_LIST_ORIGIN, dbl_ORIGI_TIME, orig->element->time)) {
             sprintf(time, "%-21.21s", tmListEpochTime(orig->element->time, 14));
             time[10] = ' ';
         } else
             strcpy(time, "                     ");      /* 21 spaces */
 
         /* lat */
-        if (isValidFloat(dbl_LIST_ORIGIN, dbl_ORIGI_LAT, orig->element->lat))
+        if (isValidDouble(dbl_LIST_ORIGIN, dbl_ORIGI_LAT, orig->element->lat)) {
             sprintf(lat, "%8.4f", orig->element->lat);
-        else
+        } else {
             strcpy(lat, "        ");    /* 8 spaces */
-
+        }
         /* lon */
-        if (isValidFloat(dbl_LIST_ORIGIN, dbl_ORIGI_LON, orig->element->lon))
+        if (isValidDouble(dbl_LIST_ORIGIN, dbl_ORIGI_LON, orig->element->lon)) {
             sprintf(lon, "%9.4f", orig->element->lon);
-        else
+        } else {
             strcpy(lon, "         ");   /* 9 spaces */
-
+        }
         /* depth */
-        if (isValidFloat
-            (dbl_LIST_ORIGIN, dbl_ORIGI_DEPTH, orig->element->depth))
+        if (isValidDouble(dbl_LIST_ORIGIN, dbl_ORIGI_DEPTH, orig->element->depth)) {
             sprintf(depth, "%5.1f", orig->element->depth);
-        else
+        } else {
             strcpy(depth, "     ");     /* 5 spaces */
-
+        }
         /* ndef */
         if (isValidInt(dbl_LIST_ORIGIN, dbl_ORIGI_NDEF, orig->element->ndef))
             sprintf(ndef, "%4d", orig->element->ndef);
@@ -906,7 +890,7 @@ PutOriginData(FILE * ptr, DBlist tree) {
             strcpy(ndef, "    ");       /* 4 spaces */
 
         /* magnitudes */
-        if (isValidFloat(dbl_LIST_ORIGIN, dbl_ORIGI_MB, orig->element->mb)) {
+        if (isValidDouble(dbl_LIST_ORIGIN, dbl_ORIGI_MB, orig->element->mb)) {
             sprintf(mag1, "%4.1f", orig->element->mb);
             strcpy(magtype1, "mb");
         } else {
@@ -914,7 +898,7 @@ PutOriginData(FILE * ptr, DBlist tree) {
             strcpy(magtype1, "  ");     /* 2 spaces */
         }
 
-        if (isValidFloat(dbl_LIST_ORIGIN, dbl_ORIGI_MB, orig->element->ms)) {
+        if (isValidDouble(dbl_LIST_ORIGIN, dbl_ORIGI_MS, orig->element->ms)) {
             sprintf(mag2, "%4.1f", orig->element->ms);
             strcpy(magtype2, "ms");
         } else {
@@ -922,7 +906,7 @@ PutOriginData(FILE * ptr, DBlist tree) {
             strcpy(magtype2, "  ");     /* 2 spaces */
         }
 
-        if (isValidFloat(dbl_LIST_ORIGIN, dbl_ORIGI_MB, orig->element->ml)) {
+        if (isValidDouble(dbl_LIST_ORIGIN, dbl_ORIGI_ML, orig->element->ml)) {
             sprintf(mag3, "%4.1f", orig->element->ml);
             strcpy(magtype3, "ml");
         } else {

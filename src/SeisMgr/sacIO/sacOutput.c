@@ -636,8 +636,7 @@ sacHeaderFromCSS(DBlist tree, struct SACheader *header, struct wfdiscList *w,
         }
         header->ievtyp = sacSetEvType(orig->element->etype);
         if ((as = sacFindAssoc(tree, orig->element->orid, w->element->sta))) {
-            if (isValidFloat
-                (dbl_LIST_ASSOC, dbl_ASSOC_DELTA, as->element->delta))
+            if (isValidDouble(dbl_LIST_ASSOC, dbl_ASSOC_DELTA, as->element->delta))
                 header->gcarc = as->element->delta;
             if (CSSfltDefined(as->element->seaz))
                 header->baz = as->element->seaz;
@@ -804,11 +803,11 @@ sacHeaderFromCSS(DBlist tree, struct SACheader *header, struct wfdiscList *w,
     sc = sacFindSiteChan(tree, w->element->sta, w->element->chan,
                          w->element->jdate, w->element->wfid);
     if (sc) {
-        if (isValidFloat(dbl_LIST_SITECHAN, dbl_SITEC_VANG, sc->element->vang))
+        if (isValidDouble(dbl_LIST_SITECHAN, dbl_SITEC_VANG, sc->element->vang))
             header->cmpinc = sc->element->vang;
         else
             header->cmpinc = -12345.0;
-        if (isValidFloat(dbl_LIST_SITECHAN, dbl_SITEC_HANG, sc->element->hang))
+        if (isValidDouble(dbl_LIST_SITECHAN, dbl_SITEC_HANG, sc->element->hang))
             header->cmpaz = sc->element->hang;
         else
             header->cmpaz = -12345.0;

@@ -815,7 +815,7 @@ findNullForField(int table, int field) {
 }                               /* end findNullForField */
 
 int
-isValidFloat(int table, int field, double value) {
+isValidDouble(int table, int field, double value) {
     double *dNull = NULL;
 
     if (table == dbl_LIST_SACDATA) {
@@ -830,6 +830,28 @@ isValidFloat(int table, int field, double value) {
         return FALSE;
     }
     if (value == *dNull)
+        return FALSE;
+    else
+        return TRUE;
+}                               /* end isValidDouble */
+
+int
+isValidFloat(int table, int field, float value) {
+    float *v = NULL;
+
+    if (table == dbl_LIST_SACDATA) {
+        if (value == -12345.0)
+            return FALSE;
+        else
+            return TRUE;
+    }
+
+    v = (float *) findNullForField(table, field);
+
+    if (!v) {
+        return FALSE;
+    }
+    if (value == *v)
         return FALSE;
     else
         return TRUE;

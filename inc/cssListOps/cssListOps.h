@@ -89,7 +89,8 @@ char *CSSstrcpy(char *fresh, char *old);
 int CSSstrcmp(char *s1, char *s2);
 
 /*             ****** Functions check for NULL valued CSS header fields. ******     */
-int isValidFloat(int table, int field, double value);
+int isValidFloat(int table, int field, float value);
+int isValidDouble(int table, int field, double value);
 int isValidInt(int table, int field, int value);
 int isValidString(int table, int field, char *value);
 
