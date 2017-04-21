@@ -3,6 +3,7 @@
 from __future__ import print_function
 
 import os
+import io
 import re
 import sys
 import math
@@ -94,7 +95,7 @@ def main() :
 def read_lines(file) :
     lines = list()
     try:
-        f = open(file, mode='r', encoding='utf-8', errors='replace')
+        f = io.open(file, mode='r', encoding='utf-8', errors='replace')
     except IOError:
         sys.exit('Could not open file: ' + file)
     lines.extend( f.readlines() )
@@ -102,7 +103,7 @@ def read_lines(file) :
     return lines
 
 def save_lines(file, lines) :
-    f = open(file, 'w')
+    f = io.open(file, 'w')
     for l in lines :
         f.write(l)
     f.close()
