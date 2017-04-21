@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
+
 import os
 import re
 import sys
@@ -71,7 +73,7 @@ def main() :
         if os.path.basename(file).startswith('RESP') :
             continue
         xfile = os.path.basename(file)
-        print >>sys.stderr, 'Test:', xfile
+        print('Test: %s' % xfile, file=sys.stderr)
         [Out, Err] = execute( file, opts )
 
         if opts.run :
@@ -83,8 +85,8 @@ def main() :
         if opts.die_on_error and error > 0 :
             break
     if error > 0 :
-        print >>sys.stderr, ""
-        print >>sys.stderr, "Errors: ",error
+        print("", file=sys.stderr)
+        print("Errors: %s" % error, file=sys.stderr)
     if error > 0:
         sys.exit(1)
     sys.exit(0)
@@ -92,7 +94,7 @@ def main() :
 def read_lines(file) :
     lines = list()
     try:
-        f = open(file, 'r')
+        f = open(file, mode='r', encoding='utf-8', errors='replace')
     except IOError:
         sys.exit('Could not open file: ' + file)
     lines.extend( f.readlines() )
@@ -141,7 +143,7 @@ def commands_execute( commands , opts, test_path) :
     args.append('--history-off')
     try :
         if opts.verbose :
-            print >>sys.stderr, "\tOpening process: ", opts.sac
+            print("\tOpening process: %s" % opts.sac, file=sys.stderr)
         p = subprocess.Popen( args, 
                               bufsize = 0, 
                               shell = False, 
@@ -150,25 +152,29 @@ def commands_execute( commands , opts, test_path) :
                               stdout = subprocess.PIPE, 
                               stderr = subprocess.PIPE)
         if opts.verbose :
-            print '\tPID: ',p.pid
-    except (OSError, ValueError), (errno, strerror) : 
-        print >>sys.stderr, progname, "error({0}): {1} :".format(errno, strerror),opts.sac
+            print('\tPID: %d' % p.pid)
+    except (OSError, ValueError) as err :
+        errno, stderror = err
+        print("{0} error({1}): {2} {3}".format(progname, errno, strerror, opts.sac), file=sys.stderr)
         sys.exit(errno)
 
-    for com in commands :
-        print >>p.stdin, com
-    out, err = p.communicate()
+    #for com in commands :
+    #    print(com, file=p.stdin)
+    cmds = '\n'.join(commands) + '\n'
+    out, err = p.communicate(input=cmds.encode('utf-8'))
     if out == None: out = ''
     if err == None: err = ''
+    out = out.decode(encoding='utf-8', errors='replace')
+    err = err.decode(encoding='utf-8', errors='replace')
     out = [ o + '\n' for o in out.rstrip().split('\n') ]
     err = [ o + '\n' for o in err.rstrip().split('\n') ]
     ecode = p.wait()
     if ecode != 0:
-        print >>sys.stderr
-        print >>sys.stderr, ''.join(out)
-        print >>sys.stderr
-        print >>sys.stderr, '***** Program exiting badly, return value: ',ecode,'*****'
-        print >>sys.stderr
+        print("", file=sys.stderr)
+        print(''.join(out), file=sys.stderr)
+        print("", file=sys.stderr)
+        print('***** Program exiting badly, return value: %d *****' % ecode, file=sys.stderr)
+        print("", file=sys.stderr)
         sys.exit(99)
     for d in glob.glob("test.*.dir") :
         for f in os.listdir(d) :
@@ -176,11 +182,11 @@ def commands_execute( commands , opts, test_path) :
         os.rmdir(d)
     for f in glob.glob("test.*") :
         if opts.verbose:
-            print >>sys.stderr, "\tRemoving test file: ",f
+            print("\tRemoving test file: %s" % f, file=sys.stderr)
         os.remove(f)
     for f in glob.glob("2002.054.*") :
         if opts.verbose:
-            print >>sys.stderr, "\tRemoving test file: ",f
+            print("\tRemoving test file: %s" % f, file=sys.stderr)
         if f.endswith('.lhor2.e') or f.endswith('.lhor2.n') or f.endswith('.lhor2.z') :
             continue
         os.remove(f)
@@ -193,9 +199,9 @@ def execute(file, opts) :
 
 def print_output(file, Out, Err, opts) :
     for line in Out:
-        print line,
+        print(line, end='')
     for line in Err:
-        print line,
+        print(line, end='')
 
 def output_path(file, opts) :
     f = os.path.splitext(os.path.basename(file))[0]
@@ -218,7 +224,7 @@ def test_output(file, Out, Err, opts) :
     passed = '\033[1;32mPass\033[1;m'
     failed = '\033[1;31mFail\033[1;m'
     if opts.valgrind:
-        for i in Err: print i,
+        for i in Err: print(i, end='')
         return 0
     for t in ['out', 'err']  :
 
@@ -230,15 +236,15 @@ def test_output(file, Out, Err, opts) :
             exp_out = read_lines(err_file(file, opts))
 
         if len(out) != len(exp_out) :
-            print >> sys.stderr, "Number of lines do not match"
-            print >> sys.stderr, "Output:      ", len(out)
-            print >> sys.stderr, "Output(exp): ", len(exp_out)
-            print >> sys.stderr
+            print("Number of lines do not match", file=sys.stderr)
+            print("Output:      %d" % len(out), file=sys.stderr)
+            print("Output(exp): %d" % len(exp_out), file=sys.stderr)
+            print('', file=sys.stderr)
         out = [ o.replace('\r','') for o in out]
         for line in difflib.unified_diff(exp_out, out, 
                                          fromfile = 'expected', 
                                          tofile   = 'current') :
-            print >>sys.stderr, line,
+            print(line, file=sys.stderr, end='')
             error = error + 1
     return error
 
