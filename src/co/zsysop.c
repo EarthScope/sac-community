@@ -120,3 +120,33 @@ system_local(const char *command) {
 }
 
 #endif
+
+#define BUFSIZE 256
+char *
+zsysop_gets(char *comstr, int dummylen, int *pnumc, int *perr) {
+    FILE *fp;
+    UNUSED(dummylen);
+
+    string *s = string_new("");
+    char buf[BUFSIZE];
+    char *p = NULL;
+
+    if((fp = popen(comstr, "r")) == NULL) {
+        *perr = ERROR_EXECUTING_SYSTEM_COMMAND;
+        goto ERROR;
+    }
+    while(fgets(buf, BUFSIZE, fp) != NULL) {
+        s = string_append(s, buf);
+    }
+    if(pclose(fp)) {
+        *perr = ERROR_EXECUTING_SYSTEM_COMMAND;
+        goto ERROR;
+    }
+    p = strdup( string_string(s) );
+
+ ERROR:
+    string_free(&s);
+    s = NULL;
+
+    return p;
+}

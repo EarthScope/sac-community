@@ -79,6 +79,7 @@ void zruntext(char *text, int text_s, FILE * nfun, int *nerr);
 void zsleep(int timeout);
 int timer(int set_get, int usec);
 void zsysop(char *comstr, int dummylen, int *pnumc, int *perr);
+char* zsysop_gets(char *comstr, int dummylen, int *pnumc, int *perr);
 void zwabs(int *pfd, char *array, int pnwords, int *pswords, int *pnerr);
 char *getline_stdin();
 int tty_force(int getset);
