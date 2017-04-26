@@ -364,7 +364,7 @@ void parse_rotinc(int *target, double *incidence, int *verbose, int *nerr) {
     int imethod;  /* bit0: -- 0:incidence,   1:model derived
                      bit1: -- 0:vp,          1:vs
                      bit2: -- 0:normal       1:free surface response */
-    double vp,vs,ray,vs2,csi2;
+    double vp,vs,ray,vs2,csi2,appang;
 
     *nerr = 0;
 
@@ -438,10 +438,12 @@ void parse_rotinc(int *target, double *incidence, int *verbose, int *nerr) {
         case 1:  /* vp no free surface */
             //printf("Incident P wave\n");
             *incidence=asin(vp*ray)*180./PI;
+            appang=*incidence;
             break;
         case 3:  /* vs no free surface */
             //printf("Incident S wave\n");
             *incidence=asin(vs*ray)*180./PI;
+            appang=*incidence;
             break;
         case 5:  /* vp free surface response
                     (Aki & Richards, 1990) also A&R 2002,
@@ -451,6 +453,7 @@ void parse_rotinc(int *target, double *incidence, int *verbose, int *nerr) {
             vs2=vs*vs*ray*ray;
             *incidence=2*vs*ray*sqrt(1-vs2)/(1-2*vs2);
             *incidence=atan(*incidence)*180./PI;
+            appang=*incidence;
             break;
         case 7:  /* vsv free surface response
                     (Aki & Richards, 1990) also A&R 2002,
@@ -464,12 +467,17 @@ void parse_rotinc(int *target, double *incidence, int *verbose, int *nerr) {
               Original missing a factor of 2---^
             *incidence=vp*(1-2*ray*ray*vs*vs)/(  vs*vs*ray*sqrt(csi2));
             */
-            /* The Aki formula gives the polarisation of the S wave
+            /* ORIGINAL The Aki formula gives the polarisation of the S wave
                with an angle off typically 70-90 deg for steep incidence,
                but potentially negative angles for 1/ray > vp.
                We would like to have the S wave on the Q component,
-               hence subtract from 90 for L in the range 0-20 */
-            *incidence=90-atan(*incidence)*180./PI;
+               hence subtract from 90 for L in the range 0-20
+            *incidence=90-atan(*incidence)*180./PI;*/
+           /*  The equation for *incidence only holds for S incidence below the
+               critical angle: 1/ray =   vp.  (Does it check? I do not think so.) That angle
+               is for the Q, so must subttract 90.0 for L*/
+            *incidence=atan(*incidence)*180./PI - 90.0;
+            appang=*incidence+90.;
             break;
         default:
             printf("Unknown combination %d for apparent angle determination\n",imethod);
@@ -483,7 +491,7 @@ void parse_rotinc(int *target, double *incidence, int *verbose, int *nerr) {
             };
             printf(" Apparent Angle Method: '%s'\n", method_str[imethod]);
             printf("    Vp: %.2f km/s Vs: %.2f km/s Ray Param: %f s/km\n",vp,vs,ray);
-            printf("    Apparent angle: %.2f\n",*incidence);
+            printf("    Apparent angle: %.2f\n",appang);
 
         }
     }
