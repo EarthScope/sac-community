@@ -16,26 +16,21 @@
 
 #define EPSILON 1e-5
 
-#define R_EARTH 6371.0
-
-/* ROTINC TO [VRT|LQT|VNE|XYZ] { INCIDENCE i | iP | iS } { VP alpha VS beta RAY{DEG|KM} par {FREESURFACE} }
+/* ROTINC TO [VRT|LQT|VNE|XYZ] { INCIDENCE i | iP | iS } { VP alpha VS beta RAY ray parameter }
  INPUT:
       TO VRT: rotate into vertical,radial, transverse coordinate system
       TO LQT: rotate into P,SV, and SH coordinate system.  Angle is apparent angle
       TO VNE,XYZ: rotate into system aligned with N, E and vertical
+          XYZ still works, but is not mentioned in the HELP file.
 
-      INCIDENCE, iP, iS are alternative methods of determing angle
-         of L direction
-      INCIDENCE i: is apparent angle from vertical (up) of L direction
-      iP: incident P wave (need to set VP, RAY)
-      iS: incident S wave (need to set VS, RAY)
+      INCIDENCE i: is incident angle from vertical (up) of L direction
+      iP: incident P wave (need to set VP, RAY)  Now only with free-surface response
+      iS: incident S wave (need to set VS, RAY)  Now only with free-surface response
 
       VP: P wave velocity near surface (default 5.8)
       VS: S wave velocity near surface (default 3.36)  These are iasp91 values
-      RAYDEG: ray parameter = horizontal slowness (s/deg)
-      RAYKM: ray parameter= horizontal slowness (s/km)
-      FREESURFACE: use free surface response instead of propagation vector
-       (need to set VP, VS, RAY)
+      RAY: ray parameter= horizontal slowness (s/km) 
+
       VERBOSE: Prints out details
 
 
@@ -46,7 +41,8 @@
  vertical up (cmpinc = 0.0), cmpaz measured clockwise from N.  VNE is a
  left-handed coordinate system.  With one's back to the epicenter, R is
  towards the station and T is to the right, so VRT is a left-handed
- coordinate system.
+ coordinate system.  The routine does not explicitly check that the three components
+ are perpendicular, but it probaly suffices that they are linearly independent.
 
  HEADER CHANGES:
  CMPINC,CMPAZ,KCMPNM (DEPMAX,DEPMIN,DEPMEN)
@@ -54,8 +50,7 @@
  This command was originally an external command written by Frederik Tilmann.
  Currently an internal command
 */
-/* (C) 2000 Frederik Tilmann   */
-
+/* (C) 2000 Frederik Tilmann   Modified in May 2017 by Arthur Snoke */
 /* Target systems */
 #define XYZ 0   /* Z: up X points towards E, Y points towards N */
 #define VNE 1
@@ -65,12 +60,14 @@
 const char *target_str[] = {
     "XYZ", "VNE", "VRT", "LQT",
 };
-
+/* Methods  */
+#define INCID 0
+#define IP 1
+#define IS 2
+const char *imethod_str[] = {
+    "INCID", "IP", "IS",
+};
 #define PI M_PI
-
-#ifndef _ABS
-#define _ABS(x) ((x)>0 ? (x) : -(x))
-#endif
 #ifndef MAX
 #define MAX(a,b) ((a)>(b)?(a):(b))
 #endif
@@ -102,6 +99,17 @@ matrix_mul(float **a, float **b, float **c, int n1, int n, int n2) {
     }
     return c;
 }
+
+float
+dot(float *a, float *b, int n) {
+    int i;
+    double sum = 0.0;
+    for(i = 0; i < n; i++) {
+        sum += a[i] * b[i];
+    }
+    return (float) sum;
+}
+
 
 /* Internal prototypes */
 void parse_rotinc(int *target, double *incidence, int *verbose, int *nerr);
@@ -201,6 +209,11 @@ rotinc(int *nerr) {
             base[2][i] = cos(cmpinc);
 
         }
+        if((fabs(dot(base[0],base[1],3)) >= EPSILON) ||
+           (fabs(dot(base[1],base[2],3)) >= EPSILON) ||
+           (fabs(dot(base[0],base[2],3)) >= EPSILON)) {
+            error(*nerr = 1336, "Input Coordinate system not Orthogonal\n");
+        }
 
         /* replace matrix of base vectors with its inverse */
         /* construct target rotation matrix and set header variables */
@@ -276,6 +289,7 @@ rotinc(int *nerr) {
             }
             baz = s[0]->h->baz;
             azs[1] = fmod(180. + baz, 360.);
+            if (incidence != 0.0) {azs[0] = azs[1];}
             azs[2] = fmod(270. + baz, 360.);
             for(i = 0; i < 3; i++) {
                 strcpy(s[i]->h->kcmpnm, comps[i]);
@@ -361,20 +375,19 @@ int statimcmp(sac *a, sac *b) {
 }
 
 void parse_rotinc(int *target, double *incidence, int *verbose, int *nerr) {
-    int imethod;  /* bit0: -- 0:incidence,   1:model derived
-                     bit1: -- 0:vp,          1:vs
-                     bit2: -- 0:normal       1:free surface response */
+    int imethod;
     double vp,vs,ray,vs2,csi2,appang;
+    int ray_defined;
 
     *nerr = 0;
-
+    ray_defined = FALSE;
     *target    = -1;
     *incidence = 0.0;
-    imethod    = 0;
-
     vp  = 5.8;   /* Approximate values valid for crust */
     vs  = 3.36;  /* Original had 3.35*/
-    ray = 0.0;
+    ray = -10.0;
+
+    imethod = -1;
 
     while(lcmore(nerr)) {
 
@@ -393,21 +406,15 @@ void parse_rotinc(int *target, double *incidence, int *verbose, int *nerr) {
         } else if(lckey("LQT$", 5)) {
             *target = LQT;
         } else if(lkreal("INCIDENCE$", 11, incidence)) {
-            imethod = 0;
-            if(*target == -1) {
-                *target = LQT;
-            }
+            imethod = INCID;
         } else if(lckey("IP$", 4)) {
-            imethod |= 1 ; imethod &= ~2 ;
+            imethod = IP ;
         } else if(lckey("IS$", 4)) {
-            imethod |= 3;
-        } else if(lckey("FREESURFACE$", 13)) {
-            imethod |= 4;
+            imethod = IS;
         } else if(lkreal("VP$", 4, &vp)) {
         } else if(lkreal("VS$", 4, &vs)) {
-        } else if(lkreal("RAYKM$", 7, &ray)) {
-        } else if(lkreal("RAYDEG$", 8, &ray)) {
-            ray = ray * (180./PI) / R_EARTH;
+        } else if(lkreal("RAY$", 5, &ray)) {
+            ray_defined = TRUE;
         } else {
             cfmt("ILLEGAL OPTION:", 17);
             cresp();
@@ -418,84 +425,78 @@ void parse_rotinc(int *target, double *incidence, int *verbose, int *nerr) {
         return;
     }
 
+
     if (*target== -1) {
         *target=LQT;
+    } else if (*target == XYZ || *target == VNE || *target == VRT) {
+        if(imethod != -1) {
+            error(*nerr = 1002, "rotinc, incompatible options specificed:\n"
+                                "             Vertical Coordinate System with Incidence, iP, or iS");
+            return;
+        }
     }
-
-    /*if(*target == LQT && imethod == 0) {
-        *nerr = 1011;
-        error(*nerr, "Must specify an apparent angle method");
-        return;
-    }
-    */
 
     if(*verbose) {
         printf(" Target Coordinate System: %s\n", target_str[*target]);
     }
+    if(*target == LQT){
+        if(imethod < 0) {
+            error(*nerr = 1002, "rotation method, please set it using iP, iS, or incidence value [Target: %s]", target_str[*target]);
+            return; 
+        }
+        if (!ray_defined && imethod > 0) {
+            error(*nerr = 1002, "ray parameter, please set it using RAY value [Target: %s]", target_str[*target]);
+            return;
+        }
+    } else {
+    }
 
-    if (imethod & 1) {
+
+    if(*target == LQT) {
         switch (imethod){
-        case 1:  /* vp no free surface */
-            //printf("Incident P wave\n");
-            *incidence=asin(vp*ray)*180./PI;
-            appang=*incidence;
+        case INCID: {
+            printf("Incident L angle, no free surface\n");
             break;
-        case 3:  /* vs no free surface */
-            //printf("Incident S wave\n");
-            *incidence=asin(vs*ray)*180./PI;
-            appang=*incidence;
-            break;
-        case 5:  /* vp free surface response
-                    (Aki & Richards, 1990) also A&R 2002,
-                    Problem 5.6, page 184
-                 */
-            //printf("Incident P wave + free surface response\n");
+        }
+        case IP:  {
+            /* Incident P free-surface response
+               (Aki & Richards, 1990) also A&R 2002,
+               Problem 5.6, page 184
+            */
+            printf("Incident P wave + free-surface response\n");
             vs2=vs*vs*ray*ray;
             *incidence=2*vs*ray*sqrt(1-vs2)/(1-2*vs2);
             *incidence=atan(*incidence)*180./PI;
             appang=*incidence;
+            if(*verbose) {
+                printf("    vP: %.2f km/s vS: %.2f km/s Ray Param: %f s/km\n",vp,vs,ray);
+                printf("    Apparent angle: %.2f\n",appang);
+            }
             break;
-        case 7:  /* vsv free surface response
-                    (Aki & Richards, 1990) also A&R 2002,
-                    Problem 5.6, page 184
-                 */
-            //printf("Incident S wave + free surface response\n");
-            csi2=_ABS(1-ray*ray*vp*vp);
-            //printf("%f %f\n",_ABS(1-ray*ray*vp*vp),csi2);
-            *incidence=vp*(1-2*ray*ray*vs*vs)/(2*vs*vs*ray*sqrt(csi2));
-            /*
-              Original missing a factor of 2---^
-            *incidence=vp*(1-2*ray*ray*vs*vs)/(  vs*vs*ray*sqrt(csi2));
+        }
+        case IS:  {
+            /* Incident SV free-surface response
+               (Aki & Richards, 1990) also A&R 2002,
+               Problem 5.6, page 184
             */
-            /* ORIGINAL The Aki formula gives the polarisation of the S wave
-               with an angle off typically 70-90 deg for steep incidence,
-               but potentially negative angles for 1/ray > vp.
-               We would like to have the S wave on the Q component,
-               hence subtract from 90 for L in the range 0-20
-            *incidence=90-atan(*incidence)*180./PI;*/
-           /*  The equation for *incidence only holds for S incidence below the
-               critical angle: 1/ray =   vp.  (Does it check? I do not think so.) That angle
-               is for the Q, so must subttract 90.0 for L*/
+            printf("Incident S wave; free surface response\n");
+            if (ray*vp > 1.0) {
+                *nerr = 1002;
+                error(*nerr, "Incident SV angle: above critical angle");
+                return;
+            }
+            csi2=(1-ray*ray*vp*vp);
+            *incidence=vp*(1-2*ray*ray*vs*vs)/(2*vs*vs*ray*sqrt(csi2));
+            /*  The equation for *incidence only holds for S incidence below the
+                critical angle: 1/ray =   vp. That angle is for Q, so must subttract 90.0 for L*/
             *incidence=atan(*incidence)*180./PI - 90.0;
             appang=*incidence+90.;
+            if(*verbose) {
+                printf("    vP: %.2f km/s vS: %.2f km/s Ray Param: %f s/km\n",vp,vs,ray);
+                printf("    Apparent angle: %.2f\n",appang);
+            }
             break;
-        default:
-            printf("Unknown combination %d for apparent angle determination\n",imethod);
-            *nerr= 1014;
-            return;
         }
-        if(*verbose) {
-            const char *method_str[] = {
-                "Incidence","Vp No Free Surface", "2", "Vs No Free Surface", "4",
-                "Vp Free Surface", "6", "Vsv Free Surface",
-            };
-            printf(" Apparent Angle Method: '%s'\n", method_str[imethod]);
-            printf("    Vp: %.2f km/s Vs: %.2f km/s Ray Param: %f s/km\n",vp,vs,ray);
-            printf("    Apparent angle: %.2f\n",appang);
-
         }
-    }
-    if (*target== -1) {
-        *target=VNE;
     }
 }
