@@ -20,7 +20,7 @@ scaleimage(float *input_image, unsigned int width, unsigned int height,
         if ((temp_image =
              (float *) malloc(width_out * height * sizeof(float))) == NULL) {
             printf("error allocating memory--scaleimage\n");
-            *nerr = 0301;
+            *nerr = ERROR_OUT_OF_MEMORY;
             goto L_8888;
         }
 

@@ -302,7 +302,7 @@ specplot(float *specdata, int nx, int ny, float xmin, float xmax, float ymin,
              (float *) malloc(sizeof(float) * nx * (nypoints - nystart + 1)
              )) == NULL) {
             printf("error getting memory for windowed data--plotimage\n");
-            *nerr = 0301;
+            *nerr = ERROR_OUT_OF_MEMORY;
             goto L_8888;
         }
         wdata_alloc = TRUE;

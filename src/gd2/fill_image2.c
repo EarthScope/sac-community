@@ -29,7 +29,7 @@ fill_image2(unsigned int height, unsigned int width, float data[], float dmin,
     if ((array = (char *) malloc(3 * width * height * sizeof(char)))
         == NULL) {
         printf("error allocating image data byte array--fill_image2\n");
-        *nerr = 0301;
+        *nerr = ERROR_OUT_OF_MEMORY;
         goto L_8888;
     };
 

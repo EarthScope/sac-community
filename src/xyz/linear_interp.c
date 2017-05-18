@@ -19,7 +19,7 @@ linear_interp(float *array, float xmin, float xmax, int nx, float *array_out,
 
     if ((xarray = (float *) malloc(nx * sizeof(float))) == NULL) {
         printf("memory allocation error in linear_interp\n");
-        *nerr = 0301;
+        *nerr = ERROR_OUT_OF_MEMORY;
         return;
     }
     memset(xarray, 0, nx * sizeof(float));

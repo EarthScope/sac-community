@@ -347,7 +347,7 @@ ximage(nerr)
             jystop != nysize) {
             if ((wdata = (float *) malloc(sizeof(float) * ndata)) == NULL) {
                 printf("error getting memory for windowed data--plotimage\n");
-                *nerr = 0301;
+                *nerr = ERROR_OUT_OF_MEMORY;
                 goto L_8888;
             }
             wdata_alloc = TRUE;

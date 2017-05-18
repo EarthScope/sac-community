@@ -51,7 +51,7 @@ fill_image3(unsigned int height, unsigned int width, float data[], float dmin,
 #endif
     if (array == NULL) {
         printf("error allocating image data byte array--fill_image3\n");
-        *nerr = 0301;
+        *nerr = ERROR_OUT_OF_MEMORY;
         goto L_8888;
     }
 
