@@ -16,20 +16,20 @@
 
 #define EPSILON 1e-5
 
-/* ROTINC TO [VRT|LQT|VNE|XYZ] { INCIDENCE i | iP | iS } { VP alpha VS beta RAY ray parameter }
+/* ROTINC TO [VRT|LQT|VNE|XYZ] { ANGLE ang | iP | iS } { VP alpha VS beta RAY ray parameter }
  INPUT:
       TO VRT: rotate into vertical,radial, transverse coordinate system
       TO LQT: rotate into P,SV, and SH coordinate system.  Angle is apparent angle
       TO VNE,XYZ: rotate into system aligned with N, E and vertical
           XYZ still works, but is not mentioned in the HELP file.
 
-      INCIDENCE i: is incident angle from vertical (up) of L direction
+      ANGLE: is chosen rotation angle around T from vertical (up) to L direction
       iP: incident P wave (need to set VP, RAY)  Now only with free-surface response
       iS: incident S wave (need to set VS, RAY)  Now only with free-surface response
 
       VP: P wave velocity near surface (default 5.8)
       VS: S wave velocity near surface (default 3.36)  These are iasp91 values
-      RAY: ray parameter= horizontal slowness (s/km) 
+      RAY: ray parameter= horizontal slowness (s/km) (default unphysical -10.0)
 
       VERBOSE: Prints out details
 
@@ -52,20 +52,25 @@
 */
 /* (C) 2000 Frederik Tilmann   Modified in May 2017 by Arthur Snoke */
 /* Target systems */
-#define XYZ 0   /* Z: up X points towards E, Y points towards N */
-#define VNE 1
-#define VRT 2
-#define LQT 3
-
+enum CoordSystem {
+    Unknown_CoordSystem = -1,
+    XYZ     =  0,   /* Z: up X points towards E, Y points towards N */
+    VNE     =  1,
+    VRT     =  2,
+    LQT     =  3,
+};
 const char *target_str[] = {
     "XYZ", "VNE", "VRT", "LQT",
 };
 /* Methods  */
-#define INCID 0
-#define IP 1
-#define IS 2
+enum LQT_Method {
+    Unknown_Method = -1,
+    ROTANG  =  0,
+    IP      =  1,
+    IS      =  2,
+};
 const char *imethod_str[] = {
-    "INCID", "IP", "IS",
+    "ROTANG", "IP", "IS",
 };
 #define PI M_PI
 #ifndef MAX
@@ -112,7 +117,7 @@ dot(float *a, float *b, int n) {
 
 
 /* Internal prototypes */
-void parse_rotinc(int *target, double *incidence, int *verbose, int *nerr);
+void parse_rotinc(enum CoordSystem *target, double *angle, int *verbose, int *nerr);
 int statimcmp(sac *a, sac *b);
 
 void
@@ -123,7 +128,7 @@ rotinc(int *nerr) {
 
     int target;
     int verbose = 0;
-    double incidence,si,ci;
+    double angle,si,ci;
     /* float **base=matrix(1,3,1,3); */
     /* float **dum=matrix(1,3,1,3); */
     /* float **Ltb=matrix(1,3,1,3),**Ltar=matrix(1,3,1,3);  */
@@ -165,8 +170,7 @@ rotinc(int *nerr) {
         error(*nerr, "number of files (%d), must be a multiple of 3", numfiles);
         goto L_8888;
     }
-
-    parse_rotinc(&target,&incidence, &verbose, nerr);
+    parse_rotinc(&target,&angle, &verbose, nerr);
     if (*nerr) {
         return;
     }
@@ -212,7 +216,7 @@ rotinc(int *nerr) {
         if((fabs(dot(base[0],base[1],3)) >= EPSILON) ||
            (fabs(dot(base[1],base[2],3)) >= EPSILON) ||
            (fabs(dot(base[0],base[2],3)) >= EPSILON)) {
-            error(*nerr = 1336, "Input Coordinate system not Orthogonal\n");
+            error(*nerr = 1002, "Input Coordinate system not Orthogonal\n");
         }
 
         /* replace matrix of base vectors with its inverse */
@@ -279,7 +283,7 @@ rotinc(int *nerr) {
             break;
         case LQT: {
             char *comps[3] = {"L", "Q", "T"};
-            float incs[3] = { incidence, 90.+incidence, 90.};
+            float incs[3] = { angle, 90.+angle, 90.};
             float azs[3]  = { 0.,  0., 90.};
             if(s[0]->h->baz == SAC_FLOAT_UNDEFINED) {
                 *nerr = 1336;
@@ -289,7 +293,7 @@ rotinc(int *nerr) {
             }
             baz = s[0]->h->baz;
             azs[1] = fmod(180. + baz, 360.);
-            if (incidence != 0.0) {azs[0] = azs[1];}
+            if (angle != 0.0) {azs[0] = azs[1];}
             azs[2] = fmod(270. + baz, 360.);
             for(i = 0; i < 3; i++) {
                 strcpy(s[i]->h->kcmpnm, comps[i]);
@@ -298,9 +302,9 @@ rotinc(int *nerr) {
             }
 
             baz       = baz       * PI/180.;
-            incidence = incidence * PI/180;
-            si = sin(incidence);
-            ci = cos(incidence);
+            angle = angle * PI/180;
+            si = sin(angle);
+            ci = cos(angle);
             Ltar[0][0]=-sin(baz)*si; Ltar[0][1]=-cos(baz)*si; Ltar[0][2]=ci;
             Ltar[1][0]=-sin(baz)*ci; Ltar[1][1]=-cos(baz)*ci; Ltar[1][2]=-si;
             Ltar[2][0]=-cos(baz);    Ltar[2][1]=sin(baz);     Ltar[2][2]=0.0;
@@ -373,21 +377,19 @@ int statimcmp(sac *a, sac *b) {
 
     return 0;
 }
-
-void parse_rotinc(int *target, double *incidence, int *verbose, int *nerr) {
-    int imethod;
-    double vp,vs,ray,vs2,csi2,appang;
+void parse_rotinc(enum CoordSystem *target, double *angle, int *verbose, int *nerr) {
+    enum LQT_Method imethod;
     int ray_defined;
-
+    double vp,vs,ray,vs2,csi2,appang,tanrotang;
     *nerr = 0;
     ray_defined = FALSE;
-    *target    = -1;
-    *incidence = 0.0;
+    *target     = Unknown_CoordSystem;
+    *angle      = 0.0;
     vp  = 5.8;   /* Approximate values valid for crust */
     vs  = 3.36;  /* Original had 3.35*/
     ray = -10.0;
 
-    imethod = -1;
+    imethod = Unknown_Method;
 
     while(lcmore(nerr)) {
 
@@ -395,6 +397,7 @@ void parse_rotinc(int *target, double *incidence, int *verbose, int *nerr) {
             /* skip */
         } else if(lckey("VERBOSE$", 5)) {
             *verbose = 1;
+            /* Coordinate Systems */
         } else if(lckey("VRT$", 5)) {
             *target = VRT;
         } else if(lckey("GCP$", 5)) {
@@ -405,8 +408,10 @@ void parse_rotinc(int *target, double *incidence, int *verbose, int *nerr) {
             *target = VNE;
         } else if(lckey("LQT$", 5)) {
             *target = LQT;
-        } else if(lkreal("INCIDENCE$", 11, incidence)) {
-            imethod = INCID;
+            /* Angle assumes LQT */
+        } else if(lkreal("ANGLE$", 10, angle)) {
+            *target = LQT;
+            imethod = ROTANG;
         } else if(lckey("IP$", 4)) {
             imethod = IP ;
         } else if(lckey("IS$", 4)) {
@@ -425,37 +430,61 @@ void parse_rotinc(int *target, double *incidence, int *verbose, int *nerr) {
         return;
     }
 
-
-    if (*target== -1) {
-        *target=LQT;
-    } else if (*target == XYZ || *target == VNE || *target == VRT) {
-        if(imethod != -1) {
+    /* Parameter checking */
+    switch(*target) {
+    case Unknown_CoordSystem:
+        *target = LQT;
+        /* Fall through to LQT */
+    case LQT:
+        /* iP, iS or Incidence not set */
+        switch(imethod) {
+        case Unknown_Method:
+            error(*nerr = 1002, "rotation method, please set it "
+                  "using iP, iS, or incidence value [Target: %s]", target_str[*target]);
+            return;
+            break;
+        /* Method is IP or IS, but ray parameter is not defined */
+        case IP:
+        case IS:
+            if(!ray_defined) {
+                error(*nerr = 1002, "ray parameter, please set it "
+                      "using RAY value [Target: %s]", target_str[*target]);
+                return;
+            }
+            break;
+        case ROTANG:
+            break;
+        }
+        break;
+        /* Rotations around the vertical */
+    case XYZ:
+    case VNE:
+    case VRT:
+        switch(imethod) {
+        case Unknown_Method:
+            break;
+        case IP:
+        case IS:
+        case ROTANG:
             error(*nerr = 1002, "rotinc, incompatible options specificed:\n"
-                                "             Vertical Coordinate System with Incidence, iP, or iS");
+                  "             Vertical Coordinate System with Incidence, iP, or iS");
             return;
         }
+        break;
     }
+
 
     if(*verbose) {
         printf(" Target Coordinate System: %s\n", target_str[*target]);
     }
-    if(*target == LQT){
-        if(imethod < 0) {
-            error(*nerr = 1002, "rotation method, please set it using iP, iS, or incidence value [Target: %s]", target_str[*target]);
-            return; 
-        }
-        if (!ray_defined && imethod > 0) {
-            error(*nerr = 1002, "ray parameter, please set it using RAY value [Target: %s]", target_str[*target]);
-            return;
-        }
-    } else {
-    }
 
-
+    /* Compute Rotation Angle if necessary */
     if(*target == LQT) {
         switch (imethod){
-        case INCID: {
-            printf("Incident L angle, no free surface\n");
+        case Unknown_Method: /* Unreachable */
+            break;
+        case ROTANG: {
+            printf("Input: rotation angle from Vertical  to L\n");
             break;
         }
         case IP:  {
@@ -463,37 +492,39 @@ void parse_rotinc(int *target, double *incidence, int *verbose, int *nerr) {
                (Aki & Richards, 1990) also A&R 2002,
                Problem 5.6, page 184
             */
-            printf("Incident P wave + free-surface response\n");
+            printf("Incident P wave, free-surface response\n");
             vs2=vs*vs*ray*ray;
-            *incidence=2*vs*ray*sqrt(1-vs2)/(1-2*vs2);
-            *incidence=atan(*incidence)*180./PI;
-            appang=*incidence;
+            tanrotang=2*vs*ray*sqrt(1-vs2)/(1-2*vs2);
+            *angle=atan(tanrotang)*180./PI;
+            appang=*angle;
             if(*verbose) {
                 printf("    vP: %.2f km/s vS: %.2f km/s Ray Param: %f s/km\n",vp,vs,ray);
-                printf("    Apparent angle: %.2f\n",appang);
+                printf("    Rotation angle: %.2f\n",appang);
             }
             break;
         }
         case IS:  {
             /* Incident SV free-surface response
                (Aki & Richards, 1990) also A&R 2002,
-               Problem 5.6, page 184
+               Problem 5.6, page 184.  Note: A&R have positive V down.
             */
-            printf("Incident S wave; free surface response\n");
+            printf("Incident S wave, free surface response\n");
             if (ray*vp > 1.0) {
                 *nerr = 1002;
                 error(*nerr, "Incident SV angle: above critical angle");
                 return;
             }
             csi2=(1-ray*ray*vp*vp);
-            *incidence=vp*(1-2*ray*ray*vs*vs)/(2*vs*vs*ray*sqrt(csi2));
-            /*  The equation for *incidence only holds for S incidence below the
-                critical angle: 1/ray =   vp. That angle is for Q, so must subttract 90.0 for L*/
-            *incidence=atan(*incidence)*180./PI - 90.0;
-            appang=*incidence+90.;
+            tanrotang=vp*(1-2*ray*ray*vs*vs)/(2*vs*vs*ray*sqrt(csi2));
+            /*  The equation for tanrotang only holds for S incidence below the
+                critical angle: 1/ray =   vp. tanrotang is the tangent of
+                180 - apparent angle for Q so must subtract 90 degrees to get
+                TOangle for L*/
+            *angle=90.0-atan(tanrotang)*180./PI;
+            appang=*angle+90.;
             if(*verbose) {
                 printf("    vP: %.2f km/s vS: %.2f km/s Ray Param: %f s/km\n",vp,vs,ray);
-                printf("    Apparent angle: %.2f\n",appang);
+                printf("    Rotation angle: %.2f\n",appang);
             }
             break;
         }

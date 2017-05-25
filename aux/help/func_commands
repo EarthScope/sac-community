@@ -207,6 +207,7 @@ Signal Correction Module
 :rmean_:          Removes the mean.
 :taper_:          Applies a symmetric taper to each end of data.
 :rotate_:         Rotates a pair of data components through an angle.
+:rotinc_:	  Rotate a set of 3 perpendicular components.
 :interpolate_:    Interpolates evenly or unevenly spaced data to a new sampling rate.
 :quantize_:       Converts continuous data into its quantized equivalent.
 :stretch_:        Stretches (upsamples) data, including an optional interpolating FIR filter.

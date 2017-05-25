@@ -7,109 +7,145 @@ SUMMARY
 Rotate a set of 3 perpendicular components either around the vertical direction
 (TO VRT or TO VNE) or around the T direction (TO LQT)
 
-SYNTAX FOR ROTATIONS AROUND THE VERTICAL
-----------------------------------------
+SYNTAX
+------
 
-  ``ROTINC TO [VRT|VNE] {VERBOSE}``
+ROTATIONS AROUND THE VERTICAL
+.............................
 
-SYNTAX FOR ROTATIONS AROUND THE TRANSVERSE DIRECTION
-----------------------------------------------------
+  ``ROTINC {TO VRT|VNE} {VERBOSE}``
 
-  ``ROTINC TO [LQT] {INCIDENCE i | iP | iS} {VP alpha} {VS beta} {RAY{DEG|KM} par}  {FREESURFACE} {VERBOSE}``
+ROTATIONS AROUND THE TRANSVERSE (SH)
+....................................
+
+Assumes cmpaz = baz - 90 
+
+
+  ``ROTINC {TO LQT} {INCIDENCE angle} {VERBOSE}``
+
+or
+
+  ``ROTINC {TO LQT} {iP | iS} {vP alpha} {vS beta} {RAY} {VERBOSE}``
+
 
 INPUT
 -----
-      :TO VRT: rotate into vertical,radial, transverse coordinate system
+   :TO VRT: rotate into vertical,radial, transverse coordinate system
 
-      :TO VNE: rotate into system aligned with vertical, N, and E
+   :TO VNE: rotate into system aligned with vertical, north, and east
 
-      :TO LQT: rotate into P, SV, and SH coordinate system.  cmpinc for L is the apparent angle
+   :TO LQT: rotate into P, SV, and SH coordinate system
 
-      :iP: apparent angle for P incidence, computed from Vp,Vs and Ray Parameter
+   :INCIDENCE a: Rotation will be around T with output L cmpinc the angle a
 
-      :iS: apparent angle for S incidence, computed from Vp,Vs and Ray Parameter
+   :iP: incident P wave: L cmpinc is apparent angle
 
-      :VP v: P wave velocity near surface (default 5.8)
+   :iS: Incident S wave: Q cmpinc is apparent angle (
 
-      :VS v: S wave velocity near surface (default 3.36)
+   :vP v: v is P-wave velocity in surface layer (default 5.8)
 
-      :RAYKM v: ray parameter = horizontal slowness, sin(theta)/v
+   :vS v: v is S-wave velocity in surface layer (default 3.36)
 
-      :RAYDEG v: ray parameter = horizontal slowness, r*sin(theta)/v
+   :RAY v: ray parameter (s/km), sin(theta)/V where theta is the incident angle
 
-      :FREESURFACE: use free surface response instead of propagation vector
-
-      :VERBOSE: prints information to the screen (default off)
+   :VERBOSE: prints information to the screen (default off)
 
 DESCRIPTION
 -----------
 
-  Given three perpendicular components of a recorded time series, rotinc
-  rotates the set into the selected coordinate system. It works its way
-  through all records in memory until it fails to find 3 consecutive
-  perpendicular traces. It assumes vertical up (cmpinc = 0.0), cmpaz
-  measured clockwise from N.  T to the right from the vertical-radial
-  plane (baz - 90).  Hence,  VNE, VRT, and LQT are all left-handed coordinate
-  systems.  For LQT with FREESURFACE, cmpinc in L is the apparent angle: the
-  arctangent of the radial (R) amplitude  over the vertical (V) amplitude.
+Given three perpendicular components of a recorded time series, ROTINC rotates
+the set into the selected coordinate system. It works its way through all
+records in memory until it fails to find three consecutive perpendicular
+traces. It assumes vertical up (cmpinc = 0.0), cmpaz measured clockwise from N.
+T to the right from the vertical-radial plane facing towards the station(baz -
+90).  Hence, VNE, VRT, and LQT are all left-handed coordinate systems.
+
+For TO LQT, the "TO LQT" can be left out because that is the only option for
+which there are additional arguments.  For TO LQT there are two choices:
+
+  1) ROTINC INCIDENCE angle is a rotation around the T axis (angle=0.0 is up)
+  2) ROTINC iP or iS is a rotation around T with a calculated angle
+
+The calculated angle assumes the P or S wave is incident on the free
+surface (top of a half space).  For iP, the output cmpinc for L is often called
+the apparent angle: the arctangent of the radial (R) amplitude divided by the
+vertical (V) amplitude.  For iS, the output cmpinc for Q the S-wave apparent
+angle minus 90 degrees (because SV has the opposite polarity on V and R). For TO
+LQT iS, the S-wave incident angle must be less than the critical angle: vP * RAY
+less than 1.0.
 
 EXAMPLES
 --------
 
-  Rotations around the vertical are straightforward, but there are several options
-  for TO LQT.  (Because additional arguments are required, TO LQT is not explicitly
-  required)::
+Rotations around the vertical are straightforward: either TO VNE or TO VRT with no
+arguments.
 
-    SAC> rotinc iP raykm 0.063 freesurface verbose
-      Target Coordinate System: LQT
-      Apparent Angle Method: 'Vp Free Surface'
-      Vp: 5.80 km/s Vs: 3.36 km/s Ray Param: 0.063000 s/km
-      Apparent angle: 24.44
+For a whole-space rotation tO LQT::
 
-  For this case, the V-R paticle motion gave an angle more than 10 degrees higher
-  for the apparent angle.  The pulse width is about 20 seconds, so the arrivals
-  average over the whole crut.  The following run gives more consistency::
+  SAC> rotinc incidence 24.44 verbose
+     Target Coordinate System: LQT
 
-    SAC> rotinc iP vp 8.04 vs 4.47 raykm 0.063 freesurface verbose
-      Target Coordinate System: LQT
-      Apparent Angle Method: 'Vp Free Surface'
-      Vp: 8.04 km/s Vs: 4.47 km/s Ray Param: 0.063000 s/km
-      Apparent angle: 32.71
+For a free-surface correction to LQT where RAY = sin(21.32)/5.8) = 0.063::
 
-INCIDENCE
+  SAC> ROTINC iP RAY 0.063 VERBOSE
+    Target Coordinate System: LQT
+    Apparent Angle Method: 'vP Free Surface'
+    vP: 5.80 km/s vS: 3.36 km/s Ray Param: 0.063000 s/km
+    Apparent angle: 24.44
+  SAC> evaluate &1,cmpinc
+    24.4416
+  SAC> message (&1,kcmpnm)
+    L
+
+Generally vP and vS are the velocities in the surface layer.  If the wavelength
+of the dominant arrivals are larger than the thickness of that layer, one may
+have to average over two or more layers.  This can be tested by plotting the
+vertical-radial particle motion (PLOTPM_).  The ray parameter will not be
+changed.  Here is an example for the same ray but assuming the wavelengths are
+long enough to average over the whole crust::
+
+  SAC> ROTINC iP vp 8.04 vs 4.47 RAY 0.063 VERBOSE
+    Target Coordinate System: LQT
+    Apparent Angle Method: 'vP Free Surface'
+    vP: 8.04 km/s vS: 4.47 km/s Ray Param: 0.063000 s/km
+    Apparent angle: 32.71
+
+Here is an example for iS (RAY = sin(23.12)/3.36)::
+
+  SAC> ROTINC iS RAY 0.1169 VERBOSE
+    Target Coordinate System: LQT
+    Apparent Angle Method: 'Vsv Free Surface'
+    Vp: 5.80 km/s Vs: 3.36 km/s Ray Param: 0.116900 s/km
+    Apparent angle: 64.18
+  SAC> evaluate &2,cmpinc
+    64.183
+  SAC> message (&2,kcmpnm)
+    Q
+
+There is often interference with other arrivals for SV on the vertical, so the
+SV on V and R are generally not that similar.  Hence V-R particle motion is less
+useful for SV than it is for P.
+
+EQUATIONS
 ---------
 
-  Apparent, or incidence, angles are computed using the following equations:
+The relevant cmpinc (apparent angle) is computed using the following equations:
 
-  * Vp, No Free Surface, Whole Space
+  * iP:    L cmpinc = atan(2*Vs*p*sqrt(1-(Vs*p)**2)/(1-2*(Vs*p)**2) )
 
-    angle = arcsin(Vp * p)
+  * iS:    Q cmpinc = atan(Vp*(1-2*(Vs*p)**2))/(2*Vs**2*p*sqrt(1-(Vp*p)**2)) )
 
-  * Vs, No Free Surface, Whole Space
-
-    angle = arcsin(Vs * p)
-
-  * Vp at Free Surface
-
-    angle = arctan( 2 Vs p sqrt(1 - Vs**2 p**2) / (1 - 2 Vs**2 p**2) )
-
-  * Vs at Free Surface
-
-    angle = 90 - arctan( Vp * (1 - 2 Vs**2 p**2) / (2 Vs**2 p sqrt(||1 - Vp**2 p**2||)) )
-
-  At the Free Surface, the angle of the P wave is dependent on the S-wave only and the
-  angle of the S wave is dependent on both the P wave and S wave.  Equations are based
-  on Problem 5.6 in Aki and Richards, 2002, pg. 184.
+where p is the ray parameter. Equations are based on Problem 5.6 in
+Aki and Richards, 2002, pg. 184.
 
 HEADER CHANGES
 --------------
 
-  CMPINC, CMPAZ, KCMPNM, DEPMAX, DEPMIN, DEPMEN
+CMPINC, CMPAZ, KCMPNM, DEPMAX, DEPMIN, DEPMEN
 
 ERROR MESSAGES
 --------------
 - 1002: Bad value for
-- 1011: Bad command file syntax; must specify an apparent-angle method
 - 1301: No data file read in.
 - 1304: Illegal operation on data file
 - 1336: Undefined header field value.
@@ -117,10 +153,9 @@ ERROR MESSAGES
 AUTHOR
 ------
 
-  This command was orignally contributed by Frederik Tilmann in 2015,
-  modified by J.A. Snoke in April 2017
+This command was orignally contributed by Frederik Tilmann in 2015,
 
 LATEST REVISION
 ---------------
 
-  April 2017 (Version 102.0)
+Latest version: April 2017 (Version 102.0)
