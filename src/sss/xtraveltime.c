@@ -34,8 +34,8 @@ SSS_EXTERN
 extern float *tty[MXTT];
 extern float *ttx[MXTT];
 
-void
-truncate(char *s) {
+static void
+sac_truncate(char *s) {
     char *p;
     if (!s) {
         return;
@@ -364,7 +364,7 @@ xtraveltime(int *nerr) {
         cmtt.ttdep = s->h->evdp;
     }
     for (i = 0; i < cmtt.nphases; i++) {
-        truncate(kmtt.kphases[i]);
+        sac_truncate(kmtt.kphases[i]);
     }
 
     if (!quiet) {
@@ -710,7 +710,7 @@ xtraveltime(int *nerr) {
                      (char *) names, 9);
                 k = nPickStart;
                 for (i = 0; i < n; i++) {
-                    truncate(names[i]);
+                    sac_truncate(names[i]);
                 }
                 /* Specificed phases */
                 for (j = 0; j < cmtt.nphases; j++) {

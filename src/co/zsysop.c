@@ -126,7 +126,7 @@ char *
 zsysop_gets(char *comstr, int dummylen, int *pnumc, int *perr) {
     FILE *fp;
     UNUSED(dummylen);
-
+    UNUSED(pnumc);
     string *s = string_new("");
     char buf[BUFSIZE];
     char *p = NULL;
