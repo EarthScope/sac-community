@@ -245,6 +245,8 @@ AC_CHECK_FUNC(sleep,     [ AC_DEFINE( [HAVE_FUNC_SLEEP],         [1], [ System L
 						             [ AC_DEFINE( [MISSING_FUNC_SLEEP],      [1], [ System Libraries missing sleep ]) ] )
 AC_CHECK_FUNC(strlcpy,   [ AC_DEFINE( [HAVE_FUNC_STRLCPY],       [1], [ System Libraries define strlcpy ]) ],
             						 [ AC_DEFINE( [MISSING_FUNC_STRLCPY],    [1], [ System Libraries missing strlcpy ]) ] )
+AC_CHECK_FUNC(strlcat,   [ AC_DEFINE( [HAVE_FUNC_STRLCAT],       [1], [ System Libraries define strlcat ]) ],
+            						 [ AC_DEFINE( [MISSING_FUNC_STRLCAT],    [1], [ System Libraries missing strlcat ]) ] )
 AC_CHECK_FUNC(wordexp,   [ AC_DEFINE( [HAVE_FUNC_WORDEXP],       [1], [ System Libraries define wordexp ]) ],
             						 [ AC_DEFINE( [MISSING_FUNC_WORDEXP],    [1], [ System Libraries missing wordexp ]) ] )
 

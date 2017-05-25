@@ -8254,7 +8254,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -8276,7 +8276,7 @@ fi
              xpm=""
 
 elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
              xpm_LIBS=""
@@ -8412,7 +8412,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -8434,7 +8434,7 @@ fi
              xpm=""
 
 elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
              xpm_LIBS=""
@@ -8528,8 +8528,8 @@ if test "${enable_xft+set}" = set; then :
     if test x${display} = xx11; then
 
 pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for xft" >&5
-$as_echo_n "checking for xft... " >&6; }
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for xrender freetype2 fontconfig xft" >&5
+$as_echo_n "checking for xrender freetype2 fontconfig xft... " >&6; }
 
 if test -n "$xft_CFLAGS"; then
     pkg_cv_xft_CFLAGS="$xft_CFLAGS"
@@ -8569,7 +8569,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -8588,7 +8588,7 @@ fi
 	xft=""
 
 elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 	xft=""
 
@@ -8666,7 +8666,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -8688,7 +8688,7 @@ fi
              zlib=""
 
 elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
              zlib_LIBS=""
@@ -8823,7 +8823,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -8845,7 +8845,7 @@ fi
              zlib=""
 
 elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
              zlib_LIBS=""
@@ -8938,8 +8938,8 @@ if test "${enable_png+set}" = set; then :
 
 
 pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for png" >&5
-$as_echo_n "checking for png... " >&6; }
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for libpng" >&5
+$as_echo_n "checking for libpng... " >&6; }
 
 if test -n "$png_CFLAGS"; then
     pkg_cv_png_CFLAGS="$png_CFLAGS"
@@ -8979,7 +8979,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -9001,7 +9001,7 @@ fi
              png=""
 
 elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
              png_CFLAGS=""
@@ -10087,6 +10087,17 @@ $as_echo "#define HAVE_FUNC_STRLCPY 1" >>confdefs.h
 else
 
 $as_echo "#define MISSING_FUNC_STRLCPY 1" >>confdefs.h
+
+fi
+
+ac_fn_c_check_func "$LINENO" "strlcat" "ac_cv_func_strlcat"
+if test "x$ac_cv_func_strlcat" = xyes; then :
+
+$as_echo "#define HAVE_FUNC_STRLCAT 1" >>confdefs.h
+
+else
+
+$as_echo "#define MISSING_FUNC_STRLCAT 1" >>confdefs.h
 
 fi
 

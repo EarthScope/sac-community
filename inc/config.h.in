@@ -51,6 +51,9 @@
 /* System Libraries define sleep */
 #undef HAVE_FUNC_SLEEP
 
+/* System Libraries define strlcat */
+#undef HAVE_FUNC_STRLCAT
+
 /* System Libraries define strlcpy */
 #undef HAVE_FUNC_STRLCPY
 
@@ -173,6 +176,9 @@
 
 /* System Libraries missing sleep */
 #undef MISSING_FUNC_SLEEP
+
+/* System Libraries missing strlcat */
+#undef MISSING_FUNC_STRLCAT
 
 /* System Libraries missing strlcpy */
 #undef MISSING_FUNC_STRLCPY

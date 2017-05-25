@@ -150,6 +150,10 @@ int asprintf(char **strp, const char *fmt, ...);
 size_t strlcpy(char *dst, const char *src, size_t size);
 #endif
 
+#ifdef MISSING_FUNC_STRLCAT
+size_t strlcat(char *dst, const char *src, size_t size);
+#endif
+
 #ifdef MISSING_FUNC_SNPRINTF
 int snprintf(char *str, size_t size, const char *format, ...);
 #endif
