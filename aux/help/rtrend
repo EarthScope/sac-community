@@ -10,7 +10,7 @@ SYNTAX
 ------
 ::
 
-  [RTR]END  [QUIET] [VERBOSE]
+  [RTR]END  [QUIET|VERBOSE]
 
 INPUT
 -----

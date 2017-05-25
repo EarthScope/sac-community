@@ -4,14 +4,13 @@ Using the SAC Library
 Overview
 --------
 In addition to being able to read and write SAC data files in one's own C or
-FORTRAN programs (see `SAC Reading and Writing Routines`_ ), one can use many of
+FORTRAN programs (see `SAC Reading and Writing Routines` ), one can use many of
 SAC's data-processing routines in stand-alone codes if one uses specific flags
 in the compiling stage and the SAC libraries in the linking stage.  These
-libraries libsac.a and libsacio.a are in ${SACHOME}/lib.  The complete
-listing of sample programs in both C and Fortran are given below in the online
-version of this file at <http://ds.iris.edu/files/sac-manual/manual/saclib.html>.
+libraries libsac.a and libsacio.a are in ${SACHOME}/lib.  The .f and .c files, as well as
+the sample input files, are in ${SACHOME}/doc/examples.
 
-- Filtering_
+- `Filtering`_
 - `Cut Data`_
 - `Interpolate Data`_
 - `Remove Mean`_
@@ -20,8 +19,8 @@ version of this file at <http://ds.iris.edu/files/sac-manual/manual/saclib.html>
 - `Rotate Data`_
 - `Instrument Removal`_
 - `Envelope Function`_
-- Correlation_
-- Convolution_
+- `Correlation`_
+- `Convolution`_
 
 Compiling
 ~~~~~~~~~
@@ -151,4 +150,24 @@ C
 .. include:: ../../../doc/examples/convolve/convolvec.c
    :code: c
 
+Sample Runs for Convolution
+---------------------------
 
+  The SAC convolve_ command uses two digital-convolution features that may be undesirable:     
+  no scaling of the output by the digitizing interval, and no check on the start time for 
+  the pulse. To get the default SAC output, the last argument in the programs is y. After 
+  compiling the programs, do the following::
+
+     SAC> fg triangle npts 8 delta 1 begin -4
+     SAC> write triangle_n8_d1.sac
+     SAC> fg impulse npts 12 delta 1 begin 0
+     SAC> write impulse_n12_d1.sac
+
+  Then::
+  
+     convolvef
+         Usage: convolvef wf_name p_name c_name discconv
+         where the first three arguments are filenames for pulse, waveform, and output conv
+         discconv is y if uses a discrete convolution otherwise time-series convolution
+     convolvef triangle_n8_d1.sac impulse_n12_d1.sac conv_f.sac n 
+     or similar entries for convolvec.
