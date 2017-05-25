@@ -56,20 +56,18 @@ static int lines(x2r_log *log, FILE *out, ...) {
 
 
 /** Format epoch as given. */
-static int format_date(x2r_log *log, const time_t epoch, int n, char *template, char **date) {
+static int format_date(x2r_log *log, const struct tm epoch, int n, char *template, char **date) {
 
     int status = X2R_OK;
-    struct tm *tm;
+    struct tm tm;
 
-    if (!(tm = gmtime(&epoch))) {
-        status = x2r_error(log, X2R_ERR_DATE, "Cannot convert epoch to time");
-        goto exit;
-    }
+    tm = epoch;
+
     if (!(*date = calloc(n, sizeof(**date)))) {
         status = x2r_error(log, X2R_ERR_MEMORY, "Cannot alloc date");
         goto exit;
     }
-    if (!(strftime(*date, n, template, tm))) {
+    if (!(strftime(*date, n, template, &tm))) {
         status = x2r_error(log, X2R_ERR_BUFFER, "Cannot format date in %d char"\
 , n);
         goto exit;
@@ -81,13 +79,13 @@ exit:
 
 
 /** Format epoch julian days. */
-static int format_date_yjhms(x2r_log *log, const time_t epoch, char **date) {
+static int format_date_yjhms(x2r_log *log, const struct tm epoch, char **date) {
     return format_date(log, epoch, strlen("YYYY,jjj,HH:MM:SS") + 1, "%Y,%j,%H:%M:%S", date);
 }
 
 
 /** Format epoch in American date style. */
-static int format_date_mdy(x2r_log *log, time_t epoch, char **date) {
+static int format_date_mdy(x2r_log *log, struct tm epoch, char **date) {
     return format_date(log, epoch, strlen("mm/dd/YYYY") + 1, "%m/%d/%Y", date);
 }
 

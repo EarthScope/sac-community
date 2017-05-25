@@ -253,7 +253,7 @@ static int char_attribute(x2r_log *log, xmlNodePtr node, const char *name,
  * the IRIS-WS code elsewhere).  Originally used strptime, but that's not available on
  * Windows.
  */
-int x2r_parse_iso_datetime(x2r_log *log, const char *datetime, time_t *epoch) {
+int x2r_parse_iso_datetime(x2r_log *log, const char *datetime, struct tm *epoch) {
 
     int status = X2R_OK, year, month;
     struct tm tm;
@@ -274,7 +274,7 @@ int x2r_parse_iso_datetime(x2r_log *log, const char *datetime, time_t *epoch) {
     tm.tm_wday = 0;
     tm.tm_yday = 0;
 
-    *epoch = timegm(&tm);
+    *epoch = tm;
 
 exit:
     return status;
@@ -282,7 +282,7 @@ exit:
 
 
 /** Read an attribute value as an ISO formatted epoch. */
-static int datetime_attribute(x2r_log *log, xmlNodePtr node, const char *name, time_t *epoch) {
+static int datetime_attribute(x2r_log *log, xmlNodePtr node, const char *name, struct tm *epoch) {
 
     int status = X2R_OK;
     char *value = NULL;
