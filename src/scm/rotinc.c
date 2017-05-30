@@ -41,20 +41,19 @@
  vertical up (cmpinc = 0.0), cmpaz measured clockwise from N.  VNE is a
  left-handed coordinate system.  With one's back to the epicenter, R is
  towards the station and T is to the right, so VRT is a left-handed
- coordinate system.  The routine does not explicitly check that the three components
- are perpendicular, but it probaly suffices that they are linearly independent.
+ coordinate system.  
 
  HEADER CHANGES:
- CMPINC,CMPAZ,KCMPNM (DEPMAX,DEPMIN,DEPMEN)
+ CMPINC,CMPAZ,KCMPNM,DEPMAX,DEPMIN,DEPMEN
 
- This command was originally an external command written by Frederik Tilmann.
- Currently an internal command
+ This command was originally a SAC external command written by Frederik Tilmann.
+ Brian Savage converted it into a SAC internal command
 */
 /* (C) 2000 Frederik Tilmann   Modified in May 2017 by Arthur Snoke */
 /* Target systems */
 enum CoordSystem {
     Unknown_CoordSystem = -1,
-    XYZ     =  0,   /* Z: up X points towards E, Y points towards N */
+    XYZ     =  0,   /* Z: positive up, X points towards E, Y points towards N */
     VNE     =  1,
     VRT     =  2,
     LQT     =  3,
@@ -188,7 +187,7 @@ rotinc(int *nerr) {
         if (statimcmp(s[0],s[1]) || statimcmp(s[0],s[2])) {
             *nerr = 1304;
             error(*nerr, "%d-%d\n"
-                  "             Attempt to rotate different components of the same time series\n",j+1,j+3);
+                  "             Attempt to rotate different components of different time series\n",j+1,j+3);
             goto L_8888;
         }
 
@@ -216,7 +215,8 @@ rotinc(int *nerr) {
         if((fabs(dot(base[0],base[1],3)) >= EPSILON) ||
            (fabs(dot(base[1],base[2],3)) >= EPSILON) ||
            (fabs(dot(base[0],base[2],3)) >= EPSILON)) {
-            error(*nerr = 1002, "Input Coordinate system not Orthogonal\n");
+            error(*nerr = 1304, "Input Coordinate system not Orthogonal\n");
+            goto L_8888;
         }
 
         /* replace matrix of base vectors with its inverse */
@@ -386,8 +386,8 @@ void parse_rotinc(enum CoordSystem *target, double *angle, int *verbose, int *ne
     *target     = Unknown_CoordSystem;
     *angle      = 0.0;
     vp  = 5.8;   /* Approximate values valid for crust */
-    vs  = 3.36;  /* Original had 3.35*/
-    ray = -10.0;
+    vs  = 3.36;  /* Original had 3.35.  These values are top layer in iasp91*/
+    ray = 0.0;
 
     imethod = Unknown_Method;
 
@@ -409,7 +409,7 @@ void parse_rotinc(enum CoordSystem *target, double *angle, int *verbose, int *ne
         } else if(lckey("LQT$", 5)) {
             *target = LQT;
             /* Angle assumes LQT */
-        } else if(lkreal("ANGLE$", 10, angle)) {
+        } else if(lkreal("ANGLE$", 6, angle)) {
             *target = LQT;
             imethod = ROTANG;
         } else if(lckey("IP$", 4)) {

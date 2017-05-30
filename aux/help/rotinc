@@ -4,75 +4,69 @@ ROTINC
 SUMMARY
 -------
 
-Rotate a set of 3 perpendicular components either around the vertical direction
-(TO VRT or TO VNE) or around the T direction (TO LQT)
+Rotate a set of 3 perpendicular components either around the vertical (V) direction
+(TO VRT or TO VNE) or around the Transverse (T) direction (TO LQT)
 
 SYNTAX
 ------
 
-ROTATIONS AROUND THE VERTICAL
-.............................
+ROTATIONS AROUND THE VERTICAL (compinc = 0 degrees) DIRECTION
 
-  ``ROTINC {TO VRT|VNE} {VERBOSE}``
+  ``ROTINC {TO VRT|VNE}``
 
-ROTATIONS AROUND THE TRANSVERSE (SH)
-....................................
+ROTATIONS AROUND THE TRANSVERSE (cmpaz=baz-90) DIRECTION
 
-Assumes cmpaz = baz - 90 
-
-
-  ``ROTINC {TO LQT} {INCIDENCE angle} {VERBOSE}``
+  ``ROTINC {TO LQT} {ANGLE angle}``
 
 or
 
-  ``ROTINC {TO LQT} {iP | iS} {vP alpha} {vS beta} {RAY} {VERBOSE}``
+  ``ROTINC {TO LQT} {iP | iS} {vP alpha} {vS beta} {RAY p} {VERBOSE}``
 
 
 INPUT
 -----
-   :TO VRT: rotate into vertical,radial, transverse coordinate system
+  :TO VRT: rotate into vertical,radial, transverse coordinate system
 
-   :TO VNE: rotate into system aligned with vertical, north, and east
+  :TO VNE: rotate into system aligned with vertical, north, and east
 
-   :TO LQT: rotate into P, SV, and SH coordinate system
+  :TO LQT: rotate into P, SV, and SH coordinate system
 
-   :INCIDENCE a: Rotation will be around T with output L cmpinc the angle a
+  :ANGLE a: Rotation through an angle a (V to L)  around T.  L cmpinc = a
 
-   :iP: incident P wave: L cmpinc is apparent angle
+  :iP: incident P wave: calculated L cmpinc is the incident P apparent angle
 
-   :iS: Incident S wave: Q cmpinc is apparent angle (
+  :iS: Incident S wave: calculated Q cmpinc is the incident SV apparent angle
 
-   :vP v: v is P-wave velocity in surface layer (default 5.8)
+  :vP v: v is P-wave velocity at the surface (default 5.8)
 
-   :vS v: v is S-wave velocity in surface layer (default 3.36)
+  :vS v: v is S-wave velocity at the surface (default 3.36)
 
-   :RAY v: ray parameter (s/km), sin(theta)/V where theta is the incident angle
+  :RAY p: ray parameter, p in sec/km (no default value, so must be set)
 
-   :VERBOSE: prints information to the screen (default off)
+  :VERBOSE: prints information to the screen for iP or iS options (default off)
 
 DESCRIPTION
 -----------
 
-Given three perpendicular components of a recorded time series, ROTINC rotates
-the set into the selected coordinate system. It works its way through all
-records in memory until it fails to find three consecutive perpendicular
-traces. It assumes vertical up (cmpinc = 0.0), cmpaz measured clockwise from N.
-T to the right from the vertical-radial plane facing towards the station(baz -
-90).  Hence, VNE, VRT, and LQT are all left-handed coordinate systems.
+  Given three perpendicular components of a recorded time series, ROTINC
+  rotates the set into the selected coordinate system. It works its way
+  through all records in memory until it fails to find three consecutive
+  perpendicular traces. It assumes vertical up (cmpinc = 0.0), cmpaz
+  measured clockwise from N.  T to the right from the vertical-radial
+  plane facing towards the station (baz - 90).  Hence, VNE, VRT, and LQT are
+  all left-handed coordinate systems.
 
-For TO LQT, the "TO LQT" can be left out because that is the only option for
-which there are additional arguments.  For TO LQT there are two choices:
+  For TO LQT, the "TO LQT" can be left out because that is the only option for which
+  ththere are additional arguments.  For TO LQT there are two choices:
 
-  1) ROTINC INCIDENCE angle is a rotation around the T axis (angle=0.0 is up)
-  2) ROTINC iP or iS is a rotation around T with a calculated angle
+     1 ROTINC ANGLE a: rotation around the T axis (a=0.0 is up)
 
-The calculated angle assumes the P or S wave is incident on the free
-surface (top of a half space).  For iP, the output cmpinc for L is often called
-the apparent angle: the arctangent of the radial (R) amplitude divided by the
-vertical (V) amplitude.  For iS, the output cmpinc for Q the S-wave apparent
-angle minus 90 degrees (because SV has the opposite polarity on V and R). For TO
-LQT iS, the S-wave incident angle must be less than the critical angle: vP * RAY
-less than 1.0.
+     2.ROTINC iP or ROTINC iS: rotation around T, through a calculated angle that is
+     calculated assuming the P or SV wave is incident on the free surface (top of
+     a half space).  For iP, the output cmpinc for L is often called the apparent angle:
+     the arctangent of the radial (R) amplitude  divided by the vertical (V) amplitude.
+     For iS, the output cmpinc for Q is the incident SV apparent angle. For ROTINC iS, the
+     incident SV angle must be less than the critical angle: vP * RAY < 1.0.
 
 EXAMPLES
 --------
@@ -80,46 +74,43 @@ EXAMPLES
 Rotations around the vertical are straightforward: either TO VNE or TO VRT with no
 arguments.
 
-For a whole-space rotation tO LQT::
+Here are examples for TO LQT.  For a rotation around T through an angle 24.44::
 
-  SAC> rotinc incidence 24.44 verbose
-     Target Coordinate System: LQT
+  SAC> ROTINC ANGLE 24.44 (or ROTINC TO LQT ANGLE 24.44)
+     Input: rotation angle from V to L
 
-For a free-surface correction to LQT where RAY = sin(21.32)/5.8) = 0.063::
+For a free-surface correction (Note: one must specify RAY.)  Here
+p = sin(21.32)/5.8) = 0.063, where 21.32 is the P incident angle::
 
   SAC> ROTINC iP RAY 0.063 VERBOSE
-    Target Coordinate System: LQT
-    Apparent Angle Method: 'vP Free Surface'
+    Incident P wave; free-surface response
     vP: 5.80 km/s vS: 3.36 km/s Ray Param: 0.063000 s/km
     Apparent angle: 24.44
-  SAC> evaluate &1,cmpinc
+  SAC> message &1,cmpinc &1,kcmpnm
     24.4416
-  SAC> message (&1,kcmpnm)
     L
 
-Generally vP and vS are the velocities in the surface layer.  If the wavelength
-of the dominant arrivals are larger than the thickness of that layer, one may
-have to average over two or more layers.  This can be tested by plotting the
-vertical-radial particle motion (PLOTPM_).  The ray parameter will not be
-changed.  Here is an example for the same ray but assuming the wavelengths are
-long enough to average over the whole crust::
+Generally vP and vS are the velocities in the surface layer.  If the wavelength of the
+dominant arrivals are larger than the thickness of that layer, one may have to average
+over two or more layers.  This can be tested by plotting the vertical-radial particle
+motion (PLOTPM_) as the output motion is along the apparent angle.  The ray parameter
+will not be changed.  Here is an example for the same ray but assuming the wavelengths
+are long enough to average over the whole crust::
 
   SAC> ROTINC iP vp 8.04 vs 4.47 RAY 0.063 VERBOSE
-    Target Coordinate System: LQT
-    Apparent Angle Method: 'vP Free Surface'
+    Incident P wave; free-surface response
     vP: 8.04 km/s vS: 4.47 km/s Ray Param: 0.063000 s/km
     Apparent angle: 32.71
 
-Here is an example for iS (RAY = sin(23.12)/3.36)::
+Here is an example for iS (p = sin(23.12)/3.36) = 0.1169, where 23.12 is the SV
+incident angle::
 
   SAC> ROTINC iS RAY 0.1169 VERBOSE
-    Target Coordinate System: LQT
-    Apparent Angle Method: 'Vsv Free Surface'
-    Vp: 5.80 km/s Vs: 3.36 km/s Ray Param: 0.116900 s/km
-    Apparent angle: 64.18
-  SAC> evaluate &2,cmpinc
-    64.183
-  SAC> message (&2,kcmpnm)
+     Incident S wave; free surface response
+     vP: 5.80 km/s vS: 3.36 km/s Ray Param: 0.116900 s/km
+     Apparent angle: 115.82
+  SAC> message &2,cmpinc &2,kcmpnm
+    115.817
     Q
 
 There is often interference with other arrivals for SV on the vertical, so the
@@ -143,13 +134,6 @@ HEADER CHANGES
 
 CMPINC, CMPAZ, KCMPNM, DEPMAX, DEPMIN, DEPMEN
 
-ERROR MESSAGES
---------------
-- 1002: Bad value for
-- 1301: No data file read in.
-- 1304: Illegal operation on data file
-- 1336: Undefined header field value.
-
 AUTHOR
 ------
 
@@ -158,4 +142,4 @@ This command was orignally contributed by Frederik Tilmann in 2015,
 LATEST REVISION
 ---------------
 
-Latest version: April 2017 (Version 102.0)
+Latest version: May 2017 (Version 102.0)
