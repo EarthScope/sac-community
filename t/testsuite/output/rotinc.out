@@ -121,6 +121,7 @@ test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
  ==>  message "TO LQT az: 88.1472 R: 91.8528 T: 181.853 RAYDEG 0"
  TO LQT az: 88.1472 R: 91.8528 T: 181.853 RAYDEG 0
  rotinc IP RAYDEG 0.0
+Incident P wave, free-surface response
  message "Max: &1,depmax &2,depmax &3,depmax"
  ==>  message "Max: 4 1.96662 1.09818"
  Max: 4 1.96662 1.09818
@@ -144,7 +145,10 @@ test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
 test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
  rotinc IP RAYDEG 6.8 verbose
  Target Coordinate System: LQT
- Apparent Angle Method: 'Vp No Free Surface'
+ Incident P wave, free-surface response
+     vP: 5.8 km/s vS: 3.36 km/s Ray Param: 6.800000 s/km
+     Rotation angle: nan
+Apparent Angle Method: 'Vp No Free Surface'
     Vp: 5.80 km/s Vs: 3.36 km/s Ray Param: 0.061154 s/km
     Apparent angle: 20.77
  message "Max: &1,depmax &2,depmax &3,depmax"

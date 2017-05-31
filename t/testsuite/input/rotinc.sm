@@ -62,10 +62,12 @@ message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
 message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
 message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
 
+
+setbb rayp (6.8 * (360.0 / (2.0 * pi * 6371.0)))
 message ""
 message "TO LQT az: &1,az R: %r T: %t RAYDEG 6.8 iP"
 read test.rinc_?.sac
-rotinc IP RAYDEG 6.8 verbose
+rotinc IP RAYDEG %rayp verbose
 message "Max: &1,depmax &2,depmax &3,depmax"
 message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
 message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
@@ -74,7 +76,7 @@ message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
 message ""
 message "TO LQT az: &1,az R: %r T: %t RAYDEG 6.8 iS"
 read test.rinc_?.sac
-rotinc TO LQT iS RAYDEG 6.8 VERBOSE
+rotinc TO LQT iS RAYDEG %rayp VERBOSE
 message "Max: &1,depmax &2,depmax &3,depmax"
 message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
 message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
@@ -84,20 +86,20 @@ message ""
 setbb inc (pi * 10)
 message "TO LQT az: &1,az R: %r T: %t INCIDENCE %inc"
 read test.rinc_?.sac
-rotinc TO LQT INCIDENCE %inc VERBOSE
+rotinc TO LQT ANGLE %inc VERBOSE
 message "Max: &1,depmax &2,depmax &3,depmax"
 message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
 message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
 message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
 
 message "Erorr with INCIDENCE"
-rotinc TO LQT INCIDENCE IP VERBOSE
+rotinc TO LQT ANGLE IP VERBOSE
 
 message "Undefined Back-Azimuth"
 read test.rinc_?.sac
 ch lcalda False
 ch baz
-rotinc INCIDENCE 25.34 RAYDEG 6.8
+rotinc ANGLE 25.34 RAYDEG %rayp
 
 message "Difference in Origin Times (nzyear)"
 read test.rinc_e.sac
@@ -106,3 +108,177 @@ write over
 read test.rinc_?.sac
 rotinc TO VNE
 
+
+
+
+setbb az 20
+setbb baz (180 + %az)
+
+setbb R      (sqrt(2.0))
+setbb VAMP   2.0
+setbb NAMP   ( %R * sin((90 - %az) * PI/180.0) )
+setbb EAMP   ( %R * cos((90 - %az) * PI/180.0) )
+
+setbb RAMP   %R
+setbb TAMP   0.0
+
+setbb LAMP   ( sqrt(%NAMP*%NAMP + %EAMP*%EAMP + %VAMP*%VAMP) )
+setbb QAMP   0.0
+setbb TAMP   0.0
+
+
+fg impulse
+ch cmpinc 0 cmpaz 0 kcmpnm z baz %baz
+mul %VAMP
+write test.rotinc.z
+
+fg impulse
+mul %NAMP
+ch cmpinc 90 cmpaz 0 kcmpnm n baz %baz
+write test.rotinc.n
+
+fg impulse
+mul %EAMP
+ch cmpinc 90 cmpaz 90 kcmpnm e baz %baz
+write test.rotinc.e
+
+message ""
+message "    INIT    "
+
+read test.rotinc.z test.rotinc.n test.rotinc.e
+message "Max: &1,depmax &2,depmax &3,depmax"
+message "Min: &1,depmin &2,depmin &3,depmin"
+message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
+message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
+message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
+
+** Vertical North East
+m check_value.m &1,depmax %VAMP "No Rotation"
+m check_value.m &2,depmax %NAMP "No Rotation"
+m check_value.m &3,depmax %EAMP "No Rotation"
+m check_value.m &1,depmin 0 "No Rotation"
+m check_value.m &2,depmin 0 "No Rotation"
+m check_value.m &3,depmin 0 "No Rotation"
+
+message ""
+message "    TO VRT    "
+
+rotinc to VRT
+message "Max: &1,depmax &2,depmax &3,depmax"
+message "Min: &1,depmin &2,depmin &3,depmin"
+message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
+message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
+message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
+
+** Vertical Radial Transverse
+
+** Vertical
+m check_value.m &1,depmax %VAMP "VRT 45"
+m check_value.m &1,depmin 0 "VRT 45"
+
+** Radial
+m check_value.m &2,depmax %R "VRT 45"
+m check_value.m &2,depmin 0 "VRT 45"
+
+** Transverse
+m check_value.m &3,depmax 0 "VRT 45"
+m check_value.m &3,depmin 0 "VRT 45"
+
+message ""
+message "    TO VNE    "
+rotinc to VNE
+message "Max: &1,depmax &2,depmax &3,depmax"
+message "Min: &1,depmin &2,depmin &3,depmin"
+message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
+message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
+message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
+
+** Vertical North East
+
+** Vertical
+m check_value.m &1,depmax %VAMP "VNE"
+m check_value.m &1,depmin 0 "VNE"
+
+** North
+m check_value.m &2,depmax %NAMP "VNE"
+m check_value.m &2,depmin 0 "VNE"
+
+** East
+m check_value.m &3,depmax %EAMP "VNE"
+m check_value.m &3,depmin 0 "VNE"
+
+message ""
+message "    TO LQT    "
+read test.rotinc.z test.rotinc.n test.rotinc.e
+setbb inc (90 - (( acos( %RAMP / %LAMP ) * 180/PI)))
+message "inc %inc"
+rotinc to LQT angle %inc
+message "Max: &1,depmax &2,depmax &3,depmax"
+message "Min: &1,depmin &2,depmin &3,depmin"
+message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
+message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
+message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
+
+** L Q T
+
+** L
+m check_value.m &1,depmax %LAMP "LQT L MAX"
+m check_value.m &1,depmin 0 "LQT L MIN"
+
+** Q
+m check_value.m &2,depmax 0 "LQT Q MAX"
+m check_value.m &2,depmin 0 "LQT Q MIN"
+
+** T
+m check_value.m &3,depmax 0 "LQT T MAX"
+m check_value.m &3,depmin 0 "LQT T MIN"
+
+
+message ""
+message "    TO VNE    "
+
+rotinc to VNE 
+message "Max: &1,depmax &2,depmax &3,depmax"
+message "Min: &1,depmin &2,depmin &3,depmin"
+message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
+message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
+message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
+
+** Vertical North East
+
+** Vertical
+m check_value.m &1,depmax %VAMP "VNE V MAX"
+m check_value.m &1,depmin 0 "VNE V MIN"
+
+** North
+m check_value.m &2,depmax %NAMP "VNE N MAX"
+m check_value.m &2,depmin 0 "VNE N MIN"
+
+** East
+m check_value.m &3,depmax %EAMP "VNE E MAX"
+m check_value.m &3,depmin 0 "VNE E MIN"
+
+
+rotinc to LQT angle %inc
+message "Max: &1,depmax &2,depmax &3,depmax"
+message "Min: &1,depmin &2,depmin &3,depmin"
+message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
+message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
+message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
+
+** L Q T
+
+** L
+m check_value.m &1,depmax %LAMP "LQT"
+m check_value.m &1,depmin 0 "LQT"
+
+** Q
+m check_value.m &2,depmax 0 "LQT"
+m check_value.m &2,depmin 0 "LQT"
+
+** T
+m check_value.m &3,depmax 0 "LQT"
+m check_value.m &3,depmin 0 "LQT"
+
+
+quit

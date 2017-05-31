@@ -494,6 +494,11 @@ void parse_rotinc(enum CoordSystem *target, double *angle, int *verbose, int *ne
             */
             printf("Incident P wave, free-surface response\n");
             vs2=vs*vs*ray*ray;
+            if(vs2 > 1.0) {
+                *nerr = 1002;
+                error(*nerr, "ray parameter, p > 1/vs");
+                return;
+            }
             tanrotang=2*vs*ray*sqrt(1-vs2)/(1-2*vs2);
             *angle=atan(tanrotang)*180./PI;
             appang=*angle;
