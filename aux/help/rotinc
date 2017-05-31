@@ -57,7 +57,7 @@ DESCRIPTION
   all left-handed coordinate systems.
 
   For TO LQT, the "TO LQT" can be left out because that is the only option for which
-  ththere are additional arguments.  For TO LQT there are two choices:
+  there are additional arguments.  For TO LQT, there are two choices:
 
      1 ROTINC ANGLE a: rotation around the T axis (a=0.0 is up)
 
@@ -137,9 +137,9 @@ CMPINC, CMPAZ, KCMPNM, DEPMAX, DEPMIN, DEPMEN
 AUTHOR
 ------
 
-This command was orignally contributed by Frederik Tilmann in 2015,
+This command was originally contributed by Frederik Tilmann in 2015,
 
 LATEST REVISION
 ---------------
 
-Latest version: May 2017 (Version 102.0)
+May 2017 (Version 102.0)

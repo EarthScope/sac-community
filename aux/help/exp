@@ -11,6 +11,8 @@ SYNTAX
 
   ``EXP``
 
+Note: EXP is also an INLINE_ function.
+
 ERROR MESSAGES
 --------------
 - 1301: No data files read in.

@@ -12,7 +12,9 @@ SYNTAX
   ``EVALUATE {TO TERM|name} {v} op v {op v ...}``
    where op is one of the following:
 
-  ``ADD|SUBTRACT|MULTIPLY|DIVIDE|POWER|``
+  ``+|-|*|/|**|``
+  
+  ``ADD|SUBTRACT|MULTIPLY|DIVIDE|``
 
   ``SQRT|EXP|ALOG|ALOG10|SIN|ASIN|``
 
@@ -32,12 +34,22 @@ INPUT
     
    :op:  One of the arithmetic or logical operators listed above.
     
-ALTERNATE FORMS FOR ADD, SUBTRACT, MULTIPLY, DIVIDE, AND POWER
---------------------------------------------------------------
+EMBEDDED ARITHMETIC FUNCTIONS
+-----------------------------
 
-  ``+   -   *   /   **``
+An embedded arithmetic function is a simple math operation similar to those
+in any programming language, e.g. FORTRAN, C, etc, and is of the general
+form::
 
+ ( number operator number ... )
 
+where number is a numeric value and operator is one of the following 
+arithmetic operators::
+
+  +   -   *   /   ** 
+
+All numbers are treated as real, and all arithmetic is done in double-precision
+floating point.
 
 DEFAULT VALUES
 --------------

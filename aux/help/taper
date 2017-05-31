@@ -1,3 +1,4 @@
+
 TAPER
 +++++
 
@@ -13,14 +14,14 @@ SYNTAX
 INPUT
 -----
    :TYPE HANNING:  Apply a Hanning taper.
-
+    
    :TYPE HAMMING:  Apply a Hamming taper.
-
+    
    :TYPE COSINE:  Apply a cosine taper.
-
+    
    :WIDTH v:  Set the taper width on each end to v.  This is a value
        between 0.0 and 0.5.
-
+    
 DEFAULT VALUES
 --------------
 
@@ -32,13 +33,13 @@ DESCRIPTION
    applied in a symmetric manner to the data such that the signal is zero for
    the first and last data points and increases smoothly to its original value
    at an interior point relative to each end.
-
+   
    The COSINE option here is computed using the sin() function as
 
       DATA(J) = DATA(J) * SIN(OMEGA*J) where OMEGA = PI/(2*N)
-
+   
    where  N is the length of the taper on each end, and J runs from 1 to N.
-
+   
    The general form for the Hanning or Hamming taper is
 
      DATA(J)=DATA(J)*(F0-F1*COS(OMEGA*(J))
@@ -46,7 +47,7 @@ DESCRIPTION
    This equation would be applied to the left-hand side of each signal.  A
    symmetric one is applied to the right hand side.  The following table defines
    the various parameters used in the different tapers.
-
+   
     ======== ========= ===== ======
     TYPE     OMEGA     F0    F1
     ======== ========= ===== ======
@@ -66,3 +67,4 @@ HEADER CHANGES
 LATEST REVISION
 ---------------
   January 15, 1985 (Version 9.10)
+

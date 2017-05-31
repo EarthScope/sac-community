@@ -177,6 +177,7 @@ Alphabetical Comamnd Listing
                  measurement time window.
 :rollback_:      reverts SAC to last committed version in I/O buffers
 :rotate_:        Rotates a pair of data components through an angle.
+:rotinc_:	 Rotate a set of 3 perpendicular components.
 :rq_:            Removes the seismic Q factor from spectral data.
 :rtrend_:        Removes the linear trend.
 :saveimg_:       Sves displayed graphics windows in several formats

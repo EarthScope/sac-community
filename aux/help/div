@@ -38,6 +38,8 @@ EXAMPLES
       u:  READ F1 F2 F3
       u:  DIV 5.1 6.2
 
+Note: DIVIDE is also an INLINE_ function.
+
 HEADER CHANGES
 --------------
    DEPMIN, DEPMAX, DEPMEN

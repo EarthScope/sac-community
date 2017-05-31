@@ -75,37 +75,33 @@ in the following table. Examples are then given.
 =========== ======================== ===========================================
 Command     Syntax                   Purpose
 =========== ======================== ===========================================
-ADD         ( ADD v1 v2 ... vn )     Add (sum) a set of numbers.
 SINE        ( SINE v)                Take the sine of a number.
-SUBTRACT    ( SUBTRACT v1 v2 ... vn) Subtract a set of numbers.
 ARCSINE     ( ARCSINE v)             Take the arcsine of a number.
-MULTIPLY    ( MULTIPLY v1 v2 ... vn) Multiply data in memory by a set of numbers.
 COSINE      ( COSINE v)              Take the cosine of a number.
-DIVIDE      ( DIVIDE v1 v2 ... vn)   Divide data in memory by a set of numbers.
 ARCCOSINE   ( ARCCOSINE v)           Take the arccosine of a number.
-SQRT        ( SQRT v)                Take the square root of a number.
 TANGENT     ( TANGENT v)             Take the tangent of a number.
-EXP         ( EXP v)                 Exponentiate a number.
 ARCTANGENT  ( ARCTANGENT v)          Take the arctangent of a number.
+ADD         ( ADD v1 v2 ... vn )     v1 + v2 + ... + vn.
+SUBTRACT    ( SUBTRACT v1 v2 ... vn) v1 - v2 - ... - vn.
+MULTIPLY    ( MULTIPLY v1 v2 ... vn) v1 * v2 * ... * vn.
+DIVIDE      ( DIVIDE v1 v2 ... vn)   v1 / v2 / ... / vn.
+SQRT        ( SQRT v)                Take the square root of v (for v > 0).
+EXP         ( EXP v)                 Exponentiate a number.
+POWER       ( POWER v)               10 ** v.
 ALOG        ( ALOG v)                Take the natural logarithm of a number.
-INTEGER     ( INTEGER v)             Convert a number to an integer.
-POWER       ( POWER v)               Raise a number to its power of 10.
-PI          PI  or ( PI )            Return the value of pi.
 ALOG10      ( ALOG10 v)              Take the log to base 10 of a number.
+INTEGER     ( INTEGER v)             Convert a number to an integer.
+PI          ( PI )                   Return the value of pi. e.g., 2 * PI
 MAXIMUM     ( MAXIMUM v1 v2 ... vn)  Maximum value of a set of numbers.
 MINIMUM     ( MINIMUM v1 v2 ... vn)  Minimum value of a set of numbers.
 ABSOLUTE    ( ABSOLUTE v)            Take the absolute value of a number.
-GETVAL      ( GETVAL t)              Get value at time t for all files in memory
-_           ( GETVAL File N t)       Get value for the Nth file at time t
-GETTIME     ( GETTIME MAX|MIN [Val]) See discussion in GETTiME Example below
+GETVAL  (1) ( GETVAL t)              Get value at time t for all files in memory
+GETVAL  (3) ( GETVAL File N t)       Get value for the Nth file at time t
+GETTIME     ( GETTIME MAX|MIN [Val]) See discussion in Example 4 below
 =========== ======================== ===========================================
 
-GETVAL Examples
----------------
-
-Normalize Data
-''''''''''''''
-
+Example 1: Normalize Data
+'''''''''''''''''''''''''
 Normalize a set of data files so that the absolute value of the extremum 
 offset in the data set is 1.0::
 
@@ -117,45 +113,29 @@ offset in the data set is 1.0::
    SAC> write four.sac
    SAC> read one.sac two.sac four.sac
    SAC> rtr
-   SAC> lh depmin depmax columns 2
-   
-     FILE: one.sac - 1
-    -------------
+  SAC> lh depmax depmin
+  FILE: one.sac - 1
+     depmax = 1.619626e+00     depmin = -1.470322e+00
+  FILE: two.sac - 2
+      depmax = 3.239252e+00    depmin = -2.940643e+00
+  FILE: four.sac - 3
+    depmax = 1.295701e+01      depmin = -1.176257e+01
+  SAC> setbb a (max &1,depmax &2,depmax &3,depmax)
+  ==>  setbb a 12.957
+  SAC> setbb b (min &1,depmin &2,depmin &3,depmin)
+   ==>  setbb b -11.7626
+  SAC> div (max %a (abs %b))
+  ==>  div 12.957
+  SAC> lh depmax depmin  
+  FILE: one.sac - 1    
+    depmax = 1.250000e-01       depmin = -1.134769e-01
+  ILE: two.sac - 2    
+    depmax = 2.500000e-01       depmin = -2.269538e-01 
+  FILE: four.sac - 3    
+    depmax = 1.000000e+00       depmin = -9.078154e-01
 
-       depmin = -1.470549e+00                  depmax = 1.619398e+00
-     
-     FILE: two.sac - 2
-    -------------
-    
-       depmin = -2.941099e+00                  depmax = 3.238796e+00
-     
-     FILE: four.sac - 3
-    --------------
-   
-       depmin = -1.176440e+01                  depmax = 1.295519e+01
-   SAC> setbb a (max &1,depmax &2,depmax &3,depmax)
-   SAC> setbb b (min &1,depmin &2,depmin &3,depmin)
-   SAC> div (max %a (abs %b))
-   SAC> lh 
-     
-     FILE: one.sac - 1
-    -------------
-   
-       depmin = -1.135105e-01                  depmax = 1.250000e-01
-     
-     FILE: two.sac - 2
-    -------------
-   
-       depmin = -2.270210e-01                  depmax = 2.500000e-01
-     
-     FILE: four.sac - 3
-    --------------
-   
-       depmin = -9.080839e-01                  depmax = 1.000000e+00
-
-
-Example use of GETVAL
-'''''''''''''''''''''
+Example 2: Use of GETVAL
+''''''''''''''''''''''''
 ::
 
    SAC> message (getval 10.0)
@@ -175,8 +155,8 @@ Example use of GETVAL
    ab = -0.000238659
    SAC>
 
-Simple Calculations
-'''''''''''''''''''
+Example 3: Simple Calculations
+''''''''''''''''''''''''''''''
 ::
 
   SAC> setbb angle (45)
@@ -187,8 +167,8 @@ Simple Calculations
 Prior to v101.6, one needed %ANGLE%. With the new parsing system, the 
 trailing % is no longer needed.
 
-GETTIME Examples
-----------------
+Example 4: Use of GETTIME
+'''''''''''''''''''''''''
 GETTIME returns the time offset (in seconds) relative to the time reference 
 (O or B) for the first data point meeting the selection criteria.::
 

@@ -181,7 +181,7 @@ Unary Operations Module
 :mul_:            Multiplies each data point by a constant.
 :div_:            Divides each data point by a constant.
 :sqr_:            Squares each data point.
-:sqrt_:           Takes the square root of each data point.
+:sqrt_:           Takes the square root of each data point. Error if any are negative
 :int_:            Performs integration using the trapezoidal rule.
 :abs_:            Takes the absolute value of each data point.
 :log_:            Takes the natural logarithm of each data point.
@@ -189,6 +189,8 @@ Unary Operations Module
 :exp_:            Computes the exponential of each data point.
 :EXP10_:          Computes the base 10 exponential (10.**y) of each data point.
 :dif_:            Differentiates data in memory.
+
+Note: ADD, SUBTRACT, MULTIPLY, DIVIDE, SQRT, ABSolute, and EPS are also INLINE_ functions.
 
 Binary Operations Module
 ------------------------
