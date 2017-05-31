@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "xyz.h"
+#include "errors.h"
 
 void
 linear_interp(float *array, float xmin, float xmax, int nx, float *array_out,

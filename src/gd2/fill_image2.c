@@ -6,8 +6,9 @@
 #include "debug.h"
 
 #include "sgfcolor.h"
+#include "errors.h"
 
-SCOLOR 
+SCOLOR
 
 char *
 fill_image2(unsigned int height, unsigned int width, float data[], float dmin,

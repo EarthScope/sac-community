@@ -5,6 +5,7 @@
 
 #include "xyz.h"
 #include "bool.h"
+#include "errors.h"
 
 void
 scaleimage(float *input_image, unsigned int width, unsigned int height,

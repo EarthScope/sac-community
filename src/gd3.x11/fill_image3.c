@@ -6,6 +6,8 @@
 #include "gd3.x11.h"
 
 #include "config.h"
+#include "errors.h"
+
 extern XColor pixdef3[256];
 char *
 fill_image3(unsigned int height, unsigned int width, float data[], float dmin,
