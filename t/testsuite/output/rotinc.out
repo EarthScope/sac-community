@@ -136,6 +136,10 @@ Incident P wave, free-surface response
  Cmp: L Q T
   
  ==>  
+  
+ ==>  
+ setbb rayp (6.8 * (360.0 / (2.0 * pi * 6371.0)))
+ ==>  setbb rayp 0.0611539
  message ""
   
  message "TO LQT az: &1,az R: %r T: %t RAYDEG 6.8 iP"
@@ -143,23 +147,21 @@ Incident P wave, free-surface response
  TO LQT az: 88.1472 R: 91.8528 T: 181.853 RAYDEG 6.8 iP
  read test.rinc_?.sac
 test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
- rotinc IP RAYDEG 6.8 verbose
+ rotinc IP RAYDEG %rayp verbose
+ ==>  rotinc IP RAYDEG 0.0611539 verbose
  Target Coordinate System: LQT
- Incident P wave, free-surface response
-     vP: 5.8 km/s vS: 3.36 km/s Ray Param: 6.800000 s/km
-     Rotation angle: nan
-Apparent Angle Method: 'Vp No Free Surface'
-    Vp: 5.80 km/s Vs: 3.36 km/s Ray Param: 0.061154 s/km
-    Apparent angle: 20.77
+Incident P wave, free-surface response
+    vP: 5.80 km/s vS: 3.36 km/s Ray Param: 0.061154 s/km
+    Rotation angle: 23.71
  message "Max: &1,depmax &2,depmax &3,depmax"
- ==>  message "Max: 4.43748 0.419989 1.09818"
- Max: 4.43748 0.419989 1.09818
+ ==>  message "Max: 4.45318 0.191818 1.09818"
+ Max: 4.45318 0.191818 1.09818
  message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
- ==>  message "Az:  0 91.8528 181.853"
- Az:  0 91.8528 181.853
+ ==>  message "Az:  91.8528 91.8528 181.853"
+ Az:  91.8528 91.8528 181.853
  message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
- ==>  message "Inc: 20.7746 110.775 90"
- Inc: 20.7746 110.775 90
+ ==>  message "Inc: 23.7148 113.715 90"
+ Inc: 23.7148 113.715 90
  message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
  ==>  message "Cmp: L Q T"
  Cmp: L Q T
@@ -172,20 +174,21 @@ Apparent Angle Method: 'Vp No Free Surface'
  TO LQT az: 88.1472 R: 91.8528 T: 181.853 RAYDEG 6.8 iS
  read test.rinc_?.sac
 test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
- rotinc TO LQT iS RAYDEG 6.8 VERBOSE
+ rotinc TO LQT iS RAYDEG %rayp VERBOSE
+ ==>  rotinc TO LQT iS RAYDEG 0.0611539 VERBOSE
  Target Coordinate System: LQT
- Apparent Angle Method: 'Vs No Free Surface'
-    Vp: 5.80 km/s Vs: 3.36 km/s Ray Param: 0.061154 s/km
-    Apparent angle: 11.86
+Incident S wave, free surface response
+    vP: 5.80 km/s vS: 3.36 km/s Ray Param: 0.061154 s/km
+    Rotation angle: 103.66
  message "Max: &1,depmax &2,depmax &3,depmax"
- ==>  message "Max: 4.31874 1.10275 1.09818"
- Max: 4.31874 1.10275 1.09818
+ ==>  message "Max: 4.35137 0.966 1.09818"
+ Max: 4.35137 0.966 1.09818
  message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
- ==>  message "Az:  0 91.8528 181.853"
- Az:  0 91.8528 181.853
+ ==>  message "Az:  91.8528 91.8528 181.853"
+ Az:  91.8528 91.8528 181.853
  message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
- ==>  message "Inc: 11.8574 101.857 90"
- Inc: 11.8574 101.857 90
+ ==>  message "Inc: 13.6647 103.665 90"
+ Inc: 13.6647 103.665 90
  message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
  ==>  message "Cmp: L Q T"
  Cmp: L Q T
@@ -200,15 +203,16 @@ test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
  TO LQT az: 88.1472 R: 91.8528 T: 181.853 INCIDENCE 31.4159
  read test.rinc_?.sac
 test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
- rotinc TO LQT INCIDENCE %inc VERBOSE
- ==>  rotinc TO LQT INCIDENCE 31.4159 VERBOSE
+ rotinc TO LQT ANGLE %inc VERBOSE
+ ==>  rotinc TO LQT ANGLE 31.4159 VERBOSE
  Target Coordinate System: LQT
+Input: rotation angle from Vertical  to L
  message "Max: &1,depmax &2,depmax &3,depmax"
  ==>  message "Max: 4.43872 0.419668 1.09818"
  Max: 4.43872 0.419668 1.09818
  message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
- ==>  message "Az:  0 91.8528 181.853"
- Az:  0 91.8528 181.853
+ ==>  message "Az:  91.8528 91.8528 181.853"
+ Az:  91.8528 91.8528 181.853
  message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
  ==>  message "Inc: 31.4159 121.416 90"
  Inc: 31.4159 121.416 90
@@ -219,9 +223,9 @@ test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
  ==>  
  message "Erorr with INCIDENCE"
  Erorr with INCIDENCE
- rotinc TO LQT INCIDENCE IP VERBOSE
- ERROR interpreting command:  rotinc TO LQT INCIDENCE IP VERBOSE 
- NEED A REAL VARIABLE:                                ^
+ rotinc TO LQT ANGLE IP VERBOSE
+ ERROR interpreting command:  rotinc TO LQT ANGLE IP VERBOSE 
+ NEED A REAL VARIABLE:                            ^
   
  ==>  
  message "Undefined Back-Azimuth"
@@ -230,7 +234,9 @@ test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
 test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
  ch lcalda False
  ch baz
- rotinc INCIDENCE 25.34 RAYDEG 6.8
+ rotinc ANGLE 25.34 RAYDEG %rayp
+ ==>  rotinc ANGLE 25.34 RAYDEG 0.0611539
+Input: rotation angle from Vertical  to L
  ERROR 1336: Undefined header field value. baz for files 1-3
              Cannot rotate to LQT coordinate system
   
@@ -245,8 +251,566 @@ test.rinc_e.sac test.rinc_n.sac test.rinc_z.sac
  rotinc TO VNE
 Header field nzyear disagrees (1982 vs 1981)
  ERROR 1304: Illegal operation on data file 1-3
-             Attempt to rotate different components of the same time series
+             Attempt to rotate different components of different time series
 
+  
+ ==>  
+  
+ ==>  
+  
+ ==>  
+  
+ ==>  
+ setbb az 20
+ setbb baz (180 + %az)
+ ==>  setbb baz 200
+  
+ ==>  
+ setbb R      (sqrt(2.0))
+ ==>  setbb R 1.41421
+ setbb VAMP   2.0
+ setbb NAMP   ( %R * sin((90 - %az) * PI/180.0) )
+ ==>  setbb NAMP 1.32893
+ setbb EAMP   ( %R * cos((90 - %az) * PI/180.0) )
+ ==>  setbb EAMP 0.48369
+  
+ ==>  
+ setbb RAMP   %R
+ ==>  setbb RAMP 1.41421
+ setbb TAMP   0.0
+  
+ ==>  
+ setbb LAMP   ( sqrt(%NAMP*%NAMP + %EAMP*%EAMP + %VAMP*%VAMP) )
+ ==>  setbb LAMP 2.44949
+ setbb QAMP   0.0
+ setbb TAMP   0.0
+  
+ ==>  
+  
+ ==>  
+ fg impulse
+ ch cmpinc 0 cmpaz 0 kcmpnm z baz %baz
+ ==>  ch cmpinc 0 cmpaz 0 kcmpnm z baz 200
+ mul %VAMP
+ ==>  mul 2
+ write test.rotinc.z
+  
+ ==>  
+ fg impulse
+ mul %NAMP
+ ==>  mul 1.32893
+ ch cmpinc 90 cmpaz 0 kcmpnm n baz %baz
+ ==>  ch cmpinc 90 cmpaz 0 kcmpnm n baz 200
+ write test.rotinc.n
+  
+ ==>  
+ fg impulse
+ mul %EAMP
+ ==>  mul 0.48369
+ ch cmpinc 90 cmpaz 90 kcmpnm e baz %baz
+ ==>  ch cmpinc 90 cmpaz 90 kcmpnm e baz 200
+ write test.rotinc.e
+  
+ ==>  
+ message ""
+  
+ message "    INIT    "
+     INIT
+  
+ ==>  
+ read test.rotinc.z test.rotinc.n test.rotinc.e
+ message "Max: &1,depmax &2,depmax &3,depmax"
+ ==>  message "Max: 2 1.32893 0.48369"
+ Max: 2 1.32893 0.48369
+ message "Min: &1,depmin &2,depmin &3,depmin"
+ ==>  message "Min: 0 0 0"
+ Min: 0 0 0
+ message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
+ ==>  message "Az:  0 0 90"
+ Az:  0 0 90
+ message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
+ ==>  message "Inc: 0 90 90"
+ Inc: 0 90 90
+ message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
+ ==>  message "Cmp: z n e"
+ Cmp: z n e
+  
+ ==>  
+ ** Vertical North East
+ m check_value.m &1,depmax %VAMP "No Rotation"
+ ==>  m check_value.m 2 2 "No Rotation"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 0
+ if %checkvalue > %maxerror
+ ==>  if 0 > 1e-05
+ endif
+ m check_value.m &2,depmax %NAMP "No Rotation"
+ ==>  m check_value.m 1.32893 1.32893 "No Rotation"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 3.76484e-08
+ if %checkvalue > %maxerror
+ ==>  if 3.76484e-08 > 1e-05
+ endif
+ m check_value.m &3,depmax %EAMP "No Rotation"
+ ==>  m check_value.m 0.48369 0.48369 "No Rotation"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 8.51319e-09
+ if %checkvalue > %maxerror
+ ==>  if 8.51319e-09 > 1e-05
+ endif
+ m check_value.m &1,depmin 0 "No Rotation"
+ ==>  m check_value.m 0 0 "No Rotation"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 0
+ if %checkvalue > %maxerror
+ ==>  if 0 > 1e-05
+ endif
+ m check_value.m &2,depmin 0 "No Rotation"
+ ==>  m check_value.m 0 0 "No Rotation"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 0
+ if %checkvalue > %maxerror
+ ==>  if 0 > 1e-05
+ endif
+ m check_value.m &3,depmin 0 "No Rotation"
+ ==>  m check_value.m 0 0 "No Rotation"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 0
+ if %checkvalue > %maxerror
+ ==>  if 0 > 1e-05
+ endif
+  
+ ==>  
+ message ""
+  
+ message "    TO VRT    "
+     TO VRT
+  
+ ==>  
+ rotinc to VRT
+ message "Max: &1,depmax &2,depmax &3,depmax"
+ ==>  message "Max: 2 1.41421 0"
+ Max: 2 1.41421 0
+ message "Min: &1,depmin &2,depmin &3,depmin"
+ ==>  message "Min: 0 0 -2.98023e-08"
+ Min: 0 0 -2.98023e-08
+ message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
+ ==>  message "Az:  0 20 110"
+ Az:  0 20 110
+ message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
+ ==>  message "Inc: 0 90 90"
+ Inc: 0 90 90
+ message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
+ ==>  message "Cmp: V R T"
+ Cmp: V R T
+  
+ ==>  
+ ** Vertical Radial Transverse
+  
+ ==>  
+ ** Vertical
+ m check_value.m &1,depmax %VAMP "VRT 45"
+ ==>  m check_value.m 2 2 "VRT 45"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 1.19209e-07
+ if %checkvalue > %maxerror
+ ==>  if 1.19209e-07 > 1e-05
+ endif
+ m check_value.m &1,depmin 0 "VRT 45"
+ ==>  m check_value.m 0 0 "VRT 45"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 0
+ if %checkvalue > %maxerror
+ ==>  if 0 > 1e-05
+ endif
+  
+ ==>  
+ ** Radial
+ m check_value.m &2,depmax %R "VRT 45"
+ ==>  m check_value.m 1.41421 1.41421 "VRT 45"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 2.42032e-08
+ if %checkvalue > %maxerror
+ ==>  if 2.42032e-08 > 1e-05
+ endif
+ m check_value.m &2,depmin 0 "VRT 45"
+ ==>  m check_value.m 0 0 "VRT 45"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 0
+ if %checkvalue > %maxerror
+ ==>  if 0 > 1e-05
+ endif
+  
+ ==>  
+ ** Transverse
+ m check_value.m &3,depmax 0 "VRT 45"
+ ==>  m check_value.m 0 0 "VRT 45"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 0
+ if %checkvalue > %maxerror
+ ==>  if 0 > 1e-05
+ endif
+ m check_value.m &3,depmin 0 "VRT 45"
+ ==>  m check_value.m -2.98023e-08 0 "VRT 45"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 2.98023e-08
+ if %checkvalue > %maxerror
+ ==>  if 2.98023e-08 > 1e-05
+ endif
+  
+ ==>  
+ message ""
+  
+ message "    TO VNE    "
+     TO VNE
+ rotinc to VNE
+ message "Max: &1,depmax &2,depmax &3,depmax"
+ ==>  message "Max: 2 1.32893 0.483689"
+ Max: 2 1.32893 0.483689
+ message "Min: &1,depmin &2,depmin &3,depmin"
+ ==>  message "Min: 0 0 0"
+ Min: 0 0 0
+ message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
+ ==>  message "Az:  0 0 90"
+ Az:  0 0 90
+ message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
+ ==>  message "Inc: 0 90 90"
+ Inc: 0 90 90
+ message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
+ ==>  message "Cmp: V N E"
+ Cmp: V N E
+  
+ ==>  
+ ** Vertical North East
+  
+ ==>  
+ ** Vertical
+ m check_value.m &1,depmax %VAMP "VNE"
+ ==>  m check_value.m 2 2 "VNE"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 2.38419e-07
+ if %checkvalue > %maxerror
+ ==>  if 2.38419e-07 > 1e-05
+ endif
+ m check_value.m &1,depmin 0 "VNE"
+ ==>  m check_value.m 0 0 "VNE"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 0
+ if %checkvalue > %maxerror
+ ==>  if 0 > 1e-05
+ endif
+  
+ ==>  
+ ** North
+ m check_value.m &2,depmax %NAMP "VNE"
+ ==>  m check_value.m 1.32893 1.32893 "VNE"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 8.15609e-08
+ if %checkvalue > %maxerror
+ ==>  if 8.15609e-08 > 1e-05
+ endif
+ m check_value.m &2,depmin 0 "VNE"
+ ==>  m check_value.m 0 0 "VNE"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 0
+ if %checkvalue > %maxerror
+ ==>  if 0 > 1e-05
+ endif
+  
+ ==>  
+ ** East
+ m check_value.m &3,depmax %EAMP "VNE"
+ ==>  m check_value.m 0.483689 0.48369 "VNE"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 6.81178e-08
+ if %checkvalue > %maxerror
+ ==>  if 6.81178e-08 > 1e-05
+ endif
+ m check_value.m &3,depmin 0 "VNE"
+ ==>  m check_value.m 0 0 "VNE"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 0
+ if %checkvalue > %maxerror
+ ==>  if 0 > 1e-05
+ endif
+  
+ ==>  
+ message ""
+  
+ message "    TO LQT    "
+     TO LQT
+ read test.rotinc.z test.rotinc.n test.rotinc.e
+ setbb inc (90 - (( acos( %RAMP / %LAMP ) * 180/PI)))
+ ==>  setbb inc 35.2644
+ message "inc %inc"
+ ==>  message "inc 35.2644"
+ inc 35.2644
+ rotinc to LQT angle %inc
+ ==>  rotinc to LQT angle 35.2644
+Input: rotation angle from Vertical  to L
+ message "Max: &1,depmax &2,depmax &3,depmax"
+ ==>  message "Max: 2.44949 4.47035e-08 0"
+ Max: 2.44949 4.47035e-08 0
+ message "Min: &1,depmin &2,depmin &3,depmin"
+ ==>  message "Min: 0 0 -2.98023e-08"
+ Min: 0 0 -2.98023e-08
+ message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
+ ==>  message "Az:  20 20 110"
+ Az:  20 20 110
+ message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
+ ==>  message "Inc: 35.2644 125.264 90"
+ Inc: 35.2644 125.264 90
+ message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
+ ==>  message "Cmp: L Q T"
+ Cmp: L Q T
+  
+ ==>  
+ ** L Q T
+  
+ ==>  
+ ** L
+ m check_value.m &1,depmax %LAMP "LQT L MAX"
+ ==>  m check_value.m 2.44949 2.44949 "LQT L MAX"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 8.91413e-08
+ if %checkvalue > %maxerror
+ ==>  if 8.91413e-08 > 1e-05
+ endif
+ m check_value.m &1,depmin 0 "LQT L MIN"
+ ==>  m check_value.m 0 0 "LQT L MIN"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 0
+ if %checkvalue > %maxerror
+ ==>  if 0 > 1e-05
+ endif
+  
+ ==>  
+ ** Q
+ m check_value.m &2,depmax 0 "LQT Q MAX"
+ ==>  m check_value.m 4.47035e-08 0 "LQT Q MAX"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 4.47035e-08
+ if %checkvalue > %maxerror
+ ==>  if 4.47035e-08 > 1e-05
+ endif
+ m check_value.m &2,depmin 0 "LQT Q MIN"
+ ==>  m check_value.m 0 0 "LQT Q MIN"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 0
+ if %checkvalue > %maxerror
+ ==>  if 0 > 1e-05
+ endif
+  
+ ==>  
+ ** T
+ m check_value.m &3,depmax 0 "LQT T MAX"
+ ==>  m check_value.m 0 0 "LQT T MAX"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 0
+ if %checkvalue > %maxerror
+ ==>  if 0 > 1e-05
+ endif
+ m check_value.m &3,depmin 0 "LQT T MIN"
+ ==>  m check_value.m -2.98023e-08 0 "LQT T MIN"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 2.98023e-08
+ if %checkvalue > %maxerror
+ ==>  if 2.98023e-08 > 1e-05
+ endif
+  
+ ==>  
+  
+ ==>  
+ message ""
+  
+ message "    TO VNE    "
+     TO VNE
+  
+ ==>  
+ rotinc to VNE
+ message "Max: &1,depmax &2,depmax &3,depmax"
+ ==>  message "Max: 2 1.32893 0.48369"
+ Max: 2 1.32893 0.48369
+ message "Min: &1,depmin &2,depmin &3,depmin"
+ ==>  message "Min: 0 0 0"
+ Min: 0 0 0
+ message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
+ ==>  message "Az:  0 0 90"
+ Az:  0 0 90
+ message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
+ ==>  message "Inc: 0 90 90"
+ Inc: 0 90 90
+ message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
+ ==>  message "Cmp: V N E"
+ Cmp: V N E
+  
+ ==>  
+ ** Vertical North East
+  
+ ==>  
+ ** Vertical
+ m check_value.m &1,depmax %VAMP "VNE V MAX"
+ ==>  m check_value.m 2 2 "VNE V MAX"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 2.38419e-07
+ if %checkvalue > %maxerror
+ ==>  if 2.38419e-07 > 1e-05
+ endif
+ m check_value.m &1,depmin 0 "VNE V MIN"
+ ==>  m check_value.m 0 0 "VNE V MIN"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 0
+ if %checkvalue > %maxerror
+ ==>  if 0 > 1e-05
+ endif
+  
+ ==>  
+ ** North
+ m check_value.m &2,depmax %NAMP "VNE N MAX"
+ ==>  m check_value.m 1.32893 1.32893 "VNE N MAX"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 3.76484e-08
+ if %checkvalue > %maxerror
+ ==>  if 3.76484e-08 > 1e-05
+ endif
+ m check_value.m &2,depmin 0 "VNE N MIN"
+ ==>  m check_value.m 0 0 "VNE N MIN"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 0
+ if %checkvalue > %maxerror
+ ==>  if 0 > 1e-05
+ endif
+  
+ ==>  
+ ** East
+ m check_value.m &3,depmax %EAMP "VNE E MAX"
+ ==>  m check_value.m 0.48369 0.48369 "VNE E MAX"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 8.51319e-09
+ if %checkvalue > %maxerror
+ ==>  if 8.51319e-09 > 1e-05
+ endif
+ m check_value.m &3,depmin 0 "VNE E MIN"
+ ==>  m check_value.m 0 0 "VNE E MIN"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 0
+ if %checkvalue > %maxerror
+ ==>  if 0 > 1e-05
+ endif
+  
+ ==>  
+  
+ ==>  
+ rotinc to LQT angle %inc
+ ==>  rotinc to LQT angle 35.2644
+Input: rotation angle from Vertical  to L
+ message "Max: &1,depmax &2,depmax &3,depmax"
+ ==>  message "Max: 2.44949 0 0"
+ Max: 2.44949 0 0
+ message "Min: &1,depmin &2,depmin &3,depmin"
+ ==>  message "Min: 0 -7.45058e-08 -2.98023e-08"
+ Min: 0 -7.45058e-08 -2.98023e-08
+ message "Az:  &1,cmpaz &2,cmpaz &3,cmpaz"
+ ==>  message "Az:  20 20 110"
+ Az:  20 20 110
+ message "Inc: &1,cmpinc &2,cmpinc &3,cmpinc"
+ ==>  message "Inc: 35.2644 125.264 90"
+ Inc: 35.2644 125.264 90
+ message "Cmp: &1,kcmpnm &2,kcmpnm &3,kcmpnm"
+ ==>  message "Cmp: L Q T"
+ Cmp: L Q T
+  
+ ==>  
+ ** L Q T
+  
+ ==>  
+ ** L
+ m check_value.m &1,depmax %LAMP "LQT"
+ ==>  m check_value.m 2.44949 2.44949 "LQT"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 3.2756e-07
+ if %checkvalue > %maxerror
+ ==>  if 3.2756e-07 > 1e-05
+ endif
+ m check_value.m &1,depmin 0 "LQT"
+ ==>  m check_value.m 0 0 "LQT"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 0
+ if %checkvalue > %maxerror
+ ==>  if 0 > 1e-05
+ endif
+  
+ ==>  
+ ** Q
+ m check_value.m &2,depmax 0 "LQT"
+ ==>  m check_value.m 0 0 "LQT"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 0
+ if %checkvalue > %maxerror
+ ==>  if 0 > 1e-05
+ endif
+ m check_value.m &2,depmin 0 "LQT"
+ ==>  m check_value.m -7.45058e-08 0 "LQT"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 7.45058e-08
+ if %checkvalue > %maxerror
+ ==>  if 7.45058e-08 > 1e-05
+ endif
+  
+ ==>  
+ ** T
+ m check_value.m &3,depmax 0 "LQT"
+ ==>  m check_value.m 0 0 "LQT"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 0
+ if %checkvalue > %maxerror
+ ==>  if 0 > 1e-05
+ endif
+ m check_value.m &3,depmin 0 "LQT"
+ ==>  m check_value.m -2.98023e-08 0 "LQT"
+ setbb maxerror 1e-5
+ setbb checkvalue (abs ($1 - $2) )
+ ==>  setbb checkvalue 2.98023e-08
+ if %checkvalue > %maxerror
+ ==>  if 2.98023e-08 > 1e-05
+ endif
+  
+ ==>  
   
  ==>  
  quit
