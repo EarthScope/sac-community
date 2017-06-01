@@ -153,6 +153,7 @@
 .. _rmean: rmean.html
 .. _rms: rms.html
 .. _rotate: rotate.html
+.. _rotinc: rotinc.html
 .. _rq: rq.html
 .. _rtrend: rtrend.html
 .. _sac2man: sac2man.html
@@ -234,6 +235,7 @@
 
 .. _sac data file format:  ../manual/file_format.html
 .. _sac_data_file_format:  ../manual/file_format.html
+.. _inline:  ../manual/inline.html
 .. _sac_macros:  ../manual/sac_macros.html
 
 .. _sss: sss.com/sss.html

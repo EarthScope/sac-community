@@ -149,6 +149,7 @@
 .. _rmean: ../rmean.html
 .. _rms: ../rms.html
 .. _rotate: ../rotate.html
+.. _rotinc: ../rotinc.html
 .. _rq: ../rq.html
 .. _rtrend: ../rtrend.html
 .. _sac2man: ../sac2man.html

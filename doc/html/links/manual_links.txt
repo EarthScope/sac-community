@@ -56,6 +56,7 @@
 .. _saveimg: ../commands/saveimg.html
 .. _taper: ../commands/taper.html
 .. _rotate: ../commands/rotate.html
+.. _rotinc: ../commands/rotinc.html
 .. _apk: ../commands/apk.html
 .. _plotpk: ../commands/plotpk.html
 .. _wiener: ../commands/wiener.html
@@ -226,6 +227,7 @@
 .. _rmean:	../commands/rmean.html
 .. _rms:	../commands/rms.html
 .. _rotate:	../commands/rotate.html
+.. _rotinc:	../commands/rotinc.html
 .. _rq:	../commands/rq.html
 .. _rtrend:	../commands/rtrend.html
 .. _sac2man:	../commands/sac2man.html

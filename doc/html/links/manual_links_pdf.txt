@@ -402,7 +402,9 @@
 ..
 .. _rms:	
 ..
-.. _rotate:	
+.. _rotate:
+..
+.. _rotinc:
 ..
 .. _rtrend:	
 ..
