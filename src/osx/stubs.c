@@ -23,6 +23,8 @@
 #include "osx_color.h"
 OSXColor pixdef6[100000];
 
+GDM_EXTERN
+
 #define SAC_COLOR_MAXIMUM 65535
 
 void main_command(char *ksmg, int n);
@@ -245,16 +247,20 @@ osx_text_width(char *text) {
 
 void
 osx_set_color(color c) {
-    osx_sac_color(rgb.r/255., rgb.g/255., rgb.b/255.);
+    osx_sac_color(c.r/255., c.g/255., c.b/255.);
 }
 
 void
 osx_get_bg_color(float *r, float *g, float *b) {
-    int bg;
-    bg = (color_on())? color_background() : color_background_default();
-    *r = COLORS[bg].r;
-    *g = COLORS[bg].g;
-    *b = COLORS[bg].b;
+    color bg;
+    if(color_on()) {
+        color_background(&bg);
+    } else {
+        color_background_default(&bg);
+    }
+    *r = bg.r;
+    *g = bg.g;
+    *b = bg.b;
 }
 
 void

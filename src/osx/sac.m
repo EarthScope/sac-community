@@ -19,19 +19,27 @@ void sac_initialize(int argc, char **argv);
 
 void
 sac_focus_window(void *id, int n) {
-    SAC *sac = (SAC *) id;
-    [sac focusWindow: n];
+    dispatch_sync(dispatch_get_main_queue(), ^{
+            SAC *sac = (SAC *) id;
+            [sac focusWindow: n];
+        });
 }
 
 int
 sac_find_window(void *id, int n) {
-    SAC *sac = (SAC *) id;
-    return ([sac findWindow: n] != nil);
+    __block int ok = 0;
+    dispatch_sync(dispatch_get_main_queue(), ^{
+            SAC *sac = (SAC *) id;
+            ok = ([sac findWindow: n] != nil);
+        });
+    return ok;
 }
 
 void sac_create_window(void *id, int n) {
-    SAC *sac = (SAC *) id;
-    [sac createWindow: nil number: n];
+    dispatch_sync(dispatch_get_main_queue(), ^{
+            SAC *sac = (SAC *) id;
+            [sac createWindowWithNumber: [NSNumber numberWithInt: n]];
+        });
 }
 
 - (id) init {
@@ -84,7 +92,7 @@ void sac_create_window(void *id, int n) {
     [self readFiles: initFiles clearFiles: YES];
   }
   initialized = YES;
-
+  //NSLog(@"Thread Main: %d", [NSThread isMainThread]);
   /* Thread - command line / keyboard loop */
   [NSThread detachNewThreadSelector: @selector(sac_main_loop_thread:)
                            toTarget: self
@@ -156,7 +164,8 @@ void sac_create_window(void *id, int n) {
                  plot: NO];
 }
 
-- (void) createWindow: (id) sender number: (int) n {
+- (void) createWindowWithNumber: (NSNumber *) np {
+    int n = [np intValue];
     NSSacWindowController *plot = [[NSSacWindowController alloc] 
                                       initWithNumber: n];
     [plot setParent: self];

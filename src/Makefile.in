@@ -1100,11 +1100,12 @@ AM_CXXFLAGS = -I$(top_srcdir)/inc $(am__append_1)
 # Sources
 @WIN_APP_TRUE@sac_SOURCES = main/sac.c win/win.cpp win/sac_resource.rc 
 @X11_APP_TRUE@sac_SOURCES = main/sac.c
+#  AM_OBJCFLAGS      = 
+@OSX_APP_TRUE@sac_LDFLAGS = -ObjC
 @WIN_APP_TRUE@sac_LDFLAGS = -static-libgcc -static-libstdc++ -static
-@OSX_APP_TRUE@sac_LINK = $(OBJCLINK)
+@OSX_APP_TRUE@sac_LINK = $(OBJCLINK) -ObjC
 @WIN_APP_TRUE@sac_LINK = $(CXXLINK) 
 @X11_APP_TRUE@sac_LINK = $(LINK)
-@OSX_APP_TRUE@AM_OBJCFLAGS = -ObjC
 
 # Libraries to be installed
 lib_LIBRARIES = libsacio.a libsac.a

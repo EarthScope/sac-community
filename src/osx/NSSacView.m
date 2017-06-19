@@ -221,28 +221,32 @@ void NSSacView_show_image(void *id,
                           int nsacolors,
                           int ndefcolors,
                           int lbinary) {
-    NSSacView *s = (NSSacView *) id;
+    dispatch_sync(dispatch_get_main_queue(), ^{
+            NSSacView *s = (NSSacView *) id;
 
-    [s  addImageData: data
-               width: iw   height: ih
-                xmin: xmin   xmax: xmax
-                ymin: ymin   ymax: ymax
-                   x: x        y: y
-                   w: w        h: h
-       npseudocolors: npseudocolors
-           nsacolors: nsacolors
-          ndefcolors: ndefcolors
-             lbinary: lbinary];
-    return;
+            [s  addImageData: data
+                       width: iw   height: ih
+                        xmin: xmin   xmax: xmax
+                        ymin: ymin   ymax: ymax
+                           x: x        y: y
+                           w: w        h: h
+               npseudocolors: npseudocolors
+                   nsacolors: nsacolors
+                  ndefcolors: ndefcolors
+                     lbinary: lbinary];
+        });
 }
             
 
 void NSSacView_mds(void *id, int type, float x, float y) {
-    NSSacView *s = (NSSacView *) id;
-    if(type == 0) {
-        [ s clearStack ];
-    }
-    [ s addMDSType: type withPoint : NSMakePoint(x,y)];
+    dispatch_sync(dispatch_get_main_queue(), ^{
+            NSSacView *s = (NSSacView *) id;
+            //NSLog(@"Thread Main: %d (MDS)", [NSThread isMainThread]);
+            if(type == 0) {
+                [ s clearStack ];
+            }
+            [ s addMDSType: type withPoint : NSMakePoint(x,y)];
+        });
     /*
     if(type == 3) {
         [s update];
@@ -251,55 +255,79 @@ void NSSacView_mds(void *id, int type, float x, float y) {
 }
 
 void NSSacView_update(void *id) {
-    NSSacView *s = (NSSacView *) id;
-    [s update];
+    dispatch_sync(dispatch_get_main_queue(), ^{
+            NSSacView *s = (NSSacView *) id;
+            //NSLog(@"Thread Main: %d (UPDATE)", [NSThread isMainThread]); 
+            [s update];
+        });
 }
 
 void NSSacView_poly(void *id, int n, float *x, float *y) {
-    NSSacView *s = (NSSacView *) id;
-    int i;
-    NSPoint *parray;
-    parray = (NSPoint*) malloc(sizeof(NSPoint) * n);
-    for(i = 0; i < n; i++) {
-        parray[i].x = x[i];
-        parray[i].y = y[i];
-    }
-    [s addPoly: parray count: n];
+    dispatch_sync(dispatch_get_main_queue(), ^{
+            NSSacView *s = (NSSacView *) id;
+            int i;
+            NSPoint *parray;
+            //NSLog(@"Thread Main: %d (POLY)", [NSThread isMainThread]);
+            parray = (NSPoint*) malloc(sizeof(NSPoint) * n);
+            for(i = 0; i < n; i++) {
+                parray[i].x = x[i];
+                parray[i].y = y[i];
+            }
+            [s addPoly: parray count: n];
+        });
 }
 
 void NSSacView_size(void *id, int *width, int *height) {
-    NSSacView *s = (NSSacView *) id;
-    NSRect bounds = [s bounds];
-    *width  = bounds.size.width;
-    *height = bounds.size.height;
+    dispatch_sync(dispatch_get_main_queue(), ^{
+            NSSacView *s = (NSSacView *) id;
+            NSRect bounds = [s bounds];
+            //NSLog(@"Thread Main: %d (SIZE)", [NSThread isMainThread]);
+            *width  = bounds.size.width;
+            *height = bounds.size.height;
+        });
 }
 
 void NSSacView_color(void *id, float r, float g, float b) {
-    NSSacView *s = (NSSacView *) id;
-    NSColor *c = [NSColor colorWithDeviceRed: r
-                                       green: g
-                                        blue: b
-                                       alpha: 1.0];
-    [c retain];
-    [s addColor: c];
+    dispatch_sync(dispatch_get_main_queue(), ^{
+            //NSLog(@"Thread Main: %d (COLOR)", [NSThread isMainThread]);
+            NSSacView *s = (NSSacView *) id;
+            NSColor *c = [NSColor colorWithDeviceRed: r
+                                               green: g
+                                                blue: b
+                                               alpha: 1.0];
+            [c retain];
+            [s addColor: c];
+        });
 }
 
 void NSSacView_width(void *id, int width) {
-    NSSacView *s = (NSSacView *) id;
-    [s addWidth: width];
+    dispatch_sync(dispatch_get_main_queue(), ^{
+            NSSacView *s = (NSSacView *) id;
+            [s addWidth: width];
+        });
+}
+
+- (void) checkThread {
+    if(! [NSThread isMainThread]) {
+        NSLog(@"NOT MAIN THREAD");
+        [NSApp terminate:self];
+    }
 }
 
 - (void) addObject: (NSObject *) object {
-    [drawing lock];
-    {    
+    [self checkThread];
+    //NSLog(@"Add Object: %@", object);
+    [drawing lock];  {
         [objs addObject: object];
     }
-    [drawing unlock];    
+    [drawing unlock];
+
 }
 
 - (void) clearStack {
-    [drawing lock];
-    {    
+    [self checkThread];
+    //NSLog(@"Thread Main: %d (CLEAR)", [NSThread isMainThread]);
+    [drawing lock];  {
         [objs removeAllObjects];
     }
     [drawing unlock];
@@ -322,6 +350,7 @@ void NSSacView_width(void *id, int width) {
             nsacolors: (int) nsacolors
            ndefcolors: (int) ndefcolors
               lbinary: (int) lbinary {
+    //NSLog(@"Thread Main: %d", [NSThread isMainThread]);
     NSSacViewObj *obj = [[NSSacViewObj alloc] init];
     [obj setImageData: data width:width height:height];
     [obj setImageLocationX:x y:y w:w h:h];
@@ -329,25 +358,30 @@ void NSSacView_width(void *id, int width) {
     [obj setImageColors: npseudocolors nsacolors: nsacolors ndefcolors:ndefcolors];
     [obj setImageBinary: lbinary];
     [self addObject: obj];
-        
+
 }
 
 - (void) addWidth: (int) width {
+    //NSLog(@"Thread Main: %d (ADD WIDTH)", [NSThread isMainThread]);
     NSSacViewObj *obj = [[NSSacViewObj alloc] initWidth: width];
     [self addObject: obj];
 }
 
 - (void) addColor: (NSColor *) c {
+    //NSLog(@"Thread Main: %d (ADD COLOR)", [NSThread isMainThread]);
     NSSacViewObj *obj = [[NSSacViewObj alloc] initColor: c];
     [self addObject: obj];
 }
 
 - (void) addPoly: (NSPoint *) p count: (int) n {
+    //NSLog(@"Thread Main: %d (ADD POLY)", [NSThread isMainThread]);
     NSSacViewObj *obj = [[NSSacViewObj alloc] initPoly: p count: n];
     [self addObject: obj];
 }
 
+
 - (void) update {
+    //NSLog(@"Thread Main: %d (UPDATE)", [NSThread isMainThread]);
     [self setNeedsDisplay: YES ];
 }
 
@@ -376,6 +410,7 @@ void NSSacView_width(void *id, int width) {
 }
 
 - (void) awakeFromNib {
+    //NSLog(@"Awake from Nib: %@ MAIN: %d", self, [NSThread isMainThread]);
     backgroundColor = [NSColor whiteColor];
     objs = [[NSMutableArray alloc] initWithCapacity: 32];
     [self setCurrent];
@@ -384,6 +419,7 @@ void NSSacView_width(void *id, int width) {
 }
 
 - (BOOL) acceptsFirstResponder {
+    //NSLog(@"Accept Focus: %@", self);
     return YES;
 }
 
@@ -434,10 +470,12 @@ void NSSacView_width(void *id, int width) {
     NSRect bounds = [self bounds];
     float current_ratio;
     [ self erase : rect ];
+    //NSLog(@"Thread Main: %d (DRAWRECT)", [NSThread isMainThread]);
     current_ratio = bounds.size.width / bounds.size.height / original_ratio;
     [drawing lock];
     {
         n = [objs count];
+        //NSLog(@"Thread Main: %d %d", [NSThread isMainThread], n);
         if(n > 0) {
             NSBezierPath *path;
             path = [[NSBezierPath alloc] init];
@@ -474,7 +512,7 @@ void NSSacView_width(void *id, int width) {
                     NSPoint origin = [ obj imagePosition: bounds ];
                     [im drawAtPoint: origin 
                            fromRect: NSZeroRect
-                          operation: NSCompositeSourceOver
+                          operation: NSCompositingOperationSourceOver
                            fraction: 1.0];
                 }
                 case 4: {
@@ -501,35 +539,47 @@ void NSSacView_width(void *id, int width) {
     [drawing unlock];
 }
 
-/*
+
 - (BOOL) becomeFirstResponder {
     //NSLog(@"Take Focus: %@", self);
     return YES;
 }
-- (BOOL) acceptsFirstResponder {
-    //NSLog(@"Accept Focus: %@", self);
-    return YES;
-}
-*/
 
 @end
 
 @implementation NSSacWindowController 
 
 - (id) initWithNumber: (int) number {
+    NSLog(@"INIT WITH NUMBER");
+
     if((self = [super initWithWindowNibName:@"SacPlotWindow"])){
         NSWindow *w = [self window];
+
+        //NSLog(@"Window: %@", w);
+        //NSLog(@"Thread Main: %d", [NSThread isMainThread]);
         windowNumber = number;
         parent = nil;
         [w setTitle: [NSString stringWithFormat: @"Plot Window %d", number]];
-        [w makeKeyAndOrderFront: self];
+        [self show];
         /* Bring Application to the front */
         [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
+        /*
+          NSSize size = [[w contentView] frame].size;
+          NSPoint org = [[w contentView] frame].origin;
+          NSLog(@"Size: %f %f", size.width, size.height);
+          NSLog(@"Orgi: %f %f", org.x, org.y);
+          NSLog(@"Active: %d", (int)[w isOnActiveSpace]);
+          NSLog(@"Visible: %d", (int)[w isVisible]);
+          NSLog(@"Opaque: %d", (int)[w isOpaque]);
+          NSLog(@"Controller: %@", [w windowController]);
+          NSLog(@"Loaded: %d", (int)[self isWindowLoaded]);
+        */
     }
     return self;
 }
 
 - (void)windowDidBecomeKey: (NSNotification *) notification {
+    //NSLog(@"WINDOW BECAME KEY");
     [sacView setCurrent];
 }
 
@@ -538,6 +588,7 @@ void NSSacView_width(void *id, int width) {
 }
 
 - (void) show {
+    //NSLog(@"WINDOW SHOW");
     [[self window] makeKeyAndOrderFront: self];
 }
 
@@ -545,7 +596,12 @@ void NSSacView_width(void *id, int width) {
     parent = who;
 }
 
+- (void) windowDidLoad {
+    //NSLog(@"WINDOW DID LOAD");
+}
+
 - (void) windowWillClose: (NSNotification *) notification {
+    //NSLog(@"WINDOW WILL CLOSE");
     [[self retain] autorelease];
     if([parent respondsToSelector: @selector(removeWindow:)]) {
       [parent performSelector: @selector(removeWindow:) withObject: self];

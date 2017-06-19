@@ -15,7 +15,7 @@
 - (void) sendCommand: (NSString *) command plot: (BOOL) plot ;
 
 - (IBAction) createWindowSac: (id) sender ;
-- (void)     createWindow: (id) sender number: (int) n;
+- (void)     createWindowWithNumber: (NSNumber *) n;
 - (id)       findWindow: (int) windowNumber;
 - (void)     focusWindow: (int) windowNumber;
 - (void)     removeWindow: (id) plot;

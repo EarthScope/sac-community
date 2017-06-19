@@ -29,6 +29,9 @@ AC_DEFUN([OSXAPP_ON], [ AC_DEFINE([OSX_APP], [1], [Create OSX Application])
                            *darwin12* ) ;; # 10.8
                            *darwin13* ) ;; # 10.9
                            *darwin14* ) ;; # 10.10
+                           *darwin15* ) ;; # 10.11
+                           *darwin16* ) ;; # 10.12
+                           *darwin17* ) ;; # 10.13
                            * ) AC_MSG_ERROR("Building OSX App requires OSX version 10.6 or higher")
                       esac
                       CHECK_FRAMEWORK([Foundation])

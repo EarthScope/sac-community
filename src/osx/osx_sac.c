@@ -21,6 +21,7 @@ osx_sac(void *id) {
 /* Window routines - SAC_id */
 void
 osx_sac_create_window(int n) {
+    //printf("osx_sac_create_window: %p %d\n", SAC_id, n);
     sac_create_window(SAC_id, n);
 }
 
