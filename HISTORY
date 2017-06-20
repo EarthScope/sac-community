@@ -1,6 +1,116 @@
 This is a reverse chronoloical listing of enhancements and bug fixes made between
 SAC versions.  An overview of these are in file CHANGES.
 
+2017/06: Version 102.0 Released
+        * FEATURE: Remove Memory Limitations: The "Max files: reading first 1000" Bug
+        * FEATURE: SACAUX Magic: Try to determine location if SACAUX is not set
+        * FEATURE: Added ROTINC command  (Frederik Tilmann)
+             Rotate a set of 3 perpendicular components either around the vertical
+             direction or around the Transverse direction.  For the latter, it can
+             include the free-surface correction.
+        * FEATURE: Added QUITMACRO command - Exit out of a macro
+        * FEATURE: Added (GETVAL) expression to retrieve Amplitude values
+             Get value at time t for all files in memory, or get value for the Nth
+             file at time t.  Examples in the inline help file.
+        * FEATURE: Added ability to save system command output to Blackboard variables
+             SAC> SC TO VAR echo "Hello System Command"
+             SAC> GETBB VAR
+        * FEATURE: Tilde (~) expansion for user home directory in filenames
+             SAC> read ~/data/filename.sac
+        * FEATURE: Added wildcard filenames for merge, addf, subf, divf, mulf
+             SAC> MERGE *.sac
+        * FEATURE: Update libedit to 20160618-3.1
+        * FEATURE: Update evalresp to 4.0.6, added libxml2 dependency
+        * FEATURE: Shift log label out if axis is heavily annotated
+        * FEATURE: Example convolve now uses time domain (Arthur Snoke)
+             Differs from SAC convolve in that it allows for a time-symmetric pulse
+             rather than always causal.  See the help file SAC_library.
+        * FEATURE: Example time shift program in doc/examples
+        * FEATURE: Example Interpolation program in doc/examples
+        * FEATURE: Added macros/demo example
+        * FEATURE: Updated error message for write with bad number of files
+        * FEATURE: Do not execute ROLLBACK, ever
+        * FEATURE:  Images have been added to two HELP files in both the HTML and the PDF
+             versions of the manual: SYMBOL and LINESTYLE
+        * FEATURE: All XWindows use a double buffer (Remove double buffer option)
+        * FEATURE: Additions to libsac (Sac Library Routines)
+             - lifite() (LInear FIT to Evenly spaced data)
+             - cut(), cut_define(), cut_define_check()
+             - rotate()
+             - transfer(), getran()
+             - rtrend2()
+             - rmean(), taper(), rtrend(), interpolate()
+             - dif(), int()
+             - New Documentation
+             - New Examples
+        * BUG FIX: Remove numbers staring with 0 (no octal)
+        * BUG FIX: Fix for use of 32 bit time_t in evalresp-xml
+        * BUG FIX: Compatibility check for strlcat
+        * BUG FIX: Compatibility check for strlcpy
+        * BUG FIX: Testing script now python3 compatible
+        * BUG FIX: Fixes to kevnm and kundef interactions
+        * BUG FIX: Check values for keyed number constructs lkreal()/lcint()
+        * BUG FIX: Fixed to documentation of file format: Peter Schmidt
+        * BUG FIX: Added more documentation for taper: peter.schmidt@geo.uu.se
+        * BUG FIX: Plotting fixes in plotpm
+        * BUG FIX: Fixed parse error for errors in remove trend RTREND
+        * BUG FIX: centxt() now saves and restores text justification
+        * BUG FIX: Plot a single xlabel in PPK
+        * BUG FIX: Properly save font width and height in centxt
+        * BUG FIX: Reset text xy after plot, ok for multiple devices
+        * BUG FIX: Interpolation data values at edges checked
+        * BUG FIX: Fix buffer overflow in kmlhf.kdiv (Julian Byrne)
+        * BUG FIX: Remove problematic VCPFunction (libedit/readline)
+        * BUG FIX: Added perror call to xcd for better messages
+        * BUG FIX: Fix key parsing: "blah#$" => no-abbreviation
+        * BUG FIX: Empty/Unfound responses return an error
+        * BUG FIX: Conversion from time to int uses double in cut
+        * BUG FIX: datetimes from y/d need conversion to y/m/d
+        * BUG FIX: Removal of ndsxum and fix write sum bug
+        * BUG FIX: Contour points should have been floats
+        * BUG FIX: Do not update extrema when data does not exist
+        * BUG FIX: Change fgets to zgetgd to avoid blocking
+        * BUG FIX: Fix read_data option and headeronly data (libsacio)
+        * BUG FIX: Always close file handles in polezero_parse
+        * BUG FIX: Sums in linefits are now double precision
+        * BUG FIX: Relative labels work with off labels
+        * BUG FIX: Bug 683 - Merge gap interp working incorrectly
+        * BUG FIX: Force libedit into be into lib, not lib64; same include
+        * BUG FIX: writecss: Test for long filenames
+        * BUG FIX: Add warning if SeisMgr database is off
+        * BUG FIX: Make sure Bug 737 is fixed. dir option of 'write'
+        * BUG FIX: Bug 736 - Cant access bbvars by linefit
+        * BUG FIX: History not read or written with --history-off
+        * BUG FIX: Add inc/sac_complex.h, was complex.h
+        * BUG FIX: Fix help filename truncation bug
+        * BUG FIX: Make sure header keys can accomodate long strings
+        * BUG FIX: Updated error handling for RMS
+        * BUG FIX: funcgen: Make sure npts and num-files are positive
+        * BUG FIX: lclist now return an error for multiple matches
+        * BUG FIX: Handle bad reads properly for Binary Operations Module (addf,subf, ...)
+        * BUG FIX: Terminate help file string
+        * BUG FIX: filterdesign: Proper argument check
+        * BUG FIX: Remove common global variables from headers
+        * BUG FIX: Update parsing and error handling
+        * BUG FIX: Fix to prefix/polish notation math operators
+        * BUG FIX: Fix to determining the window size
+        * BUG FIX: Added evresp block 55 fix and tests
+        * BUG FIX: zcloses bug fix
+        * BUG FIX: Added unistdx.h to cover io.h in win32
+        * BUG FIX: Removal / Move of Global Variabales
+        * BUG FIX: Simplify args of lcchar() from four to two
+        * BUG FIX: sacio get/set routines do not produce an error anymore
+        * BUG FIX: All calls to distaz should route through update_distaz()
+        * BUG FIX: Mean calculation fixed, with tests
+        * BUG FIX: Memory bugs, many
+        * BUG FIX: Make sure long color names do not cause trouble
+        * BUG FIX: Increased precision for time calculations in cut
+        * BUG FIX: Increased precision for time calculations in merge
+        * BUG FIX: Command arugment [ round(token)-token ] <= 1e-4 ==> round(token), otherwise floating point
+        * BUG FIX: Make reading of SEGY I/O files only read in Big Endian byte order
+        * BUG FIX: Fix to writing two componets in sac-binary
+        * BUG FIX: Improved testing coverage
+
 2013/11: Version 101.6a Released
 
         * FEATURE: A single-file PDF version of the SAC manual is now availaable
