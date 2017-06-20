@@ -1,110 +1,137 @@
       program convolvef
-      
-!       Reads in a short time series that is convolved with the
-!         second (longer) time series.  Easiily expanded to read
-!         in multiple long time series.  Output has same length
-!         and time parameters as longer series.  (Assumes longer
-!         goes to zero at start and finish.)
-!       gfortran -o convolvef convolvef.f -I/usr/local/sac/include
-!           -L/usr/local/sac/lib -lsacio -lsac
 
-      implicit none
+!     Reads in a (short) pulse that is convolved with (longer)
+!         waveform.  Lengths are n_p and n_w.  Output (conv)
+!         has length n_w + n_p + 1.  delta must be same for both.
+!
+!     Easiily expanded to read in multiple waveforms.
+!
+!     If disc_conv is "y", the output is not premultilied by delta
+!         and the begin time for the pulse is treated as zero.  The
+!         result for "y" is the sae as one gets from SAC convolve.
+!
+!        gfortran -o convolvef convolvef.f `sac-config --cflags --libs sacio`
 
       include "sacf.h"
+      implicit none
 
       integer i,j
-!     Define the Maximum size of the data Array
+!     Define the Maximum length of waveform
       integer MAX
-      parameter (MAX=4000)
+      parameter (MAX=10000)
 
-      real yarray, yarrays, ytmp, yconv
-      dimension yarray(MAX), yarrays(MAX), ytmp(MAX), yconv(MAX)
+      real waveform, pulse, ytmp, conv
+      dimension waveform(MAX),pulse(MAX),ytmp(MAX),conv(MAX)
       character*16 kevnm
 
 !     Declare Variables used in the rsac1() calls
-      real beg, delta, begs
-      integer nlen, nlens
-      character*80 KNAME
+      real b_w, delta, b_p, factor, b_p_in
+      integer n_w, n_p, nmarg, iargc
+      character*80 wf_name, p_name, c_name, kname
+      character*1 disc_conv
       integer nerr
 
-!   Read in short time series
-      kname = 'brune_pulse.sac'
-      call rsac1(kname, yarrays, nlens, begs, delta, MAX, nerr)
+      nmarg = iargc()
+      if (nmarg .eq. 0) then
+        write(*,*) 'Usage: convolvef p_name wf_name c_name disc_conv'
+        write(*,*) '  where the first three arguments are filenames'
+        write(*,*) '  for pulse, waveform, and convolution output.'
+        write(*,*) 'If disc_conv is y, it uses a discrete convolution'
+        write(*,*) '  and the pulse begin time is set to zero.  This'
+        write(*,*) '  reproduces the result one gets for SAC convolve.'
+        write(*,*) 'If disc_conv is n, pulse begin time is unchanged'
+        write(*,*) '  and the output is multiolied by delta, which is'
+        write(*,*) '  what one has in a time-series covolution.'
+        stop
+      end if
+      call getarg(1,p_name)
+      call getarg(2,wf_name)
+      call getarg(3,c_name)
+      call getarg(4,disc_conv)
+
+!   Read in pulse time series
+      call rsac1(p_name, pulse, n_p, b_p, delta, MAX, nerr)
 
       if(nerr .NE. 0) then
-         write(*,*)'Error reading in file: ',kname
+         write(*,*)'Error reading in file: ',p_name
          call exit(-1)
-       endif
+      endif
 
-!    Read in long series against which short series is convolved
+!     Test if want to do a discrete convolution
 
-      kname = 'synthetic.sac'
+      factor = delta
+      b_p_in = b_p
+      if (disc_conv .eq. 'y') then
+         factor = 1.0
+         b_p_in = 0.0
+      endif
 
-      call rsac1(kname, yarray, nlen, beg, delta, MAX, nerr)
+!     If wanted to do more than one waveform, do loop starts here
+
+!     Read in waveform time series
+
+      call rsac1(wf_name, waveform, n_w, b_w, delta, MAX, nerr)
 
       if(nerr .NE. 0) then
-      	  write(*,*)'Error reading in file: ',kname
-	  call exit(-1)
-       endif
+         write(*,*)'Error reading in file: ',wf_name
+         call exit(-1)
+      endif
 
 !     Do the convolution
 
-        call td_conv(yarray,nlen,yarrays,nlens,yconv,delta,begs)
+      call td_conv(waveform,n_w,pulse,n_p,conv,delta,factor,b_p_in)
 
+      call setnhv('npts',n_w+n_p-1,nerr)
       kevnm = 'Convolution'
       call setkhv ('kevnm', kevnm, nerr)
+
 !     Write the SAC file
-      kname='convolvef_out.sac'
-      call wsac0(kname, ytmp, yconv, nerr)
+      call wsac0(c_name, ytmp, conv, nerr)
       if(nerr .NE. 0) then
-      	  write(*,*)'Error writing out file: ',kname,nerr
-	  call exit(-1)
+         write(*,*)'Error writing out file: ',c_name,nerr
+         call exit(-1)
       endif
+
+!     If doing more than one waveform, do loop stops here
 
       call exit(0)
 
       end program convolvef
-      
-c+
-      subroutine td_conv(trace,n,traces,ns,conv,delta,begs)
-C
-C       trace of length n is the time series against which traces
-C         of length ns is convolved.  Output is conv of length n.
-C         trace and traces are unchanged.
-C       In principle, could be n + ns output points, but assume
-C         trace goes to zero at points 1 amd n so output is n.
-C         The convoluton is done as an inner product in the time
-C         domain.  Normalizing so traces has unit amplitude.
-C       Stops if n < ns.
-C
-C       Arthur Snoke 2015
-C-
-        real*4 trace(*), traces(*), conv(*)
-C
-        if (ns .ge. n) then
-                write(*,*) 'Numbers for long and short:',n, ns
-                stop
-        end if
-        sum2 = 0.0
-        kshift = nint(begs/delta)
-        if (kshift .lt. 0) then
-          do k=1,-kshift
-            conv(k) = 0.0
-          enddo
-          kstart = -kshift+1
-        else
-          kstart = 1
-        endif
-        do k = 1,ns
-          sum2 = sum2 + traces(k)**2
-        end do
-        do k=kstart,n
-          temp = 0.0
-          do kk=kstart,n
-            if (k.ge.(kk-kstart+1) .and. ns.ge.(k-kk+kstart))
-     1          temp = temp + trace(kk)*traces(k-kk+kstart)
-          end do
-          conv(k) = delta*temp/sqrt(sum2)
-        end do
-        return
-        end
+
+
+      subroutine td_conv(waveform,n_w,pulse,n_p,conv,delta,factor,b_p)
+!
+!     waveform of length n_w is the time series against which pulse
+!         of length n_p is convolved.  Output: conv of length n_w+n_w+1.
+!         waveform and pulse are unchanged.
+!     If a time-series convolution, b_p is the input value and factor
+!         is delta, if a discrete cnovolution, b+p is zero and factor=1.
+!     The convoluton is done as an inner product in the time
+!         domain.
+!     Stops if n_w < n_p.
+!
+!     Arthur Snoke 2015
+
+      implicit none
+      real*4 waveform(*), pulse(*), conv(*)
+      real*4 delta,b_p,temp,factor
+      integer n_p, n_w, j_1, i, j
+
+      if (n_p .ge. n_w) then
+         write(*,*) 'Need more points in waveform than pulse'
+         write(*,*) 'n_w and n_p:',n_w, n_p
+         stop
+      end if
+
+      j_1 = -nint(b_p/delta)+1
+      do i=1,n_w+n_p-1
+         temp = 0.0
+         do j=1,n_w
+            if (i.ge.(j-j_1) .and. n_p.ge.(i-j+j_1)) then
+               temp = temp + waveform(j)*pulse(i-j+j_1)
+            endif
+         end do
+         conv(i) = factor*temp
+      end do
+      return
+      end
