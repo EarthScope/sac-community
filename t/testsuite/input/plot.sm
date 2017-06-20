@@ -87,4 +87,10 @@ p1 ; pause period 0.25
 xlim 10 12
 p1 ; pause period 0.25
 
+fg seismo
+xlim 11.088 11.121
+symbol 3
+qdp off
+p1 ; pause period 0.25
+
 

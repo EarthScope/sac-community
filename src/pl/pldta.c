@@ -27,6 +27,11 @@ data_to_view_y(float y) {
     return cmgem.ympip2 + cmgem.ympip1 * y;
 }
 
+float
+interp1p(float *x, float *y, int i, float x0) {
+    return y[i] + (x0 - x[i]) * (y[i+1]-y[i])/(x[i+1]-x[i]);
+}
+
 void
 pldta(float xarray[], float yarray[], int number, int incx, int incy, int *nerr) {
     char kinc[9];
@@ -378,6 +383,15 @@ pldta(float xarray[], float yarray[], int number, int incx, int incy, int *nerr)
                     jyy = jyy + incy;
                 }
             }
+            /* Interpolate First and Last Points to be at plot edge */
+            if(jcopy == 1 && Xblock[1] < cmgem.data.xmin) {
+                Yblock[1] = interp1p(Xblock, Yblock, 1, cmgem.data.xmin);
+                Xblock[1] = cmgem.data.xmin;
+            }
+            if(jcopy == ncopy && Xblock[nblock] > cmgem.data.xmax) {
+                Yblock[nblock] = interp1p(Xblock, Yblock, nblock-1, cmgem.data.xmax);
+                Xblock[nblock] = cmgem.data.xmax;
+            }
         }                       /* end else associated with if( lqdp ) */
 
         /* --- Take logs of data if logarithmic interpolation is requested. */
@@ -421,7 +435,6 @@ pldta(float xarray[], float yarray[], int number, int incx, int incy, int *nerr)
         }
 
         /* --- Plot the data points (with or without clipping). */
-
         setvspaceclip(lclip);
         if (lclip || cmgem.lnull)
             plclip(xblock, yblock, nblock, lnewdp);
