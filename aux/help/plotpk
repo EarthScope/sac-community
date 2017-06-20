@@ -38,9 +38,13 @@ INPUT
     
    :BELL OFF:  keystrokes are silent.
     
-   :ABSOLUTE:  Display times in absolute (GMT) format.
+   :ABSOLUTE:  Plot times in absolute (GMT) format.
     
-   :RELATIVE:  Display times relative to each files's zero time.
+   :RELATIVE:  Plot times relative to each files's zero time.
+    
+   :GMT:  Display pick times in absolute (GMT) format.
+    
+   :ZERO:  Display pick times relative to each files's zero time.
     
    :REFERENCE {ON}:  Turn reference line display on.
     
@@ -60,10 +64,6 @@ INPUT
     
    :SAVELOCS OFF:  Do not save pick locations in the blackboard.
     
-ALTERNATE FORMS
----------------
-GMT may be used instead of ABSOLUTE and ZERO may be used instead of RELATIVE.
-
 DEFAULT VALUES
 --------------
 
