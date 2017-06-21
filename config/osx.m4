@@ -34,6 +34,7 @@ AC_DEFUN([OSXAPP_ON], [ AC_DEFINE([OSX_APP], [1], [Create OSX Application])
                            *darwin17* ) ;; # 10.13
                            * ) AC_MSG_ERROR("Building OSX App requires OSX version 10.6 or higher")
                       esac
+                      DISPATCH_C_BLOCKS
                       CHECK_FRAMEWORK([Foundation])
                       CHECK_FRAMEWORK([Cocoa])
                       AC_SUBST([SACAPP_OSX])
@@ -50,3 +51,25 @@ AC_DEFUN([CHECK_OSX_APP],
           AC_ARG_ENABLE(osx-app, AS_HELP_STRING([--enable-osx-app], [enable build of OSX Application]),
                       [ AS_IF( [ test x$enableval != xno ], [ OSXAPP_ON ] ) ] )
          ]) 
+
+
+AC_DEFUN([DISPATCH_C_BLOCKS], [
+#
+# Detect compiler support for Blocks; perhaps someday -fblocks won't be
+# required, in which case we'll need to change this.
+#
+AC_CACHE_CHECK([for C Blocks support], [dispatch_cv_cblocks], [
+  AC_LANG_PUSH([Objective C])
+  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([],[(void)^{int i; i = 0; }();])], [
+  ], [
+    AC_MSG_ERROR([
+    ********************************************************
+       C Blocks not supported with current compiler: $OBJC
+       Try the llvm or clang compiler
+       ./configure --enable-osx-app CC=clang OBJC=clang CXX=clang
+    ********************************************************
+    ])
+  ])
+  AC_LANG_POP([Objective C])
+])
+])

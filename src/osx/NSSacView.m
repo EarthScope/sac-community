@@ -2,6 +2,21 @@
 #import "NSSacView.h"
 #import "osx_color.h"
 
+#ifndef MAC_OS_X_VERSION_10_12
+#define MAC_OS_X_VERSION_10_12 101200
+#endif
+
+/* macOS 10.12 deprecates a bunch of constants. */
+#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_12
+
+  #define NSCompositingOperationSourceOver NSCompositeSourceOver
+
+  /* And adds NSWindowStyleMask. */
+  #ifdef __OBJC__
+    typedef NSUInteger NSWindowStyleMask;
+  #endif
+#endif
+
 extern OSXColor pixdef6[100000];
 
 void frange(float *z, int n, float *zmin, float *zmax);
@@ -309,7 +324,7 @@ void NSSacView_width(void *id, int width) {
 
 - (void) checkThread {
     if(! [NSThread isMainThread]) {
-        NSLog(@"NOT MAIN THREAD");
+        NSLog(@"NOT MAIN THREAD: Terminating");
         [NSApp terminate:self];
     }
 }
@@ -550,7 +565,7 @@ void NSSacView_width(void *id, int width) {
 @implementation NSSacWindowController 
 
 - (id) initWithNumber: (int) number {
-    NSLog(@"INIT WITH NUMBER");
+    //NSLog(@"INIT WITH NUMBER");
 
     if((self = [super initWithWindowNibName:@"SacPlotWindow"])){
         NSWindow *w = [self window];
