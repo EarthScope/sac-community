@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -53,9 +53,11 @@
       <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_USE_MATH_DEFINES;WIN32;YY_NO_UNISTD_H;LOG_LABEL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>lib\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>win\lib\lib\libxml2_a.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -67,12 +69,16 @@
       <SDLCheck>true</SDLCheck>
       <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_USE_MATH_DEFINES;WIN32;YY_NO_UNISTD_H;LOG_LABEL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>lib\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>lib\lib\libxml2_a.lib;lib\lib\iconv_a.lib;lib\lib\zlib.lib;Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -217,6 +223,13 @@
     <ClInclude Include="..\evalresp\evr_spline.h" />
     <ClInclude Include="..\evalresp\regexp.h" />
     <ClInclude Include="..\evalresp\regmagic.h" />
+    <ClInclude Include="..\evalresp\x2r.h" />
+    <ClInclude Include="..\evalresp\x2r_log.h" />
+    <ClInclude Include="..\evalresp\x2r_log.c" />
+    <ClInclude Include="..\evalresp\x2r_ws.c" />
+    <ClInclude Include="..\evalresp\x2r_ws.h" />
+    <ClInclude Include="..\evalresp\x2r_xml.c" />
+    <ClInclude Include="..\evalresp\x2r_xml.h" />
     <ClInclude Include="..\eval\eval.h" />
     <ClInclude Include="..\eval\expr_parse.h" />
     <ClInclude Include="..\icm\dbFuncs.h" />
@@ -604,6 +617,9 @@
     <ClCompile Include="..\src\evalresp\regsub.c" />
     <ClCompile Include="..\src\evalresp\resp_fctns.c" />
     <ClCompile Include="..\src\evalresp\string_fctns.c" />
+    <ClCompile Include="..\src\evalresp\x2r_log.c" />
+    <ClCompile Include="..\src\evalresp\x2r_ws.c" />
+    <ClCompile Include="..\src\evalresp\x2r_xml.c" />
     <ClCompile Include="..\src\eval\expr_lexer.c" />
     <ClCompile Include="..\src\eval\expr_parse.c" />
     <ClCompile Include="..\src\eval\expr_parse_noop.c" />
@@ -940,6 +956,7 @@
     <ClCompile Include="..\src\icm\oldbb.c" />
     <ClCompile Include="..\src\icm\oldkir.c" />
     <ClCompile Include="..\src\icm\polezero.c" />
+    <ClCompile Include="..\src\icm\libpz.c" />
     <ClCompile Include="..\src\icm\portable.c" />
     <ClCompile Include="..\src\icm\predfl.c" />
     <ClCompile Include="..\src\icm\prewit.c" />

@@ -234,6 +234,7 @@ sac_draw_line(HDC hdc,
               int width) {
     Graphics graphics(hdc);
     Pen      pen(Color(255,red,green,blue), width);
+    graphics.SetSmoothingMode(SmoothingModeHighQuality);
     graphics.DrawLine(&pen, x1,y1, x2,y2);
 }
 
@@ -241,6 +242,7 @@ void
 sac_draw_image(HDC hdc, int x, int y, int w, int h, char *data) {
     Graphics graphics(hdc);
     Bitmap   bitmap(w,h, w*4, PixelFormat32bppARGB, (BYTE *) data);
+    graphics.SetSmoothingMode(SmoothingModeHighQuality);
     graphics.DrawImage(&bitmap, x, y);
 }
 

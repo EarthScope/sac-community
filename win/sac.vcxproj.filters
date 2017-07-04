@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -486,6 +486,27 @@
     <ClInclude Include="..\win\WinSacView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\evalresp\x2r.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\evalresp\x2r_log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\evalresp\x2r_log.c">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\evalresp\x2r_ws.c">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\evalresp\x2r_ws.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\evalresp\x2r_xml.c">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\evalresp\x2r_xml.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\amf\array.c">
@@ -663,9 +684,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\co\math.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\co\select.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\co\strscpy.c">
@@ -3852,6 +3870,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\win\WinSacView.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\evalresp\x2r_log.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\evalresp\x2r_ws.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\evalresp\x2r_xml.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\icm\libpz.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

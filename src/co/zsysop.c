@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "config.h"
+
 #include "co.h"
 #include "bbs.h"
 #include "debug.h"
@@ -124,13 +126,14 @@ system_local(const char *command) {
 #define BUFSIZE 256
 char *
 zsysop_gets(char *comstr, int dummylen, int *pnumc, int *perr) {
+    // For windows: https://stackoverflow.com/a/7067156
     FILE *fp;
     UNUSED(dummylen);
     UNUSED(pnumc);
     string *s = string_new("");
     char buf[BUFSIZE];
     char *p = NULL;
-
+#ifndef WIN32
     if((fp = popen(comstr, "r")) == NULL) {
         *perr = ERROR_EXECUTING_SYSTEM_COMMAND;
         goto ERROR;
@@ -143,7 +146,8 @@ zsysop_gets(char *comstr, int dummylen, int *pnumc, int *perr) {
         goto ERROR;
     }
     p = strdup( string_string(s) );
-
+#endif
+    
  ERROR:
     string_free(&s);
     s = NULL;

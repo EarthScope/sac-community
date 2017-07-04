@@ -245,7 +245,7 @@ struct response *evresp_itp(char *stalst, char *chalst, char *net_code,
         double listinterp_tension, int useTotalSensitivityFlag,
         double x_for_b62, int xml_flag) {
     struct channel this_channel;
-    struct scn *scn;
+    struct scn *scn = NULL;
     struct string_array *sta_list, *chan_list;
     struct string_array *locid_list;
     // TODO - new_file assigned 0 blindly to fix compiler warning.  bug?
