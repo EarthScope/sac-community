@@ -25,15 +25,95 @@ GEM_EXTERN
 GDM_EXTERN
 GAM_EXTERN
 
+/* Calculate the time offset for a set of files from n1 to n2 (in sac memory, starting with 1)
+   depending on if they are to be relative (lrelative) to each other
+
+   Offset times are placed in toff where toff[0] is equivalent to n1 and toff[n2-n1] is n2
+
+   Minimum and maximum times are in ptmin and ptmax (Output only)
+
+   If Relative is ON:
+     - toff 
+
+   Return value:
+     - 0 on Success
+     - Non-zero on Error (sets nerr)
+ */
+int
+calc_time_offsets(int lrelative, float *toff, int n1, int n2, float *ptmin, float *ptmax) {
+    int i, j;
+    int lxlims, nerr;
+    float tmin, tmax, tminj, tmaxj;
+    int n1dttm[6];
+
+    int t1_valid;
+
+    sac *s;
+
+    t1_valid = 0;
+
+    /* -- Determine time limits for x axis of this frame.
+     *    (Correct for any differences in GMT reference time.) */
+    if (!(s = sacget(n1 - 1, TRUE, &nerr))) {
+        return nerr;
+    }
+
+    j = 1;
+    getxlm(&lxlims, &tmin, &tmax);
+
+    /* Compute toff[] */
+    if (lrelative) {        /* RELATIVE  */
+        tmax = tmax - tmin;
+        toff[j] = -tmin;
+        tmin = 0.;
+    } else {          /* ABSOLUTE */
+        copyi(&s->h->nzyear, n1dttm, 6);
+        t1_valid = ldttm(n1dttm);
+        toff[j] = 0.;
+    }
+    debug("file 1, tmin,tmax: %f %f => %f %f [toff: %f]\n", tmin, tmax, tmin, tmax,toff[j]);
+    for (i = n1 + 1; i <= n2; i++) {
+        j = j + 1;
+        if (!(s = sacget(i - 1, TRUE, &nerr))) {
+            return nerr;
+        }
+        getxlm(&lxlims, &tminj, &tmaxj);
+        debug("file %d, tmin,tmax: %f %f ", i,tminj,tmaxj);
+        if (lrelative) {
+            tmax = fmax(tmax, tmaxj - tminj);
+            toff[j] = -tminj;
+        } else { /* ABSOLUTE */
+            if (t1_valid && ldttm(&s->h->nzyear)) {
+                ddttm(&s->h->nzyear, n1dttm, &toff[j]);
+                /* If dt > 2 days ==> relative mode */
+                if (fabs(toff[j]) > TWODAYS) {
+                    toff[j] = 0;
+                }
+            } else {
+                toff[j] = 0.;
+            }
+            tmin = fmin(tmin, tminj + toff[j]);
+            tmax = fmax(tmax, tmaxj + toff[j]);
+        }
+        debug(" => %f %f [toff: %f]\n", tmin,tmax, toff[j]);
+    }
+
+    *ptmin = tmin;
+    *ptmax = tmax;
+
+    return 0;
+
+}
+
 void
 xp1(int *nerr) {
     int n;
     char *kptext, kret[9];
-    int l1dttm = 0, lany, lbotaxsave, lbottcsave, lframesave, ltitlsave, ltoptcsave,
-        lwait, lxgrdsave, lxlabsave, lxlims, lylabsave, lprint = FALSE, ltry =
+    int lany, lbotaxsave, lbottcsave, lframesave, ltitlsave, ltoptcsave,
+        lwait, lxgrdsave, lxlabsave, lylabsave, lprint = FALSE, ltry =
         FALSE;
-    int jdfl, jdfl1, jdfl2, jfr, jperfr, n1dttm[6], ncret, nfr, nperfr;
-    float tmax, tmaxj, tmin, tminj, *toff, ypdel, ypmxsave;
+    int jdfl, jdfl1, jdfl2, jfr, jperfr, ncret, nfr, nperfr;
+    float tmax, tmin, *toff, ypdel, ypmxsave;
     sac *s;
     static int lrel = FALSE;
     static int lperpl = FALSE;
@@ -231,61 +311,9 @@ xp1(int *nerr) {
 
         jdfl2 = min(saclen(), jdfl1 + nperfr - 1);
 
-        /* -- Determine time limits for x axis of this frame.
-         *    (Correct for any differences in GMT reference time.) */
-        if (!(s = sacget(jdfl1 - 1, TRUE, nerr))) {
-            goto L_7777;
-        }
-        //getfil( jdfl1, TRUE, &num, &nlcy, &nlcx, nerr );
+        /* Determine time offsets for Relative / Absolute Plotting */
 
-        jperfr = 1;
-        getxlm(&lxlims, &tmin, &tmax);
-/*            if( !lxlims ){	commented out to allow relative mode when xlim is set. maf 970723 */
-        if (lrel) {
-            tmax = tmax - tmin;
-            toff[jperfr] = -tmin;
-            tmin = 0.;
-        } else {
-            copyi(&s->h->nzyear, n1dttm, 6);
-            l1dttm = ldttm(n1dttm);
-            toff[jperfr] = 0.;
-        }
-        for (jdfl = jdfl1 + 1; jdfl <= jdfl2; jdfl++) {
-            jperfr = jperfr + 1;
-            if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
-                goto L_8888;
-            }
-            //getfil( jdfl, TRUE, &num, &nlcy, &nlcx, nerr );
-            if (*nerr != 0)
-                goto L_7777;
-            getxlm(&lxlims, &tminj, &tmaxj);
-            if (lrel) {
-                tmax = fmax(tmax, tmaxj - tminj);
-                toff[jperfr] = -tminj;
-            } else {
-                if (l1dttm && ldttm(&s->h->nzyear)) {
-                    ddttm(&s->h->nzyear, n1dttm, &toff[jperfr]);
-                    /* if it starts 2 days after the first file,
-                       plot relative. maf 970908 */
-                    if (fabs(toff[jperfr]) > TWODAYS)
-                        toff[jperfr] = 0;
-                } else {
-                    toff[jperfr] = 0.;
-                }
-                tmin = fmin(tmin, tminj + toff[jperfr]);
-                tmax = fmax(tmax, tmaxj + toff[jperfr]);
-            }                   /* end else associated with if ( lrel ) */
-        }                       /* end for( jdfl = jdfl1 + 1; jdfl <= jdfl2; jdfl++ ) */
-/*	    }  end if ( !lxlims ) commented out to allow relative mode when xlim is set. maf 970723 */
-
-        /* - Check range of time limits to avoid errors that could occur
-         *   later during plotting. *
-
-         if( fabs( tmax - tmin ) > (float)( MLARGE ) ){
-         *nerr = 1504;
-         setmsg( "ERROR", *nerr );
-         goto L_7777;
-         } */
+        calc_time_offsets(lrel, toff, jdfl1, jdfl2, &tmin, &tmax);
 
         /* - Set x axis plot limits. */
 

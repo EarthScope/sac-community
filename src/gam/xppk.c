@@ -44,19 +44,20 @@ xppk(int *nerr) {
 
     char _c0[2], kmsg[MCMSG + 1], kptext[MCMSG + 1], kundrt[9],
         kxloc[17], kyloc[17];
-    int lany, lempty, *lhlwrt, lppkab, lrdttm, ltitls, lwfok, lxlims, *lzdttm;
+    int lany, lempty, *lhlwrt, lppkab, ltitls, lwfok, *lzdttm;
     int xlabelsave, ylabelsave;
     char kchar;
     int iwf[5], jdx, jdfl, jdfl1, jdfl2, jdfls, jfr, jhdr1, jhdr2, jhour, jjday,
         jmark, jmark1, jmark2, jmin, jmsec, jofset, jsec, jwin, jyear, ncerr,
-        ndxpk, nexday, nfr, nlncda, nperfr, npmark, npmsec, npsec, nrdttm[6],
+        ndxpk, nexday, nfr, nlncda, nperfr, npmark, npmsec, npsec,
         nsavelast = 0, nst, unused;
     float amplmn, amplmx, facc, fsecsi, prl, psecsi, seccur, secinc = 0.0, ssecsi,
-        time, tmax, tmaxj, tmin, tminew = 0.0, tminj, *toff, tref1, twin[MWIN][2],
+        time, tmax, tmin, tminew = 0.0,  *toff, tref1, twin[MWIN][2],
         xloc, xloc1, xloc2, xlocs1, xlocs2, xtpos, *yimnzs, *yimxzs, yloc,
         ypdel, ypdelv, ypmns, ypmnv, ypmxs, ypmxus, ypmxv, ytpos;
     double tmp;
     sac *s;
+    int j;
     static char kndate[25] = "                        ";
     static char kntime[17] = "                ";
     static int lint = FALSE;
@@ -267,52 +268,6 @@ xppk(int *nerr) {
     }
     ypdel = (cmgem.plot.ymax - cmgem.plot.ymin) / (float) (nperfr);
 
-    /* - Calculate offsets used to align files in time if in absolute mode.
-     *   Calculate maximum duration of files if in relative mode. */
-
-    lrdttm = FALSE;
-    tmin = VLARGE;
-    tmax = -VLARGE;
-    for (jdfl = 1; jdfl <= saclen(); jdfl++) {
-        if (!(s = sacget(jdfl - 1, FALSE, nerr))) {
-            goto L_7777;
-        }
-        //getfil( jdfl, FALSE, &num, &ndxy, &ndxx, nerr );
-
-        lzdttm[jdfl] = ldttm(&s->h->nzyear);
-        if (lzdttm[jdfl]) {
-            if (lrdttm) {
-                ddttm(&s->h->nzyear, nrdttm, &toff[jdfl]);
-                /* if difference is greater than two days, 
-                   plot relative.  maf 970908 */
-                /* or if user specified RELATIVE. maf 970924 */
-                if (!lppkab || fabs(toff[jdfl]) > TWODAYS)
-                    toff[jdfl] = 0.;
-            } else {
-                copyi(&s->h->nzyear, nrdttm, 6);
-                toff[jdfl] = 0.;
-                lrdttm = TRUE;
-            }
-        } else {
-            toff[jdfl] = 0.;
-        }
-        getxlm(&lxlims, &tminj, &tmaxj);
-        tmin = fmin(tmin, tminj + toff[jdfl]);
-        tmax = fmax(tmax, tmaxj + toff[jdfl]);
-        lhlwrt[jdfl] = FALSE;
-    }
-    jwin = 1;
-    twin[jwin - 1][0] = tmin;
-    twin[jwin - 1][1] = tmax;
-
-    /* - Check range of time limits to avoid errors that could occur
-     *   later during plotting. */
-
-    if (fabs(tmax - tmin) > (float) (MLARGE)) {
-        *nerr = 1504;
-        setmsg("ERROR", *nerr);
-        goto L_8888;
-    }
 
     /* - Initialize number of saved locations to blackboard. */
 
@@ -333,8 +288,32 @@ xppk(int *nerr) {
     jdfl1 = 1 + (jfr - 1) * nperfr;
     jdfl2 = min(saclen(), jdfl1 + nperfr - 1);
 
+    /* - Calculate offsets used to align files in time if in absolute mode.
+     *   Calculate maximum duration of files if in relative mode. */
+
+    /* -- Determine time limits for x axis of this frame.
+     *    (Correct for any differences in GMT reference time.) */
+
+    calc_time_offsets(!lppkab, toff, jdfl1, jdfl2, &tmin, &tmax);
+
+    jwin = 1;
+    twin[jwin - 1][0] = tmin;
+    twin[jwin - 1][1] = tmax;
+
+    /* - Check range of time limits to avoid errors that could occur
+     *   later during plotting. */
+
+    if (fabs(tmax - tmin) > (float) (MLARGE)) {
+        *nerr = 1504;
+        setmsg("ERROR", *nerr);
+        goto L_8888;
+    }
+
+
     /* -- Begin new frame and set up some parameters. */
   L_2000:
+    debug("time: %f %f\n", tmin, tmax);
+
     cmgem.lframe = FALSE;
     beginframe(FALSE, nerr);
 
@@ -366,8 +345,10 @@ xppk(int *nerr) {
     cmgam.tspk = cmgem.tsdef;
     cmgem.tsaxis = cmgem.tsdef;
 
+    j = 0;
     /* -- Loop on each file in this frame. */
     for (jdfl = jdfl1; jdfl <= jdfl2; jdfl++) {
+        j += 1;
         if (jdfl == jdfl2)
             cmgem.axis[BOTTOM].ticks = TRUE;
         cmgem.plot.ymin = cmgem.plot.ymax - ypdel;
@@ -380,7 +361,7 @@ xppk(int *nerr) {
         getylm(&cmgem.lylim, &cmgem.yimn, &cmgem.yimx);
         if (s->h->leven) {
             cmgem.xgen.on = TRUE;
-            cmgem.xgen.first = s->h->b + toff[jdfl];
+            cmgem.xgen.first = s->h->b + toff[j];
             cmgem.xgen.delta = s->h->delta;
         } else {
             cmgem.xgen.on = FALSE;
@@ -389,8 +370,8 @@ xppk(int *nerr) {
         if (*nerr != 0)
             goto L_7777;
         dispid(cmgam.lfinorq, jdfl, 0, NULL);
-
-        disppk(toff[jdfl]);
+        debug("%d toff: %f\n", j, toff[j]);
+        disppk(toff[j]);
         yimnzs[jdfl] = cmgem.zdata.ymin;
         yimxzs[jdfl] = cmgem.zdata.ymax;
         cmeam.lpphas = (cmeam.lhpfop && s->h->a != SAC_FLOAT_UNDEFINED) &&
@@ -568,15 +549,17 @@ xppk(int *nerr) {
         jmark1 = jdfl - jdfl1 + 1;
         jmark2 = jmark1;
     }
-
+    j = jofset + 1;
+    
     /* - Determine time at cursor location.
+     *   Time is relative to start of file
      *   (Correct for any differences between the zero times.) */
     if (cmgem.ixint == AXIS_LINEAR) {
-        secinc = (xloc - cmgem.xmpip2) / cmgem.xmpip1 - toff[jdfl];
+        secinc = (xloc - cmgem.xmpip2) / cmgem.xmpip1 - toff[j];
     } else {
         secinc = pow(10., (xloc - cmgem.xmpip2) / cmgem.xmpip1);
     }
-
+    debug("secinc: %f [%f,%f] %d %f\n", secinc, xloc,yloc,jofset, (xloc - cmgem.xmpip2) / cmgem.xmpip1);
     /* - If a different file from last time, exchange headers. */
     if (jdfl != jdfls) {
         jdfls = jdfl;
@@ -636,8 +619,8 @@ xppk(int *nerr) {
         twin[jwin - 1][0] = tmin;
         twin[jwin - 1][1] = tmax;
         /* Find the Smallest and Largest of the Two Time Points */
-        tmin = fmin(tminew, secinc);
-        tmax = fmax(tminew, secinc);
+        tmin = fmin(tminew, secinc) + toff[j];
+        tmax = fmax(tminew, secinc) + toff[j];
         if (kchar == 'S') {
             cmgam.lrtwxl = TRUE;
             strcpy(kmgam.krtwxl[0], "Z       ");
@@ -802,7 +785,7 @@ xppk(int *nerr) {
         if (nlncda > 0) {
             time = s->h->a + s->h->delta * (float) (nlncda);
             xloc =
-                cmgem.plot.xmin + (time + toff[jdfl] -
+                cmgem.plot.xmin + (time + toff[j] -
                                    tmin) * (cmgem.plot.xmax -
                                             cmgem.plot.xmin) / (tmax - tmin);
             markhdr(jdfl, jhdr1, jhdr2, "F", time, SAC_CHAR_UNDEFINED);
@@ -917,9 +900,9 @@ xppk(int *nerr) {
             Awf[5] = cmeam.pkampl;
             secinc = s->h->b + s->h->delta * (float) (Iwf[1] - 1) + tref1;
             facc = (cmgem.plot.xmax - cmgem.plot.xmin) / (tmax - tmin);
-            xlocs1 = (secinc + toff[jdfl] - tmin) * facc + cmgem.plot.xmin;
+            xlocs1 = (secinc + toff[j] - tmin) * facc + cmgem.plot.xmin;
             seccur = secinc + Dtwf[5];
-            xlocs2 = (seccur + toff[jdfl] - tmin) * facc + cmgem.plot.xmin;
+            xlocs2 = (seccur + toff[j] - tmin) * facc + cmgem.plot.xmin;
             jmark = jdfl - jdfl1 + 1;
 
             _c0[0] = kchar;
