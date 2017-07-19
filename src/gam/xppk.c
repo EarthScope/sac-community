@@ -986,21 +986,6 @@ xppk(int *nerr) {
         settextjust(LEFT, BOTTOM);
     }
 
-    /* -- Cancel last operation. */
-    else if (kchar == '@') {
-        lempty = TRUE;
-        cmeam.lpphas = FALSE;
-        cmeam.lsphas = FALSE;
-        cmeam.lfini = FALSE;
-        cmeam.lampx = FALSE;
-        s->h->a = SAC_FLOAT_UNDEFINED;
-        strcpy(s->h->ka, SAC_CHAR_UNDEFINED);
-        s->h->t0 = SAC_FLOAT_UNDEFINED;
-        strcpy(s->h->kt0, SAC_CHAR_UNDEFINED);
-        s->h->f = SAC_FLOAT_UNDEFINED;
-        strcpy(s->h->kf, SAC_CHAR_UNDEFINED);
-        strcpy(kmeam.kpkid, "DEL     ");
-    }
     else if (kchar == 0) {
 
     }
