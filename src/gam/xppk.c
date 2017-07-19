@@ -312,7 +312,7 @@ xppk(int *nerr) {
 
     /* -- Begin new frame and set up some parameters. */
   L_2000:
-    debug("time: %f %f\n", tmin, tmax);
+    DEBUG("time: %f %f\n", tmin, tmax);
 
     cmgem.lframe = FALSE;
     beginframe(FALSE, nerr);
@@ -370,7 +370,7 @@ xppk(int *nerr) {
         if (*nerr != 0)
             goto L_7777;
         dispid(cmgam.lfinorq, jdfl, 0, NULL);
-        debug("%d toff: %f\n", j, toff[j]);
+        DEBUG("%d toff: %f\n", j, toff[j]);
         disppk(toff[j]);
         yimnzs[jdfl] = cmgem.zdata.ymin;
         yimxzs[jdfl] = cmgem.zdata.ymax;
@@ -559,7 +559,7 @@ xppk(int *nerr) {
     } else {
         secinc = pow(10., (xloc - cmgem.xmpip2) / cmgem.xmpip1);
     }
-    debug("secinc: %f [%f,%f] %d %f\n", secinc, xloc,yloc,jofset, (xloc - cmgem.xmpip2) / cmgem.xmpip1);
+    DEBUG("secinc: %f [%f,%f] %d %f\n", secinc, xloc,yloc,jofset, (xloc - cmgem.xmpip2) / cmgem.xmpip1);
     /* - If a different file from last time, exchange headers. */
     if (jdfl != jdfls) {
         jdfls = jdfl;

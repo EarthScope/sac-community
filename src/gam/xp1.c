@@ -71,14 +71,14 @@ calc_time_offsets(int lrelative, float *toff, int n1, int n2, float *ptmin, floa
         t1_valid = ldttm(n1dttm);
         toff[j] = 0.;
     }
-    debug("file 1, tmin,tmax: %f %f => %f %f [toff: %f]\n", tmin, tmax, tmin, tmax,toff[j]);
+    DEBUG("file 1, tmin,tmax: %f %f => %f %f [toff: %f]\n", tmin, tmax, tmin, tmax,toff[j]);
     for (i = n1 + 1; i <= n2; i++) {
         j = j + 1;
         if (!(s = sacget(i - 1, TRUE, &nerr))) {
             return nerr;
         }
         getxlm(&lxlims, &tminj, &tmaxj);
-        debug("file %d, tmin,tmax: %f %f ", i,tminj,tmaxj);
+        DEBUG("file %d, tmin,tmax: %f %f ", i,tminj,tmaxj);
         if (lrelative) {
             tmax = fmax(tmax, tmaxj - tminj);
             toff[j] = -tminj;
@@ -95,7 +95,7 @@ calc_time_offsets(int lrelative, float *toff, int n1, int n2, float *ptmin, floa
             tmin = fmin(tmin, tminj + toff[j]);
             tmax = fmax(tmax, tmaxj + toff[j]);
         }
-        debug(" => %f %f [toff: %f]\n", tmin,tmax, toff[j]);
+        DEBUG(" => %f %f [toff: %f]\n", tmin,tmax, toff[j]);
     }
 
     *ptmin = tmin;
