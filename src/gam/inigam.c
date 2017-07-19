@@ -41,7 +41,7 @@ inigam() {
     cmgam.lppkrl = FALSE;
     cmgam.vppkrl = 0.1;
     cmgam.lmkall = FALSE;
-    cmgam.lsavelocs = FALSE;
+    cmgam.lsavelocs = TRUE;
     cmgam.nppkpp = 1;           /* default number of plots set to 1 DD 3-12-97 */
 
     cmgam.lp2abs = TRUE;
