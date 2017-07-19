@@ -8,40 +8,37 @@ PLOTPK_ Cursor Options
 ======== =====================================================================
 char     meaning
 ======== =====================================================================
-A        Define first arrival in header {1,7}.
-B        Display previous plot if any.
-C        Evaluate first arrival and end of event {1,4,7}.
-D        Set phase direction to DOWN.
-E        Set phase onset to EMERGENT.
-F        Define end of event {1,2,3,7}.
-G        Display picks to terminal in HYPO format {4}.
-H        Write picks to HYPO pick file {3,4}.
-I        Set phase onset to IMPULSIVE.
-J        Set noise level {2,6,8}.
-L        List cursor location {2,4}.
-M        Compute maximum amplitude waveform {2,3,5}.
-N        Display next plot if any.
-O        Display previous plot window. A maximum of five windows are saved.
-P        Define P wave arrival time {1,2,3,7}.
-Q        Terminate PLOTPK_ immediately.
-S        Define S wave arrival time {1,2,3,7}.
-T        Define user time Tn in header {1,2,7}.
-	 Next response an integer between 0 and 9.
-U        Set phase direction to UP.
-V        Define a Wood-Anderson waveform {2,5}.
-W        Define a general waveform {2,5}.
-X        Display current plot with new x plot window. Plot begins at current
-	 cursor position. This response must be followed by moving the
-	 cursor and hitting any key.  The new plot will end at this second 
-	 cursor position. If the second key is an S then these new x limits 
-	 are saved and used in subsequent plots.
-Z        Set zero (reference) level {2,6,8}.
-\        DELETE ALL CURRENT PICK FIELD DEFINITIONS.
-	 Useful when a file contains more than one event.
-'+'      Set phase direction to PLUS.
-'-'      Set phase direction to MINUS.
-(space)  Set the phase direction to NEUTRAL.
-n        Set phase quality to n, n=0, 1, 2, 3, or 4.
+a        Designate first arrival in header {1,7}.
+b        Display previous plot (if there is one).
+c        Evaluate first arrival and end of event {1,4,7}.
+d        Set phase direction to DOWN (precedes P or S phase pick).
+e        Set phase onset to EMERGENT (precedes P or S phase pick)
+f        Define end of event {1,2,3,7}..
+g        Display picks to terminal in HYPO format {4}.
+i        Set phase onset to IMPULSIVE (precedes P or S phase pick).
+j        Set noise level {2,6,8}.
+l        Saves and lists cursor location {2,4}.
+m        Compute maximum amplitude waveform {2,3,5}.
+n        Display next plot (if there is one).
+o        Zoom Out / Display previous plot window.
+           A maximum of five windows are saved.
+p        Designate P wave arrival time {1,2,3,7}.
+q        Terminate PLOTPK_ immediately.
+s        Designate S wave arrival time {1,2,3,7}.
+t        Designate user time Tn in header {1,2,7}.
+           Next response an integer between 0 and 9
+u        Set phase direction to UP (precedes P or S phase pick).
+x        Set Zoom window
+           Set beginning of zoomed plot
+           x - Second key, set end of zoomed window and display
+           s - Second key, defined zoomed plot limits are saved
+               and used as xlims for subsequent plots
+'+'      Set phase direction to PLUS (precedes P or S phase pick).
+'-'      Set phase direction to MINUS (precedes P or S phase pick).
+' '      Set the phase direction to NEUTRAL (precedes P or S phase pick).
+'n'      Set phase quality to n, n=0,1,2,3, or 4. (precedes P or S phase pick)
+Click    Single pointer / mouse click (Behaves as L)
+Drag     Set Zoom Window
 ======== =====================================================================
 
 Notes
@@ -49,12 +46,10 @@ Notes
 - {1} Written to SAC header.
 - {2} Written to alphanumeric pick file if open.
 - {3} Written to HYPO pick file if open.
-- {4} Written to terminal.
+- {4} Written to terminal window.
 - {5} Place horizontal cursor at zero (reference) level and vertical
       cursor beyond first extrema. Terminal echo is a box encompassing 
       waveform.
-- {6} Place horizontal cursor at desired level.
-- {7} Terminal echo is a labeled vertical line.
-- {8} Terminal echo is a labeled horizontal line.
-
-
+- {6} Place horizontal cursor at designated level.
+- {7} Terminal window echo is a labeled vertical line.
+- {8} Terminal window echo is a labeled horizontal line.

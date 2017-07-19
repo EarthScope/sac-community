@@ -1,5 +1,5 @@
-Using the SAC Library
-+++++++++++++++++++++
+Using the SAC Libraries
++++++++++++++++++++++++
 
 Overview
 --------
@@ -12,7 +12,6 @@ the sample input files, are in ${SACHOME}/doc/examples.
 
 - `Filtering`_
 - `Cut Data`_
-- `Interpolate Data`_
 - `Remove Mean`_
 - `Remove Trend`_
 - `Taper Data`_
@@ -21,16 +20,19 @@ the sample input files, are in ${SACHOME}/doc/examples.
 - `Envelope Function`_
 - `Correlation`_
 - `Convolution`_
+- `Interpolation using cubic splines`_
+- `Time Shift`_
 
 Compiling
 ~~~~~~~~~
-To ease the requirements for compilation and linking, a helper script is provided, 
-${SACHOME}/bin/sac-config, which should output the necessary flags and libraries.  
-Try the following::
+To ease the requirements for compilation and linking, a helper script is 
+provided, ${SACHOME}/bin/sac-config, which should output the necessary flags 
+and libraries for SAC.  If you have the gcc C compiler or the gfortran Fortran 
+compilers, try one of the following::
 
-  gcc -o program source.c `sac-config --cflags --libs sac`
+  gcc -o program main.c subs.c `sac-config --cflags --libs libsac libsacio`
 
-  f77 -o program source.f `sac-config --cflags --libs sac`
+  gfortran -o program main.f subs.f `sac-config --cflags --libs libsac libsacio`
 
 
 Filtering
@@ -55,14 +57,6 @@ Cut Data
 Fortran
 ~~~~~~~
 .. include:: ../../../doc/examples/cut/cut_example.f90
-   :code: fortran
-
-Interpolate Data
-----------------
-
-Fortran
-~~~~~~~
-.. include:: ../../../doc/examples/interpolate/interpolate_example.f90
    :code: fortran
 
 Remove Mean
@@ -138,7 +132,11 @@ C
 Convolution
 -----------
 
-Convolution of two time series
+  The SAC convolve_ command is a "discrete" convolution.  It uses two 
+  digital-convolution features that may be undesirable:  no scaling of the 
+  output by the digitizing interval, and no check on the start time for the 
+  pulse.   This program allows for both discrete convolution (as is done by the 
+  SAC convolve) and a time-series convolution.
 
 Fortran
 ~~~~~~~
@@ -152,22 +150,132 @@ C
 
 Sample Runs for Convolution
 ---------------------------
+ 
+  After compiling the programs, do the following::
 
-  The SAC convolve_ command uses two digital-convolution features that may be undesirable:     
-  no scaling of the output by the digitizing interval, and no check on the start time for 
-  the pulse. To get the default SAC output, the last argument in the programs is y. After 
-  compiling the programs, do the following::
-
-     SAC> fg triangle npts 8 delta 1 begin -4
-     SAC> write triangle_n8_d1.sac
-     SAC> fg impulse npts 12 delta 1 begin 0
-     SAC> write impulse_n12_d1.sac
+     SAC> fg triangle npts 8 delta 0.02 begin -0.08
+     SAC> write triangle_n8_d0.02.sac
+     SAC> fg impulse npts 12 delta 0.02 begin 0
+     SAC> write impulse_n12_d0.02.sac
 
   Then::
   
      convolvef
-         Usage: convolvef wf_name p_name c_name discconv
-         where the first three arguments are filenames for pulse, waveform, and output conv
-         discconv is y if uses a discrete convolution otherwise time-series convolution
-     convolvef triangle_n8_d1.sac impulse_n12_d1.sac conv_f.sac n 
-     or similar entries for convolvec.
+        Usage: convolvef p_name wf_name c_name disc_conv
+          where the first three arguments are filenames
+          for pulse, waveform, and convolution output.
+        If disc_conv is y, it uses a discrete (default SAC) convolution
+          and the pulse begin time is set to zero.  This
+          reproduces the result one gets for SAC convolve.
+        If disc_conv is n, pulse begin time is unchanged
+          and the output is multiolied by delta, which is
+          what one has in a time-series covolution.
+
+     convolvef triangle_n8_d0.02.sac impulse_n12_d0.02.sac conv_f_n.sac n 
+       (or similar entries for convolvec).
+     The above run gives a time-series convolution.
+     The pulse is symmetric around zero time, so comparing "y" and "n"
+       for disc_conv shows an important difference between discrete
+       and time-series convolutions.
+       
+  A PDF document on `time-series convolution`_ discusses a more interesting 
+  case: both time-domain and discrete convolutions of a pulse with a synthetic
+  time series that has a spike at the phase arrival time with Gibbs-phenomenon 
+  ringing.
+       
+Interpolation using cubic splines
+---------------------------------
+
+In the pre-digital-data era, data extremes were relatively easy to see because 
+the pen or light-beam velocity went to zero.  The interpolation scheme used by 
+the SAC interpolate routine uses a method popularized by Wiggins that took 
+advantage of that feature so that cycle extrema could be at digitized points.  
+With digital date, the extrema are generally not at digitized points, and for  
+some studies it is desirable to get a better estimae of the maxima than 
+available from Wiggins' interpolation.  The routine below uses a pure 
+cubic-spline interpolation published by Forsythe, et al., that may be preferable 
+in some studies.
+
+Fortran
+~~~~~~~
+.. include:: ../../../doc/examples/interpolate/interpolate.f
+   :code: fortran
+
+The subroutines called can be found in sac/doc/examples/interpolate. Once you 
+have both time_shift.f and interpoolate_subs.f, the compile command is::
+
+    gfortran -o interpolate interpolate.f interpolate_subs.f `sac-config --cflags --libs libsacio`
+    
+Sample Runs for Cubic-Spline Interpolation
+------------------------------------------
+
+  Time series IP07.dHHZ is in directory doc/examples/interpolation.
+  It has delta = 0.02::
+  
+    ./interpolate
+      Usage: interpolate filename delta_new lext
+        where filename in the input filespec,
+        delta_new is the new digitizing interval,
+        lext is the number of characters in the extension.
+     Output filename is unchanged except extension
+        is preceded by i; e.g., bla.z => bla.iz
+
+    ./interpolate IP07.dHHZ 0.0025 4
+    
+Then::
+
+    SAC> r IP07.dHHZ
+    SAC> interpolate delta 0.0025
+    SAC> write IP07_sac-int0.0025.dHHZ
+    SAC> r IP07.dHHZ IP07.idHHZ IP07_sac-int0.0025.dHHZ
+    SAC> cut 0.93 1.04
+    SAC> r
+    SAC> fileid location ll
+    SAC> line increment list 1 2 3
+    SAC> title "Top to bottom: raw, Forsythe interp., SAC interp."
+    SAC> p2
+    SAC> save raw-forsythe-sac.pdf
+    SAC> lh depmin depmax
+      FILE: IP07.dHHZ  depmin = -1.338549e+02  depmax = 2.504001e+02
+      FILE: IP07.idHHZ depmin = -1.386459e+02  depmax = 2.750106e+02
+      FILE: IP07_sac-int0.0025.dHHZ depmin = -1.338549e+02  depmax = 2.504001e+02
+
+raw-forsythe-sac.pdf_ shows the initial waveform, the result using 
+Forsythe interpolation, and the result using SAC interpolation.
+
+Time Shift
+----------
+
+Time shift a time series:  There is no function in SAC that does this directly,
+but as mentioned in the help file for lowpass_ command, such filters time-shift
+the data, and one may want to correct for that time shift.
+
+Fortran
+~~~~~~~
+.. include:: ../../../doc/examples/time_shift/time_shift.f
+   :code: fortran
+
+The subroutines called can be found in sac/doc/examples/time_shift. Once you 
+have both time_shift.f and time_shift_subs.f, the compile command is::
+
+    gfortran -o time_shift time_shift.f time_shift_subs.f `sac-config --cflags --libs libsacio`
+
+Sample Runs for Time Shift
+---------------------------
+
+The following commands demonstrates how time_shift works::
+
+    SAC> fg seismo
+    SAC> write seismo.sac
+    SAC> rtr
+    SAC> lp co 5.0 np 4
+    SAC> p1
+    SAC> write seismo_lpco5np4.sac
+    SAC> quit
+
+    time_shift seismo_lpco5np4.sac seismo_lpco5np4_ts.sac -0.05
+    
+See seismo-lpts-lp.pdf_  (top: seismo.sac, middle: lp co 5 np 4 then
+time shift -0.05; bottom: seismo  lp co 5 np 4)
+    
+

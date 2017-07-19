@@ -79,7 +79,7 @@ variable files (WRITEBBF), get the current values of blackboard variables
 
   **readbbf** -- Read a Blackboard File ::
 
-   void readbbf(char *name, int *nerr, int kname_s)
+   void readbbf(char *kname, int *nerr, int kname_s)
 
   Arguments 
    :kname:    File to be read    
@@ -92,7 +92,7 @@ variable files (WRITEBBF), get the current values of blackboard variables
     
   **writebbf** Write a Blackboard File::
 
-    void writebbf(char *name, int *nerr, int kname_s)
+    void writebbf(char *kname, int *nerr, int kname_s)
 
   Arguments
    :kname:   File to be written

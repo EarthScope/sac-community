@@ -9,21 +9,22 @@ Generates a multi-trace multi-window plot.
 SYNTAX
 ------
 
-  ``[P]LOT[1] {ABSOLUTE|RELATIVE},{PERPLOT {ON|OFF|n}} {PRINT {pname} }``
+  ``[P]LOT[1] {ABSOLUTE|RELATIVE},{PERPLOT {n|OFF|ON}} {PRINT {pname} }``
 
 INPUT
 -----
-   :ABSOLUTE:  Plot files treating time as an absolute.  Files with
+
+   :ABSOLUTE:  Plots files treating time as an absolute.  Files with
        different begin times will be shifted relative to each other.
     
-   :RELATIVE:  Plot all files relative to their begin time.
+   :RELATIVE:  Plots files relative to that file's begin time.
     
-   :PERPLOT {ON}:  Plot n files per frame.  Use old value for n.
-    
-   :PERPLOT OFF:  Plot all files on one frame.
-    
-   :PERPLOT n:  Plot n files per frame.
-    
+   :PERPLOT n:  Plots n files per frame.
+
+   :PERPLOT ON:  Plots n files per frame.  Use last value for n.
+
+   :PERPLOT OFF:  Plots all files on one frame.
+
    :PRINT {pname}:  Prints the resulting plot to the printer named in
        pname, or to the default printer if pname is not used.  (This
        makes use of the SGF_ capability.)

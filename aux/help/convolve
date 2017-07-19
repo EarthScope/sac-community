@@ -64,8 +64,9 @@ DESCRIPTION
   convolve a waveform time series with a time-symmetric pulse with a maximum at
   zero time (perhaps as a method of non-causal,low-pass filtering to smooth out
   Gibbs phenomenon that often accompanies arrival spikes in a synthetic waveform),
-  the output time series will be time-shifted forward by half the width of the
-  pulse time series.
+  the output time series will be time-shifted forward by half the width of a
+  time-symmetric pulse.  In help file `Using the sac Library`_, the convolve 
+  exampole is a program that honors the pulse start time.
 
 HEADER CHANGES
 --------------

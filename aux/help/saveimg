@@ -32,8 +32,11 @@ DESCRIPTION
   in .sgf files are made up of drawn line segments, while those in the .ps
   or .pdf images produced by SAVEIMG use the Postscript feature of producing
   fonts directly.  Also, for many applications, a lower-resolution .png or
-  ,xpn file is sufficient.  Because of potential problems with portability,
+  .xpm file is sufficient.  Because of potential problems with portability,
   the PNG format is not enabled in the default builds of SAC.
+  
+  The title in a save xxx.pdf is made with a font that is larger than that used
+  in a title for p1 or p1 print because of the differences in the fonts.
   
   The .xpm and .png files will have the aspect ratio of the current window.
   (See WINDOW_ for instructions about choosing the size and aspect ratio of

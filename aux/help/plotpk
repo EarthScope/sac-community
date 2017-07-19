@@ -28,64 +28,66 @@ SYNTAX
 
 INPUT
 -----
-   :PERPLOT {ON}:  Plot n files per frame.  Use old value for n.
     
-   :PERPLOT OFF:  Plot all files on one frame.
-    
-   :PERPLOT n:  Plot n files per frame.
-    
-   :BELL {ON}:  Ring bell on each keystroke in active window.
-    
+   :PERPLOT n:  Plots n files per frame.
+
+   :PERPLOT ON:  Plots n files per frame.  Use last value for n.
+
+   :PERPLOT OFF:  Plots all files on one frame.
+       
    :BELL OFF:  keystrokes are silent.
+ 
+   :BELL ON:  Rings bell on each keystroke in active window.
     
-   :ABSOLUTE:  Plot times in absolute (GMT) format.
+   :ABSOLUTE:  Plot files treating time as an absolute.  Files with
+       different begin times will be shifted relative to each other.
     
-   :RELATIVE:  Plot times relative to each files's zero time.
+   :RELATIVE:  Plot files relative to that file's begin time.
     
    :GMT:  Display pick times in absolute (GMT) format.
     
    :ZERO:  Display pick times relative to each files's zero time.
-    
-   :REFERENCE {ON}:  Turn reference line display on.
-    
-   :REFERENCE OFF:  Turn reference line display off.
-    
+
+   :REFERENCE ON:  Turn reference line display on.
+           
    :REFERENCE v:  Turn reference line display on and change reference
        value to v.
-    
-   :MARKALL {ON}:  Store header picks in all of the files displayed on a
+
+   :REFERENCE OFF:  Turn reference line display off.
+     
+   :MARKALL ON:  Store header picks in all of the files displayed on a
        particular plot.
     
    :MARKALL OFF:  Store header pick only in the file marked by the
        horizontal cursor.
     
-   :SAVELOCS {ON}:  Save pick locations (from L cursor command) in the
-       blackboard.
-    
    :SAVELOCS OFF:  Do not save pick locations in the blackboard.
+  
+   :SAVELOCS ON:  Save pick locations (from l cursor command) to
+       blackboard variables.
     
 DEFAULT VALUES
 --------------
 
-  ``PLOTPK PERPLOT OFF ABSOLUTE REFERENCE OFF MARKALL OFF SAVELOCS ON ``
+  ``PLOTPK PERPLOT OFF ABSOLUTE REFERENCE OFF MARKALL OFF SAVELOCS ON``
 
 DESCRIPTION
 -----------
-   The format of the PLOTPK_ plot is similiar to the PLOT1_ plot.  This plot
+   The format of the PLOTPK plot is similiar to the PLOT1_ plot.  This plot
    requires a terminal with a cursor.  When the cursor comes on and the bell
    rings, you enter single character responses to perform the various functions.
    Some but not all responses produce graphic output on the screen.  Error and
    output messages are printed at the top of the screen.
    Picks that are currently in the header are automatically displayed on
    the screen.  Output from the various cursor responses can be directed to the
-   SAC header, to a alphanumeric pick file if open (see OAPF), to a HYPO pick
-   file if open, and to the terminal.
-   If you use the SAVELOCS option to save the cursor locations from the L
-   cursor option in the blackboard, the following blackboard variables will be
-   defined:
+   SAC header, to a alphanumeric pick file if open (see OAPF_) and to the 
+   terminal display window.
+   
+   If option SAVELOCS is on, cursor locations from the L cursor option are 
+   saved to blackboard variables as follows:
 
    :NLOCS: The number of locations picked during the execution of this command.
-           This is initialized to 0 each time PLOTPK_ is invoked and incremented
+           This is initialized to 0 each time PLOTPK is invoked and incremented
    	   by 1 each time a cursor location pick is made.
 
    :XLOCn: The x value for the nth cursor location pick.  This will be the GMT
@@ -94,8 +96,50 @@ DESCRIPTION
 
    :YLOCn: The y value for the nth cursor location pick.
 
-   The command  'help plotpktable' lists valid cursor options for plotpk
+   The command PLOTPKTABLE_ lists valid cursor options for plotpk.
 
+EXAMPLE
+-------
+
+The following example starts by opening an alphanumeric pick file, reads in a 
+time-series file UOM1.Z (that is in directory doc/examples/),and calls ppk.  
+In ppk I first expand the window to fill the screen, then it picks the P arrival 
+and the P amplitude and then the S arrival time and amplitude.  After 
+exiting ppk, I display the picks from the header and the bb variables.  I 
+close the APF file and display its contents::
+
+      SAC> oapf name
+      SAC> r UOM1.Z
+      SAC> ppk savelocs
+         ** Description                Key (case-insensitive)
+         ** Zoom in to the P arrival:  X then X (or click and drag)
+         ** Pick P arrival time:       I U 0 P  (Impulsive, Up, Quality 0, P arrival)
+         ** Pick P amplitude:          L
+         ** Expand view:               O
+         ** Zoom in to the S arrival:  X then X (or click and drag)
+         ** Pick S arrival time:       I D 1 S  (Impulsive, Down, Quality 1, S arrival)
+         ** Pick S amplitude:          L
+         ** Quit PPK:                  Q
+      SAC> lh picks
+         AMARKER = 0.25379  (IPU0)      T0MARKER = 0.44422   (ISU1)
+     SAC> getbb
+        TLOC1 = 0.274248
+        TLOC2 = 0.465606
+        XLOC1 = 'NOV 04 (308), 2011 17:17:22.967'
+        XLOC2 = 'NOV 04 (308), 2011 17:17:23.159'
+        YLOC1 = 811.226
+        YLOC2 = 12580.1
+     SAC> capf
+     SAC> cat apf
+        UOM1.Z      IPU0     2011308 17 17 22.95      18.04 
+        UOM1.Z      LOC      2011308 17 17 22.97      811.2
+        UOM1.Z      ISU1     2011308 17 17 23.14     -8.896 
+        UOM1.Z      LOC      2011308 17 17 23.16  1.258e+04 
+     SAC>
+     
+The P pick is stored in header variable A, and the (IPU)) in KA, and the S pick 
+is T0 with  (ISD1) in KT0. 
+         
 HEADER CHANGES
 --------------
    Depending upon user responses any of A, KA, F, KF, Tn, KTn.
@@ -110,9 +154,7 @@ WARNING MESSAGES
 ----------------
 - 1502: Bad cursor position.  Please retry.
 
-  - cursor is positioned outside of the plot window.  
-  - occasionally the Tektronix sends the wrong position to SAC.  Move the 
-    cursor a little and retry.
+  - cursor is positioned outside of the plot window.
 
 - 1503: Invalid character.  Please retry.
 
@@ -138,5 +180,5 @@ SEE COMMANDS
 
 LATEST REVISION
 ---------------
-   May 16, 2006 (version 100.1)
+   July 2017 (version 102.0)
 
