@@ -68,8 +68,6 @@ static void td_conv(float     *waveform,
   has length n_w + n_p + 1.  delta must be same for both.
   Easiily expanded to read in multiple long time series.
 
-  gcc -o convolvec convolvec.c ‘sac-config --cflags --libs sacio‘
-
   \author   Arthur Snoke
   VT
 

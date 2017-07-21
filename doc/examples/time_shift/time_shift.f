@@ -1,23 +1,14 @@
-C     +
       program time_shift
-C
-C     Time shifts a SAC file One is prompted for the input and output
-C     filenames and tshift (new-old),
-!
-!     gfortran -Wall -Wextra -o time_shift time_shift.f time_shift_subs.f $(sac-config --libs sacio)
-!
-!     time_shift input.sac output.sac -0.05
-!
-C     -
+
+!             Time shifts a SAC file One is prompted for the input and output
+!             filenames and tshift (new-old)
 
       integer nmax
       parameter(nmax = 131072)
-
-      DIMENSION SIGNAL(nmax)
+      dimension signal(nmax)
       character kstnm*8,kcmpnm*8,kevnm*16
       character filename_in*80, filename_out*80, name*20
-C
-C
+!
       nmarg = iargc()
       if (nmarg .eq. 0) then
          write(*,*)'Usage: time_shift filename_in filename_out tshift'
@@ -27,7 +18,7 @@ C
       call getarg(2,filename_out)
       call getarg(3,name)
       read(name,'(f10.0)') tshift
-C
+!
       nf = lenc(filename_in)
       call rsac1(filename_in(1:nf),signal,npts,secs,dt,nmax,nerr)
       if (nerr .ne. 0) then
@@ -48,25 +39,22 @@ C
          kevnm = ' '
       endif
 
-      call timeshift(signal,npts,max,dt,tshift)
+      call timeshift(signal,npts,nmax,dt,tshift)
 
       write(*,'(a,f10.3)') 'Time shift (new-old) of',tshift
 
-      call setkhv('kuser2','tshift',nerr)
-      call setfhv('user2',tshift,nerr)
+      call setfhv('user9',tshift,nerr)
 
       ! Write out timeshifted file
       nf = lenc(filename_out)
       call wsac0(filename_out(1:nf),signal,signal,nerr)
       stop
       end
-C
-
 
       subroutine timeshift(signal,npts,nmax,dt,tshift)
-C
-C     time shifts signal by tshift (new-old)
-C     -
+
+!             time shifts signal by tshift (new-old)
+
       implicit none
 
       ! Input Parameters
@@ -81,7 +69,6 @@ C     -
       ttot  = dt*(npts-1)
       ntran = min(4*npts,nmax)
       npts  = min(npts,ntran)
-      df    = 1./(2.0*(ntran-1)*dt)
 
       ! Pad Input with Zeros
       if (npts < ntran) then
@@ -94,6 +81,7 @@ C     -
       !  Input - Real
       !  Output - Complex
       call forwft(ntran,signal,dt,1.0)
+      df    = 1./(2.0*(ntran-1)*dt)
 
       ! Time shift
       ! Input - Complex
@@ -103,10 +91,20 @@ C     -
       end if
 
       ! Inverse FFT
-      !  Input - Complex
-      !  Output - Real
+      ! Input - Complex
+      ! Output - Real
       call invrft(ntran,signal,df,-1.0)
-      write(*,*)signal(1:4)
       return
       end
 
+      SUBROUTINE SHIFTT(NTRAN,FSIG,DF,TSHIFT)
+
+      complex FSIG(*)
+      TWOPI = 8.0*ATAN(1.0)
+      DO J=1,NTRAN
+         WT = TWOPI*(J-1)*DF*TSHIFT
+         FSIG(J) = FSIG(J)*CMPLX(COS(WT),SIN(WT))
+      END DO
+      RETURN
+      END
+      

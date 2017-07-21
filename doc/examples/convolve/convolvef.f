@@ -9,11 +9,9 @@
 !     If disc_conv is "y", the output is not premultilied by delta
 !         and the begin time for the pulse is treated as zero.  The
 !         result for "y" is the sae as one gets from SAC convolve.
-!
-!        gfortran -o convolvef convolvef.f `sac-config --cflags --libs sacio`
 
-      include "sacf.h"
       implicit none
+      include "sacf.h"
 
       integer i,j
 !     Define the Maximum length of waveform
