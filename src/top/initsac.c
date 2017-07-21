@@ -24,12 +24,10 @@
 DFM_EXTERN
 GAM_EXTERN
 GDM_EXTERN
-VARS_EXTERN
 COM_EXTERN
 EXTCOM_EXTERN
 
 struct t_cmcom cmcom;
-struct t_cmvars cmvars;
 struct t_cmextcom cmextcom;
 
 /* external pager program we use to view help fils */
@@ -131,7 +129,6 @@ initblkdata() {
         cmextcom.nfiles = 0;
         cmgdm.lginit = FALSE;
         cmdfm.ndsflcnt = 0;
-        cmvars.lvarsinit = FALSE;
         _aini = 0;
     }
 

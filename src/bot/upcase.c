@@ -86,13 +86,3 @@ upcase(char *kinput, int nchar, char *koutpt, int koutpt_s) {
 
 }
 
-char *
-upcase_dup(char *s) {
-    char *p, *new;
-    p = new = strdup(s);
-    while (*p) {
-        *p = toupper(*p);
-        p++;
-    }
-    return new;
-}

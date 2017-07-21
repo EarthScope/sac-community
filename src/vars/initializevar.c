@@ -12,11 +12,11 @@
 #include "vars.h"
 #include "msg.h"
 
-VARS_EXTERN
 
 /** 
  * Initialize the VARS access library
  * 
+ * @data   170721   Remove lvarsinit
  * @date   920409:  Moved lvarsinit to initcommon block data for initialization.
  * @date   890227:  Original version.
  * @date   890227:  Documented/Reviewed
@@ -24,9 +24,9 @@ VARS_EXTERN
  */
 void
 initializevars() {
-
+    static int init = FALSE;
     /* - Return immediately if vars has already been initialized. */
-    if (cmvars.lvarsinit)
+    if (init)
         goto L_8888;
 
     /* - Initialize vars common block. */
@@ -36,7 +36,7 @@ initializevars() {
     inimsg();
 
     /* - Set initialization flag. */
-    cmvars.lvarsinit = TRUE;
+    init = TRUE;
 
   L_8888:
     return;

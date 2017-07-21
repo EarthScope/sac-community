@@ -396,24 +396,6 @@ sac_vars_read(char *group) {
 }
 
 int
-token_to_var(Token * tok, char *group, char *name) {
-    if (!tok || !name || !group) {
-        return FALSE;
-    }
-    if (token_is_string(tok) || token_is_quoted_string(tok) ||
-        token_is_escape_string(tok)) {
-        setvar(group, name, VAR_STRING, tok->str);
-    } else if (token_is_int_precision(tok, TOKEN_INT_PRECISION_NON_ARGUMENT)) {
-        setvar(group, name, VAR_INTEGER, token_as_int(tok));
-    } else if (token_is_number(tok)) {
-        setvar(group, name, VAR_VALUE, tok->value);
-    } else {
-        return FALSE;
-    }
-    return TRUE;
-}
-
-int
 setvar_ap(char *group, char *name, int type, va_list ap) {
     char *key;
     key = upcase_dup(name);

@@ -7,7 +7,6 @@
 #include "vars.h"
 #include "dff.h"
 
-VARS_EXTERN
 VFILE_EXTERN
 
 // tests used here
@@ -23,7 +22,6 @@ void initdevice_osx() {}
 
 void
 test_before_init_vars() {
-  ok(cmvars.lvarsinit == FALSE, "cmvars.lvarsinit = %d",cmvars.lvarsinit);
 }
 
 void
@@ -31,7 +29,6 @@ test_init_vars() {
 
   /* This calls inivars() and inimsg() and iniam() */
   initializevars(); 
-  ok(cmvars.lvarsinit == TRUE, "cmvars.lvarsinit = %d",cmvars.lvarsinit);
 
   /* Only used in convlistname() */
   ok(vfilelist.nallocated == NVFILELIST, "vfilelist.nallocated = %d", vfilelist.nallocated);

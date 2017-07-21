@@ -23,6 +23,7 @@
 
 CPF_EXTERN
 LHF_EXTERN
+BBS_EXTERN
 
 char *unescape(char *in);
 Token *token_dup(Token * t);
@@ -979,58 +980,6 @@ token_to_string(Token * t) {
     return out;
 }
 
-char *
-token_to_line(Token * t) {
-    char *out;
-    Token *p;
-    string *s = string_new("");
-    p = t;
-    while (p) {
-        switch (p->type) {
-            case WILD:
-            case HEADER:
-            case VARIABLE:
-            case BLACKBOARD:
-            case STRING:
-                string_printf_append(s, "%s ", p->str);
-                break;
-            case ESCAPE_STRING:
-                string_printf_append(s, "%s ", p->str);
-                break;
-            case QUOTED_STRING:
-                string_printf_append(s, "\"%s\" ", p->str);
-                break;
-            case EQUALS:
-                string_printf_append(s, "= ");
-                break;
-            case COMMA:
-                string_printf_append(s, ", ");
-                break;
-            case NUM:
-                if (floor(p->value) == p->value) {
-                    string_printf_append(s, "%d ", (int) p->value);
-                } else {
-                    string_printf_append(s, "%g ", p->value);
-                }
-                break;
-            case EQ:
-            case NE:
-            case GE:
-            case LE:
-            case GT:
-            case LT:
-                string_printf_append(s, "%s ", p->str);
-                break;
-            default:
-                string_printf_append(s, "[%d?] ", p->type);
-                break;
-        }
-        p = p->next;
-    }
-    out = strdup(string_string(s));
-    string_free(&s);
-    return out;
-}
 
 int
 token_is_quoted_string(Token * t) {
@@ -1100,4 +1049,26 @@ token_is_le(Token * t) {
 int
 token_strncasecmp(Token * t, char *s, size_t n) {
     return token_is_string(t) && strncasecmp(t->str, s, n) == 0;
+}
+int
+token_to_var(Token * tok, char *group, char *name) {
+    if (!tok || !name || !group) {
+        return FALSE;
+    }
+    if (token_is_string(tok) || token_is_quoted_string(tok) ||
+        token_is_escape_string(tok)) {
+        setvar(group, name, VAR_STRING, tok->str);
+    } else if (token_is_int_precision(tok, TOKEN_INT_PRECISION_NON_ARGUMENT)) {
+        setvar(group, name, VAR_INTEGER, token_as_int(tok));
+    } else if (token_is_number(tok)) {
+        setvar(group, name, VAR_VALUE, tok->value);
+    } else {
+        return FALSE;
+    }
+    return TRUE;
+}
+
+int
+token_to_bb(Token * tok, char *name) {
+    return token_to_var(tok, kmbbs.knmbbs, name);
 }

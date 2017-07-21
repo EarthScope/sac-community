@@ -79,10 +79,6 @@ setbb(char *name, int type, ...) {
     return retval;
 }
 
-int
-token_to_bb(Token * tok, char *name) {
-    return token_to_var(tok, kmbbs.knmbbs, name);
-}
 
 /* Added for FORTRAN friendliness */
 void

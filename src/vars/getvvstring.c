@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "amf.h"
 #include "vars.h"
@@ -16,6 +17,7 @@
 #include "errors.h"
 #include "debug.h"
 #include "token.h"
+#include "eval/expr_parse.h"
 
 /** 
  * Get a vars value of type string
@@ -103,3 +105,68 @@ getvvstringZ(char *vars, int vars_s, char *name, int name_s, int *numchars,
     free(s1);
     return s2;
 }
+
+char *
+token_to_line(Token * t) {
+    char *out;
+    Token *p;
+    string *s = string_new("");
+    p = t;
+    while (p) {
+        switch (p->type) {
+            case WILD:
+            case HEADER:
+            case VARIABLE:
+            case BLACKBOARD:
+            case STRING:
+                string_printf_append(s, "%s ", p->str);
+                break;
+            case ESCAPE_STRING:
+                string_printf_append(s, "%s ", p->str);
+                break;
+            case QUOTED_STRING:
+                string_printf_append(s, "\"%s\" ", p->str);
+                break;
+            case EQUALS:
+                string_printf_append(s, "= ");
+                break;
+            case COMMA:
+                string_printf_append(s, ", ");
+                break;
+            case NUM:
+                if (floor(p->value) == p->value) {
+                    string_printf_append(s, "%d ", (int) p->value);
+                } else {
+                    string_printf_append(s, "%g ", p->value);
+                }
+                break;
+            case EQ:
+            case NE:
+            case GE:
+            case LE:
+            case GT:
+            case LT:
+                string_printf_append(s, "%s ", p->str);
+                break;
+            default:
+                string_printf_append(s, "[%d?] ", p->type);
+                break;
+        }
+        p = p->next;
+    }
+    out = strdup(string_string(s));
+    string_free(&s);
+    return out;
+}
+
+char *
+upcase_dup(char *s) {
+    char *p, *new;
+    p = new = strdup(s);
+    while (*p) {
+        *p = toupper(*p);
+        p++;
+    }
+    return new;
+}
+
