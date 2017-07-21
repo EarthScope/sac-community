@@ -17,8 +17,7 @@ f        Define end of event {1,2,3,7}..
 g        Display picks to terminal in HYPO format {4}.
 i        Set phase onset to IMPULSIVE (precedes P or S phase pick).
 j        Set noise level {2,6,8}.
-l        Saves and lists cursor location {2,4}.
-m        Compute maximum amplitude waveform {2,3,5}.
+l        Saves and lists x and y values for cursor location {2,4}.
 n        Display next plot (if there is one).
 o        Zoom Out / Display previous plot window.
            A maximum of five windows are saved.
@@ -26,19 +25,19 @@ p        Designate P wave arrival time {1,2,3,7}.
 q        Terminate PLOTPK_ immediately.
 s        Designate S wave arrival time {1,2,3,7}.
 t        Designate user time Tn in header {1,2,7}.
-           Next response an integer between 0 and 9
+           Next response is an integer between 0 and 9.
 u        Set phase direction to UP (precedes P or S phase pick).
 x        Set Zoom window
            Set beginning of zoomed plot
            x - Second key, set end of zoomed window and display
            s - Second key, defined zoomed plot limits are saved
                and used as xlims for subsequent plots
+z        Set zero (reference) level {2,6,8}.  If reference is on with a value
+             f, two more horizontal lines are drawn at +/- f from the z line.
 '+'      Set phase direction to PLUS (precedes P or S phase pick).
 '-'      Set phase direction to MINUS (precedes P or S phase pick).
 ' '      Set the phase direction to NEUTRAL (precedes P or S phase pick).
 'n'      Set phase quality to n, n=0,1,2,3, or 4. (precedes P or S phase pick)
-Click    Single pointer / mouse click (Behaves as L)
-Drag     Set Zoom Window
 ======== =====================================================================
 
 Notes
@@ -47,9 +46,6 @@ Notes
 - {2} Written to alphanumeric pick file if open.
 - {3} Written to HYPO pick file if open.
 - {4} Written to terminal window.
-- {5} Place horizontal cursor at zero (reference) level and vertical
-      cursor beyond first extrema. Terminal echo is a box encompassing 
-      waveform.
-- {6} Place horizontal cursor at designated level.
+- {6} Place horizontal cursor at designated level before typing command letter.
 - {7} Terminal window echo is a labeled vertical line.
 - {8} Terminal window echo is a labeled horizontal line.

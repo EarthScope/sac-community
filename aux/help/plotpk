@@ -47,11 +47,11 @@ INPUT
    :GMT:  Display pick times in absolute (GMT) format.
     
    :ZERO:  Display pick times relative to each files's zero time.
-
-   :REFERENCE ON:  Turn reference line display on.
            
    :REFERENCE v:  Turn reference line display on and change reference
        value to v.
+
+   :REFERENCE ON:  Turn reference line display on using last value of v.
 
    :REFERENCE OFF:  Turn reference line display off.
      
@@ -75,13 +75,18 @@ DESCRIPTION
 -----------
    The format of the PLOTPK plot is similiar to the PLOT1_ plot.  This plot
    requires a terminal with a cursor.  When the cursor comes on and the bell
-   rings, you enter single character responses to perform the various functions.
+   rings, you enter single-character responses to perform the various functions.
    Some but not all responses produce graphic output on the screen.  Error and
    output messages are printed at the top of the screen.
+   
    Picks that are currently in the header are automatically displayed on
-   the screen.  Output from the various cursor responses can be directed to the
-   SAC header, to a alphanumeric pick file if open (see OAPF_) and to the 
-   terminal display window.
+   the screen as vertical lines with labels.  Output from the various cursor 
+   responses can be directed to the SAC header, to a alphanumeric pick file if 
+   open (see OAPF_) and to the terminal display window as drawn lines (vertical
+   or horizontal) and/or in text lines at the top of the display.  If REFERENCE
+   is on with a value v, if z is typed, there will be a "zero-level" horizontal
+   line drawn at the cursor's vertical position plus two additional horizontal
+   lines at +/- v.
    
    If option SAVELOCS is on, cursor locations from the L cursor option are 
    saved to blackboard variables as follows:
