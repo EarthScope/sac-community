@@ -40,7 +40,7 @@ else if (! -f ${source}.sgf) then
   exit
 endif
 
-sgftops ${source}.sgf /tmp/${source}.ps 1.0 s << END > /dev/null
+sgftops ${source}.sgf /tmp/${source}.ps 0.7 s << END > /dev/null
 0.5
 0.5
 0
