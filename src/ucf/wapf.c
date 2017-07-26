@@ -20,6 +20,8 @@
 
 EAM_EXTERN
 
+#define YD_HMS " %04d%03d %02d %02d %05.2f"
+
 /** 
  * Write a pick to an alphanumeric pick file (APF)
  * 
@@ -66,7 +68,7 @@ wapf() {
             strcmp(kmeam.kpkid, "WAWF    ") == 0) {
             if (sprintf
                 (kapfln,
-                 "%16s%8s%7.2f%7.2f%4s%5d%3d%3d%3d%6.2f %10.4g %1s %3s%c",
+                 "%16s%8s%7.2f%7.2f%4s" YD_HMS " %10.4g %1s %3s%c",
                  s->h->kevnm, s->h->kstnm, s->h->cmpaz, s->h->cmpinc,
                  kmeam.kpkid, cmeam.npkyr, cmeam.npkjdy, cmeam.npkhr,
                  cmeam.npkmn, cmeam.pksecs, cmeam.pkampl, kmeam.kpksrc,
@@ -84,7 +86,7 @@ wapf() {
         } else if (strcmp(kmeam.kpkid, "PTP     ") == 0) {
             if (sprintf
                 (kapfln,
-                 "%16s%8s%7.2f%7.2f%4s%5d%3d%3d%3d%6.2f %10.4g %1s %3s%c%6.3f%10.4g\n",
+                 "%16s%8s%7.2f%7.2f%4s" YD_HMS " %10.4g %1s %3s%c%6.3f%10.4g\n",
                  s->h->kevnm, s->h->kstnm, s->h->cmpaz, s->h->cmpinc,
                  kmeam.kpkid, cmeam.npkyr, cmeam.npkjdy, cmeam.npkhr,
                  cmeam.npkmn, cmeam.pksecs, cmeam.pkampl, kmeam.kpksrc,
@@ -93,7 +95,7 @@ wapf() {
         } else {
             if (sprintf
                 (kapfln,
-                 "%16s%8s%7.2f%7.2f%4s%5d%3d%3d%3d%6.2f %10.4g %1s %3s %c\n",
+                 "%16s%8s%7.2f%7.2f%4s" YD_HMS " %10.4g %1s %3s %c\n",
                  s->h->kevnm, s->h->kstnm, s->h->cmpaz, s->h->cmpinc,
                  kmeam.kpkid, cmeam.npkyr, cmeam.npkjdy, cmeam.npkhr,
                  cmeam.npkmn, cmeam.pksecs, cmeam.pkampl, kmeam.kpksrc,
@@ -105,7 +107,7 @@ wapf() {
              strcmp(kmeam.kpkid, "WF      ") == 0) ||
             strcmp(kmeam.kpkid, "WAWF    ") == 0) {
             if (sprintf
-                (kapfln, "%32s      %4s%5d%3d%3d%3d%6.2f %10.4g %1s %3s%c", tmp,
+                (kapfln, "%32s      %4s" YD_HMS " %10.4g %1s %3s%c", tmp,
                  kmeam.kpkid, cmeam.npkyr, cmeam.npkjdy, cmeam.npkhr,
                  cmeam.npkmn, cmeam.pksecs, cmeam.pkampl, kmeam.kpksrc,
                  kmeam.kpkrid, 'C') < 0) {
@@ -122,7 +124,7 @@ wapf() {
         } else if (strcmp(kmeam.kpkid, "PTP     ") == 0) {
             if (sprintf
                 (kapfln,
-                 "%32s      %4s%5d%3d%3d%3d%6.2f %10.4g %1s %3s%c%6.3f%10.4g\n",
+                 "%32s      %4s" YD_HMS " %10.4g %1s %3s%c%6.3f%10.4g\n",
                  tmp, kmeam.kpkid, cmeam.npkyr, cmeam.npkjdy, cmeam.npkhr,
                  cmeam.npkmn, cmeam.pksecs, cmeam.pkampl, kmeam.kpksrc,
                  kmeam.kpkrid, 'C', Dtwf[4], Awf[4]) < 0) {
@@ -130,7 +132,7 @@ wapf() {
             }
         } else {
             if (sprintf
-                (kapfln, "%32s      %4s%5d%3d%3d%3d%6.2f %10.4g %1s %3s%c\n",
+                (kapfln, "%32s      %4s" YD_HMS " %10.4g %1s %3s%c\n",
                  tmp, kmeam.kpkid, cmeam.npkyr, cmeam.npkjdy, cmeam.npkhr,
                  cmeam.npkmn, cmeam.pksecs, cmeam.pkampl, kmeam.kpksrc,
                  kmeam.kpkrid, 'C') < 0) {

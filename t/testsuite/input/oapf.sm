@@ -1,5 +1,9 @@
 
 fg seismo
+ch nzhour 4
+ch nzmin 9
+ch nzsec 1
+ch nzmsec 50
 oapf test.apf
 apk
 capf
