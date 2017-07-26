@@ -371,6 +371,7 @@ xppk(int *nerr) {
             goto L_7777;
         dispid(cmgam.lfinorq, jdfl, 0, NULL);
         DEBUG("%d toff: %f\n", j, toff[j]);
+        lzdttm[jdfl] = ldttm(&s->h->nzyear);
         disppk(toff[j]);
         yimnzs[jdfl] = cmgem.zdata.ymin;
         yimxzs[jdfl] = cmgem.zdata.ymax;
