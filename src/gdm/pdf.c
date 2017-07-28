@@ -236,9 +236,8 @@ endframe_pdf(int *nerr) {
     file = record_filename(NULL);
 
     xPDF->fp = fopen(file, "wb");
-
     if (!xPDF->fp) {
-        *nerr = 102;
+        error(*nerr = 102, "- Error opening PDF file for writing: %s", file);
         return;
     }
     pdf_output(xPDF);

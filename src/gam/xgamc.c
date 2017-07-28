@@ -182,7 +182,7 @@ xgamc(int index, int *nerr) {
     goto L_8888;
 
   L_1800:
-    xsave();
+    xsave(nerr);
     goto L_8888;
 
   L_8888:

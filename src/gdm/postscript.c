@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "msg.h"
 #include "amf.h"
 #include "gdm.h"
 #include "gem.h"
@@ -96,11 +97,11 @@ beginframe_ps(int *nerr) {
 
     ps = ps_new();
     if (!ps) {
-        *nerr = 102;
+        error(*nerr = 301, "Cannot create Postscript file: %s\n", file);
         return;
     }
     if (!ps_file_open(ps, file)) {
-        *nerr = 102;
+        error(*nerr = 102, " - Error opening Postscript file for writing: %s\n", file);
         return;
     }
 

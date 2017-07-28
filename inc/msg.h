@@ -96,4 +96,7 @@ void bell_on();
 
 void sac_msg_add(int id, char *msg);
 
+int error_occurred();
+int error_status();
+
 #endif /* _MSG_H_ */

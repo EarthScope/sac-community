@@ -6,6 +6,7 @@
 #include "gdm.h"
 #include "string_utils.h"
 #include "cpf.h"
+#include "msg.h"
 
 /** 
  * Erase the screen of window of all active devices
@@ -49,9 +50,8 @@ stroke() {
 }
 
 void
-xsave() {
+xsave(int *nerr) {
 
-    int nerr;
     char file[1024];
     char *p;
 
@@ -59,7 +59,7 @@ xsave() {
     display_t **dev;
 
     memset(file, 0, 1024);
-    if (lcmore(&nerr)) {
+    if (lcmore(nerr)) {
         lcchar(&file[0], sizeof(file));
     }
     if (strlen(file) == 0 || file[0] == 0) {
@@ -80,11 +80,26 @@ xsave() {
         if (strcasecmp(p, dev[i]->extension) == 0 && dev[i]->save) {
             fprintf(stderr, "save file %s [%s]\n", file, dev[i]->name);
             dev[i]->save(dev[i], file);
+            *nerr = error_status();
             return;
         }
     }
-    fprintf(stderr, "save file: Error saving the file: %s\n", file);
-    fprintf(stderr, "           %s\n", p);
+    {
+        int m;
+        char msg[4096];
+        m = 0;
+        msg[0] = 0;
+        m += sprintf(msg + m, "while using saveimg\n");
+        m += sprintf(msg + m, "      Error saving the file: %s [format: %s]\n", file, p);
+        m += sprintf(msg + m, "      Available file formats: ");
+        for(i = 0; i < n; i++) {
+            if (dev[i]->save) {
+                m += sprintf(msg + m, "%s ", dev[i]->extension);
+            }
+        }
+        n += sprintf(msg + m, "\n");
+        error(*nerr = 201, "%s", msg);
+    }
 }
 
 void

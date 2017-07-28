@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "msg.h"
 #include "amf.h"
 #include "bool.h"
 #include "gdm.h"
@@ -45,7 +46,7 @@ xpm_write(display_t * out, char *file) {
         XpmWriteFileFromPixmap(DISPLAY(xw), file, xw->buffer, (Pixmap) NULL,
                                NULL);
     if (retval != 0) {
-        fprintf(stderr, "Error writing XPM file: %s [%d]\n", file, retval);
+        error(102, " - Error writing XPM file: %s\n", file);
     }
 }
 

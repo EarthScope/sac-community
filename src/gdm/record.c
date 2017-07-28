@@ -772,7 +772,7 @@ initdevice_text() {
     xtext.stroke = stroke_text;
     xtext.text = text_text;
     xtext.textbox = textbox_text;
-    xtext.save = save_text;
+    //xtext.save = save_text;
     gdm_register_device(&xtext);
 }
 

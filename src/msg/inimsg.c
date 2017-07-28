@@ -415,3 +415,18 @@ sac_msg_add(int id, char *msg) {
     }
     dict_put(msg_dict, str, msg);
 }
+
+int
+error_occurred() {
+    // 0 - No Error Occurred
+    // 1 -    Error Occurred
+    return cmmsg.nummsg != 0;
+}
+
+int
+error_status() {
+    // Return current error number
+    // 0     - Everything is "Ok"
+    // Not 0 - Error occurred
+    return cmmsg.nummsg;
+}
