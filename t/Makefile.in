@@ -92,14 +92,15 @@ target_triplet = @target@
 @EDITLINE_TRUE@am__append_1 = ../libedit/lib/libedit.a
 @EDITLINE_TRUE@am__append_2 = -I../libedit/include
 @X11_APP_TRUE@am__append_3 = -lsac_x11
-@X11_APP_TRUE@am__append_4 = $(X_PRE_LIBS) $(X_EXTRA_LIBS) $(X_LIBS) 
-@X11_APP_TRUE@am__append_5 = -lX11 
+@X11_APP_TRUE@am__append_4 = $(X_PRE_LIBS) $(X_EXTRA_LIBS) $(X_LIBS)
+@X11_APP_TRUE@am__append_5 = -lX11
 check_PROGRAMS = use_sac$(EXEEXT) ucf$(EXEEXT) vars$(EXEEXT) \
-	sacio$(EXEEXT) icm$(EXEEXT) sacio_all$(EXEEXT) $(am__EXEEXT_1)
+	sacio$(EXEEXT) icm$(EXEEXT) sacio_all$(EXEEXT) \
+	sac_all$(EXEEXT) $(am__EXEEXT_1)
 @HAVE_FC_TRUE@am__append_6 = saciof saclibf
 TESTS = use_sac$(EXEEXT) ucf$(EXEEXT) vars$(EXEEXT) sacio$(EXEEXT) \
-	copy_files.sh icm$(EXEEXT) sacio_all$(EXEEXT) $(am__EXEEXT_2) \
-	testsuite/input/abs.sm testsuite/input/add.sm \
+	copy_files.sh icm$(EXEEXT) sacio_all$(EXEEXT) sac_all$(EXEEXT) \
+	$(am__EXEEXT_2) testsuite/input/abs.sm testsuite/input/add.sm \
 	testsuite/input/addf.sm testsuite/input/alpha.sm \
 	testsuite/input/apk.sm testsuite/input/arraymap.sm \
 	testsuite/input/axes.sm testsuite/input/bandpass.sm \
@@ -232,6 +233,11 @@ icm_OBJECTS = $(am_icm_OBJECTS)
 icm_DEPENDENCIES =
 icm_LINK = $(CCLD) $(icm_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o \
 	$@
+sac_all_SOURCES = sac_all.c
+sac_all_OBJECTS = sac_all-sac_all.$(OBJEXT)
+sac_all_DEPENDENCIES =
+sac_all_LINK = $(CCLD) $(sac_all_CFLAGS) $(CFLAGS) $(sac_all_LDFLAGS) \
+	$(LDFLAGS) -o $@
 am_sacio_OBJECTS = sacio-sacio.$(OBJEXT) sacio-sacio_rsac1.$(OBJEXT) \
 	sacio-sacio_rsac2.$(OBJEXT) sacio-sacio_wsac0.$(OBJEXT) \
 	sacio-sacio_wsac1.$(OBJEXT) sacio-sacio_wsac2.$(OBJEXT) \
@@ -322,11 +328,11 @@ AM_V_F77LD = $(am__v_F77LD_@AM_V@)
 am__v_F77LD_ = $(am__v_F77LD_@AM_DEFAULT_V@)
 am__v_F77LD_0 = @echo "  F77LD   " $@;
 am__v_F77LD_1 = 
-SOURCES = $(libunit_a_SOURCES) $(icm_SOURCES) $(sacio_SOURCES) \
-	sacio_all.c $(saciof_SOURCES) $(saclibf_SOURCES) \
-	$(ucf_SOURCES) use_sac.c $(vars_SOURCES)
-DIST_SOURCES = $(libunit_a_SOURCES) $(icm_SOURCES) $(sacio_SOURCES) \
-	sacio_all.c $(am__saciof_SOURCES_DIST) \
+SOURCES = $(libunit_a_SOURCES) $(icm_SOURCES) sac_all.c \
+	$(sacio_SOURCES) sacio_all.c $(saciof_SOURCES) \
+	$(saclibf_SOURCES) $(ucf_SOURCES) use_sac.c $(vars_SOURCES)
+DIST_SOURCES = $(libunit_a_SOURCES) $(icm_SOURCES) sac_all.c \
+	$(sacio_SOURCES) sacio_all.c $(am__saciof_SOURCES_DIST) \
 	$(am__saclibf_SOURCES_DIST) $(ucf_SOURCES) use_sac.c \
 	$(vars_SOURCES)
 am__can_run_installinfo = \
@@ -572,8 +578,8 @@ CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 
 #
-# Options for testing the compiled code directly 
-# 
+# Options for testing the compiled code directly
+#
 CFLAGS = @CFLAGS@ $(DEBUG) $(COVERAGE) $(OPTIM) -Wall \
 	-I$(top_srcdir)/inc -DTOP_SRCDIR=\"$(top_srcdir)\" \
 	$(am__append_2)
@@ -735,36 +741,36 @@ FORMAT_LIBS = $(xpm_LIBS) $(png_LIBS) $(zlib_LIBS) $(xft_LIBS) $(XML_LIBS)
 #SAC_GRAPHICS     += -lsac_osx
 SAC_GRAPHICS = -L.. $(am__append_3) -lsgf -lturtle -lsac_all
 EXTRA_DIST = testsuite \
-             testsuite/input testsuite/output \
-             test_io_big.sac test_io_small.sac \
-             test_spec_big.sac test_spec_small.sac \
-             test_uneven_big.sac test_uneven_small.sac  \
-             pytest.py sacio_fortran.sh
+						 testsuite/input testsuite/output \
+						 test_io_big.sac test_io_small.sac \
+						 test_spec_big.sac test_spec_small.sac \
+						 test_uneven_big.sac test_uneven_small.sac  \
+						 pytest.py sacio_fortran.sh
 
 
 # Unit Testing Suite: Hardly a suite
 noinst_LIBRARIES = libunit.a
 libunit_a_SOURCES = unit.c unit.h
 
-# Test programs written in C need to be added to 
+# Test programs written in C need to be added to
 #  both check_PROGRAMS and TESTS
 ucf_SOURCES = ucf.c \
-                  ucf_inctim.c \
-                  ucf_cnvati.c \
-                  ucf_cnvita.c \
-                  ucf_cnvatf.c \
-                  ucf_cnvfta.c
+									ucf_inctim.c \
+									ucf_cnvati.c \
+									ucf_cnvita.c \
+									ucf_cnvatf.c \
+									ucf_cnvfta.c
 
 vars_SOURCES = vars.c
 sacio_SOURCES = sacio.c \
-	           sacio_rsac1.c  \
-	           sacio_rsac2.c  \
-                   sacio_wsac0.c  \
-                   sacio_wsac1.c  \
-                   sacio_wsac2.c  \
-                   sacio_wsac3.c  \
-                   sacio_getset.c \
-                   sacio_test.h
+						 sacio_rsac1.c  \
+						 sacio_rsac2.c  \
+									 sacio_wsac0.c  \
+									 sacio_wsac1.c  \
+									 sacio_wsac2.c  \
+									 sacio_wsac3.c  \
+									 sacio_getset.c \
+									 sacio_test.h
 
 @HAVE_FC_TRUE@saciof_SOURCES = sacio_f.f
 @HAVE_FC_TRUE@saciof_CFLAGS = $(COVERAGE)
@@ -775,16 +781,19 @@ sacio_SOURCES = sacio.c \
 sacio_CFLAGS = $(COVERAGE) -I$(top_srcdir)/include
 sacio_LDADD = -L../src/ -lsacio -L. -lunit
 sacio_LDFLAGS = 
-use_sac_CFLAGS = $(COVERAGE) 
+use_sac_CFLAGS = $(COVERAGE)
 use_sac_LDADD = -L../src -lsacio -L. -lunit
 use_sac_LDFLAGS = 
 sacio_all_CFLAGS = 
 sacio_all_LDADD = -L../src -lsacio
 sacio_all_LDFLAGS = 
+sac_all_CFLAGS = 
+sac_all_LDADD = -L../src -lsac -lsacio
+sac_all_LDFLAGS = 
 
 #saclibf${EXEEXT}: saclib_f.o
 #	$(F77) $(COVERAGE) -o $@ saclib_f.o -L../src -lsac
-icm_SOURCES = icm.c 
+icm_SOURCES = icm.c
 icm_CFLAGS = $(COVERAGE)
 icm_LDADD = -L../src -licm -lsac -lsacio
 TEST_EXTENSIONS = .sm
@@ -839,6 +848,10 @@ icm$(EXEEXT): $(icm_OBJECTS) $(icm_DEPENDENCIES) $(EXTRA_icm_DEPENDENCIES)
 	@rm -f icm$(EXEEXT)
 	$(AM_V_CCLD)$(icm_LINK) $(icm_OBJECTS) $(icm_LDADD) $(LIBS)
 
+sac_all$(EXEEXT): $(sac_all_OBJECTS) $(sac_all_DEPENDENCIES) $(EXTRA_sac_all_DEPENDENCIES) 
+	@rm -f sac_all$(EXEEXT)
+	$(AM_V_CCLD)$(sac_all_LINK) $(sac_all_OBJECTS) $(sac_all_LDADD) $(LIBS)
+
 sacio$(EXEEXT): $(sacio_OBJECTS) $(sacio_DEPENDENCIES) $(EXTRA_sacio_DEPENDENCIES) 
 	@rm -f sacio$(EXEEXT)
 	$(AM_V_CCLD)$(sacio_LINK) $(sacio_OBJECTS) $(sacio_LDADD) $(LIBS)
@@ -884,6 +897,12 @@ icm-icm.o: icm.c
 
 icm-icm.obj: icm.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(icm_CFLAGS) $(CFLAGS) -c -o icm-icm.obj `if test -f 'icm.c'; then $(CYGPATH_W) 'icm.c'; else $(CYGPATH_W) '$(srcdir)/icm.c'; fi`
+
+sac_all-sac_all.o: sac_all.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sac_all_CFLAGS) $(CFLAGS) -c -o sac_all-sac_all.o `test -f 'sac_all.c' || echo '$(srcdir)/'`sac_all.c
+
+sac_all-sac_all.obj: sac_all.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sac_all_CFLAGS) $(CFLAGS) -c -o sac_all-sac_all.obj `if test -f 'sac_all.c'; then $(CYGPATH_W) 'sac_all.c'; else $(CYGPATH_W) '$(srcdir)/sac_all.c'; fi`
 
 sacio-sacio.o: sacio.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sacio_CFLAGS) $(CFLAGS) -c -o sacio-sacio.o `test -f 'sacio.c' || echo '$(srcdir)/'`sacio.c
@@ -1189,6 +1208,13 @@ icm.log: icm$(EXEEXT)
 sacio_all.log: sacio_all$(EXEEXT)
 	@p='sacio_all$(EXEEXT)'; \
 	b='sacio_all'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+sac_all.log: sac_all$(EXEEXT)
+	@p='sac_all$(EXEEXT)'; \
+	b='sac_all'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \

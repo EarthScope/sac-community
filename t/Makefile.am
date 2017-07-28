@@ -1,5 +1,3 @@
-
-
 # Do not create dependencides while compiling
 AUTOMAKE_OPTIONS = no-dependencies #dejagnu
 
@@ -19,16 +17,16 @@ SACBIN=../Sac.app/Contents/MacOS/sac-osx-gui
 endif
 
 #
-# Options for testing the compiled code directly 
-# 
+# Options for testing the compiled code directly
+#
 CFLAGS          += $(DEBUG) $(COVERAGE) $(OPTIM) -Wall \
-		   -I$(top_srcdir)/inc \
-		   -DTOP_SRCDIR=\"$(top_srcdir)\"
+			 -I$(top_srcdir)/inc \
+			 -DTOP_SRCDIR=\"$(top_srcdir)\"
 
 LDADD            = -L../src/ -lsac_all -lturtle -lsac_all \
-                   -levalresp \
-                   -lSMnonOracleFuncs \
-                   -lSacOracleStubFuncs \
+									 -levalresp \
+									 -lSMnonOracleFuncs \
+									 -lSacOracleStubFuncs \
 									 -licm
 if EDITLINE
 LDADD            += ../libedit/lib/libedit.a
@@ -36,7 +34,7 @@ CFLAGS           += -I../libedit/include
 endif
 
 FORMAT_LIBS      = $(xpm_LIBS) $(png_LIBS) $(zlib_LIBS) $(xft_LIBS) $(XML_LIBS)
-SAC_GRAPHICS     = -L.. 
+SAC_GRAPHICS     = -L..
 
 if X11_APP
 SAC_GRAPHICS     += -lsac_x11
@@ -47,51 +45,51 @@ endif
 SAC_GRAPHICS     +=  -lsgf -lturtle -lsac_all
 
 if X11_APP
-LDADD            +=  $(X_PRE_LIBS) $(X_EXTRA_LIBS) $(X_LIBS) 
+LDADD            +=  $(X_PRE_LIBS) $(X_EXTRA_LIBS) $(X_LIBS)
 endif
 
 LDADD            += $(SAC_GRAPHICS) $(FORMAT_LIBS)
 
 if X11_APP
-LDADD            += -lX11 
-endif 
+LDADD            += -lX11
+endif
 
 LDADD            += -L. -lunit
 
 
 
 EXTRA_DIST = testsuite \
-             testsuite/input testsuite/output \
-             test_io_big.sac test_io_small.sac \
-             test_spec_big.sac test_spec_small.sac \
-             test_uneven_big.sac test_uneven_small.sac  \
-             pytest.py sacio_fortran.sh
+						 testsuite/input testsuite/output \
+						 test_io_big.sac test_io_small.sac \
+						 test_spec_big.sac test_spec_small.sac \
+						 test_uneven_big.sac test_uneven_small.sac  \
+						 pytest.py sacio_fortran.sh
 
 # Unit Testing Suite: Hardly a suite
 noinst_LIBRARIES    = libunit.a
 libunit_a_SOURCES = unit.c unit.h
 
-# Test programs written in C need to be added to 
+# Test programs written in C need to be added to
 #  both check_PROGRAMS and TESTS
 
 ucf_SOURCES     = ucf.c \
-                  ucf_inctim.c \
-                  ucf_cnvati.c \
-                  ucf_cnvita.c \
-                  ucf_cnvatf.c \
-                  ucf_cnvfta.c
+									ucf_inctim.c \
+									ucf_cnvati.c \
+									ucf_cnvita.c \
+									ucf_cnvatf.c \
+									ucf_cnvfta.c
 
 vars_SOURCES   = vars.c
 
 sacio_SOURCES    = sacio.c \
-	           sacio_rsac1.c  \
-	           sacio_rsac2.c  \
-                   sacio_wsac0.c  \
-                   sacio_wsac1.c  \
-                   sacio_wsac2.c  \
-                   sacio_wsac3.c  \
-                   sacio_getset.c \
-                   sacio_test.h
+						 sacio_rsac1.c  \
+						 sacio_rsac2.c  \
+									 sacio_wsac0.c  \
+									 sacio_wsac1.c  \
+									 sacio_wsac2.c  \
+									 sacio_wsac3.c  \
+									 sacio_getset.c \
+									 sacio_test.h
 
 if HAVE_FC
 saciof_SOURCES = sacio_f.f
@@ -107,23 +105,27 @@ sacio_CFLAGS = $(COVERAGE) -I$(top_srcdir)/include
 sacio_LDADD = -L../src/ -lsacio -L. -lunit
 sacio_LDFLAGS =
 
-use_sac_CFLAGS= $(COVERAGE) 
+use_sac_CFLAGS= $(COVERAGE)
 use_sac_LDADD = -L../src -lsacio -L. -lunit
-use_sac_LDFLAGS = 
+use_sac_LDFLAGS =
 
 sacio_all_CFLAGS =
 sacio_all_LDADD = -L../src -lsacio
-sacio_all_LDFLAGS = 
+sacio_all_LDFLAGS =
+
+sac_all_CFLAGS =
+sac_all_LDADD = -L../src -lsac -lsacio
+sac_all_LDFLAGS =
 
 #saclibf${EXEEXT}: saclib_f.o
 #	$(F77) $(COVERAGE) -o $@ saclib_f.o -L../src -lsac
 
-icm_SOURCES = icm.c 
+icm_SOURCES = icm.c
 icm_CFLAGS = $(COVERAGE)
 icm_LDADD = -L../src -licm -lsac -lsacio
 
 # Compiled programs as tests
-check_PROGRAMS   = use_sac ucf vars sacio icm sacio_all
+check_PROGRAMS   = use_sac ucf vars sacio icm sacio_all sac_all
 
 if HAVE_FC
 check_PROGRAMS += saciof saclibf
@@ -131,7 +133,7 @@ endif
 
 TEST_EXTENSIONS = .sm
 # Compiled programs to test
-TESTS            =  use_sac ucf vars sacio copy_files.sh icm sacio_all
+TESTS            =  use_sac ucf vars sacio copy_files.sh icm sacio_all sac_all
 
 if HAVE_FC
 TESTS += sacio_fortran.sh saciof saclibf
@@ -326,5 +328,3 @@ endif
 
 SM_LOG_COMPILER = $(top_srcdir)/t/pytest.py
 AM_SM_LOG_FLAGS = -s "$(abs_builddir)/$(SACBIN)" -o "${abs_top_srcdir}/t/testsuite/output" --test
-
-
