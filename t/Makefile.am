@@ -111,6 +111,10 @@ use_sac_CFLAGS= $(COVERAGE)
 use_sac_LDADD = -L../src -lsacio -L. -lunit
 use_sac_LDFLAGS = 
 
+sacio_all_CFLAGS =
+sacio_all_LDADD = -L../src -lsacio
+sacio_all_LDFLAGS = 
+
 #saclibf${EXEEXT}: saclib_f.o
 #	$(F77) $(COVERAGE) -o $@ saclib_f.o -L../src -lsac
 
@@ -119,7 +123,7 @@ icm_CFLAGS = $(COVERAGE)
 icm_LDADD = -L../src -licm -lsac -lsacio
 
 # Compiled programs as tests
-check_PROGRAMS   = use_sac ucf vars sacio icm
+check_PROGRAMS   = use_sac ucf vars sacio icm sacio_all
 
 if HAVE_FC
 check_PROGRAMS += saciof saclibf
@@ -127,7 +131,7 @@ endif
 
 TEST_EXTENSIONS = .sm
 # Compiled programs to test
-TESTS            =  use_sac ucf vars sacio copy_files.sh icm
+TESTS            =  use_sac ucf vars sacio copy_files.sh icm sacio_all
 
 if HAVE_FC
 TESTS += sacio_fortran.sh saciof saclibf
