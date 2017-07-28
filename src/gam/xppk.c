@@ -44,7 +44,7 @@ xppk(int *nerr) {
 
     char _c0[2], kmsg[MCMSG + 1], kptext[MCMSG + 1], kundrt[9],
         kxloc[17], kyloc[17];
-    int lany, lempty, *lhlwrt, lppkab, ltitls, lwfok, *lzdttm;
+    int lany, lempty, *lhlwrt, ltitls, lwfok, *lzdttm;
     int xlabelsave, ylabelsave;
     char kchar;
     int iwf[5], jdx, jdfl, jdfl1, jdfl2, jdfls, jfr, jhdr1, jhdr2, jhour, jjday,
@@ -68,6 +68,7 @@ xppk(int *nerr) {
     static int lhltrm = FALSE;
     static int lhlhyp = FALSE;
     static int nsavelocs = 0;
+    static int lppkab = TRUE;
 
     int *const Iwf = &iwf[0] - 1;
     int bellJUNK;
