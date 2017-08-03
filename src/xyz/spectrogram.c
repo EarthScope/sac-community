@@ -70,14 +70,15 @@ spectrogram(double window, double sliceint, char *type, int *order, int nfiles,
             int *speclength, int sfft, float cwinlength, int lcnumber,
             int cnumber, char *cwintype, char *scale) {
     char windowfunc[11];
-    int buffersize, done, err, idx, iorfft, lfft, nptswndw, pfile,
+    int buffersize, done, err, iorfft, lfft, nptswndw,
         spectrogram_v, windowovrl;
     float signals[MAXLFFT];
     float ridge_regress = .00001;
     float *buffer, *spectmp;
     int *const Filelength = &filelength[0] - 1;
     float *const Signals = &signals[0] - 1;
-    long int length;
+    size_t length, idx, pfile;
+
     buffer = NULL;
     /*     * Include Files: */
     /*     * Arguments: */
@@ -120,7 +121,7 @@ spectrogram(double window, double sliceint, char *type, int *order, int nfiles,
         } else {
             /*          Get space for image */
             length = 0;
-            for (idx = 1; idx <= nfiles; idx++) {
+            for (idx = 1; idx <= (size_t) nfiles; idx++) {
                 length = length + Filelength[idx];
             }
             length = (IMGFFT / 2) * length * delta / sliceint;
