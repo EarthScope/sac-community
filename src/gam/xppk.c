@@ -29,7 +29,7 @@
 #include "dff.h"
 #include "array.h"
 
-
+#define ACK_CHAR 6
 
 GAM_EXTERN
 GEM_EXTERN
@@ -467,6 +467,11 @@ xppk(int *nerr) {
   L_4000:
     flushbuffer(nerr);
     cursor0(&xloc, &yloc, &kchar);
+
+    if (kchar == (char) ACK_CHAR) {
+        error(*nerr=901, ": Window resized during PPK\n\t\t Stopping PPK as picks are inaccruate during/after resize");
+        goto L_7777;
+    }
 
     upcase(&kchar, 1, &kchar, 1);
 

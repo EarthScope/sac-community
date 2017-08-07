@@ -63,6 +63,7 @@
 #include "config.h"
 
 #define MOTION   2
+#define ACK_CHAR 6
 
 GD3_EXTERN
 
@@ -369,6 +370,10 @@ dispatchevent3(int *nerr) {
             case ConfigureNotify:
                 {
                     XConfigureEvent *e = (XConfigureEvent *) pevent;
+                    if(xw->width != e->width || xw->height != e->height) { // Window Resize Event
+                        char_cursor3[0] = (char) ACK_CHAR;
+                        cursor_on3 = FALSE;
+                    }
                     xwindow_compress_event(xw, pevent);
                     xw->resize(xw, e->width, e->height, xw->resize_data);
                     if (is_plotw) {
