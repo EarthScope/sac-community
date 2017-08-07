@@ -249,7 +249,7 @@
 .. _sac macros:                       manual/sac_macros.html
 .. _sac data file format:             manual/file_format.html
 .. _sac reading and writing routines: manual/input_output.html
-.. _using the sac library:            manual/saclib.html
+.. _using the sac libraries:          manual/saclib.html
 .. _blackboard variables in sac:      manual/blackboard.html
 .. _graphics in sac:                  manual/graphics.html
 .. _sac graphics file:                manual/sgf_format.html

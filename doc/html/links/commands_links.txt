@@ -237,6 +237,7 @@
 .. _sac_data_file_format:  ../manual/file_format.html
 .. _inline:  ../manual/inline.html
 .. _sac_macros:  ../manual/sac_macros.html
+.. _using the sac library:  ../manual/saclib.html
 
 .. _sss: sss.com/sss.html
 .. _ssstraveltime: sss.com/traveltime.html
