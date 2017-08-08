@@ -79,6 +79,10 @@ DESCRIPTION
    Some but not all responses produce graphic output on the screen.  Error and
    output messages are printed at the top of the screen.
    
+   If one tries to resize the window during PPK, SAC exits from PPK with the
+   error message:  Exiting from PPK because picks are inaccurate after resize. 
+   Window resizing must be done before entering PPK.
+   
    Picks that are currently in the header are automatically displayed on
    the screen as vertical lines with labels.  Output from the various cursor 
    responses can be directed to the SAC header, to a alphanumeric pick file if 
@@ -115,19 +119,19 @@ close the APF file and display its contents::
 
       SAC> oapf name
       SAC> r UOM1.Z
-      SAC> ppk savelocs
+      SAC> ppk
          ** Description                Key (case-insensitive)
-         ** Zoom in to the P arrival:  X then X (or click and drag)
-         ** Pick P arrival time:       I U 0 P  (Impulsive, Up, Quality 0, P arrival)
-         ** Pick P amplitude:          L
-         ** Expand view:               O
-         ** Zoom in to the S arrival:  X then X (or click and drag)
-         ** Pick S arrival time:       I D 1 S  (Impulsive, Down, Quality 1, S arrival)
-         ** Pick S amplitude:          L
-         ** Quit PPK:                  Q
+         ** Zoom in to the P arrival:  x then x (or click and drag)
+         ** Pick P arrival time:       i u 0 p  (Impulsive, Up, Quality 0, P arrival)
+         ** Pick P amplitude:          l
+         ** Expand view:               o
+         ** Zoom in to the S arrival:  x then x (or click and drag)
+         ** Pick S arrival time:       i u 1 s  (Impulsive, Down, Quality 1, S arrival)
+         ** Pick S amplitude:          l
+         ** Quit PPK:                  q
       SAC> lh picks
          AMARKER = 0.25379  (IPU0)      T0MARKER = 0.44422   (ISU1)
-     SAC> getbb
+     SAC> getbb    ! Note that picks are not saved as bb variables, only l
         TLOC1 = 0.274248
         TLOC2 = 0.465606
         XLOC1 = 'NOV 04 (308), 2011 17:17:22.967'
@@ -135,15 +139,15 @@ close the APF file and display its contents::
         YLOC1 = 811.226
         YLOC2 = 12580.1
      SAC> capf
-     SAC> cat apf
+     SAC> cat APF
         UOM1.Z      IPU0     2011308 17 17 22.95      18.04 
         UOM1.Z      LOC      2011308 17 17 22.97      811.2
         UOM1.Z      ISU1     2011308 17 17 23.14     -8.896 
         UOM1.Z      LOC      2011308 17 17 23.16  1.258e+04 
      SAC>
      
-The P pick is stored in header variable A, and the (IPU)) in KA, and the S pick 
-is T0 with  (ISD1) in KT0. 
+The P pick is stored in header variable A, and the (IPU) in KA.  The S pick 
+is stored in T0 with  (ISD1) in KT0. 
          
 HEADER CHANGES
 --------------
@@ -172,10 +176,6 @@ WARNING MESSAGES
 - 1906: Need an integer in the range 0 to 4.  Retry.
 
   - Didn't input a 0, 1, 2 or 3 after a Q response.
-
-- 1907: HYPO line already written.
-- 1908: HYPO pick file not open.
-- 1909: Can't compute waveform.
 
   - Adjust cursor position and retry.  Plot is always in ABSOLUTE mode.
 

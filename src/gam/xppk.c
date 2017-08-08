@@ -469,7 +469,9 @@ xppk(int *nerr) {
     cursor0(&xloc, &yloc, &kchar);
 
     if (kchar == (char) ACK_CHAR) {
-        error(*nerr=901, ": Window resized during PPK\n\t\t Stopping PPK as picks are inaccruate during/after resize");
+        error(*nerr=901, ": Window resized during PPK\n"
+              "\t\t Exiting from PPK because picks are inaccurate after resize.\n"
+              "\t\t Window resizing must be done before entering PPK.");
         goto L_7777;
     }
 
