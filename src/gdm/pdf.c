@@ -10,6 +10,7 @@
 #include "gem.h"
 #include "bool.h"
 #include "xyz.h"
+#include "msg.h"
 
 #include "sgfcolor.h"
 
@@ -45,8 +46,8 @@ static pdf_t *xPDF = NULL;
 
 void begindevice_pdf(int *nerr);
 void beginframe_pdf(int *nerr);
-void draw_pdf(float x, float y);
-void drawpoly_pdf(float *x, float *y, int n);
+void draw_pdf(double x, double y);
+void drawpoly_pdf(double *x, double *y, int n);
 void endframe_pdf(int *nerr);
 char *fill_image_pdf(unsigned int height, unsigned int width, float data[],
                      float dmin, float range, int npseudocolors, int nsaccolors,
@@ -57,7 +58,7 @@ void getwindowstat_pdf(int number, int *exists);
 void getratio_pdf(float *aspect);
 void get_geometry_pdf(int number, unsigned int *width, unsigned int *height,
                       int *nerr);
-void move_pdf(float x, float y);
+void move_pdf(double x, double y);
 void put_image3(char *data, unsigned int xloc, unsigned int yloc,
                 unsigned int width, unsigned int height, int *nerr);
 void setcolor_pdf(color rgb);
@@ -83,7 +84,7 @@ begindevice_pdf(int *nerr) {
 static void
 marker(float x, float y) {
     pdf_save(xPDF);
-    pdf_moveto(xPDF, x, y);
+    pdf_moveto(xPDF, (double)x, y);
     pdf_lineto(xPDF, x + 1, y);
     pdf_lineto(xPDF, x, y + 1);
     pdf_lineto(xPDF, x - 1, y);
@@ -202,12 +203,12 @@ calculate_location_pdf(float *x, float *y, float *cx, float *cy, unsigned int w,
 }
 
 void
-draw_pdf(float x, float y) {
+draw_pdf(double x, double y) {
     pdf_lineto(xPDF, x * XSCALE, y * YSCALE);
 }
 
 void
-fillpoly_pdf(float *x, float *y, int n) {
+fillpoly_pdf(double *x, double *y, int n) {
     int i;
 
     pdf_line_join_style(xPDF, PDF_LINE_JOIN_STYLE_ROUND);
@@ -219,7 +220,7 @@ fillpoly_pdf(float *x, float *y, int n) {
 }
 
 void
-drawpoly_pdf(float *x, float *y, int n) {
+drawpoly_pdf(double *x, double *y, int n) {
     int i;
 
     pdf_line_join_style(xPDF, PDF_LINE_JOIN_STYLE_ROUND);
@@ -322,7 +323,7 @@ get_geometry_pdf(int number, unsigned int *width, unsigned int *height,
 }
 
 void
-move_pdf(float x, float y) {
+move_pdf(double x, double y) {
     pdf_moveto(xPDF, x * XSCALE, y * YSCALE);
 }
 

@@ -41,8 +41,8 @@ display_t ps;
 void begindevice_ps(int *nerr);
 void beginframe_ps(int *nerr);
 void changectable_ps(int nentry, int icolortable);
-void draw_ps(float x, float y);
-void drawpoly_ps(float *x, float *y, int n);
+void draw_ps(double x, double y);
+void drawpoly_ps(double *x, double *y, int n);
 void endframe_ps(int *nerr);
 char *fill_image_ps(unsigned int height, unsigned int width, float data[],
                     float dmin, float range, int npseudocolors, int nsaccolors,
@@ -53,7 +53,7 @@ void getwindowstat_ps(int number, int *exists);
 void getratio_ps(float *aspect);
 void get_geometry_ps(int number, unsigned int *width, unsigned int *height,
                      int *nerr);
-void move_ps(float x, float y);
+void move_ps(double x, double y);
 void put_image3(char *data, unsigned int xloc, unsigned int yloc,
                 unsigned int width, unsigned int height, int *nerr);
 void setcolor_ps(color c);
@@ -129,17 +129,17 @@ calculate_location_ps(float *x, float *y, float *cx, float *cy, unsigned int w,
     UNUSED(iw);
     *x = *x * XSCALE;
     *y = (1.0 - *y - (float) ih / (float) h) * YSCALE;
-    *cx = (*cx / (float) w) * XSCALE;
+    *cx = (*cx / (double) w) * XSCALE;
     *cy = ((ih - cmgdm.npscimage) / (float) h) * YSCALE;
 }
 
 void
-draw_ps(float x, float y) {
+draw_ps(double x, double y) {
     ps_lineto(PSC, x * XSCALE, y * YSCALE);
 }
 
 void
-drawpoly_ps(float *x, float *y, int n) {
+drawpoly_ps(double *x, double *y, int n) {
     int i;
     ps_line_join_style(PSC, PS_LINE_JOIN_STYLE_ROUND);
     move_ps(x[0], y[0]);
@@ -149,7 +149,7 @@ drawpoly_ps(float *x, float *y, int n) {
 }
 
 void
-fillpoly_ps(float *x, float *y, int n) {
+fillpoly_ps(double *x, double *y, int n) {
     int i;
     ps_line_join_style(PSC, PS_LINE_JOIN_STYLE_ROUND);
     move_ps(x[0], y[0]);
@@ -242,7 +242,7 @@ get_geometry_ps(int number, unsigned int *width, unsigned int *height,
 }
 
 void
-move_ps(float x, float y) {
+move_ps(double x, double y) {
     ps_moveto(PSC, x * XSCALE, y * YSCALE);
 }
 

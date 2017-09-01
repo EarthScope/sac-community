@@ -5,19 +5,37 @@
 
 #include "msg.h"
 
+void
+logdtaf(float *array, int n, int lfloor, double floor, float *output, int *nerr) {
+    int i;
+    *nerr = 0;
+    for(i = 0; i < n; i++) {
+        if (array[i] <= 0.0) {
+            if(lfloor) {
+                output[i] = floor;
+            } else {
+                error(*nerr = 902, "");
+                return;
+            }
+        } else {
+            output[i] = log10(array[i]);
+        }
+    }
+}
+
 void /*FUNCTION*/
 logdta(array, number, lfloor, floor, output, nerr)
-     float array[];
+     double array[];
      int number;
      int lfloor;
      double floor;
-     float output[];
+     double output[];
      int *nerr;
 {
     int j;
 
-    float *const Array = &array[0] - 1;
-    float *const Output = &output[0] - 1;
+    double*const Array = &array[0] - 1;
+    double *const Output = &output[0] - 1;
 
         /*=====================================================================
 	 * PURPOSE: To take the base 10 logarithm of an array.

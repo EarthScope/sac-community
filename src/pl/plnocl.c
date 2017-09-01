@@ -12,10 +12,7 @@ GDM_EXTERN
 GEM_EXTERN
 
 void /*FUNCTION*/
-plnocl(xarray, yarray, number, lnewdp)
-     float xarray[], yarray[];
-     int *number;
-     int lnewdp;
+plnocl(double xarray[], double yarray[], int *number, int lnewdp)
 {
     int iline;
 

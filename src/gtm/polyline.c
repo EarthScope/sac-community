@@ -14,11 +14,11 @@
 
 GEM_EXTERN
 
-float data_to_view_x(float x);
-float data_to_view_y(float y);
+double data_to_view_x(double x);
+double data_to_view_y(double y);
 
 void
-polyline(float xloc[], float yloc[], int *number) {
+polyline(double xloc[], double yloc[], int *number) {
     int i, n;
     display_t **dev;
     n = gdm_get_ndevices();
@@ -67,7 +67,7 @@ polyline(float xloc[], float yloc[], int *number) {
 #define TOP     8
 
 int
-outcode(float x, float y, float r[4]) {
+outcode(double x, double y, double r[4]) {
     int code = INSIDE;
     if (x < r[0]) {
         code |= LEFT;
@@ -83,7 +83,7 @@ outcode(float x, float y, float r[4]) {
 }
 
 int
-clip_to_rect(float x[2], float y[2], float r[4]) {
+clip_to_rect(double x[2], double y[2], double r[4]) {
     int c0, c1, c2;
     c0 = outcode(x[0], y[0], r);
     c1 = outcode(x[1], y[1], r);
@@ -129,10 +129,12 @@ clip_to_rect(float x[2], float y[2], float r[4]) {
   } while(0);
 
 void
-polyfillrect(float *x, float *y, int n, int positive, float rect[4]) {
+polyfillrect(double *x, double *y, int n, int positive, double rect[4]) {
     int i, k;
-    float xc[2], yc[2];
-    float *xp, *yp, *tmp;
+    double xc[2], yc[2];
+    double *yp, *tmp;
+    double *dtmp;
+    double *xp;
     int na;
     float base;
 
@@ -146,8 +148,8 @@ polyfillrect(float *x, float *y, int n, int positive, float rect[4]) {
     xc[0] = x[0];
     yc[0] = base;
     na = 16;
-    xp = (float *) malloc(sizeof(float) * na);
-    yp = (float *) malloc(sizeof(float) * na);
+    xp = (double *) malloc(sizeof(double) * na);
+    yp = (double *) malloc(sizeof(double) * na);
     k = 0;
 
     for (i = 0; i < n; i++) {
@@ -157,13 +159,13 @@ polyfillrect(float *x, float *y, int n, int positive, float rect[4]) {
         if (clip_to_rect(xc, yc, rect)) {
             if (k + 3 >= na) {
                 na *= 2;
-                if (!(tmp = (float *) realloc(xp, sizeof(float) * na))) {
-                    fprintf(stderr, "Error growing fill buffer\n");
+                if (!(dtmp = (double *) realloc(xp, sizeof(double) * na))) {
+                    fprintf(stderr, "Error growing fill buffer for x\n");
                     return;
                 }
-                xp = tmp;
-                if (!(tmp = (float *) realloc(yp, sizeof(float) * na))) {
-                    fprintf(stderr, "Error growing fill buffer\n");
+                xp = dtmp;
+                if (!(tmp = (double *) realloc(yp, sizeof(double) * na))) {
+                    fprintf(stderr, "Error growing fill buffer for y\n");
                     return;
                 }
                 yp = tmp;
@@ -211,11 +213,11 @@ polyfillrect(float *x, float *y, int n, int positive, float rect[4]) {
 }
 
 void
-polyfill(float *x, float *y, int n, int positive, color c) {
+polyfill(double *x, double *y, int n, int positive, color c) {
     color old;
     int yon, xon;
     float ymin, ymax, xmin, xmax;
-    float rect[4] = { 0, 100, 0, 10 };
+    double rect[4] = { 0, 100, 0, 10 };
     sac *s;
     getylm(&yon, &ymin, &ymax);
     getxlm(&xon, &xmin, &xmax);

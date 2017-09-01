@@ -10,16 +10,17 @@ GTM_EXTERN
 
 void /*FUNCTION*/
 symbol(xloc, yloc, number, lnewdp)
-     float xloc[], yloc[];
-     int number;
+    double xloc[];
+    double yloc[];
+    int number;
      int lnewdp;
 {
     int j1, j2, j2_;
-    float curgap, xcur, ycur;
-    static float xsave, ysave;
+    double curgap, xcur, ycur;
+    static double xsave, ysave;
 
-    float *const Xloc = &xloc[0] - 1;
-    float *const Yloc = &yloc[0] - 1;
+    double *const Xloc = &xloc[0] - 1;
+    double *const Yloc = &yloc[0] - 1;
 
         /*=====================================================================
 	 * PURPOSE: To plot symbols at a set of viewport locations.

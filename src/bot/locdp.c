@@ -72,10 +72,10 @@
  *
  */
 void
-locdp(double x, double y, float *xr, float *yr, int *ilocdp) {
+locdp(double x, double y, double *xr, double *yr, int *ilocdp) {
 
-    float *const Xr = &xr[0] - 1;
-    float *const Yr = &yr[0] - 1;
+    double *const Xr = &xr[0] - 1;
+    double *const Yr = &yr[0] - 1;
 
     /* - Assume data point is inside rectangle. */
     *ilocdp = 0;

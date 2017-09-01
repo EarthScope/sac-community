@@ -5,9 +5,24 @@
 
 GTM_EXTERN
 
+void
+worldpolylinef(float *xi, float *yi, int n) {
+    int i;
+    double *x, *y;
+    x = (double *) malloc(sizeof(double) * n);
+    y = (double *) malloc(sizeof(double) * n);
+    for(i = 0; i < n; i++) {
+        x[i] = xi[i];
+        y[i] = yi[i];
+    }
+    worldpolyline(x,y,n);
+    FREE(x);
+    FREE(y);
+}
+
 #define MBLOCK 100
 void
-worldpolyline(float *xwloc, float *ywloc, int number) {
+worldpolyline(double *xwloc, double *ywloc, int number) {
     int j;
     int n;
         /*=====================================================================
@@ -32,8 +47,8 @@ worldpolyline(float *xwloc, float *ywloc, int number) {
 	 *===================================================================== */
     /* PROCEDURE: */
 
-    float *x = (float *) malloc(sizeof(float) * number);
-    float *y = (float *) malloc(sizeof(float) * number);
+    double *x = (double *) malloc(sizeof(double) * number);
+    double *y = (double *) malloc(sizeof(double) * number);
 
     /* Coordinate change from world to view */
     for (j = 0; j < number; j++) {

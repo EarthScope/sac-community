@@ -92,9 +92,9 @@ void createwindow2(int *number, float *xwinmn, float *xwinmx, float *ywinmn,
                    float *ywinmx, int *nerr);
 void cursor2(float *xloc, float *yloc, char *kchar, int len);
 void cursortext2(float *xloc, float *yloc, char *ktext, int len);
-void draw2(float xloc, float yloc);
-void drawpoly2(float *x, float *y, int n);
-void fillpoly2(float *x, float *y, int n);
+void draw2(double xloc, double yloc);
+void drawpoly2(double *x, double *y, int n);
+void fillpoly2(double *x, double *y, int n);
 void endSGFtemp(int *nerr);
 void enddevice2(int *nerr);
 void endframe2(int *nerr);
@@ -114,7 +114,7 @@ void getratio2(float *aspect);
 void getwindowstat2(int number, int *exists);
 void hardwaretext2(char *ktext, int ntext);
 void initdevice2(void);
-void move2(float xloc, float yloc);
+void move2(double xloc, double yloc);
 void put_image2(char *data, unsigned int xloc, unsigned int yloc,
                 unsigned int width, unsigned int height, int *nerr);
 void setcolor2(color c);

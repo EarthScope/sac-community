@@ -9,19 +9,17 @@
 GEM_EXTERN
 
 void /*FUNCTION*/
-plblank(xblank, yblank, xarray, yarray, number)
-     float xblank[], yblank[], xarray[], yarray[];
-     int number;
+plblank(double *xblank, double *yblank, double *xarray, double *yarray, int number)
 {
     int ildp[2], itemp[2], j1, j2, n, ncdp;
-    float xcur, xtemp[2], ycur, ytemp[2];
-
+    double ycur, ytemp[2];
+    double xcur, xtemp[2];
     int *const Ildp = &ildp[0] - 1;
     int *const Itemp = &itemp[0] - 1;
-    float *const Xarray = &xarray[0] - 1;
-    float *const Xtemp = &xtemp[0] - 1;
-    float *const Yarray = &yarray[0] - 1;
-    float *const Ytemp = &ytemp[0] - 1;
+    double *const Xarray = &xarray[0] - 1;
+    double *const Xtemp = &xtemp[0] - 1;
+    double *const Yarray = &yarray[0] - 1;
+    double *const Ytemp = &ytemp[0] - 1;
 
         /*=====================================================================
 	 * PURPOSE: To display a set of data points with area blanking.

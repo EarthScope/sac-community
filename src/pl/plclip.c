@@ -14,21 +14,18 @@ GEM_EXTERN
 SSS_EXTERN
 
 void
-plclip(xarray, yarray, number, lnewdp)
-     float xarray[], yarray[];
-     int number;
-     int lnewdp;
+plclip(double *xarray, double *yarray, int number, int lnewdp)
 {
     int ltemp, lvisbl;
     int ildp[2], ildpc, j1, j2, j3, n, ncdp;
-    float xblank, xcur, xpw[2], yblank, ycur, ypw[2];
     static int lblank = FALSE;
-
+    double ypw[2], ycur, yblank;
+    double xpw[2], xcur, xblank;
     int *const Ildp = &ildp[0] - 1;
-    float *const Xarray = &xarray[0] - 1;
-    float *const Xpw = &xpw[0] - 1;
-    float *const Yarray = &yarray[0] - 1;
-    float *const Ypw = &ypw[0] - 1;
+    double *const Xarray = &xarray[0] - 1;
+    double *const Xpw = &xpw[0] - 1;
+    double *const Yarray = &yarray[0] - 1;
+    double *const Ypw = &ypw[0] - 1;
 
         /*=====================================================================
 	 * PURPOSE: To display a set of data points with clipping.
@@ -90,13 +87,13 @@ plclip(xarray, yarray, number, lnewdp)
     /* llefor became lOriginDefault.  maf 961004 */
     if (cmsss.lPlottingTT && cmsss.lOriginDefault) {
         if (Ypw[1] > Ypw[2]) {
-            float temp;
+            double temp;
             temp = Ypw[1];
             Ypw[1] = Ypw[2];
             Ypw[2] = temp;
         }
         if (Xpw[1] > Xpw[2]) {
-            float temp;
+            double temp;
             temp = Xpw[1];
             Xpw[1] = Xpw[2];
             Xpw[2] = temp;
@@ -129,7 +126,7 @@ plclip(xarray, yarray, number, lnewdp)
                 ((Yarray[j2] == cmgem.vnull) || (Xarray[j2] == cmgem.vnull))) {
                 if (n > 1) {
                     if (lblank) {
-                        plblank((float *) &xblank, (float *) &yblank,
+                        plblank(&xblank, &yblank,
                                 &Xarray[j1], &Yarray[j1], n);
                     } else {
                         polyline(&Xarray[j1], &Yarray[j1], &n);
@@ -167,7 +164,7 @@ plclip(xarray, yarray, number, lnewdp)
                             if (ncdp == 0)
                                 n = n - 1;
                             if (lblank) {
-                                plblank((float *) &xblank, (float *) &yblank,
+                                plblank(&xblank, &yblank,
                                         &Xarray[j1], &Yarray[j1], n);
                             } else {
                                 polyline(&Xarray[j1], &Yarray[j1], &n);
@@ -190,7 +187,7 @@ plclip(xarray, yarray, number, lnewdp)
         n = number - j1 + 1;
         if (n > 1) {
             if (lblank) {
-                plblank((float *) &xblank, (float *) &yblank, &Xarray[j1],
+                plblank(&xblank, &yblank, &Xarray[j1],
                         &Yarray[j1], n);
             } else {
                 polyline(&Xarray[j1], &Yarray[j1], &n);
@@ -215,8 +212,8 @@ plclip(xarray, yarray, number, lnewdp)
 
             /* -- See if data point is outside area blanking region(s). */
             if (lvisbl && lblank) {
-                locdp(Xarray[j2], Yarray[j2], (float *) &xblank,
-                      (float *) &yblank, &Ildp[1]);
+                locdp(Xarray[j2], Yarray[j2],  &xblank,
+                       &yblank, &Ildp[1]);
                 lvisbl = Ildp[1] != 0;
             }
 

@@ -465,8 +465,8 @@ pdf_color_fill(pdf_t * pdf, pdf_color_t c) {
  *    y position
  */
 void
-pdf_lineto(pdf_t * pdf, float x, float y) {
-    pdf_stream_add(pdf->stream, "%f %f l\n", x, y);
+pdf_lineto(pdf_t * pdf, double x, float y) {
+    pdf_stream_add(pdf->stream, "%lf %f l\n", x, y);
 }
 
 /** 
@@ -494,8 +494,8 @@ pdf_line_join_style(pdf_t * pdf, int style) {
  *    y position
  */
 void
-pdf_moveto(pdf_t * pdf, float x, float y) {
-    pdf_stream_add(pdf->stream, "%f %f m\n", x, y);
+pdf_moveto(pdf_t * pdf, double x, float y) {
+    pdf_stream_add(pdf->stream, "%lf %f m\n", x, y);
 }
 
 /** 

@@ -147,8 +147,8 @@ typedef void (*event_i_t) (int *number, int *nerr);
 typedef void (*ratio_t) (float *ratio);
 typedef void (*create_t) (int *number, float *xmin, float *xmax, float *ymin,
                           float *ymax, int *nerr);
-typedef void (*move_t) (float x, float y);
 typedef void (*cursortext_t) (float *x, float *y, char *ktext, int len);
+typedef void (*move_t) (double x, double y);
 typedef void (*change_t) (int nentry, int ctable);
 typedef void (*linestyle_t) (int *linestyle);
 typedef char *(*fill_t) (unsigned int height, unsigned int width, float data[],
@@ -158,8 +158,8 @@ typedef void (*put_t) (char *data, unsigned int xloc, unsigned int yloc,
                        unsigned int width, unsigned int height, int *nerr);
 typedef void (*text_t) (display_t * out, char *text, int len);
 typedef void (*cursor_t) (float *x, float *y, char *k, int len);
-typedef void (*draw_t) (float x, float y);
-typedef void (*drawpoly_t) (float *x, float *y, int n);
+typedef void (*draw_t) (double x, double y);
+typedef void (*drawpoly_t) (double *x, double *y, int n);
 typedef void (*erase_t) ();
 typedef void (*get_geometry_t) (int number, unsigned int *width,
                                 unsigned int *height, int *nerr);
@@ -193,7 +193,7 @@ typedef int (*get_file_descriptor_t) (void);
 typedef char *(*handle_event_t) (int *nerr);
 typedef void (*get_window_size_t) (float *xmin, float *xmax, float *ymin,
                                    float *ymax);
-typedef void (*fillpoly_t) (float *x, float *y, int n);
+typedef void (*fillpoly_t) (double *x, double *y, int n);
 
 struct _display_t {
     char *name;

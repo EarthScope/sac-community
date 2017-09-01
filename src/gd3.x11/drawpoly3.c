@@ -23,7 +23,7 @@
  */
 
 void
-drawpoly3(float *xloc_vp, float *yloc_vp, int npts) {
+drawpoly3(double *xloc_vp, double *yloc_vp, int npts) {
     static int i;
     static XPoint ptlist[102];
     XWindow *xw;
@@ -47,7 +47,7 @@ drawpoly3(float *xloc_vp, float *yloc_vp, int npts) {
 }
 
 void
-fillpoly3(float *x, float *y, int n) {
+fillpoly3(double *x, double *y, int n) {
     int i;
     XWindow *xw;
     XPoint *p;

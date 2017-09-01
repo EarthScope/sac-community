@@ -220,9 +220,9 @@ void cursortext3(float *xloc_vp, float *yloc_vp, char ktext[],
                  int ktext_length);
 int use_large_crosshairs(int getset);
 void dispatchevent3(int *nerr);
-void draw3(float xloc_vp, float yloc_vp);
-void drawpoly3(float *xloc_vp, float *yloc_vp, int npts);
-void fillpoly3(float *x, float *y, int n);
+void draw3(double xloc_vp, double yloc_vp);
+void drawpoly3(double *xloc_vp, double *yloc_vp, int npts);
+void fillpoly3(double *x, double *y, int n);
 void enddevice3(int *nerr);
 void endframe3(int *nerr);
 int error3(Display * display, XErrorEvent * error);
@@ -247,7 +247,7 @@ void getratio3(float *ratio);
 void getwindowstat3(int win_num, int *exists);
 void initdevice3(void);
 void make_label3(char string[], int *num, char label[]);
-void move3(float xloc_vp, float yloc_vp);
+void move3(double xloc_vp, double yloc_vp);
 void put_image3(char *data, unsigned int xloc, unsigned int yloc,
                 unsigned int width, unsigned int height, int *nerr);
 void setcolor3(color c);
@@ -321,8 +321,8 @@ void xwindow_font_load(XWindow * xw);
 
 XFont *xfont_new();
 
-float view_to_x11_x(float x, XWindow * xw);
-float view_to_x11_y(float y, XWindow * xw);
+double view_to_x11_x(double x, XWindow * xw);
+double view_to_x11_y(double y, XWindow * xw);
 float x11_to_view_x(float x, XWindow * xw);
 float x11_to_view_y(float y, XWindow * xw);
 

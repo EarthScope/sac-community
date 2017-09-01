@@ -23,7 +23,7 @@ GD3_EXTERN
  *
  */
 void
-draw3(float xloc_vp, float yloc_vp) {
+draw3(double xloc_vp, double yloc_vp) {
     point new_pt_p;
     XWindow *xw;
 

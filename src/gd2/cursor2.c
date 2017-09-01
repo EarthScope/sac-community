@@ -3,10 +3,7 @@
 #include "debug.h"
 
 void /*FUNCTION*/
-cursor2(xloc, yloc, kchar, len)
-     float *xloc, *yloc;
-     char *kchar;
-     int len;
+cursor2(float *xloc, float *yloc, char *kchar, int len)
 {
 
         /*=====================================================================

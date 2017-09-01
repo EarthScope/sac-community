@@ -68,8 +68,8 @@ enum {
 record_t *record_new();
 void record_free(record_t * r);
 int record_add(record_t * r, record_object_t * obj);
-record_object_t *record_draw(float x, float y);
-record_object_t *record_move(float x, float y);
+record_object_t *record_draw(double x, double y);
+record_object_t *record_move(double x, double y);
 record_object_t *record_color(color c);
 record_object_t *record_width(int index);
 record_object_t *record_style(int index);
@@ -79,8 +79,8 @@ record_object_t *record_endframe();
 record_object_t *record_text(char *text, int n);
 record_object_t *record_textbox(textbox * tbox);
 void record_play(record_t * r, display_t * out);
-record_object_t *record_drawpoly(float *x, float *y, int n);
-record_object_t *record_fillpoly(float *x, float *y, int n);
+record_object_t *record_drawpoly(double *x, double *y, int n);
+record_object_t *record_fillpoly(double *x, double *y, int bbn);
 void record_object_init(record_object_t * r, int type, play_t p, free_t f);
 record_object_t *record_image(float *data, unsigned int iw, unsigned int ih,
                               float xmin, float xmax, float ymin, float ymax,
@@ -124,21 +124,21 @@ struct _record_color_t {
 
 struct _record_draw_t {
     record_object_t base;
-    float x;
-    float y;
+    double x;
+    double y;
 };
 
 struct _record_drawpoly_t {
     record_object_t base;
     int n;
-    float *x;
-    float *y;
+    double *x;
+    double *y;
 };
 
 struct _record_move_t {
     record_object_t base;
-    float x;
-    float y;
+    double x;
+    double y;
 };
 
 struct _record_textbox_t {
@@ -206,15 +206,15 @@ static color COLORS[] = {
 void begindevice_record(int *nerr);
 void beginframe_record(int *nerr);
 void changectable_record(int nentry, int icolortable);
-void draw_record(float x, float y);
-void drawpoly_record(float *x, float *y, int n);
-void fillpoly_record(float *x, float *y, int n);
+void draw_record(double x, double y);
+void drawpoly_record(double *x, double *y, int n);
+void fillpoly_record(double *x, double *y, int n);
 void endframe_record(int *nerr);
 void getwindowstat_record(int number, int *exists);
 void getratio_record(float *aspect);
 void get_geometry_record(int number, unsigned int *width, unsigned int *height,
                          int *nerr);
-void move_record(float x, float y);
+void move_record(double x, double y);
 void setcolor_record(color c);
 void setctable_record(int iwindow, unsigned int nentry, float red[],
                       float green[], float blue[]);
@@ -353,21 +353,21 @@ changectable_record(int nentry, int icolortable) {
 }
 
 void
-draw_record(float x, float y) {
+draw_record(double x, double y) {
     record_object_t *r;
     r = record_draw(x, y);
     ADD_OR_FREE(Record, r);
 }
 
 void
-drawpoly_record(float *x, float *y, int n) {
+drawpoly_record(double *x, double *y, int n) {
     record_object_t *r;
     r = record_drawpoly(x, y, n);
     ADD_OR_FREE(Record, r);
 }
 
 void
-fillpoly_record(float *x, float *y, int n) {
+fillpoly_record(double *x, double *y, int n) {
     record_object_t *r;
     r = record_fillpoly(x, y, n);
     ADD_OR_FREE(Record, r);
@@ -407,7 +407,7 @@ setctable_record(int iwindow, unsigned int nentry, float red[], float green[],
 }
 
 void
-move_record(float x, float y) {
+move_record(double x, double y) {
     record_object_t *r;
     r = record_move(x, y);
     ADD_OR_FREE(Record, r);
@@ -618,18 +618,18 @@ setcolor_text(color rgb) {
 }
 
 void
-drawpoly_text(float *x, float *y, int n) {
+drawpoly_text(double *x, double *y, int n) {
     fprintf(text_fp, "drawpoly: x,y: (%p, %p) n: %d\n", x, y, n);
 }
 
 void
-draw_text(float x, float y) {
-    fprintf(text_fp, "draw %f %f\n", x, y);
+draw_text(double x, double y) {
+    fprintf(text_fp, "draw %lf %f\n", x, y);
 }
 
 void
-move_text(float x, float y) {
-    fprintf(text_fp, "move %f %f\n", x, y);
+move_text(double x, double y) {
+    fprintf(text_fp, "move %lf %f\n", x, y);
 }
 
 void
@@ -785,9 +785,16 @@ record_array_copy(float *a, int n) {
     memcpy(out, a, sizeof(float) * n);
     return out;
 }
+double *
+record_array_copy_double(double *a, int n) {
+    double *out;
+    out = (double *) malloc(sizeof(double) * n);
+    memcpy(out, a, sizeof(double) * n);
+    return out;
+}
 
 void
-record_array_scale(float *a, int n, float z) {
+record_array_scale(double *a, int n, double z) {
     int i;
     for (i = 0; i < n; i++) {
         a[i] = a[i] * z;
@@ -1030,7 +1037,7 @@ record_move_free(record_object_t * obj) {
 }
 
 record_object_t *
-record_move(float x, float y) {
+record_move(double x, double y) {
     record_move_t *r;
     r = (record_move_t *) malloc(sizeof(record_move_t));
     r->x = x;
@@ -1058,7 +1065,7 @@ record_draw_free(record_object_t * obj) {
 }
 
 record_object_t *
-record_draw(float x, float y) {
+record_draw(double x, double y) {
     record_draw_t *r;
     r = (record_draw_t *) malloc(sizeof(record_draw_t));
     if (r) {
@@ -1072,10 +1079,10 @@ record_draw(float x, float y) {
 
 void
 record_drawpoly_play(record_object_t * obj, display_t * out) {
-    float *y;
+    double *y;
     record_drawpoly_t *r = (record_drawpoly_t *) obj;
 
-    y = record_array_copy(r->y, r->n);
+    y = record_array_copy_double(r->y, r->n);
     record_array_scale(y, r->n, 1.0 / current_ratio);
 
     if (out->drawpoly) {
@@ -1097,12 +1104,12 @@ record_drawpoly_free(record_object_t * obj) {
 }
 
 record_object_t *
-record_drawpoly(float *x, float *y, int n) {
+record_drawpoly(double *x, double *y, int n) {
     record_drawpoly_t *r;
     r = (record_drawpoly_t *) malloc(sizeof(record_drawpoly_t));
     r->n = n;
-    r->x = record_array_copy(x, n);
-    r->y = record_array_copy(y, n);
+    r->x = record_array_copy_double(x, n);
+    r->y = record_array_copy_double(y, n);
     record_object_init(OBJ(r), RECORD_DRAWPOLY, record_drawpoly_play,
                        record_drawpoly_free);
     return OBJ(r);
@@ -1110,10 +1117,10 @@ record_drawpoly(float *x, float *y, int n) {
 
 void
 record_fillpoly_play(record_object_t * obj, display_t * out) {
-    float *y;
+    double *y;
     record_drawpoly_t *r = (record_drawpoly_t *) obj;
 
-    y = record_array_copy(r->y, r->n);
+    y = record_array_copy_double(r->y, r->n);
     record_array_scale(y, r->n, 1.0 / current_ratio);
 
     if (out->fillpoly) {
@@ -1124,12 +1131,12 @@ record_fillpoly_play(record_object_t * obj, display_t * out) {
 }
 
 record_object_t *
-record_fillpoly(float *x, float *y, int n) {
+record_fillpoly(double *x, double *y, int n) {
     record_drawpoly_t *r;
     r = (record_drawpoly_t *) malloc(sizeof(record_drawpoly_t));
     r->n = n;
-    r->x = record_array_copy(x, n);
-    r->y = record_array_copy(y, n);
+    r->x = record_array_copy_double(x, n);
+    r->y = record_array_copy_double(y, n);
     record_object_init(OBJ(r), RECORD_FILLPOLY, record_fillpoly_play,
                        record_drawpoly_free);
     return OBJ(r);

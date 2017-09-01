@@ -21,7 +21,7 @@ GD3_EXTERN
  *
  */
 void
-move3(float xloc_vp, float yloc_vp) {
+move3(double xloc_vp, double yloc_vp) {
     XWindow *xw;
 
     xw = plot_window(CURRENT);
@@ -37,13 +37,13 @@ move3(float xloc_vp, float yloc_vp) {
  *    properly
  */
 
-float
-view_to_x11_x(float x, XWindow * xw) {
+double
+view_to_x11_x(double x, XWindow * xw) {
     return x * xw->width;
 }
 
-float
-view_to_x11_y(float y, XWindow * xw) {
+double
+view_to_x11_y(double y, XWindow * xw) {
     //  return xw->height - (y * xw->height);
     return xw->height - (y * xw->width);
 }

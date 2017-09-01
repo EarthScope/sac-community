@@ -25,9 +25,9 @@ fdplot(memptr, lprint, xbeg, nerr)
 {
     int lany;
     int npulpts = 0, xend;
-    float dx, dy, xdattmp[NDATPTS], ximptmp[NIMPPTS], xos, xvsmax, xvsmin,
+    float dx, dy, ximptmp[NIMPPTS], xos, xvsmax, xvsmin,
         xwmax, xwmin, yos, yvsmax, yvsmin, ywmax, ywmax1, ywmin, ywmin1;
-
+    float xdattmp[NDATPTS];
         /*=====================================================================
 	 * PURPOSE:  To plot the traces produced by the filterdesign command. 
 	 *=====================================================================
@@ -110,12 +110,12 @@ fdplot(memptr, lprint, xbeg, nerr)
 
     setlinestyle(4);
     setcolorname("magenta", 8);
-    worldpolyline(memptr[6 - 1], memptr[5 - 1], NDATPTS);
+    worldpolylinef(memptr[6 - 1], memptr[5 - 1], NDATPTS);
 
     setlinestyle(1);
     setcolorname("blue", 5);
     loadxtmp(xdattmp, xwmin, xwmax, NDATPTS);
-    worldpolyline(xdattmp, memptr[9 - 1], NDATPTS);
+    worldpolylinef(xdattmp, memptr[9 - 1], NDATPTS);
 
     settextfont(1);
     setcolorname("black", 6);
@@ -150,7 +150,7 @@ fdplot(memptr, lprint, xbeg, nerr)
 
     setcolorname("blue", 5);
 
-    worldpolyline(ximptmp, &memptr[10 - 1][*xbeg - 1], npulpts);
+    worldpolylinef(ximptmp, &memptr[10 - 1][*xbeg - 1], npulpts);
 
     settextfont(1);
     setcolorname("black", 6);
@@ -196,12 +196,12 @@ fdplot(memptr, lprint, xbeg, nerr)
 
     setlinestyle(4);
     setcolorname("magenta", 8);
-    worldpolyline(memptr[2 - 1], memptr[1 - 1], NDATPTS);
+    worldpolylinef(memptr[2 - 1], memptr[1 - 1], NDATPTS);
 
     setlinestyle(1);
     setcolorname("blue", 5);
     loadxtmp(xdattmp, xwmin, xwmax, NDATPTS);
-    worldpolyline(xdattmp, memptr[7 - 1], NDATPTS);
+    worldpolylinef(xdattmp, memptr[7 - 1], NDATPTS);
 
     /* - upper right
      * -- Set world min & max values for this data set.
@@ -222,12 +222,12 @@ fdplot(memptr, lprint, xbeg, nerr)
 
     setlinestyle(4);
     setcolorname("magenta", 8);
-    worldpolyline(memptr[4 - 1], memptr[3 - 1], NDATPTS);
+    worldpolylinef(memptr[4 - 1], memptr[3 - 1], NDATPTS);
 
     setlinestyle(1);
     setcolorname("blue", 5);
     loadxtmp(xdattmp, xwmin, xwmax, NDATPTS);
-    worldpolyline(xdattmp, memptr[8 - 1], NDATPTS);
+    worldpolylinef(xdattmp, memptr[8 - 1], NDATPTS);
 
     settextfont(1);
     setcolorname("black", 6);

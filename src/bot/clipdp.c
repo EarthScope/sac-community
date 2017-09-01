@@ -52,15 +52,15 @@
  *
  */
 void
-clipdp(float *xdp, float *ydp, int *ildp, float *xrect, float *yrect, int *ncdp) {
+clipdp(double *xdp, double *ydp, int *ildp, double *xrect, double *yrect, int *ncdp) {
     int j1, j2;
     float dxdp, dydp;
 
     int *const Ildp = &ildp[0] - 1;
-    float *const Xdp = &xdp[0] - 1;
-    float *const Xrect = &xrect[0] - 1;
-    float *const Ydp = &ydp[0] - 1;
-    float *const Yrect = &yrect[0] - 1;
+    double *const Xdp = &xdp[0] - 1;
+    double *const Xrect = &xrect[0] - 1;
+    double *const Ydp = &ydp[0] - 1;
+    double *const Yrect = &yrect[0] - 1;
 
     /* - Each pass through loop moves one end closer to the rectangle.
      *   Complete clipping may require several iterations. 

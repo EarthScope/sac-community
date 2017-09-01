@@ -17,18 +17,18 @@ GEM_EXTERN
 
 #define	MBLOCK	100
 
-float
-data_to_view_x(float x) {
+double
+data_to_view_x(double x) {
     return cmgem.xmpip2 + cmgem.xmpip1 * x;
 }
 
-float
-data_to_view_y(float y) {
+double
+data_to_view_y(double y) {
     return cmgem.ympip2 + cmgem.ympip1 * y;
 }
 
 float
-interp1p(float *x, float *y, int i, float x0) {
+interp1p(double *x, double *y, int i, double x0) {
     return y[i] + (x0 - x[i]) * (y[i+1]-y[i])/(x[i+1]-x[i]);
 }
 
@@ -40,17 +40,17 @@ pldta(float xarray[], float yarray[], int number, int incx, int incy, int *nerr)
     int inc, insym, j, j3, jblock, jcopy, jx, jx1, jx2, jxb, jxf, jxl, jxx = 0, jy,
         jy1, jy2, jyb, jyf, jyl, jyy = 0, nblinbuf, nblock, ncopy, ncopyd, ninc,
         nqdp = 1, nremdr, numf, numl, numu, nwhole, do_count;
-    float slen, x1, x2, xblock[MBLOCK + 2], xrectangle, xtest, y1, y2,
-        yblock[MBLOCK + 2], yrectangle, ytest;
-
+    float slen, x1, x2, xrectangle, xtest, y1, y2, yrectangle, ytest;
+    double xblock[MBLOCK+2];
+    double yblock[MBLOCK+2];
     static float skfudge = 0.00053;
 
     float *const Xarray = &xarray[0] - 1;
-    float *const Xblock = &xblock[0] - 1;
+    double *const Xblock = &xblock[0] - 1;
     float *const Yarray = &yarray[0] - 1;
-    float *const Yblock = &yblock[0] - 1;
+    double *const Yblock = &yblock[0] - 1;
 
-        /*=====================================================================
+  /*=====================================================================
 	 * PURPOSE: To plot a set of x-y data in the current frame.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
@@ -205,7 +205,7 @@ pldta(float xarray[], float yarray[], int number, int incx, int incy, int *nerr)
         if (xtest < cmgem.data.xmin)
             numf = 1 + (int) ((cmgem.data.xmin - xtest) / cmgem.xgen.delta);
         xtest =
-            cmgem.xgen.first + (float) (number - 1) * cmgem.xgen.delta - VSMALL;
+            cmgem.xgen.first + (double) (number - 1) * cmgem.xgen.delta - VSMALL;
         if (xtest > cmgem.data.xmax)
             numl =
                 number - (int) ((xtest - cmgem.data.xmax) / cmgem.xgen.delta);
@@ -214,7 +214,7 @@ pldta(float xarray[], float yarray[], int number, int incx, int incy, int *nerr)
         if (ytest < cmgem.data.ymin)
             numf = 1 + (int) ((cmgem.data.ymin - ytest) / cmgem.ygen.delta);
         ytest =
-            cmgem.ygen.first + (float) (number - 1) * cmgem.ygen.delta - VSMALL;
+            cmgem.ygen.first + (double) (number - 1) * cmgem.ygen.delta - VSMALL;
         if (ytest > cmgem.data.ymax)
             numl =
                 number - (int) ((ytest - cmgem.data.ymax) / cmgem.ygen.delta);
@@ -313,11 +313,9 @@ pldta(float xarray[], float yarray[], int number, int incx, int incy, int *nerr)
                     Yblock[jblock + 1] = Yarray[jy2];
                     if (cmgem.xgen.on) {
                         Xblock[jblock] =
-                            cmgem.xgen.first + (float) (jy1 -
-                                                        1) * cmgem.xgen.delta;
+                            (double) cmgem.xgen.first + (double) (jy1 - 1) * (double) cmgem.xgen.delta;
                         Xblock[jblock + 1] =
-                            cmgem.xgen.first + (float) (jy2 -
-                                                        1) * cmgem.xgen.delta;
+                            (double) cmgem.xgen.first + (double) (jy2 - 1) * (double)cmgem.xgen.delta;
                     } else {
                         Xblock[jblock] = Xarray[jy1];
                         Xblock[jblock + 1] = Xarray[jy2];
@@ -346,9 +344,9 @@ pldta(float xarray[], float yarray[], int number, int incx, int incy, int *nerr)
                     Xblock[jblock] = Xarray[jx1];
                     Xblock[jblock + 1] = Xarray[jx2];
                     Yblock[jblock] =
-                        cmgem.ygen.first + (float) (jx1 - 1) * cmgem.ygen.delta;
+                        cmgem.ygen.first + (double) (jx1 - 1) * cmgem.ygen.delta;
                     Yblock[jblock + 1] =
-                        cmgem.ygen.first + (float) (jx2 - 1) * cmgem.ygen.delta;
+                        cmgem.ygen.first + (double) (jx2 - 1) * cmgem.ygen.delta;
                     jxb = jxb + incx * inc;
                 }               /* end for ( jblock ) */
             }                   /* end else if( !cmgem.lxgen ) */
@@ -359,7 +357,7 @@ pldta(float xarray[], float yarray[], int number, int incx, int incy, int *nerr)
                    to avoid rounding errors.  maf 980116 */
                 for (jblock = 1; jblock <= nblock; jblock++, nXdata++)
                     Xblock[jblock] =
-                        cmgem.xgen.first + (float) nXdata *cmgem.xgen.delta;
+                        (double)cmgem.xgen.first + (double) nXdata * (double)cmgem.xgen.delta;
                 nXdata -= 2;    /* there's a two point overlap between blocks. */
             } else {
                 jxx = jxb;
@@ -373,7 +371,7 @@ pldta(float xarray[], float yarray[], int number, int incx, int incy, int *nerr)
                    to avoid rounding errors.  maf 980116 */
                 for (jblock = 1; jblock <= nblock; jblock++, nYdata++) {
                     Yblock[jblock] =
-                        cmgem.ygen.first + (float) nYdata *cmgem.ygen.delta;
+                        cmgem.ygen.first + (double) nYdata *cmgem.ygen.delta;
                 }
                 nYdata -= 2;    /* theres a two point overlap between blocks. */
             } else {

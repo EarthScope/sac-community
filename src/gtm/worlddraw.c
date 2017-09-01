@@ -15,12 +15,17 @@ GTM_EXTERN
 void
 worlddraw(double xwloc, double ywloc) {
     int iloc, ixyloc[2], n;
-    float xline[2], xloc, yline[2], yloc;
+    double xline[2], xloc, yline[2], yloc;
 
     int *const Ixyloc = &ixyloc[0] - 1;
-    float *const Xline = &xline[0] - 1;
-    float *const Yline = &yline[0] - 1;
+    double *const Xline = &xline[0] - 1;
+    double *const Yline = &yline[0] - 1;
+    double xlim[2], ylim[2];
 
+    xlim[0] = cmgtm.xvpmin;
+    xlim[1] = cmgtm.xvpmax;
+    ylim[0] = cmgtm.yvpmin;
+    ylim[1] = cmgtm.yvpmax;
         /*=====================================================================
 	 * PURPOSE:  To draw from the current point to the requested world point.
 	 *=====================================================================
@@ -99,7 +104,7 @@ worlddraw(double xwloc, double ywloc) {
             Yline[2] = yloc;
             Ixyloc[1] = cmgtm.ivpold;
             Ixyloc[2] = iloc;
-            clipdp(xline, yline, ixyloc, xvp, yvp, &n);
+            clipdp(xline, yline, ixyloc, xlim, ylim, &n);
 
             move(Xline[1], Yline[1]);
             draw(Xline[2], Yline[2]);

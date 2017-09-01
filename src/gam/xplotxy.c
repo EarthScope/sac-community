@@ -32,8 +32,8 @@ xplotxy(int *nerr) {
     int lany, lchange, lxlims, lylimj;
     int *idflnumber, jdfl, jdflnumber, nc = 0, ndflnumber, num;
     float atrwid, slen, slenm, slenvs, vportratio, xlinl1 = 0.0, xlinl2 = 0.0, xrange,
-        xsymlc, yatrlc, yimnj, yimxj, yrange;
-
+        yimnj, yimxj, yrange;
+    double xsymlc, yatrlc;
     char *tmp;
     sac *sx, *sy, *s;
         /*=====================================================================
@@ -380,7 +380,7 @@ xplotxy(int *nerr) {
             }
             if (cmgem.lsym && cmgem.isym > 0) {
                 setlinewidth(cmgem.isymwidth);
-                symbol((float *) &xsymlc, (float *) &yatrlc, 1, TRUE);
+                symbol( &xsymlc, &yatrlc, 1, TRUE);
                 setlinewidth(cmgem.iwidth);
             }
             if (cmgem.lcol) {

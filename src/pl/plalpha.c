@@ -27,11 +27,11 @@ plalpha(kalpha, kalpha_s, malpha, lprint, nerr)
 #define KALPHA(I_,J_)	(kalpha+(I_)*(kalpha_s)+(J_))
     int lany, lframs, lxgens;
     int idx, ildp, npoints, nc;
-    float xloc, xpw[2], yloc, ypw[2];
+    double xloc, xpw[2], yloc, ypw[2];
 
     sac *s;
-    float *const Xpw = &xpw[0] - 1;
-    float *const Ypw = &ypw[0] - 1;
+    double *const Xpw = &xpw[0] - 1;
+    double *const Ypw = &ypw[0] - 1;
 
         /*=====================================================================
 	 * PURPOSE:  To plot tha alpha text along with the first file that

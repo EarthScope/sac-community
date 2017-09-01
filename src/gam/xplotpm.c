@@ -231,8 +231,7 @@ xplotpm(int *nerr) {
 
         /* -- Plot this pair of files. */
         rectangle(&xvmin, &xvmax, &yvmin, &yvmax);
-        worldpolyline(&s2->y[ixplot], &s->y[iyplot], nplot);
-
+        worldpolylinef(&s2->y[ixplot], &s->y[iyplot], nplot);
         //settexttype("SOFTWARE");
         xaxis("LINEAR", "BELOW", "BOTH", xlabel, MCMSG + 1);
         yaxis("LINEAR", "LEFT", "BOTH", ylabel, MCMSG + 1);

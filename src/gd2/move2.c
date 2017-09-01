@@ -10,7 +10,7 @@
 GD2_EXTERN
 
 void
-move2(float xloc, float yloc) {
+move2(double xloc, double yloc) {
     int ixloc, iyloc, nerr;
     float unused, xfactor, xpsize, xvpmax, xvpmin, xvsmax, xvsmin, xwcmax,
         xwcmin;

@@ -5,7 +5,7 @@
 GD2_EXTERN
 
 void
-draw2(float xloc, float yloc) {
+draw2(double xloc, double yloc) {
     int ixloc, iyloc, nerr;
 
         /*=====================================================================
@@ -50,7 +50,7 @@ draw2(float xloc, float yloc) {
 }                               /* end of function */
 
 void
-drawpoly2(float *x, float *y, int n) {
+drawpoly2(double *x, double *y, int n) {
     int j;
     move2(x[0], y[0]);
     for (j = 1; j < n; j++) {
@@ -59,7 +59,7 @@ drawpoly2(float *x, float *y, int n) {
 }
 
 void
-fillpoly2(float *x, float *y, int n) {
+fillpoly2(double *x, double *y, int n) {
     int nerr;
     int j;
     move2(x[0], y[0]);

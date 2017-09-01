@@ -25,17 +25,23 @@ GDM_EXTERN
 void
 draw(float xloc, float yloc) {
     int iloc, ixyloc[2], unused;
-    float xline[2], yline[2];
-
+    double  yline[2];
+    double xline[2];
+    double xlim[2], ylim[2];
     int i, n;
     display_t **dev;
     n = gdm_get_ndevices();
     dev = gdm_get_devices();
 
     int *const Ixyloc = &ixyloc[0] - 1;
-    float *const Xline = &xline[0] - 1;
-    float *const Yline = &yline[0] - 1;
+    double *const Xline = &xline[0] - 1;
+    double *const Yline = &yline[0] - 1;
 
+    xlim[0] = cmgdm.xvs[0];
+    xlim[1] = cmgdm.xvs[1];
+    ylim[0] = cmgdm.yvs[0];
+    ylim[1] = cmgdm.yvs[1];
+    
     /* LOCAL VARIABLES:
      *   xline:    X locations of line from current point to input point.
      *   yline:    Y locations of line from current point to input point.
@@ -88,7 +94,7 @@ draw(float xloc, float yloc) {
             Yline[2] = yloc;
             Ixyloc[1] = cmgdm.iold;
             Ixyloc[2] = iloc;
-            clipdp(xline, yline, ixyloc, cmgdm.xvs, cmgdm.yvs, &unused);
+            clipdp(xline, yline, ixyloc, xlim, ylim, &unused);
 
             for (i = 0; i < n; i++) {
                 if (dev[i]->on && dev[i]->draw && dev[i]->move) {
