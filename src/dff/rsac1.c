@@ -220,7 +220,7 @@ check_precision(float dt, float val) {
 
 void
 sac_check_time_precision(struct SACheader *h) {
-    int i,n;
+    int i, n;
     double df;
     char *names[] = {"b","e","a","o","t0","t1","t2","t3","t4","t5","t6","t7","t8","t9","f"};
     float values[] = {h->b, h->e, h->a, h->o,
@@ -232,8 +232,10 @@ sac_check_time_precision(struct SACheader *h) {
             continue;
         }
         if((df = check_precision(h->delta, values[i])) != 0) {
-            fprintf(stderr, "Warning: time value '%2s': %f is not precise: d(f32) at %2s: %f dt: %f\n",
+            warning(3264, "Time '%2s': %f is not precise: d(f32) at %2s: %f dt: %f",
                     names[i], values[i], names[i], df, h->delta);
+            outmsg();
+            clrmsg();
         }
     }
 }

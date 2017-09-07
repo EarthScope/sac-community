@@ -354,6 +354,7 @@
 2902 Zoomed input too large to display. Maximum dimension is 
 3000 CONTOURING MODULE
 3001 Exceeded maximum number of contouring levels:
+3264 Precision problem: 
 3501 Plot Label number exceeds total number of current labels: 
 4000 NUMBER CONVERSION MODULE
 4002 Number out of range

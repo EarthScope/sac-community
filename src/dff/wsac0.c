@@ -194,6 +194,9 @@ sac_write_internal(sac * s, char *filename, int write_data, int lswap,
     /* Recompute the distance, azimuth, etc if proper header fields are present */
     update_distaz(s);
 
+    /* Check precision of time values */
+    sac_check_time_precision(s->h);
+
     if (write_data) {
         znfile(&nun, filename, strlen(filename) + 1, nerr);
         if (*nerr) {
