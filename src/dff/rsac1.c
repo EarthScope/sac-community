@@ -204,6 +204,40 @@ sac_data_read_new(sac *s, FILE *fp) {
     return 0;
 }
 
+
+double
+check_precision(float dt, float val) {
+    float df;
+    float f2 = val;
+    int *i = (int *) &f2; // Cast float memory to integer value
+    *i = *i + 1;          // Increment to the next float
+    df = f2 - val;        // Find difference between neighboring floats
+    if(df > dt) {         // Return difference if larger than sampling rate
+        return df;
+    }
+    return 0.0;           // Otherwise return 0.0
+}
+
+void
+sac_check_time_precision(struct SACheader *h) {
+    int i,n;
+    double df;
+    char *names[] = {"b","e","a","o","t0","t1","t2","t3","t4","t5","t6","t7","t8","t9","f"};
+    float values[] = {h->b, h->e, h->a, h->o,
+                      h->t0,h->t1,h->t2,h->t3,h->t4, h->t5,h->t6,h->t7,h->t8,h->t9,
+                      h->f};
+    n = sizeof(values)/sizeof(float);
+    for(i = 0; i < n; i++) {
+        if(values[i] == SAC_FLOAT_UNDEFINED) {
+            continue;
+        }
+        if((df = check_precision(h->delta, values[i])) != 0) {
+            fprintf(stderr, "Warning: time value '%2s': %f is not precise: d(f32) at %2s: %f dt: %f\n",
+                    names[i], values[i], names[i], df, h->delta);
+        }
+    }
+}
+
 int
 sac_header_read_new(sac *s, FILE *fp) {
     int nerr;
@@ -226,6 +260,9 @@ sac_header_read_new(sac *s, FILE *fp) {
         return ERROR_READING_FILE;
     }
     map_chdr_in((float *) s->h->kstnm, (float *) str);
+
+    sac_check_time_precision(s->h);
+
     return 0;
 }
 

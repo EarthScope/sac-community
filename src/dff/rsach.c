@@ -158,6 +158,7 @@ sac_header_read(int nun, sac * s, int *nerr) {
     zgetc((int *) temp, (char *) s->h->kstnm,
           SAC_HEADER_STRING_LENGTH * SAC_HEADER_STRINGS);
 
+    sac_check_time_precision(s->h);
     return lswap;
 
 }
