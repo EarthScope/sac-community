@@ -12,10 +12,7 @@
 GAM_EXTERN
 
 void
-getylm(lylmon, ystart, ystop)
-     int *lylmon;
-     float *ystart, *ystop;
-{
+getylm(int *lylmon, double *ystart, double *ystop) {
     int i;
     sac *s;
         /*=====================================================================

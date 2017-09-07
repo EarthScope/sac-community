@@ -32,6 +32,20 @@ interp1p(double *x, double *y, int i, double x0) {
     return y[i] + (x0 - x[i]) * (y[i+1]-y[i])/(x[i+1]-x[i]);
 }
 
+double
+check_precision(float dt, float val) {
+    float df;
+    float f2 = val;
+    int *i = (int *) &f2; // Cast float memory to integer value
+    *i = *i + 1;          // Increment to the next float
+    df = f2 - val;        // Find difference between neighboring floats
+    if(df > dt) {         // Return difference if larger than sampling rate
+        return df;
+    }
+    return 0.0;           // Otherwise return 0.0
+}
+
+
 void
 pldta(float xarray[], float yarray[], int number, int incx, int incy, int *nerr) {
     char kinc[9];

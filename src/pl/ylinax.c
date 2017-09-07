@@ -27,11 +27,11 @@ ylinax() {
     int ia, ib, igdlog, jdiv, jpower, jstep = 1, jtick, mds, nds, ntick,
         nydivu;
     float divlog, divtry, factor, grdlog, power, skfudge, slen, slenmx, value,
-        valuei, xloc, xpow = 0.0, xvpmax, xvpmin, ydivu, ygrdmn, ygrdmx, yref, yrefi,
-        ytick, yticki, yvpmax, yvpmin;
+        valuei, xloc, xpow = 0.0, ydivu, ygrdmn, ygrdmx, yref, yrefi,
+        ytick, yticki;
     static char kvalue[17] = "                ";
     static char kpower[9];
-
+    double xvpmin, xvpmax, yvpmin, yvpmax;
         /*=====================================================================
 	 * PURPOSE:  To produce a linearly-scaled axis to the right and/or
 	 *           left of the current plot window.

@@ -34,9 +34,10 @@ xp2(int *nerr) {
     char ktemp[MCMSG + 7];      /* increased array size for jdfl.  maf 970130 */
     int lany, lfirst, lxlimj, lxlims, lylimj, lprint = FALSE, ltry = FALSE;
     int jdx, jdfl, nrdttm[6], num1, num2, num2m1;
-    float atrwid, fjunk, ximnj, ximxj, xjunk, yimnj, yimxj;
+    float atrwid;
     char *tmp;
-
+    double yimnj, yimxj, ximnj, ximxj;
+    double xjunk;
     float *toff = NULL;
 
     sac *s;
@@ -241,9 +242,11 @@ xp2(int *nerr) {
             /* --- Y limits are more complicated if XLIM is already on. */
             /* If spectral file, use first component range (AM or RL). */
             getylm(&lylimj, &yimnj, &yimxj);
-            if (!lylimj && !lxlims &&
-                (s->h->iftype == IRLIM || s->h->iftype == IAMPH))
-                extrma(&s->y[1], 1, s->h->npts - 11, &yimnj, &yimxj, &fjunk);
+            if (!lylimj && !lxlims && (s->h->iftype == IRLIM || s->h->iftype == IAMPH)) {
+                //extrma(&s->y[1], 1, s->h->npts - 11, &yimnj, &yimxj, &fjunk);
+                yimnj = (double) vmin(&s->y[1], s->h->npts - 1, 1);
+                yimxj = (double) vmax(&s->y[1], s->h->npts - 1, 1);
+            }
             if (lxlims && !lylimj) {
                 if (s->h->leven) {
                     num1 = (int) ((ximnj - s->h->b) / s->h->delta) + 1;
@@ -254,8 +257,9 @@ xp2(int *nerr) {
                         num2 = s->h->npts;
                     if (num1 <= s->h->npts && num2 >= 1) {
                         num2m1 = num2 - num1 + 1;
-                        extrma(&s->y[num1 - 1], 1, num2m1, &yimnj, &yimxj,
-                               &fjunk);
+                        //extrma(&s->y[num1 - 1], 1, num2m1, &yimnj, &yimxj, &fjunk);
+                        yimnj = (double) vmin(&s->y[num1-1], num2m1, 1);
+                        yimxj = (double) vmax(&s->y[num1-1], num2m1, 1);
                     } else {
                         yimnj = -1.;
                         yimxj = 1.;
@@ -293,8 +297,11 @@ xp2(int *nerr) {
             cmgem.ximx = fmax(cmgem.ximx, ximxj - ximnj);
             toff[jdfl - 1] = -ximnj;
             getylm(&lylimj, &yimnj, &yimxj);
-            if (!lylimj && (s->h->iftype == IRLIM || s->h->iftype == IAMPH))
-                extrma(&s->y[1], 1, s->h->npts - 1, &yimnj, &yimxj, &fjunk);
+            if (!lylimj && (s->h->iftype == IRLIM || s->h->iftype == IAMPH)) {
+                //extrma(&s->y[1], 1, s->h->npts - 1, &yimnj, &yimxj, &fjunk);
+                yimnj = (double) vmin(&s->y[1], s->h->npts-1, 1);
+                yimnj = (double) vmax(&s->y[1], s->h->npts-1, 1);
+            }
             cmgem.yimn = fmin(cmgem.yimn, yimnj);
             cmgem.yimx = fmax(cmgem.yimx, yimxj);
         }                       /* end for ( jdfl = 1; jdfl <= saclen(); jdfl++ ) */

@@ -3,11 +3,9 @@
 #include "gdm.h"
 
 void /*FUNCTION*/
-rectangle(xloc1, xloc2, yloc1, yloc2)
-     float *xloc1, *xloc2, *yloc1, *yloc2;
-{
+rectangle(double *xloc1, double *xloc2, double *yloc1, double *yloc2) {
 
-        /*=====================================================================
+  /*=====================================================================
 	 * PURPOSE:  To draw a rectangle.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:

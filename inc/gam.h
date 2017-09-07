@@ -165,12 +165,12 @@ void pkchar(float *array, int ndxmx, float si, int ndxpk, char *ktype,
 void dispid(int ldfl, int idfl, int nlast, char **last);
 void disppk(double tdelay);
 void disppkLandscape(double tdelay);
-void getxlm(int *lxlm, float *xmin, float *xmax);
-void getylm(int *lylmon, float *ystart, float *ystop);
+void getxlm(int *lxlm, double *xmin, double *xmax);
+void getylm(int *lylmon, double *ystart, double *ystop);
 void inigam(void);
 void markvert(int jmark1, int jmark2, float *xloc, double ytop, double ydel,
               char *klabel, int klabel_s, int nmarks);
-void markwf(int jmark1, int jmark2, float *xloc1, float *xloc2, double ytop,
+void markwf(int jmark1, int jmark2, double *xloc1, double *xloc2, double ytop,
             double ydel, char *klabel, int klabel_s);
 void pcmcur(FILE * nunmac);
 void pcmrpl(FILE * nunmac, double scale, double angle);

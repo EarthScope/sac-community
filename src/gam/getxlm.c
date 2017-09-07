@@ -14,10 +14,7 @@
 GAM_EXTERN
 
 void
-getxlm(lxlm, xmin, xmax)
-     int *lxlm;
-     float *xmin, *xmax;
-{
+getxlm(int *lxlm, double *xmin, double *xmax) {
     int nerr, nlnatw, nofmin;
     double tmin, tmax;
     sac *s;
@@ -55,8 +52,8 @@ getxlm(lxlm, xmin, xmax)
     if (*lxlm) {
         getatw((char *) kmgam.krtwxl, 9, cmgam.ortwxl, &tmin, &tmax, &nofmin,
                &nlnatw, &nerr);
-        *xmin = (float) tmin;
-        *xmax = (float) tmax;
+        *xmin = tmin;
+        *xmax = tmax;
         if (nerr != 0)
             *lxlm = FALSE;
     }
@@ -64,8 +61,8 @@ getxlm(lxlm, xmin, xmax)
     /* - Return begin and end times if option is off or an error occurred. */
 
     if (!*lxlm) {
-        *xmin = s->h->b;
-        *xmax = s->h->e;
+        *xmin = (double) s->h->b;
+        *xmax = (double) s->h->e;
     }
 
     return;

@@ -24,8 +24,9 @@ xlogax() {
     int lsecax, lsectc;
     int idecin, idecmn, idecmx, isecin, jdec, jfac, nc, ndivu;
     float decade, decmn, decmx, decsiz, skfudge, slen, slen10, slenmx, xpmnf,
-        xpmxf, xref, xrefs, xvpmax, xvpmin, yloc, yvpmax, yvpmin;
+        xpmxf, xref, xrefs, yloc;
     char v[2];
+    double xvpmin, xvpmax, yvpmin, yvpmax;
         /*=====================================================================
 	 * PURPOSE:  To produce a logarithmically-scaled axis at the bottom
 	 *           and/or top of the current plot window.

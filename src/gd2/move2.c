@@ -12,9 +12,10 @@ GD2_EXTERN
 void
 move2(double xloc, double yloc) {
     int ixloc, iyloc, nerr;
-    float unused, xfactor, xpsize, xvpmax, xvpmin, xvsmax, xvsmin, xwcmax,
-        xwcmin;
-
+    float unused, xfactor, xpsize, xwcmax, xwcmin;
+    double dunused;
+    double xvpmin, xvpmax;
+    double xvsmin, xvsmax;
         /*=====================================================================
 	 * PURPOSE:  To perform MOVE operation on graphics device 2 (SGF).
 	 *=====================================================================
@@ -43,8 +44,8 @@ move2(double xloc, double yloc) {
     /* PROCEDURE: */
     /* - Encode plot size if necessary. */
     if (cmgd2.encodesize) {
-        getvport(&xvpmin, &xvpmax, &unused, &unused);
-        getvspace(&xvsmin, &xvsmax, &unused, &unused);
+        getvport(&xvpmin, &xvpmax, &dunused, &dunused);
+        getvspace(&xvsmin, &xvsmax, &dunused, &dunused);
         xfactor = (xvsmax - xvsmin) / (xvpmax - xvpmin);
         if (strcmp(kmgd2.sizetype, "FIXED   ") == 0) {
             xpsize = cmgd2.sizevalue * xfactor;

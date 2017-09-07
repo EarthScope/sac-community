@@ -43,9 +43,9 @@ int
 calc_time_offsets(int lrelative, float *toff, int n1, int n2, float *ptmin, float *ptmax) {
     int i, j;
     int lxlims, nerr;
-    float tmin, tmax, tminj, tmaxj;
     int n1dttm[6];
-
+    double tminj, tmaxj;
+    double tmin, tmax;
     int t1_valid;
 
     sac *s;

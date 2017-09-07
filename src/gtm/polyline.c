@@ -216,7 +216,7 @@ void
 polyfill(double *x, double *y, int n, int positive, color c) {
     color old;
     int yon, xon;
-    float ymin, ymax, xmin, xmax;
+    double ymin, ymax, xmin, xmax;
     double rect[4] = { 0, 100, 0, 10 };
     sac *s;
     getylm(&yon, &ymin, &ymax);

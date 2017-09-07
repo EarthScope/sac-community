@@ -9,7 +9,5 @@
  p depmin depmax
  ERROR interpreting command:  p depmin depmax 
  ILLEGAL OPTION:                ^
- WARNING: Data value outside system storage bounds
- Maxvalue = 0  Minvalue = -inf
- ERROR 1340: data points outside allowed range contained in file
+ ERROR 1340: data points outside allowed range contained in file : ymin = -inf ymax = 0.000000
  quit

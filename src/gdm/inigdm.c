@@ -46,10 +46,10 @@ int *const Lgdon = &cmgdm.lgdon[0] - 1;
 short *const Stroke = &cmgdm.stroke[0] - 1;
 short *const Stxmax = &cmgdm.stxmax[0] - 1;
 short *const Stxmin = &cmgdm.stxmin[0] - 1;
-float *const Xvs = &cmgdm.xvs[0] - 1;
+double *const Xvs = &cmgdm.xvs[0] - 1;
 float *const Xwindowmax = &cmgdm.xwindowmax[0] - 1;
 float *const Xwindowmin = &cmgdm.xwindowmin[0] - 1;
-float *const Yvs = &cmgdm.yvs[0] - 1;
+double *const Yvs = &cmgdm.yvs[0] - 1;
 float *const Ywindowmax = &cmgdm.ywindowmax[0] - 1;
 float *const Ywindowmin = &cmgdm.ywindowmin[0] - 1;
 

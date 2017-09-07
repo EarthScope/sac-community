@@ -25,10 +25,10 @@ fdplot(memptr, lprint, xbeg, nerr)
 {
     int lany;
     int npulpts = 0, xend;
-    float dx, dy, ximptmp[NIMPPTS], xos, xvsmax, xvsmin,
-        xwmax, xwmin, yos, yvsmax, yvsmin, ywmax, ywmax1, ywmin, ywmin1;
+    float dx, dy, ximptmp[NIMPPTS], xos, xwmax, xwmin, yos, ywmax, ywmax1, ywmin, ywmin1;
     float xdattmp[NDATPTS];
-        /*=====================================================================
+    double xvsmin, xvsmax, yvsmin, yvsmax;
+  /*=====================================================================
 	 * PURPOSE:  To plot the traces produced by the filterdesign command. 
 	 *=====================================================================
 	 * INPUT ARGUMENTS:

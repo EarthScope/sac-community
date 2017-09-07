@@ -1,0 +1,15 @@
+ wait text off
+  
+ ==>  
+ fg sine 2.0 delta 0.01 npts 100
+ ch b 0.0
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ ch b 3.5e5
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ quit

@@ -16,16 +16,17 @@ void
 put_image2(char *data, unsigned int xloc, unsigned int yloc, unsigned int width,
            unsigned int height, int *nerr) {
     int nw, nchars, copycount;
-    float unused, xvpmin, xvpmax, xvsmin, xvsmax, xwcmin, xwcmax;
+    float xwcmin, xwcmax;
     float xfactor, xpsize;
-
+    double unused, xvpmin, xvpmax, xvsmin, xvsmax;
+    float funused;
         /*=====================================================================
 	 * PURPOSE:  To do an image plot with limited options.
 	 *           Need to add options to allow user to specify size of
          *           image.  Default is the size of the raw data.
 	 *=====================================================================
 	 * INPUT ARGUMENTS:
-	 *      array:  Two-dimensional array of data. [fa]  
+	 *      array:  Two-dimensional array of data. [fa]
 	 *     nxsize:  Number of elements in the x (horizontal) direction. [i]
 	 *     nysize:  Number of elements in the y (vertical) direction. [i]
 	 *=====================================================================
@@ -55,7 +56,7 @@ put_image2(char *data, unsigned int xloc, unsigned int yloc, unsigned int width,
         if (strncmp(kmgd2.sizetype, "FIXED", 5) == 0) {
             xpsize = cmgd2.sizevalue * xfactor;
         } else if (strncmp(kmgd2.sizetype, "SCALED", 6) == 0) {
-            getworld(&xwcmin, &xwcmax, &unused, &unused);
+            getworld(&xwcmin, &xwcmax, &funused, &funused);
             xpsize = cmgd2.sizevalue * (xwcmax - xwcmin) * xfactor;
         } else {
             xpsize = 10.0;

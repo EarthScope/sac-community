@@ -5,9 +5,7 @@
 GTM_EXTERN
 
 void /*FUNCTION*/
-getvport(xmin, xmax, ymin, ymax)
-     float *xmin, *xmax, *ymin, *ymax;
-{
+getvport(double *xmin, double *xmax, double *ymin, double *ymax) {
 
         /*=====================================================================
 	 * PURPOSE:  To get the viewport coordinate plot limits.

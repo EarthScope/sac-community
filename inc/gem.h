@@ -93,7 +93,7 @@ enum {
 
 typedef struct _limits_t limits_t;
 struct _limits_t {
-    float xmin, xmax, ymin, ymax;
+    double xmin, xmax, ymin, ymax;
 };
 
 typedef struct _location_t location_t;
@@ -104,7 +104,7 @@ struct _location_t {
 typedef struct _datagen_t datagen_t;
 struct _datagen_t {
     int on;
-    float first, delta;
+    double first, delta;
 };
 
 typedef struct _axis_t axis_t;
@@ -126,12 +126,12 @@ struct _group_t {
 
 struct t_cmgem {
     int lxlim;                  /* Limit X Scale Flag for Input Data */
-    float ximn;                 /* X Scale Minimum for Input Data */
-    float ximx;                 /* Y Scale Maximum for Input Data */
+    double ximn;                 /* X Scale Minimum for Input Data */
+    double ximx;                 /* Y Scale Maximum for Input Data */
 
     int lylim;                  /* Limit Y Scale Flag for Input Data */
-    float yimn;                 /* Y Scale Minimum for Input Data */
-    float yimx;                 /* Y Scale MAximum for Input Data */
+    double yimn;                 /* Y Scale Minimum for Input Data */
+    double yimx;                 /* Y Scale MAximum for Input Data */
 
     limits_t data;              /* Input Data Limits */
     limits_t zdata;             /* Modified Input Data Limits */

@@ -30,9 +30,8 @@ xcontour(nerr)
     char kret[9];
     int lany, lframesave = 0, lwait, lxlimits, lylimits;
     int ixstart, ixstop, iystart, iystop, jfile, ncret, nfiles, nxsize, nysize;
-    float vportratio, vspaceratio, xmaximum, xminimum, xstart, xstop, ymaximum,
-        yminimum, ystart, ystop;
-
+    float vportratio, vspaceratio, xmaximum, xminimum, ymaximum, yminimum;
+    double xstart, xstop, ystart, ystop;
     static char kwait[9] = "Waiting$";
     sac *s;
 

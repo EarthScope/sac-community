@@ -43,4 +43,7 @@ void xlogax(void);
 void ylinax(void);
 void ylogax(void);
 
+float vmin(float *array, int n, int dn);
+float vmax(float *array, int n, int dn);
+
 #endif /* _PL_H_ */

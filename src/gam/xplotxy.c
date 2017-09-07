@@ -32,11 +32,12 @@ xplotxy(int *nerr) {
     int lany, lchange, lxlims, lylimj;
     int *idflnumber, jdfl, jdflnumber, nc = 0, ndflnumber, num;
     float atrwid, slen, slenm, slenvs, vportratio, xlinl1 = 0.0, xlinl2 = 0.0, xrange,
-        yimnj, yimxj, yrange;
+        yrange;
     double xsymlc, yatrlc;
     char *tmp;
     sac *sx, *sy, *s;
-        /*=====================================================================
+    double yimnj, yimxj;
+  /*=====================================================================
 	 * PURPOSE:  To execute the action command PLOTXY.
 	 *           This command makes a multi-trace, single window plot.
 	 *           The user specifies which data file contains the "x" data

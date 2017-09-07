@@ -26,12 +26,11 @@ xlinax() {
         nxdivu;
     int i, j, k;
     float divlog, divtry, factor, grdlog, power, skfudge, value, valuei, xdivu,
-        xgrdmn, xgrdmx, xref, xrefi, xtick, xticki, xvpmax, xvpmin, yloc, ypow = 0.0,
-        yvpmax, yvpmin;
+        xgrdmn, xgrdmx, xref, xrefi, xtick, xticki, yloc, ypow = 0.0;
     static char kvalue[17] = "                ";
     static char kpower[9] = "        ";
-
-        /*=====================================================================
+    double xvpmin, xvpmax, yvpmin, yvpmax;
+  /*=====================================================================
 	 * PURPOSE:  To produce a linearly-scaled axis at the bottom and/or
 	 *           top of the current plot window.
 	 *=====================================================================

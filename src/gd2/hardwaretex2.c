@@ -19,10 +19,11 @@ hardwaretext2(ktext, ntext)
     short int icl, icr;
     int j, nerr, nw;
     static short is8 = 8;
-    float xloc, yloc, unused, xvpmin, xvpmax, xvsmin, xvsmax, xwcmin, xwcmax;
+    float xloc, yloc, unused, xwcmin, xwcmax;
     float xfactor, xpsize;
     int ixloc, iyloc;
-
+    double dunused;
+    double xvpmin, xvpmax, xvsmin, xvsmax;
         /*=====================================================================
 	 * PURPOSE:  To write a hardware text string to device 2 (SGF).
 	 *=====================================================================
@@ -58,8 +59,8 @@ hardwaretext2(ktext, ntext)
     yloc = cmgdm.yold;
 
     if (cmgd2.encodesize) {
-        getvport(&xvpmin, &xvpmax, &unused, &unused);
-        getvspace(&xvsmin, &xvsmax, &unused, &unused);
+        getvport(&xvpmin, &xvpmax, &dunused, &dunused);
+        getvspace(&xvsmin, &xvsmax, &dunused, &dunused);
         xfactor = (xvsmax - xvsmin) / (xvpmax - xvpmin);
 
         if (strncmp(kmgd2.sizetype, "FIXED", 5) == 0) {

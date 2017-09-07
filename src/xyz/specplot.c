@@ -60,9 +60,9 @@ specplot(float *specdata, int nx, int ny, float xmin, float xmax, float ymin,
         lxgrdsave, lxlabsave, lxlims, lylabsave;
     int n1dttm[6];
     int nystart, nypoints;
-    float tmax, tmin, *toff, ypdel, ypmxsave, ypmnsave, xpmxsave, xpmnsave;
+    float *toff, ypdel, ypmxsave, ypmnsave, xpmxsave, xpmnsave;
     float vspaceratio;
-
+    double tmin, tmax;
     float width, height;
     float *wdata;
     int wdata_alloc;

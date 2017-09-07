@@ -9,15 +9,9 @@
 #include "bot.h"
 
 void
-markwf(jmark1, jmark2, xloc1, xloc2, ytop, ydel, klabel, klabel_s)
-     int jmark1, jmark2;
-     float *xloc1, *xloc2;
-     double ytop, ydel;
-     char *klabel;
-     int klabel_s;
-{
+markwf(int jmark1, int jmark2, double *xloc1, double *xloc2, double ytop, double ydel, char *klabel, int klabel_s) {
     int jmark, nc;
-    float yloc1, yloc2;
+    double yloc1, yloc2;
 
     /* - Set text justification. */
     settextjust(RIGHT, TOP);

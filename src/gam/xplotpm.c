@@ -31,11 +31,12 @@ xplotpm(int *nerr) {
         ylabel[MCMSG + 1];
     int lany, lframesave = 0, lrxlim, lwait, lprint = FALSE, ltry = FALSE;
     int ixplot, iyplot, jdfl, nc, ncret, nplot;
-    float ratio, start, stop, tmax, tmin, unused, wmax, wmin, xloc, xmax, xmin,
-        xvmax, xvmin, yloc, ymax, ymin, yvmax, yvmin;
+    float ratio, start, stop, unused, wmax, wmin, xloc, xmax, xmin,
+        yloc, ymax, ymin;
     static char kwait[9] = "Waiting$";
     sac *s, *s2;
-
+    double xvmin, xvmax, yvmin, yvmax;
+    double tmin, tmax;
         /*=====================================================================
 	 * PURPOSE: To parse and execute the action command PLOTPM
 	 *          This command produces a particle motion plot.

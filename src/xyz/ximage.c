@@ -39,9 +39,8 @@ ximage(nerr)
         FALSE;
     int ixstart, ixstop, iystart, iystop, jfile, ncret, nfiles, nxsize, nysize;
     int jxstart, jxstop, jystart, jystop;
-    float vportratio, vspaceratio, xmaximum, xminimum, xstart, xstop, ymaximum,
-        yminimum, ystart, ystop;
-
+    float vportratio, vspaceratio, xmaximum, xminimum, ymaximum, yminimum;
+    double xstart, xstop, ystart, ystop;
     float *wdata;
     int wdata_alloc;
     int ndata, nxdata, nydata;

@@ -33,9 +33,9 @@ xmap(int *nerr) {
 
     int lany, lformer, lfullsav;
     int i, j, jdfl, nch, nchsav;
-    float ratiosav, square, *x, xmax, xmin, xp, *y, ymax, ymin, yp;
+    float ratiosav, square, *x, xp, *y, yp;
     sac *s;
-
+    double xmin, xmax, ymin, ymax;
         /*=====================================================================
 	 * PURPOSE:  To draw a map of the array, or its coarray.
 	 *

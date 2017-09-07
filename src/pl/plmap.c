@@ -12,6 +12,30 @@
 
 GEM_EXTERN
 
+float
+vmin(float *array, int n, int dn) {
+    int i = 0;
+    float vmin = array[0];
+    for(i = 0; i < n; i += dn) {
+        if(array[i] <= vmin) {
+            vmin = array[i];
+        }
+    }
+    return vmin;
+}
+float
+vmax(float *array, int n, int dn) {
+    int i = 0;
+    float vmax = array[0];
+    for(i = 0; i < n; i += dn) {
+        if(array[i] >= vmax) {
+            vmax = array[i];
+        }
+    }
+    return vmax;
+}
+
+
 double
 yinterp(double x, double x0, double x1, double y0, double y1) {
     return y0 + (y1 - y0) * (x - x0) / (x1 - x0);
@@ -25,7 +49,7 @@ plmap(xarray, yarray, number, incx, incy, nerr)
      int number, incx, incy, *nerr;
 {
     int jdx, jx, jy, num1, num2, num2m1;
-    float delx, dely, fjunk, tmp, xvspdl, yvspdl;
+    float delx, dely, tmp, xvspdl, yvspdl;
 
     float *const Xarray = &xarray[0] - 1;
     float *const Yarray = &yarray[0] - 1;
@@ -89,9 +113,11 @@ plmap(xarray, yarray, number, incx, incy, nerr)
             cmgem.data.xmin = cmgem.xgen.first;
             cmgem.data.xmax =
                 cmgem.xgen.first + (number - 1) * cmgem.xgen.delta;
-        } else
-            extrma(xarray, incx, number, &cmgem.data.xmin, &cmgem.data.xmax,
-                   &fjunk);
+        } else {
+            //extrma(xarray, incx, number, &cmgem.data.xmin, &cmgem.data.xmax, &fjunk);
+            cmgem.data.xmin = (double) vmin(xarray, number, incx);
+            cmgem.data.xmax = (double) vmax(xarray, number, incx);
+        }
     }
 
     /* - Y limits are a bit more complicated:
@@ -129,8 +155,10 @@ plmap(xarray, yarray, number, incx, incy, nerr)
                         num2 = number;
                     if (num1 <= number && num2 >= 1) {
                         num2m1 = num2 - num1 + 1;
-                        extrma(&Yarray[num1], incy, num2m1, &cmgem.data.ymin,
-                               &cmgem.data.ymax, &fjunk);
+                        cmgem.data.ymin = (double) vmin(&Yarray[num1], num2m1, incy);
+                        cmgem.data.ymax = (double) vmax(&Yarray[num1], num2m1, incy);
+                        //extrma(&Yarray[num1], incy, num2m1, &cmgem.data.ymin,
+                        //      &cmgem.data.ymax, &fjunk);
                         /* Check points just outside of the plot region */
                         if (num2 < number &&
                             Yarray[num2 + 1] >= cmgem.data.ymax) {
@@ -182,17 +210,22 @@ plmap(xarray, yarray, number, incx, incy, nerr)
                 }               /* end else associated with if( cmgem.lxgen ) */
             } /* end if( cmgem.lxlim ) */
             else {
-                extrma(yarray, incy, number, &cmgem.data.ymin, &cmgem.data.ymax, &fjunk);
+                //extrma(yarray, incy, number, &cmgem.data.ymin, &cmgem.data.ymax, &fjunk);
+                cmgem.data.ymin = (double) vmin(yarray, number, incy);
+                cmgem.data.ymax = (double) vmax(yarray, number, incy);
             }
         }                       /* end else associated with if( cmgem.lygen ) */
     }                           /* end else associated with if( cmgem.lylim ) */
-    if(!isfinite(cmgem.data.xmin) ||
-       !isfinite(cmgem.data.xmax) ||
-       !isfinite(cmgem.data.ymin) ||
-       !isfinite(cmgem.data.ymax)) {
-        error(*nerr = 1340, "");
+    if(!isfinite(cmgem.data.xmin) || !isfinite(cmgem.data.xmax)) {
+        error(*nerr = 1340, ": xmin = %f xmax = %f", cmgem.data.xmin, cmgem.data.xmax);
         return;
     }
+    
+    if(!isfinite(cmgem.data.ymin) || !isfinite(cmgem.data.ymax)) {
+        error(*nerr = 1340, ": ymin = %f ymax = %f", cmgem.data.ymin, cmgem.data.ymax);
+        return;
+    }
+
     /* - Adjust data limits to produce 'nice' plots if limits not fixed.
      * - If LXFUDG or LYFUDG is .TRUE. make that data window
      *   slightly larger than extrema.

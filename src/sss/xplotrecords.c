@@ -44,15 +44,16 @@ xplotrecords(nerr)
         lmissd, lrigaxsave, lrigtcsave, ltopaxsave, ltoptcsave, lvlim,
         lvspacetype, lprint = FALSE, ltry = FALSE;
     int llims, n1dttm[6];       /* added to display picks. maf 961219 */
-    float tmin, tmax, *toff;    /* " *//* Toff are time offsets */
+    float *toff;    /* " *//* Toff are time offsets */
     int kdx, kdx_, ioffsetdta, ioffsettw, jdx, jdfl, jvr, nferr, notused,
         numplot, nvr;
     float angle, atime, delay, delsiz, dgscale, dstchn, dstmn, dstmx, dvr,
-        fudge, rdist, rosetp, unused, unused_, vbigr, vmn, vmx, vr, vspaceratio,
+        fudge, rdist, rosetp, unused, unused_, vbigr, vr, vspaceratio,
         xaxlen = 0.0, xbp, xep, xfac = 0.0, xpdel = 0.0, xpllen, xpmid = 0.0 , xpmnsv = 0.0 , xpmxsv = 0.0, xttint,
         xwloc, yaxlen = 0.0, ybp, yep, ypllen, yttint, ywloc;
     float ypmnsv = 0.0, ypmxsv = 0.0, ypmid = 0.0, yfac = 0.0, ypdel = 0.0 , ypmidu = 0.0;
-
+    double vmn, vmx;
+    double tmin, tmax;
     /* Variables added to handle cropping and zooming, maf 960716 */
     int cropLevel = 0,          /* # of times the user cropped plot for zoom */
         idx;                    /* index for loops */

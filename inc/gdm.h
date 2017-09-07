@@ -62,8 +62,8 @@ struct t_cmgdm {
     float ywindowmax[MWINDOWS];
     int lvsful;
     float vsrat;
-    float xvs[2];
-    float yvs[2];
+    double xvs[2];
+    double yvs[2];
     int lvsclip;
     int ltsoft;
     float thgt;
@@ -108,10 +108,10 @@ struct t_cmgdm {
     extern short *const Stroke;                 \
     extern short *const Stxmax;                 \
     extern short *const Stxmin;                 \
-    extern float *const Xvs;                    \
+    extern double *const Xvs;                    \
     extern float *const Xwindowmax;             \
     extern float *const Xwindowmin;             \
-    extern float *const Yvs;                    \
+    extern double *const Yvs;                    \
     extern float *const Ywindowmax;             \
     extern float *const Ywindowmin;             \
     extern int npscolors;
@@ -308,7 +308,7 @@ void getstringsize(char *ktext, int ntext, float *width);
 float gettextangle();
 void gettextjust(int *horz, int *vert);
 void gettextsize(float *width, float *height);
-void getvspace(float *xvsmin, float *xvsmax, float *yvsmin, float *yvsmax);
+void getvspace(double *xvsmin, double *xvsmax, double *yvsmin, double *yvsmax);
 void getvspacetype(int *lfull, float *ratio);
 void getwindowstatus(int *nwindow, int *exists);
 void inigdm(int *nerr);

@@ -32,9 +32,9 @@ xplotdy(int *nerr) {
     char kfile[MCPFN + 1];
     int lany, lchange, lydlimj, lprint = FALSE, ltry = FALSE;
     int idx, *idflnumber, issym, jdfl, jdflnumber, ndflnumber, num;
-    float vportratio, xarray[3], yarray[3], ydimnj, ydimxj, ydvalue, ydyimx,
+    float vportratio, xarray[3], yarray[3], ydvalue, ydyimx,
         yrange, yvalue;
-
+    double ydimnj, ydimxj;
     float *const Xarray = &xarray[0] - 1;
     float *const Yarray = &yarray[0] - 1;
     sac *s, *dy, *dy2;

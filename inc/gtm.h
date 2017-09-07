@@ -21,10 +21,10 @@ struct t_cmgtm {
     float xwcmax;               /* World Coordinate Max X */
     float ywcmin;               /* World Coordinate Min Y */
     float ywcmax;               /* World Coordinate Max Y */
-    float xvpmin;               /* Viewport Min X */
-    float xvpmax;               /* Viewport Max X */
-    float yvpmin;               /* Viewport Min Y */
-    float yvpmax;               /* Viewport Max Y */
+    double xvpmin;               /* Viewport Min X */
+    double xvpmax;               /* Viewport Max X */
+    double yvpmin;               /* Viewport Min Y */
+    double yvpmax;               /* Viewport Max Y */
     float xmpwv1;               /* World to Viewport Mapping Transformation, X */
     float xmpwv2;               /* World to Viewport Mapping Transformation, X */
     float ympwv1;               /* World to Viewport Mapping Transformation, Y */
@@ -81,13 +81,13 @@ struct t_kmgtm {
     extern float *const Ywc;
 
 void calwvtransform(void);
-void getvport(float *xmin, float *xmax, float *ymin, float *ymax);
+void getvport(double *xmin, double *xmax, double *ymin, double *ymax);
 void getworld(float *xmin, float *xmax, float *ymin, float *ymax);
 void inigtm(void);
 void line(double xloc1, double yloc1, double xloc2, double yloc2);
 void polyline(double xloc[], double yloc[], int *number);
 void polyfill(double *x, double *y, int n, int positive, color c);
-void rectangle(float *xloc1, float *xloc2, float *yloc1, float *yloc2);
+void rectangle(double *xloc1, double *xloc2, double *yloc1, double *yloc2);
 void setsymbolgap(double gap);
 void setsymbolnum(int number);
 void setsymbolsize(double size);

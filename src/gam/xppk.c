@@ -53,9 +53,10 @@ xppk(int *nerr) {
         nsavelast = 0, nst, unused;
     float amplmn, amplmx, facc, fsecsi, prl, psecsi, seccur, secinc = 0.0, ssecsi,
         time, tmax, tmin, tminew = 0.0,  *toff, tref1, twin[MWIN][2],
-        xloc, xloc1, xloc2, xlocs1, xlocs2, xtpos, *yimnzs, *yimxzs, yloc,
+        xloc, xloc1, xloc2, xtpos, *yimnzs, *yimxzs, yloc,
         ypdel, ypdelv, ypmns, ypmnv, ypmxs, ypmxus, ypmxv, ytpos;
     double tmp;
+    double xlocs1, xlocs2;
     sac *s;
     int j;
     static char kndate[25] = "                        ";

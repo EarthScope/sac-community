@@ -19,7 +19,7 @@ GDM_EXTERN
  *
  */
 void
-getvspace(float *xvsmin, float *xvsmax, float *yvsmin, float *yvsmax) {
+getvspace(double *xvsmin, double *xvsmax, double *yvsmin, double *yvsmax) {
     /* - Report current common block values. */
     *xvsmin = Xvs[1];
     *xvsmax = Xvs[2];
