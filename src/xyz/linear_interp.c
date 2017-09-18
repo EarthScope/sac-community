@@ -7,26 +7,26 @@
 #include "errors.h"
 
 void
-linear_interp(float *array, float xmin, float xmax, int nx, float *array_out,
+linear_interp(float *array, double xmin, double xmax, int nx, float *array_out,
               int newnx, int *nerr) {
-    float dx, newdx, xnew;
-    float *xarray;
+    double dx, newdx, xnew;
+    double *xarray;
     int i, k;
 
     *nerr = 0;
 
-    dx = (xmax - xmin) / (float) (nx - 1);
-    newdx = (xmax - xmin) / (float) (newnx - 1);
+    dx = (xmax - xmin) / (double) (nx - 1);
+    newdx = (xmax - xmin) / (double) (newnx - 1);
 
-    if ((xarray = (float *) malloc(nx * sizeof(float))) == NULL) {
+    if ((xarray = (double *) malloc(nx * sizeof(double))) == NULL) {
         printf("memory allocation error in linear_interp\n");
         *nerr = ERROR_OUT_OF_MEMORY;
         return;
     }
-    memset(xarray, 0, nx * sizeof(float));
+    memset(xarray, 0, nx * sizeof(double));
 
     for (i = 0; i < nx; i++) {
-        xarray[i] = xmin + ((float) i * dx);
+        xarray[i] = xmin + ((double) i * dx);
     }
 
     xnew = xmin;

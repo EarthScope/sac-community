@@ -30,7 +30,7 @@ adjust_height(float *input_image, unsigned int width, unsigned int height,
     for (i = 0; i < (int) width; i++) {
         for (j = 0; j < (int) height; j++)
             input_vector[j] = input_image[j * width + i];
-        linear_interp(input_vector, ymin, ymax, (int) height, output_vector,
+        linear_interp(input_vector, (double)ymin, (double)ymax, (int) height, output_vector,
                       (int) height_out, nerr);
         for (j = 0; j < (int) height_out; j++)
             output_image[j * width + i] = output_vector[j];

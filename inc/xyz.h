@@ -70,7 +70,7 @@ int getdata(int nfiles, double delta, int windwsize, int windwovrl,
 void inixyz(void);
 void label_cbar(float xloc, float yloc, float width, float height, float dmin,
                 float dmax, int *nerr);
-void linear_interp(float *array, float xmin, float xmax, int nx,
+void linear_interp(float *array, double xmin, double xmax, int nx,
                    float *array_out, int newnx, int *nerr);
 void plotimage(float array[], int nxsize, float xmin, float xmax, int nysize,
                float ymin, float ymax, int jxstart, int jxstop, int jystart,

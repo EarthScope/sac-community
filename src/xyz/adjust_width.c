@@ -12,7 +12,7 @@ adjust_width(float *input_image, unsigned int width, unsigned int height,
     /* use the linear interpolation routine to adjust data width */
 
     for (i = 0; i < (int) height; i++) {
-        linear_interp(&input_image[i * width], xmin, xmax, (int) width,
+        linear_interp(&input_image[i * width], (double)xmin, (double)xmax, (int) width,
                       &output_image[i * width_out], (int) width_out, nerr);
     }
 
