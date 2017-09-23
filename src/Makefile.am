@@ -294,7 +294,7 @@ libsac_all_a_SOURCES = amf/iniam.c amf/array.c \
 	cnd/xelseif.c cnd/xenddo.c cnd/xendif.c cnd/xif.c cnd/xwhile.c \
 	\
 	co/backspace.c co/complex.c co/ext_init.c co/fstrncpy.c co/getfline.c \
-	co/getline.c co/izshft.c co/math.c co/select.c \
+	co/getline.c co/math.c co/select.c \
 	co/strscpy.c co/subscpy.c co/tokenize.c co/zauxfile.c co/zbasename.c \
 	co/zclose.c co/zclosec.c co/zcloses.c co/zdest.c co/zdestf.c \
 	co/zexecute.c co/zfiles.c co/zgetc.c co/zgetgd.c co/zgimsg.c \
@@ -620,7 +620,7 @@ libsgf_a_SOURCES = gd2/beginSGFtemp.c \
 	gd2/fill_clrbar2.c gd2/fill_image2.c gd2/flushbuffer2.c \
 	gd2/get_geometry2.c gd2/getalphainf2.c gd2/getdevicein2.c \
 	gd2/getdevicera2.c gd2/getratio2.c gd2/getwindowst2.c \
-	gd2/hardwaretex2.c gd2/initdevice2.c gd2/move2.c gd2/put_image2.c \
+	gd2/initdevice2.c gd2/move2.c gd2/put_image2.c \
 	gd2/setcolor2.c gd2/setctable2.c gd2/setlinestyl2.c gd2/setsgfdir.c \
 	gd2/setsgfnumber.c gd2/setsgfprefix.c gd2/setsgfsize.c \
 	gd2/settextangl2.c gd2/settextsize2.c gd2/setwidth2.c 
