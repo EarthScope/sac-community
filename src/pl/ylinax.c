@@ -26,7 +26,8 @@ ylinax() {
     int lneglb, lpower;
     int ia, ib, igdlog, jdiv, jpower, jstep = 1, jtick, mds, nds, ntick,
         nydivu;
-    float divlog, divtry, factor, grdlog, power, skfudge, slen, slenmx, value,
+    float slen;
+    double divlog, divtry, factor, grdlog, power, skfudge, slenmx, value,
         valuei, xloc, xpow = 0.0, ydivu, ygrdmn, ygrdmx, yref, yrefi,
         ytick, yticki;
     static char kvalue[17] = "                ";

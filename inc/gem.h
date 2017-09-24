@@ -139,15 +139,15 @@ struct t_cmgem {
     limits_t plot;              /* Plot Limits */
     limits_t uplot;             /* Used Plot Limits */
 
-    float xmpip1;               /* X Axis Plot Coordinate Scale Factor */
-    float xmpip2;               /* X Axis Plot Coordinate Offset */
-    float ympip1;               /* Y Axis Plot Coordinate Scale Factor */
-    float ympip2;               /* Y Axis Plot Coordinate Offset */
+    double xmpip1;               /* X Axis Plot Coordinate Scale Factor */
+    double xmpip2;               /* X Axis Plot Coordinate Offset */
+    double ympip1;               /* Y Axis Plot Coordinate Scale Factor */
+    double ympip2;               /* Y Axis Plot Coordinate Offset */
 
     int lxfudg;                 /* X Axis Scaling Flag */
-    float xfudg;                /* X Axis Scaling Fraction */
+    double xfudg;                /* X Axis Scaling Fraction */
     int lyfudg;                 /* Y Axis Scaling Flag */
-    float yfudg;                /* Y Axis Scaling Fraction */
+    double yfudg;                /* Y Axis Scaling Fraction */
     int lxrev;                  /* X Axis Reverse Flag */
     int lyrev;                  /* Y Axis Reverse Flag */
     int ixint;                  /* X Axis mode = Linear or Log */
@@ -157,12 +157,12 @@ struct t_cmgem {
     int lloglb;                 /* Secondary Log Axis Flag */
 
     int xdiv_spacing_on;        /* X Axis Division Spacing Flag */
-    float xdiv_spacing;         /* X Axis Division Spacing  */
+    double xdiv_spacing;         /* X Axis Division Spacing  */
     int xdiv_number_on;         /* X Axis Number of Division Flag */
     int xdiv_number;            /* X AXis Number of Division */
 
     int ydiv_spacing_on;        /* Y Axis Division Spacing Flag */
-    float ydiv_spacing;         /* Y Axis Division Spacing  */
+    double ydiv_spacing;         /* Y Axis Division Spacing  */
     int ydiv_number_on;         /* Y Axis Number of Division Flag */
     int ydiv_number;            /* Y AXis Number of Division */
 
@@ -176,7 +176,7 @@ struct t_cmgem {
 
     float tsaxis;               /* Text size for Axis Annotations */
     int lfloor;                 /* Minimum value on data flag */
-    float floor;                /* Minimum value on data with logarithm on and floor is on */
+    double floor;                /* Minimum value on data with logarithm on and floor is on */
     int lflusd;                 /* If floor was unsed in last data set flag */
     int lrqclp;                 /* Viewport clipping flag */
 
@@ -223,8 +223,8 @@ struct t_cmgem {
     int nisym;                  /* Length of symbol array */
     int jisym;                  /* Current posiiton in symbol array */
 
-    float symsz;                /* Symbol size */
-    float symsp;                /* Symbol spacing */
+    double symsz;                /* Symbol size */
+    double symsp;                /* Symbol spacing */
 
     // group_t color;
     int lcol;                   /* Color drawing flag */

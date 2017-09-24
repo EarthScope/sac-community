@@ -31,8 +31,9 @@ disppk(tdelay)
 {
     char kpktxt[9];
     int j, j_;
-    float xploc, xploc1, xploc2, xtloc, xwloc, ypdel, yploc, yploc1, yploc2,
+    float xploc1, xploc2, xtloc, ypdel, yploc, yploc1, yploc2,
         ytloc, ywloc;
+    double xwloc, xploc;
     sac *s;
 
     /*
@@ -97,7 +98,7 @@ disppk(tdelay)
             cmgam.ipktyp[j - 1] > 0) {
 
             /* --- Map the input x location in WC to PC. */
-            xwloc = VALUE(fhdr(s, cmlhf.itmfnm[j - 1])) + tdelay;
+            xwloc = (double) VALUE(fhdr(s, cmlhf.itmfnm[j - 1])) + tdelay;
             xploc = cmgem.xmpip1 * xwloc + cmgem.xmpip2;
 
             /* --- If time pick is within x plot window: */

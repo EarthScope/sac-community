@@ -25,11 +25,14 @@ xlinax() {
     int ia, ib, igdlog, jpower, jstep = 1, mds, nds, ntick,
         nxdivu;
     int i, j, k;
-    float divlog, divtry, factor, grdlog, power, skfudge, value, valuei, xdivu,
-        xgrdmn, xgrdmx, xref, xrefi, xtick, xticki, yloc, ypow = 0.0;
+    double divlog, divtry, factor, grdlog, power, skfudge,
+        xref, xrefi, xtick, xticki, yloc, ypow = 0.0;
     static char kvalue[17] = "                ";
     static char kpower[9] = "        ";
     double xvpmin, xvpmax, yvpmin, yvpmax;
+    double valuei, value;
+    double xgrdmn, xgrdmx;
+    double xdivu;
   /*=====================================================================
 	 * PURPOSE:  To produce a linearly-scaled axis at the bottom and/or
 	 *           top of the current plot window.
@@ -237,7 +240,6 @@ xlinax() {
         valuei = xdivu * factor;
         xrefi = xdivu * cmgem.xmpip1;
         strcpy(kvalue, "                ");
-
         /* -- Draw secondary tick marks before first labeled one. */
         ntick = 1;
         if (xrefi >= 0.10) {

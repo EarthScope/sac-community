@@ -23,7 +23,8 @@ xlogax() {
     char kdec[9];
     int lsecax, lsectc;
     int idecin, idecmn, idecmx, isecin, jdec, jfac, nc, ndivu;
-    float decade, decmn, decmx, decsiz, skfudge, slen, slen10, slenmx, xpmnf,
+    float slen10, slen;
+    double decade, decmn, decmx, decsiz, skfudge, slenmx, xpmnf,
         xpmxf, xref, xrefs, yloc;
     char v[2];
     double xvpmin, xvpmax, yvpmin, yvpmax;

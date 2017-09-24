@@ -23,7 +23,8 @@ ylogax() {
     char kdec[9];
     int lsecax, lsectc;
     int idecin, idecmn, idecmx, isecin, jdec, jfac, ndivu;
-    float decade, decmn, decmx, decsiz, skfudge, slen, slen10, slenmx, xloc,
+    float slen, slen10;
+    double decade, decmn, decmx, decsiz, skfudge, slenmx, xloc,
         ypmnf, ypmxf, yref, yrefs;
     char v[2];
     double xvpmin, xvpmax, yvpmin, yvpmax;

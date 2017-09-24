@@ -41,11 +41,11 @@ pldta(float xarray[], float yarray[], int number, int incx, int incy, int *nerr)
     int inc, insym, j, j3, jblock, jcopy, jx, jx1, jx2, jxb, jxf, jxl, jxx = 0, jy,
         jy1, jy2, jyb, jyf, jyl, jyy = 0, nblinbuf, nblock, ncopy, ncopyd, ninc,
         nqdp = 1, nremdr, numf, numl, numu, nwhole, do_count;
-    float slen, x1, x2, xrectangle, xtest, y1, y2, yrectangle, ytest;
+    float slen, x1, x2, xrectangle, y1, y2, yrectangle, ytest;
     double xblock[MBLOCK+2];
     double yblock[MBLOCK+2];
     static float skfudge = 0.00053;
-
+    double xtest;
     float *const Xarray = &xarray[0] - 1;
     double *const Xblock = &xblock[0] - 1;
     float *const Yarray = &yarray[0] - 1;
