@@ -6,7 +6,7 @@ AUTOMAKE_OPTIONS = no-dependencies
 
 # Subdirectories to MAKE recursively
 SUBDIRS          = 
-if EDITLINE
+if READLINE_EDITLINE
 SUBDIRS         += libedit
 endif
 SUBDIRS         += src utils t

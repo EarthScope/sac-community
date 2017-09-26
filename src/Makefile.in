@@ -119,8 +119,8 @@ bin_PROGRAMS = sac$(EXEEXT)
 @WIN_APP_TRUE@am__append_15 = $(FORMAT_LIBS) -lWs2_32
 
 # Editline Dependencies (Default = ON)
-@EDITLINE_TRUE@am__append_16 = ../libedit/lib/libedit.a
-@EDITLINE_TRUE@am__append_17 = -I../libedit/include
+@READLINE_EDITLINE_TRUE@am__append_16 = ../libedit/lib/libedit.a
+@READLINE_EDITLINE_TRUE@am__append_17 = -I../libedit/include
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/config/matlab.m4 \

@@ -651,12 +651,12 @@ HAVE_FC_TRUE
 ac_ct_F77
 FFLAGS
 F77
-SYSEDITLINE_FALSE
-SYSEDITLINE_TRUE
-READLINE_FALSE
-READLINE_TRUE
-EDITLINE_FALSE
-EDITLINE_TRUE
+READLINE_SYSEDITLINE_FALSE
+READLINE_SYSEDITLINE_TRUE
+READLINE_READLINE_FALSE
+READLINE_READLINE_TRUE
+READLINE_EDITLINE_FALSE
+READLINE_EDITLINE_TRUE
 EGREP
 GREP
 CPP
@@ -804,8 +804,9 @@ enable_silent_rules
 enable_dependency_tracking
 enable_win_app
 enable_osx_app
-enable_editline
+enable_editing
 enable_ncurses
+enable_editline
 enable_readline
 enable_xdr
 with_matlab
@@ -3351,10 +3352,13 @@ curses_library_found=no
 
 
 
+
+
 # Readline (OFF by Default)
 
 
 # Editline (OFF by Default)
+
 
 
 
@@ -6389,9 +6393,9 @@ done
 
 
 
-# Check whether --enable-editline was given.
-if test "${enable_editline+set}" = set; then :
-  enableval=$enable_editline;  if  test x$enableval == xyes ; then :
+# Check whether --enable-editing was given.
+if test "${enable_editing+set}" = set; then :
+  enableval=$enable_editing;  if  test x$enableval == xyes ; then :
 
        editing=on
 
@@ -6569,8 +6573,24 @@ ac_res=$ac_cv_search_el_init
 if test "$ac_res" != no; then :
   test "$ac_res" = "none required" || LIBS="$ac_res $LIBS"
   syseditline=on
+else
+  { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+as_fn_error $? "error finding system installed libedit library
+See \`config.log' for more details" "$LINENO" 5; }
 fi
 
+
+else
+  { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+as_fn_error $? "error finding system installed libedit developer header file
+   Try running configure with one of these options:
+     configure --enable-editline # to use the distributed libedit Library
+     configure --enable-readline # to use the system GNU Readline Library
+     configure --diable-editing  # to diable command line editing
+
+See \`config.log' for more details" "$LINENO" 5; }
 
 fi
 
@@ -6632,27 +6652,27 @@ $as_echo "#define USE_TERMIOS 1" >>confdefs.h
 
 
             if  false ; then
-  EDITLINE_TRUE=
-  EDITLINE_FALSE='#'
+  READLINE_EDITLINE_TRUE=
+  READLINE_EDITLINE_FALSE='#'
 else
-  EDITLINE_TRUE='#'
-  EDITLINE_FALSE=
+  READLINE_EDITLINE_TRUE='#'
+  READLINE_EDITLINE_FALSE=
 fi
 
             if  false ; then
-  READLINE_TRUE=
-  READLINE_FALSE='#'
+  READLINE_READLINE_TRUE=
+  READLINE_READLINE_FALSE='#'
 else
-  READLINE_TRUE='#'
-  READLINE_FALSE=
+  READLINE_READLINE_TRUE='#'
+  READLINE_READLINE_FALSE=
 fi
 
             if  true ; then
-  SYSEDITLINE_TRUE=
-  SYSEDITLINE_FALSE='#'
+  READLINE_SYSEDITLINE_TRUE=
+  READLINE_SYSEDITLINE_FALSE='#'
 else
-  SYSEDITLINE_TRUE='#'
-  SYSEDITLINE_FALSE=
+  READLINE_SYSEDITLINE_TRUE='#'
+  READLINE_SYSEDITLINE_FALSE=
 fi
 
 
@@ -6680,27 +6700,27 @@ $as_echo "#define READLINE 1" >>confdefs.h
 
 
             if  true ; then
-  EDITLINE_TRUE=
-  EDITLINE_FALSE='#'
+  READLINE_EDITLINE_TRUE=
+  READLINE_EDITLINE_FALSE='#'
 else
-  EDITLINE_TRUE='#'
-  EDITLINE_FALSE=
+  READLINE_EDITLINE_TRUE='#'
+  READLINE_EDITLINE_FALSE=
 fi
 
             if  false ; then
-  READLINE_TRUE=
-  READLINE_FALSE='#'
+  READLINE_READLINE_TRUE=
+  READLINE_READLINE_FALSE='#'
 else
-  READLINE_TRUE='#'
-  READLINE_FALSE=
+  READLINE_READLINE_TRUE='#'
+  READLINE_READLINE_FALSE=
 fi
 
             if  false ; then
-  SYSEDITLINE_TRUE=
-  SYSEDITLINE_FALSE='#'
+  READLINE_SYSEDITLINE_TRUE=
+  READLINE_SYSEDITLINE_FALSE='#'
 else
-  SYSEDITLINE_TRUE='#'
-  SYSEDITLINE_FALSE=
+  READLINE_SYSEDITLINE_TRUE='#'
+  READLINE_SYSEDITLINE_FALSE=
 fi
 
 
@@ -6791,36 +6811,96 @@ $as_echo "#define READLINE 1" >>confdefs.h
 
 
             if  false ; then
-  EDITLINE_TRUE=
-  EDITLINE_FALSE='#'
+  READLINE_EDITLINE_TRUE=
+  READLINE_EDITLINE_FALSE='#'
 else
-  EDITLINE_TRUE='#'
-  EDITLINE_FALSE=
+  READLINE_EDITLINE_TRUE='#'
+  READLINE_EDITLINE_FALSE=
 fi
 
             if  true ; then
-  READLINE_TRUE=
-  READLINE_FALSE='#'
+  READLINE_READLINE_TRUE=
+  READLINE_READLINE_FALSE='#'
 else
-  READLINE_TRUE='#'
-  READLINE_FALSE=
+  READLINE_READLINE_TRUE='#'
+  READLINE_READLINE_FALSE=
 fi
 
             if  false ; then
-  SYSEDITLINE_TRUE=
-  SYSEDITLINE_FALSE='#'
+  READLINE_SYSEDITLINE_TRUE=
+  READLINE_SYSEDITLINE_FALSE='#'
 else
-  SYSEDITLINE_TRUE='#'
-  SYSEDITLINE_FALSE=
+  READLINE_SYSEDITLINE_TRUE='#'
+  READLINE_SYSEDITLINE_FALSE=
 fi
 
 
 
 else
-   test
+
+     if  false ; then
+  READLINE_EDITLINE_TRUE=
+  READLINE_EDITLINE_FALSE='#'
+else
+  READLINE_EDITLINE_TRUE='#'
+  READLINE_EDITLINE_FALSE=
+fi
+
+     if  false ; then
+  READLINE_READLINE_TRUE=
+  READLINE_READLINE_FALSE='#'
+else
+  READLINE_READLINE_TRUE='#'
+  READLINE_READLINE_FALSE=
+fi
+
+     if  false ; then
+  READLINE_SYSEDITLINE_TRUE=
+  READLINE_SYSEDITLINE_FALSE='#'
+else
+  READLINE_SYSEDITLINE_TRUE='#'
+  READLINE_SYSEDITLINE_FALSE=
+fi
+
+    readline=off
+    editline=off
+    syseditline=off
+
+
 
 fi
-       #
+
+else
+
+     if  false ; then
+  READLINE_EDITLINE_TRUE=
+  READLINE_EDITLINE_FALSE='#'
+else
+  READLINE_EDITLINE_TRUE='#'
+  READLINE_EDITLINE_FALSE=
+fi
+
+     if  false ; then
+  READLINE_READLINE_TRUE=
+  READLINE_READLINE_FALSE='#'
+else
+  READLINE_READLINE_TRUE='#'
+  READLINE_READLINE_FALSE=
+fi
+
+     if  false ; then
+  READLINE_SYSEDITLINE_TRUE=
+  READLINE_SYSEDITLINE_FALSE='#'
+else
+  READLINE_SYSEDITLINE_TRUE='#'
+  READLINE_SYSEDITLINE_FALSE=
+fi
+
+    readline=off
+    editline=off
+    syseditline=off
+
+
 
 fi
 
@@ -10364,40 +10444,64 @@ if test -z "${WIN_APP_TRUE}" && test -z "${WIN_APP_FALSE}"; then
   as_fn_error $? "conditional \"WIN_APP\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
-if test -z "${EDITLINE_TRUE}" && test -z "${EDITLINE_FALSE}"; then
-  as_fn_error $? "conditional \"EDITLINE\" was never defined.
+if test -z "${READLINE_EDITLINE_TRUE}" && test -z "${READLINE_EDITLINE_FALSE}"; then
+  as_fn_error $? "conditional \"READLINE_EDITLINE\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
-if test -z "${READLINE_TRUE}" && test -z "${READLINE_FALSE}"; then
-  as_fn_error $? "conditional \"READLINE\" was never defined.
+if test -z "${READLINE_READLINE_TRUE}" && test -z "${READLINE_READLINE_FALSE}"; then
+  as_fn_error $? "conditional \"READLINE_READLINE\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
-if test -z "${SYSEDITLINE_TRUE}" && test -z "${SYSEDITLINE_FALSE}"; then
-  as_fn_error $? "conditional \"SYSEDITLINE\" was never defined.
+if test -z "${READLINE_SYSEDITLINE_TRUE}" && test -z "${READLINE_SYSEDITLINE_FALSE}"; then
+  as_fn_error $? "conditional \"READLINE_SYSEDITLINE\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
-if test -z "${EDITLINE_TRUE}" && test -z "${EDITLINE_FALSE}"; then
-  as_fn_error $? "conditional \"EDITLINE\" was never defined.
+if test -z "${READLINE_EDITLINE_TRUE}" && test -z "${READLINE_EDITLINE_FALSE}"; then
+  as_fn_error $? "conditional \"READLINE_EDITLINE\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
-if test -z "${READLINE_TRUE}" && test -z "${READLINE_FALSE}"; then
-  as_fn_error $? "conditional \"READLINE\" was never defined.
+if test -z "${READLINE_READLINE_TRUE}" && test -z "${READLINE_READLINE_FALSE}"; then
+  as_fn_error $? "conditional \"READLINE_READLINE\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
-if test -z "${SYSEDITLINE_TRUE}" && test -z "${SYSEDITLINE_FALSE}"; then
-  as_fn_error $? "conditional \"SYSEDITLINE\" was never defined.
+if test -z "${READLINE_SYSEDITLINE_TRUE}" && test -z "${READLINE_SYSEDITLINE_FALSE}"; then
+  as_fn_error $? "conditional \"READLINE_SYSEDITLINE\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
-if test -z "${EDITLINE_TRUE}" && test -z "${EDITLINE_FALSE}"; then
-  as_fn_error $? "conditional \"EDITLINE\" was never defined.
+if test -z "${READLINE_EDITLINE_TRUE}" && test -z "${READLINE_EDITLINE_FALSE}"; then
+  as_fn_error $? "conditional \"READLINE_EDITLINE\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
-if test -z "${READLINE_TRUE}" && test -z "${READLINE_FALSE}"; then
-  as_fn_error $? "conditional \"READLINE\" was never defined.
+if test -z "${READLINE_READLINE_TRUE}" && test -z "${READLINE_READLINE_FALSE}"; then
+  as_fn_error $? "conditional \"READLINE_READLINE\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
-if test -z "${SYSEDITLINE_TRUE}" && test -z "${SYSEDITLINE_FALSE}"; then
-  as_fn_error $? "conditional \"SYSEDITLINE\" was never defined.
+if test -z "${READLINE_SYSEDITLINE_TRUE}" && test -z "${READLINE_SYSEDITLINE_FALSE}"; then
+  as_fn_error $? "conditional \"READLINE_SYSEDITLINE\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${READLINE_EDITLINE_TRUE}" && test -z "${READLINE_EDITLINE_FALSE}"; then
+  as_fn_error $? "conditional \"READLINE_EDITLINE\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${READLINE_READLINE_TRUE}" && test -z "${READLINE_READLINE_FALSE}"; then
+  as_fn_error $? "conditional \"READLINE_READLINE\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${READLINE_SYSEDITLINE_TRUE}" && test -z "${READLINE_SYSEDITLINE_FALSE}"; then
+  as_fn_error $? "conditional \"READLINE_SYSEDITLINE\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${READLINE_EDITLINE_TRUE}" && test -z "${READLINE_EDITLINE_FALSE}"; then
+  as_fn_error $? "conditional \"READLINE_EDITLINE\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${READLINE_READLINE_TRUE}" && test -z "${READLINE_READLINE_FALSE}"; then
+  as_fn_error $? "conditional \"READLINE_READLINE\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${READLINE_SYSEDITLINE_TRUE}" && test -z "${READLINE_SYSEDITLINE_FALSE}"; then
+  as_fn_error $? "conditional \"READLINE_SYSEDITLINE\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${HAVE_FC_TRUE}" && test -z "${HAVE_FC_FALSE}"; then

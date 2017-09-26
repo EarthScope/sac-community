@@ -28,7 +28,7 @@ LDADD            = -L../src/ -lsac_all -lturtle -lsac_all \
 									 -lSMnonOracleFuncs \
 									 -lSacOracleStubFuncs \
 									 -licm
-if EDITLINE
+if READLINE_EDITLINE
 LDADD            += ../libedit/lib/libedit.a
 CFLAGS           += -I../libedit/include
 endif

@@ -75,6 +75,40 @@ select_loop_message(char *p, int len) {
     return (len);
 }
 
+
+/** 
+ * Determine whether to display a prompt or not. Depends on the enviornment
+ *    variable SAC_SCRIPT_PROMPT_DISPLAY and if sac has a controlled tty
+ *
+ * @return 
+ *   - TRUE - if the prompt is desired
+ *   - FALSE - if the prompt is not desired
+ *
+ */
+int
+show_prompt_without_tty(int getset) {
+    static int flag = -1;
+    char *c;
+    if (getset == OPTION_ON || getset == OPTION_OFF) {
+        flag = getset;
+    }
+    if (flag == -1) {
+        flag = FALSE;
+        if ((c = getenv("SAC_SCRIPT_PROMPT_DISPLAY")) != NULL) {
+            if (strcmp(c, "1") != 0 && strcmp(c, "0") != 0) {
+                fprintf(stderr,
+                        "SAC warning: SAC_SCRIPT_PROMPT_DISPLAY must be 0 or 1\n");
+                flag = FALSE;
+            } else {
+                flag = atoi(c);
+            }
+        }
+    }
+    return flag;
+}
+
+#ifdef READLINE
+
 /** 
  * Toggle the select loop on and off
  * 
@@ -133,37 +167,6 @@ input(int i, fd_set * fd) {
     return (0);
 }
 #endif /* TERMIOS */
-
-/** 
- * Determine whether to display a prompt or not. Depends on the enviornment
- *    variable SAC_SCRIPT_PROMPT_DISPLAY and if sac has a controlled tty
- *
- * @return 
- *   - TRUE - if the prompt is desired
- *   - FALSE - if the prompt is not desired
- *
- */
-int
-show_prompt_without_tty(int getset) {
-    static int flag = -1;
-    char *c;
-    if (getset == OPTION_ON || getset == OPTION_OFF) {
-        flag = getset;
-    }
-    if (flag == -1) {
-        flag = FALSE;
-        if ((c = getenv("SAC_SCRIPT_PROMPT_DISPLAY")) != NULL) {
-            if (strcmp(c, "1") != 0 && strcmp(c, "0") != 0) {
-                fprintf(stderr,
-                        "SAC warning: SAC_SCRIPT_PROMPT_DISPLAY must be 0 or 1\n");
-                flag = FALSE;
-            } else {
-                flag = atoi(c);
-            }
-        }
-    }
-    return flag;
-}
 
 char *
 strdup_trim(char *s) {
@@ -304,6 +307,7 @@ is_single_match(char **s) {
     return FALSE;
 }
 
+
 #ifndef TERMIOS
 
 int
@@ -337,7 +341,8 @@ sac_attempt_complete(const char *text, int start, int end) {
     }
     return matches;
 }
-#endif
+
+#endif /* TERMIOS */
 /** 
  * Select different input from a variety of sources. Primarilly 
  *    the command line (stdin) through readline/editline and the X11
@@ -492,3 +497,5 @@ select_loop(char *prmt, int prmtlen, char *msg, int msglen,
     select_loop_continue(SELECT_OFF);
     return (0);
 }
+
+#endif /* READLINE */

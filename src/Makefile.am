@@ -101,7 +101,7 @@ if WIN_APP
 endif
 
 # Editline Dependencies (Default = ON)
-if EDITLINE
+if READLINE_EDITLINE
 sac_LDADD        += ../libedit/lib/libedit.a
 AM_CFLAGS        += -I../libedit/include
 endif

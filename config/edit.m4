@@ -25,6 +25,17 @@ AC_DEFUN([DEFINE_READLINE_READLINE], [
   DEFINE_READLINE
 ])
 
+AC_DEFUN([EDITING_DISABLED], [
+    AM_CONDITIONAL([READLINE_EDITLINE], [ false ])
+    AM_CONDITIONAL([READLINE_READLINE], [ false ])
+    AM_CONDITIONAL([READLINE_SYSEDITLINE], [ false ])
+    readline=off
+    editline=off
+    syseditline=off
+
+
+])
+
 AC_DEFUN([CHECK_CURSES],[
 AC_ARG_ENABLE(ncurses, AS_HELP_STRING([--disable-ncurses],[avoid the ncurses library]),
                        [ AS_IF( [ test x$enableval != xyes ], [ NCURSES_OFF ], [ NCURSES_ON ]) ],
@@ -68,7 +79,7 @@ AC_ARG_ENABLE(editline, AS_HELP_STRING([--enable-editline],[enable local editlin
 ])
 
 AC_DEFUN([CHECK_CMD_EDITING], [
-AC_ARG_ENABLE(editline, AS_HELP_STRING([--enable-editing],[enable command line capabilities]), 
+AC_ARG_ENABLE(editing, AS_HELP_STRING([--enable-editing],[enable command line capabilities]), 
     [ AS_IF( [ test x$enableval == xyes ], [
        editing=on
     ],[editing=off]) ],
@@ -79,8 +90,17 @@ AC_ARG_ENABLE(editline, AS_HELP_STRING([--enable-editing],[enable command line c
 AC_DEFUN([SYSTEM_LIBEDIT], [
    syseditline=off
    AC_CHECK_HEADER([editline/readline.h], [
-      AC_SEARCH_LIBS(el_init, [edit], [syseditline=on])
-   ])
+      AC_SEARCH_LIBS(el_init, [edit],
+      [syseditline=on],
+      [AC_MSG_FAILURE(error finding system installed libedit library)])
+   ],
+   [AC_MSG_FAILURE(error finding system installed libedit developer header file
+   Try running configure with one of these options:
+     configure --enable-editline # to use the distributed libedit Library
+     configure --enable-readline # to use the system GNU Readline Library
+     configure --diable-editing  # to diable command line editing
+)]
+    )
 ])
 
 AC_DEFUN([CHECK_EDITING], [
@@ -95,17 +115,17 @@ AC_DEFUN([CHECK_EDITING], [
          [test x${syseditline} = xon], [
            SYSTEM_LIBEDIT
            CURSES
-           AM_CONDITIONAL([EDITLINE], [ false ])
-           AM_CONDITIONAL([READLINE], [ false ])
-           AM_CONDITIONAL([SYSEDITLINE], [ true ])
+           AM_CONDITIONAL([READLINE_EDITLINE], [ false ])
+           AM_CONDITIONAL([READLINE_READLINE], [ false ])
+           AM_CONDITIONAL([READLINE_SYSEDITLINE], [ true ])
            DEFINE_READLINE_EDITLINE
          ],
        # Handle the Local Editline Library
          [test x${editline} = xon], [
            DEFINE_READLINE_EDITLINE
-           AM_CONDITIONAL([EDITLINE], [ true ])
-           AM_CONDITIONAL([READLINE], [ false ])
-           AM_CONDITIONAL([SYSEDITLINE], [ false ])
+           AM_CONDITIONAL([READLINE_EDITLINE], [ true ])
+           AM_CONDITIONAL([READLINE_READLINE], [ false ])
+           AM_CONDITIONAL([READLINE_SYSEDITLINE], [ false ])
          ],
        # Handle the System Readline Library
          [test x${readline} = xon], [
@@ -113,13 +133,12 @@ AC_DEFUN([CHECK_EDITING], [
                 AC_SEARCH_LIBS([add_history], [readline]),
                 [AC_MSG_FAILURE( --enable-readline was given, but test for readline failed)] )
            DEFINE_READLINE_READLINE
-           AM_CONDITIONAL([EDITLINE], [ false ])
-           AM_CONDITIONAL([READLINE], [ true ])
-           AM_CONDITIONAL([SYSEDITLINE], [ false ])
+           AM_CONDITIONAL([READLINE_EDITLINE], [ false ])
+           AM_CONDITIONAL([READLINE_READLINE], [ true ])
+           AM_CONDITIONAL([READLINE_SYSEDITLINE], [ false ])
 
          ],
-         [ test ]
-       )
-       #
-    ])
+         [ EDITING_DISABLED ])
+    ],[ EDITING_DISABLED ])
 ])
+
