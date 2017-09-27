@@ -122,8 +122,23 @@ xrms(nerr)
         if (cmsmm.lmtw) {
             getatw((char *) kmsmm.kmtw, 9, cmsmm.omtw, &tmin, &tmax, &nofsignal,
                    &nlnsignal, nerr);
-            if (*nerr != 0)
+            if (*nerr != 0) {
                 goto L_8888;
+            }
+            if(tmin < s->h->b) {
+                warning(8012, "(%.5g < %.5g)", tmin, s->h->b);
+                outmsg();
+                clrmsg();
+                tmin = fmax(tmin, s->h->b);
+            }
+            if(tmax > s->h->e) {
+                warning(8013, "(%.5g > %.5g)", tmax, s->h->e);
+                outmsg();
+                clrmsg();
+                tmax = fmin(tmax, s->h->e);
+            }
+            nofsignal = (int)((tmin - s->h->b) / s->h->delta);
+            nlnsignal = (int)((tmax - s->h->b) / s->h->delta) - nofsignal + 1;
         } else {
             nofsignal = 0;
             nlnsignal = s->h->npts;
@@ -146,8 +161,13 @@ xrms(nerr)
         if (cmsmm.lnoisemtw) {
             getatw((char *) kmsmm.knoisemtw, 9, cmsmm.onoisemtw, &tmin, &tmax,
                    &nofnoise, &nlnnoise, nerr);
-            if (*nerr != 0)
+            if (*nerr != 0) {
                 goto L_8888;
+            }
+            tmin = fmax(tmin, s->h->b);
+            tmax = fmin(tmax, s->h->e);
+            nofnoise = (int)((tmin - s->h->b)/s->h->delta);
+            nlnnoise = (int)((tmax - s->h->b)/s->h->delta) - nofnoise + 1;
             sumsqnoise = 0.;
             for (j = nofnoise; j <= (nofnoise + nlnnoise - 1); j++) {
                 sumsqnoise += s->y[j] * s->y[j];

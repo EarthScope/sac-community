@@ -103,9 +103,9 @@ inismm() {
     sac_msg_add(8010, strdup("Measurement Time Window end < data begin"));
     sac_msg_add(8011, strdup("Measurement Time Window start > data end"));
     sac_msg_add(8012, strdup("Time Window begin corrected to data begin value\n"
-                             "\tbegin < data begin"));
+                             "       begin < data begin"));
     sac_msg_add(8013, strdup("Time Window end corrected to data end value\n"
-                             "\tend > data end"));
+                             "       end > data end"));
 
 
     return;

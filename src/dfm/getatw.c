@@ -117,29 +117,9 @@ getatw(char *krtw, int krtw_s, double *ortw, double *tmin, double *tmax,
     }
     if(*tmin > *tmax) {
         error(*nerr = 8009, "(%.5g > %.5g)", *tmin, *tmax);
-        return;
-    }
-    if(*tmax < s->h->b && *tmin < s->h->b) {
-        error(*nerr = 8010, "(%.5g < %.5g)", *tmax, s->h->b);
-        return;
-    }
-    if(*tmin > s->h->e && *tmax > s->h->e) {
-        error(*nerr = 8011, "(%.5g > %.5g)", *tmin, s->h->e);
-        return;
-    }
-
-    if(*tmin < s->h->b) {
-        warning(8012, "(%.5g < %.5g)", *tmin, s->h->b);
         outmsg();
         clrmsg();
-        *tmin = s->h->b;
-    }
-
-    if(*tmax > s->h->e) {
-        warning(8013, "(%.5g > %.5g)", *tmax, s->h->e);
-        outmsg();
-        clrmsg();
-        *tmax = s->h->e;
+        return;
     }
 
     /* - Determine offset and length of window in points. */

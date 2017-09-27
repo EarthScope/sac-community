@@ -232,8 +232,10 @@ sac_check_time_precision(struct SACheader *h) {
             continue;
         }
         if((df = check_precision(h->delta, values[i])) != 0) {
-            warning(3264, "Time '%2s': %f is not precise: d(f32) at %2s: %f dt: %f",
-                    names[i], values[i], names[i], df, h->delta);
+            warning(3264, "precision exceeds the sampling rate: %s = %f\n"
+                    "       dt:                       %f\n"
+                    "       floating-point precision: %f",
+                    names[i], values[i], h->delta, df);
             outmsg();
             clrmsg();
         }

@@ -96,11 +96,17 @@
       npts = 17279840
      delta = 5.000000e-03
  write test.impulse
- WARNING: Precision problem: Time ' e': 86399.195312 is not precise: d(f32) at  e: 0.007812 dt: 0.005000
+ WARNING: Precision problem: precision exceeds the sampling rate: e = 86399.195312
+       dt:                       0.005000
+       floating-point precision: 0.007812
  cut e -1200 0
  read test.impulse
- WARNING: Precision problem: Time ' b': 85199.195312 is not precise: d(f32) at  b: 0.007812 dt: 0.005000
- WARNING: Precision problem: Time ' e': 86399.195312 is not precise: d(f32) at  e: 0.007812 dt: 0.005000
+ WARNING: Precision problem: precision exceeds the sampling rate: b = 85199.195312
+       dt:                       0.005000
+       floating-point precision: 0.007812
+ WARNING: Precision problem: precision exceeds the sampling rate: e = 86399.195312
+       dt:                       0.005000
+       floating-point precision: 0.007812
  lh b e npts delta
   
   
