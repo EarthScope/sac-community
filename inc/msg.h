@@ -99,4 +99,6 @@ void sac_msg_add(int id, char *msg);
 int error_occurred();
 int error_status();
 
+char *float_format();
+
 #endif /* _MSG_H_ */

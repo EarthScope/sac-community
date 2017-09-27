@@ -11,6 +11,8 @@
 #include <ctype.h>
 
 #include "amf.h"
+#include "msg.h"
+#include "bbs.h"
 #include "vars.h"
 #include "co.h"
 #include "bot.h"
@@ -137,7 +139,9 @@ token_to_line(Token * t) {
                 if (floor(p->value) == p->value) {
                     string_printf_append(s, "%d ", (int) p->value);
                 } else {
-                    string_printf_append(s, "%g ", p->value);
+                    char fmt[256];
+                    sprintf(fmt, "%s ", float_format());
+                    string_printf_append(s, fmt, p->value);
                 }
                 break;
             case EQ:
@@ -170,3 +174,32 @@ upcase_dup(char *s) {
     return new;
 }
 
+char *
+float_format() {
+    char *fmts[] = {"%g",       "%.4f",  "%.15f", "%.5g",   "%.15g", "%#.4e",  "%#.15e"};
+    char *names[] = {"default", "short", "long",   "shortG", "longG", "shortE", "longE"};
+
+    var *vname;
+    char *name = NULL;
+    char *fmt = NULL;
+
+    if(!(vname = getbb("OUTPUT_FORMAT"))) {
+        return fmts[0];
+    } else {
+        if(vname->type != VAR_STRING) {
+            fprintf(stderr, "Unknown output format\n");
+            return fmts[0];
+        } else {
+            name = vname->str;
+        }
+    }
+    for(int i = 0; i < sizeof(names)/sizeof(char *); i++) {
+        if(strcasecmp(name, names[i]) == 0) {
+            fmt = fmts[i];
+        }
+    }
+    if(fmt == NULL) {
+        return fmts[0];
+    }
+    return fmt;
+}

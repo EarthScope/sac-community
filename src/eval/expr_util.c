@@ -897,7 +897,7 @@ token_as_string(Token * p) {
             if (token_is_int_precision(p, TOKEN_INT_PRECISION_NON_ARGUMENT)) {
                 asprintf(&s, "%d", token_as_int(p));
             } else {
-                asprintf(&s, "%g", p->value);
+                asprintf(&s, float_format(), p->value);
             }
             break;
         case EQ:

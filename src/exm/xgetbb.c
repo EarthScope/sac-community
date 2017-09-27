@@ -36,12 +36,15 @@ newline(FILE * nun) {
 
 void
 show_var(var * v, char *name, FILE * fp) {
+    char *fmt = NULL;
+
     if (cmexm.lnames) {
         out("%s = ", name);
     }
     switch (v->type) {
         case VAR_VALUE:
-            out("%g", v->value);
+            fmt = float_format();
+            out(fmt, v->value);
             break;
         case VAR_STRING:
             out("'%s'", v->str);

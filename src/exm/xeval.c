@@ -45,7 +45,9 @@ xeval(int *nerr) {
         if ((token_is_int_precision(t, TOKEN_INT_PRECISION_NON_ARGUMENT))) {
             printf(" %d\n", token_as_int(t));
         } else if ((token_is_number(t))) {
-            printf(" %g\n", t->value);
+            char fmt[256];
+            sprintf(fmt, " %s\n", float_format());
+            printf(fmt, t->value);
         }
     }
 
