@@ -35,19 +35,52 @@ Programs include:
   * Write a collection of SAC files
       - wsac5c.c
       - wsac5f.f
-  * Convolve Two SAC files
+  * Convolve Two SAC files [ Directory: convolve ]
+      - Uses a time domain convolution
       - convolvec.c
       - convolvef.f
-  * Correlate Two SAC files
+  * Convolve Two SAC files [ Directory: convolve_saclib ]
+      - Uses frequency domain in saclib
+      - convolvec.c
+      - convolvef.f
+  * Correlate Two SAC files [ Directory: correlate ]
       - correlatec.c
       - correlatef.f
-  * Get the Envelope of a SAC file
+  * Get the Envelope of a SAC file [ Directory: envelope ]
       - envelopec.c
       - envelopef.f
-  * Filter a SAC file
+  * Interpolate a SAC file using cubic spline [ Directory: interpolate ]
+      - External Command, not in SAC
+      - interpolate.f
+      - interpolate_subs.f
+  * Filter a SAC file [ Directory: filter ]
       - filterc.c
       - filterf.f
+  * Time Shift a SAC file [ Directory: time_shift ]
+      - External Command, not in SAC
+      - time_shift.f
+      - time_shift_subs.f
   * create_input.sh
       Run SAC to create SAC files that are then 
       compared to the output from each standalone program.
-      
+
+Also included are a variety of ways to run the sac program from different scripting languages
+including
+
+  * Python
+    - sac_script.py
+    - sac_script2.py
+  * sh/bash Shell
+    - sac_script.sh
+    - sac_script2.sh
+  * csh Shell
+    - sac_script.csh
+    - sac_script2.csh
+  * Perl
+    - sac_script.pl
+    - sac_script2.pl
+
+  * The first version `sac_script` creates a seismogram and uses lh to get the sac metadata.
+
+  * The second version `sac_script2` reads all sac files in the directory, removes the mean,
+    removes the trend, low pass filters the data, then writes new files with a new extension.
