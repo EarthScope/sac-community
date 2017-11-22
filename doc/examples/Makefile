@@ -21,8 +21,10 @@ PROGS_LIB = convolve_input filterf filterc \
 	    envelopef envelopec \
 	    correlatec correlatef \
 	    convolvef convolvec \
-			convolvef2
-
+	    time_shift_prog \
+      interpolate_prog \
+      convolve_saclib_c \
+      convolve_saclib_f
 
 all: 
 	( LDLIBS=''          $(MAKE) io   )
@@ -43,19 +45,24 @@ test:
 	./envelopec
 	diff envelopef_out_sac.sac envelopef_out.sac
 	diff envelopec_out_sac.sac envelopec_out.sac
-	./convolvef
-	./convolvec
-	diff convolvef_out_sac1.sac convolvef_out1.sac
-	diff convolvec_out_sac1.sac convolvec_out1.sac
+	./convolvef convolve/brune_pulse.sac convolve/synthetic.sac convolve/convolvef_out_sac1.sac n
+	./convolvec convolve/brune_pulse.sac convolve/synthetic.sac convolve/convolvec_out_sac1.sac n
+	diff convolve/convolvef_out_sac1.sac convolve/convolvef_out-ok.sac
+	diff convolve/convolvec_out_sac1.sac convolve/convolvec_out-ok.sac
 	./correlatef
 	./correlatec
 	diff correlatef_out_sac1.sac correlatef_out1.sac
 	diff correlatec_out_sac1.sac correlatec_out1.sac
-	./convolvef2
+	./convolve_saclib_c
+	./convolve_saclib_f
+	diff convolvec_out1.sac convolvec_out_sac1.sac
+	diff convolvef_out1.sac convolvef_out_sac1.sac
 
 clean:
 	rm -f $(PROGS_IO) $(PROGS_LIB) *.o *~ core
 	rm -f *.sac
+	rm -f convolve/convolvef_out_sac1.sac
+	rm -f convolve/convolvec_out_sac1.sac
 	rm -f `find . -name '*.o'`
 	rm -f `find . -name '*~'`
 
@@ -69,6 +76,8 @@ convolvef: convolve/convolvef.o
 	$(FC) $(CFLAGS) -o $@ $^ $(LDLIBS)
 convolvef2: convolve/convolve.o convolve/convolvef2.o
 	$(FC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+convolve_saclib_f: convolve_saclib/convolve_saclib_f.o
+	$(FC) $(CFLAGS) -o $@ $^ $(LDLIBS)
 
 filterc: filter/filterc.o
 	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
@@ -78,3 +87,15 @@ correlatec: correlate/correlatec.o
 	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
 convolvec: convolve/convolvec.o
 	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+convolve_saclib_c: convolve_saclib/convolve_saclib_c.o
+	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+
+time_shift_prog: time_shift/time_shift.f time_shift/time_shift_subs.f
+	$(FC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+
+interpolate_prog: interpolate/interpolate.f interpolate/interpolate_subs.f
+	$(FC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+
+convolve_input: convolve/convolve_input.f
+	$(FC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+
