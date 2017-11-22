@@ -9,7 +9,7 @@ p = subprocess.Popen(['sac'],
                      stderr = subprocess.STDOUT )
 
 s = "echo on\n"
-for filename in glob.glob("*.SAC"):
+for filename in glob.glob("*.sac"):
     s += '''
        read %(file)s
        rmean 
@@ -18,6 +18,6 @@ for filename in glob.glob("*.SAC"):
        write %(file)s.filtered
      ''' % ( {'file': filename } )
 s += "quit\n"
-out = p.communicate( s )
-print out[0]
-    
+out = p.communicate( s.encode('ascii') )
+print(out[0].decode())
+

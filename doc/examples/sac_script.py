@@ -11,9 +11,9 @@ out = p.communicate('''
 fg seismo
 lh columns 2
 quit
-''')
+'''.encode('ascii'))
 
-print out[0]
+print(out[0].decode())
 
 
 
