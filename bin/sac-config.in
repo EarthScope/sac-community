@@ -68,10 +68,10 @@ while test $# -gt 0; do
 	-l | --libs)
 	    options="$options -L${SAC_LIBS}"
 	    ;;
-	sacio )
+	sacio | libsacio )
 	    libs="$libs -lsacio"
 	    ;;
-	sac )
+	sac | libsac )
 	    libs="$libs -lsac"
 	    ;;
 	*)
