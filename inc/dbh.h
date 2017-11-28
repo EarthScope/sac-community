@@ -102,4 +102,11 @@ struct t_pefcom {
     float outbuf[2000];
 };
 
+#define SAC_HAMMING           "HAMMING"
+#define SAC_HANNING           "HANNING"
+#define SAC_RECTANGLE         "RECTANGLE"
+#define SAC_COSINE            "COSINE"
+#define SAC_TRIANGULAR        "TRIANGULAR"
+
+
 #endif /* _DBH_H_ */

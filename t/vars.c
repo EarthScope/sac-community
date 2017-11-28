@@ -110,6 +110,12 @@ test_getventry() {
   
 }
 
+void
+nothing_to_see_here() {
+    /* Make sure inibbs() is included and struct kmbbs is as well */
+    void inibbs();
+    inibbs();
+}
 
 int
 main(int argc, char *argv[])
