@@ -290,3 +290,160 @@ crscor__(float *data1, float *data2, int *nsamps, int *nwin, int *wlen,
          char *type, float *c, int *nfft, char *err, int err_s) {
     crscor(data1, data2, *nsamps, *nwin, *wlen, type, c, nfft, err, err_s);
 }
+
+#define UNUSED(x) (void)(x)
+
+/**
+ *  Compute the maximum value of an array
+ *
+ *  - c - float array (returned from correlate function)
+ *  - nc - length of c
+ *
+ *  Return: Index of maximum value in array
+ */
+int
+correlate_max(float *c, int nc) {
+    int i;
+    float cmax = c[0];
+    int imax   = 0;
+    for(i = 1; i < nc; i++) {
+        if(c[i] > cmax) {
+            imax = i;
+            cmax = c[i];
+        }
+    }
+    return imax;
+}
+
+/**
+ *  Compute the time of a data point given dt and begin time
+ *
+ *  - dt - Time sampling
+ *  - b - Begin time
+ *  - i - data sample
+ *
+ *  Return: time value (b + i * dt)
+ */
+float
+correlate_time(float dt, float b, int i) {
+    return b + i * dt;
+}
+
+/**
+ *  Compute a time array given dt and begin time
+ *
+ *  - dt - Time sampling
+ *  - b - Begin time
+ *  - n - Length of data array
+ *
+ *  Return: time array 
+ */
+float *
+correlate_time_array(float dt, float b, int n) {
+    int i;
+    float *t = calloc(n, sizeof(float));
+    for(i = 0; i < n; i++) {
+        t[i] = correlate_time(dt, b, i);
+    }
+    return t;
+}
+/**
+ *  Compute begin time from a correlation of two time series
+ *
+ *  - dt - Time sampling
+ *  - n1 - Length of first time series
+ *  - n2 - Length of second time series (unused)
+ *  - b1 - Begin time of first time series
+ *  - b2 - Begin time of second time series
+ *
+ *  Return: -dt * (n1 - 1) + (b2-b1)
+ */
+float
+correlate_time_begin(float dt, float n1, float _n2, float b1, float b2) {
+    UNUSED(_n2);
+    return -dt * (n1 - 1) + (b2 - b1);
+}
+
+
+
+/**
+ *  Compute the cross correlation function from two time series
+ *
+ *  - f - First time series
+ *  - g - Second time series
+ *  - nf - Length of first time series
+ *  - ng - Length of second time series
+ *  - n - Returned length of cross correlation function
+ *
+ *  Return: Cross correlation function, length: nf + ng - 1
+ *
+ *  If the signals are not the same length, then find the longest
+ *  signal, make both signals that length by filling the remainder
+ *  with zeros (pad at the end) and then run them through crscor
+ *
+ */
+float *
+correlate(float *f, float *g, int nf, int ng, int *n) {
+
+    float *f2, *g2;
+    float *out, *ytmp;
+    int i;
+    int nlen, nwin, wlen, nfft, max;
+
+#define ERROR_MAX 256
+    char error[ERROR_MAX];
+
+    if(nf >= ng) {
+        nlen = nf;
+    } else if(nf < ng) {
+        nlen = ng;
+    }
+
+    /* Allocate space for the correlation of yarray1 and yarray2 */
+    /* 2 * n - 1 */
+    max = next2((2 * nlen) - 1) * 2;
+
+    // Create Output array and temp work array
+    out  = (float *) calloc(max, sizeof(float));
+    ytmp = (float *) calloc(max*4, sizeof(float));
+
+    // Pad input data with zeros up to next power of 2
+    nlen = next2(nlen);
+    f2 = (float *) calloc(nlen, sizeof(float));
+    g2 = (float *) calloc(nlen, sizeof(float));
+    memcpy(f2, f, nf * sizeof(float));
+    memcpy(g2, g, ng * sizeof(float));
+
+    /* Set up values for the cross correlation */
+    nwin = 1;
+    wlen = nlen;
+    nfft = 0;
+
+    /*     Call crscor ( Cross Correlation )
+     *        - yarray1 - First  Input array to correlate
+     *        - yarray2 - Second Input array to correlate
+     *        - nlen    - Number of points in yarray and yarray2
+     *        - nwin    - Windows to use in the correlation
+     *        - wlen    - Length of the windows
+     *        - type    - Type of Window (SAC_RECTANGLE)
+     *        - out     - output sequence
+     *        - nfft    - Length of the output sequence
+     *        - error   - Error Message
+     *        - err_len - Length of Error Message (on input)
+     */
+    crscor(f2, g2, nlen, nwin, wlen, SAC_RECTANGLE, ytmp, &nfft, error, ERROR_MAX);
+
+    /*
+     *     out[0 : nlen1 - 2 ] <-- ytmp[ nfft - nlen1 + 1 : nfft -1 ]
+     *     out[nlen1 - 1 : nlen1 + nlen2 - 2 ] <-- ytmp[ 0 : nlen2-1 ]
+     */
+    for(i = 0; i <= nf - 2; i++) {
+      out[i] = ytmp[nfft - nf + i + 1];
+    }
+    for(i = 0; i <= ng - 1; i++) {
+      out[nf - 1 + i ] = ytmp[i];
+    }
+    *n = nf+ng-1;
+    return out;
+}
+

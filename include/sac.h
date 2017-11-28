@@ -101,7 +101,11 @@ void crscor(float     data1[],
             int      *nfft, 
             char     *err, 
             int       err_s);
-
+int correlate_max(float *c, int nc);
+float correlate_time(float dt, float b, int i);
+float * correlate_time_array(float dt, float b, int n);
+float correlate_time_begin(float dt, float n1, float _n2, float b1, float b2);
+float * correlate(float *f, float *g, int nf, int ng, int *n);
 
 /* Find the next largest power of two greater than num */
 int next2(int num);
