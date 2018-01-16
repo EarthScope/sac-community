@@ -38,7 +38,7 @@ if X11_APP
 endif
 
 # Libraries to be installed
-lib_LIBRARIES     = libsacio.a libsac.a
+lib_LIBRARIES     = libsacio.a libsac.a libevalresp.a
 
 # Libraries not installed
 noinst_LIBRARIES  = libsac_all.a \
@@ -237,7 +237,8 @@ libevalresp_a_SOURCES = evalresp/alloc_fctns.c evalresp/calc_fctns.c \
 	evalresp/evr_spline.h evalresp/evresp.h evalresp/regexp.h \
 	evalresp/regmagic.h evalresp/x2r_log.c evalresp/x2r_xml.c \
 	evalresp/x2r_ws.c evalresp/x2r.h evalresp/x2r_log.h evalresp/x2r_ws.h \
-	evalresp/x2r_xml.h
+	evalresp/x2r_xml.h \
+	evalresp/evalresp_sac.c
 
 libsac_a_SOURCES = co/complex.c  \
 	\

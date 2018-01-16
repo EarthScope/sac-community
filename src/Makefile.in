@@ -234,7 +234,7 @@ am_libevalresp_a_OBJECTS = evalresp/alloc_fctns.$(OBJEXT) \
 	evalresp/regexp.$(OBJEXT) evalresp/regsub.$(OBJEXT) \
 	evalresp/resp_fctns.$(OBJEXT) evalresp/string_fctns.$(OBJEXT) \
 	evalresp/x2r_log.$(OBJEXT) evalresp/x2r_xml.$(OBJEXT) \
-	evalresp/x2r_ws.$(OBJEXT)
+	evalresp/x2r_ws.$(OBJEXT) evalresp/evalresp_sac.$(OBJEXT)
 libevalresp_a_OBJECTS = $(am_libevalresp_a_OBJECTS)
 libicm_a_AR = $(AR) $(ARFLAGS)
 libicm_a_LIBADD =
@@ -1107,7 +1107,7 @@ AM_CXXFLAGS = -I$(top_srcdir)/inc $(am__append_1)
 @X11_APP_TRUE@sac_LINK = $(LINK)
 
 # Libraries to be installed
-lib_LIBRARIES = libsacio.a libsac.a
+lib_LIBRARIES = libsacio.a libsac.a libevalresp.a
 
 # Libraries not installed
 noinst_LIBRARIES = libsac_all.a libevalresp.a libSMnonOracleFuncs.a \
@@ -1240,7 +1240,8 @@ libevalresp_a_SOURCES = evalresp/alloc_fctns.c evalresp/calc_fctns.c \
 	evalresp/evr_spline.h evalresp/evresp.h evalresp/regexp.h \
 	evalresp/regmagic.h evalresp/x2r_log.c evalresp/x2r_xml.c \
 	evalresp/x2r_ws.c evalresp/x2r.h evalresp/x2r_log.h evalresp/x2r_ws.h \
-	evalresp/x2r_xml.h
+	evalresp/x2r_xml.h \
+	evalresp/evalresp_sac.c
 
 libsac_a_SOURCES = co/complex.c  \
 	\
@@ -1837,6 +1838,7 @@ evalresp/string_fctns.$(OBJEXT): evalresp/$(am__dirstamp)
 evalresp/x2r_log.$(OBJEXT): evalresp/$(am__dirstamp)
 evalresp/x2r_xml.$(OBJEXT): evalresp/$(am__dirstamp)
 evalresp/x2r_ws.$(OBJEXT): evalresp/$(am__dirstamp)
+evalresp/evalresp_sac.$(OBJEXT): evalresp/$(am__dirstamp)
 
 libevalresp.a: $(libevalresp_a_OBJECTS) $(libevalresp_a_DEPENDENCIES) $(EXTRA_libevalresp_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libevalresp.a

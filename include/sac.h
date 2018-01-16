@@ -1,44 +1,50 @@
-/** 
+/**
  * @file sac.h
- * 
+ *
  * @brief SAC Library Routines
- * 
+ *
  */
 
 #ifndef __SAC_H__
 #define __SAC_H__
 
-/** 
- * IIR Filter Prototypes 
+#include <sacio.h>
+
+/**
+ * IIR Filter Prototypes
  *
  * @see xapiir
  */
-#define SAC_BUTTERWORTH       "BU"
-#define SAC_BESSEL            "BE"
-#define SAC_CHEBYSHEV_TYPE_I  "C1"
-#define SAC_CHEBYSHEV_TYPE_II "C2"
+enum FilterPrototype {
+    SAC_BUTTERWORTH = 0,
+    SAC_BESSEL,
+    SAC_CHEBYSHEV_I,
+    SAC_CHEBYSHEV_II,
+};
 
-/** 
- * IIR Filter Types 
+/**
+ * IIR Filter Types
  *
  * @see xapiir
  */
-#define SAC_BANDPASS          "BP"
-#define SAC_HIGHPASS          "HP"
-#define SAC_LOWPASS           "LP"
-#define SAC_BANDREJECT        "BR"
+enum FilterType {
+    SAC_BANDPASS = 0,
+    SAC_HIGHPASS,
+    SAC_LOWPASS,
+    SAC_BANDREJECT,
+};
 
-/** 
- * FIR Filter Type 
+/**
+ * FIR Filter Type
  *
  * @see firtrn
  */
 #define SAC_HILBERT           "HILBERT"
 #define SAC_DERIVATIVE        "DERIVATIVE"
 
-/** 
+/**
  * Window Type
- * 
+ *
  * @see crscor, window
  */
 #define SAC_HAMMING           "HAMMING"
@@ -47,25 +53,34 @@
 #define SAC_COSINE            "COSINE"
 #define SAC_TRIANGULAR        "TRIANGULAR"
 
-/** 
+/**
  * Filter
- *   
- *   IIR (Infinte Impulse Response) filter and is the same 
- *   that is used in lowpass, highpass, bandpass and bandreject. 
+ *
+ *   IIR (Infinte Impulse Response) filter and is the same
+ *   that is used in lowpass, highpass, bandpass and bandreject.
  */
-void xapiir ( float      data[],  
-              int        nsamps, 
-              char      *aproto,  
-              double     trbndw, 
-              double     a, 
-              int        iord, 
-              char      *type, 
-              double     flo, 
-              double     fhi, 
-              double     ts, 
+void xapiir ( float      data[],
+              int        nsamps,
+              char      *aproto,
+              double     trbndw,
+              double     a,
+              int        iord,
+              char      *type,
+              double     flo,
+              double     fhi,
+              double     ts,
               int        passes);
 
-/** 
+void filter(enum FilterPrototype prototype, enum FilterType type,
+            float *data, int n, float dt,
+            float low, float high, int passes, int order,
+            float transition,float attenuation);
+void bandpass(float *data, int n, float dt, float low, float high);
+void lowpass (float *data, int n, float dt, float corner);
+void highpass(float *data, int n, float dt, float corner);
+
+
+/**
  * Compute the envelope of a function
  *
  * @param n - Length of \p in and \p out
@@ -73,39 +88,41 @@ void xapiir ( float      data[],
  * @param out - Output data series
  *
  */
-void envelope(int        n, 
-              float     *in, 
+void envelope(int        n,
+              float     *in,
               float     *out);
 
-/** 
+/**
  * Calculate the Hilbert Transform or derivative of a signal
- *   with a FIR filter.  Currently uses a 201 point filter 
+ *   with a FIR filter.  Currently uses a 201 point filter
  *   constructed by windowing the ideal impulse response
  *   with a hamming window.
  */
-void firtrn(char     *ftype, 
-            float     x[], 
-            int       n, 
-            float     buffer[], 
+void firtrn(char     *ftype,
+            float     x[],
+            int       n,
+            float     buffer[],
             float     y[]);
 
 
 /* Compute the Cross-Correlation Function */
-void crscor(float     data1[], 
-            float     data2[], 
-            int       nsamps, 
-            int       nwin, 
-            int       wlen, 
-            char     *type, 
-            float     c[], 
-            int      *nfft, 
-            char     *err, 
+void crscor(float     data1[],
+            float     data2[],
+            int       nsamps,
+            int       nwin,
+            int       wlen,
+            char     *type,
+            float     c[],
+            int      *nfft,
+            char     *err,
             int       err_s);
 int correlate_max(float *c, int nc);
 float correlate_time(float dt, float b, int i);
 float * correlate_time_array(float dt, float b, int n);
 float correlate_time_begin(float dt, float n1, float _n2, float b1, float b2);
-float * correlate(float *f, float *g, int nf, int ng, int *n);
+void correlate(float *f, int nf, float *g, int ng, float *c, int nc);
+
+void convolve(float *a, int na, float *b, int nb, float *c, int nc);
 
 /* Find the next largest power of two greater than num */
 int next2(int num);
@@ -128,6 +145,8 @@ void lifitu(float x[], float y[], int n, float *a, float *b, float *siga,
 /* Remove trend from even and unevely spaced data */
 void rtrend(float *data, int n, float yint, float slope, float b, float delta);
 void rtrend2(float *data, int n, float yint, float slope, float *t);
+
+void remove_trend(float *data, int n, float delta, float b);
 
 /* Remove mean from data*/
 void rmean(float *data, int n, float mean);
@@ -182,9 +201,23 @@ struct _station_id_t {
 };
 
 
-pz_t * polezero_parse(char *filename, station_id_t *stat);
-station_id_t * station_id_from_sac(sac *s);
-void polezero_free(pz_t *pz);
+//pz_t * polezero_parse(char *filename, station_id_t *stat);
+//station_id_t * station_id_from_sac(sac *s);
+//void polezero_free(pz_t *pz);
+
+void sac_reference_time(char *when);
+void sac_station_id_to_polezero(char *id, char *pzfile);
+void sac_station_id(char *id);
+void sac_station_id_split(char *id, char *net, char *sta, char *loc, char *cha);
+double * fftfreq(int n, double f0, double df);
+double dfreq(int n, double dt);
+
+int remove_polezero(float *data, int n, float dt, double limits[4],
+                    char *id, char *when, char *pzfile);
+int remove_polezero_simple(float *data, int n, float dt, double limits[4]);
+
+
+
 
 /* scm.h */
 void lifite(double x1, double dx, float y[], int n, float *a, float *b,
@@ -199,8 +232,15 @@ void interp(float *in, int nlen, float *out, int newlen, float bval, float eval,
 void interp2(float *in, int nlen, float *out, int newlen, float bval,
              float eval, float *t, float tstart, float dtnew, float eps);
 
-void cut(float *in, int nstart, int nstop, int nfillb, int nfille, float *out);
+void cut_data(float *in, int nstart, int nstop, int nfillb, int nfille, float *out);
 void cut_define(float b, float delta, double dt, int *n);
+void cut(float *in, int npts, float b, float dt,
+         float begin_cut, float end_cut, int cuterr,
+         float *out, int *nout);
+
+
+void  remove_mean(float *data, int n);
+float compute_mean(float *data, int n);
 
 /**
  * cuterr
@@ -223,5 +263,18 @@ void cut_define_check(float start, float stop, int npts, int cuterr, int *nstart
 void rotate(float si1[], float si2[], int ns, double angle, int lnpi, int lnpo,
             float so1[], float so2[]);
 
+
+void taper_width_to_points(float width, int npts, int *ipts);
+void taper_points(float *data, int n, int taper_type, int ipts);
+
+void taper_seconds(float *data, int n, int taper_type, float sec, float delta);
+void taper_width(float *data, int n, int taper_type, float width);
+
+
+int isclosef      (float a, float b);
+int isclosef_par  (float a, float b, float atol, float rtol);
+int allclosef     (float *a, float *b, int n);
+int allclosef_par (float *a, float *b, int n, float atol, float rtol);
+int sac_compare   (char *file, float *y, int n, float b, float dt);
 
 #endif /* __SAC_H__ */

@@ -49,3 +49,12 @@
       parameter ( SAC_INTEGER_UNDEFINED   =  -12345   )
       parameter ( SAC_NUMBER_UNDEFINED    =  -12345   )
       parameter ( SAC_CHARACTER_UNDEFINED = '-12345  ')
+
+
+      integer CUT_FILLZ
+      integer CUT_USEBE
+      integer CUT_FATAL
+
+      parameter ( CUT_FILLZ = 3 )
+      parameter ( CUT_USEBE = 2 )
+      parameter ( CUT_FATAL = 1 )
