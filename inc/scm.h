@@ -96,8 +96,8 @@ void lpdesign(int irate, int n, float c[], int *nc);
 void inter(float x[], int nx, int irate, float c[], int nc, float y[], int *ny);
 void xtaper(int *nerr);
 
-void taper_width_to_points(float width, float npts, int *ipts);
-void taper(float *data, int n, int taper_type, int ipts);
+void taper_width_to_points(float width, int npts, int *ipts);
+void taper_points(float *data, int n, int taper_type, int ipts);
 
 void rmean(float *data, int n, float mean);
 void rtrend(float *data, int n, float yint, float slope, float b, float delta);

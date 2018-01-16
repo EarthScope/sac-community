@@ -10,7 +10,7 @@ function Usage {
     echo "Usage: sac-config [-clvp] [--prefix[=DIR]] [--version] [--libs] [--cflags] libs " 1>&2
     echo "       Display information regarding SAC, specifically used"
     echo "         during the compilation of programs using the libraries"
-    echo "         of SAC: sacio and sac"
+    echo "         of SAC: sacio, sac, and evalresp"
     echo ""
     echo "          --cflags       Output Compilation Flags"
     echo "          -c "
@@ -73,6 +73,9 @@ while test $# -gt 0; do
 	    ;;
 	sac | libsac )
 	    libs="$libs -lsac"
+	    ;;
+	evalresp | libevalresp )
+	    libs="$libs -lsac -levalresp -lxml2"
 	    ;;
 	*)
 	    Usage

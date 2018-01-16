@@ -118,7 +118,7 @@ xtaper(nerr)
         taper_width_to_points(cmsam.widtap, s->h->npts, &ipts);
 
         /* -- Taper */
-        taper(s->y, s->h->npts, cmsam.itaptp, ipts);
+        taper_points(s->y, s->h->npts, cmsam.itaptp, ipts);
 
         /* -- Compute new extrema. */
         extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax,

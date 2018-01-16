@@ -6,6 +6,7 @@
 
 #include "ucf.h"
 #include "dff.h"
+#include "dfm.h"
 
 DFM_EXTERN
 
@@ -40,8 +41,7 @@ DBwfToSac(s, seis, nerr)
     ncomp = sac_comps(s);
     /* - For each data component: */
     for (jcomp = 0, pArray = seis->i; jcomp < ncomp; jcomp++, pArray = seis->r) {
-        cut(pArray, s->m->nstart, s->m->nstop, s->m->nfillb, s->m->nfille,
-            s->y);
+        cut_data(pArray, s->m->nstart, s->m->nstop, s->m->nfillb, s->m->nfille, s->y);
         if (cmdfm.lscale && s->h->scale != SAC_FLOAT_UNDEFINED &&
             s->h->scale != 1.0) {
             for (idx = 0; idx < numrd; idx++) {

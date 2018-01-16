@@ -102,7 +102,7 @@ int is_kundef(char *kvalue);
 int is_kundef2(char *kvalue);
 int is_kundefn(char *kvalue, int index);
 
-void cut(float *in, int nstart, int nstop, int nfillb, int nfille, float *out);
+void cut_data(float *in, int nstart, int nstop, int nfillb, int nfille, float *out);
 
 #ifdef HAVE_LIBRPC
 void xdrhdr(XDR xdrs, float *headerbuf, int *nerr);

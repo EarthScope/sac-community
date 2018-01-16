@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include "scm.h"
 
 void
 rtrend(float *data, int n, float yint, float slope, float b, float delta) {
@@ -35,4 +37,34 @@ rtrend2_(float *data, int *n, float *yint, float *slope, float *t) {
 void
 rtrend2__(float *data, int *n, float *yint, float *slope, float *t) {
     rtrend2(data, *n, *yint, *slope, t);
+}
+
+/**
+ *  Remove a linear trend from a data series
+ *
+ *  - data - Data Series
+ *  - n - Length of data
+ *  - delta - time sampling of data
+ *
+ *  Trend is removed in place and input data is overwritten
+ *
+ *  This calls lifite() and rtrend() internally
+ *
+ */
+void
+remove_trend(float *data, int n, float delta, float b) {
+    float slope, yint, slope_sd, yint_sd, data_sd, corrcoef;
+    /* Compute linear trend of the data */
+    lifite(b, delta, data, n,
+           &slope, &yint, &slope_sd, &yint_sd, &data_sd, &corrcoef);
+    /* Remove linear trend from data */
+    rtrend(data, n, yint, slope, b, delta);
+}
+void
+remove_trend_(float *data, int *n, float *delta, float *b) {
+    remove_trend(data, *n, *delta, *b);
+}
+void
+remove_trend__(float *data, int *n, float *delta, float *b) {
+    remove_trend(data, *n, *delta, *b);
 }

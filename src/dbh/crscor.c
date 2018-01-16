@@ -364,16 +364,18 @@ correlate_time_begin(float dt, float n1, float _n2, float b1, float b2) {
     return -dt * (n1 - 1) + (b2 - b1);
 }
 
+#define ERROR_MAX 256
 
 
 /**
  *  Compute the cross correlation function from two time series
  *
  *  - f - First time series
+ *  - nf - Length of first time series, f
  *  - g - Second time series
- *  - nf - Length of first time series
- *  - ng - Length of second time series
- *  - n - Returned length of cross correlation function
+ *  - ng - Length of second time series, g
+ *  - c - Cross correlation time series
+ *  - nc - Size of c, must be at least (nf + ng - 1)
  *
  *  Return: Cross correlation function, length: nf + ng - 1
  *
@@ -382,17 +384,21 @@ correlate_time_begin(float dt, float n1, float _n2, float b1, float b2) {
  *  with zeros (pad at the end) and then run them through crscor
  *
  */
-float *
-correlate(float *f, float *g, int nf, int ng, int *n) {
+void
+correlate(float *f, int nf, float *g, int ng, float *c, int nc) {
 
     float *f2, *g2;
-    float *out, *ytmp;
+    float *ytmp;
     int i;
     int nlen, nwin, wlen, nfft, max;
 
-#define ERROR_MAX 256
     char error[ERROR_MAX];
 
+    if(nc < nf+ng-1) {
+        printf("Correlate output not long enough\n");
+        return;
+    }
+    
     if(nf >= ng) {
         nlen = nf;
     } else if(nf < ng) {
@@ -404,7 +410,7 @@ correlate(float *f, float *g, int nf, int ng, int *n) {
     max = next2((2 * nlen) - 1) * 2;
 
     // Create Output array and temp work array
-    out  = (float *) calloc(max, sizeof(float));
+    //out  = (float *) calloc(max, sizeof(float));
     ytmp = (float *) calloc(max*4, sizeof(float));
 
     // Pad input data with zeros up to next power of 2
@@ -438,12 +444,115 @@ correlate(float *f, float *g, int nf, int ng, int *n) {
      *     out[nlen1 - 1 : nlen1 + nlen2 - 2 ] <-- ytmp[ 0 : nlen2-1 ]
      */
     for(i = 0; i <= nf - 2; i++) {
-      out[i] = ytmp[nfft - nf + i + 1];
+      c[i] = ytmp[nfft - nf + i + 1];
     }
     for(i = 0; i <= ng - 1; i++) {
-      out[nf - 1 + i ] = ytmp[i];
+      c[nf - 1 + i ] = ytmp[i];
     }
-    *n = nf+ng-1;
-    return out;
+}
+
+void
+correlate_(float *f, int *nf, float *g, int *ng, float *c, int *nc) {
+    correlate(f, *nf, g, *ng, c, *nc);
+}
+void
+correlate__(float *f, int *nf, float *g, int *ng, float *c, int *nc) {
+    correlate(f, *nf, g, *ng, c, *nc);
+}
+
+float
+correlate_time_begin_(float *dt, int *n1, int *n2, float *b1, float *b2) {
+    return correlate_time_begin(*dt, *n1, *n2, *b1, *b2);
+}
+float
+correlate_time_begin__(float *dt, int *n1, int *n2, float *b1, float *b2) {
+    return correlate_time_begin(*dt, *n1, *n2, *b1, *b2);
+}
+
+int correlate_max_ (float *c, int *nc) { return correlate_max(c, *nc) + 1; }
+int correlate_max__(float *c, int *nc) { return correlate_max(c, *nc) + 1; }
+float
+correlate_time_(float *dt, float *b, int *i) {
+    return correlate_time(*dt, *b, *i - 1);
+}
+float
+correlate_time__(float *dt, float *b, int *i) {
+    return correlate_time(*dt, *b, *i - 1);
+}
+
+
+void
+convolve(float *a, int na, float *b, int nb, float *c, int nc) {
+    int i, j, nlen, nfft, nwin, wlen;
+    float *a0, *out;
+    char error[ERROR_MAX];
+
+    if(nc < na + nb - 1) {
+        printf("output length must be at least na + nb - 1\n");
+        return;
+    }
+
+    a0 = calloc(na, sizeof(float));
+    /* Reverse the First Signal */
+    j = 0;
+    for(i = na - 1; i >= 0; i--) {
+      a0[j] = a[i];
+      j++;
+    }
+
+    nlen = na;
+    if(nb > nlen) {
+        nlen = nb;
+    }
+    /* Allocate space for the correlation of yarray1 and yarray2 */
+    nfft = next2((2 * nlen) - 1) * 2;
+    out = calloc(nfft, sizeof(float));
+
+    /* Set up values for the cross correlation */
+    nwin = 1;
+    wlen = nlen;
+    nfft = 0;
+
+    /*     Call crscor ( Cross Correlation, no, wait, uh Convolution )
+     *        - yarray1 - First  Input array to correlate
+     *        - yarray2 - Second Input array to correlate
+     *        - nlen    - Number of points in yarray and yarray2
+     *        - nwin    - Windows to use in the correlation
+     *        - wlen    - Length of the windows
+     *        - type    - Type of Window (SAC_RECTANGLE)
+     *        - out     - output sequence
+     *        - nfft    - Length of the output sequence
+     *        - error   - Error Message
+     *        - err_len - Length of Error Message (on input)
+     */
+    crscor(a0, b, nlen,
+           nwin, wlen, SAC_RECTANGLE,
+           out, &nfft, error, ERROR_MAX);
+
+    /* Reconstruct the signal from the "cross correlation" back to front
+     *
+     *  ytmp[0         : nlen1 - 2         ] <- out[nfft-nlen1+1 : nfft  - 1 ] 
+     *  ytmp[nlen1 - 1 : nlen1 + nlen2  -2 ] <- out[0            : nlen2 - 1 ]
+     *
+     *  nfft-1 is the last point of the output sequence
+     */
+    for(i = 0; i <= na - 2; i++) {
+        c[i] = out[nfft - na + i + 1];
+    }
+    for(i = 0; i <= nb - 1; i++) {
+        c[na + i - 1] = out[i];
+    }
+
+    free(out);
+    free(a0);
+}
+
+void
+convolve_(float *a, int *na, float *b, int *nb, float *c, int *nc) {
+    convolve(a, *na, b, *nb, c, *nc);
+}
+void
+convolve__(float *a, int *na, float *b, int *nb, float *c, int *nc) {
+    convolve(a, *na, b, *nb, c, *nc);
 }
 

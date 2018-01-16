@@ -115,3 +115,77 @@ xapiir__(float *data, int *nsamps, char *aproto, double *trbndw, double *a,
     xapiir(data, *nsamps, aproto, *trbndw, *a, *iord, type, *flo, *fhi, *ts,
            *passes);
 }
+
+enum FilterPrototype {
+    SAC_BUTTERWORTH = 0,
+    SAC_BESSEL,
+    SAC_CHEBYSHEV_I,
+    SAC_CHEBYSHEV_II
+};
+enum FilterType {
+    SAC_BANDPASS = 0,
+    SAC_HIGHPASS,
+    SAC_LOWPASS,
+    SAC_BANDREJECT,
+};
+
+
+void
+filter(enum FilterPrototype prototype,
+       enum FilterType type,
+       float *data, int n, float dt,
+       float low, float high, int passes, int order,
+       float transition,
+       float attenuation) {
+    char proto[4], ftype[4];
+    static char *FilterPrototypeKey[] = { "BU", "BE", "C1", "C2" };
+    static char *FilterTypeKey[]      = { "BP", "HP", "LP", "BR" };
+
+    strcpy(ftype, FilterTypeKey[type]);
+    strcpy(proto, FilterPrototypeKey[prototype]);
+
+    xapiir(data, n, proto, transition, attenuation,
+           order, ftype, low, high, (double) dt, passes);
+}
+
+#define PASSES 2
+#define ORDER  4
+
+void
+bandpass(float *data, int n, float dt, float low, float high) {
+    filter(SAC_BUTTERWORTH, SAC_BANDPASS, data, n, dt, low, high, PASSES, ORDER, 0., 0.);
+}
+void
+lowpass(float *data, int n, float dt, float corner) {
+    filter(SAC_BUTTERWORTH, SAC_LOWPASS, data, n, dt, corner, corner, PASSES, ORDER, 0., 0.);
+}
+void
+highpass(float *data, int n, float dt, float corner) {
+    filter(SAC_BUTTERWORTH, SAC_HIGHPASS, data, n, dt, corner, corner, PASSES, ORDER, 0., 0.);
+}
+
+void
+filter_(int *proto, int *type, float *data, int *n, float *dt,
+        float *low, float *high, int *passes, int *order,
+        float *trans, float *att) {
+    filter(*proto, *type, data, *n, *dt, *low, *high, *passes, *order, *trans, *att);
+}
+void
+filter__(int *proto, int *type, float *data, int *n, float *dt,
+         float *low, float *high, int *passes, int *order,
+         float *trans, float *att) {
+    filter(*proto, *type, data, *n, *dt, *low, *high, *passes, *order, *trans, *att);
+}
+
+void
+bandpass_(float *data, int *n, float *dt, float *low, float *high) {
+    bandpass(data, *n, *dt, *low, *high);
+}
+void
+bandpass__(float *data, int *n, float *dt, float *low, float *high) {
+    bandpass(data, *n, *dt, *low, *high);
+}
+void lowpass_  (float *data, int *n, float *dt, float *co) { lowpass (data, *n, *dt, *co);  }
+void lowpass__ (float *data, int *n, float *dt, float *co) { lowpass (data, *n, *dt, *co);  }
+void highpass_ (float *data, int *n, float *dt, float *co) { highpass(data, *n, *dt, *co); }
+void highpass__(float *data, int *n, float *dt, float *co) { highpass(data, *n, *dt, *co); }

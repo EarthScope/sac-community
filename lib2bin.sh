@@ -1,7 +1,9 @@
 #!/bin/sh
 
+# Usage: lib2bin.sh libname.a > name_all.c
+
 LIB=$1
-SRC=$2
+#SRC=$2
 
 FUNCS=$(nm $LIB  | grep ' T ' | awk '{print $3}' |  sed 's/^_//' )
 

@@ -24,7 +24,6 @@
 
 DFM_EXTERN
 
-sac **cut_data;
 sac *cut_file;
 void sacpop_no_free();
 
@@ -50,7 +49,8 @@ xcutim(int *nerr) {
     double refTime;             /* subract this from the picks. */
 
     DBlist tree;
-
+    sac **cut_data_im = NULL;
+    
     struct cutPair {
         char kbase[2][9];
         float offset[2];
@@ -152,13 +152,13 @@ xcutim(int *nerr) {
     if (*nerr)
         return;
 
-    cut_data = xarray_new('p');
+    cut_data_im = xarray_new('p');
     for (i = 0; i < saclen(); i++) {
         if (!(s = sacget(i, TRUE, nerr))) {
             *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
             goto L_ERROR;
         }
-        cut_data = xarray_append(cut_data, s);
+        cut_data_im = xarray_append(cut_data_im, s);
     }
     while (saclen() > 0) {
         sacpop_no_free();
@@ -183,7 +183,7 @@ xcutim(int *nerr) {
             /* Get next waveform. */
             if (!(wfL = dblNextTableInstance(wfL, tree, dbl_LIST_WFDISC)))
                 break;
-            cut_file = cut_data[k];
+            cut_file = cut_data_im[k];
             k++;
             /* Get the header to go with the waveform */
             h = (struct SACheader *) malloc(sizeof(struct SACheader));
