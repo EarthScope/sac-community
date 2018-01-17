@@ -78,3 +78,13 @@ dif5(array, number, step, output)
 	 *===================================================================== */
 
 }                               /* end of function */
+
+
+void
+dif5_(float *array, int *number, double *step, float *output) {
+    dif5(array, *number, *step, output);
+}
+void
+dif5__(float *array, int *number, double *step, float *output) {
+    dif5(array, *number, *step, output);
+}

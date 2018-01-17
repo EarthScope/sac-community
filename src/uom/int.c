@@ -21,3 +21,20 @@ int_rect(float *y, int npts, double delta) {
         y[i] = delta * y[i] + y[i-1];
     }
 }
+
+void
+int_trap_(float *y, int *npts, double *delta) {
+    int_trap(y, *npts, *delta);
+}
+void
+int_trap__(float *y, int *npts, double *delta) {
+    int_trap(y, *npts, *delta);
+}
+void
+int_rect_(float *y, int *npts, double *delta) {
+    int_rect(y, *npts, *delta);
+}
+void
+int_rect__(float *y, int *npts, double *delta) {
+    int_rect(y, *npts, *delta);
+}

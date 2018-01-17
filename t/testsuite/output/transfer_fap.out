@@ -163,11 +163,11 @@
  sqrt
  int
  if &1,depmax gt %maxerror%
- ==>  if 6.18776e-17 gt 1e-14
+ ==>  if 6.18775e-17 gt 1e-14
  else
     message "polezero -> fap transfer error: &1,depmax&"
- ==>  message "polezero -> fap transfer error: 6.18776e-17"
- polezero -> fap transfer error: 6.18776e-17
+ ==>  message "polezero -> fap transfer error: 6.18775e-17"
+ polezero -> fap transfer error: 6.18775e-17
  endif
   
  read test.transfer.fapev

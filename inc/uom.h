@@ -54,4 +54,8 @@ void xsqrt(int *nerr);
 void xsub(int *nerr);
 void xuomc(int index, int *nerr);
 
+void int_trap(float *y, int npts, double delta);
+void int_rect(float *y, int npts, double delta);
+
+
 #endif /* _UOM_H_ */

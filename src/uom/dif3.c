@@ -59,3 +59,12 @@ dif3(array, number, step, output)
 	 *===================================================================== */
 
 }                               /* end of function */
+
+void
+dif3_(float *array, int *number, double *step, float *output) {
+    dif3(array, *number, *step, output);
+}
+void
+dif3__(float *array, int *number, double *step, float *output) {
+    dif3(array, *number, *step, output);
+}

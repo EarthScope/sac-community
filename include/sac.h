@@ -54,6 +54,17 @@ enum FilterType {
 #define SAC_TRIANGULAR        "TRIANGULAR"
 
 /**
+ * Taper Types
+ *
+ */
+enum {
+    SAC_TAPER_COSINE  = 1,
+    SAC_TAPER_HANNING = 2,
+    SAC_TAPER_HAMMING = 3,
+};
+
+
+/**
  * Filter
  *
  *   IIR (Infinte Impulse Response) filter and is the same
@@ -248,9 +259,9 @@ float compute_mean(float *data, int n);
  *
  */
 enum {
-    CUT_FILLZ = 3,
-    CUT_USEBE = 2,
-    CUR_FATAL = 1,
+    SAC_CUT_FILLZ = 3,
+    SAC_CUT_USEBE = 2,
+    SAC_CUT_FATAL = 1,
 };
 
 /**

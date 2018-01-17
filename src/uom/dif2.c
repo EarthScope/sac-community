@@ -50,3 +50,13 @@ dif2(array, number, step, output)
 	 *===================================================================== */
 
 }                               /* end of function */
+
+
+void
+dif2_(float *array, int *number, double *step, float *out) {
+    dif2(array, *number, *step, out);
+}
+void
+dif2__(float *array, int *number, double *step, float *out) {
+    dif2(array, *number, *step, out);
+}

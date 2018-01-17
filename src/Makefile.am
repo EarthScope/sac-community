@@ -519,8 +519,8 @@ libsac_all_a_SOURCES = amf/iniam.c amf/array.c \
 	scm/xdecimate.c scm/xinterpolate.c scm/xlinefit.c scm/xpowgl.c \
 	scm/xquantize.c scm/xreverse.c scm/xrglitches.c scm/xrmean.c \
 	scm/xrotate.c scm/xrq.c scm/xrtr.c scm/xscmc.c scm/xsmooth.c \
-	scm/xstretch.c scm/xtaper.c \
-	scm/rmean.c scm/rtrend.c scm/taper.c scm/interpolate.c \
+	scm/xstretch.c scm/xtaper.c scm/taper.c \
+	scm/rmean.c scm/rtrend.c scm/interpolate.c \
 	scm/rotinc.c \
 	\
 	site/initsite.c site/xsitecom.c site/xtestsite.c \
@@ -568,6 +568,7 @@ libsac_all_a_SOURCES = amf/iniam.c amf/array.c \
 	uom/dif2.c uom/dif3.c uom/dif5.c uom/iniuom.c uom/xabs.c uom/xadd.c \
 	uom/xdif.c uom/xdiv.c uom/xexp.c uom/xexp10.c uom/xint.c uom/xlog.c \
 	uom/xlog10.c uom/xmul.c uom/xsqr.c uom/xsqrt.c uom/xsub.c uom/xuomc.c \
+	uom/int.c \
 	\
   vars/createvlist.c \
 	vars/deletev.c vars/deletevlist.c \

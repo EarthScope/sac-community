@@ -1478,6 +1478,10 @@ int
 sac_compare(char *file, float *y, int n, float b, float dt) {
     int nerr;
     sac *s = sac_read(file, &nerr);
+    if(nerr != 0) {
+        printf("sac_compare: file does not exist: %s\n", file);
+        return 0;
+    }
     if(!isclosef(s->h->b, b)) {
         printf("b-value differs: %e %e\n", s->h->b, b);
         return 0;

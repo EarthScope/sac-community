@@ -23,7 +23,7 @@
 
      depmin = -9.846017e-01
      depmax = -9.728001e-04
-     depmen = -4.946648e-01
+     depmen = -4.946647e-01
        npts = 999
   
  ==>  
@@ -47,7 +47,7 @@
 
      depmin = -9.846017e-01
      depmax = -9.728001e-04
-     depmen = -4.946648e-01
+     depmen = -4.946647e-01
        npts = 999
   
  ==>  
@@ -69,7 +69,7 @@
   FILE: SEISMOGR - 1
  --------------
 
-     depmin = -9.854725e-01
+     depmin = -9.854724e-01
      depmax = -9.728001e-04
      depmen = -4.951493e-01
        npts = 1000
