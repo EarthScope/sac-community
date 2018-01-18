@@ -11,7 +11,6 @@
 !         result for "y" is the sae as one gets from SAC convolve.
 
       implicit none
-      include "sacf.h"
 
       integer i,j
 !     Define the Maximum length of waveform
