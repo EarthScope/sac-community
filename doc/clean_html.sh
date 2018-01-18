@@ -8,7 +8,7 @@ for z in $DIRS; do
     echo $z
     WD=$( pwd )
     cd $z
-    \rm -f *.txt *.html *.aux *.log *.tex *.toc *.out *.pdf
+    \rm -f *.txt *.html *.aux *.log *.tex *.toc *.out sac_manual.pdf
     cd $WD
 done
 cd html
