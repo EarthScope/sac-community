@@ -16,20 +16,17 @@
 
       nmarg = iargc()
       if (nmarg .eq. 0) then
-         write(*,*)'Usage: interpolate filename delta_new lext'
+         write(*,*)'Usage: interpolate filename delta_new'
          write(*,*)'  filename: the input filename,'
          write(*,*)'  delta_new: the new digitizing interval,'
-         write(*,*)'  lext: the number of character in the extension.'
-         write(*,*)'Output filename is unchanged except extension'
-         write(*,*)'  is preceded by i; e.g., bla.z => bla.iz'
+         write(*,*)'Output filename is unchanged except a letter i'
+         write(*,*)'  precedes last char; e.g., bla.bhz => bla.bhiz'
          stop
       end if
 
       call getarg(1,filename)
       call getarg(2,name)
       read(name,'(f10.0)') delta_new
-      call getarg(3,name)
-      read(name,'(i6)') lext
 
       nf = lenc(filename)
       call rsac1(filename(1:nf),signal,npts,secs,delta,max,nerr)
@@ -56,7 +53,7 @@
 
       call interp_f(npts,time_in,signal,npts_new,delta_new,
      1     signal_out,a,b,c)
-      filename = filename(1:nf-lext)//'i'//filename(nf-lext+1:nf)
+      filename = filename(1:nf-1)//'i'//filename(nf:nf)
 
       call wsac0(filename(1:nf+1),dummy,signal_out,nerr)
       end

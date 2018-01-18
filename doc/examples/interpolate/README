@@ -1,0 +1,14 @@
+This file is ${SACHOME}/doc/exmples/interpolate/README
+
+In that directory, issue the command:
+
+./run_interpolate.sh
+
+It will:
+
+1. Compile interpolate
+2. Run interpolate
+3. Do the interpolate using sac instead
+4. Check if the files are the same
+
+These files hould be the same as found in sub-directory ./sample-run.
