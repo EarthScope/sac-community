@@ -26,8 +26,7 @@
        end if
        call timeshift(signal,npts,max,dt,tshift)
        WRITE(*,'(a,f10.3)') 'Time shift (new-old) of',tshift
-       call setfhv('user2',tshift,nerr)
-       call setkhv('kuser2','tshift',nerr)
+       call setfhv('user9',tshift,nerr)
        nf = lenc(filename_out)
        call wsac0(filename_out(1:nf),signal,signal,nerr)
        stop
@@ -48,7 +47,7 @@
       end if
       call forwft(ntran,signal,dt,1.0)
       df = 1./(2.0*(ntran-1)*dt)
-      if (tshift .ne. 0.0) then
+      if (abs(tshift - 0.0) >= 1e-7 ) then
         call shiftt(ntran,signal,df,tshift)
       end if
       call invrft(ntran,signal,df,-1.0)

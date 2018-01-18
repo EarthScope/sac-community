@@ -1,0 +1,23 @@
+This file is ${SACHOME}/doc/exmples/time_shift/README
+
+In this directory, issue the command
+
+    run_time_shift.sh
+
+This will do the following:
+
+1. fg seismo
+2. rtrend ; taper
+3. change IZTYPE from IB to IO
+   necessary if SAC time-shift is to work and input IZTYPE=IB
+4. write seismo.sac
+5. lowpass filter the waveform
+6. write seismo_lpco5np4.sac
+7. Use macro ${SACHOME}/macros/sac-ts.m to time-shift
+   seismo_lpco5np4.sac by -0.05
+   That writes out the result as seismo_lpco5np4_sacts.sac
+8. commpile program time_shift
+9. Run it to time-shift seismo_lpco5np4.sac by -0.05
+
+Four .sac files are created.  If all worked, they will be the same
+as in ./sample-run.
