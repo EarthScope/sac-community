@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if [ ! -e synthetic.sac ]; then
+    cp sample_runs/synthetic.sac .
+fi
+
 echo "Creating input for convolve ..."
 sac --copyright-off <<EOF
 fg triangle npts 8 delta 0.02 begin -0.08
@@ -31,3 +35,8 @@ echo "Runs with synthetic"
 ./convolvef $P_NAME_T $WF_NAME_S triangle_synth-discrete.sac y
 ./convolvef $P_NAME_B $WF_NAME_S triangle_synth-ts.sac n
 ./convolvef $P_NAME_B $WF_NAME_S brune_synth-ts.sac y
+
+echo "Compare results"
+for z in *.sac ; do
+    diff $z sample_runs/$z
+done
