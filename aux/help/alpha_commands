@@ -45,7 +45,6 @@ Alphabetical Comamnd Listing
 :decimate_:      Decimates (downsamples) data, including an optional 
                  anti-aliasing FIR_ filter.
 :deletechannel_: Deletes one or more files from the file list.
-:depmec_:        Launch a Matlab GUI for estimating source depth and mechanism.
 :dif_:           Differentiates data in memory.
 :div_:           Divides each data point by a constant.
 :divf_:          Divides data in memory by a set of data files.

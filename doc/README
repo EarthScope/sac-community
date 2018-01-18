@@ -14,6 +14,10 @@ Contents:
        sac-help@iris.washington.edu
      - For more documentation see the examples directory
 
-       
-  
 
+To create the PDF manual:
+% cd doc
+% ./help2html_new.sh -pdf all
+% ./rst2sac_new.py
+% cd html
+% pdflatex sac_manual.tex

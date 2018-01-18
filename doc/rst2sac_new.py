@@ -26,13 +26,13 @@ class MySacTranslator(latex2e.LaTeXTranslator):
 
     def visit_reference(self, node):
         # We need to escape #, \, and % if we use the URL in a command.
-        special_chars = {ord('#'): ur'\#',
-                         ord('%'): ur'\%',
-                         ord('\\'): ur'\\',
+        special_chars = {ord('#'): u'\#',
+                         ord('%'): u'%',
+                         ord('\\'): u'\\',
                         }
         # external reference (URL)
         if 'refuri' in node:
-            href = unicode(node['refuri']).translate(special_chars)
+            href = node['refuri'].translate(special_chars)
             # problematic chars double caret and unbalanced braces:
             if href.find('^^') != -1 or self.has_unbalanced_braces(href):
                 self.error(
@@ -56,14 +56,14 @@ class MySacTranslator(latex2e.LaTeXTranslator):
             p = re.compile('^\.\. _' + node['name'] + ':\s+(\S+)_\s*\n', re.IGNORECASE)
             t = [ p.search(link) for link in links if p.search(link) ]
             if not t:
-                print "Indirect lookup: Search failed for internal target link " + node['name']
+                print("Indirect lookup: Search failed for internal target link " + node['name'])
                 sys.exit(-1)
             if len(t) != 1 :
-                print "Indirect lookup: Multiple internal links found for " + node['name']
+                print("Indirect lookup: Multiple internal links found for " + node['name'])
                 sys.exit(-1)
             t = t[0]
             if len(t.groups()) != 1:
-                print "Indirect lookup: Search failed for internal target: " + t.group()
+                print("Indirect lookup: Search failed for internal target: " + t.group())
                 sys.exit(-1)
             href = t.groups()[0]
         if not self.is_inline(node):
@@ -198,7 +198,7 @@ def read_rst( f, links ):
     if not any( fragment in f for fragment in skips ):
         m = cmd_re.findall(rst)
         if not m:
-            print "Error finding command name"
+            print("Error finding command name")
             sys.exit(-1)
         cmd = m[0].lower()[1:-3] # \nCOMMAND\n++
     if f == 'syntax.txt': # Syntax is defined twice, "fix" the second
@@ -227,12 +227,13 @@ for arg in files:
     if 'contents.txt' in arg:
         continue
     out = arg.replace('.txt', '.tex')
-    print arg
+    print(arg)
     rst = read_rst( arg, links )
     # open('tmp.txt','w').write(rst)
     tex = publish_string(rst, writer=w, source_path=arg,
                          settings=None, settings_overrides=args)
-    tex = tex.replace('% \n\n','')
+    
+    tex = tex.decode().replace('% \n\n','')
     tex = tex.replace('{longtable*}','{longtable}')
     if '{listcnt0}' in tex:
         tex  = tex.replace('{listcnt0}', '{listcnt' + str(listcnt) + '}')

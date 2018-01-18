@@ -28,10 +28,11 @@ t        Designate user time Tn in header {1,2,7}.
            Next response is an integer between 0 and 9.
 u        Set phase direction to UP (precedes P or S phase pick).
 x        Set Zoom window
-           Set beginning of zoomed plot
-           x - Second key, set end of zoomed window and display
-           s - Second key, defined zoomed plot limits are saved
-               and used as xlims for subsequent plots
+           - Set beginning of zoomed plot
+           - If x is second key, set end of zoomed window and display
+           - If s is second key, defined zoomed plot limits are saved
+             and used as xlims for subsequent plots
+
 z        Set zero (reference) level {2,6,8}.  If reference is on with a value
              f, two more horizontal lines are drawn at +/- f from the z line.
 '+'      Set phase direction to PLUS (precedes P or S phase pick).
@@ -42,10 +43,12 @@ z        Set zero (reference) level {2,6,8}.  If reference is on with a value
 
 Notes
 -----
-- {1} Written to SAC header.
-- {2} Written to alphanumeric pick file if open.
-- {3} Written to HYPO pick file if open.
-- {4} Written to terminal window.
-- {6} Place horizontal cursor at designated level before typing command letter.
-- {7} Terminal window echo is a labeled vertical line.
-- {8} Terminal window echo is a labeled horizontal line.
+
+  - {1} Written to SAC header.
+  - {2} Written to alphanumeric pick file if open.
+  - {3} Written to HYPO pick file if open.
+  - {4} Written to terminal window.
+  - {6} Place horizontal cursor at designated level before typing command letter.
+  - {7} Terminal window echo is a labeled vertical line.
+  - {8} Terminal window echo is a labeled horizontal line.
+

@@ -42,7 +42,7 @@ Example use of filtering with xapiir() to Apply an Infinite Impulse Recursive fi
 
 Fortran
 ~~~~~~~
-.. include:: ../../../doc/examples/filter/filterf.f
+.. include:: ../../../doc/examples/filter/filterf.f90
    :code: fortran
 
 C
@@ -56,7 +56,7 @@ Cut Data
 
 Fortran
 ~~~~~~~
-.. include:: ../../../doc/examples/cut/cut_example.f90
+.. include:: ../../../doc/examples/cut/cutf.f90
    :code: fortran
 
 Remove Mean
@@ -64,7 +64,7 @@ Remove Mean
 
 Fortran
 ~~~~~~~
-.. include:: ../../../doc/examples/rmean/rmean_example.f90
+.. include:: ../../../doc/examples/rmean/rmeanf.f90
    :code: fortran
 
 Remove Trend
@@ -72,7 +72,7 @@ Remove Trend
 
 Fortran
 ~~~~~~~
-.. include:: ../../../doc/examples/rtrend/rtrend_example.f90
+.. include:: ../../../doc/examples/rtrend/rtrendf.f90
    :code: fortran
 
 Taper Data
@@ -80,7 +80,7 @@ Taper Data
 
 Fortran
 ~~~~~~~
-.. include:: ../../../doc/examples/taper/taper_example.f90
+.. include:: ../../../doc/examples/taper/taperf.f90
    :code: fortran
 
 Rotate Data
@@ -88,7 +88,7 @@ Rotate Data
 
 Fortran
 ~~~~~~~
-.. include:: ../../../doc/examples/rotate/rotate_example.f90
+.. include:: ../../../doc/examples/rotate/rotatef.f90
    :code: fortran
 
 Instrument Removal
@@ -96,7 +96,7 @@ Instrument Removal
    
 Fortran
 ~~~~~~~
-.. include:: ../../../doc/examples/transfer/transfer_example.f90
+.. include:: ../../../doc/examples/transfer/transferf.f90
    :code: fortran
 
 Envelope Function
@@ -106,7 +106,7 @@ Example of taking the envelope of a data series
 
 Fortran
 ~~~~~~~
-.. include:: ../../../doc/examples/envelope/envelopef.f
+.. include:: ../../../doc/examples/envelope/envelopef.f90
    :code: fortran
 
 C
@@ -121,7 +121,7 @@ Correlation of two time series
 
 Fortran
 ~~~~~~~
-.. include:: ../../../doc/examples/correlate/correlatef.f
+.. include:: ../../../doc/examples/correlate/correlatef.f90
    :code: fortran
 
 C

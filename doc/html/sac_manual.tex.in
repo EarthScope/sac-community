@@ -9,6 +9,7 @@
 \usepackage[margin=1.0in]{geometry}
 \usepackage{longtable}
 \usepackage{array}
+\usepackage{alltt}
 \setlength{\extrarowheight}{2pt}
 \newlength{\DUtablewidth} % internal use in tables
 
@@ -50,6 +51,7 @@
   \urlstyle{same} % normal text font (alternatives: tt, rm, sf)
 }{}
 
+\newcommand{\DUroletitlereference}[1]{\texttt{\textbf{#1}}}
 
 % inline markup (custom roles)
 % \DUrole{#1}{#2} tries \DUrole#1{#2}
