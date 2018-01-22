@@ -12,7 +12,7 @@ PROG=$( basename $0 )
 RST2HTML=""
 
 # Check for a variety of 
-for z in rst2html.py rst2html-2.7.py rst2html-3.5.py; do
+for z in rst2html.py rst2html-2.7.py rst2html-3.5.py rst2html-3.6.py; do
     cmd="$(command -v $z)"
     retval=$?
     echo "Checking $z: " $cmd
