@@ -142,7 +142,7 @@ class MySacTranslator(latex2e.LaTeXTranslator):
             # label and ToC entry:
             bookmark = []
             # add sections with unsupported level to toc and pdfbookmarks?
-            if self.section_level <= 2:
+            if self.section_level <= __section_level__:
                 section_title = self.encode(node.astext())
                 bookmark.append('')
                 bookmark.append('\\addcontentsline{toc}{%s}{%s}' % (section_name, section_title))
@@ -223,7 +223,13 @@ files = sys.argv[1:]
 if len(files) == 0:
     files = find_txt_files()
 
+global __section_level__
+__section_level__ = 2
+    
 for arg in files:
+    __section_level__ = 2
+    if 'saclib.txt' in arg:
+        __section_level__ = 3
     if 'contents.txt' in arg:
         continue
     out = arg.replace('.txt', '.tex')
