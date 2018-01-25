@@ -3,30 +3,29 @@
 .. _functional: alphabetical-comamnd-listing_
 .. _command reference manual: alphabetical-comamnd-listing_
 .. _alphabetical-comamnd-listing:
-.. 
+..
 .. _sac data file format: sac-data-file-format_
 .. _sac-data-file-format:
-..  
+..
 .. _macros: sac-macros_
 .. _sac macros: sac-macros_
 .. _sac_macros: sac-macros_
 .. _sac-macros:
 ..
-.. _tutorial for new users: sac-tutorial-guide-for-new-users_ 
+.. _tutorial for new users: sac-tutorial-guide-for-new-users_
 .. _tutorial: sac-tutorial-guide-for-new-users_
-.. _sac-tutorial-guide-for-new-users: 
-
+.. _sac-tutorial-guide-for-new-users:
+..
 .. _sgf format: sac-graphics-file_
 .. _SAC Graphics File: sac-graphics-file_
 .. _sac-graphics-file:
-
+..
 .. _error messages: sac-output-messages_
 .. _sac error messages: sac-output-messages_
 .. _sac-output-messages:
 ..
-.. _intro: using-sac-introduction_
-.. _introduction: using-sac-introduction_ 
-.. _using-sac-introduction: 
+.. _intro: introduction_
+.. _introduction:
 ..
 .. _analysis: sac-analysis-capabilities_
 .. _sac analysis capabilities: sac-analysis-capabilities_

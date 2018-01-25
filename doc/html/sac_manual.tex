@@ -9,6 +9,7 @@
 \usepackage[margin=1.0in]{geometry}
 \usepackage{longtable}
 \usepackage{array}
+\usepackage{relsize}
 \usepackage{alltt}
 \setlength{\extrarowheight}{2pt}
 \newlength{\DUtablewidth} % internal use in tables
@@ -133,9 +134,10 @@ Users Manual}}
 \include{manual/sac_script}
 \include{manual/error_messages}
 \newpage
-\section{SAC Commands
-\label{sac_commands}
+\section{SAC Commands%
+  \label{sac_commands}%
 }
+\input{commands/func_commands}
 \input{commands/alpha_commands}
 \include{commands/3c}
 \include{commands/about}
@@ -398,5 +400,22 @@ Users Manual}}
 \include{commands/spe.com/readcor}
 \include{commands/spe.com/writecor}
 \include{commands/spe.com/writespe}
+
+\newpage
+\section{Supplementary files
+\label{`supplementary files`}
+}
+
+The following PDF files are supplementary files for the sample runs in \hyperref[using-the-sac-libraries]{Using the SAC Libraries}.
+
+\begin{itemize}
+\item As a supplement for the sample runs for the convolution programs, this document is a primer on the theory behind the different methods of time-series convolution and discusses a more interesting case than the example give for the convolution program: both time-domain and discrete convolutions of a pulse with a synthetic time series that has a spike at the phase arrival time with Gibbs-phenomenon ringing.
+
+\item Plot shows the results for the sample runs for Cubic-Spline Time-Series Interpolation.  To reproduce this plot, see file \$\{SACHOME\}/doc/exmples/interpolate/README.
+
+\item  Plot for Time Shift sample run
+
+\end{itemize}
+\include{supplement/time-series_convolution}
 
 \end{document}

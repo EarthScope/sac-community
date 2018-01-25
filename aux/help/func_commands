@@ -1,17 +1,16 @@
-
 Functional Command Listing
 ++++++++++++++++++++++++++
 
 Executive Function: Information and Control
 -------------------------------------------
-:about_:         Displays version and copyright information
-:intro_:         Provides a brief introduction to SAC
-:help_:          Prints information about SAC commands and features.
-:printhelp_:  	Command for printing help pages from within SAC
-:comcor_:        Controls SAC's command correction option.
-:inicm_:         Reinitializes all of SAC's common blocks.
-:production_:    Controls the production mode option.
-:report_:        Informs the user about the current state of SAC.
+:about_:          Displays version and copyright information
+:intro_:          Provides a brief introduction to SAC
+:help_:           Prints information about SAC commands and features.
+:printhelp_:      Command for printing help pages from within SAC
+:comcor_:         Controls SAC's command correction option.
+:inicm_:          Reinitializes all of SAC's common blocks.
+:production_:     Controls the production mode option.
+:report_:         Informs the user about the current state of SAC.
 :trace_:          Controls the tracing of blackboard and header variables.
 :echo_:           Controls echoing of commands to the terminal.
 :history_:        Provides easy access to previous commands (like unix history)
@@ -48,10 +47,10 @@ Data File Module
 :funcgen_:        Generates a function and stores it in memory.
 :convert_:        Converts data files from one format to another.
 :commit_:         Commits (copies) SAC's data to the I/O buffers
-:rollback_:       Replaces active data with data last committed to the 
-                 I/O buffers
-:recalltrace_:    Rolls back waveforms and selected headers from I/O buffers 
-                 and commits the rest of the headers.
+:rollback_:       Replaces active data with data last committed to the
+                  I/O buffers
+:recalltrace_:    Rolls back waveforms and selected headers from I/O buffers
+                  and commits the rest of the headers.
 :readhdr_:        Reads headers from SAC data files into memory.
 :writehdr_:       Overwrites the headers on disk with those in memory.
 :listhdr_:        Lists the values of selected header fields.
@@ -59,7 +58,7 @@ Data File Module
 :copyhdr_:        Copies header variables from one file in memory to all others.
 :readbbf_:        Reads a blackboard variable file into memory.
 :writebbf_:       Writes a blackboard variable file to disk.
-:cd:                change the working directory within SAC
+:cd:              Change the working directory within SAC
 :cut_:            Defines how much of a data file is to be read.
 :cuterr_:         Controls errors due to bad cut parameters.
 :cutim_:          Cuts data after its already been read into memory
@@ -69,7 +68,7 @@ Data File Module
 :readerr_:        Controls errors that occur during the read command.
 :synchronize_:    Synchronizes the reference times of all files in memory.
 :sort_:           Sorts waveforms based on selected header variables
-:wild_:           Sets wildcard characters used in read commands to expand 
+:wild_:           Sets wildcard characters used in read commands to expand
 
 
 Graphics Environment Module
@@ -130,8 +129,8 @@ Graphics Control Module
 :sgf_:            Controls the SAC Graphics File device options.
 :pause_:          Tells SAC to pause for specified length of time.
 :wait_:           Tells SAC whether or not to pause between plots.
-:print_:          Print the most recent SGF file. Many plot commands also 
-                 have a print option.
+:print_:          Print the most recent SGF file. Many plot commands also
+                  have a print option.
 
 Graphics Action Module
 ----------------------
@@ -181,7 +180,8 @@ Unary Operations Module
 :mul_:            Multiplies each data point by a constant.
 :div_:            Divides each data point by a constant.
 :sqr_:            Squares each data point.
-:sqrt_:           Takes the square root of each data point. Error if any are negative
+:sqrt_:           Takes the square root of each data point. Error if
+                  any are negative
 :int_:            Performs integration using the trapezoidal rule.
 :abs_:            Takes the absolute value of each data point.
 :log_:            Takes the natural logarithm of each data point.
@@ -209,7 +209,7 @@ Signal Correction Module
 :rmean_:          Removes the mean.
 :taper_:          Applies a symmetric taper to each end of data.
 :rotate_:         Rotates a pair of data components through an angle.
-:rotinc_:	  Rotate a set of 3 perpendicular components.
+:rotinc_:         Rotate a set of 3 perpendicular components.
 :interpolate_:    Interpolates evenly or unevenly spaced data to a new sampling rate.
 :quantize_:       Converts continuous data into its quantized equivalent.
 :stretch_:        Stretches (upsamples) data, including an optional interpolating FIR filter.
@@ -232,14 +232,14 @@ Event Analysis Module
 
 Signal Measurement Module
 -------------------------
-:mtw_:            Determines the measurement time window for use in 
-                 subsequent measurement commands.
+:mtw_:            Determines the measurement time window for use in
+                  subsequent measurement commands.
 :markvalue_:      Searches for and marks values in a data file.
 :marktimes_:      Marks files with travel times from a velocity set.
-:markptp_:        Measures and marks the maximum peak to peak amplitude of 
-                 each signal within the measurement time window.
-:rms_:            Computes the root mean square of the data within 
-                 the measurement time window.
+:markptp_:        Measures and marks the maximum peak to peak amplitude of
+                  each signal within the measurement time window.
+:rms_:            Computes the root mean square of the data within
+                  the measurement time window.
 
 XYZ (3-D) Data Module
 ---------------------
@@ -251,15 +251,15 @@ XYZ (3-D) Data Module
 :contour_:        Produces contour plots of data in memory.
 :zlevels_:        Controls the contour line spacing in subsequent contour plots.
 :zlines_:         Controls the contour linestyles in subsequent contour plots.
-:zticks_:         Controls the labeling of contour lines with directional 
+:zticks_:         Controls the labeling of contour lines with directional
                  tick marks.
-:zlabels_:        Controls the labeling of contour lines with alphanumeric 
+:zlabels_:        Controls the labeling of contour lines with alphanumeric
                  labels.
 :zcolors_:        Controls the color display of contour lines.
 
 Instrument Correction Module
 ----------------------------
-:transfer_:       Performs deconvolution to remove an instrument response 
+:transfer_:       Performs deconvolution to remove an instrument response
                  and convolution to apply another instrument response.
 :transfertable_:  Details for instrument types in transfer
 
@@ -274,7 +274,7 @@ Analysis Tools
 :convolve_:       Computes the convolution of waveforms.
 :correlate_:      Computes the auto- and cross- correlation functions.
 :envelope_:       Computes the envelope function using a Hilbert transform.
-:filterdesign_:   Graphicly display the filter's digital vs. analog 
+:filterdesign_:   Graphicly display the filter's digital vs. analog
                  characteristics.
 :linefit_:        Fits a line to data in memory and write results to blackboard
 :mat_:            Runs a MATLAB interactively or as a script on data in SAC
@@ -285,8 +285,3 @@ FK Spectrum
 -----------
 :bbfk_:           Computes broadband frequency-wavenumber (FK) spectral estimate.
 :beam_:           Computes the beam.
-
-
-
-
-

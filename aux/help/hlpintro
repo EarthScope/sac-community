@@ -1,20 +1,19 @@
-
 Help Introduction
 +++++++++++++++++
 
 Documentation for SAC includes
 ------------------------------
 
-A user manual w/tutorial, and command descriptions including commands in the spe and 
+A user manual w/tutorial, and command descriptions including commands in the spe and
 sss subprocesses.  The general syntax for using SAC's integrated help package is:
 help "help-file", Where "help-file" is one of the files listed below.
 
 Reference Manuals:
------------------- 
+------------------
 ::
 
- intro		tutorial	analysis	graphics	sac_macros
- inline		blackboard	input_output	file_format	SAC_Library
+ intro    tutorial  analysis  graphics  sac_macros
+ inline   blackboard  input_output  file_format SAC_Library
  SGF_format     Scripts         Error_messages
 
 The user manual comes in 13 parts.  The first part, intro, gives
@@ -22,18 +21,18 @@ background information about SAC and includes a table of
 contents which briefly describes the other parts.
 
 Alphabetical and functional listings
------------------------------------- 
+------------------------------------
 ::
 
  alphalist       funclist
 
 Main SAC commands (ns means not supported)
------------------------------------------- 
+------------------------------------------
 ::
 
  3c
 
- about		 abs             absolutevalue   add             addf
+ about           abs             absolutevalue   add             addf
  apk             arraymap        axes
 
  bandpass        bandrej         bbfk            beam            begindevices
@@ -41,7 +40,7 @@ Main SAC commands (ns means not supported)
  border
 
  capf            chnhdr          chpf            color
- comcor          commit	 	 contour         convert         convolve
+ comcor          commit          contour         convert         convolve
  copyhdr         correlate       cut             cuterr          cutim
 
  datagen         decimate        deletechannel   deltacheck
@@ -57,7 +56,7 @@ Main SAC commands (ns means not supported)
  getbb           gmap            gmtmap          grayscale       grid
  gtext
 
- hanning         help            help_intro	 highpass        hilbert
+ hanning         help            help_intro  highpass        hilbert
  history         howto_external
 
  ifft            image           inicm           installmacro    int
@@ -77,17 +76,17 @@ Main SAC commands (ns means not supported)
 
  oapf            ohpf
 
- pause           pickauthor	 pickphase	 picks           plabel
+ pause           pickauthor      pickphase       picks           plabel
  plot            plot1           plot2           plotalpha       plotc
  plotctable      plotdy          plotpk          plotpktable     plotpm
- plotsp          plotxy          print		 printhelp	 production
+ plotsp          plotxy          print           printhelp       production
 
  qdp             quantize        quit            quitsub
 
- read            readbbf         readcss         readdb	(ns)	 readerr
- readgse   	 readhdr         readsdd         readsp          readsuds
- readtable	 recalltrace	 report          reverse         rglitches
- rmean		 rms             rollback	 rotate          rq
+ read            readbbf         readcss         readdb (ns)     readerr
+ readgse         readhdr         readsdd         readsp          readsuds
+ readtable       recalltrace     report          reverse         rglitches
+ rmean           rms             rollback        rotate          rq
  rtrend
 
  scallop         setbb           setdevice       setmacro        sgf
@@ -116,17 +115,16 @@ Main SAC commands (ns means not supported)
 
 
 Signal Stacking Subprocess Commands
------------------------------------ 
+-----------------------------------
 ::
 
- addstack	 changestack	deletestack	deltacheck      distanceaxis
- distancewindow  globalstack	incrementstack	liststack
- plotrecordsection     sss
- plotstack       sumstack	timeaxis	timewindow	traveltime
- velocitymodel   velocityroset	writestack	zerostack
+ addstack          changestack   deletestack     deltacheck     distanceaxis
+ distancewindow    globalstack   incrementstack  liststack      plotrecordsection
+ plotstack         sumstack      timeaxis        timewindow     traveltime
+ velocitymodel     velocityroset writestack      zerostack
 
 Spectral Estimation Subprocess Commands
---------------------------------------- 
+---------------------------------------
 ::
 
  spe_cor         mem             mlm             pds             plotcor
@@ -139,7 +137,7 @@ Misc Notes
 From within SAC, you can print any help file using the command printhelp:
 
   SAC> printhelp ylin
-  
+
 would print the help file ylin.
 
 You can also inspect the ascii documentation files under
@@ -147,4 +145,3 @@ the help subdirectory of the $SACAUX directory.
 The contents of this file are in $SACAUX/help/hlpintro.
 
 Please report any problems to sac-help@iris.washington.edu.
-
