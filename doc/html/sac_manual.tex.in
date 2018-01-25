@@ -33,7 +33,7 @@
 \usepackage{courier}
 %%% User specified packages and stylesheets
 \usepackage{graphicx}
-
+\graphicspath{{./commands/}}
 \renewcommand{\familydefault}{cmss}
 \renewcommand{\bf}{\bfseries}
 
@@ -99,7 +99,7 @@ Users Manual}}
 
 \begin{center} \
 
-\includegraphics[width=0.9\linewidth]{./sac_spectrogram.pdf}
+\includegraphics[width=0.9\linewidth]{./sac_spectrogram.png}
 \end{center}
 
 {\Large Sections}
@@ -285,6 +285,7 @@ Users Manual}}
 \include{commands/rmean}
 \include{commands/rms}
 \include{commands/rotate}
+\include{commands/rotinc}
 \include{commands/rq}
 \include{commands/rtrend}
 \include{commands/saveimg}
