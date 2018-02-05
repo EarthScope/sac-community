@@ -1,3 +1,4 @@
+@import url("sac.css");
 
 body {
     font-family: 'Lucida Grande', 
@@ -22,7 +23,7 @@ a:active  { color: darkred; }
 
 /* used to remove borders from tables and images */
 .borderless, table.borderless td, table.borderless th {
-  border: 0 
+  border: 0
 }
 
 table.borderless td, table.borderless th {
@@ -40,6 +41,14 @@ table.borderless td, table.borderless th {
 .hidden {
   display: none }
 
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
 a.toc-backref {
   text-decoration: none ;
   color: black }
@@ -49,6 +58,10 @@ blockquote.epigraph {
 
 dl.docutils dd {
   margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
 
 /* Uncomment (and remove this text!) to get bold-faced definition list terms
 dl.docutils dt {
@@ -76,7 +89,7 @@ div.tip p.admonition-title {
 
 div.attention p.admonition-title, div.caution p.admonition-title,
 div.danger p.admonition-title, div.error p.admonition-title,
-div.warning p.admonition-title {
+div.warning p.admonition-title, .code .error {
   color: red ;
   font-weight: bold ;
   font-family: sans-serif }
@@ -123,8 +136,8 @@ div.sidebar {
   padding: 1em ;
   background-color: #ffffee ;
   width: 40% ;
-  float: left ;
-}
+  float: right ;
+  clear: right }
 
 div.sidebar p.rubric {
   font-family: sans-serif ;
@@ -151,14 +164,61 @@ h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
 h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
   margin-top: 0.4em }
 
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
 hr.docutils {
   width: 75% }
 
-img.align-left {
-  clear: left }
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
 
-img.align-right {
-  clear: right }
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
 
 ol.simple, ul.simple {
   margin-bottom: 1em }
@@ -213,12 +273,20 @@ p.topic-title {
 pre.address {
   margin-bottom: 0 ;
   margin-top: 0 ;
-  font-family: serif ;
-  font-size: 100% }
+  font: inherit }
 
-pre.literal-block, pre.doctest-block {
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
   margin-left: 2em ;
   margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
 
 span.classifier {
   font-family: sans-serif ;
@@ -271,6 +339,21 @@ table.docutils th.field-name, table.docinfo th.docinfo-name {
   white-space: nowrap ;
   padding-left: 0 }
 
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
 h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
 h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
   font-size: 100% }
@@ -279,126 +362,3 @@ ul.auto-toc {
   list-style-type: none }
 
 
-.content {
-    padding: 0px;
-    margin: 0px 0px 0px 0px;
-    background-color: white;
-}
-
-.base {
-    float: left;
-}
-
-/* Menu Sidebar */
-.menu {
-    float: left;
-    width: 100%;
-    margin: 10px;
-    padding-top: 7px;
-    padding-bottom: 7px;
-    background-color: #F6D5D1;
-    font-size: 100%;
-    text-align: center;
-    border: 1px solid black;
-}
-
-.menu a {
-    color: #black;
-}
-
-.menu a:link {
-    color: black;
-}
-.menu a:visited {
-    color: black;
-}
-.menu a:active {
-    color: black;
-}
-
-.menuitem {
-    padding: 4px;
-    color: black;
-    font-size: 95%;
-    font-weight: bold;
-}
-
-.menuitem:hover {
-    background-color: #F6D5D1;
-}
-.menuspace {
-    padding-left: 10px;
-}
-
-.menu ul {
-    padding-left: 0px;
-    padding: 0px;
-    margin: 0px;
-    text-indent: 0px;
-}
-
-.menu li {
-    margin-left: 10px;
-}
-
-/* Header */
-.header {
-    padding-top: 1px;
-    background-color: white;
-    margin-bottom: 20px;
-}
-
-.headertitle {
-    font-size: 200%;
-    text-align: center;
-    margin: 15px;
-    font-weight: bold;
-}
-
-.page {
-    width: 90%;
-    margin: 0 auto;
-    background-color: white;
-    height: 100%;
-}
-
-/* Title and Subtitle */
-.title {
-  text-align: center;
-  font-size: 200%;
-  color: black;  
-}
-
-h2.subtitle {
-  text-align: center;
-  font-size: 1.8em;
-  color: black;
- }
-
-/* Section Headers */
-.section h1 {
-    font-size: 1.15em;
-    color: black;
-    border-top: solid 1.5px black;
-}
-
-.section h2 {
-    font-size: 1.0em;
-    color: black;
-    border-bottom: dotted 0.5px black;
-}
-
-/* Literal Code Block and Commands */
-.literal {
-    border: dotted 0.5px black;
-    padding: 2px;
-    background-color: #F6D5D1;
-    overflow: auto;
-}
-
-.literal-block {
-    border: dotted 0.5px black;
-    padding: 2px;
-    background-color: #F6D5D1;
-    overflow: auto;
-}

@@ -178,7 +178,7 @@ Sample Runs for Convolution
        for disc_conv shows an important difference between discrete
        and time-series convolutions.
        
-  A PDF document on `time-series convolution`_ discusses a more interesting 
+  A PDF document on time-series-convolution_ discusses a more interesting 
   case: both time-domain and discrete convolutions of a pulse with a synthetic
   time series that has a spike at the phase arrival time with Gibbs-phenomenon 
   ringing.
@@ -240,8 +240,8 @@ Then::
       FILE: IP07.idHHZ depmin = -1.386459e+02  depmax = 2.750106e+02
       FILE: IP07_sac-int0.0025.dHHZ depmin = -1.338549e+02  depmax = 2.504001e+02
 
-raw-forsythe-sac.pdf_ shows the initial waveform, the result using 
-Forsythe interpolation, and the result using SAC interpolation.
+The plot time-series-interpolation_ shows the initial waveform, the result
+using Forsythe interpolation, and the result using SAC interpolation.
 
 Time Shift
 ----------
@@ -275,7 +275,6 @@ The following commands demonstrates how time_shift works::
 
     time_shift seismo_lpco5np4.sac seismo_lpco5np4_ts.sac -0.05
     
-See seismo-lpts-lp.pdf_  (top: seismo.sac, middle: lp co 5 np 4 then
-time shift -0.05; bottom: seismo  lp co 5 np 4)
+Plot time-shift-summary_  shows the original plus the two methods for time-shifting the waveform.
     
 

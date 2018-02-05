@@ -1,0 +1,130 @@
+.content {
+    padding: 0px;
+    margin: 0px 0px 0px 0px;
+    background-color: white;
+}
+
+.base {
+    float: left;
+}
+
+/* Menu Sidebar */
+.menu {
+    float: left;
+    width: 100%;
+    margin: 10px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    background-color: #F6D5D1;
+    font-size: 100%;
+    text-align: center;
+    border: 1px solid black;
+}
+
+.menu a {
+    color: #black;
+}
+
+.menu a:link {
+    color: black;
+}
+.menu a:visited {
+    color: black;
+}
+.menu a:active {
+    color: black;
+}
+
+.menuitem {
+    padding: 4px;
+    color: black;
+    font-size: 95%;
+    font-weight: bold;
+}
+
+.menuitem:hover {
+    background-color: #F6D5D1;
+}
+.menuspace {
+    padding-left: 10px;
+}
+
+.menu ul {
+    padding-left: 0px;
+    padding: 0px;
+    margin: 0px;
+    text-indent: 0px;
+}
+
+.menu li {
+    margin-left: 10px;
+}
+
+/* Header */
+.header {
+    padding-top: 1px;
+    background-color: white;
+    margin-bottom: 20px;
+}
+
+.headertitle {
+    font-size: 200%;
+    text-align: center;
+    margin: 15px;
+    font-weight: bold;
+}
+
+.page {
+    width: 90%;
+    margin: 0 auto;
+    background-color: white;
+    height: 100%;
+}
+
+tr.title {
+    font-size: 100%;
+    text-align: left;
+    color: black;
+}
+
+/* Title and Subtitle */
+.title {
+  text-align: center;
+  font-size: 200%;
+  color: black;  
+}
+
+h2.subtitle {
+  text-align: center;
+  font-size: 1.8em;
+  color: black;
+ }
+
+/* Section Headers */
+.section h1 {
+    font-size: 1.15em;
+    color: black;
+    border-top: solid 1.5px black;
+}
+
+.section h2 {
+    font-size: 1.0em;
+    color: black;
+    border-bottom: dotted 0.5px black;
+}
+
+/* Literal Code Block and Commands */
+.literal {
+    border: dotted 0.5px black;
+    padding: 2px;
+    background-color: #F6D5D1;
+    overflow: auto;
+}
+
+.literal-block {
+    border: dotted 0.5px black;
+    padding: 2px;
+    background-color: #F6D5D1;
+    overflow: auto;
+}
+

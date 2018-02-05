@@ -27,9 +27,9 @@
 .. _sac graphics file:                sgf_format.html
 .. _sac error messages:               error_messages.html
 .. _calling sac from scripts:         sac_script.html
-.. _time-series convolution:          ../time-series_convolution.pdf
-.. _raw-forsythe-sac.pdf:             ../raw-forsythe-sac.pdf
-.. _seismo-lpts-lp.pdf:               ../seismo-lpts-lp.pdf
+.. _time-series-convolution:          ../time-series_convolution.pdf
+.. _time-series-interpolation:        ../time-series_interpolation.pdf
+.. _time-shift-summary:               ../time-shift_summary.pdf
 
 .. _listhdr: ../commands/listhdr.html
 .. _inc: ../commands/listhdr.html
