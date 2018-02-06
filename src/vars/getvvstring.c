@@ -193,7 +193,7 @@ float_format() {
             name = vname->str;
         }
     }
-    for(int i = 0; i < sizeof(names)/sizeof(char *); i++) {
+    for(size_t i = 0; i < sizeof(names)/sizeof(char *); i++) {
         if(strcasecmp(name, names[i]) == 0) {
             fmt = fmts[i];
         }
