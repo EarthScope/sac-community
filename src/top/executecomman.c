@@ -24,7 +24,6 @@
 #include "eam.h"
 #include "smm.h"
 #include "fks.h"
-#include "coda.h"
 
 void /*FUNCTION*/
 executecommand(module, index, nerr)
