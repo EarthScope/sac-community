@@ -40,7 +40,7 @@ void dircor(float *data1, float *data2, int npts, int delay, int nlags,
             double *c);
 void edecim(float *data, int ndata, int irate, float *ddata, int *nddata,
             float *c, int nc, int isym);
-void fft(float *xreal, float *ximag, int n, int idir);
+void fft_dbh(float *xreal, float *ximag, int n, int idir);
 void firtrn(char *ftype, float *x, int n, float *buffer, float *y);
 void gauss(int *seed, float *v1, float *v2);
 void getResponse(float *array, int order, float gain, char *kprefix, int npts,

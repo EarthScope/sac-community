@@ -205,7 +205,7 @@ crscor(float *data1, float *data2, int nsamps, int nwin, int wlen, char *type,
 
         /*    Compute and average cross spectra
          * */
-        fft(&big.workr[0], &big.worki[0], *nfft, -1);
+        fft_dbh(&big.workr[0], &big.worki[0], *nfft, -1);
 
         /*      Special case for point at 0
          * */
@@ -237,7 +237,7 @@ crscor(float *data1, float *data2, int nsamps, int nwin, int wlen, char *type,
 
     /*    Inverse fft for correlation computation
      * */
-    fft(&c[0], &big.caux[0], *nfft, 1);
+    fft_dbh(&c[0], &big.caux[0], *nfft, 1);
 
     /*  Bye
      * */

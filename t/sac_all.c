@@ -72,7 +72,7 @@ void firtrn();
 void overlp();
 void zero();
 void zshft();
-void fft();
+void fft_dbh();
 void convolve();
 void convolve_();
 void convolve__();
@@ -314,7 +314,7 @@ not_used(int v) {
      overlp();
      zero();
      zshft();
-     fft();
+     fft_dbh();
      convolve();
      convolve_();
      convolve__();

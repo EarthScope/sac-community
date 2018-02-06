@@ -42,7 +42,7 @@
  *
  */
 void
-fft(float *xreal, float *ximag, int n, int idir) {
+fft_dbh(float *xreal, float *ximag, int n, int idir) {
     int i, i1, iblock, icount, irel, iti;
     int j, k, logn, nblock, nby2, nm1, nstage;
     float cosine, scale, sine, *tcos, temp, *tsin;

@@ -66,7 +66,7 @@ overlp(float *input, int npts, float *output, float *c, int nc, int nfft,
     zero(&Cbuff[1], 2 * nfft);
     /* copy( (int*)&C[1], (int*)&Cbuff[1], nc ); */
     copy_float(&(C[1]), &(Cbuff[1]), nc);
-    fft(&Cbuff[1], &Cbuff[nfft + 1], nfft, -1);
+    fft_dbh(&Cbuff[1], &Cbuff[nfft + 1], nfft, -1);
 
     /*    Initial conditions in buffer                                               
      * */
@@ -130,7 +130,7 @@ overlp(float *input, int npts, float *output, float *c, int nc, int nfft,
 
     /*    Transform data                                                             
      * */
-    fft(&Buffer[1], &Buffer[nfft + 1], nfft, -1);
+    fft_dbh(&Buffer[1], &Buffer[nfft + 1], nfft, -1);
 
     /*    Product of data transform with filter transform                            
      * */
@@ -145,7 +145,7 @@ overlp(float *input, int npts, float *output, float *c, int nc, int nfft,
 
     /*    Inverse transform                                                          
      * */
-    fft(&Buffer[1], &Buffer[nfft + 1], nfft, 1);
+    fft_dbh(&Buffer[1], &Buffer[nfft + 1], nfft, 1);
 
     /*    Load initial conditions from input sequence                                
      * */

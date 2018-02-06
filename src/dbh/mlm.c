@@ -134,7 +134,7 @@ mlm(float *r, int n, int nfft, float *spect, char *errmsg, int errmsg_s,
     }
 
     zero(aux, nfft);
-    fft(spect, aux, nfft, -1);
+    fft_dbh(spect, aux, nfft, -1);
 
     /*  Invert quadratic form and scale
      * */

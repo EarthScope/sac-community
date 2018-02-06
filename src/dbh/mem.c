@@ -85,7 +85,7 @@ mem(float *r, int n, int nfft, float *spect, char *errmsg, int errmsg_s,
     for (i = 1; i <= n; i++)
         Spect[i] = A[i];
 
-    fft(spect, aux, nfft, -1);
+    fft_dbh(spect, aux, nfft, -1);
 
     /*  Spectral estimate is reciprocal of filter's power spectrum
      *

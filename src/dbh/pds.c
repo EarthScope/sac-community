@@ -107,7 +107,7 @@ pds(float *r, int nr, int nlags, int *wlen, char *wtype, int nfft,
 
     /*  Compute Fourier transform */
     zero(tempor, nfft);
-    fft(spectr, tempor, nfft, -1);
+    fft_dbh(spectr, tempor, nfft, -1);
 
     /*  Enforce positivity of result
      * */

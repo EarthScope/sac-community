@@ -193,7 +193,7 @@ autcor(float *data, double delta, int nsamps, int nwin, int wlen, char *type,
 
         /*    Compute and average autospectra
          * */
-        fft(&Aux[rptr], &Aux[iptr], *nfft, -1);
+        fft_dbh(&Aux[rptr], &Aux[iptr], *nfft, -1);
 
         /*      Special case for point at 0
          * */
@@ -219,7 +219,7 @@ autcor(float *data, double delta, int nsamps, int nwin, int wlen, char *type,
     /*    Inverse fft for correlation computation
      * */
     zero(&Aux[iptr], *nfft);
-    fft(&Ac[1], &Aux[iptr], *nfft, 1);
+    fft_dbh(&Ac[1], &Aux[iptr], *nfft, 1);
 
     /* apply ridge regression factor */
 /*        ac[0] *= 1.00001;  */

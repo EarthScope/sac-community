@@ -146,7 +146,7 @@ spectr(float *r, int nrsize, int nlags, char *etype, int *order, int nfft,
         zero(&Aux[cmspe.firstPowerOf2 + 1], nfft);
         /* copy( (int*)&A[1], (int*)&Aux[1], aorder + 1 ); */
         copy_float(&(A[1]), &(Aux[1]), aorder + 1);
-        fft(&Aux[1], &Aux[cmspe.firstPowerOf2 + 1], nfft, -1);
+        fft_dbh(&Aux[1], &Aux[cmspe.firstPowerOf2 + 1], nfft, -1);
         for (i = 1; i <= nfft; i++)
             S[i] =
                 S[i] / (powi(Aux[i], 2) +
