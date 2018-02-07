@@ -3,278 +3,1004 @@ Using the SAC Libraries
 
 Overview
 --------
-In addition to being able to read and write SAC data files in one's own C or
-FORTRAN programs (see `SAC Reading and Writing Routines` ), one can use many of
-SAC's data-processing routines in stand-alone codes if one uses specific flags
-in the compiling stage and the SAC libraries in the linking stage.  These
-libraries libsac.a and libsacio.a are in ${SACHOME}/lib.  The .f and .c files, as well as
-the sample input files, are in ${SACHOME}/doc/examples.
+In addition to being able to read and write SAC data files in one's
+own C or FORTRAN programs (see `SAC Reading and Writing Routines`_ ),
+one can use many of SAC's data-processing routines in stand-alone
+codes.  The internal routines here are wrapped in an interface that
+should be more streamlined to use than previous versions.  These
+libraries libsac.a and libsacio.a are in ${SACHOME}/lib.
 
-- `Filtering`_
-- `Cut Data`_
-- `Remove Mean`_
-- `Remove Trend`_
-- `Taper Data`_
-- `Rotate Data`_
-- `Instrument Removal`_
-- `Envelope Function`_
-- `Correlation`_
-- `Convolution`_
-- `Interpolation using cubic splines`_
-- `Time Shift`_
+For exhustive examples, please see ${SACHOME}/doc/examples contained
+in the SAC distribution.
+
+.. contents ::
 
 Compiling
-~~~~~~~~~
-To ease the requirements for compilation and linking, a helper script is 
-provided, ${SACHOME}/bin/sac-config, which should output the necessary flags 
-and libraries for SAC.  If you have the gcc C compiler or the gfortran Fortran 
-compilers, try one of the following::
+---------
 
-  gcc -o program main.c subs.c `sac-config --cflags --libs libsac libsacio`
+To ease the requirements for compilation and linking, a helper script
+is provided, ${SACHOME}/bin/sac-config, which should output the
+necessary flags and libraries for SAC.  If you have the a C compiler
+or a Fortran compilers, try::
 
-  gfortran -o program main.f subs.f `sac-config --cflags --libs libsac libsacio`
+   cc -o program main.c subs.c `sac-config --cflags --libs libsac libsacio`
+
+   gfortran -o program main.f subs.f `sac-config --cflags --libs libsac libsacio`
+
+Instrument Removal / Deconvolution
+----------------------------------
+
+.. code-block:: c
+
+    // Remove Evalresp Response 
+    int remove_evalresp_simple(float *data, int n, float dt, double limits[4])
+
+    // Remove Evalresp Response 
+    int remove_evalresp(float *data, int n, float dt, double limits[4],
+                        char *id, char *when, char *resp_file)
+
+    // Remove SAC_PZ Polezero Response
+    int remove_polezero(float *data, int n, float dt, double limits[4],
+                        char *id, char *when, char *pzfile)
+
+    // Remove SAC_PZ Polezero Response
+    int remove_polezero_simple(float *data, int n, float dt, double limits[4])
+
+Remove an evalresp or polezero specified instrument response.  Best to use the `simple` versions unless extra information is required.  `remove_evalresp_simple` and `remove_polezero_simple` will attempt to find the appropriate response file within the same directory before removing.  `remove_evalresp` and `remove_polezero` requires the specification of a response file.
+
+**Arguments**
+
+- `data` - Time series data
+- `n` - Length of data
+- `dt` - Sampling interval (seconds)
+- `limits` - Frequency range over which response is removed (Hz)
+   
+   - `limits[4] = { 0.002, 0.005, 12.0, 20.0 }`
+   - limits[0] - Low  Frequency Edge (Response = 0)
+   - limits[1] - Low  Frequency Edge (Response = 1)
+   - limits[2] - High Frequency Edge (Response = 1)
+   - limits[3] - High Frequency Edge (Response = 0)
+- `id` - Intrument Identifier, NET.STA.LOC.CHA
+
+   - `*.*.*.*` wildcards are valid, but unexpected results may occur
+   - `*` will try to automatically determine the instrument id using the current sac file
+- `when` - Reference time, YYYY,DDD,HH:MM:SS
+
+   - `*` will try to automatically determine the reference time using the current sac file
+- `resp_file` - Evalresp Response File
+- `pzfile` - Polezero Response File
+
+**Note:** Data is modified in place.
+
+**Examples**
+
+.. code-block:: fortran
+
+    implicit none
+    include "sacf.h"
+    real*4 y(1999), b, dt
+    integer n, nerr, nmax
+    real*8 limits(4)
+
+    ! Function Prototypes
+    integer remove_evalresp_simple
+
+    nmax = 1999
+
+    ! Frequency Limits (Hz)
+    limits(1) = 0.002
+    limits(2) = 0.005
+    limits(3) = 12.0
+    limits(4) = 20.0
+
+    ! Read in Raw Sac file
+    call rsac1("raw.sac", y, n, b, dt, nmax, nerr)
+
+    ! Remove Response using Evalresp
+    if(remove_evalresp_simple(y, n, dt, limits) .ne. 0) then
+       write(*,*) "Error removing instrument with evalresp"
+       return
+    endif
+
+**Effective SAC Commands**
+
+.. code-block:: shell
+
+    SAC> read raw.sac
+    SAC> transfer from evalresp to none freq 0.002 0.005 12 20
+
+
+Fourier Transform (FFT)
+-----------------------
+
+.. code-block:: c
+
+   // Forward Transform - Single Precision
+   void    fft(float data, int n, float *re, float *im, int *nf)
+   void   fftz(float data, int n, float complex *z, int *nf)
+
+   // Forward Transform - Double Precision
+   void   dfft(double data, int n, double *re, double *im, int *nf)
+   void  dfftz(double data, int n, double complex *z, int *nf)
+
+   // Inverse Transform - Single Precision
+   void   ifft(float data, int n, float *re, float *im, int nf)
+   void  ifftz(float data, int n, float complex *z, int nf)
+
+   // Inverse Transform - Double Precision
+   void  idfft(double data, int n, double *re, double *im, int nf)
+   void idfftz(double data, int n, double complex *z, int nf)
+
+Compute the Fourier Transform (or inverse transform ) of a data series. 
+
+**Arguments**
+
+- `data` - Input data series for forward transform, output data series for inverse
+- `n` - Length of data series on input for forward transform
+  Number of points to return for inverse transform
+- `z` - Complex FFT Spectrum
+- `re` - Real Component of the Fourier spectrum
+- `im` - Imaginary Compinent of the Fourier spectrum
+- `nf` - Inverse Transform: Length of `re`, `im`, and `z` on inverse transform
+  Forward Transform: Length of `re`, `im`, and `z` arrays on input and
+  the length of the Fourier spectrum on ouptut
+
+Spectrum length, `nf`, must be >= the next power of 2 from `n`.  This can be an 
+allocated array or not. 
+
+**Normalization**
+
+Normalization of the transform by the length, `nf`, is done on the inverse transforms
+
+**Time Scaling**
+
+Time scaling is not performed within these functions, but can be accomplished by
+multiplying the Fourier spectrum by the sampling rate, `dt`.  If the scaling is applied
+to the spectrum, make sure to remove the time shift to get back to the original time
+series.
+
+**Frequency Ordering**
+
+Amplitudes are ordered frequency starting with the zero frequency, through positive
+frequencys, the nyquist, then backwards through the negative frequencies
+
+.. code-block:: c
+
+    0, df, ..., df(nf-1), nyq, -df(nf-1), ... -df
+
+**Precision**
+
+All Transforms are performed in double precision, `double` or `real*8`, as all function
+calls use the same internal code path.  Single precision versions convert/copy the input
+time-series `data` or the Fourier spectrum, `re` and `im` or `z`, to double precison
+before performing the transform, forward or inverse. The results is then converted
+back to single precision on return.  Double precisions do not need to copy their input
+or output.
+
+**Examples**
+
+.. code-block:: fortran
+
+    integer n, nf
+    real*8 :: data(16), data2(16)
+    real*8 :: re(16), im(16)
+    complex*16 :: z(16)
+
+    n  = 16
+    nf = 16
+
+    ! FFT with real/imaginary
+    call dfft(data, n, re, im, nf)
+    call idfft(data2, n, re, im, nf)
+
+    ! FFT with complex number
+    call dfftz(data, n, z, nf)
+    call idfftz(data2, n, z, nf)
+
+
+Remove Mean
+-----------
+
+.. code-block:: c
+
+    void remove_mean (float *data, int n)
+
+Remove the mean of a data series.  The mean of the data series is automatically calculated and removed from the data series. 
+
+**Arguments**
+
+- `data` - Input data series
+- `n` - length of data
+
+**Note:** Data is modified in place.
+
+**Examples**
+
+.. code-block:: fortran
+
+    implicit none
+
+    integer,parameter :: nmax = 1776
+    integer :: npts, nerr
+    real*4 :: data(nmax), beg, dt
+
+    ! Read in the data file
+    call rsac1('raw.sac', data, npts, beg, dt, nmax, nerr)
+
+    ! Remove the mean of the data in place
+    call remove_mean(data, npts)
+
+**Effective SAC Commands**
+
+.. code-block:: shell
+
+    SAC> read raw.sac
+    SAC> rmean
+
+
+Remove Trend
+------------
+
+.. code-block:: c
+
+    void remove_trend(float *data, int n, float delta, float b)
+
+Remove the trend of a data series
+
+**Arguments**
+
+- `data` - Input data series, overwritten on output
+- `n` - length of data
+- `delta` - Time sampling of the data
+- `b` - Initial time value of the data series
+
+**Note:** Data is modified in place.
+
+This calls lifite() and rtrend() internally
+
+Trend is removed as
+
+.. code-block:: c
+
+    y[i] = y[i] - yint - slope * (b + delta * i)
+
+where y is the data
+
+**Examples**
+
+.. code-block:: c
+
+    #define NMAX 1969
+
+    float y[NMAX], b, dt;
+    int nmax = NMAX;
+    int n, nerr;
+
+    // Read in the data file
+    rsac1("raw.sac", y, &n, &b, &dt, &nmax, &nerr, -1);
+
+    // Remove the trend of the data in place
+    remove_trend(y, n, dt, b);
+
+**Effective SAC Commands**
+
+.. code-block:: shell
+
+    SAC> read raw.sac
+    SAC> rtrend
+
+
+Remove Trend - Unevenly sampled data
+------------------------------------
+
+.. code-block:: c
+
+    void rtrend2(float *data, int n, float yint, float slope, float *t)
+
+Removing the trend from an unevenly sampled data ::
+
+**Arguments**
+
+- `data` - Input data series, overwritten on output
+- `n` - Length of data
+- `yint` - Y intercept of the trend to remove
+- `slope` - Slope of the trend to remove
+- `t` - time values for the unevenly sampled data
+
+**Note:** Data is modified in place.
+
+Trend is removed as::
+
+    y[i] = y[i] - yint - slope * t[i]
+
+where y is the data
+
+
+Rotate
+------
+
+.. code-block:: c
+
+    void rotate(float *si1, float *si2, int ns, double angle, 
+                int lnpi, int lnpo, float *so1, float *so2)
+
+To perform a clockwise rotation of a pair of signals.
+
+**Arguments**
+
+- `sil` - First input signal
+- `si2` - Second input signal
+- `ns` - Number of points in input signals, `sil` and `si2`
+- `angle` - Angle of rotateion in degrees clockwise from `si1`
+- `lnpi` - True (1) if input signals are normal polarity
+- `lnpo` - True (1) if output signals are normal polarity
+- `so1` - First output signals
+- `so2` - Second output signals 
+
+**Note:** Input and output signals may be the same arrays
+
+**Examples**
+
+Rotation of two signal in Fortran
+
+.. code-block:: fortran
+
+    implicit none
+
+    integer,parameter :: nmax = 1954
+    integer :: npts, nerr
+    real :: signal1(nmax), signal2(nmax)
+    real :: rotated_signal1(nmax), rotated_signal2(nmax)
+    real :: beg, dt, baz, cmpaz1
+    real*8 :: angle
+    logical :: lnpi, lnpo
+
+    integer sac_compare
+
+    ! Read in the first signal to be rotated
+    call rsac1('signal1.sac', signal1, npts, beg, dt, nmax, nerr)
+
+    call getfhv("cmpaz", cmpaz1, nerr)
+    call getfhv("baz", baz, nerr);
+
+    ! Read in the second signal to be rotated
+    call rsac1('signal2.sac', signal2, npts, beg, dt, nmax, nerr)
+
+    ! Set up parameters for rotation
+    lnpi = .true.     ! input signals have "normal" polarity
+    lnpo = .true.     ! output signals have "normal polarity
+
+    ! Compute angle to rotate to
+    angle = baz + 180.0 - cmpaz1;
+
+    call rotate(signal1, signal2, npts, angle, lnpi, lnpo,
+                rotated_signal1, rotated_signal2)
+
+
+**Effective SAC Commands**
+
+.. code-block:: shell
+
+    SAC> read signal1.sac signal2.sac
+    SAC> rotate
 
 
 Filtering
 ---------
 
-Example use of filtering with xapiir() to Apply an Infinite Impulse Recursive filter
 
-Fortran
-~~~~~~~
-.. include:: ../../../doc/examples/filter/filterf.f90
-   :code: fortran
+.. code-block:: c
 
-C
-~
-.. include:: ../../../doc/examples/filter/filterc.c
-   :code: c
+    void bandpass(float *data, int n, float dt, float low, float high)
+    void lowpass(float *data, int n, float dt, float corner)
+    void highpass(float *data, int n, float dt, float corner)
+
+    void filter(int prototype,
+                int type,
+                float *data, int n, float dt,
+                float low, float high, int passes, int order,
+                float transition,
+                float attenuation)
+
+Filter data using a Butterworh filter with two pass, four pole filter.  Data is filtered using an Infinite Impulse Repsonse Filter.  For more detailed filter types use the generic `filter` function
+
+**Arguments**
+
+- `data` - Input and output data
+- `n` - Length of data
+- `dt` - Time sampling of the data (seconds)
+- `low` - low frequency corner
+- `high` - high frequency corner
+- `corner` - corner of the filter for `lowpass` or `highpass`
+
+- `passes` - Number of passes
+
+    - 1 - forward pass only
+    - 2 - forward and backward pass
+- `order` - Filter Order, not to exceed 10, 4-5 should be sufficient
+- `transition` - Transition Bandwidth, only used in Chebyshev Type I and II Filters
+- `attenuation` - Attenuation factor, amplitude reached at stopband edge, only used in Chebyshev Type I and II Filters
+- `prototype` - Filter Prototype
+
+   - 0 - Butterworth filter
+   - 1 - Bessel filter
+   - 2 - Chebyshev Type I filter
+   - 3 - Chebyshev Type II filter
+- `type` - Filter Type
+
+   - 0 - Bandpass
+   - 1 - Highpass
+   - 2 - Lowpass
+   - 3 - Bandreject
+
+**Examples**
+
+Bandpass filter in C
+
+.. code-block:: c
+
+    #define NMAX 2015
+    float y[NMAX], b, dt;
+    int n, nerr, nmax = NMAX;
+
+    // Read in the data file
+    rsac1("raw.sac", y, &n, &b, &dt, &nmax, &nerr, -1);
+
+    // bandpass filter from 0.10 Hz to 1.00 Hz
+    bandpass(y, n, dt, 0.10, 1.00);
+
+Highpass filter in Fortran
+
+.. code-block:: fortran
+
+    implicit none
+    integer nmax, n, nerr, sac_compare
+    real*4 :: y(2012), b, dt
+    nmax = 2012
+
+    ! Read in the data file
+    call rsac1("raw.sac", y, n, b, dt, nmax, nerr)
+
+    ! highpass filter at 10.0 Hz
+    call highpass(y, n, dt, 10.0)
+
+**Effective SAC Commands**
+
+.. code-block:: shell
+
+    SAC> read raw.sac
+    SAC> bp co 0.10 1.0 p 2 n 4
+
+    SAC> read raw.sac
+    SAC> hp co 10.0 p 2 n 4
+
+
+Cross Correlation
+-----------------
+
+.. code-block:: c
+
+    void correlate(float *f, int nf, float *g, int ng, float *c, int nc)
+
+Compute the cross-correlation of two signals
+
+**Arguments**
+
+- `f` - First time series
+- `nf` - Length of first time series
+- `g` - Second time series
+- `ng` - Length of second time series
+- `c` - Cross correlation time series
+- `nc` - Size of c, must be at least (nf + ng - 1)
+
+**Return:** Cross correlation function, length: nf + ng - 1
+
+If the signals are not the same length, then find the longest
+signal, make both signals that length by filling the remainder
+with zeros (pad at the end) and then run them through crscor
+
+**Examples**
+
+.. code-block: c
+
+    implicit none
+    character(len=*) filea, fileb
+    real*4 :: amp_max, t_max
+    real*4 :: a(1976), b(1976), ba,bb,dt,bc
+    real*4 :: c(10000)
+    integer :: nmax, nerr,na, nb, nc, i
+
+    ! Function Prototypes
+    real*4 correlate_time_begin
+    integer correlate_max
+
+    nmax = 1976
+
+    c(:) = 0.0
+
+    ! Read in files to correlate
+    call rsac1("file1.sac", a, na, ba, dt, nmax, nerr)
+    call rsac1("file2.saC", b, nb, bb, dt, nmax, nerr)
+
+    ! Compute length of correlation
+    nc = na + nb - 1
+
+    ! Correlate
+    call correlate(a, na, b, nb, c, nc)
+
+    ! Compute begin time of correlation
+    bc = correlate_time_begin(dt, na, nb, ba, bb)
+
+    ! Compute maximum value of correlation
+    i = correlate_max(c, nc)
+
+**Effective SAC Commands**
+
+.. code-block:: shell
+
+    SAC> read file1.sac file2.sac
+    SAC> correlate
+
+
+Cross Correlation Extras
+------------------------
+
+.. code-block:: c
+
+    int correlate_max(float *c, int nc)
+
+Find the maximum of a correlation
+
+**Arguments**
+
+- `c` - float array (returned from correlate function)
+- `nc` - length of c
+
+**Return:** Index of maximum value in array
+
+---------------------------------------------------
+
+.. code-block:: c
+
+    float correlate_time(float dt, float b, int i)
+
+Compute the time of a data point given dt and begin time
+
+**Arguments**
+
+- `dt` - Time sampling
+- `b` - Begin time
+- `i` - data sample
+
+**Return:** time value (b + i * dt)
+
+---------------------------------------------------
+
+.. code-block:: c
+
+    float * correlate_time_array(float dt, float b, int n)
+
+Compute a time array given dt and begin time
+
+**Arguments**
+
+- `dt` - Time sampling
+- `b` - Begin time
+- `n` - Length of data array
+
+**Return:** time array
+
+***************************************************
+
+.. code-block:: c
+
+    float correlate_time_begin(float dt, float n1, float _n2, float b1, float b2)
+
+Compute begin time from a corealtion of two time series
+
+**Arguments**
+
+- `dt` - Time sampling
+- `n1` - Length of first time series
+- `n2` - Length of second time series (unused)
+- `b1` - Begin time of first time series
+- `b2` - Begin time of second time series
+
+**Return:** `-dt * (n1 - 1) + (b2 - b1)`
+
+This accounts for the possible differences in begin times of two time series
+
+
+Envelope
+--------
+
+.. code-block:: c
+
+      void envelope(int n, float *in, float *out)
+
+Compute the envelope of a time series using the Hilbert transform
+
+**Arguments**
+
+- `n` - Length of input and output time series
+- `in` - Input time series
+- `out` - Output time series with envelope applied
+
+The envelope is applied as such where the H(x) is the Hilbert transform::
+
+      out = sqrt( H( in(t) )^2 + in(t)^2 )
+
+**Examples**
+
+.. code-block:: c
+
+    #define NMAX 1929
+    int nlen, nerr, nmax;
+    float yarray[NMAX], yenv[NMAX];
+    float beg, delta;
+
+    nmax = NMAX;
+
+    // Read in data file
+    rsac1("raw.sac", yarray, &nlen, &beg, &delta, &nmax, &nerr, SAC_STRING_LENGTH);
+
+    // Calculate Envelope of data
+    envelope(nlen, yarray, yenv);
+
+**Effective SAC Commands**
+
+.. code-block:: shell
+
+    SAC> read raw.sac
+    SAC> envelope
+
+
+Differentiate
+-------------
+
+
+.. code-block:: c
+
+     void dif2(float *array, int n, double delta, float *output)
+
+Differentiate a data set using a two point differentiation
+
+**Arguments**
+
+- `array` - Input data to differentiate
+- `n` - length of ararry
+- `delta` - Time sampling of input data 
+- `output` - Output differentiated data, length n-1
+
+This is the default scheme in the SAC program.
+
+The output array will be 1 data point less than the input array.
+
+Since this is not a centered differeniation, there is an implied shift
+in the independent variable by half the delta::
+
+    b_new = b_old + 0.5 * delta
+
+Differntiation is performed as::
+
+    out[i] = (1/delta) * (in[i+1] - in[i])
+
+**Examples**
+
+.. code-block:: fortran
+
+    integer,parameter :: nmax = 1000000
+    integer :: npts, nerr
+    real*4 :: data(nmax), out(nmax)
+    real*4 :: beg, dt
+
+    ! Read in the data file
+    call rsac1("raw.sac", data, npts, beg, dt, nmax, nerr)
+
+    ! Differentiate the data
+    call dif2(data, npts, dble(dt), out)
+
+    bnew = beg + 0.5 * delta
+    npts_new = npts - 1
+
+**Effective SAC Commands**
+
+.. code-block:: shell
+
+    SAC> read raw.sac
+    SAC> dif
+
+
+Integerate
+----------
+
+.. code-block:: c
+
+    void int_trap(float *y, int n, double delta)
+
+Integrate a data series using the trapezodial method
+
+**Arguments**
+
+- `y` - Input data series, overwritten on output
+- `n` - length of y
+- `delta` - time sampling of the data series
+
+Integration is performed as::
+
+    out[i] = out[i-1] + (delta/2) * (in[i] + in[i+1])
+
+where the initial out value is 0.0.
+
+The number of points on output should be reduced by 1 ::
+
+     len(out) = len(in) - 1
+
+and the beging value is shifted by 0.5 delta::
+
+     b_out = b_in + 0.5 * delta
+
+**Examples**
+
+.. code-block:: c
+
+    #define NMAX 2012
+    float y[NMAX], b, dt;
+    int n, nerr, nmax = NMAX;
+
+    rsac1("raw.sac", y, &n, &b, &dt, &nmax, &nerr, -1);
+
+    int_trap(y, n, (double)dt);
+
+
+**Effective SAC Commands**
+
+.. code-block:: shell
+
+    SAC> read raw.sac
+    SAC> int
+
+Taper
+-----
+
+.. code-block:: c
+
+    // Taper using points
+    void taper_points(float *data, int n, int taper_type, int ipts)
+    void taper(float *data, int n, int taper_type, int ipts)
+
+    // Taper using a duration in seconds
+    void taper_seconds(float *data, int n, int taper_type, float sec, float delta)
+
+    // Taper using a percent of the data
+    void taper_width(float *data, int n, int taper_type, float width)
+
+**Arguments**
+
+- `data` - Input data series, overwritten on output
+- `n` - Length of data
+- `taper_type` - Type of Taper
+
+   - 1 - Cosine - SAC_TAPER_COSINE
+   - 2 - Hanning - SAC_TAPER_HANNING
+   - 3 - Hamming - SAC_TAPER_HAMMING
+- `ipts` - Points to use in the taper
+- `sec` - Duration of the taper in seconds
+- `delta` - Delta of the data 
+- `width` - Percent of the data to taper
+
+**Examples**
+
+.. code-block:: c
+
+    #define MAX 1984
+    float data[MAX];
+    int nmax, npts, nerr, taper_type;
+    float beg, dt, width;
+
+    nmax = MAX;
+
+    // Read in the data file
+    rsac1("raw.sac", data, &npts, &beg, &dt, &nmax, &nerr, -1);
+
+    // Set up taper parameters
+    width = 0.05;    // Width to taper original data
+    taper_type = 2;  // HANNING taper
+
+    taper_width(data, npts, taper_type, width);
+
+**Effective SAC Commands**
+
+.. code-block:: shell
+
+    SAC> read raw.sac
+    SAC> taper
 
 
 Cut Data
 --------
 
-Fortran
-~~~~~~~
-.. include:: ../../../doc/examples/cut/cutf.f90
-   :code: fortran
+.. code-block:: c
 
-Remove Mean
------------
+     void cut(float *y, int npts, float b, float dt,
+              float begin_cut, float end_cut, int cuterr,
+              float *out, int *nout)
 
-Fortran
-~~~~~~~
-.. include:: ../../../doc/examples/rmean/rmeanf.f90
-   :code: fortran
+Cut a time series data using a begin and end time
 
-Remove Trend
-------------
+**Arguments**
 
-Fortran
-~~~~~~~
-.. include:: ../../../doc/examples/rtrend/rtrendf.f90
-   :code: fortran
+- `y` - Input data to be cut
+- `npts` - Length of y
+- `b` - Begin time of data
+- `dt` - time sampling (seconds)
+- `begin_cut` - Start time of cut
+- `end_cut` - End time of cut
+- `cuterr` - 
 
-Taper Data
-----------
+   - 1 - Fatal - SAC_CUT_FATAL
+   - 2 - Use B and E Values - SAC_CUT_USEBE
+   - 3 - Fill with Zeros - SAC_CUT_FILLZ
 
-Fortran
-~~~~~~~
-.. include:: ../../../doc/examples/taper/taperf.f90
-   :code: fortran
+- `out` - Cut data on output
+- `nout` - Length of out
 
-Rotate Data
------------
+**Examples**
 
-Fortran
-~~~~~~~
-.. include:: ../../../doc/examples/rotate/rotatef.f90
-   :code: fortran
+.. code-block:: fortran
 
-Instrument Removal
-------------------
-   
-Fortran
-~~~~~~~
-.. include:: ../../../doc/examples/transfer/transferf.f90
-   :code: fortran
+   integer,parameter :: nmax = 1776
+   real*4 :: y(nmax), out(nmax), b, dt, cutb, cute
+   integer :: nerr, n, nout
 
-Envelope Function
+   max = nmax
+   ! Read in data
+   call rsac1("raw.sac", y, n, b, dt, max, nerr)
+
+   nout = max
+   cutb = 10.0
+   cute = 15.0
+   ! Cut data from 10 to 15 or from B to E if window is too big
+   call cut(y, n, b, dt, cutb, cute, CUT_USEBE, out, nout)
+
+**Effective SAC Commands**
+
+.. code-block:: shell
+
+    SAC> read raw.sac
+    SAC> cut 10 15
+    SAC> read raw.sac
+
+
+Convolution / SAC
 -----------------
 
-Example of taking the envelope of a data series
+.. code-block:: c
 
-Fortran
-~~~~~~~
-.. include:: ../../../doc/examples/envelope/envelopef.f90
-   :code: fortran
+    void convolve(float *a, int na, float *b, int nb, float *c, int nc)
 
-C
-~
-.. include:: ../../../doc/examples/envelope/envelopec.c
-   :code: c
+Convolve two time series together
 
-Correlation
------------
+**Arguments**
 
-Correlation of two time series
+- `a` - First time series
+- `na` - Length of a
+- `b` - Second time series
+- `nb` - Length of b
+- `c` - Output convolution of a and b, must be at least na+nb-a length
+- `nc` - Length of c, must be at least na+nb-1
 
-Fortran
-~~~~~~~
-.. include:: ../../../doc/examples/correlate/correlatef.f90
-   :code: fortran
+**Examples**
 
-C
-~
-.. include:: ../../../doc/examples/correlate/correlatec.c
-   :code: c
+.. code-block:: c
 
-Convolution
------------
+    #define NMAX 2020
+    int na, nb, nerr, max, n;
+    float beg, delta, ya[NMAX], yb[NMAX], yc[2*NMAX];
 
-  The SAC convolve_ command is a "discrete" convolution.  It uses two 
-  digital-convolution features that may be undesirable:  no scaling of the 
-  output by the digitizing interval, and no check on the start time for the 
-  pulse.   This program allows for both discrete convolution (as is done by the 
-  SAC convolve) and a time-series convolution.
+    max = NMAX;
+    // Read in the first file
+    rsac1("data.sac", ya, &na, &beg, &delta, &max, &nerr, SAC_STRING_LENGTH);
 
-Fortran
-~~~~~~~
-.. include:: ../../../doc/examples/convolve/convolvef.f
-   :code: fortran
+    // Read in the second file
+    rsac1("triangle.sac", yb, &nb, &beg, &delta, &max, &nerr, SAC_STRING_LENGTH);
 
-C
-~
-.. include:: ../../../doc/examples/convolve/convolvec.c
-   :code: c
+    // Convolve the two time series
+    convolve(ya, na, yb, nb, yc, na+nb-1);
 
-Sample Runs for Convolution
----------------------------
- 
-  After compiling the programs, do the following::
 
-     SAC> fg triangle npts 8 delta 0.02 begin -0.08
-     SAC> write triangle_n8_d0.02.sac
-     SAC> fg impulse npts 12 delta 0.02 begin 0
-     SAC> write impulse_n12_d0.02.sac
 
-  Then::
-  
-     convolvef
-        Usage: convolvef p_name wf_name c_name disc_conv
-          where the first three arguments are filenames
-          for pulse, waveform, and convolution output.
-        If disc_conv is y, it uses a discrete (default SAC) convolution
-          and the pulse begin time is set to zero.  This
-          reproduces the result one gets for SAC convolve.
-        If disc_conv is n, pulse begin time is unchanged
-          and the output is multiolied by delta, which is
-          what one has in a time-series covolution.
+**Effective SAC Commands**
 
-     convolvef triangle_n8_d0.02.sac impulse_n12_d0.02.sac conv_f_n.sac n 
-       (or similar entries for convolvec).
-     The above run gives a time-series convolution.
-     The pulse is symmetric around zero time, so comparing "y" and "n"
-       for disc_conv shows an important difference between discrete
-       and time-series convolutions.
-       
-  A PDF document on time-series-convolution_ discusses a more interesting 
-  case: both time-domain and discrete convolutions of a pulse with a synthetic
-  time series that has a spike at the phase arrival time with Gibbs-phenomenon 
-  ringing.
-       
+.. code-block:: shell
+
+    SAC> fg triangle delta 1e-2 npts 100
+    SAC> write triangle.sac
+    SAC> fg seismo
+    SAC> write data.sac
+    SAC> read data.sac triangle.sac
+    SAC> convolve
+
+
+Convolution / Time Domain
+-------------------------
+
+The SAC convolve_ command is a "discrete" convolution.  It uses two
+digital-convolution features that may be undesirable:
+
+  - no scaling of the output by the digitizing interval, and
+  - no check on the start time for the pulse.
+
+This independent program allows for both discrete convolution (as
+is done by the SAC convolve) and a time-series convolution.
+
+The programs with examples can be found in $SACHOME/doc/examples/convolve
+
+**Sample Runs**
+
+Input for the convolution can be generated as::
+
+    SAC> fg triangle npts 8 delta 0.02 begin -0.08
+    SAC> write triangle_n8_d0.02.sac
+    SAC> fg impulse npts 12 delta 0.02 begin 0
+    SAC> write impulse_n12_d0.02.sac
+
+Then run the convolvec program::
+
+    % ./convolvef
+    Usage convolvef p_name wf_name c_name disc_conv
+    % ./convolvef triangle_n8_d0.02.sac impulse_n12_d0.02.sac conv_f_n.sac n
+
+The above gives a time-series convolution.  The pulse is symmetric
+around zero time, so comparing the last argument "y" and "n"
+for disc_conv shows an
+important difference between discrete and time-series convolutions.
+
+A PDF document on time-series-convolution_ discusses a more
+interesting case: both time-domain and discrete convolutions of a
+pulse with a synthetic time series that has a spike at the phase
+arrival time with Gibbs-phenomenon ringing.
+
 Interpolation using cubic splines
 ---------------------------------
 
-In the pre-digital-data era, data extremes were relatively easy to see because 
-the pen or light-beam velocity went to zero.  The interpolation scheme used by 
-the SAC interpolate routine uses a method popularized by Wiggins that took 
-advantage of that feature so that cycle extrema could be at digitized points.  
-With digital date, the extrema are generally not at digitized points, and for  
-some studies it is desirable to get a better estimae of the maxima than 
-available from Wiggins' interpolation.  The routine below uses a pure 
-cubic-spline interpolation published by Forsythe, et al., that may be preferable 
-in some studies.
+In the pre-digital-data era, data extremes were relatively easy to see
+because the pen or light-beam velocity went to zero.  The
+interpolation scheme used by the SAC interpolate routine uses a method
+popularized by Wiggins that took advantage of that feature so that
+cycle extrema could be at digitized points.  With digital data, the
+extrema are generally not at digitized points, and for some studies it
+is desirable to get a better estimate of the maxima than available from
+Wiggins' interpolation.  The routine below uses a pure cubic-spline
+interpolation published by Forsythe, et al., that may be preferable in
+some studies.
 
-Fortran
-~~~~~~~
-.. include:: ../../../doc/examples/interpolate/interpolate.f
-   :code: fortran
+The program and subroutines called can be found in
+$SACDOC/doc/examples/interpolate.  The run_interpolate.sh script shows
+how the interpolation program is built and run, along with how interpolation
+would be accomplished in SAC.
 
-The subroutines called can be found in sac/doc/examples/interpolate. Once you 
-have both time_shift.f and interpoolate_subs.f, the compile command is::
+The plot below shows the initial waveform, the result using Forsythe
+interpolation, and the result using SAC interpolation.
 
-    gfortran -o interpolate interpolate.f interpolate_subs.f `sac-config --cflags --libs libsacio`
-    
-Sample Runs for Cubic-Spline Interpolation
-------------------------------------------
-
-  Time series IP07.dHHZ is in directory doc/examples/interpolation.
-  It has delta = 0.02::
-  
-    ./interpolate
-      Usage: interpolate filename delta_new lext
-        where filename in the input filespec,
-        delta_new is the new digitizing interval,
-        lext is the number of characters in the extension.
-     Output filename is unchanged except extension
-        is preceded by i; e.g., bla.z => bla.iz
-
-    ./interpolate IP07.dHHZ 0.0025 4
-    
-Then::
-
-    SAC> r IP07.dHHZ
-    SAC> interpolate delta 0.0025
-    SAC> write IP07_sac-int0.0025.dHHZ
-    SAC> r IP07.dHHZ IP07.idHHZ IP07_sac-int0.0025.dHHZ
-    SAC> cut 0.93 1.04
-    SAC> r
-    SAC> fileid location ll
-    SAC> line increment list 1 2 3
-    SAC> title "Top to bottom: raw, Forsythe interp., SAC interp."
-    SAC> p2
-    SAC> save raw-forsythe-sac.pdf
-    SAC> lh depmin depmax
-      FILE: IP07.dHHZ  depmin = -1.338549e+02  depmax = 2.504001e+02
-      FILE: IP07.idHHZ depmin = -1.386459e+02  depmax = 2.750106e+02
-      FILE: IP07_sac-int0.0025.dHHZ depmin = -1.338549e+02  depmax = 2.504001e+02
-
-The plot time-series-interpolation_ shows the initial waveform, the result
-using Forsythe interpolation, and the result using SAC interpolation.
+.. image:: Time-Series_Interpolation.png
+   :width: 75%
+   :align: center
 
 Time Shift
 ----------
 
-Time shift a time series:  There is no function in SAC that does this directly,
-but as mentioned in the help file for lowpass_ command, such filters time-shift
-the data, and one may want to correct for that time shift.
+No function in SAC shifts a time series, but as mentioned in the help
+file for lowpass_ command, such filters time-shift the data, and one
+may want to correct for that time shift.
 
-Fortran
-~~~~~~~
-.. include:: ../../../doc/examples/time_shift/time_shift.f
-   :code: fortran
-
-The subroutines called can be found in sac/doc/examples/time_shift. Once you 
-have both time_shift.f and time_shift_subs.f, the compile command is::
+A program and called subroutines can be found in $SACHOME/doc/examples/time_shift along with an example of how to it is used::
 
     gfortran -o time_shift time_shift.f time_shift_subs.f `sac-config --cflags --libs libsacio`
 
-Sample Runs for Time Shift
----------------------------
+The plot below shows the original plus the two methods for time-shifting the waveform.
 
-The following commands demonstrates how time_shift works::
-
-    SAC> fg seismo
-    SAC> write seismo.sac
-    SAC> rtr
-    SAC> lp co 5.0 np 4
-    SAC> p1
-    SAC> write seismo_lpco5np4.sac
-    SAC> quit
-
-    time_shift seismo_lpco5np4.sac seismo_lpco5np4_ts.sac -0.05
-    
-Plot time-shift-summary_  shows the original plus the two methods for time-shifting the waveform.
-    
+.. image:: time-shift_summary.png
+   :width: 75%
+   :align: center
 

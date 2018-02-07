@@ -11,6 +11,7 @@ for z in $DIRS; do
     \rm -f *.txt *.html *.aux *.log *.tex *.toc *.out sac_manual.pdf
     cd $WD
 done
+\rm -f html/supplement/*.aux
 cd html
 pwd
 cp -p sac_manual.tex.in sac_manual.tex
