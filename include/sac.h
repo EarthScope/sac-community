@@ -8,6 +8,7 @@
 #ifndef __SAC_H__
 #define __SAC_H__
 
+#include <complex.h>
 #include <sacio.h>
 
 /**
@@ -228,6 +229,27 @@ int remove_polezero(float *data, int n, float dt, double limits[4],
 int remove_polezero_simple(float *data, int n, float dt, double limits[4]);
 
 
+/* Fourier Transform */
+
+/* Forward Real/Imaginary, Single precision */
+void fft(float *data, int n, float *re, float *im, int *nf);
+/* Forward Complex, Single precision */
+void fftz(float *data, int n, float complex *z, int *nf);
+
+/* Inverse Real/Imaginary, Single precision */
+void ifft(float *data, int n, float *re, float *im, int nf);
+/* Inverse Complex, Single precision */
+void ifftz(float *data, int n, float complex *z, int nf);
+
+/* Forward Real/Imginary, Double precision */
+void dfft(double *data, int n, double *re, double *im, int *nf);
+/* Forward Complex, Double precision */
+void dfftz(double *data, int n, double complex *z, int *nf);
+
+/* Inverse Real/Imaginary, Double precision */
+void idfft(double *data, int n, double *re, double *im, int nf);
+/* Inverse Complex, Double precision */
+void idfftz(double *data, int n, double complex *z, int nf);
 
 
 /* scm.h */

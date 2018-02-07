@@ -4,9 +4,16 @@
 #include <string.h>
 #include <math.h>
 
+#include "ucf.h"
 #include "icm.h"
 #include "co.h"
 #include "bool.h"
+
+#include <complex.h>
+
+#define FFT_FORWARD -1
+#define FFT_INVERSE  1
+
 
 void
 dcpft(re, im, nfreq, incp, isignp)
@@ -321,3 +328,351 @@ dcpft(re, im, nfreq, incp, isignp)
 
     return;
 }                               /* end of function */
+
+
+
+/**
+ * Allocate memory for real and imaginary complex array
+ *
+ * Arguments:
+ *   - `re` - Pointer to pointer of real array
+ *   - `im` - Pointer to pointer of imaginary array
+ *   - `n` - Length of input data, output will be next power of 2
+ *
+ * Example:
+ *
+ *  int n = 1000;
+ *  double *re, *im;
+ *  re = NULL;
+ *  im = NULL;
+ *  fft_alloc(&re, &im, *n);
+ *  assert(n == 1024);
+ *
+ */
+void
+fft_alloc(double **re, double **im, int n) {
+    *re = (double *) calloc(n, sizeof(double));
+    *im = (double *) calloc(n, sizeof(double));
+
+}
+/**
+ * Copy float (single-precision) array into real part of complex array
+ *
+ * Arguments:
+ *   - `data` - Single precision (float) array of data
+ *   - `n` - Length of data
+ *   - `re` - Real part of an complex array (double-precision)
+ *
+ * Example:
+ *
+ *  int n = 1024;
+ *  float data[1024] = { ... };
+ *  double *re, *im;
+ *  re = im = NULL;
+ *  fft_alloc(&re, &im, n);
+ *
+ *  fft_data_to_real(data, n, re);
+ *
+ */
+void
+fft_data_to_real(float *data, int n, double *re) {
+    for(size_t i = 0; i < (size_t) n; i++) {
+        re[i] = data[i];
+    }
+}
+/**
+ * Copy double (double-precision) array into real part of complex array
+ *
+ * Arguments:
+ *   - `data` - Double precision (double) array of data
+ *   - `n` - Length of data
+ *   - `re` - Real part of an complex array (double-precision)
+ *
+ * Example:
+ *
+ *  int n = 1024;
+ *  double data[1024] = { ... };
+ *  double *re, *im;
+ *  re = im = NULL;
+ *  fft_alloc(&re, &im, n);
+ *
+ *  fft_data_to_real_d(data, n, re);
+ *
+ */
+void
+fft_data_to_real_d(double *data, int n, double *re) {
+    memcpy(re, data, n * sizeof(double));
+}
+
+/**
+ * Calls the FFT routine 
+ *
+ * Arguments:
+ *   - `re` - Input time series and Transfromed Real part on output
+ *   - `im` - 0.0 on input, Transformed Imaginary part on output
+ *   - `n2` - Length of re and im
+ *
+ * Call dcpft()
+ *
+ */
+void
+fft_base(double *re, double *im, int n2) {
+    dcpft(re, im, n2, 1, FFT_FORWARD);
+}
+
+/**
+ * Scale the FFT spectrum by dt
+ *
+ * Arguments:
+ *   - `re` - Real part of the Spectrum
+ *   - `im` - Imaginary part of the Spectrum
+ *   - `nf` - Length of re and im
+ *   - `dt` - Scaling factor, normally the time sampling
+ *
+ * m = nf/2
+ * re[:]        =  re[:] * dt        ! All Frequencies
+ * im[0]        =  im[0]             ! Zero Frequency
+ * im[1:m-1]    =  im[1:m-1] * dt    ! Positive Frequencies
+ * im[m]        =  im[m]             ! Nyquist
+ * im[m+1:nf-1] = -im[m+1:nf-1] * dt ! Negative Frequencies
+ */
+void
+fft_scale(double *re, double *im, int nf, double dt) {
+    re[0]    *= dt;
+    re[nf/2] *= dt;
+    for(int i = 1; i < (nf/2)- 1; i++) {
+        int j = nf - i;
+        re[i] *= dt;
+        im[i] *= dt;
+        re[j] =  re[i];
+        im[j] = -im[i];
+    }
+}
+
+static void
+d2f(double *d, float *f, int n) {
+    for(int i = 0; i < n; i++) {
+        f[i] = (float) d[i];
+    }
+}
+
+int
+fft_npts_check(int n, int nf) {
+    int m = next2(n);
+    if(m > nf) {
+        printf("Length of the FFT needs to be at least %d long\n", m);
+        return -1;
+    }
+    return m;
+}
+
+/**
+ * FFT for double precision input
+ *
+ * See fft()
+ */
+void
+dfft(double *data, int n, double *re, double *im, int *nf) {
+    if((*nf = fft_npts_check(n, *nf)) < 0) {
+        return;
+    }
+    if(data != re) {
+        memset(re, 0, sizeof(double) * *nf);
+        memset(im, 0, sizeof(double) * *nf);
+        fft_data_to_real_d(data, n, re);
+    }
+    fft_base(re, im, *nf);
+    //fft_scale(*re, *im, *nf, dt);
+}
+
+/**
+ * Fast Fourier Transform
+ *
+ * Arguments:
+ *   - `data` - Input data
+ *   - `n` - Length of input data
+ *   - `dt` - Sampling rate of input data
+ *   - `re` - Real component of Fourier Transform of data (Output)
+ *   - `im` - Imaginary component of Fourier Transform of data (Ouput)
+ *   - `nf` - Length of re and im (Ouput)
+ *
+ * Processing:
+ *   Real and Imaginary components are allocated and padded to the next power of 2,
+ *   data is converted to double-precision then the actual FFT is taken.
+ *   Following the transform, the spectrum is scaled by the sampling rate of the data.
+ *
+ * Spectrum:
+ *   Data is organized with the zero-frequency component at the first value and
+ *   postive frequencies following up to the Nyquist and negative frequencies in
+ *   reverse order. 
+ *
+ */
+void
+fft(float *data, int n, float *re, float *im, int *nf) {
+    double *xre, *xim;
+    xre = xim = NULL;
+    if((*nf = fft_npts_check(n, *nf)) < 0) {
+        return;
+    }
+
+    fft_alloc(&xre, &xim, *nf);
+
+    fft_data_to_real(data, n, xre);
+    dfft(xre, n, xre, xim, nf);
+
+    /* Copy double to float */
+    d2f(xre, re, *nf);
+    d2f(xim, im, *nf);
+    /* Free allocated array */
+    free(xre);
+    free(xim);
+}
+
+void
+fftz(float *data, int n, float complex *z, int *nf) {
+    double *xre, *xim;
+    xre = xim = NULL;
+    if((*nf = fft_npts_check(n, *nf)) < 0) {
+        return;
+    }
+    fft_alloc(&xre, &xim, *nf);
+
+    fft_data_to_real(data, n, xre);
+    dfft(xre, n, xre, xim, nf);
+
+    /* Copy double to complex */
+    for(int i = 0; i < *nf; i++) {
+        z[i] = xre[i] + xim[i] * I;
+    }
+    /* Free allocated array */
+    free(xre);
+    free(xim);
+}
+
+void fftz_(float *data, int *n, float complex *z, int *nf) {
+    fftz(data, *n, z, nf);
+}
+void fftz__(float *data, int *n, float complex *z, int *nf) {
+    fftz(data, *n, z, nf);
+}
+
+/**
+ * Basic Fortran Interface 
+ *
+ * Arguments:
+ *   - `data` - Input data to be transformed
+ *   - `n` - Length of data
+ *   - `re` - Output real FFT spectrum
+ *   - `im` - Output imaginary FFT spectrum
+ *   - `nf` - Length of re and im
+ */
+void fft_(float *data, int *n, float *re, float *im, int *nf) {
+    fft(data, *n, re, im, nf);
+}
+void fft__(float *data, int *n, float *re, float *im, int *nf) {
+    fft(data, *n, re, im, nf);
+}
+void dfft_(double *data, int *n, double *re, double *im, int *nf) {
+    dfft(data, *n, re, im, nf);
+}
+void dfft__(double *data, int *n, double *re, double *im, int *nf) {
+    dfft(data, *n, re, im, nf);
+}
+
+void
+dfftz(double *data, int n, double complex *z, int *nf) {
+    double *ri;
+    if((*nf = fft_npts_check(n, *nf)) < 0) {
+        return;
+    }
+    memset(z, 0, sizeof(double complex) * *nf);
+    for(int i = 0; i < n; i++) {
+        z[i] = data[i];
+    }
+
+    ri = (double *) z;
+    dcpft(ri, &ri[1], *nf, 2, FFT_FORWARD);
+}
+
+void
+dfftz_(double *data, int *n, double complex *z, int *nf) {
+    dfftz(data, *n, z, nf);
+}
+void
+dfftz__(double *data, int *n, double complex *z, int *nf) {
+    dfftz(data, *n, z, nf);
+}
+
+
+void
+idfftz(double *data, int n, double complex *z, int nf) {
+    double *ri;
+    ri = (double *) z;
+    dcpft(ri, &ri[1], nf, 2, FFT_INVERSE);
+    for(int i = 0; i < n; i++) {
+        data[i] = creal(z[i]) / nf;
+    }
+}
+void idfftz_(double *data, int *n, double complex *z, int *nf) {
+    idfftz(data, *n, z, *nf);
+}
+void idfftz__(double *data, int *n, double complex *z, int *nf) {
+    idfftz(data, *n, z, *nf);
+}
+
+
+void
+idfft(double *data, int n, double *re, double *im, int nf) {
+    dcpft(re, im, nf, 1, FFT_INVERSE);
+    for(int i = 0; i < n; i++) {
+        data[i] = re[i] / nf;
+    }
+}
+void idfft_(double *data, int *n, double *re, double *im, int *nf) {
+    idfft(data, *n, re, im, *nf);
+}
+void idfft__(double *data, int *n, double *re, double *im, int *nf) {
+    idfft(data, *n, re, im, *nf);
+}
+
+void
+ifft(float *data, int n, float *re, float *im, int nf) {
+    double *xre, *xim;
+    xre = (double *) malloc(sizeof(double) * nf);
+    xim = (double *) malloc(sizeof(double) * nf);
+    for(int i = 0; i < nf; i++) {
+        xre[i] = re[i];
+        xim[i] = im[i];
+    }
+    dcpft(xre, xim, nf, 1, FFT_INVERSE);
+    for(int i = 0; i < n; i++) {
+        data[i] = xre[i] / nf;
+    }
+}
+void
+ifftz(float *data, int n, float complex *z, int nf) {
+    double *xre, *xim;
+    xre = (double *) malloc(sizeof(double) * nf);
+    xim = (double *) malloc(sizeof(double) * nf);
+    for(int i = 0; i < nf; i++) {
+        xre[i] = creal(z[i]);
+        xim[i] = cimag(z[i]);
+    }
+    dcpft(xre, xim, nf, 1, FFT_INVERSE);
+    for(int i = 0; i < n; i++) {
+        data[i] = xre[i] / nf;
+    }
+}
+
+void ifft_(float *data, int *n, float *re, float *im, int *nf) {
+    ifft(data, *n, re, im, *nf);
+}
+void ifft__(float *data, int *n, float *re, float *im, int *nf) {
+    ifft(data, *n, re, im, *nf);
+}
+void ifftz_(float *data, int *n, float complex *z, int *nf) {
+    ifftz(data, *n, z, *nf);
+}
+void ifftz__(float *data, int *n, float complex *z, int *nf) {
+    ifftz(data, *n, z, *nf);
+}
