@@ -80,8 +80,8 @@ column format contents
 57     f6.2   seconds
 63     g10.4  amplitude of pick
 74     a1     source of pick
-                - "A" if an automatic pick (APK)
-                - "M" if a manual pick (PLOTPK)
+-      -      - "A" if an automatic pick (APK)
+-      -      - "M" if a manual pick (PLOTPK)
 79     a1     "B"
 ====== ====== ========
 

@@ -194,6 +194,7 @@ def read_rst( f, links ):
              'manual.txt', 'index.txt', 'error_messages.txt']
     rst = header
     rst += open(f, 'r').read()
+    rst += '\n\n'
     cmd = None
     if not any( fragment in f for fragment in skips ):
         m = cmd_re.findall(rst)

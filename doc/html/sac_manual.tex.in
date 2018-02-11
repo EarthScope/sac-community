@@ -34,7 +34,7 @@
 \usepackage{courier}
 %%% User specified packages and stylesheets
 \usepackage{graphicx}
-\graphicspath{{./commands/}}
+\graphicspath{{./commands/}{./manual/}}
 \renewcommand{\familydefault}{cmss}
 \renewcommand{\bf}{\bfseries}
 
