@@ -1,4 +1,3 @@
-
 TSIZE
 +++++
 
@@ -8,28 +7,31 @@ Controls the text size attributes.
 
 SYNTAX
 ------
+::
 
-  ``TSIZE {size v},{RATIO v},{OLD|NEW}``
-   where size is one of the following:
+  TSIZE {size v},{RATIO v},{OLD|NEW}
 
-  ``TINY|SMALL|MEDIUM|LARGE``
+where size is one of the following::
+
+  TINY|SMALL|MEDIUM|LARGE
 
 INPUT
 -----
    :size v:  Change the value of one of the text sizes to v.
-    
+
    :RATIO v:  Change the text width to height ratio to v.
-    
+
    :OLD:  Change the values of all the text sizes to their "old" values.
        These are the values used by SAC prior to Version 9.
-    
+
    :NEW:  Change the values of all the text sizes to their "new" values.
        These are the default values when SAC is initialized.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``TSIZE RATIO 1.0 NEW``
+  TSIZE RATIO 1.0 NEW
 
 DESCRIPTION
 -----------
@@ -78,13 +80,13 @@ EXAMPLES
   To change the definition of MEDIUM and then use it to create a specially
   sized title::
 
-      u:  TSIZE MEDIUM 0.35
-      u:  TITLE 'Rayleigh Wave Spectra' SIZE MEDIUM
-      u:  PLOT2
+      SAC> TSIZE MEDIUM 0.35
+      SAC> TITLE 'Rayleigh Wave Spectra' SIZE MEDIUM
+      SAC> PLOT2
 
   To reset this (and any other) size definitions to their default values::
 
-      u:  TSIZE NEW
+      SAC> TSIZE NEW
 
 SEE COMMANDS
 ------------
@@ -93,4 +95,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
   July 22, 1991 (Version 9.1)
-

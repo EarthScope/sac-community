@@ -1,4 +1,3 @@
-
 ROTATE
 ++++++
 
@@ -8,45 +7,47 @@ Rotates a pair of data components through an angle.
 
 SYNTAX
 ------
+::
 
-  ``ROTATE {to GCP|TO v|THROUGH v|,{NORMAL|REVERSED}``
+  ROTATE {to GCP|TO v|THROUGH v|,{NORMAL|REVERSED}
 
 INPUT
 -----
    :TO GCP:  Rotate to the "great circle path".  Both components must be
        horizontals.  The station and event coordinates header fields must
        be defined.
-    
+
    :TO v:  Rotate to the angle v (degrees).  Both components must be
        horizontals.
-    
+
    :THROUGH v:  Rotate through the angle v in degrees.  One component may
        be vertical.
-    
+
    :NORMAL:  Output (horizontal) components with the second leading the first by 90 degrees
-    
+
    :REVERSED:  Output (horizontal) components with the second lagging the first by 90 degrees.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``ROTATE TO GCP NORMAL``
+  ROTATE TO GCP NORMAL
 
 DESCRIPTION
 -----------
   Pairs of data components are rotated in this command.  Each pair must
-  have the same station name, event name, number of points, and sampling rate.  
-  In the THROUGH option both components are simply rotated through the requested 
-  angle.  One of those components may be a vertical.   Rotations in the 
-  horizontal plane are clockwise from north.  Rotations with a vertical 
+  have the same station name, event name, number of points, and sampling rate.
+  In the THROUGH option both components are simply rotated through the requested
+  angle.  One of those components may be a vertical.   Rotations in the
+  horizontal plane are clockwise from north.  Rotations with a vertical
   component are clockwise from up.
 
   Both components must be horizontals when the TO option is used.  This
   means that CMPAZ must be definined and that CMPINC must be 90 degrees.  After
   the rotation is completed, the first component of each pair will be directed
   along the angle given after the TO keyword.  If the TO GCP option is used, t
-  his component will be directed along the angle given by the station-event 
-  back azimuth plus or minus 180 degrees.  This component therefore points from 
+  his component will be directed along the angle given by the station-event
+  back azimuth plus or minus 180 degrees.  This component therefore points from
   the event toward the station.  The station and event coordinates header fields
   (STLA, STLO, EVLA, and EVLO) must be defined so that the backazimuth can be
   calculated.
@@ -62,14 +63,14 @@ EXAMPLES
       SAC> READ XYZ.N XYZ.E
       SAC> ROTATE TO 123.43
 
-  To rotate two sets of horizontals to the  the first component in each set 
+  To rotate two sets of horizontals to the  the first component in each set
   along the great circle path::
 
       SAC> READ ABC.N ABC.E DEF.N DEF.E
       SAC> ROTATE TO GCP
       SAC> W ABC.R ABC.T DEF.R DEF.T
 
-  In the above example if the BAZ header variable for ABC had been 33 degrees, 
+  In the above example if the BAZ header variable for ABC had been 33 degrees,
   the radial components would be at 213 degrees and the tangential components at
   303 degrees.  If, instead, ROTAT TO GCP REVERSED had been used, the tangential
   components would be at 123 degrees.
@@ -94,4 +95,3 @@ ERROR MESSAGES
 LATEST REVISION
 ---------------
   January 8, 1983 (Version 8.0)
-

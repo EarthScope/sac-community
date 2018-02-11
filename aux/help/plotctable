@@ -1,9 +1,8 @@
-
 PLOTCTABLE
 ++++++++++
 
 
-TABLE 
+TABLE
 -----
 Parameter-Setting Options These options consist of sets of two to four
 characters enclosed by square brackets.  More than one set can be enclosed
@@ -50,4 +49,3 @@ VB     Set vertical text justification to BOTTOM.
 VC     Set vertical text justification to CENTER. [Default]
 VT     Set vertical text justification to TOP.
 ====== ====================================================================
-

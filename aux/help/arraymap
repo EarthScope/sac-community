@@ -1,4 +1,3 @@
-
 ARRAYMAP
 ++++++++
 
@@ -8,21 +7,23 @@ Produces a map of the array or "coarray" using all files in SAC memory.
 
 SYNTAX
 ------
+::
 
-  ``ARRAYMAP ARRAY | COARRAY``
+  ARRAYMAP ARRAY | COARRAY
 
 INPUT
 -----
    :ARRAY:  This option maps the offsets X and Y, assumed to have been
        set up in the SAC header (see the HEADER DATA section below).
-    
+
    :COARRAY:  This option plots delta X and delta Y for all pairs of
        stations.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``ARRAYMAP ARRAY``
+  ARRAYMAP ARRAY
 
 INPUT
 -----
@@ -33,16 +34,17 @@ INPUT
   :USER7:  Contains easterly offset (x).
 
   :USER8:  Contains northerly offset (y).
-  	   The upward offset (z) is not used by this command.
+       The upward offset (z) is not used by this command.
 
 LIMITATIONS
 -----------
-  Maximum number of stations allowed in BBFK command.
+  Maximum number of stations allowed in BBFK_ command.
 
 SEE COMMANDS
 ------------
   WRXYZ. This is a SAC macro; It can be found in the global SAC macro
-  directory, SACAUX/macros . Documentation provided in the macro.  BBFK_ July
-  22, 1991 (Version 10.5c)
+  directory, SACAUX/macros . Documentation provided in the macro.
 
+  BBFK_
 
+  July  22, 1991 (Version 10.5c)

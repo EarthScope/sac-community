@@ -1,4 +1,3 @@
-
 WILD
 ++++
 
@@ -8,36 +7,38 @@ Sets wildcard characters used in read commands to expand filelists.
 
 SYNTAX
 ------
+::
 
-  ``WILD {ECHO {ON|OFF}},{SINGLE char},{MULTIPLE char},``
-
-  ``{CONCATENATION chars}``
+  WILD {ECHO {ON|OFF}},{SINGLE char},{MULTIPLE char},
+      {CONCATENATION chars}
 
 INPUT
 -----
    :ECHO {ON}:  Turn echoing of expanded filelist on.  Echoing is only
        when this option is on and there are wildcard characters in the
        filelist.
-    
+
    :ECHO OFF:  Turn echoing of expanded filelist off.
-    
+
    :SINGLE char:  Change the character used to match single characters.
-    
+
    :MULTIPLE char:  Change the character used to match multiple
        characters.
-    
+
    :CONCATENATION chars:  Change the two characters used to enclose
        concatenation lists.
-    
+
 DEFAULT VALUES
 --------------
 
-  OPTION          UNIX  VAX   PRIME
-  ECHO            ON    ON    ON
-  SINGLE          ?     ?     \+
-  MULTIPLE        \*    \*    \'
-  CONCATENATION   [,\]  (,\)  [,\]
-
+  =============== ===== ====== =====
+  OPTION          UNIX  VAX    PRIME
+  =============== ===== ====== =====
+  ECHO            ON    ON     ON
+  SINGLE          ?     ?      \+
+  MULTIPLE        \*    \*     \'
+  CONCATENATION   [,\]  (,\)   [,\]
+  =============== ===== ====== =====
 
 DESCRIPTION
 -----------
@@ -45,7 +46,7 @@ DESCRIPTION
   systems and is called "wildcarding" or "filename expansion." It is a notation
   that allows you to abbreviate filenames and to specify entire groups of files
   using a simple shorthand notation.  SAC has implemented wildcarding, along
-  with several extensions, in its READ_, READALPHA, and READHDR_ commands.  
+  with several extensions, in its READ_, READALPHA, and READHDR_ commands.
   Using this notation, you can easily access lists such as:
 
    - All files beginning with the letters "abc".
@@ -69,9 +70,9 @@ DESCRIPTION
       Otherwise use the current directory.
    2) Make a system call to get a list of all files in the directory.
    3) If a concatenation list is in the token, form new tokens from each
-      character string in the concatenation list with the other characters 
-      in the token and then match them to the list of files. If there is 
-      no concatenation list in the token, simply match the token to the list 
+      character string in the concatenation list with the other characters
+      in the token and then match them to the list of files. If there is
+      no concatenation list in the token, simply match the token to the list
       of files.
    4) Remove any duplicates matches to form the expanded filelist.
    5) Echo the expanded filelist if requested.
@@ -102,18 +103,18 @@ EXAMPLES
   the various wildcarding elements can be used to read parts of the above
   filelist into memory.::
 
-    u:  READ S\*
-    s:  STA01E STA01N STA01Z STA02E STA02N STA02Z STA03Z
-    u:  READ \*Z
-    s:  STA01Z STA02Z STA03Z
-    u:  READ ???
-    s:  ABC DEF
-    u:  READ STA01[Z,N,E]
-    s:  STA01Z STA01N STA01E
-    u:  READ *[Z,N,E]
-    s:  STA01Z STA02Z STA03Z STA01N STA02N STA01E STA02E
-    u:  READ *1[Z,N,E] *2[ ]
-    s:  STA01Z STA01N STA01E STA02Z STA02N STA02E
+    SAC> READ S*
+       STA01E STA01N STA01Z STA02E STA02N STA02Z STA03Z
+    SAC> READ *Z
+       STA01Z STA02Z STA03Z
+    SAC> READ ???
+       ABC DEF
+    SAC> READ STA01[Z,N,E]
+       STA01Z STA01N STA01E
+    SAC> READ *[Z,N,E]
+       STA01Z STA02Z STA03Z STA01N STA02N STA01E STA02E
+    SAC> READ *1[Z,N,E] *2[ ]
+       STA01Z STA01N STA01E STA02Z STA02N STA02E
 
 LIMITATIONS
 -----------
@@ -128,4 +129,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
    May 15, 1987 (Version 10.2)
-

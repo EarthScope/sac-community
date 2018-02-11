@@ -1,4 +1,3 @@
-
 DATAGEN
 +++++++
 
@@ -8,16 +7,15 @@ Generates sample data files and stores them in memory.
 
 SYNTAX
 ------
+::
 
-  ``DATAGEN {MORE} {COMMIT|ROLLBACK|RECALLTRACE} {SUB name} {filelist}``
+  DATAGEN {MORE} {COMMIT|ROLLBACK|RECALLTRACE} {SUB name} {filelist}
 
-   where name is one of the following:
+where name is one of the following::
 
-  ``LOCAL``
-
-  ``REGIONAL``
-
-  ``TELESEISEM``
+  LOCAL
+  REGIONAL
+  TELESEISEM
 
 
 INPUT
@@ -25,46 +23,47 @@ INPUT
    :MORE:  Place the new sample data files in memory AFTER the old data.
        If this option is omitted, the new sample data files REPLACE the
        old ones.
-    
+
    :Note:  if the MORE option is not specified, the COMMIT_, ROLLBACK_,
        and RECALLTRACE_ options have no effect.
-    
+
    :COMMIT:  If the MORE option is specified, the COMMIT option commits
        headers and waveforms in SAC memory -- removing any previous
        versions of headers or waveforms from RAM -- prior to
        generating more files.  COMMIT is the default.
-    
+
    :ROLLBACK:  If the MORE option is specified, the ROLLBACK option reverts
        to the last committed version of the header and waveform
        before generating more files.
-    
+
    :RECALLTRACE:  If the MORE option is specified, the RECALLTRACE option:
 
       - reverts to the last committed version of the waveform,
       - reverts to the last committed version of those header
-      	variables closely linked to the waveform,
+        variables closely linked to the waveform,
       - commits those header variables which are loosely linked
-       	to the waveform.
-       	(use HELP_ RECALLTRACE for a list of which header variables are
-       	committed, and which are rolled back.)
-    
+        to the waveform.
+        (use HELP_ RECALLTRACE for a list of which header variables are
+        committed, and which are rolled back.)
+
    :SUB name: Select the sub-directory name from which to read the data.
        Where the subdirectory name is local, regional, or teleseismic.
-    
+
        A filelist is required. Possible filenames are listed below.
-    
+
    :name:  LOCAL|REGIONAL|TELESEIS ,BREAK Specifics about the contents of
        these sub-directories is given below.
-    
+
    :filelist:  A list of SAC sample data files.  The names of the files in
        each subdirectory are given below.  This list may contain simple
        filenames and wildcard characters.  See the READ_ and WILD_ commands
        for a complete description.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``DATAGEN COMMIT SUB LOCAL cdv.z``
+  DATAGEN COMMIT SUB LOCAL cdv.z
 
 DESCRIPTION
 -----------
@@ -80,7 +79,7 @@ ERROR MESSAGES
 --------------
 - 1301: No data files read in.
 
-  - haven't given a list of files to read.  
+  - haven't given a list of files to read.
   - none of the files in the list could be read.
 
 - 1314: Data file list can't begin with a number.
@@ -94,7 +93,7 @@ WARNING MESSAGES
 - 0114: reading file
 
   - Normally when SAC encounters one of these errors it skips that file and
-    reads the remainder.  These errors can be made to be fatal using 
+    reads the remainder.  These errors can be made to be fatal using
     the READERR_ command.
 
 
@@ -105,7 +104,7 @@ LOCAL EVENT
   Seismic Network (LLSN).  LLSN is a set of vertical and three-component
   stations operated by LLNL and the USGS.  Data from nine three-component
   stations are included in this set.  There is 40 seconds of data sampled at 100
-  samples per second.  Station information, event information, p-wave 
+  samples per second.  Station information, event information, p-wave
   time picks, and coda picks are included in the headers.  The filenames are::
 
     cal.z, cal.n, cal.e
@@ -164,7 +163,7 @@ TELESEISMIC EVENT
   available and the long-period data from sdk is clipped.  There is 1600 seconds
   of data in this set.  The long-period data was recorded at 1 sample per second
   and the mid-period data at 4 samples per second.  The filenames are::
-  
+
     ntkl.z, ntkl.n, ntkl.e, ntkm.z, ntkm.n, ntkm.e
     nykl.z, nykl.n, nykl.e, nykm.z, nykm.n, nykm.e
     onkl.z, onkl.n, onkl.e, onkm.z, onkm.n, onkm.e
@@ -173,4 +172,3 @@ TELESEISMIC EVENT
 LATEST REVISION
 ---------------
   August 2011 (version 101.5)
-

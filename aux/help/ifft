@@ -1,4 +1,3 @@
-
 IFFT
 ++++
 
@@ -8,8 +7,9 @@ Performs an inverse discrete Fourier transform.
 
 SYNTAX
 ------
+::
 
-  ``IFFT``
+  IFFT
 
 ALTERNATE FORMS
 ---------------
@@ -33,7 +33,6 @@ ERROR MESSAGES
 - 1305: Illegal operation on time series file
 - 1606: Maximum allowable DFT is
 
-
 LIMITATIONS
 -----------
   The maximum inverse transform that can currently be performed is 65536 points.
@@ -45,4 +44,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
   October 11, 1984 (Version 9.1)
-

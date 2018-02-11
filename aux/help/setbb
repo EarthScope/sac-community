@@ -1,4 +1,3 @@
-
 SETBB
 +++++
 
@@ -8,21 +7,22 @@ Sets (defines) values of blackboard variables.
 
 SYNTAX
 ------
+::
 
-  ``SETBB variable {APPEND} value {variable {APPEND} value ...}``
+  SETBB variable {APPEND} value {variable {APPEND} value ...}
 
 INPUT
 -----
    :variable:  The name of a blackboard variable.  It may be a new
        variable or one that already has a value. The variable name can be
        up to 32 characters in length.
-    
+
    :value:  The new value of that blackboard variable.  It must be
        enclosed in single or double quotes if it contains any spaces.
-    
+
    :APPEND:  Append value to the old value of variable.  If this option is
        omitted then the new value replaces the old value.
-    
+
 DESCRIPTION
 -----------
    The blackboard is a place to temporarily store information.  This
@@ -38,25 +38,25 @@ EXAMPLES
 --------
   To set several blackboard variables at once::
 
-      u:  SETBB C1 2.45 C2 4.94
+      SAC> SETBB C1 2.45 C2 4.94
 
   To later use these variables in a command::
 
-      u:  BANDPASS CORNERS %C1 %C2
+      SAC> BANDPASS CORNERS %C1 %C2
 
   To set a blackboard variable that contains spaces::
 
-      u:  SETBB MYTITLE 'Sample filter response'
+      SAC> SETBB MYTITLE 'Sample filter response'
 
   To check and make sure the value is correct::
 
-      u:  GETBB MYTITLE
-      s:  MYTITLE = Sample filter response
+      SAC> GETBB MYTITLE
+          MYTITLE = Sample filter response
 
   To later use this variable in the title command it must be enclosed in quotes
   and have a percent sign on both ends of the name::
 
-      u:  TITLE '%MYTITLE%'
+      SAC> TITLE '%MYTITLE%'
 
   See the section on Macros in the SAC Users Manual for more examples of the
   use of blackboard variables in macros.
@@ -68,4 +68,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
   May 15, 1987 (Version 10.2)
-

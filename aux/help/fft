@@ -1,4 +1,3 @@
-
 FFT
 +++
 
@@ -8,27 +7,29 @@ Performs a discrete Fourier transform.
 
 SYNTAX
 ------
+::
 
-  ``FFT {WOMEAN|WMEAN},{RLIM|AMPH}``
+  FFT {WOMEAN|WMEAN},{RLIM|AMPH}
 
 INPUT
 -----
    :WOMEAN:  Remove mean before transform.
-    
+
    :WMEAN:  Leave mean in transform.
-    
+
    :RLIM:  Output should be in real-imaginary format.
-    
+
    :AMPH:  Output should be in amplitude-phase format.
-    
+
 ALTERNATE FORMS
 ---------------
 Purists may use DFT in place of FFT_.
 
 DEFAULT VALUES
 --------------
+::
 
-  ``FFT WMEAN AMPH``
+  FFT WMEAN AMPH
 
 DESCRIPTION
 -----------
@@ -39,8 +40,8 @@ DESCRIPTION
   header tells you which kind of data is stored in a particular file and what
   its format is.  Most commands work on only one type, either time-series or
   spectal.  Certain commands such as FFT_, IFFT_, UNWRAP_, etc. change data in
-  memory from one data type or format to another.  The spectral files that 
-  result from this command can be plotted using the PLOTSP_ command or saved on 
+  memory from one data type or format to another.  The spectral files that
+  result from this command can be plotted using the PLOTSP_ command or saved on
   disk with the WRITE_ or WRITESP_ command.  If one has more than one data file
   in memory, PLOT2_ can be used to plot the amplitudes or real part.  The SAC
   sign convention is such that the phase for a causal function decreases with
@@ -61,10 +62,6 @@ ERROR MESSAGES
 - 1307: Illegal operation on spectral file
 - 1606: Maximum allowable DFT is
 
-LIMITATIONS
------------
-  The maximum transform is 2**24=16777216 data points.
-
 SEE COMMANDS
 ------------
   PLOTSP_, IFFT_, WRITESP_
@@ -72,4 +69,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
   May 6, 2010 (Version 101.4)
-

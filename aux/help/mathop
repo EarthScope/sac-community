@@ -1,4 +1,3 @@
-
 MATHOP
 ++++++
 
@@ -8,8 +7,9 @@ Controls Math Operator Precedence
 
 SYNTAX
 ------
+::
 
-  ``MATHOP NORMAL|MATH|FORTRAN|NONE|OLD``
+  MATHOP NORMAL|MATH|FORTRAN|NONE|OLD
 
 INPUT
 -----
@@ -17,15 +17,15 @@ INPUT
    :NORMAL:  Use Normal Math Operator Precedence
    :MATH:    Same as Normal
    :FORTRAN: Same as Normal
-
    :NONE:    Use No Operator Precedence
    :OLD:     Same as None
 
 
 DEFAULT VALUES
 --------------
+::
 
-  ``MATHOP NORMAL``
+  MATHOP NORMAL
 
 DESCRIPTION
 -----------
@@ -36,7 +36,7 @@ DESCRIPTION
   Older version of SAC (pre-101.6) used a math evaluation without operator
   precedence.  Terms were evaluated in order where the earlier in the
   expression operators had higher precedence.
-  
+
   If matop is not called, the effect is the same as mathop normal.  The
   function mathop has been introduced to deal with scripts and macros that
   were written using the mathop old precedence.  Rather than change the
@@ -63,4 +63,3 @@ EXAMPLES
 LATEST REVISION
 ---------------
   Version 101.6 (new)
-

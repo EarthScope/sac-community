@@ -1,4 +1,3 @@
-
 BORDER
 ++++++
 
@@ -8,26 +7,28 @@ Controls the plotting of a border around plots.
 
 SYNTAX
 ------
+::
 
-  ``BORDER {ON|OFF}``
+  BORDER {ON|OFF}
 
 INPUT
 -----
    :{ON}:  Turn border plotting on.
-    
+
    :OFF:  Turn border plotting off.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``BORDER OFF``
+  BORDER OFF
 
 DESCRIPTION
 -----------
    When this option is on, a solid border is drawn around the sides of the plot
-   at the edge of the viewport (see XVPORT.) Note that an axis line is always
-   drawn on each side of the plot that contains an annotated axis (see AXES) or
-   a set of tick marks (see TICKS).  Thus the border option only applies to those
+   at the edge of the viewport (see XVPORT_) Note that an axis line is always
+   drawn on each side of the plot that contains an annotated axis (see AXES_) or
+   a set of tick marks (see TICKS_).  Thus the border option only applies to those
    sides without axes or tick marks.
 
 SEE COMMANDS
@@ -37,4 +38,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
    January 8, 1983 (Version 8.0)
-

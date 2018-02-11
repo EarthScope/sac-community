@@ -1,4 +1,3 @@
-
 GRID
 ++++
 
@@ -8,27 +7,26 @@ Controls the plotting of grid lines in plots.
 
 SYNTAX
 ------
+::
 
-  ``GRID {ON|OFF|SOLID|DOTTED}``
+  GRID {ON|OFF|SOLID|DOTTED}
 
 INPUT
 -----
    :ON:  Turn grid plotting on but don't change grid type.
-    
+
    :OFF:  Turn grid plotting off.
-    
+
    :SOLID:  Turn grid plotting on using solid grid lines.
-    
+
    :DOTTED:  Turn grid plotting on using dotted grid lines.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``GRID OFF``
+  GRID OFF
 
-
-
-  ``FUNCTIONAL MODULE: Graphic Environment``
 
 DESCRIPTION
 -----------
@@ -42,4 +40,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
    January 8, 1983 (Version 8.0)
-

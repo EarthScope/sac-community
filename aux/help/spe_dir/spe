@@ -162,7 +162,7 @@ calculated and plotted.  The prediction error can be plotted as a
 function of order.  This plot can be used to select a good size for
 the prediction error filter used in the MEM method.  Since much is known
 about the performance of the PDS estimator, more diagnostic information
-is available for this method in SPE.  The 90`` confidence limits can
+is available for this method in SPE.  The 90 confidence limits can
 be estimated theoretically, as can the frequency resolution of the
 estimate.  Both of these quantities can be indicated on a PDS spectral
 plot.

@@ -1,4 +1,3 @@
-
 STRETCH
 +++++++
 
@@ -8,21 +7,23 @@ Stretches (upsamples) data, including an optional interpolating FIR_ filter.
 
 SYNTAX
 ------
+::
 
-  ``STRETCH {n},{FILTER {ON|OFF}}``
+  STRETCH {n},{FILTER {ON|OFF}}
 
 INPUT
 -----
    :n:  Set upsampling factor.  Must be in the range 2 to 7.
-    
+
    :FILTER {ON}:  Turn interpolating filter option on.
-    
+
    :FILTER OFF:  Turn interpolating filter option off.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``STRETCH 2 FILTER ON``
+  STRETCH 2 FILTER ON
 
 DESCRIPTION
 -----------
@@ -40,4 +41,3 @@ HEADER CHANGES
 LATEST REVISION
 ---------------
    May 15, 1987 (Version 10.2)
-

@@ -8,8 +8,9 @@ Computes the exponential of each data point.
 
 SYNTAX
 ------
+::
 
-  ``EXP``
+  EXP
 
 Note: EXP is also an INLINE_ function.
 

@@ -1,4 +1,3 @@
-
 MUL
 +++
 
@@ -8,21 +7,23 @@ Multiplies each data point by a constant.
 
 SYNTAX
 ------
+::
 
-  ``MUL {v1 {v2 ... vn} }``
+  MUL {v1 {v2 ... vn} }
 
 INPUT
 -----
    :v1:  Constant to multiply first file by.
-    
+
    :v2:  Constant to multiply second file by.
-    
+
    :vn:  Constant to multiply nth file by.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``MUL 1.``
+  MUL 1.
 
 DESCRIPTION
 -----------
@@ -35,8 +36,8 @@ EXAMPLES
 --------
   To multiply each element of F1 by 5.1 and each element of F2 and F3 by 6.2::
 
-      u:  READ F1 F2 F3
-      u:  MUL 5.1 6.2
+      SAC> READ F1 F2 F3
+      SAC> MUL 5.1 6.2
 
 Note: MULTILPLY is also an INLINE_ function.
 
@@ -52,4 +53,3 @@ ERROR MESSAGES
 LATEST REVISION
 ---------------
   January 8, 1983 (Version 8.0)
-

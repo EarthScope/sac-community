@@ -8,8 +8,9 @@ Computes the base 10 exponential (10.**y) of each data point.
 
 SYNTAX
 ------
+::
 
-  ``EXP10``
+  EXP10
 
 ERROR MESSAGES
 --------------

@@ -197,20 +197,17 @@ Signal-Correction Module
 
 Event-Analysis Module
 ---------------------
-  This module is used to pick seismic phases.
-
-  An automatic phase picking algorithm can be applied using APK.
-
-  You can also use PPK to pick phases using the graphics cursor. ( PPK is described in the section on Graphics Capabilities).
-
-  The TRAVELTIME_ command can be used to associate observed arrivals with predicted 
-  body-wave phases.
-
-  These picks can be saved in HYPO format using the OHPF_ (open HYPO pick file) 
-  and CHPF_ (close HYPO pick file) commands; WHPF_ writes auxiliary cards into the 
-  HYPO pick file. These picks can also be saved in a more general Alphanumeric 
-  format using the OAPF_ (open alphanumeric pick file) and CAPF_ (close 
-  alphanumeric pick file) commands. The picks are also saved in the headers.
+  This module is used to pick seismic phases.  An automatic phase
+  picking algorithm can be applied using APK.  You can also use PPK to
+  pick phases using the graphics cursor. ( PPK is described in the
+  section on Graphics Capabilities).  The TRAVELTIME_ command can be
+  used to associate observed arrivals with predicted body-wave phases.
+  These picks can be saved in HYPO format using the OHPF_ (open HYPO
+  pick file) and CHPF_ (close HYPO pick file) commands; WHPF_ writes
+  auxiliary cards into the HYPO pick file. These picks can also be
+  saved in a more general Alphanumeric format using the OAPF_ (open
+  alphanumeric pick file) and CAPF_ (close alphanumeric pick file)
+  commands. The picks are also saved in the headers.
 
 Signal-Measurement Module
 -------------------------
@@ -232,12 +229,11 @@ Signal-Measurement Module
 Instrument-Correction Module
 ----------------------------
   This module currently contains only one command, TRANSFER_.
-
-  TRANSFER performs a deconvolution to remove one instrument response followed 
-  a convolution to apply another instrument response. Over 40 predefined 
-  instrument responses are available. A general instrument response can also be 
-  specified in terms of its poles and zeros, frequency-amplitude-phase files, or
-  the EVALRESP package.
+  TRANSFER performs a deconvolution to remove one instrument response
+  followed a convolution to apply another instrument response. Over 40
+  predefined instrument responses are available. A general instrument
+  response can also be specified in terms of its poles and zeros,
+  frequency-amplitude-phase files, or the EVALRESP package.
 
 XYZ Data-Processing Module
 --------------------------

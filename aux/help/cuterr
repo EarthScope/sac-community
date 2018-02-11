@@ -1,4 +1,3 @@
-
 CUTERR
 ++++++
 
@@ -8,23 +7,25 @@ Controls errors due to bad cut parameters.
 
 SYNTAX
 ------
+::
 
-  ``CUTERR FATAL|USEBE|FILLZ``
+  CUTERR FATAL|USEBE|FILLZ
 
 INPUT
 -----
    :FATAL:  Treat cut errors as fatal.
-    
+
    :USEBE:  Replace bad start cut with file begin and bad stop cut with
        file end.
-    
+
    :FILLZ:  Fill with zeros before file begin or after file end to
        account for difference between bad cut and file begin and end.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``FILLZ for signal stacking subprocess, USEBE for others.``
+  FILLZ for signal stacking subprocess, USEBE for others.
 
 DESCRIPTION
 -----------
@@ -43,8 +44,8 @@ EXAMPLES
   40 seconds, and a sampling rate of 100 samples per second.  Assume the
   following commands were typed::
 
-      u:  CUT A -20 E
-      u:  READ FILE1
+      SAC> CUT A -20 E
+      SAC> READ FILE1
 
   The starting cut evaluates to 20 seconds and generates a bad cut error
   condition.  In the USEBE mode, the starting value would become 25 seconds (B).
@@ -58,4 +59,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
   January 8, 1983 (Version 8.0)
-

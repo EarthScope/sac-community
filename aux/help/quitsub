@@ -8,8 +8,9 @@ Terminates the currently active subprocess.
 
 SYNTAX
 ------
+::
 
-  ``QUITSUB``
+  QUITSUB
 
 DESCRIPTION
 -----------
@@ -17,14 +18,14 @@ DESCRIPTION
    main SAC command environment. Files in memory are retained.  There are
    currently two subprocesses available in SAC:
 
-   SES Spectral Estimation Subproess
+      - SPE_ Spectral Estimation Subproess
 
-   SSS_ Signal Stacking Subprocess
+      - SSS_ Signal Stacking Subprocess
 
 
 SEE COMMANDS
 ------------
-   SES, SSS_
+   SPE_, SSS_
 
 LATEST REVISION
 ---------------

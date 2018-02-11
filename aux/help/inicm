@@ -8,8 +8,9 @@ Reinitializes all of SAC's common blocks.
 
 SYNTAX
 ------
+::
 
-  ``INICM``
+  INICM
 
 DESCRIPTION
 -----------

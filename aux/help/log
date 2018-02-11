@@ -8,8 +8,9 @@ Takes the natural logarithm of each data point.
 
 SYNTAX
 ------
+::
 
-  ``LOG``
+  LOG
 
 ERROR MESSAGES
 --------------

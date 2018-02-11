@@ -1,4 +1,3 @@
-
 YGRID
 +++++
 
@@ -8,23 +7,25 @@ Controls plotting of grid lines in the y direction.
 
 SYNTAX
 ------
+::
 
-  ``YGRID {ON|OFF|SOLID|DOTTED}``
+  YGRID {ON|OFF|SOLID|DOTTED}
 
 INPUT
 -----
    :{ON}:  Turn y axis grid plotting on but don't change grid type.
-    
+
    :OFF:  Turn y axis grid plotting off.
-    
+
    :SOLID:  Turn y axis grid plotting on using solid grid lines.
-    
+
    :DOTTED:  Turn y axis grid plotting on using dotted grid lines.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``YGRID OFF``
+  YGRID OFF
 
 DESCRIPTION
 -----------
@@ -38,4 +39,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
    January 8, 1983 (Version 8.0)
-

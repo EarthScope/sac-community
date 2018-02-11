@@ -1,4 +1,3 @@
-
 UNSETBB
 +++++++
 
@@ -8,15 +7,16 @@ Unsets (deletes) blackboard variables.
 
 SYNTAX
 ------
+::
 
-  ``UNSETBB ALL | variable ...``
+  UNSETBB ALL | variable ...
 
 INPUT
 -----
    :ALL:  Unset all of the currently defined blackboard variables.
-    
+
    :variable:  Unset the blackboard variable variable.
-    
+
 DESCRIPTION
 -----------
   The blackboard is a place to temporarily store information.  Blackboard
@@ -30,11 +30,11 @@ EXAMPLES
 --------
   To unset several blackboard variables at once::
 
-      u:  UNSETBB C1 C2 X
+      SAC> UNSETBB C1 C2 X
 
   To unset all blackboard variables::
 
-      u:  UNSETBB ALL
+      SAC> UNSETBB ALL
 
 SEE COMMANDS
 ------------
@@ -43,4 +43,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
   January 26, 1989 (Version 10.4B)
-

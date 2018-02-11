@@ -1,4 +1,3 @@
-
 ECHO
 ++++
 
@@ -8,52 +7,48 @@ Controls echoing of input and output to the terminal.
 
 SYNTAX
 ------
+::
 
-  ``ECHO ON|OFF list``
-   where list is one or more of the following:
+  ECHO ON|OFF list
+
+where list is one or more of the following::
 
 
-  ``ERRORS``
-
-  ``WARNINGS``
-
-  ``OUTPUT``
-
-  ``COMMANDS``
-
-  ``MACROS``
-
-  ``PROCESSED``
+  ERRORS
+  WARNINGS
+  OUTPUT
+  COMMANDS
+  MACROS
+  PROCESSED
 
 
 INPUT
 -----
    :ON:  Turn on echoing of the items in the list that follows.
-    
+
    :OFF:  Turn off echoing of the items in the list that follows.
-    
+
    :ERRORS:  Error messages generated during the execution of a command.
-    
-    
+
    :WARNINGS:  Warning messages generated during the execution of a
        command.
-    
+
    :OUTPUT:  Output messages generated during the execution of a command.
-    
-    
+
    :COMMANDS:  Raw commands as they were typed at the terminal.
-    
+
    :MACROS:  Raw commands as they appears in a macro file.
-    
+
    :PROCESSED:  Processed commands originating from the terminal or a
        macro file.  A processed command is one where all macro arguments,
        blackboard variables, header variables, and inline functions have
        been processed (evaluated) and substituted into the raw command.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``ECHO ON ERRORS WARNINGS OUTPUT OFF COMMANDS MACROS PROCESSED``
+  ECHO ON ERRORS WARNINGS OUTPUT OFF COMMANDS MACROS PROCESSED
 
 DESCRIPTION
 -----------
@@ -72,4 +67,3 @@ DESCRIPTION
 LATEST REVISION
 ---------------
    April 21, 1989 (Version 10.4c)
-

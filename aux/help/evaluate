@@ -1,4 +1,3 @@
-
 EVALUATE
 ++++++++
 
@@ -8,32 +7,30 @@ Evaluates simple arithmetic expressions.
 
 SYNTAX
 ------
+::
 
-  ``EVALUATE {TO TERM|name} {v} op v {op v ...}``
-   where op is one of the following:
+  EVALUATE {TO TERM|name} {v} op v {op v ...}
 
-  ``+|-|*|/|**|``
-  
-  ``ADD|SUBTRACT|MULTIPLY|DIVIDE|``
+where op is one of the following::
 
-  ``SQRT|EXP|ALOG|ALOG10|SIN|ASIN|``
-
-  ``COS|ACOS|TAN|ATAN|``
-
-  ``EQ|NE|LE|GE|LT|GT``
+  +  -  *  /  **
+  SQRT EXP   ALOG  ALOG10
+  SIN  COS  TAN
+  ASIN ACOS ATAN
+  EQ   NE  LE  GE  LT  GT
+  ADD  SUBTRACT  MULTIPLY  DIVIDE
 
 INPUT
 -----
    :TO TERM:  Result is written to the user's terminal.
-    
+
    :TO name:  Result is written to the blackboard variable name.
-    
+
    :v:  An floating point or integer number.  (Since all arithmetic is done
        in floating point, integers are converted to floating point numbers.)
-    
-    
+
    :op:  One of the arithmetic or logical operators listed above.
-    
+
 EMBEDDED ARITHMETIC FUNCTIONS
 -----------------------------
 
@@ -43,18 +40,19 @@ form::
 
  ( number operator number ... )
 
-where number is a numeric value and operator is one of the following 
+where number is a numeric value and operator is one of the following
 arithmetic operators::
 
-  +   -   *   /   ** 
+  +   -   *   /   **
 
 All numbers are treated as real, and all arithmetic is done in double-precision
 floating point.
 
 DEFAULT VALUES
 --------------
+::
 
-  ``EVALUATE TO TERM 1. * 1.``
+  EVALUATE TO TERM 1. * 1.
 
 DESCRIPTION
 -----------
@@ -66,14 +64,14 @@ DESCRIPTION
   terminal or to a specified blackboard variable.  This blackboard variable can
   later be used directly in other commands.  This is especially useful when
   writing macros.  You can also get the value of a blackboard variable using the
-  GETBB_ command.  Previously, there was a maximum number of operators (10) in a 
+  GETBB_ command.  Previously, there was a maximum number of operators (10) in a
   single command.  As of v101.6, there is no maximum number.
 
 EXAMPLES
 --------
   Two simple examples::
 
-      SAC>  EVALUATE 2 * 3
+      SAC> EVALUATE 2 * 3
       ==>  6
       SAC> evaluate tan 45
       ==>  1.61978
@@ -97,4 +95,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
   2013 (v101.6a)
-

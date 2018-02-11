@@ -1,4 +1,3 @@
-
 APK
 +++
 
@@ -8,26 +7,27 @@ Applies an automatic event picking algorithm.
 
 SYNTAX
 ------
+::
 
-  ``APK {param v {param v} ... },{VALIDATION ON|OFF}``
+  APK {param v {param v} ... },{VALIDATION ON|OFF}
 
 INPUT
 -----
    :param v:  Define a new value for one of the pick parameters.
-    
-   :param:  C1|C2|C3|C4|C5|C6|C7|C8|D5|D8|D9|I3|I4|I6.  ,BREAK These
-       parameters are defined below.
-    
+
+   :param:  C1|C2|C3|C4|C5|C6|C7|C8|D5|D8|D9|I3|I4|I6.
+       These parameters are defined below.
+
    :VALIDATION ON:  Turn validation phase on.
-    
+
    :VALIDATION OFF:  Turn validation phase off.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``APK C1 0.985 C2 3.0 C3 0.6 C4 0.03 C5 5.0 C6 0.0039 C7 100. C8 -0.1 D5 2. D8``
-
-  ``3. D9 1. I3 3 I4 40 I6 3 VALIDATION ON``
+  APK C1 0.985 C2 3.0 C3 0.6 C4 0.03 C5 5.0 C6 0.0039 C7 100. C8 -0.1
+      D5 2. D8 3. D9 1. I3 3 I4 40 I6 3 VALIDATION ON
 
 DESCRIPTION
 -----------
@@ -108,10 +108,11 @@ WARNING MESSAGES
 
 SEE COMMANDS
 ------------
-  OHPF_, OAPF_ Rex V. Allen, Automatic Earthquake Recognition and Timing from
+  OHPF_, OAPF_
+
+  Rex V. Allen, Automatic Earthquake Recognition and Timing from
   Single Traces, BSSA, Vol. 68, No. 5, Oct. 1978.
 
 LATEST REVISION
 ---------------
   May 15, 1987 (Version 10.2)
-

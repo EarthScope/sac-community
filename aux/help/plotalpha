@@ -1,4 +1,3 @@
-
 PLOTALPHA
 +++++++++
 
@@ -10,60 +9,57 @@ it allows you to plot a label with each data point.
 
 SYNTAX
 ------
+::
 
-  ``READALPHA {options}  {filelist}``
+  READALPHA {options}  {filelist}
 
-   where options is one or more of the following:
+where options is one or more of the following::
 
-  ``MORE``
+  MORE
+  DIR CURRENT|name
+  FREE|FORMAT text
+  CONTENT text
+  PRINT {printer}
 
-  ``DIR CURRENT|name``
+All options **must** preceed any element in the filelist.
 
-  ``FREE|FORMAT text``
-
-  ``CONTENT text``
-
-  ``PRINT {printer}``
-
-
-  ``ALL options MUST preceed any element in the filelist.``
-
-  The last two options may also be placed on the first line of file itself.
+The last two options may also be placed on the first line of file itself.
 
 INPUT
 -----
    :MORE:  Append the new data files after the old ones in memory.  If
        this option is missing, the new data replaces the old data in memory.
        See the READ_ command for more details about this option.
-    
+
    :DIR CURRENT:  Read and plot all simple filenames (with or without
        wildcards) from the current directory.  This is the directory from
        which you started SAC.
-    
+
    :DIR name:  Read and plot all simple filenames (with or without
        wildcards) from the directory called name.  This may be a relative
        or absolute directory name.
-    
+
    :FREE:  Read and plot the data in the filelist in free format (space
        delimited) mode.
-    
+
    :FORMAT text:  Read and plot the data in the filelist in fixed format
        mode.  The format statement to use is given in text.
-    
+
    :CONTENT text:  Define the content of the data in the filelist.  The
        meaning of the content text is described below.
-    
+
    :PRINT {pname}:  Print the resultant plot.  If pname is
        specified, print to named printer, else use default printer.
-    
+
    :filelist:  A list of alphanumeric files.  This list may contain simple
        filenames, full or relative pathnames, and wildcard characters.  See
        the READ_ command for a complete description.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``PLOTALPHA FREE CONTENT Y. DIR CURRENT``
+  PLOTALPHA FREE CONTENT Y. DIR CURRENT
 
 DESCRIPTION
 -----------
@@ -72,16 +68,16 @@ DESCRIPTION
    editor.  The READ_ command reads binary SAC data files into memory.  This
    command can be used to read a wide variety of alphanumeric data files into
    memory.  These files can be in a fixed format or in free format.  They may
-   contain evenly or unevenly spaced data.  They may contain more than one 
-   set of data.  There may be only one label and the label is not retained 
+   contain evenly or unevenly spaced data.  They may contain more than one
+   set of data.  There may be only one label and the label is not retained
    in memory with the data.
 
    The simplest use of this command is free field input of a Y data set.
-   This is also the default.  Free field input of X-Y pairs can be done by 
-   simply changing the content option.  By combining the fixed format and 
-   content  options, this command can also be used to read very complicated 
-   formatted output from other programs directly into SAC.  Multiple Y data 
-   sets can be read from the same file using this method.  Only a single X 
+   This is also the default.  Free field input of X-Y pairs can be done by
+   simply changing the content option.  By combining the fixed format and
+   content  options, this command can also be used to read very complicated
+   formatted output from other programs directly into SAC.  Multiple Y data
+   sets can be read from the same file using this method.  Only a single X
    data set is allowed.
 
    The basic header variables needed for processing are computed.  These
@@ -90,16 +86,16 @@ DESCRIPTION
    that of the alphanumeric disk file.  If there are multiple Y data sets in the
    file, a two digit sequence number is appended to the file name.
    Each line of the alphanumeric data file is read in either free format
-   or using the format statement provided.  Each line can be up to 160 
-   characters long.  In the case of a free format file, the number of data 
-   entries in each line is also determined.  The content field is then used 
-   to determine what to do with each of these data entries.  Each specific 
-   character in the context field represents a different kind of data 
-   element and the order of these characters mimics the order of the data	
-   in each line of the file.  The meanings of the allowed characters in the 
+   or using the format statement provided.  Each line can be up to 160
+   characters long.  In the case of a free format file, the number of data
+   entries in each line is also determined.  The content field is then used
+   to determine what to do with each of these data entries.  Each specific
+   character in the context field represents a different kind of data
+   element and the order of these characters mimics the order of the data
+   in each line of the file.  The meanings of the allowed characters in the
    content field are given below:
 
-   :L: Next entry is the label to plot with each data point 
+   :L: Next entry is the label to plot with each data point
        (only one per data set).
    :Y: Next entry belongs to Y (dependent variable) data set.
 
@@ -124,7 +120,7 @@ EXAMPLES
 --------
   To read and plot X-Y pairs in free format where the first field is the label::
 
-      u:  PLOTALPHA CONTENT LP FILEA
+      SAC> PLOTALPHA CONTENT LP FILEA
 
   You can't break an X-Y pair between lines in the file.
 
@@ -132,7 +128,7 @@ ERROR MESSAGES
 --------------
 - 1301: No data files read in.
 
-  - haven't given a list of files to read.  
+  - haven't given a list of files to read.
   - none of the files in the list could be read.
 
 - 1020: Invalid inline function name:
@@ -160,4 +156,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
    July 22, 1992 (Version 10.6f)
-

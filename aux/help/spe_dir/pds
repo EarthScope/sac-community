@@ -1,4 +1,3 @@
-
 PDS
 +++
 
@@ -8,12 +7,13 @@ Calculates the spectral estimate using the Power Density Spectra Method.
 
 SYNTAX
 ------
+::
 
-  `` PDS {[S]ECONDS v|[L]AGS n}, {[N]UMBER n}, {[T]YPE type}``
-  
-   where type is one of the following:
+   PDS {[S]ECONDS v|[L]AGS n}, {[N]UMBER n}, {[T]YPE type}
 
-   ``[HAM]MING | [HAN]NING | [C]OSINE | [R]ECTANGLE | [T]RIANGLE``
+where type is one of the following::
+
+   [HAM]MING | [HAN]NING | [C]OSINE | [R]ECTANGLE | [T]RIANGLE
 
 INPUT
 -----
@@ -22,12 +22,13 @@ INPUT
      :NUMBER n:    Set the number of points to be used in the spectral estimate.
      :TYPE type:   Set type of window to be used.  The advantages of
        each type is discussed in the writeup of the COR command.
-    
+
 DEFAULT VALUES
 --------------
+::
 
- `` PDS TYPE HAMMING ``
-    
+  PDS TYPE HAMMING
+
 DESCRIPTION
 -----------
   This command implements the "conventional" spectral estimator.  It is
@@ -41,11 +42,11 @@ DESCRIPTION
   the spectral estimate is increased, since the variance of the
   sample correlation function values is larger at larger lags.  This occurs
   because fewer data points are used to estimate the values at larger lags.
-    
+
   The choice of correlation window type has a different effect than
   that of the choice of data window described in the COR_ documentation.
   It is a choice between two types of bias.
-    
+
   The spectral estimate approaches the convolution of the true spectrum
   with the Fourier transform of the correlation window.  The window
   transform is characterized by a central lobe, which controls resolution,
@@ -56,7 +57,7 @@ DESCRIPTION
   high dynamic range.
   The choice of window type trades off main lobe resolution against
   power-leakage through the sidelobes.
-    
+
   The rectangular window has the narrowest main lobe, and, therefore,
   the best resolution.  However, it has the largest sidelobes.  The
   cosine taper window reduces the sidelobes slightly without affecting
@@ -72,7 +73,7 @@ DESCRIPTION
   sidelobe structure, but has the especially desirable property that
   it guarantees that the spectral estimate will always be positive
   or zero.
-    
+
   Generally, PDS is to be prefered over the two parametric methods,
   MLM_ and MEM_, when the user has a large data set available.  This is
   because resolution is not constrained in that situation, and much
@@ -82,12 +83,11 @@ DESCRIPTION
   diagnostics are included in SPE_.  The parametric methods generally exhibit
   better resolution than PDS, especially when estimating line spectra,
   and are more useful when a limited amount of data is available.
-    
+
 ERROR MESSAGES
 --------------
  - 5003: No correlatin function calculated.
-    
+
 SEE COMMANDS
 ------------
   COR_, WRITESPE_, PLOTSPE_
-

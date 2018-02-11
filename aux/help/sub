@@ -1,4 +1,3 @@
-
 SUB
 +++
 
@@ -8,21 +7,23 @@ Subtracts a constant from each data point.
 
 SYNTAX
 ------
+::
 
-  ``SUB {v1 {v2 ... vn} }``
+  SUB {v1 {v2 ... vn} }
 
 INPUT
 -----
    :v1:  Constant to subtract from first file.
-    
+
    :v2:  Constant to subtract from second file.
-    
+
    :nv:  Constant to subtract from nth file.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``SUB 0``
+  SUB 0
 
 DESCRIPTION
 -----------
@@ -33,11 +34,11 @@ DESCRIPTION
 
 EXAMPLES
 --------
-  To subtract 5.1 from each element of F1 and 6.2 from each element of F2 
+  To subtract 5.1 from each element of F1 and 6.2 from each element of F2
   and F3::
 
-    u:  READ F1 F2 F3
-    u:  SUB 5.1 6.2
+    SAC> READ F1 F2 F3
+    SAC> SUB 5.1 6.2
 
 
 Note: SUBTRACT is also an INLINE_ function.
@@ -54,4 +55,3 @@ ERROR MESSAGES
 LATEST REVISION
 ---------------
    January 8, 1983 (Version 8.0)
-

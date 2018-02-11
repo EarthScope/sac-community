@@ -1,4 +1,3 @@
-
 QUANTIZE
 ++++++++
 
@@ -8,23 +7,25 @@ Converts continuous data into its quantized equivalent.
 
 SYNTAX
 ------
+::
 
-  ``QUANTIZE [GAINS n ...],[LEVEL v],[MANTISSA n]``
+  QUANTIZE [GAINS n ...],[LEVEL v],[MANTISSA n]
 
 INPUT
 -----
    :GAINS n ...:  Set list of allowed gains.  They must be monotonically
        decreasing.  The maximum number of allowed gains is 8.
-    
+
    :LEVEL v:  Set the quantization level of the lowest gain.  This is the
        value of the least significant bit in volts.
-    
+
    :MANTISSA n:  Set the number of bits in the mantissa.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``QUANTIZE GAINS 128 32 8 1 LEVEL 0.00001 MANTISSA 14``
+  QUANTIZE GAINS 128 32 8 1 LEVEL 0.00001 MANTISSA 14
 
 DESCRIPTION
 -----------
@@ -42,16 +43,16 @@ DESCRIPTION
      ERROR = 1/12 * (DELTA * LEVEL^2)
 
    where DELTA is the sampling interval.  This quantization noise is measured
-   in units of counts*counts/Hz, as a power spectral density.  The 
+   in units of counts*counts/Hz, as a power spectral density.  The
    rms-squared quantization noise is::
-      
-       (1/6)*LEVEL^2.  
-       
-   However, this is an accurate approximation to the noise due to 
-   quantization only if the rms level of the signal is much larger than the 
-   rms quantization noise.  In other words, if the signal is not resolved 
-   by several hundred counts, then there is a correlation between the 
-   quantization noise and the signal being quantized.  The fraction of 
+
+       (1/6)*LEVEL^2.
+
+   However, this is an accurate approximation to the noise due to
+   quantization only if the rms level of the signal is much larger than the
+   rms quantization noise.  In other words, if the signal is not resolved
+   by several hundred counts, then there is a correlation between the
+   quantization noise and the signal being quantized.  The fraction of
    correlation is approximately equal to the ratio of the LEVEL to the rms of
    the signal being quantized (see Fig. 11.13, Oppenheim and Schaffer, 1975).
    The gains can be specified by the user to simulate the gain steps in an
@@ -66,4 +67,3 @@ HEADER CHANGES
 LATEST REVISION
 ---------------
   May 15, 1987 (Version 10.2)
-

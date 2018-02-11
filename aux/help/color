@@ -1,4 +1,3 @@
-
 COLOR
 +++++
 
@@ -8,60 +7,59 @@ Controls color selection for color graphics devices.
 
 SYNTAX
 ------
+::
 
-  ``COLOR  {ON|OFF|color} options``
+  COLOR  {ON|OFF|color} options
 
-   where options are one or more of the following:
+where options are one or more of the following::
 
-  ``{INCREMENT {ON|OFF}}``
+  {INCREMENT {ON|OFF}}
+  {SKELETON color}
+  {BACKGROUND color}
+  {LIST STANDARD|colorlist}
 
-  ``{SKELETON color}``
+and where color is one of the following::
 
-  ``{BACKGROUND color}``
+  WHITE|RED|GREEN|YELLOW|
+  BLUE|MAGENTA|CYAN|BLACK
 
-  ``{LIST STANDARD|colorlist}``
-
-   and where color is one of the following:
-
-  ``WHITE|RED|GREEN|YELLOW|``
-
-  ``BLUE|MAGENTA|CYAN|BLACK``
-
-  **SPECIAL NOTE** The LIST option must appear last in this command.
+**SPECIAL NOTE**
+The LIST option must appear last in this command.
 
 INPUT
 -----
    :color:  The name of a standard color or the number of a color from
        the color table.
-    
+
    :COLOR ON:  Turn color option on but don't change data color.
-    
+
    :COLOR OFF:  Turn color option off.
-    
+
    :COLOR color:  Change data color and turn color option on.
-    
+
    :INCREMENT {ON}:  Increment data color from color list after each data
        file is plotted.
-    
+
    :INCREMENT OFF:  Do not increment data color.
-    
+
    :SKELETON color:  Change color of skeleton to standard color name or
        color table number.
-    
+
    :BACKGROUND color:  Change background color to standard color name or
        color table number.
-    
+
    :LIST colorlist:  Change the content of the color list.  Enter list of
        standard color names or color table numbers.  Sets data color to
        first color in list and turns color option on.
-    
+
    :LIST STANDARD:  Change to the standard color list.  Sets data color to
        first color in list and turns color option on.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``COLOR BLACK INCREMENT OFF SKELETON BLACK BACKGROUND WHITE LIST STANDARD``
+  COLOR BLACK INCREMENT OFF SKELETON BLACK BACKGROUND WHITE LIST STANDARD
 
 DESCRIPTION
 -----------
@@ -84,7 +82,7 @@ DESCRIPTION
   your favorite color, it may be worth it.
 
   If you are plotting several data files on the same plot, you may want
-  each to be in a different color.  This is done using the INCREMENT option.
+  each to be in a different color.  This is done using the `INCREMENT` option.
   When this option is on, the data color is incremented from a list of colors
   each time a data file is plotted.  The order of colors in the standard or
   default color list is given below::
@@ -99,16 +97,16 @@ EXAMPLES
 --------
   To select an incrementing data color starting with red::
 
-      u:  COLOR RED INCREMENT
+      SAC> COLOR RED INCREMENT
 
   To select red data colors on a white backgound with a blue skeleton::
 
-      u:  COLOR RED BACKGROUND WHITE SKELETON BLUE
+      SAC> COLOR RED BACKGROUND WHITE SKELETON BLUE
 
   To set up an incrementing data color list of red, white, and blue with an
   aquamarine (!!!) background::
 
-      u:  COLOR RED INCREMENT BACKGROUND 47 LIST RED WHITE BLUE
+      SAC> COLOR RED INCREMENT BACKGROUND 47 LIST RED WHITE BLUE
 
   The above example assumes that aquamarine is color 47 in the color table for
   the selected graphics device.  Background color is currently being ignored.
@@ -116,4 +114,3 @@ EXAMPLES
 LATEST REVISION
 ---------------
   April 13, 1987 (Version 10.1)
-

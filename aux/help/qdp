@@ -1,4 +1,3 @@
-
 QDP
 +++
 
@@ -8,37 +7,39 @@ Controls the "quick and dirty plot" option.
 
 SYNTAX
 ------
+::
 
-  ``QDP {ON|OFF|n},{TERM ON|OFF|n},{SGF ON|OFF|n}``
+  QDP {ON|OFF|n},{TERM ON|OFF|n},{SGF ON|OFF|n}
 
 INPUT
 -----
    :ON:  Turn QDP_ option on for both the terminal and SAC Graphics File
        (SGF) devices.
-    
+
    :OFF:  Turn QDP_ option off for both devices.
-    
+
    :n:  Turn QDP_ option on for both devices and change the approximate
        number of data points to plot to n.
-    
+
    :TERM ON:  Turn quick and dirty plotting on for the terminal.
-    
+
    :TERM OFF:  Turn quick and dirty plotting off for the terminal.
-    
+
    :TERM n:  Turn QDP_ option on for the terminal and change the
        approximate number of data points to plot to n.
-    
+
    :SGF ON:  Turn quick and dirty plotting on for the SGF_.
-    
+
    :SGF OFF:  Turn quick and dirty plotting off for the SGF_.
-    
+
    :SGF n:  Turn QDP_ option on for the SGF_ and change the approximate
        number of data points to plot to n.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``QDP TERM 5000 SGF 5000``
+  QDP TERM 5000 SGF 5000
 
 DESCRIPTION
 -----------
@@ -46,7 +47,7 @@ DESCRIPTION
   time.  The "quick and dirty plot" option speeds up plotting by NOT plotting
   each data point.  When this option is on, SAC will compute a section size by
   dividing the number of data points in the file by the number of data points
-  you want displayed.  The larger the file, the more data points in each 
+  you want displayed.  The larger the file, the more data points in each
   section.
 
   SAC then computes and displays only the minimum and the maximum data point in
@@ -60,7 +61,7 @@ DESCRIPTION
   SUNWINDOWS graphics devices.  By default the QDP_ factor is considerably
   smaller for the terminal than for the SGF_.  This allows for very fast plots
   to the terminal and a more representative plot to the SGF_.  If both devices
-  are on at the same time, the terminal QDP_ option applies.  You may turn 
+  are on at the same time, the terminal QDP_ option applies.  You may turn
   either of these options off or change the number of displayed points.
 
 EXAMPLES
@@ -68,9 +69,9 @@ EXAMPLES
   Assume FILE1 has 2100 data points and FILE2 has 4700 data points.  If you
   typed::
 
-      u:  READ FILE1 FILE2
-      u:  BEGINDEVICES TERMINAL
-      u:  PLOT
+      SAC> READ FILE1 FILE2
+      SAC> BEGINDEVICES TERMINAL
+      SAC> PLOT
 
   both plots would contain approximately 200 data points.  The plot of FILE1
   would contain approximately every tenth data point and the plot of FILE2
@@ -78,8 +79,8 @@ EXAMPLES
   that you will see at least the number of requested data points.  If you now
   plotted those same files to the SGF::
 
-      u:  BEGINDEVICES SGF
-      u:  PLOT
+      SAC> BEGINDEVICES SGF
+      SAC> PLOT
 
   both plots would contain approximately 1000 data points.  If both devices were
   on, the plots would contain approximately 200 data points, the factor for the
@@ -88,4 +89,3 @@ EXAMPLES
 LATEST REVISION
 ---------------
   February 20, 1985 (Version 9.13)
-

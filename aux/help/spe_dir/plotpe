@@ -1,15 +1,16 @@
 PLOTPE
 ++++++
-    
+
 SUMMARY
 -------
 Plots the RMS_ prediction error function.
-    
+
 SYNTAX
 ------
+::
 
-   `` [P]LOT[PE] ``
-    
+    [P]LOT[PE]
+
 DESCRIPTION
 -----------
   This command produces a diagnostic plot which may be used to select
@@ -26,8 +27,7 @@ DESCRIPTION
   reduced much further by further increases in order.  The order of the
   predictor at the "knee" is often used as the order of the MEM_ spectral
   estimator.
-  
+
 ERROR MESSAGES
 --------------
  - 5003: No correlation function calculated.
-

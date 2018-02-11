@@ -1,4 +1,3 @@
-
 WRITEBBF
 ++++++++
 
@@ -8,18 +7,20 @@ Writes a blackboard variable file to disk.
 
 SYNTAX
 ------
+::
 
-  ``WRITEBBF {file}``
+  WRITEBBF {file}
 
 INPUT
 -----
    :file:  The name of a blackboard variable file.  It may be a simple
        filename or a relative or absolute pathname.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``WRITEBBF BBF``
+  WRITEBBF BBF
 
 DESCRIPTION
 -----------
@@ -37,4 +38,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
    May 15, 1987 (Version 10.2)
-

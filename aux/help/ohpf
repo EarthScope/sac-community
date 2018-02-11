@@ -1,4 +1,3 @@
-
 OHPF
 ++++
 
@@ -8,18 +7,20 @@ Opens a HYPO formatted pick file.
 
 SYNTAX
 ------
+::
 
-  ``OHPF {file}``
+  OHPF {file}
 
 INPUT
 -----
    :file:  Name of file to open.  If a file by that name already exists,
        it is opened and new picks are added at the bottom.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``OHPF HPF``
+  OHPF HPF
 
 DESCRIPTION
 -----------
@@ -38,16 +39,20 @@ ERROR MESSAGES
 --------------
 - 1901: Can't open HYPO pick file
 
-  - Probably an illegal character in filename.  
+  - Probably an illegal character in filename.
   - Occasionally a system error.  If error persists contact the programmer.
 
 SEE COMMANDS
 ------------
-  APK_, PLOTPK_, WHPF_, CHPF_ W.H.K. Lee and J.C. Lahr; HYPO71 (Revised): A
-  Computer Program for Determining Hypocenter, Magnitude, and First Motion
-  Pattern of Local Earthquakes; U. S. Geological Survey report 75-311.
+  APK_, PLOTPK_, WHPF_, CHPF_
+
+
+REFERENCES
+----------
+  W.H.K. Lee and J.C. Lahr; HYPO71 (Revised): A Computer Program for
+  Determining Hypocenter, Magnitude, and First Motion Pattern of Local
+  Earthquakes; U. S. Geological Survey report 75-311.
 
 LATEST REVISION
 ---------------
   March 20, 1992 (Version 10.6e)
-

@@ -8,8 +8,9 @@ Applies a Benioff filter to the data.
 
 SYNTAX
 ------
+::
 
-  ``BENIOFF``
+  BENIOFF
 
 DESCRIPTION
 -----------

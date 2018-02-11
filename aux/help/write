@@ -1,4 +1,3 @@
-
 WRITE
 +++++
 
@@ -8,48 +7,41 @@ Writes data in memory to disk.
 
 SYNTAX
 ------
+::
 
-  ``WRITE {options} {namingoptions}``
+  WRITE {options} {namingoptions}
 
-   where options are one or more of the following:
+where options are one or more of the following::
 
-  ``SAC|ALPHA|XDR``
+  SAC|ALPHA|XDR
+  COMMIT|ROLLBACK|RECALLTRACE
+  DIR OFF|CURRENT|name
+  KSTCMP
 
-  ``COMMIT|ROLLBACK|RECALLTRACE``
+These options MUST preceed any element in the namingoptions::
 
-  ``DIR OFF|CURRENT|name``
+  OVER
+  APPEND text
+  PREPEND text
+  DELETE text
+  CHANGE text1 text2
+  filelist
 
-  ``KSTCMP``
-
-   These options MUST preceed any element in the namingoptions:
-
-  ``OVER``
-
-  ``APPEND text``
-
-  ``PREPEND text``
-
-  ``DELETE text``
-
-  ``CHANGE text1 text2``
-
-  ``filelist``
-
-  Only one of these namingoptions is allowed at a time.
+Only one of these naming options is allowed at a time.
 
 INPUT
 -----
    :no arguments:  Use previous format and previous write filelist.
-    
+
    :SAC:  Write in SAC binary data file format.
-    
+
    :ALPHA:  Write in SAC alphanumeric data file format.
-    
+
    :SEGY:  Write file formatted according to the IRIS/PASSCAL form of
        the SEGY format.  This format allows one waveform per file.
        **Note**  only evenly-spaced, time-series files will be written
        in SEGY.
-    
+
        The SCALE field in SAC is ignored.  Since SAC stores the
        waveform as a series of floating point (real) numbers, and
        SEGY stores the waveform as a series of long integers, the
@@ -58,7 +50,7 @@ INPUT
        factor which will restore the waveform as close as possible
        to that of the original SAC file, when read with the READ_ SEGY
        command.
-    
+
        The following SAC header fields are saved as the
        following SEGY header fields
 
@@ -69,7 +61,7 @@ INPUT
        KZTIME  set to BEGIN time corrected by KZDATE and KZTIME.
        BEGIN   trigyear, trigday, trighour, trigminute, trigsecond,
        ORIGIN  and trigmills are ORIGIN corrected by KZDATE & TIME.
-    
+
        NPTS    sampleLength and/or num_samps
        DELTA   deltaSample and/or samp_rate
        DEPMAZ  max, corrected by SEGY's scale.
@@ -82,7 +74,7 @@ INPUT
                lats and lons are multiplied by 3600 to correct units
        STEL    recElevation
        EVEL    sourceSurfaceElevation
-       EVDP    sourceDepth    
+       EVDP    sourceDepth
 
        KSTNM   station_name
        KCMPNM  channel_name
@@ -101,41 +93,41 @@ INPUT
        gainConst        1
        data_form        1
        ============== =========
-    
+
    :XDR:  Write in SAC binary xdr format.  This format is used for the
        moving binary data files to/from a different architecture, such as
        a pc running LINUX.
-    
+
    :COMMIT_:  Commits headers and waveforms in SAC memory -- removing any
        previous versions of headers or waveforms from RAM -- prior
        to writing files.  COMMIT is the default.
-    
+
    :ROLLBACK_:  reverts to the last committed version of the header and
        waveform before writing files.
-    
+
    :RECALLTRACE_:
        - reverts to the last committed version of the waveform,
        - reverts to the last committed version of those header
-       	 variables closely linked to the waveform,
+         variables closely linked to the waveform,
        - commits those header variables which are loosely linked
-       	 to the waveform. (See RECALLTRACE for a list of which 
-	 header variables are committed, and which are rolled back.)
+         to the waveform. (See RECALLTRACE for a list of which
+         header variables are committed, and which are rolled back.)
 
    :DIR OFF:  Turn directory option off.  When off, writes to current
-    	directory.
+      directory.
 
    :DIR CURRENT:  Turn directory option on and set name of write
         directory to the "current directory" (e.g. the directory from which
-	you started SAC.)
+        you started SAC.)
 
    :DIR name:  Turn directory option on and set name of write directory
-    	to name.  Write all filenames to the directory called name.  This
-	may be a relative or absolute directory name.
+      to name.  Write all filenames to the directory called name.  This
+      may be a relative or absolute directory name.
 
    :KSTCMP:  Use the KSTNM and KCMPNM header variables to define a file
         name for each data file in memory.  The names generated will be
-	checked for uniqueness, and will have sequencing digits added as
-	necessary to avoid name clashes.
+        checked for uniqueness, and will have sequencing digits added as
+        necessary to avoid name clashes.
 
    :OVER:  Use current read filelist as write filelist.  Overwrite files
         on disk with data in memory.
@@ -151,16 +143,17 @@ INPUT
 
    :CHANGE text1 text2:  Write filelist is created by changing the first
          occurrence of text1 in each name in the current read filelist to
-	 text2.
+         text2.
 
    :filelist:  Write filelist is set to filelist.  This list may contain
-         simple filenames, relative pathnames, or full pathnames.  IT MAY NOT
-	 CONTAIN WILDCARDS.
+         simple filenames, relative pathnames, or full pathnames.  It may
+         not contain wildcards.
 
 DEFAULT VALUES
 --------------
+::
 
-  ``WRITE SAC COMMIT``
+  WRITE SAC COMMIT
 
 DESCRIPTION
 -----------
@@ -168,6 +161,7 @@ DESCRIPTION
    save the results on disk.  Several disk file formats are available.  More will
    be added as needed.  Each file in memory is written without being cut or
    desampled.
+   
    Most of the time, you will want to use to the SAC data file format.
    This is a compact binary file format which is fast to read and write.  It
    contains a large header record and one or two data records.  See the Users
@@ -194,22 +188,22 @@ EXAMPLES
   To filter a set of data files and then save the results in a new set of data
   files::
 
-      u:  READ D1 D2 D3
-      u:  LOWPASS BUTTER NPOLES 4
-      u:  WRITE F1 F2 F3
+      SAC> READ D1 D2 D3
+      SAC> LOWPASS BUTTER NPOLES 4
+      SAC> WRITE F1 F2 F3
 
   This could have also been done using the CHANGE option::
 
-      u:  READ D1 D2 D3
-      u:  LOWPASS BUTTER NPOLES 4
-      u:  WRITE CHANGE D F
+      SAC> READ D1 D2 D3
+      SAC> LOWPASS BUTTER NPOLES 4
+      SAC> WRITE CHANGE D F
       s:  F1 F2 F3
 
   Notice that SAC output the write file list in this case.  To replace the
   original data on disk with the filtered data the third line in the above
   example would be::
 
-      u:  WRITE OVER
+      SAC> WRITE OVER
 
   Note:  for examples of the behavior of COMMIT, ROLLBACK, and RECALLTRACE, see
   the commands of the same name.
@@ -225,7 +219,7 @@ ERROR MESSAGES
 
 - 1303: Overwrite flag is not on for file
 
-  - header variable LOVROK is .FALSE.  
+  - header variable LOVROK is .FALSE.
   - this provides some protection for valuable data.
 
 SEE COMMANDS
@@ -240,4 +234,3 @@ ACKNOWLEDGEMENTS
 LATEST REVISION
 ---------------
    Oct. 27, 1998 (Version 0.58)
-

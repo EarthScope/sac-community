@@ -8,8 +8,9 @@ Reverse the order of data points.
 
 SYNTAX
 ------
+::
 
-  ``REVERSE``
+  REVERSE
 
 DESCRIPTION
 -----------

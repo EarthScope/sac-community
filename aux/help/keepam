@@ -1,4 +1,3 @@
-
 KEEPAM
 ++++++
 
@@ -9,8 +8,9 @@ format) in SAC memory.
 
 SYNTAX
 ------
+::
 
-  ``KEEPAM``
+  KEEPAM
 
 DESCRIPTION
 -----------
@@ -21,4 +21,3 @@ DESCRIPTION
    data files containing the amplitude component will exist as as generic xy
    files, so that they can be distinguished for time-domain files.  May 28, 1991
    (Version 10.5c)
-

@@ -1,4 +1,3 @@
-
 SPECTROGRAM
 +++++++++++
 
@@ -8,67 +7,59 @@ Calculate a spectrogram using all of the data in memory.
 
 SYNTAX
 ------
+::
 
-  SPECTROGRAM options
+   SPECTROGRAM options
 
-   where options are one or more of the following
+where options are one or more of the following::
 
-   :WINDOW: v
-
-   :SLICE: v
-
-   :ORDER: n
-
-   :CBAR:    {ON|OFF}
-
-   :Choose from: {SQRT|NLOG|LOG10|NOSCALING{
-
-   :YMIN: v
-
-   :YMAX: v
-
-   :METHOD: {PDS|MEM|MLM}
-
-   :Choose from: {COLOR|GRAY}
-
-   :PRINT: {pname}
+   WINDOW v
+   SLICE v
+   ORDER n
+   CBAR ON | OFF
+   SQRT | NLOG | LOG10 | NOSCALING
+   YMIN v
+   YMAX v
+   METHOD PDS | MEM | MLM
+   COLOR | GRAY
+   PRINT pname
 
 
 INPUT
 -----
    :WINDOW v:  Set the sliding data window length in seconds to v.  This
        window length determines the size of the fft.
-    
+
    :SLICE v:  Set the data slice interval in seconds to v.  A single
        spectrogram line is produced for each slice interval.
-    
+
    :ORDER n:  Specifies the number of points in the autocorrelation
        function used to compute the spectral estimate.
-    
+
    :CBAR {ON|OFF}:  Turn reference color bar on or off.
-    
+
    :{SQRT|NLOG|LOG10|NOSCALING}:  Specify natural log, log base 10, or
        square root scaling of amplitudes.
-    
+
    :YMIN v:  Specifies the minimum frequency to plot.
-    
+
    :YMAX v:  Specifies the maximum frequency to plot.
-    
+
    :METHOD {PDS|MEM|MLM}:  Specifies the type of spectral estimator used.
        MLM stands for maximum likelihood and MEM stands for maximum
        entropy spectral estimators, respectively.  See description and
        references below.
-    
+
    :{COLOR|GRAY}:  Specifies a color or grayscale image.
-    
+
    :PRINT {pname}:  Prints the resulting plot to the printer named in
        pname, or to the default printer if pname is not used.  (This
        makes use of the SGF_ capability.)
-    
+
 DEFAULT VALUES
 --------------
 
-  ``SPECTROGRAM WINDOW 2 SLICE 1 METHOD MEM ORDER 100 NOSCALING YMIN 0 YMAX FNYQUIST COLOR``
+  SPECTROGRAM WINDOW 2 SLICE 1 METHOD MEM ORDER 100 NOSCALING YMIN 0 YMAX FNYQUIST COLOR
 
 DESCRIPTION
 -----------
@@ -99,7 +90,7 @@ DESCRIPTION
                |__^__| window 3
 
    |.....| Slice: Difference between the start times of adjacent windows.
-   
+
   The start and end points on the spectrograms time axis depend on the length
   of the time series being analysed and the window and slice parameters.
   The spectrogram's start time is one-half a window later than the time series
@@ -136,4 +127,3 @@ HEADER VARIABLES
 LATEST REVISION
 ---------------
    May 26, 1995 (Version 00.31)
-

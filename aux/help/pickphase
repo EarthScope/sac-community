@@ -9,12 +9,11 @@ on the PICKPHASE_ command line.
 
 SYNTAX
 ------
+::
 
-  ``PICKPHASE header phase author {header phase author ... }``
-
-  ``PICKPHASE FILE {filename}``
-
-  ``PICKPHASE AUTHOR {filename}``
+  PICKPHASE header phase author {header phase author ... }
+  PICKPHASE FILE {filename}
+  PICKPHASE AUTHOR {filename}
 
 INPUT
 -----
@@ -22,23 +21,23 @@ INPUT
    :phase:  name of phase of pick desired for the given header variable.
    :author: name of the author desired for the given header or hyphen, "-",
        to tell sac to use the author list.
-    
+
    :FILE:	if the FILE option is used, sac will read the phase pick info.
        from the preferences file.  If a filename is given on the
        command line, sac will read the specified file, else it will
        read the most recently entered file name from a previous
        call to PICKPHASE_.  If no filename was ever entered, sac
        will look for SACAUX/csspickprefs.
-    
+
    :PHASE:	this option behaves essencially like the FILE option with
        the added benefit of having sac read the author list as well.
-    
-    
+
+
 DEFAULT VALUES
 --------------
+::
 
-  ``PICKPHASE FILE``
-
+  PICKPHASE FILE
 
 DESCRIPTION
 -----------
@@ -47,21 +46,19 @@ DESCRIPTION
   information at the command line, or to redirect SAC from one preferences file
   to another.  For more on the preferences files, see PICKPREFS_ and READCSS_.
 
-  Note:  If the user alters the preference settings while data is in the data
+  **Note**  If the user alters the preference settings while data is in the data
   buffers, the picks in the SAC data buffer (the buffer visible to the user
   through LISTHDR_ and CHNHDR_ etc.) may be modified.
   Eg. if the allowed phases include pP and PKiKP when some SAC files are read
-  with the READ_ command which have some pP picks or some PKiKP picks these 
-  picks would be present in the Tn markers.  
-  If PICKPHASE_ is later used to remove pP and PKiKP from the allowed phases 
-  before the next READCSS_ MORE call, then pP and PKiKP arrivals will not 
-  be read from the CSS files, and the pP and PKiKP picks in the existing 
-  data will be removed from the Tn markers.  For an explanation, 
+  with the READ_ command which have some pP picks or some PKiKP picks these
+  picks would be present in the Tn markers.
+  If PICKPHASE_ is later used to remove pP and PKiKP from the allowed phases
+  before the next READCSS_ MORE call, then pP and PKiKP arrivals will not
+  be read from the CSS files, and the pP and PKiKP picks in the existing
+  data will be removed from the Tn markers.  For an explanation,
   type HELP_ PICKPREFS_.
 
 
 SEE COMMANDS
 ------------
    PICKPREFS_, READCSS_, PICKAUTHOR_
-
-

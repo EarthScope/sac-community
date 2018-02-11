@@ -1,4 +1,3 @@
-
 WHITEN
 ++++++
 
@@ -8,8 +7,9 @@ Flattens the spectrum of the input time series.
 
 SYNTAX
 ------
+::
 
-  ``WHITEN {N} {FILTERDESIGN|FD}``
+  WHITEN {N} {FILTERDESIGN|FD}
 
 INPUT
 -----
@@ -17,23 +17,24 @@ INPUT
        resultent data.  High orders can clean the data up better, but they can
        clean the data up too much, and important data can be lost if the order
        is set too high.  The default is 6.
-    
+
   :FD: Performs something akin to the filterdesign command.  Using the whitening
        coefficients, it designs the whitening filter.  Output is written to
        disc as a set of three output files per input file.  Output files have
-       the following suffixes:  
+       the following suffixes:
 
-         - .imp = impulse response, 
-	 - .spec = spectral
+         :.imp: impulse response
+         :.spec: spectral
 
        responses (amplitude and phase), and .gd = group delay.  Note that while
        the group delay claims to be a time series file, it is really a frequency
        series.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``WHITEN 6``
+  WHITEN 6
 
 DESCRIPTION
 -----------
@@ -58,4 +59,3 @@ DESCRIPTION
 SEE COMMANDS
 ------------
   SPE_, SPE_COR, TRANSFER_
-

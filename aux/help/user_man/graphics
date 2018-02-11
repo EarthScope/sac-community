@@ -127,7 +127,7 @@ There are several commands that control the displaying of the data itself:
 :XDIV_:       control the spacing between labeled divisions
 :YDIV_:       control the spacing between labeled divisions
 
-:XFUDG_E:     change the "fudge factors" on the x axis
+:XFUDGE_:     change the "fudge factors" on the x axis
 :YFUDGE_:     change the "fudge factors" on the y axis
 
 :AXES_:       control the location of labeled axes 

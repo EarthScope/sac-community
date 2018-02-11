@@ -1,4 +1,3 @@
-
 SONOGRAM
 ++++++++
 
@@ -9,83 +8,73 @@ of the same spectrogram.
 
 SYNTAX
 ------
+::
 
-  ``SONOGRAM options``
+  SONOGRAM options
 
-   where options are one or more of the following:
+where options are one or more of the following::
 
-  ``WINDOW v``
-
-  ``SLICE v``
-
-  ``ORDER n``
-
-  ``CBAR    {ON|OFF}``
-
-  ``YMIN v``
-
-  ``YMAX v``
-
-  ``FMIN v``
-
-  ``FMAX v``
-
-  ``BINARY|FULL``
-
-  ``METHOD {PDS|MEM|MLM}``
-
-  ``{COLOR|GRAY}``
-
-  ``PRINT {pname}``
+  WINDOW v
+  SLICE v
+  ORDER n
+  CBAR    {ON|OFF}
+  YMIN v
+  YMAX v
+  FMIN v
+  FMAX v
+  BINARY|FULL
+  METHOD {PDS|MEM|MLM}
+  {COLOR|GRAY}
+  PRINT {pname}
 
 INPUT
 -----
    :WINDOW v:  Set the sliding data window length in seconds to v.  This
        window length determines the size of the fft.
-    
+
    :SLICE v:  Set the data slice interval in seconds to v.  A single
        spectrogram line is produced for each slice interval.
-    
+
    :ORDER n:  Specifies the number of points in the autocorrelation
        function used to compute the spectral estimate.
-    
+
    :CBAR {ON|OFF}:  Turn reference color bar on or off.
-    
+
    :BINARY|FULL:  Produce a binary image, or a full color image.
-    
+
    :YMIN v:  Specifies the minimum frequency to plot.
-    
+
    :YMAX v:  Specifies the maximum frequency to plot.
-    
+
    :FMIN v:  Specifies the smallest bandwidth over which each slice in
        the spectrogram will be smoothed.
-    
+
    :FMAX v:  Specifies the maximum bandwidth over which each slice in the
        spectrogram will be smoothed.
-    
+
    :METHOD {PDS|MEM|MLM}:  Specifies the type of spectral estimator used.
        MLM stands for maximum likelihood and MEM stands for maximum
        entropy spectral estimators, respectively.  See description and
        references below.
-    
+
    :{COLOR|GRAY}:  Specifies a color or grayscale image.
-    
+
    :PRINT {pname}:  Prints the resulting plot to the printer named in
        pname, or to the default printer if pname is not used.  (This
        makes use of the SGF_ capability.)
-    
+
 DEFAULT VALUES
 --------------
+::
 
- ``SONOGRAM WINDOW 2 SLICE 1 METHOD MEM ORDER 100 YMIN 0 YMAX FNYQUIST FMIN 2.0``
-
- ``fmax 6.0 full color``
+ SONOGRAM WINDOW 2 SLICE 1 METHOD MEM ORDER 100 YMIN 0 YMAX FNYQUIST FMIN 2.0
+    fmax 6.0 full color
 
 DESCRIPTION
 -----------
   The sonogram command computes a spectrogram equal to the difference between
   two smoothed version of the same spectrogram.  Depending on the choice of
-  smoothing parameters, fmin and fmax, the resulting spectrogram can enhance 
+  smoothing parameters, fmin and fmax, the resulting spectrogram can enhance
   small amplitude spectral features that are more difficult to observe in a
   conventional spectrogram.  This is particularly useful when looking for
   features like high frequency spectral modulations in seismic signals from
@@ -110,4 +99,3 @@ HEADER VARIABLES
 LATEST REVISION
 ---------------
   May 26, 1995 (Version 00.31)
-

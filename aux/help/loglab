@@ -1,4 +1,3 @@
-
 LOGLAB
 ++++++
 
@@ -8,19 +7,21 @@ Controls labels on logarithmically scaled axes.
 
 SYNTAX
 ------
+::
 
-  ``LOGLAB {ON|OFF}``
+  LOGLAB {ON|OFF}
 
 INPUT
 -----
    :{ON}:  Turn log labeling option on.
-    
+
    :OFF:  Turn log labeling option off.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``LOGLAB ON``
+  LOGLAB ON
 
 DESCRIPTION
 -----------
@@ -31,4 +32,3 @@ DESCRIPTION
 LATEST REVISION
 ---------------
    January 8, 1983 (Version 8.0)
-

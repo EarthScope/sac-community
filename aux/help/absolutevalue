@@ -8,8 +8,9 @@ Takes the absolute value of each data point.
 
 SYNTAX
 ------
+::
 
-  ``ABS``
+  ABS
 
 Note: ABS is also an INLINE_ function.
 

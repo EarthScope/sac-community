@@ -1,4 +1,3 @@
-
 READBBF
 +++++++
 
@@ -8,18 +7,20 @@ Reads a blackboard variable file into memory.
 
 SYNTAX
 ------
+::
 
-  ``READBBF {file}``
+  READBBF {file}
 
 INPUT
 -----
    :file:  The name of a blackboard variable file.  It may be a simple
        filename or a relative or absolute pathname.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``READBBF BBF``
+  READBBF BBF
 
 DESCRIPTION
 -----------
@@ -37,4 +38,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
    May 15, 1987 (Version 10.2)
-

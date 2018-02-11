@@ -1,4 +1,3 @@
-
 PLOTC
 +++++
 
@@ -8,31 +7,32 @@ Annotates SAC plots and creates figures using cursor.
 
 SYNTAX
 ------
+::
 
-  ``PLOTC {REPLAY|CREATE} {FILE|MACRO filename},``
-
-  ``{BORDER {ON|OFF}}``
+  PLOTC {REPLAY|CREATE} {FILE|MACRO filename},
+      {BORDER {ON|OFF}}
 
 INPUT
 -----
    :REPLAY:  Replay or replot an existing file or macro.  The difference
        between a file and a macro is described below.
-    
+
    :CREATE:  Create a new file or macro.
-    
+
    :FILE {filename}:  Replay or create a file.  The previous file is used
        if filename is omitted.
-    
+
    :MACRO {filename}:  Replay or create a macro.
-    
+
    :BORDER {ON}:  Turn border around plot on.
-    
+
    :BORDER OFF:  Turn border around plot off.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``PLOTC CREATE FILE OUT BORDER ON``
+  PLOTC CREATE FILE OUT BORDER ON
 
 DESCRIPTION
 -----------
@@ -88,35 +88,38 @@ EXAMPLES
   commands used to create that figure are given below with comments given in
   parentheses::
 
-      u:  FG IMPULSE NPTS 1024      \ \ (generate filter response)
-      u:  LOWPASS C2 NPOLES 7 CORNER 0.2 TRANBW 0.25 A 10
-      u:  FFT
-      u:  AXES ONLY LEFT BOTTOM     \ \ (set up desired plot options)
-      u:  TICKS ONLY LEFT BOTTOM
-      u:  BORDER OFF
-      u:  FILEID OFF
-      u:  QDP OFF
-      u:  VSPACE 0.75              \ \ (see discussion below)
-      u:  BEGINFRAME               \ \ (turn off automatic framing)
-      u:  PLOTSP AM LINLIN         \ \ (plot filter response)
-      u:  PLOTC CREATE FILE BANDPASS      \ \ (create annotation)
-      u:  ENDFRAME                 \ \ (turn automatic framing back on)
+      ** generate filter response
+      SAC> FG IMPULSE NPTS 1024
+      SAC> LOWPASS C2 NPOLES 7 CORNER 0.2 TRANBW 0.25 A 10
+      SAC> FFT
+
+      ** set up desired plot options
+      SAC> AXES ONLY LEFT BOTTOM
+      SAC> TICKS ONLY LEFT BOTTOM
+      SAC> BORDER OFF
+      SAC> FILEID OFF
+      SAC> QDP OFF
+      SAC> VSPACE 0.75
+      SAC> BEGINFRAME
+      SAC> PLOTSP AM LINLIN
+      SAC> PLOTC CREATE FILE BANDPASS
+      SAC> ENDFRAME
 
   PLOTSP_ was used to produce the curve of the filter response and the two axes.
   PLOTC_ was used interactively to produce the annotation (i.e., the lines,
   arrows, and labels.) The viewspace command constrains the plot be the largest
   enclosed area of the graphics screen that has an \ \ (y:x) aspect ratio of
-  3:4.  This is necessary so that when the output is later sent to the 
-  SGF_ device which also has a 3:4 aspect ratio, everything will be plotted 
-  correctly. At this point you would have a file called "BANDPASS.PCF" 
-  containing the annotations for this plot.  To write this annotated plot 
+  3:4.  This is necessary so that when the output is later sent to the
+  SGF_ device which also has a 3:4 aspect ratio, everything will be plotted
+  correctly. At this point you would have a file called "BANDPASS.PCF"
+  containing the annotations for this plot.  To write this annotated plot
   to the SAC graphics file::
 
-      u:  BEGINDEVICES SGF   \ \ (select the SGF device)
-      u:  BEGINFRAME         \ \ (turn off automatic framing)
-      u:  PLOTSP             \ \ (plot filter response again)
-      u:  PLOTC REPLAY       \ \ (replay the annotation)
-      u:  ENDFRAME           \ \ (turn automatic framing back on)
+      SAC> BEGINDEVICES SGF
+      SAC> BEGINFRAME
+      SAC> PLOTSP
+      SAC> PLOTC REPLAY
+      SAC> ENDFRAME
 
   A SAC graphics file will be created containing the annotated plot.
   Two examples (one somewhat frivolous) of the use of PLOTC_ to create
@@ -146,39 +149,46 @@ SEE COMMANDS
 ------------
   VSPACE_, BEGINDEVICES_, BEGINFRAME_, ENDFRAME_
 
+Action Options Table
+--------------------
+
+======= =============================================================
+char    meaning
+======= =============================================================
+A       Draw an arrow from ORIGIN to CURSOR.
+B       Draw border tick marks around plot region.
+C       Draw a circle centered at ORIGIN through CURSOR.
+D       Delete last action option from replay file.
+G       Set ORIGIN and make it global.
+L       Draw a line from ORIGIN to CURSOR.
+M       Invoke a macro at CURSOR.
+          Enter name of macro, scale factor, and rotation angle.
+          Previous values are used if omitted.
+          Defaults are OUT, 1., and 0.
+O       Set ORIGIN at CURSOR.
+N       Draw an n-sided polygon centered at ORIGIN
+          with one vertex at CURSOR.
+Q       Quit PLOTC_.
+R       Draw a rectangle with opposing corners
+          at ORIGIN and CURSOR.
+S       Draw a sector of a circle centered at ORIGIN through CURSOR
+          Move CURSOR to define the sector angle.
+          Type an S to get the sector whose angle is less than
+          180 degrees or C to get its' complement.
+T       Place a single line of text at cursor.
+        Text is ended by a carriage-return.
+U       Place multiple lines of text at cursor.
+        Text is ended by a blank line.
+======= =============================================================
+
+**Notes**
+
+ - CURSOR is the current cursor location
+ - ORIGIN is normally the last cursor location
+ - The G option forces ORIGIN to remain fixed
+ - The O option allows ORIGIN to move again
+
 LATEST REVISION
 ---------------
   October 11, 1984 (Version 9.1)
-
-  TABLE: Action Options ::
-
-    char  meaning
-    A     Draw an arrow from ORIGIN to CURSOR.
-    B     Draw border tick marks around plot region.
-    C     Draw a circle centered at ORIGIN through CURSOR.
-    D     Delete last action option from replay file.
-    G     Set ORIGIN and make it global.
-    L     Draw a line from ORIGIN to CURSOR.
-    M     Invoke a macro at CURSOR.
-    Enter name of macro, scale factor, and rotation angle.
-    Previous values are used if omitted.
-    Defaults are OUT, 1., and 0.
-    O     Set ORIGIN at CURSOR.
-    N     Draw an n-sided polygon centered at ORIGIN
-    with one vertex at CURSOR.
-    Q     Quit PLOTC_.
-    R     Draw a rectangle with opposing corners
-    at ORIGIN and CURSOR.
-    S     Draw a sector of a circle centered at ORIGIN through
-    CURSOR  Move CURSOR to define the sector angle.
-    Type an S to get the sector whose angle is less than
-     180 degrees or C to get its' complement.
-    T     Place a single line of text at cursor.
-    Text is ended by a carriage-return.
-    U     Place multiple lines of text at cursor.
-    Text is ended by a blank line.
-
-  Notes: -- CURSOR is the current cursor location -- ORIGIN is normally the
-  last cursor location -- The G option forces ORIGIN to remain fixed -- The O
-  option allows ORIGIN to move again
 

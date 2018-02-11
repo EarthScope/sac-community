@@ -3,24 +3,26 @@ SAC Inline Functions
 
 Overview
 --------
-An inline function is one that is enclosed in parenthesis and placed within a 
-regular SAC command. The inline function is evaluated and its resulting value 
-replaces the function in the SAC command before the command is executed. 
+An inline function is one that is enclosed in parenthesis and placed
+within a regular SAC command. The inline function is evaluated and its
+resulting value replaces the function in the SAC command before the
+command is executed.
 
 There are three general classes of inline functions:
 
-  - embedded arithmetic functions that begin with a number and have the 
+  - embedded arithmetic functions that begin with a number and have the
     name of the function embedded in the argument list.
-  - regular arithmetic functions that begin with the function name and are 
+  - regular arithmetic functions that begin with the function name and are
     followed by zero or more arguments.
-  - character string manipulation functions that begin with the function name 
-    and are followed by zero or more arguments. 
+  - character string manipulation functions that begin with the function name
+    and are followed by zero or more arguments.
 
-Inline functions can be placed inside other inline functions. This is refered 
-to as nesting.  Beginning with v 101.6, there is no nesting limits of inline functions. 
-Macro arguments, blackboard variables and header variables can be used as arguments 
-to inline functions. They are inserted in inline functions using the same 
-syntax as in regular SAC commands.
+Inline functions can be placed inside other inline functions. This is
+refered to as nesting.  Beginning with v 101.6, there is no nesting
+limits of inline functions.  Macro arguments, blackboard variables and
+header variables can be used as arguments to inline functions. They
+are inserted in inline functions using the same syntax as in regular
+SAC commands.
 
 Embedded Arithmetic Functions
 -----------------------------
@@ -31,18 +33,17 @@ form::
 
  ( number operator number ... )
 
-where number is a numeric value and operator is one of the following 
+where number is a numeric value and operator is one of the following
 arithmetic operators::
 
-  +   -   *   /   ** 
+  +   -   *   /   **
 
 All numbers are treated as real, and all arithmetic is done in double-precision
 floating point.
 
-In the examples below, "echo on" is used and redundant output lines are left out.
+In the examples below, `echo on` is used and redundant output lines are left out.
 
 Here is a simple example::
-
 
   SAC> SETBB A (4 + 7 / 3)
   ===> SETBB A 6.33333
@@ -102,17 +103,17 @@ GETTIME     ( GETTIME MAX|MIN [Val]) See discussion in Example 4 below
 
 Example 1: Normalize Data
 '''''''''''''''''''''''''
-Normalize a set of data files so that the absolute value of the extremum 
+Normalize a set of data files so that the absolute value of the extremum
 offset in the data set is 1.0::
 
-   SAC> fg seismo
-   SAC> write one.sac
-   SAC> mul 2.0
-   SAC> write two.sac
-   SAC> mul 4.0
-   SAC> write four.sac
-   SAC> read one.sac two.sac four.sac
-   SAC> rtr
+  SAC> fg seismo
+  SAC> write one.sac
+  SAC> mul 2.0
+  SAC> write two.sac
+  SAC> mul 4.0
+  SAC> write four.sac
+  SAC> read one.sac two.sac four.sac
+  SAC> rtr
   SAC> lh depmax depmin
   FILE: one.sac - 1
      depmax = 1.619626e+00     depmin = -1.470322e+00
@@ -126,12 +127,12 @@ offset in the data set is 1.0::
    ==>  setbb b -11.7626
   SAC> div (max %a (abs %b))
   ==>  div 12.957
-  SAC> lh depmax depmin  
-  FILE: one.sac - 1    
+  SAC> lh depmax depmin
+  FILE: one.sac - 1
     depmax = 1.250000e-01       depmin = -1.134769e-01
-  ILE: two.sac - 2    
-    depmax = 2.500000e-01       depmin = -2.269538e-01 
-  FILE: four.sac - 3    
+  ILE: two.sac - 2
+    depmax = 2.500000e-01       depmin = -2.269538e-01
+  FILE: four.sac - 3
     depmax = 1.000000e+00       depmin = -9.078154e-01
 
 Example 2: Use of GETVAL
@@ -164,23 +165,22 @@ Example 3: Simple Calculations
   SAC> SETBB VALUE (TAN (PI * %ANGLE / 180. ))
   ==>  SETBB VALUE 1
 
-Prior to v101.6, one needed %ANGLE%. With the new parsing system, the 
+Prior to v101.6, one needed %ANGLE%. With the new parsing system, the
 trailing % is no longer needed.
 
 Example 4: Use of GETTIME
 '''''''''''''''''''''''''
-GETTIME returns the time offset (in seconds) relative to the time reference 
+GETTIME returns the time offset (in seconds) relative to the time reference
 (O or B) for the first data point meeting the selection criteria.::
 
-  GETTIME
   ( GETTIME MAX|MIN [value] )
 
-If no value is specified, GETTIME MAX returns the time of the file's first 
-data-point having a value equal to DEPMAX and GETTIME MIN returns the time of 
-the file's first data-point having the value equal to DEPMIN. Specifying a 
+If no value is specified, GETTIME MAX returns the time of the file's first
+data-point having a value equal to DEPMAX and GETTIME MIN returns the time of
+the file's first data-point having the value equal to DEPMIN. Specifying a
 value controlls the value of the sought-for data-point.
 
-For example, to set the time in seconds to a blackboard variable of the first 
+For example, to set the time in seconds to a blackboard variable of the first
 data-point equal to the maximum amplitude for the file FILE1::
 
   SAC> READ FILE1
@@ -189,20 +189,20 @@ data-point equal to the maximum amplitude for the file FILE1::
 
 The file's maximum amplitude is located at time 41.87 seconds.
 
-To return the time of the first data-point less than or equal to the value 
+To return the time of the first data-point less than or equal to the value
 123.45::
 
   SAC> SETBB VALUETIME ( GETTIME MIN 123.45 )
   ==> SETBB VALUETIME 37.9
 
-The first data-point in the file having a value less than or equal to 123.45 
+The first data-point in the file having a value less than or equal to 123.45
 occurs at 37.9 seconds.
 
 Character strings
 -----------------
 Prior to v101.6, Blackboard_ number variables were stored as strings, now they
-are stored as double-precision variables.  In earlier versions, if a (..)
-appeared in a quoted string, escape character @ was needed to keep the inline
+are stored as double-precision variables.  In earlier versions, if a `(..)`
+appeared in a quoted string, escape character `@` was needed to keep the inline
 parser from treating the expression as a math expression.  Although that
 coding continues to work in 101.6, adding the escape characters is no
 longer necessary::
@@ -212,41 +212,41 @@ longer necessary::
   ==>  xlabel "Time (sec)"
   SAC> xlabel "Time (sec)"
   xlabel "Time (sec)"
-  SAC> 
-  
+  SAC>
+
 
 String Functions
 ----------------
-There are currently seven string manipulation functions. Each of these 
-functions is described below. Some examples are given at the end of this 
+There are currently seven string manipulation functions. Each of these
+functions is described below. Some examples are given at the end of this
 subsection.
 
 =========== ============================== ====================================
 Command     Syntax                         Purpose
 =========== ============================== ====================================
-CHANGE      ({CHA}NGE} s1 s2 s3)           Change one text string (s1) to 
-                                           another ( s2) in a third text 
+CHANGE      ({CHA}NGE} s1 s2 s3)           Change one text string (s1) to
+                                           another ( s2) in a third text
                                            string ( s3).
-SUBSTRING   ({SUBS}TRING n1 n2 s)          Return substring with characters 
+SUBSTRING   ({SUBS}TRING n1 n2 s)          Return substring with characters
                                            n1 through n2 of text string (s).
-DELETE      ({DEL}ETE s1 s2)               Delete a text string (s1) within 
+DELETE      ({DEL}ETE s1 s2)               Delete a text string (s1) within
                                            another text string (s2).
 CONCATENATE ({CONC}ATENATE s1 s2 ... sn)   Place end to end text strings.
                                            with v101.6, not needed and may
                                            not give desired result.
-BEFORE      ({BEF}ORE s1 s2)               Return the portion of a text 
-                                           string (s2) that occurs before 
+BEFORE      ({BEF}ORE s1 s2)               Return the portion of a text
+                                           string (s2) that occurs before
                                            another text string (s1).
-REPLY       ({REP}LY s1)                   Send a message to the terminal 
+REPLY       ({REP}LY s1)                   Send a message to the terminal
                                            and get a reply.
 AFTER       ({AFT}ER s1 s2)                Return the portion of a text string
-                                           (s2) that occurs after another 
+                                           (s2) that occurs after another
                                            text string (s1).
 =========== ============================== ====================================
 
 
 Because of the changes in handling strings in v101.6, code that previously worked
-will no longr work.  For example, to use CONCATENATE to set the station and event
+will no longr work.  For example, to use `CONCATENATE` to set the station and event
 names in the title of a plot prior ot v101.6, the following was used::
 
   SAC> FUNCGEN SEISMOGRAM
@@ -261,7 +261,7 @@ The best way to do that in v101.6 is much simpler::
   title "Seismogram of &1,KEVNM &1,KSTNM"
   ==>  title "Seismogram of K8108838 CDV"
 
-CONCATENATE can still be used, but there is usually a better way.::
+`CONCATENATE` can still be used, but there is usually a better way.::
 
   SAC> setbb a (CONCATENATE Seismogram of  &1,KEVNM  &1,KSTNM )
   ==>  setbb a SeismogramofK8108838CDV
@@ -270,7 +270,7 @@ CONCATENATE can still be used, but there is usually a better way.::
   SAC> > setbb a 'Seismogram of  &1,KEVNM  &1,KSTNM'
   ==>  setbb a "Seismogram of  K8108838  CDV"
 
-The next examples uses the SUBSTRING function.::
+The next examples uses the `SUBSTRING` function.::
 
   SAC> fg seismo
   SAC> SETBB MONTH (SUBSTRING 1 3 &1,KZDATE)
@@ -282,7 +282,7 @@ The next examples uses the SUBSTRING function.::
   message (substring 1 5 %VAL)
   ==>  message 12345
 
-The next example uses the REPLY function to control interactively the 
+The next example uses the `REPLY` function to control interactively the
 processing of a set of data files::
 
   DO FILE LIST ABC DEF XYZ
@@ -300,28 +300,27 @@ processing of a set of data files::
      ENDIF
   ENDDO
 
-The outer do loop reads in one file at a time from a list. The inner loop 
-calls a macro to process this file. The inner loop executes up to 10 times. 
-After each execution of the processing macro, the file is plotted, a message 
-is sent to the terminal, and the reply is saved in a blackboard variable. The 
-first IF tests this variable to see if the inner processing loop should be 
-terminated (by executing the BREAK statement) or continued. The second IF 
-tests this same variable to see if the loop on each data file should be 
-terminated or continued. If only one IF test were needed, the REPLY function 
-could be substituted directly into the IF test and a blackboard variable 
+The outer do loop reads in one file at a time from a list. The inner loop
+calls a macro to process this file. The inner loop executes up to 10 times.
+After each execution of the processing macro, the file is plotted, a message
+is sent to the terminal, and the reply is saved in a blackboard variable. The
+first IF tests this variable to see if the inner processing loop should be
+terminated (by executing the `BREAK` statement) or continued. The second `IF`
+tests this same variable to see if the loop on each data file should be
+terminated or continued. If only one IF test were needed, the REPLY function
+could be substituted directly into the IF test and a blackboard variable
 would not be needed.
 
-The next example shows REPLY with a default value::
+The next example shows `REPLY` with a default value::
 
-  SAC> SETBB BBDAY (REPLY "Enter the day of the week: [Monday]") 
+  SAC> SETBB BBDAY (REPLY "Enter the day of the week: [Monday]")
 
-When this function is executed, the quoted string will appear on the screen, 
-prompting the user for input. If the user types a string, SAC will put the 
-string that the user entered into the blackboard variable BBDAY. If the user 
-simply hits return, SAC will put the default value (in this case, the string 
+When this function is executed, the quoted string will appear on the screen,
+prompting the user for input. If the user types a string, SAC will put the
+string that the user entered into the blackboard variable BBDAY. If the user
+simply hits return, SAC will put the default value (in this case, the string
 "Monday") into BBDAY.
 
 If one copies a set of SAC commands back into SAC, the copied commands will start
 with SAC>, which is not a part of the command.  The parser will remove a doubled
 SAC> SAC>, so lines like SAC> SAC> read a.sac will be translated into SAC> read a.sac
-

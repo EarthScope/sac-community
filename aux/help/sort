@@ -1,4 +1,3 @@
-
 SORT
 ++++
 
@@ -8,35 +7,17 @@ Sorts files in memory by header fields.
 
 SYNTAX
 ------
+::
 
-  ``SORT COMMIT|ROLLBACK|RECALLTRACE``
-
-  ``header {ASCEND|DESCEND} {header {ASCEND|DESCEND} ... }``
+  SORT header {ASCEND|DESCEND} {header {ASCEND|DESCEND} ... }
 
 INPUT
 -----
-   :COMMIT:  Commits headers and waveforms in SAC memory -- removing any
-       previous versions of headers or waveforms from RAM -- prior
-       to writing files.  COMMIT is the default.
-    
-   :ROLLBACK:  reverts to the last committed version of the header and
-       waveform before writing files.
-
-   :RECALLTRACE_: 
-
-     - reverts to the last committed version of the waveform,
-     - reverts to the last committed version of those header
-       variables closely linked to the waveform,
-     - commits those header variables which are loosely linked
-       to the waveform. (RECALLTRACE_ for a list of which 
-       header variables are committed, and which are rolled back.)
-
    :HEADER:  header field upon which to sort the files.
 
    :ASCEND:  Sort files on header in ascending order. This is the default.
 
    :DESCEND: Sort files on header in descending order
-
 
 DESCRIPTION
 -----------
@@ -59,7 +40,6 @@ is specified on the command line.
 
 ERROR MESSAGES
 --------------
-- 301:  Out of memory.
 - 1379: No SORT_ parameters given
 - 1380: Too many SORT_ parameters:
 - 1381: Not a valid SORT_ parameter:
@@ -69,11 +49,6 @@ WARNING MESSAGES
 ----------------
 - 1384
 
-SEE COMMANDS
-------------
-   COMMIT_, ROLLBACK_, RECALLTRACE_
-
 LATEST REVISION
 ---------------
    October 27, 1998 (Version 0.58)
-

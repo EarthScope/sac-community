@@ -7,10 +7,11 @@ Launch a Matlab GUI for estimating source depth and mechanism.
 
 SYNTAX
 ------
+::
 
-  ``depmec``
+  depmec
 
-  ``(An extended description of how to use this tool is included below)``
+(An extended description of how to use this tool is included below)
 
 DESCRIPTION
 -----------

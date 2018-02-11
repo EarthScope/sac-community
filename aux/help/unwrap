@@ -1,4 +1,3 @@
-
 UNWRAP
 ++++++
 
@@ -8,25 +7,27 @@ Computes amplitude and unwrapped phase.
 
 SYNTAX
 ------
+::
 
-  ``UNWRAP {FILL {ON|OFF|n}},{INTTHR v},{PVTHR v}``
+  UNWRAP {FILL {ON|OFF|n}},{INTTHR v},{PVTHR v}
 
 INPUT
 -----
    :FILL {ON}:  Turn zero fill option on.
-    
+
    :FILL OFF:  Turn zero fill option off.
-    
+
    :FILL n:  Turn zero fill option on and change fill value to n.
-    
+
    :INTTHR v:  Change the integration threshold constant to v.
-    
+
    :PVTHR v:  Change the principal value threshold constant to v.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``UNWRAP FILL OFF INTTHR 1.5 PVTHR 0.5``
+  UNWRAP FILL OFF INTTHR 1.5 PVTHR 0.5
 
 DESCRIPTION
 -----------
@@ -78,9 +79,8 @@ HEADER CHANGES
   saved as SB, SE, and SDELTA and are restored when an inverse transform is
   performed.
 
-LIMITATIONS
------------
-  The maximum length of data that can currently be transformed is 4096.
+REFERENCES
+----------
   Tribolet, Jose M.; "A New Phase Unwrapping Algorithm"; IEEE Transactions on
   Acoustics, Speech, and Signal Processing; Vol. ASSP-25, No 2, April 1977;
   page 170.
@@ -88,4 +88,3 @@ LIMITATIONS
 LATEST REVISION
 ---------------
   January 8, 1983 (Version 8.0)
-

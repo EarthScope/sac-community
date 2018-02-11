@@ -1,4 +1,3 @@
-
 WIDTH
 +++++
 
@@ -8,50 +7,49 @@ Controls line-width selection for graphics devices.
 
 SYNTAX
 ------
+::
 
-  ``WIDTH  {ON|OFF|linewidth} options``
+  WIDTH  {ON|OFF|linewidth} options
 
-   where options are one or more of the following:
+where options are one or more of the following::
 
-  ``{SKELETON width}``
+  {SKELETON width}
+  {INCREMENT {ON|OFF}}
+  {LIST STANDARD|widthlist}
 
-  ``{INCREMENT {ON|OFF}}``
+and where linewidth, width and widthlist are integer values.
 
-  ``{LIST STANDARD|widthlist}``
-
-
-  and where linewidth, width and widthlist are integer values.
-
-  **SPECIAL NOTE** The LIST option must appear last in this command.
+The LIST option **must** appear last in this command.
 
 INPUT
 -----
    :WIDTH ON:  Turn WIDTH_ option on but don't change current width values.
-   
+
    :WIDTH OFF:  Turn width option off.
-    
+
    :WIDTH linewidth:  Change data width to linewidth and turn WIDTH_
        option on.
-    
+
    :SKELETON width:  Change width of skeleton to width and turn WIDTH_
        option on.
-    
+
    :INCREMENT {ON}:  Increment width from widthlist list after each data
        file is plotted.
-    
+
    :INCREMENT OFF:  Do not increment data line width.
-    
+
    :LIST widthlist:  Change the content of the width list.  Enter list of
        widths.  Sets data width to first width in list and turns width
        option on.
-    
+
    :LIST STANDARD:  Change to the standard width list.  Sets data width to
        first width in list and turns width option on.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``WIDTH OFF SKELETON 1 INCREMENT OFF LIST STANDARD``
+  WIDTH OFF SKELETON 1 INCREMENT OFF LIST STANDARD
 
 DESCRIPTION
 -----------
@@ -66,7 +64,7 @@ DESCRIPTION
   If plotting several data files on the same plot, you may want each to
   be in a different width.  This is done using the INCREMENT option.  When this
   option is on, the data width is incremented from a list of widths each time a
-  data file is plotted.  The order and value of widths in the standard 
+  data file is plotted.  The order and value of widths in the standard
   (default) list is::
 
      1, 2, 3, 4, 5, 6, 7, 8, 9, 10
@@ -79,15 +77,14 @@ EXAMPLES
 --------
   To select an incrementing data width starting with 1::
 
-    u:  WIDTH 1 INCREMENT
+    SAC> WIDTH 1 INCREMENT
 
-  To set up an incrementing data width list of 1, 3, and 5 with an skeleton 
+  To set up an incrementing data width list of 1, 3, and 5 with an skeleton
   of 2::
 
-    u:  WIDTH SKELETON 2 INCREMENT list 1 3 5
+    SAC> WIDTH SKELETON 2 INCREMENT list 1 3 5
 
 
 LATEST REVISION
 ---------------
    June 20, 1992 (Version 10.6e)
-

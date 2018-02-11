@@ -7,19 +7,21 @@ Sets stack velocity model parameters for computing dynamic delays.
 
 SYNTAX
 ------
-    ``[V]ELOCITY[M]ODEL n options``
+::
 
-    where options are one or more of the following:
+    [V]ELOCITY[M]ODEL n options
 
-    ``ON|OFF``
-    ``REFRACTEDWAVE|NORMALMOVEOUT``
-    ``FLIP``
-    ``VAPP v|CALCULATE``
-    ``T0VM v|CALCULATE``
-    ``DVM v1 [v2]``
-    ``TVM v1 [v2]``
-    ``VAPPI v``
-    ``T0VMI v``
+where options are one or more of the following::
+
+    ON|OFF
+    REFRACTEDWAVE|NORMALMOVEOUT
+    FLIP
+    VAPP v|CALCULATE
+    T0VM v|CALCULATE
+    DVM v1 [v2]
+    TVM v1 [v2]
+    VAPPI v
+    T0VMI v
 
 INPUT
 -----
@@ -29,10 +31,10 @@ INPUT
    :ON|OFF:   Turn velocity model option on or off.  When this
        option is on the model is applied. When off it is ignored.
 
-   :REFRACTEDWAVE:   Turn velocity model option on and change to 
+   :REFRACTEDWAVE:   Turn velocity model option on and change to
        the "refracted wave" model.
 
-   :NORMALMOVEOUT:   Turn velocity model option on and change to 
+   :NORMALMOVEOUT:   Turn velocity model option on and change to
        the "normal moveout" model.
 
    :FLIP:   Interchange the properties of the two velocity models.
@@ -59,9 +61,10 @@ INPUT
 
 DEFAULT VALUES
 --------------
-     
-   `` VELOCITYMODEL 1 OFF``
-   `` VELOCITYMODEL 2 OFF``
+::
+
+    VELOCITYMODEL 1 OFF
+    VELOCITYMODEL 2 OFF
 
 DESCRIPTION
 -----------
@@ -81,18 +84,18 @@ DESCRIPTION
       TDELAY = TVM(1) - ( T0VM + DIST / VAPP )
       TDELAY = TVM(1) - SQRT ( T0VM**2 + ( DIST / VAPP )**2 )
 
-   There are several ways in which these velocity model delays can be 
-   calculated:
+  There are several ways in which these velocity model delays can be
+  calculated:
 
-   Enter values for VAPP, T0VM, and TVM(1) directly.
+  Enter values for VAPP, T0VM, and TVM(1) directly.
 
-   Enter values for DVM(1), TVM(1), and either VAPP or T0VM.
-   SAC will calculate the missing variable such that TDELAY will be zero
-   at the distance given by DVM(1).
+  Enter values for DVM(1), TVM(1), and either VAPP or T0VM.
+  SAC will calculate the missing variable such that TDELAY will be zero
+  at the distance given by DVM(1).
 
-   Enter values for DVM(1), TVM(1), DVM(2), and TVM(2).
-   SAC will calculate both VAPP and T0VM such that TDELAY will be zero
-   at the distance given by DVM(1).
+  Enter values for DVM(1), TVM(1), DVM(2), and TVM(2).
+  SAC will calculate both VAPP and T0VM such that TDELAY will be zero
+  at the distance given by DVM(1).
 
 EXAMPLES
 --------
@@ -100,9 +103,8 @@ EXAMPLES
   apparent velocity of 6.5 km/sec and to have SAC calculate T0VM such that the
   delay at 200 km will be zero::
 
-    u: VELOCITYMODEL 1 REFRACTEDWAVE VAPP 6.5 T0VM CALCULATE DVM 200 TVM 35
+    SAC> VELOCITYMODEL 1 REFRACTEDWAVE VAPP 6.5 T0VM CALCULATE DVM 200 TVM 35
 
 SEE COMMANDS
 ------------
   SUMSTACK_, PLOTSTACK_, PLOTRECORDSECTION_
-

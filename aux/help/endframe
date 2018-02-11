@@ -8,12 +8,13 @@ Resumes automatic new frame actions between plots.
 
 SYNTAX
 ------
+::
 
-  ``ENDFRAME``
+  ENDFRAME
 
 ALTERNATE FORMS
 ---------------
-ENDFR is an obsolete but allowable form of this command.
+`ENDFR` is an obsolete but allowable form of this command.
 
 DESCRIPTION
 -----------

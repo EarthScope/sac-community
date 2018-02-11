@@ -8,13 +8,14 @@ Turns on logarithimic scaling for the y axis.
 
 SYNTAX
 ------
+::
 
-  ``YLOG``
+  YLOG
 
 DEFAULT VALUES
 --------------
 
-  ``Linear scaling.``
+  Linear scaling.
 
 LATEST REVISION
 ---------------

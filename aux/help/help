@@ -1,4 +1,3 @@
-
 HELP
 ++++
 
@@ -8,18 +7,19 @@ Displays information about SAC commands and features on the screen.
 
 SYNTAX
 ------
+::
 
-  ``HELP {item ...}``
+  HELP {item ...}
 
 INPUT
 -----
    :item:  The (full or abbreviated) name of a command, module,
        subprocess, feature, etc.
-    
+
 DEFAULT VALUES
 --------------
 
-  ``If no item is requested, an introductory help package is displayed.``
+  If no item is requested, an introductory help package is displayed.
 
 DESCRIPTION
 -----------
@@ -37,31 +37,31 @@ EXAMPLES
 --------
   To get the introductory help package type::
 
-      u:  HELP
+      SAC> HELP
 
   Now lets say you want information on several commands::
 
-      u:  HELP READ CUT BEGINDEVICE PLOT
+      SAC> HELP READ CUT BEGINDEVICE PLOT
 
   SAC begins displaying the READ_ help package.  After a full page, it asks if
   you've seen enough::
 
-      s:  MORE?
-      u:  YES
-   
-  SAC displays the rest of the help package on READ_, and then begins 
+         MORE?
+      SAC> YES
+
+  SAC displays the rest of the help package on READ_, and then begins
   displaying the help package on the CUT_ command::
 
-      s:  MORE?
-      u:  NO
+         MORE?
+      SAC> NO
 
-  SAC stops displaying the CUT_ help package and begins displaying the 
+  SAC stops displaying the CUT_ help package and begins displaying the
   BEGINDEVICE help package::
 
-      s:  MORE?
-      u:  QUIT
+         MORE?
+      SAC> QUIT
 
-  You're getting impatient so you type QUIT_.  SAC terminates the HELP_ 
+  You're getting impatient so you type QUIT_.  SAC terminates the HELP_
   command so you can try some of the features discussed.
 
 ERROR MESSAGES
@@ -77,4 +77,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
   November 13, 1998 (Version 0.58)
-

@@ -7,8 +7,9 @@ Terminates a SAC subprocess.
 
 SYNTAX
 ------
+::
 
-  ``[Q]UIT[S]UB``
+  [Q]UIT[S]UB
 
 DESCRIPTION
 -----------

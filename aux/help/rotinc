@@ -10,17 +10,17 @@ Rotate a set of 3 perpendicular components either around the vertical (V) direct
 SYNTAX
 ------
 
-ROTATIONS AROUND THE VERTICAL (compinc = 0 degrees) DIRECTION
+Rotations around the vertical (cmpinc = 0 degrees) direction::
 
-  ``ROTINC {TO VRT|VNE}``
+  ROTINC {TO VRT|VNE}
 
-ROTATIONS AROUND THE TRANSVERSE (cmpaz=baz-90) DIRECTION
+Rotations around the transverse (cmpaz = baz-90) direction::
 
-  ``ROTINC {TO LQT} {ANGLE angle}``
+  ROTINC {TO LQT} {ANGLE angle}
 
-or
+or::
 
-  ``ROTINC {TO LQT} {iP | iS} {vP alpha} {vS beta} {RAY p} {VERBOSE}``
+  ROTINC {TO LQT} {iP | iS} {vP alpha} {vS beta} {RAY p} {VERBOSE}
 
 
 INPUT
@@ -122,9 +122,13 @@ EQUATIONS
 
 The relevant cmpinc (apparent angle) is computed using the following equations:
 
-  * iP:    L cmpinc = atan(2*Vs*p*sqrt(1-(Vs*p)**2)/(1-2*(Vs*p)**2) )
+  * iP:: 
 
-  * iS:    Q cmpinc = atan(Vp*(1-2*(Vs*p)**2))/(2*Vs**2*p*sqrt(1-(Vp*p)**2)) )
+     L cmpinc = atan(2*Vs*p*sqrt(1-(Vs*p)**2)/(1-2*(Vs*p)**2) )
+
+  * iS::
+
+     Q cmpinc = atan(Vp*(1-2*(Vs*p)**2))/(2*Vs**2*p*sqrt(1-(Vp*p)**2)) )
 
 where p is the ray parameter. Equations are based on Problem 5.6 in
 Aki and Richards, 2002, pg. 184.

@@ -7,8 +7,9 @@ Controls the placement of a velocity roset on subsequent record section plots.
 
 SYNTAX
 ------
+::
 
-   ``[V]ELOCITY[R]OSET [ON|OFF]  [[L]OCATION UL|UR|LL|LR]``
+   [V]ELOCITY[R]OSET [ON|OFF]  [[L]OCATION UL|UR|LL|LR]
 
 INPUT
 -----
@@ -21,7 +22,8 @@ INPUT
 
 DEFAULTS
 --------
+::
 
-  ``VELOCITYROSET OFF LOCATION LL``
+  VELOCITYROSET OFF LOCATION LL
 
 

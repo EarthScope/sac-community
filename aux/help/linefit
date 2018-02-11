@@ -1,4 +1,3 @@
-
 LINEFIT
 +++++++
 
@@ -9,8 +8,9 @@ the results to header blackboard variables.
 
 SYNTAX
 ------
+::
 
-  ``LINEFIT``
+  LINEFIT
 
 DESCRIPTION
 -----------
@@ -33,4 +33,3 @@ HEADER CHANGES
 LATEST REVISION
 ---------------
    September 12, 1995 (Version 00.38)
-

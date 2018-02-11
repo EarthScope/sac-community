@@ -1,4 +1,3 @@
-
 XVPORT
 ++++++
 
@@ -8,20 +7,22 @@ Defines the viewport for the x axis.
 
 SYNTAX
 ------
+::
 
-  ``XVPORT xvmin xvmax``
+  XVPORT xvmin xvmax
 
 INPUT
 -----
    :xvmin:  X axis viewport minimum value.  Must be in the range 0.0 to
        xvmax.
-    
+
    :xvmax:  X axis viewport maximum.  Must be in the range xvmin to 1.0.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``XVPORT 0.1 0.9``
+  XVPORT 0.1 0.9
 
 DESCRIPTION
 -----------
@@ -35,6 +36,7 @@ DESCRIPTION
    viewspace is the point (1.0, 1.0).  (See the figure on the next page.) The
    use of this coordinate system lets you position a plot without worrying about
    a specific output device.
+
    The XVPORT_ and YVPORT_ commands control where in the viewspace a
    specific plot is to be drawn.  The default values use most of the viewspace
    for the plot while leaving some room on each side for axes, labels, and a title.
@@ -49,11 +51,14 @@ EXAMPLES
 
 SEE COMMANDS
 ------------
-   VSPACE_, BEGINFRAME_ Principles of Interactive Computer Graphics, Second
-   Edition; William M. Newman and Robert F. Sproull; 1979; McGraw-Hill.
+   VSPACE_, BEGINFRAME_
+
+REFERENCES
+----------
+   Principles of Interactive Computer Graphics, Second Edition;
+   William M. Newman and Robert F. Sproull; 1979; McGraw-Hill.
 
 LATEST REVISION
 ---------------
    January 8, 1983 (Version 8.0)
    Viewspace and Viewport Coordinates
-

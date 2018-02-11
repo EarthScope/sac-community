@@ -1,4 +1,3 @@
-
 PRODUCTION
 ++++++++++
 
@@ -8,19 +7,21 @@ Controls the production mode option.
 
 SYNTAX
 ------
+::
 
-  ``PRODUCTION ON|OFF``
+  PRODUCTION ON|OFF
 
 INPUT
 -----
    :ON:  Turn production mode option on.
-    
+
    :OFF:  Turn production mode option off.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``PROD OFF``
+  PROD OFF
 
 DESCRIPTION
 -----------
@@ -30,4 +31,3 @@ DESCRIPTION
 LATEST REVISION
 ---------------
    January 8, 1983 (Version 8.0)
-

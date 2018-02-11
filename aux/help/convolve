@@ -1,4 +1,3 @@
-
 CONVOLVE
 ++++++++
 
@@ -9,44 +8,45 @@ all other signals in memory.
 
 SYNTAX
 ------
+::
 
-  ``CONVOLVE  {MASTER name|n},   {NUMBER n},{LENGTH ON|OFF|v},``
-
-  ``{TYPE  RECTANGLE|HAMMING|HANNING|COSINE|TRIANGLE}``
+  CONVOLVE  {MASTER name|n},   {NUMBER n},{LENGTH ON|OFF|v},
+      {TYPE  RECTANGLE|HAMMING|HANNING|COSINE|TRIANGLE}
 
 INPUT
 -----
    :MASTER name|n:  Select master file in data file list by name or
        number.  All files will be cornvolved with the MASTER.
-    
+
    :AMPLITUDE {OFF}: Perform a Discrete Convolution, ignore time sampling
-   
+
    :AMPLITUDE ON: Preserve amplitudes by incorporating time sampling
-   
+
    :NUMBER n:  Set number of correlation windows to be used.
-    
+
    :LENGTH {ON}:  Turn fixed window length option on.
-    
+
    :LENGTH OFF:  Turn fixed window length option off.
-    
+
    :LENGTH v:  Turn fixed window length option on and change window
        length in seconds to v.
-    
+
    :TYPE RECTANGLE:  Apply a rectangle function to each window.  This is
        equivalent to applying no function to each window.
-    
+
    :TYPE HAMMING:  Apply a hamming function to each window.
-    
+
    :TYPE HANNING:  Apply a hanning function to each window.
-    
+
    :TYPE COSINE:  Apply a cosine function to each window.
-    
+
    :TYPE TRIANGLE:  Apply a triangle function to each window.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``CONVOLVE MASTER 1 NUMBER 1 LENGTH OFF TYPE RECTANGLE AMPLITUDE OFF``
+  CONVOLVE MASTER 1 NUMBER 1 LENGTH OFF TYPE RECTANGLE AMPLITUDE OFF
 
 DESCRIPTION
 -----------
@@ -55,17 +55,17 @@ DESCRIPTION
   All signals in memory must have the same DELTA.
 
   A Discrete Convolution is performed by default.  This does not multiply the
-  signal by the time sampling rate.  The resulting time series does preserve 
+  signal by the time sampling rate.  The resulting time series does preserve
   amplitudes as expected when the time output is multiplied by the digitizing
   interval.  To enable amplitude perservation and incorporate the time sampling
   rate, use AMPLITUDE ON.
-  
-  The algorithm assumes all time series are causal, so if one wants to 
+
+  The algorithm assumes all time series are causal, so if one wants to
   convolve a waveform time series with a time-symmetric pulse with a maximum at
   zero time (perhaps as a method of non-causal,low-pass filtering to smooth out
   Gibbs phenomenon that often accompanies arrival spikes in a synthetic waveform),
   the output time series will be time-shifted forward by half the width of a
-  time-symmetric pulse.  In help file `Using the sac Library`_, the convolve 
+  time-symmetric pulse.  In help file `Using the sac Library`_, the convolve
   exampole is a program that honors the pulse start time.
 
 HEADER CHANGES
@@ -80,4 +80,3 @@ ACKNOWLEDGEMENTS
 LATEST REVISION
 ---------------
   2015 (Version 102.0)
-

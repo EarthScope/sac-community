@@ -1,4 +1,3 @@
-
 LISTHDR
 +++++++
 
@@ -8,50 +7,48 @@ Lists the values of selected header fields.
 
 SYNTAX
 ------
+::
 
-  ``LISTHDR {listops} {hdrlist}``
-   where listops are one or more of the following:
+  LISTHDR {listops} {hdrlist}
 
+where listops are one or more of the following::
 
-  ``DEFAULT|PICKS|SPECIAL``
-
-  ``FILES ALL|NONE|list``
-
-  ``COLUMNS 1|2``
-
-  ``INCLUSIVE ON|OFF``
+  DEFAULT|PICKS|SPECIAL
+  FILES ALL|NONE|list
+  COLUMNS 1|2
+  INCLUSIVE ON|OFF
 
 
 INPUT
 -----
    :DEFAULT:  Use the default list, which includes all defined header
        fields.
-    
+
    :PICKS:  Use the picks list, which includes those header fields used to
        define time picks.
-    
+
    :SPECIAL:  Use the special user defined list.
-    
+
    :FILES ALL:  List headers from all files in data file list.
-    
+
    :FILES NONE:  Don't list headers, set defaults for future commands.
-    
+
    :FILES list:  List headers from a subset of the files in the data file
        list.  The subset is defined as a list of file numbers.
-    
+
    :COLUMNS 1:  Format output into a single column of entries.
-    
+
    :COLUMNS 2:  Format output into two columns.
-    
+
    :INCLUSIVE:  ON includes header variables which are undefined.
        OFF excludes them.
-    
+
    :hdrlist:  List of header fields to be included in the special list.
-    
+
 DEFAULT VALUES
 --------------
 
-  ``LISTHDR DEFAULT FILES ALL COLUMNS 1 INCLUSIVE OFF``
+  LISTHDR DEFAULT FILES ALL COLUMNS 1 INCLUSIVE OFF
 
 DESCRIPTION
 -----------
@@ -69,7 +66,7 @@ DESCRIPTION
    option is ON.  For integers and floats the undefined value is -12345; for
    character strings and those integers which are used to indicate character
    strings, the undefined value it "UNDEFINED".
-   
+
    If one reads in a waveform file and transforms to the frequency domain, the data
    extremes (MAXDEP, MINDEP) will return values in LH for the time domain, not the
    frequency domain.
@@ -83,43 +80,30 @@ ERROR MESSAGES
 
 EXAMPLES
 --------
-   To get a two column listing of the time picks only:
+   To get a two column listing of the time picks only::
 
-      u:  LISTHDR PICKS COLUMNS 2
+      SAC> LISTHDR PICKS COLUMNS 2
 
-   
+   To get a default listing of the third and fourth files in the data file list::
 
-   To get a default listing of the third and fourth files in the data file list:
+      SAC> LISTHDR FILES 3 4
 
-      u:  LISTHDR FILES 3 4
+   To list the values of the begin and end time only::
 
-   
+      SAC> LISTHDR B E
 
-   To list the values of the begin and end time only:
+   To define a special list of the station parameters::
 
-      u:  LISTHDR B E
+      SAC> LISTHDR KSTNM STLA STLO STEL STDP
 
-   
+   To reuse this special list later during the same execution::
 
-   To define a special list of the station parameters:
+      SAC> LISTHDR SPECIAL
 
-      u:  LISTHDR KSTNM STLA STLO STEL STDP
+   To set default two column output::
 
-   
-
-   To reuse this special list later during the same execution:
-
-      u:  LISTHDR SPECIAL
-
-   
-
-   To set default two column output:
-
-      u:  LISTHDR COLUMNS 2 FILES NONE
-
-   
+      SAC> LISTHDR COLUMNS 2 FILES NONE
 
 LATEST REVISION
 ---------------
    August 30, 2008 (Version 101.2)
-

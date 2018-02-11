@@ -8,8 +8,9 @@ Takes the square root of each data point.
 
 SYNTAX
 ------
+::
 
-  ``SQRT``
+  SQRT
 
 Note: SQRT is also an INLINE_ function.
 

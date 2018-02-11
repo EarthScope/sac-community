@@ -8,8 +8,9 @@ Takes the base 10 logarithm of each data point.
 
 SYNTAX
 ------
+::
 
-  ``LOG10``
+  LOG10
 
 ERROR MESSAGES
 --------------

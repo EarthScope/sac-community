@@ -1,4 +1,3 @@
-
 TITLE
 +++++
 
@@ -8,52 +7,52 @@ Defines the plot title and attributes.
 
 SYNTAX
 ------
+::
 
-  ``TITLE {ON|OFF|text},{LOCATION location},{SIZE size}``
-   where location is one of the following:
+  TITLE {ON|OFF|text},{LOCATION location},{SIZE size}
 
+where location is one of the following::
 
-  ``TOP|BOTTOM|RIGHT|LEFT``
+  TOP|BOTTOM|RIGHT|LEFT
 
-   and where size is one of the following:
+and where size is one of the following::
 
-
-  ``TINY|SMALL|MEDIUM|LARGE``
-
+  TINY|SMALL|MEDIUM|LARGE
 
 INPUT
 -----
    :ON:  Turn title option on. Don't change title text.
-    
+
    :OFF:  Turn title option off.
-    
+
    :text:  Turn title option on. Change text of title.  If text contains
        embedded blanks, it must be enclosed in single quotes.
-    
+
    :LOCATION location:  Change location of title.
-    
+
    :TOP:  Top of the plot window.
-    
+
    :BOTTOM:  Bottom of the plot window.
-    
+
    :RIGHT:  To the right of the plot window.
-    
+
    :LEFT:  To the left of the plot window.
-    
+
    :SIZE size:  Change title text size.
-    
+
    :TINY:  Tiny text size has 132 characters per line.
-    
+
    :SMALL:  Small text size has 100 characters per line.
-    
+
    :MEDIUM:  Medium text size has 80 characters per line.
-    
+
    :LARGE:  Large text size has 50 characters per line.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``TITLE OFF LOCATION TOP SIZE SMALL``
+  TITLE OFF LOCATION TOP SIZE SMALL
 
 DESCRIPTION
 -----------
@@ -68,4 +67,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
    January 8, 1983 (Version 8.0)
-

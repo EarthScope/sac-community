@@ -1,4 +1,3 @@
-
 PRINT
 +++++
 
@@ -9,24 +8,26 @@ one SGF_ file has been produced.
 
 SYNTAX
 ------
+::
 
-  ``PRINT {printer}``
+  PRINT {printer}
 
 INPUT
 -----
    :printer:  sends output to the named printer, if no printer name is
        supplied, it will print to the system's default printer.
-    
+
    :Note:  PRINT_ will not work if the SGF_ device has remained off since boot.
        Use BEGINDEVICES_ to turn on the SGF_ device.  Use the SGF_ command
        to set prefered behavior for the SGF_ device.
        The SGF_ command has an overwrite option which prevents disk file
        buildup by clobbering previous SGF_ files with the new ones.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``PRINT``
+  PRINT
 
 ERROR MESSAGES
 --------------
@@ -39,4 +40,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
   April 22, 1999 (Version 0.58)
-

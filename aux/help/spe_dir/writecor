@@ -7,8 +7,9 @@ Writes a SAC file containing the correlation function.
 
 SYNTAX
 ------
+::
 
-  `` [W]RITE[COR] {file} ``
+   [W]RITE[COR] {file}
 
 INPUT
 -----
@@ -16,8 +17,9 @@ INPUT
 
 DEFAULT VALUES
 --------------
- 
-  `` WRITECOR COR ``
+::
+
+   WRITECOR COR
 
 DESCRIPTION
 -----------
@@ -39,5 +41,3 @@ DESCRIPTION
 ERROR MESSAGES
 --------------
  - 5003: No correlation function calculated.
-
-

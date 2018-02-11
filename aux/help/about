@@ -8,8 +8,9 @@ Displays version and copywrite information.
 
 SYNTAX
 ------
+::
 
-  ``ABOUT``
+  ABOUT
 
 LATEST REVISION
 ---------------

@@ -1,4 +1,3 @@
-
 WRITESP
 +++++++
 
@@ -8,52 +7,56 @@ Writes spectral files to disk as "normal" data files.
 
 SYNTAX
 ------
+::
 
-  ``WRITESP {type} {COMMIT|ROLLBACK|RECALLTRACE} {OVER|filelist}``
-   where type is one of the following:
+  WRITESP {type} {COMMIT|ROLLBACK|RECALLTRACE} {OVER|filelist}
 
-  ``ASIS|RLIM|AMPH|RL|IM|AM|PH``
+where type is one of the following::
+
+  ASIS|RLIM|AMPH|RL|IM|AM|PH
 
 INPUT
 -----
    :ASIS:  Write components in their present format.
-    
+
    :RLIM:  Write real and imaginary components.
-    
+
    :AMPH:  Write amplitude and phase components.
-    
+
    :RL:  Write real component only.
-    
+
    :IM:  Write imaginary component only.
-    
+
    :AM:  Write amplitude component only.
-    
+
    :PH:  Write phase component only.
-    
+
    :COMMIT_:  Commits headers and waveforms in SAC memory -- removing any
        previous versions of headers or waveforms from RAM -- prior
        to writing files.  COMMIT is the default.
-    
+
    :ROLLBACK_:  reverts to the last committed version of the header and
        waveform before writing files.
-    
+
    :RECALLTRACE_:
 
       - reverts to the last committed version of the waveform,
       - reverts to the last committed version of those header
-      	variables closely linked to the waveform,
+        variables closely linked to the waveform,
       - commits those header variables which are loosely linked
-      	to the waveform.
-	(use HELP_ RECALLTRACE for a list of which header variables are
-	committed, and which are rolled back.)
+        to the waveform.
+
+     (use HELP_ RECALLTRACE for a list of which header variables are
+     committed, and which are rolled back.)
 
    :filelis:  A list of SAC binary data files.  This list may contain
       simple filenames and full or relative pathnames.
 
 DEFAULT VALUES
 --------------
+::
 
-  ``WRITESP ASIS COMMIT``
+  WRITESP ASIS COMMIT
 
 DESCRIPTION
 -----------
@@ -86,25 +89,25 @@ EXAMPLES
   Assume that you want to perform some operations on the spectral amplitude of
   FILE1::
 
-    u:  READ FILE1
-    u:  FFT AMPH
-    u:  WRITESP OVER
+    SAC> READ FILE1
+    SAC> FFT AMPH
+    SAC> WRITESP OVER
 
   SAC will then write out two files, FILE1.AM and FILE1.PH.  Now you perform the
   operations on the amplitude file::
 
-    u:  READ FILE1.AM
-    u:  ...perform operations.
-    u:  WRITE OVER
+    SAC> READ FILE1.AM
+    SAC> ...perform operations.
+    SAC> WRITE OVER
 
   Now the files on disk represent the modified spectral data.  If you wanted to
   reconstruct the SAC spectral data file and take the inverse transform::
 
-    u:  READSP FILE1
-    u:  IFFT
-    u:  WRITE FILE2
+    SAC> READSP FILE1
+    SAC> IFFT
+    SAC> WRITE FILE2
 
-  **Note**  for examples of the behavior of COMMIT, ROLLBACK, and 
+  **Note**  for examples of the behavior of COMMIT, ROLLBACK, and
   RECALLTRACE, see the commands of the same name.
 
 ERROR MESSAGES
@@ -125,4 +128,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
   Oct. 27, 1998 (Version 0.58)
-

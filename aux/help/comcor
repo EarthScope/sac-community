@@ -1,4 +1,3 @@
-
 COMCOR
 ++++++
 
@@ -8,19 +7,21 @@ Controls SAC's command correction option.
 
 SYNTAX
 ------
+::
 
-  ``COMCOR {ON|OFF}``
+  COMCOR {ON|OFF}
 
 INPUT
 -----
    :ON:  Turn command correction option on.
-    
+
    :OFF:  Turn command correction option off.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``COMCOR OFF``
+  COMCOR OFF
 
 DESCRIPTION
 -----------
@@ -28,11 +29,11 @@ DESCRIPTION
    error, it sends an error message to you, telling you what the error was and
    where it occurred.  If the command correction option is on, SAC then lets you
    correct the command and have SAC automatically reexecute it.  If this option
-   is off, SAC merely prints the error message and returns control to you.  More
-   details and several examples are given in the User's Guide.  "Command
-   Correction Capability" in the SAC Users Manual.
+   is off, SAC merely prints the error message and returns control to you.
+
+   More details and several examples are given in the User's Guide.
+   "Command Correction Capability" in the SAC Users Manual.
 
 LATEST REVISION
 ---------------
    October 11, 1984 (Version 9.1)
-

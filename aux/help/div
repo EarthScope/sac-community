@@ -1,4 +1,3 @@
-
 DIV
 +++
 
@@ -8,21 +7,23 @@ Divides each data point by a constant.
 
 SYNTAX
 ------
+::
 
-  ``DIV {v1 {v2 ... vn} }``
+  DIV {v1 {v2 ... vn} }
 
 INPUT
 -----
    :v1:  Constant to divide first file by.
-    
+
    :v2:  Constant to divide second file by.
-    
+
    :vn:  Constant to devide nth file by.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``DIV 1.``
+  DIV 1.
 
 DESCRIPTION
 -----------
@@ -35,8 +36,8 @@ EXAMPLES
 --------
   To divide each element of F1 by 5.1 and each element of F2 and F3 by 6.2::
 
-      u:  READ F1 F2 F3
-      u:  DIV 5.1 6.2
+      SAC> READ F1 F2 F3
+      SAC> DIV 5.1 6.2
 
 Note: DIVIDE is also an INLINE_ function.
 
@@ -53,4 +54,3 @@ ERROR MESSAGES
 LATEST REVISION
 ---------------
    January 8, 1983 (Version 8.0)
-

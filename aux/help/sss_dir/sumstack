@@ -7,8 +7,9 @@ Sums the files in the stack file list.
 
 SYNTAX
 ------
+::
 
-   `` [S]UM[S]STACK  [[N]ORMALIZATION ON|OFF]``
+    [S]UM[S]STACK  [[N]ORMALIZATION ON|OFF]
 
 INPUT
 -----
@@ -18,9 +19,9 @@ INPUT
 
 DEFAULTS VALUES
 ---------------
+::
 
-  ``SUMSTACK NORMALIZATION ON``
-
+  SUMSTACK NORMALIZATION ON
 
 DESCRIPTION
 -----------

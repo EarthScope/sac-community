@@ -1,4 +1,3 @@
-
 INSTALLMACRO
 ++++++++++++
 
@@ -8,13 +7,14 @@ Installs macro files in the global SAC macro directory.
 
 SYNTAX
 ------
+::
 
-  ``INSTALLMACRO name {name ...}``
+  INSTALLMACRO name {name ...}
 
 INPUT
 -----
    :name:  The name of a SAC macro file.
-    
+
 DESCRIPTION
 -----------
    This command lets you install your macro files into the global SAC macro
@@ -29,4 +29,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
    March 20, 1992, (version 10.6e)
-

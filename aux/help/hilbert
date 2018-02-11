@@ -1,4 +1,3 @@
-
 HILBERT
 +++++++
 
@@ -8,8 +7,9 @@ Applies a Hilbert transform.
 
 SYNTAX
 ------
+::
 
-  ``HILBERT``
+  HILBERT
 
 DESCRIPTION
 -----------
@@ -19,7 +19,7 @@ DESCRIPTION
   by windowing an ideal Hilbert transformer impulse response with a Hamming
   window: In the frequency domain, this filter approximates the transfer
   function: The phase criterion is met exactly (90 degree phase shift at each
-  frequency), and the magnitude response is (ideally) unity. 
+  frequency), and the magnitude response is (ideally) unity.
 
   Note that the operation is inexact in small regions about DC and the
   folding frequency.  If transforms are to be taken of very low frequency data,
@@ -27,11 +27,12 @@ DESCRIPTION
   Since the transformation is performed in the time domain, computations
   are done in-place using the overlap-save algorithm.  There are no restrictions
   on the length of data file.
-  
-  (Added in 2013)  Hilbert transforms can be used to calculate the minimum-delay 
-  phase from (the log of) the spectral amplitude.  Such amplitudes are effectively
-  low-pass filters, which are not band-limited, and the procedure used here does
-  not work very well for such functions.
+
+  **Added in 2013**
+  Hilbert transforms can be used to calculate the minimum-delay phase
+  from (the log of) the spectral amplitude.  Such amplitudes are
+  effectively low-pass filters, which are not band-limited, and the
+  procedure used here does not work very well for such functions.
 
 HEADER CHANGES
 --------------
@@ -39,11 +40,11 @@ HEADER CHANGES
 
 ACKNOWLEDGEMENT
 ---------------
- The subroutines used to perform the Hilbert transform were
- designed and developed by Dave Harris.
+ The subroutines used to perform the Hilbert transform were designed
+ and developed by Dave Harris.
 
-LATEST REVISION OF CODE
------------------------
+LATEST REVISION
+---------------
   April 21, 1989 (Version 10.4c)
-  Amplitude Response of Hilbert Transform.
 
+  Amplitude Response of Hilbert Transform.

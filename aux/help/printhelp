@@ -1,4 +1,3 @@
-
 PRINTHELP
 +++++++++
 
@@ -8,18 +7,19 @@ Prints hardcopies of information about SAC commands and features.
 
 SYNTAX
 ------
+::
 
-  ``PRINTHELP {item ...}``
+  PRINTHELP {item ...}
 
 INPUT
 -----
    :item:  The (full or abbreviated) name of a command, module,
        subprocess, feature, etc.
-    
+
 DEFAULT VALUES
 --------------
 
-  ``If no item is requested, an introductory help package is printed.``
+  If no item is requested, an introductory help package is printed.
 
 DESCRIPTION
 -----------
@@ -33,11 +33,11 @@ EXAMPLES
 --------
   To get the introductory help package type::
 
-      u:  PRINTHELP
+      SAC> PRINTHELP
 
   Now lets say you want information on several commands::
 
-      u:  PRINTHELP READ CUT BEGINDEVICE PLOT
+      SAC> PRINTHELP READ CUT BEGINDEVICE PLOT
 
 ERROR MESSAGES
 --------------
@@ -52,4 +52,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
   November 13, 1998 (Version 0.58)
-

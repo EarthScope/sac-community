@@ -11,19 +11,25 @@ Terminator string EOF is required to start at the first character of a line
 or the scripts will not work.
 
 Setting the environment variable SAC_DISPLAY_COPYRIGHT to 0 will force SAC not
-to display the copyright header information.  In the sh shell the option is::
+to display the copyright header information.  In the sh shell the option is
 
-  export SAC_DISPLAY_COPYRIGHT=0
+.. code-block:: sh
 
-and in csh the syntax is::
- 
-  setenv SAC_DISPLAY_COPYRIGHT 0
+   export SAC_DISPLAY_COPYRIGHT=0
+
+and in csh the syntax is
+
+.. code-block:: csh
+
+   setenv SAC_DISPLAY_COPYRIGHT 0
 
 
 Simple Examples
 ---------------
 
-sh::
+sh
+
+.. code-block:: sh
 
   #!/bin/sh
 
@@ -34,7 +40,9 @@ sh::
   EOF
 
 
-csh::
+csh
+
+.. code-block:: csh
 
   #!/bin/csh
 
@@ -44,7 +52,9 @@ csh::
   quit
   EOF
 
-perl::
+perl
+
+.. code-block:: perl
 
   #!/usr/bin/env perl
 
@@ -55,15 +65,17 @@ perl::
   close(SAC);
 
 
-python::
+python
+
+.. code-block:: python
 
   #!/usr/bin/env python
 
   import subprocess
 
-  p = subprocess.Popen(['sac'], 
-                       stdout = subprocess.PIPE,  
-                       stdin  = subprocess.PIPE, 
+  p = subprocess.Popen(['sac'],
+                       stdout = subprocess.PIPE,
+                       stdin  = subprocess.PIPE,
                        stderr = subprocess.STDOUT )
 
   out = p.communicate('''
@@ -77,21 +89,23 @@ python::
 Extended Examples
 -----------------
 
-The following examples take a set of SAC files in the current directory and 
+The following examples take a set of SAC files in the current directory and
 low pass filter then at 1.0 Hz with a 2 pass, 4th order filter.  The shell
-examples, sh and csh, require an invocation of sac for each file, but the 
+examples, sh and csh, require an invocation of sac for each file, but the
 scripting languages, perl and python, do not.   The python and perl scripts
 use more complex and more powerful string handling than do the shell scripts.
 
-sh::
+sh
+
+.. code-block:: sh
 
   #!/bin/sh
-  
+
   for file in *.SAC; do
      sac <<EOF
      echo on
      read $file
-     rmean 
+     rmean
      rtrend
      lp co 0.1 p 2 n 4
      write ${file}.filtered
@@ -99,7 +113,9 @@ sh::
   EOF
   done
 
-csh::
+csh
+
+.. code-block:: csh
 
   #!/bin/csh
 
@@ -107,7 +123,7 @@ csh::
      sac <<EOF
      echo on
      read $file
-     rmean 
+     rmean
      rtrend
      lp co 0.1 p 2 n 4
      write ${file}.filtered
@@ -115,7 +131,9 @@ csh::
   EOF
   end
 
-perl::
+perl
+
+.. code-block:: perl
 
   #!/usr/bin/env perl
 
@@ -128,28 +146,30 @@ perl::
        lp co 0.1 p 2 n 4
        write ${file}.filtered
      ];
-  } 
+  }
   print SAC "quit\n";
   close(SAC);
 
 
-python::
+python
+
+.. code-block:: python
 
   #!/usr/bin/env python
 
   import subprocess
   import glob
 
-  p = subprocess.Popen(['sac'], 
-                       stdout = subprocess.PIPE,  
-                       stdin  = subprocess.PIPE, 
+  p = subprocess.Popen(['sac'],
+                       stdout = subprocess.PIPE,
+                       stdin  = subprocess.PIPE,
                        stderr = subprocess.STDOUT )
 
   s = "echo on\n"
   for filename in glob.glob("*.SAC"):
       s += '''
          read %(file)s
-         rmean 
+         rmean
          rtrend
          lp co 0.1 p 2 n 4
          write %(file)s.filtered
@@ -157,4 +177,3 @@ python::
   s += "quit\n"
   out = p.communicate( s )
   print out[0]
-

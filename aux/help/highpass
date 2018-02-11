@@ -1,4 +1,3 @@
-
 HIGHPASS
 ++++++++
 
@@ -8,35 +7,36 @@ Applies an IIR highpass filter.
 
 SYNTAX
 ------
+::
 
-  ``HIGHPASS {BUTTER|BESSEL|C1|C2},{CORNERS v1 v2},``
-
-  ``{NPOLES n},{PASSES n},{TRANBW v},{ATTEN v}``
+  HIGHPASS {BUTTER|BESSEL|C1|C2},{CORNERS v1 v2},
+       {NPOLES n},{PASSES n},{TRANBW v},{ATTEN v}
 
 INPUT
 -----
    :BUTTER:  Apply a Butterworth filter.
-    
+
    :BESSEL:  Apply a Bessel filter.
-    
+
    :C1:  Apply a Chebyshev Type I filter.
-    
+
    :C2:  Apply a Chebyshev Type II filter.
-    
+
    :CORNER v:  Set corner frequency to v.
-    
+
    :NPOLES n:  Set number of poles to n {range: 1-10}.
-    
+
    :PASSES n:  Set number of passes to n {range: 1-2}.
-    
+
    :TRANBW v:  Set the Chebyshev attenuation factor to v.
-    
+
    :ATTEN v:  Set the Chebyshev attenuation factor to v.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``HIGHPASS BUTTER CORNER 0.2 NPOLES 2 PASSES 1 TRANBW 0.3 ATTEN 30.``
+  HIGHPASS BUTTER CORNER 0.2 NPOLES 2 PASSES 1 TRANBW 0.3 ATTEN 30.
 
 DESCRIPTION
 -----------
@@ -47,11 +47,11 @@ EXAMPLES
 --------
   To apply a four-pole Butterworth with a corner at 2 Hz.::
 
-      u:  HIGHPASS NPOLES 4 CORNER 2
+      SAC> HIGHPASS NPOLES 4 CORNER 2
 
   To apply a two-pole two-pass Bessel with the same corner.::
 
-      u:  HP N 2 BE P 2
+      SAC> HP N 2 BE P 2
 
 ERROR MESSAGES
 --------------
@@ -73,4 +73,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
   January 8, 1983 (Version 8.0)
-

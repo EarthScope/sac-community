@@ -1,4 +1,3 @@
-
 TICKS
 +++++
 
@@ -8,39 +7,41 @@ Controls the location of tick marks on plots.
 
 SYNTAX
 ------
+::
 
-  ``TICKS   ON|OFF|ONLY   sides``
+  TICKS   ON|OFF|ONLY   sides
 
-   where sides is the keyword:
+where sides is the keyword::
 
-  ``ALL``
+  ALL
 
-   or one or more of the following:
+or one or more of the following::
 
-  ``TOP,BOTTOM,RIGHT,LEFT``
+  TOP,BOTTOM,RIGHT,LEFT
 
 INPUT
 -----
    :ON:  Turn ticks on for listed sides; others unchanged.
-    
+
    :OFF:  Turn ticks off for listed sides; others unchanged.
-    
+
    :ONLY:  Turn ticks on only for listed sides; others off.
-    
+
    :ALL:  All four ticks.
-    
+
    :TOP:  X axis above viewport.
-    
+
    :BOTTOM:  X axis below viewport.
-    
+
    :RIGHT:  Y axis to right of viewport.
-    
+
    :LEFT:  Y axis to left of viewport.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``TICKS ON ALL``
+  TICKS ON ALL
 
 DESCRIPTION
 -----------
@@ -53,15 +54,15 @@ EXAMPLES
 --------
   To turn on the top tick marks and leave the others unchanged::
 
-      u:  TICKS ON TOP
+      SAC> TICKS ON TOP
 
   To turn off all tick marks (at least where there are no annotated axes)::
 
-      u:  TICKS OFF ALL
+      SAC> TICKS OFF ALL
 
   To turn tick marks on for the bottom side and off for the rest::
 
-      u:  TICKS ONLY BOTTOM
+      SAC> TICKS ONLY BOTTOM
 
 SEE COMMANDS
 ------------
@@ -70,4 +71,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
   January 8, 1983 (Version 8.0)
-

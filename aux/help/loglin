@@ -8,13 +8,14 @@ Turns on logarithmic scaling for x axis and linear for y axis.
 
 SYNTAX
 ------
+::
 
-  ``LOGLIN``
+  LOGLIN
 
 DEFAULT VALUES
 --------------
 
-  ``Linear scaling for both axes.``
+  Linear scaling for both axes.
 
 SEE COMMANDS
 ------------

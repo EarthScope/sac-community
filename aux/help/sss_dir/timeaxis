@@ -7,8 +7,9 @@ Controls the time axis properties on subsequent record section plots.
 
 SYNTAX
 ------
-  
-   ``[T]IME[A]XIX [F]IXED v|[S]CALED v``
+::
+
+   [T]IME[A]XIX [F]IXED v|[S]CALED v
 
 INPUT
 -----
@@ -19,15 +20,16 @@ INPUT
 
 DEFAULTS VALUES
 ---------------
+::
 
-   ``TIMEAXIS FIXED 23.0``
+   TIMEAXIS FIXED 23.0
 
 EXAMPLES
 --------
   If you are making several record setion plots with different time
-  windows and you want each 2 seconds on these plots to be 1 cm long:
+  windows and you want each 2 seconds on these plots to be 1 cm long::
 
-    u:  TIMEAXIS SCALED 0.5
+    SAC> TIMEAXIS SCALED 0.5
 
 KNOWN BUGS
 ----------

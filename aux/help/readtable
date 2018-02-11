@@ -1,4 +1,3 @@
-
 READTABLE
 +++++++++
 
@@ -8,38 +7,32 @@ Reads alphanumeric data files in collumn format on disk into memory.
 
 SYNTAX
 ------
+::
 
-  ``READTABLE {options}  {filelist}``
+  READTABLE {options}  {filelist}
 
-   where options is one or more of the following:
+where options is one or more of the following::
 
-  ``MORE``
+  MORE
+  TRUST ON|OFF
+  COMMIT|ROLLBACK|RECALLTRACE
+  DIR CURRENT|name
+  FREE|FORMAT text  **** NOTE:  the FORMAT option is not working. ****
+  CONTENT text
+  HEADER number
 
-  ``TRUST ON|OFF``
-
-  ``COMMIT|ROLLBACK|RECALLTRACE``
-
-  ``DIR CURRENT|name``
-
-  ``FREE|FORMAT text  **** NOTE:  the FORMAT option is not working. ****``
-
-  ``CONTENT text``
-
-  ``HEADER number``
-
-
-  ALL options MUST preceed any element in the filelist.
-  The last two options may also be placed on the first line of file itself.
+ALL options **must** preceed any element in the filelist.
+The last two options may also be placed on the first line of file itself.
 
 INPUT
 -----
    :MORE:  Append the new data files after the old ones in memory.  If
        this option is missing, the new data replaces the old data in memory.
        See the READ_ command for more details about this option.
-    
+
    :Note:  if the MORE option is not specified, the COMMIT, ROLLBACK,
        and RECALLTRACE options have no effect.
-    
+
    :TRUST:   This option is used to resolve an ambiguity in converting
        files from SAC to CSS format.  When converting the data,
        matching event IDs could mean the files have identical
@@ -49,52 +42,53 @@ INPUT
        identical event information than when TRUST is OFF,
        depending on the history of READ_ commands associated with
        the current data files in memory.
-    
+
    :COMMIT_:  If the MORE option is specified, the COMMIT option commits
        headers and waveforms in SAC memory -- removing any previous
        versions of headers or waveforms from RAM -- prior to
        reading more files.  COMMIT is the default.
-    
+
    :ROLLBACK_:  If the MORE option is specified, the ROLLBACK option reverts
        to the last committed version of the header and waveform
        before reading more files.
-    
+
    :RECALLTRACE_:  If the MORE option is specified, the RECALLTRACE option:
 
        - reverts to the last committed version of the waveform
        - reverts to the last committed version of those header
-       	 variables closely linked to the waveform,
+         variables closely linked to the waveform,
        - commits those header variables which are loosely linked
-       	 to the waveform.  (use HELP_ RECALLTRACE for a list of which 
-	 header variables are committed, and which are rolled back.)
-    
+         to the waveform.  (use HELP_ RECALLTRACE for a list of which
+         header variables are committed, and which are rolled back.)
+
    :DIR CURRENT:  Read all simple filenames (with or without wildcards)
        from the current directory.  This is the directory from which you
        started SAC.
-    
+
    :DIR name:  Read all simple filenames (with or without wildcards) from
        the directory called name.  This may be a relative or absolute
        directory name.
-    
+
    :FREE:  Read the data in the filelist in free format (space delimited)
        mode.
-    
+
    :FORMAT text:  Read the data in the filelist in fixed format mode.  The
        format statement to use is given in text.
-    
+
    :CONTENT text:  Define the content of the data in the filelist.  The
        meaning of the content text is described below.
-    
+
    :HEADER:  The number of header lines in the file to skip.
-    
+
    :filelist:  A list of alphanumeric files.  This list may contain simple
        filenames, full or relative pathnames, and wildcard characters.  See
        the READ_ command for a complete description.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``READTABLE COMMIT FREE CONTENT Y. DIR CURRENT``
+  READTABLE COMMIT FREE CONTENT Y. DIR CURRENT
 
 DESCRIPTION
 -----------
@@ -161,7 +155,7 @@ EXAMPLES
   To read in X-Y pairs in free format where there may be any number of pairs on
   the same line::
 
-      u:  READTABLE CONTENT P. FILEA
+      SAC> READTABLE CONTENT P. FILEA
 
   You can't break an X-Y pair between lines in the file.
   Assume you have a file which contains formatted data including a set of
@@ -170,7 +164,7 @@ EXAMPLES
   X data in each line.  Once the format statement needed to read in the proper
   data is determined, the following command could be used::
 
-      u: READTABLE CONTENT R FORMAT \(24X,F12.3,14X,F10.2\) FILEB
+      SAC>READTABLE CONTENT R FORMAT \(24X,F12.3,14X,F10.2\) FILEB
 
   Special Note: The atsign "\" BEFORE EACH LEFT AND RIGHT PARENTHESIS IS SAC's
   escape character, and is necessary because SAC uses parenthesis in inline
@@ -182,18 +176,18 @@ EXAMPLES
   line.  This data is in (8F10.2) format.  To create seven different sets of
   data in memory, the following command could be used::
 
-      u:  READTABLE CONTENT XN . FORMAT \(8F10.2\) FILEC
+      SAC> READTABLE CONTENT XN . FORMAT \(8F10.2\) FILEC
 
   This would produce seven different "data files" in memory with the names
   FILEC01, FILEC02, etc.  Now assume that you did not want the fifth Y data set
   to be read.  This could be done by executing the following command::
 
-      u:  READTABLE CONTENT XN6 FORMAT \(5F10.20X,2F10.2\) FILEC
+      SAC> READTABLE CONTENT XN6 FORMAT \(5F10.20X,2F10.2\) FILEC
 
   Another way that means less typing but is slightly less efficient is given
   below::
 
-      u:  READTABLE CONTENT XN4IN2 FORMAT \(8F10.2\) FILEC
+      SAC> READTABLE CONTENT XN4IN2 FORMAT \(8F10.2\) FILEC
 
    Note:  for examples of the behavior of the COMMIT, ROLLBACK, and RECALLTRACE
    options, see the commands of the same names.
@@ -202,11 +196,11 @@ ERROR MESSAGES
 --------------
 - 1301: No data files read in.
 
-  - haven't given a list of files to read.  
+  - haven't given a list of files to read.
   - none of the files in the list could be read.
 
 - 1020: Invalid inline function name:
-  
+
   - Expected inline function. Preceed parenthesis with an atsign.
 
 - 1320: Available memory too small to read file
@@ -229,4 +223,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
    Oct. 27, 1998 (Version 0.58)
-

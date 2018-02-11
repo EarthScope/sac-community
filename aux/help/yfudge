@@ -1,4 +1,3 @@
-
 YFUDGE
 ++++++
 
@@ -8,30 +7,32 @@ Changes the y axis "fudge factor."
 
 SYNTAX
 ------
+::
 
-  ``YFUDGE ON|OFF|v``
+  YFUDGE ON|OFF|v
 
 INPUT
 -----
    :ON:  Turn fudge option on but don't change fudge factor.
-    
+
    :OFF:  Turn fudge option off.
-    
+
    :v:  Turn fudge option on and change fudge factor to v.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``YFUDGE 0.03``
+  YFUDGE 0.03
 
 DESCRIPTION
 -----------
   When this option is on, the actual axis limits are changed by a "fudge
   factor".  The algorithm for a linearly scaled axis is::
 
-    YDIFF=YFUDGE*(YMAX-YMIN)
-    YMIN=YMIN-YDIFF
-    YMAX=YMAX+YDIFF
+    YDIFF = YFUDGE*(YMAX-YMIN)
+    YMIN  = YMIN-YDIFF
+    YMAX  = YMAX+YDIFF
 
   where YMIN and YMAX are the data extrema and YFUDGE_ is the fudge factor.  The
   algorithm is similiar for logarithmically scaled axes.  The fudge option only
@@ -44,4 +45,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
   January 8, 1983 (Version 8.0)
-

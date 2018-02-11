@@ -1,4 +1,3 @@
-
 ENDDEVICES
 ++++++++++
 
@@ -8,24 +7,24 @@ Terminates one or more graphics devices.
 
 SYNTAX
 ------
+::
 
-  ``ENDDEVICES devices``
+  ENDDEVICES devices
 
-   where devices is one or more of the following:
+where devices is one or more of the following::
 
-
-  ``SGF, XWINDOWS``
+  SGF, XWINDOWS
 
 ALTERNATE FORMS
 ---------------
-ENDG or EG are obsolete but acceptable names for this command.
+`ENDG` or `EG` are obsolete but acceptable names for this command.
 
 INPUT
 -----
    :SGF:  The SAC Graphics File device driver.
-    
+
    :XWINDOWS:  The X-windows window display system.
-    
+
 DESCRIPTION
 -----------
    This command terminates one or more graphics devices.  Devices are activated
@@ -39,4 +38,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
    March 24, 2009 (101.3)
-

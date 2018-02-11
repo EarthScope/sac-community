@@ -1,4 +1,3 @@
-
 WRITECSS
 ++++++++
 
@@ -8,57 +7,58 @@ Writes data in memory to disk in CSS 3.0 format.
 
 SYNTAX
 ------
+::
 
-  ``WRITE {BINARY|ASCII} {COMMIT|ROLLBACK|RECALLTRACE}``
-
-  ``{DIR ON|OFF|CURRENT|name} name``
+  WRITE {BINARY|ASCII} {COMMIT|ROLLBACK|RECALLTRACE}
+      {DIR ON|OFF|CURRENT|name} name
 
 INPUT
 -----
    :ASCII:  (Default) Write standard ASCII flatfiles.
-    
+
    :BINARY: Write output as a single CSS 3.0 binary file.
-    
+
    :COMMIT:  The COMMIT option commits headers and waveforms in SAC
        memory prior to writing the traces. COMMIT is the default.
-    
+
    :ROLLBACK:  The ROLLBACK option reverts to the last committed version
        of the header and waveform before writing the traces.
-    
+
    :RECALLTRACE:  The RECALLTRACE option:
 
        - reverts to the last committed version of the waveform,
        - reverts to the last committed version of those header
-       	 variables closely linked to the waveform,
+         variables closely linked to the waveform,
        - commits those header variables which are loosely linked
          to the waveform before writing the traces.
-       	 (use HELP_ RECALLTRACE for a list of which header variables are
-       	 committed, and which are rolled back.)
-    
+         (use HELP_ RECALLTRACE for a list of which header variables are
+         committed, and which are rolled back.)
+
    :DIR ON:  Turn directory option on but don't change name of write
        directory.
-    
+
    :DIR OFF:  Turn directory option off.  When off, writes to current
        directory.
-    
+
    :DIR CURRENT:  Turn directory option on and set name of write
        directory to the "current directory" (e.g. the directory from which
        you started SAC.)
-    
+
    :DIR name:  Turn directory option on and set name of write directory
        to name.  Write all files to the directory called name.  This
        may be a relative or absolute directory name.
-    
+
    :name:  Write filelist in set to name.  There should be only
        one name specified.  It may not contain wildcards. For ASCII
        output, name will be prepended to the table name for each
        flatfile. (i.e. name.wfdisc, name.origin, ...). In BINARY
        mode, name is the output file name.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``WRITECSS ASCII COMMIT DIR OFF``
+  WRITECSS ASCII COMMIT DIR OFF
 
 DESCRIPTION
 -----------
@@ -92,4 +92,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
    October 27, 1998 (Version 00.58)
-

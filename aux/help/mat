@@ -10,8 +10,9 @@ the return from Matlab.
 
 SYNTAX
 ------
+::
 
-  ``MAT [mfile]``
+  MAT [mfile]
 
 
 DESCRIPTION
@@ -43,15 +44,8 @@ Also, you must not change the length of the traces in Matlab.
 SACDATA
 -------
 The SACdata structure array contains the following elements:
-times
-station
-event
-user
-descrip
-evsta
-llnl
-response
-trcLen
+times, station, event, user, descrip, evsta, llnl,
+response, trcLen
 
 Most of these elements are themselves structures and their members
 are as follows:
@@ -63,16 +57,16 @@ delta stla    evla    data(10) iftype   dist   xminimum
 b     stlo    evlo    label(3) idep     az     xmaximum
 e     stel    evel    iztype            baz    yminimum
 o     stdp    evdp    iinst             gcarc  ymaximum
-a     cmpaz   nzyear           istreg          norid
-t0    cmpinc  nzjday           ievreg          nevid
-t1    kstnm   nzhour           ievtyp          nwfid
-t2    kcmpnm  nzmin            iqual           nxsize
-t3    knetwk  nzsec            isynth          nysize
-t4	      nzmsec
-t5	      kevnm
-t6	      mag
-t7	      imagtyp
-t8	      imagsrc
+a     cmpaz   nzyear  istreg            norid
+t0    cmpinc  nzjday  ievreg            nevid
+t1    kstnm   nzhour  ievtyp            nwfid
+t2    kcmpnm  nzmin   iqual             nxsize
+t3    knetwk  nzsec   isynth            nysize
+t4            nzmsec
+t5            kevnm
+t6            mag
+t7            imagtyp
+t8            imagsrc
 t9
 f
 k0
@@ -141,7 +135,7 @@ Execute an m-file that converts the data to their absolute
 values. Assume the m-file is named absv.m and contains the one line
 SeisData=abs(SeisData)::
 
-   u:  mat absv
+   SAC> mat absv
 
 NOTES
 -----

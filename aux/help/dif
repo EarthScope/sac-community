@@ -1,4 +1,3 @@
-
 DIF
 +++
 
@@ -8,21 +7,23 @@ Differentiates data in memory.
 
 SYNTAX
 ------
+::
 
-  ``DIF {TWO|THREE|FIVE}``
+  DIF {TWO|THREE|FIVE}
 
 INPUT
 -----
    :TWO:  Apply a two point difference operator.
-    
+
    :THREE:  Apply a three point difference operator.
-    
+
    :FIVE:  Apply a five point difference operator.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``DIF TWO``
+  DIF TWO
 
 DESCRIPTION
 -----------
@@ -30,10 +31,10 @@ DESCRIPTION
 
     OUT(J)= (DATA(J+1) - DATA(J))  / DELTA
 
-  The last output point is not defined by this algorithm.  It is also not a 
-  centered algorithm.  SAC takes care of these problems by decreasing the 
-  number of points in the file (NPTS) by one and by increasing the begin 
-  time (B) by half the sampling interval (DELTA). 
+  The last output point is not defined by this algorithm.  It is also not a
+  centered algorithm.  SAC takes care of these problems by decreasing the
+  number of points in the file (NPTS) by one and by increasing the begin
+  time (B) by half the sampling interval (DELTA).
 
   The three-point (centered two-point) algorithm is::
 
@@ -45,7 +46,7 @@ DESCRIPTION
   The five-point (centered four-point) algorithm is::
 
      OUT(J)=2/3 (DATA(J+1) - DATA(J-1)) / DELTA -
-	    1/12 * (DATA(J+2) - DATA(J-2)) / DELTA
+      1/12 * (DATA(J+2) - DATA(J-2)) / DELTA
 
   The first two and last two output points are not defined by this algorithm.
   SAC applies the three-point operator to the second points from each end,
@@ -63,4 +64,3 @@ HEADER CHANGES
 LATEST REVISION
 ---------------
   January 15, 1985 (Version 9.10)
-

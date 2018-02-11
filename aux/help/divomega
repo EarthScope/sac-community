@@ -6,6 +6,12 @@ SUMMARY
 -------
 Performs integration in the frequency domain.
 
+SYNTAX
+------
+::
+
+    DIVOMEGA value
+
 DESCRIPTION
 -----------
   This command divides each point of a spectral file by its frequency
@@ -26,10 +32,10 @@ EXAMPLES
 --------
   The steps discussed above are shown in this example::
 
-      u:  READ FILE1
-      u:  DIF
-      u:  FFT AMPH
-      u:  DIVOMEGA
+      SAC> READ FILE1
+      SAC> DIF
+      SAC> FFT AMPH
+      SAC> DIVOMEGA
 
 HEADER CHANGES
 --------------

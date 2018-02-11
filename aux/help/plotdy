@@ -1,4 +1,3 @@
-
 PLOTDY
 ++++++
 
@@ -8,21 +7,22 @@ Creates a plot with error bars.
 
 SYNTAX
 ------
+::
 
-  ``PLOTDY {ASPECT ON|OFF} {PRINT pname} name|number  name|number  { name|number }``
+  PLOTDY {ASPECT ON|OFF} {PRINT pname} name|number  name|number  { name|number }
 
 INPUT
 -----
    :ASPECT:  ON maintains a 3/4 aspect ratio.  OFF allows the aspect
        ratio to vary with the dimensions of the window.
-    
+
    :PRINT {pname}:  Print the resultant plot.  If a printer name is given,
        print to that printer, else use default printer.
-    
+
    :name:  The name of a data file in the data file list.
-    
+
    :number:  The number of a data file in the data file list.
-    
+
 DESCRIPTION
 -----------
   This command allows you to plot a data set with error bars.  The first
@@ -34,8 +34,8 @@ DESCRIPTION
   of numbers. The first is the y-value. The second column is the dy-value.  You
   wish to read these into SAC and plot the data with error bars.::
 
-      u: READALPHA CONTENT YY MYFILE
-      u: PLOTDY 1 2
+      SAC> READALPHA CONTENT YY MYFILE
+      SAC> PLOTDY 1 2
 
 ERROR MESSAGES
 --------------
@@ -44,4 +44,3 @@ ERROR MESSAGES
 LATEST REVISION
 ---------------
   July 22, 1992 (Version 10.6f)
-

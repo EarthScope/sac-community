@@ -8,8 +8,9 @@ Closes the currently open HYPO pick file.
 
 SYNTAX
 ------
+::
 
-  ``CHPF``
+  CHPF
 
 DESCRIPTION
 -----------

@@ -8,13 +8,14 @@ Turns on logarithimic scaling for the x axis.
 
 SYNTAX
 ------
+::
 
-  ``XLOG``
+  XLOG
 
 DEFAULT VALUES
 --------------
 
-  ``Linear scaling.``
+  Linear scaling.
 
 LATEST REVISION
 ---------------

@@ -8,8 +8,9 @@ Removes the mean.
 
 SYNTAX
 ------
+::
 
-  ``RMEAN``
+  RMEAN
 
 ERROR MESSAGES
 --------------

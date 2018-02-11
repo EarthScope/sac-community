@@ -7,8 +7,9 @@ Zeros or reinitializes the signal stack.
 
 SYNTAX
 ------
+::
 
-   ``[Z]ERO[S]TACK``
+   [Z]ERO[S]TACK
 
 DESCRIPTION
 -----------

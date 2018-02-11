@@ -1,4 +1,3 @@
-
 FILTERDESIGN
 ++++++++++++
 
@@ -9,34 +8,37 @@ for: amplitude, phase, and impulse response curves, and the group delay.
 
 SYNTAX
 ------
+::
 
-  ``FILTERDESIGN [PRINT [pname] ] [FILE [prefix] ][filteroptions] [delta]``
+  FILTERDESIGN [PRINT [pname] ] [FILE [prefix] ][filteroptions] [delta]
 
-   where filteroptions are the same as those used in the various
-   filter commands in SAC, including the filter type.
-   delta is the sampling interval of the data
+where filteroptions are the same as those used in the various filter
+commands in SAC, including the filter type.  delta is the sampling
+interval of the data
 
-   **Note** Order of options is important.  If the PRINT option is
-   used, it must be the first option.  If the FILE option is used, it
-   must precede the filter options.``
+**Note**
+Order of options is important.  If the PRINT option is used, it must
+be the first option.  If the FILE option is used, it must precede the
+filter options.
 
 INPUT
 -----
 
-  :PRINT {pname}  :  Prints the resulting plot to the printer named in
-     pname, or to the default printer if pname is not used.``
+  :PRINT {pname}:  Prints the resulting plot to the printer named in
+     pname, or to the default printer if pname is not used.
+
      **Note** this must be the first option given on the command line.
      (This makes use of the SGF capability.)
 
-  :FILE {prefix}  :  Writes three SAC files to disk.  Theses files
-     contain the digital responses determined in
-     the FILTERDESIGN:
+  :FILE {prefix}:  Writes three SAC files to disk.  Theses files
+     contain the digital responses determined in the FILTERDESIGN:
 
   :[prefix].spec: is of type IAMPH, and contains both the amplitude
      and phase information from the FILTERDESIGN.
 
   :[prefix].gd: is of type ITIME, and contains the group delay
      information from the FILTERDESIGN.
+
      **Note** that in spite of the fact that the file is of
      type ITIME, group delay is a function of frequency.
      It is incumbent upon the user to remember that
@@ -77,7 +79,6 @@ INPUT
 
 DEFAULT VALUES
 --------------
-
   Only the delta parameter has a default (0.025 seconds). Options for filter
   type and related parameters must be supplied.
 
@@ -98,16 +99,15 @@ EXAMPLES
   produce the digital and analog response curves for a highpass, 2 Hz., six
   pole, two pass filter on data with a sampling rate of .025 seconds.::
 
-    u1: fd hp c 2 n 6 p 2 delta .025
+    SAC> fd hp c 2 n 6 p 2 delta .025
 
 SEE COMMANDS
 ------------
   HIGHPASS_, LOWPASS_, BANDPASS_, BANDREJECT UCRL-ID-106005. XAPiir: A Recursive
   Digital Filtering Package. David Harris. September 21, 1990 In Xwindows, a
-  linestyle problem may cause both analog and digital traces to plot as solid 
+  linestyle problem may cause both analog and digital traces to plot as solid
   lines.
 
 LATEST REVISION
 ---------------
   July 22, 1991 (Version 0.58)
-

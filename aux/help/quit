@@ -8,8 +8,9 @@ Terminates SAC.
 
 SYNTAX
 ------
+::
 
-  ``QUIT``
+  QUIT
 
 ALTERNATE FORMS
 ---------------

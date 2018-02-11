@@ -8,13 +8,14 @@ Turns on linear scaling for the y axis.
 
 SYNTAX
 ------
+::
 
-  ``YLIN``
+  YLIN
 
 DEFAULT VALUES
 --------------
 
-  ``Linear scaling.``
+  Linear scaling.
 
 LATEST REVISION
 ---------------

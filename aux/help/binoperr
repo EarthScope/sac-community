@@ -1,4 +1,3 @@
-
 BINOPERR
 ++++++++
 
@@ -8,36 +7,38 @@ Controls errors that can occur during binary file operations.
 
 SYNTAX
 ------
+::
 
-  ``BINOPERR {NPTS FATAL|WARNING|IGNORE},``
-
-  ``{DELTA FATAL|WARNING|IGNORE}``
+  BINOPERR {NPTS FATAL|WARNING|IGNORE},
+       {DELTA FATAL|WARNING|IGNORE}
 
 INPUT
 -----
    :NPTS:  Change error condition for unequal number of data points.
-    
+
    :DELTA:  Change error condition for unequal sampling intervals.
-    
+
    :FATAL:  Make error condition fatal.  Control is immediately returned
        to the user's terminal.  Additional commands typed on the same line
        or in the same command file are ignored.
-    
+
    :WARNING:  Send a warning message to the user.  Correct the error
        condition and continue.
-    
+
    :IGNORE:  Correct the error condition and continue.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``BINOPERR NPTS FATAL DELTA FATAL``
+  BINOPERR NPTS FATAL DELTA FATAL
 
 DESCRIPTION
 -----------
   SAC checks for certain common errors whenever you execute a binary
   operations module command (ADDF, DIVF_, etc.) Using this command, you can
   control what SAC does when it finds one of these errors.
+  
   If you make an error condition fatal, then SAC will stop executing the
   current command, will ignore all commands in its queue, will print an error
   message to the terminal, and will return control to you.  If you make an error
@@ -59,16 +60,16 @@ EXAMPLES
 --------
   Assume that FILE1 has 1000 data points and FILE2 has 950 data points.::
 
-      u:  BINOPERR NPTS FATAL
-      u:  READ FILE1
-      u:  ADDF FILE2
-      u:  ERROR:  Header field mismatch: NPTS FILE1 FILE2
+      SAC> BINOPERR NPTS FATAL
+      SAC> READ FILE1
+      SAC> ADDF FILE2
+      SAC> ERROR:  Header field mismatch: NPTS FILE1 FILE2
 
   The file addition was not performed.  Assume you now type::
 
-      u:  BINOPERR NPTS WARNING
-      u:  ADDF FILE2
-      u:  WARNING:  Header field mismatch: NPTS FILE1 FILE2
+      SAC> BINOPERR NPTS WARNING
+      SAC> ADDF FILE2
+      SAC> WARNING:  Header field mismatch: NPTS FILE1 FILE2
 
   The file addition was performed on the first 950 data points of each file.
 
@@ -79,4 +80,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
   January 8, 1983 (Version 8.0)
-

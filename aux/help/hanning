@@ -8,8 +8,9 @@ Applies a "hanning" window to each data file.
 
 SYNTAX
 ------
+::
 
-  ``HANNING``
+  HANNING
 
 DESCRIPTION
 -----------
@@ -27,8 +28,11 @@ ERROR MESSAGES
 
 HEADER CHANGES
 --------------
-  DEPMIN, DEPMAX, DEPMEN Blackman and Tukey, "The Measurement of Power 
-  Spectra", Dover Publications, New York, 1958.
+  DEPMIN, DEPMAX, DEPMEN
+
+REFERENCES
+----------
+  Blackman and Tukey, "The Measurement of Power  Spectra", Dover Publications, New York, 1958.
 
 LATEST REVISION
 ---------------

@@ -1,4 +1,3 @@
-
 VSPACE
 ++++++
 
@@ -8,21 +7,23 @@ Changes the maximum size and shape of plots.
 
 SYNTAX
 ------
+::
 
-  ``VSPACE FULL|v``
+  VSPACE FULL|v
 
 INPUT
 -----
    :FULL:  Use full viewspace.  This is the largest possible screen or
        window size.
-    
+
    :v:  Force the viewspace to have a y:x aspect ratio of v.  The largest
        possible area with this aspect ratio becomes the viewspace.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``VSPACE FULL``
+  VSPACE FULL
 
 DESCRIPTION
 -----------
@@ -63,4 +64,3 @@ DESCRIPTION
 LATEST REVISION
 ---------------
   May 15, 1987 (Version 10.2)
-

@@ -1,4 +1,3 @@
-
 READSP
 ++++++
 
@@ -8,27 +7,29 @@ Reads spectral files written by WRITESP_ and WRITESPE.
 
 SYNTAX
 ------
+::
 
-  ``READSP {AMPH|RLIM|SPE} {filelist}``
+  READSP {AMPH|RLIM|SPE} {filelist}
 
 INPUT
 -----
    :RLIM:  Read real and imaginary components.
-    
+
    :AMPH:  Read amplitude and phase components.
-    
+
    :SPE:  Read spectral estimation subprocess files.  The data is
        converted from power to amplitude.  The phase component is set to
        zeros.
-    
+
    :filelist:  A list of SAC binary data files.  This list may contain
        simple filenames, full or relative pathnames, and wildcard
        characters.  See the READ_ command for a complete description.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``READSP AMPH``
+  READSP AMPH
 
 DESCRIPTION
 -----------
@@ -63,4 +64,3 @@ REFERENCES
 LATEST REVISION
 ---------------
    April 21, 1989 (Version 10.4c)
-

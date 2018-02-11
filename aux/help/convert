@@ -1,4 +1,3 @@
-
 CONVERT
 +++++++
 
@@ -8,30 +7,32 @@ Converts data files from one format to another.
 
 SYNTAX
 ------
+::
 
-  ``CONVERT {FROM} {format} infile``
+  CONVERT {FROM} {format} infile
+     {TO {format} outfile}|{OVER {format}}
 
-  ``{TO {format} outfile}|{OVER {format}}``
-   where format is one of the following:
+where format is one of the following::
 
-  ``SAC|ALPHA``
+  SAC|ALPHA
 
 INPUT
 -----
    :infile:  The name of the input data file.
-    
+
    :outfile:  The name of the output data file.
-    
+
    :OVER:  Overwrite the input data file.
-    
+
    :SAC:  SAC formatted binary data file.
-    
+
    :ALPHA:  Alphanumeric equivalent of SAC binary data file.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``CONVERT FROM SAC infile OVER SAC``
+  CONVERT FROM SAC infile OVER SAC
 
 DESCRIPTION
 -----------
@@ -43,4 +44,3 @@ DESCRIPTION
 LATEST REVISION
 ---------------
    August 2011
-

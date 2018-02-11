@@ -242,5 +242,6 @@
 .. _sss: sss.com/sss.html
 .. _ssstraveltime: sss.com/traveltime.html
 .. _deletestack: sss.com/deletestack.html
+.. _writestack: sss.com/writestack.html
 
 .. _spe: spe.com/spe.html

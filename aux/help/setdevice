@@ -1,4 +1,3 @@
-
 SETDEVICE
 +++++++++
 
@@ -8,13 +7,14 @@ Defines a default graphics device to use in subsequent plots.
 
 SYNTAX
 ------
+::
 
-  ``SETDEVICE name``
+  SETDEVICE name
 
 INPUT
 -----
    :name:  The name of a graphics device.
-    
+
 DESCRIPTION
 -----------
    This command lets you define the name of a default graphics device to use in
@@ -31,4 +31,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
    May 15, 1987 (Version 10.2)
-

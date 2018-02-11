@@ -1,4 +1,3 @@
-
 FILENUMBER
 ++++++++++
 
@@ -8,20 +7,21 @@ Controls the file number display found on most SAC plots.
 
 SYNTAX
 ------
+::
 
-  ``FILENUMBER {ON|OFF}``
+  FILENUMBER {ON|OFF}
 
 INPUT
 -----
    :FILENUMBER ON:  Turn on file number option.
-    
+
    :FILENUMBER {OFF}:  Turn off file number option.
-    
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``FILENUMBER OFF``
+  FILENUMBER OFF
 
 DESCRIPTION
 -----------
@@ -33,4 +33,3 @@ DESCRIPTION
 LATEST REVISION
 ---------------
    February 5, 1997 (Version 53)
-

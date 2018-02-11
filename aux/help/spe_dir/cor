@@ -1,4 +1,3 @@
-
 COR
 +++
 
@@ -7,19 +6,20 @@ SUMMARY
 Computes the correlation function.
 
 SYNTAX
------- 
-  
-  ``COR  {[N]UMBER n|ON|OFF}, {[L}ENGTH v}, {[T]YPE type}``
-  ``{[P]REWHITEN ON|OFF|n}, {[S]TOCASTIC|[TR]ANSIENT}``
+------
+::
 
-   where type is one of the following:
+  COR  {[N]UMBER n|ON|OFF}, {[L}ENGTH v}, {[T]YPE type}
+     {[P]REWHITEN ON|OFF|n}, {[S]TOCASTIC|[TR]ANSIENT}
 
-   ``[HAM]MING``
-   ``[HAN]NING``
-   ``[C]OSINE``
-   ``[R]ECTANGLE``
-   ``[T]RIANGLE``
-        
+where type is one of the following::
+
+   [HAM]MING
+   [HAN]NING
+   [C]OSINE
+   [R]ECTANGLE
+   [T]RIANGLE
+
 INPUTS
 ------
 
@@ -42,45 +42,46 @@ INPUTS
 
 DEFAULT VALUES
 --------------
+::
 
-   ``COR NUMBER OFF TYPE HAMMING PREWHITEN OFF``
+   COR NUMBER OFF TYPE HAMMING PREWHITEN OFF
 
-  note that if PREWHITEN is turned on without specifying
-  the order, it will default to 6 unless it has been
-  previously set by the WHITEN_ command in SPE_.
+Note that if PREWHITEN is turned on without specifying
+the order, it will default to 6 unless it has been
+previously set by the WHITEN_ command in SPE_.
 
 DESCRIPTION
 -----------
-  This correlation command assumes that the data is stationary.  Under that 
-  assumption the data is segmented into many windows, and a sample correlation 
-  function  is calculated for each window.  These sample correlation 
-  functions  are averaged to produce a more stable estimate of the underlying  
-  correlation function of the random process.  The number of windows, the  
-  window length, and the window type (called a data window, to distinguish  it 
-  from a window used in the PDS_ command) are under user control.  If the  
-  window length times the number of windows exceeds the total data length,  
-  the program overlaps the windows.  The amount of overlap is not under user 
+  This correlation command assumes that the data is stationary.  Under that
+  assumption the data is segmented into many windows, and a sample correlation
+  function  is calculated for each window.  These sample correlation
+  functions  are averaged to produce a more stable estimate of the underlying
+  correlation function of the random process.  The number of windows, the
+  window length, and the window type (called a data window, to distinguish  it
+  from a window used in the PDS_ command) are under user control.  If the
+  window length times the number of windows exceeds the total data length,
+  the program overlaps the windows.  The amount of overlap is not under user
   control.
 
-  For a fixed data size, there is obviously a tradeoff between the number of 
-  windows to be used and the window size.  This tradeoff ultimately results in 
-  a tradeoff between the bias and variance of the spectral estimates made 
+  For a fixed data size, there is obviously a tradeoff between the number of
+  windows to be used and the window size.  This tradeoff ultimately results in
+  a tradeoff between the bias and variance of the spectral estimates made
   using the correlation function.
 
-  The frequency-domain resolution of a spectral estimator depends on the 
-  length of the  available correlation and, therefore, indirectly on the size 
-  of the data window. The larger the correlation window, the smaller the bias 
+  The frequency-domain resolution of a spectral estimator depends on the
+  length of the  available correlation and, therefore, indirectly on the size
+  of the data window. The larger the correlation window, the smaller the bias
   in the spectral estimate resulting from frequency-domain smoothing.
 
-  However, as the data window size is increased, fewer windows can be used in 
-  the averaging process.  Consequently, the variance of the correlation 
-  function estimate increases, and with it, the variance  of the spectral 
+  However, as the data window size is increased, fewer windows can be used in
+  the averaging process.  Consequently, the variance of the correlation
+  function estimate increases, and with it, the variance  of the spectral
   estimate.
 
-  The choice of data window type can be used to fine-tune the tradeoff between 
-  bias and variance.  The smoother windows tend to taper the data off near the 
-  window edges, effectively reducing window length.  Thus, the windows can be 
-  overlapped more, and more can be used.  This choice decreases variance at 
+  The choice of data window type can be used to fine-tune the tradeoff between
+  bias and variance.  The smoother windows tend to taper the data off near the
+  window edges, effectively reducing window length.  Thus, the windows can be
+  overlapped more, and more can be used.  This choice decreases variance at
   the expense of increasing bias.
 
   There is another important source of bias when the dynamic range of
@@ -100,7 +101,6 @@ DESCRIPTION
   signal.  If you use prewhitening, quit the subprocess, and wish to use
   the original signal in some other operation, you MUST reread it into SAC.
 
-
   This correlation function is used in the calculation of the spectral
   estimate.
 
@@ -114,11 +114,6 @@ HEADER CHANGES
 --------------
   DEPMIN, DEPMAX, DEPMIN
 
-LIMINTATIONS
-------------
-  Prior to 1998, maximum window length was 2048 samples.  No restriction now.
-
 SEE COMMANDS
 ------------
   PLOTCOR_, WRITECOR_, WHITEN_, READCOR_
-

@@ -1,4 +1,3 @@
-
 XFULL
 +++++
 
@@ -8,19 +7,21 @@ Controls plotting of x axis full logarithmic decades.
 
 SYNTAX
 ------
+::
 
-  ``XFULL {ON|OFF}``
+  XFULL {ON|OFF}
 
 INPUT
 -----
    :{ON}:  Turn full decade plotting on.
-    
+
    :OFF:  Turn full decade plotting off.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``XFULL ON``
+  XFULL ON
 
 DESCRIPTION
 -----------
@@ -36,4 +37,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
    January 8, 1983 (Version 8.0)
-

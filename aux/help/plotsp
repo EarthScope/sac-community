@@ -1,4 +1,3 @@
-
 PLOTSP
 ++++++
 
@@ -8,46 +7,47 @@ Plots spectral data in several different formats.
 
 SYNTAX
 ------
+::
 
-  ``PLOTSP {type},{mode}``
-   where type is one of the following:
+  PLOTSP {type},{mode}
 
+where type is one of the following::
 
-  ``ASIS|RLIM|AMPH|RL|IM|AM|PH``
+  ASIS | RLIM | AMPH | RL | IM | AM | PH
 
-   where mode is one of the following:
+where mode is one of the following::
 
-
-  ``LINLIN|LINLOG|LOGLIN|LOGLOG``
+  LINLIN | LINLOG | LOGLIN | LOGLOG
 
 INPUT
 -----
    :ASIS:  Plot components in their present format.
-    
+
    :RLIM:  Plot real and imaginary components.
-    
+
    :AMPH:  Plot amplitude and phase components.
-    
+
    :RL:  Plot real component only.
-    
+
    :IM:  Plot imaginary component only.
-    
+
    :AM:  Plot amplitude component only.
-    
+
    :PH:  Plot phase component only.
-    
+
    :LINLIN:  Set x-y scaling mode to linear-linear.
-    
+
    :LINLOG:  Set x-y scaling mode to linear-logarithmic.
-    
+
    :LOGLIN:  Set x-y scaling mode to logarithmic-linear.
-    
+
    :LOGLOG:  Set x-y scaling mode to logarithmic-logarithmic.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``PLOTSP ASIS LOGLOG``
+  PLOTSP ASIS LOGLOG
 
 DESCRIPTION
 -----------
@@ -65,9 +65,9 @@ EXAMPLES
 --------
   To get a logarithmic-linear plot of the spectral amplitude of a data file::
 
-      u:  READ FILE1
-      u:  FFT
-      u:  PLOTSP AM LOGLIN
+      SAC> READ FILE1
+      SAC> FFT
+      SAC> PLOTSP AM LOGLIN
 
 ERROR MESSAGES
 --------------
@@ -78,4 +78,3 @@ ERROR MESSAGES
 LATEST REVISION
 ---------------
   May 15, 1987 (Version 10.2)
-

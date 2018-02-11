@@ -1,4 +1,3 @@
-
 PLOT1
 +++++
 
@@ -8,17 +7,18 @@ Generates a multi-trace multi-window plot.
 
 SYNTAX
 ------
+::
 
-  ``[P]LOT[1] {ABSOLUTE|RELATIVE},{PERPLOT {n|OFF|ON}} {PRINT {pname} }``
+  [P]LOT[1] {ABSOLUTE|RELATIVE},{PERPLOT {n|OFF|ON}} {PRINT {pname} }
 
 INPUT
 -----
 
    :ABSOLUTE:  Plots files treating time as an absolute.  Files with
        different begin times will be shifted relative to each other.
-    
+
    :RELATIVE:  Plots files relative to that file's begin time.
-    
+
    :PERPLOT n:  Plots n files per frame.
 
    :PERPLOT ON:  Plots n files per frame.  Use last value for n.
@@ -28,16 +28,17 @@ INPUT
    :PRINT {pname}:  Prints the resulting plot to the printer named in
        pname, or to the default printer if pname is not used.  (This
        makes use of the SGF_ capability.)
-    
-    
+
+
 ALTERNATE FORMS
 ---------------
 PERPLOT ALL has the same meaning as PERPLOT OFF.
 
 DEFAULT VALUES
 --------------
+::
 
-  ``PLOT1 ABSOLUTE PERPLOT OFF``
+  PLOT1 ABSOLUTE PERPLOT OFF
 
 DESCRIPTION
 -----------
@@ -77,8 +78,8 @@ EXAMPLES
       SAC> QDP 2000
       SAC> P1
 
-   Note the use of a UNIX wildcard character in the READ_ command, the 
-   echoing of the filelist by SAC, the specification of a special file id, 
+   Note the use of a UNIX wildcard character in the READ_ command, the
+   echoing of the filelist by SAC, the specification of a special file id,
    and the evaluation of several header variables to create the title.
 
 ERROR MESSAGES
@@ -92,4 +93,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
    January 8, 1983 (Version 8.0)  Text altered in August 2011.
-

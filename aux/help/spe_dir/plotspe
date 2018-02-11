@@ -6,7 +6,10 @@ SUMMARY
 Plots the spectral estimate.
 
 SYNTAX
-   ``[P]LOT[SPE] {[P]OWER|[L]OG|[A]MPLITUDE} {[C]ONFIDENCE {ON|OFF}}``
+------
+::
+
+   [P]LOT[SPE] {[P]OWER|[L]OG|[A]MPLITUDE} {[C]ONFIDENCE {ON|OFF}}
 
 INPUT
 -----
@@ -19,9 +22,9 @@ INPUT
 
 DEFAULT VALUES
 --------------
+::
 
-   ``PLOTSP POWER CONFIDENCE OFF``
-
+   PLOTSP POWER CONFIDENCE OFF
 
 DESCRIPTION
 -----------

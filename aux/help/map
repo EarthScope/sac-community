@@ -1,4 +1,3 @@
-
 MAP
 +++
 
@@ -14,87 +13,77 @@ SUMMARY
 
 SYNTAX
 ------
+::
 
-  ``MAP   {MERcator | EQuidistant | AZimuthal_equidistant | ROBinson }``
+  MAP   {MERcator | EQuidistant | AZimuthal_equidistant | ROBinson }
+    {WEST minlon} {EAST maxlon} {NORTH maxlat} {SOUTH minlat}
+    {MAGnitude | REsidual | RMean_residual}
+    {EVentfile filename} {TOPOgraphy} {STANames}
+    {MAPSCALE on|off } {PLOTSTATIONS on|off} {PLOTEVENTS on|off}
+    {PLOTLEGEND on|off} {LEGENDXY x y} {FILE output-file}
 
-  ``{WEST minlon} {EAST maxlon} {NORTH maxlat} {SOUTH minlat}``
-
-  ``{MAGnitude | REsidual | RMean_residual}``
-
-  ``{EVentfile filename} {TOPOgraphy} {STANames}``
-
-  ``{MAPSCALE on|off } {PLOTSTATIONS on|off} {PLOTEVENTS on|off}``
-
-  ``{PLOTLEGEND on|off} {LEGENDXY x y} {FILE output-file}``
-
-  **Note** Shorthand notations for keywords are in capital letters.
+**Note**
+Shorthand notations for keywords are in capital letters.
 
 INPUT OPTIONS
 -------------
 
- :MERCATOR:    Generate a Mercator projection.              [ Default ]
- :EQUIDISTANT: Generate an Equidistant cylindrical projection.  
- 	       Linear in latitude and longitude.
- :ROBINSON:    Robinson projection, nice for world map.
- :LAMBERT:     Good for large east-west areas.
- :UTM:         Universal transverse mercator. (unimplemented)
-
- Distances from center are true.
+  :MERCATOR:    Generate a Mercator projection.              [ Default ]
+  :EQUIDISTANT: Generate an Equidistant cylindrical projection.
+               Linear in latitude and longitude.
+  :ROBINSON:    Robinson projection, nice for world map.
+  :LAMBERT:     Good for large east-west areas.
+  :UTM:         Universal transverse mercator. (unimplemented)
+                Distances from center are true.
 
  The following options allow the user to specify the map region.
  The default is to use the min and max defined by the plotted stations
  and events.
 
- :WEST:        Define minimum longitude for map window.
- :EAST:        Define maximum longitude for map window.
- :NORTH:       Define maximum latitude for map window.
- :SOUTH:       Define minimum latitude for map window.
- :AUTOLIMITS:  Automatically Determine the Limits           [ Default ]
+  :WEST:        Define minimum longitude for map window.
+  :EAST:        Define maximum longitude for map window.
+  :NORTH:       Define maximum latitude for map window.
+  :SOUTH:       Define minimum latitude for map window.
+  :AUTOLIMITS:  Automatically Determine the Limits           [ Default ]
 
 
  The following options allow the user to add locations and annotations to
  the map.
 
- :STANames:     on | off                                     [ Off ]
- :MAPSCALE:     on | off                                     [ Off ]
- 		Plot a Distance Scale on the Map
- :PLOTSTATIONS: on | off                                     [ On  ]
- 		Plot all the Stations from seismograms
- :PLOTEVENTS:   on | off                                     [ On  ]
-  		Plot all the Events from eventfile and/or seismograms
+  :STANames:     On | [ Off ]
+  :MAPSCALE:     On | [ Off ] - Plot a Distance Scale on the Map
+  :PLOTSTATIONS: [ On ] | Off - Plot all the Stations from seismograms
+  :PLOTEVENTS:   [ On ] | Off - Plot all the Events from eventfile and/or seismograms
 
  The following options allow the user to scale the event symbols.
  The default is a constant symbol size.
 
  :MAGnitude: Scale event symbols linearly with user0.       [ Off ]
  :REsidual:  Scale event symbols linearly with abs(user0).  [ Off ]
-	    Positive values are (+) negatives are (-).
+      Positive values are (+) negatives are (-).
  :RMean_residual: Same as residual except mean is removed   [ Off ]
-		 from all the residuals.
- :PLOTLEGEND:  on | off                                     [ On  ]
-	      Plot a legend for Earthquake Magnitudes and Residuals 
+     from all the residuals.
+ :PLOTLEGEND:  [ On ] | Off - Plot a legend for Earthquake Magnitudes and Residuals
  :LEGENDXY x y: Absolute Location to Plot the Legend        [ 1,1 ]
-	       The location is relative to the lower left corner of the Page
-	       Values for x and y are to be in inches.
-	       This is a legend for Earthquake Magnitudes and Residuals
+         The location is relative to the lower left corner of the Page
+         Values for x and y are to be in inches.
+         This is a legend for Earthquake Magnitudes and Residuals
 
  :EVENTFILE:   Specify a free-format ASCII text file containing
-	      additional event data. Each line in the file contains
-	      data for a single event.  The first two columns of
-	      each line must contain latitude and longitude (in
-	      degrees), respectively.  The third column is optional
-	      and contains symbol size information  (e.g.,
-	      magnitudes, depth, travel-time residual, ...).
-	      The following is an example of a few lines in an
-	      eventfile::
+        additional event data. Each line in the file contains
+        data for a single event.  The first two columns of
+        each line must contain latitude and longitude (in
+        degrees), respectively.  The third column is optional
+        and contains symbol size information  (e.g.,
+        magnitudes, depth, travel-time residual, ...).
+        The following is an example of a few lines in an
+        eventfile::
 
-	        38.5    42.5   6.5
-	        25.5    37.3   5.5
-	        44.2    40.9   5.7
+          38.5    42.5   6.5
+          25.5    37.3   5.5
+          44.2    40.9   5.7
 
- A TITLE_ can be specified using SAC's TITLE_ command.
-
- :TOPOgraphy:   on | off                                     [ Off ]
+ :TOPOgraphy:    On | [ Off ]
   Setting TOPO on allows the user to add  topography and bathymetry to the
   maps.  The command reads option (1) in grdraster.info, and the data file
   referenced for that option must be installed.  The topography color map
@@ -107,12 +96,11 @@ using the FILE option.
 
 DEFAULT VALUES
 --------------
+::
 
-  ``MAP  MERCATOR TOPO off STAN off FILE gmt.ps PLOTSTATIONS on PLOTEVENTS on``
+  MAP  MERCATOR TOPO off STAN off FILE gmt.ps PLOTSTATIONS on PLOTEVENTS on
 
-  ``FUNCTIONAL MODULE: FK Spectrum (fks)``
-
-  A title can be added using ch TITLE "..." before running map.
+A title can be added using ch TITLE_ "..." before running map.
 
 HEADER DATA
 -----------
@@ -142,5 +130,3 @@ HEADER DATA
     Linux:    gs, gv, ggv, evince
     Mac/OSX:  open, Preview, gs, gv
     Sun/Solaris:  gs, gv
-
-

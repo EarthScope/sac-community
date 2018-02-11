@@ -1,4 +1,3 @@
-
 KHRONHITE
 +++++++++
 
@@ -8,17 +7,19 @@ Applies a Khronhite filter to the data.
 
 SYNTAX
 ------
+::
 
-  ``KHRONHITE {v}``
+  KHRONHITE {v}
 
 INPUT
 -----
    :v:  Cutoff frequency in hertz.
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``KHRONHITE 2.0``
+  KHRONHITE 2.0
 
 DESCRIPTION
 -----------
@@ -35,4 +36,3 @@ HEADER CHANGES
 LATEST REVISION
 ---------------
    February 15, 1987
-

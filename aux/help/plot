@@ -1,4 +1,3 @@
-
 PLOT
 ++++
 
@@ -8,16 +7,16 @@ Generates a single-trace single-window plot.
 
 SYNTAX
 ------
+::
 
-  ``PLOT {PRINT {pname} }``
+  PLOT {PRINT {pname} }
 
 INPUT
 -----
    :PRINT {pname}:  Prints the resulting plot to the printer named in
        pname, or to the default printer if pname is not used.
        (This makes use of the SGF_ capability.)
-    
-    
+
 DESCRIPTION
 -----------
   Each data file is displayed in a separate plot.  The total size of the
@@ -46,4 +45,3 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
   January 8, 1983 (Version 8.0)
-

@@ -1,4 +1,3 @@
-
 GTEXT
 +++++
 
@@ -8,39 +7,42 @@ Controls the quality and font of text used in plots.
 
 SYNTAX
 ------
+::
 
-  ``GTEXT {SOFTWARE|HARDWARE},{FONT n},{SIZE size} {SYSTEM system} {NAME name}``
+  GTEXT {SOFTWARE|HARDWARE},{FONT n},{SIZE size} {SYSTEM system} {NAME name}
 
 INPUT
 -----
    :SOFTWARE:  Use software text in plots.
-    
+
    :HARDWARE:  Use hardware text in plots.
-    
+
    :FONT n:  Set software text font to n.  The range for n is currently 1
        to 8.
-    
+
    :FORCE n:  Use harware text in all cases for plots. Overrides HARDWARE
        option.  HARDWARE still uses software for rotated fonts.
-    
+
    :SIZE size:  Change default text size.  See TSIZE_ command for
        definitions of text sizes.  Option size  is one fo the following:
 
-    ``TINY|SMALL|MEDIUM|LARGE``
-   
+       TINY|SMALL|MEDIUM|LARGE
+
    :SYSTEM system:  Change the Font subsystem, current values are
-       - SOFTWARE  Traditional SAC Font system
-       - CORE      X11 Core Fonts, this creates a real font
-       - XFT       X Freetype library, this creates a real font
+
+       :SOFTWARE:  Traditional SAC Font system
+       :CORE:      X11 Core Fonts, this creates a real font
+       :XFT:       X Freetype library, this creates a real font
 
    :NAME name:  Change the default font used in the CORE or XFT subsystem
        Available fonts are: Helvetica, Times-Roman, Courier, ZapfDingbats
 
-    
+
 DEFAULT VALUES
 --------------
+::
 
-  ``GTEXT SOFTWARE FONT 1 SIZE SMALL``
+  GTEXT SOFTWARE FONT 1 SIZE SMALL
 
 DESCRIPTION
 -----------
@@ -64,7 +66,7 @@ EXAMPLES
 --------
   To select the triplex software font::
 
-      u:  GTEXT SOFTWARE FONT 6
+      SAC>  GTEXT SOFTWARE FONT 6
 
 SEE COMMANDS
 ------------
@@ -74,4 +76,3 @@ LATEST REVISION
 ---------------
   July 22, 1991 (Version 9.1)
   Text Fonts and Default Text Sizes
-

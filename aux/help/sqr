@@ -8,8 +8,9 @@ Squares each data point.
 
 SYNTAX
 ------
+::
 
-  ``SQR``
+  SQR
 
 ERROR MESSAGES
 --------------
