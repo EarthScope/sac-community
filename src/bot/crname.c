@@ -63,6 +63,7 @@ crname(char *kname, int kname_s, char kdelim, char *kappnd, int kappnd_s,
 
     if (mname >= (nname + nappnd + 1)) {
         cattemp = malloc(nappnd + 2);
+        memset(cattemp, 0, nappnd + 2);
         cattemp[0] = kdelim;
         strncpy(cattemp + 1, kappnd, nappnd);
         cattemp[nappnd + 1] = '\0';

@@ -134,7 +134,7 @@ pltplr(float *s, int naz, int ninc, int levels, char *scalng, int lprint,
 
     /*  Add grid                                                                     
      * */
-    setcolor_index(3);
+    setcolorname("blue", 5);
     setlinestyle(2);
     worldsector(0.0, 0.0, 0.8 / 3., 0., 360., 1.);
     worldsector(0.0, 0.0, 2. * 0.8 / 3., 0., 360., 1.);
@@ -157,7 +157,7 @@ pltplr(float *s, int naz, int ninc, int levels, char *scalng, int lprint,
 
     /*  Label axes                                                                   
      * */
-    setcolor_index(2);
+    setcolorname("green", 6);
     settextjust(CENTER, BOTTOM);
     worldmove(0.0, 0.82);
     text("NORTH", 6, 5);
@@ -167,7 +167,7 @@ pltplr(float *s, int naz, int ninc, int levels, char *scalng, int lprint,
 
     /*    Title                                                                      
      * */
-    setcolor_index(7);
+    setcolorname("black", 6);
     settextjust(CENTER, CENTER);
     txtxps = .5;
     txtyps = .9 * aspect;

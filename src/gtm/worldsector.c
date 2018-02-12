@@ -53,6 +53,7 @@ worldsector(xwcen, ywcen, radius, deg1, deg2, degi)
         x = xwcen + radius * sin(rdeg);
         y = ywcen + radius * cos(rdeg);
         worlddraw(x, y);
+        worldmove(x,y);
     }
 
     /* - Draw to last point. */

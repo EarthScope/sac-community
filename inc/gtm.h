@@ -75,9 +75,9 @@ struct t_kmgtm {
     extern float *const xwc;                    \
     extern float *const yvp;                    \
     extern float *const ywc;                    \
-    extern float *const Xvp;                    \
+    extern double *const Xvp;                    \
     extern float *const Xwc;                    \
-    extern float *const Yvp;                    \
+    extern double *const Yvp;                    \
     extern float *const Ywc;
 
 void calwvtransform(void);

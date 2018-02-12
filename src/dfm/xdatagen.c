@@ -141,6 +141,7 @@ xdatagen(int *nerr) {
 
     if (*nerr != 0)
         goto L_8888;
+    memset(ktemp, 0, sizeof(ktemp));
     modcase(FALSE, (char *) kmdfm.kdgsub[cmdfm.idgsub - 1], MCPW, ktemp);
     crname(kdgdir, MCPFN + 1, KSUBDL, ktemp, 9, nerr);
     if (*nerr != 0)

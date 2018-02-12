@@ -10,9 +10,9 @@ float *const xvp = (float *) &cmgtm.xvpmin;
 float *const xwc = (float *) &cmgtm.xwcmin;
 float *const yvp = (float *) &cmgtm.yvpmin;
 float *const ywc = (float *) &cmgtm.ywcmin;
-float *const Xvp = (float *) (&cmgtm.xvpmin - 1);
+double *const Xvp = (double *) (&cmgtm.xvpmin - 1);
 float *const Xwc = (float *) (&cmgtm.xwcmin - 1);
-float *const Yvp = (float *) (&cmgtm.yvpmin - 1);
+double *const Yvp = (double *) (&cmgtm.yvpmin - 1);
 float *const Ywc = (float *) (&cmgtm.ywcmin - 1);
 
 void /*FUNCTION*/
