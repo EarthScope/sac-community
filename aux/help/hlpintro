@@ -56,7 +56,7 @@ Main SAC commands (ns means not supported)
  getbb           gmap            gmtmap          grayscale       grid
  gtext
 
- hanning         help            help_intro  highpass        hilbert
+ hanning         help            help_intro      highpass        hilbert
  history         howto_external
 
  ifft            image           inicm           installmacro    int

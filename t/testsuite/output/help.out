@@ -1,22 +1,21 @@
  wait text off
  help
-
 Help Introduction
 +++++++++++++++++
 
 Documentation for SAC includes
 ------------------------------
 
-A user manual w/tutorial, and command descriptions including commands in the spe and 
+A user manual w/tutorial, and command descriptions including commands in the spe and
 sss subprocesses.  The general syntax for using SAC's integrated help package is:
 help "help-file", Where "help-file" is one of the files listed below.
 
 Reference Manuals:
------------------- 
+------------------
 ::
 
- intro		tutorial	analysis	graphics	sac_macros
- inline		blackboard	input_output	file_format	SAC_Library
+ intro    tutorial  analysis  graphics  sac_macros
+ inline   blackboard  input_output  file_format SAC_Library
  SGF_format     Scripts         Error_messages
 
 The user manual comes in 13 parts.  The first part, intro, gives
@@ -24,18 +23,18 @@ background information about SAC and includes a table of
 contents which briefly describes the other parts.
 
 Alphabetical and functional listings
------------------------------------- 
+------------------------------------
 ::
 
  alphalist       funclist
 
 Main SAC commands (ns means not supported)
------------------------------------------- 
+------------------------------------------
 ::
 
  3c
 
- about		 abs             absolutevalue   add             addf
+ about           abs             absolutevalue   add             addf
  apk             arraymap        axes
 
  bandpass        bandrej         bbfk            beam            begindevices
@@ -43,7 +42,7 @@ Main SAC commands (ns means not supported)
  border
 
  capf            chnhdr          chpf            color
- comcor          commit	 	 contour         convert         convolve
+ comcor          commit          contour         convert         convolve
  copyhdr         correlate       cut             cuterr          cutim
 
  datagen         decimate        deletechannel   deltacheck
@@ -59,7 +58,7 @@ Main SAC commands (ns means not supported)
  getbb           gmap            gmtmap          grayscale       grid
  gtext
 
- hanning         help            help_intro	 highpass        hilbert
+ hanning         help            help_intro      highpass        hilbert
  history         howto_external
 
  ifft            image           inicm           installmacro    int
@@ -79,17 +78,17 @@ Main SAC commands (ns means not supported)
 
  oapf            ohpf
 
- pause           pickauthor	 pickphase	 picks           plabel
+ pause           pickauthor      pickphase       picks           plabel
  plot            plot1           plot2           plotalpha       plotc
  plotctable      plotdy          plotpk          plotpktable     plotpm
- plotsp          plotxy          print		 printhelp	 production
+ plotsp          plotxy          print           printhelp       production
 
  qdp             quantize        quit            quitsub
 
- read            readbbf         readcss         readdb	(ns)	 readerr
- readgse   	 readhdr         readsdd         readsp          readsuds
- readtable	 recalltrace	 report          reverse         rglitches
- rmean		 rms             rollback	 rotate          rq
+ read            readbbf         readcss         readdb (ns)     readerr
+ readgse         readhdr         readsdd         readsp          readsuds
+ readtable       recalltrace     report          reverse         rglitches
+ rmean           rms             rollback        rotate          rq
  rtrend
 
  scallop         setbb           setdevice       setmacro        sgf
@@ -118,17 +117,16 @@ Main SAC commands (ns means not supported)
 
 
 Signal Stacking Subprocess Commands
------------------------------------ 
+-----------------------------------
 ::
 
- addstack	 changestack	deletestack	deltacheck      distanceaxis
- distancewindow  globalstack	incrementstack	liststack
- plotrecordsection     sss
- plotstack       sumstack	timeaxis	timewindow	traveltime
- velocitymodel   velocityroset	writestack	zerostack
+ addstack          changestack   deletestack     deltacheck     distanceaxis
+ distancewindow    globalstack   incrementstack  liststack      plotrecordsection
+ plotstack         sumstack      timeaxis        timewindow     traveltime
+ velocitymodel     velocityroset writestack      zerostack
 
 Spectral Estimation Subprocess Commands
---------------------------------------- 
+---------------------------------------
 ::
 
  spe_cor         mem             mlm             pds             plotcor
@@ -141,7 +139,7 @@ Misc Notes
 From within SAC, you can print any help file using the command printhelp:
 
   SAC> printhelp ylin
-  
+
 would print the help file ylin.
 
 You can also inspect the ascii documentation files under
@@ -152,23 +150,22 @@ Please report any problems to sac-help@iris.washington.edu.
   
  ==>  
  h
-
 Help Introduction
 +++++++++++++++++
 
 Documentation for SAC includes
 ------------------------------
 
-A user manual w/tutorial, and command descriptions including commands in the spe and 
+A user manual w/tutorial, and command descriptions including commands in the spe and
 sss subprocesses.  The general syntax for using SAC's integrated help package is:
 help "help-file", Where "help-file" is one of the files listed below.
 
 Reference Manuals:
------------------- 
+------------------
 ::
 
- intro		tutorial	analysis	graphics	sac_macros
- inline		blackboard	input_output	file_format	SAC_Library
+ intro    tutorial  analysis  graphics  sac_macros
+ inline   blackboard  input_output  file_format SAC_Library
  SGF_format     Scripts         Error_messages
 
 The user manual comes in 13 parts.  The first part, intro, gives
@@ -176,18 +173,18 @@ background information about SAC and includes a table of
 contents which briefly describes the other parts.
 
 Alphabetical and functional listings
------------------------------------- 
+------------------------------------
 ::
 
  alphalist       funclist
 
 Main SAC commands (ns means not supported)
------------------------------------------- 
+------------------------------------------
 ::
 
  3c
 
- about		 abs             absolutevalue   add             addf
+ about           abs             absolutevalue   add             addf
  apk             arraymap        axes
 
  bandpass        bandrej         bbfk            beam            begindevices
@@ -195,7 +192,7 @@ Main SAC commands (ns means not supported)
  border
 
  capf            chnhdr          chpf            color
- comcor          commit	 	 contour         convert         convolve
+ comcor          commit          contour         convert         convolve
  copyhdr         correlate       cut             cuterr          cutim
 
  datagen         decimate        deletechannel   deltacheck
@@ -211,7 +208,7 @@ Main SAC commands (ns means not supported)
  getbb           gmap            gmtmap          grayscale       grid
  gtext
 
- hanning         help            help_intro	 highpass        hilbert
+ hanning         help            help_intro      highpass        hilbert
  history         howto_external
 
  ifft            image           inicm           installmacro    int
@@ -231,17 +228,17 @@ Main SAC commands (ns means not supported)
 
  oapf            ohpf
 
- pause           pickauthor	 pickphase	 picks           plabel
+ pause           pickauthor      pickphase       picks           plabel
  plot            plot1           plot2           plotalpha       plotc
  plotctable      plotdy          plotpk          plotpktable     plotpm
- plotsp          plotxy          print		 printhelp	 production
+ plotsp          plotxy          print           printhelp       production
 
  qdp             quantize        quit            quitsub
 
- read            readbbf         readcss         readdb	(ns)	 readerr
- readgse   	 readhdr         readsdd         readsp          readsuds
- readtable	 recalltrace	 report          reverse         rglitches
- rmean		 rms             rollback	 rotate          rq
+ read            readbbf         readcss         readdb (ns)     readerr
+ readgse         readhdr         readsdd         readsp          readsuds
+ readtable       recalltrace     report          reverse         rglitches
+ rmean           rms             rollback        rotate          rq
  rtrend
 
  scallop         setbb           setdevice       setmacro        sgf
@@ -270,17 +267,16 @@ Main SAC commands (ns means not supported)
 
 
 Signal Stacking Subprocess Commands
------------------------------------ 
+-----------------------------------
 ::
 
- addstack	 changestack	deletestack	deltacheck      distanceaxis
- distancewindow  globalstack	incrementstack	liststack
- plotrecordsection     sss
- plotstack       sumstack	timeaxis	timewindow	traveltime
- velocitymodel   velocityroset	writestack	zerostack
+ addstack          changestack   deletestack     deltacheck     distanceaxis
+ distancewindow    globalstack   incrementstack  liststack      plotrecordsection
+ plotstack         sumstack      timeaxis        timewindow     traveltime
+ velocitymodel     velocityroset writestack      zerostack
 
 Spectral Estimation Subprocess Commands
---------------------------------------- 
+---------------------------------------
 ::
 
  spe_cor         mem             mlm             pds             plotcor
@@ -293,7 +289,7 @@ Misc Notes
 From within SAC, you can print any help file using the command printhelp:
 
   SAC> printhelp ylin
-  
+
 would print the help file ylin.
 
 You can also inspect the ascii documentation files under
@@ -308,7 +304,6 @@ Please report any problems to sac-help@iris.washington.edu.
   
  ==>  
  help help
-
 HELP
 ++++
 
@@ -318,18 +313,19 @@ Displays information about SAC commands and features on the screen.
 
 SYNTAX
 ------
+::
 
-  ``HELP {item ...}``
+  HELP {item ...}
 
 INPUT
 -----
    :item:  The (full or abbreviated) name of a command, module,
        subprocess, feature, etc.
-    
+
 DEFAULT VALUES
 --------------
 
-  ``If no item is requested, an introductory help package is displayed.``
+  If no item is requested, an introductory help package is displayed.
 
 DESCRIPTION
 -----------
@@ -347,31 +343,31 @@ EXAMPLES
 --------
   To get the introductory help package type::
 
-      u:  HELP
+      SAC> HELP
 
   Now lets say you want information on several commands::
 
-      u:  HELP READ CUT BEGINDEVICE PLOT
+      SAC> HELP READ CUT BEGINDEVICE PLOT
 
   SAC begins displaying the READ_ help package.  After a full page, it asks if
   you've seen enough::
 
-      s:  MORE?
-      u:  YES
-   
-  SAC displays the rest of the help package on READ_, and then begins 
+         MORE?
+      SAC> YES
+
+  SAC displays the rest of the help package on READ_, and then begins
   displaying the help package on the CUT_ command::
 
-      s:  MORE?
-      u:  NO
+         MORE?
+      SAC> NO
 
-  SAC stops displaying the CUT_ help package and begins displaying the 
+  SAC stops displaying the CUT_ help package and begins displaying the
   BEGINDEVICE help package::
 
-      s:  MORE?
-      u:  QUIT
+         MORE?
+      SAC> QUIT
 
-  You're getting impatient so you type QUIT_.  SAC terminates the HELP_ 
+  You're getting impatient so you type QUIT_.  SAC terminates the HELP_
   command so you can try some of the features discussed.
 
 ERROR MESSAGES
@@ -387,11 +383,9 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
   November 13, 1998 (Version 0.58)
-
   
  ==>  
  h help
-
 HELP
 ++++
 
@@ -401,18 +395,19 @@ Displays information about SAC commands and features on the screen.
 
 SYNTAX
 ------
+::
 
-  ``HELP {item ...}``
+  HELP {item ...}
 
 INPUT
 -----
    :item:  The (full or abbreviated) name of a command, module,
        subprocess, feature, etc.
-    
+
 DEFAULT VALUES
 --------------
 
-  ``If no item is requested, an introductory help package is displayed.``
+  If no item is requested, an introductory help package is displayed.
 
 DESCRIPTION
 -----------
@@ -430,31 +425,31 @@ EXAMPLES
 --------
   To get the introductory help package type::
 
-      u:  HELP
+      SAC> HELP
 
   Now lets say you want information on several commands::
 
-      u:  HELP READ CUT BEGINDEVICE PLOT
+      SAC> HELP READ CUT BEGINDEVICE PLOT
 
   SAC begins displaying the READ_ help package.  After a full page, it asks if
   you've seen enough::
 
-      s:  MORE?
-      u:  YES
-   
-  SAC displays the rest of the help package on READ_, and then begins 
+         MORE?
+      SAC> YES
+
+  SAC displays the rest of the help package on READ_, and then begins
   displaying the help package on the CUT_ command::
 
-      s:  MORE?
-      u:  NO
+         MORE?
+      SAC> NO
 
-  SAC stops displaying the CUT_ help package and begins displaying the 
+  SAC stops displaying the CUT_ help package and begins displaying the
   BEGINDEVICE help package::
 
-      s:  MORE?
-      u:  QUIT
+         MORE?
+      SAC> QUIT
 
-  You're getting impatient so you type QUIT_.  SAC terminates the HELP_ 
+  You're getting impatient so you type QUIT_.  SAC terminates the HELP_
   command so you can try some of the features discussed.
 
 ERROR MESSAGES
@@ -470,7 +465,6 @@ SEE COMMANDS
 LATEST REVISION
 ---------------
   November 13, 1998 (Version 0.58)
-
   
  ==>  
   
