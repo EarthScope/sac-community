@@ -55,7 +55,8 @@ xbbfk(int *nerr) {
     double tmp;
     int maxflag;
     sac *s;
-    int iib, k;
+    int iib, k, npts;
+    float delta;
     char *cattemp;
 
     float *const Buffer = &buffer[0] - 1;
@@ -270,12 +271,26 @@ xbbfk(int *nerr) {
     }
 
     /*  find data for each channel in sacmem (known here as DATA)
-     *  storing start word index ptr (in PTR); 
+     *  storing start word index ptr (in PTR);
      *  also read NSAMPS, VDELTA and X,Y,Z
      * */
     nssav = ns;
+    npts = 0;
+    delta = 0.0;
     for (jdfl = 1; jdfl <= ns; jdfl++) {
         if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
+            goto L_8888;
+        }
+        if(npts == 0) {
+            npts = s->h->npts;
+        } else if(s->h->npts != npts) {
+            printf("Number of samples for all files must be equal\n");
+            goto L_8888;
+        }
+        if(delta == 0.0) {
+            delta = s->h->delta;
+        } else if(s->h->delta != delta) {
+            printf("Sample rate for all files must be equal\n");
             goto L_8888;
         }
         //getfil( jdfl, TRUE, &Nsamps[jdfl], &Ptr[jdfl], &idummy, nerr );
@@ -315,8 +330,11 @@ xbbfk(int *nerr) {
     }
     if (cmfks.lknorm) {
         for (idx = 1; idx <= ns; idx++) {
-            s->h->scale =
-                sqrt(trace / (cmplxtof(Scm[idx + (idx - 1) * ns]) * ns));
+            double v = cmplxtof(Scm[idx + (idx - 1) * ns]);
+            if(fabs(v) < 1e-16) {
+                v = 1e-16;
+            }
+            s->h->scale = sqrt(trace / (v * ns));
             for (jdx = 1; jdx <= ns; jdx++) {
                 Scm[idx + (jdx - 1) * ns] =
                     cmplxmul(Scm[idx + (jdx - 1) * ns],
@@ -328,7 +346,7 @@ xbbfk(int *nerr) {
         }
     }
 
-    /*    Regularization  
+    /*    Regularization
      * */
     if (cmfks.leps) {
         offset = (trace * cmfks.eps) / (float) (ns);
@@ -603,7 +621,7 @@ covmat(int nch, int nsamples, int ltofilter, complexf * scm, int *nerr) {
     }
 
     /*        if (ltofilter) */
-    zero((float *) states, 4 * MXNSECTS * MXLENS);
+    zero((float *) states, 2 * MXNSECTS * MXLENS);
 
     /*    complex analytic network                                           
      * */

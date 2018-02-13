@@ -317,7 +317,8 @@ testsuite/input/afl_000010.sm \
 testsuite/input/afl_000011.sm \
 testsuite/input/afl_000012.sm \
 testsuite/input/julday2.sm \
-testsuite/input/long_and_high.sm 
+testsuite/input/long_and_high.sm \
+testsuite/input/bbfk.sm
 
 # These tests have specific calls to the X11 device
 if X11_APP

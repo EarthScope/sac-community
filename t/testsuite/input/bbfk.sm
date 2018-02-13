@@ -1,0 +1,9 @@
+
+m ex-bbfk.m zero
+pause period 0.25
+m ex-bbfk.m n-s
+pause period 0.25
+m ex-bbfk.m e-w
+pause period 0.25
+m ex-bbfk.m diag
+pause period 0.25

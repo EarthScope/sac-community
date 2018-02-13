@@ -1,0 +1,1151 @@
+ wait text off
+  
+ ==>  
+ m ex-bbfk.m zero
+ setbb cutew *
+ setbb cutns *
+  
+ if $1 eq diag
+ ==>  if zero eq diag
+ endif
+  
+ if $1 eq n-s
+ ==>  if zero eq n-s
+ endif
+  
+ if $1 eq e-w
+ ==>  if zero eq e-w
+ endif
+  
+ * Zero Exterior trace areas
+ cuterr fillz
+  
+ * xo and yo are x-y offsets
+ setbb xo -1
+ setbb yo  0
+  
+ do f list a b c d e f g h
+   message "%xo %yo"
+ ==>  message "-1 0"
+ -1 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  * 10.46 20.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 -1 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_ra.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 0
+ enddo
+   message "%xo %yo"
+ ==>  message "0 0"
+ 0 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  * 9.46 19.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_rb.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 1
+ enddo
+   message "%xo %yo"
+ ==>  message "1 0"
+ 1 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  * 8.46 18.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 1 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_rc.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 2
+ enddo
+   message "%xo %yo"
+ ==>  message "2 0"
+ 2 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  * 7.46 17.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 2 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_rd.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 3
+ enddo
+   message "%xo %yo"
+ ==>  message "3 0"
+ 3 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  * 6.46 16.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 3 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_re.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 4
+ enddo
+   message "%xo %yo"
+ ==>  message "4 0"
+ 4 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  * 5.46 15.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 4 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_rf.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 5
+ enddo
+   message "%xo %yo"
+ ==>  message "5 0"
+ 5 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  * 4.46 14.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 5 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_rg.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 6
+ enddo
+   message "%xo %yo"
+ ==>  message "6 0"
+ 6 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  * 3.46 13.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 6 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_rh.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 7
+ enddo
+  
+ setbb xo 0
+ setbb yo -1
+ do f list a b c e d f g h
+   message "%xo %yo"
+ ==>  message "0 -1"
+ 0 -1
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  * 10.46 20.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 -1
+   write arr_b$f$.sac
+ ==>  write arr_ba.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 0
+ enddo
+   message "%xo %yo"
+ ==>  message "0 0"
+ 0 0
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  * 9.46 19.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 0
+   write arr_b$f$.sac
+ ==>  write arr_bb.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 1
+ enddo
+   message "%xo %yo"
+ ==>  message "0 1"
+ 0 1
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  * 8.46 18.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 1
+   write arr_b$f$.sac
+ ==>  write arr_bc.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 2
+ enddo
+   message "%xo %yo"
+ ==>  message "0 2"
+ 0 2
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  * 7.46 17.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 2
+   write arr_b$f$.sac
+ ==>  write arr_be.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 3
+ enddo
+   message "%xo %yo"
+ ==>  message "0 3"
+ 0 3
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  * 6.46 16.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 3
+   write arr_b$f$.sac
+ ==>  write arr_bd.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 4
+ enddo
+   message "%xo %yo"
+ ==>  message "0 4"
+ 0 4
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  * 5.46 15.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 4
+   write arr_b$f$.sac
+ ==>  write arr_bf.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 5
+ enddo
+   message "%xo %yo"
+ ==>  message "0 5"
+ 0 5
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  * 4.46 14.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 5
+   write arr_b$f$.sac
+ ==>  write arr_bg.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 6
+ enddo
+   message "%xo %yo"
+ ==>  message "0 6"
+ 0 6
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  * 3.46 13.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 6
+   write arr_b$f$.sac
+ ==>  write arr_bh.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 7
+ enddo
+  
+ sc rm arr_rb.sac
+ read arr_[r,b]*sac
+arr_ba.sac arr_bb.sac arr_bc.sac arr_bd.sac arr_be.sac arr_bf.sac arr_bg.sac arr_bh.sac arr_ra.sac arr_rc.sac arr_rd.sac arr_re.sac arr_rf.sac arr_rg.sac arr_rh.sac
+  
+ bbfk filter off wave 1 pds size 180 100 norm
+NUM TIME-SERIES FILES FROM THE START OF DFL:15 
+FK peak =        2.309e+04 
+Back Azimuth =    180(degrees)
+Wave Number =       1.0101(cycles/kilometer)
+title: $                                                                                
+  
+  
+  
+  
+ pause period 0.25
+Pausing
+ m ex-bbfk.m n-s
+ setbb cutew *
+ setbb cutns *
+  
+ if $1 eq diag
+ ==>  if n-s eq diag
+ endif
+  
+ if $1 eq n-s
+ ==>  if n-s eq n-s
+ * Time shift on N-S dir
+   setbb cutns cutim
+ endif
+  
+ if $1 eq e-w
+ ==>  if n-s eq e-w
+ endif
+  
+ * Zero Exterior trace areas
+ cuterr fillz
+  
+ * xo and yo are x-y offsets
+ setbb xo -1
+ setbb yo  0
+  
+ do f list a b c d e f g h
+   message "%xo %yo"
+ ==>  message "-1 0"
+ -1 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  * 10.46 20.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 -1 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_ra.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 0
+ enddo
+   message "%xo %yo"
+ ==>  message "0 0"
+ 0 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  * 9.46 19.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_rb.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 1
+ enddo
+   message "%xo %yo"
+ ==>  message "1 0"
+ 1 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  * 8.46 18.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 1 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_rc.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 2
+ enddo
+   message "%xo %yo"
+ ==>  message "2 0"
+ 2 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  * 7.46 17.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 2 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_rd.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 3
+ enddo
+   message "%xo %yo"
+ ==>  message "3 0"
+ 3 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  * 6.46 16.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 3 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_re.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 4
+ enddo
+   message "%xo %yo"
+ ==>  message "4 0"
+ 4 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  * 5.46 15.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 4 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_rf.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 5
+ enddo
+   message "%xo %yo"
+ ==>  message "5 0"
+ 5 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  * 4.46 14.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 5 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_rg.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 6
+ enddo
+   message "%xo %yo"
+ ==>  message "6 0"
+ 6 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  * 3.46 13.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 6 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_rh.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 7
+ enddo
+  
+ setbb xo 0
+ setbb yo -1
+ do f list a b c e d f g h
+   message "%xo %yo"
+ ==>  message "0 -1"
+ 0 -1
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  cutim 10.46 20.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 -1
+   write arr_b$f$.sac
+ ==>  write arr_ba.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 0
+ enddo
+   message "%xo %yo"
+ ==>  message "0 0"
+ 0 0
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  cutim 9.46 19.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 0
+   write arr_b$f$.sac
+ ==>  write arr_bb.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 1
+ enddo
+   message "%xo %yo"
+ ==>  message "0 1"
+ 0 1
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  cutim 8.46 18.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 1
+   write arr_b$f$.sac
+ ==>  write arr_bc.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 2
+ enddo
+   message "%xo %yo"
+ ==>  message "0 2"
+ 0 2
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  cutim 7.46 17.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 2
+   write arr_b$f$.sac
+ ==>  write arr_be.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 3
+ enddo
+   message "%xo %yo"
+ ==>  message "0 3"
+ 0 3
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  cutim 6.46 16.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 3
+   write arr_b$f$.sac
+ ==>  write arr_bd.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 4
+ enddo
+   message "%xo %yo"
+ ==>  message "0 4"
+ 0 4
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  cutim 5.46 15.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 4
+   write arr_b$f$.sac
+ ==>  write arr_bf.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 5
+ enddo
+   message "%xo %yo"
+ ==>  message "0 5"
+ 0 5
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  cutim 4.46 14.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 5
+   write arr_b$f$.sac
+ ==>  write arr_bg.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 6
+ enddo
+   message "%xo %yo"
+ ==>  message "0 6"
+ 0 6
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  cutim 3.46 13.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 6
+   write arr_b$f$.sac
+ ==>  write arr_bh.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 7
+ enddo
+  
+ sc rm arr_rb.sac
+ read arr_[r,b]*sac
+arr_ba.sac arr_bb.sac arr_bc.sac arr_bd.sac arr_be.sac arr_bf.sac arr_bg.sac arr_bh.sac arr_ra.sac arr_rc.sac arr_rd.sac arr_re.sac arr_rf.sac arr_rg.sac arr_rh.sac
+  
+ bbfk filter off wave 1 pds size 180 100 norm
+NUM TIME-SERIES FILES FROM THE START OF DFL:15 
+FK peak =             3033 
+Back Azimuth =    179(degrees)
+Wave Number =     0.181818(cycles/kilometer)
+title: $                                                                                
+  
+  
+  
+  
+ pause period 0.25
+Pausing
+ m ex-bbfk.m e-w
+ setbb cutew *
+ setbb cutns *
+  
+ if $1 eq diag
+ ==>  if e-w eq diag
+ endif
+  
+ if $1 eq n-s
+ ==>  if e-w eq n-s
+ endif
+  
+ if $1 eq e-w
+ ==>  if e-w eq e-w
+ * Time shift on E-W dir
+   setbb cutew cutim
+ endif
+  
+ * Zero Exterior trace areas
+ cuterr fillz
+  
+ * xo and yo are x-y offsets
+ setbb xo -1
+ setbb yo  0
+  
+ do f list a b c d e f g h
+   message "%xo %yo"
+ ==>  message "-1 0"
+ -1 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  cutim 10.46 20.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 -1 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_ra.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 0
+ enddo
+   message "%xo %yo"
+ ==>  message "0 0"
+ 0 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  cutim 9.46 19.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_rb.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 1
+ enddo
+   message "%xo %yo"
+ ==>  message "1 0"
+ 1 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  cutim 8.46 18.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 1 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_rc.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 2
+ enddo
+   message "%xo %yo"
+ ==>  message "2 0"
+ 2 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  cutim 7.46 17.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 2 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_rd.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 3
+ enddo
+   message "%xo %yo"
+ ==>  message "3 0"
+ 3 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  cutim 6.46 16.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 3 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_re.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 4
+ enddo
+   message "%xo %yo"
+ ==>  message "4 0"
+ 4 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  cutim 5.46 15.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 4 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_rf.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 5
+ enddo
+   message "%xo %yo"
+ ==>  message "5 0"
+ 5 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  cutim 4.46 14.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 5 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_rg.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 6
+ enddo
+   message "%xo %yo"
+ ==>  message "6 0"
+ 6 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  cutim 3.46 13.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 6 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_rh.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 7
+ enddo
+  
+ setbb xo 0
+ setbb yo -1
+ do f list a b c e d f g h
+   message "%xo %yo"
+ ==>  message "0 -1"
+ 0 -1
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  * 10.46 20.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 -1
+   write arr_b$f$.sac
+ ==>  write arr_ba.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 0
+ enddo
+   message "%xo %yo"
+ ==>  message "0 0"
+ 0 0
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  * 9.46 19.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 0
+   write arr_b$f$.sac
+ ==>  write arr_bb.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 1
+ enddo
+   message "%xo %yo"
+ ==>  message "0 1"
+ 0 1
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  * 8.46 18.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 1
+   write arr_b$f$.sac
+ ==>  write arr_bc.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 2
+ enddo
+   message "%xo %yo"
+ ==>  message "0 2"
+ 0 2
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  * 7.46 17.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 2
+   write arr_b$f$.sac
+ ==>  write arr_be.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 3
+ enddo
+   message "%xo %yo"
+ ==>  message "0 3"
+ 0 3
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  * 6.46 16.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 3
+   write arr_b$f$.sac
+ ==>  write arr_bd.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 4
+ enddo
+   message "%xo %yo"
+ ==>  message "0 4"
+ 0 4
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  * 5.46 15.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 4
+   write arr_b$f$.sac
+ ==>  write arr_bf.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 5
+ enddo
+   message "%xo %yo"
+ ==>  message "0 5"
+ 0 5
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  * 4.46 14.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 5
+   write arr_b$f$.sac
+ ==>  write arr_bg.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 6
+ enddo
+   message "%xo %yo"
+ ==>  message "0 6"
+ 0 6
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  * 3.46 13.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 6
+   write arr_b$f$.sac
+ ==>  write arr_bh.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 7
+ enddo
+  
+ sc rm arr_rb.sac
+ read arr_[r,b]*sac
+arr_ba.sac arr_bb.sac arr_bc.sac arr_bd.sac arr_be.sac arr_bf.sac arr_bg.sac arr_bh.sac arr_ra.sac arr_rc.sac arr_rd.sac arr_re.sac arr_rf.sac arr_rg.sac arr_rh.sac
+  
+ bbfk filter off wave 1 pds size 180 100 norm
+NUM TIME-SERIES FILES FROM THE START OF DFL:15 
+FK peak =             4229 
+Back Azimuth =   90.5(degrees)
+Wave Number =     0.111111(cycles/kilometer)
+title: $                                                                                
+  
+  
+  
+  
+ pause period 0.25
+Pausing
+ m ex-bbfk.m diag
+ setbb cutew *
+ setbb cutns *
+  
+ if $1 eq diag
+ ==>  if diag eq diag
+ * Time shift N-S and E-W dirs
+   setbb cutew cutim
+   setbb cutns cutim
+ endif
+  
+ if $1 eq n-s
+ ==>  if diag eq n-s
+ endif
+  
+ if $1 eq e-w
+ ==>  if diag eq e-w
+ endif
+  
+ * Zero Exterior trace areas
+ cuterr fillz
+  
+ * xo and yo are x-y offsets
+ setbb xo -1
+ setbb yo  0
+  
+ do f list a b c d e f g h
+   message "%xo %yo"
+ ==>  message "-1 0"
+ -1 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  cutim 10.46 20.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 -1 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_ra.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 0
+ enddo
+   message "%xo %yo"
+ ==>  message "0 0"
+ 0 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  cutim 9.46 19.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_rb.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 1
+ enddo
+   message "%xo %yo"
+ ==>  message "1 0"
+ 1 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  cutim 8.46 18.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 1 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_rc.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 2
+ enddo
+   message "%xo %yo"
+ ==>  message "2 0"
+ 2 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  cutim 7.46 17.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 2 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_rd.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 3
+ enddo
+   message "%xo %yo"
+ ==>  message "3 0"
+ 3 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  cutim 6.46 16.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 3 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_re.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 4
+ enddo
+   message "%xo %yo"
+ ==>  message "4 0"
+ 4 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  cutim 5.46 15.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 4 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_rf.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 5
+ enddo
+   message "%xo %yo"
+ ==>  message "5 0"
+ 5 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  cutim 4.46 14.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 5 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_rg.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 6
+ enddo
+   message "%xo %yo"
+ ==>  message "6 0"
+ 6 0
+   fg seismogram
+   rmean
+   %cutew (&1,b - %xo) (&1,e - %xo)
+ ==>  cutim 3.46 13.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 6 user8 0
+   write arr_r$f$.sac
+ ==>  write arr_rh.sac
+ * Increment xo
+   setbb xo ( %xo + 1 )
+ ==>  setbb xo 7
+ enddo
+  
+ setbb xo 0
+ setbb yo -1
+ do f list a b c e d f g h
+   message "%xo %yo"
+ ==>  message "0 -1"
+ 0 -1
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  cutim 10.46 20.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 -1
+   write arr_b$f$.sac
+ ==>  write arr_ba.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 0
+ enddo
+   message "%xo %yo"
+ ==>  message "0 0"
+ 0 0
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  cutim 9.46 19.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 0
+   write arr_b$f$.sac
+ ==>  write arr_bb.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 1
+ enddo
+   message "%xo %yo"
+ ==>  message "0 1"
+ 0 1
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  cutim 8.46 18.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 1
+   write arr_b$f$.sac
+ ==>  write arr_bc.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 2
+ enddo
+   message "%xo %yo"
+ ==>  message "0 2"
+ 0 2
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  cutim 7.46 17.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 2
+   write arr_b$f$.sac
+ ==>  write arr_be.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 3
+ enddo
+   message "%xo %yo"
+ ==>  message "0 3"
+ 0 3
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  cutim 6.46 16.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 3
+   write arr_b$f$.sac
+ ==>  write arr_bd.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 4
+ enddo
+   message "%xo %yo"
+ ==>  message "0 4"
+ 0 4
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  cutim 5.46 15.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 4
+   write arr_b$f$.sac
+ ==>  write arr_bf.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 5
+ enddo
+   message "%xo %yo"
+ ==>  message "0 5"
+ 0 5
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  cutim 4.46 14.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 5
+   write arr_b$f$.sac
+ ==>  write arr_bg.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 6
+ enddo
+   message "%xo %yo"
+ ==>  message "0 6"
+ 0 6
+   fg seismogram
+   rmean
+   %cutns (&1,b - %yo) (&1,e - %yo)
+ ==>  cutim 3.46 13.45
+   ch kuser1 &1,kstnm user7 %xo user8 %yo
+ ==>  ch kuser1 CDV user7 0 user8 6
+   write arr_b$f$.sac
+ ==>  write arr_bh.sac
+ * Increment yo
+   setbb yo ( %yo + 1 )
+ ==>  setbb yo 7
+ enddo
+  
+ sc rm arr_rb.sac
+ read arr_[r,b]*sac
+arr_ba.sac arr_bb.sac arr_bc.sac arr_bd.sac arr_be.sac arr_bf.sac arr_bg.sac arr_bh.sac arr_ra.sac arr_rc.sac arr_rd.sac arr_re.sac arr_rf.sac arr_rg.sac arr_rh.sac
+  
+ bbfk filter off wave 1 pds size 180 100 norm
+NUM TIME-SERIES FILES FROM THE START OF DFL:15 
+FK peak =             85.3 
+Back Azimuth =  100.6(degrees)
+Wave Number =     0.858586(cycles/kilometer)
+title: $                                                                                
+  
+  
+  
+  
+ pause period 0.25
+Pausing
+ quit

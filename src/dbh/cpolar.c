@@ -4,6 +4,7 @@
  * @brief  Contour plotting program for data in polar coordinates
  */
 #include <math.h>
+#include <string.h>
 
 #include "dbh.h"
 #include "bool.h"
@@ -67,9 +68,11 @@ cpolar(float *x, int nrad, int naz, int lev, double zmin, double zmax) {
     float *const Z = &z[0] - 1;
     float *const Zf = &zf[0] - 1;
 
-    pi = 3.14159265;
+    pi = M_PI;
     twopi = 2. * pi;
 
+    memset(z, 0, sizeof(z));
+    memset(zf, 0, sizeof(zf));
     /* Initialize local world coordinates                                            
      * */
     setworld(-1., 1., -1., 1.);

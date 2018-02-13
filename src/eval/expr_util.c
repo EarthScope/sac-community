@@ -241,6 +241,7 @@ header_to_token(char *str, Token * t, int col) {
     sac *s;
     ok = 0;
     memset(val, ' ', 41);
+    memset(key, 0, sizeof(key));
     val[40] = 0;
     if (sscanf(str, "%d,%s%n", &id, key, &n) == 2 && n == (int) strlen(str)) {
         ok = TRUE;
