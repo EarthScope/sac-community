@@ -11,6 +11,7 @@
 \usepackage{array}
 \usepackage{relsize}
 \usepackage{alltt}
+\usepackage{amsmath}
 \setlength{\extrarowheight}{2pt}
 \newlength{\DUtablewidth} % internal use in tables
 
@@ -401,23 +402,5 @@ Users Manual}}
 \include{commands/spe.com/writecor}
 \include{commands/spe.com/writespe}
 
-\newpage
-\section{Supplementary files
-\label{`supplementary files`}
-}
-
-The following PDF files are supplementary files for the sample runs in \hyperref[using-the-sac-libraries]{Using the SAC Libraries}.
-
-\begin{itemize}
-\item As a supplement for the sample runs for the convolution programs, this document is a primer on the theory behind the different methods of time-series convolution and discusses a more interesting case than the example give for the convolution program: both time-domain and discrete convolutions of a pulse with a synthetic time series that has a spike at the phase arrival time with Gibbs-phenomenon ringing.
-
-\item Plot shows the results for the sample runs for Cubic-Spline Time-Series Interpolation.  To reproduce this plot, see file \$\{SACHOME\}/doc/exmples/interpolate/README.
-
-\item  Plot for Time-Shift sample run
-
-\end{itemize}
-\include{supplement/time-series_convolution}
-\include{supplement/time-series_interpolation}
-\include{supplement/time-shift_summary}
-
 \end{document}
+

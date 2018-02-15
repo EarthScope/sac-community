@@ -5,6 +5,7 @@ TPC=" --template=../tmpl/template.txt"
 TPM=" --template=../tmpl/template_manual.txt"
 TEX="--documentoptions=10pt,letter"
 
+JAX='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js'
 LINK_SS="--link-stylesheet"
 
 PROG=$( basename $0 )
@@ -91,7 +92,7 @@ function txt2html {
         cd $WD
         return
     fi
-    $RST2HTML $CC --template=${TEMPLATE} --stylesheet-path=${CSS} ${LINK_SS} $TXT $HTML
+    $RST2HTML $CC --math-output="MathJax $JAX" --template=${TEMPLATE} --stylesheet-path=${CSS} ${LINK_SS} $TXT $HTML
     cd $WD
 }
 

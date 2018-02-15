@@ -871,6 +871,48 @@ Cut a time series data using a begin and end time
     SAC> cut 10 15
     SAC> read raw.sac
 
+Interpolation using cubic splines
+---------------------------------
+
+In the pre-digital-data era, data extremes were relatively easy to see
+because the pen or light-beam velocity went to zero.  The
+interpolation scheme used by the SAC interpolate routine uses a method
+popularized by Wiggins that took advantage of that feature so that
+cycle extrema could be at digitized points.  With digital data, the
+extrema are generally not at digitized points, and for some studies it
+is desirable to get a better estimate of the maxima than available from
+Wiggins' interpolation.  The routine below uses a pure cubic-spline
+interpolation published by Forsythe, et al., that may be preferable in
+some studies.
+
+The program and subroutines called can be found in
+$SACDOC/doc/examples/interpolate.  The run_interpolate.sh script shows
+how the interpolation program is built and run, along with how interpolation
+would be accomplished in SAC.
+
+The plot below shows the initial waveform, the result using Forsythe
+interpolation, and the result using SAC interpolation.
+
+.. image:: Time-Series_Interpolation.png
+   :width: 90%
+   :align: center
+
+Time Shift
+----------
+
+No function in SAC shifts a time series, but as mentioned in the help
+file for lowpass_ command, such filters time-shift the data, and one
+may want to correct for that time shift.
+
+A program and called subroutines can be found in $SACHOME/doc/examples/time_shift along with an example of how to it is used::
+
+    gfortran -o time_shift time_shift.f time_shift_subs.f `sac-config --cflags --libs libsacio`
+
+The plot below shows the original plus the two methods for time-shifting the waveform.
+
+.. image:: time-shift_summary.png
+   :width: 90%
+   :align: center
 
 Convolution / SAC
 -----------------
@@ -945,7 +987,7 @@ Input for the convolution can be generated as::
     SAC> fg impulse npts 12 delta 0.02 begin 0
     SAC> write impulse_n12_d0.02.sac
 
-Then run the convolvec program::
+Then run the convolvef program::
 
     % ./convolvef
     Usage convolvef p_name wf_name c_name disc_conv
@@ -956,51 +998,131 @@ around zero time, so comparing the last argument "y" and "n"
 for disc_conv shows an
 important difference between discrete and time-series convolutions.
 
-A PDF document on time-series-convolution_ discusses a more
-interesting case: both time-domain and discrete convolutions of a
-pulse with a synthetic time series that has a spike at the phase
-arrival time with Gibbs-phenomenon ringing.
+Time-Series Convolution Primer
+------------------------------
 
-Interpolation using cubic splines
----------------------------------
+In these application, :math:`f`, is a waveform time series that is
+convolved with a pulse :math:`g`.  The equation for their convolution
+is
 
-In the pre-digital-data era, data extremes were relatively easy to see
-because the pen or light-beam velocity went to zero.  The
-interpolation scheme used by the SAC interpolate routine uses a method
-popularized by Wiggins that took advantage of that feature so that
-cycle extrema could be at digitized points.  With digital data, the
-extrema are generally not at digitized points, and for some studies it
-is desirable to get a better estimate of the maxima than available from
-Wiggins' interpolation.  The routine below uses a pure cubic-spline
-interpolation published by Forsythe, et al., that may be preferable in
-some studies.
+.. math::
 
-The program and subroutines called can be found in
-$SACDOC/doc/examples/interpolate.  The run_interpolate.sh script shows
-how the interpolation program is built and run, along with how interpolation
-would be accomplished in SAC.
+   y(t) = f(t) \star g(t) = \int_{-\infty}^{\infty} dt' f(t') g(t-t')
 
-The plot below shows the initial waveform, the result using Forsythe
-interpolation, and the result using SAC interpolation.
+Both :math:`f` and :math:`g` are functions of time, and their zero times are coupled
+through the term :math:`g(t−t′)`. From the above equation, it is easy to show that
+one can choose the time zero for :math:`y` and :math:`f` to be the same. In the
+applications discussed below, the zero time for :math:`g(t)` can be the same
+as or less than the zero time for :math:`f(t)`.
 
-.. image:: Time-Series_Interpolation.png
-   :width: 75%
+To calculate the convolution, one discretizes both :math:`f` and
+:math:`g` and replaces the integral with a sum. In this discussion
+:math:`\delta t= 0.02s` is the digitizing interval for :math:`y`,
+:math:`f`, and :math:`g`. One multiplies the sum by :math:`\delta t`,
+which is not what is done in a “discrete convolution”, which also does
+not take into account any difference in zero time between :math:`f(t)`
+and :math:`g(t)`.
+
+Here, two applications of convolution are discussed. Both have the
+same :math:`f(t)` but different :math:`g(t)`.
+
+:math:`f(t)` is a synthetic waveform (produced using Haskell matrices
+or WKBJ) where vertical lines of calculated polarities and amplitudes
+are drawn at phase-arrival times. For these examples, the synthetic
+waveform is a vertical-component time series for an incident P-wave at
+an angle of :math:`20^\circ` with the vertical through a 2-layer
+crust. There are :math:`n_w = 2048` points in the discretized
+:math:`f`. (The large number is chosen to minimize wraparound.) The
+duration is :math:`t_w = \delta t [n_w-1]`. The first point in
+:math:`f` is chosen to be at :math:`t=0`, so :math:`f(t)
+=f(t)H(t)H(t_w−t)`,where
+
+.. math::
+
+   H(t) = \begin{cases}
+              1 & \text{if } t \ge 0 \\
+              0 & \text{if } t < 0
+          \end{cases}
+
+:math:`g(t)` is a pulse waveform with a far smaller duration than
+:math:`f(t)`. Here, the pulse is either (1) an approximation of a P
+arrival so that the output of the convolution potentially models the
+data, or (2) a time-symmetric shape with a maximum at :math:`t=0` to
+smooth out the Gibbs phenomenon that often accompanies arrivals in
+synthetics. Option (2) is often used for synthetics for receiver
+functions.
+
+A “Brune” pulse for (1): :math:`g(t) =U_0 H(t) t e^{−t/\kappa}
+H(t_p−t)`, where :math:`\kappa=0.1s`, :math:`t_p=1.26s`, and
+:math:`U_0` is a constant that only affects the amplitude, so is of no
+interest here.
+
+For (2), the source pulse is a triangle function produced by fg in SAC::
+
+   fg triangle npts 8 delta 0.02 begin -0.08.
+
+Note that the Brune pulse starts at the same time as :math:`f`, while the triangle pulse starts at
+a negative time with a maximum at the start time for :math:`f`. If the total time for the pulse
+is :math:`t_p` , the general form for the pulse is :math:`g(t) =g(t)H(t−t_1)H(t_2−t)`, where for the Brune pulse :math:`t_1=0`, :math:`t_2=t_p`
+and for the triangle pulse :math:`t_1=−0.08s`,  :math:`t_2 = 0.06s = t_p−t_1`. For either pulse, :math:`t_p=\delta t[n_p−1]`.
+
+Given the above forms for :math`f` and :math:`g` , the original convolution equation can be written
+
+.. math::
+
+   y(t) = \int_0^{t_w} dt' f(t') g(t-t') H(t-t'-t_1) H(t_2 - t + t')
+
+For the Brune pulse, :math:`t_1=0`, so :math:`t` cannot be negative, but for the triangle pulse the lower bound for
+:math:`t` is :math:`-0.06 s`. In Fortran, arrays are stored in the computer using positive integers, so to simplify
+the bookkeeping it is best to avoid negative times when we discretize the above equation. One can
+avoid negative times if one chooses :math:`y(\tau) =y(t−t_1)`. With this choice the modified equation then reads
+
+.. math::
+
+   y(\tau) = y(t-t_1) = \int_0^{t_w} dt' f(t') g(\tau + t_1 -t') H(\tau - t') H(t_2 - \tau + t_1 + t')
+
+The discretized equation for the above is then
+
+.. math:
+   :math-output: MathJax
+
+   y_i = \delta t \sum _{j=1}^{n_w} f_j g_{i-j-j_1}
+
+where :math:`j_1 = -(t_1/\delta t) + 1` and :math:`i` runs from :math:`1` to :math:`n_w + n_p - 1`
+
+The following Fortran code produces the correct result for the convolution for either pulse
+
+.. code-block:: fortran
+
+        j_1 = -nint(b_p/delta)+1
+        do i=1,n_w+n_p-1
+          temp = 0.0
+          do j=1,n_w
+            if (i.ge.(j-j_1) .and. n_p.ge.(i-j+j_1)) then
+                temp = temp + waveform(j)*pulse(i-j+j_1)
+            endif
+          end do
+          conv(i) = delta*temp
+        end do
+
+where b_p = :math:`t_1`, delta = :math:`\delta t`, and conv(i) = :math:`y_i`.
+
+Plots for the two pulse waveforms are shown in Figure 1, and the results of the convolution near the first synthetic arrival are shown in Figure 2 both for the Brune pulse and for the triangle pulse. The Gibbs phenomenon is quite pronounced at the arrival in the raw synthetic.  Note that the peaks for the arrival in Figure 2 are at the same time for the triangle-pulse convolution and the synthetic, and the Brune-pulse convolution starts at the peak of the raw-synthetic arrival time. For display purposes, the waveforms are  time-shifted so that the first arrival are at five seconds into the record.  Hence the zero time for the display and the convolution calculation are not the same.
+
+If one uses the SAC convolution for the two runs, one gets the "correct" result for the Brune pulse but a time shift of 0.08 seconds for the triangle pulse (which starts at -0.08 s).  The convolution of the triangle pulse with itself is also time-shifted 0.08\,s.  If one uses the SAC CONVOLVE option "amplitude on" in program `convolvef` or `convovlec`, one gets the same amplitudes and times as for SAC convolution output.
+
+
+.. image:: brune-pulse.png
+   :width: 45%
+.. image:: triangle-pulse.png
+   :width: 45%
+
+Figure 1. The two source pulses used for these convolution applications.
+
+
+.. image:: conv_pulse-synth.png
+   :width: 90%
    :align: center
 
-Time Shift
-----------
-
-No function in SAC shifts a time series, but as mentioned in the help
-file for lowpass_ command, such filters time-shift the data, and one
-may want to correct for that time shift.
-
-A program and called subroutines can be found in $SACHOME/doc/examples/time_shift along with an example of how to it is used::
-
-    gfortran -o time_shift time_shift.f time_shift_subs.f `sac-config --cflags --libs libsacio`
-
-The plot below shows the original plus the two methods for time-shifting the waveform.
-
-.. image:: time-shift_summary.png
-   :width: 75%
-   :align: center
+Figure 2: From top to bottom: unfiltered synthetic, time-series convolution with triangle pulse, discrete convolution with triangle pulse, time-series convolution with Brune pulse
 
