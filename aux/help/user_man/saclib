@@ -10,7 +10,7 @@ codes.  The internal routines here are wrapped in an interface that
 should be more streamlined to use than previous versions.  These
 libraries libsac.a and libsacio.a are in ${SACHOME}/lib.
 
-For exhustive examples, please see ${SACHOME}/doc/examples contained
+For exhaustive examples, please see ${SACHOME}/doc/examples contained
 in the SAC distribution.
 
 .. contents ::
@@ -46,7 +46,13 @@ Instrument Removal / Deconvolution
     // Remove SAC_PZ Polezero Response
     int remove_polezero_simple(float *data, int n, float dt, double limits[4])
 
-Remove an evalresp or polezero specified instrument response.  Best to use the `simple` versions unless extra information is required.  `remove_evalresp_simple` and `remove_polezero_simple` will attempt to find the appropriate response file within the same directory before removing.  `remove_evalresp` and `remove_polezero` requires the specification of a response file.
+Remove an evalresp or polezero specified instrument response.  Best to
+use the `simple` versions unless extra information is required.
+`remove_evalresp_simple` and `remove_polezero_simple` will attempt to
+find the appropriate response file within the same directory before
+removing.  `remove_evalresp` and `remove_polezero` requires the
+specification of a response file.  See transfer_ for definitions of
+evelresp, polezero, etc.
 
 **Arguments**
 
@@ -60,7 +66,7 @@ Remove an evalresp or polezero specified instrument response.  Best to use the `
    - limits[1] - Low  Frequency Edge (Response = 1)
    - limits[2] - High Frequency Edge (Response = 1)
    - limits[3] - High Frequency Edge (Response = 0)
-- `id` - Intrument Identifier, NET.STA.LOC.CHA
+- `id` - Instrument Identifier, NET.STA.LOC.CHA
 
    - `*.*.*.*` wildcards are valid, but unexpected results may occur
    - `*` will try to automatically determine the instrument id using the current sac file
@@ -112,6 +118,16 @@ Remove an evalresp or polezero specified instrument response.  Best to use the `
 
 Fourier Transform (FFT)
 -----------------------
+Given below are both single- and double-precision routines for doing
+forward and inverse Fourier transforms.  All transforms are performed
+in double precision, as all subroutine calls in SAC use the same
+internal code path.  Single precision versions internally convert/copy
+the input arrays to double recision as a prelude to perfomring the
+transform., and the results are then converted back to single
+precision on return.  The internal calculations are done using a
+power-of-2 number of points.  For a forward transform, `n` need not be
+a power of 2, but the output `nf` will be the next power of 2 greater
+than or equal to n.
 
 .. code-block:: c
 
@@ -135,47 +151,34 @@ Compute the Fourier Transform (or inverse transform ) of a data series.
 
 **Arguments**
 
-- `data` - Input data series for forward transform, output data series for inverse
-- `n` - Length of data series on input for forward transform
-  Number of points to return for inverse transform
+- `data` - Input time series for forward transform; output time series for inverse
+- `n` - Length of time series on input for forward transform; number of points desired from the inverse transform
 - `z` - Complex FFT Spectrum
-- `re` - Real Component of the Fourier spectrum
-- `im` - Imaginary Compinent of the Fourier spectrum
-- `nf` - Inverse Transform: Length of `re`, `im`, and `z` on inverse transform
-  Forward Transform: Length of `re`, `im`, and `z` arrays on input and
-  the length of the Fourier spectrum on ouptut
-
-Spectrum length, `nf`, must be >= the next power of 2 from `n`.  This can be an 
-allocated array or not. 
+- `re` - Real Component of the Fourier spectrum; calculated in forward transform, input for inverse transform.
+- `im` - Imaginary Component of the Fourier spectrum.
+- `nf` - Input length of `re`, `im`, and `z` for inverse transform; calculated in forward transform.
 
 **Normalization**
 
-Normalization of the transform by the length, `nf`, is done on the inverse transforms
+Normalization of the transform by the length, `nf`, is done on the
+inverse transforms
 
 **Time Scaling**
 
-Time scaling is not performed within these functions, but can be accomplished by
-multiplying the Fourier spectrum by the sampling rate, `dt`.  If the scaling is applied
-to the spectrum, make sure to remove the time shift to get back to the original time
-series.
+Time scaling is not performed within these functions, but can be
+accomplished by multiplying the Fourier spectrum by the sampling rate,
+`dt`.  If the scaling is applied to the spectrum, make sure to remove
+the time shift to get back to the original time series.
 
 **Frequency Ordering**
 
-Amplitudes are ordered frequency starting with the zero frequency, through positive
-frequencys, the nyquist, then backwards through the negative frequencies
+Amplitudes are ordered frequency starting with the zero frequency,
+through positive frequencys to the Nyquist `df*(nf/2)`, then backwards
+through the negative frequencies
 
 .. code-block:: c
 
-    0, df, ..., df(nf-1), nyq, -df(nf-1), ... -df
-
-**Precision**
-
-All Transforms are performed in double precision, `double` or `real*8`, as all function
-calls use the same internal code path.  Single precision versions convert/copy the input
-time-series `data` or the Fourier spectrum, `re` and `im` or `z`, to double precison
-before performing the transform, forward or inverse. The results is then converted
-back to single precision on return.  Double precisions do not need to copy their input
-or output.
+    0, df, ... , df*(nf/2-1), df*(nf/2), -df*(nf/2-1), ... , -df
 
 **Examples**
 
@@ -183,11 +186,16 @@ or output.
 
     integer n, nf
     real*8 :: data(16), data2(16)
-    real*8 :: re(16), im(16)
+    real*8 :: re(64), im(64)
     complex*16 :: z(16)
 
-    n  = 16
-    nf = 16
+    n  = 10
+
+    ! Find next power of 2
+    nf = 4
+    do while (nf < n)
+       nf = nf * 2
+    enddo
 
     ! FFT with real/imaginary
     call dfft(data, n, re, im, nf)
@@ -916,6 +924,11 @@ The plot below shows the original plus the two methods for time-shifting the wav
 
 Convolution / SAC
 -----------------
+The SAC convolve_ command is effectively the same as the command
+correlate_ excpet for a sign change.  As with correlate_, the
+calculation is done in the frequency domain.  An alternative
+convolution routine, which operates in the time domain, is introduced
+in the following section.
 
 .. code-block:: c
 
@@ -968,7 +981,8 @@ Convolution / Time Domain
 -------------------------
 
 The SAC convolve_ command is a "discrete" convolution.  It uses two
-digital-convolution features that may be undesirable:
+digital-convolution features that may be undesirable when working with
+time series:
 
   - no scaling of the output by the digitizing interval, and
   - no check on the start time for the pulse.
@@ -1112,10 +1126,9 @@ Plots for the two pulse waveforms are shown in Figure 1, and the results of the 
 If one uses the SAC convolution for the two runs, one gets the "correct" result for the Brune pulse but a time shift of 0.08 seconds for the triangle pulse (which starts at -0.08 s).  The convolution of the triangle pulse with itself is also time-shifted 0.08\,s.  If one uses the SAC CONVOLVE option "amplitude on" in program `convolvef` or `convovlec`, one gets the same amplitudes and times as for SAC convolution output.
 
 
-.. image:: brune-pulse.png
-   :width: 45%
-.. image:: triangle-pulse.png
-   :width: 45%
+.. image:: brune-triangle.png
+   :width: 90%
+   :align: center
 
 Figure 1. The two source pulses used for these convolution applications.
 

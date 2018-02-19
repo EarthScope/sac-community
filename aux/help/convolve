@@ -3,8 +3,8 @@ CONVOLVE
 
 SUMMARY
 -------
-Compute the convolution of a master signal with itself and with
-all other signals in memory.
+Compute the discrete convolution of a master signal with itself and with
+all time series in memory.
 
 SYNTAX
 ------
@@ -18,15 +18,15 @@ INPUT
    :MASTER name|n:  Select master file in data file list by name or
        number.  All files will be cornvolved with the MASTER.
 
-   :AMPLITUDE {OFF}: Perform a Discrete Convolution, ignore time sampling
+   :AMPLITUDE OFF: No normalization.  Default
 
-   :AMPLITUDE ON: Preserve amplitudes by incorporating time sampling
+   :AMPLITUDE ON: Preserve amplitudes by multiplyig by DELTA
 
    :NUMBER n:  Set number of correlation windows to be used.
 
-   :LENGTH {ON}:  Turn fixed window length option on.
+   :LENGTH ON:  Turn fixed window length option on.
 
-   :LENGTH OFF:  Turn fixed window length option off.
+   :LENGTH OFF:  Turn fixed window length option off.  Default
 
    :LENGTH v:  Turn fixed window length option on and change window
        length in seconds to v.
@@ -51,22 +51,19 @@ DEFAULT VALUES
 DESCRIPTION
 -----------
   If there are N SAC files in memory, there are N output files that are the
-  results of the convolution with MASTER.  There is no normalization.
-  All signals in memory must have the same DELTA.
+  results of the convolution with MASTER (including the convolution of
+  MASTER with itself).  All signals in memory must have the same DELTA. The
+  output time series preserves amplitudes if one chooses AMPLITUDE ON.
 
-  A Discrete Convolution is performed by default.  This does not multiply the
-  signal by the time sampling rate.  The resulting time series does preserve
-  amplitudes as expected when the time output is multiplied by the digitizing
-  interval.  To enable amplitude perservation and incorporate the time sampling
-  rate, use AMPLITUDE ON.
-
-  The algorithm assumes all time series are causal, so if one wants to
-  convolve a waveform time series with a time-symmetric pulse with a maximum at
-  zero time (perhaps as a method of non-causal,low-pass filtering to smooth out
-  Gibbs phenomenon that often accompanies arrival spikes in a synthetic waveform),
-  the output time series will be time-shifted forward by half the width of a
-  time-symmetric pulse.  In help file `Using the sac Library`_, the convolve
-  exampole is a program that honors the pulse start time.
+  For a discrete convolution, only points are considered so the MASTER and
+  all other time series in memory are effectively asssumed to start at the
+  same time.  Hence, if one wants to convolve a waveform time series with a
+  time-symmetric pulse that has a maximum at zero time (perhaps as a method
+  of non-causal,low-pass filtering to smooth out Gibbs phenomenon that often
+  accompanies arrival spikes in a synthetic waveform), the output time series
+  will be time-shifted forward by half the width of a time-symmetric pulse.
+  See the `Time-Series Convolution Primer` section in
+  `Using the SAC Libraries`_ for further discussion of this point.
 
 HEADER CHANGES
 --------------
