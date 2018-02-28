@@ -7,11 +7,24 @@ In addition to being able to read and write SAC data files in one's
 own C or FORTRAN programs (see `SAC Reading and Writing Routines`_ ),
 one can use many of SAC's data-processing routines in stand-alone
 codes.  The internal routines here are wrapped in an interface that
-should be more streamlined to use than previous versions.  These
-libraries libsac.a and libsacio.a are in ${SACHOME}/lib.
+should be more streamlined to use than previous versions to v102.0.
+The libraries libsac.a and libsacio.a are in ${SACHOME}/lib.
 
-For exhaustive examples, please see ${SACHOME}/doc/examples contained
+For more detailed examples, see ${SACHOME}/doc/examples contained
 in the SAC distribution.
+
+**Callable in C and Fortran**
+
+All of these available functions are simplified wrappers around
+internally used functions within SAC with obscure, shortened and
+forgotten names and extra, usually unneeded, or confusing parameters.
+Each function documented below should be callable directly from C and
+Fortran.  The Fortran wrappers should work simply for Fortan compilers
+that append underscores to function names internally within the
+program.
+
+The only difference between the C and Fortran version are the calling
+convention of pass-by-value (C default) and pass-by-reference (Fortran).
 
 .. contents ::
 
@@ -25,17 +38,17 @@ or a Fortran compilers, try::
 
    cc -o program main.c subs.c `sac-config --cflags --libs libsac libsacio`
 
-   gfortran -o program main.f subs.f `sac-config --cflags --libs libsac libsacio`
+   gfortran -o program main.f `sac-config --cflags --libs libsac libsacio`
 
 Instrument Removal / Deconvolution
 ----------------------------------
 
 .. code-block:: c
 
-    // Remove Evalresp Response 
+    // Remove Evalresp Response
     int remove_evalresp_simple(float *data, int n, float dt, double limits[4])
 
-    // Remove Evalresp Response 
+    // Remove Evalresp Response
     int remove_evalresp(float *data, int n, float dt, double limits[4],
                         char *id, char *when, char *resp_file)
 
@@ -60,7 +73,7 @@ evelresp, polezero, etc.
 - `n` - Length of data
 - `dt` - Sampling interval (seconds)
 - `limits` - Frequency range over which response is removed (Hz)
-   
+
    - `limits[4] = { 0.002, 0.005, 12.0, 20.0 }`
    - limits[0] - Low  Frequency Edge (Response = 0)
    - limits[1] - Low  Frequency Edge (Response = 1)
@@ -120,14 +133,15 @@ Fourier Transform (FFT)
 -----------------------
 Given below are both single- and double-precision routines for doing
 forward and inverse Fourier transforms.  All transforms are performed
-in double precision, as all subroutine calls in SAC use the same
-internal code path.  Single precision versions internally convert/copy
+in double precision, as all subroutine calls within SAC use the same
+internal code path.  Single-precision versions internally convert/copy
 the input arrays to double recision as a prelude to perfomring the
-transform., and the results are then converted back to single
+transform, and the results are then converted back to single
 precision on return.  The internal calculations are done using a
 power-of-2 number of points.  For a forward transform, `n` need not be
-a power of 2, but the output `nf` will be the next power of 2 greater
-than or equal to n.
+a power of 2, but the output `nf` must be the next power of 2 greater
+than or equal to n.  Parameter `nf` must be defined prior to calling
+any of these routines.
 
 .. code-block:: c
 
@@ -147,7 +161,7 @@ than or equal to n.
    void  idfft(double data, int n, double *re, double *im, int nf)
    void idfftz(double data, int n, double complex *z, int nf)
 
-Compute the Fourier Transform (or inverse transform ) of a data series. 
+Compute the Fourier Transform (or inverse transform) of a data series.
 
 **Arguments**
 
@@ -213,7 +227,7 @@ Remove Mean
 
     void remove_mean (float *data, int n)
 
-Remove the mean of a data series.  The mean of the data series is automatically calculated and removed from the data series. 
+Remove the mean of a data series.  The mean of the data series is automatically calculated and removed from the data series.
 
 **Arguments**
 
@@ -264,7 +278,7 @@ Remove the trend of a data series
 
 **Note:** Data is modified in place.
 
-This calls lifite() and rtrend() internally
+This calls internal rountines lifite() and rtrend().
 
 Trend is removed as
 
@@ -295,7 +309,7 @@ where y is the data
 .. code-block:: shell
 
     SAC> read raw.sac
-    SAC> rtrend
+    SAC> rtrend verbose
 
 
 Remove Trend - Unevenly sampled data
@@ -329,7 +343,7 @@ Rotate
 
 .. code-block:: c
 
-    void rotate(float *si1, float *si2, int ns, double angle, 
+    void rotate(float *si1, float *si2, int ns, double angle,
                 int lnpi, int lnpo, float *so1, float *so2)
 
 To perform a clockwise rotation of a pair of signals.
@@ -343,7 +357,7 @@ To perform a clockwise rotation of a pair of signals.
 - `lnpi` - True (1) if input signals are normal polarity
 - `lnpo` - True (1) if output signals are normal polarity
 - `so1` - First output signals
-- `so2` - Second output signals 
+- `so2` - Second output signals
 
 **Note:** Input and output signals may be the same arrays
 
@@ -677,7 +691,7 @@ Differentiate a data set using a two point differentiation
 
 - `array` - Input data to differentiate
 - `n` - length of ararry
-- `delta` - Time sampling of input data 
+- `delta` - Time sampling of input data
 - `output` - Output differentiated data, length n-1
 
 This is the default scheme in the SAC program.
@@ -794,7 +808,7 @@ Taper
    - 3 - Hamming - SAC_TAPER_HAMMING
 - `ipts` - Points to use in the taper
 - `sec` - Duration of the taper in seconds
-- `delta` - Delta of the data 
+- `delta` - Delta of the data
 - `width` - Percent of the data to taper
 
 **Examples**
@@ -822,7 +836,7 @@ Taper
 .. code-block:: shell
 
     SAC> read raw.sac
-    SAC> taper
+    SAC> taper TYPE HANNING WIDTH 0.05
 
 
 Cut Data
@@ -844,7 +858,7 @@ Cut a time series data using a begin and end time
 - `dt` - time sampling (seconds)
 - `begin_cut` - Start time of cut
 - `end_cut` - End time of cut
-- `cuterr` - 
+- `cuterr` -
 
    - 1 - Fatal - SAC_CUT_FATAL
    - 2 - Use B and E Values - SAC_CUT_USEBE
@@ -883,23 +897,24 @@ Interpolation using cubic splines
 ---------------------------------
 
 In the pre-digital-data era, data extremes were relatively easy to see
-because the pen or light-beam velocity went to zero.  The
+because the pen or light-beam velocity went to zero at them.  The
 interpolation scheme used by the SAC interpolate routine uses a method
 popularized by Wiggins that took advantage of that feature so that
-cycle extrema could be at digitized points.  With digital data, the
-extrema are generally not at digitized points, and for some studies it
-is desirable to get a better estimate of the maxima than available from
-Wiggins' interpolation.  The routine below uses a pure cubic-spline
-interpolation published by Forsythe, et al., that may be preferable in
-some studies.
+cycle extrema could be at digitized points.
 
-The program and subroutines called can be found in
-$SACDOC/doc/examples/interpolate.  The run_interpolate.sh script shows
-how the interpolation program is built and run, along with how interpolation
-would be accomplished in SAC.
+With digital data, the extrema may not be at digitized points, and for
+some studies it is desirable to get a better estimate of the maxima and
+minima (for example, estimating magnitudes based on amplitudes or when
+using amplitude ratios in focal-mechanism determinations.  The routine
+below uses a pure cubic-spline interpolation published by Forsythe, et al.,
+that can give significantly different results from a Wiggins interpolation.
+The program is in in $SACDOC/doc/examples/interpolate.  The script
+run_interpolate.sh shows how the interpolation program is built and
+run, along with how interpolation would be accomplished in SAC.
 
 The plot below shows the initial waveform, the result using Forsythe
-interpolation, and the result using SAC interpolation.
+interpolation, and the result using SAC/Wiggins interpolation.  (File
+interpolate.m includes SAC calls to create the plot.)
 
 .. image:: Time-Series_Interpolation.png
    :width: 90%
@@ -908,15 +923,24 @@ interpolation, and the result using SAC interpolation.
 Time Shift
 ----------
 
-No function in SAC shifts a time series, but as mentioned in the help
-file for lowpass_ command, such filters time-shift the data, and one
-may want to correct for that time shift.
+There is no function in SAC that time-shifts a waveform, but as mentioned
+in the help file lowpass_ for the low-pass filter command, such filters
+time-shift the data, and one may want to correct for that time shift.  One
+can use SAC to time-shift a waveform by changing the "b" header value for
+the SAC file.  A (new as of v102.0) macro: $SACHOME/macros/sac-ts.m is an
+example of how to do this.
 
-A program and called subroutines can be found in $SACHOME/doc/examples/time_shift along with an example of how to it is used::
+A Fortran program named time_shift.f in $SACHOME/doc/examples/time_shift
+does a time shift by taking the Fourier transform of the input time series
+then and doing the time shift in the frequency domain.   Before taking the
+Fourier transform the waveform is prepared by taking out the mean/trend and
+then tapered to stabilize the Fourier transform.  It is padded with zeros to
+minimize wrap-around.
 
-    gfortran -o time_shift time_shift.f time_shift_subs.f `sac-config --cflags --libs libsacio`
-
-The plot below shows the original plus the two methods for time-shifting the waveform.
+All steps for an example are included in which a waveform is first low-pass
+filtered, which results in a time shift, and that time shift is taken out by
+the two methods: a call to the SAC macro and a run of program time_shift.
+The plot below shows the original plus the two methods for time-shifting the waveform for thus case.
 
 .. image:: time-shift_summary.png
    :width: 90%
@@ -1137,4 +1161,3 @@ Figure 1. The two source pulses used for these convolution applications.
    :align: center
 
 Figure 2: From top to bottom: unfiltered synthetic, time-series convolution with triangle pulse, discrete convolution with triangle pulse, time-series convolution with Brune pulse
-

@@ -17,7 +17,7 @@ INPUT=seismo_lpco5np4.sac
 OUTPUT=seismo_lpco5np4_ts.sac
 
 echo "Compiling timeshift ..."
-gfortran -Wall -Wextra -fbounds-check -o time_shift time_shift.f time_shift_subs.f `sac-config --libs sacio`
+gfortran -Wall -Wextra -fbounds-check -o time_shift time_shift.f  `sac-config --libs libsac libsacio`
 
 echo "Running timeshift ..."
 ./time_shift $INPUT $OUTPUT -0.05

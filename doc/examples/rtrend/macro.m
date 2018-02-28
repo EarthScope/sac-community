@@ -1,5 +1,5 @@
 fg seismo
 write raw.sac
-rtrend
+rtrend verbose
 write rtrend_sac.sac
 quit
