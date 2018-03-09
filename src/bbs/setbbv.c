@@ -42,12 +42,13 @@ BBS_EXTERN
 void
 setbbv(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
 
-    char ktemp[33] = "                                ";
+    char ktemp[33];
     int nc;
 
     char *kname_c;
     char *kvalue_c;
 
+    memset(ktemp, 0, sizeof(ktemp));
     kname_c = fstrdup(kname, kname_s);
     kvalue_c = fstrdup(kvalue, kvalue_s);
 
@@ -56,7 +57,9 @@ setbbv(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
 
     nc = min(indexb(kname_c, kname_s), 32);
     modcase(TRUE, kname_c, nc, ktemp);
+    ktemp[nc] = 0;
     nc = indexb(kvalue_c, kvalue_s);
+    kvalue[nc] = 0;
     putvvstring(kmbbs.knmbbs, MCPFN + 1, ktemp, 33, nc, kvalue_c, kvalue_s,
                 nerr);
 
