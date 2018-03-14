@@ -56,13 +56,16 @@ CLEANFILES =  bin/sacinit.sh bin/sacinit.csh bin/sac-config
 # Rules to install Extra Subdirectories and Files
 install-data-hook:
 	$(INSTALL) -d $(prefix)/utils
+	if [ -e $(prefix)/lib64 ]; then \
+     cd $(prefix); ln -s lib64 lib; \
+  fi
 	cd $(srcdir); \
 	for d in $(EXTRA_INSTALL); do \
 	   for f in `(find $$d -type d)`; do \
 	      $(INSTALL) -d $(prefix)/$$f; \
 	   done; \
 	   for f in `(find $$d -type f)`; do \
-	      $(INSTALL_DATA) $$f $(prefix)/$$f; \
+        $(INSTALL_DATA) $$f $(prefix)/$$f; \
 	   done; \
 	done; \
 	cd -
