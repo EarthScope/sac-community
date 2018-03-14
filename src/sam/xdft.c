@@ -141,7 +141,7 @@ xdft(nerr)
 
         /* -- Compute length of data after transform. */
         nlnnew = next2(s->h->npts);
-
+        npts_orig = s->h->npts;
         /* -- If transformed length is greater than current length. */
         if (nlnnew > s->h->npts) {
 
