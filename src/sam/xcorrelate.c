@@ -257,7 +257,7 @@ xcorrelate(int *nerr) {
         s->h->npts = nlenCombined;
         s->h->b =
             -(float) (nlenMaster - 1) * s->h->delta + s->h->b - masterBegin;
-        s->h->e = s->h->b + s->h->delta * (float) (nlenCombined - 1);
+        sac_be(s);
         extrma(signal, 1, nlenCombined, &s->h->depmin, &s->h->depmax,
                &s->h->depmen);
         s->h->nzyear = SAC_INT_UNDEFINED;

@@ -151,11 +151,8 @@ xint(nerr)
             s->h->npts = s->h->npts - 1;
             if (s->h->leven) {
                 s->h->b = s->h->b + 0.5 * s->h->delta;
-                s->h->e = s->h->b + (float) (s->h->npts - 1) * s->h->delta;
-            } else {
-                s->h->b = s->x[0];
-                s->h->e = s->x[s->h->npts - 1];
             }
+            sac_be(s);
         }
 
         /* -- Recalculate min, max and mean. */

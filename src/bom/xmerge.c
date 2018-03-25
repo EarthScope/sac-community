@@ -692,7 +692,7 @@ xmerge_new(int *nerr) {
     FREE(s->y);
 
     s->h->npts = t[n - 1].en + 1;
-    s->h->e = s->h->b + s->h->delta * (float) (s->h->npts - 1);
+    sac_be(s);
     s->y = y;
     sac_extrema(s);
 

@@ -265,8 +265,7 @@ xconvolve(nerr)
         /* -- Update any header fields that may have changed. */
         /*      overhauled to preserve differences in begin times. maf 961204 */
         s->h->npts = nlenCombined;
-/*		*begin = -(float)( nlenmx )**delta + *begin - masterBegin ; */
-        s->h->e = s->h->b + s->h->delta * (float) (s->h->npts - 1);
+        sac_be(s);
         if (cmsam.amplitude) {
             for (j = 0; j < s->h->npts; j++) {
                 signal[j] = s->h->delta * signal[j];

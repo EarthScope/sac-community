@@ -147,11 +147,7 @@ sacToSeisMgr(int lnew, int lupdate, int ldata, int *nerr) {
         }
 
         /* update pertinent information */
-        if (s->h->leven)
-            s->h->e = CALC_E(s);
-        else
-            extrma(s->x, 1, s->h->npts, &s->h->b, &s->h->e, &unused);
-
+        sac_be(s);
         update_distaz(s);
 
         if (localLdata) {

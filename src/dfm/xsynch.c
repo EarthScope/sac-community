@@ -115,7 +115,7 @@ xsynch(int *nerr) {
         } else {
             s->h->b = s->h->b + dtnew;
         }
-        s->h->e = s->h->b + s->h->delta * (float) (s->h->npts - 1);
+        sac_be(s);
         if (s->h->a != SAC_FLOAT_UNDEFINED)
             s->h->a = s->h->a + dtnew;
         if (s->h->f != SAC_FLOAT_UNDEFINED)

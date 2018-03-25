@@ -170,10 +170,9 @@ rdhdr(sac * s, int *nun, char *file, int *nerr) {
     if (s->h->nzyear >= 0 && s->h->nzyear <= 99)
         s->h->nzyear = s->h->nzyear + 1900;
 
-    /* - Compute end time if evenly-spaced file. */
+    /* - Compute end time */
 
-    if (s->h->leven)
-        s->h->e = CALC_E(s);
+    sac_be(s);
 
   L_8888:
     return lswap;

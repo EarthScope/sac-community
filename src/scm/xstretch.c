@@ -184,7 +184,7 @@ xstretch(nerr)
         /* -- Update any header fields that may have changed. */
         s->h->npts = nlnnew;
         s->h->delta = s->h->delta / (float) (cmscm.nstrfc);
-        s->h->e = s->h->b + s->h->delta * (float) (s->h->npts - 1);
+        sac_be(s);
         extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax,
                &s->h->depmen);
 

@@ -94,11 +94,7 @@ rddta(sac * s, int *nun, int lswap, int *nerr) {
 
     //    s->h->npts = s->m->nlndta;
     extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen);
-    if (s->h->leven) {
-        s->h->e = s->h->b + (float) (s->h->npts - 1) * s->h->delta;
-    } else {
-        extrma(s->x, 1, s->h->npts, &s->h->b, &s->h->e, &unused);
-    }
+    sac_be(s);
 
   L_8888:
     return;

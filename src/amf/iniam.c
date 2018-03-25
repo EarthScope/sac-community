@@ -416,6 +416,44 @@ sac_extrema(sac * s) {
     extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen);
 }
 
+float
+calc_e_even(sac *s) {
+    switch (s->h->iftype) {
+    case ITIME:
+    case IXY:
+    case IUNKN:
+        return s->h->b + s->h->delta * (float)(s->h->npts - 1);
+        break;
+    case IRLIM:
+    case IAMPH: {
+        int nfreq = 0;
+        if(s->h->npts % 2 == 0) {
+            nfreq = s->h->npts / 2;
+        } else {
+            nfreq = (s->h->npts-1) / 2;
+        }
+        return s->h->b + (float) nfreq * s->h->delta;
+    }
+        break;
+    case IXYZ:
+        break;
+    }
+    return SAC_FLOAT_UNDEFINED;
+}
+
+void
+sac_be(sac *s) {
+    float junk;
+    if(s->h->leven) {
+        s->h->e = calc_e_even(s);
+    } else {
+        if(s->x) {
+            extrma(s->x, 1, s->h->npts, &s->h->b, &s->h->e, &junk);
+        }
+    }
+}
+
+
 int
 sac_find_filename(char *file) {
     int i, nerr;

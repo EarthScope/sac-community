@@ -228,7 +228,7 @@ xdft(nerr)
         s->h->sdelta = s->h->delta;
         s->h->b = 0.;
         s->h->delta = 1. / (s->h->delta * (float) (s->h->npts));
-        s->h->e = s->h->b + (float) (nfreq) * s->h->delta;
+        sac_be(s);
         if (!cmsam.lrlim) {
             int i;
             DEBUG("Real/Imag => Amp/Phase %d\n", s->h->iftype);

@@ -161,7 +161,7 @@ rsac1(char *kname, float *yarray, int *nlen, float *beg, float *del, int *max_,
     s->y = yarray;
     /* - Adjust several header fields. */
     s->h->npts = *nlen;
-    s->h->e = CALC_E(s);
+    sac_be(s);
 
   ERROR:
     *nerr = (*nerr == SAC_OK &&
@@ -307,9 +307,7 @@ sac_read_internal(char *filename, int read_data, int *nerr) {
             goto ERROR;
         }
     }
-    if(s->h->iftype == ITIME) {
-        s->h->e = CALC_E(s);
-    }
+    sac_be(s);
     update_distaz(s);
     if(read_data) {
         sac_extrema(s);

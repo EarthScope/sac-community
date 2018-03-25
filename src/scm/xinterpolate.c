@@ -211,7 +211,7 @@ xinterpolate(nerr)
         s->h->npts = newlen;
         s->h->delta = cmscm.dtnew;
         s->h->b = xstart;
-        s->h->e = s->h->b + (float) (s->h->npts - 1) * s->h->delta;
+        sac_be(s);
         FREE(s->y);
         s->y = new;
         extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax,

@@ -54,7 +54,7 @@ wsac1(char *kname, float *yarray, int *nlen, float *beg, float *del, int *nerr,
     s->h->npts = *nlen;
     s->h->delta = *del;
     s->h->b = *beg;
-    s->h->e = CALC_E(s);
+    sac_be(s);
     s->h->leven = TRUE;
 
     /* - Write the file to disk. */

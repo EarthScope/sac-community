@@ -109,7 +109,7 @@ xdif(nerr)
             s->h->b = s->h->b + s->h->delta;
         }
 
-        s->h->e = s->h->b + (float) (s->h->npts - 1) * s->h->delta;
+        sac_be(s);
 
         /* -- Update any header fields that may have changed. */
 

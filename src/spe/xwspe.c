@@ -100,10 +100,9 @@ xwspe(nerr)
     s->h->delta = cmspe.samfrq / (float) (cmspe.nlnspe - 1);
     s->h->npts = cmspe.nlnspe / 2 + 1;
     s->h->b = 0.;
-    s->h->e = spe->h->b + spe->h->delta * (float) (spe->h->npts - 1);
-
     s->y = spespe;
     sac_extrema(s);
+    sac_be(s);
 
     /* - Write spectral estimate to disk. */
     filename = fstrdup(kmspe.knmspe, MCPFN + 1);

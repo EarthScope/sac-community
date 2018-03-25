@@ -111,8 +111,8 @@ xwritestack(nerr)
     s->h->delta = cmsss.del;
     s->h->npts = cmsss.nlnsum;
     s->h->b = 0.;
-    s->h->e = s->h->b + s->h->delta * (float) (s->h->npts - 1);
     s->y = sss_sum;
+    sac_be(s);
     extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen);
 
     /* - Write sum to disk. */

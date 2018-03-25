@@ -112,7 +112,7 @@ xidft(nerr)
         s->h->iftype = ITIME;
         s->h->b = s->h->sb;
         s->h->npts = s->h->nsnpts;
-        s->h->e = s->h->b + (float) (s->h->npts - 1) * s->h->delta;
+        sac_be(s);
         extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax,
                &s->h->depmen);
     }                           /* end for( jdfl ) */

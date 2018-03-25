@@ -51,9 +51,8 @@ wsac2(char *kname, float *yarray, int *nlen, float *xarray, int *nerr,
 
     /* - Set up the header fields passed by the calling program. */
     s->h->npts = *nlen;
-    s->h->b = xarray[0];
-    s->h->e = xarray[s->h->npts - 1];
     s->h->leven = FALSE;
+    sac_be(s);
 
     /* - Write the file to disk. */
     wsac0(kname, xarray, yarray, nerr, kname_s);

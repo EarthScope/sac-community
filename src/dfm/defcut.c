@@ -243,7 +243,7 @@ defcut(char kcut[2][9], double ocut[2], int idfl, int *nerr) {
     /* - Convert these start and stop points to new begin and end times. */
     s->h->b = s->h->b + (double) (s->m->nstart - 1) * s->h->delta;
     s->h->npts = s->m->nstop - s->m->nstart + 1;
-    s->h->e = s->h->b + (double) (s->h->npts - 1) * s->h->delta;
+    sac_be(s);
 
     DEBUG("nstart[%d]: %d\n", idfl, Nstart[idfl]);
     DEBUG("nstop[%d]:  %d\n", idfl, Nstop[idfl]);

@@ -16,7 +16,7 @@ Pausing
      depmen = 9.089077e-01
      iftype = SPECTRAL FILE-AMPL/PHASE
           b = 0.000000e+00
-          e = 3.996000e+01
+          e = 2.000000e+01
       delta = 4.000000e-02
  psp am ; pause period 0.25
 Pausing
@@ -67,7 +67,7 @@ Pausing
      depmen = 5.355648e-01
      iftype = SPECTRAL FILE-AMPL/PHASE
           b = 0.000000e+00
-          e = 3.996000e+01
+          e = 2.000000e+01
       delta = 4.000000e-02
  psp am ; pause period 0.25
 Pausing
@@ -118,7 +118,7 @@ Pausing
      depmen = 6.315096e-01
      iftype = SPECTRAL FILE-AMPL/PHASE
           b = 0.000000e+00
-          e = 3.996000e+01
+          e = 2.000000e+01
       delta = 4.000000e-02
  psp am ; pause period 0.25
 Pausing
@@ -169,7 +169,7 @@ Pausing
      depmen = 4.365077e-01
      iftype = SPECTRAL FILE-AMPL/PHASE
           b = 0.000000e+00
-          e = 3.996000e+01
+          e = 2.000000e+01
       delta = 4.000000e-02
  psp am ; pause period 0.25
 Pausing

@@ -533,11 +533,11 @@ xrtab(int lplot, int *nerr) {
             if (numxch == 0) {
                 s->h->delta = 1.;
                 s->h->b = 0.;
-                s->h->e = s->h->b + (float) (s->h->npts - 1) * s->h->delta;
+                sac_be(s);
             } else {
                 copy_float(y[0], s->x, s->h->npts);
                 s->h->delta = SAC_FLOAT_UNDEFINED;
-                extrma(s->x, 1, s->h->npts, &s->h->b, &s->h->e, &unused);
+                sac_be(s);
             }
             extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax,
                    &s->h->depmen);

@@ -275,9 +275,9 @@ xwsp(nerr)
         nfreq = s->h->npts / 2 + 1;
         s->h->npts = nfreq;
         s->h->b = 0.;
-        s->h->e = s->h->delta * (float) (nfreq - 1);
         s->h->iftype = IXY;
-
+        sac_be(s);
+        
         /* -- Write first spectral component if requested. */
 
         if (cmsam.lwspc1) {

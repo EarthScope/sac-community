@@ -517,7 +517,7 @@ rdsegy(int idfl, char *kfile, int *nlen, int *ndx1, int *ndx2, int *nerr) {
         return;
     }
 
-    s->h->e = ((num_sam - 1) * s->h->delta) + s->h->b;
+    sac_be(s);
 
     sprintf(s->h->kcmpnm, "      %d", trace.channel_number);
 

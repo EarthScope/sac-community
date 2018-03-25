@@ -86,11 +86,7 @@ rdxdrdta(int idfl, char *kname, int kname_s, int *nerr) {
     /* - Compute some header values. */
 
     sac_extrema(s);
-    if (s->h->leven) {
-        s->h->e = s->h->b + (float) (s->h->npts - 1) * s->h->delta;
-    } else {
-        extrma(s->y, 1, s->h->npts, &s->h->b, &s->h->e, &unused);
-    }
+    sac_be(s);
 
     sacput(s);
 

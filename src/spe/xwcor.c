@@ -84,9 +84,9 @@ xwcor(nerr)
     s->h->npts = cmspe.nlnfft;
     s->h->delta = delcor;
     s->h->b = 0.0;
-    s->h->e = CALC_E(s);
     s->h->leven = TRUE;
     s->y = specor;
+    sac_be(s);
 
     filename = fstrdup(kmspe.knmcor, MCPFN + 1);
     sac_write_r(s, filename, SAC_WRITE_HEADER_AND_DATA, SAC_NO_BYTESWAP_FILE,

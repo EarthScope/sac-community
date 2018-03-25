@@ -191,7 +191,7 @@ xfg(int *nerr) {
     s->h->b = cmexm.fgbeg;
     s->h->delta = cmexm.fgdel;
     s->h->npts = cmexm.nfgpts;
-    s->h->e = s->h->b + (float) (s->h->npts - 1) * s->h->delta;
+    sac_be(s);
 
     fstrncpy(s->h->kevnm, 17, "FUNCGEN: ", 9);
     fstrncpy(s->h->kevnm + 9, 17 - 10, kmexm.kfgtp[cmexm.ifgtp - 1],
