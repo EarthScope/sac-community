@@ -19,15 +19,15 @@
      b = 1.000000e+01
      e = 1.090000e+02
  ch npts 1000
- WARNING: NVHDR, NPTS, NWFID, NORID, and NEVID cannot be changed with CHNHDR
+ WARNING: NVHDR, NPTS, NWFID, NORID, NEVID, and LEVEN cannot be changed with CHNHDR
  ch nvhdr 5
- WARNING: NVHDR, NPTS, NWFID, NORID, and NEVID cannot be changed with CHNHDR
+ WARNING: NVHDR, NPTS, NWFID, NORID, NEVID, and LEVEN cannot be changed with CHNHDR
  ch nwfid 123
- WARNING: NVHDR, NPTS, NWFID, NORID, and NEVID cannot be changed with CHNHDR
+ WARNING: NVHDR, NPTS, NWFID, NORID, NEVID, and LEVEN cannot be changed with CHNHDR
  ch norid 111
- WARNING: NVHDR, NPTS, NWFID, NORID, and NEVID cannot be changed with CHNHDR
+ WARNING: NVHDR, NPTS, NWFID, NORID, NEVID, and LEVEN cannot be changed with CHNHDR
  ch nevid 456
- WARNING: NVHDR, NPTS, NWFID, NORID, and NEVID cannot be changed with CHNHDR
+ WARNING: NVHDR, NPTS, NWFID, NORID, NEVID, and LEVEN cannot be changed with CHNHDR
   
  ==>  
  lh b e
@@ -74,13 +74,14 @@
 
      leven = TRUE
  ch leven false
+ WARNING: NVHDR, NPTS, NWFID, NORID, NEVID, and LEVEN cannot be changed with CHNHDR
  lh leven
   
   
   FILE: IMPULSE - 1
  -------------
 
-     leven = FALSE
+     leven = TRUE
   
  ==>  
  message "BUG? - ch Delta"
@@ -93,6 +94,7 @@
 
      delta = 1.000000e+00
  ch delta 100
+WARNING: Changing DELTA with CHNHDR
  lh delta
   
   
@@ -826,9 +828,9 @@
 
          NPTS = 100
             B = 2.000000e+01
-            E = 1.190000e+02
+            E = 9.920000e+03
        IFTYPE = TIME SERIES FILE
-        LEVEN = FALSE
+        LEVEN = TRUE
         DELTA = 1.000000e+02
        DEPMIN = 1.000000e+02
        DEPMAX = 1.000000e+02

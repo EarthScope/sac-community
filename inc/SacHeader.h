@@ -433,4 +433,6 @@ lhdr(sac * s, int i) {
     return &(ip[i - 1]);
 }
 
+void sac_be(sac *s);
+
 #endif /* _SAC_HEADER_H_ */

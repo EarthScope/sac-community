@@ -143,6 +143,16 @@ xch(int *nerr) {
                     clrmsg();
                     continue;
                 }
+                if (icatx == LOGICAL_TYPE && itemx == 1) {
+                    arg_next();
+                    setmsg("WARNING", 1389);
+                    outmsg();
+                    clrmsg();
+                    continue;
+                }
+                if(icatx == FLOAT_TYPE && itemx == 1) {
+                    printf("WARNING: Changing DELTA with CHNHDR\n");
+                }
 
                 /* ---- Save category and item number. */
                 nitem = nitem + 1;
@@ -344,8 +354,7 @@ xch(int *nerr) {
             }
 
             /* -- Recompute ending time if appropriate. */
-            if (s->h->leven)
-                s->h->e = CALC_E(s);
+            sac_be(s);
 
             /* -- Recompute distance, azimuth, etc. if proper header fields are present. */
             update_distaz(s);

@@ -218,14 +218,14 @@ test_rsac2_file(char *file) {
   rsac2(file,  &(y[0]), &lnpts, &(x[0]), &max, &err, -1);
   ok(err == -803, "rsac2 file <%s> truncated [299] err %d expected %d", file, err, -803);
   ok(lnpts == 299, "rsac2 file <%s> truncated [299] npts %d exptected %d", file, lnpts, 299);
-  test_rsac2_header_file(299, 752285120.0);
+  test_rsac2_header_file(299, 8.121501e+08);
 
   /* Maximum number of points = 50 */
   max = 50;
   rsac2(file,  &(y[0]), &lnpts, &(x[0]), &max, &err, -1);
   ok(err == -803, "rsac2 file <%s> truncated [50] err %d expected %d", file, err, -803);
   ok(lnpts == 50, "rsac2 file <%s> truncated [50] npts %d exptected %d", file, lnpts, 50);
-  test_rsac2_header_file(50, 0.0);
+  test_rsac2_header_file(50, 4.260268);
 
   /* Length < 0 */
   max = 1024;

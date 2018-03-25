@@ -4,6 +4,8 @@
  * @brief  Read an unevely spaced or spectral SAC file
  * 
  */
+#include <unistd.h>
+
 #include "amf.h"
 #include "dff.h"
 #include "bool.h"
@@ -103,6 +105,10 @@ rsac2(char *kname, float *yarray, int *nlen, float *xarray, int *max_,
         goto ERROR;
     }
 
+    if(lseek(-nun, (s->h->npts - *nlen) * sizeof(float), SEEK_CUR) < 0) {
+        error(*nerr = ERROR_READING_FILE, "%s", s->m->filename);
+        goto ERROR;
+    }
     sac_data_read(nun, xarray, *nlen, SAC_SECOND_COMPONENT, lswap,
                   (int *) nerr);
     if (*nerr != SAC_OK) {
@@ -114,7 +120,7 @@ rsac2(char *kname, float *yarray, int *nlen, float *xarray, int *max_,
     s->x = xarray;
     /* - Adjust several header fields. */
     s->h->npts = *nlen;
-    s->h->e = Xarray[s->h->npts];
+    sac_be(s);
 
   ERROR:
     *nerr = (*nerr == SAC_OK &&
