@@ -4,6 +4,8 @@
  * @brief  Execute MERGE
  * 
  */
+//#define __DEBUG__
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,12 +26,12 @@
 #include "clf.h"
 #include "ssi.h"
 
-//#define __DEBUG__
 #include "debug.h"
 
 BOM_EXTERN
 
 static int verbose_merge = FALSE;
+static double compute_delta_tolerance = 1e-6;
 
 /** 
  * Execute the MERGE command.  This command merges two sets of data files.
@@ -68,7 +70,7 @@ struct timing {
     long int bsec;
     double psec;
     int i;
-    float dt;
+    double dt;
     int npts;
     int bn;
     int en;
@@ -281,14 +283,49 @@ time_range(string_list * list) {
     }
     DEBUG("sort timing\n");
     qsort(t, n, sizeof(struct timing), timing_cmp);
+    if(compute_delta_tolerance > 0.0) {
+        double b1, b2, dt;
+        long double sum = 0.0;
+        if(verbose_merge) {
+            printf("merge calculating delta\n");
+        }
+        /* Calculate time step assuming no - gaps */
+        for(i = 0; i < n-1; i++) {
+            b1 = (double) (t[i].bsec - t[0].bsec) + (t[i].psec - t[0].psec);
+            b2 = (double) (t[i+1].bsec - t[0].bsec) + (t[i+1].psec - t[0].psec);
+            dt = (b2-b1)/t[i].npts;
+            sum += dt;
+            DEBUG("CALC DT: %f %f db: %.15e DT: %.15e\n", b2,b1, b2-b1, dt);
+        }
+        dt = sum / (n-1);
+        if(verbose_merge) {
+            printf("merge calculated delta: %.15e (assuming no-gaps)\n", dt);
+            printf("      delta in header %.15e (first file)\n", t[0].dt);
+            printf("      difference: %e = abs( calc_delta - delta )\n", fabs(dt - t[0].dt));
+            printf("      tolerance:  %e\n", compute_delta_tolerance);
+        }
+        if(fabs(dt-t[0].dt) < compute_delta_tolerance) {
+            if(verbose_merge) {
+                printf("      using calulcted delta\n");
+            }
+            for(i = 0; i < n; i++) {
+                t[i].dt = dt;
+            }
+        } else {
+            if(verbose_merge) {
+                printf("      using delta in header\n");
+            }
+        }
+    }
+
     for (i = 0; i < n; i++) {
         b = (double) (t[i].bsec - t[0].bsec) + (t[i].psec - t[0].psec);
         t[i].offset = b / t[i].dt;
         t[i].bn = lround(t[i].offset);
         t[i].en = lround((t[i].npts - 1) + (b / t[i].dt));
         t[i].offset -= t[i].bn;
-        DEBUG("%d: %d %d PTS %d %d\n", i, t[i].bn, t[i].en, t[i].npts,
-              t[i].en - t[i].bn);
+        DEBUG("%d: %d %d PTS %d %d OFFSET: %f B: %.15e Bn: %.15e DT: %.15e\n", i, t[i].bn, t[i].en, t[i].npts,
+              t[i].en - t[i].bn, t[i].offset, b, b/t[i].dt, t[i].dt);
         if (fabs(t[i].offset) < 0.03) { /* Close to 0.0 => 0.0 */
             t[i].offset = 0.0;
         }
@@ -307,6 +344,7 @@ time_range(string_list * list) {
         }
         DEBUG("offset: %5f b: %5f dt: %5f b,e: %d,%d (%d) [%d]\n", t[i].offset,
               b, t[i].dt, t[i].bn, t[i].en, t[i].npts, t->offset == 0.0);
+        DEBUG("\n\n");
     }
     return t;
 }
@@ -341,7 +379,7 @@ void
 fill_zero(float y[], int b, int e, float dt) {
     int i;
     int err = TRUE;
-    DEBUG("%d -> %d (%f %f)\n", b, e, b + (b * s->h->dt), b + (e * dt));
+    DEBUG("%d -> %d (%f %f)\n", b, e, b + (b * dt), b + (e * dt));
     for (i = b; i < e; i++) {
         if (verbose_merge) {
             printf("merge: Gap zero fill: [n: %d t: %f]\n", i, b + i * dt);
@@ -553,7 +591,7 @@ xmerge_new(int *nerr) {
             verbose_merge = TRUE;
         } else if (lklist("GAP$", 5, (char *) gap_keys, 9, 2, &gap_fill)) {
         } else if (lklist("OVERLAP$", 5, (char *) overlap_keys, 9, 2, &overlap)) {
-        }
+        } else if (lkreal("TOL#ERANCE_DELTA$",14, &compute_delta_tolerance)) { }
 
         /* -- define new binop data file list. */
         else if ((list = lcdfl_wild())) {
@@ -614,13 +652,13 @@ xmerge_new(int *nerr) {
     b = t[0].bn;
     e = t[0].en;
 
-    /*
-       for(i = 0; i < n; i++) {
-       DEBUG("b: %ld %f [%d -> %d] %f\n", t[i].bsec, t[i].psec, t[i].bn, t[i].en, t[i].offset);
-       DEBUG("id %d %p (%d, %f)\n", t[i].i, t[i].y, t[i].npts, t[i].dt);
-       DEBUG("\n");
-       }
-     */
+
+    for(i = 0; i < n; i++) {
+        DEBUG("b: %ld %f [%d -> %d] %f\n", t[i].bsec, t[i].psec, t[i].bn, t[i].en, t[i].offset);
+        DEBUG("id %d %p (%d, %f)\n", t[i].i, t[i].y, t[i].npts, t[i].dt);
+        DEBUG("\n");
+    }
+
 
     /* Grab file with earliest time sample */
     if (!(s = get_file(list, t[0].i, NULL))) {
@@ -634,8 +672,8 @@ xmerge_new(int *nerr) {
      * b  - last point data that was written to
      */
     for (i = 0; i < n; i++) {
-        DEBUG("inserting file: %d/%d (%p) %d %d(?)->%d\n", i, n, t[i].y,
-              t[i].npts, t[i].bn, t[i].en);
+        DEBUG("\n\ninserting file: %d/%d (%p) %d %d(?)->%d offset: %f\n", i, n, t[i].y,
+              t[i].npts, t[i].bn, t[i].en, t[i].offset);
         if (i >= n - 1) {       /* Final File  b ..(DATA).. e */
             single_copy(y, b, t[i].en + 1, &t[i]);
             continue;

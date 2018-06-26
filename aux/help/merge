@@ -9,7 +9,8 @@ SYNTAX
 ------
 ::
 
-  MERGE {VERBOSE} {GAP ZERO|INTERP} {OVERLAP COMPARE|AVERAGE} {filelist}
+  MERGE {VERBOSE} {GAP ZERO|INTERP} {OVERLAP COMPARE|AVERAGE}
+       {TOLERANCE_DELTA 1e-6} {filelist}
 
 INPUT
 -----
@@ -23,6 +24,9 @@ INPUT
 
        - COMPARE - Compare overlapping data points, exit on mismatch
        - AVERAGE - Average overlapping data points
+
+   :TOLERANCE_DELTA 1e-6: Tolerance between computed delta and delta
+       reported in the header.  Default tolerance is 1e-6
 
    :VERBOSE: Describe the merge details
 
@@ -39,6 +43,39 @@ DESCRIPTION
    order are able to be merged.  Data currently in memory and data identified in
    the merge command are merged together.  If no data is specified with the merge
    command, data currently in memory will be merged.
+
+TOLERANCE DELTA
+---------------
+   For collections of files with high sample rates, long durations or both
+   the computation of time becomes less precise due to the limited precision
+   of the delta value in the header.
+
+   To avoid this, a calculatd time sampling is computed based on the
+   difference in begin times and with sufficient precision.  If the
+   computed time sampling is within the tolerance specified by the
+   TOLERANCE_DELTA, then then calculated time sampling is used in
+   place of the value reported in the header.  Use VERBOSE for more
+   information about the calculated and header-defined deltas::
+
+     SAC> merge verbose tol 1e-9 files*.sac
+       merge calculating delta
+       merge calculated delta: 4.000000000000000e-03 (assuming no-gaps)
+             delta in header 4.000000189989805e-03 (first file)
+             difference: 1.899898e-10 = abs( calc_delta - delta )
+             tolerance:  1.000000e-10
+             using delta in header
+       merging 18 files => 2700000 data points
+
+   The calculated delta assumes no gaps and no overlaps for the input files
+   as is determined as ::
+
+      calc_delta = mean ( (file_{i+1}.b - file_{i}.b) / file_{i}.npts )
+
+   where the file_{i} comes before file_{i+1}.
+
+   To turn off computing the observed delta, use a value of <= 0.0 ::
+
+     SAC> merge verbose tol 0.0 files*.sac
 
 EXAMPLES
 --------
