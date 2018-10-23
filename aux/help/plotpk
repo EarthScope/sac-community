@@ -121,7 +121,7 @@ close the APF file and display its contents::
          ** Pick P amplitude:          l
          ** Expand view:               o
          ** Zoom in to the S arrival:  x then x (or click and drag)
-         ** Pick S arrival time:       i u 1 s  (Impulsive, Down, Quality 1, S arrival)
+         ** Pick S arrival time:       i u 1 s  (Impulsive, Up, Quality 1, S arrival)
          ** Pick S amplitude:          l
          ** Quit PPK:                  q
       SAC> lh picks
