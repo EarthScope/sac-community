@@ -108,8 +108,8 @@ xcorrelate(int *nerr) {
         else if (lklogr("LENGTH$", 8, &cmsam.lwinln, &cmsam.winln)) {
             if (cmsam.winln <= 0.)
                 cmsam.lwinln = FALSE;
-        } else if (lckey(NORMALIZED_KEY, strlen(NORMALIZED_KEY))) {
-            correlation_normalized = TRUE;
+        } else if (lklog(NORMALIZED_KEY, strlen(NORMALIZED_KEY),
+                         &correlation_normalized)) {
         }
         /* -- "TYPE char":  set window (taper) type. */
         else if (lklist("TYPE$", 6, (char *) kmsam.kwintp, 9, MWINTP, &cmsam.iwintp)) { /* do nothing */

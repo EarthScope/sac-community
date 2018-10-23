@@ -20,7 +20,9 @@ INPUT
 
    :NUMBER n:  Set number of correlation windows to be used.
 
-   :NORMALIZED: Results are normalized between -1.0 and 1.0
+   :NORMALIZED  OFF: No normalization
+
+   :NORMALIZED ON: Results are normalized between -1.0 and 1.0
 
    :LENGTH {ON}:  Turn fixed window length option on.
 
@@ -44,15 +46,33 @@ DEFAULT VALUES
 --------------
 ::
 
-  CORRELATE MASTER 1 NUMBER 1 LENGTH OFF TYPE RECTANGLE
+  CORRELATE MASTER 1 NORMALIZED OFF NUMBER 1 LENGTH OFF TYPE RECTANGLE
 
 DESCRIPTION
 -----------
-  An auto-correlation function is computed on the signal which you declare
-  to be the master one, and a cross-correlation function is calculated between
-  it and each of the other signals in memory.
+  An auto-correlation is computed on the signal declared to be the master
+  file, and a cross-correlation is calculated between the master file
+  and each of the other signals in memory.  This command computes
+  correlations as defined by::
 
-  The windowing features of this command allow you to compute an average
+      corr(tau) = int ( f(t) g(tau + t) ) dt,
+
+  where f is the master file, g any from among the signals in memory, and
+  int means summation over all times t.  The number of points in the master
+  file cannot be greater than the number of points in any other file in
+  memory.  Actual times are not preserved.  The maximum amplitude for the
+  autocorrelation will be at output time tau = 0.  If a segment of g is an
+  exact copy of f in shape starting at the relative time tau = t0, the
+  maximum amplitude of the cross-correlation will be at a time tau = t0.
+
+  If N is the number of points in g and M the number of points in f, the
+  total number of points in corr is N-M+1.  SAC does the calculation in the
+  frequency domain so if N is not a power of 2, it is increased to NN,
+  the next poer of 2. Both f and g are padded with zeroes to NN points before
+  the forward transforms.   (It is wise to prepare all input filesto minimize
+  end effects.)
+
+  The windowing features of this command allow one to compute an average
   correlation function over a set of data windows.  The number of windows is
   selectable and there are five standard windowing functions to choose from.
   When this windowing feature is on, a cross-correlation function is computed
@@ -95,4 +115,4 @@ This command is based on an algorithm developed by Dave Harris (DBH)
 
 LATEST REVISION
 ---------------
-  Dec. 4, 1996 (Version 52a)
+  May 2018: SAC v102.0 (change total number for output, add normalization)
