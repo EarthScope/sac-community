@@ -253,7 +253,6 @@ read_sdd(string_list * files, int ldata) {
       SDD_ERROR:
         if (nerr) {
             sacpop();
-            sac_free(s);
             string_list_delete(files, i);
             retval = TRUE;
             strcpy(kmdfm.kecbdf, "WARNING ");
@@ -269,7 +268,7 @@ read_sdd(string_list * files, int ldata) {
 int
 read_sac(string_list * files, int ldata) {
     int i, nerr, retval, idx;
-    sac *s;
+    sac *s = NULL;
     retval = 0;
     s = NULL;
     i = 0;
@@ -293,7 +292,6 @@ read_sac(string_list * files, int ldata) {
       SAC_ERROR:
         if (nerr) {
             sacpop();
-            sac_free(s);
             string_list_delete(files, i);
             retval = TRUE;
             strcpy(kmdfm.kecbdf, "WARNING ");

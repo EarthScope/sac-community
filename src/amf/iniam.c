@@ -276,9 +276,21 @@ sacdel(int i) {
     xarray_delete(sac_buffer, i);
 }
 
+sac *
+saclast() {
+    int n = saclen();
+    if(n > 0) {
+        return sac_buffer[n-1];
+    }
+    return NULL;
+}
+
 void
 sacpop() {
+    sac *s = saclast();
     xarray_pop(sac_buffer);
+    sac_free(s);
+    s = NULL;
 }
 
 void
