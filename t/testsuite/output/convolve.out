@@ -1,14 +1,14 @@
  wait text off
  * this is a SAC macro to generate a sawtooth, approximating a stick-slip source.
-  
- ==>  
+ echo on
  funcgen line -2 1. npts 50 delta 0.01
   
  ==>  
  funcgen impstrin 100 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800 1900 2000 2100 2200 2300 2400 2500 2600 2700 2800 2900 3000 3100 3200 3300 3400 3500 3600 npts 10000 delta 0.01
   
  ==>  
- convolve master 1
+ ** convolve master 1
+ convolve
   
  ==>  
  lh depmin depmax depmen b e npts
@@ -17,35 +17,134 @@
   FILE: IMPSTRIN - 1
  --------------
 
-     depmin = -1.300677e-05
-     depmax = 3.599977e+01
+     depmin = 0.000000e+00
+     depmax = 3.600000e+01
      depmen = 6.480324e-02
           b = 0.000000e+00
           e = 1.999800e+02
        npts = 19999
   
  ==>  
- fg sine
- w test.sine.1
- ch b 20
- w test.sine.2
- read test.sine.1 test.sine.2
+ fg impulse delta 1.0 npts 20
+ convolve box 4
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ fg impulse delta 1.0 npts 20
+ convolve triangle 4
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ fg impulse delta 1.0 npts 20
+ convolve trap 2 5
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ fg impulse delta 1.0 npts 20
+ convolve mag 6.0
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ fg impulse delta 1.0 npts 20
  convolve master 1
- read test.sine.1 test.sine.2
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ fg impulse delta 1.0 npts 100
+ convolve gauss 2.0
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ fg impulse delta 1.0 npts 100
+ convolve gauss 2.0 centered off
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ fg impulse delta 1.0 npts 100
+ convolve box 10.0 centered on
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ fg impulse delta 1.0 npts 100
+ convolve box 10.0 centered off
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ ** Errors
+  
+ ==>  
+ fg impulse delta 1.0 npts 20
+ convolve master 0
+ ERROR 1310: Illegal data file list number  master: 0
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ fg impulse delta 1.0 npts 20
  convolve master 2
- read test.sine.1 test.sine.2
- convolve master 3
- ERROR interpreting command:  convolve master 3 
- OUTSIDE ALLOWED RANGE:                       ^
- Allowed range is:          1         2
- read test.sine.1 test.sine.2
- convolve master test.sine.1
- read test.sine.1 test.sine.2
- convolve master test.sine.2
- read test.sine.1 test.sine.2
- convolve master test.sine.3
- ERROR interpreting command:  convolve master test.sine.3 
- BAD FILE NAME:                               ^
+ ERROR 1310: Illegal data file list number  master: 2
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ fg impulse delta 1.0 npts 20
+ convolve non_existant_file
+ ERROR interpreting command:  convolve non_existant_file 
+ ILLEGAL OPTION:                       ^
+ p1 ; pause period 0.25
+Pausing
+  
+ ==>  
+ fg impulse delta 1.0 npts 20
+ convolve mag 4.0
+ ERROR 1002: Bad value for triangle pulse: half-width/2 (0.020349) < delta t (1.000000)
+  
+ ==>  
+ fg impulse delta 1.0 npts 20
+ convolve box 0.5
+ ERROR 1002: Bad value for box pulse width/2 (0.250000) < delta t (1.000000)
+
+  
+ ==>  
+ fg impulse delta 1.0 npts 20
+ convolve trap 0.5 3.0
+ ERROR 1002: Bad value for box pulse width/2 (0.250000) < delta t (1.000000)
+
+  
+ ==>  
+ fg impulse delta 1.0 npts 20
+ convolve trap  3.0 2.0
+  
+ ==>  
+ fg impulse delta 1.0 npts 20
+ convolve trap  3.0 1.9
+ ERROR 1002: Bad value for box pulse width/2 (0.950000) < delta t (1.000000)
+
+  
+ ==>  
+ fg impulse delta 1.0 npts 20
+ convolve tri 0.1
+ ERROR 1002: Bad value for triangle pulse: half-width/2 (0.050000) < delta t (1.000000)
+  
+ ==>  
+ fg impulse delta 0.04 npts 20
+ convolve tri 0.1
+  
+ ==>  
+ fg impulse delta 1.0 npts 20
+ convolve mag 8.0
+ ERROR 1002: Bad value for waveform npts (20) < pulse npts (229)
+ p1 ; pause period 0.25
+Pausing
   
  ==>  
  quit

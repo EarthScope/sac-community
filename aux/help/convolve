@@ -3,77 +3,122 @@ CONVOLVE
 
 SUMMARY
 -------
-Compute the discrete convolution of a master signal with itself and with
-all time series in memory.
+Compute the convolution of a signal with all time series in memory.
 
 SYNTAX
 ------
 ::
 
-  CONVOLVE  {MASTER name|n},   {NUMBER n},{LENGTH ON|OFF|v},
-      {TYPE  RECTANGLE|HAMMING|HANNING|COSINE|TRIANGLE}
+  CONVOLVE  {FILENAME} {MASTER n} {BOX v} {TRI v} {GAUSS v} {MAG v} {TRAP v1 v2}
 
 INPUT
 -----
-   :MASTER name|n:  Select master file in data file list by name or
-       number.  All files will be cornvolved with the MASTER.
 
-   :AMPLITUDE OFF: No normalization.  Default
+   :MASTER n: Convolve with filenumber n
 
-   :AMPLITUDE ON: Preserve amplitudes by multiplyig by DELTA
+   :FILENAME: Convolve with data in FILENAME
 
-   :NUMBER n:  Set number of correlation windows to be used.
+   :BOX v: Convolve with a box of width v seconds
 
-   :LENGTH ON:  Turn fixed window length option on.
+   :TRI v: Convolve with a triangle of half width v seconds
 
-   :LENGTH OFF:  Turn fixed window length option off.  Default
+   :GAUSS v: Convolve with a gaussian with standard deviation v seconds
 
-   :LENGTH v:  Turn fixed window length option on and change window
-       length in seconds to v.
+   :MAG v: Convolve with a triangle of half width with desired magnitude v
 
-   :TYPE RECTANGLE:  Apply a rectangle function to each window.  This is
-       equivalent to applying no function to each window.
+   :TRAP v1 v2: Convolve with a trapezoid of rise v1 and width v2
 
-   :TYPE HAMMING:  Apply a hamming function to each window.
-
-   :TYPE HANNING:  Apply a hanning function to each window.
-
-   :TYPE COSINE:  Apply a cosine function to each window.
-
-   :TYPE TRIANGLE:  Apply a triangle function to each window.
+   :CENTERED ON|OFF: Place zero time on maximum amplitude or at beginning of pulse
 
 DEFAULT VALUES
 --------------
 ::
 
-  CONVOLVE MASTER 1 NUMBER 1 LENGTH OFF TYPE RECTANGLE AMPLITUDE OFF
+  CONVOLVE MASTER 1 CENTERED ON
 
 DESCRIPTION
 -----------
-  If there are N SAC files in memory, there are N output files that are the
-  results of the convolution with MASTER (including the convolution of
-  MASTER with itself).  All signals in memory must have the same DELTA. The
-  output time series preserves amplitudes if one chooses AMPLITUDE ON.
+  Assuming the first time-series file in memory is a pulse or response
+  file or ::
 
-  For a discrete convolution, only points are considered so the MASTER and
-  all other time series in memory are effectively asssumed to start at the
-  same time.  Hence, if one wants to convolve a waveform time series with a
-  time-symmetric pulse that has a maximum at zero time (perhaps as a method
-  of non-causal,low-pass filtering to smooth out Gibbs phenomenon that often
-  accompanies arrival spikes in a synthetic waveform), the output time series
-  will be time-shifted forward by half the width of a time-symmetric pulse.
-  See the `Time-Series Convolution Primer` section in
-  `Using the SAC Libraries`_ for further discussion of this point.
+    CONVOLVE MASTER 1
+
+  The first file is convolved with all of the time-series files in
+  memory using the discretized version of the following equation::
+
+      conv(tau) = int ( f(t) g(tau - t) ) dt,
+
+  where f is the first file, g any from among the other signals in
+  memory, and int means summation over all times t, or integration.
+
+  INPUT DELTA: All signals in memory must have the same DELTA.
+
+  INPUT NPTS: The number of points in f, the pulse shape, cannot be
+  greater than the number of points in any other file in memory.
+
+  OUTPUT NPTS: If npts(g) is the number of points in g and npts(f) the
+  number in f, the number in conv is npts(g) + npts(f) - 1.
+
+  OUTPUT TIMING: The start time for each output conv will be the same
+  as that for the input g.
+
+PREDEFINED FUNCTIONS
+--------------------
+  The option to convolve with BOX, TRI, GAUSS, MAG, or TRAP
+  automatically computes these function with the correct time
+  samplings.
+
+  TIMING/CENTERED: The maximum amplitude CENTERED at zero time.  For the BOX
+  function, the ZERO time is defined as the half-width.  Centering on
+  the pulse shapes eliminates time shifts introduced by convolution.
+  If CENTERED is OFF, then the first data point of the pulses is
+  defined as zero.
+
+  AMPLITUDE: All Functions are normalized such that they integrate to
+  1.0 and should not add amplitude, or "moment" in the language of
+  sources, to the final, convolved signal.
+
+  MAGNITUDE: The MAG option uses the relationship between triangle
+  half width and magnitude defined in Wells and Coppersmith, 1994,
+  Table 2A, All::
+
+     M = a + b * log(SRL)
+
+  where a = 5.08, b = 1.16, and assumes a rupture velocity, vr, of
+  2.88 km/s or vr ~ 0.8 vs where vs, 3.6 km/s, is the shear wave speed
+  at the fault; See Lay and Wallace, Sec 9.3, p. 379.  Large magnitude
+  will produce extremely wide triangle and these events are probably
+  better represenated with a BOX or a TRAP.
+
+
+RELATION TO CORRELATE
+---------------------
+  Note the similarity in the convolve equation and the one in CORRELATE_.
+  Many correlate routines, including the original in SAC, mistakenly
+  use this similarity in deriving the procedure for convolution by simply
+  perturbing the procedure used in CORRELATE. The time series from a
+  convolution (conv in the equation above) is typically a replacement time
+  series for the time series g; for example, adding a pulse shape or an
+  instrument response to a synthetic seismogram.  The relative times for f
+  and g are not used in CORRELATE_, but in convolution they may play a role.
+
+  For example, g might be a synthetic time series of spikes with
+  time offsets, amplitudes, and polarities representing phase arrivals
+  The synthetic may have Gibbs phenomena accompanying each arrival.
+  A way to improve the appearance is to convolve g with a time-symmetric
+  triangle function, e.g. ::
+
+     SAC> fg triangle npts 8 delta 0.02 begin -0.08
+
+  If one did not take into account the start time of f, the arrivals in conv
+  would be offset by 0.08 seconds.  A script showing runs with f given by
+  both that triangle pulse and also a pulse shape starting at time zero
+  is included in ${SACHOME}/doc/examples/convolve.
 
 HEADER CHANGES
 --------------
   DEPMIN, DEPMAX, DEPMEN
 
-
-ACKNOWLEDGEMENTS
-----------------
-  This command is based on an algorithm developed by Dave Harris (DBH).
-
 LATEST REVISION
 ---------------
-  2015 (Version 102.0)
+  2019 (Version 102.0)

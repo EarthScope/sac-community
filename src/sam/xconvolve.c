@@ -19,20 +19,270 @@
 #define	MWINLN	2048
 SAM_EXTERN
 
+sac *sacread(char *file);
+int td_conv(float     *waveform,
+            int        n_w,
+            float     *pulse,
+            int        n_p,
+            float     *conv,
+            float      delta,
+            float      factor,
+            float      b_p);
+
+enum pulse {
+    BOX     = 0 ,
+    TRI     = 1,
+    TRAP    = 2,
+    MAG     = 3,
+    GAUSS   = 4,
+    SACFILE = 5,
+    SACFILE_IN_MEMORY = 6,
+};
+
+float *
+norm1d(float *y, int m, double dt) {
+    double sum = 0.0;
+    double y0 = 0.0;
+    // Remove Y Offset
+    for(int i = 0; i < m; i++) {   y0 = fmin(y0, y[i]);      }
+    for(int i = 0; i < m; i++) {   y[i] = y[i] - y0;         }
+    // Normalize
+    for(int i = 0; i < m; i++) {   sum += y[i];              }
+    for(int i = 0; i < m; i++) {   y[i] = y[i] / (sum * dt); }
+    return y;
+}
+
+float *
+box_pulse(double width, double dt, int *n) {
+    if(width/2.0 < dt) {
+        error(1002, "box pulse width/2 (%f) < delta t (%f)\n", width/2.0, dt);
+        return NULL;
+    }
+    *n = (int)(floor(width / dt));
+    float *y = (float *) calloc(*n, sizeof(float));
+    for(int i = 0; i < *n; i++) {
+        y[i] = 1.0;
+    }
+    return norm1d(y, *n, dt);
+}
+
+float *
+trap_pulse(double w1, double w2, double dt, int *n) {
+    int n1,n2;
+    float *b1, *b2, *y;
+    if(w2 > w1) {
+        double w = w1;
+        w1 = w2;
+        w2 = w;
+    }
+    b1 = box_pulse(w1, dt, &n1);
+    if(b1 == NULL) {
+        return NULL;
+    }
+    b2 = box_pulse(w2, dt, &n2);
+    if(b1 == NULL || b2 == NULL) {
+        FREE(b1);
+        return NULL;
+    }
+    *n = n1 + n2 - 1;
+    y = (float *) calloc(*n, sizeof(float));
+    td_conv(b1, n1, b2, n2, y, dt, 1.0, 0.0);
+    FREE(b1);
+    FREE(b2);
+    return norm1d(y, *n, dt);
+}
+
+
+
+float *
+triangle_pulse(double half_width, double dt, int *m) {
+    int n = (int)(floor(half_width / dt));
+    if(half_width/2.0 < dt || n <= 0) {
+        error(1002, "triangle pulse: half-width/2 (%f) < delta t (%f)", half_width/2.0, dt);
+        return NULL;
+    }
+    *m = 2*n + 1;
+    float *y = (float *) calloc(*m, sizeof(float));
+    for(int i = 0; i < n; i++) {
+        y[i] = dt * i;
+    }
+    for(int i = 0; i < n+1; i++) {
+        y[i+n] = dt * (n-i);
+    }
+
+    return norm1d(y, *m, dt);
+}
+float *
+mag_pulse(float mag, double dt, float vr, int *n) {
+    float a = 5.08;
+    float b = 1.16;
+    double L = pow(10.0, (mag-a)/b);
+    double w = L / vr;
+    return triangle_pulse(w, dt, n);
+}
+
+sac *
+sac_from_data(float *y, int n, double b, double dt, char *filename) {
+    sac *s;
+
+    s = sac_new();
+    s->m->filename = strdup(filename);
+    s->h->npts = n;
+    sac_alloc(s);
+    s->h->delta = dt;
+    s->h->b     = b;
+    s->y        = y;
+    sac_extrema(s);
+    sac_be(s);
+
+    return s;
+}
+
+float *
+gauss_pulse(double sigma, double dt, int *n) {
+    if(sigma / 2.0 < dt) {
+        error(1002, "gauss pulse sigma/4 (%f) < dt (%f)", sigma/2.0, dt);
+        return NULL;
+    }
+    double hw = sigma * 5;
+    *n = (int) floor(hw*2/dt);
+    float *y = (float *) malloc(sizeof(float) * *n);
+    for(int i = 0; i < *n; i++) {
+        double t = (i * dt)-hw;
+        double v = pow(t/sigma,2);
+        y[i] = exp( -v/2.0  );
+    }
+    return norm1d(y, *n, dt);
+}
+sac *
+sac_gauss_pulse(double sigma, double dt) {
+    int n = 0;
+    float *y = gauss_pulse(sigma, dt, &n);
+    if(y == NULL) {
+        return NULL;
+    }
+    return sac_from_data(y, n, -(n/2)*dt, dt, "box");
+}
+
+sac *
+sac_box_pulse(double width, double dt) {
+    int n;
+    float *y = box_pulse(width, dt, &n);
+    if(y == NULL) {
+        return NULL;
+    }
+    return sac_from_data(y, n, -(n/2)*dt, dt, "box");
+}
+sac *
+sac_tri_pulse(double width, double dt) {
+    int n;
+    float *y = triangle_pulse(width, dt, &n);
+    if(y == NULL) {
+        return NULL;
+    }
+    return sac_from_data(y, n, -(n/2)*dt, dt, "triangle");
+}
+sac *
+sac_mag_pulse(float mag, double dt, float vr) {
+    int n;
+    float *y = mag_pulse(mag, dt, vr, &n);
+    if(y == NULL) {
+        return NULL;
+    }
+    return sac_from_data(y, n, -(n/2)*dt, dt, "triangle");
+}
+sac *
+sac_trap_pulse(double w1, double w2, double dt) {
+    int n;
+    float *y = trap_pulse(w1, w2, dt, &n);
+    if(y == NULL) {
+        return NULL;
+    }
+    return sac_from_data(y, n, -(n/2)*dt, dt, "trapezoi");
+}
+
+int
+sac_td_conv(sac *s, sac *p) {
+    int m;
+    float *z;
+    m = s->h->npts + p->h->npts - 1;
+    z = (float *) calloc(m, sizeof(float));
+    if(! td_conv(s->y, s->h->npts,
+                 p->y, p->h->npts,
+                 z, s->h->delta, 1.0, p->h->b))  {
+        error(1002, "waveform npts (%d) < pulse npts (%d)", s->h->npts, p->h->npts);
+        return 0;
+    }
+
+    FREE(s->y);
+    s->y = z;
+    s->h->npts = m;
+    sac_be(s);
+    sac_extrema(s);
+    return 1;
+}
+
+
+
+int
+td_conv(float     *waveform,
+        int        n_w,
+        float     *pulse,
+        int        n_p,
+        float     *conv,
+        float      delta,
+        float      factor,
+        float      b_p) {
+    int i, j, j_1;
+    float temp;
+
+    if (n_p > n_w) {
+        return 0;
+    }
+
+    j_1 = -lrint(b_p/delta);
+
+    for(i=0; i < n_w+n_p-1; i++){
+        temp = 0.0;
+        for(j=0; j < n_w; j++) {
+            if (i >= (j-j_1) && n_p > (i-j+j_1)) {
+                temp = temp + waveform[j]*pulse[i-j+j_1];
+            }
+        }
+        conv[i] = factor*temp;
+    }
+    return 1;
+}
+
+#define DT_CHECK(a,b) do {                          \
+    if(fabs(a->h->delta - b->h->delta) >= 1e-7) {   \
+        *nerr = ERROR_UNEQUAL_SAMPLE_RATES;         \
+        goto L_8888;                                \
+    }                                               \
+} while(0);
+
+static int
+file_exists(char *filename) {
+    int exists = FALSE;
+    zinquire(filename, &exists);
+    return exists;
+}
+
 void /*FUNCTION*/
 xconvolve(nerr)
      int *nerr;
 {
-    char kermsg[131], ktemp1[MCPFN + 1];
-
-    int iwinln, iwinmx, j, jdfl, nfft, nzeros, nlenmx,  /* max npts of all signals */
-      nlenMaster,               /* npts of master */
-      nlenCombined;             /* nlen + nlenMaster - 1 */
-    float *master, *correl, *signal;
-    sac *s;
-    float *destination, *source;        /* reverse and copy master. maf 961204 */
-
-        /*=====================================================================
+    sac *s, *p;
+    char pulse_file[512];
+    int i;
+    int centered = FALSE;
+    static int nvals;
+    static double val[2];
+    static int master = 1;
+    static enum pulse pulse_kind = SACFILE_IN_MEMORY;
+    s = NULL;
+    p = NULL;
+    /*=====================================================================
 	 * PURPOSE: To parse and execute the action command CONVOLVE.
 	 *          This command computes convolutions.
 	 *=====================================================================
@@ -52,15 +302,10 @@ xconvolve(nerr)
 	 * SUBROUTINES CALLED:
 	 *=====================================================================
 	 * LOCAL VARIABLES:
-	 *    MWINLN:  Maximum length of each data window. [ip]
-	 *    MCORLN:  Maximum length of correlation function. [ip]
-	 *    NDXMAS:  Index in SACMEM array for master signal. [i]
-	 *    NDXSIG:  Index in SACMEM array for current signal. [i]
-	 *    NDXCOR:  Index in SACMEM array for unshifted correlation. [i]
-	 *    NDSFILES: Number of files in a given data-set. [i]
-	 *    NDSFLNUM: File number (senquental) in the current data set. [i]
+   *
 	 *=====================================================================
 	 * MODIFICATION HISTORY:
+   *    180731:  Retooled to focus on adding a source or instrument shape
 	 *    961204:  Modified to return full range of values instead of just
 	 *             the central half.  Timing changed to leave begin times
 	 *             of signals unchanged from the input signals.  
@@ -77,219 +322,116 @@ xconvolve(nerr)
     /* PROCEDURE: */
     *nerr = 0;
 
-    /* - PARSING PHASE: */
-
-    /* - Loop on each token in command: */
-
     while (lcmore(nerr)) {
-
-        /* -- "MASTER name|n":  determine which file to copy from. */
-        if (lckey("MASTER$", 8)) {
-            if (lcirc(1, saclen(), &cmsam.imast)) {     /* do nothing */
-            } else if (lcchar(ktemp1, sizeof(ktemp1))) {
-                char *ktemp2 = fstrdup(ktemp1, -1);
-                if ((cmsam.imast = sac_find_filename(ktemp2)) < 0) {
-                    arg_prev();
-                    cfmt("BAD FILE NAME:", 16);
-                    cresp();
-                }
-                cmsam.imast += 1;
-            } else {
-                cfmt("NEED A FILE NAME OR A NUMBER:", 31);
+        if (lklog("CENTERED", 5, &centered)) {
+        } else if (lkreal("BOX", 4, &val[0])) {
+            pulse_kind = BOX;
+        } else if (lkreal("TRI", 4, &val[0])) {
+            pulse_kind = TRI;
+        } else if (lkreal("GAU", 4, &val[0])) {
+            pulse_kind = GAUSS;
+        } else if (lkreal("MAG", 4, &val[0])) {
+            pulse_kind = MAG;
+        } else if (lkra("TRAP", 5, 2, 2, val, &nvals)) {
+            pulse_kind = TRAP;
+        } else if(lkint("MASTER", 7, &master)) {
+            pulse_kind = SACFILE_IN_MEMORY;
+        } else if(lcchar(pulse_file, sizeof(pulse_file))) {
+            if(!file_exists(pulse_file)) {
+                // Back up parser and complain about unknown file as option
+                arg_prev();
+                cfmt("ILLEGAL OPTION:", 17);
                 cresp();
-            }                   /* end else */
-
-            ;
-
-        }
-
-        /* end if ( lckey ( "MASTER$" , 8 ) ) */
-        /* -- "NUMBER n":  set number of windows. */
-        else if (lkint("NUMBER$", 8, &cmsam.nwin)) {    /* do nothing */
-        } else if (lklog("AMP#LITUDE$", 10, &cmsam.amplitude)) {
-        }
-
-        /* -- "LENGTH ON|OFF|v":  set window length in seconds. */
-        else if (lklogr("LENGTH$", 8, &cmsam.lwinln, &cmsam.winln)) {
-            if (cmsam.winln <= 0.)
-                cmsam.lwinln = FALSE;
-        }
-
-        /* end else if( lklogr( "LENGTH$" ... */
-        /* -- "TYPE char":  set window (taper) type. */
-        else if (lklist("TYPE$", 6, (char *) kmsam.kwintp, 9, MWINTP, &cmsam.iwintp)) { /* do nothing */
-        }
-
-        /* -- Bad syntax. */
-        else {
+            } else {
+                pulse_kind = SACFILE;
+            }
+        } else {
             cfmt("ILLEGAL OPTION:", 17);
             cresp();
+        }
+    }
 
-        }                       /* end else */
-    }                           /* end while */
-
-    /* - The above loop is over when one of two conditions has been met:
-     *   (1) An error in parsing has occurred.  In this case NERR is > 0 .
-     *   (2) All the tokens in the command have been successfully parsed. */
-
-    if (*nerr != 0)
+    if (*nerr != 0) {
         goto L_8888;
-
-    /* CHECKING PHASE: */
-
+    }
     /* - Test for a non-null data file list. */
-
     vflist(nerr);
-    if (*nerr != 0)
+    if (*nerr != 0) {
         goto L_8888;
+    }
 
     /* - Make sure each file is an evenly spaced time series file. */
-
     vfeven(nerr);
-    if (*nerr != 0)
+    if (*nerr != 0) {
         goto L_8888;
-
-    /* - Find longest signal. */
-
-    nlenmx = 0;
-    iwinmx = 0;
-    for (jdfl = 1; jdfl <= saclen(); jdfl++) {
-        if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
-            *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
-            goto L_8888;
-        }
-        //getfil( jdfl, FALSE, &ntused, &ntused, &ntused, nerr );
-        if (*nerr != 0)
-            goto L_8888;
-        if (cmsam.lwinln) {
-            iwinln = (int) (cmsam.winln / s->h->delta + 0.1);
-        } else {
-            iwinln = s->h->npts / cmsam.nwin;
-        }
-
-        nlenmx = max(nlenmx, s->h->npts);
-        iwinmx = max(iwinmx, iwinln);
-    }                           /* end for */
-
-    /* - EXECUTION PHASE: */
-
-    /* - Allocate temporary blocks for the master signal and correlation function. */
-
-    master = (float *) malloc(sizeof(float) * nlenmx);
-    nfft = 8;
-
-    while (nfft < (2 * iwinmx - 1))
-        nfft *= 2;
-    correl = (float *) malloc(sizeof(float) * nfft);
-
-    /* - Get the master signal, reverse and copy to first temporary block.
-     *   Pad with zeros if necessary. */
-
-    /* nlen became nlenMaster.  maf 961204 */
-    if (!(s = sacget(cmsam.imast - 1, TRUE, nerr))) {
-        *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
-        goto L_7777;
-    }
-    //getfil( cmsam.imast, TRUE, &nlenMaster, &ndxy, &ndxx, nerr );
-    nlenMaster = s->h->npts;
-
-    /* clone and reverse the master signal. overhauled, maf 961204 */
-    destination = master;
-    source = s->y + s->h->npts - 1;
-
-    while (source >= s->y) {
-        *destination = *source;
-        destination++;
-        source--;
     }
 
-    /* pad with zeros if necessary. */
-    nzeros = nlenmx - nlenMaster;       /* nlen became nlenMaster.  maf 961204 */
-    if (nzeros > 0)
-        fill(master + nlenMaster, nzeros, 0.);
-
-    /* - Perform the requested function on each file in DFL. */
-
-    for (jdfl = 1; jdfl <= saclen(); jdfl++) {
-
-        /* -- Get next file from the memory manager.
-         *    (Header is moved into common blocks CMHDR and KMHDR.) */
-        if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
-            goto L_7777;
-        }
-        //getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
-
-        nlenCombined = s->h->npts + nlenMaster - 1;     /* added. maf 961204 */
-
-        /* -- Allocate a new block, copy signal to it, and pad with zeros if necessary. */
-        signal = (float *) malloc(sizeof(float) * 2 * nlenmx);
-        copy_float(s->y, signal, s->h->npts);
-        nzeros = 2 * nlenmx - s->h->npts;
-        if (nzeros > 0)
-            fill(signal + s->h->npts, nzeros, 0.);
-
-        /* -- Update dfl indices to point to this new block and release old one. */
-        //Nlndta[jdfl] = nlenCombined ; /* nlenmx became nlenCombined. maf 961204 */
-        //cmdfm.ndxdta[jdfl_][0] = ndxsig;
-
-        /* -- Compute length of each window. */
-        if (cmsam.lwinln) {
-            iwinln = (int) (cmsam.winln / s->h->delta + 0.1);
-        } else {
-            iwinln = nlenmx / cmsam.nwin;
-        }
-
-        /* -- Compute the (unshifted) correlation. */
-        crscor(master, signal, nlenmx, cmsam.nwin, iwinln,
-               (char *) kmsam.kwintp[cmsam.iwintp - 1], correl, &nfft, kermsg,
-               131);
-        if (memcmp(kermsg, "        ", 8) != 0) {
-            *nerr = 1;
-            setmsg("ERROR", *nerr);
-            apcmsg(kermsg, 131);
-            goto L_7777;        /* L_8888 became L_7777.  maf 961204 */
-        }
-
-        /* -- Perform a circular shift to align the correlation in the output block. */
-        /*      overhauled to get full range of convolution.  maf 961204 */
-        for (j = 0; j <= nlenMaster - 2; j++)
-            signal[j] = correl[nfft - nlenMaster + j + 1];
-        for (j = 0; j <= s->h->npts - 1; j++)
-            signal[nlenMaster + j - 1] = correl[j];
-
-        /* Pad with zeros if necessary.  maf 961204 */
-        nzeros = 2 * nlenmx - 1 - nlenCombined;
-        if (nzeros > 0)
-            fill(signal + nlenCombined, nzeros, 0.);
-
-        /* -- Update any header fields that may have changed. */
-        /*      overhauled to preserve differences in begin times. maf 961204 */
-        s->h->npts = nlenCombined;
-        sac_be(s);
-        if (cmsam.amplitude) {
-            for (j = 0; j < s->h->npts; j++) {
-                signal[j] = s->h->delta * signal[j];
+    if(pulse_kind == BOX || pulse_kind == TRI || pulse_kind == GAUSS ||
+       pulse_kind == MAG || pulse_kind == TRAP ) {
+        for(i = 0; i < saclen(); i++) {
+            if (!(s = sacget(i, TRUE, nerr))) { goto L_8888; }
+            switch (pulse_kind) {
+              case SACFILE: break;
+              case SACFILE_IN_MEMORY: break;
+              case BOX:   p = sac_box_pulse(val[0], s->h->delta); break;
+              case GAUSS: p = sac_gauss_pulse(val[0], s->h->delta); break;
+              case TRI:   p = sac_tri_pulse(val[0], s->h->delta); break;
+              case MAG:   p = sac_mag_pulse(val[0], s->h->delta, 2.88); break;
+              case TRAP:  p = sac_trap_pulse(val[0], val[1], s->h->delta); break;
+            }
+            if(!p) {
+                *nerr = error_status();
+                goto L_8888;
+            }
+            /* Set initial time to zero per an option */
+            if(!centered) {
+                p->h->b = 0.0;
+                sac_be(p);
+            }
+            if(!sac_td_conv(s, p)) {
+                *nerr = error_status();
+            }
+            sac_free(p);
+            p = NULL;
+            if(*nerr) {
+                goto L_8888;
             }
         }
-
-        extrma(signal, 1, nlenCombined, &s->h->depmin, &s->h->depmax,
-               &s->h->depmen);
-        FREE(s->y);
-        s->y = signal;
-        /*          *nzyear = SAC_FLOAT_UNDEFINED ; */
-/*		*nzhour = SAC_FLOAT_UNDEFINED ; */
-
-    }                           /* end for(jdfl) */
-
-    /* - Release temporary blocks. */
-  L_7777:
-    FREE(master);
-    FREE(correl);
-
-    /* - Calculate and set new range of dependent variable. */
+    } else if (pulse_kind == SACFILE) {
+        if(!(p = sacread(pulse_file))) {
+            clrmsg();
+            error(*nerr = ERROR_READING_FILE, ": %s", pulse_file);
+            goto L_8888;
+        }
+        for(i = 0; i < saclen(); i++) {
+            if (!(s = sacget(i, TRUE, nerr))) { goto L_8888; }
+            DT_CHECK(s, p);
+            if(!sac_td_conv(s, p)) {
+                *nerr = error_status();
+                sac_free(p);
+                p = NULL;
+                goto L_8888;
+            }
+        }
+        sac_free(p);
+        p = NULL;
+    } else if (pulse_kind == SACFILE_IN_MEMORY) {
+        if (!(p = sacget(master-1, TRUE, nerr))) {
+            error(*nerr = 1310, " master: %d", master);
+            goto L_8888;
+        }
+        for(i = 0; i < saclen(); i++) {
+            if (!(s = sacget(i, TRUE, nerr))) { goto L_8888; }
+            DT_CHECK(s, p);
+            if(!sac_td_conv(s, p)) {
+                *nerr = error_status();
+                goto L_8888;
+            }
+        }
+    }
 
     setrng();
-
+    return;
   L_8888:
     return;
 
