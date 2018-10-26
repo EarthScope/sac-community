@@ -47,8 +47,8 @@ norm1d(float *y, int m, double dt) {
     for(int i = 0; i < m; i++) {   y0 = fmin(y0, y[i]);      }
     for(int i = 0; i < m; i++) {   y[i] = y[i] - y0;         }
     // Normalize
-    for(int i = 0; i < m; i++) {   sum += y[i];              }
-    for(int i = 0; i < m; i++) {   y[i] = y[i] / (sum * dt); }
+    for(int i = 0; i < m-1; i++) {   sum += 0.5 * dt * (y[i]+y[i+1]);  } // Trapezodial Integration
+    for(int i = 0; i < m; i++)   {   y[i] = y[i] / sum; }
     return y;
 }
 
@@ -146,7 +146,7 @@ gauss_pulse(double sigma, double dt, int *n) {
     }
     double hw = sigma * 5;
     *n = (int) floor(hw*2/dt);
-    float *y = (float *) malloc(sizeof(float) * *n);
+    float *y = (float *) calloc(*n, sizeof(float));
     for(int i = 0; i < *n; i++) {
         double t = (i * dt)-hw;
         double v = pow(t/sigma,2);
@@ -256,7 +256,7 @@ td_conv(float     *waveform,
 
 #define DT_CHECK(a,b) do {                          \
     if(fabs(a->h->delta - b->h->delta) >= 1e-7) {   \
-        *nerr = ERROR_UNEQUAL_SAMPLE_RATES;         \
+        nerr = ERROR_UNEQUAL_SAMPLE_RATES;          \
         goto L_8888;                                \
     }                                               \
 } while(0);
@@ -268,11 +268,32 @@ file_exists(char *filename) {
     return exists;
 }
 
+int
+convolve_with_all(sac *p) {
+    int i;
+    int nerr = SAC_OK;
+    sac *s = NULL;
+    for(i = 0; i < saclen(); i++) {
+        if (!(s = sacget(i, TRUE, &nerr))) { goto L_8888; }
+        DT_CHECK(s, p); // This may exit if the sample rates are not equal
+    }
+    for(i = 0; i < saclen(); i++) {
+        if (!(s = sacget(i, TRUE, &nerr))) { goto L_8888; }
+        if(!sac_td_conv(s, p)) {
+            nerr = error_status();
+            goto L_8888;
+        }
+    }
+ L_8888:
+    return nerr;
+}
+
 void /*FUNCTION*/
 xconvolve(nerr)
      int *nerr;
 {
     sac *s, *p;
+    char tmp[512];
     char pulse_file[512];
     int i;
     int centered = FALSE;
@@ -334,16 +355,17 @@ xconvolve(nerr)
             pulse_kind = MAG;
         } else if (lkra("TRAP", 5, 2, 2, val, &nvals)) {
             pulse_kind = TRAP;
-        } else if(lkint("MASTER", 7, &master)) {
+        } else if(lkint("PULSE", 6, &master)) {
             pulse_kind = SACFILE_IN_MEMORY;
-        } else if(lcchar(pulse_file, sizeof(pulse_file))) {
-            if(!file_exists(pulse_file)) {
+        } else if(lcchar(tmp, sizeof(tmp))) {
+            if(!file_exists(tmp)) {
                 // Back up parser and complain about unknown file as option
                 arg_prev();
                 cfmt("ILLEGAL OPTION:", 17);
                 cresp();
             } else {
                 pulse_kind = SACFILE;
+                strcpy(pulse_file, tmp);
             }
         } else {
             cfmt("ILLEGAL OPTION:", 17);
@@ -390,12 +412,10 @@ xconvolve(nerr)
             }
             if(!sac_td_conv(s, p)) {
                 *nerr = error_status();
+                goto L_8888;
             }
             sac_free(p);
             p = NULL;
-            if(*nerr) {
-                goto L_8888;
-            }
         }
     } else if (pulse_kind == SACFILE) {
         if(!(p = sacread(pulse_file))) {
@@ -403,36 +423,24 @@ xconvolve(nerr)
             error(*nerr = ERROR_READING_FILE, ": %s", pulse_file);
             goto L_8888;
         }
-        for(i = 0; i < saclen(); i++) {
-            if (!(s = sacget(i, TRUE, nerr))) { goto L_8888; }
-            DT_CHECK(s, p);
-            if(!sac_td_conv(s, p)) {
-                *nerr = error_status();
-                sac_free(p);
-                p = NULL;
-                goto L_8888;
-            }
-        }
-        sac_free(p);
-        p = NULL;
+        *nerr = convolve_with_all(p);
     } else if (pulse_kind == SACFILE_IN_MEMORY) {
         if (!(p = sacget(master-1, TRUE, nerr))) {
-            error(*nerr = 1310, " master: %d", master);
+            error(*nerr = 1310, " pulse: %d", master);
             goto L_8888;
         }
-        for(i = 0; i < saclen(); i++) {
-            if (!(s = sacget(i, TRUE, nerr))) { goto L_8888; }
-            DT_CHECK(s, p);
-            if(!sac_td_conv(s, p)) {
-                *nerr = error_status();
-                goto L_8888;
-            }
-        }
+        // Create a copy of the data and remove it from global memory
+        p = sac_copy(p);
+        sacdel(master-1);
+        *nerr = convolve_with_all(p);
     }
 
     setrng();
-    return;
   L_8888:
+    if(p) {
+        sac_free(p);
+        p = NULL;
+    }
     return;
 
 }                               /* end of function */

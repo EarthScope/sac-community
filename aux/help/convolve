@@ -3,18 +3,18 @@ CONVOLVE
 
 SUMMARY
 -------
-Compute the convolution of a signal with all time series in memory.
+Compute the convolution of a pulse shape with all other time series in memory.
 
 SYNTAX
 ------
 ::
 
-  CONVOLVE  {FILENAME} {MASTER n} {BOX v} {TRI v} {GAUSS v} {MAG v} {TRAP v1 v2}
+  CONVOLVE  {FILENAME} {PULSE n} {BOX v} {TRI v} {GAUSS v} {TRAP v1 v2}
 
 INPUT
 -----
 
-   :MASTER n: Convolve with filenumber n
+   :PULSE n: The PULSE is filenumber n
 
    :FILENAME: Convolve with data in FILENAME
 
@@ -24,83 +24,66 @@ INPUT
 
    :GAUSS v: Convolve with a gaussian with standard deviation v seconds
 
-   :MAG v: Convolve with a triangle of half width with desired magnitude v
-
    :TRAP v1 v2: Convolve with a trapezoid of rise v1 and width v2
 
-   :CENTERED ON|OFF: Place zero time on maximum amplitude or at beginning of pulse
+   :CENTERED ON|OFF: Place zero time on center [ON] or beginning [OFF] of the pulse
 
 DEFAULT VALUES
 --------------
 ::
 
-  CONVOLVE MASTER 1 CENTERED ON
+  CONVOLVE PULSE 1 CENTERED OFF
 
 DESCRIPTION
 -----------
-  Assuming the first time-series file in memory is a pulse or response
-  file or ::
+  In seismology, convolution is used in two ways:
 
-    CONVOLVE MASTER 1
+    1) convolving a pulse shape with a time-series, and
+    2) convolving (or, more typically, deconvolving) a response with a time series.
 
-  The first file is convolved with all of the time-series files in
+  The equation for convolution takes a simple form in both the time
+  and frequency domains; (1) is more easily described in the time
+  domain, while (2) in the frequency domain.  The CONVOLVE function
+  here is oriented towards (1).  Function TRANSFER_ is more
+  appropriate for (2).
+
+  The pulse file is convolved with all other the time-series files in
   memory using the discretized version of the following equation::
 
       conv(tau) = int ( f(t) g(tau - t) ) dt,
 
-  where f is the first file, g any from among the other signals in
-  memory, and int means summation over all times t, or integration.
-
-  INPUT DELTA: All signals in memory must have the same DELTA.
-
-  INPUT NPTS: The number of points in f, the pulse shape, cannot be
-  greater than the number of points in any other file in memory.
-
-  OUTPUT NPTS: If npts(g) is the number of points in g and npts(f) the
-  number in f, the number in conv is npts(g) + npts(f) - 1.
-
-  OUTPUT TIMING: The start time for each output conv will be the same
-  as that for the input g.
+  where f is the pulse file, g any from among the other signals in
+  memory, and int means integration (summation) over all times t,
+  or integration. All signals in memory must have the same DELTA. The
+  number of points in f, the pulse shape, cannot be greater than the
+  number of points in any other file in memory. If npts(g) is the number
+  of points in g and npts(f) the number in f, the number in conv is
+  npts(g) + npts(f) - 1. The start time for each output conv will be the
+  same as that for the input g.  Centering on the pulse shapes eliminates
+  time shifts introduced by convolution.  If CENTERED is OFF, the first
+  data point of the pulses is defined as zero.  CENTERED ON should only be used
+  for time-symmetric pulses.
 
 PREDEFINED FUNCTIONS
 --------------------
-  The option to convolve with BOX, TRI, GAUSS, MAG, or TRAP
-  automatically computes these function with the correct time
-  samplings.
-
-  TIMING/CENTERED: The maximum amplitude CENTERED at zero time.  For the BOX
-  function, the ZERO time is defined as the half-width.  Centering on
-  the pulse shapes eliminates time shifts introduced by convolution.
-  If CENTERED is OFF, then the first data point of the pulses is
-  defined as zero.
-
-  AMPLITUDE: All Functions are normalized such that they integrate to
-  1.0 and should not add amplitude, or "moment" in the language of
-  sources, to the final, convolved signal.
-
-  MAGNITUDE: The MAG option uses the relationship between triangle
-  half width and magnitude defined in Wells and Coppersmith, 1994,
-  Table 2A, All::
-
-     M = a + b * log(SRL)
-
-  where a = 5.08, b = 1.16, and assumes a rupture velocity, vr, of
-  2.88 km/s or vr ~ 0.8 vs where vs, 3.6 km/s, is the shear wave speed
-  at the fault; See Lay and Wallace, Sec 9.3, p. 379.  Large magnitude
-  will produce extremely wide triangle and these events are probably
-  better represenated with a BOX or a TRAP.
-
+  The option to convolve with BOX, TRI, GAUSS, or TRAP automatically
+  computes these function with the correct time samplings.  If one
+  uses one of these options, there is no pulse-shape file read in; the
+  predefined function takes the place of f(t) in the above equation.
+  All Functions are normalized such that they integrate to 1.0 and
+  should not add amplitude, or "moment" in the language of sources, to
+  the final, convolved signal.  All functions are time-symmetric.
 
 RELATION TO CORRELATE
 ---------------------
   Note the similarity in the convolve equation and the one in CORRELATE_.
-  Many correlate routines, including the original in SAC, mistakenly
+  Many convolve routines, including the original one in SAC, mistakenly
   use this similarity in deriving the procedure for convolution by simply
-  perturbing the procedure used in CORRELATE. The time series from a
+  perturbing the procedure used in CORRELATE_. The time series from a
   convolution (conv in the equation above) is typically a replacement time
-  series for the time series g; for example, adding a pulse shape or an
-  instrument response to a synthetic seismogram.  The relative times for f
-  and g are not used in CORRELATE_, but in convolution they may play a role.
+  series for the time series g; for example, adding a pulse shapee to a
+  synthetic seismogram.  The relative times for f and g are not used in
+  CORRELATE_, but in convolution they may play a role.
 
   For example, g might be a synthetic time series of spikes with
   time offsets, amplitudes, and polarities representing phase arrivals
@@ -117,7 +100,7 @@ RELATION TO CORRELATE
 
 HEADER CHANGES
 --------------
-  DEPMIN, DEPMAX, DEPMEN
+  DEPMIN, DEPMAX, DEPMEN, NPTS
 
 LATEST REVISION
 ---------------
