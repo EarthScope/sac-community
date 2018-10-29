@@ -9,7 +9,7 @@ SYNTAX
 ------
 ::
 
-  CONVOLVE  {FILENAME} {PULSE n} {BOX v} {TRI v} {GAUSS v} {TRAP v1 v2}
+  CONVOLVE  {FILENAME} {PULSE n} {TRI v} {GAUSS v}
 
 INPUT
 -----
@@ -18,13 +18,9 @@ INPUT
 
    :FILENAME: Convolve with data in FILENAME
 
-   :BOX v: Convolve with a box of width v seconds
-
    :TRI v: Convolve with a triangle of half width v seconds
 
    :GAUSS v: Convolve with a gaussian with standard deviation v seconds
-
-   :TRAP v1 v2: Convolve with a trapezoid of rise v1 and width v2
 
    :CENTERED ON|OFF: Place zero time on center [ON] or beginning [OFF] of the pulse
 
@@ -66,13 +62,17 @@ DESCRIPTION
 
 PREDEFINED FUNCTIONS
 --------------------
-  The option to convolve with BOX, TRI, GAUSS, or TRAP automatically
-  computes these function with the correct time samplings.  If one
-  uses one of these options, there is no pulse-shape file read in; the
-  predefined function takes the place of f(t) in the above equation.
-  All Functions are normalized such that they integrate to 1.0 and
-  should not add amplitude, or "moment" in the language of sources, to
-  the final, convolved signal.  All functions are time-symmetric.
+  The option to convolve with TRI and GAUSS automatically computes
+  these function with the correct time samplings.  If one uses one of
+  these options, there is no pulse-shape file read in; the predefined
+  function takes the place of f(t) in the above equation.  All
+  Functions are normalized such that they integrate to 1.0 and should
+  not add amplitude, or "moment" in the language of sources, to the
+  final, convolved signal.  All functions are time-symmetric. For the
+  GAUSS function the standard deviation, sigma, can be related to the
+  gaussian width parameter, a, through::
+
+     a = 1.0 / (2 sigma^2)
 
 RELATION TO CORRELATE
 ---------------------

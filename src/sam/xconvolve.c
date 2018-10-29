@@ -30,10 +30,7 @@ int td_conv(float     *waveform,
             float      b_p);
 
 enum pulse {
-    BOX     = 0 ,
     TRI     = 1,
-    TRAP    = 2,
-    MAG     = 3,
     GAUSS   = 4,
     SACFILE = 5,
     SACFILE_IN_MEMORY = 6,
@@ -345,16 +342,10 @@ xconvolve(nerr)
 
     while (lcmore(nerr)) {
         if (lklog("CENTERED", 5, &centered)) {
-        } else if (lkreal("BOX", 4, &val[0])) {
-            pulse_kind = BOX;
         } else if (lkreal("TRI", 4, &val[0])) {
             pulse_kind = TRI;
         } else if (lkreal("GAU", 4, &val[0])) {
             pulse_kind = GAUSS;
-        } else if (lkreal("MAG", 4, &val[0])) {
-            pulse_kind = MAG;
-        } else if (lkra("TRAP", 5, 2, 2, val, &nvals)) {
-            pulse_kind = TRAP;
         } else if(lkint("PULSE", 6, &master)) {
             pulse_kind = SACFILE_IN_MEMORY;
         } else if(lcchar(tmp, sizeof(tmp))) {
@@ -388,18 +379,14 @@ xconvolve(nerr)
         goto L_8888;
     }
 
-    if(pulse_kind == BOX || pulse_kind == TRI || pulse_kind == GAUSS ||
-       pulse_kind == MAG || pulse_kind == TRAP ) {
+    if(pulse_kind == TRI || pulse_kind == GAUSS) {
         for(i = 0; i < saclen(); i++) {
             if (!(s = sacget(i, TRUE, nerr))) { goto L_8888; }
             switch (pulse_kind) {
               case SACFILE: break;
               case SACFILE_IN_MEMORY: break;
-              case BOX:   p = sac_box_pulse(val[0], s->h->delta); break;
               case GAUSS: p = sac_gauss_pulse(val[0], s->h->delta); break;
               case TRI:   p = sac_tri_pulse(val[0], s->h->delta); break;
-              case MAG:   p = sac_mag_pulse(val[0], s->h->delta, 2.88); break;
-              case TRAP:  p = sac_trap_pulse(val[0], val[1], s->h->delta); break;
             }
             if(!p) {
                 *nerr = error_status();

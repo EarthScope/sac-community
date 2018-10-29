@@ -66,7 +66,7 @@ DESCRIPTION
   maximum amplitude of the cross-correlation will be at a time tau = t0.
 
   If N is the number of points in g and M the number of points in f, the
-  total number of points in corr is N-M+1.  SAC does the calculation in the
+  total number of points in corr is N+M-1.  SAC does the calculation in the
   frequency domain so if N is not a power of 2, it is increased to NN,
   the next poer of 2. Both f and g are padded with zeroes to NN points before
   the forward transforms.   (It is wise to prepare all input filesto minimize
