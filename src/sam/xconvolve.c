@@ -418,7 +418,9 @@ xconvolve(nerr)
         }
         // Create a copy of the data and remove it from global memory
         p = sac_copy(p);
-        sacdel(master-1);
+        if(saclen() > 1) {
+            sacdel(master-1);
+        }
         *nerr = convolve_with_all(p);
     }
 

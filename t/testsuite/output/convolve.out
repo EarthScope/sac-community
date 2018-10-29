@@ -7,7 +7,6 @@
  funcgen impstrin 100 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800 1900 2000 2100 2200 2300 2400 2500 2600 2700 2800 2900 3000 3100 3200 3300 3400 3500 3600 npts 10000 delta 0.01
   
  ==>  
- ** convolve master 1
  convolve
   
  ==>  
@@ -26,31 +25,13 @@
   
  ==>  
  fg impulse delta 1.0 npts 20
- convolve box 4
- p1 ; pause period 0.25
-Pausing
-  
- ==>  
- fg impulse delta 1.0 npts 20
  convolve triangle 4
  p1 ; pause period 0.25
 Pausing
   
  ==>  
  fg impulse delta 1.0 npts 20
- convolve trap 2 5
- p1 ; pause period 0.25
-Pausing
-  
- ==>  
- fg impulse delta 1.0 npts 20
- convolve mag 6.0
- p1 ; pause period 0.25
-Pausing
-  
- ==>  
- fg impulse delta 1.0 npts 20
- convolve master 1
+ convolve pulse 1
  p1 ; pause period 0.25
 Pausing
   
@@ -67,31 +48,20 @@ Pausing
 Pausing
   
  ==>  
- fg impulse delta 1.0 npts 100
- convolve box 10.0 centered on
- p1 ; pause period 0.25
-Pausing
-  
- ==>  
- fg impulse delta 1.0 npts 100
- convolve box 10.0 centered off
- p1 ; pause period 0.25
-Pausing
-  
- ==>  
  ** Errors
-  
- ==>  
  fg impulse delta 1.0 npts 20
- convolve master 0
- ERROR 1310: Illegal data file list number  master: 0
+ write test.conv.sac
+ read test.conv.sac test.conv.sac test.conv.sac
+ convolve pulse 0
+ ERROR 1310: Illegal data file list number  pulse: 0
  p1 ; pause period 0.25
 Pausing
   
  ==>  
  fg impulse delta 1.0 npts 20
- convolve master 2
- ERROR 1310: Illegal data file list number  master: 2
+ read test.conv.sac test.conv.sac test.conv.sac
+ convolve pulse 10
+ ERROR 1310: Illegal data file list number  pulse: 10
  p1 ; pause period 0.25
 Pausing
   
@@ -105,46 +75,12 @@ Pausing
   
  ==>  
  fg impulse delta 1.0 npts 20
- convolve mag 4.0
- ERROR 1002: Bad value for triangle pulse: half-width/2 (0.020349) < delta t (1.000000)
-  
- ==>  
- fg impulse delta 1.0 npts 20
- convolve box 0.5
- ERROR 1002: Bad value for box pulse width/2 (0.250000) < delta t (1.000000)
-
-  
- ==>  
- fg impulse delta 1.0 npts 20
- convolve trap 0.5 3.0
- ERROR 1002: Bad value for box pulse width/2 (0.250000) < delta t (1.000000)
-
-  
- ==>  
- fg impulse delta 1.0 npts 20
- convolve trap  3.0 2.0
-  
- ==>  
- fg impulse delta 1.0 npts 20
- convolve trap  3.0 1.9
- ERROR 1002: Bad value for box pulse width/2 (0.950000) < delta t (1.000000)
-
-  
- ==>  
- fg impulse delta 1.0 npts 20
  convolve tri 0.1
  ERROR 1002: Bad value for triangle pulse: half-width/2 (0.050000) < delta t (1.000000)
   
  ==>  
  fg impulse delta 0.04 npts 20
  convolve tri 0.1
-  
- ==>  
- fg impulse delta 1.0 npts 20
- convolve mag 8.0
- ERROR 1002: Bad value for waveform npts (20) < pulse npts (229)
- p1 ; pause period 0.25
-Pausing
   
  ==>  
  quit

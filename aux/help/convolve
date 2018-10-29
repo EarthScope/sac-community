@@ -35,7 +35,8 @@ DESCRIPTION
   In seismology, convolution is used in two ways:
 
     1) convolving a pulse shape with a time-series, and
-    2) convolving (or, more typically, deconvolving) a response with a time series.
+    2) convolving (or, more typically, deconvolving) a response
+       with a time series.
 
   The equation for convolution takes a simple form in both the time
   and frequency domains; (1) is more easily described in the time
@@ -49,16 +50,19 @@ DESCRIPTION
       conv(tau) = int ( f(t) g(tau - t) ) dt,
 
   where f is the pulse file, g any from among the other signals in
-  memory, and int means integration (summation) over all times t,
-  or integration. All signals in memory must have the same DELTA. The
+  memory, and int means integration (summation) over all times t, or
+  integration. All signals in memory must have the same DELTA. The
   number of points in f, the pulse shape, cannot be greater than the
-  number of points in any other file in memory. If npts(g) is the number
-  of points in g and npts(f) the number in f, the number in conv is
-  npts(g) + npts(f) - 1. The start time for each output conv will be the
-  same as that for the input g.  Centering on the pulse shapes eliminates
-  time shifts introduced by convolution.  If CENTERED is OFF, the first
-  data point of the pulses is defined as zero.  CENTERED ON should only be used
-  for time-symmetric pulses.
+  number of points in any other file in memory. If npts(g) is the
+  number of points in g and npts(f) the number in f, the number in
+  conv is npts(g) + npts(f) - 1. The start time for each output conv
+  will be the same as that for the input g.  Centering on the pulse
+  shapes eliminates time shifts introduced by convolution.  If
+  CENTERED is OFF, the first data point of the pulses is defined as
+  zero.  CENTERED ON should only be used for time-symmetric pulses.
+
+  If only a single file is read in and the PULSE option selected this
+  file, then an autocorrelation is preformed.
 
 PREDEFINED FUNCTIONS
 --------------------
