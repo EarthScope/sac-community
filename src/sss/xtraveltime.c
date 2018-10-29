@@ -755,7 +755,7 @@ xtraveltime(int *nerr) {
                         }
                         if (lpicks) {
                             TN(s)[k] = time;
-                            sprintf(khdr(s, 6 + k), "%-8s", names[p]);
+                            sprintf(khdr(s, 6 + k + 1), "%-8s", names[p]);
                             if (verbose && !quiet) {
                                 fprintf(stdout,
                                         "traveltime: setting phase %-8s at %f s [ t = %f s ] t%d \n",
