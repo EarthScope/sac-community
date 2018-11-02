@@ -50,33 +50,47 @@ DESCRIPTION
       conv(tau) = INT ( f(t) g(tau - t) ) dt,
 
   where f is the pulse file, g any from among the other signals in
-  memory, and int means integration (summation) over all times t, or
-  integration. All signals in memory must have the same DELTA. The
-  number of points in f, the pulse shape, cannot be greater than the
-  number of points in any other file in memory. If npts(g) is the
-  number of points in g and npts(f) the number in f, the number in
-  conv is npts(g) + npts(f) - 1. The start time for each output conv
-  will be the same as that for the input g.  Centering on the pulse
-  shapes eliminates time shifts introduced by convolution.  If
-  CENTERED is OFF, the first data point of the pulses is defined as
-  zero.  CENTERED ON should only be used for time-symmetric pulses.
-
-  If only a single file is read in and the PULSE option selected this
-  file, then an autocorrelation is preformed.
+  memory, and INT means integration (summation) over all times t. All
+  signals in memory must have the same DELTA. The number of points in
+  f, the pulse shape, cannot be greater than the number of points in
+  any other file in memory. If NPTS(g) is the number of points in g
+  and NPTS(f) the number in f, the number in conv is
+  NPTS(g)+NPTS(f)-1. The start time for each output conv will be the
+  same as B(g).  Centering on the pulse shapes eliminates time shifts
+  introduced by convolution.  If CENTERED is OFF, B(f) = 0.0.
+  CENTERED ON should only be used for time-symmetric pulses.
 
 PREDEFINED FUNCTIONS
 --------------------
   The option to convolve with TRI and GAUSS automatically computes
-  these function with the correct time samplings.  If one uses one of
-  these options, there is no pulse-shape file read in; the predefined
-  function takes the place of f(t) in the above equation.  All
-  Functions are normalized such that they integrate to 1.0 and should
-  not add amplitude, or "moment" in the language of sources, to the
-  final, convolved signal.  All functions are time-symmetric. For the
-  GAUSS function the standard deviation, sigma, can be related to the
-  gaussian width parameter, a, through::
+  these function with the correct time samplings.  For GAUSS or TRI,
+  there is no pulse-shape file read in; the predefined function takes
+  the place of f(t) in the above equation.  Both functions are
+  normalized such that they integrate to 1.0 and should not add
+  amplitude (or "moment" in the language of sources).  Both functions
+  are time-symmetric. If the exponent in GAUSS(t) is -0.5(t/v)^2, v is
+  the standard deviation.
 
-     a = 1.0 / (2 sigma^2)
+EXAMPLES
+--------
+  Let synthetic.sac be a synthetic time series created by a program
+  such as WKBJ, consisting of spikes with time offsets, amplitudes,
+  and polarities representing phase arrivals. The synthetic may have
+  Gibbs phenomena accompanying each arrival.  Convolving synthetic.sac
+  with a predefined function will result in a cleaner looking
+  seismogram::
+
+      SAC> r synthetic.sac
+      SAC> convolve GAUSS 0.04 CENTERED ON
+
+  Alternatively, for the same synthetic one might want to compare it
+  with a recorded time series. One constructs a pulse with the shape
+  of the P arrival, p_arrival.sac::
+
+      SAC> r p_arrival.sac synthetic.sac
+      SAC> convolve CENTER OFF
+
+  See ${SACHOME}/doc/examples/convolve for further discussion
 
 RELATION TO CORRELATE
 ---------------------
@@ -89,18 +103,6 @@ RELATION TO CORRELATE
   synthetic seismogram.  The relative times for f and g are not used in
   CORRELATE_, but in convolution they may play a role.
 
-  For example, g might be a synthetic time series of spikes with
-  time offsets, amplitudes, and polarities representing phase arrivals
-  The synthetic may have Gibbs phenomena accompanying each arrival.
-  A way to improve the appearance is to convolve g with a time-symmetric
-  triangle function, e.g. ::
-
-     SAC> fg triangle npts 8 delta 0.02 begin -0.08
-
-  If one did not take into account the start time of f, the arrivals in conv
-  would be offset by 0.08 seconds.  A script showing runs with f given by
-  both that triangle pulse and also a pulse shape starting at time zero
-  is included in ${SACHOME}/doc/examples/convolve.
 
 HEADER CHANGES
 --------------

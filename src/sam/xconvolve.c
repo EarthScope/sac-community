@@ -411,15 +411,17 @@ xconvolve(nerr)
         }
         *nerr = convolve_with_all(p);
     } else if (pulse_kind == SACFILE_IN_MEMORY) {
+        if(saclen() == 1) {
+            error(*nerr = 1002, "sac files in memory, expected more than 1 file");
+            goto L_8888;
+        }
         if (!(p = sacget(master-1, TRUE, nerr))) {
             error(*nerr = 1310, " pulse: %d", master);
             goto L_8888;
         }
         // Create a copy of the data and remove it from global memory
         p = sac_copy(p);
-        if(saclen() > 1) {
-            sacdel(master-1);
-        }
+        sacdel(master-1);
         *nerr = convolve_with_all(p);
     }
 
