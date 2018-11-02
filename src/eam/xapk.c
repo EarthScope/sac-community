@@ -117,7 +117,7 @@ xapk(int *nerr) {
         } else if (lkreal("D9$", 4, &cmeam.d9)) {
 
             /* -- "VALIDATION ON/OFF": modify validation option. */
-        } else if (lklog("VALIDAT$", 9, &cmeam.lvalpk)) {
+        } else if (lklog("VALIDAT#ION$", 11, &cmeam.lvalpk)) {
 
             /* -- Bad syntax. */
         } else {

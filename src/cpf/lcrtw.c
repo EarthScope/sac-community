@@ -66,7 +66,7 @@ lcrtw(int *lrtw, char *krtw, int krtw_s, double *ortw) {
 
     /* - "SIGNAL" sets RTW to 1 second before first arrival
      *   to 1 second after fini. */
-    else if (lckey("S$", 3)) {
+    else if (lckey("S#IGNAL$", 9)) {
         *lrtw = TRUE;
         fstrncpy(KRTW(0, 0), krtw_s - 1, "A", 1);
         Ortw[1] = -1.;

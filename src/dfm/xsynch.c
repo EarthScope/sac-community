@@ -51,7 +51,7 @@ xsynch(int *nerr) {
     while (lcmore(nerr)) {
 
         /* -- "ROUND [ON/OFF]":  change begin time rounding option. */
-        if (lklog("R$", 3, &cmdfm.lround)) {    /* do nothing */
+        if (lklog("R#OUND$", 8, &cmdfm.lround)) {    /* do nothing */
         }
 
         /* -- "BEGIN [ON/OFF]":  set both begin times to zero if ON. */

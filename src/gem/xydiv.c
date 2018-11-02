@@ -61,21 +61,21 @@ xydiv(int *nerr) {
     if (lcmore(nerr)) {
 
         /* -- Set up nice numbering. */
-        if (lckey("NI$", 4)) {
+        if (lckey("NI#CE$", 7)) {
             ydiv_nice(TRUE);
             /* -- Set up fixed division spacings. */
-        } else if (lkreal("I$", 3, &tmp)) {
+        } else if (lkreal("I#NC$", 6, &tmp)) {
             cmgem.ydiv_spacing = (float) tmp;
             cmgem.ydiv_spacing_on = TRUE;
             cmgem.ydiv_number_on = FALSE;
 
             /* -- Set up a fixed number of divisions. */
-        } else if (lkirc("NU$", 4, 1, 100, &cmgem.ydiv_number)) {
+        } else if (lkirc("NU#MBER$", 9, 1, 100, &cmgem.ydiv_number)) {
             cmgem.ydiv_spacing_on = FALSE;
             cmgem.ydiv_number_on = TRUE;
 
             /* -- Turn power labeling on/off. */
-        } else if (lklog("P$", 3, &cmgem.lypowr)) {
+        } else if (lklog("P#OWER$", 8, &cmgem.lypowr)) {
 
             /* -- Bad syntax. */
         } else {

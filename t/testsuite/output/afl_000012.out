@@ -3,5 +3,6 @@
   
  ==>  
  fg nmpulsimpul -1
- ERROR 1002: Bad value for NPTS, must be positive
+ ERROR interpreting command:  fg nmpulsimpul -1 
+ ILLEGAL OPTION:                 ^
  quit

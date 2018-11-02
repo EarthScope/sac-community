@@ -89,10 +89,10 @@ getins(kinstr, kinstr_s, ninstr, ldone, fp, lfp, ip, lip, kp, kp_s, lkp, nerr)
         } else if (lkreal("MAGNIFICATION$", 15, &tmp)) {
             Fp[2] = (float) tmp;
             Lfp[2] = TRUE;
-        } else if (lkreal("DAMPING$", 9, &tmp)) {
+        } else if (lkreal("DAMPING#FACTOR$", 16, &tmp)) {
             Fp[3] = (float) tmp;
             Lfp[3] = TRUE;
-        } else if (lkreal("CORNER$", 8, &tmp)) {
+        } else if (lkreal("CORNER#FREQUENCY$", 18, &tmp)) {
             Fp[4] = (float) tmp;
             Lfp[4] = TRUE;
         } else if (lkreal("GAIN$", 6, &tmp)) {

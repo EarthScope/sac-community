@@ -46,7 +46,7 @@ xticks(nerr)
     if (lcmore(nerr)) {
 
         /* -- Set flag so that only listed axes are turned on. */
-        if (lckey("ONL$", 5)) {
+        if (lckey("ONL#Y$", 7)) {
             cmgem.axis[TOP].ticks = FALSE;
             cmgem.axis[BOTTOM].ticks = FALSE;
             cmgem.axis[RIGHT].ticks = FALSE;
@@ -59,7 +59,7 @@ xticks(nerr)
             /* --- A particular axes name to turn on or off. */
         } else if (lclist((char *) kmgem.ksides, 9, 4, &index)) {
             cmgem.axis[index].ticks = ltf;
-        } else if (lckey("A$", 3)) {
+        } else if (lckey("A#LL$", 6)) {
             cmgem.axis[BOTTOM].ticks = ltf;
             cmgem.axis[LEFT].ticks = ltf;
             cmgem.axis[RIGHT].ticks = ltf;

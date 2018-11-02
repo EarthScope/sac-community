@@ -46,7 +46,7 @@ xaxes(nerr)
     if (lcmore(nerr)) {
 
         /* -- Set flag so that only listed axes are turned on. */
-        if (lckey("ONL$", 5)) {
+        if (lckey("ONL#Y$", 7)) {
             cmgem.axis[TOP].annotate = FALSE;
             cmgem.axis[BOTTOM].annotate = FALSE;
             cmgem.axis[RIGHT].annotate = FALSE;
@@ -69,7 +69,7 @@ xaxes(nerr)
             }
 
             /* --- Change status of all axes. */
-        } else if (lckey("A$", 3)) {
+        } else if (lckey("A#LL$", 6)) {
             cmgem.axis[BOTTOM].annotate = ltf;
             cmgem.axis[LEFT].annotate = ltf;
             cmgem.axis[RIGHT].annotate = ltf;

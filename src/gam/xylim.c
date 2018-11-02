@@ -57,11 +57,11 @@ xylim(int *nerr) {
             strcpy(kmgam.kylims[jl - 1], "ON      ");
             jl = jl + 1;
 
-        } else if (lckey("OF$", 4)) {
+        } else if (lckey("OF#F$", 6)) {
             strcpy(kmgam.kylims[jl - 1], "OFF     ");
             jl = jl + 1;
 
-        } else if (lckey("A$", 3)) {
+        } else if (lckey("A#LL$", 6)) {
             strcpy(kmgam.kylims[jl - 1], "ALL     ");
             jl = jl + 1;
 

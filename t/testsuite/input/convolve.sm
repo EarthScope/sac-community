@@ -4,7 +4,9 @@ funcgen line -2 1. npts 50 delta 0.01
 
 funcgen impstrin 100 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800 1900 2000 2100 2200 2300 2400 2500 2600 2700 2800 2900 3000 3100 3200 3300 3400 3500 3600 npts 10000 delta 0.01
 
-convolve
+write test.impstring.sac
+
+convolve test.impstring.sac
 
 lh depmin depmax depmen b e npts
 
@@ -45,5 +47,20 @@ convolve tri 0.1
 
 fg impulse delta 0.04 npts 20
 convolve tri 0.1
+
+fg triangle delta 1.0 npts 100
+write test.conv1.sac
+fg impulse delta 1.0 npts 200
+write test.conv2.sac
+
+read test.conv1.sac test.conv2.sac
+convolve pulse 1
+message "NPTS: &1,npts"
+lh npts
+
+read test.conv2.sac
+convolve test.conv1.sac
+message "NPTS: &1,npts"
+lh npts
 
 quit

@@ -43,12 +43,12 @@ xygrid(nerr)
         if (lclog(&cmgem.lygrd)) {
 
             /* -- Change to solid linestyle. */
-        } else if (lckey("S$", 3)) {
+        } else if (lckey("S#OLID$", 8)) {
             cmgem.iygrd = LINE_STYLE_SOLID;
             cmgem.lygrd = TRUE;
 
             /* -- Change to dotted linestyle. */
-        } else if (lckey("D$", 3)) {
+        } else if (lckey("D#OTTED$", 9)) {
             cmgem.iygrd = LINE_STYLE_DOTTED;
             cmgem.lygrd = TRUE;
 

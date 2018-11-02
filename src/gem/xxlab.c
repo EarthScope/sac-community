@@ -83,12 +83,12 @@ xxlab(int *nerr) {
             cmgem.xlabel.on = TRUE;
 
             /* -- Set x label size: */
-        } else if (lklist("S$", 3, (char *) kmgem.ktxsiz, 9, MTXSIZ, &ixlabs)) {
+        } else if (lklist("S#IZE$", 7, (char *) kmgem.ktxsiz, 9, MTXSIZ, &ixlabs)) {
             cmgem.xlabel.text_size = cmgem.txsiz[ixlabs - 1];
 
             /* -- Set location of x label: */
         } else
-            if (lklist("L$", 3, (char *) kmgem.ksides, 9, 4, &cmgem.xlabel.pos))
+            if (lklist("L#OCATION$", 11, (char *) kmgem.ksides, 9, 4, &cmgem.xlabel.pos))
         {
         }
         /* -- Bad syntax. */

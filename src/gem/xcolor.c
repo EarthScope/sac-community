@@ -194,7 +194,7 @@ xcolor(int *nerr) {
     while (lcmore(nerr)) {
 
         /* -- "SKELETON color/int":  change skeleton color. */
-        if (lckey("SK$", 4)) {
+        if (lckey("SK#ELETON$", 11)) {
             if (lcint(&lnum)) {
                 if (!color_index_to_rgb(lnum,&rgb) || !color_skeleton_set(rgb)) {
                     BAD_COLOR;
@@ -208,7 +208,7 @@ xcolor(int *nerr) {
             }
         }
         /* -- "BACKGROUND color/int":  change the background color. */
-        else if (lckey("BA$", 4)) {
+        else if (lckey("BA#CKGROUND$", 13)) {
             if (lcint(&lnum)) {
                 if (!color_index_to_rgb(lnum,&rgb) || !color_background_set(rgb)) {
                     BAD_COLOR;
@@ -222,8 +222,8 @@ xcolor(int *nerr) {
             }
         }
         /* -- "LIST STANDARD/colorlist":  change the color list. */
-        else if (lckey("L$", 3)) {
-            if (lckey("S$", 3)) {
+        else if (lckey("L#IST$", 7)) {
+            if (lckey("S#TANDARD$", 11)) {
                 inicol(cmgem.iicol, &cmgem.nicol);
             } else {
                 cmgem.nicol = 0;
@@ -255,7 +255,7 @@ xcolor(int *nerr) {
         }
 
         /* -- "INCREMENT ON/OFF":  increment color after each file or not */
-        else if (lklog("I$", 3, &cmgem.licol)) {
+        else if (lklog("I#NCREMENT$", 12, &cmgem.licol)) {
             color_switch(TRUE);
             cmgem.jicol = 0;
         }

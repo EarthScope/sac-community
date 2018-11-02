@@ -51,11 +51,11 @@ xpicks(int *nerr) {
         if (lclog(&cmgam.ldsppk)) {
 
             /* -- "WIDTH v":  define new pick width. */
-        } else if (lkrrc("W$", 3, 0., 1., &tmp)) {
+        } else if (lkrrc("W#IDTH$", 8, 0., 1., &tmp)) {
             cmgam.pkwdth = (float) tmp;
         }
         /* -- "HEIGHT v":  define new pick height. */
-        else if (lkrrc("H$", 3, 0., 1., &tmp)) {
+        else if (lkrrc("H#EIGHT$", 9, 0., 1., &tmp)) {
             cmgam.pkhgth = (float) tmp;
         }
         /* -- "pick type":  define new display type for a given time pick. */

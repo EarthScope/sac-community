@@ -112,15 +112,15 @@ xfg(int *nerr) {
         }
 
         /* -- "DELTA v":  change sampling interval. */
-        else if (lkreal("D$", 3, &cmexm.fgdel)) {       /* do nothing */
+        else if (lkreal("D#ELTA$", 8, &cmexm.fgdel)) {       /* do nothing */
         }
 
         /* -- "BEGIN v":  change beginning value. */
-        else if (lkreal("BE$", 4, &cmexm.fgbeg)) {      /* do nothing */
+        else if (lkreal("BE#GIN$", 8, &cmexm.fgbeg)) {      /* do nothing */
         }
 
         /* -- "NPTS n":  change number of data points in function. */
-        else if (lkint("N$", 3, &itmp)) {
+        else if (lkint("N#PTS$", 7, &itmp)) {
             if(itmp <= 0) {
                 error(*nerr = 1002, "NPTS, must be positive");
                 break;

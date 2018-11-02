@@ -68,7 +68,7 @@ xsmooth(nerr)
         if (lclog2("MEAN$", 6, "MEDIAN$", 8, &cmscm.lmean)) {
 
             /* -- "HALFWIDTH n":  Change half width of smoothing region. */
-        } else if (lkirc("HALFWID$", 9, 1, MHALF, &cmscm.nhalf)) {
+        } else if (lkirc("HALFWID#TH$", 12, 1, MHALF, &cmscm.nhalf)) {
 
             /* -- Bad syntax. */
         } else {

@@ -188,11 +188,11 @@ xscallop(nerr)
 /*              else if("PREW#HITEN&",12,&lprew,&nprew)
 		{ * do nothing * }  */
 
-        else if (lckey("STOCH#ASTIC&", 13)) {
+        else if (lckey("STOCH#ASTIC$", 13)) {
             strcpy(scale, "STOCHASTIC");
         }
 
-        else if (lckey("TRANS#IENT&", 12)) {
+        else if (lckey("TRANS#IENT$", 12)) {
             strcpy(scale, "TRANSIENT");
         }
 

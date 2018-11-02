@@ -57,28 +57,28 @@ xsym(nerr)
     if (lcmore(nerr)) {
 
         /* -- "SIZE v":  change the symbol size attribute. */
-        if (lkrrc("SI$", 4, 0., 1., &tmp)) {
+        if (lkrrc("SI#ZE$", 7, 0., 1., &tmp)) {
             cmgem.symsz = (float) tmp;
             setsymbolsize(cmgem.symsz);
         }
         /* -- "WIDTH v":  change the symbol line width */
-        else if (lkrrc("WI$", 4, 0., 10., &swidth)) {
+        else if (lkrrc("WI#DTH$", 8, 0., 10., &swidth)) {
             cmgem.isymwidth = (int) (swidth + 0.1);
             cmgem.lwidth = TRUE;
         }
         /* -- "SPACING v":  change the symbol gap attribute. */
-        else if (lkrrc("SP$", 4, 0., 1., &tmp)) {
+        else if (lkrrc("SP#ACING$", 10, 0., 1., &tmp)) {
             cmgem.symsp = (float) tmp;
             setsymbolgap(cmgem.symsp);
         }
         /* -- "INCREMENT ON/OFF":  turn symbol incrementing on or off. */
-        else if (lklog("I$", 3, &cmgem.lisym)) {
+        else if (lklog("I#NCREMENT$", 12, &cmgem.lisym)) {
             cmgem.lsym = TRUE;
             cmgem.jisym = 0;
 
             /* -- "LIST STANDARD/n ...":  change list of symbol numbers to use. */
-        } else if (lckey("L$", 3)) {
-            if (lckey("S$", 3)) {
+        } else if (lckey("L#IST$", 7)) {
+            if (lckey("S#TANDARD$", 11)) {
                 inisym(cmgem.iisym, &cmgem.nisym);
             } else {
                 cmgem.nisym = 0;

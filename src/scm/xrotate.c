@@ -61,7 +61,7 @@ xrotate(nerr)
 
         /* -- "TO GCP/v":  rotate to great circle path or a fixed angle. */
         if (lckey("TO$", 4)) {
-            if (lckey("G$", 3)) {
+            if (lckey("G#CP$", 6)) {
                 strcpy(kmscm.krottp, "HDRGCP  ");
             } else if (lcreal(&cmscm.usraz)) {
                 strcpy(kmscm.krottp, "USRAZ   ");
@@ -70,12 +70,12 @@ xrotate(nerr)
                 cresp();
             }
 
-            /* -- "TO v":  rotate through a fixed angle. */
-        } else if (lkreal("TH$", 4, &cmscm.usrang)) {
+            /* -- "THROUGH v":  rotate through a fixed angle. */
+        } else if (lkreal("TH#ROUGH$", 10, &cmscm.usrang)) {
             strcpy(kmscm.krottp, "USRANG  ");
 
             /* -- "NORMAL/REVERSED":  define polarity of rotation. */
-        } else if (lclog2("N$", 3, "R$", 3, &cmscm.lnpreq)) {
+        } else if (lclog2("N#ORMAL$", 9, "R#EVERSED$", 11, &cmscm.lnpreq)) {
 
             /* -- Bad syntax. */
         } else {

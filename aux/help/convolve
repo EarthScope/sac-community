@@ -14,7 +14,7 @@ SYNTAX
 INPUT
 -----
 
-   :PULSE n: The PULSE is filenumber n
+   :PULSE n: The PULSE in filenumber n
 
    :FILENAME: Convolve with data in FILENAME
 
@@ -44,10 +44,10 @@ DESCRIPTION
   here is oriented towards (1).  Function TRANSFER_ is more
   appropriate for (2).
 
-  The pulse file is convolved with all other the time-series files in
+  The pulse file is convolved with all other time-series files in
   memory using the discretized version of the following equation::
 
-      conv(tau) = int ( f(t) g(tau - t) ) dt,
+      conv(tau) = INT ( f(t) g(tau - t) ) dt,
 
   where f is the pulse file, g any from among the other signals in
   memory, and int means integration (summation) over all times t, or

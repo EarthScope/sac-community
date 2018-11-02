@@ -51,12 +51,12 @@ xtitle(nerr)
             cmgem.title.on = TRUE;
 
             /* -- Set title size: */
-        } else if (lklist("S$", 3, (char *) kmgem.ktxsiz, 9, MTXSIZ, &ititls)) {
+        } else if (lklist("S#IZE$", 7, (char *) kmgem.ktxsiz, 9, MTXSIZ, &ititls)) {
             cmgem.title.text_size = cmgem.txsiz[ititls - 1];
 
             /* -- Set location of title: */
         } else
-            if (lklist("L$", 3, (char *) kmgem.ksides, 9, 4, &cmgem.title.pos))
+            if (lklist("L#OCATION$", 11, (char *) kmgem.ksides, 9, 4, &cmgem.title.pos))
         {
         }
         /* -- Save text as title */

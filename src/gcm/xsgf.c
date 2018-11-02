@@ -75,7 +75,7 @@ xsgf(nerr)
         }
 
         /* -- "DIRECTORY CURRENT|text": set directory name to store SGF files. */
-        else if (lkchar("DIRECTO$", 9, MCPFN, ktext, MCPFN + 1, &ntext)) {
+        else if (lkchar("DIRECTO#RY$", 12, MCPFN, ktext, MCPFN + 1, &ntext)) {
             if (memcmp(ktext, "CURRENT", 7) == 0) {
                 setsgfdir(" ", 2);
             } else {

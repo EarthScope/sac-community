@@ -49,7 +49,7 @@ xpause(int *nerr) {
         }
 
         /* -- Determine text of pause message. */
-        else if (lkchar("MESSAG$", 8, MCMSG - 2, kmexm.kpause, MCMSG + 1, &nc)) {
+        else if (lkchar("MESSAG#E$", 10, MCMSG - 2, kmexm.kpause, MCMSG + 1, &nc)) {
             subscpy(kmexm.kpause, nc, -1, MCMSG, " $");
         }
 

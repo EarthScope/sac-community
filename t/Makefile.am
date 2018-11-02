@@ -117,6 +117,11 @@ sac_all_CFLAGS =
 sac_all_LDADD = -L../src -lsac -lsacio
 sac_all_LDFLAGS =
 
+lckey_test_CFLAGS =
+lckey_test_LDADD = $(LDADD)
+lckey_test_LDFLAGS =
+
+
 #saclibf${EXEEXT}: saclib_f.o
 #	$(F77) $(COVERAGE) -o $@ saclib_f.o -L../src -lsac
 
@@ -125,7 +130,7 @@ icm_CFLAGS = $(COVERAGE)
 icm_LDADD = -L../src -licm -lsac -lsacio
 
 # Compiled programs as tests
-check_PROGRAMS   = use_sac ucf vars sacio icm sacio_all sac_all
+check_PROGRAMS   = use_sac ucf vars sacio icm sacio_all sac_all lckey_test
 
 if HAVE_FC
 check_PROGRAMS += saciof saclibf
@@ -133,7 +138,7 @@ endif
 
 TEST_EXTENSIONS = .sm
 # Compiled programs to test
-TESTS            =  use_sac ucf vars sacio copy_files.sh icm sacio_all sac_all
+TESTS            =  use_sac ucf vars sacio copy_files.sh icm sacio_all sac_all lckey_test
 
 if HAVE_FC
 TESTS += sacio_fortran.sh saciof saclibf

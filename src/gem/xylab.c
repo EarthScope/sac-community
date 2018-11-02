@@ -83,12 +83,12 @@ xylab(int *nerr) {
             cmgem.ylabel.on = TRUE;
 
             /* -- Set y label size: */
-        } else if (lklist("S$", 3, (char *) kmgem.ktxsiz, 9, MTXSIZ, &iylabs)) {
+        } else if (lklist("S#IZE$", 7, (char *) kmgem.ktxsiz, 9, MTXSIZ, &iylabs)) {
             cmgem.ylabel.text_size = cmgem.txsiz[iylabs - 1];
 
             /* -- Set location of y label: */
         } else
-            if (lklist("L$", 3, (char *) kmgem.ksides, 9, 4, &cmgem.ylabel.pos))
+            if (lklist("L#OCATION$", 11, (char *) kmgem.ksides, 9, 4, &cmgem.ylabel.pos))
         {
         }
         /* -- Bad syntax. */

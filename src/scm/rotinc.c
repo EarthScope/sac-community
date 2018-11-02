@@ -418,7 +418,7 @@ void parse_rotinc(enum CoordSystem *target, double *angle, int *verbose, int *ne
             imethod = IS;
         } else if(lkreal("VP$", 4, &vp)) {
         } else if(lkreal("VS$", 4, &vs)) {
-        } else if(lkreal("RAY$", 5, &ray)) {
+        } else if(lkreal("RAY#DEG$", 9, &ray)) {
             ray_defined = TRUE;
         } else {
             cfmt("ILLEGAL OPTION:", 17);

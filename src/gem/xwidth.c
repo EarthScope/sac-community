@@ -65,7 +65,7 @@ xwidth(nerr)
     if (lcmore(nerr)) {
 
         /* -- "SKELETON width":  change skeleton width. */
-        if (lckey("SK$", 4) || lckey("BO$", 4)) {
+        if (lckey("SK#ELETON$", 11) || lckey("BO#UNDARY$", 11)) {
             if (lcint(&inum)) {
                 cmgem.iskwidth = inum;
                 cmgem.lwidth = TRUE;
@@ -75,8 +75,8 @@ xwidth(nerr)
             }
 
             /* -- "LIST STANDARD/widthlist":  change the width list. */
-        } else if (lckey("L$", 3)) {
-            if (lckey("S$", 3)) {
+        } else if (lckey("L#IST$", 7)) {
+            if (lckey("S#KELETON$", 11)) {
                 iniwidth();
             } else {
                 cmgem.niwidth = 0;
@@ -95,7 +95,7 @@ xwidth(nerr)
             }
 
             /* -- "INCREMENT ON/OFF":  increment width after each file or not. */
-        } else if (lklog("I$", 3, &cmgem.liwidth)) {
+        } else if (lklog("I#NCREMENT$", 12, &cmgem.liwidth)) {
             cmgem.lwidth = TRUE;
             cmgem.jiwidth = 0;
 

@@ -39,13 +39,13 @@ xboec(int *nerr) {
 
         /* -- "NPTS condition":  
            set control for unequal number of data points. */
-        if (lklist("N$", 3, (char *) kmexm.kectp, 9, cmexm.nectp, &index)) {
+        if (lklist("N#PTS$", 7, (char *) kmexm.kectp, 9, cmexm.nectp, &index)) {
             strcpy(kmbom.kecnpt, kmexm.kectp[index - 1]);
 
         }
         /* "DELTA condition":  
            set control for sampling interval mismatch. */
-        else if (lklist("D$", 3, (char *) kmexm.kectp, 9, cmexm.nectp, &index)) {
+        else if (lklist("D#ELTA$", 8, (char *) kmexm.kectp, 9, cmexm.nectp, &index)) {
             strcpy(kmbom.kecdel, kmexm.kectp[index - 1]);
 
         } else {

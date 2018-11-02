@@ -85,6 +85,10 @@ lckey(char *kkey, int kkey_s) {
     int ncabb, ncheck, nckey, ncsym;
     Token *t;
 
+    UNUSED(kkey_s);
+
+    DEBUG("\n\n CALLING lckey %d '%s'\n", kkey_s, kkey);
+    kkey_s = strlen(kkey) + 1;
     /* - Determine length of input key (i.e., find trailing dollar sign.) */
     nckey = indexc(kkey, kkey_s, '$');
     memset(ktoken, ' ', 136);
@@ -94,12 +98,14 @@ lckey(char *kkey, int kkey_s) {
 
     /* - If trailing dollar sign is missing find 
      *   last non-blank character. */
-    if (nckey <= 0)
+    DEBUG("nckey: %d [search for $]\n", nckey);
+    if (nckey <= 0) {
         nckey = indexb(kkey, kkey_s);
-
+    }
     /* - If character length of key is still 0, 
      *   set function value to .TRUE. and return immediately.  
      *   Do not increment command pointer. */
+    DEBUG("nckey: %d [checked length]\n", nckey);
     if (nckey == 0) {
         lckey_v = TRUE;
         goto L_8888;
@@ -109,14 +115,14 @@ lckey(char *kkey, int kkey_s) {
      *    deleting special characters if present. */
     lnoabb = kkey[0] == '&';
     ncabb = indexa(kkey, kkey_s, '#', TRUE, TRUE);
-    DEBUG("ncabb: %d nckey: %d\n", ncabb, nckey);
+    DEBUG("ABBREV[ncabb]: %d nckey: %d\n", ncabb, nckey);
     if (lnoabb) {
         fstrncpy(kcheck, 136, kkey + 1, kkey_s - 2);
         nckey = nckey - 1;
     } else if (ncabb > 0) {
         if(kkey[ncabb-1] == '#' &&
            (kkey[ncabb] == '$' || kkey[ncabb] == ' ' || kkey[ncabb] == 0)) {
-            DEBUG("kkey: '%s' %c %c\n", kkey, kkey[ncabb-1], kkey[ncabb]);
+            DEBUG("kkey: '%s' %c %c NO ABBREV\n", kkey, kkey[ncabb-1], kkey[ncabb]);
             lnoabb = TRUE;
         }
         fstrncpy(kcheck, 136, kkey, ncabb - 1);
@@ -129,6 +135,13 @@ lckey(char *kkey, int kkey_s) {
         return FALSE;
     }
     ncsym = strlen(t->str);
+    DEBUG("ABBREV? %d LEN(key): %d LEN(syn): %d \n", lnoabb, nckey, ncsym);
+
+    // Input Symbol is longer the Key, not true
+    if(ncsym > nckey) {
+        DEBUG("'%s' <=> '%s' [FALSE]\n", rstrip(kcheck), t->str);
+        return FALSE;
+    }
 
     /* - Determine number of characters to check. */
     if (lnoabb) {
@@ -136,17 +149,22 @@ lckey(char *kkey, int kkey_s) {
     } else {
         ncheck = min(nckey, ncsym);
         ncheck = min(ncheck, MCHECK);
-        if (ncabb > 0)
+        DEBUG("ABBREV? %d LEN(key): %d LEN(syn): %d CHECK: %d\n", lnoabb, nckey, ncsym, ncheck);
+        if (ncabb > 0) {
             ncheck = max(ncheck, ncabb - 1);
+        }
+        DEBUG("ABBREV? %d LEN(key): %d LEN(syn): %d CHECK: %d\n", lnoabb, nckey, ncsym, ncheck);
     }
 
     /* - Convert current command token upper case. */
     modcase(TRUE, ktoken, ncheck, ktoken);
-    DEBUG("'%s' <=> '%s' [%d/%d/%d/%d]\n", kcheck, t->str, ncheck,nckey,ncsym,ncabb);
+    DEBUG("'%s' <=> '%s' [%d/%d/%d/%d]\n", rstrip(kcheck), t->str, ncheck,nckey,ncsym,ncabb);
     if (strncasecmp(kcheck, t->str, ncheck) == 0) {
         arg_next();
+        DEBUG("'%s' <=> '%s' [TRUE]\n", rstrip(kcheck), t->str);
         return TRUE;
     }
+    DEBUG("'%s' <=> '%s' [FALSE]\n", rstrip(kcheck), t->str);
     return FALSE;
 
   L_8888:

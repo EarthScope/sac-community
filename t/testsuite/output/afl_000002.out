@@ -17,15 +17,13 @@ sac: No external execution: '__no_exec__' set
  mtw 12 13
  markvalue ge+
  ERROR interpreting command:  markvalue ge+ 
- NEED A REAL VARIABLE:                    ^
- ERROR interpreting command:  markvalue ge+ 
- ILLEGAL OPTION:                          ^
+ ILLEGAL OPTION:                        ^
  markvalueAge -1. -1. <= 5mtw b 0 5
 sac: No external execution: '__no_exec__' set
  markvalue ge -1100
  markvalue ge<= 3"
  ERROR interpreting command:  markvalue ge<= 3" 
- ILLEGAL OPTION:                              ^
+ ILLEGAL OPTION:                        ^
  mtw f -3 3
  markvalueAge -1.0 t~ t0
 sac: No external execution: '__no_exec__' set

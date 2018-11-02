@@ -96,17 +96,17 @@ xline(nerr)
     if (lcmore(nerr)) {
 
         /* -- INC turns on or off the increment linestyle attribute. */
-        if (lklog("I$", 3, &cmgem.liline)) {
+        if (lklog("I#NCREMENT$", 12, &cmgem.liline)) {
             cmgem.lline = TRUE;
             cmgem.jiline = 0;
 
             /* -- SOLID changes linestyle to solid. */
-        } else if (lckey("S$", 3)) {
+        } else if (lckey("S#OLID$", 8)) {
             cmgem.icline = LINE_STYLE_SOLID;
             cmgem.lline = TRUE;
 
             /* -- DOTTED changes linestyle to dotted. */
-        } else if (lckey("D$", 3)) {
+        } else if (lckey("D#OTTED$", 9)) {
             cmgem.icline = LINE_STYLE_DOTTED;
             cmgem.lline = TRUE;
 
@@ -149,8 +149,8 @@ xline(nerr)
         }
 
         /* -- "LIST STANDARD/n ...":  change list of linestyle numbers to use. */
-        else if (lckey("L$", 3)) {
-            if (lckey("S$", 3)) {
+        else if (lckey("L#IST$", 7)) {
+            if (lckey("S#TANDARD$", 11)) {
                 inilin(cmgem.iiline, &cmgem.niline);
             } else {
                 cmgem.niline = 0;

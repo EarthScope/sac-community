@@ -133,7 +133,7 @@ Pausing
  ==>  
  color on bad
  ERROR interpreting command:  color on bad 
- NEED NAME OF A COLOR:                   ^
+ ILLEGAL OPTION:                       ^
  color on list standard
  p1 ; pause period 0.25
 Pausing

@@ -294,7 +294,6 @@ xconvolve(nerr)
     char pulse_file[512];
     int i;
     int centered = FALSE;
-    static int nvals;
     static double val[2];
     static int master = 1;
     static enum pulse pulse_kind = SACFILE_IN_MEMORY;
@@ -341,12 +340,12 @@ xconvolve(nerr)
     *nerr = 0;
 
     while (lcmore(nerr)) {
-        if (lklog("CENTERED", 5, &centered)) {
-        } else if (lkreal("TRI", 4, &val[0])) {
+        if (lklog("CENTER#ED$", 9, &centered)) {
+        } else if (lkreal("TRI#ANGLE$", 11, &val[0])) {
             pulse_kind = TRI;
-        } else if (lkreal("GAU", 4, &val[0])) {
+        } else if (lkreal("GAU#SS$", 8, &val[0])) {
             pulse_kind = GAUSS;
-        } else if(lkint("PULSE", 6, &master)) {
+        } else if(lkint("PULSE#$", 8, &master)) {
             pulse_kind = SACFILE_IN_MEMORY;
         } else if(lcchar(tmp, sizeof(tmp))) {
             if(!file_exists(tmp)) {
