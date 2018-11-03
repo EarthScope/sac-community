@@ -1,208 +1,1672 @@
  wait text off
  echo on
- read IU.AFI.00.BHZ.iris.sac
- cutim T0 -75 -15
- lh b e npts
+  
+ ==>  
+ setbb FILE IU.AFI.00.BHZ.iris.sac
+ **************
+  
+ ==>  
+ setbb CUTLINE "t0 -75 -15"
+ macro cutim_compare.m
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cutim %CUTLINE
+ ==>  cutim t0 -75 -15
+ write test.cut.sac
+  
+ cut %CUTLINE
+ ==>  cut t0 -75 -15
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cut off
+ read more test.cut.sac
+  
+ macro cutim_comps.m
+ lh b e npts depmin depmax
   
   
   FILE: IU.AFI.00.BHZ.iris.sac - 1
  ----------------------------
 
-        b = 3.710000e+01
-        e = 9.710001e+01
-     npts = 1201
+          b = 3.710054e+01
+          e = 9.710054e+01
+       npts = 1201
+     depmin = -3.155000e+03
+     depmax = 1.938800e+04
+  
+  FILE: test.cut.sac - 2
+ ------------------
+
+          b = 3.710054e+01
+          e = 9.710054e+01
+       npts = 1201
+     depmin = -3.155000e+03
+     depmax = 1.938800e+04
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 1201 1201 OK"
+ npts equal: 1201 1201 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 37.1005 37.1005 OK"
+ b equal: 37.1005 37.1005 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 97.1005 97.1005 OK"
+ e equal: 97.1005 97.1005 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -3155 -3155 OK"
+ depmin equal: -3155 -3155 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 19388 19388 OK"
+ depmax equal: 19388 19388 OK
+ endif
   
  ==>  
- read IU.AFI.00.BHZ.iris.sac
- cutim T0 -5 15
- lh b e npts
+ **************
+  
+ ==>  
+ setbb CUTLINE "t0 -5 15"
+ macro cutim_compare.m
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cutim %CUTLINE
+ ==>  cutim t0 -5 15
+ write test.cut.sac
+  
+ cut %CUTLINE
+ ==>  cut t0 -5 15
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cut off
+ read more test.cut.sac
+  
+ macro cutim_comps.m
+ lh b e npts depmin depmax
   
   
   FILE: IU.AFI.00.BHZ.iris.sac - 1
  ----------------------------
 
-        b = 1.071000e+02
-        e = 1.271000e+02
-     npts = 401
+          b = 1.071005e+02
+          e = 1.271005e+02
+       npts = 401
+     depmin = -2.870720e+05
+     depmax = 3.186320e+05
+  
+  FILE: test.cut.sac - 2
+ ------------------
+
+          b = 1.071005e+02
+          e = 1.271005e+02
+       npts = 401
+     depmin = -2.870720e+05
+     depmax = 3.186320e+05
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 401 401 OK"
+ npts equal: 401 401 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 107.101 107.101 OK"
+ b equal: 107.101 107.101 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 127.101 127.101 OK"
+ e equal: 127.101 127.101 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -287072 -287072 OK"
+ depmin equal: -287072 -287072 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 318632 318632 OK"
+ depmax equal: 318632 318632 OK
+ endif
   
  ==>  
- read IU.AFI.00.BHZ.iris.sac
- cutim T9 -1 59
- lh b e npts
+ **************
+  
+ ==>  
+ setbb CUTLINE "t9 -1 59"
+ macro cutim_compare.m
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cutim %CUTLINE
+ ==>  cutim t9 -1 59
+ write test.cut.sac
+  
+ cut %CUTLINE
+ ==>  cut t9 -1 59
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cut off
+ read more test.cut.sac
+  
+ macro cutim_comps.m
+ lh b e npts depmin depmax
   
   
   FILE: IU.AFI.00.BHZ.iris.sac - 1
  ----------------------------
 
-        b = 1.518000e+02
-        e = 2.118000e+02
-     npts = 1201
+          b = 1.518005e+02
+          e = 2.118005e+02
+       npts = 1201
+     depmin = -5.191310e+05
+     depmax = 3.720380e+05
+  
+  FILE: test.cut.sac - 2
+ ------------------
+
+          b = 1.518005e+02
+          e = 2.118005e+02
+       npts = 1201
+     depmin = -5.191310e+05
+     depmax = 3.720380e+05
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 1201 1201 OK"
+ npts equal: 1201 1201 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 151.801 151.801 OK"
+ b equal: 151.801 151.801 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 211.801 211.801 OK"
+ e equal: 211.801 211.801 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -519131 -519131 OK"
+ depmin equal: -519131 -519131 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 372038 372038 OK"
+ depmax equal: 372038 372038 OK
+ endif
   
  ==>  
- read IU.AFI.00.BHZ.iris.sac
- cutim T0 -75 -15 T0 -5 15 T9 -1 59
- lh b e npts
+ **************
+  
+ ==>  
+ setbb CUTLINE1 "T0 -75 -15"
+ setbb CUTLINE2 "T0  -5  15"
+ setbb CUTLINE3 "T9  -1  59"
+ macro cutim_compare3.m
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cutim %CUTLINE1 %CUTLINE2  %CUTLINE3
+ ==>  cutim T0 -75 -15 T0 -5 15 T9 -1 59
+ write test.cut.1.sac test.cut.2.sac test.cut.3.sac
+  
+ cut %CUTLINE1
+ ==>  cut T0 -75 -15
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cut off
+ read more test.cut.1.sac
+ macro cutim_comps.m
+ lh b e npts depmin depmax
   
   
   FILE: IU.AFI.00.BHZ.iris.sac - 1
  ----------------------------
 
-        b = 3.710000e+01
-        e = 9.710001e+01
-     npts = 1201
+          b = 3.710054e+01
+          e = 9.710054e+01
+       npts = 1201
+     depmin = -3.155000e+03
+     depmax = 1.938800e+04
   
-  FILE: AFI.BHZ.2011121231727 - 2
- ---------------------------
+  FILE: test.cut.1.sac - 2
+ --------------------
 
-        b = 1.071000e+02
-        e = 1.271000e+02
-     npts = 401
+          b = 3.710054e+01
+          e = 9.710054e+01
+       npts = 1201
+     depmin = -3.155000e+03
+     depmax = 1.938800e+04
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 1201 1201 OK"
+ npts equal: 1201 1201 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 37.1005 37.1005 OK"
+ b equal: 37.1005 37.1005 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 97.1005 97.1005 OK"
+ e equal: 97.1005 97.1005 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -3155 -3155 OK"
+ depmin equal: -3155 -3155 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 19388 19388 OK"
+ depmax equal: 19388 19388 OK
+ endif
   
-  FILE: AFI.BHZ.2011121231727 - 3
- ---------------------------
-
-        b = 1.518000e+02
-        e = 2.118000e+02
-     npts = 1201
-  
- ==>  
- read IU.AFI.00.BHZ.iris.sac
- cutim T0 -75 -15 T9 -1 59 T0 -5 15
- lh b e npts
+ cut %CUTLINE2
+ ==>  cut T0 -5 15
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cut off
+ read more test.cut.2.sac
+ macro cutim_comps.m
+ lh b e npts depmin depmax
   
   
   FILE: IU.AFI.00.BHZ.iris.sac - 1
  ----------------------------
 
-        b = 3.710000e+01
-        e = 9.710001e+01
-     npts = 1201
+          b = 1.071005e+02
+          e = 1.271005e+02
+       npts = 401
+     depmin = -2.870720e+05
+     depmax = 3.186320e+05
   
-  FILE: AFI.BHZ.2011121231727 - 2
- ---------------------------
+  FILE: test.cut.2.sac - 2
+ --------------------
 
-        b = 1.518000e+02
-        e = 2.118000e+02
-     npts = 1201
+          b = 1.071005e+02
+          e = 1.271005e+02
+       npts = 401
+     depmin = -2.870720e+05
+     depmax = 3.186320e+05
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 401 401 OK"
+ npts equal: 401 401 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 107.101 107.101 OK"
+ b equal: 107.101 107.101 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 127.101 127.101 OK"
+ e equal: 127.101 127.101 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -287072 -287072 OK"
+ depmin equal: -287072 -287072 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 318632 318632 OK"
+ depmax equal: 318632 318632 OK
+ endif
   
-  FILE: AFI.BHZ.2011121231727 - 3
- ---------------------------
-
-        b = 1.071000e+02
-        e = 1.271000e+02
-     npts = 401
-  
- ==>  
- read IU.AFI.00.BHZ.iris.sac
- cutim T0 -5 15 T0 -75 -15 T9 -1 59
- lh b e npts
+ cut %CUTLINE3
+ ==>  cut T9 -1 59
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cut off
+ read more test.cut.3.sac
+ macro cutim_comps.m
+ lh b e npts depmin depmax
   
   
   FILE: IU.AFI.00.BHZ.iris.sac - 1
  ----------------------------
 
-        b = 1.071000e+02
-        e = 1.271000e+02
-     npts = 401
+          b = 1.518005e+02
+          e = 2.118005e+02
+       npts = 1201
+     depmin = -5.191310e+05
+     depmax = 3.720380e+05
   
-  FILE: AFI.BHZ.2011121231727 - 2
- ---------------------------
+  FILE: test.cut.3.sac - 2
+ --------------------
 
-        b = 3.710000e+01
-        e = 9.710001e+01
-     npts = 1201
+          b = 1.518005e+02
+          e = 2.118005e+02
+       npts = 1201
+     depmin = -5.191310e+05
+     depmax = 3.720380e+05
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 1201 1201 OK"
+ npts equal: 1201 1201 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 151.801 151.801 OK"
+ b equal: 151.801 151.801 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 211.801 211.801 OK"
+ e equal: 211.801 211.801 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -519131 -519131 OK"
+ depmin equal: -519131 -519131 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 372038 372038 OK"
+ depmax equal: 372038 372038 OK
+ endif
   
-  FILE: AFI.BHZ.2011121231727 - 3
- ---------------------------
-
-        b = 1.518000e+02
-        e = 2.118000e+02
-     npts = 1201
   
  ==>  
- read IU.AFI.00.BHZ.iris.sac
- cutim T0 -5 15 T9 -1 59 T0 -75 -15
- lh b e npts
+ **************
+  
+ ==>  
+ setbb CUTLINE1 "T0 -75 -15"
+ setbb CUTLINE2 "T9  -1  59"
+ setbb CUTLINE3 "T0  -5  15"
+ macro cutim_compare3.m
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cutim %CUTLINE1 %CUTLINE2  %CUTLINE3
+ ==>  cutim T0 -75 -15 T9 -1 59 T0 -5 15
+ write test.cut.1.sac test.cut.2.sac test.cut.3.sac
+  
+ cut %CUTLINE1
+ ==>  cut T0 -75 -15
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cut off
+ read more test.cut.1.sac
+ macro cutim_comps.m
+ lh b e npts depmin depmax
   
   
   FILE: IU.AFI.00.BHZ.iris.sac - 1
  ----------------------------
 
-        b = 1.071000e+02
-        e = 1.271000e+02
-     npts = 401
+          b = 3.710054e+01
+          e = 9.710054e+01
+       npts = 1201
+     depmin = -3.155000e+03
+     depmax = 1.938800e+04
   
-  FILE: AFI.BHZ.2011121231727 - 2
- ---------------------------
+  FILE: test.cut.1.sac - 2
+ --------------------
 
-        b = 1.518000e+02
-        e = 2.118000e+02
-     npts = 1201
+          b = 3.710054e+01
+          e = 9.710054e+01
+       npts = 1201
+     depmin = -3.155000e+03
+     depmax = 1.938800e+04
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 1201 1201 OK"
+ npts equal: 1201 1201 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 37.1005 37.1005 OK"
+ b equal: 37.1005 37.1005 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 97.1005 97.1005 OK"
+ e equal: 97.1005 97.1005 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -3155 -3155 OK"
+ depmin equal: -3155 -3155 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 19388 19388 OK"
+ depmax equal: 19388 19388 OK
+ endif
   
-  FILE: AFI.BHZ.2011121231727 - 3
- ---------------------------
-
-        b = 3.710000e+01
-        e = 9.710001e+01
-     npts = 1201
-  
- ==>  
- read IU.AFI.00.BHZ.iris.sac
- cutim T9 -1 59 T0 -75 -15 T0 -5 15
- lh b e npts
+ cut %CUTLINE2
+ ==>  cut T9 -1 59
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cut off
+ read more test.cut.2.sac
+ macro cutim_comps.m
+ lh b e npts depmin depmax
   
   
   FILE: IU.AFI.00.BHZ.iris.sac - 1
  ----------------------------
 
-        b = 1.518000e+02
-        e = 2.118000e+02
-     npts = 1201
+          b = 1.518005e+02
+          e = 2.118005e+02
+       npts = 1201
+     depmin = -5.191310e+05
+     depmax = 3.720380e+05
   
-  FILE: AFI.BHZ.2011121231727 - 2
- ---------------------------
+  FILE: test.cut.2.sac - 2
+ --------------------
 
-        b = 3.710000e+01
-        e = 9.710001e+01
-     npts = 1201
+          b = 1.518005e+02
+          e = 2.118005e+02
+       npts = 1201
+     depmin = -5.191310e+05
+     depmax = 3.720380e+05
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 1201 1201 OK"
+ npts equal: 1201 1201 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 151.801 151.801 OK"
+ b equal: 151.801 151.801 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 211.801 211.801 OK"
+ e equal: 211.801 211.801 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -519131 -519131 OK"
+ depmin equal: -519131 -519131 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 372038 372038 OK"
+ depmax equal: 372038 372038 OK
+ endif
   
-  FILE: AFI.BHZ.2011121231727 - 3
- ---------------------------
-
-        b = 1.071000e+02
-        e = 1.271000e+02
-     npts = 401
-  
- ==>  
- read IU.AFI.00.BHZ.iris.sac
- cutim T9 -1 59 T0 -5 15 T0 -75 -15
- lh b e npts
+ cut %CUTLINE3
+ ==>  cut T0 -5 15
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cut off
+ read more test.cut.3.sac
+ macro cutim_comps.m
+ lh b e npts depmin depmax
   
   
   FILE: IU.AFI.00.BHZ.iris.sac - 1
  ----------------------------
 
-        b = 1.518000e+02
-        e = 2.118000e+02
-     npts = 1201
+          b = 1.071005e+02
+          e = 1.271005e+02
+       npts = 401
+     depmin = -2.870720e+05
+     depmax = 3.186320e+05
   
-  FILE: AFI.BHZ.2011121231727 - 2
- ---------------------------
+  FILE: test.cut.3.sac - 2
+ --------------------
 
-        b = 1.071000e+02
-        e = 1.271000e+02
-     npts = 401
+          b = 1.071005e+02
+          e = 1.271005e+02
+       npts = 401
+     depmin = -2.870720e+05
+     depmax = 3.186320e+05
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 401 401 OK"
+ npts equal: 401 401 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 107.101 107.101 OK"
+ b equal: 107.101 107.101 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 127.101 127.101 OK"
+ e equal: 127.101 127.101 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -287072 -287072 OK"
+ depmin equal: -287072 -287072 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 318632 318632 OK"
+ depmax equal: 318632 318632 OK
+ endif
   
-  FILE: AFI.BHZ.2011121231727 - 3
- ---------------------------
+  
+ ==>  
+ **************
+  
+ ==>  
+ setbb CUTLINE1 "T0  -5  15"
+ setbb CUTLINE2 "T0 -75 -15"
+ setbb CUTLINE3 "T9  -1  59"
+ macro cutim_compare3.m
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cutim %CUTLINE1 %CUTLINE2  %CUTLINE3
+ ==>  cutim T0 -5 15 T0 -75 -15 T9 -1 59
+ write test.cut.1.sac test.cut.2.sac test.cut.3.sac
+  
+ cut %CUTLINE1
+ ==>  cut T0 -5 15
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cut off
+ read more test.cut.1.sac
+ macro cutim_comps.m
+ lh b e npts depmin depmax
+  
+  
+  FILE: IU.AFI.00.BHZ.iris.sac - 1
+ ----------------------------
 
-        b = 3.710000e+01
-        e = 9.710001e+01
-     npts = 1201
+          b = 1.071005e+02
+          e = 1.271005e+02
+       npts = 401
+     depmin = -2.870720e+05
+     depmax = 3.186320e+05
+  
+  FILE: test.cut.1.sac - 2
+ --------------------
+
+          b = 1.071005e+02
+          e = 1.271005e+02
+       npts = 401
+     depmin = -2.870720e+05
+     depmax = 3.186320e+05
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 401 401 OK"
+ npts equal: 401 401 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 107.101 107.101 OK"
+ b equal: 107.101 107.101 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 127.101 127.101 OK"
+ e equal: 127.101 127.101 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -287072 -287072 OK"
+ depmin equal: -287072 -287072 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 318632 318632 OK"
+ depmax equal: 318632 318632 OK
+ endif
+  
+ cut %CUTLINE2
+ ==>  cut T0 -75 -15
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cut off
+ read more test.cut.2.sac
+ macro cutim_comps.m
+ lh b e npts depmin depmax
+  
+  
+  FILE: IU.AFI.00.BHZ.iris.sac - 1
+ ----------------------------
+
+          b = 3.710054e+01
+          e = 9.710054e+01
+       npts = 1201
+     depmin = -3.155000e+03
+     depmax = 1.938800e+04
+  
+  FILE: test.cut.2.sac - 2
+ --------------------
+
+          b = 3.710054e+01
+          e = 9.710054e+01
+       npts = 1201
+     depmin = -3.155000e+03
+     depmax = 1.938800e+04
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 1201 1201 OK"
+ npts equal: 1201 1201 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 37.1005 37.1005 OK"
+ b equal: 37.1005 37.1005 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 97.1005 97.1005 OK"
+ e equal: 97.1005 97.1005 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -3155 -3155 OK"
+ depmin equal: -3155 -3155 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 19388 19388 OK"
+ depmax equal: 19388 19388 OK
+ endif
+  
+ cut %CUTLINE3
+ ==>  cut T9 -1 59
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cut off
+ read more test.cut.3.sac
+ macro cutim_comps.m
+ lh b e npts depmin depmax
+  
+  
+  FILE: IU.AFI.00.BHZ.iris.sac - 1
+ ----------------------------
+
+          b = 1.518005e+02
+          e = 2.118005e+02
+       npts = 1201
+     depmin = -5.191310e+05
+     depmax = 3.720380e+05
+  
+  FILE: test.cut.3.sac - 2
+ --------------------
+
+          b = 1.518005e+02
+          e = 2.118005e+02
+       npts = 1201
+     depmin = -5.191310e+05
+     depmax = 3.720380e+05
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 1201 1201 OK"
+ npts equal: 1201 1201 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 151.801 151.801 OK"
+ b equal: 151.801 151.801 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 211.801 211.801 OK"
+ e equal: 211.801 211.801 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -519131 -519131 OK"
+ depmin equal: -519131 -519131 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 372038 372038 OK"
+ depmax equal: 372038 372038 OK
+ endif
+  
+  
+ ==>  
+ **************
+  
+ ==>  
+ setbb CUTLINE1 "T0  -5  15"
+ setbb CUTLINE2 "T9  -1  59"
+ setbb CUTLINE3 "T0 -75 -15"
+ macro cutim_compare3.m
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cutim %CUTLINE1 %CUTLINE2  %CUTLINE3
+ ==>  cutim T0 -5 15 T9 -1 59 T0 -75 -15
+ write test.cut.1.sac test.cut.2.sac test.cut.3.sac
+  
+ cut %CUTLINE1
+ ==>  cut T0 -5 15
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cut off
+ read more test.cut.1.sac
+ macro cutim_comps.m
+ lh b e npts depmin depmax
+  
+  
+  FILE: IU.AFI.00.BHZ.iris.sac - 1
+ ----------------------------
+
+          b = 1.071005e+02
+          e = 1.271005e+02
+       npts = 401
+     depmin = -2.870720e+05
+     depmax = 3.186320e+05
+  
+  FILE: test.cut.1.sac - 2
+ --------------------
+
+          b = 1.071005e+02
+          e = 1.271005e+02
+       npts = 401
+     depmin = -2.870720e+05
+     depmax = 3.186320e+05
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 401 401 OK"
+ npts equal: 401 401 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 107.101 107.101 OK"
+ b equal: 107.101 107.101 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 127.101 127.101 OK"
+ e equal: 127.101 127.101 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -287072 -287072 OK"
+ depmin equal: -287072 -287072 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 318632 318632 OK"
+ depmax equal: 318632 318632 OK
+ endif
+  
+ cut %CUTLINE2
+ ==>  cut T9 -1 59
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cut off
+ read more test.cut.2.sac
+ macro cutim_comps.m
+ lh b e npts depmin depmax
+  
+  
+  FILE: IU.AFI.00.BHZ.iris.sac - 1
+ ----------------------------
+
+          b = 1.518005e+02
+          e = 2.118005e+02
+       npts = 1201
+     depmin = -5.191310e+05
+     depmax = 3.720380e+05
+  
+  FILE: test.cut.2.sac - 2
+ --------------------
+
+          b = 1.518005e+02
+          e = 2.118005e+02
+       npts = 1201
+     depmin = -5.191310e+05
+     depmax = 3.720380e+05
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 1201 1201 OK"
+ npts equal: 1201 1201 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 151.801 151.801 OK"
+ b equal: 151.801 151.801 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 211.801 211.801 OK"
+ e equal: 211.801 211.801 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -519131 -519131 OK"
+ depmin equal: -519131 -519131 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 372038 372038 OK"
+ depmax equal: 372038 372038 OK
+ endif
+  
+ cut %CUTLINE3
+ ==>  cut T0 -75 -15
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cut off
+ read more test.cut.3.sac
+ macro cutim_comps.m
+ lh b e npts depmin depmax
+  
+  
+  FILE: IU.AFI.00.BHZ.iris.sac - 1
+ ----------------------------
+
+          b = 3.710054e+01
+          e = 9.710054e+01
+       npts = 1201
+     depmin = -3.155000e+03
+     depmax = 1.938800e+04
+  
+  FILE: test.cut.3.sac - 2
+ --------------------
+
+          b = 3.710054e+01
+          e = 9.710054e+01
+       npts = 1201
+     depmin = -3.155000e+03
+     depmax = 1.938800e+04
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 1201 1201 OK"
+ npts equal: 1201 1201 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 37.1005 37.1005 OK"
+ b equal: 37.1005 37.1005 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 97.1005 97.1005 OK"
+ e equal: 97.1005 97.1005 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -3155 -3155 OK"
+ depmin equal: -3155 -3155 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 19388 19388 OK"
+ depmax equal: 19388 19388 OK
+ endif
+  
+  
+ ==>  
+ **************
+  
+ ==>  
+ setbb CUTLINE1 "T9  -1  59"
+ setbb CUTLINE2 "T0 -75 -15"
+ setbb CUTLINE3 "T0  -5  15"
+ macro cutim_compare3.m
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cutim %CUTLINE1 %CUTLINE2  %CUTLINE3
+ ==>  cutim T9 -1 59 T0 -75 -15 T0 -5 15
+ write test.cut.1.sac test.cut.2.sac test.cut.3.sac
+  
+ cut %CUTLINE1
+ ==>  cut T9 -1 59
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cut off
+ read more test.cut.1.sac
+ macro cutim_comps.m
+ lh b e npts depmin depmax
+  
+  
+  FILE: IU.AFI.00.BHZ.iris.sac - 1
+ ----------------------------
+
+          b = 1.518005e+02
+          e = 2.118005e+02
+       npts = 1201
+     depmin = -5.191310e+05
+     depmax = 3.720380e+05
+  
+  FILE: test.cut.1.sac - 2
+ --------------------
+
+          b = 1.518005e+02
+          e = 2.118005e+02
+       npts = 1201
+     depmin = -5.191310e+05
+     depmax = 3.720380e+05
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 1201 1201 OK"
+ npts equal: 1201 1201 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 151.801 151.801 OK"
+ b equal: 151.801 151.801 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 211.801 211.801 OK"
+ e equal: 211.801 211.801 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -519131 -519131 OK"
+ depmin equal: -519131 -519131 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 372038 372038 OK"
+ depmax equal: 372038 372038 OK
+ endif
+  
+ cut %CUTLINE2
+ ==>  cut T0 -75 -15
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cut off
+ read more test.cut.2.sac
+ macro cutim_comps.m
+ lh b e npts depmin depmax
+  
+  
+  FILE: IU.AFI.00.BHZ.iris.sac - 1
+ ----------------------------
+
+          b = 3.710054e+01
+          e = 9.710054e+01
+       npts = 1201
+     depmin = -3.155000e+03
+     depmax = 1.938800e+04
+  
+  FILE: test.cut.2.sac - 2
+ --------------------
+
+          b = 3.710054e+01
+          e = 9.710054e+01
+       npts = 1201
+     depmin = -3.155000e+03
+     depmax = 1.938800e+04
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 1201 1201 OK"
+ npts equal: 1201 1201 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 37.1005 37.1005 OK"
+ b equal: 37.1005 37.1005 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 97.1005 97.1005 OK"
+ e equal: 97.1005 97.1005 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -3155 -3155 OK"
+ depmin equal: -3155 -3155 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 19388 19388 OK"
+ depmax equal: 19388 19388 OK
+ endif
+  
+ cut %CUTLINE3
+ ==>  cut T0 -5 15
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cut off
+ read more test.cut.3.sac
+ macro cutim_comps.m
+ lh b e npts depmin depmax
+  
+  
+  FILE: IU.AFI.00.BHZ.iris.sac - 1
+ ----------------------------
+
+          b = 1.071005e+02
+          e = 1.271005e+02
+       npts = 401
+     depmin = -2.870720e+05
+     depmax = 3.186320e+05
+  
+  FILE: test.cut.3.sac - 2
+ --------------------
+
+          b = 1.071005e+02
+          e = 1.271005e+02
+       npts = 401
+     depmin = -2.870720e+05
+     depmax = 3.186320e+05
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 401 401 OK"
+ npts equal: 401 401 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 107.101 107.101 OK"
+ b equal: 107.101 107.101 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 127.101 127.101 OK"
+ e equal: 127.101 127.101 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -287072 -287072 OK"
+ depmin equal: -287072 -287072 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 318632 318632 OK"
+ depmax equal: 318632 318632 OK
+ endif
+  
+  
+ ==>  
+ **************
+  
+ ==>  
+ setbb CUTLINE1 "T9  -1  59"
+ setbb CUTLINE2 "T0  -5  15"
+ setbb CUTLINE3 "T0 -75 -15"
+ macro cutim_compare3.m
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cutim %CUTLINE1 %CUTLINE2  %CUTLINE3
+ ==>  cutim T9 -1 59 T0 -5 15 T0 -75 -15
+ write test.cut.1.sac test.cut.2.sac test.cut.3.sac
+  
+ cut %CUTLINE1
+ ==>  cut T9 -1 59
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cut off
+ read more test.cut.1.sac
+ macro cutim_comps.m
+ lh b e npts depmin depmax
+  
+  
+  FILE: IU.AFI.00.BHZ.iris.sac - 1
+ ----------------------------
+
+          b = 1.518005e+02
+          e = 2.118005e+02
+       npts = 1201
+     depmin = -5.191310e+05
+     depmax = 3.720380e+05
+  
+  FILE: test.cut.1.sac - 2
+ --------------------
+
+          b = 1.518005e+02
+          e = 2.118005e+02
+       npts = 1201
+     depmin = -5.191310e+05
+     depmax = 3.720380e+05
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 1201 1201 OK"
+ npts equal: 1201 1201 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 151.801 151.801 OK"
+ b equal: 151.801 151.801 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 211.801 211.801 OK"
+ e equal: 211.801 211.801 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -519131 -519131 OK"
+ depmin equal: -519131 -519131 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 372038 372038 OK"
+ depmax equal: 372038 372038 OK
+ endif
+  
+ cut %CUTLINE2
+ ==>  cut T0 -5 15
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cut off
+ read more test.cut.2.sac
+ macro cutim_comps.m
+ lh b e npts depmin depmax
+  
+  
+  FILE: IU.AFI.00.BHZ.iris.sac - 1
+ ----------------------------
+
+          b = 1.071005e+02
+          e = 1.271005e+02
+       npts = 401
+     depmin = -2.870720e+05
+     depmax = 3.186320e+05
+  
+  FILE: test.cut.2.sac - 2
+ --------------------
+
+          b = 1.071005e+02
+          e = 1.271005e+02
+       npts = 401
+     depmin = -2.870720e+05
+     depmax = 3.186320e+05
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 401 401 OK"
+ npts equal: 401 401 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 107.101 107.101 OK"
+ b equal: 107.101 107.101 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 127.101 127.101 OK"
+ e equal: 127.101 127.101 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -287072 -287072 OK"
+ depmin equal: -287072 -287072 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 318632 318632 OK"
+ depmax equal: 318632 318632 OK
+ endif
+  
+ cut %CUTLINE3
+ ==>  cut T0 -75 -15
+ read %FILE
+ ==>  read IU.AFI.00.BHZ.iris.sac
+ cut off
+ read more test.cut.3.sac
+ macro cutim_comps.m
+ lh b e npts depmin depmax
+  
+  
+  FILE: IU.AFI.00.BHZ.iris.sac - 1
+ ----------------------------
+
+          b = 3.710054e+01
+          e = 9.710054e+01
+       npts = 1201
+     depmin = -3.155000e+03
+     depmax = 1.938800e+04
+  
+  FILE: test.cut.3.sac - 2
+ --------------------
+
+          b = 3.710054e+01
+          e = 9.710054e+01
+       npts = 1201
+     depmin = -3.155000e+03
+     depmax = 1.938800e+04
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 1201 1201 OK"
+ npts equal: 1201 1201 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 37.1005 37.1005 OK"
+ b equal: 37.1005 37.1005 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 97.1005 97.1005 OK"
+ e equal: 97.1005 97.1005 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -3155 -3155 OK"
+ depmin equal: -3155 -3155 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 19388 19388 OK"
+ depmax equal: 19388 19388 OK
+ endif
+  
   
  ==>  
   
  ==>  
-  
- ==>  
+ * FILLZ
+ * USEBE
  quit

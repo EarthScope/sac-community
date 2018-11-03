@@ -1,39 +1,63 @@
 echo on
-read IU.AFI.00.BHZ.iris.sac
-cutim T0 -75 -15
-lh b e npts
 
-read IU.AFI.00.BHZ.iris.sac
-cutim T0 -5 15
-lh b e npts
+setbb FILE IU.AFI.00.BHZ.iris.sac
+**************
 
-read IU.AFI.00.BHZ.iris.sac
-cutim T9 -1 59
-lh b e npts
+setbb CUTLINE "t0 -75 -15"
+macro cutim_compare.m
 
-read IU.AFI.00.BHZ.iris.sac
-cutim T0 -75 -15 T0 -5 15 T9 -1 59
-lh b e npts
+**************
 
-read IU.AFI.00.BHZ.iris.sac
-cutim T0 -75 -15 T9 -1 59 T0 -5 15
-lh b e npts
+setbb CUTLINE "t0 -5 15"
+macro cutim_compare.m
 
-read IU.AFI.00.BHZ.iris.sac
-cutim T0 -5 15 T0 -75 -15 T9 -1 59
-lh b e npts
+**************
 
-read IU.AFI.00.BHZ.iris.sac
-cutim T0 -5 15 T9 -1 59 T0 -75 -15
-lh b e npts
+setbb CUTLINE "t9 -1 59"
+macro cutim_compare.m
 
-read IU.AFI.00.BHZ.iris.sac
-cutim T9 -1 59 T0 -75 -15 T0 -5 15
-lh b e npts
+**************
 
-read IU.AFI.00.BHZ.iris.sac
-cutim T9 -1 59 T0 -5 15 T0 -75 -15
-lh b e npts
+setbb CUTLINE1 "T0 -75 -15"
+setbb CUTLINE2 "T0  -5  15"
+setbb CUTLINE3 "T9  -1  59"
+macro cutim_compare3.m
+
+**************
+
+setbb CUTLINE1 "T0 -75 -15"
+setbb CUTLINE2 "T9  -1  59"
+setbb CUTLINE3 "T0  -5  15"
+macro cutim_compare3.m
+
+**************
+
+setbb CUTLINE1 "T0  -5  15"
+setbb CUTLINE2 "T0 -75 -15"
+setbb CUTLINE3 "T9  -1  59"
+macro cutim_compare3.m
+
+**************
+
+setbb CUTLINE1 "T0  -5  15"
+setbb CUTLINE2 "T9  -1  59"
+setbb CUTLINE3 "T0 -75 -15"
+macro cutim_compare3.m
+
+**************
+
+setbb CUTLINE1 "T9  -1  59"
+setbb CUTLINE2 "T0 -75 -15"
+setbb CUTLINE3 "T0  -5  15"
+macro cutim_compare3.m
+
+**************
+
+setbb CUTLINE1 "T9  -1  59"
+setbb CUTLINE2 "T0  -5  15"
+setbb CUTLINE3 "T0 -75 -15"
+macro cutim_compare3.m
 
 
-
+* FILLZ
+* USEBE
