@@ -4,7 +4,7 @@
  * @brief  Define cut parameters
  * 
  */
-
+/*#define __DEBUG__*/
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
@@ -20,6 +20,7 @@
 #include "bot.h"
 
 #include "SacHeader.h"
+#include "debug.h"
 
 DFM_EXTERN
 
@@ -77,7 +78,7 @@ defcut(char kcut[2][9], double ocut[2], int idfl, int *nerr) {
     if (!(s = sacget(idfl - 1, FALSE, nerr))) {
         return;
     }
-
+    DEBUG("B %f\n", s->h->b);
     /* - Save total number of points in file. */
     s->m->ntotal = s->h->npts;
     DEBUG("kcut <%s> <%s>\n", kcut[0], kcut[1]);
@@ -90,9 +91,10 @@ defcut(char kcut[2][9], double ocut[2], int idfl, int *nerr) {
         jdx = nequal((char *) kcut[0], (char *) kmdfm.kpick, 9, MPICK);
         DEBUG("START pick index: %d (string list) => %d\n", jdx,
               cmdfm.ipckhd[jdx - 1]);
-        if (jdx > 0)
+        if (jdx > 0) {
             Pick[1] = VALUE(fhdr(s, cmdfm.ipckhd[jdx - 1]));
-
+            DEBUG("PICK[1]: %f\n", Pick[1]);
+        }
         else {
             *nerr = ERROR_SAC_LOGIC_ERROR;
             setmsg("ERROR", *nerr);
@@ -129,7 +131,7 @@ defcut(char kcut[2][9], double ocut[2], int idfl, int *nerr) {
         start = Pick[1] + ocut[0];
         cut_define(s->h->b, s->h->delta, start, &s->m->nstart);
     }
-
+    DEBUG("PICK[1]: %f START: %f NSTART: %d B: %f\n", Pick[1], start, s->m->nstart, s->h->b);
     /* -  Compute stop value. */
     if (strcmp(kcut[1], "N       ") == 0) {
         nptrd = ocut[1] + RNDOFF * s->h->delta;
@@ -241,12 +243,16 @@ defcut(char kcut[2][9], double ocut[2], int idfl, int *nerr) {
         }
     }
     /* - Convert these start and stop points to new begin and end times. */
+    DEBUG("B %f\n", s->h->b);
     s->h->b = s->h->b + (double) (s->m->nstart - 1) * s->h->delta;
+    DEBUG("B %f AFTER\n", s->h->b);
     s->h->npts = s->m->nstop - s->m->nstart + 1;
+    DEBUG("NPTS: %d AFTER\n", s->h->npts);
     sac_be(s);
+    DEBUG("E %f AFTER\n", s->h->e);
 
-    DEBUG("nstart[%d]: %d\n", idfl, Nstart[idfl]);
-    DEBUG("nstop[%d]:  %d\n", idfl, Nstop[idfl]);
-    DEBUG("npts[%d]:   %d\n", idfl, Nstop[idfl] - Nstart[idfl] + 1);
-    DEBUG("CUT: %f %f %d %f\n", *begin, *ennd, *npts, *ennd - *begin);
+    DEBUG("nstart[%d]: %d\n", idfl, s->m->nstart);
+    DEBUG("nstop[%d]:  %d\n", idfl, s->m->nstop);
+    DEBUG("npts[%d]:   %d\n", idfl, s->m->nstop - s->m->nstart + 1);
+    DEBUG("%f %f %d %f\n", s->h->b, s->h->e, s->h->npts, s->h->e - s->h->b);
 }

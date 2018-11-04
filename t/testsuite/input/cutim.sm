@@ -59,5 +59,39 @@ setbb CUTLINE3 "T0 -75 -15"
 macro cutim_compare3.m
 
 
-* FILLZ
-* USEBE
+setbb FILE input.cut.sac
+fg seismo
+write %FILE
+
+setbb CUTLINE "B E"
+macro cutim_compare.m
+message "NPTS should be 1000 = &1,npts &2,npts"
+
+setbb CUTLINE "B 0 E 0"
+macro cutim_compare.m
+message "NPTS should be 1000 = &1,npts &2,npts"
+
+setbb CUTLINE "B 3 E -3"
+macro cutim_compare.m
+message "NPTS should be 400 = &1,npts &2,npts"
+
+setbb CUTLINE "B -3 E 3"
+macro cutim_compare.m
+message "NPTS should be 1000 = &1,npts &2,npts"
+
+cuterr FILLZ
+setbb CUTLINE "B E"
+macro cutim_compare.m
+message "NPTS should be 1000 = &1,npts &2,npts"
+
+setbb CUTLINE "B 0 E 0"
+macro cutim_compare.m
+message "NPTS should be 1000 = &1,npts &2,npts"
+
+setbb CUTLINE "B 3 E -3"
+macro cutim_compare.m
+message "NPTS should be 400 = &1,npts &2,npts"
+
+setbb CUTLINE "B -3 E 3"
+macro cutim_compare.m
+message "NPTS should be 1600 = &1,npts &2,npts"

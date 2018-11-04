@@ -24,33 +24,51 @@
 
 DFM_EXTERN
 
+#define CUT_NOW  TRUE
+
 sac *cut_file;
 void sacpop_no_free();
+
+char *
+generate_filename(sac *s) {
+    char *filename;
+    char tempSta[32], tempChan[32];
+    if(SAC_CHAR_DEFINED(s->h->kstnm)) {
+        strcpy(tempSta, s->h->kstnm);
+    } else {
+        sprintf(tempSta, "s%03d", saclen());
+    }
+    if(SAC_CHAR_DEFINED(s->h->kcmpnm)) {
+        strcpy(tempChan, s->h->kcmpnm);
+    } else {
+        sprintf(tempChan, "c%03d", saclen());
+    }
+    rstrip(tempSta);
+    rstrip(tempChan);
+    asprintf(&filename, "%s.%s.%04d%03d%02d%02d%02d", tempSta, tempChan,
+             s->h->nzyear, s->h->nzjday, s->h->nzhour, s->h->nzmin,
+             s->h->nzsec);
+    return filename;
+}
+
 
 void
 xcutim(int *nerr) {
     /* declare variables */
-    char kcutSave[2][9], defaultWorksetName[] = "workset01", *worksetName =
-        NULL;
+    char kcutSave[2][9];
     double dtmp[2];
-    int idx, jdx, jdfl, nBounds, nOriginalFiles = saclen(), nSacFiles =
-        0, refTimeType = IB;
+    int idx, jdx, nBounds;
     sac *s;
-    int i, k;
+    int i;
     struct SACheader **header;
-    struct SACheader *h;
     const int charsInBase = 9;
 
-    int lname = FALSE, lnotused, lcutSave;
-    const int lcuttrue = TRUE;
+    int lnotused, lcutSave;
 
     float ocutSave[2];
 
-    double refTime;             /* subract this from the picks. */
-
-    DBlist tree;
     sac **cut_data_im = NULL;
-    
+
     struct cutPair {
         char kbase[2][9];
         float offset[2];
@@ -137,21 +155,7 @@ xcutim(int *nerr) {
         }
     }                           /* end for ( idx ) */
 
-    /* EXECUTION PHASE */
-
-    /* - Commit or rollback data according to lmore and cmdfm.icomORroll */
-    alignFiles(nerr);
-    if (*nerr)
-        return;
-
-    /* Get necessary SeisMgr information */
-    tree = smGetDefaultTree();
-
-    /* Remove all waveforms from Sacmem */
-    deleteAllSacFiles(nerr, FALSE);     /* don't delete file names */
-    if (*nerr)
-        return;
-
+    /* Move files from sac memory into local array */
     cut_data_im = xarray_new('p');
     for (i = 0; i < saclen(); i++) {
         if (!(s = sacget(i, TRUE, nerr))) {
@@ -160,6 +164,7 @@ xcutim(int *nerr) {
         }
         cut_data_im = xarray_append(cut_data_im, s);
     }
+    /* Clear List but do not free memory */
     while (saclen() > 0) {
         sacpop_no_free();
     }
@@ -169,84 +174,51 @@ xcutim(int *nerr) {
 
     /* Loop between pairs of cut points */
     for (idx = 0; idx < nBounds; idx++) {
-        struct wfdiscList *wfL = NULL;
-
         /* reset cut parameters. */
         strcpy(kmdfm.kcut[0], bounds[idx].kbase[0]);
         strcpy(kmdfm.kcut[1], bounds[idx].kbase[1]);
         cmdfm.ocut[0] = bounds[idx].offset[0];
         cmdfm.ocut[1] = bounds[idx].offset[1];
+        DEBUG("ocut[0,1] %f %f\n", cmdfm.ocut[0], cmdfm.ocut[1]);
+        for(size_t i = 0; i < xarray_length(cut_data_im); i++) {
+            DEBUG("FILE: %d/%d\n", i+1, xarray_length(cut_data_im));
+            sac *s = sac_new();
+            sac *old = cut_data_im[i];
+            // Copy Header and Meta to New Data :: old => s
+            sac_header_copy(s, old);
+            sac_meta_copy(s, old);
+            sacput(s);
 
-        /* Loop between waveforms in SeisMgr */
-        k = 0;
-        do {
-            /* Get next waveform. */
-            if (!(wfL = dblNextTableInstance(wfL, tree, dbl_LIST_WFDISC)))
-                break;
-            cut_file = cut_data_im[k];
-            k++;
-            /* Get the header to go with the waveform */
-            h = (struct SACheader *) malloc(sizeof(struct SACheader));
-            header = xarray_append(header, h);
-            sacHeaderFromCSS(tree, header[nSacFiles], wfL, refTimeType,
-                             &refTime, cmdfm.nMagSpec);
-
-            nSacFiles++;
-
-            if (!lname && nSacFiles > nOriginalFiles)
-                lname = TRUE;
-
-            /* Create a SAC file, fill the header and waveform. */
-            CSStoSAC(nSacFiles, header[nSacFiles - 1], wfL->seis, lname,
-                     lcuttrue, nerr);
-            if (*nerr) {
-                setmsg("WARNING", 1402);
-                outmsg();
-                clrmsg();
-                *nerr = 0;
+            if(idx > 0) { /* Create new file name for multiple files in cut */
+                FREE(s->m->filename);
+                s->m->filename = generate_filename(s);
             }
-        } while (wfL);          /* End loop between waveforms in SeisMgr */
-
+            // Define Memory and Allocate space
+            defmem(saclen(), CUT_NOW, nerr);
+            sac_alloc(s);
+            int numrd = s->m->nstop - s->m->nstart + 1 - s->m->nfillb - s->m->nfille;
+            /* - Cut data for each data component: */
+            for (int j = 0; j < sac_comps(s); j++) {
+                DEBUG("COMPS: %d/%d\n", j+1, sac_comps(s));
+                float *oldy = (j == 0) ? old->y : old->x;
+                float *newy = (j == 0) ? s->y   : s->x;
+                cut_data(oldy, s->m->nstart, s->m->nstop, s->m->nfillb, s->m->nfille, newy);
+            }
+            // Rescale data
+            if (cmdfm.lscale && s->h->scale != SAC_FLOAT_UNDEFINED && s->h->scale != 1.0) {
+                float *newy = s->y;
+                for (int k = 0; k < numrd; k++) {
+                    newy[k] *= s->h->scale;
+                }
+                s->h->scale = 1.0;
+            }
+            /* - Compute some header values. */
+            sac_extrema(s);
+            sac_be(s);
+        }
     }                           /* End loop between pairs of cut points. */
 
-    /* Set global number of files */
 
-    /* Remove all waveforms from SeisMgr */
-    /*smDeleteDefaultTree() ; */
-    worksetName = smGetDefaultWorksetName();
-    if (worksetName)
-        smDeleteWorksetByName(worksetName);
-    else
-        worksetName = defaultWorksetName;
-
-    /* Read each waveform from Sacmem back to SeisMgr */
-    for (jdfl = 1; jdfl <= nSacFiles; jdfl++) {
-        sacSACdata newData;
-        if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
-            goto L_ERROR;
-        }
-
-        if (*nerr) {
-            *nerr = 1406;
-            goto L_ERROR;
-        }
-
-        newData.dataType = header[jdfl - 1]->iftype;
-        newData.xarray = s->x;
-        newData.yarray = s->y;
-        header[jdfl - 1]->b = s->h->b;
-        header[jdfl - 1]->e = s->h->e;
-        header[jdfl - 1]->npts = s->h->npts;
-
-        sacLoadFromHeaderAndData(header[jdfl - 1], &newData, worksetName, FALSE,
-                                 jdfl - 1, TRUE, TRUE);
-    }                           /* end for ( jdfl ) */
-
-    /* clean up garbage in SeisMgr */
-    tree = smGetDefaultTree();
-    gcCollect(tree);
-
-    /* Make sure to reset global cut values whether the command worked or not. */
   L_ERROR:
     cmdfm.lcut = lcutSave;
     cmdfm.ocut[0] = ocutSave[0];

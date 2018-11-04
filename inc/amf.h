@@ -35,5 +35,6 @@ char *khdr(sac * s, int k);
 
 void sac_buffer_free();
 sac *sac_copy(sac *s);
+void sac_meta_copy(sac *to, sac *from);
 
 #endif /* _AMF_H_ */

@@ -654,7 +654,7 @@ sacHeaderFromCSS(DBlist tree, struct SACheader *header, struct wfdiscList *w,
         header->iztype = IB;
         *RefTime = w->element->time;
     }
-
+    DEBUG("time %f ref: %f\n", w->element->time, *RefTime);
     header->b = (float) (w->element->time - *RefTime);
     if (orig && CSSdblDefined(orig->element->time)) {
         header->o = orig->element->time - *RefTime;

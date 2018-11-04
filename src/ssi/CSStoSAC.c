@@ -78,7 +78,7 @@ CSStoSAC(idfl, header, seis, lname, lcutnow, nerr)
 
     sacput(s);
     idfl = saclen();
-
+    DEBUG("B %f\n", s->h->b);
     /* -- Prepare to get waveform */
     defmem(idfl, lcutnow, nerr);
     if (*nerr)

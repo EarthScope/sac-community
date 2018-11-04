@@ -88,6 +88,7 @@
  depmax equal: 19388 19388 OK
  endif
   
+  
  ==>  
  **************
   
@@ -174,6 +175,7 @@
  depmax equal: 318632 318632 OK
  endif
   
+  
  ==>  
  **************
   
@@ -259,6 +261,7 @@
  ==>  message "depmax equal: 372038 372038 OK"
  depmax equal: 372038 372038 OK
  endif
+  
   
  ==>  
  **************
@@ -1667,6 +1670,713 @@
  ==>  
   
  ==>  
- * FILLZ
- * USEBE
+ setbb FILE input.cut.sac
+ fg seismo
+ write %FILE
+ ==>  write input.cut.sac
+  
+ ==>  
+ setbb CUTLINE "B E"
+ macro cutim_compare.m
+ read %FILE
+ ==>  read input.cut.sac
+ cutim %CUTLINE
+ ==>  cutim B E
+ write test.cut.sac
+  
+ cut %CUTLINE
+ ==>  cut B E
+ read %FILE
+ ==>  read input.cut.sac
+ cut off
+ read more test.cut.sac
+  
+ macro cutim_comps.m
+ lh b e npts depmin depmax
+  
+  
+  FILE: input.cut.sac - 1
+ -------------------
+
+          b = 9.459999e+00
+          e = 1.945000e+01
+       npts = 1000
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+  
+  FILE: test.cut.sac - 2
+ ------------------
+
+          b = 9.459999e+00
+          e = 1.945000e+01
+       npts = 1000
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 1000 1000 OK"
+ npts equal: 1000 1000 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 9.46 9.46 OK"
+ b equal: 9.46 9.46 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 19.45 19.45 OK"
+ e equal: 19.45 19.45 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -1.56928 -1.56928 OK"
+ depmin equal: -1.56928 -1.56928 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 1.52064 1.52064 OK"
+ depmax equal: 1.52064 1.52064 OK
+ endif
+  
+ message "NPTS should be 1000 = &1,npts &2,npts"
+ ==>  message "NPTS should be 1000 = 1000 1000"
+ NPTS should be 1000 = 1000 1000
+  
+ ==>  
+ setbb CUTLINE "B 0 E 0"
+ macro cutim_compare.m
+ read %FILE
+ ==>  read input.cut.sac
+ cutim %CUTLINE
+ ==>  cutim B 0 E 0
+ write test.cut.sac
+  
+ cut %CUTLINE
+ ==>  cut B 0 E 0
+ read %FILE
+ ==>  read input.cut.sac
+ cut off
+ read more test.cut.sac
+  
+ macro cutim_comps.m
+ lh b e npts depmin depmax
+  
+  
+  FILE: input.cut.sac - 1
+ -------------------
+
+          b = 9.459999e+00
+          e = 1.945000e+01
+       npts = 1000
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+  
+  FILE: test.cut.sac - 2
+ ------------------
+
+          b = 9.459999e+00
+          e = 1.945000e+01
+       npts = 1000
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 1000 1000 OK"
+ npts equal: 1000 1000 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 9.46 9.46 OK"
+ b equal: 9.46 9.46 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 19.45 19.45 OK"
+ e equal: 19.45 19.45 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -1.56928 -1.56928 OK"
+ depmin equal: -1.56928 -1.56928 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 1.52064 1.52064 OK"
+ depmax equal: 1.52064 1.52064 OK
+ endif
+  
+ message "NPTS should be 1000 = &1,npts &2,npts"
+ ==>  message "NPTS should be 1000 = 1000 1000"
+ NPTS should be 1000 = 1000 1000
+  
+ ==>  
+ setbb CUTLINE "B 3 E -3"
+ macro cutim_compare.m
+ read %FILE
+ ==>  read input.cut.sac
+ cutim %CUTLINE
+ ==>  cutim B 3 E -3
+ write test.cut.sac
+  
+ cut %CUTLINE
+ ==>  cut B 3 E -3
+ read %FILE
+ ==>  read input.cut.sac
+ cut off
+ read more test.cut.sac
+  
+ macro cutim_comps.m
+ lh b e npts depmin depmax
+  
+  
+  FILE: input.cut.sac - 1
+ -------------------
+
+          b = 1.246000e+01
+          e = 1.645000e+01
+       npts = 400
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+  
+  FILE: test.cut.sac - 2
+ ------------------
+
+          b = 1.246000e+01
+          e = 1.645000e+01
+       npts = 400
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 400 400 OK"
+ npts equal: 400 400 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 12.46 12.46 OK"
+ b equal: 12.46 12.46 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 16.45 16.45 OK"
+ e equal: 16.45 16.45 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -1.56928 -1.56928 OK"
+ depmin equal: -1.56928 -1.56928 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 1.52064 1.52064 OK"
+ depmax equal: 1.52064 1.52064 OK
+ endif
+  
+ message "NPTS should be 400 = &1,npts &2,npts"
+ ==>  message "NPTS should be 400 = 400 400"
+ NPTS should be 400 = 400 400
+  
+ ==>  
+ setbb CUTLINE "B -3 E 3"
+ macro cutim_compare.m
+ read %FILE
+ ==>  read input.cut.sac
+ cutim %CUTLINE
+ ==>  cutim B -3 E 3
+ WARNING: Start cut less than file begin for file input.cut.sac
+ Corrected by using file begin.
+ WARNING: Stop cut greater than file end for file input.cut.sac
+ Corrected by using file end.
+ write test.cut.sac
+  
+ cut %CUTLINE
+ ==>  cut B -3 E 3
+ read %FILE
+ ==>  read input.cut.sac
+ WARNING: Start cut less than file begin for file input.cut.sac
+ Corrected by using file begin.
+ WARNING: Stop cut greater than file end for file input.cut.sac
+ Corrected by using file end.
+ cut off
+ read more test.cut.sac
+  
+ macro cutim_comps.m
+ lh b e npts depmin depmax
+  
+  
+  FILE: input.cut.sac - 1
+ -------------------
+
+          b = 9.459999e+00
+          e = 1.945000e+01
+       npts = 1000
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+  
+  FILE: test.cut.sac - 2
+ ------------------
+
+          b = 9.459999e+00
+          e = 1.945000e+01
+       npts = 1000
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 1000 1000 OK"
+ npts equal: 1000 1000 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 9.46 9.46 OK"
+ b equal: 9.46 9.46 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 19.45 19.45 OK"
+ e equal: 19.45 19.45 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -1.56928 -1.56928 OK"
+ depmin equal: -1.56928 -1.56928 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 1.52064 1.52064 OK"
+ depmax equal: 1.52064 1.52064 OK
+ endif
+  
+ message "NPTS should be 1000 = &1,npts &2,npts"
+ ==>  message "NPTS should be 1000 = 1000 1000"
+ NPTS should be 1000 = 1000 1000
+  
+ ==>  
+ cuterr FILLZ
+ setbb CUTLINE "B E"
+ macro cutim_compare.m
+ read %FILE
+ ==>  read input.cut.sac
+ cutim %CUTLINE
+ ==>  cutim B E
+ write test.cut.sac
+  
+ cut %CUTLINE
+ ==>  cut B E
+ read %FILE
+ ==>  read input.cut.sac
+ cut off
+ read more test.cut.sac
+  
+ macro cutim_comps.m
+ lh b e npts depmin depmax
+  
+  
+  FILE: input.cut.sac - 1
+ -------------------
+
+          b = 9.459999e+00
+          e = 1.945000e+01
+       npts = 1000
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+  
+  FILE: test.cut.sac - 2
+ ------------------
+
+          b = 9.459999e+00
+          e = 1.945000e+01
+       npts = 1000
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 1000 1000 OK"
+ npts equal: 1000 1000 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 9.46 9.46 OK"
+ b equal: 9.46 9.46 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 19.45 19.45 OK"
+ e equal: 19.45 19.45 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -1.56928 -1.56928 OK"
+ depmin equal: -1.56928 -1.56928 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 1.52064 1.52064 OK"
+ depmax equal: 1.52064 1.52064 OK
+ endif
+  
+ message "NPTS should be 1000 = &1,npts &2,npts"
+ ==>  message "NPTS should be 1000 = 1000 1000"
+ NPTS should be 1000 = 1000 1000
+  
+ ==>  
+ setbb CUTLINE "B 0 E 0"
+ macro cutim_compare.m
+ read %FILE
+ ==>  read input.cut.sac
+ cutim %CUTLINE
+ ==>  cutim B 0 E 0
+ write test.cut.sac
+  
+ cut %CUTLINE
+ ==>  cut B 0 E 0
+ read %FILE
+ ==>  read input.cut.sac
+ cut off
+ read more test.cut.sac
+  
+ macro cutim_comps.m
+ lh b e npts depmin depmax
+  
+  
+  FILE: input.cut.sac - 1
+ -------------------
+
+          b = 9.459999e+00
+          e = 1.945000e+01
+       npts = 1000
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+  
+  FILE: test.cut.sac - 2
+ ------------------
+
+          b = 9.459999e+00
+          e = 1.945000e+01
+       npts = 1000
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 1000 1000 OK"
+ npts equal: 1000 1000 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 9.46 9.46 OK"
+ b equal: 9.46 9.46 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 19.45 19.45 OK"
+ e equal: 19.45 19.45 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -1.56928 -1.56928 OK"
+ depmin equal: -1.56928 -1.56928 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 1.52064 1.52064 OK"
+ depmax equal: 1.52064 1.52064 OK
+ endif
+  
+ message "NPTS should be 1000 = &1,npts &2,npts"
+ ==>  message "NPTS should be 1000 = 1000 1000"
+ NPTS should be 1000 = 1000 1000
+  
+ ==>  
+ setbb CUTLINE "B 3 E -3"
+ macro cutim_compare.m
+ read %FILE
+ ==>  read input.cut.sac
+ cutim %CUTLINE
+ ==>  cutim B 3 E -3
+ write test.cut.sac
+  
+ cut %CUTLINE
+ ==>  cut B 3 E -3
+ read %FILE
+ ==>  read input.cut.sac
+ cut off
+ read more test.cut.sac
+  
+ macro cutim_comps.m
+ lh b e npts depmin depmax
+  
+  
+  FILE: input.cut.sac - 1
+ -------------------
+
+          b = 1.246000e+01
+          e = 1.645000e+01
+       npts = 400
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+  
+  FILE: test.cut.sac - 2
+ ------------------
+
+          b = 1.246000e+01
+          e = 1.645000e+01
+       npts = 400
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 400 400 OK"
+ npts equal: 400 400 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 12.46 12.46 OK"
+ b equal: 12.46 12.46 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 16.45 16.45 OK"
+ e equal: 16.45 16.45 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -1.56928 -1.56928 OK"
+ depmin equal: -1.56928 -1.56928 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 1.52064 1.52064 OK"
+ depmax equal: 1.52064 1.52064 OK
+ endif
+  
+ message "NPTS should be 400 = &1,npts &2,npts"
+ ==>  message "NPTS should be 400 = 400 400"
+ NPTS should be 400 = 400 400
+  
+ ==>  
+ setbb CUTLINE "B -3 E 3"
+ macro cutim_compare.m
+ read %FILE
+ ==>  read input.cut.sac
+ cutim %CUTLINE
+ ==>  cutim B -3 E 3
+ write test.cut.sac
+  
+ cut %CUTLINE
+ ==>  cut B -3 E 3
+ read %FILE
+ ==>  read input.cut.sac
+ cut off
+ read more test.cut.sac
+  
+ macro cutim_comps.m
+ lh b e npts depmin depmax
+  
+  
+  FILE: input.cut.sac - 1
+ -------------------
+
+          b = 6.459999e+00
+          e = 2.245000e+01
+       npts = 1600
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+  
+  FILE: test.cut.sac - 2
+ ------------------
+
+          b = 6.459999e+00
+          e = 2.245000e+01
+       npts = 1600
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+ setbb d ( &1,npts - &2,npts )
+ ==>  setbb d 0
+ if %d != 0
+ ==>  if 0 != 0
+ else
+   message "npts equal: &1,npts &2,npts OK"
+ ==>  message "npts equal: 1600 1600 OK"
+ npts equal: 1600 1600 OK
+ endif
+ setbb d (abs( &1,b - &2,b ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "b equal: &1,b &2,b OK"
+ ==>  message "b equal: 6.46 6.46 OK"
+ b equal: 6.46 6.46 OK
+ endif
+ setbb d (abs( &1,e - &2,e ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "e equal: &1,e &2,e OK"
+ ==>  message "e equal: 22.45 22.45 OK"
+ e equal: 22.45 22.45 OK
+ endif
+ setbb d (abs( &1,depmin - &2,depmin ))
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmin equal: &1,depmin &2,depmin OK"
+ ==>  message "depmin equal: -1.56928 -1.56928 OK"
+ depmin equal: -1.56928 -1.56928 OK
+ endif
+ setbb d (abs ( &1,depmax - &2,depmax ) )
+ ==>  setbb d 0
+ if %d > 1e-14
+ ==>  if 0 > 1e-14
+ else
+   message "depmax equal: &1,depmax &2,depmax OK"
+ ==>  message "depmax equal: 1.52064 1.52064 OK"
+ depmax equal: 1.52064 1.52064 OK
+ endif
+  
+ message "NPTS should be 1600 = &1,npts &2,npts"
+ ==>  message "NPTS should be 1600 = 1600 1600"
+ NPTS should be 1600 = 1600 1600
  quit
