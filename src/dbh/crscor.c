@@ -398,10 +398,10 @@ correlate(float *f, int nf, float *g, int ng, float *c, int nc) {
         printf("Correlate output not long enough\n");
         return;
     }
-    
+
     if(nf >= ng) {
         nlen = nf;
-    } else if(nf < ng) {
+    } else {
         nlen = ng;
     }
 

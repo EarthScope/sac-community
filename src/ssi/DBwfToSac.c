@@ -18,7 +18,7 @@ DBwfToSac(s, seis, nerr)
 {
     /* Declare Variables. */
     int idx, jcomp, numrd;
-    float unused, *pArray;
+    float *pArray;
     int ncomp;
     /*=====================================================================
      * PURPOSE:  Copy a waveform from SeisMgr to SAC

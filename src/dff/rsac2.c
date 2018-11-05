@@ -62,7 +62,6 @@ rsac2(char *kname, float *yarray, int *nlen, float *xarray, int *max_,
     int lswap;
     int truncated;
     sac *s;
-    float *const Xarray = &xarray[0] - 1;
 
     *nerr = 0;
     truncated = FALSE;

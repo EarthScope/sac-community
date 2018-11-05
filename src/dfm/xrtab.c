@@ -84,7 +84,6 @@ xrtab(int lplot, int *nerr) {
         ndcont, ndflsv, ndform, nentry, nlnch[MAXCH - (0) + 1],
         nptch[MAXCH - (0) + 1], nsndfl, numch, numxch, numych;
     FILE *nun;
-    float unused;
     float fentry[MENTRY];
     float *y[MAXCH];
     sac *s;

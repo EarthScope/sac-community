@@ -42,7 +42,6 @@ void
 rdsdta(int idfl, int *nun, int *nerr) {
 
     int i, jcomp, nlcdsk, numrd, offset;
-    float unused;
     float *d;
     int *sdd;
     sac *s;

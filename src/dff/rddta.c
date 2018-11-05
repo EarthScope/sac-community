@@ -40,7 +40,6 @@ void
 rddta(sac * s, int *nun, int lswap, int *nerr) {
 
     int jcomp, nlcdsk, numrd, offset;
-    float unused;
     float *d;
     *nerr = 0;
 
