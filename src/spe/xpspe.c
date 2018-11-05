@@ -16,6 +16,7 @@
 #include "cpf.h"
 #include "co.h"
 #include "dff.h"
+#include <fstr.h>
 
 GAM_EXTERN
 GEM_EXTERN

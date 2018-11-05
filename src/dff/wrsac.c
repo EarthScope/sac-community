@@ -19,6 +19,8 @@
 
 #include "errors.h"
 
+#include <fstr.h>
+
 /** 
  * Write a SAC data file from memory to disk
  * 

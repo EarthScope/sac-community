@@ -12,6 +12,7 @@
 #include "clf.h"
 #include "bot.h"
 #include "dff.h"
+#include <fstr.h>
 
 extern sac *cut_file;
 

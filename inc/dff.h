@@ -8,10 +8,6 @@
 #include <rpc/rpc.h>
 #endif /* HAVE_LIBRPC */
 
-void DEPRECATED(char *old_func, char *new_func);
-char *fstrtrim(char *s);
-char *fstrdup(char *s, int n);
-char *fstrset(char *in, char *out, int n);
 
 void formhv(char *kname, int kname_s, int iform, char *kout, int kout_s,
             int *nerr);

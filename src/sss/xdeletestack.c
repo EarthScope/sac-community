@@ -16,6 +16,7 @@
 #include "ucf.h"
 #include "cpf.h"
 #include "array.h"
+#include <fstr.h>
 
 SSS_EXTERN
 

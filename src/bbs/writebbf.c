@@ -12,6 +12,8 @@
 #include "dff.h"
 #include "vars.h"
 
+#include <fstr.h>
+
 BBS_EXTERN
 
 /** 

@@ -21,6 +21,8 @@
 #include "bool.h"
 #include "string_utils.h"
 
+#include <fstr.h>
+
 /** 
  * Determine the byte order of the machine
  * 

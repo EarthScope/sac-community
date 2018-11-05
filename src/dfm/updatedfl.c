@@ -21,6 +21,8 @@
 #include "ucf.h"
 #include "dff.h"
 
+#include <fstr.h>
+
 DFM_EXTERN
 
 /** 

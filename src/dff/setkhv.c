@@ -19,7 +19,7 @@
 #include "SacHeader.h"
 
 #include "errors.h"
-
+#include <fstr.h>
 
 int hdr_len(int index);
 

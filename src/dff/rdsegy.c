@@ -23,6 +23,8 @@
 #include "errors.h"
 #include "debug.h"
 
+#include <fstr.h>
+
 DFM_EXTERN
 
 void timecheck_short(short *year, short *day, short *hour, short *min,

@@ -15,6 +15,8 @@
 #include "SacHeader.h"
 #include "errors.h"
 
+#include <fstr.h>
+
 /** 
  * Initialize the Common block for sacio
  * 

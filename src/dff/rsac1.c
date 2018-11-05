@@ -23,6 +23,8 @@
 #include "SacHeader.h"
 #include "errors.h"
 
+#include <fstr.h>
+
 void
 sac_data_swap(float *y, int n) {
     int i;

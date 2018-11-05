@@ -23,6 +23,8 @@
 #include "debug.h"
 #include "SacHeader.h"
 #include "libpz.h"
+#include <fstr.h>
+
 
 #ifdef WIN32
 #define pointer char *

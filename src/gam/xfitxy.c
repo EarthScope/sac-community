@@ -21,6 +21,9 @@
 #include "co.h"
 #include "array.h"
 
+#include <fstr.h>
+
+
 void /*FUNCTION*/
 xfitxy(nerr)
      int *nerr;

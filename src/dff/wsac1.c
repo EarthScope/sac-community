@@ -11,6 +11,8 @@
 #include "bool.h"
 #include "SacHeader.h"
 
+#include <fstr.h>
+
 /** 
  * Write an evenly spaced SAC file 
  * 

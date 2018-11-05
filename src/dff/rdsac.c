@@ -13,6 +13,9 @@
 #include "clf.h"
 #include "dfm.h"
 #include "errors.h"
+
+#include <fstr.h>
+
 /** 
  * Read a SAC file into memory
  * 

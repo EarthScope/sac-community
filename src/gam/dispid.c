@@ -17,6 +17,9 @@
 #include "bot.h"
 #include "dff.h"
 
+#include <fstr.h>
+
+
 GEM_EXTERN
 GAM_EXTERN
 

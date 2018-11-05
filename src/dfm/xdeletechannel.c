@@ -26,6 +26,8 @@
 #include "array.h"
 #include "errors.h"
 
+#include <fstr.h>
+
 DFM_EXTERN
 
 /** 

@@ -8,7 +8,7 @@
 #ifndef _WILD_H_
 #define _WILD_H_
 
-#include "clf.h"
+#include "strlist.h"
 
 /** 
  * @struct kmwild 

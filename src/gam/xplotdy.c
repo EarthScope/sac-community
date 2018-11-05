@@ -21,6 +21,7 @@
 #include "co.h"
 #include "dff.h"
 #include "array.h"
+#include <fstr.h>
 
 XYZ_EXTERN
 GEM_EXTERN

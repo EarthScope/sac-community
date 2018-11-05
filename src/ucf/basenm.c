@@ -17,6 +17,7 @@
 #include "bot.h"
 
 #include "debug.h"
+#include <fstr.h>
 
 /** 
  * Generate a family of file names from a given base name.  A two digit 

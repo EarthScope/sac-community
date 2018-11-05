@@ -15,6 +15,7 @@
 
 #include "errors.h"
 #include "debug.h"
+#include <fstr.h>
 
 /** 
  * @param MRECLB

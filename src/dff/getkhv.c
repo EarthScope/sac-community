@@ -20,6 +20,8 @@
 #include "SacHeader.h"
 #include "errors.h"
 
+#include <fstr.h>
+
 LHF_EXTERN
 
 #define SPACE_PAD ' '

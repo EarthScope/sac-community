@@ -8,7 +8,7 @@
 #ifndef _DFM_H_
 #define _DFM_H_
 
-#include "clf.h"
+#include "strlist.h"
 #include "mach.h"
 
 #define MAXSORTFIELDS	5

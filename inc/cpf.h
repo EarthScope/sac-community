@@ -9,7 +9,7 @@
 #define _CPF_H_
 
 #include "mach.h"
-#include "clf.h"
+#include "strlist.h"
 
 #define	MNUMERICABBREVS	5
 #define	MNUMERICFUNCS	22

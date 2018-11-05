@@ -18,6 +18,8 @@
 #include "dfm.h"
 #include "bool.h"
 
+#include <fstr.h>
+
 /** 
  * Get and format a header variable
  * 

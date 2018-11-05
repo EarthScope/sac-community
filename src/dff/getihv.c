@@ -19,6 +19,7 @@
 #include "bool.h"
 #include "SacHeader.h"
 #include "errors.h"
+#include <fstr.h>
 
 LHF_EXTERN
 

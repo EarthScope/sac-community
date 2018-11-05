@@ -33,6 +33,7 @@
 #include "dff.h"
 #include "debug.h"
 
+#include <fstr.h>
 
 GEM_EXTERN
 

@@ -7,6 +7,7 @@
 #include "msg.h"
 #include "clf.h"
 #include "cpf.h"
+#include <fstr.h>
 
 SSS_EXTERN
 

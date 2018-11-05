@@ -25,6 +25,7 @@
 #include "dff.h"
 
 #include "debug.h"
+#include <fstr.h>
 
 HDR_EXTERN
 

@@ -13,6 +13,7 @@
 #include "ucf.h"
 #include "dff.h"
 #include "debug.h"
+#include <fstr.h>
 
 #define	MOK	12
 

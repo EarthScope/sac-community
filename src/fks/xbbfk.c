@@ -29,6 +29,7 @@
 #include "cpf.h"
 #include "dff.h"
 #include "ncpf.h"
+#include <fstr.h>
 
 GEM_EXTERN
 GDM_EXTERN

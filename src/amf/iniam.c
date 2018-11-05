@@ -9,7 +9,6 @@
 
 #define SAC_NULL_HEADER_REQUIRED
 #include "amf.h"
-#include "clf.h"
 #include "debug.h"
 #include "SacHeader.h"
 #include "hdr.h"
@@ -17,6 +16,7 @@
 #include "scm.h"
 #include "array.h"
 #include "dbh.h"
+#include "strlist.h"
 
 static sac **sac_buffer = NULL;
 

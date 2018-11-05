@@ -27,6 +27,8 @@
 
 #include "debug.h"
 
+#include <fstr.h>
+
 DFM_EXTERN
 EXM_EXTERN
 

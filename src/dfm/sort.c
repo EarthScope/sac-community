@@ -11,6 +11,7 @@
 
 #include "dfm.h"
 #include "dff.h"
+#include <fstr.h>
 
 /** 
  * String \p a2 is less than string \p a1

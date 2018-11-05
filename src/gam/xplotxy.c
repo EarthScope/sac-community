@@ -21,6 +21,7 @@
 #include "cpf.h"
 #include "dff.h"
 #include "array.h"
+#include <fstr.h>
 
 XYZ_EXTERN
 GAM_EXTERN

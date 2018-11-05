@@ -25,6 +25,7 @@
 #include "gem.h"                /* color_on, color_skeleton, color_foreground_default */
 
 #include "debug.h"
+#include <fstr.h>
 
 
 GDM_EXTERN

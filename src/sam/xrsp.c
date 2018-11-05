@@ -14,6 +14,7 @@
 #include "cpf.h"
 #include "co.h"
 #include "dff.h"
+#include <fstr.h>
 
 DFM_EXTERN
 SAM_EXTERN

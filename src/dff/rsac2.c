@@ -15,6 +15,8 @@
 #include "SacHeader.h"
 #include "errors.h"
 
+#include <fstr.h>
+
 /** 
  * Read and unevenly spaced or spectral SAC file
  * 

@@ -22,6 +22,7 @@
 #include "dbh.h"
 #include "cpf.h"
 #include "dff.h"
+#include <fstr.h>
 
 #define	MCORLN	4096
 #define	MWINLN	2048

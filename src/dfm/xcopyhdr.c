@@ -18,6 +18,8 @@
 #include "amf.h"
 #include "errors.h"
 
+#include <fstr.h>
+
 DFM_EXTERN
 
 int *const Icatco = &cmdfm.icatco[0] - 1;

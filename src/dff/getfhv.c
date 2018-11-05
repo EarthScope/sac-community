@@ -20,6 +20,7 @@
 #include "SacHeader.h"
 #include "errors.h"
 #include "string_utils.h"
+#include <fstr.h>
 
 LHF_EXTERN
 

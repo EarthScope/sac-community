@@ -9,7 +9,7 @@
 #define _BOM_H_
 
 #include "mach.h"
-#include "clf.h"
+#include "strlist.h"
 #include "SacHeader.h"
 
 /** 

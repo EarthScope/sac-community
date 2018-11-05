@@ -10,7 +10,7 @@
 
 #include <stdio.h>
 
-#include "clf.h"
+#include "strlist.h"
 
 void basenm(char *kbase, int kbase_s, int n1, int n2, string_list * list,
             int *nerr);

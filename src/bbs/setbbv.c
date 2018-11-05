@@ -18,6 +18,8 @@
 #include "vars.h"
 #include "debug.h"
 
+#include <fstr.h>
+
 BBS_EXTERN
 /** 
  * Set or Define a Blackboard Variable

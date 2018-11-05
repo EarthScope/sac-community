@@ -24,6 +24,8 @@
 #include "dff.h"
 #include "array.h"
 
+#include <fstr.h>
+
 
 GAM_EXTERN
 GEM_EXTERN

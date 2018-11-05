@@ -10,6 +10,7 @@
 
 #include "sgfcolor.h"
 #include "debug.h"
+#include <fstr.h>
 
 GDM_EXTERN
 

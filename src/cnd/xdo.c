@@ -17,7 +17,7 @@
 #include "co.h"
 #include "ucf.h"
 #include "wild.h"
-#include "clf.h"
+#include "strlist.h"
 #include "errors.h"
 
 #include "token.h"
@@ -27,6 +27,19 @@ CND_EXTERN
 CPF_EXTERN
 
 Token *do_token[100];
+
+string_list *
+cfl_to_string_list(char *cfl, int len) {
+    int i1, i2;
+    string_list *list;
+    list = string_list_init();
+    i1 = 0;
+    i2 = 0;
+    while (lnxtcl(cfl, len, &i1, &i2)) {
+        string_list_put(list, cfl + i1 - 1, i2 - i1 + 1);
+    }
+    return list;
+}
 
 /** 
  * Report a DO Loop Error
@@ -222,7 +235,7 @@ xdo(int *nerr) {
         /* Expand the wildcards in the input
          *   kcl holds the output, but it could be truncated, so we ignore it and use filelist 
          */
-        input_files = string_list_from_cfl(kclin, MCL + 1);
+        input_files = cfl_to_string_list(kclin, MCL + 1);
         files = wildfl(kdirin, MCPFN + 1, input_files, &lexpand);
         {
             Token *last, *t;

@@ -11,6 +11,7 @@
 #include "bot.h"
 #include "dff.h"
 #include "debug.h"
+#include <fstr.h>
 
 static int swap_data = FALSE;
 

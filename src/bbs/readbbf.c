@@ -14,6 +14,8 @@
 #include "dff.h"
 #include "co.h"
 
+#include <fstr.h>
+
 BBS_EXTERN
 
 /** 
