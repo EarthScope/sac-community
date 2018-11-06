@@ -1,3 +1,4 @@
+// LICENSE: MIT
 /** 
  * @file   hdr.h
  * 
@@ -250,14 +251,6 @@
 
 #define SAC_INT_DEFINED(x) ( x != SAC_INT_UNDEFINED )
 #define SAC_CHAR_DEFINED(x) ( strcasecmp(x, "-12345") != 0 && strcasecmp(x, SAC_CHAR_UNDEFINED) != 0 )
-
-struct t_cmhdr {
-    int nvhdrc;                     /** Header Number */
-    int linc;                   /* TRUE if INC option is set on lh. */
-    int llh;                    /* TRUE during the execution of xlh() */
-} ;
-
-#define HDR_EXTERN extern struct t_cmhdr cmhdr;
 
 /* 	Note:  in the following list, ninf, nhst, and nsn were 
 	changed to norid, nevid, and nwfid respectively.  maf 961031 

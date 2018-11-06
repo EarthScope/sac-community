@@ -8,6 +8,14 @@
 #include <rpc/rpc.h>
 #endif /* HAVE_LIBRPC */
 
+struct t_cmhdr {
+    int nvhdrc;                     /** Header Number */
+    int linc;                   /* TRUE if INC option is set on lh. */
+    int llh;                    /* TRUE during the execution of xlh() */
+} ;
+
+#define HDR_EXTERN extern struct t_cmhdr cmhdr;
+
 
 void formhv(char *kname, int kname_s, int iform, char *kout, int kout_s,
             int *nerr);
