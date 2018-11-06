@@ -9,41 +9,21 @@
 
 #define SAC_NULL_HEADER_REQUIRED
 #include "amf.h"
-#include "debug.h"
-#include "SacHeader.h"
 #include "hdr.h"
-#include "ucf.h"
-#include "scm.h"
+
+#include "debug.h"
 #include "array.h"
-#include "dbh.h"
+#include "errors.h"
 #include "strlist.h"
+#include <sacdata.h>
 
 static sac **sac_buffer = NULL;
 
 void sac_buffer_new();
 
-/** \def MEMINIT
- *  Initial number of blocks allocated 
- */
-#define MEMINIT 100
-
-/** 
- * A Memory Manager initializer.
- * 
- * If the memory block has not been allocated, 
- * then the Memory structure is allocated with a value of MEMINIT
+/**
+ * Initialize the Memory Manager
  *
- * If the memory block has alredy been allocated with some value, Not Zero, 
- * then All elements of the Memory structure is deallocted 
- * 
- * \param *memstruct
- *    Memory structure begin initialized or free'd
- *
- * \return  Nothing
- * \see     iniam 
- *
- * \date   940127:  Original version.
- * \date   070606: Documented/Reviewed
  */
 void
 iniam() {
@@ -423,9 +403,55 @@ khdr(sac * s, int k) {
     return p;
 }
 
+static float
+array_min(float *y, int n) {
+    float v = y[0];
+    for(int i = 0; i < n; i++) {
+        v = fmin(v, y[i]);
+    }
+    return v;
+}
+static float
+array_max(float *y, int n) {
+    float v = y[0];
+    for(int i = 0; i < n; i++) {
+        v = fmax(v, y[i]);
+    }
+    return v;
+}
+static float
+array_mean(float *y, int n) {
+    double v = 0.0;
+    for(int i = 0; i < n; i++) {
+        v += y[i];
+    }
+    return v / n;
+}
+
+static void
+check_value(float vmin, float vmax) {
+    if(vmin < -3.40282e38 || vmax > 3.40282e38) {
+        printf(" WARNING: Data value outside system storage bounds\n");
+        if(isinf(vmax)) {
+            printf(" Maxvalue = %s ", (vmax < 0) ? "-inf":"inf");
+        } else {
+            printf(" Maxvalue = %-.5g ", vmax);
+        }
+        if(isinf(vmin)) {
+            printf(" Minvalue = %s", (vmin < 0) ? "-inf":"inf");
+        } else {
+            printf(" Minvalue = %-.5g", vmin);
+        }
+        printf("\n");
+    }
+}
+
 void
 sac_extrema(sac * s) {
-    extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen);
+    s->h->depmin = array_min(s->y, s->h->npts);
+    s->h->depmax = array_max(s->y, s->h->npts);
+    s->h->depmen = array_mean(s->y, s->h->npts);
+    check_value(s->h->depmin, s->h->depmax);
 }
 
 float
@@ -455,12 +481,12 @@ calc_e_even(sac *s) {
 
 void
 sac_be(sac *s) {
-    float junk;
     if(s->h->leven) {
         s->h->e = calc_e_even(s);
     } else {
         if(s->x) {
-            extrma(s->x, 1, s->h->npts, &s->h->b, &s->h->e, &junk);
+            s->h->b = array_min(s->x, s->h->npts);
+            s->h->e = array_max(s->x, s->h->npts);
         }
     }
 }

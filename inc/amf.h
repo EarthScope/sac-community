@@ -3,7 +3,7 @@
 #define _AMF_H_
 
 #include "debug.h"
-#include "SacHeader.h"
+#include <sacdata.h>
 #include "strlist.h"
 #include "errors.h"
 
@@ -36,5 +36,6 @@ char *khdr(sac * s, int k);
 void sac_buffer_free();
 sac *sac_copy(sac *s);
 void sac_meta_copy(sac *to, sac *from);
+void sac_be(sac *s);
 
 #endif /* _AMF_H_ */

@@ -282,7 +282,7 @@ am_libsac_a_OBJECTS = co/complex.$(OBJEXT) dfm/cut.$(OBJEXT) \
 libsac_a_OBJECTS = $(am_libsac_a_OBJECTS)
 libsac_all_a_AR = $(AR) $(ARFLAGS)
 libsac_all_a_LIBADD =
-am_libsac_all_a_OBJECTS = amf/iniam.$(OBJEXT) bs/array.$(OBJEXT) \
+am_libsac_all_a_OBJECTS = bs/iniam.$(OBJEXT) bs/array.$(OBJEXT) \
 	bbs/createbbs.$(OBJEXT) bbs/deletebbs.$(OBJEXT) \
 	bbs/getbbv.$(OBJEXT) bbs/inibbs.$(OBJEXT) \
 	bbs/readbbf.$(OBJEXT) bbs/setbbv.$(OBJEXT) \
@@ -752,7 +752,7 @@ am_libsac_x11_a_OBJECTS = gd3.x11/begindevice3.$(OBJEXT) \
 libsac_x11_a_OBJECTS = $(am_libsac_x11_a_OBJECTS)
 libsacio_a_AR = $(AR) $(ARFLAGS)
 libsacio_a_LIBADD =
-am_libsacio_a_OBJECTS = amf/iniam.$(OBJEXT) bs/array.$(OBJEXT) \
+am_libsacio_a_OBJECTS = bs/iniam.$(OBJEXT) bs/array.$(OBJEXT) \
 	bbs/getbbv.$(OBJEXT) bbs/inibbs.$(OBJEXT) bbs/setbbv.$(OBJEXT) \
 	bbs/unsetbbv.$(OBJEXT) bbs/writebbf.$(OBJEXT) \
 	bbs/readbbf.$(OBJEXT) bot/crname.$(OBJEXT) \
@@ -1137,7 +1137,7 @@ EXTRA_DIST = describedirs gd3.x11/sac.bitmap \
 		   ncpf/hrtoe.c ncpf/readableToEpoch.c \
 		   ssi/xrecall.c
 
-libsacio_a_SOURCES = amf/iniam.c bs/array.c \
+libsacio_a_SOURCES = bs/iniam.c bs/array.c \
 	bbs/getbbv.c bbs/inibbs.c bbs/setbbv.c bbs/unsetbbv.c \
 	bbs/writebbf.c \
 	bbs/readbbf.c \
@@ -1279,7 +1279,7 @@ libicm_a_SOURCES = icm/acc.c icm/bbdisp.c icm/bbvel.c \
 	icm/wwlpbn.c icm/wwsp.c icm/wwspbn.c icm/ykalp.c icm/ykasp.c \
 	icm/getran.c
 
-libsac_all_a_SOURCES = amf/iniam.c bs/array.c \
+libsac_all_a_SOURCES = bs/iniam.c bs/array.c \
 	\
 	bbs/createbbs.c bbs/deletebbs.c bbs/getbbv.c \
 	bbs/inibbs.c bbs/readbbf.c bbs/setbbv.c bbs/unsetbbv.c bbs/writebbf.c \
@@ -2019,13 +2019,10 @@ libsac.a: $(libsac_a_OBJECTS) $(libsac_a_DEPENDENCIES) $(EXTRA_libsac_a_DEPENDEN
 	$(AM_V_at)-rm -f libsac.a
 	$(AM_V_AR)$(libsac_a_AR) libsac.a $(libsac_a_OBJECTS) $(libsac_a_LIBADD)
 	$(AM_V_at)$(RANLIB) libsac.a
-amf/$(am__dirstamp):
-	@$(MKDIR_P) amf
-	@: > amf/$(am__dirstamp)
-amf/iniam.$(OBJEXT): amf/$(am__dirstamp)
 bs/$(am__dirstamp):
 	@$(MKDIR_P) bs
 	@: > bs/$(am__dirstamp)
+bs/iniam.$(OBJEXT): bs/$(am__dirstamp)
 bs/array.$(OBJEXT): bs/$(am__dirstamp)
 bbs/$(am__dirstamp):
 	@$(MKDIR_P) bbs
@@ -3228,7 +3225,6 @@ mostlyclean-compile:
 	-rm -f SeisMgr/smMemory/*.$(OBJEXT)
 	-rm -f SeisMgr/suds/*.$(OBJEXT)
 	-rm -f SeisMgr/time/*.$(OBJEXT)
-	-rm -f amf/*.$(OBJEXT)
 	-rm -f bbs/*.$(OBJEXT)
 	-rm -f bom/*.$(OBJEXT)
 	-rm -f bot/*.$(OBJEXT)
@@ -3432,7 +3428,6 @@ distclean-generic:
 	-rm -f SeisMgr/smMemory/$(am__dirstamp)
 	-rm -f SeisMgr/suds/$(am__dirstamp)
 	-rm -f SeisMgr/time/$(am__dirstamp)
-	-rm -f amf/$(am__dirstamp)
 	-rm -f bbs/$(am__dirstamp)
 	-rm -f bom/$(am__dirstamp)
 	-rm -f bot/$(am__dirstamp)

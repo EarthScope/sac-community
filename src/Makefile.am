@@ -132,7 +132,7 @@ evalresp/parse_fctns.o: $(srcdir)/evalresp/parse_fctns.c
 evalresp/string_fctns.o: $(srcdir)/evalresp/string_fctns.c
 	$(COMPILE) -DLIB_MODE -c $(srcdir)/evalresp/string_fctns.c -o $@
 
-libsacio_a_SOURCES = amf/iniam.c bs/array.c \
+libsacio_a_SOURCES = bs/iniam.c bs/array.c \
 	bbs/getbbv.c bbs/inibbs.c bbs/setbbv.c bbs/unsetbbv.c \
 	bbs/writebbf.c \
 	bbs/readbbf.c \
@@ -275,7 +275,7 @@ libicm_a_SOURCES = icm/acc.c icm/bbdisp.c icm/bbvel.c \
 	icm/wwlpbn.c icm/wwsp.c icm/wwspbn.c icm/ykalp.c icm/ykasp.c \
 	icm/getran.c
 
-libsac_all_a_SOURCES = amf/iniam.c bs/array.c \
+libsac_all_a_SOURCES = bs/iniam.c bs/array.c \
 	\
 	bbs/createbbs.c bbs/deletebbs.c bbs/getbbv.c \
 	bbs/inibbs.c bbs/readbbf.c bbs/setbbv.c bbs/unsetbbv.c bbs/writebbf.c \

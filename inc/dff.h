@@ -3,7 +3,7 @@
 #define _DFF_H_
 
 #include "config.h"
-#include "SacHeader.h"
+#include <sacdata.h>
 #ifdef HAVE_LIBRPC
 #include <rpc/rpc.h>
 #endif /* HAVE_LIBRPC */
