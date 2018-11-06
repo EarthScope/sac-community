@@ -8,8 +8,11 @@
 #include "bool.h"
 #include "dfm.h"
 
-//FILE *sacfile;
-//static char sacErrorStrg[300];
+typedef struct {
+    int dataType;
+    float *xarray;
+    float *yarray;
+} sacSACdata;
 
 #define PREPICK  1
 #define POSTPICK 2

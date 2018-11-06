@@ -184,49 +184,6 @@ struct _sac {
     int *sddhdr;           /* SDD Header - Length MWESHD - 164 */
 };
 
-/* In order to NULL-terminate strings in the SAC header without wiping
-   out the contents of the last character, the string arrays stored in 
-   memory are 1-byte longer than those stored on disk. To ease the i/o
-   define this secondary header struct that contains only strings of
-   the same length as the strings on disk. When reading a file, read in
-   the header up to the first string, then read the remainder of the 
-   header into the SACFileCharHeader struct. If the original header 
-   struct was allocated with calloc, then by simply strncpy'ing the
-   second set of header strings into the appropriate places in the
-   main header, the strings are null-terminated.
-   */
-struct SACFileCharHeader {
-    char kstnm[8];         /*  F station name           */
-    char kevnm[16];        /*    event name             */
-    char khole[8];         /*    man-made event name    */
-    char ko[8];            /*    event origin time id   */
-    char ka[8];            /*    1st arrival time ident */
-    char kt0[8];           /*    time pick 0 ident      */
-    char kt1[8];           /*    time pick 1 ident      */
-    char kt2[8];           /*    time pick 2 ident      */
-    char kt3[8];           /*    time pick 3 ident      */
-    char kt4[8];           /*    time pick 4 ident      */
-    char kt5[8];           /*    time pick 5 ident      */
-    char kt6[8];           /*    time pick 6 ident      */
-    char kt7[8];           /*    time pick 7 ident      */
-    char kt8[8];           /*    time pick 8 ident      */
-    char kt9[8];           /*    time pick 9 ident      */
-    char kf[8];            /*    end of event ident     */
-    char kuser0[8];        /*    available to user      */
-    char kuser1[8];        /*    available to user      */
-    char kuser2[8];        /*    available to user      */
-    char kcmpnm[8];        /*  F component name         */
-    char knetwk[8];        /*    network name           */
-    char kdatrd[8];        /*    date data read         */
-    char kinst[8];         /*    instrument name        */
-};
-
-typedef struct {
-    int dataType;
-    float *xarray;
-    float *yarray;
-} sacSACdata;
-
 #ifdef SAC_NULL_HEADER_REQUIRED
 /* a SAC structure containing all null values */
 
