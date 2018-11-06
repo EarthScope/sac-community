@@ -585,13 +585,8 @@ AWK = @AWK@
 BINARY_DIST = @BINARY_DIST@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
-
-#
-# Options for testing the compiled code directly
-#
-CFLAGS = @CFLAGS@ $(DEBUG) $(COVERAGE) $(OPTIM) -Wall \
-	-I$(top_srcdir)/inc -DTOP_SRCDIR=\"$(top_srcdir)\" \
-	$(am__append_2)
+CFLAGS = @CFLAGS@ $(DEBUG) $(COVERAGE) $(OPTIM) -Wall $(SAC_INCLUDES) \
+	-DTOP_SRCDIR=\"$(top_srcdir)\" $(am__append_2)
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CURSES_SEARCH_PATH = @CURSES_SEARCH_PATH@
@@ -742,6 +737,11 @@ AUTOMAKE_OPTIONS = no-dependencies #dejagnu
 
 @OSX_APP_TRUE@SACBIN = ../Sac.app/Contents/MacOS/sac-osx-gui
 @X11_APP_TRUE@SACBIN = ../src/sac
+
+#
+# Options for testing the compiled code directly
+#
+SAC_INCLUDES = -I$(top_srcdir)/inc -I$(top_srcdir)/src/bs -I$(top_srcdir)/src/string
 LDADD = -L../src/ -lsac_all -lturtle -lsac_all -levalresp \
 	-lSMnonOracleFuncs -lSacOracleStubFuncs -licm $(am__append_1) \
 	$(am__append_4) $(SAC_GRAPHICS) $(FORMAT_LIBS) $(am__append_5) \
@@ -790,7 +790,7 @@ sacio_SOURCES = sacio.c \
 sacio_CFLAGS = $(COVERAGE) -I$(top_srcdir)/include
 sacio_LDADD = -L../src/ -lsacio -L. -lunit
 sacio_LDFLAGS = 
-use_sac_CFLAGS = $(COVERAGE)
+use_sac_CFLAGS = $(COVERAGE) $(SAC_INCLUDES)
 use_sac_LDADD = -L../src -lsacio -L. -lunit
 use_sac_LDFLAGS = 
 sacio_all_CFLAGS = 

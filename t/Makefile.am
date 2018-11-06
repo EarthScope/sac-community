@@ -19,8 +19,9 @@ endif
 #
 # Options for testing the compiled code directly
 #
+SAC_INCLUDES     = -I$(top_srcdir)/inc -I$(top_srcdir)/src/bs -I$(top_srcdir)/src/string
 CFLAGS          += $(DEBUG) $(COVERAGE) $(OPTIM) -Wall \
-			 -I$(top_srcdir)/inc \
+			 $(SAC_INCLUDES) \
 			 -DTOP_SRCDIR=\"$(top_srcdir)\"
 
 LDADD            = -L../src/ -lsac_all -lturtle -lsac_all \
@@ -105,7 +106,7 @@ sacio_CFLAGS = $(COVERAGE) -I$(top_srcdir)/include
 sacio_LDADD = -L../src/ -lsacio -L. -lunit
 sacio_LDFLAGS =
 
-use_sac_CFLAGS= $(COVERAGE)
+use_sac_CFLAGS= $(COVERAGE) $(SAC_INCLUDES)
 use_sac_LDADD = -L../src -lsacio -L. -lunit
 use_sac_LDFLAGS =
 
