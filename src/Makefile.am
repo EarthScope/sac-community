@@ -10,12 +10,12 @@
 
 AUTOMAKE_OPTIONS  = subdir-objects no-dependencies
 
-
+SAC_INCLUDES      = -I$(top_srcdir)/inc -I$(top_srcdir)/src/bs -I$(top_srcdir)/src/string
 FORMAT_CFLAGS     = $(xpm_CFLAGS) $(png_CFLAGS) $(zlib_CFLAGS) $(XML_CPPFLAGS)
 # Compilation Flags
-AM_CFLAGS         = -fPIC $(DEBUG) $(COVERAGE) $(OPTIM) $(xft_CFLAGS) $(FORMAT_CFLAGS) $(X_CFLAGS) -I$(top_srcdir)/inc
+AM_CFLAGS         = -fPIC $(DEBUG) $(COVERAGE) $(OPTIM) $(xft_CFLAGS) $(FORMAT_CFLAGS) $(X_CFLAGS) $(SAC_INCLUDES)
 
-AM_CXXFLAGS       = -I$(top_srcdir)/inc
+AM_CXXFLAGS       = $(SAC_INCLUDES)
 # Compiled Programs 
 bin_PROGRAMS      = sac
 
@@ -132,7 +132,7 @@ evalresp/parse_fctns.o: $(srcdir)/evalresp/parse_fctns.c
 evalresp/string_fctns.o: $(srcdir)/evalresp/string_fctns.c
 	$(COMPILE) -DLIB_MODE -c $(srcdir)/evalresp/string_fctns.c -o $@
 
-libsacio_a_SOURCES = amf/iniam.c amf/array.c \
+libsacio_a_SOURCES = amf/iniam.c bs/array.c \
 	bbs/getbbv.c bbs/inibbs.c bbs/setbbv.c bbs/unsetbbv.c \
 	bbs/writebbf.c \
 	bbs/readbbf.c \
@@ -152,7 +152,7 @@ libsacio_a_SOURCES = amf/iniam.c amf/array.c \
 	dff/map_chdr_in.c dff/map_chdr_out.c dff/newhdr.c \
 	dff/rsac1.c dff/rsac2.c dff/setfhv.c dff/setihv.c \
 	dff/setkhv.c dff/setlhv.c dff/setnhv.c  dff/wsac0.c \
-	dff/wsac1.c dff/wsac2.c dff/f2c.c \
+	dff/wsac1.c dff/wsac2.c bs/fstr.c \
 	dff/wsac3.c dff/rsach.c \
 	dff/hdrfld.c \
 	\
@@ -275,7 +275,7 @@ libicm_a_SOURCES = icm/acc.c icm/bbdisp.c icm/bbvel.c \
 	icm/wwlpbn.c icm/wwsp.c icm/wwspbn.c icm/ykalp.c icm/ykasp.c \
 	icm/getran.c
 
-libsac_all_a_SOURCES = amf/iniam.c amf/array.c \
+libsac_all_a_SOURCES = amf/iniam.c bs/array.c \
 	\
 	bbs/createbbs.c bbs/deletebbs.c bbs/getbbv.c \
 	bbs/inibbs.c bbs/readbbf.c bbs/setbbv.c bbs/unsetbbv.c bbs/writebbf.c \
@@ -288,7 +288,7 @@ libsac_all_a_SOURCES = amf/iniam.c amf/array.c \
 	bot/modcase.c bot/nequal.c bot/terminate.c bot/upcase.c bot/wrlist.c \
 	\
 	clf/fndelcl.c clf/ldelcl.c clf/lnumcl.c clf/lnxtcl.c clf/nfndcl.c \
-	clf/putcl.c \
+	clf/putcl.c bs/strlist.c \
 	\
 	cnd/getclun.c cnd/getdolen.c cnd/ldolist.c cnd/skipdo.c \
 	cnd/skipif.c cnd/xbreak.c cnd/xcndc.c cnd/xdo.c cnd/xelse.c \
@@ -365,7 +365,7 @@ libsac_all_a_SOURCES = amf/iniam.c amf/array.c \
 	dff/setfhv.c dff/setihv.c dff/setkhv.c dff/setlhv.c dff/setnfiles.c \
 	dff/setnhv.c dff/setrng.c dff/updhdr.c dff/wrsac.c dff/wrsdd.c \
 	dff/wrsegy.c dff/wrxdr.c dff/wsac0.c dff/wsac1.c dff/wsac2.c \
-	dff/xdrhdr.c dff/f2c.c dff/wsac3.c dff/rsach.c \
+	dff/xdrhdr.c bs/fstr.c dff/wsac3.c dff/rsach.c \
 	\
 	dfm/cleardfl.c dfm/cnvfmt.c dfm/cnvfre.c \
 	dfm/decont.c dfm/defcut.c dfm/defmem.c dfm/detnum.c dfm/gennames.c \
@@ -643,7 +643,7 @@ libturtle_a_SOURCES    = docs/pdf.c docs/ps.c docs/font.c string/strings.c \
 	docs/Times-Italic.h docs/Times-Roman.h \
 	docs/ZapfDingbats.h \
 	eval/expr_lexer.c eval/expr_parse.c eval/expr_util.c eval/expr_parse_noop.c \
-	eval/eval.h eval/expr_parse.h
+	eval/eval.h eval/expr_parse.h 
 
 
 if OSX_APP

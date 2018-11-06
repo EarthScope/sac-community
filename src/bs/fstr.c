@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "dff.h"
+//#include "dff.h"
 
 /** 
  * Identify a function as deprecated

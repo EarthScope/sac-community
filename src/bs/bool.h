@@ -1,3 +1,4 @@
+// LICENSE: MIT
 
 #ifndef _BOOL_H_
 #define _BOOL_H_

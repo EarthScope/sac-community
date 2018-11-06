@@ -6,6 +6,7 @@
 #include "icm.h"
 #include "libpz.h"
 #include "dff.h"
+#include <fstr.h>
 
 #define FREE(x) { if(x) { free(x); } }
 

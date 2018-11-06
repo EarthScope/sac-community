@@ -1,3 +1,4 @@
+// LICENSE: MIT
 
 #include <stdio.h>
 #include <stdlib.h>
