@@ -79,7 +79,7 @@ zexecute(int index, int *nerr) {
 
         /* allocate space for the headers. */
         if ((call_headers =
-             malloc(saclen() * sizeof(struct SACheader *))) == NULL) {
+             malloc(saclen() * sizeof(sac_hdr *))) == NULL) {
             *nerr = ERROR_OUT_OF_MEMORY;
             return;
         }
@@ -109,13 +109,13 @@ zexecute(int index, int *nerr) {
                 goto L_8888;
             }
 
-            if ((this_header = malloc(sizeof(struct SACheader))) == NULL) {
+            if ((this_header = malloc(sizeof(sac_hdr))) == NULL) {
                 *nerr = ERROR_OUT_OF_MEMORY;
                 goto L_8888;
             }
 
             call_headers[jdfl - 1] = this_header;
-            memcpy(this_header, s->h, sizeof(struct SACheader));
+            memcpy(this_header, s->h, sizeof(sac_hdr));
 
             /* allocate memory for the ydata. */
             if ((ydata[jdfl - 1] = malloc(s->h->npts * sizeof(float))) == NULL) {

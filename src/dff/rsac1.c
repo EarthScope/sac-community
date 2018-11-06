@@ -217,7 +217,7 @@ check_precision(float dt, float val) {
 }
 
 void
-sac_check_time_precision(struct SACheader *h) {
+sac_check_time_precision(sac_hdr *h) {
     int i, n;
     double df;
     char *names[] = {"b","e","a","o","t0","t1","t2","t3","t4","t5","t6","t7","t8","t9","f"};

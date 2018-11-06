@@ -3,10 +3,12 @@
 #define _SACDATA_H_
 
 #include <SacHeader.h>
-
+#include <sacx.h>
 typedef struct sac_hdr_t sac_hdr;
 struct sac_hdr_t {
-
+#define X(name, id, type) type name ;
+    SAC_HEADER_V6
+#undef X
 };
 
 #define CASSERT(predicate, file) _impl_CASSERT_LINE(predicate,__LINE__,file)
@@ -15,7 +17,7 @@ struct sac_hdr_t {
 #define _impl_CASSERT_LINE(predicate, line, file) \
   typedef char _impl_PASTE(assertion_failed_##file##_line ,line)[2*!!(predicate)-1];
 
-CASSERT(sizeof(struct SACheader) == 656, SacHeader_h)
+CASSERT(sizeof(sac_hdr) == 656, sac_hdr)
 
 typedef struct _sacmeta sacmeta;
 struct _sacmeta {
@@ -31,7 +33,7 @@ struct _sacmeta {
 
 typedef struct _sac sac;
 struct _sac {
-    struct SACheader *h;
+    sac_hdr *h;
     int n;
     float *y;
     float *x;

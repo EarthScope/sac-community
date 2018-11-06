@@ -273,7 +273,7 @@ xbom_op(char op, int *nerr) {
 
         if (cmbom.lnewhdr) {
             /* Copy new file's header */
-            memcpy(s1->h, s2->h, sizeof(struct SACheader));
+            memcpy(s1->h, s2->h, sizeof(sac_hdr));
         }
         sac_extrema(s1);
     }

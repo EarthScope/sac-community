@@ -715,7 +715,7 @@ xmerge_new(int *nerr) {
 
     s2 = get_file(list, t[0].i, NULL);
     s = sac_new();
-    memcpy(s->h, s2->h, sizeof(struct SACheader));
+    memcpy(s->h, s2->h, sizeof(sac_hdr));
 
     /* Filename is the first file */
     s2 = get_file(list, 1, NULL);

@@ -50,7 +50,7 @@ iniam() {
  */
 
 void
-sac_hdr_init(struct SACheader *sh) {
+sac_hdr_init(sac_hdr *sh) {
     if (sh) {
         memcpy(sh, &NullSacHeader, sizeof(NullSacHeader));
         sh->nvhdr = SAC_HEADER_MAJOR_VERSION;
@@ -64,10 +64,10 @@ sac_hdr_init(struct SACheader *sh) {
     }
 }
 
-struct SACheader *
+sac_hdr *
 sac_hdr_new() {
-    struct SACheader *sh;
-    sh = (struct SACheader *) malloc(sizeof(struct SACheader));
+    sac_hdr *sh;
+    sh = (sac_hdr *) malloc(sizeof(sac_hdr));
     if (sh) {
         sac_hdr_init(sh);
     }
@@ -298,7 +298,7 @@ sac_buffer_free() {
 
 void
 sac_header_copy(sac * to, sac * from) {
-    memmove(to->h, from->h, sizeof(struct SACheader));
+    memmove(to->h, from->h, sizeof(sac_hdr));
 }
 void
 sac_meta_copy(sac *to, sac *from) {

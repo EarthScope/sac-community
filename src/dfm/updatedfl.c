@@ -66,7 +66,7 @@ updatedfl(sac_files call_data, int update, int *nerr) {
 
         s = sac_new();
         sacput(s);
-        memcpy(s->h, this_header, sizeof(struct SACheader));
+        memcpy(s->h, this_header, sizeof(sac_hdr));
         sac_alloc(s);
         if (i <= 9) {
             sprintf(kfile, "%s%1d", "EXTERN0", i);
