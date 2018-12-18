@@ -26,7 +26,7 @@ int td_conv(float     *waveform,
             int        n_p,
             float     *conv,
             float      delta,
-            float      factor,
+            double     factor,
             float      b_p);
 
 enum pulse {
@@ -83,7 +83,7 @@ trap_pulse(double w1, double w2, double dt, int *n) {
     }
     *n = n1 + n2 - 1;
     y = (float *) calloc(*n, sizeof(float));
-    td_conv(b1, n1, b2, n2, y, dt, 1.0, 0.0);
+    td_conv(b1, n1, b2, n2, y, dt, dt, 0.0);
     FREE(b1);
     FREE(b2);
     return norm1d(y, *n, dt);
@@ -206,7 +206,9 @@ sac_td_conv(sac *s, sac *p) {
     z = (float *) calloc(m, sizeof(float));
     if(! td_conv(s->y, s->h->npts,
                  p->y, p->h->npts,
-                 z, s->h->delta, 1.0, p->h->b))  {
+                 z, s->h->delta,
+                 (double)s->h->delta,
+                 p->h->b))  {
         error(1002, "waveform npts (%d) < pulse npts (%d)", s->h->npts, p->h->npts);
         return 0;
     }
@@ -228,7 +230,7 @@ td_conv(float     *waveform,
         int        n_p,
         float     *conv,
         float      delta,
-        float      factor,
+        double     factor,
         float      b_p) {
     int i, j, j_1;
     float temp;
