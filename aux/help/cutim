@@ -176,4 +176,5 @@ SEE COMMANDS
 
 LATEST REVISION
 ---------------
-   October 2013 (Version 101.6a)
+   Version 102.0 - December 2018
+      Fixes behavior of CUTIM_ so it matches CUT_ 

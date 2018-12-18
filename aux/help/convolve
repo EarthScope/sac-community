@@ -9,14 +9,14 @@ SYNTAX
 ------
 ::
 
-  CONVOLVE  {FILENAME} {PULSE n} {TRI v} {GAUSS v}
+  CONVOLVE  {file} {PULSE n} {TRI v} {GAUSS v}
 
 INPUT
 -----
 
-   :PULSE n: The PULSE in filenumber n
+   :PULSE n: The PULSE in filenumber n (defaults to the first file)
 
-   :FILENAME: Convolve with data in FILENAME
+   :file: Convolve with data in file
 
    :TRI v: Convolve with a triangle of half width v seconds
 
