@@ -27,9 +27,9 @@
 .. _sac graphics file:                sgf_format.html
 .. _sac error messages:               error_messages.html
 .. _calling sac from scripts:         sac_script.html
-.. _time-series-convolution:          ../time-series_convolution.pdf
-.. _time-series-interpolation:        ../time-series_interpolation.pdf
-.. _time-shift-summary:               ../time-shift_summary.pdf
+.. _time-series convolution:      ../time-series_convolution.pdf
+.. _time-series interpolation:    ../time-series_interpolation.pdf
+.. _time-shift summary:           ../time-shift_summary.pdf
 
 .. _listhdr: ../commands/listhdr.html
 .. _inc: ../commands/listhdr.html
@@ -308,4 +308,3 @@
 .. _zlevels:	../commands/zlevels.html
 .. _zlines:	../commands/zlines.html
 .. _zticks:	../commands/zticks.html
-

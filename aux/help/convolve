@@ -14,13 +14,13 @@ SYNTAX
 INPUT
 -----
 
-   :PULSE n: The PULSE in filenumber n (defaults to the first file)
+   :PULSE n: The PULSE in filenumber n in memory (defaults to n=1)
 
-   :file: Convolve with data in file
+   :file: Convolve with data in file (not in memory)
 
    :TRI v: Convolve with a triangle of half width v seconds
 
-   :GAUSS v: Convolve with a gaussian with standard deviation v seconds
+   :GAUSS v: Convolve with a Gaussian with standard deviation v seconds
 
    :CENTERED ON|OFF: Place zero time on center [ON] or beginning [OFF] of the pulse
 
@@ -32,6 +32,13 @@ DEFAULT VALUES
 
 DESCRIPTION
 -----------
+
+  There are three ways to run CONVOLVE: (1) PULSE: read in N files
+  and convolve one of them with all the others; (2) file: read in N
+  files and convolve all of themwith a file not among them: (3)
+  Using a predefined function (see below).  Previous to SAC v 102.0,
+  the PULSE method was the only option, so we start there.
+
   In seismology, convolution is used in two ways:
 
     1) convolving a pulse shape with a time-series, and
@@ -58,7 +65,23 @@ DESCRIPTION
   NPTS(g)+NPTS(f)-1. The start time for each output conv will be the
   same as B(g).  Centering on the pulse shapes eliminates time shifts
   introduced by convolution.  If CENTERED is OFF, B(f) = 0.0.
-  CENTERED ON should only be used for time-symmetric pulses.
+  CENTERED ON should only be used for time-symmetric pulses.  As an
+  example, let synthetic.sac be a synthetic time series created by a
+  progra  such as WKBJ, consisting of spikes with time offsets,
+  amplitudes, and polarities representing phase arrivals.  Let that
+  file be called synthetic.sac.  One wants to compare that synthetic
+  with an observed sesimogram, and one creates a pulse file p_arrival.sac::
+
+      SAC> r p_arrival.sac synthetic.sac
+      SAC> PULSE 1 convolve CENTERED OFF
+
+FILE OPTION
+-----------
+
+  Given the same two files::
+
+      SAC> r synthetic.sac
+      SAC> convolve p_arrival.sac CENTER OFF
 
 PREDEFINED FUNCTIONS
 --------------------
@@ -71,24 +94,13 @@ PREDEFINED FUNCTIONS
   are time-symmetric. If the exponent in GAUSS(t) is -0.5(t/v)^2, v is
   the standard deviation.
 
-EXAMPLES
---------
-  Let synthetic.sac be a synthetic time series created by a program
-  such as WKBJ, consisting of spikes with time offsets, amplitudes,
-  and polarities representing phase arrivals. The synthetic may have
-  Gibbs phenomena accompanying each arrival.  Convolving synthetic.sac
-  with a predefined function will result in a cleaner looking
-  seismogram::
+  Say one wants to look at file synthetic.sac but not convolving it with
+  a source pulse.  The file may have Gibbs phenomena accompanying each
+  arrival.  Convolving synthetic.sac with a predefined function will
+  result in a cleaner looking seismogram::
 
       SAC> r synthetic.sac
       SAC> convolve GAUSS 0.04 CENTERED ON
-
-  Alternatively, for the same synthetic one might want to compare it
-  with a recorded time series. One constructs a pulse with the shape
-  of the P arrival, p_arrival.sac::
-
-      SAC> r p_arrival.sac synthetic.sac
-      SAC> convolve CENTER OFF
 
   See ${SACHOME}/doc/examples/convolve for further discussion
 
