@@ -77,7 +77,7 @@ DESCRIPTION
   If ASPECT is OFF, the aspect ratio of the displayed window depends on the aspect ratio of
   the screen.  Older terminals typically had an x:y aspect ratio of 4:3; newer ones are more
   varied, but many have an aspect ratio of 16:10.  On a 4:3 screen, the default window has an
-  aspect ratio of 1.6:1, and on a 16:10 screen the aspect ratio is 1,9:1.  SGF_ files have
+  aspect ratio of 1.33:1, and on a 16:10 screen the aspect ratio is 1.6:1.  SGF_ files have
   a fixed aspect ratio of 4:3.
 
 EXAMPLES
