@@ -283,30 +283,30 @@ libsac_a_OBJECTS = $(am_libsac_a_OBJECTS)
 libsac_all_a_AR = $(AR) $(ARFLAGS)
 libsac_all_a_LIBADD =
 am_libsac_all_a_OBJECTS = bs/iniam.$(OBJEXT) bs/array.$(OBJEXT) \
-	bbs/createbbs.$(OBJEXT) bbs/deletebbs.$(OBJEXT) \
-	bbs/getbbv.$(OBJEXT) bbs/inibbs.$(OBJEXT) \
-	bbs/readbbf.$(OBJEXT) bbs/setbbv.$(OBJEXT) \
-	bbs/unsetbbv.$(OBJEXT) bbs/writebbf.$(OBJEXT) \
-	bom/getbfl.$(OBJEXT) bom/inibom.$(OBJEXT) bom/relbfl.$(OBJEXT) \
-	bom/xaddf.$(OBJEXT) bom/xboec.$(OBJEXT) bom/xbomc.$(OBJEXT) \
-	bom/xmerge.$(OBJEXT) bot/capf.$(OBJEXT) bot/chpf.$(OBJEXT) \
-	bot/clipdp.$(OBJEXT) bot/crname.$(OBJEXT) bot/indexa.$(OBJEXT) \
-	bot/indexb.$(OBJEXT) bot/indexc.$(OBJEXT) bot/lequal.$(OBJEXT) \
-	bot/locdp.$(OBJEXT) bot/modcase.$(OBJEXT) bot/nequal.$(OBJEXT) \
+	bs/strlist.$(OBJEXT) bbs/createbbs.$(OBJEXT) \
+	bbs/deletebbs.$(OBJEXT) bbs/getbbv.$(OBJEXT) \
+	bbs/inibbs.$(OBJEXT) bbs/readbbf.$(OBJEXT) \
+	bbs/setbbv.$(OBJEXT) bbs/unsetbbv.$(OBJEXT) \
+	bbs/writebbf.$(OBJEXT) bom/getbfl.$(OBJEXT) \
+	bom/inibom.$(OBJEXT) bom/relbfl.$(OBJEXT) bom/xaddf.$(OBJEXT) \
+	bom/xboec.$(OBJEXT) bom/xbomc.$(OBJEXT) bom/xmerge.$(OBJEXT) \
+	bot/capf.$(OBJEXT) bot/chpf.$(OBJEXT) bot/clipdp.$(OBJEXT) \
+	bot/crname.$(OBJEXT) bot/indexa.$(OBJEXT) bot/indexb.$(OBJEXT) \
+	bot/indexc.$(OBJEXT) bot/lequal.$(OBJEXT) bot/locdp.$(OBJEXT) \
+	bot/modcase.$(OBJEXT) bot/nequal.$(OBJEXT) \
 	bot/terminate.$(OBJEXT) bot/upcase.$(OBJEXT) \
 	bot/wrlist.$(OBJEXT) clf/fndelcl.$(OBJEXT) \
 	clf/ldelcl.$(OBJEXT) clf/lnumcl.$(OBJEXT) clf/lnxtcl.$(OBJEXT) \
-	clf/nfndcl.$(OBJEXT) clf/putcl.$(OBJEXT) bs/strlist.$(OBJEXT) \
-	cnd/getclun.$(OBJEXT) cnd/getdolen.$(OBJEXT) \
-	cnd/ldolist.$(OBJEXT) cnd/skipdo.$(OBJEXT) \
-	cnd/skipif.$(OBJEXT) cnd/xbreak.$(OBJEXT) cnd/xcndc.$(OBJEXT) \
-	cnd/xdo.$(OBJEXT) cnd/xelse.$(OBJEXT) cnd/xelseif.$(OBJEXT) \
-	cnd/xenddo.$(OBJEXT) cnd/xendif.$(OBJEXT) cnd/xif.$(OBJEXT) \
-	cnd/xwhile.$(OBJEXT) co/backspace.$(OBJEXT) \
-	co/complex.$(OBJEXT) co/ext_init.$(OBJEXT) \
-	co/fstrncpy.$(OBJEXT) co/getfline.$(OBJEXT) \
-	co/getline.$(OBJEXT) co/math.$(OBJEXT) co/select.$(OBJEXT) \
-	co/strscpy.$(OBJEXT) co/subscpy.$(OBJEXT) \
+	clf/nfndcl.$(OBJEXT) clf/putcl.$(OBJEXT) cnd/getclun.$(OBJEXT) \
+	cnd/getdolen.$(OBJEXT) cnd/ldolist.$(OBJEXT) \
+	cnd/skipdo.$(OBJEXT) cnd/skipif.$(OBJEXT) cnd/xbreak.$(OBJEXT) \
+	cnd/xcndc.$(OBJEXT) cnd/xdo.$(OBJEXT) cnd/xelse.$(OBJEXT) \
+	cnd/xelseif.$(OBJEXT) cnd/xenddo.$(OBJEXT) \
+	cnd/xendif.$(OBJEXT) cnd/xif.$(OBJEXT) cnd/xwhile.$(OBJEXT) \
+	co/backspace.$(OBJEXT) co/complex.$(OBJEXT) \
+	co/ext_init.$(OBJEXT) co/fstrncpy.$(OBJEXT) \
+	co/getfline.$(OBJEXT) co/getline.$(OBJEXT) co/math.$(OBJEXT) \
+	co/select.$(OBJEXT) co/strscpy.$(OBJEXT) co/subscpy.$(OBJEXT) \
 	co/tokenize.$(OBJEXT) co/zauxfile.$(OBJEXT) \
 	co/zbasename.$(OBJEXT) co/zclose.$(OBJEXT) \
 	co/zclosec.$(OBJEXT) co/zcloses.$(OBJEXT) co/zdest.$(OBJEXT) \
@@ -1181,7 +1181,7 @@ libsacio_a_SOURCES = bs/iniam.c bs/array.c \
 	vars/writevfile.c \
 	vars/var.c vars/chash.c vars/bbf.c vars/chash.h \
 	\
-	string/strings.c string/datetime.c
+	string/strings.c string/datetime.c string/string_utils.h
 
 libSMnonOracleFuncs_a_SOURCES = \
 	SeisMgr/smDataIO.c \
@@ -1280,6 +1280,8 @@ libicm_a_SOURCES = icm/acc.c icm/bbdisp.c icm/bbvel.c \
 	icm/getran.c
 
 libsac_all_a_SOURCES = bs/iniam.c bs/array.c \
+  bs/strlist.c bs/strlist.h bs/amf.h bs/bool.h bs/sacdata.h bs/sacx.h \
+  bs/debug.h bs/errors.h bs/fstr.h \
 	\
 	bbs/createbbs.c bbs/deletebbs.c bbs/getbbv.c \
 	bbs/inibbs.c bbs/readbbf.c bbs/setbbv.c bbs/unsetbbv.c bbs/writebbf.c \
@@ -1292,8 +1294,8 @@ libsac_all_a_SOURCES = bs/iniam.c bs/array.c \
 	bot/modcase.c bot/nequal.c bot/terminate.c bot/upcase.c bot/wrlist.c \
 	\
 	clf/fndelcl.c clf/ldelcl.c clf/lnumcl.c clf/lnxtcl.c clf/nfndcl.c \
-	clf/putcl.c bs/strlist.c \
-	\
+	clf/putcl.c \
+  \
 	cnd/getclun.c cnd/getdolen.c cnd/ldolist.c cnd/skipdo.c \
 	cnd/skipif.c cnd/xbreak.c cnd/xcndc.c cnd/xdo.c cnd/xelse.c \
 	cnd/xelseif.c cnd/xenddo.c cnd/xendif.c cnd/xif.c cnd/xwhile.c \
@@ -2024,6 +2026,7 @@ bs/$(am__dirstamp):
 	@: > bs/$(am__dirstamp)
 bs/iniam.$(OBJEXT): bs/$(am__dirstamp)
 bs/array.$(OBJEXT): bs/$(am__dirstamp)
+bs/strlist.$(OBJEXT): bs/$(am__dirstamp)
 bbs/$(am__dirstamp):
 	@$(MKDIR_P) bbs
 	@: > bbs/$(am__dirstamp)
@@ -2071,7 +2074,6 @@ clf/lnumcl.$(OBJEXT): clf/$(am__dirstamp)
 clf/lnxtcl.$(OBJEXT): clf/$(am__dirstamp)
 clf/nfndcl.$(OBJEXT): clf/$(am__dirstamp)
 clf/putcl.$(OBJEXT): clf/$(am__dirstamp)
-bs/strlist.$(OBJEXT): bs/$(am__dirstamp)
 cnd/$(am__dirstamp):
 	@$(MKDIR_P) cnd
 	@: > cnd/$(am__dirstamp)

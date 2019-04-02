@@ -176,7 +176,7 @@ libsacio_a_SOURCES = bs/iniam.c bs/array.c \
 	vars/writevfile.c \
 	vars/var.c vars/chash.c vars/bbf.c vars/chash.h \
 	\
-	string/strings.c string/datetime.c
+	string/strings.c string/datetime.c string/string_utils.h
 
 
 libSMnonOracleFuncs_a_SOURCES = \
@@ -276,6 +276,8 @@ libicm_a_SOURCES = icm/acc.c icm/bbdisp.c icm/bbvel.c \
 	icm/getran.c
 
 libsac_all_a_SOURCES = bs/iniam.c bs/array.c \
+  bs/strlist.c bs/strlist.h bs/amf.h bs/bool.h bs/sacdata.h bs/sacx.h \
+  bs/debug.h bs/errors.h bs/fstr.h \
 	\
 	bbs/createbbs.c bbs/deletebbs.c bbs/getbbv.c \
 	bbs/inibbs.c bbs/readbbf.c bbs/setbbv.c bbs/unsetbbv.c bbs/writebbf.c \
@@ -288,8 +290,8 @@ libsac_all_a_SOURCES = bs/iniam.c bs/array.c \
 	bot/modcase.c bot/nequal.c bot/terminate.c bot/upcase.c bot/wrlist.c \
 	\
 	clf/fndelcl.c clf/ldelcl.c clf/lnumcl.c clf/lnxtcl.c clf/nfndcl.c \
-	clf/putcl.c bs/strlist.c \
-	\
+	clf/putcl.c \
+  \
 	cnd/getclun.c cnd/getdolen.c cnd/ldolist.c cnd/skipdo.c \
 	cnd/skipif.c cnd/xbreak.c cnd/xcndc.c cnd/xdo.c cnd/xelse.c \
 	cnd/xelseif.c cnd/xenddo.c cnd/xendif.c cnd/xif.c cnd/xwhile.c \

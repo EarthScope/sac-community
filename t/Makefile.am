@@ -64,7 +64,18 @@ EXTRA_DIST = testsuite \
 						 test_io_big.sac test_io_small.sac \
 						 test_spec_big.sac test_spec_small.sac \
 						 test_uneven_big.sac test_uneven_small.sac  \
-						 pytest.py sacio_fortran.sh
+						 pytest.py sacio_fortran.sh copy_files.sh \
+	acc.txt     dwwssn.txt   lll.txt        ptbllp.txt     sro_bb.txt \
+	bbdisp.txt  ekalp6.txt   llsn.txt       redkir.txt     sro_rstn.txt \
+	bbvel.txt   ekasp2.txt   lrsmlp.txt     reftek.txt     vel.txt \
+	benbog.txt  elmag.txt    lrsmsp.txt     rs7.txt        wa.txt \
+	clh.txt     eyeomg.txt   noress_ip.txt  rs7_inv.txt    wabn.txt \
+	clz.txt     gbalp.txt    noress_lp.txt  rsk.txt        wiech.txt \
+	cmh.txt     gbasp.txt    noress_sp.txt  rsk_inv.txt    wwlpbn.txt \
+	cmz.txt     general.txt  noresshf.txt   rsl.txt        wwsp.txt \
+	csh.txt     gsref.txt    oldbb.txt      rsm.txt        wwspbn.txt \
+	csz.txt     hfslpwb.txt  oldkir.txt     sandia_ol.txt  ykalp.txt \
+	dss.txt     hs3.txt      portable.txt   snla3.txt      ykasp.txt
 
 # Unit Testing Suite: Hardly a suite
 noinst_LIBRARIES    = libunit.a
