@@ -230,10 +230,10 @@ sac_check_time_precision(sac_hdr *h) {
             continue;
         }
         if((df = check_precision(h->delta, values[i])) != 0) {
-            warning(3264, "precision exceeds the sampling rate: %s = %f\n"
-                    "       dt:                       %f\n"
-                    "       floating-point precision: %f",
-                    names[i], values[i], h->delta, df);
+            warning(3264, "minimum precision > sampling rate: %s = %f\n"
+                    "       sampling rate (delta):      %f\n"
+                    "       32-bit minimum precision:   %f",
+                    names[i], values[i], h->delta, df, values[i]);
             outmsg();
             clrmsg();
         }
