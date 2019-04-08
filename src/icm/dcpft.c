@@ -14,6 +14,12 @@
 #define FFT_FORWARD -1
 #define FFT_INVERSE  1
 
+#define FREE(x) do { \
+    if(x) {          \
+      free(x);       \
+      x = NULL;      \
+    }                \
+  } while(0);
 
 void
 dcpft(re, im, nfreq, incp, isignp)
@@ -524,8 +530,8 @@ fft(float *data, int n, float *re, float *im, int *nf) {
     d2f(xre, re, *nf);
     d2f(xim, im, *nf);
     /* Free allocated array */
-    free(xre);
-    free(xim);
+    FREE(xre);
+    FREE(xim);
 }
 
 void
@@ -545,8 +551,8 @@ fftz(float *data, int n, float complex *z, int *nf) {
         z[i] = xre[i] + xim[i] * I;
     }
     /* Free allocated array */
-    free(xre);
-    free(xim);
+    FREE(xre);
+    FREE(xim);
 }
 
 void fftz_(float *data, int *n, float complex *z, int *nf) {
@@ -638,30 +644,43 @@ void idfft__(double *data, int *n, double *re, double *im, int *nf) {
 void
 ifft(float *data, int n, float *re, float *im, int nf) {
     double *xre, *xim;
-    xre = (double *) malloc(sizeof(double) * nf);
-    xim = (double *) malloc(sizeof(double) * nf);
+    xre = xim = NULL;
+    fft_alloc(&xre, &xim, nf);
+
     for(int i = 0; i < nf; i++) {
         xre[i] = re[i];
         xim[i] = im[i];
     }
     dcpft(xre, xim, nf, 1, FFT_INVERSE);
+
+    if(n > nf) {
+        n = nf;
+    }
     for(int i = 0; i < n; i++) {
         data[i] = xre[i] / nf;
     }
+    FREE(xre);
+    FREE(xim);
 }
 void
 ifftz(float *data, int n, float complex *z, int nf) {
     double *xre, *xim;
-    xre = (double *) malloc(sizeof(double) * nf);
-    xim = (double *) malloc(sizeof(double) * nf);
+    xre = xim = NULL;
+    fft_alloc(&xre, &xim, nf);
+
     for(int i = 0; i < nf; i++) {
         xre[i] = creal(z[i]);
         xim[i] = cimag(z[i]);
     }
     dcpft(xre, xim, nf, 1, FFT_INVERSE);
+    if(n > nf) {
+        n = nf;
+    }
     for(int i = 0; i < n; i++) {
         data[i] = xre[i] / nf;
     }
+    FREE(xre);
+    FREE(xim);
 }
 
 void ifft_(float *data, int *n, float *re, float *im, int *nf) {
