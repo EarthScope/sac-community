@@ -75,7 +75,7 @@ xfir(nerr)
     if (lcmore(nerr)) {
 
         /* -- "REC/FFT":  selects recursive/transform method. */
-        if (lclog2("R$", 3, "F$", 3, &cmsam.lrqrec)) {
+        if (lclog2("R#EC$", 3, "F#FT$", 3, &cmsam.lrqrec)) {
 
             /* -- "filename":  set name of FIR filter coefficient file. */
         } else if (lcchar(cmsam.knmfir, sizeof(cmsam.knmfir))) {

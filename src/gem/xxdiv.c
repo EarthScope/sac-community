@@ -67,7 +67,7 @@ xxdiv(int *nerr) {
         if (lckey("NI#CE$", 7)) {
             xdiv_nice(TRUE);
             /* -- Set up fixed division spacings. */
-        } else if (lkreal("I#NC$", 6, &tmp)) {
+        } else if (lkreal("I#NCREMENT$", 6, &tmp)) {
             cmgem.xdiv_spacing = (float) tmp;
             cmgem.xdiv_spacing_on = TRUE;
             cmgem.xdiv_number_on = FALSE;

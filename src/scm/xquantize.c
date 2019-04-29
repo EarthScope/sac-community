@@ -74,7 +74,7 @@ xquantize(nerr)
         } else if (lkreal("LEVEL$", 7, &cmscm.qlevel)) {
 
             /* -- "MANTISSA n":  number of bits in mantissa. */
-        } else if (lkint("MANTISS$", 9, &cmscm.nqmant)) {
+        } else if (lkint("MANTISS#A$", 9, &cmscm.nqmant)) {
 
             /* -- Bad syntax. */
         } else {

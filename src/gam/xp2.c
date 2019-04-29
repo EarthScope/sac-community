@@ -132,8 +132,7 @@ xp2(int *nerr) {
 
         /* -- "RELATIVE/ABSOLUTE":  change method of displaying time
            on x axis. */
-        if (lclog2("A$", 3, "R$", 3, &cmgam.lp2abs)) {  /* do nothing */
-        }
+        if (lclog2("A#BSOLUTE$", 0, "R#ELATIVE$", 0, &cmgam.lp2abs)) { }
 
         /* if PRINT option is tried, get printer name */
         else if (ltry) {

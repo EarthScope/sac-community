@@ -90,7 +90,7 @@ xmarktimes(int *nerr) {
             }
 
             /* -- "VELOCTIES v1 v2 ...":  set velocities to use. */
-        } else if (lkra("VELOCIT$", 9, 1, MVEL, cmsmm.vel, &cmsmm.nvel)) {
+        } else if (lkra("VELOCIT#IES$", 9, 1, MVEL, cmsmm.vel, &cmsmm.nvel)) {
 
             /* -- "TO hdr":  set starting header marker field. */
         } else
