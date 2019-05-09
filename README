@@ -1,4 +1,4 @@
-README file for SAC.  (Last modified June 2017)
+README file for SAC.  (Modified May 2019)
 
 Contents
 ---------------------------------------------------------------------------
@@ -19,9 +19,9 @@ has either been installed from a SAC source distribution or produced by the
 expansion of a SAC binary-distribution compressed tar file.  There are SAC
 binary-distributions for the following operating systems:
 
-1. Mac OSX (64 bit) build: built on 10.8 will run on later versions XQuartz/X11
-   is required to display graphics and can be downloaded from
-   https://www.xquartz.org/
+1. Mac OSX (64 bit) build: built on 10.13 will run on versions starting with 
+   10.8.  XQuartz/X11 is required to display graphics and can be downloaded 
+   fromhttps://www.xquartz.org/
 2. Linux 64-bit: built on CentOS release 5.9 (Final).
 
 Other platforms or operating systems must be built from the source code.
@@ -120,6 +120,9 @@ to set the path and other options for SAC, do the following:
 
     After saving and exiting the file, enter
         . ~/.bashrc
+  
+  To verify that things are working, from a command line, enter
+        echo $PATH ; echo $SACHOME ; echo $SACAUX
 
 If one wants to change any of the options or if more than one person is using
 the same SAC distribution, it is best to copy the path and environment
@@ -132,7 +135,11 @@ It is recommended that each user create an initialization macro that runs
 whenever SAC is started.  To do this, one creates a startup macro file (e.g.,
 /usr/local/macros/init.m) and aliases SAC as follows:
 
-      alias sac '${SACHOME}/bin/sac /usr/local/macros/init.m'
+      # For sh/bash
+      alias sac='"${SACHOME}/bin/sac" "${SACHOME}/macros/init.m"'
+
+      # For csh/tcsh
+      alias sac '"${SACHOME}/bin/sac" "${SACHOME}/macros/init.m"'
 
 Here is a sample initialization macro:
 
@@ -200,7 +207,7 @@ you -- or whomever installed SAC on your system -- accepted the license
 agreement at the time the IRIS software request form was submitted.)
 
 It would also be very helpful if you could acknowledge our work using
-the  following references:
+the following references:
 
 Goldstein, P., A. Snoke, (2005), "Sac Availability for the IRIS Community",
 Incorporated Institutions For Seismology Data Management Center Electronic
