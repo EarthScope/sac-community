@@ -208,7 +208,7 @@ main_command(char *kmsg, int n) {
 
     /* Remove prompt at beginning of a line */
     if (strncasecmp(msgout, "SAC> ", 5) == 0) {
-        memmove(&msgout[0], &msgout[5], MCMSG - 5);
+        memmove(&msgout[0], &msgout[5], n-4);
     }
 
     saccommands(msgout, MCMSG + 1, &nerr);
