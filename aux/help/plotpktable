@@ -15,9 +15,11 @@ d        Set phase direction to DOWN (precedes P or S phase pick).
 e        Set phase onset to EMERGENT (precedes P or S phase pick)
 f        Define end of event {1,2,3,7}..
 g        Display picks to terminal in HYPO format {4}.
+h        Write picks to HYPO pick file {3,4}.
 i        Set phase onset to IMPULSIVE (precedes P or S phase pick).
 j        Set noise level {2,6,8}.
 l        Saves and lists x and y values for cursor location {2,4}.
+m        Compute maximum amplitude waveform {2,3,5}.
 n        Display next plot (if there is one).
 o        Zoom Out / Display previous plot window.
            A maximum of five windows are saved.
@@ -27,6 +29,8 @@ s        Designate S wave arrival time {1,2,3,7}.
 t        Designate user time Tn in header {1,2,7}.
            Next response is an integer between 0 and 9.
 u        Set phase direction to UP (precedes P or S phase pick).
+v        Define a Wood-Anderson waveform {2,5}.
+w        Define a general waveform {2,5}.
 x        Set Zoom window
            - Set beginning of zoomed plot
            - If x is second key, set end of zoomed window and display
@@ -48,7 +52,11 @@ Notes
   - {2} Written to alphanumeric pick file if open.
   - {3} Written to HYPO pick file if open.
   - {4} Written to terminal window.
+  - {5} Terminal echo is a box encompassing waveform.
   - {6} Place horizontal cursor at designated level before typing command letter.
   - {7} Terminal window echo is a labeled vertical line.
   - {8} Terminal window echo is a labeled horizontal line.
 
+LATEST REVISION
+---------------
+   May 2019 (version 102.0)

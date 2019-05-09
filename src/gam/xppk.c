@@ -881,6 +881,12 @@ xppk(int *nerr) {
 
         nst = (int) ((secinc - s->h->b) / s->h->delta) + 2;
         wavfrm(s->y, nst, s->h->npts, cmeam.pkampl, 5, iwf, &lwfok);
+        // nst - Data Sample to start search from
+        // iwf[0] - First value crossing backwards
+        // iwf[1] - Next extrema
+        // iwf[2] - Next value Crossing
+        // iwf[3] - Next extrema
+        // iwf[4] - Next value crossing
         if (lwfok) {
             tref1 =
                 s->h->delta * (s->y[Iwf[1] - 1] -
