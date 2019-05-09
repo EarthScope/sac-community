@@ -31,7 +31,7 @@ xwindow(int *nerr) {
 
     int width, height;
     double ratio;
-    int ratio_on;
+    int ratio_on = TRUE;
     double tmp[2];
 
     *nerr = 0;
@@ -50,15 +50,11 @@ xwindow(int *nerr) {
             Xwindowmax[iwin] = tmp[1];
             set_window_width(-1);
             set_window_height(-1);
-#ifdef X11_APP
-            set_constrain_plot_ratio_x11(FALSE);
-#endif
         } else if (lkrrcp("YSIZE$", 7, 0., 1., &tmp[0], &tmp[1])) {
             Ywindowmin[iwin] = tmp[0];
             Ywindowmax[iwin] = tmp[1];
             set_window_width(-1);
             set_window_height(-1);
-
         } else if (lkint("WIDTH$", 7, &width)) {
 
             set_window_width(width);
@@ -68,12 +64,6 @@ xwindow(int *nerr) {
             set_window_height(height);
 
         } else if (lklogr("ASPECT$", 8, &ratio_on, &ratio)) {
-#ifdef X11_APP
-            set_constrain_plot_ratio_x11(ratio_on);
-            if (ratio_on) {
-                set_plot_ratio_x11(ratio);
-            }
-#endif
 
         } else {
 
@@ -83,6 +73,12 @@ xwindow(int *nerr) {
         }
         goto L_1000;
     }
+#ifdef X11_APP
+    set_constrain_plot_ratio_x11(ratio_on);
+    if(ratio_on) {
+        set_plot_ratio_x11(ratio);
+    }
+#endif
 
     return;
 
