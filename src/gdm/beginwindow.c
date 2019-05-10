@@ -54,7 +54,9 @@ beginwindow(int number, int *nerr) {
                 dev[i]->get_window_size(&Xwindowmin[cmgdm.iwindow],
                                         &Xwindowmax[cmgdm.iwindow],
                                         &Ywindowmin[cmgdm.iwindow],
-                                        &Ywindowmax[cmgdm.iwindow]);
+                                        &Ywindowmax[cmgdm.iwindow],
+                                        window_use_ratio[cmgdm.iwindow],
+                                        window_ratio[cmgdm.iwindow]);
             }
         }
         ymin = Ywindowmin[cmgdm.iwindow] * screenratio;

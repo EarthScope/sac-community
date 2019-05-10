@@ -114,8 +114,9 @@ struct t_cmgdm {
     extern double *const Yvs;                    \
     extern float *const Ywindowmax;             \
     extern float *const Ywindowmin;             \
-    extern int npscolors;
-
+    extern int npscolors;                       \
+    extern int window_use_ratio[MWINDOWS];      \
+    extern float window_ratio[MWINDOWS];
 
 typedef struct _textbox textbox;
 struct _textbox {
@@ -191,8 +192,8 @@ typedef void (*set_window_size_t) (int size);
 typedef void (*save_t) (display_t * out, char *file);
 typedef int (*get_file_descriptor_t) (void);
 typedef char *(*handle_event_t) (int *nerr);
-typedef void (*get_window_size_t) (float *xmin, float *xmax, float *ymin,
-                                   float *ymax);
+typedef void (*get_window_size_t) (float *xmin, float *xmax, float *ymin, float *ymax,
+                                   int use_ratio, float ratio);
 typedef void (*fillpoly_t) (double *x, double *y, int n);
 
 struct _display_t {

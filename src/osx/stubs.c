@@ -174,7 +174,9 @@ osx_ratio(float *ratio) {
 }
 
 void
-osx_window_size(float *xmin, float *xmax, float *ymin, float *ymax) {
+osx_window_size(float *xmin, float *xmax, float *ymin, float *ymax, int use_ratio, float ratio) {
+    UNUSED(use_ratio);
+    UNUSED(ratio);
     *xmin = 0.0;
     *xmax = 1.0;
     *ymin = 0.0;

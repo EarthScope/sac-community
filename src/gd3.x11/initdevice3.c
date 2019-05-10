@@ -114,8 +114,8 @@ initdevice3() {
     x11.text = text_x11;
     x11.textbox = text_box_x11;
     x11.show_image = show_image_x11;
-    x11.set_window_width = set_window_width_x11;
-    x11.set_window_height = set_window_height_x11;
+    //x11.set_window_width = set_window_width_x11;
+    //x11.set_window_height = set_window_height_x11;
     x11.get_window_size = get_window_size_x11;
     x11.get_file_descriptor = get_file_descriptor_x11;
     x11.handle_event = handle_event_x11;

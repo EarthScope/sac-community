@@ -29,9 +29,8 @@ void
 xwindow(int *nerr) {
     int iwin;
 
-    int width, height;
     double ratio;
-    int ratio_on = TRUE;
+    int ratio_on = FALSE;
     double tmp[2];
 
     *nerr = 0;
@@ -48,23 +47,16 @@ xwindow(int *nerr) {
         } else if (lkrrcp("XSIZE$", 7, 0., 1., &tmp[0], &tmp[1])) {
             Xwindowmin[iwin] = tmp[0];
             Xwindowmax[iwin] = tmp[1];
-            set_window_width(-1);
-            set_window_height(-1);
+
         } else if (lkrrcp("YSIZE$", 7, 0., 1., &tmp[0], &tmp[1])) {
             Ywindowmin[iwin] = tmp[0];
             Ywindowmax[iwin] = tmp[1];
-            set_window_width(-1);
-            set_window_height(-1);
-        } else if (lkint("WIDTH$", 7, &width)) {
-
-            set_window_width(width);
-
-        } else if (lkint("HEIGHT$", 7, &height)) {
-
-            set_window_height(height);
 
         } else if (lklogr("ASPECT$", 8, &ratio_on, &ratio)) {
-
+            window_use_ratio[iwin] = ratio_on;
+            if(ratio_on) {
+                window_ratio[iwin] = ratio;
+            }
         } else {
 
             cfmt("ILLEGAL OPTION:", 17);
@@ -73,12 +65,6 @@ xwindow(int *nerr) {
         }
         goto L_1000;
     }
-#ifdef X11_APP
-    set_constrain_plot_ratio_x11(ratio_on);
-    if(ratio_on) {
-        set_plot_ratio_x11(ratio);
-    }
-#endif
 
     return;
 

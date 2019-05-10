@@ -60,37 +60,6 @@ plot_window(int num) {
     return r;
 }
 
-static int xwin_width = -1;
-static int xwin_height = -1;
-
-void
-set_window_width_x11(int w) {
-    xwin_width = w;
-}
-
-void
-set_window_height_x11(int h) {
-    xwin_height = h;
-}
-
-int
-is_window_size_set_in_pixels(void) {
-    if (xwin_width > 0 && xwin_height > 0) {
-        return TRUE;
-    }
-    return FALSE;
-}
-
-int
-get_window_width_x11(void) {
-    return xwin_width;
-}
-
-int
-get_window_height_x11(void) {
-    return xwin_height;
-}
-
 int
 get_screen_width_x11(void) {
     XScreen *xs = xscreen_get();
@@ -117,14 +86,25 @@ set_plot_ratio_x11(float ratio) {
 }
 
 void
-get_window_size_x11(float *xmin, float *xmax, float *ymin, float *ymax) {
+get_window_size_x11(float *xmin, float *xmax,
+                    float *ymin, float *ymax,
+                    int use_ratio, float ratio) {
     int sw, sh;
+    float sr;
     /* w  = get_window_width_x11(); */
     /* h  = get_window_height_x11(); */
     sw = get_screen_width_x11();
     sh = get_screen_height_x11();
-    if (constrain_plot_ratio_x11) {
-        *xmax = *xmin + ((*ymax - *ymin) * sh * plot_window_xy_ratio) / sw;
+    sr = (float) sw / sh;
+    // Check if Aspect ratio is off and screen is ultra-wide (> 2.0 or < 0.5 )
+    //   e.g. Multiple monitors and "high-end displays"
+    //   Turn Aspect ratio on and set to Letter Size Paper
+    if( !use_ratio && (sr > 2.0 || sr < 0.5)) {
+        use_ratio = TRUE;
+        ratio = 11 / 8.5;
+    }
+    if (use_ratio) {
+        *xmax = *xmin + ((*ymax - *ymin) * sh * ratio) / sw;
         if (*xmax > 0.95) {
             *xmax = 0.95;
         }

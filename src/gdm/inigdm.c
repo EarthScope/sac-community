@@ -53,6 +53,9 @@ double *const Yvs = &cmgdm.yvs[0] - 1;
 float *const Ywindowmax = &cmgdm.ywindowmax[0] - 1;
 float *const Ywindowmin = &cmgdm.ywindowmin[0] - 1;
 
+int    window_use_ratio[MWINDOWS+1];
+float  window_ratio[MWINDOWS+1]; // ASPECT RATIO
+
 #define BUFLEN 1024
 
 void
@@ -354,6 +357,8 @@ inigdm(int *nerr) {
         Xwindowmax[j] = 0.65 + offset;
         Ywindowmin[j] = 0.45 - offset;
         Ywindowmax[j] = 0.95 - offset;
+        window_use_ratio[j] = FALSE;
+        window_ratio[j] = 11 / 8.5;
     }
     cmgdm.iwindow = 1;
 

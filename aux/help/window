@@ -46,7 +46,8 @@ DEFAULT SETTINGS
        5 0.13  0.73  0.37  0.87
        = ===== ===== ===== =====
 
-ASPECT is ON and set to 11.0/8.5 = 1.294, so xwmax is not used.
+ASPECT is OFF and set to 11.0/8.5 = 1.294, so xwmax is not used.  See description
+below for screens with large aspect ratios for WINDOW behavior.
 
 DESCRIPTION
 -----------
@@ -79,6 +80,10 @@ DESCRIPTION
   varied, but many have an aspect ratio of 16:10.  On a 4:3 screen, the default window has an
   aspect ratio of 1.33:1, and on a 16:10 screen the aspect ratio is 1.6:1.  SGF_ files have
   a fixed aspect ratio of 4:3.
+
+  For screens with large aspect ratios, width/height > 2.0 or < 0.5, e.g. multiple monitors
+  and high-end displays and if ASPECT is OFF, the APSECT ratio will automatically be turned
+  ON and set to 11/8.5 = 1.294.  This behavior attempts to avoid ultra-wide display windows.
 
 EXAMPLES
 --------

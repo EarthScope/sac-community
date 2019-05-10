@@ -114,8 +114,10 @@ win_ratio(float *ratio) {
 }
 
 void
-win_window_size(float *xmin, float *xmax, float *ymin, float *ymax) {
+win_window_size(float *xmin, float *xmax, float *ymin, float *ymax, int use_ratio, float ratio) {
     DEBUG("\n");
+    UNUSED(use_ratio);
+    UNUSED(ratio);
     *xmin = 0.0;
     *xmax = 1.0;
     *ymin = 0.0;

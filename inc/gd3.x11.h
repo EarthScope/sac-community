@@ -288,7 +288,8 @@ void set_window_height_x11(int height);
 int get_window_width_x11(void);
 int get_window_height_x11(void);
 int get_file_descriptor_x11(void);
-void get_window_size_x11(float *xmin, float *xmax, float *ymin, float *ymax);
+void get_window_size_x11(float *xmin, float *xmax, float *ymin, float *ymax,
+                         int use_ratio, float ratio);
 char *handle_event_x11(int *nerr);
 
 /* XWindow Functions */
