@@ -33,23 +33,23 @@ DEFAULT VALUES
 DESCRIPTION
 -----------
 
-  There are three ways to run CONVOLVE: (1) PULSE: read in N files
-  and convolve one of them with all the others; (2) file: read in N
-  files and convolve all of themwith a file not among them: (3)
-  Using a predefined function (see below).  Previous to SAC v 102.0,
-  the PULSE method was the only option, so we start there.
-
-  In seismology, convolution is used in two ways:
+ In seismology, convolution is used in two ways:
 
     1) convolving a pulse shape with a time-series, and
-    2) convolving (or, more typically, deconvolving) a response
-       with a time series.
+    2) convolving a response with a time series (or, more typically,
+       deconvolving a response from a time series)
 
   The equation for convolution takes a simple form in both the time
   and frequency domains; (1) is more easily described in the time
   domain, while (2) in the frequency domain.  The CONVOLVE function
   here is oriented towards (1).  Function TRANSFER_ is more
   appropriate for (2).
+
+  There are three ways to run CONVOLVE: (1) PULSE: read in N files
+  and convolve one of them with all the others; (2) file: read in N
+  files and convolve all of them with a file not among them: (3)
+  Using a PREDEFINED FUNCTION (see below).  Previous to SAC v102.0,
+  the PULSE method was the only option, so we start there.
 
   The pulse file is convolved with all other time-series files in
   memory using the discretized version of the following equation::
@@ -94,15 +94,20 @@ PREDEFINED FUNCTIONS
   are time-symmetric. If the exponent in GAUSS(t) is -0.5(t/v)^2, v is
   the standard deviation.
 
-  Say one wants to look at file synthetic.sac but not convolving it with
-  a source pulse.  The file may have Gibbs phenomena accompanying each
-  arrival.  Convolving synthetic.sac with a predefined function will
-  result in a cleaner looking seismogram::
+  Say one wants to look at file synthetic.sac simply as a spike series
+  (no source pulse). The file may have Gibbs phenomena accompanying
+  each arrival.  Convolving synthetic.sac with a predefined function
+  will result in a cleaner looking seismogram::
 
       SAC> r synthetic.sac
       SAC> convolve GAUSS 0.04 CENTERED ON
+      or
+      SAC> r synthetic.sac
+      SAC> convolve TRI 0.04 CENTERED ON
 
-  See ${SACHOME}/doc/examples/convolve for further discussion
+  All three cases (source, gauss, tri) are shown in the figure below.
+  A Brune pulse is used as the p_arrival pulse.  No relative scaling
+  has been done except for the source pulse.
 
 RELATION TO CORRELATE
 ---------------------
@@ -123,3 +128,7 @@ HEADER CHANGES
 LATEST REVISION
 ---------------
   2019 (Version 102.0)
+
+.. image:: convolve_output.png
+   :width: 90%
+   :align: center

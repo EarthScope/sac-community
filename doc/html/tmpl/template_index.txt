@@ -9,7 +9,7 @@
     src="./sac_spectrogram.png"  alt="SAC spectrogram" title ="SAC spectrogram"
  width="273" height="128"></td>
 <td align="center" valign="middle"><p><FONT STYLE="font-size: 20pt">Seismic Analysis Code<br><br>Users Manual</FONT></p>
-<p><i>v102.0 - February 2018</i></p>
+<p><i>v102.0  (2019)</i></p>
 </td></tr>
 <tr><td colspan=2>
 
