@@ -150,7 +150,7 @@ iniexm() {
     Fgraco[1] = 1.;
     Fgraco[2] = 12357.;
 
-    cmexm.nreptp = 18;
+    cmexm.nreptp = 19;
     strcpy(kmexm.kreptp[0], "HPF     ");
     strcpy(kmexm.kreptp[1], "APF     ");
     strcpy(kmexm.kreptp[2], "COLOR   ");
@@ -169,6 +169,7 @@ iniexm() {
     strcpy(kmexm.kreptp[15], "YLIM    ");
     strcpy(kmexm.kreptp[16], "MTW     ");
     strcpy(kmexm.kreptp[17], "WIDTH   ");
+    strcpy(kmexm.kreptp[18], "WINDOW  ");
     cmexm.nrep = 0;
 
     cmexm.nectp = 5;

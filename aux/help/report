@@ -18,7 +18,8 @@ where list is one or more of the following::
   HPF, LINE, MEMORY,
   MTW, PICKS, SYMBOL,
   TITLE, XLABEL,
-  XLIM, YLABEL, YLIM
+  XLIM, YLABEL, YLIM,
+  WINDOW
 
 INPUT
 -----
@@ -60,6 +61,8 @@ INPUT
 
    :YLIM:  The current y axis plot limits.
 
+   :WINDOW: The current window sizes
+
 DESCRIPTION
 -----------
    This command can be used to find out about the current values of certain SAC
@@ -84,4 +87,4 @@ EXAMPLES
 
 LATEST REVISION
 ---------------
-  March 20, 1991 (Version 10.6e)
+  Version 102.0

@@ -9,8 +9,28 @@
 #include "cpf.h"
 #include "msg.h"
 #include "bool.h"
+#include "gdm.h"
 
 EXM_EXTERN
+
+GDM_EXTERN
+
+int
+qwindow() {
+    char tmp[32];
+    tmp[0] = 0;
+    for(int i = 1; i < MWINDOWS; i++) {
+        if(window_use_ratio[i]) {
+            sprintf(tmp, "%.3f", window_ratio[i]);
+        } else {
+            sprintf(tmp, "OFF");
+        }
+        mprint("WINDOW %3d   XSIZE %.3f %.3f   YSIZE %.3f %.3f   ASPECT %s", i,
+               Xwindowmin[i], Xwindowmax[i],
+               Ywindowmin[i], Ywindowmax[i],
+               tmp);
+    }
+}
 
 /** 
  * Execute the report command showing the current status of sac variables
@@ -127,6 +147,9 @@ xreport(int *nerr) {
                 break;
             case 18:
                 qwidth();
+                break;
+            case 19:
+                qwindow();
                 break;
         }
     }
