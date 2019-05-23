@@ -307,6 +307,9 @@ POLEZERO OPTION
   for all waveforms in memory with annotation values that match the header
   values.
 
+  Options for specifying the NETWORK, STATION, LOCID, CHANNEL, DATE, TIME
+  are available for the POLEZERO option as they are in the EVALRESP option.
+
   Here is a polezero file written by program RDSEED (v5.2).  Earlier
   versions of RDSEED have a slightly different format for the
   comments (v5.0) or may have no comments (earlier versions)::
@@ -380,6 +383,33 @@ POLEZERO OPTION
   the [S]ubtype is the name of the file.  This may be a file in
   the current directory or in some other directory if one
   specifies the absolute or relative pathname.
+
+POLEZERO SEARCH
+---------------
+
+  If a SUBTYPE with FILENAME is not set, SAC will search the current
+  directory for SAC Polezero files named like::
+
+    SAC_PZs_NETWORK_STATION_CHANNEL_LOCID_*
+
+  where NETWORK, STATION, CHANNEL, LOCID are either those defined
+  in the SAC Header or specified on the command like, e.g.::
+
+    TRANSFER from POLEZERO NETWORK BK STATION CMB to NONE
+
+  Matching files will be searched for the correct response using the
+  associated metadata. The first file found with the correct metadata
+  will be used for the response.  Files with no associated metadata
+  are assumed to be the correct response.
+
+  Use the DIR option to specify an alternative search directory, for
+  example::
+
+    TRANSER from POLEZERO DIR resp to NONE
+
+  will search for responses like::
+
+    resp/SAC_PZs_NET_STAT_CHAN_LOC_*
 
 POLEZERO EXAMPLES
 -----------------

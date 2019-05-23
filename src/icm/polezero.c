@@ -8,6 +8,7 @@
 #include <stddef.h>
 #include <math.h>
 #include <ctype.h>
+#include <glob.h>
 
 #include "amf.h"
 #include "icm.h"
@@ -158,72 +159,78 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
     s = sacget_current();
     memset(kfile, 0, sizeof(kfile));
     memset(kiline, 0, sizeof(kiline));
-
+    pstat = pnet = ploc = pchan = NULL;
+    *nerr = 0;
     meta = NULL;
     meta_used = NULL;
+    lopen = FALSE;
 
     for (idx = 0; idx < MCPFN; idx++)
         kfile[idx] = ' ';
     kfile[MCPFN] = '\0';
 
     filetime = datetime_get_file_time(NULL);
-    meta = polezero_meta_new();
-    pstat = strdup(s->h->kstnm);
-    pnet = strdup(s->h->knetwk);
-    ploc = strdup(s->h->khole);
-    pchan = strdup(s->h->kcmpnm);
-    stat = rstrip(lstrip(pstat));
-    net = rstrip(lstrip(pnet));
-    loc = rstrip(lstrip(ploc));
-    chan = rstrip(lstrip(pchan));
-    if (!SAC_CHAR_DEFINED(stat)) {
-        stat[0] = 0;
-    }
-    if (!SAC_CHAR_DEFINED(net)) {
-        net[0] = 0;
-    }
-    if (!SAC_CHAR_DEFINED(loc)) {
-        loc[0] = 0;
-    }
-    if (!SAC_CHAR_DEFINED(chan)) {
-        chan[0] = 0;
+    meta  = polezero_meta_new();
+    enum Direction dir = getTransferDirection();
+
+#define SET_OR_VALUE(key, pstr, str, hdr, func)         \
+    do {                                                \
+        if(isSet(key, dir)) {                           \
+            pstr = str = strdup( func (dir));           \
+        } else {                                        \
+            pstr  = strdup(s->h->hdr);                  \
+            str   = rstrip(lstrip(pstr));               \
+            if (!SAC_CHAR_DEFINED(str)) { str[0] = 0; } \
+        }                                               \
+    } while(0)
+
+    SET_OR_VALUE(NETWORK, pnet,  net,  knetwk, getNetworkName);
+    SET_OR_VALUE(STATION, pstat, stat, kstnm,  getStationName);
+    SET_OR_VALUE(LOCID,   ploc,  loc,  khole,  getLocidName);
+    SET_OR_VALUE(CHANNEL, pchan, chan, kcmpnm, getChannelName);
+
+    // Do search for polezero file in current directory
+    if(strcmp(subtyp, "__SEARCH_FOR_POLEZERO_FILE__") == 0) {
+        glob_t g;
+        int ok = FALSE;
+        char glob_path[512];
+        if(isSet(PATH, dir)) {
+            char *path = getPath(dir);
+            sprintf(glob_path, "%s/SAC_PZs_%s_%s_%s_%s_*", path, net, stat, chan, loc);
+        } else {
+            sprintf(glob_path, "SAC_PZs_%s_%s_%s_%s_*", net, stat, chan, loc);
+        }
+        glob(glob_path, 0, NULL, &g);
+        for(size_t i = 0; i < g.gl_pathc; i++) {
+            polezero(nfreq, delfrq, xre, xim, g.gl_pathv[i], subtyp_s, nerr);
+            if(*nerr == 0) {
+                ok = TRUE;
+                break;
+            }
+        }
+        globfree(&g);
+        if(!ok) {
+            clrmsg();
+            error(*nerr = 2104, "POLEZERO.\n"
+                  "             Search for sacpz file failed using pattern: %s\n"
+                  "             Please specify a sacpz file for the sub-type", glob_path);
+        }
+        strcpy(subtyp, "");
+        goto L_8888;
     }
 
-    /*     generic transfer function - user supplies poles and zeros */
-    /* - Search for the polezero file.  Search order is:
-     *   (1) current directory.
-     *   (2) global polezero directory. */
-    lopen = FALSE;
+    // Check is file exists
     fstrncpy(kfile, MCPFN, subtyp, strlen(subtyp));
     zinquire(kfile, &lexist);
-    if (lexist)
+    if (lexist) {
         goto L_5000;
+    }
 
-    /* Look in global polezero directory 
-       ${SACAUX}/polezeros
-       This code will not work as kmcreq is never set.
-       The idea behind this code is interesing
-       but possibly dangerous through the use of an 
-       uninitilized value.  -BKS
-     */
-    /*
-       zbasename( kfile,MCPFN+1 );
-       crname( kfile,MCPFN+1, KSUBDL, "polezeros",10, nerr );
-       if( *nerr != 0 )
-       goto L_8888;
-       crname( kfile,MCPFN+1, KDIRDL, kmcreq,9, nerr );
-       if( *nerr != 0 )
-       goto L_8888;
-       zinquire( kfile, &lexist );
-       if( lexist )
-       goto L_5000;
-     */
-
-    /* - Raise error condition if macro file does not exist. */
-
-    *nerr = 108;
-    setmsg("ERROR", *nerr);
-    apcmsg(subtyp, subtyp_s);
+    if(strlen(rstrip(lstrip(kfile))) == 0) {
+        error(*nerr = 2104, "POLEZERO");
+    } else {
+        error(*nerr = 108, subtyp);
+    }
     goto L_8888;
 
     /* - Set default values for constant, poles, and zeros. */
@@ -435,15 +442,9 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
     if (const_ == 1.0 && npoles == 0 && nzeros == 0) {
         *nerr = 2114;
         error(*nerr, "\n Station: %s.%s.%s.%s", net, stat, chan, loc);
-        if (meta && filetime && datetime_status(meta->start) == DATETIME_OK &&
-            datetime_status(meta->end) == DATETIME_OK) {
-            printf(" Time of data not found in file\n Date Time: ");
-            datetime_printn(filetime);
-            printf("\n");
-        }
     } else {
-        printf(" Using polezero response for %s, %s, %s, %s...\n", stat, chan,
-               net, loc);
+        printf(" Using polezero response for %s, %s, %s, %s from %s\n", stat, chan,
+               net, loc, subtyp);
         if (FALSE) {
             printf("\n");
             if (meta_used && datetime_status(meta_used->start) == DATETIME_OK &&

@@ -167,6 +167,8 @@ struct Filename {
     int set;
 };
 static struct Filename nameTo, nameFrom;
+static struct Filename pathTo   = { NULL, 0 };
+static struct Filename pathFrom = { NULL, 0 };
 
 /* direction of current transfer */
 static int Direction;
@@ -259,6 +261,14 @@ int
 isSet(enum EVparam request, enum Direction dir) {
     /* See if requested parameter has been set, and if so, in what direction */
     switch (request) {
+        case PATH:
+            if(dir == TO) {
+                return pathTo.set;
+            } else if(dir == FROM) {
+                return pathFrom.set;
+            } else {
+                return FALSE;
+            }
         case CHANNEL:
             if (dir == TO)
                 return chanTo.set;
@@ -638,6 +648,31 @@ getFileName(enum Direction dir) {
         return nameTo.name;
     }
     return NULL;
+}
+
+char *
+getPath(enum Direction dir) {
+    switch(dir){
+    case FROM: return pathFrom.name; break;
+    case TO:   return pathTo.name;   break;
+    default:   return NULL;         break;
+    }
+    return NULL;
+}
+
+
+void
+setPath(char *name, enum Direction dir) {
+    deblank(name);
+    int len = strlen(name) + 1;
+    struct Filename *p = NULL;
+    if(dir == FROM) {
+        p = &pathFrom;
+    } else if (dir == TO) {
+        p = &pathTo;
+    }
+    p->name = strdup(name);
+    p->set  = TRUE;
 }
 
 void

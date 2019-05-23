@@ -36,7 +36,8 @@ enum EVparam {
     TIME,
     TYPE,
     FILENAME,
-    NAME_FROM_DB
+    NAME_FROM_DB,
+    PATH,
 };
 
 void setStationName(char *, enum Direction);
@@ -45,12 +46,15 @@ void setChannelName(char *, enum Direction);
 void setLocidName(char *, enum Direction);
 void setFileName(char *name, enum Direction dir);
 void setUseDBName(int value, enum Direction dir);
+void setPath(char *name, enum Direction dir);
 
 char *getStationName(enum Direction);
 char *getNetworkName(enum Direction);
 char *getChannelName(enum Direction);
 char *getLocidName(enum Direction);
 char *getFileName(enum Direction dir);
+char *getPath(enum Direction dir);
+
 int getUseDBName(enum Direction dir);
 int isSet(enum EVparam, enum Direction);
 void clearEVRESPstrucs(void);

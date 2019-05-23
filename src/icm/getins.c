@@ -130,6 +130,8 @@ getins(kinstr, kinstr_s, ninstr, ldone, fp, lfp, ip, lip, kp, kp_s, lkp, nerr)
             setTime(temp, getTransferDirection());
         } else if (lkchar("LOCID$", 7, MCPFN, temp, MCPFN, &nchar)) {
             setLocidName(temp, getTransferDirection());
+        } else if (lkchar("DIR$", 7, MCPFN, temp, MCPFN, &nchar)) {
+            setPath(temp, getTransferDirection());
         } else if (lkchar("FNAME$", 7, MCPFN, temp, MCPFN, &nchar)) {
             if (index == 47) {  /* if DBASE */
                 setmsg("WARNING", 2117);
