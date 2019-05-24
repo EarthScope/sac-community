@@ -67,7 +67,7 @@
  Transfer using Polezero
  fg impulse npts 1000 delta 0.01
  transfer from polezero s test_transfer_pz.m to none
- Using polezero response for , , , ...
+ Using polezero response for , , ,  from test_transfer_pz.m
  Station (-12345  ), Channel (-12345  )
  lh depmin depmax depmen
   
@@ -144,7 +144,7 @@
  Transfer using Polezero
  fg seismo npts 1000 delta 0.01
  transfer from polezero s test_transfer_pz.m to none
- Using polezero response for CDV, , , ...
+ Using polezero response for CDV, , ,  from test_transfer_pz.m
  Station (CDV     ), Channel (-12345  )
  lh depmin depmax depmen
   

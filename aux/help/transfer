@@ -411,6 +411,30 @@ POLEZERO SEARCH
 
     resp/SAC_PZs_NET_STAT_CHAN_LOC_*
 
+  An simple example of the automatic polezero search option would be to
+  remove the responses for all files in memory, assuming the responses
+  are in the current directory ::
+
+    SAC> READ *.XT.*.BHZ.SAC
+      XT.ATAT.01.BHZ.M.2001.255.084837.SAC
+      XT.DAWA.01.BHZ.M.2001.255.084837.SAC
+    SAC>
+    SAC> rtrend
+    SAC> transfer from POLEZERO  to  NONE   FREQLIMITS (1/120) (1/60)  6 7
+     Using polezero response for ATAT, BHZ, XT, 01 from SAC_PZs_XT_ATAT_BHZ_01_
+     Station (ATAT    ), Channel (BHZ     )
+     Using polezero response for DAWA, BHZ, XT, 01 from SAC_PZs_XT_DAWA_BHZ_01_
+     Station (DAWA    ), Channel (BHZ     )
+
+  If the responses are instead in a directory named `responses`, a `DIR responses`
+  should be added to the FROM part section, e.g.::
+
+    SAC> transfer from POLEZERO DIR responses to  NONE   FREQLIMITS (1/120) (1/60)  6 7
+     Using polezero response for ATAT, BHZ, XT, 01 from responses/SAC_PZs_XT_ATAT_BHZ_01_
+     Station (ATAT    ), Channel (BHZ     )
+     Using polezero response for DAWA, BHZ, XT, 01 from responses/SAC_PZs_XT_DAWA_BHZ_01_
+     Station (DAWA    ), Channel (BHZ     )
+
 POLEZERO EXAMPLES
 -----------------
 
@@ -453,7 +477,6 @@ POLEZERO EXAMPLES
        SAC> r *BH*SAC
        SAC> rtr;taper
        SAC> TRANS FROM POLEZERO S event.pz freq 0.05 0.1 10.0 15.0
-
 
 FAPfile OPTION
 ---------------

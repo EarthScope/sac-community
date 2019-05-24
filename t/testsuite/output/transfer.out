@@ -15,7 +15,7 @@
           e = 1.945000e+01
        npts = 1000
  transfer from polezero subtype test_transfer_simple.m to none
- Using polezero response for CDV, , , ...
+ Using polezero response for CDV, , ,  from test_transfer_simple.m
  Station (CDV     ), Channel (-12345  )
  lh depmin depmax depmen b e npts
   
@@ -50,7 +50,7 @@ polezero-comment: Error converting float: ' ELEVATION (M)     : @E4'
 polezero-comment: Error converting float: ' DEPTH     (M)     : (3.4)'
 polezero-comment: Error converting float: ' DIP       (DEG)   : ERROR'
 polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
- Using polezero response for CDV, , , ...
+ Using polezero response for CDV, , ,  from test_transfer_comments.m
  Station (CDV     ), Channel (-12345  )
  lh depmin depmax depmen b e npts
   

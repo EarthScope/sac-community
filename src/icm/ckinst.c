@@ -45,7 +45,7 @@ ckinst(fp, lfp, ip, lip, kp, kp_s, lkp, nerr)
         error(*nerr = 2103, "");
     } else if (memcmp(KP(0, 0), "POLEZERO", 8) == 0 &&
                ( !Lkp[2] || lstrip(KP(1,0))[0] == 0) ) {
-        strcpy(KP(1,0), "__SEARCH_FOR_POLEZERO_FILE__");
+        // Ignore isolated POLEZERO option
     } else if (memcmp(KP(0, 0), "FAP", 3) == 0 && (!Lkp[2])) {
         error(*nerr = 2104, "FAP");
     } else if (memcmp(KP(0, 0), "LLL", 3) == 0 && (!Lkp[2])) {

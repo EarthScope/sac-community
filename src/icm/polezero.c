@@ -190,7 +190,7 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
     SET_OR_VALUE(CHANNEL, pchan, chan, kcmpnm, getChannelName);
 
     // Do search for polezero file in current directory
-    if(strcmp(subtyp, "__SEARCH_FOR_POLEZERO_FILE__") == 0) {
+    if(strcmp(subtyp, "") == 0) {
         glob_t g;
         int ok = FALSE;
         char glob_path[512];
@@ -202,6 +202,7 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
         }
         glob(glob_path, 0, NULL, &g);
         for(size_t i = 0; i < g.gl_pathc; i++) {
+            // Recursive Call Here
             polezero(nfreq, delfrq, xre, xim, g.gl_pathv[i], subtyp_s, nerr);
             if(*nerr == 0) {
                 ok = TRUE;
@@ -215,7 +216,6 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
                   "             Search for sacpz file failed using pattern: %s\n"
                   "             Please specify a sacpz file for the sub-type", glob_path);
         }
-        strcpy(subtyp, "");
         goto L_8888;
     }
 
@@ -442,6 +442,12 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
     if (const_ == 1.0 && npoles == 0 && nzeros == 0) {
         *nerr = 2114;
         error(*nerr, "\n Station: %s.%s.%s.%s", net, stat, chan, loc);
+        if (meta && filetime && datetime_status(meta->start) == DATETIME_OK &&
+            datetime_status(meta->end) == DATETIME_OK) {
+            printf(" Time of data not found in file\n Date Time: ");
+            datetime_printn(filetime);
+            printf("\n");
+        }
     } else {
         printf(" Using polezero response for %s, %s, %s, %s from %s\n", stat, chan,
                net, loc, subtyp);
