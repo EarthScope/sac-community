@@ -59,10 +59,10 @@ INPUT
 
          a*t^{3} + b*t^{2} + c*t + d
 
-   :SEISMOGRAM:  Sample seismogram.  This is an obsolete option that has
-       been replaced by the DATAGEN_ command.  The DELTA, NPTS, and BEGIN
-       options are ignored for this function.  There are 1000 points in the
-       sample seismogram.
+   :SEISMOGRAM: Sample seismogram.  This differs from other function
+       options for fg in that there are no further options. Specifically,
+       DELTA, NPTS, and BEGIN options are ignored for seismogram (abbreviated
+       seis).
 
    :RANDOM {nfiles seed}:  Random sequence (Gausian white noise) generator.
        Number of random sequence files to generate is first and the

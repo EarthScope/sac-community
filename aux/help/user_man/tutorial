@@ -29,15 +29,17 @@ parameter-setting commands change values of internal SAC parameters.
 Action-producing commands perform some operation on the signals currently in
 selected memory based upon the values of these parameters. Data-set commands
 determine which files are in active (selected) memory and therefore will be
-acted upon (data-set commands are not currently operational). The effect of a
-parameter-setting command remains in effect until it is reset. The effect of
-an action-producing command is immediate and transitory. Action-producing
-commands also have options which normally remain in effect until reset. These
-options, however, apply only to that particular command. The underlying
-assumption is that you are more likely than not to want to use the same values
-the next time you execute the same command. When you start up SAC, default
-values are defined for all of these parameters. SAC can be reinitialized to
-this default state at any time by executing the INICM_ command.
+acted upon (data-set commands are not currently operational).
+
+Within a single SAC ssession, the effect of a parameter-setting
+command remains in effect until that parameter is reset. The effect of
+an action-producing command is immediate and
+transitory. Action-producing commands also have options which normally
+remain in effect until reset (for that particular command).
+
+When you start up SAC, default values are de ned for all of these
+parameters. SAC can be reinitialized to this default state at any time
+by executing the INICM command.
 
 Mode of Operation
 -----------------
@@ -106,36 +108,40 @@ this function looks like on your screen type::
 Abbreviations
 -------------
 There are abbreviations for the most used SAC commands. For
-example,  fg and  p are the abbreviations for FUNCGEN_ and PLOT_ respectively.
+example, `fg` and `p` are the abbreviations for FUNCGEN_ and PLOT_
+respectively. For most functions, the title in the HELP_ file
+includes the abbreviation in (lower case) — e.g., FUNCGEN_ (fg) .
 
-More functions
---------------
-The FUNCGEN_ command can generate a number of different functions.
-To see them, use the HELP_ command::
+Changing Options in Repeated Calls to SAC Commands
+--------------------------------------------------
+As an example, the FUNCGEN_ command can generate a number of
+different functions. To see them, use the HELP_ command::
 
   SAC> help fg
 
-Using fg can be very useful when first learning how to use SAC because you
-can see how the other SAC operations work on these functions.
-For example, type::
-
-  SAC> fg seismogram
-
-This generates a sample seismic signal in SAC's memory. It also deletes the
-impulse generated earlier. Use the PLOT_ command to see this seismogram on your
-screen. Now for another function::
+Using `fg` can be very useful when first learning how to use SAC because
+you can see how the other SAC operations work on these functions. For
+example::
 
   SAC> fg sine 2 npts 200 delta 0.01
 
-The first thing to note is that SAC remembers seismogram as the function
-read most recently by fg.  This is common for most commands in SAC: if a new
-argument for an option is not given, SAC uses the one most recently used in the
-current session.  (Sometimes one forgot that an option had been used, so one may
-not correctly anticipate correctly the result of the operation.)
+This generates a 2 Hz sine wave in SAC's memory. The function will
+contain 200 data points and have a sampling interval of 0.01
+seconds. You can use the PLOT_ command to plot this function also.
 
-This more complicated example generates  a 2 Hz sine wave in SAC's memory.
-The function will contain 200 data points  and have a sampling interval of
-0.01 seconds. You may want to use the PLOT_ command to plot this function also.
+When you specify a value for a particular option, this becomes the new
+current value, which means you don't have to keep entering values for
+options that you don't want to change. For example, you can now
+generate this same 2 Hz sine wave using the same sampling interval but
+with 400 data points by simply typing::
+
+  SAC> fg npts 400
+
+SAC remembers sine as the function called most recently by `fg`. This
+is common for most commands in SAC: if a new argument for an option is
+not given, SAC uses the most recently used value in the current
+session. (Sometimes one forget that an option had been used, so one
+may not correctly anticipate correctly the result of the operation.)
 
 SAC Commands
 ------------
