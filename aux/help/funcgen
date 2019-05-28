@@ -90,6 +90,7 @@ DEFAULT VALUES
       FUNCGEN QUADRATIC 1 1 1
       FUNCGEN CUBIC 1 1 1
       FUNCGEN RANDOM 1 12357
+      FUNCGEN SEISMO [there are no further options]
 
 DESCRIPTION
 -----------
