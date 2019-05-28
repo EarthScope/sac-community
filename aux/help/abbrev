@@ -1,0 +1,138 @@
+SAC Abbreviations
+-----------------
+
+| Abbreviation | Alternative | Alternative |  Alternative |  Alternative |
+|--------------|-------------|-------------|--------------|--------------|
+|           3C |       MAT3C |
+|           AM |      KEEPAM |
+|        ARRAY |    ARRAYMAP |
+|           AS |    ADDSTACK |
+|         AXES |        AXIS |
+|           BD |          BG |        BEGG |BEGINDEVICES |
+|         BEAM |    BEAMFORM |
+|           BF |       BEGFR |  BEGINFRAME |
+|         BOEC |    BINOPERR |
+|           BP |    BANDPASS |
+|           BR |     BANDREJ |
+|           BW | BEGINWINDOW |
+|         CAPF |       CCIPF |
+|           CH |      CHNHDR |
+|         CODA |       MCODA |
+|          COL |       COLOR |
+|         CONT |     CONTOUR |
+|         CONV |     CONVERT |
+|        CONVO |    CONVOLVE |
+|          COR |   CORRELATE |
+|           CS | CHANGESTACK |
+|           DA |DISTANCEAXIS |
+|           DC |DELETECHANNEL |
+|          DEC |    DECIMATE |
+|       DEPMEC |   MATDEPMEC |
+|          DFT |         FFT |
+|           DG |     DATAGEN |
+|           DS | DELETESTACK |
+|           DW |DISTANCEWINDOW |
+|           ED |          EG |        ENDG |  ENDDEVICES |
+|           EF |       ENDFR |    ENDFRAME |
+|          ERA |       ERASE |
+|         EVAL |    EVALUATE |
+|           FD |FILTERDESIGN |
+|           FG |     FUNCGEN |
+|           FN |  FILENUMBER |
+|           GS |   GRAYSCALE |
+|           GS | GLOBALSTACK |
+|           GT |       GTEXT |
+|            H |        HELP |
+|          HAN |     HANNING |
+|          HCD |         SGF |
+|           HP |    HIGHPASS |
+|         IDFT |        IFFT |
+|        INICM | CLEARMEMORY |
+|       INTERP | INTERPOLATE |
+|           IS |INCREMENTSTACK |
+|          LCT |      CTABLE |  COLORTABLE |  LOADCTABLE |
+|           LH |     LISTHDR |
+|           LP |     LOWPASS |
+|           LS |   LISTSTACK |
+|            M |       MACRO |
+|          MAP |        GMAP |      GMTMAP |
+|        MARKP |     MARKPTP |
+|        MARKT |   MARKTIMES |
+|        MARKV |   MARKVALUE |
+|          MES |     MESSAGE |
+|         OAPF |       OCIPF |
+|            P |        PLOT |
+|           P1 |       PLOT1 |
+|           P2 |       PLOT2 |
+|           PA |   PLOTALPHA |
+|           PC |       PLOTC |
+|         PCOR |     PLOTCOR |
+|           PH |   PRINTHELP |
+|        PICKA |  PICKAUTHOR |
+|       PICKPH |   PICKPHASE |
+|       PICKPR |   PICKPREFS |
+|          PPE |      PLOTPE |
+|          PPK |      PLOTPK |
+|          PPM |      PLOTPM |
+|         PROD |  PRODUCTION |
+|          PRS |PLOTRECORDSECTION |
+|           PS |   PLOTSTACK |
+|          PSP |      PLOTSP |
+|         PSPE |     PLOTSPE |
+|           PW |         WIT |      WHITEN |   PREWHITEN |
+|           PW |         WIT |      WHITEN |   PREWHITEN |
+|          PXY |      PLOTXY |
+|            Q |         END |        DONE |        EXIT |        QUIT |
+|           QS |     QUITSUB |
+|           QS |     QUITSUB |
+|            R |        READ |
+|            R |        READ |
+|           RA |   READALPHA |
+|         RBBF |     READBBF |
+|         RCOR |     READCOR |
+|         RCSS |     READCSS |
+|          REP |      REPORT |
+|         RERR |     READERR |
+|          RGL |   RGLITCHES |
+|         RGSE |     READGSE |
+|           RH |     READHDR |
+|          ROT |      ROTATE |
+|           RS |      MATPRS |RECORDSECTION |
+|         RSDD |     READSDD |
+|          RSP |      READSP |
+|        RSUDS |    READSUDS |
+|         RTAB |   READTABLE |
+|          RTR |      RTREND |
+|         SAVE |     SAVEIMG |
+|           SC |SYSTEMCOMMAND |
+|          SCP |        SONO |     SCALLOP |    SONOGRAM |
+|          SPG | SPECTROGRAM |
+|           SS |    SUMSTACK |
+|          SYM |      SYMBOL |
+|          SYN |      SYNTAX |
+|         SYNC |       SYNCH | SYNCHRONIZE |
+|           TA |    TIMEAXIS |
+|        TRANS |    TRANSFER |
+|           TW |  TIMEWINDOW |
+|           VM |VELOCITYMODEL |
+|           VR |VELOCITYROSETTE |
+|          VSP |      VSPACE |
+|            W |       WRITE |
+|         WBBF |    WRITEBBF |
+|         WCOR |    WRITECOR |
+|         WCSS |    WRITECSS |
+|         WGSE |    WRITEGSE |
+|           WH |    WRITEHDR |
+|          WIN |      WINDOW |
+|          WNN |     WRITENN |
+|          WNR |      WIENER |
+|           WS |  WRITESTACK |
+|         WSDD |    WRITESDD |
+|          WSP |     WRITESP |
+|         WSPE |    WRITESPE |
+|           WT |  WRITETABLE |
+|        XLABL |      XLABEL |
+|          XVP |       XWIND |      XVPORT |
+|        YLABL |      YLABEL |
+|          YVP |       YWIND |      YVPORT |
+|           ZS |   ZEROSTACK |

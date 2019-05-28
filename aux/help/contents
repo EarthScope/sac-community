@@ -23,6 +23,9 @@ sac_scripts user_man/sac_scripts
 alphalist     sac_alpha_list
 funclist      sac_func_list
 about         about
+ab            abbrev
+abb           abbrev
+abbrev        abbrev
 absolutevalue absolutevalue
 abs           absolutevalue
 add           add
