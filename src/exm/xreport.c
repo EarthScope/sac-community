@@ -15,7 +15,7 @@ EXM_EXTERN
 
 GDM_EXTERN
 
-int
+void
 qwindow() {
     char tmp[32];
     tmp[0] = 0;
