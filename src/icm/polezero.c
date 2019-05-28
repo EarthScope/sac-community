@@ -221,6 +221,41 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
 
     // Check is file exists
     fstrncpy(kfile, MCPFN, subtyp, strlen(subtyp));
+
+    {
+        glob_t g;
+        int ok = FALSE;
+        glob(subtyp, 0, NULL, &g);
+
+        // No pattern matching occurred
+        if(g.gl_pathc == 0) {
+            // No files found
+            globfree(&g);
+        } else if(g.gl_pathc == 1 && strcmp(subtyp, g.gl_pathv[0]) == 0) {
+            // No pattern matching occurred, file specified directly
+            globfree(&g);
+        } else {
+            // Pattern present with matches
+            for(size_t i = 0; i < g.gl_pathc; i++) {
+                polezero(nfreq, delfrq, xre, xim, g.gl_pathv[i], subtyp_s, nerr);
+                if(*nerr == 0) {
+                    ok = TRUE;
+                    break;
+                }
+            }
+            globfree(&g);
+            if(!ok) {
+                clrmsg();
+                error(*nerr = 2114, "\n"
+                      "             Search for sacpz file failed using pattern: %s\n"
+                      "             net.stat.loc.cha: %s.%s.%s.%s",
+                      subtyp, net, stat, chan, loc);
+            }
+            goto L_8888;
+        }
+    }
+
+
     zinquire(kfile, &lexist);
     if (lexist) {
         goto L_5000;
