@@ -442,12 +442,6 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
     if (const_ == 1.0 && npoles == 0 && nzeros == 0) {
         *nerr = 2114;
         error(*nerr, "\n Station: %s.%s.%s.%s", net, stat, chan, loc);
-        if (meta && filetime && datetime_status(meta->start) == DATETIME_OK &&
-            datetime_status(meta->end) == DATETIME_OK) {
-            printf(" Time of data not found in file\n Date Time: ");
-            datetime_printn(filetime);
-            printf("\n");
-        }
     } else {
         printf(" Using polezero response for %s, %s, %s, %s from %s\n", stat, chan,
                net, loc, subtyp);

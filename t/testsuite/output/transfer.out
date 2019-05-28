@@ -80,9 +80,6 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
           e = 1.945000e+01
        npts = 1000
  transfer from polezero subtype test_transfer_annotated.m to none
- Time of data not found in file
- Date Time: 1981/03/29 (088) 10:38:14.000
-
  ERROR 2114: No response information for this channel in response file. 
  Station: .CDV..
  lh depmin depmax depmen b e npts
@@ -113,9 +110,6 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
           e = 1.945000e+01
        npts = 1000
  transfer from polezero subtype test_transfer_annotated2.m to none
- Time of data not found in file
- Date Time: 1981/03/29 (088) 10:38:14.000
-
  ERROR 2114: No response information for this channel in response file. 
  Station: .CDV..
  lh depmin depmax depmen b e npts
