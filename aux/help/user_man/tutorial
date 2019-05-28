@@ -143,32 +143,6 @@ not given, SAC uses the most recently used value in the current
 session. (Sometimes one forget that an option had been used, so one
 may not correctly anticipate correctly the result of the operation.)
 
-SAC Commands
-------------
-There are several general points to be made at this point about SAC commands.
-All input is space delimited.  The decimal point is optional wherever numeric
-input is needed.  When you specify a value for a particular option, this value
-becomes the new current value.  This means you don't have to keep entering
-values for options that you don't want to change.  For example, you can now
-generate this same 2 Hz sine wave using the same sampling interval but with
-400 data points by simply typing::
-
-  SAC> fg npts 400
-
-SAC commands fall into two main categories: parameter-setting and
-action-producing.  The parameter-setting commands basically change values of
-internal SAC parameters.  Action-producing commands perform some operation on
-the data files currently in memory based upon the values of these same
-parameters. The effect of a parameter-setting command remains in effect until
-it is reset. The effect of an action-producing command, however, is immediate
-and transitory. For example, the parameter-setting command, YLOG_, tells SAC to
-use logarithmic interpolation for the y axis in subsequent plots. The
-action-producing command, PLOT_, does the actual plotting. Options to
-action-producing commands also remain in effect until reset just like
-parameter-setting commands. The underlying assumption is that you are more
-likely than not to want to use the same values the next time you execute the
-same command.
-
 Default Values
 --------------
 All commands have "nice" default values for most options.  The use of
