@@ -81,6 +81,7 @@
 .. _more: ../commands/read.html
 
 .. _3c:	../commands/3c.html
+.. _abbrev: ../commands/abbrev.html
 .. _about:	../commands/about.html
 .. _abs:	../commands/absolutevalue.html
 .. _absolutevalue:	../commands/absolutevalue.html

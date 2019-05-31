@@ -109,8 +109,10 @@ Abbreviations
 -------------
 There are abbreviations for the most used SAC commands. For
 example, `fg` and `p` are the abbreviations for FUNCGEN_ and PLOT_
-respectively. For most functions, the title in the HELP_ file
-includes the abbreviation in (lower case) — e.g., FUNCGEN_ (fg) .
+respectively.
+
+For a complete listing of the abbrevations, please consult the ABBREV_
+help file or run `help abbrev` while in SAC
 
 Changing Options in Repeated Calls to SAC Commands
 --------------------------------------------------

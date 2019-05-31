@@ -1,5 +1,6 @@
 
 .. _3c: 3c.html
+.. _abbrev: abbrev.html
 .. _about: about.html
 .. _absolutevalue: absolutevalue.html
 .. _abs: absolutevalue.html

@@ -143,6 +143,8 @@
 ..
 .. _3c:	
 ..
+.. _abbrev:
+..
 .. _about:	
 ..
 .. _absolutevalue: abs_
