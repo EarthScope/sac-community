@@ -338,8 +338,8 @@ Trend is removed as::
 where y is the data
 
 
-Rotate
-------
+Rotate Data
+-----------
 
 .. code-block:: c
 
@@ -633,8 +633,8 @@ Compute begin time from a corealtion of two time series
 This accounts for the possible differences in begin times of two time series
 
 
-Envelope
---------
+Envelope Calculation
+--------------------
 
 .. code-block:: c
 
@@ -782,8 +782,8 @@ and the beging value is shifted by 0.5 delta::
     SAC> read raw.sac
     SAC> int
 
-Taper
------
+Taper Data
+----------
 
 .. code-block:: c
 

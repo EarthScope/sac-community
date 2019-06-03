@@ -3,6 +3,7 @@ Alphabetical Comamnd Listing
 ++++++++++++++++++++++++++++
 
 :3c_:            Launch a Matlab GUI for manipulating 3-component data.
+:abbrev_:        Abbrevations for SAC Commands
 :about_:         Displays version and copywrite information.
 :absolutevalue_: Takes the absolute value of each data point.
 :add_:           Adds a constant to each data point.

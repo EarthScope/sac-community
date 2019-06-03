@@ -3,6 +3,7 @@ Functional Command Listing
 
 Executive Function: Information and Control
 -------------------------------------------
+:abbrev_:        Abbrevations for SAC Commands
 :about_:          Displays version and copyright information
 :intro_:          Provides a brief introduction to SAC
 :help_:           Prints information about SAC commands and features.

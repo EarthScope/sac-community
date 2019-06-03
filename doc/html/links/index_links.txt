@@ -1,6 +1,6 @@
 
 .. _3c: commands/3c.html
-.. _abbrev: abbrev.html
+.. _abbrev: commands/abbrev.html
 .. _about: commands/about.html
 .. _absolutevalue: commands/absolutevalue.html
 .. _abs: commands/absolutevalue.html

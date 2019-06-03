@@ -1,4 +1,14 @@
 
+ABBREV
+++++++
+
+SYNTAX
+------
+::
+
+  ABBREV
+
+
 SAC Abbreviations
 -----------------
 
@@ -106,7 +116,6 @@ SCP             SONO              SCALLOP       SONOGRAM_
 SPG             SPECTROGRAM_
 SS              SUMSTACK
 SYM             SYMBOL_
-SYN             SYNTAX_
 SYNC            SYNCH             SYNCHRONIZE_
 TA              TIMEAXIS
 TRANS           TRANSFER_
