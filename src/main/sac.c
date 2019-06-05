@@ -118,6 +118,9 @@ main(int argc, char **argv) {
 
     /* - Initialize common. */
     sac_initialize(argc, argv);
+    // extern optind from getopt.h
+    argc -= optind - 1;
+    argv += optind - 1;
 
     /* - Get the input line message, if any.
      *   This should be the name of the a default SAC macro to execute. */
@@ -134,19 +137,13 @@ main(int argc, char **argv) {
 void
 execute_command_line(char *kmsg, int len) {
     int nerr;
-    char *s1, *s2;
+    char *s1 = NULL;
     UNUSED(len);
     if(strlen(kmsg) > 0) {
-        /* Macro name */
-        s1 = kmsg;
-        /* Macro arguments */
-        s2 = index(kmsg, ' ');
-        if(s2) {
-            *s2 = 0;
-            s2++;
-        }
-        /* Execute Macro */
-        executemacro(s1, strlen(s1), s2, strlen(s2), &nerr);
+        s1 = NULL;
+        asprintf(&s1, "macro %s", kmsg);
+        saccommands(s1, strlen(s1), &nerr);
+        FREE(s1);
     }
 }
 
