@@ -159,6 +159,12 @@ string *
 string_new(char *c) {
     return string_prepend(NULL, c);
 }
+void
+string_init(string *s) {
+    s->n = 0;
+    s->alloc = 16;
+    s->str = calloc(s->alloc, sizeof(char));
+}
 
 void
 string_dump_v(void *s) {
@@ -351,6 +357,14 @@ string_equal(string * a, string * b) {
         return 0;
     }
     return (strcmp(a->str, b->str) == 0);
+}
+
+void
+string_chomp_char(string *s, char c) {
+    if(s->str[s->n-1] == c) {
+        s->str[s->n-1] = 0;
+        s->n -= 1;
+    }
 }
 
 string *

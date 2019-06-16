@@ -63,6 +63,7 @@ string *string_pack(string * s);
 char *strstr_escape(char *big, char *little);
 char *strchr_reverse(char *s, int n, int c);
 char *strchr_reverse_isnot(char *s, int n, int c);
+void string_init(string *s);
 
 /* Copy String */
 string *string_copy(string * s);
@@ -83,6 +84,7 @@ string *string_insert(string * s, int n, char *in);
 
 /* String Removal */
 string *string_remove(string * s, int n, int len);
+void string_chomp_char(string *s, char c);
 
 /* String Trunctation */
 string *string_trunc(string * s);
