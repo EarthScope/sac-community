@@ -10,10 +10,10 @@
 
 AUTOMAKE_OPTIONS  = subdir-objects no-dependencies
 
-SAC_INCLUDES      = -I$(top_srcdir)/inc -I$(top_srcdir)/src/bs -I$(top_srcdir)/src/string
+SAC_INCLUDES      = -I$(top_srcdir)/inc -I$(top_srcdir)/src/bs -I$(top_srcdir)/src/string -I$(top_srcdir)/libmseed
 FORMAT_CFLAGS     = $(xpm_CFLAGS) $(png_CFLAGS) $(zlib_CFLAGS) $(XML_CPPFLAGS)
 # Compilation Flags
-AM_CFLAGS         = -fPIC $(DEBUG) $(COVERAGE) $(OPTIM) $(xft_CFLAGS) $(FORMAT_CFLAGS) $(X_CFLAGS) $(SAC_INCLUDES)
+AM_CFLAGS         = -fPIC $(DEBUG) $(COVERAGE) $(OPTIM) $(xft_CFLAGS) $(FORMAT_CFLAGS) $(X_CFLAGS) $(SAC_INCLUDES) $(LIBCURL_CPPFLAGS)
 
 AM_CXXFLAGS       = $(SAC_INCLUDES)
 # Compiled Programs 
@@ -45,7 +45,8 @@ noinst_LIBRARIES  = libsac_all.a \
 		    libevalresp.a \
 		    libSMnonOracleFuncs.a \
 		    libsac_check.a \
-		    libsgf.a libturtle.a libicm.a 
+		    libsgf.a libturtle.a libicm.a \
+				liboctopus.a
 if X11_APP
   noinst_LIBRARIES += libsac_x11.a
 endif
@@ -57,7 +58,7 @@ if OSX_APP
 endif
 # Libraries needed to compile sac
 #  libsac_all.a is included twice to satisfy recursive dependencies; fix
-sac_LDADD         = -L$(srcdir) -L. libsac_all.a libsgf.a  libicm.a
+sac_LDADD         = -L$(srcdir) -L. libsac_all.a libsgf.a  libicm.a liboctopus.a
 if X11_APP
   sac_LDADD        += libsac_x11.a
 endif
@@ -71,7 +72,8 @@ endif
 sac_LDADD        += libsac_all.a \
 		    libturtle.a \
 		    libevalresp.a \
-		    libSMnonOracleFuncs.a
+		    libSMnonOracleFuncs.a \
+				../libmseed/libmseed.a
 
 if WIN_APP
   sac_LDADD        += -lgdiplus 
@@ -89,7 +91,7 @@ else
 endif
 
 # More Libraries
-FORMAT_LIBS      = $(png_LIBS) $(zlib_LIBS) $(XML_LIBS)
+FORMAT_LIBS      = $(png_LIBS) $(zlib_LIBS) $(XML_LIBS) $(LIBCURL)
 if OSX_APP
   sac_LDADD        += $(FORMAT_LIBS) $(FRAMEWORK_FOUNDATION) $(FRAMEWORK_COCOA)
 endif
@@ -178,7 +180,6 @@ libsacio_a_SOURCES = bs/iniam.c bs/array.c \
 	\
 	string/strings.c string/datetime.c string/string_utils.h
 
-
 libSMnonOracleFuncs_a_SOURCES = \
 	SeisMgr/smDataIO.c \
 	SeisMgr/smWorkSets.c \
@@ -239,6 +240,8 @@ libevalresp_a_SOURCES = evalresp/alloc_fctns.c evalresp/calc_fctns.c \
 	evalresp/x2r_ws.c evalresp/x2r.h evalresp/x2r_log.h evalresp/x2r_ws.h \
 	evalresp/x2r_xml.h \
 	evalresp/evalresp_sac.c
+
+liboctopus_a_SOURCES = bs/request.c bs/quake_xml.c bs/event.c bs/csv.c bs/meta.c bs/sid.c bs/sacpz.c bs/eventreq.c bs/stationreq.c bs/datareq.c bs/octopus.c
 
 libsac_a_SOURCES = co/complex.c  \
 	\

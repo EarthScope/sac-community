@@ -37,6 +37,7 @@ m4_include([config/edit.m4])
 m4_include([config/win.m4])
 m4_include([config/ax_openmp.m4])
 m4_include([config/ax_complex.m4])
+m4_include([config/libcurl.m4])
 
 # Check for CFLAGS Variable and set default to ""
 AS_IF( [ test x"${CFLAGS}" = x ],  [ CFLAGS="" ] )
@@ -253,6 +254,8 @@ AC_CHECK_FUNC(wordexp,   [ AC_DEFINE( [HAVE_FUNC_WORDEXP],       [1], [ System L
 # Check for typedefs, structures, and compiler characteristics
 #AC_C_CONST
 
+LIBCURL_CHECK_CONFIG([yes])
+
 # Define the Build Date 
 AC_DEFINE_UNQUOTED([BUILD_DATE], ["`date +%m/%d/%Y`"], [Macro which defines the Date of the Current Build])
 
@@ -265,7 +268,7 @@ fi
 AC_DEFINE_UNQUOTED([SACAUX], ["${aux}"], [Define the SACAUX directory])
 
 # Output the Makefiles
-AC_OUTPUT(src/Makefile utils/Makefile libedit/Makefile t/Makefile Makefile)
+AC_OUTPUT(src/Makefile utils/Makefile libedit/Makefile libmseed/Makefile t/Makefile Makefile)
 
 DISPLAYSTR=""
 if test x${display} = xx11; then

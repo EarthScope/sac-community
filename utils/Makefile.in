@@ -101,7 +101,8 @@ am__aclocal_m4_deps = $(top_srcdir)/config/matlab.m4 \
 	$(top_srcdir)/config/db.m4 $(top_srcdir)/config/code.m4 \
 	$(top_srcdir)/config/edit.m4 $(top_srcdir)/config/win.m4 \
 	$(top_srcdir)/config/ax_openmp.m4 \
-	$(top_srcdir)/config/ax_complex.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/config/ax_complex.m4 \
+	$(top_srcdir)/config/libcurl.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
@@ -223,6 +224,8 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
+LIBCURL = @LIBCURL@
+LIBCURL_CPPFLAGS = @LIBCURL_CPPFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LN_S = @LN_S@
@@ -267,6 +270,7 @@ X_CFLAGS = @X_CFLAGS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_LIBS = @X_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
+_libcurl_config = @_libcurl_config@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@

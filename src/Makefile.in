@@ -131,7 +131,8 @@ am__aclocal_m4_deps = $(top_srcdir)/config/matlab.m4 \
 	$(top_srcdir)/config/db.m4 $(top_srcdir)/config/code.m4 \
 	$(top_srcdir)/config/edit.m4 $(top_srcdir)/config/win.m4 \
 	$(top_srcdir)/config/ax_openmp.m4 \
-	$(top_srcdir)/config/ax_complex.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/config/ax_complex.m4 \
+	$(top_srcdir)/config/libcurl.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
@@ -259,6 +260,14 @@ am_libicm_a_OBJECTS = icm/acc.$(OBJEXT) icm/bbdisp.$(OBJEXT) \
 	icm/wwlpbn.$(OBJEXT) icm/wwsp.$(OBJEXT) icm/wwspbn.$(OBJEXT) \
 	icm/ykalp.$(OBJEXT) icm/ykasp.$(OBJEXT) icm/getran.$(OBJEXT)
 libicm_a_OBJECTS = $(am_libicm_a_OBJECTS)
+liboctopus_a_AR = $(AR) $(ARFLAGS)
+liboctopus_a_LIBADD =
+am_liboctopus_a_OBJECTS = bs/request.$(OBJEXT) bs/quake_xml.$(OBJEXT) \
+	bs/event.$(OBJEXT) bs/csv.$(OBJEXT) bs/meta.$(OBJEXT) \
+	bs/sid.$(OBJEXT) bs/sacpz.$(OBJEXT) bs/eventreq.$(OBJEXT) \
+	bs/stationreq.$(OBJEXT) bs/datareq.$(OBJEXT) \
+	bs/octopus.$(OBJEXT)
+liboctopus_a_OBJECTS = $(am_liboctopus_a_OBJECTS)
 libsac_a_AR = $(AR) $(ARFLAGS)
 libsac_a_LIBADD =
 am_libsac_a_OBJECTS = co/complex.$(OBJEXT) dfm/cut.$(OBJEXT) \
@@ -832,7 +841,7 @@ am__sac_SOURCES_DIST = osx/sac.m osx/main.m main/sac.c win/win.cpp \
 sac_OBJECTS = $(am_sac_OBJECTS)
 am__DEPENDENCIES_1 =
 am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 @OSX_APP_TRUE@am__DEPENDENCIES_3 = $(am__DEPENDENCIES_2) \
 @OSX_APP_TRUE@	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 @X11_APP_TRUE@am__DEPENDENCIES_4 = $(am__DEPENDENCIES_1) \
@@ -840,10 +849,11 @@ am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 @X11_APP_TRUE@	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 @X11_APP_TRUE@	$(am__DEPENDENCIES_1)
 @WIN_APP_TRUE@am__DEPENDENCIES_5 = $(am__DEPENDENCIES_2)
-sac_DEPENDENCIES = libsac_all.a libsgf.a libicm.a $(am__append_5) \
-	$(am__append_6) $(am__append_7) libsac_all.a libturtle.a \
-	libevalresp.a libSMnonOracleFuncs.a $(am__DEPENDENCIES_1) \
-	libsac_all.a libsgf.a $(am__append_10) $(am__append_12) \
+sac_DEPENDENCIES = libsac_all.a libsgf.a libicm.a liboctopus.a \
+	$(am__append_5) $(am__append_6) $(am__append_7) libsac_all.a \
+	libturtle.a libevalresp.a libSMnonOracleFuncs.a \
+	../libmseed/libmseed.a $(am__DEPENDENCIES_1) libsac_all.a \
+	libsgf.a $(am__append_10) $(am__append_12) \
 	$(am__DEPENDENCIES_3) $(am__DEPENDENCIES_4) \
 	$(am__DEPENDENCIES_5) $(am__append_16)
 AM_V_P = $(am__v_P_@AM_V@)
@@ -902,20 +912,21 @@ am__v_OBJCLD_1 =
 SOURCES = $(libSMOracleFuncs_a_SOURCES) \
 	$(libSMnonOracleFuncs_a_SOURCES) \
 	$(libSacOracleStubFuncs_a_SOURCES) $(libevalresp_a_SOURCES) \
-	$(libicm_a_SOURCES) $(libsac_a_SOURCES) \
-	$(libsac_all_a_SOURCES) $(libsac_check_a_SOURCES) \
-	$(libsac_osx_a_SOURCES) $(libsac_win_a_SOURCES) \
-	$(libsac_x11_a_SOURCES) $(libsacio_a_SOURCES) \
-	$(libsgf_a_SOURCES) $(libturtle_a_SOURCES) $(sac_SOURCES)
+	$(libicm_a_SOURCES) $(liboctopus_a_SOURCES) \
+	$(libsac_a_SOURCES) $(libsac_all_a_SOURCES) \
+	$(libsac_check_a_SOURCES) $(libsac_osx_a_SOURCES) \
+	$(libsac_win_a_SOURCES) $(libsac_x11_a_SOURCES) \
+	$(libsacio_a_SOURCES) $(libsgf_a_SOURCES) \
+	$(libturtle_a_SOURCES) $(sac_SOURCES)
 DIST_SOURCES = $(libSMOracleFuncs_a_SOURCES) \
 	$(libSMnonOracleFuncs_a_SOURCES) \
 	$(libSacOracleStubFuncs_a_SOURCES) $(libevalresp_a_SOURCES) \
-	$(libicm_a_SOURCES) $(libsac_a_SOURCES) \
-	$(libsac_all_a_SOURCES) $(libsac_check_a_SOURCES) \
-	$(am__libsac_osx_a_SOURCES_DIST) $(libsac_win_a_SOURCES) \
-	$(libsac_x11_a_SOURCES) $(libsacio_a_SOURCES) \
-	$(libsgf_a_SOURCES) $(libturtle_a_SOURCES) \
-	$(am__sac_SOURCES_DIST)
+	$(libicm_a_SOURCES) $(liboctopus_a_SOURCES) \
+	$(libsac_a_SOURCES) $(libsac_all_a_SOURCES) \
+	$(libsac_check_a_SOURCES) $(am__libsac_osx_a_SOURCES_DIST) \
+	$(libsac_win_a_SOURCES) $(libsac_x11_a_SOURCES) \
+	$(libsacio_a_SOURCES) $(libsgf_a_SOURCES) \
+	$(libturtle_a_SOURCES) $(am__sac_SOURCES_DIST)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -979,6 +990,8 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
+LIBCURL = @LIBCURL@
+LIBCURL_CPPFLAGS = @LIBCURL_CPPFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LN_S = @LN_S@
@@ -1023,6 +1036,7 @@ X_CFLAGS = @X_CFLAGS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_LIBS = @X_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
+_libcurl_config = @_libcurl_config@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -1089,11 +1103,12 @@ xpm_LIBS = @xpm_LIBS@
 zlib_CFLAGS = @zlib_CFLAGS@
 zlib_LIBS = @zlib_LIBS@
 AUTOMAKE_OPTIONS = subdir-objects no-dependencies
-SAC_INCLUDES = -I$(top_srcdir)/inc -I$(top_srcdir)/src/bs -I$(top_srcdir)/src/string
+SAC_INCLUDES = -I$(top_srcdir)/inc -I$(top_srcdir)/src/bs -I$(top_srcdir)/src/string -I$(top_srcdir)/libmseed
 FORMAT_CFLAGS = $(xpm_CFLAGS) $(png_CFLAGS) $(zlib_CFLAGS) $(XML_CPPFLAGS)
 # Compilation Flags
 AM_CFLAGS = -fPIC $(DEBUG) $(COVERAGE) $(OPTIM) $(xft_CFLAGS) \
-	$(FORMAT_CFLAGS) $(X_CFLAGS) $(SAC_INCLUDES) $(am__append_17)
+	$(FORMAT_CFLAGS) $(X_CFLAGS) $(SAC_INCLUDES) \
+	$(LIBCURL_CPPFLAGS) $(am__append_17)
 AM_CXXFLAGS = $(SAC_INCLUDES) $(am__append_1)
 @OSX_APP_TRUE@sac_SOURCES = osx/sac.m osx/main.m main/sac.c
 
@@ -1112,20 +1127,20 @@ lib_LIBRARIES = libsacio.a libsac.a libevalresp.a
 
 # Libraries not installed
 noinst_LIBRARIES = libsac_all.a libevalresp.a libSMnonOracleFuncs.a \
-	libsac_check.a libsgf.a libturtle.a libicm.a $(am__append_2) \
-	$(am__append_3) $(am__append_4) $(am__append_9) \
-	$(am__append_11)
+	libsac_check.a libsgf.a libturtle.a libicm.a liboctopus.a \
+	$(am__append_2) $(am__append_3) $(am__append_4) \
+	$(am__append_9) $(am__append_11)
 # Libraries needed to compile sac
 #  libsac_all.a is included twice to satisfy recursive dependencies; fix
 sac_LDADD = -L$(srcdir) -L. libsac_all.a libsgf.a libicm.a \
-	$(am__append_5) $(am__append_6) $(am__append_7) libsac_all.a \
-	libturtle.a libevalresp.a libSMnonOracleFuncs.a \
-	$(am__append_8) libsac_all.a libsgf.a $(am__append_10) \
-	$(am__append_12) $(am__append_13) $(am__append_14) \
-	$(am__append_15) $(am__append_16)
+	liboctopus.a $(am__append_5) $(am__append_6) $(am__append_7) \
+	libsac_all.a libturtle.a libevalresp.a libSMnonOracleFuncs.a \
+	../libmseed/libmseed.a $(am__append_8) libsac_all.a libsgf.a \
+	$(am__append_10) $(am__append_12) $(am__append_13) \
+	$(am__append_14) $(am__append_15) $(am__append_16)
 
 # More Libraries
-FORMAT_LIBS = $(png_LIBS) $(zlib_LIBS) $(XML_LIBS)
+FORMAT_LIBS = $(png_LIBS) $(zlib_LIBS) $(XML_LIBS) $(LIBCURL)
 EXTRA_DIST = describedirs gd3.x11/sac.bitmap \
 		   history/History.doc \
 		   SeisMgr/dbselect/dbHelpQuery.pc \
@@ -1244,6 +1259,7 @@ libevalresp_a_SOURCES = evalresp/alloc_fctns.c evalresp/calc_fctns.c \
 	evalresp/x2r_xml.h \
 	evalresp/evalresp_sac.c
 
+liboctopus_a_SOURCES = bs/request.c bs/quake_xml.c bs/event.c bs/csv.c bs/meta.c bs/sid.c bs/sacpz.c bs/eventreq.c bs/stationreq.c bs/datareq.c bs/octopus.c
 libsac_a_SOURCES = co/complex.c  \
 	\
 	dfm/cut.c \
@@ -1951,6 +1967,25 @@ libicm.a: $(libicm_a_OBJECTS) $(libicm_a_DEPENDENCIES) $(EXTRA_libicm_a_DEPENDEN
 	$(AM_V_at)-rm -f libicm.a
 	$(AM_V_AR)$(libicm_a_AR) libicm.a $(libicm_a_OBJECTS) $(libicm_a_LIBADD)
 	$(AM_V_at)$(RANLIB) libicm.a
+bs/$(am__dirstamp):
+	@$(MKDIR_P) bs
+	@: > bs/$(am__dirstamp)
+bs/request.$(OBJEXT): bs/$(am__dirstamp)
+bs/quake_xml.$(OBJEXT): bs/$(am__dirstamp)
+bs/event.$(OBJEXT): bs/$(am__dirstamp)
+bs/csv.$(OBJEXT): bs/$(am__dirstamp)
+bs/meta.$(OBJEXT): bs/$(am__dirstamp)
+bs/sid.$(OBJEXT): bs/$(am__dirstamp)
+bs/sacpz.$(OBJEXT): bs/$(am__dirstamp)
+bs/eventreq.$(OBJEXT): bs/$(am__dirstamp)
+bs/stationreq.$(OBJEXT): bs/$(am__dirstamp)
+bs/datareq.$(OBJEXT): bs/$(am__dirstamp)
+bs/octopus.$(OBJEXT): bs/$(am__dirstamp)
+
+liboctopus.a: $(liboctopus_a_OBJECTS) $(liboctopus_a_DEPENDENCIES) $(EXTRA_liboctopus_a_DEPENDENCIES) 
+	$(AM_V_at)-rm -f liboctopus.a
+	$(AM_V_AR)$(liboctopus_a_AR) liboctopus.a $(liboctopus_a_OBJECTS) $(liboctopus_a_LIBADD)
+	$(AM_V_at)$(RANLIB) liboctopus.a
 co/$(am__dirstamp):
 	@$(MKDIR_P) co
 	@: > co/$(am__dirstamp)
@@ -2021,9 +2056,6 @@ libsac.a: $(libsac_a_OBJECTS) $(libsac_a_DEPENDENCIES) $(EXTRA_libsac_a_DEPENDEN
 	$(AM_V_at)-rm -f libsac.a
 	$(AM_V_AR)$(libsac_a_AR) libsac.a $(libsac_a_OBJECTS) $(libsac_a_LIBADD)
 	$(AM_V_at)$(RANLIB) libsac.a
-bs/$(am__dirstamp):
-	@$(MKDIR_P) bs
-	@: > bs/$(am__dirstamp)
 bs/iniam.$(OBJEXT): bs/$(am__dirstamp)
 bs/array.$(OBJEXT): bs/$(am__dirstamp)
 bs/strlist.$(OBJEXT): bs/$(am__dirstamp)
