@@ -30,7 +30,8 @@ enum filetype {
     sacfi,
     alpha,
     xdr,
-    segy
+    segy,
+    miniseed,
 } ftype;
 
 /** 
@@ -105,6 +106,9 @@ xr(int *nerr) {
         /* -- "SEGY":  input file is in segy format. */
         else if (lckey("SEGY#$", 8)) {
             ftype = segy;
+        }
+        else if (lckey("MSEED#$", 8)) {
+            ftype = miniseed;
         }
 
         /* -- "IO, IB": sets reference time, IB is default. */

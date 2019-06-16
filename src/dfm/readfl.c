@@ -22,6 +22,8 @@
 #include "dff.h"
 #include "dfm.h"
 
+#include "sac_datetime.h"
+
 DFM_EXTERN
 
 #ifdef HAVE_LIBRPC
@@ -138,7 +140,8 @@ extern enum filetype {
     sacfi,
     alpha,
     xdr,
-    segy
+        segy,
+        miniseed,
 } ftype;
 
 static
@@ -263,6 +266,184 @@ read_sdd(string_list * files, int ldata) {
         }
     }
     return retval;
+}
+
+#include "libmseed/libmseed.h"
+
+double
+time_tolerance_func(MS3Record *r) {
+    UNUSED(r);
+    return 0.0;
+}
+double
+samprate_tolerance_func(MS3Record *r) {
+    UNUSED(r);
+    return 0.0;
+}
+
+double *
+station_meta_get(char *net, char *sta, char *loc, char *cha,
+                 datetime *start, datetime *end,
+                 char **values, int verbose,
+                 int *nerr);
+
+datetime
+sac_datetime(sac *s) {
+    datetime start = {.year = s->h->nzyear,
+                      .doy  = s->h->nzjday,
+                      .hour = s->h->nzhour,
+                      .minute = s->h->nzmin,
+                      .second = s->h->nzsec,
+                      .nanosecond = s->h->nzmsec * 1000000,
+                      .set = DT_YEAR | DT_DOY,
+    };
+    return start;
+}
+void
+sac_fill_station_meta(sac *s, int verbose, int *nerr) {
+    char *keys[] = {"s:Latitude", "s:Longitude",
+                    "s:Elevation", "s:Depth",
+                    "s:Azimuth", "s:Dip",
+                    NULL };
+    datetime start = sac_datetime(s);
+    datetime_normalize(&start);
+    datetime end = start;
+
+    /*
+      khole - Possible values
+      - defined    - 00, 10, ...
+      - ''         - not defined
+      - '-12345  ' - SAC_CHAR_UNDEFINED
+    */
+#define strdef(x) ((strcmp(x, SAC_CHAR_UNDEFINED) == 0) ? NULL : x)
+    if(verbose) {
+        printf("Requesting meta data %s.%s.%s.%s\n",
+               s->h->knetwk,
+               s->h->kstnm,
+               s->h->khole,
+               s->h->kcmpnm);
+    }
+    double *vals = station_meta_get(strdef(s->h->knetwk),
+                                    strdef(s->h->kstnm),
+                                    strdef(s->h->khole),
+                                    strdef(s->h->kcmpnm),
+                                    &start, &end,
+                                    keys, verbose, nerr);
+#undef strdef
+    if(*nerr == 404) {
+        clrmsg();
+        printf("Error Station meta data not found for for %s.%s.%s.%s\n",
+               s->h->knetwk, s->h->kstnm,
+               s->h->khole, s->h->kcmpnm);
+        *nerr = 0;
+    } else if (*nerr == 0) {
+        s->h->stla   = vals[0];
+        s->h->stlo   = vals[1];
+        s->h->stel   = vals[2];
+        s->h->stdp   = vals[3];
+        s->h->cmpaz  = vals[4];
+        s->h->cmpinc = vals[5] + 90.0;
+    }
+    FREE(vals);
+}
+
+
+int
+read_miniseed(string_list *files, int ldata, int *nerr) {
+    UNUSED(ldata);
+    int verbose = 0;
+    int8_t gaps = 1;
+    uint32_t flags     = MSF_SKIPNOTDATA | MSF_UNPACKDATA | MSF_VALIDATECRC ;
+    MS3Tolerance tolerance;
+    tolerance.time     = NULL; // time_tolerance_func;
+    tolerance.samprate = NULL; // samprate_tolerance_func;
+    MS3Selections *selections = NULL;
+    int8_t split_version = 0;
+
+    MS3TraceList *mstl = mstl3_init(NULL);
+    for(int i = 0; i < string_list_length(files); i++) {
+        char *file = string_list_get(files, i);
+        int retcode = ms3_readtracelist_selection (&mstl, file, &tolerance, selections,
+                                                   split_version, flags, verbose);
+        if(retcode != MS_NOERROR) {
+            printf("Error reading in %s: %s\n", file, ms_errorstr(retcode));
+        }
+    }
+    mstl3_printtracelist (mstl, ISOMONTHDAY , verbose, gaps);
+    clrmsg();
+    int n = 0;
+    MS3TraceID *t = mstl->traces;
+    for(uint32_t i = 0; i < mstl->numtraces; i++) {
+        MS3TraceSeg *seg = t->first;
+        while(seg) {
+            if(seg->samprate != 0.0 && seg->numsamples > 0) {
+                char qual[6] = " RDQM";
+                sac *s;
+                uint16_t year, doy;
+                uint8_t hour, min, sec;
+                uint32_t nsec;
+                year = doy = 0;
+                hour = min = sec = 0;
+                nsec = 0;
+
+                s = sac_new();
+                s->h->delta = 1.0 / seg->samprate;
+                s->h->npts = seg->numsamples;
+                s->h->leven = TRUE;
+                s->h->iftype = ITIME;
+
+                ms_sid2nslc(t->sid, s->h->knetwk, s->h->kstnm, s->h->khole, s->h->kcmpnm);
+
+                ms_nstime2time(seg->starttime, &year, &doy, &hour, &min, &sec, &nsec);
+                s->h->nzyear = year;
+                s->h->nzjday = doy;
+                s->h->nzhour = hour;
+                s->h->nzmin  = min;
+                s->h->nzsec  = sec;
+                s->h->nzmsec = nsec / 1000000;
+
+                nstime_t dt = seg->starttime - ms_time2nstime(s->h->nzyear, s->h->nzjday,
+                                                              s->h->nzhour, s->h->nzmin,
+                                                              s->h->nzsec, s->h->nzmsec * 1000000);
+                s->h->b = (float) ((double) dt / (double)NSTMODULUS) ;
+
+                asprintf(&s->m->filename,
+                         "%s.%s.%s.%s.%c.%04d.%03d.%02d%02d%02d",
+                         s->h->knetwk, s->h->kstnm, s->h->khole, s->h->kcmpnm,
+                         qual[t->pubversion], s->h->nzyear, s->h->nzjday,
+                         s->h->nzhour, s->h->nzmin, s->h->nzsec);
+
+                // Data
+                s->y = calloc(s->h->npts, sizeof(float));
+                switch(seg->sampletype) {
+                case 'f': memcpy(s->y, seg->datasamples, sizeof(float) * s->h->npts); break;
+                case 'd': {
+                    double *data = (double *) seg->datasamples;
+                    for(int j = 0; j < seg->numsamples; j++) {
+                        s->y[j] = (float) data[j];
+                    }
+                }
+                    break;
+                case 'i': {
+                    int *data = (int *) seg->datasamples;
+                    for(int j = 0; j < seg->numsamples; j++) {
+                        s->y[j] = (float) data[j];
+                    }
+                }
+                    break;
+                }
+                sac_fill_station_meta(s, verbose, nerr);
+
+                sac_extrema(s);
+                sacput(s);
+                n++;
+            }
+            seg = seg->next;
+        }
+        t = t->next;
+    }
+    mstl3_free(&mstl, 1);
+    return 0;
 }
 
 int
@@ -455,6 +636,8 @@ readfl(int ldata, int lmore, int lsdd, char *kdirin, int kdirin_s,
         lrdrem = read_xdr(files);
     } else if (lsdd) {
         lrdrem = read_sdd(files, ldata);
+    } else if (ftype == miniseed) {
+        lrdrem = read_miniseed(files, ldata, nerr);
     } else {
         lrdrem = read_sac(files, ldata);
     }
@@ -479,3 +662,4 @@ readfl(int ldata, int lmore, int lsdd, char *kdirin, int kdirin_s,
   L_8888:
     return;
 }
+
