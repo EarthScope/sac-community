@@ -5,6 +5,7 @@
  * 
  */
 
+#include <string.h>
 #include <stdio.h>
 #include "bot.h"
 #include "eam.h"
@@ -72,17 +73,21 @@ xoapf(int *nerr) {
             goto L_8888;
         }
     }
-
+    int lexist = 0;
+    zinquire(kmeam.kapfnm, &lexist);
     /* - Open APF. */
     cmeam.lapfop = TRUE;
-    if((cmeam.napfun = fopen(kmeam.kapfnm, "wb+")) == NULL) {
+    char mode[4] = "wb+";
+    if(lexist) {
+        strlcpy(mode, "rb+", sizeof(mode));
+    }
+    if((cmeam.napfun = fopen(kmeam.kapfnm, mode)) == NULL) {
         cmeam.lapfop = FALSE;
         error(*nerr = 1902, "%s", kmeam.kapfnm);
         goto L_8888;
     }
 
     /* - Position to end-of-file. */
-
     if (fseek(cmeam.napfun, 0L, SEEK_END) != 0)
         fprintf(stdout, "fseek returned error-xoapf\n");
 

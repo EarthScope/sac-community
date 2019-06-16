@@ -105,7 +105,30 @@ findcommand(kcommand, lfind, module, index)
         *lfind = 1;
         goto L_8888;
     }
-
+    if(strcasecmp(kcommand, "sacpz") == 0) {
+        *module = 2;
+        *index = 34;
+        *lfind = 1;
+        goto L_8888;
+    }
+    if(strcasecmp(kcommand, "event") == 0) {
+        *module = 2;
+        *index = 35;
+        *lfind = 1;
+        goto L_8888;
+    }
+    if(strcasecmp(kcommand, "data") == 0) {
+        *module = 2;
+        *index = 36;
+        *lfind = 1;
+        goto L_8888;
+    }
+    if(strcasecmp(kcommand, "station") == 0) {
+        *module = 2;
+        *index = 37;
+        *lfind = 1;
+        goto L_8888;
+    }
 
     /* - Return internal module and index numbers if this search was successful. */
 
