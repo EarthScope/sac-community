@@ -76,6 +76,7 @@ int lcrtw(int *lrtw, char *krtw, int krtw_s, double *ortw);
 int lctok(char *ktok, int ktok_s, int *lnumbr, double *rnumbr);
 int lkchar(char *kkey, int kkey_s, int mchar, char *kchar, int kchar_s,
            int *nchar);
+int lkchar2(char *kkey, char *kchar, int nchar);
 int lkcharExact(char *kkey, int kkey_s, int mchar, char *kchar, int kchar_s,
                 int *nchar);
 int lkentries(char *kkey, int kkey_s, char *klist, int klist_s, int nlist,

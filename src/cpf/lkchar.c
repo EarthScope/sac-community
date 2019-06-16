@@ -60,3 +60,9 @@ lkchar(char *kkey, int kkey_s, int mchar, char *kchar, int kchar_s, int *nchar) 
     return TRUE;
 
 }
+
+int
+lkchar2(char *kkey, char *kchar, int nchar) {
+    int n = 0;
+    return lkchar(kkey, -1, nchar, kchar, -1, &n);
+}
