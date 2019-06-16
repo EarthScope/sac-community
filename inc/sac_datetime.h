@@ -30,6 +30,8 @@ POSSIBILITY OF SUCH DAMAGE.
 #define _SAC_DATETIME_H_
 
 typedef struct _datetime datetime;
+typedef struct _duration duration;
+
 
 struct _datetime {
     int year;                   /* Year */
@@ -92,6 +94,7 @@ void datetime_print_date(datetime * t);
 void datetime_printn_date(datetime * t);
 int datetime_status(datetime * t);
 char *datetime_status_message(int status);
+char * datetime_to_iso8601(datetime *t, char *dst);
 
 void datetime_set_year(datetime * t, int x);
 void datetime_set_doy(datetime * t, int x);
@@ -101,5 +104,10 @@ void datetime_set_hour(datetime * t, int x);
 void datetime_set_minute(datetime * t, int x);
 void datetime_set_second(datetime * t, int x);
 void datetime_set_nanosecond(datetime * t, int x);
+
+duration * duration_new();
+void duration_init(duration *d);
+duration * duration_parse(char *in);
+datetime * datetime_add_duration(datetime *t1, duration *d);
 
 #endif /* _SAC_DATETIME_H_ */

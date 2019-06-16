@@ -40,6 +40,25 @@ POSSIBILITY OF SUCH DAMAGE.
 #define DATETIME_NA_VALUE  "2999/365 23:59:59"
 #define DATETIME_NA_FORMAT "%{y/d h:m:s}"
 
+typedef enum _TimeType TimeType;
+enum _TimeType {
+    None    = 0,
+    Seconds = 1,
+    Minutes = 2,
+    Hours   = 3,
+    Days    = 4,
+    Weeks   = 5,
+    Months  = 6,
+    Years   = 7,
+    Decades = 8,
+    Centuries = 9,
+};
+
+struct _duration {
+    TimeType type;
+    int64_t n;
+};
+
 /* Internal variable for datetime_parse / datetime_strptime, 
    should be included into datetime structure */
 
@@ -379,6 +398,93 @@ datetime_atol(char **p, long long int *pval, int lower, int upper) {
     return 1;
 }
 
+duration *
+duration_new() {
+    duration *d = calloc(1, sizeof(duration));
+    duration_init(d);
+    return d;
+}
+
+void
+duration_init(duration *d) {
+    d->type = None;
+    d->n    = 0;
+}
+
+duration *
+duration_parse(char *in) {
+    char *p = in;
+    int n = 0;
+    /// Check for a starting '+' sign
+    if(*p != '+') {
+        return NULL;
+    }
+    p++;
+    // Read in Duration number
+    while(p && isdigit(*p)) {
+        n = 10 * n + (*p - '0');
+        p++;
+    }
+    if(!p) {
+        return NULL;
+    }
+    char *key[] = {"s", "sec", "secs",  "seconds",
+                   "m", "min", "mins" , "minutes",
+                   "d",  "days",
+                   "h", "hrs", "hours",
+                   "w" , "wk" ,"wks" ,"weeks",
+                   "mon", "months",
+                   "y", "yr", "yrs", "years",
+                   "dec", "decades",
+                   "cent", "centuries"
+    };
+    TimeType T[] = {Seconds, Seconds, Seconds, Seconds,
+                    Minutes, Minutes, Minutes, Minutes,
+                    Days, Days,
+                    Hours, Hours, Hours,
+                    Weeks, Weeks, Weeks, Weeks,
+                    Months, Months,
+                    Years, Years, Years, Years,
+                    Decades, Decades,
+                    Centuries, Centuries};
+
+    size_t m = strlen(p);
+    size_t nkeys =  sizeof(key)/sizeof(char*);
+    for(size_t i = 0; i < nkeys; i++) {
+        if(strncasecmp(p, key[i], m) == 0) {
+            duration *d = duration_new();
+            d->n = n;
+            d->type = T[i];
+            return d;
+        }
+    }
+    return NULL;
+}
+
+datetime *
+datetime_add_duration(datetime *t1, duration *d) {
+    datetime *t = NULL;
+    if(!t1) {
+        return NULL;
+    }
+    t = datetime_copy(t1);
+    switch(d->type) {
+    case None:      break;
+    case Seconds:   t->second += d->n;       break;
+    case Minutes:   t->minute += d->n;       break;
+    case Hours:     t->hour   += d->n;       break;
+    case Days:      t->day    += d->n;       break;
+    case Weeks:     t->day    += d->n * 7;   break;
+    case Months:    t->month  += d->n;       break;
+    case Years:     t->year   += d->n;       break;
+    case Decades:   t->year   += d->n * 10;  break;
+    case Centuries: t->year   += d->n * 100; break;
+    }
+    datetime_normalize(t);
+    return t;
+}
+
+
 char *
 datetime_strptime(char *buf, char *fmt, datetime * t) {
     int v;
@@ -656,6 +762,18 @@ datetime_free(datetime * t) {
         free(t);
         t = NULL;
     }
+}
+
+char *
+datetime_to_iso8601(datetime *t, char *dst) {
+    sprintf(dst, "%04d-%02d-%02dT%02d:%02d:%02d",
+            t->year,
+            t->month,
+            t->day,
+            t->hour,
+            t->minute,
+            t->second);
+    return dst;
 }
 
 char *
