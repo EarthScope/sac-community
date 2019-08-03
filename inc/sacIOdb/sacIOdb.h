@@ -3,10 +3,12 @@
 
 #include <stdio.h>
 
-#include "SacHeader.h"
+#include <sacio/sacio.h>
 
 #include "bool.h"
 #include "dfm.h"
+
+#define SACheader sac_hdr
 
 typedef struct {
     int dataType;
