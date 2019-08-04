@@ -174,6 +174,8 @@ def commands_execute( commands , opts, test_path) :
         print("", file=sys.stderr)
         print(''.join(out), file=sys.stderr)
         print("", file=sys.stderr)
+        print(''.join(err), file=sys.stderr)
+        print("", file=sys.stderr)
         print('***** Program exiting badly, return value: %d *****' % ecode, file=sys.stderr)
         print("", file=sys.stderr)
         sys.exit(99)

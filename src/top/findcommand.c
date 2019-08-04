@@ -129,6 +129,12 @@ findcommand(kcommand, lfind, module, index)
         *lfind = 1;
         goto L_8888;
     }
+    if(strcasecmp(kcommand, "meta") == 0) {
+        *module = 2;
+        *index = 38;
+        *lfind = 1;
+        goto L_8888;
+    }
 
     /* - Return internal module and index numbers if this search was successful. */
 

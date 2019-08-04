@@ -30,7 +30,6 @@ enum filetype {
     alpha,
     xdr,
     segy,
-    miniseed,
 } ftype;
 
 /** 
@@ -106,10 +105,6 @@ xr(int *nerr) {
         else if (lckey("SEGY#$", 8)) {
             ftype = segy;
         }
-        else if (lckey("MSEED#$", 8)) {
-            ftype = miniseed;
-        }
-
         /* -- "IO, IB": sets reference time, IB is default. */
         else if (lckey("IB#$", 6))
             cmdfm.iztype = IB;

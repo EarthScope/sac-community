@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
+
 #ifndef WIN32
 #include <libgen.h>
 #endif
@@ -24,11 +26,16 @@
 
 #include "sac_datetime.h"
 
+#include "fid.h"
+#include <libmseed/libmseed.h>
+#include <fern/fern.h>
+
 DFM_EXTERN
 
 #ifdef HAVE_LIBRPC
 #include <rpc/rpc.h>
 #endif /* HAVE_LIBRPC */
+#include <fern/array.h>
 
 #include "dfm.h"
 #include "bool.h"
@@ -144,62 +151,86 @@ extern enum filetype {
         miniseed,
 } ftype;
 
-static
-    int
+static int
+read_alpha_file(char *file) {
+    int nerr, nlen, ndx1, ndx2;
+    int retval = TRUE;
+    rdci(0, file, -1, &nlen, &ndx1, &ndx2, &nerr);
+    if (nerr) {
+        strcpy(kmdfm.kecbdf, "WARNING ");
+        typmsg("WARNING");
+        outmsg();
+        retval = FALSE;
+    }
+    return retval;
+
+}
+
+static int
 read_alpha(string_list * files) {
-    int i, nerr, nlen, ndx1, ndx2, retval;
-    char *file;
-    retval = 0;
+    int i, retval = 0;
     for (i = 0; i < string_list_length(files); i++) {
-        file = string_list_get(files, i - 1);
-        rdci(0, file, -1, &nlen, &ndx1, &ndx2, &nerr);
-        if (nerr) {
-            strcpy(kmdfm.kecbdf, "WARNING ");
-            typmsg("WARNING");
-            outmsg();
+        if(!(read_alpha_file(string_list_get(files, i)))) {
             retval = 1;
         }
     }
     return retval;
 }
 
-static
-    int
-read_segy(string_list * files) {
-    sac *s;
-    int i, nerr;
+static int
+read_segy_file(char *file) {
+    sac *s = NULL;
+    int nerr;
     int nlen, ndx1, ndx2, retval;
-    retval = 0;
+    retval = TRUE;
     nerr = 0;
+    if (!(s = sac_new())) {
+        return ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+    }
+    s->m->filename = strdup( file );
+    sacput(s);
+    rdsegy(saclen(), s->m->filename, &nlen, &ndx1, &ndx2, &nerr);
+    if (nerr) {
+        strcpy(kmdfm.kecbdf, "WARNING ");
+        typmsg("WARNING");
+        outmsg();
+        sacpop();
+        retval = FALSE;
+    }
+    return retval;
+
+}
+
+static int
+read_segy(string_list * files) {
+    int i, retval = 0;
     for (i = 0; i < string_list_length(files); i++) {
-        if (!(s = sac_new())) {
-            return ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
-        }
-        s->m->filename = strdup(string_list_get(files, i));
-        sacput(s);
-        rdsegy(saclen(), s->m->filename, &nlen, &ndx1, &ndx2, &nerr);
-        if (nerr) {
-            strcpy(kmdfm.kecbdf, "WARNING ");
-            typmsg("WARNING");
-            outmsg();
-            sacpop();
+        if(!(read_segy_file(string_list_get(files, i)))) {
             retval = 1;
         }
     }
     return retval;
 }
 
-static
-    int
+static int
+read_xdr_file(char *file) {
+    int nerr = 0;
+    rdxdrdta(0, file, -1, &nerr);
+    if (nerr) {
+        strcpy(kmdfm.kecbdf, "WARNING ");
+        typmsg("WARNING");
+        outmsg();
+        return 0;
+    }
+    return 1;
+}
+
+static int
 read_xdr(string_list * files) {
-    int i, nerr, retval;
+    int i, retval;
     retval = 0;
     for (i = 0; i < string_list_length(files); i++) {
-        rdxdrdta(i, string_list_get(files, i), -1, &nerr);
-        if (nerr) {
-            strcpy(kmdfm.kecbdf, "WARNING ");
-            typmsg("WARNING");
-            outmsg();
+        if(!(read_xdr_file(string_list_get(files,i)))) {
             retval = 1;
         }
     }
@@ -207,68 +238,77 @@ read_xdr(string_list * files) {
 }
 
 static
-    int
-read_sdd(string_list * files, int ldata) {
+int read_sdd_file(char *file, int ldata) {
     int i, nerr, nun, retval;
     sac *s;
     s = NULL;
-    retval = 0;
+    retval = TRUE;
+    i = 0;
+
+    nerr = 0;
+
+    if (!(s = sac_new())) {
+        return FALSE;
+    }
+    s->m->filename = strdup(file);
+    sacput(s);
+
+    zopen_sac(&nun, file, -1, "RODATA", 7, &nerr);
+    if (nerr) {
+        goto error;
+    }
+
+    rdshdr(saclen(), &nun, &nerr);
+    if (nerr) {
+        goto error;
+    }
+
+    s->m->data_read = ldata;
+    if (s->h->nevid == -12345 || s->h->norid == -12345) {
+        cmdfm.nreadflag = LOW;
+    }
+
+    if (ldata) {
+        defmem(saclen(), TRUE, &nerr);
+        if (nerr) {
+            goto error;
+        }
+
+        sac_alloc(s);
+
+        rdsdta(saclen(), &nun, &nerr);
+        if (nerr) {
+            goto error;
+        }
+
+        zclose(&nun, &nerr);
+    }
+ error:
+    if (nerr) {
+        retval = FALSE;
+        strcpy(kmdfm.kecbdf, "WARNING ");
+        typmsg("WARNING");
+        outmsg();
+    }
+    return retval;
+
+}
+
+static int
+read_sdd(string_list * files, int ldata) {
+    int i, retval;
+    retval = FALSE;
     i = 0;
     while (i < string_list_length(files)) {
-        nerr = 0;
-        zopen_sac(&nun, string_list_get(files, i), -1, "RODATA", 7, &nerr);
-        if (nerr) {
-            goto SDD_ERROR;
-        }
-
-        if (!(s = sac_new())) {
-            goto SDD_ERROR;
-        }
-
-        s->m->filename = strdup(string_list_get(files, i));
-        sacput(s);
-
-        rdshdr(saclen(), &nun, &nerr);
-        if (nerr) {
-            goto SDD_ERROR;
-        }
-
-        s->m->data_read = ldata;
-        if (s->h->nevid == -12345 || s->h->norid == -12345) {
-            cmdfm.nreadflag = LOW;
-        }
-
-        if (ldata) {
-            defmem(saclen(), TRUE, &nerr);
-            if (nerr) {
-                goto SDD_ERROR;
-            }
-
-            sac_alloc(s);
-
-            rdsdta(saclen(), &nun, &nerr);
-            if (nerr) {
-                goto SDD_ERROR;
-            }
-
-            zclose(&nun, &nerr);
-        }
-      SDD_ERROR:
-        if (nerr) {
-            sacpop();
+        if(!(read_sdd_file(string_list_get(files,i), ldata))) {
             string_list_delete(files, i);
             retval = TRUE;
-            strcpy(kmdfm.kecbdf, "WARNING ");
-            typmsg("WARNING");
-            outmsg();
         } else {
             i++;
         }
     }
     return retval;
 }
-
-#include "libmseed/libmseed.h"
 
 double
 time_tolerance_func(MS3Record *r) {
@@ -280,12 +320,6 @@ samprate_tolerance_func(MS3Record *r) {
     UNUSED(r);
     return 0.0;
 }
-
-double *
-station_meta_get(char *net, char *sta, char *loc, char *cha,
-                 datetime *start, datetime *end,
-                 char **values, int verbose,
-                 int *nerr);
 
 datetime
 sac_datetime(sac *s) {
@@ -299,185 +333,51 @@ sac_datetime(sac *s) {
     };
     return start;
 }
-void
-sac_fill_station_meta(sac *s, int verbose, int *nerr) {
-    char *keys[] = {"s:Latitude", "s:Longitude",
-                    "s:Elevation", "s:Depth",
-                    "s:Azimuth", "s:Dip",
-                    NULL };
-    datetime start = sac_datetime(s);
-    datetime_normalize(&start);
-    datetime end = start;
-
-    /*
-      khole - Possible values
-      - defined    - 00, 10, ...
-      - ''         - not defined
-      - '-12345  ' - SAC_CHAR_UNDEFINED
-    */
-#define strdef(x) ((strcmp(x, SAC_CHAR_UNDEFINED) == 0) ? NULL : x)
-    if(verbose) {
-        printf("Requesting meta data %s.%s.%s.%s\n",
-               s->h->knetwk,
-               s->h->kstnm,
-               s->h->khole,
-               s->h->kcmpnm);
-    }
-    double *vals = station_meta_get(strdef(s->h->knetwk),
-                                    strdef(s->h->kstnm),
-                                    strdef(s->h->khole),
-                                    strdef(s->h->kcmpnm),
-                                    &start, &end,
-                                    keys, verbose, nerr);
-#undef strdef
-    if(*nerr == 404) {
-        clrmsg();
-        printf("Error Station meta data not found for for %s.%s.%s.%s\n",
-               s->h->knetwk, s->h->kstnm,
-               s->h->khole, s->h->kcmpnm);
-        *nerr = 0;
-    } else if (*nerr == 0) {
-        s->h->stla   = vals[0];
-        s->h->stlo   = vals[1];
-        s->h->stel   = vals[2];
-        s->h->stdp   = vals[3];
-        s->h->cmpaz  = vals[4];
-        s->h->cmpinc = vals[5] + 90.0;
-    }
-    FREE(vals);
-}
-
 
 int
-read_miniseed(string_list *files, int ldata, int *nerr) {
-    UNUSED(ldata);
-    int verbose = 0;
-    int8_t gaps = 1;
-    uint32_t flags     = MSF_SKIPNOTDATA | MSF_UNPACKDATA | MSF_VALIDATECRC ;
-    MS3Tolerance tolerance;
-    tolerance.time     = NULL; // time_tolerance_func;
-    tolerance.samprate = NULL; // samprate_tolerance_func;
-    MS3Selections *selections = NULL;
-    int8_t split_version = 0;
-
-    MS3TraceList *mstl = mstl3_init(NULL);
-    for(int i = 0; i < string_list_length(files); i++) {
-        char *file = string_list_get(files, i);
-        int retcode = ms3_readtracelist_selection (&mstl, file, &tolerance, selections,
-                                                   split_version, flags, verbose);
-        if(retcode != MS_NOERROR) {
-            printf("Error reading in %s: %s\n", file, ms_errorstr(retcode));
-        }
+read_sac_file(char *file, int ldata) {
+    int nerr, retval, idx;
+    sac *s = NULL;
+    retval = TRUE;
+    s = NULL;
+    nerr = 0;
+    if (!(s = sac_new())) {
+        nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
+        goto error;
     }
-    mstl3_printtracelist (mstl, ISOMONTHDAY , verbose, gaps);
-    clrmsg();
-    int n = 0;
-    MS3TraceID *t = mstl->traces;
-    for(uint32_t i = 0; i < mstl->numtraces; i++) {
-        MS3TraceSeg *seg = t->first;
-        while(seg) {
-            if(seg->samprate != 0.0 && seg->numsamples > 0) {
-                char qual[6] = " RDQM";
-                sac *s;
-                uint16_t year, doy;
-                uint8_t hour, min, sec;
-                uint32_t nsec;
-                year = doy = 0;
-                hour = min = sec = 0;
-                nsec = 0;
-
-                s = sac_new();
-                s->h->delta = 1.0 / seg->samprate;
-                s->h->npts = seg->numsamples;
-                s->h->leven = TRUE;
-                s->h->iftype = ITIME;
-
-                ms_sid2nslc(t->sid, s->h->knetwk, s->h->kstnm, s->h->khole, s->h->kcmpnm);
-
-                ms_nstime2time(seg->starttime, &year, &doy, &hour, &min, &sec, &nsec);
-                s->h->nzyear = year;
-                s->h->nzjday = doy;
-                s->h->nzhour = hour;
-                s->h->nzmin  = min;
-                s->h->nzsec  = sec;
-                s->h->nzmsec = nsec / 1000000;
-
-                nstime_t dt = seg->starttime - ms_time2nstime(s->h->nzyear, s->h->nzjday,
-                                                              s->h->nzhour, s->h->nzmin,
-                                                              s->h->nzsec, s->h->nzmsec * 1000000);
-                s->h->b = (float) ((double) dt / (double)NSTMODULUS) ;
-
-                asprintf(&s->m->filename,
-                         "%s.%s.%s.%s.%c.%04d.%03d.%02d%02d%02d",
-                         s->h->knetwk, s->h->kstnm, s->h->khole, s->h->kcmpnm,
-                         qual[t->pubversion], s->h->nzyear, s->h->nzjday,
-                         s->h->nzhour, s->h->nzmin, s->h->nzsec);
-
-                // Data
-                s->y = calloc(s->h->npts, sizeof(float));
-                switch(seg->sampletype) {
-                case 'f': memcpy(s->y, seg->datasamples, sizeof(float) * s->h->npts); break;
-                case 'd': {
-                    double *data = (double *) seg->datasamples;
-                    for(int j = 0; j < seg->numsamples; j++) {
-                        s->y[j] = (float) data[j];
-                    }
-                }
-                    break;
-                case 'i': {
-                    int *data = (int *) seg->datasamples;
-                    for(int j = 0; j < seg->numsamples; j++) {
-                        s->y[j] = (float) data[j];
-                    }
-                }
-                    break;
-                }
-                sac_fill_station_meta(s, verbose, nerr);
-
-                sac_extrema(s);
-                sacput(s);
-                n++;
-            }
-            seg = seg->next;
-        }
-        t = t->next;
+    s->m->filename = strdup(file);
+    sacput(s);
+    rdsac(saclen(), s->m->filename, -1, FALSE, ldata,
+          &idx, &idx, &idx, &idx, &nerr);
+    if (nerr) {
+        sacpop();
+        goto error;
     }
-    mstl3_free(&mstl, 1);
-    return 0;
+    s->m->data_read = ldata;
+    if (s->h->nevid == -12345 || s->h->norid == -12345) {
+        cmdfm.nreadflag = LOW;
+    }
+ error:
+    if (nerr) {
+        retval = FALSE;
+        strcpy(kmdfm.kecbdf, "WARNING ");
+        typmsg("WARNING");
+        outmsg();
+    }
+    return retval;
 }
 
 int
 read_sac(string_list * files, int ldata) {
-    int i, nerr, retval, idx;
+    int i, retval;
     sac *s = NULL;
     retval = 0;
     s = NULL;
     i = 0;
     while (i < string_list_length(files)) {
-        nerr = 0;
-        if (!(s = sac_new())) {
-            nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
-            goto SAC_ERROR;
-        }
-        s->m->filename = strdup(string_list_get(files, i));
-        sacput(s);
-        rdsac(saclen(), s->m->filename, -1, FALSE, ldata, &idx, &idx, &idx,
-              &idx, &nerr);
-        if (nerr)
-            goto SAC_ERROR;
-
-        s->m->data_read = ldata;
-        if (s->h->nevid == -12345 || s->h->norid == -12345) {
-            cmdfm.nreadflag = LOW;
-        }
-      SAC_ERROR:
-        if (nerr) {
-            sacpop();
+        if(!read_sac_file(string_list_get(files, i), ldata)) {
             string_list_delete(files, i);
             retval = TRUE;
-            strcpy(kmdfm.kecbdf, "WARNING ");
-            typmsg("WARNING");
-            outmsg();
         } else {
             i++;
         }
@@ -636,10 +536,55 @@ readfl(int ldata, int lmore, int lsdd, char *kdirin, int kdirin_s,
         lrdrem = read_xdr(files);
     } else if (lsdd) {
         lrdrem = read_sdd(files, ldata);
-    } else if (ftype == miniseed) {
-        lrdrem = read_miniseed(files, ldata, nerr);
     } else {
-        lrdrem = read_sac(files, ldata);
+        MS3TraceList *mst3k = NULL;
+
+        // Auto-detect and read files
+        int t = 0;
+        for(int i = 0; i < string_list_length(files); i++) {
+            char *file = string_list_get(files, i);
+            int ret = 0;
+            t = fid( file );
+            if(t & FID_SAC) {
+                ret = read_sac_file(file, ldata);
+            } else if(t & FID_MSEED) {
+                if(!mst3k) {
+                    mst3k = mstl3_init(NULL);
+                }
+                ret = read_miniseed_file(mst3k, file);
+            } else if(t & FID_SEGY) {
+                cmdfm.nreadflag = LOW;
+                ret = read_segy_file(file);
+            } else if(t & FID_SACA) {
+                cmdfm.nreadflag = LOW;
+                ret = read_alpha_file(file);
+            } else {
+                // https://stackoverflow.com/a/650913 (access)
+                // https://stackoverflow.com/a/3828537 (stat)
+                struct stat sb;
+                if(stat(file, &sb) == -1) {
+                    printf(" WARNING: File does not exist: %s\n", file);
+                } else if(! S_ISREG(sb.st_mode) ) {
+                    printf(" WARNING: Not a regualr file: %s\n", file);
+                } else {
+                    printf(" WARNING: Unknown file type: %s [%d]\n", file, t);
+                }
+                lrdrem = 1;
+            }
+            if(!ret) {
+                lrdrem = 1;
+            }
+        }
+        if(mst3k) {
+            sac **out = miniseed_trace_list_to_sac(mst3k);
+            for(size_t i = 0; i < xarray_length(out); i++) {
+                sacput(out[i]);
+            }
+            xarray_free(out);
+            out = NULL;
+            mstl3_free(&mst3k, 1);
+            mst3k = NULL;
+        }
     }
 
     /* - Check again for a non-null DFL. */
@@ -660,6 +605,10 @@ readfl(int ldata, int lmore, int lsdd, char *kdirin, int kdirin_s,
     setrng();
 
   L_8888:
+    if(files) {
+        string_list_free(files);
+        files = NULL;
+    }
     return;
 }
 
