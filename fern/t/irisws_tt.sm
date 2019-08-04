@@ -1,0 +1,13 @@
+echo on
+read XE.DOOR..BHZ.M.1994.160.003321.SAC
+meta usgs:usp0006dzc
+traveltime modelfile
+quit
+lh gcarc evdp
+
+traveltime online km
+traveltime online km              verbose picks 0 phase p s P S sScS ScSScS
+traveltime online km model prem   verbose picks 0 phase p s P S sScS ScSScS
+traveltime online km model ak135  verbose picks 0 phase p s P S sScS ScSScS
+traveltime online km model iasp91 verbose picks 0 phase p s P S sScS ScSScS
+traveltime km model iasp91 verbose picks 0 phase p s P S sScS ScSScS

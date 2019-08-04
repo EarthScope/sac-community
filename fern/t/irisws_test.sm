@@ -1,0 +1,38 @@
+
+echo on
+
+event time 2019/05/12 2019/05/14 verbose mag 4 10
+event time 2019/05/12 +2d
+event time 2019/05/12 +2d mag 5 10
+event time 2019/05/12 +2d mag 5 10 region 0 180 0 90
+event time 2019/05/12 +2d mag 5 10 region 0 180 0 90 out events.xml
+event time 2019/05/12 +2d mag 5 10 region 0 180 0 90 out events.txt
+event time 2019/05/12 +2d mag 5 10 region 120 125 79 81
+event time 1989/1/1 +1y mag 5 10 radial -120 38 0 10
+
+event time now -1wk mag 6 10 gcmt verbose
+
+
+station gcmt:11051818 radial 0 30
+
+station time 2019/1/1 +1d cha BH? net -SY
+station time 2019/1/1 +1d cha BH? net -SY region 0 10 0 10
+station net IU sta ANMO
+station net IU sta ANMO epochs off
+station net IU sta ANMO epochs on
+station net IU sta ANMO epochs on showtimes
+station net IU sta ANMO loc 00 showtimes epoch on
+station net IU sta ANMO loc 10 showtimes epoch on
+station net IU sta ANMO loc -- showtimes epoch on
+station net IU sta ANMO loc 20 showtimes epoch on
+** 2004/12/26 M9 Sumatra
+station gcmt:1916079 radial 15 30 net -SY cha BHZ
+
+data gcmt:11051818 radial 0 30 cha BHZ
+
+read XE.DOOR..BHZ.M.1994.160.003321.SAC
+lh b e o kzdate kztime iztype evlo evla evdp stlo stla stel
+event time 1994/160 +1h mag 5 10
+meta gcmt:369471 verbose
+read more XE.DOOR..BHZ.M.1994.160.003321.SAC.expect
+lh

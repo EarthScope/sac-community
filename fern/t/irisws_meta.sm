@@ -1,0 +1,10 @@
+**echo on
+read XE.DOOR..BHZ.M.1994.160.003321.SAC
+lh b e o kzdate kztime iztype evlo evla evdp stlo stla stel
+event time 1994/160 +1h mag 5 10 usgs to evid
+meta %evid verbose
+read more XE.DOOR..BHZ.M.1994.160.003321.SAC.expect
+message "&1,b &1,e &1,o &1,kzdate &1,kztime"
+message "&2,b &2,e &2,o &2,kzdate &2,kztime"
+quit
+

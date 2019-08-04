@@ -1,0 +1,18 @@
+
+echo on
+
+read XE.DOOR..BHZ.M.1994.160.003321.SAC
+meta file station_meta2.txt
+
+read XE.DOOR..BH?.M.1994.160.003321.SAC XE.DOOR..BHE.M.1994.160.003321.HOLE__.SAC  XE.DOOR..BHE.M.1994.160.003321.HOLE.BLANK.SAC XE.DOOR..BHZ.M.1994.160.003321.HOLE__.SAC
+meta file station_meta.txt
+
+read XE.DOOR..BH?.M.1994.160.003321.SAC XE.DOOR..BHE.M.1994.160.003321.HOLE__.SAC  XE.DOOR..BHE.M.1994.160.003321.HOLE.BLANK.SAC XE.DOOR..BHZ.M.1994.160.003321.HOLE__.SAC
+meta file station_meta.txt verbose
+
+read XE.DOOR..BH?.M.1994.160.003321.SAC
+meta file station_meta_seed.txt
+
+read XE.DOOR..BH?.M.1994.160.003321.SAC
+meta file station_meta_seed.txt verbose
+

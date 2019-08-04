@@ -1,0 +1,64 @@
+Net Sta   Lat.     Lon.      Elev.   SiteName
+IU  ADK    51.8823 -176.6842  130.00 Adak, Aleutian Islands, Alaska
+IU  AFI   -13.9093 -171.7773  706.00 Afiamalu, Samoa
+IU  ANMO   34.9459 -106.4572 1850.00 Albuquerque, New Mexico, USA
+IU  BILL   68.0653  166.4531  320.00 Bilibino, Russia
+IU  CASY  -66.2792  110.5354   10.00 Casey, Antarctica
+IU  CCM    38.0557  -91.2446  222.00 Cathedral Cave, Missouri, USA
+IU  CHTO   18.8141   98.9443  420.00 Chiang Mai, Thailand
+IU  COLA   64.8736 -147.8616  200.00 College Outpost, Alaska, USA
+IU  COR    44.5855 -123.3046  110.00 Corvallis, Oregon, USA
+IU  CTAO  -20.0882  146.2545  357.00 Charters Towers, Australia
+IU  DAV     7.0697  125.5791  150.00 Davao, Philippines
+IU  DWPF   28.1103  -81.4327   30.00 Disney Wilderness Preserve, Florida, USA
+IU  FURI    8.8952   38.6798 2570.00 Mt. Furi, Ethiopia
+IU  GNI    40.1480   44.7410 1609.00 Garni, Armenia
+IU  GRFO   49.6909   11.2203  384.00 Grafenberg, Germany
+IU  GUMO   13.5893  144.8684  170.00 Guam, Mariana Islands
+IU  HKT    29.9618  -95.8384 -413.00 Hockley, Texas
+IU  HNR    -9.4387  159.9475  100.00 Honiara, Solomon Islands
+IU  HRV    42.5064  -71.5583  200.00 Adam Dziewonski Observatory (Oak Ridge), Massachusetts, USA
+IU  INCN   37.4776  126.6239   80.00 Inchon, Republic of Korea
+IU  JOHN   16.7329 -169.5292    2.00 Johnston Island, USA
+IU  KBS    78.9154   11.9385   90.00 Ny-Alesund, Spitzbergen, Norway
+IU  KEV    69.7565   27.0035  100.00 Kevo, Finland
+IU  KIEV   50.7012   29.2242  180.00 Kiev, Ukraine
+IU  KIP    21.4200 -158.0112  110.00 Kipapa, Hawaii, USA
+IU  KMBO   -1.1271   37.2525 1950.00 Kilima Mbogo, Kenya
+IU  KONO   59.6491    9.5982  216.00 Kongsberg, Norway
+IU  KOWA   14.4967   -4.0140  321.00 Kowa, Mali
+IU  LCO   -29.0110  -70.7004 2300.00 Las Campanas Astronomical Observatory, Chile
+IU  LSZ   -15.2779   28.1882 1200.00 Lusaka, Zambia
+IU  LVC   -22.6127  -68.9111 2960.00 Limon Verde, Chile
+IU  MA2    59.5756  150.7700  339.00 Magadan, Russia
+IU  MAJO   36.5457  138.2041  405.00 Matsushiro, Japan
+IU  MAKZ   46.8080   81.9770  600.00 Makanchi, Kazakhstan
+IU  NWAO  -32.9277  117.2390  380.00 Narrogin, Australia
+IU  PAB    39.5446   -4.3499  950.00 San Pablo, Spain
+IU  PAYG   -0.6742  -90.2861  270.00 Puerto Ayora, Galapagos Islands
+IU  PET    53.0233  158.6499  110.00 Petropavlovsk, Russia
+IU  PMG    -9.4047  147.1597   90.00 Port Moresby, New Guinea
+IU  PMSA  -64.7744  -64.0489   40.00 Palmer Station, Antarctica
+IU  PTCN  -25.0713 -130.0953  220.00 Pitcairn Island, South Pacific
+IU  PTGA   -0.7308  -59.9666  237.00 Pitinga, Brazil
+IU  RAIO   46.0403 -122.8851   11.00 Rainier, Oregon, USA
+IU  RAR   -21.2125 -159.7733   28.00 Rarotonga, Cook Islands
+IU  SBA   -77.8492  166.7572   50.00 Scott Base, Antarctica
+IU  SDV     8.8839  -70.6340 1620.00 Santo Domingo, Venezuela
+IU  SFJ    66.9967  -50.6156  365.00 Sondre Stromfjord, Greenland
+IU  SJG    18.1091  -66.1500  420.00 San Juan, Puerto Rico
+IU  SNZO  -41.3087  174.7043  120.00 South Karori, New Zealand
+IU  SPA   -90.0000    0.0000 2927.00 South Pole, Antarctica
+IU  SSPA   40.6358  -77.8876  270.00 Standing Stone, Pennsylvania
+IU  TATO   24.9735  121.4971  160.00 Taipei, Taiwan
+IU  TEIG   20.2263  -88.2763   40.00 Tepich, Yucatan, Mexico
+IU  TIXI   71.6341  128.8667   40.00 Tiksi, Russia
+IU  TSUM  -19.2022   17.5838 1260.00 Tsumeb, Namibia
+IU  TUC    32.3098 -110.7847  910.00 Tucson, Arizona
+IU  ULN    47.8651  107.0532 1610.00 Ulaanbaatar, Mongolia
+IU  WAKE   19.2834  166.6520   20.00 Wake Island
+IU  WCI    38.2289  -86.2939  210.00 Wyandotte Cave, Indiana, USA
+IU  WVT    36.1297  -87.8300  170.00 Waverly, Tennessee, USA
+IU  XMAS    2.0448 -157.4457   20.00 Kiritimati Island, Republic of Kiribati
+IU  YAK    62.0310  129.6805  110.00 Yakutsk, Russia
+IU  YSS    46.9587  142.7604  150.00 Yuzhno Sakhalinsk, Russia

@@ -1,0 +1,6 @@
+echo on
+event time 1994/160 +1d mag 8 10 gcmt
+data sta SPA,DOOR cha BHZ gcmt:369471 dur +1h verbose
+data sta SPA,DOOR cha BHZ gcmt:369471 dur +1h read sac verbose
+data sta SPA cha BHZ gcmt:369471 dur +1h miniseed prefix steim1_int_check verbose
+

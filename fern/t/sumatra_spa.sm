@@ -1,0 +1,9 @@
+
+event time 2004/12/26 +1d mag 8 10 gcmt
+
+station gcmt:1916079 region -180 180 -90 -88 net IU
+
+* data sta QSPA net IU cha BHZ loc 00 gcmt:1916079 dur +1h
+
+data sta QSPA net IU cha BHZ loc 00 gcmt:1916079 dur +1h download load sac mseed
+

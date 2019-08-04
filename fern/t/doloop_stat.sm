@@ -1,0 +1,6 @@
+
+station region -90 -60 30 50 cha BHZ out stations.txt quiet
+
+data in stations.txt time 2000/001 +3yrs cha BHZ max 3000 out request_stat.txt
+
+

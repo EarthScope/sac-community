@@ -1,0 +1,10 @@
+
+read XE.DOOR..BHZ.M.1994.160.003321.SAC
+** message "GCMT"
+** meta gcmt:369471 cmt
+** message "USGS Bolivia 1994"
+** meta usgs:usp0006dzc cmt
+message "USGS Sumatra 2004"
+meta usgs:official20041226005853450_30 cmt
+
+

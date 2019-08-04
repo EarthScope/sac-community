@@ -1,0 +1,11 @@
+
+echo on
+fg seismo
+ch kstnm BKS
+ch knetwk BK
+ch kcmpnm BHZ
+ch khole -12345
+ch nzyear 1994
+message "&1,knetwk&.&1,kstnm&.&1,khole&.&1,kcmpnm&"
+sacpz
+quit

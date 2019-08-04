@@ -1,0 +1,39 @@
+echo on
+
+event time 1994-160 +1d mag 8
+event time 1994,160 +1d mag 8
+event time 1994/160 +1d mag 8
+
+event time 1994/06/09 +1d mag 8
+event time 1994,06,09 +1d mag 8
+event time 1994-06-09 +1d mag 8
+
+event time 1994-06-09T00:00:00.000Z +1d mag 8
+
+event time 1994-160T00:00:00  +1d mag 8
+event time 1994-160T00:00:00.000 +1d mag 8
+event time 1994-160-00:00:00 +1d mag 8
+event time 1994-160-00:00:00.000 +1d mag 8
+
+event time 1994,160T00:00:00 +1d mag 8
+event time 1994,160T00:00:00.000 +1d mag 8
+event time 1994,160,00:00:00 +1d mag 8
+event time 1994,160,00:00:00.000 +1d mag 8
+
+event time 1994/160T00:00:00.000 +1d mag 8
+event time 1994/160T00:00:00 +1d mag 8
+
+event time 1994,06,09,00:00:00.000 +1d mag 8
+event time 1994,06,09,00:00:00 +1d mag 8
+event time 1994,06,09T00:00:00.000 +1d mag 8
+event time 1994,06,09T00:00:00 +1d mag 8
+
+event time 1994/06/09T00:00:00.000 +1d mag 8
+event time 1994/06/09T00:00:00 +1d mag 8
+
+event time 1994/06/09T00:33:00.123 +1m mag 8
+event time 1994/06/09T00:33:00 +1m mag 8
+
+event time 19940609001500 +20m mag 8
+
+

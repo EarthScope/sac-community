@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css?family=Inconsolata&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Source+Serif+Pro&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans&display=swap');
+body {
+    font-family: "Source Serif Pro", Georgia, Times, "Times New Roman", serif;
+}
+div {
+    font-family: "Source Serif Pro", Georgia, Times, "Times New Roman", serif;
+    font-size: 16px;
+    line-height: 1.4;
+}
+h1,h2,h3,h4,h5 {
+    font-family: "Fira Sans",sans-serif;
+}
+h2 {
+    border-bottom: 1px solid lightgray;
+}
+h1,h2,h3,h4,h5 {
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+}
+
+pre.fragment {
+    font-family: 'Source Code Pro', monospace;
+    background-color: #F5F5F5;
+    font-size: 0.9rem;
+    margin: 20px;
+}
+div.fragment {
+    font-family: 'Source Code Pro', monospace;
+    background-color: #F5F5F5;
+    font-size: 0.9rem;
+    margin: 20px;
+}
+
+div.line {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 0.8rem;
+}
+
+th.markdownTableHeadNone {
+    background-color: #E0E0E0;
+    color: black;
+    font-size: 100%;
+}

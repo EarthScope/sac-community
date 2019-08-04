@@ -1,0 +1,16 @@
+## REQUEST PARAMETERS 
+minradius=0.0
+maxradius=90.0
+lon=-13.841
+lat=-13.841
+nodata=404
+
+## REQUEST 1/ 1
+# DATACENTER=IRISDMC,http://ds.iris.edu
+# STATIONSERVICE=http://service.iris.edu/fdsnws/station/1/
+# EVENTSERVICE=http://service.iris.edu/fdsnws/event/1/
+# DATASELECTSERVICE=http://service.iris.edu/fdsnws/dataselect/1/
+# RESPSERVICE=http://service.iris.edu/irisws/resp/1/
+# SACPZSERVICE=http://service.iris.edu/irisws/sacpz/1/
+# XE DOOR -- BHZ 1994-06-09T00:33:16 1994-06-09T01:03:16
+
