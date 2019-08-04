@@ -43,13 +43,12 @@ $(LIB_A): $(LIB_OBJS)
 	$(RM) -f $(LIB_A)
 	$(AR) -crs $(LIB_A) $(LIB_OBJS)
 
-test check: static FORCE
-	@$(MAKE) -C test test
+#test check: static FORCE
+#	@$(MAKE) -C test test
 
 clean:
 	@$(RM) $(LIB_OBJS) $(LIB_LOBJS) $(LIB_A) $(LIB_SO) $(LIB_SO_MAJOR) $(LIB_SO_BASE)
-	@$(MAKE) -C test clean
-	@echo "All clean."
+	@echo "libmseed All clean."
 
 install: shared
 	@echo "Installing into $(PREFIX)"

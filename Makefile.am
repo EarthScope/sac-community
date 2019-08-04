@@ -9,7 +9,7 @@ SUBDIRS          =
 if READLINE_EDITLINE
 SUBDIRS         += libedit
 endif
-SUBDIRS         += libmseed src utils t
+SUBDIRS         += libmseed sacio fern src utils t
 
 SACAUX_WIN       = winaux
 SACAUX_UNIX      = aux

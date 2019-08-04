@@ -198,7 +198,7 @@ am__define_uniq_tagged_files = \
 ETAGS = etags
 CTAGS = ctags
 CSCOPE = cscope
-DIST_SUBDIRS = libedit libmseed src utils t
+DIST_SUBDIRS = libedit libmseed sacio fern src utils t
 am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/config/compile \
 	$(top_srcdir)/config/config.guess \
 	$(top_srcdir)/config/config.sub \
@@ -257,18 +257,15 @@ AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
 BINARY_DIST = @BINARY_DIST@
 CC = @CC@
-CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CURSES_SEARCH_PATH = @CURSES_SEARCH_PATH@
 CXX = @CXX@
-CXXDEPMODE = @CXXDEPMODE@
 CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
 DEBUG = @DEBUG@
 DEFS = @DEFS@
-DEPDIR = @DEPDIR@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
@@ -297,7 +294,6 @@ MATLAB_BIN = @MATLAB_BIN@
 MATLAB_DIR = @MATLAB_DIR@
 MKDIR_P = @MKDIR_P@
 OBJC = @OBJC@
-OBJCDEPMODE = @OBJCDEPMODE@
 OBJCFLAGS = @OBJCFLAGS@
 OBJEXT = @OBJEXT@
 OPTIM = @OPTIM@
@@ -340,9 +336,7 @@ ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
 ac_ct_F77 = @ac_ct_F77@
 ac_ct_OBJC = @ac_ct_OBJC@
-am__include = @am__include@
 am__leading_dot = @am__leading_dot@
-am__quote = @am__quote@
 am__tar = @am__tar@
 am__untar = @am__untar@
 bindir = @bindir@
@@ -402,7 +396,7 @@ zlib_LIBS = @zlib_LIBS@
 AUTOMAKE_OPTIONS = no-dependencies
 
 # Subdirectories to MAKE recursively
-SUBDIRS = $(am__append_1) libmseed src utils t
+SUBDIRS = $(am__append_1) libmseed sacio fern src utils t
 SACAUX_WIN = winaux
 SACAUX_UNIX = aux
 @WINAUX_NOT_AUX_FALSE@SACAUX_DIR = $(SACAUX_UNIX)
@@ -448,15 +442,15 @@ $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__confi
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
-	      echo ' cd $(srcdir) && $(AUTOMAKE) --foreign'; \
-	      $(am__cd) $(srcdir) && $(AUTOMAKE) --foreign \
+	      echo ' cd $(srcdir) && $(AUTOMAKE) --foreign --ignore-deps'; \
+	      $(am__cd) $(srcdir) && $(AUTOMAKE) --foreign --ignore-deps \
 		&& exit 0; \
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign --ignore-deps Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign Makefile
+	  $(AUTOMAKE) --foreign --ignore-deps Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \

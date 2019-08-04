@@ -193,6 +193,8 @@ TESTS = use_sac$(EXEEXT) ucf$(EXEEXT) vars$(EXEEXT) sacio$(EXEEXT) \
 	testsuite/input/julday2.sm testsuite/input/long_and_high.sm \
 	testsuite/input/bbfk.sm $(am__append_8)
 @HAVE_FC_TRUE@am__append_7 = sacio_fortran.sh saciof saclibf
+#testsuite/input/event.sm \
+#testsuite/input/station.sm 
 
 # These tests have specific calls to the X11 device
 @X11_APP_TRUE@am__append_8 = testsuite/input/begindevices.sm \
@@ -232,7 +234,7 @@ am_libunit_a_OBJECTS = unit.$(OBJEXT)
 libunit_a_OBJECTS = $(am_libunit_a_OBJECTS)
 am_icm_OBJECTS = icm-icm.$(OBJEXT)
 icm_OBJECTS = $(am_icm_OBJECTS)
-icm_DEPENDENCIES =
+icm_DEPENDENCIES = ../fern/libpile.a
 icm_LINK = $(CCLD) $(icm_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o \
 	$@
 lckey_test_SOURCES = lckey_test.c
@@ -246,13 +248,16 @@ am__DEPENDENCIES_4 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
 am__DEPENDENCIES_5 = $(am__append_1) $(am__DEPENDENCIES_2) \
 	$(am__DEPENDENCIES_3) $(am__DEPENDENCIES_4) \
-	$(am__DEPENDENCIES_1)
-lckey_test_DEPENDENCIES = $(am__DEPENDENCIES_5)
+	$(am__DEPENDENCIES_1) ../sacio/libsacio_bsd.a \
+	../libmseed/libmseed.a $(am__DEPENDENCIES_1)
+lckey_test_DEPENDENCIES = $(am__DEPENDENCIES_5) ../fern/libpile.a \
+	../fern/libfern.a
 lckey_test_LINK = $(CCLD) $(lckey_test_CFLAGS) $(CFLAGS) \
 	$(lckey_test_LDFLAGS) $(LDFLAGS) -o $@
 sac_all_SOURCES = sac_all.c
 sac_all_OBJECTS = sac_all-sac_all.$(OBJEXT)
-sac_all_DEPENDENCIES =
+sac_all_DEPENDENCIES = ../src/libsac.a ../src/libsacio.a \
+	../sacio/libsacio_bsd.a ../fern/libpile.a
 sac_all_LINK = $(CCLD) $(sac_all_CFLAGS) $(CFLAGS) $(sac_all_LDFLAGS) \
 	$(LDFLAGS) -o $@
 am_sacio_OBJECTS = sacio-sacio.$(OBJEXT) sacio-sacio_rsac1.$(OBJEXT) \
@@ -260,41 +265,41 @@ am_sacio_OBJECTS = sacio-sacio.$(OBJEXT) sacio-sacio_rsac1.$(OBJEXT) \
 	sacio-sacio_wsac1.$(OBJEXT) sacio-sacio_wsac2.$(OBJEXT) \
 	sacio-sacio_wsac3.$(OBJEXT) sacio-sacio_getset.$(OBJEXT)
 sacio_OBJECTS = $(am_sacio_OBJECTS)
-sacio_DEPENDENCIES =
+sacio_DEPENDENCIES = ../src/libsacio.a ../sacio/libsacio_bsd.a \
+	../fern/libpile.a
 sacio_LINK = $(CCLD) $(sacio_CFLAGS) $(CFLAGS) $(sacio_LDFLAGS) \
 	$(LDFLAGS) -o $@
 sacio_all_SOURCES = sacio_all.c
 sacio_all_OBJECTS = sacio_all-sacio_all.$(OBJEXT)
-sacio_all_DEPENDENCIES =
+sacio_all_DEPENDENCIES = ../sacio/libsacio_bsd.a ../fern/libpile.a
 sacio_all_LINK = $(CCLD) $(sacio_all_CFLAGS) $(CFLAGS) \
 	$(sacio_all_LDFLAGS) $(LDFLAGS) -o $@
 am__saciof_SOURCES_DIST = sacio_f.f
 @HAVE_FC_TRUE@am_saciof_OBJECTS = sacio_f.$(OBJEXT)
 saciof_OBJECTS = $(am_saciof_OBJECTS)
-saciof_DEPENDENCIES =
+@HAVE_FC_TRUE@saciof_DEPENDENCIES = ../sacio/libsacio_bsd.a \
+@HAVE_FC_TRUE@	../fern/libpile.a
 am__saclibf_SOURCES_DIST = saclib_f.f
 @HAVE_FC_TRUE@am_saclibf_OBJECTS = saclib_f.$(OBJEXT)
 saclibf_OBJECTS = $(am_saclibf_OBJECTS)
-saclibf_DEPENDENCIES =
+@HAVE_FC_TRUE@saclibf_DEPENDENCIES = ../sacio/libsacio_bsd.a \
+@HAVE_FC_TRUE@	../fern/libpile.a
 am_ucf_OBJECTS = ucf.$(OBJEXT) ucf_inctim.$(OBJEXT) \
 	ucf_cnvati.$(OBJEXT) ucf_cnvita.$(OBJEXT) ucf_cnvatf.$(OBJEXT) \
 	ucf_cnvfta.$(OBJEXT)
 ucf_OBJECTS = $(am_ucf_OBJECTS)
-ucf_LDADD = $(LDADD)
-ucf_DEPENDENCIES = $(am__append_1) $(am__DEPENDENCIES_2) \
-	$(am__DEPENDENCIES_3) $(am__DEPENDENCIES_4) \
-	$(am__DEPENDENCIES_1)
+ucf_DEPENDENCIES = ../fern/libpile.a ../src/libsacio.a \
+	../sacio/libsacio_bsd.a ../src/libsac_check.a
 use_sac_SOURCES = use_sac.c
 use_sac_OBJECTS = use_sac-use_sac.$(OBJEXT)
-use_sac_DEPENDENCIES =
+use_sac_DEPENDENCIES = ../src/libsacio.a ../sacio/libsacio_bsd.a \
+	../fern/libpile.a
 use_sac_LINK = $(CCLD) $(use_sac_CFLAGS) $(CFLAGS) $(use_sac_LDFLAGS) \
 	$(LDFLAGS) -o $@
 am_vars_OBJECTS = vars.$(OBJEXT)
 vars_OBJECTS = $(am_vars_OBJECTS)
-vars_LDADD = $(LDADD)
-vars_DEPENDENCIES = $(am__append_1) $(am__DEPENDENCIES_2) \
-	$(am__DEPENDENCIES_3) $(am__DEPENDENCIES_4) \
-	$(am__DEPENDENCIES_1)
+vars_DEPENDENCIES = ../fern/libpile.a ../src/libsacio.a \
+	../sacio/libsacio_bsd.a
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -585,19 +590,16 @@ AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
 BINARY_DIST = @BINARY_DIST@
 CC = @CC@
-CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@ $(DEBUG) $(COVERAGE) $(OPTIM) -Wall $(SAC_INCLUDES) \
 	-DTOP_SRCDIR=\"$(top_srcdir)\" $(am__append_2)
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CURSES_SEARCH_PATH = @CURSES_SEARCH_PATH@
 CXX = @CXX@
-CXXDEPMODE = @CXXDEPMODE@
 CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
 DEBUG = @DEBUG@
 DEFS = @DEFS@
-DEPDIR = @DEPDIR@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
@@ -626,7 +628,6 @@ MATLAB_BIN = @MATLAB_BIN@
 MATLAB_DIR = @MATLAB_DIR@
 MKDIR_P = @MKDIR_P@
 OBJC = @OBJC@
-OBJCDEPMODE = @OBJCDEPMODE@
 OBJCFLAGS = @OBJCFLAGS@
 OBJEXT = @OBJEXT@
 OPTIM = @OPTIM@
@@ -669,9 +670,7 @@ ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
 ac_ct_F77 = @ac_ct_F77@
 ac_ct_OBJC = @ac_ct_OBJC@
-am__include = @am__include@
 am__leading_dot = @am__leading_dot@
-am__quote = @am__quote@
 am__tar = @am__tar@
 am__untar = @am__untar@
 bindir = @bindir@
@@ -745,11 +744,12 @@ AUTOMAKE_OPTIONS = no-dependencies #dejagnu
 #
 # Options for testing the compiled code directly
 #
-SAC_INCLUDES = -I$(top_srcdir)/inc -I$(top_srcdir)/src/bs -I$(top_srcdir)/src/string
+SAC_INCLUDES = -I$(top_srcdir)/inc  -I$(top_srcdir)
 LDADD = -L../src/ -lsac_all -lturtle -lsac_all -levalresp \
 	-lSMnonOracleFuncs -lSacOracleStubFuncs -licm $(am__append_1) \
 	$(am__append_4) $(SAC_GRAPHICS) $(FORMAT_LIBS) $(am__append_5) \
-	-L. -lunit
+	-L. -lunit ../sacio/libsacio_bsd.a ../libmseed/libmseed.a \
+	$(LIBCURL)
 FORMAT_LIBS = $(xpm_LIBS) $(png_LIBS) $(zlib_LIBS) $(xft_LIBS) $(XML_LIBS)
 #SAC_GRAPHICS     += -lsac_osx
 SAC_GRAPHICS = -L.. $(am__append_3) -lsgf -lturtle -lsac_all
@@ -785,7 +785,9 @@ ucf_SOURCES = ucf.c \
 									ucf_cnvatf.c \
 									ucf_cnvfta.c
 
+ucf_LDADD = ../fern/libpile.a -L. -lunit ../src/libsacio.a ../sacio/libsacio_bsd.a ../src/libsac_check.a
 vars_SOURCES = vars.c
+vars_LDADD = ../fern/libpile.a -L. -lunit ../src/libsacio.a ../sacio/libsacio_bsd.a
 sacio_SOURCES = sacio.c \
 						 sacio_rsac1.c  \
 						 sacio_rsac2.c  \
@@ -798,31 +800,31 @@ sacio_SOURCES = sacio.c \
 
 @HAVE_FC_TRUE@saciof_SOURCES = sacio_f.f
 @HAVE_FC_TRUE@saciof_CFLAGS = $(COVERAGE)
-@HAVE_FC_TRUE@saciof_LDADD = -L../src/ -lsacio -lsac
+@HAVE_FC_TRUE@saciof_LDADD = -L../src/ -lsacio -lsac ../sacio/libsacio_bsd.a ../fern/libpile.a
 @HAVE_FC_TRUE@saclibf_SOURCES = saclib_f.f
-@HAVE_FC_TRUE@saclibf_LDADD = -L../src/ -lsacio -lsac -L. -lunit
+@HAVE_FC_TRUE@saclibf_LDADD = -L../src/ -lsacio -lsac -L. -lunit ../sacio/libsacio_bsd.a ../fern/libpile.a
 @HAVE_FC_TRUE@saclibf_CFLAGS = 
 sacio_CFLAGS = $(COVERAGE) -I$(top_srcdir)/include
-sacio_LDADD = -L../src/ -lsacio -L. -lunit
+sacio_LDADD = ../src/libsacio.a  -L. -lunit ../sacio/libsacio_bsd.a ../fern/libpile.a
 sacio_LDFLAGS = 
 use_sac_CFLAGS = $(COVERAGE) $(SAC_INCLUDES)
-use_sac_LDADD = -L../src -lsacio -L. -lunit
+use_sac_LDADD = -L../src ../src/libsacio.a -L. -lunit ../sacio/libsacio_bsd.a ../fern/libpile.a
 use_sac_LDFLAGS = 
 sacio_all_CFLAGS = 
-sacio_all_LDADD = -L../src -lsacio
+sacio_all_LDADD = -L../src -lsacio ../sacio/libsacio_bsd.a ../fern/libpile.a
 sacio_all_LDFLAGS = 
 sac_all_CFLAGS = 
-sac_all_LDADD = -L../src -lsac -lsacio
+sac_all_LDADD = ../src/libsac.a ../src/libsacio.a  ../sacio/libsacio_bsd.a -L../src -lsac ../fern/libpile.a
 sac_all_LDFLAGS = 
 lckey_test_CFLAGS = 
-lckey_test_LDADD = $(LDADD)
+lckey_test_LDADD = $(LDADD) ../fern/libpile.a ../fern/libfern.a
 lckey_test_LDFLAGS = 
 
 #saclibf${EXEEXT}: saclib_f.o
 #	$(F77) $(COVERAGE) -o $@ saclib_f.o -L../src -lsac
 icm_SOURCES = icm.c
 icm_CFLAGS = $(COVERAGE)
-icm_LDADD = -L../src -licm -lsac -lsacio
+icm_LDADD = -L../src -licm -lsac -lsacio ../fern/libpile.a
 TEST_EXTENSIONS = .sm
 SM_LOG_COMPILER = $(top_srcdir)/t/pytest.py
 AM_SM_LOG_FLAGS = -s "$(abs_builddir)/$(SACBIN)" -o "${abs_top_srcdir}/t/testsuite/output" --test
@@ -839,9 +841,9 @@ $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__confi
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign t/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign --ignore-deps t/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign t/Makefile
+	  $(AUTOMAKE) --foreign --ignore-deps t/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \

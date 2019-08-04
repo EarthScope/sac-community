@@ -126,6 +126,8 @@ AM_V_at = $(am__v_at_@AM_V@)
 am__v_at_ = $(am__v_at_@AM_DEFAULT_V@)
 am__v_at_0 = @
 am__v_at_1 = 
+depcomp =
+am__maybe_remake_depfiles =
 SOURCES =
 DIST_SOURCES =
 am__can_run_installinfo = \
@@ -145,18 +147,15 @@ AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
 BINARY_DIST = @BINARY_DIST@
 CC = @CC@
-CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CURSES_SEARCH_PATH = @CURSES_SEARCH_PATH@
 CXX = @CXX@
-CXXDEPMODE = @CXXDEPMODE@
 CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
 DEBUG = @DEBUG@
 DEFS = @DEFS@
-DEPDIR = @DEPDIR@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
@@ -185,7 +184,6 @@ MATLAB_BIN = @MATLAB_BIN@
 MATLAB_DIR = @MATLAB_DIR@
 MKDIR_P = @MKDIR_P@
 OBJC = @OBJC@
-OBJCDEPMODE = @OBJCDEPMODE@
 OBJCFLAGS = @OBJCFLAGS@
 OBJEXT = @OBJEXT@
 OPTIM = @OPTIM@
@@ -228,9 +226,7 @@ ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
 ac_ct_F77 = @ac_ct_F77@
 ac_ct_OBJC = @ac_ct_OBJC@
-am__include = @am__include@
 am__leading_dot = @am__leading_dot@
-am__quote = @am__quote@
 am__tar = @am__tar@
 am__untar = @am__untar@
 bindir = @bindir@
@@ -312,9 +308,9 @@ $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__confi
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign libmseed/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign --ignore-deps libmseed/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign libmseed/Makefile
+	  $(AUTOMAKE) --foreign --ignore-deps libmseed/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \
@@ -505,13 +501,12 @@ $(LIB_A): $(LIB_OBJS)
 	$(RM) -f $(LIB_A)
 	$(AR) -crs $(LIB_A) $(LIB_OBJS)
 
-test check: static FORCE
-	@$(MAKE) -C test test
+#test check: static FORCE
+#	@$(MAKE) -C test test
 
 clean:
 	@$(RM) $(LIB_OBJS) $(LIB_LOBJS) $(LIB_A) $(LIB_SO) $(LIB_SO_MAJOR) $(LIB_SO_BASE)
-	@$(MAKE) -C test clean
-	@echo "All clean."
+	@echo "libmseed All clean."
 
 install: shared
 	@echo "Installing into $(PREFIX)"

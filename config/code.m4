@@ -4,7 +4,7 @@ AC_SUBST([DEBUG])
 AC_DEFUN([DEBUG_OFF], [ DEBUG="" ])
 AC_DEFUN([CHECK_DEBUG], [
 AC_ARG_ENABLE(debug, AS_HELP_STRING([--enable-debug],[enable debugging options]), 
-        [ AS_IF( [ test x$enableval != xno ], [  DEBUG="-g -Wall -Wextra" ], [  DEBUG_OFF ] ) ], 
+        [ AS_IF( [ test x$enableval != xno ], [  DEBUG=" -g " ], [  DEBUG_OFF ] ) ], 
         [ DEBUG_OFF ] 
 )
 ])

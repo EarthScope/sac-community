@@ -20,7 +20,7 @@ AC_CANONICAL_SYSTEM
 AC_CONFIG_HEADER(inc/config.h)
 
 # Initialization of Automake
-AM_INIT_AUTOMAKE 
+AM_INIT_AUTOMAKE([foreign no-dependencies subdir-objects])
 
 m4_include([config/matlab.m4])
 m4_include([config/png.m4])
@@ -44,6 +44,8 @@ AS_IF( [ test x"${CFLAGS}" = x ],  [ CFLAGS="" ] )
 
 # Check for LDFLAGS Variable and set default to ""
 AS_IF( [ test x"${LDFLAGS}" = x ], [ LDFLAGS="" ] )
+
+AS_IF( [ true ], [ CFLAGS+=" -Wall -Wextra " ] )
 
 AC_SUBST([BINARY_DIST])
 BINARY_DIST=""
@@ -268,7 +270,7 @@ fi
 AC_DEFINE_UNQUOTED([SACAUX], ["${aux}"], [Define the SACAUX directory])
 
 # Output the Makefiles
-AC_OUTPUT(src/Makefile utils/Makefile libedit/Makefile libmseed/Makefile t/Makefile Makefile)
+AC_OUTPUT(src/Makefile utils/Makefile libedit/Makefile libmseed/Makefile t/Makefile Makefile sacio/Makefile fern/Makefile )
 
 DISPLAYSTR=""
 if test x${display} = xx11; then

@@ -19,7 +19,7 @@ endif
 #
 # Options for testing the compiled code directly
 #
-SAC_INCLUDES     = -I$(top_srcdir)/inc -I$(top_srcdir)/src/bs -I$(top_srcdir)/src/string
+SAC_INCLUDES     = -I$(top_srcdir)/inc  -I$(top_srcdir)
 CFLAGS          += $(DEBUG) $(COVERAGE) $(OPTIM) -Wall \
 			 $(SAC_INCLUDES) \
 			 -DTOP_SRCDIR=\"$(top_srcdir)\"
@@ -43,7 +43,7 @@ endif
 if OSX_APP
 #SAC_GRAPHICS     += -lsac_osx
 endif
-SAC_GRAPHICS     +=  -lsgf -lturtle -lsac_all
+SAC_GRAPHICS     +=  -lsgf -lturtle -lsac_all 
 
 if X11_APP
 LDADD            +=  $(X_PRE_LIBS) $(X_EXTRA_LIBS) $(X_LIBS)
@@ -55,7 +55,7 @@ if X11_APP
 LDADD            += -lX11
 endif
 
-LDADD            += -L. -lunit
+LDADD            += -L. -lunit ../sacio/libsacio_bsd.a ../libmseed/libmseed.a $(LIBCURL)
 
 
 
@@ -90,9 +90,9 @@ ucf_SOURCES     = ucf.c \
 									ucf_cnvita.c \
 									ucf_cnvatf.c \
 									ucf_cnvfta.c
-
+ucf_LDADD = ../fern/libpile.a -L. -lunit ../src/libsacio.a ../sacio/libsacio_bsd.a ../src/libsac_check.a
 vars_SOURCES   = vars.c
-
+vars_LDADD = ../fern/libpile.a -L. -lunit ../src/libsacio.a ../sacio/libsacio_bsd.a
 sacio_SOURCES    = sacio.c \
 						 sacio_rsac1.c  \
 						 sacio_rsac2.c  \
@@ -106,31 +106,31 @@ sacio_SOURCES    = sacio.c \
 if HAVE_FC
 saciof_SOURCES = sacio_f.f
 saciof_CFLAGS = $(COVERAGE)
-saciof_LDADD = -L../src/ -lsacio -lsac
+saciof_LDADD = -L../src/ -lsacio -lsac ../sacio/libsacio_bsd.a ../fern/libpile.a
 
 saclibf_SOURCES = saclib_f.f
-saclibf_LDADD = -L../src/ -lsacio -lsac -L. -lunit
+saclibf_LDADD = -L../src/ -lsacio -lsac -L. -lunit ../sacio/libsacio_bsd.a ../fern/libpile.a
 saclibf_CFLAGS =
 endif
 
 sacio_CFLAGS = $(COVERAGE) -I$(top_srcdir)/include
-sacio_LDADD = -L../src/ -lsacio -L. -lunit
+sacio_LDADD = ../src/libsacio.a  -L. -lunit ../sacio/libsacio_bsd.a ../fern/libpile.a
 sacio_LDFLAGS =
 
 use_sac_CFLAGS= $(COVERAGE) $(SAC_INCLUDES)
-use_sac_LDADD = -L../src -lsacio -L. -lunit
+use_sac_LDADD = -L../src ../src/libsacio.a -L. -lunit ../sacio/libsacio_bsd.a ../fern/libpile.a
 use_sac_LDFLAGS =
 
 sacio_all_CFLAGS =
-sacio_all_LDADD = -L../src -lsacio
+sacio_all_LDADD = -L../src -lsacio ../sacio/libsacio_bsd.a ../fern/libpile.a
 sacio_all_LDFLAGS =
 
 sac_all_CFLAGS =
-sac_all_LDADD = -L../src -lsac -lsacio
+sac_all_LDADD = ../src/libsac.a ../src/libsacio.a  ../sacio/libsacio_bsd.a -L../src -lsac ../fern/libpile.a
 sac_all_LDFLAGS =
 
 lckey_test_CFLAGS =
-lckey_test_LDADD = $(LDADD)
+lckey_test_LDADD = $(LDADD) ../fern/libpile.a ../fern/libfern.a
 lckey_test_LDFLAGS =
 
 
@@ -139,7 +139,7 @@ lckey_test_LDFLAGS =
 
 icm_SOURCES = icm.c
 icm_CFLAGS = $(COVERAGE)
-icm_LDADD = -L../src -licm -lsac -lsacio
+icm_LDADD = -L../src -licm -lsac -lsacio ../fern/libpile.a
 
 # Compiled programs as tests
 check_PROGRAMS   = use_sac ucf vars sacio icm sacio_all sac_all lckey_test
@@ -336,6 +336,8 @@ testsuite/input/afl_000012.sm \
 testsuite/input/julday2.sm \
 testsuite/input/long_and_high.sm \
 testsuite/input/bbfk.sm
+#testsuite/input/event.sm \
+#testsuite/input/station.sm 
 
 # These tests have specific calls to the X11 device
 if X11_APP

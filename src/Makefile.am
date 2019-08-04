@@ -10,7 +10,7 @@
 
 AUTOMAKE_OPTIONS  = subdir-objects no-dependencies
 
-SAC_INCLUDES      = -I$(top_srcdir)/inc -I$(top_srcdir)/src/bs -I$(top_srcdir)/src/string -I$(top_srcdir)/libmseed
+SAC_INCLUDES      = -I$(top_srcdir)/inc -I$(top_srcdir)
 FORMAT_CFLAGS     = $(xpm_CFLAGS) $(png_CFLAGS) $(zlib_CFLAGS) $(XML_CPPFLAGS)
 # Compilation Flags
 AM_CFLAGS         = -fPIC $(DEBUG) $(COVERAGE) $(OPTIM) $(xft_CFLAGS) $(FORMAT_CFLAGS) $(X_CFLAGS) $(SAC_INCLUDES) $(LIBCURL_CPPFLAGS)
@@ -45,8 +45,8 @@ noinst_LIBRARIES  = libsac_all.a \
 		    libevalresp.a \
 		    libSMnonOracleFuncs.a \
 		    libsac_check.a \
-		    libsgf.a libturtle.a libicm.a \
-				liboctopus.a
+		    libsgf.a libturtle.a libicm.a
+
 if X11_APP
   noinst_LIBRARIES += libsac_x11.a
 endif
@@ -58,7 +58,7 @@ if OSX_APP
 endif
 # Libraries needed to compile sac
 #  libsac_all.a is included twice to satisfy recursive dependencies; fix
-sac_LDADD         = -L$(srcdir) -L. libsac_all.a libsgf.a  libicm.a liboctopus.a
+sac_LDADD         = -L$(srcdir) -L. libsac_all.a libsgf.a  libicm.a
 if X11_APP
   sac_LDADD        += libsac_x11.a
 endif
@@ -69,11 +69,11 @@ if OSX_APP
   sac_LDADD        += libsac_osx.a
 endif
 
-sac_LDADD        += libsac_all.a \
+sac_LDADD        += ../fern/libfern.a ../fern/libpile.a libsac_all.a \
 		    libturtle.a \
 		    libevalresp.a \
 		    libSMnonOracleFuncs.a \
-				../libmseed/libmseed.a
+				../libmseed/libmseed.a ../sacio/libsacio_bsd.a
 
 if WIN_APP
   sac_LDADD        += -lgdiplus 
@@ -134,7 +134,7 @@ evalresp/parse_fctns.o: $(srcdir)/evalresp/parse_fctns.c
 evalresp/string_fctns.o: $(srcdir)/evalresp/string_fctns.c
 	$(COMPILE) -DLIB_MODE -c $(srcdir)/evalresp/string_fctns.c -o $@
 
-libsacio_a_SOURCES = bs/iniam.c bs/array.c \
+libsacio_a_SOURCES = bs/iniam.c \
 	bbs/getbbv.c bbs/inibbs.c bbs/setbbv.c bbs/unsetbbv.c \
 	bbs/writebbf.c \
 	bbs/readbbf.c \
@@ -149,13 +149,10 @@ libsacio_a_SOURCES = bs/iniam.c bs/array.c \
 	co/zopens.c co/zputc.c co/zrabs.c co/zsysop.c \
 	co/zwabs.c \
 	\
-	dff/getfhv.c dff/getihv.c dff/getkhv.c \
-	dff/getlhv.c dff/getnhv.c dff/inihdr.c dff/inilhf.c \
-	dff/map_chdr_in.c dff/map_chdr_out.c dff/newhdr.c \
-	dff/rsac1.c dff/rsac2.c dff/setfhv.c dff/setihv.c \
-	dff/setkhv.c dff/setlhv.c dff/setnhv.c  dff/wsac0.c \
-	dff/wsac1.c dff/wsac2.c bs/fstr.c \
-	dff/wsac3.c dff/rsach.c \
+	dff/inihdr.c dff/inilhf.c \
+	dff/map_chdr_in.c dff/map_chdr_out.c \
+	bs/fstr.c \
+	dff/rsach.c \
 	dff/hdrfld.c \
 	\
 	msg/apcmsg.c msg/apcmsg2.c \
@@ -176,7 +173,7 @@ libsacio_a_SOURCES = bs/iniam.c bs/array.c \
 	vars/inivars.c vars/putvFILEptr.c \
 	vars/putvvstring.c vars/readvfile.c \
 	vars/writevfile.c \
-	vars/var.c vars/chash.c vars/bbf.c vars/chash.h \
+	vars/var.c vars/bbf.c \
 	\
 	string/strings.c string/datetime.c string/string_utils.h
 
@@ -241,10 +238,8 @@ libevalresp_a_SOURCES = evalresp/alloc_fctns.c evalresp/calc_fctns.c \
 	evalresp/x2r_xml.h \
 	evalresp/evalresp_sac.c
 
-liboctopus_a_SOURCES = bs/request.c bs/quake_xml.c bs/event.c bs/csv.c bs/meta.c bs/sid.c bs/sacpz.c bs/eventreq.c bs/stationreq.c bs/datareq.c bs/octopus.c
-
 libsac_a_SOURCES = co/complex.c  \
-	\
+	dff/inilhf.c \
 	dfm/cut.c \
 	\
 	dbh/xapiir.c dbh/apply.c dbh/design.c \
@@ -278,9 +273,10 @@ libicm_a_SOURCES = icm/acc.c icm/bbdisp.c icm/bbvel.c \
 	icm/wwlpbn.c icm/wwsp.c icm/wwspbn.c icm/ykalp.c icm/ykasp.c \
 	icm/getran.c
 
-libsac_all_a_SOURCES = bs/iniam.c bs/array.c \
-  bs/strlist.c bs/strlist.h bs/amf.h bs/bool.h bs/sacdata.h bs/sacx.h \
+libsac_all_a_SOURCES = bs/iniam.c bs/fid.c bs/fid.h bs/octopus.c bs/sacpz.c \
+  bs/strlist.c bs/strlist.h bs/amf.h bs/bool.h bs/sacx.h \
   bs/debug.h bs/errors.h bs/fstr.h \
+  string/array.c string/array.h \
 	\
 	bbs/createbbs.c bbs/deletebbs.c bbs/getbbv.c \
 	bbs/inibbs.c bbs/readbbf.c bbs/setbbv.c bbs/unsetbbv.c bbs/writebbf.c \
@@ -360,17 +356,17 @@ libsac_all_a_SOURCES = bs/iniam.c bs/array.c \
 	dbh/window.c dbh/winmov.c dbh/xapiir.c dbh/zero.c dbh/zshft.c \
 	dbh/ACKNOWLEDGEMENT \
 	\
-	dff/formhv.c dff/formmarker.c dff/getfhv.c dff/getfil.c \
-	dff/gethv.c dff/getihv.c dff/getkhv.c dff/getlhv.c dff/getnfiles.c \
-	dff/getnhv.c dff/hdrfld.c dff/inihdr.c dff/inilhf.c dff/lgahdr.c \
+	dff/formhv.c dff/formmarker.c  dff/getfil.c \
+	dff/gethv.c dff/getnfiles.c \
+	dff/hdrfld.c dff/inihdr.c dff/inilhf.c dff/lgahdr.c \
 	dff/map_chdr_in.c dff/map_chdr_out.c dff/map_hdr_in.c \
 	dff/map_hdr_out.c dff/markhdr.c dff/newhdr.c \
 	dff/putfil.c dff/rddta.c dff/rdhdr.c dff/rdsac.c dff/rdsdta.c \
 	dff/rdsegy.c dff/rdshdr.c dff/rdxdrdta.c dff/rsac1.c dff/rsac2.c \
-	dff/setfhv.c dff/setihv.c dff/setkhv.c dff/setlhv.c dff/setnfiles.c \
-	dff/setnhv.c dff/setrng.c dff/updhdr.c dff/wrsac.c dff/wrsdd.c \
-	dff/wrsegy.c dff/wrxdr.c dff/wsac0.c dff/wsac1.c dff/wsac2.c \
-	dff/xdrhdr.c bs/fstr.c dff/wsac3.c dff/rsach.c \
+	dff/setnfiles.c \
+	dff/setrng.c dff/updhdr.c dff/wrsac.c dff/wrsdd.c \
+	dff/wrsegy.c dff/wrxdr.c \
+	dff/xdrhdr.c bs/fstr.c dff/rsach.c \
 	\
 	dfm/cleardfl.c dfm/cnvfmt.c dfm/cnvfre.c \
 	dfm/decont.c dfm/defcut.c dfm/defmem.c dfm/detnum.c dfm/gennames.c \
@@ -583,7 +579,7 @@ libsac_all_a_SOURCES = bs/iniam.c bs/array.c \
 	vars/inivars.c vars/putvFILEptr.c \
 	vars/putvvstring.c vars/readvfile.c \
 	vars/writevfile.c \
-	vars/var.c vars/chash.c vars/bbf.c \
+	vars/var.c vars/bbf.c \
 	\
 	wild/getdir.c wild/lwildc.c wild/wildch.c \
 	wild/wildfl.c \
@@ -634,7 +630,6 @@ libsgf_a_SOURCES = gd2/beginSGFtemp.c \
 
 
 libturtle_a_SOURCES    = docs/pdf.c docs/ps.c docs/font.c string/strings.c \
-	string/array.c string/array.h \
 	string/datetime.c \
 	docs/Courier-Bold.h docs/Courier-BoldOblique.h	\
 	docs/Courier-Oblique.h docs/Courier.h \
@@ -666,3 +661,10 @@ sacapp: $(bin_PROGRAMS)
 	done
 
 endif
+
+# #dff/wsac0.c dff/wsac1.c dff/wsac2.c dff/wsac3.c 
+# bs/iniam.c bs/array.c \
+# dff/getfhv.c dff/getihv.c dff/getkhv.c dff/getlhv.c dff/getnhv.c
+# dff/setfhv.c dff/setihv.c dff/setkhv.c dff/setlhv.c dff/setnhv.c 
+# 				liboctopus.a
+# dff/newhdr.c dff/rsac1.c
