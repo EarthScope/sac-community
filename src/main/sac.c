@@ -105,11 +105,15 @@ usage() {
  *
  */
 
+#include <curl/curl.h>
+
 #ifdef X11_APP
 int
 main(int argc, char **argv) {
 
     char kmsg[MCMSG + 1];
+
+    curl_global_init(CURL_GLOBAL_DEFAULT);
 
     memset(&(kmsg[0]), ' ', MCMSG);
 
@@ -129,6 +133,8 @@ main(int argc, char **argv) {
     execute_command_line(kmsg, MCMSG + 1);
 
     sac_main_loop();
+
+    curl_global_cleanup();
     return 0;
 }
 
