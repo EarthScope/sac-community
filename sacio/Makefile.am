@@ -6,11 +6,15 @@ EXTRA_DIST = License README.md t config docs
 
 AM_CFLAGS = -Wall -Wextra -Iinclude/
 
-saciolibdir = $(libdir)/
-sacioincdir = $(includedir)/sacio
+# Notes for including library directly in sac source
+# - Remove saciolibdir, sacioincdir
+# - Remove tests
+# - Rename saciolib_LIBRARIES to noinst_LIBRARIES
+# - Move sacioinc_HEADERS to libsacio_bsd_a_SOURCES
+# - Run ./bootstrap in base directory
+#
 
-saciolib_LIBRARIES = libsacio_bsd.a
-sacioinc_HEADERS   = sacio.h timespec.h
+noinst_LIBRARIES  = libsacio_bsd.a
 
 libsacio_bsd_a_SOURCES = sacio.c geodesic.c timespec.c \
 												 time64.c strip.c compat.c \
@@ -18,7 +22,8 @@ libsacio_bsd_a_SOURCES = sacio.c geodesic.c timespec.c \
 												 time64.h geodesic.h strip.h \
 												 time64_limits.h \
 												 sacio.h timespec.h \
-                         header_map.txt
+                         header_map.txt \
+                         sacio.h timespec.h
 
 CLEANFILES = t/test*.tmp
 

@@ -6,14 +6,15 @@ EXTRA_DIST = License README.md t config
 
 AM_CFLAGS = -Wall -Wextra -Iinclude/ $(XML_CPPFLAGS) $(LIBCURL_CPPFLAGS) -I$(top_srcdir)
 
-fernlibdir = $(libdir)/
-fernincdir = $(includedir)/fern
+# Notes for including library directly in sac source
+# - Remove fernlibdir, fernincdir
+# - Remove tests
+# - Rename fernlib_LIBRARIES to noinst_LIBRARIES
+# - Move ferninc_HEADERS to libfern_a_SOURCES
+# - Run ./bootstrap in base directory
+#
 
-fernlib_LIBRARIES = libfern.a libpile.a
-ferninc_HEADERS   = array.h request.h event.h station.h \
-                    stationreq.h datareq.h meta.h \
-                    miniseed_sac.h cprint.h fern.h
-
+noinst_LIBRARIES = libfern.a libpile.a
 
 libfern_a_SOURCES = cJSON.c cJSON.h \
                     datareq.c datareq.h \
@@ -28,7 +29,10 @@ libfern_a_SOURCES = cJSON.c cJSON.h \
 										stationreq.c stationreq.h \
 										strip.c strip.h \
 										xml.c xml.h \
-                    fern.h
+                    fern.h \
+                    array.h request.h event.h station.h \
+                    stationreq.h datareq.h meta.h \
+                    miniseed_sac.h cprint.h fern.h
 
 libpile_a_SOURCES = chash.c chash.h array.c array.h cprint.c cprint.h
 

@@ -44,11 +44,18 @@ EXTRA_INSTALL    = macros $(EXTRA_ALWAYS) \
 		   lib/README_lib \
 		   include doc/examples doc/README $(SACAUX_DIR)
 
+include_HEADERS = include/sacio.h include/evalresp.h \
+                  include/sac.h include/sacf.h
+
 bin_SCRIPTS = bin/sacinit.sh \
 	      bin/sacinit.csh \
 	      bin/sgftoeps.csh \
 	      bin/sgftox.csh \
 	      bin/sac-config
+
+include/sacio.h: $(top_srcdir)/sacio/sacio.h
+	[ ! -e include ] && mkdir include
+	cp $(top_srcdir)/sacio/sacio.h include/sacio.h
 
 
 CLEANFILES =  bin/sacinit.sh bin/sacinit.csh bin/sac-config

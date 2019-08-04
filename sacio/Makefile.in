@@ -14,7 +14,6 @@
 
 @SET_MAKE@
 
-
 VPATH = @srcdir@
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
@@ -104,42 +103,12 @@ am__aclocal_m4_deps = $(top_srcdir)/config/matlab.m4 \
 	$(top_srcdir)/config/libcurl.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
-DIST_COMMON = $(srcdir)/Makefile.am $(sacioinc_HEADERS) \
-	$(am__DIST_COMMON)
+DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/inc/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
-am__vpath_adj = case $$p in \
-    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
-    *) f=$$p;; \
-  esac;
-am__strip_dir = f=`echo $$p | sed -e 's|^.*/||'`;
-am__install_max = 40
-am__nobase_strip_setup = \
-  srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*|]/\\\\&/g'`
-am__nobase_strip = \
-  for p in $$list; do echo "$$p"; done | sed -e "s|$$srcdirstrip/||"
-am__nobase_list = $(am__nobase_strip_setup); \
-  for p in $$list; do echo "$$p $$p"; done | \
-  sed "s| $$srcdirstrip/| |;"' / .*\//!s/ .*/ ./; s,\( .*\)/[^/]*$$,\1,' | \
-  $(AWK) 'BEGIN { files["."] = "" } { files[$$2] = files[$$2] " " $$1; \
-    if (++n[$$2] == $(am__install_max)) \
-      { print $$2, files[$$2]; n[$$2] = 0; files[$$2] = "" } } \
-    END { for (dir in files) print dir, files[dir] }'
-am__base_list = \
-  sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
-  sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
-am__uninstall_files_from_dir = { \
-  test -z "$$files" \
-    || { test ! -d "$$dir" && test ! -f "$$dir" && test ! -r "$$dir"; } \
-    || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
-         $(am__cd) "$$dir" && rm -f $$files; }; \
-  }
-am__installdirs = "$(DESTDIR)$(saciolibdir)" \
-	"$(DESTDIR)$(sacioincdir)"
-LIBRARIES = $(saciolib_LIBRARIES)
+LIBRARIES = $(noinst_LIBRARIES)
 AR = ar
 ARFLAGS = cru
 AM_V_AR = $(am__v_AR_@AM_V@)
@@ -186,7 +155,6 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
-HEADERS = $(sacioinc_HEADERS)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
@@ -356,17 +324,23 @@ zlib_LIBS = @zlib_LIBS@
 AUTOMAKE_OPTIONS = no-dependencies
 EXTRA_DIST = License README.md t config docs
 AM_CFLAGS = -Wall -Wextra -Iinclude/
-saciolibdir = $(libdir)/
-sacioincdir = $(includedir)/sacio
-saciolib_LIBRARIES = libsacio_bsd.a
-sacioinc_HEADERS = sacio.h timespec.h
+
+# Notes for including library directly in sac source
+# - Remove saciolibdir, sacioincdir
+# - Remove tests
+# - Rename saciolib_LIBRARIES to noinst_LIBRARIES
+# - Move sacioinc_HEADERS to libsacio_bsd_a_SOURCES
+# - Run ./bootstrap in base directory
+#
+noinst_LIBRARIES = libsacio_bsd.a
 libsacio_bsd_a_SOURCES = sacio.c geodesic.c timespec.c \
 												 time64.c strip.c compat.c \
 												 header_map.c defs.h \
 												 time64.h geodesic.h strip.h \
 												 time64_limits.h \
 												 sacio.h timespec.h \
-                         header_map.txt
+                         header_map.txt \
+                         sacio.h timespec.h
 
 CLEANFILES = t/test*.tmp
 all: all-am
@@ -402,37 +376,9 @@ $(top_srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
-install-saciolibLIBRARIES: $(saciolib_LIBRARIES)
-	@$(NORMAL_INSTALL)
-	@list='$(saciolib_LIBRARIES)'; test -n "$(saciolibdir)" || list=; \
-	list2=; for p in $$list; do \
-	  if test -f $$p; then \
-	    list2="$$list2 $$p"; \
-	  else :; fi; \
-	done; \
-	test -z "$$list2" || { \
-	  echo " $(MKDIR_P) '$(DESTDIR)$(saciolibdir)'"; \
-	  $(MKDIR_P) "$(DESTDIR)$(saciolibdir)" || exit 1; \
-	  echo " $(INSTALL_DATA) $$list2 '$(DESTDIR)$(saciolibdir)'"; \
-	  $(INSTALL_DATA) $$list2 "$(DESTDIR)$(saciolibdir)" || exit $$?; }
-	@$(POST_INSTALL)
-	@list='$(saciolib_LIBRARIES)'; test -n "$(saciolibdir)" || list=; \
-	for p in $$list; do \
-	  if test -f $$p; then \
-	    $(am__strip_dir) \
-	    echo " ( cd '$(DESTDIR)$(saciolibdir)' && $(RANLIB) $$f )"; \
-	    ( cd "$(DESTDIR)$(saciolibdir)" && $(RANLIB) $$f ) || exit $$?; \
-	  else :; fi; \
-	done
 
-uninstall-saciolibLIBRARIES:
-	@$(NORMAL_UNINSTALL)
-	@list='$(saciolib_LIBRARIES)'; test -n "$(saciolibdir)" || list=; \
-	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
-	dir='$(DESTDIR)$(saciolibdir)'; $(am__uninstall_files_from_dir)
-
-clean-saciolibLIBRARIES:
-	-test -z "$(saciolib_LIBRARIES)" || rm -f $(saciolib_LIBRARIES)
+clean-noinstLIBRARIES:
+	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
 
 libsacio_bsd.a: $(libsacio_bsd_a_OBJECTS) $(libsacio_bsd_a_DEPENDENCIES) $(EXTRA_libsacio_bsd_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libsacio_bsd.a
@@ -450,27 +396,6 @@ distclean-compile:
 
 .c.obj:
 	$(AM_V_CC)$(COMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
-install-sacioincHEADERS: $(sacioinc_HEADERS)
-	@$(NORMAL_INSTALL)
-	@list='$(sacioinc_HEADERS)'; test -n "$(sacioincdir)" || list=; \
-	if test -n "$$list"; then \
-	  echo " $(MKDIR_P) '$(DESTDIR)$(sacioincdir)'"; \
-	  $(MKDIR_P) "$(DESTDIR)$(sacioincdir)" || exit 1; \
-	fi; \
-	for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  echo "$$d$$p"; \
-	done | $(am__base_list) | \
-	while read files; do \
-	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(sacioincdir)'"; \
-	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(sacioincdir)" || exit $$?; \
-	done
-
-uninstall-sacioincHEADERS:
-	@$(NORMAL_UNINSTALL)
-	@list='$(sacioinc_HEADERS)'; test -n "$(sacioincdir)" || list=; \
-	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
-	dir='$(DESTDIR)$(sacioincdir)'; $(am__uninstall_files_from_dir)
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -559,11 +484,8 @@ distdir-am: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LIBRARIES) $(HEADERS)
+all-am: Makefile $(LIBRARIES)
 installdirs:
-	for dir in "$(DESTDIR)$(saciolibdir)" "$(DESTDIR)$(sacioincdir)"; do \
-	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
-	done
 install: install-am
 install-exec: install-exec-am
 install-data: install-data-am
@@ -597,7 +519,7 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic clean-saciolibLIBRARIES mostlyclean-am
+clean-am: clean-generic clean-noinstLIBRARIES mostlyclean-am
 
 distclean: distclean-am
 	-rm -f Makefile
@@ -616,7 +538,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-sacioincHEADERS install-saciolibLIBRARIES
+install-data-am:
 
 install-dvi: install-dvi-am
 
@@ -660,24 +582,22 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-sacioincHEADERS uninstall-saciolibLIBRARIES
+uninstall-am:
 
 .MAKE: install-am install-strip
 
 .PHONY: CTAGS GTAGS TAGS all all-am check check-am clean clean-generic \
-	clean-saciolibLIBRARIES cscopelist-am ctags ctags-am distclean \
+	clean-noinstLIBRARIES cscopelist-am ctags ctags-am distclean \
 	distclean-compile distclean-generic distclean-local \
 	distclean-tags distdir dvi dvi-am html html-am info info-am \
 	install install-am install-data install-data-am install-dvi \
 	install-dvi-am install-exec install-exec-am install-html \
 	install-html-am install-info install-info-am install-man \
 	install-pdf install-pdf-am install-ps install-ps-am \
-	install-sacioincHEADERS install-saciolibLIBRARIES \
 	install-strip installcheck installcheck-am installdirs \
 	maintainer-clean maintainer-clean-generic mostlyclean \
 	mostlyclean-compile mostlyclean-generic pdf pdf-am ps ps-am \
-	tags tags-am uninstall uninstall-am uninstall-sacioincHEADERS \
-	uninstall-saciolibLIBRARIES
+	tags tags-am uninstall uninstall-am
 
 .PRECIOUS: Makefile
 
