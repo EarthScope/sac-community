@@ -1,6 +1,8 @@
 
 #include <string.h>
 
+#include <fern/array.h>
+
 #include "sss.h"
 #include "dfm.h"
 #include "dff.h"
@@ -15,7 +17,6 @@
 #include "clf.h"
 #include "ucf.h"
 #include "cpf.h"
-#include "array.h"
 #include <fstr.h>
 
 SSS_EXTERN

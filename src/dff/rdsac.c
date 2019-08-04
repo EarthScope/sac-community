@@ -4,6 +4,7 @@
  * @brief  Read a SAC file
  * 
  */
+#include <string.h>
 
 #include "dff.h"
 #include "amf.h"
@@ -13,6 +14,7 @@
 #include "clf.h"
 #include "dfm.h"
 #include "errors.h"
+#include "defs.h"
 
 #include <fstr.h>
 

@@ -13,6 +13,7 @@
 #include "ucf.h"
 #include "cpf.h"
 #include "dff.h"
+#include "defs.h"
 
 struct t_kmfir kmfir;
 struct t_cmfir cmfir;

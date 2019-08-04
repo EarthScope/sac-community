@@ -7,12 +7,9 @@
 
 #include <string.h>
 
+#include <sacio/sacio.h>
 #include "dfm.h"
-
-#include "SacHeader.h"
-
 #include "errors.h"
-
 #include "msg.h"
 
 /** 

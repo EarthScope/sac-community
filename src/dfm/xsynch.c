@@ -5,6 +5,8 @@
  * 
  */
 
+#include <fern/array.h>
+
 #include "dfm.h"
 #include "bool.h"
 #include "hdr.h"
@@ -14,7 +16,6 @@
 #include "cpf.h"
 #include "dff.h"
 #include "amf.h"
-#include "array.h"
 #include "errors.h"
 
 DFM_EXTERN

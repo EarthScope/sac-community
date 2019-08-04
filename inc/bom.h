@@ -8,9 +8,10 @@
 #ifndef _BOM_H_
 #define _BOM_H_
 
+#include <sacio/sacio.h>
+
 #include "mach.h"
 #include "strlist.h"
-#include "sacdata.h"
 
 /** 
  * @struct kmbom

@@ -7,7 +7,8 @@
 #include "ucf.h"
 #include "cpf.h"
 #include "dff.h"
-#include <fstr.h>
+#include "fstr.h"
+#include "defs.h"
 
 SPE_EXTERN
 

@@ -24,7 +24,7 @@
 #include "cpf.h"
 #include "co.h"
 #include "dff.h"
-
+#include "defs.h"
 
 
 SCM_EXTERN

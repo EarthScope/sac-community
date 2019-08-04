@@ -10,6 +10,7 @@
 
 #include "dfm.h"
 #include "ucf.h"
+#include "defs.h"
 
 SSS_EXTERN
 

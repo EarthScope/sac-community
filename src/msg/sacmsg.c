@@ -14,7 +14,7 @@
 
 #include "string_utils.h"
 
-#include "vars/chash.h"
+#include <fern/chash.h>
 
 dict *msg_dict = NULL;
 

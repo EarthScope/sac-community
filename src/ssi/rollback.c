@@ -6,13 +6,14 @@
 #include "dfm.h"
 #include "bool.h"
 
+#include <fern/array.h>
+
 #include "smDataIO.h"
 #include "cssListOps/cssListOps.h"
 #include "cssListOps/dblErrors.h"
 #include "SacHeader.h"
 #include "msg.h"
 #include "dff.h"
-#include "array.h"
 
 DFM_EXTERN
 extern int const allHeader;

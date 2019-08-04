@@ -5,8 +5,9 @@
 #include <stdarg.h>
 #include <math.h>
 
+#include <fern/chash.h>
+
 #include "vars.h"
-#include "chash.h"
 #include "bool.h"
 #include "bbf.h"
 #include "bot.h"

@@ -10,6 +10,8 @@
 #include <stdlib.h>
 #include <math.h>
 
+#include <fern/array.h>
+
 #include "fks.h"
 #include "dfm.h"
 #include "bool.h"
@@ -22,7 +24,6 @@
 #include "co.h"
 #include "ncpf.h"
 #include "dff.h"
-#include "array.h"
 
 FKS_EXTERN
 

@@ -12,6 +12,7 @@
 #include "ucf.h"
 #include "cpf.h"
 #include "dff.h"
+#include "defs.h"
 
 SAM_EXTERN
 

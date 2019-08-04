@@ -5,9 +5,11 @@
 #include "hdr.h"
 #include "bool.h"
 
+#include <fern/array.h>
+
 #include "cpf.h"
 #include "dff.h"
-#include "array.h"
+
 void /*FUNCTION*/
 xmul(nerr)
      int *nerr;

@@ -10,6 +10,8 @@
 #include "ucf.h"
 #include "icm.h"
 #include "dff.h"
+#include "debug.h"
+#include "defs.h"
 
 SAM_EXTERN
 

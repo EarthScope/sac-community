@@ -18,7 +18,7 @@
 #include "cssListOps/dblErrors.h"
 #include "dbselect/dbDefaults.h"
 #include "smDataIO.h"
-#include "sacIO/sacIO.h"
+#include "sacIOdb/sacIOdb.h"
 
 void dbPrintToDevice(char *string);
 

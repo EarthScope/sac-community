@@ -12,7 +12,7 @@
 #include "co.h"
 #include "amf.h"
 #include "ucf.h"
-
+#include "defs.h"
 #include "errors.h"
 
 /** 

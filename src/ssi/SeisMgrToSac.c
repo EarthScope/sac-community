@@ -1,5 +1,6 @@
 
 #include <stdio.h>
+#include <string.h>
 
 #include "ssi.h"
 #include "dfm.h"
@@ -8,7 +9,7 @@
 #include "bool.h"
 #include "sm_gc.h"
 
-#include "sacIO/sacIO.h"
+#include "sacIOdb/sacIOdb.h"
 #include "smDataIO.h"
 #include "cssListOps/dblErrors.h"
 #include "cssListOps/dblPublicDefs.h"

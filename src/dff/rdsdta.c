@@ -11,6 +11,7 @@
 #include "ucf.h"
 #include "dfm.h"
 #include "amf.h"
+#include "defs.h"
 
 #include "sddhdr.h"
 #include "errors.h"

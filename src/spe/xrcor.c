@@ -5,6 +5,10 @@
  * 
  */
 
+#include <string.h>
+
+#include <sacio/sacio.h>
+
 #include "spe.h"
 #include "amf.h"
 #include "bool.h"
@@ -13,7 +17,8 @@
 
 #include "cpf.h"
 #include "dff.h"
-#include <fstr.h>
+#include "fstr.h"
+#include "defs.h"
 
 SPE_EXTERN
 

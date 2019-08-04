@@ -6,7 +6,7 @@
 #include "gdm.h"
 #include "bot.h"
 #include "debug.h"
-#include "vars/chash.h"
+#include <fern/chash.h>
 
 extern dict *color_dict;
 

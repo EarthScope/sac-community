@@ -5,10 +5,12 @@
 #include "hdr.h"
 #include "bool.h"
 
+#include <fern/array.h>
+
 #include "msg.h"
 #include "cpf.h"
 #include "dff.h"
-#include "array.h"
+
 void /*FUNCTION*/
 xdiv(nerr)
      int *nerr;

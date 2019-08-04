@@ -10,6 +10,8 @@
 #include <string.h>
 #include <time.h>
 
+#include <fern/array.h>
+
 #include "dfm.h"
 #include "hdr.h"
 #include "lhf.h"
@@ -22,8 +24,8 @@
 #include "dff.h"
 #include "co.h"
 #include "amf.h"
-#include "array.h"
 #include "errors.h"
+#include "defs.h"
 
 LHF_EXTERN
 

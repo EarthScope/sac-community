@@ -2,13 +2,15 @@
 #include <string.h>
 #include <ctype.h>
 
+#include <fern/array.h>
+
 #include "ssi.h"
 #include "dfm.h"
 #include "amf.h"
 #include "hdr.h"
 #include "bool.h"
 
-#include "sacIO/sacIO.h"
+#include "sacIOdb/sacIOdb.h"
 #include "smDataIO.h"
 #include "cssListOps/cssListOps.h"
 #include "sm_gc.h"
@@ -17,8 +19,8 @@
 #include "bot.h"
 #include "cpf.h"
 #include "dff.h"
-
-#include "array.h"
+#include "debug.h"
+#include "defs.h"
 
 #define MAXPAIRS 10
 

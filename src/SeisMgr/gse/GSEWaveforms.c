@@ -9,6 +9,7 @@
 #include "amf.h"
 #include "gse.h"
 #include "string_utils.h"
+#include "defs.h"
 
 #define MAX_LINE 1025
 

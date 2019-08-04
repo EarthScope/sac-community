@@ -3,6 +3,8 @@
 #include <string.h>
 #include <math.h>
 
+#include <fern/array.h>
+
 #include "sac_complex.h"
 #include "proto.h"
 #include "mach.h"
@@ -19,7 +21,6 @@
 #include "cpf.h"
 #include "dff.h"
 #include "co.h"
-#include "array.h"
 
 #include <fstr.h>
 

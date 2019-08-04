@@ -11,7 +11,10 @@
 #include "mach.h"
 #include "cssListOps/dblPublicDefs.h"
 #include "cssListOps/cssStrucs.h"
-#include "sacdata.h"
+
+#include <sacio/sacio.h>
+
+#define SACheader sac_hdr
 
 void CSStoSAC(int idfl, struct SACheader *header, struct trace *seis, int lname,
               int lcutnow, int *nerr);

@@ -8,6 +8,8 @@
 #include <string.h>
 #include <math.h>
 
+#include <fern/array.h>
+
 #include "fks.h"
 #include "bool.h"
 #include "hdr.h"
@@ -22,7 +24,7 @@
 #include "gtm.h"
 #include "cpf.h"
 #include "dff.h"
-#include "array.h"
+
 
 GAM_EXTERN
 GEM_EXTERN

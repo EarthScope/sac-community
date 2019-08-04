@@ -9,6 +9,8 @@
 #include <math.h>
 #include <string.h>
 
+#include <fern/array.h>
+
 #include "dfm.h"
 #include "hdr.h"
 #include "amf.h"
@@ -27,7 +29,7 @@
 #include "cpf.h"
 #include "co.h"
 #include "dff.h"
-#include "array.h"
+#include "debug.h"
 
 #define ACK_CHAR 6
 

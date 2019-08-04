@@ -23,6 +23,7 @@
 #include "co.h"
 #include "exm.h"
 #include "select.h"
+#include "defs.h"
 
 #include "cssListOps/dblPublicDefs.h"
 #include "smDataIO.h"

@@ -12,6 +12,8 @@
 #include "ucf.h"
 #include "cpf.h"
 #include "dff.h"
+#include "defs.h"
+#include "debug.h"
 
 SAM_EXTERN
 

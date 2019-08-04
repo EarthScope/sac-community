@@ -14,6 +14,7 @@
 #include "ucf.h"
 #include "cpf.h"
 #include "dff.h"
+#include "defs.h"
 
 SCM_EXTERN
 

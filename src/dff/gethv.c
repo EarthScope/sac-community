@@ -17,6 +17,7 @@
 #include "clf.h"
 #include "dfm.h"
 #include "bool.h"
+#include "defs.h"
 
 #include <fstr.h>
 

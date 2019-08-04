@@ -4,6 +4,8 @@
 #include <string.h>
 #include <math.h>
 
+#include <fern/array.h>
+
 #include "sss.h"
 #include "co.h"
 #include "tt.h"
@@ -23,7 +25,8 @@
 #include "clf.h"
 #include "cpf.h"
 #include "dff.h"
-#include "array.h"
+
+#include "defs.h"
 
 SSS_EXTERN
 TT_EXTERN

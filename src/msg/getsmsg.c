@@ -12,7 +12,7 @@
 #include "co.h"
 #include "debug.h"
 
-#include "vars/chash.h"
+#include <fern/chash.h>
 
 extern dict *msg_dict;
 

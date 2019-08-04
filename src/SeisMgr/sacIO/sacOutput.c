@@ -8,6 +8,8 @@
 #include "unistdx.h"
 #include <ctype.h>
 
+#define SAC_NULL_HEADER_REQUIRED 
+#include "ssi.h"
 #include "hdr.h"
 #include "timefuncs.h"
 #include "cssListOps/cssStrucs.h"
@@ -20,8 +22,8 @@
 #define SAC_NULL_HEADER_REQUIRED        /* This is hackish */
 #include "SacHeader.h"
 
-#include "sacIO/sacIO.h"
-#include "sacIO/dbConversions.h"
+#include "sacIOdb/sacIOdb.h"
+#include "sacIOdb/dbConversions.h"
 
 #include "smDataIO.h"
 #include "debug.h"

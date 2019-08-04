@@ -15,6 +15,7 @@
 #include "msg.h"
 #include "ucf.h"
 #include "dff.h"
+#include "defs.h"
 
 #define	MINDATALEN	201
 #define	MLENSCRATCH	4297

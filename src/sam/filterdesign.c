@@ -12,6 +12,7 @@
 #include "top.h"
 #include "bot.h"
 #include "cpf.h"
+#include "defs.h"
 
 #include "errors.h"
 

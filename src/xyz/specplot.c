@@ -3,6 +3,8 @@
 #include <string.h>
 #include <math.h>
 
+#include <fern/array.h>
+
 #include "mach.h"
 #include "xyz.h"
 #include "gdm.h"
@@ -17,7 +19,6 @@
 #include "pl.h"
 #include "ucf.h"
 #include "dff.h"
-#include "array.h"
 
 GAM_EXTERN
 GDM_EXTERN

@@ -8,6 +8,7 @@
 #include "dfm.h"
 #include "hdr.h"
 #include "bool.h"
+#include "debug.h"
 
 GAM_EXTERN
 

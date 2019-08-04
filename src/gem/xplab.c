@@ -10,10 +10,10 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include <fern/array.h>
+
 #include "gem.h"
 #include "bool.h"
-
-#include "array.h"
 
 #include "msg.h"
 #include "cpf.h"

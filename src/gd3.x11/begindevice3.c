@@ -10,6 +10,7 @@
 #include "gd3.x11.h"
 #include "gem.h"
 #include "bool.h"
+#include "defs.h"
 
 Font title_font3;
 

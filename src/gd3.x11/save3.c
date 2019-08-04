@@ -18,6 +18,7 @@
 #include "amf.h"
 #include "bool.h"
 #include "gdm.h"
+#include "defs.h"
 #ifdef X11_APP
 #include "gd3.x11.h"
 #endif

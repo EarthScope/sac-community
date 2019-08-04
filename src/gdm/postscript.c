@@ -3,6 +3,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include <fern/array.h>
+
 #include "msg.h"
 #include "amf.h"
 #include "gdm.h"
@@ -14,7 +16,6 @@
 
 #include "docs/ps.h"
 #include "docs/font.h"
-#include "array.h"
 
 GDM_EXTERN
 

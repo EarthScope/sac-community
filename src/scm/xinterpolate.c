@@ -18,6 +18,7 @@
 #include "cpf.h"
 #include "dff.h"
 #include "sam.h"
+#include "defs.h"
 
 SCM_EXTERN
 

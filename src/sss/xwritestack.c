@@ -9,7 +9,8 @@
 #include "ucf.h"
 #include "cpf.h"
 #include "dff.h"
-#include <fstr.h>
+#include "fstr.h"
+#include "defs.h"
 
 DFM_EXTERN
 SSS_EXTERN

@@ -8,6 +8,7 @@
 #include "amf.h"
 #include "msg.h"
 #include "dff.h"
+#include "defs.h"
 
 int const wfHeader = -1;
 int const allHeader = 0;

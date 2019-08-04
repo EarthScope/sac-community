@@ -3,6 +3,8 @@
 #include <string.h>
 #include <math.h>
 
+#include <fern/array.h>
+
 #include "gem.h"
 #include "gdm.h"
 #include "gam.h"
@@ -20,7 +22,6 @@
 #include "cpf.h"
 #include "co.h"
 #include "dff.h"
-#include "array.h"
 #include <fstr.h>
 
 XYZ_EXTERN

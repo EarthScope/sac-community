@@ -14,6 +14,7 @@
 #include "co.h"
 #include "msg.h"
 #include "dff.h"
+#include "defs.h"
 
 void aphdrw(int newnpts, int nFreq, sac * s);
 void gdhdrw(int newnpts, int nFreq, sac * s);

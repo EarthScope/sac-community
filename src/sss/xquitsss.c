@@ -4,7 +4,7 @@
 
 #include "cpf.h"
 #include "exm.h"
-
+#include "defs.h"
 
 SSS_EXTERN
 

@@ -12,7 +12,7 @@
 #include "dfm.h"
 #include "co.h"
 #include "ucf.h"
-
+#include "defs.h"
 #include "errors.h"
 
 /** 

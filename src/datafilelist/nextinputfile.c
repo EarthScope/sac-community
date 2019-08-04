@@ -6,13 +6,13 @@
  */
 
 #include <string.h>
+#include <fern/array.h>
 
 #include "datafilelist.h"
 #include "bool.h"
 #include "co.h"
 
 #include "dff.h"
-#include "array.h"
 
 struct t_kmdatafilelist kmdatafilelist;
 struct t_cmdatafilelist cmdatafilelist;

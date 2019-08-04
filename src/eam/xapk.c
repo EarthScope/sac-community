@@ -9,6 +9,8 @@
 #include <math.h>
 #include <string.h>
 
+#include <fern/array.h>
+
 #include "eam.h"
 #include "bool.h"
 #include "hdr.h"
@@ -23,7 +25,6 @@
 #include "co.h"
 #include "gam.h"
 #include "dff.h"
-#include "array.h"
 
 EAM_EXTERN
 

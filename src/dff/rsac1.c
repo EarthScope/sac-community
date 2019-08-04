@@ -6,6 +6,7 @@
  */
 #include "config.h"
 
+#include <string.h>
 #include <sys/types.h>
 #include "unistdx.h"
 
@@ -22,6 +23,7 @@
 #include "ucf.h"
 #include "SacHeader.h"
 #include "errors.h"
+#include "defs.h"
 
 #include <fstr.h>
 

@@ -5,6 +5,8 @@
 #include <stdarg.h>
 #include <math.h>
 
+#include <fern/array.h>
+
 #include "amf.h"
 #include "gdm.h"
 #include "gem.h"
@@ -16,7 +18,6 @@
 
 #include "docs/pdf.h"
 #include "docs/font.h"
-#include "array.h"
 
 #include "debug.h"
 

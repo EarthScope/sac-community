@@ -6,6 +6,7 @@
  */
 
 #include <string.h>
+#include <fern/array.h>
 
 #include "amf.h"
 #include "bom.h"
@@ -60,7 +61,6 @@ xboec(int *nerr) {
     return;
 }
 
-#include "array.h"
 
 static sac **sac_binary_file_list = NULL;
 

@@ -16,7 +16,8 @@
 #include "cpf.h"
 #include "co.h"
 #include "dff.h"
-#include <fstr.h>
+#include "debug.h"
+#include "fstr.h"
 
 SAM_EXTERN
 GAM_EXTERN

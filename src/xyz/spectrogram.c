@@ -8,6 +8,7 @@
 
 #include "specdata.h"
 #include "spectrogram.h"
+#include "defs.h"
 
 struct t_filesinfo filesinfo;
 /** 

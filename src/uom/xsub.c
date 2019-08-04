@@ -1,4 +1,6 @@
 
+#include <fern/array.h>
+
 #include "uom.h"
 #include "dfm.h"
 #include "amf.h"
@@ -7,7 +9,6 @@
 
 #include "cpf.h"
 #include "dff.h"
-#include "array.h"
 
 void /*FUNCTION*/
 xsub(nerr)

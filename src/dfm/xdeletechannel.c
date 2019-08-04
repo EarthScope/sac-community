@@ -7,6 +7,8 @@
 
 #include <string.h>
 
+#include <fern/array.h>
+
 #include "dfm.h"
 #include "amf.h"
 
@@ -23,7 +25,6 @@
 #include "cpf.h"
 #include "co.h"
 #include "dff.h"
-#include "array.h"
 #include "errors.h"
 
 #include <fstr.h>

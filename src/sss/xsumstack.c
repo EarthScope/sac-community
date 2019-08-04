@@ -14,7 +14,7 @@
 #include "cpf.h"
 #include "co.h"
 #include "dff.h"
-
+#include "defs.h"
 
 GEM_EXTERN
 SSS_EXTERN

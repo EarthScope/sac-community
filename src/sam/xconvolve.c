@@ -14,6 +14,7 @@
 #include "dbh.h"
 #include "cpf.h"
 #include "dff.h"
+#include "defs.h"
 
 #define	MCORLN	4096
 #define	MWINLN	2048

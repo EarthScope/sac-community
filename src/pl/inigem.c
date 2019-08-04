@@ -1,4 +1,5 @@
 
+#include <stdlib.h>
 #include <string.h>
 
 #include "mach.h"
@@ -9,7 +10,7 @@
 #include "co.h"
 #include "gdm.h"
 #include "gtm.h"
-#include "vars/chash.h"
+#include <fern/chash.h>
 
 extern color COLORS[];
 extern color COLOR_RED;

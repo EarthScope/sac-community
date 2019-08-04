@@ -14,6 +14,7 @@
 #include "dfm.h"
 #include "hdr.h"
 #include "co.h"
+#include "debug.h"
 
 GAM_EXTERN
 

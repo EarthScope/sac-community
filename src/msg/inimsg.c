@@ -16,7 +16,7 @@
 #include "dff.h"
 #include "debug.h"
 
-#include "vars/chash.h"
+#include <fern/chash.h>
 extern dict *msg_dict;
 
 struct t_kmmsg kmmsg;

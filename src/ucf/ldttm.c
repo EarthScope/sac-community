@@ -5,6 +5,8 @@
  * 
  */
 
+#include <sacio/sacio.h>
+
 #include "ucf.h"
 #include "hdr.h"
 #include "bool.h"

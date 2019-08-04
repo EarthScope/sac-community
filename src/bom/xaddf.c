@@ -21,7 +21,7 @@
 #include "ucf.h"
 #include "SacHeader.h"
 #include "errors.h"
-
+#include "debug.h"
 #include "clf.h"
 
 BOM_EXTERN

@@ -12,7 +12,7 @@
 #include "bool.h"
 #include "string_utils.h"
 
-#include "vars/chash.h"
+#include <fern/chash.h>
 extern color COLOR_WHITE;
 extern dict *color_dict;
 

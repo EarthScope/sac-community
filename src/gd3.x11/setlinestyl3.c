@@ -12,10 +12,11 @@
 
 #include <stdio.h>
 
+#include <fern/array.h>
+
 #include "gd3.x11.h"
 #include "string/array.h"
 
-#include "array.h"
 
 void
 line_style_x11(char *line, void *data) {

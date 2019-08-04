@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <fern/array.h>
+
 #include "mach.h"
 #include "xyz.h"
 #include "spe.h"
@@ -17,8 +19,7 @@
 #include "msg.h"
 #include "cpf.h"
 #include "dff.h"
-#include "array.h"
-
+#include "defs.h"
 
 GDM_EXTERN
 GEM_EXTERN

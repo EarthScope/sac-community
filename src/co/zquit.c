@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <fern/chash.h>
+
 #include "co.h"
 #include "bot.h"
 #include "select.h"
@@ -22,7 +24,6 @@
 #include "cpf.h"
 #include "amf.h"
 #include "sac_history.h"
-#include "vars/chash.h"
 #include "debug.h"
 
 void sac_vars_free();

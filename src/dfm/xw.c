@@ -27,6 +27,7 @@
 #include "dff.h"
 #include "ncpf.h"
 #include "errors.h"
+#include "defs.h"
 
 DFM_EXTERN
 SDD_EXTERN

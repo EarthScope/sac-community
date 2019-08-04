@@ -5,6 +5,8 @@
  * 
  */
 
+#include <string.h>
+
 #include "dfm.h"
 #include "bool.h"
 
