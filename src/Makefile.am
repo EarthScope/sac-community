@@ -175,7 +175,7 @@ libsacio_a_SOURCES = bs/iniam.c \
 	vars/writevfile.c \
 	vars/var.c vars/bbf.c \
 	\
-	string/strings.c string/datetime.c string/string_utils.h
+	string/strings.c string/datetime.c
 
 libSMnonOracleFuncs_a_SOURCES = \
 	SeisMgr/smDataIO.c \
@@ -273,9 +273,8 @@ libicm_a_SOURCES = icm/acc.c icm/bbdisp.c icm/bbvel.c \
 	icm/wwlpbn.c icm/wwsp.c icm/wwspbn.c icm/ykalp.c icm/ykasp.c \
 	icm/getran.c
 
-libsac_all_a_SOURCES = bs/iniam.c bs/fid.c bs/fid.h bs/octopus.c bs/sacpz.c \
-  bs/strlist.c bs/strlist.h bs/amf.h bs/bool.h bs/sacx.h \
-  bs/debug.h bs/errors.h bs/fstr.h \
+libsac_all_a_SOURCES = bs/iniam.c bs/fid.c bs/octopus.c bs/sacpz.c \
+  bs/strlist.c bs/sacx.h \
   string/array.c string/array.h \
 	\
 	bbs/createbbs.c bbs/deletebbs.c bbs/getbbv.c \

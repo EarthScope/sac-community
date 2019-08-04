@@ -25,6 +25,12 @@ LIB_SRCS = fileutils.c genutils.c gswap.c lmplatform.c lookup.c parson.c \
            msrutils.c extraheaders.c pack.c packdata.c tracelist.c gmtime64.c \
            crc32c.c parseutils.c unpack.c unpackdata.c selection.c logging.c
 
+EXTRA_DIST = ChangeLog INSTALL.md LICENSE.txt Makefile.am Makefile.in \
+             Makefile.win README.byteorder README.md TODO.txt doc example \
+             libmseed.def libmseed.h libmseed.map mseed.pc.in test \
+             $(LIB_SRCS) gmtime64.h mseedformat.h parson.h unpackdata.h \
+             libmseed.h packdata.h unpack.h
+
 LIB_OBJS = $(LIB_SRCS:.c=.o)
 LIB_LOBJS = $(LIB_SRCS:.c=.lo)
 
@@ -48,7 +54,6 @@ $(LIB_A): $(LIB_OBJS)
 
 clean:
 	@$(RM) $(LIB_OBJS) $(LIB_LOBJS) $(LIB_A) $(LIB_SO) $(LIB_SO_MAJOR) $(LIB_SO_BASE)
-	@echo "libmseed All clean."
 
 install: shared
 	@echo "Installing into $(PREFIX)"
