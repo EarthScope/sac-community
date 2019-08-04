@@ -46,6 +46,9 @@ sacmsg(int *nerr) {
     FILE *nun;
     int n;
 
+    if(msg_dict) {
+        dict_free(msg_dict, free);
+    }
     msg_dict = dict_new_with_length(500);
 
     /* - Build the pathname and open the file containing output messages. */

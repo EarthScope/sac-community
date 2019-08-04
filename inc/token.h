@@ -92,6 +92,7 @@ void token_string(Token * t, char *str, int col);
 void token_value(Token * t, double v, int col);
 void token_int(Token * t, int v, int col);
 void token_copy(Token * a, Token * b);
+void token_str_free(Token * t);
 void token_append(Token * a, Token * b, Token * c);
 Token *token_last(Token * t);
 Token *token_remove(Token * head, Token * t);

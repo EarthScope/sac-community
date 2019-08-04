@@ -327,6 +327,8 @@ inigdm(int *nerr) {
 
     *nerr = 0;
 
+    gdm_free_devices();
+    
     /* - If library is already initialized, terminate it gracefully. */
 
     if (cmgdm.lginit) {

@@ -70,6 +70,8 @@ inidfm() {
 
     inihdr();
 
+    dfm_free();
+
     cmdfm.lcut = FALSE;
 
     strcpy(kmdfm.kpick[0], "N       ");

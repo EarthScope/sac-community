@@ -95,7 +95,7 @@ wildfl(char *kdfdir, int kdfdir_s, string_list * list, int *lexpnd) {
     string_list *files, *wild_files;
 
     files = string_list_init();
-    wild_files = string_list_init();
+    wild_files = NULL;
 
     /* PROCECURE: */
     /* - Initialize the output file list. */

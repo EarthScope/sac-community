@@ -412,5 +412,9 @@ xw(int lsdd, int *nerr) {
 
     }                           /* end for ( jdfl ) */
   L_8888:
+    if(list) {
+        string_list_free(list);
+        list = NULL;
+    }
     return;
 }

@@ -93,6 +93,10 @@ void
 bflclear() {
 
     if (sac_binary_file_list) {
+        for(size_t i = 0; i < xarray_length(sac_binary_file_list); i++) {
+            sac_free(sac_binary_file_list[i]);
+            sac_binary_file_list[i] = NULL;
+        }
         xarray_free(sac_binary_file_list);
     }
     sac_binary_file_list = NULL;

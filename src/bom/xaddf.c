@@ -284,6 +284,8 @@ xbom_op(char op, int *nerr) {
 
   L_8888:
     bflclear();
+    string_list_free(list);
+    list = NULL;
     return;
 
 }

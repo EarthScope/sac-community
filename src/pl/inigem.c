@@ -514,6 +514,10 @@ inigem() {
     cmgem.jifill[0] = 1;
     cmgem.jifill[1] = 2;
 
+    if(color_dict) {
+        dict_free(color_dict, free);
+        color_dict = NULL;
+    }
     color_dict = dict_new_with_length(100);
     for(j = 0; j < 8; j++) {
         dict_put(color_dict, COLORS[j].name, color_dup(COLORS[j]));

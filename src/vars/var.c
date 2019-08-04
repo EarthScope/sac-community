@@ -124,13 +124,6 @@ var_free(void *p) {
 }
 
 void
-sac_vars_init() {
-    if (!sac_vars) {
-        sac_vars = dict_new();
-    }
-}
-
-void
 dict_free_var(void *p) {
     dict_free((dict *) p, var_free);
 }
@@ -141,6 +134,14 @@ sac_vars_free() {
         dict_free(sac_vars, dict_free_var);
     }
     sac_vars = NULL;
+}
+
+void
+sac_vars_init() {
+    sac_vars_free();
+    if (!sac_vars) {
+        sac_vars = dict_new();
+    }
 }
 
 dict *
@@ -266,7 +267,7 @@ sac_vars_delete(char *group) {
         return 0;
     }
     dict_remove(sac_vars, group, NULL);
-    dict_free(d, NULL);
+    dict_free(d, var_free);
     return 1;
 }
 

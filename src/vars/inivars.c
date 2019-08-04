@@ -13,7 +13,20 @@
 #include "co.h"
 #include "debug.h"
 
-struct t_varsfile vfilelist;
+struct t_varsfile vfilelist = { 0, 0, NULL };
+
+
+void
+vfilelist_free() {
+    int i;
+    if (vfilelist.nallocated > 0) {
+        for (i = 0; i < vfilelist.nallocated; i++) {
+            FREE(vfilelist.filelist[i].varsname);
+            FREE(vfilelist.filelist[i].variable);
+        }
+        FREE(vfilelist.filelist);
+    }
+}
 
 /** 
  * Initialize the VARS storage subsystem
@@ -25,6 +38,8 @@ void
 inivars() {
     int i;
 
+    vfilelist_free();
+    
     if ((vfilelist.filelist =
          (struct varsfile *) malloc(NVFILELIST * sizeof(struct varsfile)))
         != NULL) {
@@ -42,16 +57,4 @@ inivars() {
     sac_vars_init();
 
     return;
-}
-
-void
-vfilelist_free() {
-    int i;
-    if (vfilelist.nallocated > 0) {
-        for (i = 0; i < vfilelist.nallocated; i++) {
-            FREE(vfilelist.filelist[i].varsname);
-            FREE(vfilelist.filelist[i].variable);
-        }
-        FREE(vfilelist.filelist);
-    }
 }

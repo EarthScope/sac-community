@@ -1047,6 +1047,12 @@ token_is_le(Token * t) {
     return t->type == LE;
 }
 
+void
+token_str_free(Token *t) {
+    FREE(t->str);
+}
+
+
 int
 token_strncasecmp(Token * t, char *s, size_t n) {
     return token_is_string(t) && strncasecmp(t->str, s, n) == 0;

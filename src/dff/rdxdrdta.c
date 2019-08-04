@@ -73,7 +73,7 @@ rdxdrdta(int idfl, char *kname, int kname_s, int *nerr) {
     sac_alloc(s);
 
     /* - For each data component: */
-    for (jcomp = 0; jcomp < Ncomp[idfl]; jcomp++) {
+    for (jcomp = 0; jcomp < sac_comps(s); jcomp++) {
 
         if (!xdr_array
             (&xdrs, (caddr_t *) (jcomp == 0) ? s->y : s->x, (u_int *) & lendata,
