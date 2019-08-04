@@ -4,126 +4,119 @@
 
 char *rstrip(char *s);
 
-struct _sacpz {
-    sid *sid;
-    datetime *time;
-    datetime *starttime;
-    datetime *endtime;
-};
-
-
-
 void
-sacpz_init(sacpz *pz) {
-    sid_init(pz->sid);
-    pz->time      = NULL;
-    pz->starttime = NULL;
-    pz->endtime   = NULL;
+sacpz_init(request *pz) {
+    request_set_url(pz, "https://service.iris.edu/irisws/sacpz/1/query?");
+    request_set_arg(pz, "nodata", arg_int_new(404));
 }
 
-sacpz *
-sacpz_alloc() {
-    sacpz *pz = malloc(sizeof(sacpz));
+request *
+sacpz_new() {
+    request *pz = request_new();
     sacpz_init(pz);
     return pz;
 }
 
-sacpz *
-sacpz_new() {
-    sacpz *s = sacpz_alloc();
-    sacpz_init(s);
-    return s;
+void
+sacpz_set_kind(request *pz, ResponseType rt) {
+    switch(rt) {
+    case ResponseSacPZ:
+        request_set_url(pz, "https://service.iris.edu/irisws/sacpz/1/query?");
+        break;
+    case ResponseResp:
+        request_set_url(pz, "https://service.iris.edu/irisws/resp/1/query?");
+        break;
+    }
 }
 
-sacpz *
-sacpz_new_from_nslc(char *net, char *stat, char *loc, char *chan) {
-    sacpz *pz = sacpz_alloc();
-    sid_set(pz->sid, net, stat, loc, chan);
-    return pz;
+request *
+sacpz_new_from_nslc(char *net, char *sta, char *loc, char *cha) {
+    request *r = sacpz_new();
+    sacpz_set_network(r, net);
+    sacpz_set_station(r, sta);
+    sacpz_set_location(r, loc);
+    sacpz_set_channel(r, cha);
+    return r;
 }
+
 
 static char *
-datetime_to_sacpz_time(datetime *t, char *dst) {
-    int ms = t->nanosecond / 1000000;
-    sprintf(dst, "%04d.%03d.%02d.%02d.%02d.%04d",
-            t->year,
-            t->doy,
-            t->hour,
-            t->minute,
-            t->second,
-            ms);
+empty_if_wild(char *v) {
+    //char out[2] = "";
+    if(strchr(v, '*') || strchr(v, '?') || strcmp(v, "--") == 0 ) {
+        return "";
+    }
+    return v;
+}
+
+char *
+sacpz_filename(request *pz, char *dst, size_t n) {
+    char *key[] = {"net", "sta", "loc", "cha"};
+    Arg *a1 = NULL, *a2 = NULL;
+    char tmp[128] = { 0 };;
+    const char *url = request_get_url(pz);
+    
+    if(strstr(url, "sacpz")) {
+        snprintf(dst, n, "SAC_PZs_");
+        for(size_t i = 0; i < 4; i++) {
+            arg_to_string(request_get_arg(pz, key[i]), tmp, sizeof(tmp));
+            snprintf(dst, n, "%s%s_", dst, empty_if_wild(tmp));
+        }
+        if((a1 = request_get_arg(pz, "time"))) {
+            snprintf(dst, n, "%s%s", dst, arg_to_string(a1, tmp, sizeof(tmp)));
+        } else if((a1 = request_get_arg(pz, "start")) &&
+                  (a2 = request_get_arg(pz, "end"))) {
+            snprintf(dst, n, "%s%s", dst,
+                     arg_to_string(a1, tmp, sizeof(tmp)));
+            snprintf(dst, n, "%s_%s", dst,
+                     arg_to_string(a2, tmp, sizeof(tmp)));
+        }
+    } else if(strstr(url, "resp")) {
+        snprintf(dst, n, "RESP");
+        for(size_t i = 0; i < 4; i++) {
+            arg_to_string(request_get_arg(pz, key[i]), tmp, sizeof(tmp));
+            snprintf(dst, n, "%s.%s", dst, empty_if_wild(tmp));
+        }
+    }
     return dst;
 }
-
-
-char *
-sacpz_to_url(sacpz *pz, char *kind) {
-
-    char tmp[256];
-    string out;
-    string_init(&out);
-
-    string_printf(&out, "https://service.iris.edu/irisws/%s/1/query?%s",
-                  rstrip(kind),
-                  sid_query_string(pz->sid, tmp, sizeof(tmp)));
-    if(pz->time) {
-        datetime_to_iso8601(pz->time, tmp);
-        string_printf_append(&out, "&time=%s", tmp);
-    } else {
-        if(pz->starttime) {
-            //fprintf(stderr, "ADDING START TIME\n");
-            datetime_to_iso8601(pz->starttime, tmp);
-            string_printf_append(&out, "&starttime=%s", tmp);
-        }
-        if(pz->endtime) {
-            //fprintf(stderr, "ADDING END TIME\n");
-            datetime_to_iso8601(pz->endtime, tmp);
-            string_printf_append(&out, "&endtime=%s", tmp);
-        }
-    }
-    return out.str;
-}
-
-char *
-sacpz_filename(sacpz *pz, char *kind) {
-    char tmp[256];
-    string out;
-    string_init(&out);
-    if(strcmp(kind, "sacpz") == 0) {
-        string_printf(&out, "SAC_PZs_%s", sid_join(pz->sid, "_", tmp, sizeof(tmp)));
-    } else if(strcmp(kind, "resp") == 0) {
-        string_printf(&out, "RESP.%s", sid_join(pz->sid, ".", tmp, sizeof(tmp)));
-    } else {
-        printf("Unknown response type: '%s', expected sacpz or resp\n", kind);
-        return NULL;
-    }
-    if(pz->time) {
-        string_printf_append(&out, "_%s", datetime_to_sacpz_time(pz->time, tmp));
-    } else if(pz->starttime && pz->endtime) {
-        string_printf_append(&out, "_%s", datetime_to_sacpz_time(pz->starttime, tmp));
-        string_printf_append(&out, "_%s", datetime_to_sacpz_time(pz->endtime, tmp));
-    }
-    return out.str;
-}
-
 void
-sacpz_set_time(sacpz *s, datetime *t) {
-    s->time = t;
+sacpz_set_time(request *s, timespec64 t) {
+    request_set_arg(s, "time", arg_time_new(t));
 }
 void
-sacpz_set_start(sacpz *s, datetime *t) {
-    s->starttime = t;
+sacpz_set_start(request *s, timespec64 t) {
+    request_set_arg(s, "start", arg_time_new(t));
 }
 void
-sacpz_set_end(sacpz *s, datetime *t) {
-    s->endtime = t;
+sacpz_set_end(request *s, timespec64 t) {
+    request_set_arg(s, "end", arg_time_new(t));
 }
 void
-sacpz_set_nslc(sacpz *s, char *net, char *sta, char *loc, char *cha) {
-    sid_set(s->sid, net, sta, loc, cha);
+sacpz_set_network(request *s, char *net) {
+    request_set_arg(s, "net", arg_string_new(net));
 }
+void
+sacpz_set_station(request *s, char *sta) {
+    request_set_arg(s, "sta", arg_string_new(sta));
+}
+void
+sacpz_set_location(request *s, char *loc) {
+    request_set_arg(s, "loc", arg_string_new(loc));
+}
+void
+sacpz_set_channel(request *s, char *cha) {
+    request_set_arg(s, "cha", arg_string_new(cha));
+}
+
 int
-sacpz_nslc_is_ok(sacpz *s) {
-    return sid_is_ok(s->sid);
+sacpz_is_ok(request *s) {
+    char *keys[] = {"net", "sta", "loc", "cha" };
+    for(size_t i = 0; i < 4; i++) {
+        if(!request_get_arg(s, keys[i])) {
+            return 0;
+        }
+    }
+    return 1;
 }
 
