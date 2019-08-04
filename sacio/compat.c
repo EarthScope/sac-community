@@ -193,8 +193,6 @@ rsac1(char      *kname,
         *nerr = -ERROR_SAC_DATA_TRUNCATED_ON_READ;
     }
     memcpy(yarray, s->y, *nlen * sizeof(float));
-    //s->h->npts = *nlen;
-    //sac_be(s);
     current = s;
 }
 

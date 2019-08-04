@@ -8,6 +8,11 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <math.h>
+#include <float.h>
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
 /** @cond NO_DOCS */
 #define SAC_NULL_HEADER_REQUIRED /**< @private Define a fully NULL sac header */
@@ -303,7 +308,8 @@ sac_be(sac *s) {
     }
 }
 
-#if ( TRUE == FALSE )
+#ifdef USE_GEOGRAPHICLIB
+
 /**
  * @brief      Update the dist, az, gcarc, baz header fields
  *
@@ -583,7 +589,6 @@ array_mean(float *y, int n) {
  * @ingroup    sac
  * @memberof   sac
  */
-#include <float.h>
 static void
 check_value(float vmin, float vmax) {
     if(! isfinite(vmin) || ! isfinite(vmax) || vmin < -3.40282e38 || vmax > 3.40282e38) {

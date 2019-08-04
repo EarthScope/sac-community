@@ -21,5 +21,8 @@
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
+/* Use the geographiclib library for geodetic calcs */
+#undef USE_GEOGRAPHICLIB
+
 /* Version number of package */
 #undef VERSION

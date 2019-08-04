@@ -3524,6 +3524,10 @@ else
 fi
 
 
+
+$as_echo "#define USE_GEOGRAPHICLIB 1" >>confdefs.h
+
+
 ac_config_files="$ac_config_files Makefile"
 
 cat >confcache <<\_ACEOF

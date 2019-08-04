@@ -8,6 +8,8 @@ AC_PROG_CC
 AM_PROG_AR
 AC_PROG_RANLIB
 
+AC_DEFINE([USE_GEOGRAPHICLIB], [1], [Use the geographiclib library for geodetic calcs])
+
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
 

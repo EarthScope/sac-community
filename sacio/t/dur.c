@@ -1,5 +1,6 @@
 
 #include <stdio.h>
+#include <inttypes.h>
 #include <assert.h>
 #include "timespec.h"
 
@@ -78,8 +79,8 @@ main() {
     for(i = 0; i < sizeof(test) / sizeof(struct DurationTest); i++) {
         duration_init(d);
         duration_parse(test[i].txt, d);
-        printf("txt %10s type %d n %lld\n", test[i].txt, test[i].type, test[i].n);
-        printf("    %10s type %d n %lld\n", "", d->type, d->n);
+        printf("txt %10s type %d n %" PRId64 "\n", test[i].txt, test[i].type, test[i].n);
+        printf("    %10s type %d n %" PRId64 "\n", "", d->type, d->n);
         assert(d->type == test[i].type);
         assert(d->n == test[i].n);
     }
