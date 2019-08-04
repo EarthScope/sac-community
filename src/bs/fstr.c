@@ -1,22 +1,20 @@
-/** 
- * @file   f2c.c
- * 
+/**
+ * @file
+ *
  * @brief  Convert fortran strings to C strings
- * 
+ * @private
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-//#include "dff.h"
-
-/** 
+/**
  * Identify a function as deprecated
- * 
- * @param old_func 
+ *
+ * @param old_func
  *    Old, deprecated function
- * @param new_func 
+ * @param new_func
  *    New function to use
  *
  */
@@ -27,14 +25,14 @@ DEPRECATED(char *old_func, char *new_func) {
     return;
 }
 
-/** 
- *  Find Frist of a series of Trailing Whitespace (Spaces) at the 
+/**
+ *  Find Frist of a series of Trailing Whitespace (Spaces) at the
  *     end of a string and the truncate '\0' the string there.
- *  
+ *
  * @param s
  *    Input string to trim
  *
- * @return 
+ * @return
  *    Trimmed string, same as input argument
  *
  */
@@ -55,17 +53,17 @@ fstrtrim(char *s) {
     return s;
 }
 
-/** 
- * Duplicate a fortran style string 
- * 
- * @param s 
+/**
+ * Duplicate a fortran style string
+ *
+ * @param s
  *    Fortran style string to duplicate
- * @param n 
+ * @param n
  *    Possible length
  *    n < 0 then assume C style string, use strlen() to get length
  *    n > 0 then assume Fortran style string, trim and return
  *
- * @return 
+ * @return
  *    New C style string, trimmed to length
  *
  */
@@ -86,17 +84,17 @@ fstrdup(char *s, int n) {
     return q;
 }
 
-/** 
+/**
  * Set a Fortran style string
- * 
- * @param in 
+ *
+ * @param in
  *    Input string
- * @param out 
+ * @param out
  *    Output string
- * @param n 
+ * @param n
  *     Length of \p in
- * 
- * @return 
+ *
+ * @return
  *     Fortran style string
  */
 char *

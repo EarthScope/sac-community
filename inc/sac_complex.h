@@ -8,21 +8,7 @@
 #ifndef  _SAC_COMPLEX_H_
 #define _SAC_COMPLEX_H_
 
-typedef struct complexf_t complexf;
-typedef struct complexd_t complexd;
-
-/** 
- * @struct Complex Type (Floating Point)
- *    
- */
-struct complexf_t {
-    float re;      /** Real Part */
-    float im;      /** Imaginary Part */
-};
-struct complexd_t {
-    double re;      /** Real Part */
-    double im;      /** Imaginary Part */
-};
+#include <sacio/sacio.h>
 
 double aimag(complexf fc);
 complexf cmplxadd(complexf c1, complexf c2);

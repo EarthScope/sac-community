@@ -230,6 +230,7 @@ void int_rect__();
 void int_trap();
 void int_trap_();
 void int_trap__();
+void inilhf();
 void not_used(int v);
 int main() {
    not_used(0);
@@ -472,4 +473,5 @@ not_used(int v) {
      int_trap();
      int_trap_();
      int_trap__();
+     inilhf();
 }

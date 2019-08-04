@@ -1,21 +1,23 @@
-/** 
+/**
  * @file   iniam.c
- * 
+ *
  * @brief  Initialize the Array Manager
- * 
+ *
  */
 #include <stdio.h>
 #include <stdlib.h>
 
 #define SAC_NULL_HEADER_REQUIRED
+
+#include <sacio/sacio.h>
+#include <fern/array.h>
+
 #include "amf.h"
 #include "hdr.h"
 
 #include "debug.h"
-#include "array.h"
 #include "errors.h"
 #include "strlist.h"
-#include <sacdata.h>
 
 static sac **sac_buffer = NULL;
 
@@ -29,6 +31,11 @@ void
 iniam() {
     sac_buffer_new();
     return;
+}
+
+sac **
+sac_data() {
+    return sac_buffer;
 }
 
 /*
@@ -49,91 +56,9 @@ iniam() {
 
  */
 
-void
-sac_hdr_init(sac_hdr *sh) {
-    if (sh) {
-        memcpy(sh, &NullSacHeader, sizeof(NullSacHeader));
-        sh->nvhdr = SAC_HEADER_MAJOR_VERSION;
-
-        sh->leven = TRUE;
-        sh->lpspol = FALSE;
-        sh->lovrok = TRUE;
-        sh->lcalda = TRUE;
-
-        sh->iftype = ITIME;
-    }
-}
-
-sac_hdr *
-sac_hdr_new() {
-    sac_hdr *sh;
-    sh = (sac_hdr *) malloc(sizeof(sac_hdr));
-    if (sh) {
-        sac_hdr_init(sh);
-    }
-    return sh;
-}
-
-sacmeta *
-sac_meta_new() {
-    sacmeta *m;
-    m = (sacmeta *) malloc(sizeof(sacmeta));
-    if (m) {
-        m->swap = FALSE;
-        m->filename = NULL;
-        m->data_read = TRUE;
-        m->nstop = 0;
-        m->nstart = 0;
-        m->nfillb = 0;
-        m->nfille = 0;
-        m->ntotal = 0;
-    }
-    return m;
-}
-
-void
-sac_free(sac * s) {
-    if (s) {
-        FREE(s->h);
-        FREE(s->x);
-        FREE(s->y);
-        if (s->m) {
-            FREE(s->m->filename);
-        }
-        FREE(s->m);
-        FREE(s->sddhdr);
-        FREE(s);
-    }
-}
-
 int
 sac_data_exists(sac * s) {
     return s->m->data_read;
-}
-
-sac *
-sac_new() {
-    sac *s;
-    s = (sac *) malloc(sizeof(sac));
-    if (s) {
-        s->h = sac_hdr_new();
-        if (!s->h) {
-            goto ERROR;
-        }
-        s->m = sac_meta_new();
-        if (!s->m) {
-            goto ERROR;
-        }
-        s->n = 1;
-        s->y = NULL;
-        s->x = NULL;
-        s->sddhdr = NULL;
-    }
-
-    return s;
-  ERROR:
-    sac_free(s);
-    return NULL;
 }
 
 int CURRENT_ID = -1;
@@ -186,51 +111,10 @@ sacput(sac * s) {
     CURRENT_ID = saclen() - 1;
     CURRENT = s;
 }
-
-int
-sac_comps(sac * s) {
-    int n = 0;
-    switch (s->h->iftype) {
-        case ITIME:
-        case IXY:
-        case IUNKN:
-            n = (s->h->leven) ? 1 : 2;
-            break;
-        case IXYZ:
-            n = 1;
-            break;
-        case IRLIM:
-        case IAMPH:
-            n = 2;
-            break;
-        default:
-            fprintf(stderr, "unknown sac data type: %d\n", s->h->iftype);
-            n = 2;
-            break;
-    }
-    return n;
-}
-
 void
 sacsort(int (*compare) (const void *a, const void *b)) {
     xarray_sort(sac_buffer, compare);
 }
-
-void
-sac_alloc(sac * s) {
-    if (!s) {
-        return;
-    }
-    FREE(s->y);
-    FREE(s->x);
-    s->y = (float *) malloc(sizeof(float) * s->h->npts);
-    memset(s->y, 0, s->h->npts * sizeof(float));
-    if (sac_comps(s) == 2) {
-        s->x = (float *) malloc(sizeof(float) * s->h->npts);
-        memset(s->x, 0, s->h->npts * sizeof(float));
-    }
-}
-
 int
 saclen() {
     return xarray_length(sac_buffer);
@@ -322,176 +206,6 @@ sac_data_copy(sac *to, sac *from) {
     }
 }
 
-char *
-khdr(sac * s, int k) {
-    char *p;
-    switch (k) {
-        case 1:
-            p = s->h->kstnm;
-            break;
-        case 2:
-        case 3:
-            p = s->h->kevnm;
-            break;
-        case 4:
-            p = s->h->khole;
-            break;
-        case 5:
-            p = s->h->ko;
-            break;
-        case 6:
-            p = s->h->ka;
-            break;
-        case 7:
-            p = s->h->kt0;
-            break;
-        case 8:
-            p = s->h->kt1;
-            break;
-        case 9:
-            p = s->h->kt2;
-            break;
-        case 10:
-            p = s->h->kt3;
-            break;
-        case 11:
-            p = s->h->kt4;
-            break;
-        case 12:
-            p = s->h->kt5;
-            break;
-        case 13:
-            p = s->h->kt6;
-            break;
-        case 14:
-            p = s->h->kt7;
-            break;
-        case 15:
-            p = s->h->kt8;
-            break;
-        case 16:
-            p = s->h->kt9;
-            break;
-        case 17:
-            p = s->h->kf;
-            break;
-        case 18:
-            p = s->h->kuser0;
-            break;
-        case 19:
-            p = s->h->kuser1;
-            break;
-        case 20:
-            p = s->h->kuser2;
-            break;
-        case 21:
-            p = s->h->kcmpnm;
-            break;
-        case 22:
-            p = s->h->knetwk;
-            break;
-        case 23:
-            p = s->h->kdatrd;
-            break;
-        case 24:
-            p = s->h->kinst;
-            break;
-        default:
-            p = NULL;
-            break;
-    }
-    return p;
-}
-
-static float
-array_min(float *y, int n) {
-    float v = y[0];
-    for(int i = 0; i < n; i++) {
-        v = fmin(v, y[i]);
-    }
-    return v;
-}
-static float
-array_max(float *y, int n) {
-    float v = y[0];
-    for(int i = 0; i < n; i++) {
-        v = fmax(v, y[i]);
-    }
-    return v;
-}
-static float
-array_mean(float *y, int n) {
-    double v = 0.0;
-    for(int i = 0; i < n; i++) {
-        v += y[i];
-    }
-    return v / n;
-}
-
-static void
-check_value(float vmin, float vmax) {
-    if(vmin < -3.40282e38 || vmax > 3.40282e38) {
-        printf(" WARNING: Data value outside system storage bounds\n");
-        if(isinf(vmax)) {
-            printf(" Maxvalue = %s ", (vmax < 0) ? "-inf":"inf");
-        } else {
-            printf(" Maxvalue = %-.5g ", vmax);
-        }
-        if(isinf(vmin)) {
-            printf(" Minvalue = %s", (vmin < 0) ? "-inf":"inf");
-        } else {
-            printf(" Minvalue = %-.5g", vmin);
-        }
-        printf("\n");
-    }
-}
-
-void
-sac_extrema(sac * s) {
-    s->h->depmin = array_min(s->y, s->h->npts);
-    s->h->depmax = array_max(s->y, s->h->npts);
-    s->h->depmen = array_mean(s->y, s->h->npts);
-    check_value(s->h->depmin, s->h->depmax);
-}
-
-float
-calc_e_even(sac *s) {
-    switch (s->h->iftype) {
-    case ITIME:
-    case IXY:
-    case IUNKN:
-        return s->h->b + s->h->delta * (float)(s->h->npts - 1);
-        break;
-    case IRLIM:
-    case IAMPH: {
-        int nfreq = 0;
-        if(s->h->npts % 2 == 0) {
-            nfreq = s->h->npts / 2;
-        } else {
-            nfreq = (s->h->npts-1) / 2;
-        }
-        return s->h->b + (float) nfreq * s->h->delta;
-    }
-        break;
-    case IXYZ:
-        break;
-    }
-    return SAC_FLOAT_UNDEFINED;
-}
-
-void
-sac_be(sac *s) {
-    if(s->h->leven) {
-        s->h->e = calc_e_even(s);
-    } else {
-        if(s->x) {
-            s->h->b = array_min(s->x, s->h->npts);
-            s->h->e = array_max(s->x, s->h->npts);
-        }
-    }
-}
-
-
 int
 sac_find_filename(char *file) {
     int i, nerr;
@@ -518,3 +232,32 @@ sac_copy(sac *s) {
     return new;
 }
 
+
+
+#ifdef __TESTING__
+
+
+// gcc -o meta_test meta.c -D__TESTING__ -I/usr/include/libxml2 -I../../ -I../../inc/ -lxml2 libfern.a /Users/savage13/Bits/sac/sac.build/102.u/libmseed/libmseed.a /Users/savage13/Bits/sac/sac.build/102.u/src/libsacio.a libtime.a -lcurl
+
+int
+main() {
+    char out[256] = {0};
+    int nerr = 0;
+    sac *s = sac_read("XE.DOOR..BHZ.M.1994.160.003345.sac", &nerr);
+
+    sac_fmt(out, sizeof(out), "%N %S %L %C %TB %TE", s);
+    printf("%s\n", out);
+    sac_fmt(out, sizeof(out), "%Z", s);
+    printf("%s\n", out);
+    sac_fmt(out, sizeof(out), "%R", s);
+    printf("%s\n", out);
+    sac_fmt(out, sizeof(out), "%tb %te", s);
+    printf("%s\n", out);
+    char *fmt =  "//s:Network[@code='%N']/s:Station[@code='%S']"
+        "/s:Channel[@locationCode='%H' and @code='%C']";
+    sac_fmt(out, sizeof(out), fmt, s);
+    printf("%s\n", out);
+
+}
+
+#endif

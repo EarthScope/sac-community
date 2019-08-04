@@ -29,10 +29,9 @@ POSSIBILITY OF SUCH DAMAGE.
 #ifndef _SAC_DATETIME_H_
 #define _SAC_DATETIME_H_
 
+#include <sacio/sacio.h>
+
 typedef struct _datetime datetime;
-typedef struct _duration duration;
-
-
 struct _datetime {
     int year;                   /* Year */
     int month;                  /* Month */
@@ -73,7 +72,8 @@ enum datetime_stati {
 
 };
 
-datetime *datetime_parse(char *in, datetime * t);
+int datetime_parse(char *in, datetime * t);
+datetime *datetime_from_string(char *in);
 void datetime_init(datetime * t);
 datetime *datetime_alloc();
 datetime *datetime_new();
@@ -94,7 +94,8 @@ void datetime_print_date(datetime * t);
 void datetime_printn_date(datetime * t);
 int datetime_status(datetime * t);
 char *datetime_status_message(int status);
-char * datetime_to_iso8601(datetime *t, char *dst);
+char * datetime_to_iso8601(datetime *t, char *dst, size_t n);
+datetime * datetime_now();
 
 void datetime_set_year(datetime * t, int x);
 void datetime_set_doy(datetime * t, int x);
@@ -104,10 +105,5 @@ void datetime_set_hour(datetime * t, int x);
 void datetime_set_minute(datetime * t, int x);
 void datetime_set_second(datetime * t, int x);
 void datetime_set_nanosecond(datetime * t, int x);
-
-duration * duration_new();
-void duration_init(duration *d);
-duration * duration_parse(char *in);
-datetime * datetime_add_duration(datetime *t1, duration *d);
 
 #endif /* _SAC_DATETIME_H_ */

@@ -237,24 +237,16 @@ ximage(nerr)
         //getfil( jfile, TRUE, &nlen, &ndxz, &notused, nerr );
 
         /* -- Get needed header information. */
-        getnhv("NXSIZE", &nxsize, nerr, 6);
-        if (*nerr != 0)
+        if(!sac_hdr_defined(s, SAC_NX, SAC_NY, SAC_XMIN, SAC_XMAX, SAC_YMIN, SAC_YMAX, NULL)) {
+            *nerr = 1301;
             goto L_8888;
-        getnhv("NYSIZE", &nysize, nerr, 6);
-        if (*nerr != 0)
-            goto L_8888;
-        getfhv("XMINIMUM", &xminimum, nerr, 8);
-        if (*nerr != 0)
-            goto L_8888;
-        getfhv("XMAXIMUM", &xmaximum, nerr, 8);
-        if (*nerr != 0)
-            goto L_8888;
-        getfhv("YMINIMUM", &yminimum, nerr, 8);
-        if (*nerr != 0)
-            goto L_8888;
-        getfhv("YMAXIMUM", &ymaximum, nerr, 8);
-        if (*nerr != 0)
-            goto L_8888;
+        }
+        nxsize = s->h->nxsize;
+        nysize = s->h->nysize;
+        xminimum = s->h->xminimum;
+        xmaximum = s->h->xmaximum;
+        yminimum = s->h->yminimum;
+        ymaximum = s->h->ymaximum;
 
         /* -- Get requested x and y data limits and convert to data indices. */
         getxlm(&lxlimits, &xstart, &xstop);

@@ -17,6 +17,11 @@
 void sac_error_stdout();
 void sac_warning_stdout();
 
+extern sac * current;
+sac * sacget_current() {
+    return current;
+}
+
 int
 file_exists(char *file) {
   struct stat sb;
@@ -83,10 +88,10 @@ int
 main(int argc, char *argv[])
 {
   ok(1 == 1, "initial test");
-  sacio_initialize_common();
+  //sacio_initialize_common();
 
-  sac_error_stdout();
-  sac_warning_stdout();
+  //sac_error_stdout();
+  //sac_warning_stdout();
   
   if (argc == 1) {
     printf("********* rsach *********\n");

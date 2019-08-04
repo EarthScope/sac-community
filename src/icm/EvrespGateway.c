@@ -22,7 +22,7 @@
 #define XML_FLAG  0
 #define XML_FLAG_ON  1
 
-int
+static int
 is_xml_file(char *file) {
     char p;
     char data[6];

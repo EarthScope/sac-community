@@ -68,13 +68,6 @@
 #define SAC_VERSION_LOCATION              76
 #define SAC_HEADER_MAJOR_VERSION          6
 
-#define SAC_FLOAT_UNDEFINED              (-12345.0)
-#define SAC_INT_UNDEFINED                (-12345)
-#define SAC_ENUM_UNDEFINED                SAC_INT_UNDEFINED
-#define SAC_LOGICAL_UNDEFINED             SAC_INT_UNDEFINED
-#define SAC_CHAR_UNDEFINED                "-12345  "    /* Must be 8 characters */
-#define SAC_CHAR_UNDEFINED_2              "-12345          "    /* Must be 16 characters */
-
 /** 
  * @param SAC_HEADER_FLOATS
  *    Number of Floating point values in the SAC Header

@@ -112,7 +112,7 @@ polezero_comment_datetime(char *p, pzmeta_t * meta, pzcomment_t * c) {
         datetime_free(*s);
         return;
     }
-    *s = datetime_parse(pp, *s);
+    *s = datetime_from_string(pp);
     if (!*s) {
         fprintf(stdout, "polezero-comment: Error parsing datetime: '%s'\n", p);
     }
@@ -1146,10 +1146,6 @@ sac_reference_time__(char *when, const int when_s) {
     sac_reference_time_(when, when_s);
 }
 
-
-
-datetime * datetime_parse(char *s, datetime *t);
-
 /**
  * Find polezero files 
  *
@@ -1220,7 +1216,7 @@ polezero_try_read(char *pzfile, char *id, char *when) {
     stat.chan = calloc(10, sizeof(char));
 
     sac_station_id_split(id, stat.net, stat.stat, stat.loc, stat.chan);
-    stat.ref = datetime_parse(when, NULL);
+    stat.ref = datetime_from_string(when);
 
     if(!pzfile || strcmp(pzfile, "*") == 0) {
         int n;

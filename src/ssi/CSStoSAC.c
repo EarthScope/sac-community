@@ -12,16 +12,17 @@
 #include "clf.h"
 #include "bot.h"
 #include "dff.h"
-#include <fstr.h>
+#include "fstr.h"
+#include "debug.h"
 
 extern sac *cut_file;
 
 void
-CSStoSAC(idfl, header, seis, lname, lcutnow, nerr)
-     int idfl, *nerr;
-     struct trace *seis;
-     struct SACheader *header;
-     int lname, lcutnow;
+CSStoSAC(int idfl, struct SACheader *header, struct trace *seis, int lname, int lcutnow, int *nerr)
+//int idfl, *nerr;
+//   struct trace *seis;
+//   struct SACheader *header;
+//   int lname, lcutnow;
 {
     /* Declare Variables. */
     char kfile[MCPFN + 1];

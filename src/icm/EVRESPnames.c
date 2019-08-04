@@ -664,7 +664,6 @@ getPath(enum Direction dir) {
 void
 setPath(char *name, enum Direction dir) {
     deblank(name);
-    int len = strlen(name) + 1;
     struct Filename *p = NULL;
     if(dir == FROM) {
         p = &pathFrom;

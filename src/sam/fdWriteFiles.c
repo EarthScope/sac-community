@@ -26,7 +26,7 @@ fdWriteFiles(float *memptr[10], char *kprefix, float *userData, int newnpts,
 
     /* index sacmem for amplitude, phase, group delay,
        and the impulse response. */
-    int fileDescriptor = 0, xbegin = 0, idx, jdx, nlcmem, nlcdsk;
+    int xbegin = 0, idx, jdx, nlcmem;
 
     char kname[MCPFN], ksuffix[3][6];
     sac *s;
@@ -133,46 +133,37 @@ fdWriteFiles(float *memptr[10], char *kprefix, float *userData, int newnpts,
         /* Get file name */
         sprintf(kname, "%s%s", kprefix, ksuffix[jdx]);
 
-        /* Open file */
-        znfile(&fileDescriptor, kname, MCPFN, nerr);
-        if (*nerr)
-            goto L_ERROR;
-
-        /* Get ready to write header to disk */
-        nlcdsk = 0;
-        /* nptwr = SAC_HEADER_WORDS_FILE; */
-
-        /* write the headers */
-        sac_header_write(fileDescriptor, &s->h->delta, (char *) &s->h->kstnm,
-                         FALSE, nerr);
-
-        nlcdsk += SAC_HEADER_WORDS_FILE;
-        /* nptwr = NDATPTS; */
-
         /* Write data to disk */
         switch (jdx) {
             case 0:
                 /* nptwr = 2 * NDATPTS - 2; */
-                sac_data_write2(fileDescriptor, amph[0], amph[1], s->h->npts,
-                                FALSE, nerr);
+                //sac_data_write2(fileDescriptor, amph[0], amph[1], s->h->npts,
+                //                FALSE, nerr);
+                s->y = amph[0];
+                s->x = amph[1];
                 break;
             case 1:
-                sac_data_write1(fileDescriptor, memptr[nlcmem], s->h->npts,
-                                FALSE, nerr);
+                //sac_data_write1(fileDescriptor, memptr[nlcmem], s->h->npts,
+                //                FALSE, nerr);
+                s->y = memptr[nlcmem];
+                s->x = NULL;
                 break;
             case 2:
-                sac_data_write1(fileDescriptor, memptr[nlcmem] + xbegin,
-                                s->h->npts, FALSE, nerr);
+                //sac_data_write1(fileDescriptor, memptr[nlcmem] + xbegin,
+                //                s->h->npts, FALSE, nerr);
+                s->y = memptr[nlcmem] + xbegin;
+                s->x = NULL;
                 break;
         }
-
+        sac_write_r(s, kname, TRUE, FALSE, nerr);
+        s->y = NULL;
+        s->x = NULL;
         /* Close file */
-        zclose(&fileDescriptor, nerr);
-        fileDescriptor = 0;
+        //zclose(&fileDescriptor, nerr);
+        //fileDescriptor = 0;
     }                           /* end for */
 
   L_ERROR:
-
     if (*nerr) {
         setmsg("ERROR", *nerr);
         outmsg();
@@ -188,9 +179,8 @@ fdWriteFiles(float *memptr[10], char *kprefix, float *userData, int newnpts,
     }
     //getfil ( 1 , TRUE , &unused1 , &unused2 , &unused3 , nerr ) ;
 
-    if (fileDescriptor)
-        zclose(&fileDescriptor, nerr);
-
+    //if (fileDescriptor)
+    //    zclose(&fileDescriptor, nerr);
 }
 
 static void

@@ -40,24 +40,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #define DATETIME_NA_VALUE  "2999/365 23:59:59"
 #define DATETIME_NA_FORMAT "%{y/d h:m:s}"
 
-typedef enum _TimeType TimeType;
-enum _TimeType {
-    None    = 0,
-    Seconds = 1,
-    Minutes = 2,
-    Hours   = 3,
-    Days    = 4,
-    Weeks   = 5,
-    Months  = 6,
-    Years   = 7,
-    Decades = 8,
-    Centuries = 9,
-};
 
-struct _duration {
-    TimeType type;
-    int64_t n;
-};
 
 /* Internal variable for datetime_parse / datetime_strptime, 
    should be included into datetime structure */
@@ -81,6 +64,8 @@ char *strpfmt[] = {
     "y-m-d-h:m:s", "%Y-%m-%d-%H:%M:%S",
     "y-m-dTh:m:s.ms", "%Y-%m-%dT%H:%M:%S.%P",
     "y-m-dTh:m:s", "%Y-%m-%dT%H:%M:%S",
+    "y-m-dTh:m:s.msZ", "%Y-%m-%dT%H:%M:%S.%PZ",
+    "y-m-dTh:m:sZ", "%Y-%m-%dT%H:%M:%SZ",
 
     "y/d h:m:s.ms", "%Y/%j %H:%M:%S.%P",
     "y/d h:m:s", "%Y/%j %H:%M:%S",
@@ -398,76 +383,27 @@ datetime_atol(char **p, long long int *pval, int lower, int upper) {
     return 1;
 }
 
-duration *
-duration_new() {
-    duration *d = calloc(1, sizeof(duration));
-    duration_init(d);
-    return d;
-}
-
-void
-duration_init(duration *d) {
-    d->type = None;
-    d->n    = 0;
-}
-
-duration *
-duration_parse(char *in) {
-    char *p = in;
-    int n = 0;
-    /// Check for a starting '+' sign
-    if(*p != '+') {
-        return NULL;
-    }
-    p++;
-    // Read in Duration number
-    while(p && isdigit(*p)) {
-        n = 10 * n + (*p - '0');
-        p++;
-    }
-    if(!p) {
-        return NULL;
-    }
-    char *key[] = {"s", "sec", "secs",  "seconds",
-                   "m", "min", "mins" , "minutes",
-                   "d",  "days",
-                   "h", "hrs", "hours",
-                   "w" , "wk" ,"wks" ,"weeks",
-                   "mon", "months",
-                   "y", "yr", "yrs", "years",
-                   "dec", "decades",
-                   "cent", "centuries"
-    };
-    TimeType T[] = {Seconds, Seconds, Seconds, Seconds,
-                    Minutes, Minutes, Minutes, Minutes,
-                    Days, Days,
-                    Hours, Hours, Hours,
-                    Weeks, Weeks, Weeks, Weeks,
-                    Months, Months,
-                    Years, Years, Years, Years,
-                    Decades, Decades,
-                    Centuries, Centuries};
-
-    size_t m = strlen(p);
-    size_t nkeys =  sizeof(key)/sizeof(char*);
-    for(size_t i = 0; i < nkeys; i++) {
-        if(strncasecmp(p, key[i], m) == 0) {
-            duration *d = duration_new();
-            d->n = n;
-            d->type = T[i];
-            return d;
-        }
-    }
-    return NULL;
-}
 
 datetime *
-datetime_add_duration(datetime *t1, duration *d) {
-    datetime *t = NULL;
-    if(!t1) {
+datetime_add_seconds(datetime *t, double s) {
+    double frac = 0.0;
+    double inte = 0.0;
+    if(!t) {
         return NULL;
     }
-    t = datetime_copy(t1);
+    frac = modf(s, &inte);
+    t->second += (int) inte;
+    t->nanosecond += (int) floor((frac * 1e9));
+    datetime_normalize(t);
+    return t;
+}
+
+/*
+datetime *
+datetime_add_duration(datetime *t, duration *d) {
+    if(!t) {
+        return NULL;
+    }
     switch(d->type) {
     case None:      break;
     case Seconds:   t->second += d->n;       break;
@@ -482,7 +418,7 @@ datetime_add_duration(datetime *t1, duration *d) {
     }
     datetime_normalize(t);
     return t;
-}
+    }*/
 
 
 char *
@@ -638,33 +574,37 @@ datetime_strptime(char *buf, char *fmt, datetime * t) {
     return b;
 }
 
-datetime *
-datetime_parse(char *in, datetime * t) {
+int
+datetime_parse(char *in, datetime *t) {
     char *p;
-    int i;
     datetime tmp;
-
     datetime_init(&tmp);
-
-    if (!t) {
-        t = datetime_new();
-        if (!t) {
-            return t;
-        }
-    }
-
-    for (i = 1; i <= (int) (sizeof(strpfmt) / sizeof(char *)); i += 2) {
+    for (size_t i = 1; i <= (int) (sizeof(strpfmt) / sizeof(char *)); i += 2) {
         datetime_init(&tmp);
         p = datetime_strptime(in, strpfmt[i], &tmp);
         if (p && *p == 0) {
             datetime_merge(t, &tmp);
             datetime_normalize(t);
-            return t;
+            return 1;
         }
     }
-    datetime_free(t);
-    return NULL;
+    return 0;
+    
 }
+
+datetime *
+datetime_from_string(char *in) {
+    datetime *t = NULL;
+    if(!(t = datetime_new())) {
+        return NULL;
+    }
+    if(! datetime_parse(in, t) ) {
+        datetime_free(t);
+        t = NULL;
+    }
+    return t;
+}
+
 
 void
 datetime_init(datetime * t) {
@@ -697,6 +637,24 @@ datetime_new() {
     }
     return t;
 }
+
+datetime *
+datetime_now() {
+    datetime * t = datetime_new();
+    struct tm x;
+    time_t sec = time(NULL);
+    gmtime_r(&sec, &x);
+    datetime_set_year(t,   x.tm_year + 1900 );
+    datetime_set_month(t,  x.tm_mon + 1);
+    datetime_set_day(t,    x.tm_mday );
+    datetime_set_hour(t,   x.tm_hour );
+    datetime_set_minute(t, x.tm_min );
+    datetime_set_second(t, x.tm_sec );
+    datetime_normalize(t);
+    return t;
+
+}
+
 
 void
 datetime_merge(datetime * to, datetime * from) {
@@ -765,8 +723,8 @@ datetime_free(datetime * t) {
 }
 
 char *
-datetime_to_iso8601(datetime *t, char *dst) {
-    sprintf(dst, "%04d-%02d-%02dT%02d:%02d:%02d",
+datetime_to_iso8601(datetime *t, char *dst, size_t n) {
+    snprintf(dst, n, "%04d-%02d-%02dT%02d:%02d:%02d",
             t->year,
             t->month,
             t->day,
