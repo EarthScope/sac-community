@@ -19,20 +19,6 @@
 
 #include <fstr.h>
 
-/** 
- * Initialize the Common block for sacio
- * 
- */
-void
-sacio_initialize_common() {
-    static int init = FALSE;
-    if (init == FALSE) {
-        init = TRUE;
-        inihdr();
-        inilhf();
-        inimsg();
-    }
-}
 
 /** 
  * Check the Sac Header Version

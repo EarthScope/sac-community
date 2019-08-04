@@ -14,9 +14,6 @@ ferninc_HEADERS   = array.h request.h event.h station.h \
                     stationreq.h datareq.h meta.h \
                     miniseed_sac.h cprint.h fern.h
 
-#bin_PROGRAMS = fern
-#fern_SOURCES = fern.c
-#fern_LDADD = libfern.a libpile.a $(XML_LIBS) $(LIBCURL)
 
 libfern_a_SOURCES = cJSON.c cJSON.h \
                     datareq.c datareq.h \
@@ -34,22 +31,6 @@ libfern_a_SOURCES = cJSON.c cJSON.h \
                     fern.h
 
 libpile_a_SOURCES = chash.c chash.h array.c array.h cprint.c cprint.h
-
-
-# TESTS
-
-# TEST_EXTENSIONS = .sh
-# TESTS = t/test_event.sh t/test_station.sh t/test_station_event.sh \
-#         t/test_avail.sh t/test_miniseed.sh t/test_sac.sh \
-#         t/eventsearch t/stationsearch t/datadownload
-
-# check_PROGRAMS = t/eventsearch t/stationsearch t/datadownload
-# t_eventsearch_SOURCES = t/event_search.c
-# t_eventsearch_LDADD = libfern.a $(XML_LIBS) $(LIBCURL)
-# t_stationsearch_SOURCES = t/station_search.c
-# t_stationsearch_LDADD = libfern.a $(XML_LIBS) $(LIBCURL)
-# t_datadownload_SOURCES = t/data_download.c
-# t_datadownload_LDADD = libfern.a $(XML_LIBS) $(LIBCURL)
 
 CLEANFILES = t/*.test t/test_miniseed*mseed
 

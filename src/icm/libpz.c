@@ -1002,7 +1002,7 @@ sac_station_id_split(char *id, char *net, char *sta, char *loc, char *cha) {
 
  *
  */
-char *
+static char *
 sac_format_string(sac *s, char *fmt) {
     char *p;
     char *out;

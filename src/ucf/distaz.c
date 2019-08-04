@@ -326,8 +326,6 @@ distaz(double the, double phe, float *ths, float *phs, int ns, float *dist,
             Dist[idx] = fabs(b0 * c0 * du + pdist);
             if (lxdeg && (fabs(Dist[idx] - degtokm * Xdeg[idx])) > 100.) {
                 *nerr = 904;
-                setmsg("ERROR", *nerr);
-                apimsg(idx);
             }
         }                       /* end if ( ldist ) */
     }                           /* end for */

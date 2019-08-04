@@ -127,20 +127,20 @@
 
 !     Do some processing ....
          do i = 1,3
-            if(i .eq. 1) then
-               call sac_warning_stdout()
-            endif
-            if(i .eq. 2) then
-               call sac_warning_off()
-            endif
-            if(i .eq. 3) then
-               call sac_warning_stderr()
-            endif
+            !if(i .eq. 1) then
+            !   call sac_warning_stdout()
+            !endif
+            !if(i .eq. 2) then
+            !   call sac_warning_off()
+            !endif
+            !if(i .eq. 3) then
+            !   call sac_warning_stderr()
+            !endif
             call getfhv(fhdr(4), f, nerr)
             call check_error(nerr, fhdr(4))
          enddo
 
-         call sac_warning_off()
+         !call sac_warning_off()
          do i = 1,70
             call getfhv(fhdr(i), f, nerr)
             call check_error(nerr, fhdr(i))

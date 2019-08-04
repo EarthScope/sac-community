@@ -260,20 +260,39 @@ am_libicm_a_OBJECTS = icm/acc.$(OBJEXT) icm/bbdisp.$(OBJEXT) \
 	icm/wwlpbn.$(OBJEXT) icm/wwsp.$(OBJEXT) icm/wwspbn.$(OBJEXT) \
 	icm/ykalp.$(OBJEXT) icm/ykasp.$(OBJEXT) icm/getran.$(OBJEXT)
 libicm_a_OBJECTS = $(am_libicm_a_OBJECTS)
+libmsg_a_AR = $(AR) $(ARFLAGS)
+libmsg_a_LIBADD =
+am_libmsg_a_OBJECTS = msg/apcmsg.$(OBJEXT) msg/apcmsg2.$(OBJEXT) \
+	msg/apcmsgnum.$(OBJEXT) msg/apimsg.$(OBJEXT) \
+	msg/aplmsg.$(OBJEXT) msg/clrmsg.$(OBJEXT) \
+	msg/getsmsg.$(OBJEXT) msg/inimsg.$(OBJEXT) \
+	msg/sacmsg.$(OBJEXT) msg/sendmesg.$(OBJEXT) \
+	msg/setmsg.$(OBJEXT) msg/typmsg.$(OBJEXT) msg/wrtmsg.$(OBJEXT) \
+	msg/apfmsg.$(OBJEXT) msg/outmsg.$(OBJEXT) co/zopens.$(OBJEXT) \
+	co/zcloses.$(OBJEXT) co/zbasename.$(OBJEXT) \
+	co/subscpy.$(OBJEXT) bot/indexb.$(OBJEXT) \
+	co/fstrncpy.$(OBJEXT) bot/crname.$(OBJEXT) \
+	co/zinquire.$(OBJEXT) bot/modcase.$(OBJEXT) \
+	bot/indexa.$(OBJEXT) string/strings.$(OBJEXT) \
+	dff/inihdr.$(OBJEXT) dff/inilhf.$(OBJEXT)
+libmsg_a_OBJECTS = $(am_libmsg_a_OBJECTS)
 libsac_a_AR = $(AR) $(ARFLAGS)
 libsac_a_LIBADD =
-am_libsac_a_OBJECTS = co/complex.$(OBJEXT) dff/inilhf.$(OBJEXT) \
-	dfm/cut.$(OBJEXT) dbh/xapiir.$(OBJEXT) dbh/apply.$(OBJEXT) \
-	dbh/design.$(OBJEXT) dbh/lp.$(OBJEXT) dbh/lptbp.$(OBJEXT) \
-	dbh/lptbr.$(OBJEXT) dbh/lpthp.$(OBJEXT) dbh/warp.$(OBJEXT) \
-	dbh/cutoffs.$(OBJEXT) dbh/chebparm.$(OBJEXT) \
-	dbh/buroots.$(OBJEXT) dbh/beroots.$(OBJEXT) \
-	dbh/c1roots.$(OBJEXT) dbh/c2roots.$(OBJEXT) \
-	dbh/bilin2.$(OBJEXT) dbh/firtrn.$(OBJEXT) dbh/overlp.$(OBJEXT) \
-	dbh/zero.$(OBJEXT) dbh/zshft.$(OBJEXT) dbh/fft.$(OBJEXT) \
-	dbh/crscor.$(OBJEXT) dbh/window.$(OBJEXT) dbh/rms.$(OBJEXT) \
-	icm/trans.$(OBJEXT) icm/dcpft.$(OBJEXT) icm/taper.$(OBJEXT) \
-	icm/getran.$(OBJEXT) icm/libpz.$(OBJEXT) ucf/next2.$(OBJEXT) \
+am_libsac_a_OBJECTS = co/complex.$(OBJEXT) bs/iniam.$(OBJEXT) \
+	bs/fstr.$(OBJEXT) bot/nequal.$(OBJEXT) \
+	string/datetime.$(OBJEXT) dff/hdrfld.$(OBJEXT) \
+	dff/inilhf.$(OBJEXT) dfm/cut.$(OBJEXT) dbh/xapiir.$(OBJEXT) \
+	dbh/apply.$(OBJEXT) dbh/design.$(OBJEXT) dbh/lp.$(OBJEXT) \
+	dbh/lptbp.$(OBJEXT) dbh/lptbr.$(OBJEXT) dbh/lpthp.$(OBJEXT) \
+	dbh/warp.$(OBJEXT) dbh/cutoffs.$(OBJEXT) \
+	dbh/chebparm.$(OBJEXT) dbh/buroots.$(OBJEXT) \
+	dbh/beroots.$(OBJEXT) dbh/c1roots.$(OBJEXT) \
+	dbh/c2roots.$(OBJEXT) dbh/bilin2.$(OBJEXT) \
+	dbh/firtrn.$(OBJEXT) dbh/overlp.$(OBJEXT) dbh/zero.$(OBJEXT) \
+	dbh/zshft.$(OBJEXT) dbh/fft.$(OBJEXT) dbh/crscor.$(OBJEXT) \
+	dbh/window.$(OBJEXT) dbh/rms.$(OBJEXT) icm/trans.$(OBJEXT) \
+	icm/dcpft.$(OBJEXT) icm/taper.$(OBJEXT) icm/getran.$(OBJEXT) \
+	icm/libpz.$(OBJEXT) ucf/next2.$(OBJEXT) \
 	ucf/copydouble.$(OBJEXT) sam/envelope.$(OBJEXT) \
 	scm/rmean.$(OBJEXT) scm/rtrend.$(OBJEXT) scm/taper.$(OBJEXT) \
 	scm/interpolate.$(OBJEXT) scm/wigint.$(OBJEXT) \
@@ -710,7 +729,8 @@ libsac_check_a_AR = $(AR) $(ARFLAGS)
 libsac_check_a_LIBADD =
 am_libsac_check_a_OBJECTS = ucf/cnvatf.$(OBJEXT) ucf/cnvati.$(OBJEXT) \
 	ucf/inctim.$(OBJEXT) ucf/inctimf.$(OBJEXT) \
-	ucf/cnvfta.$(OBJEXT) ucf/copydouble.$(OBJEXT)
+	ucf/cnvfta.$(OBJEXT) ucf/copydouble.$(OBJEXT) \
+	bs/fstr.$(OBJEXT)
 libsac_check_a_OBJECTS = $(am_libsac_check_a_OBJECTS)
 libsac_osx_a_AR = $(AR) $(ARFLAGS)
 libsac_osx_a_LIBADD =
@@ -749,38 +769,8 @@ am_libsac_x11_a_OBJECTS = gd3.x11/begindevice3.$(OBJEXT) \
 libsac_x11_a_OBJECTS = $(am_libsac_x11_a_OBJECTS)
 libsacio_a_AR = $(AR) $(ARFLAGS)
 libsacio_a_LIBADD =
-am_libsacio_a_OBJECTS = bs/iniam.$(OBJEXT) bbs/getbbv.$(OBJEXT) \
-	bbs/inibbs.$(OBJEXT) bbs/setbbv.$(OBJEXT) \
-	bbs/unsetbbv.$(OBJEXT) bbs/writebbf.$(OBJEXT) \
-	bbs/readbbf.$(OBJEXT) bot/crname.$(OBJEXT) \
-	bot/indexa.$(OBJEXT) bot/indexb.$(OBJEXT) \
-	bot/modcase.$(OBJEXT) bot/nequal.$(OBJEXT) \
-	co/fstrncpy.$(OBJEXT) co/math.$(OBJEXT) co/subscpy.$(OBJEXT) \
-	co/zbasename.$(OBJEXT) co/zclose.$(OBJEXT) \
-	co/zclosec.$(OBJEXT) co/zcloses.$(OBJEXT) co/zdest.$(OBJEXT) \
-	co/zgetc.$(OBJEXT) co/zinquire.$(OBJEXT) co/znfile.$(OBJEXT) \
-	co/zopen.$(OBJEXT) co/zopenc.$(OBJEXT) co/zopens.$(OBJEXT) \
-	co/zputc.$(OBJEXT) co/zrabs.$(OBJEXT) co/zsysop.$(OBJEXT) \
-	co/zwabs.$(OBJEXT) dff/inihdr.$(OBJEXT) dff/inilhf.$(OBJEXT) \
-	dff/map_chdr_in.$(OBJEXT) dff/map_chdr_out.$(OBJEXT) \
-	bs/fstr.$(OBJEXT) dff/rsach.$(OBJEXT) dff/hdrfld.$(OBJEXT) \
-	msg/apcmsg.$(OBJEXT) msg/apcmsg2.$(OBJEXT) \
-	msg/apcmsgnum.$(OBJEXT) msg/apimsg.$(OBJEXT) \
-	msg/aplmsg.$(OBJEXT) msg/clrmsg.$(OBJEXT) \
-	msg/getsmsg.$(OBJEXT) msg/inimsg.$(OBJEXT) \
-	msg/sacmsg.$(OBJEXT) msg/sendmesg.$(OBJEXT) \
-	msg/setmsg.$(OBJEXT) msg/typmsg.$(OBJEXT) msg/wrtmsg.$(OBJEXT) \
-	msg/apfmsg.$(OBJEXT) msg/outmsg.$(OBJEXT) \
-	ucf/byteswap.$(OBJEXT) ucf/cnvita.$(OBJEXT) ucf/fill.$(OBJEXT) \
-	ucf/ljust.$(OBJEXT) ucf/extrma.$(OBJEXT) ucf/distaz.$(OBJEXT) \
-	vars/createvlist.$(OBJEXT) vars/deletev.$(OBJEXT) \
-	vars/deletevlist.$(OBJEXT) vars/getvFILEptr.$(OBJEXT) \
-	vars/getvvstring.$(OBJEXT) vars/initializevar.$(OBJEXT) \
-	vars/inivars.$(OBJEXT) vars/putvFILEptr.$(OBJEXT) \
-	vars/putvvstring.$(OBJEXT) vars/readvfile.$(OBJEXT) \
-	vars/writevfile.$(OBJEXT) vars/var.$(OBJEXT) \
-	vars/bbf.$(OBJEXT) string/strings.$(OBJEXT) \
-	string/datetime.$(OBJEXT)
+am_libsacio_a_OBJECTS = ucf/distaz.$(OBJEXT) co/math.$(OBJEXT) \
+	vars/bbf.$(OBJEXT)
 libsacio_a_OBJECTS = $(am_libsacio_a_OBJECTS)
 libsgf_a_AR = $(AR) $(ARFLAGS)
 libsgf_a_LIBADD =
@@ -812,6 +802,15 @@ am_libturtle_a_OBJECTS = docs/pdf.$(OBJEXT) docs/ps.$(OBJEXT) \
 	eval/expr_parse.$(OBJEXT) eval/expr_util.$(OBJEXT) \
 	eval/expr_parse_noop.$(OBJEXT)
 libturtle_a_OBJECTS = $(am_libturtle_a_OBJECTS)
+libvars_a_AR = $(AR) $(ARFLAGS)
+libvars_a_LIBADD =
+am_libvars_a_OBJECTS = vars/deletevlist.$(OBJEXT) \
+	vars/createvlist.$(OBJEXT) vars/inivars.$(OBJEXT) \
+	vars/bbf.$(OBJEXT) vars/putvvstring.$(OBJEXT) \
+	vars/var.$(OBJEXT) vars/getvvstring.$(OBJEXT) \
+	vars/initializevar.$(OBJEXT) bbs/inibbs.$(OBJEXT) \
+	bbs/getbbv.$(OBJEXT) bbs/setbbv.$(OBJEXT) bs/fstr.$(OBJEXT)
+libvars_a_OBJECTS = $(am_libvars_a_OBJECTS)
 am__sac_SOURCES_DIST = osx/sac.m osx/main.m main/sac.c win/win.cpp \
 	win/sac_resource.rc
 @OSX_APP_FALSE@@WIN_APP_FALSE@@X11_APP_TRUE@am_sac_OBJECTS = main/sac.$(OBJEXT)
@@ -895,20 +894,21 @@ am__v_OBJCLD_1 =
 SOURCES = $(libSMOracleFuncs_a_SOURCES) \
 	$(libSMnonOracleFuncs_a_SOURCES) \
 	$(libSacOracleStubFuncs_a_SOURCES) $(libevalresp_a_SOURCES) \
-	$(libicm_a_SOURCES) $(libsac_a_SOURCES) \
+	$(libicm_a_SOURCES) $(libmsg_a_SOURCES) $(libsac_a_SOURCES) \
 	$(libsac_all_a_SOURCES) $(libsac_check_a_SOURCES) \
 	$(libsac_osx_a_SOURCES) $(libsac_win_a_SOURCES) \
 	$(libsac_x11_a_SOURCES) $(libsacio_a_SOURCES) \
-	$(libsgf_a_SOURCES) $(libturtle_a_SOURCES) $(sac_SOURCES)
+	$(libsgf_a_SOURCES) $(libturtle_a_SOURCES) \
+	$(libvars_a_SOURCES) $(sac_SOURCES)
 DIST_SOURCES = $(libSMOracleFuncs_a_SOURCES) \
 	$(libSMnonOracleFuncs_a_SOURCES) \
 	$(libSacOracleStubFuncs_a_SOURCES) $(libevalresp_a_SOURCES) \
-	$(libicm_a_SOURCES) $(libsac_a_SOURCES) \
+	$(libicm_a_SOURCES) $(libmsg_a_SOURCES) $(libsac_a_SOURCES) \
 	$(libsac_all_a_SOURCES) $(libsac_check_a_SOURCES) \
 	$(am__libsac_osx_a_SOURCES_DIST) $(libsac_win_a_SOURCES) \
 	$(libsac_x11_a_SOURCES) $(libsacio_a_SOURCES) \
 	$(libsgf_a_SOURCES) $(libturtle_a_SOURCES) \
-	$(am__sac_SOURCES_DIST)
+	$(libvars_a_SOURCES) $(am__sac_SOURCES_DIST)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -1103,9 +1103,9 @@ lib_LIBRARIES = libsacio.a libsac.a libevalresp.a
 
 # Libraries not installed
 noinst_LIBRARIES = libsac_all.a libevalresp.a libSMnonOracleFuncs.a \
-	libsac_check.a libsgf.a libturtle.a libicm.a $(am__append_2) \
-	$(am__append_3) $(am__append_4) $(am__append_9) \
-	$(am__append_11)
+	libsac_check.a libsgf.a libturtle.a libicm.a libmsg.a \
+	libvars.a $(am__append_2) $(am__append_3) $(am__append_4) \
+	$(am__append_9) $(am__append_11)
 # Libraries needed to compile sac
 #  libsac_all.a is included twice to satisfy recursive dependencies; fix
 sac_LDADD = -L$(srcdir) -L. libsac_all.a libsgf.a libicm.a \
@@ -1129,49 +1129,68 @@ EXTRA_DIST = describedirs gd3.x11/sac.bitmap \
 		   ncpf/hrtoe.c ncpf/readableToEpoch.c \
 		   ssi/xrecall.c
 
-libsacio_a_SOURCES = bs/iniam.c \
-	bbs/getbbv.c bbs/inibbs.c bbs/setbbv.c bbs/unsetbbv.c \
-	bbs/writebbf.c \
-	bbs/readbbf.c \
-	\
-	bot/crname.c bot/indexa.c bot/indexb.c \
-	bot/modcase.c bot/nequal.c \
-	\
-	co/fstrncpy.c co/math.c \
-	co/subscpy.c co/zbasename.c co/zclose.c co/zclosec.c \
-	co/zcloses.c co/zdest.c co/zgetc.c co/zinquire.c \
-	co/znfile.c co/zopen.c co/zopenc.c \
-	co/zopens.c co/zputc.c co/zrabs.c co/zsysop.c \
-	co/zwabs.c \
-	\
-	dff/inihdr.c dff/inilhf.c \
-	dff/map_chdr_in.c dff/map_chdr_out.c \
-	bs/fstr.c \
-	dff/rsach.c \
-	dff/hdrfld.c \
-	\
-	msg/apcmsg.c msg/apcmsg2.c \
+libmsg_a_SOURCES = msg/apcmsg.c msg/apcmsg2.c \
 	msg/apcmsgnum.c msg/apimsg.c msg/aplmsg.c msg/clrmsg.c \
 	msg/getsmsg.c msg/inimsg.c msg/sacmsg.c msg/sendmesg.c \
 	msg/setmsg.c msg/typmsg.c msg/wrtmsg.c msg/apfmsg.c \
-	msg/outmsg.c \
-	\
-	ucf/byteswap.c \
-	ucf/cnvita.c ucf/fill.c ucf/ljust.c  \
-	ucf/extrma.c ucf/distaz.c \
-	\
-  vars/createvlist.c \
-	vars/deletev.c vars/deletevlist.c \
-	vars/getvFILEptr.c \
-	vars/getvvstring.c \
-	vars/initializevar.c \
-	vars/inivars.c vars/putvFILEptr.c \
-	vars/putvvstring.c vars/readvfile.c \
-	vars/writevfile.c \
-	vars/var.c vars/bbf.c \
-	\
-	string/strings.c string/datetime.c
+	msg/outmsg.c\
+  \
+  co/zopens.c co/zcloses.c co/zbasename.c co/subscpy.c bot/indexb.c \
+  co/fstrncpy.c bot/crname.c co/zinquire.c bot/modcase.c bot/indexa.c \
+  string/strings.c \
+  dff/inihdr.c dff/inilhf.c
 
+libvars_a_SOURCES = vars/deletevlist.c vars/createvlist.c \
+                    vars/inivars.c vars/bbf.c \
+                    vars/putvvstring.c vars/var.c \
+                    vars/getvvstring.c vars/initializevar.c \
+                    bbs/inibbs.c bbs/getbbv.c bbs/setbbv.c \
+                    bs/fstr.c
+
+
+# libsacio_a_SOURCES = bs/iniam.c \
+# 	bbs/getbbv.c bbs/inibbs.c bbs/setbbv.c bbs/unsetbbv.c \
+# 	bbs/writebbf.c \
+# 	bbs/readbbf.c \
+# 	\
+# 	bot/crname.c bot/indexa.c bot/indexb.c \
+# 	bot/modcase.c bot/nequal.c \
+# 	\
+# 	co/fstrncpy.c co/math.c \
+# 	co/subscpy.c co/zbasename.c co/zclose.c co/zclosec.c \
+# 	co/zcloses.c co/zdest.c co/zgetc.c co/zinquire.c \
+# 	co/znfile.c co/zopen.c co/zopenc.c \
+# 	co/zopens.c co/zputc.c co/zrabs.c co/zsysop.c \
+# 	co/zwabs.c \
+# 	\
+# 	dff/inihdr.c dff/inilhf.c \
+# 	dff/map_chdr_in.c dff/map_chdr_out.c \
+# 	bs/fstr.c \
+# 	dff/rsach.c \
+# 	dff/hdrfld.c \
+# 	\
+# 	msg/apcmsg.c msg/apcmsg2.c \
+# 	msg/apcmsgnum.c msg/apimsg.c msg/aplmsg.c msg/clrmsg.c \
+# 	msg/getsmsg.c msg/inimsg.c msg/sacmsg.c msg/sendmesg.c \
+# 	msg/setmsg.c msg/typmsg.c msg/wrtmsg.c msg/apfmsg.c \
+# 	msg/outmsg.c \
+# 	\
+# 	ucf/byteswap.c \
+# 	ucf/cnvita.c ucf/fill.c ucf/ljust.c  \
+# 	ucf/extrma.c ucf/distaz.c \
+# 	\
+#   vars/createvlist.c \
+# 	vars/deletev.c vars/deletevlist.c \
+# 	vars/getvFILEptr.c \
+# 	vars/getvvstring.c \
+# 	vars/initializevar.c \
+# 	vars/inivars.c vars/putvFILEptr.c \
+# 	vars/putvvstring.c vars/readvfile.c \
+# 	vars/writevfile.c \
+# 	vars/var.c vars/bbf.c \
+# 	\
+# 	string/strings.c string/datetime.c
+libsacio_a_SOURCES = ucf/distaz.c co/math.c vars/bbf.c
 libSMnonOracleFuncs_a_SOURCES = \
 	SeisMgr/smDataIO.c \
 	SeisMgr/smWorkSets.c \
@@ -1234,7 +1253,12 @@ libevalresp_a_SOURCES = evalresp/alloc_fctns.c evalresp/calc_fctns.c \
 	evalresp/evalresp_sac.c
 
 libsac_a_SOURCES = co/complex.c  \
-	dff/inilhf.c \
+  bs/iniam.c \
+  bs/fstr.c \
+  bot/nequal.c \
+  string/datetime.c \
+  dff/hdrfld.c \
+  dff/inilhf.c \
 	dfm/cut.c \
 	\
 	dbh/xapiir.c dbh/apply.c dbh/design.c \
@@ -1590,7 +1614,7 @@ libsac_all_a_SOURCES = bs/iniam.c bs/fid.c bs/octopus.c bs/sacpz.c \
 
 libsac_win_a_SOURCES = win/WinSacView.c win/windows_sac.c
 libsac_check_a_SOURCES = ucf/cnvatf.c ucf/cnvati.c ucf/inctim.c ucf/inctimf.c \
-	                 ucf/cnvfta.c ucf/copydouble.c
+	                 ucf/cnvfta.c ucf/copydouble.c bs/fstr.c
 
 libsac_x11_a_SOURCES = \
 	gd3.x11/begindevice3.c gd3.x11/beginframe3.c gd3.x11/beginwindow3.c \
@@ -1939,14 +1963,63 @@ libicm.a: $(libicm_a_OBJECTS) $(libicm_a_DEPENDENCIES) $(EXTRA_libicm_a_DEPENDEN
 	$(AM_V_at)-rm -f libicm.a
 	$(AM_V_AR)$(libicm_a_AR) libicm.a $(libicm_a_OBJECTS) $(libicm_a_LIBADD)
 	$(AM_V_at)$(RANLIB) libicm.a
+msg/$(am__dirstamp):
+	@$(MKDIR_P) msg
+	@: > msg/$(am__dirstamp)
+msg/apcmsg.$(OBJEXT): msg/$(am__dirstamp)
+msg/apcmsg2.$(OBJEXT): msg/$(am__dirstamp)
+msg/apcmsgnum.$(OBJEXT): msg/$(am__dirstamp)
+msg/apimsg.$(OBJEXT): msg/$(am__dirstamp)
+msg/aplmsg.$(OBJEXT): msg/$(am__dirstamp)
+msg/clrmsg.$(OBJEXT): msg/$(am__dirstamp)
+msg/getsmsg.$(OBJEXT): msg/$(am__dirstamp)
+msg/inimsg.$(OBJEXT): msg/$(am__dirstamp)
+msg/sacmsg.$(OBJEXT): msg/$(am__dirstamp)
+msg/sendmesg.$(OBJEXT): msg/$(am__dirstamp)
+msg/setmsg.$(OBJEXT): msg/$(am__dirstamp)
+msg/typmsg.$(OBJEXT): msg/$(am__dirstamp)
+msg/wrtmsg.$(OBJEXT): msg/$(am__dirstamp)
+msg/apfmsg.$(OBJEXT): msg/$(am__dirstamp)
+msg/outmsg.$(OBJEXT): msg/$(am__dirstamp)
 co/$(am__dirstamp):
 	@$(MKDIR_P) co
 	@: > co/$(am__dirstamp)
-co/complex.$(OBJEXT): co/$(am__dirstamp)
+co/zopens.$(OBJEXT): co/$(am__dirstamp)
+co/zcloses.$(OBJEXT): co/$(am__dirstamp)
+co/zbasename.$(OBJEXT): co/$(am__dirstamp)
+co/subscpy.$(OBJEXT): co/$(am__dirstamp)
+bot/$(am__dirstamp):
+	@$(MKDIR_P) bot
+	@: > bot/$(am__dirstamp)
+bot/indexb.$(OBJEXT): bot/$(am__dirstamp)
+co/fstrncpy.$(OBJEXT): co/$(am__dirstamp)
+bot/crname.$(OBJEXT): bot/$(am__dirstamp)
+co/zinquire.$(OBJEXT): co/$(am__dirstamp)
+bot/modcase.$(OBJEXT): bot/$(am__dirstamp)
+bot/indexa.$(OBJEXT): bot/$(am__dirstamp)
+string/$(am__dirstamp):
+	@$(MKDIR_P) string
+	@: > string/$(am__dirstamp)
+string/strings.$(OBJEXT): string/$(am__dirstamp)
 dff/$(am__dirstamp):
 	@$(MKDIR_P) dff
 	@: > dff/$(am__dirstamp)
+dff/inihdr.$(OBJEXT): dff/$(am__dirstamp)
 dff/inilhf.$(OBJEXT): dff/$(am__dirstamp)
+
+libmsg.a: $(libmsg_a_OBJECTS) $(libmsg_a_DEPENDENCIES) $(EXTRA_libmsg_a_DEPENDENCIES) 
+	$(AM_V_at)-rm -f libmsg.a
+	$(AM_V_AR)$(libmsg_a_AR) libmsg.a $(libmsg_a_OBJECTS) $(libmsg_a_LIBADD)
+	$(AM_V_at)$(RANLIB) libmsg.a
+co/complex.$(OBJEXT): co/$(am__dirstamp)
+bs/$(am__dirstamp):
+	@$(MKDIR_P) bs
+	@: > bs/$(am__dirstamp)
+bs/iniam.$(OBJEXT): bs/$(am__dirstamp)
+bs/fstr.$(OBJEXT): bs/$(am__dirstamp)
+bot/nequal.$(OBJEXT): bot/$(am__dirstamp)
+string/datetime.$(OBJEXT): string/$(am__dirstamp)
+dff/hdrfld.$(OBJEXT): dff/$(am__dirstamp)
 dfm/$(am__dirstamp):
 	@$(MKDIR_P) dfm
 	@: > dfm/$(am__dirstamp)
@@ -2013,17 +2086,10 @@ libsac.a: $(libsac_a_OBJECTS) $(libsac_a_DEPENDENCIES) $(EXTRA_libsac_a_DEPENDEN
 	$(AM_V_at)-rm -f libsac.a
 	$(AM_V_AR)$(libsac_a_AR) libsac.a $(libsac_a_OBJECTS) $(libsac_a_LIBADD)
 	$(AM_V_at)$(RANLIB) libsac.a
-bs/$(am__dirstamp):
-	@$(MKDIR_P) bs
-	@: > bs/$(am__dirstamp)
-bs/iniam.$(OBJEXT): bs/$(am__dirstamp)
 bs/fid.$(OBJEXT): bs/$(am__dirstamp)
 bs/octopus.$(OBJEXT): bs/$(am__dirstamp)
 bs/sacpz.$(OBJEXT): bs/$(am__dirstamp)
 bs/strlist.$(OBJEXT): bs/$(am__dirstamp)
-string/$(am__dirstamp):
-	@$(MKDIR_P) string
-	@: > string/$(am__dirstamp)
 string/array.$(OBJEXT): string/$(am__dirstamp)
 bbs/$(am__dirstamp):
 	@$(MKDIR_P) bbs
@@ -2046,20 +2112,12 @@ bom/xaddf.$(OBJEXT): bom/$(am__dirstamp)
 bom/xboec.$(OBJEXT): bom/$(am__dirstamp)
 bom/xbomc.$(OBJEXT): bom/$(am__dirstamp)
 bom/xmerge.$(OBJEXT): bom/$(am__dirstamp)
-bot/$(am__dirstamp):
-	@$(MKDIR_P) bot
-	@: > bot/$(am__dirstamp)
 bot/capf.$(OBJEXT): bot/$(am__dirstamp)
 bot/chpf.$(OBJEXT): bot/$(am__dirstamp)
 bot/clipdp.$(OBJEXT): bot/$(am__dirstamp)
-bot/crname.$(OBJEXT): bot/$(am__dirstamp)
-bot/indexa.$(OBJEXT): bot/$(am__dirstamp)
-bot/indexb.$(OBJEXT): bot/$(am__dirstamp)
 bot/indexc.$(OBJEXT): bot/$(am__dirstamp)
 bot/lequal.$(OBJEXT): bot/$(am__dirstamp)
 bot/locdp.$(OBJEXT): bot/$(am__dirstamp)
-bot/modcase.$(OBJEXT): bot/$(am__dirstamp)
-bot/nequal.$(OBJEXT): bot/$(am__dirstamp)
 bot/terminate.$(OBJEXT): bot/$(am__dirstamp)
 bot/upcase.$(OBJEXT): bot/$(am__dirstamp)
 bot/wrlist.$(OBJEXT): bot/$(am__dirstamp)
@@ -2091,19 +2149,15 @@ cnd/xif.$(OBJEXT): cnd/$(am__dirstamp)
 cnd/xwhile.$(OBJEXT): cnd/$(am__dirstamp)
 co/backspace.$(OBJEXT): co/$(am__dirstamp)
 co/ext_init.$(OBJEXT): co/$(am__dirstamp)
-co/fstrncpy.$(OBJEXT): co/$(am__dirstamp)
 co/getfline.$(OBJEXT): co/$(am__dirstamp)
 co/getline.$(OBJEXT): co/$(am__dirstamp)
 co/math.$(OBJEXT): co/$(am__dirstamp)
 co/select.$(OBJEXT): co/$(am__dirstamp)
 co/strscpy.$(OBJEXT): co/$(am__dirstamp)
-co/subscpy.$(OBJEXT): co/$(am__dirstamp)
 co/tokenize.$(OBJEXT): co/$(am__dirstamp)
 co/zauxfile.$(OBJEXT): co/$(am__dirstamp)
-co/zbasename.$(OBJEXT): co/$(am__dirstamp)
 co/zclose.$(OBJEXT): co/$(am__dirstamp)
 co/zclosec.$(OBJEXT): co/$(am__dirstamp)
-co/zcloses.$(OBJEXT): co/$(am__dirstamp)
 co/zdest.$(OBJEXT): co/$(am__dirstamp)
 co/zdestf.$(OBJEXT): co/$(am__dirstamp)
 co/zexecute.$(OBJEXT): co/$(am__dirstamp)
@@ -2114,13 +2168,11 @@ co/zgimsg.$(OBJEXT): co/$(am__dirstamp)
 co/zgpmsg.$(OBJEXT): co/$(am__dirstamp)
 co/zgtmsg.$(OBJEXT): co/$(am__dirstamp)
 co/zgwindowsize.$(OBJEXT): co/$(am__dirstamp)
-co/zinquire.$(OBJEXT): co/$(am__dirstamp)
 co/zload.$(OBJEXT): co/$(am__dirstamp)
 co/znfile.$(OBJEXT): co/$(am__dirstamp)
 co/znfiles.$(OBJEXT): co/$(am__dirstamp)
 co/zopen.$(OBJEXT): co/$(am__dirstamp)
 co/zopenc.$(OBJEXT): co/$(am__dirstamp)
-co/zopens.$(OBJEXT): co/$(am__dirstamp)
 co/zputc.$(OBJEXT): co/$(am__dirstamp)
 co/zquit.$(OBJEXT): co/$(am__dirstamp)
 co/zrabs.$(OBJEXT): co/$(am__dirstamp)
@@ -2266,8 +2318,6 @@ dff/formmarker.$(OBJEXT): dff/$(am__dirstamp)
 dff/getfil.$(OBJEXT): dff/$(am__dirstamp)
 dff/gethv.$(OBJEXT): dff/$(am__dirstamp)
 dff/getnfiles.$(OBJEXT): dff/$(am__dirstamp)
-dff/hdrfld.$(OBJEXT): dff/$(am__dirstamp)
-dff/inihdr.$(OBJEXT): dff/$(am__dirstamp)
 dff/lgahdr.$(OBJEXT): dff/$(am__dirstamp)
 dff/map_chdr_in.$(OBJEXT): dff/$(am__dirstamp)
 dff/map_chdr_out.$(OBJEXT): dff/$(am__dirstamp)
@@ -2293,7 +2343,6 @@ dff/wrsdd.$(OBJEXT): dff/$(am__dirstamp)
 dff/wrsegy.$(OBJEXT): dff/$(am__dirstamp)
 dff/wrxdr.$(OBJEXT): dff/$(am__dirstamp)
 dff/xdrhdr.$(OBJEXT): dff/$(am__dirstamp)
-bs/fstr.$(OBJEXT): bs/$(am__dirstamp)
 dff/rsach.$(OBJEXT): dff/$(am__dirstamp)
 dfm/cleardfl.$(OBJEXT): dfm/$(am__dirstamp)
 dfm/cnvfmt.$(OBJEXT): dfm/$(am__dirstamp)
@@ -2675,27 +2724,9 @@ mat/xMAT.$(OBJEXT): mat/$(am__dirstamp)
 mat/xMAT3C.$(OBJEXT): mat/$(am__dirstamp)
 mat/xmatc.$(OBJEXT): mat/$(am__dirstamp)
 mat/xsetmat.$(OBJEXT): mat/$(am__dirstamp)
-msg/$(am__dirstamp):
-	@$(MKDIR_P) msg
-	@: > msg/$(am__dirstamp)
-msg/apcmsg.$(OBJEXT): msg/$(am__dirstamp)
-msg/apcmsg2.$(OBJEXT): msg/$(am__dirstamp)
-msg/apcmsgnum.$(OBJEXT): msg/$(am__dirstamp)
-msg/apfmsg.$(OBJEXT): msg/$(am__dirstamp)
-msg/apimsg.$(OBJEXT): msg/$(am__dirstamp)
-msg/aplmsg.$(OBJEXT): msg/$(am__dirstamp)
 msg/autooutmsg.$(OBJEXT): msg/$(am__dirstamp)
-msg/clrmsg.$(OBJEXT): msg/$(am__dirstamp)
-msg/getsmsg.$(OBJEXT): msg/$(am__dirstamp)
-msg/inimsg.$(OBJEXT): msg/$(am__dirstamp)
 msg/inquiremsg.$(OBJEXT): msg/$(am__dirstamp)
-msg/outmsg.$(OBJEXT): msg/$(am__dirstamp)
 msg/pltmsg.$(OBJEXT): msg/$(am__dirstamp)
-msg/sacmsg.$(OBJEXT): msg/$(am__dirstamp)
-msg/sendmesg.$(OBJEXT): msg/$(am__dirstamp)
-msg/setmsg.$(OBJEXT): msg/$(am__dirstamp)
-msg/typmsg.$(OBJEXT): msg/$(am__dirstamp)
-msg/wrtmsg.$(OBJEXT): msg/$(am__dirstamp)
 ncpf/$(am__dirstamp):
 	@$(MKDIR_P) ncpf
 	@: > ncpf/$(am__dirstamp)
@@ -3107,13 +3138,6 @@ libsac_x11.a: $(libsac_x11_a_OBJECTS) $(libsac_x11_a_DEPENDENCIES) $(EXTRA_libsa
 	$(AM_V_at)-rm -f libsac_x11.a
 	$(AM_V_AR)$(libsac_x11_a_AR) libsac_x11.a $(libsac_x11_a_OBJECTS) $(libsac_x11_a_LIBADD)
 	$(AM_V_at)$(RANLIB) libsac_x11.a
-string/strings.$(OBJEXT): string/$(am__dirstamp)
-string/datetime.$(OBJEXT): string/$(am__dirstamp)
-
-libsacio.a: $(libsacio_a_OBJECTS) $(libsacio_a_DEPENDENCIES) $(EXTRA_libsacio_a_DEPENDENCIES) 
-	$(AM_V_at)-rm -f libsacio.a
-	$(AM_V_AR)$(libsacio_a_AR) libsacio.a $(libsacio_a_OBJECTS) $(libsacio_a_LIBADD)
-	$(AM_V_at)$(RANLIB) libsacio.a
 gd2/$(am__dirstamp):
 	@$(MKDIR_P) gd2
 	@: > gd2/$(am__dirstamp)
@@ -3177,6 +3201,11 @@ libturtle.a: $(libturtle_a_OBJECTS) $(libturtle_a_DEPENDENCIES) $(EXTRA_libturtl
 	$(AM_V_at)-rm -f libturtle.a
 	$(AM_V_AR)$(libturtle_a_AR) libturtle.a $(libturtle_a_OBJECTS) $(libturtle_a_LIBADD)
 	$(AM_V_at)$(RANLIB) libturtle.a
+
+libvars.a: $(libvars_a_OBJECTS) $(libvars_a_DEPENDENCIES) $(EXTRA_libvars_a_DEPENDENCIES) 
+	$(AM_V_at)-rm -f libvars.a
+	$(AM_V_AR)$(libvars_a_AR) libvars.a $(libvars_a_OBJECTS) $(libvars_a_LIBADD)
+	$(AM_V_at)$(RANLIB) libvars.a
 osx/sac.$(OBJEXT): osx/$(am__dirstamp)
 osx/main.$(OBJEXT): osx/$(am__dirstamp)
 main/$(am__dirstamp):
@@ -3561,6 +3590,12 @@ evalresp/parse_fctns.o: $(srcdir)/evalresp/parse_fctns.c
 	$(COMPILE) -DLIB_MODE -c $(srcdir)/evalresp/parse_fctns.c -o $@
 evalresp/string_fctns.o: $(srcdir)/evalresp/string_fctns.c
 	$(COMPILE) -DLIB_MODE -c $(srcdir)/evalresp/string_fctns.c -o $@
+
+libsacio.a: ../sacio/libsacio_bsd.a $(libsacio_a_OBJECTS)
+	-rm -f $@
+	cp ../sacio/libsacio_bsd.a $@
+	$(AR) r $@ $(libsacio_a_OBJECTS)
+	$(RANLIB) $@
 
 @OSX_APP_TRUE@sacapp: $(bin_PROGRAMS)
 @OSX_APP_TRUE@	for z in $(bin_PROGRAMS); do \

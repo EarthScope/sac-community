@@ -256,8 +256,7 @@ lckey_test_LINK = $(CCLD) $(lckey_test_CFLAGS) $(CFLAGS) \
 	$(lckey_test_LDFLAGS) $(LDFLAGS) -o $@
 sac_all_SOURCES = sac_all.c
 sac_all_OBJECTS = sac_all-sac_all.$(OBJEXT)
-sac_all_DEPENDENCIES = ../src/libsac.a ../src/libsacio.a \
-	../sacio/libsacio_bsd.a ../fern/libpile.a
+sac_all_DEPENDENCIES = ../fern/libpile.a
 sac_all_LINK = $(CCLD) $(sac_all_CFLAGS) $(CFLAGS) $(sac_all_LDFLAGS) \
 	$(LDFLAGS) -o $@
 am_sacio_OBJECTS = sacio-sacio.$(OBJEXT) sacio-sacio_rsac1.$(OBJEXT) \
@@ -265,41 +264,35 @@ am_sacio_OBJECTS = sacio-sacio.$(OBJEXT) sacio-sacio_rsac1.$(OBJEXT) \
 	sacio-sacio_wsac1.$(OBJEXT) sacio-sacio_wsac2.$(OBJEXT) \
 	sacio-sacio_wsac3.$(OBJEXT) sacio-sacio_getset.$(OBJEXT)
 sacio_OBJECTS = $(am_sacio_OBJECTS)
-sacio_DEPENDENCIES = ../src/libsacio.a ../sacio/libsacio_bsd.a \
-	../fern/libpile.a
+sacio_DEPENDENCIES =
 sacio_LINK = $(CCLD) $(sacio_CFLAGS) $(CFLAGS) $(sacio_LDFLAGS) \
 	$(LDFLAGS) -o $@
 sacio_all_SOURCES = sacio_all.c
 sacio_all_OBJECTS = sacio_all-sacio_all.$(OBJEXT)
-sacio_all_DEPENDENCIES = ../sacio/libsacio_bsd.a ../fern/libpile.a
+sacio_all_DEPENDENCIES =
 sacio_all_LINK = $(CCLD) $(sacio_all_CFLAGS) $(CFLAGS) \
 	$(sacio_all_LDFLAGS) $(LDFLAGS) -o $@
 am__saciof_SOURCES_DIST = sacio_f.f
 @HAVE_FC_TRUE@am_saciof_OBJECTS = sacio_f.$(OBJEXT)
 saciof_OBJECTS = $(am_saciof_OBJECTS)
-@HAVE_FC_TRUE@saciof_DEPENDENCIES = ../sacio/libsacio_bsd.a \
-@HAVE_FC_TRUE@	../fern/libpile.a
+saciof_DEPENDENCIES =
 am__saclibf_SOURCES_DIST = saclib_f.f
 @HAVE_FC_TRUE@am_saclibf_OBJECTS = saclib_f.$(OBJEXT)
 saclibf_OBJECTS = $(am_saclibf_OBJECTS)
-@HAVE_FC_TRUE@saclibf_DEPENDENCIES = ../sacio/libsacio_bsd.a \
-@HAVE_FC_TRUE@	../fern/libpile.a
+saclibf_DEPENDENCIES =
 am_ucf_OBJECTS = ucf.$(OBJEXT) ucf_inctim.$(OBJEXT) \
 	ucf_cnvati.$(OBJEXT) ucf_cnvita.$(OBJEXT) ucf_cnvatf.$(OBJEXT) \
 	ucf_cnvfta.$(OBJEXT)
 ucf_OBJECTS = $(am_ucf_OBJECTS)
-ucf_DEPENDENCIES = ../fern/libpile.a ../src/libsacio.a \
-	../sacio/libsacio_bsd.a ../src/libsac_check.a
+ucf_DEPENDENCIES = ../fern/libpile.a ../src/ucf/cnvita.o
 use_sac_SOURCES = use_sac.c
 use_sac_OBJECTS = use_sac-use_sac.$(OBJEXT)
-use_sac_DEPENDENCIES = ../src/libsacio.a ../sacio/libsacio_bsd.a \
-	../fern/libpile.a
+use_sac_DEPENDENCIES = ../fern/libpile.a
 use_sac_LINK = $(CCLD) $(use_sac_CFLAGS) $(CFLAGS) $(use_sac_LDFLAGS) \
 	$(LDFLAGS) -o $@
 am_vars_OBJECTS = vars.$(OBJEXT)
 vars_OBJECTS = $(am_vars_OBJECTS)
-vars_DEPENDENCIES = ../fern/libpile.a ../src/libsacio.a \
-	../sacio/libsacio_bsd.a
+vars_DEPENDENCIES = ../fern/libpile.a
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -778,43 +771,45 @@ libunit_a_SOURCES = unit.c unit.h
 
 # Test programs written in C need to be added to
 #  both check_PROGRAMS and TESTS
-ucf_SOURCES = ucf.c \
-									ucf_inctim.c \
-									ucf_cnvati.c \
-									ucf_cnvita.c \
-									ucf_cnvatf.c \
-									ucf_cnvfta.c
+ucf_SOURCES = ucf.c ucf_inctim.c ucf_cnvati.c ucf_cnvita.c \
+									ucf_cnvatf.c ucf_cnvfta.c
 
-ucf_LDADD = ../fern/libpile.a -L. -lunit ../src/libsacio.a ../sacio/libsacio_bsd.a ../src/libsac_check.a
+ucf_LDADD = ../fern/libpile.a -L. -lunit -L../src -lsacio -lsac_check -lmsg ../src/ucf/cnvita.o
 vars_SOURCES = vars.c
-vars_LDADD = ../fern/libpile.a -L. -lunit ../src/libsacio.a ../sacio/libsacio_bsd.a
-sacio_SOURCES = sacio.c \
-						 sacio_rsac1.c  \
-						 sacio_rsac2.c  \
-									 sacio_wsac0.c  \
-									 sacio_wsac1.c  \
-									 sacio_wsac2.c  \
-									 sacio_wsac3.c  \
-									 sacio_getset.c \
-									 sacio_test.h
+vars_LDADD = ../fern/libpile.a -L. -lunit -L../src -lsacio -lmsg -lvars
+sacio_SOURCES = sacio.c sacio_rsac1.c sacio_rsac2.c sacio_wsac0.c  \
+									 sacio_wsac1.c sacio_wsac2.c sacio_wsac3.c  \
+									 sacio_getset.c sacio_test.h
 
+
+# Check sacio library from fortran
 @HAVE_FC_TRUE@saciof_SOURCES = sacio_f.f
 @HAVE_FC_TRUE@saciof_CFLAGS = $(COVERAGE)
-@HAVE_FC_TRUE@saciof_LDADD = -L../src/ -lsacio -lsac ../sacio/libsacio_bsd.a ../fern/libpile.a
+@HAVE_FC_TRUE@saciof_LDADD = -L../src/ -lsacio
+
+# Check sac library from fortran
 @HAVE_FC_TRUE@saclibf_SOURCES = saclib_f.f
-@HAVE_FC_TRUE@saclibf_LDADD = -L../src/ -lsacio -lsac -L. -lunit ../sacio/libsacio_bsd.a ../fern/libpile.a
+@HAVE_FC_TRUE@saclibf_LDADD = -L../src/ -lsacio -lsac -L. -lunit
 @HAVE_FC_TRUE@saclibf_CFLAGS = 
+
+# Check sacio library
 sacio_CFLAGS = $(COVERAGE) -I$(top_srcdir)/include
-sacio_LDADD = ../src/libsacio.a  -L. -lunit ../sacio/libsacio_bsd.a ../fern/libpile.a
+sacio_LDADD = -L. -lunit -L../src -lsacio
 sacio_LDFLAGS = 
+
+# Check data used within sac
 use_sac_CFLAGS = $(COVERAGE) $(SAC_INCLUDES)
-use_sac_LDADD = -L../src ../src/libsacio.a -L. -lunit ../sacio/libsacio_bsd.a ../fern/libpile.a
+use_sac_LDADD = -L../src  -L. -lunit -lsacio -lmsg ../fern/libpile.a
 use_sac_LDFLAGS = 
+
+# Check all functions in sacio
 sacio_all_CFLAGS = 
-sacio_all_LDADD = -L../src -lsacio ../sacio/libsacio_bsd.a ../fern/libpile.a
+sacio_all_LDADD = -L../src -lsacio
 sacio_all_LDFLAGS = 
+
+# Check all functions in sac library
 sac_all_CFLAGS = 
-sac_all_LDADD = ../src/libsac.a ../src/libsacio.a  ../sacio/libsacio_bsd.a -L../src -lsac ../fern/libpile.a
+sac_all_LDADD = -L../src -lsac -lsacio -lmsg ../fern/libpile.a
 sac_all_LDFLAGS = 
 lckey_test_CFLAGS = 
 lckey_test_LDADD = $(LDADD) ../fern/libpile.a ../fern/libfern.a
@@ -824,7 +819,7 @@ lckey_test_LDFLAGS =
 #	$(F77) $(COVERAGE) -o $@ saclib_f.o -L../src -lsac
 icm_SOURCES = icm.c
 icm_CFLAGS = $(COVERAGE)
-icm_LDADD = -L../src -licm -lsac -lsacio ../fern/libpile.a
+icm_LDADD = -L../src -licm -lsac -lsacio -lmsg ../fern/libpile.a 
 TEST_EXTENSIONS = .sm
 SM_LOG_COMPILER = $(top_srcdir)/t/pytest.py
 AM_SM_LOG_FLAGS = -s "$(abs_builddir)/$(SACBIN)" -o "${abs_top_srcdir}/t/testsuite/output" --test

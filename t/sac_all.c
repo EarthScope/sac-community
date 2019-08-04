@@ -142,7 +142,6 @@ void response_recip();
 void sac_compare();
 void sac_compare_();
 void sac_compare__();
-void sac_format_string();
 void sac_reference_time();
 void sac_reference_time_();
 void sac_reference_time__();
@@ -385,7 +384,6 @@ not_used(int v) {
      sac_compare();
      sac_compare_();
      sac_compare__();
-     sac_format_string();
      sac_reference_time();
      sac_reference_time_();
      sac_reference_time__();

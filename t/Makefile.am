@@ -84,62 +84,59 @@ libunit_a_SOURCES = unit.c unit.h
 # Test programs written in C need to be added to
 #  both check_PROGRAMS and TESTS
 
-ucf_SOURCES     = ucf.c \
-									ucf_inctim.c \
-									ucf_cnvati.c \
-									ucf_cnvita.c \
-									ucf_cnvatf.c \
-									ucf_cnvfta.c
-ucf_LDADD = ../fern/libpile.a -L. -lunit ../src/libsacio.a ../sacio/libsacio_bsd.a ../src/libsac_check.a
+ucf_SOURCES     = ucf.c ucf_inctim.c ucf_cnvati.c ucf_cnvita.c \
+									ucf_cnvatf.c ucf_cnvfta.c
+ucf_LDADD = ../fern/libpile.a -L. -lunit -L../src -lsacio -lsac_check -lmsg ../src/ucf/cnvita.o
+
 vars_SOURCES   = vars.c
-vars_LDADD = ../fern/libpile.a -L. -lunit ../src/libsacio.a ../sacio/libsacio_bsd.a
-sacio_SOURCES    = sacio.c \
-						 sacio_rsac1.c  \
-						 sacio_rsac2.c  \
-									 sacio_wsac0.c  \
-									 sacio_wsac1.c  \
-									 sacio_wsac2.c  \
-									 sacio_wsac3.c  \
-									 sacio_getset.c \
-									 sacio_test.h
+vars_LDADD = ../fern/libpile.a -L. -lunit -L../src -lsacio -lmsg -lvars
+
+sacio_SOURCES    = sacio.c sacio_rsac1.c sacio_rsac2.c sacio_wsac0.c  \
+									 sacio_wsac1.c sacio_wsac2.c sacio_wsac3.c  \
+									 sacio_getset.c sacio_test.h
 
 if HAVE_FC
+# Check sacio library from fortran
 saciof_SOURCES = sacio_f.f
 saciof_CFLAGS = $(COVERAGE)
-saciof_LDADD = -L../src/ -lsacio -lsac ../sacio/libsacio_bsd.a ../fern/libpile.a
+saciof_LDADD = -L../src/ -lsacio
 
+# Check sac library from fortran
 saclibf_SOURCES = saclib_f.f
-saclibf_LDADD = -L../src/ -lsacio -lsac -L. -lunit ../sacio/libsacio_bsd.a ../fern/libpile.a
+saclibf_LDADD = -L../src/ -lsacio -lsac -L. -lunit
 saclibf_CFLAGS =
 endif
 
+# Check sacio library
 sacio_CFLAGS = $(COVERAGE) -I$(top_srcdir)/include
-sacio_LDADD = ../src/libsacio.a  -L. -lunit ../sacio/libsacio_bsd.a ../fern/libpile.a
+sacio_LDADD =  -L. -lunit -L../src -lsacio
 sacio_LDFLAGS =
 
+# Check data used within sac
 use_sac_CFLAGS= $(COVERAGE) $(SAC_INCLUDES)
-use_sac_LDADD = -L../src ../src/libsacio.a -L. -lunit ../sacio/libsacio_bsd.a ../fern/libpile.a
+use_sac_LDADD = -L../src  -L. -lunit -lsacio -lmsg ../fern/libpile.a
 use_sac_LDFLAGS =
 
+# Check all functions in sacio
 sacio_all_CFLAGS =
-sacio_all_LDADD = -L../src -lsacio ../sacio/libsacio_bsd.a ../fern/libpile.a
+sacio_all_LDADD =  -L../src -lsacio
 sacio_all_LDFLAGS =
 
+# Check all functions in sac library
 sac_all_CFLAGS =
-sac_all_LDADD = ../src/libsac.a ../src/libsacio.a  ../sacio/libsacio_bsd.a -L../src -lsac ../fern/libpile.a
+sac_all_LDADD = -L../src -lsac -lsacio -lmsg ../fern/libpile.a
 sac_all_LDFLAGS =
 
 lckey_test_CFLAGS =
 lckey_test_LDADD = $(LDADD) ../fern/libpile.a ../fern/libfern.a
 lckey_test_LDFLAGS =
 
-
 #saclibf${EXEEXT}: saclib_f.o
 #	$(F77) $(COVERAGE) -o $@ saclib_f.o -L../src -lsac
 
 icm_SOURCES = icm.c
 icm_CFLAGS = $(COVERAGE)
-icm_LDADD = -L../src -licm -lsac -lsacio ../fern/libpile.a
+icm_LDADD = -L../src -licm -lsac -lsacio -lmsg ../fern/libpile.a 
 
 # Compiled programs as tests
 check_PROGRAMS   = use_sac ucf vars sacio icm sacio_all sac_all lckey_test

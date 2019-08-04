@@ -10,6 +10,7 @@
 #include "dff.h"
 #include "hdr.h"
 #include "bool.h"
+#include "msg.h"
 
 struct t_cmhdr cmhdr;
 
@@ -43,4 +44,19 @@ inihdr_() {
 void
 inihdr__() {
     inihdr();
+}
+
+/** 
+ * Initialize the Common block for sacio
+ * 
+ */
+void
+sacio_initialize_common() {
+    static int init = FALSE;
+    if (init == FALSE) {
+        init = TRUE;
+        inihdr();
+        inilhf();
+        inimsg();
+    }
 }

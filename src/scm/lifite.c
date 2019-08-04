@@ -60,8 +60,7 @@ lifite(double x1, double dx, float *y, int n, float *a, float *b, float *siga,
     DEBUG("rn %e sumx2 %e %e\n", rn, sumx2*rn, sumx*sumx);
     d = rn * sumx2 - sumx * sumx;
     if(d < 0.0) {
-        warning(1002, "variance of x, value < 0 : %e", d);
-        outmsg();
+        printf(" WARNING: bad value for variance of x, value < 0 : %e", d);
     }
     *b = (sumx2 * sumy - sumx * sumxy) / d;
     *a = (rn * sumxy - sumx * sumy) / d;

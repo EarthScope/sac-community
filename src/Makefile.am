@@ -45,7 +45,7 @@ noinst_LIBRARIES  = libsac_all.a \
 		    libevalresp.a \
 		    libSMnonOracleFuncs.a \
 		    libsac_check.a \
-		    libsgf.a libturtle.a libicm.a
+		    libsgf.a libturtle.a libicm.a libmsg.a libvars.a
 
 if X11_APP
   noinst_LIBRARIES += libsac_x11.a
@@ -134,48 +134,31 @@ evalresp/parse_fctns.o: $(srcdir)/evalresp/parse_fctns.c
 evalresp/string_fctns.o: $(srcdir)/evalresp/string_fctns.c
 	$(COMPILE) -DLIB_MODE -c $(srcdir)/evalresp/string_fctns.c -o $@
 
-libsacio_a_SOURCES = bs/iniam.c \
-	bbs/getbbv.c bbs/inibbs.c bbs/setbbv.c bbs/unsetbbv.c \
-	bbs/writebbf.c \
-	bbs/readbbf.c \
-	\
-	bot/crname.c bot/indexa.c bot/indexb.c \
-	bot/modcase.c bot/nequal.c \
-	\
-	co/fstrncpy.c co/math.c \
-	co/subscpy.c co/zbasename.c co/zclose.c co/zclosec.c \
-	co/zcloses.c co/zdest.c co/zgetc.c co/zinquire.c \
-	co/znfile.c co/zopen.c co/zopenc.c \
-	co/zopens.c co/zputc.c co/zrabs.c co/zsysop.c \
-	co/zwabs.c \
-	\
-	dff/inihdr.c dff/inilhf.c \
-	dff/map_chdr_in.c dff/map_chdr_out.c \
-	bs/fstr.c \
-	dff/rsach.c \
-	dff/hdrfld.c \
-	\
-	msg/apcmsg.c msg/apcmsg2.c \
+libmsg_a_SOURCES = 	msg/apcmsg.c msg/apcmsg2.c \
 	msg/apcmsgnum.c msg/apimsg.c msg/aplmsg.c msg/clrmsg.c \
 	msg/getsmsg.c msg/inimsg.c msg/sacmsg.c msg/sendmesg.c \
 	msg/setmsg.c msg/typmsg.c msg/wrtmsg.c msg/apfmsg.c \
-	msg/outmsg.c \
-	\
-	ucf/byteswap.c \
-	ucf/cnvita.c ucf/fill.c ucf/ljust.c  \
-	ucf/extrma.c ucf/distaz.c \
-	\
-  vars/createvlist.c \
-	vars/deletev.c vars/deletevlist.c \
-	vars/getvFILEptr.c \
-	vars/getvvstring.c \
-	vars/initializevar.c \
-	vars/inivars.c vars/putvFILEptr.c \
-	vars/putvvstring.c vars/readvfile.c \
-	vars/writevfile.c \
-	vars/var.c vars/bbf.c \
-	\
-	string/strings.c string/datetime.c
+	msg/outmsg.c\
+  \
+  co/zopens.c co/zcloses.c co/zbasename.c co/subscpy.c bot/indexb.c \
+  co/fstrncpy.c bot/crname.c co/zinquire.c bot/modcase.c bot/indexa.c \
+  string/strings.c \
+  dff/inihdr.c dff/inilhf.c
+
+libvars_a_SOURCES = vars/deletevlist.c vars/createvlist.c \
+                    vars/inivars.c vars/bbf.c \
+                    vars/putvvstring.c vars/var.c \
+                    vars/getvvstring.c vars/initializevar.c \
+                    bbs/inibbs.c bbs/getbbv.c bbs/setbbv.c \
+                    bs/fstr.c
+
+libsacio_a_SOURCES = ucf/distaz.c co/math.c vars/bbf.c
+
+libsacio.a: ../sacio/libsacio_bsd.a $(libsacio_a_OBJECTS)
+	-rm -f $@
+	cp ../sacio/libsacio_bsd.a $@
+	$(AR) r $@ $(libsacio_a_OBJECTS)
+	$(RANLIB) $@
 
 libSMnonOracleFuncs_a_SOURCES = \
 	SeisMgr/smDataIO.c \
@@ -239,8 +222,8 @@ libevalresp_a_SOURCES = evalresp/alloc_fctns.c evalresp/calc_fctns.c \
 	evalresp/evalresp_sac.c
 
 libsac_a_SOURCES = co/complex.c  \
-	dff/inilhf.c \
-	dfm/cut.c \
+  bs/iniam.c bs/fstr.c bot/nequal.c string/datetime.c \
+  dff/hdrfld.c dff/inilhf.c dfm/cut.c \
 	\
 	dbh/xapiir.c dbh/apply.c dbh/design.c \
 	dbh/lp.c dbh/lptbp.c dbh/lptbr.c dbh/lpthp.c dbh/warp.c \
@@ -596,7 +579,7 @@ libsac_all_a_SOURCES = bs/iniam.c bs/fid.c bs/octopus.c bs/sacpz.c \
 libsac_win_a_SOURCES = win/WinSacView.c win/windows_sac.c
 
 libsac_check_a_SOURCES = ucf/cnvatf.c ucf/cnvati.c ucf/inctim.c ucf/inctimf.c \
-	                 ucf/cnvfta.c ucf/copydouble.c
+	                 ucf/cnvfta.c ucf/copydouble.c bs/fstr.c
 
 libsac_x11_a_SOURCES = 	\
 	gd3.x11/begindevice3.c gd3.x11/beginframe3.c gd3.x11/beginwindow3.c \
