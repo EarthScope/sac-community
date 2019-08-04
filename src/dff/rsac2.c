@@ -12,7 +12,6 @@
 #include "msg.h"
 #include "co.h"
 #include "hdr.h"
-#include "SacHeader.h"
 #include "errors.h"
 
 #include <fstr.h>

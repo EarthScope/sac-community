@@ -11,7 +11,6 @@
 #include "dfm.h"
 #include "bool.h"
 #include "hdr.h"
-#include "SacHeader.h"
 #include "errors.h"
 
 #include "msg.h"

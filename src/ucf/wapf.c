@@ -16,7 +16,6 @@
 #include "bot.h"
 
 #include "clf.h"
-#include "SacHeader.h"
 
 EAM_EXTERN
 

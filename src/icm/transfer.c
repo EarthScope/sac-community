@@ -12,7 +12,6 @@
 #include "cssListOps/dblPublicDefs.h"
 #include "smDataIO.h"
 #include "cssListOps/cssStrucs.h"
-#include "SacHeader.h"
 #define EPS                 1e-6
 
 #define EQUAL(x,y) ( fabs(x - y) < EPS )

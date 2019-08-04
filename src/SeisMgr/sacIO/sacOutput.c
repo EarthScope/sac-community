@@ -19,9 +19,6 @@
 #include "cssListOps/dblErrors.h"
 #include "stringfun.h"
 
-#define SAC_NULL_HEADER_REQUIRED        /* This is hackish */
-#include "SacHeader.h"
-
 #include "sacIOdb/sacIOdb.h"
 #include "sacIOdb/dbConversions.h"
 

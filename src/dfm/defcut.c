@@ -19,7 +19,6 @@
 #include "clf.h"
 #include "bot.h"
 
-#include "SacHeader.h"
 #include "debug.h"
 
 DFM_EXTERN

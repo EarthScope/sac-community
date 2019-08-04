@@ -13,8 +13,6 @@
 #include "amf.h"
 #include "bool.h"
 
-#include "SacHeader.h"
-
 #include "gtm.h"
 #include "pl.h"
 #include "bot.h"

@@ -26,7 +26,6 @@
 #include "msg.h"
 #include "amf.h"
 
-#include "SacHeader.h"
 
 #include "errors.h"
 #include "debug.h"

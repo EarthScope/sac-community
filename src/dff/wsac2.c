@@ -10,7 +10,6 @@
 #include "bool.h"
 #include "msg.h"
 #include "errors.h"
-#include "SacHeader.h"
 
 #include <fstr.h>
 

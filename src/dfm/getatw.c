@@ -14,7 +14,6 @@
 
 #include "errors.h"
 
-#include "SacHeader.h"
 #include "msg.h"
 #include "clf.h"
 #include "bot.h"

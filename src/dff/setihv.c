@@ -15,7 +15,6 @@
 #include "lhf.h"
 #include "co.h"
 #include "bool.h"
-#include "SacHeader.h"
 #include "errors.h"
 
 #include <fstr.h>

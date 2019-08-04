@@ -22,7 +22,6 @@
 
 #include "errors.h"
 
-#include "SacHeader.h"
 
 #include "ssi.h"
 

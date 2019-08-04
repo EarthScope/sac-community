@@ -18,7 +18,6 @@
 #include "dfm.h"
 #include "ncpf.h"
 #include "segy.h"
-#include "SacHeader.h"
 #include "ucf.h"
 #include "errors.h"
 #include "debug.h"

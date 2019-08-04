@@ -4,7 +4,6 @@
 #include <string.h>
 
 #include "amf.h"
-#include "SacHeader.h"
 #include "hdr.h"
 #include "cpf.h"
 #include "debug.h"

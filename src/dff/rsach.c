@@ -5,14 +5,16 @@
  * 
  */
 
+#include <string.h>
+
 #include "amf.h"
+#include "proto.h"
 #include "dff.h"
 #include "hdr.h"
 #include "bool.h"
 #include "co.h"
 #include "msg.h"
 #include "ucf.h"
-#include "SacHeader.h"
 #include "errors.h"
 
 #include <fstr.h>
@@ -49,6 +51,7 @@ sacio_initialize_common() {
  *
  * @date July 01, 2007 Initial Version -- B. Savage
  */
+/*
 int
 sac_check_header_version(float *hdr, int *nerr) {
     int lswap;
@@ -56,7 +59,7 @@ sac_check_header_version(float *hdr, int *nerr) {
 
     lswap = FALSE;
     *nerr = SAC_OK;
-    /* determine if the data needs to be swapped. */
+    / * determine if the data needs to be swapped. * /
     ver = (int *) (hdr + SAC_VERSION_LOCATION);
     if (*ver < 1 || *ver > SAC_HEADER_MAJOR_VERSION) {
         byteswap((void *) ver, SAC_HEADER_SIZEOF_NUMBER);
@@ -68,13 +71,13 @@ sac_check_header_version(float *hdr, int *nerr) {
             clrmsg();
             return -1;
         } else {
-            /* swap back, so it can be */
+            / * swap back, so it can be * /
             byteswap((void *) ver, SAC_HEADER_SIZEOF_NUMBER);
             lswap = TRUE;
         }
     }
     return lswap;
-}
+}*/
 
 /** 
  * Swap the Sac Header
@@ -88,6 +91,7 @@ sac_check_header_version(float *hdr, int *nerr) {
  *
  * @date July 01, 2007 Initial Version -- B. Savage
  */
+/*
 void
 sac_header_swap(float *hdr) {
     int i;
@@ -95,7 +99,7 @@ sac_header_swap(float *hdr) {
     for (i = 0, ptr = hdr; i < SAC_HEADER_NUMBERS; i++, ptr++) {
         byteswap((void *) ptr, SAC_HEADER_SIZEOF_NUMBER);
     }
-}
+    }*/
 
 /** 
  * Read a Sac Header
@@ -131,6 +135,7 @@ sac_header_swap(float *hdr) {
  *
  * @date July 01, 2007 Initial Version -- B. Savage
  */
+/*
 int
 sac_header_read(int nun, sac * s, int *nerr) {
     int lswap;
@@ -146,7 +151,7 @@ sac_header_read(int nun, sac * s, int *nerr) {
 
     lswap = sac_check_header_version((float *) s->h, nerr);
 
-    if (lswap) {                /* byteswap all the non-character header elements. */
+    if (lswap) {                / * byteswap all the non-character header elements. * /
         sac_header_swap((float *) s->h);
     }
 
@@ -164,7 +169,7 @@ sac_header_read(int nun, sac * s, int *nerr) {
     return lswap;
 
 }
-
+*/ 
 /** 
  * Read a Sac Header
  * 
@@ -179,31 +184,113 @@ sac_header_read(int nun, sac * s, int *nerr) {
  *
  * @date July 01, 2007 Initial Version -- B. Savage
  */
+
+/* void */
+/* rsach(char *kname, int *nerr, int kname_s) { */
+/*     int ncerr; */
+/*     int nun; */
+/*     sac *s; */
+/*     nun = 0; */
+
+/*     *nerr = SAC_OK; */
+
+/*     sacio_initialize_common(); */
+
+/*     /\* - Open the file. *\/ */
+/*     zopen_sac((int *) &nun, kname, kname_s, "RODATA", 7, (int *) nerr); */
+/*     if (*nerr != SAC_OK) */
+/*         goto ERROR; */
+
+/*     s = sac_new(); */
+/*     s->m->filename = fstrdup(kname, kname_s); */
+/*     sacput(s); */
+
+/*     sac_header_read(nun, s, nerr); */
+/*     if (*nerr != SAC_OK) */
+/*         goto ERROR; */
+
+/*   ERROR: */
+/*     zclose((int *) &nun, (int *) &ncerr); */
+/*     return; */
+/* } */
+
+/** 
+ * Determine the byte order of the machine
+ * 
+ * @return 
+ *    - ENDIAN_BIG 
+ *    - ENDIAN_LITTLE
+ */
+int
+CheckByteOrder() {
+    static int byte_order = ENDIAN_UNKNOWN;
+    short int word = 0x0001;
+    char *byte = (char *) &word;
+    if (byte_order == ENDIAN_UNKNOWN) {
+        byte_order = (!byte[0]) ? ENDIAN_BIG : ENDIAN_LITTLE;
+    }
+    return byte_order;
+}
+
+void sac_write_internal(sac *s, char *filename, int write_data, int swap, int *nerr);
+
 void
-rsach(char *kname, int *nerr, int kname_s) {
-    int ncerr;
-    int nun;
-    sac *s;
-    nun = 0;
+sac_write_r(sac * s, char *filename, int write_data, int lswap, int *nerr) {
+    sac_write_internal(s, filename, write_data, lswap, nerr);
+}
+int
+is_kundef(char *kvalue) {
+    size_t n = strlen(kvalue);
+    return n == strlen(SAC_CHAR_UNDEFINED) &&
+        (memcmp(kvalue, SAC_CHAR_UNDEFINED, strlen(SAC_CHAR_UNDEFINED)) == 0);
+}
+int
+is_kundef2(char *kvalue) {
+    size_t n = strlen(kvalue);
+    return n == strlen(SAC_CHAR_UNDEFINED_2 ) &&
+        (memcmp(kvalue, SAC_CHAR_UNDEFINED_2, strlen(SAC_CHAR_UNDEFINED_2)) == 0);
+}
 
-    *nerr = SAC_OK;
+int
+is_kundefn(char *kvalue, int item) {
+    if(item == 2) {
+        return is_kundef2(kvalue);
+    }
+    return is_kundef(kvalue);
+}
+int
+sac_byte_order(int getset) {
+    int i, n;
+    int byte_order;
+    char *env_string;
+    char *env_big[] = { "big", "solaris", "powerpc", "ppc" };
+    char *env_little[] = { "little", "x86", "intel" };
+    static int swap = -1;       /* Default to System Byte Order */
 
-    sacio_initialize_common();
-
-    /* - Open the file. */
-    zopen_sac((int *) &nun, kname, kname_s, "RODATA", 7, (int *) nerr);
-    if (*nerr != SAC_OK)
-        goto ERROR;
-
-    s = sac_new();
-    s->m->filename = fstrdup(kname, kname_s);
-    sacput(s);
-
-    sac_header_read(nun, s, nerr);
-    if (*nerr != SAC_OK)
-        goto ERROR;
-
-  ERROR:
-    zclose((int *) &nun, (int *) &ncerr);
-    return;
+    if (getset < 0 && swap == -1) {     /* Initial Call, Get */
+        env_string = getenv("SAC_WRITE_BYTE_ORDER");
+        getset = CheckByteOrder();
+        if (env_string != NULL) {
+            n = strlen(env_string);
+            for (i = 0; i < (int) (sizeof(env_big) / sizeof(char *)); i++) {
+                if (strncasecmp
+                    (env_string, env_big[i],
+                     min(n, (int) strlen(env_big[i]))) == 0) {
+                    getset = ENDIAN_BIG;
+                }
+            }
+            for (i = 0; i < (int) (sizeof(env_little) / sizeof(char *)); i++) {
+                if (strncasecmp
+                    (env_string, env_little[i],
+                     min(n, (int) strlen(env_little[i]))) == 0) {
+                    getset = ENDIAN_LITTLE;
+                }
+            }
+        }
+    }
+    if (getset >= 0) {          /* Set, Initial or later call */
+        byte_order = CheckByteOrder();
+        swap = !(byte_order == getset);
+    }
+    return swap;
 }

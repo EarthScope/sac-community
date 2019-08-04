@@ -6,7 +6,6 @@
 #include "hdr.h"
 #include "bool.h"
 
-#include "SacHeader.h"
 #include "amf.h"
 #include "msg.h"
 #include "clf.h"

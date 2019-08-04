@@ -24,7 +24,6 @@
 #include "ucf.h"
 
 #include "EVRESPnames.h"
-#include "SacHeader.h"
 #include "sac_datetime.h"
 
 #ifdef WIN32

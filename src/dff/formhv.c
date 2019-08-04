@@ -16,7 +16,6 @@
 #include "co.h"
 #include "lhf.h"
 #include "ucf.h"
-#include "SacHeader.h"
 
 HDR_EXTERN
 LHF_EXTERN

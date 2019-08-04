@@ -12,7 +12,6 @@
 #include "extfunc.h"
 #include "EVRESPnames.h"
 #include "timefuncs.h"
-#include "SacHeader.h"
 
 #include "ncpf.h"
 

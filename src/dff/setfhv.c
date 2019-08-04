@@ -16,7 +16,6 @@
 #include "bot.h"
 #include "lhf.h"
 #include "bool.h"
-#include "SacHeader.h"
 #include "errors.h"
 
 #include <fstr.h>

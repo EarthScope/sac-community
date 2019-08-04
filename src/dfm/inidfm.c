@@ -14,7 +14,6 @@
 #include "clf.h"
 #include "bool.h"
 
-#include "SacHeader.h"
 
 #include "cssListOps/cssArchitecture.h"
 
