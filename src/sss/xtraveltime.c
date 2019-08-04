@@ -22,7 +22,10 @@
 #include "co.h"
 #include "dff.h"
 
+#include "defs.h"
 #include "string_utils.h"
+
+#include "octopus.h"
 
 #define	MBLKSZ	500
 #define	MENTRY	40
@@ -46,6 +49,68 @@ sac_truncate(char *s) {
     }
 }
 
+int
+parse_traveltime(char *line, char *name, size_t n, double *tt) {
+    int k = 0;
+    int set = 0;
+    char *endptr = NULL;
+    char *field = NULL;
+    *tt = 0.0;
+    memset(name,0,n);
+    while((field = strsep(&line, " ")) != NULL) {
+        if(strlen(field) > 0) {
+            if(k == 2) { // Phase name
+                strlcpy(name, field, n);
+                set++;
+            } else if(k == 3) { // Traveltime
+                *tt = strtod(field, &endptr);
+                if(endptr == NULL || strlen(endptr) == 0) {
+                    set++;
+                }
+            }
+            k++;
+            if(set == 2) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+static int
+set_traveltime(sac *s, int k, char *name, double tt, int lpicks, int verbose) {
+    double time = 0.0;
+    if (s->h->o != SAC_FLOAT_UNDEFINED) {
+        time = (double) s->h->o + tt;
+    } else {
+        time = tt;
+    }
+    if (verbose && !lpicks) {
+        fprintf(stdout, "traveltime: %-8s at %f s [ t = %f s ]\n", name, (float) time, (float) tt);
+    }
+    if (lpicks && k < 10) {
+        TN(s)[k] = time;
+        sprintf(khdr(s, 6 + k + 1), "%-8s", name);
+        if (verbose) {
+            fprintf(stdout, "traveltime: setting phase %-8s at %f s [ t = %f s ] t%d\n", name, (float) time, (float) tt, k);
+        }
+        k++;
+    }
+    return k;
+}
+
+char *
+string_join(char vals[60][9], int nvals, char *dst, size_t n, char *join) {
+    memset(dst, 0, n);
+    for(int i = 0; i < nvals; i++) {
+        strlcat(dst, vals[i], n);
+        if(i < nvals-1) {
+            strlcat(dst, join, n);
+        }
+    }
+    return dst;
+}
+
 void
 xtraveltime(int *nerr) {
     char kalpha[21], kcard[MCMSG + 1], kcont[9], kdflin[MCMSG + 1], kform[9];
@@ -66,7 +131,7 @@ xtraveltime(int *nerr) {
 
     int lmodel = FALSE,         /* was global, now it's local.  maf 960829 */
         ltaup = FALSE;          /* TRUE if input file was produced by taup_curve. */
-
+    int online = FALSE;
     /* variables added to put traveltime into a blackboard variable. maf 970512 */
     int fileNumber;
     int lbb = FALSE;
@@ -75,10 +140,11 @@ xtraveltime(int *nerr) {
     float *const Fentry = &fentry[0] - 1;
     int *const Iopch = &iopch[0] - 1;
     double tmp;
-
+    char verbose_quiet[2][9] = {"verbose ", "quiet   "};
     int phase_repeat;
-    static int verbose = FALSE;
-    static int quiet = FALSE;
+    int nverbose = 0;
+    static int verbose = TRUE;
+    //static int quiet = FALSE;
     static float depth_units = 1.0;     /* Assume *evdp is in kilometers */
     static float ttscale = 1.0;
     static int lphase = FALSE;
@@ -186,13 +252,16 @@ xtraveltime(int *nerr) {
             cmtt.ttdep = (float) tmp;
         }
 
-        else if (lckey("V#ERBOSE$", 10)) {
+        else if (lclist((char *) verbose_quiet, 9, 2, &nverbose)) {
+            verbose = (nverbose == 1);
+        }
+        /*else if (lckey("V#ERBOSE$", 10)) {
             verbose = TRUE;
             quiet = FALSE;
         } else if (lckey("Q#UIET$", 8)) {
             quiet = TRUE;
             verbose = FALSE;
-        }
+            }*/
         /* -- "HEADER count": set number of lines to skip. */
         else if (lkint("HEADER$", 8, &nhlines)) {
             cmtt.nhlines = nhlines;     /* update global.  maf 970808 */
@@ -242,6 +311,10 @@ xtraveltime(int *nerr) {
         else if (lckey("&TAUP$", 8)) {
             ltaup = TRUE;
         }
+        else if (lckey("online$", -1)) {
+            online = TRUE;
+        }
+
 
         /* -- "FORMAT string": use formatted input and set default format. */
         else if (lkchar("&FORMAT$", 9, MCMSG, kmdfm.kdform, MCMSG + 1, &ndform)) {
@@ -291,10 +364,6 @@ xtraveltime(int *nerr) {
     if (*nerr != 0)
         goto L_8888;
 
-    if (quiet) {
-        verbose = FALSE;
-    }
-
     /* Set default model to iaspmodel. */
     if (lmodel == FALSE && ndflin <= 0) {
         if (cmtt.lpreviousModel)
@@ -313,6 +382,10 @@ xtraveltime(int *nerr) {
     /* end if ( lmodel == FALSE && ndflin <= 0 ) */
     /* Disallow concurrent TAUP and MODEL options. */
     if (ltaup && lmodel) {
+        *nerr = 5124;
+        goto L_8888;
+    }
+    if(ltaup && online) {
         *nerr = 5124;
         goto L_8888;
     }
@@ -342,7 +415,7 @@ xtraveltime(int *nerr) {
     }
 
     /* set default phases if no phases selected */
-    if (lmodel && iphase == 0 && lphase == FALSE) {
+    if (lmodel && iphase == 0 && lphase == FALSE && online == FALSE) {
         lphase = TRUE;
         strcpy(kmtt.kphases[0], "P    ");
         strcpy(kmtt.kphases[1], "S    ");
@@ -367,7 +440,7 @@ xtraveltime(int *nerr) {
         sac_truncate(kmtt.kphases[i]);
     }
 
-    if (!quiet) {
+    if (verbose) {
         fprintf(stdout, "traveltime: depth: %f km\n", cmtt.ttdep / depth_units);
     }
 
@@ -398,6 +471,43 @@ xtraveltime(int *nerr) {
     }
 
     /* - Set the current file count for using read or read-more. */
+
+    if(online) {
+        char name[64] = {0};
+        char ophases[2048] = {0};
+        char model[32] = {0};
+        double tt = 0.0;
+        strlcpy(model, kmtt.kmodel, sizeof(model));
+        rstrip(model);
+        request *tr = request_new();
+        request_set_url(tr, "http://service.iris.edu/irisws/traveltime/1/query?");
+        request_set_arg(tr, "evdepth", arg_double_new(s->h->evdp));
+        request_set_arg(tr, "distdeg", arg_double_new(s->h->gcarc));
+        request_set_arg(tr, "mintimeonly", arg_string_new("true"));
+        request_set_arg(tr, "noheader", arg_string_new("true"));
+        request_set_arg(tr, "model", arg_string_new(model));
+        if(lphase) {
+            string_join(kmtt.kphases, iphase, ophases, sizeof(ophases), ",");
+            request_set_arg(tr, "phases", arg_string_new(ophases));
+        }
+        //request_set_verbose(tr, 1);
+        result *r = request_get(tr);
+        if(!result_is_ok(r)) {
+            printf("%s\n", result_error_msg(r));
+        } else {
+            char *data = result_data(r);
+            char *line = NULL;
+            int i = 0;
+            while((line = strsep(&data, "\n")) != NULL) {
+                if(parse_traveltime(line, name, sizeof(name), &tt)) {
+                    i = set_traveltime(s, i, name, tt, lpicks, verbose);
+                }
+            }
+        }
+        REQUEST_FREE(tr);
+        RESULT_FREE(r);
+        goto L_8888;
+    }
 
     cmtt.nttm = nttmsv;
     if (lmodel) {
@@ -703,7 +813,6 @@ xtraveltime(int *nerr) {
                 int n;
                 float tt[MAX_PHASES], dtdd[MAX_PHASES], dtdh[MAX_PHASES],
                     dddp[MAX_PHASES];
-                float time;
                 char names[MAX_PHASES][9];
                 /* Find all phases at this distance range */
                 trtm(s->h->gcarc, MAX_PHASES, &n, tt, dtdd, dtdh, dddp,
@@ -727,10 +836,9 @@ xtraveltime(int *nerr) {
                                         set = TRUE;
                                     }
                                 } else {
-                                    if (verbose && !quiet) {
-                                        fprintf(stdout,
-                                                "traveltime: error setting phase %-8s to %f, too many phases \n",
-                                                names[i], tt[i]);
+                                    if (verbose) {
+                                        printf("traveltime: error setting phase %-8s to %f, too many phases \n",
+                                               names[i], tt[i]);
                                     }
                                 }
                             } else {
@@ -740,35 +848,11 @@ xtraveltime(int *nerr) {
                         }
                     }
                     if (set == FALSE) {
-                        if (verbose || !lpicks) {
-                            if (!quiet) {
-                                fprintf(stdout,
-                                        "traveltime: error finding phase %-8s\n",
-                                        kmtt.kphases[j]);
-                            }
+                        if (verbose) {
+                            printf("traveltime: error finding phase %-8s\n", kmtt.kphases[j]);
                         }
                     } else {
-                        if (s->h->o != SAC_FLOAT_UNDEFINED) {
-                            time = s->h->o + tt[p];
-                        } else {
-                            time = tt[p];
-                        }
-                        if (lpicks) {
-                            TN(s)[k] = time;
-                            sprintf(khdr(s, 6 + k + 1), "%-8s", names[p]);
-                            if (verbose && !quiet) {
-                                fprintf(stdout,
-                                        "traveltime: setting phase %-8s at %f s [ t = %f s ] t%d \n",
-                                        names[p], TN(s)[k], tt[p], k);
-                            }
-                            k++;
-                        } else {
-                            if (!quiet) {
-                                fprintf(stdout,
-                                        "traveltime: %-8s at %f s [ t = %f s ]\n",
-                                        names[p], time, tt[p]);
-                            }
-                        }
+                        k = set_traveltime(s, k, names[p], tt[p], lpicks, verbose);
                     }
                 }
             }
@@ -885,3 +969,4 @@ readtaup(FILE * taupfile, int *ncurves, int *nerr) {
 
     kmtt.kphaseNames = phaseNames;
 }
+

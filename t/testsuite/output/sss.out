@@ -253,34 +253,124 @@ traveltime: Pg       at 21.099947 s [ t = 3.415667 s ]
 traveltime: Sg       at 23.579796 s [ t = 5.895516 s ]
  traveltime picks 1
 traveltime: depth: 5.950000 km
+traveltime: setting phase Pg       at 20.071922 s [ t = 2.387642 s ] t1
+traveltime: setting phase Sg       at 21.800419 s [ t = 4.116138 s ] t2
+traveltime: setting phase Pg       at 21.779484 s [ t = 4.095204 s ] t1
+traveltime: setting phase Sg       at 24.753441 s [ t = 7.069161 s ] t2
+traveltime: setting phase Pg       at 21.930811 s [ t = 4.246531 s ] t1
+traveltime: setting phase Sg       at 25.014093 s [ t = 7.329813 s ] t2
+traveltime: setting phase Pg       at 19.080975 s [ t = 1.396694 s ] t1
+traveltime: setting phase Sg       at 20.120102 s [ t = 2.435821 s ] t2
+traveltime: setting phase Pg       at 20.058197 s [ t = 2.373918 s ] t1
+traveltime: setting phase Sg       at 21.776711 s [ t = 4.092430 s ] t2
+traveltime: setting phase Pg       at 21.151161 s [ t = 3.466880 s ] t1
+traveltime: setting phase Sg       at 23.668348 s [ t = 5.984067 s ] t2
+traveltime: setting phase Pg       at 20.151480 s [ t = 2.467199 s ] t1
+traveltime: setting phase Sg       at 21.937967 s [ t = 4.253687 s ] t2
+traveltime: setting phase Pg       at 20.951557 s [ t = 3.267277 s ] t1
+traveltime: setting phase Sg       at 23.323139 s [ t = 5.638860 s ] t2
+traveltime: setting phase Pg       at 21.099947 s [ t = 3.415667 s ] t1
+traveltime: setting phase Sg       at 23.579796 s [ t = 5.895516 s ] t2
  traveltime picks 0
 traveltime: depth: 5.950000 km
+traveltime: setting phase Pg       at 20.071922 s [ t = 2.387642 s ] t0
+traveltime: setting phase Sg       at 21.800419 s [ t = 4.116138 s ] t1
+traveltime: setting phase Pg       at 21.779484 s [ t = 4.095204 s ] t0
+traveltime: setting phase Sg       at 24.753441 s [ t = 7.069161 s ] t1
+traveltime: setting phase Pg       at 21.930811 s [ t = 4.246531 s ] t0
+traveltime: setting phase Sg       at 25.014093 s [ t = 7.329813 s ] t1
+traveltime: setting phase Pg       at 19.080975 s [ t = 1.396694 s ] t0
+traveltime: setting phase Sg       at 20.120102 s [ t = 2.435821 s ] t1
+traveltime: setting phase Pg       at 20.058197 s [ t = 2.373918 s ] t0
+traveltime: setting phase Sg       at 21.776711 s [ t = 4.092430 s ] t1
+traveltime: setting phase Pg       at 21.151161 s [ t = 3.466880 s ] t0
+traveltime: setting phase Sg       at 23.668348 s [ t = 5.984067 s ] t1
+traveltime: setting phase Pg       at 20.151480 s [ t = 2.467199 s ] t0
+traveltime: setting phase Sg       at 21.937967 s [ t = 4.253687 s ] t1
+traveltime: setting phase Pg       at 20.951557 s [ t = 3.267277 s ] t0
+traveltime: setting phase Sg       at 23.323139 s [ t = 5.638860 s ] t1
+traveltime: setting phase Pg       at 21.099947 s [ t = 3.415667 s ] t0
+traveltime: setting phase Sg       at 23.579796 s [ t = 5.895516 s ] t1
  traveltime phase Pg Sg
 traveltime: depth: 5.950000 km
+traveltime: setting phase Pg       at 20.071922 s [ t = 2.387642 s ] t0
+traveltime: setting phase Sg       at 21.800419 s [ t = 4.116138 s ] t1
+traveltime: setting phase Pg       at 21.779484 s [ t = 4.095204 s ] t0
+traveltime: setting phase Sg       at 24.753441 s [ t = 7.069161 s ] t1
+traveltime: setting phase Pg       at 21.930811 s [ t = 4.246531 s ] t0
+traveltime: setting phase Sg       at 25.014093 s [ t = 7.329813 s ] t1
+traveltime: setting phase Pg       at 19.080975 s [ t = 1.396694 s ] t0
+traveltime: setting phase Sg       at 20.120102 s [ t = 2.435821 s ] t1
+traveltime: setting phase Pg       at 20.058197 s [ t = 2.373918 s ] t0
+traveltime: setting phase Sg       at 21.776711 s [ t = 4.092430 s ] t1
+traveltime: setting phase Pg       at 21.151161 s [ t = 3.466880 s ] t0
+traveltime: setting phase Sg       at 23.668348 s [ t = 5.984067 s ] t1
+traveltime: setting phase Pg       at 20.151480 s [ t = 2.467199 s ] t0
+traveltime: setting phase Sg       at 21.937967 s [ t = 4.253687 s ] t1
+traveltime: setting phase Pg       at 20.951557 s [ t = 3.267277 s ] t0
+traveltime: setting phase Sg       at 23.323139 s [ t = 5.638860 s ] t1
+traveltime: setting phase Pg       at 21.099947 s [ t = 3.415667 s ] t0
+traveltime: setting phase Sg       at 23.579796 s [ t = 5.895516 s ] t1
  traveltime phase Sg
 traveltime: depth: 5.950000 km
+traveltime: setting phase Pg       at 20.071922 s [ t = 2.387642 s ] t0
+traveltime: setting phase Sg       at 21.800419 s [ t = 4.116138 s ] t1
+traveltime: setting phase Pg       at 21.779484 s [ t = 4.095204 s ] t0
+traveltime: setting phase Sg       at 24.753441 s [ t = 7.069161 s ] t1
+traveltime: setting phase Pg       at 21.930811 s [ t = 4.246531 s ] t0
+traveltime: setting phase Sg       at 25.014093 s [ t = 7.329813 s ] t1
+traveltime: setting phase Pg       at 19.080975 s [ t = 1.396694 s ] t0
+traveltime: setting phase Sg       at 20.120102 s [ t = 2.435821 s ] t1
+traveltime: setting phase Pg       at 20.058197 s [ t = 2.373918 s ] t0
+traveltime: setting phase Sg       at 21.776711 s [ t = 4.092430 s ] t1
+traveltime: setting phase Pg       at 21.151161 s [ t = 3.466880 s ] t0
+traveltime: setting phase Sg       at 23.668348 s [ t = 5.984067 s ] t1
+traveltime: setting phase Pg       at 20.151480 s [ t = 2.467199 s ] t0
+traveltime: setting phase Sg       at 21.937967 s [ t = 4.253687 s ] t1
+traveltime: setting phase Pg       at 20.951557 s [ t = 3.267277 s ] t0
+traveltime: setting phase Sg       at 23.323139 s [ t = 5.638860 s ] t1
+traveltime: setting phase Pg       at 21.099947 s [ t = 3.415667 s ] t0
+traveltime: setting phase Sg       at 23.579796 s [ t = 5.895516 s ] t1
  traveltime phase Pg Sg
 traveltime: depth: 5.950000 km
+traveltime: setting phase Pg       at 20.071922 s [ t = 2.387642 s ] t0
+traveltime: setting phase Sg       at 21.800419 s [ t = 4.116138 s ] t1
+traveltime: setting phase Pg       at 21.779484 s [ t = 4.095204 s ] t0
+traveltime: setting phase Sg       at 24.753441 s [ t = 7.069161 s ] t1
+traveltime: setting phase Pg       at 21.930811 s [ t = 4.246531 s ] t0
+traveltime: setting phase Sg       at 25.014093 s [ t = 7.329813 s ] t1
+traveltime: setting phase Pg       at 19.080975 s [ t = 1.396694 s ] t0
+traveltime: setting phase Sg       at 20.120102 s [ t = 2.435821 s ] t1
+traveltime: setting phase Pg       at 20.058197 s [ t = 2.373918 s ] t0
+traveltime: setting phase Sg       at 21.776711 s [ t = 4.092430 s ] t1
+traveltime: setting phase Pg       at 21.151161 s [ t = 3.466880 s ] t0
+traveltime: setting phase Sg       at 23.668348 s [ t = 5.984067 s ] t1
+traveltime: setting phase Pg       at 20.151480 s [ t = 2.467199 s ] t0
+traveltime: setting phase Sg       at 21.937967 s [ t = 4.253687 s ] t1
+traveltime: setting phase Pg       at 20.951557 s [ t = 3.267277 s ] t0
+traveltime: setting phase Sg       at 23.323139 s [ t = 5.638860 s ] t1
+traveltime: setting phase Pg       at 21.099947 s [ t = 3.415667 s ] t0
+traveltime: setting phase Sg       at 23.579796 s [ t = 5.895516 s ] t1
  traveltime verbose
 traveltime: depth: 5.950000 km
-traveltime: setting phase Pg       at 20.071922 s [ t = 2.387642 s ] t0 
-traveltime: setting phase Sg       at 21.800419 s [ t = 4.116138 s ] t1 
-traveltime: setting phase Pg       at 21.779484 s [ t = 4.095204 s ] t0 
-traveltime: setting phase Sg       at 24.753441 s [ t = 7.069161 s ] t1 
-traveltime: setting phase Pg       at 21.930811 s [ t = 4.246531 s ] t0 
-traveltime: setting phase Sg       at 25.014093 s [ t = 7.329813 s ] t1 
-traveltime: setting phase Pg       at 19.080975 s [ t = 1.396694 s ] t0 
-traveltime: setting phase Sg       at 20.120102 s [ t = 2.435821 s ] t1 
-traveltime: setting phase Pg       at 20.058197 s [ t = 2.373918 s ] t0 
-traveltime: setting phase Sg       at 21.776711 s [ t = 4.092430 s ] t1 
-traveltime: setting phase Pg       at 21.151161 s [ t = 3.466880 s ] t0 
-traveltime: setting phase Sg       at 23.668348 s [ t = 5.984067 s ] t1 
-traveltime: setting phase Pg       at 20.151480 s [ t = 2.467199 s ] t0 
-traveltime: setting phase Sg       at 21.937967 s [ t = 4.253687 s ] t1 
-traveltime: setting phase Pg       at 20.951557 s [ t = 3.267277 s ] t0 
-traveltime: setting phase Sg       at 23.323139 s [ t = 5.638860 s ] t1 
-traveltime: setting phase Pg       at 21.099947 s [ t = 3.415667 s ] t0 
-traveltime: setting phase Sg       at 23.579796 s [ t = 5.895516 s ] t1 
+traveltime: setting phase Pg       at 20.071922 s [ t = 2.387642 s ] t0
+traveltime: setting phase Sg       at 21.800419 s [ t = 4.116138 s ] t1
+traveltime: setting phase Pg       at 21.779484 s [ t = 4.095204 s ] t0
+traveltime: setting phase Sg       at 24.753441 s [ t = 7.069161 s ] t1
+traveltime: setting phase Pg       at 21.930811 s [ t = 4.246531 s ] t0
+traveltime: setting phase Sg       at 25.014093 s [ t = 7.329813 s ] t1
+traveltime: setting phase Pg       at 19.080975 s [ t = 1.396694 s ] t0
+traveltime: setting phase Sg       at 20.120102 s [ t = 2.435821 s ] t1
+traveltime: setting phase Pg       at 20.058197 s [ t = 2.373918 s ] t0
+traveltime: setting phase Sg       at 21.776711 s [ t = 4.092430 s ] t1
+traveltime: setting phase Pg       at 21.151161 s [ t = 3.466880 s ] t0
+traveltime: setting phase Sg       at 23.668348 s [ t = 5.984067 s ] t1
+traveltime: setting phase Pg       at 20.151480 s [ t = 2.467199 s ] t0
+traveltime: setting phase Sg       at 21.937967 s [ t = 4.253687 s ] t1
+traveltime: setting phase Pg       at 20.951557 s [ t = 3.267277 s ] t0
+traveltime: setting phase Sg       at 23.323139 s [ t = 5.638860 s ] t1
+traveltime: setting phase Pg       at 21.099947 s [ t = 3.415667 s ] t0
+traveltime: setting phase Sg       at 23.579796 s [ t = 5.895516 s ] t1
  traveltime quiet
   
  ==>  
