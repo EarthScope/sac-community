@@ -3143,7 +3143,11 @@ token_set(Token *t, int type, double value, char *str, int line, int col) {
   t->next = NULL;
   t->str  = NULL;
   if(str) {
-    t->str  = strdup(str);
+      if(type != RPAREN && type != LPAREN && type != PLUS &&
+         type != MINUS && type != TIMES && type != DIVIDE &&
+         type != EXP) {
+          t->str  = strdup(str);
+      }
   }
   if(type == NUM) {
     t->value = value;
@@ -3195,7 +3199,9 @@ parse(eval *e) {
     }
     token_set(&tok, val, atof(yylval.sval), yylval.sval, lexer_line(), lexer_col());
     col += (int) strlen(yytext);
-
+    if(getenv("TOKSTR")) {
+        printf("TOK.STR %p '%s'\n", tok.str, tok.str);
+    }
     FREE(yylval.sval);
     /* Parse the current token */
     state->error = -1;
