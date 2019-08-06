@@ -64,8 +64,8 @@ equivalent alphanumeric format (KZDATE and KZTIME). This can be set to any
 reference time you wish. It is often the time of the first data point, but can
 also be the origin time of the event, midnight, your birthday, etc. It does
 not even have to be a time encompassed by the data itself. All other times are
-offsets in seconds from this reference time and are stored as floating point
-values in the header:
+offsets in seconds from this reference time and are stored as single-precision 
+floating-point values in the header:
 
   :B:  Begin time of the file.
   :E:  End time of the file.
