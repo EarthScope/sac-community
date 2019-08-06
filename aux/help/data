@@ -1,0 +1,197 @@
+DATA
+++++
+
+SUMMARY
+-------
+Search for, build requests and download data
+
+SYNTAX
+------
+::
+
+  DATA
+      { catalog:event_id }
+      { duration }
+      { region w e s n }
+      { origin lon lat }
+      { radial min_radius max_radius }
+      { time start end }
+      { network net,to,use } { station sta,tions,to,get }
+      { location 00,10,-- } { channel hhz,bh? }
+      { in station_file }
+      { out request_file }
+      { max size_in_MB }
+      { request request_file }
+      { d | raw | quality | modified | best | merged | qc | unknown }
+      { verbose }
+      { sac }
+      { load }
+      { mseed | miniseed }
+      { more }
+
+INPUT
+-----
+   :avail | download : Display the Availability or Download data
+
+   :catalog:event_id: Use an eventid to set the origin and start time. Catalogs
+      may be usgs, isc, or gcmt. Use the EVENT_ command to get eventids
+
+   :duration: Set the end time using a duration
+
+   :region: Set the region to request stations within: west east south north
+
+   :origin: Set the origin location: lon lat
+
+   :radial: Set the radial limits in degrees: min_radius max_radius
+
+   :time: Set the start and end times. End times can be set relatively
+
+   :network: Set a collection of networks. Accepts lists and wildcards.
+
+   :station: Set a collection of stations. Accepts lists and wildcards.
+
+   :location: Set a collection of locations. Accepts lists and wildcards.
+
+   :channel: Set a collection of channels. Accepts lists and wildcards.
+
+   :in: Input station file for building the data request
+
+   :out: Output request file for saving the data request to run later
+
+   :prefix: Prefix for miniseed data files 
+
+   :sac: Convert the miniseed data into sac files and save.  Station meta
+      data is obtained for the stations. If an event is specified, event
+      meta data is also used
+
+   :mseed: (or miniseed) Save the miniseed files
+
+   :read: Load the data following conversion from miniseed to sac
+
+   :more: Append to data existing data files in memory
+
+   :max: Set the data download size for request: size_in_MB
+
+   :verbose:  Watch the details of the data search / download process
+
+DEFAULT VALUES
+--------------
+::
+
+   DATA  avail  mseed  max 200  loc *  quality best
+
+DESCRIPTION
+-----------
+  Search for available data and possibly download the data.  Data will be
+  downloaded from multiple data repositories based on where the data
+  is held.  Requests are also limited in size, see `max size_in_MB`, to
+  allow downloading data in reasonable sizes.
+
+  Time ranges can be set using a variety of formats, see examples
+  below. End times can be set using a relative value with units.
+
+  Event IDs from EVENT_ can be used to identify origin times and
+  locations.  They will also be used to set sac file meta data for an
+  event.
+
+  MiniSEED filenames will be defined on when the request was made and
+  the data center to which the request was made. Use `prefix` to set
+  the starting portion of miniseed files.
+
+EXAMPLES
+--------
+
+Let's get some data from station HELL, channels BHZ, from 2013/05/21 for a single hour.
+
+  SAC> data sta HELL cha BHZ net * loc * time 2013/05/21 +1h
+
+  ## REQUEST 1/ 1
+  DATACENTER=NCEDC,http://www.ncedc.org
+  BK HELL 00 BHZ 2013-05-21T00:00:00 2013-05-21T01:00:00
+
+  No Data Downloaded, use miniseed, sac, or read to download data
+
+You will notice the request is displayed to the screen but the data
+was not download.  If you desire a saved, fuller version of the
+request, use the `out` option to save the request.  If you want the
+data, run the same command again with
+
+  - `miniseed` option to download miniseed data
+  - `sac` option to get sac data
+  - `read` to place the data into memory
+
+These options can be used individually or together. You can download data into
+sac files and place those files into memory using the `sac` and `read` options
+together. For now, lets just get miniseed data by appending the the `miniseed`
+option::
+
+  SAC> data sta HELL cha BHZ net * loc * time 2013/05/21 +1h miniseed
+  Data Center: NCEDC,http://www.ncedc.org
+          Writing data to fdsnws.2019.07.12.10.38.15.NCEDC.mseed [276.00 KiB]
+
+The data is written to a file with the prefix `fdsn`, the time of the request,
+the data center which provided the data, and a `mseed` extension.  Note, the
+time in the file name does not relate to relate to the data within the file.
+
+Alternatively, if the request was saved to a file called `request.txt` the
+data can be obtained using::
+
+  SAC> data request request.txt
+  Data Center: NCEDC,http://www.ncedc.org
+          Writing data to fdsnws.2019.07.12.10.40.22.NCEDC.mseed [276.00 KiB]
+
+Another option is to obtain data for a specific event using the duration
+and channel options.  First we need an event::
+
+  SAC> event time 2019-05-14 +1d mag 7 cmt
+  Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
+  2019-05-14T12:58:41  -3.96  152.53  18.80 7.60 MW  GCMT/- GCMT gcmt:11037207
+
+We can then use the eventid at the end of the line to request data
+
+  SAC> data gcmt:11037207 dur +10m net IU sta * cha BHZ rad 35 45 miniseed
+  Data Center: IRISDMC,http://ds.iris.edu
+          Writing data to fdsnws.2019.07.12.10.53.30.IRISDMC.mseed [584.00 KiB]
+
+It can be useful to see what you may be download first; particularly if you forget
+to specify your desired channels and mistakenly download 10s of channels you are
+not interested in.
+
+Large downloads will be divided into smaller chunks. The
+resulting miniseed files will be merged back together during reading,
+provided gaps do not exist::
+
+  SAC> data net II sta BORG loc 00 cha BHZ time 2015/03/15 +1mo max 200
+
+  ## REQUEST 1/ 3
+  DATACENTER=IRISDMC,http://ds.iris.edu
+  II BORG 00 BHZ 2015-03-15T00:00:00.000 2015-03-25T08:00:00.000
+
+  ## REQUEST 2/ 3
+  DATACENTER=IRISDMC,http://ds.iris.edu
+  II BORG 00 BHZ 2015-03-25T08:00:00.000 2015-04-04T16:00:00.000
+
+  ## REQUEST 3/ 3
+  DATACENTER=IRISDMC,http://ds.iris.edu
+  II BORG 00 BHZ 2015-04-04T16:00:00.000 2015-04-15T00:00:00.000
+
+  No Data Downloaded, use miniseed, sac, or read to download data
+
+Request files are written when requested using the `out` option or
+when data is requested/downloaded.  The format of the request file starts with
+the request parameters followed by the individual data center
+requests.  Lines starting with `#` are comments.
+
+The request file is rewritten as indivdual requests are made allowing
+for larger requests to be stopped and restarted.
+
+ERROR MESSAGES
+--------------
+
+SEE COMMANDS
+------------
+   STATIONS_, EVENTS_, RESPONSE_, METADATA_
+
+LATEST REVISION
+---------------
+   Version 102.0

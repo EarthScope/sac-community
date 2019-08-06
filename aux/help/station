@@ -1,0 +1,170 @@
+STATION
++++++++
+
+SUMMARY
+-------
+Search for station by region, identifier, channel and date
+
+SYNTAX
+------
+::
+
+  STATION {time start end}
+      {network ne,tw,or,ks}
+      {station stat,ions}
+      {location lo,ca,ti,on,00,10,--}
+      {channel cha,nne,els,BH?,HHZ,LHE}
+      {outfile filename}
+      {origin lon lat}
+      {id:eventid}
+      {radius min_radius max_radius}
+      {region w e s n}
+      {epochs on|off}
+      {showtimes}
+      {verbose}
+
+INPUT
+-----
+   :Time: Set the start and end times. End times can be set relatively
+
+   :Region west east south north: Set the geographic bounds of the search region
+
+   :Radial min max: Set the radius limits of the search region.
+       See ORIGIN and id:eventid
+
+   :Origin lon lat: Set the origin (Lon, Lat) for a radial search
+
+   :catalog:eventid: Set the origin and time from an events origin time
+       and location. This can be used with a region search.
+
+   :Network: Set a collection of networks. Accepts lists and wildcards.
+
+   :Station: Set a collection of stations. Accepts lists and wildcards.
+
+   :Location: Set a collection of locations. Accepts lists and wildcards.
+
+   :Channel: Set a collection of channels. Accepts lists and wildcards.
+
+   :Epochs: - Off - Combine all stations with the same Network and
+              Station, using the first value encountered
+            - On - Treat individual time epochs for stations
+              separately, This will result in multiple stations with
+              the same Network and Station, but with different epochs.
+            This option changes how txt/csv output is written, not XML.
+
+   :ShowTimes: Show start and end date-times in the output.
+
+   :Outfile: Save the station search into a file. Files ending in xml
+       are saved as FDSNStationXML documents; those ending in txt and
+       others are saved as "csv" text.  The Epochs option will modify
+       how the output appears.
+
+   :Verbose:  Watch the details of the search process
+
+DEFAULT VALUES
+--------------
+::
+
+   station epochs off
+
+This command gets everything; you have been warned.
+
+DESCRIPTION
+-----------
+  Search a collection of stations meeting a set of criteria.
+
+  Searching can be done geographically using a Region or Radial
+  search.  For the Radial search the origin location (Lon, Lat) needs
+  to be specified using either the Origin option or from an id:eventid.
+
+  Setting the Time for a search can be done using two times, start and end,
+  or using start and a relative offset.
+
+  If you want a particular Network or set of Stations, those can be
+  entered directly in list form separated by commas ',' using
+  wildcards and negation, see examples below.  Channels are supported
+  just as networks and stations.
+
+  Locations are the same as well, but unless you have specific
+  knowledge it is best to ignore the Location option, see examples
+  below.
+
+  Specifying id:eventid will set the time of the search and the origin
+  location for a radial search.  Timing and origin location
+  information is obtained from online catalogs.  Non-existant eventid
+  will return an error.  This can be useful for getting stations lists
+  for specific stations.
+
+EXAMPLES
+--------
+
+The station database has intriguing station data. Lets see if there are stations on the Moon.  The Moon Landing was in 1969 and the network code is XA, one of many temporary networks::
+
+   SAC> station net XA time 1969-1 +4y
+   Net Sta   Lat.     Lon.      Elev.   SiteName
+   XA  S12    -3.0400  -23.4200    0.00 ALSEP 12, Oceanus Procellarum, Moon
+   XA  S14    -3.6500  -17.4800    0.00 ALSEP 14, Fra Mauro, Moon
+   XA  S15    26.0800    3.6600    0.00 ALSEP 15, Hadley Rille, Moon
+   XA  S16    -8.9700   15.5100    0.00 ALSEP 16, Descartes, Moon
+
+
+We would like stations close to the 2004 Sumartran M9 Event. First lets get the event id::
+
+   SAC> event time 2004-1 +1yr mag 9
+   Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
+   2004-12-26T00:58:53   3.29   95.98  30.00 9.10 mw  US/official usgs:official20041226005853450_30
+
+Using that eventid we can search for stations nearby::
+
+   SAC> station usgs:official20041226005853450_30 radial 0 5
+   Net Sta   Lat.     Lon.      Elev.   SiteName
+   PS  PSI     2.6938   98.9237  987.00 Parapat, Indonesia
+   SY  GSI     1.3039   97.5755  107.00 GSI synthetic
+   SY  LHMI    5.2288   96.9472    3.00 LHMI synthetic
+   SY  PSI     2.6938   98.9237  987.00 PSI synthetic
+
+There are stations that are only contain synthetics, Network SY. Lets
+get rid of those::
+
+   SAC> station usgs:official20041226005853450_30 radial 0 5 net -SY
+   Net Sta   Lat.     Lon.      Elev.   SiteName
+   PS  PSI     2.6938   98.9237  987.00 Parapat, Indonesia
+
+Epochs can be confusing as stations are serviced and instruments are
+changed, new epochs or time ranges are added. For example IU.ANMO has
+been operating since the mid-1990s and has multiple time periods::
+
+   SAC> station net IU sta ANMO epochs on
+   Net Sta   Lat.     Lon.      Elev.   SiteName
+   IU  ANMO   34.9459 -106.4572 1850.00 Albuquerque, New Mexico, USA
+   IU  ANMO   34.9459 -106.4572 1850.00 Albuquerque, New Mexico, USA
+   IU  ANMO   34.9502 -106.4602 1839.00 Albuquerque, New Mexico, USA
+   IU  ANMO   34.9459 -106.4572 1820.00 Albuquerque, New Mexico, USA
+   IU  ANMO   34.9459 -106.4572 1820.00 Albuquerque, New Mexico, USA
+   IU  ANMO   34.9459 -106.4572 1820.00 Albuquerque, New Mexico, USA
+
+
+   SAC> station net IU sta ANMO epochs off
+   Warning: Multiple instances of net.sta, likely mutiple epochs
+   Net Sta   Lat.     Lon.      Elev.   SiteName
+   IU  ANMO   34.9459 -106.4572 1850.00 Albuquerque, New Mexico, USA
+
+   SAC> station net IU sta ANMO epochs on showtimes
+   Net Sta   Lat.     Lon.      Elev.   TimeOn              TimeOff             SiteName
+   IU  ANMO   34.9459 -106.4572 1850.00 1989-08-29T00:00:00 1995-07-14T00:00:00 Albuquerque, New Mexico, USA
+   IU  ANMO   34.9459 -106.4572 1850.00 1995-07-14T00:00:00 2000-10-19T16:00:00 Albuquerque, New Mexico, USA
+   IU  ANMO   34.9502 -106.4602 1839.00 2000-10-19T16:00:00 2002-11-19T21:07:00 Albuquerque, New Mexico, USA
+   IU  ANMO   34.9459 -106.4572 1820.00 2002-11-19T21:07:00 2008-06-30T00:00:00 Albuquerque, New Mexico, USA
+   IU  ANMO   34.9459 -106.4572 1820.00 2008-06-30T00:00:00 2008-06-30T20:00:00 Albuquerque, New Mexico, USA
+   IU  ANMO   34.9459 -106.4572 1820.00 2008-06-30T20:00:00 2599-12-31T23:59:59 Albuquerque, New Mexico, USA
+
+ERROR MESSAGES
+--------------
+
+SEE COMMANDS
+------------
+   EVENT_, DATA_, RESPONSE_, METADATA_
+
+LATEST REVISION
+---------------
+   Version 102.0

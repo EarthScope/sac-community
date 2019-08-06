@@ -1,0 +1,100 @@
+METADATA
+++++++++
+
+SUMMARY
+-------
+Search for events by region, magnitude and date
+
+SYNTAX
+------
+::
+
+  METADATA {catalog:eventid}
+      {file meta_data_file}
+      {verbose}
+
+INPUT
+-----
+   :catalog:eventid: Set the event to use when specifying event meta data
+
+   :file meta_data_file: Use the meta data from a file.  The file may be
+       either a text file or an xml file.  There are *important* differences
+       between xml and text files.
+
+   :VERBOSE:  Watch the details of the meta data insertion process
+
+DEFAULT VALUES
+--------------
+::
+
+   METADATA
+
+DESCRIPTION
+-----------
+  Insert meta data for files currently in memory.  Meta data, i.e. sac headers,
+  is only added for the station if the station id (Network Station Location
+  and Channel) are defined in the sac header.  Meta data for the event is only
+  added if the event is specified as an command option.
+
+  Meta Data for the station includes
+  - stla - Station Latitude
+  - stlo - Station Longitude
+  - stel - Station Elevation (in meters)
+  - stdp - Station Depth (always 0.0)
+  - cmpaz - Component Azimuth (degrees clockwise from North)
+  - cmpinc - Component Inclination (See description between xml and text files)
+
+  Meta Data for the event includes
+  - evla - Event Latitude
+  - evlo - Event Longitude
+  - evel - Event Elevation (always 0.0)
+  - evdp - Event Depth in km
+  - origin time (kzdate and kztime)
+  - iztype, set to IO
+  - kevnm (if short enough)
+
+Setting of kzdate, kztime and iztype is set eqivalent to the following sac commands:
+
+  SAC> ch o gmt 1994 160 00 33 16 230
+  SAC> ch iztype IO
+  SAC> ch allt (-1.0 * &1,o)
+
+COMPONENT INCLINATION
+---------------------
+The component inclination is defined differently between SAC and SEED/MiniSEED.
+Sac defined the inclination as degrees from vertical, what is typically thought
+of as an inclination.  SEED/MiniSEED defines the component inclincation as a
+component dip, defined as degrees from horizontal down into the Earth.
+
+=========== ================ ======
+Value       SEED / MiniSEED  SAC
+=========== ================ ======
+Horizontal    0.0            90.0
+Up          -90.0            0.0
+Down         90.0            180.0
+=========== ================ ======
+
+Data retrieved automatically is handled correctly and the conversion is seamless.
+For data from a file specified by the `file meta_data_file` command option, the
+type of file determines if the component is define as a dip (MiniSEED) or
+inclination (SAC).  This is the same convection used in mseed2sac for consistency.
+
+========== ================= ================
+File Type  Convention        Conversion Value
+========== ================= ================
+text       SAC / Incliation   0
+xml        MiniSEED / Dip    90
+========== ================= ================
+
+**Missing** Format of the metadata files and how to create them.
+
+ERROR MESSAGES
+--------------
+
+SEE COMMANDS
+------------
+   STATIONS_, DATA_, RESPONSE_, EVENT_
+
+LATEST REVISION
+---------------
+   Version 102.0

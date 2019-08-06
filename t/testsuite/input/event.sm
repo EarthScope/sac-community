@@ -1,0 +1,39 @@
+
+event time 2019/05/12 2019/05/14 mag 4 10 verbose
+
+event time 2019/05/12 +2days mag 4 10
+
+event time 2019/05/12 +2d mag 5 10
+
+event time 2019/05/12 +2d mag 5 10 region 0 180 0 90
+
+event time 2019/05/12 +2d mag 5 10 region 0 180 0 90 out test.events.xml
+
+event time 2019/05/12 +2d mag 5 10 region 0 180 0 90 out test.events.txt
+
+event time 2019/05/12 +2d mag 5 10 region 120 125 79 81
+
+event time 1989/1/1 +1y mag 5 10 radial -120 38 0 10
+
+event time 1994/160 +1d
+
+event time 1994/160 +1d depth 600 700
+
+event
+
+event radial -120 38 0 10 region 0 180 0 90
+
+event time 1994/160 +1d depth 600 700 usgs
+
+event time 1994/160 +1d depth 600 700 neic
+
+event time 1994/160 +1d depth 600 700 pde
+
+event time 1994/160 +1d depth 600 700 isc
+
+event time 1994/160 +1d depth 600 700 gcmt
+
+event time 1994/160 +1d depth 600 700 cmt
+
+
+

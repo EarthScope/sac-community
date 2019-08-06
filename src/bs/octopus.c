@@ -759,7 +759,7 @@ data_request_f(int *nerr) {
             // Write out the the screen
             data_request_write(fdr, stdout);
             cprintf("red,bold",
-                   "No Data Downloaded, to Download data use the download option\n");
+                   "No Data Downloaded, use miniseed, sac, or read to download data\n");
             goto error;
         }
     }

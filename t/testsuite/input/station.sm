@@ -1,0 +1,28 @@
+
+station gcmt:11051818 radial 0 30
+
+station time 2019/1/1 +1d cha BH? net -SY
+
+station time 2019/1/1 +1d cha BH? net -SY region 0 10 0 10
+
+station net IU sta ANMO
+
+station net IU sta ANMO epochs off
+
+station net IU sta ANMO epochs on
+
+station net IU sta ANMO epochs on showtimes
+
+station net IU sta ANMO loc 00 showtimes epoch on
+
+station net IU sta ANMO loc 10 showtimes epoch on
+
+station net IU sta ANMO loc -- showtimes epoch on
+
+station net IU sta ANMO loc 20 showtimes epoch on
+
+** 2004/12/26 M9 Sumatra
+station gcmt:1916079 radial 15 30 net -SY cha BHZ
+
+station
+
