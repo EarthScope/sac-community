@@ -97,45 +97,6 @@ findcommand(kcommand, lfind, module, index)
     *lfind =
         lbsrch(kcommand, MCPW, (char *) kmcomlists.kcomnames_full[istart - 1]
                , 30, nentries, &jfind);
-
-    if(strcasecmp(kcommand, "quitmacro") == 0 ||
-       strcasecmp(kcommand, "macroquit") == 0) {
-        *module = 15;
-        *index = 9;
-        *lfind = 1;
-        goto L_8888;
-    }
-    if(strcasecmp(kcommand, "response") == 0) {
-        *module = 2;
-        *index = 34;
-        *lfind = 1;
-        goto L_8888;
-    }
-    if(strcasecmp(kcommand, "event") == 0) {
-        *module = 2;
-        *index = 35;
-        *lfind = 1;
-        goto L_8888;
-    }
-    if(strcasecmp(kcommand, "data") == 0) {
-        *module = 2;
-        *index = 36;
-        *lfind = 1;
-        goto L_8888;
-    }
-    if(strcasecmp(kcommand, "station") == 0) {
-        *module = 2;
-        *index = 37;
-        *lfind = 1;
-        goto L_8888;
-    }
-    if(strcasecmp(kcommand, "meta") == 0) {
-        *module = 2;
-        *index = 38;
-        *lfind = 1;
-        goto L_8888;
-    }
-
     /* - Return internal module and index numbers if this search was successful. */
 
     if (*lfind) {
