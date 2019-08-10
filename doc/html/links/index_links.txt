@@ -34,6 +34,7 @@
 .. _cut: commands/cut.html
 .. _cuterr: commands/cuterr.html
 .. _cutim: commands/cutim.html
+.. _data: commands/data.html
 .. _datagen: commands/datagen.html
 .. _decimate: commands/decimate.html
 .. _deletechannel: commands/deletechannel.html
@@ -48,6 +49,7 @@
 .. _envelope: commands/envelope.html
 .. _erase: commands/erase.html
 .. _evaluate: commands/evaluate.html
+.. _event: commands/event.html
 .. _exp: commands/exp.html
 .. _exp10: commands/exp10.html
 .. _external_howto: commands/external_howto.html
@@ -100,6 +102,7 @@
 .. _mat: commands/mat.html
 .. _merge: commands/merge.html
 .. _message: commands/message.html
+.. _metdata: commands/metadata.html
 .. _mtw: commands/mtw.html
 .. _mul: commands/mul.html
 .. _mulf: commands/mulf.html
@@ -145,6 +148,7 @@
 .. _readsuds: commands/readsuds.html
 .. _readtable: commands/readtable.html
 .. _report: commands/report.html
+.. _response: commands/response.html
 .. _reverse: commands/reverse.html
 .. _rglitches: commands/rglitches.html
 .. _rmean: commands/rmean.html
@@ -169,6 +173,7 @@
 .. _sqrt: commands/sqrt.html
 .. _sss-html.doc: commands/sss-html.doc.html
 .. _sss_dir: commands/sss_dir.html
+.. _station: commands/station.html
 .. _stretch: commands/stretch.html
 .. _sub: commands/sub.html
 .. _subf: commands/subf.html

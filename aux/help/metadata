@@ -3,7 +3,7 @@ METADATA
 
 SUMMARY
 -------
-Search for events by region, magnitude and date
+Insert station and event metadata
 
 SYNTAX
 ------
@@ -93,7 +93,7 @@ ERROR MESSAGES
 
 SEE COMMANDS
 ------------
-   STATIONS_, DATA_, RESPONSE_, EVENT_
+   STATION_, DATA_, RESPONSE_, EVENT_
 
 LATEST REVISION
 ---------------

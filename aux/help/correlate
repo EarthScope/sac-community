@@ -57,19 +57,39 @@ DESCRIPTION
 
       corr(tau) = int ( f(t) g(tau + t) ) dt,
 
-  where f is the master file, g any from among the signals in memory, and
+  where f is the master file, g is any from among the signals in memory, and
   int means summation over all times t.  The number of points in the master
   file cannot be greater than the number of points in any other file in
-  memory.  Actual times are not preserved.  The maximum amplitude for the
-  autocorrelation will be at output time tau = 0.  If a segment of g is an
-  exact copy of f in shape starting at the relative time tau = t0, the
-  maximum amplitude of the cross-correlation will be at a time tau = t0.
+  memory.  
+  
+  The input for SAC CORRELATE is files f and g.  The output is the 
+  auto-correlation for f and the cross-correlation of f with g. The relative 
+  times for the two output files is most easily understood by examining the 
+  figure below.  in this case,  f is an isosceles triangle of duration 0.08 s 
+  starting at t = 0, which is produced by the commands::
+  
+    SAC> fg triangle npts 9 begin -0.08 delta 0.02
+    SAC> cutim -0.04 0.04; ch b 0.0; write triangle.sac
+  
+  In this example, g is a synthetic waveform with spikes at phase arrival times 
+  with amplitudes and polarity appropriate for that phase.  The P arrival is 
+  at t = 0. The maximum amplitude for the auto-correlation always at output 
+  time tau = 0.  The P arrival  spike has a high correlation with the triangle 
+  pulse.  Note that the maximum for the output cross-correlation is at around 
+  -0.04 s, the onset time for the triangle auto-correlation.  The commands for 
+  CORRELATE for f with g in this case are as follows::
+  
+    SAC> r triangle.sac synthetic.sac
+    SAC> correlate normalized
+    
+  In CORRELATE, KEVNM is not changed, but to make this example easier to follow, 
+  they are changed later using SAC.
 
   If N is the number of points in g and M the number of points in f, the
   total number of points in corr is N+M-1.  SAC does the calculation in the
-  frequency domain so if N is not a power of 2, it is increased to NN,
-  the next poer of 2. Both f and g are padded with zeroes to NN points before
-  the forward transforms.   (It is wise to prepare all input filesto minimize
+  frequency domain so if N is not a power of 2, it is increased to N2,
+  the next power of 2. Both f and g are padded with zeroes to N2 points before
+  the forward transforms.   (It is wise to prepare all input files to minimize
   end effects.)
 
   The windowing features of this command allow one to compute an average
@@ -85,8 +105,8 @@ DESCRIPTION
   (NUMBER option) exceeds the number of points in the data file (NPTS).
   By default, this windowing feature is off.
 
-EXAMPLES
---------
+ADDITIONAL EXAMPLES
+-------------------
   To calculate the correlation functions using the third file in memory
   as the master file::
 
@@ -107,7 +127,7 @@ EXAMPLES
 
 HEADER CHANGES
 --------------
-  DEPMIN, DEPMAX, DEPMEN, NPTS
+  DEPMIN, DEPMAX, DEPMEN, NPTS, B
 
 ACKNOWLEDGEMENTS
 ----------------
@@ -115,4 +135,8 @@ ACKNOWLEDGEMENTS
 
 LATEST REVISION
 ---------------
-  May 2018: SAC v102.0 (change total number for output, add normalization)
+Juney 2019: SAC v102.0 (added normalization)
+
+.. image:: correlate_output.png
+   :width: 90%
+   :align: center

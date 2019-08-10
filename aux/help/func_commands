@@ -35,6 +35,10 @@ Executive Function: Processing and Macros
 
 Data File Module
 ----------------
+:data_:           Search for, build requests, and download data
+:event_:          Search for events by region, magnitude, and date
+:metadata_:       Search for events by region, magnitude, and date
+:station_:       Search for station by region, identifier, channel, and date
 :read_:           Reads data from SAC data files on disk into memory.
 :write_:          Writes data in memory to disk.
 :readdb_:         Reads data from an Oracle database NO LONGER FUNCTIONAL

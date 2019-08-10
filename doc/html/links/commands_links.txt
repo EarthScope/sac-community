@@ -35,6 +35,7 @@
 .. _cut: cut.html
 .. _cuterr: cuterr.html
 .. _cutim: cutim.html
+.. _data: data.html
 .. _datagen: datagen.html
 .. _decimate: decimate.html
 .. _deletechannel: deletechannel.html
@@ -49,6 +50,7 @@
 .. _envelope: envelope.html
 .. _erase: erase.html
 .. _evaluate: evaluate.html
+.. _event: event.html
 .. _exp: exp.html
 .. _exp10: exp10.html
 .. _external_howto: external_howto.html
@@ -102,6 +104,7 @@
 .. _mathop: mathop.html
 .. _merge: merge.html
 .. _message: message.html
+.. _metadata: metadata.html
 .. _mtw: mtw.html
 .. _mul: mul.html
 .. _mulf: mulf.html
@@ -149,6 +152,7 @@
 .. _readsuds: readsuds.html
 .. _readtable: readtable.html
 .. _report: report.html
+.. _response: response.html
 .. _reverse: reverse.html
 .. _rglitches: rglitches.html
 .. _rmean: rmean.html
@@ -172,6 +176,7 @@
 .. _sqr: sqr.html
 .. _sqrt: sqrt.html
 .. _sss-html.doc: sss-html.doc.html
+.. _station: station.html
 .. _sss_dir: sss_dir.html
 .. _stretch: stretch.html
 .. _sub: sub.html

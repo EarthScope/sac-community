@@ -50,7 +50,7 @@ INPUT
             - On - Treat individual time epochs for stations
               separately, This will result in multiple stations with
               the same Network and Station, but with different epochs.
-            This option changes how txt/csv output is written, not XML.
+              This option changes how txt/csv output is written, not XML.
 
    :ShowTimes: Show start and end date-times in the output.
 

@@ -42,6 +42,7 @@ Alphabetical Comamnd Listing
 :cuterr_:        Controls errors due to bad cut parameters.
 :cutim_:         Cuts files in memory.  Can cut multiple segments from 
                  each file.
+:data_:          Search for, build requests, and download data
 :datagen_:       Generates sample data files and stores them in memory.
 :decimate_:      Decimates (downsamples) data, including an optional 
                  anti-aliasing FIR_ filter.
@@ -56,6 +57,7 @@ Alphabetical Comamnd Listing
 :envelope_:      Computes the envelope function using a Hilbert transform.
 :erase_:         Erases the graphics display area.
 :evaluate_:      Evaluates simple arithmetic expressions.
+:event_:         Search for events by region, magnitude, and date
 :exp_:           Computes the exponential of each data point.
 :exp10_:         Computes the base 10 exponential (10.**y) of each data point.
 :fft_:           Performs a discrete Fourier transform.
@@ -115,6 +117,7 @@ Alphabetical Comamnd Listing
 :mathop_:        provides options for sequncing in inline expressions
 :merge_:         Merges (concantenates) a set of files to data in memory.
 :message_:       Sends a message to the user's terminal.
+:metadata_:      Search for events by region, magnitude, and date
 :mtw_:           Determines the measurement time window for use in 
                  subsequent measurementcommands.
 :mul_:           Multiplies each data point by a constant.
@@ -195,6 +198,7 @@ Alphabetical Comamnd Listing
 :spectrogram_:   Calculate a spectrogram using all of the data in memory.
 :sqr_:           Squares each data point.
 :sqrt_:          Takes the square root of each data point.
+:station_:       Search for station by region, identifier, channel, and date
 :stretch_:       Stretches (upsamples) data, including an optional 
                  interpolating FIR_ filter.
 :sub_:           Subtracts a constant from each data point.
