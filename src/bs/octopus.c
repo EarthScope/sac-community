@@ -130,10 +130,11 @@ lktn(char *kkey, timespec64 ***vp) {
     v = xarray_append(v, tmp);
     arg_next();
  done:
-    if(xarray_length(v) == 2 && timespec64_cmp(v[0],v[1]) < 0) {
+    if(xarray_length(v) == 2 && timespec64_cmp(v[0],v[1]) > 0) {
         tmp = v[0];
         v[0] = v[1];
-        v[1] = v[0];
+        v[1] = tmp;
+
     }
     *vp = v;
     return TRUE;
@@ -1000,17 +1001,35 @@ void
 response_request(int *nerr) {
     char file[2048] = {0};
     char nslc[128] = { 0 };
-    char keys[2][9] = {"sacpz\0\0\0",
-                       "resp\0\0\0\0"};
+    char keys[6][9] = {"sacpz   ",
+                       "resp    ",
+                       "evalresp",
+                       "pz      ",
+                       "polezero",
+                       "evresp"};
     int kind = 1;
     timespec64 t = {0};
     timespec64 **ts = NULL;
     request *pz = response_new();
     result *r = NULL;
+    duration d = {Duration_None, 0};
+    int set = 0;
     *nerr = SAC_OK;
+
     while( lcmore(nerr) ) {
-        if(lclist((char *)keys, 9, 2, &kind)) {
-            response_set_kind(pz, kind);
+        if(lclist((char *)keys, 9, 6, &kind)) {
+            switch(kind) {
+            case 1:
+            case 4:
+            case 5:
+                response_set_kind(pz, ResponseSacPZ);
+                break;
+            case 2:
+            case 3:
+            case 6:
+                response_set_kind(pz, ResponseResp);
+                break;
+            }
         }
         else if(lckey("verbose$",  -1)){
             request_set_verbose(pz, TRUE);
@@ -1030,9 +1049,11 @@ response_request(int *nerr) {
         else if(lktn("TIME$", &ts)) {
             if(xarray_length(ts) == 1) {
                 response_set_time(pz, *ts[0] );
+                set |= SetTime;
             } else if (xarray_length(ts) == 2) {
                 response_set_start(pz, *ts[0] );
                 response_set_end(pz, *ts[1] );
+                set |= SetTime;
             }
         }
         else {
@@ -1044,10 +1065,23 @@ response_request(int *nerr) {
         goto error;
     }
     if(response_is_ok(pz)) {
+        if((set & SetTime) == 0) {
+            duration_parse("-200y", &d);
+            t = timespec64_add_duration(timespec64_now(), &d);
+            response_set_start(pz, t);
+
+            duration_parse("+1y", &d);
+            t = timespec64_add_duration(timespec64_now(), &d);
+            response_set_end(pz, t);
+        }
         r = request_get(pz);
         if(!result_is_ok(r)) {
             printf("%s", result_error_msg(r));
             goto error;
+        }
+        if((set & SetTime) == 0) {
+            request_del_arg(pz, "start");
+            request_del_arg(pz, "end");
         }
         result_write_to_file_show(r, response_filename(pz, file, sizeof(file)));
     } else if(saclen() > 0) {
@@ -1108,7 +1142,8 @@ response_request(int *nerr) {
             }
         }
     } else {
-        error(*nerr = 3264, "Response request either requires a data file with meta data\n"
+        error(*nerr = 3264,
+              "Response request either requires a data file with meta data\n"
               "    knetwm, kstnm, khole, kcmpnm [kzdate/kztime]\n"
               "    or net, sta, loc, and cha [time/start/end]");
         goto error;

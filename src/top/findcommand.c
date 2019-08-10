@@ -105,7 +105,7 @@ findcommand(kcommand, lfind, module, index)
         *lfind = 1;
         goto L_8888;
     }
-    if(strcasecmp(kcommand, "sacpz") == 0) {
+    if(strcasecmp(kcommand, "response") == 0) {
         *module = 2;
         *index = 34;
         *lfind = 1;
