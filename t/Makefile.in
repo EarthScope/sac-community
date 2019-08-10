@@ -248,8 +248,8 @@ am__DEPENDENCIES_4 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
 am__DEPENDENCIES_5 = $(am__append_1) $(am__DEPENDENCIES_2) \
 	$(am__DEPENDENCIES_3) $(am__DEPENDENCIES_4) \
-	$(am__DEPENDENCIES_1) ../sacio/libsacio_bsd.a \
-	../libmseed/libmseed.a $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) ../src/libsacio.a ../libmseed/libmseed.a \
+	$(am__DEPENDENCIES_1)
 lckey_test_DEPENDENCIES = $(am__DEPENDENCIES_5) ../fern/libpile.a \
 	../fern/libfern.a
 lckey_test_LINK = $(CCLD) $(lckey_test_CFLAGS) $(CFLAGS) \
@@ -737,12 +737,11 @@ AUTOMAKE_OPTIONS = no-dependencies #dejagnu
 #
 # Options for testing the compiled code directly
 #
-SAC_INCLUDES = -I$(top_srcdir)/inc  -I$(top_srcdir)
+SAC_INCLUDES = -I$(top_srcdir)/inc  -I$(top_srcdir) -I../include
 LDADD = -L../src/ -lsac_all -lturtle -lsac_all -levalresp \
 	-lSMnonOracleFuncs -lSacOracleStubFuncs -licm $(am__append_1) \
 	$(am__append_4) $(SAC_GRAPHICS) $(FORMAT_LIBS) $(am__append_5) \
-	-L. -lunit ../sacio/libsacio_bsd.a ../libmseed/libmseed.a \
-	$(LIBCURL)
+	-L. -lunit ../src/libsacio.a ../libmseed/libmseed.a $(LIBCURL)
 FORMAT_LIBS = $(xpm_LIBS) $(png_LIBS) $(zlib_LIBS) $(xft_LIBS) $(XML_LIBS)
 #SAC_GRAPHICS     += -lsac_osx
 SAC_GRAPHICS = -L.. $(am__append_3) -lsgf -lturtle -lsac_all

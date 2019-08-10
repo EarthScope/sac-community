@@ -303,7 +303,7 @@ libsac_a_OBJECTS = $(am_libsac_a_OBJECTS)
 libsac_all_a_AR = $(AR) $(ARFLAGS)
 libsac_all_a_LIBADD =
 am_libsac_all_a_OBJECTS = bs/iniam.$(OBJEXT) bs/fid.$(OBJEXT) \
-	bs/octopus.$(OBJEXT) bs/sacpz.$(OBJEXT) bs/strlist.$(OBJEXT) \
+	bs/octopus.$(OBJEXT) bs/strlist.$(OBJEXT) \
 	string/array.$(OBJEXT) bbs/createbbs.$(OBJEXT) \
 	bbs/deletebbs.$(OBJEXT) bbs/getbbv.$(OBJEXT) \
 	bbs/inibbs.$(OBJEXT) bbs/readbbf.$(OBJEXT) \
@@ -1244,7 +1244,7 @@ libicm_a_SOURCES = icm/acc.c icm/bbdisp.c icm/bbvel.c \
 	icm/wwlpbn.c icm/wwsp.c icm/wwspbn.c icm/ykalp.c icm/ykasp.c \
 	icm/getran.c
 
-libsac_all_a_SOURCES = bs/iniam.c bs/fid.c bs/octopus.c bs/sacpz.c \
+libsac_all_a_SOURCES = bs/iniam.c bs/fid.c bs/octopus.c \
   bs/strlist.c bs/sacx.h \
   string/array.c string/array.h \
 	\
@@ -2040,7 +2040,6 @@ libsac.a: $(libsac_a_OBJECTS) $(libsac_a_DEPENDENCIES) $(EXTRA_libsac_a_DEPENDEN
 	$(AM_V_at)$(RANLIB) libsac.a
 bs/fid.$(OBJEXT): bs/$(am__dirstamp)
 bs/octopus.$(OBJEXT): bs/$(am__dirstamp)
-bs/sacpz.$(OBJEXT): bs/$(am__dirstamp)
 bs/strlist.$(OBJEXT): bs/$(am__dirstamp)
 string/array.$(OBJEXT): string/$(am__dirstamp)
 bbs/$(am__dirstamp):

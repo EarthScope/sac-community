@@ -34,139 +34,7 @@ void  event_request(int *nerr);
 void  station_request(int *nerr);
 void  data_request_f(int *nerr);
 void  meta_request(int *nerr);
-
-
-static int str_is(char *a, char *b) {
-    return strcmp(a, b) == 0;
-}
-static int
-sac_str_def(char *s) {
-    return ! str_is(s, SAC_CHAR_UNDEFINED) ;
-}
-
-void
-sacpz_request(int *nerr) {
-    char file[2048] = {0};
-    char nslc[128] = { 0 };
-    char keys[2][9] = {"sacpz\0\0\0",
-                       "resp\0\0\0\0"};
-    int kind = 1;
-    timespec64 t = {0};
-    timespec64 **ts = NULL;
-    request *pz = sacpz_new();
-    result *r = NULL;
-    *nerr = SAC_OK;
-    while( lcmore(nerr) ) {
-        if(lclist((char *)keys, 9, 2, &kind)) {
-            sacpz_set_kind(pz, kind);
-        }
-        else if(lckey("verbose$",  -1)){
-            request_set_verbose(pz, TRUE);
-        }
-        else if(lkchar2("STA#TION$",  nslc, sizeof(nslc))) {
-            sacpz_set_station(pz, nslc);
-        }
-        else if(lkchar2("NET#WORK$",  nslc, sizeof(nslc))) {
-            sacpz_set_network(pz, nslc);
-        }
-        else if(lkchar2("CHA#NNEL$",  nslc, sizeof(nslc))) {
-            sacpz_set_channel(pz, nslc);
-        }
-        else if(lkchar2("LOC#ATION$", nslc, sizeof(nslc))) {
-            sacpz_set_location(pz, nslc);
-        }
-        else if(lktn("TIME$", &ts)) {
-            if(xarray_length(ts) == 1) {
-                sacpz_set_time(pz, *ts[0] );
-            } else if (xarray_length(ts) == 2) {
-                sacpz_set_start(pz, *ts[0] );
-                sacpz_set_end(pz, *ts[1] );
-            }
-        }
-        else {
-            cfmt("ILLEGAL OPTION:", 17);
-            cresp();
-        }
-    }
-    if(*nerr != SAC_OK) {
-        goto error;
-    }
-    if(sacpz_is_ok(pz)) {
-        r = request_get(pz);
-        if(!result_is_ok(r)) {
-            printf("%s", result_error_msg(r));
-            goto error;
-        }
-        result_write_to_file_show(r, sacpz_filename(pz, file, sizeof(file)));
-    } else if(saclen() > 0) {
-        REQUEST_FREE(pz);
-        for( int i = 0 ; i < saclen(); i++) {
-            /* -- Get the next file in DFL, moving header to CMHDR. */
-            sac *s;
-            if (!(s = sacget(i, TRUE, nerr))) {
-                goto error;
-            }
-            if(sac_str_def(s->h->knetwk) &&
-               sac_str_def(s->h->kstnm) &&
-               sac_str_def(s->h->kcmpnm)) {
-                char p[16];
-
-                if(!sac_str_def(s->h->khole) || strlen(s->h->khole) == 0) {
-                    strlcpy(p, "--", sizeof(p));
-                } else {
-                    strlcpy(p, s->h->khole, sizeof(p));
-                }
-                pz = sacpz_new();
-                sacpz_set_kind(pz, kind);
-                sacpz_set_location(pz, p);
-
-                strlcpy(p, s->h->knetwk, sizeof(p));
-                sacpz_set_network (pz, rstrip(p));
-
-                strlcpy(p, s->h->kstnm, sizeof(p));
-                sacpz_set_station (pz, rstrip(p));
-
-                strlcpy(p, s->h->kcmpnm, sizeof(p));
-                sacpz_set_channel (pz, rstrip(p));
-
-                if(sac_get_time(s, SAC_B, &t)) {
-                    sacpz_set_start(pz, t);
-                }
-                if(sac_get_time(s, SAC_E, &t)) {
-                    sacpz_set_end(pz, t);
-                }
-                r = request_get(pz);
-                if(!result_is_ok(r)) {
-                    printf("%s", result_error_msg(r));
-                    goto error;
-                }
-                result_write_to_file_show(r,
-                           sacpz_filename(pz, file, sizeof(file)));
-                RESULT_FREE(r);
-                REQUEST_FREE(pz);
-            } else {
-                printf("net: '%s'\n", s->h->knetwk);
-                printf("sta: '%s'\n", s->h->kstnm);
-                printf("loc: '%s'\n", s->h->khole);
-                printf("cha: '%s'\n", s->h->kcmpnm);
-                error(*nerr = 3264,
-                      "Response request either requires a data file with meta data\n"
-                      "    knetwm, kstnm, khole, kcmpnm [kzdate/kztime]\n"
-                      "    or net, sta, loc, and cha [time/start/end]");
-            }
-        }
-    } else {
-        error(*nerr = 3264, "Response request either requires a data file with meta data\n"
-              "    knetwm, kstnm, khole, kcmpnm [kzdate/kztime]\n"
-              "    or net, sta, loc, and cha [time/start/end]");
-        goto error;
-    }
- error:
-    REQUEST_FREE(pz);
-    RESULT_FREE(r);
-
-    return;
-}
+void  response_request(int *nerr);
 
 
 /**
@@ -453,7 +321,7 @@ xdfmc(int index, int *nerr) {
     goto L_8888;
 
  L_3400:
-    sacpz_request(nerr);
+    response_request(nerr);
     goto L_8888;
  L_3500:
     event_request(nerr);

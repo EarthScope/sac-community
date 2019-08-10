@@ -412,7 +412,7 @@ EXTRA_DIST = $(EXTRA_ALWAYS) \
 		    Readme.buildsac \
 		    bin inc lib macros include \
                     doc/README doc/examples \
-                    $(SACAUX_DIR) 
+                    $(SACAUX_DIR)
 
 
 # Extra Subdirectories/Files to install 
@@ -428,7 +428,10 @@ EXTRA_INSTALL = macros $(EXTRA_ALWAYS) \
 		   lib/README_lib \
 		   include doc/examples doc/README $(SACAUX_DIR)
 
-include_HEADERS = include/sacio.h include/evalresp.h include/sac.h include/sacf.h
+include_HEADERS = include/sacio.h include/evalresp.h \
+                  include/sac.h include/sacf.h \
+                  include/timespec.h
+
 bin_SCRIPTS = bin/sacinit.sh \
 	      bin/sacinit.csh \
 	      bin/sgftoeps.csh \
@@ -979,9 +982,13 @@ uninstall-am: uninstall-binSCRIPTS uninstall-includeHEADERS
 .PRECIOUS: Makefile
 
 
-include/sacio.h: $(top_srcdir)/sacio/sacio.h
-	[ ! -e include ] && mkdir include
+include:
+	mkdir -p include
+
+include/sacio.h: include $(top_srcdir)/sacio/sacio.h
 	cp $(top_srcdir)/sacio/sacio.h include/sacio.h
+include/timespec.h: include $(top_srcdir)/sacio/timespec.h
+	cp $(top_srcdir)/sacio/timespec.h include/timespec.h
 
 # Rules to install Extra Subdirectories and Files
 install-data-hook:

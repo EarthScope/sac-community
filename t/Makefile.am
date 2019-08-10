@@ -19,7 +19,7 @@ endif
 #
 # Options for testing the compiled code directly
 #
-SAC_INCLUDES     = -I$(top_srcdir)/inc  -I$(top_srcdir)
+SAC_INCLUDES     = -I$(top_srcdir)/inc  -I$(top_srcdir) -I../include
 CFLAGS          += $(DEBUG) $(COVERAGE) $(OPTIM) -Wall \
 			 $(SAC_INCLUDES) \
 			 -DTOP_SRCDIR=\"$(top_srcdir)\"
@@ -43,7 +43,7 @@ endif
 if OSX_APP
 #SAC_GRAPHICS     += -lsac_osx
 endif
-SAC_GRAPHICS     +=  -lsgf -lturtle -lsac_all 
+SAC_GRAPHICS     +=  -lsgf -lturtle -lsac_all
 
 if X11_APP
 LDADD            +=  $(X_PRE_LIBS) $(X_EXTRA_LIBS) $(X_LIBS)
@@ -55,7 +55,7 @@ if X11_APP
 LDADD            += -lX11
 endif
 
-LDADD            += -L. -lunit ../sacio/libsacio_bsd.a ../libmseed/libmseed.a $(LIBCURL)
+LDADD            += -L. -lunit ../src/libsacio.a ../libmseed/libmseed.a $(LIBCURL)
 
 
 

@@ -4,6 +4,7 @@
 #include "event.h"
 #include "station.h"
 #include "stationreq.h"
+#include "response.h"
 #include "datareq.h"
 #include "meta.h"
 #include "miniseed_sac.h"

@@ -256,7 +256,7 @@ libicm_a_SOURCES = icm/acc.c icm/bbdisp.c icm/bbvel.c \
 	icm/wwlpbn.c icm/wwsp.c icm/wwspbn.c icm/ykalp.c icm/ykasp.c \
 	icm/getran.c
 
-libsac_all_a_SOURCES = bs/iniam.c bs/fid.c bs/octopus.c bs/sacpz.c \
+libsac_all_a_SOURCES = bs/iniam.c bs/fid.c bs/octopus.c \
   bs/strlist.c bs/sacx.h \
   string/array.c string/array.h \
 	\

@@ -24,6 +24,7 @@ libfern_a_SOURCES = cJSON.c cJSON.h \
 										miniseed_sac.c miniseed_sac.h \
 										quake_xml.c \
 										request.c request.h \
+                    response.c response.h \
 										slurp.c slurp.h \
 										station.c station.h \
 										stationreq.c stationreq.h \
