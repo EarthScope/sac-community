@@ -267,8 +267,8 @@ event_request(int *nerr) {
                 lkra("rad#ius$", -1, 4, 4, v, &n) ) {
             if(v[2] < -90.0 || v[2] > 90.0 ||
                v[3] < -90.0 || v[3] > 90.0) {
-                printf("Latitudes should be between -90 and 90\n");
-                *nerr = 3264;
+                error(*nerr = 3264, "Latitudes should be between -90 and 90\n");
+                goto error;
             }
             v[0] = limit_range(v[0], -180.0, 180.0);
             v[1] = limit_range(v[1], -180.0, 180.0);
@@ -289,12 +289,13 @@ event_request(int *nerr) {
     }
 
     if(search == 0) {
-        printf("Not enough search parameters: Use mag, time, depth, or region\n");
-        *nerr = 3264;
+        error(*nerr = 3264, "Not enough search parameters: "
+              "Use mag, time, depth, or region\n");
+        goto error;
     }
     if(search == (SetRegion | SetRadial)) {
-        cprintf("red,bold"," WARNING: Cannot use Region and Radial searches together\n");
-        *nerr = 3264;
+        error(*nerr = 3264, "Cannot use Region and Radial searches together\n");
+        goto error;
     }
     switch(catalog) {
     case 1:
@@ -490,13 +491,11 @@ station_request(int *nerr) {
         }
     }
     if(set == 0) {
-        cprintf("red,bold", " Warning: No station search parameters given\n");
-        *nerr = 3264;
+        error(*nerr = 3264, "No station search parameters given\n");
         goto error;
     }
     if(set & SetRadial && set & SetRegion) {
-        cprintf("red,bold"," WARNING: Cannot use Region and Radial searches together\n");
-        *nerr = 3264;
+        error(*nerr = 3264, "Cannot use Region and Radial searches together\n");
         goto error;
     }
     // Set NSLC for the Request
@@ -694,12 +693,12 @@ data_request_f(int *nerr) {
         }
     }
     if(set == 0 && strlen(reqfile) == 0) {
-        printf("Not enough search parameters: Use time, station, event, or region / radius\n");
-        *nerr = 3264;
+        error(*nerr = 3264, "Not enough search parameters for data search\n"
+              "%14sUse time, station, event, or region / radius\n", "");
+        goto error;
     }
     if(set & SetRegion && set & SetRadial) {
-        cprintf("red,bold"," WARNING: Cannot use Region and Radial searches together\n");
-        *nerr = 3264;
+        error(*nerr = 3264,"Cannot use Region and Radial searches together\n");
         goto error;
     }
     if(*nerr != SAC_OK) {
