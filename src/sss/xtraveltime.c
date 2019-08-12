@@ -86,14 +86,14 @@ set_traveltime(sac *s, int k, char *name, double tt, int lpicks, int verbose) {
         time = tt;
     }
     if (verbose && !lpicks) {
-        fprintf(stdout, "traveltime: %-8s at %f s [ t = %f s ]\n", name, (float) time, (float) tt);
+        fprintf(stdout, "traveltime: %-8s at %.4f s [ t = %.4f s ]\n", name, (float) time, (float) tt);
     }
     if (lpicks && k < 10) {
         sac_set_float(s, k + SAC_T0, time);
         //TN(s)[k] = time;
         sprintf(khdr(s, 6 + k + 1), "%-8s", name);
         if (verbose) {
-            fprintf(stdout, "traveltime: setting phase %-8s at %f s [ t = %f s ] t%d\n", name, (float) time, (float) tt, k);
+            fprintf(stdout, "traveltime: setting phase %-8s at %.4f s [ t = %.4f s ] t%d\n", name, (float) time, (float) tt, k);
         }
         k++;
     }
@@ -442,7 +442,7 @@ xtraveltime(int *nerr) {
     }
 
     if (verbose) {
-        fprintf(stdout, "traveltime: depth: %f km\n", cmtt.ttdep / depth_units);
+        fprintf(stdout, "traveltime: depth: %.3f km\n", cmtt.ttdep / depth_units);
     }
 
     /* EXECUTION PHASE: */
