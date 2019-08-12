@@ -65,7 +65,9 @@ wrci(int idfl, char *kname, int kname_s, char *kfmt, int *nerr) {
     jdx = 1;
     for (jj = 1; jj <= (SAC_HEADER_FLOATS / 5); jj++) {
         for (jjj = jdx; jjj <= (jdx + 4); jjj++) {
-            fprintf(nun, kfmt, VALUE(fhdr(s, jjj)));
+            double v = 0.0;
+            sac_get_float(s, jjj, &v);
+            fprintf(nun, kfmt, v);
         }
         fprintf(nun, "\n");
         jdx = jdx + 5;

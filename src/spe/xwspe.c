@@ -95,13 +95,13 @@ xwspe(nerr)
     s = sac_new();
     sac_header_copy(s, spe);
     s->h->nsnpts = spe->h->npts;
-    s->h->sb = spe->h->b;
-    s->h->sdelta = spe->h->delta;
+    sac_set_float(s, SAC_SB, B(spe));
+    sac_set_float(s, SAC_SDELTA, DT(spe));
 
     s->h->iftype = ITIME;
-    s->h->delta = cmspe.samfrq / (float) (cmspe.nlnspe - 1);
+    sac_set_float(s, SAC_DELTA, cmspe.samfrq / (double) (cmspe.nlnspe - 1));
     s->h->npts = cmspe.nlnspe / 2 + 1;
-    s->h->b = 0.;
+    sac_set_float(s, SAC_B, 0.0);
     s->y = spespe;
     sac_extrema(s);
     sac_be(s);

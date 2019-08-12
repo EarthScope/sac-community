@@ -115,7 +115,7 @@ msr3_parse (char *record, uint64_t recbuflen, MS3Record **ppmsr,
   }
 
   /* Check if more data is required, return hint */
-  if (reclen > recbuflen)
+  if (reclen > 0 && (uint64_t) reclen > recbuflen)
   {
     if (verbose > 2)
       ms_log (1, "Detected %d byte record, need %d more bytes\n",
@@ -227,7 +227,7 @@ ms3_detect (const char *record, uint64_t recbuflen, uint8_t *formatversion)
 
       /* Found a 1000 blockette, not truncated */
       if (blkt_type == 1000 &&
-          (int)(blkt_offset + 8) <= recbuflen)
+          (uint64_t)(blkt_offset + 8) <= recbuflen)
       {
         foundlen = 1;
 
@@ -256,7 +256,7 @@ ms3_detect (const char *record, uint64_t recbuflen, uint8_t *formatversion)
       nextfsdh = record + 64;
 
       /* Check for record header or blank/noise record at MINRECLEN byte offsets */
-      while (((nextfsdh - record) + 48) < recbuflen)
+      while ((nextfsdh - record) >= 48 && (uint64_t) ((nextfsdh - record) + 48) < recbuflen)
       {
         if (MS2_ISVALIDHEADER (nextfsdh))
         {

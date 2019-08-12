@@ -111,14 +111,14 @@ inidfm() {
     cmdfm.ipckt9 = 17;
     cmdfm.ipckf = 18;
 
-    cmdfm.ipckhd[0] = 0;
-    cmdfm.ipckhd[1] = 0;
-    cmdfm.ipckhd[2] = 0;
-    cmdfm.ipckhd[3] = 6;
-    cmdfm.ipckhd[4] = 7;
-    cmdfm.ipckhd[5] = 8;
-    cmdfm.ipckhd[6] = 9;
-    for (jdx = 7; jdx <= 17; jdx++) {
+    cmdfm.ipckhd[0] = 0; // N
+    cmdfm.ipckhd[1] = 0; // Z
+    cmdfm.ipckhd[2] = 0; // G
+    cmdfm.ipckhd[3] = 6; // B
+    cmdfm.ipckhd[4] = 7; // E
+    cmdfm.ipckhd[5] = 8; // O
+    cmdfm.ipckhd[6] = 9; // A
+    for (jdx = 7; jdx <= 17; jdx++) { // T0-T9
         cmdfm.ipckhd[jdx] = jdx + 3 + 1;
     }
 

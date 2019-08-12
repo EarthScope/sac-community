@@ -122,7 +122,7 @@ xlp(nerr)
 
         /* -- Check that corner frequency is within proper range. */
 
-        fnyq = 0.5 / s->h->delta;
+        fnyq = 0.5 / DT(s);
         if (cmsam.cflp > fnyq) {
             *nerr = 1611;
             setmsg("ERROR", *nerr);
@@ -135,7 +135,7 @@ xlp(nerr)
 
         xapiir(s->y, s->h->npts, (char *) kmsam.ktpiir[cmsam.itplp - 1],
                cmsam.tbwlp, cmsam.atnlp, cmsam.npollp, "LP", 0., cmsam.cflp,
-               s->h->delta, cmsam.npaslp);
+               DT(s), cmsam.npaslp);
 
         /* -- Adjust header of file in DFL. */
 

@@ -82,8 +82,8 @@ xdivomega(nerr)
         if (s->h->iftype == IRLIM) {
 
             nfreq = s->h->npts / 2;
-            value = 2.0 * PI * s->h->delta;
-            slope = 2.0 * PI * s->h->delta;
+            value = 2.0 * PI * DT(s);
+            slope = 2.0 * PI * DT(s);
             s->y[0] = 0.0;
             s->x[0] = 0.0;
             for (j = 1; j <= (nfreq - 1); j++) {
@@ -104,8 +104,8 @@ xdivomega(nerr)
             /* -- If amplitude-phase this means: (AMP, PHASE) = (AMP/omega, PHASE-pi/2) */
         } else {
             nfreq = s->h->npts / 2;
-            value = 2. * PI * s->h->delta;
-            slope = 2. * PI * s->h->delta;
+            value = 2. * PI * DT(s);
+            slope = 2. * PI * DT(s);
             s->y[0] = 0;
             const_ = 0.5 * PI;
             s->x[0] += const_;

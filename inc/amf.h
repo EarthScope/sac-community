@@ -18,7 +18,6 @@ void sacclear();
 void sacsort(int (*compare) (const void *a, const void *b));
 sac *sacget_current();
 int sacget_current_id();
-void sac_header_copy(sac * to, sac * from);
 
 int sac_find_filename(char *file);
 
@@ -35,7 +34,6 @@ char *khdr(sac * s, int k);
 
 void sac_buffer_free();
 sac *sac_copy(sac *s);
-void sac_meta_copy(sac *to, sac *from);
 void sac_be(sac *s);
 
 #define CALC_E(s) (s->h->b + s->h->delta * (float)(s->h->npts - 1))
@@ -56,8 +54,8 @@ void sac_be(sac *s);
 #endif
 
 STATIC_INLINE float *
-fhdr(sac * s, int i) {
-    float *fp = (float *) (&(s->h->delta));
+xfhdr(sac * s, int i) {
+    float *fp = (float *) (&(s->h->_delta));
     return &(fp[i - 1]);
 }
 
@@ -79,5 +77,30 @@ lhdr(sac * s, int i) {
     return &(ip[i - 1]);
 }
 
+STATIC_INLINE double
+sac_float(sac *s, int id) {
+    double v = 0.0;
+    sac_get_float(s, id, &v);
+    return v;
+}
+
+#define   A(s) sac_float(s, SAC_A)
+#define   F(s) sac_float(s, SAC_F)
+#define   E(s) sac_float(s, SAC_E)
+#define   O(s) sac_float(s, SAC_O)
+#define   B(s) sac_float(s, SAC_B)
+#define  SB(s) sac_float(s, SAC_SB)
+#define  T0(s) sac_float(s, SAC_T0)
+#define  DT(s) sac_float(s, SAC_DELTA)
+#define SDT(s) sac_float(s, SAC_SDELTA)
+
+#define EVLO(s) sac_float(s, SAC_EVLO)
+#define EVLA(s) sac_float(s, SAC_EVLA)
+#define EVDP(s) sac_float(s, SAC_EVDP)
+#define EVEL(s) sac_float(s, SAC_EVEL)
+#define STLO(s) sac_float(s, SAC_STLO)
+#define STLA(s) sac_float(s, SAC_STLA)
+#define STEL(s) sac_float(s, SAC_STEL)
+#define STDP(s) sac_float(s, SAC_STDP)
 
 #endif /* _AMF_H_ */

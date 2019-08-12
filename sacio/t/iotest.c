@@ -12,9 +12,13 @@ check_sac_file_even(char *file) {
     sac *s = sac_read(file, &nerr);
     assert(nerr == 0);
     assert(s->h->npts == 100);
-    assert(s->h->b == 0.0);
-    assert(s->h->e == 99.0);
-    assert(s->h->delta == 1.0);
+    assert(s->h->_b == 0.0);
+    assert(s->h->_e == 99.0);
+    assert(s->h->_delta == 1.0);
+    assert(s->z->_b == 0.0);
+    assert(s->z->_e == 99.0);
+    assert(s->z->_delta == 1.0);
+    
     assert(s->h->depmin == 0.0);
     assert(s->h->depmax == 1.0);
     assert(s->h->depmen == 0.009999999776482582);
@@ -31,8 +35,9 @@ check_sac_file_even(char *file) {
         assert(strcmp(tmp, "-12345  ") == 0);
     }
     for(i = SAC_DELTA; i <= SAC_UN70; i++) {
-        float v = 0.0;
+        double v = 0.0;
         sac_get_float(s, i, &v);
+        fprintf(stderr, "%d %f\n", i, v);
         if(i == SAC_DELTA) { assert(v == 1.0); }
         else if(i == SAC_DEPMIN) { assert(v == 0.0); }
         else if(i == SAC_DEPMAX) { assert(v == 1.0); }
@@ -74,7 +79,7 @@ check_sac_file_uneven(char *file) {
         assert(strcmp(tmp, "-12345  ") == 0);
     }
     for(i = SAC_DELTA; i <= SAC_UN70; i++) {
-        float v = 0.0;
+        double v = 0.0;
         sac_get_float(s, i, &v);
         if(i == SAC_DEPMIN) { assert(v == 0.0); }
         else if(i == SAC_DEPMAX) { assert(v == 0.904837429523468018); }
@@ -125,7 +130,7 @@ check_sac_file_spec(char *file) {
         assert(strcmp(tmp, "-12345  ") == 0);
     }
     for(i = SAC_DELTA; i <= SAC_UN70; i++) {
-        float v = 0.0;
+        double v = 0.0;
 
         sac_get_float(s, i, &v);
         if(i == SAC_DEPMIN)      { assert(v == 0.00003626910620369017); }

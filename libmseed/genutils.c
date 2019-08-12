@@ -230,6 +230,7 @@ int
 ms_nslc2sid (char *sid, int sidlen, uint16_t flags,
              char *net, char *sta, char *loc, char *chan)
 {
+    (void) flags; /* BS ADDED  */
   char *sptr = sid;
   char xchan[6] = {0};
   int needed = 0;

@@ -620,8 +620,8 @@ xplotrecords(nerr)
             delay =
                 Dlyt[jdfl] + Dlyn[jdfl] * cmsss.del +
                 (Lvm[1] ? Dlyvm[jdfl] : 0);
-            definelimits(Twlim[1], Twlim[2], s->h->b + delay - atime,
-                         s->h->e + delay - atime, s->h->delta, &ioffsettw,
+            definelimits(Twlim[1], Twlim[2], B(s) + delay - atime,
+                         E(s) + delay - atime, DT(s), &ioffsettw,
                          &ioffsetdta, &numplot);
 
             /* Adjust picks for reduced time. maf 961219 */
@@ -745,14 +745,14 @@ xplotrecords(nerr)
             /* Compute delta and begin */
 
             if (cmsss.lorient) {
-                cmgem.xgen.delta = s->h->delta;
+                cmgem.xgen.delta = DT(s);
                 cmgem.xgen.first =
-                    s->h->b + delay + s->h->delta * (float) (ioffsetdta) -
+                    B(s) + delay + DT(s) * (double) (ioffsetdta) -
                     atime;
             } else {
-                cmgem.ygen.delta = s->h->delta;
+                cmgem.ygen.delta = DT(s);
                 cmgem.ygen.first =
-                    s->h->b + delay + s->h->delta * (float) (ioffsetdta) -
+                    B(s) + delay + DT(s) * (double) (ioffsetdta) -
                     atime;
             }
 

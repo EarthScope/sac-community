@@ -227,7 +227,6 @@ xplotdy(int *nerr) {
     if (!(s = sacget(idflnumber[1] - 1, TRUE, nerr))) {
         goto L_8888;
     }
-    //getfil( idflnumber[1], TRUE, &num, &nlcy, &nlcx, nerr );
 
     getxlm(&cmgem.lxlim, &cmgem.ximn, &cmgem.ximx);
     num = min(s->h->npts, dy->h->npts);
@@ -294,7 +293,7 @@ xplotdy(int *nerr) {
     for (idx = 1; idx <= num; idx++) {
 
         if (s->h->leven) {
-            Xarray[1] = (float) (idx - 1) * s->h->delta + s->h->b;
+            Xarray[1] = (double) (idx - 1) * DT(s) + B(s);
         } else {
             Xarray[1] = s->x[idx - 1];
         }

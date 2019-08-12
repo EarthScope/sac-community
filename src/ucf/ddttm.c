@@ -28,7 +28,7 @@
  *
  */
 void
-ddttm(int *ndttm1, int *ndttm2, float *diff) {
+ddttm(int *ndttm1, int *ndttm2, double *diff) {
 
     int nday;
 

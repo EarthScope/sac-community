@@ -54,10 +54,11 @@ xppk(int *nerr) {
         ndxpk, nexday, nfr, nlncda, nperfr, npmark, npmsec, npsec,
         nsavelast = 0, nst, unused;
     float amplmn, amplmx, facc, fsecsi, prl, psecsi, seccur, secinc = 0.0, ssecsi,
-        time, tmax, tmin, tminew = 0.0,  *toff, tref1, twin[MWIN][2],
+        time, tminew = 0.0, tref1, twin[MWIN][2],
         xloc, xloc1, xloc2, xtpos, *yimnzs, *yimxzs, yloc,
         ypdel, ypdelv, ypmns, ypmnv, ypmxs, ypmxus, ypmxv, ytpos;
-    double tmp;
+    double tmp, tmin, tmax;
+    double *toff = NULL;
     double xlocs1, xlocs2;
     sac *s;
     int j;
@@ -145,7 +146,7 @@ xppk(int *nerr) {
 
     lhlwrt = xarray_new_with_len('i', saclen() + 1);
     lzdttm = xarray_new_with_len('i', saclen() + 1);
-    toff = xarray_new_with_len('f', saclen() + 1);
+    toff = xarray_new_with_len('d', saclen() + 1);
     yimnzs = xarray_new_with_len('f', saclen() + 1);
     yimxzs = xarray_new_with_len('f', saclen() + 1);
 
@@ -365,8 +366,8 @@ xppk(int *nerr) {
         getylm(&cmgem.lylim, &cmgem.yimn, &cmgem.yimx);
         if (s->h->leven) {
             cmgem.xgen.on = TRUE;
-            cmgem.xgen.first = s->h->b + toff[j];
-            cmgem.xgen.delta = s->h->delta;
+            cmgem.xgen.first = B(s) + toff[j];
+            cmgem.xgen.delta = DT(s);
         } else {
             cmgem.xgen.on = FALSE;
         }
@@ -379,20 +380,20 @@ xppk(int *nerr) {
         disppk(toff[j]);
         yimnzs[jdfl] = cmgem.zdata.ymin;
         yimxzs[jdfl] = cmgem.zdata.ymax;
-        cmeam.lpphas = (cmeam.lhpfop && s->h->a != SAC_FLOAT_UNDEFINED) &&
+        cmeam.lpphas = (cmeam.lhpfop && A(s) != SAC_FLOAT_UNDEFINED) &&
             s->h->ka[0] == 'P';
         cmeam.lpphas = cmeam.lpphas && lzdttm[jdfl];
-        cmeam.lsphas = s->h->t0 != SAC_FLOAT_UNDEFINED && s->h->kt0[0] == 'S';
-        cmeam.lfini = s->h->f != SAC_FLOAT_UNDEFINED;
+        cmeam.lsphas = T0(s) != SAC_FLOAT_UNDEFINED && s->h->kt0[0] == 'S';
+        cmeam.lfini = F(s) != SAC_FLOAT_UNDEFINED;
         if (cmeam.lpphas) {
-            psecsi = s->h->a;
+            psecsi = A(s);
             fstrncpy(kmeam.kpwave, 8, s->h->ka, 4);
             if (cmeam.lsphas) {
-                ssecsi = s->h->t0;
+                ssecsi = T0(s);
                 fstrncpy(kmeam.kswave, 8, s->h->kt0, 4);
             }
             if (cmeam.lfini)
-                fsecsi = s->h->f;
+                fsecsi = F(s);
             inctim(s->h->nzhour, s->h->nzmin, s->h->nzsec, s->h->nzmsec, psecsi,
                    &cmeam.nphour, &cmeam.npmin, &npsec, &npmsec, &nexday);
             cmeam.psecs = tosecs(npsec, npmsec);
@@ -580,32 +581,32 @@ xppk(int *nerr) {
         }
         //getfil( jdfl, TRUE, &nlen, &nlcy, &nlcx, nerr );
 
-        cmeam.lpphas = s->h->a != SAC_FLOAT_UNDEFINED && s->h->ka[0] == 'P';
+        cmeam.lpphas = A(s) != SAC_FLOAT_UNDEFINED && s->h->ka[0] == 'P';
         cmeam.lpphas = cmeam.lpphas && lzdttm[jdfl];
-        cmeam.lsphas = s->h->t0 != SAC_FLOAT_UNDEFINED && s->h->kt0[0] == 'S';
-        cmeam.lfini = s->h->f != SAC_FLOAT_UNDEFINED;
+        cmeam.lsphas = T0(s) != SAC_FLOAT_UNDEFINED && s->h->kt0[0] == 'S';
+        cmeam.lfini = F(s) != SAC_FLOAT_UNDEFINED;
         if (cmeam.lpphas) {
-            psecsi = s->h->a;
+            psecsi = A(s);
             fstrncpy(kmeam.kpwave, 8, s->h->ka, 4);
             ktype = kmeam.kpwave[0];
             kdir = kmeam.kpwave[2];
             kqual = kmeam.kpwave[3];
             lempty = FALSE;
             if (cmeam.lsphas) {
-                ssecsi = s->h->t0;
+                ssecsi = T0(s);
                 fstrncpy(kmeam.kswave, 8, s->h->kt0, 4);
             }
             if (cmeam.lfini)
-                fsecsi = s->h->f;
+                fsecsi = F(s);
         } else if (cmeam.lsphas) {
-            ssecsi = s->h->t0;
+            ssecsi = T0(s);
             fstrncpy(kmeam.kswave, 8, s->h->kt0, 4);
             ktype = kmeam.kswave[0];
             kdir = kmeam.kswave[2];
             kqual = kmeam.kswave[3];
             lempty = FALSE;
             if (cmeam.lfini)
-                fsecsi = s->h->f;
+                fsecsi = F(s);
         }
     }
 
@@ -774,8 +775,8 @@ xppk(int *nerr) {
 
     /* -- Characterize first arrival. */
     else if (kchar == 'C') {
-        ndxpk = 1 + (int) ((secinc - s->h->b) / s->h->delta + 0.9);
-        pkchar(s->y, s->h->npts, s->h->delta, ndxpk, &ktype, &kdir, &kqual);
+        ndxpk = 1 + (int) ((secinc - B(s)) / DT(s) + 0.9);
+        pkchar(s->y, s->h->npts, DT(s), ndxpk, &ktype, &kdir, &kqual);
 
         fstrncpy(kmeam.kpkid, 8, (char *) &ktype, 1);
         fstrncpy(kmeam.kpkid + 1, 8 - 1, "P", 1);
@@ -793,9 +794,9 @@ xppk(int *nerr) {
             lhlwrt[jdfl] = FALSE;
             lhltrm = TRUE;
         }
-        pkeval(s->y, s->h->npts, s->h->delta, ndxpk, &nlncda);
+        pkeval(s->y, s->h->npts, DT(s), ndxpk, &nlncda);
         if (nlncda > 0) {
-            time = s->h->a + s->h->delta * (float) (nlncda);
+            time = A(s) + DT(s) * (float) (nlncda);
             xloc =
                 cmgem.plot.xmin + (time + toff[j] -
                                    tmin) * (cmgem.plot.xmax -
@@ -805,7 +806,7 @@ xppk(int *nerr) {
                 markvert(jmark1, jmark2, &xloc, ypmxv, ypdelv, "F", 2, 0);
             }
             if (cmeam.lhpfop && lzdttm[jdfl]) {
-                fsecsi = s->h->f;
+                fsecsi = F(s);
                 lempty = FALSE;
                 cmeam.lfini = TRUE;
                 lhltrm = TRUE;
@@ -881,7 +882,7 @@ xppk(int *nerr) {
         }
         //getfil( jdfl, TRUE, &nln, &nlcy, &nlcx, nerr );
 
-        nst = (int) ((secinc - s->h->b) / s->h->delta) + 2;
+        nst = (int) ((secinc - B(s)) / DT(s)) + 2;
         wavfrm(s->y, nst, s->h->npts, cmeam.pkampl, 5, iwf, &lwfok);
         // nst - Data Sample to start search from
         // iwf[0] - First value crossing backwards
@@ -890,33 +891,32 @@ xppk(int *nerr) {
         // iwf[3] - Next extrema
         // iwf[4] - Next value crossing
         if (lwfok) {
-            tref1 =
-                s->h->delta * (s->y[Iwf[1] - 1] -
+            tref1 = DT(s) * (s->y[Iwf[1] - 1] -
                                cmeam.pkampl) / (s->y[Iwf[1] - 1] -
                                                 s->y[Iwf[1]]);
             Dtwf[1] = 0.;
             Awf[1] = cmeam.pkampl;
-            Dtwf[2] = s->h->delta * (float) (Iwf[2] - Iwf[1]) - tref1;
+            Dtwf[2] = DT(s) * (float) (Iwf[2] - Iwf[1]) - tref1;
             Awf[2] = s->y[Iwf[2] - 1];
 
             Dtwf[3] =
-                s->h->delta * (s->y[Iwf[3] - 1] -
+                DT(s) * (s->y[Iwf[3] - 1] -
                                cmeam.pkampl) / (s->y[Iwf[3] - 1] -
                                                 s->y[Iwf[3]]) - tref1 +
-                s->h->delta * (float) (Iwf[3] - Iwf[1]);
+                DT(s) * (float) (Iwf[3] - Iwf[1]);
 
             Awf[3] = cmeam.pkampl;
-            Dtwf[4] = s->h->delta * (Iwf[4] - Iwf[1]) - tref1;
+            Dtwf[4] = DT(s) * (Iwf[4] - Iwf[1]) - tref1;
             Awf[4] = s->y[Iwf[4] - 1];
 
             Dtwf[5] =
-                s->h->delta * (s->y[Iwf[5] - 1] -
+                DT(s) * (s->y[Iwf[5] - 1] -
                                cmeam.pkampl) / (s->y[Iwf[5] - 1] -
                                                 s->y[Iwf[5]]) - tref1 +
-                s->h->delta * (float) (Iwf[5] - Iwf[1]);
+                DT(s) * (float) (Iwf[5] - Iwf[1]);
 
             Awf[5] = cmeam.pkampl;
-            secinc = s->h->b + s->h->delta * (float) (Iwf[1] - 1) + tref1;
+            secinc = B(s) + DT(s) * (float) (Iwf[1] - 1) + tref1;
             facc = (cmgem.plot.xmax - cmgem.plot.xmin) / (tmax - tmin);
             xlocs1 = (secinc + toff[j] - tmin) * facc + cmgem.plot.xmin;
             seccur = secinc + Dtwf[5];

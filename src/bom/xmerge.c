@@ -252,8 +252,8 @@ time_range(string_list * list) {
             fprintf(stderr, "Error getting file number: %d\n", i);
             return NULL;
         }
-        t[i - 1].bsec = secs_in_AD(s) + (long int) floor(s->h->b);
-        t[i - 1].psec = s->h->b - floor(s->h->b) + (s->h->nzmsec / 1000.0);
+        t[i - 1].bsec = secs_in_AD(s) + (long int) floor(B(s));
+        t[i - 1].psec = B(s) - floor(B(s)) + (s->h->nzmsec / 1000.0);
         if (t[i - 1].psec >= 1.0) {
             t[i - 1].bsec += (long int) floor(t[i - 1].psec);
             t[i - 1].psec -= floor(t[i - 1].psec);
@@ -268,7 +268,7 @@ time_range(string_list * list) {
         DEBUG("%d %d %d %d %d %d\n", s->h->nzyear, s->h->nzjday, s->h->nzhour,
               s->h->nzmin, s->h->nzsec, s->h->nzmsec);
         t[i - 1].i = i;
-        t[i - 1].dt = s->h->delta;
+        t[i - 1].dt = DT(s);
         t[i - 1].npts = s->h->npts;
         t[i - 1].bn = 0;
         t[i - 1].en = 0;
@@ -352,20 +352,20 @@ time_range(string_list * list) {
 int
 check_delta(string_list * list) {
     int i, y, n;
-    float dt;
+    double dt;
     sac *s;
     n = saclen() + string_list_length(list);
 
     if (!(s = get_file(list, 1, &y))) {
         return FALSE;
     }
-    dt = s->h->delta;
+    dt = DT(s);
     for (i = 2; i <= n; i++) {
         if (!(s = get_file(list, i, &y))) {
             return FALSE;
         }
-        if (fabs(dt - s->h->delta) > 1e-7) {
-            error(1801, "Time Sampling [DELTA]: %f %f\n", dt, s->h->delta);
+        if (fabs(dt - DT(s)) > 1e-7) {
+            error(1801, "Time Sampling [DELTA]: %f %f\n", dt, DT(s));
             return 1801;
         }
         if (!s->h->leven) {
@@ -700,7 +700,7 @@ xmerge_new(int *nerr) {
                 overlap_average(y, mb, e, t, n);
             } else if (overlap == OVERLAP_COMPARE) {
                 DEBUG("   compare %d %d\n", mb, e);
-                if (!overlap_compare(y, mb, e, t, n, list, s->h->b)) {
+                if (!overlap_compare(y, mb, e, t, n, list, B(s))) {
                     *nerr = 9005;
                     goto ERROR;
                 }

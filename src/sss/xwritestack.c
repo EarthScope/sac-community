@@ -110,9 +110,9 @@ xwritestack(nerr)
     s = sac_new();
 
     s->h->iftype = ITIME;
-    s->h->delta = cmsss.del;
+    sac_set_float(s, SAC_DELTA, cmsss.del);
     s->h->npts = cmsss.nlnsum;
-    s->h->b = 0.;
+    sac_set_float(s, SAC_B, 0.0);
     s->y = sss_sum;
     sac_be(s);
     extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen);

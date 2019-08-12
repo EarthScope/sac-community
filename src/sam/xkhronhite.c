@@ -100,7 +100,7 @@ xkhronhite(nerr)
         //getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
 
         /* -- Initialize filter for this file. */
-        filtk(0, cmsam.cutkhr, s->h->delta);
+        filtk(0, cmsam.cutkhr, DT(s));
 
         /* -- Filter this data file. */
         for (j = 0; j < s->h->npts; j++) {

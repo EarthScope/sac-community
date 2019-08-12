@@ -70,7 +70,8 @@ xch(int *nerr) {
     int itemx, ival, j, j1, jdfl;
     int ngdttm[MGDTTM][6], nhdrc[SAC_HEADER_INTEGERS];
     int nia, nitem;
-    float diff, fhdrc[SAC_HEADER_FLOATS];
+    double diff;
+    double fhdrc[SAC_HEADER_FLOATS];
     static int icatg = -1;
     double vallt;
     /* 1 if the corresponding file is to be modified */
@@ -78,9 +79,8 @@ xch(int *nerr) {
     int idx;
     double fnumbr;
     sac *s;
-    float *fp;
     int *ip;
-    float *const Fhdrc = &fhdrc[0] - 1;
+    double *const Fhdrc = &fhdrc[0] - 1;
     int *const Icat = &icat[0] - 1;
     int *const Ihdrc = &ihdrc[0] - 1;
     int *const Item = &item[0] - 1;
@@ -164,7 +164,7 @@ xch(int *nerr) {
                  *      alphanumeric, etc.), verify and save next token. */
                 if (icatx == FLOAT_TYPE) {
                     if (lcreal(&fnumbr)) {
-                        Fhdrc[itemx] = (float) fnumbr;
+                        Fhdrc[itemx] = fnumbr;
                     } else if (lckey("UNDEF$", 7) || !arg()) {
                         Fhdrc[itemx] = SAC_FLOAT_UNDEFINED;
                     } else
@@ -292,16 +292,14 @@ xch(int *nerr) {
             for (j = 1; j <= nitem; j++) {
                 switch (Icat[j]) {
                     case FLOAT_TYPE:
-                        fp = fhdr(s, Item[j]);
-                        VALUE(fp) = Fhdrc[Item[j]];
+                        sac_set_float(s, Item[j], Fhdrc[Item[j]]);
                         if (Item[j] >= 6 && Item[j] <= 20)
                             iztypeMessage(Item[j], s->h->iztype);
                         break;
                     case -1:   // Set Time GMT
                         igdttm = (int) (Fhdrc[Item[j]]);
                         ddttm(&ngdttm[igdttm - 1][0], &s->h->nzyear, &diff);
-                        fp = fhdr(s, Item[j]);
-                        *fp = diff;
+                        sac_set_float(s, Item[j], diff);
                         break;
                     case INT_TYPE:
                         ip = nhdr(s, Item[j]);
@@ -323,36 +321,17 @@ xch(int *nerr) {
 
             /* -- Change all time fields if requested. */
             if (lallt) {
-                s->h->b = s->h->b + vallt;
-                s->h->e = s->h->e + vallt;
-                if (s->h->nzyear != SAC_INT_UNDEFINED)
+                for(int i = SAC_B; i <= SAC_F; i++) {
+                    double t = 0.0;
+                    sac_get_float(s, i, &t);
+                    if(t != SAC_FLOAT_UNDEFINED) {
+                        t += vallt;
+                        sac_set_float(s, i, t);
+                    }
+                }
+                if (s->h->nzyear != SAC_INT_UNDEFINED) {
                     idttm(&s->h->nzyear, -vallt, &s->h->nzyear);
-                if (s->h->a != SAC_FLOAT_UNDEFINED)
-                    s->h->a = s->h->a + vallt;
-                if (s->h->f != SAC_FLOAT_UNDEFINED)
-                    s->h->f = s->h->f + vallt;
-                if (s->h->o != SAC_FLOAT_UNDEFINED)
-                    s->h->o = s->h->o + vallt;
-                if (s->h->t0 != SAC_FLOAT_UNDEFINED)
-                    s->h->t0 = s->h->t0 + vallt;
-                if (s->h->t1 != SAC_FLOAT_UNDEFINED)
-                    s->h->t1 = s->h->t1 + vallt;
-                if (s->h->t2 != SAC_FLOAT_UNDEFINED)
-                    s->h->t2 = s->h->t2 + vallt;
-                if (s->h->t3 != SAC_FLOAT_UNDEFINED)
-                    s->h->t3 = s->h->t3 + vallt;
-                if (s->h->t4 != SAC_FLOAT_UNDEFINED)
-                    s->h->t4 = s->h->t4 + vallt;
-                if (s->h->t5 != SAC_FLOAT_UNDEFINED)
-                    s->h->t5 = s->h->t5 + vallt;
-                if (s->h->t6 != SAC_FLOAT_UNDEFINED)
-                    s->h->t6 = s->h->t6 + vallt;
-                if (s->h->t7 != SAC_FLOAT_UNDEFINED)
-                    s->h->t7 = s->h->t7 + vallt;
-                if (s->h->t8 != SAC_FLOAT_UNDEFINED)
-                    s->h->t8 = s->h->t8 + vallt;
-                if (s->h->t9 != SAC_FLOAT_UNDEFINED)
-                    s->h->t9 = s->h->t9 + vallt;
+                }
             }
 
             /* -- Recompute ending time if appropriate. */

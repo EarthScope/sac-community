@@ -68,7 +68,6 @@ rdci(int idfl, char *kname, int kname_s, int *nlen, int *ndx1, int *ndx2,
     char *kiptr;
     int k;
     sac *s;
-    float *fp;
     int *ip;
     int *const Ilhdr = &ilhdr[0] - 1;
     UNUSED(ndx1);
@@ -94,8 +93,9 @@ rdci(int idfl, char *kname, int kname_s, int *nlen, int *ndx1, int *ndx2,
             kiptr = strtok(jjj == jdx ? kiline : NULL, " ");
             if (!kiptr)
                 break;
-            fp = fhdr(s, jjj);
-            VALUE(fp) = atof(kiptr);
+            //fp = fhdr(s, jjj);
+            //VALUE(fp) = atof(kiptr);
+            sac_set_float(s, jjj, atof(kiptr));
         }
         jdx = jdx + 5;
     }
@@ -192,7 +192,7 @@ rdci(int idfl, char *kname, int kname_s, int *nlen, int *ndx1, int *ndx2,
 
     /* - Make sure the most important header values are defined. */
 
-    if (s->h->npts == SAC_INT_UNDEFINED || s->h->b == SAC_FLOAT_UNDEFINED) {
+    if (s->h->npts == SAC_INT_UNDEFINED || B(s) == SAC_FLOAT_UNDEFINED) {
         *nerr = ERROR_READING_CARD_IMAGE_HEADER;
         setmsg("ERROR", *nerr);
         goto L_8888;

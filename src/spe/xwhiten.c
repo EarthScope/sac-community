@@ -97,7 +97,7 @@ xwhiten(nerr)
     }
 
     temp[0] = '\0';
-    prewit(spe->y, spe->h->npts, spe->h->delta, &cmspe.nprewh, cmspe.cprewh,
+    prewit(spe->y, spe->h->npts, DT(spe), &cmspe.nprewh, cmspe.cprewh,
            kname, temp);
 
     if (temp[0])

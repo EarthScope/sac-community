@@ -37,13 +37,13 @@ void
 xsynch(int *nerr) {
 
     int i, nb, *ndttmi, *ndttmo;
-    float *begi, *bego, dtnew;
+    double *begi, *bego, dtnew;
 
     static int lbegin = FALSE;
     sac *s;
     *nerr = 0;
-    begi = xarray_new_with_len('f', saclen());
-    bego = xarray_new_with_len('f', saclen());
+    begi = xarray_new_with_len('d', saclen());
+    bego = xarray_new_with_len('d', saclen());
     ndttmi = xarray_new_with_len('i', saclen() * 6);
     ndttmo = xarray_new_with_len('i', saclen() * 6);
 
@@ -89,7 +89,7 @@ xsynch(int *nerr) {
         }
         //getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
 
-        begi[i] = s->h->b;
+        begi[i] = B(s);
         copyi(&s->h->nzyear, &ndttmi[i * 6], 6);
     }
 
@@ -109,40 +109,22 @@ xsynch(int *nerr) {
         /* -- Update time header fields.
          *    New beginning offsets are set to exact value or they
          *    may be rounded to the nearest multiple of DELTA. */
-        dtnew = bego[i] - s->h->b;
+        dtnew = bego[i] - B(s);
         if (cmdfm.lround) {
-            nb = (int) (bego[i] / s->h->delta + sign(0.5, s->h->b));
-            s->h->b = s->h->delta * (float) (nb);
+            nb = (int) (bego[i] / DT(s) + sign(0.5, B(s)));
+            sac_set_float(s, SAC_B, DT(s) + (double) nb);
         } else {
-            s->h->b = s->h->b + dtnew;
+            sac_set_float(s, SAC_B, B(s) + dtnew);
         }
         sac_be(s);
-        if (s->h->a != SAC_FLOAT_UNDEFINED)
-            s->h->a = s->h->a + dtnew;
-        if (s->h->f != SAC_FLOAT_UNDEFINED)
-            s->h->f = s->h->f + dtnew;
-        if (s->h->o != SAC_FLOAT_UNDEFINED)
-            s->h->o = s->h->o + dtnew;
-        if (s->h->t0 != SAC_FLOAT_UNDEFINED)
-            s->h->t0 = s->h->t0 + dtnew;
-        if (s->h->t1 != SAC_FLOAT_UNDEFINED)
-            s->h->t1 = s->h->t1 + dtnew;
-        if (s->h->t2 != SAC_FLOAT_UNDEFINED)
-            s->h->t2 = s->h->t2 + dtnew;
-        if (s->h->t3 != SAC_FLOAT_UNDEFINED)
-            s->h->t3 = s->h->t3 + dtnew;
-        if (s->h->t4 != SAC_FLOAT_UNDEFINED)
-            s->h->t4 = s->h->t4 + dtnew;
-        if (s->h->t5 != SAC_FLOAT_UNDEFINED)
-            s->h->t5 = s->h->t5 + dtnew;
-        if (s->h->t6 != SAC_FLOAT_UNDEFINED)
-            s->h->t6 = s->h->t6 + dtnew;
-        if (s->h->t7 != SAC_FLOAT_UNDEFINED)
-            s->h->t7 = s->h->t7 + dtnew;
-        if (s->h->t8 != SAC_FLOAT_UNDEFINED)
-            s->h->t8 = s->h->t8 + dtnew;
-        if (s->h->t9 != SAC_FLOAT_UNDEFINED)
-            s->h->t9 = s->h->t9 + dtnew;
+        for(int j = SAC_O; j <= SAC_F; j++) {
+            double v = 0.0;
+            sac_get_float(s, j, &v);
+            if (v != SAC_FLOAT_UNDEFINED) {
+                v = v + dtnew;
+                sac_set_float(s, j, v);
+            }
+        }
         copyi(&ndttmo[i * 6], &s->h->nzyear, 6);
 
     }

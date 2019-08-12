@@ -151,8 +151,8 @@ xp(int *nerr) {
 
         /* -- Set up x axis data generation parameters if evenly spaced. */
         if (s->h->leven) {
-            cmgem.xgen.delta = s->h->delta;
-            cmgem.xgen.first = s->h->b;
+            cmgem.xgen.delta = DT(s);
+            cmgem.xgen.first = B(s);
             cmgem.xgen.on = TRUE;
         } else {
             cmgem.xgen.on = FALSE;

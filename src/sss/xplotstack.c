@@ -256,8 +256,8 @@ xplotstack(nerr)
             /* --- Set up delay and compute intersection of file's data and plot's 
              *     time windows.  This determines how many data points to plot. */
             delay = Dlyt[jdfl] + Dlyn[jdfl] * cmsss.del + Dlyvm[jdfl];
-            definelimits(Twlim[1], Twlim[2], s->h->b + delay, s->h->e + delay,
-                         s->h->delta, &ioffsettw, &ioffsetdta, &numplot);
+            definelimits(Twlim[1], Twlim[2], B(s) + delay, E(s) + delay,
+                         DT(s), &ioffsettw, &ioffsetdta, &numplot);
             /* -- Set up plot parameters and plot. */
             factor = 1.;
             if (cmsss.lpswt)
@@ -273,7 +273,7 @@ xplotstack(nerr)
             getxlm(&cmgem.lxlim, &cmgem.ximn, &cmgem.ximx);
             getylm(&cmgem.lylim, &cmgem.yimn, &cmgem.yimx);
             cmgem.xgen.first =
-                s->h->b + delay + s->h->delta * (float) (ioffsetdta);
+                B(s) + delay + DT(s) * (float) (ioffsetdta);
             pl2d((float *) &unused, s->y + ioffsetdta, numplot, 1, 1, nerr);
             if (*nerr != 0)
                 goto L_7777;

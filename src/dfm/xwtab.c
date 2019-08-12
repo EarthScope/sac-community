@@ -248,8 +248,7 @@ xwtab(int *nerr) {
         if (cmdfm.lheader) {
             /* if leven, write begin and delta */
             if (s->h->leven) {
-                fprintf(nun, "Begin time: %f ;  Delta time: %f\n", s->h->b,
-                        s->h->delta);
+                fprintf(nun, "Begin time: %f ;  Delta time: %f\n", B(s), DT(s));
             } else
                 fprintf(nun, "Unevenly spaced data.\n");
 
@@ -269,15 +268,14 @@ xwtab(int *nerr) {
         else if (s->h->leven) {
             switch (s->h->iftype) {
                 case ITIME:    /* one calculated column, one read column */
-                    if (s->h->b == SAC_FLOAT_UNDEFINED ||
-                        s->h->delta == SAC_FLOAT_UNDEFINED) {
+                    if (B(s) == SAC_FLOAT_UNDEFINED || DT(s) == SAC_FLOAT_UNDEFINED) {
                         warning(1393, " %d", jdfl);
                         outmsg();
                         clrmsg();
                     }
                     for (idx = 0; idx < s->h->npts; idx++) {
                         fprintf(nun, "%0 13.6e\t%0 13.6e\n",
-                                s->h->b + (s->h->delta * (float) idx),
+                                B(s) + (DT(s) * (double) idx),
                                 s->y[idx]);
                     }
                     fflush(nun);
@@ -286,15 +284,14 @@ xwtab(int *nerr) {
                 case IRLIM:
                 case IAMPH:
                 case IXYZ:     /* one calc, two read */
-                    if (s->h->b == SAC_FLOAT_UNDEFINED ||
-                        s->h->delta == SAC_FLOAT_UNDEFINED) {
+                    if (B(s) == SAC_FLOAT_UNDEFINED || DT(s) == SAC_FLOAT_UNDEFINED) {
                         warning(1393, " %d", jdfl);
                         outmsg();
                         clrmsg();
                     }
                     for (idx = 0; idx < s->h->npts; idx++) {
                         fprintf(nun, "%0 13.6e\t%0 13.6e\t%0 13.6e\n",
-                                s->h->b + (s->h->delta * (float) idx),
+                                B(s) + (DT(s) * (float) idx),
                                 s->y[idx], s->x[idx]);
                     }
                     fflush(nun);
@@ -330,15 +327,14 @@ xwtab(int *nerr) {
                 case IRLIM:
                 case IAMPH:
                 case IXYZ:     /* pretend it's leven */
-                    if (s->h->b == SAC_FLOAT_UNDEFINED ||
-                        s->h->delta == SAC_FLOAT_UNDEFINED) {
+                    if (B(s) == SAC_FLOAT_UNDEFINED || DT(s) == SAC_FLOAT_UNDEFINED) {
                         warning(1393, " %d", jdfl);
                         outmsg();
                         clrmsg();
                     }
                     for (idx = 0; idx < s->h->npts; idx++) {
                         fprintf(nun, "%0 13.6e\t%0 13.6e\t%0 13.6e\n",
-                                s->h->b + (s->h->delta * (float) idx),
+                                B(s) + (DT(s) * (float) idx),
                                 s->y[idx], s->x[idx]);
                     }
                     fflush(nun);

@@ -42,7 +42,7 @@ GAM_EXTERN
      - Non-zero on Error (sets nerr)
  */
 int
-calc_time_offsets(int lrelative, float *toff, int n1, int n2, float *ptmin, float *ptmax) {
+calc_time_offsets(int lrelative, double *toff, int n1, int n2, double *ptmin, double *ptmax) {
     int i, j;
     int lxlims, nerr;
     int n1dttm[6];
@@ -115,7 +115,8 @@ xp1(int *nerr) {
         lwait, lxgrdsave, lxlabsave, lylabsave, lprint = FALSE, ltry =
         FALSE;
     int jdfl, jdfl1, jdfl2, jfr, jperfr, ncret, nfr, nperfr;
-    float tmax, tmin, *toff, ypdel, ypmxsave;
+    float ypdel, ypmxsave;
+    double *toff = NULL, tmin, tmax;
     sac *s;
     static int lrel = FALSE;
     static int lperpl = FALSE;
@@ -255,8 +256,8 @@ xp1(int *nerr) {
     plsave();
 
     /* initialize plot offsets */
-    toff = xarray_new_with_len('f', saclen() + 1);
-    memset(toff, 0.0, sizeof(float) * saclen() + 1);
+    toff = xarray_new_with_len('d', saclen() + 1);
+    memset(toff, 0.0, sizeof(double) * saclen() + 1);
 
     /* - Set up specific options that apply only to this plot. */
 
@@ -354,8 +355,8 @@ xp1(int *nerr) {
 
             if (s->h->leven) {
                 cmgem.xgen.on = TRUE;
-                cmgem.xgen.delta = s->h->delta;
-                cmgem.xgen.first = s->h->b + toff[jperfr];
+                cmgem.xgen.delta = DT(s);
+                cmgem.xgen.first = B(s) + toff[jperfr];
             } else {
                 cmgem.xgen.on = FALSE;
             }

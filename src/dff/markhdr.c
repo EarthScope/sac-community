@@ -47,43 +47,43 @@ markhdr(int jdflrestore, int jdfl1, int jdfl2, char *kvmknm, double vmk,
 
         /* -- Set value of marker. */
         if (kvmknm[0] == 'A') {
-            s->h->a = vmk;
+            sac_set_float(s, SAC_A, vmk);
             fstrncpy(s->h->ka, 8, kimk, strlen(kimk));
         } else if (kvmknm[0] == 'O') {
-            s->h->o = vmk;
+            sac_set_float(s, SAC_O, vmk);
             fstrncpy(s->h->ko, 8, kimk, strlen(kimk));
         } else if (kvmknm[0] == 'F') {
-            s->h->f = vmk;
+            sac_set_float(s, SAC_F, vmk);
             fstrncpy(s->h->kf, 8, kimk, strlen(kimk));
         } else if (memcmp(kvmknm, "T0", 2) == 0) {
-            s->h->t0 = vmk;
+            sac_set_float(s, SAC_T0, vmk);
             fstrncpy(s->h->kt0, 8, kimk, strlen(kimk));
         } else if (memcmp(kvmknm, "T1", 2) == 0) {
-            s->h->t1 = vmk;
+            sac_set_float(s, SAC_T1, vmk);
             fstrncpy(s->h->kt1, 8, kimk, strlen(kimk));
         } else if (memcmp(kvmknm, "T2", 2) == 0) {
-            s->h->t2 = vmk;
+            sac_set_float(s, SAC_T2, vmk);
             fstrncpy(s->h->kt2, 8, kimk, strlen(kimk));
         } else if (memcmp(kvmknm, "T3", 2) == 0) {
-            s->h->t3 = vmk;
+            sac_set_float(s, SAC_T3, vmk);
             fstrncpy(s->h->kt3, 8, kimk, strlen(kimk));
         } else if (memcmp(kvmknm, "T4", 2) == 0) {
-            s->h->t4 = vmk;
+            sac_set_float(s, SAC_T4, vmk);
             fstrncpy(s->h->kt4, 8, kimk, strlen(kimk));
         } else if (memcmp(kvmknm, "T5", 2) == 0) {
-            s->h->t5 = vmk;
+            sac_set_float(s, SAC_T5, vmk);
             fstrncpy(s->h->kt5, 8, kimk, strlen(kimk));
         } else if (memcmp(kvmknm, "T6", 2) == 0) {
-            s->h->t6 = vmk;
+            sac_set_float(s, SAC_T6, vmk);
             fstrncpy(s->h->kt6, 8, kimk, strlen(kimk));
         } else if (memcmp(kvmknm, "T7", 2) == 0) {
-            s->h->t7 = vmk;
+            sac_set_float(s, SAC_T7, vmk);
             fstrncpy(s->h->kt7, 8, kimk, strlen(kimk));
         } else if (memcmp(kvmknm, "T8", 2) == 0) {
-            s->h->t8 = vmk;
+            sac_set_float(s, SAC_T8, vmk);
             fstrncpy(s->h->kt8, 8, kimk, strlen(kimk));
         } else if (memcmp(kvmknm, "T9", 2) == 0) {
-            s->h->t9 = vmk;
+            sac_set_float(s, SAC_T9, vmk);
             fstrncpy(s->h->kt9, 8, kimk, strlen(kimk));
         }
 

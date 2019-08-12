@@ -367,8 +367,14 @@ int statimcmp(sac *a, sac *b) {
     CHECK_HEADER_INT(a,b,nzsec);
     CHECK_HEADER_INT(a,b,nzmsec);
 
-    CHECK_HEADER_FLOAT(a,b,delta);
-    CHECK_HEADER_FLOAT(a,b,b);
+    if(DT(a) != DT(b)) {
+        printf("Header field delta disagrees (%g vs %g)\n", DT(a), DT(b));
+        return 1;
+    }
+    if(B(a) != B(b)) {
+        printf("Header field b disagrees (%g vs %g)\n", B(a), B(b));
+        return 1;
+    }
 
     CHECK_HEADER_STRING(a,b,kstnm);
 

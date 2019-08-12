@@ -63,7 +63,7 @@ wrsegy(int idfl, char *filename, int *nerr) {
 
     double data_roof, data_max;
 
-    double scale, value;
+    double scale, value, v = 0.0;
     int swap;
     int *idata, idx, bytesOdata, segyFile = -1, check;
     sac *s;
@@ -131,28 +131,23 @@ wrsegy(int idfl, char *filename, int *nerr) {
     outHdr.sourceDepth = s->h->evdp == -12345. ? 0 : s->h->evdp + 0.5;
     outHdr.elevationScale = 1;
     outHdr.coordScale = 1;
-    outHdr.sourceLongOrX =
-        s->h->evlo == -12345. ? 0 : (s->h->evlo * 3600) + (s->h->evlo <
-                                                           0 ? -.5 : .5);
-    outHdr.sourceLatOrY =
-        s->h->evla == -12345. ? 0 : (s->h->evla * 3600) + (s->h->evla <
-                                                           0 ? -.5 : .5);
-    outHdr.recLongOrX =
-        s->h->stlo == -12345. ? 0 : (s->h->stlo * 3600.0) + (s->h->stlo <
-                                                             0 ? -.5 : .5);
-    outHdr.recLatOrY =
-        s->h->stla == -12345. ? 0 : (s->h->stla * 3600.0) + (s->h->stla <
-                                                             0 ? -.5 : .5);
+    sac_get_float(s, SAC_EVLO, &v);
+    outHdr.sourceLongOrX = v == -12345. ? 0 : (v * 3600) + (v < 0 ? -.5 : .5);
+    sac_get_float(s, SAC_EVLA, &v);
+    outHdr.sourceLatOrY = v == -12345. ? 0 : (v * 3600) + (v < 0 ? -.5 : .5);
+    sac_get_float(s, SAC_STLO, &v);
+    outHdr.recLongOrX = v == -12345. ? 0 : (v * 3600.0) + (v < 0 ? -.5 : .5);
+    sac_get_float(s, SAC_STLA, &v);
+    outHdr.recLatOrY = v == -12345. ? 0 : (v * 3600.0) + (v < 0 ? -.5 : .5);
     outHdr.coordUnits = 2;
     outHdr.sampleLength =
         s->h->npts == -12345. ? 0 : (s->h->npts >= 32767 ? 32767 : s->h->npts);
     outHdr.num_samps = s->h->npts == -12345. ? 0 : s->h->npts;
+    sac_get_float(s, SAC_DELTA, &v);
     outHdr.deltaSample =
-        s->h->delta == -12345. ? 0 : (s->h->delta * 1000000 >=
-                                      32767 ? 1 : (s->h->delta * 1000000) +
-                                      0.5);
+        v == -12345. ? 0 : (v * 1000000 >= 32767 ? 1 : (v * 1000000) + 0.5);
     outHdr.samp_rate =
-        s->h->delta == -12345. ? 0 : (s->h->delta * 1000000) + 0.5;
+        v == -12345. ? 0 : (v * 1000000) + 0.5;
 
     outHdr.gainType = 1;
     outHdr.gainConst = 1;
@@ -163,11 +158,11 @@ wrsegy(int idfl, char *filename, int *nerr) {
     outHdr.hour = s->h->nzhour == -12345. ? 0 : (short) s->h->nzhour;
     outHdr.minute = s->h->nzmin == -12345. ? 0 : (short) s->h->nzmin;
 
-    if (s->h->b != -12345.) {
-        outHdr.second = (int) (s->h->b);
+    sac_get_float(s, SAC_B, &v);
+    if (v != -12345.) {
+        outHdr.second = (int) (v);
         outHdr.m_secs =
-            ((s->h->b - (float) outHdr.second) * 1000.) + (s->h->b >
-                                                           0 ? 0.5 : -0.5);
+            ((v - (float) outHdr.second) * 1000.) + (v > 0 ? 0.5 : -0.5);
         outHdr.second += s->h->nzsec == -12345. ? 0 : s->h->nzsec;
         outHdr.m_secs += s->h->nzmsec == -12345. ? 0 : s->h->nzmsec;
 
@@ -184,11 +179,11 @@ wrsegy(int idfl, char *filename, int *nerr) {
     outHdr.trigday = s->h->nzjday == -12345. ? 0 : s->h->nzjday;
     outHdr.trighour = s->h->nzhour == -12345. ? 0 : s->h->nzhour;
     outHdr.trigminute = s->h->nzmin == -12345. ? 0 : s->h->nzmin;
-    if (s->h->o != -12345.) {
-        outHdr.trigsecond = (int) (s->h->o);
+    sac_get_float(s, SAC_O, &v);
+    if (v != -12345.) {
+        outHdr.trigsecond = (int) (v);
         outHdr.trigmills =
-            ((s->h->o - (float) outHdr.trigsecond) * 1000.) + (s->h->o >
-                                                               0 ? 0.5 : -0.5);
+            ((v - (float) outHdr.trigsecond) * 1000.) + (v > 0 ? 0.5 : -0.5);
         outHdr.trigsecond += s->h->nzsec == -12345. ? 0 : s->h->nzsec;
         outHdr.trigmills += s->h->nzmsec == -12345. ? 0 : s->h->nzmsec;
 

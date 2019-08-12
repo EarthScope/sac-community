@@ -58,7 +58,6 @@ void rsac2(char *kname, float *yarray, int *nlen, float *xarray, int *max_,
            int *nerr, int kname_s);
 void sacio_initialize_common();
 int sac_check_header_version(float *hdr, int *nerr);
-void sac_check_time_precision(sac_hdr *h);
 void sac_header_swap(float *hdr);
 int sac_header_read(int nun, sac * s, int *nerr);
 void sac_header_write(int nun, float *hdr, char *khdr, int swap, int *nerr);

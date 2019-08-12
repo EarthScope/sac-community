@@ -85,7 +85,7 @@ gettime(int lmax, int lvalue, double tvalue, double *value) {
     for (j = 0; j < s->h->npts; j++) {
         if ((lmax && s->y[j] >= tvalue) || (!lmax && s->y[j] <= tvalue)) {
             if (s->h->leven) {
-                *value = s->h->b + s->h->delta * j;
+                *value = B(s) + DT(s) * j;
             } else {
                 *value = s->x[j];
             }

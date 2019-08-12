@@ -146,15 +146,14 @@ xplotpm(int *nerr) {
         if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
             goto L_8888;
         }
-        //getfil( jdfl, TRUE, &nlen, &ndxy, &junk, nerr );
 
         /* -- Determine how much of first file to plot. */
         getxlm(&lrxlim, &tmin, &tmax);
         if (lrxlim) {
-            start = fmax(tmin, s->h->b);
-            stop = fmin(tmax, s->h->e);
-            iyplot = (int) ((start - s->h->b) / s->h->delta);
-            nplot = (int) ((stop - start) / s->h->delta);
+            start = fmax(tmin, B(s));
+            stop = fmin(tmax, E(s));
+            iyplot = (int) ((start - B(s)) / DT(s));
+            nplot = (int) ((stop - start) / DT(s));
             extrma(&s->y[iyplot], 1, nplot, &ymin, &ymax, &unused);
         } else {
             /* start = *b; */
@@ -179,17 +178,16 @@ xplotpm(int *nerr) {
         if (!(s2 = sacget(jdfl, TRUE, nerr))) {
             goto L_8888;
         }
-        //getfil( jdfl + 1, TRUE, &nlen, &ndxx, &junk, nerr );
 
         /* -- Determine how much of second file to plot. */
         if (lrxlim) {
-            start = fmax(tmin, s2->h->b);
-            stop = fmin(tmax, s2->h->e);
-            ixplot = (int) ((start - s2->h->b) / s2->h->delta);
+            start = fmax(tmin, B(s2));
+            stop = fmin(tmax, E(s2));
+            ixplot = (int) ((start - B(s2)) / DT(s2));
             extrma(&s2->y[ixplot], 1, nplot, &xmin, &xmax, &unused);
         } else {
-            start = s2->h->b;
-            stop = s2->h->e;
+            start = B(s2);
+            stop  = E(s2);
             ixplot = 0;
             xmin = s2->h->depmin;
             xmax = s2->h->depmax;

@@ -595,7 +595,7 @@ msr_pack_data (void *dest, void *src, int maxsamples, int maxdatabytes,
       return -1;
     }
 
-    if (maxdatabytes < sizeof(int16_t))
+    if (maxdatabytes < 0 || (size_t) maxdatabytes < sizeof(int16_t))
     {
       ms_log (2, "%s: Not enough space in record (%d) for INT16 encoding, need at least %d bytes\n",
               sid, maxdatabytes, sizeof(int16_t));
@@ -620,7 +620,7 @@ msr_pack_data (void *dest, void *src, int maxsamples, int maxdatabytes,
       return -1;
     }
 
-    if (maxdatabytes < sizeof(int32_t))
+    if (maxdatabytes < 0 || (size_t) maxdatabytes < sizeof(int32_t))
     {
       ms_log (2, "%s: Not enough space in record (%d) for INT32 encoding, need at least %d bytes\n",
               sid, maxdatabytes, sizeof(int32_t));
@@ -645,7 +645,7 @@ msr_pack_data (void *dest, void *src, int maxsamples, int maxdatabytes,
       return -1;
     }
 
-    if (maxdatabytes < sizeof(float))
+    if (maxdatabytes < 0 || (size_t) maxdatabytes < sizeof(float))
     {
       ms_log (2, "%s: Not enough space in record (%d) for FLOAT32 encoding, need at least %d bytes\n",
               sid, maxdatabytes, sizeof(float));
@@ -670,7 +670,7 @@ msr_pack_data (void *dest, void *src, int maxsamples, int maxdatabytes,
       return -1;
     }
 
-    if (maxdatabytes < sizeof(double))
+    if (maxdatabytes < 0 || (size_t) maxdatabytes < sizeof(double))
     {
       ms_log (2, "%s: Not enough space in record (%d) for FLOAT64 encoding, need at least %d bytes\n",
               sid, maxdatabytes, sizeof(double));

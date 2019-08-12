@@ -202,6 +202,6 @@ void xprint(int *nerr);
 void xsetdevice(int *nerr);
 void xylim(int *nerr);
 
-int calc_time_offsets(int lrelative, float *toff, int n1, int n2, float *ptmin, float *ptmax);
+int calc_time_offsets(int lrelative, double *toff, int n1, int n2, double *ptmin, double *ptmax);
 
 #endif /* _GAM_H_ */

@@ -135,25 +135,25 @@ xinterpolate(nerr)
            Now no default, so it was set to 0.0.  If dtnew
            is not explicitly set, it reverts to DELTA.  */
         if (cmscm.dtnew <= 0.0) {
-            cmscm.dtnew = s->h->delta;
+            cmscm.dtnew = DT(s);
         }
         /* -- Force begin time if requested. */
         if (cmscm.lbreq) {
             xstart = cmscm.breq;
-            if (xstart < s->h->b) {
-                nincr = (int) lround((s->h->b - xstart) / cmscm.dtnew) + 1;
+            if (xstart < B(s)) {
+                nincr = (int) lround((B(s) - xstart) / cmscm.dtnew) + 1;
                 xstart = xstart + (float) (nincr) * cmscm.dtnew;
                 setmsg("WARNING", 2008);
                 wrtmsg(stdout);
                 clrmsg();
             }
-            if (xstart >= s->h->e) {
+            if (xstart >= E(s)) {
                 *nerr = ERROR_INTERPOLATE_BEGIN_TOO_LARGE;
-                error(*nerr, "begin: %f e: %f ", xstart, s->h->e);
+                error(*nerr, "begin: %f e: %f ", xstart, E(s));
                 goto L_8888;
             }
         } else {
-            xstart = s->h->b;
+            xstart = B(s);
         }
 
         /* -- Determine length of interpolated array, allocate block. 
@@ -161,35 +161,35 @@ xinterpolate(nerr)
            remains constant (jas/20100609) */
         if (cmscm.lnreq) {
             newlen = cmscm.nreq;
-            xstop = s->h->e;
+            xstop = E(s);
             cmscm.dtnew = (xstop - xstart) / (float) (newlen - 1);
         } else if (s->h->leven) {
             newlen =
-                (int) lround(s->h->delta *
+                (int) lround(DT(s) *
                              ((float) (s->h->npts) / cmscm.dtnew));
             xstop = xstart + (float) (newlen - 1) * cmscm.dtnew;
-            if (xstop > s->h->e) {
+            if (xstop > E(s)) {
                 newlen = newlen - 1;
                 /* xstop = xstop - cmscm.dtnew; */
             }
         } else {
-            newlen = (int) lround((s->h->e - xstart) / cmscm.dtnew);
+            newlen = (int) lround((E(s) - xstart) / cmscm.dtnew);
             xstop = xstart + (float) (newlen - 1) * cmscm.dtnew;
-            if (xstop > s->h->e) {
+            if (xstop > E(s)) {
                 newlen = newlen - 1;
                 /* xstop = xstop - cmscm.dtnew; */
             }
         }
 
         /* Warn if dtnew greater than *delta */
-        if (s->h->leven && (float) cmscm.dtnew > s->h->delta) {
+        if (s->h->leven && (float) cmscm.dtnew > DT(s)) {
             printf("WARNING potential for aliasing. "
-                   "new delta: %f data delta: %f\n", cmscm.dtnew, s->h->delta);
+                   "new delta: %f data delta: %f\n", cmscm.dtnew, DT(s));
         }
         new = (float *) malloc(sizeof(float) * newlen);
         /*  Calculate epsilon */
         if (s->h->leven) {
-            eps = geteps(s->y, s->h->npts, s->h->delta);
+            eps = geteps(s->y, s->h->npts, DT(s));
         } else {
             /* make sure no dx is less than or equal to zero */
             *nerr = okdf(s->x, s->h->npts);
@@ -201,17 +201,17 @@ xinterpolate(nerr)
 
         /* -- Perform the specific operation on this data file. */
         if (s->h->leven) {
-            interp(s->y, s->h->npts, new, newlen, s->h->b, s->h->e, s->h->delta,
+            interp(s->y, s->h->npts, new, newlen, B(s), E(s), DT(s),
                    xstart, cmscm.dtnew, eps);
         } else {
-            interp2(s->y, s->h->npts, new, newlen, s->h->b, s->h->e, s->x,
+            interp2(s->y, s->h->npts, new, newlen, B(s), E(s), s->x,
                     xstart, cmscm.dtnew, eps);
         }
 
         /* -- Update any header fields that may have changed. */
         s->h->npts = newlen;
-        s->h->delta = cmscm.dtnew;
-        s->h->b = xstart;
+        sac_set_float(s, SAC_DELTA, cmscm.dtnew);
+        sac_set_float(s, SAC_B, xstart);
         sac_be(s);
         FREE(s->y);
         s->y = new;

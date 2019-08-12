@@ -16,7 +16,7 @@ void /*FUNCTION*/
 xwcor(nerr)
      int *nerr;
 {
-    float delcor;
+    double delcor;
     sac *s;
     char *filename;
 
@@ -84,8 +84,8 @@ xwcor(nerr)
 
     s = sac_new();
     s->h->npts = cmspe.nlnfft;
-    s->h->delta = delcor;
-    s->h->b = 0.0;
+    sac_set_float(s, SAC_DELTA, delcor);
+    sac_set_float(s, SAC_B, 0.0);
     s->h->leven = TRUE;
     s->y = specor;
     sac_be(s);

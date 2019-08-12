@@ -229,7 +229,7 @@ xrglitches(nerr)
         //getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
 
         if (cmscm.irglmt == 3) {
-            PntsInWin = sWinLen / (s->h->delta);
+            PntsInWin = sWinLen / DT(s);
             if (PntsInWin < 10)
                 PntsInWin = 10;
 
@@ -255,7 +255,7 @@ xrglitches(nerr)
                 xabsgl(s->y + nofwin, nlnwin, (float) cmscm.thold, cmscm.irgltp,
                        nerr);
             } else {
-                xpowgl(s->y + nofwin, nlnwin, s->h->delta, cmscm.thold, 0.0,
+                xpowgl(s->y + nofwin, nlnwin, DT(s), cmscm.thold, 0.0,
                        cmscm.irgltp, nerr);
             }
         }

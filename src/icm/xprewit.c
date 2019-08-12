@@ -101,7 +101,7 @@ xprewit(nerr)
             kname[strlen(tmp) + 1] = '\0';
         }
 
-        prewit(s->y, s->h->npts, s->h->delta, &cmicm.iprew, coefficients, kname,
+        prewit(s->y, s->h->npts, DT(s), &cmicm.iprew, coefficients, kname,
                errmsg);
         if (errmsg[0]) {
             error(*nerr = 5005, "\n %s", errmsg);

@@ -34,7 +34,7 @@ static int
 compare(const void *pa, const void *pb) {
     int i, icat, item, lok;
     SortOrder dir;
-    float fa, fb;
+    double fa, fb;
     int na, nb;
     char ca[64], cb[64];
     sac *a = *((sac **) pa);
@@ -49,8 +49,8 @@ compare(const void *pa, const void *pb) {
         }
         switch (icat) {
             case FLOAT_TYPE:
-                fa = VALUE(fhdr(a, item));
-                fb = VALUE(fhdr(b, item));
+                sac_get_float(a, item, &fa);
+                sac_get_float(b, item, &fb);
                 if (fa == fb) {
                     continue;
                 }

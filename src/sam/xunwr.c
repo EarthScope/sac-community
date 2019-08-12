@@ -22,7 +22,7 @@ xunwr(nerr)
 {
     int lok;
     int int_, j, jdfl, jj, nfreq, nlnaux, nlnnew, nok, nptsmx;
-    float scalef;
+    double scalef;
 
     char *tmp;
     sac *s;
@@ -215,7 +215,7 @@ xunwr(nerr)
 
         /* -- Scale the transformed data. */
         nfreq = nlnnew / 2;
-        scalef = s->h->delta;
+        scalef = DT(s);
 
         s->y[0] *= scalef;
         s->y[nfreq] *= scalef;
@@ -240,10 +240,10 @@ xunwr(nerr)
         s->h->nsnpts = s->h->npts;
         s->h->npts = nlnnew;
         s->h->iftype = IAMPH;
-        s->h->sb = s->h->b;
-        s->h->sdelta = s->h->delta;
-        s->h->b = 0.;
-        s->h->delta = 1. / (s->h->delta * (float) (s->h->npts));
+        sac_set_float(s, SAC_SB, B(s));
+        sac_set_float(s, SAC_SDELTA, DT(s));
+        sac_set_float(s, SAC_B, 0.0);
+        sac_set_float(s, SAC_DELTA, 1. / (DT(s) * (double) (s->h->npts)));
         sac_be(s);
     }
 

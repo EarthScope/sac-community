@@ -201,8 +201,8 @@ void readsuds(int lmore, char *kdirin, int kdirin_s, string_list * list,
               int Verbose, int isASCII, float MaxMem, int *nerr);
 void Index(char *a, int N, int size, int (*fp1) (void *a1, void *a2),
            int *index);
-void synch(int ndttmi[][6], float *offsti, int num, int ndttmo[][6],
-           float *offsto, int lbegin);
+void synch(int ndttmi[][6], double *offsti, int num, int ndttmo[][6],
+           double *offsto, int lbegin);
 void vblist(int *nerr);
 void vfeven(int *nerr);
 void vflist(int *nerr);

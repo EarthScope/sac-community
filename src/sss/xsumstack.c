@@ -178,8 +178,8 @@ xsumstack(nerr)
         /* -- Set up delay and compute intersection of file's data and the
          *    summation's time windows.  This determines how much data to sum. */
         delay = Dlyt[jdfl] + Dlyn[jdfl] * cmsss.del + Dlyvm[jdfl];
-        definelimits(Twlim[1], Twlim[2], s->h->b + delay, s->h->e + delay,
-                     s->h->delta, &ioffsetsum, &ioffsetdata, &numintersect);
+        definelimits(Twlim[1], Twlim[2], B(s) + delay, E(s) + delay,
+                     DT(s), &ioffsetsum, &ioffsetdata, &numintersect);
 
         /* -- Loop on length of sumstack window. */
         for (j = 0; j < numintersect; j++) {

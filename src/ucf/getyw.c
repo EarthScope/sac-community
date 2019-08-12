@@ -31,7 +31,7 @@ getyw(double xwloc, float *ywloc) {
         return;
     }
     /* - Compute index offset into current array. */
-    ioffst = (xwloc - s->h->b + 0.5 * s->h->delta) / s->h->delta;
+    ioffst = (xwloc - B(s) + 0.5 * DT(s)) / DT(s);
 
     /* - Return corresponding y world coordinate. */
     *ywloc = s->y[ioffst];

@@ -100,8 +100,8 @@ fdWriteFiles(float *memptr[10], char *kprefix, float *userData, int newnpts,
 
     fillNZ(s);                  /* time fields */
 
-    s->h->b = 0.0;              /* other fields */
-    s->h->sb = 0.0;
+    sac_set_float(s, SAC_B, 0.0);
+    sac_set_float(s, SAC_SB, 0.0);
     s->h->nvhdr = 6;
     s->h->idep = IUNKN;
     s->h->iztype = IB;
@@ -129,7 +129,6 @@ fdWriteFiles(float *memptr[10], char *kprefix, float *userData, int newnpts,
             default:
                 goto L_ERROR;
         }
-
         /* Get file name */
         sprintf(kname, "%s%s", kprefix, ksuffix[jdx]);
 
@@ -187,8 +186,8 @@ static void
 aphdr(int newnpts, sac * s) {
     s->h->nsnpts = newnpts;
     s->h->npts = 2 * NDATPTS - 2;
-    s->h->sdelta = s->h->user6;
-    s->h->delta = 1. / (s->h->sdelta * (float) (s->h->npts));
+    sac_set_float(s, SAC_SDELTA, s->h->user6);
+    sac_set_float(s, SAC_DELTA, 1. / (SDT(s) * (double) (s->h->npts)));
     s->h->iftype = IAMPH;
 
     strcpy(s->h->kevnm, "FD: AMP/PH");
@@ -198,8 +197,8 @@ static void
 gdhdr(int newnpts, sac * s) {
     s->h->nsnpts = newnpts;
     s->h->npts = NDATPTS;
-    s->h->sdelta = s->h->user6;
-    s->h->delta = 1. / (s->h->sdelta * (float) (s->h->npts));
+    sac_set_float(s, SAC_SDELTA, s->h->user6);
+    sac_set_float(s, SAC_DELTA, 1. / (SDT(s) * (double) (s->h->npts)));
     s->h->iftype = ITIME;
 
     strcpy(s->h->kevnm, "FD: GROUP DELAY");
@@ -209,8 +208,8 @@ static void
 irhdr(int newnpts, sac * s) {
     s->h->nsnpts = NDATPTS;
     s->h->npts = newnpts;
-    s->h->delta = s->h->user6;
-    s->h->sdelta = 1. / (s->h->delta * (float) (s->h->npts));
+    sac_set_float(s, SAC_DELTA, s->h->user6);
+    sac_set_float(s, SAC_SDELTA, 1. / (DT(s) * (double) (s->h->npts)));
     s->h->iftype = ITIME;
 
     strcpy(s->h->kevnm, "FD: IMPULSE");

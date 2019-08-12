@@ -30,60 +30,68 @@ DBheaderToSac(header, lall, s)
 
     /* Copy each variable from the SAC header into header. */
     if (lall) {
-        s->h->b = header->b;
-        s->h->e = header->e;
-        s->h->o = header->o;
-        s->h->a = header->a;
-        s->h->t0 = header->t0;
-        s->h->t1 = header->t1;
-        s->h->t2 = header->t2;
-        s->h->t3 = header->t3;
-        s->h->t4 = header->t4;
-        s->h->t5 = header->t5;
-        s->h->t6 = header->t6;
-        s->h->t7 = header->t7;
-        s->h->t8 = header->t8;
-        s->h->t9 = header->t9;
-        s->h->f = header->f;
-        s->h->evla = header->evla;
-        s->h->evlo = header->evlo;
-        s->h->evel = header->evel;
-        s->h->evdp = header->evdp;
-        s->h->mag = header->mag;
-        s->h->user0 = header->user0;
-        s->h->user1 = header->user1;
-        s->h->user2 = header->user2;
-        s->h->user3 = header->user3;
-        s->h->user4 = header->user4;
-        s->h->user5 = header->user5;
-        s->h->user6 = header->user6;
-        s->h->user7 = header->user7;
-        s->h->user8 = header->user8;
-        s->h->user9 = header->user9;
-        s->h->dist = header->dist;
-        s->h->az = header->az;
-        s->h->baz = header->baz;
-        s->h->gcarc = header->gcarc;
-        s->h->sb = header->sb;
-        s->h->sdelta = header->sdelta;
-        s->h->fmt = header->fmt;
-        s->h->resp0 = header->resp0;
-        s->h->resp1 = header->resp1;
-        s->h->resp2 = header->resp2;
-        s->h->resp3 = header->resp3;
-        s->h->resp4 = header->resp4;
-        s->h->resp5 = header->resp5;
-        s->h->resp6 = header->resp6;
-        s->h->resp7 = header->resp7;
-        s->h->resp8 = header->resp8;
-        s->h->resp9 = header->resp9;
-        s->h->unused6 = header->unused6;
-        s->h->unused7 = header->unused7;
-        s->h->unused8 = header->unused8;
-        s->h->unused9 = header->unused9;
-        s->h->unused10 = header->unused10;
-        s->h->unused11 = header->unused11;
-        s->h->unused12 = header->unused12;
+        sac_set_float(s, SAC_B, header->_b);
+        sac_set_float(s, SAC_E, header->_e);
+        sac_set_float(s, SAC_O, header->_o);
+        sac_set_float(s, SAC_A, header->_a);
+        sac_set_float(s, SAC_T0, header->_t0);
+        sac_set_float(s, SAC_T1, header->_t1);
+        sac_set_float(s, SAC_T2, header->_t2);
+        sac_set_float(s, SAC_T3, header->_t3);
+        sac_set_float(s, SAC_T4, header->_t4);
+        sac_set_float(s, SAC_T5, header->_t5);
+        sac_set_float(s, SAC_T6, header->_t6);
+        sac_set_float(s, SAC_T7, header->_t7);
+        sac_set_float(s, SAC_T8, header->_t8);
+        sac_set_float(s, SAC_T9, header->_t9);
+        sac_set_float(s, SAC_F, header->_f);
+
+        sac_set_float(s, SAC_EVLA, header->_evla);
+        sac_set_float(s, SAC_EVLO, header->_evlo);
+        sac_set_float(s, SAC_EVEL, header->evel);
+        sac_set_float(s, SAC_EVDP, header->evdp);
+
+        sac_set_float(s, SAC_MAG, header->mag);
+
+        sac_set_float(s, SAC_USER0, header->user0);
+        sac_set_float(s, SAC_USER1, header->user1);
+        sac_set_float(s, SAC_USER2, header->user2);
+        sac_set_float(s, SAC_USER3, header->user3);
+        sac_set_float(s, SAC_USER4, header->user4);
+        sac_set_float(s, SAC_USER5, header->user5);
+        sac_set_float(s, SAC_USER6, header->user6);
+        sac_set_float(s, SAC_USER7, header->user7);
+        sac_set_float(s, SAC_USER8, header->user8);
+        sac_set_float(s, SAC_USER9, header->user9);
+
+        sac_set_float(s, SAC_DIST, header->dist);
+        sac_set_float(s, SAC_AZ, header->az);
+        sac_set_float(s, SAC_BAZ, header->baz);
+        sac_set_float(s, SAC_GCARC, header->gcarc);
+
+        sac_set_float(s, SAC_SB, header->_sb);
+        sac_set_float(s, SAC_SDELTA, header->_sdelta);
+
+        sac_set_float(s, SAC_FMT, header->fmt);
+
+        sac_set_float(s, SAC_RESP0, header->resp0);
+        sac_set_float(s, SAC_RESP1, header->resp1);
+        sac_set_float(s, SAC_RESP2, header->resp2);
+        sac_set_float(s, SAC_RESP3, header->resp3);
+        sac_set_float(s, SAC_RESP4, header->resp4);
+        sac_set_float(s, SAC_RESP5, header->resp5);
+        sac_set_float(s, SAC_RESP6, header->resp6);
+        sac_set_float(s, SAC_RESP7, header->resp7);
+        sac_set_float(s, SAC_RESP8, header->resp8);
+        sac_set_float(s, SAC_RESP9, header->resp9);
+
+        sac_set_float(s, SAC_UN64, header->unused6);
+        sac_set_float(s, SAC_UN65, header->unused7);
+        sac_set_float(s, SAC_UN66, header->unused8);
+        sac_set_float(s, SAC_UN67, header->unused9);
+        sac_set_float(s, SAC_UN68, header->unused10);
+        sac_set_float(s, SAC_UN69, header->unused11);
+        sac_set_float(s, SAC_UN70, header->unused12);
 
         s->h->ievtyp = header->ievtyp;
         s->h->imagtyp = header->imagtyp;
@@ -134,22 +142,24 @@ DBheaderToSac(header, lall, s)
         s->h->unused15 = header->unused15;
     }
     /* end if ( lall ) */
-    s->h->delta = header->delta;
-    s->h->depmin = header->depmin;
-    s->h->depmax = header->depmax;
-    s->h->scale = header->scale;
-    s->h->odelta = header->odelta;
-    s->h->stla = header->stla;
-    s->h->stlo = header->stlo;
-    s->h->stel = header->stel;
-    s->h->stdp = header->stdp;
-    s->h->depmen = header->depmen;
-    s->h->cmpaz = header->cmpaz;
-    s->h->cmpinc = header->cmpinc;
-    s->h->xminimum = header->xminimum;
-    s->h->xmaximum = header->xmaximum;
-    s->h->yminimum = header->yminimum;
-    s->h->ymaximum = header->ymaximum;
+    sac_set_float(s, SAC_DELTA, header->_delta);
+    sac_set_float(s, SAC_DEPMIN, header->depmin);
+    sac_set_float(s, SAC_DEPMAX, header->depmax);
+    sac_set_float(s, SAC_SCALE, header->scale);
+    sac_set_float(s, SAC_ODELTA, header->odelta);
+    sac_set_float(s, SAC_STLA, header->_stla);
+    sac_set_float(s, SAC_STLO, header->_stlo);
+
+    sac_set_float(s, SAC_STEL, header->stel);
+    sac_set_float(s, SAC_STDP, header->stdp);
+    sac_set_float(s, SAC_DEPMEN, header->depmen);
+    sac_set_float(s, SAC_CMPAZ, header->cmpaz);
+    sac_set_float(s, SAC_CMPINC, header->cmpinc);
+
+    sac_set_float(s, SAC_XMIN, header->xminimum);
+    sac_set_float(s, SAC_XMAX, header->xmaximum);
+    sac_set_float(s, SAC_YMIN, header->yminimum);
+    sac_set_float(s, SAC_YMAX, header->ymaximum);
 
     s->h->iftype = header->iftype;
     s->h->idep = header->idep;

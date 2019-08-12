@@ -96,17 +96,17 @@ xdif(nerr)
         /* -- Call the specific subroutine to work on this file. */
 
         if (cmuom.idiftp == 1) {
-            dif2(s->y, s->h->npts, s->h->delta, s->y);
+            dif2(s->y, s->h->npts, DT(s), s->y);
             s->h->npts = s->h->npts - 1;
-            s->h->b = s->h->b + 0.5 * s->h->delta;
+            sac_set_float(s, SAC_B, B(s) + 0.5 * DT(s));
         } else if (cmuom.idiftp == 2) {
-            dif3(s->y, s->h->npts, s->h->delta, s->y);
+            dif3(s->y, s->h->npts, DT(s), s->y);
             s->h->npts = s->h->npts - 2;
-            s->h->b = s->h->b + s->h->delta;
+            sac_set_float(s, SAC_B, B(s) + DT(s));
         } else {
-            dif5(s->y, s->h->npts, s->h->delta, s->y);
+            dif5(s->y, s->h->npts, DT(s), s->y);
             s->h->npts = s->h->npts - 2;
-            s->h->b = s->h->b + s->h->delta;
+            sac_set_float(s, SAC_B, B(s) + DT(s));
         }
 
         sac_be(s);

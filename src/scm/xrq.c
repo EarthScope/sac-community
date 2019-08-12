@@ -127,12 +127,12 @@ xrq(nerr)
         }
 
         /* -- Apply seismic Q correction to each amplitude data point. */
-        freq = s->h->b;
+        freq = B(s);
         //dfreq = s->h->delta;
         nfreq = s->h->npts / 2;
         fac = PI * cmscm.rqrcon / (cmscm.rqqcon * cmscm.rqccon);
         for (j = 1; j <= (nfreq - 1); j++) {
-            freq = s->h->b + j * s->h->delta;   //freq + dfreq;
+            freq = B(s) + j * DT(s);   //freq + dfreq;
             recqf = exp(fac * freq);
             s->y[j] *= recqf;
             jj = s->h->npts - j;

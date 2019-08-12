@@ -120,7 +120,7 @@ xbp(nerr)
         }
         //getfil(i, TRUE, &nlen, &ndx1, &ndx2, nerr);
         /* -- Check that corner frequencies are within proper range. */
-        fnyq = 0.5 / s->h->delta;
+        fnyq = 0.5 / DT(s);
         if (cmsam.cfbp1 > fnyq) {
             *nerr = 1611;
             error(*nerr, "%g %g", cmsam.cfbp1, fnyq);
@@ -150,7 +150,7 @@ xbp(nerr)
             /* -- Perform bandpass filter operation. */
             xapiir(s->y, s->h->npts, (char *) kmsam.ktpiir[cmsam.itpbp - 1],
                    cmsam.tbwbp, cmsam.atnbp, cmsam.npolbp, "BP", cmsam.cfbp1,
-                   cmsam.cfbp2, (double) s->h->delta, cmsam.npasbp);
+                   cmsam.cfbp2, DT(s), cmsam.npasbp);
 
             /* -- Determine min,max,mean of file . */
             sac_extrema(s);

@@ -22,9 +22,8 @@ void
 xmarktimes(int *nerr) {
 
     int ifpick, ikpick, ipick, j, jdfl, nodttm, nvelu;
-    float distu, originu;
+    double distu, originu;
     char *tmp;
-    float *fp;
     sac *s;
         /*=====================================================================
 	 * PURPOSE: To parse and execute the action command MARKTIMES.
@@ -183,8 +182,8 @@ xmarktimes(int *nerr) {
             ddttm(cmsmm.iodttm, &s->h->nzyear, &originu);
         } else if (cmsmm.loriginr) {
             originu = cmsmm.originr;
-        } else if (s->h->o != SAC_FLOAT_UNDEFINED) {
-            originu = s->h->o;
+        } else if (O(s) != SAC_FLOAT_UNDEFINED) {
+            originu = O(s);
         } else {
             *nerr = 2;
             setmsg("ERROR", *nerr);
@@ -199,8 +198,7 @@ xmarktimes(int *nerr) {
          *    Put alphanumeric values of even velocities in time pick ids. */
 
         for (j = 1; j <= nvelu; j++) {
-            fp = fhdr(s, ifpick + j - 1);
-            *fp = originu + distu / Vel[j];
+            sac_set_float(s, ifpick + j - 1, originu + distu / Vel[j]);
             sprintf(khdr(s, ikpick + j - 1), "%3.1lf", Vel[j]);
         }
 

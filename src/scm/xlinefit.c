@@ -81,7 +81,7 @@ xlinefit(nerr)
 
         if (s->h->leven) {
 
-            lifite(s->h->b, s->h->delta, s->y, s->h->npts, &slp, &yint, &sdslp,
+            lifite(B(s), DT(s), s->y, s->h->npts, &slp, &yint, &sdslp,
                    &sdyint, &sddta, &corrcf);
 
         } else {

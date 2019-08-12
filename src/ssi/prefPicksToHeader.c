@@ -67,16 +67,16 @@ prefPicksToHeader(header, idfl, wf, tree, correction, nerr)
     *nerr = 0;
 
     /* set pick header variables up for address arithatic. */
-    picks[0] = &(header->t0);
-    picks[1] = &(header->t1);
-    picks[2] = &(header->t2);
-    picks[3] = &(header->t3);
-    picks[4] = &(header->t4);
-    picks[5] = &(header->t5);
-    picks[6] = &(header->t6);
-    picks[7] = &(header->t7);
-    picks[8] = &(header->t8);
-    picks[9] = &(header->t9);
+    picks[0] = &(header->_t0);
+    picks[1] = &(header->_t1);
+    picks[2] = &(header->_t2);
+    picks[3] = &(header->_t3);
+    picks[4] = &(header->_t4);
+    picks[5] = &(header->_t5);
+    picks[6] = &(header->_t6);
+    picks[7] = &(header->_t7);
+    picks[8] = &(header->_t8);
+    picks[9] = &(header->_t9);
     phase[0] = (header->kt0);
     phase[1] = (header->kt1);
     phase[2] = (header->kt2);
@@ -220,16 +220,16 @@ prefPicksToHeader(header, idfl, wf, tree, correction, nerr)
     }                           /* end for ( idx ) */
 
     /* put new picks into the header */
-    header->t0 = *picks[0];
-    header->t1 = *picks[1];
-    header->t2 = *picks[2];
-    header->t3 = *picks[3];
-    header->t4 = *picks[4];
-    header->t5 = *picks[5];
-    header->t6 = *picks[6];
-    header->t7 = *picks[7];
-    header->t8 = *picks[8];
-    header->t9 = *picks[9];
+    header->_t0 = *picks[0];
+    header->_t1 = *picks[1];
+    header->_t2 = *picks[2];
+    header->_t3 = *picks[3];
+    header->_t4 = *picks[4];
+    header->_t5 = *picks[5];
+    header->_t6 = *picks[6];
+    header->_t7 = *picks[7];
+    header->_t8 = *picks[8];
+    header->_t9 = *picks[9];
 
     strcpy_check(header->kt0, phase[0]);
     strcpy_check(header->kt1, phase[1]);

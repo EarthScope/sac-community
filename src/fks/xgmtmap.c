@@ -463,11 +463,15 @@ xgmtmap(int *nerr) {
 
     /* Load up station and event location arrays. */
     for (jdfl = 1; jdfl <= nch; jdfl++) {
+        double stla, stlo, evla, evlo;
         jdfl_ = jdfl - 1;
         if (!(s = sacget(jdfl - 1, FALSE, nerr))) {
             goto L_9999;
         }
-        //getfil( jdfl, FALSE, &nlen, &ndxy, &ndxx, nerr );
+        sac_get_float(s, SAC_STLO, &stlo);
+        sac_get_float(s, SAC_STLA, &stla);
+        sac_get_float(s, SAC_EVLO, &evlo);
+        sac_get_float(s, SAC_EVLA, &evla);
 
         /* Check for a reference station specified in header. */
         if (jdfl == 1) {
@@ -481,17 +485,17 @@ xgmtmap(int *nerr) {
 
         /* Store station location.  These must be set. */
         if (plotstations) {
-            if ((s->h->stla != SAC_FLOAT_UNDEFINED) &&
-                (s->h->stlo != SAC_FLOAT_UNDEFINED)) {
-                stalat[jdfl_] = s->h->stla;
-                stalon[jdfl_] = s->h->stlo;
+            if ((stla != SAC_FLOAT_UNDEFINED) &&
+                (stlo != SAC_FLOAT_UNDEFINED)) {
+                stalat[jdfl_] = stla;
+                stalon[jdfl_] = stlo;
                 strcpy(staname[jdfl_], s->h->kstnm);
-                maxlat = fmax(maxlat, s->h->stla);
-                minlat = fmin(minlat, s->h->stla);
-                maxlon = fmax(maxlon, lon180(s->h->stlo));
-                minlon = fmin(minlon, lon180(s->h->stlo));
-                maxlon2 = fmax(maxlon2, lon360(s->h->stlo));
-                minlon2 = fmin(minlon2, lon360(s->h->stlo));
+                maxlat = fmax(maxlat, stla);
+                minlat = fmin(minlat, stla);
+                maxlon = fmax(maxlon, lon180(stlo));
+                minlon = fmin(minlon, lon180(stlo));
+                maxlon2 = fmax(maxlon2, lon360(stlo));
+                minlon2 = fmin(minlon2, lon360(stlo));
                 nstationlocs += 1;
             } else {
                 *nerr = 5301;
@@ -500,16 +504,16 @@ xgmtmap(int *nerr) {
         }
         /* Check for and store event locations.  These are not required. */
         if (plotevents) {
-            if ((s->h->evla != SAC_FLOAT_UNDEFINED) &&
-                (s->h->evlo != SAC_FLOAT_UNDEFINED)) {
-                evlat[jdfl_] = s->h->evla;
-                evlon[jdfl_] = s->h->evlo;
-                maxlat = fmax(maxlat, s->h->evla);
-                minlat = fmin(minlat, s->h->evla);
-                maxlon = fmax(maxlon, lon180(s->h->evlo));
-                minlon = fmin(minlon, lon180(s->h->evlo));
-                maxlon2 = fmax(maxlon2, lon360(s->h->evlo));
-                minlon2 = fmin(minlon2, lon360(s->h->evlo));
+            if ((evla != SAC_FLOAT_UNDEFINED) &&
+                (evlo != SAC_FLOAT_UNDEFINED)) {
+                evlat[jdfl_] = evla;
+                evlon[jdfl_] = evlo;
+                maxlat = fmax(maxlat, evla);
+                minlat = fmin(minlat, evla);
+                maxlon = fmax(maxlon, lon180(evlo));
+                minlon = fmin(minlon, lon180(evlo));
+                maxlon2 = fmax(maxlon2, lon360(evlo));
+                minlon2 = fmin(minlon2, lon360(evlo));
                 neventlocs += 1;
             } else {
                 evlat[jdfl_] = latlon_undef;

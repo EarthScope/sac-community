@@ -208,7 +208,7 @@ xdft(nerr)
         FREE(im);
 
         nfreq = nlnnew / 2;
-        scalef = s->h->delta;
+        scalef = DT(s);
         s->y[0] *= scalef;
         s->y[nfreq] *= scalef;
         for (jdx = 1; jdx <= (nfreq - 1); jdx++) {
@@ -226,10 +226,10 @@ xdft(nerr)
         s->h->nsnpts = npts_orig;
         s->h->npts = nlnnew;
         s->h->iftype = IRLIM;
-        s->h->sb = s->h->b;
-        s->h->sdelta = s->h->delta;
-        s->h->b = 0.;
-        s->h->delta = 1. / (s->h->delta * (float) (s->h->npts));
+        sac_set_float(s, SAC_SB, B(s));
+        sac_set_float(s, SAC_SDELTA, DT(s));
+        sac_set_float(s, SAC_B, 0.0);
+        sac_set_float(s, SAC_DELTA, 1. / (DT(s) * (double) (s->h->npts)));
         sac_be(s);
         if (!cmsam.lrlim) {
             int i;

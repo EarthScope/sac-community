@@ -34,6 +34,7 @@ xfitxy(nerr)
     int *idflnumber, jdfl, jdflnumber, ndflnumber, num;
     char *tmpx, *tmpy;
     float cc, sig, siga, sigb;
+    float a, b;
     sac *sx, *sy;
         /*=====================================================================
 	 * PURPOSE:  To execute the action command FITXY.
@@ -164,9 +165,12 @@ xfitxy(nerr)
         }
         //getfil( jdfl, TRUE, &numy, &nlcy, &notused, nerr );
 
+        a = sac_float(sy, SAC_A);
+        b = sac_float(sy, SAC_B);
         num = min(sx->h->npts, sy->h->npts);
-        lifitu(sx->x, sy->y, num, &sy->h->a, &sy->h->b, &siga, &sigb, &sig,
-               &cc);
+        lifitu(sx->x, sy->y, num, &a, &b, &siga, &sigb, &sig, &cc);
+        sac_set_float(sy, SAC_A, a);
+        sac_set_float(sy, SAC_B, b);
         tmpy = sy->m->filename;
         setmsg("INFO", 1);
         apcmsg("Slope and intercept for", 24);
@@ -174,8 +178,8 @@ xfitxy(nerr)
         apcmsg("vs.", 4);
         apcmsg2(tmpx, strlen(tmpx) + 1);
         apcmsg(":", 2);
-        apfmsg(sy->h->a);
-        apfmsg(sy->h->b);
+        apfmsg(a);
+        apfmsg(b);
         outmsg();
     }
 

@@ -61,8 +61,8 @@ getxlm(int *lxlm, double *xmin, double *xmax) {
     /* - Return begin and end times if option is off or an error occurred. */
 
     if (!*lxlm) {
-        *xmin = (double) s->h->b;
-        *xmax = (double) s->h->e;
+        *xmin = B(s);
+        *xmax = E(s);
     }
 
     return;

@@ -39,8 +39,7 @@ xp2(int *nerr) {
     char *tmp;
     double yimnj, yimxj, ximnj, ximxj;
     double xjunk;
-    float *toff = NULL;
-
+    double *toff = NULL;
     sac *s;
     textbox *tbox;
 
@@ -125,8 +124,8 @@ xp2(int *nerr) {
 
     /* - Loop on each token in command: */
 
-    toff = xarray_new_with_len('f', saclen() + 1);
-    memset(toff, 0.0, sizeof(float) * saclen());
+    toff = xarray_new_with_len('d', saclen() + 1);
+    memset(toff, 0.0, sizeof(double) * saclen());
     while (lcmore(nerr)) {
 
         /* -- "RELATIVE/ABSOLUTE":  change method of displaying time
@@ -209,7 +208,6 @@ xp2(int *nerr) {
             if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
                 goto L_8888;
             }
-            //getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
 
             /* --- LDTTM function returns .TRUE. if 
                date-time stamp is defined. */
@@ -236,7 +234,7 @@ xp2(int *nerr) {
             /* --- X limits first. */
             getxlm(&lxlimj, &ximnj, &ximxj);
             if (!lxlims && (s->h->iftype == IRLIM || s->h->iftype == IAMPH))
-                ximnj = s->h->delta;
+                ximnj = DT(s);
             cmgem.ximn = fmin(cmgem.ximn, ximnj + toff[jdfl - 1]);
             cmgem.ximx = fmax(cmgem.ximx, ximxj + toff[jdfl - 1]);
             /* --- Y limits are more complicated if XLIM is already on. */
@@ -249,10 +247,10 @@ xp2(int *nerr) {
             }
             if (lxlims && !lylimj) {
                 if (s->h->leven) {
-                    num1 = (int) ((ximnj - s->h->b) / s->h->delta) + 1;
+                    num1 = (int) ((ximnj - B(s)) / DT(s)) + 1;
                     if (num1 < 1)
                         num1 = 1;
-                    num2 = (int) ((ximxj - s->h->b) / s->h->delta) + 1;
+                    num2 = (int) ((ximxj - B(s)) / DT(s)) + 1;
                     if (num2 > s->h->npts)
                         num2 = s->h->npts;
                     if (num1 <= s->h->npts && num2 >= 1) {
@@ -418,12 +416,11 @@ xp2(int *nerr) {
         if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
             goto L_8888;
         }
-        //getfil( jdfl, TRUE, &num, &nlcy, &nlcx, nerr );
 
         if (s->h->leven) {
             cmgem.xgen.on = TRUE;
-            cmgem.xgen.delta = s->h->delta;
-            cmgem.xgen.first = s->h->b + toff[jdfl - 1];
+            cmgem.xgen.delta = DT(s);
+            cmgem.xgen.first = B(s) + toff[jdfl - 1];
         } else {
             cmgem.xgen.on = FALSE;
         }

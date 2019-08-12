@@ -298,12 +298,12 @@ OriginsMatch(struct originList *orig, struct SACheader *header, double otime) {
     if (!orig)
         return 0;
 
-    if (fltDefined(header->evla) || CSSfltDefined(orig->element->lat))
-        if (fltsDiffer(header->evla, orig->element->lat))
+    if (fltDefined(header->_evla) || CSSfltDefined(orig->element->lat))
+        if (fltsDiffer(header->_evla, orig->element->lat))
             return 0;
 
-    if (fltDefined(header->evlo) || CSSfltDefined(orig->element->lon))
-        if (fltsDiffer(header->evlo, orig->element->lon))
+    if (fltDefined(header->_evlo) || CSSfltDefined(orig->element->lon))
+        if (fltsDiffer(header->_evlo, orig->element->lon))
             return 0;
 
     if (fltDefined(header->evdp) || CSSfltDefined(orig->element->depth))
@@ -1145,8 +1145,8 @@ sacAddWfdiscStruct(DBlist tree, struct SACheader *header, sacSACdata * data,
     }
 
     w->element->nsamp = header->npts;
-    if (header->delta > 0.0)
-        w->element->samprate = 1.0 / header->delta;
+    if (header->_delta > 0.0)
+        w->element->samprate = 1.0 / header->_delta;
     else
         w->element->samprate = 1.0;
 
@@ -1155,7 +1155,7 @@ sacAddWfdiscStruct(DBlist tree, struct SACheader *header, sacSACdata * data,
         int myear, mmonth, mday, mhour, mmin;
         float msecond;
 
-        w->element->time = RefTime + header->b; /* start time of file */
+        w->element->time = RefTime + header->_b; /* start time of file */
 
         /* jdate */
         tmDecodeEpochTime(w->element->time, &myear, &mmonth, &mday, &mhour,
@@ -1163,7 +1163,7 @@ sacAddWfdiscStruct(DBlist tree, struct SACheader *header, sacSACdata * data,
         w->element->jdate = myear * 1000 + yrday(mmonth, mday, isleap(myear));
     } else {
         w->element->jdate = 1970001;
-        w->element->time = header->b;
+        w->element->time = header->_b;
     }
 
     if (header->nevid > 0) {
@@ -1185,7 +1185,7 @@ sacAddWfdiscStruct(DBlist tree, struct SACheader *header, sacSACdata * data,
     }
 
     w->element->endtime =
-        w->element->time + (w->element->nsamp) * header->delta;
+        w->element->time + (w->element->nsamp) * header->_delta;
 
     w->element->calib = CALIB_UNDEF;
 
@@ -1231,9 +1231,9 @@ static int
 SitesMatch(struct siteList *si, struct SACheader *header) {
     if (!si)
         return 0;
-    if (FloatsDiffer9(si->element->lat, header->stla))
+    if (FloatsDiffer9(si->element->lat, header->_stla))
         return 0;
-    if (FloatsDiffer9(si->element->lon, header->stlo))
+    if (FloatsDiffer9(si->element->lon, header->_stlo))
         return 0;
     if (fltDefined(header->stel)) {
         if (FloatsDiffer9(si->element->elev, header->stel / 1000))
@@ -1275,10 +1275,10 @@ sacAddSiteStruct(DBlist tree, char *name, struct SACheader *header, int jdate) {
     UNUSED(jdate);
     si = (struct siteList *) dblCreateTableInstance(tree, dbl_LIST_SITE);
     CSSstrcpy(si->element->sta, name);
-    if (fltDefined(header->stla))
-        si->element->lat = header->stla;
-    if (fltDefined(header->stlo))
-        si->element->lon = header->stlo;
+    if (fltDefined(header->_stla))
+        si->element->lat = header->_stla;
+    if (fltDefined(header->_stlo))
+        si->element->lon = header->_stlo;
     if (fltDefined(header->stel))
         si->element->elev = header->stel / 1000.0;
     si->element->ondate = LONGAGO;      /* make site active from pre-seismography  */
@@ -1298,10 +1298,10 @@ UpdateSiteStruct(DBlist tree, char *name, struct SACheader *header) {
         if (!si)
             break;
         if (!CSSstrcmp(si->element->sta, name)) {
-            if (fltDefined(header->stla))
-                si->element->lat = header->stla;
-            if (fltDefined(header->stlo))
-                si->element->lon = header->stlo;
+            if (fltDefined(header->_stla))
+                si->element->lat = header->_stla;
+            if (fltDefined(header->_stlo))
+                si->element->lon = header->_stlo;
             if (fltDefined(header->stel))
                 si->element->elev = header->stel / 1000.0;
         }
@@ -1397,8 +1397,8 @@ sacAddSacdataStruct(DBlist tree, struct SACheader *header, int wfid) {
     sd->element->nysize = header->nysize;
     sd->element->leven = header->leven;
     sd->element->fmt = header->fmt;
-    sd->element->sb = header->sb;
-    sd->element->sdelta = header->sdelta;
+    sd->element->sb = header->_sb;
+    sd->element->sdelta = header->_sdelta;
     sd->element->xminimum = header->xminimum;
     sd->element->xmaximum = header->xmaximum;
     sd->element->yminimum = header->yminimum;
@@ -1520,7 +1520,7 @@ CreateUpdateOrigin(DBlist tree, struct originList *OldOr,
     struct assocList *as = 0;
     int OldOrid = OldOr->element->orid;
 
-    if (!fltDefined(header->evla) && !fltDefined(header->evlo) &&
+    if (!fltDefined(header->_evla) && !fltDefined(header->_evlo) &&
         !fltDefined(header->evdp) && !fltDefined(header->mag) &&
         !dblDefined(otime))
         return;
@@ -1528,10 +1528,10 @@ CreateUpdateOrigin(DBlist tree, struct originList *OldOr,
     orig = (struct originList *) dblCreateTableInstance(tree, dbl_LIST_ORIGIN);
     *(orig->element) = *(OldOr->element);
     //dblCopyTable(dbl_LIST_ORIGIN, OldOr, orig);
-    if (fltDefined(header->evla))
-        orig->element->lat = header->evla;
-    if (fltDefined(header->evlo))
-        orig->element->lon = header->evlo;
+    if (fltDefined(header->_evla))
+        orig->element->lat = header->_evla;
+    if (fltDefined(header->_evlo))
+        orig->element->lon = header->_evlo;
     if (fltDefined(header->evdp))
         orig->element->depth = header->evdp / 1000.0;
     if (dblDefined(otime))
@@ -1619,7 +1619,7 @@ sacAddOriginStruct(DBlist tree, struct SACheader *header, struct wfdiscList *w,
     struct eventList *ev = 0;
     int haveEvent = FALSE;
 
-    if (!fltDefined(header->evla) && !fltDefined(header->evlo) &&
+    if (!fltDefined(header->_evla) && !fltDefined(header->_evlo) &&
         !fltDefined(header->evdp) && !fltDefined(header->mag) &&
         !dblDefined(otime))
         return 0;
@@ -1655,10 +1655,10 @@ sacAddOriginStruct(DBlist tree, struct SACheader *header, struct wfdiscList *w,
             orig =
                 (struct originList *) dblCreateTableInstance(tree,
                                                              dbl_LIST_ORIGIN);
-            if (fltDefined(header->evla))
-                orig->element->lat = header->evla;
-            if (fltDefined(header->evlo))
-                orig->element->lon = header->evlo;
+            if (fltDefined(header->_evla))
+                orig->element->lat = header->_evla;
+            if (fltDefined(header->_evlo))
+                orig->element->lon = header->_evlo;
             if (fltDefined(header->evdp))
                 orig->element->depth = header->evdp / 1000.0;
             if (dblDefined(otime))
@@ -1700,10 +1700,10 @@ sacAddOriginStruct(DBlist tree, struct SACheader *header, struct wfdiscList *w,
             orig =
                 (struct originList *) dblCreateTableInstance(tree,
                                                              dbl_LIST_ORIGIN);
-            if (fltDefined(header->evla))
-                orig->element->lat = header->evla;
-            if (fltDefined(header->evlo))
-                orig->element->lon = header->evlo;
+            if (fltDefined(header->_evla))
+                orig->element->lat = header->_evla;
+            if (fltDefined(header->_evlo))
+                orig->element->lon = header->_evlo;
             if (fltDefined(header->evdp))
                 orig->element->depth = header->evdp / 1000.0;
             if (dblDefined(otime))
@@ -2010,8 +2010,8 @@ sacLoadFromHeaderAndData(struct SACheader *header, sacSACdata * data,
 /* Now see if there is an origin struct matching data. If not create and populate. */
     RefTime = GetRefTime(header);
 
-    if (fltDefined(header->o))  /* Can this ever be undefined? */
-        otime = RefTime + header->o;
+    if (fltDefined(header->_o))  /* Can this ever be undefined? */
+        otime = RefTime + header->_o;
     else
         otime = RefTime;        /* Not really right, must be accompanied by warning from chnhdr. */
 
@@ -2087,14 +2087,14 @@ sacLoadFromHeaderAndData(struct SACheader *header, sacSACdata * data,
 
 /* Now add arrival structs for any of A, T0 - T9 which are defined and  */
 /* which have a description as well in KA KT0 - KT9 */
-    if (fltDefined(header->a)) {
-        sacAddArrivalStruct(tree, header, RefTime, w, header->a, header->ka,
+    if (fltDefined(header->_a)) {
+        sacAddArrivalStruct(tree, header, RefTime, w, header->_a, header->ka,
                             "A", orig);
     } else
         DeleteExistingArrival(tree, w, "A");
 
     for (j = 0; j < 10; j++) {
-        pick = *(&(header->t0) + j);
+        pick = *(&(header->_t0) + j);
         descrip = (header->kt0 + 9 * j);
         sprintf(SACfield, "T%d", j);
         SACfield[2] = '\0';
@@ -2105,12 +2105,12 @@ sacLoadFromHeaderAndData(struct SACheader *header, sacSACdata * data,
             DeleteExistingArrival(tree, w, SACfield);
     }
 
-    if (fltDefined(header->f)) {
+    if (fltDefined(header->_f)) {
         if (strcmp(header->kf, SAC_CHAR_UNDEFINED))
-            sacAddArrivalStruct(tree, header, RefTime, w, header->f, header->kf,
+            sacAddArrivalStruct(tree, header, RefTime, w, header->_f, header->kf,
                                 "F", orig);
         else
-            sacAddArrivalStruct(tree, header, RefTime, w, header->f, "F", "F",
+            sacAddArrivalStruct(tree, header, RefTime, w, header->_f, "F", "F",
                                 orig);
     } else
         DeleteExistingArrival(tree, w, "F");
@@ -2123,8 +2123,8 @@ sacLoadFromHeaderAndData(struct SACheader *header, sacSACdata * data,
 
 int
 originNeeded(struct SACheader *header) {
-    if (fltDefined(header->evla) || fltDefined(header->evlo) ||
-        fltDefined(header->evdp) || fltDefined(header->o) ||
+    if (fltDefined(header->_evla) || fltDefined(header->_evlo) ||
+        fltDefined(header->evdp) || fltDefined(header->_o) ||
         header->iztype == IO || lngDefined(header->ievreg) ||
         lngDefined(header->ievtyp) || fltDefined(header->mag) ||
         lngDefined(header->imagsrc))
@@ -2149,7 +2149,7 @@ eventNeeded(struct SACheader *header) {
 
 int
 siteNeeded(struct SACheader *header) {
-    if (fltDefined(header->stla) || fltDefined(header->stlo) ||
+    if (fltDefined(header->_stla) || fltDefined(header->_stlo) ||
         fltDefined(header->stel))
         return TRUE;
 

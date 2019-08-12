@@ -54,7 +54,7 @@ formhv(char *kname, int kname_s, int iform, char *kout, int kout_s, int *nerr) {
     char kvalue[41];
     int lok, lok2 = FALSE, linc;
     int icat, item, nc, ip;
-    float fp;
+    double fp;
     char *p;
     sac *s;
     *nerr = 0;
@@ -73,8 +73,8 @@ formhv(char *kname, int kname_s, int iform, char *kout, int kout_s, int *nerr) {
         lok2 = TRUE;
         switch (icat) {
             case FLOAT_TYPE:
-                fp = VALUE(fhdr(s, item));
-                lok = fp != SAC_FLOAT_UNDEFINED;
+                sac_get_float(s, item, &fp);
+                lok = (fp != SAC_FLOAT_UNDEFINED);
                 if (lok || linc) {
                     sprintf(kvalue, "%#16.6e", fp);
                     ljust(kvalue, 41);

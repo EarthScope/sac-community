@@ -174,13 +174,13 @@ xaddstack(int *nerr) {
         apcmsg(kfile, MCPFN + 1);
         goto L_8888;
     } else if (saclen() > 1) {
-        if (fabs(s->h->delta - cmsss.del) > cmsss.srcfac && cmsss.lsrc) {
+        if (fabs(DT(s) - cmsss.del) > cmsss.srcfac && cmsss.lsrc) {
             *nerr = 5109;
             setmsg("ERROR", *nerr);
             goto L_8888;
         }
     } else {
-        cmsss.del = s->h->delta;
+        cmsss.del = DT(s);
     }
 
     /* If distance was not specified by the user, maf 960701 */
@@ -196,11 +196,11 @@ xaddstack(int *nerr) {
     }
     /* end if ( !lDistanceDefined ) */
     if (!lBeginDefined) {       /* if begin time not user specified, maf 960701 */
-        Tbegin[saclen()] = s->h->b;
+        Tbegin[saclen()] = B(s);
     }
     /* end if ( !lBeginDefined ) */
     if (!lEndDefined) {         /* if end time not user specified, maf 960701 */
-        Tend[saclen()] = s->h->e;
+        Tend[saclen()] = E(s);
     }
     /* end if ( !lEndDefined ) */
     if (!*nerr) {

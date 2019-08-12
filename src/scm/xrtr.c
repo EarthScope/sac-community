@@ -91,9 +91,9 @@ xrtr(nerr)
          *    data and one for unevenly spaced data. */
 
         if (s->h->leven) {
-            lifite(s->h->b, s->h->delta, s->y, s->h->npts, &slp, &yint, &sdslp,
+            lifite(B(s), DT(s), s->y, s->h->npts, &slp, &yint, &sdslp,
                    &sdyint, &sddta, &corrcf);
-            rtrend(s->y, s->h->npts, yint, slp, s->h->b, s->h->delta);
+            rtrend(s->y, s->h->npts, yint, slp, B(s), DT(s));
         } else {
             lifitu(s->x, s->y, s->h->npts, &slp, &yint, &sdslp, &sdyint, &sddta,
                    &corrcf);

@@ -75,8 +75,8 @@ updhdr(int *nerr) {
         else if (s->h->nvhdr == 2) {
             icomp = IHDR(s)[4];
             IHDR(s)[4] = SAC_ENUM_UNDEFINED;
-            horzo = VALUE(fhdr(s, 21));
-            VALUE(fhdr(s, 21)) = SAC_FLOAT_UNDEFINED;
+            horzo = VALUE(xfhdr(s, 21));
+            VALUE(xfhdr(s, 21)) = SAC_FLOAT_UNDEFINED;
             if (icomp == 23) {
                 if (memcmp(s->h->kstnm, "ELKO", 4) == 0) {
                     s->h->cmpaz = 10.4699;
@@ -225,13 +225,13 @@ updhdr(int *nerr) {
             VALUE(nhdr(s, 2)) = VALUE(nhdr(s, 3));
             VALUE(nhdr(s, 3)) = VALUE(nhdr(s, 4));
             VALUE(nhdr(s, 4)) = VALUE(nhdr(s, 5));
-            VALUE(nhdr(s, 5)) = VALUE(fhdr(s, 5));
+            VALUE(nhdr(s, 5)) = VALUE(xfhdr(s, 5));
             VALUE(nhdr(s, 6)) =
                 (int) (1000. *
-                       (VALUE(fhdr(s, 5)) - (float) (VALUE(nhdr(s, 5)))) + 0.5);
-            VALUE(fhdr(s, 5)) = SAC_FLOAT_UNDEFINED;
-            VALUE(fhdr(s, 21)) = VALUE(fhdr(s, 40));
-            VALUE(fhdr(s, 40)) = SAC_FLOAT_UNDEFINED;
+                       (VALUE(xfhdr(s, 5)) - (float) (VALUE(nhdr(s, 5)))) + 0.5);
+            VALUE(xfhdr(s, 5)) = SAC_FLOAT_UNDEFINED;
+            VALUE(xfhdr(s, 21)) = VALUE(xfhdr(s, 40));
+            VALUE(xfhdr(s, 40)) = SAC_FLOAT_UNDEFINED;
             s->h->nvhdr = 5;
 
             /* - Header version 6:

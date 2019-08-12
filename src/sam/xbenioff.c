@@ -71,7 +71,7 @@ xbenioff(nerr)
         //getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
 
         /* -- Initialize filter for this file. */
-        filtb(0, s->h->delta);
+        filtb(0, DT(s));
 
         /* -- Filter this data file. */
 

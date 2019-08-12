@@ -112,7 +112,7 @@ xkeepam(nerr)
 
         nfreq = s->h->npts / 2 + 1;
         s->h->npts = nfreq;
-        s->h->b = 0.;
+        sac_set_float(s, SAC_B, 0.0);
         s->h->iftype = IXY;
         sac_be(s);
         /* -- Adjust header for component specific values. */

@@ -77,14 +77,15 @@ disppkLandscape(tdelay)
     /* - Loop on each time field in header: */
 
     for (j = 1; j <= MTM; j++) {
+        double v = 0.0;
         j_ = j - 1;
 
+        sac_get_float(s, cmlhf.itmfnm[j - 1], &v);
         /* -- If time pick is defined and pick display is not off: */
-        if (VALUE(fhdr(s, cmlhf.itmfnm[j - 1])) != SAC_FLOAT_UNDEFINED &&
-            cmgam.ipktyp[j - 1] > 0) {
+        if (v != SAC_FLOAT_UNDEFINED && cmgam.ipktyp[j - 1] > 0) {
 
             /* --- Map the input y location in WC to PC. */
-            ywloc = VALUE(fhdr(s, cmlhf.itmfnm[j - 1])) + tdelay;
+            ywloc = v + tdelay;
             yploc = cmgem.ympip1 * ywloc + cmgem.ympip2;
 
             /* --- If time pick is within y plot window: */
@@ -107,7 +108,7 @@ disppkLandscape(tdelay)
                     pltext(kpktxt, xploc2 + 0.005, yploc + 0.005);
                 } else {
                     yploc = cmgem.ympip1 * ywloc + cmgem.ympip2;
-                    getxw(VALUE(fhdr(s, cmlhf.itmfnm[j - 1])), &xwloc);
+                    getxw(v, &xwloc);
                     xploc = cmgem.xmpip1 * xwloc + cmgem.xmpip2;
                     yploc1 = fmax(cmgem.uplot.ymin, yploc - 0.5 * cmgam.pkwdth);
                     yploc2 = fmin(cmgem.uplot.ymax, yploc + 0.5 * cmgam.pkwdth);

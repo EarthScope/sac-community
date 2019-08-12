@@ -566,17 +566,17 @@ static void
 SetDistAzValues(struct SACheader *header) {
     float delt, dist, azim, bazim;
 
-    if (header->stla == SAC_FLOAT_UNDEFINED)
+    if (header->_stla == SAC_FLOAT_UNDEFINED)
         return;
-    if (header->stlo == SAC_FLOAT_UNDEFINED)
+    if (header->_stlo == SAC_FLOAT_UNDEFINED)
         return;
-    if (header->evla == SAC_FLOAT_UNDEFINED)
+    if (header->_evla == SAC_FLOAT_UNDEFINED)
         return;
-    if (header->evlo == SAC_FLOAT_UNDEFINED)
+    if (header->_evlo == SAC_FLOAT_UNDEFINED)
         return;
 
     delt = dist = azim = bazim = 0.0;
-    dbDelaz(&(header->stla), &(header->stlo), &(header->evla), &(header->evlo),
+    dbDelaz(&(header->_stla), &(header->_stlo), &(header->_evla), &(header->_evlo),
             &delt, &dist, &azim, &bazim);
     header->dist = dist;
     if (header->gcarc == SAC_FLOAT_UNDEFINED)
@@ -621,9 +621,9 @@ sacHeaderFromCSS(DBlist tree, struct SACheader *header, struct wfdiscList *w,
 /* Find an origin struct matched to w and copy its info to header. */
     if ((orig = sacFindOrigin(tree, w))) {
         if (CSSfltDefined(orig->element->lat))
-            header->evla = orig->element->lat;
+            header->_evla = orig->element->lat;
         if (CSSfltDefined(orig->element->lon))
-            header->evlo = orig->element->lon;
+            header->_evlo = orig->element->lon;
         if (CSSfltDefined(orig->element->depth))
             header->evdp = orig->element->depth * 1000.0;
         if (CSSlngDefined(orig->element->grn))
@@ -654,18 +654,18 @@ sacHeaderFromCSS(DBlist tree, struct SACheader *header, struct wfdiscList *w,
         *RefTime = w->element->time;
     }
     DEBUG("time %f ref: %f\n", w->element->time, *RefTime);
-    header->b = (float) (w->element->time - *RefTime);
+    header->_b = (float) (w->element->time - *RefTime);
     if (orig && CSSdblDefined(orig->element->time)) {
-        header->o = orig->element->time - *RefTime;
+        header->_o = orig->element->time - *RefTime;
         strcpy(header->ko, "O");
     }
 
     if (w->element->samprate)
-        header->delta = 1.0 / w->element->samprate;
+        header->_delta = 1.0 / w->element->samprate;
     else
-        header->delta = 1.0;
+        header->_delta = 1.0;
 
-    header->e = header->b + (float) ((header->npts - 1) * header->delta);
+    header->_e = header->_b + (float) ((header->npts - 1) * header->_delta);
 
     tmDecodeEpochTime(*RefTime, &year, &month, &day, &hour, &min, &second);
     header->nzyear = year;
@@ -704,7 +704,7 @@ sacHeaderFromCSS(DBlist tree, struct SACheader *header, struct wfdiscList *w,
                         w->element->time, w->element->endtime, SACfield,
                         w->element->wfid);
     if (arm) {
-        header->a = arm->element->time - *RefTime;
+        header->_a = arm->element->time - *RefTime;
         aso = sacFindAssocFromArid(tree, arm->element->arid);
         if (aso &&
             isValidString(dbl_LIST_ASSOC, dbl_ASSOC_PHASE, aso->element->phase))
@@ -749,7 +749,7 @@ sacHeaderFromCSS(DBlist tree, struct SACheader *header, struct wfdiscList *w,
                 strncpy(kt, arm->element->iphase, 8);
             }
         }
-        *(&(header->t0) + i) = arm->element->time - *RefTime;
+        *(&(header->_t0) + i) = arm->element->time - *RefTime;
         strcpy(arm->element->SACfield, SACfield);
     }
 
@@ -760,7 +760,7 @@ sacHeaderFromCSS(DBlist tree, struct SACheader *header, struct wfdiscList *w,
                         w->element->time, w->element->endtime, SACfield,
                         w->element->wfid);
     if (arm) {
-        header->f = arm->element->time - *RefTime;
+        header->_f = arm->element->time - *RefTime;
         aso = sacFindAssocFromArid(tree, arm->element->arid);
         if (aso &&
             isValidString(dbl_LIST_ASSOC, dbl_ASSOC_PHASE, aso->element->phase))
@@ -781,12 +781,12 @@ sacHeaderFromCSS(DBlist tree, struct SACheader *header, struct wfdiscList *w,
                 isValidString(dbl_LIST_ASSOC, dbl_ASSOC_PHASE,
                               aso->element->phase)) {
                 if (toupper(aso->element->phase[0]) == 'F') {
-                    header->f = ar->element->time - *RefTime;
+                    header->_f = ar->element->time - *RefTime;
                     strcpy(header->kf, aso->element->phase);
                 }
             } else {
                 if (toupper(ar->element->iphase[0]) == 'F') {
-                    header->f = ar->element->time - *RefTime;
+                    header->_f = ar->element->time - *RefTime;
                     strcpy(header->kf, ar->element->iphase);
                 }
             }
@@ -819,9 +819,9 @@ sacHeaderFromCSS(DBlist tree, struct SACheader *header, struct wfdiscList *w,
          sacFindSite(tree, w->element->sta, w->element->jdate,
                      w->element->wfid))) {
         if (CSSfltDefined(si->element->lat))
-            header->stla = si->element->lat;
+            header->_stla = si->element->lat;
         if (CSSfltDefined(si->element->lon))
-            header->stlo = si->element->lon;
+            header->_stlo = si->element->lon;
         if (CSSfltDefined(si->element->elev))
             header->stel = si->element->elev * 1000;
         strncpy(header->kuser1, si->element->refsta, 6);
@@ -870,8 +870,8 @@ sacHeaderFromCSS(DBlist tree, struct SACheader *header, struct wfdiscList *w,
         header->nysize = sd->element->nysize;
         header->leven = sd->element->leven;
         header->fmt = sd->element->fmt;
-        header->sb = sd->element->sb;
-        header->sdelta = sd->element->sdelta;
+        header->_sb = sd->element->sb;
+        header->_sdelta = sd->element->sdelta;
         header->xminimum = sd->element->xminimum;
         header->xmaximum = sd->element->xmaximum;
         header->yminimum = sd->element->yminimum;

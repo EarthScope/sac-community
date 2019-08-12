@@ -14,11 +14,14 @@ static sac *s;
 void
 test_rsac2_header_file(int vnpts, float vend) {
   s = sacget_current();
-  float_check(s->h->b, 0.10, "b");
+  float_check(s->h->_b, 0.10, "b");
+  float_check(s->z->_b, 0.10, "b");
   //float_check(s->h->begin, 0.10, "begin");
-  float_check(s->h->e, vend, "e");
+  float_check(s->h->_e, vend, "e");
+  float_check(s->z->_e, vend, "e");
   //float_check(s->h->ennd, vend, "ennd");
-  float_undef(s->h->delta, "delta");
+  float_undef(s->h->_delta, "delta");
+  float_undef(s->z->_delta, "delta");
   float_check(s->h->depmax, 0.904837, "depmax");
   float_check(s->h->depmin, 0.0, "cmpinc");
   //float_check(s->h->depmx, 0.904837, "depmax");
@@ -30,17 +33,21 @@ test_rsac2_header_file(int vnpts, float vend) {
   //   "fmean value (value %f, expected %f diff %e)", 
   //   s->h->fmean, 0.01, fabs(s->h->fmean - 0.01));
 
-  float_undef(s->h->a, "a");
+  float_undef(s->h->_a, "a");
+  float_undef(s->z->_a, "a");
   float_undef(s->h->az, "az");
   float_undef(s->h->baz, "baz");
   float_undef(s->h->cmpinc, "cmpinc");
   float_undef(s->h->cmpaz, "cmpaz");
   float_undef(s->h->dist, "dist");
   float_undef(s->h->evdp, "evdp");
-  float_undef(s->h->evla, "evla");
-  float_undef(s->h->evlo, "evlo");
+  float_undef(s->h->_evla, "evla");
+  float_undef(s->z->_evla, "evla");
+  float_undef(s->h->_evlo, "evlo");
+  float_undef(s->z->_evlo, "evlo");
   float_undef(s->h->evel, "evel");
-  float_undef(s->h->f,    "f");
+  float_undef(s->h->_f,    "f");
+  float_undef(s->z->_f,    "f");
   //float_undef(s->h->fini, "fini");
   float_undef(s->h->unused6, "fhdr64");
   float_undef(s->h->unused7, "fhdr65");
@@ -119,7 +126,8 @@ test_rsac2_header_file(int vnpts, float vend) {
   int_undef(s->h->nzsec, "nzsec");
   int_undef(s->h->nzyear, "nzyear");
 
-  float_undef(s->h->o, "o");
+  float_undef(s->h->_o, "o");
+  float_undef(s->z->_o, "o");
   float_undef(s->h->odelta, "odelta");
   //float_undef(s->h->origin, "origin");
   float_undef(s->h->resp0, "resp0");
@@ -133,23 +141,37 @@ test_rsac2_header_file(int vnpts, float vend) {
   float_undef(s->h->resp8, "resp8");
   float_undef(s->h->resp9, "resp9");
 
-  float_undef(s->h->sb, "sb");
+  float_undef(s->h->_sb, "sb");
+  float_undef(s->z->_sb, "sb");
   float_undef(s->h->scale, "scale");
-  float_undef(s->h->sdelta, "sdelta");
+  float_undef(s->h->_sdelta, "sdelta");
+  float_undef(s->z->_sdelta, "sdelta");
   float_undef(s->h->stdp, "stdp");
   float_undef(s->h->stel, "stel");
-  float_undef(s->h->stla, "stla");
-  float_undef(s->h->stlo, "stlo");
-  float_undef(s->h->t0, "t0");
-  float_undef(s->h->t1, "t1");
-  float_undef(s->h->t2, "t2");
-  float_undef(s->h->t3, "t3");
-  float_undef(s->h->t4, "t4");
-  float_undef(s->h->t5, "t5");
-  float_undef(s->h->t6, "t6");
-  float_undef(s->h->t7, "t7");
-  float_undef(s->h->t8, "t8");
-  float_undef(s->h->t9, "t9");
+  float_undef(s->h->_stla, "stla");
+  float_undef(s->z->_stla, "stla");
+  float_undef(s->h->_stlo, "stlo");
+  float_undef(s->z->_stlo, "stlo");
+  float_undef(s->h->_t0, "t0");
+  float_undef(s->h->_t1, "t1");
+  float_undef(s->h->_t2, "t2");
+  float_undef(s->h->_t3, "t3");
+  float_undef(s->h->_t4, "t4");
+  float_undef(s->h->_t5, "t5");
+  float_undef(s->h->_t6, "t6");
+  float_undef(s->h->_t7, "t7");
+  float_undef(s->h->_t8, "t8");
+  float_undef(s->h->_t9, "t9");
+  float_undef(s->z->_t0, "t0");
+  float_undef(s->h->_t1, "t1");
+  float_undef(s->z->_t2, "t2");
+  float_undef(s->z->_t3, "t3");
+  float_undef(s->z->_t4, "t4");
+  float_undef(s->z->_t5, "t5");
+  float_undef(s->z->_t6, "t6");
+  float_undef(s->z->_t7, "t7");
+  float_undef(s->z->_t8, "t8");
+  float_undef(s->z->_t9, "t9");
   //float_undef(s->h->time0, "time0");
   //float_undef(s->h->time1, "time1");
   //float_undef(s->h->time2, "time2");
@@ -215,6 +237,7 @@ test_rsac2_file(char *file) {
 
   /* Maximum number of points = 299 */
   max = 299;
+  fprintf(stderr, "truncated to 299\n");
   rsac2(file,  &(y[0]), &lnpts, &(x[0]), &max, &err, -1);
   ok(err == -803, "rsac2 file <%s> truncated [299] err %d expected %d", file, err, -803);
   ok(lnpts == 299, "rsac2 file <%s> truncated [299] npts %d exptected %d", file, lnpts, 299);

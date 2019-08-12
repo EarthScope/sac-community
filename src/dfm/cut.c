@@ -38,7 +38,7 @@ cut_data(float *in, int nstart, int nstop, int nfillb, int nfille, float *out) {
  *  From defcut - only acts on times, not picks
  */
 void
-cut_define(float b, float delta, double dt, int *n) {
+cut_define(double b, double delta, double dt, int *n) {
     int iTime, iBegin;
 
     iBegin = lround((double)b / (double)delta);
@@ -50,7 +50,7 @@ cut_define(float b, float delta, double dt, int *n) {
 }
 
 void
-cut_define_check(float start, float stop, int npts, int cuterr, int *nstart,
+cut_define_check(double start, double stop, int npts, int cuterr, int *nstart,
                  int *nstop, int *nfillb, int *nfille, int *nerr) {
     /* - Check that start value less than stop value. */
     *nerr = 0;
@@ -132,17 +132,17 @@ cut_data__(float *in, int *nstart, int *nstop, int *nfillb, int *nfille, float *
 }
 
 void
-cut_define_(float *b, float *delta, float *dt, int *n) {
+cut_define_(double *b, double *delta, double *dt, int *n) {
     cut_define(*b, *delta, *dt, n);
 }
 
 void
-cut_define__(float *b, float *delta, float *dt, int *n) {
+cut_define__(double *b, double *delta, double *dt, int *n) {
     cut_define(*b, *delta, *dt, n);
 }
 
 void
-cut_define_check_(float *start, float *stop, int *npts, int *cuterr,
+cut_define_check_(double *start, double *stop, int *npts, int *cuterr,
                   int *nstart, int *nstop, int *nfillb, int *nfille,
                   int *nerr) {
     cut_define_check(*start, *stop, *npts, *cuterr, nstart, nstop, nfillb,
@@ -150,7 +150,7 @@ cut_define_check_(float *start, float *stop, int *npts, int *cuterr,
 }
 
 void
-cut_define_check__(float *start, float *stop, int *npts, int *cuterr,
+cut_define_check__(double *start, double *stop, int *npts, int *cuterr,
                    int *nstart, int *nstop, int *nfillb, int *nfille,
                    int *nerr) {
     cut_define_check(*start, *stop, *npts, *cuterr, nstart, nstop, nfillb,
@@ -159,9 +159,9 @@ cut_define_check__(float *start, float *stop, int *npts, int *cuterr,
 
 
 void
-cut(float *y, int npts, float b, float dt,
-         float begin_cut, float end_cut, int cuterr,
-         float *out, int *nout) {
+cut(float *y, int npts, double b, double dt,
+    double begin_cut, double end_cut, int cuterr,
+    float *out, int *nout) {
     int nfillb, nfille, nstart, nstop, nerr;
 
     // Determine start and stop data points for cut
@@ -214,14 +214,14 @@ cut(float *y, int npts, float b, float dt,
 }
 
 void
-cut_(float *y, int *npts, float *b, float *dt,
-         float *begin_cut, float *end_cut, int *cuterr,
-         float *out, int *nout) {
+cut_(float *y, int *npts, double *b, double *dt,
+     double *begin_cut, double *end_cut, int *cuterr,
+     float *out, int *nout) {
     cut(y, *npts, *b, *dt, *begin_cut, *end_cut, *cuterr, out, nout);
 }
 void
-cut__(float *y, int *npts, float *b, float *dt,
-         float *begin_cut, float *end_cut, int *cuterr,
-         float *out, int *nout) {
+cut__(float *y, int *npts, double *b, double *dt,
+      double *begin_cut, double *end_cut, int *cuterr,
+      float *out, int *nout) {
     cut(y, *npts, *b, *dt, *begin_cut, *end_cut, *cuterr, out, nout);
 }

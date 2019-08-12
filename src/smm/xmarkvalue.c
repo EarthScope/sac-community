@@ -171,10 +171,10 @@ xmarkvalue(nerr)
         /* -- Store in the requested header field. */
       L_4000:
         if (index >= 0) {
-            VALUE(fhdr(s, ifpick)) = s->h->b + (float) (index) * s->h->delta;
+            sac_set_float(s, ifpick, B(s) + (double) (index) * DT(s));
             strcpy(khdr(s, ikpick), kdescr);
         } else {
-            VALUE(fhdr(s, ifpick)) = SAC_FLOAT_UNDEFINED;
+            sac_set_float(s, ifpick, SAC_FLOAT_UNDEFINED);
             strcpy(khdr(s, ikpick), SAC_CHAR_UNDEFINED);
             setmsg("WARNING", 1);
             apcmsg("Could not find value", 21);

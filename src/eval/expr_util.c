@@ -200,10 +200,10 @@ getval_expr(Token *A, Token *time, Token *fileno, int lfile) {
             return FALSE;
         }
         t = time->value;
-        it = round( (t - s->h->b)/s->h->delta );
+        it = round( (t - B(s))/DT(s) );
         if(it < 0 || it > s->h->npts-1) {
             error(3141, "time outside of file range [%f %f] (%s)\n",
-                  s->h->b, s->h->e, s->m->filename);
+                  B(s), E(s), s->m->filename);
             show_error();
             return FALSE;
         }
@@ -282,7 +282,7 @@ header_to_token(char *str, Token * t, int col) {
 
     switch (icat) {
         case SAC_HEADER_FLOAT_TYPE:
-            token_value(t, VALUE(fhdr(s, item)), col);
+            token_value(t, sac_float(s, item), col);
             break;
         case SAC_HEADER_INT_TYPE:
             token_value(t, (int) VALUE(nhdr(s, item)), col);

@@ -190,8 +190,8 @@ xfg(int *nerr) {
     }
 
     /* - Set up new header. */
-    s->h->b = cmexm.fgbeg;
-    s->h->delta = cmexm.fgdel;
+    sac_set_float(s, SAC_B, cmexm.fgbeg);
+    sac_set_float(s, SAC_DELTA, cmexm.fgdel);
     s->h->npts = cmexm.nfgpts;
     sac_be(s);
 
@@ -296,8 +296,8 @@ xfg(int *nerr) {
     /* -- Sine wave. */
 
   L_2050:
-    del = 2. * PI * Fgsico[1] * s->h->delta;
-    arg0 = 2. * PI * (Fgsico[1] * s->h->b + Fgsico[2] / 360.);
+    del = 2. * PI * Fgsico[1] * DT(s);
+    arg0 = 2. * PI * (Fgsico[1] * B(s) + Fgsico[2] / 360.);
     for (j = 0; j <= ndx2; j++) {
         arg = arg0 + j * del;
         s->y[j] = sin(arg);
@@ -307,8 +307,9 @@ xfg(int *nerr) {
     /* -- Linear equation (Coefficients are linear multiplier and constant [ax+b]). */
 
   L_2060:
+
     for (j = 0; j <= ndx2; j++) {
-        arg = s->h->b + j * s->h->delta;
+        arg = B(s) + j * DT(s);
         s->y[j] = Fglico[1] * arg + Fglico[2];
     }
     goto L_8888;
@@ -316,8 +317,9 @@ xfg(int *nerr) {
     /* -- Quadratic equation. */
 
   L_2070:
+
     for (j = 0; j <= ndx2; j++) {
-        arg = s->h->b + j * s->h->delta;
+        arg = B(s) + j * DT(s);
         s->y[j] = Fgquco[1] * powi(arg, 2) + Fgquco[2] * arg + Fgquco[3];
     }
     goto L_8888;
@@ -325,8 +327,9 @@ xfg(int *nerr) {
     /* -- Cubic equation. */
 
   L_2080:
+
     for (j = 0; j <= ndx2; j++) {
-        arg = s->h->b + j * s->h->delta;
+        arg = B(s) + j * DT(s);
         s->y[j] =
             Fgcuco[1] * powi(arg, 3) + Fgcuco[2] * powi(arg,
                                                         2) + Fgcuco[3] * arg +

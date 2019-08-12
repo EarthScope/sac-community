@@ -135,15 +135,15 @@ xmarkptp(nerr)
             nlnatw = s->h->npts;
         }
         /* -- Measure maximum peak to peak amplitude and period in window */
-        nwin = (int) (cmsmm.winlen / s->h->delta);
+        nwin = (int) (cmsmm.winlen / DT(s));
         ptp(s->y + nofatw, nlnatw, &nwin, &ptpamp, &jpmin, &jpmax);
-        tmin = s->h->b + (float) (nofatw + jpmin - 1) * s->h->delta;
-        tmax = s->h->b + (float) (nofatw + jpmax - 1) * s->h->delta;
+        tmin = B(s) + (float) (nofatw + jpmin - 1) * DT(s);
+        tmax = B(s) + (float) (nofatw + jpmax - 1) * DT(s);
 
         /* -- Update any header fields that may have changed. */
-        VALUE(fhdr(s, ifpick)) = tmin;
+        sac_set_float(s, ifpick, tmin);
         strcpy(khdr(s, ikpick), "PTPMIN  ");
-        VALUE(fhdr(s, ifpick + 1)) = tmax;
+        sac_set_float(s, ifpick + 1, tmax);
         strcpy(khdr(s, ikpick + 1), "PTPMAX  ");
         s->h->user0 = ptpamp;
         strcpy(s->h->kuser0, "PTPAMP  ");

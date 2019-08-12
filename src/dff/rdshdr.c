@@ -103,7 +103,7 @@ rdshdr(int idfl, int *nun, int *nerr) {
 
     subscpy(s->h->kinst, 0, 3, 8, strtemp);
 
-    s->h->delta = (1.0 / (float) (*isdelt)) * 100.0;
+    sac_set_float(s, SAC_DELTA, (1.0 / (double) (*isdelt)) * 100.0);
     s->h->npts = *isnpts;
     s->h->stel = (float) (*issel) / 100.0;
     s->h->stdp = (float) (*issdep) / 100.0;
@@ -114,13 +114,13 @@ rdshdr(int idfl, int *nun, int *nerr) {
     is = *issla / 10000;
     imm = is % 100;
     is = is / 100;
-    s->h->stla = (float) (is) + (float) (imm) / 60.0 + (float) (iss) / 360000.0;
+    sac_set_float(s, SAC_STLA, (double) (is) + (double) (imm) / 60.0 + (double) (iss) / 360000.0);
 
     iss = *isslo % 10000;
     is = *isslo / 10000;
     imm = is % 100;
     is = is / 100;
-    s->h->stlo = (float) (is) + (float) (imm) / 60.0 + (float) (iss) / 360000.0;
+    sac_set_float(s, SAC_STLO, (double) (is) + (double) (imm) / 60.0 + (double) (iss) / 360000.0);
 
     /* - Convert time from yyyymmdd and hhmmssttt to separate fields */
 
@@ -171,7 +171,7 @@ rdshdr(int idfl, int *nun, int *nerr) {
     if (s->h->nzyear >= 0 && s->h->nzyear <= 99)
         s->h->nzyear = s->h->nzyear + 1900;
 
-    s->h->b = 0.0;
+    sac_set_float(s, SAC_B, 0.0);
     sac_be(s);
 
   L_8888:

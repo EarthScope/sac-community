@@ -90,14 +90,15 @@ disppk(tdelay)
     /* - Loop on each time field in header: */
 
     for (j = 1; j <= MTM; j++) {
+        double v = 0.0;
         j_ = j - 1;
 
         /* -- If time pick is defined and pick display is not off: */
-        if (VALUE(fhdr(s, cmlhf.itmfnm[j - 1])) != SAC_FLOAT_UNDEFINED &&
-            cmgam.ipktyp[j - 1] > 0) {
+        sac_get_float(s, cmlhf.itmfnm[j - 1], &v);
+        if (v != SAC_FLOAT_UNDEFINED && cmgam.ipktyp[j - 1] > 0) {
 
             /* --- Map the input x location in WC to PC. */
-            xwloc = (double) VALUE(fhdr(s, cmlhf.itmfnm[j - 1])) + tdelay;
+            xwloc = v + tdelay;
             xploc = cmgem.xmpip1 * xwloc + cmgem.xmpip2;
 
             /* --- If time pick is within x plot window: */
@@ -120,7 +121,7 @@ disppk(tdelay)
                     pltext(kpktxt, xploc + 0.005, yploc2 + 0.005);
                 } else {
                     xploc = cmgem.xmpip1 * xwloc + cmgem.xmpip2;
-                    getyw(VALUE(fhdr(s, cmlhf.itmfnm[j - 1])), &ywloc);
+                    getyw(v, &ywloc);
                     yploc = cmgem.ympip1 * ywloc + cmgem.ympip2;
                     xploc1 = fmax(cmgem.uplot.xmin, xploc - 0.5 * cmgam.pkwdth);
                     xploc2 = fmin(cmgem.uplot.xmax, xploc + 0.5 * cmgam.pkwdth);

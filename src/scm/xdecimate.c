@@ -204,7 +204,7 @@ xdecimate(int *nerr) {
         /* -- Update any header fields that may have changed. */
 
         s->h->npts = nlnnew;
-        s->h->delta = s->h->delta * (float) (cmscm.ndecfc);
+        sac_set_float(s, SAC_DELTA,  DT(s) * (double) (cmscm.ndecfc));
         sac_be(s);
         extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax,
                &s->h->depmen);

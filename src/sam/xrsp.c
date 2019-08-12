@@ -182,8 +182,8 @@ xrsp(nerr)
         /* -- Adjust certain header fields. */
         nfreq = s->h->npts;
         s->h->npts = 2 * (nfreq - 1);
-        s->h->b = 0.;
-        s->h->e = s->h->delta * (float) (nfreq - 1);
+        sac_set_float(s, SAC_B, 0.0);
+        sac_set_float(s, SAC_E, DT(s) * (double) (nfreq - 1));
         s->h->iftype = irsptp;
         sac_alloc(s);
 

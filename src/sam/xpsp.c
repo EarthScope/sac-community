@@ -254,8 +254,8 @@ xpsp(nerr)
         /* -- Set up specific plot options for this data file. */
 
         nptspl = s->h->npts / 2 - 1;
-        cmgem.xgen.first = s->h->delta;
-        cmgem.xgen.delta = s->h->delta;
+        cmgem.xgen.first = DT(s);
+        cmgem.xgen.delta = DT(s);
         getxlm(&cmgem.lxlim, &cmgem.ximn, &cmgem.ximx);
         getylm(&cmgem.lylim, &cmgem.yimn, &cmgem.yimx);
 

@@ -25,7 +25,7 @@ fdWhitenWrite(float *resp[4], char *kprefix, float *userData, int newnpts,
     /* index sacmem for Amplitude, Phase, 
        and the impulse response. */
 
-    int fileDescriptor = 0, idx, jdx, nlcmem, nlcdsk, nptwr;
+    int fileDescriptor = 0, idx, jdx, nlcmem;
     char kname[MCPFN], ksuffix[3][6];
     sac *s;
     float *bufout = NULL, **amph = NULL;
@@ -107,8 +107,8 @@ fdWhitenWrite(float *resp[4], char *kprefix, float *userData, int newnpts,
             break;
     }
 
-    s->h->b = 0.0;              /* other fields */
-    s->h->sb = 0.0;
+    sac_set_float(s, SAC_B, 0.0);
+    sac_set_float(s, SAC_SB, 0.0);
     s->h->nvhdr = 6;
     s->h->idep = IUNKN;
     s->h->iztype = IB;
@@ -140,40 +140,23 @@ fdWhitenWrite(float *resp[4], char *kprefix, float *userData, int newnpts,
         /* Get file name */
         sprintf(kname, "%s%s", kprefix, ksuffix[jdx]);
 
-        /* Open file */
-        znfile(&fileDescriptor, kname, MCPFN, nerr);
-        if (*nerr)
-            goto L_ERROR;
-
-        /* Get ready to write header to disk */
-        nlcdsk = 0;
-        nptwr = SAC_HEADER_WORDS_FILE;
-
-        /* write the header */
-        sac_header_write(fileDescriptor, &s->h->delta, (char *) &s->h->kstnm,
-                         FALSE, nerr);
-
-        nlcdsk += nptwr;
-        nptwr = nFreq;
 
         /* Write data to disk */
-
         switch (jdx) {
             case 0:
-                sac_data_write2(fileDescriptor, amph[0], amph[1], s->h->npts,
-                                FALSE, nerr);
+                s->y = amph[0];
+                s->x = amph[1];
                 break;
             case 1:
             case 2:
-                sac_data_write1(fileDescriptor, resp[nlcmem], s->h->npts, FALSE,
-                                nerr);
+                s->y = resp[nlcmem];
                 break;
         }
 
-        /* Close file */
-        zclose(&fileDescriptor, nerr);
-        fileDescriptor = 0;
-    }                           /* end for */
+        sac_write_r(s, kname, TRUE, FALSE, nerr);
+        s->y = NULL;
+        s->x = NULL;
+    }
 
   L_ERROR:
 
@@ -203,8 +186,8 @@ void
 aphdrw(int newnpts, int nFreq, sac * s) {
     s->h->nsnpts = newnpts;
     s->h->npts = nFreq;
-    s->h->sdelta = s->h->user6;
-    s->h->delta = 1. / (s->h->sdelta * (float) (nFreq));
+    sac_set_float(s, SAC_SDELTA, s->h->user6);
+    sac_set_float(s, SAC_DELTA, 1. / (SB(s) * (double) (nFreq)));
     s->h->iftype = IAMPH;
 
     strcpy(s->h->kevnm, "FD: AMP/PH");
@@ -214,8 +197,8 @@ void
 gdhdrw(int newnpts, int nFreq, sac * s) {
     s->h->nsnpts = newnpts;
     s->h->npts = nFreq / 2;
-    s->h->sdelta = s->h->user6;
-    s->h->delta = 1. / (s->h->sdelta * nFreq);
+    sac_set_float(s, SAC_SDELTA, s->h->user6);
+    sac_set_float(s, SAC_DELTA, 1. / (SB(s) * nFreq));
     s->h->iftype = ITIME;
 
     strcpy(s->h->kevnm, "FD: GROUP DELAY");
@@ -225,8 +208,8 @@ void
 irhdrw(int newnpts, int nFreq, sac * s) {
     s->h->nsnpts = nFreq;
     s->h->npts = newnpts;
-    s->h->delta = s->h->user6;
-    s->h->sdelta = 1. / (s->h->delta * (float) (s->h->npts));
+    sac_set_float(s, SAC_DELTA, s->h->user6);
+    sac_set_float(s, SAC_SDELTA, 1. / (DT(s) * (double) (s->h->npts)));
     s->h->iftype = ITIME;
 
     strcpy(s->h->kevnm, "FD: IMPULSE");

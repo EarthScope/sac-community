@@ -122,7 +122,7 @@ xhp(nerr)
 
         /* -- Check that corner frequency is within proper range. */
 
-        fnyq = 0.5 / s->h->delta;
+        fnyq = 0.5 / DT(s);
         if (cmsam.cfhp > fnyq) {
             *nerr = 1611;
             setmsg("ERROR", *nerr);
@@ -135,7 +135,7 @@ xhp(nerr)
 
         xapiir(s->y, s->h->npts, (char *) kmsam.ktpiir[cmsam.itphp - 1],
                cmsam.tbwhp, cmsam.atnhp, cmsam.npolhp, "HP", cmsam.cfhp, 0.,
-               (double) s->h->delta, cmsam.npashp);
+               DT(s), cmsam.npashp);
 
         /* -- Adjust header of file in DFL. */
 

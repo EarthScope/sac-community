@@ -35,7 +35,10 @@
 
 #define SAC_HEADER_SIZEOF_NUMBER          (sizeof(float))  /**< @brief Size of header values in bytes */
 #define SAC_DATA_SIZE                     SAC_HEADER_SIZEOF_NUMBER /**< @brief Size of data values in bytes */
-#define SAC_HEADER_MAJOR_VERSION          6 /**< @brief Current Major sac version number */
+#define SAC_HEADER_VERSION_6              6 /**< @brief Sac version no 6 */
+#define SAC_HEADER_VERSION_7              7 /**< @brief Sac version no 7 */
+#define SAC_HEADER_MAJOR_VERSION          SAC_HEADER_VERSION_6 /**< @brief Current Major sac version number */
+#define SAC_HEADER_MAX_VERSION            SAC_HEADER_VERSION_7 /**< @brief Current Maximum sac version number */
 #define SAC_VERSION_LOCATION              76 /**< @brief Offset in 4-byte words of the header version */
 
 /**
@@ -48,7 +51,7 @@
 /** \cond NO_DOCS */
 sacmeta * sac_meta_new();
 sac * sac_read_internal(char *filename, int read_data, int *nerr);
-float calc_e_even(sac *s);
+double calc_e_even(sac *s);
 void sac_write_internal(sac *s, char *filename, int write_data, int swap, int *nerr);
 static float array_max(float *y, int n);
 static float array_min(float *y, int n);
@@ -191,6 +194,133 @@ sac_write(sac *s, char *filename, int *nerr) {
 
 
 
+sac_f64 *
+sac_f64_new() {
+    sac_f64 *z;
+    z = (sac_f64 *) malloc(sizeof(sac_f64));
+    if(z) {
+#define X(name,key)  z->key = SAC_FLOAT_UNDEFINED;
+  SAC_F64
+#undef X
+    }
+    return z;
+}
+int
+sac_set_f32(sac *s, int n, double value) {
+    switch(n) {
+#define X(name,key)  case SAC_##name: s->h->key = value; break;
+  SAC_F32
+#undef X
+    default:
+        fprintf(stderr, "Error in sac_set_f32(): Unknown type: %d\n", n);
+        return 0;
+    }
+    return 1;
+}
+
+int
+sac_set_f64(sac *s, int n, double value) {
+    switch(n) {
+#define X(name,key)  case SAC_##name: s->z->key = value; s->h->key = value; break;
+        SAC_F64
+#undef X
+    default:
+        return sac_set_f32(s, n, (float) value);
+        //fprintf(stderr, "Error in sac_set_f64(): Unknown type: %d\n", n);
+        break;
+    }
+    return 1;
+}
+
+int
+sac_get_f32(sac *s, int n, double *v) {
+    switch(n) {
+#define X(name,key) case SAC_##name: *v = s->h->key; break;
+        SAC_F32
+#undef X
+    default:
+        fprintf(stderr, "Error in sac_get_f32(): Unknown type: %d\n", n);
+        return 0;
+    }
+    return 1;
+}
+
+int
+sac_get_f64(sac *s, int n, double *v) {
+    switch(n) {
+#define X(name,key)  case SAC_##name: *v = s->z->key; break;
+        SAC_F64
+#undef X
+    default:
+        return sac_get_f32(s, n, v);
+        break;
+    }
+    return 1;
+}
+
+void
+sac_copy_f64_to_f32(sac *s) {
+#define X(name,key) s->h->key = s->z->key;
+    SAC_F64
+#undef X
+}
+void
+sac_copy_f32_to_f64(sac *s) {
+#define X(name,key) s->z->key = s->h->key;
+    SAC_F64
+#undef X
+}
+
+int
+sac_set_pick(sac *s, int n, double value) {
+    switch(n) {
+    case 0: return sac_set_float(s, SAC_T0, value); break;
+    case 1: return sac_set_float(s, SAC_T1, value); break;
+    case 2: return sac_set_float(s, SAC_T2, value); break;
+    case 3: return sac_set_float(s, SAC_T3, value); break;
+    case 4: return sac_set_float(s, SAC_T4, value); break;
+    case 5: return sac_set_float(s, SAC_T5, value); break;
+    case 6: return sac_set_float(s, SAC_T6, value); break;
+    case 7: return sac_set_float(s, SAC_T7, value); break;
+    case 8: return sac_set_float(s, SAC_T8, value); break;
+    case 9: return sac_set_float(s, SAC_T9, value); break;
+    default:
+        fprintf(stderr, "Error in sac_set_pick(): Unknown pick: %d\n", n);
+        return 0;
+        break;
+    }
+    return 1;
+}
+
+int
+sac_get_pick(sac *s, int n, double *t) {
+    switch(n) {
+    case 0: return sac_get_float(s, SAC_T0, t); break;
+    case 1: return sac_get_float(s, SAC_T1, t); break;
+    case 2: return sac_get_float(s, SAC_T2, t); break;
+    case 3: return sac_get_float(s, SAC_T3, t); break;
+    case 4: return sac_get_float(s, SAC_T4, t); break;
+    case 5: return sac_get_float(s, SAC_T5, t); break;
+    case 6: return sac_get_float(s, SAC_T6, t); break;
+    case 7: return sac_get_float(s, SAC_T7, t); break;
+    case 8: return sac_get_float(s, SAC_T8, t); break;
+    case 9: return sac_get_float(s, SAC_T9, t); break;
+    default:
+        fprintf(stderr, "Error in sac_get_pick(): Unknown pick: %d\n", n);
+        break;
+    }
+    return 0;
+}
+
+void
+sac_set_v7(sac *s) {
+    s->h->nvhdr = SAC_HEADER_VERSION_7;
+}
+void
+sac_set_v6(sac *s) {
+    s->h->nvhdr = SAC_HEADER_VERSION_6;
+}
+
 /**
  * @brief      create a new sac file structure
  *
@@ -214,6 +344,10 @@ sac_new() {
         }
         s->m = sac_meta_new();
         if (!s->m) {
+            goto ERROR;
+        }
+        s->z = sac_f64_new();
+        if(!s->z) {
             goto ERROR;
         }
         s->n = 1;
@@ -299,11 +433,11 @@ sac_alloc(sac * s) {
 void
 sac_be(sac *s) {
     if(s->h->leven) {
-        s->h->e = calc_e_even(s);
+        sac_set_float(s, SAC_E, calc_e_even(s));
     } else {
         if(s->x) {
-            s->h->b = array_min(s->x, s->h->npts);
-            s->h->e = array_max(s->x, s->h->npts);
+            sac_set_float(s, SAC_B, array_min(s->x, s->h->npts));
+            sac_set_float(s, SAC_E, array_max(s->x, s->h->npts));
         }
     }
 }
@@ -340,20 +474,21 @@ update_distaz(sac *s) {
         return;
     }
     geod_init(&g, a, f);
-    lat1 = s->h->evla;
-    lon1 = s->h->evlo;
-    lat2 = s->h->stla;
-    lon2 = s->h->stlo;
+    sac_get_float(s, SAC_EVLA, &lat1);
+    sac_get_float(s, SAC_EVLO, &lon1);
+    sac_get_float(s, SAC_STLA, &lat2);
+    sac_get_float(s, SAC_STLO, &lon2);
     degrees = geod_geninverse(&g, lat1, lon1, lat2, lon2,
                               &meters, &az1, &az2,
                               0, 0, 0, 0);
-    s->h->gcarc = degrees;
-    s->h->dist  = meters / 1e3;
-    s->h->az    = az1;
-    s->h->baz   = az2 - 180.0;
-    if(s->h->baz <= 0.0) {
-        s->h->baz += 360.0;
+    sac_set_float(s, SAC_GCARC, degrees);
+    sac_set_float(s, SAC_DIST, meters/1e3);
+    sac_set_float(s, SAC_AZ, az1);
+    az2 = az2 - 180.0;
+    if(az2 <= 0.0) {
+        az2 += 360.0;
     }
+    sac_set_float(s, SAC_BAZ, az2);
 }
 #else
 void distaz(double the, double phe, float *ths, float *phs,
@@ -364,39 +499,83 @@ update_distaz(sac * s) {
     float d,a,b,g;
     int ndaerr = 0;
     //DEBUG("\n");
-    if (s->h->lcalda && s->h->stla != SAC_FLOAT_UNDEFINED &&
-        s->h->stlo != SAC_FLOAT_UNDEFINED && s->h->evla != SAC_FLOAT_UNDEFINED
-        && s->h->evlo != SAC_FLOAT_UNDEFINED) {
+    double sx, sy, ex, ey;
+    float fsx, fsy;
+    sac_get_float(s, SAC_STLO, &sx);
+    sac_get_float(s, SAC_STLA, &sy);
+    sac_get_float(s, SAC_EVLO, &ex);
+    sac_get_float(s, SAC_EVLA, &ey);
+    if (s->h->lcalda && sx != SAC_FLOAT_UNDEFINED &&
+        sy != SAC_FLOAT_UNDEFINED && ex != SAC_FLOAT_UNDEFINED
+        && ey != SAC_FLOAT_UNDEFINED) {
         //DEBUG("compute\n");
         /* These temporary values are necessary as distaz() will not
          * calculate an output if the input is < 0
          */
         d = a = b = g = 0;
-        distaz(s->h->evla, s->h->evlo,
-               (float *) &s->h->stla, (float *) &s->h->stlo,
+        fsx = sx;
+        fsy = sy;
+        distaz(ey, ex,
+               (float *) &fsy, (float *) &fsx,
                1,
                (float *) &d, (float *) &a, (float *) &b, (float *) &g,
                &ndaerr);
-                s->h->dist  = d;
-        s->h->gcarc = g;
-        s->h->az    = a;
-        s->h->baz   = b;
-        //DEBUG("done\n");
-        //DEBUG("dist: %.2f gcarc: %.2f\n", s->h->dist, s->h->gcarc);
-        if (s->h->evla == s->h->stla && s->h->evlo == s->h->stlo) {
-            s->h->az = 0;
-            s->h->baz = 0;
+        sac_set_float(s, SAC_DIST, d);
+        sac_set_float(s, SAC_GCARC, g);
+        sac_set_float(s, SAC_AZ, a);
+        sac_set_float(s, SAC_BAZ, b);
+        if (sx == ex && sy == ey) {
+            sac_set_float(s, SAC_AZ, 0.0);
+            sac_set_float(s, SAC_BAZ, 0.0);
         }
         if (ndaerr) {
-            s->h->dist = SAC_FLOAT_UNDEFINED;
-            s->h->az = SAC_FLOAT_UNDEFINED;
-            s->h->baz = SAC_FLOAT_UNDEFINED;
-            s->h->gcarc = SAC_FLOAT_UNDEFINED;
+            sac_set_float(s, SAC_DIST, SAC_FLOAT_UNDEFINED);
+            sac_set_float(s, SAC_GCARC, SAC_FLOAT_UNDEFINED);
+            sac_set_float(s, SAC_AZ, SAC_FLOAT_UNDEFINED);
+            sac_set_float(s, SAC_BAZ, SAC_FLOAT_UNDEFINED);
         }
     }
     return;
 }
 #endif
+
+void
+sac_header_copy(sac * to, sac * from) {
+    memmove(to->h, from->h, sizeof(sac_hdr));
+    memmove(to->z, from->z, sizeof(sac_f64));
+}
+void
+sac_meta_copy(sac *to, sac *from) {
+    to->m->swap      = from->m->swap;
+    to->m->filename  = strdup(from->m->filename);
+    to->m->data_read = from->m->data_read;
+    to->m->nstop     = from->m->nstop;
+    to->m->nstart    = from->m->nstart;
+    to->m->nfillb    = from->m->nfillb;
+    to->m->nfille    = from->m->nfille;
+    to->m->ntotal    = from->m->ntotal;
+}
+void
+sac_data_copy(sac *to, sac *from) {
+    if(from->y) {
+        sac_alloc(to);
+        memcpy(to->y, from->y, sizeof(float) * from->h->npts);
+        if(sac_comps(to) == 2 && from->x) {
+            memcpy(to->x, from->x, sizeof(float) * from->h->npts);
+        }
+    }
+}
+
+sac *
+sac_copy(sac *s) {
+    sac *new;
+    new = sac_new();
+    sac_header_copy(new, s);
+    sac_meta_copy(new, s);
+    sac_data_copy(new, s);
+    return new;
+}
+
 
 /**
  * @brief      Check the number of npts in a sac file
@@ -791,26 +970,28 @@ check_precision(float dt, float val) {
  *
  */
 void
-sac_check_time_precision(sac_hdr *h) {
-    int i, n;
-    double df;
-    char *names[] = {"b","e","a","o","t0","t1","t2","t3","t4","t5","t6","t7","t8","t9","f"};
-    float values[] = {h->b, h->e, h->a, h->o,
-                      h->t0,h->t1,h->t2,h->t3,h->t4, h->t5,h->t6,h->t7,h->t8,h->t9,
-                      h->f};
-    if(h->delta == SAC_FLOAT_UNDEFINED || h->iftype != ITIME) {
+sac_check_time_precision(sac *s) {
+    int i = 0;
+    double df, v, dt;
+    char *names[] = {"b","e","a","o","fmt",
+                     "t0","t1","t2","t3","t4","t5","t6","t7","t8","t9","f"};
+    if(s->h->nvhdr == SAC_HEADER_VERSION_7 ||
+       s->h->_delta == SAC_FLOAT_UNDEFINED ||
+       s->h->iftype != ITIME) {
         return;
     }
-    n = sizeof(values)/sizeof(float);
-    for(i = 0; i < n; i++) {
-        if(values[i] == SAC_FLOAT_UNDEFINED) {
+    sac_get_float(s, SAC_DELTA, &dt);
+    for(i = SAC_B; i <= SAC_T9; i++) {
+        if(i == SAC_FMT) { continue; }
+        sac_get_float(s, i, &v);
+        if(v == SAC_FLOAT_UNDEFINED) {
             continue;
         }
-        if((df = check_precision(h->delta, values[i])) != 0) {
+        if((df = check_precision(dt, v)) != 0) {
             printf(" WARNING:  minimum precision > sampling rate: %s = %f\n"
                 "       sampling rate (delta):      %f\n"
                 "       32-bit minimum precision:   %f\n",
-                names[i], values[i], h->delta, df);
+                names[i-SAC_B], v, dt, df);
             //outmsg();
             //clrmsg();
         }
@@ -1085,6 +1266,70 @@ sac_data_write(int nun, float *y, float *x, int comps, int npts, int swap,
     return;
 }
 
+static int v7_keys[] = {
+#define X(name,key) SAC_##name ,
+    SAC_F64
+#undef X
+};
+static size_t v7_keys_length = sizeof(v7_keys) / sizeof(int);
+/**
+ * Write the sac header version 7
+ *
+ * # Arguments
+ * - `nun` - Negative file id number (yes, it is negative)
+ * - `s` - sac file structure to write out
+ * - `nerr` - Error reporting value
+ *
+ * V7 of the header is a additional set of data at the end of the file
+ * following the data.  This routine only reads the this "footer" of
+ * metadata, the v6 header I/O routines are still required
+ *
+ */
+void
+sac_header_write_v7(int nun, sac *s, int *nerr) {
+    size_t n;
+    double buffer[v7_keys_length];
+    *nerr = SAC_OK;
+
+    for(size_t i = 0; i < v7_keys_length; i++) {
+        sac_get_f64(s, v7_keys[i], &buffer[i]);
+    }
+
+    n = write(nun, buffer, sizeof(buffer));
+    if(n != sizeof(buffer)) {
+        *nerr = ERROR_WRITING_FILE;
+    }
+}
+
+/**
+ * Read the sac header version 7
+ * 
+ * # Arguments
+ * - `nun` - Negative file id number (yes, it is negative)
+ * - `s` - sac file structure to fill
+ * - `nerr` - Error reporting value
+ *
+ * V7 of the header is a additional set of data at the end of the file
+ * following the data.  This routine only reads the this "footer" of
+ * metadata, the v6 header I/O routines are still required
+ *
+ */
+void
+sac_header_read_v7(FILE *fp, sac *s, int *nerr) {
+    size_t n;
+    double buffer[v7_keys_length];
+    *nerr = SAC_OK;
+
+    n = fread(buffer, sizeof(double), v7_keys_length, fp);
+    if(n != v7_keys_length) {
+        *nerr = ERROR_READING_FILE;
+        return;
+    }
+    for(size_t i = 0; i < v7_keys_length; i++) {
+        sac_set_f64(s, v7_keys[i], buffer[i]);
+    }
+}
+
 /**
  * @brief      internal sac data writing function
  *
@@ -1124,7 +1369,7 @@ sac_write_internal(sac *s, char *filename, int write_data, int swap, int *nerr) 
     }
     update_distaz(s);
 
-    sac_check_time_precision(s->h);
+    sac_check_time_precision(s);
 
     if(write_data) {
         nin = creat(filename, 0666);
@@ -1140,6 +1385,10 @@ sac_write_internal(sac *s, char *filename, int write_data, int swap, int *nerr) 
         }
         return;
     }
+    switch(s->h->nvhdr) {
+    case SAC_HEADER_VERSION_7:  sac_copy_f64_to_f32(s); break;
+    case SAC_HEADER_VERSION_6:  sac_copy_f32_to_f64(s); break;
+    }
     sac_header_write(s, nin, swap, nerr);
     if(*nerr != SAC_OK) {
         return;
@@ -1150,6 +1399,10 @@ sac_write_internal(sac *s, char *filename, int write_data, int swap, int *nerr) 
             return;
         }
     }
+    if(s->h->nvhdr == SAC_HEADER_VERSION_7) {
+        sac_header_write_v7(nin, s, nerr);
+    }
+
     close(nin);
 }
 /**
@@ -1214,10 +1467,10 @@ sac_check_header_version(float *hdr, int *nerr) {
     *nerr = SAC_OK;
     /* determine if the data needs to be swapped. */
     ver = (int *) (hdr + SAC_VERSION_LOCATION);
-    if (*ver < 1 || *ver > SAC_HEADER_MAJOR_VERSION) {
+    if (*ver < 1 || *ver > SAC_HEADER_MAX_VERSION) {
         byteswap_bsd((void *) ver, SAC_HEADER_SIZEOF_NUMBER);
 
-        if (*ver < 1 || *ver > SAC_HEADER_MAJOR_VERSION) {
+        if (*ver < 1 || *ver > SAC_HEADER_MAX_VERSION) {
             *nerr = ERROR_NOT_A_SAC_FILE;
             printf("not in sac format, nor byteswapped sac format.");
             return -1;
@@ -1268,7 +1521,7 @@ sac_header_read(sac *s, FILE *fp) {
     }
     sac_copy_strings_add_terminator(s, str);
 
-    sac_check_time_precision(s->h);
+    sac_check_time_precision(s);
 
     return 0;
 }
@@ -1325,6 +1578,16 @@ sac_read_internal(char *filename, int read_data, int *nerr) {
             goto ERROR;
         }
     }
+    switch(s->h->nvhdr) {
+    case SAC_HEADER_VERSION_7:
+        sac_header_read_v7(fp, s, nerr);
+        sac_copy_f64_to_f32(s);
+        break;
+    case SAC_HEADER_VERSION_6:
+        sac_copy_f32_to_f64(s);
+        break;
+    }
+
     sac_be(s);
     update_distaz(s);
     if(read_data) {
@@ -1421,13 +1684,16 @@ sac_meta_new() {
  *
  * @return     end time
  */
-float
+double
 calc_e_even(sac *s) {
+    double b, dt;
+    sac_get_float(s, SAC_B, &b);
+    sac_get_float(s, SAC_DELTA, &dt);
     switch (s->h->iftype) {
     case ITIME:
     case IXY:
     case IUNKN:
-        return s->h->b + s->h->delta * (float)(s->h->npts - 1);
+        return b + dt * (float)(s->h->npts - 1);
         break;
     case IRLIM:
     case IAMPH: {
@@ -1437,7 +1703,7 @@ calc_e_even(sac *s) {
         } else {
             nfreq = (s->h->npts-1) / 2;
         }
-        return s->h->b + (float) nfreq * s->h->delta;
+        return b + (float)nfreq * dt;
     }
         break;
     case IXYZ:
@@ -1491,7 +1757,7 @@ sac_set_string(sac *s, int hdr, char *v) {
 void
 sac_timing_mark(sac *s, int time_id, int name_id, char *dst, size_t n) {
     if(sac_hdr_defined(s, time_id, NULL)) {
-        float time = 0.0;
+        double time = 0.0;
         char name[32] = {0};
         sac_get_float(s, time_id, &time);
         if(sac_hdr_defined(s, name_id, NULL)) {
@@ -1586,13 +1852,11 @@ sac_get_string(sac *s, int hdr, char *v, size_t n) {
  * @return     success code, 1 on success, 0 on failure
  */
 int
-sac_set_float(sac *s, int hdr, float v) {
+sac_set_float(sac *s, int hdr, double v) {
     if(!s || hdr < SAC_DELTA || hdr > SAC_UN70) {
         return 0;
     }
-    float *fp = (float *) (&(s->h->delta));
-    fp[hdr - SAC_DELTA] = v;
-    return 1;
+    return sac_set_f64(s, hdr, v);
 }
 /**
  * @brief      Get a floating point value from a sac file
@@ -1609,13 +1873,18 @@ sac_set_float(sac *s, int hdr, float v) {
  * @return     status code, 0 on failure, 1 on success
  */
 int
-sac_get_float(sac *s, int hdr, float *v) {
+sac_get_float(sac *s, int hdr, double *v) {
     if(!s || hdr < SAC_DELTA || hdr > SAC_UN70 || !v) {
         return 0;
     }
-    float *fp = (float *) (&(s->h->delta));
-    *v = fp[hdr - SAC_DELTA];
-    return 1;
+    switch(s->h->nvhdr) {
+    case SAC_HEADER_VERSION_6: return sac_get_f32(s, hdr, v); break;
+    case SAC_HEADER_VERSION_7: return sac_get_f64(s, hdr, v); break;
+    default:
+        printf("Unknown header version: %d, expected 6 or 7\n", s->h->nvhdr);
+        break;
+    }
+    return 0;
 }
 /**
  * @brief      Set a integer value in a sac file
@@ -1693,7 +1962,7 @@ sac_hdr_defined(sac *s, ...) {
     va_start(ap, s);
     while((h = va_arg(ap, int)) > 0) {
         if( is_float(h) ) {
-            float v = 0.0;
+            double v = 0.0;
             sac_get_float(s, h, &v);
             if(v == SAC_FLOAT_UNDEFINED) {
                 return 0;
@@ -1770,7 +2039,7 @@ sac_get_time_ref(sac *s, timespec64 *t) {
  */
 int
 sac_get_time(sac *s, int hdr, timespec64 *t) {
-    float v = 0.0;
+    double v = 0.0;
     double fract = 0.0, ipart = 0.0;
     if(!sac_get_time_ref(s, t)) {
         return 0;
@@ -1810,11 +2079,11 @@ sac_set_time(sac *s, timespec64 t) {
     int j = 0;
     struct TM tm = {0};
     timespec64 t0;
-    float dt = 0.0;
+    double dt = 0.0;
     if(sac_get_time_ref(s, &t0)) {
         int64_t dtf = t.tv_sec - t0.tv_sec;
         int64_t dtp = t.tv_nsec - t0.tv_nsec;
-        dt = (float) dtf + (float) dtp / 1e9;
+        dt = (double) dtf + (double) dtp / 1e9;
     }
     gmtime64_r(&t.tv_sec, &tm);
     s->h->iztype = IO;
@@ -1824,9 +2093,9 @@ sac_set_time(sac *s, timespec64 t) {
     s->h->nzmin  = tm.tm_min;
     s->h->nzsec  = tm.tm_sec;
     s->h->nzmsec = t.tv_nsec / 1000000;
-    s->h->o = dt;
+    sac_set_float(s, SAC_O, dt);
     for(j = SAC_B; j <= SAC_F; j++) {
-        float v = 0.0;
+        double v = 0.0;
         sac_get_float(s, j, &v);
         if(v != SAC_FLOAT_UNDEFINED) {
             sac_set_float(s, j, v - dt);
@@ -1912,7 +2181,7 @@ sac_timelcat(char *dst, sac *s, int hdr, size_t n) {
  */
 size_t
 sac_floatlcat(char *dst, sac *s, int hdr, size_t n) {
-    float v = 0.0;
+    double v = 0.0;
     char tmp[64] = {0};
     sac_get_float(s, hdr, &v);
     if(v != SAC_FLOAT_UNDEFINED) {
@@ -2120,6 +2389,7 @@ main() {
     timespec64 t2 = {0,0};
     s->h->npts = 10;
     s->h->delta = 1.0;
+    sac_set_float(s, SAC_B, 0.0);
     s->h->b = 0.0;
     sac_alloc(s);
     for(int i = 0; i < 10; i++) {

@@ -52,6 +52,7 @@ wrsdd(int idfl, char *kname, int kname_s, int ldta, int *nerr) {
     int idx, idd, ideg, ifrac, ihh, ijday, imm, imsec;
     int iss, itm, jcomp, ncerr, nlcdsk, nptwr;
     int nun;
+    double v = 0.0;
     float frac;
     sac *s;
     int *sdd;
@@ -107,8 +108,9 @@ wrsdd(int idfl, char *kname, int kname_s, int ldta, int *nerr) {
         strtemp[4] = '\0';
         subscpy(kschan, 8, 11, 12, strtemp);
     }
-    if (s->h->delta != SAC_FLOAT_UNDEFINED)
-        *isdelt = (int) ((1.0 / s->h->delta) * 100.0 + .5);
+
+    if (DT(s) != SAC_FLOAT_UNDEFINED)
+        *isdelt = (int) ((1.0 / DT(s)) * 100.0 + .5);
     *isnpts = s->h->npts;
     if (s->h->stel != SAC_FLOAT_UNDEFINED)
         *issel = (int) (s->h->stel * 100.0 + .5);
@@ -121,8 +123,8 @@ wrsdd(int idfl, char *kname, int kname_s, int ldta, int *nerr) {
     itm =
         s->h->nzmsec + (((s->h->nzhour * 60 + s->h->nzmin) * 60) +
                         s->h->nzsec) * 1000;
-    if (s->h->b != SAC_FLOAT_UNDEFINED && s->h->b != 0.0) {
-        itm = itm + (int) (s->h->b * 1000.0 + .5);
+    if (B(s) != SAC_FLOAT_UNDEFINED && B(s) != 0.0) {
+        itm = itm + (int) (B(s) * 1000.0 + .5);
         if (itm < 0) {
             ijday = ijday - 1;
             itm = itm + 8640000;
@@ -147,9 +149,10 @@ wrsdd(int idfl, char *kname, int kname_s, int ldta, int *nerr) {
     *isdate = idd + (s->h->nzyear * 100 + imm) * 100;
 
     /* - Convert lat/lon back from fraction to minutes/seconds */
-    if (s->h->stla != SAC_FLOAT_UNDEFINED) {
-        ideg = s->h->stla;
-        frac = s->h->stla - (float) (ideg);
+    sac_get_float(s, SAC_STLA, &v);
+    if (v != SAC_FLOAT_UNDEFINED) {
+        ideg = v;
+        frac = v - (float) (ideg);
         imm = frac * 60.0;
         frac = frac * 60.0 - (float) (imm);
         iss = frac * 60.0;
@@ -157,10 +160,10 @@ wrsdd(int idfl, char *kname, int kname_s, int ldta, int *nerr) {
         ifrac = (int) (frac * 100.0 + .5);
         *issla = ifrac + ((ideg * 100 + imm) * 100 + iss) * 100;
     }
-
-    if (s->h->stlo != SAC_FLOAT_UNDEFINED) {
-        ideg = s->h->stlo;
-        frac = s->h->stlo - (float) (ideg);
+    sac_get_float(s, SAC_STLO, &v);
+    if (v != SAC_FLOAT_UNDEFINED) {
+        ideg = v;
+        frac = v - (float) (ideg);
         imm = frac * 60.0;
         frac = frac * 60.0 - (float) (imm);
         iss = frac * 60.0;

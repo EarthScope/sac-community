@@ -61,7 +61,7 @@ delta_equal(sac * s1, sac * s2) {
     if (isIgnore(kmbom.kecdel)) {
         return 0;
     }
-    value = (s2->h->delta - s1->h->delta) / s2->h->delta;
+    value = (DT(s2) - DT(s1)) / DT(s2);
     if (!linrng(value, -RNDOFF, RNDOFF)) {
         fatal = isFatal(kmbom.kecdel);
         nerr = ERROR_HEADER_FILE_MISMATCH;
@@ -114,11 +114,11 @@ time_equal(sac * s1, sac * s2) {
     int err;
     int timeb1[6], timeb2[6];
     char t1[33], t2[33];
-    float diff;
+    double diff;
 
     if (ldttm(&s1->h->nzyear) && ldttm(&s2->h->nzyear)) {
-        idttm(&s1->h->nzyear, s1->h->b, timeb1);
-        idttm(&s2->h->nzyear, s2->h->b, timeb2);
+        idttm(&s1->h->nzyear, B(s1), timeb1);
+        idttm(&s2->h->nzyear, B(s2), timeb2);
         ddttm(timeb1, timeb2, &diff);
         if (fabs(diff) > RNDOFF) {
             kadttm(timeb1, t1, 33, &err);

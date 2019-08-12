@@ -90,8 +90,8 @@ xsss(nerr)
 
         /* -- Make sure the sampling rates match if requested. */
         if (jdfl == 1) {
-            cmsss.del = s->h->delta;
-        } else if (fabs(s->h->delta - cmsss.del) > cmsss.srcfac && cmsss.lsrc) {
+            cmsss.del = DT(s);
+        } else if (fabs(DT(s) - cmsss.del) > cmsss.srcfac && cmsss.lsrc) {
             *nerr = 5109;
             setmsg("ERROR", *nerr);
             goto L_8888;
@@ -116,8 +116,8 @@ xsss(nerr)
         }
 
         /* -- Set begin and end time from header. added 960701 maf */
-        Tbegin[jdfl] = s->h->b; /* if begin is undefined, Tbegin is too */
-        Tend[jdfl] = s->h->e;
+        Tbegin[jdfl] = B(s); /* if begin is undefined, Tbegin is too */
+        Tend[jdfl] = E(s);
 
     }                           /* end for */
 

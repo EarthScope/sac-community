@@ -26,8 +26,8 @@ DFM_EXTERN
 //#define __DEBUG__
 #include "debug.h"
 
-void cut_define(float b, float delta, double dt, int *n);
-void cut_define_check(float start, float stop, int npts, int cuterr,
+void cut_define(double b, double delta, double dt, int *n);
+void cut_define_check(double start, double stop, int npts, int cuterr,
                       int *nstart, int *nstop, int *nfillb, int *nfille,
                       int *nerr);
 
@@ -77,7 +77,7 @@ defcut(char kcut[2][9], double ocut[2], int idfl, int *nerr) {
     if (!(s = sacget(idfl - 1, FALSE, nerr))) {
         return;
     }
-    DEBUG("B %f\n", s->h->b);
+    DEBUG("B %f\n", B(s));
     /* - Save total number of points in file. */
     s->m->ntotal = s->h->npts;
     DEBUG("kcut <%s> <%s>\n", kcut[0], kcut[1]);
@@ -91,7 +91,7 @@ defcut(char kcut[2][9], double ocut[2], int idfl, int *nerr) {
         DEBUG("START pick index: %d (string list) => %d\n", jdx,
               cmdfm.ipckhd[jdx - 1]);
         if (jdx > 0) {
-            Pick[1] = VALUE(fhdr(s, cmdfm.ipckhd[jdx - 1]));
+            sac_get_float(s, cmdfm.ipckhd[jdx - 1], &Pick[1])
             DEBUG("PICK[1]: %f\n", Pick[1]);
         }
         else {
@@ -122,19 +122,19 @@ defcut(char kcut[2][9], double ocut[2], int idfl, int *nerr) {
             outmsg();
             setmsg("OUTPUT", ERROR_CORRECTED_BY_USING_BEGIN_TIME);
             outmsg();
-            start = s->h->b;
+            start = B(s);
             s->m->nstart = 1;
         }
     } else {
         /* start time of data to read */
         start = Pick[1] + ocut[0];
-        cut_define(s->h->b, s->h->delta, start, &s->m->nstart);
+        cut_define(B(s), DT(s), start, &s->m->nstart);
     }
     DEBUG("PICK[1]: %f START: %f NSTART: %d B: %f\n", Pick[1], start, s->m->nstart, s->h->b);
     /* -  Compute stop value. */
     if (strcmp(kcut[1], "N       ") == 0) {
-        nptrd = ocut[1] + RNDOFF * s->h->delta;
-        stop = start + (double) (nptrd - 1) * s->h->delta;
+        nptrd = ocut[1] + RNDOFF * DT(s);
+        stop = start + (double) (nptrd - 1) * DT(s);
         s->m->nstop = s->m->nstart + nptrd - 1;
         Pick[2] = 0.;
     } else {
@@ -150,10 +150,10 @@ defcut(char kcut[2][9], double ocut[2], int idfl, int *nerr) {
             if (strcmp(kcut[1], "Z       ") == 0) {
                 Pick[2] = 0.0;
             } else {
-                Pick[2] = VALUE(fhdr(s, cmdfm.ipckhd[jdx - 1]));
+                sac_get_float(s, cmdfm.ipckhd[jdx - 1], &Pick[2]);
             }
             stop = Pick[2] + ocut[1];
-            cut_define(s->h->b, s->h->delta, stop, &s->m->nstop);
+            cut_define(B(s), DT(s), stop, &s->m->nstop);
         }
     }
 
@@ -170,7 +170,7 @@ defcut(char kcut[2][9], double ocut[2], int idfl, int *nerr) {
             outmsg();
             setmsg("OUTPUT", ERROR_CORRECTED_BY_USING_END_TIME);
             outmsg();
-            stop = s->h->e;
+            stop = E(s);
             s->m->nstop = s->h->npts;
         }
     }
@@ -188,12 +188,12 @@ defcut(char kcut[2][9], double ocut[2], int idfl, int *nerr) {
                 break;
             case ERROR_START_TIME_GREATER_THAN_END:
                 error(*nerr, "%s\n\ttime:  %f > %f\n\tindex: %d > %d",
-                      s->m->filename, start, s->h->e, s->m->nstart, s->h->npts);
+                      s->m->filename, start, E(s), s->m->nstart, s->h->npts);
                 return;
                 break;
             case ERROR_STOP_TIME_LESS_THAN_BEGIN:
                 error(*nerr, "%s\n\ttime:  %f < %f\n\tindex: %d < %d",
-                      s->m->filename, stop, s->h->b, s->m->nstop, 1);
+                      s->m->filename, stop, B(s), s->m->nstop, 1);
                 return;
                 break;
             case ERROR_START_TIME_LESS_THAN_BEGIN:
@@ -242,16 +242,16 @@ defcut(char kcut[2][9], double ocut[2], int idfl, int *nerr) {
         }
     }
     /* - Convert these start and stop points to new begin and end times. */
-    DEBUG("B %f\n", s->h->b);
-    s->h->b = s->h->b + (double) (s->m->nstart - 1) * s->h->delta;
-    DEBUG("B %f AFTER\n", s->h->b);
+    DEBUG("B %f\n", B(s));
+    sac_set_float(s, SAC_B, B(s) + (double) (s->m->nstart - 1) * DT(s));
+    DEBUG("B %f AFTER\n", B(s));
     s->h->npts = s->m->nstop - s->m->nstart + 1;
     DEBUG("NPTS: %d AFTER\n", s->h->npts);
     sac_be(s);
-    DEBUG("E %f AFTER\n", s->h->e);
+    DEBUG("E %f AFTER\n", E(s));
 
     DEBUG("nstart[%d]: %d\n", idfl, s->m->nstart);
     DEBUG("nstop[%d]:  %d\n", idfl, s->m->nstop);
     DEBUG("npts[%d]:   %d\n", idfl, s->m->nstop - s->m->nstart + 1);
-    DEBUG("%f %f %d %f\n", s->h->b, s->h->e, s->h->npts, s->h->e - s->h->b);
+    DEBUG("%f %f %d %f\n", B(s), E(s), s->h->npts, E(s) - B(s));
 }

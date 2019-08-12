@@ -36,8 +36,9 @@ xbeam(int *nerr) {
     int elevc;
     int iadv, jdx, jdfl, jdfl_, jout, nckofbeam, nec, nsampsout, number,
         numbersav;
-    float advance, angle, anglev, beginout, delt_horiz, deltaout, el_delay,
+    float advance, angle, anglev, delt_horiz, el_delay,
         endout, *xr, *yr, *zr;
+    double beginout, deltaout;
     double ra[3];
     int lLocalRef;
     int nLocalRef;
@@ -226,17 +227,20 @@ xbeam(int *nerr) {
             *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
             goto L_9999;
         }
-        //getfil( jdfl, TRUE, &nsamps, &inptr, &idummy, nerr );
+        double b, dt, e;
+        sac_get_float(s, SAC_B, &b);
+        sac_get_float(s, SAC_E, &e);
+        sac_get_float(s, SAC_DELTA, &dt);
 
         if (jdfl == 1) {
             nsampsout = s->h->npts;
-            beginout = s->h->b;
-            deltaout = s->h->delta;
-            endout = s->h->e;
+            beginout = b;
+            deltaout = dt;
+            endout = e;
         }
 
         else {
-            if (s->h->delta != deltaout) {
+            if (dt != deltaout) {
                 /* error handling */
                 *nerr = 1801;
                 setmsg("ERROR", *nerr);
@@ -248,12 +252,12 @@ xbeam(int *nerr) {
 
             /* end if ( s->h->delta != deltaout ) */
             /* if waveforms not properly aligned ... */
-            if (s->h->npts != nsampsout || s->h->b != beginout) {
+            if (s->h->npts != nsampsout || b != beginout) {
                 lfillz = 1;     /* set flag to fill with zeros */
 
                 /* get the extreme values. */
-                beginout = beginout < s->h->b ? beginout : s->h->b;
-                endout = endout > s->h->e ? endout : s->h->e;
+                beginout = beginout < b ? beginout : b;
+                endout = endout > e ? endout : e;
             }
         }                       /* end else associated with if( jdfl == 1 ) */
     }                           /* end Preliminary loop through files. */
@@ -279,7 +283,7 @@ xbeam(int *nerr) {
     /* Loop between files to build the beam, overhauled.  maf 970211 */
     for (jdfl = 1; jdfl <= number; jdfl++) {
         float *waveform = NULL;
-
+        double b, dt;
         jdfl_ = jdfl - 1;
 
         if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
@@ -289,7 +293,8 @@ xbeam(int *nerr) {
             numbersav = jdfl - 1;
             break;
         }
-
+        sac_get_float(s, SAC_B, &b);
+        sac_get_float(s, SAC_DELTA, &dt);
         /* if necessary, do a fillz.  maf 970211 */
         if (lfillz) {
             int n;
@@ -305,7 +310,7 @@ xbeam(int *nerr) {
             }
 
             /* copy the waveform. */
-            n = ((s->h->b - beginout) / s->h->delta) /* + 0.5 */ ;
+            n = ((b - beginout) / dt) /* + 0.5 */ ;
             memcpy(waveform + n, s->y, s->h->npts * sizeof(float));
 
         } /* end if ( lfillz ) */
@@ -335,10 +340,7 @@ xbeam(int *nerr) {
            delay. */
 
         /* rewrote rounding, maf 960709 */
-        iadv =
-            (int) (advance >=
-                   0 ? advance / s->h->delta + 0.5 : advance / s->h->delta -
-                   0.5);
+        iadv = (int) (advance >= 0 ? advance / dt + 0.5 : advance / dt - 0.5);
         beamadd(waveform, beam->y, nsampsout, iadv);
 
         /* if new space was created release it */
@@ -361,8 +363,8 @@ xbeam(int *nerr) {
 
     s->h->iftype = ITIME;
     s->h->npts = nsampsout;
-    s->h->b = beginout;
-    s->h->delta = deltaout;
+    sac_set_float(s, SAC_B, beginout);
+    sac_set_float(s, SAC_DELTA, deltaout);
     extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax, &s->h->depmen);
     s->h->user7 = 0.;
     s->h->user8 = 0.;

@@ -235,8 +235,8 @@ specplot(float *specdata, int nx, int ny, float xmin, float xmax, float ymin,
 
     if (s->h->leven) {
         cmgem.xgen.on = TRUE;
-        cmgem.xgen.delta = s->h->delta;
-        cmgem.xgen.first = s->h->b + toff[1];
+        cmgem.xgen.delta = DT(s);
+        cmgem.xgen.first = B(s) + toff[1];
     } else {
         cmgem.xgen.on = FALSE;
     }
@@ -316,13 +316,13 @@ specplot(float *specdata, int nx, int ny, float xmin, float xmax, float ymin,
     /* Determine the Size of the Image in Viewspace coordinates */
     width = (cmgem.plot.xmax - cmgem.plot.xmin) *       /* Total Width [ px ] */
         (xmax - xmin) /         /* Spectrogram Width [ seconds ] */
-        (s->h->e - cmgem.xgen.first);   /* Total Time [ seconds ] */
+        (E(s) - cmgem.xgen.first);   /* Total Time [ seconds ] */
     height = (cmgem.plot.ymax - ypmnsave) * 0.70;       /* Total Height */
 
     /* Determine the location in viewspace coordinates */
     cmgem.plot.xmin =
         (cmgem.plot.xmin +
-         (((xmin - cmgem.xgen.first) / (s->h->e -
+         (((xmin - cmgem.xgen.first) / (E(s) -
                                         cmgem.xgen.first)) * (cmgem.plot.xmax -
                                                               cmgem.plot.
                                                               xmin)));

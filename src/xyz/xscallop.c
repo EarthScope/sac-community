@@ -275,10 +275,10 @@ xscallop(nerr)
                         nptslist[jdfl - 1] = s->h->npts;
                         //getfil( jdfl, TRUE, &Nptslist[jdfl], &idum, &idum, nerr );
 
-                        deltalist[jdfl - 1] = s->h->delta;
+                        deltalist[jdfl - 1] = DT(s);
                         /* -- Get begin value if first file. */
                         if (jdfl == 1) {
-                            begin = s->h->b;
+                            begin = B(s);
                         }
 
                     }           /* end for */
@@ -375,9 +375,9 @@ xscallop(nerr)
 
     /* -- Store header values. */
     s->h->npts = specsize;
-    s->h->delta = 1.0;
-    s->h->b = 0.0;
-    s->h->e = specsize - 1.0;
+    sac_set_float(s, SAC_DELTA, 1.0);
+    sac_set_float(s, SAC_B, 0.0);
+    sac_set_float(s, SAC_E, specsize - 1.0);
 
     s->h->iftype = IXYZ;
     s->h->nxsize = speclength;

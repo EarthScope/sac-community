@@ -53,6 +53,7 @@ lgahdr(char *kfield, int kfield_s, char *kvalue, int kvalue_s) {
     char *cattemp;
     char *tmp;
     sac *s;
+    double v = 0.0;
 
     s = sacget_current();
     /* - Convert the name to upper case before doing any tests. */
@@ -150,34 +151,44 @@ lgahdr(char *kfield, int kfield_s, char *kvalue, int kvalue_s) {
          *              (where X is A, O, F, T0, T1, ... T9) */
 
     } else if (memcmp(ktemp, "AM", 2) == 0) {
-        formmarker(s->h->a, s->h->ka, 9, kvalue, kvalue_s, &lgahdr_v);
+        sac_get_float(s, SAC_A, &v);
+        formmarker(v, s->h->ka, 9, kvalue, kvalue_s, &lgahdr_v);
     } else if (memcmp(ktemp, "OM", 2) == 0) {
-        formmarker(s->h->o, s->h->ko, 9, kvalue, kvalue_s, &lgahdr_v);
+        sac_get_float(s, SAC_O, &v);
+        formmarker(v, s->h->ko, 9, kvalue, kvalue_s, &lgahdr_v);
     } else if (memcmp(ktemp, "FM", 2) == 0) {
-        formmarker(s->h->f, s->h->kf, 9, kvalue, kvalue_s, &lgahdr_v);
+        sac_get_float(s, SAC_F, &v);
+        formmarker(v, s->h->kf, 9, kvalue, kvalue_s, &lgahdr_v);
     } else if (memcmp(ktemp, "T0M", 3) == 0) {
-        formmarker(s->h->t0, s->h->kt0, 9, kvalue, kvalue_s, &lgahdr_v);
+        sac_get_float(s, SAC_T0, &v);
+        formmarker(v, s->h->kt0, 9, kvalue, kvalue_s, &lgahdr_v);
     } else if (memcmp(ktemp, "T1M", 3) == 0) {
-        formmarker(s->h->t1, s->h->kt1, 9, kvalue, kvalue_s, &lgahdr_v);
+        sac_get_float(s, SAC_T1, &v);
+        formmarker(v, s->h->kt1, 9, kvalue, kvalue_s, &lgahdr_v);
     } else if (memcmp(ktemp, "T2M", 3) == 0) {
-        formmarker(s->h->t2, s->h->kt2, 9, kvalue, kvalue_s, &lgahdr_v);
+        sac_get_float(s, SAC_T2, &v);
+        formmarker(v, s->h->kt2, 9, kvalue, kvalue_s, &lgahdr_v);
     } else if (memcmp(ktemp, "T3M", 3) == 0) {
-        formmarker(s->h->t3, s->h->kt3, 9, kvalue, kvalue_s, &lgahdr_v);
+        sac_get_float(s, SAC_T3, &v);
+        formmarker(v, s->h->kt3, 9, kvalue, kvalue_s, &lgahdr_v);
     } else if (memcmp(ktemp, "T4M", 3) == 0) {
-        formmarker(s->h->t4, s->h->kt4, 9, kvalue, kvalue_s, &lgahdr_v);
+        sac_get_float(s, SAC_T4, &v);
+        formmarker(v, s->h->kt4, 9, kvalue, kvalue_s, &lgahdr_v);
     } else if (memcmp(ktemp, "T5M", 3) == 0) {
-        formmarker(s->h->t5, s->h->kt5, 9, kvalue, kvalue_s, &lgahdr_v);
+        sac_get_float(s, SAC_T5, &v);
+        formmarker(v, s->h->kt5, 9, kvalue, kvalue_s, &lgahdr_v);
     } else if (memcmp(ktemp, "T6M", 3) == 0) {
-        formmarker(s->h->t6, s->h->kt6, 9, kvalue, kvalue_s, &lgahdr_v);
+        sac_get_float(s, SAC_T6, &v);
+        formmarker(v, s->h->kt6, 9, kvalue, kvalue_s, &lgahdr_v);
     } else if (memcmp(ktemp, "T7M", 3) == 0) {
-        formmarker(s->h->t7, s->h->kt7, 9, kvalue, kvalue_s, &lgahdr_v);
+        sac_get_float(s, SAC_T7, &v);
+        formmarker(v, s->h->kt7, 9, kvalue, kvalue_s, &lgahdr_v);
     } else if (memcmp(ktemp, "T8M", 3) == 0) {
-        formmarker(s->h->t8, s->h->kt8, 9, kvalue, kvalue_s, &lgahdr_v);
+        sac_get_float(s, SAC_T8, &v);
+        formmarker(v, s->h->kt8, 9, kvalue, kvalue_s, &lgahdr_v);
     } else if (memcmp(ktemp, "T9M", 3) == 0) {
-        formmarker(s->h->t9, s->h->kt9, 9, kvalue, kvalue_s, &lgahdr_v);
-
-        /* -- Invalid field: */
-
+        sac_get_float(s, SAC_T9, &v);
+        formmarker(v, s->h->kt9, 9, kvalue, kvalue_s, &lgahdr_v);
     } else {
         fstrncpy(kvalue, kvalue_s - 1, "INVALID FIELD", 13);
         lgahdr_v = FALSE;

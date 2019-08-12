@@ -180,32 +180,6 @@ sac_buffer_free() {
     xarray_free(sac_buffer);
 }
 
-void
-sac_header_copy(sac * to, sac * from) {
-    memmove(to->h, from->h, sizeof(sac_hdr));
-}
-void
-sac_meta_copy(sac *to, sac *from) {
-    to->m->swap      = from->m->swap;
-    to->m->filename  = strdup(from->m->filename);
-    to->m->data_read = from->m->data_read;
-    to->m->nstop     = from->m->nstop;
-    to->m->nstart    = from->m->nstart;
-    to->m->nfillb    = from->m->nfillb;
-    to->m->nfille    = from->m->nfille;
-    to->m->ntotal    = from->m->ntotal;
-}
-void
-sac_data_copy(sac *to, sac *from) {
-    if(from->y) {
-        sac_alloc(to);
-        memcpy(to->y, from->y, sizeof(float) * from->h->npts);
-        if(sac_comps(to) == 2 && from->x) {
-            memcpy(to->x, from->x, sizeof(float) * from->h->npts);
-        }
-    }
-}
-
 int
 sac_find_filename(char *file) {
     int i, nerr;
@@ -220,16 +194,6 @@ sac_find_filename(char *file) {
         }
     }
     return -1;
-}
-
-sac *
-sac_copy(sac *s) {
-    sac *new;
-    new = sac_new();
-    sac_header_copy(new, s);
-    sac_meta_copy(new, s);
-    sac_data_copy(new, s);
-    return new;
 }
 
 

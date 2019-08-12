@@ -120,7 +120,7 @@ xspe(linit, nerr)
     cmspe.lfile = TRUE;
     cmspe.lcor = FALSE;
     cmspe.lspe = FALSE;
-    cmspe.samfrq = 1. / spe->h->delta;
+    cmspe.samfrq = 1. / DT(spe);
 
   L_8888:
     return;

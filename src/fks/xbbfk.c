@@ -57,7 +57,7 @@ xbbfk(int *nerr) {
     int maxflag;
     sac *s;
     int iib, k, npts;
-    float delta;
+    double delta, dt;
     char *cattemp;
 
     float *const Buffer = &buffer[0] - 1;
@@ -282,6 +282,7 @@ xbbfk(int *nerr) {
         if (!(s = sacget(jdfl - 1, TRUE, nerr))) {
             goto L_8888;
         }
+        sac_get_float(s, SAC_DELTA, &dt);
         if(npts == 0) {
             npts = s->h->npts;
         } else if(s->h->npts != npts) {
@@ -289,8 +290,8 @@ xbbfk(int *nerr) {
             goto L_8888;
         }
         if(delta == 0.0) {
-            delta = s->h->delta;
-        } else if(s->h->delta != delta) {
+            delta = dt;
+        } else if(dt != delta) {
             printf("Sample rate for all files must be equal\n");
             goto L_8888;
         }
@@ -1144,8 +1145,8 @@ void
 eigenanal(int nm, int n, complexf * a, char *hires, int m, complexf * s,
           int *nerr) {
 
-#define A(I_,J_)	(*(a+(I_)*(nm)+(J_)))
-#define S(I_,J_)	(*(s+(I_)*(nm)+(J_)))
+#define AX(I_,J_)	(*(a+(I_)*(nm)+(J_)))
+#define SX(I_,J_)	(*(s+(I_)*(nm)+(J_)))
 
     int idx, ierr, jdx, kdx;
     float w[25];
@@ -1155,7 +1156,7 @@ eigenanal(int nm, int n, complexf * a, char *hires, int m, complexf * s,
 
     for (idx = 0; idx < n; idx++) {
         for (jdx = 0; jdx < n; jdx++) {
-            b[jdx][idx] = A(jdx, idx);
+            b[jdx][idx] = AX(jdx, idx);
         }
     }
 
@@ -1176,10 +1177,10 @@ eigenanal(int nm, int n, complexf * a, char *hires, int m, complexf * s,
 
         for (idx = 0; idx < n; idx++) {
             for (jdx = 0; jdx < n; jdx++) {
-                S(jdx, idx) = flttocmplx(0.0, 0.0);
+                SX(jdx, idx) = flttocmplx(0.0, 0.0);
                 for (kdx = n - m; kdx < n; kdx++) {
-                    S(jdx, idx) =
-                        cmplxadd(S(jdx, idx),
+                    SX(jdx, idx) =
+                        cmplxadd(SX(jdx, idx),
                                  cmplxmul(cmplxmul
                                           (flttocmplx(1. / W[kdx + 1], 0.),
                                            z[kdx][idx]), cmplxcj(z[kdx][jdx])));
@@ -1209,10 +1210,10 @@ eigenanal(int nm, int n, complexf * a, char *hires, int m, complexf * s,
 
         for (idx = 0; idx < n; idx++) {
             for (jdx = 0; jdx < n; jdx++) {
-                S(jdx, idx) = flttocmplx(0.0, 0.0);
+                SX(jdx, idx) = flttocmplx(0.0, 0.0);
                 for (kdx = 0; kdx < m; kdx++) {
-                    S(jdx, idx) =
-                        cmplxadd(S(jdx, idx),
+                    SX(jdx, idx) =
+                        cmplxadd(SX(jdx, idx),
                                  cmplxmul(z[kdx][idx], cmplxcj(z[kdx][jdx])));
                 }
             }

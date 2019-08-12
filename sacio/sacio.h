@@ -213,27 +213,27 @@ typedef struct sac_hdr sac_hdr;
  *   </pre>
  */
 struct sac_hdr {
-    float delta;                /**< @brief time increment, sec <b>Required</b>*/
+    float _delta;                /**< @brief time increment, sec <b>Required</b>*/
     float depmin;               /**< @brief minimum amplitude      */
     float depmax;               /**< @brief maximum amplitude      */
     float scale;                /**< @brief amplitude scale factor */
     float odelta;               /**< @brief observed time inc      */
-    float b;                    /**< @brief initial value, time  <b>Required, available in data</b>  */
-    float e;                    /**< @brief final value, time   <b>Required, available in data</b>   */
-    float o;                    /**< @brief      event start, sec < nz. */
-    float a;                    /**< @brief      1st arrival time       */
+    float _b;                    /**< @brief initial value, time  <b>Required, available in data</b>  */
+    float _e;                    /**< @brief final value, time   <b>Required, available in data</b>   */
+    float _o;                    /**< @brief      event start, sec < nz. */
+    float _a;                    /**< @brief      1st arrival time       */
     float fmt;                  /**< @brief      internal use @private           */
-    float t0;                   /**< @brief      user-defined time pick */
-    float t1;                   /**< @brief      user-defined time pick */
-    float t2;                   /**< @brief      user-defined time pick */
-    float t3;                   /**< @brief      user-defined time pick */
-    float t4;                   /**< @brief      user-defined time pick */
-    float t5;                   /**< @brief      user-defined time pick */
-    float t6;                   /**< @brief      user-defined time pick */
-    float t7;                   /**< @brief      user-defined time pick */
-    float t8;                   /**< @brief      user-defined time pick */
-    float t9;                   /**< @brief      user-defined time pick */
-    float f;                    /**< @brief      event end, sec > nz    */
+    float _t0;                   /**< @brief      user-defined time pick */
+    float _t1;                   /**< @brief      user-defined time pick */
+    float _t2;                   /**< @brief      user-defined time pick */
+    float _t3;                   /**< @brief      user-defined time pick */
+    float _t4;                   /**< @brief      user-defined time pick */
+    float _t5;                   /**< @brief      user-defined time pick */
+    float _t6;                   /**< @brief      user-defined time pick */
+    float _t7;                   /**< @brief      user-defined time pick */
+    float _t8;                   /**< @brief      user-defined time pick */
+    float _t9;                   /**< @brief      user-defined time pick */
+    float _f;                    /**< @brief      event end, sec > nz    */
     float resp0;                /**< @brief      instrument respnse parm */
     float resp1;                /**< @brief      instrument respnse parm */
     float resp2;                /**< @brief      instrument respnse parm */
@@ -244,12 +244,12 @@ struct sac_hdr {
     float resp7;                /**< @brief      instrument respnse parm */
     float resp8;                /**< @brief      instrument respnse parm */
     float resp9;                /**< @brief      instrument respnse parm */
-    float stla;                 /**< @brief    station latititude <b>available from SEED</b>      */
-    float stlo;                 /**< @brief    station longitude <b>available from SEED</b>     */
+    float _stla;                 /**< @brief    station latititude <b>available from SEED</b>      */
+    float _stlo;                 /**< @brief    station longitude <b>available from SEED</b>     */
     float stel;                 /**< @brief    station elevation, m <b>available from SEED</b>  */
     float stdp;                 /**< @brief    station depth, m <b>available from SEED</b>     */
-    float evla;                 /**< @brief      event latitude         */
-    float evlo;                 /**< @brief      event longitude        */
+    float _evla;                 /**< @brief      event latitude         */
+    float _evlo;                 /**< @brief      event longitude        */
     float evel;                 /**< @brief      event elevation        */
     float evdp;                 /**< @brief      event depth            */
     float mag;                  /**< @brief      event magnitude */
@@ -267,8 +267,8 @@ struct sac_hdr {
     float az;                   /**< @brief      event-station azimuth      */
     float baz;                  /**< @brief      station-event azimuth      */
     float gcarc;                /**< @brief      station-event dist, degrees */
-    float sb;                   /**< @brief      saved b value, for spectral files           */
-    float sdelta;               /**< @brief      saved delta, for spectral files    */
+    float _sb;                  /**< @brief      saved b value, for spectral files           */
+    float _sdelta;              /**< @brief      saved delta, for spectral files    */
     float depmen;               /**< @brief      mean value, amplitude  */
     float cmpaz;                /**< @brief    component azimuth  <b>available from SEED</b>
                                  * - 0: North
@@ -401,6 +401,37 @@ struct _sacmeta {
     int ntotal;
 };
 
+typedef struct _sac_f64 sac_f64;
+/**
+ * SAC 64 bit floating point "header"
+ * @private
+ */
+struct _sac_f64 {
+    double _delta;
+    double _b;
+    double _e;
+    double _o;
+    double _a;
+    double _t0;
+    double _t1;
+    double _t2;
+    double _t3;
+    double _t4;
+    double _t5;
+    double _t6;
+    double _t7;
+    double _t8;
+    double _t9;
+    double _f;
+    double _evlo;
+    double _evla;
+    double _stlo;
+    double _stla;
+    double _sb;
+    double _sdelta;
+};
+
+
 typedef struct sac sac;
 /**
  * @brief sac data and header structure
@@ -412,6 +443,7 @@ struct sac {
     float *y;            /**< @brief  first data component */
     float *x;            /**< @brief  second data component */
     sacmeta *m;          /**< @brief  @private sac meta data */
+    sac_f64 *z;          /**< @brief  @private sac 64 bit floating pointer header */
     int *sddhdr;         /**< @brief  @private SDD Header - Length MWESHD - 164 */
 };
 
@@ -451,10 +483,17 @@ void  sac_extrema(sac *s);
 /** @brief Get the number of components from a sac string */
 int   sac_comps(sac * s);
 
+void  sac_meta_copy(sac *to, sac *from);
+void  sac_header_copy(sac *to, sac *from);
+void  sac_data_copy(sac *to, sac *from);
+sac * sac_copy(sac *s);
+
+void sac_check_time_precision(sac *s);
+
 /** @brief Get a float value from a sac object */
-int sac_get_float(sac *s, int hdr, float *v);
+int sac_get_float(sac *s, int hdr, double *v);
 /** @brief SEt a float value from a sac object */
-int sac_set_float(sac *s, int hdr, float v);
+int sac_set_float(sac *s, int hdr, double v);
 /** @brief Get a string value from a sac object */
 int sac_get_string(sac *s, int hdr, char *v, size_t n);
 /** @brief Set a string value in a sac object */
@@ -868,6 +907,104 @@ static struct sac_hdr NullSacHeader = {
 #endif /* SAC_NULL_HEADER_REQUIRED */
 
 #define REGCONV    100
+
+
+#define SAC_F64           \
+    X(DELTA, _delta)       \
+    X(B, _b)               \
+    X(E, _e)               \
+    X(O, _o)               \
+    X(A, _a)               \
+    X(T0, _t0)             \
+    X(T1, _t1)             \
+    X(T2, _t2)             \
+    X(T3, _t3)             \
+    X(T4, _t4)             \
+    X(T5, _t5)             \
+    X(T6, _t6)             \
+    X(T7, _t7)             \
+    X(T8, _t8)             \
+    X(T9, _t9)             \
+    X(F, _f)               \
+    X(EVLO, _evlo)         \
+    X(EVLA, _evla)         \
+    X(STLO, _stlo)         \
+    X(STLA, _stla)         \
+    X(SB, _sb)             \
+    X(SDELTA, _sdelta)             \
+
+#define SAC_F32           \
+    X(DELTA,_delta)        \
+    X(DEPMIN, depmin)     \
+    X(DEPMAX, depmax)     \
+    X(SCALE, scale)       \
+    X(ODELTA, odelta)     \
+    X(B, _b)               \
+    X(E, _e)               \
+    X(O, _o)               \
+    X(A, _a)               \
+    X(FMT, fmt)           \
+    X(T0, _t0)             \
+    X(T1, _t1)             \
+    X(T2, _t2)             \
+    X(T3, _t3)             \
+    X(T4, _t4)             \
+    X(T5, _t5)             \
+    X(T6, _t6)             \
+    X(T7, _t7)             \
+    X(T8, _t8)             \
+    X(T9, _t9)             \
+    X(F, _f)               \
+    X(RESP0, resp0)       \
+    X(RESP1, resp1)       \
+    X(RESP2, resp2)       \
+    X(RESP3, resp3)       \
+    X(RESP4, resp4)       \
+    X(RESP5, resp5)       \
+    X(RESP6, resp6)       \
+    X(RESP7, resp7)       \
+    X(RESP8, resp8)       \
+    X(RESP9, resp9)       \
+    X(STLA, _stla)         \
+    X(STLO, _stlo)         \
+    X(STEL, stel)         \
+    X(STDP, stdp)         \
+    X(EVLA, _evla)         \
+    X(EVLO, _evlo)         \
+    X(EVEL, evel)         \
+    X(EVDP, evdp)         \
+    X(MAG, mag)           \
+    X(USER0, user0)       \
+    X(USER1, user1)       \
+    X(USER2, user2)       \
+    X(USER3, user3)       \
+    X(USER4, user4)       \
+    X(USER5, user5)       \
+    X(USER6, user6)       \
+    X(USER7, user7)       \
+    X(USER8, user8)       \
+    X(USER9, user9)       \
+    X(DIST, dist)         \
+    X(AZ, az)             \
+    X(BAZ, baz)           \
+    X(GCARC, gcarc)       \
+    X(SB, _sb)             \
+    X(SDELTA, _sdelta)     \
+    X(DEPMEN, depmen)     \
+    X(CMPAZ, cmpaz)       \
+    X(CMPINC, cmpinc)     \
+    X(XMIN, xminimum) \
+    X(XMAX, xmaximum) \
+    X(YMIN, yminimum) \
+    X(YMAX, ymaximum) \
+    X(UN64, unused6)   \
+    X(UN65, unused7)   \
+    X(UN66, unused8)   \
+    X(UN67, unused9)   \
+    X(UN68, unused10) \
+    X(UN69, unused11) \
+    X(UN70, unused12)
+
 
 #endif /* __SACIO_H__ */
 

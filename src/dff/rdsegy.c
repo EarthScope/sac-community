@@ -31,7 +31,7 @@ void timecheck_short(short *year, short *day, short *hour, short *min,
 int
   DoTime(short *year, short *day, short *hour, short *min, short *sec,
          short *ms, short *ay, short *ad, short *ah, short *am, short *as,
-         short *ams, float *reference, float *alternate, char *kfile, sac * s);
+         short *ams, double *reference, double *alternate, char *kfile, sac * s);
 
 struct field_doc SegyHeaderDoc[] = {
     {"jobid", SEGY_TYPE_INT},
@@ -312,6 +312,7 @@ rdsegy(int idfl, char *kfile, int *nlen, int *ndx1, int *ndx2, int *nerr) {
     double useScale;
     sac *s;
     int swap;
+    double b = 0.0, o = 0.0;
     FILE *fpin = NULL;
     struct SegyHead trace;
     struct SegyFileHeader fileheader;
@@ -404,7 +405,7 @@ rdsegy(int idfl, char *kfile, int *nlen, int *ndx1, int *ndx2, int *nerr) {
     } else {
         sam_rate = trace.deltaSample;
     }
-    s->h->delta = (float) sam_rate / 1000000.0;
+    sac_set_float(s, SAC_DELTA, sam_rate / 1000000.0);
 
     /* get scale factor for data  */
     if (trace.scale_fac == 0) {
@@ -477,13 +478,13 @@ rdsegy(int idfl, char *kfile, int *nlen, int *ndx1, int *ndx2, int *nerr) {
             DoTime(&trace.trigyear, &trace.trigday, &trace.trighour,
                    &trace.trigminute, &trace.trigsecond, &trace.trigmills,
                    &trace.year, &trace.day, &trace.hour, &trace.minute,
-                   &trace.second, &trace.m_secs, &s->h->o, &s->h->b, kfile, s);
+                   &trace.second, &trace.m_secs, &o, &b, kfile, s);
         if (!check) {
             check =
                 DoTime(&trace.year, &trace.day, &trace.hour, &trace.minute,
                        &trace.second, &trace.m_secs, &trace.trigyear,
                        &trace.trigday, &trace.trighour, &trace.trigminute,
-                       &trace.trigsecond, &trace.trigmills, &s->h->b, &s->h->o,
+                       &trace.trigsecond, &trace.trigmills, &b, &o,
                        kfile, s);
         }
     } else {
@@ -491,18 +492,20 @@ rdsegy(int idfl, char *kfile, int *nlen, int *ndx1, int *ndx2, int *nerr) {
             DoTime(&trace.year, &trace.day, &trace.hour, &trace.minute,
                    &trace.second, &trace.m_secs, &trace.trigyear,
                    &trace.trigday, &trace.trighour, &trace.trigminute,
-                   &trace.trigsecond, &trace.trigmills, &s->h->b, &s->h->o,
+                   &trace.trigsecond, &trace.trigmills, &b, &o,
                    kfile, s);
         if (!check) {
             check =
                 DoTime(&trace.trigyear, &trace.trigday, &trace.trighour,
                        &trace.trigminute, &trace.trigsecond, &trace.trigmills,
                        &trace.year, &trace.day, &trace.hour, &trace.minute,
-                       &trace.second, &trace.m_secs, &s->h->o, &s->h->b, kfile,
+                       &trace.second, &trace.m_secs, &o, &b, kfile,
                        s);
 
         }
     }
+    sac_set_float(s, SAC_B, b);
+    sac_set_float(s, SAC_O, o);
 
     if (!check) {
         *nerr = ERROR_IN_TIME_FIELD;
@@ -548,11 +551,11 @@ rdsegy(int idfl, char *kfile, int *nlen, int *ndx1, int *ndx2, int *nerr) {
         elat = elat / 3600;
         elon = elon / 3600;
     }
-    s->h->stla = (float) xlat;
-    s->h->stlo = (float) xlon;
+    sac_set_float(s, SAC_STLA, xlat);
+    sac_set_float(s, SAC_STLO, xlon);
     s->h->stel = (trace.recElevation == 0 ? -12345. : trace.recElevation);
-    s->h->evla = elat;
-    s->h->evlo = elon;
+    sac_set_float(s, SAC_EVLA, elat);
+    sac_set_float(s, SAC_EVLO, elon);
     s->h->evel =
         trace.sourceSurfaceElevation ==
         0 ? -12345. : trace.sourceSurfaceElevation;
@@ -561,16 +564,16 @@ rdsegy(int idfl, char *kfile, int *nlen, int *ndx1, int *ndx2, int *nerr) {
     s->h->leven = TRUE;
     s->h->lpspol = TRUE;
     s->h->lovrok = TRUE;
-    s->h->lcalda = (s->h->evla == -12345. || s->h->evlo == -12345. ||
-                    s->h->stla == -12345. ||
-                    s->h->stlo == -12345.) ? FALSE : TRUE;
+    s->h->lcalda = (elat == -12345. || elon == -12345. ||
+                    xlat == -12345. ||
+                    xlon == -12345.) ? FALSE : TRUE;
 
 }
 
 int
 DoTime(short *year, short *day, short *hour, short *min, short *sec, short *ms,
        short *ay, short *ad, short *ah, short *am, short *as, short *ams,
-       float *reference, float *alternate, char *kfile, sac * s) {
+       double *reference, double *alternate, char *kfile, sac * s) {
 
     if (year == 0 || day == 0)
         return FALSE;

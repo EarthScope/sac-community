@@ -78,8 +78,8 @@ xmulomega(nerr)
         /* -- Need to multiply spectra by "eye omega". */
 
         nfreq = s->h->npts / 2;
-        value = 2.0 * PI * s->h->delta;
-        slope = 2.0 * PI * s->h->delta;
+        value = 2.0 * PI * DT(s);
+        slope = 2.0 * PI * DT(s);
 
         /* -- If real-imaginary this means: (REAL, IMAG) = (-IMAG*omega, +REAL*omega) */
         if (s->h->iftype == IRLIM) {

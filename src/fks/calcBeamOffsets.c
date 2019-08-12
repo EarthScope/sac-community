@@ -103,9 +103,9 @@ calcBeamOffsets(int ns, int elevc, float *xr, float *yr, float *zr, int *nerr) {
                 }
                 //getfil( 1, FALSE, &ndx1, &ndx2, &idummy, nerr);
 
-                reference[0] = s->h->stla;
-                reference[1] = s->h->stlo;
-                reference[2] = s->h->stel;
+                reference[0] = STLA(s);
+                reference[1] = STLO(s);
+                reference[2] = STEL(s);
 
                 refOffsets(ns, reference, xr, yr, zr, nerr);
             } else
@@ -164,9 +164,9 @@ cascade(int ns, int elevc, float *xr, float *yr, float *zr, int *nerr) {
         }
         //getfil( 1, FALSE, &ndx1, &ndx2, &idummy, nerr);
 
-        reference[0] = s->h->stla;
-        reference[1] = s->h->stlo;
-        reference[2] = s->h->stel;
+        reference[0] = STLA(s);
+        reference[1] = STLO(s);
+        reference[2] = STEL(s);
 
         refOffsets(ns, reference, xr, yr, zr, nerr);
 
@@ -188,25 +188,29 @@ cascade(int ns, int elevc, float *xr, float *yr, float *zr, int *nerr) {
 int
 isInfoThere(int nFiles, int elevc, int *nerr) {
     int jdfl, returnValue = 0, luser = TRUE, lstation = TRUE, levent = TRUE;
+    double stlo, stla, evlo, evla;
     sac *s;
     for (jdfl = 1; jdfl <= nFiles; jdfl++) {
         if (!(s = sacget(jdfl - 1, FALSE, nerr))) {
             return 0;
         }
-        //getfil(jdfl, FALSE, &ndx1, &ndx2, &idummy, nerr);
+        sac_get_float(s, SAC_STLO, &stlo);
+        sac_get_float(s, SAC_STLA, &stla);
+        sac_get_float(s, SAC_EVLO, &evlo);
+        sac_get_float(s, SAC_EVLA, &evla);
 
         if ((s->h->user7 == SAC_FLOAT_UNDEFINED) ||
             (s->h->user8 == SAC_FLOAT_UNDEFINED) || (elevc &&
                                                      s->h->user9 ==
                                                      SAC_FLOAT_UNDEFINED))
             luser = FALSE;
-        if ((s->h->stla == SAC_FLOAT_UNDEFINED) ||
-            (s->h->stlo == SAC_FLOAT_UNDEFINED) || (elevc &&
+        if ((stla == SAC_FLOAT_UNDEFINED) ||
+            (stlo == SAC_FLOAT_UNDEFINED) || (elevc &&
                                                     s->h->stel ==
                                                     SAC_FLOAT_UNDEFINED))
             lstation = FALSE;
-        if ((s->h->evla == SAC_FLOAT_UNDEFINED) ||
-            (s->h->evlo == SAC_FLOAT_UNDEFINED) || (elevc &&
+        if ((evla == SAC_FLOAT_UNDEFINED) ||
+            (evlo == SAC_FLOAT_UNDEFINED) || (elevc &&
                                                     s->h->evel ==
                                                     SAC_FLOAT_UNDEFINED))
             levent = FALSE;
@@ -227,16 +231,19 @@ refOffsets(int nFiles, float *referencePosition, float *xr, float *yr,
            float *zr, int *nerr) {
     int jdfl;
     float dlat, dlon, avlat;
+    double stlo, stla;
     sac *s;
     for (jdfl = 1; jdfl <= nFiles; jdfl++) {
         if (!(s = sacget(jdfl - 1, FALSE, nerr))) {
             return;
         }
         //getfil(jdfl, FALSE, &ndx1, &ndx2, &idummy, nerr);
+        sac_get_float(s, SAC_STLA, &stla);
+        sac_get_float(s, SAC_STLO, &stlo);
 
-        dlat = s->h->stla - referencePosition[0];
-        dlon = s->h->stlo - referencePosition[1];
-        avlat = (referencePosition[0] + s->h->stla) / 2.0;
+        dlat = stla - referencePosition[0];
+        dlon = stlo - referencePosition[1];
+        avlat = (referencePosition[0] + stla) / 2.0;
         xr[jdfl - 1] = 111.19 * dlon * cos(PI * avlat / 180.0);
         yr[jdfl - 1] = 111.19 * dlat;
         zr[jdfl - 1] = referencePosition[2] - s->h->stel;
@@ -269,24 +276,26 @@ void
 eventOffsets(int nFiles, float *xr, float *yr, float *zr, int *nerr) {
     int jdfl;
     float dlat, dlon, avlat, reflat = 0.0, reflon = 0.0, refel = 0.0;
+    double evla, evlo;
     sac *s;
     for (jdfl = 1; jdfl <= nFiles; jdfl++) {
         if (!(s = sacget(jdfl - 1, FALSE, nerr))) {
             return;
         }
-        //getfil(jdfl, FALSE, &ndx1, &ndx2, &idummy, nerr);
+        sac_get_float(s, SAC_EVLO, &evlo);
+        sac_get_float(s, SAC_EVLA, &evla);
 
         if (jdfl == 1) {
             xr[jdfl - 1] = 0.0;
             yr[jdfl - 1] = 0.0;
             zr[jdfl - 1] = 0.0;
-            reflat = s->h->evla;
-            reflon = s->h->evlo;
+            reflat = evla;
+            reflon = evlo;
             refel = s->h->evel;
         } else {
-            dlat = s->h->evla - reflat;
-            dlon = s->h->evlo - reflon;
-            avlat = (reflat + s->h->evla) / 2.0;
+            dlat = evla - reflat;
+            dlon = evlo - reflon;
+            avlat = (reflat + evla) / 2.0;
             xr[jdfl - 1] = 111.19 * dlon * cos(PI * avlat / 180.0);
             yr[jdfl - 1] = 111.19 * dlat;
             zr[jdfl - 1] = refel - s->h->evel;

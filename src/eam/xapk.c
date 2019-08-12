@@ -59,7 +59,7 @@ xapk(int *nerr) {
     int lpkerr, *lpkfnd;
     char kdir, kqual, ktype;
     int i7, jdfl, ncerr, ndxpk, nexday, nlncda, npkmsc, npksec, npmsec, npsec;
-
+    double dt = 0.0, b = 0.0, a = 0.0, f = 0.0;
     sac *s;
     *nerr = 0;
 
@@ -156,9 +156,12 @@ xapk(int *nerr) {
         }
         if (*nerr != 0)
             goto L_8888;
-
+        sac_get_float(s, SAC_A, &a);
+        sac_get_float(s, SAC_B, &b);
+        sac_get_float(s, SAC_F, &f);
+        sac_get_float(s, SAC_DELTA, &dt);
         /* -- Try to detect a valid pick. */
-        pkdet(s->y, s->h->npts, s->h->delta, 1, &ndxpk);
+        pkdet(s->y, s->h->npts, dt, 1, &ndxpk);
 
         /* -- If a valid pick was detected: */
 
@@ -167,7 +170,7 @@ xapk(int *nerr) {
 
             /* --- Characterize the pick as to quality and direction of first motion. */
             if (cmeam.lvalpk) {
-                pkchar(s->y, s->h->npts, s->h->delta, ndxpk, &ktype, &kdir,
+                pkchar(s->y, s->h->npts, dt, ndxpk, &ktype, &kdir,
                        &kqual);
                 fstrncpy(kmeam.kpwave, 8, (char *) &ktype, 1);
                 fstrncpy(kmeam.kpwave + 1, 7, "P", 1);
@@ -179,17 +182,17 @@ xapk(int *nerr) {
 
             /* --- Evaluate the pick, determining duration, maximum amplitudes, etc. */
             if (cmeam.lvalpk)
-                pkeval(s->y, s->h->npts, s->h->delta, ndxpk, &nlncda);
+                pkeval(s->y, s->h->npts, dt, ndxpk, &nlncda);
 
             /* --- Store results in SAC header fields. */
-            s->h->a = s->h->b + (float) (ndxpk - 1) * s->h->delta;
+            a = b + (float) (ndxpk - 1) * dt;
             strcpy(s->h->ka, kmeam.kpwave);
-            if (nlncda > 0)
-                s->h->f = s->h->a + s->h->delta * (float) (nlncda);
-
+            if (nlncda > 0) {
+                f = a + dt * (float) (nlncda);
+            }
             /* --- Write results to output and to HYPO pick file if open. */
             inctim(s->h->nzhour, s->h->nzmin, s->h->nzsec, s->h->nzmsec,
-                   s->h->a, &cmeam.nphour, &cmeam.npmin, &npsec, &npmsec,
+                   a, &cmeam.nphour, &cmeam.npmin, &npsec, &npmsec,
                    &nexday);
             cmeam.psecs = tosecs(npsec, npmsec);
             incdat(s->h->nzyear, s->h->nzjday, nexday, &cmeam.npyear,
@@ -201,7 +204,7 @@ xapk(int *nerr) {
             cmeam.lampx = FALSE;
             if (nlncda > 0) {
                 cmeam.lfini = TRUE;
-                cmeam.fmp = s->h->f - s->h->a;
+                cmeam.fmp = f - a;
             } else {
                 cmeam.lfini = FALSE;
             }
@@ -218,7 +221,7 @@ xapk(int *nerr) {
             /* --- Write results to card image pick file if open. */
             if (cmeam.lapfop) {
                 inctim(s->h->nzhour, s->h->nzmin, s->h->nzsec, s->h->nzmsec,
-                       s->h->a, &cmeam.npkhr, &cmeam.npkmn, &npksec, &npkmsc,
+                       a, &cmeam.npkhr, &cmeam.npkmn, &npksec, &npkmsc,
                        &nexday);
                 cmeam.pksecs = tosecs(npksec, npkmsc);
                 incdat(s->h->nzyear, s->h->nzjday, nexday, &cmeam.npkyr,
@@ -234,7 +237,7 @@ xapk(int *nerr) {
                 wapf();
                 if (nlncda > 0) {
                     inctim(s->h->nzhour, s->h->nzmin, s->h->nzsec, s->h->nzmsec,
-                           s->h->f, &cmeam.npkhr, &cmeam.npkmn, &npksec,
+                           f, &cmeam.npkhr, &cmeam.npkmn, &npksec,
                            &npkmsc, &nexday);
                     cmeam.pksecs = tosecs(npksec, npkmsc);
                     incdat(s->h->nzyear, s->h->nzjday, nexday, &cmeam.npkyr,
@@ -250,6 +253,8 @@ xapk(int *nerr) {
                     wapf();
                 }
             }
+            sac_set_float(s, SAC_A, a);
+            sac_set_float(s, SAC_F, f);
 
             /* -- Set flag if no valid pick found for this file. */
         } else {

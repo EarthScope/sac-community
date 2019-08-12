@@ -127,8 +127,8 @@ sac_from_data(float *y, int n, double b, double dt, char *filename) {
     s->m->filename = strdup(filename);
     s->h->npts = n;
     sac_alloc(s);
-    s->h->delta = dt;
-    s->h->b     = b;
+    sac_set_float(s, SAC_DELTA, dt);
+    sac_set_float(s, SAC_B, b);
     s->y        = y;
     sac_extrema(s);
     sac_be(s);
@@ -207,9 +207,9 @@ sac_td_conv(sac *s, sac *p) {
     z = (float *) calloc(m, sizeof(float));
     if(! td_conv(s->y, s->h->npts,
                  p->y, p->h->npts,
-                 z, s->h->delta,
-                 (double)s->h->delta,
-                 p->h->b))  {
+                 z, DT(s),
+                 DT(s),
+                 B(s)))  {
         error(1002, "waveform npts (%d) < pulse npts (%d)", s->h->npts, p->h->npts);
         return 0;
     }
@@ -255,11 +255,11 @@ td_conv(float     *waveform,
 }
 
 #define DT_CHECK(a,b) do {                          \
-    if(fabs(a->h->delta - b->h->delta) >= 1e-7) {   \
-        nerr = ERROR_UNEQUAL_SAMPLE_RATES;          \
-        goto L_8888;                                \
-    }                                               \
-} while(0);
+        if(fabs(DT(a) - DT(b)) >= 1e-7) {           \
+            nerr = ERROR_UNEQUAL_SAMPLE_RATES;      \
+            goto L_8888;                            \
+        }                                           \
+    } while(0);
 
 static int
 file_exists(char *filename) {
@@ -385,10 +385,10 @@ xconvolve(nerr)
         for(i = 0; i < saclen(); i++) {
             if (!(s = sacget(i, TRUE, nerr))) { goto L_8888; }
             switch (pulse_kind) {
-              case SACFILE: break;
-              case SACFILE_IN_MEMORY: break;
-              case GAUSS: p = sac_gauss_pulse(val[0], s->h->delta); break;
-              case TRI:   p = sac_tri_pulse(val[0], s->h->delta); break;
+            case SACFILE: break;
+            case SACFILE_IN_MEMORY: break;
+            case GAUSS: p = sac_gauss_pulse(val[0], DT(s)); break;
+            case TRI:   p = sac_tri_pulse(val[0], DT(s)); break;
             }
             if(!p) {
                 *nerr = error_status();
@@ -396,7 +396,7 @@ xconvolve(nerr)
             }
             /* Set initial time to zero per an option */
             if(!centered) {
-                p->h->b = 0.0;
+                sac_set_float(s, SAC_B, 0.0);
                 sac_be(p);
             }
             if(!sac_td_conv(s, p)) {

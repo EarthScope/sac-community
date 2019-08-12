@@ -71,7 +71,7 @@ xrcor(int *nerr) {
         s->h->npts = max;
     }
     memcpy(specor, s->y, sizeof(float) * s->h->npts);
-    cmspe.samfrq = 1.0 / s->h->delta;
+    cmspe.samfrq = 1.0 / DT(s);
     cmspe.nlnfft = s->h->npts;
     cmspe.lcor = TRUE;
     cmspe.lspe = FALSE;

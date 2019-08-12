@@ -45,9 +45,8 @@ xcopyhdr(int *nerr) {
     int lfirst, lfound, ltemp;
     int icatcox, idflco, itemcox, itemp;
     int jdfl, jhdrco, nhdrco, ntemp;
-    float ftemp;
+    double ftemp;
     sac *s;
-    float *fp;
     int *ip;
 
     *nerr = 0;
@@ -136,7 +135,7 @@ xcopyhdr(int *nerr) {
         }
         /* -- Get header variable from master file. */
         if (Icatco[jhdrco] == FLOAT_TYPE) {
-            ftemp = VALUE(fhdr(s, Itemco[jhdrco]));
+            sac_get_float(s, Itemco[jhdrco], &ftemp);
         } else if (Icatco[jhdrco] == INT_TYPE) {
             itemp = VALUE(ihdr(s, Itemco[jhdrco]));
         } else if (Icatco[jhdrco] == ENUM_TYPE) {
@@ -155,8 +154,7 @@ xcopyhdr(int *nerr) {
             //getfil( jdfl, FALSE, &notusd, &notusd, &notusd, nerr );
 
             if (Icatco[jhdrco] == FLOAT_TYPE) {
-                fp = fhdr(s, Itemco[jhdrco]);
-                VALUE(fp) = ftemp;
+                sac_set_float(s, Itemco[jhdrco], ftemp);
             } else if (Icatco[jhdrco] == INT_TYPE) {
                 ip = ihdr(s, Itemco[jhdrco]);
                 VALUE(ip) = itemp;

@@ -129,7 +129,7 @@ miniseed_trace_list_to_sac(MS3TraceList *mst3k) {
                 nsec = 0;
 
                 s = sac_new();
-                s->h->delta = 1.0 / seg->samprate;
+                sac_set_float(s, SAC_DELTA, 1.0 / seg->samprate);
                 s->h->npts = seg->numsamples;
                 s->h->leven = TRUE;
                 s->h->iftype = ITIME;
@@ -147,7 +147,7 @@ miniseed_trace_list_to_sac(MS3TraceList *mst3k) {
                 nstime_t dt = seg->starttime - ms_time2nstime(s->h->nzyear, s->h->nzjday,
                                                               s->h->nzhour, s->h->nzmin,
                                                               s->h->nzsec, s->h->nzmsec * 1000000);
-                s->h->b = (float) ((double) dt / (double)NSTMODULUS) ;
+                sac_set_float(s, SAC_B, (double) dt / (double)NSTMODULUS);
 
                 asprintf(&s->m->filename,
                          "%s.%s.%s.%s.%c.%04d.%03d.%02d%02d%02d.sac",

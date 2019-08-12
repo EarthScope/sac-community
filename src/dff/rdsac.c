@@ -109,7 +109,7 @@ rdsac(int idfl, char *kname, int kname_s, int lname, int ldta, int *nlen,
 
     }
 
-    sac_check_time_precision(s->h);
+    sac_check_time_precision(s);
     /* - Close file and return. */
   L_8888:
     zclose(&nun, &ncerr);

@@ -1472,19 +1472,19 @@ sac *sac_read(char *filename, int *nerr);
  *
  */
 int
-sac_compare(char *file, float *y, int n, float b, float dt) {
+sac_compare(char *file, float *y, int n, double b, double dt) {
     int nerr;
     sac *s = sac_read(file, &nerr);
     if(nerr != 0) {
         printf("sac_compare: file does not exist: %s\n", file);
         return 0;
     }
-    if(!isclosef(s->h->b, b)) {
-        printf("b-value differs: %e %e\n", s->h->b, b);
+    if(!isclosef(B(s), b)) {
+        printf("b-value differs: %e %e\n", B(s), b);
         return 0;
     }
-    if(!isclosef(s->h->delta, dt)) {
-        printf("delta differs: %e %e\n", s->h->delta, dt);
+    if(!isclosef(DT(s), dt)) {
+        printf("delta differs: %e %e\n", DT(s), dt);
         return 0;
     }
     if(n != s->h->npts) {

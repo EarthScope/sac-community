@@ -1480,7 +1480,7 @@ mstl3_printtracelist (MS3TraceList *mstl, ms_timeformat_t timeformat,
     id = id->next;
   }
 
-  if (tracecnt != mstl->numtraces)
+  if (tracecnt >= 0 && (uint32_t) tracecnt != mstl->numtraces)
     ms_log (2, "%s(): number of traces in trace list is inconsistent\n", __func__);
 
   if (details > 0)

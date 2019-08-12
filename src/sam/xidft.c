@@ -106,13 +106,13 @@ xidft(nerr)
         FREE(re);
         FREE(im);
 
-        s->h->delta = s->h->sdelta;
-        s->h->scale = 1. / ((float) (s->h->npts) * s->h->delta);
+        sac_set_float(s, SAC_DELTA, SDT(s));
+        s->h->scale = 1. / ((double) (s->h->npts) * DT(s));
         for (jdx = 0; jdx <= (s->h->npts - 1); jdx++) {
             s->y[jdx] *= s->h->scale;
         }
         s->h->iftype = ITIME;
-        s->h->b = s->h->sb;
+        sac_set_float(s, SAC_B, SB(s));
         s->h->npts = s->h->nsnpts;
         sac_be(s);
         extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax,

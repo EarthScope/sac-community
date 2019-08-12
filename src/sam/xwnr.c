@@ -134,7 +134,7 @@ xwnr(nerr)
 
         /* -- Check limits of noise window.  maf 970401 */
         /* see if noise window is completely outside of data window. */
-        if (cmsam.ortwwi[1] < s->h->b || cmsam.ortwwi[0] > s->h->e) {
+        if (cmsam.ortwwi[1] < B(s) || cmsam.ortwwi[0] > E(s)) {
             setmsg("ERROR", 1615);
             apcmsg(" in file number ", 17);
             apimsg(jdfl);
@@ -144,7 +144,7 @@ xwnr(nerr)
         }
 
         /* see if noise window over extends data window at both extremes. */
-        if (cmsam.ortwwi[0] < s->h->b && cmsam.ortwwi[1] > s->h->e) {
+        if (cmsam.ortwwi[0] < B(s) && cmsam.ortwwi[1] > E(s)) {
             setmsg("ERROR", 1616);
             apcmsg(" in file number ", 17);
             apimsg(jdfl);
@@ -154,7 +154,7 @@ xwnr(nerr)
         }
 
         /* see if noise window is partially outside of the data window. */
-        if (cmsam.ortwwi[0] < s->h->b || cmsam.ortwwi[1] > s->h->e) {
+        if (cmsam.ortwwi[0] < B(s) || cmsam.ortwwi[1] > E(s)) {
             setmsg("WARNING", 1617);
             apcmsg(" in file number ", 17);
             apimsg(jdfl);

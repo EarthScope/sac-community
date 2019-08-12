@@ -124,7 +124,7 @@ xcor(nerr)
     if (cmspe.lprewh) {
         cmspe.nprewh = min(cmspe.nprerq, MPREWH);
         temp[0] = '\0';
-        prewit(spe->y, spe->h->npts, spe->h->delta, &cmspe.nprewh, cmspe.cprewh,
+        prewit(spe->y, spe->h->npts, DT(spe), &cmspe.nprewh, cmspe.cprewh,
                NULL, temp);
 
         if (temp[0])

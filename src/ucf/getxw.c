@@ -31,7 +31,7 @@ getxw(double ywloc, float *xwloc) {
     if (!(s = sacget_current())) {
         return;
     }
-    ioffst = (ywloc - s->h->b + 0.5 * s->h->delta) / s->h->delta;
+    ioffst = (ywloc - B(s) + 0.5 * DT(s)) / DT(s);
 
     /* - Return corresponding x world coordinate. */
     *xwloc = s->y[ioffst];

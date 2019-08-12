@@ -173,6 +173,8 @@ rsac1(char      *kname,
       int       *max_,
       int       *nerr,
       int        kname_s) {
+    double b = SAC_FLOAT_UNDEFINED;
+    double dt = SAC_FLOAT_UNDEFINED;
     char name[4096] = {0};
     fstrcpy(name, sizeof(name), kname, kname_s);
     sac *s = sac_read(name, nerr);
@@ -183,8 +185,10 @@ rsac1(char      *kname,
         *nerr = ERROR_SAC_FILE_NOT_EVENLY_SPACED;
         return;
     }
-    *beg = s->h->b;
-    *del = s->h->delta;
+    sac_get_float(s, SAC_B, &b);
+    sac_get_float(s, SAC_DELTA, &dt);
+    *beg = (float) b;
+    *del = (float) dt;
 
     if(s->h->npts <= *max_) {
         *nlen = s->h->npts;
@@ -380,8 +384,8 @@ wsac1(char   *kname,
     fstrcpy(name, sizeof(name), kname, kname_s);
     y = s->y;
     s->y = yarray;
-    s->h->delta = *del;
-    s->h->b     = *beg;
+    sac_set_float(s, SAC_DELTA, (double) *del);
+    sac_set_float(s, SAC_B, (double) *beg);
     s->h->npts  = *nlen;
     s->h->leven = TRUE;
     sac_be(s);
@@ -449,6 +453,7 @@ wsac2(char   *kname,
  */
 void
 getfhv(char *kname, float *fvalue, int *nerr, int kname_s) {
+    double v = SAC_FLOAT_UNDEFINED;
     sac *s = NULL;
     struct hid *h = NULL;
 
@@ -464,10 +469,11 @@ getfhv(char *kname, float *fvalue, int *nerr, int kname_s) {
         *fvalue = SAC_FLOAT_UNDEFINED;
         return;
     }
-    sac_get_float(current, h->id, fvalue);
-    if(*fvalue == SAC_FLOAT_UNDEFINED) {
+    sac_get_float(current, h->id, &v);
+    if(v == SAC_FLOAT_UNDEFINED) {
         *nerr = ERROR_UNDEFINED_HEADER_FIELD_VALUE;
     }
+    *fvalue = (float) v;
 }
 
 /**
@@ -816,6 +822,7 @@ getlhv(char *kname, int *nvalue, int *nerr, int kname_s) {
  */
 void
 setfhv(char *kname, float *fvalue, int *nerr, int kname_s) {
+    double v = SAC_FLOAT_UNDEFINED;
     sac *s = NULL;
     struct hid *h = NULL;
 
@@ -830,7 +837,8 @@ setfhv(char *kname, float *fvalue, int *nerr, int kname_s) {
         *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;
         return;
     }
-    sac_set_float(s, h->id, *fvalue);
+    v = (double) *fvalue;
+    sac_set_float(s, h->id, v);
 }
 /**
  * @brief      Set a integer header value

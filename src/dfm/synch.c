@@ -29,15 +29,15 @@
  *
  */
 void
-synch(int ndttmi[][6], float *offsti, int num, int ndttmo[][6], float *offsto,
+synch(int ndttmi[][6], double *offsti, int num, int ndttmo[][6], double *offsto,
       int lbegin) {
 
     int j, j_, jmx;
-    float offstm;
+    double offstm;
 
-    float *const Offsti = &offsti[0] - 1;
+    double *const Offsti = &offsti[0] - 1;
 
-    float *const Offsto = &offsto[0] - 1;
+    double *const Offsto = &offsto[0] - 1;
 
     /* - Adjust input date time arrays (DTA) for input offsets. */
     for (j = 1; j <= num; j++) {

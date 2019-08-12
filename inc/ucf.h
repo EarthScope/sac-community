@@ -25,7 +25,7 @@ void copy(int *srce, int *sink, int ncopy);
 void copydouble(double *source, int length, double *sink);
 void copyi(int *isrce, int *isink, int ncopy);
 void copykc(char *kin, int kin_s, int ncopy, char *kout);
-void ddttm(int *ndttm1, int *ndttm2, float *diff);
+void ddttm(int *ndttm1, int *ndttm2, double *diff);
 void delims(char *ktd, int ktd_s, int ntd, char *kmd, int kmd_s, int nmd);
 void distaz(double the, double phe, float *ths, float *phs, int ns, float *dist,
             float *az, float *baz, float *xdeg, int *nerr);

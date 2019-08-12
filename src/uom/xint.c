@@ -109,10 +109,10 @@ xint(nerr)
         if (s->h->leven) {
             if (cmuom.ltrap) {
                 /* --- Midpoint (trapezoidal) method.  */
-                int_trap(s->y, s->h->npts, (double) s->h->delta);
+                int_trap(s->y, s->h->npts, DT(s));
             } else {
                 /* --- Rectangular method.  */
-                int_rect(s->y, s->h->npts, (double) s->h->delta);
+                int_rect(s->y, s->h->npts, DT(s));
             }
         }
 
@@ -150,7 +150,7 @@ xint(nerr)
         if (cmuom.ltrap) {
             s->h->npts = s->h->npts - 1;
             if (s->h->leven) {
-                s->h->b = s->h->b + 0.5 * s->h->delta;
+                sac_set_float(s, SAC_B, B(s) + 0.5 * DT(s));
             }
             sac_be(s);
         }

@@ -54,7 +54,7 @@ struct meta_data {
  */
 void
 sac_show_float(sac *s, char *name, int hdr) {
-    float v = 0.0;
+    double v = 0.0;
     if(!sac_get_float(s, hdr, &v)) {
         return;
     }

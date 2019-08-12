@@ -159,7 +159,7 @@ xcorrelate(int *nerr) {
         if (*nerr != 0)
             goto L_8888;
         if (cmsam.lwinln) {
-            iwinln = (int) (cmsam.winln / s->h->delta + 0.1);
+            iwinln = (int) (cmsam.winln / DT(s) + 0.1);
         } else {
             iwinln = s->h->npts / cmsam.nwin;
         }
@@ -196,7 +196,7 @@ xcorrelate(int *nerr) {
     if (nzeros > 0)
         fill(master + nlenMaster, nzeros, 0.);
 
-    masterBegin = s->h->b;      /* remember when the master begins. maf 961204 */
+    masterBegin = B(s);      /* remember when the master begins. maf 961204 */
 
     /* - Perform the requested function on each file in DFL. */
 
@@ -224,7 +224,7 @@ xcorrelate(int *nerr) {
 
         /* -- Compute length of each window. */
         if (cmsam.lwinln) {
-            iwinln = (int) (cmsam.winln / s->h->delta + 0.1);
+            iwinln = (int) (cmsam.winln / DT(s) + 0.1);
         } else {
             iwinln = nlenmx / cmsam.nwin;
         }
@@ -257,8 +257,8 @@ xcorrelate(int *nerr) {
         /* -- Update any header fields that may have changed. */
         /*      overhauled to preserve differences in begin times.  maf 961204 */
         s->h->npts = nlenCombined;
-        s->h->b =
-            -(float) (nlenMaster - 1) * s->h->delta + s->h->b - masterBegin;
+        sac_set_float(s, SAC_B,
+                      -(double) (nlenMaster - 1) * DT(s) + B(s) - masterBegin);
         sac_be(s);
         extrma(signal, 1, nlenCombined, &s->h->depmin, &s->h->depmax,
                &s->h->depmen);
@@ -287,14 +287,14 @@ xcorrelate(int *nerr) {
             sprintf(value, "%12.6g", max);
             setbbv(name, value, nerr, strlen(name), strlen(value));
             sprintf(name, "corr_max_time_%05d", jdfl);
-            sprintf(value, "%12.6g", (imax * (s->h->delta)) + s->h->b);
+            sprintf(value, "%12.6g", (imax * (DT(s))) + B(s));
             setbbv(name, value, nerr, strlen(name), strlen(value));
 
             sprintf(name, "corr_min_amp_%05d", jdfl);
             sprintf(value, "%12.6g", min);
             setbbv(name, value, nerr, strlen(name), strlen(value));
             sprintf(name, "corr_min_time_%05d", jdfl);
-            sprintf(value, "%12.6g", (imin * (s->h->delta)) + s->h->b);
+            sprintf(value, "%12.6g", (imin * (DT(s))) + B(s));
             setbbv(name, value, nerr, strlen(name), strlen(value));
         }
 

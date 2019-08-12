@@ -58,7 +58,7 @@ getatw(char *krtw, int krtw_s, double *ortw, double *tmin, double *tmax,
 #define KRTW(I_,J_)	(krtw+(I_)*(krtw_s)+(J_))
 
     int irtb, irte, nofmax, num;
-    float rtrb, rtre;
+    double rtrb, rtre;
     double *const Ortw = &ortw[0] - 1;
     sac *s;
 
@@ -83,11 +83,11 @@ getatw(char *krtw, int krtw_s, double *ortw, double *tmin, double *tmax,
     if (irtb == cmdfm.ipckz) {
         *tmin = Ortw[1];
     } else {
-        rtrb = VALUE(fhdr(s, cmdfm.ipckhd[irtb - 1]));
+        sac_get_float(s, cmdfm.ipckhd[irtb - 1], &rtrb);
         if (rtrb != SAC_FLOAT_UNDEFINED) {
             *tmin = rtrb + Ortw[1];
         } else {
-            *tmin = s->h->b;
+            *tmin = B(s);
             *nerr = ERROR_UNDEFINED_START_CUT_TIME;
             setmsg("ERROR", *nerr);
             apcmsg2(s->m->filename, strlen(s->m->filename) + 1);
@@ -101,13 +101,13 @@ getatw(char *krtw, int krtw_s, double *ortw, double *tmin, double *tmax,
         *tmax = Ortw[2];
     } else if (irte == cmdfm.ipckn) {
         num = (int) (Ortw[2]);
-        *tmax = *tmin + s->h->delta * (float) (num);
+        *tmax = *tmin + DT(s) * (double) (num);
     } else {
-        rtre = VALUE(fhdr(s, cmdfm.ipckhd[irte - 1]));
+        sac_get_float(s, cmdfm.ipckhd[irte - 1], &rtre);
         if (rtre != SAC_FLOAT_UNDEFINED) {
             *tmax = rtre + Ortw[2];
         } else {
-            *tmax = s->h->e;
+            *tmax = E(s);
             *nerr = ERROR_UNDEFINED_STOP_CUT_TIME;
             setmsg("ERROR", *nerr);
             apcmsg2(s->m->filename, strlen(s->m->filename) + 1);
@@ -123,8 +123,8 @@ getatw(char *krtw, int krtw_s, double *ortw, double *tmin, double *tmax,
 
     /* - Determine offset and length of window in points. */
 
-    *nofmin = (int) ((*tmin - s->h->b) / s->h->delta);
-    nofmax = (int) ((*tmax - s->h->b) / s->h->delta);
+    *nofmin = (int) ((*tmin - B(s)) / DT(s));
+    nofmax = (int) ((*tmax - B(s)) / DT(s));
     *nlnwin = nofmax - *nofmin + 1;
 
     if(*nlnwin <= 0) {

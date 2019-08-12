@@ -212,7 +212,7 @@ xtransfer(nerr)
         /* -- Call the specific subroutine to work on this file.
          *    (This is usually a call to a subroutine.) */
 
-        transfer(s->y, s->h->npts, s->h->delta, cmicm.fpfrom, cmicm.ipfrom,
+        transfer(s->y, s->h->npts, DT(s), cmicm.fpfrom, cmicm.ipfrom,
                  kmicm.kpfrom, MCPFN + 1, cmicm.fpto, cmicm.ipto, kmicm.kpto,
                  MCPFN + 1, cmicm.freq, &iprewu, sre, sim, nfft, xre, xim,
                  nfreq, nerr);

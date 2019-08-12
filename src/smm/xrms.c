@@ -23,7 +23,6 @@ xrms(nerr)
     int ifpick, j, jdfl, nlnnoise, nlnsignal, nofnoise, nofsignal;
     float rms, sumsq, sumsqnoise, sumsqsignal;
     double tmax, tmin;
-    float *fp;
     sac *s;
         /*=====================================================================
 	 * PURPOSE: To parse and execute the action command RMS.
@@ -125,20 +124,20 @@ xrms(nerr)
             if (*nerr != 0) {
                 goto L_8888;
             }
-            if(tmin < s->h->b) {
-                warning(8012, "(%.5g < %.5g)", tmin, s->h->b);
+            if(tmin < B(s)) {
+                warning(8012, "(%.5g < %.5g)", tmin, B(s));
                 outmsg();
                 clrmsg();
-                tmin = fmax(tmin, s->h->b);
+                tmin = fmax(tmin, B(s));
             }
-            if(tmax > s->h->e) {
-                warning(8013, "(%.5g > %.5g)", tmax, s->h->e);
+            if(tmax > E(s)) {
+                warning(8013, "(%.5g > %.5g)", tmax, E(s));
                 outmsg();
                 clrmsg();
-                tmax = fmin(tmax, s->h->e);
+                tmax = fmin(tmax, E(s));
             }
-            nofsignal = (int)((tmin - s->h->b) / s->h->delta);
-            nlnsignal = (int)((tmax - s->h->b) / s->h->delta) - nofsignal + 1;
+            nofsignal = (int)((tmin - B(s)) / DT(s));
+            nlnsignal = (int)((tmax - B(s)) / DT(s)) - nofsignal + 1;
         } else {
             nofsignal = 0;
             nlnsignal = s->h->npts;
@@ -164,10 +163,10 @@ xrms(nerr)
             if (*nerr != 0) {
                 goto L_8888;
             }
-            tmin = fmax(tmin, s->h->b);
-            tmax = fmin(tmax, s->h->e);
-            nofnoise = (int)((tmin - s->h->b)/s->h->delta);
-            nlnnoise = (int)((tmax - s->h->b)/s->h->delta) - nofnoise + 1;
+            tmin = fmax(tmin, B(s));
+            tmax = fmin(tmax, E(s));
+            nofnoise = (int)((tmin - B(s))/DT(s));
+            nlnnoise = (int)((tmax - B(s))/DT(s)) - nofnoise + 1;
             sumsqnoise = 0.;
             for (j = nofnoise; j <= (nofnoise + nlnnoise - 1); j++) {
                 sumsqnoise += s->y[j] * s->y[j];
@@ -186,9 +185,7 @@ xrms(nerr)
 
         /* -- Compute the resulting rms value and store in the requested header field. */
         rms = sqrt(sumsq);
-        fp = fhdr(s, ifpick);
-        *fp = rms;
-
+        sac_set_float(s, ifpick, rms);
     }                           /* end for ( jdfl ) */
 
   L_8888:

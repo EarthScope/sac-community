@@ -107,8 +107,8 @@ SeisMgrToSac(DBlist tree, int lname, int *nerr, int Verbose, int lcutnow,
             newData.dataType = header.iftype;
             newData.xarray = s->x;
             newData.yarray = s->y;
-            header.b = s->h->b;
-            header.e = s->h->e;
+            header._b = B(s);
+            header._e = E(s);
             header.npts = s->h->npts;
 
             sacLoadFromHeaderAndData(&header, &newData,

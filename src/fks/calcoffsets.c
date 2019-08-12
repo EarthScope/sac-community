@@ -25,6 +25,7 @@ calcoffsets(int ns, float *xr, float *yr, float *zr, int *nerr) {
     float reflat = 0.0, reflon = 0.0 , refel = 0.0, dlat, dlon, avlat;
     int jdfl, idfl, count;
     int lrefset, lstaset, luserset, levset;
+    double stlo, stla, evlo, evla;
     char refsta[9];
     sac *s;
     /* ============================================================
@@ -75,7 +76,10 @@ calcoffsets(int ns, float *xr, float *yr, float *zr, int *nerr) {
             *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
             goto L_9999;
         }
-        //getfil(jdfl, FALSE, &ndx1, &ndx2, &idummy, nerr);
+        sac_get_float(s, SAC_STLA, &stla);
+        sac_get_float(s, SAC_STLO, &stlo);
+        sac_get_float(s, SAC_EVLA, &evla);
+        sac_get_float(s, SAC_EVLO, &evlo);
 
         if (jdfl == 1) {
             if (strncmp(s->h->kuser1, "-12345", 6) == 0) {
@@ -85,14 +89,14 @@ calcoffsets(int ns, float *xr, float *yr, float *zr, int *nerr) {
         }
         if (strcmp(s->h->kuser1, refsta) != 0)
             lrefset = FALSE;
-        if ((s->h->stla == SAC_FLOAT_UNDEFINED) ||
-            (s->h->stlo == SAC_FLOAT_UNDEFINED))
+        if ((stla == SAC_FLOAT_UNDEFINED) ||
+            (stlo == SAC_FLOAT_UNDEFINED))
             lstaset = FALSE;
         if ((s->h->user7 == SAC_FLOAT_UNDEFINED) ||
             (s->h->user8 == SAC_FLOAT_UNDEFINED))
             luserset = FALSE;
-        if ((s->h->evla == SAC_FLOAT_UNDEFINED) ||
-            (s->h->evlo == SAC_FLOAT_UNDEFINED))
+        if ((evla == SAC_FLOAT_UNDEFINED) ||
+            (evlo == SAC_FLOAT_UNDEFINED))
             levset = FALSE;
 
     }
@@ -117,19 +121,20 @@ calcoffsets(int ns, float *xr, float *yr, float *zr, int *nerr) {
                 *nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
                 goto L_9999;
             }
-            //getfil(jdfl, FALSE, &ndx1, &ndx2, &idummy, nerr);
+            sac_get_float(s, SAC_STLA, &stla);
+            sac_get_float(s, SAC_STLO, &stlo);
 
             if (jdfl == 1) {
                 xr[jdfl - 1] = 0.0;
                 yr[jdfl - 1] = 0.0;
                 zr[jdfl - 1] = 0.0;
-                reflat = s->h->stla;
-                reflon = s->h->stlo;
+                reflat = stla;
+                reflon = stlo;
                 refel = s->h->stel;
             } else {
-                dlat = s->h->stla - reflat;
-                dlon = s->h->stlo - reflon;
-                avlat = (reflat + s->h->stla) / 2.0;
+                dlat = stla - reflat;
+                dlon = stlo - reflon;
+                avlat = (reflat + stla) / 2.0;
                 xr[jdfl - 1] = 111.19 * dlon * cos(M_PI * avlat / 180.0);
                 yr[jdfl - 1] = 111.19 * dlat;
                 zr[jdfl - 1] = refel - s->h->stel;
@@ -154,19 +159,21 @@ calcoffsets(int ns, float *xr, float *yr, float *zr, int *nerr) {
             if (!(s = sacget(jdfl - 1, FALSE, nerr))) {
                 goto L_9999;
             }
-            //getfil(jdfl, FALSE, &ndx1, &ndx2, &idummy, nerr);
+            sac_get_float(s, SAC_EVLA, &evla);
+            sac_get_float(s, SAC_EVLO, &evlo);
+
 
             if (jdfl == 1) {
                 xr[jdfl - 1] = 0.0;
                 yr[jdfl - 1] = 0.0;
                 zr[jdfl - 1] = 0.0;
-                reflat = s->h->evla;
-                reflon = s->h->evlo;
+                reflat = evla;
+                reflon = evlo;
                 refel = s->h->evel;
             } else {
-                dlat = s->h->evla - reflat;
-                dlon = s->h->evlo - reflon;
-                avlat = (reflat + s->h->evla) / 2.0;
+                dlat = evla - reflat;
+                dlon = evlo - reflon;
+                avlat = (reflat + evla) / 2.0;
                 xr[jdfl - 1] = 111.19 * dlon * cos(PI * avlat / 180.0);
                 yr[jdfl - 1] = 111.19 * dlat;
                 zr[jdfl - 1] = refel - s->h->evel;
