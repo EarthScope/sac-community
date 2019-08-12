@@ -17,6 +17,7 @@
 #include "co.h"
 #include "dff.h"
 #include "defs.h"
+#include "bot.h"
 
 DFM_EXTERN
 SAM_EXTERN
@@ -26,10 +27,10 @@ xwsp(nerr)
      int *nerr;
 {
     char kwspnm[MCPFN + 1];
+    char prefix[MCPFN + 1];
     int lconv;
-    int _l1, index, ispectype, jdfl, nderr, nfreq, nun, nwspnm;
+    int index, ispectype, jdfl, nfreq;
 
-    float *buf1, *buf2;
     char *tmp;
 
     string_list *list;
@@ -75,8 +76,6 @@ xwsp(nerr)
 	 *===================================================================== */
     /* PROCEDURE: */
     *nerr = 0;
-    buf1 = NULL;
-    buf2 = NULL;
     /* PARSING PHASE: */
     ispectype = -1;
     /* - Loop on each token in command: */
@@ -99,48 +98,48 @@ xwsp(nerr)
                     cmsam.lwrlim = TRUE;
                     cmsam.lwspc1 = TRUE;
                     cmsam.lwspc2 = TRUE;
-                    strcpy(kmsam.kwsps1, ".rl     ");
-                    strcpy(kmsam.kwsps2, ".im     ");
+                    strcpy(kmsam.kwsps1, ".rl");
+                    strcpy(kmsam.kwsps2, ".im");
                     break;
                 case 3:
                     cmsam.lwamph = TRUE;
                     cmsam.lwrlim = FALSE;
                     cmsam.lwspc1 = TRUE;
                     cmsam.lwspc2 = TRUE;
-                    strcpy(kmsam.kwsps1, ".am     ");
-                    strcpy(kmsam.kwsps2, ".ph     ");
+                    strcpy(kmsam.kwsps1, ".am");
+                    strcpy(kmsam.kwsps2, ".ph");
                     break;
                 case 4:
                     cmsam.lwamph = FALSE;
                     cmsam.lwrlim = TRUE;
                     cmsam.lwspc1 = TRUE;
                     cmsam.lwspc2 = FALSE;
-                    strcpy(kmsam.kwsps1, ".rl     ");
-                    strcpy(kmsam.kwsps2, ".na     ");
+                    strcpy(kmsam.kwsps1, ".rl");
+                    strcpy(kmsam.kwsps2, ".na");
                     break;
                 case 5:
                     cmsam.lwamph = FALSE;
                     cmsam.lwrlim = TRUE;
                     cmsam.lwspc1 = FALSE;
                     cmsam.lwspc2 = TRUE;
-                    strcpy(kmsam.kwsps1, ".na     ");
-                    strcpy(kmsam.kwsps2, ".im     ");
+                    strcpy(kmsam.kwsps1, ".na");
+                    strcpy(kmsam.kwsps2, ".im");
                     break;
                 case 6:
                     cmsam.lwamph = TRUE;
                     cmsam.lwrlim = FALSE;
                     cmsam.lwspc1 = TRUE;
                     cmsam.lwspc2 = FALSE;
-                    strcpy(kmsam.kwsps1, ".am     ");
-                    strcpy(kmsam.kwsps2, ".na     ");
+                    strcpy(kmsam.kwsps1, ".am");
+                    strcpy(kmsam.kwsps2, ".na");
                     break;
                 case 7:
                     cmsam.lwamph = TRUE;
                     cmsam.lwrlim = FALSE;
                     cmsam.lwspc1 = FALSE;
                     cmsam.lwspc2 = TRUE;
-                    strcpy(kmsam.kwsps1, ".na     ");
-                    strcpy(kmsam.kwsps2, ".ph     ");
+                    strcpy(kmsam.kwsps1, ".na");
+                    strcpy(kmsam.kwsps2, ".ph");
                     break;
                 case 8:
                     *nerr = 1012;
@@ -150,8 +149,8 @@ xwsp(nerr)
                     cmsam.lwrlim = FALSE;
                     cmsam.lwspc1 = TRUE;
                     cmsam.lwspc2 = FALSE;
-                    strcpy(kmsam.kwsps1, ".po     ");
-                    strcpy(kmsam.kwsps2, ".na     ");
+                    strcpy(kmsam.kwsps1, ".po");
+                    strcpy(kmsam.kwsps2, ".na");
             }                   /* end switch */
         }
 
@@ -250,12 +249,11 @@ xwsp(nerr)
 
         if (cmsam.lwspov) {
             tmp = s->m->filename;
-            fstrncpy(kwspnm, MCPFN, tmp, strlen(tmp) + 1);
+            strlcpy(prefix, tmp, sizeof(prefix));
         } else {
             tmp = string_list_get(list, jdfl - 1);
-            fstrncpy(kwspnm, MCPFN, tmp, strlen(tmp) + 1);
+            strlcpy(prefix, tmp, sizeof(prefix));
         }
-        nwspnm = min(strlen(kwspnm), MCPFN - 3);
 
         /* -- Determine suffixes if KWSPTP is 'ASIS'. */
         if (strcmp(kmsam.kwsptp, "ASIS    ") == 0) {
@@ -263,11 +261,11 @@ xwsp(nerr)
                 ispectype = s->h->iftype;
             }
             if (ispectype == IRLIM) {
-                strcpy(kmsam.kwsps1, ".rl     ");
-                strcpy(kmsam.kwsps2, ".im     ");
+                strcpy(kmsam.kwsps1, ".rl");
+                strcpy(kmsam.kwsps2, ".im");
             } else {
-                strcpy(kmsam.kwsps1, ".am     ");
-                strcpy(kmsam.kwsps2, ".ph     ");
+                strcpy(kmsam.kwsps1, ".am");
+                strcpy(kmsam.kwsps2, ".ph");
             }
         }
 
@@ -275,131 +273,30 @@ xwsp(nerr)
 
         nfreq = s->h->npts / 2 + 1;
         s->h->npts = nfreq;
-        s->h->b = 0.;
+        sac_set_float(s, SAC_B, 0.0);
         s->h->iftype = IXY;
         sac_be(s);
-        
+
         /* -- Write first spectral component if requested. */
-
         if (cmsam.lwspc1) {
-
-            /* --- Prepare new name */
-            fstrncpy(kwspnm, MCPFN, kwspnm, min(nwspnm, MCPFN));
-            fstrncpy(kwspnm + min(nwspnm, MCPFN), MCPFN - min(nwspnm, MCPFN),
-                     kmsam.kwsps1, 3);
-
-            /* --- Create file. */
-            zdest(kwspnm, MCPFN + 1, &nderr);
-            znfile(&nun, kwspnm, MCPFN + 1, nerr);
-            if (*nerr != 0)
-                goto L_8888;
-
-            /* --- Adjust header for component specific values. */
-            extrma(s->y, 1, nfreq, &s->h->depmin, &s->h->depmax, &s->h->depmen);
-
-            /* --- Write header. */
-
-            if ((buf1 = (float *) malloc(SAC_HEADER_SIZEOF)) == NULL) {
-                printf("error allocating file buffer-xwsp\n");
-                *nerr = 115;
+            snprintf(kwspnm, sizeof(kwspnm), "%s%s", prefix, kmsam.kwsps1);
+            sac_write_r(s, kwspnm, TRUE, FALSE, nerr);
+            if(*nerr) {
                 goto L_8888;
             }
-
-            if ((buf2 = (float *) malloc(SAC_HEADER_SIZEOF_FILE)) == NULL) {
-                printf("error allocating memory buffer-xwsp\n");
-                *nerr = 115;
-                goto L_8888;
-            }
-
-            memcpy((char *) buf1, (char *) &s->h->delta,
-                   SAC_HEADER_NUMBERS * SAC_HEADER_SIZEOF_NUMBER);
-            memcpy((char *) (buf1 + (SAC_HEADER_NUMBERS)), (char *) khdr(s, 1),
-                   SAC_HEADER_STRINGS * SAC_HEADER_STRING_LENGTH);
-
-            map_hdr_out(buf1, buf2, FALSE);
-
-            _l1 = 0;
-            zwabs((int *) &nun, (char *) (buf2), SAC_HEADER_WORDS_FILE,
-                  (int *) &_l1, (int *) nerr);
-            if (*nerr != 0)
-                goto L_8888;
-
-            FREE(buf1);
-            FREE(buf2);
-
-            /* --- Write data. */
-            _l1 = SAC_HEADER_WORDS_FILE;
-            zwabs((int *) &nun, (char *) (s->y), nfreq, (int *) &_l1,
-                  (int *) nerr);
-            if (*nerr != 0)
-                goto L_8888;
-
-            /* --- Close file. */
-            zclose(&nun, nerr);
-            if (*nerr != 0)
-                goto L_8888;
-
         }
 
         /* -- Write second spectral component if requested. */
 
         if (cmsam.lwspc2) {
-
-            /* --- Prepare new name */
-            fstrncpy(kwspnm, MCPFN, kwspnm, min(nwspnm, MCPFN));
-            fstrncpy(kwspnm + min(nwspnm, MCPFN), MCPFN - min(nwspnm, MCPFN),
-                     kmsam.kwsps2, 3);
-
-            /* --- Create file. */
-            zdest(kwspnm, MCPFN + 1, &nderr);
-            znfile(&nun, kwspnm, MCPFN + 1, nerr);
-            if (*nerr != 0)
-                goto L_8888;
-
-            /* --- Adjust header for component specific values. */
-            extrma(s->x, 1, nfreq, &s->h->depmin, &s->h->depmax, &s->h->depmen);
-
-            /* --- Write header. */
-            if ((buf1 = (float *) malloc(SAC_HEADER_SIZEOF)) == NULL) {
-                printf("error allocating file buffer-xwsp\n");
-                *nerr = 115;
+            float *ytmp = s->y;
+            s->y = s->x;
+            snprintf(kwspnm, sizeof(kwspnm), "%s%s", prefix, kmsam.kwsps2);
+            sac_write_r(s, kwspnm, TRUE, FALSE, nerr);
+            s->y = ytmp;
+            if(*nerr) {
                 goto L_8888;
             }
-
-            if ((buf2 = (float *) malloc(SAC_HEADER_SIZEOF_FILE)) == NULL) {
-                printf("error allocating memory buffer-xwsp\n");
-                *nerr = 115;
-                goto L_8888;
-            }
-
-            memcpy((char *) buf1, (char *) &s->h->delta,
-                   SAC_HEADER_NUMBERS * SAC_HEADER_SIZEOF_NUMBER);
-            memcpy((char *) (buf1 + (SAC_HEADER_NUMBERS)), khdr(s, 1),
-                   SAC_HEADER_STRINGS * SAC_HEADER_STRING_LENGTH);
-
-            map_hdr_out(buf1, buf2, FALSE);
-
-            _l1 = 0;
-            zwabs((int *) &nun, (char *) (buf2), SAC_HEADER_WORDS_FILE,
-                  (int *) &_l1, (int *) nerr);
-            if (*nerr != 0)
-                goto L_8888;
-
-            FREE(buf1);
-            FREE(buf2);
-
-            /* --- Write data. */
-            _l1 = SAC_HEADER_WORDS_FILE;
-            zwabs((int *) &nun, (char *) (s->x), nfreq, (int *) &_l1,
-                  (int *) nerr);
-            if (*nerr != 0)
-                goto L_8888;
-
-            /* --- Close file. */
-            zclose(&nun, nerr);
-            if (*nerr != 0)
-                goto L_8888;
-
         }
 
         /* -- Convert file back to original type if necessary. */
@@ -415,8 +312,6 @@ xwsp(nerr)
     }
 
   L_8888:
-    FREE(buf1);
-    FREE(buf2);
     return;
 
         /*=====================================================================

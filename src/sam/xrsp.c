@@ -9,12 +9,14 @@
 #include "bool.h"
 
 #include "ucf.h"
+#include "msg.h"
 #include "ssi.h"
 #include "clf.h"
 #include "cpf.h"
 #include "co.h"
 #include "dff.h"
 #include <fstr.h>
+#include "defs.h"
 
 DFM_EXTERN
 SAM_EXTERN
@@ -24,14 +26,12 @@ xrsp(nerr)
      int *nerr;
 {
     char krspnm[MCPFN + 1];
-    int irsptp, jdx, jdfl, junk, nfreq, nlcdsk, nrspnm, nun;
+    int irsptp, nfreq;
     int n;
     char s1[4];
     char *tmp;
-    float *Sacmem1, *Sacmem2;
     string_list *list;
     static string_list *last_list = NULL;
-    sac *s;
     if (!last_list) {
         last_list = string_list_init();
     }
@@ -135,12 +135,12 @@ xrsp(nerr)
     /* - Define suffixes. */
 
     if (cmsam.lramph) {
-        strcpy(kmsam.krsps1, ".am     ");
-        strcpy(kmsam.krsps2, ".ph     ");
+        strcpy(kmsam.krsps1, ".am");
+        strcpy(kmsam.krsps2, ".ph");
         irsptp = IAMPH;
     } else {
-        strcpy(kmsam.krsps1, ".rl     ");
-        strcpy(kmsam.krsps2, ".im     ");
+        strcpy(kmsam.krsps1, ".rl");
+        strcpy(kmsam.krsps2, ".im");
         irsptp = IRLIM;
     }
 
@@ -148,158 +148,71 @@ xrsp(nerr)
     sacclear();
 
     n = string_list_length(list);
+    sac *so[2] = { NULL, NULL };
 
-    /* - Read headers (from first file in each pair) into memory. */
-    for (jdfl = 1; jdfl <= n; jdfl++) {
-
-        /* -- Determine character length of input file name. */
-        tmp = string_list_get(list, jdfl - 1);
-        fstrncpy(krspnm, MCPFN, tmp, strlen(tmp) + 1);
-        nrspnm = min(strlen(krspnm), MCPFN - 3);
-
-        /* -- Prepare new name */
-        if (!cmsam.lrspe) {
-            strncpy(s1, kmsam.krsps1, 3);
-            subscpy(krspnm, nrspnm, -1, MCPFN, s1);
+    for(int i = 0; i < n; i++) {
+        int m = (cmsam.lrspe == TRUE) ? 1 : 2;
+        so[0] = so[1] = NULL;
+        tmp = string_list_get(list, i);
+        for(int j = 0; j < m; j++) {
+            if(!cmsam.lrspe) {
+                snprintf(krspnm, sizeof(krspnm), "%s%s", tmp,
+                         (j==0) ? kmsam.krsps1 : kmsam.krsps2);
+            } else {
+                strlcpy(krspnm, tmp, sizeof(krspnm));
+            }
+            so[j] = sac_read(krspnm, nerr);
+            if(*nerr) {
+                error(*nerr, "%s", krspnm);
+                goto L_8888;
+            }
         }
+        sac *s = sac_new();
+        sac_header_copy(s, so[0]);
+        sac_meta_copy(s, so[0]);
+        FREE(s->m->filename);
+        s->m->filename = strdup(tmp);
 
-        /* -- Open file. */
-        zopen_sac(&nun, krspnm, strlen(krspnm) + 1, "RODATA", 7, nerr);
-        if (*nerr != 0)
-            goto L_8888;
-
-        s = sac_new();
-        s->m->filename = fstrdup(krspnm, nrspnm);
-        sacput(s);
-
-        /* -- Read header. */
-        s->m->swap = rdhdr(s, &nun, krspnm, nerr);
-        if (*nerr != 0)
-            goto L_8888;
-        if (s->h->nevid == -12345 || s->h->norid == -12345)
-            cmdfm.nreadflag = LOW;
-
-        /* -- Adjust certain header fields. */
         nfreq = s->h->npts;
         s->h->npts = 2 * (nfreq - 1);
         sac_set_float(s, SAC_B, 0.0);
         sac_set_float(s, SAC_E, DT(s) * (double) (nfreq - 1));
         s->h->iftype = irsptp;
+
         sac_alloc(s);
-
-        /* -- Close file. */
-        zclose(&nun, nerr);
-        if (*nerr != 0)
-            goto L_8888;
-    }
-
-    /* - Read data sections from both files in pair. */
-
-    for (jdfl = 1; jdfl <= n; jdfl++) {
-
-        if (!(s = sacget(jdfl - 1, FALSE, nerr))) {
-            goto L_8888;
-        }
-        /* -- Get header from memory manager. */
-        //getfil( jdfl, FALSE, &nlen, &ndx1, &ndx2, nerr );
-
-        /* -- Open first file. */
-        tmp = string_list_get(list, jdfl - 1);
-        fstrncpy(krspnm, MCPFN, tmp, strlen(tmp) + 1);
-        nrspnm = min(strlen(krspnm), MCPFN - 3);
-        if (!cmsam.lrspe) {
-            strncpy(s1, kmsam.krsps1, 3);
-            subscpy(krspnm, nrspnm, -1, MCPFN, s1);
-        }
-        zopen_sac(&nun, krspnm, MCPFN + 1, "RODATA", 7, nerr);
-        if (*nerr != 0)
-            goto L_8888;
-
-        /* -- Read data. */
-        nlcdsk = SAC_HEADER_WORDS_FILE;
-        nfreq = s->h->npts / 2 + 1;
-        zrabs((int *) &nun, (char *) s->y, nfreq, (int *) &nlcdsk,
-              (int *) nerr);
-        if (s->m->swap) {       /* byteswap if necessary. */
-
-            for (jdx = 0; jdx < nfreq; jdx++) {
-                byteswap((void *) &s->y[jdx], 4);
-            }
-        }
-        if (*nerr != 0)
-            goto L_7777;
-
-        /* -- Close file. */
-        zclose(&nun, nerr);
-        if (*nerr != 0)
-            goto L_7777;
 
         /* -- Fill second half of first data component.
          *    This is either the real or the amplitude component
          *    and is therefore symmetric about its midpoint. */
-        Sacmem1 = &s->y[1];
-        Sacmem2 = &s->y[s->h->npts - 1];
-        for (jdx = 1; jdx <= (nfreq - 2); jdx++) {
-            *(Sacmem2--) = *(Sacmem1++);
+        memcpy(s->y, so[0]->y, nfreq * SAC_DATA_SIZE);
+        for(int j = 0; j < nfreq-2; j++) {
+            s->y[s->h->npts-1-j] =  s->y[1+j];
         }
 
-        /* -- If this is a SPE file:
-         *    (1) Take the square root of each data point. This converts
-         *        it from a power estimate to an amplitude estimate.
-         *    (2) Recompute the extrema stored in the header.
-         *    (3) Zero out the second (phase) data component.
-         *    (4) Loop to the next file in the list. */
-
-        if (cmsam.lrspe) {
-            for (jdx = 0; jdx <= (s->h->npts - 1); jdx++) {
-                s->y[jdx] = sqrt(s->y[jdx]);
+        if(cmsam.lrspe) {
+            /* -- If this is a SPE file:
+             *    (1) Take the square root of each data point. This converts
+             *        it from a power estimate to an amplitude estimate.
+             *    (2) Recompute the extrema stored in the header.
+             *    (3) Zero out the second (phase) data component.
+             *    (4) Loop to the next file in the list. */
+            for (int j = 0; j < s->h->npts; j++) {
+                s->y[j] = sqrt(s->y[j]);
             }
-            extrma(s->y, 1, s->h->npts, &s->h->depmin, &s->h->depmax,
-                   &s->h->depmen);
-
-            for (jdx = 0; jdx <= (s->h->npts - 1); jdx++) {
-                s->x[jdx] = 0.0;
-            }
-            goto L_4800;
-        }
-
-        /* -- Open second file in pair. */
-        strncpy(s1, kmsam.krsps2, 3);
-        subscpy(krspnm, nrspnm, -1, MCPFN, s1);
-
-        zopen_sac(&nun, krspnm, MCPFN + 1, "RODATA", 7, nerr);
-        if (*nerr != 0)
-            goto L_7777;
-
-        /* -- Read data (do not read header from second file.) */
-        zrabs((int *) &nun, (char *) s->x, nfreq, (int *) &nlcdsk,
-              (int *) nerr);
-        if (s->m->swap) {       /* byteswap if necessary. */
-            for (jdx = 0; jdx < nfreq; jdx++) {
-                byteswap((void *) &s->x[jdx], 4);
+            memset(s->x, 0, s->h->npts * SAC_DATA_SIZE);
+        } else {
+            memcpy(s->x, so[1]->y, nfreq * SAC_DATA_SIZE);
+            for(int j = 0; j < nfreq - 2 ; j++) {
+                s->x[s->h->npts-1-j] = -s->x[1+j];
             }
         }
-        if (*nerr != 0)
-            goto L_7777;
 
-        /* -- Close file. */
-        zclose(&nun, nerr);
-        if (*nerr != 0)
-            goto L_8888;
+        sac_free(so[0]);
+        sac_free(so[1]);
 
-        /* -- Fill second half of second component (assymetric this time.) */
-        Sacmem1 = &s->x[1];
-        Sacmem2 = &s->x[s->h->npts - 1];
-        for (jdx = 1; jdx <= (nfreq - 2); jdx++) {
-            *(Sacmem2--) = -*(Sacmem1++);
-        }
-
-      L_4800:
-        continue;
+        sac_extrema(s);
+        sacput(s);
     }
-
-  L_7777:
-    zclose(&nun, &junk);
 
   L_8888:
     string_list_clear(last_list);

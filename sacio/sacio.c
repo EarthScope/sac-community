@@ -1506,11 +1506,11 @@ sac_header_read(sac *s, FILE *fp) {
     //fprintf(stderr, "sac hdr: %p\n", s->h);
     n = SAC_HEADER_NUMBERS;
     if(fread((char *) s->h, sizeof(float), n, fp) != n) {
-        return ERROR_READING_FILE;
+        return ERROR_NOT_A_SAC_FILE;
     }
     s->m->swap = sac_check_header_version((float *) s->h, &nerr);
     if(nerr) {
-        return ERROR_READING_FILE;
+        return ERROR_NOT_A_SAC_FILE;
     }
     if(s->m->swap) {
         sac_header_swap((float *) s->h);

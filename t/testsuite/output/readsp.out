@@ -65,5 +65,5 @@ All files deleted.
  readsp nofile
  ERROR  108: File does not exist: nofile.am
  readsp test_rsp
- ERROR 1317: reading file The following file is not a SAC data file: test_rsp.am                                                                                                                      not in sac format, nor byteswapped sac format
+ ERROR 1317: The following file is not a SAC data file: test_rsp.am
  quit
