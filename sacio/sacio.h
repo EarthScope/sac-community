@@ -487,6 +487,8 @@ void  sac_meta_copy(sac *to, sac *from);
 void  sac_header_copy(sac *to, sac *from);
 void  sac_data_copy(sac *to, sac *from);
 sac * sac_copy(sac *s);
+void  sac_set_v7(sac *s);
+void  sac_set_v6(sac *s);
 
 void sac_check_time_precision(sac *s);
 

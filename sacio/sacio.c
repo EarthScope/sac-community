@@ -194,6 +194,17 @@ sac_write(sac *s, char *filename, int *nerr) {
 
 
 
+/**
+ * @brief      create a new 64 bit float sac header value
+ *
+ * @ingroup    sac
+ * @memberof   sac
+ * @private
+ *
+ * @details    create a new 64 bit float sac header value and set all values to SAC_FLOAT_UNDEFINED
+ *
+ * @return     newly created 64 bit sac header
+ */
 sac_f64 *
 sac_f64_new() {
     sac_f64 *z;
@@ -205,6 +216,21 @@ sac_f64_new() {
     }
     return z;
 }
+/**
+ * @brief      set a 32-bit float value
+ *
+ * @ingroup    sac
+ * @memberof   sac
+ * @private
+ *
+ * @details    set a 32-bit float value in the sac header
+ *
+ * @param      s      sac file
+ * @param      n      sac header id
+ * @param      value  value to set (value is converted from double to float)
+ *
+ * @return     1 on success, 0 on error
+ */
 int
 sac_set_f32(sac *s, int n, double value) {
     switch(n) {
@@ -218,6 +244,22 @@ sac_set_f32(sac *s, int n, double value) {
     return 1;
 }
 
+/**
+ * @brief      set a 64-bit float value
+ *
+ * @ingroup    sac
+ * @memberof   sac
+ * @private
+ *
+ * @details    set a 64-bit float value in the sac header, values not in the 64-bit header
+ *             are set in the 32-bit header
+ *
+ * @param      s      sac file
+ * @param      n      sac header id
+ * @param      value  value to set
+ *
+ * @return     return type
+ */
 int
 sac_set_f64(sac *s, int n, double value) {
     switch(n) {
@@ -232,6 +274,21 @@ sac_set_f64(sac *s, int n, double value) {
     return 1;
 }
 
+/**
+ * @brief      get a 32-bit float value
+ *
+ * @ingroup    sac
+ * @memberof   sac
+ * @private
+ *
+ * @details    get a 32-bit float value from the sac header
+ *
+ * @param      s   sac file
+ * @param      n   sac header id
+ * @param      v   value to get (must be double precision / 64-bit)
+ *
+ * @return     1 on success, 0 on failure
+ */
 int
 sac_get_f32(sac *s, int n, double *v) {
     switch(n) {
@@ -245,6 +302,22 @@ sac_get_f32(sac *s, int n, double *v) {
     return 1;
 }
 
+/**
+ * @brief      get a 64-bit float value
+ *
+ * @ingroup    sac
+ * @memberof   sac
+ * @private
+ *
+ * @details    get a 64-bit float value from the sac header.  If the value is not in
+ *             the 64-bit header, value is taken from the 32-bit header
+ *
+ * @param      s   sac file
+ * @param      n   sac header id
+ * @param      v   value to get
+ *
+ * @return     return type
+ */
 int
 sac_get_f64(sac *s, int n, double *v) {
     switch(n) {
@@ -258,12 +331,36 @@ sac_get_f64(sac *s, int n, double *v) {
     return 1;
 }
 
+/**
+ * @brief      Copy all values from the 64-bit to 32-bit float header
+ *
+ * @ingroup    sac
+ * @memberof   sac
+ * @private
+ *
+ * @details    Copy all values from the 64-bit to 32-bit float header
+ *
+ * @param      s  sac file
+ *
+ */
 void
 sac_copy_f64_to_f32(sac *s) {
 #define X(name,key) s->h->key = s->z->key;
     SAC_F64
 #undef X
 }
+/**
+ * @brief      Copy all values from the 32-bit to 64-bit float header
+ *
+ * @ingroup    sac
+ * @memberof   sac
+ * @private
+ *
+ * @details    Copy all values from the 32-bit to 64-bit float header
+ *
+ * @param      s  sac file
+ *
+ */
 void
 sac_copy_f32_to_f64(sac *s) {
 #define X(name,key) s->z->key = s->h->key;
@@ -271,6 +368,20 @@ sac_copy_f32_to_f64(sac *s) {
 #undef X
 }
 
+/**
+ * @brief      Set a time pick value
+ *
+ * @ingroup    sac
+ * @memberof   sac
+ *
+ * @details    Set a time pick value in a sac header
+ *
+ * @param      s       sac file
+ * @param      n       pick number
+ * @param      value   timing value to set (64 bit value)
+ *
+ * @return     1 on success, 0 on failure
+ */
 int
 sac_set_pick(sac *s, int n, double value) {
     switch(n) {
@@ -292,6 +403,20 @@ sac_set_pick(sac *s, int n, double value) {
     return 1;
 }
 
+/**
+ * @brief      Get a timing pick
+ *
+ * @ingroup    sac
+ * @memberof   sac
+ *
+ * @details    Get a timing pick from the sac header
+ *
+ * @param      s   sac file
+ * @param      n   pick number
+ * @param      t   return value (64-bit value)
+ *
+ * @return     1 on success, 0 on failure
+ */
 int
 sac_get_pick(sac *s, int n, double *t) {
     switch(n) {
@@ -307,15 +432,42 @@ sac_get_pick(sac *s, int n, double *t) {
     case 9: return sac_get_float(s, SAC_T9, t); break;
     default:
         fprintf(stderr, "Error in sac_get_pick(): Unknown pick: %d\n", n);
+        return 0;
         break;
     }
-    return 0;
+    return 1;
 }
 
+/**
+ * @brief      Set the header version to 7
+ *
+ * @ingroup    sac
+ * @memberof   sac
+ *
+ * @param      s   sac file
+ *
+ * @details    Set the header version to `7`.
+ *             See sac::sac_get_float() and sac::sac_set_float() for the details
+ *             about how the different header version impact which floating point
+ *             values are set and get.
+ */
 void
 sac_set_v7(sac *s) {
     s->h->nvhdr = SAC_HEADER_VERSION_7;
 }
+/**
+ * @brief      Set the header version to 6
+ *
+ * @ingroup    sac
+ * @memberof   sac
+ *
+ * @param      s   sac file
+ *
+ * @details    Set the header version to `6`.
+ *             See sac::sac_get_float() and sac::sac_set_float() for the details
+ *             about how the different header version impact which floating point
+ *             values are set and get.
+ */
 void
 sac_set_v6(sac *s) {
     s->h->nvhdr = SAC_HEADER_VERSION_6;
@@ -539,11 +691,35 @@ update_distaz(sac * s) {
 }
 #endif
 
+/**
+ * @brief      copy the sac header
+ *
+ * @details    copy the sac header from \p from to \p to
+ *
+ * @ingroup    sac
+ * @memberof   sac
+ *
+ * @param      to     destination
+ * @param      from   source
+ *
+ */
 void
 sac_header_copy(sac * to, sac * from) {
     memmove(to->h, from->h, sizeof(sac_hdr));
     memmove(to->z, from->z, sizeof(sac_f64));
 }
+/**
+ * @brief      copy the sac meta header
+ *
+ * @details    copy the sac meta header from \p from to \p to
+ *
+ * @ingroup    sac
+ * @memberof   sac
+ *
+ * @param      to     destination
+ * @param      from   source
+ *
+ */
 void
 sac_meta_copy(sac *to, sac *from) {
     to->m->swap      = from->m->swap;
@@ -555,6 +731,20 @@ sac_meta_copy(sac *to, sac *from) {
     to->m->nfille    = from->m->nfille;
     to->m->ntotal    = from->m->ntotal;
 }
+
+/**
+ * @brief      copy sac data
+ *
+ * @details    copy sac data from one file to another
+ *
+ * @ingroup    sac
+ * @memberof   sac
+ *
+ * @param      to     destination
+ * @param      from   source
+ *
+ * @return     return type
+ */
 void
 sac_data_copy(sac *to, sac *from) {
     if(from->y) {
@@ -566,6 +756,18 @@ sac_data_copy(sac *to, sac *from) {
     }
 }
 
+/**
+ * @brief      copy a sac file
+ *
+ * @ingroup    sac
+ * @memberof   sac
+ *
+ * @details    copy a sac file: header, meta, and data
+ *
+ * @param      s    sac file to copy
+ *
+ * @return     copy of sac file
+ */
 sac *
 sac_copy(sac *s) {
     sac *new;
@@ -1693,7 +1895,7 @@ calc_e_even(sac *s) {
     case ITIME:
     case IXY:
     case IUNKN:
-        return b + dt * (float)(s->h->npts - 1);
+        return b + dt * (double)(s->h->npts - 1);
         break;
     case IRLIM:
     case IAMPH: {
@@ -1703,7 +1905,7 @@ calc_e_even(sac *s) {
         } else {
             nfreq = (s->h->npts-1) / 2;
         }
-        return b + (float)nfreq * dt;
+        return b + (double)nfreq * dt;
     }
         break;
     case IXYZ:
@@ -1843,7 +2045,9 @@ sac_get_string(sac *s, int hdr, char *v, size_t n) {
  * @ingroup    sac
  * @memberof   sac
  *
- * @details    Set a flaoting point value in a sac file
+ * @details    Set a floating point value in a sac file.  If the value is in the 64-bit
+ *             header, the value is copied into the 32-bit and 64-bit header. If the value
+ *             is only in the 32-bit header, the value is only copied there
  *
  * @param      s     sac file
  * @param      hdr   Header ID
@@ -1864,7 +2068,10 @@ sac_set_float(sac *s, int hdr, double v) {
  * @ingroup    sac
  * @memberof   sac
  *
- * @details    Get a floating point value from a sac file
+ * @details    Get a floating point value from a sac file. If the header version
+ *             is `6`, values are always from the 32-bit header.  If the header
+ *             version is `7`, values from the 64-bit header are preferred,
+ *             otherwise the 32-bit header values are used.
  *
  * @param      s    sac file
  * @param      hdr  Header ID
