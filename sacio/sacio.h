@@ -24,6 +24,14 @@
 #endif /* FALSE */
 /** \endcond */
 
+enum CutAction {
+    CutNone,
+    CutFillZero,
+    CutUseBE,
+    CutFatal,
+};
+
+
 #define SAC_FLOAT_UNDEFINED      -12345.0            /**< @brief Float undefined value */
 #define SAC_INT_UNDEFINED        -12345              /**< @brief Integer undefined value */
 #define SAC_CHAR_UNDEFINED       "-12345  "          /**< @brief Character string undefined */
@@ -391,14 +399,14 @@ typedef struct _sacmeta sacmeta;
  * @private
  */
 struct _sacmeta {
-    int swap;
-    char *filename;
-    int data_read;
-    int nstop;
-    int nstart;
-    int nfillb;
-    int nfille;
-    int ntotal;
+    int swap; /**<< \brief If file was swapped on read*/
+    char *filename; /**<< \brief filename as given during read */
+    int data_read; /**<< \brief If data was read*/
+    int nstop;  /**<< \brief Index of point to begin data at, b = 1, e = npts */
+    int nstart; /**<< \brief Index of point to end data at, b = 1, e = npts */
+    int nfillb; /**<< \brief Points before the first point to read */
+    int nfille; /**<< \brief Points after the last point to read  */
+    int ntotal; /**<< \brief total number of points */
 };
 
 typedef struct _sac_f64 sac_f64;
@@ -472,6 +480,8 @@ sac * sac_new(void);
 void  sac_free(sac *s);
 /** @brief Read a sac file */
 sac * sac_read(char *filename, int *nerr);
+/** @brief Read a sac file within a cut window */
+sac * sac_read_with_cut(char *filename, double t1, double t2, enum CutAction cutact, int *nerr);
 /** @brief Read a sac header */
 sac * sac_read_header(char *filename, int *nerr);
 /** @brief Write a sac file */
@@ -1007,6 +1017,14 @@ static struct sac_hdr NullSacHeader = {
     X(UN69, unused11) \
     X(UN70, unused12)
 
+#define ERROR_CANT_CUT_SPECTRAL_FILE        1321
+#define ERROR_CUT_TIMES_BEYOND_DATA_LIMITS  13241325
+#define ERROR_START_TIME_LESS_THAN_BEGIN    1324
+#define ERROR_STOP_TIME_GREATER_THAN_END    1325
+#define ERROR_START_TIME_GREATER_THAN_END   1326
+#define ERROR_STOP_TIME_LESS_THAN_BEGIN     1327
+#define ERROR_START_TIME_GREATER_THAN_STOP  1328
+#define ERROR_CANT_CUT_UNEVENLY_SPACED_FILE 1356
 
 #endif /* __SACIO_H__ */
 

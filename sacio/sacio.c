@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+#include <math.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <math.h>
@@ -47,6 +48,8 @@
  *
  */
 
+#define MIN(a,b) ((a < b) ? a : b )
+#define MAX(a,b) ((a > b) ? a : b )
 
 /** \cond NO_DOCS */
 sacmeta * sac_meta_new();
@@ -60,6 +63,18 @@ sac_hdr * sac_hdr_new();
 int sac_get_time_ref(sac *s, timespec64 *t);
 /** \endcond */
 
+
+static double
+sac_float(sac *s, int id) {
+    double v = 0;
+    if(!sac_get_float(s, id, &v)) {
+        return SAC_FLOAT_UNDEFINED;
+    }
+    return v;
+}
+
+#define  B(s) sac_float(s, SAC_B)
+#define DT(s) sac_float(s, SAC_DELTA)
 
 /**
  * @param SAC_HEADER_FLOATS
@@ -533,6 +548,7 @@ sac_free(sac * s) {
         FREE(s->h);
         FREE(s->x);
         FREE(s->y);
+        FREE(s->z);
         if (s->m) {
             FREE(s->m->filename);
         }
@@ -1518,9 +1534,13 @@ sac_header_write_v7(int nun, sac *s, int *nerr) {
  */
 void
 sac_header_read_v7(FILE *fp, sac *s, int *nerr) {
+    long whence = 0;
     size_t n;
     double buffer[v7_keys_length];
     *nerr = SAC_OK;
+
+    whence = ftell(fp);
+    fseek(fp, SEEK_END, -1 * (int)sizeof(double) * v7_keys_length);
 
     n = fread(buffer, sizeof(double), v7_keys_length, fp);
     if(n != v7_keys_length) {
@@ -1530,6 +1550,21 @@ sac_header_read_v7(FILE *fp, sac *s, int *nerr) {
     for(size_t i = 0; i < v7_keys_length; i++) {
         sac_set_f64(s, v7_keys[i], buffer[i]);
     }
+    fseek(fp, SEEK_SET, whence);
+}
+
+void
+sac_header_v6_v7(sac *s, FILE *fp, int *nerr) {
+    switch(s->h->nvhdr) {
+    case SAC_HEADER_VERSION_7:
+        sac_header_read_v7(fp, s, nerr);
+        sac_copy_f64_to_f32(s);
+        break;
+    case SAC_HEADER_VERSION_6:
+        sac_copy_f32_to_f64(s);
+        break;
+    }
+
 }
 
 /**
@@ -1728,6 +1763,45 @@ sac_header_read(sac *s, FILE *fp) {
     return 0;
 }
 
+static sac *
+sac_read_header_internal(char *filename, int *nerr, FILE **fp) {
+    sac *s = NULL;
+
+    if(!filename) {
+        return NULL;
+    }
+
+    if(!(*fp = fopen(filename, "rb"))) {
+        *nerr = ERROR_FILE_DOES_NOT_EXIST;
+        return NULL;
+    }
+    s = sac_new();
+
+    s->m->filename = strdup(filename);
+    *nerr = sac_header_read(s, *fp);
+    if(*nerr) {
+        goto error;
+    }
+    return s;
+ error:
+    if(s) {
+        sac_free(s);
+        s = NULL;
+    }
+    return NULL;
+}
+
+static void
+sac_read_post(sac *s, int read_data) {
+    sac_be(s);
+    update_distaz(s);
+    if(read_data) {
+        sac_extrema(s);
+    }
+
+   
+}
+
 /**
  * @brief      Read a sac file
  *
@@ -1747,27 +1821,15 @@ sac_header_read(sac *s, FILE *fp) {
  */
 sac *
 sac_read_internal(char *filename, int read_data, int *nerr) {
-    FILE *fp;
-    sac *s;
+    FILE *fp = NULL;
+    sac *s = NULL;
 
     *nerr = 0;
-    s = NULL;
 
-    if(!filename) {
-        return NULL;
+    if(!(s = sac_read_header_internal(filename, nerr, &fp))) {
+        goto error;
     }
 
-    if(!(fp = fopen(filename, "rb"))) {
-        *nerr = ERROR_FILE_DOES_NOT_EXIST;
-        return NULL;
-    }
-    s = sac_new();
-
-    s->m->filename = strdup(filename);
-    *nerr = sac_header_read(s, fp);
-    if(*nerr) {
-        goto ERROR;
-    }
     if(read_data) {
         //fprintf(stderr, "alloc: %d\n", s->h->npts);
         sac_alloc(s);
@@ -1777,34 +1839,26 @@ sac_read_internal(char *filename, int read_data, int *nerr) {
         s->m->nfillb = 0;
         s->m->nfille = 0;
         if((*nerr = sac_data_read(s, fp))) {
-            goto ERROR;
+            goto error;
         }
     }
-    switch(s->h->nvhdr) {
-    case SAC_HEADER_VERSION_7:
-        sac_header_read_v7(fp, s, nerr);
-        sac_copy_f64_to_f32(s);
-        break;
-    case SAC_HEADER_VERSION_6:
-        sac_copy_f32_to_f64(s);
-        break;
-    }
 
-    sac_be(s);
-    update_distaz(s);
-    if(read_data) {
-        sac_extrema(s);
-    }
+    sac_header_v6_v7(s, fp, nerr);
 
     fclose(fp);
+
+    sac_read_post(s, read_data);
+
     return s;
 
- ERROR:
+ error:
     if(s) {
         sac_free(s);
         s = NULL;
     }
-    fclose(fp);
+    if(fp) {
+        fclose(fp);
+    }
     return NULL;
 }
 
@@ -1840,6 +1894,172 @@ sac_hdr_init(sac_hdr *sh) {
 
         sh->iftype = ITIME;
     }
+}
+
+int
+sac_time_to_index(sac *s, double t) {
+    int ib,it;
+    double b, dt;
+    sac_get_float(s, SAC_B, &b);
+    sac_get_float(s, SAC_DELTA, &dt);
+    ib = lround(b / dt);
+    it = lround(t / dt);
+    return it - ib;
+}
+
+
+
+#define START_BEFORE 1<<0
+#define START_INSIDE 1<<1
+#define START_AFTER  1<<2
+#define END_BEFORE   1<<3
+#define END_INSIDE   1<<4
+#define END_AFTER    1<<5
+
+static int
+window_overlap(sac *s) {
+    int f = 0;
+    if(s->m->nstart < 1) {
+        f |= START_BEFORE;
+    } else if(s->m->nstart > s->h->npts) {
+        f |= START_AFTER;
+    } else {
+        f |= START_INSIDE;
+    }
+    if(s->m->nstop < 1) {
+        f |= END_BEFORE;
+    } else if(s->m->nstop > s->h->npts) {
+        f |= END_AFTER;
+    } else {
+        f |= END_INSIDE;
+    }
+    return f;
+}
+
+int
+sac_calc_read_window(sac *s, double t1, double t2, enum CutAction cutact, int *nread, int *offt, int *skip, int *nerr) {
+    *nerr = 0;
+    if(cutact == CutNone) {
+        s->m->nfillb = 0;
+        s->m->nfillb = 0;
+        s->m->nstart = 1;
+        s->m->nstop  = s->h->npts;
+        *nread = s->h->npts;
+        *offt  = 0;
+        *skip  = 0;
+    } else {
+        s->m->nstart = sac_time_to_index(s, t1) + 1;
+        s->m->nstop  = sac_time_to_index(s, t2) + 1;
+
+        int f = window_overlap(s);
+        if(cutact == CutUseBE) {
+            s->m->nfillb = 0;
+            s->m->nfille = 0;
+            s->m->nstart = MAX(1, s->m->nstart);
+            s->m->nstop  = MIN(s->h->npts, s->m->nstop);
+            *nread = MIN(s->m->nstop, s->h->npts) - MAX(s->m->nstart, 1) + 1;
+            *offt  = 0;
+            *skip  = MAX(s->m->nstart, 1) - 1;
+        } else if(cutact == CutFillZero) {
+            s->m->nfillb = MAX(1 - s->m->nstart, 0);
+            s->m->nfille = s->m->nstop - s->h->npts;
+            *nread = MIN(s->m->nstop, s->h->npts) - MAX(s->m->nstart, 1) + 1;
+            *offt  = s->m->nfillb;
+            *skip  = MAX(s->m->nstart, 1) - 1;
+        } else if(cutact == CutFatal) {
+            *nread = s->m->nstop - s->m->nstart + 1;
+            *skip  = s->m->nstart-1;
+            *offt  = 0;
+        }
+        if(cutact != CutFillZero) {
+            switch (f) {
+            case START_BEFORE | END_BEFORE:  *nerr = ERROR_STOP_TIME_LESS_THAN_BEGIN;    goto error; break; // |---| {-------}
+            case START_BEFORE | END_INSIDE:  *nerr = ERROR_START_TIME_LESS_THAN_BEGIN;   break; // |-----{---|---}
+            case START_BEFORE | END_AFTER:   *nerr = ERROR_CUT_TIMES_BEYOND_DATA_LIMITS; break; // |-----{-------}---|
+            case START_INSIDE | END_BEFORE:  *nerr = ERROR_START_TIME_GREATER_THAN_STOP; goto error; break;
+            case START_INSIDE | END_INSIDE:  *nerr = SAC_OK;                             break; //       {-|---|-}
+            case START_INSIDE | END_AFTER:   *nerr = ERROR_STOP_TIME_GREATER_THAN_END;   break; //       {---|---}---|
+            case START_AFTER  | END_BEFORE:  *nerr = ERROR_START_TIME_GREATER_THAN_STOP; goto error; break;
+            case START_AFTER  | END_INSIDE:  *nerr = ERROR_START_TIME_GREATER_THAN_STOP; goto error; break;
+            case START_AFTER  | END_AFTER:   *nerr = ERROR_START_TIME_GREATER_THAN_END;  break; //       {-------}  |-----|
+            }
+        }
+        if(cutact == CutFatal && (f != (START_INSIDE | END_INSIDE))) {
+            goto error;
+        }
+        if(*nread <= 0 && cutact != CutFillZero) {
+            goto error;
+        }
+
+        sac_set_float(s, SAC_B, B(s) + DT(s) * (double) (s->m->nstart - 1));
+        int npts = s->m->nstop - s->m->nstart + 1;
+        if(npts <= 0) {
+            goto error;
+        }
+        sac_set_int(s, SAC_NPTS, npts);
+        sac_be(s);
+    }
+    return 1;
+ error:
+    return 0;
+
+}
+
+sac *
+sac_read_with_cut(char *filename, double t1, double t2, enum CutAction cutact, int *nerr) {
+    FILE *fp = NULL;
+    sac *s = NULL;
+    int nread = 0, offt = 0;
+    int skip = 0;
+
+    if(cutact != CutNone && (!isfinite(t1) || !isfinite(t2) || t1 >= t2)) {
+        *nerr = ERROR_START_TIME_GREATER_THAN_STOP;
+        goto error;
+    }
+
+    if(!(s = sac_read_header_internal(filename, nerr, &fp))) {
+        goto error;
+    }
+    if(! s->h->leven ) {
+        *nerr = ERROR_CANT_CUT_UNEVENLY_SPACED_FILE;
+        goto error;
+    }
+    if(s->h->iftype != ITIME) {
+        *nerr = ERROR_CANT_CUT_SPECTRAL_FILE;
+        goto error;
+    }
+
+    sac_header_v6_v7(s, fp, nerr);
+
+    if(!sac_calc_read_window(s, t1, t2, cutact, &nread, &offt, &skip, nerr)) {
+        goto error;
+    }
+
+    sac_alloc(s);
+
+    if(skip > 0) {
+        fseek(fp, (size_t) skip * SAC_DATA_SIZE, SEEK_CUR);
+    }
+    if(nread > 0) {
+        if(fread(s->y + offt, SAC_DATA_SIZE, (size_t) nread, fp) != (size_t) nread) {
+            *nerr = ERROR_READING_FILE;
+            goto error;
+        }
+    }
+    fclose(fp);
+
+    sac_read_post(s, TRUE);
+
+    return s;
+ error:
+    if(fp) {
+        fclose(fp);
+    }
+    if(s) {
+        sac_free(s);
+        s = NULL;
+    }
+    return NULL;
 }
 
 /**

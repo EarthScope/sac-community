@@ -4,7 +4,7 @@ AUTOMAKE_OPTIONS = no-dependencies
 
 EXTRA_DIST = License README.md t config docs
 
-AM_CFLAGS = -Wall -Wextra -Iinclude/
+AM_CFLAGS = -fPIC -Wall -Wextra -Iinclude/
 
 # Notes for including library directly in sac source
 # - Remove saciolibdir, sacioincdir
