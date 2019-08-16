@@ -12,7 +12,8 @@ fi
 md5_file=$(md5 -q $SACFILE)
 
 # Generated MD5 Sum on original file
-md5_check="070b60dfae8994551085b09f19eb3f7c"
+md5_check="070b60dfae8994551085b09f19eb3f7c" # v6 original
+md5_check="fe008fb3eb6a8a513d66df52e4801fc0" # with v7 header, but still v6
 if [[ $md5_check != $md5_file ]]; then
     echo "MD5 FILE:     $md5_file"
     echo "MD5 EXPECTED: $md5_check"
