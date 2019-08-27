@@ -10,6 +10,7 @@
 
 #include "amf.h"
 #include "dff.h"
+#include "msg.h"
 #include "bool.h"
 #include "bot.h"
 #include "hdr.h"
@@ -76,7 +77,7 @@ formhv(char *kname, int kname_s, int iform, char *kout, int kout_s, int *nerr) {
                 sac_get_float(s, item, &fp);
                 lok = (fp != SAC_FLOAT_UNDEFINED);
                 if (lok || linc) {
-                    sprintf(kvalue, "%#16.6e", fp);
+                    sprintf(kvalue, float_format_with_default("%#16.6e"), fp);
                     ljust(kvalue, 41);
                 }
                 break;

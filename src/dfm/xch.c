@@ -137,7 +137,7 @@ xch(int *nerr) {
             } else {
                 /* Block changes to certain header fields */
                 /* nvhdr, norid, nevid, npts, nsnpts, nwfid */
-                if (icatx == INT_TYPE && itemx >= 7 && itemx <= 12) {
+                if (icatx == INT_TYPE && itemx >= 8 && itemx <= 12) {
                     /* Increment token counter. */
                     arg_next();
                     setmsg("WARNING", 1389);
@@ -303,6 +303,10 @@ xch(int *nerr) {
                         break;
                     case INT_TYPE:
                         ip = nhdr(s, Item[j]);
+                        if(Item[j] == 7 && (Nhdrc[Item[j]] != 6 && Nhdrc[Item[j]] != 7)) {
+                            printf(" WARNING: Invalid header version. Valid values: 6 or 7\n");
+                            break;
+                        }
                         VALUE(ip) = Nhdrc[Item[j]];
                         break;
                     case ENUM_TYPE:

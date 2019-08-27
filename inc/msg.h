@@ -100,5 +100,6 @@ int error_occurred();
 int error_status();
 
 char *float_format();
+char *float_format_with_default(char *def);
 
 #endif /* _MSG_H_ */

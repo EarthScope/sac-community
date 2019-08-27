@@ -19,15 +19,15 @@
      b = 1.000000e+01
      e = 1.090000e+02
  ch npts 1000
- WARNING: NVHDR, NPTS, NWFID, NORID, NEVID, and LEVEN cannot be changed with CHNHDR
+ WARNING: NPTS, NWFID, NORID, NEVID, and LEVEN cannot be changed with CHNHDR
  ch nvhdr 5
- WARNING: NVHDR, NPTS, NWFID, NORID, NEVID, and LEVEN cannot be changed with CHNHDR
+ WARNING: Invalid header version. Valid values: 6 or 7
  ch nwfid 123
- WARNING: NVHDR, NPTS, NWFID, NORID, NEVID, and LEVEN cannot be changed with CHNHDR
+ WARNING: NPTS, NWFID, NORID, NEVID, and LEVEN cannot be changed with CHNHDR
  ch norid 111
- WARNING: NVHDR, NPTS, NWFID, NORID, NEVID, and LEVEN cannot be changed with CHNHDR
+ WARNING: NPTS, NWFID, NORID, NEVID, and LEVEN cannot be changed with CHNHDR
  ch nevid 456
- WARNING: NVHDR, NPTS, NWFID, NORID, NEVID, and LEVEN cannot be changed with CHNHDR
+ WARNING: NPTS, NWFID, NORID, NEVID, and LEVEN cannot be changed with CHNHDR
   
  ==>  
  lh b e
@@ -74,7 +74,7 @@
 
      leven = TRUE
  ch leven false
- WARNING: NVHDR, NPTS, NWFID, NORID, NEVID, and LEVEN cannot be changed with CHNHDR
+ WARNING: NPTS, NWFID, NORID, NEVID, and LEVEN cannot be changed with CHNHDR
  lh leven
   
   

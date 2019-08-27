@@ -12,6 +12,7 @@
 #include "dff.h"
 #include "bool.h"
 #include "hdr.h"
+#include "msg.h"
 #include "bot.h"
 #include "ucf.h"
 #include "co.h"
@@ -44,7 +45,7 @@ formmarker(double time, char *type, int type_s, char *output, int output_s,
     char tmp[10];
     UNUSED(type_s);
     if (time != SAC_FLOAT_UNDEFINED) {
-        sprintf(output, "%16.5g", time);
+        sprintf(output, float_format_with_default("%16.5g"), time);
         ljust(output, output_s);
         *lok = TRUE;
         if (strcmp(type, SAC_CHAR_UNDEFINED) != 0) {

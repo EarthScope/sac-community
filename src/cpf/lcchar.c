@@ -11,6 +11,7 @@
 #include "com.h"
 #include "bool.h"
 #include "bot.h"
+#include "msg.h"
 #include "string_utils.h"
 
 #include "co.h"
@@ -63,7 +64,7 @@ lcchar(char *kchar, int mchar) {
         } else if (token_is_int_precision(t, TOKEN_INT_PRECISION_NON_ARGUMENT)) {
             snprintf(kchar, mchar, "%d", (int) t->value);
         } else {
-            snprintf(kchar, mchar, "%g", t->value);
+            snprintf(kchar, mchar, float_format(), t->value);
         }
     }
     arg_next();

@@ -1,0 +1,22 @@
+ch t0 (&1,b + &1,delta * 1)
+message &1,t0
+ch t1 (&1,b + &1,delta * 2)
+message &1,t1
+ch t2 (&1,b + &1,delta * 3)
+message &1,t2
+ch t3 (&1,b + &1,delta * 4)
+message &1,t3
+ch t4 (&1,b + &1,delta * 5)
+message &1,t4
+ch t5 (&1,b + &1,delta * 6)
+message &1,t5
+ch t6 (&1,b + &1,delta * 7)
+message &1,t6
+ch t7 (&1,b + &1,delta * 8)
+message &1,t7
+ch t8 (&1,b + &1,delta * 9)
+message &1,t8
+ch t9 (&1,b + &1,delta * 10)
+message &1,t9
+
+lh picks

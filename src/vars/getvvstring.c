@@ -175,7 +175,7 @@ upcase_dup(char *s) {
 }
 
 char *
-float_format() {
+float_format_with_default(char *def) {
     char *fmts[] = {"%g",       "%.4f",  "%.15f", "%.5g",   "%.15g", "%#.4e",  "%#.15e"};
     char *names[] = {"default", "short", "long",   "shortG", "longG", "shortE", "longE"};
 
@@ -184,7 +184,7 @@ float_format() {
     char *fmt = NULL;
 
     if(!(vname = getbb("OUTPUT_FORMAT"))) {
-        return fmts[0];
+        goto done;
     } else {
         if(vname->type != VAR_STRING) {
             fprintf(stderr, "Unknown output format\n");
@@ -198,8 +198,18 @@ float_format() {
             fmt = fmts[i];
         }
     }
+ done:
     if(fmt == NULL) {
-        return fmts[0];
+        if(def) {
+            return def;
+        } else {
+            return fmts[0];
+        }
     }
     return fmt;
+}
+
+char *
+float_format() {
+    return float_format_with_default(NULL);
 }

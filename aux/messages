@@ -220,7 +220,7 @@
 1386 Could not get Workset name.
 1387 No file name specified.
 1388 Reference time not equal to zero:  KZDATE and KZTIME may be adjusted by subsequent commands so that the reference time is zero.  Reference time is 
-1389 NVHDR, NPTS, NWFID, NORID, NEVID, and LEVEN cannot be changed with CHNHDR
+1389 NPTS, NWFID, NORID, NEVID, and LEVEN cannot be changed with CHNHDR
 1390 KSTNM and KCMPNM cannot be undefined
 1391 Cannot CUTIM:  would result in too many files in memory.
 1392 Cannot CUTIM:  would exceed length of filename list (use shorter filenames)

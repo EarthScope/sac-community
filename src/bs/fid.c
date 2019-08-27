@@ -286,7 +286,8 @@ fid_mseed(char *buf, int len) {
 #define SAC_HEADER_SIZE   632
 #define SAC_VERSION_LOC   304
 #define SAC_NPTS_LOC      316
-#define SAC_HEADER_NUMBER   6
+#define SAC_HEADER_NUMBER_6  6
+#define SAC_HEADER_NUMBER_7  7
 
 int
 fid_sac_alpha(char *buf, int len) {
@@ -306,7 +307,7 @@ fid_sac_alpha(char *buf, int len) {
                 return 0;
             }
             debug("%d %d %d %d %d\n", v[0],v[1],v[2],v[3],v[4]);
-            if(v[1] != SAC_HEADER_NUMBER) { // Header Version
+            if(v[1] != SAC_HEADER_NUMBER_6 && v[1] != SAC_HEADER_NUMBER_7) { // Header Version
                 return 0;
             }
             if(v[4] < 0) { // Number of Points
@@ -334,10 +335,10 @@ fid_sac(char *buf, int len) {
   /* Check Header */
   v = int_at(buf, SAC_VERSION_LOC, FALSE);
   n = int_at(buf, SAC_NPTS_LOC, FALSE);
-  if(v != SAC_HEADER_NUMBER) {
+  if(v != SAC_HEADER_NUMBER_6 && v != SAC_HEADER_NUMBER_7) {
     byteswap_fid(&v, sizeof(v));
     byteswap_fid(&n, sizeof(n));
-    if(v != SAC_HEADER_NUMBER) {
+    if(v != SAC_HEADER_NUMBER_6 && v != SAC_HEADER_NUMBER_7) {
       return 0;
     }
   }

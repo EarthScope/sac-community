@@ -1,0 +1,17 @@
+echo on
+setbb OUTPUT_FORMAT longE
+fg sine 2.0 delta 0.01 npts 13
+symbol 2
+ch b 0.0
+macro set_picks.sm
+p1 ; pause period 0.5
+
+ch b 3.5e5
+macro set_picks.sm
+p1 ; pause period 0.5
+
+fg sine 2.0 delta 0.01 npts 13
+ch nvhdr 7
+ch b 3.5e5
+macro set_picks.sm
+p1; pause period 0.5
