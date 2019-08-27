@@ -20,7 +20,6 @@
 #define	MWINLN	2048
 SAM_EXTERN
 
-sac *sacread(char *file);
 int td_conv(float     *waveform,
             int        n_w,
             float     *pulse,
@@ -407,7 +406,7 @@ xconvolve(nerr)
             p = NULL;
         }
     } else if (pulse_kind == SACFILE) {
-        if(!(p = sacread(pulse_file))) {
+        if(!(p = sac_read(pulse_file, nerr))) {
             clrmsg();
             error(*nerr = ERROR_READING_FILE, ": %s", pulse_file);
             goto L_8888;

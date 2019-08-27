@@ -6,6 +6,7 @@
 #include "bool.h"
 
 #include "amf.h"
+#include "bot.h"
 #include "msg.h"
 #include "ssi.h"
 #include "cpf.h"
@@ -19,7 +20,6 @@ DFM_EXTERN
 void
 xaddstack(int *nerr) {
     char kfile[MCPFN + 1];
-    int ndx1, ndx2, ndxh, nlen;
     double delay;
     double tmp;
     /* The following add 960701 to correct a bug with Dst and to 
@@ -153,15 +153,12 @@ xaddstack(int *nerr) {
 
     /* - Read file. */
 
-    rdsac(saclen(), kfile, MCPFN + 1, TRUE, TRUE, &nlen, &ndxh, &ndx1, &ndx2,
-          nerr);
-    if (*nerr != 0)
-        goto L_8888;
-
-    /* - Check certain header fields. */
-    if (!(s = sacget(saclen() - 1, TRUE, nerr))) {
+    rstrip(kfile);
+    s = sac_read(kfile, nerr);
+    if(*nerr) {
         goto L_8888;
     }
+    sacput(s);
 
     if (!s->h->leven) {
         *nerr = 1306;

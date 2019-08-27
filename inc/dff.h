@@ -23,7 +23,6 @@ void formmarker(double time, char *type, int type_s, char *output, int output_s,
                 int *lok);
 void getfhv(char *kname, float *fvalue, int *nerr, int kname_s);
 void gethv(char *kname, int kname_s, char *kvalue, int kvalue_s, int *nerr);
-void getfil(int idfl, int ldta, int *nlen, int *ndx1, int *ndx2, int *nerr);
 void getihv(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s);
 void getkhv(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s);
 void getlhv(char *kname, int *lvalue, int *nerr, int kname_s);
@@ -34,18 +33,9 @@ void inihdr();
 
 void inilhf();
 int lgahdr(char *kfield, int kfield_s, char *kvalue, int kvalue_s);
-void map_chdr_in(float *memarray, float *buffer);
-
-void map_chdr_out(float *memarray, float *buffer);
-void map_hdr_in(float *memarray, float *buffer, int lswap);
-void map_hdr_out(float *memarray, float *buffer, int lswap);
 void markhdr(int jdflrestore, int jdfl1, int jdfl2, char *kvmknm, double vmk,
              char *kimk);
 void newhdr();
-void rddta(sac * s, int *nun, int lswap, int *nerr);
-int rdhdr(sac * s, int *nun, char *file, int *nerr);
-void rdsac(int idfl, char *kname, int kname_s, int lname, int ldta, int *nlen,
-           int *ndxh, int *ndx1, int *ndx2, int *nerr);
 void rdsdta(int idfl, int *nun, int *nerr);
 void rdsegy(int idfl, char *kfile, int *nlen, int *ndx1, int *ndx2, int *nerr);
 void rdshdr(int idfl, int *nun, int *nerr);
@@ -69,7 +59,6 @@ void sac_data_write2(int nun, float *y, float *x, int npts, int swap,
 void sac_data_swap(float *y, int n);
 int sac_byte_order(int getset);
 
-void rsach(char *kname, int *nerr, int kname_s);
 void setfhv(char *kname, float *fvalue, int *nerr, int kname_s);
 void setihv(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s);
 void setkhv(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s);

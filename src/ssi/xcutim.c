@@ -183,40 +183,32 @@ xcutim(int *nerr) {
         cmdfm.ocut[1] = bounds[idx].offset[1];
         DEBUG("ocut[0,1] %f %f\n", cmdfm.ocut[0], cmdfm.ocut[1]);
         for(size_t i = 0; i < xarray_length(cut_data_im); i++) {
-            DEBUG("FILE: %d/%d\n", i+1, xarray_length(cut_data_im));
-            sac *s = sac_new();
-            sac *old = cut_data_im[i];
-            // Copy Header and Meta to New Data :: old => s
-            sac_header_copy(s, old);
-            sac_meta_copy(s, old);
-            sacput(s);
-
+            *nerr = SAC_OK;
+            sac *s = sac_cut(cut_data_im[i],
+                             kmdfm.kcut[0],
+                             cmdfm.ocut[0],
+                             kmdfm.kcut[1],
+                             cmdfm.ocut[1],
+                             cmdfm.icuter, nerr);
+            if(s && cmdfm.icuter == CutUseBE) {
+                *nerr = 0;
+            }
+            if(!s) {
+                goto L_ERROR;
+            }
             if(idx > 0) { /* Create new file name for multiple files in cut */
                 FREE(s->m->filename);
                 s->m->filename = generate_filename(s);
             }
-            // Define Memory and Allocate space
-            defmem(saclen(), CUT_NOW, nerr);
-            sac_alloc(s);
-            int numrd = s->m->nstop - s->m->nstart + 1 - s->m->nfillb - s->m->nfille;
-            /* - Cut data for each data component: */
-            for (int j = 0; j < sac_comps(s); j++) {
-                DEBUG("COMPS: %d/%d\n", j+1, sac_comps(s));
-                float *oldy = (j == 0) ? old->y : old->x;
-                float *newy = (j == 0) ? s->y   : s->x;
-                cut_data(oldy, s->m->nstart, s->m->nstop, s->m->nfillb, s->m->nfille, newy);
-            }
             // Rescale data
             if (cmdfm.lscale && s->h->scale != SAC_FLOAT_UNDEFINED && s->h->scale != 1.0) {
-                float *newy = s->y;
-                for (int k = 0; k < numrd; k++) {
-                    newy[k] *= s->h->scale;
+                for (int k = 0; k < s->h->npts; k++) {
+                    s->y[k] *= s->h->scale;
                 }
                 s->h->scale = 1.0;
             }
-            /* - Compute some header values. */
             sac_extrema(s);
-            sac_be(s);
+            sacput(s);
         }
     }                           /* End loop between pairs of cut points. */
 

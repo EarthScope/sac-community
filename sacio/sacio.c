@@ -74,6 +74,7 @@ sac_float(sac *s, int id) {
 }
 
 #define  B(s) sac_float(s, SAC_B)
+#define  E(s) sac_float(s, SAC_E)
 #define DT(s) sac_float(s, SAC_DELTA)
 
 /**
@@ -1758,8 +1759,6 @@ sac_header_read(sac *s, FILE *fp) {
     }
     sac_copy_strings_add_terminator(s, str);
 
-    sac_check_time_precision(s);
-
     return 0;
 }
 
@@ -1798,8 +1797,7 @@ sac_read_post(sac *s, int read_data) {
     if(read_data) {
         sac_extrema(s);
     }
-
-   
+    sac_check_time_precision(s);
 }
 
 /**
@@ -1896,15 +1894,23 @@ sac_hdr_init(sac_hdr *sh) {
     }
 }
 
+/**
+ * @brief      Convert a time to index
+ *
+ * @details    Convert a time value to a data point index. All values are
+ *             relative to the `b` value 
+ *
+ * @param      s   sac file
+ * @param      t   time value
+ *
+ * @return     index of data point associated with the time
+ */
 int
 sac_time_to_index(sac *s, double t) {
-    int ib,it;
     double b, dt;
     sac_get_float(s, SAC_B, &b);
     sac_get_float(s, SAC_DELTA, &dt);
-    ib = lround(b / dt);
-    it = lround(t / dt);
-    return it - ib;
+    return lround((t-b)/dt);
 }
 
 
@@ -1916,6 +1922,17 @@ sac_time_to_index(sac *s, double t) {
 #define END_INSIDE   1<<4
 #define END_AFTER    1<<5
 
+/**
+ * @brief      characterize a cut window
+ *
+ * @details    characterize a cut window by determining the the location
+ *             of the start and end of the cut window with the data
+ *
+ * @param      s   sac file
+ *
+ * @return     (START_BEFORE | START_INSIDE | START_AFTER) &
+ *             (END_BEFORE | END_INSIDE | END_AFTER)
+ */
 static int
 window_overlap(sac *s) {
     int f = 0;
@@ -1936,8 +1953,75 @@ window_overlap(sac *s) {
     return f;
 }
 
-int
-sac_calc_read_window(sac *s, double t1, double t2, enum CutAction cutact, int *nread, int *offt, int *skip, int *nerr) {
+/**
+ * @brief      get time value
+ *
+ * @details    get time value from the sac header
+ *
+ * @param      s     sac file
+ * @param      c     time pick or "Z"
+ *                   Z, B, E, O, A, F, T0 ... T9
+ * @param      nerr  1301 on error, 0 on success
+ *
+ * @return     time value
+ */
+double
+sac_pick_ref_time(sac *s, char *c, int *nerr) {
+    double r = 0.0;
+    *nerr = 0;
+    switch(c[0]) {
+    case 'Z': r = 0.0; break;
+    case 'B': r = sac_float(s, SAC_B); break;
+    case 'E': r = sac_float(s, SAC_E); break;
+    case 'O': r = sac_float(s, SAC_O); break;
+    case 'A': r = sac_float(s, SAC_A); break;
+    case 'F': r = sac_float(s, SAC_F); break;
+    case 'T':
+        switch(c[1]) {
+        case '0': r = sac_float(s, SAC_T0); break;
+        case '1': r = sac_float(s, SAC_T1); break;
+        case '2': r = sac_float(s, SAC_T2); break;
+        case '3': r = sac_float(s, SAC_T3); break;
+        case '4': r = sac_float(s, SAC_T4); break;
+        case '5': r = sac_float(s, SAC_T5); break;
+        case '6': r = sac_float(s, SAC_T6); break;
+        case '7': r = sac_float(s, SAC_T7); break;
+        case '8': r = sac_float(s, SAC_T8); break;
+        case '9': r = sac_float(s, SAC_T9); break;
+        default: *nerr = 1301; break;
+        }
+        break;
+    default: *nerr = 1301; break;
+    }
+    return r;
+}
+
+/**
+ * @brief      calculate read window specifics
+ *
+ * @details    calculate read window values including:
+ *             - nread, offt, and skip
+ *             - nfille, nfillb, nstart, nstop (in sac meta)
+ *
+ * @param      s       sac file
+ * @param      c1      reference time pick for start
+ * @param      t1      relative time from time pick `c1`
+ * @param      c2      reference time pick for end
+ * @param      t2      relative time ffrom time pick `c2`
+ * @param      cutact  Behavior of cut
+ *                     - CutNone = 0
+ *                     - CutFatal = 1
+ *                     - CutUseBe = 2
+ *                     - CutFillZero = 3
+ * @param      nread   Number of point to read from file
+ * @param      offt    Points to fill with zero before writing
+ * @param      skip    Points to skip before reading
+ * @param      nerr    Status code
+ *
+ * @return     1 on success, 0 on failure
+ */
+static int
+sac_calc_read_window(sac *s, char *c1, double t1, char *c2, double t2, enum CutAction cutact, int *nread, int *offt, int *skip, int *nerr) {
     *nerr = 0;
     if(cutact == CutNone) {
         s->m->nfillb = 0;
@@ -1948,16 +2032,54 @@ sac_calc_read_window(sac *s, double t1, double t2, enum CutAction cutact, int *n
         *offt  = 0;
         *skip  = 0;
     } else {
+        double r1 = sac_pick_ref_time(s, c1, nerr);
+        if(*nerr) {
+            goto error;
+        }
+        double r2 = sac_pick_ref_time(s, c2, nerr);
+        if(*nerr) {
+            goto error;
+        }
+
+        if(r1 == SAC_FLOAT_UNDEFINED) {
+            printf(" WARNING: Undefined starting cut for file %s\n"
+                   " Corrected by using file begin.\n", s->m->filename);
+        }
+        if(r2 == SAC_FLOAT_UNDEFINED) {
+            printf(" WARNING: Undefined starting cut for file %s\n"
+                   " Corrected by using file end.\n", s->m->filename);
+        }
+        t1 = (r1 == SAC_FLOAT_UNDEFINED) ? B(s) : r1 + t1;
+        t2 = (r2 == SAC_FLOAT_UNDEFINED) ? E(s) : r2 + t2;
+
         s->m->nstart = sac_time_to_index(s, t1) + 1;
         s->m->nstop  = sac_time_to_index(s, t2) + 1;
+
+        if(t1 >= t2) {
+            printf(" WARNING: Start cut greater than stop cut for file %s\n"
+                   "\ttime:  %f >= %f\n"
+                   "\tindex: %d >= %d\n", s->m->filename,
+                   t1, t2,
+                   s->m->nstart, s->m->nstop);
+            *nerr = ERROR_START_TIME_GREATER_THAN_STOP;
+            goto error;
+        }
 
         int f = window_overlap(s);
         if(cutact == CutUseBE) {
             s->m->nfillb = 0;
             s->m->nfille = 0;
-            s->m->nstart = MAX(1, s->m->nstart);
-            s->m->nstop  = MIN(s->h->npts, s->m->nstop);
-            *nread = MIN(s->m->nstop, s->h->npts) - MAX(s->m->nstart, 1) + 1;
+            if(s->m->nstart < 1) {
+                s->m->nstart = 1;
+                printf(" WARNING: Start cut less than file begin for file %s\n"
+                       " Corrected by using file begin.\n", s->m->filename);
+            }
+            if(s->m->nstop > s->h->npts) {
+                s->m->nstop = s->h->npts;
+                printf(" WARNING: Stop cut greater than file end for file %s\n"
+                       " Corrected by using file end.\n", s->m->filename);
+            }
+            *nread = s->m->nstop - s->m->nstart + 1;
             *offt  = 0;
             *skip  = MAX(s->m->nstart, 1) - 1;
         } else if(cutact == CutFillZero) {
@@ -1985,6 +2107,15 @@ sac_calc_read_window(sac *s, double t1, double t2, enum CutAction cutact, int *n
             }
         }
         if(cutact == CutFatal && (f != (START_INSIDE | END_INSIDE))) {
+            switch(*nerr) {
+            case ERROR_CUT_TIMES_BEYOND_DATA_LIMITS:
+            case ERROR_START_TIME_LESS_THAN_BEGIN:
+                printf(" WARNING: Start cut less than file begin for file %s\n", s->m->filename);
+                break;
+            case ERROR_STOP_TIME_GREATER_THAN_END:
+                printf(" WARNING: Stop cut greater than file end for file %s\n", s->m->filename);
+                break;
+            }
             goto error;
         }
         if(*nread <= 0 && cutact != CutFillZero) {
@@ -2005,14 +2136,35 @@ sac_calc_read_window(sac *s, double t1, double t2, enum CutAction cutact, int *n
 
 }
 
+/**
+ * @brief      read a sac file while cutting
+ *
+ * @details    read a sac file while cutting
+ *
+ * @param      s       sac file
+ * @param      c1      reference time pick for start
+ * @param      t1      relative time from time pick `c1`
+ * @param      c2      reference time pick for end
+ * @param      t2      relative time ffrom time pick `c2`
+ * @param      cutact  Behavior of cut
+ *                     - CutNone = 0
+ *                     - CutFatal = 1
+ *                     - CutUseBe = 2
+ *                     - CutFillZero = 3
+ * @param      nerr    Status code
+ *
+ * @return     read and cut file on success, NULL on error
+ */
 sac *
-sac_read_with_cut(char *filename, double t1, double t2, enum CutAction cutact, int *nerr) {
+sac_read_with_cut(char *filename,
+                  char* c1, double t1,
+                  char* c2, double t2,
+                  enum CutAction cutact, int *nerr) {
     FILE *fp = NULL;
     sac *s = NULL;
     int nread = 0, offt = 0;
     int skip = 0;
-
-    if(cutact != CutNone && (!isfinite(t1) || !isfinite(t2) || t1 >= t2)) {
+    if(cutact != CutNone && (!isfinite(t1) || !isfinite(t2))) {
         *nerr = ERROR_START_TIME_GREATER_THAN_STOP;
         goto error;
     }
@@ -2031,7 +2183,8 @@ sac_read_with_cut(char *filename, double t1, double t2, enum CutAction cutact, i
 
     sac_header_v6_v7(s, fp, nerr);
 
-    if(!sac_calc_read_window(s, t1, t2, cutact, &nread, &offt, &skip, nerr)) {
+    if(!sac_calc_read_window(s, c1, t1, c2, t2, cutact,
+                             &nread, &offt, &skip, nerr)) {
         goto error;
     }
 
@@ -2055,6 +2208,105 @@ sac_read_with_cut(char *filename, double t1, double t2, enum CutAction cutact, i
     if(fp) {
         fclose(fp);
     }
+    if(s) {
+        sac_free(s);
+        s = NULL;
+    }
+    return NULL;
+}
+
+/**
+ * @brief      cut raw data
+ *
+ * @details    cut raw data from `in` to `out`.
+ *             Output data if overwritten.
+ *
+ * @param      in       input data to cut
+ * @param      nstart   Where to start cut, can be < 0
+ * @param      nstop    Where to stop cut, can be >= npts
+ * @param      nfillb   Number of points to zero fill before first point
+ * @param      nfille   Number of points to zero fill after last point
+ * @param      out      output cut data
+ *
+ */
+static void
+cut_data(float *in, int nstart, int nstop, int nfillb, int nfille, float *out) {
+    int out_offset, in_offset, n;
+
+    /* Number of data points to cut */
+    n = nstop - nstart + 1 - MAX(0, nfillb) - MAX(0, nfille);
+
+    /* Fill full array with zeros */
+    memset(out, 0, sizeof(float) * (nstop - nstart) + 1);
+
+    out_offset = nfillb;
+    if (n > 0) {
+        in_offset = nstart - 1 + nfillb;
+        memcpy(out + out_offset, in + in_offset, n * sizeof(float));
+    }
+}
+
+/**
+ * @brief      cut a sac file
+ *
+ * @details    cut a sac file and return a new sac file
+ *
+ * @param      s       sac file
+ * @param      c1      reference time pick for start time
+ * @param      t1      relative time from `c1`
+ * @param      c2      reference time pick for end time
+ * @param      t2      relative time from `c2`
+ * @param      cutact  Behavior of cut
+ *                     - CutNone = 0
+ *                     - CutFatal = 1
+ *                     - CutUseBe = 2
+ *                     - CutFillZero = 3
+ * @param      nerr    status code
+ *                     - 0 on success
+ *                     - Might be non-zero when using CutUseBE
+ *
+ * @return     newly cut sac file
+ */
+sac *
+sac_cut(sac *sin, char *c1, double t1, char *c2, double t2, enum CutAction cutact, int *nerr) {
+    int j = 0;
+    int nread = 0, offt = 0, skip = 0;
+    sac *s = NULL;
+    if(!sin) {
+        return NULL;
+    }
+    if(cutact != CutNone && (!isfinite(t1) || !isfinite(t2))) {
+        *nerr = ERROR_START_TIME_GREATER_THAN_STOP;
+        goto error;
+    }
+    if(! sin->h->leven ) {
+        *nerr = ERROR_CANT_CUT_UNEVENLY_SPACED_FILE;
+        goto error;
+    }
+    if(sin->h->iftype != ITIME) {
+        *nerr = ERROR_CANT_CUT_SPECTRAL_FILE;
+        goto error;
+    }
+
+    s = sac_new();
+    sac_header_copy(s, sin);
+    sac_meta_copy(s, sin);
+
+    if(!sac_calc_read_window(s, c1, t1, c2, t2, cutact,
+                             &nread, &offt, &skip, nerr)) {
+        goto error;
+    }
+    sac_alloc(s);
+    for(j = 0; j < sac_comps(s); j++) {
+        float *oldy = (j == 0) ? sin->y : sin->x;
+        float *newy = (j == 0) ? s->y   : s->x;
+        cut_data(oldy, s->m->nstart, s->m->nstop, s->m->nfillb, s->m->nfille, newy);
+    }
+    sac_extrema(s);
+    sac_be(s);
+    return s;
+
+ error:
     if(s) {
         sac_free(s);
         s = NULL;

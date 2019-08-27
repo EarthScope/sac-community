@@ -33,7 +33,7 @@ DFM_EXTERN
 void
 xconv(int *nerr) {
 
-    int iinout, junk, ndx1, ndx2, ndxh, nlen;
+    int iinout, junk, ndx1, ndx2, nlen;
     static int iin = 1;
     static int iout = 2;
 
@@ -91,10 +91,11 @@ xconv(int *nerr) {
         goto L_8888;
 
     if (cmdfm.icfmt[iin - 1] == 1) {
-        rdsac(1, (char *) kmdfm.kcfile[iin - 1], MCPFN + 1, TRUE, TRUE, &nlen,
-              &ndxh, &ndx1, &ndx2, nerr);
-        if (*nerr != 0)
+        sac *s = sac_read(kmdfm.kcfile[iin - 1], nerr);
+        if (*nerr != 0) {
             goto L_8888;
+        }
+        sacput(s);
     } else if (cmdfm.icfmt[iin - 1] == 2) {
         rdci(1, (char *) kmdfm.kcfile[iin - 1], MCPFN + 1, &nlen, &ndx1, &ndx2,
              nerr);

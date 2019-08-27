@@ -33,7 +33,7 @@ DFM_EXTERN
 EXM_EXTERN
 
 #define PI M_PI
-
+int read_sac_file(char *file, int ldata);
 /** 
  * Generate a Function and store it in memory
  * 
@@ -69,13 +69,13 @@ EXM_EXTERN
 void
 xfg(int *nerr) {
     char kfile[MCPFN + 1];
-    int iseed, j, j1, jdfl = 0, ndx1, ndx2, ndxh, nlen, n;
+    int iseed, j, j1, jdfl = 0, ndx1, ndx2, n;
     static int nra;
     int itmp;
     double dtmp[2];
     double arg, con, del;
     double arg0;
-    sac *s;
+    sac *s = NULL;
     *nerr = 0;
     memset(kfile, 0, sizeof(kfile));
     ndx1 = ndx2 = 0;
@@ -176,7 +176,8 @@ xfg(int *nerr) {
         /* -- All other functions generate one file only.
          * -- Sample seismogram is unique in length. */
     } /* end if ( cmexm.ifgtp == 9 ) */
-    else {
+    else if(cmexm.ifgtp == 10) {
+    } else {
         DEBUG("\n");
         jdfl = 1;
 
@@ -188,17 +189,17 @@ xfg(int *nerr) {
         sacput(s);
 
     }
+    if(s) {
+        /* - Set up new header. */
+        sac_set_float(s, SAC_B, cmexm.fgbeg);
+        sac_set_float(s, SAC_DELTA, cmexm.fgdel);
+        s->h->npts = cmexm.nfgpts;
+        sac_be(s);
 
-    /* - Set up new header. */
-    sac_set_float(s, SAC_B, cmexm.fgbeg);
-    sac_set_float(s, SAC_DELTA, cmexm.fgdel);
-    s->h->npts = cmexm.nfgpts;
-    sac_be(s);
-
-    fstrncpy(s->h->kevnm, 17, "FUNCGEN: ", 9);
-    fstrncpy(s->h->kevnm + 9, 17 - 10, kmexm.kfgtp[cmexm.ifgtp - 1],
-             strlen(kmexm.kfgtp[cmexm.ifgtp - 1]));
-
+        fstrncpy(s->h->kevnm, 17, "FUNCGEN: ", 9);
+        fstrncpy(s->h->kevnm + 9, 17 - 10, kmexm.kfgtp[cmexm.ifgtp - 1],
+                 strlen(kmexm.kfgtp[cmexm.ifgtp - 1]));
+    }
     /*     ndx2=ndx1+nfgpts
      * - Write one less point to data block (modificatoin 5/16/91) */
 /*	ndx2 = ndx1 + cmexm.nfgpts - 1; */
@@ -363,12 +364,16 @@ xfg(int *nerr) {
 
     if (*nerr != 0)
         goto L_8888;
-
-    rdsac(jdfl, kfile, MCPFN + 1, FALSE, TRUE, &nlen, &ndxh, &ndx1, &ndx2,
-          nerr);
-    if (*nerr != 0)
+    rstrip(kfile);
+    if(!read_sac_file(kfile, TRUE)) {
         goto L_8888;
-
+    }
+    s = sacget(saclen()-1, TRUE, nerr);
+    if(!s) {
+        goto L_8888;
+    }
+    FREE(s->m->filename);
+    s->m->filename = fstrdup(kmexm.kfgtp[cmexm.ifgtp-1], 9);
     goto L_8888;
 
     /* -- Unit impulse (contains a 1 as the first data point. */

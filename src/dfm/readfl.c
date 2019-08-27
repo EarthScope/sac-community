@@ -336,53 +336,29 @@ sac_datetime(sac *s) {
 
 int
 read_sac_file(char *file, int ldata) {
-    int nerr, retval, idx;
+    int nerr, retval;
     sac *s = NULL;
     retval = TRUE;
     s = NULL;
     nerr = 0;
-    if (!(s = sac_new())) {
-        nerr = ERROR_ILLEGAL_DATA_FILE_LIST_NUMBER;
-        goto error;
-    }
-    s->m->filename = strdup(file);
-    sacput(s);
-    rdsac(saclen(), s->m->filename, -1, FALSE, ldata,
-          &idx, &idx, &idx, &idx, &nerr);
-    if (nerr) {
-        sacpop();
-        goto error;
-    }
-    s->m->data_read = ldata;
-    if (s->h->nevid == -12345 || s->h->norid == -12345) {
-        cmdfm.nreadflag = LOW;
-    }
- error:
-    if (nerr) {
-        retval = FALSE;
-        strcpy(kmdfm.kecbdf, "WARNING ");
-        typmsg("WARNING");
-        outmsg();
-    }
-    return retval;
-}
 
-int
-read_sac(string_list * files, int ldata) {
-    int i, retval;
-    sac *s = NULL;
-    retval = 0;
-    s = NULL;
-    i = 0;
-    while (i < string_list_length(files)) {
-        if(!read_sac_file(string_list_get(files, i), ldata)) {
-            string_list_delete(files, i);
-            retval = TRUE;
-        } else {
-            i++;
-        }
+    if(cmdfm.lcut) {
+        s = sac_read_with_cut(file,
+                              kmdfm.kcut[0],
+                              cmdfm.ocut[0],
+                              kmdfm.kcut[1],
+                              cmdfm.ocut[1],
+                              cmdfm.icuter, &nerr);
+    } else {
+        s = sac_read(file, &nerr);
     }
-    return retval;
+    if(!s) {
+        error(nerr, "%s", file);
+        return FALSE;
+    }
+    sacput(s);
+    s->m->data_read = ldata;
+    return TRUE;
 }
 
 void

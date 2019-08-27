@@ -43,8 +43,6 @@ struct t_kmbom {
     extern struct t_cmbom cmbom;
 
 
-void getbfl(string_list * list, int ibfl, int ldta, int *nlen, int *ndx1,
-            int *ndx2, int *nerr);
 void inibom(void);
 void relbfl(int *nerr);
 void xaddf(int *nerr);

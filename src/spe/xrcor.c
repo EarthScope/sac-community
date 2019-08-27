@@ -22,8 +22,6 @@
 
 SPE_EXTERN
 
-sac *sacread(char *file);
-
 #define error_handling(error, line) if( *(error) != SAC_OK) { goto line; }
 extern float *specor;
 /** 
@@ -61,7 +59,7 @@ xrcor(int *nerr) {
     error_handling(nerr, ERROR);
 
     filename = fstrdup(kmspe.knmcor, MCPFN + 1);
-    if (!(s = sacread(filename))) {
+    if (!(s = sac_read(filename, nerr))) {
         *nerr = ERROR_READING_FILE;
         error_handling(nerr, ERROR);
     }

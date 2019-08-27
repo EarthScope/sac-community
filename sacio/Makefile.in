@@ -323,6 +323,7 @@ zlib_LIBS = @zlib_LIBS@
 # Do not create dependencies while compiling
 AUTOMAKE_OPTIONS = no-dependencies
 EXTRA_DIST = License README.md t config docs
+AM_CFLAGS = -fPIC -Wall -Wextra -Iinclude/
 
 # Notes for including library directly in sac source
 # - Remove saciolibdir, sacioincdir
@@ -332,7 +333,6 @@ EXTRA_DIST = License README.md t config docs
 # - Run ./bootstrap in base directory
 #
 noinst_LIBRARIES = libsacio_bsd.a
-AM_CFLAGS = -fPIC -Wall -Wextra -Iinclude/
 libsacio_bsd_a_SOURCES = sacio.c geodesic.c timespec.c \
 												 time64.c strip.c compat.c \
 												 header_map.c defs.h \

@@ -64,10 +64,9 @@ xboec(int *nerr) {
 
 static sac **sac_binary_file_list = NULL;
 
-sac *sacread(char *file);
-
 sac *
 bflget(string_list * list, int i) {
+    int nerr = 0;
     sac *s;
 
     if (!sac_binary_file_list) {
@@ -79,7 +78,7 @@ bflget(string_list * list, int i) {
         if (i >= string_list_length(list)) {
             return NULL;
         }
-        if (!(s = sacread(string_list_get(list, i)))) {
+        if (!(s = sac_read(string_list_get(list, i), &nerr))) {
             return NULL;
         }
         sac_binary_file_list = xarray_append(sac_binary_file_list, s);

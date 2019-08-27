@@ -308,17 +308,17 @@ am_libsac_all_a_OBJECTS = bs/iniam.$(OBJEXT) bs/fid.$(OBJEXT) \
 	bbs/deletebbs.$(OBJEXT) bbs/getbbv.$(OBJEXT) \
 	bbs/inibbs.$(OBJEXT) bbs/readbbf.$(OBJEXT) \
 	bbs/setbbv.$(OBJEXT) bbs/unsetbbv.$(OBJEXT) \
-	bbs/writebbf.$(OBJEXT) bom/getbfl.$(OBJEXT) \
-	bom/inibom.$(OBJEXT) bom/relbfl.$(OBJEXT) bom/xaddf.$(OBJEXT) \
-	bom/xboec.$(OBJEXT) bom/xbomc.$(OBJEXT) bom/xmerge.$(OBJEXT) \
-	bot/capf.$(OBJEXT) bot/chpf.$(OBJEXT) bot/clipdp.$(OBJEXT) \
-	bot/crname.$(OBJEXT) bot/indexa.$(OBJEXT) bot/indexb.$(OBJEXT) \
-	bot/indexc.$(OBJEXT) bot/lequal.$(OBJEXT) bot/locdp.$(OBJEXT) \
-	bot/modcase.$(OBJEXT) bot/nequal.$(OBJEXT) \
-	bot/terminate.$(OBJEXT) bot/upcase.$(OBJEXT) \
-	bot/wrlist.$(OBJEXT) clf/fndelcl.$(OBJEXT) \
-	clf/ldelcl.$(OBJEXT) clf/lnumcl.$(OBJEXT) clf/lnxtcl.$(OBJEXT) \
-	clf/nfndcl.$(OBJEXT) clf/putcl.$(OBJEXT) cnd/getclun.$(OBJEXT) \
+	bbs/writebbf.$(OBJEXT) bom/inibom.$(OBJEXT) \
+	bom/relbfl.$(OBJEXT) bom/xaddf.$(OBJEXT) bom/xboec.$(OBJEXT) \
+	bom/xbomc.$(OBJEXT) bom/xmerge.$(OBJEXT) bot/capf.$(OBJEXT) \
+	bot/chpf.$(OBJEXT) bot/clipdp.$(OBJEXT) bot/crname.$(OBJEXT) \
+	bot/indexa.$(OBJEXT) bot/indexb.$(OBJEXT) bot/indexc.$(OBJEXT) \
+	bot/lequal.$(OBJEXT) bot/locdp.$(OBJEXT) bot/modcase.$(OBJEXT) \
+	bot/nequal.$(OBJEXT) bot/terminate.$(OBJEXT) \
+	bot/upcase.$(OBJEXT) bot/wrlist.$(OBJEXT) \
+	clf/fndelcl.$(OBJEXT) clf/ldelcl.$(OBJEXT) \
+	clf/lnumcl.$(OBJEXT) clf/lnxtcl.$(OBJEXT) clf/nfndcl.$(OBJEXT) \
+	clf/putcl.$(OBJEXT) cnd/getclun.$(OBJEXT) \
 	cnd/getdolen.$(OBJEXT) cnd/ldolist.$(OBJEXT) \
 	cnd/skipdo.$(OBJEXT) cnd/skipif.$(OBJEXT) cnd/xbreak.$(OBJEXT) \
 	cnd/xcndc.$(OBJEXT) cnd/xdo.$(OBJEXT) cnd/xelse.$(OBJEXT) \
@@ -419,22 +419,18 @@ am_libsac_all_a_OBJECTS = bs/iniam.$(OBJEXT) bs/fid.$(OBJEXT) \
 	dbh/warp.$(OBJEXT) dbh/wiener.$(OBJEXT) dbh/window.$(OBJEXT) \
 	dbh/winmov.$(OBJEXT) dbh/xapiir.$(OBJEXT) dbh/zero.$(OBJEXT) \
 	dbh/zshft.$(OBJEXT) dff/formhv.$(OBJEXT) \
-	dff/formmarker.$(OBJEXT) dff/getfil.$(OBJEXT) \
-	dff/gethv.$(OBJEXT) dff/getnfiles.$(OBJEXT) \
-	dff/hdrfld.$(OBJEXT) dff/inihdr.$(OBJEXT) dff/inilhf.$(OBJEXT) \
-	dff/lgahdr.$(OBJEXT) dff/map_chdr_in.$(OBJEXT) \
-	dff/map_chdr_out.$(OBJEXT) dff/map_hdr_in.$(OBJEXT) \
-	dff/map_hdr_out.$(OBJEXT) dff/markhdr.$(OBJEXT) \
-	dff/newhdr.$(OBJEXT) dff/putfil.$(OBJEXT) dff/rddta.$(OBJEXT) \
-	dff/rdhdr.$(OBJEXT) dff/rdsac.$(OBJEXT) dff/rdsdta.$(OBJEXT) \
-	dff/rdsegy.$(OBJEXT) dff/rdshdr.$(OBJEXT) \
-	dff/rdxdrdta.$(OBJEXT) dff/rsac1.$(OBJEXT) dff/rsac2.$(OBJEXT) \
-	dff/setnfiles.$(OBJEXT) dff/setrng.$(OBJEXT) \
-	dff/updhdr.$(OBJEXT) dff/wrsac.$(OBJEXT) dff/wrsdd.$(OBJEXT) \
-	dff/wrsegy.$(OBJEXT) dff/wrxdr.$(OBJEXT) dff/xdrhdr.$(OBJEXT) \
-	bs/fstr.$(OBJEXT) dff/rsach.$(OBJEXT) dfm/cleardfl.$(OBJEXT) \
-	dfm/cnvfmt.$(OBJEXT) dfm/cnvfre.$(OBJEXT) dfm/decont.$(OBJEXT) \
-	dfm/defcut.$(OBJEXT) dfm/defmem.$(OBJEXT) dfm/detnum.$(OBJEXT) \
+	dff/formmarker.$(OBJEXT) dff/gethv.$(OBJEXT) \
+	dff/getnfiles.$(OBJEXT) dff/hdrfld.$(OBJEXT) \
+	dff/inihdr.$(OBJEXT) dff/inilhf.$(OBJEXT) dff/lgahdr.$(OBJEXT) \
+	dff/markhdr.$(OBJEXT) dff/newhdr.$(OBJEXT) \
+	dff/rdsdta.$(OBJEXT) dff/rdsegy.$(OBJEXT) dff/rdshdr.$(OBJEXT) \
+	dff/rdxdrdta.$(OBJEXT) dff/setnfiles.$(OBJEXT) \
+	dff/setrng.$(OBJEXT) dff/updhdr.$(OBJEXT) dff/wrsac.$(OBJEXT) \
+	dff/wrsdd.$(OBJEXT) dff/wrsegy.$(OBJEXT) dff/wrxdr.$(OBJEXT) \
+	dff/xdrhdr.$(OBJEXT) bs/fstr.$(OBJEXT) dff/rsach.$(OBJEXT) \
+	dfm/cleardfl.$(OBJEXT) dfm/cnvfmt.$(OBJEXT) \
+	dfm/cnvfre.$(OBJEXT) dfm/decont.$(OBJEXT) dfm/defcut.$(OBJEXT) \
+	dfm/defmem.$(OBJEXT) dfm/detnum.$(OBJEXT) \
 	dfm/gennames.$(OBJEXT) dfm/getatw.$(OBJEXT) \
 	dfm/getprefs.$(OBJEXT) dfm/getwfdiscs.$(OBJEXT) \
 	dfm/inidfm.$(OBJEXT) dfm/iztypeMessage.$(OBJEXT) \
@@ -1251,7 +1247,7 @@ libsac_all_a_SOURCES = bs/iniam.c bs/fid.c bs/octopus.c \
 	bbs/createbbs.c bbs/deletebbs.c bbs/getbbv.c \
 	bbs/inibbs.c bbs/readbbf.c bbs/setbbv.c bbs/unsetbbv.c bbs/writebbf.c \
 	\
-	bom/getbfl.c bom/inibom.c bom/relbfl.c bom/xaddf.c \
+	bom/inibom.c bom/relbfl.c bom/xaddf.c \
 	bom/xboec.c bom/xbomc.c bom/xmerge.c \
 	\
 	bot/capf.c bot/chpf.c bot/clipdp.c bot/crname.c \
@@ -1326,13 +1322,12 @@ libsac_all_a_SOURCES = bs/iniam.c bs/fid.c bs/octopus.c \
 	dbh/window.c dbh/winmov.c dbh/xapiir.c dbh/zero.c dbh/zshft.c \
 	dbh/ACKNOWLEDGEMENT \
 	\
-	dff/formhv.c dff/formmarker.c  dff/getfil.c \
+	dff/formhv.c dff/formmarker.c  \
 	dff/gethv.c dff/getnfiles.c \
 	dff/hdrfld.c dff/inihdr.c dff/inilhf.c dff/lgahdr.c \
-	dff/map_chdr_in.c dff/map_chdr_out.c dff/map_hdr_in.c \
-	dff/map_hdr_out.c dff/markhdr.c dff/newhdr.c \
-	dff/putfil.c dff/rddta.c dff/rdhdr.c dff/rdsac.c dff/rdsdta.c \
-	dff/rdsegy.c dff/rdshdr.c dff/rdxdrdta.c dff/rsac1.c dff/rsac2.c \
+  dff/markhdr.c dff/newhdr.c \
+	dff/rdsdta.c \
+	dff/rdsegy.c dff/rdshdr.c dff/rdxdrdta.c \
 	dff/setnfiles.c \
 	dff/setrng.c dff/updhdr.c dff/wrsac.c dff/wrsdd.c \
 	dff/wrsegy.c dff/wrxdr.c \
@@ -2056,7 +2051,6 @@ bbs/writebbf.$(OBJEXT): bbs/$(am__dirstamp)
 bom/$(am__dirstamp):
 	@$(MKDIR_P) bom
 	@: > bom/$(am__dirstamp)
-bom/getbfl.$(OBJEXT): bom/$(am__dirstamp)
 bom/inibom.$(OBJEXT): bom/$(am__dirstamp)
 bom/relbfl.$(OBJEXT): bom/$(am__dirstamp)
 bom/xaddf.$(OBJEXT): bom/$(am__dirstamp)
@@ -2266,26 +2260,15 @@ dbh/wiener.$(OBJEXT): dbh/$(am__dirstamp)
 dbh/winmov.$(OBJEXT): dbh/$(am__dirstamp)
 dff/formhv.$(OBJEXT): dff/$(am__dirstamp)
 dff/formmarker.$(OBJEXT): dff/$(am__dirstamp)
-dff/getfil.$(OBJEXT): dff/$(am__dirstamp)
 dff/gethv.$(OBJEXT): dff/$(am__dirstamp)
 dff/getnfiles.$(OBJEXT): dff/$(am__dirstamp)
 dff/lgahdr.$(OBJEXT): dff/$(am__dirstamp)
-dff/map_chdr_in.$(OBJEXT): dff/$(am__dirstamp)
-dff/map_chdr_out.$(OBJEXT): dff/$(am__dirstamp)
-dff/map_hdr_in.$(OBJEXT): dff/$(am__dirstamp)
-dff/map_hdr_out.$(OBJEXT): dff/$(am__dirstamp)
 dff/markhdr.$(OBJEXT): dff/$(am__dirstamp)
 dff/newhdr.$(OBJEXT): dff/$(am__dirstamp)
-dff/putfil.$(OBJEXT): dff/$(am__dirstamp)
-dff/rddta.$(OBJEXT): dff/$(am__dirstamp)
-dff/rdhdr.$(OBJEXT): dff/$(am__dirstamp)
-dff/rdsac.$(OBJEXT): dff/$(am__dirstamp)
 dff/rdsdta.$(OBJEXT): dff/$(am__dirstamp)
 dff/rdsegy.$(OBJEXT): dff/$(am__dirstamp)
 dff/rdshdr.$(OBJEXT): dff/$(am__dirstamp)
 dff/rdxdrdta.$(OBJEXT): dff/$(am__dirstamp)
-dff/rsac1.$(OBJEXT): dff/$(am__dirstamp)
-dff/rsac2.$(OBJEXT): dff/$(am__dirstamp)
 dff/setnfiles.$(OBJEXT): dff/$(am__dirstamp)
 dff/setrng.$(OBJEXT): dff/$(am__dirstamp)
 dff/updhdr.$(OBJEXT): dff/$(am__dirstamp)

@@ -330,6 +330,7 @@ zlib_LIBS = @zlib_LIBS@
 # Do not create dependencies while compiling
 AUTOMAKE_OPTIONS = no-dependencies
 EXTRA_DIST = License README.md t config
+AM_CFLAGS = -fPIC -Wall -Wextra -Iinclude/ $(XML_CPPFLAGS) $(LIBCURL_CPPFLAGS) -I$(top_srcdir)
 
 # Notes for including library directly in sac source
 # - Remove fernlibdir, fernincdir
@@ -339,7 +340,6 @@ EXTRA_DIST = License README.md t config
 # - Run ./bootstrap in base directory
 #
 noinst_LIBRARIES = libfern.a libpile.a
-AM_CFLAGS = -fPIC -Wall -Wextra -Iinclude/ $(XML_CPPFLAGS) $(LIBCURL_CPPFLAGS) -I$(top_srcdir)
 libfern_a_SOURCES = cJSON.c cJSON.h \
                     datareq.c datareq.h \
 										event.c event.h \

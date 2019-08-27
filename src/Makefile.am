@@ -263,7 +263,7 @@ libsac_all_a_SOURCES = bs/iniam.c bs/fid.c bs/octopus.c \
 	bbs/createbbs.c bbs/deletebbs.c bbs/getbbv.c \
 	bbs/inibbs.c bbs/readbbf.c bbs/setbbv.c bbs/unsetbbv.c bbs/writebbf.c \
 	\
-	bom/getbfl.c bom/inibom.c bom/relbfl.c bom/xaddf.c \
+	bom/inibom.c bom/relbfl.c bom/xaddf.c \
 	bom/xboec.c bom/xbomc.c bom/xmerge.c \
 	\
 	bot/capf.c bot/chpf.c bot/clipdp.c bot/crname.c \
@@ -338,13 +338,12 @@ libsac_all_a_SOURCES = bs/iniam.c bs/fid.c bs/octopus.c \
 	dbh/window.c dbh/winmov.c dbh/xapiir.c dbh/zero.c dbh/zshft.c \
 	dbh/ACKNOWLEDGEMENT \
 	\
-	dff/formhv.c dff/formmarker.c  dff/getfil.c \
+	dff/formhv.c dff/formmarker.c  \
 	dff/gethv.c dff/getnfiles.c \
 	dff/hdrfld.c dff/inihdr.c dff/inilhf.c dff/lgahdr.c \
-	dff/map_chdr_in.c dff/map_chdr_out.c dff/map_hdr_in.c \
-	dff/map_hdr_out.c dff/markhdr.c dff/newhdr.c \
-	dff/putfil.c dff/rddta.c dff/rdhdr.c dff/rdsac.c dff/rdsdta.c \
-	dff/rdsegy.c dff/rdshdr.c dff/rdxdrdta.c dff/rsac1.c dff/rsac2.c \
+  dff/markhdr.c dff/newhdr.c \
+	dff/rdsdta.c \
+	dff/rdsegy.c dff/rdshdr.c dff/rdxdrdta.c \
 	dff/setnfiles.c \
 	dff/setrng.c dff/updhdr.c dff/wrsac.c dff/wrsdd.c \
 	dff/wrsegy.c dff/wrxdr.c \
