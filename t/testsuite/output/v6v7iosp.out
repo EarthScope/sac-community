@@ -1,0 +1,133 @@
+ wait text off
+  
+ ==>  
+ fg seismo
+ ch nvhdr 7
+ fft
+ DC level after DFT is -0.98547
+ lh iftype nvhdr depmin depmax delta
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     iftype = SPECTRAL FILE-AMPL/PHASE
+      nvhdr = 7
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+      delta = 9.765625e-02
+  
+ ==>  
+ write test.sp.v7.sac
+ read test.sp.v7.sac
+ lh iftype nvhdr depmin depmax delta
+  
+  
+  FILE: test.sp.v7.sac - 1
+ --------------------
+
+     iftype = SPECTRAL FILE-AMPL/PHASE
+      nvhdr = 7
+     depmin = 3.626911e-05
+     depmax = 9.854721e-01
+      delta = 9.765625e-02
+  
+ ==>  
+ writesp test.sp.v7
+ readsp test.sp.v7
+ lh iftype nvhdr depmin depmax delta
+  
+  
+  FILE: test.sp.v7 - 1
+ ----------------
+
+     iftype = SPECTRAL FILE-AMPL/PHASE
+      nvhdr = 7
+     depmin = 3.626911e-05
+     depmax = 9.854721e-01
+      delta = 9.765625e-02
+  
+ ==>  
+ read test.sp.v7.ph
+ lh iftype nvhdr depmin depmax delta
+  
+  
+  FILE: test.sp.v7.ph - 1
+ -------------------
+
+     iftype = GENERAL X VS Y FILE
+      nvhdr = 7
+     depmin = -3.141459e+00
+     depmax = 3.141593e+00
+      delta = 9.765625e-02
+  
+ ==>  
+ write test.sp.v7.ph
+ lh iftype nvhdr depmin depmax delta
+  
+  
+  FILE: test.sp.v7.ph - 1
+ -------------------
+
+     iftype = GENERAL X VS Y FILE
+      nvhdr = 7
+     depmin = -3.141459e+00
+     depmax = 3.141593e+00
+      delta = 9.765625e-02
+  
+ ==>  
+ read test.sp.v7.ph
+ lh iftype nvhdr depmin depmax delta
+  
+  
+  FILE: test.sp.v7.ph - 1
+ -------------------
+
+     iftype = GENERAL X VS Y FILE
+      nvhdr = 7
+     depmin = -3.141459e+00
+     depmax = 3.141593e+00
+      delta = 9.765625e-02
+  
+ ==>  
+ read test.sp.v7.am
+ lh iftype nvhdr depmin depmax delta
+  
+  
+  FILE: test.sp.v7.am - 1
+ -------------------
+
+     iftype = GENERAL X VS Y FILE
+      nvhdr = 7
+     depmin = 3.626911e-05
+     depmax = 9.854721e-01
+      delta = 9.765625e-02
+  
+ ==>  
+ write test.sp.v7.am
+ lh iftype nvhdr depmin depmax delta
+  
+  
+  FILE: test.sp.v7.am - 1
+ -------------------
+
+     iftype = GENERAL X VS Y FILE
+      nvhdr = 7
+     depmin = 3.626911e-05
+     depmax = 9.854721e-01
+      delta = 9.765625e-02
+  
+ ==>  
+ read test.sp.v7.am
+ lh iftype nvhdr depmin depmax delta
+  
+  
+  FILE: test.sp.v7.am - 1
+ -------------------
+
+     iftype = GENERAL X VS Y FILE
+      nvhdr = 7
+     depmin = 3.626911e-05
+     depmax = 9.854721e-01
+      delta = 9.765625e-02
+ quit

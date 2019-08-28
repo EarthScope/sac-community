@@ -297,7 +297,7 @@ time_range(string_list * list) {
             sum += dt;
             DEBUG("CALC DT: %f %f db: %.15e DT: %.15e\n", b2,b1, b2-b1, dt);
         }
-        dt = sum / (n-1);
+        dt = (double)(sum / (n-1));
         if(verbose_merge) {
             printf("merge calculated delta: %.15e (assuming no-gaps)\n", dt);
             printf("      delta in header %.15e (first file)\n", t[0].dt);
@@ -376,7 +376,7 @@ check_delta(string_list * list) {
 }
 
 void
-fill_zero(float y[], int b, int e, float dt) {
+fill_zero(float y[], int b, int e, double dt) {
     int i;
     int err = TRUE;
     DEBUG("%d -> %d (%f %f)\n", b, e, b + (b * dt), b + (e * dt));
@@ -392,7 +392,7 @@ fill_zero(float y[], int b, int e, float dt) {
 }
 
 void
-fill_interp(float y[], int b, int e, float yb, float ye, float dt) {
+fill_interp(float y[], int b, int e, float yb, float ye, double dt) {
     int i;
     int err = TRUE;
     for (i = b; i < e; i++) {
@@ -420,8 +420,8 @@ files_in_window(int b, int e, struct timing *t, int n, int *mp) {
     return ij;
 }
 
-float
-interp1(float y0, float y1, float dt) {
+double
+interp1(double y0, double y1, double dt) {
     /*   x0       x1        x2  -- time
      *   |   +--dt-+         |
      *   .....................
@@ -435,9 +435,9 @@ float
 tinterp(struct timing *t, int j) {
     if (t->offset > 0.0) {
         if (j == t->npts) {
-            return interp1(t->y[j - 1], t->y[j - 2], 1.0 - t->offset);
+            return (float) interp1(t->y[j - 1], t->y[j - 2], 1.0 - t->offset);
         } else if (j + 1 < t->npts) {
-            return interp1(t->y[j], t->y[j + 1], t->offset);
+            return (float) interp1(t->y[j], t->y[j + 1], t->offset);
         }
         fprintf(stderr, "Array access attempt out of bounds: %d %d\n", j + 1,
                 t->npts);
@@ -495,7 +495,7 @@ overlap_average(float *y, int b, int e, struct timing *t, int n) {
 
 int
 overlap_compare(float *y, int b, int e, struct timing *t, int nt,
-                string_list * list, float bval) {
+                string_list * list, double bval) {
     int i, j, k, m, n;
     int *ij, *ip;
     float *p;

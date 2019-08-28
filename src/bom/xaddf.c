@@ -56,7 +56,7 @@ isIgnore(char *key) {
 int
 delta_equal(sac * s1, sac * s2) {
     int fatal, nerr;
-    float value;
+    double value;
 
     if (isIgnore(kmbom.kecdel)) {
         return 0;
@@ -262,7 +262,7 @@ xbom_op(char op, int *nerr) {
             case '/':
                 for (j = 0; j < n; j++) {
                     if (fabs(s2->y[j]) <= VSMALL) {
-                        s1->y[j] = sign(VLARGE, s1->y[j] * s2->y[j]);
+                        s1->y[j] = (float) sign(VLARGE, s1->y[j] * s2->y[j]);
                     } else {
                         s1->y[j] = s1->y[j] / s2->y[j];
                     }

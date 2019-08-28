@@ -50,13 +50,17 @@ struct sac_iris {};
  *
  */
 static void
-fstrcpy(char *dst, int ndst, char *src, int nsrc) {
-    size_t n = 0;
+fstrcpy(char *dst, size_t ndst, char *src, int nsrc) {
+    size_t n = 0, ns = 0;
+    if(ndst == 0) {
+        return;
+    }
     if(nsrc < 0) { // Likely C Path
         sacio_strlcpy(dst, src, ndst);
     } else { // Likely Fortran Path
-        n = (nsrc < ndst) ? nsrc : ndst - 1;
-        memset(dst, 0, sizeof(ndst));
+        ns = (size_t) nsrc;
+        n = (ns < ndst) ? ns : ndst - 1;
+        memset(dst, 0, ndst);
         memcpy(dst, src, n);
     }
     sacio_rstrip(dst);
@@ -79,16 +83,17 @@ fstrcpy(char *dst, int ndst, char *src, int nsrc) {
  *
  */
 static void
-fstrput(char *dst, int ndst, char *src, int nsrc, int null_terminate) {
-    size_t n = 0;
-    if(ndst <= 0 || nsrc <= 0) {
+fstrput(char *dst, int ndst, char *src, size_t nsrc, int null_terminate) {
+    size_t n = 0, nd = 0;
+    if(ndst <= 0 || nsrc == 0) {
         return;
     }
-    memset(dst, ' ', ndst);
-    n = (nsrc < ndst) ? nsrc : ndst;
+    nd = (size_t) ndst;
+    memset(dst, ' ', nd);
+    n = (nsrc < nd) ? nsrc : nd;
     memcpy(dst, src, n);
     if(null_terminate) {
-        n = (nsrc < ndst-1) ? nsrc : ndst-1;
+        n = (nsrc < nd-1) ? nsrc : nd-1;
         dst[n] = 0;
     }
 }
@@ -196,7 +201,7 @@ rsac1(char      *kname,
         *nlen = *max_;
         *nerr = -ERROR_SAC_DATA_TRUNCATED_ON_READ;
     }
-    memcpy(yarray, s->y, *nlen * sizeof(float));
+    memcpy(yarray, s->y, (size_t) *nlen * sizeof(float));
     current = s;
 }
 
@@ -242,8 +247,8 @@ rsac2(char  *kname,
         *nlen = *max_;
         *nerr = -ERROR_SAC_DATA_TRUNCATED_ON_READ;
     }
-    memcpy(yarray, s->y, *nlen * sizeof(float));
-    memcpy(xarray, s->x, *nlen * sizeof(float));
+    memcpy(yarray, s->y, (size_t) *nlen * sizeof(float));
+    memcpy(xarray, s->x, (size_t) *nlen * sizeof(float));
     s->h->npts = *nlen;
     sac_be(s);
     current = s;
@@ -602,7 +607,7 @@ char *enum_values[] = {
 void
 getihv_internal(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s, int null_terminate) {
     sac *s = NULL;
-    int n = 0;
+    size_t n = 0;
     struct hid *h = NULL;
     int ivalue = -1;
 
@@ -948,7 +953,7 @@ setkhv(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
     v[sizeof(v)-1] = 0;
     n = (h->type == SAC_STRING_TYPE) ? 8 : 16;
     if(kvalue_s <= 0) {
-        kvalue_s = strlen(kvalue);
+        kvalue_s = (int) strlen(kvalue);
     }
     n = (kvalue_s < n) ? kvalue_s : n;
     memcpy(v, kvalue, n);
@@ -993,13 +998,13 @@ setihv(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
     memset(v, ' ', sizeof(v));
     v[8] = 0;
     if(kvalue_s <= 0) {
-        kvalue_s = strlen(kvalue);
+        kvalue_s = (int) strlen(kvalue);
     }
-    n = (kvalue_s < 8) ? kvalue_s : 8;
+    n = (kvalue_s < 8) ? (size_t) kvalue_s : 8;
     memcpy(v, kvalue, n);
     for(i = 0; i < sizeof(enum_values)/sizeof(char *); i++) {
         if(strcasecmp(v, enum_values[i]) == 0) {
-            sac_set_int(s, h->id, i+1);
+            sac_set_int(s, h->id, (int) i+1);
             return;
         }
     }

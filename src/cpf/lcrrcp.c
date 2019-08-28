@@ -34,7 +34,7 @@ lcrrcp(double realmn, double realmx, double *realv1, double *realv2) {
 
     int lcrrcp_v;
     int nerr;
-    float rv;
+    double rv;
     Token *t;
 
     /* - Get real variable from next symbol.

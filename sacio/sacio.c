@@ -250,7 +250,7 @@ sac_f64_new() {
 int
 sac_set_f32(sac *s, int n, double value) {
     switch(n) {
-#define X(name,key)  case SAC_##name: s->h->key = value; break;
+#define X(name,key)  case SAC_##name: s->h->key = (float) value; break;
   SAC_F32
 #undef X
     default:
@@ -279,7 +279,7 @@ sac_set_f32(sac *s, int n, double value) {
 int
 sac_set_f64(sac *s, int n, double value) {
     switch(n) {
-#define X(name,key)  case SAC_##name: s->z->key = value; s->h->key = value; break;
+#define X(name,key)  case SAC_##name: s->z->key = value; s->h->key = (float) value; break;
         SAC_F64
 #undef X
     default:
@@ -361,7 +361,7 @@ sac_get_f64(sac *s, int n, double *v) {
  */
 void
 sac_copy_f64_to_f32(sac *s) {
-#define X(name,key) s->h->key = s->z->key;
+#define X(name,key) s->h->key = (float) s->z->key;
     SAC_F64
 #undef X
 }
@@ -575,16 +575,21 @@ sac_free(sac * s) {
  */
 void
 sac_alloc(sac * s) {
+    size_t n = 0;
     if (!s) {
         return;
     }
     FREE(s->y);
     FREE(s->x);
-    s->y = (float *) malloc(sizeof(float) * s->h->npts);
-    memset(s->y, 0, s->h->npts * sizeof(float));
+    if(s->h->npts <= 0) {
+        return;
+    }
+    n = sizeof(float) * (size_t) s->h->npts;
+    s->y = (float *) malloc(n);
+    memset(s->y, 0, n);
     if (sac_comps(s) == 2) {
-        s->x = (float *) malloc(sizeof(float) * s->h->npts);
-        memset(s->x, 0, s->h->npts * sizeof(float));
+        s->x = (float *) malloc(n);
+        memset(s->x, 0, n);
     }
 }
 
@@ -682,8 +687,8 @@ update_distaz(sac * s) {
          * calculate an output if the input is < 0
          */
         d = a = b = g = 0;
-        fsx = sx;
-        fsy = sy;
+        fsx = (float) sx;
+        fsy = (float) sy;
         distaz(ey, ex,
                (float *) &fsy, (float *) &fsx,
                1,
@@ -764,11 +769,16 @@ sac_meta_copy(sac *to, sac *from) {
  */
 void
 sac_data_copy(sac *to, sac *from) {
+    size_t n = 0;
+    if(from->h->npts <= 0) {
+        return;
+    }
     if(from->y) {
         sac_alloc(to);
-        memcpy(to->y, from->y, sizeof(float) * from->h->npts);
+        n = sizeof(float) * (size_t) from->h->npts;
+        memcpy(to->y, from->y, n);
         if(sac_comps(to) == 2 && from->x) {
-            memcpy(to->x, from->x, sizeof(float) * from->h->npts);
+            memcpy(to->x, from->x, n);
         }
     }
 }
@@ -837,7 +847,7 @@ sac_check_npts(int npts) {
  */
 size_t
 sac_size(sac *s) {
-    return SAC_HEADER_SIZE + (4 * s->h->npts * sac_comps(s));
+    return SAC_HEADER_SIZE + MAX(0,(size_t) (4 * s->h->npts * sac_comps(s)));
 }
 
 
@@ -923,7 +933,7 @@ array_min(float *y, int n) {
     int i = 0;
     float v = y[0];
     for(i = 0; i < n; i++) {
-        v = fmin(v, y[i]);
+        v = fminf(v, y[i]);
     }
     return v;
 }
@@ -946,7 +956,7 @@ array_max(float *y, int n) {
     int i = 0;
     float v = y[0];
     for(i = 0; i < n; i++) {
-        v = fmax(v, y[i]);
+        v = fmaxf(v, y[i]);
     }
     return v;
 }
@@ -972,7 +982,7 @@ array_mean(float *y, int n) {
     for(i = 0; i < n; i++) {
         v += y[i];
     }
-    return v / n;
+    return (float) (v / n);
 }
 
 /**
@@ -1206,7 +1216,7 @@ sac_check_time_precision(sac *s) {
         if(v == SAC_FLOAT_UNDEFINED) {
             continue;
         }
-        if((df = check_precision(dt, v)) != 0) {
+        if((df = check_precision((float) dt, (float) v)) != 0) {
             printf(" WARNING:  minimum precision > sampling rate: %s = %f\n"
                 "       sampling rate (delta):      %f\n"
                 "       32-bit minimum precision:   %f\n",
@@ -1369,7 +1379,7 @@ sac_copy_strings_strip_terminator(sac *s, char *dst) {
  */
 void
 sac_header_write(sac *s, int nun, int swap, int *nerr) {
-    int n;
+    ssize_t n;
     char temp2[256]; // 8*24 = 192; Should be big enough
 
     if (swap) {
@@ -1412,12 +1422,12 @@ sac_header_write(sac *s, int nun, int swap, int *nerr) {
  */
 void
 sac_data_write1(int nun, float *data, int npts, int swap, int *nerr) {
-    size_t n;
+    ssize_t n;
     if (swap) {
         sac_data_swap(data, npts);
     }
-    n = write(nun, data, npts * SAC_DATA_SIZE);
-    if (n != (size_t) npts * SAC_DATA_SIZE) {
+    n = write(nun, data, (size_t) npts * SAC_DATA_SIZE);
+    if (n == -1 || n != npts * (int) SAC_DATA_SIZE) {
         *nerr = ERROR_WRITING_FILE;
         return;
     }
@@ -1506,7 +1516,7 @@ static size_t v7_keys_length = sizeof(v7_keys) / sizeof(int);
  */
 void
 sac_header_write_v7(int nun, sac *s, int *nerr) {
-    size_t n;
+    ssize_t n;
     double buffer[v7_keys_length];
     *nerr = SAC_OK;
 
@@ -1515,7 +1525,7 @@ sac_header_write_v7(int nun, sac *s, int *nerr) {
     }
 
     n = write(nun, buffer, sizeof(buffer));
-    if(n != sizeof(buffer)) {
+    if(n == -1 || (size_t) n != sizeof(buffer)) {
         *nerr = ERROR_WRITING_FILE;
     }
 }
@@ -1535,23 +1545,24 @@ sac_header_write_v7(int nun, sac *s, int *nerr) {
  */
 void
 sac_header_read_v7(FILE *fp, sac *s, int *nerr) {
-    long whence = 0;
-    size_t n;
+    size_t i = 0;
+    long offset = 0;
+    size_t n = 0;
     double buffer[v7_keys_length];
     *nerr = SAC_OK;
 
-    whence = ftell(fp);
-    fseek(fp, SEEK_END, -1 * (int)sizeof(double) * v7_keys_length);
+    offset = ftell(fp);
+    fseek(fp, -1 * (int)(sizeof(double) * v7_keys_length), SEEK_END);
 
     n = fread(buffer, sizeof(double), v7_keys_length, fp);
     if(n != v7_keys_length) {
         *nerr = ERROR_READING_FILE;
         return;
     }
-    for(size_t i = 0; i < v7_keys_length; i++) {
+    for(i = 0; i < v7_keys_length; i++) {
         sac_set_f64(s, v7_keys[i], buffer[i]);
     }
-    fseek(fp, SEEK_SET, whence);
+    fseek(fp, offset, SEEK_SET);
 }
 
 void
@@ -1625,7 +1636,7 @@ sac_write_internal(sac *s, char *filename, int write_data, int swap, int *nerr) 
     }
     switch(s->h->nvhdr) {
     case SAC_HEADER_VERSION_7:  sac_copy_f64_to_f32(s); break;
-    case SAC_HEADER_VERSION_6:  sac_copy_f32_to_f64(s); break;
+    case SAC_HEADER_VERSION_6: break;
     }
     sac_header_write(s, nin, swap, nerr);
     if(*nerr != SAC_OK) {
@@ -1657,13 +1668,17 @@ sac_write_internal(sac *s, char *filename, int write_data, int swap, int *nerr) 
  * @param      s    sac data to read data into
  * @param      fp   file pointer to read data from
  *
+ * @return     0 on success, -1 if npts < 0, ERROR_READING_FILE on read error
  */
 int
 sac_data_read(sac *s, FILE *fp) {
     float *p;
     int i;
     size_t n;
-    n = s->h->npts;
+    if(s->h->npts <= 0) {
+        return -1;
+    }
+    n = (size_t) s->h->npts;
     for(i = 0; i < sac_comps(s); i++) {
         p = (i == 0) ? s->y : s->x ;
         if(fread(p, sizeof(float), n, fp) != n) {
@@ -1910,7 +1925,7 @@ sac_time_to_index(sac *s, double t) {
     double b, dt;
     sac_get_float(s, SAC_B, &b);
     sac_get_float(s, SAC_DELTA, &dt);
-    return lround((t-b)/dt);
+    return (int) lround((t-b)/dt);
 }
 
 
@@ -2191,10 +2206,11 @@ sac_read_with_cut(char *filename,
     sac_alloc(s);
 
     if(skip > 0) {
-        fseek(fp, (size_t) skip * SAC_DATA_SIZE, SEEK_CUR);
+        fseek(fp,  skip * (int) SAC_DATA_SIZE, SEEK_CUR);
     }
     if(nread > 0) {
-        if(fread(s->y + offt, SAC_DATA_SIZE, (size_t) nread, fp) != (size_t) nread) {
+        size_t nr = (size_t) nread;
+        if(fread(s->y + offt, SAC_DATA_SIZE, nr, fp) != nr) {
             *nerr = ERROR_READING_FILE;
             goto error;
         }
@@ -2231,18 +2247,20 @@ sac_read_with_cut(char *filename,
  */
 static void
 cut_data(float *in, int nstart, int nstop, int nfillb, int nfille, float *out) {
-    int out_offset, in_offset, n;
-
+    int out_offset, in_offset;
+    int n;
     /* Number of data points to cut */
     n = nstop - nstart + 1 - MAX(0, nfillb) - MAX(0, nfille);
 
     /* Fill full array with zeros */
-    memset(out, 0, sizeof(float) * (nstop - nstart) + 1);
+    if(nstop - nstart + 1 > 0) {
+        memset(out, 0, sizeof(float) * (size_t) (nstop - nstart) + 1);
+    }
 
     out_offset = nfillb;
     if (n > 0) {
         in_offset = nstart - 1 + nfillb;
-        memcpy(out + out_offset, in + in_offset, n * sizeof(float));
+        memcpy(out + out_offset, in + in_offset, (size_t) n * sizeof(float));
     }
 }
 
@@ -2766,12 +2784,12 @@ sac_set_time(sac *s, timespec64 t) {
     }
     gmtime64_r(&t.tv_sec, &tm);
     s->h->iztype = IO;
-    s->h->nzyear = tm.tm_year + 1900;
+    s->h->nzyear = (int) (tm.tm_year + 1900);
     s->h->nzjday = tm.tm_yday + 1;;
     s->h->nzhour = tm.tm_hour;
     s->h->nzmin  = tm.tm_min;
     s->h->nzsec  = tm.tm_sec;
-    s->h->nzmsec = t.tv_nsec / 1000000;
+    s->h->nzmsec = (int) (t.tv_nsec / 1000000);
     sac_set_float(s, SAC_O, dt);
     for(j = SAC_B; j <= SAC_F; j++) {
         double v = 0.0;
@@ -2934,7 +2952,7 @@ int
 sac_fmt(char *dst, size_t n, const char *fmt, sac *s) {
     int i = 0;
     int j = 0;
-    unsigned char c = 0;
+    char c = 0;
     if(!dst || !fmt || n == 0) {
         return -1;
     }
@@ -2950,42 +2968,42 @@ sac_fmt(char *dst, size_t n, const char *fmt, sac *s) {
         }
         // Format Character
         switch(c = *fmt++) {
-        case 'E': i = sac_strlcat(dst, s->h->kevnm, n);  break;
-        case 'I': i = sac_strlcat(dst, s->h->kinst, n);  break;
-        case 'N': i = sac_strlcat(dst, s->h->knetwk, n); break;
-        case 'S': i = sac_strlcat(dst, s->h->kstnm, n);  break;
-        case 'C': i = sac_strlcat(dst, s->h->kcmpnm, n); break;
-        case 'H': i = sac_strlcat(dst, s->h->khole, n);  break;
+        case 'E': i = (int) sac_strlcat(dst, s->h->kevnm, n);  break;
+        case 'I': i = (int) sac_strlcat(dst, s->h->kinst, n);  break;
+        case 'N': i = (int) sac_strlcat(dst, s->h->knetwk, n); break;
+        case 'S': i = (int) sac_strlcat(dst, s->h->kstnm, n);  break;
+        case 'C': i = (int) sac_strlcat(dst, s->h->kcmpnm, n); break;
+        case 'H': i = (int) sac_strlcat(dst, s->h->khole, n);  break;
         case 'L': {
-            if((j = sac_strlcat(dst, s->h->khole, n)) == i) {
+            if((j = (int) sac_strlcat(dst, s->h->khole, n)) == i) {
                 // No chracters copied, either empty "" or -12345
-                j = sac_strlcat(dst, "--", n);
+                j = (int) sac_strlcat(dst, "--", n);
             }
             i = j;
             break;
         }
         case 'c': {
             if(s->h->cmpinc == 0.0) {
-                i = sac_strlcat(dst, "VERT", n);
+                i = (int) sac_strlcat(dst, "VERT", n);
             } else if(s->h->cmpinc == 90.0) {
-                float az = fmodf(s->h->cmpaz + 360.0, 360.0);
+                float az = (float)fmod((double)s->h->cmpaz + 360.0, 360.0);
                 if(az < 0.0) { az += 360.0; }
 
                 if(fabs(az - 0.0) < 0.1) {
-                    i = sac_strlcat(dst, "NORTH", n);
+                    i = (int) sac_strlcat(dst, "NORTH", n);
                 } else if(fabs(az - 90.0) < 0.1) {
-                    i = sac_strlcat(dst, "EAST", n);
+                    i = (int) sac_strlcat(dst, "EAST", n);
                 } else if(fabs(az - 180.0) < 0.1) {
-                    i = sac_strlcat(dst, "SOUTH", n);
+                    i = (int) sac_strlcat(dst, "SOUTH", n);
                 } else if(fabs(az - 270.0) < 0.1) {
-                    i = sac_strlcat(dst, "WEST", n);
+                    i = (int) sac_strlcat(dst, "WEST", n);
                 } else if(sac_hdr_defined(s, SAC_CMPAZ, SAC_CMPINC, NULL)) {
                     snprintf(dst, n, "%s %4d %4d", dst, (int)round(s->h->cmpaz), (int)round(s->h->cmpinc));
-                    i = strlen(dst);
+                    i = (int) strlen(dst);
                 }
             } else if(sac_hdr_defined(s, SAC_CMPAZ, SAC_CMPINC, NULL)) {
                 snprintf(dst, n, "%s %4d %4d", dst, (int)round(s->h->cmpaz), (int)round(s->h->cmpinc));
-                i = strlen(dst);
+                i = (int) strlen(dst);
             }
         } break;
         case 't': {
@@ -2996,12 +3014,12 @@ sac_fmt(char *dst, size_t n, const char *fmt, sac *s) {
             switch(c = *fmt++) {
             case '0': case '1': case '2': case '3': case '4':
             case '5': case '6': case '7': case '8': case '9':
-                i = sac_floatlcat(dst, s, SAC_T0 + (c - '0'), n);
+                i = (int) sac_floatlcat(dst, s, SAC_T0 + (c - '0'), n);
                 break;
-            case 'b': i = sac_floatlcat(dst, s, SAC_B, n); break;
-            case 'e': i = sac_floatlcat(dst, s, SAC_E, n); break;
-            case 'o': i = sac_floatlcat(dst, s, SAC_O, n); break;
-            case 'a': i = sac_floatlcat(dst, s, SAC_A, n); break;
+            case 'b': i = (int) sac_floatlcat(dst, s, SAC_B, n); break;
+            case 'e': i = (int) sac_floatlcat(dst, s, SAC_E, n); break;
+            case 'o': i = (int) sac_floatlcat(dst, s, SAC_O, n); break;
+            case 'a': i = (int) sac_floatlcat(dst, s, SAC_A, n); break;
             default:
                 printf("Unknown conversion character: %c\n", c);
                 return -1;
@@ -3022,10 +3040,10 @@ sac_fmt(char *dst, size_t n, const char *fmt, sac *s) {
         }
             break;
         case 'Z':
-            i = sac_fmt(dst+i, n-i, "%N.%S.%H.%C", s);
+            i = sac_fmt(dst+i, n - (size_t) i, "%N.%S.%H.%C", s);
             break;
         case 'R':
-            i = sac_fmt(dst+i, n-i, "%N %S %L %C %TB %TE", s);
+            i = sac_fmt(dst+i, n - (size_t) i, "%N %S %L %C %TB %TE", s);
             break;
         case 'T':
             if(*fmt == 0) {
@@ -3035,12 +3053,12 @@ sac_fmt(char *dst, size_t n, const char *fmt, sac *s) {
             switch(c = *fmt++) {
             case '0': case '1': case '2': case '3': case '4':
             case '5': case '6': case '7': case '8': case '9':
-                i = sac_timelcat(dst, s, SAC_T0 + (c - '0'), n);
+                i = (int) sac_timelcat(dst, s, SAC_T0 + (c - '0'), n);
                 break;
-            case 'B': i = sac_timelcat(dst, s, SAC_B, n); break;
-            case 'E': i = sac_timelcat(dst, s, SAC_E, n); break;
-            case 'O': i = sac_timelcat(dst, s, SAC_O, n); break;
-            case 'A': i = sac_timelcat(dst, s, SAC_A, n); break;
+            case 'B': i = (int) sac_timelcat(dst, s, SAC_B, n); break;
+            case 'E': i = (int) sac_timelcat(dst, s, SAC_E, n); break;
+            case 'O': i = (int) sac_timelcat(dst, s, SAC_O, n); break;
+            case 'A': i = (int) sac_timelcat(dst, s, SAC_A, n); break;
             default:
                 printf("Unknown conversion character: %c\n", c);
                 return -1;

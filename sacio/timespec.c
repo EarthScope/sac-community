@@ -357,7 +357,7 @@ atoi64v(char **p, int64_t *pval, int lower, int upper, int scale) {
     if(!scale) {
         *pval = val;
     } else {
-        *pval = val * pow(10, upper-n);
+        *pval = val * (int) pow(10, upper-n);
     }
     return 1;
 }
@@ -420,7 +420,7 @@ atoi64(char **p, int64_t *pval, int lower, int upper) {
 char *
 strptime64(const char *buf, const char *fmt, struct TM *tm, int64_t *ns) {
     int set = 0;
-    unsigned char c;
+    char c;
     int64_t v = 0;
     char *b = NULL;
     if(!buf || !fmt) {
@@ -458,32 +458,32 @@ strptime64(const char *buf, const char *fmt, struct TM *tm, int64_t *ns) {
             break;
         case 'j':
             if(!atoi64(&b, &v, 1, 3)) { return NULL; }
-            tm->tm_yday = v - 1 ;
+            tm->tm_yday = (int) (v - 1) ;
             set |= YDAY_SET;
             break;
         case 'm':
             if(!atoi64(&b, &v, 1, 2)) { return NULL; }
-            tm->tm_mon = v - 1;
+            tm->tm_mon = (int) (v - 1);
             set |= MON_SET;
             break;
         case 'd':
             if(!atoi64(&b, &v, 1, 2)) { return NULL; }
-            tm->tm_mday = v ;
+            tm->tm_mday = (int) v;
             set |= MDAY_SET;
             break;
         case 'H':
             if(!atoi64(&b, &v, 1, 2)) { return NULL; }
-            tm->tm_hour = v ;
+            tm->tm_hour = (int) v;
             set |= HOUR_SET;
             break;
         case 'M':
             if(!atoi64(&b, &v, 1, 2)) { return NULL; }
-            tm->tm_min = v ;
+            tm->tm_min = (int) v;
             set |= MIN_SET;
             break;
         case 'S':
             if(!atoi64(&b, &v, 1, 2)) { return NULL; }
-            tm->tm_sec = v ;
+            tm->tm_sec = (int) v;
             set |= SEC_SET;
             break;
         default:
@@ -608,7 +608,7 @@ size_t
 strftime64(char *dst, size_t n, const char *fmt, struct TM *tm, int64_t ns) {
     int len = 0;
     size_t i = 0;
-    unsigned char c = 0;
+    char c = 0;
 
     if(!dst || !fmt || n == 0) {
         return 0;

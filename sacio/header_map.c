@@ -122,7 +122,7 @@ hash (register const char *str, register size_t len)
       444, 444, 444, 444, 444, 444, 444, 444, 444, 444,
       444, 444, 444, 444, 444, 444
     };
-  register unsigned int hval = len;
+  register unsigned int hval = (unsigned int) len;
 
   switch (hval)
     {

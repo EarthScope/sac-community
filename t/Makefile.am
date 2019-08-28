@@ -333,7 +333,9 @@ testsuite/input/afl_000012.sm \
 testsuite/input/julday2.sm \
 testsuite/input/long_and_high.sm \
 testsuite/input/bbfk.sm \
-testsuite/input/v6v7.sm
+testsuite/input/v6v7.sm \
+testsuite/input/v6v7io.sm \
+testsuite/input/v6v7iosp.sm
 #testsuite/input/event.sm \
 #testsuite/input/station.sm 
 

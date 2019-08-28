@@ -1,0 +1,72 @@
+ wait text off
+  
+ ==>  
+ setbb OUTPUT_FORMAT longE
+ wait text off
+ fg seismo
+ ch t0 (1.0/3.0)
+ ==>  ch t0 3.333333333333333e-01
+ lh b e t0 t1 nvhdr
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+         b = 9.459999084472656e+00
+         e = 1.944999885559082e+01
+        t0 = 3.333333432674408e-01
+     nvhdr = 6
+ write test.v6.sac
+  
+ ==>  
+ ch nvhdr 7
+ lh b e t0 t1 nvhdr
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+         b = 9.459999084472656e+00
+         e = 1.944999886117876e+01
+        t0 = 3.333333333333333e-01
+     nvhdr = 7
+ ch t0 (1.0/3.0)
+ ==>  ch t0 3.333333333333333e-01
+ lh b e t0 t1 nvhdr
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+         b = 9.459999084472656e+00
+         e = 1.944999886117876e+01
+        t0 = 3.333333333333333e-01
+     nvhdr = 7
+  
+ ==>  
+ write test.v7.sac
+ read test.v7.sac
+ lh b e t0 t1 nvhdr
+  
+  
+  FILE: test.v7.sac - 1
+ -----------------
+
+         b = 9.459999084472656e+00
+         e = 1.944999886117876e+01
+        t0 = 3.333333333333333e-01
+     nvhdr = 7
+  
+ ==>  
+ ch nvhdr 6
+ lh b e t0 t1 nvhdr
+  
+  
+  FILE: test.v7.sac - 1
+ -----------------
+
+         b = 9.459999084472656e+00
+         e = 1.944999885559082e+01
+        t0 = 3.333333432674408e-01
+     nvhdr = 6
+ quit

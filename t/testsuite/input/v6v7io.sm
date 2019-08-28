@@ -1,0 +1,20 @@
+
+setbb OUTPUT_FORMAT longE
+wait text off
+fg seismo
+ch t0 (1.0/3.0)
+lh b e t0 t1 nvhdr
+write test.v6.sac
+
+ch nvhdr 7
+lh b e t0 t1 nvhdr
+ch t0 (1.0/3.0)
+lh b e t0 t1 nvhdr
+
+write test.v7.sac
+read test.v7.sac
+lh b e t0 t1 nvhdr
+
+ch nvhdr 6
+lh b e t0 t1 nvhdr
+quit

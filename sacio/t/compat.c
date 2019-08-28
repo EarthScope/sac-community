@@ -42,7 +42,7 @@ main() {
     //printf("leven: %d\n", nlen);
     assert(nlen == 1);
 
-    float v0 = 10.1;
+    float v0 = (float) 10.1;
     float v = v0;
     setfhv("t0", &v, &nerr, -1);
     v = 0.0;

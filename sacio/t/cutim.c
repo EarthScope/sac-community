@@ -32,7 +32,7 @@ main() {
     sac_free(s);
 
     for(i = 1; i < 3; i++) {
-        s = sac_cut(c, "Z", 10.0, "Z", 90.0, i, &nerr);
+        s = sac_cut(c, "Z", 10.0, "Z", 90.0, (enum CutAction) i, &nerr);
         assert_eq(nerr, 0);
         printf("npts: %d\n", s->h->npts);
         assert_eq(s->h->npts, 81);
@@ -45,7 +45,7 @@ main() {
         sac_free(s);
     }
     for(i = 1; i < 3; i++) {
-        s = sac_cut(c, "B", 10.0, "B", 90.0, i, &nerr);
+        s = sac_cut(c, "B", 10.0, "B", 90.0, (enum CutAction) i, &nerr);
         assert_eq(nerr, 0);
         printf("npts: %d\n", s->h->npts);
         assert_eq(s->h->npts, 81);
@@ -165,11 +165,13 @@ main() {
     printf("nerr: %d\n", nerr);
     assert_eq(nerr, ERROR_STOP_TIME_LESS_THAN_BEGIN);
 
+    printf("LINE %d\n", __LINE__);
     s = sac_cut(c, "Z", 110.0, "Z", 130.0, CutFatal, &nerr);
     assert_eq(s, NULL);
     printf("nerr: %d\n", nerr);
     assert_eq(nerr, ERROR_START_TIME_GREATER_THAN_END);
 
+    printf("LINE %d\n", __LINE__);
     s = sac_cut(c, "Z", 10.0, "Z", 11.0, CutUseBE, &nerr);
     printf("nerr: %d\n", nerr);
     assert_eq(nerr, 0);
@@ -185,6 +187,7 @@ main() {
     sac_free(s);
 
     // Start at end
+    printf("LINE %d\n", __LINE__);
     s = sac_cut(c, "Z", 99.49, "Z", 100.2, CutUseBE, &nerr);
     printf("nerr: %d\n", nerr);
     assert_eq(nerr, ERROR_STOP_TIME_GREATER_THAN_END);
@@ -202,6 +205,7 @@ main() {
     sac_free(s);
 
     // Start at end
+    printf("LINE %d\n", __LINE__);
     s = sac_cut(c, "Z", 99.50 - 1e-14, "Z", 100.2, CutUseBE, &nerr);
     printf("nerr: %d\n", nerr);
     assert_eq(nerr, ERROR_STOP_TIME_GREATER_THAN_END);
@@ -220,6 +224,7 @@ main() {
 
 
         // Start slightly < begin
+    printf("LINE %d\n", __LINE__);
     s = sac_cut(c, "Z", -1e-14, "Z", 50.0, CutUseBE, &nerr);
     printf("nerr: %d\n", nerr);
     assert_eq(nerr, 0);
@@ -237,6 +242,7 @@ main() {
     sac_free(s);
 
     // Start slightly < begin
+    printf("LINE %d\n", __LINE__);
     s = sac_cut(c, "Z", -0.49, "Z", 50.0, CutUseBE, &nerr);
     printf("nerr: %d\n", nerr);
     assert_eq(nerr, 0);
@@ -270,7 +276,7 @@ main() {
     assert_eq(s->h->depmax, 0.0);
     sac_free(s);
 
-
+    printf("LINE %d\n", __LINE__);
     // Not floating point numbers
     s = sac_cut(c, "Z", -1.0/0.0, "Z", 10.0, CutUseBE, &nerr);
     assert_eq(nerr, ERROR_START_TIME_GREATER_THAN_STOP);
@@ -572,6 +578,7 @@ main() {
 
 
     // Less than begin, cut at end
+    printf("LINE %d\n", __LINE__);
     s = sac_cut(c, "Z", -10.0, "Z", 90.0, CutFillZero, &nerr);
     printf("nerr: %d\n", nerr);
     assert_eq(nerr, 0);
@@ -590,6 +597,7 @@ main() {
 
 
     // cut at begin, small within data range
+    printf("LINE %d\n", __LINE__);
     s = sac_cut(c, "Z", -1.0, "Z", 1.0, CutFillZero, &nerr);
     printf("nerr: %d\n", nerr);
     assert_eq(nerr, 0);
@@ -608,6 +616,7 @@ main() {
 
 
     // Both < begin
+    printf("LINE %d\n", __LINE__);
     s = sac_cut(c, "Z", -2.0, "Z", -1.0, CutFillZero, &nerr);
     printf("nerr: %d both < begin %p\n", nerr, s);
     assert_eq(nerr, 0);
@@ -627,6 +636,7 @@ main() {
 
 
     // Both > end
+    printf("LINE %d\n", __LINE__);
     s = sac_cut(c, "Z", 102.0, "Z", 103.0, CutFillZero, &nerr);
     printf("nerr: %d\n", nerr);
     assert_eq(nerr, 0);
@@ -646,6 +656,7 @@ main() {
 
 
     // Both > end
+    printf("LINE %d\n", __LINE__);
     s = sac_cut(c, "Z", 101.5, "Z", 101.8, CutFillZero, &nerr);
     printf("nerr: %d\n", nerr);
     assert_eq(nerr, 0);
