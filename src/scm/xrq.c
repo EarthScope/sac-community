@@ -21,8 +21,8 @@ xrq(nerr)
      int *nerr;
 {
     int j, jdfl, jj, nfreq;
-    float fac, freq, recqf;
-
+    float fac, recqf;
+    double freq;
     sac *s;
         /*=====================================================================
 	 * PURPOSE:  To execute the action command RQ.

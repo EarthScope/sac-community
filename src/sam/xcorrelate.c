@@ -73,7 +73,7 @@ xcorrelate(int *nerr) {
     int iwinln, iwinmx, j, jdfl, nfft, nzeros, nlenmx,  /* max npts of all signals */
       nlenMaster,               /* npts of master */
       nlenCombined;             /* nlen + nlenMaster - 1 */
-    float masterBegin;          /* begin time of master.  maf 961204 */
+    double masterBegin;          /* begin time of master.  maf 961204 */
     sac *s;
     float *master, *signal, *corr;
     *nerr = 0;

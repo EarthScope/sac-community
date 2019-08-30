@@ -31,8 +31,9 @@ xplotpm(int *nerr) {
         ylabel[MCMSG + 1];
     int lany, lframesave = 0, lrxlim, lwait, lprint = FALSE, ltry = FALSE;
     int ixplot, iyplot, jdfl, nc, ncret, nplot;
-    float ratio, start, stop, unused, wmax, wmin, xloc, xmax, xmin,
+    float ratio, unused, wmax, wmin, xloc, xmax, xmin,
         yloc, ymax, ymin;
+    double start, stop;
     static char kwait[9] = "Waiting$";
     sac *s, *s2;
     double xvmin, xvmax, yvmin, yvmax;
@@ -166,7 +167,7 @@ xplotpm(int *nerr) {
 
         /* -- Set up Y axis label. */
         if (cmgem.ylabel.on) {
-            fstrncpy(ylabel, MCMSG, kmgem.kylab, strlen(kmgem.kylab));
+            fstrncpy(ylabel, MCMSG, kmgem.kylab, (int)strlen(kmgem.kylab));
         } else {
             lgahdr("KSTCMP", 7, ylabel, MCMSG + 1);
             if (memcmp(ylabel, "UNDEFINED", 9) == 0)
@@ -195,7 +196,7 @@ xplotpm(int *nerr) {
 
         /* -- Set up X axis label if none exists. */
         if (cmgem.xlabel.on) {
-            fstrncpy(xlabel, MCMSG, kmgem.kxlab, strlen(kmgem.kxlab));
+            fstrncpy(xlabel, MCMSG, kmgem.kxlab, (int)strlen(kmgem.kxlab));
         } else {
             lgahdr("KSTCMP", 7, xlabel, MCMSG + 1);
             if (memcmp(xlabel, "UNDEFINED", 9) == 0)

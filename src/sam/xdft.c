@@ -23,7 +23,7 @@ xdft(nerr)
 {
     int jdx, jdfl, jj, nfreq, nlnnew, npts_orig;
 
-    float scalef;
+    double scalef;
     sac *s;
 
     double *re, *im;
