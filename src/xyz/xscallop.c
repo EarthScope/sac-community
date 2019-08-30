@@ -31,7 +31,9 @@ xscallop(nerr)
 {
     int jdfl, *nptslist, numfiles, speclength, specsize, specwidth, nchar;
     int lprint = FALSE, ltry = FALSE;
-    float begin, *deltalist, xmaximum, xminimum, ymaximum, yminimum;
+    float xmaximum, xminimum, ymaximum, yminimum;
+    double begin;
+    double *deltalist = NULL;
     float *sdata, *scdata;
     static double window = 2.0;
     static double slice = 1.0;
@@ -107,8 +109,8 @@ xscallop(nerr)
     *nerr = 0;
     begin = 0.0;
     nptslist = xarray_new_with_len('i', saclen());
-    deltalist = xarray_new_with_len('f', saclen());
-    memset(deltalist, 0, saclen() * sizeof(float));
+    deltalist = xarray_new_with_len('d', saclen());
+    memset(deltalist, 0, saclen() * sizeof(double));
     /* - Loop on each token in command: */
     while (lcmore(nerr)) {
 
