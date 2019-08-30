@@ -150,9 +150,9 @@ struct _XFont {
 struct _XWindow {
     Window win;
     int status;
-    int width;
-    int height;
-    int border;
+    unsigned int width;
+    unsigned int height;
+    unsigned int border;
     GC gc;
 
     int use_buffer;
@@ -181,7 +181,7 @@ struct _XScreen {
     int width;
     int height;
     int screen;
-    int depth;
+    unsigned int depth;
     Window root;
 };
 
@@ -304,7 +304,7 @@ XScreen *xscreen_get();
 #define DEPTH(xw)   ( xw->xscreen->depth )
 
 int xwindow_init(XScreen * xs, XWindow * xw, XWindow * parent, int x, int y,
-                 int width, int height);
+                 unsigned int width, unsigned int height);
 void xwindow_draw(XWindow * xw, void *data);
 void xwindow_fill_background(XWindow * xw);
 void xwindow_double_buffer_free(XWindow * xw);

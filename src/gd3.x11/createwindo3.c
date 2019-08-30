@@ -85,7 +85,7 @@ Cursor cursor;
 
 int
 xwindow_init(XScreen * xs, XWindow * xw, XWindow * parent, int x, int y,
-             int width, int height) {
+             unsigned int width, unsigned int height) {
 
     XGCValues xgcdef;
     unsigned int valuemask, gcmask;
@@ -203,12 +203,18 @@ xwindow_redraw(XWindow * xw) {
 
 void
 xwindow_resize(XWindow * xw, int width, int height, void *data) {
+    unsigned int w = 0, h = 0;
     UNUSED(data);
-    if (width == xw->width && height == xw->height) {
+    if( width <= 0 || height <= 0) {
         return;
     }
-    xw->width = width;
-    xw->height = height;
+    w = (unsigned int) width;
+    h = (unsigned int) height;
+    if (w == xw->width && h == xw->height) {
+        return;
+    }
+    xw->width = w;
+    xw->height = h;
     if (xw->use_buffer) {
         xwindow_double_buffer_new(xw);
         xw->draw(xw, xw->draw_data);
@@ -255,14 +261,20 @@ xwindow_title_draw(XWindow * title, void *data) {
         return;
     }
     make_label3("Graphics Window:  ", index, label);
-    XDrawString(DISPLAY(title), title->win, title->gc, 6, 17, p, strlen(p));
+    XDrawString(DISPLAY(title), title->win, title->gc, 6, 17, p, (int) strlen(p));
 }
 
 void
 xwindow_base_resize(XWindow * xw, int width, int height, void *data) {
     XWindow **kids;
     XWindow *title, *plot;
-    if (width == xw->width && height == xw->height) {
+    unsigned int w = 0, h = 0;
+    if(width <= 0 || height <= 0) {
+        return;
+    }
+    w = (unsigned int) width;
+    h = (unsigned int) height;
+    if (w == xw->width && h == xw->height) {
         return;
     }
 
@@ -270,12 +282,12 @@ xwindow_base_resize(XWindow * xw, int width, int height, void *data) {
     title = kids[0];
     plot = kids[1];
 
-    XMoveResizeWindow(DISPLAY(title), title->win, -title->border,
-                      -title->border, width, title->height);
-    XMoveResizeWindow(DISPLAY(plot), plot->win, -plot->border, title->height,
-                      width, height - title->height - plot->border);
-    xw->width = width;
-    xw->height = height;
+    XMoveResizeWindow(DISPLAY(title), title->win, -(int) title->border,
+                      -(int) title->border, w, title->height);
+    XMoveResizeWindow(DISPLAY(plot), plot->win, -(int)plot->border, (int)title->height,
+                      w, h - title->height - plot->border);
+    xw->width  = w;
+    xw->height = h;
 }
 
 void
@@ -384,9 +396,9 @@ createwindow3(int *win_num, float *xmin_vp, float *xmax_vp, float *ymin_vp,
             XCreateGC(xs->display, SacPixmap,
                       (GCBackground | GCForeground | GCFont), &xgcicon);
         font_info = XQueryFont(xs->display, XGContextFromGC(icongc));
-        stringwid = XTextWidth(font_info, name, strlen(name));
+        stringwid = XTextWidth(font_info, name, (int) strlen(name));
         XDrawString(xs->display, SacPixmap, icongc, 32 - (stringwid >> 1), 59,
-                    name, strlen(name));
+                    name, (int) strlen(name));
         wmhints.icon_pixmap = SacPixmap;
         XSetWMHints(DISPLAY(base), base->win, &wmhints);
     }
@@ -399,10 +411,11 @@ createwindow3(int *win_num, float *xmin_vp, float *xmax_vp, float *ymin_vp,
     XSetWMNormalHints(DISPLAY(base), base->win, sizehints);
     XSetWMProtocols(DISPLAY(base), base->win, &wm_delete_window, 1);
 
+    XStoreName(DISPLAY(base), base->win, "sac");
     /* Title Window */
 
     if (!xwindow_init
-        (xs, title, base, -base->border, -base->border, width_p,
+        (xs, title, base, -(int)base->border, -(int)base->border, width_p,
          title->height)) {
         *nerr = 1;
         return;
@@ -417,7 +430,7 @@ createwindow3(int *win_num, float *xmin_vp, float *xmax_vp, float *ymin_vp,
     /* Plot Window */
 
     if (!xwindow_init
-        (xs, plot, base, -base->border, title->height, width_p, height_p)) {
+        (xs, plot, base, -(int)base->border, (int)title->height, width_p, height_p)) {
         *nerr = 1;
         return;
     }
@@ -425,6 +438,7 @@ createwindow3(int *win_num, float *xmin_vp, float *xmax_vp, float *ymin_vp,
     plot->draw = xwindow_plot_redraw;
     xwindow_set_draw_function(plot, xwindow_plot_redraw, NULL);
 
+    XStoreName(DISPLAY(base), plot->win, "sacplot");
     /* Resizing the Base Window Function */
     kids = (XWindow **) malloc(sizeof(XWindow *) * 2);
     kids[0] = title;
