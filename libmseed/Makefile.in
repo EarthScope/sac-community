@@ -504,12 +504,14 @@ static: $(LIB_A)
 
 # Build static library
 $(LIB_A): $(LIB_OBJS)
-	@echo "Building static library $(LIB_A)"
 	$(RM) -f $(LIB_A)
 	$(AR) -crs $(LIB_A) $(LIB_OBJS)
 
 #test check: static FORCE
 #	@$(MAKE) -C test test
+
+test: check
+check: all
 
 clean:
 	@$(RM) $(LIB_OBJS) $(LIB_LOBJS) $(LIB_A) $(LIB_SO) $(LIB_SO_MAJOR) $(LIB_SO_BASE)
