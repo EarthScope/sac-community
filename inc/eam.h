@@ -46,14 +46,14 @@ struct t_cmeam {
     int nphour;
     int npmin;
     int lpphas;
-    float psecs;
+    double psecs;
     int lsphas;
-    float ssecs;
+    double ssecs;
     int lampx;
     float ampx;
     float prx;
     int lfini;
-    float fmp;
+    double fmp;
     int lapfop;
     FILE *napfun;
     float pkcmpa;

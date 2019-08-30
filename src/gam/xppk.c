@@ -53,13 +53,15 @@ xppk(int *nerr) {
         jmark, jmark1, jmark2, jmin, jmsec, jofset, jsec, jwin, jyear, ncerr,
         ndxpk, nexday, nfr, nlncda, nperfr, npmark, npmsec, npsec,
         nsavelast = 0, nst, unused;
-    float amplmn, amplmx, facc, fsecsi, prl, psecsi, seccur, secinc = 0.0, ssecsi,
+    float xtpos, ytpos, xloc, yloc;
+    double amplmn, amplmx, facc, prl, seccur,
         time, tminew = 0.0, tref1, twin[MWIN][2],
-        xloc, xloc1, xloc2, xtpos, *yimnzs, *yimxzs, yloc,
-        ypdel, ypdelv, ypmns, ypmnv, ypmxs, ypmxus, ypmxv, ytpos;
+        xloc1, xloc2, *yimnzs, *yimxzs,
+        ypdel, ypdelv, ypmns, ypmnv, ypmxs, ypmxus, ypmxv;
     double tmp, tmin, tmax;
     double *toff = NULL;
     double xlocs1, xlocs2;
+    double fsecsi, psecsi, ssecsi, secinc = 0.0;
     sac *s;
     int j;
     static char kndate[25] = "                        ";
@@ -776,7 +778,7 @@ xppk(int *nerr) {
     /* -- Characterize first arrival. */
     else if (kchar == 'C') {
         ndxpk = 1 + (int) ((secinc - B(s)) / DT(s) + 0.9);
-        pkchar(s->y, s->h->npts, DT(s), ndxpk, &ktype, &kdir, &kqual);
+        pkchar(s->y, s->h->npts, (float) 0.0, ndxpk, &ktype, &kdir, &kqual);
 
         fstrncpy(kmeam.kpkid, 8, (char *) &ktype, 1);
         fstrncpy(kmeam.kpkid + 1, 8 - 1, "P", 1);
