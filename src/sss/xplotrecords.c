@@ -51,7 +51,7 @@ xplotrecords(nerr)
     int kdx, kdx_, ioffsetdta, ioffsettw, jdx, jdfl, jvr, nferr, notused,
         numplot, nvr;
     float angle, atime, delay, delsiz, dgscale, dstchn, dstmn, dstmx, dvr,
-        fudge, rdist, rosetp, unused, unused_, vbigr, vr, vspaceratio,
+        fudge, rdist, rosetp, unused, vbigr, vr, vspaceratio,
         xaxlen = 0.0, xbp, xep, xfac = 0.0, xpdel = 0.0, xpllen, xpmid = 0.0 , xpmnsv = 0.0 , xpmxsv = 0.0, xttint,
         xwloc, yaxlen = 0.0, ybp, yep, ypllen, yttint, ywloc;
     float ypmnsv = 0.0, ypmxsv = 0.0, ypmid = 0.0, yfac = 0.0, ypdel = 0.0 , ypmidu = 0.0;

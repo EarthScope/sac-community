@@ -370,7 +370,8 @@ dispatchevent3(int *nerr) {
             case ConfigureNotify:
                 {
                     XConfigureEvent *e = (XConfigureEvent *) pevent;
-                    if(xw->width != e->width || xw->height != e->height) { // Window Resize Event
+                    if((int) xw->width  != e->width ||
+                       (int) xw->height != e->height) { // Window Resize Event
                         char_cursor3[0] = (char) ACK_CHAR;
                         cursor_on3 = FALSE;
                     }

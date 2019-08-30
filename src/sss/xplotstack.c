@@ -34,7 +34,7 @@ xplotstack(nerr)
     int lactive, lany, lwait, lframs = 0;
     int ioffsetdta, ioffsettw, jdfl, jdfl1, jdfl2, jfr, jloc, ncret, nfr,
         nperfr, numplot;
-    float delay, factor, unused, unused_, xwloc, ypdel, ypmxsv, ywloc;
+    float delay, factor, unused, xwloc, ypdel, ypmxsv, ywloc;
     static char kwait[9] = "Waiting$";
     char *tmp;
     sac *s;
