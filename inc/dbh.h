@@ -44,7 +44,7 @@ void fft_dbh(float *xreal, float *ximag, int n, int idir);
 void firtrn(char *ftype, float *x, int n, float *buffer, float *y);
 void gauss(int *seed, float *v1, float *v2);
 void getResponse(float *array, int order, float gain, char *kprefix, int npts,
-                 float delta, int *nerr);
+                 double delta, int *nerr);
 void iirfilter(float *data, int nsamples, float *a, float *sn, float *sd,
                int nsects, float *states, float *fdata);
 void inspect(int iord, char *type, char *aproto, double att, double trbndw,

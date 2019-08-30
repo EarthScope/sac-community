@@ -12,8 +12,6 @@
 
 ICM_EXTERN
 
-void getResponse(float *array, int order, float gain, char *kprefix, int npts,
-                 float delta, int *nerr);
 /*                                                           PREWIT
  *
  *  Prewhitens an input sequence in-place.  Uses a low-order prediction error
@@ -53,7 +51,7 @@ void getResponse(float *array, int order, float gain, char *kprefix, int npts,
 #define	NCMAX	12
 
 void
-prewit(float data[], int nsamps, float delta, int *order, float array[],
+prewit(float data[], int nsamps, double delta, int *order, float array[],
        char *kprefix, char *errmsg) {
     char temp[51];
     int idx, jdx, j2, kdx, kb, torder;

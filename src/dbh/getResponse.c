@@ -102,7 +102,7 @@
  */
 void
 getResponse(float *array, int order, float gain, char *kprefix, int npts,
-            float delta, int *nerr) {
+            double delta, int *nerr) {
     int idx, jdx, kdx;
     const float pi = 3.14159265;
     float userData[10];

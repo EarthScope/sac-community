@@ -179,7 +179,7 @@ void portable(int nfreq, double delfrq, double xre[], double xim[],
               double freepd, double damp, double crfrq);
 void predfl(float data[], int npts, float a[], int nc, float result[],
             char *errmsg);
-void prewit(float data[], int nsamps, float delta, int *order, float array[],
+void prewit(float data[], int nsamps, double delta, int *order, float array[],
             char *kprefix, char *errmsg);
 void ptbllp(int nfreq, double delfrq, double xre[], double xim[]);
 void redkir(int nfreq, double delfrq, double xre[], double xim[]);
