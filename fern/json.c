@@ -155,7 +155,7 @@ cjson_int(const cJSON *root, int *v, ...) {
         *v = cur->valueint;
     } else if(cJSON_IsString(cur)) {
         char *endptr = NULL;
-        *v = strtol(cur->valuestring, &endptr, 10);
+        *v = (int) strtol(cur->valuestring, &endptr, 10);
         return (endptr == NULL || strlen(endptr) == 0);
     } else {
 

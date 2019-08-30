@@ -37,7 +37,7 @@
  */
 int
 read_miniseed_file(MS3TraceList *mst3k, char *file) {
-    int verbose = 0;
+    int8_t verbose = 0;
     uint32_t flags     = MSF_SKIPNOTDATA | MSF_UNPACKDATA | MSF_VALIDATECRC ;
     MS3Tolerance tolerance;
     tolerance.time     = NULL; // time_tolerance_func;
@@ -66,19 +66,19 @@ read_miniseed_file(MS3TraceList *mst3k, char *file) {
  *
  * @return     1 on success, 0 on failure
  */
-int
+int64_t
 read_miniseed_memory(MS3TraceList *mst3k, char *buffer, uint64_t len) {
-    int verbose = 0;
+    int8_t verbose = 0;
     uint32_t flags     = MSF_SKIPNOTDATA | MSF_UNPACKDATA | MSF_VALIDATECRC ;
     MS3Tolerance tolerance;
     tolerance.time     = NULL; // time_tolerance_func;
     tolerance.samprate = NULL; // samprate_tolerance_func;
     int8_t split_version = 0;
-    int retcode = mstl3_readbuffer(&mst3k, buffer, len,
+    int64_t retcode = mstl3_readbuffer(&mst3k, buffer, len,
                                    split_version, flags, &tolerance,
                                    verbose);
     if(retcode < 0) {
-        printf("Error reading from memory[%d]: %s\n", retcode, ms_errorstr(retcode));
+        printf("Error reading from memory[%lld]: %s\n", retcode, ms_errorstr((int)retcode));
     }
     return retcode;
 }
@@ -101,8 +101,8 @@ read_miniseed_memory(MS3TraceList *mst3k, char *buffer, uint64_t len) {
  */
 sac **
 miniseed_trace_list_to_sac(MS3TraceList *mst3k) {
-    int verbose = 0;
-    int gaps = 1;
+    int8_t verbose = 0;
+    int8_t gaps = 1;
     sac **out = NULL;
     if(mst3k->numtraces == 0) {
         return NULL;
@@ -130,7 +130,7 @@ miniseed_trace_list_to_sac(MS3TraceList *mst3k) {
 
                 s = sac_new();
                 sac_set_float(s, SAC_DELTA, 1.0 / seg->samprate);
-                s->h->npts = seg->numsamples;
+                s->h->npts = (int) seg->numsamples;
                 s->h->leven = TRUE;
                 s->h->iftype = ITIME;
 
@@ -146,7 +146,8 @@ miniseed_trace_list_to_sac(MS3TraceList *mst3k) {
 
                 nstime_t dt = seg->starttime - ms_time2nstime(s->h->nzyear, s->h->nzjday,
                                                               s->h->nzhour, s->h->nzmin,
-                                                              s->h->nzsec, s->h->nzmsec * 1000000);
+                                                              s->h->nzsec,
+                                                              (uint32_t) s->h->nzmsec * 1000000);
                 sac_set_float(s, SAC_B, (double) dt / (double)NSTMODULUS);
 
                 asprintf(&s->m->filename,
@@ -156,9 +157,9 @@ miniseed_trace_list_to_sac(MS3TraceList *mst3k) {
                          s->h->nzhour, s->h->nzmin, s->h->nzsec);
 
                 // Data
-                s->y = calloc(s->h->npts, sizeof(float));
+                s->y = calloc((size_t) s->h->npts, sizeof(float));
                 switch(seg->sampletype) {
-                case 'f': memcpy(s->y, seg->datasamples, sizeof(float) * s->h->npts); break;
+                case 'f': memcpy(s->y, seg->datasamples, sizeof(float) * (size_t) s->h->npts); break;
                 case 'd': {
                     double *data = (double *) seg->datasamples;
                     for(int j = 0; j < seg->numsamples; j++) {

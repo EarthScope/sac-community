@@ -879,15 +879,15 @@ void clear_line() {
  */
 char *
 data_size(int64_t bytes, char *out, size_t n) {
-    float kib = 1024.0;
+    double kib = 1024.0;
     char *unit[] = { "bytes", "KiB", "MiB", "GiB", "TiB", "PiB" };
-    float B[] = { 1, pow(kib,1), pow(kib,2), pow(kib,3), pow(kib,4), pow(kib,5) };
+    double B[] = { 1, pow(kib,1), pow(kib,2), pow(kib,3), pow(kib,4), pow(kib,5) };
     if(bytes < 0) {
         bytes = 0;
     }
     for(int i = 5; i >= 0; i--) {
         if(bytes >= B[i]) {
-            snprintf(out, n, "%6.2f %s", (float)bytes/B[i], unit[i]);
+            snprintf(out, n, "%6.2f %s", (double)bytes/B[i], unit[i]);
             return out;
         }
     }
@@ -1371,7 +1371,7 @@ result_init(result *r) {
 void
 result_from_curl(result *r, int code, char *data, size_t n) {
     /* Check for errors */
-    r->code = code;
+    r->code = (CURLcode) code;
     if(r->code != CURLE_OK) {
         r->error = curl_easy_strerror(r->code);
     } else {
@@ -1460,7 +1460,7 @@ result_write_to_file_show(result *r, char *file) {
     char *out = result_write_to_file(r, file);
     cprintf("green",
             "Writing data to %s [%s]\n", out,
-            data_size(result_len(r),tmp,sizeof(tmp)));
+            data_size((int64_t)result_len(r),tmp,sizeof(tmp)));
     FREE(out);
 }
 

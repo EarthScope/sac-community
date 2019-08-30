@@ -310,7 +310,7 @@ xpath_len(xmlXPathObject* res) {
     if(!res || !res->nodesetval) {
         return 0;
     }
-    return res->nodesetval->nodeNr;
+    return (size_t) res->nodesetval->nodeNr;
 }
 
 /**
@@ -436,7 +436,7 @@ create_new_context(xmlDoc *doc) {
  */
 xmlDoc*
 xml_init_doc(char *data, size_t ndata) {
-    xmlDoc *doc = xmlReadMemory(data, ndata, "noname.xml", NULL, 0);
+    xmlDoc *doc = xmlReadMemory(data, (int) ndata, "noname.xml", NULL, 0);
     if (doc == NULL) {
         fprintf(stderr, "Failed to parse document\n");
         return NULL;

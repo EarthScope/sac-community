@@ -21,8 +21,6 @@ AC_SEARCH_LIBS([sac_read], [sacio_bsd], [], [
          AC_MSG_ERROR([unable to find the sac_read() function])
 ])
 
-AM_CONDITIONAL([RUN_TESTS], [1])
-
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
 

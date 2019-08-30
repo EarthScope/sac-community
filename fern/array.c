@@ -119,7 +119,7 @@ xarray_length(void *a) {
     if (!(ah = xarray_header(a))) {
         return 0;
     }
-    return ah->len;
+    return (int) ah->len;
 }
 /**
  * @brief Create a new xarray list with a length of type t
@@ -320,7 +320,8 @@ xarray_append(void *a, ...) {
  */
 void
 xarray_delete(void *a, int i) {
-    int n;
+    size_t n = 0;
+    size_t ui = 0;
     struct xarray_header *ah;
     if (!(ah = xarray_header(a))) {
         return;
@@ -329,8 +330,9 @@ xarray_delete(void *a, int i) {
         printf("xarray: attempt to delete a non-existant value\n");
         return;
     }
-    n = ah->len - 1 - i;
-    memmove((pointer) a + ah->size * i, (pointer) a + ah->size * (i + 1),
+    ui = (size_t) i;
+    n = ah->len - 1 - ui;
+    memmove((pointer) a + ah->size * (size_t) i, (pointer) a + ah->size * (ui + 1),
             ah->size * n);
     ah->len--;
 }
@@ -371,7 +373,7 @@ xarray_pop(void *a) {
     if (!(ah = xarray_header(a))) {
         return;
     }
-    xarray_delete(a, ah->len - 1);
+    xarray_delete(a, (int)ah->len - 1);
 }
 /**
  * @brief Sort a xarray list base on the compare function
@@ -416,7 +418,7 @@ xarray_free_items(void *a, void (*free_data) (void *) ) {
     if(ah->type != 'p') {
         return;
     }
-    for(int i = 0; i < xarray_length(a); i++) {
+    for(size_t i = 0; i < (size_t) xarray_length(a); i++) {
         free_data( *(void **) xarray_index(a, i) );
     }
 }

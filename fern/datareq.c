@@ -450,9 +450,9 @@ data_avail_from_station_file(request *r, char *file) {
  *
  * @note Values are approximate
  */
-float
+double
 band_to_sps(char band) {
-    float sps = 1.0;
+    double sps = 1.0;
     switch(band) {
     case 'F': sps =1000.0;     break;
     case 'G': sps =1000.0;     break;
@@ -719,10 +719,10 @@ breq_fast_time_split(breq_fast_line *x, breq_fast *r, size_t mem1, size_t max) {
     breq_fast **new = xarray_new('p');
     //t1 = x->t1;
     //t2 = x->t2;
-    float nr = ceil( (float)mem1 / (float)max );
+    double nr = ceil( (float)mem1 / (float)max );
     int64_t ts = x->t2.tv_sec - x->t1.tv_sec;
     //printf("%f :: %f %lld\n", (float)ts/nr, nr*ceil((float)ts/nr), ts);
-    int64_t dt = ceil((float) ts / nr);
+    int64_t dt = (int64_t) ceil((double) ts / nr);
     x->t2 = x->t1;
 
     int64_t t = 0;
@@ -923,7 +923,7 @@ data_request_download(data_request *fdr, char *filename, char *prefix,
                     mst3k = mstl3_init(NULL);
                 }
                 read_miniseed_memory(mst3k, result_data(fr),
-                                     (int64_t) result_len(fr));
+                                     (uint64_t) result_len(fr));
             }
         } else if (result_http_code(fr) == 204) {
             cprintf("red,bold", "No data available\n");
@@ -1203,7 +1203,7 @@ breq_fast_line_parse(char *line, breq_fast_line *x) {
  */
 size_t
 breq_fast_line_size(breq_fast_line *x) {
-    float sps   = 0.0;
+    double sps   = 0.0;
     int64_t sec = 0.0;
     sec = x->t2.tv_sec - x->t1.tv_sec;
     sps = band_to_sps(x->cha[0]);

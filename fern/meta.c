@@ -183,7 +183,7 @@ int
 station_xml_get_float(xml *x, sac *s, int which, float *value) {
     double v = 0.0;
     int retval = station_xml_get_double(x, s, which, &v);
-    *value = v;
+    *value = (float) v;
     return retval;
 }
 
@@ -605,7 +605,7 @@ sac_array_fill_meta_data_from_file(sac **files, int verbose, char *file) {
                         sac_show_string(s, fields[k], f);
                     }
                 } else {
-                    float v = 0.0;
+                    double v = 0.0;
                     v = strtod(m->key[k], &endptr);
                     if(f == SAC_CMPINC) {
                         v += seed_cmpinc;

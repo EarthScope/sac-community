@@ -83,8 +83,8 @@ unsigned int
 hash(dict * d, char *s) {
     unsigned hashval;
     for (hashval = 0; *s != '\0'; s++)
-        hashval = *s + 31 * hashval;
-    return hashval % d->hashsize;
+        hashval = (unsigned int) *s + 31 * hashval;
+    return hashval % (unsigned int) d->hashsize;
 }
 
 /**
@@ -101,8 +101,8 @@ hash(dict * d, char *s) {
  */
 dict_entry **
 dict_entry_alloc(int size) {
-    dict_entry **de = (dict_entry **) malloc(sizeof(dict_entry *) * size);
-    memset(de, 0, sizeof(dict_entry *) * size);
+    dict_entry **de = (dict_entry **) malloc(sizeof(dict_entry *) * (size_t) size);
+    memset(de, 0, sizeof(dict_entry *) * (size_t) size);
     return de;
 }
 
@@ -124,7 +124,7 @@ dict_new_with_length(int n) {
     if (d) {
         d->used = 0;
         d->hashsize = prime_larger(n);
-        d->resize = 0.80;
+        d->resize = (float) 0.80;
         d->hashtab = dict_entry_alloc(d->hashsize);
     }
     return d;
@@ -407,7 +407,7 @@ dict_keys(dict * d) {
     if (!d) {
         return NULL;
     }
-    keys = (char **) malloc(sizeof(char *) * (d->used + 1));
+    keys = (char **) malloc(sizeof(char *) * (size_t) (d->used + 1));
     for (j = 0, i = 0; i < d->hashsize; i++) {
         e = d->hashtab[i];
         while (e) {

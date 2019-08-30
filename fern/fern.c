@@ -88,7 +88,7 @@ main(int argc, char *argv[]) {
     char request_file[2048] = {0};
     char output[2048] = {0};
     char cat[16] = {0};
-    size_t chunk_size = 200.0 * 1024.0 * 1024.0 ; // Request size in MB
+    size_t chunk_size = 200 * 1024 * 1024 ; // Request size in MB
     fern_strlcat(prefix, "fdsnws", sizeof(prefix));
 
 
@@ -187,7 +187,7 @@ main(int argc, char *argv[]) {
             fern_strlcpy(prefix, optarg, sizeof(prefix));
             break;
         case 'M':
-            chunk_size = atof(optarg) * 1024.0 * 1024.0;
+            chunk_size = (size_t)(atof(optarg) * 1024 * 1024);
             break;
         case 'n':
             request_set_arg(r, "net", arg_string_new(optarg));
@@ -348,7 +348,7 @@ main(int argc, char *argv[]) {
             for(size_t i = 0; i < xarray_length(out); i++) {
                 update_distaz(out[i]);
                 cprintf("green", "\tWriting data to %s [%s]\n",
-                        out[i]->m->filename, data_size(sac_size(out[i]),tmp,sizeof(tmp)));
+                        out[i]->m->filename, data_size((int64_t) sac_size(out[i]),tmp,sizeof(tmp)));
                 sac_write(out[i], out[i]->m->filename, &nerr);
             }
         }

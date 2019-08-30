@@ -7,7 +7,7 @@
 
 #include "event.h"
 
-int read_miniseed_memory(MS3TraceList *mst3k, char *buffer, uint64_t len);
+int64_t read_miniseed_memory(MS3TraceList *mst3k, char *buffer, uint64_t len);
 sac ** miniseed_trace_list_to_sac(MS3TraceList *mst3k);
 int read_miniseed_file(MS3TraceList *mst3k, char *file);
 

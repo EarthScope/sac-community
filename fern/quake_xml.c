@@ -310,7 +310,7 @@ quake_xml_parse(char *data, size_t data_len, int verbose, char *cat) {
         printf("   Parsing %zu events\n", xpath_len(evs));
     }
     n = xpath_len(evs);
-    out = xarray_new_with_len('p', n);
+    out = xarray_new_with_len('p', (int) n);
     for(size_t i = 0; i < n; i++) {
         char eid[EVENTID_LEN] = {0};
         xmlNode *base = NULL;
