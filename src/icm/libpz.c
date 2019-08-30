@@ -1384,13 +1384,13 @@ remove_polezero_simple__(float *data, int *n, float *dt, double *limits) {
  *   0/False otherwise
  *
  */
-int isclosef_par(float a, float b, float atol, float rtol) {
+int isclosef_par(double a, double b, double atol, double rtol) {
     return fabs(a-b) <= atol + rtol * fabs(b);
 }
-int isclosef_par_(float *a, float *b, float *atol, float *rtol) {
+int isclosef_par_(double *a, double *b, double *atol, double *rtol) {
     return isclosef_par(*a,*b,*atol,*rtol);
 }
-int isclosef_par__(float *a, float *b, float *atol, float *rtol) {
+int isclosef_par__(double *a, double *b, double *atol, double *rtol) {
     return isclosef_par(*a,*b,*atol,*rtol);
 }
 /**
@@ -1404,9 +1404,9 @@ int isclosef_par__(float *a, float *b, float *atol, float *rtol) {
  *   1/True if |a-b| <= 1e-8 + 1e-5 * |b|
  *   0/False otherwise
  */
-int isclosef  (float  a, float  b) { return isclosef_par( a,  b, ATOL, RTOL); }
-int isclosef_ (float *a, float *b) { return isclosef_par(*a, *b, ATOL, RTOL); }
-int isclosef__(float *a, float *b) { return isclosef_par(*a, *b, ATOL, RTOL); }
+int isclosef  (double  a, double  b) { return isclosef_par( a,  b, ATOL, RTOL); }
+int isclosef_ (double *a, double *b) { return isclosef_par(*a, *b, ATOL, RTOL); }
+int isclosef__(double *a, double *b) { return isclosef_par(*a, *b, ATOL, RTOL); }
 
 /**
  * Detemine if two arrays are close in value
@@ -1425,7 +1425,7 @@ int isclosef__(float *a, float *b) { return isclosef_par(*a, *b, ATOL, RTOL); }
  *
  */
 int
-allclosef_par(float *a, float *b, int n, float atol, float rtol) {
+allclosef_par(float *a, float *b, int n, double atol, double rtol) {
     int i;
     for(i = 0; i < n; i++) {
         if(! isclosef_par(a[i], b[i], atol, rtol)) {
@@ -1499,13 +1499,13 @@ sac_compare(char *file, float *y, int n, double b, double dt) {
 }
 
 int
-sac_compare_(char *file, float *y, int *n, float *b, float *dt, int file_s) {
+sac_compare_(char *file, float *y, int *n, double *b, double *dt, int file_s) {
     char *file_c = fstrdup(file, file_s);
     int retval = sac_compare(file_c, y, *n, *b, *dt);
     FREE(file_c);
     return retval;
 }
 int
-sac_compare__(char *file, float *y, int *n, float *b, float *dt, int file_s) {
+sac_compare__(char *file, float *y, int *n, double *b, double *dt, int file_s) {
     return sac_compare_(file, y, n, b, dt, file_s);
 }
