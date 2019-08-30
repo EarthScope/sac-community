@@ -22,7 +22,7 @@
 
 SCM_EXTERN
 
-float geteps(float y[], int nlen, float dx);
+float geteps(float y[], int nlen, double dx);
 float geteps_xy(float y[], int nlen, float x[]);
 int okdf(float x[], int nlen);
 
@@ -31,7 +31,8 @@ xinterpolate(nerr)
      int *nerr;
 {
     int jdfl, newlen, nincr;
-    float xstart, xstop, eps;
+    float eps;
+    double xstart, xstop;
 
     sac *s;
     float *new;
@@ -186,7 +187,7 @@ xinterpolate(nerr)
             printf("WARNING potential for aliasing. "
                    "new delta: %f data delta: %f\n", cmscm.dtnew, DT(s));
         }
-        new = (float *) malloc(sizeof(float) * newlen);
+        new = (float *) malloc(sizeof(float) * (size_t) newlen);
         /*  Calculate epsilon */
         if (s->h->leven) {
             eps = geteps(s->y, s->h->npts, DT(s));

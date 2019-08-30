@@ -5,10 +5,10 @@
 #include "co.h"
 
 void
-wigint(float x[], float y[], int npts, double dx, double epsi, double t,
+wigint(float x[], float y[], int npts, double dx, double b, double epsi, double t,
        float *f) {
     int j, n1;
-    float a, am, amd, amu, dxd, dxj, dxj1, dxj1s, dxjs, dxu, dy, dyd, dyu, h,
+    double a, am, amd, amu, dxd, dxj, dxj1, dxj1s, dxjs, dxu, dy, dyd, dyu, h,
         hc, hs, sp, sp1, t1, t2, t3, t4, w, wd, wu;
 
     float *const X = &x[0] - 1;
@@ -42,8 +42,8 @@ wigint(float x[], float y[], int npts, double dx, double epsi, double t,
 	 *===================================================================== */
     if (dx == 0.)
         goto L_10;
-    j = (int) ((t - X[1]) / dx);
-    dxj = t - X[1] - (float) (j) * dx;
+    j = (int) ((t - b) / dx);
+    dxj = t - b - (double) (j) * dx;
     j = j + 1;
     if (dxj == 0.)
         goto L_99;
@@ -107,7 +107,7 @@ wigint(float x[], float y[], int npts, double dx, double epsi, double t,
     t2 = Y[j + 1] * (dxjs / hs - 2. * dxj1 * dxjs / hc);
     t3 = sp * dxj * dxj1s / hs;
     t4 = sp1 * dxjs * dxj1 / hs;
-    *f = t1 + t2 + t3 + t4;
+    *f = (float) (t1 + t2 + t3 + t4);
     goto L_100;
   L_99:
     *f = Y[j];

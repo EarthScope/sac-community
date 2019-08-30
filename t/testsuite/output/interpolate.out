@@ -102,8 +102,8 @@ WARNING potential for aliasing. new delta: 0.590625 data delta: 0.010000
 
        npts = 17
       delta = 5.906249e-01
-     depmin = -7.451532e-01
-     depmax = -2.290585e-02
+     depmin = -7.451590e-01
+     depmax = -2.290378e-02
           b = 1.000000e+01
           e = 1.945000e+01
   
@@ -119,4 +119,76 @@ WARNING potential for aliasing. new delta: 0.590625 data delta: 0.010000
  interpolate delta 1.0
  ERROR 2012: Interpolate data dx not positive: j: 4 x[j]: 5 x[j+1] 5
 
+  
+ ==>  
+ readtable free content xy test_interpolate2.sac
+ lh depmin depmax depmin npts
+  
+  
+  FILE: test_interpolate2.sac - 1
+ ---------------------------
+
+     depmin = -2.000000e+00
+     depmax = 1.000000e+01
+     depmin = -2.000000e+00
+       npts = 10
+ interpolate delta 1.0
+ lh depmin depmax depmin npts
+  
+  
+  FILE: test_interpolate2.sac - 1
+ ---------------------------
+
+     depmin = -2.000000e+00
+     depmax = 1.000000e+01
+     depmin = -2.000000e+00
+       npts = 9
+  
+ ==>  
+ readtable free content xy test_interpolate2.sac
+ lh depmin depmax depmin npts
+  
+  
+  FILE: test_interpolate2.sac - 1
+ ---------------------------
+
+     depmin = -2.000000e+00
+     depmax = 1.000000e+01
+     depmin = -2.000000e+00
+       npts = 10
+ interpolate delta 0.5
+ lh depmin depmax depmin npts
+  
+  
+  FILE: test_interpolate2.sac - 1
+ ---------------------------
+
+     depmin = -2.000000e+00
+     depmax = 1.000000e+01
+     depmin = -2.000000e+00
+       npts = 18
+  
+ ==>  
+ readtable free content xy test_interpolate2.sac
+ lh depmin depmax depmin npts
+  
+  
+  FILE: test_interpolate2.sac - 1
+ ---------------------------
+
+     depmin = -2.000000e+00
+     depmax = 1.000000e+01
+     depmin = -2.000000e+00
+       npts = 10
+ interpolate delta 0.543543
+ lh depmin depmax depmin npts
+  
+  
+  FILE: test_interpolate2.sac - 1
+ ---------------------------
+
+     depmin = -1.436918e+00
+     depmax = 9.899883e+00
+     depmin = -1.436918e+00
+       npts = 17
  quit

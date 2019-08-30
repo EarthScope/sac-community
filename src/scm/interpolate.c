@@ -3,35 +3,35 @@
 #include "scm.h"
 
 void
-interp(float *in, int nlen, float *out, int newlen, float bval, float eval,
-       float dt, float tstart, float dtnew, float eps) {
+interp(float *in, int nlen, float *out, int newlen, double bval, double eval,
+       double dt, double tstart, double dtnew, float eps) {
     int j;
-    float xnew;
+    double xnew;
     for (j = 0; j <= (newlen - 1); j++) {
         xnew = tstart + (j * dtnew);
         if (xnew >= bval && xnew <= eval) {
-            wigint((float *) &bval, in, nlen, dt, eps, xnew, &out[j]);
+            wigint(0, in, nlen, dt, bval, eps, xnew, &out[j]);
         }
     }
 }
 
 void
-interp2(float *in, int nlen, float *out, int newlen, float bval, float eval,
-        float *t, float tstart, float dtnew, float eps) {
+interp2(float *in, int nlen, float *out, int newlen, double bval, double eval,
+        float *t, double tstart, double dtnew, float eps) {
     int j;
-    float xnew;
+    double xnew;
     for (j = 0; j < newlen; j++) {
         xnew = tstart + (j * dtnew);
         if (xnew >= bval && xnew <= eval) {
-            wigint(t, in, nlen, 0.0, eps, xnew, &out[j]);
+            wigint(t, in, nlen, 0.0, 0.0, eps, xnew, &out[j]);
         }
     }
 }
 
 
 float
-geteps(float y[], int nlen, float dx) {
-    float avrat, eps;
+geteps(float y[], int nlen, double dx) {
+    double avrat, eps;
     int j;
 
     /*  Calculate epsilon */
@@ -40,12 +40,12 @@ geteps(float y[], int nlen, float dx) {
         avrat = avrat + fabs((y[j + 1] - y[j]) / dx);
     }
     eps = 0.0001 * avrat / (nlen - 1);
-    return (eps);
+    return (float) (eps);
 }
 
 float
 geteps_xy(float y[], int nlen, float x[]) {
-    float avrat, eps;
+    double avrat, eps;
     int j;
 
     /*  Calculate epsilon */
@@ -54,31 +54,31 @@ geteps_xy(float y[], int nlen, float x[]) {
         avrat = avrat + fabs((y[j + 1] - y[j]) / (x[j + 1] - x[j]));
     }
     eps = 0.0001 * avrat / (nlen - 1);
-    return (eps);
+    return (float) (eps);
 }
 
 
 void
-interp_(float *in, int *nlen, float *out, int *newlen, float *bval, float *eval,
-        float *dt, float *tstart, float *dtnew, float *eps) {
+interp_(float *in, int *nlen, float *out, int *newlen, double *bval, double *eval,
+        double *dt, double *tstart, double *dtnew, float *eps) {
     interp(in, *nlen, out, *newlen, *bval, *eval, *dt, *tstart, *dtnew, *eps);
 }
 
 void
-interp__(float *in, int *nlen, float *out, int *newlen, float *bval,
-         float *eval, float *dt, float *tstart, float *dtnew, float *eps) {
+interp__(float *in, int *nlen, float *out, int *newlen, double *bval,
+         double *eval, double *dt, double *tstart, double *dtnew, float *eps) {
     interp(in, *nlen, out, *newlen, *bval, *eval, *dt, *tstart, *dtnew, *eps);
 }
 
 void
-interp2_(float *in, int *nlen, float *out, int *newlen, float *bval,
-         float *eval, float *t, float *tstart, float *dtnew, float *eps) {
+interp2_(float *in, int *nlen, float *out, int *newlen, double *bval,
+         double *eval, float *t, double *tstart, double *dtnew, float *eps) {
     interp2(in, *nlen, out, *newlen, *bval, *eval, t, *tstart, *dtnew, *eps);
 }
 
 void
-interp2__(float *in, int *nlen, float *out, int *newlen, float *bval,
-          float *eval, float *t, float *tstart, float *dtnew, float *eps) {
+interp2__(float *in, int *nlen, float *out, int *newlen, double *bval,
+          double *eval, float *t, double *tstart, double *dtnew, float *eps) {
     interp2(in, *nlen, out, *newlen, *bval, *eval, t, *tstart, *dtnew, *eps);
 }
 

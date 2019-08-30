@@ -26,3 +26,18 @@ inicm
 echo on
 readtable free content xy test_interpolate.sac
 interpolate delta 1.0
+
+readtable free content xy test_interpolate2.sac
+lh depmin depmax depmin npts
+interpolate delta 1.0
+lh depmin depmax depmin npts
+
+readtable free content xy test_interpolate2.sac
+lh depmin depmax depmin npts
+interpolate delta 0.5
+lh depmin depmax depmin npts
+
+readtable free content xy test_interpolate2.sac
+lh depmin depmax depmin npts
+interpolate delta 0.543543
+lh depmin depmax depmin npts
