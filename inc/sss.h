@@ -30,9 +30,9 @@ struct t_cmsss {
     float wt[MSFL];     /** ? weight */
     int lpol[MSFL];     /** logical for instrument polarity */
     float dst[MSFL];    /** distance values of data points. accessed by Dst */
-    float beginTime[MSFL];
+    double beginTime[MSFL];
                         /** these 2 store begin and ennd from hdr.h in array so */
-    float endTime[MSFL];/** the data from all files can be present at once, maf 960701 */
+    double endTime[MSFL];/** the data from all files can be present at once, maf 960701 */
     float dlyt[MSFL];   /** ? delay time, accessed by Dlyt */
     float dlyn[MSFL];
     float dlyvm[MSFL];
@@ -64,7 +64,7 @@ struct t_cmsss {
                    */
     float dalen;  /** Distance axis length */
     float dasca;  /** Distance axis scale */
-    float del;    /** Distance axis delta t */
+    double del;    /** Distance axis delta t */
     float twlim[2];
                   /** Distance axis limits */
     int ltwlim;
@@ -147,8 +147,8 @@ struct t_kmsss {
     extern int *const Ntvm;      \
     extern float *const T0vm;    \
     extern float *const T0vmi;   \
-    extern float *const Tbegin;  \
-    extern float *const Tend;    \
+    extern double *const Tbegin;  \
+    extern double *const Tend;    \
     extern float *const Twlim;   \
     extern float *const Vapp;    \
     extern float *const Vappi;   \

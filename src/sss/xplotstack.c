@@ -137,8 +137,12 @@ xplotstack(nerr)
         float hedgeSize;        /* the amount by which to pad the data in the plot */
 
         /* find the earliest begin time and the latest end time */
-        extrma(cmsss.beginTime, 1, saclen(), &Twlim[1], &unused, &unused_);
-        extrma(cmsss.endTime, 1, saclen(), &unused, &Twlim[2], &unused_);
+        Twlim[1] = Tbegin[1];
+        Twlim[2] = Tend[1];
+        for(int i = 1; i <= saclen(); i++) {
+            Twlim[1] = fmin(Twlim[1], Tbegin[i]);
+            Twlim[2] = fmax(Twlim[2], Tend[i]);
+        }
 
         /* hedge the data by a small amount on either side */
         hedgeSize = 0.15 * (Twlim[2] - Twlim[1]);
