@@ -66,7 +66,7 @@ struct t_cmfks {
 
     int lReference;             /* 1 if reference option is set. maf 970207 */
     int nReference;             /* number of numbers set in reference option. */
-    float rReference[3];        /* array of numbers for reference option. maf */
+    double rReference[3];        /* array of numbers for reference option. maf */
 } ;
 
 #define FKS_EXTERN \
@@ -77,7 +77,7 @@ void calcBeamOffsets(int ns, int elevc, float *xr, float *yr, float *zr,
                      int *nerr);
 void cascade(int ns, int elevc, float *xr, float *yr, float *zr, int *nerr);
 int isInfoThere(int nFiles, int elevc, int *nerr);
-void refOffsets(int nFiles, float *referencePosition, float *xr, float *yr,
+void refOffsets(int nFiles, double *referencePosition, float *xr, float *yr,
                 float *zr, int *nerr);
 void userOffsets(int nFiles, float *xr, float *yr, float *zr, int *nerr);
 void eventOffsets(int nFiles, float *xr, float *yr, float *zr, int *nerr);

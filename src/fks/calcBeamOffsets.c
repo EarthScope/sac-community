@@ -22,7 +22,6 @@ FKS_EXTERN
 
 void cascade();
 int isInfoThere();
-void refOffsets();
 void userOffsets();
 void eventOffsets();
 
@@ -96,7 +95,7 @@ calcBeamOffsets(int ns, int elevc, float *xr, float *yr, float *zr, int *nerr) {
 
         case OSTATION:
             if (isInfoThere(ns, elevc, nerr) & ISTATION) {
-                float reference[3];
+                double reference[3];
 /*		    int ndx1 , ndx2 , idummy ;		 */
                 if (!(s = sacget(0, FALSE, nerr))) {
                     return;
@@ -158,7 +157,7 @@ cascade(int ns, int elevc, float *xr, float *yr, float *zr, int *nerr) {
 
     /* Calculate offsets with respect to the first station location. */
     if (availableInfo & ISTATION) {
-        float reference[3];
+        double reference[3];
         if (!(s = sacget(0, FALSE, nerr))) {
             return;
         }
@@ -227,7 +226,7 @@ isInfoThere(int nFiles, int elevc, int *nerr) {
 }                               /* end isInfoThere */
 
 void
-refOffsets(int nFiles, float *referencePosition, float *xr, float *yr,
+refOffsets(int nFiles, double *referencePosition, float *xr, float *yr,
            float *zr, int *nerr) {
     int jdfl;
     float dlat, dlon, avlat;
