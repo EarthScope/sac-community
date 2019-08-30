@@ -25,9 +25,9 @@ int td_conv(float     *waveform,
             float     *pulse,
             int        n_p,
             float     *conv,
-            float      delta,
+            double     delta,
             double     factor,
-            float      b_p);
+            double     b_p);
 
 enum pulse {
     TRI     = 1,
@@ -42,10 +42,10 @@ norm1d(float *y, int m, double dt) {
     double y0 = 0.0;
     // Remove Y Offset
     for(int i = 0; i < m; i++) {   y0 = fmin(y0, y[i]);      }
-    for(int i = 0; i < m; i++) {   y[i] = y[i] - y0;         }
+    for(int i = 0; i < m; i++) {   y[i] = (float)(y[i] - y0);         }
     // Normalize
     for(int i = 0; i < m-1; i++) {   sum += 0.5 * dt * (y[i]+y[i+1]);  } // Trapezodial Integration
-    for(int i = 0; i < m; i++)   {   y[i] = y[i] / sum; }
+    for(int i = 0; i < m; i++)   {   y[i] = (float)(y[i] / sum); }
     return y;
 }
 
@@ -56,7 +56,7 @@ box_pulse(double width, double dt, int *n) {
         return NULL;
     }
     *n = (int)(floor(width / dt));
-    float *y = (float *) calloc(*n, sizeof(float));
+    float *y = (float *) calloc((size_t) *n, sizeof(float));
     for(int i = 0; i < *n; i++) {
         y[i] = 1.0;
     }
@@ -82,7 +82,7 @@ trap_pulse(double w1, double w2, double dt, int *n) {
         return NULL;
     }
     *n = n1 + n2 - 1;
-    y = (float *) calloc(*n, sizeof(float));
+    y = (float *) calloc((size_t) *n, sizeof(float));
     td_conv(b1, n1, b2, n2, y, dt, dt, 0.0);
     FREE(b1);
     FREE(b2);
@@ -99,20 +99,20 @@ triangle_pulse(double half_width, double dt, int *m) {
         return NULL;
     }
     *m = 2*n + 1;
-    float *y = (float *) calloc(*m, sizeof(float));
+    float *y = (float *) calloc((size_t) *m, sizeof(float));
     for(int i = 0; i < n; i++) {
-        y[i] = dt * i;
+        y[i] = (float) (dt * i);
     }
     for(int i = 0; i < n+1; i++) {
-        y[i+n] = dt * (n-i);
+        y[i+n] = (float) (dt * (n-i));
     }
 
     return norm1d(y, *m, dt);
 }
 float *
 mag_pulse(float mag, double dt, float vr, int *n) {
-    float a = 5.08;
-    float b = 1.16;
+    double a = 5.08;
+    double b = 1.16;
     double L = pow(10.0, (mag-a)/b);
     double w = L / vr;
     return triangle_pulse(w, dt, n);
@@ -143,11 +143,11 @@ gauss_pulse(double sigma, double dt, int *n) {
     }
     double hw = sigma * 5;
     *n = (int) floor(hw*2/dt);
-    float *y = (float *) calloc(*n, sizeof(float));
+    float *y = (float *) calloc((size_t) *n, sizeof(float));
     for(int i = 0; i < *n; i++) {
         double t = (i * dt)-hw;
         double v = pow(t/sigma,2);
-        y[i] = exp( -v/2.0  );
+        y[i] = (float) exp( -v/2.0  );
     }
     return norm1d(y, *n, dt);
 }
@@ -203,7 +203,7 @@ sac_td_conv(sac *s, sac *p) {
     int m;
     float *z;
     m = s->h->npts + p->h->npts - 1;
-    z = (float *) calloc(m, sizeof(float));
+    z = (float *) calloc((size_t) m, sizeof(float));
     if(! td_conv(s->y, s->h->npts,
                  p->y, p->h->npts,
                  z, DT(s),
@@ -229,17 +229,17 @@ td_conv(float     *waveform,
         float     *pulse,
         int        n_p,
         float     *conv,
-        float      delta,
+        double     delta,
         double     factor,
-        float      b_p) {
+        double     b_p) {
     int i, j, j_1;
-    float temp;
+    double temp;
 
     if (n_p > n_w) {
         return 0;
     }
 
-    j_1 = -lrint(b_p/delta);
+    j_1 = (int)(-lrint(b_p/delta));
 
     for(i=0; i < n_w+n_p-1; i++){
         temp = 0.0;
@@ -248,7 +248,7 @@ td_conv(float     *waveform,
                 temp = temp + waveform[j]*pulse[i-j+j_1];
             }
         }
-        conv[i] = factor*temp;
+        conv[i] = (float) (factor*temp);
     }
     return 1;
 }
