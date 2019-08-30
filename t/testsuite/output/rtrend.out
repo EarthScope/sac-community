@@ -22,7 +22,7 @@
 
      depmin = -1.470322e+00
      depmax = 1.619626e+00
-     depmen = -5.095266e-09
+     depmen = -5.081241e-09
   
  ==>  
  fg impulse
@@ -70,10 +70,38 @@
 
      depmin = -1.130708e+00
      depmax = 1.134496e+00
-     depmen = 1.743436e-08
+     depmen = 1.676846e-08
   
  ==>  
  rtrend  verbose on
  ERROR interpreting command:  rtrend  verbose on 
  ILLEGAL OPTION:                              ^
+  
+ ==>  
+ read test_binop_uneven.m
+ lh depmin depmax depmen
+  
+  
+  FILE: test_binop_uneven.m - 1
+ -------------------------
+
+     depmin = 2.433988e-03
+     depmax = 9.996315e-01
+     depmen = 4.814866e-01
+ rtrend
+ Slope and standard deviation are: -1.8935e-05 3.139e-05
+ Intercept and standard deviation are: 0.49094 0.018109
+ Data standard deviation is: 0.28655
+ Data correlation coefficient is: 0.019091
+ lh depmin depmax depmen
+  
+  
+  FILE: test_binop_uneven.m - 1
+ -------------------------
+
+     depmin = -4.829057e-01
+     depmax = 5.228574e-01
+     depmen = 1.706579e-08
+  
+ ==>  
  quit

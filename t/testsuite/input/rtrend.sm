@@ -14,3 +14,9 @@ rtrend quiet
 lh depmin depmax depmen
 
 rtrend  verbose on
+
+read test_binop_uneven.m
+lh depmin depmax depmen
+rtrend
+lh depmin depmax depmen
+

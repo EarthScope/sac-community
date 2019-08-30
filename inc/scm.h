@@ -100,7 +100,7 @@ void taper_width_to_points(float width, int npts, int *ipts);
 void taper_points(float *data, int n, int taper_type, int ipts);
 
 void rmean(float *data, int n, float mean);
-void rtrend(float *data, int n, float yint, float slope, float b, float delta);
+void rtrend(float *data, int n, float yint, float slope, double b, double delta);
 void rtrend2(float *data, int n, float yint, float slope, float *t);
 
 void interp(float *in, int nlen, float *out, int newlen, double bval, double eval,
