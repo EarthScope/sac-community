@@ -71,12 +71,12 @@ xbenioff(nerr)
         //getfil( jdfl, TRUE, &nlen, &ndxy, &ndxx, nerr );
 
         /* -- Initialize filter for this file. */
-        filtb(0, DT(s));
+        filtb(0, (float)DT(s));
 
         /* -- Filter this data file. */
 
         for (j = 0; j < s->h->npts; j++) {
-            s->y[j] = filtb(1, s->y[j]);
+            s->y[j] = (float) filtb(1, s->y[j]);
         }
 
         /* -- Update any header fields that may have changed. */
