@@ -59,10 +59,10 @@ SacHeaderToDB(header, whichHeaders, idfl)
 
     /* Copy each variable from the SAC header into header. */
     if (whichHeaders == eventHeader || whichHeaders == allHeader) {
-        header->_b = B(s);
-        header->_e = E(s);
-        header->_o = O(s);
-        header->_a = A(s);
+        header->_b = (float) B(s);
+        header->_e = (float) E(s);
+        header->_o = (float) O(s);
+        header->_a = (float) A(s);
         header->_t0 = sac_float(s, SAC_T0);
         header->_t1 = sac_float(s, SAC_T1);
         header->_t2 = sac_float(s, SAC_T2);
