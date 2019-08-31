@@ -221,8 +221,9 @@ libevalresp_a_SOURCES = evalresp/alloc_fctns.c evalresp/calc_fctns.c \
 	evalresp/x2r_xml.h \
 	evalresp/evalresp_sac.c
 
-libsac_a_SOURCES = co/complex.c  \
-  bs/iniam.c bs/fstr.c bot/nequal.c string/datetime.c \
+libsac_a_SOURCES = co/complex.c bot/indexb.c bot/indexa.c \
+  string/strings.c co/fstrncpy.c \
+  bs/fstr.c bot/nequal.c string/datetime.c \
   dff/hdrfld.c dff/inilhf.c dfm/cut.c \
 	\
 	dbh/xapiir.c dbh/apply.c dbh/design.c \

@@ -27,6 +27,7 @@
 
       if(sac_compare("env_sac.sac", yenv, nlen, beg, delta) .ne. 1) then
          write(*,*) 'data does not match file'
+         call exit(1)
       endif
 
       call wsac1("envf.sac",yenv,nlen,beg,delta,nerr);

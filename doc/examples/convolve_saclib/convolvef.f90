@@ -39,10 +39,13 @@
       nc = na + nb - 1
       call convolve(ya, na, yb, nb, yc, nc)
 
-      if(sac_compare("convolvef_out_sac1.sac", yc, nc, 0.0, delta) .ne. 1) then
-         write(*,*)'data does not match file'
-      endif
+      nerr = sac_compare("convolvef_out_sac1.sac", yc, nc, 0.0, delta)
 
       call wsac1("convolvef_out.sac", yc, nc, beg, delta, nerr);
+
+      write(*,*)"Note: Results are slightly different, see"
+      write(*,*)"      sac/doc/examples/convolve. Differences"
+      write(*,*)"      are due to edge handling at the beginning"
+      write(*,*)"      and end of the time series"
 
       end program envelopef

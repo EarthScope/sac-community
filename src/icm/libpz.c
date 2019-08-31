@@ -104,16 +104,13 @@ polezero_comment_string(char *p, pzmeta_t * meta, pzcomment_t * c) {
 void
 polezero_comment_datetime(char *p, pzmeta_t * meta, pzcomment_t * c) {
     char *pp;
-    datetime **s;
-    s = (datetime **) ((char *) meta + c->off);
-    *s = NULL;
+    timespec64 *s = NULL;
+    s = (timespec64 *) ((char *) meta + c->off);
     pp = polezero_comment_token(p);
     if (!pp || !*pp) {
-        datetime_free(*s);
         return;
     }
-    *s = datetime_from_string(pp);
-    if (!*s) {
+    if(!timespec64_parse(pp, s)) {
         fprintf(stdout, "polezero-comment: Error parsing datetime: '%s'\n", p);
     }
 }
@@ -218,9 +215,9 @@ polezero_meta_init(pzmeta_t * meta) {
     meta->stat = NULL;
     meta->chan = NULL;
     meta->loc = NULL;
-    meta->created = NULL;
-    meta->start = NULL;
-    meta->end = NULL;
+    meta->created = timespec64_from_yjhmsf(0, 1, 0, 0, 0, 0);
+    meta->start   = timespec64_from_yjhmsf(0, 1, 0, 0, 0, 0);
+    meta->end     = timespec64_from_yjhmsf(0, 1, 0, 0, 0, 0);
     meta->descrip = NULL;
     meta->lat = 0.0;
     meta->lon = 0.0;
@@ -282,15 +279,7 @@ station_id_new(char *net, char *stat, char *loc, char *chan,
     s->stat = strdup_rstrip(stat);
     s->loc  = strdup_rstrip(loc);
     s->chan = strdup_rstrip(chan);
-    s->ref  = datetime_new();
-    datetime_set_year(s->ref, year);
-    datetime_set_doy(s->ref, doy);
-    datetime_set_hour(s->ref, hour);
-    datetime_set_minute(s->ref, min);
-    datetime_set_second(s->ref, sec);
-    datetime_set_nanosecond(s->ref, msec*1e6);
-    datetime_doy2ymd(s->ref);
-    datetime_normalize(s->ref);
+    s->ref  = timespec64_from_yjhmsf(year, doy, hour, min, sec, msec * 100000);
     return s;
 }
 
@@ -414,9 +403,9 @@ polezero_meta_copy(pzmeta_t * m) {
     STRINGCOPY(new, m, instrument_type);
     STRINGCOPY(new, m, comment);
 
-    new->created = datetime_copy(m->created);
-    new->start = datetime_copy(m->start);
-    new->end = datetime_copy(m->end);
+    new->created = m->created;
+    new->start = m->start;
+    new->end = m->end;
     new->lat = m->lat;
     new->lon = m->lon;
     new->elev = m->elev;
@@ -450,9 +439,6 @@ polezero_meta_free(pzmeta_t * meta) {
     FREE(meta->input_unit);
     FREE(meta->output_unit);
     FREE(meta->instrument_type);
-    datetime_free(meta->start);
-    datetime_free(meta->end);
-    datetime_free(meta->created);
     FREE(meta);
 }
 
@@ -551,7 +537,7 @@ sdef(char *s) {
  *
  */
 int
-polezero_is_correct_block(pzmeta_t * meta, datetime * filetime, char *stat,
+polezero_is_correct_block(pzmeta_t * meta, timespec64 * filetime, char *stat,
                           char *net, char *loc, char *chan) {
     if ((sdef(meta->stat) && sdef(stat) && strcasecmp(stat, meta->stat) != 0) ||
         (sdef(meta->net) && sdef(net) && strcasecmp(net, meta->net) != 0) ||
@@ -559,9 +545,9 @@ polezero_is_correct_block(pzmeta_t * meta, datetime * filetime, char *stat,
         (sdef(meta->chan) && sdef(chan) && strcasecmp(chan, meta->chan) != 0)) {
         return 0;
     }
-    if (filetime && datetime_status(meta->start) == DATETIME_OK &&
-        datetime_status(meta->end) == DATETIME_OK) {
-        return datetime_in_span(filetime, meta->start, meta->end);
+    if (filetime) {
+        return timespec64_cmp(filetime, &meta->start) >= 0 &&
+            timespec64_cmp(filetime, &meta->end) <= 0;
     }
     return TRUE;
 }
@@ -579,7 +565,7 @@ polezero_is_correct_block(pzmeta_t * meta, datetime * filetime, char *stat,
  */
 int
 polezero_is_correct_block_stat(pzmeta_t *meta, station_id_t *s) {
-    return polezero_is_correct_block(meta, s->ref, s->stat, s->net, s->loc, s->chan);
+    return polezero_is_correct_block(meta, &s->ref, s->stat, s->net, s->loc, s->chan);
 }
 
 enum {
@@ -984,90 +970,6 @@ sac_station_id_split(char *id, char *net, char *sta, char *loc, char *cha) {
 }
 
 /**
- * Format a string based on sac header values
- *
- * Arguments:
- *   - `s` - sac file to use as input data
- *   - `fmt` - input format of the string
- *
- * Returns:
- *   Formated output string
- *
- * Only %{header_variable} keys are understood and integer and strings are available
- *
- * Examples:
- *   - "delta: %{delta}"
- *   - "%{knetwk}.%{kstnm}.%{khole}.%{kcmpnm}"
- *   - "%{}.%{kstnm}.%{khole}.%{kcmpnm}"
-
- *
- */
-static char *
-sac_format_string(sac *s, char *fmt) {
-    char *p;
-    char *out;
-    string *str = string_new("");
-    p = fmt;
-    while(*p) {
-        if(*p == '%') {
-            p++; if(!*p) { break; }
-            if(*p == '%') {
-                str = string_append(str, "%");
-                p++;
-                break;
-            }
-            if(*p == '{') {
-                char *e;
-                p++; if(!*p) { break; }
-                if((e = index(p,'}'))) {
-                    int icat, item, lfound;
-                    char *colon;
-                    int n = e-p;
-                    char *fmt = NULL;
-                    char *key = calloc(n+1, sizeof(char));
-                    strncpy(key, p, n);
-                    key[n] = 0;
-                    if((colon = index(key, ':'))) {
-                        fmt = strdup(colon+1);
-                        *colon = 0;
-                    }
-                    hdrfld(key, strlen(key)+1, &icat, &item, &lfound);
-                    if(lfound) {
-                        switch(icat) {
-                        case STRING_TYPE: {
-                            char *v = khdr(s, item);
-                            if(SAC_CHAR_DEFINED(v)) {
-                                char *v2 = strdup(v);
-                                rstrip(v2);
-                                str = string_printf_append(str, (fmt) ? fmt : "%s", v2);
-                            }
-                        }
-                            break;
-                        case INT_TYPE: {
-                            int v = VALUE(nhdr(s, item));
-                            if(SAC_INT_DEFINED(v)) {
-                                str = string_printf_append(str, (fmt) ? fmt : "%d", v);
-                            }
-                        }
-                            break;
-                        }
-                    }
-                    FREE(fmt);
-                    p = e;
-                    p++;
-                }
-            }
-        } else {
-            str = string_printf_append(str, "%c", *p);
-            p++;
-        }
-    }
-    out = strdup(string_string(str));
-    string_free(&str);
-    return out;
-}
-
-/**
  *  Create Station ID, NET.STA.LOC.CHA from active sac file
  *
  * Arguments:
@@ -1076,14 +978,13 @@ sac_format_string(sac *s, char *fmt) {
  */
 void
 sac_station_id(char *id) {
+    int nerr = 0;
     sac *s;
-    if(!(s = sacget_current())) {
+    if(!(s = get_current(&nerr))) {
         printf("Error getting current sac file\n");
         return;
     }
-    char *str = sac_format_string(s, "%{knetwk}.%{kstnm}.%{khole}.%{kcmpnm}");
-    strcpy(id, str);
-    FREE(str);
+    sac_fmt(id, 20, "%Z", s);
 }
 
 void
@@ -1117,20 +1018,20 @@ sac_station_id_to_polezero(char *id, char *pzfile) {
  *  Create Reference time, YYYY,DDD,HH:MM:SS, from active sac file
  *
  * Arguments:
- *  - `when` - Output reference time, length must be at least 20
+ *  - `when` - Output reference time, length must be at least 64
  *
  */
 void
 sac_reference_time(char *when) {
+    int nerr = 0;
+    timespec64 t = {0,0};
     sac *s;
-    char *str;
-    if(!(s = sacget_current())) {
+    if(!(s = get_current(&nerr))) {
         printf("Error getting current sac file\n");
         return;
     }
-    str = sac_format_string(s, "%{nzyear:%04d},%{nzjday:%03d},%{nzhour:%02d}:%{nzmin:%02d}:%{nzsec:%02d}");
-    strcpy(when, str);
-    FREE(str);
+    sac_get_time(s, SAC_B, &t);
+    strftime64t(when, 64, "%Y,%j,%H:%M:%S.%2f", &t);
 }
 
 
@@ -1216,7 +1117,7 @@ polezero_try_read(char *pzfile, char *id, char *when) {
     stat.chan = calloc(10, sizeof(char));
 
     sac_station_id_split(id, stat.net, stat.stat, stat.loc, stat.chan);
-    stat.ref = datetime_from_string(when);
+    timespec64_parse(when, &stat.ref);
 
     if(!pzfile || strcmp(pzfile, "*") == 0) {
         int n;
@@ -1384,14 +1285,14 @@ remove_polezero_simple__(float *data, int *n, float *dt, double *limits) {
  *   0/False otherwise
  *
  */
-int isclosef_par(double a, double b, double atol, double rtol) {
+int isclosed_par(double a, double b, double atol, double rtol) {
     return fabs(a-b) <= atol + rtol * fabs(b);
 }
-int isclosef_par_(double *a, double *b, double *atol, double *rtol) {
-    return isclosef_par(*a,*b,*atol,*rtol);
+int isclosed_par_(double *a, double *b, double *atol, double *rtol) {
+    return isclosed_par(*a,*b,*atol,*rtol);
 }
-int isclosef_par__(double *a, double *b, double *atol, double *rtol) {
-    return isclosef_par(*a,*b,*atol,*rtol);
+int isclosed_par__(double *a, double *b, double *atol, double *rtol) {
+    return isclosed_par(*a,*b,*atol,*rtol);
 }
 /**
  *  Detemrine if values are close
@@ -1404,9 +1305,12 @@ int isclosef_par__(double *a, double *b, double *atol, double *rtol) {
  *   1/True if |a-b| <= 1e-8 + 1e-5 * |b|
  *   0/False otherwise
  */
-int isclosef  (double  a, double  b) { return isclosef_par( a,  b, ATOL, RTOL); }
-int isclosef_ (double *a, double *b) { return isclosef_par(*a, *b, ATOL, RTOL); }
-int isclosef__(double *a, double *b) { return isclosef_par(*a, *b, ATOL, RTOL); }
+int isclosed  (double  a, double  b) { return isclosed_par( a,  b, ATOL, RTOL); }
+int isclosed_ (double *a, double *b) { return isclosed_par(*a, *b, ATOL, RTOL); }
+int isclosed__(double *a, double *b) { return isclosed_par(*a, *b, ATOL, RTOL); }
+int isclose  (float  a, float  b)  { return isclosed_par( a,  b, ATOL, RTOL); }
+int isclose_ (float *a, float *b)  { return isclosed_par(*a, *b, ATOL, RTOL); }
+int isclose__(float *a, float *b)  { return isclosed_par(*a, *b, ATOL, RTOL); }
 
 /**
  * Detemine if two arrays are close in value
@@ -1428,7 +1332,7 @@ int
 allclosef_par(float *a, float *b, int n, double atol, double rtol) {
     int i;
     for(i = 0; i < n; i++) {
-        if(! isclosef_par(a[i], b[i], atol, rtol)) {
+        if(! isclosed_par(a[i], b[i], atol, rtol)) {
             return 0;
         }
     }
@@ -1472,18 +1376,18 @@ sac *sac_read(char *filename, int *nerr);
  *
  */
 int
-sac_compare(char *file, float *y, int n, double b, double dt) {
+sac_compared(char *file, float *y, int n, double b, double dt) {
     int nerr;
     sac *s = sac_read(file, &nerr);
     if(nerr != 0) {
         printf("sac_compare: file does not exist: %s\n", file);
         return 0;
     }
-    if(!isclosef(B(s), b)) {
+    if(!isclosed(B(s), b)) {
         printf("b-value differs: %e %e\n", B(s), b);
         return 0;
     }
-    if(!isclosef(DT(s), dt)) {
+    if(!isclosed(DT(s), dt)) {
         printf("delta differs: %e %e\n", DT(s), dt);
         return 0;
     }
@@ -1499,13 +1403,29 @@ sac_compare(char *file, float *y, int n, double b, double dt) {
 }
 
 int
-sac_compare_(char *file, float *y, int *n, double *b, double *dt, int file_s) {
+sac_compared_(char *file, float *y, int *n, double *b, double *dt, int file_s) {
+    char *file_c = fstrdup(file, file_s);
+    int retval = sac_compared(file_c, y, *n, *b, *dt);
+    FREE(file_c);
+    return retval;
+}
+int
+sac_compared__(char *file, float *y, int *n, double *b, double *dt, int file_s) {
+    return sac_compared_(file, y, n, b, dt, file_s);
+}
+
+int
+sac_compare(char *file, float *y, int n, float b, float dt) {
+    return sac_compared(file, y, n, (double)b, (double)dt);
+}
+int
+sac_compare_(char *file, float *y, int *n, float *b, float *dt, int file_s) {
     char *file_c = fstrdup(file, file_s);
     int retval = sac_compare(file_c, y, *n, *b, *dt);
     FREE(file_c);
     return retval;
 }
 int
-sac_compare__(char *file, float *y, int *n, double *b, double *dt, int file_s) {
+sac_compare__(char *file, float *y, int *n, float *b, float *dt, int file_s) {
     return sac_compare_(file, y, n, b, dt, file_s);
 }

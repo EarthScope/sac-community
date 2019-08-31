@@ -17,7 +17,7 @@
       real del
       real x
 
-!     Define the file to be written, the beginning time 
+!     Define the file to be written, the beginning time
 !     time sampling, and the initial value
       kname = 'expdata'
       beg   = 0.00
@@ -37,13 +37,14 @@
 !       - beg Beginning Time of the data
 !       - del Time Sampling of the series
 !       - nerr Error return Flag
+      call newhdr()
       call wsac1(kname,yfunc,MAX,beg,del,nerr)
-      
+
 !     Check the Error status
 !       - 0 on Success
 !       - Non-Zero on Error
       if(nerr .NE. 0) then
-         write(*,*)'Error writing SAC File: ', kname
+         write(*,*)'Error writing SAC File: ', kname, nerr
          call exit(-1)
       endif
 

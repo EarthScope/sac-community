@@ -159,7 +159,7 @@ cut_define_check__(double *start, double *stop, int *npts, int *cuterr,
 
 
 void
-cut(float *y, int npts, double b, double dt,
+cutd(float *y, int npts, double b, double dt,
     double begin_cut, double end_cut, int cuterr,
     float *out, int *nout) {
     int nfillb, nfille, nstart, nstop, nerr;
@@ -214,14 +214,38 @@ cut(float *y, int npts, double b, double dt,
 }
 
 void
-cut_(float *y, int *npts, double *b, double *dt,
+cutd_(float *y, int *npts, double *b, double *dt,
      double *begin_cut, double *end_cut, int *cuterr,
      float *out, int *nout) {
-    cut(y, *npts, *b, *dt, *begin_cut, *end_cut, *cuterr, out, nout);
+    cutd(y, *npts, *b, *dt, *begin_cut, *end_cut, *cuterr, out, nout);
 }
 void
-cut__(float *y, int *npts, double *b, double *dt,
+cutd__(float *y, int *npts, double *b, double *dt,
       double *begin_cut, double *end_cut, int *cuterr,
       float *out, int *nout) {
-    cut(y, *npts, *b, *dt, *begin_cut, *end_cut, *cuterr, out, nout);
+    cutd(y, *npts, *b, *dt, *begin_cut, *end_cut, *cuterr, out, nout);
+}
+
+void
+cut(float *y, int npts, float b, float dt,
+     float begin_cut, float end_cut, int cuterr,
+     float *out, int *nout) {
+    cutd(y, npts, (double) b, (double) dt, (double) begin_cut, (double) end_cut,
+         cuterr, out, nout);
+}
+void
+cut_(float *y, int *npts, float *b, float *dt,
+     float *begin_cut, float *end_cut, int *cuterr,
+     float *out, int *nout) {
+    cutd(y, *npts, (double) *b, (double) *dt,
+         (double) *begin_cut, (double) *end_cut,
+         *cuterr, out, nout);
+}
+void
+cut__(float *y, int *npts, float *b, float *dt,
+      float *begin_cut, float *end_cut, int *cuterr,
+      float *out, int *nout) {
+    cutd(y, *npts, (double) *b, (double) *dt,
+         (double) *begin_cut, (double) *end_cut,
+         *cuterr, out, nout);
 }

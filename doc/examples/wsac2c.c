@@ -41,6 +41,7 @@ main(int argc, char *argv[])
      - nerr Error return Flag
      - strlen(kname) Length of character string kname
   */
+  newhdr();
   wsac2(kname, ydata, &max, xdata, &nerr, strlen( kname )) ;
 
 

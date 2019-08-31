@@ -20,6 +20,7 @@ program rtrend_example
 
     if(sac_compare('rtrend_sac.sac', data, npts, beg, dt) .ne. 1) then
        write(*,*)'data does not match file'
+       call exit(1)
     endif
 
 end program rtrend_example

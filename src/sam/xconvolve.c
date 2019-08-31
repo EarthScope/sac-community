@@ -208,7 +208,7 @@ sac_td_conv(sac *s, sac *p) {
                  p->y, p->h->npts,
                  z, DT(s),
                  DT(s),
-                 B(s)))  {
+                 B(p)))  {
         error(1002, "waveform npts (%d) < pulse npts (%d)", s->h->npts, p->h->npts);
         return 0;
     }
@@ -395,7 +395,7 @@ xconvolve(nerr)
             }
             /* Set initial time to zero per an option */
             if(!centered) {
-                sac_set_float(s, SAC_B, 0.0);
+                sac_set_float(p, SAC_B, 0.0);
                 sac_be(p);
             }
             if(!sac_td_conv(s, p)) {

@@ -532,6 +532,7 @@ void sac_be(sac *s);
 /** @brief Update the dist, az, baz, and gcarc header values */
 void update_distaz(sac * s);
 
+sac * get_current(int *nerr);
 
 #define SAC_WRITE_HEADER_AND_DATA 1 /**< @brief Write header and data */
 #define SAC_READ_HEADER_AND_DATA  1 /**< @brief Read header and data */

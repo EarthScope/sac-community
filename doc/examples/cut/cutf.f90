@@ -23,8 +23,9 @@ program cutf
 
   if(sac_compare("cut_sac.sac", out, nout, cutb, dt) .ne. 1) then
      write(*,*)'data does not match file'
+     call exit(1)
   endif
 
-  call wsac1("cutc.sac", out, nout, cutb, dt, nerr)
+  call wsac1("cutf.sac", out, nout, cutb, dt, nerr)
 
 end program

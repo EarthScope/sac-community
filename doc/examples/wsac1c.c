@@ -43,6 +43,7 @@ main(int argc, char *argv[])
      - nerr Error return Flag
      - strlen(kname) Length of the character array kname
   */
+  newhdr();
   wsac1 (kname, yfunc, &max, &beg, &del, &nerr, strlen( kname )) ;
 
   /* Check the Error status
@@ -50,8 +51,8 @@ main(int argc, char *argv[])
      - Non-Zero on Error
   */
   if(nerr != 0) {
-    fprintf(stderr, "Error writing SAC File: %s\n", kname);
-    exit(-1);
+      fprintf(stderr, "Error writing SAC File: %s %d\n", kname, nerr);
+      exit(-1);
   }
   
   exit(0);

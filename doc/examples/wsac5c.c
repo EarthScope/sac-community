@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -26,7 +25,7 @@ main(int argc, char *argv[])
                                 "STFZ" , "STGZ" , "STHZ" , "STHN" , "STHE", "STHN" } ;
 
     int true  = TRUE;
-  
+
     b      = 0.0;
     delta  = 0.25;
     cmpaz  = 0.0;
@@ -41,9 +40,9 @@ main(int argc, char *argv[])
     setfhv("B",      &b,      &nerr , strlen("B"));
     setlhv("LEVEN",  &true,   &nerr , strlen("LEVEN"));
     setfhv("DELTA",  &delta,  &nerr , strlen("DELTA")) ;
-  
+
     strcpy(kevnm, "Event Name");
-  
+
     setnhv("NPTS",   &ndata,    &nerr, strlen("NPTS"));
     setfhv("EVLA",   &evla,     &nerr, strlen("EVLA"));
     setfhv("EVLO",   &evlo,     &nerr, strlen("EVLO"));
@@ -63,7 +62,7 @@ main(int argc, char *argv[])
         setfhv ( "STLO" , &stlo , &nerr , strlen("STLO"));
         wsac0 ( kstnm, xdummy, sdata[j], &nerr, strlen(kstnm));
     }
-    
+
     cmpinc = 90.0;
     setfhv("CMPINC", &cmpinc, &nerr, strlen("CMPINC")) ;
     j = 9;
@@ -71,7 +70,7 @@ main(int argc, char *argv[])
         sdata[j][i] = 1.0 * rand()/INT32_MAX;
     }
     wsac0(kname[9], xdummy, sdata[9], &nerr, strlen(kname[9]));
-  
+
     cmpaz = 90.0;
     setfhv("CMPAZ", &cmpaz, &nerr, strlen("CMPAZ")) ;
     j = 10;

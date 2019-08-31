@@ -155,7 +155,7 @@ void lifitu(float x[], float y[], int n, float *a, float *b, float *siga,
             float *sigb, float *sig, float *cc);
 
 /* Remove trend from even and unevely spaced data */
-void rtrend(float *data, int n, float yint, float slope, float b, float delta);
+void rtrend(float *data, int n, float yint, float slope, double b, double delta);
 void rtrend2(float *data, int n, float yint, float slope, float *t);
 
 void remove_trend(float *data, int n, float delta, float b);
@@ -209,7 +209,7 @@ struct _station_id_t {
     char *stat;
     char *loc;
     char *chan;
-    datetime *ref;
+    timespec64 ref;
 };
 
 
@@ -257,8 +257,6 @@ void lifite(double x1, double dx, float y[], int n, float *a, float *b,
             float *siga, float *sigb, float *sig, float *cc);
 void lifitu(float x[], float y[], int n, float *a, float *b, float *siga,
             float *sigb, float *sig, float *cc);
-void rtrend(float *data, int n, float yint, float slope, float b, float delta);
-void rtrend2(float *data, int n, float yint, float slope, float *t);
 void rmean(float *data, int n, float mean);
 void interp(float *in, int nlen, float *out, int newlen, float bval, float eval,
             float dt, float tstart, float dtnew, float eps);
@@ -270,6 +268,9 @@ void cut_define(float b, float delta, double dt, int *n);
 void cut(float *in, int npts, float b, float dt,
          float begin_cut, float end_cut, int cuterr,
          float *out, int *nout);
+void cutd(float *in, int npts, double b, double dt,
+          double begin_cut, double end_cut, int cuterr,
+          float *out, int *nout);
 
 
 void  remove_mean(float *data, int n);
@@ -304,10 +305,13 @@ void taper_seconds(float *data, int n, int taper_type, float sec, float delta);
 void taper_width(float *data, int n, int taper_type, float width);
 
 
-int isclosef      (float a, float b);
-int isclosef_par  (float a, float b, float atol, float rtol);
+int isclosed      (double a, double b);
+int isclosed_par  (double a, double b, double atol, double rtol);
+int isclose       (float a, float b);
+int isclose_par   (float a, float b, double atol, double rtol);
 int allclosef     (float *a, float *b, int n);
-int allclosef_par (float *a, float *b, int n, float atol, float rtol);
+int allclosef_par (float *a, float *b, int n, double atol, double rtol);
+int sac_compared  (char *file, float *y, int n, double b, double dt);
 int sac_compare   (char *file, float *y, int n, float b, float dt);
 
 #endif /* __SAC_H__ */

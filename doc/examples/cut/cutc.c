@@ -21,9 +21,11 @@ main() {
 
     rsac1("raw.sac", y, &n, &b, &dt, &max, &nerr, -1);
 
-    cut(y, n, b, dt, cutb, cute, CUT_FILLZ, out, &nout);
+    cut(y, n, b, dt, cutb, cute, SAC_CUT_FILLZ, out, &nout);
 
-    sac_compare("cut_sac.sac", out, nout, cutb, dt);
+    if(!sac_compare("cut_sac.sac", out, nout, cutb, dt)) {
+        exit(1);
+    }
 
     wsac1("cutc.sac", out, &nout, &cutb, &dt, &nerr, -1);
 

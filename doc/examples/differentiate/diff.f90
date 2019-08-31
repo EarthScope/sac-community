@@ -20,6 +20,7 @@ program dif_example
 
     if(sac_compare('dif_sac.sac', out, npts-1, beg + 0.5 * dt, dt) .ne. 1) then
        write(*,*)'data does not match file'
+       call exit(1)
     endif
 
 end program dif_example

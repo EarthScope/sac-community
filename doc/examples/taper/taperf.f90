@@ -22,6 +22,7 @@ program taper_example
     call taper_width(data, npts, taper_type, width)
     if(sac_compare("taper_sac.sac", data, npts, beg, dt) .ne. 1) then
        write(*,*) 'data does not match file'
+       call exit(1)
     endif
 
     ! write the seismogram with taper applied back to disk

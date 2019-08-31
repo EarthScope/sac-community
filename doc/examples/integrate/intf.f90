@@ -20,6 +20,7 @@ program int_example
 
     if(sac_compare('int_sac.sac', data, npts-1, beg + 0.5 * dt, dt) .ne. 1) then
        write(*,*)'data does not match file'
+       call exit(1)
     endif
 
 end program int_example

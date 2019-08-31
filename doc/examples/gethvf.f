@@ -8,7 +8,7 @@
 !     Define the Data Array of size MAX
       real yarray
       dimension yarray(MAX)
-      
+
 !     Declare Variables used in the rsac1() and getfhv() subroutines
       character*10 kname
       character*9 name
@@ -18,13 +18,13 @@
       integer n1, n2
       real delta, b, t1, t2
 
-!     Define the file to be read      
+!     Define the file to be read
       kname='file1'
 
 !     Read in the SAC File
       call rsac1(kname,yarray,nlen,beg,del,MAX,nerr)
 
-!     Check the Error status      
+!     Check the Error status
       if(nerr .ne. 0) then
          write(*,*)'Error reading SAC file: ',kname
          call exit(-1)
@@ -68,6 +68,10 @@
 !     ......
       name = ' '
       call getkhv('kstnm', name, nerr);
-      write(*,*)'kstnm: "',name,'"'
+      if(nerr .ne. 0) then
+         write(*,*)'Error reading variable: kstnm'
+         call exit(-1)
+      endif
+
       call exit(0)
       end

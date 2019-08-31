@@ -52,7 +52,7 @@ rtrend2__(float *data, int *n, float *yint, float *slope, float *t) {
  *
  */
 void
-remove_trend(float *data, int n, double delta, double b) {
+remove_trend(float *data, int n, float delta, float b) {
     float slope, yint, slope_sd, yint_sd, data_sd, corrcoef;
     /* Compute linear trend of the data */
     lifite(b, delta, data, n,
@@ -61,10 +61,10 @@ remove_trend(float *data, int n, double delta, double b) {
     rtrend(data, n, yint, slope, b, delta);
 }
 void
-remove_trend_(float *data, int *n, double *delta, double *b) {
+remove_trend_(float *data, int *n, float *delta, float *b) {
     remove_trend(data, *n, *delta, *b);
 }
 void
-remove_trend__(float *data, int *n, double *delta, double *b) {
+remove_trend__(float *data, int *n, float *delta, float *b) {
     remove_trend(data, *n, *delta, *b);
 }

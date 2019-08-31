@@ -36,12 +36,12 @@ correlate_files(char *file1, char *file2, float amp_max, float t_max, int verbos
     rsac1(file1, a, &na, &ba, &dt, &nmax, &nerr, -1);
     if(nerr) {
         printf("Error reading file: %s nerr: %d \n", file1, nerr);
-        return;
+        exit(1);
     }
     rsac1(file2, b, &nb, &bb, &dt, &nmax, &nerr, -1);
     if(nerr) {
         printf("Error reading file: %s nerr: %d \n", file2, nerr);
-        return;
+        exit(1);
     }
     n = na+nb-1;
     c = calloc(n, sizeof(float));

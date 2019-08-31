@@ -20,6 +20,7 @@ program rmean_example
 
     if(sac_compare('rmean_sac.sac', data, npts, beg, dt) .ne. 1) then
        write(*,*)'data does not match file'
+       call exit(1)
     endif
 
 end program rmean_example

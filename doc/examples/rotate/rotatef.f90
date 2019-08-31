@@ -30,7 +30,13 @@ program rotate_example
     call rotate(signal1, signal2, npts, angle, lnpi, lnpo, rotated_signal1, rotated_signal2)
 
     nerr = sac_compare("signalr.sac", rotated_signal1, npts, beg, dt)
+    if(nerr .ne. 1) then
+       call exit(1)
+    endif
     nerr = sac_compare("signalt.sac", rotated_signal2, npts, beg, dt)
+    if(nerr .ne. 1) then
+       call exit(1)
+    endif
 
     ! write the seismogram with trend removed back to disk
     call wsac0('rotated1.sac', rotated_signal1, rotated_signal1, nerr)

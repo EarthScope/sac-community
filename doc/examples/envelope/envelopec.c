@@ -29,7 +29,9 @@ main(int argc, char *argv[]) {
 
     envelope(nlen, yarray, yenv);
 
-    sac_compare("env_sac.sac", yenv, nlen, beg, delta);
+    if(!sac_compare("env_sac.sac", yenv, nlen, beg, delta)) {
+        exit(1);
+    }
 
     wsac1("env.sac", yenv, &nlen, &beg, &delta, &nerr, -1);
 

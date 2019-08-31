@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -29,7 +28,7 @@ main(int argc, char *argv[])
   cona     = 12.3;
   conb     = -45.6;
 
-  /*  Create the Amplitude and Time, an Exponential 
+  /*  Create the Amplitude and Time, an Exponential
    *  Best viewed with axis as loglin
    */
   ydata[0] = exp(-xdata[0]);
@@ -39,10 +38,10 @@ main(int argc, char *argv[])
   }
 
   /* Create a New Header to store more information
-     Newly created header value are set to a default state      
+     Newly created header value are set to a default state
   */
   newhdr();
-  
+
   /* Store values in the newly created header
      You must define the following header variables
      - delta  Time Sampling
@@ -52,11 +51,11 @@ main(int argc, char *argv[])
      - npts   Number of Points in the File
      - iftype File Type
           - itime Time Series File
-	  - irlim Spectral File Real/Imaginary 
-	  - iamph Spectral File Amplitue/Phase
-	  - ixy   X-Y File
-	  - iunkn Unknown
-     
+    - irlim Spectral File Real/Imaginary
+    - iamph Spectral File Amplitue/Phase
+    - ixy   X-Y File
+    - iunkn Unknown
+
      All other variables are up to the user
   */
   setnhv ( "npts",   &max,            &nerr, strlen("npts"));
@@ -67,10 +66,10 @@ main(int argc, char *argv[])
   setfhv ( "user0",  &cona,           &nerr, strlen("user0"));
   setfhv ( "user1",  &conb,           &nerr, strlen("user1"));
   setkhv ( "kuser0", "gendat",        &nerr, strlen("kuser0"), strlen("gendat"));
-  
+
   /* Write the SAC file kname
      - kname holds the name of the file to be written
-     - xdata Input Time Data      
+     - xdata Input Time Data
      - yfunc Input Amplitude Data
      - nerr Error return Flag
      - strlen(kname) Length of character string kname

@@ -17,7 +17,9 @@ main() {
 
     wsac0("rtrend.sac", y, y, &nerr, -1);
 
-    sac_compare("rtrend_sac.sac", y, n, b, dt);
+    if(!sac_compare("rtrend_sac.sac", y, n, b, dt)) {
+        exit(1);
+    }
 
     return 0;
 }

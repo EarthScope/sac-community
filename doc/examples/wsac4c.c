@@ -1,5 +1,3 @@
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,13 +9,13 @@
 
 int
 main(int argc, char *argv[]) {
-      
+
   /*  Maximum Size of Array, in 2-D */
   int max;
-  
+
   /* Size of arrays to store the data */
   float dummy[MAX], zdata[MAX];
-      
+
   /*  Define variables to be passed into wsac0 */
   char kname[10];
   int i, j, k;
@@ -60,7 +58,7 @@ main(int argc, char *argv[]) {
   /* Write the SAC file kname
      - kname holds the name of the file to be written
      - dummy Input Amplitude Data
-     - zdata Input Time Data      
+     - zdata Input Time Data
      - nerr Error return Flag
   */
 
@@ -76,5 +74,5 @@ main(int argc, char *argv[]) {
   }
 
   exit(0);
-    
+
 }

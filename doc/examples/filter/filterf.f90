@@ -8,6 +8,7 @@ subroutine test_bp()
   call bandpass(y, n, dt, 0.10, 1.00)
   if(sac_compare("bandpass_sac.sac", y, n, b, dt) .ne. 1) then
      write(*,*)'data does not match file'
+     call exit(1)
   endif
   call wsac0("bandpass.sac", y, y, nerr)
 end subroutine test_bp
@@ -21,6 +22,7 @@ subroutine test_lp()
   call lowpass(y, n, dt, 2.0)
   if(sac_compare("lowpass_sac.sac", y, n, b, dt) .ne. 1) then
      write(*,*)'data does not match file'
+     call exit(1)
   endif
   call wsac0("lowpass.sac", y, y, nerr)
 end subroutine test_lp
@@ -34,6 +36,7 @@ subroutine test_hp()
   call highpass(y, n, dt, 10.0)
   if(sac_compare("highpass_sac.sac", y, n, b, dt) .ne. 1) then
      write(*,*)'data does not match file'
+     call exit(1)
   endif
   call wsac0("highpass.sac", y, y, nerr)
 end subroutine test_hp

@@ -50,5 +50,9 @@ main(int argc, char *argv[]) {
     n  = na+nb-1;
     wsac1("convolvec_out.sac", yc, &n, &beg, &delta, &nerr, -1);
 
+    printf("Note: Results are slightly different, see\n"
+        "      sac/doc/examples/convolve. Differences\n"
+        "      are due to edge handling at the beginning\n"
+        "      and end of the time series\n");
     return 0;
 }

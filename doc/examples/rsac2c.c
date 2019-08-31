@@ -38,7 +38,7 @@ main(int argc, char *argv[])
      - Non-Zero on Failure  
   */
   if ( nerr > 0 ) {
-    fprintf(stderr, "Error reading in SAC file: %s\n", kname);
+      fprintf(stderr, "Error reading in SAC file: %s %d\n", kname, nerr);
     exit(nerr) ;
   }
 

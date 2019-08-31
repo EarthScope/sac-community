@@ -14,7 +14,9 @@ main() {
 
     wsac0("rmean.sac", y, y, &nerr, -1);
 
-    sac_compare("rmean_sac.sac", y, n, b, dt);
+    if(!sac_compare("rmean_sac.sac", y, n, b, dt)) {
+        exit(1);
+    }
 
     return 0;
 }

@@ -18,7 +18,7 @@ rotate_gcp(float *in1, float *in2, int npts,
     int normal;
     if(fabs(cmpinc1 - 90.0) > 0.01 || fabs(cmpinc2 - 90.0) > 0.01) {
         printf("Data are not horizontal\n");
-        return;
+        exit(1);
     }
     // Determine if the files are normal or reversed
     delaz = cmpaz2 - cmpaz1;
@@ -30,7 +30,7 @@ rotate_gcp(float *in1, float *in2, int npts,
         normal = 0;
     } else {
         printf("Data are not orthogonal\n");
-        return;
+        exit(1);
     }
     angle = baz + 180.0 - cmpaz1;
 
@@ -66,8 +66,12 @@ main() {
 
     rotate(signal1, signal2, npts, angle, lnpi, lnpo, rotated_signal1, rotated_signal2);
 
-    sac_compare("signalr.sac", rotated_signal1, npts, beg, dt);
-    sac_compare("signalt.sac", rotated_signal2, npts, beg, dt);
+    if(!sac_compare("signalr.sac", rotated_signal1, npts, beg, dt)) {
+        exit(1);
+    }
+    if(!sac_compare("signalt.sac", rotated_signal2, npts, beg, dt)) {
+        exit(1);
+    }
 
     // write the seismogram with trend removed back to disk
     wsac0("rotated1.sac", rotated_signal1, rotated_signal1, &nerr, -1);

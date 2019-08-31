@@ -12,25 +12,28 @@ subroutine compare_to_sac_file(file, y, n, b, dt)
   integer nmax
   integer i
 
-  integer isclosef
+  integer isclose
   
   nmax = 10000
   call rsac1(file, y1, n1, b1, dt1, nmax, nerr)
   if (nerr .ne. 0) then
      write(*,*) "Error reading file: ", file(1:len_trim(file)), "nerr: ", nerr
-     return
+     call exit(1)
   endif
   if(n .ne. n1) then
      write(*,*) "n: ", n, n1
+     call exit(1)
   endif
   if(abs(b - b1) > 1e-7) then
      write(*,*) "b: ", b, b1
+     call exit(1)
   endif
   if(abs(dt - dt1) > 1e-7) then
      write(*,*) "dt: ", dt, dt1
+     call exit(1)
   endif
   do i = 1, n
-     if(isclosef(y(i),y1(i)) .ne. 1) then
+     if(isclose(y(i),y1(i)) .ne. 1) then
         write(*,*) "y[", i, "]: ", y(i),y1(i)
         call exit(-1)
      endif
@@ -57,12 +60,12 @@ subroutine test_revalresp()
   call rsac1("raw.sac", y, n, b, dt, nmax, nerr)
   if(nerr .ne. 0) then
      write(*,*) "Error reading file: raw.sac nerr: ", nerr
-     return
+     call exit(1)
   endif
 
   if(remove_evalresp_simple(y, n, dt, limits) .ne. 0) then
      write(*,*) "Error removing instrument with evalresp"
-     return
+     call exit(1)
   endif
 
   ! write the deconvolved seismogram back to disk
@@ -111,8 +114,6 @@ end subroutine test_rpolezero
 
 program main
   implicit none
-  write(*,*) "test evalresp"
   call test_revalresp()
-  write(*,*) "test polezero"
   call test_rpolezero()
 end program main

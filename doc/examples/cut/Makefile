@@ -8,7 +8,7 @@ OBJSC=$(PROGC).o
 SACHOME ?= /usr/local/sac   # Set if not specified
 LDLIBS=`$(SACHOME)/bin/sac-config -l -c sacio sac`
 FFLAGS=`$(SACHOME)/bin/sac-config -c `
-CFLAGS=`$(SACHOME)/bin/sac-config -c `
+CFLAGS=`$(SACHOME)/bin/sac-config -c ` -g -Wall
 SAC=$(SACHOME)/bin/sac
 FC=gfortran
 

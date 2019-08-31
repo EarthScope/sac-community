@@ -32,6 +32,7 @@
 !       - MAX number of points to be written
 !       - xdata Input Time Data      
 !       - nerr Error return Flag
+      call newhdr()
       call wsac2(kname,ydata,MAX,xdata,nerr)
 
 !     Check the Error status

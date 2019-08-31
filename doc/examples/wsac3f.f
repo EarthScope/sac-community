@@ -4,7 +4,7 @@
 !     Define the Maximum size of the data arrays      p
       integer MAX
       parameter (MAX=300)
-      
+
 !     Define both data arrays, time and amplitude
       real xdata, ydata
       dimension xdata(MAX), ydata(MAX)
@@ -30,9 +30,9 @@
       enddo
 
 !     Create a New Header to store more information
-!     Newly created header value are set to a default state      
+!     Newly created header value are set to a default state
       call newhdr()
-      
+
 !     Store values in the newly created header
 !     You must define the following header variables
 !        - delta  Time Sampling
@@ -42,7 +42,7 @@
 !        - npts   Number of Points in the File
 !        - iftype File Type
 !             - itime Time Series File
-!             - irlim Spectral File Real/Imaginary 
+!             - irlim Spectral File Real/Imaginary
 !             - iamph Spectral File Amplitue/Phase
 !             - ixy   X-Y File
 !             - iunkn Unknown
@@ -56,10 +56,10 @@
       call setfhv('user0',   cona,       nerr)
       call setfhv('user1',   conb,       nerr)
       call setkhv('kuser0', 'gendat',    nerr)
-      
+
 !     Write the SAC file kname
 !       - kname holds the name of the file to be written
-!       - xdata Input Time Data      
+!       - xdata Input Time Data
 !       - yfunc Input Amplitude Data
 !       - nerr Error return Flag
       call wsac0(kname,xdata,ydata,nerr)
@@ -75,4 +75,3 @@
       call exit(0)
 
       end
-      

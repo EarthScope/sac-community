@@ -14,7 +14,9 @@ main() {
 
     wsac0("dif.sac", y, y, &nerr, -1);
 
-    sac_compare("dif_sac.sac", yout, n-1, b + 0.5 * dt, dt);
+    if(!sac_compare("dif_sac.sac", yout, n-1, b + 0.5 * dt, dt)) {
+        exit(1);
+    }
 
     return 0;
 }

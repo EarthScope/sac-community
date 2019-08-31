@@ -14,7 +14,9 @@ test_bp() {
     int n, nerr, nmax = NMAX;
     rsac1("raw.sac", y, &n, &b, &dt, &nmax, &nerr, -1);
     bandpass(y, n, dt, 0.10, 1.00);
-    sac_compare("bandpass_sac.sac", y, n, b, dt);
+    if(!sac_compare("bandpass_sac.sac", y, n, b, dt)) {
+        exit(1);
+    }
     wsac0("bandpass.sac", y, y, &nerr, -1);
 }
 void
@@ -23,7 +25,9 @@ test_lp() {
     int n, nerr, nmax = NMAX;
     rsac1("raw.sac", y, &n, &b, &dt, &nmax, &nerr, -1);
     lowpass(y, n, dt, 2.0);
-    sac_compare("lowpass_sac.sac", y, n, b, dt);
+    if(!sac_compare("lowpass_sac.sac", y, n, b, dt)) {
+        exit(1);
+    }
     wsac0("lowpass.sac", y, y, &nerr, -1);
 }
 void
@@ -32,7 +36,9 @@ test_hp() {
     int n, nerr, nmax = NMAX;
     rsac1("raw.sac", y, &n, &b, &dt, &nmax, &nerr, -1);
     highpass(y, n, dt, 10.0);
-    sac_compare("highpass_sac.sac", y, n, b, dt);
+    if(!sac_compare("highpass_sac.sac", y, n, b, dt)) {
+        exit(1);
+    }
     wsac0("highpass.sac", y, y, &nerr, -1);
 }
 
@@ -42,7 +48,9 @@ test_filter() {
     int n, nerr, nmax = NMAX;
     rsac1("raw.sac", y, &n, &b, &dt, &nmax, &nerr, -1);
     filter(SAC_BESSEL, SAC_BANDREJECT, y, n, dt, 2.0, 10.00, 2, 4, 0.0, 0.0);
-    sac_compare("bandreject_sac.sac", y, n, b, dt);
+    if(!sac_compare("bandreject_sac.sac", y, n, b, dt)) {
+        exit(1);
+    }
     wsac0("bandreject.sac", y, y, &nerr, -1);
 }
 

@@ -4,7 +4,7 @@ FC=gfortran
 
 FFLAGS=-Wall `sac-config --cflags`
 CFLAGS=-Wall `sac-config --cflags`
-SACLIB=`sac-config --libs sac`
+SACLIB=`sac-config --libs sac sacio`
 SACIO=`sac-config --libs sacio`
 LDLIBS+=$(SACIO)
 
@@ -17,85 +17,51 @@ PROGS_IO = rsac1c rsac1f \
 	   wsac4c wsac4f \
 	   wsac5c wsac5f 
 
-PROGS_LIB = convolve_input filterf filterc \
-	    envelopef envelopec \
-	    correlatec correlatef \
-	    convolvef convolvec \
-	    time_shift_prog \
-      interpolate_prog \
-      convolve_saclib_c \
-      convolve_saclib_f
-
-all: 
-	( LDLIBS=''          $(MAKE) io   )
-	( LDLIBS='$(SACLIB)' $(MAKE) lib  )
-	( LDLIBS=''          $(MAKE) test )
+all: iotest dirs
 
 io: $(PROGS_IO)
 lib: $(PROGS_LIB)
 
-test:
-	./create_input.sh
-	./convolve_input
-	./filterf
-	./filterc
-	diff filterf_out_sac.sac filterf_out.sac 
-	diff filterc_out_sac.sac filterc_out.sac 
-	./envelopef
-	./envelopec
-	diff envelopef_out_sac.sac envelopef_out.sac
-	diff envelopec_out_sac.sac envelopec_out.sac
-	./convolvef convolve/brune_pulse.sac convolve/synthetic.sac convolve/convolvef_out_sac1.sac n
-	./convolvec convolve/brune_pulse.sac convolve/synthetic.sac convolve/convolvec_out_sac1.sac n
-	diff convolve/convolvef_out_sac1.sac convolve/convolvef_out-ok.sac
-	diff convolve/convolvec_out_sac1.sac convolve/convolvec_out-ok.sac
-	./correlatef
-	./correlatec
-	diff correlatef_out_sac1.sac correlatef_out1.sac
-	diff correlatec_out_sac1.sac correlatec_out1.sac
-	./convolve_saclib_c
-	./convolve_saclib_f
-	diff convolvec_out1.sac convolvec_out_sac1.sac
-	diff convolvef_out1.sac convolvef_out_sac1.sac
-
-clean:
-	rm -f $(PROGS_IO) $(PROGS_LIB) *.o *~ core
-	rm -f *.sac
-	rm -f convolve/convolvef_out_sac1.sac
-	rm -f convolve/convolvec_out_sac1.sac
-	rm -f `find . -name '*.o'`
-	rm -f `find . -name '*~'`
-
-filterf: filter/filterf.o
-	$(FC) $(CFLAGS) -o $@ $^ $(LDLIBS)
-envelopef: envelope/envelopef.o
-	$(FC) $(CFLAGS) -o $@ $^ $(LDLIBS)
-correlatef: correlate/correlatef.o
-	$(FC) $(CFLAGS) -o $@ $^ $(LDLIBS)
-convolvef: convolve/convolvef.o
-	$(FC) $(CFLAGS) -o $@ $^ $(LDLIBS)
-convolvef2: convolve/convolve.o convolve/convolvef2.o
-	$(FC) $(CFLAGS) -o $@ $^ $(LDLIBS)
-convolve_saclib_f: convolve_saclib/convolve_saclib_f.o
+time_shift_prog: time_shift/time_shift.f
 	$(FC) $(CFLAGS) -o $@ $^ $(LDLIBS)
 
-filterc: filter/filterc.o
-	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
-envelopec: envelope/envelopec.o
-	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
-correlatec: correlate/correlatec.o
-	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
-convolvec: convolve/convolvec.o
-	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
-convolve_saclib_c: convolve_saclib/convolve_saclib_c.o
-	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+iotest: io
+	./rsac1c
+	./rsac1f
+	./rsac2c
+	./rsac2f
+	./gethvc
+	./gethvf
+	./wsac1c
+	./wsac1f
+	./wsac2c
+	./wsac2f
+	./wsac4c
+	./wsac4f
+	./wsac5c
+	./wsac5f
 
-time_shift_prog: time_shift/time_shift.f time_shift/time_shift_subs.f
-	$(FC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+DIRS= convolve_saclib correlate cut differentiate envelope fft filter integrate rmean rotate rtrend taper transfer
 
-interpolate_prog: interpolate/interpolate.f interpolate/interpolate_subs.f
-	$(FC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+dirs:
+	(cd cut && make)
+	(cd differentiate && make)
+	(cd envelope && make)
+	(cd fft && make)
+	(cd filter && make)
+	(cd integrate && make)
+	(cd rmean && make)
+	(cd rotate && make)
+	(cd rtrend && make)
+	(cd taper && make)
+	(cd transfer && make)
+	(cd correlate && make)
 
-convolve_input: convolve/convolve_input.f
-	$(FC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+clean: dirs-clean
+	\rm -f $(PROGS_IO)
+	\rm -f STAZ STBZ STCZ STDZ STEZ STFZ STGZ STHE STHN STHZ xyzdata expdata
 
+dirs-clean:
+	for d in $(DIRS); do \
+	  (cd $$d && make clean ); \
+  done

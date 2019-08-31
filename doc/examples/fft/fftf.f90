@@ -162,6 +162,7 @@ subroutine fft_single()
   real*4, allocatable :: rea(:), ima(:)
   complex*8, allocatable :: za(:)
   n = 16
+  nf = 16
   pi = acos(-1.0d0);
   ! Sine wave - Input
   do i = 1,n

@@ -31,7 +31,7 @@
 !        - Non-Zero on Failure
       if(nerr .NE. 0) then
       	  write(*,*)'Error reading in file: ',kname
-	  call exit(-1)
+          call exit(-1)
       endif
 
 !     Do some processing ....

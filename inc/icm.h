@@ -79,7 +79,7 @@ struct _station_id_t {
     char *stat;
     char *loc;
     char *chan;
-    datetime *ref;
+    timespec64 ref;
 };
 
 struct _pzmeta_t {
@@ -87,9 +87,9 @@ struct _pzmeta_t {
     char *stat;
     char *chan;
     char *loc;
-    datetime *created;
-    datetime *start;
-    datetime *end;
+    timespec64 created;
+    timespec64 start;
+    timespec64 end;
     char *descrip;
     float lat;
     float lon;
@@ -235,7 +235,7 @@ void ztransfer(float *dat, int npts, double delta, double *sre, double *sim,
 
 pzmeta_t * polezero_meta_new();
 void polezero_comment_parse(char *line, pzmeta_t * meta);
-int polezero_is_correct_block(pzmeta_t * meta, datetime * filetime, char *stat,
+int polezero_is_correct_block(pzmeta_t * meta, timespec64 * filetime, char *stat,
                               char *net, char *loc, char *chan);
 pzmeta_t * polezero_meta_copy(pzmeta_t * m);
 void polezero_meta_free(pzmeta_t * meta);
