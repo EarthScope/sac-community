@@ -24,7 +24,6 @@
 #include "ucf.h"
 
 #include "EVRESPnames.h"
-#include "sac_datetime.h"
 
 #ifdef WIN32
 #define pointer char *
@@ -40,40 +39,37 @@
 #define KEY_POLES     "POLES"
 #define KEY_STAR      '*'
 
-datetime *
-datetime_get_file_time(datetime * t) {
+#define YEAR_0_DAY_1 (timespec64) { .tv_sec = -62167219200, .tv_nsec = 0 }
+
+timespec64
+datetime_get_file_time() {
     int dir;
     sac *s;
+    int h ,m, sec, y, j, ns;
     s = sacget_current();
-    if (!t) {
-        t = datetime_new();
-    }
 
     dir = getTransferDirection();
     if (isSet(TIME, dir)) {
-        datetime_set_hour(t, getTime(dir, EV_HOUR));
-        datetime_set_minute(t, getTime(dir, EV_MIN));
-        datetime_set_second(t, getTime(dir, EV_SEC));
-        datetime_set_nanosecond(t, getTime(dir, EV_MSEC) * 1000000);
+        h   = getTime(dir, EV_HOUR);
+        m   = getTime(dir, EV_MIN);
+        sec = getTime(dir, EV_SEC);
+        ns  = getTime(dir, EV_MSEC) * 1000000;
     } else {
-        datetime_set_hour(t, s->h->nzhour);
-        datetime_set_minute(t, s->h->nzmin);
-        datetime_set_second(t, s->h->nzsec);
+        h   = s->h->nzhour;
+        m   = s->h->nzmin;
+        sec = s->h->nzsec;
         if(s->h->nzmsec >= 0) {
-            datetime_set_nanosecond(t, s->h->nzmsec * 1000000);
+            ns = s->h->nzmsec * 1000000;
         }
     }
     if (isSet(DATE, dir)) {
-        datetime_set_year(t, getYear(dir) - 1900);
-        datetime_set_doy(t, getJday(dir) - 1);
-        datetime_doy2ymd(t);
+        y = getYear(dir);
+        j = getJday(dir);
     } else {
-        datetime_set_year(t, s->h->nzyear);
-        datetime_set_doy(t, s->h->nzjday);
-        datetime_doy2ymd(t);
+        y = s->h->nzyear;
+        j = s->h->nzjday;
     }
-    datetime_normalize(t);
-    return t;
+    return timespec64_from_yjhmsf(y,j,h,m,sec,ns);
 }
 
 /** 
@@ -147,7 +143,7 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
     char *s1;
 
     pzmeta_t *meta, *meta_used;
-    datetime *filetime;
+    timespec64 filetime;
 
     char *stat, *net, *loc, *chan;
     char *pstat, *pnet, *ploc, *pchan;
@@ -168,7 +164,7 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
         kfile[idx] = ' ';
     kfile[MCPFN] = '\0';
 
-    filetime = datetime_get_file_time(NULL);
+    filetime = datetime_get_file_time();
     meta  = polezero_meta_new();
     enum Direction dir = getTransferDirection();
 
@@ -332,7 +328,7 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
 
     if (key[0] == KEY_STAR) {   /* Comment Line */
         polezero_comment_parse(kiline, meta);
-    } else if (!polezero_is_correct_block(meta, filetime, stat, net, loc, chan)) {
+    } else if (!polezero_is_correct_block(meta, &filetime, stat, net, loc, chan)) {
 
     } else if (strncmp(key, KEY_CONSTANT, strlen(KEY_CONSTANT)) == 0) {
         poptok(kline, nc, &ic, &ic1, &ic2, &itype);
@@ -480,18 +476,20 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
         printf(" Using polezero response for %s, %s, %s, %s from %s\n", stat, chan,
                net, loc, subtyp);
         if (FALSE) {
+            timespec64 ref = YEAR_0_DAY_1;
             printf("\n");
-            if (meta_used && datetime_status(meta_used->start) == DATETIME_OK &&
-                datetime_status(meta_used->end) == DATETIME_OK) {
+            if (meta_used &&
+                timespec64_cmp(&meta_used->start, &ref) > 0 &&
+                timespec64_cmp(&meta_used->end,   &ref) > 0) {
                 printf("  Station:  %s.%s.%s.%s <> %s.%s.%s.%s \n",
                        meta_used->net, meta_used->stat, meta_used->chan,
                        meta_used->loc, net, stat, chan, loc);
                 printf("  On:       ");
-                datetime_printn(meta_used->start);
+                timespec64_print(&meta_used->start);
                 printf("  Off:      ");
-                datetime_printn(meta_used->end);
+                timespec64_print(&meta_used->end);
                 printf("  File:     ");
-                datetime_printn(filetime);
+                timespec64_print(&filetime);
             } else {
                 printf("  Station:  %s.%s.%s.%s \n", net, stat, chan, loc);
             }
@@ -509,7 +507,6 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
     }
 
     getrand(nfreq, delfrq, const_, nzeros, zeros, npoles, poles, xre, xim);
-    datetime_free(filetime);
     polezero_meta_free(meta);
     polezero_meta_free(meta_used);
 

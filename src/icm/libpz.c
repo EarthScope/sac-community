@@ -19,7 +19,6 @@
 #include "dff.h"
 #include "ucf.h"
 #include "bot.h"
-#include "sac_datetime.h"
 #include "debug.h"
 #include "libpz.h"
 #include <fstr.h>
@@ -36,6 +35,8 @@
 #define KEY_POLES     "POLES"
 #define KEY_STAR      '*'
 
+
+#define YEAR_0_DAY_1 (timespec64) { .tv_sec = -62167219200, .tv_nsec = 0 }
 
 /**
  * Parse a polezero comment value
@@ -215,9 +216,9 @@ polezero_meta_init(pzmeta_t * meta) {
     meta->stat = NULL;
     meta->chan = NULL;
     meta->loc = NULL;
-    meta->created = timespec64_from_yjhmsf(0, 1, 0, 0, 0, 0);
-    meta->start   = timespec64_from_yjhmsf(0, 1, 0, 0, 0, 0);
-    meta->end     = timespec64_from_yjhmsf(0, 1, 0, 0, 0, 0);
+    meta->created = YEAR_0_DAY_1;
+    meta->start   = YEAR_0_DAY_1;
+    meta->end     = YEAR_0_DAY_1;
     meta->descrip = NULL;
     meta->lat = 0.0;
     meta->lon = 0.0;
@@ -545,7 +546,9 @@ polezero_is_correct_block(pzmeta_t * meta, timespec64 * filetime, char *stat,
         (sdef(meta->chan) && sdef(chan) && strcasecmp(chan, meta->chan) != 0)) {
         return 0;
     }
-    if (filetime) {
+    timespec64 ref = YEAR_0_DAY_1;
+    if (timespec64_cmp(&meta->start, &ref) > 0 &&
+        timespec64_cmp(&meta->end, &ref) > 0){
         return timespec64_cmp(filetime, &meta->start) >= 0 &&
             timespec64_cmp(filetime, &meta->end) <= 0;
     }

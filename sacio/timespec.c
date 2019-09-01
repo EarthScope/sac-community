@@ -43,6 +43,11 @@ void ymd_from_yd(struct TM *tm);
 void yd_from_ymd(struct TM *tm);
 
 static const char *fmts[] = {
+    "%Y/%m/%d %H:%M:%S.%fZ",
+    "%Y/%m/%d %H:%M:%S.%f",
+    "%Y/%m/%d %H:%M:%SZ",
+    "%Y/%m/%d %H:%M:%S",
+
     "%Y/%m/%dT%H:%M:%S.%fZ",
     "%Y/%m/%dT%H:%M:%S.%f",
     "%Y/%m/%dT%H:%M:%SZ",

@@ -21,3 +21,42 @@ lh depmin depmax depmen b e npts
 
 m transfer_types.m
 
+fg seismo
+ch knetwk IU kstnm COLA kcmpnm BHZ khole 00
+lh depmin depmax depmen b e npts
+transfer from polezero subtype test_transfer_annotated.m to none
+lh depmin depmax depmen b e npts
+
+r IU.AFI.00.BHZ.iris.sac
+lh knetwk kstnm kcmpnm khole kzdate kztime
+transfer from polezero subtype test_transfer_annotated3.m to none
+
+r IU.AFI.00.BHZ.iris.sac
+lh knetwk kstnm kcmpnm khole kzdate kztime
+transfer from polezero subtype test_transfer_annotated4.m to none
+
+r IU.AFI.00.BHZ.iris.sac
+lh knetwk kstnm kcmpnm khole kzdate kztime
+transfer from polezero subtype test_transfer_annotated5.m to none
+
+r IU.AFI.00.BHZ.iris.sac
+lh knetwk kstnm kcmpnm khole kzdate kztime
+transfer from polezero subtype test_transfer_annotated6.m to none
+
+r IU.AFI.00.BHZ.iris.sac
+lh knetwk kstnm kcmpnm khole kzdate kztime
+transfer from polezero subtype test_transfer_annotated7.m to none
+
+r MK31.IM..LHE.obs.sac
+lh knetwk kstnm kcmpnm khole kzdate kztime
+transfer from polezero subtype test_transfer_annotated8.m to none
+
+r MK31.IM..LHE.obs.sac
+ch khole
+lh knetwk kstnm kcmpnm khole kzdate kztime
+transfer from polezero subtype test_transfer_annotated8.m to none
+
+r MK31.IM..LHE.obs.sac
+ch khole -12345
+lh knetwk kstnm kcmpnm khole kzdate kztime
+transfer from polezero subtype test_transfer_annotated9.m to none

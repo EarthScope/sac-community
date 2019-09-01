@@ -3289,4 +3289,178 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
      depmax = 7.562209e+03
   
  ==>  
+ fg seismo
+ ch knetwk IU kstnm COLA kcmpnm BHZ khole 00
+ lh depmin depmax depmen b e npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.569280e+00
+     depmax = 1.520640e+00
+     depmen = -9.854721e-02
+          b = 9.459999e+00
+          e = 1.945000e+01
+       npts = 1000
+ transfer from polezero subtype test_transfer_annotated.m to none
+ Using polezero response for COLA, BHZ, IU, 00 from test_transfer_annotated.m
+ Station (COLA    ), Channel (BHZ     )
+ lh depmin depmax depmen b e npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -3.055466e-11
+     depmax = 3.228392e-11
+     depmen = -5.584974e-14
+          b = 9.459999e+00
+          e = 1.945000e+01
+       npts = 1000
+  
+ ==>  
+ r IU.AFI.00.BHZ.iris.sac
+ lh knetwk kstnm kcmpnm khole kzdate kztime
+  
+  
+  FILE: IU.AFI.00.BHZ.iris.sac - 1
+ ----------------------------
+
+     knetwk = IU
+      kstnm = AFI
+     kcmpnm = BHZ
+      khole = 00
+     kzdate = MAY 01 (121), 2011
+     kztime = 23:17:27.919
+ transfer from polezero subtype test_transfer_annotated3.m to none
+ Using polezero response for AFI, BHZ, IU, 00 from test_transfer_annotated3.m
+ Station (AFI     ), Channel (BHZ     )
+  
+ ==>  
+ r IU.AFI.00.BHZ.iris.sac
+ lh knetwk kstnm kcmpnm khole kzdate kztime
+  
+  
+  FILE: IU.AFI.00.BHZ.iris.sac - 1
+ ----------------------------
+
+     knetwk = IU
+      kstnm = AFI
+     kcmpnm = BHZ
+      khole = 00
+     kzdate = MAY 01 (121), 2011
+     kztime = 23:17:27.919
+ transfer from polezero subtype test_transfer_annotated4.m to none
+ ERROR 2114: No response information for this channel in response file. 
+ Station: IU.AFI.BHZ.00
+  
+ ==>  
+ r IU.AFI.00.BHZ.iris.sac
+ lh knetwk kstnm kcmpnm khole kzdate kztime
+  
+  
+  FILE: IU.AFI.00.BHZ.iris.sac - 1
+ ----------------------------
+
+     knetwk = IU
+      kstnm = AFI
+     kcmpnm = BHZ
+      khole = 00
+     kzdate = MAY 01 (121), 2011
+     kztime = 23:17:27.919
+ transfer from polezero subtype test_transfer_annotated5.m to none
+ ERROR 2114: No response information for this channel in response file. 
+ Station: IU.AFI.BHZ.00
+  
+ ==>  
+ r IU.AFI.00.BHZ.iris.sac
+ lh knetwk kstnm kcmpnm khole kzdate kztime
+  
+  
+  FILE: IU.AFI.00.BHZ.iris.sac - 1
+ ----------------------------
+
+     knetwk = IU
+      kstnm = AFI
+     kcmpnm = BHZ
+      khole = 00
+     kzdate = MAY 01 (121), 2011
+     kztime = 23:17:27.919
+ transfer from polezero subtype test_transfer_annotated6.m to none
+ Using polezero response for AFI, BHZ, IU, 00 from test_transfer_annotated6.m
+ Station (AFI     ), Channel (BHZ     )
+  
+ ==>  
+ r IU.AFI.00.BHZ.iris.sac
+ lh knetwk kstnm kcmpnm khole kzdate kztime
+  
+  
+  FILE: IU.AFI.00.BHZ.iris.sac - 1
+ ----------------------------
+
+     knetwk = IU
+      kstnm = AFI
+     kcmpnm = BHZ
+      khole = 00
+     kzdate = MAY 01 (121), 2011
+     kztime = 23:17:27.919
+ transfer from polezero subtype test_transfer_annotated7.m to none
+ Using polezero response for AFI, BHZ, IU, 00 from test_transfer_annotated7.m
+ Station (AFI     ), Channel (BHZ     )
+  
+ ==>  
+ r MK31.IM..LHE.obs.sac
+ lh knetwk kstnm kcmpnm khole kzdate kztime
+  
+  
+  FILE: MK31.IM..LHE.obs.sac - 1
+ --------------------------
+
+     knetwk = IM
+      kstnm = MK31
+     kcmpnm = BHE
+      khole =
+     kzdate = AUG 23 (235), 2011
+     kztime = 17:46:03.000
+ transfer from polezero subtype test_transfer_annotated8.m to none
+ Using polezero response for MK31, BHE, IM,  from test_transfer_annotated8.m
+ Station (MK31    ), Channel (BHE     )
+  
+ ==>  
+ r MK31.IM..LHE.obs.sac
+ ch khole
+ lh knetwk kstnm kcmpnm khole kzdate kztime
+  
+  
+  FILE: MK31.IM..LHE.obs.sac - 1
+ --------------------------
+
+     knetwk = IM
+      kstnm = MK31
+     kcmpnm = BHE
+      khole =
+     kzdate = AUG 23 (235), 2011
+     kztime = 17:46:03.000
+ transfer from polezero subtype test_transfer_annotated8.m to none
+ Using polezero response for MK31, BHE, IM,  from test_transfer_annotated8.m
+ Station (MK31    ), Channel (BHE     )
+  
+ ==>  
+ r MK31.IM..LHE.obs.sac
+ ch khole -12345
+ lh knetwk kstnm kcmpnm khole kzdate kztime
+  
+  
+  FILE: MK31.IM..LHE.obs.sac - 1
+ --------------------------
+
+     knetwk = IM
+      kstnm = MK31
+     kcmpnm = BHE
+     kzdate = AUG 23 (235), 2011
+     kztime = 17:46:03.000
+ transfer from polezero subtype test_transfer_annotated9.m to none
+ Using polezero response for MK31, BHE, IM,  from test_transfer_annotated9.m
+ Station (MK31    ), Channel (BHE     )
  quit
