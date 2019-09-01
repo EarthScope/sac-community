@@ -437,7 +437,7 @@ void parse_rotinc(enum CoordSystem *target, double *angle, int *verbose, int *ne
     switch(*target) {
     case Unknown_CoordSystem:
         *target = LQT;
-        /* Fall through to LQT */
+        /* Falls through. */
     case LQT:
         /* iP, iS or Incidence not set */
         switch(imethod) {

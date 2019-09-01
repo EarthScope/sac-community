@@ -208,7 +208,7 @@ prefPicksToHeader(header, idfl, wf, tree, correction, nerr)
                 currentArr = storeArr->element;
                 if (strcmp(currentArr->iphase, kmdfm.ktPh[idx]) == 0) {
                     /*lauthor = TRUE ; *//* author found, message will be printed */
-                    sprintf(message, "%s\t%s\n", message, currentArr->auth);
+                    snprintfcat(message, sizeof(message), "\t%s\n", currentArr->auth);
                 }
             }                   /* end for ( storeArr ) */
 

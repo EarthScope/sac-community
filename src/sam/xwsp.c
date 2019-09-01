@@ -26,7 +26,7 @@ void /*FUNCTION*/
 xwsp(nerr)
      int *nerr;
 {
-    char kwspnm[MCPFN + 1];
+    char kwspnm[2 * MCPFN + 1];
     char prefix[MCPFN + 1];
     int lconv;
     int index, ispectype, jdfl, nfreq;

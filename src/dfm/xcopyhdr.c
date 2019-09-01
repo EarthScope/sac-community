@@ -125,8 +125,8 @@ xcopyhdr(int *nerr) {
         itemp = SAC_INT_UNDEFINED;
         ntemp = SAC_ENUM_UNDEFINED;
         ltemp = SAC_LOGICAL_UNDEFINED;
-        strncpy(ktemp3, SAC_CHAR_UNDEFINED, 8);
-        strncpy(ktemp3, SAC_CHAR_UNDEFINED, 8);
+        strncpy(ktemp3, SAC_CHAR_UNDEFINED, 9);
+        strncpy(ktemp3, SAC_CHAR_UNDEFINED, 9);
         /* -- Get master file's header from memory manager. */
         if (!(s = sacget(idflco - 1, TRUE, nerr))) {
             //getfil( idflco, FALSE, &notusd, &notusd, &notusd, nerr );

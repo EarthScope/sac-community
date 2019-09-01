@@ -7,6 +7,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <stdarg.h>
 
 #include "bool.h"
 #include "bot.h"
@@ -85,4 +86,25 @@ rstrip(char *s) {
     }
     *(back + 1) = 0;
     return s;
+}
+
+int
+snprintfcat(char *buf, size_t size, const char* format, ...) {
+    va_list args;
+    int result = 0;
+    size_t len = strlen(buf);
+    size_t space = size - len;
+
+    va_start(args, format);
+    result = vsnprintf(buf + len, space, format, args);
+    va_end(args);
+    if(result < 0) {
+        printf("formatted string error\n");
+        return result;
+    }
+    if((size_t) result > space) {
+        printf("formatted string truncated\n");
+        return (int) size;
+    }
+    return result + (int) len;
 }

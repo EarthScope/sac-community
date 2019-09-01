@@ -176,7 +176,7 @@ xrtab(int lplot, int *nerr) {
 
         /* if PRINT option is tried, get printer name */
         else if (lplot && ltry) {
-            char command[81];
+            char command[256];
             lcchar(kmgem.kptrName, sizeof(kmgem.kptrName));
 
             sprintf(command, "lpstat -v | grep %s", kmgem.kptrName);

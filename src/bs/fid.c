@@ -181,23 +181,21 @@ fid_cssxx(char *buf, int len, int version) {
   char w[33];
   int n;
   int nh,noff,woff;
-  char *nfmt30 = "%4d", *wfmt30 = "%32s", *type30 = "CSS3.0";
-  char *nfmt28 = "%8d", *wfmt28 = "%20s", *type28 = "CSS2.8";
-  char *nfmt,*wfmt,*type;
+  char *nfmt30 = "%4d", *wfmt30 = "%32s";//, *type30 = "CSS3.0";
+  char *nfmt28 = "%8d", *wfmt28 = "%20s";//, *type28 = "CSS2.8";
+  char *nfmt,*wfmt;
   if(version == 30) {
     nh   = 284;
     noff =  79;
     woff = 213;
     nfmt = nfmt30;
     wfmt = wfmt30;
-    type = type30;
   } else { /* Version == 28 */
     nh   = 208;
     noff =  35;
     woff = 137;
     nfmt = nfmt28;
     wfmt = wfmt28;
-    type = type28;
   }
 
   if(is_binary(buf, len)) {
@@ -437,7 +435,7 @@ int
 fid(char *file) {
   off_t size;
   FILE *fp;
-  int n, i;
+  int n;
   char buf[2048];
   struct FID *f;
   int out;
@@ -467,7 +465,6 @@ fid(char *file) {
   memset(buf, 0, sizeof(buf));
   n = fread(&buf, 1, sizeof(buf), fp);
   fclose(fp);
-  i = 0;
   while(f && f->name && f->id > 0) {
     debug( "FID: trying file type %s\n", f->name);
     if(size >= f->min && f->try(buf, n)) {

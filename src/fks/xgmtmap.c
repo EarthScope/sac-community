@@ -11,6 +11,7 @@
 #include <math.h>
 
 #include "amf.h"
+#include "bot.h"
 
 #include "select.h"
 #include "fks.h"
@@ -582,7 +583,7 @@ xgmtmap(int *nerr) {
 
             /* Check for and store size variables.  These are not required. */
             size[jdfl_] = size_undef;
-            if (pEventBuffer != '\0') {
+            if (*pEventBuffer != '\0') {
                 size[jdfl_] = atof(pEventBuffer);
                 if (!lscale ||
                     (size[jdfl_] > minSizeInput &&
@@ -955,15 +956,15 @@ xgmtmap(int *nerr) {
             strcat(pscoast, " -G250/250/200 ");
         }
         if (lmapscale) {
-            sprintf(pscoast, "%s" " -Lf%.3f/%.3f/%.3f/%s", pscoast,
+            snprintfcat(pscoast, sizeof(pscoast), " -Lf%.3f/%.3f/%.3f/%s",
                     minlon + deltalon * 0.33, minlat + deltalat * 0.16,
                     minlat + deltalat / 2.0, clengthscale);
         }
     } else if (mapJ == AZIM) {
-        sprintf(pscoast, "%s" " -N1 -W -Dc A%s -G250/250/250 -S220/240/250",
-                pscoast, carea);
+        snprintfcat(pscoast, sizeof(pscoast),
+                    " -N1 -W -Dc A%s -G250/250/250 -S220/240/250", carea);
     }
-    sprintf(pscoast, "%s >> " PSVAR " \n\n", pscoast);
+    snprintfcat(pscoast, sizeof(pscoast), " >> " PSVAR " \n\n");
 
     /* Buildup the optional grd commands for topography */
     if (ltopo) {
@@ -973,12 +974,12 @@ xgmtmap(int *nerr) {
                 "echo \"Creating Topography, please be patient\"\n"
                 "grdraster 1 -Ggmttopo.grd -R%s/%s/%s/%s \n", iwrange, ierange,
                 isrange, inrange);
-        sprintf(grdcoms,
-                "%s" "grdfilter gmttopo.grd -D1 -Fb35 -N -Ggmttopofilt.grd \n"
+        snprintfcat(grdcoms, sizeof(grdcoms),
+                "grdfilter gmttopo.grd -D1 -Fb35 -N -Ggmttopofilt.grd \n"
                 "grdgradient gmttopofilt.grd -A315 -Nt -Ggmttopograd.grd \n"
                 "grdimage -K -O -J -R "
                 "  gmttopofilt.grd -C${SACAUX}/ctables/gmt.cpt "
-                " -Igmttopograd.grd >> " PSVAR " \n\n", grdcoms);
+                " -Igmttopograd.grd >> " PSVAR " \n\n");
     }
 
     /* Open the output file */
@@ -1007,21 +1008,20 @@ xgmtmap(int *nerr) {
         memset(pstext, ' ', MAXSTRING);
         sprintf(pstext, "pstext -K -O -D0.10i/0.10i -J ");
         if (mapJ == AZIM || (deltalat > deltalatbig && deltalon > deltalonbig)) {
-            sprintf(pstext,
-                    "%s -R -S0.1/255 -G0/0/0 <<" __EOF__ " >> " PSVAR " \n",
-                    pstext);
+            snprintfcat(pstext, sizeof(pstext),
+                        "-R -S0.1/255 -G0/0/0 <<" __EOF__ " >> " PSVAR " \n");
         } else {
-            sprintf(pstext,
-                    "%s -R -S0.25/255 -G0/0/0 <<" __EOF__ " >> " PSVAR " \n",
-                    pstext);
+            snprintfcat(pstext, sizeof(pstext),
+                        "-R -S0.25/255 -G0/0/0 <<" __EOF__ " >> " PSVAR " \n");
         }
         for (i = 0; i < nch; i++) {
             if (stalon[i] != latlon_undef && stalat[i] != latlon_undef) {
                 if (i == 0 || stalon[i] != stalon[i - 1] ||
                     stalat[i] != stalat[i - 1]) {
                     if (strncmp(staname[i], "-12345", 6)) {
-                        sprintf(pstext, "%s%1.3f %1.3f  10 0 0 BL  %s \n",
-                                pstext, stalon[i], stalat[i], staname[i]);
+                        snprintfcat(pstext, sizeof(pstext),
+                                    "%1.3f %1.3f  10 0 0 BL  %s \n",
+                                    stalon[i], stalat[i], staname[i]);
                     }
                 }
             }
@@ -1036,18 +1036,20 @@ xgmtmap(int *nerr) {
     memset(psxy, ' ', MAXSTRING);
     sprintf(psxy, "psxy -K -O -J");
     if (mapJ == AZIM || (deltalat > deltalatbig && deltalon > deltalonbig)) {
-        sprintf(psxy, "%s -R -St0.1i -G0/0/0 <<" __EOF__ " >> " PSVAR " \n",
-                psxy);
+        snprintfcat(psxy, sizeof(psxy),
+                    "%s -R -St0.1i -G0/0/0 <<" __EOF__ " >> " PSVAR " \n");
     } else {
-        sprintf(psxy, "%s -R -St0.25i -G0/0/0 <<" __EOF__ " >> " PSVAR " \n",
-                psxy);
+        snprintfcat(psxy, sizeof(psxy),
+                    " -R -St0.25i -G0/0/0 <<" __EOF__ " >> " PSVAR " \n");
     }
 
     for (i = 0; i < nch; i++) {
         if (stalon[i] != latlon_undef && stalat[i] != latlon_undef) {
             if (i == 0 || stalon[i] != stalon[i - 1] ||
                 stalat[i] != stalat[i - 1]) {
-                sprintf(psxy, "%s%1.3f %1.3f \n", psxy, stalon[i], stalat[i]);
+                //sprintf(psxy, "%s%1.3f %1.3f \n", psxy, stalon[i], stalat[i]);
+                snprintfcat(psxy, sizeof(psxy),
+                            "1.3f %1.3f \n", stalon[i], stalat[i]);
             }
         }
     }
@@ -1125,7 +1127,7 @@ xgmtmap(int *nerr) {
             } else {
                 strcat(psxy, " -Sc0.25i ");
             }
-            sprintf(psxy, "%s <<" __EOF__ " >> " PSVAR " \n", psxy);
+            snprintfcat(psxy, sizeof(psxy), " <<" __EOF__ " >> " PSVAR " \n");
         }
 
         /* put the xy locations and sizes out */
@@ -1133,16 +1135,17 @@ xgmtmap(int *nerr) {
             if (i == 0 || evlon[i] != evlon[i - 1] || evlat[i] != evlat[i - 1]) {
                 if (evlon[i] != latlon_undef) {
                     if (lsize) {
-                        sprintf(psxy, "%s" "%1.3f %1.3f %1.3f \n", psxy,
+                        snprintfcat(psxy, sizeof(psxy), "%1.3f %1.3f %1.3f \n",
                                 evlon[i], evlat[i], size[i]);
                     } else if (lresid) {
                         if (size[i] != size_undef && size[i] >= 0.0) {
-                            sprintf(psxy, "%s" "%1.3f %1.3f %1.3f \n", psxy,
+                            snprintfcat(psxy, sizeof(psxy),
+                                    "%1.3f %1.3f %1.3f \n",
                                     evlon[i], evlat[i], fabs(size[i]));
                         }
                     } else {
-                        sprintf(psxy, "%s" "%1.3f %1.3f \n", psxy, evlon[i],
-                                evlat[i]);
+                        snprintfcat(psxy, sizeof(psxy),
+                                "%1.3f %1.3f \n", evlon[i], evlat[i]);
                     }
                 }
             }
@@ -1169,7 +1172,8 @@ xgmtmap(int *nerr) {
                     evlat[i] != evlat[i - 1]) {
                     if (evlon[i] != latlon_undef && size[i] != size_undef &&
                         size[i] < 0.0) {
-                        sprintf(psxy, "%s" "%1.3f %1.3f %1.3f \n", psxy,
+                        snprintfcat(psxy, sizeof(psxy),
+                                "%1.3f %1.3f %1.3f \n",
                                 evlon[i], evlat[i], fabs(size[i]));
                     }
                 }
@@ -1246,7 +1250,7 @@ xgmtmap(int *nerr) {
                 "Running SAC within a script, Terminal Mode Disabled");
     }
 
-    sprintf(syscommand, "%s %s  & ", syscommand, output);
+    snprintfcat(syscommand, sizeof(syscommand), " %s  & ", output);
     sc_len = strlen(syscommand);
     zsysop(syscommand, 0, &sc_len, nerr);
 

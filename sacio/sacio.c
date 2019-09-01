@@ -2882,7 +2882,9 @@ sac_floatlcat(char *dst, sac *s, int hdr, size_t n) {
     char tmp[64] = {0};
     sac_get_float(s, hdr, &v);
     if(v != SAC_FLOAT_UNDEFINED) {
-        snprintf(tmp, sizeof(dst), "%g", v);
+        if(snprintf(tmp, sizeof(dst), "%g", v) < 0) {
+            printf("warning: inusfficient space for number format\n");
+        }
     }
     return sacio_strlcat(dst, tmp, n);
 }

@@ -239,11 +239,10 @@ read_xdr(string_list * files) {
 
 static
 int read_sdd_file(char *file, int ldata) {
-    int i, nerr, nun, retval;
+    int nerr, nun, retval;
     sac *s;
     s = NULL;
     retval = TRUE;
-    i = 0;
 
     nerr = 0;
 
@@ -336,9 +335,8 @@ sac_datetime(sac *s) {
 
 int
 read_sac_file(char *file, int ldata) {
-    int nerr, retval;
+    int nerr;
     sac *s = NULL;
-    retval = TRUE;
     s = NULL;
     nerr = 0;
 

@@ -801,7 +801,7 @@ xplotrecords(nerr)
                 formhv(kmsss.knmlab, 9, 3, kpllab, MCPFN + 1, &nferr);
                 kpllab[indexb(kpllab, MCPFN + 1)] = '\0';       /* these four lines */
                 if (cmgam.lfinorq)
-                    sprintf(kpllab, "%s - %d", kpllab, jdfl);   /* modified. maf     */
+                    snprintfcat(kpllab, sizeof(kpllab), " - %d", jdfl);
                 pltext(kpllab, xwloc, ywloc);       /* 970129 */
 
                 if (cmsss.lorient) {

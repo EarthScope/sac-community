@@ -7,8 +7,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define SAC_NULL_HEADER_REQUIRED
-
 #include <sacio/sacio.h>
 #include <fern/array.h>
 

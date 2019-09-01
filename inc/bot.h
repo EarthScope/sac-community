@@ -8,6 +8,8 @@
 #ifndef _BOT_H_
 #define _BOT_H_
 
+#include <stdlib.h>
+
 void capf(int *nerr);
 void chpf(int *nerr);
 void crname(char *kname, int kname_s, char kdelim, char *kappnd, int kappnd_s,
@@ -30,4 +32,7 @@ void wrlist(char *klist, int klist_s, int nlist);
 char *strcut(char *in, unsigned int start, unsigned int end);
 char *lstrip(char *s);
 char *rstrip(char *s);
+int snprintfcat(char *buf, size_t size, const char* format, ...);
+
+
 #endif /* _BOT_H_ */

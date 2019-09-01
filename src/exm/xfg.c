@@ -69,7 +69,7 @@ int read_sac_file(char *file, int ldata);
 void
 xfg(int *nerr) {
     char kfile[MCPFN + 1];
-    int iseed, j, j1, jdfl = 0, ndx1, ndx2, n;
+    int iseed, j, j1, jdfl = 0, ndx2, n;
     static int nra;
     int itmp;
     double dtmp[2];
@@ -78,7 +78,7 @@ xfg(int *nerr) {
     sac *s = NULL;
     *nerr = 0;
     memset(kfile, 0, sizeof(kfile));
-    ndx1 = ndx2 = 0;
+    ndx2 = 0;
     s = NULL;
     while (lcmore(nerr)) {
 
