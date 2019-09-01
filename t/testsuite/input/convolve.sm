@@ -63,4 +63,49 @@ convolve test.conv1.sac
 message "NPTS: &1,npts"
 lh npts
 
-quit
+qdp off
+fg seismo
+rmean
+convolve triangle 0.05 centered off
+write test.conv.off.sac
+
+fg seismo
+rmean
+convolve triangle 0.05 centered on
+write test.conv.on.sac
+
+read test.conv.off.sac test.conv.on.sac
+color on inc
+p2 ; pause period 0.5
+
+** Convolve with Files
+
+fg seismo
+rmean
+write test.conv.data.sac
+lh depmin depmax depmen b e npts
+
+fg triangle delta &1,delta npts 20
+write test.conv.pulse.sac
+int
+setbb SUM &1,depmax
+read test.conv.pulse.sac
+div %SUM
+write over
+lh depmin depmax depmen b e npts
+
+read test.conv.data.sac
+convolve test.conv.pulse.sac
+read more test.conv.data.sac
+p2 ; pause period 0.5
+lh depmin depmax depmen b e npts
+
+read test.conv.data.sac test.conv.pulse.sac
+convolve pulse 2
+read more test.conv.data.sac
+p2 ; pause period 0.5
+lh depmin depmax depmen b e npts
+
+read test.conv.data.sac test.conv.pulse.sac
+convolve pulse 1
+getbb

@@ -121,4 +121,133 @@ Pausing
      npts = 299
   
  ==>  
+ qdp off
+ fg seismo
+ rmean
+ convolve triangle 0.05 centered off
+ write test.conv.off.sac
+  
+ ==>  
+ fg seismo
+ rmean
+ convolve triangle 0.05 centered on
+ write test.conv.on.sac
+  
+ ==>  
+ read test.conv.off.sac test.conv.on.sac
+ color on inc
+ p2 ; pause period 0.5
+Pausing
+  
+ ==>  
+ ** Convolve with Files
+  
+ ==>  
+ fg seismo
+ rmean
+ write test.conv.data.sac
+ lh depmin depmax depmen b e npts
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     depmin = -1.470733e+00
+     depmax = 1.619187e+00
+     depmen = 1.125038e-09
+          b = 9.459999e+00
+          e = 1.945000e+01
+       npts = 1000
+  
+ ==>  
+ fg triangle delta &1,delta npts 20
+ ==>  fg triangle delta 0.01 npts 20
+ write test.conv.pulse.sac
+ int
+ setbb SUM &1,depmax
+ ==>  setbb SUM 0.05
+ read test.conv.pulse.sac
+ div %SUM
+ ==>  div 0.05
+ write over
+ lh depmin depmax depmen b e npts
+  
+  
+  FILE: test.conv.pulse.sac - 1
+ -------------------------
+
+     depmin = 0.000000e+00
+     depmax = 2.000000e+01
+     depmen = 5.000000e+00
+          b = 0.000000e+00
+          e = 1.900000e-01
+       npts = 20
+  
+ ==>  
+ read test.conv.data.sac
+ convolve test.conv.pulse.sac
+ read more test.conv.data.sac
+ p2 ; pause period 0.5
+Pausing
+ lh depmin depmax depmen b e npts
+  
+  
+  FILE: test.conv.data.sac - 1
+ ------------------------
+
+     depmin = -1.131738e+00
+     depmax = 1.209894e+00
+     depmen = 1.320818e-09
+          b = 9.459999e+00
+          e = 1.964000e+01
+       npts = 1019
+  
+  FILE: test.conv.data.sac - 2
+ ------------------------
+
+     depmin = -1.470733e+00
+     depmax = 1.619187e+00
+     depmen = 1.125038e-09
+          b = 9.459999e+00
+          e = 1.945000e+01
+       npts = 1000
+  
+ ==>  
+ read test.conv.data.sac test.conv.pulse.sac
+ convolve pulse 2
+ read more test.conv.data.sac
+ p2 ; pause period 0.5
+Pausing
+ lh depmin depmax depmen b e npts
+  
+  
+  FILE: test.conv.data.sac - 1
+ ------------------------
+
+     depmin = -1.131738e+00
+     depmax = 1.209894e+00
+     depmen = 1.320818e-09
+          b = 9.459999e+00
+          e = 1.964000e+01
+       npts = 1019
+  
+  FILE: test.conv.data.sac - 2
+ ------------------------
+
+     depmin = -1.470733e+00
+     depmax = 1.619187e+00
+     depmen = 1.125038e-09
+          b = 9.459999e+00
+          e = 1.945000e+01
+       npts = 1000
+  
+ ==>  
+ read test.conv.data.sac test.conv.pulse.sac
+ convolve pulse 1
+ ERROR 1002: Bad value for waveform npts (20) < pulse npts (1000)
+ getbb
+ NUMERROR = 1002
+ SACERROR = 'TRUE'
+ SACNFILES = 1
+ SUM = 0.05
  quit
