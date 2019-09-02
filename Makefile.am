@@ -54,12 +54,11 @@ bin_SCRIPTS = bin/sacinit.sh \
 	      bin/sgftox.csh \
 	      bin/sac-config
 
-include:
+include/sacio.h: $(top_srcdir)/sacio/sacio.h
 	mkdir -p include
-
-include/sacio.h: include $(top_srcdir)/sacio/sacio.h
 	cp $(top_srcdir)/sacio/sacio.h include/sacio.h
-include/timespec.h: include $(top_srcdir)/sacio/timespec.h
+include/timespec.h: $(top_srcdir)/sacio/timespec.h
+	mkdir -p include
 	cp $(top_srcdir)/sacio/timespec.h include/timespec.h
 
 
