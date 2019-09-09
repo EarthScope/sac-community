@@ -8,9 +8,10 @@
 int
 main() {
     char ty[17];
-    int nlen = 0, max = MAX, nerr = 0;
+    int nlen = 0, max = MAX, nerr = 0, nvhdr = 6;
     float y[MAX], x[MAX];
     float beg = 0.0, del = 0.0, delta = 0.0;
+    double delta8 = 0.0;
     rsac1("t/test_io_small.sac", y, &nlen, &beg, &del, &max, &nerr, -1);
     printf("%d\n", nerr);
     assert(nerr == 0);
@@ -18,6 +19,9 @@ main() {
     printf("%d %f\n", nerr, delta);
     assert(nerr == 0);
     assert(delta == 1.0);
+    getrhv("delta", &delta8, &nerr, -1);
+    assert(nerr == 0);
+    assert(delta8 == 1.0);
 
     getfhv("b", &beg, &nerr, -1);
     assert(beg == 0.0);
@@ -25,6 +29,33 @@ main() {
     getihv("iftype", ty, &nerr, -1, 16);
     printf("'%s'\n", ty);
     assert(strcmp(ty, "ITIME   ") == 0);
+
+    delta8 = 1.0/3.0;
+    printf("%.17g\n", delta8);
+    setrhv("t0", &delta8, &nerr, -1);
+    assert(nerr == 0);
+    delta8 = 0.0;
+    getrhv("t0", &delta8, &nerr, -1);
+    printf("%.17g\n", delta8);
+    assert(nerr == 0);
+    assert(delta8 == (float)(1.0/3.0));
+
+    nvhdr = 7;
+    setnhv("nvhdr", &nvhdr, &nerr, -1);
+    assert(nerr == 0);
+    delta8 = 1.0/3.0;
+    printf("%.17g\n", delta8);
+    setrhv("t0", &delta8, &nerr, -1);
+    assert(nerr == 0);
+    delta8 = 0.0;
+    getrhv("t0", &delta8, &nerr, -1);
+    printf("%.17g\n", delta8);
+    assert(nerr == 0);
+    assert(delta8 == (1.0/3.0));
+
+    nvhdr = 6;
+    setnhv("nvhdr", &nvhdr, &nerr, -1);
+    assert(nerr == 0);
 
     getkhv("kstnm", ty, &nerr, -1, 8);
     printf("'%s'\n", ty);
@@ -79,6 +110,7 @@ main() {
     assert(strcmp(ty, "        ") == 0);
 
     rsac1("t/test_io_small.sac", y, &nlen, &beg, &del, &max, &nerr, -1);
+    printf("nerr: %d\n", nerr);
     assert(nerr == 0);
     wsac1("t/test_io_small.sac.tmp", y, &nlen, &beg, &del, &nerr, -1);
     assert(nerr == 0);

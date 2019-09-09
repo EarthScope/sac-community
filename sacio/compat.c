@@ -18,6 +18,14 @@
 #define ERROR_UNDEFINED_HEADER_FIELD_VALUE  1336 /**< @brief header value was undefined */
 #define ERROR_ILLEGAL_ENUMERATED_VALUE      1365 /**< @brief illegal enumerated value */
 
+/**
+ * @brief      Current sac header used in Fortran compatibility layer
+ *
+ * @details    Current sac header used in Fortran compatibility layer .
+ *             There can be only one.
+ *
+ * @private
+ */
 sac *current = NULL;
 
 
@@ -344,7 +352,22 @@ wsac0(char   *kname,
     s->x = x;
     s->y = y;
 }
-
+/**
+ * @brief      Write a sac file
+ *
+ * @details    Write a sac file using the existing header in memory
+ *
+ * @ingroup    sac-iris
+ * @memberof   sac_iris
+ *
+ * @param      kname     Name of sac file to write
+ * @param      yarray    Input independent varaible, e.g. x, time, real, amp
+ * @param      xarray    Input dependedent variable, e.g. amplitude, imag, phase
+ * @param      nerr      Status code, 0 on success, non-zero on failue
+ * @param      kname_s   Length of kname
+ *
+ * @note       This is a simple wrapper around wsac().
+ */
 void
 wsac3(char   *kname,
       float  *xarray,
@@ -457,7 +480,7 @@ wsac2(char   *kname,
  *       rsac1(), rsac2() or newhdr()
  */
 void
-getfhv(char *kname, float *fvalue, int *nerr, int kname_s) {
+getrhv(char *kname, double *fvalue, int *nerr, int kname_s) {
     double v = SAC_FLOAT_UNDEFINED;
     sac *s = NULL;
     struct hid *h = NULL;
@@ -478,6 +501,28 @@ getfhv(char *kname, float *fvalue, int *nerr, int kname_s) {
     if(v == SAC_FLOAT_UNDEFINED) {
         *nerr = ERROR_UNDEFINED_HEADER_FIELD_VALUE;
     }
+    *fvalue = v;
+}
+/**
+ * @brief      Get a floating point header value
+ *
+ * @details    Get a floating point header value from the sac header
+ *
+ * @ingroup    sac-iris
+ * @memberof   sac_iris
+ *
+ * @param      kname    Name of header value
+ * @param      fvalue   Output header value
+ * @param      nerr     Status, 0 on success, non-zero on failure
+ * @param      kname_s  Length of kname
+ *
+ * @note This routine requires an internal, global sac file from
+ *       rsac1(), rsac2() or newhdr()
+ */
+void
+getfhv(char *kname, float *fvalue, int *nerr, int kname_s) {
+    double v;
+    getrhv(kname, &v, nerr, kname_s);
     *fvalue = (float) v;
 }
 
@@ -659,10 +704,18 @@ void
 getihv(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
     getihv_internal(kname, kvalue, nerr, kname_s, kvalue_s, 1);
 }
+/**
+ * @brief      getihv Fortran interface
+ * @private
+ */
 void
 getihv_(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
     getihv_internal(kname, kvalue, nerr, kname_s, kvalue_s, 0);
 }
+/**
+ * @brief      getihv Fortran interface
+ * @private
+ */
 void
 getihv__(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
     getihv_internal(kname, kvalue, nerr, kname_s, kvalue_s, 0);
@@ -675,12 +728,14 @@ getihv__(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
  *
  * @ingroup    sac-iris
  * @memberof   sac_iris
+ * @private
  *
- * @param      kname    Name of header value
- * @param      kvalue   Output character string
- * @param      nerr     Status, 0 on success, non-zero on failure
- * @param      kname_s  Length of kname
- * @param      kvalue_s Length of kvalue
+ * @param      kname           Name of header value
+ * @param      kvalue          Output character string
+ * @param      nerr            Status, 0 on success, non-zero on failure
+ * @param      kname_s         Length of kname
+ * @param      kvalue_s        Length of kvalue
+ * @param      null_terminate  If output result needs a C character string terminator '\0'
  *
  * @note This routine requires an internal, global sac file from
  *       rsac1(), rsac2() or newhdr()
@@ -716,14 +771,39 @@ getkhv_internal(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s,
     }
     fstrput(kvalue, kvalue_s, v, strlen(v), null_terminate);
 }
+/**
+ * @brief      Get a character string header value
+ *
+ * @details    Get a character string header value from the sac header
+ *
+ * @ingroup    sac-iris
+ * @memberof   sac_iris
+ *
+ * @param      kname    Name of header value
+ * @param      kvalue   Output header character string
+ * @param      nerr     Status, 0 in success, non-zero on failure
+ * @param      kname_s  Length of kname
+ * @param      kvalue_s Length of kvalue
+ *
+ * @note This routine requires an internal, global sac file from
+ *       rsac1(), rsac2() or newhdr()
+ */
 void
 getkhv(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
     getkhv_internal(kname, kvalue, nerr, kname_s, kvalue_s, 1);
 }
+/**
+ * @brief      getkhv Fortran interface
+ * @private
+ */
 void
 getkhv_(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
     getkhv_internal(kname, kvalue, nerr, kname_s, kvalue_s, 0);
 }
+/**
+ * @brief      getkhv Fortran interface
+ * @private
+ */
 void
 getkhv__(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
     getkhv_internal(kname, kvalue, nerr, kname_s, kvalue_s, 0);
@@ -826,8 +906,7 @@ getlhv(char *kname, int *nvalue, int *nerr, int kname_s) {
  *       rsac1(), rsac2() or newhdr()
  */
 void
-setfhv(char *kname, float *fvalue, int *nerr, int kname_s) {
-    double v = SAC_FLOAT_UNDEFINED;
+setrhv(char *kname, double *fvalue, int *nerr, int kname_s) {
     sac *s = NULL;
     struct hid *h = NULL;
 
@@ -842,8 +921,28 @@ setfhv(char *kname, float *fvalue, int *nerr, int kname_s) {
         *nerr = ERROR_ILLEGAL_HEADER_FIELD_NAME;
         return;
     }
-    v = (double) *fvalue;
-    sac_set_float(s, h->id, v);
+    sac_set_float(s, h->id, *fvalue);
+}
+/**
+ * @brief      Set a floating point header value
+ *
+ * @details    Set a floating point header value in the active sac header
+ *
+ * @ingroup    sac-iris
+ * @memberof   sac_iris
+ *
+ * @param      kname      Name of header value to set
+ * @param      fvalue     Input value to set
+ * @param      nerr       Status code, 0 on success, non-zero on failure
+ * @param      kname_s    Length of kname
+ *
+ * @note This routine requires an internal, global sac file from
+ *       rsac1(), rsac2() or newhdr()
+ */
+void
+setfhv(char *kname, float *fvalue, int *nerr, int kname_s) {
+    double v = *fvalue;
+    setrhv(kname, &v, nerr, kname_s);
 }
 /**
  * @brief      Set a integer header value
@@ -1013,147 +1112,280 @@ setihv(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
 }
 
 /**
+ * @brief     gethfv Fortran interface
  * @private
- * @see getfhv()
  */
 void getfhv_(char *kname, float *fvalue, int *nerr, int kname_s) {
     getfhv(kname, fvalue, nerr, kname_s);
 }
 /**
+ * @brief     gethfv Fortran interface
  * @private
- * @see getfhv()
  */
 void getfhv__(char *kname, float *fvalue, int *nerr, int kname_s) {
     getfhv_(kname, fvalue, nerr, kname_s);
 }
-
+/**
+ * @brief      wsac0 Fortran interface
+ * @private
+ */
 void
 wsac0_(char *kname, float *xarray, float *yarray, int *nerr, int kname_s) {
     wsac0(kname, xarray, yarray, nerr, kname_s);
 }
+/**
+ * @brief      wsac0 Fortran interface
+ * @private
+ */
 void
 wsac0__(char *kname, float *xarray, float *yarray, int *nerr, int kname_s) {
     wsac0(kname, xarray, yarray, nerr, kname_s);
 }
-
+/**
+ * @brief      getlhv Fortran interface
+ * @private
+ */
 void
 getlhv_(char *kname, int *nvalue, int *nerr, int kname_s) {
     getlhv(kname, nvalue, nerr, kname_s);
 }
+/**
+ * @brief      getlhv Fortran interface
+ * @private
+ */
 void
 getlhv__(char *kname, int *nvalue, int *nerr, int kname_s) {
     getlhv(kname, nvalue, nerr, kname_s);
 }
+/**
+ * @brief      getnhv Fortran interface
+ * @private
+ */
 void
 getnhv_(char *kname, int *nvalue, int *nerr, int kname_s) {
     getnhv(kname, nvalue, nerr, kname_s);
 }
+/**
+ * @brief      getnhv Fortran interface
+ * @private
+ */
 void
 getnhv__(char *kname, int *nvalue, int *nerr, int kname_s) {
     getnhv(kname, nvalue, nerr, kname_s);
 }
+/**
+ * @brief      setnhv Fortran interface
+ * @private
+ */
 void
 setnhv_(char *kname, int *nvalue, int *nerr, int kname_s) {
     setnhv(kname, nvalue, nerr, kname_s);
 }
+/**
+ * @brief      setnhv Fortran interface
+ * @private
+ */
 void
 setnhv__(char *kname, int *nvalue, int *nerr, int kname_s) {
     setnhv(kname, nvalue, nerr, kname_s);
 }
+/**
+ * @brief      setlhv Fortran interface
+ * @private
+ */
 void
 setlhv_(char *kname, int *nvalue, int *nerr, int kname_s) {
     setlhv(kname, nvalue, nerr, kname_s);
 }
+/**
+ * @brief      setlhv Fortran interface
+ * @private
+ */
 void
 setlhv__(char *kname, int *nvalue, int *nerr, int kname_s) {
     setlhv(kname, nvalue, nerr, kname_s);
 }
+/**
+ * @brief      setkhv Fortran interface
+ * @private
+ */
 void
 setkhv_(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
     setkhv(kname, kvalue, nerr, kname_s, kvalue_s);
 }
+/**
+ * @brief      setkhv Fortran interface
+ * @private
+ */
 void
 setkhv__(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
     setkhv(kname, kvalue, nerr, kname_s, kvalue_s);
 }
+/**
+ * @brief      setihv Fortran interface
+ * @private
+ */
 void
 setihv_(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
     setihv(kname, kvalue, nerr, kname_s, kvalue_s);
 }
+/**
+ * @brief      setihv Fortran interface
+ * @private
+ */
 void
 setihv__(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
     setihv(kname, kvalue, nerr, kname_s, kvalue_s);
 }
+/**
+ * @brief      setfhv Fortran interface
+ * @private
+ */
 void
 setfhv_(char *kname, float *fvalue, int *nerr, int kname_s) {
     setfhv(kname, fvalue, nerr, kname_s);
-}void
+}
+/**
+ * @brief      setfhv Fortran interface
+ * @private
+ */
+void
 setfhv__(char *kname, float *fvalue, int *nerr, int kname_s) {
     setfhv(kname, fvalue, nerr, kname_s);
 }
+/**
+ * @brief      newhdr Fortran interface
+ * @private
+ */
 void
 newhdr_() {
     newhdr();
 }
+/**
+ * @brief      newhdr Fortran interface
+ * @private
+ */
 void
 newhdr__() {
     newhdr();
 }
-
+/**
+ * @brief      rsac1 Fortran interface
+ * @private
+ */
 void
 rsac1_(char *kname, float yarray[], int *nlen, float *beg, float *del, int *max_, int *nerr, int kname_s) {
     rsac1(kname, yarray, nlen, beg, del, max_, nerr, kname_s);
 }
+/**
+ * @brief      rsac1 Fortran interface
+ * @private
+ */
 void
 rsac1__(char *kname, float yarray[], int *nlen, float *beg, float *del, int *max_, int *nerr, int kname_s) {
     rsac1(kname, yarray, nlen, beg, del, max_, nerr, kname_s);
 }
-
+/**
+ * @brief      rsac2 Fortran interface
+ * @private
+ */
 void
 rsac2_(char *kname, float *yarray, int *nlen, float *xarray, int *max_, int *nerr, int kname_s) {
     rsac2(kname, yarray, nlen, xarray, max_, nerr, kname_s);
 }
+/**
+ * @brief      rsac2 Fortran interface
+ * @private
+ */
 void
 rsac2__(char *kname, float *yarray, int *nlen, float *xarray, int *max_, int *nerr, int kname_s) {
     rsac2(kname, yarray, nlen, xarray, max_, nerr, kname_s);
 }
+/**
+ * @brief      wsac1 Fortran interface
+ * @private
+ */
 void
 wsac1_(char *kname, float *yarray, int *nlen, float *beg, float *del, int *nerr,  int kname_s) {
     wsac1(kname, yarray, nlen, beg, del, nerr,  kname_s);
 }
+/**
+ * @brief      wsac1 Fortran interface
+ * @private
+ */
 void
 wsac1__(char *kname, float *yarray, int *nlen, float *beg, float *del, int *nerr,  int kname_s) {
     wsac1(kname, yarray, nlen, beg, del, nerr,  kname_s);
 }
+/**
+ * @brief      wsac2 Fortran interface
+ * @private
+ */
 void
 wsac2_(char *kname, float *yarray, int *nlen, float *xarray, int *nerr, int kname_s) {
     wsac2(kname, yarray, nlen, xarray, nerr, kname_s);
 }
+/**
+ * @brief      wsac2 Fortran interface
+ * @private
+ */
 void
 wsac2__(char *kname, float *yarray, int *nlen, float *xarray, int *nerr, int kname_s) {
     wsac2(kname, yarray, nlen, xarray, nerr, kname_s);
 }
+/**
+ * @brief       wsac3 Fortran interface
+ * @private
+ */
 void
 wsac3_(char *kname, float *xarray, float *yarray, int *nerr, int kname_s) {
     wsac3(kname, xarray, yarray, nerr, kname_s);
 }
+/**
+ * @brief        wsac3 Fortran interface
+ * @private
+ */
 void
 wsac3__(char *kname, float *xarray, float *yarray, int *nerr, int kname_s) {
     wsac3(kname, xarray, yarray, nerr, kname_s);
 }
 
 
+/**
+ * @brief      Unused function, defined for compatibility
+ * @private
+ */
 void sac_data_read_new() {}
+/**
+ * @brief      Unused function, defined for compatibility
+ * @private
+ */
 void sac_header_read_new() {}
+/**
+ * @brief      Unused function, defined for compatibility
+ * @private
+ */
 void sacio_message(int nerr, char *name) {
     UNUSED(nerr);
     UNUSED(name);
 }
+/**
+ * @brief      Unused function, defined for compatibility
+ * @private
+ */
 void sacio_message_control() {}
+/**
+ * @brief      Unused function, defined for compatibility
+ * @private
+ */
 void sacio_char_to_keyword(char *in, char out[9]) {
     UNUSED(in);
     UNUSED(out);
 }
+/**
+ * @brief      Unused function, defined for compatibility
+ * @private
+ */
 int hdr_len(int index) {
     UNUSED(index);
     return 0;

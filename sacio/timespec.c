@@ -131,9 +131,35 @@ timespec64
 timespec64_now() {
     timespec64 t = {0,0};
     t.tv_sec = time(NULL);
-    t.tv_nsec = 0.0;
+    t.tv_nsec = 0;
     return t;
 }
+
+/**
+ * @brief   Get the time associated with Year 0, Day 1
+ *
+ * @details Get the time associated with non-existant Year 0, Day 1.
+ *          It is used as a constant for an uninitialized value.
+ *          This year does not exist, but is actaully 1 BC.
+ *          See [Year zero](https://en.wikipedia.org/wiki/Year_zero).
+ *          The value returned may change in the future.
+ *
+ * @memberof timespec64
+ * @ingroup time
+ *
+ * @return timepsec64 value filled with the time of Year 0, Day 1
+ *
+ * @note Nanoseconds are always set to 0
+ */
+timespec64
+timespec64_undef() {
+    timespec64 t = {0,0};
+    t.tv_sec = -62167219200;
+    t.tv_nsec = 0;
+    return t;
+}
+
+
 /**
  * @brief Crate a timespec64 value from Year, Day of Year, Hour, Minute, Second, Nanosecond
  *
@@ -182,8 +208,8 @@ timespec64_from_yjhmsf(int64_t year, int jday, int hour, int min, int sec, int64
  * @ingroup time
  *
  * @param year   Year
- * @param jday   Month
- * @param jday   Month Day
+ * @param month  Month
+ * @param day    Month Day
  * @param hour   Hour
  * @param min    Minute
  * @param sec    Second
@@ -400,7 +426,6 @@ atoi64(char **p, int64_t *pval, int lower, int upper) {
  * @brief Parse a string into a TM value
  *
  * @private
- * @ingroup  time
  *
  * @details Parse a timespec64 according to the format specifiers
  *          - `%%` -- `%` character
@@ -582,9 +607,6 @@ powi(int64_t a, int64_t b) {
 /**
  * @brief Format a struct TM value
  *
- * @private
- * @ingroup  time
- *
  * @details Format a timespec64 according to the format specifiers
  *          - `%%` -- `%` character
  *          - `%%Y` -- Year, 4 digits, zero padded
@@ -599,6 +621,8 @@ powi(int64_t a, int64_t b) {
  *          - `%%F` -- alias for `%Y-%m-%d`
  *          - `%%T` -- alias for `%H:%M:%S`
  *          - `%%b` -- Abbreviated Month Name
+ *
+ * @private
  *
  * @param dst   Output character string
  * @param n     Length of dst
@@ -759,9 +783,9 @@ duration_init(duration *d) {
  *
  * @return 1 on success, 0 in failure
  *
- * Format for a duration is `[-+]###unit` where:
+ * Format for a duration is `[-+]###{unit}` where:
  *    - `###` is a integer
- *    - `unit` is one of the following
+ *    - `{unit}` is one of the following
  *      - s, sec, secs, seconds
  *      - m, min, mins, minutes
  *      - h, hrs, hours

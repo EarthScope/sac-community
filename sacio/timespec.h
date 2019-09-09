@@ -16,6 +16,7 @@ int        duration_parse(char *in, duration *d);
 
 timespec64 timespec64_add_duration(timespec64 a, duration *d);
 timespec64 timespec64_now();
+timespec64 timespec64_undef();
 int        timespec64_cmp(timespec64 *a, timespec64 *b);
 int        timespec64_parse(const char *buf, timespec64 *t);
 void       timespec64_print(timespec64 *t);
