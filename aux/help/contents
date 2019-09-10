@@ -80,6 +80,7 @@ cut           cut
 cuterr        cuterr
 cutim         cutim
 datagen       datagen
+data          data
 dg            datagen
 decimate      decimate
 deletechannel deletechannel
@@ -102,6 +103,7 @@ erase         erase
 era           erase
 evaluate      evaluate
 eval          evaluate
+event         event
 exp           exp
 exp10         exp10
 external      external_interface
@@ -179,6 +181,7 @@ mathop        mathop
 merge         merge
 message       message
 mes           message
+metadata      metadata
 mtw           mtw
 mul           mul
 mulf          mulf
@@ -261,6 +264,7 @@ rtab          readtable
 recalltrace   crr
 recall        crr
 report        report
+response      response
 reverse       reverse
 rglitches     rglitches
 rmean         rmean
@@ -289,6 +293,7 @@ spectrogram   spectrogram
 spg           spectrogram
 sqr           sqr
 sqrt          sqrt
+station       station
 stretch       stretch
 sub           sub
 subf          subf
