@@ -10,6 +10,8 @@
 #include <unistd.h>
 #include <math.h>
 #include <float.h>
+#include <sys/stat.h>
+#include <errno.h>
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -1079,9 +1081,17 @@ sac_check_npts(int npts) {
  *
  * @return     size of file in bytes
  */
-size_t
+off_t
 sac_size(sac *s) {
-    return SAC_HEADER_SIZE + MAX(0,(size_t) (4 * s->h->npts * sac_comps(s)));
+    off_t size = 0;
+    if(s->h->npts < 0) {
+        return 0;
+    }
+    size = SAC_HEADER_SIZE + MAX(0, 4 * (off_t) s->h->npts * (off_t) sac_comps(s));
+    if(s->h->nvhdr == SAC_HEADER_VERSION_7) {
+        size += sizeof(sac_f64);
+    }
+    return size;
 }
 
 
@@ -2037,9 +2047,28 @@ sac_header_read(sac *s, FILE *fp) {
 
 static sac *
 sac_read_header_internal(char *filename, int *nerr, FILE **fp) {
+    off_t size = 0;
     sac *s = NULL;
+    struct stat stbuf;
 
     if(!filename) {
+        *nerr = ERROR_FILE_DOES_NOT_EXIST;
+        return NULL;
+    }
+
+    if(stat(filename, &stbuf) != 0) {
+        switch(errno) {
+        case EACCES:       /* Permission         */
+        case EIO:          /* I/O Error          */
+        case ELOOP:        /* Too many sym links */
+        case ENOTDIR:      /* Not a Directory    */
+        case ENAMETOOLONG: /* Name too long      */
+        case EFAULT:       /* Invalid Address    */
+            *nerr = ERROR_READING_FILE;
+            break;
+        case ENOENT:       /* File does not exit */
+            *nerr = ERROR_FILE_DOES_NOT_EXIST;
+        }
         return NULL;
     }
 
@@ -2047,6 +2076,9 @@ sac_read_header_internal(char *filename, int *nerr, FILE **fp) {
         *nerr = ERROR_FILE_DOES_NOT_EXIST;
         return NULL;
     }
+
+    size = stbuf.st_size;
+
     s = sac_new();
 
     s->m->filename = strdup(filename);
@@ -2054,6 +2086,15 @@ sac_read_header_internal(char *filename, int *nerr, FILE **fp) {
     if(*nerr) {
         goto error;
     }
+
+    // Check actual size versus expected size of the file
+    if(sac_size(s) != size) {
+        printf("sacio: Actual file size %lld != expected file size: %lld [npts: %d]\n",
+               (long long int) size, (long long int) sac_size(s), s->h->npts);
+        *nerr = ERROR_NOT_A_SAC_FILE;
+        goto error;
+    }
+
     return s;
  error:
     if(s) {
