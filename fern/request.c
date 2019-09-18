@@ -1424,7 +1424,7 @@ find_unique_filename(char *base, char *file, size_t nfile) {
 char *
 result_write_to_file(result *r, char *filename) {
     FILE *fp = NULL;
-    char file[4096] = { 0 };
+    char file[4296] = { 0 };
     char base[4096] = { 0 };
     if(!filename && !r->filename) {
         printf("Error writing data to file: unknown filename\n");

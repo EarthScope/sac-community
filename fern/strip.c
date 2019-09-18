@@ -30,6 +30,21 @@ fern_lstrip(char *s) {
     return s;
 }
 
+char *
+fern_strip(char *s) {
+    char *new = NULL;
+    char *p = NULL;
+    if(!s) {
+        return NULL;
+    }
+    new = strdup(s);
+    p = fern_lstrip(fern_rstrip(new));
+    if(p != new) {
+        memmove(new, p, strlen(p)+1);
+    }
+    return new;
+}
+
 size_t
 fern_strlcpy(char *dst, const char *src, size_t size) {
     size_t length, copy;

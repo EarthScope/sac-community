@@ -331,7 +331,7 @@ quake_xml_parse(char *data, size_t data_len, int verbose, char *cat) {
         event_origin(x, base, e, agencies);
 
         if(strlen(eid) != 0) {
-            char tmp[EVENTID_LEN];
+            char tmp[2*EVENTID_LEN];
             sprintf(tmp, "%s:%s", cat, eid);
             event_set_id(e, tmp);
         }

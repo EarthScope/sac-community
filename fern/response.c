@@ -1,8 +1,10 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 #include "response.h"
 #include "request.h"
+#include "urls.h"
 
 char *rstrip_fern(char *s);
 
@@ -16,7 +18,7 @@ char *rstrip_fern(char *s);
  */
 void
 response_init(request *pz) {
-    request_set_url(pz, "https://service.iris.edu/irisws/sacpz/1/query?");
+    request_set_url(pz, RESPONSE_SACPZ);
     request_set_arg(pz, "nodata", arg_int_new(404));
 }
 
@@ -47,10 +49,10 @@ void
 response_set_kind(request *pz, ResponseType rt) {
     switch(rt) {
     case ResponseSacPZ:
-        request_set_url(pz, "https://service.iris.edu/irisws/sacpz/1/query?");
+        request_set_url(pz, RESPONSE_SACPZ);
         break;
     case ResponseResp:
-        request_set_url(pz, "https://service.iris.edu/irisws/resp/1/query?");
+        request_set_url(pz, RESPONSE_RESP);
         break;
     }
 }
@@ -97,6 +99,26 @@ empty_if_wild(char *v) {
     return v;
 }
 
+static int
+is_garbage(int c) {
+    if(iscntrl(c)) {
+        return 1;
+    }
+    return 0;
+}
+
+static
+void remove_garbage(char *str) {
+    char *src = NULL, *dst = NULL;
+    for (src = dst = str; *src != '\0'; src++) {
+        *dst = *src;
+        if (! is_garbage(*dst)) {
+            dst++;
+        }
+    }
+    *dst = 0;
+}
+
 /**
  * @brief      get a filename for the response
  *
@@ -140,6 +162,7 @@ response_filename(request *pz, char *dst, size_t n) {
             snprintf(dst, n, "%s.%s", dst, empty_if_wild(tmp));
         }
     }
+    remove_garbage(dst);
     return dst;
 }
 /**

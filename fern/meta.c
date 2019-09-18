@@ -20,6 +20,7 @@
 #include "slurp.h"
 #include "defs.h"
 #include "strip.h"
+#include "urls.h"
 
 
 #define KEYN 64 /**< @private */
@@ -666,7 +667,7 @@ sac_array_fill_meta_data(sac **files, int verbose) {
 
     // Request Station Meta Data
     sm = request_new();
-    request_set_url(sm, "http://service.iris.edu/fdsnws/station/1/query?");
+    request_set_url(sm, STATION_IRIS);
     request_set_verbose(sm, verbose);
     r = request_post(sm, data);
     if(!result_is_ok(r)) {

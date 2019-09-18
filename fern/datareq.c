@@ -18,6 +18,7 @@
 #include "chash.h"
 #include "defs.h"
 #include "strip.h"
+#include "urls.h"
 
 typedef struct breq_fast_line breq_fast_line;
 
@@ -98,7 +99,7 @@ static int parse_key_value(char *in, char delim, char **key, char **val);
  */
 void
 data_avail_init(request *r) {
-    request_set_url(r, "https://service.iris.edu/irisws/fedcatalog/1/query?");
+    request_set_url(r, FEDCATALOG_IRIS);
     request_set_arg(r, "loc", arg_string_new("*"));
     request_set_arg(r, "quality", arg_string_new("B"));
     request_set_arg(r, "format", arg_string_new("request"));
@@ -386,11 +387,11 @@ data_avail_use_duration(request *r, duration *d) {
 char *
 data_avail_from_station_file(request *r, char *file) {
     char *key[] = {"loc", "cha", "start", "end"};
-    char t1[64] = {0}, t2[64] = {0};
-    char net[64] = {0};
-    char sta[64] = {0};
-    char loc[64] = {0};
-    char cha[64] = {0};
+    char t1[128] = {0}, t2[128] = {0};
+    char net[32] = {0};
+    char sta[32] = {0};
+    char loc[32] = {0};
+    char cha[32] = {0};
     FILE *fp = NULL;
     char line[2048] = {0};
     char tmp[2048] = {0};
@@ -421,7 +422,7 @@ data_avail_from_station_file(request *r, char *file) {
 
     fgets(line, sizeof(line), fp); // Header Line
     while(fgets(line, sizeof(line), fp)) {
-        if(sscanf(line, "%s %s", net, sta) != 2) {
+        if(sscanf(line, "%10s %10s", net, sta) != 2) {
             printf("Error reading station file on line: %s\n", line);
             goto error;
         }
@@ -432,6 +433,9 @@ data_avail_from_station_file(request *r, char *file) {
 
     return req;
  error:
+    if(fp) {
+        fclose(fp);
+    }
     FREE(req);
     return NULL;
 }
@@ -820,12 +824,18 @@ data_request *
 data_request_parse(char *data) {
     char *line = NULL;
     int state = 0;
+    char *line_orig = NULL;
     char *key = NULL, *value = NULL;
     int comment = 0;
     data_request *fdr = data_request_new();
     breq_fast  *fd = NULL;
+    breq_fast_line x;
+    breq_fast_line_init(&x);
 
-    while((line = strsep(&data, "\n"))) {
+
+    while((line = strsep(&data, "\n")) != NULL) {
+        line_orig = line;
+        //printf("line: '%s'\n", line);
         comment = 0;
         if(*line == '#') {
             comment = 1;
@@ -838,34 +848,48 @@ data_request_parse(char *data) {
         int has_service = strstr(line, "SERVICE") != NULL;
         int has_datacenter = strncmp(line, "DATACENTER", 10) == 0;
         int empty = strlen(fern_rstrip(line)) == 0;
+        //printf("service, datacenter, empty, state: %d %d %d %d\n", has_service, has_datacenter, empty, state);
 
         // State Determination
-        if(state == 0) {
+        if(state == 0) { // Expecting has_datacenter
             state = (has_datacenter) ? 1 : 0;
             if(state == 1) {
                 fd = breq_fast_new();
                 fd->comment = comment;
                 fdr->reqs = xarray_append(fdr->reqs, fd);
             }
-        } else if(state == 1) {
+        } else if(state == 1) { // Expecting has_service or request line
             state = (has_service) ? 1 : 2 ;
-        } else if(state == 2) {
+        } else if(state == 2) { // Expecting request line or empty line
             state = (empty) ? 0 : 2 ;
         }
         // Action
         if(state == 0 && !empty) {
-            parse_key_value(line, '=', &key, &value);
-            dict_put(fdr->pars, key, value);
-            FREE(key);
+            if(parse_key_value(line, '=', &key, &value)) {
+                dict_put(fdr->pars, key, value);
+                FREE(key);
+            } else {
+                printf(" WARNING: Expected key=value for request parameters in data_request_parse\n");
+                printf("          %s\n", line_orig);
+            }
         } else if(state == 1) {
-            parse_key_value(line, '=', &key, &value);
-            dict_put(fd->urls, key, value);
-            FREE(key);
+            if(parse_key_value(line, '=', &key, &value)) {
+                dict_put(fd->urls, key, value);
+                FREE(key);
+            } else {
+                printf(" WARNING: Expected key=value for service URLs in data_request_parse\n");
+                printf("          %s\n", line_orig);
+            }
         } else if(state == 2) {
-            fd->lines = xarray_append(fd->lines, strdup(line));
+            if(breq_fast_line_parse(line, &x)) {
+                fd->lines = xarray_append(fd->lines, strdup(line));
+            }
         }
     }
-
+    if(xarray_length(fdr->reqs) == 0) {
+        data_request_free(fdr);
+        fdr = NULL;
+    }
     return fdr;
 }
 
@@ -968,8 +992,10 @@ data_request_chunks(data_request *fdr, size_t max) {
         mem = 0;
         for(j = 0; j < xarray_length(r->lines); j++) {
             line = r->lines[j];
-            breq_fast_line_parse(line, &x);
             // printf("LINE: %s\n", line);
+            if(!breq_fast_line_parse(line, &x)) {
+                continue;
+            }
             mem1 = breq_fast_line_size(&x);
             if(mem1 > max) {
                 FR_APPEND(fr, new, r, mem);
@@ -1093,8 +1119,8 @@ parse_key_value(char *in, char delim, char **key, char **val) {
         return 0;
     }
     *p = 0;
-    *key = fern_lstrip(fern_rstrip(strdup(in)));
-    *val = fern_lstrip(fern_rstrip(strdup(p+1)));
+    *key = fern_strip(in);
+    *val = fern_strip(p+1);
     return 1;
 }
 
@@ -1176,12 +1202,29 @@ int
 breq_fast_line_parse(char *line, breq_fast_line *x) {
     char start[64] = {0};
     char end[64] = {0};
-    if(sscanf(line, "%s %s %s %s %s %s\n",
+    int64_t sec = 0;
+    if(sscanf(line, "%15s %15s %15s %15s %63s %63s\n",
               x->net, x->sta, x->loc, x->cha, start, end) != 6) {
+        printf(" WARNING: Cannot parse request line, skipping\n\t%s\n", line);
         return 0;
     }
-    timespec64_parse(start, &x->t1);
-    timespec64_parse(end, &x->t2);
+    if(!timespec64_parse(start, &x->t1) ||
+       !timespec64_parse(end,   &x->t2)) {
+        printf(" WARNING: Cannot parse date/time, skipping\n");
+        printf("\t%s\n", line);
+        return 0;
+    }
+    if(timespec64_cmp(&x->t1, &x->t2) > 0) {
+        printf(" WARNING: Start-time after end-time, skipping\n");
+        printf("\t%s\n", line);
+        return 0;
+    }
+    sec = x->t2.tv_sec - x->t1.tv_sec;
+    if(sec > 60*60*24*366) {
+        printf(" WARNING: Very long request duration: %lld years, skipping\n", sec/(60*60*24*366));
+        printf("\t%s\n", line);
+        return 0;
+    }
     return 1;
 }
 /**

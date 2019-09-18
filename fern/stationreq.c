@@ -4,6 +4,7 @@
  */
 #include "stationreq.h"
 #include "request.h"
+#include "urls.h"
 
 /**
  * Station Request
@@ -45,7 +46,7 @@ station_req_new() {
  */
 void
 station_req_init(request *r) {
-    request_set_url(r, "http://service.iris.edu/fdsnws/station/1/query?");
+    request_set_url(r, STATION_IRIS);
     request_set_arg(r, "level", arg_string_new("station"));
     request_set_arg(r, "format", arg_string_new("xml"));
     request_set_arg(r, "nodata", arg_int_new(404));

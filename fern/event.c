@@ -25,6 +25,7 @@
 #include "xml.h"
 #include "defs.h"
 #include "strip.h"
+#include "urls.h"
 
 Event **quake_xml_parse(char *data, size_t data_len, int verbose, char *cat);
 
@@ -111,6 +112,9 @@ event_init(Event *e) {
 Event *
 event_from_id(char *str) {
     Event *e = NULL;
+    if(!str || *str == 0) {
+        return NULL;
+    }
     // Look for event id
     if(strncasecmp("usgs:", str,5) != 0 &&
        strncasecmp("gcmt:", str,5) != 0 &&
@@ -553,7 +557,7 @@ event_from_json(char *data, size_t datalen, int verbose, char *catalog) {
     cjson_time64(p, &e->time, "eventtime", NULL);
 
     if(strlen(e->eventid) > 0) {
-        char tmp[EVENTID_LEN];
+        char tmp[2*EVENTID_LEN];
         sprintf(tmp, "%s:%s", catalog, e->eventid);
         event_set_id(e, tmp);
     }
@@ -592,6 +596,9 @@ event_by_event_id(char *id) {
     char *url = NULL;
     char cat[16] = {0};
     char *p;
+    if(!id || *id == 0) {
+        goto error;
+    }
     fprintf(stderr, "Requesting event info for %s ...", id);
 
     // Get Catalog identifier
@@ -710,6 +717,9 @@ event_save(Event *e) {
 Event *
 event_find(char *id) {
     Event *e = NULL;
+    if(!id || *id == 0) {
+        return NULL;
+    }
     if(!(e = dict_get(event_store(), id))) {
         // If not Found, request from server
         e = event_by_event_id(id);
@@ -750,7 +760,7 @@ event_default(Event *e) {
  */
 void
 event_req_init(request *e) {
-    request_set_url(e, "https://service.iris.edu/fdsnws/event/1/query?");
+    request_set_url(e, EVENT_IRIS);
     request_set_arg(e, "nodata", arg_int_new(404));
     request_set_arg(e, "format", arg_string_new("xml"));
 }
@@ -802,15 +812,15 @@ event_req_set_eventid(request *e, char *id) {
     eid++;
     request_set_arg(e, "eventid", arg_string_new(eid));
     if(strcasecmp(catalog, "usgs") == 0) {
-        request_set_url(e, "https://earthquake.usgs.gov/fdsnws/event/1/query?");
+        request_set_url(e, EVENT_USGS);
         request_del_arg(e, "format");
         request_set_arg(e, "format", arg_string_new("geojson"));
 
     } else if(strcasecmp(catalog, "isc") == 0) {
-        request_set_url(e, "http://www.isc.ac.uk/fdsnws/event/1/query?");
+        request_set_url(e, EVENT_ISC);
 
     } else if(strcasecmp(catalog, "gcmt") == 0) {
-        request_set_url(e, "https://service.iris.edu/fdsnws/event/1/query?");
+        request_set_url(e, EVENT_IRIS);
         request_set_arg(e, "catalog", arg_string_new("GCMT"));
     }
     eid--;

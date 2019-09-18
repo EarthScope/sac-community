@@ -17,7 +17,7 @@ slurp(char *file, size_t *np) {
     fseek (fp, 0, SEEK_END);
     n = (size_t) ftell (fp);
     fseek (fp, 0, SEEK_SET);
-    data = calloc(n, sizeof(char));
+    data = calloc(n + 1, sizeof(char));
     if(fread (data, 1, n, fp) != n) {
         FREE(data);
         return NULL;

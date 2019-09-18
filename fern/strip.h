@@ -5,6 +5,7 @@
 
 char * fern_rstrip(char *s);
 char * fern_lstrip(char *s);
+char * fern_strip(char *s);
 
 size_t fern_strlcpy(char *dst, const char *src, size_t size);
 size_t fern_strlcat(char *dst, const char *src, size_t size);
