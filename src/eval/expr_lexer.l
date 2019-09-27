@@ -710,7 +710,7 @@ unescape(char *in) {
   int i;
   char *p, *s;
   s = in;
-  p = (char *)malloc(sizeof(char *) * strlen(in));
+  p = (char *)malloc(sizeof(char *) * (strlen(in) + 1));
   i = 0;
   while(s && *s) {
     if(*s != ESCAPE_CHAR) {

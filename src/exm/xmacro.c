@@ -17,6 +17,9 @@
 
 EXM_EXTERN
 
+void arg_save();
+void arg_restore();
+
 /** 
  * Execute the MACRO command which execute a macro command file
  * 
@@ -38,6 +41,7 @@ xmacro(int *nerr) {
     int lexist;
     int j, idx, nmacrolevel;
 
+    int nc;
     *nerr = 0;
     for (idx = 0; idx < MCMSG; idx++)
         ktempargs[idx] = ' ';
@@ -60,7 +64,9 @@ xmacro(int *nerr) {
      * - Restore previous values if no command arguements were entered. */
 
     if (lcchar(ktempreqmacro, sizeof(ktempreqmacro))) {
-        //lcrest( MCMSG, ktempargs,MCMSG+1, &nc );
+        arg_save();
+        lcrest( MCMSG, ktempargs,MCMSG+1, &nc );
+        arg_restore();
     } else {
         strcpy(ktempreqmacro, kmexm.kmcreq);
         strcpy(ktempargs, kmexm.kargs);

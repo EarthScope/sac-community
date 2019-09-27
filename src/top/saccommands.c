@@ -40,6 +40,19 @@ EXM_EXTERN
 static Token *tok0 = NULL;      /* First token   */
 static Token *tok = NULL;       /* Current token */
 static eval *e0 = NULL;
+static Token *tok_save = NULL;  /* Saved Token */
+
+void
+arg_save() {
+    tok_save = tok;
+}
+void
+arg_restore() {
+    if(tok_save) {
+        tok = tok_save;
+    }
+    tok_save = NULL;
+}
 
 Token *
 arg() {

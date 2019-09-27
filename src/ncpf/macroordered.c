@@ -74,10 +74,10 @@ macroordered(kmacroargs, kmacroargs_s, nun, kline, kline_s, nerr)
 
     /* - Store the entire argument line in the vars section under the keyword "all". */
     ncargs = indexb(kmacroargs, kmacroargs_s);
-    if (ncargs > 0)
+    if (ncargs > 0) {
         putvvstring(kmcpf.kvarsname, 9, "all", 4, ncargs, kmacroargs,
                     kmacroargs_s, nerr);
-
+    }
     /* - Process argument line.  Each token is stored in numerical order.
      *   The jth token is stored as the keyword "j". */
 

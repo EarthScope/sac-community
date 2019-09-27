@@ -1,4 +1,6 @@
 
+#include <math.h>
+
 #include "errors.h"
 
 #include "cpf.h"
@@ -10,6 +12,7 @@
 #include "defs.h"
 
 #include <fern/fern.h>
+#include <fern/urls.h>
 #include <libmseed/libmseed.h>
 
 Event **quake_xml_parse(char *data, size_t data_len, int verbose, char *cat);
@@ -19,7 +22,16 @@ Event * event_by_event_id(char *id);
 int sac_fill_meta_data(sac **files, int verbose);
 void sac_fill_meta_data_from_event(sac *s, Event *ev, int verbose);
 
-
+/**
+ * @brief      get a file extension
+ *
+ * @details    get a file extension from a string. Extension is
+ *             assumed to be the after the final period.
+ *
+ * @param      file
+ *
+ * @return     file extension or NULL. Return value is within the string
+ */
 static char *
 file_extension(char *file) {
     char *p;
@@ -29,6 +41,16 @@ file_extension(char *file) {
     return p;
 }
 
+/**
+ * @brief      Parse a keyed duration value
+ *
+ * @details    Parse a keyed duration value
+ *
+ * @param      kkey    key to check for
+ * @param      d       duration on success
+ *
+ * @return     TRUE on success, FALSE on error or no match
+ */
 int
 lkdur(char *kkey, duration *d) {
     Token *t = NULL;
@@ -36,9 +58,10 @@ lkdur(char *kkey, duration *d) {
     if(!lckey(kkey, strlen(kkey)+1)) {
         return FALSE;
     }
-    if(!(t = arg())) {
+    if(!(t = arg()) || !is_string_like(t->type)) {
         return FALSE;
     }
+
     if(! (duration_parse(t->str, d))) {
         return FALSE;
     }
@@ -46,11 +69,20 @@ lkdur(char *kkey, duration *d) {
     return TRUE;
 }
 
+/**
+ * @brief      Parse an event id
+ *
+ * @details    Parse an event id, e.g. usgs:1234566, isc:438302, ...
+ *
+ * @param      Newly allocated event on success
+ *
+ * @return     TRUE on success, FALSE on error
+ */
 int
 levent(Event **e) {
     Event *tmp = NULL;
     Token *t;
-    if(!(t = arg())) {
+    if(!(t = arg()) || !is_string_like(t->type)) {
         return FALSE;
     }
     if(!(tmp = event_from_id(t->str))) {
@@ -66,22 +98,42 @@ levent(Event **e) {
 #define   DURATION_LIKE 1<<3
 #define   NOW_LIKE      1<<4
 
+/**
+ * @brief      Parse a time like value
+ *
+ * @details    Parse a value which represents time.
+ *
+ * @param      str     Input string to parse
+ * @param      t0      Reference time for duration
+ * @param      which   Kind of time to parse
+ *                     - EVENT_LIKE
+ *                     - TIME_LIKE
+ *                     - DURATION_LIKE
+ *                     - NOW_LIKE
+ * @param      t       Output Time on sucess
+ *
+ * @return     0 on failure, 1 on success
+ */
 int
 parse_time_like(char *str, timespec64 *t0, int which, timespec64 *t) {
     duration d;
     Event *e = NULL;
-    if(which | EVENT_LIKE && (e = event_from_id(str))) {
+    if(!str || *str == 0) {
+        return 0;
+    }
+    if(which & EVENT_LIKE && (e = event_from_id(str))) {
         *t = event_time(e);
         return 1;
     }
-    if(which | TIME_LIKE && timespec64_parse(str, t)) {
+    if(which & TIME_LIKE && timespec64_parse(str, t)) {
         return 1;
     }
-    if(which | DURATION_LIKE && (duration_parse(str, &d))) {
+
+    if(which & DURATION_LIKE && t0 && (duration_parse(str, &d))) {
         *t = timespec64_add_duration(*t0, &d);
         return 1;
     }
-    if(which | NOW_LIKE && strcasecmp(str, "now") == 0) {
+    if(which & NOW_LIKE && strcasecmp(str, "now") == 0) {
         *t = timespec64_now();
         return 1;
     }
@@ -96,6 +148,18 @@ parse_time_like(char *str, timespec64 *t0, int which, timespec64 *t) {
     return 0;
 }
 
+/**
+ * @brief      Parse a keyed set of time values
+ *
+ * @details    Parse a keyed set of time values, length is either 1 or 2
+ *
+ * @param      kkey    Key to check for
+ * @param      vp      Output allocated array of time values, values
+ *                     are sorted if two are found
+ *
+ * @return     FALSE on error, TRUE on success
+ *
+ */
 int
 lktn(char *kkey, timespec64 ***vp) {
     Token *t;
@@ -106,7 +170,7 @@ lktn(char *kkey, timespec64 ***vp) {
     if(!lckey(kkey, -1)) {
         return FALSE;
     }
-    if(!(t = arg())) {
+    if(!(t = arg()) || !is_string_like(t->type)) {
         return FALSE;
     }
     if(!parse_time_like(t->str, NULL,
@@ -119,7 +183,7 @@ lktn(char *kkey, timespec64 ***vp) {
     v = xarray_append(v, tmp);
     arg_next();
 
-    if(!(t = arg())) {
+    if(!(t = arg()) || !is_string_like(t->type)) {
         goto done;
     }
     if(!parse_time_like(t->str, v[0], TIME_LIKE | DURATION_LIKE, &ts)) {
@@ -141,6 +205,17 @@ lktn(char *kkey, timespec64 ***vp) {
 
 }
 
+/**
+ * @brief      Parse a keyed time-like pair
+ *
+ * @details    Parse a keyed time-like pair, (time,time), (time,duration)
+ *
+ * @param      kkey    Key
+ * @param      t1      output earlies time
+ * @param      t2      output later time
+ *
+ * @return     TRUE on success, FALSE on error
+ */
 int
 lktp(char *kkey, timespec64 *t1, timespec64 *t2) {
     Token *t = NULL;
@@ -148,7 +223,7 @@ lktp(char *kkey, timespec64 *t1, timespec64 *t2) {
         return FALSE;
     }
 
-    if(!(t = arg())) {
+    if(!(t = arg()) || !is_string_like(t->type)) {
         return FALSE;
     }
 
@@ -157,10 +232,9 @@ lktp(char *kkey, timespec64 *t1, timespec64 *t2) {
     }
     arg_next();
 
-    if(!(t = arg())) {
+    if(!(t = arg()) || !is_string_like(t->type)) {
         return FALSE;
     }
-
     if(!parse_time_like(t->str, t1, TIME_LIKE | DURATION_LIKE, t2)) {
         return FALSE;
     }
@@ -190,18 +264,45 @@ lktp(char *kkey, timespec64 *t1, timespec64 *t2) {
 #define SetLocation 1<<11
 
 
+/**
+ * @brief      Limit a value
+ *
+ * @details    Limit a value to between min and max, assuming wrap around
+ *             value return is min <= value < max assuming a total range of
+ *             (max - min).  Values < min have (max-min) added until within
+ *             range. Values >= max have (max-min) subtraced until within
+ *             range
+ *
+ * @param      v    Initial value
+ * @param      min  Min value
+ * @param      max  Max value
+ *
+ * @return     limited value
+ */
 static double
 limit_range(double v, double min, double max) {
     double dv = max - min;
+    if(!isfinite(v)) {
+        return v;
+    }
     while(v < min) {
         v += dv;
     }
-    while(v > max) {
+    while(v >= max) {
         v -= dv;
     }
     return v;
 }
 
+
+/**
+ * @brief      Make an event request
+ *
+ * @details    Make an event request for command EVENT
+ *
+ * @param      nerr   Error return code
+ *
+ */
 void
 event_request(int *nerr) {
     int n = 0;
@@ -229,9 +330,10 @@ event_request(int *nerr) {
 
     e = event_req_new();
 
+    /* Argument Parsing */
     while(lcmore(nerr)) {
         if(lkra("M#AG$", -1, 1, 2, v, &n)) {
-            if(n == 1) {
+            if(n == 1) { // Single Value - Minimum Magnitude
                 v[1] = 10.0;
             }
             if(v[1] < v[0]) { // Sort v[0] and v[1]
@@ -253,6 +355,7 @@ event_request(int *nerr) {
             event_req_set_region(e, v[0], v[1], v[2], v[3]);
             search |= SetRegion;
         }
+        /* If event id found, set time range at +1m,-1m */
         else if(levent(&ev1)) {
             duration d = {0,0};
             timespec64 t1 = {0,0}, t2 = {0,0};
@@ -263,6 +366,7 @@ event_request(int *nerr) {
             event_req_set_time_range(e, t1, t2);
             search |= SetTime;
         }
+        /* Set Center location with min/max radius */
         else if(lkra("rad#ial$", -1, 4, 4, v, &n) ||
                 lkra("rad#ius$", -1, 4, 4, v, &n) ) {
             if(v[2] < -90.0 || v[2] > 90.0 ||
@@ -275,12 +379,16 @@ event_request(int *nerr) {
             event_req_set_radial(e, v[0], v[1], v[2], v[3]);
             search |= SetRadial;
         }
+        /* Set min/max depth */
         else if(lkra("D#EPTH$", -1, 2, 2, v, &n)) {
             event_req_set_depth(e, v[0], v[1]);
             search |= SetDepth;
         }
+        /* Output event file */
         else if(lkchar2("OUT#FILE$", outfile, sizeof(outfile))) { }
+        /* Select catalog to search */
         else if(lclist((char *)catalogs, 9, ncatalogs, &catalog)) { }
+        /* Set blackboard variable to store event id(s) */
         else if(lkchar2("to#$", bbvar, sizeof(bbvar))) { }
         else {
             cfmt("ILLEGAL OPTION:", 17);
@@ -293,28 +401,31 @@ event_request(int *nerr) {
               "Use mag, time, depth, or region\n");
         goto error;
     }
+    /* Do not allow region and radial search at the same time */
     if(search == (SetRegion | SetRadial)) {
         error(*nerr = 3264, "Cannot use Region and Radial searches together\n");
         goto error;
     }
+    /* Set Catalog to search */
     switch(catalog) {
     case 1:
     case 4:
-        request_set_url(e, "https://service.iris.edu/fdsnws/event/1/query?");
+        request_set_url(e, EVENT_IRIS);
         event_req_set_catalog(e, "GCMT");
         strlcpy(cat, "gcmt", sizeof(cat));
         break;
     case 2:
-        request_set_url(e, "http://www.isc.ac.uk/fdsnws/event/1/query?");
+        request_set_url(e, EVENT_ISC);
         strlcpy(cat, "isc", sizeof(cat));
         break;
     case 3:
     case 5:
     case 6:
-        request_set_url(e, "https://earthquake.usgs.gov/fdsnws/event/1/query?");
+        request_set_url(e, EVENT_USGS);
         strlcpy(cat, "usgs", sizeof(cat));
         break;
     }
+    /* If Time range is not set, set time range to -1000yr,+1day */
     if(! (search & SetTime) ) {
         duration d = { 0, 0};
         t2 = timespec64_now();
@@ -328,6 +439,7 @@ event_request(int *nerr) {
     if(*nerr != SAC_OK) {
         goto error;
     }
+    /* Verbose */
     request_set_verbose(e, verbose);
 
     /// Download Data
@@ -347,22 +459,20 @@ event_request(int *nerr) {
         goto error;
     }
 
-
     // Print Out Events
     events_write(ev, stdout);
 
-    // Save Files if desired
+    // Save Files if desired, xml or text
     if(strlen(outfile) > 0) {
         char *ext = file_extension(outfile);
-        if(strcmp(ext, "xml") == 0) {
+        if(ext && strcmp(ext, "xml") == 0) {
             result_write_to_file_show(r, outfile);
-        } else if(strcmp(ext, "txt") == 0) {
-            events_write_to_file(ev, outfile);
         } else {
             events_write_to_file(ev, outfile);
         }
     }
 
+    // Set Blackboard variable if desired
     if(strlen(bbvar) > 0) {
         char *val = NULL;
         size_t nalloc = 1024;
@@ -377,7 +487,7 @@ event_request(int *nerr) {
         FREE(val);
     }
 
-    // Store events in Global State
+    // Store events in magical Global State
     for(size_t i = 0; i < xarray_length(ev); i++) {
         if(!event_exists(ev[i])) {
             event_save(ev[i]);
@@ -394,6 +504,17 @@ event_request(int *nerr) {
     return;
 }
 
+/**
+ * @brief      Write station data to a file
+ *
+ * @details    Write station data to a file
+ *
+ * @param      stat       station data
+ * @param      filename   filename to save file to
+ * @param      show_time  save on/off times for stations
+ *
+ * @return     0 on failure, 1 on success
+ */
 int
 stations_write_to_file(station **stat, char *filename, int show_time) {
     char tmp[256] = {0};
@@ -414,6 +535,14 @@ stations_write_to_file(station **stat, char *filename, int show_time) {
 
 station ** station_xml_parse(char *data, size_t data_len, int epochs, int verbose);
 
+/**
+ * @brief      Request station data
+ *
+ * @details    Request station data, command STATION
+ *
+ * @param      nerr   status error code
+ *
+ */
 void
 station_request(int *nerr) {
     char tmp[256] = {0};
@@ -433,12 +562,18 @@ station_request(int *nerr) {
     int set = 0;
     sr = station_req_new();
 
+    /* Argument Parsing */
     while(lcmore(nerr)) {
         if(0) {  }
+        /* Verbose for request data */
         else if(lckey("verbose$", -1)) { verbose = 1; }
+        /* To show the station data */
         else if(lckey("quiet", -1)) { quiet = 1; }
+        /* To show individual epochs for a station */
         else if(lklog("epochs$", -1, &epochs)) { }
+        /* To show on and off times */
         else if(lckey("show#times$", -1)) { show_time = 1; }
+        /* Set time range to search */
         else if(lktp("T#IME$", &t1, &t2)) {
             station_req_set_time_range(sr, t1, t2);
             set |= SetTime;
@@ -480,7 +615,7 @@ station_request(int *nerr) {
             timespec64 t  = event_time(ev);
             timespec64 t2 = event_time(ev);
             station_req_set_time_range(sr, t, t2);
-            if(set & 1<<7) {
+            if(set & SetRadial) {
                 station_req_set_origin(sr, event_lon(ev), event_lat(ev));
             }
             set |= SetEvent;
@@ -523,13 +658,11 @@ station_request(int *nerr) {
                                                   tmp, sizeof(tmp)));
         }
     }
-    // Write Station Data to a File if desired
+    // Write Station Data to a File if desired, xml or text
     if(strlen(filename) > 0) {
         char *ext = file_extension(filename);
-        if(strcmp(ext, "xml") == 0) {
+        if(ext && strcmp(ext, "xml") == 0) {
             result_write_to_file_show(r, filename);
-        } else if(strcmp(ext, "txt") == 0) {
-            stations_write_to_file(s, filename, show_time);
         } else {
             stations_write_to_file(s, filename, show_time);
         }
@@ -562,7 +695,7 @@ slurp(char *file, size_t *np) {
     fseek (fp, 0, SEEK_END);
     n = ftell (fp);
     fseek (fp, 0, SEEK_SET);
-    data = calloc(n, sizeof(char));
+    data = calloc(n + 1, sizeof(char));
     if(fread (data, 1, n, fp) != n) {
         FREE(data);
         return NULL;
@@ -579,6 +712,14 @@ enum {
     AVAIL = 2,
 };
 
+/**
+ * @brief      Data Request, command DATA
+ *
+ * @details    Data request, command DATA
+ *
+ * @param      nerr   status error code
+ *
+ */
 void
 data_request_f(int *nerr) {
     char net[128] = { 0 }, sta[128] = { 0 }, loc[128] = { 0 }, cha[128] = { 0 };
@@ -622,6 +763,7 @@ data_request_f(int *nerr) {
     dr = data_avail_new();
     *nerr = 0;
 
+    /* Argument Parsing */
     while(lcmore(nerr)) {
         if(0) { }
         else if(lckey("verbose$", -1)) { verbose = 1; }
@@ -698,7 +840,7 @@ data_request_f(int *nerr) {
         goto error;
     }
     if(set & SetRegion && set & SetRadial) {
-        error(*nerr = 3264,"Cannot use Region and Radial searches together\n");
+        error(*nerr = 3264,"Cannot use Region and Radial searches together");
         goto error;
     }
     if(*nerr != SAC_OK) {
@@ -708,11 +850,13 @@ data_request_f(int *nerr) {
     if(to_sac || to_mem || to_mseed) {
         action = DOWNLOAD;
     }
+
     if(!to_sac && !to_mem && !to_mseed) {
         to_mseed = 1;
     }
     request_set_verbose(dr, verbose);
 
+    /* Read Request file if specified */
     if(strlen(reqfile) > 0) {
         size_t n = 0;
         char *data = NULL;
@@ -720,14 +864,17 @@ data_request_f(int *nerr) {
             goto error;
         }
         fdr = data_request_parse(data);
-        //fed_requests_chunks(fdr, chunk_size);
+        if(!fdr) {
+            error(*nerr= 3264, "Error parsing data request file");
+            goto error;
+        }
         FREE(data);
     } else {
         // Use Duration if available
         if(d.type != Duration_None) {
             data_avail_use_duration(dr, &d);
         }
-        // Availability Request
+        // Availability Request, construct from station file
         if(strlen(infile) > 0 ) {
             char *req = NULL;
             request *dr0 = data_avail_new();
@@ -738,32 +885,41 @@ data_request_f(int *nerr) {
                 goto error;
             }
             request_set_verbose(dr0, verbose);
+            /* Make the Availability request */
             r = request_post(dr0, req);
             REQUEST_FREE(dr0);
         } else {
+            /* Make the Availability request */
             r = request_get(dr);
         }
-
+        /* Check the request result */
         if(!result_is_ok(r)) {
             printf("%s", result_error_msg(r));
             goto error;
         }
-
+        /* Parse the data request result */
         fdr = data_request_parse(result_data(r));
+        if(!fdr) {
+            error(*nerr = 3264, "Error parsing data request file");
+            goto error;
+        }
+        /* Split the request into managable chunks */
         data_request_chunks(fdr, (size_t) chunk_size);
         if(strlen(outfile) > 0) {
             data_request_write_to_file(fdr, outfile);
         }
-
+        // Write out the the screen if not downloading 
         if(action == AVAIL) {
-            // Write out the the screen
             data_request_write(fdr, stdout);
             cprintf("red,bold",
                    "No Data Downloaded, use miniseed, sac, or read to download data\n");
-            goto error;
+            goto error; /* Its ok, its not really an error */
         }
     }
 
+    /* Data Download from here */
+
+    /* Set output filename for the request  */
     char *filename = NULL;
     if(strlen(outfile) > 0) {
         filename = outfile;
@@ -773,7 +929,7 @@ data_request_f(int *nerr) {
         filename = result_filename(r);
     }
 
-    // Download data
+    // Download actual data
     mst3k = data_request_download(fdr, filename, prefix, to_mseed, to_sac | to_mem);
     if(to_mem && !more) {
         sacclear();
@@ -817,7 +973,16 @@ data_request_f(int *nerr) {
     return;
 }
 
-
+/**
+ * @brief      Get a CMT id from an Event ID (IRIS)
+ *
+ * @details    Get a CMT id from an Event ID (IRIS)
+ *
+ * @param      eventid   Event ID
+ * @param      verbose   Report the progress
+ *
+ * @return     cmtid on success, NULL on failure
+ */
 char *
 cmtid_from_eventid(char *eventid, int verbose) {
     request *req = NULL;
@@ -843,7 +1008,16 @@ cmtid_from_eventid(char *eventid, int verbose) {
     return cmtid;
 }
 
-
+/**
+ * @brief      Get CMTSOLUTION from CMT id (IRIS)
+ *
+ * @details    Get CMTSOLUTION from CMT id
+ *
+ * @param      cmtid    CMT id
+ * @param      verbose  Report progress
+ *
+ * @return     CMTSOLUTION on success, NULL on failure
+ */
 char *
 cmtsolution_from_cmtid(char *cmtid, int verbose) {
     request *req = NULL;
@@ -873,24 +1047,40 @@ cmtsolution_from_cmtid(char *cmtid, int verbose) {
     return cmtsol;
 }
 
-
+/**
+ * @brief      Check if string starts with a string
+ *
+ * @details    Check if string starts with a string
+ *
+ * @param      str    String to test
+ * @param      pat    Pattern to see if string starts with
+ *
+ * @return     1 on success, 0 on failure
+ */
 int
 starts_with(char *str, char *pat) {
     return (strncmp(pat, str, strlen(pat)) == 0);
 }
 
-
-
-
-
-
+/**
+ * @brief      Get CMTSOLUTION from kevnm
+ *
+ * @details    Get CMTSOLUTION from kevnm
+ *
+ * @param      files    sac files
+ * @param      ev       event 
+ * @param      verbose  report progress
+ *
+ */
 void
 get_cmtsolution_from_kevnm(sac **files, Event *ev, int verbose) {
     sac *s = NULL;
-    dict *evs = dict_new();
+    dict *evs = dict_new(); /* Local event dictionary */
     if(ev) {
+        /* Put event into dictionary */
         dict_put(evs, event_id(ev), NULL);
     }
+    /* Check if kevnm exists and save name */
     for(size_t i = 0; i < xarray_length(files); i++) {
         s = files[i];
         if(strcmp(s->h->kevnm, SAC_CHAR_UNDEFINED) != 0) {
@@ -899,6 +1089,7 @@ get_cmtsolution_from_kevnm(sac **files, Event *ev, int verbose) {
             }
         }
     }
+    /* For each unique event, find and download CMTSOLUTION */
     char **keys = dict_keys(evs);
     for(size_t i = 0; keys[i]; i++) {
         if(starts_with(keys[i], "gcmt:")) {
@@ -940,6 +1131,14 @@ get_cmtsolution_from_kevnm(sac **files, Event *ev, int verbose) {
     return;
 }
 
+/**
+ * @brief      meta data request, command METADATA
+ *
+ * @details    meta data request, command METADATA
+ *
+ * @param      nerr    status error code
+ *
+ */
 void
 meta_request(int *nerr) {
     int verbose = 0;
@@ -948,6 +1147,7 @@ meta_request(int *nerr) {
     Event *ev = NULL;
     *nerr = SAC_OK;
 
+    /* Argument parsing */
     while(lcmore(nerr)) {
         if(0) {}
         else if(lckey("verbose$", -1)) { verbose = 1; }
@@ -968,17 +1168,20 @@ meta_request(int *nerr) {
 
     sac **files = sac_data();
 
+    /* Fill meta data from "file" or header data */
     if(strlen(file) > 0) {
         sac_array_fill_meta_data_from_file(files, verbose, file);
     } else {
         sac_array_fill_meta_data(files, verbose);
     }
 
+    /* Update data for event */
     for(size_t i = 0; i < xarray_length(files); i++) {
         sac_fill_meta_data_from_event(files[i], ev, verbose);
         update_distaz(files[i]);
     }
 
+    /* Download CMTSOLUTION if desired */
     if(cmt) {
         get_cmtsolution_from_kevnm(sac_data(), ev, verbose);
     }
@@ -996,6 +1199,14 @@ sac_str_def(char *s) {
     return ! str_is(s, SAC_CHAR_UNDEFINED) ;
 }
 
+/**
+ * @brief      response request, command RESPONSE
+ *
+ * @details    response request, command RESPONSE
+ *
+ * @param      nerr   status error code
+ *
+ */
 void
 response_request(int *nerr) {
     char file[2048] = {0};
@@ -1015,6 +1226,7 @@ response_request(int *nerr) {
     int set = 0;
     *nerr = SAC_OK;
 
+    /* Argument parsing */
     while( lcmore(nerr) ) {
         if(lclist((char *)keys, 9, 6, &kind)) {
             switch(kind) {
@@ -1064,6 +1276,7 @@ response_request(int *nerr) {
         goto error;
     }
     if(response_is_ok(pz)) {
+        /* If Time range is not set, set to -200years, +1year */
         if((set & SetTime) == 0) {
             duration_parse("-200y", &d);
             t = timespec64_add_duration(timespec64_now(), &d);
@@ -1073,17 +1286,22 @@ response_request(int *nerr) {
             t = timespec64_add_duration(timespec64_now(), &d);
             response_set_end(pz, t);
         }
+        /* Request response */
         r = request_get(pz);
+        /* Check response */
         if(!result_is_ok(r)) {
             printf("%s", result_error_msg(r));
             goto error;
         }
+        /* Remove time range if not specified */
         if((set & SetTime) == 0) {
             request_del_arg(pz, "start");
             request_del_arg(pz, "end");
         }
+        /* Write response to a file */
         result_write_to_file_show(r, response_filename(pz, file, sizeof(file)));
     } else if(saclen() > 0) {
+        /* Get Response for all files in memory */
         REQUEST_FREE(pz);
         for( int i = 0 ; i < saclen(); i++) {
             /* -- Get the next file in DFL, moving header to CMHDR. */

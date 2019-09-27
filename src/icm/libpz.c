@@ -23,6 +23,7 @@
 #include "libpz.h"
 #include <fstr.h>
 
+sac *get_current(int *nerr); /* in sacio/compat.c */
 
 #ifdef WIN32
 #define pointer char *

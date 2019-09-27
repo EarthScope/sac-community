@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include <math.h>
 #include <ctype.h>
+#include <inttypes.h>
 
 #include <curl/curl.h>
 
@@ -891,7 +892,7 @@ data_size(int64_t bytes, char *out, size_t n) {
             return out;
         }
     }
-    snprintf(out, n, "%lld %s", bytes, unit[0]);
+    snprintf(out, n, "%" PRId64 " %s", bytes, unit[0]);
     return out;
 }
 
@@ -1016,7 +1017,7 @@ int get_oname_from_cd(char const*const cd, char *oname) {
 
     char *p = oname;
     /* If filename is present */
-    val = strcasestr(cd, key);
+    val = fern_strcasestr(cd, key);
     if (!val) {
         printf("No key-value for \"%s\" in \"%s\"", key, cdtag);
         goto bail;
@@ -1261,12 +1262,12 @@ char *
 result_error_msg(result *r) {
     char *msg = NULL;
     if(r->code != CURLE_OK) {
-        asprintf(&msg, "Error %d: %s\n", r->code, r->error);
+        fern_asprintf(&msg, "Error %d: %s\n", r->code, r->error);
     } else {
         if(r->http_code == 404) {
-            asprintf(&msg, "Error %d (HTTP): %s\n", r->http_code, "No Content");
+            fern_asprintf(&msg, "Error %d (HTTP): %s\n", r->http_code, "No Content");
         } else {
-            asprintf(&msg, "Error %d (HTTP): %s\n", r->http_code, r->data);
+            fern_asprintf(&msg, "Error %d (HTTP): %s\n", r->http_code, r->data);
         }
     }
     return msg;

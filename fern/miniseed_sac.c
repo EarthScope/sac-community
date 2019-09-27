@@ -17,6 +17,7 @@
 #include "xml.h"
 #include "defs.h"
 #include "slurp.h"
+#include "strip.h"
 
 /**
  * @defgroup miniseed miniseed
@@ -78,7 +79,7 @@ read_miniseed_memory(MS3TraceList *mst3k, char *buffer, uint64_t len) {
                                    split_version, flags, &tolerance,
                                    verbose);
     if(retcode < 0) {
-        printf("Error reading from memory[%lld]: %s\n", retcode, ms_errorstr((int)retcode));
+        printf("Error reading from memory[%" PRId64 "]: %s\n", retcode, ms_errorstr((int)retcode));
     }
     return retcode;
 }
@@ -150,7 +151,7 @@ miniseed_trace_list_to_sac(MS3TraceList *mst3k) {
                                                               (uint32_t) s->h->nzmsec * 1000000);
                 sac_set_float(s, SAC_B, (double) dt / (double)NSTMODULUS);
 
-                asprintf(&s->m->filename,
+                fern_asprintf(&s->m->filename,
                          "%s.%s.%s.%s.%c.%04d.%03d.%02d%02d%02d.sac",
                          s->h->knetwk, s->h->kstnm, s->h->khole, s->h->kcmpnm,
                          qual[t->pubversion], s->h->nzyear, s->h->nzjday,

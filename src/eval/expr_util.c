@@ -342,6 +342,9 @@ unescape_inline(char *str) {
                     break;
             }
         }
+        if(*in == 0) {
+            break;
+        }
         out++;
         in++;
     }

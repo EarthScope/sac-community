@@ -6,6 +6,7 @@
 #include <string.h>
 #include <math.h>
 #include <unistd.h>
+#include <inttypes.h>
 
 #include <libmseed/libmseed.h>
 
@@ -420,7 +421,9 @@ data_avail_from_station_file(request *r, char *file) {
     arg_to_string(request_get_arg(r, "start"), t1,  sizeof(t1));
     arg_to_string(request_get_arg(r, "end"),   t2,  sizeof(t2));
 
-    fgets(line, sizeof(line), fp); // Header Line
+    if(!fgets(line, sizeof(line), fp)) {
+        goto error;
+    }
     while(fgets(line, sizeof(line), fp)) {
         if(sscanf(line, "%10s %10s", net, sta) != 2) {
             printf("Error reading station file on line: %s\n", line);
@@ -645,7 +648,7 @@ breq_fast_send(breq_fast *f) {
         return NULL;
     }
     end_slash = ds_url[strlen(ds_url)-1] == '/';
-    asprintf(&url, "%s%squery", ds_url, (!end_slash) ? "/" : "");
+    fern_asprintf(&url, "%s%squery", ds_url, (!end_slash) ? "/" : "");
     request_set_url(fr, url);
     req = str_join(f->lines, "\n");
     r = request_post(fr, req);
@@ -1221,7 +1224,7 @@ breq_fast_line_parse(char *line, breq_fast_line *x) {
     }
     sec = x->t2.tv_sec - x->t1.tv_sec;
     if(sec > 60*60*24*366) {
-        printf(" WARNING: Very long request duration: %lld years, skipping\n", sec/(60*60*24*366));
+        printf(" WARNING: Very long request duration: %" PRId64 " years, skipping\n", sec/(60*60*24*366));
         printf("\t%s\n", line);
         return 0;
     }
@@ -1269,7 +1272,7 @@ breq_fast_line_format(breq_fast_line *x) {
     char *newline = NULL;
     strftime64t(tmp1, sizeof(tmp1), "%FT%T.%3f", &x->t1);
     strftime64t(tmp2, sizeof(tmp2), "%FT%T.%3f", &x->t2);
-    asprintf(&newline, "%s %s %s %s %s %s",
+    fern_asprintf(&newline, "%s %s %s %s %s %s",
              x->net, x->sta, x->loc, x->cha, tmp1, tmp2);
     return newline;
 }

@@ -58,6 +58,7 @@ datetime_get_file_time() {
         h   = s->h->nzhour;
         m   = s->h->nzmin;
         sec = s->h->nzsec;
+        ns  = 0;
         if(s->h->nzmsec >= 0) {
             ns = s->h->nzmsec * 1000000;
         }

@@ -201,7 +201,12 @@ blackboard(A) ::= BLACKBOARD(B) . {
     if(A.type == STRING) {
       Token *t;
       t = token_to_token_list(&A);
-      token_copy(&A, t);
+      if(!t) {
+          parse_error(value, TOKEN_STATUS_ERROR_SYNTAX);
+          value->str = A.str;
+      } else {
+          token_copy(&A, t);
+      }
       FREE(t);
     }
   }

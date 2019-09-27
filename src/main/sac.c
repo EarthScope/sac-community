@@ -129,6 +129,10 @@ main(int argc, char **argv) {
     /* - Get the input line message, if any.
      *   This should be the name of the a default SAC macro to execute. */
 
+    /* #ifdef __AFL_HAVE_MANUAL_CONTROL */
+    /*     __AFL_INIT(); */
+    /* #endif */
+
     zgimsg(argc, argv, kmsg, MCMSG + 1);
     execute_command_line(kmsg, MCMSG + 1);
 

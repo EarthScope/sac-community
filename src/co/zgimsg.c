@@ -40,8 +40,9 @@ zgimsg(int argc, char **argv, char *mess, int messlen) {
     for (i = 1; i < argc; ++i, pc = *(++argv)) {
         for (j = 0; *pc != '\0' && k < messlen; ++j, ++k)
             mess[k] = *(pc++);  /* copy parameters */
-        if (k == messlen) {
+        if (k >= messlen) {
             printf("warning:  command string too long.\n");
+            mess[k-1] = 0;
             break;
         }
         mess[k++] = ' ';        /* parameter delimiter */
