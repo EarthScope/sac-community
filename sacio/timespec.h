@@ -28,6 +28,7 @@ timespec64 timespec64_from_yjhmsf(int64_t year, int jday,
                                   int hour, int min, int sec, int64_t ns);
 timespec64 timespec64_from_ymdhmsf(int64_t year, int month, int day,
                                    int hour, int min, int sec, int64_t ns);
+void timespec64_to_ymd(timespec64 *t, int64_t *year, int *month, int *day, int *oday);
 
 /**
  * @brief High-precision, long duration time value

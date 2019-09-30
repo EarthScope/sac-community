@@ -507,6 +507,8 @@ sac * sac_cut(sac *sin, char *c1, double t1, char *c2, double t2, enum CutAction
 sac * sac_read_header(char *filename, int *nerr);
 /** @brief Write a sac file */
 void  sac_write(sac *s, char *filename, int *nerr);
+/** @brief Write a sac file header for an existing file*/
+void sac_write_header(sac *s, char *filename, int *nerr);
 /** @brief Write a sac file in alphanumeric format */
 void  sac_write_alpha(sac *s, char *filename, int *nerr);
 /** @brief Copy a sac object  */
@@ -515,6 +517,8 @@ sac * sac_copy(sac *s);
 void  sac_extrema(sac *s);
 /** @brief Get the number of components from a sac string */
 int   sac_comps(sac * s);
+/** @brief Return if the header value represents a time */
+int   sac_is_timeval(int hid);
 
 void  sac_meta_copy(sac *to, sac *from);
 void  sac_header_copy(sac *to, sac *from);
@@ -543,6 +547,8 @@ int sac_hdr_defined(sac *s, ...);
 int sac_fmt(char *dst, size_t n, const char *fmt, sac *s);
 /** @brief  Get an absolute time from a sac object */
 int sac_get_time(sac *s, int hdr, timespec64 *t);
+/** @brief  Get an absolute reference time from a sac object */
+int sac_get_time_ref(sac *s, timespec64 *t);
 /** @brief  Set the reference time for a sac object */
 int sac_set_time(sac *s, timespec64 t);
 /** @brief  Get the size of a sac file in bytes */
@@ -725,6 +731,10 @@ enum HeaderID {
     SAC_T7MARKER     = 150, /**< @brief t7marker */
     SAC_T8MARKER     = 151, /**< @brief t8marker */
     SAC_T9MARKER     = 152, /**< @brief t9marker */
+
+    SAC_MONTH        = 153, /**< @brief month */
+    SAC_MONTH_DAY    = 154, /**< @brief day of the month */
+    SAC_DATE_TIME    = 155, /**< @brief full date time references */
 };
 
 /**
@@ -750,10 +760,21 @@ enum SacHeaderTypes {
     SAC_AUX_TYPE = 7, /**< @brief  Aux Type */
 };
 
+/**
+ * @brief Structure to convert keyword to enum value
+ */
+struct eid {
+    char *name;
+    int type;
+    int id;
+};
+
 /** \cond NO_DOCS */
 /** @brief Convert a keyword to a header ID*/
 struct hid * sac_keyword_to_header(register const char *str,
-                                   register size_t len);
+                                   register unsigned int len);
+struct eid * sac_enum_to_id(register const char *str,
+                            register unsigned int len);
 /** \endcond */
 
 #define SAC_KSTNM  SAC_STA   /**< @brief Alias for Station */

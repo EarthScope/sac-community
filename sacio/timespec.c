@@ -876,6 +876,16 @@ duration_from_string(char *in) {
 }
 
 
+void
+timespec64_to_ymd(timespec64 *t, int64_t *year, int *month, int *day, int *oday) {
+    struct TM tm;
+    gmtime64_r(&t->tv_sec, &tm);
+    *year  = tm.tm_year + 1900;
+    *month = tm.tm_mon + 1;
+    *day   = tm.tm_mday;
+    *oday  = tm.tm_yday + 1;
+}
+
 #ifdef _TEST_
 
 int

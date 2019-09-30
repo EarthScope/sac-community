@@ -1,0 +1,175 @@
+%{
+#include <stdio.h>
+#include "sacio.h"
+%}
+
+struct eid { char *name; int type; int id; }
+
+%includes
+%ignore-case
+%language=ANSI-C
+%struct-type
+%omit-struct-type
+%define lookup-function-name sac_enum_to_id
+%define initializer-suffix ,-1,-1
+
+%%
+itime,  SAC_FILE_TYPE, ITIME
+time, SAC_FILE_TYPE, ITIME
+irlim,  SAC_FILE_TYPE, IRLIM
+real-imaginary,  SAC_FILE_TYPE, IRLIM
+iamph,  SAC_FILE_TYPE, IAMPH
+amplitude-phase,  SAC_FILE_TYPE, IAMPH
+ixy,    SAC_FILE_TYPE, IXY
+xy,    SAC_FILE_TYPE, IXY
+ixyz,   SAC_FILE_TYPE, IXYZ
+xyz,   SAC_FILE_TYPE, IXYZ
+iunkn,  SAC_DEP_TYPE, IUNKN
+idisp,  SAC_DEP_TYPE, IDISP
+displacement,  SAC_DEP_TYPE, IDISP
+ivel,  SAC_DEP_TYPE, IVEL
+velocity,  SAC_DEP_TYPE, IVEL
+iacc,  SAC_DEP_TYPE, IACC
+acceleration,  SAC_DEP_TYPE, IACC
+irldta,  SAC_DEP_TYPE, IRLDTA
+real-data,  SAC_DEP_TYPE, IRLDTA
+ivolts,  SAC_DEP_TYPE, IVOLTS
+volts,  SAC_DEP_TYPE, IVOLTS
+ib, SAC_ZERO_TIME, IB
+b, SAC_ZERO_TIME, IB
+begin, SAC_ZERO_TIME, IB
+iday, SAC_ZERO_TIME, IDAY
+day, SAC_ZERO_TIME, IDAY
+io, SAC_ZERO_TIME, IO
+o, SAC_ZERO_TIME, IO
+origin, SAC_ZERO_TIME, IO
+ia, SAC_ZERO_TIME, IA
+a, SAC_ZERO_TIME, IA
+first-arrival, SAC_ZERO_TIME, IA
+it0, SAC_ZERO_TIME, IT0
+t0, SAC_ZERO_TIME, IT0
+it1, SAC_ZERO_TIME, IT1
+t1, SAC_ZERO_TIME, IT1
+it2, SAC_ZERO_TIME, IT2
+t2, SAC_ZERO_TIME, IT2
+it3, SAC_ZERO_TIME, IT3
+t3, SAC_ZERO_TIME, IT3
+it4, SAC_ZERO_TIME, IT4
+t4, SAC_ZERO_TIME, IT4
+it5, SAC_ZERO_TIME, IT5
+t5, SAC_ZERO_TIME, IT5
+it6, SAC_ZERO_TIME, IT6
+t6, SAC_ZERO_TIME, IT6
+it7, SAC_ZERO_TIME, IT7
+t7, SAC_ZERO_TIME, IT7
+it8, SAC_ZERO_TIME, IT8
+t8, SAC_ZERO_TIME, IT8
+it9, SAC_ZERO_TIME, IT9
+t9, SAC_ZERO_TIME, IT9
+inucl, SAC_EVENT_TYPE, INUCL
+# nuclear, SAC_EVENT_TYPE, INUCL
+ipren, SAC_EVENT_TYPE, IPREN
+# pre-nuclear, SAC_EVENT_TYPE, IPREN
+ipostn, SAC_EVENT_TYPE, IPOSTN
+# post-nuclear, SAC_EVENT_TYPE, IPOSTN
+iquake, SAC_EVENT_TYPE, IQUAKE
+# quake, SAC_EVENT_TYPE, IQUAKE
+ipreq, SAC_EVENT_TYPE, IPREQ
+ipostq, SAC_EVENT_TYPE, IPOSTQ
+ichem, SAC_EVENT_TYPE, ICHEM
+iother, SAC_EVENT_TYPE, IOTHER
+igood, SAC_QUAL, IGOOD
+good, SAC_QUAL, IGOOD
+iglch, SAC_QUAL, IGLCH
+glitches, SAC_QUAL, IGLCH
+idrop, SAC_QUAL, IDROP
+dropouts, SAC_QUAL, IDROP
+ilowsn, SAC_QUAL, ILOWSN
+low-snr, SAC_QUAL, ILOWSN
+imb, SAC_MAG_TYPE, IMB
+mb, SAC_MAG_TYPE, IMB
+ims, SAC_MAG_TYPE, IMS
+ms, SAC_MAG_TYPE, IMS
+iml, SAC_MAG_TYPE, IML
+ml, SAC_MAG_TYPE, IML
+imw, SAC_MAG_TYPE, IMW
+mw, SAC_MAG_TYPE, IMW
+imd, SAC_MAG_TYPE, IMD
+md, SAC_MAG_TYPE, IMD
+imx, SAC_MAG_TYPE, IMX
+mx, SAC_MAG_TYPE, IMX
+ineic, SAC_MAG_SRC, INEIC
+neic, SAC_MAG_SRC, INEIC
+ipdeq, SAC_MAG_SRC, IPDEQ
+pdeq, SAC_MAG_SRC, IPDEQ
+ipdew, SAC_MAG_SRC, IPDEW
+pdew, SAC_MAG_SRC, IPDEW
+ipde, SAC_MAG_SRC, IPDE
+pde, SAC_MAG_SRC, IPDE
+iisc, SAC_MAG_SRC, IISC
+isc, SAC_MAG_SRC, IISC
+ireb, SAC_MAG_SRC, IREB
+reb, SAC_MAG_SRC, IREB
+iusgs, SAC_MAG_SRC, IUSGS
+usgs, SAC_MAG_SRC, IUSGS
+ibrk, SAC_MAG_SRC, IBRK
+brk, SAC_MAG_SRC, IBRK
+icaltech, SAC_MAG_SRC, ICALTECH
+caltech, SAC_MAG_SRC, ICALTECH
+illnl, SAC_MAG_SRC, ILLNL
+llnl, SAC_MAG_SRC, ILLNL
+ievloc, SAC_MAG_SRC, IEVLOC
+evloc, SAC_MAG_SRC, IEVLOC
+ijsop, SAC_MAG_SRC, IJSOP
+jsop, SAC_MAG_SRC, IJSOP
+iuser, SAC_MAG_SRC, IUSER
+user, SAC_MAG_SRC, IUSER
+iunknown, SAC_MAG_SRC, IUNKNOWN
+unknown, SAC_MAG_SRC, IUNKNOWN
+iqb, SAC_EVENT_TYPE, IQB
+iqb1, SAC_EVENT_TYPE, IQB1
+iqb2, SAC_EVENT_TYPE, IQB2
+iqbx, SAC_EVENT_TYPE, IQBX
+iqmt, SAC_EVENT_TYPE, IQMT
+ieq, SAC_EVENT_TYPE, IEQ
+earthquake, SAC_EVENT_TYPE, IEQ
+ieq1, SAC_EVENT_TYPE, IEQ1
+ieq2, SAC_EVENT_TYPE, IEQ2
+ime, SAC_EVENT_TYPE, IME
+marine-explosion, SAC_EVENT_TYPE, IME
+iex, SAC_EVENT_TYPE, IEX
+inu, SAC_EVENT_TYPE, INU
+nuclear-explosion, SAC_EVENT_TYPE, INU
+inc, SAC_EVENT_TYPE, INC
+io_, SAC_EVENT_TYPE, IO_
+il, SAC_EVENT_TYPE, IL
+ir, SAC_EVENT_TYPE, IR
+regional, SAC_EVENT_TYPE, IR
+it, SAC_EVENT_TYPE, IT
+teleseismic, SAC_EVENT_TYPE, IT
+iu, SAC_EVENT_TYPE, IU
+ieq3, SAC_EVENT_TYPE, IEQ3
+ieq0, SAC_EVENT_TYPE, IEQ0
+iex0, SAC_EVENT_TYPE, IEX0
+iqc, SAC_EVENT_TYPE, IQC
+iqb0, SAC_EVENT_TYPE, IQB0
+igey, SAC_EVENT_TYPE, IGEY
+geyser, SAC_EVENT_TYPE, IGEY
+ilit, SAC_EVENT_TYPE, ILIT
+imet, SAC_EVENT_TYPE, IMET
+iodor, SAC_EVENT_TYPE, IODOR
+ios, SAC_EVENT_TYPE, IOS
+%%
+
+#ifdef __TESTING__
+
+int
+main() {
+       struct eid *e = NULL;
+       char *itime = "itime";
+       e = sac_enum_to_id(itime, strlen(itime));
+       printf("%s %d %d\n", e->name, e->type, e->id);
+       return 0;
+}
+
+#endif

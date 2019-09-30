@@ -234,6 +234,26 @@ sac_write(sac *s, char *filename, int *nerr) {
     sac_write_internal(s, filename, SAC_WRITE_HEADER_AND_DATA, s->m->swap, nerr);
 }
 
+void
+sac_write_header(sac *s, char *filename, int *nerr) {
+    sac_write_internal(s, filename, SAC_WRITE_HEADER, s->m->swap, nerr);
+}
+
+
+int
+sac_is_timeval(int hid) {
+    switch(hid) {
+    case SAC_B: case SAC_E: case SAC_O: case SAC_A: case SAC_F:
+    case SAC_T0: case SAC_T1: case SAC_T2: case SAC_T3:
+    case SAC_T4: case SAC_T5: case SAC_T6: case SAC_T7:
+    case SAC_T8: case SAC_T9:
+        return 1;
+        break;
+    default:
+        break;
+    }
+    return 0;
+}
 
 /**
  * @brief    X-Macro for sac_f64_new()
@@ -1915,6 +1935,11 @@ sac_write_internal(sac *s, char *filename, int write_data, int swap, int *nerr) 
         if(*nerr != SAC_OK) {
             return;
         }
+    } else {
+        lseek(nin,
+              SAC_HEADER_SIZE +
+              4 * (off_t) s->h->npts * sac_comps(s),
+              SEEK_SET);
     }
     if(s->h->nvhdr == SAC_HEADER_VERSION_7) {
         sac_header_write_v7(nin, s, nerr);
@@ -3017,7 +3042,6 @@ sac_hdr_defined(sac *s, ...) {
 /**
  * @brief     Get the reference time from a sac file
  *
- * @private
  * @ingroup    sac
  * @memberof   sac
  *
