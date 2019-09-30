@@ -15,6 +15,9 @@ unvis_SOURCES = unvis.c
 
 bbfswap_LDADD = ../src/libsacio.a 
 
+saclst_CFLAGS = -I$(top_srcdir)/sacio
+saclst_LDADD = ../src/libsacio.a
+
 EXTRA_DIST = Makefile.utils \
 	readsac.m writesac.m \
 	padcat.m getsacdata.m \

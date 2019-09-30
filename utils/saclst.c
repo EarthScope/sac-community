@@ -7,6 +7,7 @@
 *             2003  Further Updates             Qinya Liu
 *       28 05 2006  Addition to SAC Codebase    Brian Savage
 *                   Combined saclst.c and sacio.c
+*       29 09 2019  Switch to sacio library; v7 Brian Savage
 *       License
 *               Distributed under the same License as the SAC Source
 *               and binaries, used here under permission by Lupei Zhu
@@ -17,7 +18,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
-#include "sac.h"
+#include <sacio.h>
 
 #define OUTPUT_DATE      201
 #define OUTPUT_TIME      202
@@ -31,157 +32,370 @@
 
 #define OUTPUT_PICKS     401
 
-int sac_header_position(const char *s);
-void kidate(int year, int jday, int *month, int *day);
+#define SAC_HEADER_FLOAT_MIN   SAC_DELTA
+#define SAC_HEADER_FLOAT_MAX   SAC_UN70
+
+#define SAC_HEADER_FIELDS      SAC_INST
+
+char *SacHeaderName[] = {
+                         "empty",
+                         "delta",		/* RF time increment, sec    */
+  "depmin",		/*    minimum amplitude      */
+  "depmax",		/*    maximum amplitude      */
+  "scale",		/*    amplitude scale factor */
+  "odelta",       /*    observed time inc      */
+  "b",			/* RD initial time - wrt nz* */
+  "e",			/* RD end time               */
+  "o",        /*    event start            */
+  "a",        /*    1st arrival time       */
+  "Fmt",      /*    internal use           */
+
+  "t0",       /*    user-defined time pick */
+  "t1",       /*    user-defined time pick */
+  "t2",       /*    user-defined time pick */
+  "t3",       /*    user-defined time pick */
+  "t4",       /*    user-defined time pick */
+  "t5",       /*    user-defined time pick */
+  "t6",       /*    user-defined time pick */
+  "t7",       /*    user-defined time pick */
+  "t8",       /*    user-defined time pick */
+  "t9",       /*    user-defined time pick */
+
+  "F",        /*    event end, sec > 0     */
+  "resp0",		/*    instrument respnse parm*/
+  "resp1",		/*    instrument respnse parm*/
+  "resp2",		/*    instrument respnse parm*/
+  "resp3",		/*    instrument respnse parm*/
+  "resp4",		/*    instrument respnse parm*/
+  "resp5",		/*    instrument respnse parm*/
+  "resp6",		/*    instrument respnse parm*/
+  "resp7",		/*    instrument respnse parm*/
+  "resp8",		/*    instrument respnse parm*/
+
+  "resp9",		/*    instrument respnse parm*/
+  "stla",		/*  T station latititude     */
+  "stlo",		/*  T station longitude      */
+  "stel",		/*  T station elevation, m   */
+  "stdp",		/*  T station depth, m       */
+  "evla",		/*    event latitude         */
+  "evlo",		/*    event longitude        */
+  "evel",		/*    event elevation        */
+  "evdp",		/*    event depth            */
+  "mag",          /*    reserved for future use*/
+
+  "user0",		/*    available to user      */
+  "user1",		/*    available to user      */
+  "user2",		/*    available to user      */
+  "user3",		/*    available to user      */
+  "user4",		/*    available to user      */
+  "user5",		/*    available to user      */
+  "user6",		/*    available to user      */
+  "user7",		/*    available to user      */
+  "user8",		/*    available to user      */
+  "user9",		/*    available to user      */
+
+  "dist",		/*    stn-event distance, km */
+  "az",			/*    event-stn azimuth      */
+  "baz",		/*    stn-event azimuth      */
+  "gcarc",		/*    stn-event dist, degrees*/
+  "sb",       /*    internal use           */
+  "sdelta",     /*    internal use           */
+  "depmen",		/*    mean value, amplitude  */
+  "cmpaz",		/*  T component azimuth      */
+  "cmpinc",		/*  T component inclination  */
+  "xminimum",		/*    reserved for future use*/
+
+  "xmaximum",		/*    reserved for future use*/
+  "yminimum",		/*    reserved for future use*/
+  "ymaximum",		/*    reserved for future use*/
+  "unused6",		/*    reserved for future use*/
+  "unused7",		/*    reserved for future use*/
+  "unused8",		/*    reserved for future use*/
+  "unused9",		/*    reserved for future use*/
+  "unused10",		/*    reserved for future use*/
+  "unused11",		/*    reserved for future use*/
+  "unused12",		/*    reserved for future use*/
+
+  /* ints */
+  "nzyear",   /*  F zero time of file, yr  */
+  "nzjday",   /*  F zero time of file, day */
+  "nzhour",   /*  F zero time of file, hr  */
+  "nzmin",    /*  F zero time of file, min */
+  "nzsec",    /*  F zero time of file, sec */
+  "nzmsec",   /*  F zero time of file, msec*/
+  "nvhdr",          /*  R header version number  */
+  "norid",    /*    internal use           */
+  "nevid",    /*    internal use           */
+  "npts",   /* RF number of samples      */
+
+  "nsnpts",   /*    internal use           */
+  "nwfid",    /*    internal use           */
+  "xsize",    /*    reserved for future use*/
+  "ysize",    /*    reserved for future use*/
+  "unused15",   /*    reserved for future use*/
+  "iftype",   /* RA type of file           */
+  "idep",   /*    type of amplitude      */
+  "iztype",   /*    zero time equivalence  */
+  "unused16",   /*    reserved for future use*/
+  "iinst",    /*    recording instrument   */
+  "istreg",   /*    stn geographic region  */
+  "ievreg",   /*    event geographic region*/
+  "ievtyp",   /*    event type             */
+  "iqual",    /*    quality of data        */
+  "isynth",   /*    synthetic data flag    */
+  "imagtyp",        /*    reserved for future use*/
+  "imagsrc",        /*    reserved for future use*/
+  "unused19",   /*    reserved for future use*/
+  "unused20",   /*    reserved for future use*/
+  "unused21",   /*    reserved for future use*/
+  "unused22",   /*    reserved for future use*/
+  "unused23",   /*    reserved for future use*/
+  "unused24",   /*    reserved for future use*/
+  "unused25",   /*    reserved for future use*/
+  "unused26",   /*    reserved for future use*/
+  "leven",    /* RA data-evenly-spaced flag*/
+  "lpspol",   /*    station polarity flag  */
+  "lovrok",   /*    overwrite permission   */
+  "lcalda",   /*    calc distance, azimuth */
+  "unused27",   /*    reserved for future use*/
+  "kstnm",    /*  F station name           */
+  "kevnm",    /*    event name             */
+  "kevnm empty",        /*                           */
+  "khole",    /*    man-made event name    */
+  "ko",     /*    event origin time id   */
+  "ka",     /*    1st arrival time ident */
+  "kt0",    /*    time pick 0 ident      */
+  "kt1",    /*    time pick 1 ident      */
+  "kt2",    /*    time pick 2 ident      */
+  "kt3",    /*    time pick 3 ident      */
+  "kt4",    /*    time pick 4 ident      */
+  "kt5",    /*    time pick 5 ident      */
+  "kt6",    /*    time pick 6 ident      */
+  "kt7",    /*    time pick 7 ident      */
+  "kt8",    /*    time pick 8 ident      */
+  "kt9",    /*    time pick 9 ident      */
+  "kf",     /*    end of event ident     */
+  "kuser0",   /*    available to user      */
+  "kuser1",   /*    available to user      */
+  "kuser2",   /*    available to user      */
+  "kcmpnm",   /*  F component name         */
+  "knetwk",   /*    network name           */
+  "kdatrd",   /*    date data read         */
+  "kinst"               /*    instrument name        */
+};
+
+char *SacHeaderEnums[] = {
+  "IREAL",     /* 0    To be consistent with defines above */
+  /* iftype */
+  "ITIME",        /* 1    Time series file            */
+  "IRLIM",        /* 2    Spectral file-real/imag     */
+  "IAMPH",        /* 3    Spectral file-ampl/phase    */
+  "IXY",          /* 4    General x vs y file         */
+  "IUNKN",        /* 5    Unknown                     */
+
+  /* idep */
+  "IDISP",        /* 6    Displacement (NM)           */
+  "IVEL",         /* 7    Velocity (NM/SEC)           */
+  "IACC",         /* 8    Acceleration (NM/SEC/SEC)   */
+
+  /* iztype */
+  "IB",           /* 9    Begin time                  */
+  "IDAY",         /* 10   GMT day                     */
+  "IO",           /* 11   Event origin time           */
+  "IA",           /* 12   First arrival time          */
+  "IT0",          /* 13   User defined time pick 0    */
+  "IT1",          /* 14   User defined time pick 1    */
+  "IT2",          /* 15   User defined time pick 2    */
+  "IT3",          /* 16   User defined time pick 3    */
+  "IT4",          /* 17   User defined time pick 4    */
+  "IT5",          /* 18   User defined time pick 5    */
+  "IT6",          /* 19   User defined time pick 6    */
+  "IT7",          /* 20   User defined time pick 7    */
+  "IT8",          /* 21   User defined time pick 8    */
+  "IT9",          /* 22   User defined time pick 9    */
+
+  /* iinst */
+  "IRADNV", /* 23   Radial (NTS)                */
+  "ITANNV", /* 24   Tangential (NTS)            */
+  "IRADEV", /* 25   Radial (EVENT)              */
+  "ITANEV", /* 26   Tangential (EVENT)          */
+  "INORTH", /* 27   North positive              */
+  "IEAST",  /* 28   East positive               */
+  "IHORZA", /* 29   Horizontal (ARB)            */
+  "IDOWN",  /* 30   Down positive               */
+  "IUP",  /* 31   Up positive                 */
+  "ILLLBB", /* 32   LLL broadband               */
+  "IWWSN1", /* 33   WWSN 15-100                 */
+  "IWWSN2", /* 34   WWSN 30-100                 */
+  "IHGLP",  /* 35   High-gain long-period       */
+  "ISRO", /* 36   SRO                         */
+
+  /* ievtyp */
+  "INUCL",  /* 37   Nuclear event               */
+  "IPREN",  /* 38   Nuclear pre-shot event      */
+  "IPOSTN", /* 39   Nuclear post-shot event     */
+  "IQUAKE", /* 40   Earthquake                  */
+  "IPREQ",  /* 41   Foreshock                   */
+  "IPOSTQ", /* 42   Aftershock                  */
+  "ICHEM",  /* 43   Chemical explosion          */
+  "IOTHER", /* 44   Other                       */
+
+  /* iqual */
+  "IGOOD",  /* 45   Good                        */
+  "IGLCH",  /* 46   Gliches                     */
+  "IDROP",  /* 47   Dropouts                    */
+  "ILOWSN", /* 48   Low signal to noise ratio   */
+
+  /* isynth */
+  "IRLDTA", /* 49   Real data                   */
+  "IVOLTS", /* 50   Velocity (volts)            */
+  "IXYZ", /* 51   General XYZ (3-D) file      */
+
+  /* These 18 added to describe magnitude type and source maf 970205 */
+  "IMB",        /* 52   Bodywave Magnitude */
+  "IMS",        /* 53   Surface Magnitude */
+  "IML",        /* 54   Local Magnitude  */
+  "IMW",        /* 55   Moment Magnitude */
+  "IMD",        /* 56   Duration Magnitude */
+  "IMX",        /* 57   User Defined Magnitude */
+  "INEIC",  /* 58   INEIC */
+  "IPDEQ",  /* 59   IPDEQ */
+  "IPDEW",  /* 60   IPDEW */
+  "IPDE",       /* 61   IPDE */
+  "IISC",       /* 62   IISC */
+  "IREB",       /* 63   IREB */
+  "IUSGS",  /* 64   IUSGS */
+  "IBRK",       /* 65   IBRK */
+  "ICALTECH", /* 66   ICALTECH */
+  "ILLNL",  /* 67   ILLNL */
+  "IEVLOC", /* 68   IEVLOC */
+  "IJSOP",  /* 69   IJSOP */
+  "IUSER",  /* 70   IUSER */
+  "IUNKNOWN", /* 71   IUNKNOWN */
+
+  /*   These 17 added for ievtyp. maf 970325 */
+  "IQB",        /* 72   Quarry or mine blast confirmed by quarry */
+  "IQB1",       /* 73   Quarry or mine blast with designed shot information-ripple fired*/
+  "IQB2",       /* 74   Quarry or mine blast with observed shot information-ripple fired*/
+  "IQBX",       /* 75   Quarry or mine blast - single shot */
+  "IQMT",       /* 76   Quarry or mining-induced events: tremors and rockbursts */
+  "IEQ",        /* 77   Earthquake */
+  "IEQ1",       /* 78   Earthquakes in a swarm or aftershock sequence */
+  "IEQ2",       /* 79   Felt earthquake */
+  "IME",        /* 80   Marine explosion */
+  "IEX",        /* 81   Other explosion */
+  "INU",        /* 82   Nuclear explosion */
+  "INC",        /* 83   Nuclear cavity collapse */
+  "IO_",        /* 84   Other source of known origin */
+  "IL",         /* 85   Local event of unknown origin */
+  "IR",         /* 86   Regional event of unknown origin */
+  "IT",         /* 87   Teleseismic event of unknown origin */
+  "IU",         /* 88   Undetermined or conflicting information  */
+
+  /*   These 9 added for ievtype to keep up with database. maf 000530 */
+  "IEQ3",       /* 89   Damaging Earthquake */
+  "IEQ0",       /* 90   Probable earthquake */
+  "IEX0",       /* 91   Probable explosion */
+  "IQC",        /* 92   Mine collapse */
+  "IQB0",       /* 93   Probable Mine Blast */
+  "IGEY",       /* 94   Geyser */
+  "ILIT",       /* 95   Light */
+  "IMET",       /* 96   Meteroic event */
+  "IODOR"       /* 97   Odors */
+};
 
 void
 output_header_list() {
-      fprintf(stderr,"Usage: saclst header_values f file_lists\n");
-      fprintf(stderr,"   ex. saclst delta npts kstnm f sacfile1 sacfile2\n");
-  fprintf(stderr, "    All Values are case insensitive, except F\n");
-  fprintf(stderr, "    If header_values = default  - All Defined Values, 2 Columns\n");
-  fprintf(stderr, "    If header_values = default1 - All Defined Values, 1 Column\n");
-  fprintf(stderr, "    If header_values = all      - All Values\n");
-  fprintf(stderr, "    If header_values = Full     - All Values Formatted (capital F)\n");
-  fprintf(stderr, "Available SAC Header Values\n");
-  fprintf(stderr, "    \t\tTime-series Values\n");
-  fprintf(stderr, "\tb e o a F ko ka kf\n");
-  fprintf(stderr, "\tnpts delta depmin depmax depmen scale nvhdr\n");
-  fprintf(stderr, "    \t\tStation and Event Values\n");
-  fprintf(stderr, "\tkstnm stlo stla stel stdp\n");
-  fprintf(stderr, "\tkevnm evlo evla evel evdp\n");
-  fprintf(stderr, "\tdist az baz gcarc khole\n");
-  fprintf(stderr, "\tkcmpnm knetwk kdatrd kinst cmpaz cmpinc\n");
-  fprintf(stderr, "\tiftype idep iztype iinst istreg ievreg ievtyp iqual isynth\n");
-  fprintf(stderr, "    \t\tTiming Values\n");
-  fprintf(stderr, "\tkzdate kztime odelta\n");
-  fprintf(stderr, "\tnzyear nzjday nzmonth nzday nzhour nzmin nzsec nzmsec\n");
-  fprintf(stderr, "    \t\tPicks, Response, and User Values\n");
-  fprintf(stderr, "\tt0    t1    t2    t3    t4    t5    t6    t7    t8    t9\n");
-  fprintf(stderr, "\tkt0   kt1   kt2   kt3   kt4   kt5   kt6   kt7   kt8   kt9\n");
-  fprintf(stderr, "\tresp0 resp1 resp2 resp3 resp4 resp5 resp6 resp7 resp8 resp9\n");
-  fprintf(stderr, "\tuser0 user1 user2 user3 user4 user5 user6 user7 user8 user9\n");
-  fprintf(stderr, "\tkuser0 kuser1 kuser2\n");
-  
-  exit(-1);
+    fprintf(stderr,"Usage: saclst header_values f file_lists\n");
+    fprintf(stderr,"   ex. saclst delta npts kstnm f sacfile1 sacfile2\n");
+    fprintf(stderr, "    All Values are case insensitive, except F\n");
+    fprintf(stderr, "    If header_values = default  - All Defined Values, 2 Columns\n");
+    fprintf(stderr, "    If header_values = default1 - All Defined Values, 1 Column\n");
+    fprintf(stderr, "    If header_values = all      - All Values\n");
+    fprintf(stderr, "    If header_values = Full     - All Values Formatted (capital F)\n");
+    fprintf(stderr, "Available SAC Header Values\n");
+    fprintf(stderr, "    \t\tTime-series Values\n");
+    fprintf(stderr, "\tb e o a F ko ka kf\n");
+    fprintf(stderr, "\tnpts delta depmin depmax depmen scale nvhdr\n");
+    fprintf(stderr, "    \t\tStation and Event Values\n");
+    fprintf(stderr, "\tkstnm stlo stla stel stdp\n");
+    fprintf(stderr, "\tkevnm evlo evla evel evdp\n");
+    fprintf(stderr, "\tdist az baz gcarc khole\n");
+    fprintf(stderr, "\tkcmpnm knetwk kdatrd kinst cmpaz cmpinc\n");
+    fprintf(stderr, "\tiftype idep iztype iinst istreg ievreg ievtyp iqual isynth\n");
+    fprintf(stderr, "    \t\tTiming Values\n");
+    fprintf(stderr, "\tkzdate kztime odelta\n");
+    fprintf(stderr, "\tnzyear nzjday nzmonth nzday nzhour nzmin nzsec nzmsec\n");
+    fprintf(stderr, "    \t\tPicks, Response, and User Values\n");
+    fprintf(stderr, "\tt0    t1    t2    t3    t4    t5    t6    t7    t8    t9\n");
+    fprintf(stderr, "\tkt0   kt1   kt2   kt3   kt4   kt5   kt6   kt7   kt8   kt9\n");
+    fprintf(stderr, "\tresp0 resp1 resp2 resp3 resp4 resp5 resp6 resp7 resp8 resp9\n");
+    fprintf(stderr, "\tuser0 user1 user2 user3 user4 user5 user6 user7 user8 user9\n");
+    fprintf(stderr, "\tkuser0 kuser1 kuser2\n");
+
+    exit(-1);
 }
 
-
-int
-sac_header_value_type(int j) {
-  if(j >= SAC_HEADER_FLOAT_MIN   && j <= SAC_HEADER_FLOAT_MAX)   return SAC_HEADER_FLOAT_TYPE;
-  if(j >= SAC_HEADER_INT_MIN     && j <= SAC_HEADER_INT_MAX)     return SAC_HEADER_INT_TYPE;
-  if(j >= SAC_HEADER_ENUM_MIN    && j <= SAC_HEADER_ENUM_MAX)    return SAC_HEADER_ENUM_TYPE;
-  if(j >= SAC_HEADER_LOGICAL_MIN && j <= SAC_HEADER_LOGICAL_MAX) return SAC_HEADER_LOGICAL_TYPE;
-  if(j == SAC_HEADER_CHAR_DOUBLE)                                return SAC_HEADER_CHAR16_TYPE;
-  if(j == SAC_HEADER_CHAR_DOUBLE_END)                            return SAC_HEADER_UNDEFINED_TYPE;
-  if(j >= SAC_HEADER_CHAR_MIN    && j <= SAC_HEADER_CHAR_MAX)    return SAC_HEADER_CHAR8_TYPE;
-  return SAC_HEADER_UNDEFINED_TYPE;
-}
 
 char *
-sac_header_value_char(SACHEAD *hd, int j) {
-  char *c;
-  char *cpt;
-  float *fpt = (float *) hd;
-  int k      = SAC_HEADER_CHAR_MIN + (j - SAC_HEADER_CHAR_MIN) * 2;
-  int klen   = (j == SAC_HEADER_CHAR_DOUBLE) ? 16 : 8;
-
-  fpt += k;
-  cpt = (char *)fpt;
-  c = (char *)malloc(sizeof(char) * (klen + 1));
-  c = strncpy(c, cpt, klen);
-  c[klen] = '\0';
-  return c;
-}
-
-float
-sac_header_value_float(SACHEAD *hd, int j) {
-  float f;
-  float *fpt = (float *) hd;
-
-  fpt += j;
-  f = *fpt;
-  return f;
-}
-
-int
-sac_header_value_int(SACHEAD *hd, int j) {
-  int i;
-  int *ipt = (int *) hd;
-
-  ipt += j;
-  i = *ipt;
-  return i;
-}
-
-char *
-sac_header_value_enum(SACHEAD *hd, int j) {
-  char *s  = NULL;
-  int ipt = sac_header_value_int(hd, j);
-  if(ipt == SAC_HEADER_INT_UNDEFINED)
-    s = strdup(SAC_HEADER_UNDEFINED);
-  else if(ipt >= 0 && ipt < SacHeaderEnumsLength)
-    s = strdup(SacHeaderEnums[ipt]);
-  return s;
-}
-
-char *
-sac_header_value_string(SACHEAD *hd, int j) {
+sac_header_value_string(sac *s, struct hid *h, char *dst, size_t n) {
   int ipt;
-  float fpt;
-  char *s = NULL;
-  
-  switch(sac_header_value_type(j)) {
-  case SAC_HEADER_FLOAT_TYPE:
-    fpt = sac_header_value_float(hd, j);
-    s = (char *)malloc(sizeof(char) * 512);
-    memset(s, 0, sizeof(char) * 512);
-    sprintf(s, "%11.5E", fpt);
-    break;
-  case SAC_HEADER_INT_TYPE:
-    ipt = sac_header_value_int(hd, j);
-    s = (char *)malloc(sizeof(char) * 512);
-    memset(s, 0, sizeof(char) * 512);
-    sprintf(s, "%11d", ipt);
-    break;
-  case SAC_HEADER_ENUM_TYPE:
-    s = sac_header_value_enum(hd, j);
-    break;
-  case SAC_HEADER_LOGICAL_TYPE:
-    s = (char *)malloc(sizeof(char) * 512);
-    memset(s, 0, sizeof(char) * 512);
-    sprintf(s, "%s", (sac_header_value_int(hd, j)) ? "TRUE" : "FALSE");
-    break;
-  case SAC_HEADER_CHAR8_TYPE:
-  case SAC_HEADER_CHAR16_TYPE:
-    s = sac_header_value_char(hd, j);
-    break;
+  double fpt;
+
+  switch(h->type) {
+  case SAC_FLOAT_TYPE:
+      sac_get_float(s, h->id, &fpt);
+      snprintf(dst, n, "%11.5E", fpt);
+      break;
+  case SAC_INT_TYPE:
+      sac_get_int(s, h->id, &ipt);
+      snprintf(dst, n, "%11d", ipt);
+      break;
+  case SAC_ENUM_TYPE:
+      sac_get_int(s, h->id, &ipt);
+      if(ipt == SAC_INT_UNDEFINED) {
+          snprintf(dst, n, "UNDEFINED");
+      } else if(ipt >= 0 && ipt <= IODOR) {
+          snprintf(dst, n, "%s", SacHeaderEnums[ipt]);
+      }
+      break;
+  case SAC_BOOL_TYPE:
+      sac_get_int(s, h->id, &ipt);
+      snprintf(dst, n, "%s", ipt ? "TRUE" : "FALSE");
+      break;
+  case SAC_STRING_TYPE:
+  case SAC_LONG_STRING_TYPE:
+      sac_get_string(s, h->id, dst, n);
+      break;
   default:
-    break;
+      break;
   }
-  return s;
+  return dst;
 }
 
-int 
-main(int argc, char **argv)
-{
-  int		i,j,ls[60],nl,k;
-  float		fpt;
+int
+main(int argc, char **argv) {
+    int nerr = 0;
+    int   i,j,nl,k;
+  double    fpt;
   int           ipt;
-  char         *cpt;
-  int           month, day;
-  SACHEAD	hd;
+  char         cpt[36];
+  int64_t       year;
+  int           month = 0, day = 0, oday = 0;
   int           def, all, full;
-  char         *header_name;
-  char         *kstring;
+  char         *header_name = NULL;
   int           newline;
-  char         *tmp;
+  char          tmp[64] = {0};
+  sac *s = NULL;
+  timespec64 t = {0,0};
+
+
+  struct hid ls[200];
 
   if(argc < 2) {
       fprintf(stderr,"Usage: saclst header_lists f file_lists\n");
       fprintf(stderr,"   ex. saclst delta npts kstnm f sacfile1 sacfile2\n");
-      fprintf(stderr,"       saclst help - outputs a list of possible values\n"); 
+      fprintf(stderr,"       saclst help - outputs a list of possible values\n");
       return -1;
   }
   def = all = full = 0;
@@ -190,306 +404,159 @@ main(int argc, char **argv)
   while ( *argv[0] != 'f' ) {
     if(strcasecmp("help", argv[0]) == 0)
       output_header_list();
-    
-    ls[nl] = sac_header_position(argv[0]);
-    if(ls[nl] == OUTPUT_DEFAULT)
-      def = 1;
-    if(ls[nl] == OUTPUT_ALL)
-      all = 1;
-    if(ls[nl] == OUTPUT_FULL)
-      full = 1;
-    if(ls[nl] == OUTPUT_DEFAULT1) 
-      def = 2;
-
-    if (ls[nl] == -999) {
-      fprintf(stderr, "saclst: Error in header_list  %s\n", argv[0]);
-      return -1;
+    struct hid *tmp = NULL;
+    if((tmp = sac_keyword_to_header(argv[0], strlen(argv[0]))) != NULL) {
+        ls[nl] = *tmp;
+    } else {
+        if(strcasecmp(argv[0], "default") == 0) {
+            def = 1;
+        } else if(strcasecmp(argv[0], "all") == 0) {
+            all = 1;
+        } else if(strcasecmp(argv[0], "full") == 0) {
+            full = 1;
+        } else if(strcasecmp(argv[0], "default1") == 0) {
+            def = 2;
+        } else if(strcasecmp(argv[0], "picks") == 0) {
+            struct hid tt = { .name = "", .type = OUTPUT_PICKS, .id = 0 };
+            ls[nl] = tt;
+        } else {
+            fprintf(stderr, "saclst: Error in header_list  %s\n", argv[0]);
+            return -1;
+        }
     }
     nl++; argv++; argc--;
   }
 
   if(def || all || full) {
     for(i = 1; i < argc; i++) {
-      if( read_sachead(argv[i], &hd) != -1 ) {
-	newline = 0;
-	printf("File: %s\n", argv[i]);
-	for(j = 0; j <= SAC_HEADER_FIELDS; j++) {
-	  header_name = SacHeaderName[j];
+        //if( read_sachead(argv[i], &hd) != -1 ) {
+        if((s = sac_read_header(argv[i], &nerr)) != NULL) {
+            newline = 0;
+            printf("File: %s\n", argv[i]);
+            for(j = SAC_DELTA; j <= SAC_HEADER_FIELDS; j++) {
+                header_name = SacHeaderName[j];
 
-	  if(full) {
-	    if(j == SAC_HEADER_FLOAT_MIN) 
-	      printf(" REAL        INDEX  NAME        Int Value  Real Value\n");
-	    if(j == SAC_HEADER_INT_MIN) 
-	      printf(" INTEGER     INDEX  NAME        Int Value  Int Value\n");
-	    if(j == SAC_HEADER_ENUM_MIN) 
-	      printf(" ENUMERATED  INDEX  NAME        Int Value  Enu Value\n");
-	    if(j == SAC_HEADER_LOGICAL_MIN) 
-	      printf(" LOGICAL     INDEX  NAME        Int Value  Log Value\n");
-	    if(j == SAC_HEADER_CHAR_MIN) 
-	      printf(" CHARACTER   INDEX  NAME        Int Value  Char Value\n");
-	  }
+                if(full) {
+                    if(j== SAC_DELTA) {
+                        printf(" REAL        INDEX  NAME        Int Value  Real Value\n");
+                    } else if(j == SAC_YEAR) {
+                        printf(" INTEGER     INDEX  NAME        Int Value  Int Value\n");
+                    } else if(j == SAC_FILE_TYPE) {
+                        printf(" ENUMERATED  INDEX  NAME        Int Value  Enu Value\n");
+                    } else if(j == SAC_EVEN) {
+                        printf(" LOGICAL     INDEX  NAME        Int Value  Log Value\n");
+                    } else if(j == SAC_STA) {
+                        printf(" CHARACTER   INDEX  NAME        Int Value  Char Value\n");
+                    }
+                }
+                struct hid *h = sac_keyword_to_header(header_name, strlen(header_name));
+                if(!h) {
+                    continue;
+                }
+                switch(h->type) {
+                case SAC_FLOAT_TYPE:
+                    sac_get_float(s, h->id, &fpt);
+                    if( def && fpt != SAC_FLOAT_UNDEFINED ) {
+                        printf("      %-8s  %16.5E", header_name, fpt);
+                        newline++;
+                    }
+                    else if(all)
+                        printf("               %3d  %-8s  %16.5E\n", j-1, header_name, fpt);
+                    else if(full) {
+                        printf("               %3d  %-8s  %16.5E %s\n", j-1, header_name, fpt,
+                               sac_header_value_string(s, h, tmp, sizeof(tmp)));
+                    }
+                    break;
 
-	  switch(sac_header_value_type(j)) {
-	  case SAC_HEADER_FLOAT_TYPE:
-	    fpt = sac_header_value_float(&hd, j);
-	    if( def && fpt != SAC_HEADER_FLOAT_UNDEFINED ) {
-	      printf("      %-8s  %16.5E", header_name, fpt);
-	      newline++;
-	    }
-	    else if(all)
-	      printf("               %3d  %-8s  %16.5E\n", j, header_name, fpt);
-	    else if(full) {
-          printf("               %3d  %-8s  %16.5E %s\n", j, header_name, fpt, 
-                 (tmp = sac_header_value_string(&hd, j)));
-          free(tmp);
+                case SAC_INT_TYPE:
+                case SAC_ENUM_TYPE:
+                case SAC_BOOL_TYPE:
+                    sac_get_int(s, h->id, &ipt);
+                    if( def && ipt != SAC_INT_UNDEFINED ) {
+                        printf("      %-8s  %16d", header_name, ipt);
+                        newline++;
+                    }
+                    else if(all)
+                        printf("               %3d  %-8s  %16d\n", j-1, header_name, ipt);
+                    else if(full) {
+                        printf("               %3d  %-8s  %16d %s\n", j-1, header_name, ipt,
+                               sac_header_value_string(s, h, tmp, sizeof(tmp)));
+                    }
+                    break;
+
+                case SAC_STRING_TYPE:
+                case SAC_LONG_STRING_TYPE:
+                    sac_get_string(s, h->id, cpt, sizeof(cpt));
+                    if( def && strncmp(cpt, SAC_CHAR_UNDEFINED, 8) != 0 ) {
+                        printf("      %-8s  %16s", header_name, cpt);
+                        newline++;
+                    }
+                    else if(all)
+                        printf("               %3d  %-8s  %16s\n", j-1, header_name, cpt);
+                    else if(full) {
+                        printf("               %3d  %-8s  %16s %s\n", j-1, header_name, cpt,
+                               sac_header_value_string(s, h, tmp, sizeof(tmp)));
+                    }
+                    break;
+                }
+                if(newline == 2 || (def == 2 && newline > 0)) {
+                    printf("\n");
+                    newline = 0;
+                }
+            }
+            if(def && newline > 0)
+                printf("\n");
         }
-	    break;
-
-	  case SAC_HEADER_INT_TYPE:
-	  case SAC_HEADER_ENUM_TYPE:
-	  case SAC_HEADER_LOGICAL_TYPE:
-	    ipt = sac_header_value_int(&hd, j);
-	    if( def && ipt != SAC_HEADER_INT_UNDEFINED ) {
-	      printf("      %-8s  %16d", header_name, ipt);
-	      newline++;
-	    }
-	    else if(all)
-	      printf("               %3d  %-8s  %16d\n", j, header_name, ipt);
-	    else if(full) {
-	      printf("               %3d  %-8s  %16d %s\n", j, header_name, ipt, 
-                 (tmp = sac_header_value_string(&hd, j)));
-        }
-	    break;
-
-	  case SAC_HEADER_CHAR8_TYPE:
-	  case SAC_HEADER_CHAR16_TYPE:
-	    kstring = SAC_HEADER_CHAR_UNDEFINED;
-	    cpt = sac_header_value_char(&hd, j);
-	    if( def && strncmp(cpt, kstring, 8) != 0 ) {
-	      printf("      %-8s  %16s", header_name, cpt);
-	      newline++;
-	    }
-	    else if(all)
-	      printf("               %3d  %-8s  %16s\n", j, header_name, cpt);
-	    else if(full) {
-	      printf("               %3d  %-8s  %16s %s\n", j, header_name, cpt, 
-                 (tmp = sac_header_value_string(&hd, j)));
-          free(tmp);
-        }
-        free(cpt);
-	    break;
-	  }
-	  if(newline == 2 || (def == 2 && newline > 0)) { 
-	    printf("\n");
-	    newline = 0;
-	  }
-	}
-	if(def && newline > 0) 
-	  printf("\n");
-      }
     }
     return 0;
   }
-  for (i=1; i<argc; i++) {    
-    if ( read_sachead(argv[i], &hd) != -1) {
-      printf("%s ", argv[i]);
-      for (j=0; j<nl; j++) {
-	switch(sac_header_value_type(ls[j])) {
-	case SAC_HEADER_FLOAT_TYPE:
-	  printf("%12.6g",sac_header_value_float(&hd, ls[j]));
-	  break;
-	case SAC_HEADER_INT_TYPE:
-	case SAC_HEADER_ENUM_TYPE:
-	case SAC_HEADER_LOGICAL_TYPE:
-	  printf("%10d", sac_header_value_int(&hd, ls[j]));
-	  break;
-	case SAC_HEADER_CHAR8_TYPE:
-	case SAC_HEADER_CHAR16_TYPE:
-      printf("   %s", (tmp = sac_header_value_char(&hd, ls[j])) );
-      free(tmp);
-	  break;
-	default:
-	  kidate(hd.nzyear, hd.nzjday, &month, &day);
-	  if(ls[j] == OUTPUT_DAY)
-	    printf("%10d",day);
-	  else if(ls[j] == OUTPUT_MONTH)
-	    printf("%10d",month);
-	  else if(ls[j] == OUTPUT_DATE)
-	    printf(" %5d/%.02d/%.02d", hd.nzyear, month, day);
-	  else if(ls[j] == OUTPUT_TIME)
-	    printf(" %.02d:%.02d:%06.3f", hd.nzhour, hd.nzmin, hd.nzsec + 0.001 * hd.nzmsec);
-	  else if(ls[j] == OUTPUT_PICKS) {
-	    for(k = 0; k < 10; k++) 
-	      printf("%12.6g", sac_header_value_float(&hd, SAC_HEADER_TMARK_POSITION + k));
-	  }
-	  break;
-	}
-      }
-      printf("\n");
+  for (i=1; i<argc; i++) {
+
+      if((s = sac_read_header(argv[i], &nerr)) != NULL) {
+        printf("%s ", argv[i]);
+        for (j=0; j<nl; j++) {
+            switch(ls[j].type) {
+            case SAC_FLOAT_TYPE:
+                sac_get_float(s, ls[j].id, &fpt);
+                printf("%12.6g", fpt);
+                break;
+            case SAC_INT_TYPE:
+            case SAC_ENUM_TYPE:
+            case SAC_BOOL_TYPE:
+                sac_get_int(s, ls[j].id, &ipt);
+                printf("%10d", ipt);
+                break;
+            case SAC_STRING_TYPE:
+            case SAC_LONG_STRING_TYPE:
+                sac_get_string(s, ls[j].id, cpt, sizeof(cpt));
+                printf("   %s", cpt);
+                break;
+            case SAC_AUX_TYPE:
+                sac_get_time_ref(s, &t);
+                timespec64_to_ymd(&t, &year, &month, &day, &oday);
+                if(ls[j].id == SAC_DATE) {
+                    printf(" %5d/%.02d/%.02d", s->h->nzyear, month, day);
+                } else if(ls[j].id == SAC_TIME) {
+                    printf(" %.02d:%.02d:%06.3f", s->h->nzhour, s->h->nzmin, s->h->nzsec + 0.001 * s->h->nzmsec);
+                } else if(ls[j].id == SAC_MONTH) {
+                    printf("%10d",month);
+                } else if(ls[j].id == SAC_MONTH_DAY) {
+                    printf("%10d",day);
+                }
+                break;
+            default:
+                if(ls[j].type == OUTPUT_PICKS) {
+                    for(k = SAC_T0; k <= SAC_T9; k++) {
+                        sac_get_float(s, k, &fpt);
+                        printf("%12.6g", fpt);
+                    }
+                }
+                break;
+            }
+        }
+        printf("\n");
     }
   }
   return 0;
 }
 
-int
-sac_header_position(const char *s) {
-  int i;
-  for(i = 0; i <= SAC_HEADER_FIELDS; i++) {
-    if(i == 9 || i == 20) {
-      if(strcmp(s, SacHeaderName[i]) == 0) 
-	return i;
-    } else {
-      if(strcasecmp(s, SacHeaderName[i]) == 0)
-	return i;
-    }
-  }
-  if      (strcasecmp(s,"kzdate")==0)    return(OUTPUT_DATE);
-  else if (strcasecmp(s,"kztime")==0)    return(OUTPUT_TIME);
-  else if (strcasecmp(s,"nzday")==0)     return(OUTPUT_DAY);
-  else if (strcasecmp(s,"nzmonth")==0)   return(OUTPUT_MONTH);
-  else if (strcasecmp(s,"default")==0)   return(OUTPUT_DEFAULT);
-  else if (strcasecmp(s,"default1")==0)  return(OUTPUT_DEFAULT1);
-  else if (strcasecmp(s,"all")==0)       return(OUTPUT_ALL);
-  else if (strcasecmp(s,"full")==0)      return(OUTPUT_FULL);
-  else if (strcasecmp(s,"picks")==0)     return(OUTPUT_PICKS);
-
-  return -999;
-}  
-
-
-
-/* sacio.c */
-/*******************************************************************
-*			sacio.c
-*	swab4		reverse byte order for integer/float
-*       sac_byte_order  determine sac byte order
-*	read_sachead	read SAC header
-*
-*********************************************************************/
-
-
-/*****************************************************
-
-  swab4
-
-  Description:	reverse byte order for float/integer
-
-  Author:	Lupei Zhu
-
-  Arguments:	char *pt	pointer to byte array
-		int    n	number of bytes
-
-  Return:	none
-
-  Modify history:
-	12/03/96	Lupei Zhu	Initial coding
-
-************************************************************/
-
-void
-swab4( char *pt, int n ) {
-  int i;
-  char temp;
-  for(i=0;i<n;i+=4) {
-    temp = pt[i+3];
-    pt[i+3] = pt[i];
-    pt[i] = temp;
-    temp = pt[i+2];
-    pt[i+2] = pt[i+1];
-    pt[i+1] = temp;
-  }
-}
-
-
-/***********************************************************
-   
-   sac_byte_order (hd)
-
-   Description:  Determine if the header variable (internal4)
-                 which defines the header version is between 0 and 6
-   do_swap  = 1 Try and byte swap
-            = 0 Do not byte swap
-   Returns:
-              0 - No swapping needs to be done
-	      1 - Swapping is needed
-*/
-int
-sac_byte_order( SACHEAD *hd ) {
-  if( ( hd->nvhdr > 0  ) && ( hd->nvhdr <= 6 ) ) 
-    return(0);
-  return(1);
-}
-
-/***********************************************************
-
-  read_sachead
-
-  Description:	read binary SAC header from file.
-
-  Author:	Lupei Zhu
-
-  Arguments:	const char *name 	file name
-		SACHEAD *hd		SAC header to be filled
-
-  Return:	0 if success, -1 if failed
-
-  Modify history:
-	05/29/97	Lupei Zhu	Initial coding
-************************************************************/
-
-int
-read_sachead(const char *name, SACHEAD *hd ) {
-  FILE		*strm;
-  
-  if ((strm = fopen(name, "rb")) == NULL) {
-    fprintf(stderr, "Unable to open %s\n",name);
-    return -1;
-  }
-  
-  if (fread(hd, sizeof(SACHEAD), 1, strm) != 1) {
-    fprintf(stderr, "saclst: Error in reading SAC header %s\n",name);
-    fclose(strm);
-    return -1;
-  }
-  if(sac_byte_order(hd)) {
-    swab4((char *)hd, SAC_HEADER_SIZE_NUMBERS);
-    if(sac_byte_order(hd)) {
-      fprintf(stderr, "saclst: Error determining SAC header: %s\n", name);
-      fclose(strm);
-      hd = NULL;
-      return(-1);
-    }
-  }
-  
-  fclose(strm);
-  return 0;
-}
-
-void
-kidate(int year, int jday, int *month, int *day) {
-
-  int im;
-  static long ndays[12]={31,28,31,30,31,30,31,31,30,31,30,31};
-
-  if(year == -12345 || jday == -12345) {
-    *month = -12345;
-    *day   = -12345;
-    return;
-  }
-
-  if( (year / 4)*4 == year) {
-    ndays[1] = 29;
-  } else {
-    ndays[1] = 28;
-  }
-  
-  *day = jday;
-  for( *month = 1; *month <= 12; (*month)++) {
-    im = *month - 1;
-    if(*day <= ndays[im]) 
-      return;
-    *day = *day - ndays[im];
-  }
-  *month = -12345;
-  *day   = -12345;
-}

@@ -115,9 +115,11 @@ PROGRAMS = $(bin_PROGRAMS)
 am_bbfswap_OBJECTS = bbfswap.$(OBJEXT)
 bbfswap_OBJECTS = $(am_bbfswap_OBJECTS)
 bbfswap_DEPENDENCIES = ../src/libsacio.a
-am_saclst_OBJECTS = saclst.$(OBJEXT)
+am_saclst_OBJECTS = saclst-saclst.$(OBJEXT)
 saclst_OBJECTS = $(am_saclst_OBJECTS)
-saclst_LDADD = $(LDADD)
+saclst_DEPENDENCIES = ../src/libsacio.a
+saclst_LINK = $(CCLD) $(saclst_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
+	$(LDFLAGS) -o $@
 am_sacswap_OBJECTS = sacswap.$(OBJEXT)
 sacswap_OBJECTS = $(am_sacswap_OBJECTS)
 sacswap_LDADD = $(LDADD)
@@ -145,6 +147,10 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/inc
 depcomp =
 am__maybe_remake_depfiles =
+AM_V_lt = $(am__v_lt_@AM_V@)
+am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
+am__v_lt_0 = --silent
+am__v_lt_1 = 
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 AM_V_CC = $(am__v_CC_@AM_V@)
@@ -341,6 +347,8 @@ sacswap_SOURCES = sacswap.c
 bbfswap_SOURCES = bbfswap.c 
 unvis_SOURCES = unvis.c
 bbfswap_LDADD = ../src/libsacio.a 
+saclst_CFLAGS = -I$(top_srcdir)/sacio
+saclst_LDADD = ../src/libsacio.a
 EXTRA_DIST = Makefile.utils \
 	readsac.m writesac.m \
 	padcat.m getsacdata.m \
@@ -428,7 +436,7 @@ bbfswap$(EXEEXT): $(bbfswap_OBJECTS) $(bbfswap_DEPENDENCIES) $(EXTRA_bbfswap_DEP
 
 saclst$(EXEEXT): $(saclst_OBJECTS) $(saclst_DEPENDENCIES) $(EXTRA_saclst_DEPENDENCIES) 
 	@rm -f saclst$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(saclst_OBJECTS) $(saclst_LDADD) $(LIBS)
+	$(AM_V_CCLD)$(saclst_LINK) $(saclst_OBJECTS) $(saclst_LDADD) $(LIBS)
 
 sacswap$(EXEEXT): $(sacswap_OBJECTS) $(sacswap_DEPENDENCIES) $(EXTRA_sacswap_DEPENDENCIES) 
 	@rm -f sacswap$(EXEEXT)
@@ -457,6 +465,12 @@ distclean-compile:
 
 .c.obj:
 	$(AM_V_CC)$(COMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+saclst-saclst.o: saclst.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(saclst_CFLAGS) $(CFLAGS) -c -o saclst-saclst.o `test -f 'saclst.c' || echo '$(srcdir)/'`saclst.c
+
+saclst-saclst.obj: saclst.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(saclst_CFLAGS) $(CFLAGS) -c -o saclst-saclst.obj `if test -f 'saclst.c'; then $(CYGPATH_W) 'saclst.c'; else $(CYGPATH_W) '$(srcdir)/saclst.c'; fi`
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
