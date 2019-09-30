@@ -90,7 +90,8 @@ build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
 bin_PROGRAMS = sgftops$(EXEEXT) sgfswap$(EXEEXT) saclst$(EXEEXT) \
-	sacswap$(EXEEXT) bbfswap$(EXEEXT) unvis$(EXEEXT)
+	sacswap$(EXEEXT) sacset$(EXEEXT) bbfswap$(EXEEXT) \
+	unvis$(EXEEXT)
 subdir = utils
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/config/matlab.m4 \
@@ -119,6 +120,11 @@ am_saclst_OBJECTS = saclst-saclst.$(OBJEXT)
 saclst_OBJECTS = $(am_saclst_OBJECTS)
 saclst_DEPENDENCIES = ../src/libsacio.a
 saclst_LINK = $(CCLD) $(saclst_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am_sacset_OBJECTS = sacset-sacset.$(OBJEXT)
+sacset_OBJECTS = $(am_sacset_OBJECTS)
+sacset_DEPENDENCIES = ../src/libsacio.a
+sacset_LINK = $(CCLD) $(sacset_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
 am_sacswap_OBJECTS = sacswap.$(OBJEXT)
 sacswap_OBJECTS = $(am_sacswap_OBJECTS)
@@ -163,10 +169,12 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(bbfswap_SOURCES) $(saclst_SOURCES) $(sacswap_SOURCES) \
-	$(sgfswap_SOURCES) $(sgftops_SOURCES) $(unvis_SOURCES)
-DIST_SOURCES = $(bbfswap_SOURCES) $(saclst_SOURCES) $(sacswap_SOURCES) \
-	$(sgfswap_SOURCES) $(sgftops_SOURCES) $(unvis_SOURCES)
+SOURCES = $(bbfswap_SOURCES) $(saclst_SOURCES) $(sacset_SOURCES) \
+	$(sacswap_SOURCES) $(sgfswap_SOURCES) $(sgftops_SOURCES) \
+	$(unvis_SOURCES)
+DIST_SOURCES = $(bbfswap_SOURCES) $(saclst_SOURCES) $(sacset_SOURCES) \
+	$(sacswap_SOURCES) $(sgfswap_SOURCES) $(sgftops_SOURCES) \
+	$(unvis_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -342,13 +350,16 @@ AUTOMAKE_OPTIONS = no-dependencies
 AM_CFLAGS = $(DEBUG) $(COVERAGE) $(OPTIM)
 sgftops_SOURCES = sgftops.c
 sgfswap_SOURCES = sgfswap.c
-saclst_SOURCES = saclst.c sac.h
+saclst_SOURCES = saclst.c
+sacset_SOURCES = sacset.c
 sacswap_SOURCES = sacswap.c 
 bbfswap_SOURCES = bbfswap.c 
 unvis_SOURCES = unvis.c
 bbfswap_LDADD = ../src/libsacio.a 
 saclst_CFLAGS = -I$(top_srcdir)/sacio
 saclst_LDADD = ../src/libsacio.a
+sacset_CFLAGS = -I$(top_srcdir)/sacio
+sacset_LDADD = ../src/libsacio.a
 EXTRA_DIST = Makefile.utils \
 	readsac.m writesac.m \
 	padcat.m getsacdata.m \
@@ -438,6 +449,10 @@ saclst$(EXEEXT): $(saclst_OBJECTS) $(saclst_DEPENDENCIES) $(EXTRA_saclst_DEPENDE
 	@rm -f saclst$(EXEEXT)
 	$(AM_V_CCLD)$(saclst_LINK) $(saclst_OBJECTS) $(saclst_LDADD) $(LIBS)
 
+sacset$(EXEEXT): $(sacset_OBJECTS) $(sacset_DEPENDENCIES) $(EXTRA_sacset_DEPENDENCIES) 
+	@rm -f sacset$(EXEEXT)
+	$(AM_V_CCLD)$(sacset_LINK) $(sacset_OBJECTS) $(sacset_LDADD) $(LIBS)
+
 sacswap$(EXEEXT): $(sacswap_OBJECTS) $(sacswap_DEPENDENCIES) $(EXTRA_sacswap_DEPENDENCIES) 
 	@rm -f sacswap$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(sacswap_OBJECTS) $(sacswap_LDADD) $(LIBS)
@@ -471,6 +486,12 @@ saclst-saclst.o: saclst.c
 
 saclst-saclst.obj: saclst.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(saclst_CFLAGS) $(CFLAGS) -c -o saclst-saclst.obj `if test -f 'saclst.c'; then $(CYGPATH_W) 'saclst.c'; else $(CYGPATH_W) '$(srcdir)/saclst.c'; fi`
+
+sacset-sacset.o: sacset.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sacset_CFLAGS) $(CFLAGS) -c -o sacset-sacset.o `test -f 'sacset.c' || echo '$(srcdir)/'`sacset.c
+
+sacset-sacset.obj: sacset.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sacset_CFLAGS) $(CFLAGS) -c -o sacset-sacset.obj `if test -f 'sacset.c'; then $(CYGPATH_W) 'sacset.c'; else $(CYGPATH_W) '$(srcdir)/sacset.c'; fi`
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
