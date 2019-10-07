@@ -479,7 +479,7 @@ event_request(int *nerr) {
         size_t n = 0;
         for(size_t i = 0; i < xarray_length(ev); i++) {
             char *id = event_id(ev[i]);
-            val = str_grow(val, &nalloc, n, sizeof(id)+1);
+            val = str_grow(val, &nalloc, n, strlen(id)+1);
             n = strlcat(val, id, nalloc);
             n = strlcat(val, " ", nalloc);
         }

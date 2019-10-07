@@ -283,8 +283,8 @@ str_grow(char *s, size_t *nalloc, size_t n, size_t nadd) {
     if(s == NULL) {
         s = calloc(*nalloc, sizeof(char));
     }
-    if(n + nadd >= *nalloc) {
-        while(n+nadd > *nalloc) {
+    if(n + nadd + 1 >= *nalloc) {
+        while(n + nadd + 1 > *nalloc) {
             *nalloc *= 2;
         }
         if(!(tmp = realloc(s, *nalloc))) {
