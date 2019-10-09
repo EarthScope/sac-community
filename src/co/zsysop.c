@@ -18,9 +18,9 @@
 #ifdef USE_LOCAL_SYSTEM_COMMAND
 #include <unistd.h>
 #include <signal.h>
-#include <errno.h>
 int system_local(const char *command);
 #endif
+#include <errno.h>
 
 /** 
  * Execute a system command
@@ -141,7 +141,7 @@ zsysop_gets(char *comstr, int dummylen, int *pnumc, int *perr) {
     while(fgets(buf, BUFSIZE, fp) != NULL) {
         s = string_append(s, buf);
     }
-    if(pclose(fp)) {
+    if(pclose(fp) == -1 && errno != 0) {
         *perr = ERROR_EXECUTING_SYSTEM_COMMAND;
         goto ERROR;
     }
