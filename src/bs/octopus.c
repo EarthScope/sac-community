@@ -86,6 +86,7 @@ levent(Event **e) {
         return FALSE;
     }
     if(!(tmp = event_from_id(t->str))) {
+        printf("Error: Could not resolve event: %s\n", t->str);
         return FALSE;
     }
     *e = tmp;
