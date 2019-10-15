@@ -87,7 +87,11 @@ levent(Event **e) {
         return FALSE;
     }
     if(!(tmp = event_from_id(t->str))) {
-        printf("Error: Could not resolve event: %s\n", t->str);
+        if(strncasecmp("usgs:", t->str,5) == 0 ||
+           strncasecmp("gcmt:", t->str,5) == 0 ||
+           strncasecmp("isc:", t->str,4) == 0) {
+            printf("Error: Could not resolve event: %s\n", t->str);
+        }
         return FALSE;
     }
     *e = tmp;
@@ -1224,12 +1228,14 @@ response_request(int *nerr) {
                        "polezero",
                        "evresp"};
     int kind = 1;
+    ResponseType type = ResponseSacPZ;
     timespec64 t = {0};
     timespec64 **ts = NULL;
     request *pz = response_new();
     result *r = NULL;
     duration d = {Duration_None, 0};
     int set = 0;
+    int verbose = 0;
     *nerr = SAC_OK;
 
     /* Argument parsing */
@@ -1239,17 +1245,19 @@ response_request(int *nerr) {
             case 1:
             case 4:
             case 5:
-                response_set_kind(pz, ResponseSacPZ);
+                type = ResponseSacPZ;
                 break;
             case 2:
             case 3:
             case 6:
-                response_set_kind(pz, ResponseResp);
+                type = ResponseResp;
                 break;
             }
+            response_set_kind(pz, type);
         }
         else if(lckey("verbose$",  -1)){
             request_set_verbose(pz, TRUE);
+            verbose = TRUE;
         }
         else if(lkchar2("STA#TION$",  nslc, sizeof(nslc))) {
             response_set_station(pz, nslc);
@@ -1328,6 +1336,11 @@ response_request(int *nerr) {
                     strlcpy(p, s->h->khole, sizeof(p));
                 }
                 pz = response_new();
+
+                response_set_kind(pz, type);
+                if(verbose) {
+                    request_set_verbose(pz, TRUE);
+                }
                 response_set_kind(pz, kind);
                 response_set_location(pz, p);
 
@@ -1348,8 +1361,10 @@ response_request(int *nerr) {
                 }
                 r = request_get(pz);
                 if(!result_is_ok(r)) {
-                    printf("%s", result_error_msg(r));
-                    goto error;
+                    char pp[64] = {0};
+                    sac_fmt(pp, sizeof(pp), "%Z", s);
+                    printf("%s %s", pp, result_error_msg(r));
+                    continue;
                 }
                 result_write_to_file_show(r,
                            response_filename(pz, file, sizeof(file)));
