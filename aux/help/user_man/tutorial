@@ -344,10 +344,3 @@ SAC does a lot more than just reading, writing, and plotting data files!
 `SAC Analysis Capabilities`_ provides an introduction to these features.
 `Command Reference Manual`_ lists all the commands and has links to help files for them.
 
-Limited Precision in SAC
-------------------------
-Because all reals in the SAC header and data are single-precision and
-all integers in the SAC header are 32\,bit, there are possible
-precision problems when working with data with small DELTA, large
-times, large dynamic range in amplitude, and high resolution at large
-distances.

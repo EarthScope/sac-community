@@ -47,26 +47,55 @@ DEFAULT VALUES
 
 DESCRIPTION
 -----------
-   The blackboard is a place to temporarily store information.  This command lets
-   you print the values of selected blackboard variables.  Variables can be
+   The blackboard is a place to temporarily store information.  This command 
+   lets you print the values of selected blackboard variables.  Variables can be
    defined using the SETBB_ command.  You can also use the EVALUATE_ command to
    perform basic arithmetic operations on blackboard variables and store the
    results in new blackboard variables.  Blackboard variables can also be
-   substituted directly into SAC commands.  See the section on Macros in the
-   Users Manual.
+   substituted directly into SAC commands.  See SAC_MACROS_ for details.
 
    The options to this command let you control where the values are printed
-   and in what format to print them.  You can print them to the terminal or
-   append them to the end of a text file.  You can include the variable name and
-   an equals sign before the value or you can just have the value printed.  You
-   can have a newline placed after each value printed in a list or you can have
-   them placed on a single line.  You can use these options to make measurements
-   on a set of data files, extract these measurements into a text file, and then
-   read this file back into SAC using the READALPHA command to plot the results
-   or to perform more analysis.  This is illustrated in the examples section.
+   and the print format.  One can print them to the terminal or append them to 
+   the end of a text file.  One can include the variable name and  an equals 
+   sign before the value or one can just have the value printed.  One can have a 
+   newline placed after each value printed in a list or one can have them placed 
+   on a single line.  One can use these options to make measurements on a set of 
+   data files, extract these measurements into a text file, and then read this 
+   file back into SAC using the READ_ command with the ALPHA option to plot the 
+   results or to perform more analysis.  This is illustrated in the  examples 
+   section.
 
-EXAMPLES
---------
+OUTPUT_FORMAT
+-------------
+
+   Prior to SAC v102.0,  floating-point numbers in message, lh, and evaluate had 
+   low precision.  OUTPUT_FORMAT, introduced in v102.0, allows one to see the 
+   values in higher precision.  The command syntax is setbb output_format xxx, 
+   where xxx can be default (%g), short (%.4f), long (%.15f), shortG (%.5g), 
+   longG (%.15g), shortE (%.4e), longE(%.15e), and off (reverts to old SAC 
+   format).  
+   
+   As an example to show the utility of OUTPUT_FORMAT, we start after running 
+   the macro given in SAC PRECISION::
+   
+      SAC> ch nvhdr 7
+      SAC> lh
+        NPTS = 13                 B = 1.728000e+05
+        E = 1.728001e+05          T0MARKER = 1.728e+05
+        T1MARKER = 1.728e+05      T2MARKER = 1.728e+05
+      SAC> setbb OUTPUT_FORMAT longE
+      SAC> lh
+        NPTS = 13                         B = 1.728000000000000e+05
+        E = 1.728001200000000e+05         T0MARKER = 1.728000099999998e+05
+        T1MARKER = 1.728000199999996e+05  T2MARKER = 1.728000299999993e+05
+        
+  Setting NvHDR = 7 leads to the time picks being calculated and stored in 
+  double precision.  Using the default for OUTPUT_FORMAT does not show 
+  enough significant figures to distinguish among the time picks.  Using longE 
+  distinguishes among the time picks.
+
+MORE GETBB EXAMPLES
+-------------------
    Assume you have already set several blackboard variables::
 
       SAC> SETBB C1 2.45 C2 4.94
@@ -110,4 +139,4 @@ SEE COMMANDS
 
 LATEST REVISION
 ---------------
-   Sept. 1, 1988 (Version 10.3E)
+   Version 102.0

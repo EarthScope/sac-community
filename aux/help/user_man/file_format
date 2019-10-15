@@ -10,15 +10,29 @@ Since version 100.0, SAC can handle binary data files in either endian (byte
 order), so big-endian systems (Sun Solaris, Mac PPC) can read SAC data files
 written on little-endian systems (Linux, MAC i686, Cygwin) and vice versa.
 
-Each signal is stored on disk in a separate SAC data file. These files contain
-a fixed length header section followed by one or two data sections. The header
-contains floating point, integer, logical, and character fields. Evenly spaced
-data files have only one data section which contains the dependent variable.
-Unevenly spaced data and spectral data files contain two data sections. For
-unevenly spaced data, the first data section contains the dependent variable
-and the second contains the independent variable. For spectral files the first
-component is either the amplitude or the real component and the second
-component is either the phase or imaginary component.
+Each signal is stored on disk in a separate SAC data file. Through SAC
+version 101.6a, these files contain a fixed length header section followed by one or two 
+data sections. The header contains floating point, integer, logical, and 
+character fields. Evenly spaced data files have only one data section which 
+contains the dependent variable. Unevenly spaced data and spectral data files 
+contain two data sections. For unevenly spaced data, the first data section 
+contains the dependent variable and the second contains the independent 
+variable. For spectral files the first component is either the amplitude or the 
+real component and the second component is either the phase or imaginary 
+component.
+
+All reals in the SAC header and data sections are single-precision (32
+bits, 8 words, 4 bytes).  As discussed in SAC_PRECISION, although
+having single-precision for the data is sufficient, having only
+single-precision for time and distance variables in the header is no
+longer good enough to handle many modern data sets. SAC version
+102.0 solves this problem.  The header is unchanged, but a "fotoer" is
+added with 22 header variables in double-precision.  Version 102.0 can
+handle "old" SAC data files with no footer or files with a footer, so
+there is complete compatibility. SAC v102.0 distinguishes between
+"old" and "new" files by the header variable NVHDR: if NVHDR = 6, the
+SAC file is "old" format, if NVHDR = 7, it is a "new" file with a
+footer.  See SAC_PRECISION for a more detailed discussion.
 
 SAC Binary Format
 -----------------
