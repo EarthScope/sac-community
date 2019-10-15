@@ -333,7 +333,9 @@ xtraveltime(int *nerr) {
                         phase_repeat = TRUE;
                     }
                 }
-                if (phase_repeat == FALSE) {
+                if(strcasecmp(kmtt.kphases[iphase], "CLEAR") == 0) {
+                    iphase = 0;
+                } else if (phase_repeat == FALSE) {
                     iphase = iphase + 1;
                 }
             }
@@ -480,33 +482,39 @@ xtraveltime(int *nerr) {
         double tt = 0.0;
         strlcpy(model, kmtt.kmodel, sizeof(model));
         rstrip(model);
-        request *tr = request_new();
-        request_set_url(tr, "http://service.iris.edu/irisws/traveltime/1/query?");
-        request_set_arg(tr, "evdepth", arg_double_new(s->h->evdp));
-        request_set_arg(tr, "distdeg", arg_double_new(s->h->gcarc));
-        request_set_arg(tr, "mintimeonly", arg_string_new("true"));
-        request_set_arg(tr, "noheader", arg_string_new("true"));
-        request_set_arg(tr, "model", arg_string_new(model));
-        if(lphase) {
-            string_join(kmtt.kphases, iphase, ophases, sizeof(ophases), ",");
-            request_set_arg(tr, "phases", arg_string_new(ophases));
-        }
-        //request_set_verbose(tr, 1);
-        result *r = request_get(tr);
-        if(!result_is_ok(r)) {
-            printf("%s\n", result_error_msg(r));
-        } else {
-            char *data = result_data(r);
-            char *line = NULL;
-            int i = 0;
-            while((line = strsep(&data, "\n")) != NULL) {
-                if(parse_traveltime(line, name, sizeof(name), &tt)) {
-                    i = set_traveltime(s, i, name, tt, lpicks, verbose);
+        for (jdfl = 1; jdfl <= saclen(); jdfl++) {
+            if (!(s = sacget(jdfl - 1, FALSE, nerr))) {
+                goto L_9000;
+            }
+            request *tr = request_new();
+            request_set_url(tr, "http://service.iris.edu/irisws/traveltime/1/query?");
+            request_set_arg(tr, "evdepth", arg_double_new(s->h->evdp));
+            request_set_arg(tr, "distdeg", arg_double_new(s->h->gcarc));
+            request_set_arg(tr, "mintimeonly", arg_string_new("true"));
+            request_set_arg(tr, "noheader", arg_string_new("true"));
+            request_set_arg(tr, "model", arg_string_new(model));
+            if(lphase) {
+                string_join(kmtt.kphases, iphase, ophases, sizeof(ophases), ",");
+                request_set_arg(tr, "phases", arg_string_new(ophases));
+            }
+            printf("ophases: %s\n", ophases);
+            //request_set_verbose(tr, 1);
+            result *r = request_get(tr);
+            if(!result_is_ok(r)) {
+                printf("%s\n", result_error_msg(r));
+            } else {
+                char *data = result_data(r);
+                char *line = NULL;
+                int i = 0;
+                while((line = strsep(&data, "\n")) != NULL) {
+                    if(parse_traveltime(line, name, sizeof(name), &tt)) {
+                        i = set_traveltime(s, i, name, tt, lpicks, verbose);
+                    }
                 }
             }
+            REQUEST_FREE(tr);
+            RESULT_FREE(r);
         }
-        REQUEST_FREE(tr);
-        RESULT_FREE(r);
         goto L_8888;
     }
 

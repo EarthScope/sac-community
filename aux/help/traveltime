@@ -13,6 +13,7 @@ SYNTAX
 
    TRAVELTIME {MODEL string} {PICKS number}
        {PHASE phase list}  {VERBOSE | QUIET} {M | KM}
+       {ONLINE}
 
 INPUT
 -----
@@ -30,7 +31,8 @@ INPUT
      is among the options, the phase arrivala times and their labels will be 
      added to the header starting at Tn.  If n is 0, one can have up to 10 
      phases, if n is 8, one can have no more than 2.  Phase names are case   
-     sensitive.
+     sensitive.  Using the CLEAR keyword with the phase list, clears the
+     list of phases from previous commands.  
 
    :VERBOSE | QUIET:  If VERBOSE is among the options in the TRAVELTIME command 
      ine, phase arrival times are displayed relative to both the origin time (O) 
@@ -42,11 +44,15 @@ INPUT
      as being in meters.  If KM is displayed, EVDP is interpreted as being in 
      kilometers.
 
+   :ONLINE: Retrieve traveltimes from the IRIS Traveltime Web Service.  This
+     uses TauP internally and allows for a variety of alternative phases
+     not possible with the internal models distributed with sac.
+
    :DEFAULT VALUES: MODEL iasp91 KM PHASE P S Pn Pg Sn Sg
 
 DESCRIPTION
 -----------
-   All waeforms in memory must have event and station locations defined as well 
+   All waveforms in memory must have event and station locations defined as well 
    as the origin time.
 
    This command calculates traveltimes using the iaspei-tau procedures developed
@@ -183,6 +189,46 @@ EXAMPLES
    :width: 90%
    :align: center
    
+ONLINE OPTION
+-------------
+
+  The online option requests traveltime picks from the IRIS Traveltime Web
+  Service.  All options are the same with the exception of a much broader
+  array of traveltime that are able to be calculated.
+
+  First get some data from IRIS
+
+    SAC> data usgs:us1000gcii net IU cha BHZ sta WAKE dur 30m loc '00' read
+
+  Get online traveltimes and set them in the header
+
+    SAC> traveltime online picks 0
+    traveltime: depth: 600.000 km
+    traveltime: setting phase P        at 404.5600 s [ t = 404.5600 s ] t0
+    traveltime: setting phase PKiKP    at 942.3000 s [ t = 942.3000 s ] t1
+    traveltime: setting phase PcP      at 513.8800 s [ t = 513.8800 s ] t2
+    traveltime: setting phase S        at 729.0000 s [ t = 729.0000 s ] t3
+    traveltime: setting phase SKiKS    at 1311.0500 s [ t = 1311.0500 s ] t4
+    traveltime: setting phase ScS      at 942.3400 s [ t = 942.3400 s ] t5
+
+  Get online traveltimes for the PREM model for specific phases
+
+    SAC> traveltime online picks 0 model prem phases P pP sP PcP PKiKP
+    traveltime: depth: 600.000 km
+    traveltime: setting phase P        at 404.2200 s [ t = 404.2200 s ] t0
+    traveltime: setting phase PKiKP    at 940.2500 s [ t = 940.2500 s ] t1
+    traveltime: setting phase PcP      at 513.1900 s [ t = 513.1900 s ] t2
+    traveltime: setting phase pP       at 505.5100 s [ t = 505.5100 s ] t3
+    traveltime: setting phase sP       at 574.1700 s [ t = 574.1700 s ] t4
+
+  Get online traveltimes for the PREM model for only P and S. The CLEAR
+  keyword truncates the list of phases from previous commands.
+
+    SAC> traveltime online picks 0 model prem phase clear P S
+    traveltime: depth: 600.000 km
+    traveltime: setting phase P        at 404.2200 s [ t = 404.2200 s ] t0
+    traveltime: setting phase S        at 728.6300 s [ t = 728.6300 s ] t1
+
 LATEST REVISION
 ---------------
 July 2019: Version 2.0 (Expanded this help file)
