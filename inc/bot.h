@@ -33,6 +33,8 @@ char *strcut(char *in, unsigned int start, unsigned int end);
 char *lstrip(char *s);
 char *rstrip(char *s);
 int snprintfcat(char *buf, size_t size, const char* format, ...);
+char * rstrip_char(char *s, char c);
+char * lstrip_char(char *s, char c);
 
 
 #endif /* _BOT_H_ */

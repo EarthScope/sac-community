@@ -9,6 +9,7 @@
 #include "hdr.h"
 #include "dff.h"
 #include "bbs.h"
+#include "bot.h"
 #include "defs.h"
 
 #include <fern/fern.h>
@@ -819,6 +820,8 @@ data_request_f(int *nerr) {
             set |= SetChannel;
         }
         else if(lkchar2("LOC#ATION$", loc, sizeof(loc))) {
+            rstrip_char(loc, '"');
+            lstrip_char(loc, '"');
             data_avail_set_location(dr, loc);
             set |= SetLocation;
         }

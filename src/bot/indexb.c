@@ -64,6 +64,38 @@ strcut(char *in, unsigned int start, unsigned int end) {
 }
 
 char *
+lstrip_char(char *s, char c) {
+    int i = 0;
+    int n = 0;
+    if (*s == 0) {
+        return s;
+    }
+    while (*s == c) {
+        i++;
+    }
+    n = strlen(s) - (i - 1);
+    if(i > 0 && n > 0) {
+        memmove(&s[0], &s[i], (size_t) n);
+    }
+    return s;
+}
+
+char *
+rstrip_char(char *s, char c) {
+    char *back;
+    if (*s == 0) {
+        return s;
+    }
+    back = s + strlen(s) - 1;
+    while (back >= s && *s == c) {
+        --back;
+    }
+    *(back + 1) = 0;
+    return s;
+}
+
+
+char *
 lstrip(char *s) {
     if (*s == 0) {
         return s;
