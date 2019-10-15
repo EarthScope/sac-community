@@ -593,6 +593,8 @@ station_request(int *nerr) {
             set |= SetChannel;
         }
         else if(lkchar2("LOC#ATION$",loc, sizeof(loc))) {
+            rstrip_char(loc, '"');
+            lstrip_char(loc, '"');
             station_req_set_location(sr, loc);
             set |= SetLocation;
         }
@@ -1259,6 +1261,8 @@ response_request(int *nerr) {
             response_set_channel(pz, nslc);
         }
         else if(lkchar2("LOC#ATION$", nslc, sizeof(nslc))) {
+            rstrip_char(nslc, '"');
+            lstrip_char(nslc, '"');
             response_set_location(pz, nslc);
         }
         else if(lktn("TIME$", &ts)) {
