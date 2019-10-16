@@ -263,8 +263,8 @@ time_range(string_list * list) {
             t[i - 1].psec += floor(t[i - 1].psec);
         }
         DEBUG("%d %ld %ld %f %f %d %d %f\n", i - 1, secs_in_AD(s),
-              t[i - 1].bsec, t[i - 1].psec, s->h->b, s->h->nzmin, s->h->nzsec,
-              s->h->t0);
+              t[i - 1].bsec, t[i - 1].psec, B(s), s->h->nzmin, s->h->nzsec,
+              T0(s));
         DEBUG("%d %d %d %d %d %d\n", s->h->nzyear, s->h->nzjday, s->h->nzhour,
               s->h->nzmin, s->h->nzsec, s->h->nzmsec);
         t[i - 1].i = i;
@@ -535,7 +535,7 @@ overlap_compare(float *y, int b, int e, struct timing *t, int nt,
                            i * t[0].dt + bval);
                     for (j = 0; j < n; j++) {
                         k = ip[j];
-                        s = get_file(list, t[k].i - 1, NULL);
+                        s = get_file(list, t[k].i, NULL);
                         printf
                             ("    %15.7e (%d/%d) %15s [File # %d] Interp: %s\n",
                              p[j], i - t[k].bn, t[k].npts, s->m->filename,
@@ -647,8 +647,12 @@ xmerge_new(int *nerr) {
         printf("merging %d files => %d data points\n", n, t[n - 1].en + 1);
     }
     /* Allocate space for time series */
-    y = (float *) malloc(sizeof(float) * (t[n - 1].en + 1));
-    memset(y, 0, sizeof(float) * (t[n - 1].en + 1));
+    e = t[0].en;
+    for(i = 0; i < n; i++) {
+        e = (t[i].en > e) ? t[i].en : e;
+    }
+    y = (float *) malloc(sizeof(float) * (e + 1));
+    memset(y, 0, sizeof(float) * (e + 1));
     b = t[0].bn;
     e = t[0].en;
 
