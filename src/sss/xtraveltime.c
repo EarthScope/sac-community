@@ -497,7 +497,6 @@ xtraveltime(int *nerr) {
                 string_join(kmtt.kphases, iphase, ophases, sizeof(ophases), ",");
                 request_set_arg(tr, "phases", arg_string_new(ophases));
             }
-            printf("ophases: %s\n", ophases);
             //request_set_verbose(tr, 1);
             result *r = request_get(tr);
             if(!result_is_ok(r)) {
