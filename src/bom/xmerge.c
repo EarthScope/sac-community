@@ -715,7 +715,8 @@ xmerge_new(int *nerr) {
 
     s2 = get_file(list, t[0].i, NULL);
     s = sac_new();
-    memcpy(s->h, s2->h, sizeof(sac_hdr));
+    sac_header_copy(s, s2);
+    sac_set_float(s, SAC_DELTA, t[0].dt);
 
     /* Filename is the first file */
     s2 = get_file(list, 1, NULL);
