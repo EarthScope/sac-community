@@ -321,12 +321,21 @@ time_range(string_list * list) {
     for (i = 0; i < n; i++) {
         b = (double) (t[i].bsec - t[0].bsec) + (t[i].psec - t[0].psec);
         t[i].offset = b / t[i].dt;
-        t[i].bn = lround(t[i].offset);
-        t[i].en = lround((t[i].npts - 1) + (b / t[i].dt));
-        t[i].offset -= t[i].bn;
-        DEBUG("%d: %d %d PTS %d %d OFFSET: %f B: %.15e Bn: %.15e DT: %.15e\n", i, t[i].bn, t[i].en, t[i].npts,
-              t[i].en - t[i].bn, t[i].offset, b, b/t[i].dt, t[i].dt);
+        t[i].bn = ceil(t[i].offset);
+        t[i].en = floor((t[i].npts - 1) + (b / t[i].dt));
+        t[i].offset = t[i].bn - t[i].offset;
+        DEBUG("%d: %d %d PTS %d %d OFFSET: %f B: %.15e Bn: %.15e DT: %.15e\n",
+               i, t[i].bn, t[i].en,
+               t[i].npts, t[i].en - t[i].bn,
+               t[i].offset, b, b/t[i].dt, t[i].dt);
         if (fabs(t[i].offset) < 0.03) { /* Close to 0.0 => 0.0 */
+            t[i].bn = lround(b/t[i].dt);
+            t[i].en = lround((t[i].npts - 1) + (b / t[i].dt));
+            t[i].offset = 0.0;
+        }
+        if (fabs(t[i].offset) > 0.97) { /* Close to 1.0, round to next point */
+            t[i].bn = lround(b/t[i].dt);
+            t[i].en = lround((t[i].npts - 1) + (b / t[i].dt));
             t[i].offset = 0.0;
         }
         if (t[i].offset < 0.0) {        /* All offset are positive */
@@ -376,13 +385,13 @@ check_delta(string_list * list) {
 }
 
 void
-fill_zero(float y[], int b, int e, double dt) {
+fill_zero(float y[], int b, int e, double dt, double begin) {
     int i;
     int err = TRUE;
     DEBUG("%d -> %d (%f %f)\n", b, e, b + (b * dt), b + (e * dt));
     for (i = b; i < e; i++) {
         if (verbose_merge) {
-            printf("merge: Gap zero fill: [n: %d t: %f]\n", i, b + i * dt);
+            printf("merge: Gap zero fill: [n: %d t: %f]\n", i, begin + i * dt);
         } else if (err) {
             printf("merge: Gap zero fill\n");
             err = FALSE;
@@ -392,17 +401,17 @@ fill_zero(float y[], int b, int e, double dt) {
 }
 
 void
-fill_interp(float y[], int b, int e, float yb, float ye, double dt) {
+fill_interp(float y[], int b, int e, int b0, float yb, int e0, float ye, double dt, double begin) {
     int i;
     int err = TRUE;
     for (i = b; i < e; i++) {
         if (verbose_merge) {
-            printf("merge: Gap interp fill: [n: %d t: %f]\n", i, b + i * dt);
+            printf("merge: Gap interp fill: [n: %d t: %f]\n", i, begin + i * dt);
         } else if (err) {
             printf("merge: Gap interp fill\n");
             err = FALSE;
         }
-        y[i] = yb + (i-b) * (ye - yb) / (e - b);
+        y[i] = yb + (i-b0) * (ye - yb) / (e0 - b0);
     }
 }
 
@@ -537,9 +546,9 @@ overlap_compare(float *y, int b, int e, struct timing *t, int nt,
                         k = ip[j];
                         s = get_file(list, t[k].i, NULL);
                         printf
-                            ("    %15.7e (%d/%d) %15s [File # %d] Interp: %s\n",
+                            ("    %15.7e (%d/%d) %15s [File # %d] Interp: %s %f\n",
                              p[j], i - t[k].bn, t[k].npts, s->m->filename,
-                             t[k].i, (t[k].offset == 0.0) ? "No" : "Yes");
+                             t[k].i, (t[k].offset == 0.0) ? "No" : "Yes", t[k].offset);
                     }
                 }
             }
@@ -560,7 +569,7 @@ single_copy(float y[], int b, int e, struct timing *t) {
             y[i] = tinterp(t, i - t->bn);
         }
     }
-    return (t->offset > 0.0) ? e - 1 : e;
+    return e;
 }
 
 void
@@ -570,6 +579,7 @@ xmerge_new(int *nerr) {
     int i, n;
     float *y;
     int b, e, mb;
+    double begin = 0.0;
     char gap_keys[2][9] = { "ZERO    ", "INTERP  " };
     char overlap_keys[2][9] = { "AVERAGE ", "COMPARE " };
     string_list *list;
@@ -669,6 +679,7 @@ xmerge_new(int *nerr) {
         *nerr = 1301;
         goto ERROR;
     }
+    begin = B(s);
     /*
      * Fill new time series, working forward point by point
      * mb - begin point of next file
@@ -687,10 +698,11 @@ xmerge_new(int *nerr) {
         if (e <= mb) {          /* Gap :: b ..(DATA).. e ..(GAP).. mb */
             e = single_copy(y, b, e + 1, &t[i]);
             if (gap_fill == GAP_FILL_ZERO) {
-                fill_zero(y, e, mb, t[0].dt);
+                fill_zero(y, e, mb, t[0].dt, begin);
             } else if (gap_fill == GAP_FILL_INTERPOLATE) {
-                fill_interp(y, e, mb, tinterp(&t[i], t[i].npts),
-                            tinterp(&t[i + 1], 0), t[0].dt);
+                fill_interp(y, e, mb,
+                            t[i].en, tinterp(&t[i], t[i].npts),
+                            t[i+1].bn, tinterp(&t[i + 1], 0), t[0].dt, begin);
             } else {
                 fprintf(stderr, "Unknown gap filling mechanism\n");
                 goto ERROR;

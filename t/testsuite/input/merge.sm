@@ -63,4 +63,27 @@ r 2007.117.08.01.48.8100.IA.TSI..BHZ.D.SAC 2007.117.08.02.02.9299.IA.TSI..BHZ.D.
 p1 ; pause period 0.25
 
 
+title "0.0"
+macro merge_line.m BVALUE 10.0
+
+title "0.5"
+macro merge_line.m BVALUE 10.5
+macro merge_line.m BVALUE  9.5
+
+title "0.0001"
+macro merge_line.m BVALUE 10.0001
+macro merge_line.m BVALUE  9.9999
+
+title "0.001"
+macro merge_line.m BVALUE 10.001
+macro merge_line.m BVALUE  9.999
+
+title "0.01"
+macro merge_line.m BVALUE 10.01
+macro merge_line.m BVALUE  9.99
+
+title "0.1"
+macro merge_line.m BVALUE 10.1
+macro merge_line.m BVALUE  9.9
+
 

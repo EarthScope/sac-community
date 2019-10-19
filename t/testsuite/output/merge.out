@@ -413,12 +413,12 @@ merge: Gap zero fill
  -----------------------------------------------
 
           b = 6.000000e+04
-          e = 8.642998e+04
-       npts = 1057200
+          e = 8.642995e+04
+       npts = 1057199
      kzdate = NOV 29 (333), 2007
      kztime = 00:00:00.008
-     depmin = -2.572090e+04
-     depmax = 2.377174e+04
+     depmin = -2.571335e+04
+     depmax = 2.377140e+04
   
   
  ==>  
@@ -479,7 +479,7 @@ merge: Gap zero fill
   FILE: data.merge.long1.sac - 1
  --------------------------
 
-      npts = 129683466
+      npts = 129683465
      delta = 2.500000e-02
          b = 0.000000e+00
          e = 3.242087e+06
@@ -502,6 +502,664 @@ merge: Gap interp fill
 Pausing
   
  ==>  
+  
+ ==>  
+ title "0.0"
+ macro merge_line.m BVALUE 10.0
+ fg line 1 0 npts 10 delta 1.0
+ ch nzyear 2000 nzjday 1 nzhour 0 nzmin 0 nzsec 0 nzmsec 0
+ lh kzdate kztime
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     kzdate = JAN 01 (001), 2000
+     kztime = 00:00:00.000
+ write test.merge1.sac
+  
+ fg line 1 0 npts 10 delta 1.0 begin $BVALUE
+ ==>  fg line 1 0 npts 10 delta 1 begin 10
+ ch nzyear 2000 nzjday 1 nzhour 0 nzmin 0 nzsec 0 nzmsec 0
+ lh kzdate kztime
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     kzdate = JAN 01 (001), 2000
+     kztime = 00:00:00.000
+ write test.merge2.sac
+  
+ read test.merge1.sac test.merge2.sac
+ merge gap interp verbose tolerance 0.0
+merging 2 files => 20 data points
+ write test.merge.sac
+  
+ color on inc
+ symbol 2
+ read test.merge.sac test.merge1.sac test.merge2.sac
+  
+ fg line 1 0 npts &1,npts begin 0.0 delta 1.0
+ ==>  fg line 1 0 npts 20 begin 0 delta 1
+ write test.merge.expect.sac
+  
+ subf test.merge.sac
+ abs
+ lh depmin depmax
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     depmin = 0.000000e+00
+     depmax = 0.000000e+00
+ p1 ; pause period 0.25
+Pausing
+  
+ read test.merge.expect.sac test.merge.sac
+ p2 ; pause period 0.25
+Pausing
+  
+  
+  
+  
+ ==>  
+ title "0.5"
+ macro merge_line.m BVALUE 10.5
+ fg line 1 0 npts 10 delta 1.0
+ ch nzyear 2000 nzjday 1 nzhour 0 nzmin 0 nzsec 0 nzmsec 0
+ lh kzdate kztime
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     kzdate = JAN 01 (001), 2000
+     kztime = 00:00:00.000
+ write test.merge1.sac
+  
+ fg line 1 0 npts 10 delta 1.0 begin $BVALUE
+ ==>  fg line 1 0 npts 10 delta 1 begin 10.5
+ ch nzyear 2000 nzjday 1 nzhour 0 nzmin 0 nzsec 0 nzmsec 0
+ lh kzdate kztime
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     kzdate = JAN 01 (001), 2000
+     kztime = 00:00:00.000
+ write test.merge2.sac
+  
+ read test.merge1.sac test.merge2.sac
+ merge gap interp verbose tolerance 0.0
+merging 2 files => 20 data points
+merge: Gap interp fill: [n: 10 t: 10.000000]
+ write test.merge.sac
+  
+ color on inc
+ symbol 2
+ read test.merge.sac test.merge1.sac test.merge2.sac
+  
+ fg line 1 0 npts &1,npts begin 0.0 delta 1.0
+ ==>  fg line 1 0 npts 20 begin 0 delta 1
+ write test.merge.expect.sac
+  
+ subf test.merge.sac
+ abs
+ lh depmin depmax
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     depmin = 0.000000e+00
+     depmax = 0.000000e+00
+ p1 ; pause period 0.25
+Pausing
+  
+ read test.merge.expect.sac test.merge.sac
+ p2 ; pause period 0.25
+Pausing
+  
+  
+  
+ macro merge_line.m BVALUE  9.5
+ fg line 1 0 npts 10 delta 1.0
+ ch nzyear 2000 nzjday 1 nzhour 0 nzmin 0 nzsec 0 nzmsec 0
+ lh kzdate kztime
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     kzdate = JAN 01 (001), 2000
+     kztime = 00:00:00.000
+ write test.merge1.sac
+  
+ fg line 1 0 npts 10 delta 1.0 begin $BVALUE
+ ==>  fg line 1 0 npts 10 delta 1 begin 9.5
+ ch nzyear 2000 nzjday 1 nzhour 0 nzmin 0 nzsec 0 nzmsec 0
+ lh kzdate kztime
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     kzdate = JAN 01 (001), 2000
+     kztime = 00:00:00.000
+ write test.merge2.sac
+  
+ read test.merge1.sac test.merge2.sac
+ merge gap interp verbose tolerance 0.0
+merging 2 files => 19 data points
+ write test.merge.sac
+  
+ color on inc
+ symbol 2
+ read test.merge.sac test.merge1.sac test.merge2.sac
+  
+ fg line 1 0 npts &1,npts begin 0.0 delta 1.0
+ ==>  fg line 1 0 npts 19 begin 0 delta 1
+ write test.merge.expect.sac
+  
+ subf test.merge.sac
+ abs
+ lh depmin depmax
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     depmin = 0.000000e+00
+     depmax = 0.000000e+00
+ p1 ; pause period 0.25
+Pausing
+  
+ read test.merge.expect.sac test.merge.sac
+ p2 ; pause period 0.25
+Pausing
+  
+  
+  
+  
+ ==>  
+ title "0.0001"
+ macro merge_line.m BVALUE 10.0001
+ fg line 1 0 npts 10 delta 1.0
+ ch nzyear 2000 nzjday 1 nzhour 0 nzmin 0 nzsec 0 nzmsec 0
+ lh kzdate kztime
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     kzdate = JAN 01 (001), 2000
+     kztime = 00:00:00.000
+ write test.merge1.sac
+  
+ fg line 1 0 npts 10 delta 1.0 begin $BVALUE
+ ==>  fg line 1 0 npts 10 delta 1 begin 10.0001
+ ch nzyear 2000 nzjday 1 nzhour 0 nzmin 0 nzsec 0 nzmsec 0
+ lh kzdate kztime
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     kzdate = JAN 01 (001), 2000
+     kztime = 00:00:00.000
+ write test.merge2.sac
+  
+ read test.merge1.sac test.merge2.sac
+ merge gap interp verbose tolerance 0.0
+merging 2 files => 20 data points
+ write test.merge.sac
+  
+ color on inc
+ symbol 2
+ read test.merge.sac test.merge1.sac test.merge2.sac
+  
+ fg line 1 0 npts &1,npts begin 0.0 delta 1.0
+ ==>  fg line 1 0 npts 20 begin 0 delta 1
+ write test.merge.expect.sac
+  
+ subf test.merge.sac
+ abs
+ lh depmin depmax
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     depmin = 0.000000e+00
+     depmax = 1.001358e-04
+ p1 ; pause period 0.25
+Pausing
+  
+ read test.merge.expect.sac test.merge.sac
+ p2 ; pause period 0.25
+Pausing
+  
+  
+  
+ macro merge_line.m BVALUE  9.9999
+ fg line 1 0 npts 10 delta 1.0
+ ch nzyear 2000 nzjday 1 nzhour 0 nzmin 0 nzsec 0 nzmsec 0
+ lh kzdate kztime
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     kzdate = JAN 01 (001), 2000
+     kztime = 00:00:00.000
+ write test.merge1.sac
+  
+ fg line 1 0 npts 10 delta 1.0 begin $BVALUE
+ ==>  fg line 1 0 npts 10 delta 1 begin 9.9999
+ ch nzyear 2000 nzjday 1 nzhour 0 nzmin 0 nzsec 0 nzmsec 0
+ lh kzdate kztime
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     kzdate = JAN 01 (001), 2000
+     kztime = 00:00:00.000
+ write test.merge2.sac
+  
+ read test.merge1.sac test.merge2.sac
+ merge gap interp verbose tolerance 0.0
+merging 2 files => 20 data points
+ write test.merge.sac
+  
+ color on inc
+ symbol 2
+ read test.merge.sac test.merge1.sac test.merge2.sac
+  
+ fg line 1 0 npts &1,npts begin 0.0 delta 1.0
+ ==>  fg line 1 0 npts 20 begin 0 delta 1
+ write test.merge.expect.sac
+  
+ subf test.merge.sac
+ abs
+ lh depmin depmax
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     depmin = 0.000000e+00
+     depmax = 1.001358e-04
+ p1 ; pause period 0.25
+Pausing
+  
+ read test.merge.expect.sac test.merge.sac
+ p2 ; pause period 0.25
+Pausing
+  
+  
+  
+  
+ ==>  
+ title "0.001"
+ macro merge_line.m BVALUE 10.001
+ fg line 1 0 npts 10 delta 1.0
+ ch nzyear 2000 nzjday 1 nzhour 0 nzmin 0 nzsec 0 nzmsec 0
+ lh kzdate kztime
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     kzdate = JAN 01 (001), 2000
+     kztime = 00:00:00.000
+ write test.merge1.sac
+  
+ fg line 1 0 npts 10 delta 1.0 begin $BVALUE
+ ==>  fg line 1 0 npts 10 delta 1 begin 10.001
+ ch nzyear 2000 nzjday 1 nzhour 0 nzmin 0 nzsec 0 nzmsec 0
+ lh kzdate kztime
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     kzdate = JAN 01 (001), 2000
+     kztime = 00:00:00.000
+ write test.merge2.sac
+  
+ read test.merge1.sac test.merge2.sac
+ merge gap interp verbose tolerance 0.0
+merging 2 files => 20 data points
+ write test.merge.sac
+  
+ color on inc
+ symbol 2
+ read test.merge.sac test.merge1.sac test.merge2.sac
+  
+ fg line 1 0 npts &1,npts begin 0.0 delta 1.0
+ ==>  fg line 1 0 npts 20 begin 0 delta 1
+ write test.merge.expect.sac
+  
+ subf test.merge.sac
+ abs
+ lh depmin depmax
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     depmin = 0.000000e+00
+     depmax = 1.000404e-03
+ p1 ; pause period 0.25
+Pausing
+  
+ read test.merge.expect.sac test.merge.sac
+ p2 ; pause period 0.25
+Pausing
+  
+  
+  
+ macro merge_line.m BVALUE  9.999
+ fg line 1 0 npts 10 delta 1.0
+ ch nzyear 2000 nzjday 1 nzhour 0 nzmin 0 nzsec 0 nzmsec 0
+ lh kzdate kztime
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     kzdate = JAN 01 (001), 2000
+     kztime = 00:00:00.000
+ write test.merge1.sac
+  
+ fg line 1 0 npts 10 delta 1.0 begin $BVALUE
+ ==>  fg line 1 0 npts 10 delta 1 begin 9.999
+ ch nzyear 2000 nzjday 1 nzhour 0 nzmin 0 nzsec 0 nzmsec 0
+ lh kzdate kztime
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     kzdate = JAN 01 (001), 2000
+     kztime = 00:00:00.000
+ write test.merge2.sac
+  
+ read test.merge1.sac test.merge2.sac
+ merge gap interp verbose tolerance 0.0
+merging 2 files => 20 data points
+ write test.merge.sac
+  
+ color on inc
+ symbol 2
+ read test.merge.sac test.merge1.sac test.merge2.sac
+  
+ fg line 1 0 npts &1,npts begin 0.0 delta 1.0
+ ==>  fg line 1 0 npts 20 begin 0 delta 1
+ write test.merge.expect.sac
+  
+ subf test.merge.sac
+ abs
+ lh depmin depmax
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     depmin = 0.000000e+00
+     depmax = 1.000404e-03
+ p1 ; pause period 0.25
+Pausing
+  
+ read test.merge.expect.sac test.merge.sac
+ p2 ; pause period 0.25
+Pausing
+  
+  
+  
+  
+ ==>  
+ title "0.01"
+ macro merge_line.m BVALUE 10.01
+ fg line 1 0 npts 10 delta 1.0
+ ch nzyear 2000 nzjday 1 nzhour 0 nzmin 0 nzsec 0 nzmsec 0
+ lh kzdate kztime
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     kzdate = JAN 01 (001), 2000
+     kztime = 00:00:00.000
+ write test.merge1.sac
+  
+ fg line 1 0 npts 10 delta 1.0 begin $BVALUE
+ ==>  fg line 1 0 npts 10 delta 1 begin 10.01
+ ch nzyear 2000 nzjday 1 nzhour 0 nzmin 0 nzsec 0 nzmsec 0
+ lh kzdate kztime
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     kzdate = JAN 01 (001), 2000
+     kztime = 00:00:00.000
+ write test.merge2.sac
+  
+ read test.merge1.sac test.merge2.sac
+ merge gap interp verbose tolerance 0.0
+merging 2 files => 20 data points
+ write test.merge.sac
+  
+ color on inc
+ symbol 2
+ read test.merge.sac test.merge1.sac test.merge2.sac
+  
+ fg line 1 0 npts &1,npts begin 0.0 delta 1.0
+ ==>  fg line 1 0 npts 20 begin 0 delta 1
+ write test.merge.expect.sac
+  
+ subf test.merge.sac
+ abs
+ lh depmin depmax
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     depmin = 0.000000e+00
+     depmax = 1.000023e-02
+ p1 ; pause period 0.25
+Pausing
+  
+ read test.merge.expect.sac test.merge.sac
+ p2 ; pause period 0.25
+Pausing
+  
+  
+  
+ macro merge_line.m BVALUE  9.99
+ fg line 1 0 npts 10 delta 1.0
+ ch nzyear 2000 nzjday 1 nzhour 0 nzmin 0 nzsec 0 nzmsec 0
+ lh kzdate kztime
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     kzdate = JAN 01 (001), 2000
+     kztime = 00:00:00.000
+ write test.merge1.sac
+  
+ fg line 1 0 npts 10 delta 1.0 begin $BVALUE
+ ==>  fg line 1 0 npts 10 delta 1 begin 9.99
+ ch nzyear 2000 nzjday 1 nzhour 0 nzmin 0 nzsec 0 nzmsec 0
+ lh kzdate kztime
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     kzdate = JAN 01 (001), 2000
+     kztime = 00:00:00.000
+ write test.merge2.sac
+  
+ read test.merge1.sac test.merge2.sac
+ merge gap interp verbose tolerance 0.0
+merging 2 files => 20 data points
+ write test.merge.sac
+  
+ color on inc
+ symbol 2
+ read test.merge.sac test.merge1.sac test.merge2.sac
+  
+ fg line 1 0 npts &1,npts begin 0.0 delta 1.0
+ ==>  fg line 1 0 npts 20 begin 0 delta 1
+ write test.merge.expect.sac
+  
+ subf test.merge.sac
+ abs
+ lh depmin depmax
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     depmin = 0.000000e+00
+     depmax = 1.000023e-02
+ p1 ; pause period 0.25
+Pausing
+  
+ read test.merge.expect.sac test.merge.sac
+ p2 ; pause period 0.25
+Pausing
+  
+  
+  
+  
+ ==>  
+ title "0.1"
+ macro merge_line.m BVALUE 10.1
+ fg line 1 0 npts 10 delta 1.0
+ ch nzyear 2000 nzjday 1 nzhour 0 nzmin 0 nzsec 0 nzmsec 0
+ lh kzdate kztime
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     kzdate = JAN 01 (001), 2000
+     kztime = 00:00:00.000
+ write test.merge1.sac
+  
+ fg line 1 0 npts 10 delta 1.0 begin $BVALUE
+ ==>  fg line 1 0 npts 10 delta 1 begin 10.1
+ ch nzyear 2000 nzjday 1 nzhour 0 nzmin 0 nzsec 0 nzmsec 0
+ lh kzdate kztime
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     kzdate = JAN 01 (001), 2000
+     kztime = 00:00:00.000
+ write test.merge2.sac
+  
+ read test.merge1.sac test.merge2.sac
+ merge gap interp verbose tolerance 0.0
+merging 2 files => 20 data points
+merge: Gap interp fill: [n: 10 t: 10.000000]
+ write test.merge.sac
+  
+ color on inc
+ symbol 2
+ read test.merge.sac test.merge1.sac test.merge2.sac
+  
+ fg line 1 0 npts &1,npts begin 0.0 delta 1.0
+ ==>  fg line 1 0 npts 20 begin 0 delta 1
+ write test.merge.expect.sac
+  
+ subf test.merge.sac
+ abs
+ lh depmin depmax
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     depmin = 0.000000e+00
+     depmax = 0.000000e+00
+ p1 ; pause period 0.25
+Pausing
+  
+ read test.merge.expect.sac test.merge.sac
+ p2 ; pause period 0.25
+Pausing
+  
+  
+  
+ macro merge_line.m BVALUE  9.9
+ fg line 1 0 npts 10 delta 1.0
+ ch nzyear 2000 nzjday 1 nzhour 0 nzmin 0 nzsec 0 nzmsec 0
+ lh kzdate kztime
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     kzdate = JAN 01 (001), 2000
+     kztime = 00:00:00.000
+ write test.merge1.sac
+  
+ fg line 1 0 npts 10 delta 1.0 begin $BVALUE
+ ==>  fg line 1 0 npts 10 delta 1 begin 9.9
+ ch nzyear 2000 nzjday 1 nzhour 0 nzmin 0 nzsec 0 nzmsec 0
+ lh kzdate kztime
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     kzdate = JAN 01 (001), 2000
+     kztime = 00:00:00.000
+ write test.merge2.sac
+  
+ read test.merge1.sac test.merge2.sac
+ merge gap interp verbose tolerance 0.0
+merging 2 files => 19 data points
+ write test.merge.sac
+  
+ color on inc
+ symbol 2
+ read test.merge.sac test.merge1.sac test.merge2.sac
+  
+ fg line 1 0 npts &1,npts begin 0.0 delta 1.0
+ ==>  fg line 1 0 npts 19 begin 0 delta 1
+ write test.merge.expect.sac
+  
+ subf test.merge.sac
+ abs
+ lh depmin depmax
+  
+  
+  FILE: LINE - 1
+ ----------
+
+     depmin = 0.000000e+00
+     depmax = 0.000000e+00
+ p1 ; pause period 0.25
+Pausing
+  
+ read test.merge.expect.sac test.merge.sac
+ p2 ; pause period 0.25
+Pausing
+  
+  
+  
   
  ==>  
   
