@@ -153,9 +153,9 @@ We can then use the eventid at the end of the line to request data::
   Data Center: IRISDMC,http://ds.iris.edu
   Writing data to fdsnws.2019.07.12.10.53.30.IRISDMC.mseed [584.00 KiB]
 
-It can be useful to see what you may be download first; particularly if 
-you forget to specify your desired channels and mistakenly download 10s of 
-channels you are not interested in.
+It can be useful to see what you may be download first; particularly if you forget
+to specify your desired channels and mistakenly download 10s of channels you are
+not interested in.
 
 Large downloads will be divided into smaller chunks. The
 resulting miniseed files will be merged back together during reading,

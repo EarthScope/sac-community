@@ -22,7 +22,7 @@ real component and the second component is either the phase or imaginary
 component.
 
 All reals in the SAC header and data sections are single-precision (32
-bits, 8 words, 4 bytes).  As discussed in SAC_PRECISION, although
+bits, 4 bytes).  As discussed in SAC_PRECISION, although
 having single-precision for the data is sufficient, having only
 single-precision for time and distance variables in the header is no
 longer good enough to handle many modern data sets. SAC version
@@ -39,16 +39,13 @@ SAC Binary Format
 This is the format that you will use most often. It is used in SAC itself (READ
 and WRITE commands) and in the subroutine library (RSAC1, RSAC2, WSAC1, WSAC2,
 WSAC0.) These are binary (unformatted) files so that they can be quickly read
-from disk into memory. The header is 158 32-bit words in length, followed by
-the data section(s). In order to rapidly read only a small section of a data
-file (see the CUT command), these files also have a physical record length of
-512 bytes (128 32-bit words) and are opened for direct-access. There is no
-physical record structure. This format is shown schematically in the following
-figure.
+from disk into memory. The header is 158 32-bit words in length (632 bytes),
+followed by the data section(s). This format is shown schematically in the
+following figure.
 
 
-Structure of SAC Binary Data File
----------------------------------
+Structure of SAC Binary Data File for NVHDR = 6
+-----------------------------------------------
 
 ================== ===================== =======================================
 Header Section     First Data Section    Second Data Section (if present)
@@ -138,20 +135,30 @@ Word    Type    NAMES    o        o        o       o
 ======= ======= ======== ======== ======== ======= ========
 
 
-KEVNM is 16 characters (4 words) long.
+KEVNM is 16 characters (4 words, 16 bytes) long.
 
-All other K fields are 8 characters (2 words) long.
+All other K fields are 8 characters (2 words, 8 bytes) long.
+
+Structure of SAC Binary Data File for NVHD = 7
+----------------------------------------------
+The only difference between a SAC binary data file with NVHDR = 6 and
+one with NVHDR = 7 is the addition of a "footer" following the data
+section(s).  The footer is comprised of 22 double-precision (64-bit)
+floating point variables: DELTA, B, E, O, A, T0 ... T9, F, EVLO, EVLA,
+STLO, STLA, SB, and SDELTA.  The names are the same as in the header;
+SAC distinguishes between the single- and double-precision variables
+in internal calculations by their location in the file.
 
 SAC Alphanumeric Format
 -----------------------
 This file is essentially the alphanumeric equivalent of the SAC binary data
-file. The header section is stored on the first 30 cards. This is followed by
-one or two data sections. The data is in 5G15.7 format. The following table
-shows the card number, formats and names of the variables on the header
-section cards.
+file. The header section is stored on the first 30 80-character lines. For both 
+NVHDR = 6 and NVHDR = 7, this is followed by one or two data sections. The data
+are in 5G15.7 format. The following table shows the line number, formats and 
+names of the variables on the header section lines.
 
 ======= ======== ======== ======== ======== ====== =========
-CN      FORMAT   NAMES    o        o        o      o
+LINE    FORMAT   NAMES    o        o        o      o
 ======= ======== ======== ======== ======== ====== =========
 01      (5G15.7) DELTA    DEPMIN   DEPMAX   SCALE  ODELTA
 02      (5G15.7) B        E        O        A      INTERNAL
@@ -194,26 +201,23 @@ entire data section) on your system by executing the following commands::
 
   SAC> FUNCGEN SEISMOGRAM
   SAC> LH
+  SAC> CH NVDHR 7
   SAC> WRITE ALPHA TEMP1
 
-You can then convert this alphanumeric file to a binary one and read it into
-SAC with the following commands::
+You can read this alphanumeric file directly into SAC with the following commands::
 
-  SAC> CONVERT FROM ALPHA TEMP1 TO SAC TEMP2
-  SAC> READ TEMP2
+  SAC> READ TEMP1
   SAC> LH
 
-Alternatively, you can accomplish this without using CONVERT_, but just using
-READ_ and WRITE_::
+SAC knows the difference between an alphanumeric and binary SAC files and should
+be able to read them directly.  You can specify an ALPHA flag to the READ_ command
+for backwards compatibility::
 
   SAC> READ ALPHA TEMP1
-  SAC> WRITE SAC TEMP2
-  SAC> READ TEMP2
   SAC> LH
 
-This little test shows the equivalence of the alphanumeric and binary file
-formats.  Listed next are the first lines of TEMP1 -- header plus first 8
-lines of data.::
+Listed next are the first lines of TEMP1 -- header plus first 8 lines of data and
+ending with the 22 lines of the footer (one line per variable).::
 
 
      0.01000000      -1.569280       1.520640      -12345.00      -12345.00
@@ -231,7 +235,7 @@ lines of data.::
       -12345.00      -12345.00      -12345.00      -12345.00      -12345.00
       -12345.00      -12345.00      -12345.00      -12345.00      -12345.00
       1981        88        10        38        14
-         0         6         0         0      1000
+         0         7         0         0      1000
     -12345    -12345    -12345    -12345    -12345
          1        50         9    -12345    -12345
     -12345    -12345        42    -12345    -12345
@@ -254,7 +258,29 @@ lines of data.::
     -0.09472002    -0.09472002    -0.09472002    -0.09472002    -0.09472002
     -0.09344001    -0.09344001    -0.09216000    -0.09088002    -0.09088002
     -0.09216000    -0.09216000    -0.09216000    -0.09344001    -0.09472002
-      ....
+    ....
+ 0.0099999997764825821
+ 9.4599990844726562
+ 19.449998861178756
+ -41.430000305175781
+ 10.46399974822998
+ -12345
+ -12345
+ -12345
+ -12345
+ -12345
+ -12345
+ -12345
+ -12345
+ -12345
+ -12345
+ -12345
+ -125
+ 48
+ -120
+ 48
+ -12345
+ -1234
 
 SAC Header Variables
 --------------------
@@ -267,9 +293,11 @@ defined in the second table.
 Name      Type  Description
 ========= ===== =============================================================
 NPTS      N     Number of points per data component. [required]
-NVHDR     N     Header version number. Current value is the integer 6.
+NVHDR     N     Header version number. Current value is the integer 7.
                 Older version data (NVHDR < 6) are automatically updated
-                when read into sac. [required]
+                when read into sac. In SAC v102.0, one can still use 
+                NVHDR = 6.  To have double-precision capability, 
+                NVHDR = 7 [required]
 B         F     Beginning value of the independent variable. [required]
 E         F     Ending value of the independent variable. [required]
 IFTYPE    I     Type of file [required]:
@@ -581,5 +609,5 @@ ios       103
 
 LATEST REVISION
 ---------------
-   January 2012 (Version 101.6)
+   Version 102.0
 
