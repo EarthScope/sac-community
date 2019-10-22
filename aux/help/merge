@@ -10,14 +10,14 @@ SYNTAX
 ::
 
   MERGE {VERBOSE} {GAP ZERO|INTERP} {OVERLAP COMPARE|AVERAGE}
-       {TOLERANCE_DELTA 1e-6} {filelist}
+       {TOLERANCE_DELTA v} {filelist}
 
 INPUT
 -----
 
    :GAP ZERO | INTERP: How to handle data gaps
 
-       - ZERO - Fill with 0.0 amplitude
+       - ZERO - Fill with 0.0 amplitude [default]
        - INTERP - Interpolate, linear, within the data gap
 
    :OVERLAP COMPARE | AVERAGE: How to handle data overlaps
@@ -25,7 +25,7 @@ INPUT
        - COMPARE - Compare overlapping data points, exit on mismatch
        - AVERAGE - Average overlapping data points
 
-   :TOLERANCE_DELTA 1e-6: Tolerance between computed delta and delta
+   :TOLERANCE_DELTA v: Tolerance between computed delta and delta
        reported in the header.  Default tolerance is 1e-6
 
    :VERBOSE: Describe the merge details
@@ -41,30 +41,30 @@ DESCRIPTION
    data in memory.  Each pair of files to be merged is checked to make sure they
    have the same sampling interval and station name.  Any number of file, in any
    order are able to be merged.  Data currently in memory and data identified in
-   the merge command are merged together.  If no data is specified with the merge
-   command, data currently in memory will be merged.
+   the merge command are merged together.  If no data is specified with the 
+   merge command, data currently in memory will be merged.
 
-TOLERANCE DELTA
+TOLERANCE_DELTA
 ---------------
    For collections of files with high sample rates, long durations or both
    the computation of time becomes less precise due to the limited precision
    of the delta value in the header.
 
-   To avoid this, a calculatd time sampling is computed based on the
+   To avoid this, a calculatd time-sampling is computed based on the
    difference in begin times and with sufficient precision.  If the
-   computed time sampling is within the tolerance specified by the
-   TOLERANCE_DELTA, then then calculated time sampling is used in
+   calculated time-sampling is within the tolerance specified by the
+   TOLERANCE_DELTA, then the calculated time-sampling is used in
    place of the value reported in the header.  Use VERBOSE for more
    information about the calculated and header-defined deltas::
 
-     SAC> merge verbose tol 1e-9 files*.sac
+     SAC> merge verbose  ./*.SAC
        merge calculating delta
        merge calculated delta: 4.000000000000000e-03 (assuming no-gaps)
              delta in header 4.000000189989805e-03 (first file)
              difference: 1.899898e-10 = abs( calc_delta - delta )
-             tolerance:  1.000000e-10
-             using delta in header
-       merging 18 files => 2700000 data points
+             tolerance:  1.000000e-06
+             using calulcted delta
+       merging 24 files => 3600000 data points
 
    The calculated delta assumes no gaps and no overlaps for the input files
    as is determined as ::
@@ -75,7 +75,20 @@ TOLERANCE DELTA
 
    To turn off computing the observed delta, use a value of <= 0.0 ::
 
-     SAC> merge verbose tol 0.0 files*.sac
+     SAC r *SAC
+     SAC> merge verbose tol 0.0 
+     merging 24 files => 3599999 data points
+     merge: Gap zero fill: [n: 899999 t: 3599.996171]
+     merge: Gap zero fill: [n: 1049999 t: 4199.996199]
+     .....
+
+  As soon as a significant gap or overlap is found between two files,
+  all successive file boundaries will have a significant gap or
+  overlap as the mismatch will increase with increasing n.  In this
+  data set, each file has 150000 points with a dt of 0.004s.
+
+  The output of Merge is a single file with the same name as the first
+  file, so it was necessary to use the read statement.
 
 EXAMPLES
 --------
@@ -86,13 +99,13 @@ EXAMPLES
 
    or::
 
-      SAC>READ FILE1 FILE2 FILE3 FILE4
-      SAC>MERGE
+      SAC> READ FILE1 FILE2 FILE3 FILE4
+      SAC> MERGE
 
    or::
 
-      SAC>DELETECHANNEL ALL
-      SAC>MERGE FILE1 FILE2 FILE3 FILE4
+      SAC> DELETECHANNEL ALL
+      SAC> MERGE FILE1 FILE2 FILE3 FILE4
 
    To merge files for the same station, say ELKO.Z, from four different events
    each stored in a separate UNIX directory::
@@ -124,4 +137,4 @@ SEE COMMANDS
 
 LATEST REVISION
 ---------------
-   Feb. 27, 2013 (Version 101.6)
+   Version 102.0
