@@ -25,7 +25,7 @@ SYNTAX
       { d | raw | quality | modified | best | merged | qc | unknown }
       { verbose }
       { sac }
-      { load }
+      { read }
       { mseed | miniseed }
       { more }
 
@@ -66,7 +66,7 @@ INPUT
 
    :mseed: (or miniseed) Save the miniseed files
 
-   :read: Load the data following conversion from miniseed to sac
+   :read: Read the data following conversion from miniseed to sac
 
    :more: Append to data existing data files in memory
 

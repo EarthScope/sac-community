@@ -117,6 +117,13 @@ DESCRIPTION
    editor.  The READ_ command transfers data from one or more disk files into
    memory.  The default is to read all of the data from each disk file.
 
+   AUTO-DETECTION: SAC will attempt to determine the types of files
+   for reading.  Known file types include SAC binary, SAC alphanumeric,
+   SEG-Y, and miniSEED.  If the type of file is specifiled using ALPHA
+   or SEGY it will be assumed all files are of that type.
+
+   miniSEED: All data within a miniSEED file will be read into memory.
+
    The CUT_ command can be used to specify that only a portion of each disk
    file be read.  SAC files produced in or after the year 2000 are presumed
    to have a four  digit value for the year.  Files with two digit year
@@ -137,16 +144,13 @@ DESCRIPTION
    Examples of each of these cases are given below.
    The filenames may be simple filenames in the current directory or they
    may be absolute or relative pathnames pointing to other directories on your
-   system.  Examples of absolute pathnames are::
+   system.  Examples of an absolute pathname is::
 
-     UNIX: /dir/subdir/file
-     VMS: disk:[dir.subdir]file
-     PRIMOS: <disk>dir>subdir>file
+     /dir/subdir/file
 
-   Examples of relative pathnames are::
+   Examples of a relative pathnames is::
 
-     UNIX: subdir/file
-     PRIMOS: *>subdir>file
+     subdir/file
 
    In the above examples "disk" is the name of a physical disk partition, "dir"
    is the name of a top level directory, "subdir" is a subdirectory of that
