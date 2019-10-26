@@ -344,3 +344,220 @@ SAC does a lot more than just reading, writing, and plotting data files!
 `SAC Analysis Capabilities`_ provides an introduction to these features.
 `Command Reference Manual`_ lists all the commands and has links to help files for them.
 
+Floating-point precision in SAC
+-------------------------------
+
+**Background**
+
+In all version of SAC through and including v101.6a, all reals in the
+SAC header/data are single-precision (32 bits; 4 bytes).  The smallest
+time increment within SAC I/O is 0.001 s (header variable NZMSEC is
+milliseconds).  When SAC was written 30+ years ago, a sampling rate of
+0.01 s was about as high as the technology allowed, and single SAC
+files used in analysis were at most several minutes in duration.  Now
+thanks to GPS and advances in both hardware and software, many
+experiments routinely have sampling rates of 0.001 s, and single SAC
+data files can be up to hours/days in duration.  If SAC is to remain
+useful for such data sets, single precision is not sufficient.  SAC
+v102.0 includes double precision for both time and distance
+calculations using header variables, and does so in a way that
+maximizes compatibility so that existing SAC data files can still be
+used - but also upgraded.
+
+In this document, we discuss floating-point precision in SAC and give
+examples showing errors at large times due to the limitations of
+single-precision for header variables and how these have been resolved
+using the modified SAC data file structure introduced in v102.0.
+
+Single-Precision in SAC
+-----------------------
+
+.. figure:: ./precision_fig1.png
+   :width: 90%
+   :figclass: align-center
+
+   Figure (1):  the bit structure of a single-precision floating-point number.
+
+In a 32-bit floating-point number, 23 bits define the maximum
+precision.  For all floating-point numbers with a size between
+:math:`2^{n-1}` and :math:`2^n` floating-point values are separated by
+:math:`\delta(n)`, given by
+
+.. math::
+
+  \delta(n)=\frac{2^{n-1}}{2^{23}} = \frac{t(n)_{ref}}{2^{23}},
+
+where, in our applications of the above equation, :math:`\delta(n)`
+and the reference time :math:`t(n)_{ref}` are times in seconds.  For
+n=17, :math:`t(17)_{ref}` = 65,536 s and :math:`\delta(17)` = 0.0078
+s.  Incrementing n by 1 doubles the floating-point increment.
+
+In the examples below, we use the following macro that sets DELTA =
+0.01 s and B = 48 hours = 172,800.00 s, (for which :math:`t(18)_{ref}`
+= 131,072 s and the floating-point increment :math:`\delta(18)=0.0156`
+s = 156% DELTA)::
+
+     SAC> fg sine 2.0 delta 0.01 npts 13
+     SAC> symbol 2
+     SAC> fileid location ul
+     SAC> ch b 172800
+     SAC> ch t0 (&1,b + &1,delta * 1)
+     SAC> ch t1 (&1,b + &1,delta * 2)
+     SAC> ch t2 (&1,b + &1,delta * 3)
+     SAC> ch t3 (&1,b + &1,delta * 4)
+     SAC> ch t4 (&1,b + &1,delta * 5)
+     SAC> ch t5 (&1,b + &1,delta * 6)
+     SAC> ch t6 (&1,b + &1,delta * 7)
+     SAC> ch t7 (&1,b + &1,delta * 8)
+     SAC> ch t8 (&1,b + &1,delta * 9)
+     SAC> ch t9 (&1,b + &1,delta * 10)
+     SAC> lh picks
+
+From the macro, we see that waveform times (squares) should be at
+176,800.00, 176,800.01, ... ; and the ten time picks should be at
+176,800.01, 176,800.02, ... .
+
+.. figure:: ./precision_fig2.png
+   :width: 90%
+   :figclass: align-center
+
+   Figure (2):  SAC v101.6a using the above macro.
+
+In v101.6a, SAC used double-precision for some internal calculations,
+but not in calculations used to increment times when plotting
+waveforms or in producing the time labels in plots. In Fig. (2), the
+time picks and the symbols are at the same times, which is because
+they were both calculated using single precision. (Even though the
+time-plot labels in Figure 2 are distracting, we can ignore them as
+they were not calculated the same way as the plotted times.)
+
+The separation between all the squares is supposed to be DELTA = 0.01
+s, but :math:`\delta(18)=0.0156` s is the minimum separation between
+neighboring values.  The first time point is at 176,800.00 s.  The
+plotted time for the symbol of the next point will be at the nearest
+floating-point neighbor to 176,800.01 s, which is 176,800.0156 s
+rather than 176,800.00 s so that is where the next symbol is plotted.
+176,800.02 s is closer to 176,800.0146 s than to 176,800.0312 s, so
+that symbol is at the same time as the previous symbol :math:`-` and
+time picks T0 and T1 overlap at that same time as the symbols).
+
+In 2017 the problems with the time plot labels and waveform times were
+fixed, which was possible with the existing SAC data-file format
+because the calculations of those times are done `internally` so could
+be done in double precision.  Because B, DELTA, T0 ...  T9 are header
+variables, they could not be changed to double precision without
+changing the file structure.
+
+.. figure:: ./precision_fig3.png
+   :width: 90%
+   :figclass: align-center
+
+   Figure (3):  SAC v101.6a but double-precision internal calculations for times.
+
+Figure (3) uses double precision for the internal calculations for times but uses the same procedure as used in Fig. (2) for time picks.  The waveform time symbols (and the time axis) are now "correct", but the time picks are unchanged from Figure 2.
+
+**Upgrade To Double Precision**
+
+Header variable NVHDR is the SAC version number and is used by SAC
+when reading the SAC data file.  For the past several decades `NVHDR = 6`.
+In SAC v102.0, the file structure as been changed to fix the
+precision problem.  The change is done in such a way that existing SAC
+files can be read and processed as before.  However, after an older is
+read in, if the user types **ch NVHDR 7**, time picks will be
+calculated using double-precision so picks will be displayed
+correctly.
+
+If a SAC data file with `NVHDR = 6` is read into memory using v102.0, a
+"footer" is automatically created with double-precision copies of the
+22 time/distance header values.  Getting a double precision can only be done
+if `NVHDR = 7`, otherwise the single precision value is returned; this
+is true for all calculations and header access, e.g. LISTHDR_.
+Setting header values always begins in double precision (and in
+libsacio). This will result in truncated precison in the single-precision
+header, but double precision values will be retained.
+
+The 22 double-precision variables in the footer are `DELTA`,
+`B`, `E`, `O`, `A`, `T0` ... `T9`, `F`, `EVLO`, `EVLA`, `STLO`,
+`STLA`, `SB`, and `SDELTA`. The names are the same as in the header;
+SAC distinguishes between use of single- and double-precision
+variables in internal calculations by the value of `NVHDR`.
+
+.. important::
+   Switching a file from `NVHDR = 6` to `7` does not magically produce
+   a proper double-precision value.  Values stored in 32 and 64 bits
+   will only be modified when a value is changed through CHNHDR_ or
+   equivalent methods.
+
+SAC v102.0 introduces `OUTPUT_FORMAT` which can change the format for
+floating-point variables in SAC commands LISTHDR_, MESSAGE_, and EVALUATE_.
+
+An simple example of setting and getting double precision values::
+
+    SAC> fg
+    SAC> setbb OUTPUT_FORMAT longE
+    SAC> ch t0 (1.0/3.0)
+    SAC> lh nvhdr t0
+
+      FILE: IMPULSE - 1
+     -------------
+
+         nvhdr = 6
+            t0 = 3.333333432674408e-01
+    SAC> ch nvhdr 7
+    SAC> lh nvhdr t0
+
+
+      FILE: IMPULSE - 1
+     -------------
+
+         nvhdr = 7
+            t0 = 3.333333333333333e-01
+
+
+If one ran the macro in SAC v102.0 and entered **ch NVHDR 7** and then
+`p1`, one gets the same plot as is shown in Fig. (3).  If one then
+enters `setbb output_format longE ; lh`, one can see the differences in
+`T0`, `T1`, `T2`, etc.  See GETBB_ for an example.
+
+.. figure:: ./precision_fig4.png
+   :width: 90%
+   :figclass: align-center
+
+   Fig. (4):  SAC v102.0 with *ch NVHDR 7* preceding `p1`.
+
+
+In Figure 4, the times/picks, and tic-marks are all lined up.
+
+
+**Distance And Geographic Variables Precision**
+
+Thee are several distance-related variables in the header, but `DIST`,
+`AZ`, `BAZ`, and `GCARC` are not used as input for internal
+computation; they are derived from the header variables `EVLA`,
+`EVLO`, `STLA`, and `STLO`, which is why only those four are in the
+footer.
+
+Distance precision using real*4 (32-bits) is less restrictive than for time
+precision. Half the circumference of the Earth is about 20,000 km, so
+if the numerator in the right-hand side of the above equation is a
+distance reference in meters, :math:`\Delta(n)_{ref}`, the half
+circumference has a distance reference :math:`\Delta(24)_{ref}` with a
+:math:`\delta(24)` = 2 m.  The largest relative latitude or longitude
+for that distance would be about 180 degrees in longitude at the
+equator, which has a similar reference.  A more significant limitation
+for such distances is probably the accuracy of of the reference
+ellipsoid.  Promoting the station and hypocenter latitudes and
+longitudes removes any potential distance-related precision problems.
+
+**Dynamic Range**
+
+20 years ago, 16 bits was the standard for data.  Today 24 bits is
+standard.  :math:`2^{24}` = 16,777,216.  Using single precision for
+the SAC amplitude data is sufficient.
+
+**Maximum Number Of Points**
+
+Integer header variable `NPTS` has 4 bytes (32 bits).  The SAC header
+uses signed integers, so the maximum value is :math:`2^{31}` - 1 =
+2,147,483,647.  If thesampling rate is 0.001 s, the maximum record
+length is 24.85 days.
