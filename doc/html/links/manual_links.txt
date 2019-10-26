@@ -309,3 +309,9 @@
 .. _zlevels:	../commands/zlevels.html
 .. _zlines:	../commands/zlines.html
 .. _zticks:	../commands/zticks.html
+
+.. _data:             ../commands/data.html
+.. _event:            ../commands/event.html
+.. _station:            ../commands/station.html
+.. _response:            ../commands/response.html
+.. _metadata:            ../commands/metadata.html
