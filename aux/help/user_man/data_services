@@ -1,0 +1,245 @@
+Data Services
++++++++++++++
+
+Overview
+--------
+Starting in version 102.0, SAC knows how to request a variety data and metadata from online web services. These abilities include
+
+- event searches ( EVENT_ )
+- station searches ( STATION_ )
+- data searches ( DATA_ )
+- download data ( DATA_ )
+- applying station meta-data to data ( METADATA_ )
+- applying event meta-data to data ( METADATA_ )
+- reading miniseed ( READ_ )
+- download instrument responses ( RESPONSE_ )
+
+Web requests are made to the colletion of Web Services at
+`<http://service.iris.edu>`_ along with event searches through the
+`USGS <http://earthquake.usgs.gov>`_ and `ISC <http://www.isc.ac.uk>`_.
+Event search results, EVENT_, can be used as
+input for timing and location in DATA_ and STATION_ seaches using
+assocaited event id. Examples are given below.
+
+Event Search
+------------
+
+A simple event search is to find all M 9 earthquakes within the past
+century (100 years), assuming the date today is Oct-31-2019.  This
+will search the USGS Earthquake catalog by default::
+
+     SAC> event time 2019-10-31 -100years mag 9
+     Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
+     2011-03-11T05:46:24  38.30  142.37  29.00 9.10 mww US/official - usgs:official20110311054624120_30
+     2004-12-26T00:58:53   3.29   95.98  30.00 9.10 mw  US/official - usgs:official20041226005853450_30
+     1964-03-28T03:36:16  60.91 -147.34  25.00 9.20 mw  iscgem/official - usgs:official19640328033616_30
+     1960-05-22T19:11:20 -38.14  -73.41  25.00 9.50 mw  iscgem/official - usgs:official19600522191120_30
+     1952-11-04T16:58:30  52.62  159.78  21.60 9.00 mw  iscgem/official - usgs:official19521104165830_30
+
+It can sometimes be difficult to remember today's date. Instead you
+can use the `now` keyword in place of the first date. Lets also change
+the catalog to Global CMT::
+
+     SAC> event time now -100years mag 9 gcmt
+     Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
+     2011-03-11T05:47:32  37.52  143.05  20.00 9.10 MW  GCMT/- GCMT gcmt:3279407
+     2004-12-26T01:01:09   3.09   94.26  28.60 9.00 MW  GCMT/- GCMT gcmt:1916079
+
+Notice that the results from Global CMT, compared to the USGS, do not
+have the older events and the prefix for the event id is also
+different.
+
+If we are interested in a particular event, an event time window, or
+depth range, that can be specified directly::
+
+     SAC> event time 1994/1 1994/365 mag 8 depth 600 1000 usgs
+     Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
+     1994-06-09T00:33:16 -13.84  -67.55 631.30 8.20 mw  US/HRV - usgs:usp0006dzc
+
+Station Search
+--------------
+
+Looking for available stations is straight forward by using a region,
+network name, station name and channels.  Here we only use a small
+region and a network of `IU`::
+
+     SAC> station region -130 -110 45 48 net IU
+     Warning: Multiple instances of net.sta, likely mutiple epochs
+     Net Sta   Lat.     Lon.      Elev.   SiteName
+     IU  RAIO   46.0403 -122.8851    1.00 Rainier, Oregon, USA
+
+If a particular time range or distance range is of interest, that may
+be specified as well::
+
+     SAC> station network IU channel ?HZ time 2011-03-11 1day radial 30 35 origin 143.05 37.53
+     Net Sta   Lat.     Lon.      Elev.   SiteName
+     IU  ADK    51.8823 -176.6842  130.00 Adak, Aleutian Islands, Alaska
+     IU  BILL   68.0653  166.4531  320.00 Bilibino, Russia
+     IU  DAV     7.0697  125.5791  150.00 Davao, Philippines
+     IU  MIDW   28.2156 -177.3698   20.00 Midway Island, USA
+     IU  TIXI   71.6341  128.8667   40.00 Tiksi, Russia
+
+The previous search was for stations operating during the 2011 Tokoku
+event with an epicentral distance 30 and 35 degrees. This search can
+be simplified by using and event id::
+
+     SAC> event mag 9 time 2011/1 +1y gcmt
+     Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
+     2011-03-11T05:47:32  37.52  143.05  20.00 9.10 MW  GCMT/- GCMT gcmt:3279407
+
+     SAC> station net IU cha ?HZ gcmt:3279407 radial 30 35
+     Net Sta   Lat.     Lon.      Elev.   SiteName
+     IU  ADK    51.8823 -176.6842  130.00 Adak, Aleutian Islands, Alaska
+     IU  BILL   68.0653  166.4531  320.00 Bilibino, Russia
+     IU  DAV     7.0697  125.5791  150.00 Davao, Philippines
+     IU  MIDW   28.2156 -177.3698   20.00 Midway Island, USA
+     IU  TIXI   71.6341  128.8667   40.00 Tiksi, Russia
+
+Data Search
+-----------
+
+Once the event or time range and stations are identified, downloading
+data is straight forward.  First, the event is determined; here we use
+the 1994 deep Bolivian event and a station named `DOOR`. Data requests
+need to specific where the data should be placed; this includes
+`miniSEED` for directly saving the miniSEED files, `SAC` for
+converting the miniSEED files into sac binary format, and `READ` for
+placing the data directly into memory.  Any combination of these
+options can be used
+
+We also specify the duration of the data be downloaded using the `DURATION` option::
+
+     SAC> event time 1994/160 1d mag 8 gcmt
+     Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
+     1994-06-09T00:33:45 -13.82  -67.25 647.10 8.20 MW  GCMT/- GCMT gcmt:369471
+
+     SAC> data sta DOOR cha BHZ gcmt:369471 duration +1h
+     ## REQUEST 1/ 1
+     DATACENTER=IRISDMC,http://ds.iris.edu
+     XE DOOR -- BHZ 1994-06-09T00:33:45 1994-06-09T01:33:45
+
+     No Data Downloaded, use miniseed, sac, or read to download data
+
+     SAC> data sta DOOR cha BHZ gcmt:369471 dur +1h read
+     Data Center: IRISDMC,http://ds.iris.edu
+                    SourceID                Start sample             End sample         Gap
+     XFDSN:XE_DOOR__B_H_Z     1994-06-09T00:33:45.012000 1994-06-09T01:33:44.912000  ==
+     Working on file: XE.DOOR..BHZ.M.1994.160.003345.sac [ OK ]
+
+If a stations file exists, data for these can be directly
+downloaded. Lets create the station file, then download the data.  We
+also save the data request using the `OUT` parameter in DATA_, then
+immediately use that request file::
+
+     SAC> ** Create a station file call net_BK.txt
+
+     SAC> station net BK region -125 -110 30 40 sta B*,C* out net_BK.txt
+     Warning: Multiple instances of net.sta, likely mutiple epochs
+     Net Sta   Lat.     Lon.      Elev.   SiteName
+     BK  BABI   36.5158 -120.8530  571.20 Babies Gulch, near Pinnacles National Park, USA
+     ...
+     BK  CVS    38.3453 -122.4584  295.10 Carmenet Vineyards, Sonoma, CA, USA
+
+     SAC> ** Create a request file from the station file
+
+     SAC> data time 2010,235T00:00:00 1hr in net_BK.txt cha BHZ out net_BK_request.txt
+     Reading station file: net_BK.txt
+     ## REQUEST 1/ 1
+     DATACENTER=NCEDC,http://www.ncedc.org
+     BK BDM -- BHZ 2010-08-23T00:00:00 2010-08-23T01:00:00
+     ...
+     BK CVS 00 BHZ 2010-08-23T00:00:00 2010-08-23T01:00:00
+
+     No Data Downloaded, use miniseed, sac, or read to download data
+
+     SAC> ** Use the request file to download data, this will automatically download to miniSSED
+
+     SAC> data request net_BK_request.txt
+     Data Center: NCEDC,http://www.ncedc.org
+             Writing data to fdsnws.2019.10.25.18.01.01.NCEDC.mseed [956.00 KiB]
+
+     SAC> ** Magic incantations to get the most recent miniSEED file and read it
+     SAC> ***    These can be avoided by using there READ option in DATA
+
+     SAC> sc to FILE ls -rt *.mseed | tail -1
+     SAC> getbb FILE
+      FILE = 'fdsnws.2019.10.25.18.01.01.NCEDC.mseed'
+     SAC> read %FILE
+            SourceID                Start sample             End sample         Gap
+     XFDSN:BK_BDM__B_H_Z      2010-08-23T00:00:00.010466 2010-08-23T00:59:59.985466  ==
+     XFDSN:BK_BKS__B_H_Z      2010-08-23T00:00:00.023145 2010-08-23T00:59:59.998145  ==
+     XFDSN:BK_BRIB_00_B_H_Z   2010-08-23T00:00:00.019538 2010-08-23T00:59:59.994538  ==
+     XFDSN:BK_BRK_00_B_H_Z    2010-08-23T00:00:00.019538 2010-08-23T00:59:59.994538  ==
+     XFDSN:BK_CMB__B_H_Z      2010-08-23T00:00:00.023616 2010-08-23T00:59:59.998696  ==
+     XFDSN:BK_CVS_00_B_H_Z    2010-08-23T00:00:00.019536 2010-08-23T00:59:59.994539  ==
+     SAC>
+
+If data is downloaded and converted to sac binary or read into memory,
+SAC will try to insert metadata for the resulting data files. ::
+
+     SAC> data sta DOOR cha BHZ gcmt:369471 dur +1h read
+     Data Center: IRISDMC,http://ds.iris.edu
+                    SourceID                Start sample             End sample         Gap
+     XFDSN:XE_DOOR__B_H_Z     1994-06-09T00:33:45.012000 1994-06-09T01:33:44.912000  ==
+     Working on file: XE.DOOR..BHZ.M.1994.160.003345.sac [ OK ]
+
+     SAC> lh kevnm stlo stla evlo evla evdp
+
+        FILE: XE.DOOR..BHZ.M.1994.160.003345.sac - 1
+       ----------------------------------------
+
+          kevnm = gcmt:369471
+           stlo = -6.722330e+01
+           stla = -1.935380e+01
+           evlo = -6.725000e+01
+           evla = -1.382000e+01
+           evdp = 6.471000e+02
+
+If data is downloaded without metadata, it is simple to insert that
+metadata using the METADATA_ command::
+
+
+     SAC> data sta DOOR cha BHZ time 1994-06-09T00:33:45 1h read
+     Data Center: IRISDMC,http://ds.iris.edu
+                    SourceID                Start sample             End sample         Gap
+     XFDSN:XE_DOOR__B_H_Z     1994-06-09T00:33:45.012000 1994-06-09T01:33:44.912000  ==
+     Working on file: XE.DOOR..BHZ.M.1994.160.003345.sac [ OK ]
+
+     SAC> lh kevnm stlo stla evlo evla evdp
+
+       FILE: XE.DOOR..BHZ.M.1994.160.003345.sac - 1
+      ----------------------------------------
+
+          stlo = -6.722330e+01
+          stla = -1.935380e+01
+
+     SAC> metadata gcmt:369471
+     Working on file: XE.DOOR..BHZ.M.1994.160.003345.sac [ OK ]
+
+     SAC> lh kevnm stlo stla evlo evla evdp
+
+       FILE: XE.DOOR..BHZ.M.1994.160.003345.sac - 1
+      ----------------------------------------
+
+          kevnm = gcmt:369471
+           stlo = -6.722330e+01
+           stla = -1.935380e+01
+           evlo = -6.725000e+01
+           evla = -1.382000e+01
+           evdp = 6.471000e+02
+
+Response
+--------
+
+Responses for specific files is also simple with files read into
+memory. Responses can be obtained in sacpz or evalresp format.::
+
+     SAC> read XE.DOOR..BHZ.M.1994.160.003345.sac
+
+     SAC> response sacpz
+     Writing data to SAC_PZs_XE_DOOR__BHZ_1994-06-09T00:33:45_1994-06-09T01:33:44 [  1.02 KiB]
+
+     SAC> response evalresp
+     Writing data to RESP.XE.DOOR..BHZ [ 49.80 KiB]
+
+
