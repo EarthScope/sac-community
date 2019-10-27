@@ -347,7 +347,7 @@ sac_matches_time(timespec64 *sb, timespec64 *se, meta_data *m) {
  * @param ndata    length of data
  * @param verbose  be verbose while parsing and setting
  *
- * @return 1 always
+ * @return 1 on success, 0 on error
  *
  * @note fields filled are:
  *    - stla - Station Latitude
@@ -358,19 +358,16 @@ sac_matches_time(timespec64 *sb, timespec64 *se, meta_data *m) {
  *    - cmpinc - Component Inclination
  */
 int
-sac_fill_meta_data_from_xml(sac **files, char *data, size_t ndata, int verbose) {
+sac_fill_meta_data_from_xml(sac **files, xml *x, int verbose) {
     sac *s = NULL;
-    xml *x = NULL;
-
-    // Station Meta Data Populate
-    if(!(x = xml_new(data, ndata))) {
-        goto error;
-    }
 
     char *key[] = {"stla", "stlo", "stel",
                    "stdp", "cmpaz", "cmpinc" };
     int fid[] = { SAC_STLA, SAC_STLO, SAC_STEL,
                   SAC_STDP, SAC_CMPAZ, SAC_CMPINC };
+    if(!x) {
+        return 0;
+    }
     for(size_t i = 0; i < xarray_length(files); i++) {
         s = files[i];
         cprintf("black,bold", "Working on file: ");
@@ -398,8 +395,6 @@ sac_fill_meta_data_from_xml(sac **files, char *data, size_t ndata, int verbose) 
             }
         }
     }
- error:
-    xml_free(x);
     return 1;
 }
 
@@ -576,8 +571,13 @@ sac_array_fill_meta_data_from_file(sac **files, int verbose, char *file) {
     if(is_xml_file(file)) {
         size_t n = 0;
         char *data = NULL;
+        xml *x = NULL;
         data = slurp(file, &n);
-        sac_fill_meta_data_from_xml(files, data, n, verbose);
+        if(!data || (x = xml_new(data, n)) == NULL) {
+            return;
+        }
+        sac_fill_meta_data_from_xml(files, x, verbose);
+        xml_free(x);
         FREE(data);
         return;
     }
@@ -626,6 +626,43 @@ sac_array_fill_meta_data_from_file(sac **files, int verbose, char *file) {
     ms = NULL;
 }
 
+xml *
+xml_merge_results(result *r1, result *r2, char *path) {
+    xml *x1 = NULL;
+    xml *x2 = NULL;
+    // If neither request is ok, return with error
+    if(!result_is_ok(r1) && !result_is_ok(r2)) {
+        printf("%s\n", result_error_msg(r1));
+        goto done;
+    }
+
+    // Convert requested data to xml
+    if(result_is_ok(r1) && !(x1 = xml_new(result_data(r1), result_len(r1)))) {
+        printf("Error parsing xml\n");
+        goto done;
+    }
+    if(result_is_ok(r2) && !(x2 = xml_new(result_data(r2), result_len(r2)))) {
+        printf("Error parsing xml\n");
+        xml_free(x1);
+        goto done;
+    }
+    if(!x1 && !x2) {
+        // If neither xml exists, return
+        return NULL;
+    } else if(x1 && x2 == NULL) {
+        // Do nothing, if only 1st xml exists
+    } else if(x1 == NULL && x2) {
+        // Shift the 2nd xml then 1st, if it only exists
+        x1 = x2;
+        x2 = NULL;
+    } else if(x1 && x2) {
+        // Merge if both xml exist into the 1st, at network level
+        xml_merge(x1, x2, path);
+    }
+ done:
+    xml_free(x2);
+    return x1;
+}
 
 /**
  * @brief Fill meta data for a collection of sac files by request
@@ -645,11 +682,12 @@ int
 sac_array_fill_meta_data(sac **files, int verbose) {
     sac *s = NULL;
     request *sm = NULL;
-    result *r = NULL;
+    result *r[2] = {NULL,NULL};
     char *data = NULL;
     size_t nalloc = 2048;
     size_t n = 0;
     char line[2048] = {0};
+    xml *x = NULL;
 
     // Station Meta Request Build
     data = str_grow(data, &nalloc, n, strlen("level=channel\n"));
@@ -667,18 +705,24 @@ sac_array_fill_meta_data(sac **files, int verbose) {
 
     // Request Station Meta Data
     sm = request_new();
-    request_set_url(sm, STATION_IRIS);
     request_set_verbose(sm, verbose);
-    r = request_post(sm, data);
-    if(!result_is_ok(r)) {
-        printf("%s\n", result_error_msg(r));
+
+    request_set_url(sm, STATION_IRIS);
+    r[0] = request_post(sm, data);
+
+    request_set_url(sm, STATION_IRIS_PH5);
+    r[1] = request_post(sm, data);
+
+    if(!(x = xml_merge_results(r[0], r[1], "//s:Network"))) {
         goto error;
     }
 
-    sac_fill_meta_data_from_xml(files, result_data(r), result_len(r), verbose);
+    sac_fill_meta_data_from_xml(files, x, verbose);
 
  error:
-    RESULT_FREE(r);
+    xml_free(x);
+    RESULT_FREE(r[0]);
+    RESULT_FREE(r[1]);
     REQUEST_FREE(sm);
     FREE(data);
     return 1;

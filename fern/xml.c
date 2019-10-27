@@ -293,6 +293,40 @@ xml_find_all(xml *x, xmlNode *from, const xmlChar* path) {
 }
 
 
+/**
+ * @brief Merge two documents at a path
+ *
+ * @memberof xml
+ * @ingroup xml
+ *
+ * @param x1    xml document to merge together
+ * @param x2    xml document to merge together
+ * @param path  xml element path to merge together
+ *
+ * @return 0 on failure, 1 on success
+ *
+ */
+int
+xml_merge(xml *x1, xml *x2, char *path) {
+    size_t i = 0;
+    size_t n2 = 0;
+    xmlNode *node = NULL;
+    xmlXPathObject *node1 = NULL, *node2 = NULL;
+    node1 = xml_find_all(x1, NULL, (xmlChar *) path);
+    node2 = xml_find_all(x2, NULL, (xmlChar *) path);
+
+    if(xpath_len(node1) == 0 || xpath_len(node2) == 0) {
+        return 0;
+    }
+    n2 = xpath_len(node2);
+    for(i = 0; i < n2; i++) {
+        node = xmlCopyNode(xpath_index(node2, i), 1);
+        xmlAddSibling(xpath_index(node1, 0), node);
+    }
+    XPATH_FREE(node1);
+    XPATH_FREE(node2);
+    return 1;
+}
 
 /**
  * @brief Length of objects from a xml search

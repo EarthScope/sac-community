@@ -298,7 +298,7 @@ main(int argc, char *argv[]) {
         events_write(ev, stdout);
     }
     if(act & ActionStation) {
-        if(!(s = station_xml_parse(result_data(res), result_len(res), epochs, verbose))) {
+        if(!(s = station_xml_parse_from_raw(result_data(res), result_len(res), epochs, verbose))) {
             printf("error parsing station.xml data\n");
             exit(-1);
         }

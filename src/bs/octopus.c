@@ -233,7 +233,7 @@ lktp(char *kkey, timespec64 *t1, timespec64 *t2) {
         return FALSE;
     }
 
-    if(!parse_time_like(t->str, NULL, TIME_LIKE | EVENT_LIKE, t1)) {
+    if(!parse_time_like(t->str, NULL, TIME_LIKE | EVENT_LIKE | NOW_LIKE, t1)) {
         return FALSE;
     }
     arg_next();
@@ -539,8 +539,6 @@ stations_write_to_file(station **stat, char *filename, int show_time) {
     return 1;
 }
 
-station ** station_xml_parse(char *data, size_t data_len, int epochs, int verbose);
-
 /**
  * @brief      Request station data
  *
@@ -564,7 +562,9 @@ station_request(int *nerr) {
     int n = 0;
     timespec64 t1 = {0,0}, t2 = {0,0};
     result *r = NULL;
+    result *rph5 = NULL;
     station **s = NULL;
+    xml *x = NULL;
     int set = 0;
     sr = station_req_new();
 
@@ -585,6 +585,8 @@ station_request(int *nerr) {
             set |= SetTime;
         }
         else if(lkchar2("STA#TION$", sta, sizeof(sta))) {
+            rstrip_char(sta, '"');
+            lstrip_char(sta, '"');
             station_req_set_station(sr, sta);
             set |= SetStation;
         }
@@ -649,13 +651,18 @@ station_request(int *nerr) {
     /// Make the Request
     r = request_get(sr);
 
-    if(!result_is_ok(r)) {
+    request_set_url(sr, STATION_IRIS_PH5);
+    rph5 = request_get(sr);
+
+    if(!result_is_ok(r) && !result_is_ok(rph5)) {
         printf("%s", result_error_msg(r));
         goto error;
     }
-    // Parse the Station XML
-    if(!(s = station_xml_parse(result_data(r), result_len(r), epochs, verbose))) {
-        printf("error parsing station.xml data\n");
+
+    if(!(x = xml_merge_results(r, rph5, "//s:Network"))) {
+        goto error;
+    }
+    if(!(s = station_xml_parse(x, epochs, verbose))) {
         goto error;
     }
     if(!quiet) {
@@ -681,8 +688,10 @@ station_request(int *nerr) {
     }
     xarray_free(s);
  error:
+    xml_free(x);
     REQUEST_FREE(sr);
-    RESULT_FREE(r)
+    RESULT_FREE(r);
+    RESULT_FREE(rph5);
     return;
 }
 

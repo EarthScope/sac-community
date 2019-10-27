@@ -150,6 +150,20 @@ station_to_string(station *s, int show_times, char *dst, size_t n) {
     return dst;
 }
 
+station **
+station_xml_parse_from_raw(char *data, size_t data_len, int epochs, int verbose) {
+    xml *x = NULL;
+    station **s = NULL;
+    if(verbose) {
+        printf("   Parsing station.xml data\n");
+    }
+    if((x = xml_new(data, data_len))) {
+        s = station_xml_parse(x, epochs, verbose);
+    }
+    xml_free(x);
+    return s;
+}
+
 /**
  * @brief Parse station xml data
  *
@@ -168,19 +182,15 @@ station_to_string(station *s, int show_times, char *dst, size_t n) {
  *
  */
 station **
-station_xml_parse(char *data, size_t data_len, int epochs, int verbose) {
-    xml *x = NULL;
+station_xml_parse(xml *x, int epochs, int verbose) {
     xmlXPathObject *nets = NULL;
     xmlXPathObject *stas = NULL;
     station **out = NULL;
     dict *d = NULL;
     int err = 0;
 
-    if(verbose) {
-        printf("   Parsing station.xml data\n");
-    }
-    if(!(x = xml_new(data, data_len))) {
-        goto error;
+    if(!x) {
+        return NULL;
     }
 
     if(verbose) {
@@ -259,7 +269,6 @@ station_xml_parse(char *data, size_t data_len, int epochs, int verbose) {
     }
  error:
     XPATH_FREE(nets);
-    xml_free(x);
     return out;
 }
 
