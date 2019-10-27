@@ -85,7 +85,7 @@ int curr_seq_no;
  combination for error handling */
 jmp_buf jump_buffer;
 
-char myLabel[20];
+char myLabel[2*MAXLINELEN];
 
 int evresp_1(char *sta, char *cha, char *net, char *locid, char *datime,
         char *units, char *file, double *freqs, int nfreqs, double *resp,

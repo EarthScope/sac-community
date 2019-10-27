@@ -388,7 +388,7 @@ struct dateTime {
 };
 
 /* IGD 2007/02/27 */
-extern char myLabel[20];
+extern char myLabel[2*MAXLINELEN];
 //char myLabel[20] = "aa";
 
 /* utility routines that are used to parse the input file line by line and

@@ -26,8 +26,9 @@ static int ioread(FILE *f, char * buf, int len) {
 }
 
 /** Support routine for stream2doc */
-static void ioclose(FILE UNUSED *f) {
+static int ioclose(FILE UNUSED *f) {
     // we don't open or close in this lib; we just process streams
+    return 0;
 }
 
 /** Read an XML file from the given stream and create an in-memory model. */

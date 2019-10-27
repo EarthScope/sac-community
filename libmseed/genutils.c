@@ -1015,7 +1015,7 @@ ms_time2nstime (int year, int yday, int hour, int min, int sec, uint32_t nsec)
     return NSTERROR;
   }
 
-  if (!VALIDNANOSEC (nsec))
+  if (!VALIDNANOSEC ((int32_t) nsec))
   {
     ms_log (2, "%s(): nanosecond (%d) is out of range\n", __func__, nsec);
     return NSTERROR;

@@ -157,8 +157,8 @@ main(int argc, char *argv[]) {
                         continue;
                     }
                     sac_set_time(s, t);
-                    break;
                 }
+                break;
             default:
                 printf("Unimplemented keyword, skipping: %s %d %d\n", key, h->type, h->id);
                 continue;

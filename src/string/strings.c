@@ -1071,7 +1071,8 @@ sscanff(char *inp, char *fmt, ...) {
                 /* Conversions */
             case 'D':
                 flags |= LONG;
-            case 'd':
+                /* Falls through */
+            case 'd': 
             case 'i':
                 c = CT_INT;
                 break;

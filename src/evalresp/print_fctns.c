@@ -276,7 +276,7 @@ void print_resp_itp(double *freqs, int nfreqs, struct response *first,
         double listinterp_tension, int unwrap_flag) {
     int i;
     double amp, pha;
-    char filename[MAXLINELEN];
+    char filename[2*MAXLINELEN];
     FILE *fptr1, *fptr2;
     struct response *resp;
     struct evr_complex *output;
