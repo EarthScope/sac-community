@@ -22,7 +22,7 @@ Overview
   by a small group of developers  working in cooperation with IRIS 
   (http://www.iris.edu/hq/).
 
-  Thr Using SAC part of the SAC Users Manual contains general information for the 
+  The Using SAC part of the SAC Users Manual contains general information for the 
   new user about what SAC can do, how it works, and how to get started. It also 
   contains detailed information for the more experienced user on topics such as how
   to use SAC macros, how to read and write SAC data files from C or FORTRAN 
@@ -40,6 +40,7 @@ Contents of Using SAC
   - Introduction  (this file)
   - `Tutorial for New Users`_
   - `SAC Analysis Capabilities`_
+  - `Data Services`_ (Get Data, Events, Stations, Responses, Traveltimes, ...)
   - `SAC Macros`_
   - `SAC Inline Functions`_
   - `SAC Data File Format`_

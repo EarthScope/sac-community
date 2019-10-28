@@ -13,6 +13,7 @@ Starting in version 102.0, SAC knows how to request a variety data and metadata 
 - applying event meta-data to data ( METADATA_ )
 - reading miniseed ( READ_ )
 - download instrument responses ( RESPONSE_ )
+- travel time data ( TRAVELTIME_ )
 
 Web requests are made to the colletion of Web Services at
 `<http://service.iris.edu>`_ along with event searches through the
@@ -23,6 +24,8 @@ assocaited event id. Examples are given below.
 
 Event Search
 ------------
+
+**Large Events**
 
 A simple event search is to find all M 9 earthquakes within the past
 century (100 years), assuming the date today is Oct-31-2019.  This
@@ -35,6 +38,8 @@ will search the USGS Earthquake catalog by default::
      1964-03-28T03:36:16  60.91 -147.34  25.00 9.20 mw  iscgem/official - usgs:official19640328033616_30
      1960-05-22T19:11:20 -38.14  -73.41  25.00 9.50 mw  iscgem/official - usgs:official19600522191120_30
      1952-11-04T16:58:30  52.62  159.78  21.60 9.00 mw  iscgem/official - usgs:official19521104165830_30
+
+**Using the now keyword**
 
 It can sometimes be difficult to remember today's date. Instead you
 can use the `now` keyword in place of the first date. Lets also change
@@ -49,6 +54,8 @@ Notice that the results from Global CMT, compared to the USGS, do not
 have the older events and the prefix for the event id is also
 different.
 
+**Narrow search**
+
 If we are interested in a particular event, an event time window, or
 depth range, that can be specified directly::
 
@@ -59,6 +66,8 @@ depth range, that can be specified directly::
 Station Search
 --------------
 
+**Rectangular Search in a Network**
+
 Looking for available stations is straight forward by using a region,
 network name, station name and channels.  Here we only use a small
 region and a network of `IU`::
@@ -67,6 +76,8 @@ region and a network of `IU`::
      Warning: Multiple instances of net.sta, likely mutiple epochs
      Net Sta   Lat.     Lon.      Elev.   SiteName
      IU  RAIO   46.0403 -122.8851    1.00 Rainier, Oregon, USA
+
+**Radial Search with a time window in a Network**
 
 If a particular time range or distance range is of interest, that may
 be specified as well::
@@ -78,6 +89,8 @@ be specified as well::
      IU  DAV     7.0697  125.5791  150.00 Davao, Philippines
      IU  MIDW   28.2156 -177.3698   20.00 Midway Island, USA
      IU  TIXI   71.6341  128.8667   40.00 Tiksi, Russia
+
+**Using an EventID**
 
 The previous search was for stations operating during the 2011 Tokoku
 event with an epicentral distance 30 and 35 degrees. This search can
@@ -98,6 +111,8 @@ be simplified by using and event id::
 Data Search
 -----------
 
+**Data for 1 hour after event origin**
+
 Once the event or time range and stations are identified, downloading
 data is straight forward.  First, the event is determined; here we use
 the 1994 deep Bolivian event and a station named `DOOR`. Data requests
@@ -105,9 +120,8 @@ need to specific where the data should be placed; this includes
 `miniSEED` for directly saving the miniSEED files, `SAC` for
 converting the miniSEED files into sac binary format, and `READ` for
 placing the data directly into memory.  Any combination of these
-options can be used
-
-We also specify the duration of the data be downloaded using the `DURATION` option::
+options can be used. We also specify the duration of the data be
+downloaded using the `DURATION` option::
 
      SAC> event time 1994/160 1d mag 8 gcmt
      Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
@@ -126,12 +140,14 @@ We also specify the duration of the data be downloaded using the `DURATION` opti
      XFDSN:XE_DOOR__B_H_Z     1994-06-09T00:33:45.012000 1994-06-09T01:33:44.912000  ==
      Working on file: XE.DOOR..BHZ.M.1994.160.003345.sac [ OK ]
 
+**Data download using a station file**
+
 If a stations file exists, data for these can be directly
 downloaded. Lets create the station file, then download the data.  We
 also save the data request using the `OUT` parameter in DATA_, then
-immediately use that request file::
+immediately use that request file
 
-     SAC> ** Create a station file call net_BK.txt
+Create a station file call net_BK.txt::
 
      SAC> station net BK region -125 -110 30 40 sta B*,C* out net_BK.txt
      Warning: Multiple instances of net.sta, likely mutiple epochs
@@ -140,7 +156,7 @@ immediately use that request file::
      ...
      BK  CVS    38.3453 -122.4584  295.10 Carmenet Vineyards, Sonoma, CA, USA
 
-     SAC> ** Create a request file from the station file
+Create a request file from the station file::
 
      SAC> data time 2010,235T00:00:00 1hr in net_BK.txt cha BHZ out net_BK_request.txt
      Reading station file: net_BK.txt
@@ -152,14 +168,14 @@ immediately use that request file::
 
      No Data Downloaded, use miniseed, sac, or read to download data
 
-     SAC> ** Use the request file to download data, this will automatically download to miniSSED
+Use the request file to download data, this will automatically download to miniSSED::
 
      SAC> data request net_BK_request.txt
      Data Center: NCEDC,http://www.ncedc.org
              Writing data to fdsnws.2019.10.25.18.01.01.NCEDC.mseed [956.00 KiB]
 
-     SAC> ** Magic incantations to get the most recent miniSEED file and read it
-     SAC> ***    These can be avoided by using there READ option in DATA
+Magic incantations to get the most recent miniSEED file and read it.
+These can be avoided by using there READ option in DATA::
 
      SAC> sc to FILE ls -rt *.mseed | tail -1
      SAC> getbb FILE
@@ -173,6 +189,8 @@ immediately use that request file::
      XFDSN:BK_CMB__B_H_Z      2010-08-23T00:00:00.023616 2010-08-23T00:59:59.998696  ==
      XFDSN:BK_CVS_00_B_H_Z    2010-08-23T00:00:00.019536 2010-08-23T00:59:59.994539  ==
      SAC>
+
+**Applying metadata automatically**
 
 If data is downloaded and converted to sac binary or read into memory,
 SAC will try to insert metadata for the resulting data files. ::
@@ -195,9 +213,10 @@ SAC will try to insert metadata for the resulting data files. ::
            evla = -1.382000e+01
            evdp = 6.471000e+02
 
+**Applying metadata manually**
+
 If data is downloaded without metadata, it is simple to insert that
 metadata using the METADATA_ command::
-
 
      SAC> data sta DOOR cha BHZ time 1994-06-09T00:33:45 1h read
      Data Center: IRISDMC,http://ds.iris.edu
@@ -242,4 +261,53 @@ memory. Responses can be obtained in sacpz or evalresp format.::
      SAC> response evalresp
      Writing data to RESP.XE.DOOR..BHZ [ 49.80 KiB]
 
+
+Traveltimes
+-----------
+
+Traveltimes can also be retrieved and set using the traveltime Web
+Service at IRIS. Just specific the `ONLINE` keyword to the TRAVELTIME_
+command::
+
+     SAC> data sta CMB net BK cha BHZ gcmt:369471 duration 1h read
+     Data Center: NCEDC,http://www.ncedc.org
+                    SourceID                Start sample             End sample         Gap
+     XFDSN:BK_CMB__B_H_Z      1994-06-09T00:33:45.004000 1994-06-09T01:33:44.953000  ==
+     Working on file: BK.CMB..BHZ.D.1994.160.003345.sac [ OK ]
+
+     SAC> traveltime online picks 0 phase ttall
+     traveltime: depth: 647.100 km
+     traveltime: setting phase P        at 618.4500 s [ t = 618.4500 s ] t0
+     traveltime: setting phase PKIKKIKP at 1782.5400 s [ t = 1782.5400 s ] t1
+     traveltime: setting phase PKIKPPKIKP at 2280.2400 s [ t = 2280.2400 s ] t2
+     traveltime:         phase PKIKPPKIKP truncated in kt2
+     traveltime: setting phase PKPPKP   at 2277.7900 s [ t = 2277.7900 s ] t3
+     traveltime: setting phase PKiKP    at 974.6000 s [ t = 974.6000 s ] t4
+     traveltime: setting phase PP       at 789.5900 s [ t = 789.5900 s ] t5
+     traveltime: setting phase PcP      at 632.6300 s [ t = 632.6300 s ] t6
+     traveltime: setting phase S        at 1128.5800 s [ t = 1128.5800 s ] t7
+     traveltime: setting phase SKIKKIKP at 1935.6899 s [ t = 1935.6899 s ] t8
+     traveltime: setting phase SKS      at 1160.1700 s [ t = 1160.1700 s ] t9
+     
+     SAC> lh picks
+
+       FILE: BK.CMB..BHZ.D.1994.160.003345.sac - 1
+      ---------------------------------------
+
+              NPTS = 72000
+                 B = -3.960000e-01
+                 E = 3.599554e+03
+           OMARKER = -2.1458e-09
+          T0MARKER = 618.45           (P)
+          T1MARKER = 1782.5           (PKIKKIKP)
+          T2MARKER = 1997.2           (PKIKKIKS)
+          T3MARKER = 2280.2           (PKIKPPKI)
+          T4MARKER = 2277.8           (PKPPKP)
+          T5MARKER = 974.6            (PKiKP)
+          T6MARKER = 789.59           (PP)
+          T7MARKER = 632.63           (PcP)
+          T8MARKER = 1128.6           (S)
+          T9MARKER = 1935.7           (SKIKKIKP)
+            KZDATE = JUN 09 (160), 1994
+            KZTIME = 00:33:45.400
 

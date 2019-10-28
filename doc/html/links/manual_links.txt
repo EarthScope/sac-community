@@ -10,6 +10,7 @@
 .. _sgf format:        sgf_format.html
 .. _error messages:    error_messages.html
 .. _graphics:          graphics.html
+.. _data services:     data_services.html
 .. _blackboard:        blackboard.html
 .. _sac library:       saclib.html
 .. _sac script:        sac_script.html

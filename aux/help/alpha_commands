@@ -117,7 +117,7 @@ Alphabetical Comamnd Listing
 :mathop_:        provides options for sequncing in inline expressions
 :merge_:         Merges (concantenates) a set of files to data in memory.
 :message_:       Sends a message to the user's terminal.
-:metadata_:      Search for events by region, magnitude, and date
+:metadata_:      Insert station and event metadata
 :mtw_:           Determines the measurement time window for use in 
                  subsequent measurementcommands.
 :mul_:           Multiplies each data point by a constant.
