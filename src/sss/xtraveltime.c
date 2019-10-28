@@ -90,10 +90,12 @@ set_traveltime(sac *s, int k, char *name, double tt, int lpicks, int verbose) {
     }
     if (lpicks && k < 10) {
         sac_set_float(s, k + SAC_T0, time);
-        //TN(s)[k] = time;
-        sprintf(khdr(s, 6 + k + 1), "%-8s", name);
+        sac_set_string(s, k + SAC_KT0, name);
         if (verbose) {
             fprintf(stdout, "traveltime: setting phase %-8s at %.4f s [ t = %.4f s ] t%d\n", name, (float) time, (float) tt, k);
+        }
+        if(strlen(name) > 8) {
+            printf("traveltime:         phase %s truncated in kt%d\n", name, k);
         }
         k++;
     }
@@ -304,7 +306,7 @@ xtraveltime(int *nerr) {
         }
 
         /* -- "PHASE":  the rest are phases */
-        else if (lckey("&PHASE$", 8)) {
+        else if (lckey("PHASE#S$", 10)) {
             lphase = TRUE;
         }
 
