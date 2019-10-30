@@ -6,6 +6,7 @@ intro		user_man/intro
 analysis	user_man/analysis
 graphics	user_man/graphics
 sac_macros	user_man/sac_macros
+data_access user_man/data_access
 inline		user_man/inline
 blackboard	user_man/blackboard
 error_messages  user_man/error_messages

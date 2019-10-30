@@ -15,6 +15,7 @@ Reference Manuals:
  intro    tutorial  analysis  graphics  sac_macros
  inline   blackboard  input_output  file_format SAC_Library
  SGF_format     Scripts         Error_messages
+ data_access
 
 The user manual comes in 13 parts.  The first part, intro, gives
 background information about SAC and includes a table of

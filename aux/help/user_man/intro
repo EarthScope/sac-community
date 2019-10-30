@@ -40,7 +40,7 @@ Contents of Using SAC
   - Introduction  (this file)
   - `Tutorial for New Users`_
   - `SAC Analysis Capabilities`_
-  - `Data Services`_ (Get Data, Events, Stations, Responses, Traveltimes, ...)
+  - `Data Access`_ (Get Data, Events, Stations, Responses, Traveltimes, ...)
   - `SAC Macros`_
   - `SAC Inline Functions`_
   - `SAC Data File Format`_

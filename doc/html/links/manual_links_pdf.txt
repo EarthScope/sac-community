@@ -54,8 +54,8 @@
 .. _graphics in sac: graphics-in-sac_
 .. _graphics-in-sac:
 ..
-.. _data services: data-services_
-.. _data-services:
+.. _data access: data-access_
+.. _data-access:
 ..
 .. _spe: spectral-estimation-spe_
 .. _spectral-estimation subprocess manual: spectral-estimation-spe_
