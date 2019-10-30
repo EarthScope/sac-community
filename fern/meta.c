@@ -141,26 +141,58 @@ sac_strcmp(sac *s, int hdr, char *value) {
  */
 int
 station_xml_get_double(xml *x, sac *s, int which, double *value) {
+    char start[128] = {0};
+    char end[128] = {0};
+    timespec64 tb = {0,0};
+    timespec64 te = {0,0};
+    timespec64 sb = {0,0};
+    timespec64 se = {0,0};
     char *fmt =  "//s:Network[@code='%N']/s:Station[@code='%S']"
         "/s:Channel[@locationCode='%H' and @code='%C']";
     char path[2048] = {0};
+    char path2[2048] = {0};
+
+    sac_get_time(s, SAC_B, &sb);
+    sac_get_time(s, SAC_E, &se);
+
     sac_fmt(path, sizeof(path), fmt, s);
-    switch(which) {
-    case SAC_STLA:   fern_strlcat(path, "/s:Latitude", sizeof(path)); break;
-    case SAC_STLO:   fern_strlcat(path, "/s:Longitude", sizeof(path)); break;
-    case SAC_STEL:   fern_strlcat(path, "/s:Elevation", sizeof(path)); break;
-    case SAC_STDP:   fern_strlcat(path, "/s:Depth", sizeof(path)); break;
-    case SAC_CMPAZ:  fern_strlcat(path, "/s:Azimuth", sizeof(path)); break;
-    case SAC_CMPINC: fern_strlcat(path, "/s:Dip", sizeof(path)); break;
-    }
-    if(!xml_find_double(x, NULL, path, NULL, value)) {
+    xmlXPathObject *objs = xml_find_all(x, NULL, (xmlChar *) path);
+    if(!objs) {
         return 0;
     }
-    switch(which) {
-    case SAC_CMPINC: *value = *value + 90; break;
-    default: break;
+    for(size_t i = 0; i < xpath_len(objs); i++) {
+        xmlNode *node = xpath_index(objs, i);
+        if(!xml_find_string_copy(x, node, ".", "startDate", start, sizeof start) ||
+           !xml_find_string_copy(x, node, ".", "endDate", end, sizeof end)) {
+            printf("Error finding startDate or endDate in channel for metadata\n");
+            printf("%s\n", path);
+            continue;
+        }
+        if(!timespec64_parse(start, &tb) || !timespec64_parse(end, &te)) {
+            printf("Error parsing datetime start %s end %s\n", start, end);
+            continue;
+        }
+        if(timespec64_cmp(&tb, &se) <= 0 && timespec64_cmp(&te, &sb) >= 0) {
+            memset(path2, 0, sizeof path2);
+            switch(which) {
+            case SAC_STLA:   fern_strlcat(path2, "s:Latitude", sizeof(path)); break;
+            case SAC_STLO:   fern_strlcat(path2, "s:Longitude", sizeof(path)); break;
+            case SAC_STEL:   fern_strlcat(path2, "s:Elevation", sizeof(path)); break;
+            case SAC_STDP:   fern_strlcat(path2, "s:Depth", sizeof(path)); break;
+            case SAC_CMPAZ:  fern_strlcat(path2, "s:Azimuth", sizeof(path)); break;
+            case SAC_CMPINC: fern_strlcat(path2, "s:Dip", sizeof(path)); break;
+            }
+            if(xml_find_double(x, node, path2, NULL, value)) {
+                if(which == SAC_CMPINC) {
+                    *value = *value + 90;
+                }
+                return 1;
+            } else {
+                printf("Error finding %s for %s\n", path2, path);
+            }
+        }
     }
-    return 1;
+    return 0;
 }
 
 /**
@@ -328,7 +360,7 @@ sac_matches_time(timespec64 *sb, timespec64 *se, meta_data *m) {
         return 1;
     }
     // Date Times overlap
-    if(timespec64_cmp(&tb, se) <= 0 && timespec64_cmp(&te, sb) >- 0) {
+    if(timespec64_cmp(&tb, se) <= 0 && timespec64_cmp(&te, sb) >= 0) {
         return 1;
     }
     // Date Times do not overlap
@@ -377,9 +409,12 @@ sac_fill_meta_data_from_xml(sac **files, xml *x, int verbose) {
         }
         int rv = 0;
         for(int j = 0; j < 6; j++) {
+            int rvi = 0;
             float v = 0.0;
-            rv += station_xml_get_float(x, s, fid[j], &v);
-            sac_set_float(s, fid[j], v);
+            if((rvi = station_xml_get_float(x, s, fid[j], &v))) {
+                sac_set_float(s, fid[j], v);
+            }
+            rv += rvi;
         }
         if(!verbose) {
             printf(" [ ");
@@ -454,10 +489,10 @@ station_meta_parse(char *file, int verbose, float *seed_cmpinc) {
         }
         if(delim[0] == 0) {
             if(strchr(line,'|')) {
-                delim[0] = '|';
+                delim[0] = '|'; // miniseed (inclination)
                 *seed_cmpinc = 90.0;
             } else {
-                delim[0] = ',';
+                delim[0] = ','; // sac convection (dip)
                 *seed_cmpinc = 0.0;
             }
         }
@@ -637,15 +672,16 @@ xml_merge_results(result *r1, result *r2, char *path) {
     }
 
     // Convert requested data to xml
-    if(result_is_ok(r1) && !(x1 = xml_new(result_data(r1), result_len(r1)))) {
+    if(r1 && result_is_ok(r1) && !(x1 = xml_new(result_data(r1), result_len(r1)))) {
         printf("Error parsing xml\n");
         goto done;
     }
-    if(result_is_ok(r2) && !(x2 = xml_new(result_data(r2), result_len(r2)))) {
+    if(r2 && result_is_ok(r2) && !(x2 = xml_new(result_data(r2), result_len(r2)))) {
         printf("Error parsing xml\n");
         xml_free(x1);
         goto done;
     }
+
     if(!x1 && !x2) {
         // If neither xml exists, return
         return NULL;

@@ -539,6 +539,26 @@ stations_write_to_file(station **stat, char *filename, int show_time) {
     return 1;
 }
 
+
+int
+channels_write_to_file(station **stat, char *filename) {
+    char tmp[2048] = {0};
+    FILE *fp = NULL;
+    size_t n = 0;
+    if(!(fp = fopen(filename, "w"))) {
+        printf("Error opening station file for writing: %s\n", filename);
+        return 0;
+    }
+    channel_header(fp);
+    n = xarray_length(stat);
+    for(size_t i = 0; i < n; i++) {
+        fprintf(fp, "%s\n", channel_to_string(stat[i], tmp, sizeof(tmp)));
+    }
+    fclose(fp);
+    return 1;
+}
+
+
 /**
  * @brief      Request station data
  *
@@ -549,11 +569,13 @@ stations_write_to_file(station **stat, char *filename, int show_time) {
  */
 void
 station_request(int *nerr) {
-    char tmp[256] = {0};
+    char tmp[2048] = {0};
     char net[128] = {0}, cha[128] = {0}, loc[128] = {0}, sta[128] = {0};
     int verbose = 0;
     int epochs = 0;
     int quiet = 0;
+    int output_level = 1;
+    char keys_level[][9] = {"station ", "channel "};
     int show_time = 0;
     char filename[256] = { 0 };
     Event *ev = NULL;
@@ -573,6 +595,8 @@ station_request(int *nerr) {
         if(0) {  }
         /* Verbose for request data */
         else if(lckey("verbose$", -1)) { verbose = 1; }
+        /* Channel level output */
+        else if(lklist("level$", -1, (char *) keys_level, 9, 2, &output_level)) { }
         /* To show the station data */
         else if(lckey("quiet", -1)) { quiet = 1; }
         /* To show individual epochs for a station */
@@ -635,6 +659,7 @@ station_request(int *nerr) {
             cresp();
         }
     }
+
     if(set == 0) {
         error(*nerr = 3264, "No station search parameters given\n");
         goto error;
@@ -652,7 +677,7 @@ station_request(int *nerr) {
     r = request_get(sr);
 
     request_set_url(sr, STATION_IRIS_PH5);
-    rph5 = request_get(sr);
+    //rph5 = request_get(sr);
 
     if(!result_is_ok(r) && !result_is_ok(rph5)) {
         printf("%s", result_error_msg(r));
@@ -662,15 +687,28 @@ station_request(int *nerr) {
     if(!(x = xml_merge_results(r, rph5, "//s:Network"))) {
         goto error;
     }
-    if(!(s = station_xml_parse(x, epochs, verbose))) {
-        goto error;
-    }
-    if(!quiet) {
-        // Print out Station Data
-        station_header(stdout, show_time);
-        for(size_t i = 0; i < xarray_length(s); i++) {
-            printf("%s\n", station_to_string(s[i], show_time,
-                                                  tmp, sizeof(tmp)));
+    if(output_level == 1) {
+        if(!(s = station_xml_parse(x, epochs, verbose))) {
+            goto error;
+        }
+        if(!quiet) {
+            // Print out Station Data
+            station_header(stdout, show_time);
+            for(size_t i = 0; i < xarray_length(s); i++) {
+                printf("%s\n", station_to_string(s[i], show_time,
+                                                 tmp, sizeof(tmp)));
+            }
+        }
+    } else if(output_level == 2) {
+        if(!(s = channel_xml_parse(x, verbose))) {
+            goto error;
+        }
+        if(!quiet) {
+            // Print out Channel Data
+            channel_header(stdout);
+            for(size_t i = 0; i < xarray_length(s); i++) {
+                printf("%s\n", channel_to_string(s[i], tmp, sizeof tmp));
+            }
         }
     }
     // Write Station Data to a File if desired, xml or text
@@ -679,7 +717,11 @@ station_request(int *nerr) {
         if(ext && strcmp(ext, "xml") == 0) {
             result_write_to_file_show(r, filename);
         } else {
-            stations_write_to_file(s, filename, show_time);
+            if(output_level == 1) {
+                stations_write_to_file(s, filename, show_time);
+            } else if(output_level == 2) {
+                channels_write_to_file(s, filename);
+            }
         }
     }
     for(size_t i = 0; i < xarray_length(s); i++) {

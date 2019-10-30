@@ -13,14 +13,24 @@ typedef struct station station;
  * @ingroup Stations
  */
 struct station {
-    char *net;
-    char *sta;
+    char net[8];
+    char sta[8];
+    char loc[8]; //
+    char cha[8];//
     double stla;
     double stlo;
     double stel;
-    char *sitename;
+    double stdp;//
+    double az;//
+    double dip; //// Angle from horizontal (-90 is up)
+    char sensor_description[1024]; //
+    double scale; //
+    double scale_freq; //
+    char scale_units[64]; //
+    double sample_rate; //
     timespec64 start;
     timespec64 end;
+    char sitename[1024];
 };
 
 
@@ -32,3 +42,6 @@ station ** station_xml_parse_from_raw(char *data, size_t data_len, int epochs, i
 station ** station_xml_parse(xml *x, int epochs, int verbose);
 void       stations_write(station **s, int show_time, FILE *fp);
 
+station ** channel_xml_parse(xml *x, int verbose);
+void       channel_header(FILE *fp);
+char *     channel_to_string(station *s, char *dst, size_t n);

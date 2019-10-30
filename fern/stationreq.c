@@ -47,7 +47,7 @@ station_req_new() {
 void
 station_req_init(request *r) {
     request_set_url(r, STATION_IRIS);
-    request_set_arg(r, "level", arg_string_new("station"));
+    request_set_arg(r, "level", arg_string_new("channel"));
     request_set_arg(r, "format", arg_string_new("xml"));
     request_set_arg(r, "nodata", arg_int_new(404));
 }

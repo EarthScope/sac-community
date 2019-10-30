@@ -55,10 +55,12 @@ INPUT
    :channel: Set a collection of channels. Accepts lists and wildcards.
 
    :in: Input station file for building the data request
+       File format is space delimited with Network and Station in the
+       1st and 2nd columns. This file can be obtained from STATION_.
 
    :out: Output request file for saving the data request to run later
 
-   :prefix: Prefix for miniseed data files 
+   :prefix: Prefix for miniseed data files
 
    :sac: Convert the miniseed data into sac files and save.  Station meta
       data is obtained for the stations. If an event is specified, event
@@ -153,7 +155,18 @@ We can then use the eventid at the end of the line to request data::
   Data Center: IRISDMC,http://ds.iris.edu
   Writing data to fdsnws.2019.07.12.10.53.30.IRISDMC.mseed [584.00 KiB]
 
-It can be useful to see what you may be download first; particularly if you forget
+An input station file using the `IN` keyword can also be used to request data::
+
+     SAC> station net YE sta SPOLE cha BHZ level station out southpole.txt
+     Net Sta   Lat.     Lon.      Elev.   SiteName
+     YE  SPOLE -89.9300  144.4400 2850.00 South Pole, Antarctica
+
+     SAC> data time 2014/03/01 +10m cha BHZ in southpole.txt miniseed
+     Reading station file: southpole.txt
+     Data Center: IRISDMC,http://ds.iris.edu
+             Writing data to fdsnws.2019.10.30.19.31.34.IRISDMC.mseed [ 22.00 KiB]
+
+It can be useful to see what may be download first; particularly if you forget
 to specify your desired channels and mistakenly download 10s of channels you are
 not interested in.
 
