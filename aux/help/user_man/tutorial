@@ -358,13 +358,13 @@ files used in analysis were at most several minutes in duration.  Now
 thanks to GPS and advances in both hardware and software, many
 experiments routinely have sampling rates of 0.001 s, and single SAC
 data files can be up to hours/days in duration.  If SAC is to remain
-useful for such data sets, single precision is not sufficient.  SAC
-v102.0 includes double precision for both time and distance
+useful for such data sets, single-precision is not sufficient.  SAC
+v102.0 includes double-precision for both time and distance
 calculations using header variables, and does so in a way that
 maximizes compatibility so that existing SAC data files can still be
 used - but also upgraded.
 
-In this document, we discuss floating-point precision in SAC and give
+We discuss floating-point precision in SAC and give
 examples showing errors at large times due to the limitations of
 single-precision for header variables and how these have been resolved
 using the modified SAC data file structure introduced in v102.0.
@@ -443,10 +443,9 @@ time picks T0 and T1 overlap at that same time as the symbols).
 
 In 2017 the problems with the time plot labels and waveform times were
 fixed, which was possible with the existing SAC data-file format
-because the calculations of those times are done `internally` so could
+because the calculations of those times are done *internally* so could
 be done in double precision.  Because B, DELTA, T0 ...  T9 are header
-variables, they could not be changed to double precision without
-changing the file structure.
+variables, they could not be changed to double precision.
 
 .. figure:: ./precision_fig3.png
    :width: 90%
@@ -458,29 +457,24 @@ Figure (3) uses double precision for the internal calculations for times but use
 
 **Upgrade To Double Precision**
 
-Header variable NVHDR is the SAC version number and is used by SAC
-when reading the SAC data file.  For the past several decades `NVHDR = 6`.
-In SAC v102.0, the file structure as been changed to fix the
+Header variable NVHDR is the SAC version number.  For the past several decades 
+*NVHDR = 6*.  In SAC v102.0, the file structure has been changed to fix the
 precision problem.  The change is done in such a way that existing SAC
-files can be read and processed as before.  However, after an older is
-read in, if the user types **ch NVHDR 7**, time picks will be
-calculated using double-precision so picks will be displayed
-correctly.
+files can be read and processed as before.
 
-If a SAC data file with `NVHDR = 6` is read into memory using v102.0, a
-"footer" is automatically created with double-precision copies of the
-22 time/distance header values.  Getting a double precision can only be done
-if `NVHDR = 7`, otherwise the single precision value is returned; this
-is true for all calculations and header access, e.g. LISTHDR_.
-Setting header values always begins in double precision (and in
-libsacio). This will result in truncated precison in the single-precision
-header, but double precision values will be retained.
+The SAC data-file structure when NVDHR = 7 is discussed in FILE_FORMAT_; 
+when NVDHR = 7 there is a "footer" in the file structure that contains 
+double-precision copies of 22 time/distance (single-precision) header variables.
+These 22 variables are DELTA, B, E, O, A, T0 ... T9, F, EVLO, EVLA, STLO, STLA,
+SB, and SDELTA. The names are the same as in the header; SAC distinguishes 
+between the single- and double-precision variables in internal calculations by 
+their location in the file. 
 
-The 22 double-precision variables in the footer are `DELTA`,
-`B`, `E`, `O`, `A`, `T0` ... `T9`, `F`, `EVLO`, `EVLA`, `STLO`,
-`STLA`, `SB`, and `SDELTA`. The names are the same as in the header;
-SAC distinguishes between use of single- and double-precision
-variables in internal calculations by the value of `NVHDR`.
+If a SAC file with NVHDR = 6 is read into memory using SAC  v102.0, 
+double-precision copies of those 22 header variables are stored in memory, but 
+the single-precision version of those header variables is still used so long as 
+NVHDR = 6. However, if one enters *CH NVDHR 7*, one has the potential of 
+changing the precision of variable like DELTA for internal calculations.
 
 .. important::
    Switching a file from `NVHDR = 6` to `7` does not magically produce
@@ -491,51 +485,42 @@ variables in internal calculations by the value of `NVHDR`.
 SAC v102.0 introduces `OUTPUT_FORMAT` which can change the format for
 floating-point variables in SAC commands LISTHDR_, MESSAGE_, and EVALUATE_.
 
-An simple example of setting and getting double precision values::
+Setting `NVHDR = 7` leads to time picks being calculated and stored in
+double precision.  Using the default for `OUTPUT_FORMAT` does not show
+enough significant figures to distinguish between the values for NVHDR
+`6` or `7`.  Using *longE* for the output format shows the difference::
 
-    SAC> fg
+    SAC> fg inpulse
     SAC> setbb OUTPUT_FORMAT longE
     SAC> ch t0 (1.0/3.0)
     SAC> lh nvhdr t0
-
-      FILE: IMPULSE - 1
-     -------------
-
-         nvhdr = 6
-            t0 = 3.333333432674408e-01
+        nvhdr = 6
+        t0 = 3.333333432674408e-01
     SAC> ch nvhdr 7
     SAC> lh nvhdr t0
+        nvhdr = 7
+        t0 = 3.333333333333333e-01
 
-
-      FILE: IMPULSE - 1
-     -------------
-
-         nvhdr = 7
-            t0 = 3.333333333333333e-01
-
-
-If one ran the macro in SAC v102.0 and entered **ch NVHDR 7** and then
-`p1`, one gets the same plot as is shown in Fig. (3).  If one then
-enters `setbb output_format longE ; lh`, one can see the differences in
-`T0`, `T1`, `T2`, etc.  See GETBB_ for an example.
+If one ran the above macro in SAC v102.0 and entered *CH NVHDR 7 ; P1*
+one gets the same plot as is shown in Fig. (3).  If one then enters *SETBB 
+OUTPUT_FORNMAT longE ; LH*, one can see the differences in  T0, T1, T2, etc.
+See GETBB_ for more information about OUTPUT_FORMAT.  
 
 .. figure:: ./precision_fig4.png
    :width: 90%
    :figclass: align-center
 
-   Fig. (4):  SAC v102.0 with *ch NVHDR 7* preceding `p1`.
+   Fig. (4):  SAC v102.0 with *ch NVHDR 7* preceding *P1*.
 
 
 In Figure 4, the times/picks, and tic-marks are all lined up.
 
-
 **Distance And Geographic Variables Precision**
 
-Thee are several distance-related variables in the header, but `DIST`,
-`AZ`, `BAZ`, and `GCARC` are not used as input for internal
-computation; they are derived from the header variables `EVLA`,
-`EVLO`, `STLA`, and `STLO`, which is why only those four are in the
-footer.
+Thee are several distance-related variables in the header, but DIST,
+AZ, BAZ, and GCARC are not used as input for internal computation;
+they are derived from the header variables EVLA, EVLO STLA, and STLO,,
+which is why only those four are in the footer.
 
 Distance precision using real*4 (32-bits) is less restrictive than for time
 precision. Half the circumference of the Earth is about 20,000 km, so
@@ -561,3 +546,7 @@ Integer header variable `NPTS` has 4 bytes (32 bits).  The SAC header
 uses signed integers, so the maximum value is :math:`2^{31}` - 1 =
 2,147,483,647.  If thesampling rate is 0.001 s, the maximum record
 length is 24.85 days.
+
+LATEST REVISION
+---------------
+   Version 102.0

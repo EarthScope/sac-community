@@ -242,6 +242,7 @@
 .. _sac data file format:  ../manual/file_format.html
 .. _sac_data_file_format:  ../manual/file_format.html
 .. _inline:  ../manual/inline.html
+.. _tutorial:  ../manual/tutorial.html
 .. _sac_macros:  ../manual/sac_macros.html
 .. _using the sac library:  ../manual/saclib.html
 

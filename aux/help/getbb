@@ -100,7 +100,7 @@ EXAMPLES
      PLOT
 
    The text file would contain pairs of x-y data points, one per line, for each
-   of the vertical data files.  The final GETBB_ command redirecting the output
+   of the vertical data files.  The final GETBB command redirecting the output
    back to the terminal is needed in order to close the text file and dump the
    buffer.
    
@@ -111,28 +111,10 @@ OUTPUT_FORMAT
    low precision.  OUTPUT_FORMAT, introduced in v102.0, allows one to see the 
    values in higher precision.  The command syntax is setbb output_format xxx, 
    where xxx can be default (%g), short (%.4f), long (%.15f), shortG (%.5g), 
-   longG (%.15g), shortE (%.4e), longE(%.15e), and off (reverts to old SAC 
-   format).  
+   longG (%.15g), shortE (%.4e), longE(%.15e), and off (reverts to old
+   SAC format).  For examples showing the utility of OUTPUT_FORMAT,
+   see the section on *Floating-Point Precision in SAC* in TUTORIAL_.
    
-   As an example to show the utility of OUTPUT_FORMAT, we start after running 
-   the macro given in SAC PRECISION::
-   
-      SAC> ch nvhdr 7
-      SAC> lh
-        NPTS = 13                 B = 1.728000e+05
-        E = 1.728001e+05          T0MARKER = 1.728e+05
-        T1MARKER = 1.728e+05      T2MARKER = 1.728e+05
-      SAC> setbb OUTPUT_FORMAT longE
-      SAC> lh
-        NPTS = 13                         B = 1.728000000000000e+05
-        E = 1.728001200000000e+05         T0MARKER = 1.728000099999998e+05
-        T1MARKER = 1.728000199999996e+05  T2MARKER = 1.728000299999993e+05
-        
-  Setting NvHDR = 7 leads to the time picks being calculated and stored in 
-  double precision.  Using the default for OUTPUT_FORMAT does not show 
-  enough significant figures to distinguish among the time picks.  Using longE 
-  distinguishes among the time picks.
-
 SEE COMMANDS
 ------------
    SETBB_, EVALUATE_

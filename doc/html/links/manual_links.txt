@@ -1,6 +1,7 @@
 
 .. _tutorial:          tutorial.html
 .. _todo:              todo.html
+.. _file_format:       file_format.html
 .. _analysis:          analysis.html
 .. _inline:            inline.html
 .. _macros:            macros.html
