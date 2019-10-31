@@ -30,7 +30,7 @@ libfern_a_SOURCES = cJSON.c cJSON.h \
 										stationreq.c stationreq.h \
 										strip.c strip.h \
 										xml.c xml.h \
-                    fern.h \
+                    fern.h urls.h \
                     array.h request.h event.h station.h \
                     stationreq.h datareq.h meta.h \
                     miniseed_sac.h cprint.h fern.h

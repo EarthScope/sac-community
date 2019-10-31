@@ -1,0 +1,14 @@
+
+This is a direct copy of mini-xml release 2.12 with the following
+modifications:
+
+ o Rename Makefile.in => Makefile.in.orig
+
+ o Rename configure => configure.orig
+
+ o Add our own Makefile, Makefile.nmake, Makefile.am, config.h.ms,
+   config.h.unix, README.evalresp
+
+ o Remove 'doc' directory to save on volume
+
+Our build target is libmxmlev.a instead of the default libmxml.a.

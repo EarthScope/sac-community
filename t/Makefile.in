@@ -740,10 +740,11 @@ AUTOMAKE_OPTIONS = no-dependencies #dejagnu
 # Options for testing the compiled code directly
 #
 SAC_INCLUDES = -I$(top_srcdir)/inc  -I$(top_srcdir) -I../include
-LDADD = -L../src/ -lsac_all -lturtle -lsac_all -levalresp \
-	-lSMnonOracleFuncs -lSacOracleStubFuncs -licm $(am__append_1) \
-	$(am__append_4) $(SAC_GRAPHICS) $(FORMAT_LIBS) $(am__append_5) \
-	-L. -lunit ../src/libsacio.a ../libmseed/libmseed.a $(LIBCURL)
+LDADD = -L../src/ -lsac_all -lturtle -lsac_all -lSMnonOracleFuncs \
+	-lSacOracleStubFuncs -licm -L../evalresp -levalresp -lspline \
+	-lmxmlev -levalresp_log $(am__append_1) $(am__append_4) \
+	$(SAC_GRAPHICS) $(FORMAT_LIBS) $(am__append_5) -L. -lunit \
+	../src/libsacio.a ../libmseed/libmseed.a $(LIBCURL)
 FORMAT_LIBS = $(xpm_LIBS) $(png_LIBS) $(zlib_LIBS) $(xft_LIBS) $(XML_LIBS)
 #SAC_GRAPHICS     += -lsac_osx
 SAC_GRAPHICS = -L.. $(am__append_3) -lsgf -lturtle -lsac_all

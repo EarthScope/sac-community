@@ -12,8 +12,9 @@ AUTOMAKE_OPTIONS  = subdir-objects no-dependencies
 
 SAC_INCLUDES      = -I$(top_srcdir)/inc -I$(top_srcdir)
 FORMAT_CFLAGS     = $(xpm_CFLAGS) $(png_CFLAGS) $(zlib_CFLAGS) $(XML_CPPFLAGS)
+EVALRESP_CFLAGS   = -I$(top_srcdir)/evalresp/libsrc
 # Compilation Flags
-AM_CFLAGS         = -fPIC $(DEBUG) $(COVERAGE) $(OPTIM) $(xft_CFLAGS) $(FORMAT_CFLAGS) $(X_CFLAGS) $(SAC_INCLUDES) $(LIBCURL_CPPFLAGS)
+AM_CFLAGS         = -fPIC $(DEBUG) $(COVERAGE) $(OPTIM) $(xft_CFLAGS) $(FORMAT_CFLAGS) $(X_CFLAGS) $(SAC_INCLUDES) $(LIBCURL_CPPFLAGS) $(EVALRESP_CFLAGS)
 
 AM_CXXFLAGS       = $(SAC_INCLUDES)
 # Compiled Programs 
@@ -38,11 +39,10 @@ if X11_APP
 endif
 
 # Libraries to be installed
-lib_LIBRARIES     = libsacio.a libsac.a libevalresp.a
+lib_LIBRARIES     = libsacio.a libsac.a
 
 # Libraries not installed
 noinst_LIBRARIES  = libsac_all.a \
-		    libevalresp.a \
 		    libSMnonOracleFuncs.a \
 		    libsac_check.a \
 		    libsgf.a libturtle.a libicm.a libmsg.a libvars.a
@@ -71,9 +71,9 @@ endif
 
 sac_LDADD        += ../fern/libfern.a ../fern/libpile.a libsac_all.a \
 		    libturtle.a \
-		    libevalresp.a \
 		    libSMnonOracleFuncs.a \
-				../libmseed/libmseed.a ../sacio/libsacio_bsd.a
+				../libmseed/libmseed.a ../sacio/libsacio_bsd.a \
+        -L../evalresp -levalresp -lspline -lmxmlev -levalresp_log
 
 if WIN_APP
   sac_LDADD        += -lgdiplus 
@@ -113,7 +113,7 @@ EXTRA_DIST       = describedirs gd3.x11/sac.bitmap \
 		   SeisMgr/dbselect/dbHelpQuery.pc \
 		   SeisMgr/dbselect/dbQuery.pc \
 		   SeisMgr/dbselect/dbQuerySL.pc \
-		   evalresp/evalresp.c gam/test.c \
+	     gam/test.c \
 		   icm/oracle/dbFuncs.pc \
 	       icm/oracle/dbaseCommand.c icm/thisfft.c mat/stationList.c \
 		   ncpf/hrtoe.c ncpf/readableToEpoch.c \
@@ -126,13 +126,6 @@ if WIN_APP
 	$(WINDRES) $< -o $@
 endif
 
-
-evalresp/evresp.o: $(srcdir)/evalresp/evresp.c
-	$(COMPILE) -DLIB_MODE -DLOG_LABEL -c $(srcdir)/evalresp/evresp.c -o $@
-evalresp/parse_fctns.o: $(srcdir)/evalresp/parse_fctns.c
-	$(COMPILE) -DLIB_MODE -c $(srcdir)/evalresp/parse_fctns.c -o $@
-evalresp/string_fctns.o: $(srcdir)/evalresp/string_fctns.c
-	$(COMPILE) -DLIB_MODE -c $(srcdir)/evalresp/string_fctns.c -o $@
 
 libmsg_a_SOURCES = 	msg/apcmsg.c msg/apcmsg2.c \
 	msg/apcmsgnum.c msg/apimsg.c msg/aplmsg.c msg/clrmsg.c \
@@ -210,16 +203,6 @@ libSMOracleFuncs_a_SOURCES = SeisMgr/smDBdata.c \
 #	SeisMgs/dbselect/dbQuerySL.c \
 #	SeisMgr/dbselect/dbQueryHelp.c
 
-libevalresp_a_SOURCES = evalresp/alloc_fctns.c evalresp/calc_fctns.c \
-	evalresp/error_fctns.c evalresp/evr_spline.c evalresp/evresp.c \
-	evalresp/file_ops.c evalresp/parse_fctns.c evalresp/print_fctns.c \
-	evalresp/regerror.c evalresp/regexp.c evalresp/regsub.c \
-	evalresp/resp_fctns.c evalresp/string_fctns.c \
-	evalresp/evr_spline.h evalresp/evresp.h evalresp/regexp.h \
-	evalresp/regmagic.h evalresp/x2r_log.c evalresp/x2r_xml.c \
-	evalresp/x2r_ws.c evalresp/x2r.h evalresp/x2r_log.h evalresp/x2r_ws.h \
-	evalresp/x2r_xml.h \
-	evalresp/evalresp_sac.c
 
 libsac_a_SOURCES = co/complex.c bot/indexb.c bot/indexa.c \
   string/strings.c co/fstrncpy.c \

@@ -1,13 +1,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <math.h>
 #include <sys/stat.h>
 #include <ctype.h>
 
 #include "sac_complex.h"
 #include "amf.h"
 #include "mach.h"
-#include "../evalresp/evresp.h"
+
+#include "evalresp/public.h"
+#include "evalresp/evresp.h"
+
 #include "hdr.h"
 #include "extfunc.h"
 #include "EVRESPnames.h"
@@ -52,13 +56,13 @@ is_xml_file(char *file) {
 }
 
 void
-InterpolateFromResp(struct response *resp, double *freqs, int nfreqs,
+InterpolateFromResp(evalresp_response *resp, double *freqs, int nfreqs,
                     double *tmpRe, double *tmpIm) {
     double f, df;
     int i, k;
     double *zf = resp->freqs;
     int nf = resp->nfreqs;
-    struct evr_complex *z = resp->rvec;
+    evalresp_complex *z = resp->rvec;
     k = 0;
     for (i = 0; i < nfreqs; i++) {
         f = freqs[i];
@@ -120,10 +124,10 @@ InterpolateArrays(double *freqs, int nfreqs, double *tmpRe, double *tmpIm,
 /* ----------------------------------------------------------------- */
 
 void
-FillArrays(int nfreqs, struct response *first, double *xre, double *xim) {
+FillArrays(int nfreqs, evalresp_response *first, double *xre, double *xim) {
     int i;
-    struct response *resp;
-    struct evr_complex *output;
+    evalresp_response *resp;
+    evalresp_complex *output;
 
     resp = first;
     output = resp->rvec;
@@ -268,7 +272,7 @@ EvrespGateway(int nfreq, double delfrq, double xre[], double xim[],
     int start_stage = -1, stop_stage = 0;
     double incr, freq_lims[2], *freqs;
     char *verbose = 0;
-    struct response *first;
+    evalresp_response *first;
     char *file = 0;
     char rtype[] = "CS";
     double val;
@@ -323,10 +327,9 @@ EvrespGateway(int nfreq, double delfrq, double xre[], double xim[],
 
 /* allocate space for the frequencies and fill with appropriate values */
 
-    freqs = alloc_double(nfreqs);
+    freqs = calloc(nfreqs, sizeof(double));
     for (i = 0, val = freq_lims[0]; i < nfreqs; i++) {
-        freqs[i] = val;
-        val += incr;
+        freqs[i] = val + ((double) i * incr);
     }
 
     /* Get network name. */
@@ -429,7 +432,7 @@ EvrespGateway(int nfreq, double delfrq, double xre[], double xim[],
         }
         if(needs_interp == 0) {
             for(int i = 0; i < nfreqs; i++) {
-                if(first->freqs[i] != freqs[i]) {
+                if(fabs(first->freqs[i] - freqs[i]) > 1e-6) {
                     needs_interp = 1;
                     break;
                 }
@@ -449,7 +452,7 @@ EvrespGateway(int nfreq, double delfrq, double xre[], double xim[],
         free(tmpIm);
     }
     free(freqs);
-    free_response(first);
+    evalresp_free_response(&first);
     return 0;
 
 }

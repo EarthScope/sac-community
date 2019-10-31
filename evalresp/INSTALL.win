@@ -1,0 +1,31 @@
+
+To compile evalresp from this distribution, follow these steps (these
+instructions were tested on Windows 10 with Visual Studio 12, but a
+similar approach has worked with earlier evalresp releases on earlier
+Windows):
+
+0. Prepare the target environment.  You must have installed:
+
+   * Visual Studio 12 (VS2013) (the free community version is fine)
+
+1. Unzip the distribution file.  The simplest way to do this is to use
+   the file explorer: right click and select "Expand all".
+
+2. Open the Visual Studio command line tools by typing "Visual Studio
+   Tools" in the search bar, selecting the application, and then
+   clicking on "Developer Command Prompt for VS2013".
+
+3. In the command prompt:
+
+   cd working\directory\evalresp-[version]\
+   NMAKE /F Makefile.nmake
+
+4. This should build the executables.  You must then configure windows
+   PATH in the usual way before running them.
+
+   For example, from the command line, in the same directory where you
+   built the code, for a quick test:
+
+   set PATH=%PATH%;..\src
+   .\evalresp
+

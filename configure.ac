@@ -270,7 +270,7 @@ fi
 AC_DEFINE_UNQUOTED([SACAUX], ["${aux}"], [Define the SACAUX directory])
 
 # Output the Makefiles
-AC_OUTPUT(src/Makefile utils/Makefile libedit/Makefile libmseed/Makefile t/Makefile Makefile sacio/Makefile fern/Makefile )
+AC_OUTPUT(src/Makefile utils/Makefile libedit/Makefile libmseed/Makefile t/Makefile Makefile sacio/Makefile fern/Makefile evalresp/Makefile )
 
 DISPLAYSTR=""
 if test x${display} = xx11; then

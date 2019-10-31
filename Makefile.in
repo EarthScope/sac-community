@@ -200,7 +200,7 @@ am__define_uniq_tagged_files = \
 ETAGS = etags
 CTAGS = ctags
 CSCOPE = cscope
-DIST_SUBDIRS = libedit libmseed sacio fern src utils t
+DIST_SUBDIRS = libedit libmseed evalresp fern sacio src utils t
 am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/config/compile \
 	$(top_srcdir)/config/config.guess \
 	$(top_srcdir)/config/config.sub \
@@ -398,7 +398,7 @@ zlib_LIBS = @zlib_LIBS@
 AUTOMAKE_OPTIONS = no-dependencies
 
 # Subdirectories to MAKE recursively
-SUBDIRS = $(am__append_1) libmseed sacio fern src utils t
+SUBDIRS = $(am__append_1) libmseed evalresp fern sacio src utils t
 SACAUX_WIN = winaux
 SACAUX_UNIX = aux
 @WINAUX_NOT_AUX_FALSE@SACAUX_DIR = $(SACAUX_UNIX)

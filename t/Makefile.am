@@ -25,10 +25,11 @@ CFLAGS          += $(DEBUG) $(COVERAGE) $(OPTIM) -Wall \
 			 -DTOP_SRCDIR=\"$(top_srcdir)\"
 
 LDADD            = -L../src/ -lsac_all -lturtle -lsac_all \
-									 -levalresp \
 									 -lSMnonOracleFuncs \
 									 -lSacOracleStubFuncs \
-									 -licm
+									 -licm \
+                   -L../evalresp -levalresp -lspline -lmxmlev -levalresp_log
+
 if READLINE_EDITLINE
 LDADD            += ../libedit/lib/libedit.a
 CFLAGS           += -I../libedit/include

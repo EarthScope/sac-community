@@ -226,18 +226,6 @@ am_libSacOracleStubFuncs_a_OBJECTS = SeisMgr/smNoDBstubs.$(OBJEXT) \
 	icm/nonOracle/dbaseCommand.$(OBJEXT)
 libSacOracleStubFuncs_a_OBJECTS =  \
 	$(am_libSacOracleStubFuncs_a_OBJECTS)
-libevalresp_a_AR = $(AR) $(ARFLAGS)
-libevalresp_a_LIBADD =
-am_libevalresp_a_OBJECTS = evalresp/alloc_fctns.$(OBJEXT) \
-	evalresp/calc_fctns.$(OBJEXT) evalresp/error_fctns.$(OBJEXT) \
-	evalresp/evr_spline.$(OBJEXT) evalresp/evresp.$(OBJEXT) \
-	evalresp/file_ops.$(OBJEXT) evalresp/parse_fctns.$(OBJEXT) \
-	evalresp/print_fctns.$(OBJEXT) evalresp/regerror.$(OBJEXT) \
-	evalresp/regexp.$(OBJEXT) evalresp/regsub.$(OBJEXT) \
-	evalresp/resp_fctns.$(OBJEXT) evalresp/string_fctns.$(OBJEXT) \
-	evalresp/x2r_log.$(OBJEXT) evalresp/x2r_xml.$(OBJEXT) \
-	evalresp/x2r_ws.$(OBJEXT) evalresp/evalresp_sac.$(OBJEXT)
-libevalresp_a_OBJECTS = $(am_libevalresp_a_OBJECTS)
 libicm_a_AR = $(AR) $(ARFLAGS)
 libicm_a_LIBADD =
 am_libicm_a_OBJECTS = icm/acc.$(OBJEXT) icm/bbdisp.$(OBJEXT) \
@@ -829,7 +817,7 @@ am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 @WIN_APP_TRUE@am__DEPENDENCIES_5 = $(am__DEPENDENCIES_2)
 sac_DEPENDENCIES = libsac_all.a libsgf.a libicm.a $(am__append_5) \
 	$(am__append_6) $(am__append_7) ../fern/libfern.a \
-	../fern/libpile.a libsac_all.a libturtle.a libevalresp.a \
+	../fern/libpile.a libsac_all.a libturtle.a \
 	libSMnonOracleFuncs.a ../libmseed/libmseed.a \
 	../sacio/libsacio_bsd.a $(am__DEPENDENCIES_1) libsac_all.a \
 	libsgf.a $(am__append_10) $(am__append_12) \
@@ -890,8 +878,8 @@ am__v_OBJCLD_0 = @echo "  OBJCLD  " $@;
 am__v_OBJCLD_1 = 
 SOURCES = $(libSMOracleFuncs_a_SOURCES) \
 	$(libSMnonOracleFuncs_a_SOURCES) \
-	$(libSacOracleStubFuncs_a_SOURCES) $(libevalresp_a_SOURCES) \
-	$(libicm_a_SOURCES) $(libmsg_a_SOURCES) $(libsac_a_SOURCES) \
+	$(libSacOracleStubFuncs_a_SOURCES) $(libicm_a_SOURCES) \
+	$(libmsg_a_SOURCES) $(libsac_a_SOURCES) \
 	$(libsac_all_a_SOURCES) $(libsac_check_a_SOURCES) \
 	$(libsac_osx_a_SOURCES) $(libsac_win_a_SOURCES) \
 	$(libsac_x11_a_SOURCES) $(libsacio_a_SOURCES) \
@@ -899,8 +887,8 @@ SOURCES = $(libSMOracleFuncs_a_SOURCES) \
 	$(libvars_a_SOURCES) $(sac_SOURCES)
 DIST_SOURCES = $(libSMOracleFuncs_a_SOURCES) \
 	$(libSMnonOracleFuncs_a_SOURCES) \
-	$(libSacOracleStubFuncs_a_SOURCES) $(libevalresp_a_SOURCES) \
-	$(libicm_a_SOURCES) $(libmsg_a_SOURCES) $(libsac_a_SOURCES) \
+	$(libSacOracleStubFuncs_a_SOURCES) $(libicm_a_SOURCES) \
+	$(libmsg_a_SOURCES) $(libsac_a_SOURCES) \
 	$(libsac_all_a_SOURCES) $(libsac_check_a_SOURCES) \
 	$(am__libsac_osx_a_SOURCES_DIST) $(libsac_win_a_SOURCES) \
 	$(libsac_x11_a_SOURCES) $(libsacio_a_SOURCES) \
@@ -1078,10 +1066,11 @@ zlib_LIBS = @zlib_LIBS@
 AUTOMAKE_OPTIONS = subdir-objects no-dependencies
 SAC_INCLUDES = -I$(top_srcdir)/inc -I$(top_srcdir)
 FORMAT_CFLAGS = $(xpm_CFLAGS) $(png_CFLAGS) $(zlib_CFLAGS) $(XML_CPPFLAGS)
+EVALRESP_CFLAGS = -I$(top_srcdir)/evalresp/libsrc
 # Compilation Flags
 AM_CFLAGS = -fPIC $(DEBUG) $(COVERAGE) $(OPTIM) $(xft_CFLAGS) \
 	$(FORMAT_CFLAGS) $(X_CFLAGS) $(SAC_INCLUDES) \
-	$(LIBCURL_CPPFLAGS) $(am__append_17)
+	$(LIBCURL_CPPFLAGS) $(EVALRESP_CFLAGS) $(am__append_17)
 AM_CXXFLAGS = $(SAC_INCLUDES) $(am__append_1)
 @OSX_APP_TRUE@sac_SOURCES = osx/sac.m osx/main.m main/sac.c
 
@@ -1096,20 +1085,21 @@ AM_CXXFLAGS = $(SAC_INCLUDES) $(am__append_1)
 @X11_APP_TRUE@sac_LINK = $(LINK)
 
 # Libraries to be installed
-lib_LIBRARIES = libsacio.a libsac.a libevalresp.a
+lib_LIBRARIES = libsacio.a libsac.a
 
 # Libraries not installed
-noinst_LIBRARIES = libsac_all.a libevalresp.a libSMnonOracleFuncs.a \
-	libsac_check.a libsgf.a libturtle.a libicm.a libmsg.a \
-	libvars.a $(am__append_2) $(am__append_3) $(am__append_4) \
+noinst_LIBRARIES = libsac_all.a libSMnonOracleFuncs.a libsac_check.a \
+	libsgf.a libturtle.a libicm.a libmsg.a libvars.a \
+	$(am__append_2) $(am__append_3) $(am__append_4) \
 	$(am__append_9) $(am__append_11)
 # Libraries needed to compile sac
 #  libsac_all.a is included twice to satisfy recursive dependencies; fix
 sac_LDADD = -L$(srcdir) -L. libsac_all.a libsgf.a libicm.a \
 	$(am__append_5) $(am__append_6) $(am__append_7) \
 	../fern/libfern.a ../fern/libpile.a libsac_all.a libturtle.a \
-	libevalresp.a libSMnonOracleFuncs.a ../libmseed/libmseed.a \
-	../sacio/libsacio_bsd.a $(am__append_8) libsac_all.a libsgf.a \
+	libSMnonOracleFuncs.a ../libmseed/libmseed.a \
+	../sacio/libsacio_bsd.a -L../evalresp -levalresp -lspline \
+	-lmxmlev -levalresp_log $(am__append_8) libsac_all.a libsgf.a \
 	$(am__append_10) $(am__append_12) $(am__append_13) \
 	$(am__append_14) $(am__append_15) $(am__append_16)
 
@@ -1120,7 +1110,7 @@ EXTRA_DIST = describedirs gd3.x11/sac.bitmap \
 		   SeisMgr/dbselect/dbHelpQuery.pc \
 		   SeisMgr/dbselect/dbQuery.pc \
 		   SeisMgr/dbselect/dbQuerySL.pc \
-		   evalresp/evalresp.c gam/test.c \
+	     gam/test.c \
 		   icm/oracle/dbFuncs.pc \
 	       icm/oracle/dbaseCommand.c icm/thisfft.c mat/stationList.c \
 		   ncpf/hrtoe.c ncpf/readableToEpoch.c \
@@ -1195,17 +1185,6 @@ libSMOracleFuncs_a_SOURCES = SeisMgr/smDBdata.c \
 #	SeisMgs/dbselect/dbQuery.c \
 #	SeisMgs/dbselect/dbQuerySL.c \
 #	SeisMgr/dbselect/dbQueryHelp.c
-libevalresp_a_SOURCES = evalresp/alloc_fctns.c evalresp/calc_fctns.c \
-	evalresp/error_fctns.c evalresp/evr_spline.c evalresp/evresp.c \
-	evalresp/file_ops.c evalresp/parse_fctns.c evalresp/print_fctns.c \
-	evalresp/regerror.c evalresp/regexp.c evalresp/regsub.c \
-	evalresp/resp_fctns.c evalresp/string_fctns.c \
-	evalresp/evr_spline.h evalresp/evresp.h evalresp/regexp.h \
-	evalresp/regmagic.h evalresp/x2r_log.c evalresp/x2r_xml.c \
-	evalresp/x2r_ws.c evalresp/x2r.h evalresp/x2r_log.h evalresp/x2r_ws.h \
-	evalresp/x2r_xml.h \
-	evalresp/evalresp_sac.c
-
 libsac_a_SOURCES = co/complex.c bot/indexb.c bot/indexa.c \
   string/strings.c co/fstrncpy.c \
   bs/fstr.c bot/nequal.c string/datetime.c \
@@ -1826,31 +1805,6 @@ libSacOracleStubFuncs.a: $(libSacOracleStubFuncs_a_OBJECTS) $(libSacOracleStubFu
 	$(AM_V_at)-rm -f libSacOracleStubFuncs.a
 	$(AM_V_AR)$(libSacOracleStubFuncs_a_AR) libSacOracleStubFuncs.a $(libSacOracleStubFuncs_a_OBJECTS) $(libSacOracleStubFuncs_a_LIBADD)
 	$(AM_V_at)$(RANLIB) libSacOracleStubFuncs.a
-evalresp/$(am__dirstamp):
-	@$(MKDIR_P) evalresp
-	@: > evalresp/$(am__dirstamp)
-evalresp/alloc_fctns.$(OBJEXT): evalresp/$(am__dirstamp)
-evalresp/calc_fctns.$(OBJEXT): evalresp/$(am__dirstamp)
-evalresp/error_fctns.$(OBJEXT): evalresp/$(am__dirstamp)
-evalresp/evr_spline.$(OBJEXT): evalresp/$(am__dirstamp)
-evalresp/evresp.$(OBJEXT): evalresp/$(am__dirstamp)
-evalresp/file_ops.$(OBJEXT): evalresp/$(am__dirstamp)
-evalresp/parse_fctns.$(OBJEXT): evalresp/$(am__dirstamp)
-evalresp/print_fctns.$(OBJEXT): evalresp/$(am__dirstamp)
-evalresp/regerror.$(OBJEXT): evalresp/$(am__dirstamp)
-evalresp/regexp.$(OBJEXT): evalresp/$(am__dirstamp)
-evalresp/regsub.$(OBJEXT): evalresp/$(am__dirstamp)
-evalresp/resp_fctns.$(OBJEXT): evalresp/$(am__dirstamp)
-evalresp/string_fctns.$(OBJEXT): evalresp/$(am__dirstamp)
-evalresp/x2r_log.$(OBJEXT): evalresp/$(am__dirstamp)
-evalresp/x2r_xml.$(OBJEXT): evalresp/$(am__dirstamp)
-evalresp/x2r_ws.$(OBJEXT): evalresp/$(am__dirstamp)
-evalresp/evalresp_sac.$(OBJEXT): evalresp/$(am__dirstamp)
-
-libevalresp.a: $(libevalresp_a_OBJECTS) $(libevalresp_a_DEPENDENCIES) $(EXTRA_libevalresp_a_DEPENDENCIES) 
-	$(AM_V_at)-rm -f libevalresp.a
-	$(AM_V_AR)$(libevalresp_a_AR) libevalresp.a $(libevalresp_a_OBJECTS) $(libevalresp_a_LIBADD)
-	$(AM_V_at)$(RANLIB) libevalresp.a
 icm/$(am__dirstamp):
 	@$(MKDIR_P) icm
 	@: > icm/$(am__dirstamp)
@@ -3183,7 +3137,6 @@ mostlyclean-compile:
 	-rm -f docs/*.$(OBJEXT)
 	-rm -f eam/*.$(OBJEXT)
 	-rm -f eval/*.$(OBJEXT)
-	-rm -f evalresp/*.$(OBJEXT)
 	-rm -f exm/*.$(OBJEXT)
 	-rm -f extfuncs/*.$(OBJEXT)
 	-rm -f fks/*.$(OBJEXT)
@@ -3386,7 +3339,6 @@ distclean-generic:
 	-rm -f docs/$(am__dirstamp)
 	-rm -f eam/$(am__dirstamp)
 	-rm -f eval/$(am__dirstamp)
-	-rm -f evalresp/$(am__dirstamp)
 	-rm -f exm/$(am__dirstamp)
 	-rm -f extfuncs/$(am__dirstamp)
 	-rm -f fks/$(am__dirstamp)
@@ -3519,13 +3471,6 @@ uninstall-am: uninstall-binPROGRAMS uninstall-libLIBRARIES
 
 @WIN_APP_TRUE@.rc.o:
 @WIN_APP_TRUE@	$(WINDRES) $< -o $@
-
-evalresp/evresp.o: $(srcdir)/evalresp/evresp.c
-	$(COMPILE) -DLIB_MODE -DLOG_LABEL -c $(srcdir)/evalresp/evresp.c -o $@
-evalresp/parse_fctns.o: $(srcdir)/evalresp/parse_fctns.c
-	$(COMPILE) -DLIB_MODE -c $(srcdir)/evalresp/parse_fctns.c -o $@
-evalresp/string_fctns.o: $(srcdir)/evalresp/string_fctns.c
-	$(COMPILE) -DLIB_MODE -c $(srcdir)/evalresp/string_fctns.c -o $@
 
 libsacio.a: ../sacio/libsacio_bsd.a $(libsacio_a_OBJECTS)
 	-rm -f $@
