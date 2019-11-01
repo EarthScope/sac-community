@@ -1214,6 +1214,7 @@ result_is_empty(result *r) {
  * @return 1 if result is ok, 0 otherwise
  *
  * @note result is ok if 
+ *   - result is not NULL
  *   - CURL code is CURLE_OK 
  *   - HTTP code < 400 and != 204
  *
@@ -1221,6 +1222,9 @@ result_is_empty(result *r) {
  */
 int
 result_is_ok(result *r) {
+    if(!r) {
+        return 0;
+    }
     return (r->code == CURLE_OK &&
             r->http_code < 400 &&
             r->http_code != 204);

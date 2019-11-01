@@ -680,7 +680,13 @@ station_request(int *nerr) {
     //rph5 = request_get(sr);
 
     if(!result_is_ok(r) && !result_is_ok(rph5)) {
-        printf("%s", result_error_msg(r));
+        if(r) {
+            printf("%s", result_error_msg(r));
+        } else if(rph5) {
+            printf("%s", result_error_msg(rph5));
+        } else {
+            printf("Error getting station data\n");
+        }
         goto error;
     }
 
