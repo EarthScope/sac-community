@@ -15,12 +15,13 @@ SYNTAX
 
 INPUT
 -----
-   :catalog:eventid: Set the event to use when specifying event metadata
+   :catalog:eventid: Set the event to use when specifying event metadata.
+       An eventid can be obtained using from the EVENT_ command
 
    :file metadata_file: Use the metadata from a file.  The file may be
        either a text file or an xml file.  There are *important* differences
        between xml and text files. Input metadata files must have channel
-       level metadata.
+       level metadata, see the STATION_ command.
 
    :VERBOSE:  Watch the details of the metadata insertion process
 
@@ -38,30 +39,33 @@ DESCRIPTION
   added if the event is specified as an command option.
 
   Metadata for the station includes
-  - stla - Station Latitude
-  - stlo - Station Longitude
-  - stel - Station Elevation (in meters)
-  - stdp - Station Depth (always 0.0)
-  - cmpaz - Component Azimuth (degrees clockwise from North)
-  - cmpinc - Component Inclination (See description between xml and text files)
+  - stla    Station Latitude
+  - stlo    Station Longitude
+  - stel    Station Elevation (in meters)
+  - stdp    Station Depth (always 0.0)
+  - cmpaz   Component Azimuth (degrees clockwise from North)
+  - cmpinc  Component Inclination (See description between xml and text files)
 
   Metadata for the event includes
-  - evla - Event Latitude
-  - evlo - Event Longitude
-  - evel - Event Elevation (always 0.0)
-  - evdp - Event Depth in km
+  - evla   Event Latitude
+  - evlo   Event Longitude
+  - evel   Event Elevation (always 0.0)
+  - evdp   Event Depth in km
   - origin time (kzdate and kztime)
-  - iztype, set to IO
+  - iztype set to IO
   - kevnm (if short enough)
 
-Setting of kzdate, kztime and iztype is set eqivalent to the following sac commands:
+Setting of kzdate, kztime and iztype is set eqivalent to the following
+sac commands::
 
-  SAC> ch o gmt 1994 160 00 33 16 230
-  SAC> ch iztype IO
-  SAC> ch allt (-1.0 * &1,o)
+    SAC> ch o gmt 1994 160 00 33 16 230
+    SAC> ch iztype IO
+    SAC> ch allt (-1.0 * &1,o)
 
 EXAMPLE
 -------
+
+**Adding Station Metadata**
 
 For data files missing station metadata, it is straightforward to
 insert this information by reading in the data and issuing the
@@ -91,6 +95,8 @@ KSTNM, KHOLE, KCMPNM) need to be defined::
            stel = 4.940000e+01                     stdp = 2.700000e+00
           cmpaz = 0.000000e+00                   cmpinc = 0.000000e+00
 
+**Adding Station Metadata from a file**
+
 If the metadata exists in a text or xml file this information can be
 applied to existing files.  Input data files must have channel level
 metadata. ::
@@ -118,6 +124,53 @@ metadata. ::
            stel = 2.850000e+03                     stdp = 0.000000e+00
           cmpaz = 0.000000e+00                   cmpinc = 0.000000e+00
 
+**Adding Event Metadata**
+
+Event metadata can be added to a data file by issuing the metadata command
+with an specified eventid, here we use an eventid of gcmt:3279407.  Station
+metadata will also automatically be added::
+
+     SAC> event time now -10y mag 9 gcmt
+     Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
+     2011-03-11T05:47:32  37.52  143.05  20.00 9.10 MW  GCMT/- GCMT gcmt:3279407
+
+     SAC> data gcmt:3279407 net II sta BORG cha BHZ loc '00' dur 1min miniseed
+     Data Center: IRISDMC,http://ds.iris.edu
+             Writing data to fdsnws.2019.11.01.15.56.00.IRISDMC.mseed [  8.00 KiB]
+
+     SAC> read fdsnws.2019.11.01.15.56.00.IRISDMC.mseed
+
+     SAC> metadata gcmt:3279407
+     Working on file: II.BORG.00.BHZ.M.2011.070.054732.sac [ OK ]
+
+     SAC> lh stlo stla evlo evla kevnm
+
+       FILE: II.BORG.00.BHZ.M.2011.070.054732.sac - 1
+      ------------------------------------------
+
+          stlo = -2.132680e+01                    stla = 6.474740e+01
+          evlo = 1.430500e+02                     evla = 3.752000e+01
+         kevnm = gcmt:3279407
+
+Alternatively, event metadata can be added at the time of downloaning data by
+specifying an eventid and converting to sac or reading the data into
+memory.  The example below uses the eventid of gcmt:3279407::
+
+     SAC> data gcmt:3279407 net II sta BORG cha BHZ loc '00' dur 1min read
+     Data Center: IRISDMC,http://ds.iris.edu
+                    SourceID                Start sample             End sample         Gap
+     XFDSN:II_BORG_00_B_H_Z   2011-03-11T05:47:32.019900 2011-03-11T05:48:31.969900  ==
+     Working on file: II.BORG.00.BHZ.M.2011.070.054732.sac [ OK ]
+
+     SAC> lh stlo stla evlo evla kevnm
+
+       FILE: II.BORG.00.BHZ.M.2011.070.054732.sac - 1
+      ------------------------------------------
+
+          stlo = -2.132680e+01                    stla = 6.474740e+01
+          evlo = 1.430500e+02                     evla = 3.752000e+01
+         kevnm = gcmt:3279407
+
 
 
 COMPONENT INCLINATION
@@ -140,12 +193,13 @@ For metadata from a file specified by the `file metadata_file` command option, t
 type of file determines if the component is define as a dip (MiniSEED) or
 inclination (SAC).  This is the same convection used in mseed2sac for consistency.
 
-========== ================= ================
-File Type  Convention        Conversion Value
-========== ================= ================
-text       SAC / Incliation   0
-xml        MiniSEED / Dip    90
-========== ================= ================
+========== =========== =================== ================
+File Type   Separator  Convention          Conversion Value
+========== =========== =================== ================
+text        , (comma)  SAC / Inclination     0
+text        | (bar)    SAC / Inclination    90
+xml         n/a        MiniSEED / Dip       90
+========== =========== =================== ================
 
 **Missing** Format of the metadata files and how to create them.
 

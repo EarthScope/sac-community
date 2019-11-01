@@ -19,6 +19,7 @@ SYNTAX
       {id:eventid}
       {radius min_radius max_radius}
       {region w e s n}
+      {level station|channel}
       {epochs on|off}
       {showtimes}
       {verbose}
@@ -44,6 +45,10 @@ INPUT
    :Location: Set a collection of locations. Accepts lists and wildcards.
 
    :Channel: Set a collection of channels. Accepts lists and wildcards.
+
+   :Level: Station or Channel, Station level metadata only includes
+      Station location, Channel level metadata includes component
+      orientation and can be used as input to the METADATA_ command
 
    :Epochs: - Off - Combine all stations with the same Network and
               Station, using the first value encountered
@@ -98,7 +103,9 @@ DESCRIPTION
 EXAMPLES
 --------
 
-The station database has intriguing station data. Lets see if there are stations on the Moon.  The Moon Landing was in 1969 and the network code is XA, one of many temporary networks::
+The station database has intriguing station data. Lets see if there
+are stations on the Moon.  The Moon Landing was in 1969 and the
+network code is XA, one of many temporary networks::
 
    SAC> station net XA time 1969-1 +4y
    Net Sta   Lat.     Lon.      Elev.   SiteName
@@ -108,7 +115,8 @@ The station database has intriguing station data. Lets see if there are stations
    XA  S16    -8.9700   15.5100    0.00 ALSEP 16, Descartes, Moon
 
 
-We would like stations close to the 2004 Sumartran M9 Event. First lets get the event id::
+We would like stations close to the 2004 Sumartran M9 Event. First
+lets get the event id::
 
    SAC> event time 2004-1 +1yr mag 9
    Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
