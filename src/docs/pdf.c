@@ -31,7 +31,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <stdlib.h>
 #include <stdarg.h>
 #include <math.h>
-
+#include "defs.h"
 #include "pdf.h"
 
 #include "string_utils.h"
@@ -2193,6 +2193,8 @@ FlateEncode(unsigned char *data, int *n) {
 
 char *
 FlateEncode(unsigned char *data, int *n) {
+    UNUSED(data);
+    UNUSED(n);
     fprintf(stderr,
             "sac: Writing to PDF files with Zlib/Flate Compreesion\n"
             "    Not supported in the vertion\n"

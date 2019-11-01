@@ -2816,8 +2816,8 @@ scan_file(const char  *filename,	/* I - Filename */
 #endif /* DEBUG */
 
 		  state = STATE_NONE;
-		  break;
 		}
+		  break;
 
 	    default :
 	        if (ch == ' ' && bufptr == buffer)

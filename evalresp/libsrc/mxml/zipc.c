@@ -1112,7 +1112,7 @@ zipcOpen(const char *filename,		/* I - Filename of container */
            zc->error = zc->error_msg;
 
            fprintf(stderr, "zipcOpen: %s\n", zc->error_msg);
-
+           /* Falls Through */
        case ZIPC_DIR_HEADER :
        case ZIPC_END_RECORD :
            done = 1;

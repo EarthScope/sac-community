@@ -1477,8 +1477,8 @@ mxml_load_data(
 		mxmlDelete(node);
 		node = NULL;
 	      }
-	      break;
 	    }
+	      break;
 
         default : /* Ignore... */
 	    node = NULL;
@@ -2959,9 +2959,8 @@ mxml_write_node(mxml_node_t     *node,	/* I - Node to write */
 	      col = (int)strlen(newline);
 
 	    free(data);
-	    break;
 	  }
-
+	    break;
       default : /* Should never happen */
 	  return (-1);
     }
