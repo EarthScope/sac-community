@@ -5,18 +5,18 @@
 https://earthquake.usgs.gov/fdsnws/event/1/query?minmag=4.000000&start=2019-05-12T00:00:00&maxmag=10.000000&format=xml&nodata=404&end=2019-05-14T00:00:00
    Parsing quake.xml data
    Searching for events
-   Parsing 76 events
+   Parsing 77 events
 Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
 2019-05-13T23:23:45 -51.57  139.30  10.00 4.90 mb  us/us - usgs:us70003krl
 2019-05-13T21:54:42 -18.85  169.19 225.15 4.20 mb  us/us - usgs:us70003p0u
 2019-05-13T21:27:32  37.64   21.16  10.00 4.50 mb  us/us - usgs:us70003knu
 2019-05-13T21:00:59  43.36  147.80  10.00 4.40 mb  us/us - usgs:us70003kp5
 2019-05-13T20:47:09 -16.34 -173.00   7.05 4.20 mb  us/us - usgs:us70003p0r
-2019-05-13T19:03:42  13.73  -92.56  35.88 4.50 mb  us/us - usgs:us70003kiy
+2019-05-13T19:03:40  13.83  -92.77  10.00 4.50 mb  us/us - usgs:us70003kiy
 2019-05-13T18:31:22 -20.40 -177.84 500.08 4.30 mb  us/us - usgs:us70003p0q
-2019-05-13T18:00:17   0.65  -78.02   1.36 4.60 mb  us/us - usgs:us70003khl
+2019-05-13T18:00:19   0.65  -78.01  15.17 4.60 mb  us/us - usgs:us70003khl
 2019-05-13T16:57:16  37.68   21.27  10.00 4.90 mb  us/us - usgs:us70003kgm
-2019-05-13T16:53:01  -2.99  130.41  10.00 4.80 mww us/us - usgs:us70003kgl
+2019-05-13T16:53:01  -2.99  130.37  10.00 4.80 mww us/us - usgs:us70003kgl
 2019-05-13T16:41:26 -23.27 -179.08 412.84 4.50 mb  us/us - usgs:us70003kgf
 2019-05-13T16:01:05 -20.68  169.33  35.00 4.60 mb  us/us - usgs:us70003p0n
 2019-05-13T15:31:27  37.65   21.22  10.00 4.50 mb  us/us - usgs:us70003kf8
@@ -55,7 +55,7 @@ Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
 2019-05-12T21:08:30 -11.90  165.44  10.00 4.90 mb  us/us - usgs:us70003k4f
 2019-05-12T19:24:50   8.62  -82.83  19.00 6.00 mww us/us - usgs:us70003k3p
 2019-05-12T17:29:46  29.90   68.00  10.00 4.40 mb  us/us - usgs:us70003k36
-2019-05-12T17:08:42 -15.66  167.06  35.00 4.60 mb  us/us - usgs:us70003njs
+2019-05-12T17:08:42 -15.65  167.06  35.00 4.70 mb  us/us - usgs:us70003njs
 2019-05-12T16:44:17 -21.30  -67.91 186.67 4.40 mb  us/us - usgs:us70003k2u
 2019-05-12T16:09:56  -6.37  114.61 545.75 4.30 mb  us/us - usgs:us70003njm
 2019-05-12T15:58:10  -6.55  149.72  10.00 4.30 mb  us/us - usgs:us70003njn
@@ -70,7 +70,7 @@ Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
 2019-05-12T11:51:38  30.67  141.83  10.00 4.40 mb  us/us - usgs:us70003nji
 2019-05-12T10:00:01  19.26  121.05  10.00 4.70 mb  us/us - usgs:us70003k0v
 2019-05-12T08:59:54  19.41  121.02  30.44 5.40 mww us/us - usgs:us70003k0h
-2019-05-12T08:51:41  -6.54  104.58  35.00 5.00 mb  us/us - usgs:us70003k07
+2019-05-12T08:51:41  -6.55  104.63  35.00 5.00 mb  us/us - usgs:us70003k07
 2019-05-12T08:18:38  15.48  -78.14  10.00 4.50 mb  us/us - usgs:us70003jzx
 2019-05-12T07:38:24 -31.51 -178.42  35.00 4.30 mb  us/us - usgs:us70003njd
 2019-05-12T07:28:08   3.93  -73.93  10.00 4.50 mb  us/us - usgs:us70003jzm
@@ -83,6 +83,7 @@ Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
 2019-05-12T02:50:58  -3.63   35.69  10.00 4.20 mb  us/us - usgs:us70003k4y
 2019-05-12T02:47:44 -17.84 -178.60 567.38 4.60 mb  us/us - usgs:us70003jxr
 2019-05-12T01:58:39   4.66  -82.78  10.00 4.70 mb  us/us - usgs:us70003jxc
+2019-05-12T01:33:24 -21.62  -68.47 121.71 4.30 mb  us/us - usgs:us70003jxa
   
  ==>  
  event time 2019/05/12 +2days mag 4 10
@@ -92,11 +93,11 @@ Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
 2019-05-13T21:27:32  37.64   21.16  10.00 4.50 mb  us/us - usgs:us70003knu
 2019-05-13T21:00:59  43.36  147.80  10.00 4.40 mb  us/us - usgs:us70003kp5
 2019-05-13T20:47:09 -16.34 -173.00   7.05 4.20 mb  us/us - usgs:us70003p0r
-2019-05-13T19:03:42  13.73  -92.56  35.88 4.50 mb  us/us - usgs:us70003kiy
+2019-05-13T19:03:40  13.83  -92.77  10.00 4.50 mb  us/us - usgs:us70003kiy
 2019-05-13T18:31:22 -20.40 -177.84 500.08 4.30 mb  us/us - usgs:us70003p0q
-2019-05-13T18:00:17   0.65  -78.02   1.36 4.60 mb  us/us - usgs:us70003khl
+2019-05-13T18:00:19   0.65  -78.01  15.17 4.60 mb  us/us - usgs:us70003khl
 2019-05-13T16:57:16  37.68   21.27  10.00 4.90 mb  us/us - usgs:us70003kgm
-2019-05-13T16:53:01  -2.99  130.41  10.00 4.80 mww us/us - usgs:us70003kgl
+2019-05-13T16:53:01  -2.99  130.37  10.00 4.80 mww us/us - usgs:us70003kgl
 2019-05-13T16:41:26 -23.27 -179.08 412.84 4.50 mb  us/us - usgs:us70003kgf
 2019-05-13T16:01:05 -20.68  169.33  35.00 4.60 mb  us/us - usgs:us70003p0n
 2019-05-13T15:31:27  37.65   21.22  10.00 4.50 mb  us/us - usgs:us70003kf8
@@ -135,7 +136,7 @@ Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
 2019-05-12T21:08:30 -11.90  165.44  10.00 4.90 mb  us/us - usgs:us70003k4f
 2019-05-12T19:24:50   8.62  -82.83  19.00 6.00 mww us/us - usgs:us70003k3p
 2019-05-12T17:29:46  29.90   68.00  10.00 4.40 mb  us/us - usgs:us70003k36
-2019-05-12T17:08:42 -15.66  167.06  35.00 4.60 mb  us/us - usgs:us70003njs
+2019-05-12T17:08:42 -15.65  167.06  35.00 4.70 mb  us/us - usgs:us70003njs
 2019-05-12T16:44:17 -21.30  -67.91 186.67 4.40 mb  us/us - usgs:us70003k2u
 2019-05-12T16:09:56  -6.37  114.61 545.75 4.30 mb  us/us - usgs:us70003njm
 2019-05-12T15:58:10  -6.55  149.72  10.00 4.30 mb  us/us - usgs:us70003njn
@@ -150,7 +151,7 @@ Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
 2019-05-12T11:51:38  30.67  141.83  10.00 4.40 mb  us/us - usgs:us70003nji
 2019-05-12T10:00:01  19.26  121.05  10.00 4.70 mb  us/us - usgs:us70003k0v
 2019-05-12T08:59:54  19.41  121.02  30.44 5.40 mww us/us - usgs:us70003k0h
-2019-05-12T08:51:41  -6.54  104.58  35.00 5.00 mb  us/us - usgs:us70003k07
+2019-05-12T08:51:41  -6.55  104.63  35.00 5.00 mb  us/us - usgs:us70003k07
 2019-05-12T08:18:38  15.48  -78.14  10.00 4.50 mb  us/us - usgs:us70003jzx
 2019-05-12T07:38:24 -31.51 -178.42  35.00 4.30 mb  us/us - usgs:us70003njd
 2019-05-12T07:28:08   3.93  -73.93  10.00 4.50 mb  us/us - usgs:us70003jzm
@@ -163,6 +164,7 @@ Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
 2019-05-12T02:50:58  -3.63   35.69  10.00 4.20 mb  us/us - usgs:us70003k4y
 2019-05-12T02:47:44 -17.84 -178.60 567.38 4.60 mb  us/us - usgs:us70003jxr
 2019-05-12T01:58:39   4.66  -82.78  10.00 4.70 mb  us/us - usgs:us70003jxc
+2019-05-12T01:33:24 -21.62  -68.47 121.71 4.30 mb  us/us - usgs:us70003jxa
   
  ==>  
  event time 2019/05/12 +2d mag 5 10
@@ -176,7 +178,7 @@ Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
 2019-05-12T19:24:50   8.62  -82.83  19.00 6.00 mww us/us - usgs:us70003k3p
 2019-05-12T15:25:40 -11.99  165.46  10.00 5.10 mb  us/us - usgs:us70003k28
 2019-05-12T08:59:54  19.41  121.02  30.44 5.40 mww us/us - usgs:us70003k0h
-2019-05-12T08:51:41  -6.54  104.58  35.00 5.00 mb  us/us - usgs:us70003k07
+2019-05-12T08:51:41  -6.55  104.63  35.00 5.00 mb  us/us - usgs:us70003k07
   
  ==>  
  event time 2019/05/12 +2d mag 5 10 region 0 180 0 90
@@ -413,13 +415,13 @@ Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
   
  ==>  
  event
-Not enough search parameters: Use mag, time, depth, region
- ERROR 3264:  
+ ERROR 3264:  Not enough search parameters: Use mag, time, depth, or region
+
   
  ==>  
  event radial -120 38 0 10 region 0 180 0 90
-Cannot use Region and Radial searches together
- ERROR 3264:  
+ ERROR 3264:  Cannot use Region and Radial searches together
+
   
  ==>  
  event time 1994/160 +1d depth 600 700 usgs

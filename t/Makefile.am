@@ -336,9 +336,10 @@ testsuite/input/long_and_high.sm \
 testsuite/input/bbfk.sm \
 testsuite/input/v6v7.sm \
 testsuite/input/v6v7io.sm \
-testsuite/input/v6v7iosp.sm
-#testsuite/input/event.sm \
-#testsuite/input/station.sm 
+testsuite/input/v6v7iosp.sm \
+testsuite/input/station.sm \
+testsuite/input/event.sm
+
 
 # These tests have specific calls to the X11 device
 if X11_APP

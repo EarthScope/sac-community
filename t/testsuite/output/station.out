@@ -2,10 +2,7 @@
   
  ==>  
  station gcmt:11051818 radial 0 30
-Requesting event info for gcmt:11051818
-Warning: Multiple instances of net.sta, likely mutiple epochs
 Net Sta   Lat.     Lon.      Elev.   SiteName
-3E  YIF6  -19.5245  169.4416  100.00 YIF6
 6F  WDSZ  -43.2937  170.4124   97.40 Whataroa
 6F  WMSZ  -43.2809  170.3955   87.60 Mint Creek, Whataroa
 6F  WPSZ  -43.2837  170.4139   95.50 Parker Creek, Whataroa
@@ -243,6 +240,14 @@ Net Sta   Lat.     Lon.      Elev.   SiteName
 2H  ELHT  -77.5105  167.1441 3374.60 Mt Erebus site ELHT
 2H  ICEZ  -77.5517  167.2820 2370.10 Mt Erebus site ICE
 2H  NAUS  -77.5219  167.1504 3590.10 Mt Erebus site NAUS
+2K  MSIA   54.0996 -116.8647 1086.60 Z
+2K  MSIB   54.1151 -116.8174  965.50 Z
+2K  MSIC   54.1226 -116.8766 1052.20 Z
+2K  MSID   54.1243 -116.9136 1031.50 Z
+2K  MSIE   54.1357 -116.8704  967.00 Z
+2K  MSIF   54.1454 -116.8202  948.80 Z
+2K  MSIG   54.1489 -116.9026 1006.60 Z
+2K  MSIH   54.1557 -116.8523  941.50 Z
 AC  BCI    42.3666   20.0675  500.00 Bajram Curri, Albania
 AC  KBN    40.6236   20.7874  800.00 Korce, Albania
 AC  PHP    41.6847   20.4408  670.00 Peshkopi, Albania
@@ -253,18 +258,19 @@ AD  DLV    11.9520  108.4815   50.00 Dalat Central Vietnam
 AE  214A   31.9559 -112.8115  543.00 Organ Pipe National Monument, Ajo, AZ, USA
 AE  W18A   35.1181 -109.7357 1750.00 Petrified Forest, AZ, USA
 AF  AAUS    9.0349   38.7665 2437.80 Addis Ababa University, Ethiopia
+AF  ALKP  -29.9418   22.2467 1065.00 Alkantpan, Northen Cape, South Africa
 AF  ANKE    9.5827   39.7418 2789.90 Ankober, Ethiopia (near Debra Birhan)
 AF  BLWY  -20.1430   28.6113 1348.00 Bulawayo, Zimbabwe
 AF  BOBN   -1.6600   29.2367 1529.00 Bobandana, DRC, Africa
+AF  CER   -33.3614   19.2945  472.00 Ceres, Western Cape South Africa
 AF  CNG   -26.2917   32.1883  120.00 Changalane Maputo Province Mozambique
 AF  CRLN  -25.9949   30.0227 1600.00 Carolina, Mapumpalanga, South Africa
-AF  CVNA  -31.4820   19.7620 1050.00 Calvinia KS2000 Earth data Low gain
+AF  CVNA  -31.4820   19.7620 1050.00 Calvinia, Nortehn Cape, South Africa
 AF  DESE   11.1180   39.6350 2538.00 Dese, Ethiopia
 AF  DODT   -6.1860   35.7480 1114.00 Dodoma, Tanzania
 AF  EKNA    4.2340    9.3280  354.00 Ekona, Cameroon
 AF  GETA   -2.8660   33.2410 1267.00 Geita, Tanzania
-AF  GRHM  -33.2768   26.3766  615.00 Hilton Farm, Grahamstown, Eastern Cape, South Africa
-AF  GRM   -33.3130   26.5080  610.00 Grahamstown KS2000 Earth data Low gain
+AF  GRHM  -33.2767   26.3767  610.00 Grahamstown, Eastern Cape, South Africa
 AF  HVD   -30.6050   25.4970 1433.00 Gariep Dam CMG-40T Earth data Low gain
 AF  IFE     7.5467    4.4569  283.80 Ife, Nigeria, Africa
 AF  KAD    10.4305    7.6403  679.10 Kaduna, Nigeria, Africa
@@ -273,18 +279,16 @@ AF  KTWE  -12.8140   28.2090 1227.60 Kitwe, Zambia
 AF  KUKU    6.1923   -0.3684  212.40 Kukurantumi, Ghana
 AF  LBB   -11.6310   27.4850 1283.00 Lubumbashi, DRC
 AF  MBEY   -8.9830   33.2410 1331.00 Mbeya, Tanzania
+AF  MOCU  -16.8409   36.9656  145.00 Mocuba, Mozambique
 AF  MONG  -15.1500   23.0900 1046.00 Mongu, Zambia, Africa
-AF  MOPA  -23.5170   31.3980  362.00 Mopani CMG-40T Earth data Low gain
-AF  MSNA  -22.4490   30.0240  600.00 Mussina, Limpopo, South Africa
+AF  MOPA  -23.5170   31.3980  362.00 Mopani Camp, Kruger National Park, RSA
 AF  MTVE  -10.2500   40.1670   21.00 Mtwara, Tanzania
+AF  MUSN  -22.2878   29.8600  592.00 Musina, Limpopo, South Africa
 AF  MZM   -11.4340   34.0350 1258.00 Mzuzu, Milawi, Africa
 AF  NBI    -1.2739   36.8037 1713.00 Nairobi, Kenya, Africa
 AF  NSU     6.8669    7.4174  427.30 Nsukka, Nigeria, Africa
-AF  PKA   -29.6700   22.7570  960.00 Prieska CMG-40T Earth data Low gain
-AF  POGA  -27.3460   31.7070  290.00 Pongola KS2000 earth data Low gain
+AF  POGA  -27.3460   31.7070  290.00 Pongola, Kwazulu-Natal, South Africa
 AF  PWET   -8.2800   28.5300  948.00 Pweto, DRC, Africa
-AF  RUDU  -17.9096   19.7648 1100.00 Rundu, Ovamboland, Namibia
-AF  SEK   -28.3230   27.6250 1486.00 Senekal CMG-40T Earth data Low gain
 AF  SHAI    5.8814    0.0439   82.20 Shai Hills, Ghana
 AF  SKRH  -22.8270   44.7330  890.00 Sakaraha, Madagascar, Africa
 AF  SNKL  -28.2753   27.7714 1655.00 Senekal, Freestate Province, South Africa
@@ -295,7 +299,7 @@ AF  TEBE    0.0536   32.4830 1132.00 Entebbe, Uganda
 AF  TETE  -16.1467   33.5768  153.00 TETE Mozambique,TETE Province
 AF  TEZI  -15.7470   26.0160 1115.60 Itezhi-tezhi, Zambia
 AF  UPI   -28.3620   21.2530  845.00 Upington KS2000 Earth data Low gain
-AF  WDLM  -26.4240   27.4220 1680.00 Western deep levels CMG-3T Earth data Low gain
+AF  WDLM  -26.4240   27.4220 1680.00 Western Deep Levels Mines - RT151-120Earth data Low gain
 AF  WIN   -22.5667   17.1000 1728.00 Windhoek, Namibia
 AF  YNDE    3.8700   11.4560  717.00 Yaounde, Cameroon
 AF  ZOMB  -15.3833   35.3500  885.00 Zomba, Malawi
@@ -448,7 +452,7 @@ AU  MEEK  -26.6380  118.6150  530.00 Meekatharra, Western Australia
 AU  MILA  -37.0547  149.1550  785.00 Mila, NSW
 AU  MOO   -42.4417  147.1903  325.00 Moorlands, Tasmania
 AU  MORW  -29.0679  116.0403  296.00 Morawa, Western Australia
-AU  MTN   -12.8436  131.1327  137.40 Manton Dam, Northern Territory
+AU  MTN   -12.8436  131.1327  137.40 Manton Dam, Darwin NT
 AU  MULG  -30.2818  134.0585  254.70 Mulgathing, South Australia
 AU  MUN   -31.9783  116.2083  253.00 Mundaring, Western Australia
 AU  NFK   -29.0433  167.9389  203.00 Norfolk Island
@@ -476,31 +480,31 @@ AU  SDAN  -34.5073  139.3380  586.00 Sedan SA
 AU  STKA  -31.8757  141.5964  230.00 Stephens Creek, NSW
 AU  TOO   -37.5714  145.4906  604.00 Toolangi, VIC
 AU  WB0   -19.7671  134.3927  392.00 Warramunga Array, NT
-AU  WB1   -19.9594  134.3464  394.00 Warramunga Array, Australia
-AU  WB10  -19.7671  134.3928  362.00 Warramunga Array, Australia
+AU  WB1   -19.9594  134.3464  393.50 Warramunga Array, Australia
+AU  WB10  -19.7671  134.3928  362.10 Warramunga, NT
 AU  WB2   -19.9428  134.3511  388.00 Warramunga Array, Australia
-AU  WB3   -19.9230  134.3555  384.00 Warramunga Array, Australia
-AU  WB4   -19.9036  134.3589  381.00 Warramunga Array, Australia
-AU  WB5   -19.8782  134.3662  371.00 Warramunga Array, Australia
-AU  WB6   -19.8550  134.3672  365.00 Warramunga Array, Australia
-AU  WB7   -19.8408  134.3795  416.00 Warramunga Array, Australia
-AU  WB8   -19.8139  134.3808  356.00 Warramunga Array, Australia
+AU  WB3   -19.9230  134.3555  384.20 Warramunga Array, Australia
+AU  WB4   -19.9036  134.3589  380.60 Warramunga Array, Australia
+AU  WB5   -19.8782  134.3662  370.90 Warramunga Array, Australia
+AU  WB6   -19.8550  134.3672  364.80 Warramunga Array, Australia
+AU  WB7   -19.8408  134.3795  353.20 Warramunga Array, Australia
+AU  WB8   -19.8139  134.3808  356.10 Warramunga Array, Australia
 AU  WB9   -19.7914  134.3840  360.00 Warramunga Array, Australia
-AU  WC1   -19.9243  134.3391  392.00 Warramunga Array, Australia
-AU  WC2   -19.9254  134.3655  375.00 Warramunga Array, Australia
-AU  WC3   -19.9587  134.3719  382.00 Warramunga Array, Australia
-AU  WC4   -19.9619  134.3397  388.00 Warramunga Array, Australia
+AU  WC1   -19.9243  134.3390  392.00 Warramunga Array, Australia
+AU  WC2   -19.9254  134.3654  375.00 Warramunga Array, Australia
+AU  WC3   -19.9587  134.3719  382.10 Warramunga Array, Australia
+AU  WC4   -19.9619  134.3397  387.50 Warramunga Array, Australia
 AU  WR0   -19.9597  134.5404  375.00 Warramunga Array, NT
-AU  WR1   -19.9426  134.3395  389.00 Warramunga Array, Australia
-AU  WR10  -19.9597  134.5405  353.00 Warramunga Array, Australia
-AU  WR2   -19.9469  134.3624  385.00 Warramunga Array, Australia
-AU  WR3   -19.9485  134.3869  377.00 Warramunga Array, Australia
-AU  WR4   -19.9503  134.4066  374.00 Warramunga Array, Australia
-AU  WR5   -19.9522  134.4304  364.00 Warramunga Array, Australia
-AU  WR6   -19.9542  134.4531  357.00 Warramunga Array, Australia
-AU  WR7   -19.9552  134.4760  355.00 Warramunga Array, Australia
-AU  WR8   -19.9558  134.5005  367.00 Warramunga Array, Australia
-AU  WR9   -19.9577  134.5149  360.00 Warramunga Array, Australia
+AU  WR1   -19.9426  134.3395  388.80 Warramunga Array, Australia
+AU  WR10  -19.9597  134.5405  353.00 Warramunga, NT
+AU  WR2   -19.9469  134.3624  385.40 Warramunga Array, Australia
+AU  WR3   -19.9485  134.3869  376.50 Warramunga Array, Australia
+AU  WR4   -19.9503  134.4066  374.40 Warramunga Array, Australia
+AU  WR5   -19.9522  134.4304  364.20 Warramunga Array, Australia
+AU  WR6   -19.9542  134.4530  356.50 Warramunga Array, Australia
+AU  WR7   -19.9552  134.4760  354.80 Warramunga Array, Australia
+AU  WR8   -19.9558  134.5005  367.10 Warramunga Array, Australia
+AU  WR9   -19.9577  134.5149  360.20 Warramunga Array, Australia
 AU  WRKA  -25.0375  128.2961  622.00 Warrakurna, Western Australia
 AU  XMI   -10.4501  105.6884  252.00 Christmas Island Airport
 AU  XMIS  -10.4807  105.6520  210.00 Christmas Island Grants Well
@@ -530,6 +534,7 @@ AV  AUSB   59.3330 -153.4284  230.00 Augustine South Buttress, Augustine Volcano
 AV  AUSS   59.3589 -153.4309 1235.00 Augustine Summit Station, Augustine Volcano, Alaska
 AV  AUWS   59.3585 -153.4608  487.00 Augustine Summit Station, Augustine Volcano, Alaska
 AV  BOGO   53.9291 -168.0347    5.00 Bogoslof, Bogoslof Volcano, Alaska
+AV  CAHL   58.0518 -155.3036  807.00 Cahill, Katmai, Alaska
 AV  CLCO   52.7866 -169.7229  137.00 Concord Point, Cleveland Volcano, Alaska
 AV  CLES   52.8235 -169.8951  146.00 Cleveland East, Cleveland Volcano, Alaska
 AV  ILS    59.9570 -153.0703 1125.00 Iliamna South, Iliamna Volcano, Alaska
@@ -548,9 +553,8 @@ AV  MNAT   53.8829 -166.6856  390.00 Nateekin Bay, Makushin  Volcano, Alaska
 AV  MSW    53.9148 -166.7880  423.00 Switchbacks, Makushin Volcano, Alaska
 AV  MTBL   53.9680 -166.6813  810.00 Table Top, Makushin Volcano, Alaska
 AV  NCT    60.5621 -152.9293 1136.00 North Crescent, Redoubt Volcano, Alaska
-AV  OKCE   53.4260 -168.1663  515.00 Cone E, Okmok Caldera, Alaska
-AV  OKFG   53.4107 -167.9115  201.00 Fort Glenn, Okmok Caldera, Alaska
-AV  OKNC   53.4559 -168.1257  404.00 New Cone D, Okmok Caldera, Alaska
+AV  OKCE   53.4261 -168.1663  516.00 Cone E, Okmok Caldera, Alaska
+AV  OKNC   53.4559 -168.1255  404.00 New Cone D, Okmok Caldera, Alaska
 AV  OKSO   53.3565 -168.1619  460.00 South, Okmok Caldera, Alaska
 AV  PLBL   57.6991 -156.8210  461.00 Mt. Peulik Volcano, Alaska
 AV  PLK1   57.8012 -156.6093   78.00 Peulik Volcano 1, Alaska
@@ -600,7 +604,7 @@ AZ  SMER   33.4577 -117.1708  355.70 Santa Margarita Ecological Reserve, CA, USA
 AZ  SND    33.5519 -116.6129 1358.00 Jim Saunders Place, Anza, CA, USA
 AZ  TRO    33.5234 -116.4257 2628.00 Toro Peak, Riverside Co, CA, USA
 AZ  WMC    33.5736 -116.6747 1271.00 Walmic Ranch, Anza, CA, USA
-BE  RCHB   50.1560    5.2280  191.00 Rochefort, Belgium
+BE  RCHB   50.1559    5.2276  221.00 Rochefort, Belgium
 BK  BDM    37.9540 -121.8655  219.80 Black Diamond Mines Park, Antioch, CA, USA
 BK  BKS    37.8762 -122.2356  243.90 Byerly Seismographic Vault, Berkeley, CA, USA
 BK  BL67   37.8749 -122.2432  736.20 LBL Building 67, Berkeley, CA, USA
@@ -705,15 +709,16 @@ C1  AC03  -27.2391  -70.7455  321.00 Aeropuerto Atacama
 C1  AC04  -28.2046  -71.0739  249.00 Llanos de Challe
 C1  AC05  -28.8364  -70.2738 1227.00 El Transito
 C1  AC06  -27.3571  -70.3547  380.00 Copiapo, Mina Casimiro Domeyco
-C1  AF01  -22.9520  -68.1788 2372.00 SAN PEDRO DE ATACAMA
+C1  AF01  -22.9520  -68.1788 2442.90 SAN PEDRO DE ATACAMA
 C1  AP01  -18.3708  -70.3419   31.00 Chacalluta
+C1  AP02  -18.8540  -69.1433 4334.00 Surire
 C1  AY01  -44.4209  -72.6480    9.00 PUYUHUAPI
 C1  AY02  -46.4839  -73.1947   79.00 VALLE EXPLORADORES
 C1  AY03  -47.2530  -72.5908  206.50 Cochrane
 C1  BI02  -36.6634  -71.2731  913.00 San Fabian de Alico
-C1  BI03  -36.8438  -73.0258  196.00 TIGO
 C1  BI04  -38.4116  -73.8862   41.00 Isla Mocha
 C1  BI05  -36.7478  -73.1905   52.00 Faro Punta Hualpen
+C1  BI06  -36.1313  -72.7885   23.00 Cobquecura
 C1  BO01  -34.3917  -71.0848  262.50 Tunca
 C1  BO02  -34.7924  -70.7814  886.00 Daracena
 C1  BO03  -34.4961  -71.9612  128.00 Pichilemu
@@ -725,14 +730,14 @@ C1  CO04  -32.0433  -70.9747 2401.00 Los Peladeros
 C1  CO05  -29.9186  -71.2384  101.00 LA SERENA
 C1  CO06  -30.6738  -71.6350  246.60 Fray Jorge, IV Region Coquimbo
 C1  CO10  -29.2406  -71.4609   35.00 PUNTA DE CHOROS
-C1  DG01  -33.4563  -70.6624  609.00 Bodega DGF Multiparametrica
-C1  DG06  -33.4785  -70.5273  825.00 Falla San Ramon
+C1  IN40  -29.9663  -71.2497  157.70 Jardin Semillas
+C1  IN41  -30.0026  -71.3157  171.00 Estanque Aguas del Valle
 C1  LC01  -38.8975  -71.8761  406.00 Cunco
 C1  LC02  -38.7919  -73.3947   67.00 PUERTO SAAVEDRA
 C1  LC09  -39.4861  -72.1531  213.00 Licanray
 C1  LL01  -42.3787  -72.4125   62.00 San Ignacio de Huinay
 C1  LL02  -43.1906  -71.8484  368.00 Futaleufu
-C1  LL03  -41.1384  -72.4034  227.00 Petrohue
+C1  LL03  -41.1384  -72.4034  227.00 Lodge Petrohue
 C1  LL04  -40.9097  -72.4082  247.00 Puerto Octay
 C1  LL05  -41.4053  -73.4744  208.00 Los Muermos
 C1  LL06  -42.2151  -73.6283  180.00 Loncomilla
@@ -749,10 +754,10 @@ C1  ML02  -35.7626  -71.4181  237.00 Panimavida
 C1  MT01  -33.8641  -71.2509  310.00 Daracena
 C1  MT02  -33.2591  -71.1377  323.00 Curacavi
 C1  MT03  -33.4936  -70.5102 1087.00 Universidad Adolfo Ibanez
-C1  MT04  -33.4045  -70.1372 2082.00 Olivares
+C1  MT04  -33.4664  -70.1362 1922.00 Olivares
 C1  MT05  -33.3919  -70.7381  765.00 Cerro Colorado - Renca
 C1  MT07  -32.9760  -71.0156 2234.00 Cerro El Roble
-C1  MT08  -33.4459  -70.0172 2085.00 Bocatoma Colorado
+C1  MT08  -33.4052  -70.1334 2045.00 Bocatoma Colorado
 C1  MT09  -33.7762  -70.9887 1371.00 Talagante
 C1  MT10  -33.2728  -70.5372 1410.00 Hacienda Santa Martina
 C1  MT12  -33.7327  -70.5487  727.10 Pirque
@@ -760,9 +765,11 @@ C1  MT13  -33.7435  -70.2861 1198.60 San Alfonso
 C1  MT14  -33.3957  -70.5362  855.50 Calan
 C1  MT15  -33.5994  -70.5063  784.40 Las Vizcachas
 C1  MT16  -33.4285  -70.5234  780.00 CCHEN
-C1  TA01  -20.5656  -70.1807  616.00 Daracena
-C1  TA02  -20.2705  -70.1311   86.50 Huaiquique
-C1  VA01  -33.0229  -71.6374    2.00 Torpederas
+C1  MT17  -33.5493  -70.2838 1107.20 Los Maitenes
+C1  MT18  -33.4631  -70.6644  525.00 Casona
+C1  TA01  -20.5656  -70.1807   75.00 Daracena
+C1  TA02  -20.2705  -70.1310   23.30 Huaiquique
+C1  VA01  -33.0229  -71.6374   37.00 Torpederas
 C1  VA02  -27.1603 -109.4345   49.00 Isla de Pascua
 C1  VA03  -32.7637  -70.5508 1053.00 San Esteban
 C1  VA04  -33.6427  -78.8299  117.00 Juan Fernandez
@@ -790,6 +797,7 @@ CB  TNC    25.0290   98.5200 1650.00 Tengchong,Yunnan
 CB  WHN    30.5428  114.3539   80.00 Wuhantai,Hubei Province
 CB  XLT    43.9000  116.0790 1030.00 Xilinhaote,Neimeng Province
 CC  ASBU   43.8206 -121.3684 1538.00 Astronaut Butte
+CC  CARB   46.9883 -122.0054  872.50 Carbon Repeater
 CC  CIHL   43.7510 -121.1486 1966.00 Cinder Hill, Newberry Volcano
 CC  CLBH   42.9077 -122.1435 2197.00 Crater Lake Bunk House
 CC  CPCO   43.7220 -121.2332 2135.00 Central Pumice Cone, Newberry Volcano
@@ -813,8 +821,8 @@ CC  TCBU   44.2408 -121.6644 1646.00 Trout Creek Butte
 CC  TMBU   43.6019 -121.1445 1743.00 Tom Butte, Newberry Volcano
 CC  VALT   46.2142 -122.1892 1681.00 Vault, Mount St. Helens
 CC  WIFE   44.0597 -121.8175 1955.00 The Wife
-CH  BNALP  46.8719    8.4261 1540.00 -
-CH  BOURR  47.3950    7.2313  860.00 -
+CH  BNALP  46.8719    8.4261 1540.00 
+CH  BOURR  47.3950    7.2313  860.00 
 CH  BRANT  46.9380    6.4730 1145.00 Les Verrieres
 CH  FIESA  46.4353    8.1104 2338.00 Fiescheralp
 CH  FUORN  46.6202   10.2635 2333.00 Ofenpass-Fuorn
@@ -875,8 +883,6 @@ CI  DNR    33.5667 -116.6306 1274.00 Dunn Ranch
 CI  DPP    32.9989 -116.9419  463.00 Dos Picos County Park
 CI  DRE    32.8053 -115.4468  -13.00 Desert Research Extended Center
 CI  DSC    35.1426 -116.1040  283.00 Desert Studies Center
-CI  DSN5   34.1714 -118.1852  341.00 CI DSN5 test vault - 1st datalogger
-CI  DSN6   34.1714 -118.1852  341.00 CI DSN6 test vault - 2nd datalogger
 CI  DTP    35.2674 -117.8458  908.00 Desert Tortoise Park
 CI  DZA    32.6066 -116.7748  554.70 Dulzura
 CI  EDW2   34.8811 -117.9939  772.00 Edwards 2
@@ -1076,6 +1082,7 @@ CM  CHI     4.6295  -73.7318 3140.00 Chingaza, Cundinamarca, Colombia
 CM  COD     9.9281  -73.4451  108.00 Agustin Codazzi, Cesar, Colombia
 CM  FLO2    1.5827  -75.6527  365.00 Florencia, Caqueta, Colombia
 CM  HEL     6.1909  -75.5290 2857.00 Santa Helena, Medellin, Colombia
+CM  LCBC    8.8572  -76.3677   75.00 Los Cordobas, Cordoba, Colombia
 CM  MAP     4.0037  -81.6060  137.00 Isla Malpelo, Colombia
 CM  OCA     8.2388  -73.3193 1264.00 Ocana, Norte de Santander, Colombia
 CM  PAL     4.9051  -76.3200  675.00 San Jose del Palmar, Choco, Colombia
@@ -1086,6 +1093,7 @@ CM  PTB     6.5400  -74.4560  260.00 Puerto Berrio, Antioquia, Colombia
 CM  ROSC    1.5800  -75.6500  365.00 El Rosal, Cundinamarca, Colombia
 CM  RUS     5.8925  -73.0832 3697.00 La Rusia, Boyaca, Colombia
 CM  SJC     9.8967  -75.1795  596.00 San Jacinto, Bolivar, Colombia
+CM  SMAR   11.1638  -74.2245  122.00 Santa Marta, Magdalena, Colombia
 CM  TUM     1.8237  -78.7267   50.00 Tumaco, Narino, Colombia
 CM  URE     7.7517  -75.5327  251.00 San Jose de Ure, Cordoba, Colombia
 CM  URI    11.7020  -71.9930   68.00 Uribia, Guajira, Colombia
@@ -1093,11 +1101,11 @@ CM  YOT     3.9835  -76.3450 1040.00 Yotoco, Valle del Cauca, Colombia
 CM  ZAR     7.4923  -74.8580  205.00 Zaragoza, Antioquia, Colombia
 CN  BBB    52.1847 -128.1133   14.00 Bella Bella, BC, CA
 CN  CLRN   70.4743  -68.5871    9.00 Clyde River, NU, CA
-CN  DLBC   58.4372 -130.0272  978.00 Dease Lake, BC, CA
+CN  DLBC   58.4368 -130.0304  976.00 Dease Lake, BC, CA
 CN  DRLN   49.2562  -57.5032  241.00 Deer Lake, NL, CA
 CN  EDB    49.8730 -127.1216  150.00 Eliza Dome, BC, CA
 CN  EUNU   80.0532  -86.4158  623.00 Eureka, NU, CA
-CN  FCC    58.7616  -94.0866   39.00 Fort Churchill, MB, CA
+CN  FCC    58.7592  -94.0884   19.00 Fort Churchill, MB, CA
 CN  FRB    63.7469  -68.5451   25.00 Iqaluit, NU, CA
 CN  GAC    45.7032  -75.4776  167.20 Glen Almond, QC, CA
 CN  INK    68.3065 -133.5254   44.00 Inuvik, NT, CA
@@ -1124,7 +1132,7 @@ CZ  ANAC   50.0738   17.3780  860.00 MONET Anensky vrch, Czech Republic
 CZ  DPC    50.3502   16.3222  748.00 Dobruska/Polom
 CZ  JAVC   48.8591   17.6707  827.60 Velka Javorina, Czech Republic
 CZ  KHC    49.1309   13.5782  700.00 Kasperske Hory
-CZ  KRLC   50.0753   16.7817  754.00 -
+CZ  KRLC   50.0753   16.7817  754.00 
 CZ  KRUC   49.0619   16.3952  341.30 Moravsky Krumlov, Czech Republic
 CZ  LIPC   49.8438   17.0492  430.00 MONET Lipinka, Czech Republic
 CZ  LOSC   49.6217   17.3717  385.00 MONET Losov, Czech Republic
@@ -1133,7 +1141,7 @@ CZ  MORC   49.7768   17.5425  742.00 Moravsky Beroun, Czech Republic
 CZ  MUVC   49.8002   17.2782  636.00 MONET Mutkov, Czech Republic
 CZ  NKC    50.2331   12.4479  564.00 Novy Kostel, Czech Republic
 CZ  OKC    49.8375   18.1472  272.00 Ostrava--Krasne Pole, Czech Republic
-CZ  PRU    49.9883   14.5417  302.00 -
+CZ  PRU    49.9883   14.5417  302.00 
 CZ  SUPC   49.3977   17.1720  274.00 MONET Skalka u Prostejova, Czech Republic
 CZ  VRAC   49.3084   16.5933  470.30 Vranov, Czech Republic
 DK  ANGG   65.6163  -37.6371    9.00 Tasiilaq, Greenland
@@ -1302,9 +1310,7 @@ GE  ZKR    35.1147   26.2170  270.00 GEOFON Station Zakros, Crete
 GG  SE1    63.2485  -42.0349   23.00 Kagssortoq, Greenland
 GR  GRA1   49.6919   11.2217  499.50 GRAFENBERG ARRAY, BAYERN
 GS  ALQ1   34.9425 -106.4575 1849.00 ASL Experiment; STS-2HG reference cal
-GS  ANMX   34.9459 -106.4572 1820.00 ASL test STS-6A hole lock
 GS  ASL8   34.9459 -106.4572 1820.00 Albuquerque, New Mexico, USA
-GS  ASL9   34.9459 -106.4572 1820.00 Albuquerque, New Mexico, USA
 GS  TST3   34.9424 -106.4579 1850.00 ASL Experiment; two STS-5s
 GS  VEA1   34.9450 -106.4550 1844.90 VEA1
 GS  VEA2   34.9450 -106.4550 1844.90 VEA1
@@ -1314,7 +1320,7 @@ GT  CPUP  -26.3306  -57.3309  105.00 Villa Florida, Paraguay
 GT  DBIC    6.6702   -4.8566  125.00 Dimbokro, Cote d'Ivoire
 GT  LBTB  -25.0151   25.5966 1128.00 Lobatse, Botswana, Africa
 GT  LPAZ  -16.2879  -68.1307 4815.10 La Paz, Bolivia
-GT  PLCA  -40.7328  -70.5508 1050.00 Paso Flores, Argentina
+GT  PLCA  -40.7327  -70.5508 1079.70 Paso Flores, Argentina
 GT  VNDA  -77.5173  161.8528  121.10 Dry Valley, Vanda, Antarctica
 HK  HKPS   22.2776  114.1415  196.30 Po Shan, Hong Kong
 HT  AGG    39.0211   22.3360  622.00 AGIOS GEORGIOS, GREECE
@@ -1350,7 +1356,6 @@ II  ERM    42.0150  143.1572   40.00 Erimo, Hokkaido Island, Japan
 II  ESK    55.3167   -3.2050  242.00 Eskdalemuir, Scotland, UK
 II  FFC    54.7250 -101.9783  338.00 Flin Flon, Canada
 II  HOPE  -54.2836  -36.4879   20.00 Hope Point, South Georgia Island
-II  IASL   34.9462 -106.4567 1740.00 Albuquerque Seismological Laboratory, N.Mex.
 II  IBFO   48.3319    8.3311  589.00 Black Forest Observatory, Schiltach, Germany
 II  JTS    10.2908  -84.9525  340.00 Las Juntas de Abangares, Costa Rica
 II  KAPI   -5.0142  119.7517  300.00 Kappang, Sulawesi, Indonesia
@@ -1511,14 +1516,10 @@ IW  DLMT   45.3625 -112.5964 1569.00 Dillon, Montana, USA
 IW  FLWY   44.0827 -110.6993 2078.00 Flagg Ranch, Wyoming, USA
 IW  FXWY   43.6381 -111.0268 2254.00 Fox Creek, Wyoming, USA
 IW  IMW    43.8930 -110.9434 2552.00 Indian Meadow, Wyoming, USA
-IW  LOHW   43.6124 -110.6038 2121.00 Long Hollow, Wyoming, USA
-IW  MFID   43.4151 -115.8278 1302.00 Near Bowns Crk and Slater Flat Rd, Idaho, USA
+IW  LOHW   43.6124 -110.6038 2121.00 Long Hollow, Wyoming USA
+IW  MFID   43.4151 -115.8278 1302.00 Near Browns Crk and Slater Flat Rd, Idaho, USA
 IW  MOOW   43.7486 -110.7448 2128.00 Moose Ponds, Wyoming, USA
-IW  PHWY   41.3016 -105.4577 2645.00 Pilot Hill, Wyoming, USA
 IW  PLID   45.0876 -116.0003 2164.40 Pearl Lake, Idaho, USA
-IW  REDW   43.3624 -110.8518 2192.00 Red Top Meadow, Wyoming, USA
-IW  RWWY   41.6889 -107.2102 2402.00 Rawlins, Wyoming, USA
-IW  SMCO   39.1776 -106.9739 3435.00 Snowmass, Colorado, USA
 IW  SNOW   43.4599 -110.7541 2413.00 Snow King Mountain, Wyoming, USA
 IW  TPAW   43.4897 -110.9567 2680.00 Teton Pass, Wyoming, USA
 JP  ASAJ   44.1188  142.5930  220.00 Kamikawa Asahi
@@ -1719,7 +1720,8 @@ MN  VLC    44.1594   10.3864  555.00 Villacollemandina, Italy
 MN  VSL    39.4960    9.3780  370.00 Villasalto, Italy
 MN  VTS    42.6180   23.2350 1490.00 Vitosha, Bulgary
 MN  WDD    35.8373   14.5242   44.00 Wied Dalam, Malta
-MS  BTDF    1.3608  103.7729   64.00 Bukit Timah Dairy Farm, Singapore
+MS  BTDF    1.3617  103.7750   57.00 Bukit Timah Dairy Farm
+MS  UBIN    1.4179  103.9538   26.00 Ubin
 MU  P49A   39.5342  -84.7164  272.00 Miami Univ. Ecology Research Center, OH, USA
 MX  CCIG   16.2818  -92.1368 1625.00 COMITAN
 MX  HPIG   26.9368 -105.6640 1786.00 HIDALGO DEL PARRAL
@@ -1890,6 +1892,7 @@ NJ  KAD    10.4350    7.6414  668.00 Permanent station, Kaduna, NW Nigeria
 NJ  NSU     6.8670    7.4170  430.00 Permanent station, Nsukka, SE Nigeria
 NL  HGN    50.7640    5.9317  135.00 HEIMANSGROEVE, NETHERLANDS
 NM  BLO    39.1719  -86.5222  246.00 Bloomington, IN
+NM  CGM3   37.2977  -89.6582  148.00 Cape Girardeau, MO
 NM  FFIL   38.3813  -88.3896  128.10 Fairfield, IL
 NM  FVM    37.9812  -90.4273  137.00 French Village, MO
 NM  MGMO   37.1540  -92.2687  453.00 Mountain Grove, MO
@@ -1903,10 +1906,9 @@ NM  SLM    38.6361  -90.2364  186.00 St. Louis, MO
 NM  UALR   34.7751  -92.3429  138.00 University of Arkansas, Little Rock
 NM  USIN   37.9650  -87.6660  170.70 Univ. of Southern Indiana, Evansville, IN
 NM  UTMT   36.3497  -88.8636  110.00 Martin, TN
-NO  AKN    62.1783    6.9974  508.00 -
-NO  JETT   69.5557   20.4095  631.00 -
-NO  JMIC   70.9866   -8.5057  161.00 -
-NO  SPB2   78.1742   16.3846  200.00 -
+NO  AKN    62.1783    6.9974  508.00 
+NO  JETT   69.5557   20.4095  631.00 
+NO  SPB2   78.1742   16.3846  200.00 
 NR  NE201 -24.5153   23.9328  980.00 Sekoma
 NR  NE202 -24.1135   21.7823 1153.00 Lokgwabe
 NR  NE203 -22.9931   20.1956 1313.00 Kole
@@ -2014,13 +2016,13 @@ PL  GKP    53.2697   17.2367  115.00 GORKA KLASZTORNA, POLAND
 PL  KSP    50.8428   16.2931  353.00 KSIAZ, POLAND
 PL  KWP    49.6314   22.7075  448.00 PLSN/GEOFON Station Kalwaria Paclawska, Poland
 PL  NIE    49.4189   20.3131  649.00 PLSN Station Niedzica, Poland
-PL  OJC    50.2195   19.7984  391.00 -
+PL  OJC    50.2195   19.7984  391.00 
 PL  SUW    54.0125   23.1808  152.00 PLSN/GEOFON Station Suwalki, Poland
 PM  PESTR  38.8672   -7.5902  410.00 ESTREMOZ, PORTUGAL
-PM  PFVI   37.1328   -8.8268  189.00 -
-PM  PMOZ   32.8230  -17.1972 1027.00 -
+PM  PFVI   37.1328   -8.8268  189.00 
+PM  PMOZ   32.8230  -17.1972 1027.00 
 PM  PVAQ   37.4037   -7.7173  200.00 Station VAQUEIROS, Portugal
-PM  ROSA   38.7208  -28.2470  310.00 -
+PM  ROSA   38.7208  -28.2470  310.00 
 PN  CHSA   61.6080 -149.2120    0.10 -
 PN  GCSA   64.7461 -156.8792    0.00 Galena City Schools, Galena, AK, USA
 PN  NHSA   59.8111 -151.6127    0.00 Nikolaevsk School, Nikolaevsk, AK, USA
@@ -2531,7 +2533,6 @@ US  BRAL   31.1687  -87.0506   61.00 Brewton, Alabama, USA
 US  BW06   42.7667 -109.5583 2224.00 Boulder Array Site 6 (Pinedale Array Site 6), Wyoming, USA
 US  CBKS   38.8140  -99.7374  677.00 Cedar Bluff, Kansas, USA
 US  CBN    38.2046  -77.3732   70.00 Corbin (Fredericksburg Observatory), Virginia, USA
-US  CNNC   35.2393  -77.8901   29.00 Cliffs of the Neuse, North Carolina, USA
 US  COWI   46.1003  -89.1369  523.30 Conover, Wisconsin, USA
 US  DGMT   48.4702 -104.1959  646.00 Dagmar, Montana, USA
 US  DUG    40.1950 -112.8133 1477.00 Dugway, Tooele County, Utah, USA
@@ -2580,7 +2581,7 @@ US  WRAK   56.4191 -132.3466   80.90 Wrangell Island, Southeastern Alaska, Alask
 US  WUAZ   35.5169 -111.3739 1592.00 Wupatki, Arizona, USA
 US  WVOR   42.4339 -118.6367 1344.00 Wild Horse Valley, Oregon, USA
 UU  SRU    39.1108 -110.5238 1804.00 San Rafael Swell, UT, USA
-UW  BRAN   45.9734 -117.2277 1136.00 Beach Ranch, Enterprise, OR, USA
+UW  BRAN   45.9734 -117.2277 1153.80 Beach Ranch, Enterprise, OR, USA
 UW  DAVN   47.8006 -118.2741  495.00 Chrisman Ranch, Davenport, WA, USA
 UW  DOSE   47.7172 -122.9718   53.30 Dosewallips, Brinnon, WA, USA
 UW  FORK   47.9475 -124.5662   44.90 Forks, WA, USA
@@ -2588,13 +2589,13 @@ UW  GNW    47.5641 -122.8250  220.00 Green Mountain, WA, USA
 UW  HEBO   45.2135 -123.7554  875.00 Mt. Hebo, OR CREST BB SMO
 UW  LON    46.7506 -121.8096  853.00 Longmire CREST broad-band
 UW  LRIV   48.0575 -123.5040  293.80 Port Angeles, WA, USA
-UW  LTY    47.2545 -120.6664  807.00 Liberty BB CREST SMO
+UW  LTY    47.2545 -120.6664  807.00 Liberty Mine, WA, USA
 UW  OMAK   48.3584 -119.3332  696.00 Colville Reservation, Omak, WA, USA
 UW  RADR   46.4218 -123.7990  591.40 Radar Ridge, Naselle, WA
 UW  RATT   47.4255 -121.8025  442.40 Rattlesnake Lake, King County, WA
 UW  SHUK   48.8528 -121.6769 1516.00 Shuksan (Mt. Baker Ski Area), WA
 UW  SP2    47.5563 -122.2492   30.00 Seward Park, Seattle, WA, USA
-UW  TOLT   47.6947 -121.6895  541.00 Tolt Res, WA old TA-C05A
+UW  TOLT   47.6947 -121.6895  541.00 Tolt Reservoir, WA, USA
 UW  WISH   47.1170 -123.7712   45.00 Wishka, WA, USA
 VE  BAUV    8.9433  -68.0415  106.00 Baul - Cojedes
 VE  BIRV   10.4757  -66.2692  200.00 Birongo - Miranda
@@ -2619,6 +2620,18 @@ WM  CART   37.5868   -1.0012   65.00 ROA/UCM/GEOFON Station Cartagena, Spain
 WM  MAHO   39.8959    4.2665   15.00 ROA/UCM/GEOFON Station Mahon, Menorca
 WM  SFS2   35.1837   -2.4304  110.00 ROA/UCM Station (SFS2, PRUEBAS TUNEL ROA)
 WM  UCM    40.3075   -3.2441  819.00 ROA/UCM Station Universidad Complutense Madrid, Spain
+WY  YDD    44.3951 -110.5762 2400.00 Grant Village, YNP, WY, USA old TA-H17A
+XP  CS01   41.9423  -73.4647  222.00 Lakeville, CT USA
+XP  CS03   41.9483  -73.2623  419.00 Falls Village, CT USA
+XP  CS06   41.9059  -72.8686  267.00 Simsbury, CT USA
+XP  CS07   41.9025  -72.7512   27.00 East Granby, CT USA
+XP  CS08   41.9275  -72.5960    3.00 East Windsor, CT USA
+XP  CS09   41.8961  -72.4908   66.00 Ellington, CT USA, CT USA
+XP  CS10   41.8973  -72.3665  258.00 Tolland, CT USA
+XP  CS11   41.9386  -72.2808  208.00 Willington, CT USA
+XP  CS13   41.9667  -72.0038  206.00 Woodstock, CT USA
+XP  CS14   41.9522  -71.8417  160.00 Thompson, CT USA
+XP  CS15   41.8946  -71.6551  198.00 Chepachet, RI USA
 YB  MOJA   34.6670 -116.1775  736.60 West end of line
 YB  MOJB   34.6807 -116.1550  696.50 Close to road
 YB  MOJC   34.6855 -116.1338  707.30 Charley
@@ -2638,11 +2651,25 @@ YB  MOJP   34.7569 -115.8168 1007.50 Big gully
 YB  MOJQ   34.7609 -115.7952 1150.50 River summit
 YB  MOJR   34.7603 -115.7735  990.50 East end of wilderness
 YB  MOJS   34.7729 -115.7439 1150.00 Budweiser Springs
+YF  HEL1   66.3293  -38.1466  543.60 SE of Helheim Glacier, Greenland
+YF  HEL2   66.3870  -38.0780  373.00 NE of Helheim Glacier, Greenland
+YF  HEL3   66.4010  -38.2151  459.40 NW of Helheim Glacier, Greenland
+YF  HEL4   66.3322  -38.2266  507.40 SW of Helheim Glacier, Greenland
+YF  JIG1   69.2223  -49.8150  184.10 N of Jakobshavn Glacier, Greenland
+YF  JIG2   69.1493  -50.0859  253.70 SW of Jakobshavn Glacier, Greenland
+YF  JIG3   69.1203  -49.6454  307.30 SE of Jakobshavn Glacier, Greenland
 YN  TFRD   33.4948 -116.6022 1000.00 Ford Ranch, Anza, CA, USA
 YT  BEAR  -74.5476 -111.8511  384.10 BEAR
 YT  BYRD  -80.0170 -119.4738 1521.10 BYRD
 YT  FALL  -85.3066 -143.6284  291.10 FALL
 YT  THUR  -72.5301  -97.5606  238.80 THUR
+Z5  ICE1   63.3371 -146.0596 1294.00 E side Broxson Gulch
+Z5  ICE2   63.4220 -146.0702 1346.00 S of Denali fault, W of HWY 4
+Z5  ICE3   63.3478 -146.3760 1502.00 W side Eureka Glacier
+Z5  ICE4   63.2368 -146.3752 1291.00 E of Maclaren River, Wrangellia
+Z5  ICE5   63.3442 -146.7206 1103.00 W fork of Maclean River
+Z5  ICE6   63.4508 -146.8368 1188.00 Uppermost Susitna drainage
+Z5  ICE7   63.3468 -147.1677  932.00 Upper Susitna Basin swamps
 ZC  ABDR   18.8121  -70.6267 2848.00 La Vega, DR
 ZC  BADR   18.3897  -70.3558 1059.00 Bani, DR
 ZC  CADR   19.6670  -69.9400    0.00 Cabo Frances, DR
@@ -2671,7 +2698,7 @@ ZT  KEIT  -23.3996   28.8752  948.00 Keiting, Limpopo, South Africa
 ZT  LESE  -24.4152   29.7445  756.00 Lesego, Limpopo, South Africa
 ZT  MARA  -24.4616   27.5755 1462.00 Verloren, Limpopo, South Africa
 ZT  MARK  -23.5890   28.3912 1004.00 Marken, Limpopo, South Africa
-ZT  MPHEP -22.9065   30.1749  765.00 Mphephu
+ZT  MPHEP -22.9065   30.1749  765.00 Mphephu, Limpopo, RSA
 ZT  MRCO  -25.4723   26.4003 1333.00 Great Marico, North-West Province, South AFrica
 ZT  MTLB  -23.8143   27.0569  880.00 Matlabas, Limpopo
 ZT  NHAM  -24.9157   27.3170 1001.00 Northam, Limpopo Province, South Africa
@@ -2769,7 +2796,6 @@ IU  ANMO   34.9459 -106.4572 1820.00 2008-06-30T20:00:00 2599-12-31T23:59:59 Alb
  ==>  
  ** 2004/12/26 M9 Sumatra
  station gcmt:1916079 radial 15 30 net -SY cha BHZ
-Requesting event info for gcmt:1916079
 Net Sta   Lat.     Lon.      Elev.   SiteName
 CB  CAD    31.0000   97.5000 3070.00 Changdu, Tibet, China
 CB  NAQ    32.2500   92.2500 4500.00 Naqu,Tibet,China
@@ -3018,8 +3044,29 @@ YA  MC25   24.8861  103.6714 2050.00 2003MIT-China MC25
   
  ==>  
  station
-Warning: No station search parameters given
- ERROR 3264:  
+ ERROR 3264:  No station search parameters given
+
+  
+ ==>  
+ station net XA time 1969-1 +4y
+Net Sta   Lat.     Lon.      Elev.   SiteName
+XA  S12    -3.0400  -23.4200    0.00 ALSEP 12, Oceanus Procellarum, Moon
+XA  S14    -3.6500  -17.4800    0.00 ALSEP 14, Fra Mauro, Moon
+XA  S15    26.0800    3.6600    0.00 ALSEP 15, Hadley Rille, Moon
+XA  S16    -8.9700   15.5100    0.00 ALSEP 16, Descartes, Moon
+  
+ ==>  
+ station usgs:official20041226005853450_30 radial 0 5
+Net Sta   Lat.     Lon.      Elev.   SiteName
+PS  PSI     2.6938   98.9237  987.00 Parapat, Indonesia
+SY  GSI     1.3039   97.5755  107.00 GSI synthetic
+SY  LHMI    5.2288   96.9472    3.00 LHMI synthetic
+SY  PSI     2.6938   98.9237  987.00 PSI synthetic
+  
+ ==>  
+ station usgs:official20041226005853450_30 radial 0 5 net -SY
+Net Sta   Lat.     Lon.      Elev.   SiteName
+PS  PSI     2.6938   98.9237  987.00 Parapat, Indonesia
   
  ==>  
  quit

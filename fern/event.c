@@ -13,6 +13,8 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <time.h>
+#include <unistd.h>
+
 #include <sacio/timespec.h>
 
 #include "array.h"
@@ -599,7 +601,9 @@ event_by_event_id(char *id) {
     if(!id || *id == 0) {
         goto error;
     }
-    fprintf(stderr, "Requesting event info for %s ...", id);
+    if(isatty(fileno(stderr))) {
+        fprintf(stderr, "Requesting event info for %s ...", id);
+    }
 
     // Get Catalog identifier
     p = strchr(id, ':');

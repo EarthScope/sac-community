@@ -26,3 +26,9 @@ station gcmt:1916079 radial 15 30 net -SY cha BHZ
 
 station
 
+station net XA time 1969-1 +4y
+
+station usgs:official20041226005853450_30 radial 0 5
+
+station usgs:official20041226005853450_30 radial 0 5 net -SY
+

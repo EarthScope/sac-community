@@ -193,10 +193,9 @@ TESTS = use_sac$(EXEEXT) ucf$(EXEEXT) vars$(EXEEXT) sacio$(EXEEXT) \
 	testsuite/input/julday2.sm testsuite/input/long_and_high.sm \
 	testsuite/input/bbfk.sm testsuite/input/v6v7.sm \
 	testsuite/input/v6v7io.sm testsuite/input/v6v7iosp.sm \
+	testsuite/input/station.sm testsuite/input/event.sm \
 	$(am__append_8)
 @HAVE_FC_TRUE@am__append_7 = sacio_fortran.sh saciof saclibf
-#testsuite/input/event.sm \
-#testsuite/input/station.sm 
 
 # These tests have specific calls to the X11 device
 @X11_APP_TRUE@am__append_8 = testsuite/input/begindevices.sm \
