@@ -517,7 +517,7 @@ In Figure 4, the times/picks, and tic-marks are all lined up.
 
 **Distance And Geographic Variables Precision**
 
-Thee are several distance-related variables in the header, but DIST,
+There are several distance-related variables in the header, but DIST,
 AZ, BAZ, and GCARC are not used as input for internal computation;
 they are derived from the header variables EVLA, EVLO STLA, and STLO,,
 which is why only those four are in the footer.
