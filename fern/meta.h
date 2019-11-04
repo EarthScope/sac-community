@@ -7,7 +7,7 @@
 
 #include "event.h"
 
-int  sac_array_fill_meta_data(sac **files, int verbose);
+int  sac_array_fill_meta_data(sac **files, int verbose, int ph5);
 void sac_array_fill_meta_data_from_event(sac **s, Event *ev, int verbose);
 void sac_array_fill_meta_data_from_file(sac **files, int verbose, char *file);
 void sac_fill_meta_data_from_event(sac *s, Event *ev, int verbose);

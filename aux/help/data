@@ -24,6 +24,7 @@ SYNTAX
       { request request_file }
       { d | raw | quality | modified | best | merged | qc | unknown }
       { verbose }
+      { ph5 }
       { sac }
       { read }
       { mseed | miniseed }
@@ -61,6 +62,8 @@ INPUT
    :out: Output request file for saving the data request to run later
 
    :prefix: Prefix for miniseed data files
+
+   :ph5: Get additional metadata from the IRIS PH5 Web service
 
    :sac: Convert the miniseed data into sac files and save.  Station meta
       data is obtained for the stations. If an event is specified, event

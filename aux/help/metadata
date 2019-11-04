@@ -11,6 +11,7 @@ SYNTAX
 
   METADATA {catalog:eventid}
       {file metadata_file}
+      {ph5}
       {verbose}
 
 INPUT
@@ -22,6 +23,8 @@ INPUT
        either a text file or an xml file.  There are *important* differences
        between xml and text files. Input metadata files must have channel
        level metadata, see the STATION_ command.
+
+   :ph5: Get additional metadata from the IRIS PH5 web service
 
    :VERBOSE:  Watch the details of the metadata insertion process
 

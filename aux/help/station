@@ -18,6 +18,7 @@ SYNTAX
       {origin lon lat}
       {id:eventid}
       {radius min_radius max_radius}
+      {ph5}
       {region w e s n}
       {level station|channel}
       {epochs on|off}
@@ -49,6 +50,8 @@ INPUT
    :Level: Station or Channel, Station level metadata only includes
       Station location, Channel level metadata includes component
       orientation and can be used as input to the METADATA_ command
+
+   :PH5: Get additional station data from the IRIS PH5 web service
 
    :Epochs: - Off - Combine all stations with the same Network and
               Station, using the first value encountered
