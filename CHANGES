@@ -1,5 +1,21 @@
-Please see file HISTORY for list of official release and 
+Please see file HISTORY for list of official release and
 a summary of bug fixes and enhancements made between releases.
+
+2019/11 Version 102.0 released
+
+- New Header Version 7 - Allows for storing time and location data in 64 bits
+- Evalresp Updated to Version 5.0
+- Added DATA, EVENT, STATION, METADATA, and RESPONSE commands to get
+     data and metadata from Web Services
+- Added ability to read miniSEED data
+- SAC files (binary/alpha) now uses a BSD-License library
+- Removed maximum file in memory limitation
+- CONVOLE command changed functionality
+- Lots of bug fixes
+
+- Requirements:
+  - libcurl
+  - libxml2
 
 2013/11 Version 101.6a released
 

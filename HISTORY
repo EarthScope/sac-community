@@ -1,18 +1,39 @@
 This is a reverse chronoloical listing of enhancements and bug fixes made between
 SAC versions.  An overview of these are in file CHANGES.
 
-2017/06: Version 102.0 Released
-        * FEATURE: Remove Memory Limitations: The "Max files: reading first 1000" Bug
+2019/11: Version 102.0 Released
+        * FEATURE: SAC now supports v7 Header with 64 timing and location values
+        * FEATURE: New commands: EVENT, DATA, STATION, METADATA, RESPONSE
+             Allow retrieval of data and metadata from Web Services
+             Requries: libcurl, libfern (distributed), libxml2
+             See: tutorial/data_access
+        * FEATURE: miniSEED reading available using the READ command
+             Requires: libmseed
+        * FEATURE: TRAVELTIME added option ONLINE to use TauP Web Service
+        * FEATURE: Added OUTPUT_FORMAT: controls format of floating point values
+        * FEATURE: MERGE attempts to determine a DELTA from timing of files
+             Assumes no gaps or overlap. Useful for DELTA with truncated
+             precision for data with long durations and high sample rates
+        * FEATURE: TRANSFER POLEZERO search
+             Will search for a polezero file if not provided or if a
+             wild card is used, e
+             transfer from polezero to none
+             transfer from polezero s SAC_PZ* to none
+        * FEATURE: sacset - new program to set sac header values
+        * FEATURE: sac file (binary and alpha) I/O now uses BSD-Licensed library
+        * FEATURE: CONVOLVE - major function changes
+        * FEATURE: Remove Memory Limits: The "Max files: reading first 1000" Bug
         * FEATURE: SACAUX Magic: Try to determine location if SACAUX is not set
         * FEATURE: Added ROTINC command  (Frederik Tilmann)
-             Rotate a set of 3 perpendicular components either around the vertical
-             direction or around the Transverse direction.  For the latter, it can
-             include the free-surface correction.
+             Rotate a set of 3 perpendicular components either around the
+             vertical direction or around the Transverse direction.  For the
+             latter, it can include the free-surface correction.
         * FEATURE: Added QUITMACRO command - Exit out of a macro
         * FEATURE: Added (GETVAL) expression to retrieve Amplitude values
-             Get value at time t for all files in memory, or get value for the Nth
-             file at time t.  Examples in the inline help file.
-        * FEATURE: Added ability to save system command output to Blackboard variables
+             Get value at time t for all files in memory, or get value for
+             the Nth file at time t.  Examples in the inline help file.
+        * FEATURE: Added SC TO VAR: save system command output
+             to Blackboard variables, e.g.
              SAC> SC TO VAR echo "Hello System Command"
              SAC> GETBB VAR
         * FEATURE: Tilde (~) expansion for user home directory in filenames
@@ -20,19 +41,17 @@ SAC versions.  An overview of these are in file CHANGES.
         * FEATURE: Added wildcard filenames for merge, addf, subf, divf, mulf
              SAC> MERGE *.sac
         * FEATURE: Update libedit to 20160618-3.1
-        * FEATURE: Update evalresp to 4.0.6, added libxml2 dependency
         * FEATURE: Shift log label out if axis is heavily annotated
-       
         * FEATURE: Example convolve now uses time domain (Arthur Snoke)
-             Differs from SAC convolve in that it allows for a time-symmetric pulse
-             rather than always causal.  See the help file SAC_library.
+             Differs from SAC convolve in that it allows for a time-symmetric
+             pulse rather than always causal.  See the help file SAC_library.
         * FEATURE: Example time shift program in doc/examples
         * FEATURE: Example Interpolation program in doc/examples
         * FEATURE: Added macros/demo example
         * FEATURE: Updated error message for write with bad number of files
         * FEATURE: Do not execute ROLLBACK, ever
-        * FEATURE:  Images have been added to two HELP files in both the HTML and the PDF
-             versions of the manual: SYMBOL and LINESTYLE
+        * FEATURE: Images have been added to two HELP files in both the HTML
+             and the PDF versions of the manual: SYMBOL and LINESTYLE
         * FEATURE: All XWindows use a double buffer (Remove double buffer option)
         * FEATURE: Additions to libsac (Sac Library Routines)
              - lifite() (LInear FIT to Evenly spaced data)
@@ -44,6 +63,24 @@ SAC versions.  An overview of these are in file CHANGES.
              - dif(), int()
              - New Documentation
              - New Examples
+        * BUG Fix: MERGE bug with time output and inerpolation at file boundaries
+        * BUG Fix: Time plotting done in double precision (64bit)
+        * BUG Fix: MACROS work again from the command line
+        * BUG Fix: Add WINDOW to REPORT
+        * BUG Fix: Window size handles wide screens "better"
+        * BUG Fix: Parsing Keys must be completed spelled out
+        * BUG Fix: FFT memory leaks and buffer overruns
+        * BUG Fix: CUT and CUTIM now behave the same
+        * BUG Fix: setbbv names are not null-terminated
+        * BUG Fix: Fix to polar plotting and uninit memory in crname()
+        * BUG Fix: INTERP linear xvalues are in 64 bit
+        * BUG Fix: Alphanumeric picks now include leading zeros
+        * BUG Fix: sgfto*.csh linewidth changed from 1.0 to 0.7
+        * BUG Fix: PPK WAVEFORM documentation
+        * BUG Fix: PPK SAVELOC ON - Now the default
+        * BUG Fix: Clip data to xlimits
+        * BUG Fix: Document PPK GMT/ZERO option
+        * BUG FIX: SAVEIMG/SAVE works in SSS
         * BUG FIX: Remove numbers staring with 0 (no octal)
         * BUG FIX: Fix for use of 32 bit time_t in evalresp-xml
         * BUG FIX: Compatibility check for strlcat

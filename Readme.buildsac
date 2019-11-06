@@ -10,6 +10,12 @@ Contents
 * IMPORTANT MESSAGE
 -------------------------------------------------------------------------
 
+* Required Libraries
+-------------------------------------------------------------------------
+Building sac requires the following libraries are installed:
+  - libcurl  (library that supports making internet requests)
+  - libxml2  (XML Library)
+
 * Introduction
 -------------------------------------------------------------------------
 This file includes instructions for building SAC and its accompanying
@@ -53,7 +59,7 @@ other than Cygwin use the editline library by default.  If readline is on
 your system, you can switch on the use of readline with configure option
 "--enable-readline".
 
-Mac OSX: Tests have been done with OS 10.4 through OS 10.12.
+Mac OSX: Tests have been done with OS 10.4 through OS 10.14.
 
 Mac OS 10.6.8 is strictly little endian (i386) and the default is for
 gcc to be 64 bits.  A binary built on older system may run on newer
@@ -95,13 +101,13 @@ for more information about the vpath directive.
 * Quick Instructions for Building and Installing SAC:
 -------------------------------------------------------------------------
 Here is the process we used to build SAC starting from the directory
-containing the sac-101.6a directory tree:
+containing the sac-102.0 directory tree:
 
 % mkdir build
 % cd build
-% ../sac-101.6a/configure --prefix=/usr/local/sac > ../130612.build
-% make >> ../130612.build
-% make install >> ../130612.build
+% ../sac-102.0/configure --prefix=/usr/local/sac > ../build.out
+% make >> ../build.out
+% make install >> ../build.out
 
 This prefix directory is the default, but is included here for
 completeness. The directory tree starting with sac-101.6a is unchanged.
