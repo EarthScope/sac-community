@@ -20,7 +20,7 @@ PROGS_IO = rsac1c rsac1f \
 all: iotest dirs
 
 io: $(PROGS_IO)
-lib: $(PROGS_LIB)
+lib: dirs
 
 time_shift_prog: time_shift/time_shift.f
 	$(FC) $(CFLAGS) -o $@ $^ $(LDLIBS)

@@ -75,7 +75,7 @@ while test $# -gt 0; do
 	    libs="$libs -lsac"
 	    ;;
 	evalresp | libevalresp )
-	    libs="$libs -lsac -levalresp -lxml2"
+	    libs="$libs -lsac -levalresp -lspline -lmxmlev -levalresp_log "
 	    ;;
 	*)
 	    Usage
