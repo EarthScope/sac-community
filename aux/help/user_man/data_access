@@ -311,3 +311,40 @@ command::
             KZDATE = JUN 09 (160), 1994
             KZTIME = 00:33:45.400
 
+
+Teleseismic traveltime example
+------------------------------
+
+Given a region of interest to conduct a teleseismic traveltime
+experiment, first find the events 30 to 90 degrees from the region of
+interest, Hawaii (Lon: 158W, Lat: 20N).  Here we only look for events
+within the last year and magnitude > 7 to limit the results, typically
+we use more expansive search parameters.  As this uses a do loop, the
+commands need to be contained within a macro ::
+
+     % cat data.sm
+     event mag 7  radial -158 21 30 90  usgs time now -1years  to events  outfile events_usgs_m7.xml
+
+     do ev list %events
+        message "Event $ev"
+        mkdir $ev
+        cd $ev
+        station $ev cha BHZ outfile stations.txt region -161 -152 18 22
+        data $ev  cha BHZ  in stations.txt out request.txt  duration 90m  miniseed
+        cd ..
+     enddo
+
+     % sac
+     SAC> macro data.sm
+
+This should result in a set of directories named with eventids
+containing a station file, the data request, and miniseed files to be
+unpacked.  Miniseed files can be unpacked, metadata applied, and
+traveltime data set using::
+
+     SAC> sc to PWD "basename @$(pwd)"
+     SAC> getbb PWD
+     SAC> read *.mseed
+     SAC> metadata %PWD
+     SAC> traveltime online picks 0
+     SAC> write over
