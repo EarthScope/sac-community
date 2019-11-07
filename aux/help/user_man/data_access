@@ -3,7 +3,8 @@ Data Access
 
 Overview
 --------
-Starting in version 102.0, SAC knows how to request a variety data and metadata from online web services. These abilities include
+Starting in version 102.0, SAC knows how to request a variety of data
+and metadata from online web services. These abilities include
 
 - event searches ( EVENT_ )
 - station searches ( STATION_ )
@@ -42,7 +43,7 @@ will search the USGS Earthquake catalog by default::
 **Using the now keyword**
 
 It can sometimes be difficult to remember today's date. Instead you
-can use the `now` keyword in place of the first date. Lets also change
+can use the `now` keyword in place of the first date. Let's also change
 the catalog to Global CMT::
 
      SAC> event time now -100years mag 9 gcmt
@@ -348,3 +349,5 @@ traveltime data set using::
      SAC> metadata %PWD
      SAC> traveltime online picks 0
      SAC> write over
+
+

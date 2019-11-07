@@ -129,9 +129,9 @@ disppk(tdelay)
                     line(xploc1, yploc, xploc2, yploc);
                     if (cmgam.ipktyp[j - 1] == 3) {
                         yploc1 =
-                            fmax(cmgem.uplot.ymin, yploc - 0.5 * cmgam.pkhgth);
+                            fmax(cmgem.uplot.ymin, yploc - 0.5 * cmgam.pkhgth * (cmgem.uplot.ymax-cmgem.uplot.ymin));
                         yploc2 =
-                            fmin(cmgem.uplot.ymax, yploc + 0.5 * cmgam.pkhgth);
+                            fmin(cmgem.uplot.ymax, yploc + 0.5 * cmgam.pkhgth * (cmgem.uplot.ymax-cmgem.uplot.ymin));
                         line(xploc, yploc1, xploc, yploc2);
                     }
                     setlinewidth(LINE_WIDTH_THIN);

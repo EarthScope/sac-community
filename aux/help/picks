@@ -32,22 +32,23 @@ INPUT
        line.
 
    :HORIZONTAL:  A horizontal line at the data point nearest the time
-       pick.  Pick id is placed above or below the line.
+       pick.  Pick id is placed above the line if the nearest time point
+       is in the top part of the plot, otherwise it is below the line.
 
    :CROSS:  A vertical line at the time pick and a horizontal line at the
        nearest data point.
 
-   :WIDTH v:  Change the width of the pick display to v.
+   :WIDTH v:  For CROSS change width of pick display to v.
+        Default: 0.1 of full plot width
 
-   :HEIGHT v:  Change the height of the pick display to v.  Height and
-       width refer to HORIZONTAL and CROSS only and are in fractions of
-       full plot size.
+   :HEIGHT v:  For CROSS or HORIZONTAL, change height pick display to v.
+       Default: 0.1 of full plot height
 
 DEFAULT VALUES
 --------------
 ::
 
-  PICK ON WIDTH 0.1 HEIGHT 0.1; all pick types are VERTICAL.
+  PICK ON VERTICAL
 
 DESCRIPTION
 -----------
@@ -67,7 +68,7 @@ EXAMPLES
 
       SAC> PICKS T4 C T5 C T6 C W 0.3 H 0.1
 
-  Other time pick display types will remain unchanged.
+  Other time pick displays will remain unchanged.
 
 LATEST REVISION
 ---------------

@@ -68,24 +68,23 @@ DEFAULT VALUES
 
 DESCRIPTION
 -----------
-   The format of the PLOTPK plot is similiar to the PLOT1_ plot.  This plot
-   requires a terminal with a cursor.  When the cursor comes on and the bell
-   rings, you enter single-character responses to perform the various functions.
-   Some but not all responses produce graphic output on the screen.  Error and
-   output messages are printed at the top of the screen.
+   The format of the PLOTPK plot is similiar to the PLOT1_ plot.  When the
+   crosshairs comes on, you position the crosshair center at a point on the
+   displayed waveform and enter single-character keystrokes to perform various
+   functions. Some but not all keystrokes produce graphic output on the screen.
+   Error and output messages are printed at the top of the plot window.  Mouse
+   clicks will identify the time and amplitude of the cursor position. A mouse
+   drag will initiate a zoom operation.
 
-   If one tries to resize the window during PPK, SAC exits from PPK with the
-   error message:  Exiting from PPK because picks are inaccurate after resize.
-   Window resizing must be done before entering PPK.
+   If one tries to resize the plot window during PPK, SAC exits with an error
+   message. Plot window resizing must be done before entering PPK.
 
    Picks that are currently in the header are automatically displayed on
-   the screen as vertical lines with labels.  Output from the various cursor
-   responses can be directed to the SAC header, to a alphanumeric pick file if
-   open (see OAPF_) and to the terminal display window as drawn lines (vertical
-   or horizontal) and/or in text lines at the top of the display.  If REFERENCE
-   is on with a value v, if z is typed, there will be a "zero-level" horizontal
-   line drawn at the cursor's vertical position plus two additional horizontal
-   lines at +/- v.
+   the screen as vertical lines at the pick time with labels.  Output from some
+   keystrokes can be directed to the SAC header, to an alphanumeric file, or a
+   hypo pick file if open (see OAPF_ and OHPF_).  If REFERENCE is on with a
+   value v, if z is typed, there will be a "zero-level" horizontal line drawn at
+   the cursor's vertical position plus two additional horizontal lines at +/- v.
 
    If option SAVELOCS is on, cursor locations from the L cursor option are
    saved to blackboard variables as follows:
@@ -179,4 +178,4 @@ SEE COMMANDS
 
 LATEST REVISION
 ---------------
-   July 2017 (version 102.0)
+   Version 102.0
