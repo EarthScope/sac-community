@@ -60,11 +60,24 @@ EXAMPLES
 
   See the section on Macros in the SAC Users Manual for more examples of the
   use of blackboard variables in macros.
+  
+OUTPUT_FORMAT
+-------------
+
+   Prior to SAC v102.0,  floating-point numbers in message_, listhdr_, and 
+   evaluate_ displayed limited precision.  OUTPUT_FORMAT, introduced in v102.0, 
+   allows one to see values with higher precision.  The command syntax is *setbb 
+   output_format xxx*, where xxx can be default (%g), short (%.4f), long 
+   (%.15f), shortG (%.5g), longG (%.15g), shortE (%.4e), longE(%.15e), and off 
+   (reverts to old SAC format).  For examples showing the utility of 
+   OUTPUT_FORMAT, see the section on *Floating-Point Precision in SAC* in 
+   TUTORIAL_.
+   
 
 SEE COMMANDS
 ------------
-  GETBB_, EVALUATE_, UNSETBB_
+  GETBB_, EVALUATE_, UNSETBB_, LISTHDR_, MESSAGE_
 
 LATEST REVISION
 ---------------
-  May 15, 1987 (Version 10.2)
+  Version 102,0

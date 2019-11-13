@@ -3,7 +3,7 @@ READ
 
 SUMMARY
 -------
-Reads data from SAC data files on disk into memory.
+Reads data from on disk into memory.
 
 SYNTAX
 ------
@@ -129,7 +129,7 @@ DESCRIPTION
    to have a four  digit value for the year.  Files with two digit year
    values will be assumed to be in the twentieth century, and will be
    incremented by 1900. Normally all data in memory prior to the execution
-   of another READ_ command is lost.  The new data replaces the old data.
+   of another READ command is lost.  The new data replaces the old data.
 
    If the keyword MORE is the second symbol in the command, the new data is
    placed in memory after the old data.  The data file list becomes the
@@ -146,16 +146,19 @@ DESCRIPTION
    may be absolute or relative pathnames pointing to other directories on your
    system.  Examples of an absolute pathname is::
 
-     /dir/subdir/file
+     /disk/dir/subdir/file
 
    Examples of a relative pathnames is::
 
-     subdir/file
+     ./subdir/file
+     ../subdir2/file
 
    In the above examples "disk" is the name of a physical disk partition, "dir"
    is the name of a top level directory, "subdir" is a subdirectory of that
    partition, and "file" is a file in that subdirectory.  In general there is no
-   limit on the nesting of subdirectories.
+   limit on the nesting of subdirectories.  The first relative-pathway example 
+   assumes the user is in subdir. 
+    
    Filenames may also contain wild-card characters.  You can use them match
    a single character, to match zero or more characters, and to form groupings
    of characters.  Some examples are given below.  See the WILD_ command for
@@ -191,56 +194,7 @@ DESCRIPTION
    loaded into memory with the MORE option, it becomes part of the existing
    history.
 
-   All commands which load data into memory are now monitored to maintain
-   a level of confidence in the event information when moved from the SAC data
-   buffer to the CSS data buffer.  The READDB_ command was the most reliable way
-   to load data into SAC but ORACLE isis no longer supported.  Still, for this
-   reason, the levels of confidence (in ascending order) are LOW, HIGH, and RDB.
-   TRUST is an option set on the commandline of most commands that load SAC
-   data.  TRUST can be ON or OFF.  Each time a command loads data into SAC,
-   it responds to both the confidence level and the TRUST to determine how
-   to treat matching event IDs.
-
-   When requisite levels of TRUST and confidence are present, matching event IDs
-   are treated as an indicator that the two files share identical event
-   information.  This being the case, the event IDs are left unchanged.  When
-   requisite levels of TRUST and confidence are not met, matching event IDs are
-   are treated as artifacts of the merging of two different data formats:
-   SAC and CSS.
-
-   READDB_, being the only truely reliable way to load data, will always treat
-   the data as reliable as long as READDB_ is the only method used to load data
-   into SAC.  In this case, the TRUST will not be used, and the confidence lever
-   will always be set to RDB.  If any other data loading method is used, then
-   the confidence will be reduced to HIGH, or LOW, and RDB will respond
-   similarly to the next set of commands. The following commands are
-   considered HIGH confidence:  READ_, READCSS_, READHDR_, and ADDSTACK.
-   These commands will consider both the confidence level and the TRUST in
-   determining how to handle event ID matches.  If the confidence
-   is HIGH (or RDB) and the TRUST is ON, then confidence is set to HIGH, and the
-   event IDs are treated as reliable.  However if the TRUST is OFF or if the
-   confidence level is LOW, then the confidence is set to LOW and the matching
-   event IDs are treated as artifacts, and new IDs are generated for the
-   incoming data file.
-
-   The following commands are considered LOW confidence because event ID
-   information is not available:  READTABLE_, READGSE_, READSUDS_, FUNCGEN_,
-   DATAGEN_, READSP_, READSDD_, and READ_ with the SEGY option and
-   READCSS_ when the input files are in the CSS 2.8 data format.
-   These commands will always generate event IDs and set the confidence
-   level to LOW.
-
-   Commands written by the user and added to SAC via the external command
-   interface (the LOAD_ command) are a special case, since the user writes the
-   code.  In these cases, the confidence is based entirely on the TRUST that the
-   user sets.  Hence, it is incumbent upon the user to set the TRUST either on
-   the commandline or within the code.  For more information use HELP_ EXTERNAL.
-   Within a given history, if data is loaded into SAC by any means other than
-   READDB_, the data is probably not consistent with the database, and should
-   probably not be loaded back into the database, unless the user takes
-   responsibility to insure consistency among events.
-
-
+   
 
 EXAMPLES
 --------
@@ -360,4 +314,4 @@ SEE COMMANDS
 
 LATEST REVISION
 ---------------
-   June. 18, 1999 (Version 0.58)
+   Version 102.0

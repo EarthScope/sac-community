@@ -27,7 +27,8 @@ SYNTAX
 
 INPUT
 -----
-   :Time: Set the start and end times. End times can be set relatively
+   :Time: Set the start and end times. End times can be set relatively.  See
+       `DATA ACCESS`_ for time formats.
 
    :Region west east south north: Set the geographic bounds of the search region
 
@@ -36,7 +37,7 @@ INPUT
 
    :Origin lon lat: Set the origin (Lon, Lat) for a radial search
 
-   :catalog:eventid: Set the origin and time from an events origin time
+   :catalog\:eventid: Set the origin and time from an event's origin time
        and location. This can be used with a region search.
 
    :Network: Set a collection of networks. Accepts lists and wildcards.
@@ -51,7 +52,8 @@ INPUT
       Station location, Channel level metadata includes component
       orientation and can be used as input to the METADATA_ command
 
-   :PH5: Get additional station data from the IRIS PH5 web service
+   :PH5: Get additional station data from the IRIS PH5 web service:
+     https://service.iris.edu/ph5ws/
 
    :Epochs: - Off - Combine all stations with the same Network and
               Station, using the first value encountered
@@ -62,8 +64,8 @@ INPUT
 
    :ShowTimes: Show start and end date-times in the output.
 
-   :Outfile: Save the station search into a file. Files ending in xml
-       are saved as FDSNStationXML documents; those ending in txt and
+   :Outfile: Save the station search into a file. Files ending in .xml
+       are saved as FDSNStationXML documents; those ending in .txt and
        others are saved as "csv" text.  The Epochs option will modify
        how the output appears.
 
@@ -161,20 +163,23 @@ been operating since the mid-1990s and has multiple time periods::
    IU  ANMO   34.9459 -106.4572 1850.00 Albuquerque, New Mexico, USA
 
    SAC> station net IU sta ANMO epochs on showtimes
-   Net Sta   Lat.     Lon.      Elev.   TimeOn              TimeOff             SiteName
-   IU  ANMO   34.9459 -106.4572 1850.00 1989-08-29T00:00:00 1995-07-14T00:00:00 Albuquerque, New Mexico, USA
-   IU  ANMO   34.9459 -106.4572 1850.00 1995-07-14T00:00:00 2000-10-19T16:00:00 Albuquerque, New Mexico, USA
-   IU  ANMO   34.9502 -106.4602 1839.00 2000-10-19T16:00:00 2002-11-19T21:07:00 Albuquerque, New Mexico, USA
-   IU  ANMO   34.9459 -106.4572 1820.00 2002-11-19T21:07:00 2008-06-30T00:00:00 Albuquerque, New Mexico, USA
-   IU  ANMO   34.9459 -106.4572 1820.00 2008-06-30T00:00:00 2008-06-30T20:00:00 Albuquerque, New Mexico, USA
-   IU  ANMO   34.9459 -106.4572 1820.00 2008-06-30T20:00:00 2599-12-31T23:59:59 Albuquerque, New Mexico, USA
+   Net Sta   Lat.     Lon.      Elev.   TimeOn              TimeOff             
+   IU  ANMO   34.9459 -106.4572 1850.00 1989-08-29T00:00:00 1995-07-14T00:00:00 
+   IU  ANMO   34.9459 -106.4572 1850.00 1995-07-14T00:00:00 2000-10-19T16:00:00
+   IU  ANMO   34.9502 -106.4602 1839.00 2000-10-19T16:00:00 2002-11-19T21:07:00
+   IU  ANMO   34.9459 -106.4572 1820.00 2002-11-19T21:07:00 2008-06-30T00:00:00
+   IU  ANMO   34.9459 -106.4572 1820.00 2008-06-30T00:00:00 2008-06-30T20:00:00
+   IU  ANMO   34.9459 -106.4572 1820.00 2008-06-30T20:00:00 2599-12-31T23:59:59 
+   
+(To fit on the page, the last column *SiteName* is left out.  For all of
+them it is *Albuquerque, New Mexico, USA*.)
 
 ERROR MESSAGES
 --------------
 
 SEE COMMANDS
 ------------
-   EVENT_, DATA_, RESPONSE_, METADATA_
+   EVENT_, DATA_, RESPONSE_, METADATA_, `DATA ACCESS`_
 
 LATEST REVISION
 ---------------

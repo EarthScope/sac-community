@@ -9,6 +9,7 @@ _________
   - Introduction_
   - `Tutorial for New Users`_
   - `SAC Analysis Capabilities`_
+  - `Data Access`_
   - `SAC Macros`_
   - `SAC Inline Functions`_
   - `SAC Data File Format`_
@@ -29,8 +30,9 @@ ____________________________
 SAC Subprocesses
 ________________
 
-  A subprocess is like a small program within the main SAC program. You start a subprocess by typing 
-  its acronym: SPE for Spectral Estimation or SSS for Signal Stacking.
+  A subprocess is like a small program within the main SAC program. You start a
+  subprocessby typing its acronym: SPE for Spectral Estimation or SSS for Signal
+  Stacking.
 
   - SPE_
   - SSS_

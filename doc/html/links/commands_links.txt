@@ -240,6 +240,7 @@
 .. _rollback: crr.html
 
 .. _sac data file format:  ../manual/file_format.html
+.. _data access:  ../manual/data_access.html
 .. _sac_data_file_format:  ../manual/file_format.html
 .. _inline:  ../manual/inline.html
 .. _tutorial:  ../manual/tutorial.html

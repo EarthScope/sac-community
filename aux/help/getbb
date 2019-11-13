@@ -54,8 +54,8 @@ DESCRIPTION
    results in new blackboard variables.  Blackboard variables can also be
    substituted directly into SAC commands.  See SAC_MACROS_ for details.
 
-   The options to this command let you control where the values are printed
-   and the print format.  One can print them to the terminal or append them to 
+   The options to this command let you control where the values are printed.
+   One can print them to the terminal or append them to
    the end of a text file.  One can include the variable name and  an equals 
    sign before the value or one can just have the value printed.  One can have a 
    newline placed after each value printed in a list or one can have them placed 
@@ -104,21 +104,11 @@ EXAMPLES
    back to the terminal is needed in order to close the text file and dump the
    buffer.
    
-OUTPUT_FORMAT
--------------
 
-   Prior to SAC v102.0,  floating-point numbers in message, lh, and evaluate had 
-   low precision.  OUTPUT_FORMAT, introduced in v102.0, allows one to see the 
-   values in higher precision.  The command syntax is setbb output_format xxx, 
-   where xxx can be default (%g), short (%.4f), long (%.15f), shortG (%.5g), 
-   longG (%.15g), shortE (%.4e), longE(%.15e), and off (reverts to old
-   SAC format).  For examples showing the utility of OUTPUT_FORMAT,
-   see the section on *Floating-Point Precision in SAC* in TUTORIAL_.
-   
 SEE COMMANDS
 ------------
-   SETBB_, EVALUATE_
+   SETBB_
 
 LATEST REVISION
 ---------------
-   Version 102.0
+    Sept. 1, 1988 (Version 10.3E)

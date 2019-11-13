@@ -81,9 +81,16 @@ DESCRIPTION
   
     SAC> r triangle.sac synthetic.sac
     SAC> correlate normalized
+    SAC> write sac-autoc_triangle.sac sac-cc_triangle-synth.sac 
+    SAC> r sac-autoc_triangle.sac 
+    SAC> ch kevnm "sac-autoc_triangle" 
+    SAC> write over 
+    SAC> r sac-cc_triangle-synth.sac 
+    SAC> ch kevnm "sac-cc_tri-synth" 
+    SAC> write over 
     
-  In CORRELATE, KEVNM is not changed, but to make this example easier to follow, 
-  they are changed later using SAC.
+  After *correlate normalized*, the filenames and KEVNM remain as they were 
+  before.  Shown here is an example as to to label the output files. 
 
   If N is the number of points in g and M the number of points in f, the
   total number of points in corr is N+M-1.  SAC does the calculation in the
@@ -135,7 +142,7 @@ ACKNOWLEDGEMENTS
 
 LATEST REVISION
 ---------------
-Juney 2019: SAC v102.0 (added normalization)
+SAC v102.0 (added normalization)
 
 .. image:: correlate_output.png
    :width: 90%

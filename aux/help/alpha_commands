@@ -173,6 +173,7 @@ Alphabetical Comamnd Listing
                  into memory.
 :recalltrace_:   rolls back the laste committed waveform and most header fields
 :report_:        Informs the user about the current state of SAC.
+:response_:      Download responses in sac-polezero or evalresp format
 :reverse_:       Reverse the order of data points.
 :rglitches_:     Removes glitches and timing marks.
 :rmean_:         Removes the mean.

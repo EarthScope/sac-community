@@ -3,7 +3,7 @@ RESPONSE
 
 SUMMARY
 -------
-Download responses in either sac polezero or evalresp format
+Download responses in sac-polezero or evalresp format
 
 SYNTAX
 ------
@@ -17,7 +17,7 @@ SYNTAX
 
 INPUT
 -----
-   :sacpz | polezero | pz:  Download sac polezero response files
+   :sacpz | polezero | pz:  Download SAC polezero response files (default)
 
    :evalresp | evresp | resp:  Download evalresp response files
 
@@ -39,7 +39,7 @@ DEFAULT VALUES
 --------------
 ::
 
-   METADATA SACPZ
+   RESPONSE SACPZ
 
 DESCRIPTION
 -----------
@@ -49,12 +49,12 @@ DESCRIPTION
  values must be defined:
 
    - knetwk (Network)
-   - kstnm (Station)
-   - khole (Location)
+   - kstnm (Station name)
+   - khole (Location identifier)
    - kcmpnm (Component)
    - kzdate/kztime (Absolute time of the data, Optional)
 
- An example of getting the response for XE.DOOR..BHZ in either sacpz or evalres::
+An example of getting the response for XE.DOOR..BHZ in either sacpz or evalres::
 
     SAC> r XE.DOOR..BHZ.M.1994.160.003345.sac
     SAC> response

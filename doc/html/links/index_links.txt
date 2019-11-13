@@ -236,6 +236,7 @@
 .. _sss: commands/sss.com/sss.html
 
 .. _tutorial:          manual/tutorial.html
+.. _data access:       manual/data_access.html
 .. _todo:              manual/todo.html
 .. _analysis:          manual/analysis.html
 .. _inline:            manual/inline.html

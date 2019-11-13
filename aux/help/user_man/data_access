@@ -1,20 +1,21 @@
 Data Access
 +++++++++++
 
-Overview
+OVERVIEW
 --------
-Starting in version 102.0, SAC knows how to request a variety of data
-and metadata from online web services. These abilities include
+Starting in version 102.0, SAC is capable of viewing and downloading event,
+station, and response metadata and downloading waveforms from online 
+Web services. These abilities include
 
-- event searches ( EVENT_ )
-- station searches ( STATION_ )
-- data searches ( DATA_ )
-- download data ( DATA_ )
-- applying station meta-data to data ( METADATA_ )
-- applying event meta-data to data ( METADATA_ )
-- reading miniseed ( READ_ )
-- download instrument responses ( RESPONSE_ )
-- travel time data ( TRAVELTIME_ )
+    - event searches ( EVENT_ )
+    - station searches ( STATION_ )
+    - data searches ( DATA_ )
+    - download data ( DATA_ )
+    - applying station meta-data to data ( METADATA_ )
+    - applying event meta-data to data ( METADATA_ )
+    - reading miniseed ( READ_ )
+    - download instrument responses ( RESPONSE_ )
+    - traveltime data ( TRAVELTIME_ )
 
 Web requests are made to the colletion of Web Services at
 `<http://service.iris.edu>`_ along with event searches through the
@@ -23,12 +24,16 @@ Event search results, EVENT_, can be used as
 input for timing and location in DATA_ and STATION_ seaches using
 assocaited event id. Examples are given below.
 
-Event Search
+The format for latitudes and longitudes is degrees.decimal-degrees.  Longitudes 
+run from -180.00 degrees to 180.00 degrees.  The formats used for time are given 
+at the end of this file.
+
+EVENT SEARCH
 ------------
 
-**Large Events**
+**Broad search**
 
-A simple event search is to find all M 9 earthquakes within the past
+Let's find all M > 9 earthquakes within the past
 century (100 years), assuming the date today is Oct-31-2019.  This
 will search the USGS Earthquake catalog by default::
 
@@ -40,10 +45,10 @@ will search the USGS Earthquake catalog by default::
      1960-05-22T19:11:20 -38.14  -73.41  25.00 9.50 mw  iscgem/official - usgs:official19600522191120_30
      1952-11-04T16:58:30  52.62  159.78  21.60 9.00 mw  iscgem/official - usgs:official19521104165830_30
 
-**Using the now keyword**
+**Using the NOW keyword**
 
-It can sometimes be difficult to remember today's date. Instead you
-can use the `now` keyword in place of the first date. Let's also change
+Using the *NOW* keyword in place of the first date is useful in scripts so one 
+does not have to explicitly enter today's date.  Let's use *NOW* and also change
 the catalog to Global CMT::
 
      SAC> event time now -100years mag 9 gcmt
@@ -51,7 +56,7 @@ the catalog to Global CMT::
      2011-03-11T05:47:32  37.52  143.05  20.00 9.10 MW  GCMT/- GCMT gcmt:3279407
      2004-12-26T01:01:09   3.09   94.26  28.60 9.00 MW  GCMT/- GCMT gcmt:1916079
 
-Notice that the results from Global CMT, compared to the USGS, do not
+Note that the results from Global CMT, compared to the USGS, do not
 have the older events and the prefix for the event id is also
 different.
 
@@ -64,14 +69,14 @@ depth range, that can be specified directly::
      Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
      1994-06-09T00:33:16 -13.84  -67.55 631.30 8.20 mw  US/HRV - usgs:usp0006dzc
 
-Station Search
+STATION SEARCH
 --------------
 
 **Rectangular Search in a Network**
 
-Looking for available stations is straight forward by using a region,
+Looking for available stations is straightforward by using a region,
 network name, station name and channels.  Here we only use a small
-region and a network of `IU`::
+region and the network *IU*::
 
      SAC> station region -130 -110 45 48 net IU
      Warning: Multiple instances of net.sta, likely mutiple epochs
@@ -109,20 +114,20 @@ be simplified by using and event id::
      IU  MIDW   28.2156 -177.3698   20.00 Midway Island, USA
      IU  TIXI   71.6341  128.8667   40.00 Tiksi, Russia
 
-Data Search
+DATA SEARCH
 -----------
 
 **Data for 1 hour after event origin**
 
 Once the event or time range and stations are identified, downloading
 data is straight forward.  First, the event is determined; here we use
-the 1994 deep Bolivian event and a station named `DOOR`. Data requests
+the 1994 deep Bolivian event and a station named *DOOR*. Data requests
 need to specific where the data should be placed; this includes
-`miniSEED` for directly saving the miniSEED files, `SAC` for
-converting the miniSEED files into sac binary format, and `READ` for
+*miniSEED* for directly saving the miniSEED files, *SAC* for
+converting the miniSEED files into SAC binary format, and *READ* for
 placing the data directly into memory.  Any combination of these
 options can be used. We also specify the duration of the data be
-downloaded using the `DURATION` option::
+downloaded using the *DURATION* option::
 
      SAC> event time 1994/160 1d mag 8 gcmt
      Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
@@ -144,8 +149,8 @@ downloaded using the `DURATION` option::
 **Data download using a station file**
 
 If a stations file exists, data for these can be directly
-downloaded. Lets create the station file, then download the data.  We
-also save the data request using the `OUT` parameter in DATA_, then
+downloaded. Let's create the stations file, then download the data.  We
+also save the data request using the *OUT* parameter in DATA_, then
 immediately use that request file
 
 Create a station file call net_BK.txt::
@@ -248,7 +253,7 @@ metadata using the METADATA_ command::
            evla = -1.382000e+01
            evdp = 6.471000e+02
 
-Response
+RESPONSE
 --------
 
 Responses for specific files is also simple with files read into
@@ -263,11 +268,11 @@ memory. Responses can be obtained in sacpz or evalresp format.::
      Writing data to RESP.XE.DOOR..BHZ [ 49.80 KiB]
 
 
-Traveltimes
------------
+TRAVELTIME
+----------
 
 Traveltimes can also be retrieved and set using the traveltime Web
-Service at IRIS. Just specific the `ONLINE` keyword to the TRAVELTIME_
+Service at IRIS. Just specific the *ONLINE* keyword to the TRAVELTIME_
 command::
 
      SAC> data sta CMB net BK cha BHZ gcmt:369471 duration 1h read
@@ -312,6 +317,9 @@ command::
             KZDATE = JUN 09 (160), 1994
             KZTIME = 00:33:45.400
 
+TIME FORMATS
+------------
+
 
 Teleseismic traveltime example
 ------------------------------
@@ -351,3 +359,50 @@ traveltime data set using::
      SAC> write over
 
 
+Times are of the form *h:m:s* or *h:m:m.ms* where *h* is the hour, *m*
+the minute, *s* the seconds, and *ms* the millisecodnds. If the time
+is left out, the beginning of the day is used, i.e. *00:00:00.000*.
+
+Dates are in the form *Y-M-D* or *Y-O* where *Y* is the year, *M* the
+month, *D* the day of the month, and *O* the day of the year (or
+ordinal day). Separators for the date components include */*, *,*, and
+*-*.  Separators between the date and time is either a *T* or the date
+separator.
+
+========== ================== ==================
+Date Only  Date and Time      Date and Time
+========== ================== ==================
+Y/O        Y/OTh:m:s          Y/OTh:m:s.ms
+           Y/O/h:m:s          Y/O/h:m:s.ms
+Y-O        Y-OTh:m:s          Y-OTh:m:s.ms
+           Y-O-h:m:s          Y-O-h:m:s.ms
+Y,O        Y,OTh:m:s          Y,OTh:m:s.ms
+           Y,O,h:m:s          Y,O,h:m:s.ms
+Y/M/D      Y/M/DTh:m:s        Y/M/DTh:m:s.ms
+           Y/M/D/h:m:s        Y/M/D/h:m:s.ms
+Y-M-D      Y-M-DTh:m:s        Y-M-DTh:m:s.ms
+           Y-M-D-h:m:s        Y-M-D-h:m:s.ms
+Y,M,D      Y,M,DTh:m:s        Y,M,DTh:m:s.ms
+           Y,M,D,h:m:s        Y,M,D,h:m:s.ms
+========== ================== ==================
+
+Durations are of the form *[+-]###unit* where *+* is time forward and *-* is a time backwards from the reference time, *unit* are given below, and the *###* is an integer value.
+
+========== ===================
+Duration   Abbreviations
+========== ===================
+Seconds    s sec secs seconds
+Minutes    m min mins minutes
+Hours      h hrs hours
+Days       d days
+Weeks      w wk wks weeks
+Months     mon months
+Years      y yr yrs years
+Decades    dec decades
+Centuries  cent centuries
+========== ===================
+
+
+LATEST REVISION
+---------------
+   Version 102.0

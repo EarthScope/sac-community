@@ -3,7 +3,10 @@ METADATA
 
 SUMMARY
 -------
-Insert station and event metadata
+Metadata is data about data content and is critical for analysis of timeseries 
+data such as seismic data. IRIS has various web-based tools that allow users to 
+query, view, and download metadata.  This command allows one to insert available 
+metadata into SAC data files.
 
 SYNTAX
 ------
@@ -16,7 +19,7 @@ SYNTAX
 
 INPUT
 -----
-   :catalog:eventid: Set the event to use when specifying event metadata.
+   :catalog\:eventid: Set the event to use when specifying event metadata.
        An eventid can be obtained using from the EVENT_ command
 
    :file metadata_file: Use the metadata from a file.  The file may be
@@ -25,6 +28,7 @@ INPUT
        level metadata, see the STATION_ command.
 
    :ph5: Get additional metadata from the IRIS PH5 web service
+       <http://service.iris.edu>.
 
    :VERBOSE:  Watch the details of the metadata insertion process
 
@@ -36,30 +40,32 @@ DEFAULT VALUES
 
 DESCRIPTION
 -----------
-  Insert metadata for files currently in memory.  Metadata, i.e. sac headers,
+  Insert metadata into files currently in memory.  Metadata, i.e. sac headers,
   is only added for the station if the station id (Network Station Location
   and Channel) are defined in the sac header.  Metadata for the event is only
   added if the event is specified as an command option.
 
   Metadata for the station includes
-  - stla    Station Latitude
-  - stlo    Station Longitude
-  - stel    Station Elevation (in meters)
-  - stdp    Station Depth (always 0.0)
-  - cmpaz   Component Azimuth (degrees clockwise from North)
-  - cmpinc  Component Inclination (See description between xml and text files)
+  
+    - stla:    Station Latitude
+    - stlo:    Station Longitude
+    - stel:    Station Elevation (in meters)
+    - stdp:    Station Depth (always 0.0)
+    - cmpaz:   Component Azimuth (degrees clockwise from North)
+    - cmpinc:  Component Inclination (See discussion below)
 
   Metadata for the event includes
-  - evla   Event Latitude
-  - evlo   Event Longitude
-  - evel   Event Elevation (always 0.0)
-  - evdp   Event Depth in km
-  - origin time (kzdate and kztime)
-  - iztype set to IO
-  - kevnm (if short enough)
+  
+    - evla:  Event Latitude
+    - evlo:   Event Longitude
+    - evel:   Event Elevation (always 0.0)
+    - evdp:   Event Depth in km
+    - origin time: (kzdate and kztime)
+    - iztype: set to IO
+    - kevnm: (if short enough)
 
-Setting of kzdate, kztime and iztype is set eqivalent to the following
-sac commands::
+Setting of kzdate, kztime and iztype is eqivalent to the following
+SAC commands::
 
     SAC> ch o gmt 1994 160 00 33 16 230
     SAC> ch iztype IO
@@ -178,30 +184,31 @@ memory.  The example below uses the eventid of gcmt:3279407::
 
 COMPONENT INCLINATION
 ---------------------
-The component inclination is defined differently between SAC and SEED/MiniSEED.
+The component inclination is defined differently between SAC and SEED/miniSEED.
 Sac defined the inclination as degrees from vertical, what is typically thought
-of as an inclination.  SEED/MiniSEED defines the component inclincation as a
+of as an inclination.  SEED/miniSEED defines the component inclincation as a
 component dip, defined as degrees from horizontal down into the Earth.
 
 =========== ================ ======
-Value       SEED / MiniSEED  SAC
+Value       SEED / miniSEED  SAC
 =========== ================ ======
 Horizontal    0.0            90.0
 Up          -90.0            0.0
 Down         90.0            180.0
 =========== ================ ======
 
-Data retrieved automatically is handled correctly and the conversion is seamless.
-For metadata from a file specified by the `file metadata_file` command option, the
-type of file determines if the component is define as a dip (MiniSEED) or
-inclination (SAC).  This is the same convection used in mseed2sac for consistency.
+Data retrieved automatically is handled correctly and the conversion is 
+seamless.  For metadata from a file specified by the *file metadata_file* 
+command option, the type of file determines if the component is define as a dip 
+(miniSEED) or inclination (SAC).  This is the same convection used in mseed2sac 
+<https://seiscode.iris.washington.edu/projects/mseed2sac> for consistency.
 
 ========== =========== =================== ================
 File Type   Separator  Convention          Conversion Value
 ========== =========== =================== ================
 text        , (comma)  SAC / Inclination     0
 text        | (bar)    SAC / Inclination    90
-xml         n/a        MiniSEED / Dip       90
+xml         n/a        miniSEED / Dip       90
 ========== =========== =================== ================
 
 **Missing** Format of the metadata files and how to create them.
