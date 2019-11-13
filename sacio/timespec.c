@@ -126,6 +126,12 @@ static const char *fmts[] = {
  * @return timepsec64 value filled with the current time
  *
  * @note Nanoseconds are always set to 0
+ *
+ * @code
+ * timespec64 t = {0,0};
+ * t = timespec64_now();
+ * timespec64_print(&t);
+ * @endcode
  */
 timespec64
 timespec64_now() {
@@ -150,6 +156,12 @@ timespec64_now() {
  * @return timepsec64 value filled with the time of Year 0, Day 1
  *
  * @note Nanoseconds are always set to 0
+ *
+ * @code
+ * timespec64 t = timespec64_undef();
+ * assert_eq(t.tv_sec, -62167219200);
+ * assert_eq(t.tv_nsec, 0);
+ * @endcode
  */
 timespec64
 timespec64_undef() {
@@ -161,7 +173,7 @@ timespec64_undef() {
 
 
 /**
- * @brief Crate a timespec64 value from Year, Day of Year, Hour, Minute, Second, Nanosecond
+ * @brief Create a timespec64 value from Year, Day of Year, Hour, Minute, Second, Nanosecond
  *
  * @memberof timespec64
  * @ingroup time
@@ -175,6 +187,17 @@ timespec64_undef() {
  *
  * @return new timespec64 value
  *
+ * @code
+ * int64_t y = 0;
+ * int m = 0, d = 0,  j = 0;
+ * timespec64 t = {0,0};
+ * t = timespec64_from_yjhmsf(1999, 60, 10, 34, 59, 0);
+ * timespec64_to_ymd(&t, &y, &m, &d, &j);
+ * assert_eq(y, 1999);
+ * assert_eq(m, 3);
+ * assert_eq(d, 1);
+ * assert_eq(j, 60);
+ * @endcode
  */
 timespec64
 timespec64_from_yjhmsf(int64_t year, int jday, int hour, int min, int sec, int64_t ns) {
@@ -202,7 +225,7 @@ timespec64_from_yjhmsf(int64_t year, int jday, int hour, int min, int sec, int64
 }
 
 /**
- * @brief Crate a timespec64 value from Year, Month, Day, Hour, Minute, Second, Nanosecond
+ * @brief Create a timespec64 value from Year, Month, Day, Hour, Minute, Second, Nanosecond
  *
  * @memberof timespec64
  * @ingroup time
@@ -217,6 +240,17 @@ timespec64_from_yjhmsf(int64_t year, int jday, int hour, int min, int sec, int64
  *
  * @return new timespec64 value
  *
+ * @code
+ * int64_t y = 0;
+ * int m = 0, d = 0,  j = 0;
+ * timespec64 t = {0,0};
+ * t = timespec64_from_ymdhmsf(2000, 3, 1, 10, 34, 59, 0);
+ * timespec64_to_ymd(&t, &y, &m, &d, &j);
+ * assert_eq(y, 2000);
+ * assert_eq(m, 3);
+ * assert_eq(d, 1);
+ * assert_eq(j, 61);
+ * @endcode
  */
 timespec64
 timespec64_from_ymdhmsf(int64_t year, int month, int day, int hour, int min, int sec, int64_t ns) {
@@ -251,6 +285,21 @@ timespec64_from_ymdhmsf(int64_t year, int month, int day, int hour, int min, int
  * @param t     timespec64 value to parse into
  *
  * @return 1 on success, 0 on failure
+ *
+ * @code
+ * char out[64] = {0};
+ * timespec64 t = {0,0};
+ *
+ * timespec64_parse("1994/160", &t);
+ * strftime64t(out, sizeof out, "%F %T", &t);
+ * assert_eq(strcmp(out, "1994-06-09 00:00:00"), 0);
+ *
+ * timespec64_parse("1992-10-31T23:59:59.999", &t);
+ * strftime64t(out, sizeof out, "%F %T", &t);
+ * assert_eq(strcmp(out, "1992-10-31 23:59:59"), 0);
+ *
+ * @endcode
+ *
  */
 int
 timespec64_parse(const char *buf, timespec64 *t) {
@@ -271,6 +320,11 @@ timespec64_parse(const char *buf, timespec64 *t) {
  * @ingroup time
  * @param t  \ref timespec64
  *
+ * @code
+ * timespec64 t = {0,0};
+ * timespec64_parse("1994/160", &t);
+ * timespec64_print(&t);
+ * @endcode
  */
 void
 timespec64_print(timespec64 *t) {
@@ -289,6 +343,28 @@ timespec64_print(timespec64 *t) {
  * @param d  duration to add to to timespec64
  *
  * @return new timespec64 value (a + d)
+ *
+ * @code
+ * char out[64] = {0};
+ * timespec64 t  = {0,0};
+ * timespec64 t1 = {0,0};
+ * duration d = {0,0};
+ *
+ * timespec64_parse("1970/001", &t);
+ * assert_eq(t.tv_sec, 0);
+ *
+ * duration_parse("1year", &d);
+ * assert_eq(d.type, Duration_Years);
+ * assert_eq(d.n, 1);
+ *
+ * t1 = timespec64_add_duration(t, &d);
+ * assert_eq(t1.tv_sec, 365*24*60*60);
+ * assert_eq(t1.tv_nsec, 0);
+ *
+ * strftime64t(out, sizeof out, "%F %T", &t1);
+ * assert_eq(strcmp(out, "1971-01-01 00:00:00"), 0);
+ *
+ * @endcode
  */
 timespec64
 timespec64_add_duration(timespec64 a, duration *d) {
@@ -329,6 +405,17 @@ timespec64_add_duration(timespec64 a, duration *d) {
  *     - -1 if a < b
  *     - +1 if a > b
  *
+ * @code
+ * timespec64 a = {0,0};
+ * timespec64 b = {0,0};
+ *
+ * timespec64_parse("1994/01", &a);
+ * timespec64_parse("1994/02", &b);
+ *
+ * assert_eq(timespec64_cmp(&a, &b), -1);
+ * assert_eq(timespec64_cmp(&b, &a), +1);
+ * assert_eq(timespec64_cmp(&a, &a),  0);
+ * @endcode
  */
 int
 timespec64_cmp(timespec64 *a, timespec64 *b) {
@@ -565,6 +652,15 @@ strptime64(const char *buf, const char *fmt, struct TM *tm, int64_t *ns) {
  * @return first character not read based on format during success,
  *    NULL on failure
  *
+ * @code
+ * char out[64] = {0};
+ * timespec64 t = {0,0};
+ * strptime64t("1994 03 01 23:59:47", "%Y %m %d %H:%M:%S", &t);
+ *
+ * strftime64t(out, sizeof out, "%F %T", &t);
+ * assert_eq(strcmp(out, "1994-03-01 23:59:47"), 0);
+ * @endcode
+ *
  */
 char *
 strptime64t(const char *buf, const char *fmt, timespec64 *t) {
@@ -731,8 +827,15 @@ strftime64(char *dst, size_t n, const char *fmt, struct TM *tm, int64_t ns) {
  *
  * @return length of output character string, 0 on failure
  *
+ * @code
+ * char out[64] = {0};
+ * timespec64 t = {0,0};
+ * strptime64t("1994 03 01 23:59:47", "%Y %m %d %H:%M:%S", &t);
+ *
+ * strftime64t(out, sizeof out, "%F %T", &t);
+ * assert_eq(strcmp(out, "1994-03-01 23:59:47"), 0);
+ * @endcode
  */
-
 size_t
 strftime64t(char *dst, size_t n, const char *fmt, timespec64 *t) {
     struct TM tm;
@@ -749,6 +852,12 @@ strftime64t(char *dst, size_t n, const char *fmt, timespec64 *t) {
  *
  * @warning User owns the duration and is responsibile for freeing the
  *    underlying memory
+ *
+ * @code
+ * duration *d = duration_new();
+ * assert_eq(d->n, 0);
+ * assert_eq(d->type, Duration_None);
+ * @endcode
  */
 duration *
 duration_new() {
@@ -765,6 +874,13 @@ duration_new() {
  *
  * @param d  duration to initialize
  *
+ * @code
+ * duration d = {0,0};
+ * duration_init(&d);
+ *
+ * assert_eq(d.n, 0);
+ * assert_eq(d.type, Duration_None);
+ * @endcode
  */
 void
 duration_init(duration *d) {
@@ -796,6 +912,22 @@ duration_init(duration *d) {
  *      - dec, decades
  *      - cent, centuries
  *    - durations are allowed to be positive or negative
+ *
+ * @code
+ * duration d = {0,0};
+ *
+ * duration_parse("8w", &d);
+ * assert_eq(d.n, 8);
+ * assert_eq(d.type, Duration_Weeks);
+ *
+ * duration_parse("50years", &d);
+ * assert_eq(d.n, 50);
+ * assert_eq(d.type, Duration_Years);
+ *
+ * duration_parse("-15days", &d);
+ * assert_eq(d.n, -15);
+ * assert_eq(d.type, Duration_Days);
+ * @endcode
  */
 int
 duration_parse(char *in, duration *d) {
@@ -861,6 +993,12 @@ duration_parse(char *in, duration *d) {
  *
  * @warning User owns the duration and is responsibile for freeing the 
  *     underlying memory
+ *
+ * @code
+ * duration *d = duration_from_string("3000s");
+ * assert_eq(d->n, 3000);
+ * assert_eq(d->type, Duration_Seconds);
+ * @endcode
  */
 duration *
 duration_from_string(char *in) {
@@ -876,6 +1014,32 @@ duration_from_string(char *in) {
 }
 
 
+/**
+ * @brief Get dates values from timespec64
+ *
+ * @memberof timespec64
+ * @ingroup  time
+ *
+ * @details Get year, month, day and day of the year from a timespec64 value
+ *
+ * @param   t      input timespec64 value
+ * @param   year   output year
+ * @param   month  output month
+ * @param   day    output day of the month
+ * @param   oday   output day of the year
+ *
+ * @code
+ * int64_t y = 0;
+ * int m = 0, d = 0, j = 0;
+ * timespec64 t = {0,0};
+ * timespec64_parse("1999/365", &t);
+ * timespec64_to_ymd(&t, &y, &m, &d, &j);
+ * assert_eq(y, 1999);
+ * assert_eq(m,   12);
+ * assert_eq(d,   31);
+ * assert_eq(j,  365);
+ * @endcode
+ */
 void
 timespec64_to_ymd(timespec64 *t, int64_t *year, int *month, int *day, int *oday) {
     struct TM tm;

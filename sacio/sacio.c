@@ -87,6 +87,15 @@ sac_float(sac *s, int id) {
     return v;
 }
 
+static int
+sac_int(sac *s, int id) {
+    int v = 0;
+    if(!sac_get_int(s, id, &v)) {
+        return SAC_INT_UNDEFINED;
+    }
+    return v;
+}
+
 /**
  * @brief Get begin value
  * @private
@@ -189,7 +198,34 @@ sac_float(sac *s, int id) {
  * @param      nerr       status code, 0 on success, non-zero on header
  *
  * @return     sac file structure, NULL on failure
- */
+ *
+ * Reading a sac file should result in a pointer to a sac-file structure
+ * @code
+ * int nerr = 0;
+ * sac *s = sac_read("t/test_io_small.sac", &nerr);
+ * assert_ne(s, NULL);
+ * assert_eq(nerr, 0);
+ * @endcode
+ *
+ * Reading a file that does not exist will return a NULL pointer and
+ *    an error code of 108
+ * @code
+ * int nerr = 0;
+ * sac *s = sac_read("non-existant-file", &nerr);
+ * assert_eq(s, NULL);
+ * assert_eq(nerr, 108);
+ * @endcode
+ *
+ * Reading a file that exists but is not a sac file will return a NULL
+ *    pointer and an error code of 1317
+ * @code
+ * int nerr = 0;
+ * sac *s = sac_read("sacio.c", &nerr);
+ * assert_eq(s, NULL);
+ * assert_eq(nerr, 1317);
+ * @endcode
+ *
+*/
 sac *
 sac_read(char *filename, int *nerr) {
     return sac_read_internal(filename, 1, nerr);
@@ -208,6 +244,15 @@ sac_read(char *filename, int *nerr) {
  * @param      nerr        status code, 0 on success, non-zero on failure
  *
  * @return     sac file structure, NULL on failure
+ *
+ * @code
+ * int nerr = 0;
+ * sac *s = sac_read_header("t/test_io_small.sac", &nerr);
+ * assert_eq(nerr, 0);
+ * assert_eq(s->x, NULL);
+ * assert_eq(s->y, NULL);
+ * assert_ne(s->h, NULL);
+ * @endcode
  */
 sac *
 sac_read_header(char *filename, int *nerr) {
@@ -222,24 +267,87 @@ sac_read_header(char *filename, int *nerr) {
  * @ingroup    sac
  * @memberof   sac
  *
- * @details    write a sac file to dist, header and data
+ * @details    write a sac file to disk, header and data
  *
  * @param      s         sac file to write to disk
  * @param      filename  file to write to
  * @param      nerr      status code, 0 on success, non-zero on error
  *
+ * Example of writing a sac file
+ * @code
+ * int nerr = 0;
+ * sac *s = sac_read("t/test_io_small.sac", &nerr);
+ * assert_eq(nerr, 0);
+ * sac_write(s, "t/test_io_small.sac.tmp", &nerr);
+ * assert_eq(nerr, 0);
+ * @endcode
  */
 void
 sac_write(sac *s, char *filename, int *nerr) {
     sac_write_internal(s, filename, SAC_WRITE_HEADER_AND_DATA, s->m->swap, nerr);
 }
 
+/**
+ * @brief      write a sac header to disk
+ *
+ * @ingroup    sac
+ * @memberof   sac
+ *
+ * @details    write a sac header to disk
+ *
+ * @param      s         sac header to write to disk
+ * @param      filename  file to write to, must exist and be a sac file
+ * @param      nerr      status code, 0 on success, non-zero on error
+ *
+ * Example of writing a sac header
+ * @code
+ * int nerr = 0;
+ * sac *s = sac_read("t/test_io_small.sac", &nerr);
+ * assert_eq(nerr, 0);
+ * sac_write_header(s, "t/test_io_small.sac", &nerr);
+ * assert_eq(nerr, 0);
+ * @endcode
+ *
+ * A file that does not exist should return a error code of 108
+ * @code
+ * int nerr = 0;
+ * sac *s = sac_read("t/test_io_small.sac", &nerr);
+ * assert_eq(nerr, 0);
+ * sac_write_header(s, "non-existant-file", &nerr );
+ * assert_eq(nerr, 108);
+ * @endcode
+ *
+ * A file that is not a sac file should return an error code of 1317
+ * @code
+ * int nerr = 0;
+ * sac *s = sac_read("t/test_io_small.sac", &nerr);
+ * assert_eq(nerr, 0);
+ * sac_write_header(s, "sacio.c", &nerr);
+ * assert_eq(nerr, 1317);
+ * @endcode
+ */
 void
 sac_write_header(sac *s, char *filename, int *nerr) {
     sac_write_internal(s, filename, SAC_WRITE_HEADER, s->m->swap, nerr);
 }
 
-
+/**
+ * @brief Identify if a header is a time value
+ *
+ * @ingroup    sac
+ * @memberof   sac
+ *
+ * @details Check is the sac header value is a time value
+ *
+ * @param   hid   sac ::HeaderID
+ *
+ * @return  True if header value is a time value type
+ *
+ * @code
+ * assert_eq(sac_is_timeval(SAC_B), 1);
+ * assert_eq(sac_is_timeval(SAC_DEPMAX), 0);
+ * @endcode
+ */
 int
 sac_is_timeval(int hid) {
     switch(hid) {
@@ -299,7 +407,7 @@ sac_f64_new() {
  * @details    set a 32-bit float value in the sac header
  *
  * @param      s      sac file
- * @param      n      sac header id
+ * @param      n      sac ::HeaderID
  * @param      value  value to set (value is converted from double to float)
  *
  * @return     1 on success, 0 on error
@@ -327,7 +435,7 @@ sac_set_f32(sac *s, int n, double value) {
  *             are set in the 32-bit header
  *
  * @param      s      sac file
- * @param      n      sac header id
+ * @param      n      sac ::HeaderID
  * @param      value  value to set
  *
  * @return     return type
@@ -356,7 +464,7 @@ sac_set_f64(sac *s, int n, double value) {
  * @details    get a 32-bit float value from the sac header
  *
  * @param      s   sac file
- * @param      n   sac header id
+ * @param      n   sac ::HeaderID
  * @param      v   value to get (must be double precision / 64-bit)
  *
  * @return     1 on success, 0 on failure
@@ -385,7 +493,7 @@ sac_get_f32(sac *s, int n, double *v) {
  *             the 64-bit header, value is taken from the 32-bit header
  *
  * @param      s   sac file
- * @param      n   sac header id
+ * @param      n   sac ::HeaderID
  * @param      v   value to get
  *
  * @return     return type
@@ -453,6 +561,16 @@ sac_copy_f32_to_f64(sac *s) {
  * @param      value   timing value to set (64 bit value)
  *
  * @return     1 on success, 0 on failure
+ *
+ * Exaple of setting the time pick t3 to 13.50
+ * @code
+ * int nerr = 0;
+ * double t = 0.0;
+ * sac *s = sac_read("t/test_io_small.sac", &nerr);
+ * sac_set_pick(s, 3, 13.50);
+ * sac_get_float(s, SAC_T3, &t);
+ * assert_eq(t, 13.50);
+ * @endcode
  */
 int
 sac_set_pick(sac *s, int n, double value) {
@@ -488,6 +606,16 @@ sac_set_pick(sac *s, int n, double value) {
  * @param      t   return value (64-bit value)
  *
  * @return     1 on success, 0 on failure
+ *
+ * Example of getting a time pick by its number, 0 to 9
+ * @code
+ * int nerr = 0;
+ * double t = 0.0;
+ * sac *s = sac_read("t/test_io_small.sac", &nerr);
+ * sac_set_pick(s, 3, 13.50);
+ * sac_get_pick(s, 3, &t);
+ * assert_eq(t, 13.50);
+ * @endcode
  */
 int
 sac_get_pick(sac *s, int n, double *t) {
@@ -522,6 +650,24 @@ sac_get_pick(sac *s, int n, double *t) {
  *             See sac::sac_get_float() and sac::sac_set_float() for the details
  *             about how the different header version impact which floating point
  *             values are set and get.
+ *
+ * @code
+ * int nerr = 0;
+ * double t = 0.0;
+ * sac *s = sac_read("t/test_io_small.sac", &nerr);
+ * sac_set_float(s, SAC_DELTA, 1.0/3.0);
+ *
+ * // Get delta, 32bit value, from the v6 header
+ * sac_get_float(s, SAC_DELTA, &t);
+ * assert_ne(t, 1.0/3.0);
+ *
+ * // Switch to the v7 header
+ * sac_set_v7(s);
+ *
+ * // Get delta, 64bit value, from the v7 footer
+ * sac_get_float(s, SAC_DELTA, &t);
+ * assert_eq(t, 1.0/3.0);
+ * @endcode
  */
 void
 sac_set_v7(sac *s) {
@@ -539,6 +685,27 @@ sac_set_v7(sac *s) {
  *             See sac::sac_get_float() and sac::sac_set_float() for the details
  *             about how the different header version impact which floating point
  *             values are set and get.
+ * @code
+ * int nerr = 0;
+ * double t = 0.0;
+ * sac *s = sac_read("t/test_io_small.sac", &nerr);
+ * sac_set_float(s, SAC_DELTA, 1.0/3.0);
+ *
+ * // Switch to the v7 header
+ * sac_set_v7(s);
+ *
+ * // Get delta, 64bit value, from the v7 footer
+ * sac_get_float(s, SAC_DELTA, &t);
+ * assert_eq(t, 1.0/3.0);
+ *
+ * // Switch to the v6 header
+ * sac_set_v6(s);
+ *
+ * // Get delta, 32bit value, from the v6 header
+ * sac_get_float(s, SAC_DELTA, &t);
+ * assert_ne(t, 1.0/3.0);
+ *
+ * @endcode
  */
 void
 sac_set_v6(sac *s) {
@@ -556,6 +723,30 @@ sac_set_v6(sac *s) {
  *             after setting \p the type of file and the number of data points
  *
  * @return     newly created sac file structure
+ *
+ * Create a new sac file in memory
+ * @code
+ * int v = 0;
+ * sac *s = sac_new();
+ * assert_ne(s, NULL);
+ * assert_eq(s->x, NULL);
+ * assert_eq(s->y, NULL);
+ *
+ * sac_get_int(s, SAC_EVEN, &v);
+ * assert_eq(v, TRUE);
+ *
+ * sac_get_int(s, SAC_POLARITY, &v);
+ * assert_eq(v, FALSE);
+ *
+ * sac_get_int(s, SAC_OVERWRITE, &v);
+ * assert_eq(v, TRUE);
+ *
+ * sac_get_int(s, SAC_CALC_DIST_AZ, &v);
+ * assert_eq(v, TRUE);
+ *
+ * sac_get_int(s, SAC_FILE_TYPE, &v);
+ * assert_eq(v, ITIME);
+ * @endcode
  */
 sac *
 sac_new() {
@@ -598,6 +789,15 @@ sac_new() {
  *
  * @param      s   sac file struture to free
  *
+ * Example of creating and freeing a sac file in memory
+ * @code
+ * sac *s = sac_new();
+ * sac_set_int(s, SAC_NPTS, 100);
+ * sac_alloc(s);
+ * assert_ne(s->y, NULL);
+ * sac_free(s);
+ *
+ * @endcode
  */
 void
 sac_free(sac * s) {
@@ -627,6 +827,21 @@ sac_free(sac * s) {
  *             before allocation
  *
  * @param      s   sac file to allocate the data for
+ *
+ * Example of creating and allocating space for data in a sac file in memory
+ * @code
+ * sac *s = sac_new();
+ * sac_set_int(s, SAC_NPTS, 100);
+ * sac_alloc(s);
+ * assert_ne(s->y, NULL);
+ * assert_eq(s->x, NULL);
+ *
+ * // Set the file type to Amplitude/Phase (2 components)
+ * sac_set_int(s, SAC_FILE_TYPE, IAMPH);
+ * sac_alloc(s);
+ * assert_ne(s->y, NULL);
+ * assert_ne(s->x, NULL);
+ * @endcode
  *
  */
 void
@@ -664,6 +879,26 @@ sac_alloc(sac * s) {
 #define SAC_ALPHA_STRING_FMT   "%8s"
 #define SAC_ALPHA_DOUBLE_FMT   "%.17g" // https://stackoverflow.com/a/21162120
 
+/**
+ * @brief Write a sac file in alpha-numeric format
+ *
+ * @details Write a sac file into an alpha-numeric format
+ *
+ * @param s         sac file to write
+ * @param filename  file to write to
+ * @param nerr      error status code
+ *
+ * @code
+ * int nerr = 0;
+ * sac *s = sac_read("t/test_io_small.sac", &nerr);
+ * assert_eq(nerr, 0);
+ *
+ * // Write the sac file into alpha-numeric format
+ * sac_write_alpha(s, "t/test_io_small_alpha.sac.tmp", &nerr);
+ * assert_eq(nerr, 0);
+ * @endcode
+ *
+ */
 void
 sac_write_alpha(sac *s, char *filename, int *nerr) {
     FILE *fp = NULL;
@@ -729,6 +964,42 @@ sac_write_alpha(sac *s, char *filename, int *nerr) {
     }
 }
 
+/**
+ * @brief Read a alpha-numeric sac file
+ *
+ * @details Read a sac file in alpha-numeric format
+ *
+ * @param filename   alpha numeric sac file to read from
+ * @param nerr       error status code
+ *
+ * @returns    sac file, NULL on error
+ *
+ * Example of reading an alpha-numeric sac file
+ * @code
+ * int nerr = 0;
+ * sac *s = sac_read_alpha("t/test_spec_alpha.sac", &nerr);
+ * assert_eq(nerr, 0);
+ * assert_ne(s, NULL);
+ * @endcode
+ *
+ * Reading a non-existant file returns a NULL pointer and nerr is set to 101
+ * @code
+ * int nerr = 0;
+ * sac *s = sac_read_alpha("non-existant-file", &nerr);
+ * assert_eq(nerr, 101);
+ * assert_eq(s, NULL);
+ * @endcode
+ *
+ * Reading a file that is not a alpha-numeric file returns a NULL pointer and
+ *    nerr is set to 1319
+ * @code
+ * int nerr = 0;
+ * sac *s = sac_read_alpha("t/test_io_small.sac", &nerr);
+ * assert_eq(nerr, 1319);
+ * assert_eq(s, NULL);
+ * @endcode
+ *
+ */
 sac *
 sac_read_alpha(char *filename, int *nerr) {
     FILE *fp = NULL;
@@ -838,6 +1109,16 @@ sac_read_alpha(char *filename, int *nerr) {
  *
  * @param      s   sac file
  *
+ * @code
+ * double e = 0.0;
+ * sac *s = sac_new();
+ * sac_set_int(s, SAC_NPTS, 100);
+ * sac_set_float(s, SAC_DELTA, 1.0);
+ * sac_set_float(s, SAC_B, 0.0);
+ * sac_be(s);
+ * sac_get_float(s, SAC_E, &e);
+ * assert_eq(e, 99.0);
+ * @endcode
  */
 void
 sac_be(sac *s) {
@@ -869,6 +1150,18 @@ sac_be(sac *s) {
  *
  * @param      s  sac file to update
  *
+ * Create a new file and update the fields: distance, gcarc, az, and baz
+ * @code
+ * double gcarc = 0.0;
+ * sac *s = sac_new();
+ * sac_set_float(s, SAC_EVLO,  0.0);
+ * sac_set_float(s, SAC_EVLA,  0.0);
+ * sac_set_float(s, SAC_STLO, 10.0);
+ * sac_set_float(s, SAC_STLA,  0.0);
+ * update_distaz(s);
+ * sac_get_float(s, SAC_GCARC, &gcarc);
+ * assert_eq(gcarc, 10.03364086151123);
+ * @endcode
  */
 void
 update_distaz(sac *s) {
@@ -922,6 +1215,20 @@ void distaz(double the, double phe, float *ths, float *phs,
  * @private
  *
  * @param      s  sac file to update
+ *
+ * Create a new file and update the fields: distance, gcarc, az, and baz
+ *
+ * @code
+ * double gcarc = 0.0;
+ * sac *s = sac_new();
+ * sac_set_float(s, SAC_EVLO,  0.0);
+ * sac_set_float(s, SAC_EVLA,  0.0);
+ * sac_set_float(s, SAC_STLO, 10.0);
+ * sac_set_float(s, SAC_STLA,  0.0);
+ * update_distaz(s);
+ * sac_get_float(s, SAC_GCARC, &gcarc);
+ * assert_eq(gcarc, 10.03364086151123);
+ * @endcode
  *
  */
 void
@@ -980,6 +1287,30 @@ update_distaz(sac * s) {
  * @param      to     destination
  * @param      from   source
  *
+ * @code
+ * sac *new = NULL;
+ * int n_old = 0, n_new = 0;
+ * int nerr = 0;
+ *
+ * // Read in an existing file
+ * sac *old = sac_read("t/test_io_small.sac", &nerr);
+ * assert_eq(nerr, 0);
+ *
+ * // Create a new sac file
+ * new = sac_new();
+ * sac_get_int(new, SAC_NPTS, &n_new);
+ * assert_eq(n_new, SAC_INT_UNDEFINED);
+ *
+ * // Copy header from old file to new file
+ * sac_header_copy(new, old);
+ *
+ * // Compare number of points
+ * sac_get_int(new, SAC_NPTS, &n_new);
+ * sac_get_int(old, SAC_NPTS, &n_old);
+ * assert_eq(n_new, n_old);
+ *
+ * @endcode
+ *
  */
 void
 sac_header_copy(sac * to, sac * from) {
@@ -997,6 +1328,30 @@ sac_header_copy(sac * to, sac * from) {
  * @param      to     destination
  * @param      from   source
  *
+ * @code
+ * sac *new = NULL;
+ * char f_old[256]= {0}, f_new[256] = {0};
+ * int nerr = 0;
+ *
+ * // Read in an existing file
+ * sac *old = sac_read("t/test_io_small.sac", &nerr);
+ * assert_eq(nerr, 0);
+ *
+ * // Create a new sac file
+ * new = sac_new();
+ * sac_get_string(new, SAC_FILENAME, f_new, sizeof f_new);
+ * assert_eq(strcmp(f_new, ""), 0);
+ *
+ * // Copy meta data from old file to new file
+ * sac_meta_copy(new, old);
+ *
+ * // Compare number of points
+ * sac_get_string(new, SAC_FILENAME, f_new, sizeof f_new);
+ * sac_get_string(old, SAC_FILENAME, f_old, sizeof f_old);
+ * assert_eq(strcmp(f_new, f_old), 0);
+ *
+ * @endcode
+ *
  */
 void
 sac_meta_copy(sac *to, sac *from) {
@@ -1013,7 +1368,11 @@ sac_meta_copy(sac *to, sac *from) {
 /**
  * @brief      copy sac data
  *
- * @details    copy sac data from one file to another
+ * @details    copy sac data from one file to another. For data to be successfully
+ *             copied, the following fields must match:
+ *             - SAC_NPTS
+ *             - SAC_FILE_TYPE
+ *             - SAC_EVEN
  *
  * @ingroup    sac
  * @memberof   sac
@@ -1022,11 +1381,46 @@ sac_meta_copy(sac *to, sac *from) {
  * @param      from   source
  *
  * @return     return type
+ *
+ * @code
+ * sac *new = NULL;
+ * int nerr = 0;
+ *
+ * // Read in an existing file
+ * sac *old = sac_read("t/test_io_small.sac", &nerr);
+ * assert_eq(nerr, 0);
+ * assert_ne(old->y, NULL);
+ *
+ * // Create a new sac file
+ * new = sac_new();
+ * assert_eq(new->y, NULL);
+ *
+ * // Copy header from old file to new file
+ * sac_header_copy(new, old);
+ *
+ * // Copy header from old file to new fiel
+ * sac_data_copy(new, old);
+ *
+ * assert_ne(new->y, NULL);
+ *
+ * @endcode
  */
 void
 sac_data_copy(sac *to, sac *from) {
     size_t n = 0;
     if(from->h->npts <= 0) {
+        return;
+    }
+    if(from->h->npts != to->h->npts) {
+        printf("error: sac data not copied, npts unequal\n");
+        return;
+    }
+    if(from->h->iftype != to->h->iftype) {
+        printf("error: sac data not copied, file types differ\n");
+        return;
+    }
+    if(from->h->leven != to->h->leven) {
+        printf("error: sac data not copied, evenly spaced flags differ\n");
         return;
     }
     if(from->y) {
@@ -1045,11 +1439,34 @@ sac_data_copy(sac *to, sac *from) {
  * @ingroup    sac
  * @memberof   sac
  *
- * @details    copy a sac file: header, meta, and data
+ * @details    copy a sac file: header, meta, and data. This is probably what is
+ *             usually wanted. This creates a new sac file, copieds the header,
+ *             meta data, and the actual data.
  *
  * @param      s    sac file to copy
  *
  * @return     copy of sac file
+ *
+ * @code
+ * sac *new = NULL;
+ * int n_old = 0, n_new = 0;
+ * int nerr = 0;
+ *
+ * // Read in an existing file
+ * sac *old = sac_read("t/test_io_small.sac", &nerr);
+ * assert_eq(nerr, 0);
+ * assert_ne(old->y, NULL);
+ *
+ * // Create a new sac file
+ * new = sac_copy(old);
+ * assert_ne(new->y, NULL);
+ *
+ * // Check the number of points
+ * sac_get_int(old, SAC_NPTS, &n_old);
+ * sac_get_int(new, SAC_NPTS, &n_new);
+ * assert_eq(n_old, n_new);
+ *
+ * @endcode
  */
 sac *
 sac_copy(sac *s) {
@@ -1100,6 +1517,23 @@ sac_check_npts(int npts) {
  * @param      s    sac file
  *
  * @return     size of file in bytes
+ *
+ * @code
+ * size_t n = 0;
+ * size_t sac_header_size = 632;
+ * sac *s = sac_new();
+ * n = sac_size(s);
+ * assert_eq(n, 0);
+ * sac_set_int(s, SAC_NPTS, 1);
+ * n = sac_size(s);
+ * assert_eq(n, sac_header_size + 4 * 1);
+ *
+ * // Change to v7
+ * sac_set_v7(s);
+ * n = sac_size(s);
+ * assert_eq(n, sac_header_size + 1 * 4 + 22 * 8);
+ *
+ * @endcode
  */
 off_t
 sac_size(sac *s) {
@@ -1152,6 +1586,41 @@ sac_check_lovrok(int lovrok) {
  * @memberof   sac
  *
  * @return     Number of data components
+ * 
+ * @code
+ * int n = 0;
+ * sac *s = sac_new();
+ * n = sac_comps(s);
+ * assert_eq(n, 1);
+ *
+ * // Unevenly spaced time series file
+ * sac_set_int(s, SAC_EVEN, 0);
+ * n = sac_comps(s);
+ * assert_eq(n, 2);
+ *
+ * // Evenly spaced xy file
+ * sac_set_int(s, SAC_EVEN, 1);
+ * sac_set_int(s, SAC_FILE_TYPE, IXY);
+ * n = sac_comps(s);
+ * assert_eq(n, 1);
+ *
+ * // Unevenly spaced xy file
+ * sac_set_int(s, SAC_EVEN, 0);
+ * sac_set_int(s, SAC_FILE_TYPE, IXY);
+ * n = sac_comps(s);
+ * assert_eq(n, 2);
+ *
+ * // Real - Imaginary data file
+ * sac_set_int(s, SAC_FILE_TYPE, IRLIM);
+ * n = sac_comps(s);
+ * assert_eq(n, 2);
+ *
+ * // Amplitude - Phase data file
+ * sac_set_int(s, SAC_FILE_TYPE, IAMPH);
+ * n = sac_comps(s);
+ * assert_eq(n, 2);
+ *
+ * @endcode
  */
 int
 sac_comps(sac * s) {
@@ -1287,6 +1756,30 @@ check_value(float vmin, float vmax) {
  *             - depmax
  *             - depmen
  *
+ * Example of 
+ * @code
+ * int i = 0;
+ * double v = 0.0;
+ * sac *s = sac_new();
+ *
+ * // Define a data series, line from 0 to 99
+ * sac_set_int(s, SAC_NPTS, 100);
+ * sac_alloc(s);
+ * for(i = 0; i < 100; i++) {
+ *    s->y[i] = (float) i;
+ * }
+ *
+ * // Determine min, max and mean of data
+ * sac_extrema(s);
+ *
+ * // Get min, max and mean
+ * sac_get_float(s, SAC_DEPMIN, &v);
+ * assert_eq(v, 0.0);
+ * sac_get_float(s, SAC_DEPMAX, &v);
+ * assert_eq(v, 99.0);
+ * sac_get_float(s, SAC_DEPMEN, &v);
+ * assert_eq(v, 49.5);
+ * @endcode
  */
 void
 sac_extrema(sac * s) {
@@ -1307,7 +1800,7 @@ sac_extrema(sac * s) {
  *             sac header value.
  *
  * @param      s   sac file
- * @param      k   character string header id. Conversion from header id
+ * @param      k   character string ::HeaderID. Conversion from ::HeaderID
  *                 is done by \f$kid = hid - SAC_STA + 1\f$
  *                 - kstnm  = 1
  *                 - kevnm  = 2
@@ -1766,15 +2259,22 @@ static int v7_keys[] = {
 };
 static size_t v7_keys_length = sizeof(v7_keys) / sizeof(int);
 /**
- * Write the sac header version 7
+ * @brief Write the sac header version 7
  *
- * # Arguments
- * - `nun` - Negative file id number (yes, it is negative)
- * - `s` - sac file structure to write out
- * - `nerr` - Error reporting value
+ * @private
+ * @ingroup    sac
+ * @memberof   sac
+ *
+ * @details Write the sac header version 7 to the end of a file.
+ *          file pointer must be positioned at the end of the data
+ *          section for write to be done properly
+ *
+ * @param nun   - Negative file id number (yes, it is negative)
+ * @param s     - sac file structure to write out
+ * @param nerr  - Error reporting value
  *
  * V7 of the header is a additional set of data at the end of the file
- * following the data.  This routine only reads the this "footer" of
+ * following the data.  This routine only write the this "footer" of
  * metadata, the v6 header I/O routines are still required
  *
  */
@@ -1894,6 +2394,7 @@ sac_header_v7_fill(sac *s, FILE *fp, int *nerr) {
  */
 void
 sac_write_internal(sac *s, char *filename, int write_data, int swap, int *nerr) {
+    sac *old = NULL;
     int nin = 0;
     if(write_data && ((*nerr = sac_check_npts(s->h->npts)) != SAC_OK)) {
         return;
@@ -1908,6 +2409,13 @@ sac_write_internal(sac *s, char *filename, int write_data, int swap, int *nerr) 
 
     sac_check_time_precision(s);
 
+    if(!write_data) {
+        if(!(old = sac_read_header(filename, nerr))) {
+            return;
+        }
+    }
+
+    
     if(write_data) {
         nin = creat(filename, 0666);
     } else {
@@ -1926,6 +2434,17 @@ sac_write_internal(sac *s, char *filename, int write_data, int swap, int *nerr) 
     case SAC_HEADER_VERSION_7:  sac_copy_f64_to_f32(s); break;
     case SAC_HEADER_VERSION_6: break;
     }
+
+    if(!write_data) {
+        if(sac_int(s, SAC_NPTS) != sac_int(old, SAC_NPTS) ||
+           sac_int(s, SAC_HDR)  != sac_int(old, SAC_HDR)) {
+            *nerr = 115;
+            return;
+        }
+        sac_free(old);
+        old = NULL;
+    }
+
     sac_header_write(s, nin, swap, nerr);
     if(*nerr != SAC_OK) {
         return;
@@ -2069,7 +2588,22 @@ sac_header_read(sac *s, FILE *fp) {
 
     return 0;
 }
-
+/**
+ * @brief Read the sac header
+ *
+ * @private
+ * @ingroup    sac
+ * @memberof   sac
+ *
+ * @details    Read a sac header from a file pointer
+ *
+ * @param      filename   file to read from
+ * @param      nerr       status error code, non-zero on failure
+ * @param      fp         returned file pointer
+ *
+ * @return     sac file with only the header read, NULL on failure
+ *
+ */
 static sac *
 sac_read_header_internal(char *filename, int *nerr, FILE **fp) {
     off_t size = 0;
@@ -2129,6 +2663,21 @@ sac_read_header_internal(char *filename, int *nerr, FILE **fp) {
     return NULL;
 }
 
+/**
+ * @brief  Update meta data following (post) read
+ *
+ * @private
+ * @ingroup    sac
+ * @memberof   sac
+ *
+ * @details   Update the begin and end value, the distance, az, baz,
+ *            and great circle distance, min, max, and mean of the data,
+ *            check the precision of time picks relative to the delta
+ *
+ * @param     s          sac file to check
+ * @param     read_data  if data was read
+ *
+ */
 static void
 sac_read_post(sac *s, int read_data) {
     sac_be(s);
@@ -2207,11 +2756,11 @@ sac_read_internal(char *filename, int read_data, int *nerr) {
  *
  * @details    initialize / fill a sac header with default values
  *             - nvhdr  = \p SAC_HEADER_MAJOR_VERSION
- *             - level  = TRUE
+ *             - leven  = TRUE
  *             - lpspol = FALSE
  *             - lovrok = TRUE
  *             - lcalda = TRUE
- *             - level  = ITIME
+ *             - iftype  = ITIME
  *             - all other values are set to undefined, -12345
  *
  * @param      sh   pointer sac header
@@ -2235,6 +2784,9 @@ sac_hdr_init(sac_hdr *sh) {
 /**
  * @brief      Convert a time to index
  *
+ * @ingroup    sac
+ * @memberof   sac
+ *
  * @details    Convert a time value to a data point index. All values are
  *             relative to the `b` value 
  *
@@ -2242,6 +2794,19 @@ sac_hdr_init(sac_hdr *sh) {
  * @param      t   time value
  *
  * @return     index of data point associated with the time
+ *
+ * @code
+ * int i = 0;
+ * sac *s = sac_new();
+ * sac_set_float(s, SAC_B, 10.0);
+ * sac_set_float(s, SAC_DELTA, 0.1);
+ *
+ * i = sac_time_to_index(s, 10.0);
+ * assert_eq(i, 0);
+ *
+ * i = sac_time_to_index(s, 20.0);
+ * assert_eq(i, 100 );
+ * @endcode
  */
 int
 sac_time_to_index(sac *s, double t) {
@@ -2287,6 +2852,10 @@ sac_time_to_index(sac *s, double t) {
 /**
  * @brief      characterize a cut window
  *
+ * @private
+ * @ingroup    sac
+ * @memberof   sac
+ *
  * @details    characterize a cut window by determining the the location
  *             of the start and end of the cut window with the data
  *
@@ -2318,6 +2887,10 @@ window_overlap(sac *s) {
 /**
  * @brief      get time value
  *
+ * @private
+ * @ingroup    sac
+ * @memberof   sac
+ *
  * @details    get time value from the sac header
  *
  * @param      s     sac file
@@ -2327,7 +2900,7 @@ window_overlap(sac *s) {
  *
  * @return     time value
  */
-double
+static double
 sac_pick_ref_time(sac *s, char *c, int *nerr) {
     double r = 0.0;
     *nerr = 0;
@@ -2360,6 +2933,10 @@ sac_pick_ref_time(sac *s, char *c, int *nerr) {
 
 /**
  * @brief      calculate read window specifics
+ *
+ * @private
+ * @ingroup    sac
+ * @memberof   sac
  *
  * @details    calculate read window values including:
  *             - nread, offt, and skip
@@ -2501,21 +3078,46 @@ sac_calc_read_window(sac *s, char *c1, double t1, char *c2, double t2, enum CutA
 /**
  * @brief      read a sac file while cutting
  *
+ * @ingroup    sac
+ * @memberof   sac
+ *
  * @details    read a sac file while cutting
  *
  * @param      filename  sac file to read
- * @param      c1        reference time pick for start
+ * @param      c1        reference time pick for start, see list below
  * @param      t1        relative time from time pick `c1`
- * @param      c2        reference time pick for end
+ * @param      c2        reference time pick for end, see list below
  * @param      t2        relative time ffrom time pick `c2`
  * @param      cutact    Behavior of cut
  *                       - CutNone = 0
  *                       - CutFatal = 1
- *                       - CutUseBe = 2
+ *                       - CutUseBE = 2
  *                       - CutFillZero = 3
  * @param      nerr      Status code, 0 on success, non-zero on Error
  *
  * @return     read and cut file on success, NULL on error
+ *
+ * @note       Time pick reference
+ *             - "Z" - Actual time
+ *             - "B" - Begin time
+ *             - "E" - End time
+ *             - "O" - Origin time
+ *             - "A" - First arrival time
+ *             - "F" - Final arrival time: SAC_F value
+ *             - "T0" to "T9" - t0 to t9 arrival times 
+ *
+ * @code
+ * int nerr = 0;
+ * double b = 0, e = 0;
+ * sac *s = sac_read_with_cut("t/test_io_small.sac", 
+ *                            "Z", 10.0,
+ *                            "Z", 30.0, CutUseBE, 
+ *                            &nerr);
+ * sac_get_float(s, SAC_B, &b);
+ * sac_get_float(s, SAC_E, &e);
+ * assert_eq(b, 10.0);
+ * assert_eq(e, 30.0);
+ * @endcode
  */
 sac *
 sac_read_with_cut(char *filename,
@@ -2581,6 +3183,10 @@ sac_read_with_cut(char *filename,
 /**
  * @brief      cut raw data
  *
+ * @private
+ * @ingroup    sac
+ * @memberof   sac
+ *
  * @details    cut raw data from `in` to `out`.
  *             Output data if overwritten.
  *
@@ -2631,6 +3237,34 @@ cut_data(float *in, int nstart, int nstop, int nfillb, int nfille, float *out) {
  *                     - Might be non-zero when using CutUseBE
  *
  * @return     newly cut sac file
+ *
+ * @note       Time pick reference
+ *             - "Z" - Actual time
+ *             - "B" - Begin time
+ *             - "E" - End time
+ *             - "O" - Origin time
+ *             - "A" - First arrival time
+ *             - "F" - Final arrival time: SAC_F value
+ *             - "T0" to "T9" - t0 to t9 arrival times 
+ *
+ * Example of cutting a sac file
+ * @code
+ * int nerr = 0;
+ * double b = 0, e = 0;
+ * sac *cut = NULL;
+ *
+ * sac *s = sac_read("t/test_io_small.sac", &nerr);
+ * assert_eq(nerr, 0);
+ *
+ * // Cut the sac file, returning a new file
+ * cut = sac_cut(s, "Z", 10.0, "Z", 30.0, CutUseBE, &nerr);
+ *
+ * sac_get_float(cut, SAC_B, &b);
+ * sac_get_float(cut, SAC_E, &e);
+ * assert_eq(b, 10.0);
+ * assert_eq(e, 30.0);
+ * @endcode
+ *
  */
 sac *
 sac_cut(sac *sin, char *c1, double t1, char *c2, double t2, enum CutAction cutact, int *nerr) {
@@ -2760,10 +3394,32 @@ calc_e_even(sac *s) {
  * @details    Set a character stirng in a sac file
  *
  * @param      s     sac file
- * @param      hdr   Header ID
+ * @param      hdr   ::HeaderID, only valid sac header are setable
  * @param      v     character string to set
  *
  * @return     success code, 1 on success, 0 on failure
+ *
+ * @code
+ * char sta[18] = {0};
+ * sac *s = sac_new();
+ * // Set a string, SAC_KSTNM and SAC_STA are the same
+ * sac_set_string(s, SAC_KSTNM, "PAS");
+ * sac_get_string(s, SAC_STA, sta, sizeof sta);
+ * assert_eq(strcmp(sta, "PAS"), 0);
+ *
+ * // Most input strings are truncated at 8 characters
+ * //     SAC_KNETWK and SAC_NET are the same
+ * sac_set_string(s, SAC_KNETWK, "123456789012345");
+ * sac_get_string(s, SAC_NET, sta, sizeof sta);
+ * assert_eq(strcmp(sta, "12345678"), 0);
+ *
+ * // ... except for the Event name, it gets 16 characters
+ * //     SAC_KEVNM and SAC_EVENT are the same
+ * sac_set_string(s, SAC_EVENT, "1234567890123456789");
+ * sac_get_string(s, SAC_KEVNM, sta, sizeof sta);
+ * assert_eq(strcmp(sta, "1234567890123456"), 0);
+ *
+ * @endcode
  */
 int
 sac_set_string(sac *s, int hdr, char *v) {
@@ -2817,11 +3473,54 @@ sac_timing_mark(sac *s, int time_id, int name_id, char *dst, size_t n) {
  * @details    Get a character string from a sac file
  *
  * @param      s    sac file
- * @param      hdr  Header ID
+ * @param      hdr  ::HeaderID, Listing of string ::HeadersID is below
  * @param      v    output character string
  * @param      n    length of \p v
  *
  * @return     status code, 0 on failure, 1 on success
+ *
+ * @note       ::HeaderID
+ *             - ::SAC_STA / ::SAC_KSTNM
+ *             - ::SAC_EVENT / ::SAC_KEVNM
+ *             - ::SAC_KHOLE / ::SAC_LOC
+ *             - ::SAC_KO
+ *             - ::SAC_KA
+ *             - ::SAC_KT0 .. ::SAC_KT9
+ *             - ::SAC_KF
+ *             - ::SAC_KUSER0 .. ::SAC_KUSER2
+ *             - ::SAC_CHA / ::SAC_CHAN / ::SAC_KCMPNM
+ *             - ::SAC_NET / ::SAC_KNETWK
+ *             - ::SAC_DATRD
+ *             - ::SAC_INST / ::SAC_KINST
+ *             - ::SAC_DATE - "Mon. Day (DOY), Year"
+ *             - ::SAC_TIME - "H:M:S.ms"
+ *             - ::SAC_FILENAME - filename of the sac file
+ *             - ::SAC_AMARKER - "value (name)"
+ *             - ::SAC_OMARKER - "value (name)"
+ *             - ::SAC_T0MARKER .. SAC_T9MARKER - "value (name)"
+ *             - ::SAC_STCMP - "STATION CHANNEL"
+ * @code
+ * char sta[18] = {0};
+ * sac *s = sac_new();
+ * // Set a string, SAC_KSTNM and SAC_STA are the same
+ * sac_set_string(s, SAC_KSTNM, "PAS");
+ * sac_get_string(s, SAC_STA, sta, sizeof sta);
+ * assert_eq(strcmp(sta, "PAS"), 0);
+ *
+ * // Most input strings are truncated at 8 characters
+ * //     SAC_KNETWK and SAC_NET are the same
+ * sac_set_string(s, SAC_KNETWK, "123456789012345");
+ * sac_get_string(s, SAC_NET, sta, sizeof sta);
+ * assert_eq(strcmp(sta, "12345678"), 0);
+ *
+ * // ... except for the Event name, it gets 16 characters
+ * //     SAC_KEVNM and SAC_EVENT are the same
+ * sac_set_string(s, SAC_EVENT, "1234567890123456789");
+ * sac_get_string(s, SAC_KEVNM, sta, sizeof sta);
+ * assert_eq(strcmp(sta, "1234567890123456"), 0);
+ *
+ * @endcode
+ *
  */
 int
 sac_get_string(sac *s, int hdr, char *v, size_t n) {
@@ -2847,7 +3546,11 @@ sac_get_string(sac *s, int hdr, char *v, size_t n) {
             strftime64t(v, n, "%H:%M:%S.%03f", &t);
         } break;
         case SAC_FILENAME:
-            sacio_strlcpy(v, s->m->filename, n);
+            if(s->m->filename) {
+                sacio_strlcpy(v, s->m->filename, n);
+            } else {
+                sacio_strlcpy(v, "", n);
+            }
             break;
         case SAC_AMARKER: sac_timing_mark(s, SAC_A, SAC_KA, v, n); break;
         case SAC_OMARKER: sac_timing_mark(s, SAC_O, SAC_KO, v, n); break;
@@ -2887,10 +3590,18 @@ sac_get_string(sac *s, int hdr, char *v, size_t n) {
  *             is only in the 32-bit header, the value is only copied there
  *
  * @param      s     sac file
- * @param      hdr   Header ID
+ * @param      hdr   ::HeaderID
  * @param      v     floating point to set
  *
  * @return     success code, 1 on success, 0 on failure
+ *
+ * @code
+ * double dt = 0.0;
+ * sac *s = sac_new();
+ * sac_set_float(s, SAC_DELTA, 0.25);
+ * sac_get_float(s, SAC_DELTA, &dt);
+ * assert_eq(dt, 0.25);
+ * @endcode
  */
 int
 sac_set_float(sac *s, int hdr, double v) {
@@ -2911,10 +3622,19 @@ sac_set_float(sac *s, int hdr, double v) {
  *             otherwise the 32-bit header values are used.
  *
  * @param      s    sac file
- * @param      hdr  Header ID
+ * @param      hdr  ::HeaderID
  * @param      v    output floating point value
  *
  * @return     status code, 0 on failure, 1 on success
+ *
+ * @code
+ * double dt = 0.0;
+ * sac *s = sac_new();
+ * sac_set_float(s, SAC_DELTA, 0.25);
+ * sac_get_float(s, SAC_DELTA, &dt);
+ * assert_eq(dt, 0.25);
+ * @endcode
+ *
  */
 int
 sac_get_float(sac *s, int hdr, double *v) {
@@ -2939,10 +3659,18 @@ sac_get_float(sac *s, int hdr, double *v) {
  * @details    Set a integer in a sac file
  *
  * @param      s     sac file
- * @param      hdr   Header ID
+ * @param      hdr   ::HeaderID
  * @param      v     integer value to set
  *
  * @return     success code, 1 on success, 0 on failure
+ *
+ * @code
+ * int n = 0;
+ * sac *s = sac_new();
+ * sac_set_int(s, SAC_NPTS, 2600);
+ * sac_get_int(s, SAC_NPTS, &n);
+ * assert_eq(n, 2600);
+ * @endcode
  */
 int
 sac_set_int(sac *s, int hdr, int v) {
@@ -2962,10 +3690,18 @@ sac_set_int(sac *s, int hdr, int v) {
  * @details    Get a integer value from a sac file
  *
  * @param      s    sac file
- * @param      hdr  Header ID
+ * @param      hdr  ::HeaderID
  * @param      v    output integer value
  *
  * @return     status code, 0 on failure, 1 on success
+ *
+ * @code
+ * int n = 0;
+ * sac *s = sac_new();
+ * sac_set_int(s, SAC_NPTS, 2600);
+ * sac_get_int(s, SAC_NPTS, &n);
+ * assert_eq(n, 2600);
+ * @endcode
  */
 int
 sac_get_int(sac *s, int hdr, int *v) {
@@ -2992,9 +3728,15 @@ sac_get_int(sac *s, int hdr, int *v) {
  * @details    Check if mulutple header values are defined
  *
  * @param      s    sac file
- * @param      ...  Header id, NULL terminatated
+ * @param      ...  ::HeaderID list, NULL terminatated
  *
  * @return     0 if any are undefined, 1 if all are defined
+ *
+ * @code
+ * sac *s = sac_new();
+ * int ok = sac_hdr_defined(s, SAC_EVEN, SAC_FILE_TYPE, NULL);
+ * assert_eq(ok, 1);
+ * @endcode
  */
 int
 sac_hdr_defined(sac *s, ...) {
@@ -3051,12 +3793,27 @@ sac_hdr_defined(sac *s, ...) {
  * @param t   timespec64 output value
  *
  * @return 1 on success, 0 in failure
+ *
+ * @code
+ * timespec64 t = {-1,-1};
+ * sac *s = sac_new();
+ * sac_set_int(s, SAC_YEAR, 1970);
+ * sac_set_int(s, SAC_DAY,  2);
+ * sac_set_int(s, SAC_HOUR, 0);
+ * sac_set_int(s, SAC_MIN,  0);
+ * sac_set_int(s, SAC_SEC,  0);
+ * sac_set_int(s, SAC_MSEC, 0);
+ *
+ * sac_get_time_ref(s, &t);
+ * assert_eq(t.tv_sec, 60*60*24);
+ * assert_eq(t.tv_nsec, 0);
+ * @endcode
  */
 int
 sac_get_time_ref(sac *s, timespec64 *t) {
     if( sac_hdr_defined(s,
                         SAC_YEAR, SAC_DAY, SAC_HOUR, SAC_MIN, SAC_SEC, SAC_MSEC, -1)) {
-         *t = timespec64_from_yjhmsf(s->h->nzyear, s->h->nzjday,
+        *t = timespec64_from_yjhmsf(s->h->nzyear, s->h->nzjday,
                                     s->h->nzhour, s->h->nzmin, s->h->nzsec,
                                     s->h->nzmsec * 1000000);
         return 1;
@@ -3079,6 +3836,18 @@ sac_get_time_ref(sac *s, timespec64 *t) {
  *
  * @return 1 in success, 0 on failure
  *
+ * @code
+ * timespec64 t = {-1,-1};
+ * timespec64 b = {-1,-1};
+ * sac *s = sac_new();
+ * timespec64_parse("1970/01/02T00:00:00", &t);
+ * sac_set_time(s, t);
+ * sac_set_float(s, SAC_B, 0.0);
+ *
+ * sac_get_time(s, SAC_B, &b);
+ * assert_eq(b.tv_sec, 60*60*24);
+ * assert_eq(b.tv_nsec, 0);
+ * @endcode
  */
 int
 sac_get_time(sac *s, int hdr, timespec64 *t) {
@@ -3115,6 +3884,21 @@ sac_get_time(sac *s, int hdr, timespec64 *t) {
  *    SAC> ch o gmt 1994 160 00 33 16 230
  *    SAC> ch iztype IO
  *    SAC> ch allt (-1.0 * &1,o)
+ *
+ * @code
+ * int io = 0;
+ * timespec64 t = {0,0}, t2 = {0,0};
+ * sac *s = sac_new();
+ * timespec64_parse("1970/01/02T00:00:00", &t);
+ * sac_set_time(s, t);
+ *
+ * sac_get_time_ref(s, &t2);
+ * assert_eq(t2.tv_sec, 60*60*24);
+ * assert_eq(t2.tv_nsec, 0);
+ *
+ * sac_get_int(s, SAC_ZERO_TIME, &io);
+ * assert_eq(io, IO);
+ * @endcode
  *
  */
 int
@@ -3190,7 +3974,7 @@ sac_strlcat(char *dst, char *src, size_t n) {
  *
  * @param      dst    Output character string
  * @param      s      sac file to get time value from
- * @param      hdr    header ID
+ * @param      hdr    ::HeaderID
  * @param      n      length of output \p dst
  *
  * @return     full length of \p dst
@@ -3217,7 +4001,7 @@ sac_timelcat(char *dst, sac *s, int hdr, size_t n) {
  *
  * @param      dst   Output character string
  * @param      s     sac file to get header value from
- * @param      hdr   Header ID
+ * @param      hdr   ::HeaderID
  * @param      n     Length of \p dst
  *
  * @return     full length of \p dst
@@ -3295,6 +4079,22 @@ sac_hdr_new() {
  * @param      s    sac file to get values from
  *
  * @return     full length of \p dst, -1 on error
+ *
+ * @b Example
+ *
+ *  - Set and get a Net.Sta.Loc.Cha Code
+ *
+ * @code
+ * char code[32] = {0};
+ * sac *s = sac_new();
+ * sac_set_string(s, SAC_NET, "CI");
+ * sac_set_string(s, SAC_STA, "PAS");
+ * sac_set_string(s, SAC_LOC, "");
+ * sac_set_string(s, SAC_CHA, "BHZ");
+ *
+ * sac_fmt(code, sizeof code, "%Z", s);
+ * assert_eq(strcmp(code, "CI.PAS..BHZ"), 0);
+ * @endcode
  */
 int 
 sac_fmt(char *dst, size_t n, const char *fmt, sac *s) {
@@ -3346,11 +4146,15 @@ sac_fmt(char *dst, size_t n, const char *fmt, sac *s) {
                 } else if(fabs(az - 270.0) < 0.1) {
                     i = (int) sac_strlcat(dst, "WEST", n);
                 } else if(sac_hdr_defined(s, SAC_CMPAZ, SAC_CMPINC, NULL)) {
-                    snprintf(dst, n, "%s %4d %4d", dst, (int)round(s->h->cmpaz), (int)round(s->h->cmpinc));
+                    char tmp[16] = {0};
+                    snprintf(tmp, sizeof tmp, " %4d %4d", (int)round(s->h->cmpaz), (int)round(s->h->cmpinc));
+                    sac_strlcat(dst, tmp, n);
                     i = (int) strlen(dst);
                 }
             } else if(sac_hdr_defined(s, SAC_CMPAZ, SAC_CMPINC, NULL)) {
-                snprintf(dst, n, "%s %4d %4d", dst, (int)round(s->h->cmpaz), (int)round(s->h->cmpinc));
+                char tmp[16] = {0};
+                snprintf(tmp, sizeof tmp, " %4d %4d", (int)round(s->h->cmpaz), (int)round(s->h->cmpinc));
+                sac_strlcat(dst, tmp, n);
                 i = (int) strlen(dst);
             }
         } break;

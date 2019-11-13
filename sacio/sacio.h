@@ -555,9 +555,16 @@ int sac_set_time(sac *s, timespec64 t);
 off_t sac_size(sac *s);
 /** @brief  Compute and set the begin and end time of a sac object */
 void sac_be(sac *s);
-
+/** @brief Set a time pick by number */
+int sac_set_pick(sac *s, int n, double v);
+/** @brief Get a time pick by number */
+int sac_get_pick(sac *s, int n, double *v);
 /** @brief Update the dist, az, baz, and gcarc header values */
 void update_distaz(sac * s);
+/** @brief Allocate space for data, either 1 or 2 components */
+void sac_alloc(sac *s);
+/** @brief Convert a time value to an index within the data array */
+int sac_time_to_index(sac *s, double t);
 
 
 #define SAC_WRITE_HEADER_AND_DATA 1 /**< @brief Write header and data */
