@@ -248,6 +248,9 @@ Net Sta   Lat.     Lon.      Elev.   SiteName
 2K  MSIF   54.1454 -116.8202  948.80 Z
 2K  MSIG   54.1489 -116.9026 1006.60 Z
 2K  MSIH   54.1557 -116.8523  941.50 Z
+7C  MM14   61.9733 -132.4257  731.00 Ross River, YT, Canada
+7C  MM22   62.7440 -131.0108  928.00 N Canol Road, YT, Canada
+7C  MM27   63.1749 -130.2005 1188.00 Macmillan Pass, YT, Canada
 AC  BCI    42.3666   20.0675  500.00 Bajram Curri, Albania
 AC  KBN    40.6236   20.7874  800.00 Korce, Albania
 AC  PHP    41.6847   20.4408  670.00 Peshkopi, Albania
