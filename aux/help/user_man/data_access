@@ -28,12 +28,18 @@ The format for latitudes and longitudes is degrees.decimal-degrees.  Longitudes
 run from -180.00 degrees to 180.00 degrees.  The formats used for time are given 
 at the end of this file.
 
+For repeated calls to most SAC command in a single session, the program 
+"remembers" previous values for options if not reset explicitly.  That 
+is not true for these commands; For any option not explicitly stated in each 
+call, the default is assumed.  If there is no default value for an option, it 
+must be explicitly given.
+
 EVENT SEARCH
 ------------
 
 **Broad search**
 
-Let's find all M > 9 earthquakes within the past
+Let's find all M :math:`\ge` 9 earthquakes within the past
 century (100 years), assuming the date today is Oct-31-2019.  This
 will search the USGS Earthquake catalog by default::
 

@@ -69,19 +69,18 @@ DESCRIPTION
    <http://www.fdsn.org/seed_manual/SEEDManual_V2.4.pdf>.
 
    **EVALRESP**
-   
+
    The EVALRESP program calculates the complete system response from
    response (RESP) files produced by RDSEED.  EVALRESP routines have
    been embedded within TRANSFER as an "instrument" type, allowing a
    user to perform (de)convolution using the complete system response
-   represented in RESP files.  Recently (October 2013) v3.3.4 has
-   been introduced, which has options to deal with problems with some
-   asymmetric FIR coefficients.  The code used in SAC is based on
-   v3.3.3, and does not recognize all the options available in the
-   full program.  If one wants an option only availalble in the full
-   program, one can run EVALRESP with a FAP output option and use the
-   FAP option (see below) to correct a SAC data file. For the source
-   code for programs RDSEED and EVALRESP, go to URL
+   represented in RESP files.  The code used in SAC is based on
+   v5.0, and does not recognize all the options available in the
+   current version of EVALRESP (v5.0, August 2019) If one wants an
+   option only availalble in the full program, one can run EVALRESP
+   with a FAP output option and use the FAP option (see below) to
+   correct a SAC data file. For the source code for programs RDSEED
+   and EVALRESP, go to URL
    <http://ds.iris.edu/ds/nodes/dmc/software/downloads/>.
 
    Most of the implementation is done using double-precision
@@ -112,7 +111,7 @@ DESCRIPTION
    time series, a suggested rule-of-thumb is f1 <= f2/2 and f4 >= 2*f3.
 
    If you want to do a low-pass filter but have no filtering at low
-   frequencies, one way is to set f1=-2 and f2=-1.  If you want to  do
+   frequencies, one way is to set f1=-2 and f2=-1.  If you want to do
    a high-pass filter but have no filtering at the high frequencies, for
    a Nyquist frequency of 0.5, set f3=10. and f4=20.
 
@@ -501,7 +500,7 @@ FAPfile OPTION
   instrument or the full response included analog stages.
 
   The format of a FAP file is consistent with that produced by the standalone
-  program EVALRESP (v3.3.3), but is different from the format used by SAC2000.
+  program EVALRESP, but is different from the format used by SAC2000.
 
 FAP EXAMPLES
 ------------
@@ -650,6 +649,6 @@ ACKNOWLEDGEMENTS
 
 LATEST REVISION
 ---------------
-   August 2016 (Version 102.0): In versions prior to 101.5, if the header
+   Version 102.0: In versions prior to 101.5, if the header
    variable SCALE was defined, it might be used in scaling the output and
    would be changed.  In this version, SCALE is ignored.

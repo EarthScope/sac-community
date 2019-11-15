@@ -211,7 +211,36 @@ text        | (bar)    SAC / Inclination    90
 xml         n/a        miniSEED / Dip       90
 ========== =========== =================== ================
 
-**Missing** Format of the metadata files and how to create them.
+METADATA FORMAT
+---------------
+
+Metadata in *xml* format adheres to the FDSN Station format found at
+http://www.fdsn.org/xml/station/, but it is easier to create the
+metadata file format using the STATION_ command with a *channel*
+option.
+
+Metadata in *text* format is defined as one channel per line separated
+by either ',' (commas) or '|' (bars).  The value of the columns are in
+the following order (the same as mseed2sac)
+
+  - Network
+  - Station
+  - Location
+  - Channel
+  - Station Latitude
+  - Station Longitude
+  - Station Elevation
+  - Station Depth
+  - Component Azimuth  (North = 0, East = 90)
+  - Component Inclination
+    - Coordinate system is defined by the delimiter, see note above
+  - Instrument Name/Type
+  - Scale Factor         (ignored)
+  - Scale Frequency      (ignored)
+  - Scale Units          (ignored)
+  - Sample Rate          (ignored)
+  - Start time
+  - End time
 
 ERROR MESSAGES
 --------------
