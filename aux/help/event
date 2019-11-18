@@ -40,7 +40,7 @@ INPUT
 
    :ISC: Search the ISC Catalog
 
-   :USGS: Search the USGS Catalog, PDE and NEIC are aliases
+   :USGS: [Default] Search the USGS Catalog, PDE and NEIC are aliases
 
    :TO blackboard-variable: Save all event identifiers to a space separated
       list with a specific name
@@ -49,13 +49,13 @@ INPUT
        are saved as QuakeXML documents; those ending in .txt and others
        are saved as "csv" text
 
-   :VERBOSE:  Watch the details of the event search process
+   :VERBOSE: [Not default] Watch the details of the event search process
 
 DEFAULT VALUES
 --------------
 ::
 
-   EVENT
+   EVENT USGS
 
 DESCRIPTION
 -----------
@@ -72,7 +72,7 @@ DESCRIPTION
 EXAMPLES
 --------
 
-To search for all events with Magnitudes > 8.5::
+To search for all events with Magnitudes :\math:`\ge` 9.0::
 
    SAC> event mag 9
    Origin              Lat.   Lon.    Depth  Mag.     Agency EventID

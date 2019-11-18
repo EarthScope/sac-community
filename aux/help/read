@@ -183,7 +183,7 @@ DESCRIPTION
    be that the match is an artifact of the merge of these two different data
    formats within SAC.
 
-   Two peices of information are involved in resolving this ambiguity, one is
+   Two pieces of information are involved in resolving this ambiguity, one is
    the history of data loaded into SAC memory, and the other is the confidence
    the user sets with the TRUST ON|OFF option on the command line of most Read
    commands and ADDSTACK.  It is expected that the user will have some idea if
