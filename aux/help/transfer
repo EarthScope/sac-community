@@ -75,7 +75,7 @@ DESCRIPTION
    been embedded within TRANSFER as an "instrument" type, allowing a
    user to perform (de)convolution using the complete system response
    represented in RESP files.  The code used in SAC is based on
-   v5.0, and does not recognize all the options available in the
+   v3.3.3, and does not recognize all the options available in the
    current version of EVALRESP (v5.0, August 2019) If one wants an
    option only availalble in the full program, one can run EVALRESP
    with a FAP output option and use the FAP option (see below) to
