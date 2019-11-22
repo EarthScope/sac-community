@@ -17,6 +17,7 @@
  transfer from polezero subtype test_transfer_simple.m to none
  Using polezero response for CDV, , ,  from test_transfer_simple.m
  Station (CDV     ), Channel (-12345  )
+ Units: Input units not defined in polezero file
  lh depmin depmax depmen b e npts
   
   
@@ -52,6 +53,7 @@ polezero-comment: Error converting float: ' DIP       (DEG)   : ERROR'
 polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
  Using polezero response for CDV, , ,  from test_transfer_comments.m
  Station (CDV     ), Channel (-12345  )
+ Units: m       (meters)
  lh depmin depmax depmen b e npts
   
   
@@ -3306,6 +3308,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
  transfer from polezero subtype test_transfer_annotated.m to none
  Using polezero response for COLA, BHZ, IU, 00 from test_transfer_annotated.m
  Station (COLA    ), Channel (BHZ     )
+ Units: m       (meters)
  lh depmin depmax depmen b e npts
   
   
@@ -3336,6 +3339,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
  transfer from polezero subtype test_transfer_annotated3.m to none
  Using polezero response for AFI, BHZ, IU, 00 from test_transfer_annotated3.m
  Station (AFI     ), Channel (BHZ     )
+ Units: m       (meters)
   
  ==>  
  r IU.AFI.00.BHZ.iris.sac
@@ -3390,6 +3394,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
  transfer from polezero subtype test_transfer_annotated6.m to none
  Using polezero response for AFI, BHZ, IU, 00 from test_transfer_annotated6.m
  Station (AFI     ), Channel (BHZ     )
+ Units: m       (meters)
   
  ==>  
  r IU.AFI.00.BHZ.iris.sac
@@ -3408,6 +3413,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
  transfer from polezero subtype test_transfer_annotated7.m to none
  Using polezero response for AFI, BHZ, IU, 00 from test_transfer_annotated7.m
  Station (AFI     ), Channel (BHZ     )
+ Units: m       (meters)
   
  ==>  
  r MK31.IM..LHE.obs.sac
@@ -3426,6 +3432,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
  transfer from polezero subtype test_transfer_annotated8.m to none
  Using polezero response for MK31, BHE, IM,  from test_transfer_annotated8.m
  Station (MK31    ), Channel (BHE     )
+ Units: m       (meters)
   
  ==>  
  r MK31.IM..LHE.obs.sac
@@ -3445,6 +3452,7 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
  transfer from polezero subtype test_transfer_annotated8.m to none
  Using polezero response for MK31, BHE, IM,  from test_transfer_annotated8.m
  Station (MK31    ), Channel (BHE     )
+ Units: m       (meters)
   
  ==>  
  r MK31.IM..LHE.obs.sac
@@ -3463,4 +3471,5 @@ polezero-comment: Error converting float: ' AZIMUTH   (DEG)   : [3.4]'
  transfer from polezero subtype test_transfer_annotated9.m to none
  Using polezero response for MK31, BHE, IM,  from test_transfer_annotated9.m
  Station (MK31    ), Channel (BHE     )
+ Units: m       (meters)
  quit

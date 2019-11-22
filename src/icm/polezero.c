@@ -130,7 +130,7 @@ datetime_get_file_time() {
 
 void
 polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
-         int subtyp_s, int *nerr) {
+         int subtyp_s, int *nerr, char *units, int units_s) {
     char kfile[MCPFN + 1], kiline[MCMSG + 1];
     char *key;
     char *kline;
@@ -199,7 +199,7 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
         glob(glob_path, 0, NULL, &g);
         for(size_t i = 0; i < g.gl_pathc; i++) {
             // Recursive Call Here
-            polezero(nfreq, delfrq, xre, xim, g.gl_pathv[i], subtyp_s, nerr);
+            polezero(nfreq, delfrq, xre, xim, g.gl_pathv[i], subtyp_s, nerr, units, units_s);
             if(*nerr == 0) {
                 ok = TRUE;
                 break;
@@ -233,7 +233,7 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
         } else {
             // Pattern present with matches
             for(size_t i = 0; i < g.gl_pathc; i++) {
-                polezero(nfreq, delfrq, xre, xim, g.gl_pathv[i], subtyp_s, nerr);
+                polezero(nfreq, delfrq, xre, xim, g.gl_pathv[i], subtyp_s, nerr, units, units_s);
                 if(*nerr == 0) {
                     ok = TRUE;
                     break;
@@ -506,7 +506,10 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
             }
         }
     }
-
+    if(meta_used && meta_used->input_unit) {
+        rstrip(meta_used->input_unit);
+        strlcpy(units, meta_used->input_unit, units_s);
+    }
     getrand(nfreq, delfrq, const_, nzeros, zeros, npoles, poles, xre, xim);
     polezero_meta_free(meta);
     polezero_meta_free(meta_used);

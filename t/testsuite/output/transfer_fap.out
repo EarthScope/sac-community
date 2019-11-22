@@ -69,6 +69,7 @@
  transfer from polezero s test_transfer_pz.m to none
  Using polezero response for , , ,  from test_transfer_pz.m
  Station (-12345  ), Channel (-12345  )
+ Units: Input units not defined in polezero file
  lh depmin depmax depmen
   
   
@@ -146,6 +147,7 @@
  transfer from polezero s test_transfer_pz.m to none
  Using polezero response for CDV, , ,  from test_transfer_pz.m
  Station (CDV     ), Channel (-12345  )
+ Units: Input units not defined in polezero file
  lh depmin depmax depmen
   
   

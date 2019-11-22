@@ -48,7 +48,7 @@ dseis(nfreq, delfrq, xre, xim, fp, ip, kp, kp_s, nmScale, nerr)
     }
 
     else if (strncmp(kp[0], "POLEZERO", 8) == 0) {
-        polezero(nfreq, delfrq, xre, xim, kp[1], kp_s, nerr);
+        polezero(nfreq, delfrq, xre, xim, kp[1], kp_s, nerr, kp[2], kp_s);
     } else if (strncmp(kp[0], "FAP", 3) == 0) {
         frequency_amplitude_phase(nfreq, delfrq, xre, xim, kp[1], kp_s, nerr);
     } else if (strncmp(kp[0], "BBDISP", 6) == 0) {

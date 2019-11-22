@@ -16,7 +16,7 @@
 
 #define	MAXFP	10
 #define	MAXIP	1
-#define	MAXKP	2
+#define	MAXKP	3
 #define	MINSTR	50
 
 /** 
@@ -174,7 +174,7 @@ void noresshf(int nfreq, double delfrq, double xre[], double xim[]);
 void oldbb(int nfreq, double delfrq, double xre[], double xim[]);
 void oldkir(int nfreq, double delfrq, double xre[], double xim[]);
 void polezero(int nfreq, double delfrq, double xre[], double xim[],
-              char *subtyp, int subtyp_s, int *nerr);
+              char *subtyp, int subtyp_s, int *nerr, char *units, int units_s);
 void portable(int nfreq, double delfrq, double xre[], double xim[],
               double freepd, double damp, double crfrq);
 void predfl(float data[], int npts, float a[], int nc, float result[],

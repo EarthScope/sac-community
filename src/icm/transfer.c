@@ -1,6 +1,7 @@
 
 #include <stdio.h>
 #include <math.h>
+#include <string.h>
 #include <float.h>
 
 #include "amf.h"
@@ -39,6 +40,11 @@ IsNormalized(double calper, int nfreq, double delfrq, const double *xre,
     }
     value = sqrt(xre[j] * xre[j] + xim[j] * xim[j]);
     return fabs(value - 1.0) < 0.01;
+}
+
+static int
+is_type(char *name, char *type) {
+    return(strncasecmp(name, type, strlen(type)) == 0);
 }
 
 double
@@ -260,6 +266,41 @@ transfer(dat, npts, delta, fpfrom, ipfrom, kpfrom, kpfrom_s, fpto, ipto, kpto,
 
     if (*nerr != 0)
         goto L_8888;
+
+    if((is_type(kpto[0], "none") || is_type(kpto[0], "vel") || is_type(kpto[0],"acc"))) {
+        int to_type = -1;
+        if(is_type(kpto[0], "none")) {
+            to_type = 1;
+        } else if(is_type(kpto[0], "vel")) {
+            to_type = 2;
+        } else if(is_type(kpto[0],"acc")) {
+            to_type = 3;
+        }
+        if(is_type(kpfrom[0], "evalresp")) {
+            // Here we assume the output units are in Nanometers
+            switch(to_type) {
+            case 1: printf(" Units: nm      (nanometers)\n"); break;
+            case 2: printf(" Units: nm/s    (nanometers / second)\n"); break;
+            case 3: printf(" Units: nm/s^2  (nanometers / second^2)\n"); break;
+            }
+        } else if(is_type(kpfrom[0], "polezero")) {
+            if(strcasecmp(kpfrom[2], "meters") == 0 ||
+               strcasecmp(kpfrom[2], "meter") == 0 ||
+               strcasecmp(kpfrom[2], "m") == 0) {
+                switch(to_type) {
+                case 1: printf(" Units: m       (meters)\n"); break;
+                case 2: printf(" Units: m/s     (meters / second)\n"); break;
+                case 3: printf(" Units: m/s^2   (meters / second^2)\n"); break;
+                }
+            } else {
+                if(strlen(kpfrom[2]) > 0 ) {
+                    printf(" Units: Unrecognized input units in polezero file (%s)\n", kpfrom[2]);
+                } else {
+                    printf(" Units: Input units not defined in polezero file\n");
+                }
+            }
+        }
+    }
 
     /* 
        Apply TO and FROM Instrument responses

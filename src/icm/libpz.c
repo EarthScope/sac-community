@@ -190,6 +190,8 @@ pzcomment_t pzc[] = {
     {" description ", polezero_comment_string, offsetof(pzmeta_t, descrip)},
     {" input_unit ", polezero_comment_string, offsetof(pzmeta_t, input_unit)},
     {" output_unit ", polezero_comment_string, offsetof(pzmeta_t, output_unit)},
+    {" input unit ", polezero_comment_string, offsetof(pzmeta_t, input_unit)},
+    {" output unit ", polezero_comment_string, offsetof(pzmeta_t, output_unit)},
     {" insttype ", polezero_comment_string, offsetof(pzmeta_t, instrument_type)},
     {" start ", polezero_comment_datetime, offsetof(pzmeta_t, start)},
     {" end ", polezero_comment_datetime, offsetof(pzmeta_t, end)},

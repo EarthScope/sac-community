@@ -447,9 +447,9 @@ Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
  ==>  
  event time 1994/160 +1d depth 600 700 isc
 Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
-1994-06-09T00:33:16 -13.87  -67.51 640.00 6.90 mb  ISC/ISC - isc:168418
-1994-06-09T01:15:18 -14.10  -68.34 650.00 5.90 mb  ISC/ISC - isc:168420
-1994-06-09T05:26:31 -13.90  -67.22 646.00 5.10 mb  ISC/ISC - isc:168450
+1994-06-09T00:33:19 -13.80  -67.59 638.02 7.11 mb  ISC/ISC - isc:168418
+1994-06-09T01:15:20 -13.93  -68.04 640.00 5.92 mb  ISC/ISC - isc:168420
+1994-06-09T05:26:31 -14.01  -67.28 638.50 5.15 mb  ISC/ISC - isc:168450
   
  ==>  
  event time 1994/160 +1d depth 600 700 gcmt
