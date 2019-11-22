@@ -207,6 +207,7 @@ xinterpolate(nerr)
         } else {
             interp2(s->y, s->h->npts, new, newlen, B(s), E(s), s->x,
                     xstart, cmscm.dtnew, eps);
+            s->h->leven = TRUE;
         }
 
         /* -- Update any header fields that may have changed. */
