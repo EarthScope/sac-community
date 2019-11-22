@@ -647,6 +647,12 @@ ACKNOWLEDGEMENTS
   option and was a major contributor to the testing and documentation of
   this command.  Doug Dodge included the EVALRESP option.
 
+HEADER CHANGES
+--------------
+ - idep
+ - depmin, depmax, depmen
+
+
 LATEST REVISION
 ---------------
    Version 102.0: In versions prior to 101.5, if the header
