@@ -25,6 +25,8 @@ INPUT
        for both TO and FROM are listed in a table below.
 
    :DEFAULT VALUES:  TRANS FROM NONE TO NONE
+   
+   There are additional options discussed below.
 
 DESCRIPTION
 -----------
@@ -32,18 +34,16 @@ DESCRIPTION
    displacement, which in SAC is designated as NONE.  Hence, if a
    FROM type or a TO type is not specified, SAC assumes it to be
    NONE. If the output instrument is NONE, IDEP in the SAC header
-   is set to DISPLACEMENT (NM).  For the seismometers listed in the
-   table below, the output units for TO NONE  will be in nm, SAC's
-   choice for displacement.  If TRANSFER has TO VEL or TO ACC, the
-   header variable IDEP is changed accordingly for all waveforms
-   in memory.
+   is set to DISPLACEMENT (NM) -  SAC's convention for displacement.
+   If TRANSFER uses TO VEL or TO ACC, the header variable IDEP is
+   changed accordingly for all waveforms in memory.
 
    If the TO type is specified as anything other than NONE, VEL, or
    ACC, the waveforms in memory are transformed to that instrument
    type.  If the FROM instrument type is NONE, then no instrument
    is  removed, and the original trace is presumed to be a
    displacement.   This is useful for adding instrument responses
-   to synthetic seismograms.
+   to synthetic seismograms (example below).
 
    Care must be taken when calling TRANSFER a second time within
    a single SAC session, because in the second call TRANSFER will
@@ -76,22 +76,20 @@ DESCRIPTION
    user to perform (de)convolution using the complete system response
    represented in RESP files.  The code used in SAC is based on
    v3.3.3, and does not recognize all the options available in the
-   current version of EVALRESP (v5.0, August 2019) If one wants an
-   option only availalble in the full program, one can run EVALRESP
-   with a FAP output option and use the FAP option (see below) to
-   correct a SAC data file. For the source code for programs RDSEED
-   and EVALRESP, go to URL
+   current version of EVALRESP (v5.0, August 2019). If one wants an
+   option only availalble in the full program, one can first run
+   EVALRESP with a FAP output option and use the FAP option (see
+   below) to correct the SAC data file. The source code for programs
+   RDSEED and EVALRESP can be downloaded from URL
    <http://ds.iris.edu/ds/nodes/dmc/software/downloads/>.
-
-   Most of the implementation is done using double-precision
-   (64-bit) arithmetic even though the SAC data is single-precision.
 
    The SAC sign convention for Laplace/Fourier transforms is the same as
    that used in RDSEED and EVALRESP: phase for a causal response decreases
-   with increasing frequency.  For displacements, the SAC convention is nm,
-   while RDSEED RESP files use meters.  NOTE: The EVALRESP option in TRANSFER
-   corrects the output to the SAC convention.  For other options (FAP, PZ)
-   it may be necessary to change the units. (See examples below.)
+   with increasing frequency.  For displacements, the SAC convention
+   is nm, while RDSEED RESP files use meters.  **NOTE:** The EVALRESP
+   option in TRANSFER converts the output to the SAC convention.  For
+   other options (FAP, PZ) it may be necessary to manually change the
+   units. (See examples below.)
 
    **FREQLIMITS f1 f2 f3 f4** All seismometers have zero response
    at zero frequency.  When deconvolving and not convolving
@@ -159,17 +157,17 @@ EVALRESP OPTION
 
   To identify the correct RESP file and to extract the proper
   transfer function from that file, EVALRESP uses information from
-  the SAC headers.  The fields are station (KSTNM), channel
-  (KCMPNM), date and time (KZDATE & KZTIME), network (KNETWK), and
-  location ID. Location ID is referred to as LOCID; it commonly
-  distinguishes between multiple instruments with the same
+  the SAC headers.  The fields are station (KSTNM), channel (KCMPNM),
+  date and time (KZDATE & KZTIME), network (KNETWK), and location ID
+  (KHOLE). Outside of SAC, location ID is referred to as LOCID; it
+  commonly distinguishes between multiple instruments with the same
   network, station and channel names, operating at the same
   time.  Data received from IRIS in SAC format (or converted to
   SAC with RDSEED) will have KHOLE set to a valid LOCID if one is
   necessary.  If the user is informed of real LOCIDs in the
-  EVALRESP file, the user can set KHOLE with CH (HELP CH for
-  details).  SAC will use KHOLE as LOCID if it is a two character
-  alpha-numeric string (padded with spaces or not).
+  EVALRESP file, the user can set KHOLE with CHNHDR.  SAC will use
+  KHOLE as LOCID if it is a two character alpha-numeric string (padded
+  with spaces or not).
 
   It is possible to override the header values by specifying
   additional options to EVALRESP. The possible options are::
@@ -179,7 +177,7 @@ EVALRESP OPTION
   and each option must be followed by an appropriate value. If
   DATE is not set in the header and is not specified as an option,
   then the current date is used in the search.  If TIME is not
-  set in the   seismogram header and is not specified as an
+  set in the seismogram header and is not specified as an
   option, then the current system time is used in the search.  If
   network is not specified, then the search for a transfer
   function defaults to use any network.  If LOCID is not set at
@@ -425,8 +423,8 @@ POLEZERO SEARCH
      Using polezero response for DAWA, BHZ, XT, 01 from SAC_PZs_XT_DAWA_BHZ_01_
      Station (DAWA    ), Channel (BHZ     )
 
-  If the responses are instead in a directory named `responses`, a `DIR responses`
-  should be added to the FROM part section, e.g.::
+  If the responses are instead in a directory named `responses`, a
+  `DIR  responses` should be added to the FROM part section, e.g.::
 
     SAC> transfer from POLEZERO DIR responses to  NONE   FREQLIMITS (1/120) (1/60)  6 7
      Using polezero response for ATAT, BHZ, XT, 01 from responses/SAC_PZs_XT_ATAT_BHZ_01_
@@ -468,7 +466,7 @@ POLEZERO EXAMPLES
 
   As a final example we consider the case for which one has several stations and
   BH* channels for waveforms from an event in the calling directory written by
-  RDSEED v5.2.  Assume one has either made a call to sacpz or concatinated all the
+  RDSEED v5.2.  Assume one has made a call to sacpz or concatinated all the
   BH* PZ files for this event into a single file named event.pz.  The following
   sequence will read all the BH* waveforms into memory and overwrite those files
   in memory with instrument-corrected waveforms::
@@ -480,7 +478,7 @@ POLEZERO EXAMPLES
 FAPfile OPTION
 ---------------
 
-  Reintroduced into Sac in version 101.4, is the FAPfile option.
+  Reintroduced into SAC in version 101.4, is the FAPfile option.
   A FAPFILE is an ascii file in which each line has three entries:
   a frequency (in HZ), an amplitude, and a phase (in degrees that will
   decrease with increasing frequency).  This FROM option will deconvolve
@@ -516,9 +514,12 @@ FAP EXAMPLES
     SAC> TRANSFER FROM FAP S fap.n11a.lhz_0.006-0.2 FREQ 0.004 0.006 0.1 0.2
     SAC> MUL 1.0e9
 
-  COMMENTS: As with the EVALRESP and POLEZERO options, one should accompany
-  the instrument correction with a FREQLIMITS option to handle the highest
-  and lowest frequencies.  (The Nyquist for this LHZ file is 0.5 Hz.)
+  **COMMENTS:** As with the EVALRESP and POLEZERO options, one should
+  accompany the instrument correction with a FREQLIMITS option to
+  handle the highest and lowest frequencies.  (The Nyquist for this
+  LHZ file is 0.5 Hz.).  As discussed above, if FAP comes from
+  EVALRESP, the units need to be converted from SI units (meters for
+  displacement) to the SAC convention.
 
 TABLE OF AVAILABLE INSTRUMENT TYPES
 -----------------------------------
@@ -571,12 +572,12 @@ YKALP      Blacknest specification of YKA long period
 YKASP      Blacknest specification of YKA short period
 ========== ==================================================
 
-  **Note** [ + ] ACC, VEL, and NONE do not refer to actual seismometer
+  **NOTE** [ + ] ACC, VEL, and NONE do not refer to actual seismometer
   specifications but to acceleration, velocity, and
   displacement respectively.   When these are specified as
   the TO type, IDEP is set accordingly.
 
-  **Note** [ ++ ] EVALRESP and POLEZERO do not refer to actual seismometer
+  **NOTE** [ ++ ] EVALRESP and POLEZERO do not refer to actual seismometer
   specifications. They are described in greater detail above.
 
 INSTRUMENT TYPE OPTIONS
