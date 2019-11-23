@@ -40,94 +40,6 @@ or a Fortran compilers, try::
 
    gfortran -o program main.f `sac-config --cflags --libs libsac libsacio`
 
-Instrument Removal / Deconvolution
-----------------------------------
-
-.. code-block:: c
-
-    // Remove Evalresp Response
-    int remove_evalresp_simple(float *data, int n, float dt, double limits[4])
-
-    // Remove Evalresp Response
-    int remove_evalresp(float *data, int n, float dt, double limits[4],
-                        char *id, char *when, char *resp_file)
-
-    // Remove SAC_PZ Polezero Response
-    int remove_polezero(float *data, int n, float dt, double limits[4],
-                        char *id, char *when, char *pzfile)
-
-    // Remove SAC_PZ Polezero Response
-    int remove_polezero_simple(float *data, int n, float dt, double limits[4])
-
-Remove an evalresp or polezero specified instrument response.  Best to
-use the `simple` versions unless extra information is required.
-`remove_evalresp_simple` and `remove_polezero_simple` will attempt to
-find the appropriate response file within the same directory before
-removing.  `remove_evalresp` and `remove_polezero` requires the
-specification of a response file.  See transfer_ for definitions of
-evelresp, polezero, etc.
-
-**Arguments**
-
-- `data` - Time series data
-- `n` - Length of data
-- `dt` - Sampling interval (seconds)
-- `limits` - Frequency range over which response is removed (Hz)
-
-   - `limits[4] = { 0.002, 0.005, 12.0, 20.0 }`
-   - limits[0] - Low  Frequency Edge (Response = 0)
-   - limits[1] - Low  Frequency Edge (Response = 1)
-   - limits[2] - High Frequency Edge (Response = 1)
-   - limits[3] - High Frequency Edge (Response = 0)
-- `id` - Instrument Identifier, NET.STA.LOC.CHA
-
-   - `*.*.*.*` wildcards are valid, but unexpected results may occur
-   - `*` will try to automatically determine the instrument id using the current sac file
-- `when` - Reference time, YYYY,DDD,HH:MM:SS
-
-   - `*` will try to automatically determine the reference time using the current sac file
-- `resp_file` - Evalresp Response File
-- `pzfile` - Polezero Response File
-
-**Note:** Data is modified in place.
-
-**Examples**
-
-.. code-block:: fortran
-
-    implicit none
-    include "sacf.h"
-    real*4 y(1999), b, dt
-    integer n, nerr, nmax
-    real*8 limits(4)
-
-    ! Function Prototypes
-    integer remove_evalresp_simple
-
-    nmax = 1999
-
-    ! Frequency Limits (Hz)
-    limits(1) = 0.002
-    limits(2) = 0.005
-    limits(3) = 12.0
-    limits(4) = 20.0
-
-    ! Read in Raw Sac file
-    call rsac1("raw.sac", y, n, b, dt, nmax, nerr)
-
-    ! Remove Response using Evalresp
-    if(remove_evalresp_simple(y, n, dt, limits) .ne. 0) then
-       write(*,*) "Error removing instrument with evalresp"
-       return
-    endif
-
-**Effective SAC Commands**
-
-.. code-block:: shell
-
-    SAC> read raw.sac
-    SAC> transfer from evalresp to none freq 0.002 0.005 12 20
-
 
 Fourier Transform (FFT)
 -----------------------
@@ -946,75 +858,24 @@ The plot below shows the original plus the two methods for time-shifting the wav
    :width: 90%
    :align: center
 
-Convolution / SAC
------------------
-The SAC convolve_ command is effectively the same as the command
-correlate_ excpet for a sign change.  As with correlate_, the
-calculation is done in the frequency domain.  An alternative
-convolution routine, which operates in the time domain, is introduced
-in the following section.
-
-.. code-block:: c
-
-    void convolve(float *a, int na, float *b, int nb, float *c, int nc)
-
-Convolve two time series together
-
-**Arguments**
-
-- `a` - First time series
-- `na` - Length of a
-- `b` - Second time series
-- `nb` - Length of b
-- `c` - Output convolution of a and b, must be at least na+nb-a length
-- `nc` - Length of c, must be at least na+nb-1
-
-**Examples**
-
-.. code-block:: c
-
-    #define NMAX 2020
-    int na, nb, nerr, max, n;
-    float beg, delta, ya[NMAX], yb[NMAX], yc[2*NMAX];
-
-    max = NMAX;
-    // Read in the first file
-    rsac1("data.sac", ya, &na, &beg, &delta, &max, &nerr, SAC_STRING_LENGTH);
-
-    // Read in the second file
-    rsac1("triangle.sac", yb, &nb, &beg, &delta, &max, &nerr, SAC_STRING_LENGTH);
-
-    // Convolve the two time series
-    convolve(ya, na, yb, nb, yc, na+nb-1);
-
-
-
-**Effective SAC Commands**
-
-.. code-block:: shell
-
-    SAC> fg triangle delta 1e-2 npts 100
-    SAC> write triangle.sac
-    SAC> fg seismo
-    SAC> write data.sac
-    SAC> read data.sac triangle.sac
-    SAC> convolve
-
-
-Convolution / Time Domain
--------------------------
-
-The SAC convolve_ command is a "discrete" convolution.  It uses two
-digital-convolution features that may be undesirable when working with
-time series:
+Convolution
+-----------
+Prior to SAC v102.0, the SAC CONVOLVE_ command was effectively the
+same as the SAC CORRELATE_command except for a sign change.  For both
+the CORRELATE command and the previous version of CONVOLVE, the
+calculation is done in the frequency domain.  The explicit method used
+for doing the convolution is called a "discrete" convolution.  For
+many application that method is appropriate, but a *discrete*
+convolution has two features that potentially are undesirable when
+applied to time series:
 
   - no scaling of the output by the digitizing interval, and
   - no check on the start time for the pulse.
 
-This independent program allows for both discrete convolution (as
-is done by the SAC convolve) and a time-series convolution.
-
-The programs with examples can be found in $SACHOME/doc/examples/convolve
+The directory $SACHOME/doc/examples/convolve has both FORTRAN and C
+programs with options for both *discrete* convolution and
+"time-series* convolution, which treats convolution for a time series
+"correctly".
 
 **Sample Runs**
 
@@ -1028,51 +889,58 @@ Input for the convolution can be generated as::
 Then run the convolvef program::
 
     % ./convolvef
-    Usage convolvef p_name wf_name c_name disc_conv
-    % ./convolvef triangle_n8_d0.02.sac impulse_n12_d0.02.sac conv_f_n.sac n
+    Usage: convolvef p_name wf_name c_name disc_conv
+      where the first three arguments are filenames
+      for pulse, waveform, and convolution output.
+    If disc_conv is y, it uses a discrete convolution
+      and the pulse begin time is set to zero.
+    If disc_conv is n, pulse begin time is unchanged
+      and the output is multiolied by delta, which is
+      what one has in a time-series covolution.
+    % ./convolvef triangle_n8_d0.02.sac impulse_n12_d0.02.sac conv_y.sac y
+    % ./convolvef triangle_n8_d0.02.sac impulse_n12_d0.02.sac conv_n.sac n
 
-The above gives a time-series convolution.  The pulse is symmetric
-around zero time, so comparing the last argument "y" and "n"
-for disc_conv shows an
-important difference between discrete and time-series convolutions.
+The pulse file *triangle_n8_d0.02.sac* is symmetric around zero time, so 
+comparing the last argument "y" and "n" for disc_conv demonstrates an 
+important difference between *discrete* and *time-series* convolutions.
 
-Time-Series Convolution Primer
-------------------------------
+Convolution Primer
+------------------
 
-In these application, :math:`f`, is a waveform time series that is
-convolved with a pulse :math:`g`.  The equation for their convolution
+In these application, *f*, is a waveform time series that is
+convolved with a pulse *g*.  The equation for their convolution
 is
 
 .. math::
 
    y(t) = f(t) \star g(t) = \int_{-\infty}^{\infty} dt' f(t') g(t-t')
 
-Both :math:`f` and :math:`g` are functions of time, and their zero times are coupled
-through the term :math:`g(t−t′)`. From the above equation, it is easy to show that
-one can choose the time zero for :math:`y` and :math:`f` to be the same. In the
-applications discussed below, the zero time for :math:`g(t)` can be the same
-as or less than the zero time for :math:`f(t)`.
+Both *f* and *g* are functions of time, and their zero times are
+coupled through the term *g*\ (t−t'). From the above equation, it is
+easy to show that one can choose the time zero for *y* and *f* to be
+the same. In the applications discussed below, the zero time for *g*\
+(t) can be the same as or less than the zero time for *f*\ (t).
 
-To calculate the convolution, one discretizes both :math:`f` and
-:math:`g` and replaces the integral with a sum. In this discussion
-:math:`\delta t= 0.02s` is the digitizing interval for :math:`y`,
-:math:`f`, and :math:`g`. One multiplies the sum by :math:`\delta t`,
-which is not what is done in a “discrete convolution”, which also does
-not take into account any difference in zero time between :math:`f(t)`
-and :math:`g(t)`.
+To calculate the convolution, one discretizes both *f* and
+*g* and replaces the integral with a sum. In this discussion
+:math:`\delta t= 0.02 s` is the digitizing interval for *y*,
+*f*, and *g*. One multiplies the sum by :math:`\delta t`,
+which is not what is done in a *discrete* convolution, which also does
+not take into account any difference in zero time between *f*\ (t)
+and *g*\ (t).
 
 Here, two applications of convolution are discussed. Both have the
-same :math:`f(t)` but different :math:`g(t)`.
+same *f*\ (t) but different *g*\ (t).
 
-:math:`f(t)` is a synthetic waveform (produced using Haskell matrices
+*f*\ (t) is a synthetic waveform (produced using Haskell matrices
 or WKBJ) where vertical lines of calculated polarities and amplitudes
 are drawn at phase-arrival times. For these examples, the synthetic
 waveform is a vertical-component time series for an incident P-wave at
 an angle of :math:`20^\circ` with the vertical through a 2-layer
 crust. There are :math:`n_w = 2048` points in the discretized
-:math:`f`. (The large number is chosen to minimize wraparound.) The
+*f*. (The large number is chosen to minimize wraparound.) The
 duration is :math:`t_w = \delta t [n_w-1]`. The first point in
-:math:`f` is chosen to be at :math:`t=0`, so :math:`f(t)
+*f* is chosen to be at t = 0, so :math:`f(t)
 =f(t)H(t)H(t_w−t)`,where
 
 .. math::
@@ -1082,16 +950,16 @@ duration is :math:`t_w = \delta t [n_w-1]`. The first point in
               0 & \text{if } t < 0
           \end{cases}
 
-:math:`g(t)` is a pulse waveform with a far smaller duration than
-:math:`f(t)`. Here, the pulse is either (1) an approximation of a P
+*g*\ (t) is a pulse waveform with a far smaller duration than
+*f*\ (t). Here, the pulse is either (1) an approximation of a *P*
 arrival so that the output of the convolution potentially models the
-data, or (2) a time-symmetric shape with a maximum at :math:`t=0` to
+data, or (2) a time-symmetric shape with a maximum at t = 0 to
 smooth out the Gibbs phenomenon that often accompanies arrivals in
 synthetics. Option (2) is often used for synthetics for receiver
 functions.
 
 A “Brune” pulse for (1): :math:`g(t) =U_0 H(t) t e^{−t/\kappa}
-H(t_p−t)`, where :math:`\kappa=0.1s`, :math:`t_p=1.26s`, and
+H(t_p−t)`, where :math:`\kappa=0.1 s`, :math:`t_p=1.26 s`, and
 :math:`U_0` is a constant that only affects the amplitude, so is of no
 interest here.
 
@@ -1099,21 +967,28 @@ For (2), the source pulse is a triangle function produced by fg in SAC::
 
    fg triangle npts 8 delta 0.02 begin -0.08.
 
-Note that the Brune pulse starts at the same time as :math:`f`, while the triangle pulse starts at
-a negative time with a maximum at the start time for :math:`f`. If the total time for the pulse
-is :math:`t_p` , the general form for the pulse is :math:`g(t) =g(t)H(t−t_1)H(t_2−t)`, where for the Brune pulse :math:`t_1=0`, :math:`t_2=t_p`
-and for the triangle pulse :math:`t_1=−0.08s`,  :math:`t_2 = 0.06s = t_p−t_1`. For either pulse, :math:`t_p=\delta t[n_p−1]`.
+Note that the Brune pulse starts at the same time as *f*, while the
+triangle pulse starts at a negative time with a maximum at the start
+time for *f*. If the total time for the pulse is :math:`t_p` , the
+general form for the pulse is :math:`g(t) =g(t)H(t−t_1)H(t_2−t)`,
+where for the Brune pulse :math:`t_1=0`, :math:`t_2=t_p` and for the
+triangle pulse :math:`t_1=−0.08s`, :math:`t_2 = 0.06s = t_p−t_1`. For
+either pulse, :math:`t_p=\delta t[n_p−1]`.
 
-Given the above forms for :math`f` and :math:`g` , the original convolution equation can be written
+Given the above forms for *f* and *g* , the original convolution
+equation can be written
 
 .. math::
 
    y(t) = \int_0^{t_w} dt' f(t') g(t-t') H(t-t'-t_1) H(t_2 - t + t')
 
-For the Brune pulse, :math:`t_1=0`, so :math:`t` cannot be negative, but for the triangle pulse the lower bound for
-:math:`t` is :math:`-0.06 s`. In Fortran, arrays are stored in the computer using positive integers, so to simplify
-the bookkeeping it is best to avoid negative times when we discretize the above equation. One can
-avoid negative times if one chooses :math:`y(\tau) =y(t−t_1)`. With this choice the modified equation then reads
+For the Brune pulse, :math:`t_1=0`, so *t* cannot be negative, but for
+the triangle pulse the lower bound for *t* is -0.06 s. In Fortran,
+arrays are stored in the computer using positive integers, so to
+simplify the bookkeeping it is best to avoid negative times when we
+discretize the above equation. One can avoid negative times if one
+chooses :math:`y(\tau) =y(t−t_1)`. With this choice the modified
+equation then reads
 
 .. math::
 
@@ -1125,9 +1000,11 @@ The discretized equation for the above is then
 
    y_i = \delta t \sum _{j=1}^{n_w} f_j g_{i-j-j_1}
 
-where :math:`j_1 = -(t_1/\delta t) + 1` and :math:`i` runs from :math:`1` to :math:`n_w + n_p - 1`
+where :math:`j_1 = -(t_1/\delta t) + 1` and i runs from 1 to
+:math:`n_w + n_p - 1`
 
-The following Fortran code produces the correct result for the convolution for either pulse
+The following Fortran code produces the correct result for the
+convolution for either pulse
 
 .. code-block:: fortran
 
@@ -1142,11 +1019,27 @@ The following Fortran code produces the correct result for the convolution for e
           conv(i) = delta*temp
         end do
 
-where b_p = :math:`t_1`, delta = :math:`\delta t`, and conv(i) = :math:`y_i`.
+where :math:`b_p = t_1`, delta = :math:`\delta t`, and conv(i) = :math:`y_i`.
 
-Plots for the two pulse waveforms are shown in Figure 1, and the results of the convolution near the first synthetic arrival are shown in Figure 2 both for the Brune pulse and for the triangle pulse. The Gibbs phenomenon is quite pronounced at the arrival in the raw synthetic.  Note that the peaks for the arrival in Figure 2 are at the same time for the triangle-pulse convolution and the synthetic, and the Brune-pulse convolution starts at the peak of the raw-synthetic arrival time. For display purposes, the waveforms are  time-shifted so that the first arrival are at five seconds into the record.  Hence the zero time for the display and the convolution calculation are not the same.
+Plots for the two pulse waveforms are shown in Figure 1, and the
+results of the convolution near the first synthetic arrival are shown
+in Figure 2 both for the Brune pulse and for the triangle pulse. The
+Gibbs phenomenon is quite pronounced at the arrival in the raw
+synthetic.  Note that the peaks for the arrival in Figure 2 are at the
+same time for the triangle-pulse convolution and the synthetic, and
+the Brune-pulse convolution starts at the peak of the raw-synthetic
+arrival time. For display purposes, the waveforms are time-shifted so
+that the first arrival are at five seconds into the record.  Hence the
+zero time for the display and the convolution calculation are not the
+same.
 
-If one uses the SAC convolution for the two runs, one gets the "correct" result for the Brune pulse but a time shift of 0.08 seconds for the triangle pulse (which starts at -0.08 s).  The convolution of the triangle pulse with itself is also time-shifted 0.08\,s.  If one uses the SAC CONVOLVE option "amplitude on" in program `convolvef` or `convovlec`, one gets the same amplitudes and times as for SAC convolution output.
+If one uses the SAC convolution for the two runs, one gets the
+"correct" result for the Brune pulse but a time shift of 0.08 seconds
+for the triangle pulse (which starts at -0.08 s).  The convolution of
+the triangle pulse with itself is also time-shifted 0.08 s.  If one
+uses the SAC CONVOLVE option "amplitude on" in program *convolvef* or
+*convovlec*, one gets the same amplitudes and times as for the
+discrete convolution output.
 
 
 .. image:: brune-triangle.png
@@ -1160,4 +1053,6 @@ Figure 1. The two source pulses used for these convolution applications.
    :width: 90%
    :align: center
 
-Figure 2: From top to bottom: unfiltered synthetic, time-series convolution with triangle pulse, discrete convolution with triangle pulse, time-series convolution with Brune pulse
+Figure 2: From top to bottom: unfiltered synthetic, time-series
+convolution with triangle pulse, discrete convolution with triangle
+pulse, time-series convolution with Brune pulse
