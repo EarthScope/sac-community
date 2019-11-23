@@ -218,7 +218,6 @@ libsac_a_SOURCES = co/complex.c bot/indexb.c bot/indexa.c \
 	dbh/window.c dbh/rms.c \
 	\
 	icm/trans.c icm/dcpft.c icm/taper.c icm/getran.c icm/libpz.c \
-  icm/evalresp_sac.c \
   \
   ucf/next2.c ucf/copydouble.c \
 	\

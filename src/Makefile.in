@@ -281,10 +281,9 @@ am_libsac_a_OBJECTS = co/complex.$(OBJEXT) bot/indexb.$(OBJEXT) \
 	dbh/zshft.$(OBJEXT) dbh/fft.$(OBJEXT) dbh/crscor.$(OBJEXT) \
 	dbh/window.$(OBJEXT) dbh/rms.$(OBJEXT) icm/trans.$(OBJEXT) \
 	icm/dcpft.$(OBJEXT) icm/taper.$(OBJEXT) icm/getran.$(OBJEXT) \
-	icm/libpz.$(OBJEXT) icm/evalresp_sac.$(OBJEXT) \
-	ucf/next2.$(OBJEXT) ucf/copydouble.$(OBJEXT) \
-	sam/envelope.$(OBJEXT) scm/rmean.$(OBJEXT) \
-	scm/rtrend.$(OBJEXT) scm/taper.$(OBJEXT) \
+	icm/libpz.$(OBJEXT) ucf/next2.$(OBJEXT) \
+	ucf/copydouble.$(OBJEXT) sam/envelope.$(OBJEXT) \
+	scm/rmean.$(OBJEXT) scm/rtrend.$(OBJEXT) scm/taper.$(OBJEXT) \
 	scm/interpolate.$(OBJEXT) scm/wigint.$(OBJEXT) \
 	scm/rotate.$(OBJEXT) scm/lifite.$(OBJEXT) scm/lifitu.$(OBJEXT) \
 	uom/dif2.$(OBJEXT) uom/dif3.$(OBJEXT) uom/dif5.$(OBJEXT) \
@@ -1200,7 +1199,6 @@ libsac_a_SOURCES = co/complex.c bot/indexb.c bot/indexa.c \
 	dbh/window.c dbh/rms.c \
 	\
 	icm/trans.c icm/dcpft.c icm/taper.c icm/getran.c icm/libpz.c \
-  icm/evalresp_sac.c \
   \
   ucf/next2.c ucf/copydouble.c \
 	\
@@ -1958,7 +1956,6 @@ icm/trans.$(OBJEXT): icm/$(am__dirstamp)
 icm/dcpft.$(OBJEXT): icm/$(am__dirstamp)
 icm/taper.$(OBJEXT): icm/$(am__dirstamp)
 icm/libpz.$(OBJEXT): icm/$(am__dirstamp)
-icm/evalresp_sac.$(OBJEXT): icm/$(am__dirstamp)
 ucf/$(am__dirstamp):
 	@$(MKDIR_P) ucf
 	@: > ucf/$(am__dirstamp)
