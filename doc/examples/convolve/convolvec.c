@@ -71,8 +71,6 @@ static void td_conv(float     *waveform,
   \author   Arthur Snoke
   VT
 
-  \date: June 2017  Created
-
 */
 
 #include <stdio.h>
@@ -104,8 +102,7 @@ main(int argc, char *argv[]) {
         fprintf(stderr, "  where the first three arguments are filenames\n");
         fprintf(stderr, "  for pulse, waveform, and convolution output.\n");
         fprintf(stderr, "If disc_conv is y, it uses a discrete convolution\n");
-        fprintf(stderr, "  and the pulse begin time is set to zero.  This\n");
-        fprintf(stderr, "  reproduces the result one gets for SAC convolve.\n");
+        fprintf(stderr, "  and the pulse begin time is set to zero.\n");
         fprintf(stderr, "If disc_conv is n, pulse begin time is unchanged\n");
         fprintf(stderr, "  and the output is multiolied by delta, which is\n");
         fprintf(stderr, "  what one has in a time-series covolution.\n");

@@ -8,7 +8,8 @@
 !
 !     If disc_conv is "y", the output is not premultilied by delta
 !         and the begin time for the pulse is treated as zero.  The
-!         result for "y" is the sae as one gets from SAC convolve.
+!         output for "y" is a a "discrete" convolution, if "n", the
+!         output is a "time-series" convolution.
 
       implicit none
 
@@ -34,8 +35,7 @@
         write(*,*) '  where the first three arguments are filenames'
         write(*,*) '  for pulse, waveform, and convolution output.'
         write(*,*) 'If disc_conv is y, it uses a discrete convolution'
-        write(*,*) '  and the pulse begin time is set to zero.  This'
-        write(*,*) '  reproduces the result one gets for SAC convolve.'
+        write(*,*) '  and the pulse begin time is set to zero.'
         write(*,*) 'If disc_conv is n, pulse begin time is unchanged'
         write(*,*) '  and the output is multiolied by delta, which is'
         write(*,*) '  what one has in a time-series covolution.'
@@ -98,7 +98,7 @@
 
       subroutine td_conv(waveform,n_w,pulse,n_p,conv,delta,factor,b_p)
 !
-!     waveform of length n_w is the time series against which pulse
+!     waveform of length n_w is the waveform time series against which pulse
 !         of length n_p is convolved.  Output: conv of length n_w+n_w+1.
 !         waveform and pulse are unchanged.
 !     If a time-series convolution, b_p is the input value and factor
@@ -107,7 +107,7 @@
 !         domain.
 !     Stops if n_w < n_p.
 !
-!     Arthur Snoke 2015
+!     Arthur Snoke
 
       implicit none
       real*4 waveform(*), pulse(*), conv(*)

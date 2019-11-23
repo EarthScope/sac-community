@@ -1,5 +1,10 @@
 #!/bin/sh
 
+rm -f *.sac brune convolvef convolvec
+if [ x"$1" == x"clean" ]; then
+    exit
+fi
+
 if [ ! -e synthetic.sac ]; then
     cp sample_runs/synthetic.sac .
 fi
@@ -33,7 +38,7 @@ echo "Running convolvef: Time series then Discrete"
 
 echo "Runs with synthetic"
 ./convolvef $P_NAME_T $WF_NAME_S triangle_synth-discrete.sac y
-./convolvef $P_NAME_B $WF_NAME_S triangle_synth-ts.sac n
+./convolvef $P_NAME_T $WF_NAME_S triangle_synth-ts.sac n
 ./convolvef $P_NAME_B $WF_NAME_S brune_synth-ts.sac y
 
 echo "Compare results"
