@@ -26,6 +26,9 @@ sacset_LDADD = ../src/libsacio.a
 sacdiff_CFLAGS = -I$(top_srcdir)/sacio
 sacdiff_LDADD = ../src/libsacio.a
 
+sacswap_CFLAGS = -I$(top_srcdir)/sacio
+sacswap_LDADD = ../src/libsacio.a
+
 EXTRA_DIST = Makefile.utils \
 	readsac.m writesac.m \
 	padcat.m getsacdata.m \

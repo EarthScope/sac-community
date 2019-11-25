@@ -131,9 +131,11 @@ sacset_OBJECTS = $(am_sacset_OBJECTS)
 sacset_DEPENDENCIES = ../src/libsacio.a
 sacset_LINK = $(CCLD) $(sacset_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am_sacswap_OBJECTS = sacswap.$(OBJEXT)
+am_sacswap_OBJECTS = sacswap-sacswap.$(OBJEXT)
 sacswap_OBJECTS = $(am_sacswap_OBJECTS)
-sacswap_LDADD = $(LDADD)
+sacswap_DEPENDENCIES = ../src/libsacio.a
+sacswap_LINK = $(CCLD) $(sacswap_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
+	$(LDFLAGS) -o $@
 am_sgfswap_OBJECTS = sgfswap.$(OBJEXT)
 sgfswap_OBJECTS = $(am_sgfswap_OBJECTS)
 sgfswap_LDADD = $(LDADD)
@@ -368,6 +370,8 @@ sacset_CFLAGS = -I$(top_srcdir)/sacio
 sacset_LDADD = ../src/libsacio.a
 sacdiff_CFLAGS = -I$(top_srcdir)/sacio
 sacdiff_LDADD = ../src/libsacio.a
+sacswap_CFLAGS = -I$(top_srcdir)/sacio
+sacswap_LDADD = ../src/libsacio.a
 EXTRA_DIST = Makefile.utils \
 	readsac.m writesac.m \
 	padcat.m getsacdata.m \
@@ -467,7 +471,7 @@ sacset$(EXEEXT): $(sacset_OBJECTS) $(sacset_DEPENDENCIES) $(EXTRA_sacset_DEPENDE
 
 sacswap$(EXEEXT): $(sacswap_OBJECTS) $(sacswap_DEPENDENCIES) $(EXTRA_sacswap_DEPENDENCIES) 
 	@rm -f sacswap$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(sacswap_OBJECTS) $(sacswap_LDADD) $(LIBS)
+	$(AM_V_CCLD)$(sacswap_LINK) $(sacswap_OBJECTS) $(sacswap_LDADD) $(LIBS)
 
 sgfswap$(EXEEXT): $(sgfswap_OBJECTS) $(sgfswap_DEPENDENCIES) $(EXTRA_sgfswap_DEPENDENCIES) 
 	@rm -f sgfswap$(EXEEXT)
@@ -510,6 +514,12 @@ sacset-sacset.o: sacset.c
 
 sacset-sacset.obj: sacset.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sacset_CFLAGS) $(CFLAGS) -c -o sacset-sacset.obj `if test -f 'sacset.c'; then $(CYGPATH_W) 'sacset.c'; else $(CYGPATH_W) '$(srcdir)/sacset.c'; fi`
+
+sacswap-sacswap.o: sacswap.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sacswap_CFLAGS) $(CFLAGS) -c -o sacswap-sacswap.o `test -f 'sacswap.c' || echo '$(srcdir)/'`sacswap.c
+
+sacswap-sacswap.obj: sacswap.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sacswap_CFLAGS) $(CFLAGS) -c -o sacswap-sacswap.obj `if test -f 'sacswap.c'; then $(CYGPATH_W) 'sacswap.c'; else $(CYGPATH_W) '$(srcdir)/sacswap.c'; fi`
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
