@@ -41,7 +41,7 @@ iotest: io
 	./wsac5c
 	./wsac5f
 
-DIRS= convolve_saclib correlate cut differentiate envelope fft filter integrate rmean rotate rtrend taper 
+DIRS= convolve_saclib correlate cut differentiate envelope fft filter integrate rmean rtrend taper 
 
 dirs:
 	(cd cut && make)
@@ -51,7 +51,6 @@ dirs:
 	(cd filter && make)
 	(cd integrate && make)
 	(cd rmean && make)
-	(cd rotate && make)
 	(cd rtrend && make)
 	(cd taper && make)
 	(cd correlate && make)
