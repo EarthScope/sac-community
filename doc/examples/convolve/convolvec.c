@@ -105,7 +105,7 @@ main(int argc, char *argv[]) {
         fprintf(stderr, "  and the pulse begin time is set to zero.\n");
         fprintf(stderr, "If disc_conv is n, pulse begin time is unchanged\n");
         fprintf(stderr, "  and the output is multiolied by delta, which is\n");
-        fprintf(stderr, "  what one has in a time-series covolution.\n");
+        fprintf(stderr, "  what one has in a time-series convolution.\n");
         exit(-1);
     }
     p_name = argv[1];

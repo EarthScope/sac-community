@@ -38,7 +38,7 @@
         write(*,*) '  and the pulse begin time is set to zero.'
         write(*,*) 'If disc_conv is n, pulse begin time is unchanged'
         write(*,*) '  and the output is multiolied by delta, which is'
-        write(*,*) '  what one has in a time-series covolution.'
+        write(*,*) '  what one has in a time-series convolution.'
         stop
       end if
       call getarg(1,p_name)
