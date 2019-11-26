@@ -35,33 +35,46 @@ Programs include:
   * Write a collection of SAC files
       - wsac5c.c
       - wsac5f.f
-  * Convolve Two SAC files [ Directory: convolve ]
-      - Uses a time domain convolution
-      - convolvec.c
-      - convolvef.f
-  * Convolve Two SAC files [ Directory: convolve_saclib ]
-      - Uses frequency domain in saclib
-      - convolvec.c
-      - convolvef.f
   * Correlate Two SAC files [ Directory: correlate ]
       - correlatec.c
       - correlatef.f
   * Get the Envelope of a SAC file [ Directory: envelope ]
       - envelopec.c
       - envelopef.f
-  * Interpolate a SAC file using cubic spline [ Directory: interpolate ]
-      - External Command, not in SAC
-      - interpolate.f
-      - interpolate_subs.f
   * Filter a SAC file [ Directory: filter ]
       - filterc.c
       - filterf.f
+  * Fourier Transform (forward and inverse transforms) [ Directory: fft ]
+      - fftc.c
+      - fftf.f90
+  * Cut sac data [ Directory: cut ]
+      - cutc.c
+      - cutf.f90
+  * Differentiate a sac file [ Directory: differentiate ]
+      - difc.c
+      - diff.f90
+  * Integrate a sac file [ Directory: integrate ]
+      - intc.c
+      - intf.f90
+  * Remove the mean a sac file [ Directory: rmean ]
+      - rmeanc.c
+      - rmeanf.f90
+  * Remove the trend a sac file [ Directory: rtrend ]
+      - rtrendc.c
+      - rtrendf.f90
+  * Taper a sac file [ Directory: taper ]
+      - taperc.c
+      - taperf.f90
+
+The Makefile does nothing for the following.  Follow the instructions in the
+README in each directory.
   * Time Shift a SAC file [ Directory: time_shift ]
-      - External Command, not in SAC
-      - time_shift.f
-      - time_shift_subs.f
+      - calls fft (both forward and inverse), rtrend, and taper
+  * Interpolate a SAC file using cubic spline [ Directory: interpolate ]
+  * Convolve Two SAC files [ Directory: convolve ]
+
   * create_input.sh
-      Run SAC to create SAC files that are then 
+      Run SAC to create SAC files that are then
       compared to the output from each standalone program.
 
 Also included are a variety of ways to run the sac program from different scripting languages
