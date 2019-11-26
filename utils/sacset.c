@@ -1,4 +1,34 @@
 
+/**
+BSD 2-Clause License
+
+Copyright (c) 2019, Brian Savage
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+/* Based on the old sacset passcal distributed program */
+
 #include <stdio.h>
 #include <sacio.h>
 #include <errno.h>
@@ -22,6 +52,19 @@ bool_type(char *val) {
         }
     }
     return -1;
+}
+
+#define PROGNAME "sacset"
+
+void
+usage() {
+    printf("Usage: %s [-v] -header=value -header=value files \n", PROGNAME);
+    printf("   -v Verbose output [off]\n");
+    printf("   -header=value  set 'header' with 'value', e.g.\n");
+    printf("       -t0=12.56 \n");
+    printf("       -knetwk=II -kstnm=BORG\n");
+    printf("       -iztype=IO\n");
+    exit(1);
 }
 
 int
@@ -51,8 +94,7 @@ main(int argc, char *argv[]) {
         }
     }
     if(files == 0) {
-        printf("Error, no files specified, exiting\n");
-        exit(-1);
+        usage();
     }
 
     for(j = 1; j < argc; j++) {
@@ -85,7 +127,7 @@ main(int argc, char *argv[]) {
             }
             /* Find equal sign, splitting option */
             if((val = strchr(arg, '=')) == NULL) {
-                printf("\tWarning, expected -keyword=value, found %s\n", arg);
+                printf("\tWarning, expected -header=value, found %s\n", arg);
                 continue;
             }
             *val = 0; /* Set equal to terminator, null-terminating key string */
@@ -93,13 +135,13 @@ main(int argc, char *argv[]) {
             if(!*key || !*val) {
                 val--;
                 *val = '=';
-                printf("\tWarning, expected -keyword=value, found %s\n", arg);
+                printf("\tWarning, expected -header=value, found %s\n", arg);
                 continue;
             }
 
             /* Determine the Header ID */
             if((h = sac_keyword_to_header(key, strlen(key))) == NULL) {
-                printf("Unrecognized keyword, skipping: %s\n", key);
+                printf("Unrecognized header name, skipping: %s\n", key);
                 continue;
             }
             /* Set the header value to 'val' */
@@ -160,7 +202,7 @@ main(int argc, char *argv[]) {
                 }
                 break;
             default:
-                printf("Unimplemented keyword, skipping: %s %d %d\n", key, h->type, h->id);
+                printf("Unimplemented header, skipping: %s %d %d\n", key, h->type, h->id);
                 continue;
             }
             if(verbose) {
