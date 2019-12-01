@@ -1,4 +1,5 @@
 
+#include <stdio.h>
 #include <math.h>
 #include "scm.h"
 
@@ -50,7 +51,7 @@ geteps_xy(float y[], int nlen, float x[]) {
 
     /*  Calculate epsilon */
     avrat = 0.0;
-    for (j = 0; j <= (nlen - 1); j++) {
+    for (j = 0; j < (nlen - 1); j++) {
         avrat = avrat + fabs((y[j + 1] - y[j]) / (x[j + 1] - x[j]));
     }
     eps = 0.0001 * avrat / (nlen - 1);
