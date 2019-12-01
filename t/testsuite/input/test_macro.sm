@@ -48,6 +48,17 @@ m test_macro7.m FILE 2002.054.09.47.lhor2 COMPS z n e
 m test_macro7.m file 2002.054.09.47.lhor2 comps z n e
 m test_macro7.m file 2002.054.09.47.lhor2 COMPS z n e
 
+m test_macro8.m
+one two three
+startvalue
+endvalue
+
+m test_macro8.m FILES one two three STARTCUT ENDCUT 10
+startvalue
+
+m test_macro8.m FILES STARTCUT ENDCUT
+one two three
+start
 
 
 

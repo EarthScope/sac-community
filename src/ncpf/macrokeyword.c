@@ -183,7 +183,7 @@ macrokeyword(kmacroargs, kmacroargs_s, nun, keys, keys_s, nerr)
         poptok(keys, nkeys, &jkeys, &ick1, &ick2, &iktype);
         while (iktype > 0) {
             if (token_strncasecmp(t, keys + ick1 - 1, ick2 - ick1 + 1)) {       /* Keyword found */
-                if (!lfirst) {
+                if (!lfirst && list) {
                     sac_vars_put_var(kmcpf.kvarsname, ckey, VAR_LIST, list);
                 }
                 lfirst = FALSE;

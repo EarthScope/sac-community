@@ -12566,8 +12566,52 @@
  ERROR 1205: Could not delete VARS variable XH
   
  ==>  
+ m test_macro8.m
+ MESSAGE $FILES
+ ==>  MESSAGE one two three
+ one
+ two
+ three
+ MESSAGE CUTIM T0 $STARTCUT T0 $ENDCUT
+ ==>  MESSAGE CUTIM T0 startvalue T0 endvalue
+ CUTIM
+ T0
+ startvalue
+ T0
+ endvalue
+  
   
  ==>  
+ m test_macro8.m FILES one two three STARTCUT ENDCUT 10
+ MESSAGE $FILES
+ ==>  MESSAGE one two three
+ one
+ two
+ three
+ MESSAGE CUTIM T0 $STARTCUT T0 $ENDCUT
+ ==>  MESSAGE CUTIM T0 startvalue T0 10
+ CUTIM
+ T0
+ startvalue
+ T0
+ 10
+  
+  
+ ==>  
+ m test_macro8.m FILES STARTCUT ENDCUT
+ MESSAGE $FILES
+ ==>  MESSAGE one two three
+ one
+ two
+ three
+ MESSAGE CUTIM T0 $STARTCUT T0 $ENDCUT
+ ==>  MESSAGE CUTIM T0 start T0
+ CUTIM
+ T0
+ start
+ T0
+  
+  
   
  ==>  
   
