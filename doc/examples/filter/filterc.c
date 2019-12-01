@@ -13,6 +13,7 @@ test_bp() {
     float y[NMAX], b, dt;
     int n, nerr, nmax = NMAX;
     rsac1("raw.sac", y, &n, &b, &dt, &nmax, &nerr, -1);
+    remove_trend(y, n, dt, b);
     bandpass(y, n, dt, 0.10, 1.00);
     if(!sac_compare("bandpass_sac.sac", y, n, b, dt)) {
         exit(1);
@@ -24,6 +25,7 @@ test_lp() {
     float y[NMAX], b, dt;
     int n, nerr, nmax = NMAX;
     rsac1("raw.sac", y, &n, &b, &dt, &nmax, &nerr, -1);
+    remove_trend(y, n, dt, b);
     lowpass(y, n, dt, 2.0);
     if(!sac_compare("lowpass_sac.sac", y, n, b, dt)) {
         exit(1);
@@ -35,6 +37,7 @@ test_hp() {
     float y[NMAX], b, dt;
     int n, nerr, nmax = NMAX;
     rsac1("raw.sac", y, &n, &b, &dt, &nmax, &nerr, -1);
+    remove_trend(y, n, dt, b);
     highpass(y, n, dt, 10.0);
     if(!sac_compare("highpass_sac.sac", y, n, b, dt)) {
         exit(1);
@@ -47,6 +50,7 @@ test_filter() {
     float y[NMAX], b, dt;
     int n, nerr, nmax = NMAX;
     rsac1("raw.sac", y, &n, &b, &dt, &nmax, &nerr, -1);
+    remove_trend(y, n, dt, b);
     filter(SAC_BESSEL, SAC_BANDREJECT, y, n, dt, 2.0, 10.00, 2, 4, 0.0, 0.0);
     if(!sac_compare("bandreject_sac.sac", y, n, b, dt)) {
         exit(1);

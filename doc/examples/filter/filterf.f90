@@ -5,6 +5,7 @@ subroutine test_bp()
   real*4 :: y(10000), b, dt
   nmax = 10000
   call rsac1("raw.sac", y, n, b, dt, nmax, nerr)
+  call remove_trend(y, n, dt, b)
   call bandpass(y, n, dt, 0.10, 1.00)
   if(sac_compare("bandpass_sac.sac", y, n, b, dt) .ne. 1) then
      write(*,*)'data does not match file'
@@ -19,6 +20,7 @@ subroutine test_lp()
   real*4 :: y(10000), b, dt
   nmax = 10000
   call rsac1("raw.sac", y, n, b, dt, nmax, nerr)
+  call remove_trend(y, n, dt, b)
   call lowpass(y, n, dt, 2.0)
   if(sac_compare("lowpass_sac.sac", y, n, b, dt) .ne. 1) then
      write(*,*)'data does not match file'
@@ -33,6 +35,7 @@ subroutine test_hp()
   real*4 :: y(10000), b, dt
   nmax = 10000
   call rsac1("raw.sac", y, n, b, dt, nmax, nerr)
+  call remove_trend(y, n, dt, b)
   call highpass(y, n, dt, 10.0)
   if(sac_compare("highpass_sac.sac", y, n, b, dt) .ne. 1) then
      write(*,*)'data does not match file'
