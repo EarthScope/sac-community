@@ -285,7 +285,7 @@ sac_command_line_options(int argc, char **argv) {
     };
 
     while ((ch =
-            getopt_long(argc, argv, "cCbBpPdDjJLtgnsh", longopts,
+            getopt_long(argc, argv, "+cCbBpPdDjJLtgnsh", longopts,
                         NULL)) != -1) {
         switch (ch) {
             case 'h':
