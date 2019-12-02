@@ -110,8 +110,8 @@ containing the sac-102.0 directory tree:
 % make install >> ../build.out
 
 This prefix directory is the default, but is included here for
-completeness. The directory tree starting with sac-101.6a is unchanged.
-Directing the screen output to ../130411.build is not necessary, but there
+completeness. The directory tree starting with sac-102.0 is unchanged.
+Directing the screen output to ../build.out is not necessary, but there
 are many screens full of output from configure and make that serve little
 purpose.  However, with these commands, any warnings and errors are still
 directed to the screen.

@@ -19,9 +19,9 @@ has either been installed from a SAC source distribution or produced by the
 expansion of a SAC binary-distribution compressed tar file.  There are SAC
 binary-distributions for the following operating systems:
 
-1. Mac OSX (64 bit) build: built on 10.13 will run on versions starting with 
-   10.8.  XQuartz/X11 is required to display graphics and can be downloaded 
-   fromhttps://www.xquartz.org/
+1. Mac OSX (64 bit) build: built on 10.14 will run on versions starting with
+   10.8.  XQuartz/X11 is required to display graphics and can be downloaded
+   from https://www.xquartz.org/
 2. Linux 64-bit: built on CentOS release 5.9 (Final).
 
 Other platforms or operating systems must be built from the source code.
@@ -94,7 +94,8 @@ the executable / binary program.  SAC will attempt to find these data using
   1) the SACAUX environmental variable
   2) the default install location
   3) a set of typical install locations.
-If all these fail, a message about setting the SACAUX enviornemt variable.
+If all these fail, a message about setting the SACAUX enviornemt variable is
+displayed and sac will exit.
 
 In addition, there are options within SAC that can be set through environmental
 variables. In SACHOME/bin the scripts sacinit.csh (csh and tcsh) and
@@ -126,7 +127,7 @@ to set the path and other options for SAC, do the following:
 
     After saving and exiting the file, enter
         . ~/.bashrc
-  
+
   To verify that things are working, from a command line, enter
         echo $PATH ; echo $SACHOME ; echo $SACAUX
 
