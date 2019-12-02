@@ -18,6 +18,9 @@
 
 #define	MCORLN	4096
 #define	MWINLN	2048
+
+#define DT_MAX_DIFF (1e-4)
+
 SAM_EXTERN
 
 int td_conv(float     *waveform,
@@ -254,7 +257,7 @@ td_conv(float     *waveform,
 }
 
 #define DT_CHECK(a,b) do {                          \
-        if(fabs(DT(a) - DT(b)) >= 1e-7) {           \
+        if(fabs(DT(a) - DT(b)) >= DT_MAX_DIFF) {    \
             nerr = ERROR_UNEQUAL_SAMPLE_RATES;      \
             goto L_8888;                            \
         }                                           \
