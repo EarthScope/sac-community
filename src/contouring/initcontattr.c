@@ -12,6 +12,7 @@
 #include "mach.h"
 #include "contouring.h"
 #include "bool.h"
+#include "string_utils.h"
 
 struct t_kmcontouring kmcontouring;
 struct t_cmcontouring cmcontouring;

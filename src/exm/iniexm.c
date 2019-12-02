@@ -11,6 +11,7 @@
 #include "bool.h"
 
 #include "co.h"
+#include "string_utils.h"
 
 struct t_kmexm kmexm;
 struct t_cmexm cmexm;

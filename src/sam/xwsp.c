@@ -18,6 +18,7 @@
 #include "dff.h"
 #include "defs.h"
 #include "bot.h"
+#include "string_utils.h"
 
 DFM_EXTERN
 SAM_EXTERN

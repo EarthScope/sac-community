@@ -9,6 +9,7 @@
 #include "bool.h"
 
 #include "co.h"
+#include "string_utils.h"
 
 struct t_kmgam kmgam;
 struct t_cmgam cmgam;

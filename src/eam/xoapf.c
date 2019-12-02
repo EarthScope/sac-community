@@ -14,6 +14,7 @@
 #include "co.h"
 #include "msg.h"
 #include "cpf.h"
+#include "string_utils.h"
 
 EAM_EXTERN
 

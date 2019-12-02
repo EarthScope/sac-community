@@ -13,6 +13,7 @@
 #include "cpf.h"
 #include "co.h"
 #include "errors.h"
+#include "string_utils.h"
 
 GAM_EXTERN
 GEM_EXTERN

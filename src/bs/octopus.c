@@ -11,6 +11,7 @@
 #include "bbs.h"
 #include "bot.h"
 #include "defs.h"
+#include "string_utils.h"
 
 #include <fern/fern.h>
 #include <fern/urls.h>

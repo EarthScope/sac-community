@@ -17,6 +17,7 @@
 #include "dff.h"
 #include <fstr.h>
 #include "defs.h"
+#include "string_utils.h"
 
 DFM_EXTERN
 SAM_EXTERN

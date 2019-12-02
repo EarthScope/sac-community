@@ -87,10 +87,10 @@ libunit_a_SOURCES = unit.c unit.h
 
 ucf_SOURCES     = ucf.c ucf_inctim.c ucf_cnvati.c ucf_cnvita.c \
 									ucf_cnvatf.c ucf_cnvfta.c
-ucf_LDADD = ../fern/libpile.a -L. -lunit -L../src -lsacio -lsac_check -lmsg ../src/ucf/cnvita.o
+ucf_LDADD = -L. -lunit -L../src -lsacio -lsac_check -lmsg ../src/ucf/cnvita.o ../fern/libpile.a
 
 vars_SOURCES   = vars.c
-vars_LDADD = ../fern/libpile.a -L. -lunit -L../src -lsacio -lmsg -lvars
+vars_LDADD = -L. -lunit -L../src -lsacio -lmsg -lvars ../fern/libpile.a
 
 sacio_SOURCES    = sacio.c sacio_rsac1.c sacio_rsac2.c sacio_wsac0.c  \
 									 sacio_wsac1.c sacio_wsac2.c sacio_wsac3.c  \
@@ -129,7 +129,7 @@ sac_all_LDADD = -L../src -lsac -lsacio -lmsg ../fern/libpile.a
 sac_all_LDFLAGS =
 
 lckey_test_CFLAGS =
-lckey_test_LDADD = $(LDADD) ../fern/libpile.a ../fern/libfern.a
+lckey_test_LDADD = $(LDADD) ../fern/libpile.a ../fern/libfern.a $(LIBCURL) $(XML_LIBS) ../libmseed/libmseed.a
 lckey_test_LDFLAGS =
 
 #saclibf${EXEEXT}: saclib_f.o
