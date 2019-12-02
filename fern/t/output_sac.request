@@ -10,6 +10,7 @@ nodata=404
 # STATIONSERVICE=http://service.iris.edu/fdsnws/station/1/
 # EVENTSERVICE=http://service.iris.edu/fdsnws/event/1/
 # DATASELECTSERVICE=http://service.iris.edu/fdsnws/dataselect/1/
+# AVAILABILITYSERVICE=http://service.iris.edu/fdsnws/availability/1/
 # RESPSERVICE=http://service.iris.edu/irisws/resp/1/
 # SACPZSERVICE=http://service.iris.edu/irisws/sacpz/1/
 # XE DOOR -- BHZ 1994-06-09T00:33:16 1994-06-09T01:03:16

@@ -33,6 +33,15 @@ typedef struct {
     char        remote_fname[4096];
 } dnld_params_t;
 
+#ifndef CURL_VERSION_BITS
+#define CURL_VERSION_BITS(x,y,z) ((x)<<16|(y)<<8|(z))
+#endif
+
+#ifndef CURL_AT_LEAST_VERSION
+#define CURL_AT_LEAST_VERSION(x,y,z) \
+  (LIBCURL_VERSION_NUM >= CURL_VERSION_BITS(x, y, z))
+#endif
+
 #if CURL_AT_LEAST_VERSION(7,61,0)
 
 #define TIME_IN_US 1
@@ -73,7 +82,11 @@ static size_t memory_callback(void *contents, size_t size, size_t nmemb, void *u
 static int xferinfo(void *p,
                     curl_off_t dltotal, curl_off_t dlnow,
                     curl_off_t ultotal, curl_off_t ulnow);
-
+#if LIBCURL_VERSION_NUM < 0x072000
+static int older_progress(void *p,
+                          double dltotal, double dlnow,
+                          double ultotal, double ulnow);
+#endif
 
 typedef struct zarray zarray; /**< \private */
 /**
@@ -517,8 +530,13 @@ request_url_post(char *url, char *post_data, int progress_bar) {
         curl_easy_setopt(curl, CURLOPT_NOPROGRESS, ! progress_bar);
         if(progress_bar) {
             // Transfer Information
+#if CURL_AT_LEAST_VERSION(7,32,0)
             curl_easy_setopt(curl, CURLOPT_XFERINFOFUNCTION, xferinfo);
             curl_easy_setopt(curl, CURLOPT_XFERINFODATA, &prog);
+#else
+            curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, older_progress);
+            curl_easy_setopt(curl, CURLOPT_PROGRESSDATA, &prog);
+#endif
         }
 
         // Setup POST if necessary
@@ -992,6 +1010,19 @@ static int xferinfo(void *p,
     return 0;
 }
 
+#if LIBCURL_VERSION_NUM < 0x072000
+/* for libcurl older than 7.32.0 (CURLOPT_PROGRESSFUNCTION) */
+static int older_progress(void *p,
+                          double dltotal, double dlnow,
+                          double ultotal, double ulnow)
+{
+  return xferinfo(p,
+                  (curl_off_t)dltotal,
+                  (curl_off_t)dlnow,
+                  (curl_off_t)ultotal,
+                  (curl_off_t)ulnow);
+}
+#endif
 
 /**
  * Retrieve the filename from the Content Disposition
