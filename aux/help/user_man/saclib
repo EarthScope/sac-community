@@ -131,7 +131,6 @@ through the negative frequencies
     call dfftz(data, n, z, nf)
     call idfftz(data2, n, z, nf)
 
-
 Remove Mean
 -----------
 
@@ -171,7 +170,6 @@ Remove the mean of a data series.  The mean of the data series is automatically 
     SAC> read raw.sac
     SAC> rmean
 
-
 Remove Trend
 ------------
 
@@ -179,7 +177,7 @@ Remove Trend
 
     void remove_trend(float *data, int n, float delta, float b)
 
-Remove the trend of a data series
+Removse the trend (along with the mean) of a data series in memory
 
 **Arguments**
 
@@ -222,102 +220,6 @@ where y is the data
 
     SAC> read raw.sac
     SAC> rtrend verbose
-
-
-Remove Trend - Unevenly sampled data
-------------------------------------
-
-.. code-block:: c
-
-    void rtrend2(float *data, int n, float yint, float slope, float *t)
-
-Removing the trend from an unevenly sampled data ::
-
-**Arguments**
-
-- `data` - Input data series, overwritten on output
-- `n` - Length of data
-- `yint` - Y intercept of the trend to remove
-- `slope` - Slope of the trend to remove
-- `t` - time values for the unevenly sampled data
-
-**Note:** Data is modified in place.
-
-Trend is removed as::
-
-    y[i] = y[i] - yint - slope * t[i]
-
-where y is the data
-
-
-Rotate Data
------------
-
-.. code-block:: c
-
-    void rotate(float *si1, float *si2, int ns, double angle,
-                int lnpi, int lnpo, float *so1, float *so2)
-
-To perform a clockwise rotation of a pair of signals.
-
-**Arguments**
-
-- `sil` - First input signal
-- `si2` - Second input signal
-- `ns` - Number of points in input signals, `sil` and `si2`
-- `angle` - Angle of rotateion in degrees clockwise from `si1`
-- `lnpi` - True (1) if input signals are normal polarity
-- `lnpo` - True (1) if output signals are normal polarity
-- `so1` - First output signals
-- `so2` - Second output signals
-
-**Note:** Input and output signals may be the same arrays
-
-**Examples**
-
-Rotation of two signal in Fortran
-
-.. code-block:: fortran
-
-    implicit none
-
-    integer,parameter :: nmax = 1954
-    integer :: npts, nerr
-    real :: signal1(nmax), signal2(nmax)
-    real :: rotated_signal1(nmax), rotated_signal2(nmax)
-    real :: beg, dt, baz, cmpaz1
-    real*8 :: angle
-    logical :: lnpi, lnpo
-
-    integer sac_compare
-
-    ! Read in the first signal to be rotated
-    call rsac1('signal1.sac', signal1, npts, beg, dt, nmax, nerr)
-
-    call getfhv("cmpaz", cmpaz1, nerr)
-    call getfhv("baz", baz, nerr);
-
-    ! Read in the second signal to be rotated
-    call rsac1('signal2.sac', signal2, npts, beg, dt, nmax, nerr)
-
-    ! Set up parameters for rotation
-    lnpi = .true.     ! input signals have "normal" polarity
-    lnpo = .true.     ! output signals have "normal polarity
-
-    ! Compute angle to rotate to
-    angle = baz + 180.0 - cmpaz1;
-
-    call rotate(signal1, signal2, npts, angle, lnpi, lnpo,
-                rotated_signal1, rotated_signal2)
-
-
-**Effective SAC Commands**
-
-.. code-block:: shell
-
-    SAC> read signal1.sac signal2.sac
-    SAC> rotate
-
 
 Filtering
 ---------
@@ -407,7 +309,6 @@ Highpass filter in Fortran
 
     SAC> read raw.sac
     SAC> hp co 10.0 p 2 n 4
-
 
 Cross Correlation
 -----------------
@@ -543,7 +444,6 @@ Compute begin time from a corealtion of two time series
 **Return:** `-dt * (n1 - 1) + (b2 - b1)`
 
 This accounts for the possible differences in begin times of two time series
-
 
 Envelope Calculation
 --------------------
@@ -704,7 +604,8 @@ Taper Data
     void taper(float *data, int n, int taper_type, int ipts)
 
     // Taper using a duration in seconds
-    void taper_seconds(float *data, int n, int taper_type, float sec, float delta)
+    void taper_seconds(float *data, int n, int taper_type, float sec, float 
+    delta)
 
     // Taper using a percent of the data
     void taper_width(float *data, int n, int taper_type, float width)
@@ -716,12 +617,12 @@ Taper Data
 - `taper_type` - Type of Taper
 
    - 1 - Cosine - SAC_TAPER_COSINE
-   - 2 - Hanning - SAC_TAPER_HANNING
+   - 2 - Hanning - SAC_TAPER_HANNING [Default in SAC]
    - 3 - Hamming - SAC_TAPER_HAMMING
 - `ipts` - Points to use in the taper
 - `sec` - Duration of the taper in seconds
 - `delta` - Delta of the data
-- `width` - Percent of the data to taper
+- `width` - Percent of the data to taper [SAC default is 5%]
 
 **Examples**
 
@@ -749,6 +650,7 @@ Taper Data
 
     SAC> read raw.sac
     SAC> taper TYPE HANNING WIDTH 0.05
+    (these are the defaults for taper in SAC)
 
 
 Cut Data
@@ -760,7 +662,7 @@ Cut Data
               float begin_cut, float end_cut, int cuterr,
               float *out, int *nout)
 
-Cut a time series data using a begin and end time
+Cut a time series at specified begin and end times
 
 **Arguments**
 
@@ -820,7 +722,7 @@ minima (for example, estimating magnitudes based on amplitudes or when
 using amplitude ratios in focal-mechanism determinations.  The routine
 below uses a pure cubic-spline interpolation published by Forsythe, et al.,
 that can give significantly different results from a Wiggins interpolation.
-The program is in in $SACDOC/doc/examples/interpolate.  The script
+The program is in in ${SACHOME}/doc/examples/interpolate.  The script
 run_interpolate.sh shows how the interpolation program is built and
 run, along with how interpolation would be accomplished in SAC.
 
@@ -832,17 +734,17 @@ interpolate.m includes SAC calls to create the plot.)
    :width: 90%
    :align: center
 
-Time Shift
+Time-Shift
 ----------
 
 There is no function in SAC that time-shifts a waveform, but as mentioned
 in the help file lowpass_ for the low-pass filter command, such filters
 time-shift the data, and one may want to correct for that time shift.  One
 can use SAC to time-shift a waveform by changing the "b" header value for
-the SAC file.  A (new as of v102.0) macro: $SACHOME/macros/sac-ts.m is an
+the SAC file.  A (new as of v102.0) macro: ${SACHOME}/macros/sac-ts.m is an
 example of how to do this.
 
-A Fortran program named time_shift.f in $SACHOME/doc/examples/time_shift
+A Fortran program named time_shift.f in ${SACHOME}/doc/examples/time_shift
 does a time shift by taking the Fourier transform of the input time series
 then and doing the time shift in the frequency domain.   Before taking the
 Fourier transform the waveform is prepared by taking out the mean/trend and
@@ -872,10 +774,12 @@ applied to time series:
   - no scaling of the output by the digitizing interval, and
   - no check on the start time for the pulse.
 
-The directory $SACHOME/doc/examples/convolve has both FORTRAN and C
-programs with options for both *discrete* convolution and
-"time-series* convolution, which treats convolution for a time series
-"correctly".
+The more serious problem is the second one:  If the "pulse" is centered
+at time zero, the old SAC CONVOLVE gave an incorrect waveform.
+
+The directory ${SACHOME}/doc/examples/convolve has both FORTRAN and C
+programs with options for both *discrete* convolution and "time-series* 
+convolution, which treats convolution for a time series "correctly".
 
 **Sample Runs**
 
