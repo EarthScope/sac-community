@@ -87,10 +87,10 @@ int
 main(int argc, char *argv[]) {
 
     /* Local variables */
-    int i, j;
+    int i, j, j_1;
     int n_w, n_p, n_conv, nerr, max;
 
-    float b_w, b_p, delta, b_p_in, factor;
+    float b_w, b_p, delta, deltaw, b_p_in, factor;
     char *wf_name, *p_name, *c_name, *disc_conv;
 
     float waveform[MAX], pulse[MAX], conv[MAX], dummy[MAX];
@@ -147,19 +147,23 @@ main(int argc, char *argv[]) {
 
     /* Read in the waveform time series */
 
-    rsac1(wf_name, waveform, &n_w, &b_w, &delta, &max, &nerr, SAC_STRING_LENGTH);
+    rsac1(wf_name, waveform, &n_w, &b_w, &deltaw, &max, &nerr, SAC_STRING_LENGTH);
 
     if (nerr != 0) {
         fprintf(stderr, "Error reading in file: %s\n", wf_name);
         exit(-1);
     }
-
+  
+     if (fabs(delta-deltaw) > 1.0e-4) {
+        fprintf(stderr, "Delta p .ne. Delta w: %f, %f\n", delta, deltaw);
+        exit(-1);
+    }
 
     td_conv(waveform,n_w,pulse,n_p,conv,delta,factor,b_p_in);
 
     n_conv = n_w+n_p-1;
     setnhv ( "npts",   &n_conv,    &nerr, SAC_STRING_LENGTH);
-    setkhv ( "kevnm",  "Convolution", &nerr, SAC_STRING_LENGTH, SAC_STRING_LENGTH);
+    setkhv ( "kevnm",  "CONVOLUTION", &nerr, SAC_STRING_LENGTH, SAC_STRING_LENGTH);
 
     /* Write output SAC file */
 

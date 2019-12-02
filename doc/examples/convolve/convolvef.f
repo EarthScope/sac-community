@@ -13,7 +13,6 @@
 
       implicit none
 
-      integer i,j
 !     Define the Maximum length of waveform
       integer MAX
       parameter (MAX=10000)
@@ -23,9 +22,9 @@
       character*16 kevnm
 
 !     Declare Variables used in the rsac1() calls
-      real b_w, delta, b_p, factor, b_p_in
+      real b_w, delta, b_p, factor, b_p_in, deltaw
       integer n_w, n_p, nmarg, iargc
-      character*80 wf_name, p_name, c_name, kname
+      character*80 wf_name, p_name, c_name
       character*1 disc_conv
       integer nerr
 
@@ -54,7 +53,7 @@
          call exit(-1)
       endif
 
-!     Test if want to do a discrete convolution
+      !     Test if want to do a discrete convolution
 
       factor = delta
       b_p_in = b_p
@@ -67,19 +66,26 @@
 
 !     Read in waveform time series
 
-      call rsac1(wf_name, waveform, n_w, b_w, delta, MAX, nerr)
+      call rsac1(wf_name, waveform, n_w, b_w, deltaw, MAX, nerr)
 
       if(nerr .NE. 0) then
          write(*,*)'Error reading in file: ',wf_name
          call exit(-1)
       endif
 
+      if(abs(delta-deltaw) .gt. 1.0e-4) then
+         write(*,*)'Delta p .ne Delta w: ', delta, deltaw
+         call exit(-1)
+      endif
+
+
+
 !     Do the convolution
 
       call td_conv(waveform,n_w,pulse,n_p,conv,delta,factor,b_p_in)
 
       call setnhv('npts',n_w+n_p-1,nerr)
-      kevnm = 'Convolution'
+      kevnm = 'CONVOLUTION'
       call setkhv ('kevnm', kevnm, nerr)
 
 !     Write the SAC file

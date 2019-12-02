@@ -16,7 +16,7 @@
       call getarg(2,file_out)
       write(*,*) tau,file_out
       N = 64
-      delta = 0.02
+      delta = 2e-2
       do j=1,N
          t = float(j-1)*delta/tau
          pulse(j) = t*exp(-t)
