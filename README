@@ -33,6 +33,12 @@ Optimization was not used in any of these builds. For more information on
 supported operating systems, see HISTORY and CHANGES in this directory.  It is
 assumed you have X windows on your system.
 
+On OSX, if the system refuses to open SAC due to it being from "an
+unidentified developer" or the "developer cannot be verified", please
+see the following on a fix:
+
+https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unidentified-developer-mh40616/10.15/mac/10.15
+
 * Package contents
 ---------------------------------------------------------------------------
 
