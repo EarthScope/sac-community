@@ -1,16 +1,31 @@
-Seismic Analysis Code Example Programs
+Seismic Analysis Code Example Programs and Scripts
 
-What follows is a collection of programs that use various portions of the
-sacio and sac libraries included with this distribution.  The source code
-for each program in Fortran and C should be documented and the programs 
-usable once compiled.  They are provided here as reference and a starting
-point to create your own programs using the sacio and sac libraries.
+In ${SACHOME} doc/examples (henceforth ~/examples) is a collection of
+programs that use various portions of the sacio and sac libraries in
+${SACHOME}/lib/.  The source code for each program in Fortran and/or C
+should be documented and the programs usable once compiled.  They are
+provided here as reference and a starting point to create your own
+programs using the sacio and sac libraries.
 
-The Makefile provided with the examples demonstrates a way to use the 
-sac-config helper program to get the location and name of libraries along
-with required compile flags.
+~/examples/Makefile compiles and runs programs in the ~/examples
+sub-directories.  Makefile demonstrates a way to use the sac-config
+helper program to get the location and name of libraries along with
+required compile flags.  The command `make clean` executed while in
+~/examples will undo the actions of `make`.  For further information
+about these examples, see `Using the SAC Libraries` in the SAC Manual.
 
-Programs include:
+If one enters `make > make.txt`, all the commands will be ported to
+make.txt, which provides a summary of all the commands called by
+`make`.
+
+The remainder of this document is a brief overview of the programs and
+scripts in ~/examples.
+
+=========================
+
+The following provide examples of the routines described in the SAC
+Manual section `SAC Reading and Writing Routines`:
+
   * Get SAC Header Variables
       - gethvc.c
       - gethvf.f
@@ -35,21 +50,35 @@ Programs include:
   * Write a collection of SAC files
       - wsac5c.c
       - wsac5f.f
-  * Correlate Two SAC files [ Directory: correlate ]
-      - correlatec.c
-      - correlatef.f
-  * Get the Envelope of a SAC file [ Directory: envelope ]
+
+======================
+
+There is a set of sub-directories with programs and input files for
+programs discussed in `Using the SAC Libraries`.  (Most of them have
+HELP files, which can be accessed within a SAC run or can be found in
+the SAC Manual.)  Each sub-directory has a Makefile, so one can do
+iterative `clean` and `make` within the sub-directory.
+
+  * Remove the trend (along with the mean) of a data series in memory
+    [ Directory: rtrend]
+      - rtrendc.c
+      - rtrendf.f90
+  * Taper the time-series file(s) in memory using the SAC defaults: TYPE HANNING
+    WIDTH 5%.  [ Directory: taper ]
+      - taperc.c
+      - taperf.f90
+  * Get the Envelope of a SAC time-series file [ Directory: envelope ]
       - envelopec.c
       - envelopef.f
   * Filter a SAC file [ Directory: filter ]
       - filterc.c
       - filterf.f
-  * Fourier Transform (forward and inverse transforms) [ Directory: fft ]
-      - fftc.c
-      - fftf.f90
-  * Cut sac data [ Directory: cut ]
+  * Cut a time series at specified begin and end times [ Directory: cut]
       - cutc.c
       - cutf.f90
+  * Fourier Transform (forward and inverse transforms) [Directory: fft]
+      - fftc.c
+      - fftf.f90
   * Differentiate a sac file [ Directory: differentiate ]
       - difc.c
       - diff.f90
@@ -59,26 +88,37 @@ Programs include:
   * Remove the mean a sac file [ Directory: rmean ]
       - rmeanc.c
       - rmeanf.f90
-  * Remove the trend a sac file [ Directory: rtrend ]
-      - rtrendc.c
-      - rtrendf.f90
-  * Taper a sac file [ Directory: taper ]
-      - taperc.c
-      - taperf.f90
 
-The Makefile does nothing for the following.  Follow the instructions in the
-README in each directory.
-  * Time Shift a SAC file [ Directory: time_shift ]
-      - calls fft (both forward and inverse), rtrend, and taper
+===========================
+
+The examples for commands time-shift, interpolate, and convolve and
+the routines in directory `create-compare` are written in a different
+style from the ones listed above, so ~/examples/Makefile does nothing
+for them.  Follow the instructions in the README in each directory.
+
+  * Time-shift a SAC file [ Directory: time_shift ]
+      - calls fft (both forward and inverse), rtrend, and taper.  There is
+        no time-shift command in SAC, but as of v102.0 there is a macro that can
+        do a time-shift: ${SACHOME}/macros/sac-ts.m.
   * Interpolate a SAC file using cubic spline [ Directory: interpolate ]
-  * Convolve Two SAC files [ Directory: convolve ]
+      - SAC uses a simpler interpolation procedure that in some cases may be
+        too simple.
+  * Convolve two SAC files [ Directory: convolve ]
+      -  Prior to v102.0, CONVOLVE in SAC gave incorrect results if the "pulse"
+         file was centered at zero time..  In addition to a self-contained
+         program, there is a discussion about different kinds of convolution.
+  * Runs SAC to create SAC files that are then compared to the output from
+        stand-alone programs. [Directory: create-compare]
 
-  * create_input.sh
-      Run SAC to create SAC files that are then
-      compared to the output from each standalone program.
+============================
 
-Also included are a variety of ways to run the sac program from different scripting languages
-including
+Also included are examples of ways to run SAC from different scripting
+languages.  Scripts `sac_script.XXX` open SAC, create a seismogram (fg
+seismo) and uses lh to get the sac metadata.  Scripts
+`sac_script2.*` open SAC, read all the files on disk with filespecs
+ending in SAC and, sequentially, for each removes the trend (which
+also removes the mean), low-pass filters the data, and writes files
+with a new extension.
 
   * Python
     - sac_script.py
@@ -92,8 +132,3 @@ including
   * Perl
     - sac_script.pl
     - sac_script2.pl
-
-  * The first version `sac_script` creates a seismogram and uses lh to get the sac metadata.
-
-  * The second version `sac_script2` reads all sac files in the directory, removes the mean,
-    removes the trend, low pass filters the data, then writes new files with a new extension.
