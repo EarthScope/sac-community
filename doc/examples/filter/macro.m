@@ -1,3 +1,4 @@
+echo on
 fg seismo
 write raw.sac
 rtrend

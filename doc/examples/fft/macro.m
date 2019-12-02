@@ -1,3 +1,4 @@
+echo on
 fg impulse npts 16 delta 1.0
 write imp.sac
 fft
