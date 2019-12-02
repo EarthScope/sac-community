@@ -1,0 +1,50 @@
+Typing create-compare.sh while in this directory will open SAC to
+create SAC files that are then compared to the output from three
+stand-alone programs: TAPER, ENVELOPE and CONVOLVE created in
+sub-directories of ${SACHOME}/doc/examples/ (henceforth ~/examples).
+
+The output from the stand-alone programs have been copied from runs in
+~/examples/taper/, ~/examples/envelope/, and ~/examples/convolve/.
+These runs can be done by entering `make` while in ~/examples/.  The
+comparisons are done by creating a plot with three time signals: the
+input, the output using SAC (created in the script) and the output
+using the stand-alone program. (For the convolve example, the
+input-pulse file is also included in the plot.) The plots are saved as
+PDF files.
+
+The following paragraphs explain why these specific commands were
+chosen:
+
+TAPER: One example of when this command is used in seismology is when
+one wants to process that series by taking a Fourier transform — such
+is done when filtering or creating an envelope for the waveform, which
+are two commands included in ~/examples/.  A second example, and the
+one used here, is when one wants to study further a segment of a time
+series, such as an arrival.  Tapering is necessary as there is
+generally "noise" before and/or after the selected time segment, and
+tapering the record is better than having an abrupt transition at the
+beginning and end.  Often one removes the mean and trend (both are
+done in SAC by rtrend) prior to calling taper, although for the
+analysis of an isolated time segment it is bet done prior to cutting
+the longer record.  In this example, the detrending and cutting are
+done in SAC in preparing the waveform before applying the cut, but
+both operations could be done using programs from ~/examples/rtrend
+and ~/examples/cut.  In this case, the choice of begin and end times
+for the cut is facilitated by PPK, so it is more easily done in SAC.
+
+ENVELOPE: The program compute the envelope of a time series using the
+Hilbert transform.  Applying a Hilbert transform to a time series can
+be unstable if the time series has not been prepared in advance,
+including the removal of the mean and trend as well as tapering if
+there is signal/noise near the end points.  In this example, rtrend and
+taper are done in SAC, but they could be done in programs from
+~/examples/rtrend and ~/examples/taper.
+
+CONVOLVE: Unlike the other two programs discussed above, CONVOLVE
+involves two files: a "pulse" and a "waveform".  In this example, the
+waveform is a synthetic vertical component with spike of time,
+polarity, and amplitude representing phase arrival times.  The "pulse"
+is what is called a Brune pulse, which is often used to model a seismic
+source.
+
+
