@@ -430,7 +430,7 @@ create_new_context(xmlDoc *doc) {
     }
     // Find the NameSpace of the Elements actually used
     const xmlChar *xmlns = NULL;
-    xmlXPathObject *p = xmlXPathNodeEval(doc->children, (xmlChar *)"//*[1]", context);
+    xmlXPathObject *p = xmlXPathNodeEval(doc->children, (xmlChar *)"//*", context);
     if(p) {
         int n = p->nodesetval->nodeNr;
         for(int i = n-1; i < n; i++) {
