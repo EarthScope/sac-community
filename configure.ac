@@ -256,7 +256,7 @@ AC_CHECK_FUNC(wordexp,   [ AC_DEFINE( [HAVE_FUNC_WORDEXP],       [1], [ System L
 # Check for typedefs, structures, and compiler characteristics
 #AC_C_CONST
 
-LIBCURL_CHECK_CONFIG([yes])
+LIBCURL_CHECK_CONFIG([yes],[7.0.0],[],[ AC_MSG_ERROR("libcurl >= 7.0.0 not found")])
 
 # Define the Build Date 
 AC_DEFINE_UNQUOTED([BUILD_DATE], ["`date +%m/%d/%Y`"], [Macro which defines the Date of the Current Build])
