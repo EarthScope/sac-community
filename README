@@ -23,6 +23,18 @@ binary-distributions for the following operating systems:
    10.8.  XQuartz/X11 is required to display graphics and can be downloaded
    from https://www.xquartz.org/
 2. Linux 64-bit: built on CentOS release 5.9 (Final).
+               Running on ...
+             | CentOS 7 | CentOS 8 | Ubuntu 14 | Ubuntu 16 | Ubuntu 18 |
+   Build on  |----------|----------|-----------|-----------|-----------|
+   CentOS 7  |    X     |    X     |    X      |    X      |    X      |
+   CentOS 8  |    X     |    X     |           |           |           |
+   Ubuntu 14 |    X*    |    X*    |    X      |    X      |           |
+   Ubuntu 16 |    X*    |    X*    |    X*     |    X      |           |
+   Ubuntu 18 |          |    X*    |           |           |    X      |
+   * - Runs but mismatch in library is detected
+   CentOS - (7,8) libcurl, libxml2 already installed
+   Ubuntu - (14,16,18) libcurl and libxml2 need to be installed
+            Version should be the openssl variant of libcurl (default)
 
 Other platforms or operating systems must be built from the source code.
 Successful builds have been made and tested on Solaris 11, Linux 32-bit; and Mac
