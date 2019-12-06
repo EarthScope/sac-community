@@ -29,11 +29,11 @@ main(int argc, char *argv[]) {
 
     envelope(nlen, yarray, yenv);
 
-    if(!sac_compare("env_sac.sac", yenv, nlen, beg, delta)) {
+    wsac0("env.sac", yenv, yenv, &nerr, -1);
+
+    if(sac_compare_to_file("env_sac.sac", yenv, 1e-4, 0, 0)) {
         exit(1);
     }
-
-    wsac1("env.sac", yenv, &nlen, &beg, &delta, &nerr, -1);
 
     return 0;
 }

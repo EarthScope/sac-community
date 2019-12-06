@@ -8,7 +8,7 @@ program rtrend_example
     real*4 :: data(nmax)
     real*4 :: beg, dt
 
-    integer sac_compare
+    integer sac_compare_to_file
 
     ! Read in the data file
     call rsac1('raw.sac', data, npts, beg, dt, nmax, nerr)
@@ -16,9 +16,9 @@ program rtrend_example
     call remove_trend(data, npts, dt, beg)
 
     ! write the seismogram with trend removed back to disk
-    call wsac0('rtrend.sac', data, data, nerr)
+    call wsac0('rtrendf.sac', data, data, nerr)
 
-    if(sac_compare('rtrend_sac.sac', data, npts, beg, dt) .ne. 1) then
+    if(sac_compare_to_file('rtrend_sac.sac', data, 1e-4, 0, 0) .ne. 0) then
        write(*,*)'data does not match file'
        call exit(1)
     endif

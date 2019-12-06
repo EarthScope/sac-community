@@ -15,9 +15,9 @@ main() {
 
     remove_trend(y, n, dt, b);
 
-    wsac0("rtrend.sac", y, y, &nerr, -1);
+    wsac0("rtrendc.sac", y, y, &nerr, -1);
 
-    if(!sac_compare("rtrend_sac.sac", y, n, b, dt)) {
+    if(sac_compare_to_file("rtrend_sac.sac", y, 1e-4, 0, 0)) {
         exit(1);
     }
 

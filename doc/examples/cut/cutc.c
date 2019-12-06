@@ -23,11 +23,14 @@ main() {
 
     cut(y, n, b, dt, cutb, cute, SAC_CUT_FILLZ, out, &nout);
 
-    if(!sac_compare("cut_sac.sac", out, nout, cutb, dt)) {
+    setnhv("npts", &nout, &nerr, -1);
+    setfhv("b", &cutb, &nerr, -1);
+
+    wsac0("cutc.sac", out, out, &nerr, -1);
+
+    if(sac_compare_to_file("cut_sac.sac", out, 1e-4, 0, 0) != 0) {
         exit(1);
     }
-
-    wsac1("cutc.sac", out, &nout, &cutb, &dt, &nerr, -1);
 
     return 0;
 }

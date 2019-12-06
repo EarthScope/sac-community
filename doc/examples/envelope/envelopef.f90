@@ -8,7 +8,7 @@
 !     Define the Data Array of size MAX
       real*4 :: yarray(MAX), yenv(MAX)
 
-      integer sac_compare
+      integer sac_compare_to_file
 
 !     Declare Variables used in the rsac1() subroutine
       real beg, delta
@@ -25,11 +25,12 @@
 
       call envelope(nlen, yarray, yenv)
 
-      if(sac_compare("env_sac.sac", yenv, nlen, beg, delta) .ne. 1) then
+      call wsac0("envf.sac",yenv,yenv,nerr);
+
+      if(sac_compare_to_file("env_sac.sac", yenv, 1e-4, 0, 0) .ne. 0) then
          write(*,*) 'data does not match file'
          call exit(1)
       endif
 
-      call wsac1("envf.sac",yenv,nlen,beg,delta,nerr);
 
       end program envelopef

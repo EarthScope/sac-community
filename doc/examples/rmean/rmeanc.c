@@ -12,9 +12,9 @@ main() {
 
     remove_mean(y, n);
 
-    wsac0("rmean.sac", y, y, &nerr, -1);
+    wsac0("rmeanc.sac", y, y, &nerr, -1);
 
-    if(!sac_compare("rmean_sac.sac", y, n, b, dt)) {
+    if(sac_compare_to_file("rmean_sac.sac", y, 1e-4, 0, 0)) {
         exit(1);
     }
 

@@ -22,11 +22,12 @@ main() {
 
     taper_width(data, npts, taper_type, width);
 
-    if(!sac_compare("taper_sac.sac", data, npts, beg, dt)) {
+    wsac0("taperc.sac", data, data, &nerr, -1);
+
+    if(sac_compare_to_file("taper_sac.sac", data, 1e-4, 0, 0)) {
         exit(1);
     }
 
-    wsac0("taper.sac", data, data, &nerr, -1);
 
     return 0;
 }

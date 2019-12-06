@@ -12,9 +12,15 @@ main() {
 
     dif2(y, n, (double)dt, yout);
 
-    wsac0("dif.sac", y, y, &nerr, -1);
+    b = b + 0.5 * dt;
+    setfhv("b", &b, &nerr, -1);
+    setihv("idep", "iunkn", &nerr, -1, -1);
+    n = n - 1;
+    setnhv("npts", &n, &nerr, -1);
+    
+    wsac0("difc.sac", yout, yout, &nerr, -1);
 
-    if(!sac_compare("dif_sac.sac", yout, n-1, b + 0.5 * dt, dt)) {
+    if(sac_compare_to_file("dif_sac.sac", yout, 1e-4, 0, 0)) {
         exit(1);
     }
 

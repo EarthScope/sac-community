@@ -12,9 +12,15 @@ main() {
 
     int_trap(y, n, (double)dt);
 
+    n = n - 1;
+    setnhv("npts", &n, &nerr, -1);
+    b = b + 0.5 *dt;
+    setfhv("b", &b, &nerr, -1);
+    setihv("idep", "iunkn", &nerr, -1, -1);
+
     wsac0("int.sac", y, y, &nerr, -1);
 
-    if(!sac_compare("int_sac.sac", y, n-1, b + 0.5 * dt, dt)) {
+    if(sac_compare_to_file("int_sac.sac", y, 1e-4, 0, 0)) {
         exit(1);
     }
 

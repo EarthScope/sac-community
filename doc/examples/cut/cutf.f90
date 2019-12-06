@@ -11,7 +11,7 @@ program cutf
 
   real*4 cutb, cute
 
-  integer sac_compare
+  integer sac_compare_to_file
 
   max = 10000
   nout = max;
@@ -21,11 +21,15 @@ program cutf
 
   call cut(y, n, b, dt, cutb, cute, CUT_FILLZ, out, nout)
 
-  if(sac_compare("cut_sac.sac", out, nout, cutb, dt) .ne. 1) then
+  call setnhv("npts", nout, nerr);
+  call setfhv("b", cutb, nerr);
+  call setfhv("e", cute, nerr);
+
+  call wsac0("cutf.sac", out, out, nerr, -1)
+  if(sac_compare_to_file("cut_sac.sac", out, 1e-4, 0, 0) .ne. 0) then
      write(*,*)'data does not match file'
      call exit(1)
   endif
 
-  call wsac1("cutf.sac", out, nout, cutb, dt, nerr)
 
 end program

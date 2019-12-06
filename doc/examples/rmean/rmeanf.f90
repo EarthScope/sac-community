@@ -8,7 +8,7 @@ program rmean_example
     real*4 :: data(nmax)
     real*4 :: beg, dt
 
-    integer sac_compare
+    integer sac_compare_to_file
 
     ! Read in the data file
     call rsac1('raw.sac', data, npts, beg, dt, nmax, nerr)
@@ -16,9 +16,9 @@ program rmean_example
     call remove_mean(data, npts)
 
     ! write the seismogram with trend removed back to disk
-    call wsac0('rmean.sac', data, data, nerr)
+    call wsac0('rmeanf.sac', data, data, nerr)
 
-    if(sac_compare('rmean_sac.sac', data, npts, beg, dt) .ne. 1) then
+    if(sac_compare_to_file('rmean_sac.sac', data, 1e-4, 0, 0) .ne. 0) then
        write(*,*)'data does not match file'
        call exit(1)
     endif
