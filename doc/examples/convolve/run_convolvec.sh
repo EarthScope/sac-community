@@ -39,5 +39,5 @@ echo "Runs with synthetic"
 
 echo "Compare results"
 for z in *.sac ; do
-    diff $z sample_runs/$z
+    sacdiff -f 1e-4 $z sample_runs/$z
 done

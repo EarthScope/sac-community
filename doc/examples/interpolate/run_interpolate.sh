@@ -15,7 +15,7 @@ EOF
 
 FILES="IP07.dHHiZ IP07_sac-int0.0025.dHHZ"
 for file in $FILES; do
-    diff $file sample-run/$file
+    sacdiff -f 1e-2 -q $file sample-run/$file
 done
 
 

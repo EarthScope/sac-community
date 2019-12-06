@@ -24,7 +24,7 @@ echo "Running timeshift ..."
 
 echo "Comparing results"
 for z in *.sac ; do
-    diff $z sample-run/$z
+    sacdiff -f 1e-4 $z sample-run/$z
 done
 
 
