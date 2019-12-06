@@ -1831,4 +1831,80 @@ int hdr_len(int index) {
     UNUSED(index);
     return 0;
 }
+/**
+ *
+ * @code
+ *
+ * int byte_order = TRUE;
+ * int verbose    = FALSE;
+ * #define MAX 2000
+ * int nlen = 0, max = MAX, nerr = 0;
+ * float y[MAX];
+ * float beg = 0.0, del = 0.0;
+ *
+ * rsac1("t/test_io_small.sac", y, &nlen, &beg, &del, &max, &nerr, -1);
+ *
+ * assert_eq(sac_compare_to_file("t/test_io_small.sac", y, 1e-4, byte_order, verbose), 0);
+ *
+ * byte_order = TRUE;
+ * assert_eq(sac_compare_to_file("t/test_io_big.sac", y, 1e-4, byte_order, verbose), 1);
+ * byte_order = FALSE;
+ * assert_eq(sac_compare_to_file("t/test_io_big.sac", y, 1e-4, byte_order, verbose), 0);
+ *
+ * y[0] += 1e-5;
+ * assert_eq(sac_compare_to_file("t/test_io_small.sac", y, 1e-4, byte_order, verbose), 0);
+ * assert_eq(sac_compare_to_file("t/test_io_small.sac", y, 1e-6, byte_order, verbose), 1);
+ *
+ * assert_eq(sac_compare_to_file("t/test_io_small.sac", y, 1e-6, byte_order, verbose), 1);
+ *
+ * @endcode
+ */
+int
+sac_compare_to_file(char *file, float *y, double tolerance, int byte_order, int verbose) {
+    int nerr = 0;
+    sac *sc = NULL;
+    sac *s2 = NULL;
+    sac *s1 = NULL;
+    int retval = 0;
+    if(!file || !y) {
+        return -1;
+    }
+    if(!(sc = get_current(&nerr))) {
+        return -1;
+    }
+    if(!(s2 = sac_read(file, &nerr))) {
+        return -1;
+    }
+    s1 = sac_copy(sc);
+    s1->y = y;
 
+    retval = sac_compare(s1, s2, tolerance, byte_order, verbose);
+
+    s1->y = NULL;
+
+    sac_free(s2);
+    s2 = NULL;
+    sac_free(s1);
+    s1 = NULL;
+
+    return retval;
+}
+
+/**
+ * @brief sac_compare fortran interface
+ * @private
+ */
+int sac_compare_to_file_(char *file, float *y, double *tolerance, int *byte_order, int *verbose, int file_s) {
+    char kfile[2048] = {0};
+    fstrcpy(kfile, sizeof(kfile), file, file_s);
+    return sac_compare_to_file(kfile, y, *tolerance, *byte_order, *verbose);
+}
+/**
+ * @brief sac_compare fortran interface
+ * @private
+ */
+int sac_compare_to_file__(char *file, float *y, double *tolerance, int *byte_order, int *verbose, int file_s) {
+    char kfile[2048] = {0};
+    fstrcpy(kfile, sizeof(kfile), file, file_s);
+    return sac_compare_to_file(kfile, y, *tolerance, *byte_order, *verbose);
+}

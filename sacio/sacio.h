@@ -38,6 +38,31 @@ enum CutAction {
     CutFillZero = 3,  /**< @brief Cut windows larger than data region are filled with zeros */
 };
 
+/**
+ * @brief Check Byte Order Flag
+ *
+ * @memberof sac
+ * @ingroup sac
+ *
+ */
+typedef enum CheckByteOrderFlag CheckByteOrderFlag;
+enum CheckByteOrderFlag {
+    CheckByteOrderOff = FALSE, /**< @brief Do not check byte order on comparison, aliases to 0 */
+    CheckByteOrderOn  = TRUE,  /**< @brief Check byte order on comparison, aliases to 1 */
+};
+
+/**
+ * @brief Verbose Flag
+ *
+ * @memberof sac 
+ * @ingroup sac
+ *
+ */
+typedef enum Verbose Verbose;
+enum Verbose {
+    VerboseOff = FALSE,  /**< @brief Do not be verbose, aliases to 0 */
+    VerboseOn  = TRUE,   /**< @brief Be verbose when called for, aliases to 1 */
+};
 
 #define SAC_FLOAT_UNDEFINED      -12345.0            /**< @brief Float undefined value */
 #define SAC_INT_UNDEFINED        -12345              /**< @brief Integer undefined value */
@@ -565,6 +590,9 @@ void update_distaz(sac * s);
 void sac_alloc(sac *s);
 /** @brief Convert a time value to an index within the data array */
 int sac_time_to_index(sac *s, double t);
+
+int sac_compare(sac *s1, sac *s2, double tolerance, CheckByteOrderFlag byte_check, Verbose verbose);
+int sac_compare_to_file(char *file, float *y, double tolerance, int byte_order, int verbose);
 
 
 #define SAC_WRITE_HEADER_AND_DATA 1 /**< @brief Write header and data */

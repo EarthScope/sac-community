@@ -311,7 +311,6 @@ int isclose       (float a, float b);
 int isclose_par   (float a, float b, double atol, double rtol);
 int allclosef     (float *a, float *b, int n);
 int allclosef_par (float *a, float *b, int n, double atol, double rtol);
-int sac_compared  (char *file, float *y, int n, double b, double dt);
-int sac_compare   (char *file, float *y, int n, float b, float dt);
+
 
 #endif /* __SAC_H__ */

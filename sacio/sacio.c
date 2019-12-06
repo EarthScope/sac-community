@@ -4225,6 +4225,308 @@ sac_fmt(char *dst, size_t n, const char *fmt, sac *s) {
     return i;
 }
 
+static char *SacHeaderName[] = {
+  "empty",
+  "delta",		/* RF time increment, sec    */
+  "depmin",		/*    minimum amplitude      */
+  "depmax",		/*    maximum amplitude      */
+  "scale",		/*    amplitude scale factor */
+  "odelta",       /*    observed time inc      */
+  "b",			/* RD initial time - wrt nz* */
+  "e",			/* RD end time               */
+  "o",        /*    event start            */
+  "a",        /*    1st arrival time       */
+  "Fmt",      /*    internal use           */
+
+  "t0",       /*    user-defined time pick */
+  "t1",       /*    user-defined time pick */
+  "t2",       /*    user-defined time pick */
+  "t3",       /*    user-defined time pick */
+  "t4",       /*    user-defined time pick */
+  "t5",       /*    user-defined time pick */
+  "t6",       /*    user-defined time pick */
+  "t7",       /*    user-defined time pick */
+  "t8",       /*    user-defined time pick */
+  "t9",       /*    user-defined time pick */
+
+  "F",        /*    event end, sec > 0     */
+  "resp0",		/*    instrument respnse parm*/
+  "resp1",		/*    instrument respnse parm*/
+  "resp2",		/*    instrument respnse parm*/
+  "resp3",		/*    instrument respnse parm*/
+  "resp4",		/*    instrument respnse parm*/
+  "resp5",		/*    instrument respnse parm*/
+  "resp6",		/*    instrument respnse parm*/
+  "resp7",		/*    instrument respnse parm*/
+  "resp8",		/*    instrument respnse parm*/
+
+  "resp9",		/*    instrument respnse parm*/
+  "stla",		/*  T station latititude     */
+  "stlo",		/*  T station longitude      */
+  "stel",		/*  T station elevation, m   */
+  "stdp",		/*  T station depth, m       */
+  "evla",		/*    event latitude         */
+  "evlo",		/*    event longitude        */
+  "evel",		/*    event elevation        */
+  "evdp",		/*    event depth            */
+  "mag",          /*    reserved for future use*/
+
+  "user0",		/*    available to user      */
+  "user1",		/*    available to user      */
+  "user2",		/*    available to user      */
+  "user3",		/*    available to user      */
+  "user4",		/*    available to user      */
+  "user5",		/*    available to user      */
+  "user6",		/*    available to user      */
+  "user7",		/*    available to user      */
+  "user8",		/*    available to user      */
+  "user9",		/*    available to user      */
+
+  "dist",		/*    stn-event distance, km */
+  "az",			/*    event-stn azimuth      */
+  "baz",		/*    stn-event azimuth      */
+  "gcarc",		/*    stn-event dist, degrees*/
+  "sb",       /*    internal use           */
+  "sdelta",     /*    internal use           */
+  "depmen",		/*    mean value, amplitude  */
+  "cmpaz",		/*  T component azimuth      */
+  "cmpinc",		/*  T component inclination  */
+  "xminimum",		/*    reserved for future use*/
+
+  "xmaximum",		/*    reserved for future use*/
+  "yminimum",		/*    reserved for future use*/
+  "ymaximum",		/*    reserved for future use*/
+  "unused6",		/*    reserved for future use*/
+  "unused7",		/*    reserved for future use*/
+  "unused8",		/*    reserved for future use*/
+  "unused9",		/*    reserved for future use*/
+  "unused10",		/*    reserved for future use*/
+  "unused11",		/*    reserved for future use*/
+  "unused12",		/*    reserved for future use*/
+
+  /* ints */
+  "nzyear",   /*  F zero time of file, yr  */
+  "nzjday",   /*  F zero time of file, day */
+  "nzhour",   /*  F zero time of file, hr  */
+  "nzmin",    /*  F zero time of file, min */
+  "nzsec",    /*  F zero time of file, sec */
+  "nzmsec",   /*  F zero time of file, msec*/
+  "nvhdr",          /*  R header version number  */
+  "norid",    /*    internal use           */
+  "nevid",    /*    internal use           */
+  "npts",   /* RF number of samples      */
+
+  "nsnpts",   /*    internal use           */
+  "nwfid",    /*    internal use           */
+  "xsize",    /*    reserved for future use*/
+  "ysize",    /*    reserved for future use*/
+  "unused15",   /*    reserved for future use*/
+  "iftype",   /* RA type of file           */
+  "idep",   /*    type of amplitude      */
+  "iztype",   /*    zero time equivalence  */
+  "unused16",   /*    reserved for future use*/
+  "iinst",    /*    recording instrument   */
+  "istreg",   /*    stn geographic region  */
+  "ievreg",   /*    event geographic region*/
+  "ievtyp",   /*    event type             */
+  "iqual",    /*    quality of data        */
+  "isynth",   /*    synthetic data flag    */
+  "imagtyp",        /*    reserved for future use*/
+  "imagsrc",        /*    reserved for future use*/
+  "unused19",   /*    reserved for future use*/
+  "unused20",   /*    reserved for future use*/
+  "unused21",   /*    reserved for future use*/
+  "unused22",   /*    reserved for future use*/
+  "unused23",   /*    reserved for future use*/
+  "unused24",   /*    reserved for future use*/
+  "unused25",   /*    reserved for future use*/
+  "unused26",   /*    reserved for future use*/
+  "leven",    /* RA data-evenly-spaced flag*/
+  "lpspol",   /*    station polarity flag  */
+  "lovrok",   /*    overwrite permission   */
+  "lcalda",   /*    calc distance, azimuth */
+  "unused27",   /*    reserved for future use*/
+  /* strings */
+  "kstnm",    /*  F station name           */
+  "kevnm",    /*    event name             */
+  "kevnm empty",        /*                           */
+  "khole",    /*    man-made event name    */
+  "ko",     /*    event origin time id   */
+  "ka",     /*    1st arrival time ident */
+  "kt0",    /*    time pick 0 ident      */
+  "kt1",    /*    time pick 1 ident      */
+  "kt2",    /*    time pick 2 ident      */
+  "kt3",    /*    time pick 3 ident      */
+  "kt4",    /*    time pick 4 ident      */
+  "kt5",    /*    time pick 5 ident      */
+  "kt6",    /*    time pick 6 ident      */
+  "kt7",    /*    time pick 7 ident      */
+  "kt8",    /*    time pick 8 ident      */
+  "kt9",    /*    time pick 9 ident      */
+  "kf",     /*    end of event ident     */
+  "kuser0",   /*    available to user      */
+  "kuser1",   /*    available to user      */
+  "kuser2",   /*    available to user      */
+  "kcmpnm",   /*  F component name         */
+  "knetwk",   /*    network name           */
+  "kdatrd",   /*    date data read         */
+  "kinst"               /*    instrument name        */
+};
+
+#define ENDIAN(swap) ((swap) ? "non-native" : "native")
+
+
+/**
+ * @brief compare two sac files
+ *
+ * @ingroup sac
+ * @memberof sac
+ *
+ * @details compare two sac file, checking the header and data
+ *
+ * @param      s1          first sac file
+ * @param      s2          second sac file
+ * @param      tolerance   absolute tolerance for float comparision.
+ *                           For an exact match use 0.0
+ *                           Reasonable values: 1e-4, 1e-7, or 1e-15
+ * @param      byte_check  check if the files are the same byte order.
+ *                           All comparisons are done after data is
+ *                           transformed to the native byte-oprder
+ * @param      verbose     report all differences to stdout / terminal
+ *
+ *
+ * @return -  0 if equal
+ *         -  1 if not equal
+ *         - -1 if invalud data is passed in, this is an error
+ *
+ * @code
+ * int nerr = 0;
+ * sac *s1 = NULL;
+ * sac *s2 = NULL;
+ *
+ * // Compare two version of the same file
+ * s1 = sac_read("t/test_io_small.sac", &nerr);
+ * s2 = sac_copy(s1);
+ *
+ * assert_eq(sac_compare(s1, s2, 1e-4, CheckByteOrderOff, VerboseOff), 0);
+ *
+ * s2->y[0] += 1e-5;
+ * assert_eq(sac_compare(s1, s2, 1e-4, CheckByteOrderOff, VerboseOff), 0);
+ * assert_eq(sac_compare(s1, s2, 1e-6, CheckByteOrderOff, VerboseOff), 1);
+ *
+ * // Compare two files ....
+ * s1 = sac_read("t/test_io_small.sac", &nerr);
+ * s2 = sac_read("t/test_io_big.sac", &nerr);
+ *
+ * // ... ignoring the byte order
+ * assert_eq(sac_compare(s1, s2, 1e-4, CheckByteOrderOff, VerboseOff), 0);
+ * // ... checking the byte order
+ * assert_eq(sac_compare(s1, s2, 1e-4, CheckByteOrderOn,  VerboseOff), 1);
+ *
+ * // Compare two differnt files
+ * s1 = sac_read("t/test_io_small.sac", &nerr);
+ * s2 = sac_new();
+ * assert_eq(sac_compare(s1, s2, 1e-4, CheckByteOrderOn,  VerboseOff), 1);
+ *
+ * @endcode
+ *
+ */
+int
+sac_compare(sac *s1, sac *s2, double tolerance, CheckByteOrderFlag byte_check, Verbose verbose) {
+    int i  = 0;
+    int j  = 0;
+    int n1 = 0;
+    int n2 = 0;
+    int retval = 0;
+    double f1 = 0.0;
+    double f2 = 0.0;
+    char c1[32] = {0};
+    char c2[32] = {0};
+
+    if(!s1 || !s2) {
+        return -1;
+    }
+
+    if(byte_check && s1->m->swap != s2->m->swap) {
+        if(verbose) {
+            printf("byte-order: %s %s\n", ENDIAN(s1->m->swap), ENDIAN(s2->m->swap));
+        }
+        retval = 1;
+    }
+
+    for(i = SAC_DELTA; i <= SAC_UN70; i++) {
+        sac_get_float(s1, i, &f1);
+        sac_get_float(s2, i, &f2);
+        if(fabs(f1 - f2) > tolerance) {
+            if(verbose) {
+                printf("%-10s %f %f\n", SacHeaderName[i], f1, f2);
+            }
+            retval = 1;
+        }
+    }
+    for(i = SAC_YEAR; i <= SAC_UN110; i++) {
+        sac_get_int(s1, i, &n1);
+        sac_get_int(s2, i, &n2);
+        if(n1 != n2) {
+            if(verbose) {
+                printf("%-10s %d %d\n", SacHeaderName[i], n1, n2);
+            }
+            retval = 1;
+        }
+    }
+    for(i = SAC_STA; i <= SAC_INST; i++) {
+        if(i == SAC_EVENT2) {
+            continue;
+        }
+        sac_get_string(s1, i, c1, sizeof c1);
+        sac_get_string(s2, i, c2, sizeof c2);
+        if(strcmp(c1, c2) != 0) {
+            if(verbose) {
+                printf("%-10s '%s' '%s'\n", SacHeaderName[i], c1, c2);
+            }
+            retval = 1;
+        }
+    }
+    n1 = sac_comps(s1);
+    n2 = sac_comps(s2);
+    if(n1 != n2) {
+        if(verbose) {
+            printf("%-10s %d %d\n", "data-comps", n1, n2);
+        }
+        goto done;
+    }
+    sac_get_int(s1, SAC_NPTS, &n1);
+    sac_get_int(s2, SAC_NPTS, &n2);
+    if(n1 != n2) {
+        goto done;
+    }
+
+    for(j = 0; j < sac_comps(s1); j++) {
+        float *y1 = (j == 0) ? s1->y : s1->x;
+        float *y2 = (j == 0) ? s2->y : s2->x;
+
+        for(i = 0; i < n2; i++) {
+            double df = fabs(y1[i] - y2[i]);
+            if(df > tolerance) {
+                if(verbose) {
+                    printf("%s[%d]: %e %e diff: %.16e\n", (j == 0) ? "y" : "x", i,
+                           y1[i], y2[i], df);
+                }
+                retval = 1;
+            }
+        }
+    }
+ done:
+    if(retval && verbose) {
+        if(s1->m->filename && s2->m->filename) {
+            printf("Files %s and %s differ\n", s1->m->filename, s2->m->filename);
+        } else {
+            printf("Files differ\n");
+        }
+    }
+    return retval;
+
+}
 
 
 #ifdef __TESTING__
