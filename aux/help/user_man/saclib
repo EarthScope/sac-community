@@ -1,32 +1,32 @@
 Using the SAC Libraries
 +++++++++++++++++++++++
 
+.. contents ::
+
 Overview
 --------
-In addition to being able to read and write SAC data files in one's
-own C or FORTRAN programs (see `SAC Reading and Writing Routines`_ ),
-one can use many of SAC's data-processing routines in stand-alone
-codes.  The internal routines here are wrapped in an interface that
-should be more streamlined to use than previous versions to v102.0.
-The libraries libsac.a and libsacio.a are in ${SACHOME}/lib.
+  In addition to being able to read and write SAC data files in one's
+  own C or FORTRAN programs (see `SAC Reading and Writing Routines`_ ),
+  one can use many of SAC's data-processing routines in stand-alone
+  codes.  The internal routines here are wrapped in an interface that
+  should be more streamlined to use than previous versions to v102.0.
+  The libraries libsac.a and libsacio.a are in ${SACHOME}/lib.
 
-For more detailed examples, see ${SACHOME}/doc/examples contained
-in the SAC distribution.
+  For more detailed examples, see ${SACHOME}/doc/examples contained
+  in the SAC distribution.
 
-**Callable in C and Fortran**
+  **Callable in C and Fortran**
 
-All of these available functions are simplified wrappers around
-internally used functions within SAC with obscure, shortened and
-forgotten names and extra, usually unneeded, or confusing parameters.
-Each function documented below should be callable directly from C and
-Fortran.  The Fortran wrappers should work simply for Fortan compilers
-that append underscores to function names internally within the
-program.
+  All of these available functions are simplified wrappers around
+  internally used functions within SAC with obscure, shortened and
+  forgotten names and extra, usually unneeded, or confusing parameters.
+  Each function documented below should be callable directly from C and
+  Fortran.  The Fortran wrappers should work simply for Fortan compilers
+  that append underscores to function names internally within the
+  program.
 
-The only difference between the C and Fortran version are the calling
-convention of pass-by-value (C default) and pass-by-reference (Fortran).
-
-.. contents ::
+  A difference between the C and Fortran versions is the calling convention of 
+  pass-by-value (default in C) and pass-by-reference (Fortran).
 
 Compiling
 ---------
@@ -50,20 +50,20 @@ internal code path.  Single-precision versions internally convert/copy
 the input arrays to double recision as a prelude to perfomring the
 transform, and the results are then converted back to single
 precision on return.  The internal calculations are done using a
-power-of-2 number of points.  For a forward transform, `n` need not be
-a power of 2, but the output `nf` must be the next power of 2 greater
-than or equal to n.  Parameter `nf` must be defined prior to calling
+power-of-2 number of points.  For a forward transform, *n* need not be
+a power of 2, but the output *nf* must be the next power of 2 greater
+than or equal to *n*.  Parameter *nf* must be defined prior to calling
 any of these routines.
 
 .. code-block:: c
 
    // Forward Transform - Single Precision
-   void    fft(float data, int n, float *re, float *im, int *nf)
-   void   fftz(float data, int n, float complex *z, int *nf)
+   void   fft (float data, int n, float *re, float *im, int nf)
+   void   fftz(float data, int n, float complex *z, int nf)
 
    // Forward Transform - Double Precision
-   void   dfft(double data, int n, double *re, double *im, int *nf)
-   void  dfftz(double data, int n, double complex *z, int *nf)
+   void  dfft (double data, int n, double *re, double *im, int nf)
+   void  dfftz(double data, int n, double complex *z, int nf)
 
    // Inverse Transform - Single Precision
    void   ifft(float data, int n, float *re, float *im, int nf)
@@ -216,7 +216,7 @@ where y is the data
 
 **Effective SAC Commands**
 
-.. code-block:: shell
+  .. code-block:: shell
 
     SAC> read raw.sac
     SAC> rtrend verbose
@@ -224,8 +224,11 @@ where y is the data
 Filtering
 ---------
 
+  Data is filtered using an Infinite Impulse Repsonse Filter. See the BANDPASS_ 
+  command  for definitions of the filter parameters and descriptions on how to
+  use them.
 
-.. code-block:: c
+  .. code-block:: c
 
     void bandpass(float *data, int n, float dt, float low, float high)
     void lowpass(float *data, int n, float dt, float corner)
@@ -238,40 +241,40 @@ Filtering
                 float transition,
                 float attenuation)
 
-Filter data using a Butterworh filter with two pass, four pole filter.  Data is filtered using an Infinite Impulse Repsonse Filter.  For more detailed filter types use the generic `filter` function
 
-**Arguments**
+  **Arguments**
 
-- `data` - Input and output data
-- `n` - Length of data
-- `dt` - Time sampling of the data (seconds)
-- `low` - low frequency corner
-- `high` - high frequency corner
-- `corner` - corner of the filter for `lowpass` or `highpass`
+  - *data* - Input and output data
+  - *n* - Length of data
+  - *dt* - Time sampling of the data (seconds)
+  - *low* - low frequency corner
+  - *high* - high frequency corner
+  - *corner* - corner of the filter for *lowpass* or *highpass*
 
-- `passes` - Number of passes
 
-    - 1 - forward pass only
-    - 2 - forward and backward pass
-- `order` - Filter Order, not to exceed 10, 4-5 should be sufficient
-- `transition` - Transition Bandwidth, only used in Chebyshev Type I and II Filters
-- `attenuation` - Attenuation factor, amplitude reached at stopband edge, only used in Chebyshev Type I and II Filters
-- `prototype` - Filter Prototype
+  - *passes* - Number of passes 
+      - 1 - forward pass only (causal)
+      - 2 - forward and backward pass (zero-phase)
+  - *order* - Filter Order, not to exceed 10, 4-5 should be sufficient
+  - *transition* - Transition Bandwidth, only used in Chebyshev Type I and II Filters
+  - *attenuation* - Attenuation factor, amplitude reached at stopband edge, only used in Chebyshev Type I and II Filters
 
-   - 0 - Butterworth filter
-   - 1 - Bessel filter
-   - 2 - Chebyshev Type I filter
-   - 3 - Chebyshev Type II filter
-- `type` - Filter Type
 
-   - 0 - Bandpass
-   - 1 - Highpass
-   - 2 - Lowpass
-   - 3 - Bandreject
+  - *prototype* - Filter Prototype
+     - 0 - Butterworth filter
+     - 1 - Bessel filter
+     - 2 - Chebyshev Type I filter
+     - 3 - Chebyshev Type II filter
 
-**Examples**
+  - *type* - Filter Type
+     - 0 - Bandpass
+     - 1 - Highpass
+     - 2 - Lowpass
+     - 3 - Bandreject
 
-Bandpass filter in C
+  **Examples**
+
+  Bandpass filter in C
 
 .. code-block:: c
 
@@ -285,7 +288,7 @@ Bandpass filter in C
     // bandpass filter from 0.10 Hz to 1.00 Hz
     bandpass(y, n, dt, 0.10, 1.00);
 
-Highpass filter in Fortran
+   Highpass filter in Fortran
 
 .. code-block:: fortran
 
@@ -300,7 +303,7 @@ Highpass filter in Fortran
     ! highpass filter at 10.0 Hz
     call highpass(y, n, dt, 10.0)
 
-**Effective SAC Commands**
+  **Effective SAC Commands**
 
 .. code-block:: shell
 
@@ -309,6 +312,10 @@ Highpass filter in Fortran
 
     SAC> read raw.sac
     SAC> hp co 10.0 p 2 n 4
+
+Further examples are given in ${SACHOME}/doc/examples/filter/ .  Because one
+uses FFT that pads with zeros, it is often prudent to precede the filter with
+rtrend_ ; taper_.
 
 Cross Correlation
 -----------------
@@ -321,12 +328,12 @@ Compute the cross-correlation of two signals
 
 **Arguments**
 
-- `f` - First time series
-- `nf` - Length of first time series
-- `g` - Second time series
-- `ng` - Length of second time series
-- `c` - Cross correlation time series
-- `nc` - Size of c, must be at least (nf + ng - 1)
+- *f* - First time series
+- *nf* - Length of first time series
+- *g* - Second time series
+- *ng* - Length of second time series
+- *c* - Cross correlation time series
+- *nc* - Size of c, must be at least (nf + ng - 1)
 
 **Return:** Cross correlation function, length: nf + ng - 1
 
@@ -388,8 +395,8 @@ Find the maximum of a correlation
 
 **Arguments**
 
-- `c` - float array (returned from correlate function)
-- `nc` - length of c
+- *c* - float array (returned from correlate function)
+- *nc* - length of c
 
 **Return:** Index of maximum value in array
 
@@ -403,9 +410,9 @@ Compute the time of a data point given dt and begin time
 
 **Arguments**
 
-- `dt` - Time sampling
-- `b` - Begin time
-- `i` - data sample
+- *dt* - Time sampling
+- *b* - Begin time
+- *i* - data sample
 
 **Return:** time value (b + i * dt)
 
@@ -419,9 +426,9 @@ Compute a time array given dt and begin time
 
 **Arguments**
 
-- `dt` - Time sampling
-- `b` - Begin time
-- `n` - Length of data array
+- *dt* - Time sampling
+- *b* - Begin time
+- *n* - Length of data array
 
 **Return:** time array
 
@@ -435,11 +442,11 @@ Compute begin time from a corealtion of two time series
 
 **Arguments**
 
-- `dt` - Time sampling
-- `n1` - Length of first time series
-- `n2` - Length of second time series (unused)
-- `b1` - Begin time of first time series
-- `b2` - Begin time of second time series
+- *dt* - Time sampling
+- *n1* - Length of first time series
+- *n2* - Length of second time series (unused)
+- *b1* - Begin time of first time series
+- *b2* - Begin time of second time series
 
 **Return:** `-dt * (n1 - 1) + (b2 - b1)`
 
@@ -456,9 +463,9 @@ Compute the envelope of a time series using the Hilbert transform
 
 **Arguments**
 
-- `n` - Length of input and output time series
-- `in` - Input time series
-- `out` - Output time series with envelope applied
+- *n* - Length of input and output time series
+- *in* - Input time series
+- *out* - Output time series with envelope applied
 
 The envelope is applied as such where the H(x) is the Hilbert transform::
 
@@ -488,6 +495,9 @@ The envelope is applied as such where the H(x) is the Hilbert transform::
     SAC> read raw.sac
     SAC> envelope
 
+Because one uses FFT that pads with zeros, it is often prudent to
+precede the filter with rtrend_ ; taper_.
+
 
 Differentiate
 -------------
@@ -501,10 +511,10 @@ Differentiate a data set using a two point differentiation
 
 **Arguments**
 
-- `array` - Input data to differentiate
-- `n` - length of ararry
-- `delta` - Time sampling of input data
-- `output` - Output differentiated data, length n-1
+- *array* - Input data to differentiate
+- *n* - length of ararry
+- *delta* - Time sampling of input data
+- *output* - Output differentiated data, length n-1
 
 This is the default scheme in the SAC program.
 
@@ -556,9 +566,9 @@ Integrate a data series using the trapezodial method
 
 **Arguments**
 
-- `y` - Input data series, overwritten on output
-- `n` - length of y
-- `delta` - time sampling of the data series
+- *y* - Input data series, overwritten on output
+- *n* - length of y
+- *delta* - time sampling of the data series
 
 Integration is performed as::
 
@@ -612,17 +622,18 @@ Taper Data
 
 **Arguments**
 
-- `data` - Input data series, overwritten on output
-- `n` - Length of data
-- `taper_type` - Type of Taper
+- *data* - Input data series, overwritten on output
+- *n* - Length of data
+- *taper_type* - Type of Taper
 
    - 1 - Cosine - SAC_TAPER_COSINE
    - 2 - Hanning - SAC_TAPER_HANNING [Default in SAC]
    - 3 - Hamming - SAC_TAPER_HAMMING
-- `ipts` - Points to use in the taper
-- `sec` - Duration of the taper in seconds
-- `delta` - Delta of the data
-- `width` - Percent of the data to taper [SAC default is 5%]
+
+- *ipts* - Points to use in the taper
+- *sec* - Duration of the taper in seconds
+- *delta* - Delta of the data
+- *width* - Percent of the data to taper [SAC default is 5%]
 
 **Examples**
 
@@ -666,20 +677,20 @@ Cut a time series at specified begin and end times
 
 **Arguments**
 
-- `y` - Input data to be cut
-- `npts` - Length of y
-- `b` - Begin time of data
-- `dt` - time sampling (seconds)
-- `begin_cut` - Start time of cut
-- `end_cut` - End time of cut
-- `cuterr` -
+- *y* - Input data to be cut
+- *npts* - Length of y
+- *b* - Begin time of data
+- *dt* - time sampling (seconds)
+- *begin_cut* - Start time of cut
+- *end_cut* - End time of cut
+- *cuterr* -
 
    - 1 - Fatal - SAC_CUT_FATAL
    - 2 - Use B and E Values - SAC_CUT_USEBE
    - 3 - Fill with Zeros - SAC_CUT_FILLZ
 
-- `out` - Cut data on output
-- `nout` - Length of out
+- *out* - Cut data on output
+- *nout* - Length of out
 
 **Examples**
 
@@ -707,6 +718,8 @@ Cut a time series at specified begin and end times
     SAC> cut 10 15
     SAC> read raw.sac
 
+See ${SACHOME}/doc/examples/create_compare/ for an example.
+
 Interpolation using cubic splines
 ---------------------------------
 
@@ -728,7 +741,8 @@ run, along with how interpolation would be accomplished in SAC.
 
 The plot below shows the initial waveform, the result using Forsythe
 interpolation, and the result using SAC/Wiggins interpolation.  (File
-interpolate.m includes SAC calls to create the plot.)
+${SACHOME}/doc/examples/interpolate/interpolate.m includes SAC calls
+to create the plot.)
 
 .. image:: Time-Series_Interpolation.png
    :width: 90%
@@ -746,7 +760,7 @@ example of how to do this.
 
 A Fortran program named time_shift.f in ${SACHOME}/doc/examples/time_shift
 does a time shift by taking the Fourier transform of the input time series
-then and doing the time shift in the frequency domain.   Before taking the
+then and doing the time shift in the frequency domain. Before taking the
 Fourier transform the waveform is prepared by taking out the mean/trend and
 then tapered to stabilize the Fourier transform.  It is padded with zeros to
 minimize wrap-around.
