@@ -6,6 +6,7 @@ cut 0.93 1.04
 r
 fileid location ll
 line increment list 1 2 3
+xlabel "Time (seconds)" ; ydiv power off
 title "Top to bottom: raw, Forsythe interp., SAC interp."
 p2
 save Time-Series_Interpolation.pdf

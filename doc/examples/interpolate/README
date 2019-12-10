@@ -7,8 +7,6 @@ In that directory, issue the command:
 It will:
 
 1. Compile interpolate
-2. Run interpolate
-3. Do the interpolate using sac instead
-4. Check if the files are the same
-
-These files hould be the same as found in sub-directory ./sample-run.
+2. Run ./interpolate
+3. Do SAC interpolate
+4. Check if created SAC files are the same as in ./sample-run using sacdiff -q

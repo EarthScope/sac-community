@@ -5,8 +5,9 @@
 !     amplitude at digitized points.  Source:  Forsythe, G.E., M.A. Malcolm,
 !     and C.B. Moler, 1977. Computer Methods for Mathematical Computations,
 !     Prentice-Hall, Inc.
-!     Read in a sac file, delta_new, and number of characters in extension.
-!     If extension is dHHZ, output is idHHZ.
+!     Read in a sac file name and delta_new
+!     Output filename is unchanged except a letter i'
+!         precedes last char; e.g., bla.bhz => bla.bhiz'
 !     Interpolation keeps start and stop times unchanged.
 
       parameter (max=524288)
