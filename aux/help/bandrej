@@ -27,9 +27,9 @@ INPUT
 
    :CORNERS v1 v2:  Set corner frequencies to v1 and v2.
 
-   :NPOLES n:  Set number of poles to n {range: 1-10}.
+   :NPOLES n:  Set number of poles {range: 1-10}.
 
-   :PASSES n:  Set number of passes to N {range: 1-2}.
+   :PASSES n:  Set number of passes {n=1: causal, n=2: zero-phase}.
 
    :TRANBW v:  Set the Chebyshev transition bandwidth to V.
 
