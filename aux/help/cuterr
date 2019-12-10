@@ -44,8 +44,20 @@ EXAMPLES
   40 seconds, and a sampling rate of 100 samples per second.  Assume the
   following commands were typed::
 
+      ** Cut window outside of data bounds: Error
       SAC> CUT A -20 E
       SAC> READ FILE1
+      SAC> lh b, a, e, npts, kztime
+
+      ** Zero fill regions of non-overlap
+      SAC> CUTERR FILLZ A -20 E
+      SAC> READ FILE1
+      SAC> lh b, a, e, npts, kztime
+
+      ** Change cut window to B and/or E for non-overlap
+      SAC> CUTERR USEBE A -20 E
+      SAC> READ FILE1
+      SAC> lh b, a, e, npts, kztime
 
   The starting cut evaluates to 20 seconds and generates a bad cut error
   condition.  In the USEBE mode, the starting value would become 25 seconds (B).

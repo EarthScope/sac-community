@@ -65,68 +65,65 @@ DESCRIPTION
 
 EXAMPLES
 --------
-  The macro_ below demonstrates several possible uses of CUTIM on a single file.
-  In these examples, time is the independent variable and seconds are the units.::
+  The macro_ below demonstrates several possible uses of CUT.  The macro
+  cutim_runs.m, is in the SAC macros directory: ${SACHOME{/macros/.  It, along
+  with the results from entering *m ${SACHOME{/macros/cutim_runs.m* after
+  starting SAC. It is suggested that one runs this macro and compares the
+  results with those from the macro in the help file for CUT_::
 
-   SAC> fg seismo
-   SAC> echo on
+    echo on
+    fg seismo
 
-   * no cutting
-   SAC> lh b e a kztime
+    * no cutting
+    lh b e a kztime
 
-   * begin to end---same as not cutting.
-   SAC> cutim B E
-   SAC> lh b e a kztime
-   SAC> fg seismo
+    fg seismo
+    * begin to end---same as not cutting.
+    cutim B E
+    lh b e a kztime
 
-   * First 3 secs of the file.
-   SAC> cutim B 0 3
-   SAC> lh b e a kztime
-   SAC> fg seismo
+    fg seismo
+    * First 3 secs of the file.
+    cutim B 0 3
+    lh b e a kztime
 
-   * From 0.5 secs before to 3 secs after first arrival
-   SAC> cutim A -0.5 3
-   SAC> lh b e a kztime
-   SAC> fg seismo
+    fg seismo
+    * From 0.5 secs before to 3 secs after first arrival
+    cutim A -0.5 3
+    lh b e a kztime
 
-   * From 0.5 to 5 secs relative to disk file start.
-   SAC> cutim 0.5 5
-   SAC> lh b e a kztime
-   SAC> fg seismo
+    fg seismo
+    * From 10 to 15 secs relative to zero
+    cutim 10 15
+    lh b e a kztime
 
-   * First 3 secs of the file and next 3 sec
-   SAC> cutim b 0 3 b 3 6
-   SAC> lh b e a kztime
-   SAC> p1
+    fg seismo
+    * From 0.5 to 5 secs relative to disk file start.
+    cutim B 0.5 5
+    lh b e a kztime
+
+    fg seismo
+    * First 3 secs of the file and next 3 sec
+    cutim b 0 3 b 3 6
+    lh b e a kztime
+
+    title "cutim b 0 3 b 3 6"
+    p1
+    save cutim_run.pdf
+    write *
 
   Because CUTIM changes the file(s) in memory, the fg seismo is rquired betweem
-  cals to CUTIM.  The lh (LISTHDR_) command for seismo with no calls to CUTIM is::
+  cals to CUTIM.  The lh (LISTHDR_) command for seismo with no calls to CUTIM
+  is::
 
     b = 9.459999e+00                        e = 1.945000e+01
     a = 1.046400e+01                   kztime = 10:38:14.000
 
-  Note that B is nonzero.  The output for CUTI 0.5 5 does not have a reference value.
-  The numbers are relative to b on input, but relative to zero on output.  (If there
-  is no stop reference value, it is assumed to be the same as the start reverence
-  value, in this case B.)::
+  Note that B is nonzero. The numbers are relative to B on input, but
+  relative to zero on output.  (If there is no stop reference value,
+  it is assumed to be the same as the start reverence value, in this
+  case B.)
 
-   b = 5.000000e-01                        e = 5.000000e+00
-   a = 1.004001e+00                   kztime = 10:38:23.460
-
-  The final lh produces values for the two files::
-
-   FILE: SEISMOGR - 1
-   b = 0.000000e+00                        e = 3.000000e+00
-   a = 1.004001e+00                   kztime = 10:38:23.460
-
-   FILE: CDV.CHAN.1981088103823 - 2
-   b = 3.000000e+00                        e = 6.000000e+00
-   a = 1.004001e+00                   kztime = 10:38:23.460
-
-  Note that B for cutim b 0 3 is now zero, all other times have ben altered so that
-  arrivals (such as A) will have the same clock time.  The call to p1 (PLOT1_) will
-  plot both segmnets in emory.  Alternatively, a call p (PLOT_) will plt the two
-  segments individually, separated by a waiting prompt.
 
 ERROR MESSAGES
 --------------
@@ -176,5 +173,5 @@ SEE COMMANDS
 
 LATEST REVISION
 ---------------
-   Version 102.0 - December 2018
-      Fixes behavior of CUTIM_ so it matches CUT_ 
+   Version 102.0
+      Fixes behavior of CUTIM_ so it matches CUT_
