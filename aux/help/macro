@@ -17,12 +17,6 @@ INPUT
 
    :arguments:  The arguments (if any) of the macro.
 
-COMMAND ABBREVIATION
---------------------
-::
-
-  M
-
 DESCRIPTION
 -----------
    A SAC macro is a file that contains a set of SAC commands that you want to
@@ -30,7 +24,7 @@ DESCRIPTION
    values for these arguments, evaluate blackboard and header variables within
    the body of a macro, etc.  The macro file can be in the current directory, in
    a predefined directory you specify using the SETMACRO_ command, or in the
-   global SAC macro directory.  See the section on Macros in the SAC Users Manual.
+   global SAC macros directory: ${SACHOME}/macros/ .
 
 SEE COMMANDS
 ------------
