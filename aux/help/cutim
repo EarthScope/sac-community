@@ -66,8 +66,8 @@ DESCRIPTION
 EXAMPLES
 --------
   The macro_ below demonstrates several possible uses of CUT.  The macro
-  cutim_runs.m, is in the SAC macros directory: ${SACHOME{/macros/.  It, along
-  with the results from entering *m ${SACHOME{/macros/cutim_runs.m* after
+  cutim_runs.m, is in the SAC macros directory: ${SACHOME}/macros/.  It, along
+  with the results from entering *m ${SACHOME}/macros/cutim_runs.m* after
   starting SAC. It is suggested that one runs this macro and compares the
   results with those from the macro in the help file for CUT_::
 

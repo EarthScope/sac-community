@@ -3,8 +3,13 @@ CUT
 
 SUMMARY
 -------
-Defines the amount of a data file to be read.  CUT does not act on data
-currently in memory.
+Defines the amount of a data file to be read.  CUT does not act on
+data currently in memory: a call to CUT must be followed by a READ_ to
+take effect.
+
+As discussed below, CUT can be preceded by CUTERR_, which
+controls errors if the chosen amount includes times outside B to E.
+The syntax will then be CUTERR {CUTERR option} ; CUT {CUT options}.
 
 SYNTAX
 ------
@@ -86,8 +91,8 @@ DESCRIPTION
 EXAMPLES
 --------
  The macro_ below demonstrates several possible uses of CUT.  The macro
- cut_runs.m, is in the SAC macros directory: ${SACHOME{/macros/.  It, along with
- the results from entering *m ${SACHOME{/macros/cut_runs.m* after starting SAC.
+ cut_runs.m, is in the SAC macros directory: ${SACHOME}/macros/.  It, along with
+ the results from entering *m ${SACHOME}/macros/cut_runs.m* after starting SAC.
  It is suggested that one runs this macro and compares the results with those
  from the macro in the help filefor CUTIM_::
 

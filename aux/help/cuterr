@@ -50,12 +50,12 @@ EXAMPLES
       SAC> lh b, a, e, npts, kztime
 
       ** Zero fill regions of non-overlap
-      SAC> CUTERR FILLZ A -20 E
+      SAC> CUTERR FILLZ
       SAC> READ FILE1
       SAC> lh b, a, e, npts, kztime
 
       ** Change cut window to B and/or E for non-overlap
-      SAC> CUTERR USEBE A -20 E
+      SAC> CUTERR USEBE
       SAC> READ FILE1
       SAC> lh b, a, e, npts, kztime
 
