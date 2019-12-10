@@ -21,7 +21,7 @@ This will do the following:
     option.
 
 Eight .sac files are created.  If they all worked, they will be the same
-as in ./sample-run.
+as in ./sample-run.  This is checked using sacdiff.
 
 If one now enters    ./run_convolvec.sh it will repeat the steps but for the
 C program convolvec.
