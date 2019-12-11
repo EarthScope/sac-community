@@ -29,40 +29,39 @@ DEFAULT VALUES
 
 DESCRIPTION
 -----------
-  This command controls error conditions arising from bad cut parameters.  These
-  error conditions can be defined as fatal errors (FATAL).  If the starting or
-  ending cut parameter is undefined in the header record the disk file
-  beginning or ending value can be chosen (USEBE).  If the cut parameter is
-  defined but the resulting cut value is less than the disk beginning value or
-  greater than the disk ending value, the beginning or ending values can be
-  used, or enough zeros can be added before or after the actual data to make up
-  the difference (FILLZ).
+  CUTERR controls error conditions arising from bad CUT_ parameters.  It is
+  effectively an option of CUT_, but is used with the following syntax: CUTERR
+  {cuterr option} ; CUT {CUT options}.   No action is taken until a subsequent
+  READ_ or FUNCGEN_.  If the CUTERR option is FATAL, no data will be entered
+  into memory.  Data will be enered into memory for options USEBE or FILLZ with
+  results as described above.  The options are not case sensitive.
 
 EXAMPLES
 --------
-  Assume that FILE1 has a begin time, B, of 25 seconds, a first arrival, A, of
-  40 seconds, and a sampling rate of 100 samples per second.  Assume the
-  following commands were typed::
+  Command *fg seismo* reads into memory a seismogram::
 
-      ** Cut window outside of data bounds: Error
-      SAC> CUT A -20 E
-      SAC> READ FILE1
+      SAC> CUT OFF
+      SAC> fg seismo
       SAC> lh b, a, e, npts, kztime
+      b = 9.459999e+00                        a = 1.046400e+01
+      e = 1.945000e+01                     npts = 1000
+      kztime = 10:38:14.000
 
-      ** Zero fill regions of non-overlap
-      SAC> CUTERR FILLZ
-      SAC> READ FILE1
+  One gets the same result for *lh* if one precedes the *fg seismo* command with
+  either *CUT A -5 E* or *CUTERR USEBE ; CUT A -5 E* because USSEBE is the
+  default for CUTERR.  One gets a different result for the option FILLZ::
+
+      SAC> CUTEERR FILLZ ; CUT A -5 E
+      SAC> fg seismo
       SAC> lh b, a, e, npts, kztime
+      b = 5.459999e+00                       a = 1.046400e+01
+      e = 1.945000e+01                     npts = 1400
+      kztime = 10:38:14.000
 
-      ** Change cut window to B and/or E for non-overlap
-      SAC> CUTERR USEBE
-      SAC> READ FILE1
-      SAC> lh b, a, e, npts, kztime
-
-  The starting cut evaluates to 20 seconds and generates a bad cut error
-  condition.  In the USEBE mode, the starting value would become 25 seconds (B).
-  In the FILLZ mode, 500 zeros (5 seconds at 100 samples per second) would be
-  inserted before the data and the starting value would remain as 20 seconds.
+  If on followed the CUTERR FILLZ example with *P1*, one would see an abrupt
+  transition at time *B* because seismo has a nonzero offset at *B*.  The
+  following  set of commands would produce a display with no offset: fg seismo ;
+  rtr ; taper ; write test.sac ; CUTEERR FILLZ ; CUT A -5 E ; read test.sac.
 
 SEE COMMANDS
 ------------
