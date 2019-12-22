@@ -113,7 +113,7 @@ around 120 W, 38 N::
    1989-10-18T00:04:15  37.04 -121.88  17.21 6.90 mh  NC/NC usgs:nc216859
 
 Event Identifiers
-=================
+-----------------
 
 Events can be referenced in other commands using a unique identifier.
 The identifier is defined by *source:uniqueid*.  Where the *source* is

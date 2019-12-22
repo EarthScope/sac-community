@@ -252,3 +252,4 @@
 .. _deletestack: sss.com/deletestack.html
 
 .. _spe: spe.com/spe.html
+.. _writestack:       sss.com/writestack.html

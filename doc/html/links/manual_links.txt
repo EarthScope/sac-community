@@ -317,3 +317,5 @@
 .. _station:            ../commands/station.html
 .. _response:            ../commands/response.html
 .. _metadata:            ../commands/metadata.html
+
+.. _writestack:       ../commands/sss.com/writestack.html

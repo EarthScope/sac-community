@@ -476,7 +476,8 @@ the single-precision version of those header variables is still used so long as
 NVHDR = 6. However, if one enters *CH NVDHR 7*, one has the potential of 
 changing the precision of variable like DELTA for internal calculations.
 
-.. important::
+**Important**
+
    Switching a file from `NVHDR = 6` to `7` does not magically produce
    a proper double-precision value.  Values stored in 32 and 64 bits
    will only be modified when a value is changed through CHNHDR_ or

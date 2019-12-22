@@ -834,7 +834,7 @@ is
    y(t) = f(t) \star g(t) = \int_{-\infty}^{\infty} dt' f(t') g(t-t')
 
 Both *f* and *g* are functions of time, and their zero times are
-coupled through the term *g*\ (t−t'). From the above equation, it is
+coupled through the term *g*\ (t-t'). From the above equation, it is
 easy to show that one can choose the time zero for *y* and *f* to be
 the same. In the applications discussed below, the zero time for *g*\
 (t) can be the same as or less than the zero time for *f*\ (t).

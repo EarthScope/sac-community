@@ -207,7 +207,7 @@ command option, the type of file determines if the component is define as a dip
 File Type   Separator  Convention          Conversion Value
 ========== =========== =================== ================
 text        , (comma)  SAC / Inclination     0
-text        | (bar)    SAC / Inclination    90
+text        '|' (bar)  SAC / Inclination    90
 xml         n/a        miniSEED / Dip       90
 ========== =========== =================== ================
 

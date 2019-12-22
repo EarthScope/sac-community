@@ -259,8 +259,8 @@ metadata using the METADATA_ command::
            evla = -1.382000e+01
            evdp = 6.471000e+02
 
-RESPONSE
---------
+RESPONSES
+---------
 
 Responses for specific files is also simple with files read into
 memory. Responses can be obtained in sacpz or evalresp format.::
@@ -274,8 +274,8 @@ memory. Responses can be obtained in sacpz or evalresp format.::
      Writing data to RESP.XE.DOOR..BHZ [ 49.80 KiB]
 
 
-TRAVELTIME
-----------
+TRAVELTIMES
+-----------
 
 Traveltimes can also be retrieved and set using the traveltime Web
 Service at IRIS. Just specific the *ONLINE* keyword to the TRAVELTIME_
