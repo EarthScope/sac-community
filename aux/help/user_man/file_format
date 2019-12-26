@@ -313,8 +313,9 @@ IDEP      I     Type of dependent variable:
                  - IUNKN (Unknown)
                  - IDISP (Displacement in nm)
                  - IVEL (Velocity in nm/sec)
-                 - IVOLTS (Velocity in volts)
                  - IACC (Acceleration in nm/sec/sec)
+                 - **NOTE** Others use SI units for IDISP, IVEL, IACC.
+                 - IVOLTS (Velocity in volts)
 SCALE     F     Multiplying scale factor for dependent variable
                 [not currently used]
 DEPMIN    F     Minimum value of dependent variable.
@@ -462,7 +463,7 @@ IEVTYP    I     Type of event:
 NEVID     N     Event ID (CSS 3.0)
 NORID     N     Origin ID (CSS 3.0)
 NWFID     N     Waveform ID (CSS 3.0)
-KHOLE     K     Nuclear: hole identifier; Other: location identifier.
+KHOLE     K     Nuclear: hole identifier; Other: location identifier (LOCID).
 DIST      F     Station to event distance (km).
 AZ        F     Event to station azimuth (degrees).
 BAZ       F     Station to event azimuth (degrees).

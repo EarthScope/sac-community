@@ -1,46 +1,43 @@
 ** ${SACHOME}/macros/cut_runs.m
-
-fg seismo
-write seismo.sac
 echo on
 
 * no cutting
+cut off
+fg seismo
 lh b e a kztime
 
-* begin to end---same as not cutting.
-cut B E
-read seismo.sac
+* begin to end---same as no cutting.
+
 lh b e a kztime
 
 * First 3 secs of the file
 cut B 0 3
-read
+fg seismo
 lh b e a kztime
 
 * From 0.5 secs before to 3 secs after first arrival
 cut A -0.5 3
-read seismo.sac
+fg seismo
 lh b e a kztime
 
 * From 10 to 15 secs relative to zero
 cut 10 15
-read seismo.sac
+fg seismo
 lh b e a kztime
-
 
 * From 0.5 to 5 secs relative to disk file start.
 cut b 0.5 5
-read seismo.sac
+fg seismo
 lh b e a kztime
 fg seismo
 
 * First 3 secs of the file and next 3 sec
 cut b 0 3
-read seismo.sac
+fg seismo
 write tmp.1
 
 cut b 3 6
-read seismo.sac
+fg seismo
 write tmp.2
 
 cut off
@@ -54,18 +51,18 @@ save cut-test.pdf
 * Examples using CUTERR_
 
 cut off
-read seismo.sac
+fg seismo
 lh b e a npts kztime
 
 cut a -0.5 15
-read seismo.sac
+fg seismo
 lh b e a npts kztime
 
 cuterr usebe ; cut a -0.5 15
-read seismo.sac
+fg seismo
 lh b e a npts kztime
 
 cuterr fillz ; cut a -0.5 15
-read seismo.sac
+fg seismo
 lh b e a npts kztime
 

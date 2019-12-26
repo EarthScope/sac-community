@@ -4,31 +4,41 @@ Introduction
 
 Overview
 --------
-  SAC (Seismic Analysis Code), previously SAC2000, is a general-purpose 
-  interactive program designed for the study of sequential signals, 
-  especially time-series data. Emphasis has been placed on analysis tools used 
-  by research seismologists in the detailed study of seismic events. Analysis 
-  capabilities include general arithmetic operations, Fourier transforms, three 
-  spectral estimation techniques, IIR and FIR filtering, signal stacking, 
-  decimation, interpolation, correlation, and seismic phase picking. SAC also 
-  contains an extensive graphics capability. Binary versions are available for 
-  Intel Mac and Linux, but SAC can be built from the source code for other
-  computer operating systems.  The source code is written in C.  For further 
-  details regarding requirements to build and run SAC, see the README file that
+  SAC (Seismic Analysis Code) is a general-purpose interactive program designed
+  for the study of sequential signals, especially time-series data. Emphasis has
+  been placed on analysis tools used by research seismologists in the
+  detailedstudy of seismic events. Analysis capabilities include general
+  arithmetic operations, Fourier transforms, three spectral estimation
+  techniques, IIR and FIR filtering, signal stacking, decimation, interpolation,
+  correlation, and seismic phase picking. SAC also contains an extensive
+  graphics capability. Binary versions are available for Intel Mac and Linux,
+  but SAC can be built from the source code for othercomputer operating systems.
+  The source code is written in C.  For further details regarding requirements
+  to build and run SAC, see the README file that
   comes with the distribution.
 
-  SAC was developed at Lawrence Livermore National Laboratory and is copyrighted 
-  by the University of California.  It is currently begin developed and maintained 
-  by a small group of developers  working in cooperation with IRIS 
-  (http://www.iris.edu/hq/).
+  SAC was developed at Lawrence Livermore National Laboratory and is copyrighted
+  by the University of California.  It is currently begin developed and
+  maintained by a small group of developers working in cooperation with IRIS.
 
-  The Using SAC part of the SAC Users Manual contains general information for the 
-  new user about what SAC can do, how it works, and how to get started. It also 
-  contains detailed information for the more experienced user on topics such as how
-  to use SAC macros, how to read and write SAC data files from C or FORTRAN 
-  programs, and how the SAC program is structured.
+  In all version of SAC through and including v101.6a, all reals in the
+  SAC header/data are single-precision (32 bits; 4 bytes).   SAC v102.0 includes
+  double-precision for both time and distance calculations using header
+  variables, and does so in a way that maximizes compatibility so that existing
+  SAC data files can still be used.  The section on `Floating-Point Precision in
+  SAC` in TUTORIAL_ has a detailed discussion.
 
-  The Users Manual will be periodically updated to include new descriptions and to 
+  Starting in version 102.0, SAC is capable of viewing and downloading event,
+  station, and response metadata and downloading waveforms from the IRIS online
+  Web services.  See  `Data Access`_ for an overview.
+
+  The Using SAC part of the SAC Users Manual contains general information for
+  the new user about what SAC can do, how it works, and how to get started. It
+  also contains detailed information for the more experienced user on topics
+  such as how to use SAC macros, how to read and write SAC data files from C or
+  FORTRAN programs, and how the SAC program is structured.
+
+  The Users Manual will be periodically updated to include new descriptions and to
   revise old ones. Please report any errors in this manual to the sac-help listserv:
   <sac-help@lists.ds.iris.edu>.  Although the version of the manual that comes
   with the binay or source distribution will be updated only when a new version comes
@@ -51,28 +61,28 @@ Contents of Using SAC
   - `SAC Graphics File`_ (SGF)
   - `Calling SAC from Scripts`_
   - `SAC Error Messages`_
-   
+
 Other Sections
 --------------
-  `Command Reference Manual`_ contains detailed descriptions of each SAC 
-  command including purpose, syntax, default values, and examples. This manual 
+  `Command Reference Manual`_ contains detailed descriptions of each SAC
+  command including purpose, syntax, default values, and examples. This manual
   also contains lists of SAC commands sorted alphabetically and functionally.
 
-  `Spectral-Estimation Subprocess Manual`_ describes a subprocess for the 
-  study of stationary random processes. A subprocess is like a small separate 
+  `Spectral-Estimation Subprocess Manual`_ describes a subprocess for the
+  study of stationary random processes. A subprocess is like a small separate
   program within the main SAC program.
 
-  `Signal-Stacking Subprocess Manual`_ describes a subprocess for performing 
+  `Signal-Stacking Subprocess Manual`_ describes a subprocess for performing
   signal stacking with delays, traveltimes, and record section plots.
 
 Notation
 --------
-  Repeating an important point made above, you may enter keywords and options in 
-  either uppercase or lowercase. SAC converts these to uppercase before 
-  interpreting them. The exceptions to this rule are text appearing within 
-  single or double quotes and the names of directories and files. The case of 
+  Repeating an important point made above, you may enter keywords and options in
+  either uppercase or lowercase. SAC converts these to uppercase before
+  interpreting them. The exceptions to this rule are text appearing within
+  single or double quotes and the names of directories and files. The case of
   these items is not changed. They are interpreted literally.
 
-
-
-
+LATEST REVISION
+---------------
+   Version 102.0

@@ -34,6 +34,12 @@ is not true for these commands; For any option not explicitly stated in each
 call, the default is assumed.  If there is no default value for an option, it 
 must be explicitly given.
 
+The SAC convention for units differs from others such as EVALRESP and SEED 
+that use SI units (meters, meters/sec, meters/sec/sec).  SAC uses nm for 
+displacement.  As discussed in TRANSFER_, unit conversions may be needed to 
+convert output files from instrument-corrections to get consistency between the 
+data and the SAC header parameter IDEP.
+
 EVENT SEARCH
 ------------
 

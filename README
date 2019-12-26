@@ -1,4 +1,4 @@
-README file for SAC.  (Modified May 2019)
+README file for SAC.  (Modified for v102.0)
 
 Contents
 ---------------------------------------------------------------------------
@@ -45,9 +45,11 @@ Optimization was not used in any of these builds. For more information on
 supported operating systems, see HISTORY and CHANGES in this directory.  It is
 assumed you have X windows on your system.
 
-On OSX, if the system refuses to open SAC due to it being from "an
-unidentified developer" or the "developer cannot be verified", please
-see the following on a fix:
+On Mac OSX, if the system refuses to open SAC due to it being from "an
+unidentified developer" or the "developer cannot be verified", try
+doing the following: In the Finder, control-click the app icon, then
+choose Open from the shortcut menu.  If that does not work, see the
+following:
 
 https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unidentified-developer-mh40616/10.15/mac/10.15
 
@@ -79,9 +81,10 @@ sac/bin/unvis        See sac/utils/README_utils
 sac/lib/             SAC libraries for user-generated sac programs
 sac/lib/README_lib   Overview of sac-config and IO libraries
 sac/lib/libsacio.a   Library for reading and writing SAC files
-sac/lib/sacio.a      See sac/lib/libsacio.a
-
+sac/lib/sacio.a      Same as sac/lib/libsacio.a
 sac/lib/libsac.a     See sac/lib/README_lib
+libmxmlev.a             libspline.a
+libevalresp.a           libevalresp_log.a 
 
 sac/doc              sac/doc/README and sac/doc/examples/README give an
                      overview of examples for using the libsacio.a
