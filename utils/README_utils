@@ -4,6 +4,7 @@ Roadmap of programs and macros in sac/utils:
 Contents:
  * bbfswap - Byte swap a Blackboard Variable File
  * saclst  - List SAC Header variables
+ * sacset  - Change SAC header variables
  * sacswap - Byte swap a SAC file
  * sgftops - Convert a SAC Graphics Format (SGF) to Postscript (PS)
  * sgfswap - Byte swap a .sgf (SAC Graphics Format) file
@@ -34,7 +35,42 @@ Program saclst:
   Usage: saclst header_lists f file_lists
      ex. saclst delta npts kstnm f sacfile1 sacfile2
          saclst help - outputs a list of possible values
-       
+
+Program sacset:
+------------------------------------------------------------------------
+  This program allows one to modify the header of one or more sac files.
+  Behavior is currently rather simplistic and does limited checking on
+  the argument values and it cannot set more complex values like
+  reference times. Setting a header value to Undefined must be done
+  explicitly using 'undef' or 'undefined'. Setting a character string
+  to empty can be done using -khole= or -khole=""
+
+  Entering sacset with no argument gives the usage:
+
+  Usage: sacset [-v] -header=value -header=value files
+   -v Verbose output [off]
+   -header=value  set 'header' with 'value', e.g.
+       -t0=12.56
+       -knetwk=II -kstnm=BORG
+       -iztype=IO
+
+  sacset examples:
+
+  To set the ID (Network, Station, Loc/Hole, Channel) of a set files:
+
+  % saclst knetwk kstnm khole kcmpnm f data*.sac
+  data.sac    -12345     CDV        -12345     -12345
+  data2.sac    -12345     CDV        -12345     -12345
+  data3.sac    -12345     CDV        -12345     -12345
+
+  % sacset -knetwk=IU -kstnm=CDV -khole=00 -kcmpnm=HHZ data*.sac
+
+  % saclst knetwk kstnm khole kcmpnm f data*.sac
+  data.sac    IU   CDV   00   HHZ
+  data2.sac    IU   CDV   00   HHZ
+  data3.sac    IU   CDV   00   HHZ
+
+
 Program sacswap:
 ------------------------------------------------------------------------
   SAC data files are binary and will have the byte order on the system that

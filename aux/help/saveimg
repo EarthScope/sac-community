@@ -19,7 +19,7 @@ INPUT
 
        - ps  (Postscript);
        - pdf (Portable Document Format);
-       - png (Image file)
+       - png (Image file) [No longer included in the binary SAC package]
        - xpm (Pixmap format)
 
 DESCRIPTION
@@ -36,16 +36,21 @@ DESCRIPTION
   the PNG format is not enabled in the default builds of SAC.
 
   The title in a save xxx.pdf is made with a font that is larger than that used
-  in a title for p1 or p1 print because of the differences in the fonts.
+  in a title for p1 or p1 print because in producing the PDF file, a postscript
+  font (with higher resolution) is used.
 
-  The .xpm and .png files will have the aspect ratio of the current window.
+  It is possible to produce plots in .png format if one builds SAC from sources
+  (see ${SACHOME}/README}.
+
+  Output .xpm and .png files will have the aspect ratio of the current window.
   (See WINDOW_ for instructions about choosing the size and aspect ratio of
   display windows.)  The .pdf and .ps files produced by SAVEIMG will have a
-  fixed aspect ratio of X/Y = 11/8.5 = 1,2941.  For these plots, the plots will
-  look best if the display window  aspect ratio is 1.2941.
+  fixed aspect ratio of X/Y = 11/8.5 = 1.2941.  To make the output .ps or
+  .pdf file look most like a P1 or P2 output it is best to choose a display
+  window aspect ratio of 1.2941.
 
   As with .sgf files, the plots will not have a tight boundingbox.  For .sgf
-  files the script SACDIR/bin/sgftoeps.csh will produce an EPS file with a
+  files the script ${SACHOME}/bin/sgftoeps.csh will produce an EPS file with a
   tight boundingbox if the program Ghsostscript (gs) is in the path.  Similar
   scripts could be written for the output files from SAVEIMG.
 
@@ -58,12 +63,6 @@ DESCRIPTION
 
 EXAMPLES
 --------
-  To save a file as a PDF document::
-
-       SAC> read PAS.CI.BHZ.sac
-       SAC> p1
-       SAC> saveimg pas.ci.pdf
-
   To save a spectrogram in three different formats::
 
        SAC> fg seismo
@@ -72,15 +71,17 @@ EXAMPLES
        SAC> save spectrogram.xpm
        SAC> save spectrogram.pdf
 
-  The plot at the end of the CONVOLVE_ help file has an aspect ratio of 3.78.
+  The plots at the end of the CONVOLVE_, CORRELATE_, and TUTORIAL_ help file
+  have an aspect ratio of 3.78 (because the larger aspect ratio takes less
+  vertical space, which is useful if the plot is to be included in a docyment).
   The following commands can be used to produce such a plot file::
-  
-       SAC> r convolve_output.sac
+
+       SAC> fg seismo
        SAC> window 3 x .04 .94 y .48 .93 aspect 3.78
        SAC> bw 3
        SAC> p2
-       SAC> save convolve_output.xpm
- 
+       SAC> save seismo.xpm
+
 LATEST REVISION
 ---------------
    version 102.0

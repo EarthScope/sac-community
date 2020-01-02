@@ -6,8 +6,8 @@ Contents
 * Package contents
 * Environment Setup
 * Initialization macro
-* PNG Support
 * Matlab Interface
+* PNG Support
 * If you need help ...
 * Important message
 
@@ -16,8 +16,11 @@ Contents
 
 This README file is in the top directory (named sac) of a directory tree that
 has either been installed from a SAC source distribution or produced by the
-expansion of a SAC binary-distribution compressed tar file.  There are SAC
-binary-distributions for the following operating systems:
+expansion of a SAC binary-distribution compressed tar file.  The default for
+this directory is /usr/local/sac/.  The environmental variable for
+this directory is SACHOME.  (See Environment Setup below.)
+
+There are SAC binary-distributions for the following operating systems:
 
 1. Mac OSX (64 bit) build: built on 10.14 will run on versions starting with
    10.8.  XQuartz/X11 is required to display graphics and can be downloaded
@@ -104,30 +107,32 @@ sac/Editline.license License for Editline for Command line edits and history
 * Environment Setup
 ---------------------------------------------------------------------------
 
-SAC needs to be able to find auxillary (aux) data that are installed along side
-the executable / binary program.  SAC will attempt to find these data using
+SACHOME: This must be set so that SAC can be found on the computer.
+The default when SAC is installed from sources is /usr/local/sac/.
+
+SAC needs to be able to find auxillary (${SACHOME}/aux/) data that are
+installed along side the executable / binary program.  SAC will
+attempt to find these data using
   1) the SACAUX environmental variable
   2) the default install location
   3) a set of typical install locations.
-If all these fail, a message about setting the SACAUX enviornemt variable is
-displayed and sac will exit.
+If all these fail, a message is displayed saying one must set the
+SACAUX environment variable and SAC will exit.
 
-In addition, there are options within SAC that can be set through environmental
+There are options within SAC that can be set through environmental
 variables. In SACHOME/bin the scripts sacinit.csh (csh and tcsh) and
-sacinit.sh (bash) contain lines that set up your environment.
+sacinit.sh (bash) contain lines that set up your environment
+(including SACAUX).  See the script for your shell for descriptions of
+the options and the syntax for the commands.  If your distribution was
+built from sources, these sacinit scripts were created during the
+installation of the SAC package and already have the correct path for
+the computer on which it was built.  If your distribution is binary,
+you may need to edit the directory given for SACHOME.
 
-If the distribution was built from sources, these sacinit scripts were created
-during the installation of the SAC package and already have the correct path for
-the computer on which it was built.
+EXAMPLE
 
-If the distribution is binary, you may need to edit the directory given for
-SACHOME.  See the script for your shell for descriptions of the options and the
-syntax for the commands.
-
-Example
--------
 If SACHOME is /usr/local/sac and the sacinit file is modified accordingly,
-to set the path and other options for SAC, do the following:
+to set PATH, SACAUX, and other options for SAC, do the following:
 
   For csh and tcsh, edit ~/.cshrc adding the lines
         setenv SACHOME /usr/local/sac
@@ -172,16 +177,6 @@ For the meaning of these entries (lh, qdp, xdiv, xlabel, setmacro,
 transcript), use the help feature in SAC.  For further discussion of the
 transcript command and command-line editing, see SACHOME/utils/README_utils.
 
-* PNG Support
-----------------------------------------------------------------------------
-
-Saving figures as PNG files is possible, but starting with version v101.6 the
-default is not to include PNG support because (1) the resolution is far worse
-than options PDF and PS, and (2) the default PNG libraries are dynamic libraries
-so that a binary SAC distribution built on one computer may not be portable.
-PNG support can be included with the configure option --enable-png.  (One needs
-the source distribution to do this.)
-
 * Matlab Interface
 ---------------------------------------------------------------------------
 
@@ -198,6 +193,15 @@ the source distribution to do this.)
    - The Matlab Executable Library (libmex)
 
 File utils/README_utils describes some Matlab macros provided by a user.
+
+* PNG Support
+----------------------------------------------------------------------------
+
+Saving figures as PNG files is possible, but starting with version v101.6 the
+default is not to include PNG support because the default PNG libraries are 
+dynamic libraries so that a binary SAC distribution built on one computer may 
+not be portable.  PNG support can be included if one builds SAC from sources 
+with the configure option --enable-png. 
 
 * If you need help ...
 ---------------------------------------------------------------------------

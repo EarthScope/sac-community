@@ -54,6 +54,13 @@ bool_type(char *val) {
     return -1;
 }
 
+int
+is_undefined(const char *s) {
+    return
+        strcasecmp(s, "undef") == 0 ||
+        strcasecmp(s, "undefined") == 0;
+}
+
 #define PROGNAME "sacset"
 
 void
@@ -73,6 +80,7 @@ main(int argc, char *argv[]) {
     int i = 0, j = 0;
     char *key = NULL;
     char *val = NULL;
+    char *empty = "";
     sac *s = NULL;
     double dv = 0.0;
     int iv = 0;
@@ -132,11 +140,14 @@ main(int argc, char *argv[]) {
             }
             *val = 0; /* Set equal to terminator, null-terminating key string */
             val++; /* Set val to first character in value */
-            if(!*key || !*val) {
+            if(!*key) {
                 val--;
                 *val = '=';
                 printf("\tWarning, expected -header=value, found %s\n", arg);
                 continue;
+            }
+            if(!*val) {
+                val = empty;
             }
 
             /* Determine the Header ID */
@@ -158,39 +169,59 @@ main(int argc, char *argv[]) {
                     sac_set_float(s, h->id, dt);
                     break;
                 }
-                dv = strtod(val, &endptr);
-                if(endptr == NULL || endptr == val || errno == ERANGE || errno == EINVAL || *endptr != 0) {
-                    printf("error converting argument to number: %s\n", val);
-                    continue;
+                if(is_undefined(val)) {
+                    dv = SAC_FLOAT_UNDEFINED;
+                } else {
+                    dv = strtod(val, &endptr);
+                    if(endptr == NULL || endptr == val || errno == ERANGE || errno == EINVAL || *endptr != 0) {
+                        printf("error converting argument to number: %s\n", val);
+                        continue;
+                    }
                 }
                 sac_set_float(s, h->id, dv);
                 break;
             case SAC_INT_TYPE:
-                iv = strtol(val, &endptr, 10);
-                if(endptr == val || errno == ERANGE || errno == EINVAL) {
-                    printf("error converting argument to integer: %s\n", val);
-                    continue;
+                if(is_undefined(val)) {
+                    iv = SAC_INT_UNDEFINED;
+                } else {
+                    iv = strtol(val, &endptr, 10);
+                    if(endptr == val || errno == ERANGE || errno == EINVAL) {
+                        printf("error converting argument to integer: %s\n", val);
+                        continue;
+                    }
                 }
                 sac_set_int(s, h->id, iv);
                 break;
             case SAC_ENUM_TYPE:
-                e = sac_enum_to_id(val, strlen(val));
-                if(!e) {
-                    printf("error, unknown enum type: %s\n", val);
-                    continue;
+                if(is_undefined(val)) {
+                    sac_set_int(s, h->id, SAC_INT_UNDEFINED);
+                } else {
+                    e = sac_enum_to_id(val, strlen(val));
+                    if(!e) {
+                        printf("error, unknown enum type: %s\n", val);
+                        continue;
+                    }
+                    sac_set_int(s, h->id, e->id);
                 }
-                sac_set_int(s, h->id, e->id);
                 break;
             case SAC_BOOL_TYPE:
-                if((iv = bool_type(val)) == -1) {
-                    printf("error, unknown logical type: %s\n", val);
-                    continue;
+                if(is_undefined(val)) {
+                    iv = SAC_INT_UNDEFINED;
+                } else {
+                    if((iv = bool_type(val)) == -1) {
+                        printf("error, unknown logical type: %s\n", val);
+                        continue;
+                    }
                 }
                 sac_set_int(s, h->id, iv);
                 break;
             case SAC_STRING_TYPE:
             case SAC_LONG_STRING_TYPE:
-                sac_set_string(s, h->id, val);
+                if(is_undefined(val)) {
+                    sac_set_string(s, h->id, SAC_CHAR_UNDEFINED);
+                } else {
+                    sac_set_string(s, h->id, val);
+                }
                 break;
             case SAC_AUX_TYPE:
                 if(h->id == SAC_DATE_TIME) {

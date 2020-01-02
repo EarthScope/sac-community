@@ -1,29 +1,35 @@
-This is a reverse chronoloical listing of enhancements and bug fixes made between
-SAC versions.  An overview of these are in file CHANGES.
+This is a reverse chronoloical listing of enhancements and bug fixes made
+between SAC versions.  An overview of these are in file CHANGES.
 
-2019/11: Version 102.0 Released
-        * FEATURE: SAC now supports v7 Header with 64 timing and location values
+2020/01: Version 102.0 Released
+        * FEATURE: SAC now includes double-precision for both time and distance
+             calculations using header variables, and does so in a way that
+             maximizes compatibility so that existing SAC data files can still
+             be used. The section on Floating-Point Precision in SAC help
+             file TUTORIAL has a detailed discussion.
         * FEATURE: New commands: EVENT, DATA, STATION, METADATA, RESPONSE
              Allow retrieval of data and metadata from Web Services
              Requries: libcurl, libfern (distributed), libxml2
-             See: tutorial/data_access
+             See: help file DATA_ACCESS
         * FEATURE: miniSEED reading available using the READ command
              Requires: libmseed
         * FEATURE: TRAVELTIME added option ONLINE to use TauP Web Service
         * FEATURE: Added OUTPUT_FORMAT: controls format of floating point values
+             See help file SETBB for definition and the section on
+             Floating-Point Precision in SAC help file TUTORIAL for examples.
         * FEATURE: MERGE attempts to determine a DELTA from timing of files
-             Assumes no gaps or overlap. Useful for DELTA with truncated
-             precision for data with long durations and high sample rates
+             Assumes no gaps or overlap. Useful for DELTA (which is single-
+             precision) for data with long durations and high sample rates
         * FEATURE: TRANSFER POLEZERO search
-             Will search for a polezero file if not provided or if a
-             wild card is used, e
-             transfer from polezero to none
-             transfer from polezero s SAC_PZ* to none
-        * FEATURE: sacset - new program to set sac header values
+             Will search for a polezero file if not provided or if a wild-card *
+             is used.  See help file TRANSFER for examples.
+        * FEATURE: sacset - new program to set sac header values.  See
+             utils/README for description
         * FEATURE: sac file (binary and alpha) I/O now uses BSD-Licensed library
-        * FEATURE: CONVOLVE - major function changes
+        * FEATURE: CONVOLVE - major function changes  See help file CONVOLVE
         * FEATURE: Remove Memory Limits: The "Max files: reading first 1000" Bug
         * FEATURE: SACAUX Magic: Try to determine location if SACAUX is not set
+             as an environmental variable.  See ./README for procedure
         * FEATURE: Added ROTINC command  (Frederik Tilmann)
              Rotate a set of 3 perpendicular components either around the
              vertical direction or around the Transverse direction.  For the
@@ -31,7 +37,7 @@ SAC versions.  An overview of these are in file CHANGES.
         * FEATURE: Added QUITMACRO command - Exit out of a macro
         * FEATURE: Added (GETVAL) expression to retrieve Amplitude values
              Get value at time t for all files in memory, or get value for
-             the Nth file at time t.  Examples in the inline help file.
+             the Nth file at time t.  Examples in the INLINE help file.
         * FEATURE: Added SC TO VAR: save system command output
              to Blackboard variables, e.g.
              SAC> SC TO VAR echo "Hello System Command"
@@ -42,17 +48,15 @@ SAC versions.  An overview of these are in file CHANGES.
              SAC> MERGE *.sac
         * FEATURE: Update libedit to 20160618-3.1
         * FEATURE: Shift log label out if axis is heavily annotated
-        * FEATURE: Example convolve now uses time domain (Arthur Snoke)
-             Differs from SAC convolve in that it allows for a time-symmetric
-             pulse rather than always causal.  See the help file SAC_library.
         * FEATURE: Example time shift program in doc/examples
-        * FEATURE: Example Interpolation program in doc/examples
+        * FEATURE: Example Cubic Spline Interpolation program in doc/examples
         * FEATURE: Added macros/demo example
         * FEATURE: Updated error message for write with bad number of files
         * FEATURE: Do not execute ROLLBACK, ever
         * FEATURE: Images have been added to two HELP files in both the HTML
              and the PDF versions of the manual: SYMBOL and LINESTYLE
-        * FEATURE: All XWindows use a double buffer (Remove double buffer option)
+        * FEATURE: All XWindows use a double buffer (Remove double buffer
+             option)
         * FEATURE: Additions to libsac (Sac Library Routines)
              - lifite() (LInear FIT to Evenly spaced data)
              - cut(), cut_define(), cut_define_check()
@@ -152,11 +156,11 @@ SAC versions.  An overview of these are in file CHANGES.
 2013/11: Version 101.6a Released
 
         * FEATURE: A single-file PDF version of the SAC manual is now availaable
-        * FEATURE: Add ESCAPE_STRING token type, similar to QUOTED_STRING, 
+        * FEATURE: Add ESCAPE_STRING token type, similar to QUOTED_STRING,
                    but without "quotes" on output (Internal)
-        * FEATURE: Added token_to_token_list() that splits a STRING token, 
-                   but leaves others alone.  Needed to translate a string variable 
-                   or token into a list usable in macros 
+        * FEATURE: Added token_to_token_list() that splits a STRING token,
+                   but leaves others alone.  Needed to translate a string variable
+                   or token into a list usable in macros
                    macro> do x list %var
                    macro> enddo
         * FEATURE: Complain about macro commands outside of macros
@@ -172,7 +176,7 @@ SAC versions.  An overview of these are in file CHANGES.
         * BUG FIX: Variable replacement now works correctly
         * BUG FIX: Unknown macro variables will ask for a value
         * BUG FIX: Macro Preamble now skips blank/empty and comment lines
-        * BUG FIX: Only report error when deleting unknown variable, 
+        * BUG FIX: Only report error when deleting unknown variable,
                    do not terminate macro
         * BUG FIX: Command rtrend (or rtr) blackboard variables are saved as values,
                    not as strings
