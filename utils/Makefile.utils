@@ -1,23 +1,45 @@
 
 LDLIBS=-lm
 CFLAGS=-O2
+SACIO=`sac-config -l sacio`
+# -L/usr/local/sac/lib -lsacio
+CFLAGS_SACIO=`sac-config -c`
+# -I/usr/local/sac/include
 
-all: sgftops sacswap saclst bbfswap unvis
+all: sgftops sacswap saclst bbfswap unvis sacdiff sacset
+
+saclst.o: saclst.c
+	$(CC) $(CFLAGS) $(CFLAGS_SACIO) -c -o saclst.o saclst.c
 
 saclst: saclst.o
-	$(CC) $(CFLAGS) -o saclst saclst.o $(LDLIBS)
+	$(CC) $(CFLAGS) -o saclst saclst.o $(LDLIBS) $(SACIO)
+
+sacswap.o: sacswap.c
+	$(CC) $(CFLAGS) $(CFLAGS_SACIO) -c -o sacswap.o sacswap.c
 
 sacswap: sacswap.o
-	$(CC) $(CFLAGS) -o sacswap sacswap.o $(LDLIBS)
+	$(CC) $(CFLAGS) -o sacswap sacswap.o $(LDLIBS) $(SACIO)
 
 sgftops: sgftops.o
 	$(CC) $(CFLAGS) -o sgftops sgftops.o $(LDLIBS)
 
 bbfswap: bbfswap.o
-	$(CC) $(CFLAGS) -o bbfswap bbfswap.o $(LDLIBS)
+	$(CC) $(CFLAGS) -o bbfswap bbfswap.o $(LDLIBS) $(SACIO)
 
 unvis: unvis.o
 	$(CC) $(CFLAGS) -o unvis unvis.o $(LDLIBS)
 
+sacdiff.o: sacdiff.c
+	$(CC) $(CFLAGS) $(CFLAGS_SACIO) -c -o sacdiff.o sacdiff.c
+
+sacdiff: sacdiff.o
+	$(CC) $(CFLAGS) -o sacdiff sacdiff.o $(LDLIBS) $(SACIO)
+
+sacset.o: sacset.c
+	$(CC) $(CFLAGS) $(CFLAGS_SACIO) -c -o sacset.o sacset.c
+
+sacset: sacset.o
+	$(CC) $(CFLAGS) -o sacset sacset.o $(LDLIBS) $(SACIO)
+
 clean:
-	rm -f saclst.o sacswap.o sgftops.o bbfswap.o unvis.o
+	\rm -f *.o

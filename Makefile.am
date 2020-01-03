@@ -39,7 +39,7 @@ EXTRA_INSTALL    = macros $(EXTRA_ALWAYS) \
 	           utils/saclst.c utils/sacswap.c utils/sgftops.c utils/sac.h \
 		   utils/bbfswap.c utils/sgfswap.c utils/Makefile.utils \
 		   utils/readsac.m utils/writesac.m \
-		   utils/padcat.m utils/getsacdata.m \
+		   utils/padcat.m utils/getsacdata.m utils/sacset.c \
 		   utils/unvis.c utils/README_utils utils/sacdiff.c \
 		   lib/README_lib \
 		   include doc/examples doc/README $(SACAUX_DIR)

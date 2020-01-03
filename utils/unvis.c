@@ -39,7 +39,7 @@ static char sccsid[] = "@(#)unvis.c	8.1 (Berkeley) 6/4/93";
 __FBSDID("$FreeBSD: src/lib/libc/gen/unvis.c,v 1.10 2007/01/09 00:27:56 imp Exp $");
 */
 
-#include "config.h"
+//#include "config.h"
 #ifdef WIN32
 #define u_char unsigned int
 #endif

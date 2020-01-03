@@ -1,5 +1,5 @@
 
-lib_LIBRARIES = libevalresp.a libspline.a libmxmlev.a libevalresp_log.a
+noinst_LIBRARIES = libevalresp.a libspline.a libmxmlev.a libevalresp_log.a
 
 libevalresp_a_CFLAGS=-I$(top_srcdir)/evalresp/libsrc/ -g \
                      -I$(top_srcdir)/evalresp/libsrc/mxml

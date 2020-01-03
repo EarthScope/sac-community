@@ -55,9 +55,62 @@
 #include <string.h>
 #include <stdarg.h>
 
-#include "../inc/vars.h"
-#include "../inc/bbf.h"
+/* Copied from bbf.h for portability
+   bbf_*() are included with libsacio.a
+*/
 
+typedef struct __vars vars;
+struct __vars {
+    int hdr;
+    char *name;
+    char *value;
+    double val;
+    int ival;
+    int namelength;
+    int valuelength;
+    int type;
+};
+
+#define MESSAGE_INFO       1
+#define MESSAGE_DEBUG      2
+struct Header {
+    int delete;
+    int readonly;
+    int indirect;
+    int shared;
+    int reserved;
+    int AppBit1;
+    int AppBit2;
+    int type;
+    int namelength;
+    int valuelength;
+    int descriptionlength;
+};
+
+typedef struct __bbf bbf;
+struct __bbf {
+    char id[5];
+    int ver;
+    int hdr;
+    char *name;
+    vars *v;
+    int n;
+    int namelength;
+};
+void bbf_verbose(int v);
+int bbf_error(int errno, char *fmt, ...);
+
+bbf *bbf_new();
+void bbf_free(bbf * b);
+int bbf_write(bbf * b, char *output, int doswap);
+bbf *bbf_read(char *input, int *doswap);
+void bbf_set_header(bbf * b, struct Header *h, char *id, int ver, int hdr,
+                    char *name);
+void bbf_set_var(bbf * b, struct Header *h, int hdr, char *name, ...);
+unsigned int encodeHeader(struct Header *h);
+
+#define FALSE 0
+#define TRUE  1
 
 void bbf_message(int type, char *fmt, ...);
 

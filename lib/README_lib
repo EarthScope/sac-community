@@ -6,7 +6,7 @@ libraries please consult the C and Fortran examples in sac/doc/examples.
 
 sac-config
 ----------------------------------------------------------------------------
-Use to identify where the sac libraries below are located and what the 
+Use to identify where the sac libraries below are located and what the
 command line options are to aid in compliation. For example to compile your
 fortran program with only the sacio library try
 
@@ -21,11 +21,11 @@ libsacio.a and sacio.a:
 ----------------------------------------------------------------------------
 These two files are identical copies of the same library.  (File sacio.a is
 put in for backwards compatibility.)  Routines from this library can be used
-to read or write SAC data files, header values, and blackboard variables. 
+to read or write SAC data files, header values, and blackboard variables.
 For further information about the functions in these libraries go to the
-online user's manual at URL <http://www.iris.edu/manuals/sac/manual.html> and
-read the sections on Accessing Blackboard Variables In Home Grown Software
-and Reading And Writing SAC Data Files In Home Grown Software.
+online user's manual at URL <http://ds.iris.edu/files/sac-manual/> and
+read the sections on SAC Reading and Writing Routines, Using the SAC
+Library, and Blackboard Variables in SAC.
 
 libsac.a
 ----------------------------------------------------------------------------
@@ -33,16 +33,33 @@ This library was introduced in SAC version 101.2.  It is a superset of
 libsacio.a, but is intended to include additional routines on operations
 on data.  As of this writing, a User's Manual is in preparation for libsac.a
 
-    Contents: xapiir - IIR filter, use this 
-              firtrn - FIR filter, hilbert transform 
-              crscor - Cross Correlation 
-              next2  - Next Power of Two
-              envelope - Envelope of a function
-              
-    Note: Future updates will include more legible 
-          names for these functions and smaller argument
-          lists for easier use, but the original
-          functions will still continute to operate.
-    
-Again, please see the example routines in sac/doc/examples for the correct
-way to use these functions.
+    Contents: bandpass   - Bandpass filter (IIR)
+              lowpass    - Lowpass filter (IIR)
+              highpass   - Highpass filter (IIR)
+              bandreject - Bandreject filter (IIR)
+              filter     - general interface to the IIR filters
+              correlate  - Correlation
+              cut        - cut data
+              envelope   - Envelope of data
+              int_trap   - Trapezodial Integration
+              int_rect   - Rectangular Integration
+              rmean      - Remove Mean
+              rtrend     - Remove Trend (and the mean)
+              taper      - Taper data
+              fft        - Fast Fourier Transforms
+                           Function   | Precision  | Input   | Output
+                           --------------------------------------------
+                            fft       | Single     | Real    | Complex
+                            ifft      | Single     | Complex | Real
+                            fftz      | Single     | Complex | Complex
+                            ifftz     | Single     | Complex | Complex
+                            dfft      | Double     | Real    | Complex
+                            difft     | Double     | Complex | Real
+                            dfftz     | Double     | Complex | Complex
+                            difftz    | Double     | Complex | Complex
+
+libsacio.a Examples
+----------------------------------------------------------------------------
+Please see sac/doc/examples for examples of how to use these functions
+in both C and Fortran along with the corresponding commands in SAC.
+

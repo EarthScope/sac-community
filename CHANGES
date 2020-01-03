@@ -1,16 +1,20 @@
 Please see file HISTORY for list of official release and
-a summary of bug fixes and enhancements made between releases.
+a discussion of bug fixes and enhancements made between releases.
 
-2019/11 Version 102.0 released
+2020/01 Version 102.0 released
 
 - New Header Version 7 - Allows for storing time and location data in 64 bits
-- Evalresp Updated to Version 5.0
+- Evalresp Updated to Version 5.0.
 - Added DATA, EVENT, STATION, METADATA, and RESPONSE commands to get
-     data and metadata from Web Services
-- Added ability to read miniSEED data
+     data and metadata from Web Services.  See new help file
+     data_access
+- Added ability to read miniSEED data (uses the enhanced READ command)
 - SAC files (binary/alpha) now uses a BSD-License library
 - Removed maximum file in memory limitation
-- CONVOLE command changed functionality
+- CONVOLE command changed functionality.  See CONVOLVE help file.
+- Many examples hae been added to sac/doc/examples.  Referenced from
+    help file Using the SAC Library (sac/aux/user_man/saclib)
+- Documentation updated and expanded See SAC Manual, (PDF or HML)
 - Lots of bug fixes
 
 - Requirements:
