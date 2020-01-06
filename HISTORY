@@ -24,12 +24,12 @@ between SAC versions.  An overview of these are in file CHANGES.
              Will search for a polezero file if not provided or if a wild-card *
              is used.  See help file TRANSFER for examples.
         * FEATURE: sacset - new program to set sac header values.  See
-             utils/README for description
+             sac/utils/README_utils for description
         * FEATURE: sac file (binary and alpha) I/O now uses BSD-Licensed library
         * FEATURE: CONVOLVE - major function changes  See help file CONVOLVE
         * FEATURE: Remove Memory Limits: The "Max files: reading first 1000" Bug
-        * FEATURE: SACAUX Magic: Try to determine location if SACAUX is not set
-             as an environmental variable.  See ./README for procedure
+        * FEATURE: SACAUX Magic: Tries to determine location if SACAUX is not set
+             as an environmental variable.  See sac/README for procedure
         * FEATURE: Added ROTINC command  (Frederik Tilmann)
              Rotate a set of 3 perpendicular components either around the
              vertical direction or around the Transverse direction.  For the

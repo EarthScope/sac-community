@@ -13,8 +13,8 @@ a discussion of bug fixes and enhancements made between releases.
 - Removed maximum file in memory limitation
 - CONVOLE command changed functionality.  See CONVOLVE help file.
 - Many examples hae been added to sac/doc/examples.  Referenced from
-    help file Using the SAC Library (sac/aux/user_man/saclib)
-- Documentation updated and expanded See SAC Manual, (PDF or HML)
+    help file Using the SAC Libraries (sac/aux/user_man/saclib)
+- Documentation updated and expanded See SAC Manual, (PDF or HTML)
 - Lots of bug fixes
 
 - Requirements:
