@@ -226,10 +226,17 @@ if len(files) == 0:
 
 global __section_level__
 __section_level__ = 2
-    
+
+requires_section_3 = [
+    'saclib.txt',
+    'data_access.txt',
+    'transfer.txt',
+    'tutorial.txt'
+]
+
 for arg in files:
     __section_level__ = 2
-    if 'saclib.txt' in arg:
+    if arg in requires_section_3:
         __section_level__ = 3
     if 'contents.txt' in arg:
         continue
@@ -239,7 +246,7 @@ for arg in files:
     # open('tmp.txt','w').write(rst)
     tex = publish_string(rst, writer=w, source_path=arg,
                          settings=None, settings_overrides=args)
-    
+
     tex = tex.decode().replace('% \n\n','')
     tex = tex.replace('{longtable*}','{longtable}')
     if '{listcnt0}' in tex:

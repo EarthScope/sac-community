@@ -304,35 +304,73 @@ char *SacHeaderEnums[] = {
   "IODOR"       /* 97   Odors */
 };
 
+extern char *enum_values[];
+
+void
+output_enums_list() {
+    char *p = NULL;
+    char tmp[32] = {0};
+    struct eid *e = NULL;
+    fprintf(stderr, "\t       Name    Value     Header   Category\n");
+    for(int i = ITIME; i <= IODOR; i++) {
+        strcpy(tmp, enum_values[i-1]);
+        p = strchr(tmp, ' ');
+        if(!p) {
+            continue;
+        }
+        *p = 0;
+        e = sac_enum_to_id(tmp, strlen(tmp));
+        if(e) {
+            fprintf(stderr, "\t%15s %4d     ", enum_values[i-1], e->id);
+            switch(e->type) {
+            case SAC_FILE_TYPE:   fprintf(stderr, "iftype   File Type"); break;
+            case SAC_DEP_TYPE:    fprintf(stderr, "idep     Amplitude Type"); break;
+            case SAC_ZERO_TIME:   fprintf(stderr, "iztype   Zero Time Reference"); break;
+            case SAC_EVENT_TYPE:  fprintf(stderr, "ievtyp   Event Type"); break;
+            case SAC_QUAL:        fprintf(stderr, "iqual    Quality Type"); break;
+            case SAC_MAG_TYPE:    fprintf(stderr, "imagtyp  Magnitude Type"); break;
+            case SAC_MAG_SRC:     fprintf(stderr, "imagsrc  Magnitude Source"); break;
+            default:
+                break;
+            }
+            fprintf(stderr, " \n");
+        }
+    }
+    exit(-1);
+}
+
 void
 output_header_list() {
-    fprintf(stderr,"Usage: saclst header_values f file_lists\n");
-    fprintf(stderr,"   ex. saclst delta npts kstnm f sacfile1 sacfile2\n");
+    fprintf(stderr, "Usage: saclst header_values f file_lists\n");
+    fprintf(stderr, "   ex. saclst delta npts kstnm f sacfile1 sacfile2\n");
     fprintf(stderr, "    All Values are case insensitive, except F\n");
     fprintf(stderr, "    If header_values = default  - All Defined Values, 2 Columns\n");
     fprintf(stderr, "    If header_values = default1 - All Defined Values, 1 Column\n");
     fprintf(stderr, "    If header_values = all      - All Values\n");
     fprintf(stderr, "    If header_values = Full     - All Values Formatted (capital F)\n");
     fprintf(stderr, "Available SAC Header Values\n");
-    fprintf(stderr, "    \t\tTime-series Values\n");
-    fprintf(stderr, "\tb e o a F ko ka kf\n");
-    fprintf(stderr, "\tnpts delta depmin depmax depmen scale nvhdr\n");
-    fprintf(stderr, "    \t\tStation and Event Values\n");
-    fprintf(stderr, "\tkstnm stlo stla stel stdp\n");
-    fprintf(stderr, "\tkevnm evlo evla evel evdp\n");
-    fprintf(stderr, "\tdist az baz gcarc khole\n");
-    fprintf(stderr, "\tkcmpnm knetwk kdatrd kinst cmpaz cmpinc\n");
-    fprintf(stderr, "\tiftype idep iztype iinst istreg ievreg ievtyp iqual isynth\n");
-    fprintf(stderr, "    \t\tTiming Values\n");
-    fprintf(stderr, "\tkzdate kztime odelta\n");
-    fprintf(stderr, "\tnzyear nzjday nzmonth nzday nzhour nzmin nzsec nzmsec\n");
-    fprintf(stderr, "    \t\tPicks, Response, and User Values\n");
-    fprintf(stderr, "\tt0    t1    t2    t3    t4    t5    t6    t7    t8    t9\n");
-    fprintf(stderr, "\tkt0   kt1   kt2   kt3   kt4   kt5   kt6   kt7   kt8   kt9\n");
-    fprintf(stderr, "\tresp0 resp1 resp2 resp3 resp4 resp5 resp6 resp7 resp8 resp9\n");
-    fprintf(stderr, "\tuser0 user1 user2 user3 user4 user5 user6 user7 user8 user9\n");
-    fprintf(stderr, "\tkuser0 kuser1 kuser2\n");
-
+    fprintf(stderr, "\tTime-series Values\n");
+    fprintf(stderr, "\t   b e o a F ko ka kf\n");
+    fprintf(stderr, "\t   npts delta depmin depmax depmen scale nvhdr\n");
+    fprintf(stderr, "\tStation and Event Values\n");
+    fprintf(stderr, "\t   kstnm stlo stla stel stdp\n");
+    fprintf(stderr, "\t   kevnm evlo evla evel evdp\n");
+    fprintf(stderr, "\t   dist az baz gcarc khole\n");
+    fprintf(stderr, "\t   kcmpnm knetwk kdatrd kinst cmpaz cmpinc\n");
+    fprintf(stderr, "\t   iftype idep iztype iinst istreg ievreg ievtyp iqual isynth\n");
+    fprintf(stderr, "\tTiming Values\n");
+    fprintf(stderr, "\t   kzdate kztime odelta\n");
+    fprintf(stderr, "\t   nzyear nzjday nzmonth nzday nzhour nzmin nzsec nzmsec\n");
+    fprintf(stderr, "\tPicks, Response, and User Values\n");
+    fprintf(stderr, "\t   t0    t1    t2    t3    t4    t5    t6    t7    t8    t9\n");
+    fprintf(stderr, "\t   kt0   kt1   kt2   kt3   kt4   kt5   kt6   kt7   kt8   kt9\n");
+    fprintf(stderr, "\t   resp0 resp1 resp2 resp3 resp4 resp5 resp6 resp7 resp8 resp9\n");
+    fprintf(stderr, "\t   user0 user1 user2 user3 user4 user5 user6 user7 user8 user9\n");
+    fprintf(stderr, "\t   kuser0 kuser1 kuser2\n");
+    fprintf(stderr, "\n");
+    fprintf(stderr, "\tFor a reference on enumerated values\n");
+    fprintf(stderr, "\t   - See the the SAC Data file Format in the User Manual \n");
+    fprintf(stderr, "\t   - saclst enums \n");
     exit(-1);
 }
 
@@ -396,14 +434,19 @@ main(int argc, char **argv) {
       fprintf(stderr,"Usage: saclst header_lists f file_lists\n");
       fprintf(stderr,"   ex. saclst delta npts kstnm f sacfile1 sacfile2\n");
       fprintf(stderr,"       saclst help - outputs a list of possible values\n");
+      fprintf(stderr,"       saclst enums - outputs a list of possible enumerated values\n");
       return -1;
   }
   def = all = full = 0;
 
   nl=0; argv++; argc--;
   while ( *argv[0] != 'f' ) {
-    if(strcasecmp("help", argv[0]) == 0)
+    if(strcasecmp("help", argv[0]) == 0) {
       output_header_list();
+    }
+    if(strcasecmp("enums", argv[0]) == 0) {
+      output_enums_list();
+    }
     struct hid *tmp = NULL;
     if((tmp = sac_keyword_to_header(argv[0], strlen(argv[0]))) != NULL) {
         ls[nl] = *tmp;
@@ -438,11 +481,11 @@ main(int argc, char **argv) {
 
                 if(full) {
                     if(j== SAC_DELTA) {
-                        printf(" REAL        INDEX  NAME        Int Value  Real Value\n");
+                        printf(" REAL        INDEX  NAME        Real Value Real Value\n");
                     } else if(j == SAC_YEAR) {
                         printf(" INTEGER     INDEX  NAME        Int Value  Int Value\n");
                     } else if(j == SAC_FILE_TYPE) {
-                        printf(" ENUMERATED  INDEX  NAME        Int Value  Enu Value\n");
+                        printf(" ENUMERATED  INDEX  NAME        Int Value  Enum Value\n");
                     } else if(j == SAC_EVEN) {
                         printf(" LOGICAL     INDEX  NAME        Int Value  Log Value\n");
                     } else if(j == SAC_STA) {
@@ -521,10 +564,12 @@ main(int argc, char **argv) {
                 printf("%12.6g", fpt);
                 break;
             case SAC_INT_TYPE:
+                sac_get_int(s, ls[j].id, &ipt);
+                printf("%10d", ipt);
             case SAC_ENUM_TYPE:
             case SAC_BOOL_TYPE:
                 sac_get_int(s, ls[j].id, &ipt);
-                printf("%10d", ipt);
+                printf("%10d/%s", ipt, sac_header_value_string(s, &ls[j], tmp, sizeof(tmp)));
                 break;
             case SAC_STRING_TYPE:
             case SAC_LONG_STRING_TYPE:

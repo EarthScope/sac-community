@@ -1,6 +1,8 @@
 SAC Tutorial Guide for New Users
 ++++++++++++++++++++++++++++++++
 
+.. contents :: TABLE OF CONTENTS
+
 OVERVIEW
 --------
 SAC was designed as an aid to research seismologists in the study of seismic
@@ -13,15 +15,15 @@ all of these parameters are under direct user control. This design combines
 ease of use with significant flexibility.
 
 
-README
-------
+**README**
+
 The first step is to study the README file that is in the top directory of
 the distribution: sac.  It gives detailed instructions about setting up the
 environmental variables necessary to run SAC and other pieces of useful
 information.
 
-USER INTERFACE
---------------
+**USER INTERFACE**
+
 SAC is an interactive command-driven program. Commands may be typed at the
 terminal or placed in a macro file. SAC commands fall into three main
 categories: parameter-setting, action-producing and data-set manipulation. The
@@ -41,8 +43,8 @@ When you start up SAC, default values are defined for all of these
 parameters. SAC can be reinitialized to this default state at any time
 by executing the INICM_ command.
 
-MODE OF OPERATION
------------------
+**MODE OF OPERATION**
+
 Each signal is stored in a separate data file. Each data file contains
 a header that describes the contents of that file. See the section on
 `sac data file format`_ for details. Signals are read from disk into
@@ -57,15 +59,15 @@ control over titles and labels, plot limits, file identifications,
 axes and tick mark locations, etc. You can also save the results of
 these operations at any time using the WRITE_ command.
 
-HOW SAC HANDLES TIME
---------------------
+**HOW SAC HANDLES TIME**
+
 The SAC header contains a reference or zero time, stored as six integers
 (NZYEAR, NZJDAY, NZHOUR, NZMIN, NZSEC, NZMSEC), but normally printed in an
 equivalent alphanumeric format (KZDATE and KZTIME). This can be set to any
 reference time you wish. It is often the time of the first data point, but can
 also be the origin time of the event, midnight, your birthday, etc. It does
 not even have to be a time encompassed by the data itself. All other times are
-offsets in seconds from this reference time and are stored as single-precision 
+offsets in seconds from this reference time and are stored as single-precision
 floating-point values in the header:
 
   :B:  Begin time of the file.
@@ -74,6 +76,13 @@ floating-point values in the header:
   :A:  First arrival time.
   :F:  Fini (end of signal.)
   :Tn: Time markers, where n is an integer from 0 to 9.
+
+**ANALYSIS CAPABILITIES**
+
+`SAC Analysis Capabilities`_ provides an introduction to these
+features.  `Command Reference Manual`_ lists all the commands and has
+links to help files for them.
+
 
 GETTING STARTED
 ---------------
@@ -89,8 +98,8 @@ prompt "SAC>".::
 
   SAC>
 
-INTERACTION
------------
+**INTERACTION**
+
 SAC is an interactive command driven program.  This means that you must
 type a command to get SAC to do something. It does not prompt you for input.
 Commands may be typed at the terminal or placed in a command file.
@@ -106,8 +115,8 @@ this function looks like on your screen type::
 
   SAC> PLOT
 
-ABBREVIATIONS
--------------
+**ABBREVIATIONS**
+
 There are abbreviations for the most used SAC commands. For
 example, `fg` and `p` are the abbreviations for FUNCGEN_ and PLOT_
 respectively.
@@ -115,8 +124,8 @@ respectively.
 For a complete listing of the abbrevations, please consult the ABBREV_
 help file or run `help abbrev` while in SAC
 
-CHANGING OPTIONS IN REPEATED CALLS TO SAC COMMANDS
---------------------------------------------------
+**CHANGING OPTIONS IN REPEATED CALLS TO SAC COMMANDS**
+
 As an example, the FUNCGEN_ command can generate a number of
 different functions. To see them, use the HELP_ command::
 
@@ -146,8 +155,8 @@ not given, SAC uses the most recently used value in the current
 session. (Sometimes one forget that an option had been used, so one
 may not correctly anticipate correctly the result of the operation.)
 
-DEFAULT VALUES
---------------
+**DEFAULT VALUES**
+
 All commands have "nice" default values for most options.  The use of
 current and default values for command options can save you a lot of typing.
 For example, let's look at the  BANDPASS_ command. This command applies a
@@ -184,8 +193,8 @@ generally be evenly spaced time series data.  SAC can also handle unevenly
 spaced data and spectral data.  The spectral data can be in either
 real-imaginary or amplitude-phase format.  Use help bandpass to see the defaults.
 
-SAC HEADER
-----------
+**SAC HEADER**
+
 Each data file also contains a header record which describes the contents of
 that file.  Certain header entries are always present (e.g., the number of
 data points, the file type.)  Others are always present for certain file
@@ -208,17 +217,17 @@ the INC or INCLUSIVE option (which includes undefined header variables).
 
 A few important header variables are listed below:
 
-NPTS    Number of points in data set.
-B       Beginning value of the independent variable.
-E       Ending value of the independent variable.
-IFTYPE  Type of file.
-LEVEN   TRUE if data set is evenly spaced.
-DELTA   Increment between evenly spaced samples.
-IDEP    Type of dependent variable.
-KZDATE  Alphanumeric form of GMT reference date.
-KZTIME  Alphanumeric form of GMT reference time.
-A       First arrival time (seconds relative to reference time.)
-T n     User defined time picks or markers,  n=0,9.
+  :NVHDR:   If 7, Double-precision used for internal calculations with header variables
+  :B:       Beginning value of the independent variable;
+  :IFTYPE:  Type of file;
+  :LEVEN:   TRUE if data set is evenly spaced;
+  :DELTA:   Increment between evenly spaced samples;
+  :IDEP:    Type of dependent variable;
+  :KZDATE:  Alphanumeric form of GMT reference date;
+  :KZTIME:  Alphanumeric form of GMT reference time;
+  :A:       First arrival time (seconds relative to reference time);
+  :T n:     User defined time picks or markers,  n=0,9.
+
 
 READING AND WRITING DATA FILES
 ------------------------------
@@ -344,12 +353,6 @@ Environment Module, and are defined in links frmon the `Command Reference Manual
 File `Graphics in SAC`_ has an overview of graphics in SAC.  Of paaricular interest
 may be the command SAVEIMG_ that allws one to save displayed plots in several formats.
 
-ANALYSIS CAPABILITIES
----------------------
-SAC does a lot more than just reading, writing, and plotting data files!
-`SAC Analysis Capabilities`_ provides an introduction to these features.
-`Command Reference Manual`_ lists all the commands and has links to help files for them.
-
 FLOATING-POINT PRECISION IN SAC
 -------------------------------
 
@@ -462,23 +465,23 @@ Figure (3) uses double precision for the internal calculations for times but use
 
 **Upgrade To Double Precision**
 
-Header variable NVHDR is the SAC version number.  For the past several decades 
+Header variable NVHDR is the SAC version number.  For the past several decades
 *NVHDR = 6*.  In SAC v102.0, the file structure has been changed to fix the
 precision problem.  The change is done in such a way that existing SAC
 files can be read and processed as before.
 
 The file structure when NVDHR = 7 is discussed in `sac data file format`_;
-when NVDHR = 7 there is a "footer" in the file structure that contains 
+when NVDHR = 7 there is a "footer" in the file structure that contains
 double-precision copies of 22 time/distance (single-precision) header variables.
 These 22 variables are DELTA, B, E, O, A, T0 ... T9, F, EVLO, EVLA, STLO, STLA,
-SB, and SDELTA. The names are the same as in the header; SAC distinguishes 
-between the single- and double-precision variables in internal calculations by 
-their location in the file. 
+SB, and SDELTA. The names are the same as in the header; SAC distinguishes
+between the single- and double-precision variables in internal calculations by
+their location in the file.
 
-If a SAC file with NVHDR = 6 is read into memory using SAC  v102.0, 
-double-precision copies of those 22 header variables are stored in memory, but 
-the single-precision version of those header variables is still used so long as 
-NVHDR = 6. However, if one enters *CH NVDHR 7*, one has the potential of 
+If a SAC file with NVHDR = 6 is read into memory using SAC  v102.0,
+double-precision copies of those 22 header variables are stored in memory, but
+the single-precision version of those header variables is still used so long as
+NVHDR = 6. However, if one enters *CH NVDHR 7*, one has the potential of
 changing the precision of variable like DELTA for internal calculations.
 
 **Important**
@@ -508,9 +511,9 @@ enough significant figures to distinguish between the values for NVHDR
         t0 = 3.333333333333333e-01
 
 If one ran the above macro in SAC v102.0 and entered *CH NVHDR 7 ; P1*
-one gets the same plot as is shown in Fig. (3).  If one then enters *SETBB 
+one gets the same plot as is shown in Fig. (3).  If one then enters *SETBB
 OUTPUT_FORNMAT longE ; LH*, one can see the differences in  T0, T1, T2, etc.
-See GETBB_ for more information about OUTPUT_FORMAT.  
+See GETBB_ for more information about OUTPUT_FORMAT.
 
 .. figure:: ./precision_fig4.png
    :width: 90%
@@ -553,6 +556,3 @@ uses signed integers, so the maximum value is :math:`2^{31}` - 1 =
 2,147,483,647.  If thesampling rate is 0.001 s, the maximum record
 length is 24.85 days.
 
-LATEST REVISION
----------------
-   Version 102.0

@@ -1,10 +1,12 @@
 Data Access
 +++++++++++
 
+.. contents :: TABLE OF CONTENTS
+
 OVERVIEW
 --------
 Starting in version 102.0, SAC is capable of viewing and downloading event,
-station, and response metadata and downloading waveforms from online 
+station, and response metadata and downloading waveforms from online
 Web services. These abilities include
 
     - event searches ( EVENT_ )
@@ -24,21 +26,68 @@ Event search results, EVENT_, can be used as
 input for timing and location in DATA_ and STATION_ seaches using
 assocaited event id. Examples are given below.
 
-The format for latitudes and longitudes is degrees.decimal-degrees.  Longitudes 
-run from -180.00 degrees to 180.00 degrees.  The formats used for time are given 
+The format for latitudes and longitudes is degrees.decimal-degrees.  Longitudes
+run from -180.00 degrees to 180.00 degrees.  The formats used for time are given
 at the end of this file.
 
-For repeated calls to most SAC command in a single session, the program 
-"remembers" previous values for options if not reset explicitly.  That 
-is not true for these commands; For any option not explicitly stated in each 
-call, the default is assumed.  If there is no default value for an option, it 
+For repeated calls to most SAC command in a single session, the program
+"remembers" previous values for options if not reset explicitly.  That
+is not true for these commands; For any option not explicitly stated in each
+call, the default is assumed.  If there is no default value for an option, it
 must be explicitly given.
 
-The SAC convention for units differs from others such as EVALRESP and SEED 
-that use SI units (meters, meters/sec, meters/sec/sec).  SAC uses nm for 
-displacement.  As discussed in TRANSFER_, unit conversions may be needed to 
-convert output files from instrument-corrections to get consistency between the 
+The SAC convention for units differs from others such as EVALRESP and SEED
+that use SI units (meters, meters/sec, meters/sec/sec).  SAC uses nm for
+displacement.  As discussed in TRANSFER_, unit conversions may be needed to
+convert output files from instrument-corrections to get consistency between the
 data and the SAC header parameter IDEP.
+
+TIME FORMATS
+------------
+Times are of the form *h:m:s* or *h:m:m.ms* where *h* is the hour, *m*
+the minute, *s* the seconds, and *ms* the millisecodnds. If the time
+is left out, the beginning of the day is used, i.e. *00:00:00.000*.
+
+Dates are in the form *Y-M-D* or *Y-O* where *Y* is the year, *M* the
+month, *D* the day of the month, and *O* the day of the year (or
+ordinal day). Separators for the date components include */*, *,*, and
+*-*.  Separators between the date and time is either a *T* or the date
+separator.
+
+========== ================== ==================
+Date Only  Date and Time      Date and Time
+========== ================== ==================
+Y/O        Y/OTh:m:s          Y/OTh:m:s.ms
+           Y/O/h:m:s          Y/O/h:m:s.ms
+Y-O        Y-OTh:m:s          Y-OTh:m:s.ms
+           Y-O-h:m:s          Y-O-h:m:s.ms
+Y,O        Y,OTh:m:s          Y,OTh:m:s.ms
+           Y,O,h:m:s          Y,O,h:m:s.ms
+Y/M/D      Y/M/DTh:m:s        Y/M/DTh:m:s.ms
+           Y/M/D/h:m:s        Y/M/D/h:m:s.ms
+Y-M-D      Y-M-DTh:m:s        Y-M-DTh:m:s.ms
+           Y-M-D-h:m:s        Y-M-D-h:m:s.ms
+Y,M,D      Y,M,DTh:m:s        Y,M,DTh:m:s.ms
+           Y,M,D,h:m:s        Y,M,D,h:m:s.ms
+========== ================== ==================
+
+Durations are of the form *[+-]###unit* where *+* is time forward and
+*-* is a time backwards from the reference time, *unit* are given
+below, and the *###* is an integer value.
+
+========== ===================
+Duration   Abbreviations
+========== ===================
+Seconds    s sec secs seconds
+Minutes    m min mins minutes
+Hours      h hrs hours
+Days       d days
+Weeks      w wk wks weeks
+Months     mon months
+Years      y yr yrs years
+Decades    dec decades
+Centuries  cent centuries
+========== ===================
 
 EVENT SEARCH
 ------------
@@ -59,7 +108,7 @@ will search the USGS Earthquake catalog by default::
 
 **Using the NOW keyword**
 
-Using the *NOW* keyword in place of the first date is useful in scripts so one 
+Using the *NOW* keyword in place of the first date is useful in scripts so one
 does not have to explicitly enter today's date.  Let's use *NOW* and also change
 the catalog to Global CMT::
 
@@ -306,7 +355,7 @@ command::
      traveltime: setting phase S        at 1128.5800 s [ t = 1128.5800 s ] t7
      traveltime: setting phase SKIKKIKP at 1935.6899 s [ t = 1935.6899 s ] t8
      traveltime: setting phase SKS      at 1160.1700 s [ t = 1160.1700 s ] t9
-     
+
      SAC> lh picks
 
        FILE: BK.CMB..BHZ.D.1994.160.003345.sac - 1
@@ -329,12 +378,7 @@ command::
             KZDATE = JUN 09 (160), 1994
             KZTIME = 00:33:45.400
 
-TIME FORMATS
-------------
-
-
-Teleseismic traveltime example
-------------------------------
+**TELESEISMIC TRAVELTIME EXAMPLE**
 
 Given a region of interest to conduct a teleseismic traveltime
 experiment, first find the events 30 to 90 degrees from the region of
@@ -370,51 +414,3 @@ traveltime data set using::
      SAC> traveltime online picks 0
      SAC> write over
 
-
-Times are of the form *h:m:s* or *h:m:m.ms* where *h* is the hour, *m*
-the minute, *s* the seconds, and *ms* the millisecodnds. If the time
-is left out, the beginning of the day is used, i.e. *00:00:00.000*.
-
-Dates are in the form *Y-M-D* or *Y-O* where *Y* is the year, *M* the
-month, *D* the day of the month, and *O* the day of the year (or
-ordinal day). Separators for the date components include */*, *,*, and
-*-*.  Separators between the date and time is either a *T* or the date
-separator.
-
-========== ================== ==================
-Date Only  Date and Time      Date and Time
-========== ================== ==================
-Y/O        Y/OTh:m:s          Y/OTh:m:s.ms
-           Y/O/h:m:s          Y/O/h:m:s.ms
-Y-O        Y-OTh:m:s          Y-OTh:m:s.ms
-           Y-O-h:m:s          Y-O-h:m:s.ms
-Y,O        Y,OTh:m:s          Y,OTh:m:s.ms
-           Y,O,h:m:s          Y,O,h:m:s.ms
-Y/M/D      Y/M/DTh:m:s        Y/M/DTh:m:s.ms
-           Y/M/D/h:m:s        Y/M/D/h:m:s.ms
-Y-M-D      Y-M-DTh:m:s        Y-M-DTh:m:s.ms
-           Y-M-D-h:m:s        Y-M-D-h:m:s.ms
-Y,M,D      Y,M,DTh:m:s        Y,M,DTh:m:s.ms
-           Y,M,D,h:m:s        Y,M,D,h:m:s.ms
-========== ================== ==================
-
-Durations are of the form *[+-]###unit* where *+* is time forward and *-* is a time backwards from the reference time, *unit* are given below, and the *###* is an integer value.
-
-========== ===================
-Duration   Abbreviations
-========== ===================
-Seconds    s sec secs seconds
-Minutes    m min mins minutes
-Hours      h hrs hours
-Days       d days
-Weeks      w wk wks weeks
-Months     mon months
-Years      y yr yrs years
-Decades    dec decades
-Centuries  cent centuries
-========== ===================
-
-
-LATEST REVISION
----------------
-   Version 102.0

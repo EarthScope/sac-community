@@ -1,20 +1,22 @@
 TRANSFER
 ++++++++
 
-SUMMARY
--------
+.. contents :: TABLE OF CONTENTS
+
+INTRODUCTION
+------------
 Performs deconvolution to remove an instrument response and
 convolution to apply another instrument response.
 
-SYNTAX
-------
+**SYNTAX**
+
 ::
 
   [TRANS]FER {FROM type {options}} , {TO type {options}} ,
         {FREQlimits f1 f2 f3 f4} , {PREWhitening ON|OFF|n}
 
-INPUT
------
+**INPUT**
+
    :FROM type:  Remove the instrument type by deconvolution using
        spectral division.
 
@@ -25,11 +27,11 @@ INPUT
        for both TO and FROM are listed in a table below.
 
    :DEFAULT VALUES:  TRANS FROM NONE TO NONE
-   
+
    There are additional options discussed below.
 
-DESCRIPTION
------------
+**DESCRIPTION**
+
    The default input and output "instrument" in TRANSFER is
    displacement, which in SAC is designated as NONE.  Hence, if a
    FROM type or a TO type is not specified, SAC assumes it to be
@@ -199,8 +201,8 @@ EVALRESP OPTION
   meters), which SAC scales internally by a factor of 1.0e9 to
   nanometers, the SAC convention for displacement units.
 
-EVALRESP EXAMPLES
------------------
+**EVALRESP EXAMPLE**
+
 
   To remove the instrument response from the seismogram in memory
   (assuming a response file exists)::
@@ -381,8 +383,8 @@ POLEZERO OPTION
   the current directory or in some other directory if one
   specifies the absolute or relative pathname.
 
-POLEZERO SEARCH
----------------
+**POLEZERO SEARCH**
+
 
   If a SUBTYPE with FILENAME is not set, SAC will search the current
   directory for SAC Polezero files named like::
@@ -432,8 +434,7 @@ POLEZERO SEARCH
      Using polezero response for DAWA, BHZ, XT, 01 from responses/SAC_PZs_XT_DAWA_BHZ_01_
      Station (DAWA    ), Channel (BHZ     )
 
-POLEZERO EXAMPLES
------------------
+**POLEZERO EXAMPLES**
 
   The PZ file SAC_PZs_XC_OR075_LHZ is the correct one to remove the
   instrument response from waveform OR075_LHZ.SAC.
@@ -500,8 +501,7 @@ FAPfile OPTION
   The format of a FAP file is consistent with that produced by the standalone
   program EVALRESP, but is different from the format used by SAC2000.
 
-FAP EXAMPLES
-------------
+**FAP EXAMPLES**
 
   Suppose one has a fapfile fap.n11a.lhz_0.006-0.2, where the name is a
   short-hand for the fact that the frequency range is fro m0.006 HZ
@@ -521,8 +521,8 @@ FAP EXAMPLES
   EVALRESP, the units need to be converted from SI units (meters for
   displacement) to the SAC convention.
 
-TABLE OF AVAILABLE INSTRUMENT TYPES
------------------------------------
+AVAILABLE INSTRUMENT TYPES
+--------------------------
 
 ========== ==================================================
 ACC        acceleration [+]
@@ -580,8 +580,7 @@ YKASP      Blacknest specification of YKA short period
   **NOTE** [ ++ ] EVALRESP and POLEZERO do not refer to actual seismometer
   specifications. They are described in greater detail above.
 
-INSTRUMENT TYPE OPTIONS
------------------------
+**INSTRUMENT TYPE OPTIONS**
 
 :SUBTYPE: the following instrument types use the following subtypes:
 
@@ -614,8 +613,7 @@ INSTRUMENT TYPE OPTIONS
 
 :HIGHPASS v:    REFTEK
 
-EXAMPLES
---------
+**EXAMPLES**
 
   To remove the instrument response from the RSTN station NYKM.Z
   and apply the instrument response for DSS without prewhitening
@@ -641,21 +639,23 @@ EXAMPLES
       SAC>  READ XYZ.Z
       SAC>  TRANSFER FROM ELMAG FREEP 15. MAG 750. TO NONE
 
-ACKNOWLEDGEMENTS
-----------------
+______________________________________
+
+**ACKNOWLEDGEMENTS**
+
   Roger Hanscom did the original conversion of Keith
   Nakanishi's TRANSFER program. George Randall added the prewhitening
   option and was a major contributor to the testing and documentation of
   this command.  Doug Dodge included the EVALRESP option.
 
-HEADER CHANGES
---------------
+**HEADER CHANGES**
+
  - idep
  - depmin, depmax, depmen
 
 
-LATEST REVISION
----------------
+**LATEST REVISION**
+
    Version 102.0: In versions prior to 101.5, if the header
    variable SCALE was defined, it might be used in scaling the output and
    would be changed.  In this version, SCALE is ignored.
