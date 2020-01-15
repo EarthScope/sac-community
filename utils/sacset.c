@@ -92,11 +92,22 @@ main(int argc, char *argv[]) {
     int files = 0;
     timespec64 t = {0,0};
     timespec64 t0 = {0,0};
-    
+
+    // Function pointers to sac_read_header and sac_write_header
+    // If the header value needs to be changed, then the
+    //    full file needs to be read and written
+    sac * (*readf)(char *filename, int *nerr)         = sac_read_header;
+    void (*writef)(sac *s, char *filename, int *nerr) = sac_write_header;
+
     for(i = 1; i < argc; i++) {
         if(strcmp(argv[i], "-v") == 0 ||
            strcmp(argv[i], "--verbose") == 0) {
             verbose = 1;
+        } else if(strcasestr(argv[i], "-nvhdr") != NULL) {
+            // Read and Write the full file
+            // Set function pointers to sac_read() and sac_write()
+            readf  = sac_read;
+            writef = sac_write;
         } else if(argv[i][0] != '-') {
             files++;
         }
@@ -109,7 +120,7 @@ main(int argc, char *argv[]) {
         if(argv[j][0] == '-') {
             continue;
         }
-        if((s = sac_read_header(argv[j], &nerr)) == NULL) {
+        if((s = readf(argv[j], &nerr)) == NULL) {
             printf("File not found, skipping: %s\n", argv[j]);
             continue;
         }
@@ -158,7 +169,10 @@ main(int argc, char *argv[]) {
             /* Set the header value to 'val' */
             switch(h->type) {
             case SAC_FLOAT_TYPE:
-                if(sac_is_timeval(h->id) && timespec64_parse(val, &t)) {
+                if(h->id == SAC_O && timespec64_parse(val, &t)) {
+                    sac_set_time(s, t);
+                    break;
+                } else if(sac_is_timeval(h->id) && timespec64_parse(val, &t)) {
                     if(! sac_get_time_ref(s, &t0)) {
                         printf("error setting time for %s = %s (no reference time set)\n", key, val);
                         continue;
@@ -240,7 +254,7 @@ main(int argc, char *argv[]) {
                 printf("\t%-12s %s\n", key, val);
             }
         }
-        sac_write_header(s, argv[j], &nerr);
+        writef(s, argv[j], &nerr);
         sac_free(s);
         s = NULL;
     }
