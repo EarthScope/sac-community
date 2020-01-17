@@ -64,10 +64,11 @@ DESCRIPTION
 
   Time ranges can be set using a variety of formats, see examples
   below. End times can be set using a relative value with units.
+  See `DATA ACCESS`_ for time formats.
 
   Event IDs are saved and can be used to identify origin times and
   locations in similar searching commands.  They can also be used to
-  set sac file meta data for an event.
+  set SAC file metadata for an event.
 
 EXAMPLES
 --------
@@ -112,8 +113,8 @@ around 120 W, 38 N::
    Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
    1989-10-18T00:04:15  37.04 -121.88  17.21 6.90 mh  NC/NC usgs:nc216859
 
-Event Identifiers
------------------
+Event Identifiers (eventid)
+---------------------------
 
 Events can be referenced in other commands using a unique identifier.
 The identifier is defined by *source:uniqueid*.  Where the *source* is
@@ -135,7 +136,7 @@ ERROR MESSAGES
 
 SEE COMMANDS
 ------------
-   STATION_, DATA_, RESPONSE_, METADATA_
+   STATION_, DATA_, RESPONSE_, METADATA_, `DATA ACCESS`_
 
 LATEST REVISION
 ---------------

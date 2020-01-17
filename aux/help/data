@@ -43,7 +43,7 @@ INPUT
 
    :origin: Set the origin location: lon lat
 
-   :radial: Set the radial limits in degrees: min_radius max_radius
+   :radial: Set the radius limits in degrees: min_radius max_radius
 
    :time: Set the start and end times. End times can be set relatively
 
@@ -93,13 +93,14 @@ DESCRIPTION
   allow downloading data in reasonable sizes.
 
   Time ranges can be set using a variety of formats, see examples
-  below. End times can be set using a relative value with units.
+  below. End times can be set using a relative value with units.  See `Data
+  Access`_ for time formats.
 
-  Event IDs from EVENT_ can be used to identify origin times and
+  EventID from EVENT_ can be used to identify origin times and
   locations.  They will also be used to set sac file meta data for an
   event.
 
-  MiniSEED filenames will be defined on when the request was made and
+  MiniSEED filenames will be defined when the request was made and
   the data center to which the request was made. Use *prefix* to set
   the starting portion of miniSEED files.
 
@@ -116,7 +117,7 @@ Let's get some data from station HELL, channels BHZ, from 2013/05/21 for a singl
 
   No Data Downloaded, use miniSEED, sac, or read to download data
 
-You will notice the request is displayed to the screen but the data
+Note that the request is displayed to the screen but the data
 was not download.  If you desire a saved, fuller version of the
 request, use the *out* option to save the request.  If you want the
 data, run the same command again with
@@ -126,8 +127,8 @@ data, run the same command again with
   - *read* to place the data into memory
 
 These options can be used individually or together. You can download data into
-sac files and place those files into memory using the *sac* and *read* options
-together. For now, lets just get miniSEED data by appending the the *miniSEED*
+SAC files and place those files into memory using the *sac* and *read* options
+together. For now, let's just get miniSEED data by appending the the *miniSEED*
 option::
 
   SAC> data sta HELL cha BHZ net * loc * time 2013/05/21 +1h miniSEED
@@ -136,7 +137,7 @@ option::
 
 The data is written to a file with the prefix *fdsn*, the time of the request,
 the data center which provided the data, and a *mseed* extension.  Note, the
-time in the file name does not relate to relate to the data within the file.
+time in the file name has no relation to the data within the file.
 
 Alternatively, if the request was saved to a file called *request.txt* the
 data can be obtained using::
@@ -206,7 +207,7 @@ ERROR MESSAGES
 
 SEE COMMANDS
 ------------
-   STATION_, EVENT_, RESPONSE_, METADATA_
+   STATION_, EVENT_, RESPONSE_, METADATA_, `DATA ACCESS`_
 
 LATEST REVISION
 ---------------

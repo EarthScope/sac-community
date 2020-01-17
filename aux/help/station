@@ -86,6 +86,7 @@ DESCRIPTION
   Searching can be done geographically using a Region or Radial
   search.  For the Radial search the origin location (Lon, Lat) needs
   to be specified using either the Origin option or from an id:eventid.
+  See EVENT_ for a discussion of eventid.
 
   Setting the Time for a search can be done using two times, start and end,
   or using start and a relative offset.
@@ -163,14 +164,14 @@ been operating since the mid-1990s and has multiple time periods::
    IU  ANMO   34.9459 -106.4572 1850.00 Albuquerque, New Mexico, USA
 
    SAC> station net IU sta ANMO epochs on showtimes
-   Net Sta   Lat.     Lon.      Elev.   TimeOn              TimeOff             
-   IU  ANMO   34.9459 -106.4572 1850.00 1989-08-29T00:00:00 1995-07-14T00:00:00 
+   Net Sta   Lat.     Lon.      Elev.   TimeOn              TimeOff
+   IU  ANMO   34.9459 -106.4572 1850.00 1989-08-29T00:00:00 1995-07-14T00:00:00
    IU  ANMO   34.9459 -106.4572 1850.00 1995-07-14T00:00:00 2000-10-19T16:00:00
    IU  ANMO   34.9502 -106.4602 1839.00 2000-10-19T16:00:00 2002-11-19T21:07:00
    IU  ANMO   34.9459 -106.4572 1820.00 2002-11-19T21:07:00 2008-06-30T00:00:00
    IU  ANMO   34.9459 -106.4572 1820.00 2008-06-30T00:00:00 2008-06-30T20:00:00
-   IU  ANMO   34.9459 -106.4572 1820.00 2008-06-30T20:00:00 2599-12-31T23:59:59 
-   
+   IU  ANMO   34.9459 -106.4572 1820.00 2008-06-30T20:00:00 2599-12-31T23:59:59
+
 (To fit on the page, the last column *SiteName* is left out.  For all of
 them it is *Albuquerque, New Mexico, USA*.)
 

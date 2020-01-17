@@ -31,7 +31,7 @@ INPUT
 
    :time time-of-data:  Set a specific time that the response includes
 
-   :time start end:  Set the time range to download responses 
+   :time start end:  Set the time range to download responses
 
    :verbose:  Watch the details of the response download process
 
@@ -54,33 +54,36 @@ DESCRIPTION
    - kcmpnm (Component)
    - kzdate/kztime (Absolute time of the data, Optional)
 
-An example of getting the response for XE.DOOR..BHZ in either sacpz or evalres::
+An example of getting the response for XE.DOOR..BHZ in either sacpz or
+evalresp::
 
     SAC> r XE.DOOR..BHZ.M.1994.160.003345.sac
     SAC> response
-    Writing data to SAC_PZs_XE_DOOR__BHZ_1994-06-09T00:33:45_1994-06-09T01:33:44 [  1.02 KiB]
+    Writing data to
+    SAC_PZs_XE_DOOR__BHZ_1994-06-09T00:33:45_1994-06-09T01:33:44 [  1.02 KiB]
     SAC> response evalresp
     Writing data to RESP.XE.DOOR..BHZ [ 49.80 KiB]
     SAC>
 
- For specific responses, use the net, sta, loc, and cha options::
+For specific responses, use the net, sta, loc, and cha options::
 
     SAC> response resp net BK sta BKS loc * cha BHZ
     Writing data to RESP.BK.BKS..BHZ [ 73.52 KiB]
 
- Time Range: If no time period is specified, then the total duration is requested.
+Time Range: If no time period is specified, then the total duration is requested.
+See `DATA ACCESS`_ for time formats.
 
- Wildcards are possible only in the location and channel command options.
+Wildcards are possible only in the location and channel command options.
 
- Output file names are in the form of:
+Output file names are in the form of:
 
     - SAC_PZs_net_sta_loc_cha_time
     - SAC_PZs_net_sta_loc_cha_start_end
     - RESP.net.sta.loc.cha
 
- If any of the parts (net, sta, loc, or cha) are wildcards, they are left
- blank in the filename. If the file already exists, a period with a number
- is appended to the filename, e.g.::
+If any of the parts (net, sta, loc, or cha) are wildcards, they are left
+blank in the filename. If the file already exists, a period with a number
+is appended to the filename, e.g.:
 
     - RESP.BK.BKS..BHZ
     - RESP.BK.BKS..BHZ.0
@@ -95,7 +98,7 @@ ERROR MESSAGES
 
 SEE COMMANDS
 ------------
-   STATION_, DATA_, METADATA_, EVENT_
+   STATION_, DATA_, METADATA_, EVENT_, `DATA ACCESS`_
 
 LATEST REVISION
 ---------------

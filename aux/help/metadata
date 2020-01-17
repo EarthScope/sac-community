@@ -3,9 +3,9 @@ METADATA
 
 SUMMARY
 -------
-Metadata is data about data content and is critical for analysis of timeseries 
-data such as seismic data. IRIS has various web-based tools that allow users to 
-query, view, and download metadata.  This command allows one to insert available 
+Metadata is data about data content and is critical for analysis of timeseries
+data such as seismic data. IRIS has various web-based tools that allow users to
+query, view, and download metadata.  This command allows one to insert available
 metadata into SAC data files.
 
 SYNTAX
@@ -46,7 +46,7 @@ DESCRIPTION
   added if the event is specified as an command option.
 
   Metadata for the station includes
-  
+
     - stla:    Station Latitude
     - stlo:    Station Longitude
     - stel:    Station Elevation (in meters)
@@ -55,7 +55,7 @@ DESCRIPTION
     - cmpinc:  Component Inclination (See discussion below)
 
   Metadata for the event includes
-  
+
     - evla:  Event Latitude
     - evlo:   Event Longitude
     - evel:   Event Elevation (always 0.0)
@@ -106,8 +106,8 @@ KSTNM, KHOLE, KCMPNM) need to be defined::
 
 **Adding Station Metadata from a file**
 
-If the metadata exists in a text or xml file this information can be
-applied to existing files.  Input data files must have channel level
+If the metadata exists in a .txt or .xml file, this information can be
+applied to existing data files.  Input data files must have channel level
 metadata. ::
 
      SAC> read YE.SPOLE..BHZ.M.2013.304.000000.sac
@@ -136,8 +136,9 @@ metadata. ::
 **Adding Event Metadata**
 
 Event metadata can be added to a data file by issuing the metadata command
-with an specified eventid, here we use an eventid of gcmt:3279407.  Station
-metadata will also automatically be added::
+with a specified eventid, here we use an eventid of gcmt:3279407.  (See EVENT_
+for a discussion of EventID.)  Station metadata will also automatically be
+added::
 
      SAC> event time now -10y mag 9 gcmt
      Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
@@ -162,8 +163,8 @@ metadata will also automatically be added::
          kevnm = gcmt:3279407
 
 Alternatively, event metadata can be added at the time of downloaning data by
-specifying an eventid and converting to sac or reading the data into
-memory.  The example below uses the eventid of gcmt:3279407::
+specifying an eventid and converting to SAC or reading the data into
+memory.  The example below uses the eventid gcmt:3279407::
 
      SAC> data gcmt:3279407 net II sta BORG cha BHZ loc '00' dur 1min read
      Data Center: IRISDMC,http://ds.iris.edu
@@ -197,10 +198,10 @@ Up          -90.0            0.0
 Down         90.0            180.0
 =========== ================ ======
 
-Data retrieved automatically is handled correctly and the conversion is 
-seamless.  For metadata from a file specified by the *file metadata_file* 
-command option, the type of file determines if the component is define as a dip 
-(miniSEED) or inclination (SAC).  This is the same convection used in mseed2sac 
+Data retrieved automatically is handled correctly and the conversion is
+seamless.  For metadata from a file specified by the *file metadata_file*
+command option, the type of file determines if the component is define as a dip
+(miniSEED) or inclination (SAC).  This is the same convection used in mseed2sac
 <https://seiscode.iris.washington.edu/projects/mseed2sac> for consistency.
 
 ========== =========== =================== ================
@@ -241,9 +242,6 @@ the following order (the same as mseed2sac)
   - Sample Rate          (ignored)
   - Start time
   - End time
-
-ERROR MESSAGES
---------------
 
 SEE COMMANDS
 ------------

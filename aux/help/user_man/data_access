@@ -11,20 +11,43 @@ Web services. These abilities include
 
     - event searches ( EVENT_ )
     - station searches ( STATION_ )
-    - data searches ( DATA_ )
-    - download data ( DATA_ )
-    - applying station meta-data to data ( METADATA_ )
-    - applying event meta-data to data ( METADATA_ )
-    - reading miniseed ( READ_ )
+    - data: searches and downloading ( DATA_ )
+    - applying station and/or event meta-data to data ( METADATA_ )
+    - reading miniseed directly into SAC ( READ_ )
     - download instrument responses ( RESPONSE_ )
-    - traveltime data ( TRAVELTIME_ )
+    - traveltime data using the the IRIS Traveltime Web Service ( TRAVELTIME_ )
+
+**Definitions**
+
+  Currently (2020), as described on the IRIS DMC Web Service Web page
+   <https://service.iris.edu>:
+
+     - **miiniSEED** is the subset of the SEED standard that is used for time
+       series  data. Very limited metadata for the time series is included in
+       miniSEED beyond time series identification and simple state-of-health
+       flags. In particular, geographic coordinates, response/scaling
+       information and other information needed to interpret the data values are
+       not included.
+
+     - **FDSN StationXML**, which defines an XML representation of the most
+       important and commonly used structures of SEED 2.4 metadata with
+       enhancements.
+
+     - **PH5 Web Services**: These services are designed to provide an interface
+       to time series datasets, related station metadata, and active
+       (controlled) source event (shot) information stored in the PH5 data
+       archive.
+
 
 Web requests are made to the colletion of Web Services at
 `<http://service.iris.edu>`_ along with event searches through the
 `USGS <http://earthquake.usgs.gov>`_ and `ISC <http://www.isc.ac.uk>`_.
-Event search results, EVENT_, can be used as
-input for timing and location in DATA_ and STATION_ seaches using
-assocaited event id. Examples are given below.
+
+Event search results, EVENT_, can be used as input for timing and
+location in DATA_ and STATION_ seaches using assocaited event
+id. Examples are given below.
+
+An **eventid** is defined by *source:uniqueid*. See EVENT_ for more details.
 
 The format for latitudes and longitudes is degrees.decimal-degrees.  Longitudes
 run from -180.00 degrees to 180.00 degrees.  The formats used for time are given
@@ -32,7 +55,7 @@ at the end of this file.
 
 For repeated calls to most SAC command in a single session, the program
 "remembers" previous values for options if not reset explicitly.  That
-is not true for these commands; For any option not explicitly stated in each
+is **not** true for these commands; For any option not explicitly stated in each
 call, the default is assumed.  If there is no default value for an option, it
 must be explicitly given.
 
@@ -71,9 +94,9 @@ Y,M,D      Y,M,DTh:m:s        Y,M,DTh:m:s.ms
            Y,M,D,h:m:s        Y,M,D,h:m:s.ms
 ========== ================== ==================
 
-Durations are of the form *[+-]###unit* where *+* is time forward and
-*-* is a time backwards from the reference time, *unit* are given
-below, and the *###* is an integer value.
+Durations are of the form *[+-]###unit* where *+* is time forward and *-*
+is a time backwards from the reference time, *unit* are given below,
+and the *###* is an integer value.
 
 ========== ===================
 Duration   Abbreviations
@@ -314,8 +337,8 @@ metadata using the METADATA_ command::
            evla = -1.382000e+01
            evdp = 6.471000e+02
 
-RESPONSES
----------
+INSTRUMENT RESPONSES
+--------------------
 
 Responses for specific files is also simple with files read into
 memory. Responses can be obtained in sacpz or evalresp format.::
@@ -329,8 +352,8 @@ memory. Responses can be obtained in sacpz or evalresp format.::
      Writing data to RESP.XE.DOOR..BHZ [ 49.80 KiB]
 
 
-TRAVELTIMES
------------
+COMPUTING TRAVELTIMES
+---------------------
 
 Traveltimes can also be retrieved and set using the traveltime Web
 Service at IRIS. Just specific the *ONLINE* keyword to the TRAVELTIME_
@@ -413,4 +436,23 @@ traveltime data set using::
      SAC> metadata %PWD
      SAC> traveltime online picks 0
      SAC> write over
+
+
+RDSEED - End of Life
+====================
+
+   Before 2010, the majority of data analysis was done on data sets commonly
+   exchanged as SEED volumes, which could be downloaded from the IRIS Data
+   Management Center over the Internet.  For the SEED manual, go to
+   <http://www.fdsn.org/seed_manual/SEEDManual_V2.4.pdf>.
+
+   Program RDSEED is a legacy utility for reading SEED volumes. This utility
+   allows the user to read the contents of the SEED file and convert it to many
+   different output formats (including SAC), extracting the data, station
+   information, or instrument responses from the file.  Although Seed volumes
+   remains the FDSN-approved file format for representing and distributing
+   digital seismic data, RDSEED is *End of Life* and no longer supported at IRIS
+   It has now been made an open-source project on GitHub
+   <https://github.com/iris-edu-legacy/rdseed>.  For further details on RDSEED,
+   go to <http://ds.iris.edu/ds/nodes/dmc/software/downloads/rdseed/5-3-1-eol/>.
 
