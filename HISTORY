@@ -24,12 +24,12 @@ between SAC versions.  An overview of these are in file CHANGES.
              Will search for a polezero file if not provided or if a wild-card *
              is used.  See help file TRANSFER for examples.
         * FEATURE: sacset - new program to set sac header values.  See
-             sac/utils/README_utils for description
+             utils/README for description
         * FEATURE: sac file (binary and alpha) I/O now uses BSD-Licensed library
         * FEATURE: CONVOLVE - major function changes  See help file CONVOLVE
         * FEATURE: Remove Memory Limits: The "Max files: reading first 1000" Bug
-        * FEATURE: SACAUX Magic: Tries to determine location if SACAUX is not set
-             as an environmental variable.  See sac/README for procedure
+        * FEATURE: SACAUX Magic: Try to determine location if SACAUX is not set
+             as an environmental variable.  See ./README for procedure
         * FEATURE: Added ROTINC command  (Frederik Tilmann)
              Rotate a set of 3 perpendicular components either around the
              vertical direction or around the Transverse direction.  For the
@@ -129,7 +129,8 @@ between SAC versions.  An overview of these are in file CHANGES.
         * BUG FIX: Updated error handling for RMS
         * BUG FIX: funcgen: Make sure npts and num-files are positive
         * BUG FIX: lclist now return an error for multiple matches
-        * BUG FIX: Handle bad reads properly for Binary Operations Module (addf,subf, ...)
+        * BUG FIX: Handle bad reads properly for Binary Operations Module
+                   (addf,subf, ...)
         * BUG FIX: Terminate help file string
         * BUG FIX: filterdesign: Proper argument check
         * BUG FIX: Remove common global variables from headers
@@ -148,10 +149,15 @@ between SAC versions.  An overview of these are in file CHANGES.
         * BUG FIX: Make sure long color names do not cause trouble
         * BUG FIX: Increased precision for time calculations in cut
         * BUG FIX: Increased precision for time calculations in merge
-        * BUG FIX: Command arugment [ round(token)-token ] <= 1e-4 ==> round(token), otherwise floating point
-        * BUG FIX: Make reading of SEGY I/O files only read in Big Endian byte order
+        * BUG FIX: Command arugment [ round(token)-token ] <= 1e-4 ==>
+                   round(token), otherwise floating point
+        * BUG FIX: Make reading of SEGY I/O files only read in Big Endian byte
+                   order
         * BUG FIX: Fix to writing two componets in sac-binary
         * BUG FIX: Improved testing coverage
+        * CLEANING UP:  In version 105 we de-activated the SCAL header variable,
+                        but it was still listed and referenced in several HELP
+                        files.  Hopefully all references are gone now.
 
 2013/11: Version 101.6a Released
 
@@ -280,33 +286,33 @@ between SAC versions.  An overview of these are in file CHANGES.
               Parse a color number or color name
         * BUG FIX: Added string utilities
              - lstrip, rstrip, strip, strcut
-        * UPDATE:  In the Hilbert help file, a limitation of this application 
+        * UPDATE:  In the Hilbert help file, a limitation of this application
           is described.
-        * BUG FIX: Removed the faq help file because it was out of date and 
+        * BUG FIX: Removed the faq help file because it was out of date and
           not very relevant
         * ENHANCE: Added a time-shift macro to the lowpass help file
-        * BUG FIX: Corrected errors in KEVNM when there are > 8 characters 
+        * BUG FIX: Corrected errors in KEVNM when there are > 8 characters
           - A. Kasahara
-        * ENHANCE: More explicit error messages for input format errors in 
+        * ENHANCE: More explicit error messages for input format errors in
           polezero file.
         * BUG FIX: FAP option in TRANSFER error when FAP file had freq(1) = 0.
            Fixed src/icm/fap.c so does not include zero frequency.
         * BUG FIX: Spectrogram output when changing ymin-ymax range
-        * UPDATE:  In saveimg, for PS and PDF, do not draw background fill if 
-          it is white.  This means that the option alpha off must be used in 
+        * UPDATE:  In saveimg, for PS and PDF, do not draw background fill if
+          it is white.  This means that the option alpha off must be used in
           programs like imagemagick/display.
-        * UPDATE: Minor changes to the 10 linestyles so consistent among all 
-          graphics devices (previously, only four were available on some 
-          devices).  Lengthened line segments in fileid location -- 
+        * UPDATE: Minor changes to the 10 linestyles so consistent among all
+          graphics devices (previously, only four were available on some
+          devices).  Lengthened line segments in fileid location --
           previously too short to distinguish among them
-        * UPDATE: Update to Readme.buildsac to incorporate information 
-          regarding memory checkers and changes to the source affecting the 
+        * UPDATE: Update to Readme.buildsac to incorporate information
+          regarding memory checkers and changes to the source affecting the
           consistency of the testsuite when
           compiling with either gcc, clang, or optimized version of gcc or clang
           - gcc 4.2.1 (Apple Build 5666)
           - clang 3.1
         * UPDATE: Added FREE(x) macro to check if memory is defined
-        * UPDATE: Added upward-pointing vertical direction to file_format 
+        * UPDATE: Added upward-pointing vertical direction to file_format
           - C.Tape
         * UPDATE:  Updates from v101.5c from A. Snoke
           - Documentation Updates
@@ -316,9 +322,9 @@ between SAC versions.  An overview of these are in file CHANGES.
             textbox: make sure text strings exist before plotting and using
             set filename to the first display id, always
           - wsac3() changed to wsac0() is doc/examples/
-          - File pointer did not get put back to the beginning of the file 
+          - File pointer did not get put back to the beginning of the file
             in PDF writing
-          - Print warning for interpolate if new delta is greater than 
+          - Print warning for interpolate if new delta is greater than
             current delta and delta is even
           - If master file is the shorter length file, then a out of bound error
             occurs, possibly causing a segmentation fault.  Fix by only copying
@@ -336,17 +342,17 @@ between SAC versions.  An overview of these are in file CHANGES.
         * UPDATE:  Moved rstrip() and lstrip() into bot/indexb.c
           - co/zopens.c and co/znfiles.c now take a filename
             copy it and strip all whitespace to the right.
-        * UPDATE:  Introduction of strcut() to extract a string from a 
+        * UPDATE:  Introduction of strcut() to extract a string from a
           Fortran character array
           Results is null-terminated and user must free the string
           Removed many of the messy constructs like:
             strncpy((str = malloc(ic2-ic1+2)),in+ic1,ic2-ic1+1);
             str[ic2-ic1+1]='/0';
-        * BUG FIX: gcc -Wall -Wextra -O2, 
+        * BUG FIX: gcc -Wall -Wextra -O2,
           clang Address Sanitizer, valgrind, clang Static Analyzer
-          - Pointer Deferences 
+          - Pointer Deferences
           - Memory Leaks
-          - Comment out / remove sections of unused code 
+          - Comment out / remove sections of unused code
           - Initialize Variables
           - Fixes for gcc -Wextra, mostly comparision of signed and unsigned int
           - Fixes to correct gcc -Wall warnings except in libtau
@@ -354,55 +360,55 @@ between SAC versions.  An overview of these are in file CHANGES.
         * BUG FIX: Line Styles:
           - Make the maximum number of linestyles to loop over to be 10, it was 4
           - Modify PDF, PS, and X11 to have the same line styles as SGF.
-          - Always use drawpoly in src/gdm/polyline.c otherwise linestyles 
+          - Always use drawpoly in src/gdm/polyline.c otherwise linestyles
             are not plotted correclty
             Linestyles were destroyed as each point is plotted individually
           - PNG will match X11
-        * BUG FIX: Postscript Plotting: Changed ps_moveto() and ps_lineto() 
+        * BUG FIX: Postscript Plotting: Changed ps_moveto() and ps_lineto()
           from int to float for "more correct" and "better looking" plots
         * BUG FIX: FileID
-          Edit location and length symbols and line segments in FILEID for 
+          Edit location and length symbols and line segments in FILEID for
           PDF and PS
           Testsuite should include tests of the output formats
           - line inc on
           - symbol inc on
-        * BUG FIX: Fix for failure on strncpy() that exceeds the size of 
+        * BUG FIX: Fix for failure on strncpy() that exceeds the size of
           destination string
           in src/fdm/rcdi.c for KEVNM.  Uses memcpy()
-        * BUG FIX: Fix warnings about "error: initializer element is not 
+        * BUG FIX: Fix warnings about "error: initializer element is not
           constant" (llvm-gcc-4.2 on OSX 10.7)
-        * BUG FIX: Initialize runtext in src/co/zrun.c so that subscpy() can 
+        * BUG FIX: Initialize runtext in src/co/zrun.c so that subscpy() can
           determine the length of output string
         * BUG FIX: changestring() and deletestring() now do not call strcut() if
           the start is after the end (or the end if before the start)
           strcut() reports errors directly to standard output
-        * BUG FIX: Fix logic in funcgen command as to how time in calculated 
-          to avoid round off-errors.  Has implications to tests that use the 
+        * BUG FIX: Fix logic in funcgen command as to how time in calculated
+          to avoid round off-errors.  Has implications to tests that use the
           funcgen command to generate data.
           Round off error was also fixed in
           - src/scm/lifite.c (linear least squares fit)
           - src/scm/xrtr.c (remove trend)
-        * BUG FIX: Check output of dblMergeTrees(). If output is the tree to 
-          be merged, then do not delete the tree as the parent tree did not 
-          exist.  If the output and the merge tree are different then delete 
+        * BUG FIX: Check output of dblMergeTrees(). If output is the tree to
+          be merged, then do not delete the tree as the parent tree did not
+          exist.  If the output and the merge tree are different then delete
           the tree.
         * BUG FIX: Fix to buffer overruns found using clang Address Sanitizer
         * BUG FIX: Fixes for memory leaks and pointer dereference in evalresp
         * BUG FIX: Realloc correction in src/SeisMgr/gse/GSEWaveforms.c
-        * BUG FIX: Set *ncurves = jdx+1 as the number of phases increases.  
-          The total number of phases is required to know how many to 
-          release at the end. src/sss/xtraveltime.c 
+        * BUG FIX: Set *ncurves = jdx+1 as the number of phases increases.
+          The total number of phases is required to know how many to
+          release at the end. src/sss/xtraveltime.c
         * BUG FIX: Macro KYES did not work if the KEY was Capitialized
            not case sensitive in
           src/ncpf/macrokeyword.c
-        * BUG FIX: Return with error if Freq, Amplitude or Phase is NULL 
+        * BUG FIX: Return with error if Freq, Amplitude or Phase is NULL
           src/icm/fap.c
-        * BUG FIX: If input string the strcasestr_bsd() is NULL reutrn NULL 
+        * BUG FIX: If input string the strcasestr_bsd() is NULL reutrn NULL
           src/icm/polezero.c
         * BUG FIX: Fix typo ygridmn -> ygrdmin in src/gtm/ylinaxis.c
         * BUG FIX: Fix call to setlinestyle() in src/gtm/xlogaxis.c
         * BUG FIX: Changed xlf to xloc (typo)
-        * BUG FIX: Changed unused to 1.0 in call to setsgfsize() 
+        * BUG FIX: Changed unused to 1.0 in call to setsgfsize()
           src/gam/xsgf.c
         * BUG FIX: Do not putfil() if there is an error in src/exm/xfg.c
         * BUG FIX: Error recovery in src/dfm/xsort.c
@@ -410,31 +416,31 @@ between SAC versions.  An overview of these are in file CHANGES.
          * BUG FIX: Logic reorganization in src/dfm/defcut.c
            - stop point code modified heavily
            - Affect cutim commands currently no tests
-         * BUG FIX: Fix to $Filename,HeaderVariable to find a name or not 
+         * BUG FIX: Fix to $Filename,HeaderVariable to find a name or not
            src/dff/gethv.c
          * BUG FIX: Removed rntused and replace with 1.0 in src/dbh/pltplr.c
-         * BUG FIX: Added error check to make sure origin was with data array 
+         * BUG FIX: Added error check to make sure origin was with data array
            src/dbh/alias.c
-         * BUG FIX: Added error check for unknown frequency sampleing 
+         * BUG FIX: Added error check for unknown frequency sampleing
            src/dbh/afr.c
-         * BUG FIX: Fix typo realm -> realmx and removed realm 
+         * BUG FIX: Fix typo realm -> realmx and removed realm
            variable in src/cpf/lkrrcp.c
-         * BUG FIX: Ensure error reporting doesn't fail if the command stack 
+         * BUG FIX: Ensure error reporting doesn't fail if the command stack
            is empty in src/cpf/cfmt.c
          * BUG FIX: Moved call to gettextsize()
             src/countouring/plotcontdata.c to initialize widthsave and heightsave
-         * BUG FIX: Changed src/coda/get_input() to accept and return 
+         * BUG FIX: Changed src/coda/get_input() to accept and return
            global_params so variables can be retrieved
-           Calls to calc_envelopes now have all arguments defined, 
+           Calls to calc_envelopes now have all arguments defined,
            see npts and ndx2
-         * BUG FIX: Added necessary branch branches { } around the 
+         * BUG FIX: Added necessary branch branches { } around the
            'find the filename' and
-           'write the file' statements in src/coda/calc_coda_amplitudes.c 
-         * BUG FIX: Removed possible third branch in src/coda/C_overlap.c 
+           'write the file' statements in src/coda/calc_coda_amplitudes.c
+         * BUG FIX: Removed possible third branch in src/coda/C_overlap.c
            would cause nload1 to be undefined
          * BUG FIX: Check input arguments are > 0 in uniq() in src/co/select.c
          * BUG FIX: Return if nlist <= 0 in src/bot/wrlist.c
-         * BUG FIX: Check to make sure return from indexb is > 0 
+         * BUG FIX: Check to make sure return from indexb is > 0
            src/bot/lequal.c
          * BUG FIX: Rebuilt cmplxang(complexf c) to handle all cases properly
          * BUG FIX: Changed undefined badindirect flag to true error code
@@ -454,21 +460,21 @@ between SAC versions.  An overview of these are in file CHANGES.
            - fix use-after-free in specplot()
            - fix logic error in getResponse() when freeing memory
            - fix unterminated comment block in gdm/settextfont.c
-           - refactor taper() to simplify flow and prevent 
+           - refactor taper() to simplify flow and prevent
              return of uninitialized variables
            - fix error-handling problems in sgf_print() and tmpfile_create()
-             tmpfile_create() would've passed NULL to mkstemps() if 
+             tmpfile_create() would've passed NULL to mkstemps() if
              strdup() failed.
-             sgf_print() would've passed NULL to unlink if 
+             sgf_print() would've passed NULL to unlink if
              tmpfile_create() failed.
-             It also would've returned an uninitialized variable (retval) 
+             It also would've returned an uninitialized variable (retval)
              if sgf_to_ps() returned a non-zero value.
            - fix error-handling problems in sgf_to_ps() and ps_print()
              Neither function checked to see if asprintf() succeeded.
-             ps_print() could've returned an uninitialized variable 
+             ps_print() could've returned an uninitialized variable
              if sac_print_disable
            - fix logic error in pickwindows(), remove unused variable lxlims
-           - fix possible use of uninitialized vars, 
+           - fix possible use of uninitialized vars,
              simplify flow in xaddstack()
              simplify flow in xchangestack()
              simplify flow in xglobalstack()
@@ -481,16 +487,16 @@ between SAC versions.  An overview of these are in file CHANGES.
            - initialize lempty in xppk()
            - stop reading from uninitialized array, cleanup of setctable3()
            - fix signed/unsigned mismatch in setctable3()
-           - fix uninitialized pointer dereference in encodeHeader() 
-             in utils/bbfswap.c, It doesn't look like the code that 
+           - fix uninitialized pointer dereference in encodeHeader()
+             in utils/bbfswap.c, It doesn't look like the code that
              dealt with the "p" pointer actually did
 
-2012/03/26 
+2012/03/26
         * BUG FIX: src/sam/xconvolve.c corrected read outside array limits
            similar correction in src/sam/xcorrelate.c
 
 2012/02 Version 101.5c released
-        * BUG FIX Fixed error mesage in xinterpolate.c that was incorrectly 
+        * BUG FIX Fixed error mesage in xinterpolate.c that was incorrectly
           printing when applying interpolate to LEVEN FALSE files
         * BUG FIX: Memory errors in plotting labels that could cause crashes
         * BUG FIX: in writing SAC headers (src/dff/wrsac.c)
@@ -506,18 +512,18 @@ between SAC versions.  An overview of these are in file CHANGES.
         * Supported Platforms: Solaris, Linux (32 bit),
           Linux (64/32 bit), Mac OS x (PPC, and i686, <= 10.6)
           and Windows under Cygwin
-        * BUG FIX: sacinit.sh shell syntax error 
-        * BUG FIX: sgftops Long horizontal line removed 
+        * BUG FIX: sacinit.sh shell syntax error
+        * BUG FIX: sgftops Long horizontal line removed
         * BUG FIX: interpolate determines a new dt if 'npts' is defined
         * BUG FIX: readsac.m close files after reading to avoid matlab errors
         * BUG FIX: removed sac_code.c to avoid unwanted side effects
         * BUG FIX: Hypo and Alpha Pick File format writing fixed (tests added)
-        * BUG FIX: wsac0 will not write files with npts <=0 
+        * BUG FIX: wsac0 will not write files with npts <=0
         * BUG FIX: getkhv character header fields are properly truncated
         * BUG FIX: evalresp now interprets milliseconds properly
         * BUG FIX: Unlimited number of plabel are now possible
         * BUG FIX: Added simple test for run ... endrun
-        * BUG FIX: CSS read/write fixes, 
+        * BUG FIX: CSS read/write fixes,
                Different byte orders and binary formats are used correctly
                CSS Format is now followed
         * BUG FIX: Merge should now identify what it is doing and not doing
@@ -544,7 +550,7 @@ between SAC versions.  An overview of these are in file CHANGES.
         * BUG FIX: READALPHA is deprecated.  Should use READTABLE.
         * ENHANCEMENT: sac_script manual page added
         * ENHANCEMENT: aux/seismogram updated
-              Removed F arrival and updated 
+              Removed F arrival and updated
               Updated origin time to conform to P arrival time
         * ENHANCEMENT: New Command: SAVEIMG (Alias: SAVE)
               - Save plot files in a variety of formats
@@ -552,8 +558,8 @@ between SAC versions.  An overview of these are in file CHANGES.
         * ENHANCEMENT: New output plot formats:
               - PDF: builtin Portable Document Format
               - PS:  builtin Postscript
-              - PNG: with libpng library if available 
-              - XPM: with libXpm library if available     
+              - PNG: with libpng library if available
+              - XPM: with libXpm library if available
         * ENHANCEMENT: Plotting window resizes properly
         * ENHANCEMENT: SAC_WRITE_BYTE_ORDER Environment variable
               Determines the byte order of the files to be written
@@ -562,7 +568,7 @@ between SAC versions.  An overview of these are in file CHANGES.
                       LITTLE ENDIAN: little, x86, intel
         * ENHANCEMENT: Documentation Updates
         * ENHANCEMENT: Creation of a PDF Manual
-        * ENTICEMENT: During interpolate total time now does not change 
+        * ENTICEMENT: During interpolate total time now does not change
         * ENHANCEMENT: Newlines are now defined as \n, \r, or \r\n
         * ENHANCEMENT: Tab now completes on SAC commands
         * ENHANCEMENT: Tab will append a '/' or a directory or a ' ' for a file
@@ -574,7 +580,7 @@ between SAC versions.  An overview of these are in file CHANGES.
                New Message control functions: (Fortran compatible)
                 - sac_warning_stdout()
                 - sac_warning_stderr()
-                - sac_warning_off(), 
+                - sac_warning_off(),
                 - sac_error_stdout()
                 - sac_error_stderr()
                 - sac_error_off()
@@ -583,11 +589,11 @@ between SAC versions.  An overview of these are in file CHANGES.
                 - sac_output_off()
 
 2010/06/07 Version 101.4 released
-        * Supported Platforms: Solaris, Linux (32 bit), 
-          Linux (64 bit native), Mac OS X  (PPC and i686, <= 10.5), 
+        * Supported Platforms: Solaris, Linux (32 bit),
+          Linux (64 bit native), Mac OS X  (PPC and i686, <= 10.5),
           Mac OS X (10.6 64 bit), and Windows under Cygwin.
-        * ENHANCEMENT: Transfer now supports Frequency Amplitude Phase 
-          (FAP) responses 
+        * ENHANCEMENT: Transfer now supports Frequency Amplitude Phase
+          (FAP) responses
         * ENHANCEMENT: libedit version upgraded (ver 20090923-3.0)
         * ENHANCEMENT: evalresp version upgraded (ver 3.3.3)
         * ENHANCEMENT: command line options
@@ -620,8 +626,8 @@ between SAC versions.  An overview of these are in file CHANGES.
         * BUG FIX: Interpolate now rounds off rather than truncating NPTS
         * BUG FIX: fixed small problem in src/bbf/readbbf.c
                  - testsuite requires python >= 2.4
-                 - dejagnu requirement eliminated 
-                 
+                 - dejagnu requirement eliminated
+
         * Known Bugs/deficiencies
                  - Number format should be readable
                  - green color difficult to see on white
@@ -641,8 +647,8 @@ between SAC versions.  An overview of these are in file CHANGES.
          bus errors and terminated SAC
 
 2009/08/01 Version 101.3
-        * Supported Platforms: Solaris, Linux (32 bit), 
-          Linux (64 bit native), Mac OS X  (PPC and i686, <= 10.5), 
+        * Supported Platforms: Solaris, Linux (32 bit),
+          Linux (64 bit native), Mac OS X  (PPC and i686, <= 10.5),
           and Windows under Cygwin.
         * ENHANCEMENT: 64 bit native builds are now available on Linux
         * ENHANCEMENT: AddedtTesting suite
@@ -657,7 +663,7 @@ between SAC versions.  An overview of these are in file CHANGES.
         * BUG FIX: Updated matlab routines
         * BUG FIX: Buffer overflows in sachistory
         * BUG FIX: Killing sac plotting window does not crash sac
-        * BUG FIX: sgftops now disregards phantom moves 
+        * BUG FIX: sgftops now disregards phantom moves
         - Known Bugs/deficencies
 	      - SSS traveltimes command (endian issue)
 	      - do file wild  segmentation fault with a large number of files
@@ -667,7 +673,7 @@ between SAC versions.  An overview of these are in file CHANGES.
 	      - merge command broken
 	      - time shrinks on plots with large number of records
 	      - errors should be on stdout
-	      - Scaling, Limit on files is currently 1000 
+	      - Scaling, Limit on files is currently 1000
 	      - plotxy does not respond to xlim/ylim
 	      - bring back frequency-amplitude-phase input in transfer
 	      - Decouple SeisMgr from other SAC functions so default is OFF
@@ -676,7 +682,7 @@ between SAC versions.  An overview of these are in file CHANGES.
 2008/09/04 Version 101.2
         * Supported Platforms: Solaris, Linux (32/64 bit) Mac OS X
           (PPC and i686, <= 10.5), and Windows under Cygwin.
-        * Multiple-session command-line history file  
+        * Multiple-session command-line history file
 	  (Seesac/utils/README_utils)
         * (Re)-introduction of SAC Library
             - Filtering, Envelopes, Correlations, Convolutions
@@ -694,11 +700,11 @@ between SAC versions.  An overview of these are in file CHANGES.
         * Enhancement: Added rsach to read a SAC Header
         * Enhancement: Added readcor to read a Correlation Function
         * Enhancement: Matlab/SAC Interaction available through configure
-        * Enhancement: lh columns 2 can now be set in an initializing macro 
+        * Enhancement: lh columns 2 can now be set in an initializing macro
         * Enhancement: GMT Map command updated
         * Enhancement: SAC now knows if it run from a script "<<EOF"
         * Updated build system, now cleaner using config.h
-        
+
 	   - Known Bugs
 	      - SSS traveltimes command (endian issue)
 	      - do file wild  segmentation fault with a large number of files
@@ -708,18 +714,18 @@ between SAC versions.  An overview of these are in file CHANGES.
 	      - line termination does not handle all type of line termination
 	      - merge command broken
 	      - time shrinks on plots with large number of records
-	      - SGF byte order 
+	      - SGF byte order
 	      - errors should be on stdout
-	      - Scaling, Limit on files is currently 1000 
-	      
+	      - Scaling, Limit on files is currently 1000
+
 2007/11/20 Version 101.1
 	* Supported Platforms: Solaris, Linux (32/64 bit), Mac OS X
 	  ( PPC and i686, <= 10.4 ), and Windows under Cygwin.
-	  - Compilation on 64 bit systems (Linux) requires specific options 
-	    to the ./configure script to create a 32 bit version on a 64 bit 
-	    platform.  Please consult the Readme.buildsac for details.  
+	  - Compilation on 64 bit systems (Linux) requires specific options
+	    to the ./configure script to create a 32 bit version on a 64 bit
+	    platform.  Please consult the Readme.buildsac for details.
 	  - OSX/i686 builds are not successful using gcc 3 (10.4 and below)
-	  - OSX/PPC builds are successful using gcc 3 or gcc 4. (10.4 and 
+	  - OSX/PPC builds are successful using gcc 3 or gcc 4. (10.4 and
 	    below).
 	       If one wants to use the sacio library with Fortran calls,
 	       one may need to compile those Fortran programs using gcc 3.
@@ -729,7 +735,7 @@ between SAC versions.  An overview of these are in file CHANGES.
 	    on that platform.
 	  - Linux builds are successful using gcc3 or gcc 4, but builds on
 	    CentOS 5 will not work on machines running CentOS 4.
-          - Windows versions are available under the Cygwin Environment and 
+          - Windows versions are available under the Cygwin Environment and
 	    must be compiled by each user due to licensing restrictions.
 	    There is a separate source distribution for Cygwin (because aux
 	    cannot be used as a directory name in Windows).
@@ -738,8 +744,8 @@ between SAC versions.  An overview of these are in file CHANGES.
 	* Updated: sgftox.csh change postscript viewer to ghostscript
 	* Addition of libsacio.a, same file as sacio.a.  Changed to
 	  ease compilation.
-	* Added wsac3: same as wsac0, but writes out all current header 
-	  variables.  However, on the Mac PPC platform, there are 
+	* Added wsac3: same as wsac0, but writes out all current header
+	  variables.  However, on the Mac PPC platform, there are
 	  compatibility problems with gcc and g77.  See Readme for details.
 	  Added wsac3 description to  aux/help/user_man/10appendix.
 	* BUG FIX: Sort command now works with the SeisMgr database off
@@ -747,7 +753,7 @@ between SAC versions.  An overview of these are in file CHANGES.
 	  character strings.
 	* BUG Fix: Parsing of multiple blackboard variables fixed
 	* BUG FIX: Large Crosshairs work again
-	  Enable by defining the environment variable 
+	  Enable by defining the environment variable
 	  SAC_PPK_LARGE_CROSSHAIRS to 1
 	* ENHANCEMENT: Zoom within PPK now does not care about pick order
 	* BUG FIX: o changed to odelta to avoid a conflict
@@ -764,14 +770,14 @@ between SAC versions.  An overview of these are in file CHANGES.
 	   - Known Bugs
 	      Files that begin with a long integer
               Line termination while parsing files
-	      No error output on "ch o gmt" truncation, better error 
+	      No error output on "ch o gmt" truncation, better error
 	      reporting
 	      r pha*? multiple times gives segmentation fault
 	      Missing SAC> when run in a script
 	      Error should in in stderr not stdout
-	      "WARNING: Number 4003 integer too large" 
+	      "WARNING: Number 4003 integer too large"
 	      wsac1 and wsac2 do not update all header variables
-	      "do .. wild" loop bombs if total number of characters  
+	      "do .. wild" loop bombs if total number of characters
                   for filenames too large
 
            - Plotting Bugs
@@ -786,7 +792,7 @@ between SAC versions.  An overview of these are in file CHANGES.
 
 	   - Additional Functionality
 	      Scalability, 1000 files, more, no limit ?
-	      write with a format 
+	      write with a format
 	         e.g. "write %kzdate.%kztime.%kstnm.%knetwk.% kcmpnm.sac"
 	      get/set functionality
 	      	       includes initialization file
@@ -794,19 +800,19 @@ between SAC versions.  An overview of these are in file CHANGES.
 	      make sgftops independent of endian used when writing .sgf file
 
 2007/03/03 Version 101.0
-	* Supported Platforms: Solaris, Linux (32 bit), and Mac OS X 
+	* Supported Platforms: Solaris, Linux (32 bit), and Mac OS X
 	  (both OSX/PPC and OSX/i686).  On OSX/i686, a build does not
 	  work using gcc 3.  On OSX/PPC, builds are successful with either
 	  gcc 3 and gcc 4 for OS 10.4 and gcc 3 for 10.3.  A successful build
 	  is reported on OS 10.2, but builds on 10.4 will not run on 10.2.
-	  Builds on Solaris 2.9 will work on 2.8.  On Linux, successful 
+	  Builds on Solaris 2.9 will work on 2.8.  On Linux, successful
 	  builds on either gcc 3 or gcc 4.  Sac is not supported on 64-bit
-	  architectures, but successful builds on 64-bit machines are 
+	  architectures, but successful builds on 64-bit machines are
 	  reported using the -m32 flag with gcc plus other modifications.
 	* Added ~/utils with sources and makefile for sacswap, saclst,
 	  and sgftops.  Executables are included in ~/bin.
 	* Major Bug Fixed for all SACIO Library routines.
-          Use of library with Fortran and/or C now sane 
+          Use of library with Fortran and/or C now sane
 	* Major Bug Fix: Writehdr Different Endian Bug
 	* Variable: SAC_USE_DATABASE
 		Use Database
@@ -833,16 +839,16 @@ between SAC versions.  An overview of these are in file CHANGES.
 	   - Known Bugs
 	      Files that begin with a long integer
               Line termination while parsing files
-	      No error output on "ch o gmt" truncation, better error 
+	      No error output on "ch o gmt" truncation, better error
 	      reporting r pha*? multiple times gives segmentation fault
 	      Missing SAC> when run in a script
 	      Error should in in stderr not stdout
-	      "WARNING: Number 4003 integer too large" 
+	      "WARNING: Number 4003 integer too large"
 	      'lh inclusive non-existent-header' causes a to segfault
 	      wsac0 does not update all header variables
 	      SGF files written with one byte order cannot be read
 		  on systems using the opposite byte order
-	      "do .. wild" loop bombs if total number of characters  
+	      "do .. wild" loop bombs if total number of characters
                   for filenames too large
 
            - Plotting Bugs
@@ -858,13 +864,13 @@ between SAC versions.  An overview of these are in file CHANGES.
 
 	   - Additional Functionality
 	      Scalability, 1000 files, more, no limit ?
-	      write with a format 
+	      write with a format
 	         e.g. "write %kzdate.%kztime.%kstnm.%knetwk.% kcmpnm.sac"
 	      get/set functionality
 	      	       includes initialization file
 		       and setting "set lh.columns 2"
 
-	       	     
+
 2005/07/25 Version 100.1 beta
         * Supported Platforms: Solaris, Linux and Mac OS X (10.3 and 10.4
           Builds on OS 10.4 will not work on OS 10.3.  Okay vice versa)
@@ -884,7 +890,7 @@ between SAC versions.  An overview of these are in file CHANGES.
  	* Initial Release of OS X version
  	* Linux readalpha bug fix
         * sgftops enhanced to include rotations and rescaling
-        
+
 -----------------------------
 | v0.58 (April 29, 1999)
 -----------------------------
@@ -1234,9 +1240,9 @@ WIENER: filters data using filter design based on a window of noise.
 READCSS:  read CSS2.8 and CSS3.0 data into sac.
 	Recent enhancements include a station selection option,
 	  (e.g., readcss my.wfdisc station AAA).
-	Shift on or off to set the origin time to reference time 
+	Shift on or off to set the origin time to reference time
 (default is on)
-	Scale on or off to scale the data by the calib constant 
+	Scale on or off to scale the data by the calib constant
 (default is off)
 	Added GSE3.0 format.
 WRITECSS: write CSS3.0 data from sac.
@@ -1270,7 +1276,7 @@ FILENUMBER ON|OFF:  When this command is on the filenumbers
 		    are displayed next to the traces.
 DELETECHANNEL (dc): combined with filenumber, it allows the user to remove
 		    unwanted channels from memory.
-PLOTPK: a new option to turn the bell on or off: e.g., ppk bell off. 
+PLOTPK: a new option to turn the bell on or off: e.g., ppk bell off.
 (default is
 on).
 
