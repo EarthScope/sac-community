@@ -5,7 +5,7 @@ SUMMARY
 -------
 Read data files in CSS external format from disk into memory.
 
-NOTE:  The READCSS_ command reads flat files which adhere to CSS 3.0 or
+NOTE:  The READCSS command reads flat files which adhere to CSS 3.0 or
 2.8 data formats. The following tables are supported for version 3.0:
 
 wfdisc, wftag, origin, arrival, assoc, sitechan, site, affiliation,
@@ -13,7 +13,7 @@ origerr, origin, event, sensor, instrument, gregion, stassoc, remark
 sacdata.
 
 For version 2.8 only wfdisc, arrival, and origin are supported. Previous
-versions of READCSS_ required that the origin file have only one line
+versions of READCSS required that the origin file have only one line
 which would be associated with the waveforms pointed to by the wfdisc
 file. The current version can extract the correct origin (or origins)
 using information from a wftag file or using an evid column in the wfdisc
@@ -22,20 +22,20 @@ will default to its previous behavior, and use the first row in the origin
 file. There is now no information lost when data is read using READCSS_.
 Although existing SAC commands can only access a subset of the CSS data,
 everything read from CSS flatfiles is retained in memory and will be written
-to disk with the WRITECSS_ command.
+to disk with the WRITECSS command.
 
-READCSS_ now reads a non-standard table named sacdata (written by the WRITECSS_
+READCSS now reads a non-standard table named sacdata (written by the WRITECSS_
 command) which holds data from the SAC header that does not have a place in
 the standard schema. With the sacdata table, there is now no information loss
 when SAC data is written in CSS format and then re-read. For instance, you
 can now write frequency domain data to disk with WRITECSS_ and re-read it
-later with READCSS_.
+later with READCSS.
 
-READCSS_ now has a binary option that allows it to read binary CSS files written
+READCSS now has a binary option that allows it to read binary CSS files written
 by WRITECSS_. In binary mode the css options have no effect. That is, the entire
 contents of the specified file(s) will be read.
 
-READCSS_ supports the following binary datatypes:
+READCSS supports the following binary datatypes:
 On bigendin machines (eg. Sun) t8, t4, f8, f4, s4, s3, s2, i4, i2,
 g2, e1, and ri (real-imag).
 
@@ -46,7 +46,7 @@ SYNTAX
 ::
 
   READCSS {BINARY|ASCII} {MAXMEM v} {MORE} {TRUST ON|OFF} {VERBOSE ON|OFF}
-      {SHIFT ON|OFF} {SCALE ON|OFF} {COMMIT|ROLLBACK|RECALLTRACE} {DIR name}
+      {SHIFT ON|OFF} {COMMIT|ROLLBACK|RECALLTRACE} {DIR name}
       wfdisclist {filelist} {css options}
 
 The css options are one or more of the following::
@@ -95,21 +95,6 @@ INPUT
        consistent with the origin time.  Some of the distance related
        header variables are also affected.  SHIFT ON is the default.
 
-   :SCALE ON|OFF:  The SCALE option is OFF by default.
-       When SCALE is OFF, SAC reads the counts from the .w file.  When
-       SCALE is ON, SAC multiplies counts by a SCALE factor given as
-       CALIB in the .wfdisc file.  This scale option changes with the
-       SCALE options of READ_ SEGY, READGSE_, and READSUDS_.
-       If SCALE is OFF, the CALIB value from the file will be stored
-       in SAC's SCALE header variable.  If SCALE is on, SAC's SCALE
-       header field is set to 1.0.
-       SCALE is a crude method of accounting for the instrument
-       response.  The prefered method is with the TRANSFER_ command.
-       It is recommended to leave SCALE off for the READ_ and use
-       the TRANSFER_ command.  SCALE should really only be used
-       if the response information necessary for the TRANSFER_ command
-       is not available.
-
    :COMMIT:  If the MORE option is specified, the COMMIT option commits
        headers and waveforms in SAC memory -- removing any previous
        versions of headers or waveforms from RAM -- prior to
@@ -125,7 +110,7 @@ INPUT
        - reverts to the last committed version of those header
          variables closely linked to the waveform,
        - commits those header variables which are loosely linked
-         to the waveform. (use HELP_ RECALLTRACE for a list of which
+         to the waveform. (use RECALLTRACE_ for a list of which
          header variables are committed, and which are rolled back.)
 
          **Note**  if the MORE option is not specified, the COMMIT, ROLLBACK,
@@ -198,24 +183,24 @@ DESCRIPTION
 -----------
    All commands which load data into memory have are now monitored to maintain
    a level of confidence in the event information when moved from the SAC data
-   buffer to the CSS data buffer.  For READCSS_, when the confidence is HIGH
+   buffer to the CSS data buffer.  For READCSS, when the confidence is HIGH
    that all the data files are cosistent in the numbering of event IDs, matching
    event IDs are treated as having identical event information.  When the
-   confidence is LOW in READCSS_, matching event IDs are understood as an
+   confidence is LOW in READCSS, matching event IDs are understood as an
    artifact, and new event IDs are generated for the incoming file.
-   For more details use HELP_ READ_.
+   For more details see READ_.
 
-   How READCSS_ reads picks from the .arrival file:
+   How READCSS reads picks from the .arrival file:
 
    SAC has two data buffers.  One holds the data in SAC format, and one
-   holds it in CSS3.0 format.  READCSS_ reads all the available arrivals into
+   holds it in CSS3.0 format.  READCSS reads all the available arrivals into
    the CSS buffer.  Only 10 picks will fit into the SAC formatted buffer.
    The command PICKPREFS_ controls the way the picks are transfered from the
    CSS buffer to the SAC buffer.
 
    There is a preferences file which SAC uses to determine which phases and
    authors' picks to transfer between buffers.  The default preferences file is
-   $SACAUX/csspickprefs.  This default can be overridden by either the
+   ${SACAUX}/csspickprefs.  This default can be overridden by either the
    PICKAUTHOR_ or PICKPHASE_ commands.  These commands can select a
    user-defined preferences file, or they can interactively override the
    preferences file.
@@ -284,7 +269,7 @@ DESCRIPTION
 
 SEE COMMANDS
 ------------
-   READ_, PICKPREFS_, PICKAUTHOR_, PICKPHASE_, COMMIT, ROLLBACK, RECALLTRACE
+   READ_, PICKPREFS_, PICKAUTHOR_, PICKPHASE_, CRR_ (COMMIT, ROLLBACK, RECALLTRACE)
 
 LATEST REVISION
 ---------------

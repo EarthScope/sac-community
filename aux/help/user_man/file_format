@@ -13,12 +13,12 @@ written on little-endian systems (Linux, MAC i686, Cygwin) and vice versa.
 Each signal is stored on disk in a separate SAC data file. Through SAC
 version 101.6a, these files contain a fixed length header section followed by
 one or two data sections. The header contains floating point, integer, logical,
-and character fields. Evenly spaced data files have only one data section which 
-contains the dependent variable. Unevenly spaced data and spectral data files 
-contain two data sections. For unevenly spaced data, the first data section 
-contains the dependent variable and the second contains the independent 
-variable. For spectral files the first component is either the amplitude or the 
-real component and the second component is either the phase or imaginary 
+and character fields. Evenly spaced data files have only one data section which
+contains the dependent variable. Unevenly spaced data and spectral data files
+contain two data sections. For unevenly spaced data, the first data section
+contains the dependent variable and the second contains the independent
+variable. For spectral files the first component is either the amplitude or the
+real component and the second component is either the phase or imaginary
 component.
 
 All reals in the SAC header and data sections are single-precision (32
@@ -37,8 +37,8 @@ TUTORIAL_ for a more detailed discussion.
 
 SAC Binary Format for NVHDR = 6
 -------------------------------
-The binary format is the most common one use.  It is is the default format in  
-the READ_ and WRITE_ commands and in the subroutine library (RSAC1, RSAC2, 
+The binary format is the most common one use.  It is is the default format in
+the READ_ and WRITE_ commands and in the subroutine library (RSAC1, RSAC2,
 WSAC1, WSAC2, WSAC0.) These are binary (unformatted) files.
 
 
@@ -100,7 +100,7 @@ Header Variables
 ======= ======= ======== ======== ======== ======= ========
 Word    Type    NAMES    o        o        o       o
 ======= ======= ======== ======== ======== ======= ========
-0       F       DELTA    DEPMIN   DEPMAX   SCALE   ODELTA
+0       F       DELTA    DEPMIN   DEPMAX   UNUSED  ODELTA
 5       F       B        E        O        A       INTERNAL
 10      F       T0       T1       T2       T3      T4
 15      F       T5       T6       T7       T8      T9
@@ -150,15 +150,15 @@ in internal calculations by their location in the file.
 SAC Alphanumeric Format
 -----------------------
 This file is essentially the alphanumeric equivalent of the SAC binary data
-file. The header section is stored on the first 30 80-character lines. For both 
+file. The header section is stored on the first 30 80-character lines. For both
 NVHDR = 6 and NVHDR = 7, this is followed by one or two data sections. The data
-are in 5G15.7 format. The following table shows the line number, formats and 
+are in 5G15.7 format. The following table shows the line number, formats and
 names of the variables on the header section lines.
 
 ======= ======== ======== ======== ======== ====== =========
 LINE    FORMAT   NAMES    o        o        o      o
 ======= ======== ======== ======== ======== ====== =========
-01      (5G15.7) DELTA    DEPMIN   DEPMAX   SCALE  ODELTA
+01      (5G15.7) DELTA    DEPMIN   DEPMAX   UNUSED ODELTA
 02      (5G15.7) B        E        O        A      INTERNAL
 03      (5G15.7) T0       T1       T2       T3     T4
 04      (5G15.7) T5       T6       T7       T8     T9
@@ -294,8 +294,8 @@ Name      Type  Description
 NPTS      N     Number of points per data component. [required]
 NVHDR     N     Header version number. Current value is the integer 7.
                 Older version data (NVHDR < 6) are automatically updated
-                when read into sac. In SAC v102.0, one can still use 
-                NVHDR = 6.  To have double-precision capability, 
+                when read into sac. In SAC v102.0, one can still use
+                NVHDR = 6.  To have double-precision capability,
                 NVHDR = 7 [required]
 B         F     Beginning value of the independent variable. [required]
 E         F     Ending value of the independent variable. [required]
@@ -316,8 +316,6 @@ IDEP      I     Type of dependent variable:
                  - IACC (Acceleration in nm/sec/sec)
                  - **NOTE** Others use SI units for IDISP, IVEL, IACC.
                  - IVOLTS (Velocity in volts)
-SCALE     F     Multiplying scale factor for dependent variable
-                [not currently used]
 DEPMIN    F     Minimum value of dependent variable.
 DEPMAX    F     Maximum value of dependent variable.
 DEPMEN    F     Mean value of dependent variable.

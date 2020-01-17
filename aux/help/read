@@ -20,7 +20,6 @@ where options is one or more of the following::
   XDR
   ALPHA
   SEGY
-  SCALE [ON|OFF]
 
 ALL options *must* preceed any element in the filelist.
 
@@ -78,21 +77,6 @@ INPUT
 
    :SEGY:  Read file formatted according to the IRIS/PASSCAL form of
        the SEGY format.  This format allows one waveform per file.
-
-   :SCALE:  Used only in conjunction with the SEGY option, the SCALE option
-       is OFF by default.  When SCALE is OFF, SAC reads the counts
-       from the SEGY files.  When SCALE is ON, SAC multiplies
-       counts by a SCALE factor given in the file.  This scale option
-       changes with the SCALE options of READCSS_, READGSE_, and READSUDS_.
-       If SCALE is OFF, the SCALE value from the file will be stored
-       in SAC's SCALE header variable.  If SCALE is on, SAC's SCALE
-       header field is set to 1.0.
-       SCALE is a crude method of accounting for the instrument
-       response.  The prefered method is with the TRANSFER_ command.
-       It is recommended to leave SCALE off for the READ_ and use
-       the TRANSFER_ command.  SCALE should really only be used
-       if the response information necessary for the TRANSFER_ command
-       is not available.
 
    :filelist:  file | wild .
 
@@ -156,9 +140,9 @@ DESCRIPTION
    In the above examples "disk" is the name of a physical disk partition, "dir"
    is the name of a top level directory, "subdir" is a subdirectory of that
    partition, and "file" is a file in that subdirectory.  In general there is no
-   limit on the nesting of subdirectories.  The first relative-pathway example 
-   assumes the user is in subdir. 
-    
+   limit on the nesting of subdirectories.  The first relative-pathway example
+   assumes the user is in subdir.
+
    Filenames may also contain wild-card characters.  You can use them match
    a single character, to match zero or more characters, and to form groupings
    of characters.  Some examples are given below.  See the WILD_ command for
@@ -194,7 +178,7 @@ DESCRIPTION
    loaded into memory with the MORE option, it becomes part of the existing
    history.
 
-   
+
 
 EXAMPLES
 --------

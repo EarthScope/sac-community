@@ -338,56 +338,29 @@ of these do loops are given below.
 
 Do Loop Examples
 ----------------
-The first macro applies the DIF_ command to a data file (to prewhiten the
-data), performs a Fourier transform on the data, and then applies the DIVOMEGA_
-command to remove the effect of the prewhitening. Sometimes it is necessary to
-differentiate the data more than once before doing the transform. This can be
+The first macro gets values from the sac header for each file individually using
+either the LISTHDR_ command or accessing the header values directly. This can be
 handled with a do loop::
 
-  $KEYS FILE NPREW
-  $DEFAULT NPREW 1
-  READ \$FILE
+    DO J = 1, %SACNFILES
+      lh fileS $J NPTS DELTA COLUMNS 2
+    ENDDO
 
-  DO J = 1 , $NPREW
-     DIF
-  ENDDO
+    DO J = 1, %SACNFILES
+      message "$J       &$J$,NPTS    &$J$,DELTA     &$J$,FILENAME "
+    ENDDO
 
-  FFT AMPH
-
-  DO J = 1 , $NPREW
-     DIVOMEGA
-  ENDDO
-
-Notice the use of a default value for the order of the prewhitening. In the
-second example, particle motion plots are produced for five different two
+In the second example, particle motion plots are produced for five different two
 second time windows on the same data file::
 
-  READ ABC
-  SETBB TIME1 0
-  DO TIME2 FROM 2 TO 10 BY 2
-     XLIM %TIME1 $TIME2
-     TITLE 'Particle Motion from %TIME1 to $TIME2$'
-     PLOTPM
-     SETBB TIME1 $TIME2
-  ENDDO
-
-(Why is a dollar sign needed after `TIME2` in the TITLE_ command?) In the next
-example, a macro called PREVIEW exists that performs a set of commands on a
-single data file. A new macro is created with several nested do loops to run
-PREVIEW on a predefined group of data files::
-
-  DO STATION LIST ABC DEF XYZ
-     DO COMPONENT LIST Z N E
-       MACRO PREVIEW $STATION$.$COMPONENT$
-     ENDDO
-  ENDDO
-
-In the next example we modify the previous one to now process all of the files
-in the directory called "MYDIR" that end in the letters ".Z"::
-
-  DO FILE WILD DIR MYDIR *.Z
-     MACRO PREVIEW $FILE
-  ENDDO
+    READ ABC
+    SETBB TIME1 0
+    DO TIME2 FROM 2 TO 10 BY 2
+       XLIM %TIME1 $TIME2
+       TITLE 'Particle Motion from %TIME1 to $TIME2$'
+       PLOTPM
+       SETBB TIME1 $TIME2
+    ENDDO
 
 The last (somewhat artificial) example has three arguments. The first is the
 name of a data file, the second a multiplicative constant, and the third a

@@ -42,8 +42,7 @@ INPUT
        **Note**  only evenly-spaced, time-series files will be written
        in SEGY.
 
-       The SCALE field in SAC is ignored.  Since SAC stores the
-       waveform as a series of floating point (real) numbers, and
+       Since SAC stores the waveform as a series of real*4 numbers, and
        SEGY stores the waveform as a series of long integers, the
        datapoints from SAC are normalized to the maxmimum allowable
        integer.  The scale field in SEGY is determined to be the
@@ -161,7 +160,7 @@ DESCRIPTION
    save the results on disk.  Several disk file formats are available.  More will
    be added as needed.  Each file in memory is written without being cut or
    desampled.
-   
+
    Most of the time, you will want to use to the SAC data file format.
    This is a compact binary file format which is fast to read and write.  It
    contains a large header record and one or two data records.  See the Users

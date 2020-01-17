@@ -6,7 +6,7 @@ SUMMARY
   Read data files in GSE 2.0 format from disk into memory.
 
   Note:  GSE data enters SAC via SAC's CSS data buffers.  To understand how
-  arrivals are handled, use HELP_ READCSS_ and HELP_ PICKPREFS_.
+  arrivals are handled, see READCSS_ and PICKPREFS_.
 
 
 SYNTAX
@@ -14,7 +14,7 @@ SYNTAX
 ::
 
   READGSE {MAXMEM v} {MORE} {VERBOSE ON|OFF} {SHIFT ON|OFF}
-      {SCALE ON|OFF} {COMMIT|ROLLBACK|RECALLTRACE} {DIR name} filelist
+      {COMMIT|ROLLBACK|RECALLTRACE} {DIR name} filelist
 
 
 
@@ -42,21 +42,6 @@ INPUT
        consistent with the origin time.  Some of the distance related
        header variables are also affected.  SHIFT ON is the default.
 
-   :SCALE ON|OFF:  The SCALE option is OFF by default.
-       When SCALE is OFF, SAC reads the counts from the GSE file.  When
-       SCALE is ON, SAC multiplies counts by a SCALE factor given as
-       CALIB in the GSE file.  This scale option changes with the
-       SCALE options of READ_ SEGY, READCSS_, and READSUDS_.
-       If SCALE is OFF, the CALIB value from the file will be stored
-       in SAC's SCALE header variable.  If SCALE is on, SAC's SCALE
-       header field is set to 1.0.
-       SCALE is a crude method of accounting for the instrument
-       response.  The prefered method is with the TRANSFER_ command.
-       It is recommended to leave SCALE off for the READ_ and use
-       the TRANSFER_ command.  SCALE should really only be used
-       if the response information necessary for the TRANSFER_ command
-       is not available.
-
    :COMMIT:  If the MORE option is specified, the COMMIT option commits
        headers and waveforms in SAC memory -- removing any previous
        versions of headers or waveforms from RAM -- prior to
@@ -72,7 +57,7 @@ INPUT
        - reverts to the last committed version of those header
          variables closely linked to the waveform,
        - commits those header variables which are loosely linked
-         to the waveform. (use HELP_ RECALLTRACE for a list of which
+         to the waveform. (use RECALLTRACE_ for a list of which
          header variables are committed, and which are rolled back.)
 
          **Note**  if the MORE option is not specified, the COMMIT, ROLLBACK,
@@ -92,10 +77,10 @@ DESCRIPTION
 -----------
    Any command which loads data into memory is monitored to maintain a
    level of confidence in the event infomation when transfered from the SAC
-   data buffer to the CSS data buffer.  When READGSE_ is used, the confidence
+   data buffer to the CSS data buffer.  When READGSE is used, the confidence
    is set to LOW, indicating that SAC should consider any matching event IDs
    as artifacts and reassign the event ID of the incoming file.  For more
-   details, use HELP_ READ_.
+   details, see READ_.
 
 
 NOTES

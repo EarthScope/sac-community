@@ -1,12 +1,9 @@
 SAC Output Messages
 +++++++++++++++++++
 
-TABLE
------
-
 ======= ==================================================================
 Number  Translation
-======= ================================================================== 
+======= ==================================================================
 0002    Converting ascii to float - possible bad format.
 0000    FILE I/O SERVICE LEVEL
 0100    Operating system error
@@ -40,7 +37,7 @@ Number  Translation
 0128    CSS file not version 3.0:
 0129    Cannot form a path to that file
 0130    XDR and ALPHA options are incompatible
-0131    sac/datagen data directory not found.  
+0131    sac/datagen data directory not found.
 0200    GRAPHICS SERVICE LEVEL
 0201    Illegal graphics device
 0202    Current graphics device does not have cursor capability.
@@ -103,10 +100,10 @@ Number  Translation
 1011    Bad command file syntax.
 1012    Following option is not currently available:
 1013    Obsolete command.  Please use
-1014    Undefined variable in command: 
+1014    Undefined variable in command:
 1015    Too many levels of nesting to execute macro
 1016    Terminating execution of macro
-1017    Illegal macro command: 
+1017    Illegal macro command:
 1018    Exceeded maximum number of nested inline functions:
 1019    Incorrect nesting of inline functions:
 1020    Invalid inline function name:
@@ -116,7 +113,7 @@ Number  Translation
 1024    This argument in inline function should be an operator:
 1025    This argument in inline function should be numeric:
 1026    Maximum number of arguments for this inline function call is
-1027    Exceed maximum number of external commands = 
+1027    Exceed maximum number of external commands =
 1028    External command does not exist:
 1029    Command line too long.
 1030    There is no year 0,
@@ -197,7 +194,7 @@ Number  Translation
 1341    Can't write headers because CUT is ON.
 1342    Illegal number of files in data file list:
 1343    Formatting error while reading file
-1344    Problem writing GSE file 
+1344    Problem writing GSE file
 1350    Could not find requested header entry
 1351    Not enough room in header for new header entry
 1352    Can not delete header entry
@@ -219,15 +216,15 @@ Number  Translation
 1378    Illegal operation on XYZ data
 1379    No SORT parameters given
 1380    Too many SORT parameters:
-1381    Not a valid SORT parameter: 
+1381    Not a valid SORT parameter:
 1382    ALL and COMMIT options both set, ignoring COMMIT option.
 1383    SORT failed
-1384    ASCEND and DESCEND options go after the related header 
+1384    ASCEND and DESCEND options go after the related header
         in command line
 1385    No worksets in memory.
 1386    Could not get Workset name.
 1387    No file name specified.
-1388    Reference time not equal to zero:  Reference time is 
+1388    Reference time not equal to zero:  Reference time is
 1389    NVHDR, NPTS, NWFID, NORID, and NEVID cannot be changed with CHNHDR
 1390    KSTNM and KCMPNM cannot be undefined
 1393    Cannot Write Table of file:
@@ -236,7 +233,7 @@ Number  Translation
 1401    Data may be corrupt.  Proceed with caution.
 1402    Data may have been removed.  Proceed with caution.
 1403    Cannot CUTIM:  would result in too many files in memory.
-1404    Cannot CUTIM:  would exceed length of filename list 
+1404    Cannot CUTIM:  would exceed length of filename list
         (use shorter filenames)
 1405    Cannot CUTIM:  illegal cut point information
 1406    Data has been corrupted, re-read or regenerate new data.
@@ -260,13 +257,13 @@ Number  Translation
 1611    Corner frequency greater than Nyquist for file
 1612    Window length exceeds maximum:
 1613    Minimum size of data file for Hilbert transform is
-1614    Numerical instability in Wiener; will retry with epsilon = 
+1614    Numerical instability in Wiener; will retry with epsilon =
 1615    Noise window outside of data window
 1616    Noise window larger than data window
 1617    Noise window partially outside of data window
 1618    Order = 0    in HQR
 1619    HQR failed, too many iterations
-1620    Gain out of range, Filterdesign failed for Whitening coefficients 
+1620    Gain out of range, Filterdesign failed for Whitening coefficients
         for file:
 1700    UNARY OPERATIONS MODUDE
 1701    Can't divide by zero.
@@ -297,9 +294,9 @@ Number  Translation
 2005    Points outside file's time window set to zero =
 2006    Gains must be monotonically decreasing.
 2007    Data clipped for file
-2008    Requested begin time is less than files begin time. 
+2008    Requested begin time is less than files begin time.
         Output truncated.
-2009    Requested end time is greater than files end time. 
+2009    Requested end time is greater than files end time.
         Output truncated.
 2010    Number of points in pair of files are not equal:
 2011    Cannot read filter coefficient file:
@@ -307,7 +304,7 @@ Number  Translation
 2100    INSTRUMENT CORRECTION MODULE
 2101    Need free period and magnification for ELMAG.
 2102    Need number of zeros for EYEOMG.
-2103    Need number of zeros, free period, scale and damping factors 
+2103    Need number of zeros, free period, scale and damping factors
         for GENL.
 2104    Need an instrument sub-type for
 2105    Unknown instrument sub-type for
@@ -322,11 +319,9 @@ Number  Translation
 2114    No response information for this channel in response file.
 2115    No response file found in database
 2116    Not a recognized response file type.
-2117    SUBTYPE and FNAME options not compatible with DBASE, 
+2117    SUBTYPE and FNAME options not compatible with DBASE,
         filenames ignored.
 2118    No transfer function applied.
-2119    The SCALE option is not required if the TRANSFER command is to be 
-        used on data.  Out of date: scale no longer used in transfer
 2120    Interpolation Failed: adjacent frequencies indistinguishable.  Freq:
 2121    NDC transfer had an OS error.
 2122    NDC transfer had an application error.
@@ -347,7 +342,7 @@ Number  Translation
 2401    Can't find an unused SAC Graphics File.
 2402    Can't PRINT on ENDFRAME if SGF device is not on.
 2403    Ignoring PRINT option in the middle of a frame.
-2404    SPECTROGRAM, SONOGRAM, and IMAGE only PRINT if SGF is the 
+2404    SPECTROGRAM, SONOGRAM, and IMAGE only PRINT if SGF is the
         only graphics device running
 2405    Cannot PRINT:  no SGF files produced.
 2500    GRAPHICS DEVICE 3
@@ -362,16 +357,16 @@ Number  Translation
 2801    All data files must have the same number of data points.
 2900    XYZ (3-D) DATA PROCESSING MODULE
 2901    No xyz data in memory.
-2902    Zoomed input too large to display. Maximum dimension is 
+2902    Zoomed input too large to display. Maximum dimension is
 3000    CONTOURING MODULE
 3001    Exceeded maximum number of contouring levels:
-3501    Plot Label number exceeds total number of current labels: 
+3501    Plot Label number exceeds total number of current labels:
 4000    NUMBER CONVERSION MODULE
 4002    Number out of range
 4003    Number too small, near -inf
 4004    Number too large, near inf
 4005    Number string contains non-numeric characters
-4006    Number string contains extra non-numeric characters 
+4006    Number string contains extra non-numeric characters
 4007    Number string not converted
 4008    Number below resolution, number too small, near 0.0
 5000    SPECTRAL ESTIMATION SUBPROCESS.
@@ -396,16 +391,16 @@ Number  Translation
 5111    Error in calculating velocity model values.
 5112    Insufficient input for velocity model calculation.
 5113    No valid stack sum exists.
-5120    Cannot use both model and file.  Continuing with model. 
+5120    Cannot use both model and file.  Continuing with model.
 5121    Data file expected, none found.
 5122    Distance out of range of data; blackboard variable not set:
 5123    No blackboard variable name given, no variable set.
-5124    TAUP and MODEL options are incompatable in TRAVELTIME. 
+5124    TAUP and MODEL options are incompatable in TRAVELTIME.
         Input file required (no longer relevant)
 5125    No phases found
 5200    FIR FILTER DESIGN SUBPROCESS
 5300    FK module
-5301    Station and event latitudes and longitudes must be set 
+5301    Station and event latitudes and longitudes must be set
         for this command.
 5302    Unable to determine offsets, type HELP BEAM
 5303    OFFSET set to REF, but no reference data, use REFERENCE option
@@ -413,7 +408,7 @@ Number  Translation
 5305    OFFSET set to STATION, but some files missing STLA or STLO
 5306    OFFSET set to EVENT, but some files missing EVLA or EVLO
 5307    Illeagle setting for OFFSET option
-5308    Number of files must be between 3    and MXLENS 
+5308    Number of files must be between 3    and MXLENS
 6000    DATA SET MODULE
 6001    Can't find file in data-set file index.
 6002    No more data-sets available.
@@ -429,8 +424,8 @@ Number  Translation
 7010    Unable to open ZONESDATA file.
 7011    Unable to open gctp messages file tmp.????.
 8001    SETMAT takes only one parameter.
-8002    Cannot link to MATLAB shared object:  
-8003    Cannot link to a MATLAB function:  
+8002    Cannot link to MATLAB shared object:
+8003    Cannot link to a MATLAB function:
 8004    Cannot start MATLAB
 8100    ORACLE DATABASE CONNECTION  Oracle no longer supported
 8101    command or option not operational; requires Oracle version

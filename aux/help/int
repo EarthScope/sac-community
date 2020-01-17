@@ -22,7 +22,8 @@ DESCRIPTION
    This command uses the trapezoidal or rectangular integration method.  The
    first output data point is set to zero.  If the trapezoidal option is used,
    the number of points is reduced by one.  The data does not have to be evenly
-   spaced.
+   spaced.  To minimize end-effects, it is suggested one precede a call to INT_
+   with RMEAN_; TAPER_.
 
 ERROR MESSAGES
 --------------

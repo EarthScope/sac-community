@@ -62,13 +62,8 @@ convolution to apply another instrument response.
    When TRANSFER was introduced more than 20 years ago, the
    data acquisition systems were much simpler.  The seismometers in
    the list at the end of this message include the most popular
-   ones used previously. Now the majority of data analysis is done
-   on data sets commonly exchanged as SEED volumes, which can be
-   downloaded from the IRIS Data Management Center over the
-   Internet.  These data can be read from SEED volumes using the
-   program RDSEED, which is available for all computer operating
-   systems that can run SAC.  For the SEED manual, go to
-   <http://www.fdsn.org/seed_manual/SEEDManual_V2.4.pdf>.
+   ones used previously. The evolution of data handling by IRIS is described
+   in `DATA ACCESS`_
 
    **EVALRESP**
 
@@ -86,7 +81,7 @@ convolution to apply another instrument response.
    <http://ds.iris.edu/ds/nodes/dmc/software/downloads/>.
 
    The SAC sign convention for Laplace/Fourier transforms is the same as
-   that used in RDSEED and EVALRESP: phase for a causal response decreases
+   that used in SEED and EVALRESP: phase for a causal response decreases
    with increasing frequency.  For displacements, the SAC convention
    is nm, while RDSEED RESP files use meters.  **NOTE:** The EVALRESP
    option in TRANSFER converts the output to the SAC convention.  For
@@ -167,7 +162,7 @@ EVALRESP OPTION
   time.  Data received from IRIS in SAC format (or converted to
   SAC with RDSEED) will have KHOLE set to a valid LOCID if one is
   necessary.  If the user is informed of real LOCIDs in the
-  EVALRESP file, the user can set KHOLE with CHNHDR.  SAC will use
+  EVALRESP file, the user can set KHOLE with CHNHDR_.  SAC will use
   KHOLE as LOCID if it is a two character alpha-numeric string (padded
   with spaces or not).
 
@@ -202,7 +197,6 @@ EVALRESP OPTION
   nanometers, the SAC convention for displacement units.
 
 **EVALRESP EXAMPLE**
-
 
   To remove the instrument response from the seismogram in memory
   (assuming a response file exists)::
@@ -291,7 +285,7 @@ POLEZERO OPTION
   comments as a header in the polezero file helps greatly for users to
   organize and understand the origins of the coefficients presented.
   For this reason, SAC now supports the 'annotated' polezero file,
-  which can be readily produced by IRIS DMC's RDSEED program (v5.2,
+  which can be readily produced by RDSEED (v5.2,
   October 2011) as well as IRIS DMC's SAC PZ web service
   <http://service.iris.edu/irisws/sacpz/>.  (RDSEED v5.0 had annotation lines
   with slightly different formats for some entries.  SAC v 101.5 can
@@ -656,6 +650,4 @@ ______________________________________
 
 **LATEST REVISION**
 
-   Version 102.0: In versions prior to 101.5, if the header
-   variable SCALE was defined, it might be used in scaling the output and
-   would be changed.  In this version, SCALE is ignored.
+   Version 102.0
