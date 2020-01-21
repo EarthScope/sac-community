@@ -72,7 +72,7 @@ NZ  HIZ   -38.5129  174.8557  237.00 Hauiti
 NZ  KHZ   -42.4160  173.5390   64.00 Kahutara
 NZ  ODZ   -45.0440  170.6446  274.00 Otahua Downs
 NZ  OUZ   -35.2197  173.5961   63.00 Omahuta
-NZ  QRZ   -40.8255  172.5291  263.00 Quartz Range
+NZ  QRZ   -40.8255  172.5291  263.00 New Zealand National Seismograph Network
 NZ  RPZ   -43.7146  171.0539  453.00 Rata Peaks
 NZ  URZ   -38.2593  177.1109   95.00 Urewera
 QC  00263 -43.5613  172.6180    0.00 QCN Volunteer
@@ -208,34 +208,36 @@ YA  WHK1  -37.9141  176.7256  343.00 Whakatane Flank
  ==>  
  station time 2019/1/1 +1d cha BH? net -SY
 Net Sta   Lat.     Lon.      Elev.   SiteName
-1P  BONA  -50.2895  -72.0274  245.00 Estancia Bon Accord, Patagonia, Argentina
+1P  BONA  -50.2894  -72.0275  251.60 Estancia Bon Accord, Patagonia, Argentina
+1P  BRMY  -52.1425  -73.1532   53.30 Monte Burney, Chile
 1P  BRNY  -52.1425  -73.1533  550.00 Chilean Fiord, Patagonia, Chile
 1P  CH14  -50.4236  -74.2730  320.00 Chilean Fiord, Patagonia, Chile
-1P  CURI  -51.6131  -74.5561  640.00 Chilean Fiord, Patagonia, Chile
-1P  EHEL  -49.6684  -72.8857  292.00 Estancia Helsingfors, Patagonia, Argentina
-1P  EIDA  -49.5393  -70.8800  220.00 Estancia Ida, Patagonia, Argentina
-1P  ELCH  -49.3390  -72.8834  449.00 El-Chalten, Patagonia, Argentina
-1P  ES3R  -50.7734  -72.4259  732.00 Estancia Tres R, Patagonia, Chile
-1P  ESCR  -49.9588  -73.1319  218.00 Estancia Cristina, Patagonia, Argentina
+1P  CURI  -51.6131  -74.5560   51.50 Islas Cueri, Chile
+1P  EHEL  -49.6686  -72.8857  298.80 Estancia Helsingfors, Patagonia, Argentina
+1P  EIDA  -49.5393  -70.8801  213.40 Estancia Ida, Patagonia, Argentina
+1P  ELCH  -49.3389  -72.8834  427.90 El-Chalten, Patagonia, Argentina
+1P  ES3R  -50.7735  -72.4260  723.40 Estancia Tres R, Patagonia, Chile
+1P  ESCR  -49.9588  -73.1319  214.70 Estancia Cristina, Patagonia, Argentina
 1P  ETDA  -49.5393  -70.8800  220.00 Estancia Ida, Patagonia, Argentina
-1P  GRAF  -49.7702  -74.9223  690.00 Chilean Fiord, Patagonia, Chile
-1P  GUMN  -50.3199  -75.3644  490.00 Chilean Fiord, Patagonia, Chile
-1P  HANO  -50.9341  -74.3930  680.00 Chilean Fiord, Patagonia, Chile
-1P  LACD  -49.0152  -71.0601  470.00 Estancia Sierra Andia, Patagonia, Argentina
-1P  LEST  -49.7876  -72.0907  290.00 Estancia La Estela, Patagonia, Argentina
-1P  LPRF  -50.2791  -70.8097  491.00 Estancia La Porfiada, Patagonia, Argentina
-1P  LSMN  -49.0384  -72.2227  334.00 Lago San Martin, Patagonia, Argentina
-1P  LVAN  -51.0252  -71.1152  257.00 Estancia La Vanguardia, Patagonia, Argentina
-1P  MAMA  -52.0335  -72.3822  181.00 Lago Pinto, Patagonia, Chile
-1P  OHRS  -48.7078  -73.9807  650.00 Chilean Fiord, Patagonia, Chile
-1P  PEMO  -47.8508  -72.0329  942.00 NP Perito Moreno, Patagonia, Argentina
-1P  PMOR  -50.4904  -73.0427  221.00 Glacier Perito Moreno, Patagonia, Argentina
+1P  GRAF  -49.7702  -74.9223   62.10 Chilean Fiord, Patagonia, Chile
+1P  GUMN  -50.3199  -75.3644   52.30 Chilean Fiord, Patagonia, Chile
+1P  HANO  -50.9341  -74.3930   78.00 Isla Hanover, Chile
+1P  LACD  -49.0152  -71.0601  470.80 Estancia Sierra Andia, Patagonia, Argentina
+1P  LEST  -49.7877  -72.0906  298.90 Estancia La Estela, Patagonia, Argentina
+1P  LPRF  -50.2791  -70.8098  489.90 Estancia La Porfiada, Patagonia, Argentina
+1P  LSMN  -49.0385  -72.2228  327.30 Lago San Martin, Patagonia, Argentina
+1P  LVAN  -51.0252  -71.1152  263.00 Estancia La Vanguardia, Patagonia, Argentina
+1P  MAMA  -52.0337  -72.3827  183.70 Lago Pinto, Patagonia, Chile
+1P  OHRS  -48.7078  -73.9807   56.80 O'Higgins NP, Chile
+1P  PEMO  -47.8508  -72.0323  937.20 NP Perito Moreno, Patagonia, Argentina
+1P  PMOR  -50.4904  -73.0428  222.00 Glacier Perito Moreno, Patagonia, Argentina
 1P  PTOE  -49.1266  -74.4326  240.00 Chilean Fiord, Patagonia, Chile
-1P  RPTE  -52.1152  -71.3772  267.00 Estancia Rio Penitente, Patagonia, Chile
-1P  TAPA  -51.0489  -71.7863  322.00 Estancia Tapi Aike, Patagonia, Argentina
-1P  TDPA  -51.1323  -73.1182  850.00 Torres del Paine, Patagonia, Chile
-1P  TRLG  -49.4757  -71.5729  403.00 Estancia Los Cerros, Patagonia, Argentina
-1P  WIND  -48.0272  -71.4552  849.00 Estancia La Siberia, Patagonia, Argentina
+1P  PTTY  -50.4237  -74.2730   33.00 Chilean Fiord, Patagonia, Chile
+1P  RPTE  -52.1152  -71.3773  261.60 Estancia Rio Penitente, Patagonia, Chile
+1P  TAPA  -51.0488  -71.7863  326.90 Estancia Tapi Aike, Patagonia, Argentina
+1P  TDPA  -51.1322  -73.1184   79.40 Torres del Paine, Patagonia, Chile
+1P  TRLG  -49.4756  -71.5728  412.20 Estancia Los Cerros, Patagonia, Argentina
+1P  WIND  -48.0270  -71.4552  853.30 Estancia La Siberia, Patagonia, Argentina
 2H  CONZ  -77.5329  167.0823 3433.00 Mt Erebus site CONZ
 2H  ELHT  -77.5105  167.1441 3374.60 Mt Erebus site ELHT
 2H  ICEZ  -77.5517  167.2820 2370.10 Mt Erebus site ICE
@@ -540,6 +542,7 @@ AV  BOGO   53.9291 -168.0347    5.00 Bogoslof, Bogoslof Volcano, Alaska
 AV  CAHL   58.0518 -155.3036  807.00 Cahill, Katmai, Alaska
 AV  CLCO   52.7866 -169.7229  137.00 Concord Point, Cleveland Volcano, Alaska
 AV  CLES   52.8235 -169.8951  146.00 Cleveland East, Cleveland Volcano, Alaska
+AV  ILLG   60.0689 -152.9606  968.00 Iliamna Volcano, Alaska
 AV  ILS    59.9570 -153.0703 1125.00 Iliamna South, Iliamna Volcano, Alaska
 AV  ILSW   59.9832 -153.1425 1318.00 Iliamna Southwest, Iliamna Volcano, Alaska
 AV  ISLZ   54.7249 -163.7129  634.00 Lazaref River, Shishaldin Volcano, Alaska
@@ -557,6 +560,7 @@ AV  MSW    53.9148 -166.7880  423.00 Switchbacks, Makushin Volcano, Alaska
 AV  MTBL   53.9680 -166.6813  810.00 Table Top, Makushin Volcano, Alaska
 AV  NCT    60.5621 -152.9293 1136.00 North Crescent, Redoubt Volcano, Alaska
 AV  OKCE   53.4261 -168.1663  516.00 Cone E, Okmok Caldera, Alaska
+AV  OKFG   53.4108 -167.9114  196.00 Fort Glenn, Okmok Caldera, Alaska
 AV  OKNC   53.4559 -168.1255  404.00 New Cone D, Okmok Caldera, Alaska
 AV  OKSO   53.3565 -168.1619  460.00 South, Okmok Caldera, Alaska
 AV  PLBL   57.6991 -156.8210  461.00 Mt. Peulik Volcano, Alaska
@@ -1350,7 +1354,7 @@ II  ABPO  -19.0180   47.2290 1528.00 Ambohimpanompo, Madagascar
 II  ALE    82.5033  -62.3500   60.00 Alert, NU, Canada
 II  ARTI   56.3879   58.3849  320.00 Arti, Russia
 II  ASCN   -7.9327  -14.3601  173.00 Butt Crater, Ascension Island
-II  BFO    48.3301    8.3296  589.00 Black Forest Observatory, Schiltach, Germany
+II  BFO    48.3301    8.3296  638.00 Black Forest Observatory, Schiltach, Germany
 II  BORG   64.7474  -21.3268  110.00 Borgarfjordur, Asbjarnarstadir, Iceland
 II  BRVK   53.0581   70.2828  330.00 Borovoye, Kazakhstan
 II  CMLA   37.7637  -25.5243  429.00 Cha de Macela, Sao Miguel Island, Azores
@@ -1387,7 +1391,7 @@ II  TAU   -42.9099  147.3204  132.00 Hobart, Tasmania, Australia
 II  TLY    51.6807  103.6438  579.00 Talaya, Russia
 II  UOSS   24.9453   56.2042  284.40 Univ. of Sharjah, Sharjah, United Arab Emirates
 II  WRAB  -19.9336  134.3600  366.00 Tennant Creek, NT, Australia
-II  XBFO   48.3301    8.3296  589.00 Black Forest Observatory, Schiltach, Germany
+II  XBFO   48.3301    8.3296  638.00 Black Forest Observatory, Schiltach, Germany
 II  XPFO   33.6107 -116.4555 1280.00 Pinon Flat, California, USA
 IM  AKASG  50.7012   29.2242  160.00 Malin Array Beam, Ukraine
 IM  EKB1   55.3093   -3.1770  275.00 Eskdalemuir Array, site EKB1, Scotland
@@ -2002,6 +2006,7 @@ OV  OCHAL   9.0976  -83.6456  137.00 Ojochal
 OV  OCM     9.8941  -83.9623 1607.00 Ochomogo, Cartago
 OV  ORTG   10.3623  -85.4590  760.00 Ortega, Santa Cruz, Guanacaste
 OV  PEZE    9.3826  -83.6775  807.00 PEREZ ZELEDON, Campus UNA, Perez Zeledon, San Jose
+OV  PJIM    8.5010  -83.3082   59.00 Puerto Jimenez, Puntarenas
 OV  PNPB    8.6844  -83.2284  110.00 Parque Nacional Piedras Blnacas , Golfito , Puntae
 OV  POTG    9.0525  -83.1189  674.00 Potrero Grande  , Buenos Aires , Puntarenas
 OV  RIFO   10.3172  -83.9228  139.00 RIO FRIO, Sarapiqui, Heredia
@@ -2023,10 +2028,10 @@ PL  KWP    49.6314   22.7075  448.00 PLSN/GEOFON Station Kalwaria Paclawska, Pol
 PL  NIE    49.4189   20.3131  649.00 PLSN Station Niedzica, Poland
 PL  OJC    50.2195   19.7984  391.00 
 PL  SUW    54.0125   23.1808  152.00 PLSN/GEOFON Station Suwalki, Poland
-PM  PESTR  38.8672   -7.5902  410.00 ESTREMOZ, PORTUGAL
-PM  PFVI   37.1328   -8.8268  189.00 
+PM  PESTR  38.8672   -7.5902  410.00 Estremoz, Portugal
+PM  PFVI   37.1328   -8.8268  189.00 Vila do Bispo, Portugal
 PM  PMOZ   32.8230  -17.1972 1027.00 
-PM  PVAQ   37.4037   -7.7173  200.00 Station VAQUEIROS, Portugal
+PM  PVAQ   37.4037   -7.7173  200.00 Vaqueiros, Portugal
 PM  ROSA   38.7208  -28.2470  310.00 
 PN  CHSA   61.6080 -149.2120    0.10 -
 PN  GCSA   64.7461 -156.8792    0.00 Galena City Schools, Galena, AK, USA
@@ -2117,34 +2122,34 @@ PO  VI12   50.0537 -127.1186    9.00 Fair Harbour, Vancouver Island, BC
 PO  VI30   50.5587 -127.0030    9.00 Nimpikish Fish Hatchary, Vancouver Island, BC
 PP  GCSA   64.7461 -156.8792   46.00 Galena City School
 PR  ABVI   18.7296  -64.3325    8.00 Anegada, BVI
-PR  AGPR   18.4675  -67.1112  119.90 Aguadilla
+PR  AGPR   18.4675  -67.1112  119.90 AGPR
 PR  AOPR   18.3466  -66.7540  355.10 Arecibo Observatory
 PR  AUA1   12.5056  -70.0106   70.00 Aruba
 PR  CDVI   17.7522  -64.7647   70.60 ST. CROIX VI (4125)
-PR  CELP   18.0749  -66.5792  195.60 Cerrilos Dam
+PR  CELP   18.0749  -66.5792  197.00 CELP
 PR  CPD    18.0368  -65.9151  385.00 Yabucoa
-PR  CRPR   18.0064  -67.1096  119.90 Cabo Rojo
+PR  CRPR   18.0064  -67.1096   64.90 Cabo Rojo
 PR  CULB   18.3264  -65.3006  580.00 Culebra, Puerto Rico
 PR  CUPR   18.3075  -65.2826    7.00 Culebra
-PR  ECPR   18.3187  -66.3629  247.30 Estacion Experimental Corozal
-PR  EMPR   18.4771  -66.5295    7.40 Manati
+PR  ECPR   18.3188  -66.3629  207.00 ECPR
+PR  EMPR   18.4771  -66.5295    0.00 EMPR
 PR  GCPR   18.3090  -66.0836  115.00 Buen Pastor,Guaynabo
-PR  HUMP   18.1421  -65.8488   79.10 Humacao
+PR  HUMP   18.1421  -65.8489   80.00 HUMP
 PR  ICM    17.8934  -66.5210   77.20 Isla Caja Muertos, PR
 PR  ICMP   17.8863  -66.5267   10.00 Isla Caja Muertos
-PR  IGPR   17.9654  -66.1068    1.00 Inter, Guayama
+PR  IGPR   17.9655  -66.1068   10.00 IGPR
 PR  IMPR   18.0757  -67.9308    0.00 Isla de Mona
-PR  MLPR   17.9694  -67.0442    0.00 Magueyes
+PR  MLPR   17.9694  -67.0442   31.00 PRSN
 PR  MPR    18.2117  -67.1398   22.40 RUM
 PR  MTP    18.0972  -65.5527  191.00 Vieques
 PR  OBIP   18.0428  -66.6062  102.60 Obispado, Ponce
 PR  PCDR   18.5145  -68.3810   10.00 Punta Cana, Rep. Dominicana
-PR  PDPR   18.0181  -66.0222    0.00 Patillas, Dam
-PR  PRSN   18.2171  -67.1447   27.00 PRSN_RUM
+PR  PDPR   18.0181  -66.0222   42.00 PDPR
+PR  PRSN   18.2175  -67.1447   27.00 PRSN
 PR  SJVI   18.3315  -64.7718  149.10 St. John USVI
 PR  SMN1   19.1878  -69.2733   50.00 Samana, Rep. Dominicana
 PR  STVI   18.3533  -64.9622  377.00 Herman Hill, St. Thomas
-PR  UUPR   18.2528  -66.7202  201.10 Utuado UPR
+PR  UUPR   18.2528  -66.7202  203.10 UUPR
 PR  VGBI   18.4905  -64.4022  303.60 Virgen Gorda BVI
 PR  VGVI   18.4905  -64.4022  303.60 Virgen Gorda BVI
 PS  BAG    16.4108  120.5797 1507.00 Baguio, Philippines
