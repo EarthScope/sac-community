@@ -13,12 +13,15 @@ convolution to apply another instrument response.
 ::
 
   [TRANS]FER {FROM type {options}} , {TO type {options}} ,
-        {FREQlimits f1 f2 f3 f4} , {PREWhitening ON|OFF|n}
+        {FREQlimits f1 f2 f3 f4} , {PREWhitening ON|OFF|n},
+
 
 **INPUT**
 
-   :FROM type:  Remove the instrument type by deconvolution using
-       spectral division.
+   :FROM type: Instrument deconvolution using spectral division,
+       EVALRESP, POLEZERO, or FAPfile
+
+       EVALRESP, POLEZERO, and FAPfile are described below.
 
    :TO type:  Insert the instrument type by convolution using
        spectral multiplication.
@@ -26,9 +29,20 @@ convolution to apply another instrument response.
        The allowed instrument types and their options
        for both TO and FROM are listed in a table below.
 
-   :DEFAULT VALUES:  TRANS FROM NONE TO NONE
+   :FREQLIMITS:  Default is no limits.  See discussion below
 
-   There are additional options discussed below.
+   :PREWHITENING OFF:  Turns off prewhitening. This is the default.
+
+   :PREWHITENING ON: Turns on prewhitening in the time domain
+       before spectral operations, and compensating dewhitening in
+       the time domain after spectral operations.
+
+   :PREWHITENING n:  Turns on prewhitening and change the
+       prewhitening order to n. If the user turns it on without
+       specifying the order, it will default to n=6, unless the
+       order has been changed in the WHITEN_ command.
+
+   :DEFAULT VALUES:  TRANS FROM NONE TO NONE
 
 **DESCRIPTION**
 
@@ -63,29 +77,27 @@ convolution to apply another instrument response.
    data acquisition systems were much simpler.  The seismometers in
    the list at the end of this message include the most popular
    ones used previously. The evolution of data handling by IRIS is described
-   in `DATA ACCESS`_
+   in `DATA ACCESS`_.
 
    **EVALRESP**
 
-   The EVALRESP program calculates the complete system response from
-   response (RESP) files produced by RDSEED.  EVALRESP routines have
-   been embedded within TRANSFER as an "instrument" type, allowing a
-   user to perform (de)convolution using the complete system response
-   represented in RESP files.  The code used in SAC is based on
-   v3.3.3, and does not recognize all the options available in the
-   current version of EVALRESP (v5.0, August 2019). If one wants an
-   option only availalble in the full program, one can first run
-   EVALRESP with a FAP output option and use the FAP option (see
-   below) to correct the SAC data file. The source code for programs
-   RDSEED and EVALRESP can be downloaded from URL
+   The EVALRESP program calculates the complete system
+   response from response (RESP) files produced by commands given in
+   RESPONSE_ or programs such as RDSEED. The code used in SAC does not
+   recognize all the options available in the current version of
+   EVALRESP (v5.0, August 2019). If one wants an option only
+   availalble in the full program, one can first run EVALRESP with a
+   FAP output option and use the FAP option (see below) to correct the
+   SAC data file. The source code for program EVALRESP can be
+   downloaded from URL
    <http://ds.iris.edu/ds/nodes/dmc/software/downloads/>.
 
    The SAC sign convention for Laplace/Fourier transforms is the same as
    that used in SEED and EVALRESP: phase for a causal response decreases
    with increasing frequency.  For displacements, the SAC convention
-   is nm, while RDSEED RESP files use meters.  **NOTE:** The EVALRESP
-   option in TRANSFER converts the output to the SAC convention.  For
-   other options (FAP, PZ) it may be necessary to manually change the
+   is nm, while RESP files use meters.  **NOTE:** The EVALRESP option
+   in TRANSFER converts the output to the SAC convention.  For other
+   options (FAP, PZ) it may be necessary to manually change the
    units. (See examples below.)
 
    **FREQLIMITS f1 f2 f3 f4** All seismometers have zero response
@@ -119,7 +131,7 @@ convolution to apply another instrument response.
    NOTE that the default has no FREQLIMITS.  It is strongly advised
    that one includes FREQLIMITS if one is doing a deconvolution.
 
-   **PREWHITENING**  Prewhitening can be used to flatten the spectrum
+   Prewhitening can be used to flatten the spectrum
    of the input time series before transforming in the
    frequency domain. This should reduce the dynamic range of
    the spectral values, and improve the accuracy of the
@@ -127,25 +139,12 @@ convolution to apply another instrument response.
    default for prewhitening is off.  See command WHITEN_ for
    further information.
 
-   **PREWHITENING ON** Turns on prewhitening in the time domain
-   before spectral operations, and compensating dewhitening in
-   the time domain after spectral operations.
-
-   **PREWHITENING OFF**  Turns off prewhitening.
-
-   **PREWHITENING n**  Turns on prewhitening and change the
-   prewhitening order to n. If the user turns it on without
-   specifying the order, it will default to n=6, unless the
-   order has been changed in the WHITEN_ command.
-
-
-EVALRESP OPTION
----------------
+FROM EVALRESP
+-------------
   This option enables the application of transfer functions
   extracted from SEED data volumes using the EVALRESP code
-  (Version 3.3.3). To use this option, one needs RESP files,
-  commonly these are produced from SEED volumes by the RDSEED
-  program.  The RESP files must be in the current directory or
+  (Version 3.3.3). To use this option, one needs a RESP file.
+  The RESP files must be in the current directory or
   must be specified by full path and name.
 
   There is no formal documentation for the RESP files themselves,
@@ -178,7 +177,7 @@ EVALRESP OPTION
   option, then the current system time is used in the search.  If
   network is not specified, then the search for a transfer
   function defaults to use any network.  If LOCID is not set at
-  the command line or in KHOLE, then the search for the transfer
+  the command line or in KHOLE/LOCID, then the search for the transfer
   function defaults to use any LOCID.  To force TRANSFER to use a
   specific SEED response file use the FNAME option followed by
   the filename.
@@ -240,8 +239,8 @@ EVALRESP OPTION
   series.  FREQLIMITS is necessary for deconvolutions TO NONE because
   the instrument has zero response at zero frequency.
 
-POLEZERO OPTION
----------------
+FROM POLEZERO
+-------------
   POLEZERO is an instrument type that can be used to put in or
   take out the (analog) seismometer response.  A good reference is
   Appendix C in the SEED manual.
@@ -266,34 +265,27 @@ POLEZERO OPTION
 
   The options in the file (poles, zeros, constant, and comment
   lines) are keyword driven and numbers are in free format.
-  CONSTANT is a scaling factor.  (See the SEED manual for how it
-  is defined for polezero files produced by RDSEED.) The default for
-  CONSTANT is 1.0 if one omits this line.  one specifies the
-  number of poles by putting a line in the file with the keyword
-  "POLES" followed by an integer number (np in the above
-  example).  The next np lines in the file, each containing two
-  floating-point numbers, are the poles for this instrument.  One
+  CONSTANT is a scaling factor.  (See IRIS DMC's SAC PZ web service
+  <http://service.iris.edu/irisws/sacpz/> or the SEED manual for how
+  it is defined). The default for CONSTANT is 1.0 if one omits this
+  line.  One specifies the number of poles by putting a line in the
+  file with the keyword "POLES" followed by an integer number (np in
+  the above example).  The next np lines in the file, each containing
+  two floating-point numbers, are the poles for this instrument.  One
   specifies the zeros with a line starting with "ZEROS" followed by an
   integer specifying the number of zeros (nz).  Because a typical
-  polezero file has one or more zeros that are (0.0,0.0),  SAC
-  does not require one to write out a line for a zero equal to
-  (0.0,0.0), so the number of zeros lines can be less than nz. One may
-  specify up to 30 poles and 30 zeros.
+  polezero file has one or more zeros that are (0.0,0.0), SAC does not
+  require one to write out a line for a zero equal to (0.0,0.0), so
+  the number of zeros lines can be less than nz. One may specify up to
+  30 poles and 30 zeros.
 
   The original SAC polezero files only contained poles, zeroes, and a
-  constant.  Recently, it has been determined that supplying formatted
-  comments as a header in the polezero file helps greatly for users to
+  constant.  About ten years ago it was decided that supplying formatted
+  comments as a header in the polezero file helps users
   organize and understand the origins of the coefficients presented.
-  For this reason, SAC now supports the 'annotated' polezero file,
-  which can be readily produced by RDSEED (v5.2,
-  October 2011) as well as IRIS DMC's SAC PZ web service
-  <http://service.iris.edu/irisws/sacpz/>.  (RDSEED v5.0 had annotation lines
-  with slightly different formats for some entries.  SAC v 101.5 can
-  handle files written by either v5.0 or 5.2 of RDSEED.  Polezero files
-  produced by a request to sacpz are in the RDSEED 5.2 format.) If a
-  waveform in memory has header values KSTNM, KCMPNM, KZDATE, and KZTIME
-  that match entries for a polezero file in the call to TRANSFER, the
-  command will work for that waveform.  Depending on the request format,
+  For this reason, since 2011 SAC supports the *annotated* polezero file,
+  produced by RDSEED (starting with v5.2, October 2011) or available for the
+  IRIS SACPZ archive.  Depending on the request format,
   a polezero file returned by sacpz may include multiple polezero files
   covering more than one time epoch as well as more than one station and/or
   channel.  A call to TRANSFER using such a file will work satisfactorily
@@ -303,9 +295,7 @@ POLEZERO OPTION
   Options for specifying the NETWORK, STATION, LOCID, CHANNEL, DATE, TIME
   are available for the POLEZERO option as they are in the EVALRESP option.
 
-  Here is a polezero file written by program RDSEED (v5.2).  Earlier
-  versions of RDSEED have a slightly different format for the
-  comments (v5.0) or may have no comments (earlier versions)::
+  The polezero file below was written by program RDSEED (v5.2)::
 
     * **********************************
     * NETWORK   (KNETWK): II
@@ -353,13 +343,10 @@ POLEZERO OPTION
   "M", so seismometers and accelerometers perform a simple conversion
   to address integration.  An accelerometer will add two "zeros" to the
   beginning of a channel's zero response to step down to displacement.
-  For velocity, the program just adds one "zero". As shown in the RDSEED
-  manual <http://ds.iris.edu/ds/nodes/dmc/software/downloads/rdseed/5-3-1/manual>,
-  the number of zeros in stage 0 in the RESP file may differ from the
+  For velocity, the program just adds one "zero".
+  The number of zeros in stage 0 in the RESP file may differ from the
   number in the polezero file because INPUT UNIT in the polezero is fixed
-  while "Response in units" in the RESP file is not.  We note again that
-  unlike EVALRESP, POLEZERO in SAC does not convert the displacement units
-  from meters to nanometers.
+  while "Response in units" in the RESP file is not.
 
   Note that when one compares the SAC waveform file to the polezero file,
   the SAC header value COMPINC differs by 90 degrees from the polezero DIP:
@@ -367,18 +354,12 @@ POLEZERO OPTION
   positive angle from horizontal.  The polezero AZIMUTH uses the same
   convention as the SAC header CMPAZ.
 
-  Note: On some platforms, RDSEED v5.1 produces incorrect END times -- often
-  earlier than the START time, so TRANSFER will not work.  Manually changing
-  END to a time later than CREATED will allow TRANSFER to process that
-  waveform.
-
   To use this option, one specifies the type to be POLEZERO and
   the [S]ubtype is the name of the file.  This may be a file in
   the current directory or in some other directory if one
   specifies the absolute or relative pathname.
 
 **POLEZERO SEARCH**
-
 
   If a SUBTYPE with FILENAME is not set, SAC will search the current
   directory for SAC Polezero files named like::
@@ -419,8 +400,8 @@ POLEZERO OPTION
      Using polezero response for DAWA, BHZ, XT, 01 from SAC_PZs_XT_DAWA_BHZ_01_
      Station (DAWA    ), Channel (BHZ     )
 
-  If the responses are instead in a directory named `responses`, a
-  `DIR  responses` should be added to the FROM part section, e.g.::
+  If the responses are instead in a directory named *responses*, a
+  *DIR  responses* should be added to the FROM part section, e.g.::
 
     SAC> transfer from POLEZERO DIR responses to  NONE   FREQLIMITS (1/120) (1/60)  6 7
      Using polezero response for ATAT, BHZ, XT, 01 from responses/SAC_PZs_XT_ATAT_BHZ_01_
@@ -431,8 +412,7 @@ POLEZERO OPTION
 **POLEZERO EXAMPLES**
 
   The PZ file SAC_PZs_XC_OR075_LHZ is the correct one to remove the
-  instrument response from waveform OR075_LHZ.SAC.
-  (Names are shortened from those rturned by RDSEED.)::
+  instrument response from waveform OR075_LHZ.SAC::
 
     SAC> SETBB pzfile "SAC_PZs_XC_OR075_LHZ"
     SAC> READ OR075_LHZ.SAC
@@ -470,11 +450,11 @@ POLEZERO OPTION
        SAC> rtr;taper
        SAC> TRANS FROM POLEZERO S event.pz freq 0.05 0.1 10.0 15.0
 
-FAPfile OPTION
+FROM FAPfile
 ---------------
 
   Reintroduced into SAC in version 101.4, is the FAPfile option.
-  A FAPFILE is an ascii file in which each line has three entries:
+  A FAPfile is an ascii file in which each line has three entries:
   a frequency (in HZ), an amplitude, and a phase (in degrees that will
   decrease with increasing frequency).  This FROM option will deconvolve
   the waveform over the frequency range from the frequency in the first
@@ -485,19 +465,19 @@ FAPfile OPTION
   line, the amplitude and phase for the frequency in the last line are used.
 
   As of version 3.3.2 in EVALRESP, a FAPfile output can be generated.  An
-  advantage of using a FAPFILE generated by EVALRESP rather than a POLEZERO
+  advantage of using a FAPfile generated by EVALRESP rather than a POLEZERO
   file generated from the same RESP file is that one can include additional
   stages of the instrument response and/or control more explicitly the
   frequency range over which the correction is applied.  Historically, a
-  FAPFILE was used because one did not have a polezero file for the
+  FAPfile was used because one did not have a polezero file for the
   instrument or the full response included analog stages.
 
-  The format of a FAP file is consistent with that produced by the standalone
-  program EVALRESP, but is different from the format used by SAC2000.
+  The format of a FAPfile is consistent with that produced by the standalone
+  program EVALRESP, but is different from the format used by (pre-200S) SAC2000.
 
-**FAP EXAMPLES**
+**FAPfile EXAMPLES**
 
-  Suppose one has a fapfile fap.n11a.lhz_0.006-0.2, where the name is a
+  Suppose one has a FAPfile fap.n11a.lhz_0.006-0.2, where the name is a
   short-hand for the fact that the frequency range is fro m0.006 HZ
   to 0.2 HZ, and one wants to remove the instrument response from waveform
   2006.253.14.30.24.0000.TA.N11A..LHZ.Q.SA. ::

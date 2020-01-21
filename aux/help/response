@@ -43,7 +43,8 @@ DEFAULT VALUES
 
 DESCRIPTION
 -----------
- Download responses for data in memory or specified using the command options.
+ Download responses for time-series data in memory or specified using the
+ command options.
 
  Data in Memory.  To download responses for data in memory, the following header
  values must be defined:
@@ -70,8 +71,8 @@ For specific responses, use the net, sta, loc, and cha options::
     SAC> response resp net BK sta BKS loc * cha BHZ
     Writing data to RESP.BK.BKS..BHZ [ 73.52 KiB]
 
-Time Range: If no time period is specified, then the total duration is requested.
-See `DATA ACCESS`_ for time formats.
+Time Range: If no time period is specified, then the total duration is
+requested.  See `DATA ACCESS`_ for time formats.
 
 Wildcards are possible only in the location and channel command options.
 
@@ -89,6 +90,9 @@ is appended to the filename, e.g.:
     - RESP.BK.BKS..BHZ.0
     - RESP.BK.BKS..BHZ.1
 
+The TRANSFER_ command discusses sac POLEZERO files and RESP files and
+shows how they are used to instrument-correct a time-series data file.
+
 ERROR MESSAGES
 --------------
 
@@ -98,7 +102,7 @@ ERROR MESSAGES
 
 SEE COMMANDS
 ------------
-   STATION_, DATA_, METADATA_, EVENT_, `DATA ACCESS`_
+   STATION_, DATA_, METADATA_, EVENT_, `DATA ACCESS`_, TRANSFER_
 
 LATEST REVISION
 ---------------

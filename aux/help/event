@@ -22,7 +22,6 @@ SYNTAX
 INPUT
 -----
    :TIME: Set the start and end times. End times can be set relatively.
-       Time formats can be found in `Data Access`_.
 
    :REGION west east south north: Set the geographic bounds of the search region
 
@@ -68,7 +67,7 @@ DESCRIPTION
 
   Event IDs are saved and can be used to identify origin times and
   locations in similar searching commands.  They can also be used to
-  set SAC file metadata for an event.
+  set SAC file METADATA_ for an event.
 
 EXAMPLES
 --------
@@ -77,14 +76,19 @@ To search for all events with Magnitudes :\math:`\ge` 9.0::
 
    SAC> event mag 9
    Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
-   2011-03-11T05:46:24  38.30  142.37  29.00 9.10 mww US/official usgs:official20110311054624120_30
-   2004-12-26T00:58:53   3.29   95.98  30.00 9.10 mw  US/official usgs:official20041226005853450_30
-   1964-03-28T03:36:16  60.91 -147.34  25.00 9.20 mw  iscgem/official usgs:official19640328033616_30
-   1960-05-22T19:11:20 -38.14  -73.41  25.00 9.50 mw  iscgem/official usgs:official19600522191120_30
-   1952-11-04T16:58:30  52.62  159.78  21.60 9.00 mw  iscgem/official usgs:official19521104165830_30
+   2011-03-11T05:46:24  38.30  142.37  29.00 9.10 mww US/official
+      usgs:official20110311054624120_30
+   2004-12-26T00:58:53   3.29   95.98  30.00 9.10 mw  US/official
+      usgs:official20041226005853450_30
+   1964-03-28T03:36:16  60.91 -147.34  25.00 9.20 mw  iscgem/official
+      usgs:official19640328033616_30
+   1960-05-22T19:11:20 -38.14  -73.41  25.00 9.50 mw  iscgem/official
+      usgs:official19600522191120_30
+   1952-11-04T16:58:30  52.62  159.78  21.60 9.00 mw  iscgem/official
+      usgs:official19521104165830_30
 
-If you were expecting to find a specific event, if can be useful to
-search different catalogs. Let's use the UGSS / NEIC Catalog
+If you were expecting to find a specific event, it can be useful to
+search different catalogs. Let's use the UGSS / NEIC Catalog::
 
    SAC> event mag 9 cmt
    Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
@@ -96,7 +100,8 @@ hemisphere. Note, longitudes should be between -180 and 180::
 
    SAC> event mag 9 usgs region -180 180 -90 0
    Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
-   1960-05-22T19:11:20 -38.14  -73.41  25.00 9.50 mw  iscgem/official usgs:official19600522191120_30
+   1960-05-22T19:11:20 -38.14  -73.41  25.00 9.50 mw  iscgem/official
+   usgs:official19600522191120_30
 
 Consider the deep 1994 Bolivian earthquake.  Let's limit the depth
 and restrict the time range::

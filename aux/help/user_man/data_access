@@ -33,21 +33,21 @@ Web services. These abilities include
        important and commonly used structures of SEED 2.4 metadata with
        enhancements.
 
-     - **PH5 Web Services**: These services are designed to provide an interface
-       to time series datasets, related station metadata, and active
-       (controlled) source event (shot) information stored in the PH5 data
-       archive.
-
+     - **PH5/HDF5** ( hierarchical data format, version 5):
+       <https://www.passcal.nmt.edu/content/ph5-what-it> is the PASSCAL
+       archival format for active-source, controlled-source and mixed-source
+       data sets. PASSCAL has transitioned from SEG-Y to PH5.
 
 Web requests are made to the colletion of Web Services at
 `<http://service.iris.edu>`_ along with event searches through the
 `USGS <http://earthquake.usgs.gov>`_ and `ISC <http://www.isc.ac.uk>`_.
 
-Event search results, EVENT_, can be used as input for timing and
-location in DATA_ and STATION_ seaches using assocaited event
-id. Examples are given below.
+An **EventID** is defined by *source:uniqueid*. See EVENT_ for more details.
 
-An **eventid** is defined by *source:uniqueid*. See EVENT_ for more details.
+Event search results, EVENT_, can be used as input for timing and
+location in DATA_ and STATION_ seaches using assocaited
+*EventID*. Examples are given below.
+
 
 The format for latitudes and longitudes is degrees.decimal-degrees.  Longitudes
 run from -180.00 degrees to 180.00 degrees.  The formats used for time are given
@@ -123,11 +123,16 @@ will search the USGS Earthquake catalog by default::
 
      SAC> event time 2019-10-31 -100years mag 9
      Origin              Lat.   Lon.    Depth  Mag.     Agency EventID
-     2011-03-11T05:46:24  38.30  142.37  29.00 9.10 mww US/official - usgs:official20110311054624120_30
-     2004-12-26T00:58:53   3.29   95.98  30.00 9.10 mw  US/official - usgs:official20041226005853450_30
-     1964-03-28T03:36:16  60.91 -147.34  25.00 9.20 mw  iscgem/official - usgs:official19640328033616_30
-     1960-05-22T19:11:20 -38.14  -73.41  25.00 9.50 mw  iscgem/official - usgs:official19600522191120_30
-     1952-11-04T16:58:30  52.62  159.78  21.60 9.00 mw  iscgem/official - usgs:official19521104165830_30
+     2011-03-11T05:46:24  38.30  142.37  29.00 9.10 mww US/official -
+        usgs:official20110311054624120_30
+     2004-12-26T00:58:53   3.29   95.98  30.00 9.10 mw  US/official -
+        usgs:official20041226005853450_30
+     1964-03-28T03:36:16  60.91 -147.34  25.00 9.20 mw  iscgem/official -
+        usgs:official19640328033616_30
+     1960-05-22T19:11:20 -38.14  -73.41  25.00 9.50 mw  iscgem/official -
+        usgs:official19600522191120_30
+     1952-11-04T16:58:30  52.62  159.78  21.60 9.00 mw  iscgem/official -
+        usgs:official19521104165830_30
 
 **Using the NOW keyword**
 
@@ -172,7 +177,8 @@ region and the network *IU*::
 If a particular time range or distance range is of interest, that may
 be specified as well::
 
-     SAC> station network IU channel ?HZ time 2011-03-11 1day radial 30 35 origin 143.05 37.53
+     SAC> station network IU channel ?HZ time 2011-03-11 1day radial 30 35
+          origin 143.05 37.53
      Net Sta   Lat.     Lon.      Elev.   SiteName
      IU  ADK    51.8823 -176.6842  130.00 Adak, Aleutian Islands, Alaska
      IU  BILL   68.0653  166.4531  320.00 Bilibino, Russia
@@ -258,7 +264,8 @@ Create a request file from the station file::
 
      No Data Downloaded, use miniseed, sac, or read to download data
 
-Use the request file to download data, this will automatically download to miniSSED::
+Use the request file to download data, this will automatically download to
+miniSSED::
 
      SAC> data request net_BK_request.txt
      Data Center: NCEDC,http://www.ncedc.org
@@ -271,13 +278,19 @@ These can be avoided by using there READ option in DATA::
      SAC> getbb FILE
       FILE = 'fdsnws.2019.10.25.18.01.01.NCEDC.mseed'
      SAC> read %FILE
-            SourceID                Start sample             End sample         Gap
-     XFDSN:BK_BDM__B_H_Z      2010-08-23T00:00:00.010466 2010-08-23T00:59:59.985466  ==
-     XFDSN:BK_BKS__B_H_Z      2010-08-23T00:00:00.023145 2010-08-23T00:59:59.998145  ==
-     XFDSN:BK_BRIB_00_B_H_Z   2010-08-23T00:00:00.019538 2010-08-23T00:59:59.994538  ==
-     XFDSN:BK_BRK_00_B_H_Z    2010-08-23T00:00:00.019538 2010-08-23T00:59:59.994538  ==
-     XFDSN:BK_CMB__B_H_Z      2010-08-23T00:00:00.023616 2010-08-23T00:59:59.998696  ==
-     XFDSN:BK_CVS_00_B_H_Z    2010-08-23T00:00:00.019536 2010-08-23T00:59:59.994539  ==
+            SourceID                Start sample         End sample         Gap
+     XFDSN:BK_BDM__B_H_Z      2010-08-23T00:00:00.010466
+        2010-08-23T00:59:59.985466  ==
+     XFDSN:BK_BKS__B_H_Z      2010-08-23T00:00:00.023145
+        2010-08-23T00:59:59.998145  ==
+     XFDSN:BK_BRIB_00_B_H_Z   2010-08-23T00:00:00.019538
+        2010-08-23T00:59:59.994538  ==
+     XFDSN:BK_BRK_00_B_H_Z    2010-08-23T00:00:00.019538
+        2010-08-23T00:59:59.994538  ==
+     XFDSN:BK_CMB__B_H_Z      2010-08-23T00:00:00.023616
+        2010-08-23T00:59:59.998696  ==
+     XFDSN:BK_CVS_00_B_H_Z    2010-08-23T00:00:00.019536
+        2010-08-23T00:59:59.994539  ==
      SAC>
 
 **Applying metadata automatically**
@@ -401,7 +414,7 @@ command::
             KZDATE = JUN 09 (160), 1994
             KZTIME = 00:33:45.400
 
-**TELESEISMIC TRAVELTIME EXAMPLE**
+**Teleseismic Traveltime Example**
 
 Given a region of interest to conduct a teleseismic traveltime
 experiment, first find the events 30 to 90 degrees from the region of
@@ -439,7 +452,7 @@ traveltime data set using::
 
 
 RDSEED - End of Life
-====================
+--------------------
 
    Before 2010, the majority of data analysis was done on data sets commonly
    exchanged as SEED volumes, which could be downloaded from the IRIS Data
@@ -449,10 +462,9 @@ RDSEED - End of Life
    Program RDSEED is a legacy utility for reading SEED volumes. This utility
    allows the user to read the contents of the SEED file and convert it to many
    different output formats (including SAC), extracting the data, station
-   information, or instrument responses from the file.  Although Seed volumes
+   information, or instrument responses from the file.  Although SEED volumes
    remains the FDSN-approved file format for representing and distributing
-   digital seismic data, RDSEED is *End of Life* and no longer supported at IRIS
-   It has now been made an open-source project on GitHub
+   digital seismic data, RDSEED is *End of Life* and no longer supported at
+   IRIS. It has now been made an open-source project on *GitHub*
    <https://github.com/iris-edu-legacy/rdseed>.  For further details on RDSEED,
    go to <http://ds.iris.edu/ds/nodes/dmc/software/downloads/rdseed/5-3-1-eol/>.
-
