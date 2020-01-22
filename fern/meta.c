@@ -661,18 +661,27 @@ sac_array_fill_meta_data_from_file(sac **files, int verbose, char *file) {
     ms = NULL;
 }
 
+void
+show_stations_error(result *r) {
+    int code = result_http_code(r);
+    if(code == 404 || code == 204) {
+        printf("No stations found (%d)\n", code);
+    } else {
+        printf("%s\n", result_error_msg(r));
+    }
+}
+
 xml *
 xml_merge_results(result *r1, result *r2, char *path) {
     xml *x1 = NULL;
     xml *x2 = NULL;
     // If neither request is ok, return with error
     if(!result_is_ok(r1) && !result_is_ok(r2)) {
+        printf("Error getting station data: ");
         if(r1) {
-            printf("%s\n", result_error_msg(r1));
+            show_stations_error(r1);
         } else if(r2) {
-            printf("%s\n", result_error_msg(r2));
-        } else {
-            printf("Error getting station data\n");
+            show_stations_error(r2);
         }
         goto done;
     }

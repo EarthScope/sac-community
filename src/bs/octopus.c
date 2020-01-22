@@ -685,17 +685,6 @@ station_request(int *nerr) {
         rph5 = request_get(sr);
     }
 
-    if(!result_is_ok(r) && !result_is_ok(rph5)) {
-        if(r) {
-            printf("%s", result_error_msg(r));
-        } else if(rph5) {
-            printf("%s", result_error_msg(rph5));
-        } else {
-            printf("Error getting station data\n");
-        }
-        goto error;
-    }
-
     if(!(x = xml_merge_results(r, rph5, "//s:Network"))) {
         goto error;
     }
