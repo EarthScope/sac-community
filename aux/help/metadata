@@ -27,8 +27,9 @@ INPUT
        between xml and text files. Input metadata files must have channel
        level metadata, see the STATION_ command.
 
-   :ph5: Get additional metadata from the IRIS PH5 web service
-       <http://service.iris.edu>.
+   :ph5:  Get additional data from the IRIS PH5 Web service. This option
+       provides access to active-source data sets and their associated stations
+       with high sample rates and time-limited deployments.
 
    :VERBOSE:  Watch the details of the metadata insertion process
 
@@ -168,7 +169,7 @@ memory.  The example below uses the eventid gcmt:3279407::
 
      SAC> data gcmt:3279407 net II sta BORG cha BHZ loc '00' dur 1min read
      Data Center: IRISDMC,http://ds.iris.edu
-                    SourceID                Start sample             End sample         Gap
+           SourceID                Start sample             End sample      Gap
      XFDSN:II_BORG_00_B_H_Z   2011-03-11T05:47:32.019900 2011-03-11T05:48:31.969900  ==
      Working on file: II.BORG.00.BHZ.M.2011.070.054732.sac [ OK ]
 
@@ -181,7 +182,22 @@ memory.  The example below uses the eventid gcmt:3279407::
           evlo = 1.430500e+02                     evla = 3.752000e+01
          kevnm = gcmt:3279407
 
+**PH5 Example**:  Given a SAC file missing station metadata where that metadata
+exists in the PH5 Web service and not in the IRIS Web service, the PH5 option
+must be specified to obtain and insert the metadata.  The PH5 options is
+appropriate for active source stations::
 
+   SAC> read 9A.22770..DPZ.D.2012.227.000000.sac
+   SAC> lh stlo stla
+
+   FILE: 9A.22770..DPZ.D.2012.227.000000.sac - 1
+   --------------------------------
+
+   SAC> metadata
+   Error 204 (HTTP):
+
+   SAC> metadata ph5
+   Working on file: 9A.22770..DPZ.D.2012.227.000000.sac [ OK ]
 
 COMPONENT INCLINATION
 ---------------------

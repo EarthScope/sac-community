@@ -36,7 +36,9 @@ Web services. These abilities include
      - **PH5/HDF5** ( hierarchical data format, version 5):
        <https://www.passcal.nmt.edu/content/ph5-what-it> is the PASSCAL
        archival format for active-source, controlled-source and mixed-source
-       data sets. PASSCAL has transitioned from SEG-Y to PH5.
+       data sets. PASSCAL has transitioned from SEG-Y to PH5.  In DATA_,
+       METADATA_, and STATION_ *PH5* is an option that when invoked will search
+       the PH5 active-source data archives.
 
 Web requests are made to the colletion of Web Services at
 `<http://service.iris.edu>`_ along with event searches through the
@@ -45,9 +47,8 @@ Web requests are made to the colletion of Web Services at
 An **EventID** is defined by *source:uniqueid*. See EVENT_ for more details.
 
 Event search results, EVENT_, can be used as input for timing and
-location in DATA_ and STATION_ seaches using assocaited
-*EventID*. Examples are given below.
-
+location in DATA_ and STATION_ searches using assocaited *EventID*. Examples are
+given below.
 
 The format for latitudes and longitudes is degrees.decimal-degrees.  Longitudes
 run from -180.00 degrees to 180.00 degrees.  The formats used for time are given
