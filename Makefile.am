@@ -36,7 +36,7 @@ EXTRA_DIST        = $(EXTRA_ALWAYS) \
 #   % make install
 #   % make dist-binary
 EXTRA_INSTALL    = macros $(EXTRA_ALWAYS) \
-	           utils/saclst.c utils/sacswap.c utils/sgftops.c utils/sac.h \
+	           utils/saclst.c utils/sacswap.c utils/sgftops.c \
 		   utils/bbfswap.c utils/sgfswap.c utils/Makefile.utils \
 		   utils/readsac.m utils/writesac.m \
 		   utils/padcat.m utils/getsacdata.m utils/sacset.c \

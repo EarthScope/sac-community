@@ -34,10 +34,10 @@ doc:
 distclean-local:
 	-rm -rf autom4te.cache
 
-header_map.c: header_map.txt
-	gperf $< > $@
-enums.c: enums.txt
-	gperf $< > $@
+#header_map.c: header_map.txt
+#	gperf $< > $@
+#enums.c: enums.txt
+#	gperf $< > $@
 
 test: check
 
