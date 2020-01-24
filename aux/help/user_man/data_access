@@ -66,6 +66,14 @@ displacement.  As discussed in TRANSFER_, unit conversions may be needed to
 convert output files from instrument-corrections to get consistency between the
 data and the SAC header parameter IDEP.
 
+**SACLST & SACSET**: These two stand-alone programs allow one to parse
+(*saclst*) or modify the header or of one or more SAC files.  They are
+analogous to the internal SAC commands LISTHDR_ and READHDR_
+respectively. One can display the results on the screen, print them,
+or (for *saclst*) redirect the output into an application.  See
+${SACHOME}/utils/README_utils for more details.  Examples are given
+below showing how *saclst* output can be redirected to applications.
+
 TIME FORMATS
 ------------
 Times are of the form *h:m:s* or *h:m:m.ms* where *h* is the hour, *m*
@@ -450,6 +458,39 @@ traveltime data set using::
      SAC> metadata %PWD
      SAC> traveltime online picks 0
      SAC> write over
+
+REDIRECTING SACLST INPUT
+-------------------------
+
+Let's say you have a list of sac files and you would like to generate
+a station list::
+
+  saclst knetwk kstnm stlo stlo stel f *.SAC | \
+    awk '{print $2,$3,$4,$5}' | \
+	  sort | \
+	  uniq > station_lists.txt
+
+To make sure all event locations are consistent for a list of files::
+
+  saclst evlo evla evdp f *.SAC   |  awk '{print $2,$3,$4}' | sort | uniq
+
+Find file that are too short in duration with the longest first::
+
+  saclst b e f *SAC | \
+	  awk '{print $1,$2,$3,$3-$2}' | \
+	  sort -nr -k +4
+
+Or removing files that are too short in duration::
+
+  mkdir too_short
+  for z in $( saclst b e f *SAC | awk '{if($3-$2<30.0){print $1}}'  ) ; do
+	  mv $z too_short
+  done
+
+Or using xargs::
+
+  saclst b e f *SAC | awk '{if($3-$2<30.0){print $1}} | \
+    args -I args mv args too_short
 
 
 RDSEED - End of Life
