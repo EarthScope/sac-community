@@ -1,0 +1,38 @@
++ sac --copyright-off
+ fg seismo
+ lh kzdate kztime iztype o b a
+  FILE: SEISMOGR - 1
+ --------------
+     kzdate = MAR 29 (088), 1981
+     kztime = 10:38:14.000
+     iztype = BEGIN TIME
+          o = -4.143000e+01
+          b = 9.459999e+00
+          a = 1.046400e+01
+ write file.sac
+ quit
++ saclst Full f file.sac
++ grep iztype
+                87  iztype                   9 IB
++ saclst kzdate kztime o b a f file.sac
+file.sac   1981/03/29 10:38:14.000      -41.43        9.46      10.464
++ sacset -v -O=1981/03/29T10:37:32.570 file.sac
+Working on file: file.sac
+	O            1981/03/29T10:37:32.570
++ saclst Full f file.sac
++ grep iztype
+                87  iztype                  11 IO
++ saclst kzdate kztime o b a f file.sac
+file.sac   1981/03/29 10:37:32.570-3.05176e-07       50.89      51.894
++ sac --copyright-off
+ read file.sac
+ lh kzdate kztime iztype o b a
+  FILE: file.sac - 1
+ --------------
+     kzdate = MAR 29 (088), 1981
+     kztime = 10:37:32.570
+     iztype = EVENT ORIGIN TIME
+          o = -3.051758e-07
+          b = 5.089000e+01
+          a = 5.189400e+01
+ quit
