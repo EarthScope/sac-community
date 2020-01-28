@@ -59,7 +59,7 @@ G   NOUC  -22.0986  166.3067  137.00 Port Laguerre - New Caledonia, France
 G   PPTF  -17.5896 -149.5652  705.00 Pamatai - Papeete - Tahiti island - French Polynesia, France
 G   SANVU -15.4471  167.2032   56.00 Espiritu Santo, Vanuatu
 II  MSVF  -17.7448  178.0528  801.10 Monasavu, Fiji
-IU  AFI   -13.9093 -171.7773  706.00 Afiamalu, Samoa
+IU  AFI   -13.9085 -171.7827  706.00 Afiamalu, Samoa
 IU  FUNA   -8.5259  179.1966   20.00 Funafuti, Tuvalu
 IU  KNTN   -2.7744 -171.7186   20.00 Kanton, Kiritibati
 IU  RAO   -29.2450 -177.9290   60.00 Raoul, Kermadec Islands
@@ -1442,7 +1442,7 @@ IO  EVN    27.9587   86.8117 5010.00 EvK2CNR Pyramid Laboratory - Mount Everest
 IP  MTOR   28.4948   -9.8487  316.00 Torkoz, Morocco
 IP  PCAL   40.0309   -8.0718  474.00 Cha de Alvares
 IU  ADK    51.8823 -176.6842  130.00 Adak, Aleutian Islands, Alaska
-IU  AFI   -13.9093 -171.7773  706.00 Afiamalu, Samoa
+IU  AFI   -13.9085 -171.7827  706.00 Afiamalu, Samoa
 IU  ANMO   34.9459 -106.4572 1820.00 Albuquerque, New Mexico, USA
 IU  ANTO   39.8680   32.7934 1090.00 Ankara, Turkey
 IU  BBSR   32.3713  -64.6963   30.00 Bermuda Institute of Ocean Sciences, St George's Bermuda
@@ -2142,11 +2142,12 @@ PR  IMPR   18.0757  -67.9308    0.00 Isla de Mona
 PR  MLPR   17.9694  -67.0442   31.00 PRSN
 PR  MPR    18.2117  -67.1398   22.40 RUM
 PR  MTP    18.0972  -65.5527  191.00 Vieques
-PR  OBIP   18.0428  -66.6062  102.60 Obispado, Ponce
-PR  PCDR   18.5145  -68.3810   10.00 Punta Cana, Rep. Dominicana
+PR  OBIP   18.0428  -66.6062  103.00 OBIP
+PR  PCDR   18.5145  -68.3810    0.00 PCDR
 PR  PDPR   18.0181  -66.0222   42.00 PDPR
 PR  PRSN   18.2175  -67.1447   27.00 PRSN
 PR  SJVI   18.3315  -64.7718  149.10 St. John USVI
+PR  SMDR   19.2898  -69.1882   15.00 SMDR
 PR  SMN1   19.1878  -69.2733   50.00 Samana, Rep. Dominicana
 PR  STVI   18.3533  -64.9622  377.00 Herman Hill, St. Thomas
 PR  UUPR   18.2528  -66.7202  203.10 UUPR
@@ -2243,7 +2244,7 @@ S1  AUTOO -27.5452  151.9668  687.00 Toowoomba State High School
 S1  AUUHS -35.3589  150.4696   44.00 Ulladulla High School
 S1  AUWSH -27.3977  153.0372   60.00 Wavell State High School
 SB  BVDA2  33.3265 -116.3655    0.00 Borrego Valley (UCSB) 2, San Diego, CA, USA
-SB  CPSLO  35.3021 -120.6672   88.10 CalPoly San Luis Obispo
+SB  CPSLO  35.3021 -120.6672   84.40 Cal Poly, SLO
 SC  SRGE   34.0477 -106.8593    0.00 Socorro-Rio Grand station
 SC  Y22A   33.9370 -106.9652 1674.00 Socorro, NM, USA
 SL  BOJS   45.5043   15.2518  252.00 Bojanci, SL
