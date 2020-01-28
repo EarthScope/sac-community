@@ -22,7 +22,7 @@ this directory is SACHOME.  (See Environment Setup below.)
 
 There are SAC binary-distributions for the following operating systems:
 
-1. Mac OSX (64 bit) build: built on 10.14 will run on versions starting with
+1. Mac OSX (64 bit) build: built on 10.13 will run on versions starting with
    10.8.  XQuartz/X11 is required to display graphics and can be downloaded
    from https://www.xquartz.org/
 2. Linux 64-bit: built on CentOS release 7.0-64 (Final).
