@@ -61,16 +61,12 @@ Mac OS 10.6.8 is strictly little endian (i386) and the default is for
 gcc to be 64 bits.  A binary built on older system may run on newer
 systems, but the standalone libraries may not be usable.
 
-Oracle/Sun Solaris: A version built on Sun Solaris 2.8 or 2.9 can be run on
-2.10, but a version built on 2.10 cannot be run on earlier versions.  Some
-Solaris systems do not have the ncurses library, so if the version is to be
-ported to other Solaris systems, it is best to build SAC without the
-ncurses library. (See below for details.)   The code has been modified so
-that a build on Solaris 2.11 x86 will work.
+Oracle/Sun Solaris: Version 102.0 was not tested on Solaris, but
+it is expected to build and run properly.
 
-Linux: SAC should build and run the same on 32-bit and 64-bit systems.  A build
-on Centos 5.x will work on Centos 6.x, Scientific Linux 6.s and Ubuntu, but
-a build on Ubuntu will not work on Centos.
+Linux: SAC can be built on recent versions of Linux, including CentOS 7
+and 8, Ununtu 14, 16 and 18, essentially Red Hat Enterprise Linux and
+Debian based systems.
 
 If you are building a 64-bit version on a dual 32/64 bit systems you need to
 make sure the X11 libraries being used during the build are the 64-bit
