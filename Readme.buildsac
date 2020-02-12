@@ -55,7 +55,7 @@ other than Cygwin use the editline library by default.  If READLINE is on
 your system, you can switch on the use of READLINE with configure option
 "--enable-readline".
 
-Mac OSX: Tests have been done with OS 10.4 through OS 10.14.
+Mac OSX: Tests have been done with OS 10.11 through OS 10.14.
 
 Mac OS 10.6.8 is strictly little endian (i386) and the default is for
 gcc to be 64 bits.  A binary built on older system may run on newer
@@ -64,9 +64,9 @@ systems, but the standalone libraries may not be usable.
 Oracle/Sun Solaris: Version 102.0 was not tested on Solaris, but
 it is expected to build and run properly.
 
-Linux: SAC can be built on recent versions of Linux, including CentOS 7
-and 8, Ununtu 14, 16 and 18, essentially Red Hat Enterprise Linux and
-Debian based systems.
+Linux: SAC can be built on recent versions of Linux, including
+CentOS (7 and 8), Ubnuntu (14, 16 and 18); these are essentially
+Red Hat Enterprise Linux and Debian based systems.
 
 If you are building a 64-bit version on a dual 32/64 bit systems you need to
 make sure the X11 libraries being used during the build are the 64-bit
