@@ -461,22 +461,25 @@ variables, they could not be changed to double precision.
 
    Figure (3):  SAC v101.6a but double-precision internal calculations for times.
 
-Figure (3) uses double precision for the internal calculations for times but uses the same procedure as used in Fig. (2) for time picks.  The waveform time symbols (and the time axis) are now "correct", but the time picks are unchanged from Figure 2.
+Figure (3) uses double precision for the internal calculations for
+times but uses the same procedure as used in Fig. (2) for time picks.
+The waveform time symbols (and the time axis) are now "correct", but
+the time picks are unchanged from Figure 2.
 
 **Upgrade To Double Precision**
 
 Header variable NVHDR is the SAC version number.  For the past several decades
-*NVHDR = 6*.  In SAC v102.0, the file structure has been changed to fix the
+*NVHDR = 6*.  In SAC v102.0, the file structure has been changed to address the
 precision problem.  The change is done in such a way that existing SAC
 files can be read and processed as before.
 
 The file structure when NVDHR = 7 is discussed in `sac data file format`_;
 when NVDHR = 7 there is a "footer" in the file structure that contains
-double-precision copies of 22 time/distance (single-precision) header variables.
+double-precision versions of 22 time/distance (single-precision) header variables.
 These 22 variables are DELTA, B, E, O, A, T0 ... T9, F, EVLO, EVLA, STLO, STLA,
-SB, and SDELTA. The names are the same as in the header; SAC distinguishes
-between the single- and double-precision variables in internal calculations by
-their location in the file.
+and internal variables SB and SDELTA. The names are the same as in
+the header; SAC distinguishes between the single- and double-precision variables
+in internal calculations by their location in the file.
 
 If a SAC file with NVHDR = 6 is read into memory using SAC  v102.0,
 double-precision copies of those 22 header variables are stored in memory, but
@@ -491,13 +494,13 @@ changing the precision of variable like DELTA for internal calculations.
    will only be modified when a value is changed through CHNHDR_ or
    equivalent methods.
 
-SAC v102.0 introduces `OUTPUT_FORMAT` which can change the format for
+SAC v102.0 introduces *OUTPUT_FORMAT*, which can change the format for
 floating-point variables in SAC commands LISTHDR_, MESSAGE_, and EVALUATE_.
 
 Setting `NVHDR = 7` leads to time picks being calculated and stored in
-double precision.  Using the default for `OUTPUT_FORMAT` does not show
+double precision.  Using the default for *OUTPUT_FORMAT* does not show
 enough significant figures to distinguish between the values for NVHDR
-`6` or `7`.  Using *longE* for the output format shows the difference::
+6 or 7.  Using *longE* for the output format shows the difference::
 
     SAC> fg inpulse
     SAC> setbb OUTPUT_FORMAT longE
@@ -510,10 +513,11 @@ enough significant figures to distinguish between the values for NVHDR
         nvhdr = 7
         t0 = 3.333333333333333e-01
 
-If one ran the above macro in SAC v102.0 and entered *CH NVHDR 7 ; P1*
-one gets the same plot as is shown in Fig. (3).  If one then enters *SETBB
-OUTPUT_FORNMAT longE ; LH*, one can see the differences in  T0, T1, T2, etc.
-See GETBB_ for more information about OUTPUT_FORMAT.
+If one ran the above macro in SAC v102.0, one gets the same result ass shown in
+Fig. (3).  If one then enters  *CH NVHDR 7 ; P1* one gets the plot shown in Fig.
+(4).  If one then enters *SETBB OUTPUT_FORNMAT longE ; LH*, one can see the
+differences in  T0, T1, T2, etc. See GETBB_ for more information about
+*OUTPUT_FORMAT*.
 
 .. figure:: ./precision_fig4.png
    :width: 90%
@@ -523,6 +527,10 @@ See GETBB_ for more information about OUTPUT_FORMAT.
 
 
 In Figure 4, the times/picks, and tic-marks are all lined up.
+
+For an unevenly-spaced, time-series file (IFTYPE = ITIME [1] and
+LEVEN = False [0]), the time data are single-precision, so for times
+:math:`\ge` 1e7 seconds, the times will be incorrect.
 
 **Distance And Geographic Variables Precision**
 
