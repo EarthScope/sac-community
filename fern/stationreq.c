@@ -2,6 +2,8 @@
  * @file
  * @brief Station Requests
  */
+#include <math.h>
+
 #include "stationreq.h"
 #include "request.h"
 #include "urls.h"
@@ -154,6 +156,10 @@ station_req_set_channel(request *r, char *cha) {
 void
 station_req_set_region(request *r, double minlon, double maxlon,
                        double minlat, double maxlat) {
+    minlon = fmax(minlon, -180.0 + 1e-6);
+    maxlon = fmin(maxlon,  180.0);
+    minlat = fmax(minlat, -90.0);
+    maxlat = fmin(maxlat,  90.0);
     request_set_arg(r, "minlon", arg_double_new(minlon));
     request_set_arg(r, "maxlon", arg_double_new(maxlon));
     request_set_arg(r, "minlat", arg_double_new(minlat));

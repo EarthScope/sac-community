@@ -343,7 +343,7 @@ main(int argc, char *argv[]) {
             char tmp[128] = {0};
             sac **out;
             out = miniseed_trace_list_to_sac(mst3k);
-            sac_array_fill_meta_data(out, verbose);
+            sac_array_fill_meta_data(out, verbose, FALSE);
             sac_array_fill_meta_data_from_event(out, e, verbose);
             for(size_t i = 0; i < xarray_length(out); i++) {
                 update_distaz(out[i]);

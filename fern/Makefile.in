@@ -357,7 +357,7 @@ libfern_a_SOURCES = cJSON.c cJSON.h \
                     fern.h urls.h \
                     array.h request.h event.h station.h \
                     stationreq.h datareq.h meta.h \
-                    miniseed_sac.h cprint.h fern.h
+                    miniseed_sac.h cprint.h fern.h defs.h
 
 libpile_a_SOURCES = chash.c chash.h array.c array.h cprint.c cprint.h
 CLEANFILES = t/*.test t/test_miniseed*mseed

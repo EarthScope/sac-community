@@ -25,7 +25,7 @@ main() {
     int verbose   = 1;
     int epochs    = 1;
     int show_time = 1;
-    station **st = station_xml_parse(result_data(res), result_len(res), epochs, verbose);
+    station **st = station_xml_parse_from_raw(result_data(res), result_len(res), epochs, verbose);
     if(st == NULL) {
         return -1;
     }

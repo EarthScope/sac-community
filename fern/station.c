@@ -171,6 +171,14 @@ station_xml_parse_from_raw(char *data, size_t data_len, int epochs, int verbose)
     return s;
 }
 
+int
+xml_find_time_or_2599(xml *x, xmlNode *from, const char *path, const char *key, timespec64 *t) {
+    if(!xml_find_time(x, from, path, key, t)) {
+        timespec64_parse("2599-12-31T23:59:59", t);
+    }
+    return 1;
+}
+
 /**
  * @brief Parse station xml data
  *
@@ -238,7 +246,7 @@ station_xml_parse(xml *x, int epochs, int verbose) {
             xml_find_double(x, sta, "s:Elevation", NULL, &s->stel);
             xml_find_string_copy(x, sta, "s:Site/s:Name", NULL, s->sitename, sizeof s->sitename);
             xml_find_time(x, sta, ".", "startDate", &s->start);
-            xml_find_time(x, sta, ".", "endDate", &s->end);
+            xml_find_time_or_2599(x, sta, ".", "endDate", &s->end);
 
             if(epochs) {
                 out = xarray_append(out, s);
@@ -366,7 +374,7 @@ channel_xml_parse(xml *x, int verbose) {
                 xml_find_double(x, cha, "s:SampleRate", NULL, &s->sample_rate);
 
                 xml_find_time(x, cha, ".", "startDate", &s->start);
-                xml_find_time(x, cha, ".", "endDate", &s->end);
+                xml_find_time_or_2599(x, cha, ".", "endDate", &s->end);
 
                 xml_find_string_copy(x, sta, "s:Site/s:Name", NULL, s->sitename, sizeof s->sitename);
                 out = xarray_append(out, s);

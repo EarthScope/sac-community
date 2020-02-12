@@ -38,4 +38,21 @@ xmlXPathObject  * xml_find_all(xml *x, xmlNode *from, const xmlChar* path);
 int is_xml(char *data);
 int is_xml_file(char *file);
 
+#ifndef LIBXML_VERSION_BITS
+#define LIBXML_VERSION_BITS(x,y,z) ((x)*10000 + (y)*100 + (z))
+#endif
+#ifndef LIBXML_AT_LEAST_VERSION
+#define LIBXML_AT_LEAST_VERSION(x,y,z) \
+    (LIBXML_VERSION >= LIBXML_VERSION_BITS(x,y,z)) 
+#endif
+
+
+#if ( ! LIBXML_AT_LEAST_VERSION(2,9,1) )
+
+int xmlXPathSetContextNode(xmlNodePtr node, xmlXPathContextPtr ctx);
+xmlXPathObjectPtr xmlXPathNodeEval(xmlNodePtr node, const xmlChar *str, xmlXPathContextPtr ctx);
+
+#endif
+
+
 #endif /* _XML_H_ */

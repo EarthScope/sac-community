@@ -88,6 +88,13 @@ static int older_progress(void *p,
                           double ultotal, double ulnow);
 #endif
 
+
+#if ( ! CURL_AT_LEAST_VERSION(7,21,6) )
+
+#define CURLOPT_ACCEPT_ENCODING CURLOPT_ENCODING
+
+#endif
+
 typedef struct zarray zarray; /**< \private */
 /**
  * \private 

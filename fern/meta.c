@@ -123,6 +123,14 @@ sac_strcmp(sac *s, int hdr, char *value) {
     return 0;
 }
 
+int
+xml_find_string_copy_or_2599(xml *x, xmlNode *from, const char *path, const char *key, char *s, size_t n) {
+    if(! xml_find_string_copy(x, from, path, key, s, n)) {
+        fern_strlcpy(s, "2599-12-31T23:59:59", n);
+    }
+    return 1;
+}
+
 /**
  * @brief Get an double floating point value from a station xml file
  *
@@ -162,9 +170,9 @@ station_xml_get_double(xml *x, sac *s, int which, double *value) {
     }
     for(size_t i = 0; i < xpath_len(objs); i++) {
         xmlNode *node = xpath_index(objs, i);
-        if(!xml_find_string_copy(x, node, ".", "startDate", start, sizeof start) ||
-           !xml_find_string_copy(x, node, ".", "endDate", end, sizeof end)) {
-            printf("Error finding startDate or endDate in channel for metadata\n");
+        xml_find_string_copy_or_2599(x, node, ".", "endDate", end, sizeof end); // Always returns 1
+        if(!xml_find_string_copy(x, node, ".", "startDate", start, sizeof start)) {
+            printf("Error finding startDate in channel for metadata\n");
             printf("%s\n", path);
             continue;
         }
