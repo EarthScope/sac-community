@@ -34,6 +34,7 @@
       integer fails 
 !     Declare Variables used in the rsac1() subroutine
       real beg, del, f
+      real*8 d
       integer nlen, i,j, n
       character*64 KNAME,kname2
       integer nerr
@@ -61,7 +62,7 @@
      +     'kf','kuser0','kuser1','kuser2','kcmpnm',
      +     'knetwk','kdatrd','kinst'/
       data lhdr/'leven','lpspol','lovrok','lcalda','lhdr5'/
-      data fhdr/'delta','depmin','depmax','scale', 'odelta',
+      data fhdr/'delta','depmin','depmax','__scale__', 'odelta',
      +     'b','e','o','a','fmt',
      +     't0','t1','t2','t3','t4',
      +     't5','t6','t7','t8','t9',
@@ -138,7 +139,11 @@
             !endif
             call getfhv(fhdr(4), f, nerr)
             call check_error(nerr, fhdr(4))
-         enddo
+            call getdhv(fhdr(4), d, nerr)
+            call check_error(nerr, fhdr(4))
+            call getrhv(fhdr(4), d, nerr)
+            call check_error(nerr, fhdr(4))
+       enddo
 
          !call sac_warning_off()
          do i = 1,70
@@ -146,6 +151,18 @@
             call check_error(nerr, fhdr(i))
             if(f .ne. fval(i)) then
                write(*,*)'Fail:',f,fval(i),fhdr(i)
+               fails = fails + 1
+            endif
+            call getdhv(fhdr(i), d, nerr)
+            call check_error(nerr, fhdr(i))
+            if(d .ne. fval(i)) then
+               write(*,*)'Fail:',d,fval(i),fhdr(i)
+               fails = fails + 1
+            endif
+            call getrhv(fhdr(i), d, nerr)
+            call check_error(nerr, fhdr(i))
+            if(d .ne. fval(i)) then
+               write(*,*)'Fail:',d,fval(i),fhdr(i)
                fails = fails + 1
             endif
          enddo

@@ -825,6 +825,12 @@ getrhv(char *kname, double *fvalue, int *nerr, int kname_s) {
     }
     *fvalue = v;
 }
+
+void
+getdhv(char *kname, double *fvalue, int *nerr, int kname_s) {
+    getrhv(kname, fvalue, nerr, kname_s);
+}
+
 /**
  * @brief      Get a floating point header value
  *
@@ -1565,6 +1571,34 @@ void getfhv_(char *kname, float *fvalue, int *nerr, int kname_s) {
  */
 void getfhv__(char *kname, float *fvalue, int *nerr, int kname_s) {
     getfhv_(kname, fvalue, nerr, kname_s);
+}
+/**
+ * @brief     gethfv Fortran interface
+ * @private
+ */
+void getrhv_(char *kname, double *fvalue, int *nerr, int kname_s) {
+    getrhv(kname, fvalue, nerr, kname_s);
+}
+/**
+ * @brief     gethfv Fortran interface
+ * @private
+ */
+void getrhv__(char *kname, double *fvalue, int *nerr, int kname_s) {
+    getrhv_(kname, fvalue, nerr, kname_s);
+}
+/**
+ * @brief     gethfv Fortran interface
+ * @private
+ */
+void getdhv_(char *kname, double *fvalue, int *nerr, int kname_s) {
+    getrhv(kname, fvalue, nerr, kname_s);
+}
+/**
+ * @brief     gethfv Fortran interface
+ * @private
+ */
+void getdhv__(char *kname, double *fvalue, int *nerr, int kname_s) {
+    getrhv_(kname, fvalue, nerr, kname_s);
 }
 /**
  * @brief      wsac0 Fortran interface
