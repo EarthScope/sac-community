@@ -165,8 +165,12 @@ def commands_execute( commands , opts, test_path) :
     out, err = p.communicate(input=cmds.encode('utf-8'))
     if out == None: out = ''
     if err == None: err = ''
-    out = out.decode(encoding='utf-8', errors='replace')
-    err = err.decode(encoding='utf-8', errors='replace')
+    if sys.version_info >= (2,7):
+        out = out.decode(encoding='utf-8', errors='replace')
+        err = err.decode(encoding='utf-8', errors='replace')
+    else :
+        out = out.decode("utf-8", "replace")
+        err = err.decode("utf-8", "replace")
     out = [ o + '\n' for o in out.rstrip().split('\n') ]
     err = [ o + '\n' for o in err.rstrip().split('\n') ]
     ecode = p.wait()
