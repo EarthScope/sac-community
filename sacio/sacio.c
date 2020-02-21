@@ -3904,8 +3904,8 @@ sac_get_time(sac *s, int hdr, timespec64 *t) {
 int
 sac_set_time(sac *s, timespec64 t) {
     int j = 0;
-    struct TM tm = {0};
-    timespec64 t0;
+    struct TM tm = TM_INIT;
+    timespec64 t0 = {0,0};
     double dt = 0.0;
     if(sac_get_time_ref(s, &t0)) {
         int64_t dtf = t.tv_sec - t0.tv_sec;

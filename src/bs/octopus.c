@@ -1285,7 +1285,7 @@ response_request(int *nerr) {
                        "evresp"};
     int kind = 1;
     ResponseType type = ResponseSacPZ;
-    timespec64 t = {0};
+    timespec64 t = {0,0};
     timespec64 **ts = NULL;
     request *pz = response_new();
     result *r = NULL;

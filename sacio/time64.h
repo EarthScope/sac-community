@@ -70,6 +70,20 @@ struct TM64 {
 #endif
 };
 
+#ifdef HAS_TM_TM_GMTOFF
+#define HAS_TM_TM_GMTOFF_INIT    0 ,
+#else
+#define HAS_TM_TM_GMTOFF_INIT
+#endif
+
+#ifdef HAS_TM_TM_ZONE
+#define HAS_TM_TM_ZONE_INIT    0 ,
+#else
+#define HAS_TM_TM_ZONE_INIT
+#endif
+
+
+#define TM_INIT {0,0,0, 0,0,0, 0,0,0, HAS_TM_TM_GMTOFF_INIT HAS_TM_TM_ZONE_INIT }
 
 /* Decide which tm struct to use */
 #ifdef USE_TM64

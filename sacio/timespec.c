@@ -201,7 +201,7 @@ timespec64_undef() {
  */
 timespec64
 timespec64_from_yjhmsf(int64_t year, int jday, int hour, int min, int sec, int64_t ns) {
-    struct TM tm = {0};
+    struct TM tm = TM_INIT;
     timespec64 t = {0,0};
     while(ns < 0) {
         ns += 1000000000;
@@ -254,7 +254,7 @@ timespec64_from_yjhmsf(int64_t year, int jday, int hour, int min, int sec, int64
  */
 timespec64
 timespec64_from_ymdhmsf(int64_t year, int month, int day, int hour, int min, int sec, int64_t ns) {
-    struct TM tm = {0};
+    struct TM tm = TM_INIT;
     timespec64 t = {0,0};
     while(ns < 0) {
         ns += 1000000000;
@@ -665,7 +665,7 @@ strptime64(const char *buf, const char *fmt, struct TM *tm, int64_t *ns) {
 char *
 strptime64t(const char *buf, const char *fmt, timespec64 *t) {
     char *p = NULL;
-    struct TM tm = {0};
+    struct TM tm = TM_INIT;
     if(!(p = strptime64(buf, fmt, &tm, &t->tv_nsec))) {
         return NULL;
     }
