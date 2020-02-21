@@ -8,8 +8,7 @@ Using the SAC I/O library, ${SACHOME}/lib/libsacio.a, one can write stand-alone 
 in C or FORTRAN to read and write SAC formatted data files. The SAC_I/O library is
 included in the sub-directory ${SACHOME}/lib.  The complete listing of sample 
 programs in both C and Fortran for reading and writing SAC data files and for getting 
-and setting SAC header values, are give below in the online version of this file at 
-<http://ds.iris.edu/files/sac-manual/manual/input_output.html>.
+and setting SAC header values, are give in the online version and at $SACAUX/doc/examples
 
 When compiling/linking your code, it is necessary to include ${SACHOME}/lib/libsacio.a 
 in order to access the routines discussed below. To ease the requirements for 
@@ -29,7 +28,8 @@ files into a C or FORTRAN program:
 There is a set of routines that let one get the values of header variables 
 after a file has been read:
 
-   - GETFHV gets float or REAL header variables
+   - GETFHV gets float or REAL*4 header variables
+   - GETDHV gets double or REAL*8 header variables
    - GETIHV gets character strings enumerated as int or INTEGER header variables
    - GETKHV gets character string header variables
    - GETLHV gets LOGICAL header variables (declared as long in C)
@@ -38,7 +38,8 @@ after a file has been read:
 There is a like set of routines that let one set the values of header 
 variables currently in memory:
 
-   - SETFHV sets float or REAL header variables
+   - SETFHV sets float or REAL*4 header variables
+   - SETDHV sets double or REAL*8 header variables
    - SETIHV sets character strings enumerated as int or INTEGER header variables
    - SETKHV sets character string header variables
    - SETLHV sets LOGICAL header variables (declared as long in C)
