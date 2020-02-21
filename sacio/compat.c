@@ -795,14 +795,14 @@ wsac2(char   *kname,
  * rsac1("t/test_io_small.sac", y, &nlen, &beg, &del, &max, &nerr, -1);
  * assert_eq(nerr, 0);
  *
- * getrhv("delta", &del8, &nerr, -1);
+ * getdhv("delta", &del8, &nerr, -1);
  * assert_eq(nerr, 0);
  * assert_eq(del8, 1.0);
  * @endcode
  *
  */
 void
-getrhv(char *kname, double *fvalue, int *nerr, int kname_s) {
+getdhv(char *kname, double *fvalue, int *nerr, int kname_s) {
     double v = SAC_FLOAT_UNDEFINED;
     sac *s = NULL;
     struct hid *h = NULL;
@@ -825,12 +825,6 @@ getrhv(char *kname, double *fvalue, int *nerr, int kname_s) {
     }
     *fvalue = v;
 }
-
-void
-getdhv(char *kname, double *fvalue, int *nerr, int kname_s) {
-    getrhv(kname, fvalue, nerr, kname_s);
-}
-
 /**
  * @brief      Get a floating point header value
  *
@@ -865,7 +859,7 @@ getdhv(char *kname, double *fvalue, int *nerr, int kname_s) {
 void
 getfhv(char *kname, float *fvalue, int *nerr, int kname_s) {
     double v;
-    getrhv(kname, &v, nerr, kname_s);
+    getdhv(kname, &v, nerr, kname_s);
     *fvalue = (float) v;
 }
 
@@ -1334,11 +1328,11 @@ getlhv(char *kname, int *nvalue, int *nerr, int kname_s) {
  * assert_eq(nerr, 0);
  *
  * value = 1.0/3.0;
- * setrhv("t0", &value, &nerr, -1);
+ * setdhv("t0", &value, &nerr, -1);
  * assert_eq(nerr, 0);
  *
  * value = 0.0;
- * getrhv("t0", &value, &nerr, -1);
+ * getdhv("t0", &value, &nerr, -1);
  * assert_eq(nerr, 0);
  * assert_eq(value, (float)(1.0/3.0));
  *
@@ -1346,14 +1340,14 @@ getlhv(char *kname, int *nvalue, int *nerr, int kname_s) {
  * setnhv("nvhdr", &nvhdr, &nerr, -1);
  *
  * value = 0.0;
- * getrhv("t0", &value, &nerr, -1);
+ * getdhv("t0", &value, &nerr, -1);
  * assert_eq(nerr, 0);
  * assert_eq(value, (double)(1.0/3.0));
  *
  * @endcode
  */
 void
-setrhv(char *kname, double *fvalue, int *nerr, int kname_s) {
+setdhv(char *kname, double *fvalue, int *nerr, int kname_s) {
     sac *s = NULL;
     struct hid *h = NULL;
 
@@ -1389,7 +1383,7 @@ setrhv(char *kname, double *fvalue, int *nerr, int kname_s) {
 void
 setfhv(char *kname, float *fvalue, int *nerr, int kname_s) {
     double v = *fvalue;
-    setrhv(kname, &v, nerr, kname_s);
+    setdhv(kname, &v, nerr, kname_s);
 }
 /**
  * @brief      Set a integer header value
@@ -1559,46 +1553,32 @@ setihv(char *kname, char *kvalue, int *nerr, int kname_s, int kvalue_s) {
 }
 
 /**
- * @brief     gethfv Fortran interface
+ * @brief     getfhv Fortran interface
  * @private
  */
 void getfhv_(char *kname, float *fvalue, int *nerr, int kname_s) {
     getfhv(kname, fvalue, nerr, kname_s);
 }
 /**
- * @brief     gethfv Fortran interface
+ * @brief     getfhv Fortran interface
  * @private
  */
 void getfhv__(char *kname, float *fvalue, int *nerr, int kname_s) {
     getfhv_(kname, fvalue, nerr, kname_s);
 }
 /**
- * @brief     gethfv Fortran interface
- * @private
- */
-void getrhv_(char *kname, double *fvalue, int *nerr, int kname_s) {
-    getrhv(kname, fvalue, nerr, kname_s);
-}
-/**
- * @brief     gethfv Fortran interface
- * @private
- */
-void getrhv__(char *kname, double *fvalue, int *nerr, int kname_s) {
-    getrhv_(kname, fvalue, nerr, kname_s);
-}
-/**
- * @brief     gethfv Fortran interface
+ * @brief     getdfv Fortran interface
  * @private
  */
 void getdhv_(char *kname, double *fvalue, int *nerr, int kname_s) {
-    getrhv(kname, fvalue, nerr, kname_s);
+    getdhv(kname, fvalue, nerr, kname_s);
 }
 /**
- * @brief     gethfv Fortran interface
+ * @brief     getdhv Fortran interface
  * @private
  */
 void getdhv__(char *kname, double *fvalue, int *nerr, int kname_s) {
-    getrhv_(kname, fvalue, nerr, kname_s);
+    getdhv(kname, fvalue, nerr, kname_s);
 }
 /**
  * @brief      wsac0 Fortran interface
@@ -1728,6 +1708,24 @@ void
 setfhv__(char *kname, float *fvalue, int *nerr, int kname_s) {
     setfhv(kname, fvalue, nerr, kname_s);
 }
+
+/**
+ * @brief      setdhv Fortran interface
+ * @private
+ */
+void
+setdhv_(char *kname, double *fvalue, int *nerr, int kname_s) {
+    setdhv(kname, fvalue, nerr, kname_s);
+}
+/**
+ * @brief      setdhv Fortran interface
+ * @private
+ */
+void
+setdhv__(char *kname, double *fvalue, int *nerr, int kname_s) {
+    setdhv(kname, fvalue, nerr, kname_s);
+}
+
 /**
  * @brief      newhdr Fortran interface
  * @private

@@ -34,7 +34,7 @@
       integer fails 
 !     Declare Variables used in the rsac1() subroutine
       real beg, del, f
-      real*8 d
+      real*8 d,beg8
       integer nlen, i,j, n
       character*64 KNAME,kname2
       integer nerr
@@ -141,7 +141,6 @@
             call check_error(nerr, fhdr(4))
             call getdhv(fhdr(4), d, nerr)
             call check_error(nerr, fhdr(4))
-            call getrhv(fhdr(4), d, nerr)
             call check_error(nerr, fhdr(4))
        enddo
 
@@ -154,12 +153,6 @@
                fails = fails + 1
             endif
             call getdhv(fhdr(i), d, nerr)
-            call check_error(nerr, fhdr(i))
-            if(d .ne. fval(i)) then
-               write(*,*)'Fail:',d,fval(i),fhdr(i)
-               fails = fails + 1
-            endif
-            call getrhv(fhdr(i), d, nerr)
             call check_error(nerr, fhdr(i))
             if(d .ne. fval(i)) then
                write(*,*)'Fail:',d,fval(i),fhdr(i)
@@ -297,6 +290,65 @@
                endif
             endif
          enddo
+ 
+         beg = 3.1415
+         call setfhv('b', beg, nerr)
+         call check_error(nerr, fhdr(1))
+         if(nerr .ne. 0) then
+            write(*,*)"Fail:",beg,nerr
+            fails = fails + 1
+         endif
+
+         f = 0.0
+         call getfhv('b', f, nerr)
+         call check_error(nerr, fhdr(1))
+         if(nerr .ne. 0) then
+            write(*,*)"Fail:",beg,f,nerr
+            fails = fails + 1
+         endif
+         if(beg .ne. f) then
+            write(*,*)"Fail:",beg,f
+            fails = fails + 1
+         endif
+
+         beg8 = 1.0d0/3.0d0
+         call setdhv('b', beg8, nerr)
+         call check_error(nerr, fhdr(1))
+         if(nerr .ne. 0) then
+            write(*,*)"Fail:",beg8,d,nerr,6
+            fails = fails + 1
+         endif
+
+         d = 0.0
+         call getdhv('b', d, nerr)
+         call check_error(nerr, fhdr(1))
+         if(real(beg8,4) .ne. real(d,4)) then
+            write(*,*)"Fail:",real(beg8,4),real(d,4),6
+            fails = fails + 1
+         endif
+
+         call setnhv("nvhdr", 7, nerr)
+         if(nerr .ne. 0) then
+            write(*,*)"Fail: nvhdr",7,nerr
+            fails = fails + 1
+         endif
+
+         beg8 = 1.0d0/3.0d0
+         call setdhv('b', beg8, nerr)
+         call check_error(nerr, fhdr(1))
+         if(nerr .ne. 0) then
+            write(*,*)"Fail:",beg8,d,nerr,7
+            fails = fails + 1
+         endif
+
+         d = 0.0
+         call getdhv('b', d, nerr)
+         call check_error(nerr, fhdr(1))
+         if(beg8 .ne. d) then
+            write(*,*)"Fail:",beg8,d,7
+            fails = fails + 1
+         endif
+
       enddo
 
       call multiple_files(fails)

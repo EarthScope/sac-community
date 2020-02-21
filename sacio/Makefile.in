@@ -607,6 +607,8 @@ doc:
 
 distclean-local:
 	-rm -rf autom4te.cache
+	-rm -rf t/*.dSYM/
+	-rm -f t/snippets.c
 
 #header_map.c: header_map.txt
 #	gperf $< > $@

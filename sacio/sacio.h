@@ -82,7 +82,7 @@ void getfhv(char      *kname,
             int       *nerr,
             int        kname_s);
 /** @brief Get a float value from a sac header */
-void getrhv(char      *kname,
+void getdhv(char      *kname,
             double    *fvalue,
             int       *nerr,
             int        kname_s);
@@ -141,7 +141,7 @@ void setfhv(char      *kname,
             int       *nerr,
             int        kname_s);
 /** @brief Set a float value in a sac header */
-void setrhv(char      *kname,
+void setdhv(char      *kname,
             double    *fvalue,
             int       *nerr,
             int        kname_s);

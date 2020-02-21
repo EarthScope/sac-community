@@ -19,7 +19,7 @@ main() {
     printf("%d %f\n", nerr, delta);
     assert(nerr == 0);
     assert(delta == 1.0);
-    getrhv("delta", &delta8, &nerr, -1);
+    getdhv("delta", &delta8, &nerr, -1);
     assert(nerr == 0);
     assert(delta8 == 1.0);
 
@@ -32,10 +32,10 @@ main() {
 
     delta8 = 1.0/3.0;
     printf("%.17g\n", delta8);
-    setrhv("t0", &delta8, &nerr, -1);
+    setdhv("t0", &delta8, &nerr, -1);
     assert(nerr == 0);
     delta8 = 0.0;
-    getrhv("t0", &delta8, &nerr, -1);
+    getdhv("t0", &delta8, &nerr, -1);
     printf("%.17g\n", delta8);
     assert(nerr == 0);
     assert(delta8 == (float)(1.0/3.0));
@@ -45,10 +45,10 @@ main() {
     assert(nerr == 0);
     delta8 = 1.0/3.0;
     printf("%.17g\n", delta8);
-    setrhv("t0", &delta8, &nerr, -1);
+    setdhv("t0", &delta8, &nerr, -1);
     assert(nerr == 0);
     delta8 = 0.0;
-    getrhv("t0", &delta8, &nerr, -1);
+    getdhv("t0", &delta8, &nerr, -1);
     printf("%.17g\n", delta8);
     assert(nerr == 0);
     assert(delta8 == (1.0/3.0));
