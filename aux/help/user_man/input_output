@@ -4,63 +4,75 @@ SAC Reading and Writing Routines
 
 Overview
 --------
-Using the SAC I/O library, ${SACHOME}/lib/libsacio.a, one can write stand-alone codes 
-in C or FORTRAN to read and write SAC formatted data files. The SAC_I/O library is
-included in the sub-directory ${SACHOME}/lib.  The complete listing of sample 
-programs in both C and Fortran for reading and writing SAC data files and for getting 
-and setting SAC header values, are give in the online version and at $SACAUX/doc/examples
+Using the SAC I/O library, ${SACHOME}/lib/libsacio.a, one can write stand-alone
+codes in C or FORTRAN to read and write SAC formatted data files. The SAC_I/O
+library is included in the sub-directory ${SACHOME}/lib.  The complete listing
+of sample  programs in both C and Fortran for reading and writing SAC data files
+and for getting  and setting SAC header values, are give in the online version
+and at $SACAUX/doc/examples
 
-When compiling/linking your code, it is necessary to include ${SACHOME}/lib/libsacio.a 
-in order to access the routines discussed below. To ease the requirements for 
-compilation and linking, a helper script is provided, ${SACHOME}/bin/sac-config, which 
+Two distinct interfaces for reading and writing sac type files exist:
+
+  - Fortran-77 style SAC I/O interface (RSAC1, WSAC2, GETFHV, ...)
+  - C style SAC I/O interface (see end of this file)
+
+For both styles, SAC uses C programming internally.  Reading and writing files
+with the Fortran-77 stye interface is consistent with previous versions of the
+libsacio library. The C style interface is documented at the end of this file.
+
+When compiling/linking your code, it is necessary to include ${SACHOME}/lib/libsacio.a
+in order to access the routines discussed below. To ease the requirements for
+compilation and linking, a helper script is provided, ${SACHOME}/bin/sac-config, which
 should output the necessary flags and libraries.  Try the following::
 
   gcc -o program source.c `sac-config --cflags --libs sacio`
 
   f77 -o program source.f `sac-config --cflags --libs sacio`
 
-There are two routines in the SAC_I/O library that can be used to read SAC data 
+There are two routines in the SAC_I/O library that can be used to read SAC data
 files into a C or FORTRAN program:
 
    - RSAC1 reads evenly spaced files
-   - RSAC2 reads unevenly spaced or spectral files. 
+   - RSAC2 reads unevenly spaced or spectral files.
 
-There is a set of routines that let one get the values of header variables 
+There is a set of routines that let one get the values of header variables
 after a file has been read:
 
-   - GETFHV gets float or REAL*4 header variables
-   - GETDHV gets double or REAL*8 header variables
+   - GETFHV gets Float (REAL*4) header variables
+   - GETDHV gets Double (REAL*8) NVHDR=7 (v7) footer variables (new in SACv102.0)
    - GETIHV gets character strings enumerated as int or INTEGER header variables
    - GETKHV gets character string header variables
    - GETLHV gets LOGICAL header variables (declared as long in C)
-   - GETNHV gets int or INTEGER header variables. 
+   - GETNHV gets int (INTEGER) header variables.
 
-There is a like set of routines that let one set the values of header 
+For definitions of the SAC header variables, see `SAC data file format`_.
+
+There is a like set of routines that let one set the values of header
 variables currently in memory:
 
-   - SETFHV sets float or REAL*4 header variables
-   - SETDHV sets double or REAL*8 header variables
+   - SETFHV sets REAL*4 header variables
+   - SETDHV sets REAL*8 v7 footer variables
    - SETIHV sets character strings enumerated as int or INTEGER header variables
    - SETKHV sets character string header variables
    - SETLHV sets LOGICAL header variables (declared as long in C)
-   - SETNHV sets int or INTEGER header variables. 
+   - SETNHV sets int or INTEGER header variables.
 
 There are three routines used to write SAC data files to disk:
 
-   - WSAC1 writes evenly spaced files
-   - WSAC2 writes unevenly spaced and spectral files
-   - WSAC0 writes either format but has more comprehensive header files 
-     than the other two 
+   - WSAC1 writes evenly spaced files (v6 only)
+   - WSAC2 writes unevenly spaced and spectral files (v6 only)
+   - WSAC0 writes either format but has more comprehensive header files
+     than the other two - including the ability to write a v7 file.
 
-WSAC1 and WSAC2 write SAC files with a minimum header contains only those 
-variables needed to be able to read the file: B, E, DELTA, LEVEN, and NPTS.  
-For calls to WSAC0, If it is a new file, it requires a call to subroutine NEWHDR 
-supplemented by additional header variables to be set using the SETXXX routines 
-(see examples below). If it is writing to a file that is based on one that had 
-been read in previously in the program, one should not call NEWHDR.  Before 
-writing such a file using WSAC0, SAC updates the header variables such as DEPMAX 
-and BAZ.  As shown in the examples below, the type of SAC data file that gets
-written depends on header variables that must be set: IFTYPE and LEVEN.   IFTYPE has the following values:
+WSAC1 and WSAC2 write SAC files with a minimum header contains only those
+variables needed to be able to read the file: B, E, DELTA, LEVEN, and NPTS.
+For calls to WSAC0, if it is a new file, the call must be preceded by a call to
+subroutine NEWHDR supplemented by additional header variables to be set using
+the SETXXX routines (see examples below). If it is writing to a file that is
+based on one that had been read in previously in the program, one should not
+call NEWHDR. As shown in the examples below, the type of SAC data file that gets
+written depends on header variables that must be set: IFTYPE and LEVEN.
+IFTYPE has the following values:
 
                 - ITIME {Time series file}
                 - IRLIM {Spectral file---real and imaginary}
@@ -70,31 +82,50 @@ written depends on header variables that must be set: IFTYPE and LEVEN.   IFTYPE
 
 LEVEN should be set to TRUE unless the IFTYPE is IXY.
 
+NVHDR=6 is the default for WSAC0.
+
+If one is reading this file from within SAC, the code for the programs is not
+visible, just the link to the file in ${SACHOME}/doc/examples/.  The SAC manual,
+in either HTML or PDF, includes the code.  If you do not have the manual on
+your computer, you can get the more complete version by going to URL
+<http://ds.iris.edu/files/sac-manual/manual/input_output.html>.
+
 Reading a Evenly-Sampled SAC File
 ---------------------------------
-This routine will be used 95% of the time as most SAC files are of the evenly 
-time sampled variety.  Using rsac1(), the time sampling, beginning time, and 
-amplitude data are returned and the remainder of the header values are held in 
-memory for later access or until the next call to rsac1().
+This routine will be used 95% of the time as most SAC files are of the
+evenly-time-sampled variety.  Using rsac1(), the time sampling, beginning time,
+and amplitude data are returned and the remainder of the header values are held
+in memory for later access or until the next call to rsac1().
 
 Fortran Example
 ---------------
 .. include:: ../../../doc/examples/rsac1f.f
-   :literal: 
+   :literal:
 
-Be sure to check the error value after the return from rsac1().  This will 
+Be sure to check the error value after the return from rsac1().  This will
 help solve a number of unforeseen problems in the future.
 
 Reading a Evenly-Sampled SAC File: C Example
 --------------------------------------------
 .. include:: ../../../doc/examples/rsac1c.c
-   :literal: 
+   :literal:
 
-Note that in the call to rsac1() in C there is an extra parameter after 
-nerr. This is the string length specifier which specifies the length of the 
-string kname. The length of the string does not include a null terminator. 
-Note also that all of the parameters are passed by reference except the string 
+Note that in the call to rsac1() in C there is an extra parameter after
+nerr. This is the string length specifier which specifies the length of the
+string kname. The length of the string does not include a null terminator.
+Note also that all of the parameters are passed by reference except the string
 length specifier.
+
+**NVHDR=7**: Use of rsac1() to read v7 files works, but values of calling
+arguments *b* and *delta* are the REAL*4 header variables. To obtain the full 64
+bit v7 footer values, follow the rsac1() call with::
+
+        call getdhv("begin", begin, nerr)
+        call getdhv("delta", delta, nerr)
+
+If there are other REAL*8 variables of interest in the v7 footer such
+as t0, one can get them by commands such as *call getdhv("t0",t0,nerr)*,
+where *t0* has been declared to be REAL*8.
 
 Reading an Unevenly-Sampled or Spectral SAC File
 ------------------------------------------------
@@ -103,107 +134,239 @@ In routine rsac2() is for reading in either:
   - an unevely spaced time series file (Amplitude + Time)
 
 To determine the type of file, you must check the IFTYPE and LEVEN header variables:
+
   - Evenly spaced file:   IFTYPE = ITIME (1) and LEVEN = True
   - Unevenly spaced file: IFTPYE = ITIME (1) and LEVEN = False
   - Spectral file: (Real + Imaginary) IFTYPE = IRLIM (2)
   - Spectrla file: (Amplitude + Phase) IFTYPE = IAMPH (3)
 
-
-Both components are returned on the call to rsac2().  For an unevenly-sampled file, the
-first array is the independent variable and the second one the dependent variable. 
-Unlike rsac1(), the beginning time and time sampling are not returned as they 
-can be determined from the returned time data.
+Both components are returned on the call to rsac2().  For an unevenly-sampled
+file, the first array is the independent variable and the second one the
+dependent variable.  Unlike rsac1(), the beginning time and time sampling are
+not returned as they can be determined from the returned time data.
 
 Fortran Example
 ---------------
 .. include:: ../../../doc/examples/rsac2f.f
-   :literal: 
+   :literal:
 
 Reading a Spectral SAC File: C Example
 --------------------------------------
 .. include:: ../../../doc/examples/rsac2c.c
-   :literal: 
+   :literal:
+
+**NVHDR=7**: If one uses rsac2() to read a v7 file, timing values stored in
+*xarray* are still REAL*4.
 
 Accessing Header Variables
 --------------------------
-Accessing the header variables following either rsac1() or rsac2() is straight 
-forward.  Depending on the type of variable requested, the routine called will 
-be different.  
+Accessing the header variables following either rsac1() or rsac2() is straight
+forward.  Depending on the type of variable requested, the routine called will
+be different.
 
 Fortran Example
 ---------------
 .. include:: ../../../doc/examples/gethvf.f
-   :literal: 
+   :literal:
 
 Accessing Header Variables: C Example
 -------------------------------------
 .. include:: ../../../doc/examples/gethvc.c
-   :literal: 
+   :literal:
+
+**NVHDR=7**: If one wants the 64-bit version of one of the 22 floating-point
+header variables that are in the v7 footer, one should use GETDHV.  If
+NVHDR=6, GETDHV will return 32-bit values promoted to 64 bit but does not
+increase their precision.
 
 Writing an Evenly-Spaced SAC File
 ---------------------------------
 Fortran Example
 ---------------
 .. include:: ../../../doc/examples/wsac1f.f
-   :literal: 
+   :literal:
 
 Writing an Evenly-Spaced SAC File: C Example
 --------------------------------------------
 .. include:: ../../../doc/examples/wsac1c.c
-   :literal: 
+   :literal:
+
+**NVHDR=7** - Writing a Version 7 file is **only** currently possible
+using WSAC0. Use of WSAC1 or WSAC2 create a v6 header with NEWHDR and
+are unable to write a v7-type file.
+
+If you are writing a v7 file then, you will need to do either::
+
+      !  To Generate a new file
+      integer :: nerr
+      real*8  :: t0
+      real*4  :: y(101), x(1)
+
+      y(:)  = 0.0
+      y(50) = 1.0
+
+      call newhdr()
+      call setnhv("nvhdr", 7, nerr)
+      call setnhv("npts", 101, nerr)
+
+      t0 = 10.12
+      call setdhv("t0", t0, nerr)
+
+      call wsac0("filename.sac", x, y, nerr)
+      if(nerr .ne. 0) then
+         write(*,*)'Error writing sac file',nerr
+      endif
+
+or to read, update, and write the file over::
+
+      ! Read, update and write a file
+      integer :: nerr, max, nlen
+      real*4 :: b, dt
+      real*8 :: t0
+      real*4 :: y(1000), x(1)
+      max = 1000
+
+      call rsac1("filename.sac", y, nlen, b, dt, max, nerr)
+
+      ! Convert v6 to v7 if necessary
+      call setnhv("nvhdr", 7, nerr)
+
+      t0 = 15.12
+      call setdhv("t0", t0, nerr  )
+
+      call wsac0("filename.sac", x, y, nerr)
+      if(nerr .ne. 0) then
+         write(*,*)'Error writing sac file',nerr
+      endif
 
 Writing an Unevenly-Spaced or Spectral SAC File
 -----------------------------------------------
 Fortran Example
 ---------------
 .. include:: ../../../doc/examples/wsac2f.f
-   :literal: 
+   :literal:
 
 Writing an Unevenly-Spaced or Spectral SAC File: C Example
 ----------------------------------------------------------
 .. include:: ../../../doc/examples/wsac2c.c
-   :literal: 
+   :literal:
 
 Writing a File with a Comprehensive Header
 ------------------------------------------
 
-To create a SAC data file with more information in the header than WSAC1 and 
-WSAC2 allow, you need to use a set of subroutines that store header variables 
-and then use WSAC0. Below are three examples, the first is similar to the 
+To create a SAC data file with more information in the header than WSAC1 and
+WSAC2 allow, you need to use a set of subroutines that store header variables
+and then use WSAC0. Below are three examples, the first is similar to the
 example for WSAC2.
 
 Writing Unevenly-Spaced Data: Fortran
 -------------------------------------
 
 .. include:: ../../../doc/examples/wsac3f.f
-   :literal: 
+   :literal:
 
 Writing Unevenly-Spaced Data: C
 -------------------------------
 .. include:: ../../../doc/examples/wsac3c.c
-   :literal: 
+   :literal:
 
 XYZ (3-D) Files: Fortran
 ------------------------
 .. include:: ../../../doc/examples/wsac4f.f
-   :literal: 
+   :literal:
 
-Although data in SAC memory is stored in a linear 1-D array, one should think of 
-the Z data as being placed in a 2-D grid, in the order left-to-right, bottom-to-top. 
-See the CONTOUR_ command for additional information.
+Although data in SAC memory are stored in a linear 1-D array, one should think
+of the Z data as being placed in a 2-D grid, in the order left-to-right,
+bottom-to-top.  See the CONTOUR_ command for additional information.
 
 XYZ (3-D) Files: C
 ------------------
 .. include:: ../../../doc/examples/wsac4c.c
-   :literal: 
+   :literal:
 
 Evenly-Spaced Data: Fortran
 ---------------------------
 .. include:: ../../../doc/examples/wsac5f.f
-   :literal: 
+   :literal:
 
 Evenly-Spaced Data: C
 ---------------------
 .. include:: ../../../doc/examples/wsac5c.c
-   :literal: 
+   :literal:
+
+C-Style Interface
+-----------------
+
+The C-style version of the library is fully documented at:
+https://savage13.github.io/sacio/html/index.html.  More functions than
+shown below are available. A simple example is provided here for
+reference::
+
+   #include <stdio.h>
+   #include <sacio.h>
+
+   int nerr     = 0;
+   int ival     = 0;
+   double dt    = 0.0;
+   char sta[18] = {0};
+
+   // Read a file named "file.sac"
+   sac *s = sac_read("filename.sac", &nerr);
+
+   // Set and get the delta
+   sac_set_float(s, SAC_DELTA, 0.25);
+   sac_get_float(s, SAC_DELTA, &dt);
+   printf("delta: %f\n", dt);
+
+   // Set the file type to: evenly spaced, time series
+   sac_set_int(s, SAC_EVEN, 1);
+   sac_set_int(s, SAC_FILE_TYPE, ITIME);
+   sac_get_int(s, SAC_EVEN, &ival);
+   printf("leven:  %d\n", ival);
+   sac_get_int(s, SAC_FILE_TYPE, &ival);
+   printf("iftype: %d\n", ival);
+
+   // Set a string, SAC_KSTNM and SAC_STA are the same
+   sac_set_string(s, SAC_KSTNM, "PAS");
+   sac_get_string(s, SAC_STA, sta, sizeof sta);
+   printf("sta:   '%s'\n", sta);
+
+   // Most input strings are truncated at 8 characters
+   //     SAC_KNETWK and SAC_NET are the same
+   sac_set_string(s, SAC_KNETWK, "12345678");
+   sac_get_string(s, SAC_NET, sta, sizeof sta);
+   printf("net:   '%s'\n", sta);
+
+   // ... except for the Event name, it gets 16 characters
+   //     SAC_KEVNM and SAC_EVENT are the same
+   sac_set_string(s, SAC_EVENT, "1234567890123456");
+   sac_get_string(s, SAC_KEVNM, sta, sizeof sta);
+   printf("event: '%s'\n", sta);
+
+   // Set the file version to either v6 or v7
+   sac_set_v6(s);
+   sac_set_v7(s);
+   sac_get_int(s, SAC_HDR, &ival);
+   printf("hdr:    %d\n", ival);
+
+   // Amplitude (and time data) are accessed through
+   //    s->y and s->x
+   // Set the first five values
+   for(int i = 0; i < 5; i++) {
+       s->y[i] = (float) i;
+   }
+   // Print out the first five data points
+   for(int i = 0; i < 5; i++) {
+       printf("y[%d]: %e\n", i, s->y[i]);
+   }
+
+   // Write a sac file
+   sac_write(s, "filename.sac", &nerr);
+   if(nerr != 0) {
+       printf("Error writing sac file: %d\n", nerr);
+   }
+
+   // Free the sac file
+   sac_free(s);
+   s = NULL;
 
