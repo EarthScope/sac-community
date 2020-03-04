@@ -62,7 +62,7 @@
      +     'kf','kuser0','kuser1','kuser2','kcmpnm',
      +     'knetwk','kdatrd','kinst'/
       data lhdr/'leven','lpspol','lovrok','lcalda','lhdr5'/
-      data fhdr/'delta','depmin','depmax','__scale__', 'odelta',
+      data fhdr/'delta','depmin','depmax','scale', 'odelta',
      +     'b','e','o','a','fmt',
      +     't0','t1','t2','t3','t4',
      +     't5','t6','t7','t8','t9',
