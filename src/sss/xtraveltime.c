@@ -103,7 +103,7 @@ set_traveltime(sac *s, int k, char *name, double tt, int lpicks, int verbose) {
 }
 
 char *
-string_join(char vals[60][9], int nvals, char *dst, size_t n, char *join) {
+string_join(char vals[60][128], int nvals, char *dst, size_t n, char *join) {
     memset(dst, 0, n);
     for(int i = 0; i < nvals; i++) {
         strlcat(dst, vals[i], n);
@@ -502,7 +502,13 @@ xtraveltime(int *nerr) {
             //request_set_verbose(tr, 1);
             result *r = request_get(tr);
             if(!result_is_ok(r)) {
-                printf("%s\n", result_error_msg(r));
+                if(result_http_code(r) == 204) {
+                    printf("Error: Phase not found: %s\n", ophases);
+                } else if(result_code(r) == 0 && result_http_code(r) == 500) {
+                    printf("Error: Server Error for phase: %s\n", ophases);
+                } else {
+                    printf("Error: %s\n", result_error_msg(r));
+                }
             } else {
                 char *data = result_data(r);
                 char *line = NULL;

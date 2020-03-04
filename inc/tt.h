@@ -23,7 +23,7 @@ struct t_kmtt {
     char kttmodl[MXTT][9];
     char kttrd[MTTRD][9];
     char krdph[9];
-    char kphases[MXTT][9];
+    char kphases[MXTT][128];
     char kmodel[9];
     char **kphaseNames;
 } ;
