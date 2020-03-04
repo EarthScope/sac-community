@@ -149,8 +149,8 @@ xppk(int *nerr) {
     lhlwrt = xarray_new_with_len('i', saclen() + 1);
     lzdttm = xarray_new_with_len('i', saclen() + 1);
     toff = xarray_new_with_len('d', saclen() + 1);
-    yimnzs = xarray_new_with_len('f', saclen() + 1);
-    yimxzs = xarray_new_with_len('f', saclen() + 1);
+    yimnzs = xarray_new_with_len('d', saclen() + 1);
+    yimxzs = xarray_new_with_len('d', saclen() + 1);
 
 
     xlabelsave = cmgem.xlabel.on;
