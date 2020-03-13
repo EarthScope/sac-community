@@ -252,6 +252,8 @@ AC_CHECK_FUNC(strlcat,   [ AC_DEFINE( [HAVE_FUNC_STRLCAT],       [1], [ System L
             						 [ AC_DEFINE( [MISSING_FUNC_STRLCAT],    [1], [ System Libraries missing strlcat ]) ] )
 AC_CHECK_FUNC(wordexp,   [ AC_DEFINE( [HAVE_FUNC_WORDEXP],       [1], [ System Libraries define wordexp ]) ],
             						 [ AC_DEFINE( [MISSING_FUNC_WORDEXP],    [1], [ System Libraries missing wordexp ]) ] )
+AC_CHECK_FUNC(fmemopen,   [ AC_DEFINE( [HAVE_FUNC_FMEMOPEN],       [1], [ System Libraries define fmemopen ]) ],
+                          [ AC_DEFINE( [MISSING_FUNC_FMEMOPEN],    [1], [ System Libraries missing fmemopen ]) ]  )
 
 # Check for typedefs, structures, and compiler characteristics
 #AC_C_CONST

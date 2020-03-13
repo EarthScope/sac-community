@@ -2763,6 +2763,7 @@ sac_read_internal(char *filename, int read_data, int *nerr) {
     return NULL;
 }
 
+#ifdef HAVE_FUNC_FMEMOPEN
 
 /**
  * @brief Write a sac file to a memory buffer
@@ -2874,7 +2875,7 @@ sac_read_from_memory(const uint8_t *buf, size_t len) {
     }
     return NULL;
 }
-
+#endif /* HAVE_FUNC_FMEMOPEN */
 
 /**
  * @brief      initialize / fill a sac header

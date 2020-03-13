@@ -27,6 +27,9 @@
 /* System Libraries define fmax */
 #undef HAVE_FUNC_FMAX
 
+/* System Libraries define fmemopen */
+#undef HAVE_FUNC_FMEMOPEN
+
 /* System Libraries define fmin */
 #undef HAVE_FUNC_FMIN
 
@@ -224,6 +227,9 @@
 
 /* System Libraries missing fmax */
 #undef MISSING_FUNC_FMAX
+
+/* System Libraries missing fmemopen */
+#undef MISSING_FUNC_FMEMOPEN
 
 /* System Libraries missing fmin */
 #undef MISSING_FUNC_FMIN

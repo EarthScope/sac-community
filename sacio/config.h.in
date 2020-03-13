@@ -1,5 +1,11 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* System Libraries define fmemopen */
+#undef HAVE_FUNC_FMEMOPEN
+
+/* System Libraries missing fmemopen */
+#undef MISSING_FUNC_FMEMOPEN
+
 /* Name of package */
 #undef PACKAGE
 

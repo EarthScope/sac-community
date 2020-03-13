@@ -10,6 +10,9 @@ AC_PROG_RANLIB
 
 AC_DEFINE([USE_GEOGRAPHICLIB], [1], [Use the geographiclib library for geodetic calcs])
 
+AC_CHECK_FUNC(fmemopen,   [ AC_DEFINE( [HAVE_FUNC_FMEMOPEN],       [1], [ System Libraries define fmemopen ]) ],
+                         [ AC_DEFINE( [MISSING_FUNC_FMEMOPEN],    [1], [ System Libraries missing fmemopen ]) ]  )
+
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
 

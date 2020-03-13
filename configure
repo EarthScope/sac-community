@@ -9856,6 +9856,17 @@ $as_echo "#define MISSING_FUNC_WORDEXP 1" >>confdefs.h
 
 fi
 
+ac_fn_c_check_func "$LINENO" "fmemopen" "ac_cv_func_fmemopen"
+if test "x$ac_cv_func_fmemopen" = xyes; then :
+
+$as_echo "#define HAVE_FUNC_FMEMOPEN 1" >>confdefs.h
+
+else
+
+$as_echo "#define MISSING_FUNC_FMEMOPEN 1" >>confdefs.h
+
+fi
+
 
 # Check for typedefs, structures, and compiler characteristics
 #AC_C_CONST
