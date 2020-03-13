@@ -192,9 +192,9 @@ polezero(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
         char glob_path[512];
         if(isSet(PATH, dir)) {
             char *path = getPath(dir);
-            sprintf(glob_path, "%s/SAC_PZs_%s_%s_%s_%s_*", path, net, stat, chan, loc);
+            sprintf(glob_path, "%s/SAC_PZs_%s_%s_%s_%s_*", path, net, stat, loc, chan);
         } else {
-            sprintf(glob_path, "SAC_PZs_%s_%s_%s_%s_*", net, stat, chan, loc);
+            sprintf(glob_path, "SAC_PZs_%s_%s_%s_%s_*", net, stat, loc, chan);
         }
         glob(glob_path, 0, NULL, &g);
         for(size_t i = 0; i < g.gl_pathc; i++) {
