@@ -56,7 +56,9 @@ select_loop_message(char *p, int len) {
             str = NULL;
         }
         if (!p) {
-            return 0;
+            /* EOF Received - Likely Control-D */
+            str = strdup("quit");
+            return strlen(str);
         }
         str = strdup(p);
         return (strlen(str));
