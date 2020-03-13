@@ -211,18 +211,22 @@ sac_int(sac *s, int id) {
  *    an error code of 108
  * @code
  * int nerr = 0;
+ * fprintf(stderr, "Error expected - non existant file\n");
  * sac *s = sac_read("non-existant-file", &nerr);
  * assert_eq(s, NULL);
  * assert_eq(nerr, 108);
+ * fprintf(stderr, "Error expected - non existant file: Done\n");
  * @endcode
  *
  * Reading a file that exists but is not a sac file will return a NULL
  *    pointer and an error code of 1317
  * @code
  * int nerr = 0;
+ * fprintf(stderr, "Error expected - wrong file type\n");
  * sac *s = sac_read("sacio.c", &nerr);
  * assert_eq(s, NULL);
  * assert_eq(nerr, 1317);
+ * fprintf(stderr, "Error expected - wrong file type: Done\n");
  * @endcode
  *
 */
@@ -994,9 +998,11 @@ sac_write_alpha(sac *s, char *filename, int *nerr) {
  *    nerr is set to 1319
  * @code
  * int nerr = 0;
+ * fprintf(stderr, "Error expected - not an alpha numeric file\n");
  * sac *s = sac_read_alpha("t/test_io_small.sac", &nerr);
  * assert_eq(nerr, 1319);
  * assert_eq(s, NULL);
+ * fprintf(stderr, "Error expected - not an alpha numeric file: Done\n");
  * @endcode
  *
  */
@@ -2129,96 +2135,39 @@ sac_copy_strings_strip_terminator(sac *s, char *dst) {
  * @ingroup    sac
  * @memberof   sac
  *
- * @param nun   Logical file unite to write SAC Header To
- * @param nerr  Statue code, 0 on success, non-zero on failure
+ * @param sac   - Sac file structure
+ * @param nerr  - File pointer in which to write header to
  *
- * @date November 7, 2010
+ * @return 0 on success, Non-zero on error
+ *     - ERROR_WRITING_FILE (115)
+ *
+ * @date March 12, 2020
  */
-void
-sac_header_write(sac *s, int nun, int swap, int *nerr) {
-    ssize_t n;
-    char temp2[256]; // 8*24 = 192; Should be big enough
+int
+sac_header_write(sac *s, FILE *fp) {
+    char dst[SAC_HEADER_STRINGS * 8];
+    size_t n = SAC_HEADER_NUMBERS;
 
-    if (swap) {
-        sac_header_swap((void *) s->h);
-    }
-    /* Write the numerical values */
-    n = write(nun, (void *) s->h, SAC_HEADER_NUMBERS_SIZE_BYTES_FILE);
-
-    if (n != SAC_HEADER_NUMBERS_SIZE_BYTES_FILE) {
-        *nerr = ERROR_WRITING_FILE;
-        return;
-    }
-    if (swap) {
+    if (s->m->swap) {
         sac_header_swap((void *) s->h);
     }
 
-    sac_copy_strings_strip_terminator(s, temp2);
-    n = write(nun, temp2, SAC_HEADER_STRINGS_SIZE_BYTES_FILE);
-    if (n != SAC_HEADER_STRINGS_SIZE_BYTES_FILE) {
-        *nerr = ERROR_WRITING_FILE;
-        return;
+    if(fwrite((char *) s->h, sizeof(float), n, fp) != n) {
+        return ERROR_WRITING_FILE;
     }
+
+    if (s->m->swap) {
+        sac_header_swap((void *) s->h);
+    }
+
+    sac_copy_strings_strip_terminator(s, dst);
+    if(fwrite(dst, 8, SAC_HEADER_STRINGS, fp) != SAC_HEADER_STRINGS) {
+        return ERROR_WRITING_FILE;
+    }
+
+    return SAC_OK;
 }
 
-/**
- * @brief      Write a single data component
- *
- * @private
- * @ingroup    sac
- * @memberof   sac
- *
- * @details    Write a single data component to a file descriptor
- *
- * @param      nun    File descriptor to write to
- * @param      data   Data to write
- * @param      npts   Length of data to write
- * @param      swap   To swap dat before writing
- * @param      nerr   Status code, 0 on success, non-zero on error
- *
- */
-void
-sac_data_write1(int nun, float *data, int npts, int swap, int *nerr) {
-    ssize_t n;
-    if (swap) {
-        sac_data_swap(data, npts);
-    }
-    n = write(nun, data, (size_t) npts * SAC_DATA_SIZE);
-    if (n == -1 || n != npts * (int) SAC_DATA_SIZE) {
-        *nerr = ERROR_WRITING_FILE;
-        return;
-    }
-    if(swap) {
-        sac_data_swap(data, npts);
-    }
-}
-
-/**
- * @brief      Write two data components to a file descriptor
- *
- * @private
- * @ingroup    sac
- * @memberof   sac
- *
- * @details    Write two data components to a file descriptor,
- *             calls sac_data_write1()
- *
- * @param      nun    file descriptor to write to
- * @param      y      first data component to write
- * @param      x      second data component to write
- * @param      npts   length of \p y and \p x
- * @param      swap   to swap data before writing
- * @param      nerr   status code, 0 on succes, non-zero on failure
- *
- */
-void
-sac_data_write2(int nun, float *y, float *x, int npts, int swap, int *nerr) {
-    sac_data_write1(nun, y, npts, swap, nerr);
-    if (*nerr) {
-        return;
-    }
-    sac_data_write1(nun, x, npts, swap, nerr);
-}
 
 /**
  * @brief      Write data components to a file descriptor
@@ -2227,29 +2176,28 @@ sac_data_write2(int nun, float *y, float *x, int npts, int swap, int *nerr) {
  * @ingroup    sac
  * @memberof   sac
  *
- * @details    Write 1 or 2 data components to a file descriptor, calls
- *             sac_data_write1() or sac_data_write2()
+ * @param      s    sac file structure to write to
+ * @param      fp   file descriptor to write to
  *
- * @param      nun    file descriptor to write to
- * @param      y      first data component to write
- * @param      x      second data component to write, maybe NULL
- * @param      comps  number of data components to write
- * @param      npts   length of \p y and \p x
- * @param      swap   to swap data before writing
- * @param      nerr   status code, 0 on success, non-zero on failure
+ * @return     status code, 0 on success, non-zero on failure
  *
  */
-void
-sac_data_write(int nun, float *y, float *x, int comps, int npts, int swap,
-               int *nerr) {
-    if (comps == 1) {
-        sac_data_write1(nun, y, npts, swap, nerr);
-    } else if (comps == 2) {
-        sac_data_write2(nun, y, x, npts, swap, nerr);
-    } else {
-        *nerr = ERROR_WRITING_FILE;
+int
+sac_data_write(sac *s, FILE *fp) {
+    size_t n = s->h->npts;
+    for(int i = 0; i < sac_comps(s); i++) {
+        float *p = (i == 0) ? s->y : s->x;
+        if (s->m->swap) {
+            sac_data_swap(p, s->h->npts);
+        }
+        if(fwrite(p, sizeof(float), n, fp) != n) {
+            return ERROR_WRITING_FILE;
+        }
+        if (s->m->swap) {
+            sac_data_swap(p, s->h->npts);
+        }
     }
-    return;
+    return SAC_OK;
 }
 
 static int v7_keys[] = {
@@ -2269,29 +2217,91 @@ static size_t v7_keys_length = sizeof(v7_keys) / sizeof(int);
  *          file pointer must be positioned at the end of the data
  *          section for write to be done properly
  *
- * @param nun   - Negative file id number (yes, it is negative)
  * @param s     - sac file structure to write out
- * @param nerr  - Error reporting value
+ * @param fp    - File descriptor to write to
+ *
+ * @return nerr  - Error reporting value
  *
  * V7 of the header is a additional set of data at the end of the file
  * following the data.  This routine only write the this "footer" of
  * metadata, the v6 header I/O routines are still required
  *
+ * @code
+ * int nerr = 0;
+ * sac *s = NULL;
+ * int host = byte_order();
+ * int little = !(host == ENDIAN_LITTLE);
+ * int big    = !(host == ENDIAN_BIG);
+ *
+ * s = sac_read("t/test_io_small.sac", &nerr);
+ * assert_eq(nerr, 0);
+ * assert_eq(s->m->swap, little);
+ *
+ * sac_set_v7(s);
+ * sac_write(s, "t/test_io_small_v7.sac.tmp", &nerr);
+ * assert_eq(nerr, 0);
+ *
+ * s = sac_read("t/test_io_big.sac", &nerr);
+ * assert_eq(nerr, 0);
+ * assert_eq(s->m->swap, big);
+ *
+ * sac_set_v7(s);
+ * sac_write(s, "t/test_io_big_v7.sac.tmp", &nerr);
+ * assert_eq(nerr, 0);
+ *
+ * s = sac_read("t/test_io_big_v7.sac.tmp", &nerr);
+ * assert_eq(nerr, 0);
+ * assert_eq(s->m->swap, big);
+ * assert_eq(s->h->nvhdr, 7);
+ *
+ * FILE *fp = NULL;
+ * double v = 0.0;
+ * fprintf(stderr, "Checking raw data file\n");
+ * fp = fopen("t/test_io_big_v7.sac.tmp", "r");
+ * assert_ne(fp, NULL);
+ * fseek(fp, -8, SEEK_END);
+ * v = 0.0;
+ * assert_eq(fread(&v, sizeof(double), 1, fp), 1);
+ * if(s->m->swap) {
+ *    assert_ne(v, -12345.0);
+ *    swap_double((void *) &v);
+ * }
+ * assert_eq(v, -12345.0);
+ * fclose(fp);
+ *
+ * s = sac_read("t/test_io_small_v7.sac.tmp", &nerr);
+ * assert_eq(nerr, 0);
+ * assert_eq(s->m->swap, little);
+ * assert_eq(s->h->nvhdr, 7);
+ *
+ * fprintf(stderr, "Checking raw data file\n");
+ * fp = fopen("t/test_io_small_v7.sac.tmp", "r");
+ * assert_ne(fp, NULL);
+ * fseek(fp, -8, SEEK_END);
+ * v = 0.0;
+ * assert_eq(fread(&v, sizeof(double), 1, fp), 1);
+ * if(s->m->swap) {
+ *    assert_ne(v, -12345.0);
+ *    swap_double((void *) &v);
+ * }
+ * assert_eq(v, -12345.0);
+ * fclose(fp);
+ *
+ * @endcode
  */
-void
-sac_header_write_v7(int nun, sac *s, int *nerr) {
-    ssize_t n;
+int
+sac_header_write_v7(sac *s, FILE *fp) {
     double buffer[v7_keys_length];
-    *nerr = SAC_OK;
-
     for(size_t i = 0; i < v7_keys_length; i++) {
         sac_get_f64(s, v7_keys[i], &buffer[i]);
+        if(s->m->swap) {
+            byteswap_bsd((void *) &buffer[i], sizeof(double));
+        }
     }
-
-    n = write(nun, buffer, sizeof(buffer));
-    if(n == -1 || (size_t) n != sizeof(buffer)) {
-        *nerr = ERROR_WRITING_FILE;
+    if(fwrite(buffer, sizeof(buffer), 1, fp) != 1) {
+        return ERROR_WRITING_FILE;
     }
+    return SAC_OK;
 }
 
 /**
@@ -2331,6 +2341,9 @@ sac_header_read_v7(FILE *fp, sac *s, int *nerr) {
         return;
     }
     for(i = 0; i < v7_keys_length; i++) {
+        if(s->m->swap) {
+            byteswap_bsd((void *) &buffer[i], sizeof(double));
+        }
         sac_set_f64(s, v7_keys[i], buffer[i]);
     }
     fseek(fp, offset, SEEK_SET);
@@ -2395,7 +2408,10 @@ sac_header_v7_fill(sac *s, FILE *fp, int *nerr) {
 void
 sac_write_internal(sac *s, char *filename, int write_data, int swap, int *nerr) {
     sac *old = NULL;
-    int nin = 0;
+    FILE *fp = NULL;
+
+    UNUSED(swap);
+
     if(write_data && ((*nerr = sac_check_npts(s->h->npts)) != SAC_OK)) {
         return;
     }
@@ -2417,12 +2433,12 @@ sac_write_internal(sac *s, char *filename, int write_data, int swap, int *nerr) 
 
     
     if(write_data) {
-        nin = creat(filename, 0666);
+        fp = fopen(filename, "w"); // Truncate or create
     } else {
-        nin = open(filename, O_RDWR, 0666);
+        fp = fopen(filename, "r+"); // Open for reading and writing
         swap = s->m->swap;
     }
-    if(nin < 0) {
+    if(! fp) {
         if(!write_data) {
             *nerr = ERROR_FILE_DOES_NOT_EXIST;
         } else {
@@ -2445,26 +2461,26 @@ sac_write_internal(sac *s, char *filename, int write_data, int swap, int *nerr) 
         old = NULL;
     }
 
-    sac_header_write(s, nin, swap, nerr);
+    *nerr = sac_header_write(s, fp);
     if(*nerr != SAC_OK) {
         return;
     }
     if(write_data) {
-        sac_data_write(nin, s->y, s->x, sac_comps(s), s->h->npts, swap, nerr);
+        *nerr = sac_data_write(s, fp);
         if(*nerr != SAC_OK) {
             return;
         }
     } else {
-        lseek(nin,
+        fseek(fp, 
               SAC_HEADER_SIZE +
               4 * (off_t) s->h->npts * sac_comps(s),
               SEEK_SET);
     }
     if(s->h->nvhdr == SAC_HEADER_VERSION_7) {
-        sac_header_write_v7(nin, s, nerr);
+        *nerr = sac_header_write_v7(s, fp);
     }
 
-    close(nin);
+    fclose(fp);
 }
 /**
  * @brief      read sac data from a file pointer
@@ -2746,6 +2762,119 @@ sac_read_internal(char *filename, int read_data, int *nerr) {
     }
     return NULL;
 }
+
+
+/**
+ * @brief Write a sac file to a memory buffer
+ *
+ * @ingroup    sac
+ * @memberof   sac
+ *
+ * @details    Create and write a sac file to a memory buffer
+ *             It is the users responsibility to free() the returned
+ *             memory
+ *
+ * @param      s     sac file structure to write
+ * @param      nlen  length of memory buffer on return
+ *
+ * @return     memory buffer with sac file structure, NULL on error
+ *
+ */
+uint8_t *
+sac_write_to_memory(sac *s, uint32_t *len) {
+    size_t n = 0;
+    uint8_t *buf = NULL;
+    FILE *fp = NULL;
+
+    n = sac_size(s);
+
+    buf = calloc(n, sizeof(uint8_t));
+    if(!(fp = fmemopen(buf, n, "w"))) {
+        printf("Error opening memory for writing\n");
+        return NULL;
+    }
+
+    switch(s->h->nvhdr) {
+    case 7:  sac_copy_f64_to_f32(s); break;
+    case 6: break;
+    }
+
+    if(sac_header_write(s, fp) ||
+       sac_data_write(s, fp) ) {
+        goto error;
+    }
+    if(s->h->nvhdr == 7) {
+        if(sac_header_write_v7(s, fp)) {
+            goto error;
+        }
+    }
+
+    *len = n;
+    return buf;
+
+ error:
+    if(buf) {
+        free(buf);
+        buf = NULL;
+    }
+    *len = 0;
+    return NULL;
+}
+
+/**
+ * @brief Read a sac file from a memory buffer
+ *
+ * @ingroup    sac
+ * @memberof   sac
+ *
+ * @details    Read a sac file from a memory buffer
+ *             It is the users responsibility to free() the returned
+ *             sac file 
+ *
+ * @param      buf   memory buffer to read from
+ * @param      nlen  size of memory buffer in bytes
+ *
+ * @return     sac file structure read from memory buffer, NULL on error
+ *
+ */
+sac *
+sac_read_from_memory(const uint8_t *buf, size_t len) {
+    int nerr = 0;
+    FILE *fp = NULL;
+    if(!(fp = fmemopen((void *) buf, len, "r"))) {
+        printf("Error opening memory for reading\n");
+        return NULL;
+    }
+    sac *s = sac_new();
+    if(sac_header_read(s, fp)) {
+        goto error;
+    }
+    sac_alloc(s);
+    s->m->nstart = 1;
+    s->m->nstop  = s->h->npts;
+    s->m->ntotal = s->h->npts;
+    s->m->nfillb = 0;
+    s->m->nfille = 0;
+
+    if(sac_data_read(s, fp)) {
+        goto error;
+    }
+
+    sac_header_v7_fill(s, fp, &nerr);
+
+    fclose(fp);
+
+    sac_read_post(s, 1);
+
+    return s;
+ error:
+    if(s) {
+        sac_free(s);
+        s = NULL;
+    }
+    return NULL;
+}
+
 
 /**
  * @brief      initialize / fill a sac header

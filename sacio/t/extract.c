@@ -67,6 +67,27 @@ main(int argc, char *argv[]) {
 #define assert_eq(a,b) assert((a) == (b))\n\
 #define assert_ne(a,b) assert((a) != (b))\n\
 \n\
+void swap_double(void *v) {\n\
+  char t = 0;\n\
+  char *p = (char *) v;\n\
+  for(size_t i = 0; i < 8/2; i++) {\n\
+      size_t j = 8-i-1;\n\
+      t = p[i]; p[i] = p[j]; p[j] = t;\n\
+  }\n\
+}\n\
+\n\
+enum {\n\
+    ENDIAN_BIG,\n\
+    ENDIAN_LITTLE\n\
+};\n\
+int\n\
+byte_order() {\n\
+    int byte_order;\n\
+    short int word = 0x0001;\n\
+    char *byte = (char *) &word;\n\
+    byte_order = (! byte[0]) ? ENDIAN_BIG : ENDIAN_LITTLE;\n\
+    return byte_order;\n\
+} \n\
 #include <sacio.h>\n\
 \n\
 ");
