@@ -24,8 +24,8 @@
       data SAC_ILLEGAL_HEADER_NAME/1337/
 
 !     Define the Data Array of size MAX
-      real yarray
-      dimension yarray(MAX)
+      real yarray, t
+      dimension yarray(MAX), t(MAX)
 
       character*20 str
       integer fails 
@@ -38,7 +38,7 @@
       character *10 fhdr(70),nhdr(15),ihdr(20),lhdr(5),khdr(23)
       character *16 kval(23)
       real a,b,siga, sigb, sig, cc
-      real *8 dbeg, ddel
+      real *8 dbeg, ddel, dend
       real fval(70)
       data kval/'sta','FUNCGEN: IMPULSE','-12345  ','-12345  ',
      + '-12345  ',
@@ -122,6 +122,13 @@
             call exit(-1)
          endif
 
+         do i = 1,nlen
+            t(i) = beg + (i-1) * del
+         enddo
+         dbeg = beg
+         ddel = del
+         dend = beg + del * (nlen - 1)
+
 !     Do some processing ....
          do i = 1,3
             !if(i .eq. 1) then
@@ -143,8 +150,8 @@
          call taper(yarray, nlen, 1, 20)
          call taper(yarray, nlen, 2, 20)
          call taper(yarray, nlen, 3, 20)
-         call interp(yarray,nlen,yarray,5,beg,10.0,0.,del,1.0,0.0)
-         call interp2(yarray,nlen,yarray,5,beg,yarray,0.,del,1.,0.)
+         call interp(yarray,nlen,yarray,5,dbeg,dend,ddel,dbeg,ddel,0.0)
+         call interp2(yarray,nlen,yarray,5,dbeg,dend,t,dbeg,1.0d0,0.0)
          dbeg = beg
          ddel = del
          call lifite(dbeg, ddel, yarray, nlen, a,b,siga,sigb,sig,cc)
