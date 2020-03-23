@@ -66,7 +66,8 @@ ID  Count Command               Description
 -2  0     End                   End of picture.
 -3  2     Move                  Move to the location contained in the two (x,y)
                                 data words.
--4  1     Color                 Change color to value contained in data word.
+-4  1     Color                 Change color to index contained in data word.
+-4  3     Color                 Change color to red, green, blue value
 -5  *     Text                  Write hardware text at current location.
                                 Data count contains number of 16-bit words of
                                 text plus one. First data word is the number of

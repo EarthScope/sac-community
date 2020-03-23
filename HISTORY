@@ -67,6 +67,9 @@ between SAC versions.  An overview of these are in file CHANGES.
              - dif(), int()
              - New Documentation
              - New Examples
+        * BUG FIX: sgftops now does not ignore color length
+                   a length of 1 is a color table index
+                   a length of 3 is followed a red, green, and blue color (0-255)
         * BUG Fix: MERGE bug with time output and inerpolation at file boundaries
         * BUG Fix: Time plotting done in double precision (64bit)
         * BUG Fix: MACROS work again from the command line
