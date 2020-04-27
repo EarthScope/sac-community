@@ -17,7 +17,6 @@ where op is one of the following::
   SQRT EXP   ALOG  ALOG10
   SIN  COS  TAN
   ASIN ACOS ATAN
-  EQ   NE  LE  GE  LT  GT
   ADD  SUBTRACT  MULTIPLY  DIVIDE
 
 INPUT
