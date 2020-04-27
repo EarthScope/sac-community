@@ -3239,10 +3239,21 @@ sac_calc_read_window(sac *s, char *c1, double t1, char *c2, double t2, enum CutA
  * @code
  * int nerr = 0;
  * double b = 0, e = 0;
- * sac *s = sac_read_with_cut("t/test_io_small.sac", 
+ * sac *s = NULL;
+ *
+ * s = sac_read_with_cut("t/test_io_small.sac", 
  *                            "Z", 10.0,
  *                            "Z", 30.0, CutUseBE, 
  *                            &nerr);
+ * sac_get_float(s, SAC_B, &b);
+ * sac_get_float(s, SAC_E, &e);
+ * assert_eq(b, 10.0);
+ * assert_eq(e, 30.0);
+ *
+ * s = sac_read_with_cut("t/test_io_big.sac", 
+ *                       "Z", 10.0,
+ *                       "Z", 30.0, CutUseBE, 
+ *                       &nerr);
  * sac_get_float(s, SAC_B, &b);
  * sac_get_float(s, SAC_E, &e);
  * assert_eq(b, 10.0);
@@ -3292,6 +3303,9 @@ sac_read_with_cut(char *filename,
         if(fread(s->y + offt, SAC_DATA_SIZE, nr, fp) != nr) {
             *nerr = ERROR_READING_FILE;
             goto error;
+        }
+        if(s->m->swap) {
+            sac_data_swap(s->y, s->h->npts);
         }
     }
     fclose(fp);
