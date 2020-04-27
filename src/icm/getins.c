@@ -70,6 +70,9 @@ getins(kinstr, kinstr_s, ninstr, ldone, fp, lfp, ip, lip, kp, kp_s, lkp, nerr)
     /* PROCEDURE: */
     /* - Parse the name of the of the instrument. */
     if (lclist(kinstr, kinstr_s, ninstr, &index)) {
+        if(index == 50) { // Convert EVRESP to EVALRESP
+            index = 45;
+        }
         fstrncpy(KP(0, 0), kp_s - 1, KINSTR(index - 1, 0),
                  strlen(KINSTR(index - 1, 0)));
         Lkp[1] = TRUE;

@@ -17,6 +17,12 @@
 #include <fern/urls.h>
 #include <libmseed/libmseed.h>
 
+#define WARN(s) do {      \
+        warning(3264, s); \
+        outmsg();         \
+        clrmsg();         \
+    } while(0)
+
 Event **quake_xml_parse(char *data, size_t data_len, int verbose, char *cat);
 sac ** sac_data(); // iniam.c
 
@@ -1347,7 +1353,11 @@ response_request(int *nerr) {
     if(*nerr != SAC_OK) {
         goto error;
     }
-    if(response_is_ok(pz)) {
+    int stat = response_status(pz);
+    if( (stat & ResponseNSLC) == ResponseNSLC ) {
+        if(saclen() > 0) {
+            WARN("Retrieving response from command options (data exists in memory)");
+        }
         /* If Time range is not set, set to -200years, +1year */
         if((set & SetTime) == 0) {
             duration_parse("-200y", &d);
@@ -1373,6 +1383,9 @@ response_request(int *nerr) {
         /* Write response to a file */
         result_write_to_file_show(r, response_filename(pz, file, sizeof(file)));
     } else if(saclen() > 0) {
+        if( stat != 0 ) {
+            WARN("Retrieving response from headers in files (some command options provided)");
+        }
         /* Get Response for all files in memory */
         REQUEST_FREE(pz);
         for( int i = 0 ; i < saclen(); i++) {
@@ -1427,14 +1440,17 @@ response_request(int *nerr) {
                 RESULT_FREE(r);
                 REQUEST_FREE(pz);
             } else {
-                printf("net: '%s'\n", s->h->knetwk);
-                printf("sta: '%s'\n", s->h->kstnm);
-                printf("loc: '%s'\n", s->h->khole);
-                printf("cha: '%s'\n", s->h->kcmpnm);
                 error(*nerr = 3264,
                       "Response request either requires a data file with meta data\n"
                       "    knetwm, kstnm, khole, kcmpnm [kzdate/kztime]\n"
                       "    or net, sta, loc, and cha [time/start/end]");
+                char *names[] = {"Network", "Station", "Location/Hole", "Channel" };
+                int bits[] = {ResponseNetwork, ResponseStation, ResponseLocation, ResponseChannel };
+                for(int i = 0; i < 4; i++) {
+                    if((stat & bits[i]) == 0) {
+                        mprint("   -- Missing: %s\n", names[i]);
+                    }
+                }
             }
         }
     } else {
@@ -1442,6 +1458,13 @@ response_request(int *nerr) {
               "Response request either requires a data file with meta data\n"
               "    knetwm, kstnm, khole, kcmpnm [kzdate/kztime]\n"
               "    or net, sta, loc, and cha [time/start/end]");
+        char *names[] = {"Network", "Station", "Location/Hole", "Channel" };
+        int bits[] = {ResponseNetwork, ResponseStation, ResponseLocation, ResponseChannel };
+        for(int i = 0; i < 4; i++) {
+            if((stat & bits[i]) == 0) {
+                mprint("   -- Missing: %s\n", names[i]);
+            }
+        }
         goto error;
     }
  error:

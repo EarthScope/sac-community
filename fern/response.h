@@ -28,5 +28,18 @@ void      response_set_station(request *s, char *sta);
 void      response_set_location(request *s, char *loc);
 void      response_set_channel(request *s, char *cha);
 int       response_is_ok(request *s);
+int       response_status(request *s);
+
+enum {
+      ResponseNetwork   = 1 << 0,
+      ResponseStation   = 1 << 1,
+      ResponseLocation  = 1 << 2,
+      ResponseChannel   = 1 << 3,
+      ResponseStartTime = 1 << 4,
+      ResponseEndTime   = 1 << 5,
+      ResponseKind      = 1 << 6,
+};
+
+#define ResponseNSLC (ResponseNetwork | ResponseStation | ResponseLocation | ResponseChannel)
 
 #endif /*_RESPONSE_H_*/

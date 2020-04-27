@@ -51,7 +51,7 @@ iniicm() {
     cmicm.freq[2] = 1.0e5;
     cmicm.freq[3] = 1.0e6;
 
-    cmicm.ninstr = 49;
+    cmicm.ninstr = 50;
     strcpy(kmicm.kinstr[0], "ACC");
     strcpy(kmicm.kinstr[1], "BBDISP");
     strcpy(kmicm.kinstr[2], "BBVEL");
@@ -101,6 +101,7 @@ iniicm() {
     strcpy(kmicm.kinstr[46], "DBASE");
     strcpy(kmicm.kinstr[47], "NDC");
     strcpy(kmicm.kinstr[48], "FAP");
+    strcpy(kmicm.kinstr[49], "EVRESP");
 
     return;
 

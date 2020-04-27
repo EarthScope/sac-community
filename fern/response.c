@@ -268,12 +268,28 @@ response_set_channel(request *s, char *cha) {
  */
 int
 response_is_ok(request *s) {
+    return (response_status(s) & ResponseNSLC) == ResponseNSLC ;
+}
+
+/**
+ * @brief      check on the response status
+ *
+ * @details    check if the response contains network, station, location and channel
+ *
+ * @param      s   response request to check
+ *
+ * @return     how many of the options are fill, 0 (none) to 4 (all)
+ */
+int
+response_status(request *s) {
     char *keys[] = {"net", "sta", "loc", "cha" };
+    int bits[] = {ResponseNetwork, ResponseStation, ResponseLocation, ResponseChannel };
+    int sum = 0;
     for(size_t i = 0; i < 4; i++) {
-        if(!request_get_arg(s, keys[i])) {
-            return 0;
+        if(request_get_arg(s, keys[i])) {
+            sum |= bits[i];
         }
     }
-    return 1;
+    return sum;
 }
 
