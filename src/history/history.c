@@ -25,6 +25,11 @@
 #define READLINE_COMMAND_EXPANSION  1
 #define READLINE_COMMAND_PRINT      2
 
+int length_history();
+
+static char *sac_history_filename = NULL;
+static int sac_history_loaded = FALSE;
+
 int
 use_history(int getset) {
     static int virgin = TRUE;
@@ -43,21 +48,14 @@ use_history(int getset) {
 
 void
 history_print() {
-    int j;
-    HIST_ENTRY *he;
-    while ((he = next_history())) {
-        continue;
-    }
-    j = -1;
+    int j = 1;
+    HIST_ENTRY *he = NULL;
 
-    for (he = current_history(); he != NULL; he = previous_history()) {
-        if (j > 0) {
-            printf("%5d  %s\n", j, he->line);
-        }
+    /* Go to the beginning of the list */
+    while((he = history_get(j))) {
+        printf("%5d  %s\n", j, he->line);
         j++;
     }
-
-    return;
 }
 
 const char *
@@ -197,9 +195,6 @@ history_size() {
     return sac_history_size;
 }
 
-static char *sac_history_filename = NULL;
-static int sac_history_loaded = FALSE;
-
 void
 sac_history_filename_free() {
     FREE(sac_history_filename);
@@ -244,6 +239,12 @@ sac_history_file_set(char *name) {
     }
 }
 
+int
+length_history() {
+    HISTORY_STATE *stat = history_get_history_state();
+    return stat->length;
+}
+
 /** 
  * Get the sac history filename
  *
@@ -264,6 +265,7 @@ sac_history_file() {
  */
 void
 sac_history_load(char *where) {
+    int n = 0;
     if (sac_history_loaded) {
         return;
     }
@@ -279,4 +281,9 @@ sac_history_load(char *where) {
         read_history(where);
     }
     sac_history_loaded = TRUE;
+
+    // Make the editline library initialize properly
+    add_history("** SAC Session Started");
+    n = length_history();
+    remove_history(n-1);
 }
