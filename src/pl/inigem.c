@@ -293,7 +293,7 @@ inigem() {
     cmgem.floor = 1.0e-10;
     cmgem.lflusd = FALSE;
     cmgem.lrqclp = FALSE;
-    cmgem.ltqdp = TRUE;
+    cmgem.ltqdp = FALSE;
     cmgem.ntqdp = 500;
     cmgem.lfqdp = TRUE;
     cmgem.nfqdp = 1000;
