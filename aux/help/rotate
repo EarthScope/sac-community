@@ -23,9 +23,11 @@ INPUT
    :THROUGH v:  Rotate through the angle v in degrees.  One component may
        be vertical.
 
-   :NORMAL:  Output (horizontal) components with the second leading the first by 90 degrees
+   :NORMAL: Output (horizontal) components with the second leading the
+       first by 90 degrees (clockwise rotation looking down).
 
-   :REVERSED:  Output (horizontal) components with the second lagging the first by 90 degrees.
+   :REVERSED: Output (horizontal) components with the second lagging
+        the first by 90 degrees (counterclockwise rotation looking down).
 
 DEFAULT VALUES
 --------------
@@ -36,25 +38,28 @@ DEFAULT VALUES
 DESCRIPTION
 -----------
   Pairs of data components are rotated in this command.  Each pair must
-  have the same station name, event name, number of points, and sampling rate.
-  In the THROUGH option both components are simply rotated through the requested
-  angle.  One of those components may be a vertical.   Rotations in the
-  horizontal plane are clockwise from north.  Rotations with a vertical
-  component are clockwise from up.
+  have the same station and event header variables, NPTS, B, and DELTA
 
-  Both components must be horizontals when the TO option is used.  This
-  means that CMPAZ must be definined and that CMPINC must be 90 degrees.  After
-  the rotation is completed, the first component of each pair will be directed
-  along the angle given after the TO keyword.  If the TO GCP option is used, t
-  his component will be directed along the angle given by the station-event
-  back azimuth plus or minus 180 degrees.  This component therefore points from
-  the event toward the station.  The station and event coordinates header fields
-  (STLA, STLO, EVLA, and EVLO) must be defined so that the backazimuth can be
-  calculated.
+  **TO option**: Both components must be horizontals: CMPAZ must be
+  definined and CMPINC must be 90 degrees.  After the rotation is
+  completed, the first component of each pair will be directed along
+  the angle given after the TO keyword.  If the TO GCP option is used,
+  the station and header fields STLA, STLO, EVLA, and EVLO must be
+  defined so that the backazimuth (BAZ) can be calculated.  After the
+  rotation, the first component will be directed along the angle given
+  by the station-event backazimuth plus or minus 180 degrees (to keep
+  the final angle begween 0 and 360 degrees).  This component
+  therefore points from the event toward the station (the *radial*
+  direction), and the second componnt is called "transverse" or
+  "tangential".  (The (upward) vertical, radial, and transverse
+  directions form a left-handed coordinate system.)
 
   The NORMAL and REVERSED options apply only to horizontal rotations.
-  If the NORMAL option is used, the second component leads the first by 90
-  degrees.  If the REVERSED option is used ,it lags the first by 90 degrees.
+  If the NORMAL option is used, the second component leads the first
+  by 90 degrees.  If the REVERSED option is used, it lags the first by
+  90 degrees.  ROTATE TO GCP REVERSED results in a transverse
+  comonent in the opposite direction from ROTATE TO GCP NORMAL, a
+  convention prefered by some researchers.
 
 EXAMPLES
 --------
@@ -63,21 +68,17 @@ EXAMPLES
       SAC> READ XYZ.N XYZ.E
       SAC> ROTATE TO 123.43
 
-  To rotate two sets of horizontals to the  the first component in each set
-  along the great circle path::
+  To rotate two sets of horizontals so that the first component in each set
+  along the great circle path and then write SAC files for the radial and
+  transverse components::
 
       SAC> READ ABC.N ABC.E DEF.N DEF.E
       SAC> ROTATE TO GCP
       SAC> W ABC.R ABC.T DEF.R DEF.T
 
-  In the above example if the BAZ header variable for ABC had been 33 degrees,
-  the radial components would be at 213 degrees and the tangential components at
-  303 degrees.  If, instead, ROTAT TO GCP REVERSED had been used, the tangential
-  components would be at 123 degrees.
-
 HEADER CHANGES
 --------------
-  CMPAZ, CMPINC, KCMPNM
+  CMPAZ, CMPINC, KCMPNM, DEP*
 
 ERROR MESSAGES
 --------------
