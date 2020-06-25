@@ -146,7 +146,7 @@ inilhf() {
     strcpy(kmlhf.kstrpt[91], "MAG     ");       /* magnitude */
     strcpy(kmlhf.kstrpt[92], "IMAGTYP ");       /* magnitude type */
     strcpy(kmlhf.kstrpt[93], "IMAGSRC ");       /* magnitude source. */
-
+    strcpy(kmlhf.kstrpt[94], "IBODY   ");       /* body type. */
     /* Header name for "PICKS" */
     cmlhf.npkrpt = SAC_HEADER_NAMES_PICKS_LENGTH;
     strcpy(kmlhf.kpkrpt[0], "NPTS    ");
@@ -293,7 +293,7 @@ inilhf() {
     strcpy(kmlhf.kihdr[9], "ISYNTH  ");
     strcpy(kmlhf.kihdr[10], "IMAGTYP ");        /* magnitude type. */
     strcpy(kmlhf.kihdr[11], "IMAGSRC ");        /* magnitude source. */
-    strcpy(kmlhf.kihdr[12], "IHDR13  ");
+    strcpy(kmlhf.kihdr[12], "IBODY   ");
     strcpy(kmlhf.kihdr[13], "IHDR14  ");
     strcpy(kmlhf.kihdr[14], "IHDR15  ");
     strcpy(kmlhf.kihdr[15], "IHDR16  ");

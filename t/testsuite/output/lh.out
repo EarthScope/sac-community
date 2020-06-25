@@ -227,6 +227,7 @@
           MAG = -1.234500e+04
       IMAGTYP = UNDEFINED
       IMAGSRC = UNDEFINED
+        IBODY = UNDEFINED
  lh inclusive off
   
   

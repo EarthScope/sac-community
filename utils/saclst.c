@@ -145,7 +145,7 @@ char *SacHeaderName[] = {
   "isynth",   /*    synthetic data flag    */
   "imagtyp",        /*    reserved for future use*/
   "imagsrc",        /*    reserved for future use*/
-  "unused19",   /*    reserved for future use*/
+  "ibody",   /*    Body / Spheroid */
   "unused20",   /*    reserved for future use*/
   "unused21",   /*    reserved for future use*/
   "unused22",   /*    reserved for future use*/
@@ -184,125 +184,6 @@ char *SacHeaderName[] = {
   "kinst"               /*    instrument name        */
 };
 
-char *SacHeaderEnums[] = {
-  "IREAL",     /* 0    To be consistent with defines above */
-  /* iftype */
-  "ITIME",        /* 1    Time series file            */
-  "IRLIM",        /* 2    Spectral file-real/imag     */
-  "IAMPH",        /* 3    Spectral file-ampl/phase    */
-  "IXY",          /* 4    General x vs y file         */
-  "IUNKN",        /* 5    Unknown                     */
-
-  /* idep */
-  "IDISP",        /* 6    Displacement (NM)           */
-  "IVEL",         /* 7    Velocity (NM/SEC)           */
-  "IACC",         /* 8    Acceleration (NM/SEC/SEC)   */
-
-  /* iztype */
-  "IB",           /* 9    Begin time                  */
-  "IDAY",         /* 10   GMT day                     */
-  "IO",           /* 11   Event origin time           */
-  "IA",           /* 12   First arrival time          */
-  "IT0",          /* 13   User defined time pick 0    */
-  "IT1",          /* 14   User defined time pick 1    */
-  "IT2",          /* 15   User defined time pick 2    */
-  "IT3",          /* 16   User defined time pick 3    */
-  "IT4",          /* 17   User defined time pick 4    */
-  "IT5",          /* 18   User defined time pick 5    */
-  "IT6",          /* 19   User defined time pick 6    */
-  "IT7",          /* 20   User defined time pick 7    */
-  "IT8",          /* 21   User defined time pick 8    */
-  "IT9",          /* 22   User defined time pick 9    */
-
-  /* iinst */
-  "IRADNV", /* 23   Radial (NTS)                */
-  "ITANNV", /* 24   Tangential (NTS)            */
-  "IRADEV", /* 25   Radial (EVENT)              */
-  "ITANEV", /* 26   Tangential (EVENT)          */
-  "INORTH", /* 27   North positive              */
-  "IEAST",  /* 28   East positive               */
-  "IHORZA", /* 29   Horizontal (ARB)            */
-  "IDOWN",  /* 30   Down positive               */
-  "IUP",  /* 31   Up positive                 */
-  "ILLLBB", /* 32   LLL broadband               */
-  "IWWSN1", /* 33   WWSN 15-100                 */
-  "IWWSN2", /* 34   WWSN 30-100                 */
-  "IHGLP",  /* 35   High-gain long-period       */
-  "ISRO", /* 36   SRO                         */
-
-  /* ievtyp */
-  "INUCL",  /* 37   Nuclear event               */
-  "IPREN",  /* 38   Nuclear pre-shot event      */
-  "IPOSTN", /* 39   Nuclear post-shot event     */
-  "IQUAKE", /* 40   Earthquake                  */
-  "IPREQ",  /* 41   Foreshock                   */
-  "IPOSTQ", /* 42   Aftershock                  */
-  "ICHEM",  /* 43   Chemical explosion          */
-  "IOTHER", /* 44   Other                       */
-
-  /* iqual */
-  "IGOOD",  /* 45   Good                        */
-  "IGLCH",  /* 46   Gliches                     */
-  "IDROP",  /* 47   Dropouts                    */
-  "ILOWSN", /* 48   Low signal to noise ratio   */
-
-  /* isynth */
-  "IRLDTA", /* 49   Real data                   */
-  "IVOLTS", /* 50   Velocity (volts)            */
-  "IXYZ", /* 51   General XYZ (3-D) file      */
-
-  /* These 18 added to describe magnitude type and source maf 970205 */
-  "IMB",        /* 52   Bodywave Magnitude */
-  "IMS",        /* 53   Surface Magnitude */
-  "IML",        /* 54   Local Magnitude  */
-  "IMW",        /* 55   Moment Magnitude */
-  "IMD",        /* 56   Duration Magnitude */
-  "IMX",        /* 57   User Defined Magnitude */
-  "INEIC",  /* 58   INEIC */
-  "IPDEQ",  /* 59   IPDEQ */
-  "IPDEW",  /* 60   IPDEW */
-  "IPDE",       /* 61   IPDE */
-  "IISC",       /* 62   IISC */
-  "IREB",       /* 63   IREB */
-  "IUSGS",  /* 64   IUSGS */
-  "IBRK",       /* 65   IBRK */
-  "ICALTECH", /* 66   ICALTECH */
-  "ILLNL",  /* 67   ILLNL */
-  "IEVLOC", /* 68   IEVLOC */
-  "IJSOP",  /* 69   IJSOP */
-  "IUSER",  /* 70   IUSER */
-  "IUNKNOWN", /* 71   IUNKNOWN */
-
-  /*   These 17 added for ievtyp. maf 970325 */
-  "IQB",        /* 72   Quarry or mine blast confirmed by quarry */
-  "IQB1",       /* 73   Quarry or mine blast with designed shot information-ripple fired*/
-  "IQB2",       /* 74   Quarry or mine blast with observed shot information-ripple fired*/
-  "IQBX",       /* 75   Quarry or mine blast - single shot */
-  "IQMT",       /* 76   Quarry or mining-induced events: tremors and rockbursts */
-  "IEQ",        /* 77   Earthquake */
-  "IEQ1",       /* 78   Earthquakes in a swarm or aftershock sequence */
-  "IEQ2",       /* 79   Felt earthquake */
-  "IME",        /* 80   Marine explosion */
-  "IEX",        /* 81   Other explosion */
-  "INU",        /* 82   Nuclear explosion */
-  "INC",        /* 83   Nuclear cavity collapse */
-  "IO_",        /* 84   Other source of known origin */
-  "IL",         /* 85   Local event of unknown origin */
-  "IR",         /* 86   Regional event of unknown origin */
-  "IT",         /* 87   Teleseismic event of unknown origin */
-  "IU",         /* 88   Undetermined or conflicting information  */
-
-  /*   These 9 added for ievtype to keep up with database. maf 000530 */
-  "IEQ3",       /* 89   Damaging Earthquake */
-  "IEQ0",       /* 90   Probable earthquake */
-  "IEX0",       /* 91   Probable explosion */
-  "IQC",        /* 92   Mine collapse */
-  "IQB0",       /* 93   Probable Mine Blast */
-  "IGEY",       /* 94   Geyser */
-  "ILIT",       /* 95   Light */
-  "IMET",       /* 96   Meteroic event */
-  "IODOR"       /* 97   Odors */
-};
 
 extern char *enum_values[];
 
@@ -393,8 +274,8 @@ sac_header_value_string(sac *s, struct hid *h, char *dst, size_t n) {
       sac_get_int(s, h->id, &ipt);
       if(ipt == SAC_INT_UNDEFINED) {
           snprintf(dst, n, "UNDEFINED");
-      } else if(ipt >= 0 && ipt <= IODOR) {
-          snprintf(dst, n, "%s", SacHeaderEnums[ipt]);
+      } else if(ipt >= 0 && ipt <= IMARS) {
+          snprintf(dst, n, "%s", enum_values[ipt-1]);
       }
       break;
   case SAC_BOOL_TYPE:
@@ -566,6 +447,7 @@ main(int argc, char **argv) {
             case SAC_INT_TYPE:
                 sac_get_int(s, ls[j].id, &ipt);
                 printf("%10d", ipt);
+                break;
             case SAC_ENUM_TYPE:
             case SAC_BOOL_TYPE:
                 sac_get_int(s, ls[j].id, &ipt);

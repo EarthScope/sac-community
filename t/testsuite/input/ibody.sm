@@ -1,0 +1,40 @@
+
+fg seismo
+lh ibody
+ch evlo   0.0 evla 0.0 evdp 0.0
+ch stlo  90.0 stla 0.0
+
+ch ibody isun
+lh ibody
+message "&1,ibody"
+lh gcarc dist az baz
+
+ch ibody imercury
+lh ibody
+message "&1,ibody"
+lh gcarc dist az baz
+
+ch ibody ivenus
+lh ibody
+message "&1,ibody"
+lh gcarc dist az baz
+
+ch ibody iearth
+lh ibody
+message "&1,ibody"
+lh gcarc dist az baz
+
+ch ibody imoon
+lh ibody
+message "&1,ibody"
+lh gcarc dist az baz
+
+ch ibody imars
+lh ibody
+message "&1,ibody"
+lh gcarc dist az baz
+
+ch ibody
+lh ibody
+message "&1,ibody"
+lh gcarc dist az baz

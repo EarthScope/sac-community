@@ -99,7 +99,7 @@ DBheaderToSac(header, lall, s)
         s->h->unused16 = header->unused16;
         s->h->ievreg = header->ievreg;
         s->h->iqual = header->iqual;
-        s->h->unused19 = header->unused19;
+        s->h->ibody = header->ibody;
         s->h->unused20 = header->unused20;
         s->h->unused21 = header->unused21;
         s->h->unused22 = header->unused22;

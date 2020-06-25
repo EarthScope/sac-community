@@ -9,6 +9,7 @@
 #include <math.h>
 #include <float.h>
 #include <errno.h>
+#include <sacio/sacio.h>
 
 #include "mach.h"
 #include "ucf.h"
@@ -16,6 +17,8 @@
 #include "co.h"
 #include "msg.h"
 #include "debug.h"
+
+#define DEGREE_SYMBOL "\u00B0"
 
 /** 
  * Compute the distance and azimuth between locations
@@ -100,6 +103,13 @@ distaz(double the, double phe, float *ths, float *phs, int ns, float *dist,
     float *const Phs = &phs[0] - 1;
     float *const Ths = &ths[0] - 1;
     float *const Xdeg = &xdeg[0] - 1;
+
+    Spheroid s = spheroid(*nerr);
+    rad = s.a / 1e3; /* convert semi major axis from meters to kilometers */
+    fl  = s.f;       /* Flattening */
+
+    degtokm = (2.0 * M_PI * rad) / 360.0;
+    *nerr = 0;
 
     /* - Initialize. */
     *nerr = 0;
@@ -325,6 +335,8 @@ distaz(double the, double phe, float *ths, float *phs, int ns, float *dist,
                       c4 * (sin(4. * u2) - sin(4. * u1)));
             Dist[idx] = fabs(b0 * c0 * du + pdist);
             if (lxdeg && (fabs(Dist[idx] - degtokm * Xdeg[idx])) > 100.) {
+                fprintf(stderr, "distaz computation error: %.4f km %.4f%s (%.4f km)\n",
+                        Dist[idx], Xdeg[idx], DEGREE_SYMBOL, Xdeg[idx]*degtokm);
                 *nerr = 904;
             }
         }                       /* end if ( ldist ) */

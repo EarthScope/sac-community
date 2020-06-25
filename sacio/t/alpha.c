@@ -17,6 +17,7 @@ compare(sac *a, sac *b) {
     int *ia, *ib;
     char *ca, *cb;
 
+    printf("FILES: '%s' '%s'\n", a->m->filename, b->m->filename);
     fa = &(a->h->_delta);
     fb = &(b->h->_delta);
     for(i = 0; i < 70; i++) {

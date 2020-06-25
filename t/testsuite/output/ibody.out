@@ -1,0 +1,173 @@
+ wait text off
+  
+ ==>  
+ fg seismo
+ lh ibody
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+ ch evlo   0.0 evla 0.0 evdp 0.0
+ ch stlo  90.0 stla 0.0
+  
+ ==>  
+ ch ibody isun
+ lh ibody
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     ibody = Sun
+ message "&1,ibody"
+ ==>  message "Sun"
+ Sun
+ lh gcarc dist az baz
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     gcarc = 9.000000e+01
+      dist = 1.093274e+06
+        az = 9.000000e+01
+       baz = 2.700000e+02
+  
+ ==>  
+ ch ibody imercury
+ lh ibody
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     ibody = Mercury IAU 2000
+ message "&1,ibody"
+ ==>  message "Mercury IAU 2000"
+ Mercury IAU 2000
+ lh gcarc dist az baz
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     gcarc = 9.000000e+01
+      dist = 3.832271e+03
+        az = 9.000000e+01
+       baz = 2.700000e+02
+  
+ ==>  
+ ch ibody ivenus
+ lh ibody
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     ibody = Venus IAU2000
+ message "&1,ibody"
+ ==>  message "Venus IAU2000"
+ Venus IAU2000
+ lh gcarc dist az baz
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     gcarc = 9.000000e+01
+      dist = 9.506145e+03
+        az = 9.000000e+01
+       baz = 2.700000e+02
+  
+ ==>  
+ ch ibody iearth
+ lh ibody
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     ibody = Earth WGS 84
+ message "&1,ibody"
+ ==>  message "Earth WGS 84"
+ Earth WGS 84
+ lh gcarc dist az baz
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     gcarc = 9.000000e+01
+      dist = 1.001875e+04
+        az = 9.000000e+01
+       baz = 2.700000e+02
+  
+ ==>  
+ ch ibody imoon
+ lh ibody
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     ibody = Moon IAU2000
+ message "&1,ibody"
+ ==>  message "Moon IAU2000"
+ Moon IAU2000
+ lh gcarc dist az baz
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     gcarc = 9.000000e+01
+      dist = 2.729101e+03
+        az = 9.000000e+01
+       baz = 2.700000e+02
+  
+ ==>  
+ ch ibody imars
+ lh ibody
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     ibody = Mars IAU2000
+ message "&1,ibody"
+ ==>  message "Mars IAU2000"
+ Mars IAU2000
+ lh gcarc dist az baz
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     gcarc = 9.000000e+01
+      dist = 5.334722e+03
+        az = 9.000000e+01
+       baz = 2.700000e+02
+  
+ ==>  
+ ch ibody
+ lh ibody
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+ message "&1,ibody"
+ ==>  message "Earth (Sac Historical)"
+ Earth (Sac Historical)
+ lh gcarc dist az baz
+  
+  
+  FILE: SEISMOGR - 1
+ --------------
+
+     gcarc = 9.000000e+01
+      dist = 1.001879e+04
+        az = 9.000000e+01
+       baz = 2.700000e+02
+ quit

@@ -196,7 +196,6 @@ sacSetEtype(int ievtyp) {
             return "ex";
         case IEX0:
             return "ep";
-        case IOS:
         case IO_:
             return "o";
         case IL:

@@ -65,7 +65,7 @@ test_rsac2_header_file(int vnpts, float vend) {
   int_check(s->h->iftype, 1, "file type");
   int_undef(s->h->imagtyp, "imagtyp");
   int_undef(s->h->imagsrc, "imagsrc");
-  int_undef(s->h->unused19, "ihdr13");
+  int_undef(s->h->ibody, "ibody");
   int_undef(s->h->unused20, "ihdr14");
   int_undef(s->h->unused21, "ihdr15");
   int_undef(s->h->unused22, "ihdr16");

@@ -967,7 +967,14 @@ char *enum_values[] = {
     "IGEY    ",
     "ILIT    ",
     "IMET    ",
-    "IODOR   "};
+    "IODOR   ",
+    "ISUN    ",
+    "IMERCURY",
+    "IVENUS  ",
+    "IEARTH  ",
+    "IMOON   ",
+    "IMARS   ",
+};
 /**
  * @brief      Get a enumerated header value
  *

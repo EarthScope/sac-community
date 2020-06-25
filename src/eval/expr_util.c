@@ -27,6 +27,7 @@ BBS_EXTERN
 
 char *unescape(char *in);
 Token *token_dup(Token * t);
+char *body_des(int ibody);
 
 #define ESCAPE_CHAR '@'
 
@@ -288,9 +289,15 @@ header_to_token(char *str, Token * t, int col) {
             token_value(t, (int) VALUE(nhdr(s, item)), col);
             break;
         case SAC_HEADER_ENUM_TYPE:
-            token_string_rstrip(t,
-                                kmlhf.kdiv[(int) VALUE(ihdr(s, item - 1)) - 1],
-                                col);
+            if(item == SAC_BODY_TYPE_ENUM) {
+                /* See comment in src/dff/formhv.c about this special case */
+                char *b = body_des(VALUE(ihdr(s, item)));
+                token_string_rstrip(t, b, col);
+            } else {
+                token_string_rstrip(t,
+                                    kmlhf.kdiv[(int) VALUE(ihdr(s, item)) - 1],
+                                    col);
+            }
             break;
         case SAC_HEADER_LOGICAL_TYPE:
             token_value(t, (int) VALUE(lhdr(s, item)), col);

@@ -120,7 +120,7 @@ SacHeaderToDB(header, whichHeaders, idfl)
         header->unused16 = s->h->unused16;
         header->ievreg = s->h->ievreg;
         header->iqual = s->h->iqual;
-        header->unused19 = s->h->unused19;
+        header->ibody = s->h->ibody;
         header->unused20 = s->h->unused20;
         header->unused21 = s->h->unused21;
         header->unused22 = s->h->unused22;

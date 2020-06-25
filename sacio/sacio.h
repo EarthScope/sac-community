@@ -38,6 +38,15 @@ enum CutAction {
     CutFillZero = 3,  /**< @brief Cut windows larger than data region are filled with zeros */
 };
 
+typedef struct Spherioid Spheroid;
+struct Spherioid {
+    char name[32]; // Descriptive name of the Spheroid
+    char code[32]; // EPGS or IAU code including prefix
+    double a;      // Semi-major axis in meters
+    double f;      // flattening (a-b)/a ; where a = semi-major axis, b = semi-minor axis
+    int ibody;     // Sac Code for Spherioid
+};
+
 /**
  * @brief Check Byte Order Flag
  *
@@ -379,7 +388,7 @@ struct sac_hdr {
     int isynth;                 /**< @brief      synthetic data flag    */
     int imagtyp;                /**< @brief      magnitude type */
     int imagsrc;                /**< @brief      magnitude source  */
-    int unused19;               /**< @brief      reserved for future use @private */
+    int ibody;                  /**< @brief      Planet / Spheroid */
     int unused20;               /**< @brief      reserved for future use @private */
     int unused21;               /**< @brief      reserved for future use @private */
     int unused22;               /**< @brief      reserved for future use @private */
@@ -594,6 +603,8 @@ int sac_time_to_index(sac *s, double t);
 int sac_compare(sac *s1, sac *s2, double tolerance, CheckByteOrderFlag byte_check, Verbose verbose);
 int sac_compare_to_file(char *file, float *y, double tolerance, int byte_order, int verbose);
 
+/** @brief Get corresponding spheroid from a sac ibody value */
+Spheroid spheroid(int ibody);
 
 #define SAC_WRITE_HEADER_AND_DATA 1 /**< @brief Write header and data */
 #define SAC_READ_HEADER_AND_DATA  1 /**< @brief Read header and data */
@@ -711,7 +722,7 @@ enum HeaderID {
     SAC_SYNTH        = 95, /**< @brief synthetic flag */
     SAC_MAG_TYPE     = 96, /**< @brief magnitude type */
     SAC_MAG_SRC      = 97, /**< @brief magnitide src */
-    SAC_UN98         = 98, /**< @brief un @private */
+    SAC_BODY_TYPE    = 98, /**< @brief body / spheroid type */
     SAC_UN99         = 99, /**< @brief un @private */
     SAC_UN100        = 100, /**< @brief un @private */
     SAC_UN101        = 101, /**< @brief un @private */
@@ -939,7 +950,15 @@ IGEY  = 94,               /**< @brief sac_hdr.ievtyp Geyser */
 ILIT  = 95,               /**< @brief sac_hdr.ievtyp Light */
 IMET  = 96,               /**< @brief sac_hdr.ievtyp Meteoric Event */
 IODOR = 97,               /**< @brief sac_hdr.ievtyp Odors */
-IOS   =103,               /**< @brief sac_hdr.ievtyp Other source: Known origin */
+
+ISUN     = 98,            /**< @brief sac_hdr.body Sun */
+IMERCURY = 99,            /**< @brief sac_hdr.body Mercury */
+IVENUS   = 100,           /**< @brief sac_hdr.body Venus */
+IEARTH   = 101,           /**< @brief sac_hdr.body Earth */
+IMOON    = 102,           /**< @brief sac_hdr.body Moon */
+IMARS    = 103            /**< @brief sac_hdr.body Mars */
+
+/* Values from 200 - 299 reserved for future astronomical body definitions */
 
 };
 

@@ -35,6 +35,24 @@ LHF_EXTERN
  */
 #define	MGDTTM	15
 
+/**
+   Convert a enumerated key to a number
+ */
+int
+lenum(int *val) {
+    char token[64];
+    struct eid *e = NULL;
+    if(!lcchar(token, sizeof(token))) {
+        return FALSE;
+    }
+    if(!(e = sac_enum_to_id(token, strlen(token)))) {
+        arg_prev();
+        return FALSE;
+    }
+    *val = e->id;
+    return TRUE;
+}
+
 /** 
  * Execute the command CHNHDR (CH), which changes values for header
  *    variables in memory
@@ -208,6 +226,8 @@ xch(int *nerr) {
                 } else if (icatx == ENUM_TYPE) {
                     ival = 0;
                     if (lclist((char *) kmlhf.kiv, 9, SAC_ENUMS - 1, &ival)) {
+                        Ihdrc[itemx] = ival;
+                    } else if(lenum(&ival)) {
                         Ihdrc[itemx] = ival;
                     } else if (lckey("UNDEF$", 7) || arg() == NULL) {
                         Ihdrc[itemx] = SAC_ENUM_UNDEFINED;

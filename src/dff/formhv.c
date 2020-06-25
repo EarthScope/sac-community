@@ -21,6 +21,22 @@
 HDR_EXTERN
 LHF_EXTERN
 
+/*
+  Convert an ibody header type to a description
+ */
+char *
+body_des(int ibody) {
+    switch(ibody) {
+    case ISUN:     return "Sun";                    break;
+    case IMERCURY: return "Mercury IAU 2000";       break;
+    case IVENUS:   return "Venus IAU2000";          break;
+    case IEARTH:   return "Earth WGS 84";           break;
+    case IMOON:    return "Moon IAU2000";           break;
+    case IMARS:    return "Mars IAU2000";           break;
+    default:       return "Earth (Sac Historical)"; break;
+    }
+}
+
 /** 
  * Format a header variable into a text string
  * 
@@ -92,9 +108,23 @@ formhv(char *kname, int kname_s, int iform, char *kout, int kout_s, int *nerr) {
             case ENUM_TYPE:
                 ip = VALUE(ihdr(s, item));
                 lok = ip != SAC_ENUM_UNDEFINED;
-                if (lok)
-                    fstrncpy(kvalue, 40, kmlhf.kdiv[ip - 1],
-                             strlen(kmlhf.kdiv[ip - 1]));
+                if (lok) {
+                    /*
+                      Why is this if statement here for BODY TYPE ?
+                      The event and station regions start at a value of 100
+                      and the proposed IBODY values extended into this region
+                      Eventually we will need to shift the event and station
+                      regions to a higher integer value
+                      Really, all of this should be in the sacio library.
+                     */
+                    if(item == SAC_BODY_TYPE_ENUM) {
+                        char *b = body_des(ip);
+                        fstrncpy(kvalue, 40, b, strlen(b));
+                    } else {
+                        fstrncpy(kvalue, 40, kmlhf.kdiv[ip - 1],
+                                 strlen(kmlhf.kdiv[ip - 1]));
+                    }
+                }
                 else if (linc)
                     strcpy(kvalue, "UNDEFINED                               ");
                 break;

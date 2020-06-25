@@ -1138,6 +1138,84 @@ sac_be(sac *s) {
     }
 }
 
+static Spheroid spheroids[] =
+    {
+     { "sac historical", "",                 6378160.0, 0.00335293,     -12345 },
+     { "WGS 84",         "EPSG:4326",        6378137.0, 1.0 / 298.257223563,      IEARTH },
+     { "Mercury",        "IAU2000:19900",    2439700.0, 0.0,                IMERCURY },
+     { "Venus",          "IAU2000:29900",    6051800.0, 0.0,                IVENUS },
+     { "Mars",           "IAU2000:49900",    3396190.0, 1.0 / 169.89444722361179, IMARS },
+     { "Moon",           "IAU2000:30100",    1737400.0, 0.0,                IMOON },
+     { "Sun    ",        "IAU2000:19900",  696000000.0, 8.189e-6,               ISUN },
+};
+
+
+/**
+ * @brief      Get a Spheroid based on sac code
+ * 
+ * @details    Get a Spheriod from a sac code saved in the IBODY header variable
+ *             - ISUN     ( 98)     => 696,000,000.0     8.189e-6            Meftah et al. (2015), 
+ *             - IMERCURY ( 99)     =>     439,700.0,    0.0                 IAU2000
+ *             - IVENUS   (100)     =>   6,051,800.0,    0.0                 IAU2000
+ *             - IEARTH   (101)     =>   6,378,137.0, 1.0/298.257223563      WGS 84
+ *             - IMOON    (102)     =>   1,737,400.0,    0.0                 IAU2000
+ *             - IMARS    (103)     =>   3,396,190.0, 1.0/169.89444722361179 IAU2000
+ *             - undef    (-12345)  =>   6,378,160.0,    0.00335293          SAC Historical
+ *
+ * @return Spherioid
+ *
+ * @code
+ *  Spheroid s = spheroid(-12345);
+ *  assert_eq(s.a, 6378160.0);
+ *  assert_eq(s.f, 0.00335293);
+ *
+ *  s = spheroid(-1);
+ *  assert_eq(s.ibody, -12345);
+ *  s = spheroid( ISUN );
+ *  assert_eq(s.a, 696000000.0);
+ *  assert_eq(s.f, 8.189e-6);
+ *  s = spheroid( IEARTH );
+ *  assert_eq(s.a, 6378137.0);
+ *  assert_eq(s.f, 1.0/298.257223563);
+ *  s = spheroid( IMARS );
+ *  assert_eq(s.a, 3396190.0);
+ *  assert_eq(s.f, 1.0/169.89444722361179);
+ *  s = spheroid( IMOON );
+ *  assert_eq(s.a, 1737400.0);
+ *  assert_eq(s.f, 0.0);
+ *  s = spheroid( IVENUS );
+ *  assert_eq(s.a, 6051800.0);
+ *  assert_eq(s.f, 0.0);
+ *  s = spheroid( IMERCURY );
+ *  assert_eq(s.a, 2439700.0);
+ *  assert_eq(s.f, 0.0);
+ * @endcode
+ *
+ * @references 
+ *   - Meftah, M., Irbah, A., Hauchecorne, A., Corbard, T., Turck-Chièze, S., Hochedez,
+ *       J. F., ... & Salabert, D. (2015). On the determination and constancy of the
+ *       solar oblateness. Solar Physics, 290(3), 673-687.
+ *       => 8.189e-6 (Flattening)
+ *   - Rozelot, J. P., Godier, S., & Lefebvre, S. (2001). On the theory of the
+ *       oblateness of the Sun. Solar Physics, 198(2), 223-240.
+ *       => 8.33e-6  (Flattening)
+ *       => 6.5×10−6 - 10.2×10−6 (Flattening Range)
+ *   - IAU 2000 Seidelmann, P., V. Abalakin, M. Bursa, M. Davies, C. De Bergh, J. Lieske, 
+ *       J. Oberst, J. Simon, E. Standish, P. Stooke, et al. (2002), Report of the 
+ *       IAU/IAG working group on cartographic coordinates and rotational elements of the 
+ *       planets and satellites: 2000, Celestial Mechanics and Dynamical Astronomy, 82 (1), 83–111.
+ *   - See https://astrogeology.usgs.gov/groups/IAU-WGCCRE
+ */
+Spheroid
+spheroid(int ibody) {
+    for(size_t i = 0; i < sizeof(spheroids) / sizeof(Spheroid); i++) {
+        if(spheroids[i].ibody ==ibody) {
+            return spheroids[i];
+        }
+    }
+    return spheroids[0];
+}
+
 #ifdef USE_GEOGRAPHICLIB
 
 /**
@@ -1164,16 +1242,23 @@ sac_be(sac *s) {
  * sac_set_float(s, SAC_EVLA,  0.0);
  * sac_set_float(s, SAC_STLO, 10.0);
  * sac_set_float(s, SAC_STLA,  0.0);
+ * sac_set_int(s, SAC_BODY_TYPE, IEARTH);
  * update_distaz(s);
  * sac_get_float(s, SAC_GCARC, &gcarc);
  * assert_eq(gcarc, 10.03364086151123);
+ *
+ * sac_set_int(s, SAC_BODY_TYPE, -12345);
+ * update_distaz(s);
+ * sac_get_float(s, SAC_GCARC, &gcarc);
+ * assert_eq(gcarc, 10.033641815185547);
  * @endcode
  */
 void
 update_distaz(sac *s) {
     double lat1 = 0.0, lon1 = 0.0, lat2 = 0.0, lon2 = 0.0;
     double degrees = 0.0, meters = 0.0, az1 = 0.0, az2 = 0.0;
-    double a = 6378137, f = 1/298.257223563; /* WGS84 */
+    // double a = 6378137, f = 1/298.257223563; /* WGS84 */
+    Spheroid sph = spheroid(s->h->ibody);
     struct geod_geodesic g;
     if(!s->h->lcalda) {
         return;
@@ -1181,7 +1266,8 @@ update_distaz(sac *s) {
     if(!sac_hdr_defined(s, SAC_STLA, SAC_STLO, SAC_EVLA, SAC_EVLO, NULL)) {
         return;
     }
-    geod_init(&g, a, f);
+
+    geod_init(&g, sph.a, sph.f);
     sac_get_float(s, SAC_EVLA, &lat1);
     sac_get_float(s, SAC_EVLO, &lon1);
     sac_get_float(s, SAC_STLA, &lat2);
@@ -1231,6 +1317,7 @@ void distaz(double the, double phe, float *ths, float *phs,
  * sac_set_float(s, SAC_EVLA,  0.0);
  * sac_set_float(s, SAC_STLO, 10.0);
  * sac_set_float(s, SAC_STLA,  0.0);
+ * sac_set_int(s, SAC_BODY_TYPE, IEARTH);
  * update_distaz(s);
  * sac_get_float(s, SAC_GCARC, &gcarc);
  * assert_eq(gcarc, 10.03364086151123);
@@ -1258,6 +1345,7 @@ update_distaz(sac * s) {
         d = a = b = g = 0;
         fsx = (float) sx;
         fsy = (float) sy;
+        ndaerr = s->h->ibody;  // Hack as to not change the function call
         distaz(ey, ex,
                (float *) &fsy, (float *) &fsx,
                1,

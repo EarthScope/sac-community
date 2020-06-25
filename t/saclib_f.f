@@ -51,7 +51,7 @@
      +     'nsnpts','nwfid','nxsize','nysize','nhdr15'/
       data ihdr/'iftype','idep','iztype','ihdr4','iinst',
      +     'istreg','ievreg','ievtyp','iqual','isynth',
-     +     'imagtyp','imagsrc','ihdr13','ihdr14','ihdr15',
+     +     'imagtyp','imagsrc','ibody','ihdr14','ihdr15',
      +     'ihdr16','ihdr17','ihdr18','ihdr19','ihdr20'/
       data khdr/'kstnm','kevnm','khole','ko','ka',
      +     'kt0','kt1','kt2','kt3','kt4',

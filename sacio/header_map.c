@@ -35,12 +35,12 @@
 #include "sacio.h"
 #include <string.h>
 
-#define TOTAL_KEYWORDS 174
+#define TOTAL_KEYWORDS 173
 #define MIN_WORD_LENGTH 1
 #define MAX_WORD_LENGTH 8
 #define MIN_HASH_VALUE 1
-#define MAX_HASH_VALUE 585
-/* maximum key range = 585, duplicates = 0 */
+#define MAX_HASH_VALUE 710
+/* maximum key range = 710, duplicates = 0 */
 
 #ifndef GPERF_DOWNCASE
 #define GPERF_DOWNCASE 1
@@ -95,32 +95,32 @@ hash (register const char *str, register unsigned int len)
 {
   static unsigned short asso_values[] =
     {
-      586, 586, 586, 586, 586, 586, 586, 586, 586, 586,
-      586, 586, 586, 586, 586, 586, 586, 586, 586, 586,
-      586, 586, 586, 586, 586, 586, 586, 586, 586, 586,
-      586, 586, 586, 586, 586, 586, 586, 586, 586, 586,
-      586, 586, 586, 586, 586, 586, 586, 586,  30,   5,
-        0,  10, 150,  70,  45,  50,  95,  90,   0, 586,
-      586, 586, 586, 586, 586,  15,  75, 100,   0,   0,
-       55,  65,   5,  10,  30,   0,  55,  55,  20, 145,
-       65,   5,   5,   0,   0,   0, 140,  60, 110,  45,
-      180, 586, 586, 586, 586, 586, 586,  15,  75, 100,
-        0,   0,  55,  65,   5,  10,  30,   0,  55,  55,
-       20, 145,  65,   5,   5,   0,   0,   0, 140,  60,
-      110,  45, 180, 586, 586, 586, 586, 586, 586, 586,
-      586, 586, 586, 586, 586, 586, 586, 586, 586, 586,
-      586, 586, 586, 586, 586, 586, 586, 586, 586, 586,
-      586, 586, 586, 586, 586, 586, 586, 586, 586, 586,
-      586, 586, 586, 586, 586, 586, 586, 586, 586, 586,
-      586, 586, 586, 586, 586, 586, 586, 586, 586, 586,
-      586, 586, 586, 586, 586, 586, 586, 586, 586, 586,
-      586, 586, 586, 586, 586, 586, 586, 586, 586, 586,
-      586, 586, 586, 586, 586, 586, 586, 586, 586, 586,
-      586, 586, 586, 586, 586, 586, 586, 586, 586, 586,
-      586, 586, 586, 586, 586, 586, 586, 586, 586, 586,
-      586, 586, 586, 586, 586, 586, 586, 586, 586, 586,
-      586, 586, 586, 586, 586, 586, 586, 586, 586, 586,
-      586, 586, 586, 586, 586, 586, 586
+      711, 711, 711, 711, 711, 711, 711, 711, 711, 711,
+      711, 711, 711, 711, 711, 711, 711, 711, 711, 711,
+      711, 711, 711, 711, 711, 711, 711, 711, 711, 711,
+      711, 711, 711, 711, 711, 711, 711, 711, 711, 711,
+      711, 711, 711, 711, 711, 711, 711, 711,  30,   5,
+        0,  10, 200, 130,  45,  80, 125, 175,   0, 711,
+      711, 711, 711, 711, 711,  50, 165, 135,   0,   0,
+       15,  45,   0,  15,   0,   0,  20,  70,  20,  85,
+      140,   0,   5,   0,   0,   0,  10,  10,  85,  60,
+      180, 711, 711, 711, 711, 711, 711,  50, 165, 135,
+        0,   0,  15,  45,   0,  15,   0,   0,  20,  70,
+       20,  85, 140,   0,   5,   0,   0,   0,  10,  10,
+       85,  60, 180, 711, 711, 711, 711, 711, 711, 711,
+      711, 711, 711, 711, 711, 711, 711, 711, 711, 711,
+      711, 711, 711, 711, 711, 711, 711, 711, 711, 711,
+      711, 711, 711, 711, 711, 711, 711, 711, 711, 711,
+      711, 711, 711, 711, 711, 711, 711, 711, 711, 711,
+      711, 711, 711, 711, 711, 711, 711, 711, 711, 711,
+      711, 711, 711, 711, 711, 711, 711, 711, 711, 711,
+      711, 711, 711, 711, 711, 711, 711, 711, 711, 711,
+      711, 711, 711, 711, 711, 711, 711, 711, 711, 711,
+      711, 711, 711, 711, 711, 711, 711, 711, 711, 711,
+      711, 711, 711, 711, 711, 711, 711, 711, 711, 711,
+      711, 711, 711, 711, 711, 711, 711, 711, 711, 711,
+      711, 711, 711, 711, 711, 711, 711, 711, 711, 711,
+      711, 711, 711, 711, 711, 711, 711
     };
   register unsigned int hval = len;
 
@@ -157,7 +157,7 @@ sac_keyword_to_header (register const char *str, register unsigned int len)
       {"e",	    SAC_FLOAT_TYPE,	SAC_E},
 #line 28 "header_map.txt"
       {"t2",	    SAC_FLOAT_TYPE,	SAC_T2},
-#line 154 "header_map.txt"
+#line 153 "header_map.txt"
       {"kt2",	  SAC_STRING_TYPE,	SAC_KT2},
       {"",-1,-1},
 #line 58 "header_map.txt"
@@ -165,92 +165,100 @@ sac_keyword_to_header (register const char *str, register unsigned int len)
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
 #line 39 "header_map.txt"
       {"resp2",	SAC_FLOAT_TYPE,	SAC_RESP2},
-#line 165 "header_map.txt"
+#line 164 "header_map.txt"
       {"kuser2",	SAC_STRING_TYPE,	SAC_KUSER2},
 #line 27 "header_map.txt"
       {"t1",	    SAC_FLOAT_TYPE,	SAC_T1},
-#line 153 "header_map.txt"
+#line 152 "header_map.txt"
       {"kt1",	  SAC_STRING_TYPE,	SAC_KT1},
-#line 66 "header_map.txt"
-      {"dist",	  SAC_FLOAT_TYPE,	SAC_DIST},
+      {"",-1,-1},
 #line 57 "header_map.txt"
       {"user1",	SAC_FLOAT_TYPE,	SAC_USER1},
-#line 164 "header_map.txt"
+#line 163 "header_map.txt"
       {"kuser1",	SAC_STRING_TYPE,	SAC_KUSER1},
-      {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1},
+#line 66 "header_map.txt"
+      {"dist",	  SAC_FLOAT_TYPE,	SAC_DIST},
 #line 38 "header_map.txt"
       {"resp1",	SAC_FLOAT_TYPE,	SAC_RESP1},
-#line 71 "header_map.txt"
-      {"sdelta", SAC_FLOAT_TYPE, SAC_SDELTA},
+      {"",-1,-1},
 #line 29 "header_map.txt"
       {"t3",	    SAC_FLOAT_TYPE,	SAC_T3},
-#line 155 "header_map.txt"
+#line 154 "header_map.txt"
       {"kt3",	  SAC_STRING_TYPE,	SAC_KT3},
-      {"",-1,-1},
+#line 49 "header_map.txt"
+      {"stel",	  SAC_FLOAT_TYPE,	SAC_STEL},
 #line 59 "header_map.txt"
       {"user3",	SAC_FLOAT_TYPE,	SAC_USER3},
-#line 168 "header_map.txt"
-      {"kdatrd",	SAC_STRING_TYPE,	SAC_DATRD},
-      {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1},
 #line 92 "header_map.txt"
       {"unused12", SAC_FLOAT_TYPE, SAC_UN70},
       {"",-1,-1},
 #line 40 "header_map.txt"
       {"resp3",	SAC_FLOAT_TYPE,	SAC_RESP3},
-#line 24 "header_map.txt"
-      {"a",	    SAC_FLOAT_TYPE,	SAC_A},
-#line 151 "header_map.txt"
-      {"ka",	    SAC_STRING_TYPE,	SAC_KA},
+#line 36 "header_map.txt"
+      {"f",	    SAC_FLOAT_TYPE,	SAC_F},
+#line 161 "header_map.txt"
+      {"kf",	    SAC_STRING_TYPE,	SAC_KF},
 #line 91 "header_map.txt"
       {"unused11", SAC_FLOAT_TYPE, SAC_UN69},
-      {"",-1,-1},
-#line 169 "header_map.txt"
-      {"kinst",	SAC_STRING_TYPE,	SAC_INST},
-#line 124 "header_map.txt"
-      {"ihdr13", SAC_ENUM_TYPE, SAC_UN98},
-      {"",-1,-1},
-#line 135 "header_map.txt"
-      {"unused22", SAC_ENUM_TYPE, SAC_UN101},
-      {"",-1,-1}, {"",-1,-1},
-#line 163 "header_map.txt"
-      {"kuser0",	SAC_STRING_TYPE,	SAC_KUSER0},
+#line 53 "header_map.txt"
+      {"evel",	  SAC_FLOAT_TYPE,	SAC_EVEL},
+#line 101 "header_map.txt"
+      {"nevid",	SAC_INT_TYPE,	SAC_EVID},
+#line 166 "header_map.txt"
+      {"knetwk",	SAC_STRING_TYPE,	SAC_NET},
       {"",-1,-1},
 #line 134 "header_map.txt"
+      {"unused22", SAC_ENUM_TYPE, SAC_UN101},
+      {"",-1,-1},
+#line 168 "header_map.txt"
+      {"kinst",	SAC_STRING_TYPE,	SAC_INST},
+#line 162 "header_map.txt"
+      {"kuser0",	SAC_STRING_TYPE,	SAC_KUSER0},
+      {"",-1,-1},
+#line 133 "header_map.txt"
       {"unused21", SAC_ENUM_TYPE, SAC_UN100},
       {"",-1,-1},
-#line 116 "header_map.txt"
-      {"iinst",	SAC_ENUM_TYPE,	SAC_INST_TYPE},
+#line 99 "header_map.txt"
+      {"nvhdr",	SAC_INT_TYPE,	SAC_HDR},
 #line 103 "header_map.txt"
       {"nsnpts",	SAC_INT_TYPE,	SAC_NSNPTS},
       {"",-1,-1},
-#line 136 "header_map.txt"
+#line 135 "header_map.txt"
       {"unused23", SAC_ENUM_TYPE, SAC_UN102},
-      {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1},
+#line 104 "header_map.txt"
+      {"nwfid",	SAC_INT_TYPE,	SAC_WFID},
 #line 131 "header_map.txt"
       {"ihdr20", SAC_ENUM_TYPE, SAC_UN105},
-      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-      {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+#line 116 "header_map.txt"
+      {"iinst",	SAC_ENUM_TYPE,	SAC_INST_TYPE},
+#line 71 "header_map.txt"
+      {"sdelta", SAC_FLOAT_TYPE, SAC_SDELTA},
+#line 174 "header_map.txt"
+      {"reftime", SAC_AUX_TYPE, SAC_DATE_TIME},
 #line 90 "header_map.txt"
       {"unused10", SAC_FLOAT_TYPE, SAC_UN68},
-#line 49 "header_map.txt"
-      {"stel",	  SAC_FLOAT_TYPE,	SAC_STEL},
-#line 108 "header_map.txt"
-      {"ysize",	SAC_INT_TYPE,	SAC_NY},
       {"",-1,-1},
+#line 120 "header_map.txt"
+      {"iqual",	SAC_ENUM_TYPE,	SAC_QUAL},
+#line 167 "header_map.txt"
+      {"kdatrd",	SAC_STRING_TYPE,	SAC_DATRD},
 #line 26 "header_map.txt"
       {"t0",	    SAC_FLOAT_TYPE,	SAC_T0},
-#line 152 "header_map.txt"
+#line 151 "header_map.txt"
       {"kt0",	  SAC_STRING_TYPE,	SAC_KT0},
       {"",-1,-1},
 #line 56 "header_map.txt"
       {"user0",	SAC_FLOAT_TYPE,	SAC_USER0},
-#line 121 "header_map.txt"
-      {"isynth",	SAC_ENUM_TYPE,	SAC_SYNTH},
+#line 117 "header_map.txt"
+      {"istreg",	SAC_ENUM_TYPE,	SAC_STREG},
       {"",-1,-1},
-#line 133 "header_map.txt"
+#line 132 "header_map.txt"
       {"unused20", SAC_ENUM_TYPE, SAC_UN99},
-#line 50 "header_map.txt"
-      {"stdp",	  SAC_FLOAT_TYPE,	SAC_STDP},
+      {"",-1,-1},
 #line 37 "header_map.txt"
       {"resp0",	SAC_FLOAT_TYPE,	SAC_RESP0},
 #line 127 "header_map.txt"
@@ -260,290 +268,321 @@ sac_keyword_to_header (register const char *str, register unsigned int len)
       {"unused16",  SAC_ENUM_TYPE,  SAC_UN89},
 #line 47 "header_map.txt"
       {"stla",	  SAC_FLOAT_TYPE,	SAC_STLA},
-      {"",-1,-1},
-#line 128 "header_map.txt"
-      {"ihdr17", SAC_ENUM_TYPE, SAC_UN102},
-      {"",-1,-1}, {"",-1,-1},
-#line 112 "header_map.txt"
-      {"idep",	  SAC_ENUM_TYPE,	SAC_DEP_TYPE},
-      {"",-1,-1},
-#line 117 "header_map.txt"
-      {"istreg",	SAC_ENUM_TYPE,	SAC_STREG},
-      {"",-1,-1},
 #line 139 "header_map.txt"
-      {"unused26", SAC_ENUM_TYPE, SAC_UN105},
-      {"",-1,-1}, {"",-1,-1},
-#line 167 "header_map.txt"
-      {"knetwk",	SAC_STRING_TYPE,	SAC_NET},
+      {"leven",	SAC_BOOL_TYPE,	SAC_EVEN},
+#line 118 "header_map.txt"
+      {"ievreg",	SAC_ENUM_TYPE,	SAC_EVREG},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+#line 108 "header_map.txt"
+      {"ysize",	SAC_INT_TYPE,	SAC_NY},
+#line 121 "header_map.txt"
+      {"isynth",	SAC_ENUM_TYPE,	SAC_SYNTH},
       {"",-1,-1},
-#line 145 "header_map.txt"
-      {"unused27", SAC_BOOL_TYPE,  SAC_UN110},
-#line 102 "header_map.txt"
-      {"npts",	  SAC_INT_TYPE,	SAC_NPTS},
-#line 16 "header_map.txt"
-      {"delta",	SAC_FLOAT_TYPE, SAC_DELTA},
-#line 72 "header_map.txt"
-      {"depmen", SAC_FLOAT_TYPE, SAC_DEPMEN},
+#line 138 "header_map.txt"
+      {"unused26", SAC_ENUM_TYPE, SAC_UN105},
+#line 51 "header_map.txt"
+      {"evla",	  SAC_FLOAT_TYPE,	SAC_EVLA},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+#line 25 "header_map.txt"
+      {"fmt",	  SAC_FLOAT_TYPE,	SAC_FMT},
+      {"",-1,-1},
+#line 148 "header_map.txt"
+      {"khole",	SAC_STRING_TYPE,	SAC_HOLE},
+      {"",-1,-1},
 #line 32 "header_map.txt"
       {"t6",	    SAC_FLOAT_TYPE,	SAC_T6},
-#line 158 "header_map.txt"
+#line 157 "header_map.txt"
       {"kt6",	  SAC_STRING_TYPE,	SAC_KT6},
       {"",-1,-1},
 #line 62 "header_map.txt"
       {"user6",	SAC_FLOAT_TYPE,	SAC_USER6},
-#line 126 "header_map.txt"
-      {"ihdr15", SAC_ENUM_TYPE, SAC_UN100},
-#line 177 "header_map.txt"
-      {"amarker",	SAC_AUX_TYPE,	SAC_AMARKER},
-#line 110 "header_map.txt"
-      {"unused15", SAC_INT_TYPE, SAC_UN85},
+      {"",-1,-1}, {"",-1,-1},
+#line 175 "header_map.txt"
+      {"filename",	SAC_AUX_TYPE,	SAC_FILENAME},
       {"",-1,-1},
 #line 43 "header_map.txt"
       {"resp6",	SAC_FLOAT_TYPE,	SAC_RESP6},
-#line 17 "header_map.txt"
-      {"depmin",	SAC_FLOAT_TYPE, SAC_DEPMIN},
-#line 33 "header_map.txt"
-      {"t7",	    SAC_FLOAT_TYPE,	SAC_T7},
-#line 159 "header_map.txt"
-      {"kt7",	  SAC_STRING_TYPE,	SAC_KT7},
+#line 24 "header_map.txt"
+      {"a",	    SAC_FLOAT_TYPE,	SAC_A},
+#line 150 "header_map.txt"
+      {"ka",	    SAC_STRING_TYPE,	SAC_KA},
+#line 181 "header_map.txt"
+      {"t2marker",	SAC_AUX_TYPE,	SAC_T2MARKER},
       {"",-1,-1},
-#line 63 "header_map.txt"
-      {"user7",	SAC_FLOAT_TYPE,	SAC_USER7},
-#line 109 "header_map.txt"
-      {"nhdr15", SAC_INT_TYPE, SAC_UN85},
+#line 107 "header_map.txt"
+      {"xsize",	SAC_INT_TYPE,	SAC_NX},
+#line 128 "header_map.txt"
+      {"ihdr17", SAC_ENUM_TYPE, SAC_UN102},
       {"",-1,-1},
-#line 138 "header_map.txt"
-      {"unused25", SAC_ENUM_TYPE, SAC_UN104},
+#line 180 "header_map.txt"
+      {"t1marker",	SAC_AUX_TYPE,	SAC_T1MARKER},
+#line 48 "header_map.txt"
+      {"stlo",	  SAC_FLOAT_TYPE,	SAC_STLO},
       {"",-1,-1},
-#line 44 "header_map.txt"
-      {"resp7",	SAC_FLOAT_TYPE,	SAC_RESP7},
-#line 36 "header_map.txt"
-      {"f",	    SAC_FLOAT_TYPE,	SAC_F},
-#line 162 "header_map.txt"
-      {"kf",	    SAC_STRING_TYPE,	SAC_KF},
-#line 25 "header_map.txt"
-      {"fmt",	  SAC_FLOAT_TYPE,	SAC_FMT},
+#line 81 "header_map.txt"
+      {"fhdr66",  SAC_FLOAT_TYPE, SAC_UN66},
       {"",-1,-1},
-#line 146 "header_map.txt"
+#line 182 "header_map.txt"
+      {"t3marker",	SAC_AUX_TYPE,	SAC_T3MARKER},
+      {"",-1,-1},
+#line 100 "header_map.txt"
+      {"norid",	SAC_INT_TYPE,	SAC_ORID},
+      {"",-1,-1}, {"",-1,-1},
+#line 144 "header_map.txt"
+      {"unused27", SAC_BOOL_TYPE,  SAC_UN110},
+#line 52 "header_map.txt"
+      {"evlo",	  SAC_FLOAT_TYPE,	SAC_EVLO},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1},
+#line 16 "header_map.txt"
+      {"delta",	SAC_FLOAT_TYPE, SAC_DELTA},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1},
+#line 85 "header_map.txt"
+      {"fhdr70",  SAC_FLOAT_TYPE, SAC_UN70},
+      {"",-1,-1},
+#line 179 "header_map.txt"
+      {"t0marker",	SAC_AUX_TYPE,	SAC_T0MARKER},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+#line 20 "header_map.txt"
+      {"odelta",	SAC_FLOAT_TYPE,	SAC_ODELTA},
+      {"",-1,-1}, {"",-1,-1},
+#line 50 "header_map.txt"
+      {"stdp",	  SAC_FLOAT_TYPE,	SAC_STDP},
+#line 145 "header_map.txt"
       {"kstnm",	SAC_STRING_TYPE,	SAC_STA},
-#line 130 "header_map.txt"
-      {"ihdr19", SAC_ENUM_TYPE, SAC_UN104},
-#line 89 "header_map.txt"
-      {"unused9",  SAC_FLOAT_TYPE, SAC_UN67},
-#line 132 "header_map.txt"
-      {"unused19", SAC_ENUM_TYPE, SAC_UN98},
-      {"",-1,-1},
-#line 19 "header_map.txt"
-      {"scale",	SAC_FLOAT_TYPE, SAC_SCALE},
+#line 82 "header_map.txt"
+      {"fhdr67",  SAC_FLOAT_TYPE, SAC_UN67},
+#line 178 "header_map.txt"
+      {"fmarker",	SAC_AUX_TYPE,	SAC_FMARKER},
+#line 185 "header_map.txt"
+      {"t6marker",	SAC_AUX_TYPE,	SAC_T6MARKER},
+      {"",-1,-1}, {"",-1,-1},
 #line 129 "header_map.txt"
       {"ihdr18", SAC_ENUM_TYPE, SAC_UN103},
 #line 86 "header_map.txt"
       {"unused6",  SAC_FLOAT_TYPE, SAC_UN64},
-      {"",-1,-1}, {"",-1,-1},
-#line 107 "header_map.txt"
-      {"xsize",	SAC_INT_TYPE,	SAC_NX},
-#line 172 "header_map.txt"
-      {"kstcmp",	SAC_AUX_TYPE,	SAC_STCMP},
       {"",-1,-1},
-#line 182 "header_map.txt"
-      {"t2marker",	SAC_AUX_TYPE,	SAC_T2MARKER},
+#line 54 "header_map.txt"
+      {"evdp",	  SAC_FLOAT_TYPE,	SAC_EVDP},
+#line 146 "header_map.txt"
+      {"kevnm",	SAC_LONG_STRING_TYPE,	SAC_EVENT},
+#line 126 "header_map.txt"
+      {"ihdr15", SAC_ENUM_TYPE, SAC_UN100},
       {"",-1,-1},
-#line 120 "header_map.txt"
-      {"iqual",	SAC_ENUM_TYPE,	SAC_QUAL},
+#line 110 "header_map.txt"
+      {"unused15", SAC_INT_TYPE, SAC_UN85},
+#line 112 "header_map.txt"
+      {"idep",	  SAC_ENUM_TYPE,	SAC_DEP_TYPE},
       {"",-1,-1},
-#line 175 "header_map.txt"
-      {"reftime", SAC_AUX_TYPE, SAC_DATE_TIME},
-#line 181 "header_map.txt"
-      {"t1marker",	SAC_AUX_TYPE,	SAC_T1MARKER},
-      {"",-1,-1}, {"",-1,-1},
+#line 109 "header_map.txt"
+      {"nhdr15", SAC_INT_TYPE, SAC_UN85},
+#line 33 "header_map.txt"
+      {"t7",	    SAC_FLOAT_TYPE,	SAC_T7},
+#line 158 "header_map.txt"
+      {"kt7",	  SAC_STRING_TYPE,	SAC_KT7},
+#line 102 "header_map.txt"
+      {"npts",	  SAC_INT_TYPE,	SAC_NPTS},
+#line 63 "header_map.txt"
+      {"user7",	SAC_FLOAT_TYPE,	SAC_USER7},
+#line 72 "header_map.txt"
+      {"depmen", SAC_FLOAT_TYPE, SAC_DEPMEN},
+      {"",-1,-1},
+#line 137 "header_map.txt"
+      {"unused25", SAC_ENUM_TYPE, SAC_UN104},
+      {"",-1,-1},
+#line 44 "header_map.txt"
+      {"resp7",	SAC_FLOAT_TYPE,	SAC_RESP7},
+#line 23 "header_map.txt"
+      {"o",	    SAC_FLOAT_TYPE,	SAC_O},
+#line 149 "header_map.txt"
+      {"ko",	    SAC_STRING_TYPE,	SAC_KO},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
 #line 111 "header_map.txt"
       {"iftype",	SAC_ENUM_TYPE,	SAC_FILE_TYPE},
-#line 179 "header_map.txt"
-      {"fmarker",	SAC_AUX_TYPE,	SAC_FMARKER},
-#line 183 "header_map.txt"
-      {"t3marker",	SAC_AUX_TYPE,	SAC_T3MARKER},
-      {"",-1,-1},
-#line 104 "header_map.txt"
-      {"nwfid",	SAC_INT_TYPE,	SAC_WFID},
-      {"",-1,-1},
-#line 31 "header_map.txt"
-      {"t5",	    SAC_FLOAT_TYPE,	SAC_T5},
-#line 157 "header_map.txt"
-      {"kt5",	  SAC_STRING_TYPE,	SAC_KT5},
-      {"",-1,-1},
-#line 61 "header_map.txt"
-      {"user5",	SAC_FLOAT_TYPE,	SAC_USER5},
-#line 85 "header_map.txt"
-      {"fhdr70",  SAC_FLOAT_TYPE, SAC_UN70},
-      {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-#line 42 "header_map.txt"
-      {"resp5",	SAC_FLOAT_TYPE,	SAC_RESP5},
-#line 21 "header_map.txt"
-      {"b",	    SAC_FLOAT_TYPE,	SAC_B},
-#line 70 "header_map.txt"
-      {"sb",     SAC_FLOAT_TYPE, SAC_SB},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+#line 17 "header_map.txt"
+      {"depmin",	SAC_FLOAT_TYPE, SAC_DEPMIN},
+#line 176 "header_map.txt"
+      {"amarker",	SAC_AUX_TYPE,	SAC_AMARKER},
+#line 186 "header_map.txt"
+      {"t7marker",	SAC_AUX_TYPE,	SAC_T7MARKER},
       {"",-1,-1}, {"",-1,-1},
-#line 149 "header_map.txt"
-      {"khole",	SAC_STRING_TYPE,	SAC_HOLE},
-#line 81 "header_map.txt"
-      {"fhdr66",  SAC_FLOAT_TYPE, SAC_UN66},
-#line 122 "header_map.txt"
-      {"imagtyp",	SAC_ENUM_TYPE,	SAC_MAG_TYPE},
-#line 180 "header_map.txt"
-      {"t0marker",	SAC_AUX_TYPE,	SAC_T0MARKER},
-      {"",-1,-1},
+#line 169 "header_map.txt"
+      {"kzdate",	SAC_AUX_TYPE,	SAC_DATE},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+#line 19 "header_map.txt"
+      {"scale",	SAC_FLOAT_TYPE, SAC_SCALE},
+#line 83 "header_map.txt"
+      {"fhdr68",  SAC_FLOAT_TYPE, SAC_UN68},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
 #line 79 "header_map.txt"
       {"adjtm",   SAC_FLOAT_TYPE, SAC_UN64},
-#line 82 "header_map.txt"
-      {"fhdr67",  SAC_FLOAT_TYPE, SAC_UN67},
+#line 80 "header_map.txt"
+      {"fhdr65",  SAC_FLOAT_TYPE, SAC_UN65},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+#line 130 "header_map.txt"
+      {"ihdr19", SAC_ENUM_TYPE, SAC_UN104},
+#line 89 "header_map.txt"
+      {"unused9",  SAC_FLOAT_TYPE, SAC_UN67},
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-#line 101 "header_map.txt"
-      {"nevid",	SAC_INT_TYPE,	SAC_EVID},
-#line 20 "header_map.txt"
-      {"odelta",	SAC_FLOAT_TYPE,	SAC_ODELTA},
+#line 141 "header_map.txt"
+      {"lovrok",	SAC_BOOL_TYPE,	SAC_OVERWRITE},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+#line 95 "header_map.txt"
+      {"nzhour",	SAC_INT_TYPE,	SAC_HOUR},
       {"",-1,-1},
-#line 176 "header_map.txt"
-      {"filename",	SAC_AUX_TYPE,	SAC_FILENAME},
+#line 55 "header_map.txt"
+      {"mag",	  SAC_FLOAT_TYPE,	SAC_MAG},
+      {"",-1,-1}, {"",-1,-1},
+#line 171 "header_map.txt"
+      {"kstcmp",	SAC_AUX_TYPE,	SAC_STCMP},
+#line 177 "header_map.txt"
+      {"omarker",	SAC_AUX_TYPE,	SAC_OMARKER},
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-#line 87 "header_map.txt"
-      {"unused7",  SAC_FLOAT_TYPE, SAC_UN65},
-#line 186 "header_map.txt"
-      {"t6marker",	SAC_AUX_TYPE,	SAC_T6MARKER},
-      {"",-1,-1},
-#line 100 "header_map.txt"
-      {"norid",	SAC_INT_TYPE,	SAC_ORID},
+#line 147 "header_map.txt"
+      {"kevnmc",	SAC_LONG_STRING_TYPE,	SAC_EVENT},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
 #line 125 "header_map.txt"
       {"ihdr14", SAC_ENUM_TYPE, SAC_UN99},
       {"",-1,-1},
 #line 187 "header_map.txt"
-      {"t7marker",	SAC_AUX_TYPE,	SAC_T7MARKER},
-      {"",-1,-1},
-#line 99 "header_map.txt"
-      {"nvhdr",	SAC_INT_TYPE,	SAC_HDR},
-#line 80 "header_map.txt"
-      {"fhdr65",  SAC_FLOAT_TYPE, SAC_UN65},
-#line 35 "header_map.txt"
-      {"t9",	    SAC_FLOAT_TYPE,	SAC_T9},
-#line 161 "header_map.txt"
-      {"kt9",	  SAC_STRING_TYPE,	SAC_KT9},
-      {"",-1,-1},
-#line 65 "header_map.txt"
-      {"user9",	SAC_FLOAT_TYPE,	SAC_USER9},
-#line 170 "header_map.txt"
-      {"kzdate",	SAC_AUX_TYPE,	SAC_DATE},
-#line 123 "header_map.txt"
-      {"imagsrc",	SAC_ENUM_TYPE,	SAC_MAG_SRC},
-#line 137 "header_map.txt"
+      {"t8marker",	SAC_AUX_TYPE,	SAC_T8MARKER},
+      {"",-1,-1}, {"",-1,-1},
+#line 119 "header_map.txt"
+      {"ievtyp", SAC_ENUM_TYPE,  SAC_EVENT_TYPE},
+#line 87 "header_map.txt"
+      {"unused7",  SAC_FLOAT_TYPE, SAC_UN65},
+#line 184 "header_map.txt"
+      {"t5marker",	SAC_AUX_TYPE,	SAC_T5MARKER},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+#line 136 "header_map.txt"
       {"unused24", SAC_ENUM_TYPE, SAC_UN103},
-      {"",-1,-1},
-#line 46 "header_map.txt"
-      {"resp9",	SAC_FLOAT_TYPE,	SAC_RESP9},
-#line 143 "header_map.txt"
-      {"lcalda",	SAC_BOOL_TYPE,	SAC_CALC_DIST_AZ},
+      {"",-1,-1}, {"",-1,-1},
+#line 84 "header_map.txt"
+      {"fhdr69",  SAC_FLOAT_TYPE, SAC_UN69},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1},
+#line 77 "header_map.txt"
+      {"yminimum",	SAC_FLOAT_TYPE,	SAC_YMIN},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
 #line 34 "header_map.txt"
       {"t8",	    SAC_FLOAT_TYPE,	SAC_T8},
-#line 160 "header_map.txt"
+#line 159 "header_map.txt"
       {"kt8",	  SAC_STRING_TYPE,	SAC_KT8},
       {"",-1,-1},
 #line 64 "header_map.txt"
       {"user8",	SAC_FLOAT_TYPE,	SAC_USER8},
-#line 18 "header_map.txt"
-      {"depmax",	SAC_FLOAT_TYPE, SAC_DEPMAX},
-      {"",-1,-1},
-#line 185 "header_map.txt"
-      {"t5marker",	SAC_AUX_TYPE,	SAC_T5MARKER},
-#line 53 "header_map.txt"
-      {"evel",	  SAC_FLOAT_TYPE,	SAC_EVEL},
+#line 170 "header_map.txt"
+      {"kztime",	SAC_AUX_TYPE,	SAC_TIME},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
 #line 45 "header_map.txt"
       {"resp8",	SAC_FLOAT_TYPE,	SAC_RESP8},
-#line 84 "header_map.txt"
-      {"fhdr69",  SAC_FLOAT_TYPE, SAC_UN69},
+#line 142 "header_map.txt"
+      {"lcalda",	SAC_BOOL_TYPE,	SAC_CALC_DIST_AZ},
+#line 31 "header_map.txt"
+      {"t5",	    SAC_FLOAT_TYPE,	SAC_T5},
+#line 156 "header_map.txt"
+      {"kt5",	  SAC_STRING_TYPE,	SAC_KT5},
       {"",-1,-1},
-#line 55 "header_map.txt"
-      {"mag",	  SAC_FLOAT_TYPE,	SAC_MAG},
-#line 48 "header_map.txt"
-      {"stlo",	  SAC_FLOAT_TYPE,	SAC_STLO},
-#line 144 "header_map.txt"
-      {"lhdr5", SAC_BOOL_TYPE,  SAC_UN110},
-#line 83 "header_map.txt"
-      {"fhdr68",  SAC_FLOAT_TYPE, SAC_UN68},
-      {"",-1,-1}, {"",-1,-1},
-#line 54 "header_map.txt"
-      {"evdp",	  SAC_FLOAT_TYPE,	SAC_EVDP},
-      {"",-1,-1}, {"",-1,-1},
-#line 88 "header_map.txt"
-      {"unused8",  SAC_FLOAT_TYPE, SAC_UN66},
-      {"",-1,-1},
-#line 51 "header_map.txt"
-      {"evla",	  SAC_FLOAT_TYPE,	SAC_EVLA},
-      {"",-1,-1},
-#line 95 "header_map.txt"
-      {"nzhour",	SAC_INT_TYPE,	SAC_HOUR},
-      {"",-1,-1},
-#line 189 "header_map.txt"
-      {"t9marker",	SAC_AUX_TYPE,	SAC_T9MARKER},
-      {"",-1,-1}, {"",-1,-1},
-#line 118 "header_map.txt"
-      {"ievreg",	SAC_ENUM_TYPE,	SAC_EVREG},
-      {"",-1,-1},
-#line 188 "header_map.txt"
-      {"t8marker",	SAC_AUX_TYPE,	SAC_T8MARKER},
-      {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-#line 178 "header_map.txt"
-      {"omarker",	SAC_AUX_TYPE,	SAC_OMARKER},
-      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-#line 166 "header_map.txt"
-      {"kcmpnm",	SAC_STRING_TYPE,	SAC_CHA},
-      {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-#line 140 "header_map.txt"
-      {"leven",	SAC_BOOL_TYPE,	SAC_EVEN},
-#line 171 "header_map.txt"
-      {"kztime",	SAC_AUX_TYPE,	SAC_TIME},
-      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-      {"",-1,-1},
+#line 61 "header_map.txt"
+      {"user5",	SAC_FLOAT_TYPE,	SAC_USER5},
 #line 106 "header_map.txt"
       {"nysize",	SAC_INT_TYPE,	SAC_NY},
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-#line 147 "header_map.txt"
-      {"kevnm",	SAC_LONG_STRING_TYPE,	SAC_EVENT},
+#line 42 "header_map.txt"
+      {"resp5",	SAC_FLOAT_TYPE,	SAC_RESP5},
+#line 140 "header_map.txt"
+      {"lpspol",	SAC_BOOL_TYPE,	SAC_POLARITY},
+      {"",-1,-1},
+#line 75 "header_map.txt"
+      {"xminimum",	SAC_FLOAT_TYPE,	SAC_XMIN},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+#line 123 "header_map.txt"
+      {"imagsrc",	SAC_ENUM_TYPE,	SAC_MAG_SRC},
+#line 188 "header_map.txt"
+      {"t9marker",	SAC_AUX_TYPE,	SAC_T9MARKER},
+      {"",-1,-1}, {"",-1,-1},
+#line 18 "header_map.txt"
+      {"depmax",	SAC_FLOAT_TYPE, SAC_DEPMAX},
+#line 122 "header_map.txt"
+      {"imagtyp",	SAC_ENUM_TYPE,	SAC_MAG_TYPE},
+#line 78 "header_map.txt"
+      {"ymaximum",	SAC_FLOAT_TYPE,	SAC_YMAX},
+      {"",-1,-1},
+#line 143 "header_map.txt"
+      {"lhdr5", SAC_BOOL_TYPE,  SAC_UN110},
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
       {"",-1,-1},
-#line 113 "header_map.txt"
-      {"iztype",	SAC_ENUM_TYPE,	SAC_ZERO_TIME},
+#line 105 "header_map.txt"
+      {"nxsize",	SAC_INT_TYPE,	SAC_NX},
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-#line 119 "header_map.txt"
-      {"ievtyp", SAC_ENUM_TYPE,  SAC_EVENT_TYPE},
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-#line 93 "header_map.txt"
-      {"nzyear",	SAC_INT_TYPE,	SAC_YEAR},
-      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-      {"",-1,-1}, {"",-1,-1},
-#line 184 "header_map.txt"
+      {"",-1,-1},
+#line 165 "header_map.txt"
+      {"kcmpnm",	SAC_STRING_TYPE,	SAC_CHA},
+      {"",-1,-1},
+#line 183 "header_map.txt"
       {"t4marker",	SAC_AUX_TYPE,	SAC_T4MARKER},
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-#line 23 "header_map.txt"
-      {"o",	    SAC_FLOAT_TYPE,	SAC_O},
-#line 150 "header_map.txt"
-      {"ko",	    SAC_STRING_TYPE,	SAC_KO},
-      {"",-1,-1}, {"",-1,-1},
-#line 174 "header_map.txt"
-      {"nzday", SAC_AUX_TYPE, SAC_MONTH_DAY},
-#line 94 "header_map.txt"
-      {"nzjday",	SAC_INT_TYPE,	SAC_DAY},
-#line 173 "header_map.txt"
+#line 76 "header_map.txt"
+      {"xmaximum",	SAC_FLOAT_TYPE,	SAC_XMAX},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+#line 172 "header_map.txt"
       {"nzmonth", SAC_AUX_TYPE, SAC_MONTH},
       {"",-1,-1}, {"",-1,-1},
 #line 96 "header_map.txt"
       {"nzmin",	SAC_INT_TYPE,	SAC_MIN},
-#line 148 "header_map.txt"
-      {"kevnmc",	SAC_LONG_STRING_TYPE,	SAC_EVENT},
+#line 94 "header_map.txt"
+      {"nzjday",	SAC_INT_TYPE,	SAC_DAY},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+#line 93 "header_map.txt"
+      {"nzyear",	SAC_INT_TYPE,	SAC_YEAR},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+#line 173 "header_map.txt"
+      {"nzday", SAC_AUX_TYPE, SAC_MONTH_DAY},
+      {"",-1,-1},
+#line 88 "header_map.txt"
+      {"unused8",  SAC_FLOAT_TYPE, SAC_UN66},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+#line 21 "header_map.txt"
+      {"b",	    SAC_FLOAT_TYPE,	SAC_B},
+#line 70 "header_map.txt"
+      {"sb",     SAC_FLOAT_TYPE, SAC_SB},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+#line 113 "header_map.txt"
+      {"iztype",	SAC_ENUM_TYPE,	SAC_ZERO_TIME},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1},
+#line 35 "header_map.txt"
+      {"t9",	    SAC_FLOAT_TYPE,	SAC_T9},
+#line 160 "header_map.txt"
+      {"kt9",	  SAC_STRING_TYPE,	SAC_KT9},
+      {"",-1,-1},
+#line 65 "header_map.txt"
+      {"user9",	SAC_FLOAT_TYPE,	SAC_USER9},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+#line 46 "header_map.txt"
+      {"resp9",	SAC_FLOAT_TYPE,	SAC_RESP9},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1},
+#line 124 "header_map.txt"
+      {"ibody", SAC_ENUM_TYPE, SAC_BODY_TYPE},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
 #line 30 "header_map.txt"
       {"t4",	    SAC_FLOAT_TYPE,	SAC_T4},
-#line 156 "header_map.txt"
+#line 155 "header_map.txt"
       {"kt4",	  SAC_STRING_TYPE,	SAC_KT4},
       {"",-1,-1},
 #line 60 "header_map.txt"
@@ -551,58 +590,48 @@ sac_keyword_to_header (register const char *str, register unsigned int len)
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
 #line 41 "header_map.txt"
       {"resp4",	SAC_FLOAT_TYPE,	SAC_RESP4},
+#line 98 "header_map.txt"
+      {"nzmsec",	SAC_INT_TYPE,	SAC_MSEC},
+#line 67 "header_map.txt"
+      {"az",	    SAC_FLOAT_TYPE,	SAC_AZ},
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-      {"",-1,-1},
-#line 105 "header_map.txt"
-      {"nxsize",	SAC_INT_TYPE,	SAC_NX},
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
 #line 114 "header_map.txt"
       {"ihdr4",  SAC_ENUM_TYPE,  SAC_UN89},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
       {"",-1,-1}, {"",-1,-1},
-#line 77 "header_map.txt"
-      {"yminimum",	SAC_FLOAT_TYPE,	SAC_YMIN},
-      {"",-1,-1}, {"",-1,-1},
-#line 141 "header_map.txt"
-      {"lpspol",	SAC_BOOL_TYPE,	SAC_POLARITY},
+#line 97 "header_map.txt"
+      {"nzsec",	SAC_INT_TYPE,	SAC_SEC},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
       {"",-1,-1},
-#line 78 "header_map.txt"
-      {"ymaximum",	SAC_FLOAT_TYPE,	SAC_YMAX},
-      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-      {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-#line 52 "header_map.txt"
-      {"evlo",	  SAC_FLOAT_TYPE,	SAC_EVLO},
-      {"",-1,-1},
+#line 69 "header_map.txt"
+      {"gcarc",	SAC_FLOAT_TYPE,	SAC_GCARC},
 #line 74 "header_map.txt"
       {"cmpinc",	SAC_FLOAT_TYPE,	SAC_CMPINC},
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-      {"",-1,-1}, {"",-1,-1},
-#line 98 "header_map.txt"
-      {"nzmsec",	SAC_INT_TYPE,	SAC_MSEC},
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-      {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-#line 67 "header_map.txt"
-      {"az",	    SAC_FLOAT_TYPE,	SAC_AZ},
-      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-      {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-#line 69 "header_map.txt"
-      {"gcarc",	SAC_FLOAT_TYPE,	SAC_GCARC},
-      {"",-1,-1}, {"",-1,-1},
-#line 75 "header_map.txt"
-      {"xminimum",	SAC_FLOAT_TYPE,	SAC_XMIN},
-      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-#line 76 "header_map.txt"
-      {"xmaximum",	SAC_FLOAT_TYPE,	SAC_XMAX},
-      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-      {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-      {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-#line 97 "header_map.txt"
-      {"nzsec",	SAC_INT_TYPE,	SAC_SEC},
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
@@ -626,9 +655,6 @@ sac_keyword_to_header (register const char *str, register unsigned int len)
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-      {"",-1,-1},
-#line 142 "header_map.txt"
-      {"lovrok",	SAC_BOOL_TYPE,	SAC_OVERWRITE},
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
@@ -652,7 +678,7 @@ sac_keyword_to_header (register const char *str, register unsigned int len)
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
       {"",-1,-1}, {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
-      {"",-1,-1},
+      {"",-1,-1}, {"",-1,-1}, {"",-1,-1},
 #line 73 "header_map.txt"
       {"cmpaz",	SAC_FLOAT_TYPE,	SAC_CMPAZ}
     };
@@ -671,7 +697,7 @@ sac_keyword_to_header (register const char *str, register unsigned int len)
     }
   return 0;
 }
-#line 190 "header_map.txt"
+#line 189 "header_map.txt"
 
 
 #ifdef __TESTING__

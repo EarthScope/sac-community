@@ -373,7 +373,7 @@ test_sethv() {
     char kin[9], kout[9];
     char *inames[] = {"iftype", "idep", "iztype", "ihdr4", "iinst", "istreg",
 		      "ievreg", "ievtyp", "iqual", "isynth", "imagtyp", 
-		      "imagsrc", "ihdr13","ihdr14","ihdr15","ihdr16",
+		      "imagsrc", "ibody","ihdr14","ihdr15","ihdr16",
 		      "ihdr17","ihdr18","ihdr19","ihdr20", };
     kin[0] = 0;
     strncat(&(kin[0]), "ITIME   ", 8);

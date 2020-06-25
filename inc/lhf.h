@@ -17,7 +17,7 @@
 #define	MRPT	MSTRPT
 #define	MRPTTP	10      /** Number of Header Report Types */
 #define	MSPRPT	20
-#define	MSTRPT	94      /** Number of Header names for "DEFAULT" */
+#define	MSTRPT	95      /** Number of Header names for "DEFAULT" */
 
 /** 
  * @param SAC_HEADER_NAMES_DEFAULT_LENGTH
@@ -29,7 +29,9 @@
  *                    were added. maf 970205
  * @date 2009 Feb 15 Changed from MSTRPT
  */
-#define SAC_HEADER_NAMES_DEFAULT_LENGTH  94
+#define SAC_HEADER_NAMES_DEFAULT_LENGTH  MSTRPT
+
+#define SAC_BODY_TYPE_ENUM  13
 
 /** 
  * @param SAC_HEADER_NAMES_PICKS_LENGTH

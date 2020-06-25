@@ -164,6 +164,7 @@ check_sac_file_spec(char *file) {
         int v = 0;
         sac_get_int(s, i, &v);
         if(i == SAC_HDR) { assert(v == 6); }
+        else if(i == SAC_BODY_TYPE)    { assert(v == IEARTH); }
         else if(i == SAC_NPTS)         { assert(v == 1024); }
         else if(i == SAC_NSNPTS)       { assert(v == 1000); }
         else if(i == SAC_EVID)         { assert(v == 0); }

@@ -337,7 +337,8 @@ testsuite/input/bbfk.sm \
 testsuite/input/v6v7.sm \
 testsuite/input/v6v7io.sm \
 testsuite/input/v6v7iosp.sm \
-testsuite/input/event.sm
+testsuite/input/event.sm \
+testsuite/input/ibody.sm
 
 # This Test breaks routinely due to Station Database Updates
 # testsuite/input/station.sm
