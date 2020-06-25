@@ -119,7 +119,7 @@ Word    Type    NAMES    o        o        o       o
 80      I       INTERNAL NWFID    NXSIZE   NYSIZE  UNUSED
 85      I       IFTYPE   IDEP     IZTYPE   UNUSED  IINST
 90      I       ISTREG   IEVREG   IEVTYP   IQUAL   ISYNTH
-95      I       IMAGTYP  IMAGSRC  UNUSED   UNUSED  UNUSED
+95      I       IMAGTYP  IMAGSRC  IBODY    UNUSED  UNUSED
 100     I       UNUSED   UNUSED   UNUSED   UNUSED  UNUSED
 105     L       LEVEN    LPSPOL   LOVROK   LCALDA  UNUSED
 110     K       KSTNM    KEVNM*
@@ -177,7 +177,7 @@ LINE    FORMAT   NAMES    o        o        o      o
 17      (5I10)   NSNPTS   NWFID    NXSIZE   NYSIZE UNUSED
 18      (5I10)   IFTYPE   IDEP     IZTYPE   UNUSED IINST
 19      (5I10)   ISTREG   IEVREG   IEVTYP   IQUAL  ISYNTH
-20      (5I10)   IMAGTYP  IMAGSRC  UNUSED   UNUSED UNUSED
+20      (5I10)   IMAGTYP  IMAGSRC  IBODY    UNUSED UNUSED
 21      (5I10)   UNUSED   UNUSED   UNUSED   UNUSED UNUSED
 22      (5I10)   LEVEN    LPSPOL   LOVROK   LCALDA UNUSED
 23      (A8,A16) KSTNM    KEVNM
@@ -466,6 +466,31 @@ DIST      F     Station to event distance (km).
 AZ        F     Event to station azimuth (degrees).
 BAZ       F     Station to event azimuth (degrees).
 GCARC     F     Station to event great circle arc length (degrees).
+IBODY     I     Body / Spheroid definition used in Distance Calculations
+                 - undef    /  -12345  Sac Historical Spheroid version
+                    - a: 6378160.0 m
+                    - f: 0.00335293
+                    - **Important Note**: For consistency with previous versions,
+                      it is best to leave the IBODY as undefined.
+                      This is **not** WGS-84, see IEARTH
+                 - ISUN     /  98      Sun  Meftah2015_  Rozelot2001_
+                    - a: 696000000.0 m
+                    - f: 8.189e-6
+                 - IMERCURY /  99      Mercury IAU2000_ IAU-WGCCRE_
+                    - a: 2439700.0 m
+                    - f: 0.0
+                 - IVENUS   / 100      Venus IAU2000_ IAU-WGCCRE_
+                    - a: 6051800.0 m
+                    - f: 0.0
+                 - IEARTH   / 101      WGS-84, EPSG:4325
+                    - a: 6378137.0 m
+                    - f: 1.0 / 298.257223563 ( = 0.0033528106647474805)
+                 - IMOON    / 102      Moon IAU2000_ IAU-WGCCRE_
+                    - a: 1737400.0 m
+                    - f: 0.0
+                 - IMARS    / 103      Mars IAU2000_ IAU-WGCCRE_
+                    - a: 3396190.0 m
+                    - f: 1.0 / 169.89444722361179 ( = 0.005886007555525457)
 ========= ===== =============================================================
 
 Miscellaneous Fields
@@ -603,8 +628,45 @@ igey      94
 ilit      95
 imet      96
 iodor     97
-ios       103
+isun      98
+imercury  99
+ivenus    100
+iearth    101
+imoon     102
+imars     103
 ========= =====
+
+REFERENCES
+----------
+
+   .. _IAU2000:
+
+   [IAU2000] Seidelmann, P., V. Abalakin, M. Bursa, M. Davies, C. De Bergh, J. Lieske, 
+        J. Oberst, J. Simon, E. Standish, P. Stooke, et al. (2002), Report of the 
+        IAU/IAG working group on cartographic coordinates and rotational elements of the 
+        planets and satellites: 2000, Celestial Mechanics and Dynamical Astronomy, 82 (1), 83–111.
+
+   .. _IAU-WGCCRE:
+
+   [IAU-WGCCRE] https://astrogeology.usgs.gov/groups/IAU-WGCCRE
+
+   .. _Meftah2015:
+
+   [Meftah2015] Meftah, M., A. Irbah, A. Hauchecorne, T. Corbard, S. Turck-Chi`eze, J.-F. Hochedez,
+        P. Boumier, A. Cheva- lier, S. Dewitte, S. Mekaoui, et al. (2015), On the determination
+        and constancy of the solar oblateness, Solar Physics, 290(3), 673–687.
+
+        * 8.189e-6 (Flattening)
+
+   .. _Rozelot2001:
+
+   [Rozelot2001] Rozelot, J. P., Godier, S., & Lefebvre, S. (2001). On the theory of the
+        oblateness of the Sun. Solar Physics, 198(2), 223-240.
+
+        * 8.33e-6  (Flattening)
+        * 6.5×10−6 - 10.2×10−6 (Flattening Range)
+
+
 
 LATEST REVISION
 ---------------
