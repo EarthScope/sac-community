@@ -25,12 +25,20 @@ Overview
   SAC header/data are single-precision (32 bits; 4 bytes).   SAC v102.0 includes
   double-precision for both time and distance calculations using header
   variables, and does so in a way that maximizes compatibility so that existing
-  SAC data files can still be used.  The section on `Floating-Point Precision in
-  SAC` in TUTORIAL_ has a detailed discussion.
+  SAC data files can still be used.  There is a detailed discussion in the
+  section on *Floating-Point Precision in SAC* in TUTORIAL_.
 
   Starting in version 102.0, SAC is capable of viewing and downloading event,
   station, and response metadata and downloading waveforms from the IRIS online
   Web services.  See  `Data Access`_ for an overview.
+
+  Through version 101.6a, epicentral distances were calculated using
+  an Earth spheroid defined by a: 6378160.0 m and f: 0.00335293.  In
+  version 102.0, a header variable IBODY has been added to allow for
+  distance calculations on terrestrial planets, the Sun, and the Moon.
+  Options for IBODY are given in the *Event Field* section of `SAC
+  Data File Format`_, and an example has been added in
+  ${SACHOME}/doc/examples.
 
   The Using SAC part of the SAC Users Manual contains general information for
   the new user about what SAC can do, how it works, and how to get started. It
@@ -38,12 +46,13 @@ Overview
   such as how to use SAC macros, how to read and write SAC data files from C or
   FORTRAN programs, and how the SAC program is structured.
 
-  The Users Manual will be periodically updated to include new descriptions and to
-  revise old ones. Please report any errors in this manual to the sac-help listserv:
-  <sac-help@lists.ds.iris.edu>.  Although the version of the manual that comes
-  with the binay or source distribution will be updated only when a new version comes
-  out, the online version of the manual at <http://ds.iris.edu/files/sac-manual/>
-  can be updated at any time.
+  The Users Manual will be periodically updated to include new
+  descriptions and to revise old ones. Please report any errors in
+  this manual to the sac-help listserv: <sac-help@lists.ds.iris.edu>.
+  Although the version of the manual that comes with the binary or
+  source distribution will be updated only when a new version comes
+  out, the online version of the manual at <http://ds.iris.edu/files/
+  sac-manual/> can be updated at any time.
 
 Contents of Using SAC
 ---------------------

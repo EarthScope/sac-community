@@ -74,28 +74,21 @@ DESCRIPTION
   sub-directory contains a different type of event.  You can use wildcards just
   like the READ_ command to specify groups of files in the sub-directory.
 
-
-ERROR MESSAGES
---------------
-- 1301: No data files read in.
-
-  - haven't given a list of files to read.
-  - none of the files in the list could be read.
-
-- 1314: Data file list can't begin with a number.
-- 1315: Maximum number of files in data file list is
-
-
-WARNING MESSAGES
-----------------
-- 0101: opening file
-- 0108: File does not exist:
-- 0114: reading file
-
-  - Normally when SAC encounters one of these errors it skips that file and
-    reads the remainder.  These errors can be made to be fatal using
-    the READERR_ command.
-
+  The command fg/seismo is probably the most used way to produces a sample
+  seismogram from within the SAC package, but it is not a very  interesting one
+  because it is from a regional event and is only 10 secods long with the main P
+  arrival (Pn) 5 second into the record.  The only other expected arrivals are
+  small-amplitude crustal phases.  For demonstrating results from commands such
+  as TRAVELTIME_, we introduced a new set of seismograms in Version 102.0.  A
+  sub-directory teleseis/sakhalin was added with seismograms from the Sakhalin
+  Island Event (May 12, 1990; M=6.5; Depth=611 km). The phases are very
+  impulsive, and one can see many converted phases. There are vertical-,
+  radial-, and transverse-component broadband waveforms from eight broadband
+  stations that were part of the original IRIS rapid-response *GOPHER* system.
+  One output from an analysis of this dataset is that the vertical component at
+  KIP had reverse polarity.  See TRAVELTIME_ for an example that uses
+  teleseism/sakhalin. (For a discussion of the application using  the Skahlin
+  waveforms, see <https://seiscode.iris.washington.edu/projects/focmec>.)
 
 LOCAL EVENT
 -----------
@@ -169,6 +162,29 @@ TELESEISMIC EVENT
     onkl.z, onkl.n, onkl.e, onkm.z, onkm.n, onkm.e
     sdkl.z, sdkl.n, sdkl.e, sdkm.z, sdkm.n, sdkm.e
 
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+
+  - haven't given a list of files to read.
+  - none of the files in the list could be read.
+
+- 1314: Data file list can't begin with a number.
+- 1315: Maximum number of files in data file list is
+
+
+WARNING MESSAGES
+----------------
+- 0101: opening file
+- 0108: File does not exist:
+- 0114: reading file
+
+  - Normally when SAC encounters one of these errors it skips that file and
+    reads the remainder.  These errors can be made to be fatal using
+    the READERR_ command.
+
+
 LATEST REVISION
 ---------------
-  August 2011 (version 101.5)
+  Version 102.0 (2020)

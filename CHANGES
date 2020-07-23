@@ -14,6 +14,7 @@ a discussion of bug fixes and enhancements made between releases.
 - CONVOLE command changed functionality.  See CONVOLVE help file.
 - Many examples hae been added to sac/doc/examples.  Referenced from
     help file Using the SAC Libraries (sac/aux/user_man/saclib)
+- Added IBODY header variable
 - Documentation updated and expanded See SAC Manual, (PDF or HTML)
 - Lots of bug fixes
 
