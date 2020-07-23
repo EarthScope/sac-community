@@ -10,9 +10,11 @@
 
 #define	MTTLEN          9
 #define	MTTRD           2
-#define	MXTT            60
+#define	MXTT            120
 #define TTKILOMETER     1       /* indicates distance in kilometers */
 #define	TTDEGREE        2       /* indicates distance in degrees */
+
+#define PHASE_NAME_LENGTH 128
 
 /** 
  * @struct kmtt
@@ -23,7 +25,7 @@ struct t_kmtt {
     char kttmodl[MXTT][9];
     char kttrd[MTTRD][9];
     char krdph[9];
-    char kphases[MXTT][128];
+    char kphases[MXTT][PHASE_NAME_LENGTH];
     char kmodel[9];
     char **kphaseNames;
 } ;

@@ -835,6 +835,100 @@ depcor(nph)
     return;
 }                               /* end of function */
 
+void phxpnd(int *n, char kph[][PHASE_NAME_LENGTH], int nmax){
+
+    int i, j, jb, no, il, ix, iy, notbc, all, generic;
+    char kphgen[6], phgen[6], kphi[6], *kpp;
+
+    /* Table empty, nothing to return */
+    if(tabc.mbr2 <= 0) return;
+
+    i = 0;
+    no = *n;
+    do {
+        if (i>=no) break;
+        kpp = (char*)&kph[i];
+        ix = strstr(kpp,"bc") ? strstr(kpp,"bc") - kpp : -1;
+        notbc = ix < 0;
+        all = !memcmp(&kph[i],"ALL",3) || !memcmp(&kph[i],"all",3);
+        
+        /* Make generic arrival name for item in list */
+
+        il = strlen(kpp);
+        memcpy(kphi, &kph[i], 6); memset(kphi+il,' ',6-il);
+        memcpy(kphgen, &kph[i], 6); memset(kphgen+il,' ',6-il);
+        il -= 2;
+        if(il>1){
+            if (!memcmp(kphgen+il,"ab",2))kphgen[il] = ' ', kphgen[il+1] = ' ';
+            if (!memcmp(kphgen+il,"bc",2))kphgen[il] = ' ', kphgen[il+1] = ' ';
+            if (!memcmp(kphgen+il,"df",2))kphgen[il] = ' ', kphgen[il+1] = ' ';
+            if (!memcmp(kphgen+il,"ac",2))kphgen[il] = ' ', kphgen[il+1] = ' ';
+        }
+        for(j=1; j<il; j++)
+            if (kphgen[j] == 'g' || kphgen[j] == 'b' || kphgen[j] == 'n')
+                memcpy(kphgen+j, kphgen+j+1, il-j);
+        generic = FALSE;
+
+        /* For every branch, try to match as specific arrival, then generic */
+
+        for(jb = tabc.mbr1-1; jb < tabc.mbr2; jb++){
+            if (tabc.jndx[1][jb] <= 0) continue;
+            /* Specific match? */
+            if(notbc && !memcmp(pcdc.phcd[jb], kphi, 6)) goto exact;
+            iy = strstr(pcdc.phcd[jb],"ab") ?
+               strstr(pcdc.phcd[jb],"ab") - pcdc.phcd[jb] : -1;
+            if (!notbc && iy < 0 && !memcmp(kphi, pcdc.phcd[jb], 6))
+               goto exact;
+            /* Generic match? */
+            il = (strchr(pcdc.phcd[jb],' ') ?
+               strchr(pcdc.phcd[jb],' ')-pcdc.phcd[jb] : 6) - 2;
+            memcpy(phgen, pcdc.phcd[jb], 6);
+            if (il > 1) {
+                if (!memcmp(phgen+il,"ab",2))phgen[il] = ' ',phgen[il+1] = ' ';
+                if (!memcmp(phgen+il,"bc",2))phgen[il] = ' ',phgen[il+1] = ' ';
+                if (!memcmp(phgen+il,"df",2))phgen[il] = ' ',phgen[il+1] = ' ';
+                if (!memcmp(phgen+il,"ac",2))phgen[il] = ' ',phgen[il+1] = ' ';
+            }
+            for(j=1; j<il; j++)
+                if (phgen[j] == 'g' || phgen[j] == 'b' || phgen[j] == 'n')
+                    memcpy(phgen+j, phgen+j+1, il-j);
+
+            if (all || !memcmp(phgen, kphgen, 6)){
+                generic = TRUE;
+                kpp = (char*)&kph[*n];
+                if (*n < nmax) memcpy(kpp, pcdc.phcd[jb], 6);
+                *n += 1;
+                kpp = memchr(kpp,' ',6); if (kpp) *kpp = '\0';
+                /* bc branch is never explicitly named so add it if ab branch
+                   present */
+                kpp = memchr(pcdc.phcd[jb],' ',8) ?: 8 + pcdc.phcd[jb];
+                iy = (0 == memcmp(kpp-2,"ab",2)) ? kpp - pcdc.phcd[jb] - 2 : 0;
+                if(iy > 0) {
+                    kpp = (char*)&kph[*n];
+                    if (*n < nmax) {
+                        memcpy(kpp, pcdc.phcd[jb], 6);
+                        memcpy(kpp+iy, "bc", 2);
+                    }
+                    *n += 1;
+                }
+            }
+        }
+
+        /* Add a new, specific arrival to phase list or eliminate a generic
+           entry after all specific arrivals it represents have been added */
+
+exact:
+        if (generic) {
+            for(j = i+1; j < (*n<nmax ? *n : nmax); j++)
+                memcpy(&kph[j-1],&kph[j],8);
+            no -= 1;
+            *n -= 1;
+        } else {
+            i += 1;
+        }
+    } while(TRUE);
+}
+
 void /*FUNCTION*/
 depset(dep, usrc)
      double dep;

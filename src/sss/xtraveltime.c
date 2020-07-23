@@ -37,6 +37,24 @@ SSS_EXTERN
 extern float *tty[MXTT];
 extern float *ttx[MXTT];
 
+int
+phase_is_set(char *phase, char picks_set[][128], int nset) {
+    int j = 0;
+    for(j = 0; j < nset; j++) {
+        if(strcmp(phase, picks_set[j]) == 0) {
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+int
+phase_set(char *phase, char picks_set[][128], int nset) {
+    strcpy(picks_set[nset], phase);
+    nset += 1;
+    return nset;
+}
+
+
 static void
 sac_truncate(char *s) {
     char *p;
@@ -99,6 +117,9 @@ set_traveltime(sac *s, int k, char *name, double tt, int lpicks, int verbose) {
         }
         k++;
     }
+    if(lpicks && k >= 10 && verbose) {
+        printf("traveltime: error setting phase %-8s to %f, too many phases \n", name, tt);
+    }
     return k;
 }
 
@@ -158,6 +179,7 @@ xtraveltime(int *nerr) {
     tx = NULL;
     list = NULL;
     s = NULL;
+    int all_requested = FALSE;
         /*=====================================================================
 	 * PURPOSE:  To read in travel time curves from a file.
 	 *=====================================================================
@@ -300,9 +322,7 @@ xtraveltime(int *nerr) {
             }
         }
 
-        else if (lckey("PIC#KS$", 8)) {
-            lpicks = TRUE;
-            lcint(&nPickStart);
+        else if (lklogi("PIC#KS$", 8, &lpicks, &nPickStart)) {
         }
 
         /* -- "PHASE":  the rest are phases */
@@ -337,6 +357,9 @@ xtraveltime(int *nerr) {
                 }
                 if(strcasecmp(kmtt.kphases[iphase], "CLEAR") == 0) {
                     iphase = 0;
+                    all_requested = FALSE;
+                } else if (strcasecmp(kmtt.kphases[iphase], "ALL") == 0) {
+                    all_requested = TRUE;
                 } else if (phase_repeat == FALSE) {
                     iphase = iphase + 1;
                 }
@@ -830,6 +853,8 @@ xtraveltime(int *nerr) {
                 float tt[MAX_PHASES], dtdd[MAX_PHASES], dtdh[MAX_PHASES],
                     dddp[MAX_PHASES];
                 char names[MAX_PHASES][9];
+                char picks_set[MAX_PHASES][128];
+                int nset = 0;
                 /* Find all phases at this distance range */
                 trtm(s->h->gcarc, MAX_PHASES, &n, tt, dtdd, dtdh, dddp,
                      (char *) names, 9);
@@ -837,38 +862,40 @@ xtraveltime(int *nerr) {
                 for (i = 0; i < n; i++) {
                     sac_truncate(names[i]);
                 }
-                /* Specificed phases */
-                for (j = 0; j < cmtt.nphases; j++) {
-                    set = FALSE;
-                    /* Possible phases */
-                    p = -1;
-                    for (i = 0; i < n; i++) {
-                        if (strcmp(names[i], kmtt.kphases[j]) == 0) {   /* Requested Phase =? Possible Phase */
-                            /* Set if space exists */
-                            if (lpicks) {
-                                if (k <= 9) {
-                                    if (p < 0 || tt[i] < tt[p]) {       /* Set if phase is the minimum traveltime */
-                                        p = i;
-                                        set = TRUE;
-                                    }
-                                } else {
-                                    if (verbose) {
-                                        printf("traveltime: error setting phase %-8s to %f, too many phases \n",
-                                               names[i], tt[i]);
-                                    }
+                if(all_requested) {
+                    // Phases from trtm() are sorted by time, first phase occurance should be the earliest
+                    for(i = 0; i < n; i++) {
+                        if(phase_is_set(names[i], picks_set, nset)) {
+                            continue;
+                        }
+                        k = set_traveltime(s, k, names[i], tt[i], lpicks, verbose);
+                        nset = phase_set(names[i], picks_set, nset);
+                    }
+                } else {
+
+                    /* Specificed phases */
+                    for (j = 0; j < cmtt.nphases; j++) {
+                        set = FALSE;
+                        /* Possible phases */
+                        p = -1;
+                        if(phase_is_set(kmtt.kphases[j], picks_set, nset)) {
+                            continue;
+                        }
+                        for (i = 0; i < n; i++) {
+                            if (strcmp(names[i], kmtt.kphases[j]) == 0) {   /* Requested Phase =? Possible Phase */
+                                if (p < 0 || tt[i] < tt[p]) {       /* Set if phase is the minimum traveltime */
+                                    p = i;
+                                    set = TRUE;
                                 }
-                            } else {
-                                set = TRUE;
-                                p = i;
                             }
                         }
-                    }
-                    if (set == FALSE) {
-                        if (verbose) {
-                            printf("traveltime: error finding phase %-8s\n", kmtt.kphases[j]);
+                        if (set == TRUE) {
+                            k = set_traveltime(s, k, names[p], tt[p], lpicks, verbose);
+                        } else {
+                            if (verbose) {
+                                printf("traveltime: error finding phase %-8s\n", kmtt.kphases[j]);
+                            }
                         }
-                    } else {
-                        k = set_traveltime(s, k, names[p], tt[p], lpicks, verbose);
                     }
                 }
             }

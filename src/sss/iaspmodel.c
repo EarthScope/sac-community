@@ -26,7 +26,7 @@ iaspmodel(zs, dstart, dinc, nloops, nerr)
     char kphcd[MAX_][9];
     static char kphlst[2][9];
     static int lprnt[3];
-    int iloops, jdx, jdx_, jen, jen_, jph, jph_, ndx, nblksz;
+    int iloops, jdx, jdx_, jen, jph,  ndx, nblksz;
     float dddp[MAX_], dtdd[MAX_], dtdh[MAX_], tt[MAX_], ttscale, usrc[2];
     static int _aini = 1;
 
@@ -78,7 +78,18 @@ iaspmodel(zs, dstart, dinc, nloops, nerr)
     tabin(kmtt.kmodel, 9);
     brnset(1, (char *) kphlst, 9, lprnt);
     depset(zs, usrc);
-
+    phxpnd(&cmtt.nphases, kmtt.kphases, MXTT);
+    if (cmtt.nphases > MXTT) {
+        setmsg("WARNING",0);
+        apcmsg("The",4);
+        apcmsg(kmtt.kmodel,9);
+        apcmsg("tables yield too many arrivals -", 33);
+        apimsg(cmtt.nphases);
+        apcmsg("; some omitted.",16);
+        outmsg();
+        clrmsg();
+        cmtt.nphases = MXTT;
+    }
     for (jdx = 0; jdx < MAX_; jdx++) {
         tt[jdx] = 0.0;
     }
@@ -120,12 +131,13 @@ iaspmodel(zs, dstart, dinc, nloops, nerr)
         ndx = 0;
         trtm(*dstart, MAX_, &ndx, tt, dtdd, dtdh, dddp, (char *) kphcd, 9);
         if (ndx > 0) {
-            for (jph = 1; jph <= cmtt.nphases; jph++) {
-                jph_ = jph - 1;
-                for (jen = 1; jen <= ndx; jen++) {
-                    jen_ = jen - 1;
-                    if (memcmp(kphcd[jen_], kmtt.kphases[jph_], MTTLEN) == 0) {
-                        tty[jph + cmtt.nttm][iloops - 1] = Tt[jen];
+            for (jen = 0; jen < ndx; jen++) {
+                char kph[MTTLEN], *p = memchr(kphcd[jen],' ',MTTLEN);
+                memcpy(kph, kphcd[jen], MTTLEN);
+                if (p) kph[p-kphcd[jen]] = '\0';
+                for (jph = 0; jph < cmtt.nphases; jph++) {
+                    if (strcmp(kph, kmtt.kphases[jph]) == 0) {
+                        tty[1+jph + cmtt.nttm][iloops - 1] = Tt[1+jen];
                     }
                 }
             }

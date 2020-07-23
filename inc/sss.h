@@ -20,6 +20,8 @@
 
 #define MAX_PHASES 300
 
+#include "tt.h"
+
 /** 
  * @struct kmsss
  *    Signal Stacking Variables
@@ -186,6 +188,7 @@ void iaspcl(int *nerr);
 void phaseadj(int leven, int npts, float xarray[], float yarray[],
               double xfirst, double xdel, double bdist, double dist,
               float *atime, int *nerr);
+void phxpnd(int *n, char list[60][PHASE_NAME_LENGTH], int nmax);
 void rscursor(float **limits, int *action, int *nerr);
 void timeadj(double rdist, float *atime, int *nerr);
 float timecrossing(float *distArray, float distPoint, float *time, int nPoints);

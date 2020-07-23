@@ -151,7 +151,7 @@ traveltime: error finding phase Sg
        traveltime
 traveltime: depth: 315.000 km
 traveltime: P        at 110.5946 s [ t = 152.0246 s ]
-traveltime: S        at 236.8083 s [ t = 278.2383 s ]
+traveltime: S        at 232.2940 s [ t = 273.7240 s ]
 traveltime: Pn       at 108.6963 s [ t = 150.1263 s ]
 traveltime: error finding phase Pg      
 traveltime: error finding phase Sn      
@@ -183,8 +183,8 @@ traveltime: error finding phase Sg
  ==>  ch evdp 615
        traveltime
 traveltime: depth: 615.000 km
-traveltime: P        at 109.1662 s [ t = 150.5962 s ]
-traveltime: S        at 233.1020 s [ t = 274.5320 s ]
+traveltime: P        at 107.3733 s [ t = 148.8033 s ]
+traveltime: S        at 230.1958 s [ t = 271.6258 s ]
 traveltime: error finding phase Pn      
 traveltime: error finding phase Pg      
 traveltime: error finding phase Sn      
@@ -205,8 +205,8 @@ traveltime: error finding phase Sg
  ==>  ch evdp 15
        traveltime
 traveltime: depth: 15.000 km
-traveltime: P        at 245.0710 s [ t = 286.5010 s ]
-traveltime: S        at 480.8743 s [ t = 522.3043 s ]
+traveltime: P        at 241.3871 s [ t = 282.8171 s ]
+traveltime: S        at 475.7934 s [ t = 517.2234 s ]
 traveltime: Pn       at 244.0117 s [ t = 285.4417 s ]
 traveltime: error finding phase Pg      
 traveltime: Sn       at 481.8902 s [ t = 523.3202 s ]
@@ -216,8 +216,8 @@ traveltime: error finding phase Sg
  ==>  ch evdp 115
        traveltime
 traveltime: depth: 115.000 km
-traveltime: P        at 235.0267 s [ t = 276.4567 s ]
-traveltime: S        at 468.1006 s [ t = 509.5305 s ]
+traveltime: P        at 232.7387 s [ t = 274.1687 s ]
+traveltime: S        at 460.9481 s [ t = 502.3781 s ]
 traveltime: error finding phase Pn      
 traveltime: error finding phase Pg      
 traveltime: Sn       at 474.6315 s [ t = 516.0615 s ]
@@ -227,8 +227,8 @@ traveltime: error finding phase Sg
  ==>  ch evdp 215
        traveltime
 traveltime: depth: 215.000 km
-traveltime: P        at 226.2137 s [ t = 267.6437 s ]
-traveltime: S        at 447.7570 s [ t = 489.1870 s ]
+traveltime: P        at 225.4091 s [ t = 266.8391 s ]
+traveltime: S        at 446.9655 s [ t = 488.3954 s ]
 traveltime: error finding phase Pn      
 traveltime: error finding phase Pg      
 traveltime: error finding phase Sn      
@@ -238,8 +238,8 @@ traveltime: error finding phase Sg
  ==>  ch evdp 315
        traveltime
 traveltime: depth: 315.000 km
-traveltime: P        at 218.8951 s [ t = 260.3250 s ]
-traveltime: S        at 435.3642 s [ t = 476.7942 s ]
+traveltime: P        at 218.1845 s [ t = 259.6145 s ]
+traveltime: S        at 431.6577 s [ t = 473.0876 s ]
 traveltime: error finding phase Pn      
 traveltime: error finding phase Pg      
 traveltime: error finding phase Sn      
@@ -249,8 +249,8 @@ traveltime: error finding phase Sg
  ==>  ch evdp 415
        traveltime
 traveltime: depth: 415.000 km
-traveltime: P        at 213.2970 s [ t = 254.7270 s ]
-traveltime: S        at 424.3162 s [ t = 465.7462 s ]
+traveltime: P        at 211.0475 s [ t = 252.4775 s ]
+traveltime: S        at 417.6682 s [ t = 459.0981 s ]
 traveltime: error finding phase Pn      
 traveltime: error finding phase Pg      
 traveltime: error finding phase Sn      
@@ -260,7 +260,7 @@ traveltime: error finding phase Sg
  ==>  ch evdp 515
        traveltime
 traveltime: depth: 515.000 km
-traveltime: P        at 209.2998 s [ t = 250.7298 s ]
+traveltime: P        at 205.3692 s [ t = 246.7992 s ]
 traveltime: S        at 406.1104 s [ t = 447.5404 s ]
 traveltime: error finding phase Pn      
 traveltime: error finding phase Pg      
