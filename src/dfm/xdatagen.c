@@ -35,7 +35,8 @@ DFM_EXTERN
 void
 xdatagen(int *nerr) {
 
-    char _c0[2], kdgdir[MCPFN + 1], ktemp[9];
+    char _c0[2], kdgdir[MCPFN + 1];
+    static char subdir[MCPFN+1] =  {0};
     int ldata, lmore, lsdd, lFirstLoop;
     int nc, idx;
     int lexist;
@@ -64,10 +65,9 @@ xdatagen(int *nerr) {
         }
 
         /* -- "SUB name": select subdirectory name. */
-        else if (lklist
-                 ("&SUB$", 6, (char *) kmdfm.kdgsub, 9, MDGSUB, &cmdfm.idgsub))
+        else if(lkchar2("&SUB$", subdir, sizeof subdir)) {
             lFirstLoop = TRUE;
-
+        }
         /* -- "COMMIT|RECALLTRACE|ROLLBACK": how to treat existing data */
         else if (lckeyExact("COMMIT", 7)) {
             cmdfm.icomORroll = COMMIT;
@@ -134,8 +134,6 @@ xdatagen(int *nerr) {
         zinquire(kdgdir, &lexist);
         if (lexist == 0) {
             setmsg("ERROR", 131);
-            apcmsg("Contact LLNL for this data (peterg@llnl.gov)", 45);
-            outmsg();
             goto L_8888;
         }
 
@@ -143,12 +141,11 @@ xdatagen(int *nerr) {
 
     if (*nerr != 0)
         goto L_8888;
-    memset(ktemp, 0, sizeof(ktemp));
-    modcase(FALSE, (char *) kmdfm.kdgsub[cmdfm.idgsub - 1], MCPW, ktemp);
-    crname(kdgdir, MCPFN + 1, KSUBDL, ktemp, 9, nerr);
-    if (*nerr != 0)
+    crname(kdgdir, MCPFN+1, KSUBDL, subdir, sizeof subdir, nerr);
+    if (*nerr != 0) {
+        setmsg("ERROR", *nerr);
         goto L_8888;
-
+    }
     /* -- Append directory delimiter. */
     nc = indexb(kdgdir, MCPFN + 1);
 
@@ -156,6 +153,11 @@ xdatagen(int *nerr) {
     _c0[1] = '\0';
     subscpy(kdgdir, nc, -1, MCPFN, _c0);
 
+    zinquire(kdgdir, &lexist);
+    if(lexist == 0) {
+        error(*nerr = 131, "\n\t%s", rstrip(kdgdir));
+        goto L_8888;
+    }
     /* - Expand the filelist and read the files into memory. */
 
     if (!list) {
@@ -165,7 +167,10 @@ xdatagen(int *nerr) {
     ldata = TRUE;
     lsdd = FALSE;
     readfl(ldata, lmore, lsdd, kdgdir, MCPFN + 1, list, nerr);
-
+    if(*nerr != 0) {
+        setmsg("ERROR", *nerr);
+        goto L_8888;
+    }
     /* put it out to SeisMgr. */
     cmdfm.nreadflag = LOW;
     cmdfm.lread = TRUE;
