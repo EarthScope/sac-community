@@ -174,6 +174,7 @@ xtraveltime(int *nerr) {
     static int lphase = FALSE;
     static int lpicks = FALSE;
     static int iphase = 0;
+    static int onrecord = FALSE;
     file = NULL;
     cmtt.ttdep = 0.0;
     tx = NULL;
@@ -324,6 +325,7 @@ xtraveltime(int *nerr) {
 
         else if (lklogi("PIC#KS$", 8, &lpicks, &nPickStart)) {
         }
+        else if (lklog("#ONRECORD$", 11, &onrecord)) { }
 
         /* -- "PHASE":  the rest are phases */
         else if (lckey("PHASE#S$", 10)) {
@@ -868,8 +870,10 @@ xtraveltime(int *nerr) {
                         if(phase_is_set(names[i], picks_set, nset)) {
                             continue;
                         }
-                        k = set_traveltime(s, k, names[i], tt[i], lpicks, verbose);
-                        nset = phase_set(names[i], picks_set, nset);
+                        if(!onrecord || (onrecord && tt[i] >= B(s) && tt[i] <= E(s))) {
+                            k = set_traveltime(s, k, names[i], tt[i], lpicks, verbose);
+                            nset = phase_set(names[i], picks_set, nset);
+                        }
                     }
                 } else {
 
@@ -879,6 +883,9 @@ xtraveltime(int *nerr) {
                         /* Possible phases */
                         p = -1;
                         if(phase_is_set(kmtt.kphases[j], picks_set, nset)) {
+                            continue;
+                        }
+                        if(onrecord && (tt[j] < B(s) || tt[j] > E(s))) {
                             continue;
                         }
                         for (i = 0; i < n; i++) {
