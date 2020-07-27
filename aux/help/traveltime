@@ -13,7 +13,7 @@ SYNTAX
 
    TRAVELTIME {MODEL string} {PICKS number}
        {PHASE phase list}  {VERBOSE | QUIET} {M | KM}
-       {ONLINE}
+       {ONLINE} {ONRECORD ON|OFF}
 
 INPUT
 -----
@@ -49,6 +49,9 @@ INPUT
      uses Crotwell's TauP Toolkit internally. In addition to iasp91 and ak135,
      it includes model prem.  Also, it includes additional phases such as ttp,
      ts, ttp+, tts+, ttbasic, ttall.
+
+   :ONRECORD ON|OFF: Filters traveltimes only within the time range defined
+     by the data's Begin and End values. OFF is the Default
 
    :DEFAULT VALUES: MODEL iasp91 KM PHASE P S Pn Pg Sn Sg
 
