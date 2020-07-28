@@ -96,12 +96,15 @@ parse_traveltime(char *line, char *name, size_t n, double *tt) {
 }
 
 static int
-set_traveltime(sac *s, int k, char *name, double tt, int lpicks, int verbose) {
+set_traveltime(sac *s, int k, char *name, double tt, int lpicks, int verbose, int onrecord) {
     double time = 0.0;
     if (O(s) != SAC_FLOAT_UNDEFINED) {
         time = (double) O(s) + tt;
     } else {
         time = tt;
+    }
+    if(onrecord && (time < B(s) || time > E(s))) {
+        return k;
     }
     if (verbose && !lpicks) {
         fprintf(stdout, "traveltime: %-8s at %.4f s [ t = %.4f s ]\n", name, (float) time, (float) tt);
@@ -540,7 +543,7 @@ xtraveltime(int *nerr) {
                 int i = 0;
                 while((line = strsep(&data, "\n")) != NULL) {
                     if(parse_traveltime(line, name, sizeof(name), &tt)) {
-                        i = set_traveltime(s, i, name, tt, lpicks, verbose);
+                        i = set_traveltime(s, i, name, tt, lpicks, verbose, onrecord);
                     }
                 }
             }
@@ -870,10 +873,8 @@ xtraveltime(int *nerr) {
                         if(phase_is_set(names[i], picks_set, nset)) {
                             continue;
                         }
-                        if(!onrecord || (onrecord && tt[i] >= B(s) && tt[i] <= E(s))) {
-                            k = set_traveltime(s, k, names[i], tt[i], lpicks, verbose);
-                            nset = phase_set(names[i], picks_set, nset);
-                        }
+                        k = set_traveltime(s, k, names[i], tt[i], lpicks, verbose, onrecord);
+                        nset = phase_set(names[i], picks_set, nset);
                     }
                 } else {
 
@@ -885,9 +886,6 @@ xtraveltime(int *nerr) {
                         if(phase_is_set(kmtt.kphases[j], picks_set, nset)) {
                             continue;
                         }
-                        if(onrecord && (tt[j] < B(s) || tt[j] > E(s))) {
-                            continue;
-                        }
                         for (i = 0; i < n; i++) {
                             if (strcmp(names[i], kmtt.kphases[j]) == 0) {   /* Requested Phase =? Possible Phase */
                                 if (p < 0 || tt[i] < tt[p]) {       /* Set if phase is the minimum traveltime */
@@ -897,7 +895,7 @@ xtraveltime(int *nerr) {
                             }
                         }
                         if (set == TRUE) {
-                            k = set_traveltime(s, k, names[p], tt[p], lpicks, verbose);
+                            k = set_traveltime(s, k, names[p], tt[p], lpicks, verbose, onrecord);
                         } else {
                             if (verbose) {
                                 printf("traveltime: error finding phase %-8s\n", kmtt.kphases[j]);
