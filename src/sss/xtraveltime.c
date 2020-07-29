@@ -37,6 +37,38 @@ SSS_EXTERN
 extern float *tty[MXTT];
 extern float *ttx[MXTT];
 
+typedef struct {
+    char name[64];
+    double t;
+} ttdata;
+
+ttdata *
+ttdata_new(char *name, double tt) {
+    ttdata *t = calloc(1, sizeof(ttdata));
+    strlcpy(t->name, name, 64);
+    t->t = tt;
+    return t;
+}
+
+int
+ttdata_compare(const void *pa, const void *pb) {
+    ttdata *a = *(ttdata **) pa;
+    ttdata *b = *(ttdata **) pb;
+    if(a->t < b->t) { return -1; }
+    if(a->t > b->t) { return  1; }
+    return 0;
+}
+
+int
+phases_contains_all() {
+    for(int i = 0; i < cmtt.nphases; i++) {
+        if(strcasecmp(kmtt.kphases[i], "all") == 0) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 int
 phase_is_set(char *phase, char picks_set[][128], int nset) {
     int j = 0;
@@ -350,6 +382,11 @@ xtraveltime(int *nerr) {
             modcase(TRUE, kmdfm.kdform, ndform, kmdfm.kdform);
         }
 
+        else if (lckey("&CLEAR$", 8)) {
+            all_requested = FALSE;
+            iphase = 0;
+        }
+
         /* -- "phaselist": add a phase to the list */
         else if (lphase) {
             if (lcchar
@@ -360,12 +397,7 @@ xtraveltime(int *nerr) {
                         phase_repeat = TRUE;
                     }
                 }
-                if(strcasecmp(kmtt.kphases[iphase], "CLEAR") == 0) {
-                    iphase = 0;
-                    all_requested = FALSE;
-                } else if (strcasecmp(kmtt.kphases[iphase], "ALL") == 0) {
-                    all_requested = TRUE;
-                } else if (phase_repeat == FALSE) {
+                if (phase_repeat == FALSE) {
                     iphase = iphase + 1;
                 }
             }
@@ -448,17 +480,22 @@ xtraveltime(int *nerr) {
     }
 
     /* set default phases if no phases selected */
-    if (lmodel && iphase == 0 && lphase == FALSE && online == FALSE) {
+    if (lmodel && iphase == 0 && online == FALSE) {
+        char phases[1024] = {0}, *ptmp = NULL, *token = NULL, *brkt = NULL;
+        char sep[3] = " ,";
         lphase = TRUE;
-        strcpy(kmtt.kphases[0], "P    ");
-        strcpy(kmtt.kphases[1], "S    ");
-        strcpy(kmtt.kphases[2], "Pn   ");
-        strcpy(kmtt.kphases[3], "Pg   ");
-        strcpy(kmtt.kphases[4], "Sn   ");
-        strcpy(kmtt.kphases[5], "Sg   ");
-        iphase = 6;
+        if((ptmp = getenv("SAC_TRAVELTIME_PHASES"))) {
+            strlcpy(phases, ptmp, sizeof phases);
+        } else {
+            strlcpy(phases, "P S Pn Pg Sn Sg", sizeof phases);
+        }
+        token = strtok_r(phases, sep, &brkt);
+        while(token) {
+            strlcpy(kmtt.kphases[iphase], token, PHASE_NAME_LENGTH-1);
+            iphase += 1;
+            token = strtok_r(NULL, sep, &brkt);
+        }
     }
-
     if (iphase != 0)
         cmtt.nphases = iphase;
 
@@ -523,7 +560,9 @@ xtraveltime(int *nerr) {
             request_set_arg(tr, "mintimeonly", arg_string_new("true"));
             request_set_arg(tr, "noheader", arg_string_new("true"));
             request_set_arg(tr, "model", arg_string_new(model));
-            if(lphase) {
+            if(phases_contains_all()) {
+                request_set_arg(tr, "phases", arg_string_new("ttall"));
+            } else if(iphase > 0) {
                 string_join(kmtt.kphases, iphase, ophases, sizeof(ophases), ",");
                 request_set_arg(tr, "phases", arg_string_new(ophases));
             }
@@ -538,13 +577,29 @@ xtraveltime(int *nerr) {
                     printf("Error: %s\n", result_error_msg(r));
                 }
             } else {
+                int sort = phases_contains_all();
                 char *data = result_data(r);
                 char *line = NULL;
-                int i = 0;
+                ttdata **ttd = NULL;
+                ttd = (ttdata **) xarray_new('p');
+                int k = 0;
                 while((line = strsep(&data, "\n")) != NULL) {
                     if(parse_traveltime(line, name, sizeof(name), &tt)) {
-                        i = set_traveltime(s, i, name, tt, lpicks, verbose, onrecord);
+                        if(sort) {
+                            ttd = xarray_append(ttd, ttdata_new(name, tt));
+                        } else {
+                            k = set_traveltime(s, k, name, tt, lpicks, verbose, onrecord);
+                        }
                     }
+                }
+                if(sort) {
+                    qsort(ttd, xarray_length(ttd), sizeof(void *), ttdata_compare);
+                    for(size_t i = 0; i < xarray_length(ttd); i++) {
+                        k = set_traveltime(s, k, ttd[i]->name, ttd[i]->t, lpicks, verbose, onrecord);
+                    }
+                    xarray_free_items(ttd, free);
+                    xarray_free(ttd);
+                    ttd = NULL;
                 }
             }
             REQUEST_FREE(tr);
@@ -556,6 +611,7 @@ xtraveltime(int *nerr) {
     cmtt.nttm = nttmsv;
     if (lmodel) {
         float zero = 0.0;
+        all_requested = phases_contains_all();
         iaspmodel(cmtt.ttdep / depth_units, &zero, 1.0, 360, nerr);
         goto L_7777;
     }
@@ -909,6 +965,10 @@ xtraveltime(int *nerr) {
     }
 
   L_8888:
+    if(all_requested) {
+        strlcpy(kmtt.kphases[0], "all", PHASE_NAME_LENGTH-1);
+        cmtt.nphases = 1;
+    }
     /* - Return. (Try to close alphanumeric data file just to be sure.) */
 
     if (nun)

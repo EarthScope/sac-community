@@ -32,8 +32,11 @@ INPUT
      is among the options, the phase arrivala times and their labels will be
      added to the header starting at Tn.  If n is 0, one can have up to 10
      phases, if n is 8, one can have at most 2.  Phase names may be case
-     sensitive.  Using the CLEAR keyword to start the phase list, clears the
-     list of phases from previous runs with the same dataset.
+     sensitive.
+
+   :CLEAR: Clears the phase list from previous runs. An empty phase
+     list will be populated with the DEFAULT phases below or values
+     taken from the environment variable SAC_TRAVELTIME_PHASES, see below.
 
    :VERBOSE | QUIET:  If VERBOSE is among the options in the TRAVELTIME command
      line, phase arrival times are displayed relative to both the origin time
@@ -74,7 +77,7 @@ DESCRIPTION
    geocentric.
 
    To find out all the possible phases that could be be visible on a
-   seismogram according to TRAVELYIM, it is best to use *phase all*::
+   seismogram according to TRAVELTIME, it is best to use *phase all*::
 
      SAC> read seismogram
      SAC> traveltime phase all verbose
@@ -172,6 +175,16 @@ ONLINE OPTION
        KZTIME = 04:50:08.900
 
     Apparently TauP does not include phase SPn.  (TTIMES does.)
+
+DEFAULT PHASES
+--------------
+
+  The default phases for TRAVELTIME are set as local crustal phases,
+  "P S Pn Pg Sn Sg".  If a different set of default phases is desired
+  the environment variable SAC_TRAVELTIME_PHASES can be set to override
+  the default.  The variable is comma or space delimited. For teleseismic
+  data, one might use "P pP sS S pS sS PP SS".  An alternative is to use
+  "all" to capture as many phases as possible.
 
 REFERENCES
 ----------

@@ -6,17 +6,17 @@ SUMMARY
 Computes traveltime of selected phases for pre-defined velocity models
 Description and examples assume the calls are made from within SSS.
 The source file is the same as the non-SSS version, and this file has
-only an example that uses SSS lotting.  For the full description, see
+only an example that uses SSS plotting.  For the full description, see
 TRAVELTIME_.
 
-SYNTAX
-------
+EXAMPLE
+-------
 ::
 
-     SAC> datagen sub teleseis sakhalin/*.R
-         /usr/local/sac/aux/datagen/teleseis/sakhalin/A1KEV.R ...A2KIP.R
-         ...A3PAS.R ...A4BLA.R
-     SAC> traveltime  quiet picks 0 phase P pP PP sP ScP PcS S SPn PKiKP SKS
+     SAC> datagen sub deep  kev.r kip.r pas.r bla.r
+     SAC> rtr
+     SAC> traveltime quiet picks 0 phase sPP
+     SAC> traveltime  quiet picks 1 phase P pP sP S sS
      SAC> SSS
      SAC> dw units degrees fixed 50 90
      SAC> tw 400 1500
@@ -30,7 +30,7 @@ Note that *PRS* does not work for distance in kilometers.
 
 See Commands
 ------------
-  PLOTRECORDSECTION_
+  TRAVELTIME_ PLOTRECORDSECTION_ TIMEWINDOW_ DISTANCEWINDOW_
 
 LATEST REVISION
 ---------------
