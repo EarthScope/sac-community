@@ -89,6 +89,10 @@ phase_set(char *phase, char picks_set[][128], int nset) {
 
 static void
 sac_truncate(char *s) {
+    int i = 0;
+    int m = 0;
+    int n = 0;
+    char tmp[8] = {0};
     char *p;
     if (!s) {
         return;
@@ -96,6 +100,29 @@ sac_truncate(char *s) {
     p = strchr(s, ' ');
     if (p) {
         *p = 0;
+    }
+    m = strlen(s);
+    p = s;
+    i = 0;
+    while(s[i]) {
+        if(s[i] < 0) {
+            switch(s[i] & 0xF0) {
+            case 0xF0: n = 4; break;
+            case 0xE0: n = 3; break;
+            default:   n = 2; break;
+            }
+            memset(tmp, 0, sizeof tmp);
+            memcpy(tmp, s+i, n);
+            fprintf(stdout, "Removing non-ascii character %-4s [0x", tmp);
+            for(int k = 0; k < n; k++) {
+                fprintf(stdout, "%02hhx", tmp[k] & 0xFF);
+            }
+            fprintf(stdout, "]\n");
+            memmove(s+i, s + i + n, m-i-n);
+            s[m-n] = 0;
+        } else {
+            i++;
+        }
     }
 }
 
