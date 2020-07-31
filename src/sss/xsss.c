@@ -15,6 +15,32 @@
 
 SSS_EXTERN
 
+void
+sss_init_file(int jdfl, double b, double e, double dist) {
+    Lincl[jdfl] = TRUE;
+    Dlyn[jdfl]  = cmsss.dlyng;
+    Dlyt[jdfl]  = cmsss.dlytg;
+    Dlyni[jdfl] = cmsss.dlynig;
+    Dlyti[jdfl] = cmsss.dlytig;
+    Wt[jdfl]    = cmsss.wtg;
+    Lpol[jdfl]  = cmsss.lpolg;
+
+    /* -- Use global distance or distance from header. */
+    if (cmsss.dstg != SAC_FLOAT_UNDEFINED) {
+        Dst[jdfl] = cmsss.dstg;
+    } else if (dist != SAC_FLOAT_UNDEFINED) {
+        Dst[jdfl] = dist;
+    } else {
+        Dst[jdfl] = SAC_FLOAT_UNDEFINED;
+    }
+
+    /* -- Set begin and end time from header. added 960701 maf */
+    Tbegin[jdfl] = b; /* if begin is undefined, Tbegin is too */
+    Tend[jdfl] = e;
+
+}
+
+
 void /*FUNCTION*/
 xsss(nerr)
      int *nerr;
@@ -98,27 +124,7 @@ xsss(nerr)
         }
 
         /* -- Start with global property values. */
-        Lincl[jdfl] = TRUE;
-        Dlyn[jdfl] = cmsss.dlyng;
-        Dlyt[jdfl] = cmsss.dlytg;
-        Dlyni[jdfl] = cmsss.dlynig;
-        Dlyti[jdfl] = cmsss.dlytig;
-        Wt[jdfl] = cmsss.wtg;
-        Lpol[jdfl] = cmsss.lpolg;
-
-        /* -- Use global distance or distance from header. */
-        if (cmsss.dstg != SAC_FLOAT_UNDEFINED) {
-            Dst[jdfl] = cmsss.dstg;
-        } else if (s->h->dist != SAC_FLOAT_UNDEFINED) {
-            Dst[jdfl] = s->h->dist;
-        } else {
-            Dst[jdfl] = SAC_FLOAT_UNDEFINED;
-        }
-
-        /* -- Set begin and end time from header. added 960701 maf */
-        Tbegin[jdfl] = B(s); /* if begin is undefined, Tbegin is too */
-        Tend[jdfl] = E(s);
-
+        sss_init_file(jdfl, sac_float(s, SAC_B), sac_float(s, SAC_E), sac_float(s, SAC_DIST));
     }                           /* end for */
 
   L_8888:

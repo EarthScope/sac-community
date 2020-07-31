@@ -17,6 +17,8 @@ SSS_EXTERN
 
 DFM_EXTERN
 
+void sss_init_file(int jdfl, double b, double e, double dist);
+
 void
 xaddstack(int *nerr) {
     char kfile[MCPFN + 1];
@@ -27,7 +29,7 @@ xaddstack(int *nerr) {
        Each is initialized FALSE but is set to TRUE if the 
        corresponding data variable is specified by the user. */
     int lDistanceDefined = FALSE, lBeginDefined = FALSE, lEndDefined = FALSE;
-
+    int n;
     sac *s;
         /*=====================================================================
 	 * PURPOSE: To parse the parameter-setting command ADDSTACK.
@@ -75,17 +77,11 @@ xaddstack(int *nerr) {
 
     /* - Parse position dependent tokens.
      *   (This is the name of the file to be added to the stack.) */
-
+    n = saclen() + 1;
     if (lcchar(kfile, sizeof(kfile))) {
 
         /* -- Start with global property values. */
-        Lincl[saclen()] = TRUE;
-        Dlyn[saclen()] = cmsss.dlyng;
-        Dlyt[saclen()] = cmsss.dlytg;
-        Dlyni[saclen()] = cmsss.dlynig;
-        Dlyti[saclen()] = cmsss.dlytig;
-        Wt[saclen()] = cmsss.wtg;
-        Lpol[saclen()] = cmsss.lpolg;
+        sss_init_file(n, 0.0, 0.0, 0.0); 
     }
 
     /* - Loop on rest of tokens in command:
@@ -95,47 +91,47 @@ xaddstack(int *nerr) {
 
         /* -- "WEIGHT v":  define global weight property. */
         if (lkreal("WEIGHT$", 8, &tmp)) {
-            Wt[saclen()] = (float) tmp;
+            Wt[n] = (float) tmp;
         }
 
         /* -- "DELAY v":  define global static delay propertys. */
         else if (lkreal("DE#LAY$", 8, &delay)) {
             if (lckey("SECONDS$", 9)) {
-                Dlyt[saclen()] = delay;
+                Dlyt[n] = delay;
             } else if (lckey("POINTS$", 8)) {
-                Dlyn[saclen()] = delay;
+                Dlyn[n] = delay;
             }
         }
 
         /* -- "INCREMENT v":  define global static delay propertys. */
         else if (lkreal("INCREMENT$", 11, &delay)) {
             if (lckey("SECONDS$", 9)) {
-                Dlyti[saclen()] = delay;
+                Dlyti[n] = delay;
             } else if (lckey("POINTS$", 8)) {
-                Dlyni[saclen()] = delay;
+                Dlyni[n] = delay;
             }
         }
 
         /* -- "NORMAL/REVERSED":  define global polarity property. */
-        else if (lclog2("NORMAL$", 8, "REVERSED$", 10, &Lpol[saclen()])) {      /* do nothing */
+        else if (lclog2("NORMAL$", 8, "REVERSED$", 10, &Lpol[n])) {      /* do nothing */
         }
 
         /* -- "DISTANCE v":  define global distance property. */
         else if (lkreal("DI#STANCE$", 11, &tmp)) {
             lDistanceDefined = TRUE;
-            Dst[saclen()] = (float) tmp;
+            Dst[n] = (float) tmp;
         }
 
         /* -- "BEGINTIME v":  define global begin time property. */
         else if (lkreal("BE#GINTIME$", 12, &tmp)) {
             lBeginDefined = TRUE;
-            Tbegin[saclen()] = (float) tmp;
+            Tbegin[n] = (float) tmp;
         }
 
         /* -- "ENDTIME v":  define global end time property. maf 960701 */
         else if (lkreal("END#TIME$", 10, &tmp)) {
             lEndDefined = TRUE;
-            Tend[saclen()] = (float) tmp;
+            Tend[n] = (float) tmp;
         }
 
         /* -- Bad syntax. */
@@ -170,7 +166,7 @@ xaddstack(int *nerr) {
         setmsg("ERROR", *nerr);
         apcmsg(kfile, MCPFN + 1);
         goto L_8888;
-    } else if (saclen() > 1) {
+    } else if (n > 1) {
         if (fabs(DT(s) - cmsss.del) > cmsss.srcfac && cmsss.lsrc) {
             *nerr = 5109;
             setmsg("ERROR", *nerr);
@@ -184,20 +180,20 @@ xaddstack(int *nerr) {
     if (!lDistanceDefined) {
         /* -- Use global distance or distance from header. */
         if (cmsss.dstg != SAC_FLOAT_UNDEFINED) {
-            Dst[saclen()] = cmsss.dstg;
+            Dst[n] = cmsss.dstg;
         } else if (s->h->dist != SAC_FLOAT_UNDEFINED) {
-            Dst[saclen()] = s->h->dist;
+            Dst[n] = s->h->dist;
         } else {
-            Dst[saclen()] = SAC_FLOAT_UNDEFINED;
+            Dst[n] = SAC_FLOAT_UNDEFINED;
         }
     }
     /* end if ( !lDistanceDefined ) */
     if (!lBeginDefined) {       /* if begin time not user specified, maf 960701 */
-        Tbegin[saclen()] = B(s);
+        Tbegin[n] = B(s);
     }
     /* end if ( !lBeginDefined ) */
     if (!lEndDefined) {         /* if end time not user specified, maf 960701 */
-        Tend[saclen()] = E(s);
+        Tend[n] = E(s);
     }
     /* end if ( !lEndDefined ) */
     if (!*nerr) {
