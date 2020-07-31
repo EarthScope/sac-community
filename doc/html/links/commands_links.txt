@@ -250,6 +250,8 @@
 .. _sss: sss.com/sss.html
 .. _ssstraveltime: sss.com/traveltime.html
 .. _deletestack: sss.com/deletestack.html
+.. _ssstraveltime: sss.com/traveltime.html
+.. _plotrecordsection: ../sss.com/plotrecordsection.html
 
 .. _spe: spe.com/spe.html
 .. _writestack:       sss.com/writestack.html

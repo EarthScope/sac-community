@@ -115,6 +115,7 @@
 .. _picks: ../picks.html
 .. _plabel: ../plabel.html
 .. _plot: ../plot.html
+.. _p1: ../plot1.html
 .. _plot1: ../plot1.html
 .. _plot2: ../plot2.html
 .. _plotalpha: ../plotalpha.html
