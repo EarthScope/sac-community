@@ -237,7 +237,7 @@ ylinax() {
         ytick = yref - yrefi;
         for (jtick = 1; jtick <= ntick; jtick++) {
             ytick = ytick + yticki;
-            if (ytick >= cmgem.uplot.ymin) {
+            if (ytick >= cmgem.uplot.ymin && ytick <= cmgem.uplot.ymax) {
                 line(cmgem.uplot.xmin, ytick,
                      cmgem.uplot.xmin + 0.5 * cmgem.chwid, ytick);
             }
@@ -261,7 +261,7 @@ ylinax() {
             ytick = yref;
             for (jtick = 1; jtick <= ntick; jtick++) {
                 ytick = ytick + yticki;
-                if (ytick <= cmgem.uplot.ymax) {
+                if (ytick <= cmgem.uplot.ymax && ytick >= cmgem.uplot.ymin) {
                     line(cmgem.uplot.xmin, ytick,
                          cmgem.uplot.xmin + 0.5 * cmgem.chwid, ytick);
                 }
@@ -327,7 +327,7 @@ ylinax() {
         ytick = yref - yrefi;
         for (jtick = 1; jtick <= ntick; jtick++) {
             ytick = ytick + yticki;
-            if (ytick >= cmgem.uplot.ymin) {
+            if (ytick >= cmgem.uplot.ymin && ytick <= cmgem.uplot.ymax) {
                 line(cmgem.uplot.xmax, ytick,
                      cmgem.uplot.xmax - 0.5 * cmgem.chwid, ytick);
             }
@@ -360,7 +360,7 @@ ylinax() {
             ytick = yref;
             for (jtick = 1; jtick <= ntick; jtick++) {
                 ytick = ytick + yticki;
-                if (ytick <= cmgem.uplot.ymax) {
+                if (ytick >= cmgem.uplot.ymin && ytick <= cmgem.uplot.ymax) {
                     line(cmgem.uplot.xmax, ytick,
                          cmgem.uplot.xmax - 0.5 * cmgem.chwid, ytick);
                 }
