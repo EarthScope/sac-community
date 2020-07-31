@@ -1124,13 +1124,24 @@ xplotrecords(nerr)
                 /* end if ( cmtt.lrdtt && (cmtt.nttrd > 0) ) */
                 else {
                     cmsss.lPlottingTT = TRUE;
-
+                    // Convert distance (x, deg) into kilometers if distance units are in kilometers ...
+                    float *tmpx = NULL;//, *tmpy = NULL;
+                    if(cmsss.ndwun == 1) { // Kilometers
+                        tmpx = calloc(Nttpt[kdx], sizeof(float));
+                        for(int i = 0; i < Nttpt[kdx]; i++) {
+                            tmpx[i] = ttx[kdx][i] * RKMPERDG;
+                        }
+                    } else {
+                        tmpx = ttx[kdx];  // ... otherwise, pretend the conversion happened (copy the pointer)
+                    }
                     if (cmsss.lorient /*== cmtt.lpreviousModel*/ ) {
-                        pl2d(tty[kdx], ttx[kdx], Nttpt[kdx], 1, 1, nerr);
-                    } /* end if ( cmsss.lorient == cmtt.lpreviousModel ) */
-                    else {
-                        pl2d(ttx[kdx], tty[kdx], Nttpt[kdx], 1, 1, nerr);
-                    }           /* end else associated with if ( cmss.lorient ) */
+                        pl2d(tty[kdx], tmpx, Nttpt[kdx], 1, 1, nerr);
+                    } else {
+                        pl2d(tmpx, tty[kdx], Nttpt[kdx], 1, 1, nerr);
+                    }
+                    if(cmsss.ndwun == 1) { // kilometers
+                        FREE(tmpx);
+                    }
                     cmsss.lPlottingTT = FALSE;
                     ttint(ttx[kdx], tty[kdx], Nttpt[kdx], &xttint, &yttint,
                           nerr);
