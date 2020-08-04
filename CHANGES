@@ -1,7 +1,7 @@
 Please see file HISTORY for list of official release and
 a discussion of bug fixes and enhancements made between releases.
 
-2020/01 Version 102.0 released
+2020/08 Version 102.0 released
 
 - New Header Version 7 - Allows for storing time and location data in 64 bits
 - Evalresp Updated to Version 5.0.
@@ -15,6 +15,7 @@ a discussion of bug fixes and enhancements made between releases.
 - Many examples hae been added to sac/doc/examples.  Referenced from
     help file Using the SAC Libraries (sac/aux/user_man/saclib)
 - Added IBODY header variable
+- Added Deep Teleseismic in DATAGEN
 - Documentation updated and expanded See SAC Manual, (PDF or HTML)
 - Lots of bug fixes
 

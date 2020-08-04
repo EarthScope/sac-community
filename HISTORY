@@ -14,6 +14,8 @@ between SAC versions.  An overview of these are in file CHANGES.
         * FEATURE: miniSEED reading available using the READ command
              Requires: libmseed
         * FEATURE: TRAVELTIME added option ONLINE to use TauP Web Service
+        * FEATURE: TRAVELTIME now works with "all" option
+        * FEATURE: DATAGEN now includes a deep teleseismic event
         * FEATURE: Added IBODY header variable to allow for distance
             calculations on terrestrial planets, the sun, and the moon
         * FEATURE: Added OUTPUT_FORMAT: controls format of floating point values
