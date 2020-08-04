@@ -11,7 +11,7 @@ SYNTAX
 
   DATAGEN {MORE} {COMMIT|ROLLBACK|RECALLTRACE} {SUB name} {filelist}
 
-where name is one of the following::
+where SUB is a datagen subdirectory and "name" is one of the following::
 
   LOCAL
   REGIONAL
@@ -51,13 +51,11 @@ INPUT
 
        A filelist is required. Possible filenames are listed below.
 
-   :name:  LOCAL|REGIONAL|TELESEIS ,BREAK Specifics about the contents of
-       these sub-directories is given below.
+   :name: LOCAL | REGIONAL | TELESEIS | DEEP: Specifics about the
+       contents of these sub-directories is given below.
 
-   :filelist:  A list of SAC sample data files.  The names of the files in
-       each subdirectory are given below.  This list may contain simple
-       filenames and wildcard characters.  See the READ_ and WILD_ commands
-       for a complete description.
+   :filelist:  Each SUBdirectory has SAC files from a single event. A *filelist*
+       is one or more SAC files in SUB.
 
 DEFAULT VALUES
 --------------
@@ -67,12 +65,10 @@ DEFAULT VALUES
 
 DESCRIPTION
 -----------
-  This command reads one or more files from a set of sample seismograms
-  provided with the program.  In fact, it operates much like the READ_ command
-  except that it gets the data from a special data directory.  You specify the
-  name of the sub-directory containing the event of interest.  Each
-  sub-directory contains a different type of event.  You can use wildcards just
-  like the READ_ command to specify groups of files in the sub-directory.
+  The DATAGUEN command operates much like the READ_ command except that for
+  DATAGEN, any SAC file read into memory is from a subdirectory of
+  ${SACHOME}/aux/datagen/SUB/. Help file TRAVELTIME_ includes runs that use
+  DATAGEN.
 
 LOCAL EVENT
 -----------
@@ -101,11 +97,8 @@ REGIONAL EVENT
   three-component stations in the Western U.S.  The stations are:
 
    :elk: Elko, NV
-
    :lac: Landers, CA
-
    :knb: Kanab, UT
-
    :mnv: Mina, NV
 
   The sampling rate is 40 samples per second. The files contain 300 seconds of
@@ -127,19 +120,15 @@ TELESEISMIC EVENT
   (RSTN), a set of five stations in the U.S. and Canada.  The stations are:
 
     :cpk: Tennessee
-
     :ntk: Northwest Territories, Canada
-
     :nyk: New York
-
     :onk: Ontario, Canada
-
     :sdk: South Dakota
 
   Both mid-period and long period data is included.  Data from cpk was not
   available and the long-period data from sdk is clipped.  There is 1600 seconds
   of data in this set.  The long-period data was recorded at 1 sample per second
-  and the mid-period data at 4 samples per second.  The filenames are::
+  and the mid-period data at 4 samples per second::
 
     ntkl.z, ntkl.n, ntkl.e, ntkm.z, ntkm.n, ntkm.e
     nykl.z, nykl.n, nykl.e, nykm.z, nykm.n, nykm.e
@@ -149,27 +138,43 @@ TELESEISMIC EVENT
 
 DEEP EVENT
 ----------
-  For demonstrating results from commands such as TRAVELTIME_, we
-  introduced a new set of seismograms in Version 102.0.  A
-  subdirectory 'deep' was added with seismograms from the Sakhalin
+  (New in SAC v102.0)  The seismograms in DEEP are from the Sakhalin
   Island Event (May 12, 1990; M=6.5; Depth=611 km). The phases are
   very impulsive, and one can see many converted phases. There are
-  vertical-, radial-, and transverse-component broadband waveforms
-  from eight broadband stations that were part of the original IRIS
-  rapid-response *GOPHER* system.  One output from an analysis of this
-  dataset is that the vertical component at KIP had reverse polarity.
-  See TRAVELTIME_ for an example that uses teleseism/sakhalin. (For a
-  discussion of the application using the Skahlin waveforms, see
-  <https://seiscode.iris.washington.edu/projects/focmec>.) Files are:
+  vertical-, radial-, and transverse-component waveforms from eight
+  broadband stations.  The filenames are::
 
-   BLA.r BLA.t BLA.z
-   CCM.r CCM.t CCM.z
-   COR.r COR.t COR.z
-   HRV.r HRV.t HRV.z
-   KEV.r KEV.t KEV.z
-   KIP.r KIP.t KIP.z
-   PAS.r PAS.t PAS.z
-   TOL.r TOL.t TOL.z
+   bla.r bla.t bla.z
+   ccm.r ccm.t ccm.z
+   cor.r cor.t cor.z
+   hrv.r hrv.t hrv.z
+   kev.r kev.t kev.z
+   kip.r kip.t kip.z
+   pas.r pas.t pas.z
+   tol.r tol.t tol.z
+
+  This data set was created as part of a focal-mechanism study, which used the
+  polarity and amplitudes of the *SV* and *SH* phases.  Horizontal components
+  for a three-component seismograph must be rotated from *North-South* and
+  *East-West* into *Radial* and *Transvers* to separate *SV* from *SH*.
+  Positive *Radial* is forward, and positive *Transverse* is to the right with
+  respect to an observer facing the station on the epicenter-station line.  To
+  verify this::
+
+    SAC> datagen sub deep kev.*
+      /usr/local/sac/aux/datagen/deep/kev.r ...kev.t ...kev.z
+    SAC> lh baz cmpaz
+      FILE: /usr/local/sac/aux/datagen/deep/kev.r - 1
+      baz = 4.882252e+01                    cmpaz = 2.288225e+02
+      FILE: /usr/local/sac/aux/datagen/deep/kev.t - 2
+      baz = 4.882252e+01                    cmpaz = 3.188225e+02
+      FILE: /usr/local/sac/aux/datagen/deep/kev.z - 3
+      baz = 4.882252e+01                    cmpaz = 0.000000e+00
+    SAC>
+
+  For the *Radial* direction, the cmpaz is in the opposition direction of the
+  back azimuth, and, as discussed in ROTATE_, the *Transverse* is 90 degrees
+  more than the *Radial*.
 
 ERROR MESSAGES
 --------------
