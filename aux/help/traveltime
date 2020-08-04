@@ -5,7 +5,7 @@ SUMMARY
 -------
 Computes traveltimes of selected phases for pre-defined velocity models.
 This routine has the same source code as SSS/TRAVELTIME.  If one
-is in SSS, one can use different plotting routines.  For an example, see
+is in SSS, one can use different plotting routines.  For an exampole, see
 SSSTRAVELTIME_.
 
 

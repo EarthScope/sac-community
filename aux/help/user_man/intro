@@ -7,14 +7,14 @@ Overview
   SAC (Seismic Analysis Code) is a general-purpose interactive program designed
   for the study of sequential signals, especially time-series data. Emphasis has
   been placed on analysis tools used by research seismologists in the
-  detailedstudy of seismic events. Analysis capabilities include general
+  detailed study of seismic events. Analysis capabilities include general
   arithmetic operations, Fourier transforms, three spectral estimation
   techniques, IIR and FIR filtering, signal stacking, decimation, interpolation,
   correlation, and seismic phase picking. SAC also contains an extensive
   graphics capability. Binary versions are available for Intel Mac and Linux,
-  but SAC can be built from the source code for othercomputer operating systems.
-  The source code is written in C.  For further details regarding requirements
-  to build and run SAC, see the README file that
+  but SAC can be built from the source code for other computer operating
+  systems. The source code is written in C.  For further details regarding
+  requirements to build and run SAC, see the README file that
   comes with the distribution.
 
   SAC was developed at Lawrence Livermore National Laboratory and is copyrighted
@@ -37,8 +37,9 @@ Overview
   version 102.0, a header variable IBODY has been added to allow for
   distance calculations on terrestrial planets, the Sun, and the Moon.
   Options for IBODY are given in the *Event Field* section of `SAC
-  Data File Format`_, and an example has been added in
-  ${SACHOME}/doc/examples.
+  Data File Format`_, and an example (macro and output) has been added
+  in ${SACHOME}/macros.
+
 
   The Using SAC part of the SAC Users Manual contains general information for
   the new user about what SAC can do, how it works, and how to get started. It

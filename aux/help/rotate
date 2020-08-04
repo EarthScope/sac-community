@@ -41,16 +41,16 @@ DESCRIPTION
   have the same station and event header variables, NPTS, B, and DELTA
 
   **TO option**: Both components must be horizontals: CMPAZ must be
-  definined and CMPINC must be 90 degrees.  After the rotation is
+  defined and CMPINC must be 90 degrees.  After the rotation is
   completed, the first component of each pair will be directed along
   the angle given after the TO keyword.  If the TO GCP option is used,
   the station and header fields STLA, STLO, EVLA, and EVLO must be
   defined so that the backazimuth (BAZ) can be calculated.  After the
   rotation, the first component will be directed along the angle given
   by the station-event backazimuth plus or minus 180 degrees (to keep
-  the final angle begween 0 and 360 degrees).  This component
+  the final angle between 0 and 360 degrees).  This component
   therefore points from the event toward the station (the *radial*
-  direction), and the second componnt is called "transverse" or
+  direction), and the second component is called "transverse" or
   "tangential".  (The (upward) vertical, radial, and transverse
   directions form a left-handed coordinate system.)
 
@@ -58,8 +58,8 @@ DESCRIPTION
   If the NORMAL option is used, the second component leads the first
   by 90 degrees.  If the REVERSED option is used, it lags the first by
   90 degrees.  ROTATE TO GCP REVERSED results in a transverse
-  comonent in the opposite direction from ROTATE TO GCP NORMAL, a
-  convention prefered by some researchers.
+  component in the opposite direction from ROTATE TO GCP NORMAL, a
+  convention preferred by some researchers.
 
 EXAMPLES
 --------

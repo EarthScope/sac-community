@@ -33,7 +33,7 @@ selected memory based upon the values of these parameters. Data-set commands
 determine which files are in active (selected) memory and therefore will be
 acted upon (data-set commands are not currently operational).
 
-Within a single SAC ssession, the effect of a parameter-setting
+Within a single SAC session, the effect of a parameter-setting
 command remains in effect until that parameter is reset. The effect of
 an action-producing command is immediate and
 transitory. Action-producing commands also have options which normally
@@ -108,7 +108,7 @@ given line may be separated by a semicolon.
 
 We'll start by creating a simple function::
 
-  SAC> FUNCGEN impluse
+  SAC> FUNCGEN impulse
 
 This generates an impulse function and stores it in SAC's memory. To see what
 this function looks like on your screen type::
@@ -121,7 +121,7 @@ There are abbreviations for the most used SAC commands. For
 example, `fg` and `p` are the abbreviations for FUNCGEN_ and PLOT_
 respectively.
 
-For a complete listing of the abbrevations, please consult the ABBREV_
+For a complete listing of the abbreviations, please consult the ABBREV_
 help file or run `help abbrev` while in SAC
 
 **CHANGING OPTIONS IN REPEATED CALLS TO SAC COMMANDS**
@@ -167,9 +167,9 @@ bandpass filter to the data currently in memory::
 
 These two commands generate an impulse function and then apply a bandpass
 filter to that impulse.  The filter is a four-pole Bessel filter with corner
-freqencies at 0.1 and 0.3 Hz.  (To see the default values for BANDPASS,
+frequencies at 0.1 and 0.3 Hz.  (To see the default values for BANDPASS,
 enter HELP BANDPASS.)  You can see the result in the time domain by
-typing PLOT_ or you can see the amplitude reponse by taking the Fourier
+typing PLOT_ or you can see the amplitude response by taking the Fourier
 transform and using the PLOTSP_ command::
 
   SAC> fft
@@ -211,7 +211,7 @@ You may wish to examine the header from the sample seismogram mentioned earlier:
 
 If a particular header variable does not have a value for a particular file,
 then that variable is said to be "undefined" for that file.  The LISTHDR_
-command does not list undefined header variables, usless it is invoked with
+command does not list undefined header variables, unless it is invoked with
 the INC or INCLUSIVE option (which includes undefined header variables).
 (Entr help lh to see the options.)
 
@@ -239,10 +239,10 @@ The READ_ command is used to transfer data from disk to memory.  Up to 100 data
 files can be in memory at the same time, and this limitation should be removed
 in upcoming versions.  These can be of any size up the maximum size of SAC's
 working memory.  You can use wildcard characters in the  READ_ command to
-represent groups  of files which have a similiar set of characters in their
+represent groups  of files which have a similar set of characters in their
 names.  Each time you use the READ_ command to transfer data from disk to
 memory the data currently in memory is destroyed.  If you want this data
-saved, you must write it to diskbefore reading more data into memory.  There
+saved, you must write it to disk before reading more data into memory.  There
 is an option called  MORE in the READ_ command that lets you read data into
 memory without destroying the old data.  See the `Command Reference Manual`_ for
 details.
@@ -333,7 +333,7 @@ Several other canned plot formats are available.  PLOT1_ plots each file along
 a common x axis but with a separate y axes.  By default all files are placed
 on the same plot.  Try this with the three files from the example above.
 PLOT2_ is an overlay plot.  Again all files are plotted together, this time
-using both a common x and a common y axis.  PLOTPK_ uses a format similiar to
+using both a common x and a common y axis.  PLOTPK_ uses a format similar to
 PLOT1_.  It lets you use the cursor to blow up parts of the plot, determine
 values of selected data points, pick phase arrival times, etc.
 
@@ -346,12 +346,14 @@ location of annotated axes, change the linestyle, select a symbol to be
 plotted at each data point, create titles and labels, make logarithmic plots,
 change the size and type of text, and control a number of other even more
 exotic aspects of the plot.  These commands are part of the Graphics
-Environment Module, and are defined in links frmon the `Command Reference Manual`_.
+Environment Module, and are defined in links from the
+`Command Reference Manual`_.
 
 **An Overview of Graphics Capability in SAC**
 
-File `Graphics in SAC`_ has an overview of graphics in SAC.  Of paaricular interest
-may be the command SAVEIMG_ that allws one to save displayed plots in several formats.
+File `Graphics in SAC`_ has an overview of graphics in SAC.  Of
+particular interest may be the command SAVEIMG_ that allows one to
+save displayed plots in several formats.
 
 FLOATING-POINT PRECISION IN SAC
 -------------------------------
@@ -405,21 +407,21 @@ In the examples below, we use the following macro that sets DELTA =
 = 131,072 s and the floating-point increment :math:`\delta(18)=0.0156`
 s = 156% DELTA)::
 
-     SAC> fg sine 2.0 delta 0.01 npts 13
-     SAC> symbol 2
-     SAC> fileid location ul
-     SAC> ch b 172800
-     SAC> ch t0 (&1,b + &1,delta * 1)
-     SAC> ch t1 (&1,b + &1,delta * 2)
-     SAC> ch t2 (&1,b + &1,delta * 3)
-     SAC> ch t3 (&1,b + &1,delta * 4)
-     SAC> ch t4 (&1,b + &1,delta * 5)
-     SAC> ch t5 (&1,b + &1,delta * 6)
-     SAC> ch t6 (&1,b + &1,delta * 7)
-     SAC> ch t7 (&1,b + &1,delta * 8)
-     SAC> ch t8 (&1,b + &1,delta * 9)
-     SAC> ch t9 (&1,b + &1,delta * 10)
-     SAC> lh picks
+     fg sine 2.0 delta 0.01 npts 13
+     symbol 2
+     fileid location ul
+     ch b 172800
+     ch t0 (&1,b + &1,delta * 1)
+     ch t1 (&1,b + &1,delta * 2)
+     ch t2 (&1,b + &1,delta * 3)
+     ch t3 (&1,b + &1,delta * 4)
+     ch t4 (&1,b + &1,delta * 5)
+     ch t5 (&1,b + &1,delta * 6)
+     ch t6 (&1,b + &1,delta * 7)
+     ch t7 (&1,b + &1,delta * 8)
+     ch t8 (&1,b + &1,delta * 9)
+     ch t9 (&1,b + &1,delta * 10)
+     lh picks
 
 From the macro, we see that waveform times (squares) should be at
 176,800.00, 176,800.01, ... ; and the ten time picks should be at
@@ -475,9 +477,9 @@ files can be read and processed as before.
 
 The file structure when NVDHR = 7 is discussed in `sac data file format`_;
 when NVDHR = 7 there is a "footer" in the file structure that contains
-double-precision versions of 22 time/distance (single-precision) header variables.
-These 22 variables are DELTA, B, E, O, A, T0 ... T9, F, EVLO, EVLA, STLO, STLA,
-and internal variables SB and SDELTA. The names are the same as in
+double-precision versions of 22 time/distance (single-precision) header
+variables.  These 22 variables are DELTA, B, E, O, A, T0 ... T9, F, EVLO, EVLA,
+STLO, STLA, and internal variables SB and SDELTA. The names are the same as in
 the header; SAC distinguishes between the single- and double-precision variables
 in internal calculations by their location in the file.
 
@@ -502,7 +504,7 @@ double precision.  Using the default for *OUTPUT_FORMAT* does not show
 enough significant figures to distinguish between the values for NVHDR
 6 or 7.  Using *longE* for the output format shows the difference::
 
-    SAC> fg inpulse
+    SAC> fg impulse
     SAC> setbb OUTPUT_FORMAT longE
     SAC> ch t0 (1.0/3.0)
     SAC> lh nvhdr t0
@@ -528,8 +530,8 @@ differences in  T0, T1, T2, etc. See GETBB_ for more information about
 
 In Figure 4, the times/picks, and tic-marks are all lined up.
 
-For an unevenly-spaced, time-series file (IFTYPE = ITIME [1] and
-LEVEN = False [0]), the time data are single-precision, so for times
+For an unevenly-spaced, time-series file (IFTYPE=ITIME[1] and
+LEVEN=False[0]), the time data are single-precision, so for times
 :math:`\ge` 1e7 seconds, the times will be incorrect.
 
 **Distance And Geographic Variables Precision**
@@ -561,6 +563,6 @@ the SAC amplitude data is sufficient.
 
 Integer header variable `NPTS` has 4 bytes (32 bits).  The SAC header
 uses signed integers, so the maximum value is :math:`2^{31}` - 1 =
-2,147,483,647.  If thesampling rate is 0.001 s, the maximum record
+2,147,483,647.  If the sampling rate is 0.001 s, the maximum record
 length is 24.85 days.
 
