@@ -20,43 +20,54 @@ SYNTAX
 INPUT
 -----
 
-   :MODEL: iasp91, ak135.  Others are available if one uses the ONLINE option
+   :MODEL: iasp91 [default], ak135.  Traveltimes are calculated using
+     the *iaspei-tau* procedures and traveltime tables.  (For further
+     information, see documentation referenced below.)
 
-   :ONLINE: Retrieve traveltimes from the IRIS Traveltime Web Service.  This
-     uses Crotwell's TauP Toolkit internally. In addition to iasp91 and ak135,
-     it includes model prem.  Also, it includes additional phases, and some
-     phase groupings are not the same.  For further information, se the TauP
-     documentation at the reference below.
+   :ONLINE: Retrieve traveltimes from the IRIS Traveltime Web Service.
+     This uses Crotwell's TauP Toolkit internally. In addition to
+     *iasp91* and *ak135*, it includes model *prem*.  Also, it
+     includes additional phases, and some phase groupings are not the
+     same as for the *iaspei-tau* tables u sed by SAC. (For further
+     information, see documentation referenced below.)
 
-   :VERBOSE | QUIET:  If VERBOSE is among the options in the TRAVELTIME command
-     line, phase arrival times are displayed relative to both the origin time
-     (O) and the first-point time (B).  If instead, QUIET is among the options,
-     nothing is displayed.  VERBOSE is the default.
+   :VERBOSE | QUIET: If VERBOSE is among the options in the TRAVELTIME
+     command, phase arrival times are displayed relative to both the
+     origin time (O) and the first-point time (B).  If instead,
+     QUIET is among the options, nothing is displayed.  VERBOSE is
+     the default.
 
-   :PICKS: There are 10 time picks in the SAC header: t0 to t9.  If the number
-     is n (0<=n<=9), the first phase will be at Tn. If PICKS is included among
-     the command-line options and if phases are within the taime range of
-     seismograms in memory, the picks will be included in the header and will be
-     displayed in subsequent plots such as P1_ and PLOTPK_.  The default is not
-     to have PICKS on.
+   :PICKS: There are 10 time picks in the SAC header: t0 to t9.  If
+     the number is n (0<=n<=9), the first phase will be at Tn. The
+     default is n=0.  If PICKS is included among the options and if
+     phases are within the time range of and seismogram in memory, the
+     picks will be included in the header for that seismogram and will
+     be displayed in subsequent plots such as P1_ and PLOTPK_.  The
+     default is not to have PICKS on, but if PICKS is turned on, it
+     will remain on for subsequent runs with the same data set.
+     Traveltimes are calculated relative to the origin (O) but the
+     displayed and stored Tn times are relative to (B).
 
-   :PHASE: List of phases for which times are displayed (unless QUIET is turned
-     on).  If *PICKS n* is among the options, the phase arrival times and their
-     labels will be added to the header starting at Tn.  If n is 0, one can have
-     up to 10 phases put in the header and available for subsequent plots.  If n
-     is 8, one can have at most 2 phases added to the header.  As ov SAC v102.0,
-     *verbose phase* displays phases in chronological order.  Note that phase
-     names may be case sensitive.
+   :PHASE: List of phases for which times are displayed (unless QUIET
+     is turned on).  Phase names are generally case sensitive.  As of
+     SAC v102.0, *verbose ... phase* displays phases in chronological
+     order, and the sorting is done before comparison with PICKS list
+     If *PICKS n* is among the options, the phase arrival times and
+     their times and labels will be added to the header starting at
+     Tn.  If n is 0, one can have up to 10 phases put in the header
+     and available for subsequent plots.  If n is 8, one can have at
+     most 2 new phases added to the header.
 
-   :ONRECORD ON|OFF: Filters traveltimes only within the time range defined
-     by the data's Begin and End values. OFF is the Default
+   :ONRECORD ON|OFF: If specified as ONRECORD ON, phases are displayed
+     (VERBOSE) and/or included as a PICK if the arrival time is
+     between (B) and (E) for each station. ONRECORD OFF is the Default
 
    :CLEAR: Clears the phase list from previous runs. An empty phase
-     list will be populated with the DEFAULT phases below or values
-     taken from the environment variable SAC_TRAVELTIME_PHASES.  See below.
-     In the command line, CLEAN must come before PHASE
+     list will be populated with the DEFAULT phases (see below) or
+     values taken from the environment variable SAC_TRAVELTIME_PHASES.
+     (See below.)  In the options, CLEAR must come before PHASE
 
-   :M | KM:  If M is among the options in the command line, SAC interprets EVDP
+   :M | KM:  If M is among the options, SAC interprets EVDP
      as being in meters.  If KM is displayed, EVDP is interpreted as being in
      kilometers. M was the default in SAC until 2005.  For all runs of
      *TRAVELTIME VERBOSE*, the depth is printed to the screen so it is obvious
@@ -69,32 +80,27 @@ DESCRIPTION
    All waveforms in memory must have event and station locations defined as well
    as the event depth and the origin time.
 
-   This command calculates traveltimes using the iaspei-tau procedures developed
-   for models iasp91 and ak135. For more information on this package, go to the
-   iaspei-tau link at the reference given below. The phase picks are stored in
-   the SAC header for all files in memory in header variables Tn, where n is in
-   the range 0 to 9. The times are calculated relative to the origin time (O)
-   but the displayed and stored Tn times are relative to the first-point time
-   (B).
-
    The traveltime tables use the stored degree-distance measure (GCARC), which
    is calculated from the event and station latitudes and longitudes using
    spherical-triangle geometry after converting geographic latitudes to
    geocentric.
 
-   To find out all the possible phases that could be be visible on a
-   seismogram according to TRAVELTIME, it is best to use *phase all*::
+   A quick way to find out all the possible phases that could be be
+   visible on a seismogram according to TRAVELTIME, use *phase all*.
+   e.g. ::
 
      SAC> read my-seismogram
      SAC> traveltime verbose phase all
      SAC> traveltime verbose onrecord on clear phase all
 
   The second traveltime command displays only arrivals that are between (B)
-  and (E) for my-seismogram.  The *clear* option removes phase data for the
-  previous call from memory.
+  and (E) for *my-seismogram*.  The *clear* option removes phase data from
+  memory for the previous call .
 
-  As discussed in DATAGEN_, a set of seismograms have been added that can be
-  used for testing and demonstrations.  For example::
+  As discussed in DATAGEN_, seismograms from a deep-focus event have
+  been added: ${SACHOME}/aux/datagen/deep/.  Arrivals are sharp, and
+  several converted phases can be seen.  We use that event to
+  demonstrate how to use TRAVELTIME::
 
      SAC> datagen sub deep bla.r
      SAC> lh b e o gcarc evdp
@@ -111,17 +117,19 @@ DESCRIPTION
         traveltime: error finding phase SKSdf
         traveltime: setting phase SKSac    at 1265.9326 s [ t = 1265.9326 s ] t9
 
-  In the first call to traveltime, arrival SKSac was the 10th arrival  so would
-  be the last stored pick.  If *clear* had not been included in the second
-  command, the VERBOSE output would have been incorrect.  Prior to SAC v102.0,
-  *phase SKS* would have returned *error finding phase SKS*.  The current
-  datagen/deep data set.  Below are the commands and an output plot for
-  a run using the radial component for four stations and the most observable
-  phases.  Because plot command *P1* plots traces from top-to-bottom in the
-  order read in, we manually re-ordered the files so that  distance increases
-  from top-to -bottom.  Phase sPP is not in the isasp-tau tables but is in the
-  online tables.  A nice feature for *SAC TRAVELTIME* is the ability to combine
-  more than one traveltime table in the same plot::
+  In the traveltime call, arrival SKSac was the 10th arrival  so would be the
+  last stored pick.  If *clear* had not been included in the second command, the
+  VERBOSE output would have been incorrect.  (Try it.)  Prior to SAC v102.0,
+  *phase SKS* would have returned *error finding phase SKS*.
+
+  Next are the commands and an output plot for a run using the radial
+  component for four stations and six phases.  Because plot command
+  *P1* plots traces from top-to-bottom in the order read in, we
+  manually re-ordered the files so that distance increases from first
+  to last.  Phase sPP is not in the *isasp-tau* tables but is in the
+  ONLINE *tau-p* tables.  (A nice feature for *SAC TRAVELTIME* is the
+  ability to combine phases from multiple traveltime table in a single
+  plot::
 
      SAC> datagen sub deep  kev.r kip.r pas.r bla.r
      SAC> rtr
@@ -135,8 +143,8 @@ DESCRIPTION
   .. figure:: ./sakhalin-picks_p1.png
    :width: 90%
 
-  In SSSTRAVELTIME_ a plot for the same seismograms and phases using
-  PLOTRECORDSECTION_.
+  In SSSTRAVELTIME_ a plot is created for the same seismograms and
+  phases using PLOTRECORDSECTION_.
 
 DEFAULT PHASES
 --------------
@@ -148,8 +156,8 @@ DEFAULT PHASES
   data, one might use "P pP sS S pS sS PP SS".  An alternative is to use
   "all" to capture as many phases as possible.
 
-  Environmental variables must be set outside of SAC.  In the *sh* shell,
-  the command for the last option is *export SAC_TRAVELTIME_PHASES-"all"*.
+  **Note**:Environmental variables must be set outside of SAC.
+  In the *sh* shell, for *all*, enter *export SAC_TRAVELTIME_PHASES-"all"*.
   For shell *csh*: *setenv SAC_TRAVELTIME_PHASES "all"*.
 
 REFERENCES
