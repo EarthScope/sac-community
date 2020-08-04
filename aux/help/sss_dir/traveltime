@@ -11,19 +11,8 @@ TRAVELTIME_.
 
 EXAMPLE
 -------
-The point of this example is to demonstrate how PLOTRECORDSECTION_ can
-be used with TRAVELTIME.  A difference between PRS and P1_ is that for
-P1, the plot order from top-to-bottom depends on the order the waveforms
-are read in.  We use the same data set and traveltime runs as in
-TRAVELTIME_, but PRS automatically orders the waveforms by distance,
-
-If one first goes into SSS and then does the datagen command, the prs plot
-will have the lines for the arrivals but no waveforms or labeled picks.
-
-Unlike the plot for *P1* in TRAVELTIME_, the aspect ratio is such that save to
-PDF has some errors.
-
-PRS* does not work for distance in kilometers::
+This example is the same traveltime run as in TRAVELTIME_, but here
+for the final plot we use PLOTRECORDSECTION_::
 
      SAC> datagen sub deep  bla.r kev.r kip.r pas.r ; rtr
      SAC> SSS
@@ -33,12 +22,16 @@ PRS* does not work for distance in kilometers::
      SAC/SSS> prs orient port ttime on labels kstcmp
      SAC/SSS> save sakhalin-picks-prs.xpm
 
+One must put SAC files in memory before entering SSS.  We use the
+default aspect ratio in *prs*, so if we had used SAVEIMG_ to create a
+PDF file, the output plot would have errors.
+
 .. figure:: ./sakhalin-picks-prs.png
-   :width: 90%
+   :width: 100%
 
 See Commands
 ------------
-  TRAVELTIME_ PLOTRECORDSECTION_ TIMEWINDOW_ DISTANCEWINDOW_
+  TRAVELTIME_ PLOTRECORDSECTION_ TIMEWINDOW_ DISTANCEWINDOW_ SAVEIMG_
 
 LATEST REVISION
 ---------------
