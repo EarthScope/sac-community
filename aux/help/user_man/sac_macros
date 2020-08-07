@@ -18,22 +18,23 @@ Assume that you have a set of commands that you execute repeatedly. A macro
 file is the obvious solution. Simply fire up your favorite text editor, put
 the commands into a file, and then have SAC execute them using the MACRO_
 command. Lets say you wanted to repeatedly read the same three files, multiply
-each file by a different value, take the Fourier transform, and plot the
-amplitude responses to a set of SAC Graphics Files. The macro file would look
-like this::
+each file by a different value, plot the results and save the plot.  QUITMACRO
+exits the macro. The macro file would look like this::
 
-  ** This certainly is a simple little macro.
-  READ ABC DEF XYZ
-  MUL 4 8 9
-  FFT
-  BG SGF
-  PSP AM
+  * a simple macro
+  datagen sub deep kev.z kev.r kev.t
+  rtr
+  mul 1.0 1.0 1.5
+  FILEID LOCATION UL TYPE LIST KSTCMP
+  title "mul 1.0 1.0 1.5"
+  p1
+  save macrotest-kev.pdf
+  quitmacro
 
-Assume the file is called `MYSTUFF` and that it and the data are in the
-directory to which you are currently attached. To execute the macro from SAC
-type::
+If the file is named test.sm the command  sequence for the above macro would
+be::
 
-  SAC> MACRO MYSTUFF
+  SAC> macro test.sm
 
 Note that commands in a macro file are not normally echoed to the terminal as
 they are executed. You can use the ECHO_ command to turn command echoing on if
@@ -46,54 +47,52 @@ The above example while simple is also very inflexible. If you wanted to read
 a different set of files or use a different set of multiplicative values you
 have to edit the file. Allowing macros to have arguments that you enter at
 execution time greatly increases their flexibility. We will modify the
-previous macro to accept the names of the files as arguments::
+previous macro to allow for different multiplication factors::
 
-  READ $1 $2 $3
-  MUL 4 8 9
-  FFT
-  BG SGF
-  PSP AM
+  datagen sub deep $1 $2 $3
+  rtr
+  mul $4 $5 $6
+  FILEID LOCATION UL TYPE LIST KSTCMP
+  title "mul $4 $5 $6"
+  p1
+  quitmacro
 
 The dollar sign `$` is used to delineate arguments in a macro file. `$1` is
 the first argument, `$2` the second, `$3` the third, and so on. To execute this
 modified macro from SAC type::
 
-  SAC> MACRO MYSTUFF ABC DEF XYZ
+  SAC> M test.sm kev.z kev.r kev.t 1.0 1.0 1.5
 
-The token `ABC` is substituted wherever the `$1` token is found. Also `DEF`
-and `XYZ` are substituted for `$2` and `$3` respectively. To execute the same
-macro with a different set of files only the execute line changes::
-
-  SAC> MACRO MYSTUFF AAA BBB CCC
+Note that the station name appears in the plot because of the *FILEID* command.
+The macro exits after the *P1* command in this case.  The plot is still on the
+screen, so one can save it if one wants to.
 
 Keyword-Driven Arguments
 ------------------------
-Keyword driven arguments let you enter arguments in any order and also makes
+Keyword driven arguments let one enter arguments in any order and also makes
 the body of a macro easier to understand. This becomes increasingly important
 as the number of arguments and the size of the macro increase. Lets again
 modify our example to accept a list of files and also a list of multiplicative
 values::
 
   $KEYS FILES VALUES
-  READ $FILES
-  MUL $VALUES
-  FFT
-  BG SGF
-  PSP AM
+  datagen sub deep $FILES
+  rtr
+  mul $VALUES
+  FILEID LOCATION UL TYPE LIST KSTCMP
+  title "mul $VALUES"
+  p1
+  quitmacro
 
 This simple change has increased both the flexibility and the readability of
 the macro. The first line says that there are two keywords, one called
 `FILES` and the other called `VALUES`. To execute it you could type::
 
-  SAC> MACRO MYSTUFF FILES ABC DEF XYZ VALUES 4 8 9
+  SAC> m test.sm VALUES 1.0 1.0 1.5 FILES kev.z kev.r kev.t
 
-Since the order of the arguments is no longer important you could also type::
-
-  SAC> MACRO MYSTUFF VALUES 4 8 9 FILES ABC DEF XYZ
-
-This macro doesn't limit you to reading in only three files. It would work
-equally well for two or 10 files as long as the number of values match the
-number of files.
+Note that VALUES precedes FILES, as the order does not matter.  We chose datagen
+for the example because the waveforms are accessible.  One could replace the
+*DATAGEN* command with *READ*.
 
 Default Argument Values
 -----------------------
@@ -104,21 +103,22 @@ time but allows you the flexibility to enter them when needed. This is
 demonstrated in the next example::
 
   $KEYS FILES VALUES
-  $DEFAULT VALUES 4 8 9
-  READ $FILES
-  MUL $VALUES
-  FFT
-  BG SGF
-  PSP AM
+  $DEFAULT VALUES 1.0 1.0 1.5
+  datagen sub deep $FILES
+  mul $VALUES
+  FILEID LOCATION UL TYPE LIST KSTCMP
+  title "mul $VALUES"
+  p1
+  quitmacro
 
 The second line in the macro specifies a default value to be used for the
 variable `VALUES` if you don't enter one on the execute line::
 
-  SAC> MACRO MYSTUFF FILES ABC DEF XYZ
+  SAC> m test.sm FILES kev.z kev.r kev.t
 
 If you wanted to use a different set of values you could type::
 
-  SAC> MACRO MYSTUFF VALUES 10 12 3 FILES ABC DEF XYZ
+  SAC> m test.sm VALUES 1.5 1.2 1.5 FILES kev.z kev.r kev.t
 
 Argument Querying
 -----------------
@@ -126,9 +126,8 @@ If you fail to enter a value for an argument on the execute line and it has no
 default value, SAC will ask you to enter a value from the terminal. Using the
 macro in the previous section, assume that you forgot to enter the filelist::
 
-  SAC> MACRO MYSTUFF
-  FILES?
-  SAC> ABC DEF XYZ
+  SAC> MACRO test.sm
+  FILES? kev.z kev.r kev.t
 
 Note that SAC did not query for `VALUES` because it had a default value. The
 timing of this query can sometimes be used to your advantage. SAC does not
@@ -144,31 +143,32 @@ retrieve information. A blackboard entry consists of a name and a value.
 Blackboard entries are created using the SETBB_ and EVALUATE_ commands. The
 value of a blackboard variable can be obtained using the GETBB_ command. You
 can also substitute the value of a blackboard variable directly in other
-commands by preceeding its name with a percent sign, `%`, as shown below::
+commands by preceding its name with a percent sign, `%`, as shown below::
 
   SAC> SETBB C1 2.45
   SAC> SETBB C2 4.94
   SAC> BANDPASS CORNERS %C1 %C2
+  FILEID LOCATION UL TYPE LIST KSTCMP
+  title "mul $VALUES"
+  p1
+  quitmacro
 
-Now lets see how blackboard variables can be used in macros. (You are probably
+Now let's see how blackboard variables can be used in macros. (You are probably
 getting tired of endless variations on our original macro, but we are almost
 done with it.) Assume that only the first value was a variable, i.e. the other
 values could be calculated from the first as shown below::
 
   $KEYS FILES VALUE1
-  $DEFAULT VALUE1 4
-  READ $FILES
-  EVALUATE TO VALUE2 $VALUE1 * 2
-  EVALUATE TO VALUE3 %VALUE2 + 1
+  $DEFAULT VALUE1 1.0
+  datagen sub deep $FILES
+  EVALUATE TO VALUE2 $VALUE1 * 1
+  EVALUATE TO VALUE3 %VALUE2 + 1.5
   MUL $VALUE1 %VALUE2 %VALUE3
-  FFT
-  BG SGF
-  PSP AM
 
 Now only the first value is input to the macro and only if it differs from
 the default value::
 
-  SAC> MACRO MYSTUFF VALUE1 6 FILES ABC DEF XYZ
+  SAC> m test.sm VALUE1 1 FILES kev.z kev.r kev.t
 
 See `Blackboard Variables in SAC`_ for further discussion and examples.
 
@@ -176,7 +176,7 @@ Header Variables
 ----------------
 SAC header variables can also be evaluated and substituted directly in
 commands much like blackboard variables. You must specify which file (by name
-or number) and which variable to be evaluated. You must preceed this
+or number) and which variable to be evaluated. You must proceed this
 specification with an ampersand, `&`, and you must separate the file and
 variable with a comma as shown below::
 
@@ -213,7 +213,7 @@ value of `(& Z,KA &)` would be `(IPU0)`.
 Nesting and Recursion
 ---------------------
 When a macro can call another macro which can call another macro, etc., this
-is often refered to as nesting. When one macro calls another, the second macro
+is often referred to as nesting. When one macro calls another, the second macro
 is said to be operating at a new (lower) level of execution. The top level of
 execution is always interactive input from the terminal. When a macro can call
 itself, then it is said to be recursive. The SAC macro capability supports
@@ -239,7 +239,7 @@ terminal. You can have more than one `$TERMINAL` in a macro.
 If Tests
 --------
 This feature lets you alter the order of commands being executed from a macro
-file. The syntax is similiar but not identical to the if-then-else clause in
+file. The syntax is similar but not identical to the if-then-else clause in
 F77::
 
   IF expr
@@ -316,7 +316,7 @@ Where:
 
   - variable is the name of the do loop variable. Its current value while the
     do loop is executing is stored as a macro argument and may be used in the
-    body of the do loop (i.e., the commands) by preceeding its name with a
+    body of the do loop (i.e., the commands) by preceding its name with a
     dollar sign.
   - start is the starting value for the do loop variable. It must be an integer.
   - stop is the stopping value for the do loop variable and must also be an
@@ -429,13 +429,13 @@ These are processed, in sequence, by SAC and may be used to customize
 the run-time environment to your preference.  For example, you might
 open a graphical device window and place it in a preferred place on
 your screen, set up a path to search for SAC macro commands, or
-changeplot colors or line widths.
+change plot colors or line widths.
 
 The Escape Character
 --------------------
 There may be times when you need to use a dollar sign or a percent sign in a
 command and not have SAC interpret it as a macro argument or blackboard
-variable entry. To do this you preceed the special character with another
+variable entry. To do this you precede the special character with another
 special character, called the escape character. The escape character is an "at"
 sign, `@`. The special characters that must be treated in this way are::
 

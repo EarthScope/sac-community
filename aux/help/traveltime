@@ -28,7 +28,7 @@ INPUT
      This uses Crotwell's TauP Toolkit internally. In addition to
      *iasp91* and *ak135*, it includes model *prem*.  Also, it
      includes additional phases, and some phase groupings are not the
-     same as for the *iaspei-tau* tables u sed by SAC. (For further
+     same as for the *iaspei-tau* tables used by SAC. (For further
      information, see documentation referenced below.)
 
    :VERBOSE | QUIET: If VERBOSE is among the options in the TRAVELTIME
@@ -67,11 +67,11 @@ INPUT
      values taken from the environment variable SAC_TRAVELTIME_PHASES.
      (See below.)  In the options, CLEAR must come before PHASE
 
-   :M | KM:  If M is among the options, SAC interprets EVDP
-     as being in meters.  If KM is displayed, EVDP is interpreted as being in
+   :M | KM:  If M is among the options, SAC interprets EVDP as being in
+     meters.  If KM is displayed, EVDP is interpreted as being in
      kilometers. M was the default in SAC until 2005.  For all runs of
-     *TRAVELTIME VERBOSE*, the depth is printed to the screen so it is obvious
-     whether meters or kilometers were used
+     *TRAVELTIME VERBOSE*, the depth is printed to the screen so it is
+     obvious whether meters or kilometers were used
 
    :DEFAULT VALUES: MODEL iasp91 ONRECORD OFF KM PHASE P S Pn Pg Sn Sg
 
@@ -86,8 +86,7 @@ DESCRIPTION
    geocentric.
 
    A quick way to find out all the possible phases that could be be
-   visible on a seismogram according to TRAVELTIME, use *phase all*.
-   e.g. ::
+   visible on a seismogram according to TRAVELTIME, use *phase all*, e.g. ::
 
      SAC> read my-seismogram
      SAC> traveltime verbose phase all
