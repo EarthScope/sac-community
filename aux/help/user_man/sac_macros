@@ -41,6 +41,10 @@ they are executed. You can use the ECHO_ command to turn command echoing on if
 you wish. Also note that an asterisk in the first column of a line denotes a
 comment line and is not processed by SAC.
 
+We chose to use data files read in through DATAGEN_ so that the lines
+above can be copied and pasted into a file named test.sm and run by
+the user.  This is true for most of the macros given below.
+
 Order Dependent Arguments
 -------------------------
 The above example while simple is also very inflexible. If you wanted to read
@@ -69,9 +73,9 @@ screen, so one can save it if one wants to.
 
 Keyword-Driven Arguments
 ------------------------
-Keyword driven arguments let one enter arguments in any order and also makes
+Keyword-driven arguments let one enter arguments in any order and also makes
 the body of a macro easier to understand. This becomes increasingly important
-as the number of arguments and the size of the macro increase. Lets again
+as the number of arguments and the size of the macro increase. Let's again
 modify our example to accept a list of files and also a list of multiplicative
 values::
 
@@ -90,9 +94,10 @@ the macro. The first line says that there are two keywords, one called
 
   SAC> m test.sm VALUES 1.0 1.0 1.5 FILES kev.z kev.r kev.t
 
-Note that VALUES precedes FILES, as the order does not matter.  We chose datagen
-for the example because the waveforms are accessible.  One could replace the
-*DATAGEN* command with *READ*.
+Note that *VALUES* precedes *FILES* -- the order does not matter.  We
+chose DATAGEN for the example because the waveforms are accessible.
+One could replace the *DATAGEN SUB DEEP* command with *READ*, if the
+user want to us other files.
 
 Default Argument Values
 -----------------------
@@ -118,7 +123,7 @@ variable `VALUES` if you don't enter one on the execute line::
 
 If you wanted to use a different set of values you could type::
 
-  SAC> m test.sm VALUES 1.5 1.2 1.5 FILES kev.z kev.r kev.t
+  SAC> m test.sm VALUES 1.5 1.5 1.2 FILES kev.z kev.r kev.t
 
 Argument Querying
 -----------------
@@ -129,20 +134,19 @@ macro in the previous section, assume that you forgot to enter the filelist::
   SAC> MACRO test.sm
   FILES? kev.z kev.r kev.t
 
-Note that SAC did not query for `VALUES` because it had a default value. The
-timing of this query can sometimes be used to your advantage. SAC does not
-query for a value until it first tries to evaluate the argument and finds that
-it has no default or input value. This allows part of the macro to execute
-showing you some partial results before asking you to enter values for an
-argument.
+SAC does not query for a value until it first tries to evaluate the
+argument and finds that there is no default or input value. Note that
+SAC did not query for `VALUES` because it had a default set of values.
+This allows part of the macro to execute showing you some partial
+results before asking you to enter values for an argument.
 
 Blackboard Variables
 --------------------
-SAC has a blackboard feature that can be used to temporarily store and
-retrieve information. A blackboard entry consists of a name and a value.
+SAC has a *Blackboard* feature that can be used to temporarily store and
+retrieve information. A Blackboard entry consists of a name and a value.
 Blackboard entries are created using the SETBB_ and EVALUATE_ commands. The
-value of a blackboard variable can be obtained using the GETBB_ command. You
-can also substitute the value of a blackboard variable directly in other
+value of a Blackboard variable can be obtained using the GETBB_ command. You
+can also substitute the value of a Blackboard variable directly in other
 commands by preceding its name with a percent sign, `%`, as shown below::
 
   SAC> SETBB C1 2.45
@@ -153,7 +157,7 @@ commands by preceding its name with a percent sign, `%`, as shown below::
   p1
   quitmacro
 
-Now let's see how blackboard variables can be used in macros. (You are probably
+Now let's see how Blackboard variables can be used in macros. (You are probably
 getting tired of endless variations on our original macro, but we are almost
 done with it.) Assume that only the first value was a variable, i.e. the other
 values could be calculated from the first as shown below::
@@ -174,8 +178,8 @@ See `Blackboard Variables in SAC`_ for further discussion and examples.
 
 Header Variables
 ----------------
-SAC header variables can also be evaluated and substituted directly in
-commands much like blackboard variables. You must specify which file (by name
+SAC *Header* variables can also be evaluated and substituted directly in
+commands much like Blackboard variables. You must specify which file (by name
 or number) and which variable to be evaluated. You must proceed this
 specification with an ampersand, `&`, and you must separate the file and
 variable with a comma as shown below::
@@ -186,15 +190,15 @@ variable with a comma as shown below::
   SAC> CHNHDR T5 %TEMP1
   SAC> CHNHDR USER0 %TEMP2
 
-In the above example a file is read in and several temporary blackboard
+In the above example a file is read in and several temporary Blackboard
 variables are calculated using header variables from the file itself. The
 first header reference is by file name and the second by file number. New
-header variables are then defined using these blackboard variables.
+header variables are then defined using these Blackboard variables.
 
 Concatenation
 -------------
 You can append or prepend any text string to a macro argument,
-blackboard variable, or header variable. To prepend simply concatenate
+Blackboard variable, or Header variable. To prepend simply concatenate
 the text string with the argument or variable. To append you must
 repeat the delimiter (`$`, `%`, or `&`) after the argument or variable
 and before the text string. Sounds confusing? See the examples below
@@ -203,11 +207,11 @@ for some clarification:
 Assume that the macro argument STATION has the value `ABC`. Then value of
 `$STATION$.Z` would be `ABC.Z`.
 
-Assume that the blackboard variable TEMP has the value `ABC`. Then value
+Assume that the Blackboard variable TEMP has the value `ABC`. Then value
 of `XYZ%TEMP` would be `XYZABC` and the value of `%TEMP%XYZ` would be
 `ABCXYZ`.
 
-Assume that the header variable KA for file Z has the value `IPU0`. Then
+Assume that the Header variable KA for file Z has the value `IPU0`. Then
 value of `(& Z,KA &)` would be `(IPU0)`.
 
 Nesting and Recursion

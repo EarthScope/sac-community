@@ -212,8 +212,10 @@ with the configure option --enable-png.
     Also, a link from that site takes you to a single-file version of the manual
     in which the search command and links from the side-bar table of contents
     allow one to navigate the manual efficiently.
-2.  Some features of SAC are described in the CHANGES file in this directory,
-    and changes in new versions are summarized in HISTORY.
+2.  Some features of SAC are described in the CHANGES,and changes in new
+    versions are summarized in HISTORY.  Both files are in this directory.
+    For a more readable discussion of new features in an updated distribution,
+    see the INTRO help file.
 3.  URL <http://ds.iris.edu/ds/nodes/dmc/software/downloads/sac/> has links
     to other resources and information about updates.
 4.  A place to share problems and find solutions is the sac-help llistserv:

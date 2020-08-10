@@ -48,9 +48,9 @@ Overview
   event, and an epicentral event.  In SAC v102.0, a new event has been added:
   ${SACHOME}/aux/datagen/SUB/DEEP/: three-component seismograms from eight
   broadband stations.  The arrivals are impulsive, and one can see many
-  converted phase.  The help file TRAVELTIME_ has examples using these
-  seismograms.  (The *TRAVELTIME* command has been improved and expanded in
-  version 102.0.)
+  converted phase.  The help files `SAC_MACROS`_ and  TRAVELTIME_ have examples
+  using DATAGEN seismograms.  (The *TRAVELTIME* command has been improved and
+  expanded in version 102.0.)
 
   The Using SAC part of the SAC Users Manual contains general information for
   the new user about what SAC can do, how it works, and how to get started. It

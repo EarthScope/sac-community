@@ -22,7 +22,8 @@ Function Module
   regional, one teleseismic and shallow, and one teleseismic and deep)
   into memory. This lets you play with some real seismic data while
   you are getting your own data converted to the SAC data file format.
-  Examples in help file TRAVELTIME_ use the deep teleseismic event.
+  Examples in help files SAC_MACROS_ and TRAVELTIME_ use the deep
+  teleseismic event.
 
   Files README, HISTORY, and CHANGES in the top directory of SAC give general
   information about the current version of SAC and previous versions. HELP_

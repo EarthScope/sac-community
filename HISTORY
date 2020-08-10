@@ -1,7 +1,7 @@
 This is a reverse chronoloical listing of enhancements and bug fixes made
 between SAC versions.  An overview of these are in file CHANGES.
 
-2020/01: Version 102.0 Released
+2020/09: Version 102.0 Released
         * FEATURE: SAC now includes double-precision for both time and distance
              calculations using header variables, and does so in a way that
              maximizes compatibility so that existing SAC data files can still
