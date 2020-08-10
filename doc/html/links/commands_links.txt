@@ -79,7 +79,6 @@
 .. _installmacro: installmacro.html
 .. _int: int.html
 .. _interpolate: interpolate.html
-.. _intro: intro.html
 .. _keepam: keepam.html
 .. _khronhite: khronhite.html
 .. _line: line.html
@@ -239,6 +238,7 @@
 .. _recalltrace: crr.html
 .. _rollback: crr.html
 
+.. _intro: ../manual/intro.html
 .. _sac data file format:  ../manual/file_format.html
 .. _data access:  ../manual/data_access.html
 .. _sac_data_file_format:  ../manual/file_format.html
@@ -251,7 +251,7 @@
 .. _ssstraveltime: sss.com/traveltime.html
 .. _deletestack: sss.com/deletestack.html
 .. _ssstraveltime: sss.com/traveltime.html
-.. _plotrecordsection: ../sss.com/plotrecordsection.html
+.. _plotrecordsection: sss.com/plotrecordsection.html
 
 .. _spe: spe.com/spe.html
 .. _writestack:       sss.com/writestack.html
