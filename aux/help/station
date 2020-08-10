@@ -186,7 +186,7 @@ specify the PH5 option to tell SAC to also search within PH5::
 
    SAC> station net 9A station 22770  PH5
    Net Sta   Lat.     Lon.      Elev.   SiteName
-   9A  22770 44.4122 -115.4911 1966.30 Deformation and magmatic modification É..
+   9A  22770 44.4122 -115.4911 1966.30 Deformation and magmatic modification 
 
 ERROR MESSAGES
 --------------

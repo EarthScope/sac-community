@@ -42,7 +42,7 @@ INPUT
      default is n=0.  If PICKS is included among the options and if
      phases are within the time range of and seismogram in memory, the
      picks will be included in the header for that seismogram and will
-     be displayed in subsequent plots such as P1_ and PLOTPK_.  The
+     be displayed in subsequent plots such as PLOT1_ and PLOTPK_.  The
      default is not to have PICKS on, but if PICKS is turned on, it
      will remain on for subsequent runs with the same data set.
      Traveltimes are calculated relative to the origin (O) but the
@@ -137,9 +137,9 @@ DESCRIPTION
      SAC> FILEID LOCATION UL TYPE LIST KSTCMP
      SAC> TITLE 'Sakhalin Island Event: &1,KZDATE&, Depth is &1,EVDP& KM'
      SAC> p1
-     SAC> save sakhalin-picks_p1.pdf
+     SAC> save sakhalin-picks-p1.pdf
 
-  .. figure:: ./sakhalin-picks_p1.png
+  .. figure:: ./sakhalin-picks-p1.png
    :width: 90%
 
   In SSSTRAVELTIME_ a plot is created for the same seismograms and

@@ -4,7 +4,7 @@
 .. _file_format:       file_format.html
 .. _analysis:          analysis.html
 .. _inline:            inline.html
-.. _macros:            macros.html
+.. _sac_macros:        sac_macros.html
 .. _command reference manual: ../commands/alpha_commands.html
 .. _spectral-estimation subprocess manual: ../commands/spe.com/spe.html
 .. _signal-stacking subprocess manual: ../commands/sss.com/sss.html

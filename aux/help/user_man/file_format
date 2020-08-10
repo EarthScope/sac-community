@@ -641,10 +641,12 @@ REFERENCES
 
    .. _IAU2000:
 
-   [IAU2000] Seidelmann, P., V. Abalakin, M. Bursa, M. Davies, C. De Bergh, J. Lieske, 
-        J. Oberst, J. Simon, E. Standish, P. Stooke, et al. (2002), Report of the 
-        IAU/IAG working group on cartographic coordinates and rotational elements of the 
-        planets and satellites: 2000, Celestial Mechanics and Dynamical Astronomy, 82 (1), 83–111.
+   [IAU2000] https://link.springer.com/article/10.1023/A:1013939327465
+
+     Seidelmann, P., V. Abalakin, M. Bursa, M. Davies, C. De Bergh, J. Lieske,
+     J. Oberst, J. Simon, E. Standish, P. Stooke, et al. (2002), Report of the
+     IAU/IAG working group on cartographic coordinates and rotational elements of the
+     planets and satellites: 2000, Celestial Mechanics and Dynamical Astronomy, 82 (1), 83–111.
 
    .. _IAU-WGCCRE:
 
@@ -652,21 +654,24 @@ REFERENCES
 
    .. _Meftah2015:
 
-   [Meftah2015] Meftah, M., A. Irbah, A. Hauchecorne, T. Corbard, S. Turck-Chi`eze, J.-F. Hochedez,
-        P. Boumier, A. Cheva- lier, S. Dewitte, S. Mekaoui, et al. (2015), On the determination
-        and constancy of the solar oblateness, Solar Physics, 290(3), 673–687.
+   [Meftah2015] https://link.springer.com/article/10.1007%2Fs11207-015-0655-6
+
+     Meftah, M., A. Irbah, A. Hauchecorne, T. Corbard,
+     S. Turck-Chi`eze, J.-F. Hochedez, P. Boumier, A. Cheva- lier,
+     S. Dewitte, S. Mekaoui, et al. (2015), On the determination and
+     constancy of the solar oblateness, Solar Physics, 290(3), 673–687.
 
         * 8.189e-6 (Flattening)
 
    .. _Rozelot2001:
 
-   [Rozelot2001] Rozelot, J. P., Godier, S., & Lefebvre, S. (2001). On the theory of the
-        oblateness of the Sun. Solar Physics, 198(2), 223-240.
+   [Rozelot2001] https://link.springer.com/article/10.1023/A:1005238718479
+
+     Rozelot, J. P., Godier, S., & Lefebvre, S. (2001).  On the theory of the
+     oblateness of the Sun. Solar Physics, 198(2), 223-240.
 
         * 8.33e-6  (Flattening)
-        * 6.5×10−6 - 10.2×10−6 (Flattening Range)
-
-
+        * 6.50e-6 - 10.20e-6 (Flattening Range)
 
 LATEST REVISION
 ---------------
