@@ -211,10 +211,7 @@ with the configure option --enable-png.
     help files can be found at URL <http://ds.iris.edu/files/sac-manual/>.
     Also, a link from that site takes you to a PDF-format single-file version of
     the manual in which the search command and links from the side-bar table of
-    contents allow one to navigate the manual efficiently.  Ineveitably, there
-    will be changes in the help files before the next verion of SAC.  Updated
-    versions of the manual (both HTML and PDF) can be accessed from URL
-    <ttps://www.geophys.geos.vt.edu/snoke/sac-manual_v102.0.html>.
+    contents allow one to navigate the manual efficiently.
 2.  Some features of SAC are described in the CHANGES,and changes in new
     versions are summarized in HISTORY.  Both files are in this directory.
     For a more readable discussion of new features in an updated distribution,
