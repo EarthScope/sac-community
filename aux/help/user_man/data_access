@@ -22,23 +22,22 @@ Web services. These abilities include
   Currently (2020), as described on the IRIS DMC Web Service Web page
    <https://service.iris.edu>:
 
-     - **miiniSEED** is the subset of the SEED standard that is used for time
+     - **miniSEED** is the subset of the SEED standard that is used for time
        series  data. Very limited metadata for the time series is included in
        miniSEED beyond time series identification and simple state-of-health
        flags. In particular, geographic coordinates, response/scaling
        information and other information needed to interpret the data values are
        not included.
 
-     - **FDSN StationXML**, which defines an XML representation of the most
-       important and commonly used structures of SEED 2.4 metadata with
-       enhancements.
+     - **FDSN StationXML**  is the XML-based standard for seismological
+       metadata.  These metadata contain the most important and commonly used
+       structures of SEED 2.4 metadata with many enhancements.
 
-     - **PH5/HDF5** ( hierarchical data format, version 5):
-       <https://www.passcal.nmt.edu/content/ph5-what-it> is the PASSCAL
-       archival format for active-source, controlled-source and mixed-source
-       data sets. PASSCAL has transitioned from SEG-Y to PH5.  In DATA_,
-       METADATA_, and STATION_ *PH5* is an option that when invoked will search
-       the PH5 active-source data archives.
+     - **PH5** is the name of the repository at the IRIS DMC commonly used for
+       active-source, controlled-source and mixed-source data sets and is an
+       alternative to the DMC's SEED repository.  In DATA_, METADATA_, and
+       STATION_ ph5 is an option that when invoked will search this alternate
+       repository.
 
 Web requests are made to the colletion of Web Services at
 `<http://service.iris.edu>`_ along with event searches through the
@@ -76,7 +75,7 @@ below showing how *saclst* output can be redirected to applications.
 
 TIME FORMATS
 ------------
-Times are of the form *h:m:s* or *h:m:m.ms* where *h* is the hour, *m*
+Times are of the form *h:m:s* or *h:m:s.ms* where *h* is the hour, *m*
 the minute, *s* the seconds, and *ms* the millisecodnds. If the time
 is left out, the beginning of the day is used, i.e. *00:00:00.000*.
 
@@ -197,7 +196,7 @@ be specified as well::
 
 **Using an EventID**
 
-The previous search was for stations operating during the 2011 Tokoku
+The previous search was for stations operating during the 2011 Tohoku
 event with an epicentral distance 30 and 35 degrees. This search can
 be simplified by using and event id::
 
@@ -460,10 +459,10 @@ traveltime data set using::
      SAC> write over
 
 REDIRECTING SACLST INPUT
--------------------------
+------------------------
 
-Let's say you have a list of sac files and you would like to generate
-a station list::
+Let's say you have a list of sac files and you would like to generate a station
+list::
 
   saclst knetwk kstnm stlo stlo stel f *.SAC | \
     awk '{print $2,$3,$4,$5}' | \
