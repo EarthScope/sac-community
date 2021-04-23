@@ -60,7 +60,6 @@ process_line(char *p) {
     select_loop_continue(SELECT_OFF);   /* Turn off select loop */
     select_loop_message(p, SELECT_MSG_SET);     /* Set the outgoing message */
     FREE(p);
-    rl_callback_handler_remove();
     rl_set_prompt(NULL);
 }
 

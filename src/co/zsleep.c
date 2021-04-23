@@ -82,9 +82,6 @@ zsleep(int timeout) {
         select_loop(prmt, ZSLEEP_PRMTLEN, msg, ZSLEEP_MSGLEN, &time,
                     process_line, FALSE, TRUE);
     }
-
-    rl_callback_handler_remove();       /* Returns Prompt */
-
 }
 
 /** 

@@ -380,7 +380,7 @@ select_loop(char *prmt, int prmtlen, char *msg, int msglen,
     char kprmt[128];
     char *getline_msg;
     char *event_msg;
-
+    static int handler_installed = FALSE;
     UNUSED(prmtlen);
 
     sac_history_load(NULL);
@@ -395,11 +395,15 @@ select_loop(char *prmt, int prmtlen, char *msg, int msglen,
 
     if (stdin_on) {
         if (use_tty()) {
-            rl_callback_handler_remove();
-            rl_set_prompt(NULL);
-            rl_callback_handler_install(kprmt, func);
-            rl_completion_append_character = '\0';
-            rl_attempted_completion_function = sac_attempt_complete;
+            if(handler_installed == FALSE) {
+                rl_callback_handler_install(kprmt, func);
+                rl_completion_append_character = '\0';
+                rl_attempted_completion_function = sac_attempt_complete;
+                handler_installed = TRUE;
+            } else {
+                rl_set_prompt(kprmt);
+                rl_forced_update_display();
+            }
         }
     }
     fflush(stdout);
