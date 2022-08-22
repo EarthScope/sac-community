@@ -123,7 +123,7 @@ xabout() {
     char kvdate[200];
     /* char fmt[] = "SEISMIC ANALYSIS CODE [%s (Version 00.59.49)]"; */
     char fmt[] = "SEISMIC ANALYSIS CODE [%s (Version %s)]";
-    char kcopyr[] = "Copyright 1995 Regents of the University of California\n";
+    char kcopyr[] = "Copyright 2022 IRIS www.iris.edu\n";
 
     if (!display_copyright(OPTION_GET)) {
         return;

@@ -165,7 +165,18 @@ output to /dev/null will keep your terminal screen from filling up with
 completely useless information.
 
 
-* READ THIS!!
+* License
 ---------------------------------------------------------------------------
-DO NOT DISTRIBUTE the SAC Software.  (That is what was agreed to at the time
-the IRIS software request form was submitted.)
+   Copyright 2022 - (IRIS) Incorporated Research Institutions for Seismology
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.

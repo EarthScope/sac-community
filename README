@@ -9,7 +9,8 @@ Contents
 * Matlab Interface
 * PNG Support
 * If you need help ...
-* Important message
+* License
+* References
 
 * Overview
 ---------------------------------------------------------------------------
@@ -101,7 +102,7 @@ sac/aux/             contains files that are used by SAC during execution
 sac/macros/          contains example macros and data
 sac/utils            makefile, sources for handling Sac files outside of SAC
                      See sac/utils/README_utils for details
-sac/License          the SAC Software End User License Agreement
+sac/License          the Apache 2 License
 sac/Editline.license License for Editline for Command line edits and history
 
 * Environment Setup
@@ -228,14 +229,27 @@ with the configure option --enable-png.
     A section in this project is a Wiki that includes a Tutorial and a
     set of Examples.
 
-* READ THIS!!
+* License
 ---------------------------------------------------------------------------
-DO NOT DISTRIBUTE the SAC Software.  (That is what you agreed to when
-you -- or whomever installed SAC on your system -- accepted the license
-agreement at the time the IRIS software request form was submitted.)
+   Copyright 2022 - (IRIS) Incorporated Research Institutions for Seismology
 
-It would also be very helpful if you could acknowledge our work using
-the following references:
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+* References
+---------------------------------------------------------------------------
+
+Savage, B. (2021), sacio: A library for Seismic Analysis Code data files,
+Journal of Open Source Software, 6(64), 3619, doi:10.21105/joss.03619.
 
 Goldstein, P., A. Snoke, (2005), "Sac Availability for the IRIS Community",
 Incorporated Institutions For Seismology Data Management Center Electronic
