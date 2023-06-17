@@ -8,21 +8,19 @@
  *
  * This file is part of the miniSEED Library.
  *
- * Copyright (c) 2019 Chad Trabant, IRIS Data Management Center
+ * Copyright (c) 2023 Chad Trabant, EarthScope Data Services
  *
- * The miniSEED Library is free software; you can redistribute it
- * and/or modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * The miniSEED Library is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License (GNU-LGPL) for more details.
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software. If not, see
- * <https://www.gnu.org/licenses/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  ***************************************************************************/
 
 #include <stdio.h>
@@ -88,8 +86,7 @@ main (int argc, char **argv)
   flags |= MSF_UNPACKDATA;
 
   /* Loop over the input file as a source of data */
-  while ((retcode = ms3_readmsr (&msr, inputfile, NULL, NULL, flags,
-                                 verbose)) == MS_NOERROR)
+  while ((retcode = ms3_readmsr (&msr, inputfile, flags, verbose)) == MS_NOERROR)
   {
     if (mstl3_addmsr (mstl, msr, 0, 1, flags, NULL) == NULL)
     {
@@ -113,7 +110,7 @@ main (int argc, char **argv)
                            NULL            // Extra headers to inject, none in this case
     );
 
-    ms_log (0, "mstl3_pack() created %d records containing %d samples\n",
+    ms_log (0, "mstl3_pack() created %d records containing %" PRId64 " samples\n",
             precords, psamples);
   }
 
@@ -134,10 +131,12 @@ main (int argc, char **argv)
                          NULL                     // Extra headers to inject, none in this case
   );
 
-  ms_log (0, "Final mstl3_pack() created %d records containing %d samples\n",
+  ms_log (0, "Final mstl3_pack() created %d records containing %" PRId64 " samples\n",
           precords, psamples);
 
   /* Make sure everything is cleaned up */
+  ms3_readmsr (&msr, NULL, flags, 0);
+
   if (msr)
     msr3_free (&msr);
 

@@ -9,6 +9,8 @@
 #include <sys/stat.h>
 #include <ctype.h>
 
+#include "../../libmseed/libmseed.h"
+
 #include "fid.h"
 
 /**
@@ -235,49 +237,17 @@ fid_css30(char *buf, int n) {
 
 int
 fid_mseed(char *buf, int len) {
-    if(!is_binary(buf, len)) {
-        debug("mseed not binary\n");
-        return 0;
-    }
-    for(int i = 0; i < 6; i++) {
-        char c = char_at(buf, i);
-        if(! isdigit(c)) {
-            debug("mseed seqnum not digit '%c'\n", c);
-            return 0;
-        }
-    }
-    char q = char_at(buf, 6);
-    if(!strchr("DQRM", q)) {
-        debug("mseed DQRM not found '%c'\n", q);
-        return 0;
-    }
-    char sp = char_at(buf, 7);
-    if(sp != ' ') {
-        debug("mseed Space not found %c\n", sp);
-        return 0;
-    }
-    for(int i = 0; i < 12; i++) {
-        char c = char_at(buf, 8+i);
-        if( ! isalpha(c) && c != ' ' && !isdigit(c) ) {
-            debug("mseed seqnum not digit '%c'\n", c);
-            return 0;
-        }
-    }
-    int ok = FALSE;
-    for(int i = 0; i < 2; i++) {
-        unsigned short yr  = ushort_at(buf, 20, i);
-        unsigned short doy = ushort_at(buf, 22, i);
-        debug("mseed yr, doy: %d %d\n", yr, doy);
-        if(yr >= 1800 && yr <= 2200 && doy >= 1 && doy <= 366) {
-            ok = TRUE;
-            break;
-        }
-    }
+  int reclen;
+  uint8_t formatversion;
 
-    if(!ok) {
-        return 0;
-    }
-    return 1;
+  /* Returns:
+   * -1 Data record not detected or error
+   * 0  Data record detected but could not determine length
+   * >0 Size of the record in bytes
+   */
+  reclen = ms3_detect (buf, len, &formatversion);
+
+  return (reclen > 0) ? 1 : 0;
 }
 
 
