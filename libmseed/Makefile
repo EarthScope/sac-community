@@ -286,7 +286,7 @@ zlib_LIBS = -lz
 MAJOR_VER = $(shell grep LIBMSEED_VERSION libmseed.h | grep -Eo '[0-9]+.[0-9]+.[0-9]+' | cut -d . -f 1)
 FULL_VER = $(shell grep LIBMSEED_VERSION libmseed.h | grep -Eo '[0-9]+.[0-9]+.[0-9]+')
 COMPAT_VER = $(MAJOR_VER).0.0
-LIB_SRCS = fileutils.c genutils.c gswap.c lookup.c yyjson.c msio.c \
+LIB_SRCS = fileutils.c genutils.c lookup.c yyjson.c msio.c \
            msrutils.c extraheaders.c pack.c packdata.c tracelist.c gmtime64.c \
            crc32c.c parseutils.c unpack.c unpackdata.c selection.c logging.c
 
