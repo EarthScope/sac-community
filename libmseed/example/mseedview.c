@@ -6,21 +6,19 @@
  *
  * This file is part of the miniSEED Library.
  *
- * Copyright (c) 2019 Chad Trabant, IRIS Data Management Center
+ * Copyright (c) 2023 Chad Trabant, EarthScope Data Services
  *
- * The miniSEED Library is free software; you can redistribute it
- * and/or modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * The miniSEED Library is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License (GNU-LGPL) for more details.
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software. If not, see
- * <https://www.gnu.org/licenses/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  ***************************************************************************/
 
 #include <errno.h>
@@ -38,7 +36,7 @@ static int8_t verbose = 0;
 static int8_t ppackets = 0;
 static int8_t basicsum = 0;
 static int printdata = 0;
-static char *inputfile = 0;
+static char *inputfile = NULL;
 
 static int parameter_proc (int argcount, char **argvec);
 static void usage (void);
@@ -46,27 +44,32 @@ static void usage (void);
 int
 main (int argc, char **argv)
 {
-  MS3Record *msr = 0;
+  MS3Record *msr = NULL;
   uint32_t flags = 0;
 
   int64_t totalrecs = 0;
   int64_t totalsamps = 0;
   int retcode;
 
-  /* Process given parameters (command line and parameter file) */
+  /* Process command line arguments */
   if (parameter_proc (argc, argv) < 0)
     return -1;
 
   /* Set flag to validate CRCs when reading */
   flags |= MSF_VALIDATECRC;
 
+  /* Parse byte range from file/URL path name if present */
+  flags |= MSF_PNAMERANGE;
+
   /* Set flag to unpack data if printing samples */
   if (printdata)
     flags |= MSF_UNPACKDATA;
 
+  /* Enable accumulation of up to 10 error and warning messages */
+  ms_rloginit (NULL, NULL, NULL, NULL, 10);
+
   /* Loop over the input file record by record */
-  while ((retcode = ms3_readmsr (&msr, inputfile, NULL, NULL,
-                                 flags, verbose)) == MS_NOERROR)
+  while ((retcode = ms3_readmsr (&msr, inputfile, flags, verbose)) == MS_NOERROR)
   {
     totalrecs++;
     totalsamps += msr->samplecnt;
@@ -114,14 +117,14 @@ main (int argc, char **argv)
     }
   }
 
-  if (retcode != MS_ENDOFFILE)
-    ms_log (2, "Cannot read %s: %s\n", inputfile, ms_errorstr (retcode));
+  /* Emit all accumulated warning and error messages */
+  ms_rlog_emit (NULL, 0, verbose);
 
   /* Make sure everything is cleaned up */
-  ms3_readmsr (&msr, NULL, NULL, NULL, 0, 0);
+  ms3_readmsr (&msr, NULL, 0, 0);
 
   if (basicsum)
-    ms_log (1, "Records: %" PRId64 ", Samples: %" PRId64 "\n",
+    ms_log (0, "Records: %" PRId64 ", Samples: %" PRId64 "\n",
             totalrecs, totalsamps);
 
   return 0;
@@ -129,7 +132,7 @@ main (int argc, char **argv)
 
 /***************************************************************************
  * parameter_proc():
- * Process the command line parameters.
+ * Process the command line arguments.
  *
  * Returns 0 on success, and -1 on failure
  ***************************************************************************/
@@ -177,7 +180,7 @@ parameter_proc (int argcount, char **argvec)
       ms_log (2, "Unknown option: %s\n", argvec[optind]);
       exit (1);
     }
-    else if (inputfile == 0)
+    else if (inputfile == NULL)
     {
       inputfile = argvec[optind];
     }
@@ -188,7 +191,7 @@ parameter_proc (int argcount, char **argvec)
     }
   }
 
-  /* Make sure an inputfile was specified */
+  /* Make sure an input file was specified */
   if (!inputfile)
   {
     ms_log (2, "No input file was specified\n\n");
@@ -196,6 +199,10 @@ parameter_proc (int argcount, char **argvec)
     ms_log (1, "Try %s -h for usage\n", PACKAGE);
     exit (1);
   }
+
+  /* Add program name and version to User-Agent for URL-based requests */
+  if (libmseed_url_support() && ms3_url_useragent(PACKAGE, VERSION))
+    return -1;
 
   /* Report the program version */
   if (verbose)

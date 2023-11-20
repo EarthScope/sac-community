@@ -3,21 +3,19 @@
  *
  * This file is part of the miniSEED Library.
  *
- * Copyright (c) 2019 Chad Trabant, IRIS Data Management Center
+ * Copyright (c) 2023 Chad Trabant, EarthScope Data Services
  *
- * The miniSEED Library is free software; you can redistribute it
- * and/or modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * The miniSEED Library is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License (GNU-LGPL) for more details.
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software. If not, see
- * <https://www.gnu.org/licenses/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  ***************************************************************************/
 
 #include <string.h>
@@ -29,7 +27,7 @@
  *
  * @param[in] sampletype Library sample type code:
  * @parblock
- *   - \c 'a' - Text/ASCII data type
+ *   - \c 't' - Text data type
  *   - \c 'i' - 32-bit integer data type
  *   - \c 'f' - 32-bit float data type
  *   - \c 'd' - 64-bit float (double) data type
@@ -38,10 +36,11 @@
  * @returns The sample size based on type code or 0 for unknown.
  ***************************************************************************/
 uint8_t
-ms_samplesize (const char sampletype)
+ms_samplesize (char sampletype)
 {
   switch (sampletype)
   {
+  case 't':
   case 'a':
     return 1;
     break;
@@ -59,6 +58,64 @@ ms_samplesize (const char sampletype)
 } /* End of ms_samplesize() */
 
 /**********************************************************************/ /**
+ * @brief Return sample size and/or type for given encoding value
+ *
+ * Determine the decoded sample size and/or type based on data
+ * encoding.  The \a samplesize and \a sampletype values will only be
+ * set if not NULL, allowing lookup of either value or both.
+ *
+ * @param[in] encoding Data sample encoding code
+ * @param[out] samplesize Size of sample, pointer that will be set
+ * @param[out] sampletype Sample type, pointer to \c char that will be set
+ *
+ * @returns 0 on success, -1 on error
+ ***************************************************************************/
+int
+ms_encoding_sizetype (uint8_t encoding, uint8_t *samplesize, char *sampletype)
+{
+  switch (encoding)
+  {
+  case DE_TEXT:
+    if (samplesize)
+      *samplesize = 1;
+    if (sampletype)
+      *sampletype = 't';
+    break;
+  case DE_INT16:
+  case DE_INT32:
+  case DE_STEIM1:
+  case DE_STEIM2:
+  case DE_CDSN:
+  case DE_SRO:
+  case DE_DWWSSN:
+    if (samplesize)
+      *samplesize = 4;
+    if (sampletype)
+      *sampletype = 'i';
+    break;
+  case DE_FLOAT32:
+  case DE_GEOSCOPE24:
+  case DE_GEOSCOPE163:
+  case DE_GEOSCOPE164:
+    if (samplesize)
+      *samplesize = 4;
+    if (sampletype)
+      *sampletype = 'f';
+    break;
+  case DE_FLOAT64:
+    if (samplesize)
+      *samplesize = 8;
+    if (sampletype)
+      *sampletype = 'd';
+    break;
+  default:
+    return -1;
+  }
+
+  return 0;
+} /* End of ms_encodingstr_sizetype() */
+
+/**********************************************************************/ /**
  * @brief Descriptive string for data encodings
  *
  * @param[in] encoding Data sample encoding code
@@ -66,7 +123,7 @@ ms_samplesize (const char sampletype)
  * @returns a string describing a data encoding format
  ***************************************************************************/
 const char *
-ms_encodingstr (const uint8_t encoding)
+ms_encodingstr (uint8_t encoding)
 {
   switch (encoding)
   {

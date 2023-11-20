@@ -96,7 +96,7 @@ read_miniseed_memory(MS3TraceList *mst3k, char *buffer, uint64_t len) {
  *
  * @ingroup    miniseed
  *
- * @param      mst3k   Miniseed Trace List 
+ * @param      mst3k   Miniseed Trace List
  *
  * @return     arary of pointers to sac files enclosed in an \ref xarray
  */
@@ -104,19 +104,20 @@ sac **
 miniseed_trace_list_to_sac(MS3TraceList *mst3k) {
     int8_t verbose = 0;
     int8_t gaps = 1;
+    int8_t versions = 0;
     sac **out = NULL;
-    if(mst3k->numtraces == 0) {
+    if(mst3k->numtraceids == 0) {
         return NULL;
     }
     // Show the result of reading in all the files
 
-    mstl3_printtracelist (mst3k, ISOMONTHDAY , verbose, gaps);
+    mstl3_printtracelist (mst3k, ISOMONTHDAY , verbose, gaps, versions);
     //clrmsg();
-    // Convert the TraceList to SAC Files 
+    // Convert the TraceList to SAC Files
     //int n = 0;
     out = xarray_new('p');
-    MS3TraceID *t = mst3k->traces;
-    for(uint32_t i = 0; i < mst3k->numtraces; i++) {
+    MS3TraceID *t = mst3k->traces.next[0];
+    while (t) {
         MS3TraceSeg *seg = t->first;
         while(seg) {
             if(seg->samprate != 0.0 && seg->numsamples > 0) {
@@ -187,7 +188,7 @@ miniseed_trace_list_to_sac(MS3TraceList *mst3k) {
             }
             seg = seg->next;
         }
-        t = t->next;
+        t = t->next[0];
     }
     return out;
 }
