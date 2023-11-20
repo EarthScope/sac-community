@@ -12,7 +12,7 @@ Contents
 * License
 * References
 
-* Overview
+Overview
 ---------------------------------------------------------------------------
 
 This README file is in the top directory (named sac) of a directory tree that
@@ -27,6 +27,7 @@ There are SAC binary-distributions for the following operating systems:
    10.8.  XQuartz/X11 is required to display graphics and can be downloaded
    from https://www.xquartz.org/
 2. Linux 64-bit: built on CentOS release 7.0-64 (Final).
+```
                Running on ...
              | CentOS 7 | CentOS 8 | Ubuntu 14 | Ubuntu 16 | Ubuntu 18 |
    Build on  |----------|----------|-----------|-----------|-----------|
@@ -39,6 +40,7 @@ There are SAC binary-distributions for the following operating systems:
    CentOS - (7,8) libcurl, libxml2 already installed
    Ubuntu - (14,16,18) libcurl and libxml2 need to be installed
             Version should be the openssl variant of libcurl (default)
+```
 
 Other platforms or operating systems must be built from the source code.
 Successful builds have been made and tested on Solaris 11, Linux 32-bit; and Mac
@@ -57,11 +59,11 @@ following:
 
 https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unidentified-developer-mh40616/10.15/mac/10.15
 
-* Package contents
+Package contents
 ---------------------------------------------------------------------------
 
 The contents of the package are relative to SACHOME (default /usr/local/sac)
-
+```
 sac/README           this file
 sac/HISTORY          update history
 sac/CHANGES          Details about changes made for each update
@@ -104,8 +106,9 @@ sac/utils            makefile, sources for handling Sac files outside of SAC
                      See sac/utils/README_utils for details
 sac/License          the Apache 2 License
 sac/Editline.license License for Editline for Command line edits and history
+```
 
-* Environment Setup
+Environment Setup
 ---------------------------------------------------------------------------
 
 SACHOME: This must be set so that SAC can be found on the computer.
@@ -135,50 +138,55 @@ EXAMPLE
 If SACHOME is /usr/local/sac and the sacinit file is modified accordingly,
 to set PATH, SACAUX, and other options for SAC, do the following:
 
-  For csh and tcsh, edit ~/.cshrc adding the lines
+For csh and tcsh, edit ~/.cshrc adding the lines::
+  
         setenv SACHOME /usr/local/sac
         source ${SACHOME}/bin/sacinit.csh
 
-     After saving and exiting the file, enter
+After saving and exiting the file, enter::
+        
         source ~/.cshrc
 
-  For bash, edit ~/.bashrc adding the lines
-        export SACHOME=/usr/local/sac
-        . ${SACHOME}/bin/sacinit.sh
+For bash, edit ~/.bashrc adding the lines::
 
-    After saving and exiting the file, enter
-        . ~/.bashrc
+       export SACHOME=/usr/local/sac
+       . ${SACHOME}/bin/sacinit.sh
 
-  To verify that things are working, from a command line, enter
+After saving and exiting the file, enter::
+
+       . ~/.bashrc
+
+To verify that things are working, from a command line, enter::
+
         echo $PATH ; echo $SACHOME ; echo $SACAUX
 
 If one wants to change any of the options or if more than one person is using
 the same SAC distribution, it is best to copy the path and environment
 lines directly into their own shell initialization file.
 
-* Initialization macro
+Initialization macro
 ---------------------------------------------------------------------------
 
 It is recommended that each user create an initialization macro that runs
 whenever SAC is started.  To do this, one creates a startup macro file (e.g.,
-/usr/local/macros/init.m) and aliases SAC as follows:
+/usr/local/macros/init.m) and aliases SAC as follows::
 
-      # For sh/bash
-      alias sac='"${SACHOME}/bin/sac" "${SACHOME}/macros/init.m"'
+     # For sh/bash
+     alias sac='"${SACHOME}/bin/sac" "${SACHOME}/macros/init.m"'
 
-      # For csh/tcsh
-      alias sac '"${SACHOME}/bin/sac" "${SACHOME}/macros/init.m"'
+     # For csh/tcsh
+     alias sac '"${SACHOME}/bin/sac" "${SACHOME}/macros/init.m"'
 
-Here is a sample initialization macro:
+Here is a sample initialization macro::
 
-   lh columns 2 files none; qdp 10000 ; xdiv power off ; xlabel 'Time (sec)'
-   setmacro /usr/local/macros ; transcript history file ./.sachist
+    lh columns 2 files none; qdp 10000 ; xdiv power off ; xlabel 'Time (sec)'
+    setmacro /usr/local/macros ; transcript history file ./.sachist
 
 For the meaning of these entries (lh, qdp, xdiv, xlabel, setmacro,
 transcript), use the help feature in SAC.  For further discussion of the
 transcript command and command-line editing, see SACHOME/utils/README_utils.
 
-* Matlab Interface
+Matlab Interface
 ---------------------------------------------------------------------------
 
 - Solaris
@@ -195,7 +203,7 @@ transcript command and command-line editing, see SACHOME/utils/README_utils.
 
 File utils/README_utils describes some Matlab macros provided by a user.
 
-* PNG Support
+PNG Support
 ----------------------------------------------------------------------------
 
 Saving figures as PNG files is possible, but starting with version v101.6 the
@@ -204,7 +212,7 @@ dynamic libraries so that a binary SAC distribution built on one computer may
 not be portable.  PNG support can be included if one builds SAC from sources
 with the configure option --enable-png.
 
-* If you need help ...
+If you need help ...
 ---------------------------------------------------------------------------
 
 1.  If you have SAC working, use the help command from within SAC.  You can
@@ -229,7 +237,7 @@ with the configure option --enable-png.
     A section in this project is a Wiki that includes a Tutorial and a
     set of Examples.
 
-* License
+License
 ---------------------------------------------------------------------------
    Copyright 2022 - (IRIS) Incorporated Research Institutions for Seismology
 
@@ -245,7 +253,7 @@ with the configure option --enable-png.
    See the License for the specific language governing permissions and
    limitations under the License.
 
-* References
+References
 ---------------------------------------------------------------------------
 
 Savage, B. (2021), sacio: A library for Seismic Analysis Code data files,
