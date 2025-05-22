@@ -136,7 +136,10 @@ miniseed_trace_list_to_sac(MS3TraceList *mst3k) {
                 s->h->leven = TRUE;
                 s->h->iftype = ITIME;
 
-                ms_sid2nslc(t->sid, s->h->knetwk, s->h->kstnm, s->h->khole, s->h->kcmpnm);
+                ms_sid2nslc_n(t->sid, s->h->knetwk, sizeof(s->h->knetwk),
+                              s->h->kstnm, sizeof(s->h->kstnm),
+                              s->h->khole, sizeof(s->h->khole),
+                              s->h->kcmpnm, sizeof(s->h->kcmpnm));
 
                 ms_nstime2time(seg->starttime, &year, &doy, &hour, &min, &sec, &nsec);
                 s->h->nzyear = year;
