@@ -5,6 +5,7 @@ a discussion of bug fixes and enhancements made between releases.
 - Update libmseed to v3.1.5
 - Update evalresp to v5.0.1
 - Rebrand IRIS to EarthScope and update mailing list and homepage locations
+- Replace retired IRIS event service with USGS event service
 
 2022/09 Version 102.1 released
 - License change to Apache 2 License
@@ -20,7 +21,7 @@ a discussion of bug fixes and enhancements made between releases.
   - libmseed included in all distributions
 - SAC files (binary/alpha) now uses a BSD-License library
 - Removed maximum file in memory limitation
-- CONVOLE command changed functionality.  See CONVOLVE help file.
+- CONVOLVE command changed functionality.  See CONVOLVE help file.
 - Many examples hae been added to sac/doc/examples.  Referenced from
     help file Using the SAC Libraries (sac/aux/user_man/saclib)
 - Added IBODY header variable

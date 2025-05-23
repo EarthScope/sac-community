@@ -241,7 +241,7 @@ downloaded using the *DURATION* option::
      SAC> data sta DOOR cha BHZ gcmt:369471 dur +1h read
      Data Center: IRISDMC,http://ds.iris.edu
                     SourceID                Start sample             End sample         Gap
-     XFDSN:XE_DOOR__B_H_Z     1994-06-09T00:33:45.012000 1994-06-09T01:33:44.912000  ==
+     FDSN:XE_DOOR__B_H_Z     1994-06-09T00:33:45.012000 1994-06-09T01:33:44.912000  ==
      Working on file: XE.DOOR..BHZ.M.1994.160.003345.sac [ OK ]
 
 **Data download using a station file**
@@ -287,17 +287,17 @@ These can be avoided by using there READ option in DATA::
       FILE = 'fdsnws.2019.10.25.18.01.01.NCEDC.mseed'
      SAC> read %FILE
             SourceID                Start sample         End sample         Gap
-     XFDSN:BK_BDM__B_H_Z      2010-08-23T00:00:00.010466
+     FDSN:BK_BDM__B_H_Z      2010-08-23T00:00:00.010466
         2010-08-23T00:59:59.985466  ==
-     XFDSN:BK_BKS__B_H_Z      2010-08-23T00:00:00.023145
+     FDSN:BK_BKS__B_H_Z      2010-08-23T00:00:00.023145
         2010-08-23T00:59:59.998145  ==
-     XFDSN:BK_BRIB_00_B_H_Z   2010-08-23T00:00:00.019538
+     FDSN:BK_BRIB_00_B_H_Z   2010-08-23T00:00:00.019538
         2010-08-23T00:59:59.994538  ==
-     XFDSN:BK_BRK_00_B_H_Z    2010-08-23T00:00:00.019538
+     FDSN:BK_BRK_00_B_H_Z    2010-08-23T00:00:00.019538
         2010-08-23T00:59:59.994538  ==
-     XFDSN:BK_CMB__B_H_Z      2010-08-23T00:00:00.023616
+     FDSN:BK_CMB__B_H_Z      2010-08-23T00:00:00.023616
         2010-08-23T00:59:59.998696  ==
-     XFDSN:BK_CVS_00_B_H_Z    2010-08-23T00:00:00.019536
+     FDSN:BK_CVS_00_B_H_Z    2010-08-23T00:00:00.019536
         2010-08-23T00:59:59.994539  ==
      SAC>
 
@@ -309,7 +309,7 @@ SAC will try to insert metadata for the resulting data files. ::
      SAC> data sta DOOR cha BHZ gcmt:369471 dur +1h read
      Data Center: IRISDMC,http://ds.iris.edu
                     SourceID                Start sample             End sample         Gap
-     XFDSN:XE_DOOR__B_H_Z     1994-06-09T00:33:45.012000 1994-06-09T01:33:44.912000  ==
+     FDSN:XE_DOOR__B_H_Z     1994-06-09T00:33:45.012000 1994-06-09T01:33:44.912000  ==
      Working on file: XE.DOOR..BHZ.M.1994.160.003345.sac [ OK ]
 
      SAC> lh kevnm stlo stla evlo evla evdp
@@ -332,7 +332,7 @@ metadata using the METADATA_ command::
      SAC> data sta DOOR cha BHZ time 1994-06-09T00:33:45 1h read
      Data Center: IRISDMC,http://ds.iris.edu
                     SourceID                Start sample             End sample         Gap
-     XFDSN:XE_DOOR__B_H_Z     1994-06-09T00:33:45.012000 1994-06-09T01:33:44.912000  ==
+     FDSN:XE_DOOR__B_H_Z     1994-06-09T00:33:45.012000 1994-06-09T01:33:44.912000  ==
      Working on file: XE.DOOR..BHZ.M.1994.160.003345.sac [ OK ]
 
      SAC> lh kevnm stlo stla evlo evla evdp
@@ -383,7 +383,7 @@ command::
      SAC> data sta CMB net BK cha BHZ gcmt:369471 duration 1h read
      Data Center: NCEDC,http://www.ncedc.org
                     SourceID                Start sample             End sample         Gap
-     XFDSN:BK_CMB__B_H_Z      1994-06-09T00:33:45.004000 1994-06-09T01:33:44.953000  ==
+     FDSN:BK_CMB__B_H_Z      1994-06-09T00:33:45.004000 1994-06-09T01:33:44.953000  ==
      Working on file: BK.CMB..BHZ.D.1994.160.003345.sac [ OK ]
 
      SAC> traveltime online picks 0 phase ttall
