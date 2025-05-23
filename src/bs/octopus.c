@@ -423,8 +423,8 @@ event_request(int *nerr) {
     switch(catalog) {
     case 1:
     case 4:
-        request_set_url(e, EVENT_IRIS);
-        event_req_set_catalog(e, "GCMT");
+        request_set_url(e, EVENT_USGS);
+        event_req_set_catalog(e, "gcmt");
         strlcpy(cat, "gcmt", sizeof(cat));
         break;
     case 2:
@@ -978,7 +978,7 @@ data_request_f(int *nerr) {
         if(strlen(outfile) > 0) {
             data_request_write_to_file(fdr, outfile);
         }
-        // Write out the the screen if not downloading 
+        // Write out the the screen if not downloading
         if(action == AVAIL) {
             data_request_write(fdr, stdout);
             cprintf("red,bold",
@@ -1138,7 +1138,7 @@ starts_with(char *str, char *pat) {
  * @details    Get CMTSOLUTION from kevnm
  *
  * @param      files    sac files
- * @param      ev       event 
+ * @param      ev       event
  * @param      verbose  report progress
  *
  */

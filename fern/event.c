@@ -759,12 +759,12 @@ event_default(Event *e) {
  *
  * @param e  request
  *
- * @note the IRIS event catalog at https://service.iris.edu/fdsnws/event/1 is
+ * @note the USGS event catalog at https://service.iris.edu/fdsnws/event/1 is
  *    set as the URL, nodata will return a 404 HTTP code and the format is xml
  */
 void
 event_req_init(request *e) {
-    request_set_url(e, EVENT_IRIS);
+    request_set_url(e, EVENT_USGS);
     request_set_arg(e, "nodata", arg_int_new(404));
     request_set_arg(e, "format", arg_string_new("xml"));
 }
@@ -823,9 +823,6 @@ event_req_set_eventid(request *e, char *id) {
     } else if(strcasecmp(catalog, "isc") == 0) {
         request_set_url(e, EVENT_ISC);
 
-    } else if(strcasecmp(catalog, "gcmt") == 0) {
-        request_set_url(e, EVENT_IRIS);
-        request_set_arg(e, "catalog", arg_string_new("GCMT"));
     }
     eid--;
     *eid = ':';

@@ -2,7 +2,6 @@
 //#define TESTING_URLS
 #ifndef TESTING_URLS
 
-#define EVENT_IRIS      "https://service.iris.edu/fdsnws/event/1/query?"
 #define EVENT_USGS      "https://earthquake.usgs.gov/fdsnws/event/1/query?"
 #define EVENT_ISC       "http://www.isc.ac.uk/fdsnws/event/1/query?"
 #define STATION_IRIS    "http://service.iris.edu/fdsnws/station/1/query?"
@@ -13,7 +12,6 @@
 
 #else
 
-#define EVENT_IRIS      "http://127.0.0.1:5000/irisws/event/1/query?"
 #define EVENT_USGS      "http://127.0.0.1:5000/irisws/event/1/query?"
 #define EVENT_ISC       "http://127.0.0.1:5000/irisws/event/1/query?"
 #define STATION_IRIS    "http://127.0.0.1:5000/irisws/station/1/query?"
