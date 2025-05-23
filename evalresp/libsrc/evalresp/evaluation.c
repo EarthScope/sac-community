@@ -12,8 +12,6 @@
 #include "evalresp/public_api.h"
 #include "evalresp_log/log.h"
 
-#define UNUSED(x) (void) x
-
 // new code as a clean wrapper for calc_resp etc.
 
 int
@@ -50,7 +48,6 @@ evalresp_free_options (evalresp_options **options)
 int
 evalresp_set_filename (evalresp_logger *log, evalresp_options *options, const char *filename)
 {
-    UNUSED(log);
   options->filename = strdup (filename);
   return EVALRESP_OK;
 }
@@ -84,7 +81,7 @@ parse_option (evalresp_logger *log, const char *name, int noptions, option_pair 
   ;
   char *copy;
   copy = strdup (str);
-  for (i = 0; i < (int) strlen (copy); ++i)
+  for (i = 0; i < strlen (copy); ++i)
   {
     copy[i] = toupper (copy[i]);
   }
@@ -140,6 +137,21 @@ evalresp_set_unit (evalresp_logger *log, evalresp_options *options,
     options->unit = value;
   }
   return status;
+}
+
+const char *
+evalresp_unit_string (const evalresp_unit unit)
+{
+  if (unit == evalresp_displacement_unit)
+    return "Displacement (m)";
+  else if (unit == evalresp_velocity_unit)
+    return "Velocity (m/s)";
+  else if (unit == evalresp_acceleration_unit)
+    return "Acceleration (m/s**2)";
+  else if (unit == evalresp_file_unit)
+    return "Documented response unit";
+  else
+    return "Unrecognized response unit";
 }
 
 static option_pair spacings[] = {

@@ -9,19 +9,6 @@
 #include "./private.h"
 #include "evalresp/public_api.h"
 
-static const char *
-get_SEEDUNITS (int idx)
-{
-  static const char SEEDUNITS[][UNITS_STR_LEN] =
-      {"Undef Units", "Displacement", "Velocity", "Acceleration", "Counts",
-       "Volts", "", "Pascals", "Tesla", "Centigrade"};
-  if (0 > idx || 9 < idx)
-  {
-    return "";
-  }
-  return SEEDUNITS[idx];
-}
-
 int
 evalresp_response_to_char (evalresp_logger *log, const evalresp_response *response,
                            int unwrap, evalresp_file_format format, char **output)
@@ -177,7 +164,7 @@ evalresp_response_to_stream (evalresp_logger *log, const evalresp_response *resp
     {
       /* print to the FILE * */
       len = fprintf (file, "%s", resp_string);
-      if (len != (int) strlen (resp_string))
+      if (len != strlen (resp_string))
       {
         evalresp_log (log, EV_ERROR, EV_ERROR, "Failed to write to file");
         status = EVALRESP_IO;
@@ -229,7 +216,8 @@ evalresp_channel_to_log (evalresp_logger *log, evalresp_options const *const opt
   evalresp_blkt *this_blkt;
   char tmp_str[TMPSTRLEN], out_str[OUTPUTLEN];
   int in_units = 0;
-  int out_units = 0;
+  char *in_units_str = 0;
+  char *out_units_str = 0;
   int first_blkt;
 
   /* determine what the input units of the first stage and output units
@@ -249,10 +237,15 @@ evalresp_channel_to_log (evalresp_logger *log, evalresp_options const *const opt
       continue;
     }
     last_stage = this_stage;
-    if (!in_units)
+    if (!in_units || !in_units_str)
+    {
       in_units = this_stage->input_units;
-    if (last_stage->output_units)
-      out_units = last_stage->output_units;
+      in_units_str = this_stage->input_units_str;
+    }
+    if (last_stage->output_units || last_stage->output_units_str)
+    {
+      out_units_str = last_stage->output_units_str;
+    }
     this_stage = last_stage->next_stage;
     if (this_stage != (evalresp_stage *)NULL)
       this_blkt = this_stage->first_blkt;
@@ -282,18 +275,11 @@ evalresp_channel_to_log (evalresp_logger *log, evalresp_options const *const opt
   evalresp_log (log, EV_INFO, 0, "  %s %s %s %s ",
                 (strlen (channel->network) ? channel->network : "??"), channel->staname,
                 (strlen (channel->locid) ? channel->locid : "??"), channel->chaname);
-  if (options->unit != evalresp_file_unit)
-  {
-    evalresp_log (log, EV_INFO, 0, " %s %s", channel->beg_t, channel->end_t);
-    evalresp_log (log, EV_INFO, 0, "   Seed units: %s(in)->%s(out)", get_SEEDUNITS (in_units),
-                  get_SEEDUNITS (out_units));
-  }
-  else
-  {
-    evalresp_log (log, EV_INFO, 0, " %s %s\n   Seed units: %s(in)->%s(out)",
-                  channel->beg_t, channel->end_t, channel->first_units,
-                  channel->last_units);
-  }
+  evalresp_log (log, EV_INFO, 0, "  %s %s", channel->beg_t, channel->end_t);
+
+  evalresp_log (log, EV_INFO, 0, "   documented input units: %s", (in_units_str) ? in_units_str : "None");
+  evalresp_log (log, EV_INFO, 0, "   documented output units: %s", (out_units_str) ? out_units_str : "None");
+  evalresp_log (log, EV_INFO, 0, "   requested units: %s", evalresp_unit_string(options->unit));
 
   evalresp_log (log, EV_INFO, 0, "   computed sens=%.5E (reported=%.5E) @ %.5E Hz",
                 channel->calc_sensit, channel->sensit, channel->sensfreq);

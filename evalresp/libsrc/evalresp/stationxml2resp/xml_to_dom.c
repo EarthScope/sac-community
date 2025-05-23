@@ -348,7 +348,8 @@ static int parse_pole_zero(evalresp_logger *log, mxml_node_t *node, x2r_pole_zer
 
     //evalresp_log(log, EV_DEBUG, 0, "Parsing pole_zero");
 
-    if (!(status = int_attribute(log, node, "number", NULL, &pole_zero->number))) {
+    /* The number attribute is optional in StationXML, default to 0 if not present */
+    if (!(status = int_attribute(log, node, "number", "0", &pole_zero->number))) {
         if (!(status = parse_float(log, node, "Real", &pole_zero->real))) {
             status = parse_float(log, node, "Imaginary", &pole_zero->imaginary);
         }
@@ -365,7 +366,8 @@ static int parse_coefficient(evalresp_logger *log, mxml_node_t *node, x2r_coeffi
 
     //evalresp_log(log, EV_DEBUG, 0, "Parsing coefficient");
 
-    if (!(status = int_attribute(log, node, "number", NULL, &coefficient->number))) {
+    /* The number attribute is optional in StationXML, default to 0 if not present */
+    if (!(status = int_attribute(log, node, "number", "0", &coefficient->number))) {
         status = parse_float(log, node, ".", &coefficient->value);
     }
 
@@ -1144,6 +1146,8 @@ static int parse_station(evalresp_logger *log, mxml_node_t *node, x2r_station *s
         } else {
             if (!(status = char_attribute(log, node, "code", NULL, &station->code))) {
                 for (i = 0; !status && i < station->n_channels; ++i) {
+                    station->channel[i].start_date = unset_time_t;
+                    station->channel[i].end_date = unset_time_t;
                     status = parse_channel(log, stations->node[i], &station->channel[i]);
                 }
             }
@@ -1223,18 +1227,28 @@ int x2r_parse_fdsn_station_xml(evalresp_logger *log, mxml_node_t *doc, x2r_fdsn_
         evalresp_log(log, EV_ERROR, 0, "Cannot alloc fdsn_station_xml");
         status = X2R_ERR_MEMORY;
     } else {
-        if (!(status = find_child(log, &fdsn, NULL, doc, "FDSNStationXML"))) {
-            if (!(status = find_children(log, &networks, fdsn, "Network"))) {
-                (*root)->n_networks = networks->n;
-                if (!((*root)->network = calloc((*root)->n_networks, sizeof(*(*root)->network)))) {
-                    evalresp_log(log, EV_ERROR, 0, "Cannot alloc networks");
-                    status = X2R_ERR_MEMORY;
-                } else {
-                    for (i = 0; !status && i < (*root)->n_networks; ++i) {
-                        status = parse_network(log, networks->node[i], &(*root)->network[i]);
-                    }
-                }
-            }
+        // Find FDSNStationXML document node, could be the root or following XML declaration (<?xml ...?>)
+        if (mxmlGetType(doc) == MXML_ELEMENT && !strcmp("FDSNStationXML",  mxmlGetElement(doc))) {
+            fdsn = doc;
+        } else {
+            fdsn = mxmlFindElement(doc, doc, "FDSNStationXML", NULL, NULL, MXML_DESCEND_FIRST);
+        }
+
+        if (fdsn) {
+           if (!(status = find_children(log, &networks, fdsn, "Network"))) {
+               (*root)->n_networks = networks->n;
+               if (!((*root)->network = calloc((*root)->n_networks, sizeof(*(*root)->network)))) {
+                   evalresp_log(log, EV_ERROR, 0, "Cannot alloc networks");
+                   status = X2R_ERR_MEMORY;
+               } else {
+                   for (i = 0; !status && i < (*root)->n_networks; ++i) {
+                     status = parse_network(log, networks->node[i], &(*root)->network[i]);
+                   }
+               }
+           }
+        } else {
+            evalresp_log(log, EV_ERROR, 0, "FDSNStationXML not detected");
+            status = X2R_ERR_XML;
         }
     }
 
@@ -1273,5 +1287,3 @@ int x2r_station_service_load(evalresp_logger *log, FILE *in, x2r_fdsn_station_xm
     mxmlDelete(doc);
     return status;
 }
-
-

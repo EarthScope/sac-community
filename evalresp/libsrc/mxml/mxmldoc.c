@@ -159,7 +159,7 @@ static toc_t		*build_toc(mxml_node_t *doc, const char *bodyfile, mmd_t *body, in
 static mxml_node_t	*find_public(mxml_node_t *node, mxml_node_t *top, const char *element, const char *name, int mode);
 static void		free_toc(toc_t *toc);
 static char		*get_comment_info(mxml_node_t *description);
-//static char		*get_iso_date(time_t t);
+static char		*get_iso_date(time_t t);
 static char		*get_text(mxml_node_t *node, char *buffer, int buflen);
 static int		is_markdown(const char *filename);
 static mxml_type_t	load_cb(mxml_node_t *node);
@@ -624,20 +624,6 @@ main(int  argc,				/* I - Number of command-line args */
 }
 
 
-static size_t
-xml_strlcpy(char *dst, const char *src, size_t size) {
-    size_t length, copy;
-
-    length = strlen(src);
-    if (size > 0) {
-        copy = (length >= size) ? size - 1 : length;
-        memcpy(dst, src, copy);
-        dst[copy] = '\0';
-    }
-    return length;
-}
-
-
 /*
  * 'add_toc()' - Add a TOC entry.
  */
@@ -669,8 +655,8 @@ add_toc(toc_t      *toc,		/* I - Table-of-contents */
   toc->num_entries ++;
 
   temp->level = level;
-  xml_strlcpy(temp->anchor, anchor, sizeof(temp->anchor));
-  xml_strlcpy(temp->title, title, sizeof(temp->title));
+  strlcpy(temp->anchor, anchor, sizeof(temp->anchor));
+  strlcpy(temp->title, title, sizeof(temp->title));
 }
 
 
@@ -727,7 +713,7 @@ add_variable(mxml_node_t *parent,	/* I - Parent node */
       if (node->value.text.whitespace && bufptr > buffer)
 	*bufptr++ = ' ';
 
-      xml_strlcpy(bufptr, node->value.text.string, sizeof(buffer) - (size_t)(bufptr - buffer));
+      strlcpy(bufptr, node->value.text.string, sizeof(buffer) - (size_t)(bufptr - buffer));
 
       next = node->next;
       mxmlDelete(node);
@@ -756,7 +742,7 @@ add_variable(mxml_node_t *parent,	/* I - Parent node */
       if (node->value.text.whitespace && bufptr > buffer)
 	*bufptr++ = ' ';
 
-      xml_strlcpy(bufptr, node->value.text.string, sizeof(buffer) - (size_t)(bufptr - buffer));
+      strlcpy(bufptr, node->value.text.string, sizeof(buffer) - (size_t)(bufptr - buffer));
 
       next = node->next;
       mxmlDelete(node);
@@ -769,7 +755,7 @@ add_variable(mxml_node_t *parent,	/* I - Parent node */
     * Handle "type name"...
     */
 
-    xml_strlcpy(buffer, type->last_child->value.text.string, sizeof(buffer));
+    strlcpy(buffer, type->last_child->value.text.string, sizeof(buffer));
     mxmlDelete(type->last_child);
   }
 
@@ -1099,7 +1085,7 @@ build_toc(mxml_node_t *doc,		/* I - Documentation */
   return (toc);
 }
 
-#ifdef DO_NOT_COMPILE
+
 /*
  * 'epub_ws_cb()' - Whitespace callback for EPUB.
  */
@@ -1147,7 +1133,7 @@ epub_ws_cb(mxml_node_t *node,		/* I - Element node */
         return ("\n");
   }
 }
-#endif 
+
 
 /*
  * 'find_public()' - Find a public function, type, etc.
@@ -1316,7 +1302,7 @@ get_comment_info(
       return ("<span class=\"info\">&#160;DEPRECATED&#160;</span>");
     else if (!strncmp(ptr, "@since ", 7))
     {
-      xml_strlcpy(since, ptr + 7, sizeof(since));
+      strlcpy(since, ptr + 7, sizeof(since));
 
       if ((ptr = strchr(since, '@')) != NULL)
         *ptr = '\0';
@@ -1330,7 +1316,6 @@ get_comment_info(
 }
 
 
-#ifdef DO_NOT_COMPILE
 /*
  * 'get_iso_date()' - Get an ISO-formatted date/time string.
  */
@@ -1347,7 +1332,7 @@ get_iso_date(time_t t)			/* I - Time value */
   snprintf(buffer, sizeof(buffer), "%04d-%02d-%02dT%02d:%02d:%02dZ", date->tm_year + 1900, date->tm_mon + 1, date->tm_mday, date->tm_hour, date->tm_min, date->tm_sec);
   return (buffer);
 }
-#endif
+
 
 /*
  * 'get_text()' - Get the text for a node.
@@ -2065,7 +2050,7 @@ scan_file(const char  *filename,	/* I - Filename */
 		      if (node->value.text.whitespace && bufptr > buffer)
 			*bufptr++ = ' ';
 
-		      xml_strlcpy(bufptr, node->value.text.string, sizeof(buffer) - (size_t)(bufptr - buffer));
+		      strlcpy(bufptr, node->value.text.string, sizeof(buffer) - (size_t)(bufptr - buffer));
 
 		      next = node->next;
 		      mxmlDelete(node);
@@ -2830,8 +2815,8 @@ scan_file(const char  *filename,	/* I - Filename */
 #endif /* DEBUG */
 
 		  state = STATE_NONE;
-		}
 		  break;
+		}
 
 	    default :
 	        if (ch == ' ' && bufptr == buffer)
@@ -3868,9 +3853,9 @@ write_epub(const char  *epubfile,	/* I - EPUB file (output) */
   * Start by writing the XHTML content...
   */
 
-  xml_strlcpy(xhtmlfile, epubfile, sizeof(xhtmlfile));
+  strlcpy(xhtmlfile, epubfile, sizeof(xhtmlfile));
   if ((xhtmlptr = strstr(xhtmlfile, ".epub")) != NULL)
-    xml_strlcpy(xhtmlptr, ".xhtml", sizeof(xhtmlfile) - (size_t)(xhtmlptr - xhtmlfile));
+    strlcpy(xhtmlptr, ".xhtml", sizeof(xhtmlfile) - (size_t)(xhtmlptr - xhtmlfile));
   else
     strlcat(xhtmlfile, ".xhtml", sizeof(xhtmlfile));
 
@@ -4014,9 +3999,9 @@ write_epub(const char  *epubfile,	/* I - EPUB file (output) */
   */
 
   if ((epubptr = strrchr(epubfile, '/')) != NULL)
-    xml_strlcpy(epubbase, epubptr + 1, sizeof(epubbase));
+    strlcpy(epubbase, epubptr + 1, sizeof(epubbase));
   else
-    xml_strlcpy(epubbase, epubfile, sizeof(epubbase));
+    strlcpy(epubbase, epubfile, sizeof(epubbase));
 
   if ((epubptr = strstr(epubbase, ".epub")) != NULL)
     *epubptr = '\0';

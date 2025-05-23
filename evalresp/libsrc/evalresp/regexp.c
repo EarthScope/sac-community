@@ -1,7 +1,7 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
-#define UNUSED(x) (void) x
+
 /*
  * evr_regcomp and evr_regexec -- evr_regsub and evr_regerror are elsewhere
  *
@@ -700,7 +700,6 @@ static void regoptail (p, val, log) char *p;
 char *val;
 evalresp_logger *log;
 {
-    UNUSED(log);
   /* "Operandless" and "op != BRANCH" are synonymous in practice. */
   if (p == NULL || p == &regdummy || OP (p) != BRANCH)
     return;

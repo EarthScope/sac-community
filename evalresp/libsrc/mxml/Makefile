@@ -9,8 +9,7 @@ MXML_SRC= mxml-attr.c mxml-entity.c mxml-file.c mxml-get.c mxml-index.c\
 MXML_HEADERS= mxml-private.h mxml.h
 
 vpath %.c .
-#OBJ=$(addprefix $(BUILD_DIR)/, $(patsubst %.c, %.o,$(notdir $(MXML_SRC))))
-OBJ=$(MXML_SRC:.c=.o)
+OBJ=$(addprefix $(BUILD_DIR)/, $(patsubst %.c, %.o,$(notdir $(MXML_SRC))))
 TARGET=libmxmlev.a
 .PHONY: all clean install
 .SUFFIXES:
@@ -18,8 +17,8 @@ TARGET=libmxmlev.a
 
 all: config.h $(BUILD_DIR)/$(TARGET)
 
-#$(BUILD_DIR)/%.o: %.c $(BUILD_DIR) $(BUILD_DIR)
-#	$(CC) -c -o $@ $(CFLAGS) $<
+$(BUILD_DIR)/%.o: %.c $(BUILD_DIR) $(BUILD_DIR)
+	$(CC) -c -o $@ $(CFLAGS) $<
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)

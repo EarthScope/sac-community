@@ -20,8 +20,8 @@ TARGET=libevalresp.a
 
 all: $(BUILD_DIR)/$(TARGET)
 
-#$(BUILD_DIR)/%.o: %.c $(BUILD_DIR) $(BUILD_DIR)
-#	$(CC) -c -o $@ $(CFLAGS) $<
+$(BUILD_DIR)/%.o: %.c $(BUILD_DIR) $(BUILD_DIR)
+	$(CC) -c -o $@ $(CFLAGS) $<
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)

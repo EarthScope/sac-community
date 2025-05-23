@@ -1,3 +1,30 @@
+Version 5.0.1
+
+	2022-03-27 Chad Trabant
+
+	* FIXED: Fix memory issues with legacy interfaces and add known Units (#72)
+	from @savage13.
+
+	* FIXED: Properly treat StationXML 'number' attribute as optional
+	for Pole, Zero and Coefficient elements.  Converted values in RESP
+	will be 0.
+
+	* FIXED: Avoid double-free in free_stages() and remove stub code.
+
+	* IMPROVED: Retain documented unit strings and include them in
+	returned structure and use to improve diagnostic/verbose output.
+
+	* IMPROVED: Include requested units in diagnostic output.
+
+	* IMPROVED: Properly recognize date times of 1970-01-01T00:00:00
+	StationXML to avoid treating them as "open".
+
+	* IMPROVED: Allow StationXML input without an XML declaration,
+	aka the <?xml ... ?> prefix which is not required by StationXML.
+
+	* IMPROVED: Always re-compile binary targets in default target,
+        as dependencies are not provided for make to determine when needed.
+
 Version 5.0.0
 
 	09-04-2019 Chad Trabant

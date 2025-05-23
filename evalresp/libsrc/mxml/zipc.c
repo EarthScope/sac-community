@@ -48,7 +48,7 @@
 #include <time.h>
 #include <zlib.h>
 
-#define UNUSED(x) (void) x
+
 /*
  * Local constants...
  */
@@ -623,7 +623,7 @@ zipcFileRead(zipc_file_t *zf,           /* I - ZIP container file */
   if (zc->readptr && zc->readptr < zc->readend)
   {
     rbytes = zc->readend - zc->readptr;
-    if ((size_t) rbytes > bytes)
+    if (rbytes > bytes)
       rbytes = bytes;
 
     memcpy(data, zc->readptr, rbytes);
@@ -1021,8 +1021,7 @@ zipcOpen(const char *filename,		/* I - Filename of container */
     char        cfile[256];             /* Container filename from header */
     int         done = 0;               /* Done reading? */
 
-    UNUSED(modtime);
-    UNUSED(version);
+
    /*
     * Open the container file...
     */
@@ -1112,7 +1111,7 @@ zipcOpen(const char *filename,		/* I - Filename of container */
            zc->error = zc->error_msg;
 
            fprintf(stderr, "zipcOpen: %s\n", zc->error_msg);
-           /* Falls Through */
+
        case ZIPC_DIR_HEADER :
        case ZIPC_END_RECORD :
            done = 1;

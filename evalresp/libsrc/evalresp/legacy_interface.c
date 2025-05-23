@@ -9,8 +9,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define UNUSED(x) (void) x
-
 /* define a global flag to use if using "default" units */
 int def_units_flag;
 /* define global variables for use in printing error messages */
@@ -117,7 +115,7 @@ determine_log_or_lin (int num_freq, double *freqs)
   double dt1 = freqs[1] - freqs[0];
   double dt2 = freqs[2] - freqs[1];
   double diff = dt1 - dt2;
-  UNUSED(num_freq);
+
   if (diff < 1e-8 && diff > -1e-8)
   {
     return 1; /*linear */
@@ -141,7 +139,7 @@ evresp_itp (char *stalst, char *chalst, char *net_code,
   evalresp_response *first_resp = NULL;
   int i, year, jday;
   char time[100];
-  UNUSED(listinterp_tension);
+
   if (EVALRESP_OK != evalresp_new_options (log, &options))
   {
     return NULL;
@@ -184,7 +182,7 @@ evresp_itp (char *stalst, char *chalst, char *net_code,
 
   if (verbose)
   {
-    for (i = 0; i < (int) strlen (verbose); i++)
+    for (i = 0; i < strlen (verbose); i++)
     {
       if (toupper (verbose[i]) == 'V')
       {
@@ -253,7 +251,6 @@ evresp (char *stalst, char *chalst, char *net_code,
         int stdio_flag, int useTotalSensitivityFlag, double x_for_b62,
         int xml_flag)
 {
-  UNUSED(useTotalSensitivityFlag);
   return evresp_itp (stalst, chalst, net_code, locidlst, date_time, units,
                      file, freqs, nfreqs, rtype, verbose, start_stage, stop_stage,
                      stdio_flag, 0, 0, 0.0, 0, x_for_b62, xml_flag);

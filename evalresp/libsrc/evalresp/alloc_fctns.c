@@ -488,6 +488,8 @@ alloc_stage (evalresp_logger *log)
   stage_ptr->sequence_no = 0;
   stage_ptr->output_units = 0;
   stage_ptr->input_units = 0;
+  stage_ptr->output_units_str = NULL;
+  stage_ptr->input_units_str = NULL;
   stage_ptr->first_blkt = NULL;
   stage_ptr->next_stage = NULL;
 
@@ -658,17 +660,7 @@ free_deci (evalresp_blkt *blkt_ptr)
 void
 free_ref (evalresp_blkt *blkt_ptr)
 {
-
   if (blkt_ptr != (evalresp_blkt *)NULL)
-  {
-    free (blkt_ptr);
-  }
-}
-
-void
-free_evalresp_blkt (evalresp_blkt *blkt_ptr)
-{
-  if (blkt_ptr != NULL)
   {
     free (blkt_ptr);
   }
@@ -731,8 +723,7 @@ free_stages (evalresp_stage *stage_ptr)
         free_gain (this_blkt);
         break;
       case REFERENCE:
-          //free_ref (this_blkt);
-        free_evalresp_blkt (this_blkt);
+        free_ref (this_blkt);
         break;
       case POLYNOMIAL:
         free_polynomial (this_blkt);
@@ -742,6 +733,12 @@ free_stages (evalresp_stage *stage_ptr)
       }
       this_blkt = next_blkt;
     }
+
+    if (stage_ptr->output_units_str)
+      free (stage_ptr->output_units_str);
+    if (stage_ptr->input_units_str)
+      free (stage_ptr->input_units_str);
+
     free (stage_ptr);
     stage_ptr = NULL;
   }

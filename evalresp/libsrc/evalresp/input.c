@@ -13,8 +13,6 @@
 #include "evalresp/stationxml2resp/wrappers.h"
 #include "evalresp_log/log.h"
 
-#define UNUSED(x) (void) x
-
 #ifdef _WIN32
 // https://stackoverflow.com/questions/16647819/timegm-cross-platform
 #define timegm _mkgmtime
@@ -91,7 +89,7 @@ end_of_string (const char **seed)
 static int
 blank_line (char *line)
 {
-  size_t i;
+  int i;
   for (i = 0; i < strlen (line); ++i)
   {
     if (!isspace (line[i]))
@@ -119,7 +117,7 @@ static void
 remove_tabs_and_crlf (char *line)
 {
   int i;
-  for (i = 0; i < (int) strlen (line); ++i)
+  for (i = 0; i < strlen (line); ++i)
   {
     if (line[i] == '\t')
     {
@@ -246,7 +244,7 @@ number_of_fields (evalresp_logger *log, char *line, int *count)
   char *lcl_ptr, *new_ptr;
   char lcl_field[50];
   int nfields = 0, test;
-  UNUSED(log);
+
   lcl_ptr = line;
   /* added test of 'strstr()' result -- 10/21/2005 -- [ET] */
   while (*lcl_ptr && (test = sscanf (lcl_ptr, "%s", lcl_field)) != 0 && (new_ptr = strstr (lcl_ptr, lcl_field)) != NULL)
@@ -408,7 +406,20 @@ reg_string_match (evalresp_logger *log, const char *string, char *expr, char *ty
   return (test);
 }
 
-/* was check_units */
+/* Parse unit strings.
+ *
+ * When requested units are not DEFAULT (units of the documented
+ * response), parse the units to determine:
+ * a) the scale factor needed to convert to the length unit to meters
+ * and set channel->unit_scale_fact.
+ * b) the appropriate value of DIS, VEL or ACC and set units.
+ *
+ * Some other units are detected, as exceptions to ones that can be
+ * converted to DIS, VEL or ACC in meters.  These are left as
+ * historical artifacts.
+ *
+ * previously named 'check_units'
+ * */
 static int
 parse_units (evalresp_logger *log, evalresp_options const *const options, char *line, evalresp_channel *channel, int *units)
 {
@@ -506,24 +517,30 @@ parse_units (evalresp_logger *log, evalresp_options const *const options, char *
   {
     *units = UNDEF_UNITS;
     evalresp_log (log, EV_WARN, EV_WARN,
-                  "check_units; units found ('%s') are not supported", line);
+                  "units found ('%s') cannot be converted to %s", line, evalresp_unit_string(options->unit));
     status = EVALRESP_PAR;
   }
+
   return status;
 }
 
 static int
 read_units_first_line_known (evalresp_logger *log, evalresp_options const *const options, const char **seed, int blkt_read, int *check_fld,
-                             char *line, evalresp_channel *channel, int *input_units, int *output_units)
+                             char *line, evalresp_channel *channel, int *input_units, int *output_units,
+                             char **input_units_str, char **output_units_str)
 {
   int status = EVALRESP_OK;
 
   //*input_units = check_units (channel, line, log);
+  if (input_units_str && line)
+    *input_units_str = strdup(line);
   parse_units (log, options, line, channel, input_units);
 
   if (!(status = find_line (log, seed, ":", blkt_read, (*check_fld)++, line)))
   {
     //*output_units = check_units (channel, line, log);
+    if (output_units_str && line)
+      *output_units_str = strdup(line);
     parse_units (log, options, line, channel, output_units);
   }
 
@@ -532,7 +549,8 @@ read_units_first_line_known (evalresp_logger *log, evalresp_options const *const
 
 static int
 read_units (evalresp_logger *log, evalresp_options const *const options, const char **seed, int blkt_read, int *check_fld,
-            evalresp_channel *channel, int *input_units, int *output_units)
+            evalresp_channel *channel, int *input_units, int *output_units,
+            char **input_units_str, char **output_units_str)
 {
   int status = EVALRESP_OK;
   char line[MAXLINELEN];
@@ -540,7 +558,8 @@ read_units (evalresp_logger *log, evalresp_options const *const options, const c
   if (!(status = find_line (log, seed, ":", blkt_read, (*check_fld)++, line)))
   {
     status = read_units_first_line_known (log, options, seed, blkt_read, check_fld, line,
-                                          channel, input_units, output_units);
+                                          channel, input_units, output_units,
+                                          input_units_str, output_units_str);
   }
 
   return status;
@@ -740,7 +759,8 @@ read_pz (evalresp_logger *log, evalresp_options const *const options, const char
   }
 
   if ((status = read_units (log, options, seed, blkt_read, &check_fld, channel,
-                            &stage_ptr->input_units, &stage_ptr->output_units)))
+                            &stage_ptr->input_units, &stage_ptr->output_units,
+                            &stage_ptr->input_units_str, &stage_ptr->output_units_str)))
   {
     return status;
   }
@@ -952,7 +972,8 @@ read_iir_coeff (evalresp_logger *log, evalresp_options const *const options, con
   }
 
   if ((status = read_units (log, options, seed, blkt_read, &check_fld, channel,
-                            &stage_ptr->input_units, &stage_ptr->output_units)))
+                            &stage_ptr->input_units, &stage_ptr->output_units,
+                            &stage_ptr->input_units_str, &stage_ptr->output_units_str)))
   {
     return status;
   }
@@ -1089,7 +1110,8 @@ read_coeff (evalresp_logger *log, evalresp_options const *const options, const c
   }
 
   if ((status = read_units (log, options, seed, blkt_read, &check_fld, channel,
-                            &stage_ptr->input_units, &stage_ptr->output_units)))
+                            &stage_ptr->input_units, &stage_ptr->output_units,
+                            &stage_ptr->input_units_str, &stage_ptr->output_units_str)))
   {
     return status;
   }
@@ -1207,7 +1229,8 @@ read_list (evalresp_logger *log, evalresp_options const *const options, const ch
 
   if ((status = read_units_first_line_known (log, options, seed, blkt_read, &check_fld,
                                              line, channel,
-                                             &stage_ptr->input_units, &stage_ptr->output_units)))
+                                             &stage_ptr->input_units, &stage_ptr->output_units,
+                                             &stage_ptr->input_units_str, &stage_ptr->output_units_str)))
   {
     return status;
   }
@@ -1391,7 +1414,8 @@ read_generic (evalresp_logger *log, evalresp_options const *const options, const
 
   if ((status = read_units_first_line_known (log, options, seed, blkt_read, &check_fld,
                                              line, channel,
-                                             &stage_ptr->input_units, &stage_ptr->output_units)))
+                                             &stage_ptr->input_units, &stage_ptr->output_units,
+                                             &stage_ptr->input_units_str, &stage_ptr->output_units_str)))
   {
     return status;
   }
@@ -1705,7 +1729,8 @@ read_fir (evalresp_logger *log, evalresp_options const *const options, const cha
   }
 
   if ((status = read_units (log, options, seed, blkt_read, &check_fld, channel,
-                            &stage_ptr->input_units, &stage_ptr->output_units)))
+                            &stage_ptr->input_units, &stage_ptr->output_units,
+                            &stage_ptr->input_units_str, &stage_ptr->output_units_str)))
   {
     return status;
   }
@@ -1975,7 +2000,8 @@ read_polynomial (evalresp_logger *log, evalresp_options const *const options, co
   }
 
   if ((status = read_units (log, options, seed, blkt_read, &check_fld, channel,
-                            &stage_ptr->input_units, &stage_ptr->output_units)))
+                            &stage_ptr->input_units, &stage_ptr->output_units,
+                            &stage_ptr->input_units_str, &stage_ptr->output_units_str)))
   {
     return status;
   }
@@ -2104,6 +2130,9 @@ read_channel_data (evalresp_logger *log, evalresp_options const *const options, 
 
   while (!(status = read_line (log, seed, ":", &blkt_no, &first_field, first_line)) && blkt_no != 50)
   {
+    tmp_stage->input_units_str = NULL;
+    tmp_stage->output_units_str = NULL;
+
     switch (blkt_no)
     {
     case 53:
@@ -2201,6 +2230,8 @@ read_channel_data (evalresp_logger *log, evalresp_options const *const options, 
       {
         this_stage->input_units = tmp_stage->input_units;
         this_stage->output_units = tmp_stage->output_units;
+        this_stage->input_units_str = tmp_stage->input_units_str;
+        this_stage->output_units_str = tmp_stage->output_units_str;
         no_units = 0;
       }
 
@@ -2429,8 +2460,9 @@ earlier (evalresp_channel *a, evalresp_channel *b)
 {
   int open_a, open_b;
   evalresp_datetime a_time, b_time;
-  open_a = !strcmp (a->end_t, NO_ENDING_TIME);
-  open_b = !strcmp (b->end_t, NO_ENDING_TIME);
+  open_a = !strncasecmp (a->end_t, NO_ENDING_TIME, (sizeof(NO_ENDING_TIME)-1));
+  open_b = !strncasecmp (b->end_t, NO_ENDING_TIME, (sizeof(NO_ENDING_TIME)-1));
+
   if (open_a || open_b)
   {
     if (!open_b)
@@ -2482,7 +2514,8 @@ static int
 duration (evalresp_channel *channel)
 {
   evalresp_datetime begin, end;
-  if (!strcmp (channel->end_t, NO_ENDING_TIME))
+
+  if (!strncasecmp (channel->end_t, NO_ENDING_TIME, (sizeof(NO_ENDING_TIME)-1)))
   {
     return INDEFINITE;
   }
@@ -2500,7 +2533,7 @@ in_epoch (evalresp_datetime *requirement, const char *beg_t, const char *end_t)
   evalresp_datetime start_time, end_time;
 
   parse_datetime (beg_t, &start_time);
-  if (strncmp (end_t, NO_ENDING_TIME, 14))
+  if (strncasecmp (end_t, NO_ENDING_TIME, (sizeof(NO_ENDING_TIME)-1)))
   {
     parse_datetime (end_t, &end_time);
     return ((timecmp (&start_time, requirement) <= 0 && timecmp (&end_time, requirement) > 0));
@@ -2720,7 +2753,7 @@ evalresp_file_to_channels (evalresp_logger *log, FILE *file,
   return status;
 }
 
-/* Detection FDSN StationXML by searching the first 255 bytes of the
+/* Detection of FDSN StationXML by searching the first 255 bytes of the
  * file for "<FDSNStationXML".
  *
  * Return 1 if Station, 0 if not and -1 on error. */
@@ -2765,6 +2798,7 @@ evalresp_filename_to_channels (evalresp_logger *log, const char *filename, evalr
     {
       station_xml = evalresp_file_detect_stationxml (log, file);
 
+      /* Assume RESP on detection error */
       if (station_xml == -1)
         station_xml = 0;
     }
@@ -3022,7 +3056,7 @@ split_on (evalresp_logger *log, char *string, char *delim, struct string_array *
 {
   int status = EVALRESP_OK;
   char *start = string, *end;
-  UNUSED(log);
+
   if (!(*array = calloc (1, sizeof (**array))))
   {
     status = EVALRESP_MEM;
@@ -3056,7 +3090,7 @@ split_on_space (evalresp_logger *log, const char *name, const char *str, struct 
 {
   int status = EVALRESP_OK;
   char *trimmed = NULL;
-  UNUSED(name);
+
   if (!(status = copy_and_trim_string (str, &trimmed)))
   {
     replace_comma_with_space (trimmed);
@@ -3073,7 +3107,6 @@ split_on_comma (evalresp_logger *log, const char *name, const char *str, struct 
 {
   int status = EVALRESP_OK;
   char *trimmed = NULL;
-  UNUSED(name);
 
   if (!(status = copy_and_trim_string (str, &trimmed)))
   {
