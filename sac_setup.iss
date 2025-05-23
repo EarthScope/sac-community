@@ -4,7 +4,7 @@
 #define MyAppName "Seismic Analysis Code"
 #define MyAppVersion "101.6"
 #define MyAppPublisher "IRIS"
-#define MyAppURL "http://www.iris.edu/software/sac/"
+#define MyAppURL "https://github.com/earthscope/sac"
 #define MyAppExeName "sac.exe"
 
 [Setup]

@@ -170,7 +170,7 @@ memory.  The example below uses the eventid gcmt:3279407::
      SAC> data gcmt:3279407 net II sta BORG cha BHZ loc '00' dur 1min read
      Data Center: IRISDMC,http://ds.iris.edu
            SourceID                Start sample             End sample      Gap
-     XFDSN:II_BORG_00_B_H_Z   2011-03-11T05:47:32.019900 2011-03-11T05:48:31.969900  ==
+     FDSN:II_BORG_00_B_H_Z   2011-03-11T05:47:32.019900 2011-03-11T05:48:31.969900  ==
      Working on file: II.BORG.00.BHZ.M.2011.070.054732.sac [ OK ]
 
      SAC> lh stlo stla evlo evla kevnm
@@ -218,7 +218,7 @@ Data retrieved automatically is handled correctly and the conversion is
 seamless.  For metadata from a file specified by the *file metadata_file*
 command option, the type of file determines if the component is define as a dip
 (miniSEED) or inclination (SAC).  This is the same convection used in mseed2sac
-<https://seiscode.iris.washington.edu/projects/mseed2sac> for consistency.
+<https://github.com/EarthScope//mseed2sac> for consistency.
 
 ========== =========== =================== ================
 File Type   Separator  Convention          Conversion Value

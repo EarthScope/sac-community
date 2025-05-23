@@ -134,9 +134,8 @@ Options for ./configure (if on is in the sac-102.0 direcoty)
                       in addition to the curses library.  SAC built on a
           Solaris system with the ncurses library will not
           run on a Solaris system that does not have that
-          library.  Because the Solaris binary provided through
-          IRIS is intended to be able to run on all Solaris
-          systems, it is built with ncurses disabled.
+          library.  Because the Solaris binary provided is intended to be
+          able to run on all Solaris systems, it is built with ncurses disabled.
   --enable-xdr        Enable XDR File Format for Data files
   --enable-zlib       enable compressed pdf files
   --enable-xpm        enable saving plot files to XPM files [default]
@@ -167,7 +166,7 @@ completely useless information.
 
 * License
 ---------------------------------------------------------------------------
-   Copyright 2022 - (IRIS) Incorporated Research Institutions for Seismology
+   Copyright 2025 - EarthScope Consortium
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.

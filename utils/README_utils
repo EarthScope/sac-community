@@ -162,7 +162,7 @@ MATLAB Routines:
 ------------------------------------------------------------------------
   These have been provided by a user as a potentially useful interface
   between SAC and MATLAB.  Comments or concern regarding these MATLAB
-  routines should be sent to <sac-help@iris.washington.edu>.
+  routines should be sent to <sac-community@earthscope.org>.
 
   * readsac.m
   * writesac.m

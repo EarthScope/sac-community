@@ -1,8 +1,8 @@
-/** 
+/**
  * @file   xabout.c
- * 
+ *
  * @brief  About SAC
- * 
+ *
  */
 
 #include <stdio.h>
@@ -22,15 +22,15 @@
 char *env_on[] = { "on", "true", "yes", "1" };
 char *env_off[] = { "off", "false", "no", "0" };
 
-/** 
+/**
  * Get an environment variable, logical value
- * 
- * @param env 
- *    Environment varaible name
- * @param def 
+ *
+ * @param env
+ *    Environment variable name
+ * @param def
  *    Default value, if variable is not found
- * 
- * @return 
+ *
+ * @return
  *    Value of the environment variable
  *
  */
@@ -58,18 +58,18 @@ env_bool(char *env, int def) {
     return def;
 }
 
-/** 
+/**
  * Display the Copyright
- * 
- * @param getset 
+ *
+ * @param getset
  *    - OPTION_ON  - Show Copyright (Set the value)
  *    - OPTION_OFF - Do not show Copyright (Set the value)
  *    - OPTION_GET - Get the copyright value (Do not set)
  *
- * @return 
+ * @return
  *    - TRUE - Show the copyright
  *    - FALSE - Do not show the copyright
- *    
+ *
  */
 int
 display_copyright(int getset) {
@@ -86,18 +86,18 @@ display_copyright(int getset) {
     return show_copyright;
 }
 
-/** 
+/**
  * Use the SeisMgr Database
- * 
- * @param getset 
+ *
+ * @param getset
  *    - OPTION_ON  - Use Database (Set the value)
  *    - OPTION_OFF - Do not use the database (Set the value)
  *    - OPTION_GET - Get the use the database value (Do not set)
  *
- * @return 
+ * @return
  *    - TRUE - Use the database
  *    - FALSE - Do not use the database
- *    
+ *
  */
 int
 use_database(int getset) {
@@ -114,16 +114,16 @@ use_database(int getset) {
     return use_db;
 }
 
-/** 
+/**
  * Display the about message if requested
- * 
+ *
  */
 void
 xabout() {
     char kvdate[200];
     /* char fmt[] = "SEISMIC ANALYSIS CODE [%s (Version 00.59.49)]"; */
     char fmt[] = "SEISMIC ANALYSIS CODE [%s (Version %s)]";
-    char kcopyr[] = "Copyright 2022 IRIS www.iris.edu\n";
+    char kcopyr[] = "Copyright 2025 EarthScope Consortium www.earthscope.org\n";
 
     if (!display_copyright(OPTION_GET)) {
         return;

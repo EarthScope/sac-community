@@ -1,7 +1,7 @@
 
 
 # Process this file with autoconf to produce a configure script.
-AC_INIT(Seismic Analysis Code, 102.0, sac-help@lists.ds.iris.edu, sac)
+AC_INIT(Seismic Analysis Code, 102.0, https://github.com/earthscope/sac, sac)
 
 # Place configuration files in the config directory
 AC_CONFIG_AUX_DIR(config)
@@ -9,14 +9,14 @@ AC_CONFIG_AUX_DIR(config)
 # Default install location
 AC_PREFIX_DEFAULT(/usr/local/sac)
 
-# Do not re-run autotools 
+# Do not re-run autotools
 # Do not recreate the configure script if the time stamps are not correct
 AM_MAINTAINER_MODE
 
 # Determine the System Type
 AC_CANONICAL_SYSTEM
 
-# Header Values 
+# Header Values
 AC_CONFIG_HEADER(inc/config.h)
 
 # Initialization of Automake
@@ -61,25 +61,25 @@ case "${host}" in
                                      MATLAB_EXE_PATH="bin/matlab"
                                      CFLAGS+=" -D_GNU_SOURCE "
      ;;
-     x86_64-*-linux-gnu*)            AC_DEFINE( [LINUX],   [1], [ Linux/x86/64 Operating System ]) 
+     x86_64-*-linux-gnu*)            AC_DEFINE( [LINUX],   [1], [ Linux/x86/64 Operating System ])
                                      BINARY_DIST="linux_x86_64"
                                      MATLAB_BIN_PATH="bin/glnxa64"
                                      MATLAB_EXE_PATH="bin/matlab"
                                      CFLAGS+=" -D_GNU_SOURCE "
      ;;
-     sparc*-sun-solaris2.[[56789]]*) AC_DEFINE( [SOLARIS], [1], [ SUN/Solaris Operating System ]) 
+     sparc*-sun-solaris2.[[56789]]*) AC_DEFINE( [SOLARIS], [1], [ SUN/Solaris Operating System ])
                                      BINARY_DIST="sun_solaris2"
                                      MATLAB_BIN_PATH="bin/sol64"
                                      MATLAB_EXE_PATH="bin/matlab"
      ;;
-     sparc*-sun-solaris*)            AC_DEFINE( [SOLARIS], [1], [ SUN/Solaris Operating System ]) 
+     sparc*-sun-solaris*)            AC_DEFINE( [SOLARIS], [1], [ SUN/Solaris Operating System ])
                                      BINARY_DIST="sun_solaris"
-                                     MATLAB_BIN_PATH="bin/sol64" 
-                                     MATLAB_EXE_PATH="bin/matlab"    
+                                     MATLAB_BIN_PATH="bin/sol64"
+                                     MATLAB_EXE_PATH="bin/matlab"
      ;;
-     *darwin[[789]]* | *darwin[[912]]* ) AC_DEFINE( [OSX],     [1], [ Apple/OSX/Darwin Operating System ]) 
-                                     BINARY_DIST="OSX_darwin"    
-                                     MATLAB_EXE_PATH="bin/matlab" 
+     *darwin[[789]]* | *darwin[[912]]* ) AC_DEFINE( [OSX],     [1], [ Apple/OSX/Darwin Operating System ])
+                                     BINARY_DIST="OSX_darwin"
+                                     MATLAB_EXE_PATH="bin/matlab"
                                      case "${host}" in
                                           *i686*)    MATLAB_BIN_PATH="bin/maci"  ;;
                                           *powerpc*) MATLAB_BIN_PATH="bin/mac"   ;;
@@ -87,7 +87,7 @@ case "${host}" in
                                      esac
      ;;
      *darwin6* )                     AC_DEFINE( [OSX],     [1], [ Apple/OSX/Darwin Operating System ])
-                                     BINARY_DIST="OSX_darwin6"     
+                                     BINARY_DIST="OSX_darwin6"
                                      LDFLAGS="-L/sw/lib $LDFLAGS"
                                      CFLAGS="-I/sw/include $CFLAGS"
                                      MATLAB_EXE_PATH="bin/matlab"
@@ -105,7 +105,7 @@ case "${host}" in
                                      MATLAB_EXE_PATH="bin/matlab"
                                      AC_MSG_CHECKING([for Cygwin version])
                                      OSRELEASE=`uname -r`
-                                     case "${OSRELEASE}" in 
+                                     case "${OSRELEASE}" in
                                           *1.[[135]]*) winaux=on
                                           ;;
                                      esac
@@ -130,7 +130,7 @@ case "${host}" in
      esac
      AC_MSG_RESULT( $OSRELEASE )
      OBJEXT=o
-     
+
      ;;
 esac
 
@@ -216,7 +216,7 @@ AC_CHECK_LIB(m, sin)
 # Dynamic Loading of Modules
 AC_CHECK_LIB(dl, dlopen)
 
-# Check for Specific Functions 
+# Check for Specific Functions
 AC_CHECK_FUNC(lround,    [ AC_DEFINE( [HAVE_FUNC_LROUND],        [1], [ System Libraries define lround ]) ],
                          [ AC_DEFINE( [MISSING_FUNC_LROUND],     [1], [ System Libraries missing lround ]) ]  )
 AC_CHECK_FUNC(fmin,      [ AC_DEFINE( [HAVE_FUNC_FMIN],          [1], [ System Libraries define fmin ]) ],
@@ -260,7 +260,7 @@ AC_CHECK_FUNC(fmemopen,   [ AC_DEFINE( [HAVE_FUNC_FMEMOPEN],       [1], [ System
 
 LIBCURL_CHECK_CONFIG([yes],[7.0.0],[],[ AC_MSG_ERROR("libcurl >= 7.0.0 not found")])
 
-# Define the Build Date 
+# Define the Build Date
 AC_DEFINE_UNQUOTED([BUILD_DATE], ["`date +%m/%d/%Y`"], [Macro which defines the Date of the Current Build])
 
 # Define the Install Directory

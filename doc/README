@@ -11,8 +11,8 @@ Contents:
      - make iotest - Test io function using the I/O Library libsacio
      - make clean - Return to original state, by removing program and data
 
-     - If you experience problems at any stage please report the issue to
-       sac-help@iris.washington.edu
+     - If you experience problems at any stage please report the issue here:
+       https://github.com/earthscope/sac
      - For more documentation see the examples directory
 
 

@@ -214,7 +214,7 @@ in the second example below, allows the metadata to be obtained and added to the
   SAC> data net 9A station 22770 time 2012-08-14 +10sec sac
   Data Center: IRISPH5,http://ds.iris.edu
         SourceID                Start sample             End sample         Gap
-  XFDSN:9A_22770__D_P_Z  2012-08-14T00:00:00.000000 2012-08-14T00:00:09.996000  ==
+  FDSN:9A_22770__D_P_Z  2012-08-14T00:00:00.000000 2012-08-14T00:00:09.996000  ==
   Error 204 (HTTP):
 
 	Writing data to 9A.22770..DPZ.D.2012.227.000000.sac [ 10.38 KiB]
@@ -222,7 +222,7 @@ in the second example below, allows the metadata to be obtained and added to the
   SAC> data net 9A station 22770 time 2012-08-14 +10sec sac  PH5
   Data Center: IRISPH5,http://ds.iris.edu
           SourceID               Start sample             End sample         Gap
-  XFDSN:9A_22770__D_P_Z  2012-08-14T00:00:00.000000 2012-08-14T00:00:09.996000    ==
+  FDSN:9A_22770__D_P_Z  2012-08-14T00:00:00.000000 2012-08-14T00:00:09.996000    ==
   Working on file: 9A.22770..DPZ.D.2012.227.000000.sac [ OK ]
 	Writing data to 9A.22770..DPZ.D.2012.227.000000.sac [ 10.38 KiB5
 

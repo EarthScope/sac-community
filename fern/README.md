@@ -4,7 +4,7 @@ libfern Documentation
 Overview
 --------
 
-The libfern library, assocated fern binary, and inferface in sac provides a interface to:
+The libfern library, associated fern binary, and interface in sac provides a interface to:
    - event searches
    - download data (miniseed format)
    - station searches
@@ -16,15 +16,23 @@ The libfern library, assocated fern binary, and inferface in sac provides a inte
 
 Examples using fern and libfern
 ---------------------------
-- [Event Search](#Event-Search)
-- [Station Search](#Station-Search)
-- [Search based on Event](#Search-based-on-Event)
-- [Data Availability Search](#Data-Availability-Search)
-- [Data Download to miniseed](#Data-Download-to-miniseed)
-- [Data Download to sac](#Data-Download-to-sac)
-- [Event Search with libfern](#event-fern)
-- [Station Search with libfern](#event-fern)
-- [Data Download with libfern](#data-fern)
+- [libfern Documentation](#libfern-documentation)
+  - [Overview](#overview)
+  - [Examples using fern and libfern](#examples-using-fern-and-libfern)
+    - [Event Search](#event-search)
+    - [Station Search](#station-search)
+    - [Search based on Event](#search-based-on-event)
+    - [Data Availability Search](#data-availability-search)
+    - [Data Download to miniseed](#data-download-to-miniseed)
+    - [Data Download to sac](#data-download-to-sac)
+      - [Meta Data Insertion](#meta-data-insertion)
+  - [Examples using libfern](#examples-using-libfern)
+      - [Event Search with libfern](#event-search-with-libfern)
+      - [Station Search with libfern](#station-search-with-libfern)
+      - [Data Download with libfern](#data-download-with-libfern)
+  - [Requirements](#requirements)
+  - [Downloading and installing](#downloading-and-installing)
+  - [License](#license)
 
 ### <a name="Event-Search">Event Search</a>
 
