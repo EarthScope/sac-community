@@ -1,7 +1,33 @@
-README file for SAC.  (Modified for v102.0)
+## SAC - Seismic Analysis Code
 
-Contents
----------------------------------------------------------------------------
+**Version 102.0**
+
+SAC allows reading and writing of binary seismic data files containing time
+series data, typically ground motion recorded by seismometers. This program is
+used primarily in seismological research.  SAC includes a number of filtering
+and deconvolution functions to process seismic data. SAC runs on Linux, macOS
+and Windows under Cygwin.
+
+### History
+SAC is hosted for the seismological research community by the
+[EarthScope Consortium](www.earthscope.edu) and was derived from Lawrence
+Livermore National Laboratory's (LLNL) SAC2000. From the early 1980's to the
+mid 1990's, SAC, as it was originally named, was distributed to the
+seismological community as a Fortran program by [LLNL](www.llnl.gov).  In the
+mid 1990's, the source was converted to C, renamed SAC2000 and generally
+difficult to obtain. In 2004, IRIS started distributing SAC2000 and any
+modifications under a new License negotiated between LLNL and IRIS. This
+repositories initial commits are the changes from the original LLNL version.
+Following the termination of the license agreement between LLNL and IRIS,
+EarthScope now releases the derivative work under an open source license
+identified in this repository.
+
+Other version of SAC include
+[SAC/BRIS](https://members.elsi.jp/~george/sac-bugs.html) based on the original
+Fortran version that runs on the Mac.
+
+### Contents
+
 * Overview
 * Package contents
 * Environment Setup
@@ -12,14 +38,13 @@ Contents
 * License
 * References
 
-Overview
----------------------------------------------------------------------------
+### Overview
 
-This README file is in the top directory (named sac) of a directory tree that
+This `README` file is in the top directory (named sac) of a directory tree that
 has either been installed from a SAC source distribution or produced by the
 expansion of a SAC binary-distribution compressed tar file.  The default for
-this directory is /usr/local/sac/.  The environmental variable for
-this directory is SACHOME.  (See Environment Setup below.)
+this directory is `/usr/local/sac/`.  The environmental variable for
+this directory is `SACHOME`.  (See Environment Setup below.)
 
 There are SAC binary-distributions for the following operating systems:
 
@@ -27,20 +52,20 @@ There are SAC binary-distributions for the following operating systems:
    10.8.  XQuartz/X11 is required to display graphics and can be downloaded
    from https://www.xquartz.org/
 2. Linux 64-bit: built on CentOS release 7.0-64 (Final).
-```
                Running on ...
-             | CentOS 7 | CentOS 8 | Ubuntu 14 | Ubuntu 16 | Ubuntu 18 |
-   Build on  |----------|----------|-----------|-----------|-----------|
-   CentOS 7  |    X     |    X     |    X      |    X      |    X      |
-   CentOS 8  |    X     |    X     |           |           |           |
-   Ubuntu 14 |    X*    |    X*    |    X      |    X      |           |
-   Ubuntu 16 |    X*    |    X*    |    X*     |    X      |           |
-   Ubuntu 18 |          |    X*    |           |           |    X      |
-   * - Runs but mismatch in library is detected
-   CentOS - (7,8) libcurl, libxml2 already installed
-   Ubuntu - (14,16,18) libcurl and libxml2 need to be installed
+
+    |Build \Runs | CentOS 7 | CentOS 8 | Ubuntu 14 | Ubuntu 16 | Ubuntu 18 |
+    |------------|----------|----------|-----------|-----------|-----------|
+    |CentOS 7    |    X     |    X     |    X      |    X      |    X      |
+    |CentOS 8    |    X     |    X     |           |           |           |
+    |Ubuntu 14   |    X*    |    X*    |    X      |    X      |           |
+    |Ubuntu 16   |    X*    |    X*    |    X*     |    X      |           |
+    |Ubuntu 18   |          |    X*    |           |           |    X      |
+   - *Runs but mismatch in library is detected
+
+   - CentOS - (7,8) libcurl, libxml2 already installed
+   - Ubuntu - (14,16,18) libcurl and libxml2 need to be installed
             Version should be the openssl variant of libcurl (default)
-```
 
 Other platforms or operating systems must be built from the source code.
 Successful builds have been made and tested on Solaris 11, Linux 32-bit; and Mac
@@ -59,125 +84,118 @@ following:
 
 https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unidentified-developer-mh40616/10.15/mac/10.15
 
-Package contents
----------------------------------------------------------------------------
+### Package contents
 
-The contents of the package are relative to SACHOME (default /usr/local/sac)
-```
-sac/README           this file
-sac/HISTORY          update history
-sac/CHANGES          Details about changes made for each update
-sac/bin/             contains executable programs and scripts
+The contents of the package are relative to `SACHOME` (default `/usr/local/sac`)
+|File| Contents |
+|-|-|
+|sac/README           | this file
+|sac/HISTORY          | update history
+|sac/CHANGES          | Details about changes made for each update
+|sac/bin/             | contains executable programs and scripts
+| | |
+| sac/bin/sac          | Seismic Analysis Code binary
+| sac/bin/sac-config   | Helper script for compilation with SAC libraries
+| sac/bin/sacinit.sh   | sh and bash environmental setup for SAC
+| sac/bin/sacinit.csh  | csh and tcsh environmental setup for SAC
+| | |
+| sac/bin/bbfswap      | See sac/utils/README_utils
+| sac/bin/sacswap      | See sac/utils/README_utils
+| sac/bin/saclst       | See sac/utils/README_utils
+| sac/bin/sgfswap      | See sac/utils/README_utils
+| sac/bin/sgftops      | See sac/utils/README_utils
+| sac/bin/sgftoeps.csh | See sac/utils/README_utils
+| sac/bin/sgftox.csh   | See sac/utils/README_utils
+| sac/bin/unvis        | See sac/utils/README_utils
+| | |
+| sac/lib/             | SAC libraries for user-generated sac programs
+| sac/lib/README_lib   | Overview of sac-config and IO libraries
+| sac/lib/libsacio.a   | Library for reading and writing SAC files
+| sac/lib/sacio.a      | Same as sac/lib/libsacio.a
+| sac/lib/libsac.a     | See sac/lib/README_lib
+| libmxmlev.a          | Evalresp library
+| libspline.a          | Evalresp library
+| libevalresp.a        | Evalresp library
+| libevalresp_log.a    | Evalresp library
+| | |
+|sac/doc              | sac/doc/README and sac/doc/examples/README give an overview of examples for using the libsacio.a and libsac.a libraries
+|sac/aux/             |  contains files that are used by SAC during execution.  On some Windows Cygwin installations, aux is renamed winaux. (This depends on the version of Cygwin and how SAC was built on those systems.)
+| sac/macros/         | contains example macros and data
+| sac/utils           | makefile, sources for handling Sac files outside of SAC.  See sac/utils/README_utils for details
+| sac/License          | the Apache 2 License
+| sac/Editline.license | License for Editline for Command line edits and history
 
-sac/bin/sac          Seismic Analysis Code binary
-sac/bin/sac-config   Helper script for compilation with SAC libraries
-sac/bin/sacinit.sh   sh and bash environmental setup for SAC
-sac/bin/sacinit.csh  csh and tcsh environmental setup for SAC
+### Environment Setup
 
-sac/bin/bbfswap      See sac/utils/README_utils
-sac/bin/sacswap      See sac/utils/README_utils
-sac/bin/saclst       See sac/utils/README_utils
-sac/bin/sgfswap      See sac/utils/README_utils
-sac/bin/sgftops      See sac/utils/README_utils
-sac/bin/sgftoeps.csh See sac/utils/README_utils
-sac/bin/sgftox.csh   See sac/utils/README_utils
-sac/bin/unvis        See sac/utils/README_utils
+`SACHOME`: This must be set so that SAC can be found on the computer.
+The default when SAC is installed from sources is `/usr/local/sac/`.
 
-
-sac/lib/             SAC libraries for user-generated sac programs
-sac/lib/README_lib   Overview of sac-config and IO libraries
-sac/lib/libsacio.a   Library for reading and writing SAC files
-sac/lib/sacio.a      Same as sac/lib/libsacio.a
-sac/lib/libsac.a     See sac/lib/README_lib
-libmxmlev.a             libspline.a
-libevalresp.a           libevalresp_log.a
-
-sac/doc              sac/doc/README and sac/doc/examples/README give an
-                     overview of examples for using the libsacio.a
-                     and libsac.a libraries
-
-sac/aux/             contains files that are used by SAC during execution
-                     On some Windows Cygwin installations, aux is renamed
-                     winaux. (This depends on the version of Cygwin and how
-                     SAC was built on those systems.)
-
-sac/macros/          contains example macros and data
-sac/utils            makefile, sources for handling Sac files outside of SAC
-                     See sac/utils/README_utils for details
-sac/License          the Apache 2 License
-sac/Editline.license License for Editline for Command line edits and history
-```
-
-Environment Setup
----------------------------------------------------------------------------
-
-SACHOME: This must be set so that SAC can be found on the computer.
-The default when SAC is installed from sources is /usr/local/sac/.
-
-SAC needs to be able to find auxillary (${SACHOME}/aux/) data that are
+SAC needs to be able to find auxillary (`${SACHOME}/aux/`) data that are
 installed along side the executable / binary program.  SAC will
 attempt to find these data using
-  1) the SACAUX environmental variable
+  1) the `SACAUX` environmental variable
   2) the default install location
   3) a set of typical install locations.
 If all these fail, a message is displayed saying one must set the
-SACAUX environment variable and SAC will exit.
+`SACAUX` environment variable and SAC will exit.
 
 There are options within SAC that can be set through environmental
-variables. In SACHOME/bin the scripts sacinit.csh (csh and tcsh) and
+variables. In `SACHOME/bin` the scripts sacinit.csh (csh and tcsh) and
 sacinit.sh (bash) contain lines that set up your environment
-(including SACAUX).  See the script for your shell for descriptions of
+(including `SACAUX`).  See the script for your shell for descriptions of
 the options and the syntax for the commands.  If your distribution was
 built from sources, these sacinit scripts were created during the
 installation of the SAC package and already have the correct path for
 the computer on which it was built.  If your distribution is binary,
 you may need to edit the directory given for SACHOME.
 
-EXAMPLE
+#### Enviornment Example
 
-If SACHOME is /usr/local/sac and the sacinit file is modified accordingly,
-to set PATH, SACAUX, and other options for SAC, do the following:
+If `SACHOME is `/usr/local/sac` and the sacinit file is modified accordingly,
+to set `PATH`, `SACAUX`, and other options for SAC, do the following:
 
-For csh and tcsh, edit ~/.cshrc adding the lines::
-  
-        setenv SACHOME /usr/local/sac
-        source ${SACHOME}/bin/sacinit.csh
+##### csh/tsch
+  For csh and tcsh, edit ~/.cshrc adding the lines
 
-After saving and exiting the file, enter::
-        
-        source ~/.cshrc
+    setenv SACHOME /usr/local/sac
+    source ${SACHOME}/bin/sacinit.csh
 
-For bash, edit ~/.bashrc adding the lines::
+  After saving and exiting the file, enter
 
-       export SACHOME=/usr/local/sac
-       . ${SACHOME}/bin/sacinit.sh
+    source ~/.cshrc
 
-After saving and exiting the file, enter::
+##### bash / sh
+  For bash, edit ~/.bashrc adding the lines
 
-       . ~/.bashrc
+    export SACHOME=/usr/local/sac
+    . ${SACHOME}/bin/sacinit.sh
 
-To verify that things are working, from a command line, enter::
+  After saving and exiting the file, enter
 
-        echo $PATH ; echo $SACHOME ; echo $SACAUX
+    . ~/.bashrc
+
+  To verify that things are working, from a command line, enter
+
+    echo $PATH ; echo $SACHOME ; echo $SACAUX
 
 If one wants to change any of the options or if more than one person is using
 the same SAC distribution, it is best to copy the path and environment
 lines directly into their own shell initialization file.
 
-Initialization macro
----------------------------------------------------------------------------
+### Initialization macro
+
 
 It is recommended that each user create an initialization macro that runs
 whenever SAC is started.  To do this, one creates a startup macro file (e.g.,
-/usr/local/macros/init.m) and aliases SAC as follows::
+/usr/local/macros/init.m) and aliases SAC as follows:
 
-     # For sh/bash
-     alias sac='"${SACHOME}/bin/sac" "${SACHOME}/macros/init.m"'
+    # For sh/bash
+    alias sac='"${SACHOME}/bin/sac" "${SACHOME}/macros/init.m"'
 
-     # For csh/tcsh
-     alias sac '"${SACHOME}/bin/sac" "${SACHOME}/macros/init.m"'
+    # For csh/tcsh
+    alias sac '"${SACHOME}/bin/sac" "${SACHOME}/macros/init.m"'
 
-Here is a sample initialization macro::
+Here is a sample initialization macro:
 
     lh columns 2 files none; qdp 10000 ; xdiv power off ; xlabel 'Time (sec)'
     setmacro /usr/local/macros ; transcript history file ./.sachist
@@ -186,25 +204,25 @@ For the meaning of these entries (lh, qdp, xdiv, xlabel, setmacro,
 transcript), use the help feature in SAC.  For further discussion of the
 transcript command and command-line editing, see SACHOME/utils/README_utils.
 
-Matlab Interface
----------------------------------------------------------------------------
+### Matlab Interface
 
-- Solaris
-  Set LD_LIBRARY_PATH to include matlab shared object libraries:
-  setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:/usr/local/matlab/extern/lib/sol2
-- Mac OS X
-  The DYLD_LIBRARY_PATH needs to be set
-  setenv DYLD_LIBRARY_PATH
-         ${DYLD_LIBRARY_PATH}:/Applications/MATLAB74/bin/maci
+##### Solaris
+Set `LD_LIBRARY_PATH` to include matlab shared object libraries
+
+    setenv LD_LIBRARY_PATH `${LD_LIBRARY_PATH}:/usr/local/matlab/extern/lib/sol2`
+
+##### Mac OS X
+The `DYLD_LIBRARY_PATH` needs to be set
+
+    setenv DYLD_LIBRARY_PATH ${DYLD_LIBRARY_PATH}:/Applications/MATLAB74/bin/maci
 
   These path may differ on your machine. The path needs to include
    - The Matlab Engine Library (libeng)
    - The Matlab Executable Library (libmex)
 
-File utils/README_utils describes some Matlab macros provided by a user.
+File `utils/README_utils` describes some Matlab macros provided by a user.
 
-PNG Support
-----------------------------------------------------------------------------
+### PNG Support
 
 Saving figures as PNG files is possible, but starting with version v101.6 the
 default is not to include PNG support because the default PNG libraries are
@@ -212,8 +230,7 @@ dynamic libraries so that a binary SAC distribution built on one computer may
 not be portable.  PNG support can be included if one builds SAC from sources
 with the configure option --enable-png.
 
-If you need help ...
----------------------------------------------------------------------------
+### If you need help ...
 
 1.  If you have SAC working, use the help command from within SAC.  You can
     print hard-copies of the help files using printhelp. HTML versions of the
@@ -221,31 +238,23 @@ If you need help ...
     Also, a link from that site takes you to a PDF-format single-file version of
     the manual in which the search command and links from the side-bar table of
     contents allow one to navigate the manual efficiently.
-2.  Some features of SAC are described in the CHANGES,and changes in new
-    versions are summarized in HISTORY.  Both files are in this directory.
+2.  Some features of SAC are described in the `CHANGES`, and changes in new
+    versions are summarized in `HISTORY`.  Both files are in this directory.
     For a more readable discussion of new features in an updated distribution,
     see the INTRO help file.
-3.  URL <http://ds.iris.edu/ds/nodes/dmc/software/downloads/sac/> has links
-    to other resources and information about updates.
-4.  A place to share problems and find solutions is the sac-help llistserv:
-    SAC Help <sac-help@lists.ds.iris.edu>.  You must be a subscriber
-    to post to this listserv.  For further information, go to
-    URL <http://ds.iris.edu/message-center/topic/sac-help/>.
-    You do not have to be a subscriber to access the list archives.
-5.  Beginning in Spring 2013, IRIS has set up a SAC project in their SeisCode
-    initiative: <https://seiscode.iris.washington.edu/projects/sac/>.
-    A section in this project is a Wiki that includes a Tutorial and a
-    set of Examples.
+3.  A place to share problems and find solutions is the SAC Community mailing
+    list: [SAC Community](https://groups.google.com/a/earthscope.org/g/sac-community)
 
-License
----------------------------------------------------------------------------
-   Copyright 2022 - (IRIS) Incorporated Research Institutions for Seismology
+
+### License
+
+   Copyright 2025 - EarthScope Consortium
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+   http://www.apache.org/licenses/LICENSE-2.0
 
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
@@ -253,18 +262,17 @@ License
    See the License for the specific language governing permissions and
    limitations under the License.
 
-References
----------------------------------------------------------------------------
+### References
 
-Savage, B. (2021), sacio: A library for Seismic Analysis Code data files,
+- Savage, B. (2021), sacio: A library for Seismic Analysis Code data files,
 Journal of Open Source Software, 6(64), 3619, doi:10.21105/joss.03619.
 
-Goldstein, P., A. Snoke, (2005), "Sac Availability for the IRIS Community",
+- Goldstein, P., A. Snoke, (2005), "Sac Availability for the IRIS Community",
 Incorporated Institutions For Seismology Data Management Center Electronic
 Newsletter,
 <http://ds.iris.edu/ds/newsletter/vol7/no1/sac-availability-for-the-iris-community/>
 
-Goldstein, P., D. Dodge, M. Firpo, Lee Minner (2003), "SAC2000: Signal
+- Goldstein, P., D. Dodge, M. Firpo, Lee Minner (2003), "SAC2000: Signal
 processing and analysis tools for seismologists and engineers", Invited
 contribution to "The IASPEI International Handbook of Earthquake and
 Engineering Seismology", Edited by WHK Lee, H. Kanamori, P.C. Jennings, and
