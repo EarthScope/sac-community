@@ -14,6 +14,15 @@ jobs:
           - os-name: macOS-aarch64
             runs-on: macOS-latest
             target: aarch64-apple.darwin
+          - os-name: macOS-x86_64
+            runs-on: macOS-latest
+            target: x86_64-apple.darwin
+          - os-name: Linux-x86_64
+            runs-on: ubuntu-latest
+            target: x86_64-unknown-linux-musl
+          - os-name: Linux-i686
+            runs-on: ubuntu-latest
+            target: i686-unknown-linux-musl
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -34,4 +43,8 @@ jobs:
         working-directory: ./build
         run: make dist-binary
       - name: Done
-        run: echo "Status ${{ job.status }}
+        run: echo "Status ${{ job.status }}"
+      - uses: actions/download-artifact@v4
+        with:
+          glob: build/sac-*tar.gz
+
