@@ -1,6 +1,6 @@
 ## SAC - Seismic Analysis Code
 
-**Version 102.0**
+**Version 103.0**
 
 SAC allows reading and writing of binary seismic data files containing time
 series data, typically ground motion recorded by seismometers. This program is
@@ -15,16 +15,16 @@ Livermore National Laboratory's (LLNL) SAC2000. From the early 1980's to the
 mid 1990's, SAC, as it was originally named, was distributed to the
 seismological community as a Fortran program by [LLNL](www.llnl.gov).  In the
 mid 1990's, the source was converted to C, renamed SAC2000 and generally
-difficult to obtain. In 2004, IRIS started distributing SAC2000 and any
-modifications under a new License negotiated between LLNL and IRIS. This
-repositories initial commits are the changes from the original LLNL version.
-Following the termination of the license agreement between LLNL and IRIS,
-EarthScope now releases the derivative work under an open source license
-identified in this repository.
+difficult to obtain. In 2004, IRIS started distributing derivative versions of SAC2000
+under a new License negotiated between LLNL and IRIS. Now, following the termination of the 
+license agreement between LLNL and IRIS, EarthScope releases this derivative work 
+under an open source license identified in this repository (see License below).
 
-Other version of SAC include
-[SAC/BRIS](https://members.elsi.jp/~george/sac-bugs.html) based on the original
+Other versions of SAC include:
+* [SAC/BRIS](https://members.elsi.jp/~george/sac-bugs.html) based on the original
 Fortran version that runs on the Mac.
+* [SAC2000](https://github.com/LLNL/SAC2000) based on the original SAC2000 code base, 
+that the EarthScope version branched from, now provided by LLNL.
 
 ### Contents
 
@@ -42,11 +42,11 @@ Fortran version that runs on the Mac.
 
 This `README` file is in the top directory (named sac) of a directory tree that
 has either been installed from a SAC source distribution or produced by the
-expansion of a SAC binary-distribution compressed tar file.  The default for
-this directory is `/usr/local/sac/`.  The environmental variable for
-this directory is `SACHOME`.  (See Environment Setup below.)
+expansion of a SAC binary-distribution compressed tar file.  The default installation 
+directory is `/usr/local/sac/`, which is then set in the environmental variable `SACHOME`.  (See Environment Setup below.)
 
-There are SAC binary-distributions for the following operating systems:
+In the past, SAC binary-distributions for the following operating systems have been built.  This repository is not intended
+for distribution of such binary builds, so is left as an exercise to the user.
 
 1. Mac OSX (64 bit) build: built on 10.13 will run on versions starting with
    10.8.  XQuartz/X11 is required to display graphics and can be downloaded
@@ -67,12 +67,12 @@ There are SAC binary-distributions for the following operating systems:
    - Ubuntu - (14,16,18) libcurl and libxml2 need to be installed
             Version should be the openssl variant of libcurl (default)
 
-Other platforms or operating systems must be built from the source code.
+Other platforms or operating systems did not see regular binary distributions.
 Successful builds have been made and tested on Solaris 11, Linux 32-bit; and Mac
 OSX 10.6 and above.  Because of licensing issues, a Windows Cygwin binary
 distribution cannot be provided.
 
-Optimization was not used in any of these builds. For more information on
+Optimization was not generally used in any of the binary builds. For more information on
 supported operating systems, see HISTORY and CHANGES in this directory.  It is
 assumed you have X windows on your system.
 
@@ -149,7 +149,7 @@ installation of the SAC package and already have the correct path for
 the computer on which it was built.  If your distribution is binary,
 you may need to edit the directory given for SACHOME.
 
-#### Enviornment Example
+#### Environment Example
 
 If `SACHOME is `/usr/local/sac` and the sacinit file is modified accordingly,
 to set `PATH`, `SACAUX`, and other options for SAC, do the following:
