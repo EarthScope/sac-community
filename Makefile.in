@@ -206,7 +206,7 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/config/compile \
 	$(top_srcdir)/inc/config.h.in \
 	$(top_srcdir)/libmseed/Makefile.in README.md config/compile \
 	config/config.guess config/config.sub config/install-sh \
-	config/ltmain.sh config/missing
+	config/missing
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -410,7 +410,7 @@ SACAUX_WIN = winaux
 SACAUX_UNIX = aux
 @WINAUX_NOT_AUX_FALSE@SACAUX_DIR = $(SACAUX_UNIX)
 @WINAUX_NOT_AUX_TRUE@SACAUX_DIR = $(SACAUX_WIN)
-EXTRA_ALWAYS = CHANGES Editline.license HISTORY License README 
+EXTRA_ALWAYS = CHANGES Editline.license HISTORY License README.md 
 
 # Extra Subdirectories/Files to Distribute
 #   File included here will be included in a Distribution:

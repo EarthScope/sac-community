@@ -20,7 +20,7 @@ else
 SACAUX_DIR       = $(SACAUX_UNIX)
 endif
 
-EXTRA_ALWAYS = CHANGES Editline.license HISTORY License README 
+EXTRA_ALWAYS = CHANGES Editline.license HISTORY License README.md 
 
 # Extra Subdirectories/Files to Distribute
 #   File included here will be included in a Distribution:
