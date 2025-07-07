@@ -31,6 +31,7 @@ jobs:
         uses: amitie10g/install-package@v1
         with:
           brew: libxml2 curl libxpm libx11
+          apt: libxml2-dev libxpm-dev libxmp4 libx11-dev libcurl4-openssl-dev
       - name: Create Build directory
         run: mkdir build
       - name: Configure
@@ -46,5 +47,5 @@ jobs:
         run: echo "Status ${{ job.status }}"
       - uses: actions/download-artifact@v4
         with:
-          glob: build/sac-*tar.gz
+          pattern: build/sac-*tar.gz
 
