@@ -1,0 +1,37 @@
+name: Updates
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  test-matrix:
+    name: ${{ matrix.platform-os-name }} build
+    runs-on: ${{ matrix.platform.runs-on }}
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - os-name: macOS-aarch64
+            runs-on: macOS-latest
+            target: aarch64-apple.darwin
+      steps:
+        - name: Check out repository code
+          uses: actions/checkout@v4
+        - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
+        - name: Install dependencies
+          uses: amitie10g/install-package@v1
+          with:
+            brew: libxml2 curl libxpm libx11
+        - name: Create Build directory
+          run: mkdir build
+        - name: Configure
+          working-directory: ./build
+          run: ../configure --enable-editline
+        - name: Compile
+          working-directory: ./build
+          run: make
+        - name: Distributions
+          working-directory: ./build
+          run: make dist-binary
+        - name: Done
+          run: echo "Status ${{ job.status }}
