@@ -16,14 +16,14 @@ mid 1990's, SAC, as it was originally named, was distributed to the
 seismological community as a Fortran program by [LLNL](www.llnl.gov).  In the
 mid 1990's, the source was converted to C, renamed SAC2000 and generally
 difficult to obtain. In 2004, IRIS started distributing derivative versions of SAC2000
-under a new License negotiated between LLNL and IRIS. Now, following the termination of the 
-license agreement between LLNL and IRIS, EarthScope releases this derivative work 
+under a new License negotiated between LLNL and IRIS. Now, following the termination of the
+license agreement between LLNL and IRIS, EarthScope releases this derivative work
 under an open source license identified in this repository (see License below).
 
 Other versions of SAC include:
 * [SAC/BRIS](https://members.elsi.jp/~george/sac-bugs.html) based on the original
 Fortran version that runs on the Mac.
-* [SAC2000](https://github.com/LLNL/SAC2000) based on the original SAC2000 code base, 
+* [SAC2000](https://github.com/LLNL/SAC2000) based on the original SAC2000 code base,
 that the EarthScope version branched from, now provided by LLNL.
 
 ### Contents
