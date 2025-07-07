@@ -1,10 +1,10 @@
 
 
 # Process this file with autoconf to produce a configure script.
-AC_INIT(Seismic Analysis Code, 102.0, https://github.com/earthscope/sac, sac)
+AC_INIT([Seismic Analysis Code],[103.0],[https://github.com/earthscope/sac],[sac])
 
 # Place configuration files in the config directory
-AC_CONFIG_AUX_DIR(config)
+AC_CONFIG_AUX_DIR([config])
 
 # Default install location
 AC_PREFIX_DEFAULT(/usr/local/sac)
@@ -14,10 +14,10 @@ AC_PREFIX_DEFAULT(/usr/local/sac)
 AM_MAINTAINER_MODE
 
 # Determine the System Type
-AC_CANONICAL_SYSTEM
+AC_CANONICAL_TARGET
 
 # Header Values
-AC_CONFIG_HEADER(inc/config.h)
+AC_CONFIG_HEADERS([inc/config.h])
 
 # Initialization of Automake
 AM_INIT_AUTOMAKE([foreign no-dependencies subdir-objects])
@@ -140,8 +140,6 @@ AM_CONDITIONAL([WINAUX_NOT_AUX], [ test x${winaux} = on ] )
 # C Compiler
 AC_PROG_CC
 
-AC_PROG_CC_STDC
-
 # C++ Compiler for Windows
 #if test x$windows == xon; then
 AC_PROG_CXX
@@ -258,7 +256,7 @@ AC_CHECK_FUNC(fmemopen,   [ AC_DEFINE( [HAVE_FUNC_FMEMOPEN],       [1], [ System
 # Check for typedefs, structures, and compiler characteristics
 #AC_C_CONST
 
-LIBCURL_CHECK_CONFIG([yes],[7.0.0],[],[ AC_MSG_ERROR("libcurl >= 7.0.0 not found")])
+LIBCURL_CHECK_CONFIG([yes],[7.0.0],[],[ AC_MSG_WARN("libcurl >= 7.0.0 not found")])
 
 # Define the Build Date
 AC_DEFINE_UNQUOTED([BUILD_DATE], ["`date +%m/%d/%Y`"], [Macro which defines the Date of the Current Build])
@@ -272,7 +270,16 @@ fi
 AC_DEFINE_UNQUOTED([SACAUX], ["${aux}"], [Define the SACAUX directory])
 
 # Output the Makefiles
-AC_OUTPUT(src/Makefile utils/Makefile libedit/Makefile libmseed/Makefile t/Makefile Makefile sacio/Makefile fern/Makefile evalresp/Makefile )
+AC_CONFIG_FILES([src/Makefile
+  utils/Makefile
+  libedit/Makefile
+   libmseed/Makefile
+   t/Makefile Makefile
+   sacio/Makefile
+   fern/Makefile
+   evalresp/Makefile
+   ])
+AC_OUTPUT
 
 DISPLAYSTR=""
 if test x${display} = xx11; then

@@ -2,6 +2,18 @@
 XML=""
 AC_SUBST([XML])
 
+AC_DEFUN([AM_PATH_XML2],[
+  # m4_warn([obsolete], [AM_PATH_XML2 is deprecated, use PKG_CHECK_MODULES instead])
+  AC_REQUIRE([PKG_PROG_PKG_CONFIG])
+
+  verdep=ifelse([$1], [], [], [">= $1"])
+  PKG_CHECK_MODULES(XML, [libxml-2.0 $verdep], [$2], [$3])
+
+  XML_CPPFLAGS=$XML_CFLAGS
+  AC_SUBST(XML_CPPFLAGS)
+  AC_SUBST(XML_LIBS)
+])
+
 AC_DEFUN([XML_ON], [
              AC_DEFINE([HAVE_XML], [1], [Compile with XML-Station Support])
              XML="XML "

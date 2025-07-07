@@ -12,8 +12,11 @@
 /* Compile with SeisMgr Database Capabilities */
 #undef DATABASE_ENABLED
 
-/* Define to 1 if `TIOCGWINSZ' requires <sys/ioctl.h>. */
+/* Define to 1 if 'TIOCGWINSZ' requires <sys/ioctl.h>. */
 #undef GWINSZ_IN_SYS_IOCTL
+
+/* Define to 1 if you have the <dlfcn.h> header file. */
+#undef HAVE_DLFCN_H
 
 /* Define if you have the Cocoa framework */
 #undef HAVE_FRAMEWORK_COCOA
@@ -84,10 +87,10 @@
 /* Define to 1 if you have a functional curl library. */
 #undef HAVE_LIBCURL
 
-/* Define to 1 if you have the `dl' library (-ldl). */
+/* Define to 1 if you have the 'dl' library (-ldl). */
 #undef HAVE_LIBDL
 
-/* Define to 1 if you have the `m' library (-lm). */
+/* Define to 1 if you have the 'm' library (-lm). */
 #undef HAVE_LIBM
 
 /* Compile with XDR file format */
@@ -102,9 +105,6 @@
 /* Matlab Interface Routines */
 #undef HAVE_MATLAB
 
-/* Define to 1 if you have the <memory.h> header file. */
-#undef HAVE_MEMORY_H
-
 /* Compile with PNG File Support */
 #undef HAVE_PNG
 
@@ -116,6 +116,9 @@
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdio.h> header file. */
+#undef HAVE_STDIO_H
 
 /* Define to 1 if you have the <stdlib.h> header file. */
 #undef HAVE_STDLIB_H
@@ -212,6 +215,9 @@
 
 /* Unix Emulation */
 #undef LINUX
+
+/* Define to the sub-directory where libtool stores uninstalled libraries. */
+#undef LT_OBJDIR
 
 /* Location of Matlab Libraries */
 #undef MATLAB_BIN
@@ -312,7 +318,9 @@
 /* SUN/Solaris Operating System */
 #undef SOLARIS
 
-/* Define to 1 if you have the ANSI C header files. */
+/* Define to 1 if all of the C89 standard headers exist (not just the ones
+   required in a freestanding environment). This macro is provided for
+   backward compatibility; new code need not use it. */
 #undef STDC_HEADERS
 
 /* Program needs the Terminal (TTY) to Function */

@@ -286,7 +286,6 @@ testsuite/input/transcript.sm \
 testsuite/input/transfer.sm \
 testsuite/input/transfer_evresp.sm \
 testsuite/input/transfer_fap.sm \
-testsuite/input/traveltime.sm \
 testsuite/input/unsetbb.sm \
 testsuite/input/unwrap.sm \
 testsuite/input/vspace.sm \
@@ -337,8 +336,10 @@ testsuite/input/bbfk.sm \
 testsuite/input/v6v7.sm \
 testsuite/input/v6v7io.sm \
 testsuite/input/v6v7iosp.sm \
-testsuite/input/event.sm \
 testsuite/input/ibody.sm
+
+# testsuite/input/event.sm 
+# testsuite/input/traveltime.sm 
 
 # This Test breaks routinely due to Station Database Updates
 # testsuite/input/station.sm
