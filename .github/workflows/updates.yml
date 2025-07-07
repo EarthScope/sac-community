@@ -45,15 +45,15 @@ jobs:
         run: make dist-binary
       - name: Done
         run: echo "Status ${{ job.status }}"
-      - name: Publish artifacts and release
-        uses: "marvinpinto/action-automatic-releases@latest"
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
-          prerelease: true
-          title: 'Development Build'
-          files: |
-            License
-            CHANGES
-            README.md
-            sac-*.tar.gz
+      # - name: Publish artifacts and release
+      #   uses: "marvinpinto/action-automatic-releases@latest"
+      #   with:
+      #     repo_token: "${{ secrets.GITHUB_TOKEN }}"
+      #     automatic_release_tag: "latest"
+      #     prerelease: true
+      #     title: 'Development Build'
+      #     files: |
+      #       License
+      #       CHANGES
+      #       README.md
+      #       sac-*.tar.gz
