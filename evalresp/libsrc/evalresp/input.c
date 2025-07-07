@@ -2230,8 +2230,8 @@ read_channel_data (evalresp_logger *log, evalresp_options const *const options, 
       {
         this_stage->input_units = tmp_stage->input_units;
         this_stage->output_units = tmp_stage->output_units;
-        this_stage->input_units_str = tmp_stage->input_units_str;
-        this_stage->output_units_str = tmp_stage->output_units_str;
+        this_stage->input_units_str = strdup(tmp_stage->input_units_str);
+        this_stage->output_units_str = strdup(tmp_stage->output_units_str);
         no_units = 0;
       }
 
