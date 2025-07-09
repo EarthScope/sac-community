@@ -2,10 +2,10 @@ name: Release
 env:
   GITHUB_TOKEN: ${{ github.TOKEN }}
 on:
-  push:
-    tags:
-      - "v*"
   workflow_dispatch: # Trigger on manual run
+  push:
+    release:
+    types: [published]
 
 jobs:
   test-matrix:
@@ -49,15 +49,18 @@ jobs:
       - name: Distributions
         working-directory: ./build
         run: make dist-binary
-      - name: Done
-        run: echo "Status ${{ job.status }}"
-      - name: Publish artifacts and release
-        uses: "marvinpinto/action-automatic-releases@latest"
+      - name: Distributions Source
+        working-directory: ./build
+        run: make dist
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          draft: true
           prerelease: true
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
           files: |
             License
             CHANGES
             README.md
-            sac-*.tar.gz
+            build/sac-*.tar.gz
