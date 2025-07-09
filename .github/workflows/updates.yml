@@ -2,6 +2,7 @@ name: Updates
 on:
   push:
     branches: [ "main" ]
+  workflow_dispatch: # Trigger on manual run
 
 jobs:
   test-matrix:
@@ -23,6 +24,8 @@ jobs:
           - os-name: Linux-i686
             runs-on: ubuntu-latest
             target: i686-unknown-linux-musl
+    permissions:
+      contents: write
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
