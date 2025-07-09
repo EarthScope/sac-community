@@ -53,6 +53,8 @@ BINARY_DIST=""
 display=x11
 winaux=off
 
+AC_MSG_NOTICE([Host $host])
+
 # Operating System Checks and Sets
 case "${host}" in
      i[[3456]]86-*-linux-gnu*)       AC_DEFINE( [LINUX],   [1], [ Linux/x86 Operating System ])
@@ -77,8 +79,17 @@ case "${host}" in
                                      MATLAB_BIN_PATH="bin/sol64"
                                      MATLAB_EXE_PATH="bin/matlab"
      ;;
+     arm*darwin[[789]]* | *darwin[[9123]]* ) AC_DEFINE( [OSX],     [1], [ Apple/OSX/Darwin Operating System ])
+                                     BINARY_DIST="OSX_darwin_arm"
+                                     MATLAB_EXE_PATH="bin/matlab"
+                                     case "${host}" in
+                                          *i686*)    MATLAB_BIN_PATH="bin/maci"  ;;
+                                          *powerpc*) MATLAB_BIN_PATH="bin/mac"   ;;
+                                          *x86_64*)  MATLAB_BIN_PATH="bin/mac"   ;;
+                                     esac
+     ;;
      *darwin[[789]]* | *darwin[[912]]* ) AC_DEFINE( [OSX],     [1], [ Apple/OSX/Darwin Operating System ])
-                                     BINARY_DIST="OSX_darwin"
+                                     BINARY_DIST="OSX_darwin_x86"
                                      MATLAB_EXE_PATH="bin/matlab"
                                      case "${host}" in
                                           *i686*)    MATLAB_BIN_PATH="bin/maci"  ;;

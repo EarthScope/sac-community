@@ -4405,6 +4405,9 @@ BINARY_DIST=""
 display=x11
 winaux=off
 
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: Host $host" >&5
+printf "%s\n" "$as_me: Host $host" >&6;}
+
 # Operating System Checks and Sets
 case "${host}" in
      i[3456]86-*-linux-gnu*)
@@ -4437,10 +4440,21 @@ printf "%s\n" "#define SOLARIS 1" >>confdefs.h
                                      MATLAB_BIN_PATH="bin/sol64"
                                      MATLAB_EXE_PATH="bin/matlab"
      ;;
+     arm*darwin[789]* | *darwin[912]* )
+printf "%s\n" "#define OSX 1" >>confdefs.h
+
+                                     BINARY_DIST="OSX_darwin_arm"
+                                     MATLAB_EXE_PATH="bin/matlab"
+                                     case "${host}" in
+                                          *i686*)    MATLAB_BIN_PATH="bin/maci"  ;;
+                                          *powerpc*) MATLAB_BIN_PATH="bin/mac"   ;;
+                                          *x86_64*)  MATLAB_BIN_PATH="bin/mac"   ;;
+                                     esac
+     ;;
      *darwin[789]* | *darwin[912]* )
 printf "%s\n" "#define OSX 1" >>confdefs.h
 
-                                     BINARY_DIST="OSX_darwin"
+                                     BINARY_DIST="OSX_darwin_x86"
                                      MATLAB_EXE_PATH="bin/matlab"
                                      case "${host}" in
                                           *i686*)    MATLAB_BIN_PATH="bin/maci"  ;;

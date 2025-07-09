@@ -15,18 +15,18 @@ jobs:
       fail-fast: false
       matrix:
         platform:
-          - os-name: macOS-aarch64
-            runs-on: macOS-latest
-            target: aarch64-apple.darwin
-          - os-name: macOS-x86_64
-            runs-on: macOS-latest
-            target: x86_64-apple.darwin
-          - os-name: Linux-x86_64
+          - name: macos-arm
+            runs-on: macos-latest
+            target: arm-apple-darwin
+          - name: macos-x86_64
+            runs-on: macos-13
+            target: x86_64-apple-darwin
+          - name: linux-x86_64
             runs-on: ubuntu-latest
-            target: x86_64-unknown-linux-musl
-          - os-name: Linux-i686
-            runs-on: ubuntu-latest
-            target: i686-unknown-linux-musl
+            target: x86_64-unknown-linux-gnu
+          - name: linux-arm
+            runs-on: ubuntu-24.04-arm
+            target: aarch64-unknown-linux-gnu
     permissions:
       contents: write
     steps:
@@ -55,7 +55,6 @@ jobs:
         with:
           draft: true
           prerelease: true
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
           files: |
             License
             CHANGES
