@@ -79,7 +79,7 @@ case "${host}" in
                                      MATLAB_BIN_PATH="bin/sol64"
                                      MATLAB_EXE_PATH="bin/matlab"
      ;;
-     arm*darwin[[789]]* | *darwin[[9123]]* ) AC_DEFINE( [OSX],     [1], [ Apple/OSX/Darwin Operating System ])
+     arm*darwin[[789]]* | arm*darwin[[9123]]* ) AC_DEFINE( [OSX],     [1], [ Apple/OSX/Darwin Operating System ])
                                      BINARY_DIST="OSX_darwin_arm"
                                      MATLAB_EXE_PATH="bin/matlab"
                                      case "${host}" in
@@ -88,7 +88,7 @@ case "${host}" in
                                           *x86_64*)  MATLAB_BIN_PATH="bin/mac"   ;;
                                      esac
      ;;
-     *darwin[[789]]* | *darwin[[912]]* ) AC_DEFINE( [OSX],     [1], [ Apple/OSX/Darwin Operating System ])
+     *86*darwin[[789]]* | *86*darwin[[9123]]* ) AC_DEFINE( [OSX],     [1], [ Apple/OSX/Darwin Operating System ])
                                      BINARY_DIST="OSX_darwin_x86"
                                      MATLAB_EXE_PATH="bin/matlab"
                                      case "${host}" in

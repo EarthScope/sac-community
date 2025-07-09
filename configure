@@ -4440,7 +4440,7 @@ printf "%s\n" "#define SOLARIS 1" >>confdefs.h
                                      MATLAB_BIN_PATH="bin/sol64"
                                      MATLAB_EXE_PATH="bin/matlab"
      ;;
-     arm*darwin[789]* | *darwin[912]* )
+     arm*darwin[789]* | arm*darwin[9123]* )
 printf "%s\n" "#define OSX 1" >>confdefs.h
 
                                      BINARY_DIST="OSX_darwin_arm"
@@ -4451,7 +4451,7 @@ printf "%s\n" "#define OSX 1" >>confdefs.h
                                           *x86_64*)  MATLAB_BIN_PATH="bin/mac"   ;;
                                      esac
      ;;
-     *darwin[789]* | *darwin[912]* )
+     *86*darwin[789]* | *86*darwin[9123]* )
 printf "%s\n" "#define OSX 1" >>confdefs.h
 
                                      BINARY_DIST="OSX_darwin_x86"
