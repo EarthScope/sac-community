@@ -65,7 +65,7 @@ main (int argc, char **argv)
   for (idx = 2; (int)idx < argc; idx++)
   {
     if (strncmp (argv[idx], "-v", 2) == 0)
-      verbose += strspn (&argv[idx][1], "v");
+      verbose += (int8_t)strspn (&argv[idx][1], "v");
     else if (strncmp (argv[idx], "-d", 2) == 0)
       printdata = 'd';
     else if (strncmp (argv[idx], "-D", 2) == 0)
@@ -97,8 +97,8 @@ main (int argc, char **argv)
     seg = tid->first;
     while (seg)
     {
-      if (!ms_nstime2timestr (seg->starttime, starttimestr, ISOMONTHDAY_Z, NANO) ||
-          !ms_nstime2timestr (seg->endtime, endtimestr, ISOMONTHDAY_Z, NANO))
+      if (!ms_nstime2timestr_n (seg->starttime, starttimestr, sizeof (starttimestr), ISOMONTHDAY_Z, NANO) ||
+          !ms_nstime2timestr_n (seg->endtime, endtimestr, sizeof (endtimestr), ISOMONTHDAY_Z, NANO))
       {
         ms_log (2, "Cannot create time strings\n");
         starttimestr[0] = endtimestr[0] = '\0';
@@ -127,8 +127,8 @@ main (int argc, char **argv)
 
           ms_log (0, "    RECORD: bufferptr: %s, fileptr: %s, filename: %s, fileoffset: %" PRId64 "\n",
                   bufferptrstr, fileptrstr, recptr->filename, recptr->fileoffset);
-          ms_nstime2timestr (recptr->msr->starttime, starttimestr, ISOMONTHDAY_Z, NANO);
-          ms_nstime2timestr (recptr->endtime, endtimestr, ISOMONTHDAY_Z, NANO);
+          ms_nstime2timestr_n (recptr->msr->starttime, starttimestr, sizeof (starttimestr), ISOMONTHDAY_Z, NANO);
+          ms_nstime2timestr_n (recptr->endtime, endtimestr, sizeof (endtimestr), ISOMONTHDAY_Z, NANO);
           ms_log (0, "    Start: %s, End: %s\n", starttimestr, endtimestr);
 
           recptr = recptr->next;
@@ -139,7 +139,7 @@ main (int argc, char **argv)
       if (printdata && seg->recordlist && seg->recordlist->first)
       {
         /* Determine sample size and type based on encoding of first record */
-        ms_encoding_sizetype (seg->recordlist->first->msr->encoding, &samplesize, &sampletype);
+        ms_encoding_sizetype ((uint8_t)seg->recordlist->first->msr->encoding, &samplesize, &sampletype);
 
         /* Unpack data samples using record list.
          * No data buffer is supplied, so it will be allocated and assigned to the segment.

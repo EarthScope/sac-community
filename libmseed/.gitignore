@@ -1,4 +1,5 @@
 # C build objects
+*.a
 *.so
 *.lo
 *.o
@@ -10,3 +11,17 @@
 # Docs
 doc/working/
 doc/gh-pages/
+
+# Test artifacts
+test/testdata-*
+Testing
+
+# CMake directories
+build
+install
+
+.vscode/
+
+TODO
+TODO.txt
+CLAUDE.md

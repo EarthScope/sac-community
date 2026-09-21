@@ -1,0 +1,19 @@
+# C build objects
+*.a
+*.so
+*.lo
+*.o
+*.dylib
+*.so
+*.dll
+*.dSYM/
+
+# Automake and build system artifacts
+.dirstamp
+.deps/
+.libs/
+
+.vscode/
+
+AGENTS.md
+CLAUDE.md
