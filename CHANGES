@@ -3,6 +3,7 @@ a discussion of bug fixes and enhancements made between releases.
 
 2026/09
 - Update libmseed to v3.5.4
+- Merge the CI and release workflows into a single workflow
 
 2025/05
 - Update libmseed to v3.1.5
