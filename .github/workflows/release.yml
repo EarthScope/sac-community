@@ -28,7 +28,7 @@ jobs:
           - name: macos-x86_64
             runs-on: macos-15-intel
           - name: linux-x86_64
-            runs-on: ubuntu-latest
+            runs-on: ubuntu-24.04
           # - name: linux-arm
           #   runs-on: ubuntu-24.04-arm
     steps:
@@ -63,7 +63,7 @@ jobs:
         working-directory: ./build
         run: make dist-binary
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: sac-${{ matrix.platform.name }}
           path: build/sac-*.tar.gz
@@ -74,7 +74,7 @@ jobs:
   release:
     name: Publish release
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     if: github.ref_type == 'tag'
     permissions:
       contents: write
@@ -82,7 +82,7 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v5
       - name: Download build artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           path: dist
           merge-multiple: true
