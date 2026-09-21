@@ -2,39 +2,46 @@ name: Updates
 on:
   push:
     branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
   workflow_dispatch: # Trigger on manual run
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
-  test-matrix:
-    name: ${{ matrix.platform-os-name }} build
+  build:
+    name: ${{ matrix.platform.name }} build
     runs-on: ${{ matrix.platform.runs-on }}
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
         platform:
           - name: macos-arm
             runs-on: macos-latest
-            target: arm-apple-darwin
           - name: macos-x86_64
-            runs-on: macos-13
-            target: x86_64-apple-darwin
+            runs-on: macos-15-intel
           - name: linux-x86_64
             runs-on: ubuntu-latest
-            target: x86_64-unknown-linux-gnu
           # - name: linux-arm
           #   runs-on: ubuntu-24.04-arm
-          #   target: aarch64-unknown-linux-gnu
-    permissions:
-      contents: write
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
-      - name: Install dependencies
-        uses: amitie10g/install-package@v1
-        with:
-          brew: libxml2 curl libxpm libx11
-          apt: libxml2-dev libxpm-dev libxmp4 libx11-dev libcurl4-openssl-dev
+      - name: Install dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libxml2-dev libxpm-dev libx11-dev libcurl4-openssl-dev xvfb
+      - name: Install dependencies (macOS)
+        if: runner.os == 'macOS'
+        run: brew install libxml2 curl libxpm libx11
       - name: Create Build directory
         run: mkdir build
       - name: Configure
@@ -43,8 +50,22 @@ jobs:
       - name: Compile
         working-directory: ./build
         run: make
+      - name: Test
+        if: runner.os == 'Linux'
+        working-directory: ./build
+        run: xvfb-run -a make check
+      - name: Show test log
+        if: failure() && runner.os == 'Linux'
+        working-directory: ./build
+        run: cat t/test-suite.log || true
       - name: Distributions
         working-directory: ./build
         run: make dist-binary
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sac-${{ matrix.platform.name }}
+          path: build/sac-*.tar.gz
+          if-no-files-found: error
       - name: Done
         run: echo "Status ${{ job.status }}"

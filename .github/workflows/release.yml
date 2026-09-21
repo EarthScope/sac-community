@@ -1,43 +1,41 @@
 name: Release
-env:
-  GITHUB_TOKEN: ${{ github.TOKEN }}
 on:
-  workflow_dispatch: # Trigger on manual run
   push:
-    release:
-    types: [published]
+    tags: [ 'v*' ]
+  workflow_dispatch: # Trigger on manual run
+
+permissions:
+  contents: read
 
 jobs:
-  test-matrix:
-    name: ${{ matrix.platform-os-name }} build
+  build:
+    name: ${{ matrix.platform.name }} build
     runs-on: ${{ matrix.platform.runs-on }}
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
         platform:
           - name: macos-arm
             runs-on: macos-latest
-            target: arm-apple-darwin
           - name: macos-x86_64
-            runs-on: macos-13
-            target: x86_64-apple-darwin
+            runs-on: macos-15-intel
           - name: linux-x86_64
             runs-on: ubuntu-latest
-            target: x86_64-unknown-linux-gnu
           # - name: linux-arm
           #   runs-on: ubuntu-24.04-arm
-          #   target: aarch64-unknown-linux-gnu
-    permissions:
-      contents: write
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
-      - name: Install dependencies
-        uses: amitie10g/install-package@v1
-        with:
-          brew: libxml2 curl libxpm libx11
-          apt: libxml2-dev libxpm-dev libxmp4 libx11-dev libcurl4-openssl-dev
+      - name: Install dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libxml2-dev libxpm-dev libx11-dev libcurl4-openssl-dev
+      - name: Install dependencies (macOS)
+        if: runner.os == 'macOS'
+        run: brew install libxml2 curl libxpm libx11
       - name: Create Build directory
         run: mkdir build
       - name: Configure
@@ -49,9 +47,30 @@ jobs:
       - name: Distributions
         working-directory: ./build
         run: make dist-binary
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sac-${{ matrix.platform.name }}
+          path: build/sac-*.tar.gz
+          if-no-files-found: error
+
+  release:
+    name: Publish release
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref_type == 'tag'
+    permissions:
+      contents: write
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v5
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
       - name: Release
         uses: softprops/action-gh-release@v2
-        if: github.ref_type == 'tag'
         with:
           draft: true
           prerelease: true
@@ -59,4 +78,4 @@ jobs:
             License
             CHANGES
             README.md
-            build/sac-*.tar.gz
+            dist/sac-*.tar.gz
