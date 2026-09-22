@@ -145,6 +145,9 @@ AM_CONDITIONAL([CYGWIN_SYSTEM], [ test x${BINARY_DIST} = xwin32 ])
 AM_CONDITIONAL([WINAUX_NOT_AUX], [ test x${winaux} = on ] )
 
 # C Compiler
+# Autoconf 2.72+ appends -std=gnu23 when the compiler needs a flag for it;
+# SAC is not C23 code.
+ac_cv_prog_cc_c23=no
 AC_PROG_CC
 
 # C++ Compiler for Windows
