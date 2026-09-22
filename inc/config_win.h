@@ -27,9 +27,9 @@
 
 #define SACAUX "C:\\Program Files\\Sac\\winaux"
 
-#define PACKAGE_BUGREPORT "sac-help@lists.ds.iris.edu"
-#define BUILD_DATE        "Feb 31, 2026"
-#define PACKAGE_VERSION   "102.0"
+#define PACKAGE_BUGREPORT "https://github.com/earthscope/sac"
+#define BUILD_DATE        "09/21/2026"
+#define PACKAGE_VERSION   "103.0"
 
 /* GUI_APP - If defined (to any value, 0, 1, ...)
       Create a new window command windown on execution

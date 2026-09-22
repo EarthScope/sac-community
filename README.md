@@ -35,6 +35,7 @@ that the EarthScope version branched from, now provided by LLNL.
 * Matlab Interface
 * PNG Support
 * If you need help ...
+* Cutting a release
 * License
 * References
 
@@ -245,6 +246,27 @@ with the configure option --enable-png.
 3.  A place to share problems and find solutions is the SAC Community mailing
     list: [SAC Community](https://groups.google.com/a/earthscope.org/g/sac-community)
 
+### Cutting a release
+
+The version is authored in one place: the `AC_INIT` line in `configure.ac`.
+Everything built through `configure` (the version banner, `sac-config`,
+distribution tarball names, the macOS `.dmg`) is derived from it
+automatically. A few files that `configure` does not reach are kept in sync
+by `config/set-version`.
+
+1.  Edit the version in `configure.ac` (`AC_INIT`, second argument).
+2.  Run `./bootstrap` and commit the regenerated `configure` along with
+    `configure.ac`. CI builds from the committed `configure` rather than
+    running `bootstrap`, so an uncommitted regeneration ships the previous
+    version.
+3.  Run `config/set-version` and commit the files it updates (the Windows
+    build config, the Inno Setup installers, the macOS app bundle, the
+    manual title page, and this README).
+4.  Add a `YYYY/MM Version X.Y released` heading to `CHANGES`.
+5.  Confirm everything agrees with `config/set-version --check`.
+6.  Tag `vX.Y`, matching the two-component `configure.ac` version, and push
+    the tag. The release workflow publishes a draft, prerelease GitHub
+    release, which still needs manual promotion.
 
 ### License
 

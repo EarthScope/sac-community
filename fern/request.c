@@ -17,6 +17,8 @@
 
 #include <sacio/timespec.h>
 
+#include "config.h"
+
 #include "request.h"
 #include "cprint.h"
 
@@ -492,6 +494,7 @@ request_url_post(char *url, char *post_data, int progress_bar) {
     dnld_params_t dnld_params;
     CURL *curl;
     struct curl_slist *list = NULL;
+    char user_agent[64];
 
     zarray data;
     zarray_init(&data);
@@ -513,7 +516,8 @@ request_url_post(char *url, char *post_data, int progress_bar) {
         // URL
         curl_easy_setopt(curl, CURLOPT_URL, url);
         // Set User-Agent
-        list = curl_slist_append(list, "User-Agent: sac/102.0");
+        snprintf(user_agent, sizeof(user_agent), "User-Agent: sac/%s", PACKAGE_VERSION);
+        list = curl_slist_append(list, user_agent);
         // Peer Verification
         //curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
         // Hostname Verificaiton

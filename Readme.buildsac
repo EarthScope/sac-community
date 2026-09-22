@@ -16,9 +16,9 @@ see file README in this directory for details on setting environmental
 variables, etc.
 
 The fact that you are reading this file means you have expanded the
-compressed source tarball sac-102.0.tar.gz.  The top directory in the SAC
-tree is sac-102.0.  File sac-102.0/src/describedirs has a brief overview
-of the contents of the sac-102.0/src/ subdirectories.
+compressed source tarball sac-103.0.tar.gz.  The top directory in the SAC
+tree is sac-103.0.  File sac-103.0/src/describedirs has a brief overview
+of the contents of the sac-103.0/src/ subdirectories.
 
 The build procedure has been successful on Mac (OSX/PPC and OSX/x86),
 Linux (32 and 64 bit), Oracle Solaris (2.8 and 2.9 big endian, and
@@ -61,7 +61,7 @@ Mac OS 10.6.8 is strictly little endian (i386) and the default is for
 gcc to be 64 bits.  A binary built on older system may run on newer
 systems, but the standalone libraries may not be usable.
 
-Oracle/Sun Solaris: Version 102.0 was not tested on Solaris, but
+Oracle/Sun Solaris: Version 103.0 was not tested on Solaris, but
 it is expected to build and run properly.
 
 Linux: SAC can be built on recent versions of Linux, including
@@ -80,11 +80,11 @@ use
 * Quick Instructions for Building and Installing SAC:
 -------------------------------------------------------------------------
 Here is the process we used to build SAC starting from the directory
-containing the sac-102.0 directory tree:
+containing the sac-103.0 directory tree:
 
 % mkdir build
 % cd build
-% ../sac-102.0/configure --prefix=/usr/local/sac > ../build.out
+% ../sac-103.0/configure --prefix=/usr/local/sac > ../build.out
 % make >> ../build.out
 % make install >> ../build.out
 
@@ -92,7 +92,7 @@ This prefix directory is the default, but is included here to show the
 forat if one wants a different home directory for the built SAC
 program.
 
-The directory tree starting with sac-102.0 is unchanged.
+The directory tree starting with sac-103.0 is unchanged.
 
 Directing the screen output to ../build.out is not necessary, but there
 are many screens full of output from configure and make that serve little
@@ -101,7 +101,7 @@ directed to the screen.
 
 * Detailed Instructions for Building and Installing SAC:
 -------------------------------------------------------------------------
-Options for ./configure (if on is in the sac-102.0 direcoty)
+Options for ./configure (if on is in the sac-103.0 direcoty)
 
 % ./configure --help
   Provides Options for the build process

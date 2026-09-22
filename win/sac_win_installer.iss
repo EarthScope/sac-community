@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "SAC"
-#define MyAppVersion "102.0"
+#define MyAppVersion "103.0"
 #define MyAppPublisher "EarthScope"
 #define MyAppURL "https://github.com/earthscope/sac"
 #define MyAppExeName "sac.exe"

@@ -15,6 +15,11 @@ a discussion of bug fixes and enhancements made between releases.
 - Merge the CI and release workflows into a single workflow
 - Pin Linux CI runners to ubuntu-24.04 and bump artifact actions to
   drop Node.js 20
+- Compose the web service User-Agent from the package version
+- Substitute the SAC version into sac-config in binary distributions
+- Add config/set-version to sync version literals outside the autotools build
+- Update Windows, macOS bundle, and manual version strings to 103.0
+- Document the release version bump procedure
 - Update libmseed to v3.5.4
 
 2025/05

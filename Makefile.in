@@ -1045,7 +1045,7 @@ dist-binary-install: dist-binary-dir
 	mkdir -p bin
 	$(SED) "s,__SAC_PREFIX__,/usr/local/sac," $(abs_top_srcdir)/bin/sacinit.csh.in > $(PWD)/$(distdir)/bin/sacinit.csh
 	$(SED) "s,__SAC_PREFIX__,/usr/local/sac," $(abs_top_srcdir)/bin/sacinit.sh.in > $(PWD)/$(distdir)/bin/sacinit.sh
-	$(SED) "s,__SAC_PREFIX__,/usr/local/sac," $(abs_top_srcdir)/bin/sac-config.in > $(PWD)/$(distdir)/bin/sac-config
+	$(SED) -e "s,__SAC_PREFIX__,/usr/local/sac," -e "s,__SAC_VERSION__,$(VERSION)," $(abs_top_srcdir)/bin/sac-config.in > $(PWD)/$(distdir)/bin/sac-config
 	mv $(PWD)/$(distdir) $(PWD)/$(PACKAGE)
 
 dist-binary-gzip: dist-binary-install
