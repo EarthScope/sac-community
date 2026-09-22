@@ -35,6 +35,18 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v5
       - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
+      - name: Verify the tag matches the package version
+        if: github.ref_type == 'tag'
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          set -eu
+          version=$(sed -n 's/^AC_INIT(\[[^]]*\],\[\([^]]*\)\],.*/\1/p' configure.ac)
+          if [ "${TAG#v}" != "$version" ]; then
+            echo "::error::tag ${TAG#v} does not match configure.ac version $version"
+            exit 1
+          fi
+          config/set-version --check
       - name: Install dependencies (Linux)
         if: runner.os == 'Linux'
         run: |
@@ -62,11 +74,39 @@ jobs:
       - name: Distributions
         working-directory: ./build
         run: make dist-binary
+      - name: Name distribution tarball
+        id: dist
+        run: |
+          set -eu
+          pkg=$(awk -F ' = ' '$1 == "PACKAGE"     { print $2; exit }' build/Makefile)
+          ver=$(awk -F ' = ' '$1 == "VERSION"     { print $2; exit }' build/Makefile)
+          plat=$(awk -F ' = ' '$1 == "BINARY_DIST" { print $2; exit }' build/Makefile)
+          if [ -z "$pkg" ] || [ -z "$ver" ] || [ -z "$plat" ]; then
+            echo "::error::could not read PACKAGE/VERSION/BINARY_DIST from build/Makefile"
+            exit 1
+          fi
+
+          name="$pkg-$ver-$plat.tar.gz"
+          if [ ! -f "build/$name" ]; then
+            echo "::error::make dist-binary did not produce $name"
+            ls -l build/*.tar.gz || true
+            exit 1
+          fi
+
+          if [ "$GITHUB_REF_TYPE" != tag ]; then
+            renamed="$pkg-$ver-g$(git rev-parse --short=8 HEAD)-$plat.tar.gz"
+            mv -- "build/$name" "build/$renamed"
+            name="$renamed"
+          fi
+
+          echo "path=build/$name" >> "$GITHUB_OUTPUT"
       - name: Upload build artifact
         uses: actions/upload-artifact@v7
         with:
-          name: sac-${{ matrix.platform.name }}
-          path: build/sac-*.tar.gz
+          # archive: false uploads the tarball as-is, with no enclosing zip.
+          # The artifact name is taken from the file; the name input is ignored.
+          path: ${{ steps.dist.outputs.path }}
+          archive: false
           if-no-files-found: error
       - name: Done
         run: echo "Status ${{ job.status }}"
