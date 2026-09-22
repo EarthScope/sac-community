@@ -7,8 +7,7 @@
 SSS_EXTERN
 
 void /*FUNCTION*/
-xdistanceaxis(nerr)
-     int *nerr;
+xdistanceaxis(int *nerr)
 {
     double tmp;
         /*=====================================================================

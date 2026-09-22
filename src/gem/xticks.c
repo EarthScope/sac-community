@@ -7,8 +7,7 @@
 GEM_EXTERN
 
 void /*FUNCTION*/
-xticks(nerr)
-     int *nerr;
+xticks(int *nerr)
 {
     int ltf;
     int index;

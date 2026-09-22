@@ -9,8 +9,7 @@
 #include "dff.h"
 
 void /*FUNCTION*/
-xkeepam(nerr)
-     int *nerr;
+xkeepam(int *nerr)
 {
     int jdfl, nfreq;
 

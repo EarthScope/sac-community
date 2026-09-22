@@ -5,9 +5,7 @@
 #include "co.h"
 
 void /*FUNCTION*/
-wa(nfreq, delfrq, xre, xim)
-     int nfreq;
-     double delfrq, xre[], xim[];
+wa(int nfreq, double delfrq, double xre[], double xim[])
 {
     int npole, nzero;
     double const_, h, om0, rad, t0;

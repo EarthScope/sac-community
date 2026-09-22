@@ -7,8 +7,7 @@
 SSS_EXTERN
 
 void /*FUNCTION*/
-xdistancewind(nerr)
-     int *nerr;
+xdistancewind(int *nerr)
 {
     int ntused;
     double tmp[2];

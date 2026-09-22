@@ -5,9 +5,7 @@
 GTM_EXTERN
 
 void /*FUNCTION*/
-worldtovport(xwloc, ywloc, xloc, yloc)
-     double xwloc, ywloc;
-     float *xloc, *yloc;
+worldtovport(double xwloc, double ywloc, float *xloc, float *yloc)
 {
 
         /*=====================================================================

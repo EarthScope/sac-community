@@ -18,8 +18,7 @@
 SAM_EXTERN
 
 void /*FUNCTION*/
-xdft(nerr)
-     int *nerr;
+xdft(int *nerr)
 {
     int jdx, jdfl, jj, nfreq, nlnnew, npts_orig;
 

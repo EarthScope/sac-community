@@ -13,8 +13,7 @@
 #include "bool.h"
 
 int
-pointsequal(point1, point2)
-     float point1[], point2[];
+pointsequal(float point1[], float point2[])
 {
     int pointsequal_v;
 

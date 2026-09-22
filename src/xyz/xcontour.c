@@ -24,8 +24,7 @@ GEM_EXTERN
 XYZ_EXTERN
 
 void /*FUNCTION*/
-xcontour(nerr)
-     int *nerr;
+xcontour(int *nerr)
 {
     char kret[9];
     int lany, lframesave = 0, lwait, lxlimits, lylimits;

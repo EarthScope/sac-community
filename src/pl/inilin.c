@@ -2,8 +2,7 @@
 #include "pl.h"
 
 void /*FUNCTION*/
-inilin(iilin, nilin)
-     int iilin[], *nilin;
+inilin(int iilin[], int *nilin)
 {
     int j;
 

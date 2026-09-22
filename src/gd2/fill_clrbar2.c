@@ -10,13 +10,11 @@
 SCOLOR
 
 char *
-fill_clrbar2(npseudocolors, width, npricolors, ndefcolors, nerr)
-
-     int npseudocolors;         /* number of pseudocolors in the colortable */
-     int width;                 /* number of elements in one scan line of the color bar */
-     int npricolors;            /* number of SAC primary colors */
-     int ndefcolors;            /* number of default colors in the colortable */
-     int *nerr;
+fill_clrbar2(int npseudocolors, /* number of pseudocolors in the colortable */
+             int width,         /* number of elements in one scan line of the color bar */
+             int npricolors,    /* number of SAC primary colors */
+             int ndefcolors,    /* number of default colors in the colortable */
+             int *nerr)
 {
 
     unsigned int k;

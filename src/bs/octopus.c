@@ -1113,7 +1113,7 @@ cmtsolution_from_cmtid(char *cmtid, int verbose) {
     r = NULL;
  done:
     REQUEST_FREE(req);
-    RESULT_FREE(req);
+    RESULT_FREE(r);
     return cmtsol;
 }
 

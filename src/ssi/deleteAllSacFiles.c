@@ -10,9 +10,7 @@
 /* return the number of files deleted */
 
 int
-deleteAllSacFiles(nerr, lname)
-     int *nerr;
-     int lname;                 /* TRUE deletes file name list, FALSE preserves it */
+deleteAllSacFiles(int *nerr, int lname) /* TRUE deletes file name list, FALSE preserves it */
 {
     /* Declare Variables. */
     int returnValue;

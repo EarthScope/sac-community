@@ -4,9 +4,7 @@
 #include "debug.h"
 
 void /*FUNCTION*/
-getwindowstat2(number, exists)
-     int number;
-     int *exists;
+getwindowstat2(int number, int *exists)
 {
     UNUSED(number);
         /*=====================================================================

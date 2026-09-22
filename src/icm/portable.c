@@ -6,9 +6,8 @@
 
 
 void /*FUNCTION*/
-portable(nfreq, delfrq, xre, xim, freepd, damp, crfrq)
-     int nfreq;
-     double delfrq, xre[], xim[], freepd, damp, crfrq;
+portable(int nfreq, double delfrq, double xre[], double xim[], double freepd,
+         double damp, double crfrq)
 {
     int i, j, npole, nzero;
     double anorm, asqrd, astest, cf, comp, const_, dc, delomg, discrm, fac, fp,

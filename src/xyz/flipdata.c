@@ -2,10 +2,7 @@
 #include "xyz.h"
 
 void /*FUNCTION*/
-flipdata(olddata, lengthx, lengthy, newdata)
-     float *olddata;
-     int lengthx, lengthy;
-     float *newdata;
+flipdata(float *olddata, int lengthx, int lengthy, float *newdata)
 {
 #define OLDDATA(I_,J_)	(*(olddata+(I_)*(lengthx)+(J_)))
 #define NEWDATA(I_,J_)	(*(newdata+(I_)*(lengthy)+(J_)))

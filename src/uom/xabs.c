@@ -11,8 +11,7 @@
 #include "dff.h"
 
 void /*FUNCTION*/
-xabs(nerr)
-     int *nerr;
+xabs(int *nerr)
 {
     int j, jdfl;
 

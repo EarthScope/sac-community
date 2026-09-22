@@ -18,8 +18,7 @@ SSS_EXTERN
 extern float *sss_sum;
 
 void /*FUNCTION*/
-xwritestack(nerr)
-     int *nerr;
+xwritestack(int *nerr)
 {
     sac *s;
     char *filename;

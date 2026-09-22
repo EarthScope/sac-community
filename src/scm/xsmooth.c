@@ -15,8 +15,7 @@ SCM_EXTERN
 #define	MHALF	128
 
 void /*FUNCTION*/
-xsmooth(nerr)
-     int *nerr;
+xsmooth(int *nerr)
 {
     int index[2 * MHALF + 1], j, jdfl, jnew, jnew1, jnew2, nfull;
     float factor, sum;

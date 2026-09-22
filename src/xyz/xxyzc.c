@@ -4,8 +4,7 @@
 #include "msg.h"
 
 void /*FUNCTION*/
-xxyzc(index, nerr)
-     int index, *nerr;
+xxyzc(int index, int *nerr)
 {
 
         /*=====================================================================

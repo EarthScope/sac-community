@@ -15,12 +15,10 @@ calculate_location3(float *x, float *y, float *cx, float *cy, unsigned int w,
 }
 
 void
-calc_loc3(xloc, yloc, cbarxoffset, cbaryoffset, w_width, w_height, xpmn, xpmx,
-          xmin, first, last, ypmn, ypdel, nerr)
-     unsigned int *xloc, *yloc, *cbarxoffset, *cbaryoffset;
-     unsigned int w_width, w_height;
-     float xpmn, xpmx, xmin, first, last, ypmn, ypdel;
-     int *nerr;
+calc_loc3(unsigned int *xloc, unsigned int *yloc, unsigned int *cbarxoffset,
+          unsigned int *cbaryoffset, unsigned int w_width,
+          unsigned int w_height, double xpmn, double xpmx, double xmin,
+          double first, double last, double ypmn, double ypdel, int *nerr)
 {
     *nerr = 0;
 

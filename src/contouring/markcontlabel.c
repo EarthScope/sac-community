@@ -16,10 +16,7 @@
 #define	MPOINTS	5
 
 void
-markcontlabel(index, ilabel, width, angle)
-     int index, ilabel;
-     double width;
-     float *angle;
+markcontlabel(int index, int ilabel, double width, float *angle)
 {
     int lchange;
     int jaction[MPOINTS], jlink[MPOINTS], jloc, jlocm1, jlocm2, jlocp1, jlocp2,

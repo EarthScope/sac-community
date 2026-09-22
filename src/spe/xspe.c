@@ -17,9 +17,7 @@ sac *spe;
 float *specor, *spepe, *spespe, *speaux;
 
 void /*FUNCTION*/
-xspe(linit, nerr)
-     int linit;
-     int *nerr;
+xspe(int linit, int *nerr)
 {
     int firstPowerOf2;
 

@@ -18,8 +18,7 @@
 ICM_EXTERN
 
 void /*FUNCTION*/
-xprewit(nerr)
-     int *nerr;
+xprewit(int *nerr)
 {
     int iprew, jdfl;
     float coefficients[MPREWH + 1];

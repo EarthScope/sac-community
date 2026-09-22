@@ -9,8 +9,7 @@
 #include "dff.h"
 
 void /*FUNCTION*/
-xbenioff(nerr)
-     int *nerr;
+xbenioff(int *nerr)
 {
     int j, jdfl;
     sac *s;

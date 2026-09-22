@@ -3,10 +3,9 @@
 #include "co.h"
 
 void /*FUNCTION*/
-definelimits(beginwindow, endwindow, begindata, enddata, delta, indexwindow,
-             indexdata, numintersect)
-     double beginwindow, endwindow, begindata, enddata, delta;
-     int *indexwindow, *indexdata, *numintersect;
+definelimits(double beginwindow, double endwindow, double begindata,
+             double enddata, double delta, int *indexwindow, int *indexdata,
+             int *numintersect)
 {
     int numdata, numstart, numstop;
 

@@ -36,8 +36,7 @@ GDM_EXTERN
 GD3_EXTERN
 
 void
-changectable3(nentry, icolortable)
-     int nentry, icolortable;
+changectable3(int nentry, int icolortable)
 {
     Status status;
     int i;

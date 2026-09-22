@@ -6,8 +6,7 @@
 GTM_EXTERN
 
 void /*FUNCTION*/
-setsymbolgap(gap)
-     double gap;
+setsymbolgap(double gap)
 {
 
         /*=====================================================================

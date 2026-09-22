@@ -12,8 +12,7 @@
 #include "dff.h"
 
 void /*FUNCTION*/
-xdiv(nerr)
-     int *nerr;
+xdiv(int *nerr)
 {
     int j, jdfl, n, new_list;
     double con, temp;

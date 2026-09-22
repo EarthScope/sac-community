@@ -2,11 +2,7 @@
 #include "uom.h"
 
 void /*FUNCTION*/
-dif2(array, number, step, output)
-     float array[];
-     int number;
-     double step;
-     float output[];
+dif2(float array[], int number, double step, float output[])
 {
     int j;
     float factor;

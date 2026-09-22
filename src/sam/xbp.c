@@ -16,8 +16,7 @@
 SAM_EXTERN
 
 void /*FUNCTION*/
-xbp(nerr)
-     int *nerr;
+xbp(int *nerr)
 {
     int i;
     double fnyq;

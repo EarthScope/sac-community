@@ -14,8 +14,7 @@
 #include "dff.h"
 
 void /*FUNCTION*/
-xrtr(nerr)
-     int *nerr;
+xrtr(int *nerr)
 {
     int jdfl;
     float corrcf, sddta, sdslp, sdyint, slp, yint;

@@ -20,9 +20,8 @@ GEM_EXTERN
 GTM_EXTERN
 
 void /*FUNCTION*/
-xlinaxis(lbotax, ltopax, lbottc, ltoptc, widbot, widtop)
-     int lbotax, ltopax, lbottc, ltoptc;
-     float *widbot, *widtop;
+xlinaxis(int lbotax, int ltopax, int lbottc, int ltoptc, float *widbot,
+         float *widtop)
 {
     int horz, vert;
     char ktemp[9];

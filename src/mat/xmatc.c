@@ -22,8 +22,7 @@ matlab_unavailable() {
 #endif
 
 void /*FUNCTION*/
-xmatc(index, nerr)
-     int index, *nerr;
+xmatc(int index, int *nerr)
 {
 
         /*=====================================================================

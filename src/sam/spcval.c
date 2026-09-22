@@ -4,11 +4,8 @@
 #include "sam.h"
 
 void /*FUNCTION*/
-spcval(nx, x, freq, xr, xi, yr, yi)
-     int nx;
-     float x[];
-     double freq;
-     float *xr, *xi, *yr, *yi;
+spcval(int nx, float x[], double freq, float *xr, float *xi, float *yr,
+       float *yi)
 {
     int j;
     float xj;

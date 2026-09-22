@@ -20,9 +20,7 @@ int PntsInWin;
 SCM_EXTERN
 
 float
-R4Mean(array, Nsamples)
-     float *array;
-     int Nsamples;
+R4Mean(float *array, int Nsamples)
 {
     int j;
     float result;
@@ -38,9 +36,7 @@ R4Mean(array, Nsamples)
 }
 
 float
-VarianceR4(array, Nlen)
-     float *array;
-     int Nlen;
+VarianceR4(float *array, int Nlen)
 {
     int j;
     float dot, deviation;
@@ -60,9 +56,7 @@ VarianceR4(array, Nlen)
 }
 
 void
-RglitchR4(data, NPTS)
-     float *data;
-     int NPTS;
+RglitchR4(float *data, int NPTS)
 {
     int Nwins;
     float dataMean, dataVar;
@@ -102,8 +96,7 @@ RglitchR4(data, NPTS)
 }
 
 void /*FUNCTION*/
-xrglitches(nerr)
-     int *nerr;
+xrglitches(int *nerr)
 {
     int lthold;
     int jdfl, nlnwin, nofwin;

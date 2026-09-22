@@ -24,9 +24,7 @@ struct t_tblfile {
 } tblfile;
 
 void /*FUNCTION*/
-bkin(lu, nrec, len, buf)
-     int lu, nrec, len;
-     double buf[];
+bkin(int lu, int nrec, int len, double buf[])
 {
     static int i;
     UNUSED(lu);
@@ -85,11 +83,7 @@ struct t_prtflc {
     int segmsk[JSEG], prnt[2];
 } prtflc;
 void /*FUNCTION*/
-brnset(nn, pcntl, pcntl_s, prflg)
-     int nn;
-     char *pcntl;
-     int pcntl_s;
-     int prflg[];
+brnset(int nn, char *pcntl, int pcntl_s, int prflg[])
 {
 #define PCNTL(I_,J_)	(pcntl+(I_)*(pcntl_s)+(J_))
     static char phlst[JSEG][9], phtmp[9], segcd[JBRN][9];
@@ -340,8 +334,7 @@ struct t_pdec {
     int ka;
 } pdec;
 void /*FUNCTION*/
-depcor(nph)
-     int nph;
+depcor(int nph)
 {
     static int noend, noext;
     /* int _i, _r; */
@@ -930,9 +923,7 @@ exact:
 }
 
 void /*FUNCTION*/
-depset(dep, usrc)
-     double dep;
-     float usrc[];
+depset(double dep, float usrc[])
 {
     static int dop, dos;
     /* int _i, _r; */
@@ -1126,13 +1117,8 @@ stop(int value, char *fmt, ...) {
 }
 
 void /*FUNCTION*/
-findtt(jb, x0, max_, n, tt, dtdd, dtdh, dddp, phnm, phnm_s)
-     int jb;
-     double x0[];
-     int max_, *n;
-     float tt[], dtdd[], dtdh[], dddp[];
-     char *phnm;
-     int phnm_s;
+findtt(int jb, double x0[], int max_, int *n, float tt[], float dtdd[],
+       float dtdh[], float dddp[], char *phnm, int phnm_s)
 {
 #define PHNM(I_,J_)	(phnm+(I_)*(phnm_s)+(J_))
     /* static char msg[68]; */
@@ -1352,9 +1338,7 @@ findtt(jb, x0, max_, n, tt, dtdd, dtdh, dddp, phnm, phnm_s)
 }                               /* end of function */
 
 void /*FUNCTION*/
-fitspl(i1, i2, tau, x1, xn, coef)
-     int i1, i2;
-     double tau[][4], x1, xn, coef[][5];
+fitspl(int i1, int i2, double tau[][4], double x1, double xn, double coef[][5])
 {
     static int i, i_, ie, is, j, j_, n, n1;
     static double a[MAX_PHASES][2], alr, ap[3], b[MAX_PHASES], gn;
@@ -1459,10 +1443,7 @@ fitspl(i1, i2, tau, x1, xn, coef)
 }                               /* end of function */
 
 int /*FUNCTION*/
-iupcor(phnm, dtdd, xcor, tcor)
-     char *phnm;
-     double dtdd;
-     float *xcor, *tcor;
+iupcor(char *phnm, double dtdd, float *xcor, float *tcor)
 {
     static int i, ie, is, iupcor_v, j, jb, jp_, js_;
     static double dp, dps, ps, x;
@@ -1570,10 +1551,7 @@ iupcor(phnm, dtdd, xcor, tcor)
 }                               /* end of function */
 
 void /*FUNCTION*/
-pdecu(i1, i2, x0, x1, xmin, int_, len)
-     int i1, i2;
-     double x0, x1, xmin;
-     int int_, *len;
+pdecu(int i1, int i2, double x0, double x1, double xmin, int int_, int *len)
 {
     static int i, i_, ie, is, j, k, m, n;
     static double axm, dx, dx2, h1, h2, hh, rnd, sgn, x, xm, xs;
@@ -1696,10 +1674,7 @@ pdecu(i1, i2, x0, x1, xmin, int_, len)
 }                               /* end of function */
 
 void /*FUNCTION*/
-r4sort(n, rkey, iptr)
-     int n;
-     float rkey[];
-     int iptr[];
+r4sort(int n, float rkey[], int iptr[])
 {
     static int i, ib, ij, il[10], it, iu[10], j, k, kk, l, m;
     static float r, tmpkey;
@@ -1854,8 +1829,7 @@ r4sort(n, rkey, iptr)
 }                               /* end of function */
 
 void /*FUNCTION*/
-spfit(jb, int_)
-     int jb, int_;
+spfit(int jb, int int_)
 {
     static char _c0[2], disc[4];
     static int makgrd, newgrd;
@@ -2161,9 +2135,7 @@ modelpath(char *name, char *ext, int upper) {
 }
 
 void /*FUNCTION*/
-tabin(modnam, modnam_s)
-     char *modnam;
-     int modnam_s;
+tabin(char *modnam, int modnam_s)
 {
     char phdif[6][9], *model, *model_name;
     /* short int _i0; */
@@ -2443,8 +2415,8 @@ tabin(modnam, modnam_s)
 }                               /* end of function */
 
 void /*FUNCTION*/
-tauint(ptk, ptj, pti, zj, zi, tau, x)
-     double ptk, ptj, pti, zj, zi, *tau, *x;
+tauint(double ptk, double ptj, double pti, double zj, double zi, double *tau,
+       double *x)
 {
     /* static char msg[72]; */
     static double b, sqb, sqi, sqj, sqk, xx;
@@ -2585,9 +2557,7 @@ tauint(ptk, ptj, pti, zj, zi, tau, x)
 }                               /* end of function */
 
 void /*FUNCTION*/
-tauspl(i1, i2, pt, coef)
-     int i1, i2;
-     double pt[], coef[][5];
+tauspl(int i1, int i2, double pt[], double coef[][5])
 {
     static int i, is, j, k, l, m, n2;
     static double ali, alr, b1h, b3h, bih, d[4], d1h[4], d3h[4], del[5],
@@ -2822,12 +2792,8 @@ tauspl(i1, i2, pt, coef)
 }                               /* end of function */
 
 void /*FUNCTION*/
-trtm(delta, max_, n, tt, dtdd, dtdh, dddp, phnm, phnm_s)
-     double delta;
-     int max_, *n;
-     float tt[], dtdd[], dtdh[], dddp[];
-     char *phnm;
-     int phnm_s;
+trtm(double delta, int max_, int *n, float tt[], float dtdd[], float dtdh[],
+     float dddp[], char *phnm, int phnm_s)
 {
 #define PHNM(I_,J_)	(phnm+(I_)*(phnm_s)+(J_))
     static char ctmp[MAX_PHASES][9];
@@ -2923,9 +2889,7 @@ double umod_v;
 double zmod_v;
 
 double /*FUNCTION*/
-umod(zs, isrc, nph)
-     double zs;
-     int isrc[], nph;
+umod(double zs, int isrc[], int nph)
 {
     _umod.zs = zs;
     _umod.isrc = isrc;
@@ -2935,9 +2899,7 @@ umod(zs, isrc, nph)
 }
 
 double /*FUNCTION*/
-zmod(uend, js, nph)
-     double uend;
-     int js, nph;
+zmod(double uend, int js, int nph)
 {
     _umod.uend = uend;
     _umod.js = js;
@@ -2947,8 +2909,7 @@ zmod(uend, js, nph)
 }
 
 int
-_umod_(_entry_)
-     int _entry_;
+_umod_(int _entry_)
 {
     double zs = _umod.zs;
     int *isrc = _umod.isrc;
@@ -3028,8 +2989,7 @@ _umod_(_entry_)
 }                               /* end of function */
 
 void /*FUNCTION*/
-iaspcl(nerr)
-     int *nerr;
+iaspcl(int *nerr)
 {
     /* char cmdcd[NCMD][9], cmdlst[LCMD][9], phcd[9], phlst[JSEG][9],  */
     /*  phtmp[9], segcd[JBRN][9]; */

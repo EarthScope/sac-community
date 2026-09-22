@@ -2,8 +2,7 @@
 #include "gd2.h"
 
 void /*FUNCTION*/
-getratio2(aspect)
-     float *aspect;
+getratio2(float *aspect)
 {
 
         /*=====================================================================

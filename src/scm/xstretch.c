@@ -22,8 +22,7 @@ SCM_EXTERN
 #define	NFILTHALF   100
 
 void /*FUNCTION*/
-xstretch(nerr)
-     int *nerr;
+xstretch(int *nerr)
 {
     int jdfl, jold, jzero, ncoef, ndatout, nlnnew;
     float c[NFILTHALF + 1];
@@ -223,10 +222,7 @@ xstretch(nerr)
  *
  * */
 void /*FUNCTION*/
-lpdesign(irate, n, c, nc)
-     int irate, n;
-     float c[];
-     int *nc;
+lpdesign(int irate, int n, float c[], int *nc)
 {
     int i;
     float x;
@@ -291,13 +287,7 @@ lpdesign(irate, n, c, nc)
  *  Linkage:  ZERO                                                               
  * */
 void /*FUNCTION*/
-inter(x, nx, irate, c, nc, y, ny)
-     float x[];
-     int nx, irate;
-     float c[];
-     int nc;
-     float y[];
-     int *ny;
+inter(float x[], int nx, int irate, float c[], int nc, float y[], int *ny)
 {
     int i, ic, imax, ix, iy, j;
     float t;

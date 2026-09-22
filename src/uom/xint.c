@@ -12,8 +12,7 @@
 UOM_EXTERN
 
 void /*FUNCTION*/
-xint(nerr)
-     int *nerr;
+xint(int *nerr)
 {
     int jdfl, jy;
     float deltat, hstep, prtint, totint;

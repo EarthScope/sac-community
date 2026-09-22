@@ -8,8 +8,7 @@
 SSS_EXTERN
 
 void /*FUNCTION*/
-xtimewindow(nerr)
-     int *nerr;
+xtimewindow(int *nerr)
 {
     int ntused;
     double tmp[2];

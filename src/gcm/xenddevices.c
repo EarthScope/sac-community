@@ -10,8 +10,7 @@
 #include "cpf.h"
 
 void /*FUNCTION*/
-xenddevices(nerr)
-     int *nerr;
+xenddevices(int *nerr)
 {
     char kdev[9];
     memset(kdev, 0, sizeof(kdev));

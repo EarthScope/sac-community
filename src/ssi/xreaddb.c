@@ -14,9 +14,7 @@
 DFM_EXTERN
 
 void
-xreaddb(kinput, nerr)
-     char *kinput;
-     int *nerr;
+xreaddb(char *kinput, int *nerr)
 {
     /* Declare variables */
     char koption[MCMSG + 1], *ptrKoption, *ptrKinput = kinput;

@@ -13,9 +13,7 @@
 CPF_EXTERN
 
 void /*FUNCTION*/
-setmacrostatus(kstatus, kstatus_s)
-     char *kstatus;
-     int kstatus_s;
+setmacrostatus(char *kstatus, int kstatus_s)
 {
     char ktemp[9];
     int nc;

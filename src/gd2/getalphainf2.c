@@ -3,10 +3,7 @@
 #include "debug.h"
 
 void /*FUNCTION*/
-getalphainfo2(nlines, erase, len)
-     int *nlines;
-     char *erase;
-     int len;
+getalphainfo2(int *nlines, char *erase, int len)
 {
     UNUSED(len);
     UNUSED(erase);

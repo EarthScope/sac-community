@@ -3,8 +3,7 @@
 #include "gem.h"
 
 void /*FUNCTION*/
-begindevice2(nerr)
-     int *nerr;
+begindevice2(int *nerr)
 {
 
         /*=====================================================================

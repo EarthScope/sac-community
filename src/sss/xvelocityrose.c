@@ -9,8 +9,7 @@ SSS_EXTERN
 GAM_EXTERN
 
 void /*FUNCTION*/
-xvelocityrose(nerr)
-     int *nerr;
+xvelocityrose(int *nerr)
 {
 
         /*=====================================================================

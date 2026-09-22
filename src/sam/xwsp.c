@@ -24,8 +24,7 @@ DFM_EXTERN
 SAM_EXTERN
 
 void /*FUNCTION*/
-xwsp(nerr)
-     int *nerr;
+xwsp(int *nerr)
 {
     char kwspnm[2 * MCPFN + 1];
     char prefix[MCPFN + 1];

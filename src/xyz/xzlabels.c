@@ -14,8 +14,7 @@
 CONTOURING_EXTERN
 
 void /*FUNCTION*/
-xzlabels(nerr)
-     int *nerr;
+xzlabels(int *nerr)
 {
     char klist[MCMSG + 1];
     int llabelmode;

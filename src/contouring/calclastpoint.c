@@ -14,10 +14,7 @@
 #define	MPOINTS	2
 
 void
-calclastpoint(jstop, skiplength, jlast)
-     int jstop;
-     double skiplength;
-     int *jlast;
+calclastpoint(int jstop, double skiplength, int *jlast)
 {
     int jaction[MPOINTS], jcur, jlink[MPOINTS], jpoint[MPOINTS], jprev, jtemp;
     float accumlength, point[MPOINTS][2];

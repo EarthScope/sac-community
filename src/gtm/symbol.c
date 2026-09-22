@@ -9,11 +9,7 @@
 GTM_EXTERN
 
 void /*FUNCTION*/
-symbol(xloc, yloc, number, lnewdp)
-    double xloc[];
-    double yloc[];
-    int number;
-     int lnewdp;
+symbol(double xloc[], double yloc[], int number, int lnewdp)
 {
     int j1, j2, j2_;
     double curgap, xcur, ycur;

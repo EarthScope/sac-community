@@ -53,7 +53,7 @@ void xmerge(int *nerr);
 void xmulf(int *nerr);
 void xsubf(int *nerr);
 
-int vbeven();
+int vbeven(sac *s);
 int isFatal(char *key);
 int isWarning(char *key);
 int delta_equal(sac * s1, sac * s2);

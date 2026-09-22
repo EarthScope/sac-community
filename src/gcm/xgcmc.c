@@ -8,8 +8,7 @@
 #include "gdm.h"
 
 void /*FUNCTION*/
-xgcmc(index, nerr)
-     int index, *nerr;
+xgcmc(int index, int *nerr)
 {
 
         /*=====================================================================

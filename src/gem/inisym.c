@@ -2,8 +2,7 @@
 #include "gem.h"
 
 void /*FUNCTION*/
-inisym(iisym, nisym)
-     int iisym[], *nisym;
+inisym(int iisym[], int *nisym)
 {
     int j;
 

@@ -3,8 +3,7 @@
 #include "gdm.h"
 
 void /*FUNCTION*/
-line(xloc1, yloc1, xloc2, yloc2)
-     float xloc1, yloc1, xloc2, yloc2;
+line(double xloc1, double yloc1, double xloc2, double yloc2)
 {
 
         /*=====================================================================

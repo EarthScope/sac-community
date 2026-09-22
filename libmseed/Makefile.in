@@ -526,6 +526,14 @@ clean:
 .c.lo:
 	$(CC) $(CPPFLAGS) $(CFLAGS) -fPIC -c $< -o $@
 
+# parseutils.c compares uint64_t offsets against int constants by design;
+# suppress rather than carry a local diff through future libmseed imports.
+parseutils.o: parseutils.c
+	$(CC) $(CPPFLAGS) $(CFLAGS) -Wno-sign-compare -c $< -o $@
+
+parseutils.lo: parseutils.c
+	$(CC) $(CPPFLAGS) $(CFLAGS) -Wno-sign-compare -fPIC -c $< -o $@
+
 FORCE:
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

@@ -8,8 +8,7 @@
 GEM_EXTERN
 
 void /*FUNCTION*/
-xsym(nerr)
-     int *nerr;
+xsym(int *nerr)
 {
     int int_;
     double swidth, tmp;

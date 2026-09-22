@@ -15,10 +15,7 @@ extern struct contour contour;
 CONTOURING_EXTERN
 
 void
-putcontpoint(number, point, link, action)
-     int number;
-     float point[];
-     int link, action;
+putcontpoint(int number, float point[], int link, int action)
 {
     float *const Point = &point[0] - 1;
 

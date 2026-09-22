@@ -3,10 +3,7 @@
 
 
 void /*FUNCTION*/
-eyeomg(nfreq, delfrq, xre, xim, nzer)
-     int nfreq;
-     double delfrq, xre[], xim[];
-     int nzer;
+eyeomg(int nfreq, double delfrq, double xre[], double xim[], int nzer)
 {
     int i, npole;
     double const_;

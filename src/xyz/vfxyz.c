@@ -12,8 +12,7 @@
 #include "dff.h"
 
 void /*FUNCTION*/
-vfxyz(nerr)
-     int *nerr;
+vfxyz(int *nerr)
 {
     int jdfl;
     char *tmp;

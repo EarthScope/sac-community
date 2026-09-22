@@ -2,9 +2,7 @@
 #include "icm.h"
 
 void /*FUNCTION*/
-hfslpwb(nfreq, delfrq, xre, xim)
-     int nfreq;
-     double delfrq, xre[], xim[];
+hfslpwb(int nfreq, double delfrq, double xre[], double xim[])
 {
     int i, npole, nzero;
     double const_;

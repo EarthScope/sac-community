@@ -3,10 +3,8 @@
 #include "debug.h"
 
 void /*FUNCTION*/
-velocityadj(velocity, bdist, dist, atime, nerr)
-     double velocity, bdist, dist;
-     float *atime;
-     int *nerr;
+velocityadj(double velocity, double bdist, double dist, float *atime,
+            int *nerr)
 {
     float sdist;
     UNUSED(bdist);

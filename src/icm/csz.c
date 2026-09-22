@@ -3,9 +3,7 @@
 
 
 void /*FUNCTION*/
-csz(nfreq, delfrq, xre, xim)
-     int nfreq;
-     double delfrq, xre[], xim[];
+csz(int nfreq, double delfrq, double xre[], double xim[])
 {
     int npole, nzero;
     double const_;

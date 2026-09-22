@@ -13,12 +13,8 @@ CPF_EXTERN
 #define	MVARSSIZE	200
 
 void /*FUNCTION*/
-openmacro(kmacroname, kmacroname_s, kmacroargs, kmacroargs_s, nerr)
-     char *kmacroname;
-     int kmacroname_s;
-     char *kmacroargs;
-     int kmacroargs_s;
-     int *nerr;
+openmacro(char *kmacroname, int kmacroname_s, char *kmacroargs,
+          int kmacroargs_s, int *nerr)
 {
     int notused;
     FILE *nun;

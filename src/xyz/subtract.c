@@ -2,11 +2,8 @@
 #include "xyz.h"
 
 void
-subtract(input1, input2, output, npoints, nerr)
-     float *input1, *input2, *output;
-     int npoints;
-     int *nerr;
-
+subtract(float *input1, float *input2, float *output, int npoints,
+          int *nerr)
 {
     int i;
 

@@ -6,8 +6,7 @@
 SSS_EXTERN
 
 void /*FUNCTION*/
-xincrementsta(nerr)
-     int *nerr;
+xincrementsta(int *nerr)
 {
     int jdfl, jvm;
 

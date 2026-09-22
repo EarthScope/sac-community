@@ -9,10 +9,7 @@
 CPF_EXTERN
 
 void /*FUNCTION*/
-getmacroinfo(macrolevel, varsname, varsname_s)
-     int *macrolevel;
-     char *varsname;
-     int varsname_s;
+getmacroinfo(int *macrolevel, char *varsname, int varsname_s)
 {
 
         /*=====================================================================

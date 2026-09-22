@@ -4,9 +4,8 @@
 #include "icm.h"
 
 void /*FUNCTION*/
-reftek(nfreq, delfrq, xre, xim, freepd, damp, crfrq, hpfrq)
-     int nfreq;
-     double delfrq, xre[], xim[], freepd, damp, crfrq, hpfrq;
+reftek(int nfreq, double delfrq, double xre[], double xim[], double freepd,
+       double damp, double crfrq, double hpfrq)
 {
     int npole, nzero;
     double dc, discrm, fp, s1i, s1r, s2i, s2r, sfil1i, sfil1r, sfil2i, sfil2r,

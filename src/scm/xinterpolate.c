@@ -27,8 +27,7 @@ float geteps_xy(float y[], int nlen, float x[]);
 int okdf(float x[], int nlen);
 
 void /*FUNCTION*/
-xinterpolate(nerr)
-     int *nerr;
+xinterpolate(int *nerr)
 {
     int jdfl, newlen, nincr;
     float eps;

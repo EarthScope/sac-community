@@ -14,8 +14,7 @@
 #include "dff.h"
 
 void /*FUNCTION*/
-xlinefit(nerr)
-     int *nerr;
+xlinefit(int *nerr)
 {
     int jdfl;
     float corrcf, sddta, sdslp, sdyint, slp, yint;

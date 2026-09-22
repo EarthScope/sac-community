@@ -22,8 +22,7 @@ float *const Cfir = &cmfir.cfir[0] - 1;
 SAM_EXTERN
 
 void /*FUNCTION*/
-xfir(nerr)
-     int *nerr;
+xfir(int *nerr)
 {
     int lusrec;
     int isym, j, jb, jdfl, jf, ncfir4, nfft, nlenfl, nlpow2, npow2, nptsmx;

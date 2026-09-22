@@ -16,10 +16,7 @@ int const eventHeader = 1;
 float MaxMem = 0.3;
 
 void
-SacHeaderToDB(header, whichHeaders, idfl)
-     struct SACheader *header;
-     int whichHeaders;
-     int idfl;
+SacHeaderToDB(struct SACheader *header, int whichHeaders, int idfl)
 {
 
     int idx, err = 0;

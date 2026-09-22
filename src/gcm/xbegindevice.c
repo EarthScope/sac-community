@@ -16,8 +16,7 @@
 #include "gcm.h"
 
 void /*FUNCTION*/
-xbegindevices(nerr)
-     int *nerr;
+xbegindevices(int *nerr)
 {
     char kchar[9], kdev[MDEV][9];
     int ndev, i;

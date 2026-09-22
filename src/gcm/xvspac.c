@@ -9,8 +9,7 @@
 #include "cpf.h"
 
 void /*FUNCTION*/
-xvspac(nerr)
-     int *nerr;
+xvspac(int *nerr)
 {
     double ratio;
 

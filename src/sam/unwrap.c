@@ -13,13 +13,9 @@
 SAM_EXTERN
 
 void /*FUNCTION*/
-unwrap(x, nx, nt, thrcon, thrinc, aux1, aux2, aux3, am, ph, nok, lok)
-     float x[];
-     int nx, nt;
-     double thrcon, thrinc;
-     float aux1[], aux2[], aux3[], am[], ph[];
-     int *nok;
-     int *lok;
+unwrap(float x[], int nx, int nt, double thrcon, double thrinc, float aux1[],
+       float aux2[], float aux3[], float am[], float ph[], int *nok,
+       int *lok)
 {
     int j1, j2, n;
     float pdvt, phase, ppdvt, pphase, ppv;

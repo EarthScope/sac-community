@@ -5,8 +5,7 @@
 GD2_EXTERN
 
 void /*FUNCTION*/
-setsgfnumber(number)
-     int number;
+setsgfnumber(int number)
 {
 
         /*=====================================================================

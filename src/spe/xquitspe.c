@@ -16,8 +16,7 @@ extern float *spespe;
 extern float *speaux;
 
 void /*FUNCTION*/
-xquitspe(nerr)
-     int *nerr;
+xquitspe(int *nerr)
 {
         /*=====================================================================
 	 * PURPOSE:  To execute the QUITSUB command in the Spectral Estimation

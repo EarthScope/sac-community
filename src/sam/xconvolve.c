@@ -291,8 +291,7 @@ convolve_with_all(sac *p) {
 }
 
 void /*FUNCTION*/
-xconvolve(nerr)
-     int *nerr;
+xconvolve(int *nerr)
 {
     sac *s, *p;
     char tmp[512];

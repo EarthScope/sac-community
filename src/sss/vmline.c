@@ -15,9 +15,7 @@ SSS_EXTERN
 #define	MP	100
 
 void /*FUNCTION*/
-vmline(dstmn, dstmx, nerr)
-     double dstmn, dstmx;
-     int *nerr;
+vmline(double dstmn, double dstmx, int *nerr)
 {
     int j, np;
     float d, dstdel, floatjunk, t[MP], t1line, t2line;

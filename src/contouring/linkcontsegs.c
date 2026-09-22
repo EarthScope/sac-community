@@ -13,9 +13,7 @@
 #include "bool.h"
 
 void
-linkcontsegs(level, point1, point2)
-     int level;
-     float point1[], point2[];
+linkcontsegs(int level, float point1[], float point2[])
 {
     int done;
     int jaction, jactionstart, jactionstop, jlevel, jlink, jlinkstart,

@@ -11,8 +11,7 @@ SSS_EXTERN
 extern float *sss_sum;
 
 void /*FUNCTION*/
-xquitsss(nerr)
-     int *nerr;
+xquitsss(int *nerr)
 {
 
         /*=====================================================================

@@ -15,8 +15,7 @@
 GDM_EXTERN
 
 void
-beginframe3(nerr)
-     int *nerr;
+beginframe3(int *nerr)
 {
     *nerr = 0;
 

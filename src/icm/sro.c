@@ -7,11 +7,8 @@
 #include "msg.h"
 
 void /*FUNCTION*/
-sro(nfreq, delfrq, xre, xim, subtyp, subtyp_s)
-     int nfreq;
-     double delfrq, xre[], xim[];
-     char *subtyp;
-     int subtyp_s;
+sro(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
+    int subtyp_s)
 {
     int nerr, npole, nzero;
     double const_;

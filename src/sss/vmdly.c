@@ -15,8 +15,7 @@
 SSS_EXTERN
 
 void /*FUNCTION*/
-vmdly(nerr)
-     int *nerr;
+vmdly(int *nerr)
 {
     int lmissd;
     int jdfl;

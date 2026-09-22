@@ -20,9 +20,7 @@ CONTOURING_EXTERN
 GTM_EXTERN
 
 void
-fastcontdata(array, nxsize, nysize, nerr)
-     float array[];
-     int nxsize, nysize, *nerr;
+fastcontdata(float array[], int nxsize, int nysize, int *nerr)
 {
     int highright[4], storemode;
     int icolorlist, ihigh, ilow, inum, jlevel, jx, jxstart, jxstop, jy, jystart,

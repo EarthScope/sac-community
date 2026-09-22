@@ -13,8 +13,7 @@
 CONTOURING_EXTERN
 
 void
-setcontdatalim(ixstart, ixstop, iystart, iystop)
-     int ixstart, ixstop, iystart, iystop;
+setcontdatalim(int ixstart, int ixstop, int iystart, int iystop)
 {
         /*=====================================================================
 	 * PURPOSE:  To set the contour data limits to use in

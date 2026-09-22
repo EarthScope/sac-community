@@ -12,8 +12,7 @@
 GD2_EXTERN
 
 void /*FUNCTION*/
-xsgf(nerr)
-     int *nerr;
+xsgf(int *nerr)
 {
     char ktext[MCPFN + 1];
     int ifnum, ntext;

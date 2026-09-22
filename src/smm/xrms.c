@@ -17,8 +17,7 @@ SMM_EXTERN
 LHF_EXTERN
 
 void /*FUNCTION*/
-xrms(nerr)
-     int *nerr;
+xrms(int *nerr)
 {
     int ifpick, j, jdfl, nlnnoise, nlnsignal, nofnoise, nofsignal;
     float rms, sumsq, sumsqnoise, sumsqsignal;

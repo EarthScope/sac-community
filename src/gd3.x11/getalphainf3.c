@@ -22,10 +22,7 @@
 #include "debug.h"
 
 void
-getalphainfo3(num_lines, erase, erase_length)
-     int *num_lines;
-     char erase[];
-     int erase_length;
+getalphainfo3(int *num_lines, char erase[], int erase_length)
 {
     int num_columns, error_flag;
     UNUSED(erase_length);

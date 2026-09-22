@@ -32,7 +32,7 @@ void     request_set_progress(request *r, int progress);
 char    *request_get_url(request *r);
 
 result *result_new();
-void    result_free();
+void    result_free(result *r);
 char *  result_free_move_data(result *r);
 void    result_init(result *r);
 char   *result_error_msg(result *r);

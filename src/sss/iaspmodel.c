@@ -17,11 +17,7 @@ TT_EXTERN
 #define	MAX_	MAX_PHASES
 
 void
-iaspmodel(zs, dstart, dinc, nloops, nerr)
-     double zs;
-     float *dstart;
-     double dinc;
-     int nloops, *nerr;
+iaspmodel(double zs, float *dstart, double dinc, int nloops, int *nerr)
 {
     char kphcd[MAX_][9];
     static char kphlst[2][9];

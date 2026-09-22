@@ -11,8 +11,7 @@
 #include "dff.h"
 
 void /*FUNCTION*/
-xsub(nerr)
-     int *nerr;
+xsub(int *nerr)
 {
     int j, jdfl, n, new_list;
     double con;

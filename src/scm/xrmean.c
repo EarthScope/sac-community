@@ -8,8 +8,7 @@
 #include "dff.h"
 
 void /*FUNCTION*/
-xrmean(nerr)
-     int *nerr;
+xrmean(int *nerr)
 {
     int jdfl;
 

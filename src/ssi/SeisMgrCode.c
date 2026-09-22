@@ -28,9 +28,7 @@ EXM_EXTERN
 */
 
 int
-SeisMgrCode(kcommand, nerr)
-     char *kcommand;
-     int *nerr;
+SeisMgrCode(char *kcommand, int *nerr)
 {
     /* Declare Variables */
     char *kcommandPtr = kcommand, *endCommand = NULL, *commandName;

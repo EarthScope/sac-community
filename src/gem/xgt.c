@@ -21,8 +21,7 @@ char *fonts[] = { "HELVETICA   ",
 };
 
 void /*FUNCTION*/
-xgt(nerr)
-     int *nerr;
+xgt(int *nerr)
 {
     int lhardw;
     int index;

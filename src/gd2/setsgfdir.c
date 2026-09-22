@@ -7,9 +7,7 @@
 GD2_EXTERN
 
 void /*FUNCTION*/
-setsgfdir(dir, dir_s)
-     char *dir;
-     int dir_s;
+setsgfdir(char *dir, int dir_s)
 {
     int ndir;
 

@@ -24,8 +24,7 @@ GAM_EXTERN
 GEM_EXTERN
 
 void /*FUNCTION*/
-xpsp(nerr)
-     int *nerr;
+xpsp(int *nerr)
 {
     char kret[9];
     int lany, lconv, lframs, lwait, ncret;

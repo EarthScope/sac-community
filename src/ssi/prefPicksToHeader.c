@@ -23,13 +23,8 @@ strcpy_check(char *dst, char *src) {
 }
 
 void                            /* FUNCTION */
-prefPicksToHeader(header, idfl, wf, tree, correction, nerr)
-     struct SACheader *header;
-     int idfl,                  /* file number of first waveform */
-      *nerr;                    /* error number */
-     DBlist tree;
-     struct wfdisc *wf;
-     double correction;         /* to correct epoch time to either B or O */
+prefPicksToHeader(struct SACheader *header, int idfl, struct wfdisc *wf,
+                   DBlist tree, double correction, int *nerr)
 {
     /* Declare Automatic Variables. */
 

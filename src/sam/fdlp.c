@@ -15,10 +15,7 @@ SAM_EXTERN
 DFIR_EXTERN
 
 void /*FUNCTION*/
-fdlp(memptr, mxmptr, userData, nerr)
-     int mxmptr, *nerr;
-     float *memptr[];
-     float *userData;
+fdlp(float *memptr[], int mxmptr, float *userData, int *nerr)
 {
     int idx, jdx;
     float dummy, highSamplingFreq, lowSamplingFreq;

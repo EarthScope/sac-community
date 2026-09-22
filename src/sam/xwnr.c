@@ -18,8 +18,7 @@
 SAM_EXTERN
 
 void /*FUNCTION*/
-xwnr(nerr)
-     int *nerr;
+xwnr(int *nerr)
 {
     int jdfl, ncerr, nlnatw, nofatw;
     double xmax, xmin;

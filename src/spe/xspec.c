@@ -10,8 +10,7 @@
 SPE_EXTERN
 
 void /*FUNCTION*/
-xspec(index, nerr)
-     int index, *nerr;
+xspec(int index, int *nerr)
 {
 
         /*=====================================================================

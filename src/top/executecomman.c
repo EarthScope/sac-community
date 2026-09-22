@@ -26,8 +26,7 @@
 #include "fks.h"
 
 void /*FUNCTION*/
-executecommand(module, index, nerr)
-     int module, index, *nerr;
+executecommand(int module, int index, int *nerr)
 {
 
         /*=====================================================================

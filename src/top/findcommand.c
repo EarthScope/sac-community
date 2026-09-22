@@ -15,10 +15,7 @@ SITE_EXTERN
 COMLISTS_EXTERN
 
 void /*FUNCTION*/
-findcommand(kcommand, lfind, module, index)
-     char *kcommand;
-     int *lfind;
-     int *module, *index;
+findcommand(char *kcommand, int *lfind, int *module, int *index)
 {
     int istart, j, j_, jfind, nentries;
 

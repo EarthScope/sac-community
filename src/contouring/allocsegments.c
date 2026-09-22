@@ -14,8 +14,8 @@
 extern struct contour contour;
 
 void
-allocsegments(maxsegments, indexlevels, indexstarts, indexstops, nerr)
-     int maxsegments, *indexlevels, *indexstarts, *indexstops, *nerr;
+allocsegments(int maxsegments, int *indexlevels, int *indexstarts,
+              int *indexstops, int *nerr)
 {
     UNUSED(indexlevels);
     UNUSED(indexstarts);

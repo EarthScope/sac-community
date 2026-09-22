@@ -3,9 +3,7 @@
 
 
 void /*FUNCTION*/
-oldbb(nfreq, delfrq, xre, xim)
-     int nfreq;
-     double delfrq, xre[], xim[];
+oldbb(int nfreq, double delfrq, double xre[], double xim[])
 {
     int i, npole, nzero;
     double const_;

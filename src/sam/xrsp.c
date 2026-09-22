@@ -23,8 +23,7 @@ DFM_EXTERN
 SAM_EXTERN
 
 void /*FUNCTION*/
-xrsp(nerr)
-     int *nerr;
+xrsp(int *nerr)
 {
     char krspnm[MCPFN + 1];
     int irsptp, nfreq;

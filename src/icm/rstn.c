@@ -7,12 +7,8 @@
 #include "debug.h"
 
 void /*FUNCTION*/
-rstn(nfreq, delfrq, xre, xim, subtyp, subtyp_s, nerr)
-     int nfreq;
-     double delfrq, xre[], xim[];
-     char *subtyp;
-     int subtyp_s;
-     int *nerr;
+rstn(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
+     int subtyp_s, int *nerr)
 {
 
     /*   .....RSTN Seismometer.....

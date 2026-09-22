@@ -6,10 +6,7 @@
 #define PI M_PI
 
 void /*FUNCTION*/
-toamph(rl, im, num, am, ph)
-     float rl[], im[];
-     int num;
-     float am[], ph[];
+toamph(float rl[], float im[], int num, float am[], float ph[])
 {
     int j;
     float arg, parg, rl1;

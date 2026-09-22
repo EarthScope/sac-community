@@ -12,8 +12,7 @@
 #include "gd3.x11.h"
 
 void
-endframe3(nerr)
-     int *nerr;
+endframe3(int *nerr)
 {
     *nerr = 0;
     flushbuffer3(nerr);

@@ -9,19 +9,9 @@
 #include "EVRESPnames.h"
 
 void /*FUNCTION*/
-getins(kinstr, kinstr_s, ninstr, ldone, fp, lfp, ip, lip, kp, kp_s, lkp, nerr)
-     char *kinstr;
-     int kinstr_s;
-     int ninstr;
-     int *ldone;
-     float fp[];
-     int lfp[];
-     int ip[];
-     int lip[];
-     char *kp;
-     int kp_s;
-     int lkp[];
-     int *nerr;
+getins(char *kinstr, int kinstr_s, int ninstr, int *ldone, float fp[],
+       int lfp[], int ip[], int lip[], char *kp, int kp_s, int lkp[],
+       int *nerr)
 {
 #define KINSTR(I_,J_)	(kinstr+(I_)*(kinstr_s)+(J_))
 #define KP(I_,J_)	(kp+(I_)*(kp_s)+(J_))

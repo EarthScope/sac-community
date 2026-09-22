@@ -49,13 +49,8 @@ extern struct t_pefcom pefcom;
 #define	NCMAX	12
 
 void /*FUNCTION*/
-predfl(data, npts, a, nc, result, errmsg)
-     float data[];
-     int npts;
-     float a[];
-     int nc;
-     float result[];
-     char *errmsg;
+predfl(float data[], int npts, float a[], int nc, float result[],
+       char *errmsg)
 {
     int bufptr, datptr, k, lsamp, ncmp;
     float history[NCMAX - (0) + 1];

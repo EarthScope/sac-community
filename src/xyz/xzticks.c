@@ -10,8 +10,7 @@
 CONTOURING_EXTERN
 
 void /*FUNCTION*/
-xzticks(nerr)
-     int *nerr;
+xzticks(int *nerr)
 {
     int ltemp;
     int j;

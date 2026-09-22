@@ -5,8 +5,8 @@
 #include "gtm.h"
 
 void /*FUNCTION*/
-worldsector(xwcen, ywcen, radius, deg1, deg2, degi)
-     double xwcen, ywcen, radius, deg1, deg2, degi;
+worldsector(double xwcen, double ywcen, double radius, double deg1,
+            double deg2, double degi)
 {
     float rdeg, rdeg1, rdeg2, rdegi, x, y;
 

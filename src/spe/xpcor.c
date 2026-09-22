@@ -26,8 +26,7 @@ extern float *spespe;
 extern float *speaux;
 
 void /*FUNCTION*/
-xpcor(nerr)
-     int *nerr;
+xpcor(int *nerr)
 {
     int i, n;
     char **last;

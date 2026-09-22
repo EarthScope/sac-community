@@ -8,8 +8,7 @@
    return 1 if next token is ON,
    return 2 if next token is neither (implies ON, but doesn't occupy the space ) */
 int
-OnOrOff(inString)
-     char *inString;
+OnOrOff(char *inString)
 {
     int OnOrOff_v;
     char *dumb = inString + 1;

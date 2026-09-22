@@ -16,15 +16,9 @@ int ndcTransfer(char *dir, char *dfile, double dt, int nfr, double *xre,
 #endif
 
 void /*FUNCTION*/
-dseis(nfreq, delfrq, xre, xim, fp, ip, kp, kp_s, nmScale, nerr)
-     int nfreq;
-     double delfrq, xre[], xim[];
-     float fp[];
-     int ip[];
-     char kp[MAXKP][MCPFN + 1];
-     int kp_s;
-     float *nmScale;
-     int *nerr;
+dseis(int nfreq, double delfrq, double xre[], double xim[], float fp[],
+      int ip[], char kp[MAXKP][MCPFN + 1], int kp_s, float *nmScale,
+      int *nerr)
 {
     int idx;
     float *const Fp = &fp[0] - 1;

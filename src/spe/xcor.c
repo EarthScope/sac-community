@@ -18,8 +18,7 @@ extern sac *spe;
 extern float *specor;
 extern float *speaux;
 void /*FUNCTION*/
-xcor(nerr)
-     int *nerr;
+xcor(int *nerr)
 {
     char temp[131];
     int nlnuse;

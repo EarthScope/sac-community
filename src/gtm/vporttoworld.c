@@ -5,9 +5,7 @@
 GTM_EXTERN
 
 void /*FUNCTION*/
-vporttoworld(xloc, yloc, xwloc, ywloc)
-     double xloc, yloc;
-     float *xwloc, *ywloc;
+vporttoworld(double xloc, double yloc, float *xwloc, float *ywloc)
 {
 
         /*=====================================================================

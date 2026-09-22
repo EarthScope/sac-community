@@ -9,8 +9,7 @@
 GEM_EXTERN
 
 void /*FUNCTION*/
-xtitle(nerr)
-     int *nerr;
+xtitle(int *nerr)
 {
     int ititls;
 

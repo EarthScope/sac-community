@@ -9,8 +9,7 @@
 GD2_EXTERN
 
 void /*FUNCTION*/
-setsgfprefix(prefix)
-     char *prefix;
+setsgfprefix(char *prefix)
 {
 
         /*=====================================================================

@@ -12,8 +12,7 @@
 #include "dff.h"
 
 void /*FUNCTION*/
-xsqrt(nerr)
-     int *nerr;
+xsqrt(int *nerr)
 {
     int j, jdfl;
     sac *s;

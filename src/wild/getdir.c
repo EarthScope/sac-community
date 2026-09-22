@@ -7,13 +7,8 @@
 #include "bot.h"
 
 void /*FUNCTION*/
-getdir(kpath, kpath_s, kdirpt, kdirpt_s, kpatpt, kpatpt_s)
-     char *kpath;
-     int kpath_s;
-     char *kdirpt;
-     int kdirpt_s;
-     char *kpatpt;
-     int kpatpt_s;
+getdir(char *kpath, int kpath_s, char *kdirpt, int kdirpt_s, char *kpatpt,
+       int kpatpt_s)
 {
     int ifirst;
 

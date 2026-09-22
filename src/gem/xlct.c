@@ -14,8 +14,7 @@
 GDM_EXTERN
 
 void /*FUNCTION*/
-xlct(nerr)
-     int *nerr;
+xlct(int *nerr)
 {
     char _c0[2];
 

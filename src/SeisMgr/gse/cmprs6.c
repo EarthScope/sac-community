@@ -59,9 +59,7 @@ takeDiff(int *data, int npts) {
 }
 
 static int
-room(npts, space, theString)
-     int *npts, *space;
-     char **theString;
+room(int *npts, int *space, char **theString)
 {
     int rt = 0;
 
@@ -85,9 +83,7 @@ room(npts, space, theString)
 }
 
 int
-cmprs6(LX, IX, CBUFF)
-     int LX, *IX;
-     char **CBUFF;
+cmprs6(int LX, int *IX, char **CBUFF)
 {
     /* Declare variables. */
     char BLANK = ' ', ACHAR[] =

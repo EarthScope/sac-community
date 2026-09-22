@@ -12,8 +12,7 @@
 SAM_EXTERN
 
 void /*FUNCTION*/
-xkhronhite(nerr)
-     int *nerr;
+xkhronhite(int *nerr)
 {
     int j, jdfl;
 

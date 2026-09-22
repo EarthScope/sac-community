@@ -7,8 +7,7 @@
 GD2_EXTERN
 
 void /*FUNCTION*/
-flushbuffer2(nerr)
-     int *nerr;
+flushbuffer2(int *nerr)
 {
     int numw;
 

@@ -9,8 +9,7 @@
 GEM_EXTERN
 
 void /*FUNCTION*/
-xwidth(nerr)
-     int *nerr;
+xwidth(int *nerr)
 {
     int inum;
 

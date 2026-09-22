@@ -4,9 +4,7 @@
 
 
 void /*FUNCTION*/
-dss(nfreq, delfrq, xre, xim)
-     int nfreq;
-     double delfrq, xre[], xim[];
+dss(int nfreq, double delfrq, double xre[], double xim[])
 {
     int i, npole, nzero;
     double const_, omo;

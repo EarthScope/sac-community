@@ -6,8 +6,7 @@
 GEM_EXTERN
 
 void /*FUNCTION*/
-xtsize(nerr)
-     int *nerr;
+xtsize(int *nerr)
 {
     int j;
 

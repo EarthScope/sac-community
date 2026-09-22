@@ -38,8 +38,7 @@ GAM_EXTERN
 extern float *tty[MXTT];
 extern float *ttx[MXTT];
 void
-xplotrecords(nerr)
-     int *nerr;
+xplotrecords(int *nerr)
 {
     char kpllab[MCPFN + 7],     /* Number of elements increased. Add room for jdfl. maf 970129 */
       kvr[9];

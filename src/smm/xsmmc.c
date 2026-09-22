@@ -8,8 +8,7 @@
 SMM_EXTERN
 
 void /*FUNCTION*/
-xsmmc(index, nerr)
-     int index, *nerr;
+xsmmc(int index, int *nerr)
 {
 
         /*=====================================================================

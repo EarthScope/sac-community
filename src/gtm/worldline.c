@@ -2,8 +2,7 @@
 #include "gtm.h"
 
 void /*FUNCTION*/
-worldline(xwloc1, ywloc1, xwloc2, ywloc2)
-     double xwloc1, ywloc1, xwloc2, ywloc2;
+worldline(double xwloc1, double ywloc1, double xwloc2, double ywloc2)
 {
 
         /*=====================================================================

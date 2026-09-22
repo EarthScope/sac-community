@@ -10,15 +10,8 @@
 #include "debug.h"
 
 void /*FUNCTION*/
-ckinst(fp, lfp, ip, lip, kp, kp_s, lkp, nerr)
-     float fp[];
-     int lfp[];
-     int ip[];
-     int lip[];
-     char *kp;
-     int kp_s;
-     int lkp[];
-     int *nerr;
+ckinst(float fp[], int lfp[], int ip[], int lip[], char *kp, int kp_s,
+       int lkp[], int *nerr)
 {
 #define KP(I_,J_)	(kp+(I_)*(kp_s)+(J_))
     char temp[21];

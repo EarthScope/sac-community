@@ -10,9 +10,7 @@ GEM_EXTERN
 SSS_EXTERN
 
 void /*FUNCTION*/
-pl2d(xarray, yarray, number, incx, incy, nerr)
-     float xarray[], yarray[];
-     int number, incx, incy, *nerr;
+pl2d(float xarray[], float yarray[], int number, int incx, int incy, int *nerr)
 {
 
         /*=====================================================================

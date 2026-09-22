@@ -18,8 +18,7 @@ extern float *spespe;
 extern float *speaux;
 
 void /*FUNCTION*/
-xmlm(nerr)
-     int *nerr;
+xmlm(int *nerr)
 {
         /*=====================================================================
 	 * PURPOSE:  To execution the action command MLM.

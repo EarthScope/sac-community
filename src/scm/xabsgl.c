@@ -7,11 +7,7 @@
 #include "ucf.h"
 
 void /*FUNCTION*/
-xabsgl(data, nlen, thold, irgltp, nerr)
-     float data[];
-     int nlen;
-     double thold;
-     int irgltp, *nerr;
+xabsgl(float data[], int nlen, double thold, int irgltp, int *nerr)
 {
     int lgood;
     int ibad, igood, j;

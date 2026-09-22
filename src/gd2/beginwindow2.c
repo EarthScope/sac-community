@@ -3,8 +3,7 @@
 #include "debug.h"
 
 void /*FUNCTION*/
-beginwindow2(number, nerr)
-     int *number, *nerr;
+beginwindow2(int *number, int *nerr)
 {
 
         /*=====================================================================

@@ -22,8 +22,7 @@ ICM_EXTERN
 void DisconnectFromOracleTransfer(void);
 
 void /*FUNCTION*/
-xtransfer(nerr)
-     int *nerr;
+xtransfer(int *nerr)
 {
     int ldone;
     int iprewu, jdfl, maxn, nfft, nfreq, nra, ntused;

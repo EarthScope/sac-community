@@ -7,8 +7,7 @@
 GEM_EXTERN
 
 void /*FUNCTION*/
-xaxes(nerr)
-     int *nerr;
+xaxes(int *nerr)
 {
     int ltf;
     int index;

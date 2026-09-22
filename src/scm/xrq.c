@@ -17,8 +17,7 @@
 SCM_EXTERN
 
 void /*FUNCTION*/
-xrq(nerr)
-     int *nerr;
+xrq(int *nerr)
 {
     int j, jdfl, jj, nfreq;
     float fac, recqf;

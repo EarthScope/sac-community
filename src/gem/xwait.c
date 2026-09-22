@@ -9,8 +9,7 @@
 GAM_EXTERN
 
 void /*FUNCTION*/
-xwait(nerr)
-     int *nerr;
+xwait(int *nerr)
 {
     int lmode;
 

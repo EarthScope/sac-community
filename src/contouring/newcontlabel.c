@@ -16,10 +16,7 @@ extern struct contour contour;
 CONTOURING_EXTERN
 
 void
-newcontlabel(jpoint, jtype, angle, jtext, number)
-     int jpoint, jtype;
-     double angle;
-     int jtext, *number;
+newcontlabel(int jpoint, int jtype, double angle, int jtext, int *number)
 {
 
         /*=====================================================================

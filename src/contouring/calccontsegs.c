@@ -18,9 +18,7 @@ CONTOURING_EXTERN
 GTM_EXTERN
 
 void
-calccontsegs(array, nxsize, nysize, nerr)
-     float array[];
-     int nxsize, nysize, *nerr;
+calccontsegs(float array[], int nxsize, int nysize, int *nerr)
 {
     int highright[4], storemode;
     int ihigh, ilow, inum, jlevel, jx, jxstart, jxstop, jy, jystart, jystop;

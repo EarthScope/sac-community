@@ -2,8 +2,7 @@
 #include "pl.h"
 
 void /*FUNCTION*/
-incat(icurat, iattab, nattab, jattab, inewat)
-     int icurat, iattab[], nattab, *jattab, *inewat;
+incat(int icurat, int iattab[], int nattab, int *jattab, int *inewat)
 {
 
     int *const Iattab = &iattab[0] - 1;

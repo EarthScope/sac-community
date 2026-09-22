@@ -7,8 +7,7 @@
 #include "dff.h"
 
 void /*FUNCTION*/
-xreverse(nerr)
-     int *nerr;
+xreverse(int *nerr)
 {
     int jdfl;
     float temp;

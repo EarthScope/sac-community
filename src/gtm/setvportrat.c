@@ -5,8 +5,7 @@
 GTM_EXTERN
 
 void /*FUNCTION*/
-setvportratio(ratio)
-     double ratio;
+setvportratio(double ratio)
 {
     float vpratio;
 

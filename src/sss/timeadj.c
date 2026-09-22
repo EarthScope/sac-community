@@ -9,10 +9,7 @@ extern float *tty;
 TT_EXTERN
 
 void /*FUNCTION*/
-timeadj(rdist, atime, nerr)
-     double rdist;
-     float *atime;
-     int *nerr;
+timeadj(double rdist, float *atime, int *nerr)
 {
 
         /*=====================================================================

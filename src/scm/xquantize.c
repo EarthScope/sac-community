@@ -19,8 +19,7 @@
 SCM_EXTERN
 
 void /*FUNCTION*/
-xquantize(nerr)
-     int *nerr;
+xquantize(int *nerr)
 {
     int irange, ivalue, j, jdfl, jqgain, nclip, nqgain;
     float factor, half, temp;

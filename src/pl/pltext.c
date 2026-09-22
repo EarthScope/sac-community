@@ -13,9 +13,7 @@
 GEM_EXTERN
 
 void /*FUNCTION*/
-pltext(ktext, xloc, yloc)
-     char *ktext;
-     float xloc, yloc;
+pltext(char *ktext, double xloc, double yloc)
 {
     int iline;
         /*=====================================================================

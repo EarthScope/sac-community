@@ -18,13 +18,11 @@ calculate_location2(float *x, float *y, float *cx, float *cy, unsigned int w,
 }
 
 void
-calc_loc2(xloc, yloc, cbarxoffset, cbaryoffset, w_width, w_height, i_width,
-          i_height, xpmn, xpmx, xmin, first, last, ypmn, ypdel, vsratio, nerr)
-     unsigned int *xloc, *yloc, *cbarxoffset, *cbaryoffset;
-     unsigned int w_width, w_height, i_width, i_height;
-     float xpmn, xpmx, xmin, first, last, ypmn, ypdel, vsratio;
-     int *nerr;
-
+calc_loc2(unsigned int *xloc, unsigned int *yloc, unsigned int *cbarxoffset,
+          unsigned int *cbaryoffset, unsigned int w_width,
+          unsigned int w_height, unsigned int i_width, unsigned int i_height,
+          double xpmn, double xpmx, double xmin, double first, double last,
+          double ypmn, double ypdel, double vsratio, int *nerr)
 {
     float xtemp, ypmx, ypmntemp;
     float proportion;

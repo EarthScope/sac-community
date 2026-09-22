@@ -20,8 +20,7 @@ SMM_EXTERN
 DFM_EXTERN
 
 void /*FUNCTION*/
-xmarkptp(nerr)
-     int *nerr;
+xmarkptp(int *nerr)
 {
     int ifpick, ikpick, ipick, jdfl, jpmax, jpmin, nlnatw, nofatw, nwin;
     double tmax, tmin;

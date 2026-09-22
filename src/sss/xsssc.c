@@ -4,8 +4,7 @@
 #include "msg.h"
 
 void /*FUNCTION*/
-xsssc(index, nerr)
-     int index, *nerr;
+xsssc(int index, int *nerr)
 {
 
         /*=====================================================================

@@ -15,10 +15,7 @@ SAM_EXTERN
 DFIR_EXTERN
 
 void /*FUNCTION*/
-fdhp(memptr, mxmptr, userData, nerr)
-     int mxmptr, *nerr;
-     float *memptr[];
-     float *userData;
+fdhp(float *memptr[], int mxmptr, float *userData, int *nerr)
 {
     int idx, jdx;
     float rfl, rfh, dummy;

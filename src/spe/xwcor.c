@@ -13,8 +13,7 @@ SPE_EXTERN
 extern float *specor;
 
 void /*FUNCTION*/
-xwcor(nerr)
-     int *nerr;
+xwcor(int *nerr)
 {
     double delcor;
     sac *s;

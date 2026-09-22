@@ -9,8 +9,7 @@
 GEM_EXTERN
 
 void /*FUNCTION*/
-xbeginframe(nerr)
-     int *nerr;
+xbeginframe(int *nerr)
 {
     int lprint = FALSE;
 

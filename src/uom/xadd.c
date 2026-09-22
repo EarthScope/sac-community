@@ -11,8 +11,7 @@
 #include "dff.h"
 
 void /*FUNCTION*/
-xadd(nerr)
-     int *nerr;
+xadd(int *nerr)
 {
     int new_list, n;
     int j, jdfl;

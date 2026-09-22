@@ -22,9 +22,7 @@
   } while(0);
 
 void
-dcpft(re, im, nfreq, incp, isignp)
-     double re[], im[];
-     int nfreq, incp, isignp;
+dcpft(double re[], double im[], int nfreq, int incp, int isignp)
 {
     int ij, inc, is, it, ji, k0, k1, n1, n2, ninc, rc, span;
     double c, c0, i0, i1, r0, r1, s, s0, sgn, t;

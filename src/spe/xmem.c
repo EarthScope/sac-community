@@ -18,8 +18,7 @@ extern float *spespe;
 extern float *speaux;
 
 void /*FUNCTION*/
-xmem(nerr)
-     int *nerr;
+xmem(int *nerr)
 {
         /*=====================================================================
 	 * PURPOSE:  To execute the action command MEM.

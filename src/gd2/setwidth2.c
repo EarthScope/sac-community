@@ -5,8 +5,7 @@
 GD2_EXTERN
 
 void /*FUNCTION*/
-setwidth2(index)
-     int index;
+setwidth2(int index)
 {
     int nerr;
 

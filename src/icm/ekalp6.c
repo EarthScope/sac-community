@@ -3,9 +3,7 @@
 
 
 void /*FUNCTION*/
-ekalp6(nfreq, delfrq, xre, xim)
-     int nfreq;
-     double delfrq, xre[], xim[];
+ekalp6(int nfreq, double delfrq, double xre[], double xim[])
 {
     int i, npole, nzero;
     double const_;

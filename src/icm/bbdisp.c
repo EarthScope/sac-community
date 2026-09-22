@@ -2,9 +2,7 @@
 #include "icm.h"
 
 void /*FUNCTION*/
-bbdisp(nfreq, delfrq, xre, xim)
-     int nfreq;
-     double delfrq, xre[], xim[];
+bbdisp(int nfreq, double delfrq, double xre[], double xim[])
 {
     int i, npole, nzero;
     double const_;

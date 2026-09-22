@@ -39,11 +39,7 @@
  *
  * */
 void /*FUNCTION*/
-dewit(data, nsamps, order, a, errmsg)
-     float data[];
-     int nsamps, order;
-     float a[];
-     char *errmsg;
+dewit(float data[], int nsamps, int order, float a[], char *errmsg)
 {
     char temp[51];
     int i;

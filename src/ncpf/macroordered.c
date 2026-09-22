@@ -21,13 +21,8 @@
 CPF_EXTERN
 
 void /*FUNCTION*/
-macroordered(kmacroargs, kmacroargs_s, nun, kline, kline_s, nerr)
-     char *kmacroargs;
-     int kmacroargs_s;
-     FILE *nun;
-     char *kline;
-     int kline_s;
-     int *nerr;
+macroordered(char *kmacroargs, int kmacroargs_s, FILE *nun, char *kline,
+             int kline_s, int *nerr)
 {
     char kdef[MCMSG + 1], key[MCMSG + 1], kmacroname[MCPFN + 1], ktoken[9],
         kval[MCMSG + 1];

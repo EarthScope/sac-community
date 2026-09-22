@@ -23,8 +23,7 @@ GEM_EXTERN
 #define	MXMPTR	10
 
 void /*FUNCTION*/
-filterdesign(nerr)
-     int *nerr;
+filterdesign(int *nerr)
 {
     char kcommand[9], kFilePrefix[MCPFN];
     int lfound, lprint = FALSE;

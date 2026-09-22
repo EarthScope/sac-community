@@ -31,8 +31,7 @@ GEM_EXTERN
 XYZ_EXTERN
 
 void
-ximage(nerr)
-     int *nerr;
+ximage(int *nerr)
 {
     char kret[9];
     int lany, lframesave = 0, lwait, lxlimits, lylimits, lprint = FALSE, ltry =

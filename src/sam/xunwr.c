@@ -17,8 +17,7 @@
 SAM_EXTERN
 
 void /*FUNCTION*/
-xunwr(nerr)
-     int *nerr;
+xunwr(int *nerr)
 {
     int lok;
     int int_, j, jdfl, jj, nfreq, nlnaux, nlnnew, nok, nptsmx;

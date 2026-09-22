@@ -2,9 +2,7 @@
 #include "icm.h"
 
 void /*FUNCTION*/
-ykalp(nfreq, delfrq, xre, xim)
-     int nfreq;
-     double delfrq, xre[], xim[];
+ykalp(int nfreq, double delfrq, double xre[], double xim[])
 {
     int i, npole, nzero;
     double const_;

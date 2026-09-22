@@ -14,8 +14,7 @@
 CONTOURING_EXTERN
 
 void /*FUNCTION*/
-xzcolors(nerr)
-     int *nerr;
+xzcolors(int *nerr)
 {
     char klist[MCMSG + 1];
     int llabelmode;

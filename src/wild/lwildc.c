@@ -10,9 +10,7 @@ struct t_kmwild kmwild;
 struct t_cmwild cmwild;
 
 int /*FUNCTION*/
-lwildc(flist, flist_s)
-     char *flist;
-     int flist_s;
+lwildc(char *flist, int flist_s)
 {
     int lwildc_v;
 

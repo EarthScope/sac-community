@@ -7,10 +7,9 @@
 GEM_EXTERN
 
 void
-cbar_window3(xloc, yloc, height, w_height, w_width, vspaceratio, ypmax, nerr)
-     unsigned int xloc, yloc, height, w_height, w_width;
-     float vspaceratio, ypmax;
-     int *nerr;
+cbar_window3(unsigned int xloc, unsigned int yloc, unsigned int height,
+             unsigned int w_height, unsigned int w_width, double vspaceratio,
+             double ypmax, int *nerr)
 {
     *nerr = 0;
     UNUSED(yloc);

@@ -9,13 +9,8 @@
 #include "msg.h"
 
 void /*FUNCTION*/
-lll(nfreq, delfrq, xre, xim, subtyp, subtyp_s, freepd, damp, nerr)
-     int nfreq;
-     double delfrq, xre[], xim[];
-     char *subtyp;
-     int subtyp_s;
-     double freepd, damp;
-     int *nerr;
+lll(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
+    int subtyp_s, double freepd, double damp, int *nerr)
 {
     int i, npole, nzero;
     double const_, h, om0, rad, t0;

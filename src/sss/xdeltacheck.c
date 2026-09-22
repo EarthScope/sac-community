@@ -8,8 +8,7 @@
 SSS_EXTERN
 
 void /*FUNCTION*/
-xdeltacheck(nerr)
-     int *nerr;
+xdeltacheck(int *nerr)
 {
 
     double tmp;

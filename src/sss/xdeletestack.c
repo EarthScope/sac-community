@@ -22,8 +22,7 @@
 SSS_EXTERN
 
 void /*FUNCTION*/
-xdeletestack(nerr)
-     int *nerr;
+xdeletestack(int *nerr)
 {
     char kfile[MCPFN + 1];
     int lincr;

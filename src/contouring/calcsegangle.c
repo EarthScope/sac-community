@@ -13,8 +13,7 @@
 #define PI M_PI
 
 void
-calcsegangle(point1, point2, angle)
-     float point1[], point2[], *angle;
+calcsegangle(float point1[], float point2[], float *angle)
 {
 
     float *const Point1 = &point1[0] - 1;

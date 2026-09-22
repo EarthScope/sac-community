@@ -56,10 +56,8 @@
  *   */
 
 int /*FUNCTION*/
-calcfftsize(delta, sliceint, window, iorfft, lfft, nptswndw, buffersize,
-            windowovrl)
-     double delta, sliceint, window;
-     int *iorfft, *lfft, *nptswndw, *buffersize, *windowovrl;
+calcfftsize(double delta, double sliceint, double window, int *iorfft,
+            int *lfft, int *nptswndw, int *buffersize, int *windowovrl)
 {
     int calcfftsize_v, n;
 

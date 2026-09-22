@@ -9,9 +9,7 @@
 #include "co.h"
 
 void /*FUNCTION*/
-cpft(r, i, n, incp, isignp)
-     float r[], i[];
-     int n, incp, isignp;
+cpft(float r[], float i[], int n, int incp, int isignp)
 {
     int ij, inc, is, it, ji, k0, k1, n1, n2, ninc, rc, span;
     float c, c0, i0, i1, r0, r1, s, s0, sgn, t;

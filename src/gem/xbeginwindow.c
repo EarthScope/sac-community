@@ -7,8 +7,7 @@
 GDM_EXTERN
 
 void /*FUNCTION*/
-xbeginwindow(nerr)
-     int *nerr;
+xbeginwindow(int *nerr)
 {
 
         /*=====================================================================

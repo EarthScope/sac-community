@@ -12,9 +12,7 @@
 #include "debug.h"
 
 void
-xtablname(kinput, nerr)
-     char *kinput;
-     int *nerr;
+xtablname(char *kinput, int *nerr)
 {
 #ifdef DATABASE_ENABLED
     /* Declare variables */

@@ -236,7 +236,13 @@ AUTOMAKE = ${SHELL} '/Users/chad/sac/sac/config/missing' automake-1.18
 AWK = awk
 BINARY_DIST = OSX_darwin_arm
 CC = gcc
-CFLAGS =  -Wall -Wextra 
+
+# CFLAGS (not AM_CFLAGS/per-target _CFLAGS) is appended last on every compile
+# line, after the project-wide -Wall -Wextra from the top-level configure.ac,
+# so only flags placed here can actually suppress warnings in this vendored
+# tree without being re-enabled by -Wextra.
+CFLAGS = -Wall -Wextra -Wno-sign-compare -O2 -g -Wall -Wextra  -Wno-sign-compare -Wno-unused-parameter \
+	-Wno-deprecated-non-prototype
 CPP = gcc -E
 CPPFLAGS = 
 CSCOPE = cscope
@@ -390,7 +396,7 @@ libevalresp_a_SOURCES = libsrc/evalresp/input.c \
   libsrc/evalresp/stationxml2resp/wrappers.c\
   libsrc/evalresp/examples/lowlevel.c libsrc/evalresp/examples/highlevel.c
 
-libevalresp_log_a_CFLAGS = -I$(srcdir)/libsrc 
+libevalresp_log_a_CFLAGS = -I$(srcdir)/libsrc
 libevalresp_log_a_SOURCES = libsrc/evalresp_log/log.c \
    libsrc/evalresp_log/helpers.c \
    libsrc/evalresp_log/examples/to_syslog.c \
@@ -407,7 +413,7 @@ libmxmlev_a_SOURCES = libsrc/mxml/mxml-attr.c \
   libsrc/mxml/mxml-index.c \
   libsrc/mxml/mxml-search.c
 
-libspline_a_CFLAGS = -I$(srcdir)/libsrc 
+libspline_a_CFLAGS = -I$(srcdir)/libsrc
 libspline_a_SOURCES = libsrc/spline/spline.c
 all: all-am
 

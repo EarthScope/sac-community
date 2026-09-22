@@ -8,8 +8,7 @@
 WILD_EXTERN
 
 void /*FUNCTION*/
-wildch(xsngl, xmult, xccon)
-     char xsngl, xmult, *xccon;
+wildch(int xsngl, int xmult, char *xccon)
 {
 
         /*==============================================================

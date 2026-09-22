@@ -13,8 +13,7 @@
 SAM_EXTERN
 
 void /*FUNCTION*/
-xlp(nerr)
-     int *nerr;
+xlp(int *nerr)
 {
     int jdfl;
     double fnyq;

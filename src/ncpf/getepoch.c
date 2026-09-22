@@ -17,11 +17,7 @@
 #include "debug.h"
 
 void /*FUNCTION*/
-getepoch(kfunction, nc, ic, kvalue, nerr)
-     char *kfunction;
-     char *kvalue;
-     int *nc, ic;
-     int *nerr;
+getepoch(char *kfunction, int *nc, int ic, char *kvalue, int *nerr)
 {
     int fileNumber = 1;
     int zyear, zdoy, zhour, zmin;

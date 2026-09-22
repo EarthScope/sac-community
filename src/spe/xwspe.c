@@ -15,8 +15,7 @@ SPE_EXTERN
 extern sac *spe;
 extern float *spespe;
 void /*FUNCTION*/
-xwspe(nerr)
-     int *nerr;
+xwspe(int *nerr)
 {
     char *filename;
     sac *s;

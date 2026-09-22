@@ -27,8 +27,7 @@ GAM_EXTERN
 extern float *sss_sum;
 
 void /*FUNCTION*/
-xplotstack(nerr)
-     int *nerr;
+xplotstack(int *nerr)
 {
     char kptext[MCMSG + 1], kret[9];
     int lactive, lany, lwait, lframs = 0;

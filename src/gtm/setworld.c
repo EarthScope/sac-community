@@ -5,8 +5,7 @@
 GTM_EXTERN
 
 void /*FUNCTION*/
-setworld(xwmin, xwmax, ywmin, ywmax)
-     double xwmin, xwmax, ywmin, ywmax;
+setworld(double xwmin, double xwmax, double ywmin, double ywmax)
 {
 
         /*=====================================================================

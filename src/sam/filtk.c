@@ -5,9 +5,7 @@
 #include "sam.h"
 
 double /*FUNCTION*/
-filtk(iopt, freq, yt)
-     int iopt;
-     double freq, yt;
+filtk(int iopt, double freq, double yt)
 {
     int i, i_, j, j_, k;
     float filtk_v;

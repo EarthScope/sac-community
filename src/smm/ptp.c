@@ -2,11 +2,8 @@
 #include "smm.h"
 
 void /*FUNCTION*/
-ptp(signal, npts, length, ptpval, ipmin, ipmax)
-     float signal[];
-     int npts, *length;
-     float *ptpval;
-     int *ipmin, *ipmax;
+ptp(float signal[], int npts, int *length, float *ptpval, int *ipmin,
+    int *ipmax)
 {
     int i, imax, imin, start, stop;
     float maxim, minim;

@@ -12,13 +12,8 @@
 GEM_EXTERN
 
 void
-markvert(jmark1, jmark2, xloc, ytop, ydel, klabel, klabel_s, nmarks)
-     int jmark1, jmark2;
-     float *xloc;
-     double ytop, ydel;
-     char *klabel;
-     int klabel_s;
-     int nmarks;
+markvert(int jmark1, int jmark2, float *xloc, double ytop, double ydel,
+         char *klabel, int klabel_s, int nmarks)
 {
     int jmark, nc;
     float height, width, ydiff, yloc1, yloc2;

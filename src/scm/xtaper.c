@@ -17,8 +17,7 @@ SAM_EXTERN
 
 #define PI  M_PI
 void /*FUNCTION*/
-xtaper(nerr)
-     int *nerr;
+xtaper(int *nerr)
 {
     int ipts, jdfl;
     sac *s;

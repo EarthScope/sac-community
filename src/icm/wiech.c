@@ -6,9 +6,7 @@
 #include "co.h"
 
 void /*FUNCTION*/
-wiech(nfreq, delfrq, xre, xim)
-     int nfreq;
-     double delfrq, xre[], xim[];
+wiech(int nfreq, double delfrq, double xre[], double xim[])
 {
     int npole, nzero;
     double const_, h, om0, rad, t0;

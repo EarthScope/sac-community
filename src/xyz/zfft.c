@@ -5,9 +5,7 @@
 #include "co.h"
 
 void /*FUNCTION*/
-zrvfft(x, m)
-     float x[];
-     int m;
+zrvfft(float x[], int m)
 {
     int i, i0, id, is, j, k, n, n2, n4;
     float t1;
@@ -59,9 +57,7 @@ zrvfft(x, m)
 }                               /* end of function */
 
 void /*FUNCTION*/
-zirvfft(x, m)
-     float x[];
-     int m;
+zirvfft(float x[], int m)
 {
     int i, i1, id, is, j, k, n, n2, n4;
     float t1;
@@ -116,9 +112,8 @@ zirvfft(x, m)
 }                               /* end of function */
 
 void /*FUNCTION*/
-zstage(n, n2, n4, x1, x2, x3, x4)
-     int n, n2, n4;
-     float x1[], x2[], x3[], x4[];
+zstage(int n, int n2, int n4, float x1[], float x2[], float x3[],
+       float x4[])
 {
     int i1, i2, id, is, j, jn, n8;
     float cc1, cc3, cd1, cd3, e, sd1, sd3, ss1, ss3, t1, t2, t3, t4, t5, t6;
@@ -223,9 +218,8 @@ zstage(n, n2, n4, x1, x2, x3, x4)
 }                               /* end of function */
 
 void /*FUNCTION*/
-zistage(n, n2, n4, x1, x2, x3, x4)
-     int n, n2, n4;
-     float x1[], x2[], x3[], x4[];
+zistage(int n, int n2, int n4, float x1[], float x2[], float x3[],
+        float x4[])
 {
     int i1, i2, id, is, j, jn, n8;
     float cc1, cc3, cd1, cd3, e, sd1, sd3, ss1, ss3, t1, t2, t3, t4, t5;

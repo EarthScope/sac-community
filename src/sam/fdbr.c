@@ -16,10 +16,7 @@ SAM_EXTERN
 DFIR_EXTERN
 
 void /*FUNCTION*/
-fdbr(memptr, mxmptr, userData, nerr)
-     int mxmptr, *nerr;
-     float *memptr[];
-     float *userData;
+fdbr(float *memptr[], int mxmptr, float *userData, int *nerr)
 {
     int idx, jdx;
     float _f0, _f1, dummy;

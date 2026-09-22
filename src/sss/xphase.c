@@ -7,8 +7,7 @@
 TT_EXTERN
 
 void /*FUNCTION*/
-xphase(nerr)
-     int *nerr;
+xphase(int *nerr)
 {
     int iphase;
 

@@ -8,8 +8,7 @@
 GEM_EXTERN
 
 void /*FUNCTION*/
-plgrid(nerr)
-     int *nerr;
+plgrid(int *nerr)
 {
 
         /*=====================================================================

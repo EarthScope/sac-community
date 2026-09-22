@@ -161,25 +161,11 @@ GetNormalizationFactor(int nfreq, double delfrq, const double *xre,
 /* -------------------------------------------------------------------- */
 
 void /*FUNCTION*/
-transfer(dat, npts, delta, fpfrom, ipfrom, kpfrom, kpfrom_s, fpto, ipto, kpto,
-         kpto_s, f, iprew, sre, sim, nfft, xre, xim, nfreq, nerr)
-     float dat[];
-     int npts;
-     double delta;
-     float fpfrom[];
-     int ipfrom[];
-     char kpfrom[MAXKP][MCPFN + 1];
-     int kpfrom_s;
-     float fpto[];
-     int ipto[];
-     char kpto[MAXKP][MCPFN + 1];
-     int kpto_s;
-     double f[];
-     int *iprew;
-     double sre[], sim[];
-     int nfft;
-     double xre[], xim[];
-     int nfreq, *nerr;
+transfer(float dat[], int npts, double delta, float fpfrom[], int ipfrom[],
+         char kpfrom[MAXKP][MCPFN + 1], int kpfrom_s, float fpto[],
+         int ipto[], char kpto[MAXKP][MCPFN + 1], int kpto_s, double f[],
+         int *iprew, double sre[], double sim[], int nfft, double xre[],
+         double xim[], int nfreq, int *nerr)
 {
     char errmsg[131];
     int i;

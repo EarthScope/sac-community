@@ -4,8 +4,7 @@
 #include "msg.h"
 
 void /*FUNCTION*/
-xsamc(index, nerr)
-     int index, *nerr;
+xsamc(int index, int *nerr)
 {
 
         /*=====================================================================

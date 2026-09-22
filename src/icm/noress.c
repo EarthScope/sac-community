@@ -7,11 +7,8 @@
 #include "msg.h"
 
 void /*FUNCTION*/
-noress(nfreq, delfrq, xre, xim, subtyp, subtyp_s)
-     int nfreq;
-     double delfrq, xre[], xim[];
-     char *subtyp;
-     int subtyp_s;
+noress(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
+       int subtyp_s)
 {
     int idx, nerr;
     double delomg, gkip, gklp, go, omega;

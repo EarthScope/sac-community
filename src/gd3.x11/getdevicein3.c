@@ -22,10 +22,7 @@
 GD3_EXTERN
 
 void
-getdeviceinfo3(dev_name, dev_name_length, dev_type)
-     char dev_name[];
-     int dev_name_length;
-     int *dev_type;
+getdeviceinfo3(char dev_name[], int dev_name_length, int *dev_type)
 {
 
 /* Set attributes */

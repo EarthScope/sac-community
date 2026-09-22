@@ -4,8 +4,7 @@
 #include "msg.h"
 
 void /*FUNCTION*/
-xuomc(index, nerr)
-     int index, *nerr;
+xuomc(int index, int *nerr)
 {
 
         /*=====================================================================

@@ -26,8 +26,7 @@
 
 
 void /*FUNCTION*/
-xfitxy(nerr)
-     int *nerr;
+xfitxy(int *nerr)
 {
     char kfile[MCPFN + 1];
     int lchange;

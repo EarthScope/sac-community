@@ -4,8 +4,7 @@
 #include "msg.h"
 
 void /*FUNCTION*/
-xicmc(index, nerr)
-     int index, *nerr;
+xicmc(int index, int *nerr)
 {
 
         /*=====================================================================

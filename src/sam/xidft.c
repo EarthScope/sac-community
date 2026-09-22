@@ -16,8 +16,7 @@
 SAM_EXTERN
 
 void /*FUNCTION*/
-xidft(nerr)
-     int *nerr;
+xidft(int *nerr)
 {
     int jdx, jdfl;
 

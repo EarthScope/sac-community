@@ -40,8 +40,7 @@ color_parse2(char *key, color *p, color *n) {
 }
 
 void /*FUNCTION*/
-xline(nerr)
-     int *nerr;
+xline(int *nerr)
 {
     int lwarning;
     int int_;

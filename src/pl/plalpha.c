@@ -18,11 +18,7 @@ GEM_EXTERN
 GAM_EXTERN
 
 void /*FUNCTION*/
-plalpha(kalpha, kalpha_s, malpha, lprint, nerr)
-     char *kalpha;
-     int kalpha_s;
-     int malpha, *nerr;
-     int lprint;
+plalpha(char *kalpha, int kalpha_s, int malpha, int lprint, int *nerr)
 {
 #define KALPHA(I_,J_)	(kalpha+(I_)*(kalpha_s)+(J_))
     int lany, lframs, lxgens;

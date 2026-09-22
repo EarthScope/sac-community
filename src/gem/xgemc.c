@@ -8,8 +8,7 @@
 GEM_EXTERN
 
 void /*FUNCTION*/
-xgemc(index, nerr)
-     int index, *nerr;
+xgemc(int index, int *nerr)
 {
 
         /*=====================================================================

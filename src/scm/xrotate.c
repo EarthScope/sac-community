@@ -16,8 +16,7 @@
 SCM_EXTERN
 
 void /*FUNCTION*/
-xrotate(nerr)
-     int *nerr;
+xrotate(int *nerr)
 {
     int lhorz, lnpin, lnpout;
     int jdfl;

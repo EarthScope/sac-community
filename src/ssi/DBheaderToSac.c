@@ -10,10 +10,7 @@
 #include "dff.h"
 
 void
-DBheaderToSac(header, lall, s)
-     struct SACheader *header;
-     int lall;
-     sac *s;
+DBheaderToSac(struct SACheader *header, int lall, sac *s)
 {
 
     int idx, err = 0;

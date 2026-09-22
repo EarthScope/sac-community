@@ -24,13 +24,8 @@ logdtaf(float *array, int n, int lfloor, double floor, float *output, int *nerr)
 }
 
 void /*FUNCTION*/
-logdta(array, number, lfloor, floor, output, nerr)
-     double array[];
-     int number;
-     int lfloor;
-     double floor;
-     double output[];
-     int *nerr;
+logdta(double array[], int number, int lfloor, double floor, double output[],
+        int *nerr)
 {
     int j;
 

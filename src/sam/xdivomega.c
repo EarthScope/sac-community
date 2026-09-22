@@ -13,8 +13,7 @@
 #define PI  M_PI
 
 void /*FUNCTION*/
-xdivomega(nerr)
-     int *nerr;
+xdivomega(int *nerr)
 {
     int j, jdfl, jj, nfreq;
     float const_, oldimag, oldreal, value;

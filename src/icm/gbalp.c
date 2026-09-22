@@ -3,9 +3,7 @@
 
 
 void /*FUNCTION*/
-gbalp(nfreq, delfrq, xre, xim)
-     int nfreq;
-     double delfrq, xre[], xim[];
+gbalp(int nfreq, double delfrq, double xre[], double xim[])
 {
     int i, npole, nzero;
     double const_;

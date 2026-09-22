@@ -215,9 +215,6 @@ irhdr(int newnpts, sac * s) {
     strcpy(s->h->kevnm, "FD: IMPULSE");
 }
 
-int MDtoDoy();
-int isLeapYear();
-
 static void
 fillNZ(sac * s) {
     double time = tmGetEpochTime();

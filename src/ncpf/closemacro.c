@@ -11,8 +11,7 @@
 CPF_EXTERN
 
 void /*FUNCTION*/
-closemacro(nerr)
-     int *nerr;
+closemacro(int *nerr)
 {
     int ntused;
     FILE *nun;

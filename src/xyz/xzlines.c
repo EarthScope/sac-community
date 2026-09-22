@@ -10,8 +10,7 @@
 CONTOURING_EXTERN
 
 void /*FUNCTION*/
-xzlines(nerr)
-     int *nerr;
+xzlines(int *nerr)
 {
     int ltemp;
 

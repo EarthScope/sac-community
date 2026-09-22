@@ -11,8 +11,7 @@ GEM_EXTERN
 GDM_EXTERN
 
 void /*FUNCTION*/
-xendframe(nerr)
-     int *nerr;
+xendframe(int *nerr)
 {
 
         /*=====================================================================

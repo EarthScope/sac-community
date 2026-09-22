@@ -5,8 +5,7 @@
 GTM_EXTERN
 
 void /*FUNCTION*/
-setvport(xmin, xmax, ymin, ymax)
-     double xmin, xmax, ymin, ymax;
+setvport(double xmin, double xmax, double ymin, double ymax)
 {
 
         /*=====================================================================

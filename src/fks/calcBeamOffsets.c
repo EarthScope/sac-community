@@ -20,11 +20,6 @@ FKS_EXTERN
 
 #define	MXLENB	40000
 
-void cascade();
-int isInfoThere();
-void userOffsets();
-void eventOffsets();
-
 void
 calcBeamOffsets(int ns, int elevc, float *xr, float *yr, float *zr, int *nerr) {
     sac *s;

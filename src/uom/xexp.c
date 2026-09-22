@@ -11,8 +11,7 @@
 #include "dff.h"
 
 void /*FUNCTION*/
-xexp(nerr)
-     int *nerr;
+xexp(int *nerr)
 {
     int j, jdfl;
     sac *s;

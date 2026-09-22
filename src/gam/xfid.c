@@ -9,8 +9,7 @@
 GAM_EXTERN
 
 void /*FUNCTION*/
-xfid(nerr)
-     int *nerr;
+xfid(int *nerr)
 {
     char ktok[9];
     int j, j_;

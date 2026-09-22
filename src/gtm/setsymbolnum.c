@@ -8,8 +8,7 @@
 GTM_EXTERN
 
 void /*FUNCTION*/
-setsymbolnum(number)
-     int number;
+setsymbolnum(int number)
 {
     int ilast;
 

@@ -2,8 +2,7 @@
 #include "gd2.h"
 
 void /*FUNCTION*/
-enddevice2(nerr)
-     int *nerr;
+enddevice2(int *nerr)
 {
 
         /*=====================================================================

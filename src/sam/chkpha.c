@@ -14,10 +14,7 @@
 SAM_EXTERN
 
 void /*FUNCTION*/
-chkpha(ph, pv, iscons)
-     float *ph;
-     double pv;
-     int *iscons;
+chkpha(float *ph, double pv, int *iscons)
 {
     float a0, a1, a2, a3, a4;
 

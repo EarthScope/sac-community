@@ -5,13 +5,8 @@
 #include "debug.h"
 
 void /*FUNCTION*/
-phaseadj(leven, npts, xarray, yarray, xfirst, xdel, bdist, dist, atime, nerr)
-     int leven;
-     int npts;
-     float xarray[], yarray[];
-     double xfirst, xdel, bdist, dist;
-     float *atime;
-     int *nerr;
+phaseadj(int leven, int npts, float xarray[], float yarray[], double xfirst,
+         double xdel, double bdist, double dist, float *atime, int *nerr)
 {
     int i, n;
     float deldist;

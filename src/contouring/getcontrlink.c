@@ -15,8 +15,7 @@ extern struct contour contour;
 CONTOURING_EXTERN
 
 void
-getcontrlink(number, rlink)
-     int number, *rlink;
+getcontrlink(int number, int *rlink)
 {
 
         /*=====================================================================

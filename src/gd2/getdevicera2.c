@@ -2,8 +2,7 @@
 #include "gd2.h"
 
 void /*FUNCTION*/
-getdevicerat2(ratio)
-     float *ratio;
+getdevicerat2(float *ratio)
 {
 
         /*=====================================================================

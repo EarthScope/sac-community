@@ -3,9 +3,7 @@
 
 
 void /*FUNCTION*/
-hs3(nfreq, delfrq, xre, xim)
-     int nfreq;
-     double delfrq, xre[], xim[];
+hs3(int nfreq, double delfrq, double xre[], double xim[])
 {
     int i;
     double delomg, omega;

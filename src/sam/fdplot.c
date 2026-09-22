@@ -18,10 +18,7 @@ SAM_EXTERN
 GAM_EXTERN
 
 int /*FUNCTION*/
-fdplot(memptr, lprint, xbeg, nerr)
-     int *xbeg, *nerr;
-     float *memptr[];
-     int lprint;
+fdplot(float *memptr[], int lprint, int *xbeg, int *nerr)
 {
     int lany;
     int npulpts = 0, xend;
@@ -255,10 +252,7 @@ fdplot(memptr, lprint, xbeg, nerr)
 
 /*===================================================================== */
 void /*FUNCTION*/
-getlims(datary, npts, min_, max_)
-     float datary[];
-     int npts;
-     float *min_, *max_;
+getlims(float datary[], int npts, float *min_, float *max_)
 {
     int idx;
 
@@ -281,10 +275,7 @@ getlims(datary, npts, min_, max_)
 
 /*===================================================================== */
 void /*FUNCTION*/
-loadxtmp(xtmp, xwmin, xwmax, npts)
-     float xtmp[];
-     double xwmin, xwmax;
-     int npts;
+loadxtmp(float xtmp[], double xwmin, double xwmax, int npts)
 {
     int idx;
     float dx;
@@ -304,9 +295,7 @@ loadxtmp(xtmp, xwmin, xwmax, npts)
 
 /*===================================================================== */
 void /*FUNCTION*/
-sduration(s, npts, min_, max_)
-     float s[];
-     int *npts, *min_, *max_;
+sduration(float s[], int *npts, int *min_, int *max_)
 {
     int n, ploc;
     float denom, durat, numer;

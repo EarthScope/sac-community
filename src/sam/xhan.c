@@ -9,8 +9,7 @@
 #include "dff.h"
 
 void /*FUNCTION*/
-xhan(nerr)
-     int *nerr;
+xhan(int *nerr)
 {
     int j, jdfl;
 

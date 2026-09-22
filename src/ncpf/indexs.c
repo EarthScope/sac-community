@@ -4,12 +4,7 @@
 #include "ncpf.h"
 
 int /*FUNCTION*/
-indexs(text, ntext, string, nstring, lfwd, locc)
-     char *text;
-     int ntext;
-     char *string;
-     int nstring;
-     int lfwd, locc;
+indexs(char *text, int ntext, char *string, int nstring, int lfwd, int locc)
 {
     int ic, ic1, ic3, indexs_v, jc, do_count;
 

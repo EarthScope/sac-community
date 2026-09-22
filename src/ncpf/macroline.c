@@ -24,10 +24,7 @@ CPF_EXTERN
 char *process_line(char *in);
 
 int /*FUNCTION*/
-macroline(kmacroline, kmacroline_s, ncmacroline, nerr)
-     char *kmacroline;
-     int kmacroline_s;
-     int *ncmacroline, *nerr;
+macroline(char *kmacroline, int kmacroline_s, int *ncmacroline, int *nerr)
 {
     char kiline[MCMSG + 1], ktemp1[MCPFN + 1], ktemp2[MCPFN + 1], ktoken[9] =
         "        ", runfile[MCPFN + 1];

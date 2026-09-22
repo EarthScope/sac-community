@@ -25,8 +25,7 @@ LHF_EXTERN
 LHF_EXTERN
 
 void /*FUNCTION*/
-disppk(tdelay)
-     double tdelay;
+disppk(double tdelay)
 {
     char kpktxt[9];
     int j, j_;

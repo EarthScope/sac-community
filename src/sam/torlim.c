@@ -4,10 +4,7 @@
 #include "sam.h"
 
 void /*FUNCTION*/
-torlim(am, ph, num, rl, im)
-     float am[], ph[];
-     int num;
-     float rl[], im[];
+torlim(float am[], float ph[], int num, float rl[], float im[])
 {
     int j;
     float arg, parg;

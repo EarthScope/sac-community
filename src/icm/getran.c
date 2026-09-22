@@ -5,14 +5,8 @@
 #include "icm.h"
 
 void /*FUNCTION*/
-getran(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim)
-     int nfreq;
-     double delfrq, const_;
-     int nzero;
-     complexf *zero;
-     int npole;
-     complexf *pole;
-     double *xre, *xim;
+getran(int nfreq, double delfrq, double const_, int nzero, complexf zero[],
+       int npole, complexf pole[], double xre[], double xim[])
 {
     int idx, jdx;
     double delomg, fac, omega, ti, ti0, tid, tin, tr, tr0, trd, trn;
@@ -65,14 +59,8 @@ getran(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim)
 
 
 void /*FUNCTION*/
-getrand(nfreq, delfrq, const_, nzero, zero, npole, pole, xre, xim)
-     int nfreq;
-     double delfrq, const_;
-     int nzero;
-     complexd *zero;
-     int npole;
-     complexd *pole;
-     double *xre, *xim;
+getrand(int nfreq, double delfrq, double const_, int nzero, complexd zero[],
+        int npole, complexd pole[], double xre[], double xim[])
 {
     int idx, jdx;
     double delomg, fac, omega, ti, ti0, tid, tin, tr, tr0, trd, trn;

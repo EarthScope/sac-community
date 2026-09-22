@@ -8,11 +8,8 @@
 #include "debug.h"
 
 void /*FUNCTION*/
-xpowgl(data, nlen, sr, alpha, doval, irgltp, nerr)
-     float data[];
-     int nlen;
-     double sr, alpha, doval;
-     int irgltp, *nerr;
+xpowgl(float data[], int nlen, double sr, double alpha, double doval,
+       int irgltp, int *nerr)
 {
     int i, ibegptr, isglw, nglitches, nsglw, nwin;
     float bd[100000], sec, sumbd, t1, value;

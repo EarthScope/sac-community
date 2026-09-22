@@ -140,8 +140,7 @@ FillArrays(int nfreqs, evalresp_response *first, double *xre, double *xim) {
 /* ----------------------------------------------------------------- */
 
 static int
-notSet(arg)                     /* Check whether integer arg from sac header is set */
-     int arg;
+notSet(int arg)                 /* Check whether integer arg from sac header is set */
 {
     int INTNOTSET = -12345;
     if (arg == INTNOTSET)
@@ -152,8 +151,7 @@ notSet(arg)                     /* Check whether integer arg from sac header is 
 }
 
 static void
-setCurTime(t_o_day)
-     char *t_o_day;
+setCurTime(char *t_o_day)
 {
     struct tm *tod;
     time_t now;
@@ -163,8 +161,7 @@ setCurTime(t_o_day)
 }
 
 static void
-getCurDate(curYear, dayOfYear)
-     int *curYear, *dayOfYear;
+getCurDate(int *curYear, int *dayOfYear)
 {
     time_t now;
     struct tm *tmstruct;
@@ -196,9 +193,7 @@ setTimeString(int *hour, int *min, int *sec, int *msec, char *t_o_day) {
 }
 
 static void
-setDateString(year, jday, t_o_day, datime)
-     int *year, *jday;
-     char *t_o_day, *datime;
+setDateString(int *year, int *jday, char *t_o_day, char *datime)
 {
     int curYear, dayOfYear;
 

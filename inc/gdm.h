@@ -372,7 +372,7 @@ void set_window_height(int height);
 int get_file_descriptor(void);
 char *handle_event(int *nerr);
 
-void xsave();
+void xsave(int *nerr);
 void initdevice_postscript();
 void initdevice_pdf();
 void initdevice_record();

@@ -5,8 +5,7 @@
 GD2_EXTERN
 
 void /*FUNCTION*/
-setlinestyle2(iline)
-     int *iline;
+setlinestyle2(int *iline)
 {
     int nerr;
 

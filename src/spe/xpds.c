@@ -19,8 +19,7 @@ extern float *spespe;
 extern float *speaux;
 
 void /*FUNCTION*/
-xpds(nerr)
-     int *nerr;
+xpds(int *nerr)
 {
     double secpds;
 

@@ -11,16 +11,8 @@
 #include "dfm.h"
 
 void /*FUNCTION*/
-rfir(knmfir, knmfir_s, mfir, cfir, nfir, desdt, kidfir, kidfir_s, nerr)
-     char *knmfir;
-     int knmfir_s;
-     int mfir;
-     float cfir[];
-     int *nfir;
-     float *desdt;
-     char *kidfir;
-     int kidfir_s;
-     int *nerr;
+rfir(char *knmfir, int knmfir_s, int mfir, float cfir[], int *nfir,
+     float *desdt, char *kidfir, int kidfir_s, int *nerr)
 {
     char kcard[MCMSG + 1];
     int idx, iffir[255], jstart, nleft, nread, numsave;

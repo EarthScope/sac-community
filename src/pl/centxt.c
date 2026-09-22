@@ -8,11 +8,7 @@
 GEM_EXTERN
 
 void /*FUNCTION*/
-centxt(ktext, ktext_s, ntext, itextp, tsize)
-     char *ktext;
-     int ktext_s;
-     int ntext, itextp;
-     double tsize;
+centxt(char *ktext, int ktext_s, int ntext, int itextp, double tsize)
 {
     float anglsv, slen, textx, texty, xpwid, ypwid;
     float savew, saveh;

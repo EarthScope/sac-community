@@ -5,10 +5,7 @@
 
 
 void /*FUNCTION*/
-rsk(nfreq, delfrq, xre, xim, subtyp)
-     int nfreq;
-     double delfrq, xre[], xim[];
-     char *subtyp;
+rsk(int nfreq, double delfrq, double xre[], double xim[], char *subtyp)
 {
     int npole, nzero;
     double const_;

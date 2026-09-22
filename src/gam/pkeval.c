@@ -8,11 +8,7 @@
 EAM_EXTERN
 
 void /*FUNCTION*/
-pkeval(array, ndxmx, si, ndxpk, nlncda)
-     float array[];
-     int ndxmx;
-     double si;
-     int ndxpk, *nlncda;
+pkeval(float array[], int ndxmx, double si, int ndxpk, int *nlncda)
 {
     int icount, ndx;
     float diff, fdnew, fdold, rmnabs, rmncrt;

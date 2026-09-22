@@ -8,10 +8,7 @@
 GD2_EXTERN
 
 void /*FUNCTION*/
-getdeviceinfo2(kdname, kdname_s, idtype)
-     char *kdname;
-     int kdname_s;
-     int *idtype;
+getdeviceinfo2(char *kdname, int kdname_s, int *idtype)
 {
 
         /*=====================================================================

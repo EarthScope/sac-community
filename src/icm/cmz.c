@@ -2,9 +2,7 @@
 #include "icm.h"
 
 void /*FUNCTION*/
-cmz(nfreq, delfrq, xre, xim)
-     int nfreq;
-     double delfrq, xre[], xim[];
+cmz(int nfreq, double delfrq, double xre[], double xim[])
 {
     int npole, nzero;
     double const_;

@@ -8,8 +8,7 @@
 CPF_EXTERN
 
 void /*FUNCTION*/
-setmacrolevel(imacrolevel)
-     int imacrolevel;
+setmacrolevel(int imacrolevel)
 {
 
         /*=====================================================================

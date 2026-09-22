@@ -5,10 +5,7 @@
 
 
 void /*FUNCTION*/
-rs7(nfreq, delfrq, xre, xim, subtyp)
-     int nfreq;
-     double delfrq, xre[], xim[];
-     char *subtyp;
+rs7(int nfreq, double delfrq, double xre[], double xim[], char *subtyp)
 {
     int npole, nzero;
     double const_;

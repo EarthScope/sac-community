@@ -17,8 +17,7 @@ SSS_EXTERN
 extern float *sss_sum;
 
 void /*FUNCTION*/
-xzerostack(nerr)
-     int *nerr;
+xzerostack(int *nerr)
 {
     char kvm[9], *worksetName;
 

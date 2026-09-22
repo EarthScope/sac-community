@@ -18,8 +18,7 @@ extern XWindow basew3[MAX_WINS + 1];
 extern XWindow plotw3[MAX_WINS + 1];
 
 void
-getwindowstat3(win_num, exists)
-     int win_num, *exists;
+getwindowstat3(int win_num, int *exists)
 {
 
 /* Get status of window */

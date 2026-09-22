@@ -6,12 +6,8 @@
 #include "co.h"
 
 void /*FUNCTION*/
-wavfrm(array, nst, nlen, value, mwf, iwf, lwfok)
-     float array[];
-     int nst, nlen;
-     double value;
-     int mwf, iwf[];
-     int *lwfok;
+wavfrm(float array[], int nst, int nlen, double value, int mwf, int iwf[],
+       int *lwfok)
 {
     int j, jpairs, jst, jwf, npairs;
     float fdc, fdl, sign;

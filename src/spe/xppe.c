@@ -22,8 +22,7 @@ extern float *spepe;
 extern float *speaux;
 
 void /*FUNCTION*/
-xppe(nerr)
-     int *nerr;
+xppe(int *nerr)
 {
     int lany, lframs;
     int ifidls;

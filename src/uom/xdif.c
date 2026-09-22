@@ -12,8 +12,7 @@
 UOM_EXTERN
 
 void /*FUNCTION*/
-xdif(nerr)
-     int *nerr;
+xdif(int *nerr)
 {
     int jdfl;
     sac *s;

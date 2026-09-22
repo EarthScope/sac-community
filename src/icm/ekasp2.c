@@ -3,9 +3,7 @@
 
 
 void /*FUNCTION*/
-ekasp2(nfreq, delfrq, xre, xim)
-     int nfreq;
-     double delfrq, xre[], xim[];
+ekasp2(int nfreq, double delfrq, double xre[], double xim[])
 {
     int i, npole, nzero;
     double const_;

@@ -19,8 +19,7 @@ SSS_EXTERN
 
 
 void /*FUNCTION*/
-xliststack(nerr)
-     int *nerr;
+xliststack(int *nerr)
 {
     char kline[MCMSG + 1], kpol[9];
     int j, jdfl, jvm, jvm_;

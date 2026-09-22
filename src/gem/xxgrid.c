@@ -7,8 +7,7 @@
 GEM_EXTERN
 
 void /*FUNCTION*/
-xxgrid(nerr)
-     int *nerr;
+xxgrid(int *nerr)
 {
 
         /*=====================================================================

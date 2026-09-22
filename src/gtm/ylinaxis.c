@@ -20,9 +20,8 @@ GEM_EXTERN
 GTM_EXTERN
 
 void /*FUNCTION*/
-ylinaxis(llefax, lrigax, lleftc, lrigtc, widlef, widrig)
-     int llefax, lrigax, lleftc, lrigtc;
-     float *widlef, *widrig;
+ylinaxis(int llefax, int lrigax, int lleftc, int lrigtc, float *widlef,
+         float *widrig)
 {
     int horz, vert;
     char ktemp[9];

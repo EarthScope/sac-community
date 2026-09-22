@@ -14,12 +14,10 @@
 struct contour contour;
 
 void
-alloclabels(maxsegments, maxlabels, indexseglabelst, indexseglabelnu,
-            indexseglabelfi, indexlabelpoint, indexlabeltype, indexlabelangle,
-            indexlabeltext, nerr)
-     int maxsegments, maxlabels, *indexseglabelst, *indexseglabelnu,
-         *indexseglabelfi, *indexlabelpoint, *indexlabeltype, *indexlabelangle,
-         *indexlabeltext, *nerr;
+alloclabels(int maxsegments, int maxlabels, int *indexseglabelst,
+            int *indexseglabelnu, int *indexseglabelfi, int *indexlabelpoint,
+            int *indexlabeltype, int *indexlabelangle, int *indexlabeltext,
+            int *nerr)
 {
 
         /*=====================================================================

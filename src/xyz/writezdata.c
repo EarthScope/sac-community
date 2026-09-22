@@ -4,11 +4,8 @@
 #include "co.h"
 
 void /*FUNCTION*/
-writezdata(filename, filename_s, zdata, nzsize, nerr)
-     char *filename;
-     int filename_s;
-     float zdata[];
-     int *nzsize, *nerr;
+writezdata(char *filename, int filename_s, float zdata[], int *nzsize,
+           int *nerr)
 {
     int _l0, notused, nun;
 

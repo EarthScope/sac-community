@@ -15,8 +15,7 @@ extern struct contour contour;
 CONTOURING_EXTERN
 
 void
-putcontseglabel(number, status, numlocs, firstloc)
-     int number, status, numlocs, firstloc;
+putcontseglabel(int number, int status, int numlocs, int firstloc)
 {
 
         /*=====================================================================

@@ -2,10 +2,7 @@
 #include "scm.h"
 
 void /*FUNCTION*/
-linear(segin, number, segout)
-     float segin[];
-     int number;
-     float segout[];
+linear(float segin[], int number, float segout[])
 {
     int j;
     float step, value;

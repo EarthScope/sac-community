@@ -10,8 +10,7 @@
 CONTOURING_EXTERN
 
 void /*FUNCTION*/
-xzlevels(nerr)
-     int *nerr;
+xzlevels(int *nerr)
 {
     int nrange;
     double range[2];

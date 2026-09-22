@@ -19,8 +19,7 @@ SMM_EXTERN
 DFM_EXTERN
 
 void /*FUNCTION*/
-xmarkvalue(nerr)
-     int *nerr;
+xmarkvalue(int *nerr)
 {
     char kdescr[9];
     int ifpick, ikpick, index, ipick, j, jdfl, nlnatw, nofatw;

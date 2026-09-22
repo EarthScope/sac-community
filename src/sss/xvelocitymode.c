@@ -7,8 +7,7 @@
 SSS_EXTERN
 
 void /*FUNCTION*/
-xvelocitymode(nerr)
-     int *nerr;
+xvelocitymode(int *nerr)
 {
     int lflip;
     int iflip, jvm;

@@ -15,8 +15,7 @@ extern struct contour contour;
 CONTOURING_EXTERN
 
 void
-newcontseg(level, start, stop, number)
-     int level, start, stop, *number;
+newcontseg(int level, int start, int stop, int *number)
 {
 
         /*=====================================================================

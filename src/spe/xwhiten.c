@@ -18,8 +18,7 @@ SPE_EXTERN
 extern sac *spe;
 
 void /*FUNCTION*/
-xwhiten(nerr)
-     int *nerr;
+xwhiten(int *nerr)
 {
     int nprerq;
     /* names for the FD option */

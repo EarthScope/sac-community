@@ -4,10 +4,8 @@
 #include "scm.h"
 
 void /*FUNCTION*/
-lifitu(x, y, n, a, b, siga, sigb, sig, cc)
-     float x[], y[];
-     int n;
-     float *a, *b, *siga, *sigb, *sig, *cc;
+lifitu(float x[], float y[], int n, float *a, float *b, float *siga,
+       float *sigb, float *sig, float *cc)
 {
     int i;
     float d, df, rn, sig2, siga2, sigb2, xi, yi;

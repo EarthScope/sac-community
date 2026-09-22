@@ -38,8 +38,7 @@ SCOLOR
 #define MCOLOR 2
 
 void
-changectable2(nentry, icolortable)
-     int nentry, icolortable;
+changectable2(int nentry, int icolortable)
 {
 
     int i;

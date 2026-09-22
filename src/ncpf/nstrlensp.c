@@ -2,9 +2,7 @@
 #include "ncpf.h"
 
 int /*FUNCTION*/
-nstrlensp(kstring, kstring_s)
-     char *kstring;
-     int kstring_s;
+nstrlensp(char *kstring, int kstring_s)
 {
     int ic, nldefined, nstrlensp_v;
 

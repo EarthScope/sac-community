@@ -42,8 +42,7 @@ sss_init_file(int jdfl, double b, double e, double dist) {
 
 
 void /*FUNCTION*/
-xsss(nerr)
-     int *nerr;
+xsss(int *nerr)
 {
     char kfile[9];
     int jdfl;

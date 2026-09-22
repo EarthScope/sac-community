@@ -11,8 +11,7 @@
 #include "dff.h"
 
 void /*FUNCTION*/
-xlog10(nerr)
-     int *nerr;
+xlog10(int *nerr)
 {
     int j, jdfl;
     sac *s;

@@ -22,8 +22,7 @@ GEM_EXTERN
 LHF_EXTERN
 
 void
-disppkLandscape(tdelay)
-     double tdelay;
+disppkLandscape(double tdelay)
 {
     char kpktxt[9];
     int j, j_;

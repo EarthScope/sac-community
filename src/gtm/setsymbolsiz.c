@@ -8,8 +8,7 @@
 GTM_EXTERN
 
 void /*FUNCTION*/
-setsymbolsize(size)
-     double size;
+setsymbolsize(double size)
 {
     float chht, chwid;
 

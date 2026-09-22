@@ -2,11 +2,8 @@
 #include "xyz.h"
 
 void
-window_data(array, nxsize, nysize, wdata, jxstart, jxstop, jystart, jystop)
-     float *array;
-     int nxsize, nysize;
-     float *wdata;
-     int jxstart, jxstop, jystart, jystop;
+window_data(float *array, int nxsize, int nysize, float *wdata, int jxstart,
+            int jxstop, int jystart, int jystop)
 {
 
     int i, j;

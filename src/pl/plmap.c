@@ -44,9 +44,7 @@ yinterp(double x, double x0, double x1, double y0, double y1) {
 #define IDX2TIME( id ) (cmgem.xgen.first + (id-1) * cmgem.xgen.delta)
 
 void /*FUNCTION*/
-plmap(xarray, yarray, number, incx, incy, nerr)
-     float xarray[], yarray[];
-     int number, incx, incy, *nerr;
+plmap(float xarray[], float yarray[], int number, int incx, int incy, int *nerr)
 {
     int jdx, jx, jy, num1, num2, num2m1;
     float delx, dely, tmp, xvspdl, yvspdl;

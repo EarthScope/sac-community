@@ -11,8 +11,7 @@
 #include "dff.h"
 
 void /*FUNCTION*/
-xmul(nerr)
-     int *nerr;
+xmul(int *nerr)
 {
     int j, jdfl, n, new_list;
     double con, temp;

@@ -3,10 +3,8 @@
 #include "debug.h"
 
 void /*FUNCTION*/
-createwindow2(number, xwinmn, xwinmx, ywinmn, ywinmx, nerr)
-     int *number;
-     float *xwinmn, *xwinmx, *ywinmn, *ywinmx;
-     int *nerr;
+createwindow2(int *number, float *xwinmn, float *xwinmx, float *ywinmn,
+              float *ywinmx, int *nerr)
 {
 
         /*=====================================================================

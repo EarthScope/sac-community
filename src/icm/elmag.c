@@ -6,10 +6,8 @@
 #include "msg.h"
 
 void /*FUNCTION*/
-elmag(nfreq, delfrq, xre, xim, freepd, mag, nerr)
-     int nfreq;
-     double delfrq, xre[], xim[], freepd, mag;
-     int *nerr;
+elmag(int nfreq, double delfrq, double xre[], double xim[], double freepd,
+      double mag, int *nerr)
 {
     int i, nmag;
     double const_, delomg, h1, h2, om1, omega, p, sigsq, t1, t2;

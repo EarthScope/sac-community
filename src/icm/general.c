@@ -4,11 +4,8 @@
 
 
 void /*FUNCTION*/
-general(nfreq, delfrq, xre, xim, nzer, t0, h, const_)
-     int nfreq;
-     double delfrq, xre[], xim[];
-     int nzer;
-     double t0, h, const_;
+general(int nfreq, double delfrq, double xre[], double xim[], int nzer,
+        double t0, double h, double const_)
 {
     int i, npole, nzero;
     double omo;

@@ -26,8 +26,7 @@ GEM_EXTERN
 SPE_EXTERN
 
 void /*FUNCTION*/
-xscallop(nerr)
-     int *nerr;
+xscallop(int *nerr)
 {
     int jdfl, *nptslist, numfiles, speclength, specsize, specwidth, nchar;
     int lprint = FALSE, ltry = FALSE;

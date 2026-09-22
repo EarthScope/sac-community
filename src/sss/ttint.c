@@ -9,11 +9,8 @@ GEM_EXTERN
 SSS_EXTERN
 
 void
-ttint(darray, tarray, npts, dvint, tvint, nerr)
-     float darray[], tarray[];
-     int npts;
-     float *dvint, *tvint;
-     int *nerr;
+ttint(float darray[], float tarray[], int npts, float *dvint, float *tvint,
+      int *nerr)
 {
     int idx, ndx;
     float del, dwint, twint;

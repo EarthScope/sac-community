@@ -23,8 +23,7 @@ GAM_EXTERN
 float *sss_sum = NULL;
 
 void /*FUNCTION*/
-xsumstack(nerr)
-     int *nerr;
+xsumstack(int *nerr)
 {
     int lany;
     int ioffsetdata, ioffsetsum, j, jdfl, nlnsumnew, numintersect;

@@ -2,10 +2,20 @@ Please see file HISTORY for list of official release and
 a discussion of bug fixes and enhancements made between releases.
 
 2026/09
-- Update libmseed to v3.5.4
+- Convert K&R-style function signatures to ANSI prototypes across src/
+  (icm, sam, sss, gd2, gd3.x11, gem, gam, uom, scm, xyz, gtm, spe, ncpf,
+  ssi, pl, smm, gcm, wild, top, mat, SeisMgr/gse, contouring)
+- Add real prototypes for result_free, xsave, vbeven, and the
+  cascade/isInfoThere/userOffsets/eventOffsets family, removing stale
+  K&R-style declarations
+- Fix octopus.c freeing the request instead of the result in
+  cmtsolution_from_cmtid, caught by the result_free prototype fix
+- Suppress sign-compare, unused-parameter, and deprecated-non-prototype
+  warnings in the vendored evalresp and libmseed trees
 - Merge the CI and release workflows into a single workflow
 - Pin Linux CI runners to ubuntu-24.04 and bump artifact actions to
   drop Node.js 20
+- Update libmseed to v3.5.4
 
 2025/05
 - Update libmseed to v3.1.5

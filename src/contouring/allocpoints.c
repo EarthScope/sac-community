@@ -14,9 +14,8 @@
 extern struct contour contour;
 
 void
-allocpoints(maxpoints, indexpoints, indexlinks, indexrlinks, indexaction, nerr)
-     int maxpoints, *indexpoints, *indexlinks, *indexrlinks, *indexaction,
-         *nerr;
+allocpoints(int maxpoints, int *indexpoints, int *indexlinks,
+            int *indexrlinks, int *indexaction, int *nerr)
 {
     UNUSED(indexpoints);
     UNUSED(indexlinks);

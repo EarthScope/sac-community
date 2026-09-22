@@ -7,12 +7,8 @@
 #include "msg.h"
 
 void /*FUNCTION*/
-sandia(nfreq, delfrq, xre, xim, subtyp, subtyp_s, nerr)
-     int nfreq;
-     double delfrq, xre[], xim[];
-     char *subtyp;
-     int subtyp_s;
-     int *nerr;
+sandia(int nfreq, double delfrq, double xre[], double xim[], char *subtyp,
+       int subtyp_s, int *nerr)
 {
     int i, npole, nzero;
     double const_, facnew, s1, s2, srf;

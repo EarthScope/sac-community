@@ -11,10 +11,7 @@
 DFM_EXTERN
 
 void
-DBwfToSac(s, seis, nerr)
-     int *nerr;
-     sac *s;
-     struct trace *seis;
+DBwfToSac(sac *s, struct trace *seis, int *nerr)
 {
     /* Declare Variables. */
     int idx, jcomp, numrd;

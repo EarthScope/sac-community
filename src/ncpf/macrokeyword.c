@@ -24,13 +24,8 @@ CPF_EXTERN
 Token *token_dup(Token * t);
 
 void /*FUNCTION*/
-macrokeyword(kmacroargs, kmacroargs_s, nun, keys, keys_s, nerr)
-     char *kmacroargs;
-     int kmacroargs_s;
-     FILE *nun;
-     char *keys;
-     int keys_s;
-     int *nerr;
+macrokeyword(char *kmacroargs, int kmacroargs_s, FILE *nun, char *keys,
+             int keys_s, int *nerr)
 {
     char kdef[MCMSG + 1], key[MCMSG + 1], kline[MCMSG + 1],
         kmacroname[MCPFN + 1], ktemp[MCMSG + 1], ktoken[9], kval[MCMSG + 1];

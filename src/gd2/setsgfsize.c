@@ -6,9 +6,7 @@
 GD2_EXTERN
 
 void /*FUNCTION*/
-setsgfsize(type, value)
-     char *type;
-     double value;
+setsgfsize(char *type, double value)
 {
 
         /*=====================================================================

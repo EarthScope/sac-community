@@ -15,10 +15,7 @@ extern struct contour contour;
 CONTOURING_EXTERN
 
 void
-getcontlabel(number, jpoint, jtype, angle, jtext)
-     int number, *jpoint, *jtype;
-     float *angle;
-     int *jtext;
+getcontlabel(int number, int *jpoint, int *jtype, float *angle, int *jtext)
 {
 
         /*=====================================================================

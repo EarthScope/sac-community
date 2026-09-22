@@ -16,8 +16,7 @@
 #define	MLENSCRATCH	4297
 
 void /*FUNCTION*/
-xhilbert(nerr)
-     int *nerr;
+xhilbert(int *nerr)
 {
     int jdfl, nlenmn;
     sac *s;

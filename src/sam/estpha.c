@@ -12,12 +12,8 @@
 SAM_EXTERN
 
 double /*FUNCTION*/
-estpha(x, nx, i, pphase, ppdvt, ppv, pdvt, iscons)
-     float x[];
-     int nx, i;
-     float *pphase, *ppdvt;
-     double ppv, pdvt;
-     int *iscons;
+estpha(float x[], int nx, int i, float *pphase, float *ppdvt, double ppv,
+       double pdvt, int *iscons)
 {
     int k, pindex, sindex[17], sp;
     float delta, estpha_v, freq, phainc, phase, sdvt[17], sppv[17], xi, xr, yi,

@@ -2,11 +2,7 @@
 #include "uom.h"
 
 void /*FUNCTION*/
-dif5(array, number, step, output)
-     float array[];
-     int number;
-     double step;
-     float output[];
+dif5(float array[], int number, double step, float output[])
 {
     int j;
     float aj, ajm1, ajm2, ajp1, ajp2, dif[2], fac1, fac2;

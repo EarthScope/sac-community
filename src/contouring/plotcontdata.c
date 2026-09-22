@@ -21,9 +21,7 @@
 CONTOURING_EXTERN
 
 void
-plotcontdata(zdata, nxsize, nysize, nerr)
-     float zdata[];
-     int nxsize, nysize, *nerr;
+plotcontdata(float zdata[], int nxsize, int nysize, int *nerr)
 {
     char kformat[9];
     int lfast;

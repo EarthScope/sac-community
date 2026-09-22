@@ -10,8 +10,7 @@
 SSS_EXTERN
 
 void /*FUNCTION*/
-vmcalc(jvm, nerr)
-     int jvm, *nerr;
+vmcalc(int jvm, int *nerr)
 {
     float t0vmsq, vappsq;
 
