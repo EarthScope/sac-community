@@ -76,29 +76,35 @@ jobs:
         run: make dist-binary
       - name: Name distribution tarball
         id: dist
+        env:
+          PLATFORM: ${{ matrix.platform.name }}
         run: |
           set -eu
-          pkg=$(awk -F ' = ' '$1 == "PACKAGE"     { print $2; exit }' build/Makefile)
-          ver=$(awk -F ' = ' '$1 == "VERSION"     { print $2; exit }' build/Makefile)
-          plat=$(awk -F ' = ' '$1 == "BINARY_DIST" { print $2; exit }' build/Makefile)
-          if [ -z "$pkg" ] || [ -z "$ver" ] || [ -z "$plat" ]; then
+          pkg=$(awk  -F ' = ' '$1 == "PACKAGE"     { print $2; exit }' build/Makefile)
+          ver=$(awk  -F ' = ' '$1 == "VERSION"     { print $2; exit }' build/Makefile)
+          dist=$(awk -F ' = ' '$1 == "BINARY_DIST" { print $2; exit }' build/Makefile)
+          if [ -z "$pkg" ] || [ -z "$ver" ] || [ -z "$dist" ]; then
             echo "::error::could not read PACKAGE/VERSION/BINARY_DIST from build/Makefile"
             exit 1
           fi
 
-          name="$pkg-$ver-$plat.tar.gz"
-          if [ ! -f "build/$name" ]; then
-            echo "::error::make dist-binary did not produce $name"
+          built="build/$pkg-$ver-$dist.tar.gz"
+          if [ ! -f "$built" ]; then
+            echo "::error::make dist-binary did not produce $pkg-$ver-$dist.tar.gz"
             ls -l build/*.tar.gz || true
             exit 1
           fi
 
-          if [ "$GITHUB_REF_TYPE" != tag ]; then
-            renamed="$pkg-$ver-g$(git rev-parse --short=8 HEAD)-$plat.tar.gz"
-            mv -- "build/$name" "build/$renamed"
-            name="$renamed"
+          git fetch --no-tags --depth=1 origin "refs/tags/v$ver:refs/tags/v$ver" 2>/dev/null || true
+          tagged=$(git rev-parse -q --verify "refs/tags/v$ver^{commit}" || true)
+
+          if [ -n "$tagged" ] && [ "$tagged" = "$(git rev-parse HEAD^{commit})" ]; then
+            name="$pkg-$ver-$PLATFORM.tar.gz"
+          else
+            name="$pkg-$ver+$(git rev-parse --short=8 HEAD)-$PLATFORM.tar.gz"
           fi
 
+          mv -- "$built" "build/$name"
           echo "path=build/$name" >> "$GITHUB_OUTPUT"
       - name: Upload build artifact
         uses: actions/upload-artifact@v7
