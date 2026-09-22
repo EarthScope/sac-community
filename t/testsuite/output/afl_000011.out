@@ -71,8 +71,8 @@ sac: No external execution: '__no_exec__' set
  ==>  
  mesóaè
 sac: No external execution: '__no_exec__' set
- read test test.divf.2
- WARNING: File does not exist: test
+ read test!divf.1 test.divf.2
+ WARNING: File does not exist: test!divf.1
  WARNING: Unable to read some files  reading the rest of the files.
  divf test.divf.2 test.divf.1
  WARNING: Data value outside system storage bounds
