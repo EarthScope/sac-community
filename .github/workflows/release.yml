@@ -54,15 +54,31 @@ jobs:
           sudo apt-get install -y libxml2-dev libxpm-dev libx11-dev libcurl4-openssl-dev xvfb
       - name: Install dependencies (macOS)
         if: runner.os == 'macOS'
-        run: brew install libxml2 curl libxpm libx11
+        run: |
+          brew install --cask xquartz
+          echo "PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}" >> "$GITHUB_ENV"
+          echo "CONFIGURE_X_FLAGS=--x-includes=/opt/X11/include --x-libraries=/opt/X11/lib" >> "$GITHUB_ENV"
       - name: Create Build directory
         run: mkdir build
       - name: Configure
         working-directory: ./build
-        run: ../configure
+        run: ../configure $CONFIGURE_X_FLAGS
       - name: Compile
         working-directory: ./build
         run: make
+      - name: Verify X11 comes from XQuartz
+        if: runner.os == 'macOS'
+        working-directory: ./build
+        run: |
+          otool -L src/sac
+          if ! otool -L src/sac | grep -qE '^[[:space:]]+/opt/X11/lib/libX11\.'; then
+            echo "::error::sac is not linked against XQuartz libX11"
+            exit 1
+          fi
+          if otool -L src/sac | grep -qE '/opt/homebrew/|/usr/local/(opt|Cellar)/'; then
+            echo "::error::sac links Homebrew libraries"
+            exit 1
+          fi
       - name: Test
         if: runner.os == 'Linux'
         working-directory: ./build
