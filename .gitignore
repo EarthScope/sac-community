@@ -23,7 +23,6 @@ __pycache__/
 /include/sacio.h
 /include/timespec.h
 /fern/Makefile
-/libedit/Makefile
 /libmseed/Makefile
 /sacio/Makefile
 /src/Makefile

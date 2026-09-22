@@ -103,12 +103,6 @@ if WIN_APP
   sac_LDADD        += $(FORMAT_LIBS) -lWs2_32
 endif
 
-# Editline Dependencies (Default = ON)
-if READLINE_EDITLINE
-sac_LDADD        += ../libedit/lib/libedit.a
-AM_CFLAGS        += -I../libedit/include
-endif
-
 EXTRA_DIST       = describedirs gd3.x11/sac.bitmap \
 		   history/History.doc \
 		   SeisMgr/dbselect/dbHelpQuery.pc \
@@ -263,7 +257,7 @@ libsac_all_a_SOURCES = bs/iniam.c bs/fid.c bs/octopus.c \
 	cnd/xelseif.c cnd/xenddo.c cnd/xendif.c cnd/xif.c cnd/xwhile.c \
 	\
 	co/backspace.c co/complex.c co/ext_init.c co/fstrncpy.c co/getfline.c \
-	co/getline.c co/math.c co/select.c \
+	co/getline.c co/linenoise.c co/math.c co/select.c \
 	co/strscpy.c co/subscpy.c co/tokenize.c co/zauxfile.c co/zbasename.c \
 	co/zclose.c co/zclosec.c co/zcloses.c co/zdest.c co/zdestf.c \
 	co/zexecute.c co/zfiles.c co/zgetc.c co/zgetgd.c co/zgimsg.c \

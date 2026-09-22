@@ -5,11 +5,7 @@
 AUTOMAKE_OPTIONS = no-dependencies
 
 # Subdirectories to MAKE recursively
-SUBDIRS          = 
-if READLINE_EDITLINE
-SUBDIRS         += libedit
-endif
-SUBDIRS         += libmseed evalresp fern sacio src utils t
+SUBDIRS          = libmseed evalresp fern sacio src utils t
 
 SACAUX_WIN       = winaux
 SACAUX_UNIX      = aux

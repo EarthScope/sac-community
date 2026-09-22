@@ -10,6 +10,7 @@
 
 #include "config.h"
 #include "bool.h"
+#include "debug.h"
 
 #ifndef READLINE
 void
@@ -32,10 +33,10 @@ zgtmsg(prmt, prmtlen, msg, msglen)
 
 #include "select.h"
 
-/** 
- * Process a command line 
- * 
- * @param p 
+/**
+ * Process a command line
+ *
+ * @param p
  *   Command line to process
  *
  */
@@ -44,7 +45,7 @@ static
 process_line(char *p) {
     select_loop_continue(SELECT_OFF);
     select_loop_message(p, SELECT_MSG_SET);
-    return;
+    FREE(p);
 }
 
 /** 

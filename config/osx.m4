@@ -19,11 +19,9 @@ AC_DEFUN([CHECK_FRAMEWORK],
 
 
 
-AC_DEFUN([OSXAPP_ON], [ AC_DEFINE([OSX_APP], [1], [Create OSX Application]) 
+AC_DEFUN([OSXAPP_ON], [ AC_DEFINE([OSX_APP], [1], [Create OSX Application])
                       display=osx
-                      editline=on
-                      readline=on
-                      case "${host}" in 
+                      case "${host}" in
                            *darwin10* ) ;; # 10.6
                            *darwin11* ) ;; # 10.7
                            *darwin12* ) ;; # 10.8

@@ -28,6 +28,11 @@ error3(Display * display, XErrorEvent * error) {
 int
 ioerror3(Display * display) {
     UNUSED(display);
+#ifdef READLINE
+    /* Restore the terminal before printing, so the fatal message isn't
+       written while the line editor still has it in raw mode. */
+    sac_line_editor_stop();
+#endif /* READLINE */
     if (errno == EPIPE) {
         fprintf(stderr,
                 "Seismic Analysis Code (SAC) lost the connection to the display\n"
@@ -38,11 +43,6 @@ ioerror3(Display * display) {
                 "Seismic Analysis Code (SAC): Fatal IO Error "
                 "%d (%s) on the X server\n", errno, strerror(errno));
     }
-#ifdef READLINE
-    /* This should probably do more, like clean up memory and such
-       and should probably be within its own fucntion */
-    rl_callback_handler_remove();
-#endif /* READLINE */
     exit(1);
 }
 

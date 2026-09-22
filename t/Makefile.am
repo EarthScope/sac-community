@@ -30,11 +30,6 @@ LDADD            = -L../src/ -lsac_all -lturtle -lsac_all \
 									 -licm \
                    -L../evalresp -levalresp -lspline -lmxmlev -levalresp_log
 
-if READLINE_EDITLINE
-LDADD            += ../libedit/lib/libedit.a
-CFLAGS           += -I../libedit/include
-endif
-
 FORMAT_LIBS      = $(xpm_LIBS) $(png_LIBS) $(zlib_LIBS) $(xft_LIBS) $(XML_LIBS)
 SAC_GRAPHICS     = -L..
 

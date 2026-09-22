@@ -124,7 +124,7 @@ The contents of the package are relative to `SACHOME` (default `/usr/local/sac`)
 | sac/macros/         | contains example macros and data
 | sac/utils           | makefile, sources for handling Sac files outside of SAC.  See sac/utils/README_utils for details
 | sac/License          | the Apache 2 License
-| sac/Editline.license | License for Editline for Command line edits and history
+| sac/Editline.license | License for linenoise for Command line edits and history
 
 ### Environment Setup
 

@@ -235,19 +235,18 @@ AUTOHEADER = ${SHELL} '/Users/chad/sac/sac/config/missing' autoheader
 AUTOMAKE = ${SHELL} '/Users/chad/sac/sac/config/missing' automake-1.18
 AWK = awk
 BINARY_DIST = OSX_darwin_arm
-CC = gcc
+CC = gcc -std=gnu23
 
 # CFLAGS (not AM_CFLAGS/per-target _CFLAGS) is appended last on every compile
 # line, after the project-wide -Wall -Wextra from the top-level configure.ac,
 # so only flags placed here can actually suppress warnings in this vendored
 # tree without being re-enabled by -Wextra.
-CFLAGS = -Wall -Wextra -Wno-sign-compare -O2 -g -Wall -Wextra  -Wno-sign-compare -Wno-unused-parameter \
+CFLAGS =  -Wall -Wextra  -Wno-sign-compare -Wno-unused-parameter \
 	-Wno-deprecated-non-prototype
-CPP = gcc -E
+CPP = gcc -std=gnu23 -E
 CPPFLAGS = 
 CSCOPE = cscope
 CTAGS = ctags
-CURSES_SEARCH_PATH = ncurses curses termcap
 CXX = g++
 CXXFLAGS = -g -O2
 CYGPATH_W = echo
@@ -271,7 +270,7 @@ LDFLAGS =
 LIBCURL = -lcurl
 LIBCURL_CPPFLAGS = 
 LIBOBJS = 
-LIBS = -ldl -lm -lncurses -ledit -lncurses 
+LIBS = -ldl -lm 
 LN_S = ln -s
 LTLIBOBJS = 
 MAINT = #

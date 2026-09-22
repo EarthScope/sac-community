@@ -119,10 +119,6 @@ bin_PROGRAMS = sac$(EXEEXT)
 @OSX_APP_TRUE@am__append_13 = $(FORMAT_LIBS) $(FRAMEWORK_FOUNDATION) $(FRAMEWORK_COCOA)
 @X11_APP_TRUE@am__append_14 = $(X_PRE_LIBS) $(FORMAT_LIBS) $(xft_LIBS) $(xpm_LIBS) $(X_EXTRA_LIBS) $(X_LIBS) -lX11
 @WIN_APP_TRUE@am__append_15 = $(FORMAT_LIBS) -lWs2_32
-
-# Editline Dependencies (Default = ON)
-@READLINE_EDITLINE_TRUE@am__append_16 = ../libedit/lib/libedit.a
-@READLINE_EDITLINE_TRUE@am__append_17 = -I../libedit/include
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/config/matlab.m4 \
@@ -323,8 +319,9 @@ am_libsac_all_a_OBJECTS = bs/iniam.$(OBJEXT) bs/fid.$(OBJEXT) \
 	cnd/xendif.$(OBJEXT) cnd/xif.$(OBJEXT) cnd/xwhile.$(OBJEXT) \
 	co/backspace.$(OBJEXT) co/complex.$(OBJEXT) \
 	co/ext_init.$(OBJEXT) co/fstrncpy.$(OBJEXT) \
-	co/getfline.$(OBJEXT) co/getline.$(OBJEXT) co/math.$(OBJEXT) \
-	co/select.$(OBJEXT) co/strscpy.$(OBJEXT) co/subscpy.$(OBJEXT) \
+	co/getfline.$(OBJEXT) co/getline.$(OBJEXT) \
+	co/linenoise.$(OBJEXT) co/math.$(OBJEXT) co/select.$(OBJEXT) \
+	co/strscpy.$(OBJEXT) co/subscpy.$(OBJEXT) \
 	co/tokenize.$(OBJEXT) co/zauxfile.$(OBJEXT) \
 	co/zbasename.$(OBJEXT) co/zclose.$(OBJEXT) \
 	co/zclosec.$(OBJEXT) co/zcloses.$(OBJEXT) co/zdest.$(OBJEXT) \
@@ -838,7 +835,7 @@ sac_DEPENDENCIES = libsac_all.a libsgf.a libicm.a $(am__append_5) \
 	../sacio/libsacio_bsd.a $(am__DEPENDENCIES_1) libsac_all.a \
 	libsgf.a $(am__append_10) $(am__append_12) \
 	$(am__DEPENDENCIES_3) $(am__DEPENDENCIES_4) \
-	$(am__DEPENDENCIES_5) $(am__append_16)
+	$(am__DEPENDENCIES_5)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -948,7 +945,6 @@ CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CSCOPE = @CSCOPE@
 CTAGS = @CTAGS@
-CURSES_SEARCH_PATH = @CURSES_SEARCH_PATH@
 CXX = @CXX@
 CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
@@ -1086,9 +1082,7 @@ SAC_INCLUDES = -I$(top_srcdir)/inc -I$(top_srcdir)
 FORMAT_CFLAGS = $(xpm_CFLAGS) $(png_CFLAGS) $(zlib_CFLAGS) $(XML_CPPFLAGS)
 EVALRESP_CFLAGS = -I$(top_srcdir)/evalresp/libsrc
 # Compilation Flags
-AM_CFLAGS = -fPIC $(DEBUG) $(COVERAGE) $(OPTIM) $(xft_CFLAGS) \
-	$(FORMAT_CFLAGS) $(X_CFLAGS) $(SAC_INCLUDES) \
-	$(LIBCURL_CPPFLAGS) $(EVALRESP_CFLAGS) $(am__append_17)
+AM_CFLAGS = -fPIC $(DEBUG) $(COVERAGE) $(OPTIM) $(xft_CFLAGS) $(FORMAT_CFLAGS) $(X_CFLAGS) $(SAC_INCLUDES) $(LIBCURL_CPPFLAGS) $(EVALRESP_CFLAGS)
 AM_CXXFLAGS = $(SAC_INCLUDES) $(am__append_1)
 @OSX_APP_TRUE@sac_SOURCES = osx/sac.m osx/main.m main/sac.c
 
@@ -1119,7 +1113,7 @@ sac_LDADD = -L$(srcdir) -L. libsac_all.a libsgf.a libicm.a \
 	../sacio/libsacio_bsd.a -L../evalresp -levalresp -lspline \
 	-lmxmlev -levalresp_log $(am__append_8) libsac_all.a libsgf.a \
 	$(am__append_10) $(am__append_12) $(am__append_13) \
-	$(am__append_14) $(am__append_15) $(am__append_16)
+	$(am__append_14) $(am__append_15)
 
 # More Libraries
 FORMAT_LIBS = $(png_LIBS) $(zlib_LIBS) $(XML_LIBS) $(LIBCURL)
@@ -1261,7 +1255,7 @@ libsac_all_a_SOURCES = bs/iniam.c bs/fid.c bs/octopus.c \
 	cnd/xelseif.c cnd/xenddo.c cnd/xendif.c cnd/xif.c cnd/xwhile.c \
 	\
 	co/backspace.c co/complex.c co/ext_init.c co/fstrncpy.c co/getfline.c \
-	co/getline.c co/math.c co/select.c \
+	co/getline.c co/linenoise.c co/math.c co/select.c \
 	co/strscpy.c co/subscpy.c co/tokenize.c co/zauxfile.c co/zbasename.c \
 	co/zclose.c co/zclosec.c co/zcloses.c co/zdest.c co/zdestf.c \
 	co/zexecute.c co/zfiles.c co/zgetc.c co/zgetgd.c co/zgimsg.c \
@@ -2070,6 +2064,7 @@ co/backspace.$(OBJEXT): co/$(am__dirstamp)
 co/ext_init.$(OBJEXT): co/$(am__dirstamp)
 co/getfline.$(OBJEXT): co/$(am__dirstamp)
 co/getline.$(OBJEXT): co/$(am__dirstamp)
+co/linenoise.$(OBJEXT): co/$(am__dirstamp)
 co/math.$(OBJEXT): co/$(am__dirstamp)
 co/select.$(OBJEXT): co/$(am__dirstamp)
 co/strscpy.$(OBJEXT): co/$(am__dirstamp)

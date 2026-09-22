@@ -40,20 +40,18 @@ the configure option --enable-png.
 
 Here are some comments specific to platforms and operating systems:
 
-Cygwin:  Further prerequisites for Cygwin include the GNU Readline
-library, and the Sun RPC library. READLINE is required to handle keyboard
-input, and SUNRPC (SUN Remote procedure call) is used to move files to and
-from operating systems of different binary formats. Both libraries are
-available via the Cygwin setup program.  Note that as of Cygwin 1.7, SAC
-can be built on Windows Cygwin using the normal SAC source distribution
-(versions 1.7 and later recognizes aux as a directory).  Hence, a separate
-CYGWIN source distribution is no longer provided.
+Cygwin:  Further prerequisites for Cygwin include the Sun RPC library.
+SUNRPC (SUN Remote procedure call) is used to move files to and from
+operating systems of different binary formats, and is available via the
+Cygwin setup program.  Note that as of Cygwin 1.7, SAC can be built on
+Windows Cygwin using the normal SAC source distribution (versions 1.7 and
+later recognizes aux as a directory).  Hence, a separate CYGWIN source
+distribution is no longer provided.
 
-READLINE is the default for building only on Cygwin systems.  For licensing
-reasons, READLINE cannot be bundled with the SAC code or binaries.  Systems
-other than Cygwin use the editline library by default.  If READLINE is on
-your system, you can switch on the use of READLINE with configure option
-"--enable-readline".
+Command line editing and history are provided by a vendored copy of
+linenoise, so no external editing library is required on any platform.
+Use the configure option "--disable-editing" to build without command
+line editing.
 
 Mac OSX: Tests have been done with OS 10.11 through OS 10.14.
 
@@ -121,21 +119,15 @@ Options for ./configure (if on is in the sac-103.0 direcoty)
                       Available for testing and SAC development.
                       It is mainly used by developers, so normal users
                       may ignore this option.
-   --enable-readline       enable readline command line capabilities
-                      This is the default for building only on Cygwin
-                      systems.  All other systems use the editline library
-                      by default.  Enabling this option should have little
-                      to no affect from the default configuration.
+   --disable-editing       disable command line editing and history
+                      Command line editing and history are provided by a
+                      vendored copy of linenoise and require no external
+                      library on any platform; this option builds without
+                      them.
    --enable-matlab=/path/to/matlab     Where to find Matlab and its
                       libraries.  As of version 101.2, Matlab is only
                       available if requested.  See CHANGES (2008-04-01)
                       for further details.
-   --disable-ncurses  Some Sun Solaris systems have the ncurses library
-                      in addition to the curses library.  SAC built on a
-          Solaris system with the ncurses library will not
-          run on a Solaris system that does not have that
-          library.  Because the Solaris binary provided is intended to be
-          able to run on all Solaris systems, it is built with ncurses disabled.
   --enable-xdr        Enable XDR File Format for Data files
   --enable-zlib       enable compressed pdf files
   --enable-xpm        enable saving plot files to XPM files [default]

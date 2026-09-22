@@ -20,15 +20,7 @@
 #endif
 
 #ifdef READLINE
-  #ifdef READLINE_READLINE
-    //#error "readline and no editline"
-    #include <readline/readline.h>
-    #include <readline/history.h>
-  #endif
-  #ifdef READLINE_EDITLINE
-    //#error "readline and editline"
-    #include <editline/readline.h>
-  #endif 
+  #include "linenoise.h"
   typedef void readline_callback(char *);
 #endif
 
@@ -92,6 +84,10 @@ int select_loop_message(char *p, int len);
 int select_loop(char *prmt, int prmtlen, char *msg, int msglen,
                 struct timeval *timeout, readline_callback * func, int stdin_on,
                 int gui_on);
+
+/* Stop and tear down the line editor if one is active. Safe to call when
+   no edit is in progress. */
+void sac_line_editor_stop(void);
 #endif
 
 int show_prompt_without_tty(int getset);

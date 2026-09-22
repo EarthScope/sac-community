@@ -1,8 +1,8 @@
-/** 
+/**
  * @file   select.c
- * 
+ *
  * @brief  Control input from different sources
- * 
+ *
  */
 #include "config.h"
 
@@ -15,6 +15,7 @@
 #include <sys/select.h>
 #include <sys/time.h>
 #include <sys/stat.h>
+#include <dirent.h>
 #include <limits.h>
 
 #include "unistdx.h"
@@ -33,16 +34,16 @@
 
 COMLISTS_EXTERN
 
-/** 
+/**
  * Set and Get a message from the command line
- * 
- * @param p 
+ *
+ * @param p
  *    Command from the command line
- * @param len 
+ * @param len
  *    - > 0 Get the command, length of \p p
  *    - < 0 Set and save the command
- * 
- * @return 
+ *
+ * @return
  *   Command from the command line
  *
  */
@@ -78,11 +79,11 @@ select_loop_message(char *p, int len) {
 }
 
 
-/** 
+/**
  * Determine whether to display a prompt or not. Depends on the enviornment
  *    variable SAC_SCRIPT_PROMPT_DISPLAY and if sac has a controlled tty
  *
- * @return 
+ * @return
  *   - TRUE - if the prompt is desired
  *   - FALSE - if the prompt is not desired
  *
@@ -111,15 +112,15 @@ show_prompt_without_tty(int getset) {
 
 #ifdef READLINE
 
-/** 
+/**
  * Toggle the select loop on and off
- * 
- * @param w 
+ *
+ * @param w
  *    - SELECT_ON  - Turn on select loop
  *    - SELECT_OFF - Turn off select loop
  *    - SELECT_QUERY - Get select loop status (do not set)
- * 
- * @return 
+ *
+ * @return
  *    Current select loop status
  *
  */
@@ -132,10 +133,10 @@ select_loop_continue(int w) {
     return (flag);
 }
 
-/** 
+/**
  * Fix a timeval structure; place extra microseconds into seconds
- * 
- * @param t 
+ *
+ * @param t
  *    Timeval structure to fix
  *
  */
@@ -147,16 +148,15 @@ timeval_fix(struct timeval *t) {
     }
 }
 
-#ifndef TERMIOS
-/** 
+/**
  * Check if input is available from the file descriptor
- * 
- * @param i 
+ *
+ * @param i
  *    File Descriptor
- * @param fd 
+ * @param fd
  *    File Descriptor Set (Collection)
- * 
- * @return 
+ *
+ * @return
  *    - TRUE if input is available on \p i
  *    - FALSE if input is not available on \p i
  *
@@ -168,7 +168,6 @@ input(int i, fd_set * fd) {
     }
     return (0);
 }
-#endif /* TERMIOS */
 
 char *
 strdup_trim(char *s) {
@@ -184,7 +183,7 @@ strdup_trim(char *s) {
     out = (char *) malloc(sizeof(char) * n);
     strncpy(out, s, n - 1);
 
-    out[n] = 0;
+    out[n - 1] = 0;
     return out;
 }
 
@@ -260,58 +259,6 @@ uniq_cmd(int *np) {
     return cmd;
 }
 
-char *
-sac_attempt_complete_command(const char *text, int state) {
-    static int i, n, len;
-    static int init = TRUE;
-    static char **cmd;
-    int j;
-
-    if (init) {
-        init = FALSE;
-        cmd = uniq_cmd(&n);
-    }
-
-    /* New Word -- initialize */
-    if (!state) {
-        i = 0;
-        len = strlen(text);
-    }
-    while (i < n) {
-        j = i++;
-        if (strncasecmp(cmd[j], text, len) == 0) {
-            return strdup(cmd[j]);
-        }
-    }
-    return (char *) NULL;
-}
-
-int
-is_single_match(char **s) {
-    int j;
-    if (s == NULL) {            /* No matches */
-        return FALSE;
-    }
-    /* Count matches */
-    j = 0;
-    while (s[j] != NULL) {
-        j++;
-    }
-
-    /* Matches
-     * #1 - Replacement text
-     * #2 - 1st Possible completion (Single)
-     * #3 - 2nd possible complettion (Not single)
-     */
-    if (j <= 2) {
-        return TRUE;
-    }
-    return FALSE;
-}
-
-
-#ifndef TERMIOS
-
 int
 is_directory(char *s) {
     struct stat stbuf;
@@ -321,49 +268,256 @@ is_directory(char *s) {
     return FALSE;
 }
 
-char **
-sac_attempt_complete(const char *text, int start, int end) {
-    char **matches;
-    UNUSED(end);
-    rl_completion_append_character = '\0';
-    if (start == 0) {
-        matches = rl_completion_matches(text, sac_attempt_complete_command);
-        if (is_single_match(matches)) {
-            rl_completion_append_character = ' ';
-        }
-    } else {
-        matches = rl_completion_matches(text, rl_filename_completion_function);
-        if (is_single_match(matches)) {
-            if (is_directory(matches[0])) {
-                rl_completion_append_character = '/';
-            } else {
-                rl_completion_append_character = ' ';
-            }
+/**
+ * Collect every SAC command name that case-insensitively starts with \p text.
+ *
+ * @param text
+ *    Partial command name typed so far
+ * @param np
+ *    OUTPUT - number of matches returned
+ *
+ * @return
+ *    Heap array of heap-allocated command names, to be freed by the caller
+ */
+static char **
+sac_match_commands(const char *text, int *np) {
+    static char **cmd = NULL;
+    static int ncmd = 0;
+    static int init = TRUE;
+    char **out = NULL;
+    int n = 0;
+    size_t len = strlen(text);
+    int i;
+
+    if (init) {
+        init = FALSE;
+        cmd = uniq_cmd(&ncmd);
+    }
+    for (i = 0; i < ncmd; i++) {
+        if (strncasecmp(cmd[i], text, len) == 0) {
+            out = (char **) realloc(out, sizeof(char *) * (n + 1));
+            out[n++] = strdup(cmd[i]);
         }
     }
-    return matches;
+    *np = n;
+    return out;
 }
 
-#endif /* TERMIOS */
-/** 
- * Select different input from a variety of sources. Primarilly 
- *    the command line (stdin) through readline/editline and the X11
+/**
+ * Collect every directory entry whose name starts with the filename portion
+ *    of \p text, joined back with any directory portion \p text carried.
+ *
+ * @param text
+ *    Partial file path typed so far
+ * @param np
+ *    OUTPUT - number of matches returned
+ *
+ * @return
+ *    Heap array of heap-allocated "dir/name" strings, to be freed by the
+ *    caller
+ */
+static char **
+sac_match_filenames(const char *text, int *np) {
+    DIR *dp;
+    struct dirent *de;
+    char **out = NULL;
+    int n = 0;
+    const char *slash;
+    char dirpart[PATH_MAX];
+    const char *fnprefix;
+    size_t dirlen;
+    size_t plen;
+
+    slash = strrchr(text, '/');
+    if (slash) {
+        dirlen = (size_t) (slash - text) + 1;
+        if (dirlen >= sizeof(dirpart)) {
+            dirlen = sizeof(dirpart) - 1;
+        }
+        memcpy(dirpart, text, dirlen);
+        dirpart[dirlen] = '\0';
+        fnprefix = slash + 1;
+    } else {
+        dirpart[0] = '\0';
+        dirlen = 0;
+        fnprefix = text;
+    }
+    plen = strlen(fnprefix);
+
+    dp = opendir(dirlen ? dirpart : ".");
+    if (!dp) {
+        *np = 0;
+        return NULL;
+    }
+    while ((de = readdir(dp)) != NULL) {
+        char *joined;
+        if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0) {
+            continue;
+        }
+        if (strncmp(de->d_name, fnprefix, plen) != 0) {
+            continue;
+        }
+        joined = (char *) malloc(dirlen + strlen(de->d_name) + 1);
+        sprintf(joined, "%s%s", dirpart, de->d_name);
+        out = (char **) realloc(out, sizeof(char *) * (n + 1));
+        out[n++] = joined;
+    }
+    closedir(dp);
+    *np = n;
+    return out;
+}
+
+/**
+ * linenoise completion callback. At column 0, complete SAC command names;
+ *    otherwise complete file names. A unique match gets a trailing
+ *    separator appended (a space, or '/' for a directory); multiple
+ *    matches are left as-is so the user keeps typing or cycles with TAB.
+ *
+ * @param line
+ *    The line as typed so far
+ * @param lc
+ *    linenoise completion table to populate with full-line candidates
+ */
+static void
+sac_completion(const char *line, linenoiseCompletions *lc) {
+    size_t start;
+    const char *text;
+    char *prefix;
+    char **matches;
+    int i, n;
+
+    start = strlen(line);
+    while (start > 0 && !isspace((unsigned char) line[start - 1])) {
+        start--;
+    }
+    text = line + start;
+
+    prefix = (char *) malloc(start + 1);
+    memcpy(prefix, line, start);
+    prefix[start] = '\0';
+
+    if (start == 0) {
+        matches = sac_match_commands(text, &n);
+    } else {
+        matches = sac_match_filenames(text, &n);
+    }
+
+    for (i = 0; i < n; i++) {
+        char *candidate;
+        size_t clen;
+        char sep = 0;
+
+        if (n == 1) {
+            sep = (start != 0 && is_directory(matches[i])) ? '/' : ' ';
+        }
+        clen = strlen(prefix) + strlen(matches[i]) + (sep ? 2 : 1);
+        candidate = (char *) malloc(clen);
+        if (sep) {
+            snprintf(candidate, clen, "%s%s%c", prefix, matches[i], sep);
+        } else {
+            snprintf(candidate, clen, "%s%s", prefix, matches[i]);
+        }
+        linenoiseAddCompletion(lc, candidate);
+        free(candidate);
+        free(matches[i]);
+    }
+    free(matches);
+    free(prefix);
+}
+
+#define SAC_LINE_INITIAL_LEN 4096
+#define SAC_LINE_MAX_LEN     65536
+
+static struct linenoiseState ls;
+static int editor_active = FALSE;
+static char *pending_partial_line = NULL;
+
+/**
+ * Start a line-editing session on stdin/stdout with \p prompt, restoring
+ *    any partial line stashed by editor_stop_and_save_partial().
+ *
+ * @return
+ *    0 on success, -1 on failure (e.g. out of memory)
+ */
+static int
+editor_start(const char *prompt) {
+    char *buf;
+
+    buf = (char *) malloc(SAC_LINE_INITIAL_LEN);
+    if (!buf) {
+        return -1;
+    }
+    linenoiseSetCompletionCallback(sac_completion);
+    if (linenoiseEditStart(&ls, 0, 1, buf, SAC_LINE_INITIAL_LEN, prompt) == -1) {
+        free(buf);
+        return -1;
+    }
+    ls.buflen_max = SAC_LINE_MAX_LEN;
+    editor_active = TRUE;
+
+    if (pending_partial_line) {
+        linenoiseEditSetBuffer(&ls, pending_partial_line, strlen(pending_partial_line));
+        FREE(pending_partial_line);
+        pending_partial_line = NULL;
+    }
+    return 0;
+}
+
+/**
+ * Stop a line-editing session, if one is active. Idempotent: callable from
+ *    zquit(), a fatal X11 I/O error, and the end of a mat session, any of
+ *    which may run after the session has already been stopped.
+ */
+static void
+editor_stop(void) {
+    if (!editor_active) {
+        return;
+    }
+    linenoiseEditStop(&ls);
+    free(ls.buf);
+    ls.buf = NULL;
+    editor_active = FALSE;
+}
+
+/**
+ * Stop the active line-editing session, stashing whatever the user had
+ *    typed so it can be restored by the next editor_start(). Used when a
+ *    GUI event (the macOS command pipe) interrupts a line read.
+ */
+static void
+editor_stop_and_save_partial(void) {
+    if (!editor_active) {
+        return;
+    }
+    FREE(pending_partial_line);
+    pending_partial_line = (ls.len > 0) ? strdup(ls.buf) : NULL;
+    editor_stop();
+}
+
+void
+sac_line_editor_stop(void) {
+    editor_stop();
+}
+
+/**
+ * Select different input from a variety of sources. Primarilly
+ *    the command line (stdin) through linenoise and the X11
  *    window system.
- * 
- * @param prmt 
+ *
+ * @param prmt
  *    Prompt to display on the command line
- * @param prmtlen 
+ * @param prmtlen
  *    Length of \p prmt
- * @param msg 
+ * @param msg
  *    Output message from the command line
- * @param msglen 
+ * @param msglen
  *    Length of \p msg
- * @param timeout 
+ * @param timeout
  *    Timeout value if requested
- * @param func 
+ * @param func
  *    Function to call when a full command line has been entered
- * 
- * @return 
+ *
+ * @return
  */
 
 int
@@ -380,7 +534,7 @@ select_loop(char *prmt, int prmtlen, char *msg, int msglen,
     char kprmt[128];
     char *getline_msg;
     char *event_msg;
-    static int handler_installed = FALSE;
+    int use_editor = FALSE;
     UNUSED(prmtlen);
 
     sac_history_load(NULL);
@@ -394,23 +548,20 @@ select_loop(char *prmt, int prmtlen, char *msg, int msglen,
     kprmt[i] = '\0';
 
     if (stdin_on) {
-        if (use_tty()) {
-            if(handler_installed == FALSE) {
-                rl_callback_handler_install(kprmt, func);
-                rl_completion_append_character = '\0';
-                rl_attempted_completion_function = sac_attempt_complete;
-                handler_installed = TRUE;
-            } else {
-                rl_set_prompt(kprmt);
-                rl_forced_update_display();
+        if (use_tty() && !linenoiseIsUnsupportedTerm()) {
+            if (editor_start(kprmt) == -1) {
+                perror("SAC: Unable to start the line editor");
+                exit(-1);
             }
+            use_editor = TRUE;
         }
     }
     fflush(stdout);
-    /* Take care of printing the prompt when there is no tty
-     *    This normally happends during script processing 
+    /* Take care of printing the prompt when there is no tty, or the
+     *    terminal cannot support command line editing.
+     *    This normally happends during script processing
      */
-    if (!use_tty() && show_prompt_without_tty(OPTION_GET)) {
+    if (!use_editor && show_prompt_without_tty(OPTION_GET)) {
         fprintf(stdout, "%s", kprmt);
         fflush(stdout);
     }
@@ -460,34 +611,68 @@ select_loop(char *prmt, int prmtlen, char *msg, int msglen,
                 break;
             default:
                 if (input(stdin_fd, &fd)) {
-                    if (!use_tty()) {
+                    if (!use_editor) {
                         if ((getline_msg = getline_stdin()) != NULL) {
                             select_loop_message(getline_msg, -1);
                             select_loop_continue(SELECT_OFF);
                             free(getline_msg);
                             getline_msg = NULL;
                         }
+                        if (!use_tty() && select_loop_continue(SELECT_QUERY)) {
+                            /* stdin became readable but no full line came
+                               through: a script whose input ended without
+                               a quit command. Force a clean shutdown
+                               rather than spin forever. */
+                            fprintf(stderr,
+                                    "SAC Error: EOF/Quit\n"
+                                    "     SAC executed from a script: quit command missing\n"
+                                    "     Please add a quit to the script to avoid this message\n"
+                                    "     If you think you got this message in error, \n"
+                                    "     please report it to: %s\n",
+                                    PACKAGE_BUGREPORT);
+                            select_loop_continue(SELECT_OFF);
+                            select_loop_message("quit", -1);
+                        }
                     } else {
-                        rl_callback_read_char();
-                    }
-                    if (!use_tty() && select_loop_continue(SELECT_QUERY)) {
-                        /* Assumes the the entire line is read in at once and processline is called
-                           for each entry into rl_callback_read_char().  This will probably break on
-                           some machine, some where, probably when using the GNU readline library. 
-                         */
-                        fprintf(stderr,
-                                "SAC Error: EOF/Quit\n"
-                                "     SAC executed from a script: quit command missing\n"
-                                "     Please add a quit to the script to avoid this message\n"
-                                "     If you think you got this message in error, \n"
-                                "     please report it to: %s\n",
-                                PACKAGE_BUGREPORT);
-                        select_loop_continue(SELECT_OFF);
-                        select_loop_message("quit", -1);
+                        char *line;
+
+                        errno = 0;
+                        line = linenoiseEditFeed(&ls);
+                        if (line == linenoiseEditMore) {
+                            /* keep looping */
+                        } else if (line != NULL) {
+                            func(line);
+                        } else if (errno == ENOENT || errno == 0) {
+                            /* Ctrl-D on an empty line, or real EOF */
+                            func(NULL);
+                        } else if (errno == EINTR) {
+                            /* Interrupted read: try again */
+                        } else {
+                            /* Ctrl-C (EAGAIN), or an I/O error: discard the
+                               typed line and start over rather than quit */
+                            editor_stop();
+                            if (editor_start(kprmt) == -1) {
+                                perror("SAC: Unable to restart the line editor");
+                                exit(-1);
+                            }
+                        }
                     }
                 }
                 if (input(gui_fd, &fd)) {
-                    if ((event_msg = handle_event(&nerr))) {
+                    if (use_editor) {
+                        linenoiseHide(&ls);
+                    }
+                    event_msg = handle_event(&nerr);
+                    if (use_editor) {
+                        fflush(stdout);
+                        if (event_msg) {
+                            editor_stop_and_save_partial();
+                            use_editor = FALSE;
+                        } else {
+                            linenoiseShow(&ls);
+                        }
+                    }
+                    if (event_msg) {
                         select_loop_continue(SELECT_OFF);
                         select_loop_message(event_msg, -1);
                         FREE(event_msg);
@@ -496,11 +681,13 @@ select_loop(char *prmt, int prmtlen, char *msg, int msglen,
         }
 
         if (timeout) {
+            editor_stop();
             return (0);
         }
     }
     select_loop_message(msg, msglen);
     select_loop_continue(SELECT_OFF);
+    editor_stop();
     return (0);
 }
 

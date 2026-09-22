@@ -59,7 +59,7 @@ jobs:
         run: mkdir build
       - name: Configure
         working-directory: ./build
-        run: ../configure --enable-editline
+        run: ../configure
       - name: Compile
         working-directory: ./build
         run: make

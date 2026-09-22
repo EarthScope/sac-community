@@ -10,6 +10,7 @@
 #include "co.h"
 #include "bool.h"
 #include "string_utils.h"
+#include "debug.h"
 
 #ifndef READLINE
 
@@ -46,7 +47,7 @@ static
 process_line(char *p) {
     select_loop_continue(SELECT_OFF);
     select_loop_message(p, SELECT_MSG_SET);
-    return;
+    FREE(p);
 }
 
 /** 

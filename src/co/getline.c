@@ -9,9 +9,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "unistdx.h"
-#ifdef USE_TERMIOS
-#include <termios.h>
-#endif /* USE_TERMIOS */
 
 #include "select.h"
 #include "debug.h"
@@ -106,12 +103,11 @@ tty_force(int getset) {
     return use;
 }
 
-#ifdef USE_TERMIOS
-/**  
- * Determine if the tty (terminal) is in use.  The terminal is 
+/**
+ * Determine if the tty (terminal) is in use.  The terminal is
  *   normally disabled during scripts/
- * 
- * @return 
+ *
+ * @return
  *    - TRUE - Terminal is active
  *    - FALSE - Terminal is not active
  */
@@ -124,24 +120,11 @@ use_tty() {
     }
 
     if (use == -1) {
-        struct termios t;
-        FILE *rl_instream = stdin;
-        if (tcgetattr(fileno(rl_instream), &t) == -1) {
-            /*      perror("tcgetattr warning:"); */
-            use = 0;
-        } else {
-            use = TRUE;
-        }
+#ifdef WIN32
+        use = _isatty(_fileno(stdin));
+#else
+        use = isatty(fileno(stdin));
+#endif
     }
     return (use);
 }
-#else
-int
-use_tty() {
-#ifdef WIN32
-    return _isatty(_fileno(stdin));
-#else
-    return isatty(fileno(stdin));
-#endif
-}
-#endif /* TERMIOS */

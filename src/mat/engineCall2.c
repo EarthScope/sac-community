@@ -16,6 +16,7 @@
 #include "matFuncExternal.h"
 
 #include "select.h"
+#include "debug.h"
 
 #define INBUF_LEN   200
 #define BUFFER_LEN  10000
@@ -161,8 +162,9 @@ static
 process_matlab_line(char *p) {
     select_loop_continue(SELECT_OFF);
     select_loop_message(p, SELECT_MSG_SET);
+    FREE(p);
 
-    rl_callback_handler_remove();
+    sac_line_editor_stop();
 }
 
 static int

@@ -111,7 +111,7 @@ zquit() {
 
 #ifdef READLINE
     /* Cleanup Command Line Editing Tools */
-    if(use_history(OPTION_GET)) 
+    if(use_history(OPTION_GET))
     {
         sachistory = sac_history_file();
         if (sachistory) {
@@ -119,10 +119,7 @@ zquit() {
             clear_history();
         }
     }
-    if (use_tty()) {
-        rl_callback_handler_remove();
-        /* rl_cleanup(); */
-    }
+    sac_line_editor_stop();
 #endif /* READLINE */
     arg_reset();
     saccommands_cleanup(NULL);

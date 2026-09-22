@@ -91,15 +91,13 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-@READLINE_EDITLINE_TRUE@am__append_1 = ../libedit/lib/libedit.a
-@READLINE_EDITLINE_TRUE@am__append_2 = -I../libedit/include
-@X11_APP_TRUE@am__append_3 = -lsac_x11
-@X11_APP_TRUE@am__append_4 = $(X_PRE_LIBS) $(X_EXTRA_LIBS) $(X_LIBS)
-@X11_APP_TRUE@am__append_5 = -lX11
+@X11_APP_TRUE@am__append_1 = -lsac_x11
+@X11_APP_TRUE@am__append_2 = $(X_PRE_LIBS) $(X_EXTRA_LIBS) $(X_LIBS)
+@X11_APP_TRUE@am__append_3 = -lX11
 check_PROGRAMS = use_sac$(EXEEXT) ucf$(EXEEXT) vars$(EXEEXT) \
 	sacio$(EXEEXT) icm$(EXEEXT) sacio_all$(EXEEXT) \
 	sac_all$(EXEEXT) lckey_test$(EXEEXT) $(am__EXEEXT_1)
-@HAVE_FC_TRUE@am__append_6 = saciof saclibf
+@HAVE_FC_TRUE@am__append_4 = saciof saclibf
 TESTS = use_sac$(EXEEXT) ucf$(EXEEXT) vars$(EXEEXT) sacio$(EXEEXT) \
 	copy_files.sh icm$(EXEEXT) sacio_all$(EXEEXT) sac_all$(EXEEXT) \
 	lckey_test$(EXEEXT) $(am__EXEEXT_2) testsuite/input/abs.sm \
@@ -195,8 +193,8 @@ TESTS = use_sac$(EXEEXT) ucf$(EXEEXT) vars$(EXEEXT) sacio$(EXEEXT) \
 	testsuite/input/long_and_high.sm testsuite/input/bbfk.sm \
 	testsuite/input/v6v7.sm testsuite/input/v6v7io.sm \
 	testsuite/input/v6v7iosp.sm testsuite/input/ibody.sm \
-	$(am__append_8)
-@HAVE_FC_TRUE@am__append_7 = sacio_fortran.sh saciof saclibf
+	$(am__append_6)
+@HAVE_FC_TRUE@am__append_5 = sacio_fortran.sh saciof saclibf
 
 # testsuite/input/event.sm 
 # testsuite/input/traveltime.sm 
@@ -205,7 +203,7 @@ TESTS = use_sac$(EXEEXT) ucf$(EXEEXT) vars$(EXEEXT) sacio$(EXEEXT) \
 # testsuite/input/station.sm
 
 # These tests have specific calls to the X11 device
-@X11_APP_TRUE@am__append_8 = testsuite/input/begindevices.sm \
+@X11_APP_TRUE@am__append_6 = testsuite/input/begindevices.sm \
 @X11_APP_TRUE@testsuite/input/report.sm \
 @X11_APP_TRUE@testsuite/input/enddevices.sm
 
@@ -255,10 +253,9 @@ am__DEPENDENCIES_3 = $(am__DEPENDENCIES_1)
 am__DEPENDENCIES_4 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
-am__DEPENDENCIES_5 = $(am__append_1) $(am__DEPENDENCIES_2) \
-	$(am__DEPENDENCIES_3) $(am__DEPENDENCIES_4) \
-	$(am__DEPENDENCIES_1) ../src/libsacio.a ../libmseed/libmseed.a \
-	$(am__DEPENDENCIES_1)
+am__DEPENDENCIES_5 = $(am__DEPENDENCIES_2) $(am__DEPENDENCIES_3) \
+	$(am__DEPENDENCIES_4) $(am__DEPENDENCIES_1) ../src/libsacio.a \
+	../libmseed/libmseed.a $(am__DEPENDENCIES_1)
 lckey_test_DEPENDENCIES = $(am__DEPENDENCIES_5) ../fern/libpile.a \
 	../fern/libfern.a $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	../libmseed/libmseed.a
@@ -598,12 +595,11 @@ AWK = @AWK@
 BINARY_DIST = @BINARY_DIST@
 CC = @CC@
 CFLAGS = @CFLAGS@ $(DEBUG) $(COVERAGE) $(OPTIM) -Wall $(SAC_INCLUDES) \
-	-DTOP_SRCDIR=\"$(top_srcdir)\" $(am__append_2)
+	-DTOP_SRCDIR=\"$(top_srcdir)\"
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CSCOPE = @CSCOPE@
 CTAGS = @CTAGS@
-CURSES_SEARCH_PATH = @CURSES_SEARCH_PATH@
 CXX = @CXX@
 CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
@@ -758,12 +754,12 @@ AUTOMAKE_OPTIONS = no-dependencies #dejagnu
 SAC_INCLUDES = -I$(top_srcdir)/inc  -I$(top_srcdir) -I../include
 LDADD = -L../src/ -lsac_all -lturtle -lsac_all -lSMnonOracleFuncs \
 	-lSacOracleStubFuncs -licm -L../evalresp -levalresp -lspline \
-	-lmxmlev -levalresp_log $(am__append_1) $(am__append_4) \
-	$(SAC_GRAPHICS) $(FORMAT_LIBS) $(am__append_5) -L. -lunit \
-	../src/libsacio.a ../libmseed/libmseed.a $(LIBCURL)
+	-lmxmlev -levalresp_log $(am__append_2) $(SAC_GRAPHICS) \
+	$(FORMAT_LIBS) $(am__append_3) -L. -lunit ../src/libsacio.a \
+	../libmseed/libmseed.a $(LIBCURL)
 FORMAT_LIBS = $(xpm_LIBS) $(png_LIBS) $(zlib_LIBS) $(xft_LIBS) $(XML_LIBS)
 #SAC_GRAPHICS     += -lsac_osx
-SAC_GRAPHICS = -L.. $(am__append_3) -lsgf -lturtle -lsac_all
+SAC_GRAPHICS = -L.. $(am__append_1) -lsgf -lturtle -lsac_all
 EXTRA_DIST = testsuite \
 						 testsuite/input testsuite/output \
 						 test_io_big.sac test_io_small.sac \

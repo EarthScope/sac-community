@@ -110,8 +110,6 @@ case "${host}" in
      *cygwin* )                      AC_DEFINE( [LINUX],   [1], [ Unix Emulation ] )
                                      AC_DEFINE( [CYGWIN],  [1], [ Cygwin32 System ] )
                                      BINARY_DIST="win32"
-                                     readline=on
-                                     editline=off
                                      MATLAB_BIN_PATH="bin/win32"
                                      MATLAB_EXE_PATH="bin/matlab"
                                      AC_MSG_CHECKING([for Cygwin version])
@@ -126,8 +124,6 @@ case "${host}" in
 				     BINARY_DIST="mingw"
                                      windows=on
              editing=off
-             readline=off
-				     curses=off
 				     MATLAB_BIN_PATH=""
 				     MATLAB_EXE_PATH=""
                                      AM_CXXFLAGS=-mwindows
@@ -205,19 +201,10 @@ CHECK_ZLIB
 CHECK_PNG
 CHECK_XML
 
-if test x${display} = xx11 ; then
-   AC_DEFINE([USE_TERMIOS], [1], [ Program needs the Terminal (TTY) to Function ] )
-fi
-
 # Checks for programs.
 AC_PROG_RANLIB
 
 AC_CHECK_HEADERS([ inttypes.h limits.h stdint.h ])
-
-if test x$curses == xon ; then
-	# Check for Terminal Window Size Location
-	AC_HEADER_TIOCGWINSZ
-fi
 
 # Math Libary
 AC_CHECK_LIB(m, sin)
@@ -283,7 +270,6 @@ AC_DEFINE_UNQUOTED([SACAUX], ["${aux}"], [Define the SACAUX directory])
 # Output the Makefiles
 AC_CONFIG_FILES([src/Makefile
   utils/Makefile
-  libedit/Makefile
    libmseed/Makefile
    t/Makefile Makefile
    sacio/Makefile
@@ -300,18 +286,9 @@ X_LIBS         = $X_LIBS
 X_CFLAGS       = $X_CFLAGS  "
 fi
 
-EDITING=""
-if test x${readline} = xon; then
-EDITING="${EDITING}readline"
-fi
-if test x${editline} = xon; then
-EDITING="${EDITING}editline"
-fi
-if test x${syseditline} = xon; then
-EDITING="${EDITING}system-editline"
-fi
-if test x${EDITING} = x; then
 EDITING="none"
+if test x${editing} = xon; then
+EDITING="linenoise"
 fi
 
 AC_MSG_NOTICE([
