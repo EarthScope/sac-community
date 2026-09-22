@@ -58,21 +58,26 @@ jobs:
           brew install --cask xquartz
           echo "PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}" >> "$GITHUB_ENV"
           echo "CONFIGURE_X_FLAGS=--x-includes=/opt/X11/include --x-libraries=/opt/X11/lib" >> "$GITHUB_ENV"
+          echo "CONFIGURE_CURL_FLAGS=--with-libcurl=/usr" >> "$GITHUB_ENV"
       - name: Create Build directory
         run: mkdir build
       - name: Configure
         working-directory: ./build
-        run: ../configure $CONFIGURE_X_FLAGS
+        run: ../configure $CONFIGURE_X_FLAGS $CONFIGURE_CURL_FLAGS
       - name: Compile
         working-directory: ./build
         run: make
-      - name: Verify X11 comes from XQuartz
+      - name: Verify macOS library linkage
         if: runner.os == 'macOS'
         working-directory: ./build
         run: |
           otool -L src/sac
           if ! otool -L src/sac | grep -qE '^[[:space:]]+/opt/X11/lib/libX11\.'; then
             echo "::error::sac is not linked against XQuartz libX11"
+            exit 1
+          fi
+          if ! otool -L src/sac | grep -qE '^[[:space:]]+/usr/lib/libcurl\.'; then
+            echo "::error::sac is not linked against the system libcurl"
             exit 1
           fi
           if otool -L src/sac | grep -qE '/opt/homebrew/|/usr/local/(opt|Cellar)/'; then
