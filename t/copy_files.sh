@@ -13,6 +13,7 @@ cp -f ${INPUT}/*.xml .
 cp -f ${INPUT}/2002.054* .
 cp -f ${TESTDIR}/*.txt .
 cp -f ${INPUT}/set_picks.sm .
+cp -f ${INPUT}/test_fd.* .
 
 exit 0
 

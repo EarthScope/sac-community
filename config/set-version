@@ -1,0 +1,75 @@
+#!/bin/sh
+#
+# Sync the SAC version into files that autotools does not reach: the
+# Windows build config, the Inno Setup installers, the macOS app bundle,
+# the manual title page, and README.md. The version itself is read from
+# AC_INIT in configure.ac, which remains the only place it is authored.
+#
+# Usage:
+#   config/set-version           update the files listed below
+#   config/set-version --check   report any file out of sync and exit
+#                                 non-zero, without changing anything
+
+set -e
+
+top_srcdir=$(cd "$(dirname "$0")/.." && pwd)
+cd "$top_srcdir"
+
+VERSION=$(sed -n 's/^AC_INIT(\[[^]]*\],\[\([^]]*\)\],.*/\1/p' configure.ac)
+if [ -z "$VERSION" ]; then
+    echo "set-version: could not read the version from configure.ac" 1>&2
+    exit 1
+fi
+
+check=0
+if [ "$1" = "--check" ]; then
+    check=1
+fi
+
+status=0
+
+# Rewrite $file with sed expression $expr. In --check mode, report and
+# flag a mismatch instead of writing.
+sync_file() {
+    file="$1"
+    expr="$2"
+    tmp="$file.set-version.tmp"
+
+    sed -E "$expr" "$file" > "$tmp"
+    if cmp -s "$file" "$tmp"; then
+        rm -f "$tmp"
+        return 0
+    fi
+    if [ "$check" = 1 ]; then
+        echo "set-version --check: $file does not match version $VERSION" 1>&2
+        rm -f "$tmp"
+        status=1
+        return 0
+    fi
+    mv "$tmp" "$file"
+    echo "set-version: updated $file to $VERSION"
+}
+
+sync_file inc/config_win.h \
+    "s/(#define PACKAGE_VERSION[[:space:]]+)\"[^\"]*\"/\\1\"$VERSION\"/"
+
+sync_file win/sac_win_installer.iss \
+    "s/(#define MyAppVersion )\"[^\"]*\"/\\1\"$VERSION\"/"
+
+sync_file sac_setup.iss \
+    "s/(#define MyAppVersion )\"[^\"]*\"/\\1\"$VERSION\"/"
+
+sync_file src/osx/Sac.app/Contents/Info.plist \
+    "/<key>CFBundleShortVersionString<\/key>/{n;s/<string>[^<]*<\/string>/<string>$VERSION<\/string>/;}
+     /<key>CFBundleVersion<\/key>/{n;s/<string>[^<]*<\/string>/<string>$VERSION<\/string>/;}"
+
+sync_file doc/html/sac_manual.tex \
+    "s/(\\\\author\{Version )[^}]*(\})/\\1$VERSION\\2/"
+
+sync_file doc/html/sac_manual.tex.in \
+    "s/(\\\\author\{Version )[^}]*(\})/\\1$VERSION\\2/"
+
+sync_file README.md \
+    "s/(\*\*Version )[^*]*(\*\*)/\\1$VERSION\\2/"
+
+exit $status

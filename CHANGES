@@ -22,8 +22,8 @@ a discussion of bug fixes and enhancements made between releases.
 - Add config/set-version to sync version literals outside the autotools build
 - Update Windows, macOS bundle, and manual version strings to 103.0
 - Document the release version bump procedure
-- Update libmseed to v3.5.4
 - Replace the editline and readline backends with vendored linenoise
+- Update libmseed to v3.5.4
 
 2025/05
 - Update libmseed to v3.1.5
