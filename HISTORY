@@ -1,5 +1,5 @@
-This is a reverse chronoloical listing of enhancements and bug fixes made
-between SAC versions.  An overview of these are in file CHANGES.
+See CHANGES for a history of changes to this repo.
+This file is long longer populated for the SAC Community Edition.
 
 2020/09: Version 102.0 Released
         * FEATURE: SAC now includes double-precision for both time and distance

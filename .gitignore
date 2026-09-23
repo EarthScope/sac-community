@@ -30,6 +30,8 @@ __pycache__/
 /utils/Makefile
 
 .vscode/
+.venv
+venv
 
 AGENTS.md
 CLAUDE.md

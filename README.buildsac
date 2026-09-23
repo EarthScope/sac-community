@@ -1,4 +1,4 @@
-README file for building and installing SAC.
+README file for building and installing SAC
 
 Contents
 -------------------------------------------------------------------------
@@ -7,6 +7,7 @@ Contents
 * Detailed instructions for building and installing SAC
 * Testing
 * Platforms
+* Creating the documentation
 * Cutting a release
 -------------------------------------------------------------------------
 * Introduction
@@ -124,6 +125,53 @@ Linux: Install the X11, libcurl, and libxml2 development packages for your
 distribution.  On a dual 32/64-bit system, ensure configure links the
 64-bit X11 libraries when building a 64-bit sac; override with
 --x-libraries if needed.
+
+* Creating the documentation
+-------------------------------------------------------------------------
+Help text lives under aux/help/ as reStructuredText.  From doc/, it can be
+converted to a set of HTML pages and/or a single PDF manual.  This is a
+manual developer/release step; it is not run by configure, make, or
+make install.
+
+Building either form requires Python 3 with docutils installed
+(https://docutils.sourceforge.io/): rst2html or rst2html.py on PATH for
+HTML, and an importable docutils package for PDF.  Building the PDF also
+requires pdflatex with a normal TeX Live/MacTeX package set.
+
+To build the HTML pages:
+
+% cd doc
+% ./help2html_new.sh all
+
+This writes pages under doc/html/ (and doc/html/commands/, doc/html/manual/,
+and so on), mirroring the aux/help/ layout.  To rebuild a single page
+instead of everything, pass its path relative to doc/, for example
+../aux/help/fft.
+
+To build the PDF manual:
+
+% cd doc
+% ./help2html_new.sh -pdf all
+% ./rst2sac_new.py
+% cd html
+% pdflatex sac_manual.tex
+% pdflatex sac_manual.tex
+
+-pdf must come before all.  The first command stages the help text as
+.txt files under html/; rst2sac_new.py converts those to per-page .tex
+files; pdflatex then builds html/sac_manual.pdf from the master document
+html/sac_manual.tex (itself copied from html/sac_manual.tex.in).  Run
+pdflatex twice so the table of contents is populated.
+
+To discard generated HTML/TeX/PDF output and restore the master TeX file
+and title-page PDF from their .in originals:
+
+% cd doc
+% ./clean_html.sh
+
+Run the HTML and/or PDF steps again afterward to regenerate them.  The
+manual's version string is kept in sync with configure.ac by
+config/set-version; see Cutting a release below.
 
 * Cutting a release
 -------------------------------------------------------------------------
