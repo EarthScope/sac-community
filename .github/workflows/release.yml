@@ -149,8 +149,6 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v5
       - name: Download build artifacts
         uses: actions/download-artifact@v8
         with:
@@ -162,7 +160,4 @@ jobs:
           draft: true
           prerelease: true
           files: |
-            License
-            CHANGES
-            README.md
             dist/sac-*.tar.gz
