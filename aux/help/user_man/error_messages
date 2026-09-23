@@ -398,6 +398,8 @@ Number  Translation
 5124    TAUP and MODEL options are incompatable in TRAVELTIME.
         Input file required (no longer relevant)
 5125    No phases found
+5126    TRAVELTIME ONLINE is no longer available; the IRIS traveltime
+        service is retired
 5200    FIR FILTER DESIGN SUBPROCESS
 5300    FK module
 5301    Station and event latitudes and longitudes must be set

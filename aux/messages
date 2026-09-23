@@ -1,5 +1,5 @@
 0000 SAC OUTPUT MESSAGES    Last modified in 2013
-0000 STRING/NUMERIC MANIPULATION and CONVERSION ERORS
+0000 STRING/NUMERIC MANIPULATION and CONVERSION ERRORS
 0002 Converting ascii to float - possible bad format.
 0000 FILE I/O SERVICE LEVEL
 0100 Operating system error
@@ -33,7 +33,7 @@
 0128 CSS file not version 3.0:
 0129 Cannot form a path to that file
 0130 XDR and ALPHA options are incompatible
-0131 sac/datagen data directory not found.  
+0131 sac/datagen data directory not found.
 0200 GRAPHICS SERVICE LEVEL
 0201 Illegal graphics device
 0202 Current graphics device does not have cursor capability.
@@ -63,7 +63,7 @@
 0901 SAC programming logic error
 0902 Can't take logarithm of a non-positive number.
 0903 Please answer with a YES or NO.
-0904 DISTAZ calcuation failed internal check for entry
+0904 DISTAZ calculation failed internal check for entry
 0905 Time field must be at least 12 characters long.
 0906 Date field must be at least 18 characters long.
 0907 Bad time field entry detected:
@@ -96,10 +96,10 @@
 1011 Bad command file syntax.
 1012 Following option is not currently available:
 1013 Obsolete command.  Please use
-1014 Undefined variable in command: 
+1014 Undefined variable in command:
 1015 Too many levels of nesting to execute macro
 1016 Terminating execution of macro
-1017 Illegal macro command: 
+1017 Illegal macro command:
 1018 Exceeded maximum number of nested inline functions:
 1019 Incorrect nesting of inline functions:
 1020 Invalid inline function name:
@@ -109,7 +109,7 @@
 1024 This argument in inline function should be an operator:
 1025 This argument in inline function should be numeric:
 1026 Maximum number of arguments for this inline function call is
-1027 Exceed maximum number of external commands = 
+1027 Exceed maximum number of external commands =
 1028 External command does not exist:
 1029 Command line too long.
 1030 There is no year 0,
@@ -190,7 +190,7 @@
 1341 Can't write headers because CUT is ON.
 1342 Illegal number of files in data file list:
 1343 Formatting error while reading file
-1344 Problem writing GSE file 
+1344 Problem writing GSE file
 1350 Could not find requested header entry
 1351 Not enough room in header for new header entry
 1352 Can not delete header entry
@@ -212,14 +212,14 @@
 1378 Illegal operation on XYZ data
 1379 No SORT parameters given
 1380 Too many SORT parameters:
-1381 Not a valid SORT parameter: 
+1381 Not a valid SORT parameter:
 1382 ALL and COMMIT options both set, ignoring COMMIT option.
 1383 SORT failed
 1384 ASCEND and DESCEND options go after the related header in the command line
 1385 No worksets in memory.
 1386 Could not get Workset name.
 1387 No file name specified.
-1388 Reference time not equal to zero:  KZDATE and KZTIME may be adjusted by subsequent commands so that the reference time is zero.  Reference time is 
+1388 Reference time not equal to zero:  KZDATE and KZTIME may be adjusted by subsequent commands so that the reference time is zero.  Reference time is
 1389 NPTS, NWFID, NORID, NEVID, and LEVEN cannot be changed with CHNHDR
 1390 KSTNM and KCMPNM cannot be undefined
 1391 Cannot CUTIM:  would result in too many files in memory.
@@ -253,7 +253,7 @@
 1611 Corner frequency greater than Nyquist for file
 1612 Window length exceeds maximum:
 1613 Minimum size of data file for Hilbert transform is
-1614 Numerical instability in Wiener; will retry with epsilon = 
+1614 Numerical instability in Wiener; will retry with epsilon =
 1615 Noise window outside of data window
 1616 Noise window larger than data window
 1617 Noise window partially outside of data window
@@ -351,16 +351,16 @@
 2801 All data files must have the same number of data points.
 2900 XYZ (3-D) DATA PROCESSING MODULE
 2901 No xyz data in memory.
-2902 Zoomed input too large to display. Maximum dimension is 
+2902 Zoomed input too large to display. Maximum dimension is
 3000 CONTOURING MODULE
 3001 Exceeded maximum number of contouring levels:
-3501 Plot Label number exceeds total number of current labels: 
+3501 Plot Label number exceeds total number of current labels:
 4000 NUMBER CONVERSION MODULE
 4002 Number out of range
 4003 Number too small, near -inf
 4004 Number too large, near inf
 4005 Number string contains non-numeric characters
-4006 Number string contains extra non-numeric characters 
+4006 Number string contains extra non-numeric characters
 4007 Number string not converted
 4008 Number below resolution, number too small, near 0.0
 5000 SPECTRAL ESTIMATION SUBPROCESS.
@@ -385,12 +385,13 @@
 5111 Error in calculating velocity model values.
 5112 Insufficient input for velocity model calculation.
 5113 No valid stack sum exists.
-5120 Cannot use both model and file.  Continuing with model. 
+5120 Cannot use both model and file.  Continuing with model.
 5121 Data file expected, none found.
 5122 Distance out of range of data; blackboard variable not set:
 5123 No blackboard variable name given, no variable set.
-5124 TAUP and MODEL options are incompatable in TRAVELTIME. Input file required
+5124 TAUP and MODEL options are incompatible in TRAVELTIME. Input file required
 5125 No phases found
+5126 TRAVELTIME ONLINE is no longer available; the IRIS traveltime service is retired
 5200 FIR FILTER DESIGN SUBPROCESS
 5300 FK module
 5301 Station and event latitudes and longitudes must be set for this command.
@@ -399,8 +400,8 @@
 5304 OFFSET set to USER, but some files missing USER7 or USER8
 5305 OFFSET set to STATION, but some files missing STLA or STLO
 5306 OFFSET set to EVENT, but some files missing EVLA or EVLO
-5307 Illeagle setting for OFFSET option
-5308 Number of files must be between 3 and MXLENS 
+5307 Illegal setting for OFFSET option
+5308 Number of files must be between 3 and MXLENS
 6000 DATA SET MODULE
 6001 Can't find file in data-set file index.
 6002 No more data-sets available.
@@ -429,8 +430,8 @@
 7105 OBLIQUE MERCATOR: Illegal projection pole.
 7200 Invalid latitude for center of UTM map. Can't get ZONE.
 8001 SETMAT takes only one parameter.
-8002 Cannot link to MATLAB shared object:  
-8003 Cannot link to a MATLAB function:  
+8002 Cannot link to MATLAB shared object:
+8003 Cannot link to a MATLAB function:
 8004 Cannot start MATLAB
 8100 ORACLE DATABASE CONNECTION
 8101 command or option not operational; requires Oracle database version of SAC2000
@@ -438,4 +439,4 @@
 9000 MERGE
 9005 Amplitude mismatch
 3141 GETVAL:
-3264 
+3264

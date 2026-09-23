@@ -3,6 +3,7 @@ a discussion of bug fixes and enhancements made between releases.
 
 2026/09 Version 103.0 released
 - Remove CMTSOLUTION retrieval from the retired IRIS SPUD service
+- Remove TRAVELTIME ONLINE retrieval from the retired IRIS traveltime service
 - Adjust built-in web service endpoints
 - Replace the editline and readline backends with vendored linenoise
 - Build prebuilt release binaries with -O2 and fixed FP contraction

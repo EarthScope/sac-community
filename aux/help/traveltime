@@ -13,7 +13,7 @@ SYNTAX
 ------
 ::
 
-   TRAVELTIME {MODEL string} {ONLINE} {VERBOSE | QUIET} {PICKS number}
+   TRAVELTIME {MODEL string} {VERBOSE | QUIET} {PICKS number}
        {PHASE phase list}  {CLEAR} {ONRECORD ON|OFF} {M | KM}
 
 
@@ -22,13 +22,6 @@ INPUT
 
    :MODEL: iasp91 [default], ak135.  Traveltimes are calculated using
      the *iaspei-tau* procedures and traveltime tables.  (For further
-     information, see documentation referenced below.)
-
-   :ONLINE: Retrieve traveltimes from the IRIS Traveltime Web Service.
-     This uses Crotwell's TauP Toolkit internally. In addition to
-     *iasp91* and *ak135*, it includes model *prem*.  Also, it
-     includes additional phases, and some phase groupings are not the
-     same as for the *iaspei-tau* tables used by SAC. (For further
      information, see documentation referenced below.)
 
    :VERBOSE | QUIET: If VERBOSE is among the options in the TRAVELTIME
@@ -125,14 +118,10 @@ DESCRIPTION
   component for four stations and six phases.  Because plot command
   *P1* plots traces from top-to-bottom in the order read in, we
   manually re-ordered the files so that distance increases from first
-  to last.  Phase sPP is not in the *isasp-tau* tables but is in the
-  ONLINE *tau-p* tables.  (A nice feature for *SAC TRAVELTIME* is the
-  ability to combine phases from multiple traveltime table in a single
-  plot::
+  to last.::
 
      SAC> datagen sub deep  kev.r kip.r pas.r bla.r
      SAC> rtr
-     SAC> traveltime quiet online picks 0 phase sPP
      SAC> traveltime  picks 1 phase P pP sP S sS SKS
      SAC> FILEID LOCATION UL TYPE LIST KSTCMP
      SAC> TITLE 'Sakhalin Island Event: &1,KZDATE&, Depth is &1,EVDP& KM'
@@ -165,8 +154,6 @@ REFERENCES
   Iaspei-tau: https://seiscode.iris.washington.edu/projects/iaspei-tau/
 
   TauP Toolkit: http://www.seis.sc.edu/downloads/TauP/taup.pdf Section 4: Phase naming in TauP
-
-  IRIS DMC IRISWS traveltime Web Service Documentation  https://service.iris.edu/irisws/traveltime/1/
 
 LATEST REVISION
 ---------------

@@ -59,7 +59,4 @@ setenv SAC_PPK_LARGE_CROSSHAIRS 0
 #   Variable is space or comma delimited, examples
 #   "P S pP pS sP sS PP SS"
 #   "ScS ScSScS PKP PKiKP sSKJKP pSKJKS'
-#
-#   Some phase names are not recognized by the default TRAVELTIME command, but are
-#    understood using the ONLINE version which uses the TauP Toolkit
 setenv SAC_TRAVELTIME_PHASES "all"

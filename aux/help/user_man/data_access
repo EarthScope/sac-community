@@ -367,55 +367,6 @@ memory. Responses can be obtained in sacpz or evalresp format.::
      Writing data to RESP.XE.DOOR..BHZ [ 49.80 KiB]
 
 
-COMPUTING TRAVELTIMES
----------------------
-
-Traveltimes can also be retrieved and set using the traveltime Web
-Service at IRIS. Just specific the *ONLINE* keyword to the TRAVELTIME_
-command::
-
-     SAC> data sta CMB net BK cha BHZ gcmt:369471 duration 1h read
-     Data Center: NCEDC,http://www.ncedc.org
-                    SourceID                Start sample             End sample         Gap
-     FDSN:BK_CMB__B_H_Z      1994-06-09T00:33:45.004000 1994-06-09T01:33:44.953000  ==
-     Working on file: BK.CMB..BHZ.D.1994.160.003345.sac [ OK ]
-
-     SAC> traveltime online picks 0 phase ttall
-     traveltime: depth: 647.100 km
-     traveltime: setting phase P        at 618.4500 s [ t = 618.4500 s ] t0
-     traveltime: setting phase PKIKKIKP at 1782.5400 s [ t = 1782.5400 s ] t1
-     traveltime: setting phase PKIKPPKIKP at 2280.2400 s [ t = 2280.2400 s ] t2
-     traveltime:         phase PKIKPPKIKP truncated in kt2
-     traveltime: setting phase PKPPKP   at 2277.7900 s [ t = 2277.7900 s ] t3
-     traveltime: setting phase PKiKP    at 974.6000 s [ t = 974.6000 s ] t4
-     traveltime: setting phase PP       at 789.5900 s [ t = 789.5900 s ] t5
-     traveltime: setting phase PcP      at 632.6300 s [ t = 632.6300 s ] t6
-     traveltime: setting phase S        at 1128.5800 s [ t = 1128.5800 s ] t7
-     traveltime: setting phase SKIKKIKP at 1935.6899 s [ t = 1935.6899 s ] t8
-     traveltime: setting phase SKS      at 1160.1700 s [ t = 1160.1700 s ] t9
-
-     SAC> lh picks
-
-       FILE: BK.CMB..BHZ.D.1994.160.003345.sac - 1
-      ---------------------------------------
-
-              NPTS = 72000
-                 B = -3.960000e-01
-                 E = 3.599554e+03
-           OMARKER = -2.1458e-09
-          T0MARKER = 618.45           (P)
-          T1MARKER = 1782.5           (PKIKKIKP)
-          T2MARKER = 1997.2           (PKIKKIKS)
-          T3MARKER = 2280.2           (PKIKPPKI)
-          T4MARKER = 2277.8           (PKPPKP)
-          T5MARKER = 974.6            (PKiKP)
-          T6MARKER = 789.59           (PP)
-          T7MARKER = 632.63           (PcP)
-          T8MARKER = 1128.6           (S)
-          T9MARKER = 1935.7           (SKIKKIKP)
-            KZDATE = JUN 09 (160), 1994
-            KZTIME = 00:33:45.400
-
 **Teleseismic Traveltime Example**
 
 Given a region of interest to conduct a teleseismic traveltime
@@ -449,7 +400,7 @@ traveltime data set using::
      SAC> getbb PWD
      SAC> read *.mseed
      SAC> metadata %PWD
-     SAC> traveltime online picks 0
+     SAC> traveltime picks 0
      SAC> write over
 
 REDIRECTING SACLST INPUT

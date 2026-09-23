@@ -25,8 +25,6 @@
 #include "defs.h"
 #include "string_utils.h"
 
-#include "octopus.h"
-
 #define	MBLKSZ	500
 #define	MENTRY	40
 
@@ -36,28 +34,6 @@ SSS_EXTERN
 
 extern float *tty[MXTT];
 extern float *ttx[MXTT];
-
-typedef struct {
-    char name[64];
-    double t;
-} ttdata;
-
-ttdata *
-ttdata_new(char *name, double tt) {
-    ttdata *t = calloc(1, sizeof(ttdata));
-    strlcpy(t->name, name, 64);
-    t->t = tt;
-    return t;
-}
-
-int
-ttdata_compare(const void *pa, const void *pb) {
-    ttdata *a = *(ttdata **) pa;
-    ttdata *b = *(ttdata **) pb;
-    if(a->t < b->t) { return -1; }
-    if(a->t > b->t) { return  1; }
-    return 0;
-}
 
 int
 phases_contains_all() {
@@ -126,34 +102,6 @@ sac_truncate(char *s) {
     }
 }
 
-int
-parse_traveltime(char *line, char *name, size_t n, double *tt) {
-    int k = 0;
-    int set = 0;
-    char *endptr = NULL;
-    char *field = NULL;
-    *tt = 0.0;
-    memset(name,0,n);
-    while((field = strsep(&line, " ")) != NULL) {
-        if(strlen(field) > 0) {
-            if(k == 2) { // Phase name
-                strlcpy(name, field, n);
-                set++;
-            } else if(k == 3) { // Traveltime
-                *tt = strtod(field, &endptr);
-                if(endptr == NULL || strlen(endptr) == 0) {
-                    set++;
-                }
-            }
-            k++;
-            if(set == 2) {
-                return 1;
-            }
-        }
-    }
-    return 0;
-}
-
 static int
 set_traveltime(sac *s, int k, char *name, double tt, int lpicks, int verbose, int onrecord) {
     double time = 0.0;
@@ -185,18 +133,6 @@ set_traveltime(sac *s, int k, char *name, double tt, int lpicks, int verbose, in
     return k;
 }
 
-char *
-string_join(char vals[60][128], int nvals, char *dst, size_t n, char *join) {
-    memset(dst, 0, n);
-    for(int i = 0; i < nvals; i++) {
-        strlcat(dst, vals[i], n);
-        if(i < nvals-1) {
-            strlcat(dst, join, n);
-        }
-    }
-    return dst;
-}
-
 void
 xtraveltime(int *nerr) {
     char kalpha[21], kcard[MCMSG + 1], kcont[9], kdflin[MCMSG + 1], kform[9];
@@ -217,7 +153,6 @@ xtraveltime(int *nerr) {
 
     int lmodel = FALSE,         /* was global, now it's local.  maf 960829 */
         ltaup = FALSE;          /* TRUE if input file was produced by taup_curve. */
-    int online = FALSE;
     /* variables added to put traveltime into a blackboard variable. maf 970512 */
     int fileNumber;
     int lbb = FALSE;
@@ -399,7 +334,7 @@ xtraveltime(int *nerr) {
             ltaup = TRUE;
         }
         else if (lckey("online$", -1)) {
-            online = TRUE;
+            cerr(5126);
         }
 
 
@@ -477,11 +412,6 @@ xtraveltime(int *nerr) {
         *nerr = 5124;
         goto L_8888;
     }
-    if(ltaup && online) {
-        *nerr = 5124;
-        goto L_8888;
-    }
-
     /* Next 20 lines allow next call to traveltime to default to current settings. maf 960829 */
     cmtt.lpreviousModel = lmodel;
 
@@ -507,7 +437,7 @@ xtraveltime(int *nerr) {
     }
 
     /* set default phases if no phases selected */
-    if (lmodel && iphase == 0 && online == FALSE) {
+    if (lmodel && iphase == 0) {
         char phases[1024] = {0}, *ptmp = NULL, *token = NULL, *brkt = NULL;
         char sep[3] = " ,";
         lphase = TRUE;
@@ -568,72 +498,6 @@ xtraveltime(int *nerr) {
     }
 
     /* - Set the current file count for using read or read-more. */
-
-    if(online) {
-        char name[64] = {0};
-        char ophases[2048] = {0};
-        char model[32] = {0};
-        double tt = 0.0;
-        strlcpy(model, kmtt.kmodel, sizeof(model));
-        rstrip(model);
-        for (jdfl = 1; jdfl <= saclen(); jdfl++) {
-            if (!(s = sacget(jdfl - 1, FALSE, nerr))) {
-                goto L_9000;
-            }
-            request *tr = request_new();
-            request_set_url(tr, "http://service.iris.edu/irisws/traveltime/1/query?");
-            request_set_arg(tr, "evdepth", arg_double_new(s->h->evdp));
-            request_set_arg(tr, "distdeg", arg_double_new(s->h->gcarc));
-            request_set_arg(tr, "mintimeonly", arg_string_new("true"));
-            request_set_arg(tr, "noheader", arg_string_new("true"));
-            request_set_arg(tr, "model", arg_string_new(model));
-            if(phases_contains_all()) {
-                request_set_arg(tr, "phases", arg_string_new("ttall"));
-            } else if(iphase > 0) {
-                string_join(kmtt.kphases, iphase, ophases, sizeof(ophases), ",");
-                request_set_arg(tr, "phases", arg_string_new(ophases));
-            }
-            //request_set_verbose(tr, 1);
-            result *r = request_get(tr);
-            if(!result_is_ok(r)) {
-                if(result_http_code(r) == 204) {
-                    printf("Error: Phase not found: %s\n", ophases);
-                } else if(result_code(r) == 0 && result_http_code(r) == 500) {
-                    printf("Error: Server Error for phase: %s\n", ophases);
-                } else {
-                    printf("Error: %s\n", result_error_msg(r));
-                }
-            } else {
-                int sort = phases_contains_all();
-                char *data = result_data(r);
-                char *line = NULL;
-                ttdata **ttd = NULL;
-                ttd = (ttdata **) xarray_new('p');
-                int k = 0;
-                while((line = strsep(&data, "\n")) != NULL) {
-                    if(parse_traveltime(line, name, sizeof(name), &tt)) {
-                        if(sort) {
-                            ttd = xarray_append(ttd, ttdata_new(name, tt));
-                        } else {
-                            k = set_traveltime(s, k, name, tt, lpicks, verbose, onrecord);
-                        }
-                    }
-                }
-                if(sort) {
-                    qsort(ttd, xarray_length(ttd), sizeof(void *), ttdata_compare);
-                    for(size_t i = 0; i < xarray_length(ttd); i++) {
-                        k = set_traveltime(s, k, ttd[i]->name, ttd[i]->t, lpicks, verbose, onrecord);
-                    }
-                    xarray_free_items(ttd, free);
-                    xarray_free(ttd);
-                    ttd = NULL;
-                }
-            }
-            REQUEST_FREE(tr);
-            RESULT_FREE(r);
-        }
-        goto L_8888;
-    }
 
     cmtt.nttm = nttmsv;
     if (lmodel) {
