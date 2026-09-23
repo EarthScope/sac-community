@@ -1,0 +1,144 @@
+README file for building and installing SAC.
+
+Contents
+-------------------------------------------------------------------------
+* Introduction
+* Quick instructions for building and installing SAC
+* Detailed instructions for building and installing SAC
+* Testing
+* Platforms
+* Cutting a release
+-------------------------------------------------------------------------
+* Introduction
+-------------------------------------------------------------------------
+This file includes instructions for building SAC and its accompanying
+libraries and utilities from sources.  After installing, see README.md in
+this directory for setting environment variables and related setup.
+
+These instructions apply to both a git checkout and an unpacked release
+tarball (sac-VERSION.tar.gz).  The top directory of the tree is the
+directory that contains configure.  File src/describedirs has a brief
+overview of the contents of the src/ subdirectories.
+
+A committed configure script is shipped with the sources; for a normal
+build you do not need to run ./bootstrap.  Rebuild configure with
+./bootstrap only when changing configure.ac or related autotools input.
+
+The build goes best with GNU gcc and GNU make
+(https://www.gnu.org/software/).
+
+Building SAC requires development packages for:
+  - X11      (graphics; on macOS install XQuartz, https://www.xquartz.org/)
+  - libcurl  (internet requests)
+  - libxml2  (XML)
+
+XPM support is enabled automatically when libXpm is found.  Starting with
+v101.6, PNG support is off by default because (1) the resolution is far
+worse than PDF and PS, and (2) PNG libraries are typically dynamic, so a
+binary built on one computer may not be portable.  Include PNG with
+--enable-png.
+
+Command line editing and history are provided by a vendored copy of
+linenoise, so no external editing library is required.  Use
+--disable-editing to build without command line editing.
+
+* Quick Instructions for Building and Installing SAC:
+-------------------------------------------------------------------------
+From the source tree (the directory that contains configure), use an
+out-of-tree build:
+
+% mkdir build
+% cd build
+% ../configure --prefix=/usr/local/sac > ../build.out
+% make >> ../build.out
+% make install >> ../build.out
+
+--prefix=/usr/local/sac is the default; pass a different value to install
+elsewhere (for example --prefix=/opt/sac).  The source tree is left
+unchanged.  After install, SACHOME is the same as the prefix used here.
+
+Redirecting stdout to ../build.out is optional; it reduces noise from
+configure and make while leaving warnings and errors on the terminal
+(stderr).
+
+* Detailed Instructions for Building and Installing SAC:
+-------------------------------------------------------------------------
+From the source tree (or from build/ with ../configure):
+
+% ./configure --help
+  Lists configure options.  Options of interest:
+
+    --prefix=PREFIX         install location [default: /usr/local/sac]
+    --enable-optim=level    compile with -Olevel (for example --enable-optim=2);
+                            default is no optimization
+    --enable-debug          enable debugging options (mainly for developers)
+    --disable-editing       build without command line editing and history
+    --with-matlab=DIR       enable Matlab support using Matlab installed in DIR
+    --enable-xdr            enable XDR file format for data files
+    --enable-zlib           enable compressed PDF files
+    --enable-xpm            try to enable XPM plot output (default: on if found)
+    --enable-png            enable PNG plot output (default: off)
+    --x-includes=DIR        X11 headers in DIR
+    --x-libraries=DIR       X11 libraries in DIR
+    --with-libcurl=PREFIX   look for libcurl under PREFIX
+
+configure writes Makefiles.  Then:
+
+% make                        - build sac and libraries (under src/ in the
+                                build tree, along with other lib*.a files)
+% make install                - install into ${PREFIX}
+% make clean                  - remove objects and executables, keep config
+% make distclean              - like clean, also remove configuration files
+
+On Solaris, use gmake instead of the system make.  make clean and
+make distclean print every deletion; redirect to /dev/null if desired.
+
+* Testing
+-------------------------------------------------------------------------
+After a successful build, from the build directory:
+
+% make check
+
+On a headless Linux system, run the tests under a virtual X server, for
+example:
+
+% xvfb-run -a make check
+
+* Platforms
+-------------------------------------------------------------------------
+Current CI builds and tests Linux and macOS.  Successful builds have also
+been reported historically on Solaris and Windows (Cygwin), given the
+required development tools.
+
+Cygwin: XDR support needs the Sun RPC library from the Cygwin setup
+program.  As of Cygwin 1.7 the normal source tree builds; a separate
+CYGWIN distribution is not provided.
+
+macOS: Install XQuartz.  If configure does not find X11, pass for example:
+
+   % ../configure --x-includes=/opt/X11/include --x-libraries=/opt/X11/lib
+
+Linux: Install the X11, libcurl, and libxml2 development packages for your
+distribution.  On a dual 32/64-bit system, ensure configure links the
+64-bit X11 libraries when building a 64-bit sac; override with
+--x-libraries if needed.
+
+* Cutting a release
+-------------------------------------------------------------------------
+The version is authored in one place: the AC_INIT line in configure.ac.
+Everything built through configure (the version banner, sac-config,
+distribution tarball names, the macOS .dmg) is derived from it
+automatically.  A few files that configure does not reach are kept in
+sync by config/set-version.
+
+1. Edit the version in configure.ac (AC_INIT, second argument).
+2. Run ./bootstrap and commit the regenerated configure along with
+   configure.ac.  CI builds from the committed configure rather than
+   running bootstrap, so an uncommitted regeneration ships the previous
+   version.
+3. Run config/set-version and commit the files it updates.
+4. Add a YYYY/MM Version X.Y released heading to CHANGES.
+5. Confirm everything agrees with config/set-version --check.
+6. Tag vX.Y, matching the two-component configure.ac version, and push
+   the tag.  The release workflow publishes a draft, prerelease GitHub
+   release, which still needs manual promotion.
