@@ -266,7 +266,7 @@ AC_CHECK_FUNC(fmemopen,   [ AC_DEFINE( [HAVE_FUNC_FMEMOPEN],       [1], [ System
 LIBCURL_CHECK_CONFIG([yes],[7.0.0],[],[ AC_MSG_WARN("libcurl >= 7.0.0 not found")])
 
 # Define the Build Date
-AC_DEFINE_UNQUOTED([BUILD_DATE], ["`date +%m/%d/%Y`"], [Macro which defines the Date of the Current Build])
+AC_DEFINE_UNQUOTED([BUILD_DATE], ["`date +%Y-%m-%d`"], [Macro which defines the Date of the Current Build])
 
 # Define the Install Directory
 if [ test "x$prefix" = xNONE ]; then
