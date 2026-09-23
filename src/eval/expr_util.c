@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <limits.h>
 
 #include "token.h"
 #include "expr_parse.h"
@@ -758,7 +759,8 @@ token_is_number(Token * t) {
 int
 token_is_int_precision(Token * t, double precision) {
     return token_is_number(t) &&
-        (fabs(round(t->value) - t->value) <= precision);
+        (fabs(round(t->value) - t->value) <= precision) &&
+        t->value >= (double) INT_MIN && t->value <= (double) INT_MAX;
 }
 
 int

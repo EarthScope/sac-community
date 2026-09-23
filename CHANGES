@@ -12,6 +12,7 @@ a discussion of bug fixes and enhancements made between releases.
   cmtsolution_from_cmtid, caught by the result_free prototype fix
 - Suppress sign-compare, unused-parameter, and deprecated-non-prototype
   warnings in the vendored evalresp and libmseed trees
+- Only format numeric tokens as integers when they fit in an int
 - Merge the CI and release workflows into a single workflow
 - Upload release tarballs unzipped, name them by platform, and mark builds off
   the release tag with the commit

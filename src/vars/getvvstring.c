@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <limits.h>
 
 #include "amf.h"
 #include "msg.h"
@@ -136,7 +137,8 @@ token_to_line(Token * t) {
                 string_printf_append(s, ", ");
                 break;
             case NUM:
-                if (floor(p->value) == p->value) {
+                if (floor(p->value) == p->value &&
+                    p->value >= (double) INT_MIN && p->value <= (double) INT_MAX) {
                     string_printf_append(s, "%d ", (int) p->value);
                 } else {
                     char fmt[256];
