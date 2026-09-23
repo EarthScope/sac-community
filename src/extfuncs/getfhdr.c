@@ -6,11 +6,7 @@
 #include "extfunc.h"
 
 float
-getfhdr(header_in, fieldname, error)
-     sac_header *header_in;
-     char *fieldname;
-     int *error;
-
+getfhdr(sac_header *header_in, char *fieldname, int *error)
 {
     int i;
 

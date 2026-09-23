@@ -13,9 +13,7 @@
 #endif
 
 sac_header *
-makehdr(header_in)
-     sac_header *header_in;
-
+makehdr(sac_header *header_in)
 {
     int i, nerr;
 

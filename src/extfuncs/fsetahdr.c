@@ -5,13 +5,8 @@
 extern sac_files *indata;
 
 void
-fsetahdr_(hdr_index, fieldname, value, error, lenfield, lenvalue)
-     int *hdr_index;
-     char *fieldname;
-     char *value;
-     int *error;
-     int lenfield;
-     int lenvalue;
+fsetahdr_(int *hdr_index, char *fieldname, char *value, int *error,
+          int lenfield, int lenvalue)
 {
     char infield[9];
     char invalue[18];

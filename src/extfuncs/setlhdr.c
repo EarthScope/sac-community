@@ -6,12 +6,7 @@
 #include "extfunc.h"
 
 void
-setlhdr(header_in, fieldname, value, error)
-     sac_header *header_in;
-     char *fieldname;
-     int value;
-     int *error;
-
+setlhdr(sac_header *header_in, char *fieldname, int value, int *error)
 {
     int i;
 

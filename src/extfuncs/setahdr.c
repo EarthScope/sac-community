@@ -7,12 +7,7 @@
 #define MIN(n1,n2) ((n1) < (n2) ? (n1) : (n2))
 
 void
-setahdr(header_in, fieldname, value, error)
-     sac_header *header_in;
-     char *fieldname;
-     char *value;
-     int *error;
-
+setahdr(sac_header *header_in, char *fieldname, char *value, int *error)
 {
     int i, nchars;
     char longfield[18];

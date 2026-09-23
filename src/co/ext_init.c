@@ -20,22 +20,22 @@ int retrieve_data(sac_files ** call_data, float *fyinput, float *fxinput,
  * 
  */
 void
-ext_init() {
+ext_init(void) {
     int error, value, index;
     sac_header *this_header;
 
     this_header = makehdr(NULL);
 
-    getehdr(*this_header, " ", &error);
-    setehdr(*this_header, " ", 1, &error);
-    getfhdr(*this_header, " ", &error);
-    setfhdr(*this_header, " ", 1.0, &error);
-    getnhdr(*this_header, " ", &error);
-    setnhdr(*this_header, " ", 1, &error);
-    getlhdr(*this_header, " ", &error);
-    setlhdr(*this_header, " ", 1, &error);
-    getahdr(*this_header, " ", &error);
-    setahdr(*this_header, " ", " ", &error);
+    getehdr(this_header, " ", &error);
+    setehdr(this_header, " ", 1, &error);
+    getfhdr(this_header, " ", &error);
+    setfhdr(this_header, " ", 1.0, &error);
+    getnhdr(this_header, " ", &error);
+    setnhdr(this_header, " ", 1, &error);
+    getlhdr(this_header, " ", &error);
+    setlhdr(this_header, " ", 1, &error);
+    getahdr(this_header, " ", &error);
+    setahdr(this_header, " ", " ", &error);
 
     index = 1;
 

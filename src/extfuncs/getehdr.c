@@ -7,11 +7,7 @@
 #include "extfunc.h"
 
 int
-getehdr(header_in, fieldname, error)
-     sac_header *header_in;
-     char *fieldname;
-     int *error;
-
+getehdr(sac_header *header_in, char *fieldname, int *error)
 {
     int i;
 

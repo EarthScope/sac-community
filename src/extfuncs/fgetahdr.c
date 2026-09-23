@@ -6,13 +6,8 @@
 sac_files *indata;  /* Global variable used by FORTRAN header access functions   */
 
 void
-fgetahdr_(hdr_index, fieldname, value, error, lenfield, lenvalue)
-     int *hdr_index;
-     char *fieldname;
-     char *value;
-     int *error;
-     int lenfield;
-     int lenvalue;
+fgetahdr_(int *hdr_index, char *fieldname, char *value, int *error,
+          int lenfield, int lenvalue)
 {
 
     char infield[9];

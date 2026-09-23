@@ -5,12 +5,8 @@
 extern sac_files *indata;
 
 void
-fgetnhdr_(hdr_index, fieldname, value, error, lenfield)
-     int *hdr_index;
-     char *fieldname;
-     int *value;
-     int *error;
-     int lenfield;
+fgetnhdr_(int *hdr_index, char *fieldname, int *value, int *error,
+          int lenfield)
 {
     char infield[9];
     sac_header *hdr_in;

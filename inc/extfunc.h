@@ -89,41 +89,34 @@ typedef struct {
     /* the NULL value.                         */
 } sac_files;
 
-sac_header *makehdr();
-/* sac_header *makehdr( sac_header ); */
+sac_header *makehdr(sac_header *header_in);
 
-int getehdr();
-/* int getehdr(sac_header *header, char *fieldname, int *error); */
+int getehdr(sac_header *header, char *fieldname, int *error);
 
-void setehdr();
-/* void setehdr(sac_header *header, char *fieldname, int value, int *error); */
+void setehdr(sac_header *header, char *fieldname, int value, int *error);
 
-float getfhdr();
-/* float getfhdr(sac_header *header, char *fieldname, int *error); */
+float getfhdr(sac_header *header, char *fieldname, int *error);
 
+/* setfhdr() is deliberately left without a prototype: K&R callers pass the
+ * float argument promoted to double, and existing compiled plugins depend
+ * on that calling convention. */
 void setfhdr();
 /* void setfhdr(sac_header *header, char *fieldname, float value, int *error); */
 
-int getnhdr();
-/* int getnhdr(sac_header *header, char *fieldname, int *error); */
+int getnhdr(sac_header *header, char *fieldname, int *error);
 
-void setnhdr();
-/* void setnhdr(sac_header *header, char *fieldname, int value, int *error); */
+void setnhdr(sac_header *header, char *fieldname, int value, int *error);
 
-int getlhdr();
-/* int getlhdr(sac_header *header, char *fieldname, int *error); */
+int getlhdr(sac_header *header, char *fieldname, int *error);
 
-void setlhdr();
-/* void setlhdr(sac_header *header, char *fieldname, int value, int *error); */
+void setlhdr(sac_header *header, char *fieldname, int value, int *error);
 
-char *getahdr();
-/* char *getahdr(sac_header *header, char *fieldname, int *error); */
-/* This functions returns a pointer to the value in the actual header field. */
+/* getahdr() returns a pointer to the value in the actual header field. */
 /* You should make a copy of it before modifying it.  And you should not     */
 /* free this returned address.                                               */
+char *getahdr(sac_header *header, char *fieldname, int *error);
 
-void setahdr();
-/* void setahdr(sac_header *header, char *fieldname, char *value, int *error); */
+void setahdr(sac_header *header, char *fieldname, char *value, int *error);
 
 /* tables of header names */
 #ifdef SAC_FLOAT_NAME_FIELDS
@@ -298,9 +291,8 @@ static char *char_hdr_fields[MKHDR] = { "kstnm", "kevnm", " ", "khole", "ko",
 /**************   FORTRAN interface support   ****************************/
 
 
-void fgetahdr_();
-/* void fgetahdr_(int *hdr_index, char *fieldname, char *value,
-                  int *error, int lenfield, int lenvalue)             */
+void fgetahdr_(int *hdr_index, char *fieldname, char *value,
+               int *error, int lenfield, int lenvalue);
 
 /* FORTRAN calling sequence:
    call fgetahdr(integer*4 hdr_index, character fieldname, character value, integer*4 error)
@@ -309,65 +301,56 @@ void fgetahdr_();
    are passed automatically by the FORTRAN compiler.  The calling program
    SHOULD NOT include these in its call.                                 */
 
-void fsetahdr_();
-/* void fsetahdr_(int *hdr_index, char *fieldname, char *value,
-                  int *error, int lenfield, int lenvalue)             */
+void fsetahdr_(int *hdr_index, char *fieldname, char *value,
+               int *error, int lenfield, int lenvalue);
 
 /* FORTRAN calling sequence:
    call fsetahdr(integer*4 hdr_index, character fieldname, character value, integer*4 error) */
 
-void fgetehdr_();
-/* void fgetehdr_(int *hdr_index, char *fieldname, int *value, 
-                  int *error, int lenfield)                            */
+void fgetehdr_(int *hdr_index, char *fieldname, int *value,
+               int *error, int lenfield);
 
 /* FORTRAN calling sequence:
    call fgetehdr(integer*4 hdr_index, character fieldname, integer*4 value, integer*4 error) */
 
-void fsetehdr_();
-/* void fsetehdr_(int *hdr_index, char *fieldname, int *value,
-                  int *error, int lenfield)                            */
+void fsetehdr_(int *hdr_index, char *fieldname, int *value,
+               int *error, int lenfield);
 
 /* FORTRAN calling sequence:
    call fsetehdr(integer*4 hdr_index, character fieldname, integer*4 value, integer*4 error) */
 
-void fgetfhdr_();
-/* void fgetfhdr_(int *hdr_index, char *fieldname, float *value,
-                  int *error, int lenfield)                            */
+void fgetfhdr_(int *hdr_index, char *fieldname, float *value,
+               int *error, int lenfield);
 
 /* FORTRAN calling sequence:
    call fgetfhdr(integer*4 hdr_index, character fieldname, real*4 value, integer*4 error)    */
 
-void fsetfhdr_();
-/* void fsetfhdr_(int *hdr_index, char *fieldname, float *value,
-                  int *error, int lenfield)                             */
+void fsetfhdr_(int *hdr_index, char *fieldname, float *value,
+               int *error, int lenfield);
 
 /* FORTRAN calling sequence:
    call fsetfhdr(integer*4 hdr_index, character fieldname, real*4 value, integer*4 error)     */
 
-void fgetlhdr_();
-/* void fgetlhdr_(int *hdr_index, char *fieldname, int *value,
-                  int *error, int lenfield)                              */
+void fgetlhdr_(int *hdr_index, char *fieldname, int *value,
+               int *error, int lenfield);
 
 /* FORTRAN calling sequence:
    call fgetlhdr(integer*4 hdr_index, character fieldname, integer*4 value, integer*4 error)  */
 
-void fsetlhdr_();
-/* void fsetlhdr_(int *hdr_index, char *fieldname, int *value,
-                  int *error, int lenfield)                              */
+void fsetlhdr_(int *hdr_index, char *fieldname, int *value,
+               int *error, int lenfield);
 
 /* FORTRAN calling sequence:
    call fsetlhdr(integer*4 hdr_index, character fieldname, integer*4 value, integer*4 error)  */
 
-void fgetnhdr_();
-/* void fgetnhdr_(int *hdr_index, char *fieldname, int *value,
-                  int *error, int lenfield)                               */
+void fgetnhdr_(int *hdr_index, char *fieldname, int *value,
+               int *error, int lenfield);
 
 /* FORTRAN calling sequence:
    call fgetnhdr(integer*4 hdr_index, character fieldname, integer*4 value, integer*4 error)  */
 
-void fsetnhdr_();
-/* void fsetnhdr_(int *hdr_index, char *fieldname, int *value,
-                  int *error, int lenfield)                                */
+void fsetnhdr_(int *hdr_index, char *fieldname, int *value,
+               int *error, int lenfield);
 
 /* FORTRAN calling sequence:
    call fsetnhdr(integer*4 hdr_index, character fieldname, integer*4 value, integer*4 error)  */
