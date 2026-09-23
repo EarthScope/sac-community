@@ -29,8 +29,10 @@ jobs:
             runs-on: macos-15-intel
           - name: linux-x86_64
             runs-on: ubuntu-24.04
-          # - name: linux-arm
-          #   runs-on: ubuntu-24.04-arm
+            container: almalinux:8   # glibc 2.28 → runs on essentially anything from ~2018 on
+          - name: linux-arm
+            runs-on: ubuntu-24.04-arm
+            container: arm64v8/alpine:3.21   # glibc 2.38 → runs on arm64 from ~2023 on
     steps:
       - name: Check out repository code
         uses: actions/checkout@v5
