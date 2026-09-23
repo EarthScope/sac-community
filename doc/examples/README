@@ -1,4 +1,4 @@
-Seismic Analysis Code Example Programs and Scripts
+SAC Community Edition Example Programs and Scripts
 
 In ${SACHOME} doc/examples (henceforth ~/examples) is a collection of
 programs that use various portions of the sacio and sac libraries in

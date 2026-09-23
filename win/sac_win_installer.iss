@@ -4,7 +4,7 @@
 #define MyAppName "SAC"
 #define MyAppVersion "103.0"
 #define MyAppPublisher "EarthScope"
-#define MyAppURL "https://github.com/earthscope/sac"
+#define MyAppURL "https://github.com/earthscope/sac-community"
 #define MyAppExeName "sac.exe"
 #define MyConfig "Release"
 

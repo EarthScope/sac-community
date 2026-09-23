@@ -120,15 +120,14 @@ use_database(int getset) {
  */
 void
 xabout() {
-    char kvdate[200];
-    /* char fmt[] = "SEISMIC ANALYSIS CODE [%s (Version 00.59.49)]"; */
-    char fmt[] = "SEISMIC ANALYSIS CODE [%s (Version %s)]";
+    char kvdate[200] = {0};
+    char fmt[] = "SEISMIC ANALYSIS CODE Community Edition [%s (Version %s)]";
     char kcopyr[] = "Copyright 2025 EarthScope Consortium www.earthscope.org\n";
 
     if (!display_copyright(OPTION_GET)) {
         return;
     }
-    sprintf(kvdate, fmt, BUILD_DATE, PACKAGE_VERSION);
+    snprintf(kvdate, sizeof(kvdate), fmt, BUILD_DATE, PACKAGE_VERSION);
     setmsg("OUTPUT", 99);
     out("%s\n %s", kvdate, kcopyr);
     outmsg();

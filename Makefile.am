@@ -170,6 +170,6 @@ dmg: Sac.app
 	mkdir dmgdir
 	cp -fpR Sac.app dmgdir
 	cd dmgdir && ln -s /Applications .
-	hdiutil create -format UDZO -volname "SAC v$(PACKAGE_VERSION)" -srcfolder dmgdir ./SAC-$(PACKAGE_VERSION).dmg
+	hdiutil create -format UDZO -volname "SAC Community Edition v$(PACKAGE_VERSION)" -srcfolder dmgdir ./SAC-$(PACKAGE_VERSION).dmg
 	rm -fr dmgdir
 endif

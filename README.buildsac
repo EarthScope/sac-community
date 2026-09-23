@@ -1,10 +1,10 @@
-README file for building and installing SAC
+README file for building and installing SAC Community Edition
 
 Contents
 -------------------------------------------------------------------------
 * Introduction
-* Quick instructions for building and installing SAC
-* Detailed instructions for building and installing SAC
+* Quick instructions for building and installing SAC Community Edition
+* Detailed instructions for building and installing SAC Community Edition
 * Testing
 * Platforms
 * Creating the documentation
@@ -43,7 +43,7 @@ Command line editing and history are provided by a vendored copy of
 linenoise, so no external editing library is required.  Use
 --disable-editing to build without command line editing.
 
-* Quick Instructions for Building and Installing SAC:
+* Quick Instructions for Building and Installing SAC Community Edition:
 -------------------------------------------------------------------------
 From the source tree (the directory that contains configure), use an
 out-of-tree build:
@@ -62,7 +62,7 @@ Redirecting stdout to ../build.out is optional; it reduces noise from
 configure and make while leaving warnings and errors on the terminal
 (stderr).
 
-* Detailed Instructions for Building and Installing SAC:
+* Detailed Instructions for Building and Installing SAC Community Edition:
 -------------------------------------------------------------------------
 From the source tree (or from build/ with ../configure):
 

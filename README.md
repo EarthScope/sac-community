@@ -1,6 +1,6 @@
-# SAC - Seismic Analysis Code
+# SAC (Seismic Analysis Code) Community Edition
 
-This repository contains the source code for SAC (Seismic Analysis Code). SAC allows reading and writing of binary seismic data files containing time series data, typically ground motion recorded by seismometers. This program is used primarily in seismological research.  SAC includes a number of filtering and deconvolution functions to process seismic data.
+This repository contains the source code for SAC Community Edition, a community-maintained continuation of SAC (Seismic Analysis Code). SAC allows reading and writing of binary seismic data files containing time series data, typically ground motion recorded by seismometers. This program is used primarily in seismological research.  SAC includes a number of filtering and deconvolution functions to process seismic data.
 
 ## Contributing
 
@@ -15,7 +15,7 @@ If you would like to become a maintainer of this software please contact [help@e
 ## Download releases
 
 Releases are available from:
-[https://github.com/EarthScope/sac/releases](https://github.com/EarthScope/sac/releases)
+[https://github.com/EarthScope/sac-community/releases](https://github.com/EarthScope/sac-community/releases)
 
 This includes the source code, and and pre-built binaries for Linux and macOS.
 
@@ -28,16 +28,6 @@ For pre-built binaries on macOS, the system may refuse to run the `sac` binary d
 ```
 xattr -dr com.apple.quarantine /path/to/sac
 ```
-
-## History
-
-SAC is hosted for the seismological research community by the [EarthScope Consortium](https://www.earthscope.edu) and was derived from Lawrence Livermore National Laboratory's (LLNL) SAC2000. From the early 1980's to the mid 1990's, SAC, as it was originally named, was distributed to the seismological community as a Fortran program by [LLNL](https://www.llnl.gov).  In the mid 1990's, the source was converted to C, renamed SAC2000 and generally difficult to obtain. In 2004, IRIS started distributing derivative versions of SAC2000 under a new License negotiated between LLNL and IRIS. Now, following the termination of the license agreement between LLNL and IRIS, EarthScope releases this derivative work under an open source license identified in this repository (see License below).
-
-Other versions of SAC include:
-
-- [SAC/BRIS](https://members.elsi.jp/~george/sac-bugs.html) based on the original
-Fortran version that runs on the Mac.
-- [SAC2000](https://github.com/LLNL/SAC2000) based on the original SAC2000 code base, that the EarthScope version branched from, now provided by LLNL.
 
 ## Environment Setup
 
@@ -122,8 +112,18 @@ Saving figures as PNG files is possible, but starting with version v101.6 the de
 ## If you need help ...
 
 1. If you have SAC working, use the help command from within SAC.  You can print hard-copies of the help files using printhelp. HTML versions of the help files can be found in the [SAC Manual](https://ds.iris.edu/files/sac-manual/index.html). Also, a link from that site takes you to a PDF-format single-file version of the manual in which the search command and links from the side-bar table of contents allow one to navigate the manual efficiently.
-2. Some features of SAC are described in the `CHANGES`, and changes in new versions are summarized in `HISTORY`.  Both files are in this directory. For a more readable discussion of new features in an updated distribution, see the INTRO help file.
+2. Some features of SAC are described in the `CHANGES`. For a more readable discussion of new features in an updated distribution, see the INTRO help file.d
 3. A place to share problems and find solutions is the SAC Community mailing list: [SAC Community](https://groups.google.com/a/earthscope.org/g/sac-community)
+
+## History
+
+SAC is hosted for the seismological research community by the [EarthScope Consortium](https://www.earthscope.edu) and was derived from Lawrence Livermore National Laboratory's (LLNL) SAC2000. From the early 1980's to the mid 1990's, SAC, as it was originally named, was distributed to the seismological community as a Fortran program by [LLNL](https://www.llnl.gov).  In the mid 1990's, the source was converted to C, renamed SAC2000 and generally difficult to obtain. In 2004, IRIS started distributing derivative versions of SAC2000 under a new License negotiated between LLNL and IRIS. Now, following the termination of the license agreement between LLNL and IRIS, EarthScope releases this derivative work under an open source license identified in this repository (see License below).
+
+Other versions of SAC include:
+
+- [SAC/BRIS](https://members.elsi.jp/~george/sac-bugs.html) based on the original
+Fortran version that runs on the Mac.
+- [SAC2000](https://github.com/LLNL/SAC2000) based on the original SAC2000 code base, that the EarthScope version branched from, now provided by LLNL.
 
 ## License
 

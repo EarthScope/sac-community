@@ -17,7 +17,7 @@ error3(Display * display, XErrorEvent * error) {
         char msg[128];
         XGetErrorText(display, error->error_code, msg, sizeof(msg));
         fprintf(stderr,
-                "Seismic Analysis Code (SAC) received an X11 error:\n" "%s\n"
+                "SAC Community Edition received an X11 error:\n" "%s\n"
                 "serial %lu error_code %u request_code %u minor_code %u\n", msg,
                 error->serial, error->error_code, error->request_code,
                 error->minor_code);
@@ -35,12 +35,12 @@ ioerror3(Display * display) {
 #endif /* READLINE */
     if (errno == EPIPE) {
         fprintf(stderr,
-                "Seismic Analysis Code (SAC) lost the connection to the display\n"
+                "SAC Community Edition lost the connection to the display\n"
                 "Most likely the X server was shut down or you "
                 "killed/destroyed the application\n");
     } else {
         fprintf(stderr,
-                "Seismic Analysis Code (SAC): Fatal IO Error "
+                "SAC Community Edition: Fatal IO Error "
                 "%d (%s) on the X server\n", errno, strerror(errno));
     }
     exit(1);

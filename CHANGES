@@ -13,6 +13,7 @@ a discussion of bug fixes and enhancements made between releases.
 - Substitute the SAC version into sac-config in binary distributions
 - Add config/set-version to sync version literals outside the autotools build
 - Document the release version bump procedure
+- Rebrand to SAC Community Edition
 - Update libmseed to v3.5.4
 
 2025/05

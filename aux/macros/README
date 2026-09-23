@@ -3,8 +3,7 @@ This directory contains a sub-directory demo.  See demo/README for details.  The
 
 The original version included a second set of macros that demonstrated some of SAC's features.  They are not included here because there are now other suites  of macros and programs that serve this purpose.  These include:
 
-1. Seismic Analysis Code Example Program (sac/doc/examples/README)
-2. https://seiscode.iris.washington.edu/projects/sac/wiki/Examples
-3. sac/t/testsuite/README.check (currently available only with the source distribution)
+1. SAC Community Edition Example Program (sac/doc/examples/README)
+2. sac/t/testsuite/README.check (currently available only with the source distribution)
 
 There are additional macros in this directory that might be of use.  Their names and comment lines explain their actions.

@@ -1117,7 +1117,7 @@ coverage:
 @OSX_APP_TRUE@	mkdir dmgdir
 @OSX_APP_TRUE@	cp -fpR Sac.app dmgdir
 @OSX_APP_TRUE@	cd dmgdir && ln -s /Applications .
-@OSX_APP_TRUE@	hdiutil create -format UDZO -volname "SAC v$(PACKAGE_VERSION)" -srcfolder dmgdir ./SAC-$(PACKAGE_VERSION).dmg
+@OSX_APP_TRUE@	hdiutil create -format UDZO -volname "SAC Community Edition v$(PACKAGE_VERSION)" -srcfolder dmgdir ./SAC-$(PACKAGE_VERSION).dmg
 @OSX_APP_TRUE@	rm -fr dmgdir
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

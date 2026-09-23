@@ -27,7 +27,7 @@
 
 #define SACAUX "C:\\Program Files\\Sac\\winaux"
 
-#define PACKAGE_BUGREPORT "https://github.com/earthscope/sac"
+#define PACKAGE_BUGREPORT "https://github.com/earthscope/sac-community"
 #define BUILD_DATE        "09/21/2026"
 #define PACKAGE_VERSION   "103.0"
 

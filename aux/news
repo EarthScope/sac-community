@@ -1,14 +1,9 @@
 * If you need help ...
 ---------------------------------------------------------------------------
-1.  If you have SAC working, use the help command from within SAC.  You can
-    print hard-copies of the help files using printhelp.  HTML versions of the
-    help files can be found at URL <http://www.iris.edu/software/sac/manual.html>.
-2.  Some features of SAC are described in the CHANGES file in this directory,
-    and changes in new versions are summarized in HISTORY.
+1.  If you have SAC Community Edition working, use the help command from
+    within SAC.  You can print hard-copies of the help files using printhelp.
+2.  Some features of SAC are described in the CHANGES file in this directory.
 3.  A place to share problems and find solutions is the SAC Community mailing
-    list: <sac-community@earthscope.org>.
+    list: <sac-community@earthscope.org>, signup here:
+    https://groups.google.com/a/earthscope.org/g/sac-community
 
-* READ THIS!!
----------------------------------------------------------------------------
-DO NOT DISTRIBUTE the SAC Software.  (That is what you agreed to at the time
-the IRIS software request form was submitted.)

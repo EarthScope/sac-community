@@ -1,7 +1,6 @@
 
-
 # Process this file with autoconf to produce a configure script.
-AC_INIT([Seismic Analysis Code],[103.0],[https://github.com/earthscope/sac],[sac])
+AC_INIT([SAC Community Edition],[103.0],[https://github.com/earthscope/sac-community],[sac])
 
 # Place configuration files in the config directory
 AC_CONFIG_AUX_DIR([config])
