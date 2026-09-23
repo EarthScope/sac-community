@@ -2,8 +2,8 @@
 #
 # Sync the SAC version into files that autotools does not reach: the
 # Windows build config, the Inno Setup installers, the macOS app bundle,
-# the manual title page, and README.md. The version itself is read from
-# AC_INIT in configure.ac, which remains the only place it is authored.
+# and the manual title page. The version itself is read from AC_INIT in
+# configure.ac, which remains the only place it is authored.
 #
 # Usage:
 #   config/set-version           update the files listed below
@@ -68,8 +68,5 @@ sync_file doc/html/sac_manual.tex \
 
 sync_file doc/html/sac_manual.tex.in \
     "s/(\\\\author\{Version )[^}]*(\})/\\1$VERSION\\2/"
-
-sync_file README.md \
-    "s/(\*\*Version )[^*]*(\*\*)/\\1$VERSION\\2/"
 
 exit $status
