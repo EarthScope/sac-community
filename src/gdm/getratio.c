@@ -31,7 +31,7 @@ getratio(float *ratio) {
         }
     }
 
-    if (*ratio == VLARGE) {
+    if (*ratio == (float) VLARGE) {
         *ratio = 1.0;
     }
 }

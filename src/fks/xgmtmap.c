@@ -208,7 +208,6 @@ xgmtmap(int *nerr) {
     int nch, jdfl, jdfl_, i, idx, jdx;
     int lrefset = TRUE;
     int irefsta;
-    int nstationlocs = 0;
     int neventlocs = 0;
     int nsize = 0;
     float sumsize = 0.0;
@@ -497,7 +496,6 @@ xgmtmap(int *nerr) {
                 minlon = fmin(minlon, lon180(stlo));
                 maxlon2 = fmax(maxlon2, lon360(stlo));
                 minlon2 = fmin(minlon2, lon360(stlo));
-                nstationlocs += 1;
             } else {
                 *nerr = 5301;
                 goto L_9999;

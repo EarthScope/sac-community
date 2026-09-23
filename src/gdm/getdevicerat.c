@@ -31,7 +31,7 @@ getdeviceratio(float *ratio) {
             *ratio = fmin(*ratio, ratio2);
         }
     }
-    if (*ratio == VLARGE) {
+    if (*ratio == (float) VLARGE) {
         *ratio = 1.0;
     }
 

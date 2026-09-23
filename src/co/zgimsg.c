@@ -30,7 +30,6 @@ void
 zgimsg(int argc, char **argv, char *mess, int messlen) {
 
     int i;                      /* index for counting parameters */
-    int j;                      /* index for parameter strings */
     int k;                      /* character counter */
     char *pc;                   /* character pointer */
 
@@ -38,7 +37,7 @@ zgimsg(int argc, char **argv, char *mess, int messlen) {
     pc = *(++argv);             /* skip program name */
 
     for (i = 1; i < argc; ++i, pc = *(++argv)) {
-        for (j = 0; *pc != '\0' && k < messlen; ++j, ++k)
+        for (; *pc != '\0' && k < messlen; ++k)
             mess[k] = *(pc++);  /* copy parameters */
         if (k >= messlen) {
             printf("warning:  command string too long.\n");

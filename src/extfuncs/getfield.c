@@ -1,9 +1,5 @@
 void
-getfield(fieldname, lenfield, fieldout)
-     char *fieldname;
-     int lenfield;
-     char *fieldout;
-{
+getfield(char *fieldname, int lenfield, char *fieldout) {
 /* Return a NULL terminated string with leading blanks removed. */
     char *tempin, *tempout;
     int count = 0;

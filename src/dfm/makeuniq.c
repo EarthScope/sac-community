@@ -42,7 +42,6 @@ makeuniq(char *filelist, int lenfilelist, int nfiles, int *nerr) {
     char char1, char2;
     int lunique = FALSE;
     int lenfilename, bufcount, numchars;
-    int counter;
     char *field, *temp;
     int lenlist;
         /*=====================================================================
@@ -101,11 +100,8 @@ makeuniq(char *filelist, int lenfilelist, int nfiles, int *nerr) {
 
     strcpy(buf2, buf1);
 
-    counter = 0;
-
     while (!lunique) {
         lunique = TRUE;
-        counter++;
 
         /* - For each file in DFL: */
 

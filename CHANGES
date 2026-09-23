@@ -2,6 +2,9 @@ Please see file HISTORY for list of official release and
 a discussion of bug fixes and enhancements made between releases.
 
 2026/09 Version 103.0 released
+- Size string initializers to fit their terminator, drop unused variables, and
+  convert remaining internal K&R definitions in extfuncs
+- Default the aspect ratio to 1.0 when no active graphics device reports one
 - Convert K&R-style function signatures to ANSI prototypes across src/
   (icm, sam, sss, gd2, gd3.x11, gem, gam, uom, scm, xyz, gtm, spe, ncpf,
   ssi, pl, smm, gcm, wild, top, mat, SeisMgr/gse, contouring)

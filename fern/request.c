@@ -943,7 +943,7 @@ static int xferinfo(void *p,
                     curl_off_t ultotal, curl_off_t ulnow)
 {
     static int spin = 0;
-    char spinny[4] = "-\\|/";
+    char spinny[] = "-\\|/";
     struct myprogress *myp = (struct myprogress *)p;
     CURL *curl = myp->curl;
     TIMETYPE curtime = 0;

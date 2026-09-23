@@ -121,7 +121,7 @@ miniseed_trace_list_to_sac(MS3TraceList *mst3k) {
         MS3TraceSeg *seg = t->first;
         while(seg) {
             if(seg->samprate != 0.0 && seg->numsamples > 0) {
-                char qual[10] = " RDQM56789";
+                char qual[] = " RDQM56789";
                 sac *s;
                 uint16_t year, doy;
                 uint8_t hour, min, sec;

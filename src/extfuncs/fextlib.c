@@ -6,13 +6,8 @@
 
 /* #define NULL 0 */
 int
-setup_data(call_data, fyinput, fxinput, numfiles, nptsmax)
-     sac_files **call_data;
-     float **fyinput;
-     float **fxinput;
-     int *numfiles;
-     int *nptsmax;
-{
+setup_data(sac_files **call_data, float **fyinput, float **fxinput,
+           int *numfiles, int *nptsmax) {
     sac_files *input;
     sac_header *hdr;
     float *xdata, *ydata;
@@ -99,12 +94,7 @@ setup_data(call_data, fyinput, fxinput, numfiles, nptsmax)
 }
 
 int
-setup_args(argc, argv, fargs, lenarg)
-     int argc;
-     char **argv;
-     char **fargs;
-     int *lenarg;
-{
+setup_args(int argc, char **argv, char **fargs, int *lenarg) {
     /* concatenate the input args as a single command line */
     /* suitable for passing to a FORTRAN routine.          */
     char *temp;
@@ -134,13 +124,8 @@ setup_args(argc, argv, fargs, lenarg)
 }
 
 int
-retrieve_data(call_data, fyinput, fxinput, numfiles, nptsmax)
-     sac_files **call_data;
-     float *fyinput;
-     float *fxinput;
-     int numfiles;
-     int nptsmax;
-{
+retrieve_data(sac_files **call_data, float *fyinput, float *fxinput,
+              int numfiles, int nptsmax) {
     sac_files *output;
     sac_header *hdr;
     float *fydata, *fxdata;

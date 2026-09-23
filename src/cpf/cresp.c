@@ -36,7 +36,7 @@ void
 cresp() {
     char kiomsg[9];
     int ic1, ic2, ic3, icpntr, itype, ncmsg, nxerr;
-    static char kprmpt[42] = "Please enter correction (or type HELP)  $ ";
+    static char kprmpt[] = "Please enter correction (or type HELP)  $ ";
     static char kchang[9] = "CHANGE  ";
     static char kinser[9] = "INSERT  ";
     static char krepla[9] = "REPLACE ";
