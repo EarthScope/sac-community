@@ -1032,164 +1032,6 @@ data_request_f(int *nerr) {
 }
 
 /**
- * @brief      Get a CMT id from an Event ID (IRIS)
- *
- * @details    Get a CMT id from an Event ID (IRIS)
- *
- * @param      eventid   Event ID
- * @param      verbose   Report the progress
- *
- * @return     cmtid on success, NULL on failure
- */
-char *
-cmtid_from_eventid(char *eventid, int verbose) {
-    request *req = NULL;
-    result *r = NULL;
-    char *cmtid = NULL;
-    if(!(req = request_new())) {
-        printf("Error creating request\n");
-        goto done;
-    }
-    request_set_url(req, "https://ds.iris.edu/spudservice/momenttensor/ids?");
-    request_set_arg(req, "eventid", arg_string_new(eventid));
-    request_set_verbose(req, verbose);
-    r = request_get(req);
-    if(!result_is_ok(r)) {
-        printf("%s\n", result_error_msg(r));
-        goto done;
-    }
-    cmtid = rstrip( result_free_move_data(r) );
-    r = NULL;
- done:
-    REQUEST_FREE(req);
-    RESULT_FREE(r);
-    return cmtid;
-}
-
-/**
- * @brief      Get CMTSOLUTION from CMT id (IRIS)
- *
- * @details    Get CMTSOLUTION from CMT id
- *
- * @param      cmtid    CMT id
- * @param      verbose  Report progress
- *
- * @return     CMTSOLUTION on success, NULL on failure
- */
-char *
-cmtsolution_from_cmtid(char *cmtid, int verbose) {
-    request *req = NULL;
-    result *r = NULL;
-    char *cmtsol = NULL;
-    char url[1024] = {0};
-
-    snprintf(url, sizeof(url),
-             "https://ds.iris.edu/spudservice/momenttensor/%s/cmtsolution",
-             cmtid);
-    if(!(req = request_new())) {
-        printf("Error creating request\n");
-        goto done;
-    }
-    request_set_url(req, url);
-    request_set_verbose(req, verbose);
-    r = request_get(req);
-    if(!(result_is_ok(r))) {
-        printf("%s\n", result_error_msg(r));
-        goto done;
-    }
-    cmtsol = result_free_move_data(r);
-    r = NULL;
- done:
-    REQUEST_FREE(req);
-    RESULT_FREE(r);
-    return cmtsol;
-}
-
-/**
- * @brief      Check if string starts with a string
- *
- * @details    Check if string starts with a string
- *
- * @param      str    String to test
- * @param      pat    Pattern to see if string starts with
- *
- * @return     1 on success, 0 on failure
- */
-int
-starts_with(char *str, char *pat) {
-    return (strncmp(pat, str, strlen(pat)) == 0);
-}
-
-/**
- * @brief      Get CMTSOLUTION from kevnm
- *
- * @details    Get CMTSOLUTION from kevnm
- *
- * @param      files    sac files
- * @param      ev       event
- * @param      verbose  report progress
- *
- */
-void
-get_cmtsolution_from_kevnm(sac **files, Event *ev, int verbose) {
-    sac *s = NULL;
-    dict *evs = dict_new(); /* Local event dictionary */
-    if(ev) {
-        /* Put event into dictionary */
-        dict_put(evs, event_id(ev), NULL);
-    }
-    /* Check if kevnm exists and save name */
-    for(size_t i = 0; i < xarray_length(files); i++) {
-        s = files[i];
-        if(strcmp(s->h->kevnm, SAC_CHAR_UNDEFINED) != 0) {
-            if(!dict_get(evs, s->h->kevnm)) {
-                dict_put(evs, s->h->kevnm, NULL);
-            }
-        }
-    }
-    /* For each unique event, find and download CMTSOLUTION */
-    char **keys = dict_keys(evs);
-    for(size_t i = 0; keys[i]; i++) {
-        if(starts_with(keys[i], "gcmt:")) {
-            // Convert GCMT ID to CMTSOLUTION ID
-            //   GCMT ID => 884490
-            // http://ds.iris.edu/spudservice/momenttensor/ids?eventid=369471
-            //   => 884490
-            // http://ds.iris.edu/spudservice/momenttensor/884490/cmtsolution
-            char *p = NULL;
-            char *cmtid = NULL;
-            char *cmtsol = NULL;
-            if(!(p = strchr(keys[i], ':'))) {
-                printf("Error finding ':' in event-name %s\n", keys[i]);
-                continue;
-            }
-            p++;
-            if((cmtid = cmtid_from_eventid(p, verbose)) &&
-               (cmtsol = cmtsolution_from_cmtid(cmtid, verbose))) {
-                printf("%s\n", cmtsol);
-            }
-            FREE(cmtid);
-            FREE(cmtsol);
-        } else if(starts_with(keys[i], "usgs:")) {
-            continue;
-            // Request event data from USGS Service
-            // Parse CMT Data from xml
-            /*
-            char *cmtsol = NULL;
-            if((cmtsol = cmtsolution_from_usgs_eventid(keys[i], verbose))) {
-                printf("%s\n", cmtsol);
-            }
-            FREE(cmtsol);
-            */
-        }
-    }
-    dict_keys_free(keys);
-    dict_free(evs, NULL);
-    evs = NULL;
-    return;
-}
-
-/**
  * @brief      meta data request, command METADATA
  *
  * @details    meta data request, command METADATA
@@ -1200,7 +1042,6 @@ get_cmtsolution_from_kevnm(sac **files, Event *ev, int verbose) {
 void
 meta_request(int *nerr) {
     int verbose = 0;
-    int cmt = 0;
     char file[2048] = {0};
     Event *ev = NULL;
     *nerr = SAC_OK;
@@ -1211,7 +1052,7 @@ meta_request(int *nerr) {
         else if(lckey("verbose$", -1)) { verbose = 1; }
         else if(levent(&ev)) { }
         else if(lkchar2("file$", file, sizeof(file))) { }
-        else if(lckey("cmt$", -1)) { cmt = 1; }
+        else if(lckey("cmt$", -1)) { WARN("CMTSOLUTION retrieval is no longer available"); }
         else {
             cfmt("ILLEGAL OPTION:", 17);
             cresp();
@@ -1237,11 +1078,6 @@ meta_request(int *nerr) {
     for(size_t i = 0; i < xarray_length(files); i++) {
         sac_fill_meta_data_from_event(files[i], ev, verbose);
         update_distaz(files[i]);
-    }
-
-    /* Download CMTSOLUTION if desired */
-    if(cmt) {
-        get_cmtsolution_from_kevnm(sac_data(), ev, verbose);
     }
 
  error:
