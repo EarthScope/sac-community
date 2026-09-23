@@ -29,6 +29,12 @@ For pre-built binaries on macOS, the system may refuse to run the `sac` binary d
 xattr -dr com.apple.quarantine /path/to/sac
 ```
 
+## Getting help ...
+
+1. If you have SAC working, use the help command from within SAC.  You can print hard-copies of the help files using printhelp. HTML versions of the help files can be found in the [SAC Manual](https://ds.iris.edu/files/sac-manual/index.html). Also, a link from that site takes you to a PDF-format single-file version of the manual in which the search command and links from the side-bar table of contents allow one to navigate the manual efficiently.
+2. Some features of SAC are described in the `CHANGES`. For a more readable discussion of new features in an updated distribution, see the INTRO help file.d
+3. A place to share problems and find solutions is the SAC Community mailing list: [SAC Community](https://groups.google.com/a/earthscope.org/g/sac-community)
+
 ## Environment Setup
 
 `SACHOME`: This must be set so that SAC can be found on the computer. The default when SAC is installed from sources is `/usr/local/sac/`.
@@ -108,12 +114,6 @@ For the meaning of these entries (lh, qdp, xdiv, xlabel, setmacro, transcript), 
 ## PNG Support
 
 Saving figures as PNG files is possible, but starting with version v101.6 the default is not to include PNG support because the default PNG libraries are dynamic libraries so that a binary SAC distribution built on one computer may not be portable.  PNG support can be included if one builds SAC from sources with the configure option --enable-png.
-
-## If you need help ...
-
-1. If you have SAC working, use the help command from within SAC.  You can print hard-copies of the help files using printhelp. HTML versions of the help files can be found in the [SAC Manual](https://ds.iris.edu/files/sac-manual/index.html). Also, a link from that site takes you to a PDF-format single-file version of the manual in which the search command and links from the side-bar table of contents allow one to navigate the manual efficiently.
-2. Some features of SAC are described in the `CHANGES`. For a more readable discussion of new features in an updated distribution, see the INTRO help file.d
-3. A place to share problems and find solutions is the SAC Community mailing list: [SAC Community](https://groups.google.com/a/earthscope.org/g/sac-community)
 
 ## History
 
