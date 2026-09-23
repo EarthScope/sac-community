@@ -100,7 +100,7 @@ static int parse_key_value(char *in, char delim, char **key, char **val);
  */
 void
 data_avail_init(request *r) {
-    request_set_url(r, FEDCATALOG_IRIS);
+    request_set_url(r, FEDCATALOG_ESCOPE);
     request_set_arg(r, "loc", arg_string_new("*"));
     request_set_arg(r, "quality", arg_string_new("B"));
     request_set_arg(r, "format", arg_string_new("request"));

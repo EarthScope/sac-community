@@ -591,10 +591,8 @@ station_request(int *nerr) {
     int n = 0;
     timespec64 t1 = {0,0}, t2 = {0,0};
     result *r = NULL;
-    result *rph5 = NULL;
     station **s = NULL;
     xml *x = NULL;
-    int ph5 = 0;
     int set = 0;
     sr = station_req_new();
 
@@ -611,8 +609,6 @@ station_request(int *nerr) {
         else if(lklog("epochs$", -1, &epochs)) { }
         /* To show on and off times */
         else if(lckey("show#times$", -1)) { show_time = 1; }
-        /* Search PH5 data set */
-        else if(lckey("ph5#$", -1)) { ph5 = 1; }
         /* Set time range to search */
         else if(lktp("T#IME$", &t1, &t2)) {
             station_req_set_time_range(sr, t1, t2);
@@ -686,12 +682,7 @@ station_request(int *nerr) {
     /// Make the Request
     r = request_get(sr);
 
-    if(ph5) {
-        request_set_url(sr, STATION_IRIS_PH5);
-        rph5 = request_get(sr);
-    }
-
-    if(!(x = xml_merge_results(r, rph5, "//s:Network"))) {
+    if(!(x = xml_merge_results(r, NULL, "//s:Network"))) {
         goto error;
     }
     if(output_level == 1) {
@@ -740,7 +731,6 @@ station_request(int *nerr) {
     xml_free(x);
     REQUEST_FREE(sr);
     RESULT_FREE(r);
-    RESULT_FREE(rph5);
     return;
 }
 
@@ -794,7 +784,6 @@ data_request_f(int *nerr) {
     char reqfile[2048] = { 0 };
     char prefix[2048] = { 0 };
     int nr = 0;
-    int ph5 = 0;
     int verbose = 0;
     int to_sac   = 0;
     int to_mem   = 0;
@@ -834,7 +823,6 @@ data_request_f(int *nerr) {
     while(lcmore(nerr)) {
         if(0) { }
         else if(lckey("verbose$", -1)) { verbose = 1; }
-        else if(lckey("ph5$", -1)) { ph5 = 1; }
         //else if(lclist((char *)actions, NINE, NACTIONS, &action)) { }
         else if(lclist((char *)qualities, NINE, NQUALS, &qual)) {
             data_avail_set_quality(dr, qual);
@@ -1007,7 +995,7 @@ data_request_f(int *nerr) {
     if(mst3k && (to_sac || to_mem)) {
         char tmp[64] = {0};
         sac **out = miniseed_trace_list_to_sac(mst3k);
-        sac_array_fill_meta_data(out, verbose, ph5);
+        sac_array_fill_meta_data(out, verbose);
         for(size_t i = 0; i < xarray_length(out); i++) {
             sac_fill_meta_data_from_event(out[i], ev, verbose);
             update_distaz(out[i]);
@@ -1213,7 +1201,6 @@ void
 meta_request(int *nerr) {
     int verbose = 0;
     int cmt = 0;
-    int ph5 = 0;
     char file[2048] = {0};
     Event *ev = NULL;
     *nerr = SAC_OK;
@@ -1222,7 +1209,6 @@ meta_request(int *nerr) {
     while(lcmore(nerr)) {
         if(0) {}
         else if(lckey("verbose$", -1)) { verbose = 1; }
-        else if(lckey("ph5$", -1)) { ph5 = 1; }
         else if(levent(&ev)) { }
         else if(lkchar2("file$", file, sizeof(file))) { }
         else if(lckey("cmt$", -1)) { cmt = 1; }
@@ -1244,7 +1230,7 @@ meta_request(int *nerr) {
     if(strlen(file) > 0) {
         sac_array_fill_meta_data_from_file(files, verbose, file);
     } else {
-        sac_array_fill_meta_data(files, verbose, ph5);
+        sac_array_fill_meta_data(files, verbose);
     }
 
     /* Update data for event */

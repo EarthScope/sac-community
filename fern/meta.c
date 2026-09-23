@@ -731,7 +731,6 @@ xml_merge_results(result *r1, result *r2, char *path) {
  *
  * @param files    collection of sac files, must be enclosed in a \ref xarray
  * @param verbose  be verbose when setting meta data
- * @param ph5      get data also from ph5 web service
  *
  * @return 1 always
  *
@@ -739,10 +738,10 @@ xml_merge_results(result *r1, result *r2, char *path) {
  *
  */
 int
-sac_array_fill_meta_data(sac **files, int verbose, int ph5) {
+sac_array_fill_meta_data(sac **files, int verbose) {
     sac *s = NULL;
     request *sm = NULL;
-    result *r[2] = {NULL,NULL};
+    result *r = NULL;
     char *data = NULL;
     size_t nalloc = 2048;
     size_t n = 0;
@@ -767,15 +766,10 @@ sac_array_fill_meta_data(sac **files, int verbose, int ph5) {
     sm = request_new();
     request_set_verbose(sm, verbose);
 
-    request_set_url(sm, STATION_IRIS);
-    r[0] = request_post(sm, data);
+    request_set_url(sm, STATION_ESCOPE);
+    r = request_post(sm, data);
 
-    if(ph5) {
-        request_set_url(sm, STATION_IRIS_PH5);
-        r[1] = request_post(sm, data);
-    }
-
-    if(!(x = xml_merge_results(r[0], r[1], "//s:Network"))) {
+    if(!(x = xml_merge_results(r, NULL, "//s:Network"))) {
         goto error;
     }
 
@@ -783,8 +777,7 @@ sac_array_fill_meta_data(sac **files, int verbose, int ph5) {
 
  error:
     xml_free(x);
-    RESULT_FREE(r[0]);
-    RESULT_FREE(r[1]);
+    RESULT_FREE(r);
     REQUEST_FREE(sm);
     FREE(data);
     return 1;

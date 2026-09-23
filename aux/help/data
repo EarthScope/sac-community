@@ -24,7 +24,6 @@ SYNTAX
       { request request_file }
       { d | raw | quality | modified | best | merged | qc | unknown }
       { verbose }
-      { ph5 }
       { sac }
       { read }
       { mseed | miniSEED }
@@ -62,11 +61,6 @@ INPUT
    :out: Output request file for saving the data request to run later
 
    :prefix: Prefix for miniSEED data files
-
-   :ph5:  Get additional data from the IRIS PH5 Web service. This option
-       provides access to active-source data sets and their associated stations
-       with high sample rates and time-limited deployments.
-
 
    :sac: Convert the miniSEED data into sac files and save.  Station meta
       data is obtained for the stations. If an event is specified, event
@@ -204,27 +198,6 @@ requests.  Lines starting with *#* are comments.
 
 The request file is rewritten as indivdual requests are made allowing
 for larger requests to be stopped and restarted.
-
-**PH5 Example**:  If data originates from the PH5 Web service and metadata is
-desired in a resulting sac file, the PH5 option must be provided to tell sac to
-also search this repository for station metadata.  The first example is able to
-download data, but results in an error when getting data.  Adding the PH5 option
-in the second example below, allows the metadata to be obtained and added to the data::
-
-  SAC> data net 9A station 22770 time 2012-08-14 +10sec sac
-  Data Center: IRISPH5,http://ds.iris.edu
-        SourceID                Start sample             End sample         Gap
-  FDSN:9A_22770__D_P_Z  2012-08-14T00:00:00.000000 2012-08-14T00:00:09.996000  ==
-  Error 204 (HTTP):
-
-	Writing data to 9A.22770..DPZ.D.2012.227.000000.sac [ 10.38 KiB]
-
-  SAC> data net 9A station 22770 time 2012-08-14 +10sec sac  PH5
-  Data Center: IRISPH5,http://ds.iris.edu
-          SourceID               Start sample             End sample         Gap
-  FDSN:9A_22770__D_P_Z  2012-08-14T00:00:00.000000 2012-08-14T00:00:09.996000    ==
-  Working on file: 9A.22770..DPZ.D.2012.227.000000.sac [ OK ]
-	Writing data to 9A.22770..DPZ.D.2012.227.000000.sac [ 10.38 KiB5
 
 ERROR MESSAGES
 --------------

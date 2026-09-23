@@ -11,14 +11,14 @@ char *rstrip_fern(char *s);
 /**
  * @brief      Initialize a response request
  *
- * @details    Initialize a response request by setting the url to the `sacpz` web service and setting the `nodata` parameter to 404
+ * @details    Initialize a response request for sacpz from the station service and set the `nodata` parameter to 404
  *
  * @param      pz  response request
  *
  */
 void
 response_init(request *pz) {
-    request_set_url(pz, RESPONSE_SACPZ);
+    response_set_kind(pz, ResponseSacPZ);
     request_set_arg(pz, "nodata", arg_int_new(404));
 }
 
@@ -39,7 +39,7 @@ response_new() {
 /**
  * @brief      Change the type of the response requested
  *
- * @details    Set the requested response type to either `sacpz` or `evalresp`. This will set the url to either the `sacpz` or the `resp` web service url.
+ * @details    Set the requested response type to either `sacpz` or `evalresp` on the station service.
  *
  * @param      pz   response request
  * @param      rt   response type
@@ -47,12 +47,14 @@ response_new() {
  */
 void
 response_set_kind(request *pz, ResponseType rt) {
+    request_set_url(pz, STATION_ESCOPE);
+    request_del_arg(pz, "format");
     switch(rt) {
     case ResponseSacPZ:
-        request_set_url(pz, RESPONSE_SACPZ);
+        request_set_arg(pz, "format", arg_string_new("sacpz"));
         break;
     case ResponseResp:
-        request_set_url(pz, RESPONSE_RESP);
+        request_set_arg(pz, "format", arg_string_new("resp"));
         break;
     }
 }
@@ -137,10 +139,15 @@ char *
 response_filename(request *pz, char *dst, size_t n) {
     char *key[] = {"net", "sta", "loc", "cha"};
     Arg *a1 = NULL, *a2 = NULL;
-    char tmp[128] = { 0 };;
-    const char *url = request_get_url(pz);
-    
-    if(strstr(url, "sacpz")) {
+    Arg *fmt = NULL;
+    char tmp[128] = { 0 };
+    char kind[32] = { 0 };
+
+    fmt = request_get_arg(pz, "format");
+    if(fmt) {
+        arg_to_string(fmt, kind, sizeof(kind));
+    }
+    if(strcmp(kind, "sacpz") == 0) {
         snprintf(dst, n, "SAC_PZs_");
         for(size_t i = 0; i < 4; i++) {
             arg_to_string(request_get_arg(pz, key[i]), tmp, sizeof(tmp));
@@ -155,7 +162,7 @@ response_filename(request *pz, char *dst, size_t n) {
             snprintf(dst, n, "%s_%s", dst,
                      arg_to_string(a2, tmp, sizeof(tmp)));
         }
-    } else if(strstr(url, "resp")) {
+    } else if(strcmp(kind, "resp") == 0) {
         snprintf(dst, n, "RESP");
         for(size_t i = 0; i < 4; i++) {
             arg_to_string(request_get_arg(pz, key[i]), tmp, sizeof(tmp));

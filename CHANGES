@@ -2,32 +2,15 @@ Please see file HISTORY for list of official release and
 a discussion of bug fixes and enhancements made between releases.
 
 2026/09 Version 103.0 released
+- Adjust built-in web service endpoints
+- Replace the editline and readline backends with vendored linenoise
 - Build prebuilt release binaries with -O2 and fixed FP contraction
-- Size string initializers to fit their terminator, drop unused variables, and
-  convert remaining internal K&R definitions in extfuncs
 - Default the aspect ratio to 1.0 when no active graphics device reports one
-- Convert K&R-style function signatures to ANSI prototypes across src/
-  (icm, sam, sss, gd2, gd3.x11, gem, gam, uom, scm, xyz, gtm, spe, ncpf,
-  ssi, pl, smm, gcm, wild, top, mat, SeisMgr/gse, contouring)
-- Add real prototypes for result_free, xsave, vbeven, and the
-  cascade/isInfoThere/userOffsets/eventOffsets family, removing stale
-  K&R-style declarations
-- Fix octopus.c freeing the request instead of the result in
-  cmtsolution_from_cmtid, caught by the result_free prototype fix
-- Suppress sign-compare, unused-parameter, and deprecated-non-prototype
-  warnings in the vendored evalresp and libmseed trees
-- Only format numeric tokens as integers when they fit in an int
-- Merge the CI and release workflows into a single workflow
-- Upload release tarballs unzipped, name them by platform, and mark builds off
-  the release tag with the commit
-- Pin Linux CI runners to ubuntu-24.04 and bump artifact actions to
-  drop Node.js 20
+- Fix numerous compiler warnings
 - Compose the web service User-Agent from the package version
 - Substitute the SAC version into sac-config in binary distributions
 - Add config/set-version to sync version literals outside the autotools build
-- Update Windows, macOS bundle, and manual version strings to 103.0
 - Document the release version bump procedure
-- Replace the editline and readline backends with vendored linenoise
 - Update libmseed to v3.5.4
 
 2025/05

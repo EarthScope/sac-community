@@ -18,7 +18,6 @@ SYNTAX
       {origin lon lat}
       {id:eventid}
       {radius min_radius max_radius}
-      {ph5}
       {region w e s n}
       {level station|channel}
       {epochs on|off}
@@ -51,10 +50,6 @@ INPUT
    :Level: Station or Channel, Station level metadata only includes
       Station location, Channel level metadata includes component
       orientation and can be used as input to the METADATA_ command
-
-   :ph5:  Get additional data from the IRIS PH5 Web service. This option
-       provides access to active-source data sets and their associated stations
-       with high sample rates and time-limited deployments.
 
    :Epochs: - Off - Combine all stations with the same Network and
               Station, using the first value encountered
@@ -175,18 +170,6 @@ been operating since the mid-1990s and has multiple time periods::
 
 (To fit on the page, the last column *SiteName* is left out.  For all of
 them it is *Albuquerque, New Mexico, USA*.)
-
-**PH5 Example**:  Active-source stations are typically not available through the
-IRIS Web Service, but can be accessed through the PH5 Web Services.  Station
-9A.22770 is one of these stations. To access its information, you need to
-specify the PH5 option to tell SAC to also search within PH5::
-
-   SAC> station net 9A station 22770
-   Error 404 (HTTP): No Content
-
-   SAC> station net 9A station 22770  PH5
-   Net Sta   Lat.     Lon.      Elev.   SiteName
-   9A  22770 44.4122 -115.4911 1966.30 Deformation and magmatic modification 
 
 ERROR MESSAGES
 --------------
