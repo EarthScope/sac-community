@@ -65,7 +65,9 @@ jobs:
         run: mkdir build
       - name: Configure
         working-directory: ./build
-        run: ../configure $CONFIGURE_X_FLAGS $CONFIGURE_CURL_FLAGS
+        # -ffp-contract=off avoids gcc's default FMA contraction, which perturbs
+        # filter/FFT output in the low digits relative to the -O0 baseline.
+        run: ../configure --enable-optim=2 CFLAGS=-ffp-contract=off $CONFIGURE_X_FLAGS $CONFIGURE_CURL_FLAGS
       - name: Compile
         working-directory: ./build
         run: make

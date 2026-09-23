@@ -2,6 +2,7 @@ Please see file HISTORY for list of official release and
 a discussion of bug fixes and enhancements made between releases.
 
 2026/09 Version 103.0 released
+- Build prebuilt release binaries with -O2 and fixed FP contraction
 - Size string initializers to fit their terminator, drop unused variables, and
   convert remaining internal K&R definitions in extfuncs
 - Default the aspect ratio to 1.0 when no active graphics device reports one
