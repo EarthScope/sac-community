@@ -10349,7 +10349,7 @@ printf '%s\n' "$as_me: WARNING: \"libcurl >= 7.0.0 not found\"" >&2;}
 # Define the Build Date
 
 cat >>confdefs.h <<_ACEOF
-#define BUILD_DATE "`date +%m/%d/%Y`"
+#define BUILD_DATE "`date +%Y-%m-%d`"
 _ACEOF
 
 
