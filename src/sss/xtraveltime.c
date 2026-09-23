@@ -105,7 +105,7 @@ sac_truncate(char *s) {
     p = s;
     i = 0;
     while(s[i]) {
-        if(s[i] < 0) {
+        if((unsigned char)s[i] > 127) {
             switch(s[i] & 0xF0) {
             case 0xF0: n = 4; break;
             case 0xE0: n = 3; break;

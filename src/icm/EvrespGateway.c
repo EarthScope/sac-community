@@ -28,7 +28,7 @@
 
 static int
 is_xml_file(char *file) {
-    char p;
+    int p;
     char data[6];
     FILE *fp;
 

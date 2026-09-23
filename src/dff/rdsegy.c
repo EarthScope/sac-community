@@ -243,7 +243,8 @@ segy_read_file_header(FILE * fp, struct SegyFileHeader *h) {
     memset(h, 0, SEGY_BINARY_FILE_HEADER_SIZE);
     /* Check for 3600 (3200 + 400) File Header */
     if ((*p == '@' && *(p + 1) == '@' && *(p + 2) == '@') ||
-        (*p == -1 && *(p + 1) == -1 && *(p + 2) == -1) || (*p == 'C' &&
+        ((unsigned char)*p == 0xFF && (unsigned char)*(p + 1) == 0xFF &&
+         (unsigned char)*(p + 2) == 0xFF) || (*p == 'C' &&
                                                            *(p + 1) == ' ' &&
                                                            *(p + 2) == '1')) {
         /* Skip Textual Header */

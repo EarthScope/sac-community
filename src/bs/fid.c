@@ -334,7 +334,8 @@ fid_segy(char *buf, int n) {
   if((strncmp(buf, "@@@",3) == 0 ||
       strncmp(buf, "C1 ",3) == 0 ||
       strncmp(buf, "C 1",3) == 0 ||
-      (*buf == -1 && *(buf+1) == -1 && *(buf+2) == -1))) {
+      ((unsigned char)*buf == 0xFF && (unsigned char)*(buf+1) == 0xFF &&
+       (unsigned char)*(buf+2) == 0xFF))) {
     debug( "FID: checking for file header, found[SEG-Y]\n");
     return 1;
   }

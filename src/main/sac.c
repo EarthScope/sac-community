@@ -259,7 +259,7 @@ sac_command_line_options(int *argc_p, char ***argv_p) {
 #else
 void
 sac_command_line_options(int argc, char **argv) {
-    char ch;
+    int ch;
 
     static struct option longopts[] = {
         {"help", no_argument, NULL, 'h'},
