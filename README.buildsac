@@ -70,7 +70,9 @@ From the source tree (or from build/ with ../configure):
 
     --prefix=PREFIX         install location [default: /usr/local/sac]
     --enable-optim=level    compile with -Olevel (for example --enable-optim=2);
-                            default is no optimization
+                            default is no optimization; floating-point contraction
+                            is disabled when the compiler supports it, so results
+                            match the test suite baselines
     --enable-debug          enable debugging options (mainly for developers)
     --disable-editing       build without command line editing and history
     --with-matlab=DIR       enable Matlab support using Matlab installed in DIR

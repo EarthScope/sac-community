@@ -234,6 +234,7 @@ ETAGS = @ETAGS@
 EXEEXT = @EXEEXT@
 F77 = @F77@
 FFLAGS = @FFLAGS@
+FP_CONTRACT = @FP_CONTRACT@
 FRAMEWORK_COCOA = @FRAMEWORK_COCOA@
 FRAMEWORK_FOUNDATION = @FRAMEWORK_FOUNDATION@
 INSTALL = @INSTALL@
@@ -357,7 +358,7 @@ zlib_LIBS = @zlib_LIBS@
 
 # Do not create dependencies while compiling
 AUTOMAKE_OPTIONS = no-dependencies
-AM_CFLAGS = $(DEBUG) $(COVERAGE) $(OPTIM)
+AM_CFLAGS = $(DEBUG) $(COVERAGE) $(OPTIM) $(FP_CONTRACT)
 sgftops_SOURCES = sgftops.c
 sgfswap_SOURCES = sgfswap.c
 saclst_SOURCES = saclst.c

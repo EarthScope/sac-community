@@ -2,7 +2,7 @@
 # Do not create dependencies while compiling
 AUTOMAKE_OPTIONS = no-dependencies
 
-AM_CFLAGS           = $(DEBUG) $(COVERAGE) $(OPTIM)
+AM_CFLAGS           = $(DEBUG) $(COVERAGE) $(OPTIM) $(FP_CONTRACT)
 
 # Compiled programs to install
 bin_PROGRAMS = sgftops sgfswap saclst sacswap sacset sacdiff bbfswap unvis

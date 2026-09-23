@@ -689,6 +689,7 @@ WINAUX_NOT_AUX_TRUE
 CYGWIN_SYSTEM_FALSE
 CYGWIN_SYSTEM_TRUE
 BINARY_DIST
+FP_CONTRACT
 OPTIM
 DEBUG
 XML
@@ -4073,6 +4074,11 @@ database=off
 
 
 
+# Disable FP contraction (e.g. FMA) so optimized builds round the same as
+# unoptimized ones; filter and FFT results depend on this.
+
+
+
 
 
 editing=on
@@ -7162,6 +7168,28 @@ else case e in #(
 esac
 fi
 
+
+
+{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: checking whether $CC accepts -ffp-contract=off" >&5
+printf %s "checking whether $CC accepts -ffp-contract=off... " >&6; }
+save_CFLAGS=$CFLAGS
+CFLAGS="$CFLAGS -ffp-contract=off"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+int main(void) { return 0; }
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"
+then :
+   FP_CONTRACT=-ffp-contract=off; { printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+printf '%s\n' "yes" >&6; }
+else case e in #(
+  e)  FP_CONTRACT=""; { printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf '%s\n' "no" >&6; }
+ ;;
+esac
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
+CFLAGS=$save_CFLAGS
 
 
 if  test x${display} = xx11 ; then
@@ -11710,7 +11738,7 @@ CFLAGS         = $AM_CFLAGS $CFLAGS
 LDFLAGS        = $LDFLAGS
 LIBS           = $LIBS
 Debug          = $DEBUG $COVERAGE
-Optimization   = $OPTIM
+Optimization   = $OPTIM $FP_CONTRACT
 Database       = $database
 Matlab         = $have_matlab  $DISPLAYSTR
 Support        = $xpm$png$zlib$xft$freetype$fontconfig$XML$librpc
@@ -11729,7 +11757,7 @@ CFLAGS         = $AM_CFLAGS $CFLAGS
 LDFLAGS        = $LDFLAGS
 LIBS           = $LIBS
 Debug          = $DEBUG $COVERAGE
-Optimization   = $OPTIM
+Optimization   = $OPTIM $FP_CONTRACT
 Database       = $database
 Matlab         = $have_matlab  $DISPLAYSTR
 Support        = $xpm$png$zlib$xft$freetype$fontconfig$XML$librpc

@@ -199,6 +199,7 @@ CHECK_DATABASE
 # Check Code Generation
 CHECK_DEBUG
 CHECK_OPTIMIZATION
+CHECK_FP_CONTRACT
 
 if [ test x${display} = xx11 ]; then
   CHECK_X11_DISPLAY
@@ -308,7 +309,7 @@ CFLAGS         = $AM_CFLAGS $CFLAGS
 LDFLAGS        = $LDFLAGS
 LIBS           = $LIBS
 Debug          = $DEBUG $COVERAGE
-Optimization   = $OPTIM
+Optimization   = $OPTIM $FP_CONTRACT
 Database       = $database
 Matlab         = $have_matlab  $DISPLAYSTR
 Support        = $xpm$png$zlib$xft$freetype$fontconfig$XML$librpc

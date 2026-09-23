@@ -14,7 +14,7 @@ SAC_INCLUDES      = -I$(top_srcdir)/inc -I$(top_srcdir)
 FORMAT_CFLAGS     = $(xpm_CFLAGS) $(png_CFLAGS) $(zlib_CFLAGS) $(XML_CPPFLAGS)
 EVALRESP_CFLAGS   = -I$(top_srcdir)/evalresp/libsrc
 # Compilation Flags
-AM_CFLAGS         = -fPIC $(DEBUG) $(COVERAGE) $(OPTIM) $(xft_CFLAGS) $(FORMAT_CFLAGS) $(X_CFLAGS) $(SAC_INCLUDES) $(LIBCURL_CPPFLAGS) $(EVALRESP_CFLAGS)
+AM_CFLAGS         = -fPIC $(DEBUG) $(COVERAGE) $(OPTIM) $(FP_CONTRACT) $(xft_CFLAGS) $(FORMAT_CFLAGS) $(X_CFLAGS) $(SAC_INCLUDES) $(LIBCURL_CPPFLAGS) $(EVALRESP_CFLAGS)
 
 AM_CXXFLAGS       = $(SAC_INCLUDES)
 # Compiled Programs 

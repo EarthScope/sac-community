@@ -12,9 +12,6 @@
 /* Compile with SeisMgr Database Capabilities */
 #undef DATABASE_ENABLED
 
-/* Define to 1 if you have the <dlfcn.h> header file. */
-#undef HAVE_DLFCN_H
-
 /* Define if you have the Cocoa framework */
 #undef HAVE_FRAMEWORK_COCOA
 
@@ -209,9 +206,6 @@
 
 /* Unix Emulation */
 #undef LINUX
-
-/* Define to the sub-directory where libtool stores uninstalled libraries. */
-#undef LT_OBJDIR
 
 /* Location of Matlab Libraries */
 #undef MATLAB_BIN
