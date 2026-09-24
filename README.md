@@ -2,15 +2,20 @@
 
 This repository contains the source code for SAC Community Edition, a community-maintained continuation of SAC (Seismic Analysis Code). SAC allows reading and writing of binary seismic data files containing time series data, typically ground motion recorded by seismometers. This program is used primarily in seismological research.  SAC includes a number of filtering and deconvolution functions to process seismic data.
 
+To share problems and find solutions use the SAC Community mailing list: [SAC Community](https://groups.google.com/a/earthscope.org/g/sac-community)
+
 ## Contributing
 
-This software is not under active development by EarthScope, but contributions are welcome.  The process is as follows:
+This software is not developed or maintained by EarthScope.  If you would like to become a maintainer of this software please contact [help@earthscope.org](mailto:help@earthscope.org) to express your willingness.
+
+Contributions of fixes or improvements follows this process:
 
 1. Fork the repository and make your changes against your fork.
-2. Open a PR against the `main` branch of this repository, ensuring
-that the checks pass.
+2. Open a PR against the `main` branch of this repository, ensuring that the checks pass.
 
-If you would like to become a maintainer of this software please contact [help@earthscope.org](mailto:help@earthscope.org) to express your willingness.
+If volunteer maintainers are identified they will review these PRs.
+
+Issues can be opened in the repo at https://github.com/EarthScope/sac-community/issues.
 
 ## Download releases
 
