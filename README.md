@@ -17,7 +17,39 @@ If volunteer maintainers are identified they will review these PRs.
 
 Issues can be opened in the repo at https://github.com/EarthScope/sac-community/issues.
 
+## Installation
+
+SAC Community Edition can be installed with conda or Homebrew.
+
+> [!NOTE]
+> Windows is not currently supported. On Windows, please use [WSL](https://learn.microsoft.com/windows/wsl/).
+
+### conda (Linux/macOS/WSL)
+
+Install `sac` from [conda-forge](https://anaconda.org/conda-forge/sac) into the current environment:
+
+```
+conda install conda-forge::sac
+```
+
+Or create a dedicated environment for it:
+
+```
+conda create -n sac conda-forge::sac
+conda activate sac
+```
+
+### Homebrew (Linux/macOS/WSL)
+
+Install `sac` from [Homebrew](https://formulae.brew.sh/formula/sac):
+
+```
+brew install sac
+```
+
 ## Download releases
+
+Besides installing `sac` with conda or Homebrew, another way to get `sac` running on your machine is to download a release directly from GitHub.
 
 Releases are available from:
 [https://github.com/EarthScope/sac-community/releases](https://github.com/EarthScope/sac-community/releases)
